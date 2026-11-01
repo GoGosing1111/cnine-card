@@ -1,0 +1,18 @@
+{
+  "checks": [
+    {
+      "width": 390,
+      "engine": "webkit",
+      "newArt": true,
+      "pages": 4,
+      "legacyNames": true,
+      "oldOwnersPreserved": true,
+      "details": true,
+      "keyboard": true,
+      "noHorizontalOverflow": true,
+      "operatingAccountWrites": 0
+    }
+  ],
+  "errors": [],
+  "failed": []
+}

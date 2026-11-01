@@ -1,0 +1,23 @@
+{
+  "replayed": false,
+  "record": {
+    "version": 1,
+    "launchedAt": "2026-11-01T02:55:44.000Z",
+    "operationKey": "ops:trophy-renewal:20261101:v1",
+    "sourceCommit": "faacbeb5264be121f7b56b15e0fa8432f16ffbef",
+    "oldCodes": [
+      "CHALLENGER_STREAK_3",
+      "CLAN_CHAMPIONS_TROPHY",
+      "CLAN_CHAMPION"
+    ],
+    "newCodes": [
+      "BLACKWING_CLEAR_15",
+      "CHALLENGER_STREAK_3_V2",
+      "CLAN_CHAMPIONS_TROPHY_V2",
+      "CLAN_CHAMPION_V2"
+    ],
+    "retroactive": false,
+    "accountWrites": 0,
+    "auditId": "53614"
+  }
+}

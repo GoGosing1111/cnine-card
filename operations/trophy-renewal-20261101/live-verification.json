@@ -1,0 +1,103 @@
+{
+  "sourceCommit": "faacbeb5264be121f7b56b15e0fa8432f16ffbef",
+  "pages": {
+    "id": "206e6653-f210-4657-a54e-22c1c6304a26",
+    "url": "https://206e6653.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "faacbeb5264be121f7b56b15e0fa8432f16ffbef"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "6b768a73-ee38-4141-bc7b-d2e2f5599122",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "8ace4152-1418-4f07-8c38-9a596e676c57",
+      "percentage": 100
+    }
+  ],
+  "assets": [
+    {
+      "file": "index.html",
+      "sha256": "d1e2e480e2efcc5ef11b710f02cf943ce1c32eb70cd2031806bb35121c9f2fd1"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "79d8eca5c705cc2abcc22319adf136cdfff89407c7f4a69637a9f4c9b2354c8b"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "2a1d4b4c92758cab70864b92683b81b7a73e81aea3a0f763c0f40ed8e0afbba4"
+    },
+    {
+      "file": "js/player-card-v2052.js",
+      "sha256": "316021375561907000c9e9c336d13163eabbc8c4f9b300eb22bdea6d64908a2e"
+    },
+    {
+      "file": "js/player-card-model-v2052.js",
+      "sha256": "2ce500b042d592a4c778c785e5228305fcd123b4f1deaf9acbbf5aa7e70907cf"
+    },
+    {
+      "file": "css/player-card-v2052.css",
+      "sha256": "e297a3323ede0552db0821afef7d2d3acc174f9cbac4a1505f1a0a70fe09ab91"
+    },
+    {
+      "file": "shared/trophy-bonuses-v1.mjs",
+      "sha256": "00ff3da37805cdfe22af67982f130510e957451e016a3f30dab431ef2ba146f6"
+    },
+    {
+      "file": "admin/trophy-bonuses-v1.mjs",
+      "sha256": "51ad98e256937161f02174a1012d33d64525a098804f0e8e68a4506fa3d64454"
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "0e77a55b650c803a23f91f2f4131ba0f06eb43622167e44a9c4f1243a7310998"
+    },
+    {
+      "file": "assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+      "sha256": "3b50a63886e3fbfa68fd0a9941095397750fc39eb1f567080e6319a0d6627291"
+    },
+    {
+      "file": "assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+      "sha256": "02e3320444e72651c8c450025347af59e145949de0d780336bbad6fc1eded56c"
+    },
+    {
+      "file": "assets/ui/player-card/renewal-20261101/champions-league.webp",
+      "sha256": "6a54d8ae8f58d01bac96cc15a98daa9b47c654f338bb93d3fe421f6de128e42d"
+    },
+    {
+      "file": "assets/ui/player-card/renewal-20261101/clan-glory.webp",
+      "sha256": "ff8739c28d20025a548ef91babc6b8cc2bd67a52e0afcd6ff8bafa84f92542b7"
+    }
+  ],
+  "clientFiles": [
+    {
+      "path": "/js/player-card-v2052.js",
+      "sha256": "66a574a88418cde963c1d4f095ee390681fb41365ac8d335c3bf883d10e9d9f0"
+    },
+    {
+      "path": "/css/player-card-v2052.css",
+      "sha256": "2b0340b8ed76885b0b9ce97dbb5df7ced743457ce631c42396a1d32c40e1afc5"
+    },
+    {
+      "path": "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+      "sha256": "3b50a63886e3fbfa68fd0a9941095397750fc39eb1f567080e6319a0d6627291"
+    },
+    {
+      "path": "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+      "sha256": "02e3320444e72651c8c450025347af59e145949de0d780336bbad6fc1eded56c"
+    },
+    {
+      "path": "/assets/ui/player-card/renewal-20261101/champions-league.webp",
+      "sha256": "6a54d8ae8f58d01bac96cc15a98daa9b47c654f338bb93d3fe421f6de128e42d"
+    },
+    {
+      "path": "/assets/ui/player-card/renewal-20261101/clan-glory.webp",
+      "sha256": "ff8739c28d20025a548ef91babc6b8cc2bd67a52e0afcd6ff8bafa84f92542b7"
+    }
+  ],
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

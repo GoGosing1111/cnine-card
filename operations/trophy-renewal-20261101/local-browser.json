@@ -1,0 +1,42 @@
+{
+  "checks": [
+    {
+      "width": 1440,
+      "engine": "chromium",
+      "newArt": true,
+      "pages": 4,
+      "legacyNames": true,
+      "oldOwnersPreserved": true,
+      "details": true,
+      "keyboard": true,
+      "noHorizontalOverflow": true,
+      "operatingAccountWrites": 0
+    },
+    {
+      "width": 390,
+      "engine": "chromium",
+      "newArt": true,
+      "pages": 4,
+      "legacyNames": true,
+      "oldOwnersPreserved": true,
+      "details": true,
+      "keyboard": true,
+      "noHorizontalOverflow": true,
+      "operatingAccountWrites": 0
+    },
+    {
+      "width": 320,
+      "engine": "webkit",
+      "newArt": true,
+      "pages": 4,
+      "legacyNames": true,
+      "oldOwnersPreserved": true,
+      "details": true,
+      "keyboard": true,
+      "noHorizontalOverflow": true,
+      "operatingAccountWrites": 0
+    }
+  ],
+  "errors": [],
+  "failed": []
+}

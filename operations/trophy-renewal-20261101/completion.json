@@ -1,0 +1,118 @@
+{
+  "status": "DEPLOYED_ACTIVATED_AND_VERIFIED",
+  "sourceCommit": "faacbeb5264be121f7b56b15e0fa8432f16ffbef",
+  "pages": {
+    "id": "206e6653-f210-4657-a54e-22c1c6304a26",
+    "url": "https://206e6653.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "faacbeb5264be121f7b56b15e0fa8432f16ffbef"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "6b768a73-ee38-4141-bc7b-d2e2f5599122",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "8ace4152-1418-4f07-8c38-9a596e676c57",
+      "percentage": 100
+    }
+  ],
+  "launchedAt": "2026-11-01T02:55:44.000Z",
+  "launchedAtKst": "2026-11-01 11:55:44 KST",
+  "auditId": "53614",
+  "operationKey": "ops:trophy-renewal:20261101:v1",
+  "activationKey": "trophy_renewal_20261101_v1",
+  "newTrophies": [
+    {
+      "code": "BLACKWING_CLEAR_15",
+      "name": "흑익의 맹약",
+      "requirement": "추가 이후 공식 클리어 15회"
+    },
+    {
+      "code": "CHALLENGER_STREAK_3_V2",
+      "name": "불멸의 왕조",
+      "requirement": "추가 이후 정산 시즌 3회 연속 챌린저"
+    },
+    {
+      "code": "CLAN_CHAMPIONS_TROPHY_V2",
+      "name": "챔피언스리그 우승",
+      "requirement": "추가 이후 챔피언스리그 우승"
+    },
+    {
+      "code": "CLAN_CHAMPION_V2",
+      "name": "클랜의 영광",
+      "requirement": "추가 이후 클랜전 정규시즌 우승"
+    }
+  ],
+  "legacyNames": [
+    "(구) 푸른 왕조",
+    "(구) 챔피언스리그 우승",
+    "(구) 클랜의 영광"
+  ],
+  "legacyArtUnchanged": true,
+  "retroactiveGrants": 0,
+  "accountWrites": 0,
+  "messagesSent": 0,
+  "bonusSettingsUnchanged": true,
+  "newBonusDefaults": 0,
+  "tests": 51,
+  "excludedExistingUnrelatedTest": "current LIVE clan excludes... uses historical six-clan expectation",
+  "browserChecks": [
+    {
+      "width": 1440,
+      "engine": "chromium",
+      "newArt": true,
+      "pages": 4,
+      "legacyNames": true,
+      "oldOwnersPreserved": true,
+      "details": true,
+      "keyboard": true,
+      "noHorizontalOverflow": true,
+      "operatingAccountWrites": 0
+    },
+    {
+      "width": 390,
+      "engine": "chromium",
+      "newArt": true,
+      "pages": 4,
+      "legacyNames": true,
+      "oldOwnersPreserved": true,
+      "details": true,
+      "keyboard": true,
+      "noHorizontalOverflow": true,
+      "operatingAccountWrites": 0
+    },
+    {
+      "width": 320,
+      "engine": "webkit",
+      "newArt": true,
+      "pages": 4,
+      "legacyNames": true,
+      "oldOwnersPreserved": true,
+      "details": true,
+      "keyboard": true,
+      "noHorizontalOverflow": true,
+      "operatingAccountWrites": 0
+    }
+  ],
+  "publicBrowserChecks": [
+    {
+      "width": 390,
+      "engine": "webkit",
+      "newArt": true,
+      "pages": 4,
+      "legacyNames": true,
+      "oldOwnersPreserved": true,
+      "details": true,
+      "keyboard": true,
+      "noHorizontalOverflow": true,
+      "operatingAccountWrites": 0
+    }
+  ],
+  "publicFiles": 13,
+  "clientManifestFiles": 6,
+  "productionReadOnlySamples": 3,
+  "recordedAt": "2026-11-01T02:56:44.568Z"
+}

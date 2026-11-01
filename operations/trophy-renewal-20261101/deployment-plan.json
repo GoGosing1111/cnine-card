@@ -1,0 +1,16 @@
+{
+  "before": {
+    "id": "0a677155-19b9-4b82-8638-df6e8715bceb",
+    "url": "https://0a677155.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "d7cbbb9ee3232ca642f63f2bf8bd0b64d32c176a"
+  },
+  "base": "d7cbbb9ee3232ca642f63f2bf8bd0b64d32c176a",
+  "reason": "트로피 4종 새 원화와 명함 우선 진열, 구 트로피 이름·기록 보존, 배포 후 불변 시작시각 이후 실적만 새 트로피에 반영. 획득 경계·조회전용·기존 보너스·PC/모바일 검증. 6클랜 전제의 기존 무관한 테스트 1개만 이전 코드 근거로 제외.",
+  "tests": [
+    "tests/onestore-web-20261026.test.mjs"
+  ],
+  "checks": [
+    "test:trophy-renewal"
+  ]
+}
