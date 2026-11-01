@@ -236,9 +236,12 @@ const rankedShopNativeTools=new Set(["scripts/android-direct/build-apk.ps1","scr
 // Draft announcements remain in Git until separately published.
 // Historical trophy implementation notes remain in Git; only runtime art ships.
 export const trophyHistoricalNotesOnly=new Set(["docs/champions-trophy-v2109-20260914.md","docs/trophy-milestones-20261011.md","docs/trophy-milestones-20261011.json","docs/pet-trophy-reward-bonuses-20261014.md"]);
-// These November 1 art studies are local authoring work, not released game assets.
+// These November 1–2 art studies are local authoring work, not released game assets.
 // Keep every original, native Spine file, prompt and preview in Git and on disk.
 const novemberArtStudyOnly=file=>[
+ 'preview/v35-effects-production-20261102/',
+ 'preview/v35-v3-upgrade-20261101/',
+ 'preview/v35-whitecoat-swordsman-20261102/',
  'preview/v35-character-baseline-20261101/',
  'preview/spine-professional-verification-20261101/',
  'assets/ui/project-v/art-references/style-reset-20261101/',

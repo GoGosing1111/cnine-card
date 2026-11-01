@@ -135,7 +135,12 @@ async function roomCommand(env,user,cfg,kind,body,deps,now,since){
         room.rewardPolicy={enabled:cfg.mode==='ON'&&room.releaseMode==='ON'&&cfg.rewardsEnabled,coin:cfg.coinReward,pigCoins:cfg.pigCoinReward,masterStars:cfg.masterStarReward,petEssence:cfg.petEssenceReward,enhancementScrollChance:cfg.enhancementScrollChance,weeklyLimit:cfg.weeklyRewardLimit,settingsRevision:cfg.revision};
         room.revealPolicy=cfg.mode==='ON'&&room.releaseMode==='ON'?await readRewardRevealPolicy(env,'BLACKWING'):null;
       }else if(kind==='kick'){kickBlackwingMember(room,id(user.id),id(body.targetId),now);extra.push(env.DB.prepare(`DELETE FROM ${ACTIVE} WHERE user_id=? AND room_id=?`).bind(Number(body.targetId),room.id));}
-      else if(kind==='leave'){leaveBlackwingRoom(room,id(user.id),now);extra.push(env.DB.prepare(`DELETE FROM ${ACTIVE} WHERE user_id=? AND room_id=?`).bind(user.id,room.id));if(!room.members.some(m=>!m.left)){room.status='CANCELLED';room.finishedAt=now;}}
+      else if(kind==='leave'){
+        leaveBlackwingRoom(room,id(user.id),now);extra.push(env.DB.prepare(`DELETE FROM ${ACTIVE} WHERE user_id=? AND room_id=?`).bind(user.id,room.id));
+        // The last departure closes recruitment, but never rewrites a completed
+        // raid's result/time: trophies use that frozen completion evidence.
+        if(room.status==='LOBBY'&&!room.members.some(m=>!m.left)){room.status='CANCELLED';room.finishedAt=now;}
+      }
       else if(kind==='action'){if(body.actorId!==undefined&&id(body.actorId)!==id(user.id))fail('ACTOR','자신의 역할만 조작할 수 있습니다.',403);actionResult=actBlackwingRoom(room,id(user.id),{requestId:body.requestId,action:body.action,taskId:body.taskId,token:body.token,target:body.target,actorId:id(user.id)},now);}
       else fail('ROUTE','지원하지 않는 공대 명령입니다.',404);
     }
