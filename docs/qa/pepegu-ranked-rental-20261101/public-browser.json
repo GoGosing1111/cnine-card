@@ -1,0 +1,88 @@
+{
+  "status": "PASSED",
+  "base": "https://cnine-card.pages.dev",
+  "engine": "WebKit",
+  "reports": [
+    {
+      "width": 390,
+      "cancel": true,
+      "purchase": true,
+      "renewal": true,
+      "codexEquip": true,
+      "expiryTimer": true,
+      "combatBonuses": true,
+      "rewardBonuses": true,
+      "heukguHeight": 210,
+      "pepeguHeight": 210
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "apiRequests": [
+    {
+      "key": "shell/summary",
+      "method": "GET"
+    },
+    {
+      "key": "me/menu-favorites",
+      "method": "GET"
+    },
+    {
+      "key": "ranked-shop/state",
+      "method": "GET"
+    },
+    {
+      "key": "jokgak-city/notifications",
+      "method": "GET"
+    },
+    {
+      "key": "ranked-shop/purchase",
+      "method": "POST"
+    },
+    {
+      "key": "ranked-shop/purchase",
+      "method": "POST"
+    },
+    {
+      "key": "pets/v1/codex",
+      "method": "GET"
+    },
+    {
+      "key": "server-support/info",
+      "method": "GET"
+    },
+    {
+      "key": "shell/summary",
+      "method": "GET"
+    },
+    {
+      "key": "me/menu-favorites",
+      "method": "GET"
+    },
+    {
+      "key": "pets/v1/loadout",
+      "method": "POST"
+    },
+    {
+      "key": "pets/v1/codex",
+      "method": "GET"
+    },
+    {
+      "key": "server-support/info",
+      "method": "GET"
+    },
+    {
+      "key": "jokgak-city/notifications",
+      "method": "GET"
+    },
+    {
+      "key": "pets/v1/codex",
+      "method": "GET"
+    },
+    {
+      "key": "server-support/info",
+      "method": "GET"
+    }
+  ],
+  "productionAccountWrites": 0
+}

@@ -1,0 +1,180 @@
+{
+  "status": "VERIFIED",
+  "sourceCommit": "cd51f04cf6abc74e419d805570b0bc40174b7aa2",
+  "pages": {
+    "id": "ebbebcb9-a3f9-4a72-835b-169f0226198c",
+    "url": "https://ebbebcb9.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "cd51f04cf6abc74e419d805570b0bc40174b7aa2"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "411c665c-cbc6-4095-ba37-49218fdbf8cb",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "3fecd4d9-a620-45a7-a2cd-b8863ac0d0b2",
+      "percentage": 100
+    }
+  ],
+  "assets": [
+    {
+      "file": "assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png",
+      "sha256": "4793f92e1c04aa5ce5ebf013692ad30ea90edbbd9af43230b25eb98c9b53e5e4",
+      "bytes": 33345,
+      "serverTransformed": false
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "d79f52d91d33e8fc228947dd04717fd754516a3aaa317b7c3825a1cbab32bdc0",
+      "bytes": 82958,
+      "serverTransformed": false
+    },
+    {
+      "file": "admin/ranked-shop-admin-v1.mjs",
+      "sha256": "71b3252c3a2476a68d244d535e5668e370ae813cbd81f46b66b3c3936d1c78ee",
+      "bytes": 21298,
+      "serverTransformed": false
+    },
+    {
+      "file": "js/ranked-shop-v1.mjs",
+      "sha256": "ed66768a112104efebe1b6e9e71c6709c94a0e86b94d5b9aadff15c234d26a38",
+      "bytes": 13999,
+      "serverTransformed": false
+    },
+    {
+      "file": "js/ranked-shop-presentation-v1.mjs",
+      "sha256": "cf51fa9ca7c73b12d80185ae44435fb2ab343aec83169e83d0d7c5805593601e",
+      "bytes": 12543,
+      "serverTransformed": false
+    },
+    {
+      "file": "shared/ranked-shop-policy-v1.mjs",
+      "sha256": "b69b0f725c1d5153cfb7200f9b2dd4c6adf7618103a35e6fd21b6c612842bf54",
+      "bytes": 2638,
+      "serverTransformed": false
+    },
+    {
+      "file": "shared/loot-shop-policy-v1.mjs",
+      "sha256": "84dd9d6708f44505b35d2ad6496db50c72c66fadde8ece2510febe0bcd19bb14",
+      "bytes": 15640,
+      "serverTransformed": false
+    },
+    {
+      "file": "shared/companion-opening-v1.mjs",
+      "sha256": "749fbef787ce2540bed2456580aff002c29cb90f2023e64e0bd0116c31348a5a",
+      "bytes": 4456,
+      "serverTransformed": false
+    },
+    {
+      "file": "js/pet-equipment-window-v1.mjs",
+      "sha256": "1fb528986b34c7b69852e3f5d202a3ef294e04795cd4409836146ff760d418a2",
+      "bytes": 31159,
+      "serverTransformed": false
+    },
+    {
+      "file": "js/pet-deck-slot-v1.mjs",
+      "sha256": "64f5dddd700bd0e983f6730799e1b23dff49332fb72c354e12283c82c4ae52b3",
+      "bytes": 2403,
+      "serverTransformed": false
+    },
+    {
+      "file": "pet-codex/index.html",
+      "sha256": "8d9f54964607c78a1794b1921239c0d9252aea13fd5d4fe4c846bd690765d95c",
+      "bytes": 934,
+      "serverTransformed": false
+    },
+    {
+      "file": "pet-codex/app.mjs",
+      "sha256": "1122661b40d65bfd6892d71130730bb8d24c00529cf128b1251bc4fc2ada3604",
+      "bytes": 726,
+      "serverTransformed": false
+    },
+    {
+      "file": "pets/index.html",
+      "sha256": "899a832760bd4b5644182ecd1c475cab60ae89fc8eff2b29a4c2641989c7ebcd",
+      "bytes": 2655,
+      "serverTransformed": false
+    },
+    {
+      "file": "ranked-shop/index.html",
+      "sha256": "e6a14aecd47cb37bb84effca2dc79256330157717a5c8f2beb78c676f7382c6e",
+      "bytes": 5582,
+      "serverTransformed": false
+    },
+    {
+      "file": "index.html",
+      "sha256": "ede95ff9cdab6872faf7280404a6b4fba236aec1171a9444a21aa194241eb6ec",
+      "bytes": 48966,
+      "serverTransformed": false
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "0c383728c94800b6530817558881193002c91722e4ad00d72cc735dc5e04a3dc",
+      "bytes": 22361,
+      "serverTransformed": false
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "eb03e3fef30593007d9b88617f5615752061c6ec25d5596e8df8ffda941abb99",
+      "bytes": 48585,
+      "serverTransformed": true
+    },
+    {
+      "file": "onestore/js/pet-equipment-window-v1.mjs",
+      "sha256": "3d0f06659103a9120774878c1de9e00a6268ee3fa8554a89236889c33ccff7fa",
+      "bytes": 31004,
+      "serverTransformed": false
+    },
+    {
+      "file": "onestore/js/pet-deck-slot-v1.mjs",
+      "sha256": "f460d87f72a09d2277c861440f1fb7bfce0e184c5ae8b9e9c090d5b1b303b0a9",
+      "bytes": 2389,
+      "serverTransformed": false
+    },
+    {
+      "file": "onestore/pet-codex/app.mjs",
+      "sha256": "f9b6e439555583d0d936ad3a413a57c0b0557cddbe7a0c3fa09a7c564aff4785",
+      "bytes": 762,
+      "serverTransformed": false
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "0200def5b62009a966d22f8efb17a02a0b094287d45303055abf899438a42a3b",
+      "bytes": 985,
+      "serverTransformed": false
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "59e6f8024d737f0e88f840019eef790f4d19fb8cdeae6da611f1d971ff25ba97",
+      "bytes": 803345,
+      "serverTransformed": false
+    }
+  ],
+  "clientManifest": {
+    "releaseId": "2de1fb3dc170bd53d9395fe5957689fc76f1adff2cfa3a5cd48903317e5e39dd",
+    "files": [
+      {
+        "path": "/js/app.js",
+        "sha256": "59e6f8024d737f0e88f840019eef790f4d19fb8cdeae6da611f1d971ff25ba97",
+        "essential": true
+      },
+      {
+        "path": "/js/pet-equipment-window-v1.mjs",
+        "sha256": "1fb528986b34c7b69852e3f5d202a3ef294e04795cd4409836146ff760d418a2",
+        "essential": true
+      },
+      {
+        "path": "/js/pet-deck-slot-v1.mjs",
+        "sha256": "64f5dddd700bd0e983f6730799e1b23dff49332fb72c354e12283c82c4ae52b3",
+        "essential": true
+      }
+    ]
+  },
+  "scopedTests": 2,
+  "checkedAt": "2026-11-01T09:22:25.296Z",
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

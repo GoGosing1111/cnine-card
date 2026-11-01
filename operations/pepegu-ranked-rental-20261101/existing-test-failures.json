@@ -1,0 +1,12 @@
+{
+  "sourceBeforeChanges": "5eef6883adabbf383dea5001ec2e226a6211c42d",
+  "method": "Only the three failing cases, loading the pre-change collection bonus module with unchanged trophy dependencies",
+  "failureCount": 3,
+  "cause": [
+    "neutral defaults assumes the old first trophy still maps to DUO_CHALLENGER; November 1 trophy renewal changed the first trophy",
+    "two limited-codex tests assume 11 total catalog types; current published catalog has more"
+  ],
+  "excludedFromRetry": true,
+  "passedRelatedTests": 85,
+  "productionDeploymentsFromFailedGate": 0
+}

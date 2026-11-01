@@ -1,0 +1,16 @@
+{
+  "base": "5eef6883adabbf383dea5001ec2e226a6211c42d",
+  "previousDeployment": "f30abf44-1cf8-4eb6-b596-ca8834871f61",
+  "source": "cd51f04cf6abc74e419d805570b0bc40174b7aa2",
+  "reason": "Add the authorized 1500 ranked coin, 30 day Pepegu rental with Heukgu effects plus 5 percentage points. Reuse existing account lock, atomic purchase and app_meta storage without changing shared transaction/auth/schema infrastructure. Verify affected ranked/pig policy, pet ownership/bonuses/support, combat entry and Worker compilation; 11 new transaction/boundary checks and 85 related regressions already passed; three unrelated trophy fixture failures reproduced against pre-change production source and documented. Run only the remaining rental season-pass integration checks and required compilation.",
+  "tests": [
+    "tests/pepegu-ranked-support-20261101.test.mjs"
+  ],
+  "checks": [],
+  "alreadyPassedTests": [
+    {
+      "file": "tests/pepegu-ranked-rental-20261101.test.mjs",
+      "count": 11
+    }
+  ]
+}

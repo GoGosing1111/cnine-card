@@ -1,0 +1,181 @@
+{
+  "replayed": false,
+  "committed": true,
+  "receipt": {
+    "operationKey": "ops:pepegu-ranked-rental:20261101:v1",
+    "completedAt": "2026-11-01T09:22:43.256Z",
+    "previousCmsRevision": 43,
+    "cmsRevision": 44,
+    "previousShopRevision": 1,
+    "shopRevision": 2,
+    "pet": {
+      "code": "PET-PEPEGU",
+      "name": "페페구",
+      "sourceArt": "assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png",
+      "battleSprite": "",
+      "enabled": false,
+      "liveEnabled": true,
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "target": "ALL_ALLIES",
+      "buffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": 55
+        }
+      ],
+      "notes": "2026-11-01 사용자 승인: 랭크전 코인 1500개 · 구매 즉시 30일 · 흑구보다 각 효과 +5%p. 기간제 이용 종료 후 효과 중단.",
+      "rewardBonuses": {
+        "dropPercent": 25,
+        "accountXpPercent": 55,
+        "coinPercent": 55
+      }
+    },
+    "product": {
+      "id": "pepegu_30days",
+      "type": "PET_RENTAL",
+      "name": "페페구 (30일)",
+      "enabled": true,
+      "price": 1500,
+      "accountLimit": null,
+      "equipmentId": null,
+      "cardIds": [],
+      "mercenaryWeights": {
+        "A": null,
+        "S": null
+      },
+      "mercenaryCodes": [],
+      "sortOrder": 13,
+      "description": "공격력 +55% · 드랍률 +25% · 계정 경험치 +55% · 코인 +55%. 구매 즉시 30일 이용하며, 재구매하면 남은 기간에 30일씩 추가됩니다. 펫 도감에서 장착할 수 있습니다.",
+      "image": "assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png",
+      "category": "PET",
+      "badge": "30일 기간제",
+      "featured": false,
+      "visible": true,
+      "startsAt": null,
+      "endsAt": null,
+      "limitPeriod": "LIFETIME",
+      "items": [],
+      "rankWeights": {
+        "C": 0,
+        "B": 0,
+        "A": 0,
+        "S": 0,
+        "SS": 0,
+        "SSS": 0
+      },
+      "petCode": "PET-PEPEGU",
+      "durationDays": 30
+    },
+    "heukguUnchanged": {
+      "code": "PET-HEUKGU",
+      "name": "흑구",
+      "sourceArt": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+      "battleSprite": "",
+      "enabled": false,
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "target": "ALL_ALLIES",
+      "buffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": 50
+        }
+      ],
+      "notes": "2026-10-25 사용자 승인 및 라이브 반영 요청. 흑구 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정.",
+      "liveEnabled": true,
+      "rewardBonuses": {
+        "dropPercent": 20,
+        "accountXpPercent": 50,
+        "coinPercent": 50
+      }
+    },
+    "preservedPetsHash": "d5d8cc19d6e81dfbef25ca3212cca6366e047a403d6e429e8df753314765ee54",
+    "preservedProductsHash": "c56aeb7971256b8134a42e73f64cceeb989fd674aba32845cb4653365a6bc837",
+    "cmsDocumentHash": "7b4a09ed96dbe2f69b8d2959e11f41cbf8d0c809236b871b5fbf4232f2a973b2",
+    "shopPolicyHash": "60306e93095bfd342b0d47e539f10ad366f6da56c4b5ed45f06aeea42768128c",
+    "accountWrites": 0,
+    "messagesSent": 0,
+    "auditId": "53635"
+  },
+  "verification": {
+    "verified": true,
+    "cmsRevision": 44,
+    "shopRevision": 2,
+    "petCount": 25,
+    "productCount": 9,
+    "pet": {
+      "code": "PET-PEPEGU",
+      "name": "페페구",
+      "sourceArt": "assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png",
+      "battleSprite": "",
+      "enabled": false,
+      "liveEnabled": true,
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "target": "ALL_ALLIES",
+      "buffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": 55
+        }
+      ],
+      "notes": "2026-11-01 사용자 승인: 랭크전 코인 1500개 · 구매 즉시 30일 · 흑구보다 각 효과 +5%p. 기간제 이용 종료 후 효과 중단.",
+      "rewardBonuses": {
+        "dropPercent": 25,
+        "accountXpPercent": 55,
+        "coinPercent": 55
+      }
+    },
+    "product": {
+      "id": "pepegu_30days",
+      "type": "PET_RENTAL",
+      "name": "페페구 (30일)",
+      "enabled": true,
+      "price": 1500,
+      "accountLimit": null,
+      "equipmentId": null,
+      "cardIds": [],
+      "mercenaryWeights": {
+        "A": null,
+        "S": null
+      },
+      "mercenaryCodes": [],
+      "sortOrder": 13,
+      "description": "공격력 +55% · 드랍률 +25% · 계정 경험치 +55% · 코인 +55%. 구매 즉시 30일 이용하며, 재구매하면 남은 기간에 30일씩 추가됩니다. 펫 도감에서 장착할 수 있습니다.",
+      "image": "assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png",
+      "category": "PET",
+      "badge": "30일 기간제",
+      "featured": false,
+      "visible": true,
+      "startsAt": null,
+      "endsAt": null,
+      "limitPeriod": "LIFETIME",
+      "items": [],
+      "rankWeights": {
+        "C": 0,
+        "B": 0,
+        "A": 0,
+        "S": 0,
+        "SS": 0,
+        "SSS": 0
+      },
+      "petCode": "PET-PEPEGU",
+      "durationDays": 30
+    },
+    "preservedPetsHash": "d5d8cc19d6e81dfbef25ca3212cca6366e047a403d6e429e8df753314765ee54",
+    "preservedProductsHash": "c56aeb7971256b8134a42e73f64cceeb989fd674aba32845cb4653365a6bc837",
+    "auditId": "53635",
+    "accountWrites": 0,
+    "messagesSent": 0
+  },
+  "noWriteReplayVerified": true,
+  "sourceHash": "e8d951610ae2904d8ff14b1a5aea2aa5ec67cb2e691463385241d1bbaab275f3",
+  "checkedAt": "2026-11-01T09:22:44.541Z"
+}

@@ -1,0 +1,1348 @@
+{
+  "records": {
+    "pet_cms_preparation_v1": {
+      "raw": "{\"revision\":43,\"document\":{\"version\":1,\"visibility\":\"LIVE\",\"battleEnabled\":true,\"acquisitionEnabled\":false,\"pets\":[{\"code\":\"PET-GUSUDAENG\",\"name\":\"토끼 구수댕\",\"sourceArt\":\"assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approved-20261002.png\",\"battleSprite\":\"\",\"enabled\":false,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"MAX_HP_PERCENT\",\"percent\":20}],\"notes\":\"\",\"rewardBonuses\":{\"dropPercent\":0,\"accountXpPercent\":5,\"coinPercent\":10}},{\"code\":\"PET-BONGSOON\",\"name\":\"봉순\",\"sourceArt\":\"assets/ui/pets/gugugaga/pet-bongsoon-gugugaga-nametag-v2.png\",\"battleSprite\":\"\",\"enabled\":false,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"SPEED_PERCENT\",\"percent\":20}],\"notes\":\"\",\"rewardBonuses\":{\"dropPercent\":0,\"accountXpPercent\":0,\"coinPercent\":5}},{\"code\":\"PET-JOEUN\",\"name\":\"조은\",\"sourceArt\":\"assets/ui/pets/gugugaga/pet-joeun-gugugaga-nametag-v2.png\",\"battleSprite\":\"\",\"enabled\":false,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"ATTACK_PERCENT\",\"percent\":20}],\"notes\":\"\",\"rewardBonuses\":{\"dropPercent\":0,\"accountXpPercent\":0,\"coinPercent\":5}},{\"code\":\"PET-HEEYA\",\"name\":\"희야\",\"sourceArt\":\"assets/ui/pets/gugugaga/pet-heeya-pig-nametag-v3.png\",\"battleSprite\":\"\",\"enabled\":false,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"START_SHIELD_PERCENT\",\"percent\":20}],\"notes\":\"\",\"rewardBonuses\":{\"dropPercent\":0,\"accountXpPercent\":0,\"coinPercent\":5}},{\"code\":\"PET-DIIM\",\"name\":\"디임\",\"sourceArt\":\"assets/ui/pets/gugugaga/pet-diim-gugugaga-nametag-v2.png\",\"battleSprite\":\"\",\"enabled\":false,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"DEFENSE_PERCENT\",\"percent\":20}],\"notes\":\"\",\"rewardBonuses\":{\"dropPercent\":0,\"accountXpPercent\":0,\"coinPercent\":5}},{\"code\":\"PET-001\",\"name\":\"새 펫\",\"sourceArt\":\"\",\"battleSprite\":\"\",\"enabled\":false,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"ATTACK_PERCENT\",\"percent\":10}],\"notes\":\"\"},{\"code\":\"PET-HEADSET-SHIBA\",\"name\":\"헤드셋 시바견\",\"sourceArt\":\"assets/ui/pets/gamer-duo-20261006-v1/pet-headset-shiba-v1.png\",\"battleSprite\":\"\",\"enabled\":false,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"ATTACK_PERCENT\",\"percent\":8}],\"notes\":\"\"},{\"code\":\"PET-BEANIE-CAT\",\"name\":\"비니 헤드셋 고양이\",\"sourceArt\":\"assets/ui/pets/gamer-duo-20261006-v1/pet-beanie-headset-cat-v1.png\",\"battleSprite\":\"\",\"enabled\":false,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"DEFENSE_PERCENT\",\"percent\":8}],\"notes\":\"\"},{\"code\":\"PET-NAMUNEUL-BONGSOON\",\"name\":\"나무늘봉순\",\"sourceArt\":\"assets/ui/pets/namuneul-bongsoon-20261009/pet-namuneul-bongsoon-sloth-sd-approved.png\",\"battleSprite\":\"assets/ui/pets/namuneul-bongsoon-20261009/pet-namuneul-bongsoon-sloth-sd-approved.png\",\"enabled\":true,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"ATTACK_PERCENT\",\"percent\":25}],\"notes\":\"2026-10-09 사용자 승인 나무늘보 SD / 원본 보존\",\"liveEnabled\":true,\"rewardBonuses\":{\"dropPercent\":0,\"accountXpPercent\":5,\"coinPercent\":10}},{\"code\":\"PET-MALTESE-DIIM\",\"name\":\"말티즈디임\",\"sourceArt\":\"assets/ui/pets/maltese-diim-20261013/pet-maltese-diim-approved.png\",\"battleSprite\":\"assets/ui/pets/maltese-diim-20261013/pet-maltese-diim-approved.png\",\"enabled\":true,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"ATTACK_PERCENT\",\"percent\":25}],\"notes\":\"2026-10-13 사용자 라이브 반영 승인 말티즈디임 / 원본 보존\",\"liveEnabled\":true,\"rewardBonuses\":{\"dropPercent\":0,\"accountXpPercent\":5,\"coinPercent\":10}},{\"code\":\"PET-MOON-FOX\",\"name\":\"월령 여우\",\"sourceArt\":\"assets/ui/pets/approved-nine-20261014/pet-moon-fox-v1.png\",\"battleSprite\":\"assets/ui/pets/approved-nine-20261014/pet-moon-fox-v1.png\",\"enabled\":true,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"ATTACK_PERCENT\",\"percent\":10}],\"notes\":\"2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존\",\"liveEnabled\":true},{\"code\":\"PET-FROST-WOLF\",\"name\":\"빙관 늑대\",\"sourceArt\":\"assets/ui/pets/approved-nine-20261014/pet-frost-crown-wolf-v1.png\",\"battleSprite\":\"assets/ui/pets/approved-nine-20261014/pet-frost-crown-wolf-v1.png\",\"enabled\":true,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"START_SHIELD_PERCENT\",\"percent\":10}],\"notes\":\"2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존\",\"liveEnabled\":true},{\"code\":\"PET-GILDED-DRAGON\",\"name\":\"흑금 영룡\",\"sourceArt\":\"assets/ui/pets/approved-nine-20261014/pet-gilded-spirit-dragon-v2.png\",\"battleSprite\":\"assets/ui/pets/approved-nine-20261014/pet-gilded-spirit-dragon-v2.png\",\"enabled\":true,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"SPEED_PERCENT\",\"percent\":30}],\"notes\":\"2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존\",\"liveEnabled\":true},{\"code\":\"PET-SOLAR-PHOENIX\",\"name\":\"태양 봉황\",\"sourceArt\":\"assets/ui/pets/approved-nine-20261014/pet-solar-phoenix-v1.png\",\"battleSprite\":\"assets/ui/pets/approved-nine-20261014/pet-solar-phoenix-v1.png\",\"enabled\":true,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"ATTACK_PERCENT\",\"percent\":10}],\"notes\":\"2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존\",\"liveEnabled\":true},{\"code\":\"PET-VERDANT-STAG\",\"name\":\"비취 성록\",\"sourceArt\":\"assets/ui/pets/approved-nine-20261014/pet-verdant-crown-stag-v1.png\",\"battleSprite\":\"assets/ui/pets/approved-nine-20261014/pet-verdant-crown-stag-v1.png\",\"enabled\":true,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"START_SHIELD_PERCENT\",\"percent\":10}],\"notes\":\"2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존\",\"liveEnabled\":true},{\"code\":\"PET-ASTRAL-PANTHER\",\"name\":\"성운 마수\",\"sourceArt\":\"assets/ui/pets/approved-nine-20261014/pet-astral-panther-v1.png\",\"battleSprite\":\"assets/ui/pets/approved-nine-20261014/pet-astral-panther-v1.png\",\"enabled\":true,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"DEFENSE_PERCENT\",\"percent\":10}],\"notes\":\"2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존\",\"liveEnabled\":true},{\"code\":\"PET-WHITE-SPIRIT\",\"name\":\"흰 정령\",\"sourceArt\":\"assets/ui/pets/approved-nine-20261014/pet-white-spirit-v1.png\",\"battleSprite\":\"assets/ui/pets/approved-nine-20261014/pet-white-spirit-v1.png\",\"enabled\":true,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"ATTACK_PERCENT\",\"percent\":30}],\"notes\":\"2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존\",\"liveEnabled\":true,\"rewardBonuses\":{\"dropPercent\":5,\"accountXpPercent\":10,\"coinPercent\":15}},{\"code\":\"PET-BULLDOG\",\"name\":\"금방울 불독\",\"sourceArt\":\"assets/ui/pets/approved-nine-20261014/pet-bell-bulldog-v1.png\",\"battleSprite\":\"assets/ui/pets/approved-nine-20261014/pet-bell-bulldog-v1.png\",\"enabled\":true,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"MAX_HP_PERCENT\",\"percent\":10}],\"notes\":\"2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존\",\"liveEnabled\":true},{\"code\":\"PET-CRIMSON-DEMON\",\"name\":\"붉은 날개 마신\",\"sourceArt\":\"assets/ui/pets/approved-nine-20261014/pet-crimson-wing-demon-v1.png\",\"battleSprite\":\"assets/ui/pets/approved-nine-20261014/pet-crimson-wing-demon-v1.png\",\"enabled\":true,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"ATTACK_PERCENT\",\"percent\":35}],\"notes\":\"2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존\",\"liveEnabled\":true,\"rewardBonuses\":{\"dropPercent\":10,\"accountXpPercent\":15,\"coinPercent\":15}},{\"code\":\"PET-BAZZI-BONGSOON\",\"name\":\"배찌 나무늘봉순\",\"sourceArt\":\"assets/ui/pets/bazzi-bongsoon-20261016/pet-bazzi-bongsoon-v3.png\",\"battleSprite\":\"assets/ui/pets/bazzi-bongsoon-20261016/pet-bazzi-bongsoon-v3.png\",\"enabled\":true,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"ATTACK_PERCENT\",\"percent\":45}],\"notes\":\"2026-10-16 사용자 배찌 나무늘봉순 별도 펫 라이브 반영 / V3 원본 보존\",\"liveEnabled\":true,\"rewardBonuses\":{\"dropPercent\":10,\"accountXpPercent\":35,\"coinPercent\":50}},{\"code\":\"PET-PUMPKIN-BONGSOON\",\"name\":\"호박봉순\",\"sourceArt\":\"assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-bongsoon-approved.png\",\"battleSprite\":\"\",\"enabled\":false,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"ATTACK_PERCENT\",\"percent\":30}],\"notes\":\"2026-10-23 사용자 요청으로 펫 관리 목록 등록. 이름·정지 원화 승인본. 버프·획득·실전 활성화 미확정.\",\"liveEnabled\":true,\"rewardBonuses\":{\"dropPercent\":10,\"accountXpPercent\":15,\"coinPercent\":15}},{\"code\":\"PET-PUMPKIN-JOEUN\",\"name\":\"호박조은\",\"sourceArt\":\"assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-joeun-approved.png\",\"battleSprite\":\"\",\"enabled\":false,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"ATTACK_PERCENT\",\"percent\":30}],\"notes\":\"2026-10-23 사용자 요청으로 펫 관리 목록 등록. 이름·정지 원화 승인본. 버프·획득·실전 활성화 미확정.\",\"liveEnabled\":true,\"rewardBonuses\":{\"dropPercent\":10,\"accountXpPercent\":15,\"coinPercent\":15}},{\"code\":\"PET-DAENGSORYONG\",\"name\":\"댕소룡\",\"sourceArt\":\"assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png\",\"battleSprite\":\"\",\"enabled\":false,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"ATTACK_PERCENT\",\"percent\":30}],\"notes\":\"2026-10-24 사용자 승인 및 라이브 반영 요청. 댕소룡 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정.\",\"liveEnabled\":true,\"rewardBonuses\":{\"dropPercent\":10,\"accountXpPercent\":15,\"coinPercent\":15}},{\"code\":\"PET-HEUKGU\",\"name\":\"흑구\",\"sourceArt\":\"assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png\",\"battleSprite\":\"\",\"enabled\":false,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"ATTACK_PERCENT\",\"percent\":50}],\"notes\":\"2026-10-25 사용자 승인 및 라이브 반영 요청. 흑구 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정.\",\"liveEnabled\":true,\"rewardBonuses\":{\"dropPercent\":20,\"accountXpPercent\":50,\"coinPercent\":50}},{\"code\":\"PET-PEPEGU\",\"name\":\"페페구\",\"sourceArt\":\"assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png\",\"battleSprite\":\"\",\"enabled\":false,\"liveEnabled\":false,\"modes\":[\"PVE\",\"PVP\"],\"target\":\"ALL_ALLIES\",\"buffs\":[{\"type\":\"ATTACK_PERCENT\",\"percent\":null}],\"notes\":\"2026-11-01 사용자 승인 및 라이브 반영 요청. 페페구 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정.\"}]},\"updatedAt\":\"2026-11-01T08:42:33.960Z\",\"updatedBy\":\"1\",\"audit\":[{\"requestId\":\"pet-pepegu-registration-20261101-v1\",\"payloadHash\":\"6840409610d9b792e176b335c00576542a817207fb815bffd3e445a58a509898\",\"actorId\":\"1\",\"revision\":43,\"createdAt\":\"2026-11-01T08:42:33.960Z\"},{\"requestId\":\"21688cbe-53a5-40b1-9248-f3af3a493c74\",\"payloadHash\":\"e7c03579f96988ad46ba7936d612c96ec2f26740e7019231cd1794a48346abb7\",\"actorId\":1,\"revision\":42,\"createdAt\":\"2026-10-29T14:09:17.788Z\"},{\"requestId\":\"pet-heukgu-large-head-20261025-v1\",\"payloadHash\":\"6e8180f5586d5454a427c71b129453ea14a527e85446a26faf75f0a89d0c91d4\",\"actorId\":\"1\",\"revision\":41,\"createdAt\":\"2026-10-25T11:43:11.818Z\"},{\"requestId\":\"4155fe83-1f3c-494c-b09f-5380f29cb87f\",\"payloadHash\":\"ab10311c142f3ca7ab9d1dc7d61801c36f9a889868ff20124c167f4c9981ffd5\",\"actorId\":1,\"revision\":40,\"createdAt\":\"2026-10-25T11:06:39.649Z\"},{\"requestId\":\"867e6659-b9bf-4ada-95e6-7b9553a4e145\",\"payloadHash\":\"b313479f35a41bb868bf3a20a143a45a3ac1a1d5ff04d091e6d8687af7ca99b3\",\"actorId\":1,\"revision\":39,\"createdAt\":\"2026-10-25T11:06:27.040Z\"},{\"requestId\":\"pet-heukgu-registration-20261025-v1\",\"payloadHash\":\"7924f1375c5cf7042a906b8476f90a2886bf4722ba42a5630b0c673ba84d33cf\",\"actorId\":\"1\",\"revision\":38,\"createdAt\":\"2026-10-25T11:00:12.739Z\"},{\"requestId\":\"95bf9579-0ca4-4f58-8fb1-b193ea0dc522\",\"payloadHash\":\"a90b2b9105200060fc3747be91095a2511e0193bbae1e7d72bc414576305c832\",\"actorId\":1,\"revision\":37,\"createdAt\":\"2026-10-24T19:14:43.207Z\"},{\"requestId\":\"e4a9ff10-dcd2-4820-aa54-bc1867e3624b\",\"payloadHash\":\"085128d1d3d019270ae97e919ffa4340e13b264ec5f85c426ba623050993978c\",\"actorId\":1,\"revision\":36,\"createdAt\":\"2026-10-24T19:12:43.151Z\"},{\"requestId\":\"pet-daengsoryong-registration-20261024-v1\",\"payloadHash\":\"4098a0b5f53074cd64c84c0a0393448d8d6202300f562ac611b36341543daaef\",\"actorId\":\"1\",\"revision\":35,\"createdAt\":\"2026-10-23T21:35:59.877Z\"},{\"requestId\":\"pet-pumpkin-battle-live-20261023-v1\",\"payloadHash\":\"28358b2e9392466def7010e9e2d5dad7231b75e9eafd07e2aa57bb99e01f40f0\",\"actorId\":\"1\",\"revision\":34,\"createdAt\":\"2026-10-23T07:06:35.752Z\"},{\"requestId\":\"2a00cc6c-c463-44d4-bf04-1d09ae7adcec\",\"payloadHash\":\"4d636e3e195daf35481348e4ce51056813d7c0116baaabb8f29b1bb663b80455\",\"actorId\":1,\"revision\":33,\"createdAt\":\"2026-10-23T06:01:24.386Z\"},{\"requestId\":\"b25cae10-7883-4ebc-a457-b009bea33fc3\",\"payloadHash\":\"dda7788b2e39a5f25adc40d36dbf306fb0872879d9ce079bdd18f80e982a5851\",\"actorId\":1,\"revision\":32,\"createdAt\":\"2026-10-23T06:01:17.228Z\"},{\"requestId\":\"26fcdf4f-6984-43bd-ac6e-b4dc044c18d1\",\"payloadHash\":\"e911bd435648077ea51ed320f9f51bca0e321930b764aa8d7ae45bc54713d54e\",\"actorId\":1,\"revision\":31,\"createdAt\":\"2026-10-23T06:00:54.644Z\"},{\"requestId\":\"pet-pumpkin-management-20261023-v1\",\"payloadHash\":\"470340ed3e3977faf3ab1a5ec927a52a87dbd4f7481815c95a8a7421ff689670\",\"actorId\":\"1\",\"revision\":30,\"createdAt\":\"2026-10-23T05:55:09.304Z\"},{\"requestId\":\"pet-bazzi-bongsoon-live-20261016-v1\",\"payloadHash\":\"781428a8d9ab95a563e160be8fbf298e6d6b690e648f92925fac7583beb34b4e\",\"actorId\":\"1\",\"revision\":29,\"createdAt\":\"2026-10-16T13:18:38.665Z\"},{\"requestId\":\"914c1280-c0cf-4db1-b2b1-641aad42764c\",\"payloadHash\":\"26bea405e6614b56afbaa26a5f0ce8338352de42008b77fb4dcf3a1fedc1367a\",\"actorId\":1,\"revision\":28,\"createdAt\":\"2026-10-14T11:15:59.221Z\"},{\"requestId\":\"555869a8-d895-4bc0-8bc4-7b4ff1c433c3\",\"payloadHash\":\"5a8639b97b3917491e517371d2412be46dd47a7893b7ea4b49219f00b31164b1\",\"actorId\":1,\"revision\":27,\"createdAt\":\"2026-10-14T11:15:52.077Z\"},{\"requestId\":\"30dc6367-de17-4fcc-90ee-3fd6d20dc387\",\"payloadHash\":\"7c1585c499dfd0c9b72e1ab5ac6b47eb59b6f907ff30a3af724eac95fa3a047e\",\"actorId\":1,\"revision\":26,\"createdAt\":\"2026-10-14T11:15:45.334Z\"},{\"requestId\":\"b66425e9-8b1c-4723-90f2-66d358464e0b\",\"payloadHash\":\"954fe5bdecb97e6e4ef1ab7b06f4eaea7a18c6939f9a2d35e07730c4efab258f\",\"actorId\":1,\"revision\":25,\"createdAt\":\"2026-10-14T11:15:41.843Z\"},{\"requestId\":\"22223610-1ef3-47c0-96e8-dd90cc322c13\",\"payloadHash\":\"7d4c634b580a58411a826cacf67e6b5cdb9ada07f1c5017760eea92f97cfbb78\",\"actorId\":1,\"revision\":24,\"createdAt\":\"2026-10-14T11:15:39.160Z\"},{\"requestId\":\"987c59b8-6de5-4fbe-9cd6-21b1d92aab95\",\"payloadHash\":\"33d8b68f4979f709873fbf181f279914fdadc8cc82ddc33469e5d677f66d4aec\",\"actorId\":1,\"revision\":23,\"createdAt\":\"2026-10-14T11:15:33.098Z\"},{\"requestId\":\"0f39bda0-f4b2-44e3-aa0f-05554e00242f\",\"payloadHash\":\"145e4a42b334021ddbce47828cab3ebd3dd7241d5769073ef5d686d597162df0\",\"actorId\":1,\"revision\":22,\"createdAt\":\"2026-10-14T11:15:30.773Z\"},{\"requestId\":\"abfd9005-df08-4d7f-a6c3-6f45a339b788\",\"payloadHash\":\"54505db64910faaf22e4a7db4ef1ed853d8ce43704a32bd8b9cabd78b20446df\",\"actorId\":1,\"revision\":21,\"createdAt\":\"2026-10-14T11:15:28.059Z\"},{\"requestId\":\"6b2ed00e-3afc-4507-bba6-0e542a8a17c6\",\"payloadHash\":\"33738674e5cb9b225749029ebc398061d544acafc8bb3c3e64569496d179f17f\",\"actorId\":1,\"revision\":20,\"createdAt\":\"2026-10-14T11:15:24.925Z\"},{\"requestId\":\"257d90b9-9617-4a07-abe9-77dcdfcbd412\",\"payloadHash\":\"cbc4bf99bafbb1b6c27f0bbc881b9f296fe6d862a0c15c63e9a275af90611e41\",\"actorId\":1,\"revision\":19,\"createdAt\":\"2026-10-14T11:15:22.839Z\"},{\"requestId\":\"295e41fe-cc8c-47b2-8227-166a084d44d1\",\"payloadHash\":\"b21aa43e8373f687e3cfb2f8eb633981e7856067287081d5be97c8b375410209\",\"actorId\":1,\"revision\":18,\"createdAt\":\"2026-10-13T19:38:27.222Z\"},{\"requestId\":\"eed56a2a-ad02-4e72-a06a-a62beeddf776\",\"payloadHash\":\"8f3068c9139f8d32d3984cbefabdd331eb747d90fe2954aad7be95fb7d8597e5\",\"actorId\":1,\"revision\":17,\"createdAt\":\"2026-10-13T19:38:21.203Z\"},{\"requestId\":\"ef179667-299b-4986-9f6f-419ff1a89d95\",\"payloadHash\":\"30f40cd278ca65636ce0c126cee259f3018e73b3d78d6d933c76ec8db588f5c0\",\"actorId\":1,\"revision\":16,\"createdAt\":\"2026-10-13T19:38:16.620Z\"},{\"requestId\":\"ce0abdfd-d50c-4ee8-a83f-beb8f0a241ea\",\"payloadHash\":\"5758397bbc4fb894450b03f2ae5ce6bf0380d41a55cafd3c7f9beb9f423fc803\",\"actorId\":1,\"revision\":15,\"createdAt\":\"2026-10-13T19:38:11.682Z\"},{\"requestId\":\"7a4b9063-7749-4416-9f3f-ddd8ddd08b98\",\"payloadHash\":\"8f05965ccddc5f2930a6dd7a4136fb239cc4da108a7b6250a1cf2c62c7829ed8\",\"actorId\":1,\"revision\":14,\"createdAt\":\"2026-10-13T19:35:18.032Z\"},{\"requestId\":\"381191a9-2b17-4377-8e86-fe5f7e3b3b7c\",\"payloadHash\":\"3e2945a630be62c318b20a95650a70b1139a225bb624fe49b863f79d9c5c0517\",\"actorId\":1,\"revision\":13,\"createdAt\":\"2026-10-13T19:35:10.030Z\"},{\"requestId\":\"11bd22d6-247a-425a-8906-13a87954af27\",\"payloadHash\":\"d73dc48cc9ea88d672903597dd5073bf4be506fb1527216bcc785ae6083d287b\",\"actorId\":1,\"revision\":12,\"createdAt\":\"2026-10-13T19:35:02.282Z\"},{\"requestId\":\"pets-nine-live-20261014-v1\",\"payloadHash\":\"59cce48b4f37cf35ef30ae107687c3fb81db7147f6accbc4c9374ce3e944d004\",\"actorId\":\"1\",\"revision\":11,\"createdAt\":\"2026-10-13T18:38:50.920Z\"},{\"requestId\":\"71f2f580-bb44-46cc-8829-ce29431ea588\",\"payloadHash\":\"efce4eea5f0a3f6e755697dbaaa8081c8a9d0d528e89294807091ad770eed8fe\",\"actorId\":1,\"revision\":10,\"createdAt\":\"2026-10-12T21:21:23.822Z\"},{\"requestId\":\"f2e9a07a-7ade-4e4f-bb0b-32a17d8df313\",\"payloadHash\":\"5dbef671f5de5e5a545783b4b5a64b727bfbeb057fe4517ab36742c1f91a745b\",\"actorId\":1,\"revision\":9,\"createdAt\":\"2026-10-12T19:12:32.656Z\"},{\"requestId\":\"94c63abe-87ce-4ab0-a894-71bd1d42c3e3\",\"payloadHash\":\"190d5285c1397e9bddf3360ff0c8ee02cb5a83ca546b21294b34863db8ac24de\",\"actorId\":1,\"revision\":8,\"createdAt\":\"2026-10-10T03:13:15.468Z\"},{\"requestId\":\"527fe5e2-9df8-4f11-ba49-ca277433c2fd\",\"payloadHash\":\"83a7ad69dfc82ad71385db5fa75ca3e93e95ed2051092590c153df516e654d9f\",\"actorId\":1,\"revision\":7,\"createdAt\":\"2026-10-08T21:33:29.443Z\"},{\"requestId\":\"5b02ddcc-c569-4dde-91b7-ae55c943acfe\",\"payloadHash\":\"8f090a143b1b7c1f110916eb3c4c22b1c9a779f298df65efb32548e67e679d03\",\"actorId\":1,\"revision\":6,\"createdAt\":\"2026-10-08T18:14:09.758Z\"},{\"requestId\":\"a97273b3-4f18-48da-920e-0bd9ea3aba99\",\"payloadHash\":\"36db934e3fe2f1af0b210c8c69cf6f8e356c44daf53b1e9fb9c3e730ffe72547\",\"actorId\":1,\"revision\":5,\"createdAt\":\"2026-10-06T10:28:05.991Z\"},{\"requestId\":\"02bc0c95-6b7a-470e-8ff3-b0c26e69b482\",\"payloadHash\":\"c5ae437df1dec053dba1b5c4e49ffe0342c752ad8a266bfc0adae0efb63fc42a\",\"actorId\":1,\"revision\":4,\"createdAt\":\"2026-10-06T09:42:12.446Z\"},{\"requestId\":\"35f12dad-6f46-4ef8-abc1-978a2a13aebb\",\"payloadHash\":\"3c5b37e6f0c1fb5203a685c4ab65d5c93694b29a295b16e4ec4ffe5a1ee49c1c\",\"actorId\":1,\"revision\":3,\"createdAt\":\"2026-10-06T09:19:36.197Z\"},{\"requestId\":\"820399f1-7ea3-4bd3-a2c2-78643b7af072\",\"payloadHash\":\"15314cc3d185becbaeac032463eac0bf6530e92228a6a496a816ec538047d2d8\",\"actorId\":1,\"revision\":2,\"createdAt\":\"2026-10-02T19:55:44.905Z\"},{\"requestId\":\"263da514-b3eb-404d-ac9e-1fb638c7b248\",\"payloadHash\":\"51b8ceab649367ceaea1252d5144825e5c26e32006a1103440ffaf3b7ef77938\",\"actorId\":1,\"revision\":1,\"createdAt\":\"2026-10-02T12:38:57.892Z\"}]}",
+      "sha256": "b90b678d3c2d02682ba8c092b0b39ae475660fc49e23d63bef97d9e99be0bc48",
+      "state": {
+        "revision": 43,
+        "document": {
+          "version": 1,
+          "visibility": "LIVE",
+          "battleEnabled": true,
+          "acquisitionEnabled": false,
+          "pets": [
+            {
+              "code": "PET-GUSUDAENG",
+              "name": "토끼 구수댕",
+              "sourceArt": "assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approved-20261002.png",
+              "battleSprite": "",
+              "enabled": false,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "MAX_HP_PERCENT",
+                  "percent": 20
+                }
+              ],
+              "notes": "",
+              "rewardBonuses": {
+                "dropPercent": 0,
+                "accountXpPercent": 5,
+                "coinPercent": 10
+              }
+            },
+            {
+              "code": "PET-BONGSOON",
+              "name": "봉순",
+              "sourceArt": "assets/ui/pets/gugugaga/pet-bongsoon-gugugaga-nametag-v2.png",
+              "battleSprite": "",
+              "enabled": false,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "SPEED_PERCENT",
+                  "percent": 20
+                }
+              ],
+              "notes": "",
+              "rewardBonuses": {
+                "dropPercent": 0,
+                "accountXpPercent": 0,
+                "coinPercent": 5
+              }
+            },
+            {
+              "code": "PET-JOEUN",
+              "name": "조은",
+              "sourceArt": "assets/ui/pets/gugugaga/pet-joeun-gugugaga-nametag-v2.png",
+              "battleSprite": "",
+              "enabled": false,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "ATTACK_PERCENT",
+                  "percent": 20
+                }
+              ],
+              "notes": "",
+              "rewardBonuses": {
+                "dropPercent": 0,
+                "accountXpPercent": 0,
+                "coinPercent": 5
+              }
+            },
+            {
+              "code": "PET-HEEYA",
+              "name": "희야",
+              "sourceArt": "assets/ui/pets/gugugaga/pet-heeya-pig-nametag-v3.png",
+              "battleSprite": "",
+              "enabled": false,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "START_SHIELD_PERCENT",
+                  "percent": 20
+                }
+              ],
+              "notes": "",
+              "rewardBonuses": {
+                "dropPercent": 0,
+                "accountXpPercent": 0,
+                "coinPercent": 5
+              }
+            },
+            {
+              "code": "PET-DIIM",
+              "name": "디임",
+              "sourceArt": "assets/ui/pets/gugugaga/pet-diim-gugugaga-nametag-v2.png",
+              "battleSprite": "",
+              "enabled": false,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "DEFENSE_PERCENT",
+                  "percent": 20
+                }
+              ],
+              "notes": "",
+              "rewardBonuses": {
+                "dropPercent": 0,
+                "accountXpPercent": 0,
+                "coinPercent": 5
+              }
+            },
+            {
+              "code": "PET-001",
+              "name": "새 펫",
+              "sourceArt": "",
+              "battleSprite": "",
+              "enabled": false,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "ATTACK_PERCENT",
+                  "percent": 10
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "code": "PET-HEADSET-SHIBA",
+              "name": "헤드셋 시바견",
+              "sourceArt": "assets/ui/pets/gamer-duo-20261006-v1/pet-headset-shiba-v1.png",
+              "battleSprite": "",
+              "enabled": false,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "ATTACK_PERCENT",
+                  "percent": 8
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "code": "PET-BEANIE-CAT",
+              "name": "비니 헤드셋 고양이",
+              "sourceArt": "assets/ui/pets/gamer-duo-20261006-v1/pet-beanie-headset-cat-v1.png",
+              "battleSprite": "",
+              "enabled": false,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "DEFENSE_PERCENT",
+                  "percent": 8
+                }
+              ],
+              "notes": ""
+            },
+            {
+              "code": "PET-NAMUNEUL-BONGSOON",
+              "name": "나무늘봉순",
+              "sourceArt": "assets/ui/pets/namuneul-bongsoon-20261009/pet-namuneul-bongsoon-sloth-sd-approved.png",
+              "battleSprite": "assets/ui/pets/namuneul-bongsoon-20261009/pet-namuneul-bongsoon-sloth-sd-approved.png",
+              "enabled": true,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "ATTACK_PERCENT",
+                  "percent": 25
+                }
+              ],
+              "notes": "2026-10-09 사용자 승인 나무늘보 SD / 원본 보존",
+              "liveEnabled": true,
+              "rewardBonuses": {
+                "dropPercent": 0,
+                "accountXpPercent": 5,
+                "coinPercent": 10
+              }
+            },
+            {
+              "code": "PET-MALTESE-DIIM",
+              "name": "말티즈디임",
+              "sourceArt": "assets/ui/pets/maltese-diim-20261013/pet-maltese-diim-approved.png",
+              "battleSprite": "assets/ui/pets/maltese-diim-20261013/pet-maltese-diim-approved.png",
+              "enabled": true,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "ATTACK_PERCENT",
+                  "percent": 25
+                }
+              ],
+              "notes": "2026-10-13 사용자 라이브 반영 승인 말티즈디임 / 원본 보존",
+              "liveEnabled": true,
+              "rewardBonuses": {
+                "dropPercent": 0,
+                "accountXpPercent": 5,
+                "coinPercent": 10
+              }
+            },
+            {
+              "code": "PET-MOON-FOX",
+              "name": "월령 여우",
+              "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-moon-fox-v1.png",
+              "battleSprite": "assets/ui/pets/approved-nine-20261014/pet-moon-fox-v1.png",
+              "enabled": true,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "ATTACK_PERCENT",
+                  "percent": 10
+                }
+              ],
+              "notes": "2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존",
+              "liveEnabled": true
+            },
+            {
+              "code": "PET-FROST-WOLF",
+              "name": "빙관 늑대",
+              "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-frost-crown-wolf-v1.png",
+              "battleSprite": "assets/ui/pets/approved-nine-20261014/pet-frost-crown-wolf-v1.png",
+              "enabled": true,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "START_SHIELD_PERCENT",
+                  "percent": 10
+                }
+              ],
+              "notes": "2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존",
+              "liveEnabled": true
+            },
+            {
+              "code": "PET-GILDED-DRAGON",
+              "name": "흑금 영룡",
+              "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-gilded-spirit-dragon-v2.png",
+              "battleSprite": "assets/ui/pets/approved-nine-20261014/pet-gilded-spirit-dragon-v2.png",
+              "enabled": true,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "SPEED_PERCENT",
+                  "percent": 30
+                }
+              ],
+              "notes": "2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존",
+              "liveEnabled": true
+            },
+            {
+              "code": "PET-SOLAR-PHOENIX",
+              "name": "태양 봉황",
+              "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-solar-phoenix-v1.png",
+              "battleSprite": "assets/ui/pets/approved-nine-20261014/pet-solar-phoenix-v1.png",
+              "enabled": true,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "ATTACK_PERCENT",
+                  "percent": 10
+                }
+              ],
+              "notes": "2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존",
+              "liveEnabled": true
+            },
+            {
+              "code": "PET-VERDANT-STAG",
+              "name": "비취 성록",
+              "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-verdant-crown-stag-v1.png",
+              "battleSprite": "assets/ui/pets/approved-nine-20261014/pet-verdant-crown-stag-v1.png",
+              "enabled": true,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "START_SHIELD_PERCENT",
+                  "percent": 10
+                }
+              ],
+              "notes": "2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존",
+              "liveEnabled": true
+            },
+            {
+              "code": "PET-ASTRAL-PANTHER",
+              "name": "성운 마수",
+              "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-astral-panther-v1.png",
+              "battleSprite": "assets/ui/pets/approved-nine-20261014/pet-astral-panther-v1.png",
+              "enabled": true,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "DEFENSE_PERCENT",
+                  "percent": 10
+                }
+              ],
+              "notes": "2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존",
+              "liveEnabled": true
+            },
+            {
+              "code": "PET-WHITE-SPIRIT",
+              "name": "흰 정령",
+              "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-white-spirit-v1.png",
+              "battleSprite": "assets/ui/pets/approved-nine-20261014/pet-white-spirit-v1.png",
+              "enabled": true,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "ATTACK_PERCENT",
+                  "percent": 30
+                }
+              ],
+              "notes": "2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존",
+              "liveEnabled": true,
+              "rewardBonuses": {
+                "dropPercent": 5,
+                "accountXpPercent": 10,
+                "coinPercent": 15
+              }
+            },
+            {
+              "code": "PET-BULLDOG",
+              "name": "금방울 불독",
+              "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-bell-bulldog-v1.png",
+              "battleSprite": "assets/ui/pets/approved-nine-20261014/pet-bell-bulldog-v1.png",
+              "enabled": true,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "MAX_HP_PERCENT",
+                  "percent": 10
+                }
+              ],
+              "notes": "2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존",
+              "liveEnabled": true
+            },
+            {
+              "code": "PET-CRIMSON-DEMON",
+              "name": "붉은 날개 마신",
+              "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-crimson-wing-demon-v1.png",
+              "battleSprite": "assets/ui/pets/approved-nine-20261014/pet-crimson-wing-demon-v1.png",
+              "enabled": true,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "ATTACK_PERCENT",
+                  "percent": 35
+                }
+              ],
+              "notes": "2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존",
+              "liveEnabled": true,
+              "rewardBonuses": {
+                "dropPercent": 10,
+                "accountXpPercent": 15,
+                "coinPercent": 15
+              }
+            },
+            {
+              "code": "PET-BAZZI-BONGSOON",
+              "name": "배찌 나무늘봉순",
+              "sourceArt": "assets/ui/pets/bazzi-bongsoon-20261016/pet-bazzi-bongsoon-v3.png",
+              "battleSprite": "assets/ui/pets/bazzi-bongsoon-20261016/pet-bazzi-bongsoon-v3.png",
+              "enabled": true,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "ATTACK_PERCENT",
+                  "percent": 45
+                }
+              ],
+              "notes": "2026-10-16 사용자 배찌 나무늘봉순 별도 펫 라이브 반영 / V3 원본 보존",
+              "liveEnabled": true,
+              "rewardBonuses": {
+                "dropPercent": 10,
+                "accountXpPercent": 35,
+                "coinPercent": 50
+              }
+            },
+            {
+              "code": "PET-PUMPKIN-BONGSOON",
+              "name": "호박봉순",
+              "sourceArt": "assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-bongsoon-approved.png",
+              "battleSprite": "",
+              "enabled": false,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "ATTACK_PERCENT",
+                  "percent": 30
+                }
+              ],
+              "notes": "2026-10-23 사용자 요청으로 펫 관리 목록 등록. 이름·정지 원화 승인본. 버프·획득·실전 활성화 미확정.",
+              "liveEnabled": true,
+              "rewardBonuses": {
+                "dropPercent": 10,
+                "accountXpPercent": 15,
+                "coinPercent": 15
+              }
+            },
+            {
+              "code": "PET-PUMPKIN-JOEUN",
+              "name": "호박조은",
+              "sourceArt": "assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-joeun-approved.png",
+              "battleSprite": "",
+              "enabled": false,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "ATTACK_PERCENT",
+                  "percent": 30
+                }
+              ],
+              "notes": "2026-10-23 사용자 요청으로 펫 관리 목록 등록. 이름·정지 원화 승인본. 버프·획득·실전 활성화 미확정.",
+              "liveEnabled": true,
+              "rewardBonuses": {
+                "dropPercent": 10,
+                "accountXpPercent": 15,
+                "coinPercent": 15
+              }
+            },
+            {
+              "code": "PET-DAENGSORYONG",
+              "name": "댕소룡",
+              "sourceArt": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png",
+              "battleSprite": "",
+              "enabled": false,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "ATTACK_PERCENT",
+                  "percent": 30
+                }
+              ],
+              "notes": "2026-10-24 사용자 승인 및 라이브 반영 요청. 댕소룡 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정.",
+              "liveEnabled": true,
+              "rewardBonuses": {
+                "dropPercent": 10,
+                "accountXpPercent": 15,
+                "coinPercent": 15
+              }
+            },
+            {
+              "code": "PET-HEUKGU",
+              "name": "흑구",
+              "sourceArt": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+              "battleSprite": "",
+              "enabled": false,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "ATTACK_PERCENT",
+                  "percent": 50
+                }
+              ],
+              "notes": "2026-10-25 사용자 승인 및 라이브 반영 요청. 흑구 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정.",
+              "liveEnabled": true,
+              "rewardBonuses": {
+                "dropPercent": 20,
+                "accountXpPercent": 50,
+                "coinPercent": 50
+              }
+            },
+            {
+              "code": "PET-PEPEGU",
+              "name": "페페구",
+              "sourceArt": "assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png",
+              "battleSprite": "",
+              "enabled": false,
+              "liveEnabled": false,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "ATTACK_PERCENT",
+                  "percent": null
+                }
+              ],
+              "notes": "2026-11-01 사용자 승인 및 라이브 반영 요청. 페페구 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정."
+            }
+          ]
+        },
+        "updatedAt": "2026-11-01T08:42:33.960Z",
+        "updatedBy": "1",
+        "audit": [
+          {
+            "requestId": "pet-pepegu-registration-20261101-v1",
+            "payloadHash": "6840409610d9b792e176b335c00576542a817207fb815bffd3e445a58a509898",
+            "actorId": "1",
+            "revision": 43,
+            "createdAt": "2026-11-01T08:42:33.960Z"
+          },
+          {
+            "requestId": "21688cbe-53a5-40b1-9248-f3af3a493c74",
+            "payloadHash": "e7c03579f96988ad46ba7936d612c96ec2f26740e7019231cd1794a48346abb7",
+            "actorId": 1,
+            "revision": 42,
+            "createdAt": "2026-10-29T14:09:17.788Z"
+          },
+          {
+            "requestId": "pet-heukgu-large-head-20261025-v1",
+            "payloadHash": "6e8180f5586d5454a427c71b129453ea14a527e85446a26faf75f0a89d0c91d4",
+            "actorId": "1",
+            "revision": 41,
+            "createdAt": "2026-10-25T11:43:11.818Z"
+          },
+          {
+            "requestId": "4155fe83-1f3c-494c-b09f-5380f29cb87f",
+            "payloadHash": "ab10311c142f3ca7ab9d1dc7d61801c36f9a889868ff20124c167f4c9981ffd5",
+            "actorId": 1,
+            "revision": 40,
+            "createdAt": "2026-10-25T11:06:39.649Z"
+          },
+          {
+            "requestId": "867e6659-b9bf-4ada-95e6-7b9553a4e145",
+            "payloadHash": "b313479f35a41bb868bf3a20a143a45a3ac1a1d5ff04d091e6d8687af7ca99b3",
+            "actorId": 1,
+            "revision": 39,
+            "createdAt": "2026-10-25T11:06:27.040Z"
+          },
+          {
+            "requestId": "pet-heukgu-registration-20261025-v1",
+            "payloadHash": "7924f1375c5cf7042a906b8476f90a2886bf4722ba42a5630b0c673ba84d33cf",
+            "actorId": "1",
+            "revision": 38,
+            "createdAt": "2026-10-25T11:00:12.739Z"
+          },
+          {
+            "requestId": "95bf9579-0ca4-4f58-8fb1-b193ea0dc522",
+            "payloadHash": "a90b2b9105200060fc3747be91095a2511e0193bbae1e7d72bc414576305c832",
+            "actorId": 1,
+            "revision": 37,
+            "createdAt": "2026-10-24T19:14:43.207Z"
+          },
+          {
+            "requestId": "e4a9ff10-dcd2-4820-aa54-bc1867e3624b",
+            "payloadHash": "085128d1d3d019270ae97e919ffa4340e13b264ec5f85c426ba623050993978c",
+            "actorId": 1,
+            "revision": 36,
+            "createdAt": "2026-10-24T19:12:43.151Z"
+          },
+          {
+            "requestId": "pet-daengsoryong-registration-20261024-v1",
+            "payloadHash": "4098a0b5f53074cd64c84c0a0393448d8d6202300f562ac611b36341543daaef",
+            "actorId": "1",
+            "revision": 35,
+            "createdAt": "2026-10-23T21:35:59.877Z"
+          },
+          {
+            "requestId": "pet-pumpkin-battle-live-20261023-v1",
+            "payloadHash": "28358b2e9392466def7010e9e2d5dad7231b75e9eafd07e2aa57bb99e01f40f0",
+            "actorId": "1",
+            "revision": 34,
+            "createdAt": "2026-10-23T07:06:35.752Z"
+          },
+          {
+            "requestId": "2a00cc6c-c463-44d4-bf04-1d09ae7adcec",
+            "payloadHash": "4d636e3e195daf35481348e4ce51056813d7c0116baaabb8f29b1bb663b80455",
+            "actorId": 1,
+            "revision": 33,
+            "createdAt": "2026-10-23T06:01:24.386Z"
+          },
+          {
+            "requestId": "b25cae10-7883-4ebc-a457-b009bea33fc3",
+            "payloadHash": "dda7788b2e39a5f25adc40d36dbf306fb0872879d9ce079bdd18f80e982a5851",
+            "actorId": 1,
+            "revision": 32,
+            "createdAt": "2026-10-23T06:01:17.228Z"
+          },
+          {
+            "requestId": "26fcdf4f-6984-43bd-ac6e-b4dc044c18d1",
+            "payloadHash": "e911bd435648077ea51ed320f9f51bca0e321930b764aa8d7ae45bc54713d54e",
+            "actorId": 1,
+            "revision": 31,
+            "createdAt": "2026-10-23T06:00:54.644Z"
+          },
+          {
+            "requestId": "pet-pumpkin-management-20261023-v1",
+            "payloadHash": "470340ed3e3977faf3ab1a5ec927a52a87dbd4f7481815c95a8a7421ff689670",
+            "actorId": "1",
+            "revision": 30,
+            "createdAt": "2026-10-23T05:55:09.304Z"
+          },
+          {
+            "requestId": "pet-bazzi-bongsoon-live-20261016-v1",
+            "payloadHash": "781428a8d9ab95a563e160be8fbf298e6d6b690e648f92925fac7583beb34b4e",
+            "actorId": "1",
+            "revision": 29,
+            "createdAt": "2026-10-16T13:18:38.665Z"
+          },
+          {
+            "requestId": "914c1280-c0cf-4db1-b2b1-641aad42764c",
+            "payloadHash": "26bea405e6614b56afbaa26a5f0ce8338352de42008b77fb4dcf3a1fedc1367a",
+            "actorId": 1,
+            "revision": 28,
+            "createdAt": "2026-10-14T11:15:59.221Z"
+          },
+          {
+            "requestId": "555869a8-d895-4bc0-8bc4-7b4ff1c433c3",
+            "payloadHash": "5a8639b97b3917491e517371d2412be46dd47a7893b7ea4b49219f00b31164b1",
+            "actorId": 1,
+            "revision": 27,
+            "createdAt": "2026-10-14T11:15:52.077Z"
+          },
+          {
+            "requestId": "30dc6367-de17-4fcc-90ee-3fd6d20dc387",
+            "payloadHash": "7c1585c499dfd0c9b72e1ab5ac6b47eb59b6f907ff30a3af724eac95fa3a047e",
+            "actorId": 1,
+            "revision": 26,
+            "createdAt": "2026-10-14T11:15:45.334Z"
+          },
+          {
+            "requestId": "b66425e9-8b1c-4723-90f2-66d358464e0b",
+            "payloadHash": "954fe5bdecb97e6e4ef1ab7b06f4eaea7a18c6939f9a2d35e07730c4efab258f",
+            "actorId": 1,
+            "revision": 25,
+            "createdAt": "2026-10-14T11:15:41.843Z"
+          },
+          {
+            "requestId": "22223610-1ef3-47c0-96e8-dd90cc322c13",
+            "payloadHash": "7d4c634b580a58411a826cacf67e6b5cdb9ada07f1c5017760eea92f97cfbb78",
+            "actorId": 1,
+            "revision": 24,
+            "createdAt": "2026-10-14T11:15:39.160Z"
+          },
+          {
+            "requestId": "987c59b8-6de5-4fbe-9cd6-21b1d92aab95",
+            "payloadHash": "33d8b68f4979f709873fbf181f279914fdadc8cc82ddc33469e5d677f66d4aec",
+            "actorId": 1,
+            "revision": 23,
+            "createdAt": "2026-10-14T11:15:33.098Z"
+          },
+          {
+            "requestId": "0f39bda0-f4b2-44e3-aa0f-05554e00242f",
+            "payloadHash": "145e4a42b334021ddbce47828cab3ebd3dd7241d5769073ef5d686d597162df0",
+            "actorId": 1,
+            "revision": 22,
+            "createdAt": "2026-10-14T11:15:30.773Z"
+          },
+          {
+            "requestId": "abfd9005-df08-4d7f-a6c3-6f45a339b788",
+            "payloadHash": "54505db64910faaf22e4a7db4ef1ed853d8ce43704a32bd8b9cabd78b20446df",
+            "actorId": 1,
+            "revision": 21,
+            "createdAt": "2026-10-14T11:15:28.059Z"
+          },
+          {
+            "requestId": "6b2ed00e-3afc-4507-bba6-0e542a8a17c6",
+            "payloadHash": "33738674e5cb9b225749029ebc398061d544acafc8bb3c3e64569496d179f17f",
+            "actorId": 1,
+            "revision": 20,
+            "createdAt": "2026-10-14T11:15:24.925Z"
+          },
+          {
+            "requestId": "257d90b9-9617-4a07-abe9-77dcdfcbd412",
+            "payloadHash": "cbc4bf99bafbb1b6c27f0bbc881b9f296fe6d862a0c15c63e9a275af90611e41",
+            "actorId": 1,
+            "revision": 19,
+            "createdAt": "2026-10-14T11:15:22.839Z"
+          },
+          {
+            "requestId": "295e41fe-cc8c-47b2-8227-166a084d44d1",
+            "payloadHash": "b21aa43e8373f687e3cfb2f8eb633981e7856067287081d5be97c8b375410209",
+            "actorId": 1,
+            "revision": 18,
+            "createdAt": "2026-10-13T19:38:27.222Z"
+          },
+          {
+            "requestId": "eed56a2a-ad02-4e72-a06a-a62beeddf776",
+            "payloadHash": "8f3068c9139f8d32d3984cbefabdd331eb747d90fe2954aad7be95fb7d8597e5",
+            "actorId": 1,
+            "revision": 17,
+            "createdAt": "2026-10-13T19:38:21.203Z"
+          },
+          {
+            "requestId": "ef179667-299b-4986-9f6f-419ff1a89d95",
+            "payloadHash": "30f40cd278ca65636ce0c126cee259f3018e73b3d78d6d933c76ec8db588f5c0",
+            "actorId": 1,
+            "revision": 16,
+            "createdAt": "2026-10-13T19:38:16.620Z"
+          },
+          {
+            "requestId": "ce0abdfd-d50c-4ee8-a83f-beb8f0a241ea",
+            "payloadHash": "5758397bbc4fb894450b03f2ae5ce6bf0380d41a55cafd3c7f9beb9f423fc803",
+            "actorId": 1,
+            "revision": 15,
+            "createdAt": "2026-10-13T19:38:11.682Z"
+          },
+          {
+            "requestId": "7a4b9063-7749-4416-9f3f-ddd8ddd08b98",
+            "payloadHash": "8f05965ccddc5f2930a6dd7a4136fb239cc4da108a7b6250a1cf2c62c7829ed8",
+            "actorId": 1,
+            "revision": 14,
+            "createdAt": "2026-10-13T19:35:18.032Z"
+          },
+          {
+            "requestId": "381191a9-2b17-4377-8e86-fe5f7e3b3b7c",
+            "payloadHash": "3e2945a630be62c318b20a95650a70b1139a225bb624fe49b863f79d9c5c0517",
+            "actorId": 1,
+            "revision": 13,
+            "createdAt": "2026-10-13T19:35:10.030Z"
+          },
+          {
+            "requestId": "11bd22d6-247a-425a-8906-13a87954af27",
+            "payloadHash": "d73dc48cc9ea88d672903597dd5073bf4be506fb1527216bcc785ae6083d287b",
+            "actorId": 1,
+            "revision": 12,
+            "createdAt": "2026-10-13T19:35:02.282Z"
+          },
+          {
+            "requestId": "pets-nine-live-20261014-v1",
+            "payloadHash": "59cce48b4f37cf35ef30ae107687c3fb81db7147f6accbc4c9374ce3e944d004",
+            "actorId": "1",
+            "revision": 11,
+            "createdAt": "2026-10-13T18:38:50.920Z"
+          },
+          {
+            "requestId": "71f2f580-bb44-46cc-8829-ce29431ea588",
+            "payloadHash": "efce4eea5f0a3f6e755697dbaaa8081c8a9d0d528e89294807091ad770eed8fe",
+            "actorId": 1,
+            "revision": 10,
+            "createdAt": "2026-10-12T21:21:23.822Z"
+          },
+          {
+            "requestId": "f2e9a07a-7ade-4e4f-bb0b-32a17d8df313",
+            "payloadHash": "5dbef671f5de5e5a545783b4b5a64b727bfbeb057fe4517ab36742c1f91a745b",
+            "actorId": 1,
+            "revision": 9,
+            "createdAt": "2026-10-12T19:12:32.656Z"
+          },
+          {
+            "requestId": "94c63abe-87ce-4ab0-a894-71bd1d42c3e3",
+            "payloadHash": "190d5285c1397e9bddf3360ff0c8ee02cb5a83ca546b21294b34863db8ac24de",
+            "actorId": 1,
+            "revision": 8,
+            "createdAt": "2026-10-10T03:13:15.468Z"
+          },
+          {
+            "requestId": "527fe5e2-9df8-4f11-ba49-ca277433c2fd",
+            "payloadHash": "83a7ad69dfc82ad71385db5fa75ca3e93e95ed2051092590c153df516e654d9f",
+            "actorId": 1,
+            "revision": 7,
+            "createdAt": "2026-10-08T21:33:29.443Z"
+          },
+          {
+            "requestId": "5b02ddcc-c569-4dde-91b7-ae55c943acfe",
+            "payloadHash": "8f090a143b1b7c1f110916eb3c4c22b1c9a779f298df65efb32548e67e679d03",
+            "actorId": 1,
+            "revision": 6,
+            "createdAt": "2026-10-08T18:14:09.758Z"
+          },
+          {
+            "requestId": "a97273b3-4f18-48da-920e-0bd9ea3aba99",
+            "payloadHash": "36db934e3fe2f1af0b210c8c69cf6f8e356c44daf53b1e9fb9c3e730ffe72547",
+            "actorId": 1,
+            "revision": 5,
+            "createdAt": "2026-10-06T10:28:05.991Z"
+          },
+          {
+            "requestId": "02bc0c95-6b7a-470e-8ff3-b0c26e69b482",
+            "payloadHash": "c5ae437df1dec053dba1b5c4e49ffe0342c752ad8a266bfc0adae0efb63fc42a",
+            "actorId": 1,
+            "revision": 4,
+            "createdAt": "2026-10-06T09:42:12.446Z"
+          },
+          {
+            "requestId": "35f12dad-6f46-4ef8-abc1-978a2a13aebb",
+            "payloadHash": "3c5b37e6f0c1fb5203a685c4ab65d5c93694b29a295b16e4ec4ffe5a1ee49c1c",
+            "actorId": 1,
+            "revision": 3,
+            "createdAt": "2026-10-06T09:19:36.197Z"
+          },
+          {
+            "requestId": "820399f1-7ea3-4bd3-a2c2-78643b7af072",
+            "payloadHash": "15314cc3d185becbaeac032463eac0bf6530e92228a6a496a816ec538047d2d8",
+            "actorId": 1,
+            "revision": 2,
+            "createdAt": "2026-10-02T19:55:44.905Z"
+          },
+          {
+            "requestId": "263da514-b3eb-404d-ac9e-1fb638c7b248",
+            "payloadHash": "51b8ceab649367ceaea1252d5144825e5c26e32006a1103440ffaf3b7ef77938",
+            "actorId": 1,
+            "revision": 1,
+            "createdAt": "2026-10-02T12:38:57.892Z"
+          }
+        ]
+      }
+    },
+    "pet_opening_settings_v1": {
+      "raw": "{\"revision\":4,\"enabled\":true,\"essencePerOpen\":10,\"maxBatch\":100,\"blankWeight\":800,\"pool\":[{\"code\":\"PET-BONGSOON\",\"weight\":15},{\"code\":\"PET-JOEUN\",\"weight\":15},{\"code\":\"PET-HEEYA\",\"weight\":15},{\"code\":\"PET-DIIM\",\"weight\":15},{\"code\":\"PET-GUSUDAENG\",\"weight\":10},{\"code\":\"PET-HEADSET-SHIBA\",\"weight\":45},{\"code\":\"PET-BEANIE-CAT\",\"weight\":45},{\"code\":\"PET-NAMUNEUL-BONGSOON\",\"weight\":10},{\"code\":\"PET-MALTESE-DIIM\",\"weight\":5},{\"code\":\"PET-MOON-FOX\",\"weight\":30},{\"code\":\"PET-FROST-WOLF\",\"weight\":30},{\"code\":\"PET-GILDED-DRAGON\",\"weight\":2},{\"code\":\"PET-WHITE-SPIRIT\",\"weight\":1},{\"code\":\"PET-CRIMSON-DEMON\",\"weight\":1}],\"saveToken\":\"3fd06b3b-e3c9-4fc1-849e-b5acaef31928\"}",
+      "sha256": "015474e372c95c7bc1f55d8426dbc3b5dd93c1e2c16fbae3ff3885a86e9066fd",
+      "state": {
+        "revision": 4,
+        "enabled": true,
+        "essencePerOpen": 10,
+        "maxBatch": 100,
+        "blankWeight": 800,
+        "pool": [
+          {
+            "code": "PET-BONGSOON",
+            "weight": 15
+          },
+          {
+            "code": "PET-JOEUN",
+            "weight": 15
+          },
+          {
+            "code": "PET-HEEYA",
+            "weight": 15
+          },
+          {
+            "code": "PET-DIIM",
+            "weight": 15
+          },
+          {
+            "code": "PET-GUSUDAENG",
+            "weight": 10
+          },
+          {
+            "code": "PET-HEADSET-SHIBA",
+            "weight": 45
+          },
+          {
+            "code": "PET-BEANIE-CAT",
+            "weight": 45
+          },
+          {
+            "code": "PET-NAMUNEUL-BONGSOON",
+            "weight": 10
+          },
+          {
+            "code": "PET-MALTESE-DIIM",
+            "weight": 5
+          },
+          {
+            "code": "PET-MOON-FOX",
+            "weight": 30
+          },
+          {
+            "code": "PET-FROST-WOLF",
+            "weight": 30
+          },
+          {
+            "code": "PET-GILDED-DRAGON",
+            "weight": 2
+          },
+          {
+            "code": "PET-WHITE-SPIRIT",
+            "weight": 1
+          },
+          {
+            "code": "PET-CRIMSON-DEMON",
+            "weight": 1
+          }
+        ],
+        "saveToken": "3fd06b3b-e3c9-4fc1-849e-b5acaef31928"
+      }
+    },
+    "pet_potential_settings_v1": {
+      "raw": "{\"version\":1,\"revision\":1,\"enabled\":true,\"successPpm\":50000,\"saveToken\":\"881224d7-8dba-4c04-ae06-8c5679cdcec7\"}",
+      "sha256": "f4c4f91e1b820b31919a32d8a27fe4f46089a3c425685e06587f0652ff7ca90a",
+      "state": {
+        "version": 1,
+        "revision": 1,
+        "enabled": true,
+        "successPpm": 50000,
+        "saveToken": "881224d7-8dba-4c04-ae06-8c5679cdcec7"
+      }
+    },
+    "ranked_shop_policy_v1": {
+      "raw": "{\"revision\":1,\"salesEnabled\":true,\"products\":[{\"id\":\"item_bundle_26fb7903\",\"type\":\"ITEM_BUNDLE\",\"name\":\"엠퍼러 에너지\",\"enabled\":true,\"price\":100,\"accountLimit\":20,\"equipmentId\":null,\"cardIds\":[],\"mercenaryCodes\":[],\"mercenaryWeights\":{\"A\":null,\"S\":null},\"sortOrder\":0,\"description\":\"엠퍼러 에너지\",\"badge\":\"\",\"image\":\"/assets/items/emperor-energy-v1.webp\",\"featured\":false,\"visible\":true,\"category\":\"ITEM\",\"limitPeriod\":\"WEEKLY\",\"startsAt\":null,\"endsAt\":null,\"items\":[{\"code\":\"EMPEROR_ENERGY\",\"quantity\":1}],\"rankWeights\":{\"C\":0,\"B\":0,\"A\":0,\"S\":0,\"SS\":0,\"SSS\":0}},{\"id\":\"item_bundle_334fa816\",\"type\":\"ITEM_BUNDLE\",\"name\":\"SSS 용병조각\",\"enabled\":true,\"price\":300,\"accountLimit\":5,\"equipmentId\":null,\"cardIds\":[],\"mercenaryCodes\":[],\"mercenaryWeights\":{\"A\":null,\"S\":null},\"sortOrder\":6,\"description\":\"SSS 용병조각\",\"badge\":\"\",\"image\":\"/assets/items/mercenary-sss-card-shard-v1.png\",\"featured\":false,\"visible\":true,\"category\":\"ITEM\",\"limitPeriod\":\"WEEKLY\",\"startsAt\":null,\"endsAt\":null,\"items\":[{\"code\":\"MERCENARY_SSS_CARD_SHARD\",\"quantity\":1}],\"rankWeights\":{\"C\":0,\"B\":0,\"A\":0,\"S\":0,\"SS\":0,\"SSS\":0}},{\"id\":\"item_bundle_c836c569\",\"type\":\"ITEM_BUNDLE\",\"name\":\"미라클큐브\",\"enabled\":true,\"price\":10,\"accountLimit\":100,\"equipmentId\":null,\"cardIds\":[],\"mercenaryCodes\":[],\"mercenaryWeights\":{\"A\":null,\"S\":null},\"sortOrder\":7,\"description\":\"미라클큐브\",\"badge\":\"\",\"image\":\"/assets/ui/miracle-cube-v1/cube-closed.webp\",\"featured\":false,\"visible\":true,\"category\":\"ITEM\",\"limitPeriod\":\"WEEKLY\",\"startsAt\":null,\"endsAt\":null,\"items\":[{\"code\":\"MIRACLE_CUBE\",\"quantity\":1}],\"rankWeights\":{\"C\":0,\"B\":0,\"A\":0,\"S\":0,\"SS\":0,\"SSS\":0}},{\"id\":\"item_bundle_7ee1232f\",\"type\":\"ITEM_BUNDLE\",\"name\":\"8방향 유도탄\",\"enabled\":true,\"price\":1000,\"accountLimit\":1,\"equipmentId\":null,\"cardIds\":[],\"mercenaryCodes\":[],\"mercenaryWeights\":{\"A\":null,\"S\":null},\"sortOrder\":8,\"description\":\"8방향 유도탄\",\"badge\":\"\",\"image\":\"/assets/ui/project-v/skill-chips/octa-seeker-v1.webp\",\"featured\":false,\"visible\":true,\"category\":\"ITEM\",\"limitPeriod\":\"LIFETIME\",\"startsAt\":null,\"endsAt\":null,\"items\":[{\"code\":\"SKILL_CHIP_OCTA_SEEKER\",\"quantity\":1}],\"rankWeights\":{\"C\":0,\"B\":0,\"A\":0,\"S\":0,\"SS\":0,\"SSS\":0}},{\"id\":\"item_bundle_a846a0f2\",\"type\":\"ITEM_BUNDLE\",\"name\":\"펫 세트\",\"enabled\":true,\"price\":100,\"accountLimit\":20,\"equipmentId\":null,\"cardIds\":[],\"mercenaryCodes\":[],\"mercenaryWeights\":{\"A\":null,\"S\":null},\"sortOrder\":9,\"description\":\"펫 세트\",\"badge\":\"\",\"image\":\"/assets/items/pet-opening-v1/pet-seal-orb.webp\",\"featured\":false,\"visible\":true,\"category\":\"ITEM\",\"limitPeriod\":\"WEEKLY\",\"startsAt\":null,\"endsAt\":null,\"items\":[{\"code\":\"PET_ESSENCE\",\"quantity\":10},{\"code\":\"PET_SEAL_ORB\",\"quantity\":1}],\"rankWeights\":{\"C\":0,\"B\":0,\"A\":0,\"S\":0,\"SS\":0,\"SSS\":0}},{\"id\":\"item_bundle_7a98a72c\",\"type\":\"ITEM_BUNDLE\",\"name\":\"프라임 설계도\",\"enabled\":true,\"price\":2000,\"accountLimit\":1,\"equipmentId\":null,\"cardIds\":[],\"mercenaryCodes\":[],\"mercenaryWeights\":{\"A\":null,\"S\":null},\"sortOrder\":10,\"description\":\"프라임 설계도\",\"badge\":\"\",\"image\":\"/assets/items/prime-requiem-blueprint-v1.webp\",\"featured\":false,\"visible\":true,\"category\":\"ITEM\",\"limitPeriod\":\"LIFETIME\",\"startsAt\":null,\"endsAt\":null,\"items\":[{\"code\":\"PRIME_REQUIEM_BLUEPRINT\",\"quantity\":1}],\"rankWeights\":{\"C\":0,\"B\":0,\"A\":0,\"S\":0,\"SS\":0,\"SSS\":0}},{\"id\":\"item_bundle_1ecfaa09\",\"type\":\"ITEM_BUNDLE\",\"name\":\"무기 강화 주문서\",\"enabled\":true,\"price\":200,\"accountLimit\":5,\"equipmentId\":null,\"cardIds\":[],\"mercenaryCodes\":[],\"mercenaryWeights\":{\"A\":null,\"S\":null},\"sortOrder\":11,\"description\":\"무기 강화 주문서\",\"badge\":\"\",\"image\":\"/assets/items/weapon-enhancement-scroll-v1.webp\",\"featured\":false,\"visible\":true,\"category\":\"ITEM\",\"limitPeriod\":\"WEEKLY\",\"startsAt\":null,\"endsAt\":null,\"items\":[{\"code\":\"WEAPON_ENHANCEMENT_SCROLL\",\"quantity\":1}],\"rankWeights\":{\"C\":0,\"B\":0,\"A\":0,\"S\":0,\"SS\":0,\"SSS\":0}},{\"id\":\"item_bundle_6fc79d25\",\"type\":\"ITEM_BUNDLE\",\"name\":\"방어구 강화 주문서\",\"enabled\":true,\"price\":100,\"accountLimit\":10,\"equipmentId\":null,\"cardIds\":[],\"mercenaryCodes\":[],\"mercenaryWeights\":{\"A\":null,\"S\":null},\"sortOrder\":12,\"description\":\"방어구 강화 주문서\",\"badge\":\"\",\"image\":\"/assets/items/armor-enhancement-scroll-v1.webp\",\"featured\":false,\"visible\":true,\"category\":\"ITEM\",\"limitPeriod\":\"WEEKLY\",\"startsAt\":null,\"endsAt\":null,\"items\":[{\"code\":\"ARMOR_ENHANCEMENT_SCROLL\",\"quantity\":1}],\"rankWeights\":{\"C\":0,\"B\":0,\"A\":0,\"S\":0,\"SS\":0,\"SSS\":0}}],\"retiredProductIds\":[\"superstar_choice\",\"fur_choice\",\"f_body\",\"mercenary_pack\",\"mercenary_ss_pack\",\"mystic_equipment\"]}",
+      "sha256": "d4b71aa42174b9361ea53657664673e98b9240c9116702b1d148c0558f44532b",
+      "state": {
+        "revision": 1,
+        "salesEnabled": true,
+        "products": [
+          {
+            "id": "item_bundle_26fb7903",
+            "type": "ITEM_BUNDLE",
+            "name": "엠퍼러 에너지",
+            "enabled": true,
+            "price": 100,
+            "accountLimit": 20,
+            "equipmentId": null,
+            "cardIds": [],
+            "mercenaryCodes": [],
+            "mercenaryWeights": {
+              "A": null,
+              "S": null
+            },
+            "sortOrder": 0,
+            "description": "엠퍼러 에너지",
+            "badge": "",
+            "image": "/assets/items/emperor-energy-v1.webp",
+            "featured": false,
+            "visible": true,
+            "category": "ITEM",
+            "limitPeriod": "WEEKLY",
+            "startsAt": null,
+            "endsAt": null,
+            "items": [
+              {
+                "code": "EMPEROR_ENERGY",
+                "quantity": 1
+              }
+            ],
+            "rankWeights": {
+              "C": 0,
+              "B": 0,
+              "A": 0,
+              "S": 0,
+              "SS": 0,
+              "SSS": 0
+            }
+          },
+          {
+            "id": "item_bundle_334fa816",
+            "type": "ITEM_BUNDLE",
+            "name": "SSS 용병조각",
+            "enabled": true,
+            "price": 300,
+            "accountLimit": 5,
+            "equipmentId": null,
+            "cardIds": [],
+            "mercenaryCodes": [],
+            "mercenaryWeights": {
+              "A": null,
+              "S": null
+            },
+            "sortOrder": 6,
+            "description": "SSS 용병조각",
+            "badge": "",
+            "image": "/assets/items/mercenary-sss-card-shard-v1.png",
+            "featured": false,
+            "visible": true,
+            "category": "ITEM",
+            "limitPeriod": "WEEKLY",
+            "startsAt": null,
+            "endsAt": null,
+            "items": [
+              {
+                "code": "MERCENARY_SSS_CARD_SHARD",
+                "quantity": 1
+              }
+            ],
+            "rankWeights": {
+              "C": 0,
+              "B": 0,
+              "A": 0,
+              "S": 0,
+              "SS": 0,
+              "SSS": 0
+            }
+          },
+          {
+            "id": "item_bundle_c836c569",
+            "type": "ITEM_BUNDLE",
+            "name": "미라클큐브",
+            "enabled": true,
+            "price": 10,
+            "accountLimit": 100,
+            "equipmentId": null,
+            "cardIds": [],
+            "mercenaryCodes": [],
+            "mercenaryWeights": {
+              "A": null,
+              "S": null
+            },
+            "sortOrder": 7,
+            "description": "미라클큐브",
+            "badge": "",
+            "image": "/assets/ui/miracle-cube-v1/cube-closed.webp",
+            "featured": false,
+            "visible": true,
+            "category": "ITEM",
+            "limitPeriod": "WEEKLY",
+            "startsAt": null,
+            "endsAt": null,
+            "items": [
+              {
+                "code": "MIRACLE_CUBE",
+                "quantity": 1
+              }
+            ],
+            "rankWeights": {
+              "C": 0,
+              "B": 0,
+              "A": 0,
+              "S": 0,
+              "SS": 0,
+              "SSS": 0
+            }
+          },
+          {
+            "id": "item_bundle_7ee1232f",
+            "type": "ITEM_BUNDLE",
+            "name": "8방향 유도탄",
+            "enabled": true,
+            "price": 1000,
+            "accountLimit": 1,
+            "equipmentId": null,
+            "cardIds": [],
+            "mercenaryCodes": [],
+            "mercenaryWeights": {
+              "A": null,
+              "S": null
+            },
+            "sortOrder": 8,
+            "description": "8방향 유도탄",
+            "badge": "",
+            "image": "/assets/ui/project-v/skill-chips/octa-seeker-v1.webp",
+            "featured": false,
+            "visible": true,
+            "category": "ITEM",
+            "limitPeriod": "LIFETIME",
+            "startsAt": null,
+            "endsAt": null,
+            "items": [
+              {
+                "code": "SKILL_CHIP_OCTA_SEEKER",
+                "quantity": 1
+              }
+            ],
+            "rankWeights": {
+              "C": 0,
+              "B": 0,
+              "A": 0,
+              "S": 0,
+              "SS": 0,
+              "SSS": 0
+            }
+          },
+          {
+            "id": "item_bundle_a846a0f2",
+            "type": "ITEM_BUNDLE",
+            "name": "펫 세트",
+            "enabled": true,
+            "price": 100,
+            "accountLimit": 20,
+            "equipmentId": null,
+            "cardIds": [],
+            "mercenaryCodes": [],
+            "mercenaryWeights": {
+              "A": null,
+              "S": null
+            },
+            "sortOrder": 9,
+            "description": "펫 세트",
+            "badge": "",
+            "image": "/assets/items/pet-opening-v1/pet-seal-orb.webp",
+            "featured": false,
+            "visible": true,
+            "category": "ITEM",
+            "limitPeriod": "WEEKLY",
+            "startsAt": null,
+            "endsAt": null,
+            "items": [
+              {
+                "code": "PET_ESSENCE",
+                "quantity": 10
+              },
+              {
+                "code": "PET_SEAL_ORB",
+                "quantity": 1
+              }
+            ],
+            "rankWeights": {
+              "C": 0,
+              "B": 0,
+              "A": 0,
+              "S": 0,
+              "SS": 0,
+              "SSS": 0
+            }
+          },
+          {
+            "id": "item_bundle_7a98a72c",
+            "type": "ITEM_BUNDLE",
+            "name": "프라임 설계도",
+            "enabled": true,
+            "price": 2000,
+            "accountLimit": 1,
+            "equipmentId": null,
+            "cardIds": [],
+            "mercenaryCodes": [],
+            "mercenaryWeights": {
+              "A": null,
+              "S": null
+            },
+            "sortOrder": 10,
+            "description": "프라임 설계도",
+            "badge": "",
+            "image": "/assets/items/prime-requiem-blueprint-v1.webp",
+            "featured": false,
+            "visible": true,
+            "category": "ITEM",
+            "limitPeriod": "LIFETIME",
+            "startsAt": null,
+            "endsAt": null,
+            "items": [
+              {
+                "code": "PRIME_REQUIEM_BLUEPRINT",
+                "quantity": 1
+              }
+            ],
+            "rankWeights": {
+              "C": 0,
+              "B": 0,
+              "A": 0,
+              "S": 0,
+              "SS": 0,
+              "SSS": 0
+            }
+          },
+          {
+            "id": "item_bundle_1ecfaa09",
+            "type": "ITEM_BUNDLE",
+            "name": "무기 강화 주문서",
+            "enabled": true,
+            "price": 200,
+            "accountLimit": 5,
+            "equipmentId": null,
+            "cardIds": [],
+            "mercenaryCodes": [],
+            "mercenaryWeights": {
+              "A": null,
+              "S": null
+            },
+            "sortOrder": 11,
+            "description": "무기 강화 주문서",
+            "badge": "",
+            "image": "/assets/items/weapon-enhancement-scroll-v1.webp",
+            "featured": false,
+            "visible": true,
+            "category": "ITEM",
+            "limitPeriod": "WEEKLY",
+            "startsAt": null,
+            "endsAt": null,
+            "items": [
+              {
+                "code": "WEAPON_ENHANCEMENT_SCROLL",
+                "quantity": 1
+              }
+            ],
+            "rankWeights": {
+              "C": 0,
+              "B": 0,
+              "A": 0,
+              "S": 0,
+              "SS": 0,
+              "SSS": 0
+            }
+          },
+          {
+            "id": "item_bundle_6fc79d25",
+            "type": "ITEM_BUNDLE",
+            "name": "방어구 강화 주문서",
+            "enabled": true,
+            "price": 100,
+            "accountLimit": 10,
+            "equipmentId": null,
+            "cardIds": [],
+            "mercenaryCodes": [],
+            "mercenaryWeights": {
+              "A": null,
+              "S": null
+            },
+            "sortOrder": 12,
+            "description": "방어구 강화 주문서",
+            "badge": "",
+            "image": "/assets/items/armor-enhancement-scroll-v1.webp",
+            "featured": false,
+            "visible": true,
+            "category": "ITEM",
+            "limitPeriod": "WEEKLY",
+            "startsAt": null,
+            "endsAt": null,
+            "items": [
+              {
+                "code": "ARMOR_ENHANCEMENT_SCROLL",
+                "quantity": 1
+              }
+            ],
+            "rankWeights": {
+              "C": 0,
+              "B": 0,
+              "A": 0,
+              "S": 0,
+              "SS": 0,
+              "SSS": 0
+            }
+          }
+        ],
+        "retiredProductIds": [
+          "superstar_choice",
+          "fur_choice",
+          "f_body",
+          "mercenary_pack",
+          "mercenary_ss_pack",
+          "mystic_equipment"
+        ]
+      }
+    }
+  },
+  "heukgu": {
+    "code": "PET-HEUKGU",
+    "name": "흑구",
+    "sourceArt": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+    "battleSprite": "",
+    "enabled": false,
+    "modes": [
+      "PVE",
+      "PVP"
+    ],
+    "target": "ALL_ALLIES",
+    "buffs": [
+      {
+        "type": "ATTACK_PERCENT",
+        "percent": 50
+      }
+    ],
+    "notes": "2026-10-25 사용자 승인 및 라이브 반영 요청. 흑구 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정.",
+    "liveEnabled": true,
+    "rewardBonuses": {
+      "dropPercent": 20,
+      "accountXpPercent": 50,
+      "coinPercent": 50
+    }
+  },
+  "pepegu": {
+    "code": "PET-PEPEGU",
+    "name": "페페구",
+    "sourceArt": "assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png",
+    "battleSprite": "",
+    "enabled": false,
+    "liveEnabled": false,
+    "modes": [
+      "PVE",
+      "PVP"
+    ],
+    "target": "ALL_ALLIES",
+    "buffs": [
+      {
+        "type": "ATTACK_PERCENT",
+        "percent": null
+      }
+    ],
+    "notes": "2026-11-01 사용자 승인 및 라이브 반영 요청. 페페구 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정."
+  },
+  "readOnly": true,
+  "checkedAt": "2026-11-01T08:56:08.337Z"
+}
