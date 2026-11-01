@@ -1,0 +1,4191 @@
+{
+  "status": "LOCAL_SIMULATION_COMPLETE_NOT_LIVE_PLAYER_WIN_RATE",
+  "battles": 1520,
+  "baselineAt": "2026-11-01T16:48:53.926Z",
+  "planHash": "7dc817bc1f78e77b8d41032b6073c256447251f1b88ac1c11c4875cde71a32c7",
+  "assumptions": {
+    "cards": 5,
+    "cardPowers": [
+      250000,
+      1000000
+    ],
+    "equipment": 0,
+    "pet": null,
+    "magicCards": 0,
+    "mercenaryEquipment": 0,
+    "levels": [
+      16,
+      21
+    ],
+    "counts": [
+      1,
+      2
+    ],
+    "randomSeeds": 8
+  },
+  "limitation": "Fixed controlled decks; skill composition and equipment remain decisive. Level 21 is not a universal clear guarantee.",
+  "summary": [
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "names": [
+        "오메가-X",
+        "련화"
+      ],
+      "cardPower": 250000,
+      "level": 16,
+      "count": 1,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 44828,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 1.5
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 44828,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 1.5
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 43718,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 1.625
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 43658,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 1.625
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 42953,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 1.5
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "names": [
+        "오메가-X",
+        "련화"
+      ],
+      "cardPower": 250000,
+      "level": 16,
+      "count": 2,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 41730,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 2
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 43403,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 2
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 45615,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 2
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 47723,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 2
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 48893,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 2
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "names": [
+        "오메가-X",
+        "련화"
+      ],
+      "cardPower": 250000,
+      "level": 21,
+      "count": 1,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 45195,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 1.625
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 45248,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 1.625
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 43463,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 1.5
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 43658,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 1.625
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 45285,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 1.625
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "names": [
+        "오메가-X",
+        "련화"
+      ],
+      "cardPower": 250000,
+      "level": 21,
+      "count": 2,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 48195,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 2
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 47468,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 2
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 42645,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 2
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 47055,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 2
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 47723,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 2
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "names": [
+        "오메가-X",
+        "련화"
+      ],
+      "cardPower": 1000000,
+      "level": 16,
+      "count": 1,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 11445,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 1.625
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 11573,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 1.625
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 11648,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 1.625
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 12240,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 1.625
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 11640,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 1.25
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "names": [
+        "오메가-X",
+        "련화"
+      ],
+      "cardPower": 1000000,
+      "level": 16,
+      "count": 2,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 13170,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 2.25
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 13358,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 2.375
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 13463,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 2
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 12630,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 2
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 13215,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 2
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "names": [
+        "오메가-X",
+        "련화"
+      ],
+      "cardPower": 1000000,
+      "level": 21,
+      "count": 1,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 12938,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 2
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 11910,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 2
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 11610,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 1.5
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 12390,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 1.75
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 11145,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 1.375
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "names": [
+        "오메가-X",
+        "련화"
+      ],
+      "cardPower": 1000000,
+      "level": 21,
+      "count": 2,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 13133,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 2.875
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 12435,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 2.75
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 12285,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 2
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 12870,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 2
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 12263,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 2
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "names": [
+        "신궁 강윤",
+        "경찰 조은"
+      ],
+      "cardPower": 250000,
+      "level": 16,
+      "count": 1,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 18803,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 18803,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 18803,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 18803,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 18803,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "names": [
+        "신궁 강윤",
+        "경찰 조은"
+      ],
+      "cardPower": 250000,
+      "level": 16,
+      "count": 2,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 17393,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 17393,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 17393,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 17393,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 17393,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "names": [
+        "신궁 강윤",
+        "경찰 조은"
+      ],
+      "cardPower": 250000,
+      "level": 21,
+      "count": 1,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 17775,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 17775,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 17775,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 17775,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 17775,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "names": [
+        "신궁 강윤",
+        "경찰 조은"
+      ],
+      "cardPower": 250000,
+      "level": 21,
+      "count": 2,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 16028,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 16028,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 16028,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 16028,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 16028,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "names": [
+        "신궁 강윤",
+        "경찰 조은"
+      ],
+      "cardPower": 1000000,
+      "level": 16,
+      "count": 1,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 5093,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 5355,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 8550,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 8783,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 8783,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "names": [
+        "신궁 강윤",
+        "경찰 조은"
+      ],
+      "cardPower": 1000000,
+      "level": 16,
+      "count": 2,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 4800,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 4980,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 7155,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 7628,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 7628,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "names": [
+        "신궁 강윤",
+        "경찰 조은"
+      ],
+      "cardPower": 1000000,
+      "level": 21,
+      "count": 1,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 3938,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 4133,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 6255,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 8565,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 8513,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "names": [
+        "신궁 강윤",
+        "경찰 조은"
+      ],
+      "cardPower": 1000000,
+      "level": 21,
+      "count": 2,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 3938,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 4043,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 5580,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 6900,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 7095,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "names": [
+        "발테르",
+        "조은"
+      ],
+      "cardPower": 250000,
+      "level": 16,
+      "count": 1,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 54023,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 16.75
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 51945,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 15.375
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 52958,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 13
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 47355,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 11.375
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 51975,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 10.125
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "names": [
+        "발테르",
+        "조은"
+      ],
+      "cardPower": 250000,
+      "level": 16,
+      "count": 2,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 6188,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 6263,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 6488,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 6780,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 6960,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "names": [
+        "발테르",
+        "조은"
+      ],
+      "cardPower": 250000,
+      "level": 21,
+      "count": 1,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 55823,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 21.625
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 57390,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 20.5
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 54233,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 15.125
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 51458,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 12.875
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 48510,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 11.375
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "names": [
+        "발테르",
+        "조은"
+      ],
+      "cardPower": 250000,
+      "level": 21,
+      "count": 2,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 5850,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 5933,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 6270,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 6450,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 6660,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "names": [
+        "발테르",
+        "조은"
+      ],
+      "cardPower": 1000000,
+      "level": 16,
+      "count": 1,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 6720,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 7125,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 15008,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 25.375
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 14850,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 13
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 13088,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 8.875
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "names": [
+        "발테르",
+        "조은"
+      ],
+      "cardPower": 1000000,
+      "level": 16,
+      "count": 2,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 983,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 1028,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 1365,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 1950,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 2100,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "names": [
+        "발테르",
+        "조은"
+      ],
+      "cardPower": 1000000,
+      "level": 21,
+      "count": 1,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 4950,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 5250,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 7965,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 14438,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 18.25
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 14100,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 10.5
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "names": [
+        "발테르",
+        "조은"
+      ],
+      "cardPower": 1000000,
+      "level": 21,
+      "count": 2,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 855,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 870,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 1133,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 1740,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 2040,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "names": [
+        "헬리오스",
+        "바토리"
+      ],
+      "cardPower": 250000,
+      "level": 16,
+      "count": 1,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 54023,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 16.75
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 51945,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 15.375
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 52958,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 13
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 47355,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 11.375
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 51975,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 10.125
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "names": [
+        "헬리오스",
+        "바토리"
+      ],
+      "cardPower": 250000,
+      "level": 16,
+      "count": 2,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 15893,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 16418,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 6,
+          "averageCombatMs": 34478,
+          "averageGuardianHpPercent": 20,
+          "averageDefeated": 27.625
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 57728,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 22.375
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 55875,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 17.375
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "names": [
+        "헬리오스",
+        "바토리"
+      ],
+      "cardPower": 250000,
+      "level": 21,
+      "count": 1,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 55823,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 21.625
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 57390,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 20.5
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 54233,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 15.125
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 51458,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 12.875
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 48510,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 11.375
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "names": [
+        "헬리오스",
+        "바토리"
+      ],
+      "cardPower": 250000,
+      "level": 21,
+      "count": 2,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 11993,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 12413,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 18653,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 2,
+          "averageCombatMs": 47640,
+          "averageGuardianHpPercent": 60.75,
+          "averageDefeated": 26.75
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 56415,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 21
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "names": [
+        "헬리오스",
+        "바토리"
+      ],
+      "cardPower": 1000000,
+      "level": 16,
+      "count": 1,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 6720,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 7125,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 15008,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 25.375
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 14850,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 13
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 13088,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 8.875
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "names": [
+        "헬리오스",
+        "바토리"
+      ],
+      "cardPower": 1000000,
+      "level": 16,
+      "count": 2,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 1560,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 1575,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 2370,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 4455,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 2,
+          "averageCombatMs": 12743,
+          "averageGuardianHpPercent": 64,
+          "averageDefeated": 26.25
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "names": [
+        "헬리오스",
+        "바토리"
+      ],
+      "cardPower": 1000000,
+      "level": 21,
+      "count": 1,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 4950,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 5250,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 7965,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 14438,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 18.25
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 0,
+          "averageCombatMs": 14100,
+          "averageGuardianHpPercent": 100,
+          "averageDefeated": 10.5
+        }
+      ]
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "names": [
+        "헬리오스",
+        "바토리"
+      ],
+      "cardPower": 1000000,
+      "level": 21,
+      "count": 2,
+      "floors": [
+        {
+          "floor": 120,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 1365,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 121,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 1365,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 130,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 1823,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 140,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 3083,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        },
+        {
+          "floor": 150,
+          "battles": 8,
+          "wins": 8,
+          "averageCombatMs": 5865,
+          "averageGuardianHpPercent": 0,
+          "averageDefeated": 28
+        }
+      ]
+    }
+  ],
+  "coverage": [
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 121,
+      "success": false,
+      "combatMs": 37920
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 122,
+      "success": false,
+      "combatMs": 37920
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 123,
+      "success": false,
+      "combatMs": 37920
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 124,
+      "success": false,
+      "combatMs": 37920
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 125,
+      "success": false,
+      "combatMs": 37920
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 126,
+      "success": false,
+      "combatMs": 41580
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 127,
+      "success": false,
+      "combatMs": 41580
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 128,
+      "success": false,
+      "combatMs": 41580
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 129,
+      "success": false,
+      "combatMs": 41580
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 130,
+      "success": false,
+      "combatMs": 41580
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 131,
+      "success": false,
+      "combatMs": 41580
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 132,
+      "success": false,
+      "combatMs": 41580
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 133,
+      "success": false,
+      "combatMs": 41580
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 134,
+      "success": false,
+      "combatMs": 41580
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 135,
+      "success": false,
+      "combatMs": 41580
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 136,
+      "success": false,
+      "combatMs": 41580
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 137,
+      "success": false,
+      "combatMs": 41580
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 138,
+      "success": false,
+      "combatMs": 38340
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 139,
+      "success": false,
+      "combatMs": 38340
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 140,
+      "success": false,
+      "combatMs": 38340
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 141,
+      "success": false,
+      "combatMs": 38340
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 142,
+      "success": false,
+      "combatMs": 38340
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 143,
+      "success": false,
+      "combatMs": 38340
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 144,
+      "success": false,
+      "combatMs": 38340
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 145,
+      "success": false,
+      "combatMs": 38340
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 146,
+      "success": false,
+      "combatMs": 37920
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 147,
+      "success": false,
+      "combatMs": 37920
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 148,
+      "success": false,
+      "combatMs": 37920
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 149,
+      "success": false,
+      "combatMs": 37920
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 250000,
+      "floor": 150,
+      "success": false,
+      "combatMs": 37920
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 121,
+      "success": false,
+      "combatMs": 13140
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 122,
+      "success": false,
+      "combatMs": 13140
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 123,
+      "success": false,
+      "combatMs": 13140
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 124,
+      "success": false,
+      "combatMs": 12660
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 125,
+      "success": false,
+      "combatMs": 12480
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 126,
+      "success": false,
+      "combatMs": 13080
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 127,
+      "success": false,
+      "combatMs": 12000
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 128,
+      "success": false,
+      "combatMs": 12540
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 129,
+      "success": false,
+      "combatMs": 9900
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 130,
+      "success": false,
+      "combatMs": 12600
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 131,
+      "success": false,
+      "combatMs": 12540
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 132,
+      "success": false,
+      "combatMs": 12540
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 133,
+      "success": false,
+      "combatMs": 12540
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 134,
+      "success": false,
+      "combatMs": 13320
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 135,
+      "success": false,
+      "combatMs": 11820
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 136,
+      "success": false,
+      "combatMs": 11940
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 137,
+      "success": false,
+      "combatMs": 11940
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 138,
+      "success": false,
+      "combatMs": 11940
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 139,
+      "success": false,
+      "combatMs": 15120
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 140,
+      "success": false,
+      "combatMs": 15120
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 141,
+      "success": false,
+      "combatMs": 15120
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 142,
+      "success": false,
+      "combatMs": 14340
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 143,
+      "success": false,
+      "combatMs": 14340
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 144,
+      "success": false,
+      "combatMs": 14340
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 145,
+      "success": false,
+      "combatMs": 15120
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 146,
+      "success": false,
+      "combatMs": 15120
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 147,
+      "success": false,
+      "combatMs": 15060
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 148,
+      "success": false,
+      "combatMs": 15060
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 149,
+      "success": false,
+      "combatMs": 15060
+    },
+    {
+      "codes": [
+        "V-021",
+        "V-009"
+      ],
+      "cardPower": 1000000,
+      "floor": 150,
+      "success": false,
+      "combatMs": 15060
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 121,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 122,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 123,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 124,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 125,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 126,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 127,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 128,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 129,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 130,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 131,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 132,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 133,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 134,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 135,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 136,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 137,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 138,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 139,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 140,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 141,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 142,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 143,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 144,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 145,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 146,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 147,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 148,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 149,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 250000,
+      "floor": 150,
+      "success": true,
+      "combatMs": 16020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 121,
+      "success": true,
+      "combatMs": 4020
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 122,
+      "success": true,
+      "combatMs": 4200
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 123,
+      "success": true,
+      "combatMs": 4260
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 124,
+      "success": true,
+      "combatMs": 4500
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 125,
+      "success": true,
+      "combatMs": 4740
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 126,
+      "success": true,
+      "combatMs": 4860
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 127,
+      "success": true,
+      "combatMs": 4920
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 128,
+      "success": true,
+      "combatMs": 5460
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 129,
+      "success": true,
+      "combatMs": 5400
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 130,
+      "success": true,
+      "combatMs": 5640
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 131,
+      "success": true,
+      "combatMs": 6060
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 132,
+      "success": true,
+      "combatMs": 6180
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 133,
+      "success": true,
+      "combatMs": 6360
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 134,
+      "success": true,
+      "combatMs": 6780
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 135,
+      "success": true,
+      "combatMs": 8280
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 136,
+      "success": true,
+      "combatMs": 8280
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 137,
+      "success": true,
+      "combatMs": 8280
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 138,
+      "success": true,
+      "combatMs": 7500
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 139,
+      "success": true,
+      "combatMs": 7500
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 140,
+      "success": true,
+      "combatMs": 7500
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 141,
+      "success": true,
+      "combatMs": 7500
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 142,
+      "success": true,
+      "combatMs": 7500
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 143,
+      "success": true,
+      "combatMs": 7500
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 144,
+      "success": true,
+      "combatMs": 7500
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 145,
+      "success": true,
+      "combatMs": 7500
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 146,
+      "success": true,
+      "combatMs": 7500
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 147,
+      "success": true,
+      "combatMs": 7500
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 148,
+      "success": true,
+      "combatMs": 7500
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 149,
+      "success": true,
+      "combatMs": 7500
+    },
+    {
+      "codes": [
+        "V-057",
+        "V-042"
+      ],
+      "cardPower": 1000000,
+      "floor": 150,
+      "success": true,
+      "combatMs": 7500
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 121,
+      "success": true,
+      "combatMs": 5700
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 122,
+      "success": true,
+      "combatMs": 6120
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 123,
+      "success": true,
+      "combatMs": 6120
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 124,
+      "success": true,
+      "combatMs": 6120
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 125,
+      "success": true,
+      "combatMs": 6120
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 126,
+      "success": true,
+      "combatMs": 6360
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 127,
+      "success": true,
+      "combatMs": 6180
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 128,
+      "success": true,
+      "combatMs": 6180
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 129,
+      "success": true,
+      "combatMs": 5760
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 130,
+      "success": true,
+      "combatMs": 6180
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 131,
+      "success": true,
+      "combatMs": 6120
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 132,
+      "success": true,
+      "combatMs": 6360
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 133,
+      "success": true,
+      "combatMs": 6360
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 134,
+      "success": true,
+      "combatMs": 6360
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 135,
+      "success": true,
+      "combatMs": 6360
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 136,
+      "success": true,
+      "combatMs": 6360
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 137,
+      "success": true,
+      "combatMs": 6360
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 138,
+      "success": true,
+      "combatMs": 6360
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 139,
+      "success": true,
+      "combatMs": 6360
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 140,
+      "success": true,
+      "combatMs": 6360
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 141,
+      "success": true,
+      "combatMs": 6360
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 142,
+      "success": true,
+      "combatMs": 6360
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 143,
+      "success": true,
+      "combatMs": 6360
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 144,
+      "success": true,
+      "combatMs": 6360
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 145,
+      "success": true,
+      "combatMs": 6360
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 146,
+      "success": true,
+      "combatMs": 6360
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 147,
+      "success": true,
+      "combatMs": 6360
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 148,
+      "success": true,
+      "combatMs": 6360
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 149,
+      "success": true,
+      "combatMs": 6360
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 250000,
+      "floor": 150,
+      "success": true,
+      "combatMs": 6360
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 121,
+      "success": true,
+      "combatMs": 900
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 122,
+      "success": true,
+      "combatMs": 900
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 123,
+      "success": true,
+      "combatMs": 900
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 124,
+      "success": true,
+      "combatMs": 900
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 125,
+      "success": true,
+      "combatMs": 960
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 126,
+      "success": true,
+      "combatMs": 960
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 127,
+      "success": true,
+      "combatMs": 960
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 128,
+      "success": true,
+      "combatMs": 1140
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 129,
+      "success": true,
+      "combatMs": 1140
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 130,
+      "success": true,
+      "combatMs": 1140
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 131,
+      "success": true,
+      "combatMs": 1140
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 132,
+      "success": true,
+      "combatMs": 1200
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 133,
+      "success": true,
+      "combatMs": 1260
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 134,
+      "success": true,
+      "combatMs": 1380
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 135,
+      "success": true,
+      "combatMs": 1380
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 136,
+      "success": true,
+      "combatMs": 1380
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 137,
+      "success": true,
+      "combatMs": 1560
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 138,
+      "success": true,
+      "combatMs": 1560
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 139,
+      "success": true,
+      "combatMs": 1440
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 140,
+      "success": true,
+      "combatMs": 1560
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 141,
+      "success": true,
+      "combatMs": 1860
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 142,
+      "success": true,
+      "combatMs": 1860
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 143,
+      "success": true,
+      "combatMs": 1860
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 144,
+      "success": true,
+      "combatMs": 1860
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 145,
+      "success": true,
+      "combatMs": 1860
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 146,
+      "success": true,
+      "combatMs": 1860
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 147,
+      "success": true,
+      "combatMs": 1860
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 148,
+      "success": true,
+      "combatMs": 1860
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 149,
+      "success": true,
+      "combatMs": 1980
+    },
+    {
+      "codes": [
+        "V-996",
+        "V-952"
+      ],
+      "cardPower": 1000000,
+      "floor": 150,
+      "success": true,
+      "combatMs": 1860
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 121,
+      "success": true,
+      "combatMs": 12780
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 122,
+      "success": true,
+      "combatMs": 12780
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 123,
+      "success": true,
+      "combatMs": 13740
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 124,
+      "success": true,
+      "combatMs": 14160
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 125,
+      "success": true,
+      "combatMs": 14580
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 126,
+      "success": true,
+      "combatMs": 14820
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 127,
+      "success": true,
+      "combatMs": 15780
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 128,
+      "success": true,
+      "combatMs": 16380
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 129,
+      "success": true,
+      "combatMs": 17040
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 130,
+      "success": true,
+      "combatMs": 17580
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 131,
+      "success": true,
+      "combatMs": 17580
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 132,
+      "success": true,
+      "combatMs": 18720
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 133,
+      "success": true,
+      "combatMs": 21420
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 134,
+      "success": true,
+      "combatMs": 21480
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 135,
+      "success": true,
+      "combatMs": 20880
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 136,
+      "success": true,
+      "combatMs": 24660
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 137,
+      "success": true,
+      "combatMs": 22620
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 138,
+      "success": false,
+      "combatMs": 48360
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 139,
+      "success": false,
+      "combatMs": 52020
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 140,
+      "success": false,
+      "combatMs": 42000
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 141,
+      "success": false,
+      "combatMs": 49800
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 142,
+      "success": false,
+      "combatMs": 51600
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 143,
+      "success": false,
+      "combatMs": 53580
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 144,
+      "success": false,
+      "combatMs": 48480
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 145,
+      "success": false,
+      "combatMs": 49800
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 146,
+      "success": false,
+      "combatMs": 58440
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 147,
+      "success": false,
+      "combatMs": 61800
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 148,
+      "success": false,
+      "combatMs": 52560
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 149,
+      "success": false,
+      "combatMs": 46560
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 250000,
+      "floor": 150,
+      "success": false,
+      "combatMs": 52560
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 121,
+      "success": true,
+      "combatMs": 1380
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 122,
+      "success": true,
+      "combatMs": 1500
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 123,
+      "success": true,
+      "combatMs": 1500
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 124,
+      "success": true,
+      "combatMs": 1500
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 125,
+      "success": true,
+      "combatMs": 1560
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 126,
+      "success": true,
+      "combatMs": 1560
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 127,
+      "success": true,
+      "combatMs": 1620
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 128,
+      "success": true,
+      "combatMs": 1620
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 129,
+      "success": true,
+      "combatMs": 1560
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 130,
+      "success": true,
+      "combatMs": 1860
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 131,
+      "success": true,
+      "combatMs": 2040
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 132,
+      "success": true,
+      "combatMs": 2160
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 133,
+      "success": true,
+      "combatMs": 2220
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 134,
+      "success": true,
+      "combatMs": 2100
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 135,
+      "success": true,
+      "combatMs": 2100
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 136,
+      "success": true,
+      "combatMs": 2400
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 137,
+      "success": true,
+      "combatMs": 2400
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 138,
+      "success": true,
+      "combatMs": 2640
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 139,
+      "success": true,
+      "combatMs": 2880
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 140,
+      "success": true,
+      "combatMs": 2940
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 141,
+      "success": true,
+      "combatMs": 3120
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 142,
+      "success": true,
+      "combatMs": 3120
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 143,
+      "success": true,
+      "combatMs": 3660
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 144,
+      "success": true,
+      "combatMs": 3780
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 145,
+      "success": true,
+      "combatMs": 4380
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 146,
+      "success": true,
+      "combatMs": 4140
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 147,
+      "success": true,
+      "combatMs": 4140
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 148,
+      "success": true,
+      "combatMs": 4680
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 149,
+      "success": true,
+      "combatMs": 4620
+    },
+    {
+      "codes": [
+        "V-999",
+        "V-977"
+      ],
+      "cardPower": 1000000,
+      "floor": 150,
+      "success": true,
+      "combatMs": 4980
+    }
+  ]
+}

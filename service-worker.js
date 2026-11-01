@@ -14,6 +14,7 @@ const FRESH_BATTLE_SCRIPTS=new Set(['/js/app.js','/js/battle-v3-live.js','/previ
 const FRESH_ACCOUNT_SCRIPTS=new Set(['/js/martial-law-v1.js','/css/martial-law-v1.css','/shared/martial-law-v1.mjs','/shared/ranked-reform-v1.mjs','/admin/martial-law-admin.js','/js/character-loadout-v2.js','/js/character-loadout-v2-live.js','/js/equipment-thumbnails-v1.js','/js/adventure-lobby-v2107.js','/js/adventure-navigation-standalone.js','/js/soopketmon-v21-exact-shell-adapter.js','/js/player-card-v2052.js','/js/account-rank-v1.mjs','/js/joint-account-transport.mjs','/js/soopketmon-v21-runtime-router.js','/js/clan-v1.js','/js/clan-faction-v1.mjs']);
 for(const path of ['/js/account-sync-client-v1.mjs','/shared/account-sync-v1.mjs','/shared/server-clock-v1.mjs','/js/pvp-request-recovery-v1.mjs','/js/cooperative-battleground-entry.js','/raid/cooperative/live.mjs','/raid/cooperative/battle.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
 FRESH_ACCOUNT_SCRIPTS.add('/js/server-support-v1.mjs');
+FRESH_ACCOUNT_SCRIPTS.add('/js/tower-abyss-ui.js');
 for(const path of ['/js/soop-watch-consent-v1.mjs','/css/soop-watch-consent-v1.css'])FRESH_ACCOUNT_SCRIPTS.add(path);
 for(const path of ['/js/support-package-v1.mjs','/js/support-package-alerts-v1.mjs','/shared/support-package-v1.mjs','/css/support-package-v1.css'])FRESH_ACCOUNT_SCRIPTS.add(path);
 for(const path of ['/js/ultimate-pack-bulk.mjs','/shared/ultimate-pack-bulk-v1.mjs',

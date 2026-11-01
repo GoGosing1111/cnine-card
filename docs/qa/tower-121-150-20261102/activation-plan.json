@@ -1,0 +1,38 @@
+{
+  "status": "PREPARED_NOT_AUTHORIZED_FOR_LIVE",
+  "preparedDateKst": "2026-11-02",
+  "baseCommit": "0c77fe0ba5259f61a78f8bfcd1007483e05d824d",
+  "operationKey": "ops:tower-121-150:20261102:v1",
+  "expectedHash": "214c901e05ab4402408bad5ea8ea1d6ee19e9a5e27aded4981782af8cefafef4",
+  "expectedPlanHash": "7dc817bc1f78e77b8d41032b6073c256447251f1b88ac1c11c4875cde71a32c7",
+  "sourceCommit": null,
+  "dryRun": true,
+  "authorization": null,
+  "dualMercenariesReleased": false,
+  "liveDeploymentPerformed": false,
+  "liveDataWrites": 0,
+  "confirmedRewardScope": "New floors 121-150 only; preserve floors 1-120",
+  "releasePrerequisites": [
+    "Separate live deployment authorization",
+    "Two-mercenary feature explicitly released and verified",
+    "Fresh read-only CMS hash equals expectedHash"
+  ],
+  "scopedTests": [
+    "tests/tower-121-150-20261102.test.mjs",
+    "tests/tower-abyss-settlement-20261022.test.mjs",
+    "tests/tower-abyss-ui-20261021.test.mjs",
+    "tests/tower-clock-auto-next-20261022.test.mjs",
+    "tests/operation-audit-packaging-20261029.test.mjs"
+  ],
+  "runtimeChanges": [
+    "index.html",
+    "js/tower-abyss-ui.js",
+    "onestore/index.html",
+    "packaging/onestore/web-build.json",
+    "service-worker.js"
+  ],
+  "packagingChanges": [
+    "scripts/prepare-production-assets.mjs"
+  ],
+  "deliveryPreflight": "delivery-preflight.json"
+}

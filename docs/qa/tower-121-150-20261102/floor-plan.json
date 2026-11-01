@@ -1,0 +1,235 @@
+{
+  "version": "TOWER_121_150_20261102",
+  "operationKey": "ops:tower-121-150:20261102:v1",
+  "seasonId": 1,
+  "assumptions": {
+    "regularCards": 5,
+    "mercenaries": 2,
+    "level": 21,
+    "breakthroughMask": 15,
+    "sssLimit": 1,
+    "ssLimit": 1
+  },
+  "baseline": {
+    "ordinaryCoin": 60000000000,
+    "bossCoin": 4000000000000
+  },
+  "preservedFloors": 120,
+  "maxFloor": 150,
+  "floors": [
+    {
+      "floor": 121,
+      "monsterId": 64,
+      "boss": 0,
+      "power": 1894337600,
+      "coin": 78000000000
+    },
+    {
+      "floor": 122,
+      "monsterId": 64,
+      "boss": 0,
+      "power": 1993619400,
+      "coin": 80340000000
+    },
+    {
+      "floor": 123,
+      "monsterId": 64,
+      "boss": 0,
+      "power": 2098104600,
+      "coin": 82680000000
+    },
+    {
+      "floor": 124,
+      "monsterId": 64,
+      "boss": 0,
+      "power": 2208065800,
+      "coin": 85020000000
+    },
+    {
+      "floor": 125,
+      "monsterId": 64,
+      "boss": 0,
+      "power": 2323790000,
+      "coin": 87360000000
+    },
+    {
+      "floor": 126,
+      "monsterId": 64,
+      "boss": 0,
+      "power": 2445579300,
+      "coin": 89700000000
+    },
+    {
+      "floor": 127,
+      "monsterId": 64,
+      "boss": 0,
+      "power": 2573751600,
+      "coin": 92040000000
+    },
+    {
+      "floor": 128,
+      "monsterId": 64,
+      "boss": 0,
+      "power": 2708641400,
+      "coin": 94380000000
+    },
+    {
+      "floor": 129,
+      "monsterId": 64,
+      "boss": 0,
+      "power": 2850600600,
+      "coin": 96720000000
+    },
+    {
+      "floor": 130,
+      "monsterId": 67,
+      "boss": 1,
+      "power": 3000000000,
+      "coin": 5200000000000
+    },
+    {
+      "floor": 131,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 3169636500,
+      "coin": 101400000000
+    },
+    {
+      "floor": 132,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 3348865200,
+      "coin": 104442000000
+    },
+    {
+      "floor": 133,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 3538228500,
+      "coin": 107484000000
+    },
+    {
+      "floor": 134,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 3738299500,
+      "coin": 110526000000
+    },
+    {
+      "floor": 135,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 3949683500,
+      "coin": 113568000000
+    },
+    {
+      "floor": 136,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 4173020400,
+      "coin": 116610000000
+    },
+    {
+      "floor": 137,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 4408986000,
+      "coin": 119652000000
+    },
+    {
+      "floor": 138,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 4658294300,
+      "coin": 122694000000
+    },
+    {
+      "floor": 139,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 4921700000,
+      "coin": 125736000000
+    },
+    {
+      "floor": 140,
+      "monsterId": 69,
+      "boss": 1,
+      "power": 5200000000,
+      "coin": 6760000000000
+    },
+    {
+      "floor": 141,
+      "monsterId": 17,
+      "boss": 0,
+      "power": 5493223400,
+      "coin": 131820000000
+    },
+    {
+      "floor": 142,
+      "monsterId": 17,
+      "boss": 0,
+      "power": 5802981400,
+      "coin": 135774600000
+    },
+    {
+      "floor": 143,
+      "monsterId": 17,
+      "boss": 0,
+      "power": 6130206300,
+      "coin": 139729200000
+    },
+    {
+      "floor": 144,
+      "monsterId": 17,
+      "boss": 0,
+      "power": 6475883200,
+      "coin": 143683800000
+    },
+    {
+      "floor": 145,
+      "monsterId": 17,
+      "boss": 0,
+      "power": 6841052600,
+      "coin": 147638400000
+    },
+    {
+      "floor": 146,
+      "monsterId": 17,
+      "boss": 0,
+      "power": 7226813400,
+      "coin": 151593000000
+    },
+    {
+      "floor": 147,
+      "monsterId": 17,
+      "boss": 0,
+      "power": 7634327000,
+      "coin": 155547600000
+    },
+    {
+      "floor": 148,
+      "monsterId": 17,
+      "boss": 0,
+      "power": 8064820000,
+      "coin": 159502200000
+    },
+    {
+      "floor": 149,
+      "monsterId": 17,
+      "boss": 0,
+      "power": 8519588000,
+      "coin": 163456800000
+    },
+    {
+      "floor": 150,
+      "monsterId": 18,
+      "boss": 1,
+      "power": 9000000000,
+      "coin": 8788000000000
+    }
+  ],
+  "totalCoin": 23885097600000,
+  "progressReset": false,
+  "retroactiveGrant": false,
+  "accountWrites": 0
+}

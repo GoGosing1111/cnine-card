@@ -1,6 +1,6 @@
 (function(root){
   'use strict';
-  const VERSION='20261022-clock-auto-next-v1',ART='/assets/ui/tower-abyss-20261021/',MAX_RECORDS=40;
+  const VERSION='20261102-floor-limit-v1',ART='/assets/ui/tower-abyss-20261021/',MAX_RECORDS=40,maxFloorByHost=new WeakMap();
   const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const num=value=>Number.isFinite(Number(value))?Number(value).toLocaleString('ko-KR'):'—';
   const finite=value=>value!==null&&value!==undefined&&value!==''&&Number.isFinite(Number(value))?Number(value):null;
@@ -70,6 +70,7 @@
     return `<section class="abyss-subpage abyss-frame"><div class="abyss-section-title"><div><p class="abyss-eyebrow">THOSE WHO WENT BEYOND</p><h3>한계 너머에 이름을 남긴 이들</h3><p>최고 도달층 기준 · 같은 층은 먼저 도달한 순서</p></div><div class="abyss-personal-rank"><small>나의 현재 순위</small><strong>${data.progress?.rank?num(data.progress.rank)+'위':'—'}</strong></div></div>${rows.length?`<ol class="abyss-ranking">${rows.map((r,i)=>`<li class="${Number(r.user_id)===Number(userId)?'is-me':''}"><span class="abyss-rank-number">${String(i+1).padStart(2,'0')}</span><strong>${esc(r.nickname)}${Number(r.user_id)===Number(userId)?'<small>나</small>':''}</strong><span class="abyss-ranking-track"><i style="width:${Math.min(100,Math.max(1,Number(r.highest_floor)/Math.max(1,Number(data.maxFloor))*100))}%"></i></span><b>${num(r.highest_floor)}<small>층</small></b></li>`).join('')}</ol>`:'<div class="abyss-empty"><h4>아직 이곳에 이름을 남긴 도전자가 없습니다.</h4></div>'}</section>`;
   }
   function render(box,options){
+    maxFloorByHost.set(box,Number(options.data?.maxFloor));
     box.classList.add('tower-abyss');box.innerHTML=shell(options);
     box.querySelector('[data-abyss-body]').innerHTML=({formation,records:recordList,ranking,challenge}[options.tab]||challenge)(options);
   }
@@ -119,7 +120,8 @@
   }
   function guide(box){
     const details=box.querySelector('[data-abyss-guide]');if(details){details.remove();return;}
-    box.querySelector('.abyss-footer').insertAdjacentHTML('beforebegin',`<section class="abyss-guide abyss-frame" data-abyss-guide><h3>봉인문 앞에서</h3><ul><li>저장된 PVE 카드 5장으로 현재 도전층에 진입합니다.</li><li>일반 몬스터와 정예를 쓰러뜨리면 수호자가 등장합니다.</li><li>전투의 남은 시간과 소환 진행도는 실제 전투 기록을 따라 표시됩니다.</li><li>전투 전체 재생과 서버의 완료 시간 확인 후 보상과 다음 층이 확정됩니다. 새로고침해도 같은 전투를 복구합니다.</li><li>자동 다음 층을 켜면 승리·보상 확인 후 3초 뒤 다음 층에 도전합니다. 전투·결과 화면에서 끌 수 있으며 패배·최고층 완료·화면 이탈 시 중단됩니다.</li><li>120층까지 도전하며 기존 진행도와 수령 이력은 유지됩니다. 상향 보상은 새로 완료한 층부터 적용됩니다.</li><li>성장 기록은 이 기기의 계정별 기록이며 다른 기기와 동기화되지 않습니다.</li></ul>${button('guide','안내 닫기','','is-quiet')}</section>`);
+    const max=maxFloorByHost.get(box),limit=Number.isSafeInteger(max)&&max>0?max+'층':'현재 개방된 최고층';
+    box.querySelector('.abyss-footer').insertAdjacentHTML('beforebegin',`<section class="abyss-guide abyss-frame" data-abyss-guide><h3>봉인문 앞에서</h3><ul><li>저장된 PVE 카드 5장으로 현재 도전층에 진입합니다.</li><li>일반 몬스터와 정예를 쓰러뜨리면 수호자가 등장합니다.</li><li>전투의 남은 시간과 소환 진행도는 실제 전투 기록을 따라 표시됩니다.</li><li>전투 전체 재생과 서버의 완료 시간 확인 후 보상과 다음 층이 확정됩니다. 새로고침해도 같은 전투를 복구합니다.</li><li>자동 다음 층을 켜면 승리·보상 확인 후 3초 뒤 다음 층에 도전합니다. 전투·결과 화면에서 끌 수 있으며 패배·최고층 완료·화면 이탈 시 중단됩니다.</li><li>${limit}까지 도전하며 기존 진행도와 수령 이력은 유지됩니다. 상향 보상은 새로 완료한 층부터 적용됩니다.</li><li>성장 기록은 이 기기의 계정별 기록이며 다른 기기와 동기화되지 않습니다.</li></ul>${button('guide','안내 닫기','','is-quiet')}</section>`);
     box.querySelector('[data-abyss-guide]').scrollIntoView({block:'nearest'});
   }
   root.TowerAbyssUI={VERSION,ART,render,state,starting,prepareBattle,updateBattle,result,settling,errorResult,readRecords,remember,summarize,previousFor,clock,combatClock,syncAutoNext,battleAutoControl,guide};

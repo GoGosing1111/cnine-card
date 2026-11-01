@@ -1,0 +1,58 @@
+{
+  "status": "HEADLESS_LOCAL_ONLY",
+  "reports": [
+    {
+      "width": 1440,
+      "floor": 121,
+      "reward": "78,000,000,000",
+      "canvas": 1,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "floor": 150,
+      "reward": "8,788,000,000,000",
+      "canvas": 1,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "audit": {
+        "coin": 8866010000000,
+        "progress": {
+          "current_floor": 151,
+          "highest_floor": 150
+        },
+        "grants": 2
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "floor": 121,
+      "reward": "78,000,000,000",
+      "canvas": 1,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "floor": 150,
+      "reward": "8,788,000,000,000",
+      "canvas": 1,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "audit": {
+        "coin": 8866010000000,
+        "progress": {
+          "current_floor": 151,
+          "highest_floor": 150
+        },
+        "grants": 2
+      },
+      "errors": []
+    }
+  ],
+  "missing": []
+}

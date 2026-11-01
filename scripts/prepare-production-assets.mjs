@@ -25,6 +25,7 @@ const martialAuthoringOnly=new Set(['assets/ui/martial-law-20261018/illustration
 // These isolated DB fixtures have no runtime or preview consumers. Keep their
 // sources for regression tests without spending the last Pages asset slots.
 export const isolatedQaFixtures=new Set(['admin-forge-ticket-fixture','auction-fixture-20260926','funding-gift-fixture','worm-contest-gift-fixture','supporter-pass-fixture','supporter-application-fixture','server-support-fixture','seal-star-fixture','recruitment-gift-fixture','pingdu-thanks-gift-fixture'].map(name=>'tests/helpers/'+name+'.mjs'));
+isolatedQaFixtures.add('tests/fixtures/tower-expansion-20261102.json');
 // scripts/qa-* are Node/Playwright runners, not browser imports. Keep them in Git
 // alongside the other unshipped runners so new game art fits the Pages file cap.
 // One-off scripts/ops tools and receipts also run only from the repository;
@@ -236,9 +237,12 @@ const rankedShopNativeTools=new Set(["scripts/android-direct/build-apk.ps1","scr
 // Draft announcements remain in Git until separately published.
 // Historical trophy implementation notes remain in Git; only runtime art ships.
 export const trophyHistoricalNotesOnly=new Set(["docs/champions-trophy-v2109-20260914.md","docs/trophy-milestones-20261011.md","docs/trophy-milestones-20261011.json","docs/pet-trophy-reward-bonuses-20261014.md"]);
-// These November 1 art studies are local authoring work, not released game assets.
+// These November 1–2 art studies are local authoring work, not released game assets.
 // Keep every original, native Spine file, prompt and preview in Git and on disk.
 const novemberArtStudyOnly=file=>[
+ 'preview/v35-effects-production-20261102/',
+ 'preview/v35-v3-upgrade-20261101/',
+ 'preview/v35-whitecoat-swordsman-20261102/',
  'preview/v35-character-baseline-20261101/',
  'preview/spine-professional-verification-20261101/',
  'assets/ui/project-v/art-references/style-reset-20261101/',
