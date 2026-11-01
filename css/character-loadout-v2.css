@@ -545,8 +545,8 @@
 }
 .clv2-shell[data-active-tab="equipment"] .clv2-item-art[data-enhancement-glow="10"] {
   --rim: #ffe4a2;
-  --rim-soft: #ffba5088;
-  box-shadow: 0 0 11px var(--rim-soft), inset 0 0 14px #ffbf4938;
+  --rim-soft: #ffc554b0;
+  box-shadow: 0 0 11px var(--rim-soft), inset 0 0 0 2px #ffc65ca8, inset 0 0 14px #ffbf4966;
 }
 .clv2-shell[data-active-tab="equipment"] .clv2-enhancement-light {
   position: absolute;
@@ -573,17 +573,35 @@
   padding: 2px;
   animation: clv2-rim-orbit 5s linear infinite;
 }
+/* +10 adds light inward: frame, artwork, hit area and outer halo keep their size. */
+.clv2-shell[data-active-tab="equipment"] [data-enhancement-glow="10"] .clv2-enhancement-light {
+  box-shadow: inset 0 0 0 1px #fff1c9b8, inset 0 0 8px #ffc43ea8, 0 0 7px var(--rim-soft);
+  animation: clv2-rim-crown-breathe 4.4s ease-in-out infinite;
+}
 .clv2-shell[data-active-tab="equipment"] [data-enhancement-glow="10"] .clv2-enhancement-light::before {
-  padding: 3px;
-  background: conic-gradient(from var(--clv2-rim-angle), #fbb34033, #ffcc64 55deg, #fff8de 82deg, transparent 105deg 180deg, #ffcc64 235deg, #fff 262deg, transparent 285deg);
+  padding: 5px;
+  background: conic-gradient(from var(--clv2-rim-angle),
+    #ffad2440 0deg, #ffb52c8c 24deg, #ffd06b 52deg, #fff8dc 72deg,
+    #fff 79deg 83deg, #beeaff 87deg, #ffe3a5 92deg, transparent 110deg 180deg,
+    #ffad2440 180deg, #ffb52c8c 204deg, #ffd06b 232deg, #fff8dc 252deg,
+    #fff 259deg 263deg, #beeaff 267deg, #ffe3a5 272deg, transparent 290deg);
+  opacity: 1;
   animation: clv2-rim-orbit 3.8s linear infinite;
 }
 .clv2-shell[data-active-tab="equipment"] [data-enhancement-glow="10"] .clv2-enhancement-light::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at top left, #fff7d8 0, #ffca68aa 2px, transparent 11px), radial-gradient(ellipse at bottom right, #fff7d8 0, #ffca68aa 2px, transparent 11px);
-  animation: clv2-rim-breathe 2.6s ease-in-out infinite reverse;
+  background:
+    linear-gradient(90deg, transparent, #fffbe8, transparent) left 0 top 5px / 19px 2px no-repeat,
+    linear-gradient(0deg, transparent, #fffbe8, transparent) left 5px top 0 / 2px 19px no-repeat,
+    linear-gradient(90deg, transparent, #fffbe8, transparent) right 0 bottom 5px / 19px 2px no-repeat,
+    linear-gradient(0deg, transparent, #fffbe8, transparent) right 5px bottom 0 / 2px 19px no-repeat,
+    radial-gradient(ellipse at top left, #fffdf0 0, #ffe5a3 2px, #ffca68aa 5px, transparent 11px),
+    radial-gradient(ellipse at bottom right, #fffdf0 0, #ffe5a3 2px, #ffca68aa 5px, transparent 11px),
+    radial-gradient(ellipse at top right, #d3f5ffd9 0, #ffd77b66 2px, transparent 8px),
+    radial-gradient(ellipse at bottom left, #d3f5ffd9 0, #ffd77b66 2px, transparent 8px);
+  animation: clv2-rim-crown-sparkle 3.1s ease-in-out infinite;
 }
 .clv2-shell[data-active-tab="equipment"] .clv2-enhancement-level {
   position: absolute;
@@ -604,10 +622,12 @@
 }
 @keyframes clv2-rim-breathe { 0%, 100% { opacity: .52; } 50% { opacity: 1; } }
 @keyframes clv2-rim-orbit { to { --clv2-rim-angle: 360deg; } }
+@keyframes clv2-rim-crown-breathe { 0%, 100% { opacity: .78; } 50% { opacity: 1; } }
+@keyframes clv2-rim-crown-sparkle { 0%, 100% { opacity: .56; } 35% { opacity: 1; } 68% { opacity: .72; } }
 @media (prefers-reduced-motion: reduce) {
-  .clv2-shell[data-active-tab="equipment"] .clv2-enhancement-light,
-  .clv2-shell[data-active-tab="equipment"] .clv2-enhancement-light::before,
-  .clv2-shell[data-active-tab="equipment"] .clv2-enhancement-light::after { animation: none; opacity: 1; }
+  .clv2-shell[data-active-tab="equipment"] [data-enhancement-glow] .clv2-enhancement-light,
+  .clv2-shell[data-active-tab="equipment"] [data-enhancement-glow] .clv2-enhancement-light::before,
+  .clv2-shell[data-active-tab="equipment"] [data-enhancement-glow] .clv2-enhancement-light::after { animation: none; opacity: 1; }
 }
 .clv2-item-quantity {
   position: absolute;
