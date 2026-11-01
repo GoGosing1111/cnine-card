@@ -1,0 +1,7 @@
+{
+  "tool": "built-in image_gen",
+  "source": "C:/Users/User/.codex/generated_images/01a19660-79fe-7861-8630-c01a2bd2c294/exec-c800dbfa-d6d8-4a5c-9eac-45f6b719af2b.png",
+  "output": "art/ready-v1.png",
+  "prompt": "source/ready-prompt.txt",
+  "sha256": "c40d6432a986d6c2a2c628bff83d9253a77b32e6a814eb281efaf546aba43404"
+}

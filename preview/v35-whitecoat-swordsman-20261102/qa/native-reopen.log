@@ -1,0 +1,17 @@
+Spine Launcher 4.3.08
+Esoteric Software LLC (C) 2013-2026 | http://esotericsoftware.com
+Windows 10 Pro amd64 10.0
+Starting: Spine 4.3.26 Professional
+Spine 4.3.26 Professional
+Licensed to: [redacted]
+Project info: C:\Users\User\Downloads\upload\cnine-card\preview\v35-whitecoat-swordsman-20261102\whitecoat-c3ad326c9e61.spine
+  Spine version: 4.3.26
+  Dopesheet FPS: 60
+  Skeleton: whitecoat
+    Size: <unknown>
+    Bones (7): root, art, head, weapon_grip, blade_tip, foot_rear, foot_front
+    Slots (1): body
+    Events (2): visual_contact, visual_finish
+    Animations (7): attack_basic, dash, death, hit, idle, setup, skill_iai
+Complete.
+

@@ -1,6 +1,6 @@
 {
   "sourceCheckout": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout",
-  "sourceRef": "19ad1ac87be4ea2189a5765fb6e42726e97f7d0e",
+  "sourceRef": "64fae43c6506fff00c12134745d66a0b3cddf3dd",
   "sources": [
     {
       "path": "preview/project-v-v3/source/battle/BattleEngine.js",
@@ -1063,6 +1063,8 @@
     "output/revan-live-20261027/release-checkout/preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/v35-v3-upgrade-20261101/SpineBattleAdapter.mjs",
     "preview/v35-effects-production-20261102/BakedBattleEffects.mjs",
+    "preview/v35-whitecoat-swordsman-20261102/WhitecoatBattleAdapter.mjs",
+    "preview/v35-whitecoat-swordsman-20261102/WhitecoatEffects.mjs",
     "preview/v35-v3-upgrade-20261101/workbench.src.mjs"
   ],
   "productionSourceModified": false

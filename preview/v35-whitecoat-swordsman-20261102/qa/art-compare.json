@@ -1,0 +1,146 @@
+{
+  "method": "Native 4.3 export → official runtime render at 1x vs input PNG, aligned by actual atlas trimming. Premultiplied colour difference handles transparent pixels.",
+  "poses": [
+    {
+      "id": "guard",
+      "crop": {
+        "left": 15,
+        "top": 8,
+        "width": 697,
+        "height": 536
+      },
+      "geometryMatch": true,
+      "meanPremultipliedChannelDifference": 0.8612803146070678,
+      "meanAlphaDifference": 0,
+      "maxChannelDifference": 36.764705882352935,
+      "passed": true
+    },
+    {
+      "id": "windup",
+      "crop": {
+        "left": 50,
+        "top": 3,
+        "width": 700,
+        "height": 588
+      },
+      "geometryMatch": true,
+      "meanPremultipliedChannelDifference": 0.8044029707132726,
+      "meanAlphaDifference": 0,
+      "maxChannelDifference": 42.44705882352942,
+      "passed": true
+    },
+    {
+      "id": "contact",
+      "crop": {
+        "left": 5,
+        "top": 88,
+        "width": 671,
+        "height": 530
+      },
+      "geometryMatch": true,
+      "meanPremultipliedChannelDifference": 1.1066630350760511,
+      "meanAlphaDifference": 0,
+      "maxChannelDifference": 46.02745098039216,
+      "passed": true
+    },
+    {
+      "id": "follow",
+      "crop": {
+        "left": 9,
+        "top": 10,
+        "width": 800,
+        "height": 523
+      },
+      "geometryMatch": true,
+      "meanPremultipliedChannelDifference": 0.7695141247716495,
+      "meanAlphaDifference": 0,
+      "maxChannelDifference": 39.90588235294118,
+      "passed": true
+    },
+    {
+      "id": "iai_ready",
+      "crop": {
+        "left": 27,
+        "top": 97,
+        "width": 602,
+        "height": 510
+      },
+      "geometryMatch": true,
+      "meanPremultipliedChannelDifference": 1.3888446091338162,
+      "meanAlphaDifference": 0,
+      "maxChannelDifference": 44.82745098039214,
+      "passed": true
+    },
+    {
+      "id": "iai_cut",
+      "crop": {
+        "left": 8,
+        "top": 80,
+        "width": 630,
+        "height": 504
+      },
+      "geometryMatch": true,
+      "meanPremultipliedChannelDifference": 1.4234775515172526,
+      "meanAlphaDifference": 0,
+      "maxChannelDifference": 37.83529411764706,
+      "passed": true
+    },
+    {
+      "id": "rise",
+      "crop": {
+        "left": 42,
+        "top": 6,
+        "width": 601,
+        "height": 636
+      },
+      "geometryMatch": true,
+      "meanPremultipliedChannelDifference": 1.0921780555537333,
+      "meanAlphaDifference": 0,
+      "maxChannelDifference": 49.82352941176471,
+      "passed": true
+    },
+    {
+      "id": "step",
+      "crop": {
+        "left": 14,
+        "top": 32,
+        "width": 612,
+        "height": 528
+      },
+      "geometryMatch": true,
+      "meanPremultipliedChannelDifference": 1.055270210598004,
+      "meanAlphaDifference": 0,
+      "maxChannelDifference": 36.062745098039215,
+      "passed": true
+    },
+    {
+      "id": "hit",
+      "crop": {
+        "left": 24,
+        "top": 7,
+        "width": 532,
+        "height": 564
+      },
+      "geometryMatch": true,
+      "meanPremultipliedChannelDifference": 1.2865342852355441,
+      "meanAlphaDifference": 0,
+      "maxChannelDifference": 42.65882352941177,
+      "passed": true
+    },
+    {
+      "id": "defeat",
+      "crop": {
+        "left": 3,
+        "top": 64,
+        "width": 625,
+        "height": 472
+      },
+      "geometryMatch": true,
+      "meanPremultipliedChannelDifference": 1.2328024016859676,
+      "meanAlphaDifference": 0,
+      "maxChannelDifference": 44.59215686274509,
+      "passed": true
+    }
+  ],
+  "passed": true
+}

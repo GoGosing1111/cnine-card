@@ -1,0 +1,196 @@
+[
+  {
+    "id": "ready",
+    "source": "ready-v1.png",
+    "crop": null,
+    "width": 1024,
+    "height": 1536,
+    "alphaBounds": [
+      8,
+      86,
+      1017,
+      1501
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "windup",
+    "source": "windup-fixed-v1.png",
+    "crop": null,
+    "width": 1431,
+    "height": 1099,
+    "alphaBounds": [
+      93,
+      9,
+      1387,
+      1089
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "contact",
+    "source": "basic-sheet-v1.png",
+    "crop": {
+      "left": 615,
+      "top": 0,
+      "width": 639,
+      "height": 605
+    },
+    "width": 639,
+    "height": 605,
+    "alphaBounds": [
+      5,
+      84,
+      635,
+      581
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "follow",
+    "source": "follow-v1.png",
+    "crop": null,
+    "width": 1536,
+    "height": 1024,
+    "alphaBounds": [
+      21,
+      19,
+      1524,
+      1006
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "iai_ready",
+    "source": "skill-sheet-v1.png",
+    "crop": {
+      "left": 0,
+      "top": 0,
+      "width": 620,
+      "height": 585
+    },
+    "width": 620,
+    "height": 585,
+    "alphaBounds": [
+      27,
+      94,
+      597,
+      575
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "iai_cut",
+    "source": "skill-sheet-v1.png",
+    "crop": {
+      "left": 635,
+      "top": 0,
+      "width": 619,
+      "height": 585
+    },
+    "width": 619,
+    "height": 585,
+    "alphaBounds": [
+      9,
+      78,
+      611,
+      558
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "rise",
+    "source": "skill-sheet-v1.png",
+    "crop": {
+      "left": 0,
+      "top": 590,
+      "width": 640,
+      "height": 664
+    },
+    "width": 640,
+    "height": 664,
+    "alphaBounds": [
+      43,
+      6,
+      616,
+      613
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "recover",
+    "source": "skill-sheet-v1.png",
+    "crop": {
+      "left": 645,
+      "top": 620,
+      "width": 609,
+      "height": 634
+    },
+    "width": 609,
+    "height": 634,
+    "alphaBounds": [
+      9,
+      58,
+      595,
+      572
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "step",
+    "source": "utility-sheet-v1.png",
+    "crop": {
+      "left": 0,
+      "top": 0,
+      "width": 670,
+      "height": 605
+    },
+    "width": 670,
+    "height": 605,
+    "alphaBounds": [
+      17,
+      35,
+      664,
+      593
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "hit",
+    "source": "utility-sheet-v1.png",
+    "crop": {
+      "left": 0,
+      "top": 605,
+      "width": 620,
+      "height": 649
+    },
+    "width": 620,
+    "height": 649,
+    "alphaBounds": [
+      28,
+      8,
+      601,
+      617
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "defeat",
+    "source": "utility-sheet-v1.png",
+    "crop": {
+      "left": 630,
+      "top": 680,
+      "width": 624,
+      "height": 574
+    },
+    "width": 624,
+    "height": 574,
+    "alphaBounds": [
+      3,
+      63,
+      613,
+      523
+    ],
+    "boundary": 0
+  }
+]

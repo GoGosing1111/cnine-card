@@ -1,0 +1,49 @@
+{
+  "views": [
+    {
+      "name": "pc",
+      "images": true,
+      "videos": [
+        {
+          "ready": 4,
+          "width": 1440,
+          "height": 796,
+          "paused": true
+        },
+        {
+          "ready": 4,
+          "width": 1440,
+          "height": 796,
+          "paused": true
+        }
+      ],
+      "noHorizontalOverflow": true,
+      "errors": []
+    },
+    {
+      "name": "mobile",
+      "images": true,
+      "videos": [
+        {
+          "ready": 4,
+          "width": 1440,
+          "height": 796,
+          "paused": true
+        },
+        {
+          "ready": 4,
+          "width": 1440,
+          "height": 796,
+          "paused": true
+        }
+      ],
+      "noHorizontalOverflow": true,
+      "errors": []
+    }
+  ],
+  "download": {
+    "status": 200,
+    "hashMatches": true
+  },
+  "desktopInput": false
+}

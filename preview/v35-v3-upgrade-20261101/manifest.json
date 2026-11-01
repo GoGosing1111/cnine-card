@@ -1,10 +1,12 @@
 {
   "scope": "CURRENT_V3_LOCAL_UPGRADE_INTEGRATION",
-  "nativeUnmodified": true,
+  "legacyNativeUnmodified": true,
   "productionDeployment": false,
-  "newDynamicCharacterArtwork": false,
+  "newDynamicCharacterArtwork": true,
   "newBakedEffects": true,
-  "effectsDelivery": "../v35-effects-production-20261102/manifest.json",
+  "effectsDelivery": "../v35-whitecoat-swordsman-20261102/manifest.json",
+  "currentCharacter": "whitecoat",
+  "legacyEffectsDelivery": "../v35-effects-production-20261102/manifest.json",
   "userFinalApproval": false,
   "baselineNormalSpeedRecordings": 5,
   "baselineObservedExtractedFrames": 32,
@@ -24,23 +26,23 @@
     },
     {
       "path": "finalize.mjs",
-      "bytes": 1187,
-      "sha256": "edf675fa2eecfdff4e03f89f3f07aaa1fe9679f0972dd68d76d05f74d15879ca"
+      "bytes": 1295,
+      "sha256": "aae3ede52174d210ae1c4cdd22efa92a9c44bd0ec2491ce7000524e983159d31"
     },
     {
       "path": "index.html",
-      "bytes": 2807,
-      "sha256": "1d1566a48ab631920c2ebd92cee652a3158a55a53022412f5fe62ce29db6cdc3"
+      "bytes": 2993,
+      "sha256": "0ae58168ba2e7daf6f85c18e0d848d64c7853ab2237aa869c07696c2eefe9366"
     },
     {
       "path": "PROJECT.md",
-      "bytes": 8808,
-      "sha256": "b4e2773329d87883874fa88d6bba1434d29ed566036087fbbb3860fa9b31126f"
+      "bytes": 9688,
+      "sha256": "58f85736fab19be35c46351f772d9ceac088ff4fd2478a4bff269791e976300b"
     },
     {
       "path": "qa/build.json",
-      "bytes": 88829,
-      "sha256": "e08e5cfd171a4d9d4216cfd70df54e3d603bdba4269e43d5506b4ac65594e8af"
+      "bytes": 88973,
+      "sha256": "eff8ba8e877cd733e42d7ac7f34f363a429eb761469a45f48fc75a0fda1c07e1"
     },
     {
       "path": "qa/cardgu-after.png",
@@ -218,14 +220,19 @@
       "sha256": "7d804cbda8525c09be7372d236fa1792aad2edcc9d7a1f506b74f6fecbe455a9"
     },
     {
+      "path": "qa/whitecoat-idle.png",
+      "bytes": 1860796,
+      "sha256": "523553aafe401aeb257bd1decc0a1ca5203e815727192488b7fbce6ccea21858"
+    },
+    {
       "path": "record-policy.mjs",
       "bytes": 5069,
       "sha256": "5d135b1513a66c90113f231a064c8ce3b4839dab7a36c825e2e157dd6df3012f"
     },
     {
       "path": "serve.mjs",
-      "bytes": 3928,
-      "sha256": "98a87a04d62b89f794be814b134f879b68f8a5774185e870567e1b6ab1097a2d"
+      "bytes": 3964,
+      "sha256": "ce19758cb7ebbfaac265ff06b0b84d8cdb2131d4c281bcc4de87fa2b15e1102d"
     },
     {
       "path": "SpineBattleAdapter.mjs",
@@ -234,13 +241,13 @@
     },
     {
       "path": "workbench.bundle.js",
-      "bytes": 3264572,
-      "sha256": "6ec6ad3f4ee74b8837d1f418dd27ff180a95b0fa1e79d287711bb677ba93b9e1"
+      "bytes": 3271452,
+      "sha256": "1885ad86bdb1d51c0a4cd1d1c4521b173639cfe2f1e52d64065c4dfd2438e569"
     },
     {
       "path": "workbench.src.mjs",
-      "bytes": 5571,
-      "sha256": "a2c6429a8c0fe34beeeeba9915a23c5afd667e3fdc876172d566705c086c293d"
+      "bytes": 7755,
+      "sha256": "1d9739303ddeff137d362ffe7810567ca48b032beb3822e8ec8335df8f7efad5"
     }
   ]
 }

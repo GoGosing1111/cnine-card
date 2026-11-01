@@ -7,7 +7,7 @@ import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import {createHash} from 'node:crypto';
 const dir=fileURLToPath(new URL('.',import.meta.url)),repo=path.resolve(dir,'../..'),live=path.join(repo,'output/revan-live-20261027/release-checkout');
-const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp','.avif':'image/avif','.svg':'image/svg+xml','.woff2':'font/woff2','.woff':'font/woff','.ttf':'font/ttf','.mp3':'audio/mpeg','.wav':'audio/wav','.ogg':'audio/ogg','.atlas':'text/plain','.webm':'video/webm','.md':'text/plain; charset=utf-8'};
+const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp','.avif':'image/avif','.svg':'image/svg+xml','.woff2':'font/woff2','.woff':'font/woff','.ttf':'font/ttf','.mp3':'audio/mpeg','.wav':'audio/wav','.ogg':'audio/ogg','.atlas':'text/plain','.spine':'application/octet-stream','.webm':'video/webm','.md':'text/plain; charset=utf-8'};
 const served=new Map();
 const run=promisify(execFile);
 const fixture=JSON.parse(await fs.readFile(path.join(live,'tests/fixtures/v3-completion-payload-20260928.json'),'utf8'));

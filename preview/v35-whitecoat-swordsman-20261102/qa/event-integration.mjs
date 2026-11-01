@@ -1,0 +1,17 @@
+import {chromium} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import fs from 'node:fs/promises';import path from 'node:path';import {fileURLToPath} from 'node:url';
+const dir=fileURLToPath(new URL('.',import.meta.url));
+const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',args:['--mute-audio','--enable-unsafe-swiftshader']});
+try{const page=await browser.newPage({viewport:{width:1440,height:950}});await page.goto('http://127.0.0.1:18766/?case=whitecoat');await page.waitForFunction(()=>window.v35Review?.ready);
+const result=await page.evaluate(async()=>{const api=v35Review,e=api.engine,a=api.spine.actor,target=e.enemies.find(x=>e.isAlive(x));const writes=[],sync=e.syncTargetHp;e.syncTargetHp=function(t,v){writes.push({id:t.id,value:v});return sync.call(this,t,v);};
+ const event=(hp,type='TURN')=>({type,actorId:a.id,actorKind:'MERCENARY',targetId:target.id,damage:1000,targetHpAfter:target.serverMaxHp*hp/100,targetMaxHp:target.serverMaxHp,targetShieldAfter:0,targetMaxShield:0});
+ await e.playEvents([event(83)]);const eventRoute={hp:target.hp,writes:writes.splice(0),last:e.lastMercenaryPlayback};
+ await e.playEvents([{...event(75),dodge:true}]);const dodge={hp:target.hp,writes:writes.splice(0)};
+ await e.playEvents([event(74),event(65)]);const serial={hp:target.hp,writes:writes.splice(0),position:{x:a.root.x,y:a.root.y},base:{x:a.baseX,y:a.baseY}};
+ const times=[];for(const speed of ['0.25','2']){document.querySelector('#speed').value=speed;const started=performance.now();await e.playEvents([event(60)]);times.push({speed:Number(speed),ms:performance.now()-started});}
+ document.querySelector('#speed').value='1';writes.length=0;const pending=e.playEvents([event(50)]);await new Promise(r=>setTimeout(r,80));await e.setVisible(false);await pending;const hidden={hp:target.hp,writes:writes.splice(0),x:a.root.x,y:a.root.y,busy:api.spine.busy};await e.setVisible(true);await new Promise(r=>setTimeout(r,150));const resumed={visible:api.spine.rig.visible,time:api.spine.clock.time,attachment:api.spine.rig.skeleton.findSlot('body').appliedPose.attachment.name};
+ const fixture=await(await fetch('/fixture.json?case=sword')).json();await e.resetSession(fixture,document.querySelector('#pvPixiBattle'));await e.setVisible(true);await e.deployCards({instant:true,force:true});const reset={spineDestroyed:api.spine.destroyed,oldActorPresent:e.characters.includes(a),newCodes:e.mercenaries.map(x=>x.cardId),canvasCount:document.querySelectorAll('#pvPixiBattle canvas').length};
+ return {eventRoute,dodge,serial,times,hidden,resumed,reset,errors:api.errors};});
+const checks={eventHp:result.eventRoute.hp===83,oneServerHpSync:result.eventRoute.writes.length===1,dodgeDoesNotAttack:result.dodge.writes.length===0&&result.dodge.hp===83,orderedEvents:result.serial.writes.length===2&&result.serial.hp===65,speedRatio:result.times[0].ms/result.times[1].ms>6,hiddenBeforeContactNoDamage:result.hidden.writes.length===0&&!result.hidden.busy,resumeGuard:result.resumed.attachment==='guard',resetDestroysSpine:result.reset.spineDestroyed&&!result.reset.oldActorPresent&&result.reset.canvasCount===1,noErrors:result.errors.length===0};
+await fs.writeFile(path.join(dir,'event-integration.json'),JSON.stringify({result,checks,fixtureOnly:true},null,2));console.log(JSON.stringify({checks,result},null,2));if(Object.values(checks).some(x=>!x))process.exitCode=1;
+}finally{await browser.close();}

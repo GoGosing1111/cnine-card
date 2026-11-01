@@ -1,0 +1,57 @@
+{
+  "id": "whitecoat-swordsman-v35-resource-v1",
+  "status": "local review; original illustration approved as identity, generated actions not user-approved",
+  "native": {
+    "editor": "4.3.26 Professional",
+    "native": "whitecoat-c3ad326c9e61.spine",
+    "nativeSha256": "a2e45365a8f830266d3b91c1e9c76dc35f0bf93409b69027300954977f7bbf57",
+    "inputSha256": "c3ad326c9e61b585618bc08e8895aa2f35c9b051b90c4b0849961f148e8637fc",
+    "runtimeDir": "runtime-c3ad326c9e61",
+    "atlas": "whitecoat-c3ad326c9e61.atlas",
+    "skeletonJson": "whitecoat.json",
+    "skeletonCount": 1,
+    "save": true,
+    "reopen": true,
+    "export": true,
+    "bones": 7,
+    "slots": 1,
+    "animations": [
+      "attack_basic",
+      "dash",
+      "death",
+      "hit",
+      "idle",
+      "setup",
+      "skill_iai"
+    ],
+    "visualReview": "pending",
+    "userMotionApproval": false,
+    "production": false
+  },
+  "poses": 10,
+  "animations": 7,
+  "mainAttacks": 2,
+  "renderer": "existing V3 Pixi 8.20.0 / GSAP 3.13 / Spine 4.3.13",
+  "dependencies": {
+    "spineRuntime": "../spine-professional-verification-20261101/vendor/spine-pixi-v8-4.3.13.js",
+    "blenderNative": "../v35-effects-production-20261102/native/contact-debris.blend",
+    "blenderRuntime": "../v35-effects-production-20261102/runtime/debris.png",
+    "currentV3Workbench": "../v35-v3-upgrade-20261101/"
+  },
+  "sourceHashes": {
+    "../v35-character-baseline-20261101/baseline-v4.png": "fd8eea2da078ba3f7cfcef7da44946612e950ce2b0d0cd778a4b57976e00aa44",
+    "../v35-character-baseline-20261101/attack-v2/swordsman-7400ac091863.spine": "7acefc8c706857b88bf85a4c24d21af61c726bdee0933511899efc8730611dd0",
+    "../v35-character-baseline-20261101/attack-v1/images/weapon-restored-v2.png": "5e485052a02909c94cc91f4f75072ca42ce59ba1384ce1a5f299f0714f23ae07",
+    "../v35-effects-production-20261102/native/contact-debris.blend": "5e2bf58ad2d0bc57771e0639c80d108e4022b17b80e7dfb52ce920b868879fa3",
+    "../v35-effects-production-20261102/runtime/debris.png": "044417435ba9afdfe6585a5624f4ec2354cde486c047fffe7e7e8d8e9a010981"
+  },
+  "textureMemory": {
+    "spine": 16687216,
+    "ownEffects": 21316928,
+    "sharedBlender": 3516672
+  },
+  "desktopInput": false,
+  "productionDeployment": false,
+  "accountWrites": false,
+  "storageMaintenance": false
+}

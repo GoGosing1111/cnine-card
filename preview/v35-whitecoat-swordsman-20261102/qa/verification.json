@@ -1,0 +1,1307 @@
+{
+  "checks": {
+    "nativeAttachments": true,
+    "normalTwelveOneHit": true,
+    "returnToFormation": true,
+    "pauseAll": true,
+    "offPaused": true,
+    "onPaused": true,
+    "cancelAfter": true,
+    "cancelBefore": true,
+    "hide": true,
+    "death": true,
+    "revive": true,
+    "hit": true,
+    "hitRecovers": true,
+    "oneCanvas": true,
+    "noErrors": true,
+    "enemyTwoOneHit": true,
+    "enemyNoErrors": true,
+    "mobileTwoOneHit": true,
+    "mobileNoErrors": true
+  },
+  "views": [
+    {
+      "file": "attack_basic-off-0200.png",
+      "action": "attack_basic",
+      "enabled": false,
+      "time": 0.2,
+      "nativeTime": 0.2,
+      "fx": {
+        "enabled": false,
+        "active": {
+          "mode": "attack_basic",
+          "time": 0.2,
+          "frames": {
+            "edge-arc": -1
+          },
+          "active": 0,
+          "contact": null,
+          "disposed": false
+        },
+        "completed": 12,
+        "decodedBytes": 24833600
+      },
+      "attachment": "windup"
+    },
+    {
+      "file": "attack_basic-off-0320.png",
+      "action": "attack_basic",
+      "enabled": false,
+      "time": 0.32,
+      "nativeTime": 0.32,
+      "fx": {
+        "enabled": false,
+        "active": {
+          "mode": "attack_basic",
+          "time": 0.32,
+          "frames": {
+            "edge-arc": -1,
+            "contact": -1
+          },
+          "active": 0,
+          "contact": {
+            "x": 1003.1557330672381,
+            "y": 299.3585857624558
+          },
+          "disposed": false
+        },
+        "completed": 12,
+        "decodedBytes": 24833600
+      },
+      "attachment": "contact"
+    },
+    {
+      "file": "attack_basic-off-0370.png",
+      "action": "attack_basic",
+      "enabled": false,
+      "time": 0.37,
+      "nativeTime": 0.37,
+      "fx": {
+        "enabled": false,
+        "active": {
+          "mode": "attack_basic",
+          "time": 0.37,
+          "frames": {
+            "edge-arc": -1,
+            "contact": -1
+          },
+          "active": 0,
+          "contact": {
+            "x": 1003.1557330672381,
+            "y": 299.3585857624558
+          },
+          "disposed": false
+        },
+        "completed": 12,
+        "decodedBytes": 24833600
+      },
+      "attachment": "contact"
+    },
+    {
+      "file": "attack_basic-off-0450.png",
+      "action": "attack_basic",
+      "enabled": false,
+      "time": 0.45,
+      "nativeTime": 0.45,
+      "fx": {
+        "enabled": false,
+        "active": {
+          "mode": "attack_basic",
+          "time": 0.45,
+          "frames": {
+            "edge-arc": -1,
+            "contact": -1
+          },
+          "active": 0,
+          "contact": {
+            "x": 1003.1557330672381,
+            "y": 299.3585857624558
+          },
+          "disposed": false
+        },
+        "completed": 12,
+        "decodedBytes": 24833600
+      },
+      "attachment": "follow"
+    },
+    {
+      "file": "attack_basic-off-0650.png",
+      "action": "attack_basic",
+      "enabled": false,
+      "time": 0.65,
+      "nativeTime": 0.65,
+      "fx": {
+        "enabled": false,
+        "active": {
+          "mode": "attack_basic",
+          "time": 0.65,
+          "frames": {
+            "edge-arc": -1,
+            "contact": -1
+          },
+          "active": 0,
+          "contact": {
+            "x": 1003.1557330672381,
+            "y": 299.3585857624558
+          },
+          "disposed": false
+        },
+        "completed": 12,
+        "decodedBytes": 24833600
+      },
+      "attachment": "guard"
+    },
+    {
+      "file": "attack_basic-off-1050.png",
+      "action": "attack_basic",
+      "enabled": false,
+      "time": 1.05,
+      "nativeTime": 1.05,
+      "fx": {
+        "enabled": false,
+        "active": {
+          "mode": "attack_basic",
+          "time": 1.05,
+          "frames": {
+            "edge-arc": -1,
+            "contact": -1
+          },
+          "active": 0,
+          "contact": {
+            "x": 1003.1557330672381,
+            "y": 299.3585857624558
+          },
+          "disposed": false
+        },
+        "completed": 12,
+        "decodedBytes": 24833600
+      },
+      "attachment": "guard"
+    },
+    {
+      "file": "attack_basic-on-0200.png",
+      "action": "attack_basic",
+      "enabled": true,
+      "time": 0.2,
+      "nativeTime": 0.2,
+      "fx": {
+        "enabled": true,
+        "active": {
+          "mode": "attack_basic",
+          "time": 0.2,
+          "frames": {
+            "edge-arc": -1
+          },
+          "active": 0,
+          "contact": null,
+          "disposed": false
+        },
+        "completed": 13,
+        "decodedBytes": 24833600
+      },
+      "attachment": "windup"
+    },
+    {
+      "file": "attack_basic-on-0320.png",
+      "action": "attack_basic",
+      "enabled": true,
+      "time": 0.32,
+      "nativeTime": 0.32,
+      "fx": {
+        "enabled": true,
+        "active": {
+          "mode": "attack_basic",
+          "time": 0.32,
+          "frames": {
+            "edge-arc": 1,
+            "contact": 0
+          },
+          "active": 2,
+          "contact": {
+            "x": 1003.1557330672381,
+            "y": 299.3585857624558
+          },
+          "disposed": false
+        },
+        "completed": 13,
+        "decodedBytes": 24833600
+      },
+      "attachment": "contact"
+    },
+    {
+      "file": "attack_basic-on-0370.png",
+      "action": "attack_basic",
+      "enabled": true,
+      "time": 0.37,
+      "nativeTime": 0.37,
+      "fx": {
+        "enabled": true,
+        "active": {
+          "mode": "attack_basic",
+          "time": 0.37,
+          "frames": {
+            "edge-arc": 4,
+            "contact": 3
+          },
+          "active": 2,
+          "contact": {
+            "x": 1003.1557330672381,
+            "y": 299.3585857624558
+          },
+          "disposed": false
+        },
+        "completed": 13,
+        "decodedBytes": 24833600
+      },
+      "attachment": "contact"
+    },
+    {
+      "file": "attack_basic-on-0450.png",
+      "action": "attack_basic",
+      "enabled": true,
+      "time": 0.45,
+      "nativeTime": 0.45,
+      "fx": {
+        "enabled": true,
+        "active": {
+          "mode": "attack_basic",
+          "time": 0.45,
+          "frames": {
+            "edge-arc": 9,
+            "contact": 7
+          },
+          "active": 2,
+          "contact": {
+            "x": 1003.1557330672381,
+            "y": 299.3585857624558
+          },
+          "disposed": false
+        },
+        "completed": 13,
+        "decodedBytes": 24833600
+      },
+      "attachment": "follow"
+    },
+    {
+      "file": "attack_basic-on-0650.png",
+      "action": "attack_basic",
+      "enabled": true,
+      "time": 0.65,
+      "nativeTime": 0.65,
+      "fx": {
+        "enabled": true,
+        "active": {
+          "mode": "attack_basic",
+          "time": 0.65,
+          "frames": {
+            "edge-arc": 21,
+            "contact": 19
+          },
+          "active": 2,
+          "contact": {
+            "x": 1003.1557330672381,
+            "y": 299.3585857624558
+          },
+          "disposed": false
+        },
+        "completed": 13,
+        "decodedBytes": 24833600
+      },
+      "attachment": "guard"
+    },
+    {
+      "file": "attack_basic-on-1050.png",
+      "action": "attack_basic",
+      "enabled": true,
+      "time": 1.05,
+      "nativeTime": 1.05,
+      "fx": {
+        "enabled": true,
+        "active": {
+          "mode": "attack_basic",
+          "time": 1.05,
+          "frames": {
+            "edge-arc": -1,
+            "contact": -1
+          },
+          "active": 0,
+          "contact": {
+            "x": 1003.1557330672381,
+            "y": 299.3585857624558
+          },
+          "disposed": false
+        },
+        "completed": 13,
+        "decodedBytes": 24833600
+      },
+      "attachment": "guard"
+    },
+    {
+      "file": "skill_iai-off-0150.png",
+      "action": "skill_iai",
+      "enabled": false,
+      "time": 0.15,
+      "nativeTime": 0.15,
+      "fx": {
+        "enabled": false,
+        "active": {
+          "mode": "skill_iai",
+          "time": 0.15,
+          "frames": {
+            "iai-line": -1
+          },
+          "active": 0,
+          "contact": null,
+          "disposed": false
+        },
+        "completed": 14,
+        "decodedBytes": 24833600
+      },
+      "attachment": "iai_ready"
+    },
+    {
+      "file": "skill_iai-off-0300.png",
+      "action": "skill_iai",
+      "enabled": false,
+      "time": 0.3,
+      "nativeTime": 0.3,
+      "fx": {
+        "enabled": false,
+        "active": {
+          "mode": "skill_iai",
+          "time": 0.3,
+          "frames": {
+            "iai-line": -1,
+            "contact": -1
+          },
+          "active": 0,
+          "contact": {
+            "x": 927.306600453811,
+            "y": 334.87264284990425
+          },
+          "disposed": false
+        },
+        "completed": 14,
+        "decodedBytes": 24833600
+      },
+      "attachment": "iai_ready"
+    },
+    {
+      "file": "skill_iai-off-0360.png",
+      "action": "skill_iai",
+      "enabled": false,
+      "time": 0.36,
+      "nativeTime": 0.36,
+      "fx": {
+        "enabled": false,
+        "active": {
+          "mode": "skill_iai",
+          "time": 0.36,
+          "frames": {
+            "iai-line": -1,
+            "contact": -1
+          },
+          "active": 0,
+          "contact": {
+            "x": 927.306600453811,
+            "y": 334.87264284990425
+          },
+          "disposed": false
+        },
+        "completed": 14,
+        "decodedBytes": 24833600
+      },
+      "attachment": "iai_cut"
+    },
+    {
+      "file": "skill_iai-off-0550.png",
+      "action": "skill_iai",
+      "enabled": false,
+      "time": 0.55,
+      "nativeTime": 0.55,
+      "fx": {
+        "enabled": false,
+        "active": {
+          "mode": "skill_iai",
+          "time": 0.55,
+          "frames": {
+            "iai-line": -1,
+            "contact": -1,
+            "rising-cut": -1,
+            "debris": -1
+          },
+          "active": 0,
+          "contact": {
+            "x": 927.306600453811,
+            "y": 334.87264284990425
+          },
+          "disposed": false
+        },
+        "completed": 14,
+        "decodedBytes": 24833600
+      },
+      "attachment": "rise"
+    },
+    {
+      "file": "skill_iai-off-0620.png",
+      "action": "skill_iai",
+      "enabled": false,
+      "time": 0.62,
+      "nativeTime": 0.62,
+      "fx": {
+        "enabled": false,
+        "active": {
+          "mode": "skill_iai",
+          "time": 0.62,
+          "frames": {
+            "iai-line": -1,
+            "contact": -1,
+            "rising-cut": -1,
+            "debris": -1
+          },
+          "active": 0,
+          "contact": {
+            "x": 927.306600453811,
+            "y": 334.87264284990425
+          },
+          "disposed": false
+        },
+        "completed": 14,
+        "decodedBytes": 24833600
+      },
+      "attachment": "rise"
+    },
+    {
+      "file": "skill_iai-off-0750.png",
+      "action": "skill_iai",
+      "enabled": false,
+      "time": 0.75,
+      "nativeTime": 0.75,
+      "fx": {
+        "enabled": false,
+        "active": {
+          "mode": "skill_iai",
+          "time": 0.75,
+          "frames": {
+            "iai-line": -1,
+            "contact": -1,
+            "rising-cut": -1,
+            "debris": -1
+          },
+          "active": 0,
+          "contact": {
+            "x": 927.306600453811,
+            "y": 334.87264284990425
+          },
+          "disposed": false
+        },
+        "completed": 14,
+        "decodedBytes": 24833600
+      },
+      "attachment": "follow"
+    },
+    {
+      "file": "skill_iai-off-1420.png",
+      "action": "skill_iai",
+      "enabled": false,
+      "time": 1.42,
+      "nativeTime": 1.42,
+      "fx": {
+        "enabled": false,
+        "active": {
+          "mode": "skill_iai",
+          "time": 1.42,
+          "frames": {
+            "iai-line": -1,
+            "contact": -1,
+            "rising-cut": -1,
+            "debris": -1
+          },
+          "active": 0,
+          "contact": {
+            "x": 927.306600453811,
+            "y": 334.87264284990425
+          },
+          "disposed": false
+        },
+        "completed": 14,
+        "decodedBytes": 24833600
+      },
+      "attachment": "guard"
+    },
+    {
+      "file": "skill_iai-on-0150.png",
+      "action": "skill_iai",
+      "enabled": true,
+      "time": 0.15,
+      "nativeTime": 0.15,
+      "fx": {
+        "enabled": true,
+        "active": {
+          "mode": "skill_iai",
+          "time": 0.15,
+          "frames": {
+            "iai-line": -1
+          },
+          "active": 0,
+          "contact": null,
+          "disposed": false
+        },
+        "completed": 15,
+        "decodedBytes": 24833600
+      },
+      "attachment": "iai_ready"
+    },
+    {
+      "file": "skill_iai-on-0300.png",
+      "action": "skill_iai",
+      "enabled": true,
+      "time": 0.3,
+      "nativeTime": 0.3,
+      "fx": {
+        "enabled": true,
+        "active": {
+          "mode": "skill_iai",
+          "time": 0.3,
+          "frames": {
+            "iai-line": 0,
+            "contact": 0
+          },
+          "active": 2,
+          "contact": {
+            "x": 927.306600453811,
+            "y": 334.87264284990425
+          },
+          "disposed": false
+        },
+        "completed": 15,
+        "decodedBytes": 24833600
+      },
+      "attachment": "iai_ready"
+    },
+    {
+      "file": "skill_iai-on-0360.png",
+      "action": "skill_iai",
+      "enabled": true,
+      "time": 0.36,
+      "nativeTime": 0.36,
+      "fx": {
+        "enabled": true,
+        "active": {
+          "mode": "skill_iai",
+          "time": 0.36,
+          "frames": {
+            "iai-line": 3,
+            "contact": 3
+          },
+          "active": 2,
+          "contact": {
+            "x": 927.306600453811,
+            "y": 334.87264284990425
+          },
+          "disposed": false
+        },
+        "completed": 15,
+        "decodedBytes": 24833600
+      },
+      "attachment": "iai_cut"
+    },
+    {
+      "file": "skill_iai-on-0550.png",
+      "action": "skill_iai",
+      "enabled": true,
+      "time": 0.55,
+      "nativeTime": 0.55,
+      "fx": {
+        "enabled": true,
+        "active": {
+          "mode": "skill_iai",
+          "time": 0.55,
+          "frames": {
+            "iai-line": 15,
+            "contact": 15,
+            "rising-cut": 2,
+            "debris": 0
+          },
+          "active": 4,
+          "contact": {
+            "x": 927.306600453811,
+            "y": 334.87264284990425
+          },
+          "disposed": false
+        },
+        "completed": 15,
+        "decodedBytes": 24833600
+      },
+      "attachment": "rise"
+    },
+    {
+      "file": "skill_iai-on-0620.png",
+      "action": "skill_iai",
+      "enabled": true,
+      "time": 0.62,
+      "nativeTime": 0.62,
+      "fx": {
+        "enabled": true,
+        "active": {
+          "mode": "skill_iai",
+          "time": 0.62,
+          "frames": {
+            "iai-line": 19,
+            "contact": 19,
+            "rising-cut": 6,
+            "debris": 3
+          },
+          "active": 4,
+          "contact": {
+            "x": 927.306600453811,
+            "y": 334.87264284990425
+          },
+          "disposed": false
+        },
+        "completed": 15,
+        "decodedBytes": 24833600
+      },
+      "attachment": "rise"
+    },
+    {
+      "file": "skill_iai-on-0750.png",
+      "action": "skill_iai",
+      "enabled": true,
+      "time": 0.75,
+      "nativeTime": 0.75,
+      "fx": {
+        "enabled": true,
+        "active": {
+          "mode": "skill_iai",
+          "time": 0.75,
+          "frames": {
+            "iai-line": -1,
+            "contact": 27,
+            "rising-cut": 14,
+            "debris": 8
+          },
+          "active": 3,
+          "contact": {
+            "x": 927.306600453811,
+            "y": 334.87264284990425
+          },
+          "disposed": false
+        },
+        "completed": 15,
+        "decodedBytes": 24833600
+      },
+      "attachment": "follow"
+    },
+    {
+      "file": "skill_iai-on-1420.png",
+      "action": "skill_iai",
+      "enabled": true,
+      "time": 1.42,
+      "nativeTime": 1.42,
+      "fx": {
+        "enabled": true,
+        "active": {
+          "mode": "skill_iai",
+          "time": 1.42,
+          "frames": {
+            "iai-line": -1,
+            "contact": -1,
+            "rising-cut": -1,
+            "debris": -1
+          },
+          "active": 0,
+          "contact": {
+            "x": 927.306600453811,
+            "y": 334.87264284990425
+          },
+          "disposed": false
+        },
+        "completed": 15,
+        "decodedBytes": 24833600
+      },
+      "attachment": "guard"
+    }
+  ],
+  "fixtureOnly": true,
+  "realDevice": false,
+  "continuousVideoWatched": false,
+  "nativePoses": {
+    "guard": {
+      "width": 697,
+      "height": 536,
+      "attachment": "guard"
+    },
+    "windup": {
+      "width": 700,
+      "height": 588,
+      "attachment": "windup"
+    },
+    "contact": {
+      "width": 671,
+      "height": 530,
+      "attachment": "contact"
+    },
+    "follow": {
+      "width": 800,
+      "height": 523,
+      "attachment": "follow"
+    },
+    "iai_ready": {
+      "width": 602,
+      "height": 510,
+      "attachment": "iai_ready"
+    },
+    "iai_cut": {
+      "width": 630,
+      "height": 504,
+      "attachment": "iai_cut"
+    },
+    "rise": {
+      "width": 601,
+      "height": 636,
+      "attachment": "rise"
+    },
+    "step": {
+      "width": 612,
+      "height": 528,
+      "attachment": "step"
+    },
+    "hit": {
+      "width": 532,
+      "height": 564,
+      "attachment": "hit"
+    },
+    "defeat": {
+      "width": 625,
+      "height": 472,
+      "attachment": "defeat"
+    }
+  },
+  "normal": {
+    "audit": {
+      "kind": "whitecoat",
+      "canvasCount": 1,
+      "pixi": "8.20.0",
+      "engineType": "wu",
+      "spine": {
+        "autoUpdate": false,
+        "busy": false,
+        "time": 0
+      },
+      "actors": [
+        {
+          "id": "QA:A:V-996",
+          "code": "V-996",
+          "name": "발테르",
+          "team": "ALLY",
+          "base": {
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          },
+          "root": {
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          },
+          "facing": 1,
+          "bodyHeight": 312.3894230769231,
+          "footAnchor": {
+            "x": 0.5177556818181818,
+            "y": 0.9056490384615384
+          },
+          "hp": 100,
+          "adapter": "Object"
+        },
+        {
+          "id": "QA:WHITECOAT",
+          "code": "QA-V35-WHITECOAT",
+          "name": "흰 코트 검사",
+          "team": "ALLY",
+          "base": {
+            "x": 170,
+            "y": 592,
+            "scale": 0.5
+          },
+          "root": {
+            "x": 170,
+            "y": 592,
+            "scale": 0.5
+          },
+          "facing": 1,
+          "bodyHeight": 300,
+          "footAnchor": {
+            "x": 0.517120894479385,
+            "y": 0.9845313921747043
+          },
+          "hp": 100,
+          "adapter": "xv"
+        }
+      ],
+      "states": {
+        "limitedStates": 1,
+        "jokroStates": 0,
+        "cardguStates": 0
+      },
+      "errors": [],
+      "timelines": 1,
+      "impacts": [
+        {
+          "actor": "QA:WHITECOAT",
+          "target": "B:0:MONSTER:68",
+          "at": 2985.7000000029802
+        },
+        {
+          "actor": "QA:WHITECOAT",
+          "target": "B:0:MONSTER:68",
+          "at": 3993.7000000029802
+        },
+        {
+          "actor": "QA:WHITECOAT",
+          "target": "B:0:MONSTER:68",
+          "at": 5314.29999999702
+        },
+        {
+          "actor": "QA:WHITECOAT",
+          "target": "B:0:MONSTER:68",
+          "at": 6305.9000000059605
+        },
+        {
+          "actor": "QA:WHITECOAT",
+          "target": "B:0:MONSTER:68",
+          "at": 7635.20000000298
+        },
+        {
+          "actor": "QA:WHITECOAT",
+          "target": "B:0:MONSTER:68",
+          "at": 8627.09999999404
+        },
+        {
+          "actor": "QA:WHITECOAT",
+          "target": "B:0:MONSTER:68",
+          "at": 10293.79999999702
+        },
+        {
+          "actor": "QA:WHITECOAT",
+          "target": "B:0:MONSTER:68",
+          "at": 11298.09999999404
+        },
+        {
+          "actor": "QA:WHITECOAT",
+          "target": "B:0:MONSTER:68",
+          "at": 12618.70000000298
+        },
+        {
+          "actor": "QA:WHITECOAT",
+          "target": "B:0:MONSTER:68",
+          "at": 13628.79999999702
+        },
+        {
+          "actor": "QA:WHITECOAT",
+          "target": "B:0:MONSTER:68",
+          "at": 14943.5
+        },
+        {
+          "actor": "QA:WHITECOAT",
+          "target": "B:0:MONSTER:68",
+          "at": 15947.59999999404
+        }
+      ],
+      "last": {
+        "code": "QA-V35-WHITECOAT",
+        "mode": "skill_iai",
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "spineAutoUpdate": false,
+        "damageApplications": 1,
+        "contactSeconds": 0.3,
+        "durationSeconds": 1.55,
+        "wholePoseAttachments": true
+      }
+    },
+    "playback": [
+      {
+        "actor": "QA:WHITECOAT",
+        "ok": true,
+        "elapsedMs": 909.5999999940395,
+        "last": {
+          "code": "QA-V35-WHITECOAT",
+          "mode": "attack_basic",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "spineAutoUpdate": false,
+          "damageApplications": 1,
+          "contactSeconds": 0.32,
+          "durationSeconds": 1.18,
+          "wholePoseAttachments": true
+        }
+      },
+      {
+        "actor": "QA:WHITECOAT",
+        "ok": true,
+        "elapsedMs": 1192.8999999910593,
+        "last": {
+          "code": "QA-V35-WHITECOAT",
+          "mode": "skill_iai",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "spineAutoUpdate": false,
+          "damageApplications": 1,
+          "contactSeconds": 0.3,
+          "durationSeconds": 1.55,
+          "wholePoseAttachments": true
+        }
+      },
+      {
+        "actor": "QA:WHITECOAT",
+        "ok": true,
+        "elapsedMs": 905,
+        "last": {
+          "code": "QA-V35-WHITECOAT",
+          "mode": "attack_basic",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "spineAutoUpdate": false,
+          "damageApplications": 1,
+          "contactSeconds": 0.32,
+          "durationSeconds": 1.18,
+          "wholePoseAttachments": true
+        }
+      },
+      {
+        "actor": "QA:WHITECOAT",
+        "ok": true,
+        "elapsedMs": 1193.6000000089407,
+        "last": {
+          "code": "QA-V35-WHITECOAT",
+          "mode": "skill_iai",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "spineAutoUpdate": false,
+          "damageApplications": 1,
+          "contactSeconds": 0.3,
+          "durationSeconds": 1.55,
+          "wholePoseAttachments": true
+        }
+      },
+      {
+        "actor": "QA:WHITECOAT",
+        "ok": true,
+        "elapsedMs": 908,
+        "last": {
+          "code": "QA-V35-WHITECOAT",
+          "mode": "attack_basic",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "spineAutoUpdate": false,
+          "damageApplications": 1,
+          "contactSeconds": 0.32,
+          "durationSeconds": 1.18,
+          "wholePoseAttachments": true
+        }
+      },
+      {
+        "actor": "QA:WHITECOAT",
+        "ok": true,
+        "elapsedMs": 1193.7999999970198,
+        "last": {
+          "code": "QA-V35-WHITECOAT",
+          "mode": "skill_iai",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "spineAutoUpdate": false,
+          "damageApplications": 1,
+          "contactSeconds": 0.3,
+          "durationSeconds": 1.55,
+          "wholePoseAttachments": true
+        }
+      },
+      {
+        "actor": "QA:WHITECOAT",
+        "ok": true,
+        "elapsedMs": 908.9000000059605,
+        "last": {
+          "code": "QA-V35-WHITECOAT",
+          "mode": "attack_basic",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "spineAutoUpdate": false,
+          "damageApplications": 1,
+          "contactSeconds": 0.32,
+          "durationSeconds": 1.18,
+          "wholePoseAttachments": true
+        }
+      },
+      {
+        "actor": "QA:WHITECOAT",
+        "ok": true,
+        "elapsedMs": 1193.800000011921,
+        "last": {
+          "code": "QA-V35-WHITECOAT",
+          "mode": "skill_iai",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "spineAutoUpdate": false,
+          "damageApplications": 1,
+          "contactSeconds": 0.3,
+          "durationSeconds": 1.55,
+          "wholePoseAttachments": true
+        }
+      },
+      {
+        "actor": "QA:WHITECOAT",
+        "ok": true,
+        "elapsedMs": 906.5999999940395,
+        "last": {
+          "code": "QA-V35-WHITECOAT",
+          "mode": "attack_basic",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "spineAutoUpdate": false,
+          "damageApplications": 1,
+          "contactSeconds": 0.32,
+          "durationSeconds": 1.18,
+          "wholePoseAttachments": true
+        }
+      },
+      {
+        "actor": "QA:WHITECOAT",
+        "ok": true,
+        "elapsedMs": 1194.7999999970198,
+        "last": {
+          "code": "QA-V35-WHITECOAT",
+          "mode": "skill_iai",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "spineAutoUpdate": false,
+          "damageApplications": 1,
+          "contactSeconds": 0.3,
+          "durationSeconds": 1.55,
+          "wholePoseAttachments": true
+        }
+      },
+      {
+        "actor": "QA:WHITECOAT",
+        "ok": true,
+        "elapsedMs": 907.0999999940395,
+        "last": {
+          "code": "QA-V35-WHITECOAT",
+          "mode": "attack_basic",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "spineAutoUpdate": false,
+          "damageApplications": 1,
+          "contactSeconds": 0.32,
+          "durationSeconds": 1.18,
+          "wholePoseAttachments": true
+        }
+      },
+      {
+        "actor": "QA:WHITECOAT",
+        "ok": true,
+        "elapsedMs": 1193.7999999970198,
+        "last": {
+          "code": "QA-V35-WHITECOAT",
+          "mode": "skill_iai",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "spineAutoUpdate": false,
+          "damageApplications": 1,
+          "contactSeconds": 0.3,
+          "durationSeconds": 1.55,
+          "wholePoseAttachments": true
+        }
+      }
+    ]
+  },
+  "control": {
+    "checks": {
+      "pauseAll": true,
+      "offPaused": true,
+      "onPaused": true,
+      "cancelAfter": true,
+      "cancelBefore": true,
+      "hide": true,
+      "death": true,
+      "revive": true,
+      "hit": true,
+      "hitRecovers": true,
+      "oneCanvas": true,
+      "noErrors": true
+    },
+    "errors": []
+  },
+  "enemy": {
+    "audit": {
+      "kind": "whitecoat-enemy",
+      "canvasCount": 1,
+      "pixi": "8.20.0",
+      "engineType": "wu",
+      "spine": {
+        "autoUpdate": false,
+        "busy": false,
+        "time": 0
+      },
+      "actors": [
+        {
+          "id": "QA:A:V-996",
+          "code": "V-996",
+          "name": "발테르",
+          "team": "ALLY",
+          "base": {
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          },
+          "root": {
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          },
+          "facing": 1,
+          "bodyHeight": 312.3894230769231,
+          "footAnchor": {
+            "x": 0.5177556818181818,
+            "y": 0.9056490384615384
+          },
+          "hp": 100,
+          "adapter": "Object"
+        },
+        {
+          "id": "QA:WHITECOAT",
+          "code": "QA-V35-WHITECOAT",
+          "name": "흰 코트 검사",
+          "team": "ENEMY",
+          "base": {
+            "x": 1220,
+            "y": 240,
+            "scale": 0.5
+          },
+          "root": {
+            "x": 1220,
+            "y": 240,
+            "scale": 0.5
+          },
+          "facing": -1,
+          "bodyHeight": 300,
+          "footAnchor": {
+            "x": 0.517120894479385,
+            "y": 0.9845313921747043
+          },
+          "hp": 100,
+          "adapter": "xv"
+        }
+      ],
+      "states": {
+        "limitedStates": 1,
+        "jokroStates": 0,
+        "cardguStates": 0
+      },
+      "errors": [],
+      "timelines": 1,
+      "impacts": [
+        {
+          "actor": "QA:WHITECOAT",
+          "target": "A:0:CN-02D9DC1E8A8A4209",
+          "at": 2507.5999999940395
+        },
+        {
+          "actor": "QA:WHITECOAT",
+          "target": "A:0:CN-02D9DC1E8A8A4209",
+          "at": 3398.3999999910593
+        }
+      ],
+      "last": {
+        "code": "QA-V35-WHITECOAT",
+        "mode": "skill_iai",
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "spineAutoUpdate": false,
+        "damageApplications": 1,
+        "contactSeconds": 0.3,
+        "durationSeconds": 1.55,
+        "wholePoseAttachments": true
+      }
+    }
+  },
+  "mobile": {
+    "audit": {
+      "kind": "whitecoat",
+      "canvasCount": 1,
+      "pixi": "8.20.0",
+      "engineType": "wu",
+      "spine": {
+        "autoUpdate": false,
+        "busy": false,
+        "time": 0
+      },
+      "actors": [
+        {
+          "id": "QA:A:V-996",
+          "code": "V-996",
+          "name": "발테르",
+          "team": "ALLY",
+          "base": {
+            "x": 644.4982206405693,
+            "y": 783.0604982206405,
+            "scale": 0.65
+          },
+          "root": {
+            "x": 644.4982206405693,
+            "y": 783.0604982206405,
+            "scale": 0.65
+          },
+          "facing": 1,
+          "bodyHeight": 312.3894230769231,
+          "footAnchor": {
+            "x": 0.5177556818181818,
+            "y": 0.9056490384615384
+          },
+          "hp": 100,
+          "adapter": "Object"
+        },
+        {
+          "id": "QA:WHITECOAT",
+          "code": "QA-V35-WHITECOAT",
+          "name": "흰 코트 검사",
+          "team": "ALLY",
+          "base": {
+            "x": 644.4982206405693,
+            "y": 1683.0604982206405,
+            "scale": 0.65
+          },
+          "root": {
+            "x": 644.4982206405693,
+            "y": 1683.0604982206405,
+            "scale": 0.65
+          },
+          "facing": 1,
+          "bodyHeight": 300,
+          "footAnchor": {
+            "x": 0.517120894479385,
+            "y": 0.9845313921747043
+          },
+          "hp": 100,
+          "adapter": "xv"
+        }
+      ],
+      "states": {
+        "limitedStates": 1,
+        "jokroStates": 0,
+        "cardguStates": 0
+      },
+      "errors": [],
+      "timelines": 1,
+      "impacts": [
+        {
+          "actor": "QA:WHITECOAT",
+          "target": "B:0:MONSTER:68",
+          "at": 1941.2000000029802
+        },
+        {
+          "actor": "QA:WHITECOAT",
+          "target": "B:0:MONSTER:68",
+          "at": 2836.2999999970198
+        }
+      ],
+      "last": {
+        "code": "QA-V35-WHITECOAT",
+        "mode": "skill_iai",
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "spineAutoUpdate": false,
+        "damageApplications": 1,
+        "contactSeconds": 0.3,
+        "durationSeconds": 1.55,
+        "wholePoseAttachments": true
+      }
+    }
+  }
+}

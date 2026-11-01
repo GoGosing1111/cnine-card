@@ -1,0 +1,91 @@
+{
+  "mode": "built-in image_gen tool, reference edits with transparent_background:true",
+  "reference": "source/approved-illustration.png",
+  "referenceSha256": "2e0c6fbf95ba10dcafbddd1435c88f16590e9594206ad3f5053665b9aac627a1",
+  "generatedDirectory": "C:/Users/User/.codex/generated_images/01a19660-79fe-7861-8630-c01a2bd2c294",
+  "images": [
+    {
+      "file": "art/ready-v1.png",
+      "prompt": "source/ready-prompt.txt",
+      "generated": "exec-c800dbfa-d6d8-4a5c-9eac-45f6b719af2b.png",
+      "sha256": "c40d6432a986d6c2a2c628bff83d9253a77b32e6a814eb281efaf546aba43404",
+      "width": 1024,
+      "height": 1536,
+      "note": "Preserved early guard, not selected for combat scale"
+    },
+    {
+      "file": "art/basic-sheet-v1.png",
+      "prompt": "source/basic-prompt.txt",
+      "generated": "exec-c54f0469-3251-4afe-9116-d533d1b2bfe7.png",
+      "sha256": "45b9efaa3664e0b82f232d64009f176b49f8e4123b2ca216f791cbc1f2c17fa0",
+      "width": 1254,
+      "height": 1254,
+      "note": "Only intact top-right contact selected; crossing lower blade rejected"
+    },
+    {
+      "file": "art/skill-sheet-v1.png",
+      "prompt": "source/skill-prompt.txt",
+      "generated": "exec-5323c006-0200-4d75-8ffc-c512799dad3b.png",
+      "sha256": "61aaae397384a8ac8a0521a06f37c6bd1eaae1f4443bcd7754b9332a595be09c",
+      "width": 1254,
+      "height": 1254,
+      "note": "Three intact iai/rise poses selected; recovery unused"
+    },
+    {
+      "file": "art/windup-v1.png",
+      "prompt": "source/windup-prompt.txt",
+      "generated": "exec-8349c05f-61ef-4248-8058-14e166a61297.png",
+      "sha256": "ceef6055b5d215613884da9a70391fda2f2fd91bc42d465a6c8365377cf0ad5b",
+      "width": 1431,
+      "height": 1099,
+      "note": "Preserved, erroneous extra hilt corrected in next image"
+    },
+    {
+      "file": "art/follow-v1.png",
+      "prompt": "source/follow-prompt.txt",
+      "generated": "exec-38109975-be76-4fb5-9453-5516245116f9.png",
+      "sha256": "6cff78c84a78e26918d9e9dc2f55707805b5d834b22db2915c7bb1cf2b3a8e81",
+      "width": 1536,
+      "height": 1024,
+      "note": "Selected complete follow-through"
+    },
+    {
+      "file": "art/utility-sheet-v1.png",
+      "prompt": "source/utility-prompt.txt",
+      "generated": "exec-468f4142-585c-4da3-94b0-4e21807bf122.png",
+      "sha256": "64b39715ac7a0a2ff4b68c2911ff2175857a056fe0339d093251426636d17851",
+      "width": 1254,
+      "height": 1254,
+      "note": "Step, hit and kneeling defeat selected; duplicated step omitted"
+    },
+    {
+      "file": "art/windup-fixed-v1.png",
+      "prompt": "source/windup_fixed-prompt.txt",
+      "generated": "exec-d3d24960-1bf8-45fd-b103-74c654db9631.png",
+      "sha256": "21516ac11106c1ad7555d70e5621e8825c17f1f843bbc6d463e820889febb57d",
+      "width": 1431,
+      "height": 1099,
+      "note": "Selected; left hand holds empty sheath, one raised blade"
+    },
+    {
+      "file": "art/guard-v1.png",
+      "prompt": "source/guard-prompt.txt",
+      "generated": "exec-b6d6f01e-9abe-4906-9d4e-da135f025c2c.png",
+      "sha256": "dfe064286318f3c56619358ee0fe54fb7649e94c2615c4849004fc670e9174c8",
+      "width": 1431,
+      "height": 1099,
+      "note": "Selected combat guard; matched anatomy/ground plane"
+    },
+    {
+      "file": "art/step-b-v1.png",
+      "prompt": "source/step_b-prompt.txt",
+      "generated": "exec-bfafc481-5f18-423a-a1f0-0c847f84c0e3.png",
+      "sha256": "4e65f2536cc541efdffe9a7cbd47a2ebd0d1e8c61a48614a7496c938e12398af",
+      "width": 1320,
+      "height": 1191,
+      "note": "Preserved unused; insufficiently different stride, not a run loop"
+    }
+  ],
+  "processing": "Only technical rectangle crop, proportional scale, atlas packing and QA compositing; no custom alpha removal or painted edits.",
+  "generatedPoseApproval": "pending"
+}

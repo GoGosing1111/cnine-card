@@ -1,0 +1,145 @@
+{
+  "mode": "authored whole-pose replacement attachments; no limb mesh/IK claimed",
+  "damageAuthority": "existing V3 one impact callback only; Spine events are visual markers",
+  "actions": {
+    "setup": {
+      "duration": 0.1,
+      "keys": [
+        [
+          0,
+          "guard"
+        ]
+      ]
+    },
+    "idle": {
+      "duration": 3,
+      "loop": true,
+      "keys": [
+        [
+          0,
+          "guard"
+        ]
+      ]
+    },
+    "dash": {
+      "duration": 0.3,
+      "keys": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.04,
+          "step"
+        ],
+        [
+          0.24,
+          "guard"
+        ]
+      ]
+    },
+    "attack_basic": {
+      "duration": 1.18,
+      "contact": 0.32,
+      "keys": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.035,
+          "step"
+        ],
+        [
+          0.17,
+          "windup"
+        ],
+        [
+          0.32,
+          "contact"
+        ],
+        [
+          0.4,
+          "follow"
+        ],
+        [
+          0.63,
+          "guard"
+        ],
+        [
+          0.79,
+          "step"
+        ],
+        [
+          1.04,
+          "guard"
+        ]
+      ]
+    },
+    "skill_iai": {
+      "duration": 1.55,
+      "contact": 0.3,
+      "secondaryVisual": 0.54,
+      "keys": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.08,
+          "iai_ready"
+        ],
+        [
+          0.3,
+          "iai_cut"
+        ],
+        [
+          0.51,
+          "rise"
+        ],
+        [
+          0.7,
+          "follow"
+        ],
+        [
+          0.94,
+          "guard"
+        ],
+        [
+          1.16,
+          "step"
+        ],
+        [
+          1.41,
+          "guard"
+        ]
+      ]
+    },
+    "hit": {
+      "duration": 0.38,
+      "keys": [
+        [
+          0,
+          "hit"
+        ],
+        [
+          0.23,
+          "guard"
+        ]
+      ]
+    },
+    "death": {
+      "duration": 0.65,
+      "keys": [
+        [
+          0,
+          "hit"
+        ],
+        [
+          0.13,
+          "defeat"
+        ]
+      ]
+    }
+  }
+}

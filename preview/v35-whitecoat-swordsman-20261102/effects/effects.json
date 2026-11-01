@@ -1,0 +1,60 @@
+{
+  "tool": "Effekseer",
+  "version": "1.70e",
+  "seed": 3502,
+  "fps": 60,
+  "effects": [
+    {
+      "id": "edge-arc",
+      "frames": 26,
+      "units": 12,
+      "width": 512,
+      "height": 512,
+      "pivot": [
+        256,
+        256
+      ],
+      "blend": "add",
+      "source": "native/edge-arc.efkefc"
+    },
+    {
+      "id": "iai-line",
+      "frames": 28,
+      "units": 12,
+      "width": 512,
+      "height": 512,
+      "pivot": [
+        256,
+        256
+      ],
+      "blend": "add",
+      "source": "native/iai-line.efkefc"
+    },
+    {
+      "id": "rising-cut",
+      "frames": 36,
+      "units": 12,
+      "width": 512,
+      "height": 512,
+      "pivot": [
+        256,
+        256
+      ],
+      "blend": "add",
+      "source": "native/rising-cut.efkefc"
+    },
+    {
+      "id": "contact",
+      "frames": 36,
+      "units": 12,
+      "width": 512,
+      "height": 512,
+      "pivot": [
+        256,
+        256
+      ],
+      "blend": "add",
+      "source": "native/contact.efkefc"
+    }
+  ]
+}

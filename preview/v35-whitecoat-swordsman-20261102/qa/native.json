@@ -1,0 +1,27 @@
+{
+  "editor": "4.3.26 Professional",
+  "native": "whitecoat-c3ad326c9e61.spine",
+  "nativeSha256": "a2e45365a8f830266d3b91c1e9c76dc35f0bf93409b69027300954977f7bbf57",
+  "inputSha256": "c3ad326c9e61b585618bc08e8895aa2f35c9b051b90c4b0849961f148e8637fc",
+  "runtimeDir": "runtime-c3ad326c9e61",
+  "atlas": "whitecoat-c3ad326c9e61.atlas",
+  "skeletonJson": "whitecoat.json",
+  "skeletonCount": 1,
+  "save": true,
+  "reopen": true,
+  "export": true,
+  "bones": 7,
+  "slots": 1,
+  "animations": [
+    "attack_basic",
+    "dash",
+    "death",
+    "hit",
+    "idle",
+    "setup",
+    "skill_iai"
+  ],
+  "visualReview": "pending",
+  "userMotionApproval": false,
+  "production": false
+}
