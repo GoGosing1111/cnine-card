@@ -1,0 +1,4 @@
+interface:
+  display_name: "V3.5 전투 제작"
+  short_description: "용병 Spine 모션과 기술별 이펙트를 던전앤파이터급 품질로 제작·검수"
+  default_prompt: "$cnine-v35-battle-production으로 승인 용병의 Spine 모션과 기술별 이펙트를 V3.5 규정에 맞춰 파일·명령줄 중심으로 제작하고 실제 V3 재생을 검수해줘."
