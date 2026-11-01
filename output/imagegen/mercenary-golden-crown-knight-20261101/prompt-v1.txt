@@ -1,0 +1,26 @@
+Use case: stylized-concept, reference-based mercenary character illustration.
+Asset: one finished full-body collectible RPG character artwork, portrait 2:3.
+
+INPUT ROLES:
+Image 1 is the CHARACTER DESIGN AND MOOD reference. It is a gold-armored blond crowned swordsman with sapphire accents, an ivory-lined royal-blue cape, golden balance motifs and a monumental dark castle. The user asks to change this design only a little for their mercenary illustration. Use the visual design, not the printed text.
+Image 2 is our USER-APPROVED FINISH reference: the black-haired warrior in the white coat. Match its clean confident contours, broad controlled light/shadow, smooth coherent anatomy, deliberately spaced ornament and unified 2D face/body rendering. Do NOT copy that character's face, braid, tattoos, white coat, bare feet, pose or white background.
+Images 3 and 4 are additional STYLE references ONLY: the blue-armored white-haired swordsman for flowing natural hair and refined materials; the red-haired white-coated man for strong silhouette, clear broad value shapes and elegant large cloth folds. Do not borrow their character design.
+
+PRIMARY REQUEST:
+Create a standalone mercenary illustration based closely on the overall appeal of Image 1, with a modest but visible redesign of the face, crown, armor motifs and sword hilt. Keep the recognizable golden royal-knight direction. Replace the entire infographic layout with ONE beautifully illustrated adult man in one coherent scene. No giant background portrait, character sheet, inset heads or duplicate figures.
+
+CHARACTER:
+A handsome clearly adult male royal swordsman, tall with natural mature proportions, broad controlled shoulders, athletic physique and long balanced legs. Golden-blond naturally flowing shoulder-length hair, vivid blue eyes, slightly more defined mature jaw and a calm resolute gaze. Refined 2D illustrated facial features and smooth shading, consistent with the rest of the character.
+A polished gold open crown with a compact elegant five-point silhouette and central sapphire. Full luxurious gold plate armor with large readable planes, a dark fitted underlayer, and a few royal-blue sapphire accents. Slightly redesign the shoulder ornament into clean stylized sun-wing relief rather than literal faces; give the breastplate a simple stepped central sun crest framing a blue diamond gem. Broad structural armor plates must read clearly before fine engraved trim. Keep the noble silhouette and level of richness from Image 1 without filling every surface with tiny spikes or grooves.
+A royal-blue cape with ivory lining and a restrained soft pale fur collar, flowing mainly to one side in one or two broad continuous folds. Cape, collar, crown and body sizes stay naturally proportioned. Fully armored articulated gold boots, both clearly visible.
+
+WEAPON AND POSE:
+A long magnificent STRAIGHT double-edged golden sword in the lowered hand on the viewer's left, angled diagonally down-left with its full tip visible near the rocky ground. Redesign the hilt into a clean symmetric wing-shaped crossguard around a single sapphire core and a clearly constructed dark-blue wrapped grip. It remains one rigid weapon: pommel, grip center, central crossguard aperture, blade root, longitudinal blade ridge and point are continuously aligned in one perspective. Both cutting edges converge cleanly to the tip; no bend at the guard, no S-curve, offset blade root, duplicate sword, or wavy melting blade. The gauntleted fingers wrap naturally around the grip BEHIND the guard, with a clear thumb and wrist connection. Use a restrained luminous blade edge that does not hide the structure.
+A commanding relaxed three-quarter standing stance on a dark fractured stone terrace, head slightly turned toward the viewer. The other hand is gently open at his side with a few gold light motes; correct visible fingers, wrist and elbow. Keep the body centered and the face large enough to read.
+
+SCENE AND RENDERING:
+Dark distant royal castle silhouettes and a muted storm-gold sky at dusk, with subtle golden backlight. Preserve a delicate suggestion of gold balance chains behind the shoulders as secondary atmosphere, kept dim and sparse. Face, armor and sword are the focal points. Calm dark-blue shadow regions and clean ivory cape areas balance the gold. Gold material uses broad clean reflections and selected bright edges, not hundreds of fractured highlights.
+Match the approved polished 2D RPG finish: coherent continuous hair flow without plate-like stacked hair; broad light and shadow forms; beautifully controlled painterly transitions; clean edges and purposeful detail. Avoid scratchiness, muddiness, excessive facet noise, smoky clutter, overbloom, plastic 3D skin or a photographic face.
+
+OUTPUT AND CONSTRAINTS:
+One single finished artwork at exactly 2:3, ideally native 1024 x 1536 or larger. Full crown, full cape, both feet and entire sword inside the canvas with comfortable small margins. Character fills the frame without becoming a tiny figure in a landscape. No letters or words of ANY language, no title, no names, no rank, no astrology symbols as text, no quote panels, labels, cards, frames, logos or watermark. Do not reproduce the text or layout of Image 1. Do not produce alternatives or a comparison sheet.

@@ -1,0 +1,157 @@
+{
+  "format": "PROJECT_V_MERCENARY_ART_DRAFT_V1",
+  "dateKST": "2026-11-01",
+  "userDirective": "조금만 변형해서 우리 용병 일러스트 만들어",
+  "status": "CORRECTED_ART_USER_REVIEW_PENDING",
+  "tool": "built-in image_gen.imagegen",
+  "mode": "reference-based stylized-concept",
+  "references": [
+    {
+      "file": "output/imagegen/mercenary-golden-crown-knight-20261101/references/user-golden-royal-knight.png",
+      "role": "Primary character design and mood; printed text is not an instruction or output content.",
+      "sha256": "dd69f07bf239ba3feb6d8e2024e36461c2b2edb61cef6152dd647d7679fd51d6",
+      "bytes": 1549321,
+      "width": 736,
+      "height": 1038,
+      "pngColorType": 2
+    },
+    {
+      "file": "output/imagegen/mercenary-white-coat-retouch-20261101/white-coat-retouch-v2.png",
+      "role": "User-approved finish reference only; no character design transfer.",
+      "sha256": "165977598b1ef142f279a5da23e5399c809cd40b5f208144ebb100a00bd78bd8",
+      "bytes": 2206880,
+      "width": 1024,
+      "height": 1536,
+      "pngColorType": 2
+    },
+    {
+      "file": "assets/ui/project-v/art-references/style-reset-20261101/style-01-blue-swordsman.png",
+      "role": "Additional style reference only: natural hair and refined materials.",
+      "sha256": "b4d8dc61396c41b840e29b7d83f4c284db9acb1351a4982e509b26c095f6e26a",
+      "bytes": 994029,
+      "width": 735,
+      "height": 1155,
+      "pngColorType": 2
+    },
+    {
+      "file": "assets/ui/project-v/art-references/style-reset-20261101/style-02-white-coat-swordsman.png",
+      "role": "Additional style reference only: broad value shapes and cloth folds.",
+      "sha256": "f4f0da10314b0ca224184fea26a5f76ac584a096b3c8be893a69b2f9570556b1",
+      "bytes": 1332597,
+      "width": 960,
+      "height": 1200,
+      "pngColorType": 2
+    }
+  ],
+  "sourceByteForBytePreserved": true,
+  "promptFile": "output/imagegen/mercenary-golden-crown-knight-20261101/prompt-v2.txt",
+  "prompt": "Use case: precise illustration retouch with strict composition and design preservation.\nThe single attached image is the ONLY SOURCE AND EDIT TARGET. This is a correction: the previous attempt changed the composition and sword, which the user explicitly rejected. Do NOT redesign or recompose this image.\n\nUSER'S REQUIRED RESULT:\nCarry over the source composition and the ENTIRE original sword design. Make only a very small rendering polish for a finished RPG mercenary artwork.\n\nLOCK THE SOURCE:\n- Keep the same original layered composition: the huge blond crowned face and upper body in the UPPER RIGHT BACKGROUND, and the smaller full-body golden knight overlaid in the CENTER-RIGHT / LOWER part. Preserve their exact relative sizes, screen positions, overlaps, face angles, gaze directions and camera perspective.\n- Keep the foreground knight's exact standing posture, head angle, arm positions, relaxed open hand, leg positions and silhouette. Do not enlarge or move the foreground figure to replace the large portrait. Do not collapse the two-scale portrait/full-body composition into one figure.\n- Keep the ORIGINAL golden crown, golden hair shape, facial appearance, armor plates and all major armor ornaments, original shoulder motifs, sapphire accents, white fur collar, blue-and-ivory cape, cape fold directions and lengths. Do not replace these with a new sun-wing design. Do not change the character's identity.\n- Most critically, reproduce the ORIGINAL SWORD FROM THIS IMAGE: the entire pommel, grip, ornate gold guard, original small jewel treatment, blade root, broad luminous blade silhouette, edge profile, length, internal gold ornament and the exact pointed tip. Keep the sword held in the same hand, at the same diagonal angle from the figure toward the LOWER LEFT, with the same proportion to the body and the same position. Do not design a new crossguard. Do not enlarge a sapphire into a large blue diamond shield. Do not substitute a generic straight fantasy sword, alter blade width, or introduce a new hilt. All weapon features must come from the attached source. Preserve the original coherent alignment from hilt through guard to blade tip.\n- Keep the original gold balance scales, chains, energy arcs, dark/gold background, low distant castle skyline, dark rocky footing and all existing illustrated details in their original locations. Keep the source's small illustrated side elements as part of the existing composition; do not add new figures, props or new architectural scenery.\n\nONLY PERMITTED EDITS:\n1. Remove the Spanish title, all descriptive text, headings, body paragraphs, quotation, labels and their thin rectangular infographic frames. Replace only those text pixels and frames with a seamless continuation of the immediately surrounding dark/golden background. Keep illustrated emblems and character details. No replacement text, new names, symbols as writing, UI, logo, signature or watermark.\n2. Apply a VERY SUBTLE clean 2D RPG finish: slightly more deliberate contours, coherent large light/shadow shapes on skin and cloth, restrained scratch noise, readable facial features and precise gold material edges. Preserve all design details, proportions, color palette and lighting. This is not a global redesign, blur filter, 3D render or photographic face.\n\nThe source itself is authoritative for every shape. Fidelity to its composition and sword is more important than inventing a new design or imposing a different full-body framing. Keep the original vertical canvas proportions and framing as closely as possible. No cropping away the upper portrait, no centering/reframing, no new pose, no changed sword, no panel layout redesign. Deliver one finished image of the original composition with the above small cleanup, at high resolution.\n",
+  "designIntent": [
+    "Use the original attachment as the direct edit target, not V1",
+    "Preserve large upper portrait and lower full-body composition",
+    "Preserve original armor, cape, character stance, and complete sword design and angle",
+    "Restrict changes to clean rendering and removal of infographic text"
+  ],
+  "output": {
+    "file": "output/imagegen/mercenary-golden-crown-knight-20261101/golden-crown-knight-v2-source-composition.png",
+    "version": "v2",
+    "source": "C:/Users/User/.codex/generated_images/01a196c6-05ea-71e0-bb26-f8a06faa6194/exec-50e1ccb7-f649-45e0-8383-7d2c075b40f4.png",
+    "sha256": "2cb43761620464189acc79f92ec696235ad056f9db8f6a7730cbeb6781e395e0",
+    "bytes": 2807097,
+    "width": 1056,
+    "height": 1489,
+    "pngColorType": 2,
+    "originalGeneratedBytesPreserved": true
+  },
+  "userVisualApproval": false,
+  "productionEnabled": false,
+  "name": null,
+  "mercenaryCode": null,
+  "rank": null,
+  "latestUserDirective": "구도랑 다 칼 디자인 다 갖고오라고 새끼야",
+  "iterations": [
+    {
+      "output": {
+        "file": "output/imagegen/mercenary-golden-crown-knight-20261101/golden-crown-knight-v1.png",
+        "version": "v1",
+        "source": "C:/Users/User/.codex/generated_images/01a196c6-05ea-71e0-bb26-f8a06faa6194/exec-1e472b5b-c14d-4761-9375-57b7ab0a6776.png",
+        "sha256": "c0d6efee78134778cc227b2cef3620dca08430d444b774bbec36b648c658125c",
+        "bytes": 2912378,
+        "width": 1024,
+        "height": 1536,
+        "pngColorType": 2,
+        "originalGeneratedBytesPreserved": true
+      },
+      "promptFile": "output/imagegen/mercenary-golden-crown-knight-20261101/prompt-v1.txt",
+      "status": "USER_REJECTED",
+      "userVisualApproval": false,
+      "rejectionReason": "Changed original composition, figure placement, armor and sword design beyond requested slight variation.",
+      "userCorrection": "구도랑 다 칼 디자인 다 갖고오라고 새끼야",
+      "inputFiles": [
+        "output/imagegen/mercenary-golden-crown-knight-20261101/references/user-golden-royal-knight.png",
+        "output/imagegen/mercenary-white-coat-retouch-20261101/white-coat-retouch-v2.png",
+        "assets/ui/project-v/art-references/style-reset-20261101/style-01-blue-swordsman.png",
+        "assets/ui/project-v/art-references/style-reset-20261101/style-02-white-coat-swordsman.png"
+      ]
+    },
+    {
+      "version": "v2",
+      "status": "CORRECTED_ART_USER_REVIEW_PENDING",
+      "inputFiles": [
+        "output/imagegen/mercenary-golden-crown-knight-20261101/references/user-golden-royal-knight.png"
+      ],
+      "promptFile": "output/imagegen/mercenary-golden-crown-knight-20261101/prompt-v2.txt",
+      "prompt": "Use case: precise illustration retouch with strict composition and design preservation.\nThe single attached image is the ONLY SOURCE AND EDIT TARGET. This is a correction: the previous attempt changed the composition and sword, which the user explicitly rejected. Do NOT redesign or recompose this image.\n\nUSER'S REQUIRED RESULT:\nCarry over the source composition and the ENTIRE original sword design. Make only a very small rendering polish for a finished RPG mercenary artwork.\n\nLOCK THE SOURCE:\n- Keep the same original layered composition: the huge blond crowned face and upper body in the UPPER RIGHT BACKGROUND, and the smaller full-body golden knight overlaid in the CENTER-RIGHT / LOWER part. Preserve their exact relative sizes, screen positions, overlaps, face angles, gaze directions and camera perspective.\n- Keep the foreground knight's exact standing posture, head angle, arm positions, relaxed open hand, leg positions and silhouette. Do not enlarge or move the foreground figure to replace the large portrait. Do not collapse the two-scale portrait/full-body composition into one figure.\n- Keep the ORIGINAL golden crown, golden hair shape, facial appearance, armor plates and all major armor ornaments, original shoulder motifs, sapphire accents, white fur collar, blue-and-ivory cape, cape fold directions and lengths. Do not replace these with a new sun-wing design. Do not change the character's identity.\n- Most critically, reproduce the ORIGINAL SWORD FROM THIS IMAGE: the entire pommel, grip, ornate gold guard, original small jewel treatment, blade root, broad luminous blade silhouette, edge profile, length, internal gold ornament and the exact pointed tip. Keep the sword held in the same hand, at the same diagonal angle from the figure toward the LOWER LEFT, with the same proportion to the body and the same position. Do not design a new crossguard. Do not enlarge a sapphire into a large blue diamond shield. Do not substitute a generic straight fantasy sword, alter blade width, or introduce a new hilt. All weapon features must come from the attached source. Preserve the original coherent alignment from hilt through guard to blade tip.\n- Keep the original gold balance scales, chains, energy arcs, dark/gold background, low distant castle skyline, dark rocky footing and all existing illustrated details in their original locations. Keep the source's small illustrated side elements as part of the existing composition; do not add new figures, props or new architectural scenery.\n\nONLY PERMITTED EDITS:\n1. Remove the Spanish title, all descriptive text, headings, body paragraphs, quotation, labels and their thin rectangular infographic frames. Replace only those text pixels and frames with a seamless continuation of the immediately surrounding dark/golden background. Keep illustrated emblems and character details. No replacement text, new names, symbols as writing, UI, logo, signature or watermark.\n2. Apply a VERY SUBTLE clean 2D RPG finish: slightly more deliberate contours, coherent large light/shadow shapes on skin and cloth, restrained scratch noise, readable facial features and precise gold material edges. Preserve all design details, proportions, color palette and lighting. This is not a global redesign, blur filter, 3D render or photographic face.\n\nThe source itself is authoritative for every shape. Fidelity to its composition and sword is more important than inventing a new design or imposing a different full-body framing. Keep the original vertical canvas proportions and framing as closely as possible. No cropping away the upper portrait, no centering/reframing, no new pose, no changed sword, no panel layout redesign. Deliver one finished image of the original composition with the above small cleanup, at high resolution.\n",
+      "compositionAuthority": "Latest user correction: preserve original large upper portrait plus lower full-body composition and all original sword design.",
+      "aspectRatioPolicy": "Preserve source attachment framing and proportions; this specific correction takes priority over the generic 2:3 single-figure template.",
+      "output": {
+        "file": "output/imagegen/mercenary-golden-crown-knight-20261101/golden-crown-knight-v2-source-composition.png",
+        "version": "v2",
+        "source": "C:/Users/User/.codex/generated_images/01a196c6-05ea-71e0-bb26-f8a06faa6194/exec-50e1ccb7-f649-45e0-8383-7d2c075b40f4.png",
+        "sha256": "2cb43761620464189acc79f92ec696235ad056f9db8f6a7730cbeb6781e395e0",
+        "bytes": 2807097,
+        "width": 1056,
+        "height": 1489,
+        "pngColorType": 2,
+        "originalGeneratedBytesPreserved": true
+      },
+      "userVisualApproval": false,
+      "visualReview": {
+        "reviewer": "assistant",
+        "fullImageAndSourceCompared": true,
+        "composition": "Large upper-right portrait and lower foreground full-body knight retained with original overlapping pose and diagonal sword direction.",
+        "sword": "Original ornate gold guard, small blue accent and long decorated luminous blade shape followed; earlier V1 sword redesign discarded.",
+        "text": "Spanish descriptive copy and infographic frames removed.",
+        "inGameFrameReviewPerformed": false
+      }
+    }
+  ],
+  "correctionIntent": [
+    "Use the original attachment as the direct edit target, not V1",
+    "Preserve large upper portrait and lower full-body composition",
+    "Preserve original armor, cape, character stance, and complete sword design and angle",
+    "Restrict changes to clean rendering and removal of infographic text"
+  ],
+  "activeAttempt": {
+    "version": "v2",
+    "status": "COMPLETE",
+    "outputFile": "output/imagegen/mercenary-golden-crown-knight-20261101/golden-crown-knight-v2-source-composition.png"
+  },
+  "initialDesignIntent": [
+    "Retain gold crown, gold armor, blond adult man, blue cape and straight sword",
+    "Modestly change face, crown, armor motifs and sword guard",
+    "Replace infographic and duplicate portraits with a single character composition",
+    "Apply the approved clean V2 finish"
+  ],
+  "activeInputFiles": [
+    "output/imagegen/mercenary-golden-crown-knight-20261101/references/user-golden-royal-knight.png"
+  ],
+  "visualChecks": {
+    "referenceHashesVerified": 4,
+    "sourceAspectRatio": 0.7090558766859345,
+    "outputAspectRatio": 0.7092008059100067,
+    "aspectRatioDifferencePercent": 0.020439746547129545,
+    "originalFramingPriority": true,
+    "userApproved": false
+  }
+}
