@@ -1,0 +1,17 @@
+{
+  "base": "faacbeb5264be121f7b56b15e0fa8432f16ffbef",
+  "source": "5eef6883adabbf383dea5001ec2e226a6211c42d",
+  "reason": "Register the unchanged user Pepegu PNG and match Heukgu display size. Verify the affected pet size, packaging, all 11 consumers, and actual main/ONE store battle loader only; prior unchanged 8 transaction/art checks already passed.",
+  "tests": [
+    "tests/pet-pepegu-size-20261101.test.mjs"
+  ],
+  "checks": [],
+  "alreadyPassedTests": [
+    "tests/pet-pepegu-registration-20261101.test.mjs",
+    "tests/pet-pepegu-art-20261101.test.mjs"
+  ],
+  "previousDeployment": "206e6653-f210-4657-a54e-22c1c6304a26",
+  "exitCode": 0,
+  "started": "2026-11-01T08:37:33.406Z",
+  "ended": "2026-11-01T08:40:34.880Z"
+}

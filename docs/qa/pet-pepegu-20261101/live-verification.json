@@ -1,0 +1,186 @@
+{
+  "status": "VERIFIED",
+  "sourceCommit": "5eef6883adabbf383dea5001ec2e226a6211c42d",
+  "pages": {
+    "id": "f30abf44-1cf8-4eb6-b596-ca8834871f61",
+    "url": "https://f30abf44.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "5eef6883adabbf383dea5001ec2e226a6211c42d"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "09515d78-288b-41fe-b427-c887e756e25c",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "9c62d346-f33a-4d73-abbc-48e0de650563",
+      "percentage": 100
+    }
+  ],
+  "assets": [
+    {
+      "file": "assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png",
+      "sha256": "4793f92e1c04aa5ce5ebf013692ad30ea90edbbd9af43230b25eb98c9b53e5e4",
+      "bytes": 33345,
+      "serverTransformed": false
+    },
+    {
+      "file": "shared/pet-art-catalog-v1.mjs",
+      "sha256": "a13744f5c9de0e2f573fa6e8b91067d603d171de52e1e2dad91117e5f3bc04a7",
+      "bytes": 6824,
+      "serverTransformed": false
+    },
+    {
+      "file": "css/pet-equipment-v1.css",
+      "sha256": "0c305af460a716b90ae854895dd50043ae30e248736896e1f7668d476bb6655a",
+      "bytes": 23703,
+      "serverTransformed": false
+    },
+    {
+      "file": "index.html",
+      "sha256": "52019aff6b472265275df3154426c1226fbadf72294c09dbda0d24f72b9bd282",
+      "bytes": 48933,
+      "serverTransformed": false
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "c3dadbb9e10cf6e6a3d206c142594bce7538f4f40e3567f842fdc5ec29e625dc",
+      "bytes": 22328,
+      "serverTransformed": false
+    },
+    {
+      "file": "pet-codex/index.html",
+      "sha256": "16825cd9e692f0c4ba8ad4c4f4afb0073e3d77efead1eef8afbac9e403b8156e",
+      "bytes": 925,
+      "serverTransformed": false
+    },
+    {
+      "file": "pets/index.html",
+      "sha256": "1bd24b60f4b680b7e521540c4405b1a602c179be6305bddd128cd5ac9b04a96e",
+      "bytes": 2646,
+      "serverTransformed": false
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "7ea2509fa8415713827a1559049905d71364346452a975673323f755143f2cf7",
+      "bytes": 48552,
+      "serverTransformed": true
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "57ee363fe83df81d6ea10f3f31576e41f5ec2b57433fa97147144e47ec89b7b7",
+      "bytes": 797989,
+      "serverTransformed": false
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "7eaca2b0c2c2fb61629e69f0da96012251bc4d81b311596e6ad0b9e95d7d0705",
+      "bytes": 985,
+      "serverTransformed": false
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "59e6f8024d737f0e88f840019eef790f4d19fb8cdeae6da611f1d971ff25ba97",
+      "bytes": 803345,
+      "serverTransformed": false
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "9ec96c77416c43baa228008a97329dd5eb07e5adca2d3ef57300af84ef13ee7d",
+      "bytes": 90699,
+      "serverTransformed": false
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "eff76838762f9d37b9b0c1f7da663c7ac91e8c956f1408710f11cd635435d169",
+      "bytes": 2977124,
+      "serverTransformed": false
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "sha256": "3ece7877db0d880ff498e65bfeb4c387713fb63fa93e7d92b5c8a252b8b71739",
+      "bytes": 2976683,
+      "serverTransformed": false
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "sha256": "23f483d439bba14c29d7e429e61306b8800fde457241d5a458be166dae95acea",
+      "bytes": 2976750,
+      "serverTransformed": false
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "4dbb40825926218d0b353230313108a054bbc58f201b5d4c9e174e10020cdb4b",
+      "bytes": 2976739,
+      "serverTransformed": false
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "316063de8a5ab22a6223f101cb5568138125ff314b9d58db316368cde51560ea",
+      "bytes": 2977098,
+      "serverTransformed": false
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "sha256": "609aea3ab49f4618f9b40a78249f16d565fbeb59dbe5ec558dae191544144230",
+      "bytes": 2980303,
+      "serverTransformed": false
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "sha256": "d669c63bdaf15188564b2fdc55b45f175800956a683921c002748c1e29221896",
+      "bytes": 2973763,
+      "serverTransformed": false
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "sha256": "f476353d7c956fd6c73394a082549c37237a596ec16ab502ae7ea3dfaf8283c8",
+      "bytes": 2978452,
+      "serverTransformed": false
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "sha256": "0b20072e8f13704fa6602bb5829b5d1cbe016e5979276bac7abecf5cb99dba0c",
+      "bytes": 3023522,
+      "serverTransformed": false
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "sha256": "c0f8fa0266b90900deb76682f56e5856904fd9602d92c441d5836c46aa2c78af",
+      "bytes": 3115990,
+      "serverTransformed": false
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "2d118102242e511b8ea0f7928979a7b11e344c872064903b02c6472384c34510",
+      "bytes": 3000720,
+      "serverTransformed": false
+    }
+  ],
+  "clientManifest": {
+    "releaseId": "7a01de9a85b674ca262b46d3cf360644724bf7acdf59388e659d1b2b447aa3a9",
+    "files": [
+      {
+        "path": "/js/app.js",
+        "sha256": "59e6f8024d737f0e88f840019eef790f4d19fb8cdeae6da611f1d971ff25ba97",
+        "essential": true
+      },
+      {
+        "path": "/js/battle-v3-live.js",
+        "sha256": "9ec96c77416c43baa228008a97329dd5eb07e5adca2d3ef57300af84ef13ee7d",
+        "essential": true
+      },
+      {
+        "path": "/preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "sha256": "eff76838762f9d37b9b0c1f7da663c7ac91e8c956f1408710f11cd635435d169",
+        "essential": true
+      }
+    ]
+  },
+  "scopedTests": 14,
+  "checkedAt": "2026-11-01T08:42:10.851Z",
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

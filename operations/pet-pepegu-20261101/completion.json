@@ -1,0 +1,80 @@
+{
+  "status": "DEPLOYED_REGISTERED_AND_VERIFIED",
+  "sourceCommit": "5eef6883adabbf383dea5001ec2e226a6211c42d",
+  "pages": {
+    "id": "f30abf44-1cf8-4eb6-b596-ca8834871f61",
+    "url": "https://f30abf44.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "5eef6883adabbf383dea5001ec2e226a6211c42d"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "09515d78-288b-41fe-b427-c887e756e25c",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "9c62d346-f33a-4d73-abbc-48e0de650563",
+      "percentage": 100
+    }
+  ],
+  "operationKey": "ops:pet-pepegu-registration:20261101:v1",
+  "completedAt": "2026-11-01T08:42:33.960Z",
+  "completedAtKst": "2026-11-01 17:42:33 KST",
+  "auditId": "53631",
+  "revision": 43,
+  "previousRevision": 42,
+  "petCount": 25,
+  "pet": {
+    "code": "PET-PEPEGU",
+    "name": "페페구",
+    "sourceArt": "assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png",
+    "battleSprite": "",
+    "enabled": false,
+    "liveEnabled": false,
+    "modes": [
+      "PVE",
+      "PVP"
+    ],
+    "target": "ALL_ALLIES",
+    "buffs": [
+      {
+        "type": "ATTACK_PERCENT",
+        "percent": null
+      }
+    ],
+    "notes": "2026-11-01 사용자 승인 및 라이브 반영 요청. 페페구 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정."
+  },
+  "asset": {
+    "code": "PET-PEPEGU",
+    "name": "페페구",
+    "approvedAsset": "assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png",
+    "sha256": "4793f92e1c04aa5ce5ebf013692ad30ea90edbbd9af43230b25eb98c9b53e5e4",
+    "bytes": 33345,
+    "width": 200,
+    "height": 200,
+    "hasAlpha": true
+  },
+  "originalBytesUnchanged": true,
+  "imageGenerationUsed": false,
+  "displayReference": "PET-HEUKGU",
+  "battleSizeFactor": 0.92,
+  "mobileCodexHeight": 210,
+  "existingPetsPreserved": 24,
+  "settingsUnchanged": true,
+  "grants": 0,
+  "messages": 0,
+  "newAcquisitionRoutes": 0,
+  "liveEffectsEnabled": false,
+  "unitTests": 22,
+  "localCodexChecks": 2,
+  "localEntryChecks": 4,
+  "publicEntryChecks": 2,
+  "browserScope": "Headless Chromium; actual main start/result/return and actual codex/OWNER component with isolated account fixtures, no real device or installed app claim",
+  "publicFiles": 23,
+  "clientManifestFiles": 3,
+  "readOnlyIndependentVerification": true,
+  "noWriteReplayVerified": true,
+  "recordedAt": "2026-11-01T08:42:59.796Z"
+}

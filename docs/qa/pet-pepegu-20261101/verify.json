@@ -1,0 +1,104 @@
+{
+  "revision": 43,
+  "petCount": 25,
+  "rawHash": "b90b678d3c2d02682ba8c092b0b39ae475660fc49e23d63bef97d9e99be0bc48",
+  "preservedPetsHash": "a1a0fd83837ecdf1cf39f12be44af887f88990f631e8e21921c577a5f5d7ab0f",
+  "settingsHash": "91e135136d5013be5159a5ee4d146c6fdbe6e4ebf5dca96c6885963be57f7e5a",
+  "heukgu": {
+    "code": "PET-HEUKGU",
+    "name": "흑구",
+    "sourceArt": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+    "battleSprite": "",
+    "enabled": false,
+    "modes": [
+      "PVE",
+      "PVP"
+    ],
+    "target": "ALL_ALLIES",
+    "buffs": [
+      {
+        "type": "ATTACK_PERCENT",
+        "percent": 50
+      }
+    ],
+    "notes": "2026-10-25 사용자 승인 및 라이브 반영 요청. 흑구 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정.",
+    "liveEnabled": true,
+    "rewardBonuses": {
+      "dropPercent": 20,
+      "accountXpPercent": 50,
+      "coinPercent": 50
+    }
+  },
+  "pepegu": [
+    {
+      "code": "PET-PEPEGU",
+      "name": "페페구",
+      "sourceArt": "assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png",
+      "battleSprite": "",
+      "enabled": false,
+      "liveEnabled": false,
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "target": "ALL_ALLIES",
+      "buffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": null
+        }
+      ],
+      "notes": "2026-11-01 사용자 승인 및 라이브 반영 요청. 페페구 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정."
+    }
+  ],
+  "receipt": {
+    "operationKey": "ops:pet-pepegu-registration:20261101:v1",
+    "previousRevision": 42,
+    "revision": 43,
+    "addedPets": [
+      {
+        "code": "PET-PEPEGU",
+        "name": "페페구",
+        "sourceArt": "assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png",
+        "battleSprite": "",
+        "enabled": false,
+        "liveEnabled": false,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "ATTACK_PERCENT",
+            "percent": null
+          }
+        ],
+        "notes": "2026-11-01 사용자 승인 및 라이브 반영 요청. 페페구 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정."
+      }
+    ],
+    "preservedRows": 24,
+    "preservedPetsHash": "d5d8cc19d6e81dfbef25ca3212cca6366e047a403d6e429e8df753314765ee54",
+    "beforeRawHash": "745036a59539364d09889c157e8214a4794439e3c971a78a1e7649d52025827a",
+    "afterDocumentHash": "f95c4a16126132caf9db69866af309fea1e47cf720ed03304d7ba39fa03e5067",
+    "settingsHash": "91e135136d5013be5159a5ee4d146c6fdbe6e4ebf5dca96c6885963be57f7e5a",
+    "completedAt": "2026-11-01T08:42:33.960Z",
+    "accountGrants": 0,
+    "openingPoolChanged": false,
+    "potentialSettingsChanged": false,
+    "liveEffectsEnabled": false,
+    "auditId": "53631"
+  },
+  "readOnly": true,
+  "sourceHash": "48b7de373f0ec67b99d06f88b8c80b25556028a170d610b30c1b924ebdf6846e",
+  "verification": {
+    "verified": true,
+    "revision": 43,
+    "petCount": 25,
+    "registeredCodes": [
+      "PET-PEPEGU"
+    ],
+    "auditId": "53631"
+  },
+  "checkedAt": "2026-11-01T08:42:38.562Z"
+}

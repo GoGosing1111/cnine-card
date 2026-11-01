@@ -1,0 +1,20 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {spawnSync,execFileSync} from 'node:child_process';
+const cwd='C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout';
+const git=(...a)=>execFileSync('git',['-c','gc.auto=0','-c','maintenance.auto=false',...a],{cwd,encoding:'utf8',windowsHide:true}).trim();
+const plan={base:'faacbeb5264be121f7b56b15e0fa8432f16ffbef',source:git('rev-parse','HEAD'),reason:'Register the unchanged user Pepegu PNG and match Heukgu display size. Verify the affected pet size, packaging, all 11 consumers, and actual main/ONE store battle loader only; prior unchanged 8 transaction/art checks already passed.',tests:['tests/pet-pepegu-size-20261101.test.mjs'],checks:[],alreadyPassedTests:['tests/pet-pepegu-registration-20261101.test.mjs','tests/pet-pepegu-art-20261101.test.mjs'],previousDeployment:'206e6653-f210-4657-a54e-22c1c6304a26'};
+assert.equal(git('status','--porcelain','--untracked-files=all'),'');
+assert.equal(git('rev-parse','origin/main'),plan.source);
+assert.equal(JSON.parse(fs.readFileSync(new URL('./codex-browser-v3/browser-report.json',import.meta.url))).status,'PASSED');
+assert.equal(JSON.parse(fs.readFileSync(new URL('./entry-local/report.json',import.meta.url))).reports.length,4);
+fs.writeFileSync(new URL('./deployment-plan.json',import.meta.url),JSON.stringify(plan,null,2)+'\n',{flag:'wx'});
+const logUrl=new URL('./deploy-'+plan.source.slice(0,9)+'.log',import.meta.url),log=fs.openSync(logUrl,'wx');
+console.log(JSON.stringify({status:'DEPLOYING',source:plan.source,log:logUrl.pathname}));
+const started=new Date().toISOString();
+const r=spawnSync(process.env.ComSpec||'cmd.exe',['/d','/s','/c','npm run deploy:production -- --scoped'],{cwd,windowsHide:true,stdio:['ignore',log,log],env:{...process.env,SCOPED_DEPLOY_BASE:plan.base,SCOPED_DEPLOY_REASON:plan.reason,SCOPED_DEPLOY_TESTS:JSON.stringify(plan.tests),SCOPED_DEPLOY_CHECKS:'[]',GIT_CONFIG_COUNT:'2',GIT_CONFIG_KEY_0:'gc.auto',GIT_CONFIG_VALUE_0:'0',GIT_CONFIG_KEY_1:'maintenance.auto',GIT_CONFIG_VALUE_1:'false'},timeout:1200000});
+fs.closeSync(log);
+const result={...plan,exitCode:r.status,error:r.error?.message,started,ended:new Date().toISOString()};
+fs.writeFileSync(new URL('./deployment-result.json',import.meta.url),JSON.stringify(result,null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify(result));
+if(r.error||r.status!==0){console.error(fs.readFileSync(logUrl,'utf8').slice(-11000));process.exitCode=1;}
