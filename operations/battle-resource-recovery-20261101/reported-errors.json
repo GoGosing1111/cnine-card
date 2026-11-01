@@ -1,0 +1,20 @@
+[
+  {
+    "original": "codex-clipboard-9afcf035-75cc-4472-928e-b0c344b4bf4d.png",
+    "file": "reported-error-1.png",
+    "bytes": 75862,
+    "sha256": "7fe3f535a2dbd83fe40543419e01b55b82001a148898dd9cde0c79383ec022a2"
+  },
+  {
+    "original": "codex-clipboard-707dd617-a0b8-4386-a46d-f2c026dafae1.png",
+    "file": "reported-error-2.png",
+    "bytes": 1934806,
+    "sha256": "c3e4bc1b35f5e9f28582bc90fbc62b14f02fb3abb0ba91bee321a7d970339c87"
+  },
+  {
+    "original": "codex-clipboard-645baa0b-4738-4607-9611-a76c2e9f78d5.png",
+    "file": "reported-error-3.png",
+    "bytes": 548492,
+    "sha256": "89215b62f363af8d1ac7d7d4b7939443304e84b4ba88982de2f72fc19b8a8dab"
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "before": {
+    "id": "149dc197-e263-4891-91ac-7bff729de5e5",
+    "url": "https://149dc197.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "e43067c0bcfb2db48585cba1a33d4a0792538006"
+  },
+  "base": "e43067c0bcfb2db48585cba1a33d4a0792538006",
+  "reason": "Repair the incorrect lobby battle runtime requirement inserted by the package cache update. Validate actual shipped main/store loaders, stale engine recovery, focused deployment guard and generated store variants. Gameplay and all account data unchanged.",
+  "tests": [
+    "tests/pve-battlefield-entry-v2117.test.mjs",
+    "tests/scoped-release-policy-20260923.test.mjs",
+    "tests/onestore-distribution-20261026.test.mjs"
+  ],
+  "checks": []
+}

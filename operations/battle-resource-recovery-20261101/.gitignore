@@ -1,0 +1,5 @@
+local-chromium/
+local-webkit/
+public-webkit*/
+reported-error-*.png
+deploy-*.log

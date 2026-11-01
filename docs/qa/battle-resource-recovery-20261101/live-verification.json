@@ -1,0 +1,85 @@
+{
+  "at": "2026-11-01T00:56:27.799Z",
+  "pages": {
+    "id": "07f11e8c-f5be-45d7-a806-d4066737bf21",
+    "url": "https://07f11e8c.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "999ce1371c480509c263dc70130cbbcea8edd65d"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "b077f2f4-733b-47fa-afa7-e4f5adbfc683",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "c06a5258-6b9b-4e2b-a560-39b6c74c2f0b",
+      "percentage": 100
+    }
+  ],
+  "assets": [
+    {
+      "file": "index.html",
+      "sha256": "dcc27092ce1e20c1d210f5081b66927838a8c92816e0c07160137bc2f327ea57",
+      "serverTransformed": false
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "dedefee2bdce457b3f6582bf73a9cc314f59f10e34583bd0b8eeb7a92ed2ea53",
+      "serverTransformed": false
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "b93b12bf4f4016fcf37e994d77d4104850d1df3bc7c5ffb5895962cdde135395",
+      "serverTransformed": false
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "a1d04a5a8fcd241e12a8c5d0de6d9e2ff9097508441953112954166d6f4cd162",
+      "serverTransformed": true
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "a908e3e862a46f88f788d08db70004a06406eb0747042dd8809bd24f42789278",
+      "serverTransformed": false
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "53f20dd09992c0649e30af723a7980cf410bc8064c9eb6da6cb3ed7da8bcb62b",
+      "serverTransformed": false
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "00aedd72a11f4f3ad31bf468099f3bee0cfd9ffc3d979451aa0887301e436080",
+      "serverTransformed": false
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "86785bc6868323766a5f1c00cde7b46f09dfa5951fa668cbf031b5a97b95ca0c",
+      "serverTransformed": false
+    }
+  ],
+  "clientManifest": {
+    "releaseId": "73252dbbcdbcf5fd3c6591e52dcdae974543fe5bef04a80735cbd78c3a08da5b",
+    "files": [
+      {
+        "path": "/js/app.js",
+        "sha256": "50b0ad742ffcf2ea610573eff479160f3cf2a87f7d1f4b465b74adc8a9428135",
+        "essential": true
+      },
+      {
+        "path": "/js/battle-v3-live.js",
+        "sha256": "cfbf63dae82d7329731cb99c07806a00d8ffb98a5367cf94f1b917b1481d4654",
+        "essential": true
+      },
+      {
+        "path": "/preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "sha256": "dbe73d5e8cb0e6bec3aab3a76e8551c18e78327525cb528d23fd72f548bcf3bb",
+        "essential": true
+      }
+    ]
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

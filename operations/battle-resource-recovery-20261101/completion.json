@@ -1,0 +1,55 @@
+{
+  "status": "DEPLOYED_AND_VERIFIED",
+  "completedAt": "2026-11-01T00:59:24.424Z",
+  "sourceCommit": "999ce1371c480509c263dc70130cbbcea8edd65d",
+  "pages": {
+    "id": "07f11e8c-f5be-45d7-a806-d4066737bf21",
+    "url": "https://07f11e8c.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "999ce1371c480509c263dc70130cbbcea8edd65d"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "b077f2f4-733b-47fa-afa7-e4f5adbfc683",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "c06a5258-6b9b-4e2b-a560-39b6c74c2f0b",
+      "percentage": 100
+    }
+  ],
+  "rootCause": "Package release cache marker accidentally inserted into the lobby battle runtime requirement; shipped wrapper and engine remained valid. Both initial readiness and one-time recovery were rejected.",
+  "change": "Restore the exact shipped battle version, refresh the shell URL/cache key, regenerate the store variant, and automatically require real loader tests on future main/store app changes.",
+  "validation": {
+    "baseline": {
+      "total": 10,
+      "pass": 8,
+      "fail": 2
+    },
+    "focusedDeployTests": 26,
+    "chromiumScenarios": 6,
+    "webkitScenarios": 3,
+    "publicWebkitScenarios": 2,
+    "firstEntry": true,
+    "repeatPve": true,
+    "pveToPvp": true,
+    "obsoleteRendererRecovery": true,
+    "staticFiles": 8,
+    "windowsManifestFiles": 3,
+    "realIphoneHardware": false,
+    "installedElectron": false,
+    "publicInitialAttempt": {
+      "error": "page.waitForFunction: Timeout 30000ms exceeded.\n    at C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\battle-resource-recovery-20261101\\browser.mjs:58:15",
+      "entryWaitMs": 30000,
+      "retryEntryWaitMs": 60000,
+      "productChangedBetweenAttempts": false
+    }
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "battleEngineChanged": false,
+  "rewardsChanged": false,
+  "storageMaintenancePerformed": false
+}

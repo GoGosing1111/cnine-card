@@ -1,0 +1,29 @@
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes: js/app.js (17.4287ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes: onestore/js/app.js (15.5514ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (15.3245ms)
+✔ classic colosseum background is confined to the explicitly tagged PVP replay (0.3521ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (7.1717ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (19.4717ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (23.3309ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (37.1663ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (4.3244ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (2.7121ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (1.0708ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (2.5285ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.6327ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.4123ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.6387ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.1612ms)
+✔ main and store shell releases cannot omit the real battle loader check (0.2392ms)
+✔ an unshipped QA Wrangler record does not classify an art release as production infrastructure (1747.4018ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.7305ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (5.2342ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (2.6056ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2116.1339

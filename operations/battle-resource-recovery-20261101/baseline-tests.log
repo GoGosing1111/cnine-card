@@ -1,0 +1,49 @@
+✖ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (12.8343ms)
+✖ the lobby loader refreshes an already loaded stale engine before its final readiness check (11.1666ms)
+✔ classic colosseum background is confined to the explicitly tagged PVP replay (0.2379ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (3.5837ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (11.4913ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (15.912ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (26.7374ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (3.4924ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (2.4503ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (0.8082ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 8
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2053.401
+
+✖ failing tests:
+
+test at tests\pve-battlefield-entry-v2117.test.mjs:28:1
+✖ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (12.8343ms)
+  AssertionError [ERR_ASSERTION]: current engine must allow actual game entry
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/tmp/duo-settlement-recovery-20261027/tests/pve-battlefield-entry-v2117.test.mjs:30:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.start (node:internal/test_runner/test:1191:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\pve-battlefield-entry-v2117.test.mjs:39:1
+✖ the lobby loader refreshes an already loaded stale engine before its final readiness check (11.1666ms)
+  Error: 전투 리소스를 준비하지 못했습니다. 화면을 새로고침한 뒤 다시 시도해 주세요.
+      at evalmachine.<anonymous>:203:40 {
+    code: 'BATTLE_RESOURCE_RECOVERY_FAILED',
+    [cause]: Error: battleV2 기능 초기화에 실패했습니다.
+        at initialize (evalmachine.<anonymous>:195:87)
+        at async evalmachine.<anonymous>:202:47
+  }
