@@ -1,0 +1,58 @@
+{
+  "initial": {
+    "action": "setup",
+    "time": 0,
+    "paused": true,
+    "mode": "rig",
+    "head": {
+      "x": 50.999961340297844,
+      "y": -1161.9999999999995
+    },
+    "grip": {
+      "x": -233.00001800716018,
+      "y": -775.9999999999998
+    },
+    "tip": {
+      "x": 499.0000023669205,
+      "y": -336.99999999999994
+    },
+    "soleBack": {
+      "x": -368.9999980507713,
+      "y": -10.000000000000014
+    },
+    "soleFront": {
+      "x": 334.00000148512663,
+      "y": -28.000000000000014
+    },
+    "chest": {
+      "x": -12.000028774328133,
+      "y": -1019.9999999999997
+    },
+    "canvasCount": 1,
+    "errors": [],
+    "autoUpdate": false,
+    "pixi": "8.20.0",
+    "spine": "4.3.26"
+  },
+  "comparisons": [
+    {
+      "background": "dark",
+      "width": 1060,
+      "height": 820,
+      "meanAbsoluteRgbError": 0.10686186531676638,
+      "maxChannelDifference": 38,
+      "pixelsOver8": 237
+    },
+    {
+      "background": "light",
+      "width": 1060,
+      "height": 820,
+      "meanAbsoluteRgbError": 0.13172955974842768,
+      "maxChannelDifference": 77,
+      "pixelsOver8": 583
+    }
+  ],
+  "errors": [],
+  "visualReview": "PASS; static-review.json",
+  "nativeSha256": "2e7ac5fefe564f7b3a3dee982ea43e8b81e040bb4739774a83410361fd547477"
+}

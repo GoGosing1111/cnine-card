@@ -1,0 +1,24 @@
+{
+  "date": "2026-11-01",
+  "native": "swordsman-0c78c140e3fb.spine",
+  "nativeSha256": "2e7ac5fefe564f7b3a3dee982ea43e8b81e040bb4739774a83410361fd547477",
+  "reviewMethod": "Direct inspection of rendered stills plus automated full-cycle geometry and real-time playback observations",
+  "staticAssemblyPass": true,
+  "idleFrameReview": "PASS_WITH_SCOPE_LIMIT",
+  "directlyReviewed": ["setup-light-rig.png", "setup-dark-rig.png", "idle-0-700.png", "idle-1-400.png", "idle-2-800.png", "idle-3-500.png", "idle-dark-peak.png", "idle-mobile-390.png"],
+  "findings": [
+    "원화의 전신 비율·얼굴·손·검 실루엣이 유지된다.",
+    "골반 이동을 제거한 현재 대기에서 뒷다리 가장자리의 벌어짐이 보이지 않는다.",
+    "검·파지 손·발을 고정한 작은 호흡이며 공격이나 체중 이동 시연이 아니다.",
+    "밝음/어두움과 390px 화면에서 머리·검끝·발이 잘리지 않는다."
+  ],
+  "normalSpeedVideo": "idle-three-loops.webm",
+  "continuousVideoCaptured": true,
+  "continuousVisualReview": false,
+  "physicalDevice": false,
+  "hiddenArtworkComplete": false,
+  "combatReady": false,
+  "userMotionApproval": false,
+  "production": false,
+  "next": "기본 공격의 주요 자세와 가려진 관절·손 보완 작화"
+}

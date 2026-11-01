@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-01",
+  "sourceSha256": "fd8eea2da078ba3f7cfcef7da44946612e950ce2b0d0cd778a4b57976e00aa44",
+  "nativeSha256": "2e7ac5fefe564f7b3a3dee982ea43e8b81e040bb4739774a83410361fd547477",
+  "initialStaticNativeSha256": "39e2ee10b546517b46d8364fae77f08943900fa2d52156b149c7905c93a46f07",
+  "reviewedImages": ["setup-dark-rig.png", "setup-light-rig.png"],
+  "sourceComparison": "static-compare.json",
+  "reviewedDirectly": true,
+  "staticAssemblyPass": true,
+  "findings": [
+    "기준 그림의 머리·체형·손·의상·직선 검 실루엣이 유지된다.",
+    "머리/손/검의 과대 표시, 누락 부위, 큰 관절 틈이 보이지 않는다.",
+    "밝은 배경과 어두운 배경 모두 전체 인물이 정상 표시된다.",
+    "실제 렌더는 원화와 픽셀 완전 동일하지 않다. 겹침과 래스터화 차이를 별도 수치로 기록했다."
+  ],
+  "userMotionApproval": false,
+  "allowsNextStage": "restrained idle only",
+  "attackOrEffectsApproved": false
+}

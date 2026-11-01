@@ -1,0 +1,327 @@
+{
+  "date": "2026-11-01",
+  "status": "STATIC_ASSEMBLY_AND_RESTRAINED_IDLE",
+  "native": "swordsman-0c78c140e3fb.spine",
+  "files": [
+    {
+      "file": "PROJECT.md",
+      "bytes": 6769,
+      "sha256": "36ef7c815962b75af25011222524665ae40b6edcd196beb63d4c372eeb2b9903"
+    },
+    {
+      "file": "author.mjs",
+      "bytes": 16130,
+      "sha256": "da1ce0d0eadc782ff6efc93150915e7a2009ee6698b08aa843ac14974e21b833"
+    },
+    {
+      "file": "native.mjs",
+      "bytes": 2597,
+      "sha256": "134099c4807cd9949041f3818d363835dc72784a37a4bf91d2f8a95b3d56bdc1"
+    },
+    {
+      "file": "build.mjs",
+      "bytes": 1494,
+      "sha256": "34c6f92081bf74a358c40e4cdd80b93adb4395f94549689905e9877523ba9782"
+    },
+    {
+      "file": "serve.mjs",
+      "bytes": 1331,
+      "sha256": "b94cd6aa465409aa768e88fb96032c5eb33fc025b2619a39b315aa9598e382eb"
+    },
+    {
+      "file": "index.html",
+      "bytes": 2675,
+      "sha256": "b544dfa7fabdd2c3e2078ee2c3d0c12c93c7b8c62d50e6ebc02ca3180c79d790"
+    },
+    {
+      "file": "review.src.mjs",
+      "bytes": 5181,
+      "sha256": "b20c75c430343ed45565f0ff4de023b69336b31f33283d658afdc7f9ae9d63cf"
+    },
+    {
+      "file": "review.bundle.js",
+      "bytes": 3243738,
+      "sha256": "cd8a7eba7aa68e2d7a905cc1a2281c03b1a2de175eccbb899135cd1e5d5ddc62"
+    },
+    {
+      "file": "swordsman.input.json",
+      "bytes": 376710,
+      "sha256": "0c78c140e3fb7455bad25e71013e08f563bb103e7220e51c4f8534e2cc459f6f"
+    },
+    {
+      "file": "swordsman-0c78c140e3fb.spine",
+      "bytes": 78070,
+      "sha256": "2e7ac5fefe564f7b3a3dee982ea43e8b81e040bb4739774a83410361fd547477"
+    },
+    {
+      "file": "sources/rig-map.json",
+      "bytes": 17860,
+      "sha256": "8dcaf5b64382dfa7243f3af4167d8c2b9c5adb77c59d7a64d5888dfe29aba597"
+    },
+    {
+      "file": "qa/native.json",
+      "bytes": 676,
+      "sha256": "046e54131b32bda7bee623cc663901edb8457455a7209ff0dfbfca3120a54ece"
+    },
+    {
+      "file": "qa/native-import.log",
+      "bytes": 284,
+      "sha256": "b2b9aa2f0cb7eba03cac972f6a6cd21a79aa29b5390c99a2823749ff25a0cb63"
+    },
+    {
+      "file": "qa/native-reopen.log",
+      "bytes": 1088,
+      "sha256": "d19abdc2f730ffaacfe7bfe3ef562998b39cc7852262b0a394c7a931681ae62e"
+    },
+    {
+      "file": "qa/native-export.log",
+      "bytes": 299,
+      "sha256": "08d26c19efc06154cf90b0f1c9931b9ddd3cd9ec0ad34b66c228d47d03500304"
+    },
+    {
+      "file": "qa/build.json",
+      "bytes": 378,
+      "sha256": "cbf0cf6d19c3a8e0d056f4974273687c3a9360c32cc33fbfa62307c3cbd6d7f7"
+    },
+    {
+      "file": "qa/static-review.json",
+      "bytes": 1004,
+      "sha256": "543ae1170cfa827b6ef2d1291fbed0019d0374489c5059beb6f6497df94f31e9"
+    },
+    {
+      "file": "qa/static-compare.json",
+      "bytes": 1274,
+      "sha256": "44b34c4add85abb5dd2aac6e544828b4971b3ddc030355e9c8ae8cdee8d6717c"
+    },
+    {
+      "file": "qa/geometry-latest.json",
+      "bytes": 5672,
+      "sha256": "f3f555397c028d6c53b742ea13734ed9eb12a15809c2b3f3a1bcb3a9ba45b849"
+    },
+    {
+      "file": "qa/provenance.json",
+      "bytes": 333,
+      "sha256": "d3b82cca060287e9da067b92c5190b3a5298ce38254c994c84f72791678cf605"
+    },
+    {
+      "file": "qa/playback.json",
+      "bytes": 7850,
+      "sha256": "71c96df772a901d298f9e51681e44bb9c8a186f561e3571542da4a672e68ab59"
+    },
+    {
+      "file": "qa/visual-review.json",
+      "bytes": 1296,
+      "sha256": "f8cd12f95f930a66f7481c1b63785d325480d13e3c0da17374febf8c9ccf4368"
+    },
+    {
+      "file": "qa/render.mjs",
+      "bytes": 2511,
+      "sha256": "463bf85201e5a9708e4c8f1d916279f5e34c44c6d293d69ff6c70a13e9de4a03"
+    },
+    {
+      "file": "qa/playback.mjs",
+      "bytes": 8163,
+      "sha256": "35cf506a920d59e97a98c44e811a327c93aeabd1b4059fb7af9be0e98d745c52"
+    },
+    {
+      "file": "qa/provenance.mjs",
+      "bytes": 1944,
+      "sha256": "dbe169298c7ded37b377f9b7c67eacc91fe79fae10432d5c6bfcc1b7c996217a"
+    },
+    {
+      "file": "qa/setup-dark-source.png",
+      "bytes": 297393,
+      "sha256": "d6402aa2f6840eb3e6614b753c074c206a2d0b38052735646a8cd1bcddc153a6"
+    },
+    {
+      "file": "qa/setup-dark-rig.png",
+      "bytes": 297534,
+      "sha256": "ca5da187fa84d655cf9ea31da416d3123f9991de4e4bfb1361f16f547bd9b934"
+    },
+    {
+      "file": "qa/setup-light-source.png",
+      "bytes": 306728,
+      "sha256": "fc7fd4dea4c9b14073af151141d9d4e187f5a1588dc8082cba56e2cc667cfeac"
+    },
+    {
+      "file": "qa/setup-light-rig.png",
+      "bytes": 307790,
+      "sha256": "250565768bf59a9d8a53f57b1d05698d9a1882e5c4fb5c47f2104d50bc10ae63"
+    },
+    {
+      "file": "qa/setup-desktop.png",
+      "bytes": 318050,
+      "sha256": "34b466f0cb133cf95e235b94d4cf11abb99e5f0174132644af74913e80e45131"
+    },
+    {
+      "file": "qa/idle-dark-peak.png",
+      "bytes": 298151,
+      "sha256": "0af9fba3a9c22ec49141fc7d3cf23dae41454914ea5427e5bef4b0f511d11fb3"
+    },
+    {
+      "file": "qa/idle-mobile-390.png",
+      "bytes": 136488,
+      "sha256": "142a8d576b8e5d4dcf1448a2778c4f14d0f22a1d59d3f945165a1171bc78d18f"
+    },
+    {
+      "file": "qa/idle-three-loops.webm",
+      "bytes": 2455670,
+      "sha256": "24b9beed1271962639c1a4b98c11cefbed2ca0294d0ac742d5e3d3a1683119c0"
+    },
+    {
+      "file": "qa/idle-0-000.png",
+      "bytes": 307790,
+      "sha256": "250565768bf59a9d8a53f57b1d05698d9a1882e5c4fb5c47f2104d50bc10ae63"
+    },
+    {
+      "file": "qa/idle-0-700.png",
+      "bytes": 308124,
+      "sha256": "1c1ee6888775b5d446eaeaea112952900996467fd5b178065c24a878270595d7"
+    },
+    {
+      "file": "qa/idle-1-400.png",
+      "bytes": 309140,
+      "sha256": "715f98efc3bbd640d0dbc875b60855ba10ec1f0748927b4613e8d3e8dc0d78b6"
+    },
+    {
+      "file": "qa/idle-2-100.png",
+      "bytes": 308717,
+      "sha256": "e49f90cb4cfe37c45436a928b5521c688ff3c2221b3a9ac2ddc0b089d65fced3"
+    },
+    {
+      "file": "qa/idle-2-800.png",
+      "bytes": 308111,
+      "sha256": "67afd8990f2234c631be77239c9ce588884c8997bfc565207004eb77922d76e8"
+    },
+    {
+      "file": "qa/idle-3-500.png",
+      "bytes": 307858,
+      "sha256": "2dffc3e3716214cbc3448147712224d9dda3136176478b310a15cf94199c9625"
+    },
+    {
+      "file": "qa/idle-4-199.png",
+      "bytes": 307795,
+      "sha256": "44094d16c3c4cc183109eee6cd14ed80ac2bf46707879d7b65f5bfc75d73bdce"
+    },
+    {
+      "file": "images/calf_back.png",
+      "bytes": 158484,
+      "sha256": "e5e828c13d4c2d9f163f3087b07e62b3c106729894a33609a2454441bf3dbee8"
+    },
+    {
+      "file": "images/calf_front.png",
+      "bytes": 128700,
+      "sha256": "9917ff9e9edf8422ab42dbe223df93156147c0e2dd0e9e74ef2d42c958504a08"
+    },
+    {
+      "file": "images/coat_back.png",
+      "bytes": 634673,
+      "sha256": "7794ee433a95c65e4d030f6953096e1a33c8698e6f700b3748762cf87387fe74"
+    },
+    {
+      "file": "images/coat_front.png",
+      "bytes": 213338,
+      "sha256": "8335ceb04c8d7387445e941d17aa10f8086c9893934953d3d649599892132a88"
+    },
+    {
+      "file": "images/foot_back.png",
+      "bytes": 92907,
+      "sha256": "82c666dcbbf21d4912069eec89c31ee50bbf1b78127c8174723eca4e3b8293c3"
+    },
+    {
+      "file": "images/foot_front.png",
+      "bytes": 131641,
+      "sha256": "e1e43734ae031c05c902ecb861a86a50334c1655b77c864926399129bc567515"
+    },
+    {
+      "file": "images/forearm_far.png",
+      "bytes": 99159,
+      "sha256": "df8283c98b159f01e6a7e5519d099048eef6726dcb9e11b021516179b6053e48"
+    },
+    {
+      "file": "images/forearm_near.png",
+      "bytes": 102626,
+      "sha256": "e9d08082b0a44fc3930090607b400b646f69cc20b1f2c10190f4be58db9dacf6"
+    },
+    {
+      "file": "images/hand_far.png",
+      "bytes": 68274,
+      "sha256": "24659e1bdc504c5d5ca5143c53f0364ac78bcdc82fd93c2a612946d3ccd5c1d1"
+    },
+    {
+      "file": "images/hand_near.png",
+      "bytes": 93523,
+      "sha256": "f3b4b87858f1a6785c5c566472c5d193e3eca11906012c54ea37dff8cf46c053"
+    },
+    {
+      "file": "images/head.png",
+      "bytes": 297424,
+      "sha256": "0b3660091b8df7c2bf984a592baee8490747356cbbb98acf280a4c0f7ced871f"
+    },
+    {
+      "file": "images/thigh_back.png",
+      "bytes": 417880,
+      "sha256": "37390c603ebca1370c60552860c4924e8ee0f5826fe9d42efedfea735c385590"
+    },
+    {
+      "file": "images/thigh_front.png",
+      "bytes": 303785,
+      "sha256": "af843d5ca6d4269e5c166aa555bdcec0675c691464bf828cc9033890e2be51ea"
+    },
+    {
+      "file": "images/torso.png",
+      "bytes": 2487845,
+      "sha256": "09d65ddacd21dfbfbae182df8e1718266e613425a1f2df92f0dc7dda2f8253af"
+    },
+    {
+      "file": "images/upper_arm_far.png",
+      "bytes": 79473,
+      "sha256": "aa494c29e309eb4c7410aa590940b1a385fb37c8bee47e7c70fef260d8d3ba3e"
+    },
+    {
+      "file": "images/upper_arm_near.png",
+      "bytes": 112647,
+      "sha256": "410a566ae09a815b2c5fe9aa3d01b0e5445d181ab3b1627d30c4c4a2b2f4cdd7"
+    },
+    {
+      "file": "images/weapon.png",
+      "bytes": 1031693,
+      "sha256": "79db592bec7afa13c012ba221cf3fb42c745cf56b3aa24afebe7a1756d348ba1"
+    },
+    {
+      "file": "runtime-0c78c140e3fb/swordsman-0c78c140e3fb.atlas",
+      "bytes": 713,
+      "sha256": "b03e2c779203bc849f1c5db652c9776ed29ce7872eeefcb330ff00f73310ec39"
+    },
+    {
+      "file": "runtime-0c78c140e3fb/swordsman-0c78c140e3fb.png",
+      "bytes": 1665771,
+      "sha256": "138971473305caa32d69cf33ba2423204082a756e31d05286c209cf581992727"
+    },
+    {
+      "file": "runtime-0c78c140e3fb/swordsman.json",
+      "bytes": 315728,
+      "sha256": "eb19cba6b9c7d10e0c6dbd3dfefbe241d5ea951c3dce40099ef2a6f2754e60e8"
+    },
+    {
+      "file": ".gitattributes",
+      "bytes": 90,
+      "sha256": "6f9f1a3561af65c2fa58ec1e7ebf93803c4a23e69e65eac4d87e652eee6f3d04"
+    }
+  ],
+  "sharedRuntime": "preview/spine-professional-verification-20261101/vendor/spine-pixi-v8-4.3.13.js",
+  "sharedRuntimeLicense": "preview/spine-professional-verification-20261101/vendor/SPINE-RUNTIME-LICENSE.txt",
+  "production": false,
+  "userFinalApproval": false,
+  "hashPolicy": "Exact bytes; rig-v1/.gitattributes disables line-ending normalization",
+  "diffCheck": {
+    "authored": "passed",
+    "excludedGenerated": [
+      "review.bundle.js",
+      "qa/native-import.log",
+      "qa/native-reopen.log",
+      "qa/native-export.log"
+    ],
+    "reason": "Unmodified upstream shader whitespace in esbuild output and native CLI log trailing blank lines"
+  }
+}

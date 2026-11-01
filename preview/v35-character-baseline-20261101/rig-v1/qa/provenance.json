@@ -1,0 +1,11 @@
+{
+  "source": "../baseline-v4.png",
+  "sourceSha256": "fd8eea2da078ba3f7cfcef7da44946612e950ce2b0d0cd778a4b57976e00aa44",
+  "parts": 17,
+  "sourceVisiblePixels": 560957,
+  "selectedPixelsIncludingOverlap": 590675,
+  "changedSelectedPixels": 0,
+  "uncoveredSourcePixels": 0,
+  "sourceRepainted": false,
+  "hiddenArtworkAdded": false
+}

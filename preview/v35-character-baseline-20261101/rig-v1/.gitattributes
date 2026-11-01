@@ -1,0 +1,2 @@
+# Preserve source, export, and evidence bytes so receipt hashes survive checkout.
+* -text

@@ -1,0 +1,1097 @@
+{
+  "source": "../baseline-v4.png",
+  "sha256": "fd8eea2da078ba3f7cfcef7da44946612e950ce2b0d0cd778a4b57976e00aa44",
+  "origin": [
+    512,
+    1450
+  ],
+  "sourceSize": [
+    1024,
+    1536
+  ],
+  "parts": [
+    {
+      "name": "coat_back",
+      "sourceRect": {
+        "x": 0,
+        "y": 544,
+        "width": 512,
+        "height": 608
+      },
+      "vertices": 274,
+      "triangles": 542,
+      "sha256": "7794ee433a95c65e4d030f6953096e1a33c8698e6f700b3748762cf87387fe74",
+      "selectedPixels": 67667,
+      "overlapPixels": 2506,
+      "selectedOriginalRgbaPreserved": true,
+      "unselectedAlphaCleared": true,
+      "jointOverlapPixels": 2,
+      "meshDefinesCutout": false
+    },
+    {
+      "name": "coat_front",
+      "sourceRect": {
+        "x": 384,
+        "y": 672,
+        "width": 224,
+        "height": 480
+      },
+      "vertices": 88,
+      "triangles": 170,
+      "sha256": "8335ceb04c8d7387445e941d17aa10f8086c9893934953d3d649599892132a88",
+      "selectedPixels": 23712,
+      "overlapPixels": 2076,
+      "selectedOriginalRgbaPreserved": true,
+      "unselectedAlphaCleared": true,
+      "jointOverlapPixels": 2,
+      "meshDefinesCutout": false
+    },
+    {
+      "name": "thigh_back",
+      "sourceRect": {
+        "x": 128,
+        "y": 672,
+        "width": 448,
+        "height": 448
+      },
+      "vertices": 173,
+      "triangles": 340,
+      "sha256": "37390c603ebca1370c60552860c4924e8ee0f5826fe9d42efedfea735c385590",
+      "selectedPixels": 45324,
+      "overlapPixels": 2477,
+      "selectedOriginalRgbaPreserved": true,
+      "unselectedAlphaCleared": true,
+      "jointOverlapPixels": 2,
+      "meshDefinesCutout": false
+    },
+    {
+      "name": "calf_back",
+      "sourceRect": {
+        "x": 32,
+        "y": 1056,
+        "width": 320,
+        "height": 288
+      },
+      "vertices": 76,
+      "triangles": 146,
+      "sha256": "e5e828c13d4c2d9f163f3087b07e62b3c106729894a33609a2454441bf3dbee8",
+      "selectedPixels": 26933,
+      "overlapPixels": 715,
+      "selectedOriginalRgbaPreserved": true,
+      "unselectedAlphaCleared": true,
+      "jointOverlapPixels": 2,
+      "meshDefinesCutout": false
+    },
+    {
+      "name": "foot_back",
+      "sourceRect": {
+        "x": 0,
+        "y": 1280,
+        "width": 256,
+        "height": 224
+      },
+      "vertices": 46,
+      "triangles": 86,
+      "sha256": "82c666dcbbf21d4912069eec89c31ee50bbf1b78127c8174723eca4e3b8293c3",
+      "selectedPixels": 18367,
+      "overlapPixels": 280,
+      "selectedOriginalRgbaPreserved": true,
+      "unselectedAlphaCleared": true,
+      "jointOverlapPixels": 2,
+      "meshDefinesCutout": false
+    },
+    {
+      "name": "thigh_front",
+      "sourceRect": {
+        "x": 512,
+        "y": 640,
+        "width": 352,
+        "height": 480
+      },
+      "vertices": 144,
+      "triangles": 282,
+      "sha256": "af843d5ca6d4269e5c166aa555bdcec0675c691464bf828cc9033890e2be51ea",
+      "selectedPixels": 49271,
+      "overlapPixels": 2326,
+      "selectedOriginalRgbaPreserved": true,
+      "unselectedAlphaCleared": true,
+      "jointOverlapPixels": 2,
+      "meshDefinesCutout": false
+    },
+    {
+      "name": "calf_front",
+      "sourceRect": {
+        "x": 608,
+        "y": 1056,
+        "width": 256,
+        "height": 288
+      },
+      "vertices": 60,
+      "triangles": 114,
+      "sha256": "9917ff9e9edf8422ab42dbe223df93156147c0e2dd0e9e74ef2d42c958504a08",
+      "selectedPixels": 23777,
+      "overlapPixels": 671,
+      "selectedOriginalRgbaPreserved": true,
+      "unselectedAlphaCleared": true,
+      "jointOverlapPixels": 2,
+      "meshDefinesCutout": false
+    },
+    {
+      "name": "foot_front",
+      "sourceRect": {
+        "x": 640,
+        "y": 1248,
+        "width": 384,
+        "height": 224
+      },
+      "vertices": 70,
+      "triangles": 134,
+      "sha256": "e1e43734ae031c05c902ecb861a86a50334c1655b77c864926399129bc567515",
+      "selectedPixels": 25775,
+      "overlapPixels": 435,
+      "selectedOriginalRgbaPreserved": true,
+      "unselectedAlphaCleared": true,
+      "jointOverlapPixels": 2,
+      "meshDefinesCutout": false
+    },
+    {
+      "name": "torso",
+      "sourceRect": {
+        "x": 0,
+        "y": 0,
+        "width": 1024,
+        "height": 1536
+      },
+      "vertices": 1461,
+      "triangles": 2916,
+      "sha256": "09d65ddacd21dfbfbae182df8e1718266e613425a1f2df92f0dc7dda2f8253af",
+      "selectedPixels": 166320,
+      "overlapPixels": 9885,
+      "selectedOriginalRgbaPreserved": true,
+      "unselectedAlphaCleared": true,
+      "jointOverlapPixels": 2,
+      "meshDefinesCutout": false
+    },
+    {
+      "name": "head",
+      "sourceRect": {
+        "x": 384,
+        "y": 32,
+        "width": 384,
+        "height": 352
+      },
+      "vertices": 114,
+      "triangles": 222,
+      "sha256": "0b3660091b8df7c2bf984a592baee8490747356cbbb98acf280a4c0f7ced871f",
+      "selectedPixels": 46593,
+      "overlapPixels": 753,
+      "selectedOriginalRgbaPreserved": true,
+      "unselectedAlphaCleared": true,
+      "jointOverlapPixels": 2,
+      "meshDefinesCutout": false
+    },
+    {
+      "name": "upper_arm_far",
+      "sourceRect": {
+        "x": 608,
+        "y": 384,
+        "width": 160,
+        "height": 224
+      },
+      "vertices": 28,
+      "triangles": 50,
+      "sha256": "aa494c29e309eb4c7410aa590940b1a385fb37c8bee47e7c70fef260d8d3ba3e",
+      "selectedPixels": 7781,
+      "overlapPixels": 498,
+      "selectedOriginalRgbaPreserved": true,
+      "unselectedAlphaCleared": true,
+      "jointOverlapPixels": 2,
+      "meshDefinesCutout": false
+    },
+    {
+      "name": "forearm_far",
+      "sourceRect": {
+        "x": 608,
+        "y": 512,
+        "width": 256,
+        "height": 192
+      },
+      "vertices": 39,
+      "triangles": 72,
+      "sha256": "df8283c98b159f01e6a7e5519d099048eef6726dcb9e11b021516179b6053e48",
+      "selectedPixels": 8598,
+      "overlapPixels": 704,
+      "selectedOriginalRgbaPreserved": true,
+      "unselectedAlphaCleared": true,
+      "jointOverlapPixels": 2,
+      "meshDefinesCutout": false
+    },
+    {
+      "name": "hand_far",
+      "sourceRect": {
+        "x": 704,
+        "y": 608,
+        "width": 224,
+        "height": 192
+      },
+      "vertices": 34,
+      "triangles": 62,
+      "sha256": "24659e1bdc504c5d5ca5143c53f0364ac78bcdc82fd93c2a612946d3ccd5c1d1",
+      "selectedPixels": 7843,
+      "overlapPixels": 566,
+      "selectedOriginalRgbaPreserved": true,
+      "unselectedAlphaCleared": true,
+      "jointOverlapPixels": 2,
+      "meshDefinesCutout": false
+    },
+    {
+      "name": "upper_arm_near",
+      "sourceRect": {
+        "x": 128,
+        "y": 320,
+        "width": 256,
+        "height": 192
+      },
+      "vertices": 39,
+      "triangles": 72,
+      "sha256": "410a566ae09a815b2c5fe9aa3d01b0e5445d181ab3b1627d30c4c4a2b2f4cdd7",
+      "selectedPixels": 13784,
+      "overlapPixels": 871,
+      "selectedOriginalRgbaPreserved": true,
+      "unselectedAlphaCleared": true,
+      "jointOverlapPixels": 2,
+      "meshDefinesCutout": false
+    },
+    {
+      "name": "forearm_near",
+      "sourceRect": {
+        "x": 128,
+        "y": 448,
+        "width": 192,
+        "height": 224
+      },
+      "vertices": 34,
+      "triangles": 62,
+      "sha256": "e9d08082b0a44fc3930090607b400b646f69cc20b1f2c10190f4be58db9dacf6",
+      "selectedPixels": 12337,
+      "overlapPixels": 640,
+      "selectedOriginalRgbaPreserved": true,
+      "unselectedAlphaCleared": true,
+      "jointOverlapPixels": 2,
+      "meshDefinesCutout": false
+    },
+    {
+      "name": "weapon",
+      "sourceRect": {
+        "x": 128,
+        "y": 544,
+        "width": 896,
+        "height": 608
+      },
+      "vertices": 490,
+      "triangles": 974,
+      "sha256": "79db592bec7afa13c012ba221cf3fb42c745cf56b3aa24afebe7a1756d348ba1",
+      "selectedPixels": 36178,
+      "overlapPixels": 3561,
+      "selectedOriginalRgbaPreserved": true,
+      "unselectedAlphaCleared": true,
+      "jointOverlapPixels": 2,
+      "meshDefinesCutout": false
+    },
+    {
+      "name": "hand_near",
+      "sourceRect": {
+        "x": 192,
+        "y": 576,
+        "width": 192,
+        "height": 192
+      },
+      "vertices": 29,
+      "triangles": 52,
+      "sha256": "f3b4b87858f1a6785c5c566472c5d193e3eca11906012c54ea37dff8cf46c053",
+      "selectedPixels": 10415,
+      "overlapPixels": 754,
+      "selectedOriginalRgbaPreserved": true,
+      "unselectedAlphaCleared": true,
+      "jointOverlapPixels": 2,
+      "meshDefinesCutout": false
+    }
+  ],
+  "bones": {
+    "root": {
+      "x": 0,
+      "y": 0,
+      "a": 0,
+      "index": 0
+    },
+    "pelvis": {
+      "x": 8,
+      "y": 800,
+      "a": 0,
+      "index": 1
+    },
+    "chest": {
+      "x": -12,
+      "y": 1020,
+      "a": 0,
+      "index": 2
+    },
+    "head": {
+      "x": 51,
+      "y": 1162,
+      "a": 0,
+      "index": 3
+    },
+    "coat_back": {
+      "x": -115,
+      "y": 763,
+      "a": 0,
+      "index": 8
+    },
+    "coat_back_tip": {
+      "x": -332,
+      "y": 534,
+      "a": 0,
+      "index": 9
+    },
+    "coat_front": {
+      "x": 14,
+      "y": 711,
+      "a": 0,
+      "index": 10
+    },
+    "coat_front_tip": {
+      "x": -29,
+      "y": 484,
+      "a": 0,
+      "index": 11
+    },
+    "weapon_grip": {
+      "x": -233,
+      "y": 776,
+      "a": 0,
+      "index": 16
+    },
+    "wrist_near": {
+      "x": -254,
+      "y": 835,
+      "a": 0,
+      "index": 18
+    },
+    "wrist_far": {
+      "x": 288,
+      "y": 808,
+      "a": 0,
+      "index": 19
+    },
+    "hand_far": {
+      "x": 288,
+      "y": 808,
+      "a": 0,
+      "index": 20
+    },
+    "foot_back": {
+      "x": -380,
+      "y": 104,
+      "a": 0,
+      "index": 21
+    },
+    "foot_front": {
+      "x": 287,
+      "y": 120,
+      "a": 0,
+      "index": 23
+    },
+    "arm_near_upper": {
+      "x": -160,
+      "y": 1130,
+      "a": -2.237868707686812,
+      "index": 4
+    },
+    "arm_near_lower": {
+      "x": -286,
+      "y": 970,
+      "a": -1.3380548150400715,
+      "index": 5
+    },
+    "arm_far_upper": {
+      "x": 117,
+      "y": 1064,
+      "a": -1.178456182579381,
+      "index": 6
+    },
+    "arm_far_lower": {
+      "x": 189,
+      "y": 890,
+      "a": -0.6917502372807489,
+      "index": 7
+    },
+    "leg_back_upper": {
+      "x": -35,
+      "y": 732,
+      "a": -2.0848844657278907,
+      "index": 12
+    },
+    "leg_back_lower": {
+      "x": -240,
+      "y": 369,
+      "a": -2.056828256134993,
+      "index": 13
+    },
+    "leg_front_upper": {
+      "x": 56,
+      "y": 746,
+      "a": -1.0133964111760478,
+      "index": 14
+    },
+    "leg_front_lower": {
+      "x": 243,
+      "y": 446,
+      "a": -1.4366377247688393,
+      "index": 15
+    },
+    "blade_tip": {
+      "x": 499,
+      "y": 337,
+      "a": 0,
+      "index": 17
+    },
+    "sole_back": {
+      "x": -369,
+      "y": 10,
+      "a": 0,
+      "index": 22
+    },
+    "sole_front": {
+      "x": 334,
+      "y": 28,
+      "a": 0,
+      "index": 24
+    }
+  },
+  "selectionPolygons": {
+    "weapon": [
+      [
+        151,
+        602
+      ],
+      [
+        182,
+        596
+      ],
+      [
+        236,
+        626
+      ],
+      [
+        289,
+        663
+      ],
+      [
+        317,
+        679
+      ],
+      [
+        343,
+        673
+      ],
+      [
+        388,
+        644
+      ],
+      [
+        412,
+        647
+      ],
+      [
+        395,
+        676
+      ],
+      [
+        378,
+        697
+      ],
+      [
+        1020,
+        1118
+      ],
+      [
+        998,
+        1113
+      ],
+      [
+        371,
+        761
+      ],
+      [
+        334,
+        749
+      ],
+      [
+        324,
+        774
+      ],
+      [
+        299,
+        779
+      ],
+      [
+        291,
+        754
+      ],
+      [
+        307,
+        731
+      ],
+      [
+        294,
+        709
+      ],
+      [
+        250,
+        689
+      ],
+      [
+        210,
+        657
+      ],
+      [
+        164,
+        642
+      ]
+    ],
+    "hand_near": [
+      [
+        234,
+        603
+      ],
+      [
+        284,
+        606
+      ],
+      [
+        299,
+        633
+      ],
+      [
+        327,
+        663
+      ],
+      [
+        327,
+        706
+      ],
+      [
+        303,
+        727
+      ],
+      [
+        277,
+        720
+      ],
+      [
+        248,
+        711
+      ],
+      [
+        222,
+        685
+      ],
+      [
+        218,
+        649
+      ]
+    ],
+    "head": [
+      [
+        431,
+        65
+      ],
+      [
+        710,
+        65
+      ],
+      [
+        711,
+        232
+      ],
+      [
+        645,
+        281
+      ],
+      [
+        603,
+        304
+      ],
+      [
+        595,
+        338
+      ],
+      [
+        553,
+        350
+      ],
+      [
+        512,
+        318
+      ],
+      [
+        490,
+        265
+      ],
+      [
+        431,
+        251
+      ]
+    ],
+    "coat_back": [
+      [
+        386,
+        590
+      ],
+      [
+        455,
+        602
+      ],
+      [
+        435,
+        681
+      ],
+      [
+        389,
+        755
+      ],
+      [
+        313,
+        836
+      ],
+      [
+        239,
+        938
+      ],
+      [
+        141,
+        1083
+      ],
+      [
+        99,
+        1112
+      ],
+      [
+        57,
+        1068
+      ],
+      [
+        42,
+        988
+      ],
+      [
+        18,
+        945
+      ],
+      [
+        11,
+        854
+      ],
+      [
+        102,
+        796
+      ],
+      [
+        199,
+        727
+      ],
+      [
+        299,
+        662
+      ]
+    ],
+    "coat_front": [
+      [
+        536,
+        697
+      ],
+      [
+        575,
+        722
+      ],
+      [
+        575,
+        813
+      ],
+      [
+        554,
+        919
+      ],
+      [
+        523,
+        1023
+      ],
+      [
+        477,
+        1077
+      ],
+      [
+        436,
+        1104
+      ],
+      [
+        459,
+        1004
+      ],
+      [
+        479,
+        904
+      ],
+      [
+        484,
+        827
+      ]
+    ],
+    "arm_near": [
+      [
+        293,
+        353
+      ],
+      [
+        345,
+        391
+      ],
+      [
+        308,
+        440
+      ],
+      [
+        283,
+        480
+      ],
+      [
+        287,
+        531
+      ],
+      [
+        286,
+        593
+      ],
+      [
+        294,
+        625
+      ],
+      [
+        274,
+        655
+      ],
+      [
+        230,
+        645
+      ],
+      [
+        204,
+        615
+      ],
+      [
+        194,
+        554
+      ],
+      [
+        174,
+        495
+      ],
+      [
+        168,
+        456
+      ],
+      [
+        187,
+        405
+      ],
+      [
+        235,
+        383
+      ]
+    ],
+    "arm_far": [
+      [
+        643,
+        440
+      ],
+      [
+        689,
+        451
+      ],
+      [
+        711,
+        495
+      ],
+      [
+        740,
+        560
+      ],
+      [
+        779,
+        594
+      ],
+      [
+        825,
+        625
+      ],
+      [
+        869,
+        667
+      ],
+      [
+        885,
+        717
+      ],
+      [
+        866,
+        762
+      ],
+      [
+        827,
+        756
+      ],
+      [
+        807,
+        726
+      ],
+      [
+        789,
+        687
+      ],
+      [
+        757,
+        654
+      ],
+      [
+        704,
+        615
+      ],
+      [
+        661,
+        583
+      ],
+      [
+        641,
+        533
+      ]
+    ],
+    "leg_back": [
+      [
+        466,
+        701
+      ],
+      [
+        532,
+        739
+      ],
+      [
+        513,
+        809
+      ],
+      [
+        455,
+        883
+      ],
+      [
+        407,
+        943
+      ],
+      [
+        354,
+        1027
+      ],
+      [
+        316,
+        1120
+      ],
+      [
+        274,
+        1208
+      ],
+      [
+        232,
+        1302
+      ],
+      [
+        218,
+        1381
+      ],
+      [
+        213,
+        1454
+      ],
+      [
+        41,
+        1468
+      ],
+      [
+        30,
+        1408
+      ],
+      [
+        62,
+        1324
+      ],
+      [
+        92,
+        1258
+      ],
+      [
+        123,
+        1194
+      ],
+      [
+        146,
+        1101
+      ],
+      [
+        216,
+        1009
+      ],
+      [
+        290,
+        930
+      ],
+      [
+        350,
+        851
+      ],
+      [
+        395,
+        772
+      ]
+    ],
+    "leg_front": [
+      [
+        544,
+        698
+      ],
+      [
+        625,
+        683
+      ],
+      [
+        669,
+        729
+      ],
+      [
+        731,
+        802
+      ],
+      [
+        790,
+        886
+      ],
+      [
+        823,
+        947
+      ],
+      [
+        823,
+        1013
+      ],
+      [
+        820,
+        1074
+      ],
+      [
+        822,
+        1168
+      ],
+      [
+        837,
+        1241
+      ],
+      [
+        850,
+        1321
+      ],
+      [
+        945,
+        1366
+      ],
+      [
+        991,
+        1396
+      ],
+      [
+        986,
+        1444
+      ],
+      [
+        701,
+        1440
+      ],
+      [
+        678,
+        1379
+      ],
+      [
+        681,
+        1318
+      ],
+      [
+        659,
+        1232
+      ],
+      [
+        659,
+        1148
+      ],
+      [
+        659,
+        1078
+      ],
+      [
+        641,
+        1013
+      ],
+      [
+        608,
+        944
+      ],
+      [
+        556,
+        866
+      ],
+      [
+        513,
+        805
+      ]
+    ]
+  },
+  "sharedBindCoordinates": true,
+  "weightsScopedByPart": true,
+  "selectionGridSpacing": 16,
+  "meshGridSpacing": 32,
+  "hiddenRegionsPainted": false,
+  "scope": "Static assembly and restrained idle only; new attack poses need occlusion artwork",
+  "nearGripSource": [
+    279,
+    674
+  ],
+  "bladeTipSource": [
+    1011,
+    1113
+  ],
+  "soleSource": {
+    "back": [
+      143,
+      1440
+    ],
+    "front": [
+      846,
+      1422
+    ]
+  },
+  "idle": {
+    "duration": 4.2,
+    "inhale": 1.45,
+    "exhale": 2.75,
+    "weaponHeldStill": true,
+    "feetHeldStill": true
+  },
+  "userProceedQuote": "어 해봐",
+  "finalVisualApproval": false
+}

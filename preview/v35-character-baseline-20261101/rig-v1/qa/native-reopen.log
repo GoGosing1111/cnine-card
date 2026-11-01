@@ -1,0 +1,17 @@
+Spine Launcher 4.3.08
+Esoteric Software LLC (C) 2013-2026 | http://esotericsoftware.com
+Windows 10 Pro amd64 10.0
+Starting: Spine 4.3.26 Professional
+Spine 4.3.26 Professional
+Licensed to: [redacted]
+Project info: C:\Users\User\Downloads\upload\cnine-card\preview\v35-character-baseline-20261101\rig-v1\swordsman-0c78c140e3fb.spine
+  Spine version: 4.3.26
+  Dopesheet FPS: 30
+  Skeleton: swordsman
+    Size: <unknown>
+    Bones (25): root, pelvis, chest, head, arm_near_upper, arm_near_lower, arm_far_upper, arm_far_lower, coat_back, coat_back_tip, coat_front, coat_front_tip, leg_back_upper, leg_back_lower, leg_front_upper, leg_front_lower, weapon_grip, blade_tip, wrist_near, wrist_far, hand_far, foot_back, sole_back, foot_front, sole_front
+    Slots (17): coat_back, coat_front, thigh_back, calf_back, foot_back, thigh_front, calf_front, foot_front, torso, head, upper_arm_far, forearm_far, hand_far, upper_arm_near, forearm_near, weapon, hand_near
+    IK constraints (4): arm_far_ik, leg_back_ik, leg_front_ik, arm_near_ik
+    Animations (2): idle, setup
+Complete.
+
