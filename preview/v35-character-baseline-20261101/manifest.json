@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-01",
+  "request": "새 캐릭터로 처음부터 기준점부터 다시 잡아가라",
+  "status": "BASELINE_CANDIDATE_USER_REVIEW_PENDING",
+  "selectedCandidate": "baseline-v3.png",
+  "character": {
+    "temporaryDescription": "흑발·붉은 코트·강철 보호구·직선 한손검의 성인 남성 검사",
+    "name": null,
+    "rarity": null,
+    "stats": null,
+    "scope": "V3.5 전신 기준안, 오른쪽을 향하는 전투 대기 자세",
+    "userApproved": false
+  },
+  "generator": "built-in image_gen",
+  "transparentBackgroundRequested": true,
+  "savedWithoutPixelModification": true,
+  "generationDirectory": "C:/Users/User/.codex/generated_images/01a19660-79fe-7861-8630-c01a2bd2c294",
+  "artifacts": [
+    {
+      "file": "baseline-v1.png",
+      "prompt": "prompt-v1.txt",
+      "source": "exec-9dc037ce-b5c1-45c7-83e5-a023a86ecd89.png",
+      "references": [],
+      "sha256": "b03740e8e29b54423254b82043bd2112a949394e58a669c7bdf49a5bdaf8107c",
+      "bytes": 1810883,
+      "width": 1024,
+      "height": 1536,
+      "alpha": { "transparentPixels": 1126719, "partialPixels": 446145, "opaquePixels": 0, "maximum": 254 },
+      "status": "EARLIER_CANDIDATE_UNAPPROVED"
+    },
+    {
+      "file": "baseline-v2.png",
+      "prompt": "prompt-v2.txt",
+      "source": "exec-e727445f-a9ac-4657-bb1b-17ae2f781739.png",
+      "references": ["baseline-v1.png"],
+      "sha256": "0783b02f06b99e7ad69263788e02aa6c9038f9a22d33c66ccb60450e302bdfaa",
+      "bytes": 1807716,
+      "width": 1024,
+      "height": 1536,
+      "alpha": { "transparentPixels": 1113853, "partialPixels": 459011, "opaquePixels": 0, "maximum": 254 },
+      "status": "POSE_CHANGE_INSUFFICIENT_SUPERSEDED"
+    },
+    {
+      "file": "baseline-v3.png",
+      "prompt": "prompt-v3.txt",
+      "source": "exec-7ade7223-b435-4afe-9387-52f72acdbd5a.png",
+      "references": ["baseline-v2.png"],
+      "sha256": "8fb1d64a3075c8e2e00cf0ebad052e3dcdf1e27712f4bfb67dd0d43dfb39c4e5",
+      "bytes": 1807479,
+      "width": 1024,
+      "height": 1536,
+      "alpha": { "transparentPixels": 1114473, "partialPixels": 458391, "opaquePixels": 0, "maximum": 254 },
+      "status": "CURRENT_CANDIDATE_UNAPPROVED"
+    }
+  ],
+  "verification": {
+    "directImageInspection": true,
+    "originalBytesAndHashesVerified": true,
+    "finalAlphaQualityPassed": false,
+    "groundAndGripCoordinatesLocked": false,
+    "partsSeparated": false,
+    "staticReassemblyPassed": false,
+    "nativeSpineRigCreated": false,
+    "animationCreated": false,
+    "v3BattleIntegrated": false,
+    "physicalDevicePerformanceMeasured": false,
+    "dnfQualityDemonstrated": false,
+    "userApproved": false,
+    "productionReleased": false
+  },
+  "next": "전신 기준안을 먼저 맞춘 뒤 정지 재조립 비교, 대기, 기본 공격, 대표 스킬 순서로 진행",
+  "priorPilot": {
+    "character": "진 족로",
+    "status": "SPINE_ASSEMBLY_REJECTED_AND_ON_HOLD",
+    "v7IllustrationApprovalPreserved": true,
+    "failedArtifactsPreservedLocally": true,
+    "automaticResume": false
+  }
+}

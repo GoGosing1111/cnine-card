@@ -1,0 +1,9 @@
+Use the attached swordsman only as an IDENTITY AND COSTUME reference. Create a new full-body combat-stance drawing of that same character, changing the pose substantially. This is a practical game-animation model sheet with one figure.
+
+He is an athletic adult man with short black hair, a burgundy split-tail combat coat, worn steel shoulder armor and forearm guards, leather gloves, black trousers and knee-high dark boots. Retain his face, proportions, costume design, one straight longsword, and refined 2D anime/painterly illustration style.
+
+CRITICAL POSE CHANGE: He stands in a balanced lateral fencing-ready stance facing screen RIGHT, viewed at EYE LEVEL. Torso and hips turn much farther toward screen right than in the reference. Show a three-quarter side view, not the frontal portrait stance. The rear boot is at screen left and the front boot at screen right, both seen mainly from the SIDE, and BOTH BOOT SOLES sit exactly on the same horizontal ground level. Neither boot points toward the viewer. Both knees are slightly flexed, weight centered between feet, shoulders relaxed. Do not reuse the reference's asymmetrical high/low feet or frontal extended boot. Legs have normal adult lengths, hands and feet normal human size.
+
+The near right hand securely grips the sword hilt at the right hip. One complete rigid straight sword points forward and diagonally down to screen right, the tip above ground. Keep fingers around the grip behind the guard. The left hand is relaxed and readable in front of the abdomen, not holding a second weapon. Readable arm shapes with shoulders/elbows/wrists connected.
+
+Clean separated silhouette. Whole hair, both soles, and complete sword visible with generous margins. No text, no panel, no extra figures, no effects, no bloom, no halo, no colored haze, no cast shadow. Solid opaque character, true transparent alpha background. One single assembled character, not cut-out parts.
