@@ -12,7 +12,7 @@ test('direct Windows and Android clients plus browser/PWA user agents expose and
   for(const agent of agents){
    assert(supportPackageClientAllowed(new Request('https://support.test',{headers:{'user-agent':agent}})));
    const info=await call(agent,'server-support/info');assert.equal(info.status,200);assert.equal(info.body.packageVisible,true);
-   const offer=await call(agent,'server-support/package');assert.equal(offer.status,200);assert.equal(offer.body.product.coins,400000000000000);
+   const offer=await call(agent,'server-support/package');assert.equal(offer.status,200);assert.equal(offer.body.product.coins,500000000000000);
    const body={requestId:crypto.randomUUID(),quantity:100},applied=await call(agent,'server-support/package/apply',body);assert.equal(applied.status,200,JSON.stringify(applied.body));assert.equal(applied.body.order.quantity,100);assert.equal((await call(agent,'server-support/package/apply',body)).body.replayed,true);
    assert.equal((await call(agent,'server-support/package/apply',{requestId:crypto.randomUUID(),quantity:1},3)).status,403);
   }
@@ -28,10 +28,10 @@ test('5, 10, custom 7 and maximum 100 applications have matching bank, owner, CM
    const id=crypto.randomUUID(),applied=await applyQuantity(f,quantity,id);assert.equal(applied.status,200,JSON.stringify(applied.body));const order=applied.body.order;assert.equal(order.quantity,quantity);
    assert.equal((await applyQuantity(f,quantity,id)).body.replayed,true);
    const messages=await f.env.DB.prepare('SELECT title,body FROM user_messages WHERE campaign_key IN (?,?)').bind(applied.body.campaignKey,'support_package_owner_alert_v1:'+order.id).all();assert.equal(messages.results.length,2);
-   for(const m of messages.results){assert(m.body.includes((quantity*49800).toLocaleString('ko-KR')+'원'));assert(m.body.includes(quantity+'회'));assert(m.body.includes(quantity*400+'조 코인'));}
-   const alert=(await f.call('admin/server-support/package/alerts')).body.pending[0];assert.equal(alert.quantity,quantity);assert.equal(alert.product.priceWon,49800*quantity);assert.equal(BigInt(alert.product.coins),400000000000000n*BigInt(quantity));
+   for(const m of messages.results){assert(m.body.includes((quantity*49800).toLocaleString('ko-KR')+'원'));assert(m.body.includes(quantity+'회'));assert(m.body.includes(quantity*500+'조 코인'));}
+   const alert=(await f.call('admin/server-support/package/alerts')).body.pending[0];assert.equal(alert.quantity,quantity);assert.equal(alert.product.priceWon,49800*quantity);assert.equal(BigInt(alert.product.coins),500000000000000n*BigInt(quantity));
    const rid=crypto.randomUUID(),paid=await f.process(order,'FULFILL',rid);assert.equal(paid.status,200,JSON.stringify(paid.body));assert.equal(paid.body.order.fulfillment.packageQuantity,quantity*2);
-   units+=quantity;restricted+=400000000000000n*BigInt(quantity);balance+=400000000000000n*BigInt(quantity);
+   units+=quantity;restricted+=500000000000000n*BigInt(quantity);balance+=500000000000000n*BigInt(quantity);
    assert.equal((await f.one('SELECT CAST(coin AS TEXT) coin FROM users WHERE id=2')).coin,balance.toString());
    for(const [code,count] of [['EMPEROR_ENERGY',400],['MERCENARY_SSS_LIMITED_SHARD',10],['WEAPON_ENHANCEMENT_SCROLL',10],['ARMOR_ENHANCEMENT_SCROLL',10]])assert.equal(Number((await f.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code=?',code)).quantity),units*count);
    assert.equal((await f.process(order,'FULFILL',rid)).body.replayed,true);assert.equal((await f.process(order)).status,409);
@@ -54,15 +54,15 @@ test('100 applications roll back completely on partial inventory failure and pre
   assert.equal((await f.one('SELECT CAST(coin AS TEXT) coin FROM users WHERE id=2')).coin,'1234');assert.equal(Number((await f.one('SELECT COUNT(*) n FROM cnine_user_inventory')).n),0);assert.equal(await f.one("SELECT value FROM app_meta WHERE key='support_package_coin_v1:2'"),null);
   assert.equal((await f.process(order)).status,200);
   const change=async(amount,reason)=>f.env.DB.batch([f.env.DB.prepare('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=2').bind(amount),f.env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,CAST(? AS BIGINT),coin,? FROM users WHERE id=2').bind(amount,reason)]);
-  await change('-1','일반 구매');let snapshot=await readPackageCoinAccounting(f.env,2);assert.equal(snapshot.restrictedExact,'39999999999999999');assert.equal(snapshot.availableExact,'1234');
-  await change('-20000000000000001','경매 #42 누적 입찰');snapshot=await readPackageCoinAccounting(f.env,2);assert.equal(snapshot.restrictedExact,'19999999999999998');assert.equal(snapshot.state.auctionReserved['42'],'20000000000000001');
+  await change('-1','일반 구매');let snapshot=await readPackageCoinAccounting(f.env,2);assert.equal(snapshot.restrictedExact,'49999999999999999');assert.equal(snapshot.availableExact,'1234');
+  await change('-20000000000000001','경매 #42 누적 입찰');snapshot=await readPackageCoinAccounting(f.env,2);assert.equal(snapshot.restrictedExact,'29999999999999998');assert.equal(snapshot.state.auctionReserved['42'],'20000000000000001');
   await f.env.DB.batch(packageCoinGuardStatements(f.env,2,snapshot));
-  await change('20000000000000001','경매 #42 유찰·차순위 환급');snapshot=await readPackageCoinAccounting(f.env,2);assert.equal(snapshot.restrictedExact,'39999999999999999');assert.equal(snapshot.availableExact,'1234');assert.deepEqual(snapshot.state.auctionReserved,{});
+  await change('20000000000000001','경매 #42 유찰·차순위 환급');snapshot=await readPackageCoinAccounting(f.env,2);assert.equal(snapshot.restrictedExact,'49999999999999999');assert.equal(snapshot.availableExact,'1234');assert.deepEqual(snapshot.state.auctionReserved,{});
   assert.throws(()=>requirePredictionCoins(snapshot,1235),{code:'PREDICTION_PACKAGE_COIN'});requirePredictionCoins(snapshot,1234);
  }finally{await f.close();}
 });
-test('November offer is 200 trillion per package, 400 trillion for 1+1; historical products are unchanged',()=>{
- assert.equal(SUPPORT_PACKAGE_CURRENT_UNIT.coins,200000000000000);assert.equal(SUPPORT_PACKAGE.coins,400000000000000);assert.equal(SUPPORT_PACKAGE.priceWon,49800);assert.equal(SUPPORT_PACKAGE.packageQuantity,2);
+test('November offer is 250 trillion per package, 500 trillion for 1+1; historical products are unchanged',()=>{
+ assert.equal(SUPPORT_PACKAGE_CURRENT_UNIT.coins,250000000000000);assert.equal(SUPPORT_PACKAGE.coins,500000000000000);assert.equal(SUPPORT_PACKAGE.priceWon,49800);assert.equal(SUPPORT_PACKAGE.packageQuantity,2);
  assert.equal(SUPPORT_PACKAGE_UNIT.coins,100000000000000);assert.equal(SUPPORT_PACKAGE_LEGACY_BOGO.coins,200000000000000);
  assert.notEqual(SUPPORT_PACKAGE.code,SUPPORT_PACKAGE_UNIT.code);assert.notEqual(SUPPORT_PACKAGE.eventCode,SUPPORT_PACKAGE_LEGACY_BOGO.eventCode);
  assert.deepEqual(SUPPORT_PACKAGE_CURRENT_UNIT.items.slice(-2).map(i=>[i.code,i.quantity]),[['WEAPON_ENHANCEMENT_SCROLL',5],['ARMOR_ENHANCEMENT_SCROLL',5]]);
@@ -94,10 +94,10 @@ test('an October pending order keeps 200 trillion in the page, reissued bank ins
   const paid=await f.process(old);assert.equal(paid.status,200);assert.deepEqual(paid.body.order.fulfillment,SUPPORT_PACKAGE_LEGACY_BOGO);assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),200000000001234);
  }finally{await f.close();}
 });
-test('pre-scroll November bulk orders preserve their snapshot; new scroll grants fail atomically on armor-item failure',async()=>{
+test('pre-scroll November bulk orders preserve other items and receive the increased coins; new scroll grants fail atomically on armor-item failure',async()=>{
  const f=await packageFixture({postgres:true});try{
   await f.activate();const old={...(await applyQuantity(f,5)).body.order,product:SUPPORT_PACKAGE_NOVEMBER_BOGO};await f.run('UPDATE app_meta SET value=? WHERE key=?',JSON.stringify(old),'support_package_order_v1:'+old.id);
-  const paid=await f.process(old);assert.equal(paid.status,200);assert.equal(paid.body.order.fulfillment.items.length,2);assert.equal(paid.body.order.fulfillment.coins,2000000000000000);assert.equal(Number((await f.one("SELECT COUNT(*) n FROM cnine_user_inventory WHERE item_code LIKE '%ENHANCEMENT_SCROLL'")).n),0);
+  const paid=await f.process(old);assert.equal(paid.status,200);assert.equal(paid.body.order.fulfillment.items.length,2);assert.equal(paid.body.order.fulfillment.coins,2500000000000000);assert.equal(Number((await f.one("SELECT COUNT(*) n FROM cnine_user_inventory WHERE item_code LIKE '%ENHANCEMENT_SCROLL'")).n),0);
   const order=(await applyQuantity(f,1)).body.order,before=(await f.one('SELECT CAST(coin AS TEXT) coin FROM users WHERE id=2')).coin;
   await f.run("INSERT INTO inventory_items(code,name,is_active) VALUES('ARMOR_ENHANCEMENT_SCROLL','기존 비활성 주문서',0)");
   assert.equal((await f.process(order)).status,503);assert.equal((await f.one('SELECT CAST(coin AS TEXT) coin FROM users WHERE id=2')).coin,before);assert.equal(Number((await f.one("SELECT COUNT(*) n FROM cnine_user_inventory WHERE item_code LIKE '%ENHANCEMENT_SCROLL'")).n),0);

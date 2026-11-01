@@ -1,4 +1,4 @@
-import {supportPackageOrderProduct,supportPackageQuantityValid,supportPackageSummary,supportPackageEventDeadline,supportPackageSalesOpen,SUPPORT_PACKAGE_SALES_ENDS_AT} from '../shared/support-package-v1.mjs?v=20261101-package-clients-v1';
+import {supportPackageOrderProduct,supportPackageQuantityValid,supportPackageSummary,supportPackageEventDeadline,supportPackageSalesOpen,SUPPORT_PACKAGE_SALES_ENDS_AT} from '../shared/support-package-v1.mjs?v=20261101-package-500t-v1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function mountSupportPackage(root,{request,userId,onMessages=()=>{}}){
  let data=null,pending=null,result=null,busy=false,disposed=false,serverOffset=0,deadlineTimer=null,quantity=1;

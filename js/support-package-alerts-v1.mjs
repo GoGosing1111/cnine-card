@@ -1,4 +1,4 @@
-import {SUPPORT_PACKAGE,supportPackageSummary,SUPPORT_PACKAGE_EVENT_DEADLINE} from '../shared/support-package-v1.mjs?v=20261101-package-clients-v1';
+import {SUPPORT_PACKAGE,supportPackageSummary,SUPPORT_PACKAGE_EVENT_DEADLINE} from '../shared/support-package-v1.mjs?v=20261101-package-500t-v1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 // Owner-only polling: no package/order reads for ordinary players.
 export function mountPackageAlerts({root,request,canReceive,onOpen,onCount=()=>{}}){

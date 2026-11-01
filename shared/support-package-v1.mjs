@@ -17,9 +17,15 @@ export const SUPPORT_PACKAGE_NOVEMBER_BOGO=Object.freeze({...SUPPORT_PACKAGE_NOV
   coins:SUPPORT_PACKAGE_NOVEMBER_UNIT.coins*2,
   items:Object.freeze(SUPPORT_PACKAGE_NOVEMBER_UNIT.items.map(item=>Object.freeze({...item,quantity:item.quantity*2})))
 });
-export const SUPPORT_PACKAGE_CURRENT_UNIT=Object.freeze({...SUPPORT_PACKAGE_NOVEMBER_UNIT,code:'SEASON_PASS_PACKAGE_20261101_SCROLLS',items:Object.freeze([
+export const SUPPORT_PACKAGE_SCROLLS_400_UNIT=Object.freeze({...SUPPORT_PACKAGE_NOVEMBER_UNIT,code:'SEASON_PASS_PACKAGE_20261101_SCROLLS',items:Object.freeze([
   ...SUPPORT_PACKAGE_NOVEMBER_UNIT.items,...FORGE_SCROLL_ITEMS.map(({code,name,image})=>Object.freeze({code,name,quantity:5,image}))
 ])});
+export const SUPPORT_PACKAGE_SCROLLS_400_BOGO=Object.freeze({...SUPPORT_PACKAGE_SCROLLS_400_UNIT,
+  packageQuantity:2,eventCode:'SUPPORT_PACKAGE_BOGO_20261101',eventLabel:'1+1 이벤트',
+  coins:SUPPORT_PACKAGE_SCROLLS_400_UNIT.coins*2,
+  items:Object.freeze(SUPPORT_PACKAGE_SCROLLS_400_UNIT.items.map(item=>Object.freeze({...item,quantity:item.quantity*2})))
+});
+export const SUPPORT_PACKAGE_CURRENT_UNIT=Object.freeze({...SUPPORT_PACKAGE_SCROLLS_400_UNIT,code:'SEASON_PASS_PACKAGE_20261101_500T',coins:250000000000000});
 export const SUPPORT_PACKAGE=Object.freeze({...SUPPORT_PACKAGE_CURRENT_UNIT,
   packageQuantity:2,eventCode:'SUPPORT_PACKAGE_BOGO_20261101',eventLabel:'1+1 이벤트',
   coins:SUPPORT_PACKAGE_CURRENT_UNIT.coins*2,
@@ -35,13 +41,17 @@ export const supportPackageEventDeadline=product=>product?.eventCode===SUPPORT_P
 export const SUPPORT_PACKAGE_SALES_ENDS_AT=Date.parse(SUPPORT_PACKAGE_EVENT_DEADLINE.endsAt);
 export const supportPackageSalesOpen=(now=Date.now())=>Number.isFinite(now)&&now<SUPPORT_PACKAGE_SALES_ENDS_AT;
 const sameProduct=(product,known)=>JSON.stringify(product)===JSON.stringify(known);
-export const isSupportPackageProduct=product=>[SUPPORT_PACKAGE_UNIT,SUPPORT_PACKAGE_LEGACY_BOGO,SUPPORT_PACKAGE_NOVEMBER_BOGO,SUPPORT_PACKAGE].some(known=>sameProduct(product,known));
-export const supportPackageFulfillment=product=>[SUPPORT_PACKAGE,SUPPORT_PACKAGE_NOVEMBER_BOGO].find(known=>sameProduct(product,known))||([SUPPORT_PACKAGE_UNIT,SUPPORT_PACKAGE_LEGACY_BOGO].some(known=>sameProduct(product,known))?SUPPORT_PACKAGE_LEGACY_BOGO:null);
+const novemberProducts=[SUPPORT_PACKAGE,SUPPORT_PACKAGE_NOVEMBER_BOGO,SUPPORT_PACKAGE_SCROLLS_400_BOGO];
+export const isSupportPackageProduct=product=>[SUPPORT_PACKAGE_UNIT,SUPPORT_PACKAGE_LEGACY_BOGO,...novemberProducts].some(known=>sameProduct(product,known));
+export const supportPackageFulfillment=product=>novemberProducts.find(known=>sameProduct(product,known))||([SUPPORT_PACKAGE_UNIT,SUPPORT_PACKAGE_LEGACY_BOGO].some(known=>sameProduct(product,known))?SUPPORT_PACKAGE_LEGACY_BOGO:null);
 export const SUPPORT_PACKAGE_MAX_QUANTITY=100;
 export const supportPackageQuantityValid=n=>Number.isInteger(n)&&n>=1&&n<=SUPPORT_PACKAGE_MAX_QUANTITY;
 export function supportPackageOrderProduct(order){
-  const product=supportPackageFulfillment(order?.product),quantity=order?.quantity??1;
-  if(!product||!supportPackageQuantityValid(quantity)||![SUPPORT_PACKAGE,SUPPORT_PACKAGE_NOVEMBER_BOGO].includes(product)&&quantity!==1)return null;
+  let product=supportPackageFulfillment(order?.product);const quantity=order?.quantity??1;
+  if(!product||!supportPackageQuantityValid(quantity)||!novemberProducts.includes(product)&&quantity!==1)return null;
+  // The 500-trillion increase also applies when an existing November application is paid.
+  // Preserve the application snapshot, other items and completed/rejected historical terms.
+  if(novemberProducts.includes(product)&&(!order?.status||order.status==='PENDING'))product={...product,coins:SUPPORT_PACKAGE.coins};
   if(quantity===1)return product;
   const coins=BigInt(product.coins)*BigInt(quantity);
   return {...product,purchaseQuantity:quantity,priceWon:product.priceWon*quantity,packageQuantity:product.packageQuantity*quantity,

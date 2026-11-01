@@ -16,13 +16,13 @@ test('new and legacy pending applications deliver their own 1+1 terms with restr
    const before=Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),rid=crypto.randomUUID();
    const result=await f.process(order,'FULFILL',rid);assert.equal(result.status,200,JSON.stringify(result.body));
    assert.deepEqual(result.body.order.fulfillment,legacy?SUPPORT_PACKAGE_LEGACY_BOGO:SUPPORT_PACKAGE);assert.deepEqual(result.body.order.product,legacy?SUPPORT_PACKAGE_UNIT:SUPPORT_PACKAGE);
-   assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin)-before,legacy?200000000000000:400000000000000);
-   const accounting=await readPackageCoinAccounting(f.env,2);assert.equal(accounting.available,1234);assert.equal(accounting.restricted,legacy?600000000000000:400000000000000);
+   assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin)-before,legacy?200000000000000:500000000000000);
+   const accounting=await readPackageCoinAccounting(f.env,2);assert.equal(accounting.available,1234);assert.equal(accounting.restricted,legacy?700000000000000:500000000000000);
    assert.equal((await f.process(order,'FULFILL',rid)).body.replayed,true);assert.equal((await f.process(order)).status,409);
   }
   assert.equal(Number((await f.one("SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code='EMPEROR_ENERGY'")).quantity),800);
   assert.equal(Number((await f.one("SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code='MERCENARY_SSS_LIMITED_SHARD'")).quantity),20);
-  const messages=await f.all('SELECT body FROM user_messages');assert(messages.every(m=>m.body.includes('1+1 이벤트')&&m.body.includes('400조')&&m.body.includes('400개')&&m.body.includes('10개')));
+  const messages=await f.all('SELECT body FROM user_messages');assert(messages.every(m=>m.body.includes('1+1 이벤트')&&m.body.includes('500조')&&m.body.includes('400개')&&m.body.includes('10개')));
  }finally{await f.close();}
 });
 

@@ -77,7 +77,7 @@ export async function processPackage(env,admin,body,now=Date.now()){
  const before=await raw(env,orderKey(body.orderId));if(!before)fail('NOT_FOUND','신청을 찾지 못했습니다.',404);
  const order=JSON.parse(before),grant=body.action==='FULFILL';
  if(order.status!=='PENDING'||order.revision!==body.expectedRevision)fail('REVISION','이미 처리되었거나 변경된 신청입니다. 새로고침해 주세요.',409);
- // Existing October applications keep the October 1+1 terms; November orders use their own product.
+ // October terms remain unchanged; pending November orders get 500 trillion per paid unit.
  // Completed receipts return above and are never granted a second time.
  if(!supportPackageOrderProduct(order))fail('PRODUCT','신청 시점의 상품 구성을 확인해야 합니다.',409);
  const product=supportPackageOrderProduct(order);
