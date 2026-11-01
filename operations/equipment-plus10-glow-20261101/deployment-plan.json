@@ -1,0 +1,15 @@
+{
+  "before": {
+    "id": "e1eed29f-810e-4280-b1b4-027a8605a86f",
+    "url": "https://e1eed29f.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "3e847babc85caf47df2c98693295a84d9fe297eb"
+  },
+  "base": "3e847babc85caf47df2c98693295a84d9fe297eb",
+  "reason": "장비창 +10빛만 기존크기 안에서 두껍고화려하게 수정. PC/모바일 전후17아이템크기와 +10외스타일동일, WebKit/동작줄이기/장착해제 확인. 장비CSS캐시주소1곳과 셸캐시 갱신; 실제전투로더 회귀 자동포함, 전투버전/계정/재화/규칙 변경0.",
+  "tests": [
+    "tests/equipment-enhancement-glow-20260923.test.mjs",
+    "tests/onestore-web-20261026.test.mjs"
+  ],
+  "checks": []
+}

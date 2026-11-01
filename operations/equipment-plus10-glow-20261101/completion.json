@@ -1,0 +1,133 @@
+{
+  "status": "DEPLOYED_AND_VERIFIED",
+  "sourceCommit": "2cce5e75e754ac01a7d7ebed2ebc69d5b6d94cc3",
+  "pages": {
+    "id": "62f905e3-a315-4127-b033-b23f39ac3752",
+    "url": "https://62f905e3.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "2cce5e75e754ac01a7d7ebed2ebc69d5b6d94cc3"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "bc9e5703-5ef4-4039-96ba-b282309da18f",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "cfe595a1-c0d4-491b-84ba-3dcc6b8e3b6b",
+      "percentage": 100
+    }
+  ],
+  "change": "장비창 +10 테두리 안쪽 빛 두께3→5px, 금빛 두 궤적·흰색/옅은 청색 하이라이트·모서리 섬광",
+  "outerHaloPx": 11,
+  "auxiliaryHaloPx": 7,
+  "geometry": [
+    {
+      "profile": "desktop",
+      "width": 1440,
+      "itemsCompared": 17,
+      "plus10Compared": 7,
+      "geometryDeltaPx": 0,
+      "otherLevelStylesUnchanged": true
+    },
+    {
+      "profile": "mobile",
+      "width": 390,
+      "itemsCompared": 17,
+      "plus10Compared": 7,
+      "geometryDeltaPx": 0,
+      "otherLevelStylesUnchanged": true
+    }
+  ],
+  "otherLevelsPreserved": true,
+  "newImages": 0,
+  "newCanvas": 0,
+  "accountWrites": 0,
+  "messagesSent": 0,
+  "tests": 24,
+  "profiles": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "engine": "chromium",
+      "noOverflow": true,
+      "imagesLoaded": true,
+      "errors": [],
+      "failed": [],
+      "productionAccountWrites": 0
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "engine": "chromium",
+      "noOverflow": true,
+      "imagesLoaded": true,
+      "errors": [],
+      "failed": [],
+      "productionAccountWrites": 0
+    },
+    {
+      "name": "mobile-webkit",
+      "width": 390,
+      "engine": "webkit",
+      "noOverflow": true,
+      "imagesLoaded": true,
+      "errors": [],
+      "failed": [],
+      "productionAccountWrites": 0
+    },
+    {
+      "name": "narrow",
+      "width": 320,
+      "engine": "chromium",
+      "noOverflow": true,
+      "imagesLoaded": true,
+      "errors": [],
+      "failed": [],
+      "productionAccountWrites": 0
+    },
+    {
+      "name": "reduced-motion",
+      "width": 390,
+      "engine": "chromium",
+      "reducedMotion": "reduce",
+      "noOverflow": true,
+      "imagesLoaded": true,
+      "errors": [],
+      "failed": [],
+      "productionAccountWrites": 0
+    }
+  ],
+  "publicProfile": [
+    {
+      "name": "public-mobile-webkit",
+      "width": 390,
+      "engine": "webkit",
+      "noOverflow": true,
+      "imagesLoaded": true,
+      "errors": [],
+      "failed": [],
+      "productionAccountWrites": 0
+    }
+  ],
+  "publicFiles": 7,
+  "clientManifest": {
+    "releaseId": "3929be08a957d1123b9ae08065edd689946b3270abd699676431b018651e7eda",
+    "files": [
+      {
+        "path": "/css/character-loadout-v2.css",
+        "sha256": "f2ce283a98de1578aa87b1689892fa0ce77902f9dea56775d2ccab571aa679e5",
+        "essential": true
+      },
+      {
+        "path": "/js/app.js",
+        "sha256": "9ba3d34e48f71eead8bdabfbc3f9bb95066e2ca57b46d92b019bf2bf5838e349",
+        "essential": true
+      }
+    ]
+  },
+  "beforeCssSha256": "988f0ab64c93ef729b7e9ca18139465449292d66b047e4e0cb5e8da1bdb48c9c",
+  "comparison": "operations/equipment-plus10-glow-20261101/comparison.png",
+  "recordedAt": "2026-11-01T02:12:46.516Z"
+}

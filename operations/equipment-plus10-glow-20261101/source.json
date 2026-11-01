@@ -1,0 +1,15 @@
+{
+  "head": "2cce5e75e754ac01a7d7ebed2ebc69d5b6d94cc3",
+  "files": [
+    "css/character-loadout-v2.css",
+    "index.html",
+    "js/app.js",
+    "onestore/index.html",
+    "onestore/js/app.js",
+    "packaging/onestore/web-build.json",
+    "preview/live-character-loadout-v2-v1/index.html",
+    "service-worker.js",
+    "shared/onestore-web-assets-v1.mjs",
+    "docs/qa/equipment-plus10-glow-20261101/README.md"
+  ]
+}

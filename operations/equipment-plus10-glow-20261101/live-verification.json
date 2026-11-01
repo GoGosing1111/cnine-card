@@ -1,0 +1,75 @@
+{
+  "at": "2026-11-01T02:12:22.602Z",
+  "pages": {
+    "id": "62f905e3-a315-4127-b033-b23f39ac3752",
+    "url": "https://62f905e3.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "2cce5e75e754ac01a7d7ebed2ebc69d5b6d94cc3"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "bc9e5703-5ef4-4039-96ba-b282309da18f",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "cfe595a1-c0d4-491b-84ba-3dcc6b8e3b6b",
+      "percentage": 100
+    }
+  ],
+  "assets": [
+    {
+      "file": "css/character-loadout-v2.css",
+      "sha256": "91fd93323b63362940a19ba463117ba374a68b5b4744e8c52564fb3f9190beed",
+      "serverTransformed": false
+    },
+    {
+      "file": "index.html",
+      "sha256": "28d2900439ad2fd0dfd9134883bcf815535d476a902fa03951dcc4e70a2ca4f5",
+      "serverTransformed": false
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "dfe95904365d137ecb17f65aa64c68d4587f22a7aea9d42f236d5d8a514b7d06",
+      "serverTransformed": false
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "234f944964619fca45bda8808c394b130074aa3c33c928ae9e98a70b055782e2",
+      "serverTransformed": false
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "e8b436daeab8fd7481e51811911f8ee029e0479e585a126c364968faa4728fa9",
+      "serverTransformed": true
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "4977170736be6489503f8c13d23e69d9122f8955caefa498e86a73bec1f18d13",
+      "serverTransformed": false
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "262f8a826cc1758032fddb5fedd0dfccd384a57abfa1b6afdc4a9e2713eb6085",
+      "serverTransformed": false
+    }
+  ],
+  "clientManifest": {
+    "releaseId": "3929be08a957d1123b9ae08065edd689946b3270abd699676431b018651e7eda",
+    "files": [
+      {
+        "path": "/css/character-loadout-v2.css",
+        "sha256": "f2ce283a98de1578aa87b1689892fa0ce77902f9dea56775d2ccab571aa679e5",
+        "essential": true
+      },
+      {
+        "path": "/js/app.js",
+        "sha256": "9ba3d34e48f71eead8bdabfbc3f9bb95066e2ca57b46d92b019bf2bf5838e349",
+        "essential": true
+      }
+    ]
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}
