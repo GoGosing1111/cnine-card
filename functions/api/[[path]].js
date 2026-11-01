@@ -147,6 +147,7 @@ import {ensureFundingGiftCatalog,openFundingGift,grantFundingGift} from '../_fun
 import {ensureRecruitmentGiftCatalog,openRecruitmentGift,grantRecruitmentGift} from '../_recruitment_gift.js';
 import {ensurePingduThanksGiftCatalog,openPingduThanksGift,grantPingduThanksGift} from '../_pingdu_thanks_gift.js';
 import {grantRankExpPotion,redeemRankExpPotionCoupon} from '../_rank_exp_potion_grant.js';
+import {redeemNovemberGiftCoupon} from '../_november_gift_coupon.js';
 import {isForgeTicketGrant,grantForgeTickets} from '../_admin_forge_ticket_grant.js';
 import { EMPEROR_ENERGY_ITEM, ensureEmperorEnergyCatalog } from '../_emperor_energy.js';
 import { readRuntimeData, cacheRuntimeData } from '../_runtime_data_cache.js';
@@ -7648,6 +7649,7 @@ async function handleRequest(context){
       const landCoupon=await redeemLandCoupon({env,user,body:payload,deps:{json,profile,isRandomDrawExcluded}});if(landCoupon)return landCoupon;
       const coupon=await env.DB.prepare(`SELECT * FROM coupons WHERE code=?`).bind(code).first();
       if(!coupon) return json({error:'존재하지 않거나 삭제된 쿠폰입니다.'},404);
+      if(String(coupon.reward_type||'').toUpperCase()==='NOVEMBER_GIFT_20261101')return redeemNovemberGiftCoupon({env,user,coupon,body:payload,deps:{json,profile}});
       if(String(coupon.reward_type||'').toUpperCase()==='RANK_EXP_POTION_2X_60M')return redeemRankExpPotionCoupon({env,user,coupon,body:payload,deps:{json,profile}});
       if(String(coupon.reward_type||'').toUpperCase()==='MIRACLE_CUBE')return redeemMiracleCubeCoupon({env,user,coupon,body:payload,deps:{json,profile}});
       if(String(coupon.reward_type||'').toUpperCase()==='PINGDU_BAEMIN_TICKET')return redeemChickenTicketCoupon({env,user,coupon,body:payload,deps:{json,profile}});

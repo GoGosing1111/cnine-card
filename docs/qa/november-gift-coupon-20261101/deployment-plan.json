@@ -1,0 +1,21 @@
+{
+  "before": {
+    "id": "24c99ab1-acfb-4531-a35e-1a2f0cb80dbc",
+    "url": "https://24c99ab1.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "86a4ca35e2e598172c1bdb59ab80f78eb6d4e0da"
+  },
+  "base": "86a4ca35e2e598172c1bdb59ab80f78eb6d4e0da",
+  "reason": "Add only the explicitly authorized November gift coupon redemption branch. Five bundle transaction tests passed; retain them and run adjacent normal coupon issuance/owner limits plus Worker compilation once. No schema, public issuance permissions, client UI or economic policy changes.",
+  "tests": [
+    "tests/coupon-owner-limits-20261029.test.mjs",
+    "tests/coupon-reward-cap-v1997.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "alreadyPassed": {
+    "file": "tests/november-gift-coupon-20261101.test.mjs",
+    "tests": 5
+  }
+}

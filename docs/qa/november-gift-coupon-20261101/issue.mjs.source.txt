@@ -1,0 +1,50 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import {connect,safe} from '../rap-contest-rewards-20261027/preflight.mjs';
+import {NOVEMBER_GIFT_COUPON as gift} from '../../output/revan-live-20261027/release-checkout/functions/_november_gift_coupon.js';
+export const OP='ops:november-gift-coupon:20261101:v1';
+const authorization='계급경험치 3배 물약2개, 30조 코인, 마스터의별 2000만개 쿠폰 만들어 100명한도 / 쿠폰번호도 적어놔라~';
+const mode=process.argv[2];assert(['dry-run','apply','verify','replay'].includes(mode));
+const db=connect(),q=async(sql,args=[])=>(await db.query(sql,args)).rows;
+const snapshot=async()=>({coupons:await q('SELECT * FROM coupons WHERE code=$1 OR reward_type=$2',[gift.code,gift.type]),receipts:await q('SELECT key,value FROM app_meta WHERE key=$1',[OP]),audits:await q("SELECT id::text,after_data FROM admin_logs WHERE action_type='OPS_GIFT_COUPON_CREATE' AND target_id=$1",[gift.code])});
+async function issue({rollback=false,inject=false}={}){
+ const [done]=await q('SELECT value FROM app_meta WHERE key=$1',[OP]);
+ if(done)return {replayed:true,receipt:JSON.parse(done.value)};
+ await q('BEGIN');
+ try{
+  await q("SET LOCAL lock_timeout='4s'");await q("SET LOCAL statement_timeout='15s'");
+  await q('SELECT pg_advisory_xact_lock(hashtextextended($1,0))',[OP]);
+  assert.equal((await q('SELECT value FROM app_meta WHERE key=$1',[OP])).length,0,'Concurrent issuance already completed; retry read-only');
+  assert.equal((await q('SELECT id FROM coupons WHERE code=$1 OR reward_type=$2',[gift.code,gift.type])).length,0,'Coupon already exists');
+  const [owner]=await q("SELECT id,nickname,role,status FROM users WHERE id=1 FOR SHARE");assert.equal(owner.role,'OWNER');assert.equal(owner.status,'ACTIVE');
+  const catalog=await q('SELECT code,is_active FROM inventory_items WHERE code=ANY($1::text[]) ORDER BY code FOR SHARE',[gift.items.map(item=>item.code)]);
+  assert.equal(catalog.length,2);assert(catalog.every(item=>Number(item.is_active)===1));
+  const [coupon]=await q('INSERT INTO coupons(code,reward_coin,reward_type,reward_amount,starts_at,ends_at,max_uses,used_count,is_active,created_by) VALUES($1,$2,$3,1,NULL,NULL,100,0,1,1) RETURNING id::text,code,created_at',[gift.code,String(gift.coin),gift.type]);assert(coupon);
+  const receipt={status:'COMPLETED',operationKey:OP,authorization,completedAt:new Date().toISOString(),couponId:coupon.id,code:gift.code,maxUses:100,perAccount:1,expiresAt:null,coin:String(gift.coin),items:gift.items,createdBy:'1',accountWrites:0,messages:0};
+  const [audit]=await q("INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(1,'OPS_GIFT_COUPON_CREATE','COUPON',$1,NULL,$2) RETURNING id::text",[gift.code,JSON.stringify(receipt)]);assert(audit);receipt.auditId=audit.id;
+  if(inject)throw Error('QA_INJECTED_ISSUANCE_FAILURE');
+  await q('INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,CURRENT_TIMESTAMP)',[OP,JSON.stringify(receipt)]);
+  assert.equal((await q('SELECT * FROM coupons WHERE id=$1',[coupon.id])).length,1);
+  await q(rollback?'ROLLBACK':'COMMIT');return {replayed:false,rolledBack:rollback,receipt};
+ }catch(e){await q('ROLLBACK').catch(()=>{});throw e;}
+}
+try{
+ await db.connect();let result;
+ if(mode==='dry-run'){
+  const before=await snapshot();assert.equal(before.coupons.length,0);assert.equal(before.receipts.length,0);
+  await assert.rejects(issue({inject:true}),/QA_INJECTED_ISSUANCE_FAILURE/);assert.deepEqual(await snapshot(),before);
+  const trial=await issue({rollback:true});assert.equal(trial.replayed,false);assert.deepEqual(await snapshot(),before);
+  result={checkedAt:new Date().toISOString(),failureRollback:true,successRollback:true,couponCode:gift.code,accountWrites:0,messages:0};
+ }else if(mode==='apply'){
+  const deployment=JSON.parse(await fs.readFile(new URL('./live-verification.json',import.meta.url),'utf8'));assert.equal(deployment.pages.status,'success');assert(deployment.workers.every(w=>w.bundleSupported&&w.percentage===100));
+  result=await issue();
+ }else{
+  await q('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');const before=await snapshot();assert.equal(before.coupons.length,1);assert.equal(before.receipts.length,1);assert.equal(before.audits.length,1);
+  const replay=await issue();assert(replay.replayed);assert.deepEqual(await snapshot(),before);
+  const c=before.coupons[0],r=replay.receipt;assert.equal(c.code,gift.code);assert.equal(String(c.id),r.couponId);assert.equal(c.reward_type,gift.type);assert.equal(Number(c.reward_amount),1);assert.equal(String(c.reward_coin),String(gift.coin));assert.equal(Number(c.max_uses),100);assert.equal(Number(c.is_active),1);assert.equal(c.deleted_at,null);assert.equal(c.starts_at,null);assert.equal(c.ends_at,null);
+  const redemptions=await q('SELECT count(*)::integer AS count FROM coupon_redemptions WHERE coupon_id=$1',[c.id]);assert.equal(redemptions[0].count,Number(c.used_count));
+  assert.equal(before.audits[0].id,r.auditId);assert.deepEqual(r.items,gift.items);
+  result={status:'VERIFIED',checkedAt:new Date().toISOString(),readOnly:true,noWriteReplay:true,code:c.code,couponId:String(c.id),auditId:r.auditId,maxUses:100,usedCount:Number(c.used_count),remaining:100-Number(c.used_count),rewards:{coin:r.coin,items:r.items},receipt:r};await q('ROLLBACK');
+ }
+ await fs.writeFile(new URL('./'+mode+'.json',import.meta.url),JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(result));
+}catch(e){await q('ROLLBACK').catch(()=>{});console.error(safe(e));process.exitCode=1;}finally{await db.end();}
