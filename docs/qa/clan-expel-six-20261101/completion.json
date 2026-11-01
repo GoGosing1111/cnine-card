@@ -1,0 +1,135 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:clan-expel-six:20261101:v1",
+  "completedAt": "2026-11-01T13:17:14.338Z",
+  "completedAtKst": "2026-11-01 22:17:14 KST",
+  "auditId": "53667",
+  "targets": [
+    {
+      "id": 4625,
+      "name": "제롬",
+      "clanId": 3
+    },
+    {
+      "id": 750,
+      "name": "라페스타다",
+      "clanId": 3
+    },
+    {
+      "id": 660,
+      "name": "Bazzi3",
+      "clanId": 3
+    },
+    {
+      "id": 76,
+      "name": "랄네미탱탱",
+      "clanId": 3
+    },
+    {
+      "id": 4917,
+      "name": "지엘라",
+      "clanId": 3
+    },
+    {
+      "id": 1249,
+      "name": "Pulse",
+      "clanId": 4
+    }
+  ],
+  "counts": [
+    {
+      "clanId": 3,
+      "clan": "T1",
+      "before": 16,
+      "after": 11
+    },
+    {
+      "clanId": 4,
+      "clan": "한화",
+      "before": 17,
+      "after": 16
+    }
+  ],
+  "formsRemoved": [
+    {
+      "userId": 4625,
+      "clanId": 3,
+      "squad": "defense2"
+    },
+    {
+      "userId": 750,
+      "clanId": 3,
+      "squad": "defense2"
+    },
+    {
+      "userId": 4917,
+      "clanId": 3,
+      "squad": "attack4"
+    },
+    {
+      "userId": 1249,
+      "clanId": 4,
+      "squad": "attack1"
+    }
+  ],
+  "surveysDeactivated": 5,
+  "applicationsRemoved": 1,
+  "poolsWithdrawn": 5,
+  "checks": [
+    "formation-removal-preserves-other-members-and-history",
+    "active-battle-blocked",
+    "elder-blocked",
+    "operation-lock-conflict-no-change",
+    "membership-lock-conflict-no-change",
+    "rollback-membership",
+    "rollback-receipt",
+    "successful-rehearsal-fully-rolled-back"
+  ],
+  "independentReadOnly": true,
+  "runtimeViews": [
+    {
+      "userId": 4625,
+      "nickname": "제롬",
+      "membership": null,
+      "rosterCount": 0
+    },
+    {
+      "userId": 750,
+      "nickname": "라페스타다",
+      "membership": null,
+      "rosterCount": 0
+    },
+    {
+      "userId": 660,
+      "nickname": "Bazzi3",
+      "membership": null,
+      "rosterCount": 0
+    },
+    {
+      "userId": 76,
+      "nickname": "랄네미탱탱",
+      "membership": null,
+      "rosterCount": 0
+    },
+    {
+      "userId": 4917,
+      "nickname": "지엘라",
+      "membership": null,
+      "rosterCount": 0
+    },
+    {
+      "userId": 1249,
+      "nickname": "Pulse",
+      "membership": null,
+      "rosterCount": 0
+    }
+  ],
+  "replayWrites": 0,
+  "elderKickEnabled": false,
+  "messagesSent": 0,
+  "economyWrites": 0,
+  "deployment": false,
+  "storageMaintenance": false,
+  "archiveKey": "ops:clan-expel-six:20261101:v1:before",
+  "operationSha256": "886947a94e981a1042f704cea9383b1b5e3dded29195a62c90bc209f1e6d84c0"
+}
