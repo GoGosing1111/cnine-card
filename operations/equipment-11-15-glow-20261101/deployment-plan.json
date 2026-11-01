@@ -1,0 +1,15 @@
+{
+  "before": {
+    "id": "62f905e3-a315-4127-b033-b23f39ac3752",
+    "url": "https://62f905e3.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "2cce5e75e754ac01a7d7ebed2ebc69d5b6d94cc3"
+  },
+  "base": "2cce5e75e754ac01a7d7ebed2ebc69d5b6d94cc3",
+  "reason": "사용자 정정: 10강 원래 이펙트 복원, 동일 크기 안에서 11~15강 단계별 광채와 빛 궤적 추가. PC/모바일/WebKit 및 동작줄이기, 장착/해제 검수. 장비 그림/수치/재화 유지. 정확한 장비CSS와JS 주소 및 셸캐시 갱신, 실제 전투로더 회귀 자동 포함.",
+  "tests": [
+    "tests/equipment-enhancement-glow-20260923.test.mjs",
+    "tests/onestore-web-20261026.test.mjs"
+  ],
+  "checks": []
+}

@@ -1,0 +1,18 @@
+{
+  "head": "0def6da3b5afe9e78b6c3af680e7bd6d9c6c3427",
+  "files": [
+    "css/character-loadout-v2.css",
+    "index.html",
+    "js/app.js",
+    "js/character-loadout-v2.js",
+    "onestore/index.html",
+    "onestore/js/app.js",
+    "packaging/onestore/web-build.json",
+    "preview/live-character-loadout-v2-v1/index.html",
+    "preview/live-character-loadout-v2-v1/preview.js",
+    "service-worker.js",
+    "shared/onestore-web-assets-v1.mjs",
+    "tests/equipment-enhancement-glow-20260923.test.mjs",
+    "docs/qa/equipment-11-15-glow-20261101/README.md"
+  ]
+}

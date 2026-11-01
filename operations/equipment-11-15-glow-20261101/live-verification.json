@@ -1,0 +1,85 @@
+{
+  "at": "2026-11-01T02:27:06.387Z",
+  "pages": {
+    "id": "634d904c-4a6f-416e-8d3d-8c5cda0bb7aa",
+    "url": "https://634d904c.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "0def6da3b5afe9e78b6c3af680e7bd6d9c6c3427"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "135cc241-2b7f-45cb-9fff-c22313a56837",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "e6dc60f8-1722-4cf4-92b7-8c7b79599ff0",
+      "percentage": 100
+    }
+  ],
+  "assets": [
+    {
+      "file": "css/character-loadout-v2.css",
+      "sha256": "9046bcfc60d8d60ab881786ea4cb3e96f7aaae479f603cfed57af2db5dcb993d",
+      "serverTransformed": false
+    },
+    {
+      "file": "js/character-loadout-v2.js",
+      "sha256": "023cec8c3d99efef9f596fcf5313d0fcc9e80f371fe6d02c17b1e465d263ff9d",
+      "serverTransformed": false
+    },
+    {
+      "file": "index.html",
+      "sha256": "5f8c3682631890382152617a6ef762c2c747b593df0c26b51030ac4f2979e2cc",
+      "serverTransformed": false
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "421d7c1b40c531df172548c0f935324262f96602a9d232783d194464c555afc8",
+      "serverTransformed": false
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "81b42db971d4fe8cfcc062f13271ff55dab2c9829a8ff9e44eae0820241651af",
+      "serverTransformed": false
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "cf4d3f4f2ddcc8a0e7020219034f1e86b832384f6a13dfba190aa32e95d61b9e",
+      "serverTransformed": true
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "7166143cdeeb1ae22683637276e527099b08e719acdef5470277c41317e0e3ea",
+      "serverTransformed": false
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "7bf0c9ed871463cbd4cded3ddbd5fd3e5c68fad9f19c7a40db63150356a14902",
+      "serverTransformed": false
+    }
+  ],
+  "clientManifest": {
+    "releaseId": "4019be038d5fa79d9499eda778a8b55361348a038d21e663cfd77377d8b7730c",
+    "files": [
+      {
+        "path": "/css/character-loadout-v2.css",
+        "sha256": "deca3b6f6fdee47ca8f5edd963f482fb5d9cddd2bd6158262077d74ea7b48e0d",
+        "essential": true
+      },
+      {
+        "path": "/js/character-loadout-v2.js",
+        "sha256": "46fde709cabe134e8d833606d8400fb84f24895cef06ebcb7aaa513798db08c1",
+        "essential": true
+      },
+      {
+        "path": "/js/app.js",
+        "sha256": "a42de35c644dab67276de7c28e492de955a99685988c4aa019012d811d48e85e",
+        "essential": true
+      }
+    ]
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}
