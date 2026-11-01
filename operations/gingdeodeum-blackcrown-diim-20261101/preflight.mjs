@@ -1,0 +1,34 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {connect,safe} from '../rap-contest-rewards-20261027/preflight.mjs';
+import {BLACKCROWN_MERCENARIES} from 'file:///C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site/shared/mercenary-blackcrown-catalog-v1.mjs';
+const OP='ops:gingdeodeum-blackcrown-diim-grant:20261101:v1',ID='5877',NAME='깅더듬',CODE='V-953';
+const hash=v=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
+const db=connect();
+try{
+ await db.connect();await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');await db.query("SET LOCAL statement_timeout='20s'");
+ const q=async(sql,args=[])=>{assert.match(sql,/^SELECT\b/);return (await db.query(sql,args)).rows;};
+ const rows=await q('SELECT u.id::text,u.nickname,u.role,u.status,v.provider,v.provider_user_id FROM users u LEFT JOIN user_second_verifications v ON v.user_id=u.id WHERE u.id=$1 OR u.nickname=$2 ORDER BY u.id',[ID,NAME]);assert.equal(rows.length,1);
+ const {provider,provider_user_id,...user}=rows[0];assert.deepEqual(user,{id:ID,nickname:NAME,role:'USER',status:'ACTIVE'});assert(provider&&provider_user_id);
+ const knownPlan=JSON.parse(await fs.readFile(new URL('../streamer-box-starball-difference-20261031/plan.json',import.meta.url),'utf8'));
+ const known=knownPlan.targets.find(t=>t.userId===ID);assert(known);assert.equal(known.nickname,NAME);assert.equal(hash({provider,providerId:provider_user_id}),known.identityHash,'Known verified account identity changed');
+ user.identityHash=hash({provider,providerUserId:provider_user_id});
+ const card=BLACKCROWN_MERCENARIES.find(c=>c.code===CODE);assert(card);assert.deepEqual([card.name,card.title,card.rank,card.edition,card.season],['디임','블랙크라운 SS 리미티드','SS','LIMITED','BLACKCROWN']);
+ const holding=await q('SELECT * FROM user_mercenary_cards_v1 WHERE user_id=$1 AND mercenary_code=$2',[ID,CODE]);
+ const prior=await q("SELECT key,value FROM app_meta WHERE key=$1 OR key LIKE 'ops:%gingdeodeum%diim%' ORDER BY key",[OP]);
+ const acquisitions=await q('SELECT acquisition_id,user_id::text,mercenary_code,total_copies_after,created_at FROM mercenary_card_acquisitions_v1 WHERE user_id=$1 AND mercenary_code=$2 ORDER BY created_at DESC LIMIT 20',[ID,CODE]);
+ const stock=await q('SELECT * FROM mercenary_limited_stock_v1 WHERE code=$1',[CODE]);assert.equal(stock.length,1);
+ const issueSummary=await q('SELECT COUNT(*)::text count,MAX(serial)::text max_serial FROM mercenary_limited_issues_v1 WHERE code=$1',[CODE]);
+ const settings=await q('SELECT key,value FROM app_meta WHERE key=$1',['mercenary_blackcrown_ss_pack_v1']);assert.equal(settings.length,1);
+ const pack=JSON.parse(settings[0].value);assert.equal(Number(stock[0].stock_limit),pack.settings.stockLimits[CODE]);
+ const plan={operationKey:OP,authorization:'깅더듬 계정에 블랙크라운 ss 리미티드 디임 지급해',stockPolicy:'CONSUME_EXISTING_LIMITED_STOCK',cost:0,automaticLoadout:false,sendMessages:false,totalQuantity:1,recipientCount:1,recipients:[user],grants:[{userId:ID,nickname:NAME,code:CODE,name:'디임',title:card.title,rank:card.rank,edition:card.edition,season:card.season,quantity:1}],stockLimit:Number(stock[0].stock_limit),settingsHash:hash(settings)};
+ const report={checkedAt:new Date().toISOString(),readOnly:(await q("SELECT current_setting('transaction_read_only') value"))[0].value,user,card:{code:CODE,name:card.name,title:card.title,rank:card.rank,edition:card.edition,season:card.season},holding,acquisitions,prior,stock,issueSummary,settings,productionWrites:0,planHash:hash(plan)};
+ await db.query('ROLLBACK');
+ await fs.writeFile(new URL('./preflight.json',import.meta.url),JSON.stringify(report,null,2)+'\n',{flag:'wx'});
+ console.log(JSON.stringify({userId:ID,nickname:NAME,code:CODE,title:card.title,name:card.name,quantity:1,currentlyOwned:Number(holding[0]?.total_copies||0),stock:stock.map(s=>({code:s.code,limit:Number(s.stock_limit),issued:Number(s.issued),remaining:Number(s.stock_limit)-Number(s.issued)})),issueSummary,priorOperations:prior.map(x=>({key:x.key,status:JSON.parse(x.value).status})),productionWrites:0,planHash:report.planHash}));
+ assert.equal(prior.length,0,'Previous operation exists; inspect receipt and do not grant again');
+ assert.equal(Number(holding[0]?.total_copies||0),0,'Already owns this Blackcrown SS; inspect before granting duplicate');
+ assert(Number(stock[0].issued)<Number(stock[0].stock_limit),'Limited stock exhausted; no exemption authorized');
+ await fs.writeFile(new URL('./plan.json',import.meta.url),JSON.stringify(plan,null,2)+'\n',{flag:'wx'});
+}catch(e){await db.query('ROLLBACK').catch(()=>{});console.error(safe(e));process.exitCode=1;}finally{await db.end().catch(()=>{});}

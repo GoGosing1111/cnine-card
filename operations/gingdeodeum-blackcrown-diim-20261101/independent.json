@@ -1,0 +1,31 @@
+{
+  "status": "VERIFIED",
+  "checkedAt": "2026-11-01T07:43:42.725Z",
+  "readOnly": "on",
+  "operationKey": "ops:gingdeodeum-blackcrown-diim-grant:20261101:v1",
+  "userId": "5877",
+  "nickname": "깅더듬",
+  "code": "V-953",
+  "name": "디임",
+  "title": "블랙크라운 SS 리미티드",
+  "quantity": 1,
+  "before": 0,
+  "after": 1,
+  "stock": {
+    "limit": 40,
+    "issued": 40,
+    "remaining": 0
+  },
+  "stockUnchanged": true,
+  "serialsUnchanged": true,
+  "limitedIssueRecordsAdded": 0,
+  "craftUnchanged": true,
+  "protectedDataHashMatched": true,
+  "collectionSyncUpdated": true,
+  "acquisitionRecords": 1,
+  "auditRecords": 1,
+  "auditId": "53628",
+  "completedAt": "2026-11-01T07:43:17.979Z",
+  "remainingOperationLocks": 0,
+  "productionWrites": 0
+}

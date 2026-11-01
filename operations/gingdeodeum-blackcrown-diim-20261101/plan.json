@@ -1,0 +1,33 @@
+{
+  "operationKey": "ops:gingdeodeum-blackcrown-diim-grant:20261101:v1",
+  "authorization": "깅더듬 계정에 블랙크라운 ss 리미티드 디임 지급해",
+  "stockAuthorization": "기존 한도는 그대로 두고 예외로 1장 지급",
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "cost": 0,
+  "automaticLoadout": false,
+  "sendMessages": false,
+  "totalQuantity": 1,
+  "recipientCount": 1,
+  "recipients": [
+    {
+      "id": "5877",
+      "nickname": "깅더듬",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "f225e6a6fe6f56bd9089760a81bec91803f4ef0c20ef2dc34ca660cfb04c22fb"
+    }
+  ],
+  "grants": [
+    {
+      "userId": "5877",
+      "nickname": "깅더듬",
+      "code": "V-953",
+      "name": "디임",
+      "title": "블랙크라운 SS 리미티드",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "season": "BLACKCROWN",
+      "quantity": 1
+    }
+  ]
+}
