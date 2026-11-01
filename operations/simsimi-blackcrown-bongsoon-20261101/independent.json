@@ -1,0 +1,31 @@
+{
+  "status": "VERIFIED",
+  "checkedAt": "2026-11-01T10:34:37.015Z",
+  "readOnly": "on",
+  "operationKey": "ops:simsimi-blackcrown-bongsoon-exempt-grant:20261101:v1",
+  "userId": "4933",
+  "nickname": "심심이",
+  "code": "V-951",
+  "name": "나무늘봉순",
+  "title": "블랙크라운 SS 리미티드",
+  "quantity": 1,
+  "before": 0,
+  "after": 1,
+  "stock": {
+    "limit": 40,
+    "issued": 40,
+    "remaining": 0
+  },
+  "stockUnchanged": true,
+  "serialsUnchanged": true,
+  "limitedIssueRecordsAdded": 0,
+  "craftUnchanged": true,
+  "protectedDataHashMatched": true,
+  "collectionSyncUpdated": true,
+  "acquisitionRecords": 1,
+  "auditRecords": 1,
+  "auditId": "53651",
+  "completedAt": "2026-11-01T10:34:02.460Z",
+  "remainingOperationLocks": 0,
+  "productionWrites": 0
+}

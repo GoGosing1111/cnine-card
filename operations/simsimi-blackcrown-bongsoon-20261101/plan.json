@@ -1,0 +1,33 @@
+{
+  "operationKey": "ops:simsimi-blackcrown-bongsoon-exempt-grant:20261101:v1",
+  "authorization": "심심이 계정에 블랙크라운 나무늘봉순 한도증가없이 1장 지급해",
+  "stockAuthorization": "한도증가없이 1장 지급",
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "cost": 0,
+  "automaticLoadout": false,
+  "sendMessages": false,
+  "totalQuantity": 1,
+  "recipientCount": 1,
+  "recipients": [
+    {
+      "id": "4933",
+      "nickname": "심심이",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "ae7c825987b8e894d74116a7e201164850e631a7f167bd8d800aee12c7de5b15"
+    }
+  ],
+  "grants": [
+    {
+      "userId": "4933",
+      "nickname": "심심이",
+      "code": "V-951",
+      "name": "나무늘봉순",
+      "title": "블랙크라운 SS 리미티드",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "season": "BLACKCROWN",
+      "quantity": 1
+    }
+  ]
+}

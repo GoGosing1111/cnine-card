@@ -1,0 +1,10 @@
+import fs from 'node:fs/promises';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';
+const hash=v=>createHash('sha256').update(JSON.stringify(v)).digest('hex'),plan=JSON.parse(await fs.readFile(new URL('./plan.json',import.meta.url),'utf8')),before=JSON.parse(await fs.readFile(new URL('./preflight.json',import.meta.url),'utf8'));
+assert.equal(plan.recipients[0].id,'4933');assert.equal(plan.recipients[0].nickname,'심심이');assert.equal(before.holding.length,0);assert.equal(before.prior.length,0);assert.deepEqual(before.stock.map(s=>[s.code,Number(s.stock_limit),Number(s.issued)]),[['V-951',40,40]]);
+const transform=s=>s.replaceAll('ops:gingdeodeum-blackcrown-diim-grant:20261101:v1',plan.operationKey).replaceAll('gingdeodeum-blackcrown-diim-20261101','simsimi-blackcrown-bongsoon-20261101').replaceAll('깅더듬','심심이').replaceAll('디임','나무늘봉순').replaceAll('Blackcrown Diim','Blackcrown Namuneulbongsoon').replaceAll('V-953','V-951').replaceAll('5877','4933').replaceAll('기존 한도는 그대로 두고 예외로 1장 지급',plan.stockAuthorization).replaceAll('file:///C:/Users/User/Downloads/cnine-avatar-bongsoon-20260919/site/','file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/');
+for(const file of ['grant.mjs','grant.test.mjs','lock-worker.mjs','wrangler.jsonc','run.mjs','access.mjs']){
+ let content=transform((await fs.readFile(new URL('../gingdeodeum-blackcrown-diim-20261101/'+file,import.meta.url),'utf8')).replace(/\r\n/g,'\n'));
+ if(file==='run.mjs')content=content.replace('23b7fb0dfaef6f1c962c0a34310ab20af67a658181a78c7ac3c8a7ef18e721e6',hash(plan));
+ assert(!content.includes('gingdeodeum'));assert(!content.includes('V-953'));assert(!content.includes('깅더듬'));assert(!content.includes('5877'));await fs.writeFile(new URL('./'+file,import.meta.url),content,{flag:'wx'});
+}
+await fs.writeFile(new URL('./.gitignore',import.meta.url),'evidence/\npreflight.json\n.wrangler/\n',{flag:'wx'});console.log(JSON.stringify({operationKey:plan.operationKey,planHash:hash(plan),userId:'4933',code:'V-951',quantity:1,stockPolicy:plan.stockPolicy}));

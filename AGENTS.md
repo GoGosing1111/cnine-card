@@ -1,3 +1,11 @@
+## 심심이 블랙크라운 SS 나무늘봉순 한도 예외 지급 완료 — 2026-11-01
+
+- **운영 지급 완료:** **심심이 ID4933 / 블랙크라운 SS 리미티드 나무늘봉순 V-951 1장(0→1)·1레벨**, **2026-11-01 19:34:02 KST·감사53651**.
+- 사용자 **“한도증가없이 1장 지급”** 승인. **발행 한도40/발행40/잔여0 유지**, 새 한정 발행·제작 집계 차감0. 기존 재화/다른 보유/성장/편성/정책 보존.
+- 완료 키 **ops:simsimi-blackcrown-bongsoon-exempt-grant:20261101:v1**. 같은 요청을 새 키로 재지급하거나 이후 정상 보유·성장을 덮지 않는다. 자동 편성·메시지·게임 재배포 없음.
+- 관련4검사·실제 이중잠금 실패/정상 원복·독립 READ ONLY·실제 보유/성장/랭크/PVE·PVP 선택·SELECT 전용 재실행 추가쓰기0·잠금 반환 확인.
+- 기록 docs/qa/simsimi-blackcrown-bongsoon-20261101/, 증거 operations/simsimi-blackcrown-bongsoon-20261101/. 기존 폴더/의존성 재사용·Git자동정리 OFF·승인 없는 유지관리/예약 없음.
+
 ## V3.5 전투엔진 · 던전앤파이터급 Spine 제작 기준 — 2026-11-01 최신
 
 - 사용자 “이펙트 말한 스킬들 spine 작업규정 v3.5 전투엔진으로 규정화”, **“던전앤파이터급 전투 퀄리티가 나와야함”**을 적용한다. 정본은 [V3.5 제작 규정](docs/project-v35-battle-production-standard.md), 재사용 스킬은 [.agents/skills/cnine-v35-battle-production/SKILL.md](.agents/skills/cnine-v35-battle-production/SKILL.md)다.
