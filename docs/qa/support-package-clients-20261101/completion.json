@@ -1,0 +1,450 @@
+{
+  "status": "DEPLOYED_AND_VERIFIED",
+  "sourceCommit": "e43067c0bcfb2db48585cba1a33d4a0792538006",
+  "pages": {
+    "id": "149dc197-e263-4891-91ac-7bff729de5e5",
+    "url": "https://149dc197.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "e43067c0bcfb2db48585cba1a33d4a0792538006"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "e621fcde-2b91-4081-b1e7-e92f50be7947",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "c361a814-cc4e-4610-88d4-8d6bf866f20e",
+      "percentage": 100
+    }
+  ],
+  "completedAt": "2026-11-01T00:29:20.967Z",
+  "authorization": [
+    "윈도우 클라이언트에도 나오게 해",
+    "PWA 앱 포함, 모바일 포함",
+    "기존 앱까지 적용, 원스토어판 제외",
+    "무기,방어구 보호주문서 5개씩 넣어 → 아니 → 강화주문서"
+  ],
+  "channels": {
+    "windowsDirect": true,
+    "androidDirect": true,
+    "pwa": true,
+    "mobileWeb": true,
+    "desktopWeb": true,
+    "onestore": false
+  },
+  "newProduct": {
+    "code": "SEASON_PASS_PACKAGE_20261101_SCROLLS",
+    "coinsPerPackage": "200000000000000",
+    "pricePerPurchaseWon": 49800,
+    "packagesPerPurchase": 2,
+    "enhancementScrollsPerPackage": {
+      "WEAPON_ENHANCEMENT_SCROLL": 5,
+      "ARMOR_ENHANCEMENT_SCROLL": 5
+    },
+    "enhancementScrollsPerPurchase": {
+      "WEAPON_ENHANCEMENT_SCROLL": 10,
+      "ARMOR_ENHANCEMENT_SCROLL": 10
+    },
+    "maxPurchaseQuantity": 100,
+    "endsAt": "2026-11-03T00:00:00+09:00"
+  },
+  "preserved": {
+    "oldOrderSnapshots": true,
+    "completedOrders": 198,
+    "noticeReceiptHash": "2b00cbf63f855a0ab8bff3f46617894dea3d94d07c8e3200a77c127a924e9922",
+    "previousNoticeMessages": 108,
+    "noticeResent": false
+  },
+  "checks": {
+    "focusedPackageTests": 24,
+    "onestoreTests": 12,
+    "finalDeployTests": 31,
+    "browser": [
+      {
+        "profile": "windows-client",
+        "engine": "chromium",
+        "standaloneEmulated": false,
+        "clientUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Reversecall/0.1.10 Chrome/130.0.0 Electron/32.0.0 Safari/537.36",
+        "width": 1440,
+        "quantity": 10,
+        "totalPriceWon": 498000,
+        "totalCoins": "4000000000000000",
+        "presetsAndCustom": true,
+        "boundsRejected": true,
+        "enhancementScrollsEach": 100,
+        "protectionItemsGranted": 0,
+        "equalButtonSize": {
+          "width": 680,
+          "height": 132
+        },
+        "inactiveHidden": true,
+        "ordinaryNoAlertPolling": true,
+        "imagesLoaded": true,
+        "lostResponseRecovery": true,
+        "ownerPopupOnce": true,
+        "cmsPopupAndPayment": true,
+        "errors": [],
+        "failed": []
+      },
+      {
+        "profile": "android-app",
+        "engine": "chromium",
+        "standaloneEmulated": false,
+        "clientUserAgent": "Mozilla/5.0 (Linux; Android 14; Pixel 8; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/130.0.0 Mobile Safari/537.36 ReverseCallAndroid/1.1.0",
+        "width": 390,
+        "quantity": 100,
+        "totalPriceWon": 4980000,
+        "totalCoins": "40000000000000000",
+        "presetsAndCustom": true,
+        "boundsRejected": true,
+        "enhancementScrollsEach": 1000,
+        "protectionItemsGranted": 0,
+        "equalButtonSize": {
+          "width": 328,
+          "height": 112
+        },
+        "inactiveHidden": true,
+        "ordinaryNoAlertPolling": true,
+        "imagesLoaded": true,
+        "lostResponseRecovery": true,
+        "ownerPopupOnce": true,
+        "cmsPopupAndPayment": true,
+        "errors": [],
+        "failed": []
+      },
+      {
+        "profile": "desktop-pwa",
+        "engine": "chromium",
+        "standaloneEmulated": true,
+        "clientUserAgent": null,
+        "width": 1440,
+        "quantity": 10,
+        "totalPriceWon": 498000,
+        "totalCoins": "4000000000000000",
+        "presetsAndCustom": true,
+        "boundsRejected": true,
+        "enhancementScrollsEach": 100,
+        "protectionItemsGranted": 0,
+        "equalButtonSize": {
+          "width": 680,
+          "height": 132
+        },
+        "inactiveHidden": true,
+        "ordinaryNoAlertPolling": true,
+        "imagesLoaded": true,
+        "lostResponseRecovery": true,
+        "ownerPopupOnce": true,
+        "cmsPopupAndPayment": true,
+        "errors": [],
+        "failed": []
+      },
+      {
+        "profile": "mobile-pwa",
+        "engine": "chromium",
+        "standaloneEmulated": true,
+        "clientUserAgent": "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 Chrome/130.0.0 Mobile Safari/537.36",
+        "width": 390,
+        "quantity": 100,
+        "totalPriceWon": 4980000,
+        "totalCoins": "40000000000000000",
+        "presetsAndCustom": true,
+        "boundsRejected": true,
+        "enhancementScrollsEach": 1000,
+        "protectionItemsGranted": 0,
+        "equalButtonSize": {
+          "width": 328,
+          "height": 112
+        },
+        "inactiveHidden": true,
+        "ordinaryNoAlertPolling": true,
+        "imagesLoaded": true,
+        "lostResponseRecovery": true,
+        "ownerPopupOnce": true,
+        "cmsPopupAndPayment": true,
+        "errors": [],
+        "failed": []
+      },
+      {
+        "profile": "android-chrome",
+        "engine": "chromium",
+        "standaloneEmulated": false,
+        "clientUserAgent": "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 Chrome/130.0.0 Mobile Safari/537.36",
+        "width": 390,
+        "quantity": 100,
+        "totalPriceWon": 4980000,
+        "totalCoins": "40000000000000000",
+        "presetsAndCustom": true,
+        "boundsRejected": true,
+        "enhancementScrollsEach": 1000,
+        "protectionItemsGranted": 0,
+        "equalButtonSize": {
+          "width": 328,
+          "height": 112
+        },
+        "inactiveHidden": true,
+        "ordinaryNoAlertPolling": true,
+        "imagesLoaded": true,
+        "lostResponseRecovery": true,
+        "ownerPopupOnce": true,
+        "cmsPopupAndPayment": true,
+        "errors": [],
+        "failed": []
+      },
+      {
+        "profile": "iphone-safari",
+        "engine": "webkit",
+        "standaloneEmulated": false,
+        "clientUserAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 Version/18.0 Mobile/15E148 Safari/604.1",
+        "width": 390,
+        "quantity": 100,
+        "totalPriceWon": 4980000,
+        "totalCoins": "40000000000000000",
+        "presetsAndCustom": true,
+        "boundsRejected": true,
+        "enhancementScrollsEach": 1000,
+        "protectionItemsGranted": 0,
+        "equalButtonSize": {
+          "width": 328,
+          "height": 112
+        },
+        "inactiveHidden": true,
+        "ordinaryNoAlertPolling": true,
+        "imagesLoaded": true,
+        "lostResponseRecovery": true,
+        "ownerPopupOnce": true,
+        "cmsPopupAndPayment": true,
+        "errors": [],
+        "failed": []
+      }
+    ],
+    "publicUI": [
+      {
+        "profile": "windows-client",
+        "engine": "chromium",
+        "standaloneEmulated": false,
+        "clientUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Reversecall/0.1.10 Chrome/130.0.0 Electron/32.0.0 Safari/537.36",
+        "width": 1440,
+        "quantity": 10,
+        "totalPriceWon": 498000,
+        "totalCoins": "4000000000000000",
+        "presetsAndCustom": true,
+        "boundsRejected": true,
+        "enhancementScrollsEach": 100,
+        "protectionItemsGranted": 0,
+        "equalButtonSize": {
+          "width": 680,
+          "height": 132
+        },
+        "inactiveHidden": true,
+        "ordinaryNoAlertPolling": true,
+        "imagesLoaded": true,
+        "lostResponseRecovery": true,
+        "ownerPopupOnce": true,
+        "cmsPopupAndPayment": true,
+        "errors": [],
+        "failed": []
+      },
+      {
+        "profile": "android-app",
+        "engine": "chromium",
+        "standaloneEmulated": false,
+        "clientUserAgent": "Mozilla/5.0 (Linux; Android 14; Pixel 8; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/130.0.0 Mobile Safari/537.36 ReverseCallAndroid/1.1.0",
+        "width": 390,
+        "quantity": 100,
+        "totalPriceWon": 4980000,
+        "totalCoins": "40000000000000000",
+        "presetsAndCustom": true,
+        "boundsRejected": true,
+        "enhancementScrollsEach": 1000,
+        "protectionItemsGranted": 0,
+        "equalButtonSize": {
+          "width": 328,
+          "height": 112
+        },
+        "inactiveHidden": true,
+        "ordinaryNoAlertPolling": true,
+        "imagesLoaded": true,
+        "lostResponseRecovery": true,
+        "ownerPopupOnce": true,
+        "cmsPopupAndPayment": true,
+        "errors": [],
+        "failed": []
+      },
+      {
+        "profile": "mobile-pwa",
+        "engine": "chromium",
+        "standaloneEmulated": true,
+        "clientUserAgent": "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 Chrome/130.0.0 Mobile Safari/537.36",
+        "width": 390,
+        "quantity": 100,
+        "totalPriceWon": 4980000,
+        "totalCoins": "40000000000000000",
+        "presetsAndCustom": true,
+        "boundsRejected": true,
+        "enhancementScrollsEach": 1000,
+        "protectionItemsGranted": 0,
+        "equalButtonSize": {
+          "width": 328,
+          "height": 112
+        },
+        "inactiveHidden": true,
+        "ordinaryNoAlertPolling": true,
+        "imagesLoaded": true,
+        "lostResponseRecovery": true,
+        "ownerPopupOnce": true,
+        "cmsPopupAndPayment": true,
+        "errors": [],
+        "failed": []
+      },
+      {
+        "profile": "iphone-safari",
+        "engine": "webkit",
+        "standaloneEmulated": false,
+        "clientUserAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 Version/18.0 Mobile/15E148 Safari/604.1",
+        "width": 390,
+        "quantity": 100,
+        "totalPriceWon": 4980000,
+        "totalCoins": "40000000000000000",
+        "presetsAndCustom": true,
+        "boundsRejected": true,
+        "enhancementScrollsEach": 1000,
+        "protectionItemsGranted": 0,
+        "equalButtonSize": {
+          "width": 328,
+          "height": 112
+        },
+        "inactiveHidden": true,
+        "ordinaryNoAlertPolling": true,
+        "imagesLoaded": true,
+        "lostResponseRecovery": true,
+        "ownerPopupOnce": true,
+        "cmsPopupAndPayment": true,
+        "errors": [],
+        "failed": []
+      }
+    ],
+    "publicAssets": [
+      {
+        "file": "onestore/index.html",
+        "sha256": "bf44b0be82d9eabbcd6a456bebff7bbffaf74abfd4de55bffb432894abd3baee",
+        "serverTransformed": true
+      },
+      {
+        "file": "onestore/js/app.js",
+        "sha256": "3bad11aeef89800a7e3c78dafcedb39dfd6d03de7a2df4f3291fd27add65738a",
+        "serverTransformed": false
+      },
+      {
+        "file": "onestore/js/adventure-lobby-v2107.js",
+        "sha256": "cff5d61bae400487928bf5ffe66d33ecc9c5e53af65195d9e699c94878de1306",
+        "serverTransformed": false
+      },
+      {
+        "file": "shared/onestore-web-assets-v1.mjs",
+        "sha256": "17871b727788781a35cec7683798db3cbc31a67b6a6d0812d138dd0d206bef04",
+        "serverTransformed": false
+      },
+      {
+        "file": "shared/equipment-forge-advanced-v1.mjs",
+        "sha256": "615731157e2ec693ed6947264cd8dd87806f03dca90eeca75f0ee6f0485e27b1",
+        "serverTransformed": false
+      },
+      {
+        "file": "css/support-package-v1.css",
+        "sha256": "717ff6eb37b4b62daeec53fa0889c1224f9edd22cdc03ed44c6ea0eb8fc52ea2",
+        "serverTransformed": false
+      },
+      {
+        "file": "admin/index.html",
+        "sha256": "641a33d8a6aa5986b9db3a5636a8ee0066f11234f079585df83e03715f53a205",
+        "serverTransformed": false
+      },
+      {
+        "file": "shared/support-package-v1.mjs",
+        "sha256": "50b09bf184f6c2784f379ec9ac77e825bf40496fd5b821a28ca263cddb007935",
+        "serverTransformed": false
+      },
+      {
+        "file": "js/support-package-v1.mjs",
+        "sha256": "9e6dfe50bf92d3973e673032dae6d5b267b5d4942fb18bccfc23451e48eeeacf",
+        "serverTransformed": false
+      },
+      {
+        "file": "js/server-support-v1.mjs",
+        "sha256": "eedb8162fb76fb029a919816ce9be0474ee8dac05684a9e532c450f5391aa950",
+        "serverTransformed": false
+      },
+      {
+        "file": "js/support-package-alerts-v1.mjs",
+        "sha256": "cfd1dbc8ac982723e43b3b2ffbbc963f38f0e6917c649e76a0682ebabd2158bf",
+        "serverTransformed": false
+      },
+      {
+        "file": "admin/support-package-admin-v1.mjs",
+        "sha256": "1c31558b004a17615e7d912ef9b578401ddc60f985301cc1e8e0011f0f5b048a",
+        "serverTransformed": false
+      },
+      {
+        "file": "admin/server-support-admin-v1.mjs",
+        "sha256": "388cf7d67bff6906179013f2664b5b8512d98d92beb214a34c59abe71a5fa7a8",
+        "serverTransformed": false
+      },
+      {
+        "file": "js/adventure-lobby-v2107.js",
+        "sha256": "62866c4df93541bba927314e388eaf9c63c02a468ba5156ff46c24d9b0c17845",
+        "serverTransformed": false
+      },
+      {
+        "file": "index.html",
+        "sha256": "b414d7aaa22d8dc6ca282749cdb8a4e7cf7548a0e4a93428ad15e23df75b3704",
+        "serverTransformed": false
+      },
+      {
+        "file": "js/app.js",
+        "sha256": "0ba924f935cb55bcd6b33ec05f6093ea47b888ce97137fec7cd0d93c12849d75",
+        "serverTransformed": false
+      },
+      {
+        "file": "service-worker.js",
+        "sha256": "c3b2489e103c5e518b3512dc180509f3e8c8532c1844e35b66b9cfca2ba64e53",
+        "serverTransformed": false
+      }
+    ],
+    "clientManifest": {
+      "releaseId": "e128a8820d10acde34f4796c2301b7c5e4fbbd98e8b3c350887ed2db87222348",
+      "files": [
+        {
+          "path": "/shared/support-package-v1.mjs",
+          "sha256": "d9d07d2627e1ea14ce932bcf29b79fc63d05cd0400db6605ab7c6e4527594109",
+          "essential": true
+        },
+        {
+          "path": "/js/support-package-v1.mjs",
+          "sha256": "9e61d9d29d50b521a744b4867ae41633f4d396faca460b145959ec5b98b44399",
+          "essential": true
+        },
+        {
+          "path": "/js/server-support-v1.mjs",
+          "sha256": "76b5a52bec0bee839b8fa4b75e04108704b38e594ee33f1270f422a3a0fd814f",
+          "essential": true
+        },
+        {
+          "path": "/css/support-package-v1.css",
+          "sha256": "99d651cbe8bbe18fb8fd70ecfccb3cc467c659df95f362c5cee62072c3a06815",
+          "essential": true
+        }
+      ]
+    },
+    "readOnlyBeforeAfter": true
+  },
+  "limitations": [
+    "Client user agents and installed-PWA standalone mode are reproduced in Chromium/WebKit; no new physical-device or installed Electron-binary validation."
+  ],
+  "binaryReleases": 0,
+  "productionDirectGrants": 0,
+  "messagesSent": 0,
+  "storageMaintenance": false,
+  "newAutomations": false
+}

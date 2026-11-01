@@ -1,0 +1,8 @@
+*
+!.gitignore
+!inspect.mjs
+!release.mjs
+!browser.mjs
+!record-final.mjs
+!publish-records.mjs
+!completion.json
