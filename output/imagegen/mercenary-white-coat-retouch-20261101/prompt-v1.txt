@@ -1,0 +1,26 @@
+Use case: style-transfer / careful illustration retouch.
+Asset type: a polished full-body mercenary character illustration for a collectible 2D RPG.
+
+INPUT ROLES:
+Image 1 is the ONLY edit target: a tall adult male warrior with extremely long black hair, a long thick front braid, dark markings around the eyes, exposed muscular torso with a dark central tattoo, white gold-trimmed military overcoat draped on the shoulders, black ragged lower garments, wrapped ankles and bare feet, holding one long sheathed sword diagonally across his front.
+Image 2 (white-haired blue-armored swordsman) is a STYLE reference only: graceful anatomy, coherent skin shading, broad flowing hair masses, controlled highlights and readable materials.
+Image 3 (red-haired man in a white coat and hat) is a STYLE reference only: confident clean contours, broad organized light/shadow shapes, elegant crisp coat folds, strong silhouette and excellent visual hierarchy.
+Do not copy the faces, costumes, hat, hair colors, weapons, or backgrounds of images 2 and 3.
+
+PRIMARY REQUEST:
+Retouch Image 1 because the drawing is messy. Make an unmistakably cleaner, more professionally finished version of THIS SAME CHARACTER. Redraw the messy rendering into crisp, deliberate high-end 2D anime RPG illustration with restrained painterly depth. This is a substantial cleanup of linework and shading, not a blur, sharpening filter, photorealistic render, or character redesign.
+
+CLEANUP:
+- Preserve his stern mature face and individual features, while drawing the face, neck, torso, hands, clothing and hair in one consistent elegant illustrated style. Make facial contours and features legible; retain the existing dark eye marking.
+- Group the long black hair into broad continuous locks with a few intentional flyaways, sharply readable flowing silhouette and restrained coherent highlights. Keep the long front braid and its position, but clean its contour and weaving. Remove the chaotic spiderweb of stray hairs.
+- Render the same powerful muscular torso with anatomically connected forms, larger light and shadow planes, smooth controlled transitions and a few crisp occlusion edges. Eliminate patchy triangular mud, excessive scratch lines and lumpy over-faceting. Keep the recognizable original chest tattoo and existing character marks, rendered as intentional clean shapes rather than random scratches; add no new scars.
+- Make the white coat clean luminous ivory-white with structured cool gray folds, a clear dark lining and precise restrained gold edges. Replace scratchy folds with fewer broad well-designed folds. Keep the shoulder epaulettes, principal chains and important hanging ornaments; consolidate excessive tiny scribbled detailing into neatly spaced, clearly constructed accents.
+- Organize the black lower garments into broad charcoal folds and distinct cloth layers. Keep the ragged hem identity but reduce dozens of tiny shreds into a small number of purposeful tapered shapes. Distinguish hair, cloth, skin and metal with consistent lighting.
+- Keep hands and exposed feet anatomically sound, grounded and clearly drawn. Keep the existing hand placement and one coherent sheathed sword. The hilt, guard and sheath must form one continuous rigid structure with correct perspective, clean straight alignment at connections and the original overall diagonal orientation; no kink, duplicate blade, new weapon, or finger fused into the sheath.
+- The dark garment inscription on the white coat MUST remain the same two black characters, vertically arranged: "正" above "義". Keep it in the same area on the viewer's right. Preserve this existing costume text only.
+
+LOCK:
+Same character identity, long black hair and braid, muscular adult proportions, original frontal standing pose, original head and gaze angle, white overcoat silhouette, dark and gold palette, exposed torso, tattoos/markings, black lower garments, ankle wraps and bare feet, sheathed weapon and framing. Keep the original white background and a small restrained neutral ground shadow. No scenery, energy effects, added props, extra characters, UI, border, nameplate, logo or watermark. Do not add a hat or recolor the hair. No chibi anatomy, plastic 3D skin or photographic face.
+
+OUTPUT:
+A single finished image, vertical 2:3 composition, preferably 1024 x 1536 or higher at exactly 2:3. Full body including top hair, both feet, complete coat tails and complete sword tip comfortably inside the canvas. Clear clean edges, intentional large shapes, sophisticated material separation, polished readable detail especially in the face and gripping hand. Deliver only the retouched artwork, not a side-by-side comparison.

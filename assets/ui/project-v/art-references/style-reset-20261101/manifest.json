@@ -1,0 +1,43 @@
+{
+  "format": "PROJECT_V_STYLE_STANDARD_RESET_V2",
+  "dateKST": "2026-11-01",
+  "status": "USER_SPECIFIED_STYLE_STANDARD",
+  "userDirective": "용병일러스트 작화 변경 기준점 다시 잡아",
+  "styleName": "정돈된 2D 캐릭터 선화 + 큰 명암 면 + 절제된 페인터리 마감",
+  "references": [
+    {
+      "file": "assets/ui/project-v/art-references/style-reset-20261101/style-01-blue-swordsman.png",
+      "sourceAttachment": "codex-clipboard-ec4e3c46-7853-43df-bb32-ef4df65955d5.png",
+      "sha256": "b4d8dc61396c41b840e29b7d83f4c284db9acb1351a4982e509b26c095f6e26a",
+      "bytes": 994029,
+      "width": 735,
+      "height": 1155,
+      "pngColorType": 2,
+      "byteForByteCopy": true,
+      "role": "Style only: coherent anatomy, continuous hair flow, controlled painterly shading and material separation."
+    },
+    {
+      "file": "assets/ui/project-v/art-references/style-reset-20261101/style-02-white-coat-swordsman.png",
+      "sourceAttachment": "codex-clipboard-733f5c3f-b3bb-45f4-aa82-e56a5ef2c7c8.png",
+      "sha256": "f4f0da10314b0ca224184fea26a5f76ac584a096b3c8be893a69b2f9570556b1",
+      "bytes": 1332597,
+      "width": 960,
+      "height": 1200,
+      "pngColorType": 2,
+      "byteForByteCopy": true,
+      "role": "Style only: clean contours, broad light and shadow planes, structured folds and strong silhouette."
+    }
+  ],
+  "supersedesConflictingGuidance": [
+    "2026-10-14 four-image primary style hierarchy",
+    "2026-09-07 Vespera primary style hierarchy"
+  ],
+  "preserves": [
+    "Previous references and approved originals",
+    "Consistent face/body/clothing style",
+    "Natural continuous hair flow",
+    "Hand anatomy and weapon construction",
+    "Separate sourceArt and battleSprite approvals"
+  ],
+  "productionEnabled": false
+}

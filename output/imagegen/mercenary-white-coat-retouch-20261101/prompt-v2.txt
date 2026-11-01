@@ -1,0 +1,14 @@
+Use case: style-transfer, targeted refinement of the attached illustration.
+Image 1 is the EDIT TARGET: the previous clean retouch of the black-haired braided muscular warrior in the white gold-trimmed coat.
+Image 2 is the ORIGINAL identity and design reference only.
+Image 3 (blue-armored white-haired swordsman) and Image 4 (red-haired man in white coat) are style references ONLY.
+
+Make ONE focused change: REDUCE THE FRAGMENTED INTERNAL SHADING AND VISUAL NOISE so the image reads as deliberate, elegant finished 2D RPG art. The previous edit is sharper but the abdomen still has too many patchwork triangular shadow facets and the black fabric has too many small angular facets. Fix this clearly.
+
+In the same pose and anatomy, repaint the skin into broad, coherent smoothly modeled forms, like Image 3's chest and abdomen. Preserve muscle volume, but use continuous soft transitions with a few purposeful crisp edges. No mosaic, polygonal planes, hammered-stone muscles, tiny repeated highlight triangles or scratch-texture skin. Let each pectoral and abdominal muscle be one calmly modeled form. Keep all existing distinctive black tattoos and dark eye markings; render them cleanly without multiplying fine scratch lines.
+Simplify only the rendering of black fabric into large, long flowing folds with quiet near-solid dark areas, as confidently organized as Image 4's trousers. Retain the torn garment silhouette and principal layers, but remove small chaotic triangular shade fragments within them.
+Quiet the loose hair: retain long black flowing hair and the exact braid, but collect stray crossing threads into naturally continuous soft locks with a few chosen flyaways. Do not make plate-like hair layers. Keep white coat areas smooth and clean with the already-established gold decoration; do not add details.
+
+Everything else in Image 1 is LOCKED: same adult male identity, stern face, dark eye marking, exact body proportions and pose, hair length and braid placement, same muscular build and chest tattoo, draped white coat, epaulettes and main chains, black garments, ankle wraps, bare feet, single sheathed sword diagonal across his front with its existing complete aligned rigid structure and support-hand position. Same full-body framing, white background, small ground shadow and white/black/muted gold palette. Keep the existing vertical black coat text exactly "正" above "義". Do not add props, scenery, effects, hat, UI, border, watermark or other text. No photographic skin, 3D render, flat childish cartoon, change of design, or blur filter.
+
+Deliver one polished finished 2:3 vertical image, 1024 x 1536 or higher, not a comparison. Everything including hair, coat, feet and sword stays inside the canvas. The result must visibly have calmer larger light and shadow shapes while retaining crisp readable contours and appealing character detail.
