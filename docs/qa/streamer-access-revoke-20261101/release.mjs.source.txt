@@ -1,0 +1,42 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import {execFileSync,spawn} from 'node:child_process';
+const root=path.resolve('output/revan-live-20261027/release-checkout');
+const directory=new URL('./',import.meta.url),mode=process.argv[2];
+process.chdir(root);
+const git=(...args)=>execFileSync('git',['-c','gc.auto=0','-c','maintenance.auto=false',...args],{encoding:'utf8',windowsHide:true,maxBuffer:40e6}).trim();
+const wrangler=path.join(path.dirname(createRequire(root+'/package.json').resolve('wrangler/package.json')),'bin/wrangler.js');
+const auth=JSON.parse(execFileSync(process.execPath,[wrangler,'auth','token','--json'],{encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe']}));
+const token=auth.token||auth.apiToken||auth.oauthToken;assert(token);
+const api=async p=>{const r=await fetch('https://api.cloudflare.com/client/v4/accounts/1e7c59450a8b6e34a9d87f92ca02aeaa'+p,{headers:{Authorization:'Bearer '+token},signal:AbortSignal.timeout(30000)});assert(r.ok,'Cloudflare '+r.status);return r;};
+const save=(name,value)=>fs.writeFileSync(new URL(name+'.json',directory),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+const state=async()=>{const d=(await(await api('/pages/projects/cnine-card')).json()).result.canonical_deployment;return{id:d.id,url:d.url,status:d.latest_stage.status,commit:d.deployment_trigger.metadata.commit_hash};};
+if(mode==='prepare'){
+ const before=await state();git('merge-base','--is-ancestor',before.commit,'HEAD');
+ const plan={before,base:before.commit,reason:'Latest user correction preserves Heeya in both services. Restore the original five seed accounts, then revoke only Juseong and Ayun live bindings and lounge profiles. Rerun the changed land access/daily eligibility regression; preserve the unchanged 18 lounge checks and packaging check already passed.',tests:['tests/soopketland-v2039.test.mjs'],checks:['check:worker']};
+ save('deployment-plan',plan);console.log(JSON.stringify(plan));
+}else if(mode==='deploy'){
+ const plan=JSON.parse(fs.readFileSync(new URL('deployment-plan.json',directory))),head=git('rev-parse','HEAD');
+ assert.equal((await state()).commit,plan.base);assert.equal(git('status','--porcelain'),'');assert.equal(git('rev-parse','origin/main'),head);
+ const log=new URL('deploy-'+head.slice(0,9)+'-'+Date.now()+'.log',directory),fd=fs.openSync(log,'wx');
+ const child=spawn(process.env.ComSpec||'cmd.exe',['/d','/s','/c','npm run deploy:production -- --scoped'],{env:{...process.env,GIT_CONFIG_COUNT:'2',GIT_CONFIG_KEY_0:'gc.auto',GIT_CONFIG_VALUE_0:'0',GIT_CONFIG_KEY_1:'maintenance.auto',GIT_CONFIG_VALUE_1:'false',SCOPED_DEPLOY_BASE:plan.base,SCOPED_DEPLOY_REASON:plan.reason,SCOPED_DEPLOY_TESTS:JSON.stringify(plan.tests),SCOPED_DEPLOY_CHECKS:JSON.stringify(plan.checks)},windowsHide:true,stdio:['ignore',fd,fd]});
+ console.log(JSON.stringify({head,base:plan.base,pid:child.pid,log:log.pathname}));
+ const exitCode=await new Promise((resolve,reject)=>{child.once('exit',resolve);child.once('error',reject);});fs.closeSync(fd);
+ save('deployment-result',{head,base:plan.base,exitCode,log:log.href,finishedAt:new Date().toISOString()});console.log(JSON.stringify({head,exitCode}));process.exitCode=exitCode||0;
+}else if(mode==='verify'){
+ const result=JSON.parse(fs.readFileSync(new URL('deployment-result.json',directory))),pages=await state();
+ assert.equal(result.exitCode,0);assert.equal(pages.status,'success');assert.equal(pages.commit,result.head);
+ const logs=fs.readFileSync(new URL(result.log),'utf8'),versions=[...logs.matchAll(/Current Version ID:\s*([a-f0-9-]+)/g)].map(m=>m[1]);assert.equal(versions.length,2);
+ const workers=[];
+ for(const [i,name]of ['cnine-card-api-runtime','cnine-card-clan-draft'].entries()){
+  const deployment=(await(await api('/workers/scripts/'+name+'/deployments')).json()).result.deployments[0];
+  assert.equal(deployment.versions.length,1);assert.equal(deployment.versions[0].version_id,versions[i]);assert.equal(deployment.versions[0].percentage,100);
+  const source=await(await api('/workers/scripts/'+name)).text();
+  const match=source.match(/LAND_STREAMERS\s*=\s*Object\.freeze\((\[[^\]]+\])\)/);assert(match,name+' bootstrap array');
+  const seeds=JSON.parse(match[1]);assert.deepEqual(seeds,['진짜디임','조은','오리꿍','강구열','하이희야♡']);
+  workers.push({name,version:versions[i],percentage:100,seeds});
+ }
+ save('live-verification',{at:new Date().toISOString(),sourceCommit:result.head,pages,workers});console.log(JSON.stringify({pages,workers}));
+}else throw Error('prepare|deploy|verify');

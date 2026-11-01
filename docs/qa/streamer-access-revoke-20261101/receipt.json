@@ -1,0 +1,224 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:streamer-access-revoke:20261101:v1",
+  "authorization": "리버랜스랜드, 스트리머 라운지에서 하이희야,주성,아윤 권한삭제해 → 후속: 희야 다시 살려",
+  "completedAt": "2026-11-01T13:28:57.802Z",
+  "targets": [
+    {
+      "id": "5393",
+      "nickname": "주성",
+      "profileId": "ddaggida3",
+      "profileName": "주성"
+    },
+    {
+      "id": "5209",
+      "nickname": "김아윤",
+      "profileId": "ayoona",
+      "profileName": "아윤♡"
+    }
+  ],
+  "preserved": {
+    "id": "4977",
+    "nickname": "하이희야♡",
+    "profileId": "jkmjkm1236",
+    "profileName": "하이희야"
+  },
+  "auditIds": [
+    "53676",
+    "53677",
+    "53678"
+  ],
+  "removedAccounts": [
+    {
+      "slot": "김아윤",
+      "user_id": "5209",
+      "bound_at": "2026-09-11T14:52:32.992Z"
+    },
+    {
+      "slot": "주성",
+      "user_id": "5393",
+      "bound_at": "2026-09-17T19:35:33.706Z"
+    }
+  ],
+  "beforeLounge": {
+    "revision": "310fd3bc-c9a7-4672-b09d-2473dff292d4",
+    "settings": {
+      "enabled": true,
+      "profiles": [
+        {
+          "id": "qpqpro",
+          "name": "디임",
+          "stationUrl": "https://www.sooplive.com/station/qpqpro",
+          "imageUrl": "https://stimg.sooplive.com/LOGO/qp/qpqpro/m/qpqpro.webp",
+          "description": "",
+          "visible": true
+        },
+        {
+          "id": "zalalz",
+          "name": "조은",
+          "stationUrl": "https://www.sooplive.com/station/zalalz",
+          "imageUrl": "https://stimg.sooplive.com/LOGO/za/zalalz/m/zalalz.webp",
+          "description": "",
+          "visible": true
+        },
+        {
+          "id": "mew030709",
+          "name": "남수댕",
+          "stationUrl": "https://www.sooplive.com/station/mew030709",
+          "imageUrl": "https://stimg.sooplive.com/LOGO/me/mew030709/m/mew030709.webp",
+          "description": "",
+          "visible": true
+        },
+        {
+          "id": "yjk011599",
+          "name": "나무늘봉순",
+          "stationUrl": "https://www.sooplive.com/station/yjk011599",
+          "imageUrl": "https://stimg.sooplive.com/LOGO/yj/yjk011599/m/yjk011599.webp",
+          "description": "",
+          "visible": true
+        },
+        {
+          "id": "jkmjkm1236",
+          "name": "하이희야",
+          "stationUrl": "https://www.sooplive.com/station/jkmjkm1236",
+          "imageUrl": "https://stimg.sooplive.com/LOGO/jk/jkmjkm1236/m/jkmjkm1236.webp",
+          "description": "",
+          "visible": true
+        },
+        {
+          "id": "kuyol",
+          "name": "강구열",
+          "stationUrl": "https://www.sooplive.com/station/kuyol",
+          "imageUrl": "https://stimg.sooplive.com/LOGO/ku/kuyol/m/kuyol.webp",
+          "description": "",
+          "visible": true
+        },
+        {
+          "id": "imducko3o",
+          "name": "오리꿍",
+          "stationUrl": "https://www.sooplive.com/station/imducko3o",
+          "imageUrl": "https://stimg.sooplive.com/LOGO/im/imducko3o/m/imducko3o.webp",
+          "description": "",
+          "visible": true
+        },
+        {
+          "id": "ddaggida3",
+          "name": "주성",
+          "stationUrl": "https://www.sooplive.com/station/ddaggida3",
+          "imageUrl": "https://stimg.sooplive.com/LOGO/dd/ddaggida3/m/ddaggida3.webp",
+          "description": "",
+          "visible": true
+        },
+        {
+          "id": "ayoona",
+          "name": "아윤♡",
+          "stationUrl": "https://www.sooplive.com/station/ayoona",
+          "imageUrl": "https://stimg.sooplive.com/LOGO/ay/ayoona/m/ayoona.webp",
+          "description": "",
+          "visible": true
+        }
+      ]
+    }
+  },
+  "afterLounge": {
+    "revision": "cf797ef2-c664-4ba5-a5c3-0c7c43ab3dc4",
+    "settings": {
+      "enabled": true,
+      "profiles": [
+        {
+          "id": "qpqpro",
+          "name": "디임",
+          "stationUrl": "https://www.sooplive.com/station/qpqpro",
+          "imageUrl": "https://stimg.sooplive.com/LOGO/qp/qpqpro/m/qpqpro.webp",
+          "description": "",
+          "visible": true
+        },
+        {
+          "id": "zalalz",
+          "name": "조은",
+          "stationUrl": "https://www.sooplive.com/station/zalalz",
+          "imageUrl": "https://stimg.sooplive.com/LOGO/za/zalalz/m/zalalz.webp",
+          "description": "",
+          "visible": true
+        },
+        {
+          "id": "mew030709",
+          "name": "남수댕",
+          "stationUrl": "https://www.sooplive.com/station/mew030709",
+          "imageUrl": "https://stimg.sooplive.com/LOGO/me/mew030709/m/mew030709.webp",
+          "description": "",
+          "visible": true
+        },
+        {
+          "id": "yjk011599",
+          "name": "나무늘봉순",
+          "stationUrl": "https://www.sooplive.com/station/yjk011599",
+          "imageUrl": "https://stimg.sooplive.com/LOGO/yj/yjk011599/m/yjk011599.webp",
+          "description": "",
+          "visible": true
+        },
+        {
+          "id": "jkmjkm1236",
+          "name": "하이희야",
+          "stationUrl": "https://www.sooplive.com/station/jkmjkm1236",
+          "imageUrl": "https://stimg.sooplive.com/LOGO/jk/jkmjkm1236/m/jkmjkm1236.webp",
+          "description": "",
+          "visible": true
+        },
+        {
+          "id": "kuyol",
+          "name": "강구열",
+          "stationUrl": "https://www.sooplive.com/station/kuyol",
+          "imageUrl": "https://stimg.sooplive.com/LOGO/ku/kuyol/m/kuyol.webp",
+          "description": "",
+          "visible": true
+        },
+        {
+          "id": "imducko3o",
+          "name": "오리꿍",
+          "stationUrl": "https://www.sooplive.com/station/imducko3o",
+          "imageUrl": "https://stimg.sooplive.com/LOGO/im/imducko3o/m/imducko3o.webp",
+          "description": "",
+          "visible": true
+        }
+      ]
+    }
+  },
+  "otherAccounts": [
+    {
+      "slot": "강구열",
+      "user_id": "4718",
+      "bound_at": "2026-09-05T10:31:51.662Z"
+    },
+    {
+      "slot": "조은",
+      "user_id": "4754",
+      "bound_at": "2026-09-05T10:31:51.649Z"
+    },
+    {
+      "slot": "진짜디임",
+      "user_id": "4773",
+      "bound_at": "2026-09-05T10:31:51.639Z"
+    },
+    {
+      "slot": "오리꿍",
+      "user_id": "4913",
+      "bound_at": "2026-09-05T10:31:51.655Z"
+    },
+    {
+      "slot": "하이희야♡",
+      "user_id": "4977",
+      "bound_at": "2026-09-05T10:31:51.669Z"
+    },
+    {
+      "slot": "나무늘봉순",
+      "user_id": "5426",
+      "bound_at": "2026-09-18T16:53:43.091Z"
+    },
+    {
+      "slot": "남수댕ㅗ",
+      "user_id": "5950",
+      "bound_at": "2026-10-16T12:53:01.741Z"
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "startedAt": "2026-11-01T13:29:09.860Z",
+  "origin": "https://cnine-card.pages.dev",
+  "readOnly": true,
+  "overrides": false,
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "pageErrors": [],
+      "blockedMutations": [],
+      "ids": [
+        "qpqpro",
+        "zalalz",
+        "mew030709",
+        "yjk011599",
+        "jkmjkm1236",
+        "kuyol",
+        "imducko3o"
+      ],
+      "removedNamesReturnNoResults": true,
+      "heeyaPreserved": true,
+      "noHorizontalOverflow": true,
+      "names": [
+        "디임",
+        "조은",
+        "남수댕",
+        "나무늘봉순",
+        "하이희야",
+        "강구열",
+        "오리꿍"
+      ],
+      "screenshot": "1440x1000-lounge.png"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "pageErrors": [],
+      "blockedMutations": [],
+      "ids": [
+        "qpqpro",
+        "zalalz",
+        "mew030709",
+        "yjk011599",
+        "jkmjkm1236",
+        "kuyol",
+        "imducko3o"
+      ],
+      "removedNamesReturnNoResults": true,
+      "heeyaPreserved": true,
+      "noHorizontalOverflow": true,
+      "names": [
+        "디임",
+        "조은",
+        "남수댕",
+        "나무늘봉순",
+        "하이희야",
+        "강구열",
+        "오리꿍"
+      ],
+      "screenshot": "390x844-lounge.png"
+    }
+  ],
+  "publicProfiles": [
+    {
+      "id": "qpqpro",
+      "name": "디임"
+    },
+    {
+      "id": "zalalz",
+      "name": "조은"
+    },
+    {
+      "id": "mew030709",
+      "name": "남수댕"
+    },
+    {
+      "id": "yjk011599",
+      "name": "나무늘봉순"
+    },
+    {
+      "id": "jkmjkm1236",
+      "name": "하이희야"
+    },
+    {
+      "id": "kuyol",
+      "name": "강구열"
+    },
+    {
+      "id": "imducko3o",
+      "name": "오리꿍"
+    }
+  ],
+  "status": "VERIFIED",
+  "completedAt": "2026-11-01T13:29:18.662Z"
+}

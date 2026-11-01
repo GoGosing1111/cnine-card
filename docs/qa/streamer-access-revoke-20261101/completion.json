@@ -1,0 +1,119 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:streamer-access-revoke:20261101:v1",
+  "authorization": "리버랜스랜드, 스트리머 라운지에서 하이희야,주성,아윤 권한삭제해 → 후속: 희야 다시 살려",
+  "completedAt": "2026-11-01T13:28:57.802Z",
+  "completedAtKst": "2026-11-01 22:28:57 KST",
+  "removed": [
+    {
+      "id": "5393",
+      "nickname": "주성",
+      "profileId": "ddaggida3",
+      "profileName": "주성"
+    },
+    {
+      "id": "5209",
+      "nickname": "김아윤",
+      "profileId": "ayoona",
+      "profileName": "아윤♡"
+    }
+  ],
+  "preserved": {
+    "id": "4977",
+    "nickname": "하이희야♡",
+    "profileId": "jkmjkm1236",
+    "profileName": "하이희야"
+  },
+  "auditIds": [
+    "53676",
+    "53677",
+    "53678"
+  ],
+  "remainingAccounts": 7,
+  "remainingProfiles": [
+    "디임",
+    "조은",
+    "남수댕",
+    "나무늘봉순",
+    "하이희야",
+    "강구열",
+    "오리꿍"
+  ],
+  "sourceCommit": "86a4ca35e2e598172c1bdb59ab80f78eb6d4e0da",
+  "pages": {
+    "id": "24c99ab1-acfb-4531-a35e-1a2f0cb80dbc",
+    "url": "https://24c99ab1.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "86a4ca35e2e598172c1bdb59ab80f78eb6d4e0da"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "79c1d8b0-2533-4619-9c72-963b9e429dec",
+      "percentage": 100,
+      "seeds": [
+        "진짜디임",
+        "조은",
+        "오리꿍",
+        "강구열",
+        "하이희야♡"
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "c195d020-da2e-493d-bd80-71c9cbcbe651",
+      "percentage": 100,
+      "seeds": [
+        "진짜디임",
+        "조은",
+        "오리꿍",
+        "강구열",
+        "하이희야♡"
+      ]
+    }
+  ],
+  "checks": {
+    "land": 60,
+    "lounge": 18,
+    "packaging": 1,
+    "transactionFailureAndSuccessRollback": true,
+    "independentReadOnly": true,
+    "noWriteReplay": true,
+    "publicApi": true,
+    "publicDesktopAndMobile": [
+      {
+        "width": 1440,
+        "height": 1000,
+        "names": [
+          "디임",
+          "조은",
+          "남수댕",
+          "나무늘봉순",
+          "하이희야",
+          "강구열",
+          "오리꿍"
+        ],
+        "heeyaPreserved": true
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "names": [
+          "디임",
+          "조은",
+          "남수댕",
+          "나무늘봉순",
+          "하이희야",
+          "강구열",
+          "오리꿍"
+        ],
+        "heeyaPreserved": true
+      }
+    ],
+    "physicalDevice": false,
+    "messagesSent": 0,
+    "accountBalanceWrites": 0,
+    "accountSanctions": 0,
+    "storageMaintenance": false
+  }
+}

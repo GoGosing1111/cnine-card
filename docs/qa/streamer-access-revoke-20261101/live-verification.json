@@ -1,0 +1,36 @@
+{
+  "at": "2026-11-01T13:28:42.974Z",
+  "sourceCommit": "86a4ca35e2e598172c1bdb59ab80f78eb6d4e0da",
+  "pages": {
+    "id": "24c99ab1-acfb-4531-a35e-1a2f0cb80dbc",
+    "url": "https://24c99ab1.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "86a4ca35e2e598172c1bdb59ab80f78eb6d4e0da"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "79c1d8b0-2533-4619-9c72-963b9e429dec",
+      "percentage": 100,
+      "seeds": [
+        "진짜디임",
+        "조은",
+        "오리꿍",
+        "강구열",
+        "하이희야♡"
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "c195d020-da2e-493d-bd80-71c9cbcbe651",
+      "percentage": 100,
+      "seeds": [
+        "진짜디임",
+        "조은",
+        "오리꿍",
+        "강구열",
+        "하이희야♡"
+      ]
+    }
+  ]
+}

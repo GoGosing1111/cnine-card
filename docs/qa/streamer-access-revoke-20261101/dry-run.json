@@ -1,0 +1,45 @@
+{
+  "mode": "dry-run",
+  "scriptHash": "f7caef4ca53a2b1f39406684c40f891be2cf15ff200b4e2397cd97c5ffdbb43a",
+  "failureRollback": true,
+  "successRollback": true,
+  "noWriteReplayVerified": true,
+  "verification": {
+    "access": [
+      {
+        "id": "4977",
+        "nickname": "하이희야♡",
+        "allowed": true,
+        "isOwner": false
+      },
+      {
+        "id": "5209",
+        "nickname": "김아윤",
+        "allowed": false,
+        "isOwner": false
+      },
+      {
+        "id": "5393",
+        "nickname": "주성",
+        "allowed": false,
+        "isOwner": false
+      }
+    ],
+    "remainingAccounts": 7,
+    "remainingProfiles": [
+      "디임",
+      "조은",
+      "남수댕",
+      "나무늘봉순",
+      "하이희야",
+      "강구열",
+      "오리꿍"
+    ],
+    "revision": "951f65e0-8728-4741-afc7-1841dec8ec9a",
+    "auditIds": [
+      "53671",
+      "53672",
+      "53673"
+    ]
+  }
+}

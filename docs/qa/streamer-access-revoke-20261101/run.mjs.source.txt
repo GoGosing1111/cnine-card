@@ -1,0 +1,98 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {createHash,randomUUID} from 'node:crypto';
+import {connect,safe} from '../rap-contest-rewards-20261027/preflight.mjs';
+import {validateStreamerSettings,STREAMER_SETTINGS_KEY} from '../../output/revan-live-20261027/release-checkout/js/streamer-lounge-model-v2036.js';
+import {landAccess} from '../../output/revan-live-20261027/release-checkout/functions/_soopket_land.js';
+const OP='ops:streamer-access-revoke:20261101:v1';
+const authorization='리버랜스랜드, 스트리머 라운지에서 하이희야,주성,아윤 권한삭제해 → 후속: 희야 다시 살려';
+const KEEP={id:'4977',nickname:'하이희야♡',profileId:'jkmjkm1236',profileName:'하이희야'};
+const TARGETS=[{id:'5393',nickname:'주성',profileId:'ddaggida3',profileName:'주성'},{id:'5209',nickname:'김아윤',profileId:'ayoona',profileName:'아윤♡'}];
+const IDS=TARGETS.map(x=>x.id),OBSERVED_IDS=[...IDS,KEEP.id],mode=process.argv[2],directory=new URL('./',import.meta.url);
+assert(['read','dry-run','apply','verify'].includes(mode));
+const save=(name,value)=>fs.writeFileSync(new URL(name+'.json',directory),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+const scriptHash=createHash('sha256').update(fs.readFileSync(new URL('run.mjs',directory))).digest('hex');
+const one=result=>{assert.equal(result.rows.length,1);return result.rows[0];};
+async function snapshot(c){
+ const q=async(sql,args=[]) => (await c.query(sql,args)).rows;
+ return {
+  users:await q('SELECT id::text,nickname,role,status,banned_until,coin::text FROM users WHERE id=ANY($1::bigint[]) ORDER BY id',[OBSERVED_IDS]),
+  accounts:await q('SELECT slot,user_id::text,bound_at FROM soopketland_accounts ORDER BY user_id'),
+  lounge:one(await c.query('SELECT value FROM app_meta WHERE key=$1',[STREAMER_SETTINGS_KEY])).value,
+  inventory:await q('SELECT * FROM cnine_user_inventory WHERE user_id=ANY($1::bigint[]) ORDER BY user_id,item_code',[IDS]),
+  lots:await q('SELECT * FROM soopketland_ticket_lots WHERE user_id=ANY($1::bigint[]) ORDER BY user_id,id',[IDS]),
+  policies:await q("SELECT key,value FROM app_meta WHERE key IN ('soopketland_daily_policy_v1','soopketland_settings_v2039') ORDER BY key"),
+  receipts:await q('SELECT value FROM app_meta WHERE key=$1',[OP]),
+  audits:await q("SELECT id::text,action_type,target_id,before_data,after_data FROM admin_logs WHERE action_type IN ('SOOPKETLAND_ACCESS_REVOKE','STREAMER_LOUNGE_UPDATE') AND target_id=ANY($1::text[]) AND after_data LIKE $2 ORDER BY id",[[...IDS,STREAMER_SETTINGS_KEY],'%'+OP+'%'])
+ };
+}
+function validateTargets(before){
+ assert.equal(before.users.length,3);
+ for(const t of TARGETS){const user=before.users.find(u=>u.id===t.id);assert.equal(user.nickname,t.nickname);assert.equal(user.role,'USER');assert.equal(user.status,'ACTIVE');const a=before.accounts.filter(a=>a.user_id===t.id);assert.equal(a.length,1);assert.equal(a[0].slot,t.nickname);}
+ const parsed=JSON.parse(before.lounge);assert.deepEqual(validateStreamerSettings(parsed.settings),parsed.settings);
+ for(const t of TARGETS){const rows=parsed.settings.profiles.filter(p=>p.id===t.profileId);assert.equal(rows.length,1);assert.equal(rows[0].name,t.profileName);}
+ return parsed;
+}
+async function verify(c,receipt){
+ assert.equal(receipt.operationKey,OP);assert.equal(receipt.status,'COMPLETED');
+ const state=await snapshot(c);assert.equal(state.receipts.length,1);assert.equal(state.audits.length,3);assert.deepEqual(state.audits.map(a=>a.id),receipt.auditIds);
+ assert.equal(state.accounts.filter(a=>IDS.includes(a.user_id)).length,0);
+ const lounge=JSON.parse(state.lounge);assert(!lounge.settings.profiles.some(p=>TARGETS.some(t=>t.profileId===p.id)));
+ const adapter={prepare(sql){let args=[];return{bind(...values){args=values;return this;},async first(){let index=0;const result=await c.query(sql.replace(/\?/g,()=>'$'+(++index)),args);return result.rows[0]||null;}};}};
+ const access=[];for(const user of state.users){const result=await landAccess(adapter,user,{DB:adapter});assert.deepEqual(result,{allowed:user.id===KEEP.id,isOwner:false});access.push({id:user.id,nickname:user.nickname,...result});}
+ return {access,remainingAccounts:state.accounts.length,remainingProfiles:lounge.settings.profiles.map(p=>p.name),revision:lounge.revision,auditIds:receipt.auditIds};
+}
+async function revoke(c){
+ const prior=await c.query('SELECT value FROM app_meta WHERE key=$1',[OP]);
+ if(prior.rows.length){const receipt=JSON.parse(one(prior).value);return{replayed:true,receipt,verification:await verify(c,receipt)};}
+ await c.query('SELECT pg_advisory_xact_lock(hashtextextended($1,0))',[OP]);
+ await c.query('SELECT id FROM users WHERE id=ANY($1::bigint[]) ORDER BY id FOR UPDATE',[OBSERVED_IDS]);
+ await c.query('LOCK TABLE soopketland_accounts IN SHARE ROW EXCLUSIVE MODE');
+ await c.query('SELECT key FROM app_meta WHERE key=$1 FOR UPDATE',[STREAMER_SETTINGS_KEY]);
+ const before=await snapshot(c);assert.equal(before.receipts.length,0);assert.equal(before.audits.length,0);
+ const parsed=validateTargets(before),after={...parsed,revision:randomUUID(),settings:{...parsed.settings,profiles:parsed.settings.profiles.filter(p=>!TARGETS.some(t=>t.profileId===p.id))}};
+ assert.deepEqual(validateStreamerSettings(after.settings),after.settings);
+ const admin=one(await c.query("SELECT id::text FROM users WHERE id=1 AND role='OWNER' AND status='ACTIVE' FOR SHARE"));
+ const keptAccount=before.accounts.find(a=>a.user_id===KEEP.id),keptProfile=parsed.settings.profiles.find(p=>p.id===KEEP.profileId);assert.equal(keptAccount?.slot,KEEP.nickname);assert.equal(keptProfile?.name,KEEP.profileName);assert.equal(keptProfile.visible,true);
+ const at=new Date().toISOString();
+ const removed=(await c.query('DELETE FROM soopketland_accounts WHERE user_id=ANY($1::bigint[]) RETURNING slot,user_id::text,bound_at',[IDS])).rows;assert.equal(removed.length,2);
+ assert.equal((await c.query('UPDATE app_meta SET value=$1,updated_at=$2 WHERE key=$3 AND value=$4',[JSON.stringify(after),at,STREAMER_SETTINGS_KEY,before.lounge])).rowCount,1);
+ const auditIds=[];
+ for(const t of TARGETS){const audit=one(await c.query("INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES($1,'SOOPKETLAND_ACCESS_REVOKE','USER',$2,$3,$4) RETURNING id::text",[admin.id,t.id,JSON.stringify(before.accounts.find(a=>a.user_id===t.id)),JSON.stringify({operationKey:OP,authorization,userId:t.id,nickname:t.nickname,allowed:false})]));auditIds.push(audit.id);}
+ auditIds.push(one(await c.query("INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES($1,'STREAMER_LOUNGE_UPDATE','SETTINGS',$2,$3,$4) RETURNING id::text",[admin.id,STREAMER_SETTINGS_KEY,JSON.stringify(parsed),JSON.stringify({operationKey:OP,authorization,after})])).id);
+ const receipt={status:'COMPLETED',operationKey:OP,authorization,completedAt:at,targets:TARGETS,preserved:KEEP,auditIds,removedAccounts:removed,beforeLounge:parsed,afterLounge:after,otherAccounts:before.accounts.filter(a=>!IDS.includes(a.user_id))};
+ await c.query('INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,$3)',[OP,JSON.stringify(receipt),at]);
+ const actual=await snapshot(c);
+ for(const key of ['users','inventory','lots','policies'])assert.deepEqual(actual[key],before[key],key+' preserved');
+ assert.deepEqual(actual.accounts,receipt.otherAccounts);assert.deepEqual(JSON.parse(actual.lounge),after);
+ return{replayed:false,receipt,verification:await verify(c,receipt)};
+}
+const c=connect();let report;
+try{
+ await c.connect();
+ const readOnly=mode==='read'||mode==='verify';
+ await c.query(readOnly?'BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY':'BEGIN');
+ await c.query("SET LOCAL statement_timeout='20s'");await c.query("SET LOCAL lock_timeout='5s'");
+ const noWrites={query:(sql,args)=>{assert.match(sql,/^\s*SELECT\b/i,'Replay must only SELECT');return c.query(sql,args);}};
+ if(mode==='read'){
+  const before=await snapshot(c);validateTargets(before);assert.equal(before.receipts.length,0);assert.equal(before.audits.length,0);save('before',before);
+  report={mode,scriptHash,targets:TARGETS,preserved:KEEP,registeredAccounts:before.accounts.length,profiles:JSON.parse(before.lounge).settings.profiles.length};
+ }else if(mode==='verify'){
+  const result=await revoke(noWrites);assert(result.replayed);report={mode,scriptHash,readOnly:true,noWriteReplayVerified:true,...result.verification,completedAt:result.receipt.completedAt};
+ }else if(mode==='dry-run'){
+  await c.query('SELECT id FROM users WHERE id=ANY($1::bigint[]) ORDER BY id FOR UPDATE',[OBSERVED_IDS]);
+  await c.query('LOCK TABLE soopketland_accounts IN SHARE ROW EXCLUSIVE MODE');await c.query('SELECT key FROM app_meta WHERE key=$1 FOR UPDATE',[STREAMER_SETTINGS_KEY]);
+  const before=await snapshot(c);await c.query('SAVEPOINT original_state');
+  await assert.rejects(revoke({query:async(sql,args)=>{if(sql.startsWith('INSERT INTO app_meta'))throw Error('INJECTED_RECEIPT_FAILURE');return c.query(sql,args);}}),/INJECTED_RECEIPT_FAILURE/);
+  await c.query('ROLLBACK TO SAVEPOINT original_state');assert.deepEqual(await snapshot(c),before);
+  const result=await revoke(c),again=await revoke(noWrites);assert(again.replayed);assert.deepEqual(again.receipt,result.receipt);
+  await c.query('ROLLBACK TO SAVEPOINT original_state');assert.deepEqual(await snapshot(c),before);
+  report={mode,scriptHash,failureRollback:true,successRollback:true,noWriteReplayVerified:true,verification:result.verification};
+ }else{
+  const dry=JSON.parse(fs.readFileSync(new URL('dry-run.json',directory)));assert.equal(dry.scriptHash,scriptHash);for(const key of ['failureRollback','successRollback','noWriteReplayVerified'])assert.equal(dry[key],true);
+  const deployment=JSON.parse(fs.readFileSync(new URL('live-verification.json',directory)));assert.equal(deployment.workers.length,2);for(const worker of deployment.workers){assert.equal(worker.percentage,100);assert(worker.seeds.includes('하이희야♡'));}
+  const result=await revoke(c);await c.query('COMMIT');save('receipt',result.receipt);
+  report={mode,scriptHash,replayed:result.replayed,completedAt:result.receipt.completedAt,...result.verification};
+ }
+ if(mode!=='apply')await c.query('ROLLBACK');save(mode,report);console.log(JSON.stringify(report));
+}catch(e){await c.query('ROLLBACK').catch(()=>{});console.error(safe(e));console.error(String(e.stack).split('\n').filter(s=>/at /.test(s)).slice(0,4).join('\n'));process.exitCode=1;}finally{await c.end();}

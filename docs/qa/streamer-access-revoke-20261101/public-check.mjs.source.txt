@@ -1,0 +1,45 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {fileURLToPath} from 'node:url';
+import {chromium} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+const origin='https://cnine-card.pages.dev',directory=new URL('./',import.meta.url);
+const receipt=JSON.parse(fs.readFileSync(new URL('receipt.json',directory)));
+const expected=receipt.afterLounge.settings.profiles.map(({visible,...profile})=>profile);
+const report={startedAt:new Date().toISOString(),origin,readOnly:true,overrides:false,viewports:[]};
+let browser;
+try{
+ let roster;
+ for(let attempt=0;attempt<10;attempt++){
+  const r=await fetch(origin+'/api/streamer-profiles',{cache:'no-store',signal:AbortSignal.timeout(20000)});assert.equal(r.status,200);roster=await r.json();
+  if(JSON.stringify(roster.profiles)===JSON.stringify(expected))break;
+  await new Promise(resolve=>setTimeout(resolve,4000));
+ }
+ assert.equal(roster.enabled,true);assert.deepEqual(roster.profiles,expected);
+ report.publicProfiles=roster.profiles.map(({id,name})=>({id,name}));
+ browser=await chromium.launch({channel:'chrome',headless:true,timeout:20000});
+ for(const [width,height]of [[1440,1000],[390,844]]){
+  const context=await browser.newContext({viewport:{width,height},isMobile:width<760,hasTouch:width<760,serviceWorkers:'block'});
+  const result={width,height,pageErrors:[],blockedMutations:[]};report.viewports.push(result);
+  await context.route('**/*',async route=>{if(!['GET','HEAD'].includes(route.request().method())){result.blockedMutations.push(new URL(route.request().url()).pathname);await route.abort('blockedbyclient');}else await route.continue();});
+  const page=await context.newPage();page.setDefaultTimeout(15000);page.on('pageerror',e=>result.pageErrors.push(e.message));
+  await page.goto(origin+'/?streamer-revoke=20261101',{waitUntil:'domcontentloaded',timeout:30000});
+  await page.waitForFunction(()=>typeof window.StreamerLounge?.open==='function',null,{timeout:20000});
+  await page.evaluate(()=>window.StreamerLounge.open());
+  await page.waitForFunction(()=>document.querySelectorAll('.sl36-dialog[open] .sl40-card').length===7);
+  const cards=page.locator('.sl36-dialog[open] .sl40-card');
+  result.ids=await cards.evaluateAll(nodes=>nodes.map(n=>n.dataset.profileId));assert.deepEqual(result.ids,expected.map(p=>p.id));
+  const search=page.getByRole('searchbox',{name:'스트리머 이름 검색'});
+  for(const name of ['주성','아윤']){await search.fill(name);assert.equal(await cards.count(),0);}
+  await search.fill('');assert.equal(await cards.count(),7);result.removedNamesReturnNoResults=true;assert(result.ids.includes('jkmjkm1236'));result.heeyaPreserved=true;
+  result.noHorizontalOverflow=await page.locator('.sl36-dialog').evaluate(node=>node.scrollWidth<=node.clientWidth+1);assert(result.noHorizontalOverflow);
+  result.names=await cards.locator('text[role="heading"]').allTextContents();assert.deepEqual(result.names,expected.map(p=>p.name));
+  await page.evaluate(()=>document.fonts.ready);
+  const screenshot=`${width}x${height}-lounge.png`;await page.locator('.sl36-dialog').screenshot({path:fileURLToPath(new URL(screenshot,directory)),animations:'disabled'});result.screenshot=screenshot;
+  await page.keyboard.press('Escape');assert.equal(await page.locator('.sl36-dialog').evaluate(node=>node.open),false);
+  assert.deepEqual(result.pageErrors,[]);assert.deepEqual(result.blockedMutations,[]);
+  await context.close();console.log(JSON.stringify({viewport:[width,height],names:result.names,removedNamesReturnNoResults:true}));
+ }
+ report.status='VERIFIED';
+}catch(e){report.status='FAILED';report.error=e.message;process.exitCode=1;}
+finally{await browser?.close();report.completedAt=new Date().toISOString();fs.writeFileSync(new URL('public-verification.json',directory),JSON.stringify(report,null,2)+'\n',{flag:'wx'});}
+console.log(JSON.stringify(report));

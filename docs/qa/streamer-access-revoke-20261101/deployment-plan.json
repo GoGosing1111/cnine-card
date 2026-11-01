@@ -1,0 +1,16 @@
+{
+  "before": {
+    "id": "f052b899-62c9-48cb-bf20-839aa6866b5e",
+    "url": "https://f052b899.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "4707be9a42ded1e41cf10adb2c77c8a610459fb9"
+  },
+  "base": "4707be9a42ded1e41cf10adb2c77c8a610459fb9",
+  "reason": "Latest user correction preserves Heeya in both services. Restore the original five seed accounts, then revoke only Juseong and Ayun live bindings and lounge profiles. Rerun the changed land access/daily eligibility regression; preserve the unchanged 18 lounge checks and packaging check already passed.",
+  "tests": [
+    "tests/soopketland-v2039.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}
