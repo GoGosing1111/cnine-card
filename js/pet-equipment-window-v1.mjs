@@ -10,7 +10,7 @@ let activeDialog=null;
 
 export function mountPetEquipment(root,{review=false,codex=false,request=review?jointAdminRequest:jointAccountRequest}={}){
   let state=null,selected=null,busy=false,pending=null,pendingPotential=null,lastPotential=null,needsRefresh=false,disposed=false,controller=null;
-  let support=null,pendingSupport=null,supportError='',supportOffset=0,supportIdentity='';
+  let support=null,pendingSupport=null,supportError='',supportOffset=0,supportIdentity='',petClockOffset=0;
   const identity=()=>{try{return localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';}catch{return '';}};
   const supportKey=()=>`cnine_support_pet_pending_v1:${state?.userId}`;
   const supportActive=()=>support&&!support.previewOnly&&support.subscription?.active&&support.subscription.endsAt>Date.now()+supportOffset;
@@ -63,6 +63,7 @@ export function mountPetEquipment(root,{review=false,codex=false,request=review?
       const source=imagePath(card.sourceArt||card.battleSprite),active=card.code===selected,worn=card.code===state.loadout?.petCode;
       return `<button type="button" class="pe-card ${active?'pe-selected':''}" data-pet-select="${esc(card.code)}" aria-pressed="${active}" aria-label="${esc(card.name)} 선택"><span class="pe-card-art">${source?`<img src="${esc(source)}" alt="" loading="lazy">`:petUiIcon('paw')}</span><span class="pe-card-identity"><strong>${esc(card.name)}</strong><small>${worn?'장착 중':card.reviewOwned?'검수용 보유':card.owned?'보유 '+card.quantity+'마리':'미보유'}</small></span><span class="pe-card-indicator" aria-hidden="true">${petUiIcon(worn?'check':'arrow')}</span></button>`;
     }).join(''):'<p class="pe-empty-collection">'+(codex?'검색 조건에 맞는 펫이 없습니다.':'아직 보유한 펫이 없습니다. 펫 봉인구 개봉 후 장착할 수 있습니다.')+'</p>';
+    if(row?.rentalExpiresAt)$('[data-pet-detail]').insertAdjacentHTML('afterbegin','<p class="pe-help" data-pet-rental-period><b>'+(row.owned?'기간제 이용 중':'이용 기간 종료')+'</b><br>이용 종료: '+esc(new Date(row.rentalExpiresAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'}))+'</p>');
     if(codex&&!review&&(supportActive()||pendingSupport||supportError)){
       const currentMagnet=state?.cards?.find(p=>p.code===support?.subscription?.magnetPetCode),endsAt=support?.subscription?.endsAt;
       $('[data-pet-detail]').insertAdjacentHTML('beforeend',`<section class="pe-pass-magnet" aria-label="시즌패스 펫 자석"><div class="pe-pass-magnet-head">${petUiIcon('shield')}<div><span class="pe-eyebrow">시즌패스 혜택</span><h3>펫 자석 바로 적용</h3></div><b>물약 소모 없음</b></div>${supportError?`<p class="pe-error">${esc(supportError)}</p>`:`<p>보유한 펫 한 마리에 기간제 자석을 적용합니다.<br>다른 펫을 선택해 언제든 옮길 수 있습니다.</p><dl><div><dt>현재 적용</dt><dd>${esc(supportActive()?currentMagnet?.name||'선택 전':'기간 종료')}</dd></div>${endsAt?`<div><dt>이용 종료</dt><dd><time datetime="${esc(new Date(endsAt).toISOString())}">${esc(new Date(endsAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}))}</time></dd></div>`:''}</dl>`}${supportActive()||pendingSupport?'<button type="button" class="pe-button" data-pet-support-magnet>이 펫에 시즌패스 자석 적용</button>':''}<small>${supportError?'아래 새로고침으로 혜택 정보를 다시 확인하세요.':'선택한 펫을 장착하고 새 군단토벌에 입장하면 자동 수집합니다. 이용 기간이 끝나면 기간제 자석만 종료되며 영구 잠재력은 유지됩니다.'}</small></section>`);
@@ -84,7 +85,7 @@ export function mountPetEquipment(root,{review=false,codex=false,request=review?
       const value=await request(endpoint+(codex?'codex':'state'),{signal:controller.signal});if(disposed)return;
       if(codex&&!review&&who!==identity()){accessFailure(Error('계정이 변경됐습니다. 새로고침해 주세요.'));return;}
       if(value.version!==1||!Array.isArray(value.cards)||!value.loadout)throw Error('펫 정보를 확인하지 못했습니다. 다시 불러와 주세요.');
-      state=value;needsRefresh=false;
+      state=value;petClockOffset=Number(value.serverNow||Date.now())-Date.now();needsRefresh=false;
       if(codex&&!review){
         supportIdentity=who;await loadSupport();if(disposed)return;
         if(supportIdentity!==identity()){accessFailure(Error('계정이 변경됐습니다. 새로고침해 주세요.'));return;}
@@ -174,8 +175,15 @@ export function mountPetEquipment(root,{review=false,codex=false,request=review?
   const onFilter=event=>{const button=event.target.closest('[data-codex-filter]');if(button){filter=button.dataset.codexFilter;render();}};
   if(codex){root.addEventListener('input',onSearch);root.addEventListener('click',onFilter);}
   const supportTimer=codex&&!review?setInterval(()=>{if(support?.subscription.active&&!supportActive()){support.subscription.active=false;if(!busy)render();}},1000):null;
+  const rentalTimer=!review?setInterval(()=>{
+    const expired=state?.cards?.filter(p=>p.owned&&p.rentalExpiresAt&&Date.parse(p.rentalExpiresAt)<=Date.now()+petClockOffset)||[];
+    if(!expired.length)return;
+    for(const p of expired){p.owned=false;p.quantity=0;if(state.loadout.petCode===p.code)state.loadout.petCode=null;}
+    state.ownedCount=state.cards.filter(p=>p.owned).length;render();status('기간제 펫의 이용 기간이 종료되었습니다.');
+    if(!busy&&!pending&&!pendingPotential&&!pendingSupport)void load();
+  },1000):null;
   root.addEventListener('click',click);void load();
-  return {reload:load,dispose(){disposed=true;controller?.abort();clearInterval(supportTimer);root.removeEventListener('click',click);root.removeEventListener('input',onSearch);root.removeEventListener('click',onFilter);root.replaceChildren();}};
+  return {reload:load,dispose(){disposed=true;controller?.abort();clearInterval(supportTimer);clearInterval(rentalTimer);root.removeEventListener('click',click);root.removeEventListener('input',onSearch);root.removeEventListener('click',onFilter);root.replaceChildren();}};
 }
 
 export function openPetEquipment(options={}){

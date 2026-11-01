@@ -1,5 +1,6 @@
 import {PET_POTENTIAL_POTION,PET_POTENTIAL_ART,PET_POTENTIAL_SETTINGS_KEY,PET_MAGNET,defaultPetPotentialSettings,validatePetPotentialSettings} from '../shared/pet-potential-v1.mjs';
-import {readPetRecord,readPetCollection,readPetPotentials} from './_pet_account.js';
+import {readPetRecord,readPetOwnership,readPetPotentials} from './_pet_account.js';
+import {petOwnershipPredicate} from './_pet_rental.js';
 import {readPetCms} from './_pet_companion_cms.js';
 import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.js';
 import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
@@ -31,10 +32,10 @@ export async function attemptPetPotential(env,user,body,{random=randomPpm}={}){
   const rk=receiptKey(user.id,body.requestId),payload=JSON.stringify([body.petCode,body.expectedRevision,body.settingsRevision]);
   const prior=async()=>{const r=await readPetRecord(env,rk,null);if(!r.state)return null;if(r.state.payload!==payload)fail('REQUEST_CONFLICT','같은 요청 번호로 다른 펫이나 설정에 도전할 수 없습니다.');return {...r.state.result,replayed:true};};
   const existing=await prior();if(existing)return existing;
-  const [settings,owned,potentials,cms]=await Promise.all([settingsRecord(env),readPetCollection(env,user.id),readPetPotentials(env,user.id),readPetCms(env)]);
+  const [settings,owned,potentials,cms]=await Promise.all([settingsRecord(env),readPetOwnership(env,user.id),readPetPotentials(env,user.id),readPetCms(env)]);
   if(!settings.state.enabled||settings.state.successPpm===null)fail('CLOSED','잠재력 도전을 준비 중입니다.',423);
   if(settings.state.revision!==body.settingsRevision||potentials.state.revision!==body.expectedRevision)fail('REVISION','설정 또는 펫 잠재력이 변경됐습니다. 다시 불러와 주세요.');
-  if(!(owned.state.pets[body.petCode]>0))fail('NOT_OWNED','보유한 펫만 잠재력에 도전할 수 있습니다.',403);
+  if(!(owned.pets[body.petCode]>0))fail('NOT_OWNED','현재 보유한 펫만 잠재력에 도전할 수 있습니다.',403);
   if(!cms.state.document.pets.some(p=>p.code===body.petCode))fail('PET','등록된 펫을 선택하세요.',400);
   const previous=potentials.state.pets[body.petCode];if(previous?.potential===PET_MAGNET)fail('COMPLETE','이미 자석 잠재력을 보유한 펫입니다.');
   if(potentials.state.revision>=Number.MAX_SAFE_INTEGER||(previous?.attempts||0)>=Number.MAX_SAFE_INTEGER)fail('LIMIT','잠재력 기록 한도에 도달했습니다.');
@@ -45,9 +46,9 @@ export async function attemptPetPotential(env,user,body,{random=randomPpm}={}){
   const token=crypto.randomUUID(),next={revision,pets:{...potentials.state.pets,[body.petCode]:pet},commitToken:token},raw=JSON.stringify(next);
   const result={ok:true,requestId:body.requestId,petCode:body.petCode,success,outcome:success?'SUCCESS':'FAILURE',potential:pet.potential,attempts:pet.attempts,revision,settingsRevision:settings.state.revision,successPpm:settings.state.successPpm,potionSpent:1,potionBalance:balance-1,replayed:false};
   await ensurePetPotentialItem(env);await ensureJointAtomicSchema(env);
-  const DB=env.DB;
+  const DB=env.DB,ownership=petOwnershipPredicate(DB,owned,body.petCode);
   try{await DB.batch([
-    jointGuard(DB,token,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?) AND EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=1)',[settings.key,settings.raw,owned.key,owned.raw,'pet_cms_preparation_v1',cms.raw,rk,user.id,PET_POTENTIAL_POTION]),
+    jointGuard(DB,token,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND '+ownership[0]+' AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?) AND EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=1)',[settings.key,settings.raw,...ownership[1],'pet_cms_preparation_v1',cms.raw,rk,user.id,PET_POTENTIAL_POTION]),
     serializedWrite(DB,potentials,raw),
     jointGuard(DB,token+'p','EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[potentials.key,raw]),
     DB.prepare('UPDATE cnine_user_inventory SET quantity=quantity-1,unseen_quantity=CASE WHEN unseen_quantity>quantity-1 THEN quantity-1 ELSE unseen_quantity END,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity>=1').bind(user.id,PET_POTENTIAL_POTION),

@@ -1,0 +1,44 @@
+{
+  "runtime": "PGlite pipeline fixture, not production latency",
+  "results": [
+    {
+      "name": "battleSnapshot",
+      "elapsedMs": 2.828399999999874,
+      "queryCount": 6,
+      "rentalQueries": [
+        "SELECT value FROM app_meta WHERE key=?",
+        "SELECT value FROM app_meta WHERE key=?",
+        "SELECT value FROM app_meta WHERE key=?",
+        "SELECT value FROM app_meta WHERE key=?",
+        "SELECT value FROM app_meta WHERE key=?",
+        "SELECT value FROM app_meta WHERE key=?"
+      ],
+      "valid": true
+    },
+    {
+      "name": "rewardBonuses",
+      "elapsedMs": 0.92450000000008,
+      "queryCount": 1,
+      "rentalQueries": [
+        "SELECT key,value FROM app_meta WHERE key IN (?,?,?,?,?)"
+      ],
+      "valid": true
+    },
+    {
+      "name": "shopState",
+      "elapsedMs": 8.647899999999936,
+      "queryCount": 13,
+      "rentalQueries": [
+        "SELECT value FROM app_meta WHERE key=?",
+        "SELECT value FROM app_meta WHERE key=?",
+        "SELECT value FROM app_meta WHERE key=?",
+        "SELECT value FROM app_meta WHERE key=?"
+      ],
+      "valid": true
+    }
+  ],
+  "concurrentReadAgreement": true,
+  "newOwnershipRead": "one extra indexed app_meta key read; reward bonuses include rental in the existing batch query",
+  "accountMutationLock": "existing lock unchanged",
+  "productionAccountWrites": 0
+}

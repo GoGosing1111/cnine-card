@@ -4,19 +4,20 @@ import {PET_ART_CATALOG} from '../shared/pet-art-catalog-v1.mjs';
 import {PET_EQUIPMENT_RULES,petReviewKey,validatePetEquipmentSave,validateOwnedPetSelection} from '../shared/pet-equipment-v1.mjs';
 import {PET_BUFF_TYPES,PET_BUFF_TARGETS,petReadiness} from '../shared/pet-cms-v1.mjs';
 import {readPetCms} from './_pet_companion_cms.js';
-import {readPetCollection,readPetLoadout,livePetDefinition} from './_pet_account.js';
+import {readPetOwnership,readPetLoadout,livePetDefinition} from './_pet_account.js';
+import {petOwnershipPredicate} from './_pet_rental.js';
 import {petPotentialState,ensurePetPotentialItem} from './_pet_potential.js';
 import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.js';
 import {readJointBody} from './_joint_request.js';
 const jointHash=async value=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify(value)))),byte=>byte.toString(16).padStart(2,'0')).join('');
 
-export function petCatalogFrom(document,{review=true,includeUnowned=false,collection={},potentials={}}={}){
+export function petCatalogFrom(document,{review=true,includeUnowned=false,collection={},potentials={},expiries={}}={}){
   const codes=[...new Set([...PET_ART_CATALOG.map(row=>row.code),...document.pets.map(row=>row.code)])];
   return codes.map(code=>{
     const art=PET_ART_CATALOG.find(row=>row.code===code),pet=document.pets.find(row=>row.code===code);
     return {code,name:pet?.name||art.name,sourceArt:pet?.sourceArt||art?.sourceArt||pet?.battleSprite||'',battleSprite:pet?.battleSprite||'',
       animal:art?.animal||'동료',description:art?.description||'',artStatus:art?.artStatus||'CMS_DRAFT',configured:Boolean(pet),
-      rewardBonuses:pet?.rewardBonuses||{...ZERO_REWARD_BONUSES},rewardBonusesActive:pet?.liveEnabled!==false,
+      rewardBonuses:pet?.rewardBonuses||{...ZERO_REWARD_BONUSES},rewardBonusesActive:pet?.liveEnabled!==false,...(expiries[code]?{rentalExpiresAt:expiries[code]}:{}),
       target:pet?.target||null,modes:pet?.modes||[],buffs:pet?.buffs||[],ready:pet?['PVE','PVP'].filter(mode=>review?petReadiness(pet,mode).ok:!!livePetDefinition(pet,mode)):[],owned:review||Number(collection[code]||0)>0,reviewOwned:review,quantity:Number(collection[code]||0),potential:potentials[code]?.potential||null,attempts:potentials[code]?.attempts||0};
   }).filter(row=>review||includeUnowned||row.owned);
 }
@@ -29,8 +30,8 @@ async function readReview(env,owner){
 }
 const closedState=()=>({version:1,available:false,reviewOnly:false,canEquip:false,release:COMPANION_RELEASE,rules:PET_EQUIPMENT_RULES,cards:[],ownedCount:0,loadout:{petCode:null,revision:0},message:'펫 시스템을 준비하고 있습니다. 획득·장착·실전 버프는 추후 공개됩니다.'});
 function output(cms,record,catalog,{review=true,potential=null,userId=null}={}){
-  const present=catalog.some(row=>row.code===record.state.petCode);
-  return {version:1,userId,available:true,reviewOnly:review,canEquip:true,release:COMPANION_RELEASE,rules:PET_EQUIPMENT_RULES,potential,
+  const present=catalog.some(row=>row.code===record.state.petCode&&row.owned);
+  return {version:1,userId,serverNow:Date.now(),available:true,reviewOnly:review,canEquip:true,release:COMPANION_RELEASE,rules:PET_EQUIPMENT_RULES,potential,
     petCmsRevision:cms.state.revision,rewardBonusLabels:REWARD_BONUS_LABELS,buffTypes:PET_BUFF_TYPES,buffTargets:PET_BUFF_TARGETS,cards:catalog,ownedCount:catalog.filter(p=>p.owned).length,catalogCount:catalog.length,
     loadout:{petCode:present?record.state.petCode:null,revision:record.state.revision},orphaned:Boolean(record.state.petCode&&!present),
     message:review?'OWNER 장착 검수입니다. 검수용 선택만 저장하며 실제 보유권·계정 편성·전투에는 반영되지 않습니다.':'보유한 펫 1마리를 장착하면 다음 전투부터 시작 버프가 적용됩니다.'};
@@ -51,8 +52,8 @@ export async function handlePetEquipment({path,request,env,deps,locked=false}){
     if(request.method==='POST')try{body=validatePetEquipmentSave(await readJointBody(request,{fields:['petCode','expectedRevision','petCmsRevision','requestId']}));}
       catch(error){return reply({error:error.message,code:'PET_EQUIPMENT_BODY'},error.status||400);}
     if(!review)await ensurePetPotentialItem(env);
-    const [cms,record,collection,potential]=await Promise.all([readPetCms(env),review?readReview(env,user):readPetLoadout(env,user.id),review?null:readPetCollection(env,user.id),review?null:petPotentialState(env,user.id)]);
-    const catalog=petCatalogFrom(cms.state.document,{review,includeUnowned:codex,collection:collection?.state.pets,potentials:potential?.pets}),options={review,potential,userId:Number(user.id)};
+    const [cms,record,owned,potential]=await Promise.all([readPetCms(env),review?readReview(env,user):readPetLoadout(env,user.id),review?null:readPetOwnership(env,user.id),review?null:petPotentialState(env,user.id)]);
+    const catalog=petCatalogFrom(cms.state.document,{review,includeUnowned:codex,collection:owned?.pets,potentials:potential?.pets,expiries:owned?.expiries}),options={review,potential,userId:Number(user.id)};
     if(request.method==='GET')return reply(output(cms,record,catalog,options));
     const payloadHash=await jointHash([String(user.id),body]);
     const replay=state=>{const receipt=state.audit.find(row=>row.requestId===body.requestId);if(!receipt)return null;return receipt.payloadHash!==payloadHash||String(receipt.actorId)!==String(user.id)
@@ -71,7 +72,8 @@ export async function handlePetEquipment({path,request,env,deps,locked=false}){
     else{
       await ensureJointAtomicSchema(env);const token=crypto.randomUUID();
       const cmsGuard=cms.raw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)';
-      try{await env.DB.batch([write,jointGuard(env.DB,token,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND '+cmsGuard+(body.petCode?' AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)':''),[record.key,raw,'pet_cms_preparation_v1',...(cms.raw===null?[]:[cms.raw]),...(body.petCode?[collection.key,collection.raw]:[])]),jointGuardEnd(env.DB,token)]);changed=true;}catch{}
+      const ownership=body.petCode?petOwnershipPredicate(env.DB,owned,body.petCode):['1=1',[]];
+      try{await env.DB.batch([write,jointGuard(env.DB,token,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND '+cmsGuard+' AND '+ownership[0],[record.key,raw,'pet_cms_preparation_v1',...(cms.raw===null?[]:[cms.raw]),...ownership[1]]),jointGuardEnd(env.DB,token)]);changed=true;}catch{}
     }
     if(changed)return reply({...output(cms,{...record,state:next},catalog,options),savedRevision:revision,replayed:false});
     const latest=review?await readReview(env,user):await readPetLoadout(env,user.id);return replay(latest.state)||reply({error:'다른 창에서 먼저 장착을 변경했습니다. 다시 불러와 주세요.',code:'PET_REVISION_CONFLICT'},409);

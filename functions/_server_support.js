@@ -5,7 +5,8 @@ import {supportPackageSalesOpen,supportPackageClientAllowed} from '../shared/sup
 import {prepareSupporterPetReward} from './_supporter_pet_reward.js';
 import {readSeasonPass,handleSeasonPass} from './_supporter_season_pass.js';
 import {readSupportApplication,issueSupportApplication,readSupportApplicationConfig,saveSupportApplicationConfig} from './_supporter_application.js';
-import {readPetCollection,readPetPotentials} from './_pet_account.js';
+import {readPetOwnership,readPetPotentials} from './_pet_account.js';
+import {petOwnershipPredicate} from './_pet_rental.js';
 import {readPetCms} from './_pet_companion_cms.js';
 import {PET_CMS_KEY} from '../shared/pet-cms-v1.mjs';
 import {readJointBody,jointError} from './_joint_request.js';
@@ -68,19 +69,19 @@ export async function selectSupportPet(env,user,body,now=Date.now()){
   mutationBody(body);if(typeof body.petCode!=='string'||!/^PET-[A-Z0-9-]{1,28}$/.test(body.petCode))fail('PET','보유한 펫을 선택하세요.');
   const key='server_support_pet_receipt_v1:'+Number(user.id)+':'+body.requestId,payload=JSON.stringify([Number(user.id),body.petCode,body.expectedRevision]);
   const prior=await priorReceipt(env,key,payload);if(prior)return prior;
-  const [record,owned,cms]=await Promise.all([readSupportRecord(env,user.id),readPetCollection(env,user.id),readPetCms(env)]);
+  const [record,owned,cms]=await Promise.all([readSupportRecord(env,user.id),readPetOwnership(env,user.id,{now}),readPetCms(env)]);
   if(!supportBenefits(record.state,now).active)fail('EXPIRED','후원 이용 기간이 종료되었습니다.',403);
   if(record.state.revision!==body.expectedRevision)fail('REVISION','후원 정보가 변경됐습니다. 다시 불러와 주세요.',409);
-  if(!(owned.state.pets[body.petCode]>0)||!cms.state.document.pets.some(p=>p.code===body.petCode))fail('NOT_OWNED','현재 보유한 펫만 선택할 수 있습니다.',403);
+  if(!(owned.pets[body.petCode]>0)||!cms.state.document.pets.some(p=>p.code===body.petCode))fail('NOT_OWNED','현재 보유한 펫만 선택할 수 있습니다.',403);
   const next={...record.state,revision:record.state.revision+1,magnetPetCode:body.petCode};
   if(!Number.isSafeInteger(next.revision))fail('LIMIT','변경 기록 한도에 도달했습니다.',409);
   const result={ok:true,requestId:body.requestId,target:{id:Number(user.id)},subscription:supportBenefits(next,now),replayed:false};
-  return commit(env,{record,next,key,payload,result,guard:[['EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[owned.key,owned.raw]],['EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[PET_CMS_KEY,cms.raw]]]});
+  return commit(env,{record,next,key,payload,result,guard:[petOwnershipPredicate(env.DB,owned,body.petCode),['EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[PET_CMS_KEY,cms.raw]]]});
 }
 async function supporterPage(env,user,now){
-  const [record,owned,potentials,cms]=await Promise.all([readSupportRecord(env,user.id),readPetCollection(env,user.id),readPetPotentials(env,user.id),readPetCms(env)]);
+  const [record,owned,potentials,cms]=await Promise.all([readSupportRecord(env,user.id),readPetOwnership(env,user.id,{now}),readPetPotentials(env,user.id),readPetCms(env)]);
   const subscription=supportBenefits(record.state,now),seasonPass=await readSeasonPass(env,user.id,subscription,now);
-  return {plan:SUPPORT_PLAN,notice:SUPPORT_NOTICE,serverNow:now,subscription,seasonPass,application:await readSupportApplication(env,user.id,now),pets:cms.state.document.pets.filter(p=>owned.state.pets[p.code]>0).map(p=>({code:p.code,name:p.name,sourceArt:p.sourceArt,permanentMagnet:potentials.state.pets[p.code]?.potential==='MAGNET'}))};
+  return {plan:SUPPORT_PLAN,notice:SUPPORT_NOTICE,serverNow:now,subscription,seasonPass,application:await readSupportApplication(env,user.id,now),pets:cms.state.document.pets.filter(p=>owned.pets[p.code]>0).map(p=>({code:p.code,name:p.name,sourceArt:p.sourceArt,permanentMagnet:potentials.state.pets[p.code]?.potential==='MAGNET'}))};
 }
 export async function handleServerSupport({path,request,env,deps}){
   const admin=path.startsWith('admin/server-support');

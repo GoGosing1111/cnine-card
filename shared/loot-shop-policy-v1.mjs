@@ -84,7 +84,7 @@ const bool=(v,label)=>{if(typeof v!=='boolean')throw error(`${label} 설정을 �
 const ids=(v,pattern,label,max=500)=>{if(!Array.isArray(v)||v.length>max||new Set(v).size!==v.length||v.some(id=>typeof id!=='string'||!pattern.test(id)))throw error(`${label} 목록을 확인하세요.`);return [...v];};
 // 2026-10-03: every product has an OWNER-configured lifetime cap of 1–1,000.
 export const lootProductMaxAccountLimit=()=>1000;
-export function validateLootShopPolicy(raw){
+export function validateLootShopPolicy(raw,{petRentals=false}={}){
  if(!raw||!Array.isArray(raw.products)||raw.products.length>100||!Array.isArray(raw.sources))throw error('상점 설정을 확인하세요.');
  const next={revision:int(raw.revision,0,2147483646,'수정 버전'),salesEnabled:bool(raw.salesEnabled,'판매'),rewardsEnabled:bool(raw.rewardsEnabled,'재화 지급'),sources:[],products:[]};
  // Keep legacy snapshots unchanged; only stored deletion history reserves IDs.
@@ -98,7 +98,7 @@ export function validateLootShopPolicy(raw){
  }
  if(raw.sources.length!==3)throw error('허용되지 않은 지급 콘텐츠입니다.');
  for(const p of raw.products){
-  if(typeof p.id!=='string'||!/^[a-z0-9_-]{3,70}$/.test(p.id)||!Object.hasOwn(LOOT_PRODUCT_TYPES,p.type)||typeof p.name!=='string'||!p.name.trim()||p.name.length>80)throw error('상품 코드·종류·이름을 확인하세요.');
+  if(typeof p.id!=='string'||!/^[a-z0-9_-]{3,70}$/.test(p.id)||!(Object.hasOwn(LOOT_PRODUCT_TYPES,p.type)||petRentals&&p.type==='PET_RENTAL')||typeof p.name!=='string'||!p.name.trim()||p.name.length>80)throw error('상품 코드·종류·이름을 확인하세요.');
   const r={id:p.id,type:p.type,name:p.name.trim(),enabled:bool(p.enabled,'상품 판매'),price:nullable(p.price,1,1000000000,'가격'),accountLimit:nullable(p.accountLimit,1,lootProductMaxAccountLimit(p.type),'계정당 구매 횟수'),equipmentId:nullable(p.equipmentId,1,2147483647,'장비'),cardIds:ids(p.cardIds,/^[A-Za-z0-9_-]{1,100}$/,'선택 카드'),mercenaryCodes:ids(p.mercenaryCodes,/^V-\d{3}$/,'용병'),mercenaryWeights:{A:nullable(p.mercenaryWeights?.A,0,10000,'A 가중치'),S:nullable(p.mercenaryWeights?.S,0,10000,'S 가중치')},sortOrder:int(p.sortOrder,0,10000,'정렬')};
   // Keep absent v1 fields absent so previously purchased packs and in-flight
   // receipts retain the exact product snapshot they were bought with.
@@ -108,7 +108,7 @@ export function validateLootShopPolicy(raw){
   if(r.image&&!/^\/?assets\/[A-Za-z0-9_./-]+\.(?:png|jpe?g|webp|svg|gif)$/i.test(r.image))throw error('상품 이미지는 프로젝트 assets 경로를 사용하세요.');
   if(r.image?.split('/').some(s=>s==='..'))throw error('상품 이미지 경로를 확인하세요.');
   for(const key of ['featured','visible'])if(Object.hasOwn(p,key))r[key]=bool(p[key],key==='visible'?'상품 노출':'추천 상품');
-  if(Object.hasOwn(p,'category')){if(!Object.hasOwn(LOOT_CATEGORIES,p.category)||p.category==='ALL')throw error('상품 분류를 확인하세요.');r.category=p.category;}
+  if(Object.hasOwn(p,'category')){if(!(Object.hasOwn(LOOT_CATEGORIES,p.category)||petRentals&&p.category==='PET')||p.category==='ALL')throw error('상품 분류를 확인하세요.');r.category=p.category;}
   if(Object.hasOwn(p,'limitPeriod')){if(!Object.hasOwn(LOOT_LIMIT_PERIODS,p.limitPeriod))throw error('구매 한도 주기를 확인하세요.');r.limitPeriod=p.limitPeriod;}
   for(const key of ['startsAt','endsAt'])if(Object.hasOwn(p,key)){
    if(p[key]!==null&&(typeof p[key]!=='string'||!/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d{3})?Z$/.test(p[key])||!Number.isFinite(Date.parse(p[key]))))throw error('판매 기간을 확인하세요.');r[key]=p[key]===null?null:new Date(p[key]).toISOString();if(p[key]!==null&&r[key]!==p[key].replace(/(?<=:\d\d)Z$/,'.000Z'))throw error('판매 기간의 날짜와 시간을 확인하세요.');
@@ -119,8 +119,13 @@ export function validateLootShopPolicy(raw){
    r.items=p.items.map(i=>{if(typeof i?.code!=='string'||!/^[A-Z0-9_]{1,80}$/.test(i.code))throw error('아이템 코드를 확인하세요.');return {code:i.code,quantity:int(i.quantity,1,1000000,'아이템 수량')};});
   }
   if(Object.hasOwn(p,'rankWeights')){r.rankWeights={};for(const rank of LOOT_MERCENARY_RANKS)r.rankWeights[rank]=int(p.rankWeights?.[rank]??0,0,10000,`${rank} 등급 가중치`);}
+  if(r.type==='PET_RENTAL'){
+   if(typeof p.petCode!=='string'||!/^PET-[A-Z0-9-]{1,28}$/.test(p.petCode))throw error('기간제 펫을 선택하세요.');
+   r.petCode=p.petCode;r.durationDays=int(p.durationDays,1,365,'펫 이용 일수');
+   if(r.equipmentId!==null||r.cardIds.length||r.mercenaryCodes.length||r.items?.length)throw error('기간제 펫 상품에는 다른 보상을 함께 등록할 수 없습니다.');
+  }
   if(r.enabled){
-   if(r.price===null||r.accountLimit===null)throw error(`${r.name}의 가격과 구매 횟수를 입력하세요.`);
+   if(r.price===null||r.accountLimit===null&&r.type!=='PET_RENTAL')throw error(`${r.name}의 가격과 구매 횟수를 입력하세요.`);
    if(r.type.endsWith('_CHOICE')&&!r.cardIds.length)throw error(`${r.name}의 선택 카드를 등록하세요.`);
    if(r.type==='F_BODY'&&!r.equipmentId)throw error(`${r.name}의 지급 장비를 선택하세요.`);
    if(r.type==='MERCENARY_PACK'&&(!r.mercenaryCodes.length||r.mercenaryWeights.A===null||r.mercenaryWeights.S===null||r.mercenaryWeights.A+r.mercenaryWeights.S<=0))throw error('용병 목록과 A/S 등급 가중치를 설정하세요.');

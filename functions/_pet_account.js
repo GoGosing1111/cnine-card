@@ -4,6 +4,7 @@ import {validatePetDefinition,petReadiness} from '../shared/pet-cms-v1.mjs';
 import {petCollectionKey,petLoadoutKey,petPotentialKey,PET_MAGNET} from '../shared/pet-potential-v1.mjs';
 import {readPetCms} from './_pet_companion_cms.js';
 import {readSupportBenefits} from './_supporter_benefits.js';
+import {readPetRentals,petOwnershipProjection} from './_pet_rental.js';
 
 export async function readPetRecord(env,key,fallback){
   const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first();
@@ -13,6 +14,10 @@ export async function readPetCollection(env,userId){
   const record=await readPetRecord(env,petCollectionKey(userId),{revision:0,pets:{}}),s=record.state;
   if(!Number.isSafeInteger(s.revision)||s.revision<0||!s.pets||Array.isArray(s.pets)||Object.values(s.pets).some(n=>!Number.isSafeInteger(n)||n<0))throw Error('Invalid pet collection');
   return record;
+}
+export async function readPetOwnership(env,userId,{now}={}){
+  const [collection,rentals]=await Promise.all([readPetCollection(env,userId),readPetRentals(env,userId)]);
+  return {collection,rentals,...petOwnershipProjection(collection.state,rentals.state,now??Date.now())};
 }
 export async function readPetPotentials(env,userId){
   const record=await readPetRecord(env,petPotentialKey(userId),{revision:0,pets:{}}),s=record.state;
@@ -36,9 +41,9 @@ export async function loadPetBattleSnapshot(env,user,mode='PVE'){
   if(!COMPANION_RELEASE.pets)return null;
   const userId=Number(user?.id??user);if(!Number.isSafeInteger(userId)||userId<1)return null;
   const loadout=await readPetLoadout(env,userId);if(!loadout.state.petCode)return null;
-  const [collection,potentials,cms,support]=await Promise.all([readPetCollection(env,userId),readPetPotentials(env,userId),readPetCms(env),readSupportBenefits(env,userId)]);
-  if(!(collection.state.pets[loadout.state.petCode]>0))return null;
+  const [owned,potentials,cms,support]=await Promise.all([readPetOwnership(env,userId),readPetPotentials(env,userId),readPetCms(env),readSupportBenefits(env,userId)]);
+  if(!(owned.pets[loadout.state.petCode]>0))return null;
   const definition=livePetDefinition(cms.state.document.pets.find(p=>p.code===loadout.state.petCode),mode);if(!definition)return null;
   const permanentMagnet=potentials.state.pets[definition.code]?.potential===PET_MAGNET;
-  return {definition,magnet:permanentMagnet||support.active&&support.magnetPetCode===definition.code,cmsRevision:cms.state.revision,loadoutRevision:loadout.state.revision,ownerId:userId};
+  return {definition,magnet:permanentMagnet||support.active&&support.magnetPetCode===definition.code,cmsRevision:cms.state.revision,loadoutRevision:loadout.state.revision,ownerId:userId,...(owned.expiries[definition.code]?{expiresAt:owned.expiries[definition.code]}:{})};
 }

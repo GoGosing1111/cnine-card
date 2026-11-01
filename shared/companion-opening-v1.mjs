@@ -7,6 +7,8 @@ const living=actor=>actor?.alive!==false&&actor?.hp>0&&!actor.isMonster&&!actor.
 const stats=actor=>Object.fromEntries(['maxHp','hp','attack','defense','speed','shield'].map(key=>[key,key==='attack'?mercenaryEffectiveAttack(actor):Number(actor[key]||0)]));
 export function applyPetOpeningBuff(team,raw,side,mode){
   if(!raw)return null;
+  // A saved expedition/defense snapshot cannot start a later battle after its rental ends.
+  if(raw.expiresAt!==undefined&&!(Date.parse(raw.expiresAt)>Date.now()))return null;
   const ready=petReadiness(raw.definition||raw,mode);
   if(!ready.ok)throw Error(ready.reasons.join(' '));
   const pet=ready.pet;

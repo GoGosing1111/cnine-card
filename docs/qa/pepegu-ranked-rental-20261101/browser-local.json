@@ -1,0 +1,243 @@
+{
+  "status": "PASSED",
+  "base": "http://127.0.0.1:12190",
+  "engine": "Chromium",
+  "reports": [
+    {
+      "width": 1440,
+      "cancel": true,
+      "purchase": true,
+      "renewal": true,
+      "codexEquip": true,
+      "expiryTimer": true,
+      "combatBonuses": true,
+      "rewardBonuses": true,
+      "heukguHeight": 340,
+      "pepeguHeight": 340
+    },
+    {
+      "width": 390,
+      "cancel": true,
+      "purchase": true,
+      "renewal": true,
+      "codexEquip": true,
+      "expiryTimer": true,
+      "combatBonuses": true,
+      "rewardBonuses": true,
+      "heukguHeight": 210.00000381469727,
+      "pepeguHeight": 209.99999618530273
+    },
+    {
+      "width": 320,
+      "cancel": true,
+      "purchase": true,
+      "renewal": true,
+      "codexEquip": true,
+      "expiryTimer": true,
+      "combatBonuses": true,
+      "rewardBonuses": true,
+      "heukguHeight": 209.99999618530273,
+      "pepeguHeight": 210.00000762939453
+    },
+    {
+      "cmsRoundTrip": true
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "apiRequests": [
+    {
+      "key": "shell/summary",
+      "method": "GET"
+    },
+    {
+      "key": "me/menu-favorites",
+      "method": "GET"
+    },
+    {
+      "key": "ranked-shop/state",
+      "method": "GET"
+    },
+    {
+      "key": "ranked-shop/purchase",
+      "method": "POST"
+    },
+    {
+      "key": "ranked-shop/purchase",
+      "method": "POST"
+    },
+    {
+      "key": "pets/v1/codex",
+      "method": "GET"
+    },
+    {
+      "key": "server-support/info",
+      "method": "GET"
+    },
+    {
+      "key": "shell/summary",
+      "method": "GET"
+    },
+    {
+      "key": "me/menu-favorites",
+      "method": "GET"
+    },
+    {
+      "key": "pets/v1/loadout",
+      "method": "POST"
+    },
+    {
+      "key": "pets/v1/codex",
+      "method": "GET"
+    },
+    {
+      "key": "server-support/info",
+      "method": "GET"
+    },
+    {
+      "key": "jokgak-city/notifications",
+      "method": "GET"
+    },
+    {
+      "key": "pets/v1/codex",
+      "method": "GET"
+    },
+    {
+      "key": "server-support/info",
+      "method": "GET"
+    },
+    {
+      "key": "shell/summary",
+      "method": "GET"
+    },
+    {
+      "key": "me/menu-favorites",
+      "method": "GET"
+    },
+    {
+      "key": "ranked-shop/state",
+      "method": "GET"
+    },
+    {
+      "key": "ranked-shop/purchase",
+      "method": "POST"
+    },
+    {
+      "key": "jokgak-city/notifications",
+      "method": "GET"
+    },
+    {
+      "key": "ranked-shop/purchase",
+      "method": "POST"
+    },
+    {
+      "key": "pets/v1/codex",
+      "method": "GET"
+    },
+    {
+      "key": "server-support/info",
+      "method": "GET"
+    },
+    {
+      "key": "shell/summary",
+      "method": "GET"
+    },
+    {
+      "key": "me/menu-favorites",
+      "method": "GET"
+    },
+    {
+      "key": "pets/v1/loadout",
+      "method": "POST"
+    },
+    {
+      "key": "pets/v1/codex",
+      "method": "GET"
+    },
+    {
+      "key": "server-support/info",
+      "method": "GET"
+    },
+    {
+      "key": "jokgak-city/notifications",
+      "method": "GET"
+    },
+    {
+      "key": "pets/v1/codex",
+      "method": "GET"
+    },
+    {
+      "key": "server-support/info",
+      "method": "GET"
+    },
+    {
+      "key": "shell/summary",
+      "method": "GET"
+    },
+    {
+      "key": "me/menu-favorites",
+      "method": "GET"
+    },
+    {
+      "key": "ranked-shop/state",
+      "method": "GET"
+    },
+    {
+      "key": "ranked-shop/purchase",
+      "method": "POST"
+    },
+    {
+      "key": "ranked-shop/purchase",
+      "method": "POST"
+    },
+    {
+      "key": "pets/v1/codex",
+      "method": "GET"
+    },
+    {
+      "key": "server-support/info",
+      "method": "GET"
+    },
+    {
+      "key": "shell/summary",
+      "method": "GET"
+    },
+    {
+      "key": "me/menu-favorites",
+      "method": "GET"
+    },
+    {
+      "key": "pets/v1/loadout",
+      "method": "POST"
+    },
+    {
+      "key": "pets/v1/codex",
+      "method": "GET"
+    },
+    {
+      "key": "server-support/info",
+      "method": "GET"
+    },
+    {
+      "key": "jokgak-city/notifications",
+      "method": "GET"
+    },
+    {
+      "key": "pets/v1/codex",
+      "method": "GET"
+    },
+    {
+      "key": "server-support/info",
+      "method": "GET"
+    },
+    {
+      "key": "admin/ranked-shop",
+      "method": "GET"
+    },
+    {
+      "key": "admin/ranked-shop",
+      "method": "PATCH"
+    }
+  ],
+  "productionAccountWrites": 0
+}

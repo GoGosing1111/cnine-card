@@ -1,4 +1,11 @@
-import {LOOT_SHOP_DEFAULTS,validateLootShopPolicy} from './loot-shop-policy-v1.mjs';
+import {LOOT_SHOP_DEFAULTS,validateLootShopPolicy,LOOT_PRODUCT_TYPES,LOOT_CATEGORIES,createLootProductDraft,lootProductCategory,lootIsDirect,lootPurchaseMaximum,LOOT_PURCHASE_MAX_QUANTITY} from './loot-shop-policy-v1.mjs';
+
+export const RANKED_PRODUCT_TYPES={...LOOT_PRODUCT_TYPES,PET_RENTAL:'기간제 펫'};
+export const RANKED_CATEGORIES={...LOOT_CATEGORIES,PET:'펫'};
+export const rankedProductCategory=p=>p.type==='PET_RENTAL'?'PET':lootProductCategory(p);
+export const rankedIsDirect=type=>type==='PET_RENTAL'||lootIsDirect(type);
+export const createRankedProductDraft=(type,id)=>type==='PET_RENTAL'?{...createLootProductDraft(type,id),name:'기간제 펫',category:'PET',petCode:'PET-PEPEGU',durationDays:30}:createLootProductDraft(type,id);
+export const rankedPurchaseMaximum=(product,balance)=>product?.type==='PET_RENTAL'&&product.remaining===null?product.canBuy?Math.max(0,Math.min(LOOT_PURCHASE_MAX_QUANTITY,Math.floor(Number(balance)/product.price))):0:lootPurchaseMaximum(product,balance);
 
 export const RANKED_COIN_CODE='RANKED_COIN';
 export const RANKED_COIN_IMAGE='assets/items/ranked-coin-20261101.webp';
@@ -11,7 +18,7 @@ export const rankedTierReward=(tierId,mode='PVP')=>{
 };
 export const RANKED_SHOP_DEFAULTS={revision:0,salesEnabled:false,products:[]};
 export function validateRankedShopPolicy(raw){
- const checked=validateLootShopPolicy({...raw,rewardsEnabled:false,sources:structuredClone(LOOT_SHOP_DEFAULTS.sources)});
+ const checked=validateLootShopPolicy({...raw,rewardsEnabled:false,sources:structuredClone(LOOT_SHOP_DEFAULTS.sources)},{petRentals:true});
  const {sources,rewardsEnabled,...policy}=checked;
  // Exchange currency cannot itself be an exchange reward.
  if(policy.products.some(p=>p.items?.some(i=>i.code===RANKED_COIN_CODE)))throw Object.assign(new Error('랭크전 코인은 상점 보상으로 등록할 수 없습니다.'),{code:'JOINT_RANKED_CONFIG',status:400});
