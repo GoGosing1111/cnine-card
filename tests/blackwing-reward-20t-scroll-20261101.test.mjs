@@ -3,7 +3,7 @@ import {drawBlackwingScroll,BLACKWING_SCROLLS} from '../shared/blackwing-clear-r
 import {validateBlackwingSettings,defaultBlackwingSettings} from '../functions/_raid_blackwing_live.js';
 import {blackwingWeeklyReward} from '../functions/_raid_blackwing_rewards.js';
 import {rewardFixture,readyBlackwingClear,members} from './helpers/blackwing-rewards-fixture.mjs';
-const changed={coinReward:20000000000000,enhancementScrollChance:30};
+const changed={coinReward:20000000000000,pigCoinReward:300,enhancementScrollChance:30};
 test('30% total drop chance yields exactly 15% weapon, 15% armor, 70% no scroll',()=>{
  const counts={WEAPON_ENHANCEMENT_SCROLL:0,ARMOR_ENHANCEMENT_SCROLL:0,NONE:0};
  for(let ticket=0;ticket<200;ticket++){const drop=drawBlackwingScroll(30,limit=>{assert.equal(limit,200);return ticket;});counts[drop?.code||'NONE']++;if(drop)assert.equal(drop.quantity,1);}
@@ -43,11 +43,11 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: full
   for(const[id]of members){const view=(await h.call('state?roomId='+final.roomId,{user:Number(id)})).body.state.clearReward;
    assert.equal(view.granted,index<3);assert.equal(view.coin,index<3?changed.coinReward:0);
    if(index<2){assert.deepEqual(view.enhancementScroll,BLACKWING_SCROLLS[index]);assert.deepEqual(view.choiceOffer.baseReward.enhancementScroll,BLACKWING_SCROLLS[index]);}else assert.equal(view.enhancementScroll,undefined);
-   if(index<3){assert.equal(view.pigCoins,100);assert.equal(view.masterStars,2000000);assert.equal(view.petEssence,5);}else assert.equal(view.status,'WEEKLY_LIMIT');
+   if(index<3){assert.equal(view.pigCoins,300);assert.equal(view.masterStars,2000000);assert.equal(view.petEssence,5);}else assert.equal(view.status,'WEEKLY_LIMIT');
   }
   controlled.mock.restore();
  }
- for(const[id]of members){assert.equal(Number((await h.one('SELECT coin FROM users WHERE id=?',id)).coin),60000000000000);assert.equal((await blackwingWeeklyReward(h.env,id,3)).used,3);for(const item of BLACKWING_SCROLLS)assert.equal(Number((await h.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?',id,item.code)).quantity),1);}
+ for(const[id]of members){assert.equal(Number((await h.one('SELECT coin FROM users WHERE id=?',id)).coin),60000000000000);assert.equal(Number((await h.one('SELECT balance FROM pig_coin_wallets_v1 WHERE user_id=?',id)).balance),900);assert.equal((await blackwingWeeklyReward(h.env,id,3)).used,3);for(const item of BLACKWING_SCROLLS)assert.equal(Number((await h.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?',id,item.code)).quantity),1);}
  assert.equal(Number((await h.one("SELECT COUNT(*) n FROM inventory_logs WHERE item_code IN ('WEAPON_ENHANCEMENT_SCROLL','ARMOR_ENHANCEMENT_SCROLL')")).n),12);
  const testRoom=await readyBlackwingClear(h,{createdMode:'TEST',startedMode:'ON',rewardOverrides:changed});const noReward=await h.call('action',{user:testRoom.actor,body:testRoom.body});assert.equal(noReward.body.state.clearReward.granted,false);assert.equal(noReward.body.state.clearReward.enhancementScroll,undefined);
 });

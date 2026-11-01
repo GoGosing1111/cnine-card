@@ -3,7 +3,7 @@ import {validateBlackwingSettings} from '../../functions/_raid_blackwing_live.js
 import {BLACKWING_SCROLLS} from '../../shared/blackwing-clear-reward-v1.mjs';
 export const OPERATION_KEY='ops:blackwing-reward20t-scroll30:20261101:v1',SETTINGS_KEY='raid_blackwing_settings_v1';
 export async function readSnapshot(db,keys){const rows=(await db.query('SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key',[keys])).rows;return Object.fromEntries(keys.map(k=>[k,rows.find(r=>r.key===k)?.value??null]));}
-export function buildRewardSettings(raw){const before=JSON.parse(raw);assert.equal(before.mode,'ON');assert.equal(before.rewardsEnabled,true);const after={...before,revision:before.revision+1,coinReward:20000000000000,enhancementScrollChance:30};validateBlackwingSettings(after);return after;}
+export function buildRewardSettings(raw){const before=JSON.parse(raw);assert.equal(before.mode,'ON');assert.equal(before.rewardsEnabled,true);const after={...before,revision:before.revision+1,coinReward:20000000000000,pigCoinReward:300,enhancementScrollChance:30};validateBlackwingSettings(after);return after;}
 export async function applyRewardSettings(db,{expected,releaseCommit,dryRun=false,failAfterUpdate=false}={}){
  assert.match(releaseCommit||'',/^[a-f0-9]{40}$/);
  const prior=(await db.query('SELECT value FROM app_meta WHERE key=$1',[OPERATION_KEY])).rows[0];if(prior)return {replayed:true,receipt:JSON.parse(prior.value)};
