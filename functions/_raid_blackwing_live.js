@@ -4,17 +4,18 @@ import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 import {readRewardRevealPolicy} from './_reward_reveal.js';
 import {blackwingWeeklyReward,blackwingRewardFor,prepareBlackwingRewards,blackwingCounterChanged} from './_raid_blackwing_rewards.js';
+import {BLACKWING_MAX_COIN_REWARD} from '../shared/blackwing-clear-reward-v1.mjs';
 
 export const BLACKWING_SETTINGS='raid_blackwing_settings_v1';
 const ROOMS='raid_blackwing_rooms_v1',ACTIVE='raid_blackwing_active_v1',RECEIPTS='raid_blackwing_receipts_v1';
 const fail=(code,message,status=409)=>{throw jointError('BLACKWING_'+code,message,status);};
 const owner=user=>user?.role==='OWNER',id=value=>String(value??''),integer=(n,min,max)=>Number.isSafeInteger(n)&&n>=min&&n<=max;
-export const defaultBlackwingSettings=()=>({revision:0,mode:'TEST',testUserIds:[],bossCombatPower:21148000,lobbyMinutes:15,enrageSeconds:300,mechanicTimePercent:100,rewardsEnabled:false,weeklyRewardLimit:3,coinReward:0,pigCoinReward:0,masterStarReward:0,petEssenceReward:0});
+export const defaultBlackwingSettings=()=>({revision:0,mode:'TEST',testUserIds:[],bossCombatPower:21148000,lobbyMinutes:15,enrageSeconds:300,mechanicTimePercent:100,rewardsEnabled:false,weeklyRewardLimit:3,coinReward:0,pigCoinReward:0,masterStarReward:0,petEssenceReward:0,enhancementScrollChance:0});
 export function validateBlackwingSettings(raw){
   // Older TEST settings have no economy fields; default them to locked/zero.
   if(raw)raw={...defaultBlackwingSettings(),...raw};
   if(!raw||!integer(raw.revision,0,1e9)||!['OFF','TEST','ON'].includes(raw.mode)||!Array.isArray(raw.testUserIds)||raw.testUserIds.length>100||new Set(raw.testUserIds).size!==raw.testUserIds.length||!raw.testUserIds.every(n=>integer(n,1,Number.MAX_SAFE_INTEGER)))fail('SETTINGS','공개 모드와 테스트 계정(최대 100명)을 확인하세요.',400);
-  const ranges={bossCombatPower:[1000,2000000000],lobbyMinutes:[1,60],enrageSeconds:[180,1800],mechanicTimePercent:[80,200],weeklyRewardLimit:[1,30],coinReward:[0,1000000000000],pigCoinReward:[0,1000000000],masterStarReward:[0,100000000],petEssenceReward:[0,1000000]};
+  const ranges={bossCombatPower:[1000,2000000000],lobbyMinutes:[1,60],enrageSeconds:[180,1800],mechanicTimePercent:[80,200],weeklyRewardLimit:[1,30],coinReward:[0,BLACKWING_MAX_COIN_REWARD],pigCoinReward:[0,1000000000],masterStarReward:[0,100000000],petEssenceReward:[0,1000000],enhancementScrollChance:[0,100]};
   const next={revision:raw.revision,mode:raw.mode,testUserIds:[...raw.testUserIds].sort((a,b)=>a-b)};
   for(const [key,range] of Object.entries(ranges)){if(!integer(raw[key],...range))fail('SETTINGS',`${key} 설정 범위(${range[0]}~${range[1]})를 확인하세요.`,400);next[key]=raw[key];}
   if(typeof raw.rewardsEnabled!=='boolean')fail('SETTINGS','보상 지급 설정을 확인하세요.',400);
@@ -131,7 +132,7 @@ async function roomCommand(env,user,cfg,kind,body,deps,now,since){
         const users=await selectedUsers(env,room.members.map(m=>Number(m.id)));
         if(users.length!==room.members.length||users.some(u=>u.status!=='ACTIVE'||Date.parse(u.banned_until||'')>now||!blackwingAccess(u,cfg).accessible))fail('MEMBER_ACCESS','참가자의 계정 상태와 TEST 권한을 확인하세요.',403);
         startBlackwingRoom(room,id(user.id),now);
-        room.rewardPolicy={enabled:cfg.mode==='ON'&&room.releaseMode==='ON'&&cfg.rewardsEnabled,coin:cfg.coinReward,pigCoins:cfg.pigCoinReward,masterStars:cfg.masterStarReward,petEssence:cfg.petEssenceReward,weeklyLimit:cfg.weeklyRewardLimit,settingsRevision:cfg.revision};
+        room.rewardPolicy={enabled:cfg.mode==='ON'&&room.releaseMode==='ON'&&cfg.rewardsEnabled,coin:cfg.coinReward,pigCoins:cfg.pigCoinReward,masterStars:cfg.masterStarReward,petEssence:cfg.petEssenceReward,enhancementScrollChance:cfg.enhancementScrollChance,weeklyLimit:cfg.weeklyRewardLimit,settingsRevision:cfg.revision};
         room.revealPolicy=cfg.mode==='ON'&&room.releaseMode==='ON'?await readRewardRevealPolicy(env,'BLACKWING'):null;
       }else if(kind==='kick'){kickBlackwingMember(room,id(user.id),id(body.targetId),now);extra.push(env.DB.prepare(`DELETE FROM ${ACTIVE} WHERE user_id=? AND room_id=?`).bind(Number(body.targetId),room.id));}
       else if(kind==='leave'){leaveBlackwingRoom(room,id(user.id),now);extra.push(env.DB.prepare(`DELETE FROM ${ACTIVE} WHERE user_id=? AND room_id=?`).bind(user.id,room.id));if(!room.members.some(m=>!m.left)){room.status='CANCELLED';room.finishedAt=now;}}
@@ -167,7 +168,7 @@ export async function handleBlackwingRaid({path,request,env,deps}){
     if(kind==='lobby'&&request.method==='GET'){
       const active=await currentRoom(env,user,now),list=await env.DB.prepare(`SELECT state_json FROM ${ROOMS} WHERE status='LOBBY' AND expires_at>? ORDER BY created_at DESC LIMIT 40`).bind(now).all();
       const rooms=list.results.map(row=>{const r=JSON.parse(row.state_json);return {id:r.id,hostName:r.members.find(m=>m.id===r.hostId)?.name||'공대장',portrait:blackwingCardArt(r.loadouts[r.hostId]?.cards?.[0]),status:r.status,createdAt:r.createdAt,members:r.members.length,maxMembers:6,roles:Object.fromEntries(Object.keys(BLACKWING_ROLES).map(role=>[role,r.members.filter(m=>m.role===role).length])),canJoin:!active&&r.members.length<6&&!r.banned.includes(id(user.id)),blocked:r.banned.includes(id(user.id))?'강퇴된 공대':active?'공대 참가 중':'인원 마감'};});
-      return json({ok:true,account:await account(env,user,cfg,active?.room.id||null),rooms,feature:blackwingAccess(user,cfg),weeklyReward:await blackwingWeeklyReward(env,user.id,cfg.weeklyRewardLimit,now),settings:{bossCombatPower:cfg.bossCombatPower,enrageSeconds:cfg.enrageSeconds,mechanicTimePercent:cfg.mechanicTimePercent,rewardsEnabled:cfg.rewardsEnabled,coinReward:cfg.coinReward,pigCoinReward:cfg.pigCoinReward,masterStarReward:cfg.masterStarReward,petEssenceReward:cfg.petEssenceReward,weeklyRewardLimit:cfg.weeklyRewardLimit},serverNow:now});
+      return json({ok:true,account:await account(env,user,cfg,active?.room.id||null),rooms,feature:blackwingAccess(user,cfg),weeklyReward:await blackwingWeeklyReward(env,user.id,cfg.weeklyRewardLimit,now),settings:{bossCombatPower:cfg.bossCombatPower,enrageSeconds:cfg.enrageSeconds,mechanicTimePercent:cfg.mechanicTimePercent,rewardsEnabled:cfg.rewardsEnabled,coinReward:cfg.coinReward,pigCoinReward:cfg.pigCoinReward,masterStarReward:cfg.masterStarReward,petEssenceReward:cfg.petEssenceReward,enhancementScrollChance:cfg.enhancementScrollChance,weeklyRewardLimit:cfg.weeklyRewardLimit},serverNow:now});
     }
     if(kind==='state'&&request.method==='GET'){
       const roomId=url.searchParams.get('roomId')||(await currentRoom(env,user,now))?.room.id;if(!roomId)fail('ROOM_MISSING','참가 중인 공대가 없습니다.',404);

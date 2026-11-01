@@ -10,7 +10,7 @@ test('ON validates; historical TEST defaults remain locked; copying keeps source
  const old={revision:5,mode:'TEST',testUserIds:[1,2],bossCombatPower:45000000,lobbyMinutes:5,enrageSeconds:300,mechanicTimePercent:100};
  assert.equal(validateBlackwingSettings(old).rewardsEnabled,false);
  assert.equal(validateBlackwingSettings({...old,...rewardSettings}).mode,'ON');
- for(const patch of [{weeklyRewardLimit:0},{pigCoinReward:-1},{rewardsEnabled:'true'},{coinReward:1000000000001}])assert.throws(()=>validateBlackwingSettings({...old,...rewardSettings,...patch}));
+ for(const patch of [{weeklyRewardLimit:0},{pigCoinReward:-1},{rewardsEnabled:'true'},{coinReward:20000000000001}])assert.throws(()=>validateBlackwingSettings({...old,...rewardSettings,...patch}));
  const source={...rewardSettings,revision:8},raw={[KEYS.blackwing]:JSON.stringify(old),[KEYS.choice]:null,[KEYS.varsen]:JSON.stringify(source),[KEYS.varsenChoice]:JSON.stringify({...choicePolicy(),revision:2})},snapshot=structuredClone(raw),next=buildBlackwingRelease(raw);
  assert.deepEqual(raw,snapshot);assert.deepEqual(next[KEYS.choice],choicePolicy());
  assert.equal(next[KEYS.blackwing].bossCombatPower,45000000);assert.equal(next[KEYS.blackwing].lobbyMinutes,5);assert.equal(next[KEYS.blackwing].revision,6);

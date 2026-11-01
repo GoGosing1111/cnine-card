@@ -4,6 +4,7 @@ import {accountRankAward} from './_account_rank.js';
 import {pigCoinRewardWeek} from '../shared/loot-shop-policy-v1.mjs';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {prepareRewardRevealContext,prepareRewardRevealOffer} from './_reward_reveal.js';
+import {drawBlackwingScroll} from '../shared/blackwing-clear-reward-v1.mjs';
 
 async function counter(env,userId,at,limit){
   const week=pigCoinRewardWeek(at),key=`raid_blackwing_weekly_v1:${week.weekKey}:${Number(userId)}`;
@@ -20,8 +21,8 @@ export async function prepareBlackwingRewards(env,row,room){
   const plan={statements:[],counters:[]};
   if(row.status!=='ACTIVE'||room.status!=='CLEAR'||room.clearRewards)return plan;
   const frozen=room.rewardPolicy||{},reveal=await prepareRewardRevealContext(env,'BLACKWING',room.revealPolicy,room.releaseMode==='ON');
-  const p=frozen.enabled?frozen:{...frozen,coin:0,masterStars:0,petEssence:0,pigCoins:0};
-  const enabled=p.enabled===true&&room.releaseMode==='ON'&&(p.coin>0||p.masterStars>0||p.petEssence>0||p.pigCoins>0)||reveal.enabled;
+  const p=frozen.enabled?frozen:{...frozen,coin:0,masterStars:0,petEssence:0,pigCoins:0,enhancementScrollChance:0};
+  const enabled=p.enabled===true&&room.releaseMode==='ON'&&(p.coin>0||p.masterStars>0||p.petEssence>0||p.pigCoins>0||p.enhancementScrollChance>0)||reveal.enabled;
   plan.statements.push(...reveal.statements);
   // A lower current quota also applies to rooms started under an older limit.
   const stored=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind('raid_blackwing_settings_v1').first();
@@ -35,6 +36,8 @@ export async function prepareBlackwingRewards(env,row,room){
     const coin=granted?await collectionRewardCoin(env,uid,p.coin,'BLACKWING_RAID'):0;
     room.clearRewards[member.id]={granted,status:granted?'GRANTED':enabled?'WEEKLY_LIMIT':'DISABLED',coin,masterStars:granted?p.masterStars:0,petEssence:granted?p.petEssence:0,...(p.pigCoins?{pigCoins:granted?p.pigCoins:0}:{}),weeklyReward:before.weekly};
     if(!granted)continue;
+    const scroll=room.releaseMode==='ON'&&p.enabled===true?drawBlackwingScroll(p.enhancementScrollChance??0):null;
+    if(scroll)room.clearRewards[member.id].enhancementScroll=scroll;
     if(stored&&!plan.settingsGuard){const token=crypto.randomUUID();plan.statements.push(jointGuard(env.DB,token,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',['raid_blackwing_settings_v1',stored.value]),jointGuardEnd(env.DB,token));plan.settingsGuard=true;}
     const token=crypto.randomUUID(),raw=JSON.stringify({count:before.weekly.used+1,roomId:room.id,token});plan.counters.push(before);
     plan.statements.push(before.raw===null
@@ -42,7 +45,7 @@ export async function prepareBlackwingRewards(env,row,room){
       :env.DB.prepare('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?').bind(raw,before.key,before.raw),
       jointGuard(env.DB,token,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[before.key,raw]),
       jointGuard(env.DB,token+':user','EXISTS(SELECT 1 FROM users WHERE id=?)',[uid]));
-    for(const [code,amount] of [['PET_ESSENCE',p.petEssence],['MASTER_STAR',p.masterStars]]){
+    for(const [code,amount] of [['PET_ESSENCE',p.petEssence],['MASTER_STAR',p.masterStars],...(scroll?[[scroll.code,scroll.quantity]]:[])]){
       if(!amount)continue;
       const guard=crypto.randomUUID();
       plan.statements.push(jointGuard(env.DB,guard,'EXISTS(SELECT 1 FROM inventory_items WHERE code=? AND is_active=1)',[code]),
@@ -56,7 +59,7 @@ export async function prepareBlackwingRewards(env,row,room){
       guard:'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',values:[before.key,raw]
     }),jointGuardEnd(env.DB,token+':user'),jointGuardEnd(env.DB,token));
     room.clearRewards[member.id].weeklyReward={...before.weekly,used:before.weekly.used+1,remaining:before.weekly.remaining-1};
-    const choice=prepareRewardRevealOffer(env,reveal,{userId:uid,roomId:room.id,baseReward:{coin,masterStars:p.masterStars,petEssence:p.petEssence,...(p.pigCoins?{pigCoins:p.pigCoins}:{})},quota:{...room.clearRewards[member.id].weeklyReward,period:'week'},finishedAt:room.finishedAt});
+    const choice=prepareRewardRevealOffer(env,reveal,{userId:uid,roomId:room.id,baseReward:{coin,masterStars:p.masterStars,petEssence:p.petEssence,...(p.pigCoins?{pigCoins:p.pigCoins}:{}),...(scroll?{enhancementScroll:scroll}:{})},quota:{...room.clearRewards[member.id].weeklyReward,period:'week'},finishedAt:room.finishedAt});
     if(choice.offer){plan.statements.push(...choice.statements);room.clearRewards[member.id].choiceOffer=choice.offer;}
   }
   return plan;
