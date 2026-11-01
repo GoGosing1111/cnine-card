@@ -171,6 +171,9 @@ export const raidAuditOnly=new Set(["docs/core-raid-abandon-defeat-20260922.md",
 // Internal integration/effect/release standards remain in Git and local QA.
 // Their four delivery slots now carry the battlefield module and three props.
 const blackwingFieldAuthoringOnly=new Set(["docs/core-protocol-raid-v3-integration-standard.md","docs/project-v-skill-effects-standard.md","docs/scoped-release-policy-20260923.md","docs/project-v-motion-effects-production-standard-20260927.md"]);
+// The V3.5 production instructions added since the last game release are local
+// authoring records. Preserve them in Git without publishing four unused assets.
+for(const file of ['docs/project-v35-battle-production-standard.md','docs/v35-jin-jokro-pilot-20261101.md','.agents/skills/cnine-v35-battle-production/SKILL.md','.agents/skills/cnine-v35-battle-production/agents/openai.yaml'])blackwingFieldAuthoringOnly.add(file);
 const blackwingAuthoringOnly=file=>blackwingFieldAuthoringOnly.has(file)||file.startsWith('assets/raids/blackwing-20261024/originals/')||file==='assets/raids/blackwing-20261024/prompts.json';
 // Exact local Node authoring commands remain in Git; their delivery slots hold Razak's approved assets.
 export const razakNodeOnly=new Set(JSON.parse(readFileSync(new URL('./razak-node-authoring-only-20261024.json',import.meta.url),'utf8')));
