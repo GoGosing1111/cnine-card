@@ -1,0 +1,165 @@
+{
+  "status": "DEPLOYED_CONFIGURED_AND_VERIFIED",
+  "sourceCommit": "d7cbbb9ee3232ca642f63f2bf8bd0b64d32c176a",
+  "pages": {
+    "id": "0a677155-19b9-4b82-8638-df6e8715bceb",
+    "url": "https://0a677155.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "d7cbbb9ee3232ca642f63f2bf8bd0b64d32c176a"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "c16ff274-e58f-4c83-bba7-02d35e236a13",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "5fa8f7ee-4f4d-44ca-85ee-2fa07c8135ab",
+      "percentage": 100
+    }
+  ],
+  "operationKey": "ops:blackwing-reward20t-scroll30:20261101:v1",
+  "adminLogId": "53611",
+  "appliedAtKst": "2026-11-01 11:43:35",
+  "before": {
+    "coinReward": 1000000000000,
+    "pigCoinReward": 100,
+    "revision": 8
+  },
+  "after": {
+    "coinReward": 20000000000000,
+    "pigCoinReward": 300,
+    "enhancementScrollChance": 30,
+    "revision": 9
+  },
+  "weaponChancePercent": 15,
+  "armorChancePercent": 15,
+  "noDropChancePercent": 70,
+  "quantity": 1,
+  "weeklyRewardLimit": 3,
+  "otherRewardsPreserved": true,
+  "startsWithNewDepartures": true,
+  "tests": 35,
+  "rehearsal": {
+    "lockConflict": true,
+    "failureRollback": true,
+    "successRollback": true
+  },
+  "readOnlyVerified": true,
+  "replaySelectOnly": true,
+  "accountWrites": 0,
+  "retroactiveGrants": 0,
+  "messagesSent": 0,
+  "publicFiles": 8,
+  "clientManifest": {
+    "releaseId": "21da4c5b66db20a3d239136167173be636e95d5805a47233a64aea8373848836",
+    "files": [
+      {
+        "path": "/js/blackwing-raid-entry-v1.js",
+        "sha256": "e5c27bdacf96b12d0fa722a3a84e8b256eb571ce10aafca3c610d22eae0fbb06",
+        "essential": true
+      },
+      {
+        "path": "/raid/blackwing/inline.mjs",
+        "sha256": "445fce267c91b2dec95954b404ea7e31d2dc992bd17b75a84188bd3b39010a10",
+        "essential": true
+      }
+    ]
+  },
+  "local": [
+    {
+      "width": 1440,
+      "cmsSaveReload": true,
+      "outcomes": [
+        {
+          "roll": 0,
+          "paid": "클리어 보상 지급 완료 · 코인 20,000,000,000,000 · 피그코인 100 · 마스터의 별 2,000,000 · 펫 정수 5 · 무기 강화주문서 1개 · 이번 주 1/3회",
+          "policy": "입장 비용 0 · 클리어 보상: 코인 20,000,000,000,000 · 피그코인 100 · 마스터의 별 2,000,000 · 펫 정수 5 · 강화주문서 30% 확률로 1개 (무기/방어구 각 15%) · 추가 선택 보상 · 주간 3회",
+          "productionAccountWrites": 0
+        },
+        {
+          "roll": 30,
+          "paid": "클리어 보상 지급 완료 · 코인 20,000,000,000,000 · 피그코인 100 · 마스터의 별 2,000,000 · 펫 정수 5 · 방어구 강화주문서 1개 · 이번 주 2/3회",
+          "policy": "입장 비용 0 · 클리어 보상: 코인 20,000,000,000,000 · 피그코인 100 · 마스터의 별 2,000,000 · 펫 정수 5 · 강화주문서 30% 확률로 1개 (무기/방어구 각 15%) · 추가 선택 보상 · 주간 3회",
+          "productionAccountWrites": 0
+        },
+        {
+          "roll": 60,
+          "paid": "클리어 보상 지급 완료 · 코인 20,000,000,000,000 · 피그코인 100 · 마스터의 별 2,000,000 · 펫 정수 5 · 이번 주 3/3회",
+          "policy": "입장 비용 0 · 클리어 보상: 코인 20,000,000,000,000 · 피그코인 100 · 마스터의 별 2,000,000 · 펫 정수 5 · 강화주문서 30% 확률로 1개 (무기/방어구 각 15%) · 추가 선택 보상 · 주간 3회",
+          "productionAccountWrites": 0
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "cmsSaveReload": true,
+      "outcomes": [
+        {
+          "roll": 0,
+          "paid": "클리어 보상 지급 완료 · 코인 20,000,000,000,000 · 피그코인 100 · 마스터의 별 2,000,000 · 펫 정수 5 · 무기 강화주문서 1개 · 이번 주 1/3회",
+          "policy": "입장 비용 0 · 클리어 보상: 코인 20,000,000,000,000 · 피그코인 100 · 마스터의 별 2,000,000 · 펫 정수 5 · 강화주문서 30% 확률로 1개 (무기/방어구 각 15%) · 추가 선택 보상 · 주간 3회",
+          "productionAccountWrites": 0
+        },
+        {
+          "roll": 30,
+          "paid": "클리어 보상 지급 완료 · 코인 20,000,000,000,000 · 피그코인 100 · 마스터의 별 2,000,000 · 펫 정수 5 · 방어구 강화주문서 1개 · 이번 주 2/3회",
+          "policy": "입장 비용 0 · 클리어 보상: 코인 20,000,000,000,000 · 피그코인 100 · 마스터의 별 2,000,000 · 펫 정수 5 · 강화주문서 30% 확률로 1개 (무기/방어구 각 15%) · 추가 선택 보상 · 주간 3회",
+          "productionAccountWrites": 0
+        },
+        {
+          "roll": 60,
+          "paid": "클리어 보상 지급 완료 · 코인 20,000,000,000,000 · 피그코인 100 · 마스터의 별 2,000,000 · 펫 정수 5 · 이번 주 3/3회",
+          "policy": "입장 비용 0 · 클리어 보상: 코인 20,000,000,000,000 · 피그코인 100 · 마스터의 별 2,000,000 · 펫 정수 5 · 강화주문서 30% 확률로 1개 (무기/방어구 각 15%) · 추가 선택 보상 · 주간 3회",
+          "productionAccountWrites": 0
+        }
+      ]
+    }
+  ],
+  "pig300": [
+    {
+      "width": 1440,
+      "cmsSaveReload": true,
+      "outcomes": [
+        {
+          "roll": 30,
+          "paid": "클리어 보상 지급 완료 · 코인 20,000,000,000,000 · 피그코인 300 · 마스터의 별 2,000,000 · 펫 정수 5 · 방어구 강화주문서 1개 · 이번 주 1/3회",
+          "policy": "입장 비용 0 · 클리어 보상: 코인 20,000,000,000,000 · 피그코인 300 · 마스터의 별 2,000,000 · 펫 정수 5 · 강화주문서 30% 확률로 1개 (무기/방어구 각 15%) · 추가 선택 보상 · 주간 3회",
+          "productionAccountWrites": 0
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "cmsSaveReload": true,
+      "outcomes": [
+        {
+          "roll": 30,
+          "paid": "클리어 보상 지급 완료 · 코인 20,000,000,000,000 · 피그코인 300 · 마스터의 별 2,000,000 · 펫 정수 5 · 방어구 강화주문서 1개 · 이번 주 1/3회",
+          "policy": "입장 비용 0 · 클리어 보상: 코인 20,000,000,000,000 · 피그코인 300 · 마스터의 별 2,000,000 · 펫 정수 5 · 강화주문서 30% 확률로 1개 (무기/방어구 각 15%) · 추가 선택 보상 · 주간 3회",
+          "productionAccountWrites": 0
+        }
+      ]
+    }
+  ],
+  "settingsSourceCommit": "95d2bb0dd94b49a7497a32345fb1c2b7cb1cd4f2",
+  "followupTests": 5,
+  "public": [
+    {
+      "width": 390,
+      "cmsSaveReload": true,
+      "outcomes": [
+        {
+          "roll": 30,
+          "paid": "클리어 보상 지급 완료 · 코인 20,000,000,000,000 · 피그코인 300 · 마스터의 별 2,000,000 · 펫 정수 5 · 방어구 강화주문서 1개 · 이번 주 1/3회",
+          "policy": "입장 비용 0 · 클리어 보상: 코인 20,000,000,000,000 · 피그코인 300 · 마스터의 별 2,000,000 · 펫 정수 5 · 강화주문서 30% 확률로 1개 (무기/방어구 각 15%) · 추가 선택 보상 · 주간 3회",
+          "productionAccountWrites": 0
+        }
+      ]
+    }
+  ],
+  "announcement": "output/announcements/blackwing-reward-20t-scroll-20261101.txt",
+  "announcementPublished": false,
+  "recordedAt": "2026-11-01T02:44:10.964Z"
+}

@@ -1,0 +1,28 @@
+{
+  "clock": {
+    "now": "2026-11-01T02:31:16.615Z",
+    "kst": "2026-11-01 11:31:16"
+  },
+  "settings": {
+    "raid_blackwing_settings_v1": "{\"revision\":8,\"mode\":\"ON\",\"testUserIds\":[6,16,22,45,218,236,295,315,1195,1768,2745,3884,4627],\"bossCombatPower\":45000000,\"lobbyMinutes\":5,\"enrageSeconds\":300,\"mechanicTimePercent\":100,\"weeklyRewardLimit\":3,\"coinReward\":1000000000000,\"pigCoinReward\":100,\"masterStarReward\":2000000,\"petEssenceReward\":5,\"rewardsEnabled\":true,\"saveToken\":\"e5a34803-25b0-4d13-9068-5221099c6597\",\"updatedBy\":1}",
+    "reward_reveal_policy_v1:BLACKWING": "{\"version\":1,\"revision\":1,\"enabled\":true,\"minimum\":{\"rewardType\":\"COIN\",\"quantity\":30000000000,\"weight\":100},\"entries\":[{\"rewardType\":\"INVENTORY_ITEM\",\"rewardRef\":\"SUIT_CORE_5\",\"quantity\":1,\"weight\":20,\"enabled\":true},{\"rewardType\":\"INVENTORY_ITEM\",\"rewardRef\":\"SUIT_CORE_6\",\"quantity\":1,\"weight\":2,\"enabled\":true},{\"rewardType\":\"INVENTORY_ITEM\",\"rewardRef\":\"EASTERN_ARMS_WEAPON_BLUEPRINT\",\"quantity\":1,\"weight\":2,\"enabled\":true},{\"rewardType\":\"INVENTORY_ITEM\",\"rewardRef\":\"SECRET_WEAPON_BLUEPRINT_CHAPTER_1\",\"quantity\":1,\"weight\":1,\"enabled\":true},{\"rewardType\":\"INVENTORY_ITEM\",\"rewardRef\":\"SECRET_WEAPON_BLUEPRINT_CHAPTER_2\",\"quantity\":1,\"weight\":1,\"enabled\":true},{\"rewardType\":\"INVENTORY_ITEM\",\"rewardRef\":\"EMPEROR_ENERGY\",\"quantity\":2,\"weight\":5,\"enabled\":true}]}",
+    "raid_madara_settings_v1": "{\"revision\":9,\"mode\":\"ON\",\"testUserIds\":[1,22,45,65,73,88,148,521,1195,1768,2246,3011,3867,4595,4597,4651,4773,5426],\"bossCombatPower\":12440000,\"lobbyMinutes\":15,\"enrageSeconds\":360,\"mechanicTimePercent\":100,\"entryTicketCost\":0,\"weeklyRewardLimit\":3,\"coinReward\":200000000000,\"masterStarReward\":2000000,\"petEssenceReward\":5,\"testEntryFree\":true,\"rewardsEnabled\":true,\"saveToken\":\"09efd87d-fa8f-4ebb-8aa8-ca30e52d7fc0\",\"updatedBy\":1,\"pigCoinReward\":100}",
+    "reward_reveal_policy_v1:MADARA": "{\"version\":1,\"revision\":2,\"enabled\":true,\"minimum\":{\"rewardType\":\"COIN\",\"quantity\":30000000000,\"weight\":100},\"entries\":[{\"rewardType\":\"INVENTORY_ITEM\",\"rewardRef\":\"SUIT_CORE_5\",\"quantity\":1,\"weight\":20,\"enabled\":true},{\"rewardType\":\"INVENTORY_ITEM\",\"rewardRef\":\"SUIT_CORE_6\",\"quantity\":1,\"weight\":2,\"enabled\":true},{\"rewardType\":\"INVENTORY_ITEM\",\"rewardRef\":\"EASTERN_ARMS_WEAPON_BLUEPRINT\",\"quantity\":1,\"weight\":2,\"enabled\":true},{\"rewardType\":\"INVENTORY_ITEM\",\"rewardRef\":\"SECRET_WEAPON_BLUEPRINT_CHAPTER_1\",\"quantity\":1,\"weight\":1,\"enabled\":true},{\"rewardType\":\"INVENTORY_ITEM\",\"rewardRef\":\"SECRET_WEAPON_BLUEPRINT_CHAPTER_2\",\"quantity\":1,\"weight\":1,\"enabled\":true},{\"rewardType\":\"INVENTORY_ITEM\",\"rewardRef\":\"EMPEROR_ENERGY\",\"quantity\":2,\"weight\":5,\"enabled\":true}]}",
+    "ops:blackwing-reward20t-scroll30:20261101:v1": null
+  },
+  "items": [
+    {
+      "code": "ARMOR_ENHANCEMENT_SCROLL",
+      "name": "방어구 강화주문서",
+      "is_active": "1"
+    },
+    {
+      "code": "WEAPON_ENHANCEMENT_SCROLL",
+      "name": "무기 강화주문서",
+      "is_active": "1"
+    }
+  ],
+  "rooms": [],
+  "readOnly": true,
+  "writes": 0
+}
