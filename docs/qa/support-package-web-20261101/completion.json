@@ -1,0 +1,222 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:support-package-pass-notice:20261101:v1",
+  "completedAt": "2026-11-01T00:07:51.708Z",
+  "completedKST": "2026-11-01 09:07:51",
+  "auditId": "53546",
+  "sourceCommit": "e8f9b4ba6846d9f658f87ec0e9a7c35e664814d2",
+  "pages": {
+    "id": "23687241-a8f4-4c2a-a7f1-7e4382b26cca",
+    "url": "https://23687241.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "e8f9b4ba6846d9f658f87ec0e9a7c35e664814d2"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "c94508fb-9879-48bf-811d-22e7e4059729",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "1b7e50f4-0918-4f04-a362-07a9137d46da",
+      "percentage": 100
+    }
+  ],
+  "offer": {
+    "channel": "WEB_BROWSER_ONLY",
+    "pricePerPurchaseWon": 49800,
+    "coinsPerPackage": "200000000000000",
+    "bogoPackagesPerPurchase": 2,
+    "coinsPerPurchase": "400000000000000",
+    "emperorEnergyPerPurchase": 400,
+    "limitedShardsPerPurchase": 10,
+    "quantity": {
+      "min": 1,
+      "max": 100,
+      "presets": [
+        1,
+        5,
+        10,
+        100
+      ],
+      "customInteger": true
+    },
+    "maximumOrder": {
+      "priceWon": 4980000,
+      "packages": 200,
+      "coins": "40000000000000000",
+      "emperorEnergy": 40000,
+      "limitedShards": 1000
+    },
+    "endsAt": "2026-11-03T00:00:00+09:00"
+  },
+  "notice": {
+    "recipientScope": "Current active season-pass purchasers who satisfy the existing package purchase eligibility; not all verified users.",
+    "count": 108,
+    "roleCounts": {
+      "USER": 107,
+      "ADMIN": 1
+    },
+    "providerCounts": {
+      "PLAYDK": 108
+    },
+    "title": "[웹 전용] 49,800원 패키지 1+1 · 11월 3일 00:00 판매 종료",
+    "body": "49,800원 코인 패키지를 웹 브라우저에서만 구매할 수 있습니다.\n\n패키지 1개 구성: 코인 200조 + 엠퍼러 에너지 200개 + SSS 리미티드 조각 5개\n1회(49,800원) 신청 시 1+1 총 2개 지급: 코인 400조 + 엠퍼러 에너지 400개 + SSS 리미티드 조각 10개\n5회·10회 빠른 선택 또는 직접 입력으로 한 번에 최대 100회까지 신청할 수 있습니다. 결제 금액과 지급량은 신청 횟수에 비례합니다.\n\n구매 가능 기한: 2026년 11월 3일 00:00까지 (한국시간)\n11월 2일에서 3일로 넘어가는 자정에 판매가 종료됩니다.\n\n구매 경로: 웹 브라우저 접속 → [서버 안내] → [패키지 구매]\n시즌패스 이용 기간이 활성화된 구매자만 신청할 수 있습니다. 앱에서는 구매할 수 없습니다.\n패키지 코인은 승부예측에 사용할 수 없으며, 시즌패스 이용 기간은 연장되지 않습니다.",
+    "planHash": "840aa514f5471e8d8c54bd5fed20c7158e2863e74be4fbc480cdc22048fb2ca7",
+    "recipientHash": "80c29c4b3367d9f93b40e47e65f80e62925d08bfe6835cdd63824485d1129fd4",
+    "attachments": 0,
+    "verification": {
+      "recipients": 108,
+      "messages": 108,
+      "rewardAttachments": 0,
+      "missing": 0,
+      "duplicates": 0,
+      "read": 0
+    },
+    "replay": {
+      "readOnly": true,
+      "selectOnly": true,
+      "additionalWrites": 0
+    },
+    "syncChanged": 108
+  },
+  "checks": {
+    "packageTests": 28,
+    "previousOnestoreTests": 5,
+    "packagingTests": 4,
+    "deployQuantityAndPredictionTests": 13,
+    "browser": [
+      {
+        "width": 1440,
+        "quantity": 10,
+        "totalPriceWon": 498000,
+        "totalCoins": "4000000000000000",
+        "presetsAndCustom": true,
+        "boundsRejected": true,
+        "equalButtonSize": {
+          "width": 680,
+          "height": 132
+        },
+        "inactiveHidden": true,
+        "ordinaryNoAlertPolling": true,
+        "imagesLoaded": true,
+        "lostResponseRecovery": true,
+        "ownerPopupOnce": true,
+        "cmsPopupAndPayment": true,
+        "errors": [],
+        "failed": []
+      },
+      {
+        "width": 390,
+        "quantity": 100,
+        "totalPriceWon": 4980000,
+        "totalCoins": "40000000000000000",
+        "presetsAndCustom": true,
+        "boundsRejected": true,
+        "equalButtonSize": {
+          "width": 328,
+          "height": 112
+        },
+        "inactiveHidden": true,
+        "ordinaryNoAlertPolling": true,
+        "imagesLoaded": true,
+        "lostResponseRecovery": true,
+        "ownerPopupOnce": true,
+        "cmsPopupAndPayment": true,
+        "errors": [],
+        "failed": []
+      }
+    ],
+    "publicUI": [
+      {
+        "width": 390,
+        "quantity": 100,
+        "totalPriceWon": 4980000,
+        "totalCoins": "40000000000000000",
+        "presetsAndCustom": true,
+        "boundsRejected": true,
+        "equalButtonSize": {
+          "width": 328,
+          "height": 112
+        },
+        "inactiveHidden": true,
+        "ordinaryNoAlertPolling": true,
+        "imagesLoaded": true,
+        "lostResponseRecovery": true,
+        "ownerPopupOnce": true,
+        "cmsPopupAndPayment": true,
+        "errors": [],
+        "failed": []
+      }
+    ],
+    "publicAssets": [
+      {
+        "file": "css/support-package-v1.css",
+        "sha256": "b7bf441debfb0c56bb2d900baf1a60946ab50f4fa234a0660155a9ed4b12600d"
+      },
+      {
+        "file": "admin/index.html",
+        "sha256": "efaf52ce8b23a3832e78c2dd07c77b568813be392604c6e0e197bb0e8680c865"
+      },
+      {
+        "file": "shared/support-package-v1.mjs",
+        "sha256": "5868a04f3a4c7ce05387d7935fd37c224b8cce682e7c7150bb852a5d4c5656af"
+      },
+      {
+        "file": "js/support-package-v1.mjs",
+        "sha256": "65ab07f6cc67afb53ad5908baf5a4b1c897d4fa929ef74f0ab28f0917e5c6248"
+      },
+      {
+        "file": "js/server-support-v1.mjs",
+        "sha256": "bc61cf673fff830285bdcbce23d92bdee40c23e823662a0af951c961be680e30"
+      },
+      {
+        "file": "js/support-package-alerts-v1.mjs",
+        "sha256": "68a1e70ca2fe0071eaf5b0635eea8c57c6a291cc710b0cf1468826e0852cfedb"
+      },
+      {
+        "file": "admin/support-package-admin-v1.mjs",
+        "sha256": "200c8d4ac6ce381bf719350d45954abcd0521c455770d94b694eb0363c617303"
+      },
+      {
+        "file": "admin/server-support-admin-v1.mjs",
+        "sha256": "62a2783d3ee41cec2461917f11efb9f2bc8137f2729271281d8ad65d5f58323d"
+      },
+      {
+        "file": "js/adventure-lobby-v2107.js",
+        "sha256": "8969b090d48cdf5719d4d5055b49aec71f2b17f13ad0d9621872db593192ae8d"
+      },
+      {
+        "file": "index.html",
+        "sha256": "dba08bf725a67dca691732dda61053d169ad79e4a6f390fd0b380edc0448e478"
+      },
+      {
+        "file": "js/app.js",
+        "sha256": "6717bbd0802db66619dcf5fe9fc5aa1196685136ee49c36fe79f6b09937164b5"
+      },
+      {
+        "file": "service-worker.js",
+        "sha256": "519c6bd7ea11ab428b808c199c243cf88df38f7e9ad3136ef90d407d770b125a"
+      }
+    ],
+    "historicalOrders": {
+      "checkedAt": "2026-11-01T00:08:01.891Z",
+      "readOnly": true,
+      "productionWrites": 0,
+      "historicalOrders": 198,
+      "historicalOrderHash": "8ac42fdfc1ef14c6119696b9121088a057e2ea0d247a245e9ef6da994603a857",
+      "historicalOrdersUnchanged": true,
+      "newOrders": 0,
+      "onlyActiveSeasonPassPurchasers": true,
+      "messages": 108,
+      "missing": 0,
+      "duplicates": 0,
+      "otherCampaignMessages": 0,
+      "allVerifiedBroadcastSent": false
+    }
+  },
+  "productionDirectCoinOrInventoryGrants": 0,
+  "storageMaintenancePerformed": false,
+  "automationCreated": false
+}
