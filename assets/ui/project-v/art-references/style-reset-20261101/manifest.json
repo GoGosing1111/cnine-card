@@ -15,7 +15,7 @@
       "sha256": "238c6ae73619877300d9f65691eb1556bb0422f49beb7213ca27ef21132ccccb",
       "width": 1024,
       "height": 1536,
-      "role": "흰 배경의 단독 전신·자연스러운 성인 비율·선명하고 정교한 인물/의상/무기 채색의 실제 기준",
+      "role": "흰 배경의 단독 전신·자연스러운 성인 비율·또렷한 2D 윤곽과 색면·선명한 인물/의상/무기 재질·절제된 광원의 실제 기준",
       "bytes": 2206204,
       "pngColorType": 2,
       "byteForByteMatchToUserSelectedFile": true,
@@ -32,7 +32,7 @@
       "sha256": "2cb43761620464189acc79f92ec696235ad056f9db8f6a7730cbeb6781e395e0",
       "width": 1056,
       "height": 1489,
-      "role": "큰 상단 초상과 하단 전신·대각선 무기·배경/연속 효과를 한 화면으로 묶는 화려한 스플래시의 실제 기준",
+      "role": "큰 상단 초상과 하단 전신·대각선 무기·배경/효과를 결합하면서 얼굴·갑옷·검·망토의 선과 색면을 깔끔하게 유지하는 실제 기준",
       "bytes": 2807097,
       "pngColorType": 2,
       "byteForByteMatchToUserSelectedFile": true,
@@ -55,7 +55,7 @@
     "Separate sourceArt and battleSprite approvals"
   ],
   "productionEnabled": false,
-  "latestUserDirective": "난 이거 두개의 규정을 원함",
+  "latestUserDirective": "작화도 보라고 번잡스러운 광원이나 그런게 없고 깔끔하잖아",
   "approval": {
     "dateKST": "2026-11-01",
     "userQuote": "난 이거 두개의 규정을 원함",
@@ -79,7 +79,7 @@
       "sha256": "238c6ae73619877300d9f65691eb1556bb0422f49beb7213ca27ef21132ccccb",
       "width": 1024,
       "height": 1536,
-      "role": "흰 배경의 단독 전신·자연스러운 성인 비율·선명하고 정교한 인물/의상/무기 채색의 실제 기준",
+      "role": "흰 배경의 단독 전신·자연스러운 성인 비율·또렷한 2D 윤곽과 색면·선명한 인물/의상/무기 재질·절제된 광원의 실제 기준",
       "bytes": 2206204,
       "pngColorType": 2,
       "byteForByteMatchToUserSelectedFile": true,
@@ -96,7 +96,7 @@
       "sha256": "2cb43761620464189acc79f92ec696235ad056f9db8f6a7730cbeb6781e395e0",
       "width": 1056,
       "height": 1489,
-      "role": "큰 상단 초상과 하단 전신·대각선 무기·배경/연속 효과를 한 화면으로 묶는 화려한 스플래시의 실제 기준",
+      "role": "큰 상단 초상과 하단 전신·대각선 무기·배경/효과를 결합하면서 얼굴·갑옷·검·망토의 선과 색면을 깔끔하게 유지하는 실제 기준",
       "bytes": 2807097,
       "pngColorType": 2,
       "byteForByteMatchToUserSelectedFile": true,
@@ -191,5 +191,37 @@
         "runtimeReplacementAuthorized": false
       }
     }
-  ]
+  ],
+  "renderingPolicy": {
+    "dateKST": "2026-11-01",
+    "userDirective": "작화도 보라고 번잡스러운 광원이나 그런게 없고 깔끔하잖아",
+    "document": "docs/project-v-mercenary-card-art-standard.md",
+    "section": "두 기준의 공통 작화 — 깔끔한 선·색면·절제된 광원",
+    "appliesToStandardIds": [
+      "single-character-full-body",
+      "portrait-full-body-splash"
+    ],
+    "readWithCompositionPolicyBeforeGeneration": true,
+    "priority": "두 정본의 구도와 함께 또렷한 2D 윤곽·정돈된 큰 색면/명암·재질 구분·절제된 광원을 최우선으로 비교한다.",
+    "requiredFinish": [
+      "또렷하고 정돈된 선과 실루엣",
+      "큰 색면과 연결된 명암",
+      "일관된 얼굴·몸·의상 작화와 광원",
+      "피부·천·금속의 명확한 재질 구분",
+      "표면 방향에 맞춘 제한된 반사",
+      "장식과 의도된 효과의 선명한 형태"
+    ],
+    "avoid": [
+      "불필요한 다중 색광",
+      "과한 림라이트·블룸·렌즈 플레어·산란광",
+      "고유색과 윤곽을 덮는 빛 번짐",
+      "빈 공간을 채우기 위한 광점·먼지·불꽃·후광 추가",
+      "무작위 잔선·긁힘·조각 음영"
+    ],
+    "preserveSourceDetailsAndIntentionalEffects": true,
+    "splashDoesNotAuthorizeExtraLighting": true,
+    "qualityIsNotLightOrParticleQuantity": true,
+    "requiredPromptPhrase": "또렷한 2D 윤곽 / 정돈된 큰 색면과 명암 / 재질 구분 / 절제된 광원 / 번잡한 빛 번짐 금지",
+    "review": "전체·얼굴/손/무기 확대·축소 화면에서 실제 두 정본과 선·색면·재질·빛 번짐을 비교한다."
+  }
 }
