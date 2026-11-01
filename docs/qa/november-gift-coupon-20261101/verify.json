@@ -1,0 +1,55 @@
+{
+  "status": "VERIFIED",
+  "checkedAt": "2026-11-01T14:32:35.671Z",
+  "readOnly": true,
+  "noWriteReplay": true,
+  "code": "CNINE1101GIFT100",
+  "couponId": "5437",
+  "auditId": "53686",
+  "maxUses": 100,
+  "usedCount": 0,
+  "remaining": 100,
+  "rewards": {
+    "coin": "30000000000000",
+    "items": [
+      {
+        "code": "RANK_EXP_POTION_3X_60M",
+        "name": "계급 경험치 3배 물약 (60분)",
+        "amount": 2
+      },
+      {
+        "code": "MASTER_STAR",
+        "name": "마스터의 별",
+        "amount": 20000000
+      }
+    ]
+  },
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:november-gift-coupon:20261101:v1",
+    "authorization": "계급경험치 3배 물약2개, 30조 코인, 마스터의별 2000만개 쿠폰 만들어 100명한도 / 쿠폰번호도 적어놔라~",
+    "completedAt": "2026-11-01T14:32:29.247Z",
+    "couponId": "5437",
+    "code": "CNINE1101GIFT100",
+    "maxUses": 100,
+    "perAccount": 1,
+    "expiresAt": null,
+    "coin": "30000000000000",
+    "items": [
+      {
+        "code": "RANK_EXP_POTION_3X_60M",
+        "name": "계급 경험치 3배 물약 (60분)",
+        "amount": 2
+      },
+      {
+        "code": "MASTER_STAR",
+        "name": "마스터의 별",
+        "amount": 20000000
+      }
+    ],
+    "createdBy": "1",
+    "accountWrites": 0,
+    "messages": 0,
+    "auditId": "53686"
+  }
+}

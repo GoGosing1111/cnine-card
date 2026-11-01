@@ -1,0 +1,14 @@
+Use case: ads-marketing.
+Create one exquisitely designed Korean mobile-game promotional coupon poster shaped like a very wide horizontal fictional banknote. Landscape aspect ratio about 3:1, long and low like an elegant commemorative currency note, straight-on flat artwork filling the whole canvas, all edges visible with tiny even margins. Not a photograph or a tilted mockup. This is a fantasy game voucher, not a reproduction of real currency.
+Premium engraved banknote aesthetic: deep midnight navy and dark emerald security-engraving linework, warm ivory paper, restrained antique gold foil filigree, fine guilloche rosettes, elegant engraved border, subtle autumn maple details for the first day of November. Intricate but beautifully organized, clean readable lettering, confident visual hierarchy, generous breathing space. No real political figures, no real currency logos, no portraits, no excessive glow. Tasteful fantasy icons integrated into the engraving: two blue-violet magical potion bottles, an elegant gold coin stack, luminous eight-point master stars. These icons should accompany the respective reward text, not obscure it.
+Layout designed specifically for a wide banknote: headline centered across the upper half, three balanced reward groups in one horizontal row beneath it, clearly displayed coupon code inside a prominent horizontal ivory-and-gold framed strip across the lower central area. A beautiful seal on the right states the user limit. All text contained within the banknote and large enough to read. Ensure the banknote looks polished and collectible, not cluttered with tiny unreadable microtext.
+Exact Korean text to render verbatim:
+Main headline, largest elegant Korean serif typography: "11월의 첫날 리버스콜과 함께"
+Reward group 1: "계급 경험치 3배 물약" and "2개 · 각 60분"
+Reward group 2: "코인" and "30조"
+Reward group 3: "마스터의 별" and "2,000만 개"
+Clear coupon label: "쿠폰번호"
+Coupon code in large high-contrast perfectly readable Latin capitals: "CNINE1101GIFT100"
+Right seal: "선착순 100명"
+Small footer: "계정당 1회 사용"
+No additional copy, no QR code, no expiry date, no mock-up background. Accurately render the coupon code character for character: C N I N E 1 1 0 1 G I F T 1 0 0. The intended code is CNINE1101GIFT100. Finished premium graphic design, crisp print quality.

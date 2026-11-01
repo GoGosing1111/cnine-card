@@ -1,0 +1,24 @@
+{
+  "at": "2026-11-01T14:32:23.120Z",
+  "sourceCommit": "5a51ef098b61bafbc6cad1f3deb987a9c08ca57c",
+  "pages": {
+    "id": "31ef19ea-85d6-4810-a3c9-7619fdb26c6b",
+    "url": "https://31ef19ea.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "5a51ef098b61bafbc6cad1f3deb987a9c08ca57c"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "9814fc32-25f4-47e8-8043-f0fa77615333",
+      "percentage": 100,
+      "bundleSupported": true
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "84619b70-8d8c-46ef-b506-972a47a72a78",
+      "percentage": 100,
+      "bundleSupported": true
+    }
+  ]
+}

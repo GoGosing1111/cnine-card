@@ -1,0 +1,69 @@
+{
+  "status": "COMPLETED_AND_VERIFIED",
+  "operationKey": "ops:november-gift-coupon:20261101:v1",
+  "authorization": "계급경험치 3배 물약2개, 30조 코인, 마스터의별 2000만개 쿠폰 만들어 100명한도 / 쿠폰번호도 적어놔라~",
+  "completedAt": "2026-11-01T14:32:29.247Z",
+  "couponId": "5437",
+  "code": "CNINE1101GIFT100",
+  "maxUses": 100,
+  "perAccount": 1,
+  "expiresAt": null,
+  "coin": "30000000000000",
+  "items": [
+    {
+      "code": "RANK_EXP_POTION_3X_60M",
+      "name": "계급 경험치 3배 물약 (60분)",
+      "amount": 2
+    },
+    {
+      "code": "MASTER_STAR",
+      "name": "마스터의 별",
+      "amount": 20000000
+    }
+  ],
+  "createdBy": "1",
+  "accountWrites": 0,
+  "messages": 0,
+  "auditId": "53686",
+  "completedAtKst": "2026-11-01 23:32:29 KST",
+  "usedAtVerification": 0,
+  "remainingAtVerification": 100,
+  "sourceCommit": "5a51ef098b61bafbc6cad1f3deb987a9c08ca57c",
+  "pages": {
+    "id": "31ef19ea-85d6-4810-a3c9-7619fdb26c6b",
+    "url": "https://31ef19ea.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "5a51ef098b61bafbc6cad1f3deb987a9c08ca57c"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "9814fc32-25f4-47e8-8043-f0fa77615333",
+      "percentage": 100,
+      "bundleSupported": true
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "84619b70-8d8c-46ef-b506-972a47a72a78",
+      "percentage": 100,
+      "bundleSupported": true
+    }
+  ],
+  "checks": {
+    "newBundle": 5,
+    "adjacentCoupon": 15,
+    "workerSyntax": true,
+    "failureAndSuccessIssuanceRollback": true,
+    "independentReadOnly": true,
+    "noWriteReplay": true,
+    "liveUserRedemptionPerformed": false
+  },
+  "poster": {
+    "path": "output/announcements/november-gift-coupon-20261101/november-gift-banknote-v1.png",
+    "width": 2172,
+    "height": 724,
+    "sha256": "20d961a358e065d380765ff1776ffec854c2b92530f502d8a33e12ace150e585",
+    "posted": false
+  },
+  "storageMaintenance": false
+}

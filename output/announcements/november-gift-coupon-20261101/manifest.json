@@ -1,0 +1,17 @@
+{
+  "purpose": "11월 첫날 리버스콜 쿠폰 포스터",
+  "file": "november-gift-banknote-v1.png",
+  "width": 2172,
+  "height": 724,
+  "aspectRatio": "3:1",
+  "generator": "built-in image_gen",
+  "promptFile": "prompt.txt",
+  "sourcePath": "C:/Users/User/.codex/generated_images/01a19779-b605-7be1-9fa0-fe010c1e8bc8/exec-9edf5651-d93b-4f4e-90ea-f620f2624e32.png",
+  "sha256": "20d961a358e065d380765ff1776ffec854c2b92530f502d8a33e12ace150e585",
+  "headline": "11월의 첫날 리버스콜과 함께",
+  "couponCode": "CNINE1101GIFT100",
+  "rewards": ["계급 경험치 3배 물약 2개 · 각 60분", "코인 30조", "마스터의 별 2,000만 개"],
+  "limit": "선착순 100명 · 계정당 1회",
+  "visualReview": "가로 지폐형 3:1, 전체 문구와 쿠폰번호 및 보상 수량 직접 확인",
+  "published": false
+}
