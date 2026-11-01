@@ -1,0 +1,19 @@
+{
+  "before": {
+    "id": "07f11e8c-f5be-45d7-a806-d4066737bf21",
+    "url": "https://07f11e8c.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "999ce1371c480509c263dc70130cbbcea8edd65d"
+  },
+  "base": "999ce1371c480509c263dc70130cbbcea8edd65d",
+  "reason": "패키지당250조, 1+1총500조로 변경. 이전11월 미처리 신청에도 증액을 적용하고 완료영수증과 다른 구성품/가격/최대100회/마감/원스토어제외는 유지. 코인거래 원자성/중복/기존주문/500조회귀 및 PC/모바일 검수.",
+  "tests": [
+    "tests/support-package-500t-20261101.test.mjs",
+    "tests/support-package-web-20261101.test.mjs",
+    "tests/support-package-20261020.test.mjs",
+    "tests/support-package-bogo-20261025.test.mjs",
+    "tests/support-package-hide-20261026.test.mjs",
+    "tests/onestore-distribution-20261026.test.mjs"
+  ],
+  "checks": []
+}

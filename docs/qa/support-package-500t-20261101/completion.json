@@ -1,0 +1,170 @@
+{
+  "status": "DEPLOYED_AND_GRANTED",
+  "sourceCommit": "3e847babc85caf47df2c98693295a84d9fe297eb",
+  "implementationCommit": "1a039831078bdbf1cb941df5cd184cac97e1effb",
+  "pages": {
+    "id": "e1eed29f-810e-4280-b1b4-027a8605a86f",
+    "url": "https://e1eed29f.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "3e847babc85caf47df2c98693295a84d9fe297eb"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "e644f36e-22f4-43a8-99f8-2d8ef9da0c6b",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "abd69a1b-412a-481a-ad62-72aa4219e7cc",
+      "percentage": 100
+    }
+  ],
+  "operationKey": "ops:support-package-500t-difference:20261101:v1",
+  "completedAt": "2026-11-01T01:21:21.947Z",
+  "auditId": "53603",
+  "coinsPerPackage": "250000000000000",
+  "coinsPerPurchase": "500000000000000",
+  "grants": [
+    {
+      "userId": "4415",
+      "nickname": "Moo날두",
+      "amount": "200000000000000",
+      "logId": "100437203"
+    },
+    {
+      "userId": "4610",
+      "nickname": "고라니ㅇ",
+      "amount": "100000000000000",
+      "logId": "100437208"
+    }
+  ],
+  "totalAdditionalCoins": "300000000000000",
+  "recipients": 2,
+  "paidPurchases": 3,
+  "priceWon": 49800,
+  "quantityRange": [
+    1,
+    100
+  ],
+  "enhancementScrollsPerPurchase": {
+    "weapon": 10,
+    "armor": 10
+  },
+  "salesEnd": "2026-11-03T00:00:00+09:00",
+  "oneStoreExcluded": true,
+  "packageCoinPredictionRestrictionPreserved": true,
+  "originalCompletedOrdersUnchanged": 200,
+  "duplicateGrants": 0,
+  "omissions": 0,
+  "messagesSent": 0,
+  "checks": {
+    "deploymentTests": 30,
+    "grantTests": {
+      "exitCode": 0,
+      "passed": 3,
+      "failed": 0,
+      "grantSha256": "67adbc3cc834bf3252858996e045e4ab14b6a7d3df34b61e0175b3549b72c91e",
+      "checkedAt": "2026-11-01T01:15:22.811Z"
+    },
+    "browser": [
+      {
+        "profile": "windows-client",
+        "engine": "chromium",
+        "standaloneEmulated": false,
+        "clientUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Reversecall/0.1.10 Chrome/130.0.0 Electron/32.0.0 Safari/537.36",
+        "width": 1440,
+        "quantity": 10,
+        "totalPriceWon": 498000,
+        "totalCoins": "5000000000000000",
+        "presetsAndCustom": true,
+        "boundsRejected": true,
+        "enhancementScrollsEach": 100,
+        "protectionItemsGranted": 0,
+        "equalButtonSize": {
+          "width": 680,
+          "height": 132
+        },
+        "inactiveHidden": true,
+        "ordinaryNoAlertPolling": true,
+        "imagesLoaded": true,
+        "lostResponseRecovery": true,
+        "ownerPopupOnce": true,
+        "cmsPopupAndPayment": true,
+        "errors": [],
+        "failed": []
+      },
+      {
+        "profile": "iphone-safari",
+        "engine": "webkit",
+        "standaloneEmulated": false,
+        "clientUserAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 Version/18.0 Mobile/15E148 Safari/604.1",
+        "width": 390,
+        "quantity": 100,
+        "totalPriceWon": 4980000,
+        "totalCoins": "50000000000000000",
+        "presetsAndCustom": true,
+        "boundsRejected": true,
+        "enhancementScrollsEach": 1000,
+        "protectionItemsGranted": 0,
+        "equalButtonSize": {
+          "width": 328,
+          "height": 112
+        },
+        "inactiveHidden": true,
+        "ordinaryNoAlertPolling": true,
+        "imagesLoaded": true,
+        "lostResponseRecovery": true,
+        "ownerPopupOnce": true,
+        "cmsPopupAndPayment": true,
+        "errors": [],
+        "failed": []
+      }
+    ],
+    "publicBrowser": [
+      {
+        "profile": "iphone-safari",
+        "engine": "webkit",
+        "width": 390,
+        "coinsPerPackage": "250000000000000",
+        "coinsPerPurchase": "500000000000000",
+        "imagesLoaded": true,
+        "noOverflow": true,
+        "publicAssets": true,
+        "productionAccountWrites": 0,
+        "errors": [],
+        "failed": []
+      }
+    ],
+    "publicFiles": 17,
+    "clientManifest": {
+      "releaseId": "e1919d12758a6ff170bb1b3fa02bc692ac9d7688ffc4cd0c6982dfb9aca9495d",
+      "files": [
+        {
+          "path": "/shared/support-package-v1.mjs",
+          "sha256": "5bd32d0e40873276f65c8695203a1667c0bafcdb33615773060c31c8dee804e6",
+          "essential": true
+        },
+        {
+          "path": "/js/support-package-v1.mjs",
+          "sha256": "9e0a154e4e69348810020ac69a7507c00ed50476a627ab493947c601cee645ac",
+          "essential": true
+        },
+        {
+          "path": "/js/server-support-v1.mjs",
+          "sha256": "84a233e6fc268c4a47981bf33c6d60eae2bf97776f8d07dec1bf40009c33997a",
+          "essential": true
+        },
+        {
+          "path": "/css/support-package-v1.css",
+          "sha256": "99d651cbe8bbe18fb8fd70ecfccb3cc467c659df95f362c5cee62072c3a06815",
+          "essential": true
+        }
+      ]
+    },
+    "rollback": true,
+    "independentReadOnly": true,
+    "selectOnlyReplay": true
+  },
+  "recordedAt": "2026-11-01T01:22:09.955Z"
+}

@@ -1,0 +1,7 @@
+evidence/
+before.json
+after.json
+final-targets.json
+browser-scrolls/
+public/
+*.log

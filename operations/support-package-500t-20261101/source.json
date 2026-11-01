@@ -1,0 +1,25 @@
+{
+  "head": "1a039831078bdbf1cb941df5cd184cac97e1effb",
+  "files": [
+    "admin/index.html",
+    "admin/server-support-admin-v1.mjs",
+    "admin/support-package-admin-v1.mjs",
+    "functions/_support_package.js",
+    "index.html",
+    "js/adventure-lobby-v2107.js",
+    "js/server-support-v1.mjs",
+    "js/support-package-alerts-v1.mjs",
+    "js/support-package-v1.mjs",
+    "onestore/index.html",
+    "packaging/onestore/web-build.json",
+    "scripts/onestore/web-overrides.mjs",
+    "service-worker.js",
+    "shared/support-package-v1.mjs",
+    "tests/support-package-20261020.test.mjs",
+    "tests/support-package-bogo-20261025.test.mjs",
+    "tests/support-package-web-20261101.test.mjs",
+    "ui/adventure-lobby/component.js",
+    "docs/qa/support-package-500t-20261101/README.md",
+    "tests/support-package-500t-20261101.test.mjs"
+  ]
+}

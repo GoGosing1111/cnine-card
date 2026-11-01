@@ -1,0 +1,79 @@
+{
+  "operationKey": "ops:support-package-500t-difference:20261101:v1",
+  "authorization": "총 500조 (250조+250조로 변경) 금일 지급자 차액분 추가 지급",
+  "dateKst": "2026-11-01",
+  "sourceCutoff": "2026-11-01T01:19:54.106Z",
+  "sourceHash": "a154d38c5615831415409f123b1ed4279858001c3b11c97379ae62d6b3ba8a85",
+  "targetCoinsPerPurchase": "500000000000000",
+  "delivery": "DIRECT",
+  "sendMessages": false,
+  "logFloor": {
+    "coins": "100436573",
+    "audit": "53601"
+  },
+  "targets": [
+    {
+      "id": "4415",
+      "nickname": "Moo날두",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "545f7fa624f25bd6a9833e79475419aa0571a0b0a8a085dbba9b14de981f94fe",
+      "orders": [
+        {
+          "key": "support_package_order_v1:4415_661339c6-291d-464d-82af-2dbb52450f0e",
+          "raw": "{\"version\":1,\"quantity\":2,\"id\":\"4415_661339c6-291d-464d-82af-2dbb52450f0e\",\"userId\":4415,\"nickname\":\"Moo날두\",\"product\":{\"code\":\"SEASON_PASS_PACKAGE_20261101\",\"name\":\"리버스콜 코인 패키지\",\"priceWon\":49800,\"coins\":400000000000000,\"coinImage\":\"assets/ui/icon-fusion-20261004/coin.webp\",\"items\":[{\"code\":\"EMPEROR_ENERGY\",\"name\":\"엠퍼러 에너지\",\"quantity\":400,\"image\":\"assets/items/emperor-energy-v1.webp\"},{\"code\":\"MERCENARY_SSS_LIMITED_SHARD\",\"name\":\"SSS 리미티드 조각\",\"quantity\":10,\"image\":\"assets/items/sss-limited-shard-20261020/item.webp\"}],\"packageQuantity\":2,\"eventCode\":\"SUPPORT_PACKAGE_BOGO_20261101\",\"eventLabel\":\"1+1 이벤트\"},\"status\":\"FULFILLED\",\"revision\":1,\"createdAt\":1793492350803,\"eligibleUntil\":1794292847550,\"fulfillment\":{\"code\":\"SEASON_PASS_PACKAGE_20261101\",\"name\":\"리버스콜 코인 패키지\",\"priceWon\":99600,\"coins\":800000000000000,\"coinImage\":\"assets/ui/icon-fusion-20261004/coin.webp\",\"items\":[{\"code\":\"EMPEROR_ENERGY\",\"name\":\"엠퍼러 에너지\",\"quantity\":800,\"image\":\"assets/items/emperor-energy-v1.webp\"},{\"code\":\"MERCENARY_SSS_LIMITED_SHARD\",\"name\":\"SSS 리미티드 조각\",\"quantity\":20,\"image\":\"assets/items/sss-limited-shard-20261020/item.webp\"}],\"packageQuantity\":4,\"eventCode\":\"SUPPORT_PACKAGE_BOGO_20261101\",\"eventLabel\":\"1+1 이벤트\",\"purchaseQuantity\":2},\"processedAt\":1793492972509,\"processedBy\":1,\"note\":\"123\"}",
+          "hash": "ee91b409895ce6f37c81ce161b757bf000ff1ecdde09b20ae6664a8c0aacb1f5",
+          "quantity": 2,
+          "beforeCoins": "800000000000000",
+          "amount": "200000000000000",
+          "log": {
+            "id": "100425875",
+            "user_id": "4415",
+            "change_amount": "800000000000000",
+            "balance_after": "807747750073176",
+            "reason": "시즌패스 패키지 구매 4415_661339c6-291d-464d-82af-2dbb52450f0e",
+            "created_at": "2026-11-01 00:29:44"
+          }
+        }
+      ],
+      "amount": "200000000000000"
+    },
+    {
+      "id": "4610",
+      "nickname": "고라니ㅇ",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "4e5963a28f00a9e059c4d63b920c0e39279838d9273d3daf80b46eb91d9c56aa",
+      "orders": [
+        {
+          "key": "support_package_order_v1:4610_60b3759f-8258-41ad-ab24-77d938307497",
+          "raw": "{\"version\":1,\"quantity\":1,\"id\":\"4610_60b3759f-8258-41ad-ab24-77d938307497\",\"userId\":4610,\"nickname\":\"고라니ㅇ\",\"product\":{\"code\":\"SEASON_PASS_PACKAGE_20261101_SCROLLS\",\"name\":\"리버스콜 코인 패키지\",\"priceWon\":49800,\"coins\":400000000000000,\"coinImage\":\"assets/ui/icon-fusion-20261004/coin.webp\",\"items\":[{\"code\":\"EMPEROR_ENERGY\",\"name\":\"엠퍼러 에너지\",\"quantity\":400,\"image\":\"assets/items/emperor-energy-v1.webp\"},{\"code\":\"MERCENARY_SSS_LIMITED_SHARD\",\"name\":\"SSS 리미티드 조각\",\"quantity\":10,\"image\":\"assets/items/sss-limited-shard-20261020/item.webp\"},{\"code\":\"WEAPON_ENHANCEMENT_SCROLL\",\"name\":\"무기 강화주문서\",\"quantity\":10,\"image\":\"assets/items/weapon-enhancement-scroll-v1.webp\"},{\"code\":\"ARMOR_ENHANCEMENT_SCROLL\",\"name\":\"방어구 강화주문서\",\"quantity\":10,\"image\":\"assets/items/armor-enhancement-scroll-v1.webp\"}],\"packageQuantity\":2,\"eventCode\":\"SUPPORT_PACKAGE_BOGO_20261101\",\"eventLabel\":\"1+1 이벤트\"},\"status\":\"FULFILLED\",\"revision\":1,\"createdAt\":1793493084788,\"eligibleUntil\":1794241595398,\"fulfillment\":{\"code\":\"SEASON_PASS_PACKAGE_20261101_SCROLLS\",\"name\":\"리버스콜 코인 패키지\",\"priceWon\":49800,\"coins\":400000000000000,\"coinImage\":\"assets/ui/icon-fusion-20261004/coin.webp\",\"items\":[{\"code\":\"EMPEROR_ENERGY\",\"name\":\"엠퍼러 에너지\",\"quantity\":400,\"image\":\"assets/items/emperor-energy-v1.webp\"},{\"code\":\"MERCENARY_SSS_LIMITED_SHARD\",\"name\":\"SSS 리미티드 조각\",\"quantity\":10,\"image\":\"assets/items/sss-limited-shard-20261020/item.webp\"},{\"code\":\"WEAPON_ENHANCEMENT_SCROLL\",\"name\":\"무기 강화주문서\",\"quantity\":10,\"image\":\"assets/items/weapon-enhancement-scroll-v1.webp\"},{\"code\":\"ARMOR_ENHANCEMENT_SCROLL\",\"name\":\"방어구 강화주문서\",\"quantity\":10,\"image\":\"assets/items/armor-enhancement-scroll-v1.webp\"}],\"packageQuantity\":2,\"eventCode\":\"SUPPORT_PACKAGE_BOGO_20261101\",\"eventLabel\":\"1+1 이벤트\"},\"processedAt\":1793493159199,\"processedBy\":1,\"note\":\"1\"}",
+          "hash": "c8a0e905324e72662c655bc1f4dcda655970ff1371b548bf988ec793672807eb",
+          "quantity": 1,
+          "beforeCoins": "400000000000000",
+          "amount": "100000000000000",
+          "log": {
+            "id": "100426080",
+            "user_id": "4610",
+            "change_amount": "400000000000000",
+            "balance_after": "438261712817597",
+            "reason": "시즌패스 패키지 구매 4610_60b3759f-8258-41ad-ab24-77d938307497",
+            "created_at": "2026-11-01 00:32:48"
+          }
+        }
+      ],
+      "amount": "100000000000000"
+    }
+  ],
+  "recipients": [
+    {
+      "userId": "4415",
+      "nickname": "Moo날두"
+    },
+    {
+      "userId": "4610",
+      "nickname": "고라니ㅇ"
+    }
+  ],
+  "totalAmount": "300000000000000"
+}
