@@ -65,5 +65,44 @@
       "userVisualApproval": true,
       "readBeforeNewIllustrationOrRetouch": true
     }
-  ]
+  ],
+  "compositionPolicy": {
+    "dateKST": "2026-11-01",
+    "userDirective": "또 다른대화에서 헛소리 안하게 다양한 포즈와 작화를 규정화 해줄래?",
+    "document": "docs/project-v-mercenary-card-art-standard.md",
+    "section": "2026-11-01 포즈·구도·작화 다양성 — 고정 전신·로우앵글 반복 금지",
+    "readBeforeEveryMercenaryArtTask": true,
+    "approvedExemplarRole": "Linework, shading, materials and coherent rendering only; its pose, camera, costume and background are not a universal composition.",
+    "singleDefaultPose": false,
+    "sourcePreservationOverridesDiversity": true,
+    "freeDesignRecentComparisonMaximum": 3,
+    "freeDesignMinimumChangedCompositionAxes": 2,
+    "compositionAxes": [
+      "framing",
+      "camera viewpoint",
+      "body action",
+      "hand and weapon action",
+      "subject placement"
+    ],
+    "neverAutomaticallyAppend": [
+      "full body",
+      "low-angle",
+      "centered standing",
+      "sword pointing down",
+      "rocky pedestal",
+      "flowing cape"
+    ],
+    "requiredBriefFields": [
+      "task type",
+      "reference roles",
+      "fixed elements",
+      "allowed changes",
+      "framing viewpoint and placement",
+      "body expression and hand/weapon action",
+      "line shading lighting palette materials and background",
+      "actual differences from recent work or source-preservation reason"
+    ],
+    "expressionVarietyWithinSharedQuality": true,
+    "automaticUserApproval": false
+  }
 }
