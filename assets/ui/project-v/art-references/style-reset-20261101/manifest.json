@@ -1,36 +1,51 @@
 {
-  "format": "PROJECT_V_STYLE_STANDARD_RESET_V2",
+  "format": "PROJECT_V_DUAL_ART_STANDARD_V1",
   "dateKST": "2026-11-01",
-  "status": "USER_APPROVED_STYLE_STANDARD",
+  "status": "USER_SELECTED_DUAL_STYLE_COMPOSITION_STANDARD",
   "userDirective": "용병일러스트 작화 변경 기준점 다시 잡아",
-  "styleName": "정돈된 2D 캐릭터 선화 + 큰 명암 면 + 절제된 페인터리 마감",
+  "styleName": "단독 전신 원화 / 대형 초상 + 전신 스플래시",
   "references": [
     {
-      "file": "assets/ui/project-v/art-references/style-reset-20261101/style-01-blue-swordsman.png",
-      "sourceAttachment": "codex-clipboard-ec4e3c46-7853-43df-bb32-ef4df65955d5.png",
-      "sha256": "b4d8dc61396c41b840e29b7d83f4c284db9acb1351a4982e509b26c095f6e26a",
-      "bytes": 994029,
-      "width": 735,
-      "height": 1155,
+      "id": "single-character-full-body",
+      "label": "기준 1 · 단독 전신 원화",
+      "file": "output/imagegen/mercenary-white-coat-retouch-20261101/white-coat-retouch-v1.png",
+      "sourceGeneratedFile": "C:/Users/User/.codex/generated_images/01a196c6-05ea-71e0-bb26-f8a06faa6194/exec-0f7a080d-0a84-482b-8203-50095519486f.png",
+      "sourceAttachment": "exec-0f7a080d-0a84-482b-8203-50095519486f.png",
+      "version": "v1",
+      "sha256": "238c6ae73619877300d9f65691eb1556bb0422f49beb7213ca27ef21132ccccb",
+      "width": 1024,
+      "height": 1536,
+      "role": "흰 배경의 단독 전신·자연스러운 성인 비율·선명하고 정교한 인물/의상/무기 채색의 실제 기준",
+      "bytes": 2206204,
       "pngColorType": 2,
-      "byteForByteCopy": true,
-      "role": "Style only: coherent anatomy, continuous hair flow, controlled painterly shading and material separation."
+      "byteForByteMatchToUserSelectedFile": true,
+      "userVisualApproval": true,
+      "approvalScope": "Style and composition reference only"
     },
     {
-      "file": "assets/ui/project-v/art-references/style-reset-20261101/style-02-white-coat-swordsman.png",
-      "sourceAttachment": "codex-clipboard-733f5c3f-b3bb-45f4-aa82-e56a5ef2c7c8.png",
-      "sha256": "f4f0da10314b0ca224184fea26a5f76ac584a096b3c8be893a69b2f9570556b1",
-      "bytes": 1332597,
-      "width": 960,
-      "height": 1200,
+      "id": "portrait-full-body-splash",
+      "label": "기준 2 · 대형 초상 + 전신 스플래시",
+      "file": "output/imagegen/mercenary-golden-crown-knight-20261101/golden-crown-knight-v2-source-composition.png",
+      "sourceGeneratedFile": "C:/Users/User/.codex/generated_images/01a196c6-05ea-71e0-bb26-f8a06faa6194/exec-50e1ccb7-f649-45e0-8383-7d2c075b40f4.png",
+      "sourceAttachment": "exec-50e1ccb7-f649-45e0-8383-7d2c075b40f4.png",
+      "version": "v2",
+      "sha256": "2cb43761620464189acc79f92ec696235ad056f9db8f6a7730cbeb6781e395e0",
+      "width": 1056,
+      "height": 1489,
+      "role": "큰 상단 초상과 하단 전신·대각선 무기·배경/연속 효과를 한 화면으로 묶는 화려한 스플래시의 실제 기준",
+      "bytes": 2807097,
       "pngColorType": 2,
-      "byteForByteCopy": true,
-      "role": "Style only: clean contours, broad light and shadow planes, structured folds and strong silhouette."
+      "byteForByteMatchToUserSelectedFile": true,
+      "userVisualApproval": true,
+      "approvalScope": "Style and composition reference only"
     }
   ],
   "supersedesConflictingGuidance": [
     "2026-10-14 four-image primary style hierarchy",
-    "2026-09-07 Vespera primary style hierarchy"
+    "2026-09-07 Vespera primary style hierarchy",
+    "White-coat V2 as the sole current primary reference",
+    "Mandatory recent-three-image comparison and two-axis change quota",
+    "Generic pose-menu selection overriding either of the two selected visual standards"
   ],
   "preserves": [
     "Previous references and approved originals",
@@ -40,69 +55,141 @@
     "Separate sourceArt and battleSprite approvals"
   ],
   "productionEnabled": false,
-  "latestUserDirective": "좋다 앞으로 이렇게 규정으로 올려라",
+  "latestUserDirective": "난 이거 두개의 규정을 원함",
   "approval": {
     "dateKST": "2026-11-01",
-    "userQuote": "좋다 앞으로 이렇게 규정으로 올려라",
-    "approvedVersion": "v2",
-    "approvedFile": "output/imagegen/mercenary-white-coat-retouch-20261101/white-coat-retouch-v2.png",
-    "sha256": "165977598b1ef142f279a5da23e5399c809cd40b5f208144ebb100a00bd78bd8",
+    "userQuote": "난 이거 두개의 규정을 원함",
+    "selectedStandardIds": [
+      "single-character-full-body",
+      "portrait-full-body-splash"
+    ],
     "scope": [
-      "V2 retouch visual approval",
-      "Concrete finish reference for future mercenary illustration and requested retouch"
+      "Exact image selection as style and composition standards"
     ],
     "runtimeReplacementAuthorized": false
   },
   "approvedStyleExamples": [
     {
-      "file": "output/imagegen/mercenary-white-coat-retouch-20261101/white-coat-retouch-v2.png",
-      "version": "v2",
-      "sha256": "165977598b1ef142f279a5da23e5399c809cd40b5f208144ebb100a00bd78bd8",
+      "id": "single-character-full-body",
+      "label": "기준 1 · 단독 전신 원화",
+      "file": "output/imagegen/mercenary-white-coat-retouch-20261101/white-coat-retouch-v1.png",
+      "sourceGeneratedFile": "C:/Users/User/.codex/generated_images/01a196c6-05ea-71e0-bb26-f8a06faa6194/exec-0f7a080d-0a84-482b-8203-50095519486f.png",
+      "sourceAttachment": "exec-0f7a080d-0a84-482b-8203-50095519486f.png",
+      "version": "v1",
+      "sha256": "238c6ae73619877300d9f65691eb1556bb0422f49beb7213ca27ef21132ccccb",
       "width": 1024,
       "height": 1536,
+      "role": "흰 배경의 단독 전신·자연스러운 성인 비율·선명하고 정교한 인물/의상/무기 채색의 실제 기준",
+      "bytes": 2206204,
       "pngColorType": 2,
-      "role": "Approved finish reference: clean contours, continuous skin shading, large cloth folds, restrained detail density and unified 2D material rendering.",
+      "byteForByteMatchToUserSelectedFile": true,
       "userVisualApproval": true,
-      "readBeforeNewIllustrationOrRetouch": true
+      "approvalScope": "Style and composition reference only"
+    },
+    {
+      "id": "portrait-full-body-splash",
+      "label": "기준 2 · 대형 초상 + 전신 스플래시",
+      "file": "output/imagegen/mercenary-golden-crown-knight-20261101/golden-crown-knight-v2-source-composition.png",
+      "sourceGeneratedFile": "C:/Users/User/.codex/generated_images/01a196c6-05ea-71e0-bb26-f8a06faa6194/exec-50e1ccb7-f649-45e0-8383-7d2c075b40f4.png",
+      "sourceAttachment": "exec-50e1ccb7-f649-45e0-8383-7d2c075b40f4.png",
+      "version": "v2",
+      "sha256": "2cb43761620464189acc79f92ec696235ad056f9db8f6a7730cbeb6781e395e0",
+      "width": 1056,
+      "height": 1489,
+      "role": "큰 상단 초상과 하단 전신·대각선 무기·배경/연속 효과를 한 화면으로 묶는 화려한 스플래시의 실제 기준",
+      "bytes": 2807097,
+      "pngColorType": 2,
+      "byteForByteMatchToUserSelectedFile": true,
+      "userVisualApproval": true,
+      "approvalScope": "Style and composition reference only"
     }
   ],
   "compositionPolicy": {
     "dateKST": "2026-11-01",
-    "userDirective": "또 다른대화에서 헛소리 안하게 다양한 포즈와 작화를 규정화 해줄래?",
+    "userDirective": "난 이거 두개의 규정을 원함",
     "document": "docs/project-v-mercenary-card-art-standard.md",
-    "section": "2026-11-01 포즈·구도·작화 다양성 — 고정 전신·로우앵글 반복 금지",
+    "section": "2026-11-01 용병 일러스트 두 제작 기준 — 사용자 지정 두 이미지가 정본",
     "readBeforeEveryMercenaryArtTask": true,
-    "approvedExemplarRole": "Linework, shading, materials and coherent rendering only; its pose, camera, costume and background are not a universal composition.",
-    "singleDefaultPose": false,
-    "sourcePreservationOverridesDiversity": true,
-    "freeDesignRecentComparisonMaximum": 3,
-    "freeDesignMinimumChangedCompositionAxes": 2,
-    "compositionAxes": [
-      "framing",
-      "camera viewpoint",
-      "body action",
-      "hand and weapon action",
-      "subject placement"
+    "selectedModes": [
+      {
+        "id": "single-character-full-body",
+        "label": "기준 1 · 단독 전신 원화",
+        "file": "output/imagegen/mercenary-white-coat-retouch-20261101/white-coat-retouch-v1.png"
+      },
+      {
+        "id": "portrait-full-body-splash",
+        "label": "기준 2 · 대형 초상 + 전신 스플래시",
+        "file": "output/imagegen/mercenary-golden-crown-knight-20261101/golden-crown-knight-v2-source-composition.png"
+      }
     ],
-    "neverAutomaticallyAppend": [
-      "full body",
-      "low-angle",
-      "centered standing",
-      "sword pointing down",
-      "rocky pedestal",
-      "flowing cape"
-    ],
+    "selectionRule": "Use the provided reference and requested purpose to select mode 1 or mode 2; record it before generation.",
+    "sourcePreservationOverridesVariation": true,
+    "forcedRecentComparisonQuota": false,
+    "forcedCompositionChangeQuota": false,
+    "poseAndExpressionVariationWithinSelectedMode": true,
+    "doNotSubstituteWhiteCoatV2ForSelectedV1": true,
+    "doNotFlattenSplashIntoSingleFullBody": true,
     "requiredBriefFields": [
-      "task type",
+      "selected standard",
       "reference roles",
-      "fixed elements",
+      "fixed composition character and weapon",
       "allowed changes",
-      "framing viewpoint and placement",
-      "body expression and hand/weapon action",
-      "line shading lighting palette materials and background",
-      "actual differences from recent work or source-preservation reason"
+      "character-specific pose and rendering choices"
     ],
-    "expressionVarietyWithinSharedQuality": true,
     "automaticUserApproval": false
-  }
+  },
+  "previousReferenceSets": [
+    {
+      "label": "Initial 2026-11-01 references and earlier approved white-coat V2",
+      "references": [
+        {
+          "file": "assets/ui/project-v/art-references/style-reset-20261101/style-01-blue-swordsman.png",
+          "sourceAttachment": "codex-clipboard-ec4e3c46-7853-43df-bb32-ef4df65955d5.png",
+          "sha256": "b4d8dc61396c41b840e29b7d83f4c284db9acb1351a4982e509b26c095f6e26a",
+          "bytes": 994029,
+          "width": 735,
+          "height": 1155,
+          "pngColorType": 2,
+          "byteForByteCopy": true,
+          "role": "Style only: coherent anatomy, continuous hair flow, controlled painterly shading and material separation."
+        },
+        {
+          "file": "assets/ui/project-v/art-references/style-reset-20261101/style-02-white-coat-swordsman.png",
+          "sourceAttachment": "codex-clipboard-733f5c3f-b3bb-45f4-aa82-e56a5ef2c7c8.png",
+          "sha256": "f4f0da10314b0ca224184fea26a5f76ac584a096b3c8be893a69b2f9570556b1",
+          "bytes": 1332597,
+          "width": 960,
+          "height": 1200,
+          "pngColorType": 2,
+          "byteForByteCopy": true,
+          "role": "Style only: clean contours, broad light and shadow planes, structured folds and strong silhouette."
+        }
+      ],
+      "approvedStyleExamples": [
+        {
+          "file": "output/imagegen/mercenary-white-coat-retouch-20261101/white-coat-retouch-v2.png",
+          "version": "v2",
+          "sha256": "165977598b1ef142f279a5da23e5399c809cd40b5f208144ebb100a00bd78bd8",
+          "width": 1024,
+          "height": 1536,
+          "pngColorType": 2,
+          "role": "Approved finish reference: clean contours, continuous skin shading, large cloth folds, restrained detail density and unified 2D material rendering.",
+          "userVisualApproval": true,
+          "readBeforeNewIllustrationOrRetouch": true
+        }
+      ],
+      "approval": {
+        "dateKST": "2026-11-01",
+        "userQuote": "좋다 앞으로 이렇게 규정으로 올려라",
+        "approvedVersion": "v2",
+        "approvedFile": "output/imagegen/mercenary-white-coat-retouch-20261101/white-coat-retouch-v2.png",
+        "sha256": "165977598b1ef142f279a5da23e5399c809cd40b5f208144ebb100a00bd78bd8",
+        "scope": [
+          "V2 retouch visual approval",
+          "Concrete finish reference for future mercenary illustration and requested retouch"
+        ],
+        "runtimeReplacementAuthorized": false
+      }
+    }
+  ]
 }

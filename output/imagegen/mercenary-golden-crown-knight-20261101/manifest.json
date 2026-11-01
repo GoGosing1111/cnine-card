@@ -2,7 +2,7 @@
   "format": "PROJECT_V_MERCENARY_ART_DRAFT_V1",
   "dateKST": "2026-11-01",
   "userDirective": "조금만 변형해서 우리 용병 일러스트 만들어",
-  "status": "CORRECTED_ART_USER_REVIEW_PENDING",
+  "status": "USER_SELECTED_STYLE_AND_COMPOSITION_STANDARD",
   "tool": "built-in image_gen.imagegen",
   "mode": "reference-based stylized-concept",
   "references": [
@@ -63,7 +63,7 @@
     "pngColorType": 2,
     "originalGeneratedBytesPreserved": true
   },
-  "userVisualApproval": false,
+  "userVisualApproval": true,
   "productionEnabled": false,
   "name": null,
   "mercenaryCode": null,
@@ -92,11 +92,12 @@
         "output/imagegen/mercenary-white-coat-retouch-20261101/white-coat-retouch-v2.png",
         "assets/ui/project-v/art-references/style-reset-20261101/style-01-blue-swordsman.png",
         "assets/ui/project-v/art-references/style-reset-20261101/style-02-white-coat-swordsman.png"
-      ]
+      ],
+      "isCurrentSelectedArtStandard": false
     },
     {
       "version": "v2",
-      "status": "CORRECTED_ART_USER_REVIEW_PENDING",
+      "status": "USER_SELECTED_STYLE_AND_COMPOSITION_STANDARD",
       "inputFiles": [
         "output/imagegen/mercenary-golden-crown-knight-20261101/references/user-golden-royal-knight.png"
       ],
@@ -115,7 +116,7 @@
         "pngColorType": 2,
         "originalGeneratedBytesPreserved": true
       },
-      "userVisualApproval": false,
+      "userVisualApproval": true,
       "visualReview": {
         "reviewer": "assistant",
         "fullImageAndSourceCompared": true,
@@ -123,7 +124,25 @@
         "sword": "Original ornate gold guard, small blue accent and long decorated luminous blade shape followed; earlier V1 sword redesign discarded.",
         "text": "Spanish descriptive copy and infographic frames removed.",
         "inGameFrameReviewPerformed": false
-      }
+      },
+      "isCurrentSelectedArtStandard": true,
+      "styleCompositionReferenceApproval": {
+        "dateKST": "2026-11-01",
+        "userQuote": "난 이거 두개의 규정을 원함",
+        "selectedStandardIds": [
+          "single-character-full-body",
+          "portrait-full-body-splash"
+        ],
+        "scope": [
+          "Exact image selection as style and composition standards"
+        ],
+        "runtimeReplacementAuthorized": false,
+        "standardId": "portrait-full-body-splash",
+        "file": "output/imagegen/mercenary-golden-crown-knight-20261101/golden-crown-knight-v2-source-composition.png",
+        "sha256": "2cb43761620464189acc79f92ec696235ad056f9db8f6a7730cbeb6781e395e0",
+        "approvalScope": "Style and composition reference only; mercenary registration and runtime use are not approved."
+      },
+      "approvedAsStyleExemplar": true
     }
   ],
   "correctionIntent": [
@@ -152,6 +171,38 @@
     "outputAspectRatio": 0.7092008059100067,
     "aspectRatioDifferencePercent": 0.020439746547129545,
     "originalFramingPriority": true,
-    "userApproved": false
+    "userApproved": true
+  },
+  "currentArtStandardSelection": {
+    "dateKST": "2026-11-01",
+    "userQuote": "난 이거 두개의 규정을 원함",
+    "selectedStandardIds": [
+      "single-character-full-body",
+      "portrait-full-body-splash"
+    ],
+    "scope": [
+      "Exact image selection as style and composition standards"
+    ],
+    "runtimeReplacementAuthorized": false,
+    "standardId": "portrait-full-body-splash",
+    "file": "output/imagegen/mercenary-golden-crown-knight-20261101/golden-crown-knight-v2-source-composition.png",
+    "sha256": "2cb43761620464189acc79f92ec696235ad056f9db8f6a7730cbeb6781e395e0",
+    "approvalScope": "Style and composition reference only; mercenary registration and runtime use are not approved."
+  },
+  "approval": {
+    "dateKST": "2026-11-01",
+    "userQuote": "난 이거 두개의 규정을 원함",
+    "selectedStandardIds": [
+      "single-character-full-body",
+      "portrait-full-body-splash"
+    ],
+    "scope": [
+      "Exact image selection as style and composition standards"
+    ],
+    "runtimeReplacementAuthorized": false,
+    "standardId": "portrait-full-body-splash",
+    "file": "output/imagegen/mercenary-golden-crown-knight-20261101/golden-crown-knight-v2-source-composition.png",
+    "sha256": "2cb43761620464189acc79f92ec696235ad056f9db8f6a7730cbeb6781e395e0",
+    "approvalScope": "Style and composition reference only; mercenary registration and runtime use are not approved."
   }
 }
