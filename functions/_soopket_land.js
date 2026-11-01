@@ -16,7 +16,8 @@ export const LAND_THANKS_GIFT=PINGDU_THANKS_GIFT.code;
 export const LAND_REPAIR_COUPON=FORGE_REPAIR_ITEM.code;
 export const LAND_IYEJUN_PRIZE='IYEJUN_CARD';
 export const LAND_IYEJUN_CARD_ID='CN-346F8DB0DEB84D41';
-export const LAND_STREAMERS=Object.freeze(['진짜디임','조은','오리꿍','강구열','하이희야♡']);
+// Removed streamer access must not return when an OWNER opens the land panel.
+export const LAND_STREAMERS=Object.freeze(['진짜디임','조은','오리꿍','강구열']);
 export const LAND_PRIZES=Object.freeze([
   {key:'COIN',label:'코인',range:'1,000억 ~ 3조',min:200,max:6000,unit:500000000,symbol:'C',color:0xffd477},
   {key:EMPEROR_ENERGY,label:'엠퍼러 에너지',range:'5 ~ 25개',min:1,max:5,unit:5,symbol:'E',color:0xffdf91},
