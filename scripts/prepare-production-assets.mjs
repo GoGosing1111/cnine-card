@@ -155,6 +155,9 @@ operationAuditOnly.add('assets/ui/pets/heukgu-20261025/pet-heukgu-approved.png')
 // Keep the previous transparent portrait available to battles already in progress.
 // An implementation note remains in Git instead of taking the new portrait's Pages slot.
 operationAuditOnly.add('docs/pet-live-magnet-20261006.md');
+// Keep this historical pet UI implementation note in Git, making room for
+// Pepegu's exact uploaded PNG within the existing Pages asset count limit.
+operationAuditOnly.add('docs/pet-equipment-ui-meta-20261002.md');
 // Title art provenance stays in Git. The game reads the finished WebPs only;
 // these two authoring records leave room for the new chat-squad plaque on Pages.
 operationAuditOnly.add('assets/ui/titles/administration-command-prompt-v2.json');

@@ -25,4 +25,5 @@ export const PET_ART_CATALOG=Object.freeze([
   ['PUMPKIN-JOEUN','호박조은','호박 인형탈','assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-joeun-approved.png','e5eb156285075caf10847c85264cf2a965bd6c7f31cef809446491468adb450f','정면 얼굴이 호박 탈 안을 꽉 채운 조은.','SOURCE_ART_APPROVED'],
   ['DAENGSORYONG','댕소룡','무술 인형','assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png','cd3d76da195a5f3f82c8ae7711447a6d18cbf4fe934e04524f1ec348beea2d43','노란 검정 줄무늬 무술복과 고양이 귀·양갈래 머리로 작은 무술 자세를 취한 댕소룡.','SOURCE_ART_APPROVED'],
   ['HEUKGU','흑구','카카오 통 인형','assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png','5d7e5e8b1fa4c22fb6d37d8ea78e0b7c3dfbb5d763f6f71e4c17077dc0843d0a','얼굴과 표정을 살린 카카오 99% 통에 짧은 다리가 달린 흑구.','SOURCE_ART_APPROVED'],
+  ['PEPEGU','페페구','개구리 인형','assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png','4793f92e1c04aa5ce5ebf013692ad30ea90edbbd9af43230b25eb98c9b53e5e4','흰 민소매를 입고 두 팔을 든 초록 개구리 몸과 사진 얼굴의 사용자 제공 페페구.','SOURCE_ART_APPROVED'],
 ].map(([slug,name,animal,file,sha256,description,artStatus='USER_REVIEW_PENDING'])=>Object.freeze({code:`PET-${slug}`,name,animal,sourceArt:file.startsWith('assets/')?file:base+file,sha256,description,artStatus})));

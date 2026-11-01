@@ -1,0 +1,32 @@
+{
+  "status": "SOURCE_ART_APPROVED",
+  "userRequest": "펫 크기 흑구랑 동일하게해서 페페구 만들어",
+  "userApproval": "저거 그대로 써그냥 상관없잖아 크기 작은데 페페구로 등록해",
+  "source": {
+    "path": "C:/Users/User/AppData/Local/Temp/codex-clipboard-3245b035-59bd-420b-9f67-4ee6a92f654a.png",
+    "sha256": "4793f92e1c04aa5ce5ebf013692ad30ea90edbbd9af43230b25eb98c9b53e5e4"
+  },
+  "assets": [
+    {
+      "code": "PET-PEPEGU",
+      "name": "페페구",
+      "approvedAsset": "assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png",
+      "sha256": "4793f92e1c04aa5ce5ebf013692ad30ea90edbbd9af43230b25eb98c9b53e5e4",
+      "bytes": 33345,
+      "width": 200,
+      "height": 200,
+      "hasAlpha": true
+    }
+  ],
+  "method": "EXACT_USER_ATTACHMENT_COPY_NO_IMAGE_GENERATION",
+  "scope": {
+    "sourceArtApproved": true,
+    "catalogRegistrationApproved": true,
+    "displaySizeReference": "PET-HEUKGU",
+    "animationApproved": false,
+    "acquisitionApproved": false,
+    "battleBuffPolicyApproved": false,
+    "accountGrantsPerformed": false
+  },
+  "sourceBytesUnchanged": true
+}

@@ -1,0 +1,327 @@
+{
+  "status": "PASSED",
+  "assetSource": "local",
+  "reports": [
+    {
+      "width": 1440,
+      "mode": "PVE",
+      "fixtureOnly": true,
+      "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3-jokro-manifest-bundled-20261027-v1-blackcrown-live-20261027-v1-revan-general-jok-20261027-v2-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-classic-colosseum-20261027-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-kamishiro-live-20261028-v1-damage-hp-sync-20261029-v1-icon-diim-front-20261029-v1-limited-220-balance-20261029-v1-omega-craft-20261029-v1-heukmu-live-20261029-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-pet-pepegu-20261101-v1",
+      "suitActive": true,
+      "petCount": 1,
+      "pets": [
+        {
+          "code": "PET-PEPEGU",
+          "source": "assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png",
+          "layoutSize": 126,
+          "displaySize": 115.92,
+          "haloScale": 0.8,
+          "textureWidth": 200,
+          "textureHeight": 200,
+          "magnet": "자석",
+          "visible": true,
+          "applied": true,
+          "root": {
+            "x": 275,
+            "y": 416.0000000000001
+          },
+          "bounds": {
+            "minX": 195.336,
+            "minY": 446.87200000000007,
+            "maxX": 299.664,
+            "maxY": 551.2,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 247.5,
+              "ty": 562.0000000000001
+            }
+          },
+          "label": {
+            "minX": 226.98001098632812,
+            "minY": 562.0000000000001,
+            "maxX": 268.0199890136719,
+            "maxY": 584.5000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 247.5,
+              "ty": 562.0000000000001
+            }
+          }
+        }
+      ],
+      "canvasVisible": true
+    },
+    {
+      "width": 1440,
+      "mode": "PVP",
+      "fixtureOnly": true,
+      "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3-jokro-manifest-bundled-20261027-v1-blackcrown-live-20261027-v1-revan-general-jok-20261027-v2-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-classic-colosseum-20261027-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-kamishiro-live-20261028-v1-damage-hp-sync-20261029-v1-icon-diim-front-20261029-v1-limited-220-balance-20261029-v1-omega-craft-20261029-v1-heukmu-live-20261029-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-pet-pepegu-20261101-v1",
+      "suitActive": false,
+      "petCount": 2,
+      "pets": [
+        {
+          "code": "PET-PEPEGU",
+          "source": "assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png",
+          "layoutSize": 126,
+          "displaySize": 115.92,
+          "haloScale": 0.8,
+          "textureWidth": 200,
+          "textureHeight": 200,
+          "magnet": "자석",
+          "visible": true,
+          "applied": true,
+          "root": {
+            "x": 380,
+            "y": 660.0000000000001
+          },
+          "bounds": {
+            "minX": 289.836,
+            "minY": 581.9720000000001,
+            "maxX": 394.164,
+            "maxY": 686.3000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 1098,
+              "ty": 697.1000000000001
+            }
+          },
+          "label": {
+            "minX": 321.4800109863281,
+            "minY": 697.1000000000001,
+            "maxX": 362.5199890136719,
+            "maxY": 719.6000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 1098,
+              "ty": 697.1000000000001
+            }
+          }
+        },
+        {
+          "code": "PET-HEUKGU",
+          "source": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+          "layoutSize": 126,
+          "displaySize": 115.92,
+          "haloScale": 0.8,
+          "textureWidth": 1182,
+          "textureHeight": 1331,
+          "magnet": "자석",
+          "visible": true,
+          "applied": true,
+          "root": {
+            "x": 1220,
+            "y": 660.0000000000001
+          },
+          "bounds": {
+            "minX": 1051.6755462058602,
+            "minY": 581.9720000000001,
+            "maxX": 1144.3244537941398,
+            "maxY": 686.3000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 1098,
+              "ty": 697.1000000000001
+            }
+          },
+          "label": {
+            "minX": 1083.690005493164,
+            "minY": 697.1000000000001,
+            "maxX": 1112.309994506836,
+            "maxY": 719.6000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 1098,
+              "ty": 697.1000000000001
+            }
+          }
+        }
+      ],
+      "canvasVisible": true
+    },
+    {
+      "width": 390,
+      "mode": "PVE",
+      "fixtureOnly": true,
+      "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3-jokro-manifest-bundled-20261027-v1-blackcrown-live-20261027-v1-revan-general-jok-20261027-v2-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-classic-colosseum-20261027-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-kamishiro-live-20261028-v1-damage-hp-sync-20261029-v1-icon-diim-front-20261029-v1-limited-220-balance-20261029-v1-omega-craft-20261029-v1-heukmu-live-20261029-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-pet-pepegu-20261101-v1",
+      "suitActive": true,
+      "petCount": 1,
+      "pets": [
+        {
+          "code": "PET-PEPEGU",
+          "source": "assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png",
+          "layoutSize": 129.59999999999994,
+          "displaySize": 119.23199999999993,
+          "haloScale": 0.8228571428571425,
+          "textureWidth": 200,
+          "textureHeight": 200,
+          "magnet": "자석",
+          "visible": true,
+          "applied": true,
+          "root": {
+            "x": 431.62500000000006,
+            "y": 1316.2500000000002
+          },
+          "bounds": {
+            "minX": 96.00232258064518,
+            "minY": 308.13367741935497,
+            "maxX": 126.77187096774195,
+            "maxY": 338.9032258064517,
+            "matrix": {
+              "array": null,
+              "a": 0.25806451612903225,
+              "b": 0,
+              "c": 0,
+              "d": 0.25806451612903225,
+              "tx": 111.38709677419357,
+              "ty": 342.00000000000006
+            }
+          },
+          "label": {
+            "minX": 95.69275296118954,
+            "minY": 342.00000000000006,
+            "maxX": 127.08144058719759,
+            "maxY": 357.483870967742,
+            "matrix": {
+              "array": null,
+              "a": 0.25806451612903225,
+              "b": 0,
+              "c": 0,
+              "d": 0.25806451612903225,
+              "tx": 111.38709677419357,
+              "ty": 342.00000000000006
+            }
+          }
+        }
+      ],
+      "canvasVisible": true
+    },
+    {
+      "width": 390,
+      "mode": "PVP",
+      "fixtureOnly": true,
+      "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3-jokro-manifest-bundled-20261027-v1-blackcrown-live-20261027-v1-revan-general-jok-20261027-v2-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-classic-colosseum-20261027-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-kamishiro-live-20261028-v1-damage-hp-sync-20261029-v1-icon-diim-front-20261029-v1-limited-220-balance-20261029-v1-omega-craft-20261029-v1-heukmu-live-20261029-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-pet-pepegu-20261101-v1",
+      "suitActive": false,
+      "petCount": 2,
+      "pets": [
+        {
+          "code": "PET-PEPEGU",
+          "source": "assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png",
+          "layoutSize": 178.5089974293059,
+          "displaySize": 164.22827763496142,
+          "haloScale": 1.1333904598686089,
+          "textureWidth": 200,
+          "textureHeight": 200,
+          "magnet": "자석",
+          "visible": true,
+          "applied": true,
+          "root": {
+            "x": 297.5938303341902,
+            "y": 1447.7634961439587
+          },
+          "bounds": {
+            "minX": 67.59806451612903,
+            "minY": 401.7162903225806,
+            "maxX": 119.11806451612904,
+            "maxY": 453.2362903225806,
+            "matrix": {
+              "array": null,
+              "a": 0.31370967741935485,
+              "b": 0,
+              "c": 0,
+              "d": 0.31370967741935485,
+              "tx": 296.64193548387095,
+              "ty": 457.00080645161285
+            }
+          },
+          "label": {
+            "minX": 77.55249823293379,
+            "minY": 457.00080645161285,
+            "maxX": 109.16363079932428,
+            "maxY": 472.6862903225806,
+            "matrix": {
+              "array": null,
+              "a": 0.31370967741935485,
+              "b": 0,
+              "c": 0,
+              "d": 0.31370967741935485,
+              "tx": 296.64193548387095,
+              "ty": 457.00080645161285
+            }
+          }
+        },
+        {
+          "code": "PET-HEUKGU",
+          "source": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+          "layoutSize": 178.5089974293059,
+          "displaySize": 164.22827763496142,
+          "haloScale": 1.1333904598686089,
+          "textureWidth": 1182,
+          "textureHeight": 1331,
+          "magnet": "자석",
+          "visible": true,
+          "applied": true,
+          "root": {
+            "x": 945.5938303341902,
+            "y": 1447.7634961439587
+          },
+          "bounds": {
+            "minX": 273.76566200528345,
+            "minY": 401.7162903225806,
+            "maxX": 319.51820896245846,
+            "maxY": 453.2362903225806,
+            "matrix": {
+              "array": null,
+              "a": 0.31370967741935485,
+              "b": 0,
+              "c": 0,
+              "d": 0.31370967741935485,
+              "tx": 296.64193548387095,
+              "ty": 457.00080645161285
+            }
+          },
+          "label": {
+            "minX": 285.89575151012787,
+            "minY": 457.00080645161285,
+            "maxX": 307.38811945761404,
+            "maxY": 472.6862903225806,
+            "matrix": {
+              "array": null,
+              "a": 0.31370967741935485,
+              "b": 0,
+              "c": 0,
+              "d": 0.31370967741935485,
+              "tx": 296.64193548387095,
+              "ty": 457.00080645161285
+            }
+          }
+        }
+      ],
+      "canvasVisible": true
+    }
+  ],
+  "productionTransactions": 0
+}

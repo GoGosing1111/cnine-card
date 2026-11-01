@@ -1,0 +1,129 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "mode": "PVE",
+      "entry": "actual start button; no preloading bypass",
+      "staleRendererRecovery": false,
+      "pets": [
+        {
+          "code": "PET-PEPEGU",
+          "source": "assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png",
+          "displaySize": 115.92,
+          "layoutSize": 126,
+          "textureWidth": 200
+        }
+      ],
+      "result": true,
+      "return": true,
+      "actors": [
+        {
+          "id": "A:MERCENARY:V-971",
+          "visible": true,
+          "alpha": 1
+        }
+      ],
+      "levels": [
+        1
+      ]
+    },
+    {
+      "width": 1440,
+      "mode": "PVP",
+      "entry": "actual start button; no preloading bypass",
+      "staleRendererRecovery": false,
+      "pets": [
+        {
+          "code": "PET-PEPEGU",
+          "source": "assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png",
+          "displaySize": 115.92,
+          "layoutSize": 126,
+          "textureWidth": 200
+        },
+        {
+          "code": "PET-HEUKGU",
+          "source": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+          "displaySize": 115.92,
+          "layoutSize": 126,
+          "textureWidth": 1182
+        }
+      ],
+      "result": true,
+      "return": true,
+      "actors": [
+        {
+          "id": "A:MERCENARY:V-971",
+          "visible": true,
+          "alpha": 1
+        }
+      ],
+      "levels": [
+        1
+      ]
+    },
+    {
+      "width": 390,
+      "mode": "PVE",
+      "entry": "actual start button; no preloading bypass",
+      "staleRendererRecovery": false,
+      "pets": [
+        {
+          "code": "PET-PEPEGU",
+          "source": "assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png",
+          "displaySize": 199.84475897435897,
+          "layoutSize": 217.2225641025641,
+          "textureWidth": 200
+        }
+      ],
+      "result": true,
+      "return": true,
+      "actors": [
+        {
+          "id": "A:MERCENARY:V-971",
+          "visible": true,
+          "alpha": 1
+        }
+      ],
+      "levels": [
+        1
+      ]
+    },
+    {
+      "width": 390,
+      "mode": "PVP",
+      "entry": "actual start button; no preloading bypass",
+      "staleRendererRecovery": false,
+      "pets": [
+        {
+          "code": "PET-PEPEGU",
+          "source": "assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png",
+          "displaySize": 164.39671689407422,
+          "layoutSize": 178.69208358051546,
+          "textureWidth": 200
+        },
+        {
+          "code": "PET-HEUKGU",
+          "source": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+          "displaySize": 164.39671689407422,
+          "layoutSize": 178.69208358051546,
+          "textureWidth": 1182
+        }
+      ],
+      "result": true,
+      "return": true,
+      "actors": [
+        {
+          "id": "A:MERCENARY:V-971",
+          "visible": true,
+          "alpha": 1
+        }
+      ],
+      "levels": [
+        1
+      ]
+    }
+  ],
+  "publicBase": "",
+  "engine": "chromium",
+  "productionWrites": 0
+}
