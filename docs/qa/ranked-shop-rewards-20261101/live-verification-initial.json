@@ -1,0 +1,101 @@
+{
+  "at": "2026-11-01T00:15:55.429Z",
+  "pages": {
+    "id": "e8665c79-c88c-46b3-9fd4-954e7d41cb2b",
+    "url": "https://e8665c79.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "3a83feaf2a4ba23b54dc1c450713f41c896722f4"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "9947eae4-6f6d-4cfb-aad9-472038bfe02f",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "d384953c-71a8-478f-92a5-4801437b7809",
+      "percentage": 100
+    }
+  ],
+  "assets": [
+    {
+      "file": "ranked-shop/index.html",
+      "sha256": "661896b22348d629565a9c802726e0308761d42abf2fd00aa1cfc7ac385ed30e"
+    },
+    {
+      "file": "assets/items/ranked-coin-20261101.webp",
+      "sha256": "24d98e4ae92269ef9fadfe1edba13bf0f0e9626c36cf7f70032de0524caf9e1d"
+    },
+    {
+      "file": "css/ranked-shop-v1.css",
+      "sha256": "9f981d7e5aeba2fb7d3a42c020e6aed8ade8461b379462ccdca066c45cf46a29"
+    },
+    {
+      "file": "js/ranked-shop-v1.mjs",
+      "sha256": "6ea34d0d5290c386fa10dcaf786c8289235673176d91394ed523040d4bad78b3"
+    },
+    {
+      "file": "js/ranked-shop-presentation-v1.mjs",
+      "sha256": "2bceb4495d2c903f07a3b7c40a0d9e1099a6a1bf065bb7cf1bbbc46e1fa40859"
+    },
+    {
+      "file": "shared/ranked-shop-policy-v1.mjs",
+      "sha256": "19d71c6e25c4a8e088afe20e9a8228893ccd0ab95a221f87963618e5c8715f7f"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "1ec380e3e5b5a111c14dfee61f8f14d895332e0383bd4b9e3a2924bb723f9e30"
+    },
+    {
+      "file": "js/ranked-duo-v1.mjs",
+      "sha256": "c85b961a804cd06cc147e2276d9f2053fb6eca9bb6cdf3d06214865b75edbd4a"
+    },
+    {
+      "file": "js/ranked-duo-random-v4.mjs",
+      "sha256": "f3ee23a3c840b63a848ab4da773c44ffdf720ebe4e3de53a41dac45afed7c4bc"
+    },
+    {
+      "file": "shared/ranked-duo-season-v2.mjs",
+      "sha256": "00413567e028319919fdf2805fc98f84aaeaec8d1bd9e7b5a7e82e1975f71e72"
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "sha256": "bfe76af9427db2933b17699b129696c367eec28afa92fe81f014f1c12b66dc57"
+    },
+    {
+      "file": "js/soopketmon-v21-exact-shell-adapter.js",
+      "sha256": "df992f27c9e2e496d3df98647b1b678d289bd5409775d760582927367dbef97a"
+    },
+    {
+      "file": "index.html",
+      "sha256": "e6e7d39a21bfd5d67bf1390f736072154bb03b62d1cc52817a71cafc1c460fd7"
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "c71bdadb1941730806bf806e7d6dc945a33886f57648fdcaa9b5ee4e3d91ee37"
+    },
+    {
+      "file": "admin/ranked-shop-admin-v1.mjs",
+      "sha256": "07bff2d71233e12569f57342a0923603ee5ac013485576efbe53693c36331ac7"
+    },
+    {
+      "file": "admin/admin-v1276.js",
+      "sha256": "f83de8f43833475d375bd5304a63acebf35e58571c106e592c400457c21f03ca"
+    },
+    {
+      "file": "loot-shop/index.html",
+      "sha256": "10c5f3020fbd86bcd4091e0998722452a22746303295eb996826b971d0534bbd"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "8a904305870347c79c2d79e3fd3c181fb0dfeb17cbcae6ae7facde898b384272"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "5209f02fceb85f2d575b8b80426bc2c7eb7616f28e8edc84c38cc053f3446f75"
+    }
+  ],
+  "unauthenticatedShop": 401,
+  "productionAccountWrites": 0
+}

@@ -1,0 +1,26 @@
+{
+  "engine": "WebKit",
+  "width": 390,
+  "products": 8,
+  "tiers": 8,
+  "overflow": 0,
+  "purchase": true,
+  "allAccountAPIsIsolated": true,
+  "productionAccountWrites": 0,
+  "errors": [],
+  "missing": [],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/api/shell/summary"
+    },
+    {
+      "method": "GET",
+      "path": "/api/ranked-shop/state"
+    },
+    {
+      "method": "POST",
+      "path": "/api/ranked-shop/purchase"
+    }
+  ]
+}

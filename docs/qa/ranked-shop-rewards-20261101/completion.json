@@ -1,0 +1,156 @@
+{
+  "completedAt": "2026-11-01T00:22:44.089Z",
+  "sourceCommit": "82fafd52918edffdaa48f9ef7bad7c19f7529344",
+  "pages": {
+    "id": "0171fb6f-e65f-427e-be2f-30c5755ab839",
+    "url": "https://0171fb6f.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "82fafd52918edffdaa48f9ef7bad7c19f7529344"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "bff5beac-6019-4ba5-ad79-8d0e0ff7e718",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "5c14d3cb-120e-45f3-b3e7-51b2160a8ef5",
+      "percentage": 100
+    }
+  ],
+  "configuration": {
+    "operationKey": "ops:ranked-shop-rewards:20261101:v1",
+    "appliedAt": "2026-11-01T00:16:05.643Z",
+    "products": [
+      {
+        "id": "item_bundle_26fb7903",
+        "name": "엠퍼러 에너지",
+        "price": 100,
+        "accountLimit": 20
+      },
+      {
+        "id": "item_bundle_334fa816",
+        "name": "SSS 용병조각",
+        "price": 300,
+        "accountLimit": 5
+      },
+      {
+        "id": "item_bundle_c836c569",
+        "name": "미라클큐브",
+        "price": 10,
+        "accountLimit": 100
+      },
+      {
+        "id": "item_bundle_7ee1232f",
+        "name": "8방향 유도탄",
+        "price": 1000,
+        "accountLimit": 1
+      },
+      {
+        "id": "item_bundle_a846a0f2",
+        "name": "펫 세트",
+        "price": 100,
+        "accountLimit": 20
+      },
+      {
+        "id": "item_bundle_7a98a72c",
+        "name": "프라임 설계도",
+        "price": 2000,
+        "accountLimit": 1
+      },
+      {
+        "id": "item_bundle_1ecfaa09",
+        "name": "무기 강화 주문서",
+        "price": 200,
+        "accountLimit": 5
+      },
+      {
+        "id": "item_bundle_6fc79d25",
+        "name": "방어구 강화 주문서",
+        "price": 100,
+        "accountLimit": 10
+      }
+    ],
+    "sourceShopRevision": 40,
+    "sourceShopHash": "e27df787583591cd5f90824d9ca6de59f3f63cf2de7b15d408a1cb277f9168b6",
+    "pvpSeason": "시즌 25",
+    "duoSeasonId": "f70db529-aff2-403b-a1fb-c4c3ad6f8c57",
+    "duoSeasonName": "랭크 듀오 시즌 6",
+    "policyRevision": 5,
+    "duoRevision": 1,
+    "ordinaryCoinChallenger": {
+      "PVP": 50000000000000,
+      "DUO": 30000000000000
+    },
+    "rankedCoinChallenger": 3000,
+    "rounding": "FLOOR",
+    "beforeHashes": {
+      "loot_shop_policy_v1": "e27df787583591cd5f90824d9ca6de59f3f63cf2de7b15d408a1cb277f9168b6",
+      "pvp_settings_v1": "0d7afdad2c633a14eb27eb4b90e2da5cf0acec67caf9252b4d6b148cd9107e01",
+      "ranked_duo_weekly_policy_v3": "206d37390a85d2d9747b1890729f2ba46ddf8cdbae19de96a2cf553d1decef9e"
+    },
+    "afterHashes": {
+      "ranked_shop_policy_v1": "d4b71aa42174b9361ea53657664673e98b9240c9116702b1d148c0558f44532b",
+      "pvp_settings_v1": "e7b9821ee3e76fb867929c0dc729b92eb776b11027850d6217adc07eaf51f718",
+      "ranked_duo_weekly_policy_v3": "48c906e07781c036f26f84e19dc8299830de83b0190fddb78fe38742ff2614ce"
+    },
+    "duoConfigHash": "d30a337afe188b26641eef7bca2e27944d3db67d5fac0e9c809e84411c93f0f6",
+    "accountWrites": 0,
+    "retroactiveRewards": 0,
+    "auditId": "53578"
+  },
+  "verification": {
+    "uniqueRelatedTests": 97,
+    "newFeatureTests": 10,
+    "pcMobileWidths": [
+      1440,
+      390,
+      320
+    ],
+    "publicEngine": "WebKit",
+    "publicFiles": 19,
+    "shopPurchase": true,
+    "cmsSaveReload": true,
+    "pvpDuoRewardViews": [
+      {
+        "mode": "pvp",
+        "width": 1440,
+        "overflow": 0
+      },
+      {
+        "mode": "duo",
+        "width": 1440,
+        "overflow": 0
+      },
+      {
+        "mode": "pvp",
+        "width": 390,
+        "overflow": 0
+      },
+      {
+        "mode": "duo",
+        "width": 390,
+        "overflow": 0
+      }
+    ],
+    "failedAndNormalConfigRehearsalsRolledBack": true,
+    "independentReadOnly": true,
+    "replayWriteStatements": 0
+  },
+  "poster": {
+    "generator": "built-in image_gen",
+    "source": "C:/Users/User/.codex/generated_images/01a1945a-8ffa-71f2-b96f-3477be855c42/exec-2138c950-10b1-4b18-abad-22f9d5ec3d27.png",
+    "output": "output/announcements/ranked-shop-20261101/ranked-shop-poster.png",
+    "sha256": "4c91ce6fd67b90c51188f72dcc60db4c7df26f6a1cd0d22042bfc5d43cce4bc1",
+    "width": 1024,
+    "height": 1536,
+    "copyValidated": true,
+    "published": false,
+    "reference": "output/imagegen/ranked-coin-20261101/ranked-coin-source.png"
+  },
+  "productionAccountWrites": 0,
+  "retroactiveRewards": 0,
+  "messagesSent": 0,
+  "storageMaintenance": false
+}

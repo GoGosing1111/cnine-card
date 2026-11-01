@@ -1,0 +1,25 @@
+{
+  "reports": [
+    {
+      "mode": "pvp",
+      "width": 1440,
+      "overflow": 0
+    },
+    {
+      "mode": "duo",
+      "width": 1440,
+      "overflow": 0
+    },
+    {
+      "mode": "pvp",
+      "width": 390,
+      "overflow": 0
+    },
+    {
+      "mode": "duo",
+      "width": 390,
+      "overflow": 0
+    }
+  ],
+  "productionAccountWrites": 0
+}

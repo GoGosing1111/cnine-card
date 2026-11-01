@@ -1,0 +1,32 @@
+{
+  "before": {
+    "id": "23687241-a8f4-4c2a-a7f1-7e4382b26cca",
+    "url": "https://23687241.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "e8f9b4ba6846d9f658f87ec0e9a7c35e664814d2"
+  },
+  "base": "e8f9b4ba6846d9f658f87ec0e9a7c35e664814d2",
+  "reason": "고급 전리품 상점의 검증된 거래를 별도 랭크전 코인과 구매 기록으로 복제하고 PVP·듀오 시즌 티어 보상을 변경한다. 기존 인벤토리/정산 테이블을 사용하며 스키마·공통 인증·입장/전투 규칙 변경은 없다. 거래 실패원복·중복지급·기존상점·시즌정산·로비 연결 및 배포 포장 관련 검사만 실행한다. 첫 게이트의 거래/정산 포함 72검사는 통과했다. 미변경 서버 검사 반복 없이 새 메뉴 기대값, CMS 캐시 및 누락된 로컬 이미지에 관련된 3개 파일과 아직 실행하지 않은 검사를 이어서 실행한다. 나머지 회귀·포장 검사도 통과했다. 기존 공개 검증이 요구하는 app.js?v= 선두를 유지하고 기능 캐시 키만 뒤에 붙여 마지막 캐시 호환 검증을 재실행한다.",
+  "tests": [
+    "tests/navigation-contract-v1.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "passedPrevious": {
+    "commit": "d6ea4f6b6c00d3a2e4384300b2a79710c3199f68",
+    "tests": 72,
+    "failures": [
+      "expected navigation route list predates new shop",
+      "sparse checkout missing tracked challenger image",
+      "CMS cache query order"
+    ]
+  },
+  "passedRemaining": {
+    "commit": "4a8a9fd40a218798c0a53eb7fb308af14c8b5493",
+    "selectedTests": 14,
+    "lobby": true,
+    "releasePolicy": true,
+    "workerSyntax": true
+  }
+}

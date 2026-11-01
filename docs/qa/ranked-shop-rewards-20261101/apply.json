@@ -1,0 +1,85 @@
+{
+  "dryRun": false,
+  "replayed": false,
+  "receipt": {
+    "operationKey": "ops:ranked-shop-rewards:20261101:v1",
+    "appliedAt": "2026-11-01T00:16:05.643Z",
+    "products": [
+      {
+        "id": "item_bundle_26fb7903",
+        "name": "엠퍼러 에너지",
+        "price": 100,
+        "accountLimit": 20
+      },
+      {
+        "id": "item_bundle_334fa816",
+        "name": "SSS 용병조각",
+        "price": 300,
+        "accountLimit": 5
+      },
+      {
+        "id": "item_bundle_c836c569",
+        "name": "미라클큐브",
+        "price": 10,
+        "accountLimit": 100
+      },
+      {
+        "id": "item_bundle_7ee1232f",
+        "name": "8방향 유도탄",
+        "price": 1000,
+        "accountLimit": 1
+      },
+      {
+        "id": "item_bundle_a846a0f2",
+        "name": "펫 세트",
+        "price": 100,
+        "accountLimit": 20
+      },
+      {
+        "id": "item_bundle_7a98a72c",
+        "name": "프라임 설계도",
+        "price": 2000,
+        "accountLimit": 1
+      },
+      {
+        "id": "item_bundle_1ecfaa09",
+        "name": "무기 강화 주문서",
+        "price": 200,
+        "accountLimit": 5
+      },
+      {
+        "id": "item_bundle_6fc79d25",
+        "name": "방어구 강화 주문서",
+        "price": 100,
+        "accountLimit": 10
+      }
+    ],
+    "sourceShopRevision": 40,
+    "sourceShopHash": "e27df787583591cd5f90824d9ca6de59f3f63cf2de7b15d408a1cb277f9168b6",
+    "pvpSeason": "시즌 25",
+    "duoSeasonId": "f70db529-aff2-403b-a1fb-c4c3ad6f8c57",
+    "duoSeasonName": "랭크 듀오 시즌 6",
+    "policyRevision": 5,
+    "duoRevision": 1,
+    "ordinaryCoinChallenger": {
+      "PVP": 50000000000000,
+      "DUO": 30000000000000
+    },
+    "rankedCoinChallenger": 3000,
+    "rounding": "FLOOR",
+    "beforeHashes": {
+      "loot_shop_policy_v1": "e27df787583591cd5f90824d9ca6de59f3f63cf2de7b15d408a1cb277f9168b6",
+      "pvp_settings_v1": "0d7afdad2c633a14eb27eb4b90e2da5cf0acec67caf9252b4d6b148cd9107e01",
+      "ranked_duo_weekly_policy_v3": "206d37390a85d2d9747b1890729f2ba46ddf8cdbae19de96a2cf553d1decef9e"
+    },
+    "afterHashes": {
+      "ranked_shop_policy_v1": "d4b71aa42174b9361ea53657664673e98b9240c9116702b1d148c0558f44532b",
+      "pvp_settings_v1": "e7b9821ee3e76fb867929c0dc729b92eb776b11027850d6217adc07eaf51f718",
+      "ranked_duo_weekly_policy_v3": "48c906e07781c036f26f84e19dc8299830de83b0190fddb78fe38742ff2614ce"
+    },
+    "duoConfigHash": "d30a337afe188b26641eef7bca2e27944d3db67d5fac0e9c809e84411c93f0f6",
+    "accountWrites": 0,
+    "retroactiveRewards": 0,
+    "auditId": "53578"
+  }
+}

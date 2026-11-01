@@ -1,0 +1,47 @@
+{
+  "readOnly": true,
+  "constraints": [
+    {
+      "relname": "pvp_season_settlement_deliveries",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "relname": "pvp_season_settlement_deliveries",
+      "definition": "UNIQUE (settlement_id, user_id, reward_type)"
+    },
+    {
+      "relname": "inventory_items",
+      "definition": "PRIMARY KEY (code)"
+    },
+    {
+      "relname": "cnine_user_inventory",
+      "definition": "PRIMARY KEY (user_id, item_code)"
+    },
+    {
+      "relname": "loot_shop_purchases_v1",
+      "definition": "PRIMARY KEY (request_id)"
+    },
+    {
+      "relname": "loot_shop_packs_v1",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "relname": "loot_shop_packs_v1",
+      "definition": "UNIQUE (opened_request_id)"
+    }
+  ],
+  "triggers": [
+    {
+      "tgname": "cnine_sync_insert_v1",
+      "definition": "CREATE TRIGGER cnine_sync_insert_v1 AFTER INSERT ON public.cnine_user_inventory REFERENCING NEW TABLE AS new_rows FOR EACH STATEMENT EXECUTE FUNCTION cnine_account_sync_stamp_v1('user_id', 'inventory')"
+    },
+    {
+      "tgname": "cnine_sync_update_v1",
+      "definition": "CREATE TRIGGER cnine_sync_update_v1 AFTER UPDATE ON public.cnine_user_inventory REFERENCING OLD TABLE AS old_rows NEW TABLE AS new_rows FOR EACH STATEMENT EXECUTE FUNCTION cnine_account_sync_stamp_v1('user_id', 'inventory')"
+    },
+    {
+      "tgname": "cnine_sync_delete_v1",
+      "definition": "CREATE TRIGGER cnine_sync_delete_v1 AFTER DELETE ON public.cnine_user_inventory REFERENCING OLD TABLE AS old_rows FOR EACH STATEMENT EXECUTE FUNCTION cnine_account_sync_stamp_v1('user_id', 'inventory')"
+    }
+  ]
+}

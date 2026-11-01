@@ -1,0 +1,11 @@
+{
+  "generator": "built-in image_gen",
+  "source": "C:/Users/User/.codex/generated_images/01a1945a-8ffa-71f2-b96f-3477be855c42/exec-2138c950-10b1-4b18-abad-22f9d5ec3d27.png",
+  "output": "output/announcements/ranked-shop-20261101/ranked-shop-poster.png",
+  "sha256": "4c91ce6fd67b90c51188f72dcc60db4c7df26f6a1cd0d22042bfc5d43cce4bc1",
+  "width": 1024,
+  "height": 1536,
+  "copyValidated": true,
+  "published": false,
+  "reference": "output/imagegen/ranked-coin-20261101/ranked-coin-source.png"
+}

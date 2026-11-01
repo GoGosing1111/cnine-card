@@ -1,0 +1,36 @@
+Create a finished, premium Korean fantasy game announcement poster by compositing the supplied ranked-coin artwork into a new portrait poster. Use case: ads-marketing. Asset type: game update announcement for REVERSE CALL, portrait 2:3, high resolution, designed to remain readable on mobile.
+
+Input image: the supplied transparent golden medallion with sapphire blue enamel, crossed silver swords, a crown and laurels is the exact new ranked currency's visual reference and the hero insert. Preserve its recognizable design and proportions. Do not add people, game characters, logos from other games, shop screenshots, prices, dates or reward claims not specified below.
+
+Art direction: authoritative, luxurious game announcement, very dark midnight navy background, elegant gold borders, restrained cyan rim light, rich brushed-metal depth, subtle sapphire rays and sparse gold particles. Clear hierarchy and ample breathing room. No clutter, no ornate decoration covering letters. Large flawless Korean typography in a heavy clean sans-serif, numbers are especially clear. Crisp legible text, white and warm gold. A visually strong opening title, hero coin centered in the middle, then two beautifully aligned equal reward panels. The two reward modes must be equally prominent. Use the exact Korean text below and no additional copy.
+
+Top small brand: "REVERSE CALL"
+Largest headline: "랭크전 상점"
+Prominent cyan secondary headline: "OPEN"
+Supporting update label: "시즌 보상 개편"
+
+Place the large ranked coin under the headline. Below it, a clear shared caption:
+"챌린저 기준 · 시즌 종료 시 지급"
+
+Two reward panels below:
+Left panel:
+"PVP 랭크전"
+"일반 코인"
+"50조"
+"랭크전 코인 3,000개"
+
+Right panel:
+"랭크전 듀오"
+"일반 코인"
+"30조"
+"랭크전 코인 3,000개"
+
+Make 50조 and 30조 huge and unambiguous, each directly associated with the label 일반 코인. Make 랭크전 코인 3,000개 clearly separate on each panel; do not visually imply the ordinary coins and ranked coins are one currency.
+
+Footer, readable and visually calm:
+"하위 티어는 한 단계마다 절반 지급"
+"랭크전 코인은 소수점 버림"
+"랭크전 코인으로 전용 상점 이용"
+"현재 진행 중인 시즌부터 적용"
+
+Every Korean syllable must be spelled exactly. Keep all text and art inside safe margins. Deliver the complete polished poster with an opaque navy background.
