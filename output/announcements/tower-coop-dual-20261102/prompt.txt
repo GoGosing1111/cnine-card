@@ -1,0 +1,22 @@
+Use case: ads-marketing.
+Create a finished premium Korean fantasy game update announcement poster for the game 리버스콜. A polished vertical 2:3 poster, high resolution, crisp readable Korean lettering, deliberate spacious hierarchy suitable for mobile sharing.
+Visual: an immense luminous blue-violet infinite tower rises into the sky on the left, and an imposing bronze-and-obsidian battleground citadel glows amber on the right. Dramatic original fantasy environmental illustration, refined 2D game key art, detailed architecture, restrained particles, clean contrast. No generic stock characters, no extra heroes, no fake game screenshot. Integrate visual story behind the type with dark navy quiet areas for text. Gold and icy cyan accents, professional typography, elegant dividers, not a busy grid of tiny badges.
+Top small brand text exactly: "리버스콜"
+Large headline exactly: "새로운 한계에 도전하라"
+Subheading exactly: "무한의탑 · 격전지 업데이트"
+Main content in two clearly separated generous sections:
+"무한의탑 121~150층 확장"
+"신규 구간 보상 30% UP"
+"층이 높아질수록 더 커지는 보상"
+"기존 1~120층 보상 유지"
+"격전지 최상위 난이도 ‘초월’"
+"극한 대비 기본 보상 2배"
+"선택 보상은 극한과 동일"
+A strong lower ribbon with three clear features, each with a simple appropriate icon:
+"용병 최대 2명 편성"
+"격전지 2인 출발 가능"
+"격전지 카드·용병 즐겨찾기"
+Small but legible note below the two-mercenary feature:
+"SSS·SS 각각 1명까지 · 리미티드 포함"
+Footer: "리버스콜에서 지금 도전하세요"
+Constraints: Render every Korean line accurately and once. Emphasize 121~150, 30%, 2배, 2명 and 2인. The 2× reward applies ONLY to base battleground rewards, never choice rewards. No invented rewards, dates, coupons, QR codes, watermark, real people or additional text. Make the tower and citadel beautiful yet let the exact patch text dominate.

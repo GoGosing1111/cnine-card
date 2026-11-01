@@ -1,0 +1,23 @@
+{
+  "checks": [
+    {
+      "label": "desktop",
+      "pairSave": true,
+      "rankLimit": true,
+      "reload": true,
+      "lostResponseReplay": true,
+      "deckPair": true
+    },
+    {
+      "label": "mobile",
+      "pairSave": true,
+      "rankLimit": true,
+      "reload": true,
+      "lostResponseReplay": true,
+      "deckPair": true
+    }
+  ],
+  "errors": [],
+  "isolatedDb": true,
+  "productionWrites": 0
+}

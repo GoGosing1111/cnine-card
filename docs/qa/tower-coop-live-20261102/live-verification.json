@@ -1,0 +1,140 @@
+{
+  "at": "2026-11-01T23:51:56.727Z",
+  "pages": {
+    "id": "dcc25705-ddfe-4fc9-886c-53eb036d4589",
+    "url": "https://dcc25705.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "1dcfee261ba7965c0f1bbd4a38352c606484b180"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "704f4c6f-ac99-4c3e-80aa-c11b97f6e99a",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "8a54a35c-0c03-4264-96a3-4a0a8ba54451",
+      "percentage": 100
+    }
+  ],
+  "dualReleased": true,
+  "assets": [
+    {
+      "file": "index.html",
+      "bytes": 48983,
+      "sha256": "aa5cbe535f7991fbb56373561fc09ae21e91408b84a5eb6be30311fe063060fb"
+    },
+    {
+      "file": "service-worker.js",
+      "bytes": 22883,
+      "sha256": "f1dc67fbbd1bbc7d95e25e5b7f9e193a5c064f7919bf5bb1d895cdf3305350a3"
+    },
+    {
+      "file": "onestore/index.html",
+      "bytes": 48602,
+      "sha256": "f223ceaa1ba57d4b3db545fc5dd0f4d40b11787885f759b09ffda7cabd51f189"
+    },
+    {
+      "file": "js/app.js",
+      "bytes": 803365,
+      "sha256": "8562d737cabde93e98fb5e6395d558674e27145b4198ae097d2242d0fdc78f51"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "bytes": 798009,
+      "sha256": "88299349579322b2a7b3b3c87327f36c8b8820fede07cbc0fe548b4b7648cd24"
+    },
+    {
+      "file": "shared/companion-loadout-v2.mjs",
+      "bytes": 4643,
+      "sha256": "8fbe63131660048779f608781f72cae2a947474101ceb5f9cf13af1187d52d4b"
+    },
+    {
+      "file": "shared/ranked-series-v1.mjs",
+      "bytes": 3624,
+      "sha256": "0db0823879ccb9947a3450432d6eb2a83bbe046ac814d4b59562469ae232dd1a"
+    },
+    {
+      "file": "shared/cooperative-battleground-v1.mjs",
+      "bytes": 4020,
+      "sha256": "f4c59f0d904011e37b1cdf73eca997e5a99e44340924e3f7ad105cea16875e76"
+    },
+    {
+      "file": "shared/cooperative-rewards-v1.mjs",
+      "bytes": 3083,
+      "sha256": "f3158532163759da5289b4f9227a3f7f69ddb03a6347560a83432dad17d7afed"
+    },
+    {
+      "file": "shared/cooperative-settings-v1.mjs",
+      "bytes": 6187,
+      "sha256": "f85446268e1b8f254aade3bddd4a82291c94b6d5514aabc3cc8ab4e5ef1b90d3"
+    },
+    {
+      "file": "shared/cooperative-roster-v3.mjs",
+      "bytes": 4346,
+      "sha256": "cb2b152127c04bd21ac6513cf9f82d8bcd6179679e2f7048341defac19d1afcf"
+    },
+    {
+      "file": "shared/reward-reveal-contents-v1.mjs",
+      "bytes": 1194,
+      "sha256": "eb566fc711e2f15a608eabff33c23f470c381778ebb4deaeabc9e284f54c7f08"
+    },
+    {
+      "file": "js/tower-abyss-ui.js",
+      "bytes": 24342,
+      "sha256": "eef7ff8c3ffb3c11cff2a2be1b0275e536b2c8ee0ea4b072a4bd4d0ea6e00926"
+    },
+    {
+      "file": "js/cooperative-battleground-entry.js",
+      "bytes": 2515,
+      "sha256": "ea82e5d50fb9d4a28a6f2367c4dc1eeb5f0718964ebc077484e24aaf9a9baf87"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "bytes": 90741,
+      "sha256": "0647438db1e28b94e9dbbfbd3d90490c9fd1db9f726f1667e82f790387690cd9"
+    },
+    {
+      "file": "raid/cooperative/live.mjs",
+      "bytes": 52154,
+      "sha256": "b222f8481a3a599d35fcb47b7adf84a3c5d5498e4e9ab2660ff5f7348c60be49"
+    },
+    {
+      "file": "raid/cooperative/battle.mjs",
+      "bytes": 5906,
+      "sha256": "3bbe306d08e6c0a3e7857f981eb5afdd0f4cb0caed5b40e6dc3811d9640fa91b"
+    },
+    {
+      "file": "raid/cooperative/style.css",
+      "bytes": 32704,
+      "sha256": "8d74a3135c9cf161c33f1531d3d6d1eec2a1bd262be6b62111a94be86ae55c55"
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "bytes": 42304,
+      "sha256": "1538ed9e641070d630efe137b3ba1c2c904cd6d8e48dae74b1cf413c34188fab"
+    },
+    {
+      "file": "js/mercenary-deck-slot.mjs",
+      "bytes": 5190,
+      "sha256": "f183999e3ba3badba078aeb33fe0fdb823be60b0a946cfdd2b03a7d5ca0d3865"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "bytes": 2977124,
+      "sha256": "eff76838762f9d37b9b0c1f7da663c7ac91e8c956f1408710f11cd635435d169"
+    }
+  ],
+  "clientManifest": {
+    "releaseId": "ec78a96315862a81911e1fa40514adb6524728951fde39b10dd9afbe8e0c7de9",
+    "files": [
+      "/shared/companion-loadout-v2.mjs",
+      "/shared/ranked-series-v1.mjs",
+      "/raid/cooperative/live.mjs",
+      "/js/tower-abyss-ui.js"
+    ]
+  },
+  "accountWrites": 0,
+  "messagesSent": 0
+}

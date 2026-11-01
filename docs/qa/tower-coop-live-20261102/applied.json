@@ -1,0 +1,60 @@
+{
+  "at": "2026-11-01T23:52:08.290Z",
+  "sourceCommit": "1dcfee261ba7965c0f1bbd4a38352c606484b180",
+  "operations": [
+    {
+      "operationKey": "ops:tower-121-150:20261102:v1",
+      "version": "TOWER_121_150_20261102",
+      "status": "COMPLETED",
+      "completedAt": "2026-11-01T23:52:06.368Z",
+      "sourceCommit": "1dcfee261ba7965c0f1bbd4a38352c606484b180",
+      "seasonId": 1,
+      "maxFloor": 150,
+      "beforeHash": "214c901e05ab4402408bad5ea8ea1d6ee19e9a5e27aded4981782af8cefafef4",
+      "planHash": "7dc817bc1f78e77b8d41032b6073c256447251f1b88ac1c11c4875cde71a32c7",
+      "afterHash": "2bec250cb7991cfc6ec9cdcbdc3992e03649a49b09446b2f097f9de6ef257838",
+      "totalNewCoin": 23885097600000,
+      "addedFloors": 30,
+      "preservedFloors": 120,
+      "progressReset": false,
+      "retroactiveGrant": false,
+      "accountWrites": 0,
+      "pendingBattleChanges": 0,
+      "adminLogId": "53779"
+    },
+    {
+      "operationKey": "ops:coop-transcend:20261102:v1",
+      "status": "COMPLETED",
+      "sourceCommit": "1dcfee261ba7965c0f1bbd4a38352c606484b180",
+      "completedAt": "2026-11-01T23:52:07.817Z",
+      "beforeHash": "a7de6d6b24d81630c2948859d9989c4e20bd0583d9619c99c648127d493ab9c3",
+      "planHash": "f7eee0161b10e8fdac71f0b1468e517631bfa3f9cf9deae0e765386d179810e2",
+      "revision": 14,
+      "baseReward": {
+        "id": "TRANSCEND",
+        "coin": 400000000000,
+        "masterStars": 4000000,
+        "items": [
+          {
+            "code": "EMPEROR_ENERGY",
+            "quantity": 2
+          },
+          {
+            "code": "PET_SEAL_ORB",
+            "quantity": 6
+          },
+          {
+            "code": "PET_POTENTIAL_POTION",
+            "quantity": 2
+          }
+        ]
+      },
+      "choiceQuantityMultiplier": 1,
+      "accountWrites": 0,
+      "oldDifficultyChanges": 0,
+      "existingRoomChanges": 0,
+      "adminLogId": "53780"
+    }
+  ],
+  "accountWrites": 0
+}

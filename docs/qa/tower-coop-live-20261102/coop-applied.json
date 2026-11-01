@@ -1,0 +1,37 @@
+{
+  "dryRun": false,
+  "replayed": false,
+  "receipt": {
+    "operationKey": "ops:coop-transcend:20261102:v1",
+    "status": "COMPLETED",
+    "sourceCommit": "1dcfee261ba7965c0f1bbd4a38352c606484b180",
+    "completedAt": "2026-11-01T23:52:07.817Z",
+    "beforeHash": "a7de6d6b24d81630c2948859d9989c4e20bd0583d9619c99c648127d493ab9c3",
+    "planHash": "f7eee0161b10e8fdac71f0b1468e517631bfa3f9cf9deae0e765386d179810e2",
+    "revision": 14,
+    "baseReward": {
+      "id": "TRANSCEND",
+      "coin": 400000000000,
+      "masterStars": 4000000,
+      "items": [
+        {
+          "code": "EMPEROR_ENERGY",
+          "quantity": 2
+        },
+        {
+          "code": "PET_SEAL_ORB",
+          "quantity": 6
+        },
+        {
+          "code": "PET_POTENTIAL_POTION",
+          "quantity": 2
+        }
+      ]
+    },
+    "choiceQuantityMultiplier": 1,
+    "accountWrites": 0,
+    "oldDifficultyChanges": 0,
+    "existingRoomChanges": 0,
+    "adminLogId": "53780"
+  }
+}

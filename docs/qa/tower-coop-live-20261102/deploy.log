@@ -1,0 +1,150 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"ef3762fcfec7aac5451f796ca5e560f2714070ab","reason":"사용자 배포 승인: 무한의탑 121~150 신규 보상 +30%, 격전지 초월 기본2배/선택동일·즐겨찾기·2인 출발, 용병2명 편성과 랭크 차전별2명 출시. 기존 계정/성장/지급/120층/3난이도 및 흑익 완료기록 수정 보존. 2용병 전 콘텐츠·저장·정산과 PC/모바일 확인, 관련 회귀만 선정.","changed":["AGENTS.md","admin/cooperative-admin.mjs","admin/cooperative-rewards.mjs","admin/index.html","docs/qa/blackwing-trophy-progress-20261102/README.md","docs/qa/blackwing-trophy-progress-20261102/completion.json","docs/qa/blackwing-trophy-progress-20261102/independent-readonly.json","docs/qa/blackwing-trophy-progress-20261102/live-verification.json","docs/qa/blackwing-trophy-progress-20261102/recover.mjs.source.txt","docs/qa/coop-transcend-20261102/README.md","docs/qa/coop-transcend-20261102/activation-plan.json","docs/qa/coop-transcend-20261102/additional-tests.log","docs/qa/coop-transcend-20261102/balance-final.json","docs/qa/coop-transcend-20261102/balance-power-10.json","docs/qa/coop-transcend-20261102/balance-power-60.json","docs/qa/coop-transcend-20261102/baseline-cms.log","docs/qa/coop-transcend-20261102/baseline-energy.log","docs/qa/coop-transcend-20261102/baseline-roster.log","docs/qa/coop-transcend-20261102/baseline.json","docs/qa/coop-transcend-20261102/browser-run.log","docs/qa/coop-transcend-20261102/browser/battle-1440.png","docs/qa/coop-transcend-20261102/browser/battle-390.png","docs/qa/coop-transcend-20261102/browser/entry-1440.png","docs/qa/coop-transcend-20261102/browser/entry-390.png","docs/qa/coop-transcend-20261102/browser/failure.png","docs/qa/coop-transcend-20261102/browser/favorites-ready-1440.png","docs/qa/coop-transcend-20261102/browser/favorites-ready-390.png","docs/qa/coop-transcend-20261102/browser/report.json","docs/qa/coop-transcend-20261102/browser/result-1440.png","docs/qa/coop-transcend-20261102/browser/result-390.png","docs/qa/coop-transcend-20261102/choice-reward-correction.json","docs/qa/coop-transcend-20261102/choice-reward-correction.log","docs/qa/coop-transcend-20261102/choice-reward-destination-retest.log","docs/qa/coop-transcend-20261102/delivery-preflight.json","docs/qa/coop-transcend-20261102/delivery-tests.log","docs/qa/coop-transcend-20261102/final-readonly.json","docs/qa/coop-transcend-20261102/loader-tests.log","docs/qa/coop-transcend-20261102/new-tests.log","docs/qa/coop-transcend-20261102/regression.log","docs/qa/coop-transcend-20261102/verification.json","docs/qa/tower-121-150-20261102/README.md","docs/qa/tower-121-150-20261102/activation-plan.json","docs/qa/tower-121-150-20261102/balance.json","docs/qa/tower-121-150-20261102/browser/1440-121-battle.png","docs/qa/tower-121-150-20261102/browser/1440-121-entry.png","docs/qa/tower-121-150-20261102/browser/1440-121-result.png","docs/qa/tower-121-150-20261102/browser/1440-150-battle.png","docs/qa/tower-121-150-20261102/browser/1440-150-result.png","docs/qa/tower-121-150-20261102/browser/390-121-battle.png","docs/qa/tower-121-150-20261102/browser/390-121-entry.png","docs/qa/tower-121-150-20261102/browser/390-121-result.png","docs/qa/tower-121-150-20261102/browser/390-150-battle.png","docs/qa/tower-121-150-20261102/browser/390-150-result.png","docs/qa/tower-121-150-20261102/browser/verification.json","docs/qa/tower-121-150-20261102/delivery-preflight.json","docs/qa/tower-121-150-20261102/floor-plan.json","docs/qa/tower-coop-live-20261102/README.md","docs/qa/tower-coop-live-20261102/activate.mjs.source.txt","docs/qa/tower-coop-live-20261102/before.json","docs/qa/tower-coop-live-20261102/companion-regression-final.log","docs/qa/tower-coop-live-20261102/delivery-tests.log","docs/qa/tower-coop-live-20261102/deployment-plan.json","docs/qa/tower-coop-live-20261102/inspect.mjs.source.txt","docs/qa/tower-coop-live-20261102/regression.log","docs/qa/tower-coop-live-20261102/rehearsal.json","docs/qa/tower-coop-live-20261102/release-tests-final.log","docs/qa/tower-coop-live-20261102/release-tests-initial.log","docs/qa/tower-coop-live-20261102/release.mjs.source.txt","docs/qa/tower-coop-live-20261102/verification.json","functions/_battle_v2_preview.js","functions/_cooperative_battle.js","functions/_cooperative_enemies.js","functions/_cooperative_energy.js","functions/_cooperative_favorites.js","functions/_cooperative_live.js","functions/_cooperative_room.js","functions/_cooperative_settings.js","index.html","js/app.js","js/battle-v3-live.js","js/cooperative-battleground-entry.js","js/tower-abyss-ui.js","onestore/index.html","onestore/js/app.js","packaging/onestore/web-build.json","preview/project-v-v3/grid-build-report.json","preview/sustained-hunt-v2/engine-build.json","preview/v3-wide-grid-v1/app.bundle.js","raid/cooperative/battle.mjs","raid/cooperative/live.mjs","raid/cooperative/style.css","scripts/measure-coop-baseline-regressions-20261102.mjs","scripts/measure-coop-transcend-20261102.mjs","scripts/measure-tower-121-150-20261102.mjs","scripts/ops/coop-transcend-20261102.mjs","scripts/ops/tower-121-150-apply-20261102.mjs","scripts/ops/tower-121-150-policy-20261102.mjs","scripts/prepare-production-assets.mjs","service-worker.js","shared/companion-loadout-v2.mjs","shared/cooperative-battleground-v1.mjs","shared/cooperative-rewards-v1.mjs","shared/cooperative-roster-v3.mjs","shared/cooperative-settings-v1.mjs","shared/onestore-web-assets-v1.mjs","shared/reward-reveal-contents-v1.mjs","tests/companion-preparation-20261002.test.mjs","tests/coop-transcend-20261102.browser.mjs","tests/coop-transcend-20261102.test.mjs","tests/cooperative-cms.test.mjs","tests/dual-mercenary-account-20261028.browser.mjs","tests/dual-mercenary-account-20261028.test.mjs","tests/dual-mercenary-content-audit-20261028.test.mjs","tests/dual-mercenary-ranked-20261028.test.mjs","tests/fixtures/tower-expansion-20261102.json","tests/helpers/cooperative-miniflare.mjs","tests/helpers/legion-hunt-fixture.mjs","tests/helpers/tower-expansion-20261102.mjs","tests/operation-audit-packaging-20261029.test.mjs","tests/ranked-dual-release-20261102.browser.mjs","tests/reward-reveal-20261016.test.mjs","tests/tower-121-150-20261102.browser.mjs","tests/tower-121-150-20261102.test.mjs","workers/api-runtime/src/cooperative.js"],"tests":["tests/tower-121-150-20261102.test.mjs","tests/coop-transcend-20261102.test.mjs","tests/dual-mercenary-account-20261028.test.mjs","tests/dual-mercenary-ranked-20261028.test.mjs","tests/dual-mercenary-content-audit-20261028.test.mjs","tests/operation-audit-packaging-20261029.test.mjs","tests/onestore-web-20261026.test.mjs","tests/pve-battlefield-entry-v2117.test.mjs"],"checks":["check:worker"]}
+✔ prepared tier preserves every previous combat/reward row and doubles only base extreme quantities (5.5235ms)
+✔ two-player departure requires both ready and the host; join locks at departure (186.7801ms)
+✔ three-player auto departure and old serialized room minimum remain intact; two players also work with one mercenary (82.5405ms)
+✔ upper-tier HP is applied beyond generic 1200% cap; previous tiers stay byte-identical (243.8262ms)
+✔ favorites persist per account/type, stay idempotent, require ownership and cap each type (155.529ms)
+✔ SQLite two-player energy, doubled base and unchanged choice settlement and rollback are atomic and replay safe (21.5618ms)
+✔ PostgreSQL two-player energy, doubled base and unchanged choice settlement and rollback are atomic and replay safe (4183.3961ms)
+✔ choice draws and fallback match extreme for every weighted outcome, including single mercenary copies (52.6676ms)
+✔ activation dry run, every partial failure, stale hashes and SELECT-only replay preserve existing data (2066.6681ms)
+✔ SQLite prepared saved pairs preserve single slots, isolate modes, roll back and replay safely (170.4691ms)
+✔ PostgreSQL prepared saved pairs preserve single slots, isolate modes, roll back and replay safely (4236.6786ms)
+✔ SQLite ranked duo profiles retain both owned choices in order and segregate cached single rules (221.1865ms)
+✔ pipeline ranked duo profiles retain both owned choices in order and segregate cached single rules (2626.7456ms)
+✔ client slots and duo potential enforce SS/SSS limits including LIMITED (3.2736ms)
+✔ NORMAL: actual content builder retains each mercenary, regular cards and distinct identities (4.6265ms)
+✔ NIGHTMARE: actual content builder retains each mercenary, regular cards and distinct identities (1.086ms)
+✔ APOCALYPSE: actual content builder retains each mercenary, regular cards and distinct identities (7.0818ms)
+✔ SCRAPYARD: actual content builder retains each mercenary, regular cards and distinct identities (4.4122ms)
+✔ COW: actual content builder retains each mercenary, regular cards and distinct identities (4.1294ms)
+✔ TOWER: actual content builder retains each mercenary, regular cards and distinct identities (8.4061ms)
+✔ IDLE_WIN: actual content builder retains each mercenary, regular cards and distinct identities (1.0052ms)
+✔ IDLE_LOSS: actual content builder retains each mercenary, regular cards and distinct identities (1.0612ms)
+✔ CORE_CORE: actual content builder retains each mercenary, regular cards and distinct identities (2.1319ms)
+✔ CORE_BOSS: actual content builder retains each mercenary, regular cards and distinct identities (2.1328ms)
+✔ LEGION: actual content builder retains each mercenary, regular cards and distinct identities (11.9485ms)
+✔ LICH: actual content builder retains each mercenary, regular cards and distinct identities (0.9486ms)
+✔ MADARA: actual content builder retains each mercenary, regular cards and distinct identities (0.423ms)
+✔ BLACKWING: actual content builder retains each mercenary, regular cards and distinct identities (0.3667ms)
+✔ COOP: actual content builder retains each mercenary, regular cards and distinct identities (13.7439ms)
+✔ DUO: actual content builder retains each mercenary, regular cards and distinct identities (4.425ms)
+✔ released server snapshots accept two mercenaries and retain legacy single snapshots (168.8063ms)
+✔ cooperative and duo pairs enforce SS/SSS INCLUDING LIMITED per owner; shared codes across owners remain valid (70.4217ms)
+✔ cooperative and duo owner layouts have no collisions at PC/mobile, including a missing first squad mercenary (0.7476ms)
+✔ escort continuation preserves each code health and allows the second survivor after JSON reconnect (15.6209ms)
+✔ seal and territory use both canonical mercenary powers, with separate replay fighters (1.0416ms)
+✔ cooperative difficulty increases captured enemies, remains party-independent and leaves single rooms unchanged (72.9443ms)
+✔ dual cooperative room freezes both selections and difficulty across restore; forfeiting removes precisely four owner actors (99.305ms)
+✔ cooperative two-slot selection requires two owned, distinct codes and retains the two-card contract (0.5548ms)
+✔ SQLite: explicit prepared pair uses actual owned snapshots and cannot change saved account slots (59.0482ms)
+✔ PostgreSQL: explicit prepared pair uses actual owned snapshots and cannot change saved account slots (4125.0414ms)
+✔ OWNER cooperative and ranked-duo preparation APIs return per-owner pairs without DB writes (2029.7008ms)
+✔ blackwing v3 full mechanic clear preserves both mercenaries per owner: WING (763.5659ms)
+✔ blackwing v3 full mechanic clear preserves both mercenaries per owner: BLADE (558.3113ms)
+✔ seal and dragon dual playback split one committed contribution without double damage (5.2237ms)
+✔ released PVE pairs and ranked six selections preserve explicit legacy rules (33.9787ms)
+✔ both companions act in canonical PVE and PVP at card power 1000000 (26.9419ms)
+✔ both companions act in canonical PVE and PVP at card power 20000000 (21.9899ms)
+✔ both companions act in canonical PVE and PVP at card power 100000000 (22.4708ms)
+✔ two slots reject repeated codes, repeated SS and malformed regular decks (1.2797ms)
+✔ current premium cadence is earned independently without cross-credit or starvation (4.6424ms)
+✔ six unique selections form three valid pairs; each round starts fresh and stops at two wins (2.2766ms)
+✔ real ranked pairs match individually simulated deterministic battles (46.7401ms)
+✔ SQLite dual roster, ticket privacy, ownership rollback and one settlement (80.2756ms)
+✔ PostgreSQL dual roster, ticket privacy, ownership rollback and one settlement (3825.64ms)
+✔ OWNER dual preview is read-only and rejects stale revisions and injected stats (2203.8446ms)
+✔ OWNER ranked preview validates six canonical selections and returns two actors every round (1636.9577ms)
+✔ two mercenaries use unique occupied stations while every existing station stays fixed (0.9783ms)
+✔ SSS including LIMITED and SS each occupy at most one slot; different S or lower mercenaries may pair (20.5438ms)
+✔ store documents retain edition and cannot route to excluded/admin documents (2.3945ms)
+✔ actual entry installs policy and official SDK before game scripts with correct variants (12.0858ms)
+✔ standalone pet imports and navigation use the same restrictions (3.5102ms)
+✔ Pages serves HTML from assets without API/account writes and with iframe headers (43.7244ms)
+✔ root compatibility redirect preserves ordinary web and native Android edition (4.6282ms)
+✔ H5 public runtime is shipped while source packaging remains outside Pages assets (1.9071ms)
+✔ generated web edition matches current approved client sources and SDK policy (429.3032ms)
+✔ operational receipts stay in Git while live combat files fit the Pages boundary (1181.9748ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes: js/app.js (149.9081ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes: onestore/js/app.js (73.7866ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (19.3879ms)
+✔ classic colosseum background is confined to the explicitly tagged PVP replay (0.3169ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (13.6883ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (38.672ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (40.3754ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (71.0876ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (10.7917ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (5.5483ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (2.4594ms)
+✔ 30 new floors: ascending safe powers, ordinary rewards per floor, exact 30% per decade, separate guardian rewards (5.5729ms)
+✔ stale, missing, overlapping or altered baseline requires a fresh review (4.2337ms)
+✔ local PostgreSQL activation is atomic, append-only, protected by hashes, and replay performs zero writes (3834.45ms)
+✔ actual operating routes: 120 completion opens 121, two Lv.21 actors settle new rewards once, 150 completes and 151 is refused (3571.5734ms)
+✔ level and composition affect combat while every new encounter has 28 unique units and one-floor progression (214.2006ms)
+ℹ tests 82
+ℹ suites 0
+ℹ pass 82
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9474.2185
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] tower-coop-dual-20261102-v2-blackwing-confirm8-20261101-v1-pepegu-ranked-rental-20261101-v1-trophy-renewal-20261101-v1-blackwing-reward20t-scroll30-20261101-v1-equipment-11-15-glow-20261101-v1-equipment-plus10-glow-20261101-v1-support-package-500t-20261101-v1-battle-resource-recovery-20261101-v1-support-package-clients-20261101-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-growth-guide-20261030-v1-blackcrown-opening-20261031-unique-v1-clan-kick-off-20261030-v1-tactical-shell-20261030-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-chat-squad-20261029-v1-territory-mobile-20261029-v1-heukmu-live-20261029-v1-omega-craft-20261029-v1-lobby-restore-20261029-v1-clan-elder-kick-20261029-v1-limited-220-20261029-v1-legion-ascendant-20261029-v1-blackwing-rewards-20261029-v1-lobby-pretendard-20261029-v5-icon-diim-front-20261029-v1-damage-hp-sync-20261029-v1-war-chat-20261028-v1-raid-rewards-20261028-v1-kamishiro-live-20261028-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-soop-watch-repeat-20261028-v1-blackwing-bloodscale-20261028-v3-classic-colosseum-20261027-v2-blackcrown-shop-sss-20261027-v1-blackcrown-sss-20261027-v1-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-age-ratings-20261027-v1-revan-general-jok-20261027-v2-blackcrown-live-20261027-v1-jokro-motion-20261027-v1-blackcrown-buttons-20261027-v4-support-package-hide-20261026-v1-soop-watch-consent-20261026-v1-bloodmoon-namsudaeng-timeout-20261026-v1-isgen-input-recovery-20261026-v1-prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261031-v11-yeondu-yunseul-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1-icon-four-20261029-arden-craft-20261029-v1-pet-pepegu-20261101-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 12373 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.156.1)
+───────────────────────────────────────────────
+Total Upload: 9018.90 KiB / gzip: 1940.00 KiB
+Worker Startup Time: 55 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object
+env.DB (cnine-card-db)                                                    D1 Database
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config
+
+Uploaded cnine-card-api-runtime (5.14 sec)
+No targets deployed for cnine-card-api-runtime (0.66 sec)
+Current Version ID: 704f4c6f-ac99-4c3e-80aa-c11b97f6e99a
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.156.1)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19977/20000)
+Uploading... (19985/20000)
+Uploading... (19992/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 23 files (19977 already uploaded) (3.46 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://dcc25705.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.156.1)
+───────────────────────────────────────────────
+Total Upload: 3437.61 KiB / gzip: 763.09 KiB
+Worker Startup Time: 54 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config
+
+Uploaded cnine-card-clan-draft (4.12 sec)
+Deployed cnine-card-clan-draft triggers (0.84 sec)
+  schedule: * * * * *
+Current Version ID: 8a54a35c-0c03-4264-96a3-4a0a8ba54451

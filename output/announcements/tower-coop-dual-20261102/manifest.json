@@ -1,0 +1,15 @@
+{
+  "generator": "built-in image_gen",
+  "prompt": "prompt.txt",
+  "image": "tower-coop-dual-patch-v1.png",
+  "width": 1024,
+  "height": 1536,
+  "sha256": "ee828f93fe7e7b8a9e50be2a0112e8a336f9361e538777dac9dae263d2be676e",
+  "source": "C:/Users/User/.codex/generated_images/01a197fe-a417-7d50-8ea2-b7852b6d2f37/exec-45dcf182-aa93-41a4-8b31-53ca5a0add0b.png",
+  "visualReview": "All required Korean patch labels reviewed; base x2 and unchanged choice reward are distinct.",
+  "published": false,
+  "sourceCommit": "1dcfee261ba7965c0f1bbd4a38352c606484b180",
+  "deploymentVerified": true,
+  "deployedAt": "2026-11-01T23:51:40.321Z",
+  "configurationAppliedAt": "2026-11-01T23:52:08.290Z"
+}

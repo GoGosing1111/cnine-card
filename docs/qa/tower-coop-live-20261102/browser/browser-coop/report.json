@@ -1,0 +1,35 @@
+{
+  "at": "2026-11-01T23:41:16.553Z",
+  "isolatedDualReview": false,
+  "sourceDualRelease": true,
+  "temporaryFixture": "C:\\Users\\User\\AppData\\Local\\Temp\\cooperative-qa-78tIo3",
+  "reports": [
+    {
+      "width": 1440,
+      "difficulty": "TRANSCEND",
+      "result": "DEFEAT",
+      "players": 2,
+      "mercenaries": 4,
+      "level": 21,
+      "favorites": {
+        "cards": 2,
+        "mercenaries": 2
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "difficulty": "NORMAL",
+      "result": "VICTORY",
+      "players": 2,
+      "mercenaries": 4,
+      "level": 21,
+      "favorites": {
+        "cards": 2,
+        "mercenaries": 2
+      },
+      "errors": []
+    }
+  ],
+  "metadataCorrection": "Old report writer hardcoded preparation flags; this run used released source with no dualReview override."
+}
