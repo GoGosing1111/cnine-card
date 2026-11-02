@@ -1,0 +1,13 @@
+✔ both champions gain real attack/cap and durability after linkage, preserving injury and innate cadence (6.8014ms)
+✔ growth and equipment retain their values, and re-entry cannot heal or compound the buff (9.0561ms)
+✔ PVE and existing General Jok priority keep their own policies without stacking (2.9496ms)
+✔ canonical team battles apply the same boost to either side with an SS companion (46.558ms)
+✔ duo respects owner equipment and only buffs the two eligible champions (7.6051ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 291.1455

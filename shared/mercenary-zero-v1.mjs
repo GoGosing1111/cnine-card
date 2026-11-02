@@ -1,4 +1,8 @@
 import {LEONEL_COMBAT} from './mercenary-leonel-v1.mjs';
+// Prime and Zero share the highest PVP tier at equal growth/equipment.
+// A deterministic entry-time stat boost; never chooses or rewrites a winner.
+export const PRIME_ZERO_PVP=Object.freeze({version:'20261102-prime-zero-pvp-v1',attackScale:1.3,durabilityScale:6});
+export const PRIME_ZERO_PVP_DESCRIPTION=` PVP 최상위 보정: 성장·장비·연계 적용 후 공격력과 기본 공격 피해 상한이 ${Math.round((PRIME_ZERO_PVP.attackScale-1)*100)}%, 최대 체력과 방벽이 ${Math.round((PRIME_ZERO_PVP.durabilityScale-1)*100)}% 증가합니다. 기존 제너럴 족 전용 우위와 중첩하지 않으며 PVE 능력치는 유지됩니다.`;
 
 // User-approved platinum blade wings; 3,000,000 power from 2026-10-25, acquisition OFF.
 export const ZERO_CODE='V-976';
@@ -35,7 +39,7 @@ export const ZERO_ART=Object.freeze({
  artWindow:Object.freeze({left:5.957,top:5.794,width:88.086,height:88.086}),accent:'#a8ecff',
  basePower:ZERO_COMBAT.basePower,skills:Object.freeze([...ZERO_BASIC_FORMS,...ZERO_AREA_SKILLS]),
  acquisitionEnabled:false,packAcquisitionEnabled:false,deploymentEnabled:true,
- combatLinkDescription:'기본 전투력 3,000,000. 공격·체력·방어·연계는 전투력에 비례하며 기존 속도와 행동 주기를 유지합니다. 개인 피해 80% 경감, 상태이상·반격 보호. 청광 횡단·섬광 연참·용궤 검격이 일반 공격마다 순환하며 피해가 기존의 1.5배입니다. PVE 천검 포위·창천 종단은 교대로 발동하며, 각 시전의 총 3,024% 피해를 생존한 적 전체에 나누어 적용합니다. 두 광역기는 에너지 35·재사용 5행동을 공유합니다. 백금 검익·흰 망토·흰 네온 윤곽. 현재 획득 불가.'+ZERO_PRIME_GENERAL_JOK_DESCRIPTION
+ combatLinkDescription:'기본 전투력 3,000,000. 공격·체력·방어·연계는 전투력에 비례하며 기존 속도와 행동 주기를 유지합니다. 개인 피해 80% 경감, 상태이상·반격 보호. 청광 횡단·섬광 연참·용궤 검격이 일반 공격마다 순환하며 피해가 기존의 1.5배입니다. PVE 천검 포위·창천 종단은 교대로 발동하며, 각 시전의 총 3,024% 피해를 생존한 적 전체에 나누어 적용합니다. 두 광역기는 에너지 35·재사용 5행동을 공유합니다. 백금 검익·흰 망토·흰 네온 윤곽. 현재 획득 불가.'+ZERO_PRIME_GENERAL_JOK_DESCRIPTION+PRIME_ZERO_PVP_DESCRIPTION
 });
 export const zeroCodexSkills=()=>ZERO_ART.skills.map(s=>({...s,ready:true,target:s.basicForm?'적 1명':'적 전체',
  effect:s.basicForm?'일반 공격이 세 동작으로 순환합니다. 여러 검격도 기존의 1.5배로 강화한 일반 공격 한 번의 피해를 적용합니다.':'생존한 적 전체에 총 3,024% 피해를 나누어 대상당 한 번 적용합니다.',

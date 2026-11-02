@@ -7,7 +7,7 @@ import {isAwakenedOmega,AWAKENED_OMEGA_COMBAT} from './mercenary-awakened-omega-
 import {isEunseol,EUNSEOL_COMBAT} from './mercenary-eunseol-v1.mjs';
 import {isGeneralJok,GENERAL_JOK_COMBAT} from './mercenary-general-jok-v1.mjs';
 import {isPrime,PRIME_COMBAT} from './mercenary-prime-requiem-v1.mjs';
-import {isZero,ZERO_COMBAT,ZERO_PRIME_GENERAL_JOK_PRIORITY} from './mercenary-zero-v1.mjs';
+import {isZero,ZERO_COMBAT,ZERO_PRIME_GENERAL_JOK_PRIORITY,PRIME_ZERO_PVP} from './mercenary-zero-v1.mjs';
 import {isLeonel,LEONEL_COMBAT} from './mercenary-leonel-v1.mjs';
 import {IMPERIAL_ARCHER_COMBAT,isImperialArcher} from './mercenary-kangyun-v1.mjs';
 import {isJokro,JOKRO_COMBAT} from './mercenary-jokro-v1.mjs';
@@ -80,9 +80,10 @@ export const mercenaryEffectiveAttack=actor=>Math.max(Number(actor.attack)||0,ac
 export const mercenaryPvpTierOffense=actor=>actor.isMercenary&&actor.battleMode==='PVP'?Math.max(1,Number(actor.mercenaryLink?.tierOffense)||1):1;
 // Tier durability must not increase the incoming hit budget by the same factor;
 // otherwise a lower-rank capped skill erases the entire defensive correction.
-export const mercenaryDamageCapHp=target=>(mercenaryGrowthDamageCapHp(target)/Math.max(1,Number(target.mercenaryLink?.rankGrowth?.hpScale)||1)+(target.isMercenary?Number(target.mercenaryLink?.openingShield)||0:0))/(target.isMercenary?Math.max(1,Number(target.mercenaryLink?.tierGuard)||1):1);
+export const mercenaryDamageCapHp=target=>(mercenaryGrowthDamageCapHp(target)/Math.max(1,Number(target.mercenaryLink?.rankGrowth?.hpScale)||1)+(target.isMercenary?Number(target.mercenaryLink?.openingShield)||0:0))/(target.isMercenary?Math.max(1,Number(target.mercenaryLink?.tierGuard)||1)*Math.max(1,Number(target.mercenaryLink?.primeZeroPvp?.durabilityScale)||1):1);
 
 export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
+ const initialized=new Set();
  const formations=teams.flatMap(team=>team.some(c=>c.ownerId)?[...new Set(team.map(c=>c.ownerId))].map(ownerId=>team.filter(c=>c.ownerId===ownerId)):[team]);
  for(const team of formations){
   const cards=team.filter(c=>!c.isMercenary&&!c.isMonster&&!c.isBattleSuit&&c.actorKind!=='BATTLE_SUIT');
@@ -123,6 +124,7 @@ export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
    }
    m.mercenaryLink={version:MERCENARY_COMBAT_LINK.version,attackFloor,hpFloor,openingShield,tierGuard,tierOffense,...(ssLimitedProfile(m)?{ssLimitedMatchupScale:matchupScale}:{})};
    m.shield+=openingShield;m.maxShield=Math.max(m.maxShield,m.shield);
+   initialized.add(m);
   }
  }
  for(const actor of teams.flat())applyMercenaryLevelStats(actor);
@@ -153,5 +155,18 @@ export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
   actor.speed=speed;if(actor.stats)actor.stats={...actor.stats,speed};
   actor.shield+=openingShield-link.openingShield;actor.maxShield=Math.max(actor.maxShield,actor.shield);
   actor.mercenaryLink={...link,attackFloor,hpFloor,openingShield,primeZeroGeneralJokPriority:{version:policy.version,opponentIds:opponents.map(o=>o.id),reference}};
+ }
+ // Only freshly linked fighters receive this once. Replaying an already
+ // captured fight must not heal, compound stats, or upgrade an older receipt.
+ for(const actor of initialized){
+  const link=actor.mercenaryLink;
+  if(!(isPrime(actor)||isZero(actor))||actor.battleMode!=='PVP'||link.primeZeroGeneralJokPriority)continue;
+  const {attackScale,durabilityScale}=PRIME_ZERO_PVP;
+  const ratio=actor.hp/actor.maxHp;
+  const attack=Math.round(actor.attack*attackScale),attackFloor=Math.round(link.attackFloor*attackScale),hpFloor=Math.round(link.hpFloor*durabilityScale);
+  const maxHp=Math.round(actor.maxHp*durabilityScale),shield=Math.round(actor.shield*durabilityScale),maxShield=Math.round(actor.maxShield*durabilityScale),openingShield=Math.round(link.openingShield*durabilityScale);
+  if(![attack,attackFloor,hpFloor,maxHp,shield,maxShield,openingShield].every(Number.isSafeInteger))throw Error('INVALID_MERCENARY_COMBAT_LINK');
+  Object.assign(actor,{attack,maxHp,hp:Math.round(maxHp*ratio),shield,maxShield});
+  actor.mercenaryLink={...link,attackFloor,hpFloor,openingShield,tierOffense:link.tierOffense*attackScale,primeZeroPvp:{...PRIME_ZERO_PVP}};
  }
 }

@@ -1,0 +1,19 @@
+{
+  "conditions": "Prime/Zero lineups actually swap A/B for each shared seed; identical SS companion and growth/equipment.",
+  "rows": [
+    {
+      "companion": "single",
+      "wins": 832,
+      "losses": 832,
+      "total": 1664,
+      "winRate": 0.5
+    },
+    {
+      "companion": "V-951",
+      "wins": 832,
+      "losses": 832,
+      "total": 1664,
+      "winRate": 0.5
+    }
+  ]
+}
