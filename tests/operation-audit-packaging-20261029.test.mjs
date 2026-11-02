@@ -19,6 +19,8 @@ test('operational receipts stay in Git while live combat files fit the Pages bou
   for(const file of sources)assert.equal(isProductionFile(file),false,file);
  }
  assert.equal(isProductionFile('tests/fixtures/tower-expansion-20261102.json'),false);
+ assert.equal(isProductionFile('js/battle-v3-hud.mjs'),true);
+ for(const file of ['preview/project-v-v3/source/battle/TacticalHudLayout.js','scripts/internal/account-rank-growth-v1.mjs']){assert(files.includes(file));assert.equal(isProductionFile(file),false,file);}
  for(const file of ['js/tower-abyss-ui.js','js/tower-v1038.js','shared/companion-loadout-v2.mjs'])assert(isProductionFile(file),file);
  const count=files.filter(isProductionFile).filter(f=>!f.startsWith('functions/')&&!['_headers','_redirects','_routes.json','_worker.js'].includes(f)).length+1;
  assert(count<=20000,'Pages asset count '+count);
