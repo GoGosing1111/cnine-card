@@ -1,0 +1,97 @@
+{
+  "completedAtKst": "2026-11-02 18:25:25",
+  "source": "7bc4ca414fbb81917fede7719f4be17b75be15d1",
+  "pages": {
+    "id": "4ef569c8-90a9-4532-8497-8302ca353698",
+    "url": "https://4ef569c8.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "7bc4ca414fbb81917fede7719f4be17b75be15d1"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "versions": [
+        {
+          "version_id": "71d859ea-26e7-4d8e-9da2-3dc6793ed420",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "versions": [
+        {
+          "version_id": "b86fb6b4-cdc2-498e-b61a-8fa473db7329",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "nodeTests": 21,
+  "chromiumChecks": 173,
+  "webkitChecks": 38,
+  "webkitWarnings": [
+    "webkit: ResizeObserver loop completed with undelivered notifications."
+  ],
+  "publicChecks": 38,
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "bytes": 49093,
+      "sha256": "5ad7a8de45639aeaffc4d581c0d300721868c2e82dd2f5a0c657c7a343e9d75c"
+    },
+    {
+      "file": "css/style.css",
+      "bytes": 535745,
+      "sha256": "68d6c9c3e0c21021ad1469da6098d3e44f9dc9521bcd561bc48ac1e4a4f6f492"
+    },
+    {
+      "file": "js/app.js",
+      "bytes": 810179,
+      "sha256": "7259b4ba9738244a11325ce03dcd3c4c356da68349f8227c742c68ad77770dc2"
+    },
+    {
+      "file": "service-worker.js",
+      "bytes": 22962,
+      "sha256": "c7152cbb2d01d4b026728950f89596344fa3eea03bad3d2eb0cc3aca25ee0b3c"
+    },
+    {
+      "file": "onestore/index.html",
+      "bytes": 48712,
+      "sha256": "cfc32caee5b0ecab7022868943741d8b8e0edc8e92a5797a8add3c0746ad2fec"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "bytes": 804733,
+      "sha256": "3866b9d805e9cfd9a1151a2aca5bf2c79a9a09bd33bf7115982e987f4f8986d0"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "bytes": 985,
+      "sha256": "26a26d5081e56711eabd6b9c59a0dd0bd2260d6d543dd14a7d133db94c21c632"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "bytes": 90766,
+      "sha256": "7db1f5883897891fc4627b37def5d3b7582bbe568437844cd9f692a65d7146ed"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "bytes": 2977758,
+      "sha256": "2dad48dec2592f332823cda740793965a9dbb15a40f56544860b2c88380a09e9"
+    }
+  ],
+  "windowsManifest": {
+    "releaseId": "74d6181431888f134074e2b07e4781ddcc1a6035681f31fb3bd57532f42ecfac",
+    "files": [
+      "js/app.js",
+      "css/style.css",
+      "js/battle-v3-live.js",
+      "preview/project-v-v3/project-v-pixi-battle.bundle.js"
+    ]
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "storageMaintenance": 0,
+  "newSchedules": 0
+}
