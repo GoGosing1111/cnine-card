@@ -18,7 +18,8 @@ test('용병도감은 내 용병을 기본으로 표시하고 전체 도감을 �
 });
 
 test('선택 상세에서 기존 원자 편성 계약만 호출하고 유실 응답을 같은 요청으로 복구한다',()=>{
-  assert.match(client,/requestId:crypto\.randomUUID\(\),mercenaryCode,mode,revision:activeLoadout\(mode\)\.revision/);
+  assert.match(client,/requestId:crypto\.randomUUID\(\),\.\.\.choice,mode,revision:activeLoadout\(mode\)\.revision/);
+  assert.match(client,/choice=\{mercenaryCodes:replaceMercenarySlot\(activeLoadout\(mode\),Number\(slot\),mercenaryCode,account\.cards\)\}/);
   assert.match(client,/\['PVE','PVP'\]\.map\(mode=>/);
   assert.ok(client.includes('data-deploy-mode="${mode}"'));
   assert.doesNotMatch(html,/data-loadout-mode=/,'mode controls belong to the selected mercenary detail');

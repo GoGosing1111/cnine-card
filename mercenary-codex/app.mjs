@@ -23,6 +23,11 @@ const countedLimited=c=>c.edition==='LIMITED'&&!c.excludedFromLimitedCount;
 const current=()=>catalogCards().find(c=>c.code===selected);
 const ownedCard=code=>account?.cards?.find(c=>c.code===code)||null;
 let loadoutMode=params.get('mode')==='PVP'?'PVP':'PVE';
+let layoutView,selectionClearedByFilter=false;
+function syncViewLayout(){
+  document.body.dataset.view=view;
+  if(layoutView!==view){$('managementPanel').open=view==='owned';layoutView=view;}
+}
 const activeLoadout=(mode=loadoutMode)=>account?.loadouts?.[mode]||account?.loadout||{mercenaryCode:null,revision:0};
 const activeCode=(mode=loadoutMode)=>activeLoadout(mode).mercenaryCode||null;
 const activeCodes=(mode=loadoutMode)=>mercenaryLoadoutCodes(activeLoadout(mode));
@@ -42,6 +47,7 @@ function urlState(){
   url.hash=selected||'';history.replaceState(null,'',url);
 }
 function controls(){
+  syncViewLayout();
   $('search').value=filters.q;$('rank').value=filters.rank;$('sort').value=filters.sort;
   $('savedOnly').setAttribute('aria-pressed',String(filters.saved));$('savedOnly').textContent=filters.saved?'★':'☆';
   document.querySelectorAll('[data-position]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.position===filters.position)));
@@ -61,7 +67,8 @@ function renderAccountSummary(){
     const code=activeCode(mode),card=ownedCard(code),art=catalogCards().find(c=>c.code===code),ready=account?.available&&deployableIn(card,mode);
     return `<article class="current-slot" data-current-mode="${mode}" aria-label="${mode} 현재 편성">${art?`<img src="${thumbnail(art)}" alt="" width="58" height="76">`:'<span class="slot-empty-icon" aria-hidden="true">＋</span>'}<div class="current-slot-copy"><h3>${mode} <small>${mode==='PVE'?'모험':'대전'}</small></h3><strong>${esc(account?activeNames(mode):'확인 중')}</strong><p class="${code&&ready?'ready':''}">${!account?'계정 연결 확인':code?(ready?'✓ 출전 준비 완료':esc(card?.deploymentBlockedReason||'편성 상태 확인 필요')):'용병을 편성해 주세요'}</p></div><button type="button" data-select-mode="${mode}" ${loadoutBusy?'disabled':''}>${code?'용병 변경':mode+' 용병 선택'}</button></article>`;
   }).join('');
-  for(const button of document.querySelectorAll('[data-view]'))button.setAttribute('aria-selected',String(button.dataset.view===view));
+  $('managementSummary').textContent=account?`PVE ${activeCodes('PVE').length}명 · PVP ${activeCodes('PVP').length}명`:'PVE · PVP';
+  for(const button of document.querySelectorAll('[data-view]')){button.setAttribute('aria-selected',String(button.dataset.view===view));button.tabIndex=button.dataset.view===view?0:-1;}
   $('rosterTitle').textContent=view==='limited'?'리미티드 컬렉션':view==='owned'?'내 용병 선택':'전체 용병 탐색';
   $('positions').hidden=view==='limited';
   $('catalogFootTitle').textContent=view==='limited'?'보유한 리미티드 용병을 선택해 편성하세요.':view==='owned'?'보유 용병을 선택해 바로 편성하세요.':'전체 원화·등급·스킬을 살펴보세요.';
@@ -72,17 +79,21 @@ function visibleCards(){
   return filterCatalog(source,filters,favorites);
 }
 function emptyListHtml(){
-  if(view!=='owned')return '<li class="empty-state">조건에 맞는 용병이 없습니다.<button type="button" data-reset>전체 용병 보기</button></li>';
+  if(view!=='owned')return '<li class="empty-state">조건에 맞는 용병이 없습니다.<button type="button" data-reset>필터 초기화</button></li>';
   if(!account&&accountPending)return '<li class="empty-state"><b>보유 용병을 불러오는 중…</b><button type="button" data-switch-all>전체 도감 먼저 보기</button></li>';
   if(!account)return `<li class="empty-state"><b>보유 용병을 표시하지 못했습니다.</b><span>${esc(accountError||'계정 정보를 확인하고 있습니다.')}</span><button type="button" data-retry-account>다시 불러오기</button><button type="button" data-switch-all>전체 도감 먼저 보기</button></li>`;
   if(!account.cards.length)return '<li class="empty-state"><b>아직 보유한 용병이 없습니다.</b><span>전체 도감을 살펴보거나 하이퍼팩에서 용병을 획득할 수 있습니다.</span><button type="button" data-switch-all>전체 도감 보기</button><a href="/?screen=buy&amp;pack=hyper">하이퍼팩 확인 ↗</a></li>';
-  return '<li class="empty-state">조건에 맞는 보유 용병이 없습니다.<button type="button" data-reset>검색 조건 초기화</button></li>';
+  return '<li class="empty-state">조건에 맞는 보유 용병이 없습니다.<button type="button" data-reset>필터 초기화</button></li>';
 }
 function renderList(){
   if(!catalog)return;
+  const focusCode=$('cardGrid').contains(document.activeElement)?document.activeElement.closest('[data-code]')?.dataset.code:null;
   const rows=visibleCards(),list=$('cardGrid'),denominator=view==='owned'?(account?.cards?.length||0):view==='limited'?catalogCards().filter(countedLimited).length:catalogCards().length;
+  const tabCode=rows.some(c=>c.code===selected)?selected:rows[0]?.code;
   list.setAttribute('aria-busy','false');$('resultCount').textContent=`${rows.length} / ${denominator}`;
-  list.innerHTML=rows.length?rows.map(c=>{const owned=ownedCard(c.code),modes=['PVE','PVP'].filter(mode=>activeCodes(mode).includes(c.code));return `<li><button class="roster-row" type="button" data-code="${c.code}" aria-pressed="${c.code===selected}" aria-label="${esc(c.name)} ${esc(c.rank||'미정')} ${positionLabel(c)} 선택"><span class="row-portrait"><img src="${thumbnail(c)}" alt="" loading="lazy" decoding="async" width="160" height="110"><span class="rank-chip" data-rank="${c.rank||''}">${c.rank||'—'}</span></span><span class="row-identity"><b>${esc(c.name)}</b>${c.title?`<em>${esc(c.title)}</em>`:''}<small>${positionLabel(c)} · ${esc(catalog.roles[c.role].label)}</small>${owned?`<span class="ownership-meta">Lv.${fmt(owned.level)} · 보유 ${fmt(Number(owned.duplicates||0)+1)}장</span>`:''}${modes.length?`<span class="row-active">✓ ${modes.join(' · ')} 편성 중</span>`:`<span class="row-availability">${owned?(owned.canDeploy===false?'편성 조건 확인':'보유 · 편성 가능'):'미보유'}</span>`}</span>${favorites.has(c.code)?'<span class="row-favorite" aria-label="즐겨찾기">★</span>':''}</button></li>`;}).join(''):emptyListHtml();
+  list.innerHTML=rows.length?rows.map(c=>{const owned=ownedCard(c.code),modes=['PVE','PVP'].filter(mode=>activeCodes(mode).includes(c.code));return `<li><button class="roster-row" type="button" data-code="${c.code}" tabindex="${c.code===tabCode?0:-1}" aria-describedby="rosterKeyboardHint" aria-pressed="${c.code===selected}" aria-label="${esc(c.name)} ${esc(c.rank||'미정')} ${positionLabel(c)} 선택"><span class="row-portrait"><img src="${thumbnail(c)}" alt="" loading="lazy" decoding="async" width="160" height="110"><span class="rank-chip" data-rank="${c.rank||''}">${c.rank||'—'}</span></span><span class="row-identity"><b>${esc(c.name)}</b>${c.title?`<em>${esc(c.title)}</em>`:''}<small>${positionLabel(c)} · ${esc(catalog.roles[c.role].label)}</small>${owned?`<span class="ownership-meta">Lv.${fmt(owned.level)} · 보유 ${fmt(Number(owned.duplicates||0)+1)}장</span>`:''}${modes.length?`<span class="row-active">✓ ${modes.join(' · ')} 편성 중</span>`:`<span class="row-availability">${owned?(owned.canDeploy===false?'편성 조건 확인':'보유 · 편성 가능'):'미보유'}</span>`}</span>${favorites.has(c.code)?'<span class="row-favorite" aria-label="즐겨찾기">★</span>':''}</button></li>`;}).join(''):emptyListHtml();
+  $('focusSelection').disabled=!rows.some(c=>c.code===selected);
+  if(focusCode)(list.querySelector(`[data-code="${CSS.escape(focusCode)}"]`)||list.querySelector('[tabindex="0"]')||$('search')).focus({preventScroll:true});
 }
 function skillHtml(s,index){if(s.codexOnly)return `<article class="skill-entry"><header><span class="skill-number">${String(index+1).padStart(2,'0')}</span><div><small>${esc(s.target)}</small><h3>${esc(s.name)}</h3></div><span class="skill-state pending">연출 공개</span></header><p class="skill-effect">${esc(s.effect)}</p></article>`;const balance=s.balance,ratio=Number.isFinite(balance.damageRatio)?balance.damageRatio:undefined,pveRatio=s.pveBalance?.damageRatio;
   return `<article class="skill-entry"><header><span class="skill-number">${String(index+1).padStart(2,'0')}</span><div><small>${s.id} · ${esc(s.target)}</small><h3>${esc(s.name)}</h3></div><span class="skill-state ${s.ready?'':'pending'}">${s.ready?'사용 가능':s.id.match(/^MS-96[0-4]$/)?'출시 대기':'설정 대기'}</span></header><p class="skill-effect">${esc(s.effect)}</p><dl class="skill-stats"><div><dt>효과 배율</dt><dd>${Number.isFinite(pveRatio)?'<small>PVE</small> '+fmt(pveRatio*100)+'<small>%</small><br><small>PVP</small> '+fmt(ratio*100)+'<small>%</small>':ratio===undefined?'미설정':ratio===0?'지원 효과':`${fmt(ratio*100)}<small>%</small>`}</dd></div><div><dt>재사용</dt><dd>${Number.isFinite(balance.cooldownTurns)?`${fmt(balance.cooldownTurns)}<small>턴</small>`:'미설정'}</dd></div><div><dt>에너지</dt><dd>${Number.isFinite(balance.cost)?fmt(balance.cost):'미설정'}</dd></div></dl><details><summary>발동 조건 · 대응 방법 <span>+</span></summary><dl class="skill-rules">${[['발동',s.trigger],['대응',s.counterplay],['보스',s.bossRule],['추가 발동',s.procRule]].map(([label,value])=>`<div><dt>${label}</dt><dd>${esc(value)}</dd></div>`).join('')}</dl></details></article>`;
@@ -97,11 +108,14 @@ function deploymentHtml(c){
   const owned=ownedCard(c.code),active=['PVE','PVP'].some(mode=>activeCodes(mode).includes(c.code)),pending=pendingLoadout(),blocked=loadoutBusy||!account?.available||Boolean(pending);
   if(!account)return `<section class="deployment-card unavailable"><div><span>내 용병</span><strong>계정 연결 필요</strong></div><p>${esc(accountError||'보유 용병 정보를 불러오지 못했습니다.')}</p><button type="button" data-retry-account>다시 불러오기</button></section>`;
   if(!owned)return `<section class="deployment-card unavailable"><div><span>보유 상태</span><strong>미보유</strong></div><p>${esc(c.acquisitionDescription||'전체 도감 정보는 확인할 수 있지만 편성은 보유 용병만 가능합니다.')}${c.deploymentRequirement?'<br>'+esc(c.deploymentRequirement)+' 편성 가능':''}</p>${c.acquisition==='CRAFT_ONLY'?'<a href="/?screen=workshop">제작소에서 조건 확인 ↗</a>':c.edition==='LIMITED'?'':'<a href="/?screen=buy&amp;pack=hyper">하이퍼팩 확인 ↗</a>'}</section>`;
-  if(dualLoadout())return `<section class="deployment-card ${active?'active':''}" aria-label="${esc(c.name)} 용병 편성"><div class="deployment-title"><strong>${esc(c.name)}</strong><b>${esc(c.rank)}</b></div><p>SSS는 리미티드 포함 1명, SS도 1명까지 편성할 수 있습니다.</p><div class="deployment-actions">${['PVE','PVP'].map(mode=>`<div class="mode-action"><h3>${mode} · ${activeCodes(mode).length}/2</h3>${[0,1].map(slot=>{const code=activeCodes(mode)[slot],equipped=code===c.code,duplicate=activeCodes(mode).includes(c.code)&&!equipped;return `<div class="dual-deploy-choice"><small>${slot+1}번 · ${esc(ownedCard(code)?.name||'미편성')}</small><button class="equip-button ${equipped?'is-equipped':''}" data-equip="${c.code}" data-deploy-mode="${mode}" data-deploy-slot="${slot}" ${blocked||equipped||duplicate||!deployableIn(owned,mode)?'disabled':''}>${equipped?'✓ 편성 완료':slot+1+'번에 편성'}</button>${code?`<button class="unequip-button" data-unequip data-deploy-mode="${mode}" data-deploy-slot="${slot}" ${blocked?'disabled':''}>${slot+1}번 해제</button>`:''}</div>`;}).join('')}</div>`).join('')}</div>${pending?`<button class="recover-button" data-recover-loadout ${loadoutBusy?'disabled':''}>이전 편성 처리 결과 확인</button>`:''}<p class="deployment-hint">${esc(owned.deploymentBlockedReason||'일반 카드 5장과 별도로 출전합니다. 같은 용병은 중복 배치할 수 없습니다.')}</p><a class="growth-entry" href="${esc(growthHref(c.code))}">용병 성장 ↗</a></section>`;
+  if(dualLoadout())return `<section class="deployment-card ${active?'active':''}" aria-label="${esc(c.name)} 용병 편성"><div class="deployment-title"><strong>${esc(c.name)}</strong><b>${esc(c.rank)}</b></div><p class="deployment-rule">SSS는 리미티드 포함 1명, SS도 1명까지 편성할 수 있습니다.</p><div class="deployment-actions">${['PVE','PVP'].map(mode=>`<div class="mode-action"><h3>${mode} · ${activeCodes(mode).length}/2</h3>${[0,1].map(slot=>{const code=activeCodes(mode)[slot],equipped=code===c.code,duplicate=activeCodes(mode).includes(c.code)&&!equipped;return `<div class="dual-deploy-choice"><small>${slot+1}번 · ${esc(ownedCard(code)?.name||'미편성')}</small><button class="equip-button ${equipped?'is-equipped':''}" data-equip="${c.code}" data-deploy-mode="${mode}" data-deploy-slot="${slot}" ${blocked||equipped||duplicate||!deployableIn(owned,mode)?'disabled':''}>${equipped?'✓ 편성 완료':slot+1+'번에 편성'}</button>${code?`<button class="unequip-button" data-unequip data-deploy-mode="${mode}" data-deploy-slot="${slot}" ${blocked?'disabled':''}>${slot+1}번 해제</button>`:''}</div>`;}).join('')}</div>`).join('')}</div>${pending?`<button class="recover-button" data-recover-loadout ${loadoutBusy?'disabled':''}>이전 편성 처리 결과 확인</button>`:''}<p class="deployment-hint">${esc(owned.deploymentBlockedReason||'일반 카드 5장과 별도로 출전합니다. 같은 용병은 중복 배치할 수 없습니다.')}</p><a class="growth-entry" href="${esc(growthHref(c.code))}">용병 성장 ↗</a></section>`;
   return `<section class="deployment-card ${active?'active':''}" aria-label="${esc(c.name)} 용병 편성"><div class="deployment-title"><div><span>선택한 용병</span><strong>${esc(c.name)}</strong>${c.title?`<small>${esc(c.title)}</small>`:''}</div><b>${esc(c.rank)}${c.edition==='LIMITED'?'<small>LIMITED</small>':''}</b></div><p class="deployment-question">어느 전투에 편성할까요?</p><div class="deployment-actions">${['PVE','PVP'].map(mode=>{const equipped=activeCodes(mode).includes(c.code),previous=ownedCard(activeCode(mode));return `<div class="mode-action"><button class="equip-button ${equipped?'is-equipped':''}" type="button" data-equip="${c.code}" data-deploy-mode="${mode}" ${blocked||equipped||!deployableIn(owned,mode)?'disabled':''}>${!deployableIn(owned,mode)&&owned.deploymentModes?.includes('PVE')?'PVE 전용':equipped?'✓ '+mode+' 편성 완료':loadoutBusy&&pending?.body.mode===mode?'편성 저장 중…':mode+'에 편성'}</button><small>${!deployableIn(owned,mode)&&owned.deploymentModes?.includes('PVE')?'PVP 편성 불가':equipped?'현재 출전 용병':`${esc(previous?.name||activeCode(mode)||'미편성')} → ${esc(c.name)}`}</small>${equipped?`<button class="unequip-button" type="button" data-unequip data-deploy-mode="${mode}" ${blocked?'disabled':''}>${mode} 편성 해제</button>`:''}</div>`;}).join('')}</div>${pending?`<button class="recover-button" type="button" data-recover-loadout ${loadoutBusy?'disabled':''}>${esc(pending.body?.mode||'PVE')} 이전 편성 처리 결과 확인</button>`:''}<p class="deployment-hint">${pending?'이전 편성 결과를 확인하면 새 편성을 진행할 수 있습니다.':owned.canDeploy===false?esc(owned.deploymentBlockedReason||'현재 편성 조건을 충족하지 못했습니다.'):!account.available?'현재 용병 편성을 사용할 수 없습니다.':owned.deploymentModes?.length===1?'PVE 전용 용병입니다. PVP에는 편성할 수 없습니다.':'같은 용병을 PVE·PVP 양쪽에 편성할 수 있습니다.'}</p><div class="selection-ownership"><span>Lv.${fmt(owned.level)} · 보유 ${fmt(Number(owned.duplicates||0)+1)}장</span><a class="growth-entry" href="${esc(growthHref(c.code))}">용병 성장 ↗</a></div></section>`;
 }
 function renderSelection(){
-  const c=current();if(!c){$('inspection').innerHTML=`<div class="empty-selection"><span>PROJECT V</span><h2>${view==='owned'?'보유 용병을 선택하세요.':'당신의 다음 전력을 확인하세요.'}</h2><p>${view==='owned'?'선택한 자리에서 바로 편성할 수 있습니다.':'용병을 선택하면 원화와 스킬을 볼 수 있습니다.'}</p></div>`;return;}
+  const c=current(),inspectionRoot=$('inspection');
+  const deploymentWasOpen=inspectionRoot.dataset.selectedCode===c?.code?inspectionRoot.querySelector('.deployment-controls')?.open:!matchMedia('(max-width: 760px)').matches&&view==='owned';
+  inspectionRoot.dataset.selectedCode=c?.code||'';
+  if(!c){inspectionRoot.classList.remove('halloween-inspection','limited-inspection');inspectionRoot.innerHTML=`<div class="empty-selection"><h2>${selectionClearedByFilter?(visibleCards().length?'검색 결과에서 용병을 선택하세요.':'조건에 맞는 용병이 없습니다.'):view==='owned'?'보유 용병을 선택하세요.':'용병을 선택하세요.'}</h2><p>목록에서 용병을 선택하면 원화와 스킬을 볼 수 있습니다.</p></div>`;return;}
   $('inspection').classList.toggle('halloween-inspection',c.season==='HALLOWEEN');
   $('inspection').style.setProperty('--character-accent',/^#[\da-f]{6}$/i.test(c.accent)?c.accent:'#c8ff6b');
   $('inspection').innerHTML=`${deploymentHtml(c)}<div class="portrait-stage"><div class="stage-environment"></div><div class="stage-label"><span>PROJECT V / ${c.code}</span><span><i></i>CONTRACT ARCHIVE</span></div><div class="stage-heading"><span class="stage-rank" data-rank="${c.rank||''}">${c.rank||'UNRANKED'} <small>CLASS</small></span>${c.title?`<p>${esc(c.title)}</p>`:""}<h2>${esc(c.name)}</h2></div><div class="portrait-display" id="portraitDisplay"></div><div class="media-tabs" role="tablist" aria-label="용병 모습"><button id="artTab" role="tab" data-media="art" aria-controls="portraitDisplay">카드 원화</button><button id="sdTab" role="tab" data-media="sd" aria-controls="portraitDisplay" ${c.battleSprite?'':'disabled'}>${c.season==='BLACKCROWN'?'전투 모습':'전투 SD'}</button></div><p class="stage-caption">선택한 이미지를 누르면 원본을 확대합니다.</p></div>
@@ -120,7 +134,17 @@ function renderSelection(){
   const overview=document.createElement('div');overview.className='inspection-overview';
   overview.innerHTML=`<aside class="selection-summary"><p>${positionLabel(c)} · ${esc(catalog.roles[c.role].label)} · ${esc(c.rank||'미정')}</p><div class="power-summary"><span>${owned?'현재 전투력':'기본 전투력'}</span><strong>${(owned?.basePower??c.basePower)==null?'—':fmt(owned?.basePower??c.basePower)}</strong></div>${c.skills[0]?`<div class="signature-skill"><small>대표 스킬</small><h3>${esc(c.skills[0].name)}</h3><p>${esc(c.skills[0].effect)}</p></div>`:'<p>배정 스킬은 상세 정보에서 확인하세요.</p>'}</aside>`;
   overview.prepend(portrait);combat.before(overview);
+  const heading=document.createElement('header');heading.className='inspection-heading';
+  heading.innerHTML=`<div><h2 id="selectionName" tabindex="-1">${esc(c.name)}</h2>${c.title?`<p>${esc(c.title)}</p>`:''}</div><span class="selection-rank" data-rank="${esc(c.rank||'')}">${esc(c.rank||'미정')}</span>`;
+  inspection.prepend(heading);
+  const deployment=inspection.querySelector('.deployment-card');
+  if(owned&&deployment){
+    const controls=document.createElement('details');controls.className='deployment-controls';controls.open=Boolean(deploymentWasOpen||pendingLoadout());
+    controls.innerHTML=`<summary><span>편성 변경</span><span>Lv.${fmt(owned.level||1)} · 보유 ${fmt(Number(owned.duplicates||0)+1)}장</span></summary>`;
+    overview.after(controls);controls.append(deployment);
+  }else if(deployment)overview.after(deployment);
   const favorite=combat.querySelector('[data-favorite]');if(favorite)overview.lastElementChild.append(favorite);
+  const signature=overview.querySelector('.signature-skill');if(signature)overview.append(signature);
   const details=document.createElement('details');details.className='combat-details';details.innerHTML='<summary>스킬·전투 성능 자세히 보기</summary>';combat.before(details);details.append(combat);
   renderMedia();
 }
@@ -132,12 +156,12 @@ function renderMedia(){const c=current();if(!c||!$('portraitDisplay'))return;
   $('portraitDisplay').setAttribute('role','tabpanel');$('portraitDisplay').setAttribute('aria-labelledby',art?'artTab':'sdTab');
   document.querySelectorAll('[data-media]').forEach(b=>{b.setAttribute('aria-selected',String(b.dataset.media===media));b.tabIndex=b.dataset.media===media?0:-1;});
 }
-function choose(code,{scroll=false}={}){if(!catalogCards().some(c=>c.code===code))return;selected=code;media='art';urlState();renderList();renderSelection();if(scroll&&matchMedia('(max-width: 760px)').matches)openInspection();}
+function choose(code,{scroll=false}={}){if(!catalogCards().some(c=>c.code===code))return;selected=code;selectionClearedByFilter=false;media='art';urlState();renderList();renderSelection();if(scroll&&matchMedia('(max-width: 760px)').matches)openInspection();}
 function openInspection(){
   if(!current())return;
   $('inspectionSheetBody').append($('inspection'));
   if(!$('inspectionSheet').open)$('inspectionSheet').showModal();
-  document.body.classList.add('inspection-open');renderMedia();
+  document.body.classList.add('inspection-open');renderMedia();$('inspectionSheet').scrollTop=0;$('inspectionHome').scrollTop=0;
 }
 function closeInspection(){if($('inspectionSheet').open)$('inspectionSheet').close();}
 $('inspectionSheet').addEventListener('close',()=>{
@@ -148,16 +172,21 @@ $('inspectionSheet').addEventListener('close',()=>{
 $('closeInspection').onclick=closeInspection;
 matchMedia('(max-width: 760px)').addEventListener('change',event=>{if(!event.matches)closeInspection();renderMedia();});
 document.addEventListener('error',event=>{const img=event.target;if(img instanceof HTMLImageElement&&img.dataset.displayOriginal){const original=img.dataset.displayOriginal;delete img.dataset.displayOriginal;if(img.getAttribute('src')!==original)img.src=original;}},true);
-function setView(next,{scroll=false}={}){if(!['owned','all','limited'].includes(next))return;if(view===next){if(scroll)$('catalogControls').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});return;}view=next;if(next==='limited')filters.position='';controls();const rows=visibleCards();if(!rows.some(c=>c.code===selected))selected=next==='owned'?(activeCode()&&ownedCard(activeCode())?activeCode():rows[0]?.code||''):(rows[0]?.code||'');urlState();renderAccountSummary();renderList();renderSelection();if(scroll)$('catalogControls').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});}
+function setView(next,{scroll=false}={}){if(!['owned','all','limited'].includes(next))return;if(view===next){if(scroll)$('catalogControls').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});return;}view=next;selectionClearedByFilter=false;if(next==='limited')filters.position='';controls();const rows=visibleCards();if(!rows.some(c=>c.code===selected))selected=next==='owned'?(activeCode()&&ownedCard(activeCode())?activeCode():rows[0]?.code||''):(rows[0]?.code||'');urlState();renderAccountSummary();renderList();renderSelection();if(scroll)$('catalogControls').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});}
 function setLoadoutMode(mode){if(loadoutBusy||!['PVE','PVP'].includes(mode))return;loadoutMode=mode;urlState();renderAccountSummary();renderList();renderSelection();}
-function updateFilters(){urlState();controls();renderList();}
+function updateFilters(){
+  const lostSelection=selected&&!visibleCards().some(c=>c.code===selected),returnToSearch=lostSelection&&$('inspection').contains(document.activeElement);
+  if(lostSelection){selected='';selectionClearedByFilter=true;closeInspection();}
+  urlState();controls();renderList();if(lostSelection)renderSelection();
+  if(returnToSearch)requestAnimationFrame(()=>$('search').focus());
+}
 async function refresh({quiet=false}={}){
   if(loading||document.hidden&&quiet)return;loading=true;accountPending=true;lastCheck=Date.now();$('refreshCatalog').disabled=true;
   const renderReady=()=>{
     if(!catalog)return;
     $('skillCount').textContent=new Set(catalog.cards.flatMap(c=>c.skills.map(s=>s.id))).size;
     const rows=visibleCards(),preferred=view==='owned'?(activeCode()&&ownedCard(activeCode())?activeCode():account?.cards?.[0]?.code):catalog.cards[0]?.code;
-    if(!(view==='owned'&&accountPending&&!account)&&(!current()||view==='owned'&&!ownedCard(selected)||view==='limited'&&current()?.edition!=='LIMITED'))selected=rows[0]?.code||(view==='limited'?'':preferred)||'';
+    if(!selectionClearedByFilter&&!(view==='owned'&&accountPending&&!account)&&(!current()||view==='owned'&&!ownedCard(selected)||view==='limited'&&current()?.edition!=='LIMITED'))selected=rows[0]?.code||(view==='limited'?'':preferred)||'';
     controls();renderAccountSummary();renderList();renderSelection();urlState();
   };
   try{
@@ -203,17 +232,33 @@ document.addEventListener('click',event=>{const b=event.target.closest('button')
   if(b.hasAttribute('data-retry')){void refresh();return;}if(!catalog)return;
   if(b.dataset.code)choose(b.dataset.code,{scroll:true});
   else if(b.hasAttribute('data-position')){filters.position=b.dataset.position;updateFilters();}
-  else if(b.hasAttribute('data-reset')){Object.assign(filters,{q:'',rank:'',position:'',saved:false});updateFilters();}
+  else if(b.hasAttribute('data-reset')){Object.assign(filters,{q:'',rank:'',position:'',saved:false});updateFilters();$('search').focus();}
   else if(b.dataset.media){media=b.dataset.media;renderMedia();}
-  else if(b.hasAttribute('data-favorite')){favorites.has(selected)?favorites.delete(selected):favorites.add(selected);try{localStorage.setItem(storageKey,JSON.stringify([...favorites]));}catch{note('즐겨찾기는 이번 화면에서만 유지됩니다.');}b.setAttribute('aria-pressed',String(favorites.has(selected)));b.setAttribute('aria-label',`${current().name} 즐겨찾기 ${favorites.has(selected)?'해제':'추가'}`);b.textContent=favorites.has(selected)?'★':'☆';renderList();}
+  else if(b.hasAttribute('data-favorite')){favorites.has(selected)?favorites.delete(selected):favorites.add(selected);try{localStorage.setItem(storageKey,JSON.stringify([...favorites]));}catch{note('즐겨찾기는 이번 화면에서만 유지됩니다.');}b.setAttribute('aria-pressed',String(favorites.has(selected)));b.setAttribute('aria-label',`${current().name} 즐겨찾기 ${favorites.has(selected)?'해제':'추가'}`);b.textContent=favorites.has(selected)?'★':'☆';updateFilters();}
   else if(b.hasAttribute('data-zoom')){const c=current();$('artTitle').textContent=`${c.name} · ${media==='art'?'카드 원화':'전투 SD'}`;$('originalArt').src=asset(media==='art'?c.sourceArt:c.battleSprite);$('originalArt').alt=$('artTitle').textContent;$('artDialog').showModal();}
 });
 $('search').oninput=e=>{filters.q=e.target.value;updateFilters();};$('rank').onchange=e=>{filters.rank=e.target.value;updateFilters();};$('sort').onchange=e=>{filters.sort=e.target.value;updateFilters();};$('savedOnly').onclick=()=>{filters.saved=!filters.saved;updateFilters();};$('refreshCatalog').onclick=()=>void refresh();$('showOwned').onclick=()=>setView('owned',{scroll:true});
 $('ownedView').parentElement.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight'].includes(event.key))return;event.preventDefault();const views=['owned','all','limited'],next=views[(views.indexOf(view)+(event.key==='ArrowRight'?1:2))%3];setView(next);$({owned:'ownedView',all:'allView',limited:'limitedView'}[next]).focus();});
+function focusSelection(){
+  if(!current())return;
+  if(matchMedia('(max-width: 760px)').matches)openInspection();
+  const title=$('selectionName');title?.focus({preventScroll:true});title?.scrollIntoView({block:'nearest'});
+}
+$('focusSelection').onclick=focusSelection;
+$('cardGrid').addEventListener('keydown',event=>{
+  const button=event.target.closest('[data-code]');if(!button)return;
+  const rows=visibleCards(),index=rows.findIndex(c=>c.code===button.dataset.code),moves={ArrowLeft:-1,ArrowRight:1,ArrowUp:-2,ArrowDown:2};
+  if(!(event.key in moves)&&!['Home','End'].includes(event.key))return;
+  event.preventDefault();const next=event.key==='Home'?0:event.key==='End'?rows.length-1:Math.max(0,Math.min(rows.length-1,index+moves[event.key]));
+  if(rows[next]){choose(rows[next].code);const target=$('cardGrid').querySelector(`[data-code="${CSS.escape(rows[next].code)}"]`);target?.focus({preventScroll:true});target?.scrollIntoView({block:'nearest'});}
+});
+$('inspection').addEventListener('keydown',event=>{
+  if(event.key==='Escape'&&!$('inspectionSheet').open&&!$('artDialog').open){event.preventDefault();const button=$('cardGrid').querySelector(`[data-code="${CSS.escape(selected)}"]`);button?.focus({preventScroll:true});button?.scrollIntoView({block:'nearest'});}
+});
 $('closeArt').onclick=()=>$('artDialog').close();$('artDialog').addEventListener('close',()=>{if(!$('artDialog').open)$('originalArt').removeAttribute('src');});
 $('inspection').addEventListener('keydown',event=>{if(event.target.dataset.media&&['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();if(!current()?.battleSprite)return;media=media==='art'?'sd':'art';renderMedia();$(media==='art'?'artTab':'sdTab').focus();}});
 window.addEventListener('hashchange',()=>{if(catalog)choose(location.hash.slice(1));});
-window.addEventListener('storage',event=>{if(['cnine.mercenary.cms.changed','cnine.mercenary.loadout.changed'].includes(event.key))void refresh({quiet:true});if(event.key===storageKey){try{const value=JSON.parse(event.newValue||'[]');if(Array.isArray(value)){favorites=new Set(value);renderList();renderSelection();}}catch{}}});
+window.addEventListener('storage',event=>{if(['cnine.mercenary.cms.changed','cnine.mercenary.loadout.changed'].includes(event.key))void refresh({quiet:true});if(event.key===storageKey){try{const value=JSON.parse(event.newValue||'[]');if(Array.isArray(value)){favorites=new Set(value);updateFilters();renderSelection();}}catch{}}});
 window.addEventListener('focus',()=>{if(Date.now()-lastCheck>2000)void refresh({quiet:true});});document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now()-lastCheck>2000)void refresh({quiet:true});});
 let fusionOpening=false,fusionLoadAttempt=0;
 $('openFusion').onclick=async()=>{

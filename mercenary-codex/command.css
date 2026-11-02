@@ -141,3 +141,79 @@
 .command-codex #rank:has(option[value="S"]:checked),.command-codex #rank option[value="S"]{color:#bfa0fb}
 .command-codex #rank:has(option[value="SS"]:checked),.command-codex #rank option[value="SS"]{color:#f1d493}
 .command-codex #rank:has(option[value="SSS"]:checked),.command-codex #rank option[value="SSS"]{color:#ffaca7}
+
+/* Codex browsing and composition share the same visual system, with separate priorities. */
+.command-codex{--codex-body:1rem;--codex-helper:.875rem;--codex-meta:.8125rem}
+.management-panel{margin-bottom:18px;border-bottom:1px solid var(--line)}
+.management-panel>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;padding:8px 0;cursor:pointer;font-size:var(--codex-helper);font-weight:650;list-style:none}
+.management-panel>summary::-webkit-details-marker{display:none}
+.management-panel>summary::after{content:'';width:8px;height:8px;border-inline-end:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);flex:none;margin:0 4px 4px}
+.management-panel[open]>summary::after{transform:rotate(225deg);margin-top:6px}
+#managementSummary{color:var(--muted);font-size:var(--codex-meta);font-weight:500;margin-left:auto;white-space:nowrap}
+.management-content{padding:4px 0 18px}
+.command-codex .management-content .archive-heading-actions{margin:0 0 18px}
+.command-codex .archive-counters button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px}
+#refreshCatalog svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.command-codex .inspection-heading{display:flex;align-items:start;justify-content:space-between;gap:14px;margin-bottom:18px}
+.inspection-heading h2{font-size:28px;font-weight:750;line-height:1.4;overflow-wrap:anywhere;margin:0}
+.inspection-heading p{font-size:var(--codex-helper);line-height:1.6;color:var(--muted);margin:5px 0 0}
+.selection-rank{font-size:16px;font-weight:750;color:#f7d894;flex-shrink:0}
+.command-codex .inspection .stage-heading{display:none}
+.inspection-overview{grid-template-rows:min-content 1fr}
+.inspection-overview>.portrait-stage{grid-column:1;grid-row:1 / span 2}
+.inspection-overview>.selection-summary{grid-column:2;grid-row:1}
+.inspection-overview>.signature-skill{grid-column:2;grid-row:2;min-width:0}
+.command-codex .signature-skill p{font-size:var(--codex-body);line-height:1.7;max-width:65ch;overflow-wrap:anywhere}
+.command-codex .signature-skill h3{font-size:17px;line-height:1.5;text-wrap:balance}
+.command-codex .signature-skill small,.command-codex .selection-summary>p,.command-codex .stage-caption{font-size:var(--codex-meta);line-height:1.6}
+.deployment-controls{border-top:1px solid var(--line);margin-top:20px;padding-top:5px}
+.deployment-controls>summary{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:48px;padding:10px 0;cursor:pointer;font-size:var(--codex-body);font-weight:650;color:var(--lime)}
+.deployment-controls>summary>span:last-child{font-size:var(--codex-meta);font-weight:500;color:var(--muted)}
+.deployment-controls>summary>span:last-child{margin-left:auto}
+.deployment-controls>summary::after{content:'';width:8px;height:8px;flex:none;border-inline-end:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin:0 4px 4px}
+.deployment-controls[open]>summary::after{transform:rotate(225deg);margin-top:6px}
+.command-codex .deployment-controls .deployment-card{margin:10px 0 0}
+.command-codex .deployment-controls .deployment-title{display:none}
+.command-codex .deployment-card>.deployment-rule{font-size:var(--codex-body);line-height:1.65;color:var(--muted);margin:0 0 16px;max-width:65ch}
+.command-codex .deployment-hint,.command-codex .selection-ownership,.command-codex .growth-entry,.command-codex .combat-details>summary{font-size:var(--codex-helper)}
+.command-codex .combat-panel :is(p,dd,dt,.balance-note,.skill-empty,.skill-effect){font-size:var(--codex-body);line-height:1.7;overflow-wrap:anywhere}
+.command-codex .inspection-overview+.deployment-card{margin-top:20px}
+.command-codex .row-identity em,.command-codex .row-active,.command-codex .row-availability{font-size:var(--codex-meta);line-height:1.5}
+.command-codex[data-view=owned] .row-identity>small,.command-codex[data-view=owned] .ownership-meta{display:block;font-size:var(--codex-meta);line-height:1.5}
+.command-codex .row-identity b{overflow-wrap:anywhere}
+.command-codex .detail-jump{display:block;width:100%;min-height:44px;margin-top:14px;padding:10px;border:1px solid var(--line);background:none;color:var(--lime);font-size:var(--codex-helper);font-weight:600;text-align:center}
+.command-codex .detail-jump:disabled{color:var(--muted);opacity:.65}
+.keyboard-hint{font-size:var(--codex-meta);color:var(--muted);line-height:1.6;margin:8px 0 0}
+.command-codex :is(button,summary,a,input,select):focus-visible{outline:2px solid #e8ffb2;outline-offset:3px}
+.command-codex .roster-row:focus-visible{outline:3px solid #e8ffb2;outline-offset:3px}
+#selectionName:focus{outline:2px solid #e8ffb2;outline-offset:4px}
+.command-codex .page-footer :is(span,p){font-family:inherit;font-size:var(--codex-meta);line-height:1.6;color:var(--muted)}
+.command-codex :is(.power-summary strong,#resultCount,#ownedCount,#totalCount,#limitedCount){font-variant-numeric:tabular-nums}
+@media(min-width:761px) and (max-width:1000px){
+ .inspection-overview{grid-template-rows:auto auto}
+ .inspection-overview>.portrait-stage{grid-row:1}
+ .inspection-overview>.signature-skill{grid-column:1/-1;grid-row:auto}
+}
+@media(max-width:760px){
+ .command-codex .page-heading{padding:16px 0 10px}
+ .management-panel{margin-bottom:10px}
+ .management-panel>summary{gap:8px;font-size:13px}
+ #managementSummary{font-size:12px}
+ .command-codex .management-content .archive-heading-actions{margin:6px 0 16px}
+ .command-codex .workspace-heading{display:grid;grid-template-columns:minmax(0,1fr) 44px;gap:6px;align-items:center;margin:8px 0 14px}
+ .command-codex .roster-view-tabs{gap:8px;justify-content:space-between;min-width:0}
+ .command-codex .roster-view-tabs button{font-size:14px;min-height:48px;padding:12px 0}
+ .command-codex .roster-view-tabs button b{font-size:12px;margin-left:2px}
+ .command-codex .archive-counters{margin:0}
+ .command-codex #refreshCatalog{width:44px;padding:0}
+ #refreshCatalog>span{display:none}
+ .command-codex .search-field input{font-size:16px;min-width:0}
+ .inspection-heading h2{font-size:26px}
+ .inspection-overview{gap:14px;grid-template-rows:auto auto}
+ .inspection-overview>.portrait-stage{grid-row:1}
+ .inspection-overview>.signature-skill{grid-column:1/-1;grid-row:auto}
+ .command-codex .detail-jump,.keyboard-hint{display:none}
+ .command-codex .catalog-foot,.command-codex .catalog-foot small{font-size:var(--codex-meta)}
+ .command-codex .archive-guide p{font-size:var(--codex-helper);line-height:1.7}
+ .deployment-controls>summary{align-items:start;flex-wrap:wrap}
+}
