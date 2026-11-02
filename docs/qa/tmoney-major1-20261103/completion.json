@@ -1,0 +1,63 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:tmoney-major1:20261103:v1",
+  "userId": "5147",
+  "nickname": "T-Money™",
+  "beforeRank": {
+    "level": 39,
+    "code": "SERGEANT",
+    "name": "병장",
+    "icon": "/assets/ui/account-ranks-v2/sergeant-96.webp",
+    "group": "병사",
+    "tone": "silver",
+    "attackBp": 200,
+    "hpBp": 300,
+    "coinBp": 0,
+    "dropBp": 0,
+    "presetSlots": 1,
+    "maxLevel": 250,
+    "progress": {
+      "current": 792.721,
+      "required": 1728,
+      "percent": 45.87,
+      "maxed": false
+    }
+  },
+  "afterRank": {
+    "level": 170,
+    "code": "MAJOR",
+    "name": "소령",
+    "icon": "/assets/ui/account-ranks-v2/major-96.webp",
+    "group": "영관",
+    "tone": "ruby",
+    "attackBp": 1000,
+    "hpBp": 1500,
+    "coinBp": 500,
+    "dropBp": 0,
+    "presetSlots": 5,
+    "maxLevel": 250,
+    "progress": {
+      "current": 0,
+      "required": 5920,
+      "percent": 0,
+      "maxed": false
+    }
+  },
+  "beforeTicks": "25646833",
+  "afterTicks": "324480000",
+  "auditId": "53913",
+  "completedAt": "2026-11-02T15:23:52.796Z",
+  "planHash": "4ada07f7ebed0fbe3b9d1c3853de15d93acec77b711328b3c26ebb2c3b901242",
+  "sourceSha256": "4eadfaa9bf0c01db5b91ba651e2408046e8c348bd6b6e445c72c22df5332be41",
+  "testsPassed": 4,
+  "atomic": true,
+  "failureAndSuccessRehearsalsRolledBack": true,
+  "independentReadOnlyVerified": true,
+  "serverRankReadVerified": true,
+  "noWriteReplayVerified": true,
+  "leasesReleased": true,
+  "rankHistoryPreserved": true,
+  "masterStarsPreserved": true,
+  "messagesSent": 0,
+  "gameRedeployed": false
+}

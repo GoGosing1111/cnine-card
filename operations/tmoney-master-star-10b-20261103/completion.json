@@ -1,0 +1,23 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:tmoney-master-star-10b:20261103:v1",
+  "userId": "5147",
+  "nickname": "T-Money™",
+  "itemCode": "MASTER_STAR",
+  "amount": "10000000000",
+  "before": "178897696",
+  "after": "10178897696",
+  "inventoryLogId": "88333444",
+  "auditId": "53909",
+  "completedAt": "2026-11-02T15:19:35.655Z",
+  "planHash": "b846d118833da5ded52d3a9f1919a3cac071e6f5d3b2518dbac63b2451c4c5c3",
+  "sourceSha256": "7d329e6f5e8c7574d2318672e681b4b2215ac3ed80355434eae8429c9d578e6b",
+  "testsPassed": 5,
+  "atomic": true,
+  "failureAndSuccessRehearsalsRolledBack": true,
+  "independentReadOnlyVerified": true,
+  "noWriteReplayVerified": true,
+  "leasesReleased": true,
+  "messagesSent": 0,
+  "gameRedeployed": false
+}
