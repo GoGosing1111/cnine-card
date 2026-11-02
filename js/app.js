@@ -4074,30 +4074,107 @@ function clearPlayerLogin() {
   LEGACY_STORAGE_KEYS.forEach(key => localStorage.removeItem(key));
 }
 
+let accountPanelCleanup=null;
 function showAccountPanel() {
+  accountPanelCleanup?.();
   const user=loadUser();
   if(!user) return renderLogin();
   const modal=document.getElementById('modal');
   if(!modal) return;
-  const keyText=user.key||'현재 브라우저에 개인키가 저장되어 있지 않습니다.';
+  let keyText=String(user.key||''),opener=document.activeElement;
+  while(opener?.shadowRoot?.activeElement)opener=opener.shadowRoot.activeElement;
+  // Safari does not focus buttons on pointer clicks, including in the lobby shadow root.
+  if(!opener||opener===document.body||opener.matches('soop-adventure-lobby')){
+    const entries=[document.querySelector('soop-adventure-lobby')?.shadowRoot?.getElementById('account-shortcut'),document.getElementById('playerAccountBtn'),document.querySelector('[data-v21-profile]')];
+    opener=entries.find(entry=>entry?.getClientRects().length)||opener;
+  }
   modal.className='modal show account-modal';
-  modal.innerHTML=`<div class="modal-panel account-panel">
-    <button class="icon-close account-close" id="closeAccount">×</button>
-    <p class="eyebrow">PLAYER ACCOUNT</p>
-    <div class="account-login-state"><span class="login-dot"></span><div><small>현재 로그인된 계정</small><h2>${playerIdentityHtml(user.nickname,user.serverUserId||user.id)}</h2></div></div>
-    <div class="account-info-grid">
-      <div><span>보유 코인</span><b>◈ ${Number(user.coin||0).toLocaleString()}</b></div>
-      <div><span>수집 카드</span><b>${ownedIds(user).size} / ${cards.length}</b></div><div><span>카드 조각</span><b>🧩 ${Number(user.cardShards||0).toLocaleString()}</b></div>
-    </div>
-    <div class="account-key-box"><label>로그인 복구용 개인키</label><div><input id="accountKey" value="${escapeHtml(keyText)}" readonly><button type="button" id="copyAccountKey" ${user.key?'':'disabled'}>복사</button></div><p>다른 기기나 로그아웃 후 다시 접속할 때 필요합니다. 외부에 공개하지 마세요.</p></div>
-    <div class="account-actions"><button class="btn secondary" id="closeAccount2">계속 이용하기</button><button class="btn danger" id="logoutPlayer">로그아웃</button></div>
-  </div>`;
-  const close=()=>modal.className='modal';
-  document.getElementById('closeAccount').onclick=close;
-  document.getElementById('closeAccount2').onclick=close;
-  const copy=document.getElementById('copyAccountKey');
-  if(copy) copy.onclick=async()=>{try{await navigator.clipboard.writeText(user.key);alert('개인키가 복사되었습니다.')}catch{document.getElementById('accountKey').select();document.execCommand('copy');alert('개인키가 복사되었습니다.')}};
+  modal.innerHTML=`<section class="modal-panel account-panel" role="dialog" aria-modal="true" aria-labelledby="accountTitle" tabindex="-1">
+    <header class="account-heading"><h2 id="accountTitle">내 계정</h2><button type="button" class="account-dismiss" id="closeAccount" aria-label="계정 창 닫기">×</button></header>
+    <div class="account-identity"><span class="account-session"><i aria-hidden="true"></i>로그인 중</span><div class="account-player">${playerIdentityHtml(user.nickname,user.serverUserId||user.id)}</div><p>현재 접속한 계정의 정보입니다.</p></div>
+    <dl class="account-stats">
+      <div class="account-stat-coin"><dt>보유 코인</dt><dd>${Number(user.coin||0).toLocaleString()}</dd></div>
+      <div><dt>수집 카드</dt><dd>${ownedIds(user).size}<small> / ${cards.length}</small></dd></div>
+      <div><dt>카드 조각</dt><dd>${Number(user.cardShards||0).toLocaleString()}</dd></div>
+    </dl>
+    <section class="account-recovery" aria-labelledby="accountKeyLabel">
+      <div class="account-recovery-heading"><label id="accountKeyLabel" for="accountKey">로그인 복구용 개인키</label><span id="accountKeyState">${keyText?'숨김':'저장된 키 없음'}</span></div>
+      <p class="account-recovery-description">다른 기기에서 로그인하거나 계정을 복구할 때 사용합니다.</p>
+      <div class="account-key-controls"><input id="accountKey" type="password" value="" placeholder="•••• •••• •••• ••••" readonly autocomplete="off" spellcheck="false" tabindex="-1" aria-describedby="accountKeyHelp"><button type="button" id="toggleAccountKey" aria-controls="accountKey" aria-pressed="false" ${keyText?'':'disabled'}>보기</button><button type="button" id="copyAccountKey" ${keyText?'':'disabled'}>복사</button></div>
+      <p id="accountKeyHelp" class="account-key-help">${keyText?'개인키는 나만 확인하세요. 보기 후 30초가 지나거나 화면을 벗어나면 다시 숨겨집니다.':'현재 브라우저에 저장된 개인키가 없습니다. 다른 기기에 보관한 키를 확인해 주세요.'}</p>
+      <p id="accountKeyFeedback" class="account-key-feedback" role="status" aria-live="polite"></p>
+    </section>
+    <div class="account-footer"><button type="button" id="logoutPlayer" class="account-logout">로그아웃</button><button type="button" id="closeAccount2" class="account-continue">계속 이용하기</button></div>
+  </section>`;
+  const panel=modal.querySelector('.account-panel'),input=panel.querySelector('#accountKey'),toggle=panel.querySelector('#toggleAccountKey'),copy=panel.querySelector('#copyAccountKey'),state=panel.querySelector('#accountKeyState'),feedback=panel.querySelector('#accountKeyFeedback');
+  const lifecycle=new AbortController(),listen={signal:lifecycle.signal};
+  let revealed=false,revealTimer=null;
+  const hideKey=()=>{
+    clearTimeout(revealTimer);revealTimer=null;revealed=false;
+    input.value='';input.type='password';input.tabIndex=-1;
+    input.setAttribute('aria-label','로그인 복구용 개인키, 숨김');
+    toggle.textContent='보기';toggle.setAttribute('aria-pressed','false');
+    state.textContent=keyText?'숨김':'저장된 키 없음';
+  };
+  const cleanup=()=>{
+    hideKey();keyText='';lifecycle.abort();observer.disconnect();
+    if(accountPanelCleanup===cleanup)accountPanelCleanup=null;
+  };
+  const close=()=>{
+    cleanup();modal.className='modal';modal.replaceChildren();
+    if(opener?.isConnected)opener.focus({preventScroll:true});
+  };
+  const observer=new MutationObserver(()=>{
+    if(!panel.isConnected||!modal.classList.contains('show')||!modal.classList.contains('account-modal'))cleanup();
+  });
+  observer.observe(modal,{attributes:true,attributeFilter:['class'],childList:true});
+  // A shell re-render can remove the entire shared modal rather than close it.
+  if(modal.parentNode)observer.observe(modal.parentNode,{childList:true});
+  accountPanelCleanup=cleanup;
+  panel.querySelector('#closeAccount').onclick=close;
+  panel.querySelector('#closeAccount2').onclick=close;
+  toggle.onclick=()=>{
+    if(!keyText||lifecycle.signal.aborted)return;
+    if(revealed){hideKey();return;}
+    revealed=true;input.type='text';input.value=keyText;input.tabIndex=0;
+    input.setAttribute('aria-label','로그인 복구용 개인키');
+    toggle.textContent='숨기기';toggle.setAttribute('aria-pressed','true');state.textContent='표시 중';
+    revealTimer=setTimeout(hideKey,30000);
+  };
+  copy.onclick=async()=>{
+    if(!keyText||lifecycle.signal.aborted)return;
+    copy.disabled=true;let copied=false;
+    try{
+      if(!navigator.clipboard?.writeText)throw Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(keyText);copied=true;
+    }catch{
+      if(!lifecycle.signal.aborted&&keyText){
+        // Older WebViews need a selectable field. Never reveal the visible input.
+        const field=document.createElement('textarea'),active=document.activeElement;
+        field.value=keyText;field.readOnly=true;field.tabIndex=-1;
+        field.setAttribute('aria-hidden','true');field.style.cssText='position:fixed;left:-10000px;top:0;opacity:0;font-size:16px;';
+        panel.appendChild(field);
+        try{field.select();copied=document.execCommand('copy')===true;}catch{}finally{field.value='';field.remove();if(active?.isConnected)active.focus({preventScroll:true});}
+      }
+    }finally{
+      if(!lifecycle.signal.aborted){copy.disabled=!keyText;feedback.textContent=copied?'개인키를 복사했습니다. 안전한 곳에 보관하세요.':'복사하지 못했습니다. 보기 버튼을 눌러 직접 복사해 주세요.';feedback.dataset.error=String(!copied);}
+    }
+  };
+  modal.addEventListener('click',event=>{if(event.target===modal)close();},listen);
+  window.addEventListener('blur',hideKey,listen);
+  window.addEventListener('pagehide',cleanup,listen);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)hideKey();},listen);
+  document.addEventListener('keydown',event=>{
+    if(event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();close();return;}
+    if(event.key!=='Tab')return;
+    const controls=[...panel.querySelectorAll('button:not(:disabled),a[href],input:not([tabindex="-1"])')].filter(el=>el.getClientRects().length);
+    const first=controls[0],last=controls.at(-1);
+    if(event.shiftKey&&(document.activeElement===first||document.activeElement===panel)){event.preventDefault();last?.focus();}
+    else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
+  },{...listen,capture:true});
+  hideKey();panel.focus({preventScroll:true});
   document.getElementById('logoutPlayer').onclick=async()=>{
+    hideKey();
     if(!confirm('로그아웃하시겠습니까?\n\n다시 접속하려면 개인키가 필요합니다. 로그아웃 전에 개인키를 복사해 두세요.')) return;
     const logoutToken=API_TOKEN;
     try{
@@ -4109,7 +4186,7 @@ function showAccountPanel() {
     }finally{
       stopRuntimeCommandPoll();
       clearPlayerLogin();
-      modal.className='modal';
+      close();
       renderLogin();
     }
   };

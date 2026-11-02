@@ -1,0 +1,13 @@
+{
+  "base": "181aaef92489b6b0c86fd14bb81c19d64fa45c80",
+  "reason": "닉네임 계정 창의 개인키 기본 노출 제거와 현재 로비 패널/타이포 UI 적용. 명시적 보기, 30초/화면이탈 자동숨김, 숨긴 상태 복사 및 실패 안내, 닫기/재진입/키없음/로그아웃/키보드 초점을 실제 PC·모바일 클라이언트로 검증한다. 인증·키·서버·계정 데이터는 변경하지 않는다. 관련 UI 검사와 파생본/실제 번들 로더/공개 포장 검사만 선택한다.",
+  "tests": [
+    "tests/account-panel-privacy-20261102.test.mjs",
+    "tests/onestore-web-20261026.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs",
+    "tests/operation-audit-packaging-20261029.test.mjs"
+  ],
+  "checks": [],
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

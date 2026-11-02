@@ -4017,3 +4017,62 @@ body.burning-notice-open .fullscreen-play-link{
 .feature-blocked-panel .btn{width:100%;margin-top:22px}
 .is-tab-blocked{opacity:.52;filter:grayscale(.85)}
 .is-tab-blocked::after{content:"이용 불가";flex:none;margin-left:6px;padding:2px 6px;border-radius:999px;border:1px solid rgba(255,125,143,.5);background:rgba(255,125,143,.12);color:#ff9fae;font-size:9px;font-weight:900;letter-spacing:.02em;white-space:nowrap;vertical-align:middle}
+/* Account panel — current lobby materials, private key hidden until requested. */
+.modal.account-modal{padding:18px;background:rgba(3,10,17,.82);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);overscroll-behavior:contain}
+.account-modal .account-panel{--account-panel-art:url('/assets/ui/tactical-20261030/panel-flat.webp');box-sizing:border-box;width:min(620px,100%);max-width:620px;max-height:calc(100dvh - 36px);margin:auto;padding:24px 26px 22px;border:8px solid transparent;border-image:var(--account-panel-art) 48 fill / 16px stretch;border-radius:0;background:#102333;box-shadow:0 24px 80px #0009;color:#f4f8fb;font-family:'Pretendard Variable',Pretendard,'Noto Sans KR','Malgun Gothic',sans-serif;overflow-x:hidden;overflow-y:auto;outline:none;overscroll-behavior:contain}
+.account-panel .account-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:17px;border-bottom:1px solid #335166}
+.account-panel .account-heading h2{margin:0;font-size:24px;line-height:1.3;font-weight:800;letter-spacing:-.04em}
+.account-panel button{font:inherit;cursor:pointer;touch-action:manipulation}
+.account-panel .account-dismiss{display:grid;place-items:center;width:44px;height:44px;padding:0;flex:none;border:1px solid #416279;border-radius:3px;background:#193447;color:#d0e3ee;font-size:28px;font-weight:400;line-height:1}
+.account-panel .account-identity{padding:22px 0 20px}
+.account-panel .account-session{display:inline-flex;align-items:center;gap:7px;color:#8ce8c0;font-size:12px;font-weight:700}
+.account-panel .account-session i{width:6px;height:6px;background:currentColor;border-radius:50%}
+.account-panel .account-player{margin:8px 0 7px;font-size:27px;line-height:1.4;font-weight:800;letter-spacing:-.035em;overflow-wrap:anywhere}
+.account-panel .account-player a{color:inherit}
+.account-panel .account-identity p{margin:0;color:#a9c0d0;font-size:13px;line-height:1.6}
+.account-panel .account-stats{display:grid;grid-template-columns:1.55fr 1fr 1fr;margin:0 0 22px;padding:18px 0;border-block:1px solid #335166;background:#0b1b28}
+.account-panel .account-stats>div{min-width:0;padding:0 14px}
+.account-panel .account-stats>div+div{border-left:1px solid #2c465a}
+.account-panel .account-stats dt{margin:0 0 8px;color:#afc7d7;font-size:12px;font-weight:500}
+.account-panel .account-stats dd{margin:0;font-size:18px;line-height:1.4;font-weight:750;letter-spacing:-.035em;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.account-panel .account-stat-coin dd{color:#f4df9b}
+.account-panel .account-stats small{font-size:13px;color:#a9bfce;font-weight:500}
+.account-panel .account-recovery{padding:18px;border:1px solid #38566d;border-radius:3px;background:#152c3e}
+.account-panel .account-recovery-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.account-panel .account-recovery-heading label{font-size:15px;font-weight:750;line-height:1.5}
+.account-panel #accountKeyState{padding:3px 7px;border:1px solid #3b6178;color:#b4dbea;font-size:11px;line-height:1.4}
+.account-panel .account-recovery-description{margin:8px 0 14px;color:#bed0dc;font-size:13px;line-height:1.65;word-break:keep-all}
+.account-panel .account-key-controls{display:flex;align-items:stretch;gap:8px;min-width:0}
+.account-panel #accountKey{box-sizing:border-box;width:0;min-width:0;flex:1;height:46px;padding:0 12px;border:1px solid #3b5a70;border-radius:3px;background:#091926;color:#f4f8fb;font-family:inherit;font-size:16px;line-height:1.5;font-variant-numeric:tabular-nums;box-shadow:none}
+.account-panel #accountKey::placeholder{color:#7f9cad;letter-spacing:1px;opacity:1}
+.account-panel .account-key-controls button{min-width:58px;min-height:46px;padding:8px 12px;border:1px solid #4a7188;border-radius:3px;background:#223f54;color:#e8f4fb;font-size:13px;font-weight:750;white-space:nowrap}
+.account-panel #copyAccountKey{border-color:#4bc6e1;background:#254c61;color:#a8efff}
+.account-panel .account-key-help{margin:12px 0 0;color:#a9c2d3;font-size:12px;line-height:1.7;word-break:keep-all}
+.account-panel .account-key-feedback{min-height:20px;margin:8px 0 0;color:#8ce8c0;font-size:12px;line-height:1.65;word-break:keep-all}
+.account-panel .account-key-feedback[data-error=true]{color:#ffb7ae}
+.account-panel .account-footer{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:22px}
+.account-panel .account-logout{min-height:46px;padding:10px 4px;border:0;background:none;color:#e8b1ad;font-size:13px;font-weight:600}
+.account-panel .account-continue{min-height:48px;min-width:180px;padding:10px 24px;border:6px solid transparent;border-image:var(--account-panel-art) 48 fill / 9px stretch;border-radius:0;background:none;color:#b7f3ff;font-size:15px;font-weight:800}
+.account-panel button:disabled{opacity:.4;cursor:not-allowed}
+.account-panel button:focus-visible,.account-panel input:focus-visible,.account-panel a:focus-visible{outline:2px solid #46dcff;outline-offset:3px}
+@media(hover:hover){.account-panel button:not(:disabled):hover{filter:brightness(1.2)}.account-panel .account-logout:hover{color:#ffd0ca}}
+@media(max-width:600px){
+ .modal.account-modal{padding:12px}
+ .account-modal .account-panel{padding:16px;max-height:calc(100dvh - 24px)}
+ .account-panel .account-heading{padding-bottom:12px}
+ .account-panel .account-heading h2{font-size:21px}
+ .account-panel .account-identity{padding:18px 0}
+ .account-panel .account-player{font-size:24px}
+ .account-panel .account-stats{grid-template-columns:1fr 1fr;gap:14px 0;padding:16px 0;margin-bottom:18px}
+ .account-panel .account-stats>div{padding:0 12px}
+ .account-panel .account-stat-coin{grid-column:1 / -1;padding-bottom:14px!important;border-bottom:1px solid #2c465a}
+ .account-panel .account-stats>div:nth-child(2){border-left:0}
+ .account-panel .account-stat-coin dd{font-size:21px}
+ .account-panel .account-recovery{padding:14px}
+ .account-panel .account-key-controls{flex-wrap:wrap}
+ .account-panel #accountKey{width:100%;flex-basis:100%}
+ .account-panel .account-key-controls button{flex:1}
+ .account-panel .account-footer{gap:12px;padding-top:16px}
+ .account-panel .account-continue{min-width:0;flex:1;max-width:210px;padding-inline:12px}
+ .account-panel .account-logout{padding-inline:8px}
+}
