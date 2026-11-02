@@ -1,0 +1,47 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:jokgujoa-blackcrown-cardgu:20261102:v1",
+  "completedAt": "2026-11-02T13:01:12.826Z",
+  "completedKst": "2026-11-02 22:01:12 KST",
+  "auditId": "53892",
+  "target": {
+    "userId": "525",
+    "nickname": "족구조아",
+    "code": "V-970",
+    "name": "카드구",
+    "rank": "SSS",
+    "pack": "BLACKCROWN"
+  },
+  "quantity": 1,
+  "copiesBefore": 0,
+  "copiesAfter": 1,
+  "stock": {
+    "limit": 7,
+    "issuedBefore": 5,
+    "issuedAfter": 6,
+    "remainingBefore": 2,
+    "remainingAfter": 1
+  },
+  "serial": 6,
+  "level": 1,
+  "planHash": "00aec3925c739326ec65523c30b3d9f8ec0a0bb4b353d749fe7ac378a6e3563a",
+  "sourceSha256": "586c510c54e160c51d8190532ba20fc1d038723ad86ae613c69b275c324c1187",
+  "acquisitions": 1,
+  "numberedIssues": 1,
+  "checks": {
+    "tests": 5,
+    "actualFailureAndSuccessRolledBack": true,
+    "independentReadOnly": true,
+    "selectOnlyReplay": true,
+    "collectionSyncUpdated": true,
+    "rankedSourceVersionIncremented": true,
+    "accountAndBattleAccess": true,
+    "locksReleased": true
+  },
+  "cost": 0,
+  "automaticLoadout": false,
+  "messagesSent": 0,
+  "gameRedeployed": false,
+  "storageMaintenance": false,
+  "schedulesCreated": false
+}

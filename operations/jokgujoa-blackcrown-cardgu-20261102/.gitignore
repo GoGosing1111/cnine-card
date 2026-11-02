@@ -1,0 +1,11 @@
+*
+!.gitignore
+!preflight.mjs
+!grant.mjs
+!grant.test.mjs
+!run.mjs
+!lock-worker.mjs
+!wrangler.jsonc
+!independent.mjs
+!access.mjs
+!completion.json

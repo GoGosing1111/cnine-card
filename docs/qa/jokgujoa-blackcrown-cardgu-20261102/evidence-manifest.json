@@ -1,0 +1,147 @@
+[
+  {
+    "file": ".gitignore",
+    "bytes": 144,
+    "sha256": "d8903438611f85f4c750982167cd7bb62b20f328948cb04a59a0ff9a6fc171cf"
+  },
+  {
+    "file": "access.mjs",
+    "bytes": 3459,
+    "sha256": "41f309357612517fcb815419aca33bb252b54f6755868d3bbc8162d64bf8bd9b"
+  },
+  {
+    "file": "apply.log",
+    "bytes": 500,
+    "sha256": "fbaa6559ed647db033f3a7a34a9fd8608c6848b548c83fad2d813ea9936942ed"
+  },
+  {
+    "file": "completion.json",
+    "bytes": 1257,
+    "sha256": "5a8f8b90c9eb69c8beac083ce1627df276709724e50752bde44d7de3ba6c771a"
+  },
+  {
+    "file": "dry-run-verified.log",
+    "bytes": 540,
+    "sha256": "446b3baad9f725bbe01e533e78b165f90ab4c060b6650f74962f5328b47e41d2"
+  },
+  {
+    "file": "dry-run.log",
+    "bytes": 476,
+    "sha256": "ecd1aa4bdf60a7ad4a6a3a0d0a6d792e3fa46bf5a19b76474a7297c770c1dbea"
+  },
+  {
+    "file": "evidence/access.json",
+    "bytes": 712,
+    "sha256": "1c0dfd2f564f1b32f0348a08015a87093c57eb6724a38d5116392cddb39cbd27"
+  },
+  {
+    "file": "evidence/apply.json",
+    "bytes": 7043,
+    "sha256": "ccbe7e9176f47fb4dcb5692fe2cceff6d83ddfac95c6440818748155dc440447"
+  },
+  {
+    "file": "evidence/before.json",
+    "bytes": 44683,
+    "sha256": "81e9cb87d023cc52601562a5ad7a4311cb88cfd770cabf8e1eb9b9f35cddc6e2"
+  },
+  {
+    "file": "evidence/committed-snapshots.json",
+    "bytes": 95713,
+    "sha256": "fcbe7c31f4d630eafd36093662d8746134ad03cd1edcab18d2f1f50d83d9ec8a"
+  },
+  {
+    "file": "evidence/dry-run.json",
+    "bytes": 664,
+    "sha256": "46be757548678f7af9f084802c406fd3550b8ed8584d012a6096208ca7df90f4"
+  },
+  {
+    "file": "evidence/read.json",
+    "bytes": 442,
+    "sha256": "962e49b138778d09e162f20736cb146cbd825ea785c8116169e16178f520f01f"
+  },
+  {
+    "file": "evidence/replay.json",
+    "bytes": 574,
+    "sha256": "c9e344f2ef1100e6be617a3da99d9bf4a316bff478212f009ef29f22d9446c5c"
+  },
+  {
+    "file": "grant.mjs",
+    "bytes": 15206,
+    "sha256": "047fac4df1369e9067f333ce6285ccd91938bf640df9e80ed8670457c5904df0"
+  },
+  {
+    "file": "grant.test.mjs",
+    "bytes": 8543,
+    "sha256": "c441e2f86899a0601a1c570edecefa50e3cd8b0cd0373d229a17af77bc40ea9b"
+  },
+  {
+    "file": "independent.json",
+    "bytes": 684,
+    "sha256": "e0bf77b2e127df59b915b4565c3849626cef788bf84b50101c270a2988d7917a"
+  },
+  {
+    "file": "independent.mjs",
+    "bytes": 3966,
+    "sha256": "86cfb2affc2e3828bc85be2f22154e20e5693b3a3e8133530915fb67b0c7bf7c"
+  },
+  {
+    "file": "inspect-trigger.mjs",
+    "bytes": 1636,
+    "sha256": "a659fe635fbf0889d59a1679852c5cf3411d65a4752c52cb20745779ebc23211"
+  },
+  {
+    "file": "lock-worker.mjs",
+    "bytes": 1752,
+    "sha256": "f1163135789fd3c397da8288882f791173df583af20eaf66ab420e4e9eb349f9"
+  },
+  {
+    "file": "plan.json",
+    "bytes": 900,
+    "sha256": "7e3545f08b21defc443dee2eb75cffe51e404ac766239ea363f5c9a69a5be27b"
+  },
+  {
+    "file": "preflight.json",
+    "bytes": 3233,
+    "sha256": "06bb98e62b3fec585c8296dbe871ea8f5ddd594fe749749c40e7bde640f43a95"
+  },
+  {
+    "file": "preflight.mjs",
+    "bytes": 4306,
+    "sha256": "55206cfcfdfd823a08531266f6cbfddc3cffe5f750318c3240689bb668175ec7"
+  },
+  {
+    "file": "prepare-code.mjs",
+    "bytes": 8513,
+    "sha256": "5971656b235e28575f4539271bb095ba66d4c4699dd147d4d561dee46eb09819"
+  },
+  {
+    "file": "record.mjs",
+    "bytes": 7734,
+    "sha256": "7cf9ee8a94d33c1b57e05477adb03ebcad09e5f9d8a53178d9c55c0c9877f469"
+  },
+  {
+    "file": "run.mjs",
+    "bytes": 8053,
+    "sha256": "8848936b3fd64d6d5fbe6e766d64ce5cde683bb3d7763fa41d3590c5daa4a18f"
+  },
+  {
+    "file": "tests.json",
+    "bytes": 101,
+    "sha256": "7c18ede0745a6eb1d153b7795d0a58b77cf887c343ff3cbaba0bece7b4dedd53"
+  },
+  {
+    "file": "tests.log",
+    "bytes": 642,
+    "sha256": "648135a13ff0a0a6caa6a7b54ce12f4c92f0e11a66c6e61e632e96c305d44cb2"
+  },
+  {
+    "file": "trigger-inspection.json",
+    "bytes": 7271,
+    "sha256": "47d1f8565447fc9778dcb9064626b270bbec24fc4a63c6cf9620bc2583c0c708"
+  },
+  {
+    "file": "wrangler.jsonc",
+    "bytes": 356,
+    "sha256": "75058c60a8b8fa3d4089cc55d15e71a76bb4c1ffbeffcfe4b19e160150949f43"
+  }
+]
