@@ -1,0 +1,43 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:support-package-buyer-service:20261102:v1",
+  "completedAt": "2026-11-02 11:26:22.121342+00",
+  "completedKst": "2026-11-02 20:26:22 KST",
+  "auditId": "53853",
+  "startKst": "2026-11-01T08:59:20.667125+09:00",
+  "endKst": "2026-11-02T20:11:09+09:00",
+  "cutoffBasis": "First task inspection time, fixed before purchase selection; later purchases are not added during execution.",
+  "reopenDeployment": "127f05b1-a6dd-4f90-959d-bd29df89c732",
+  "qualifyingOrders": 40,
+  "purchaseUnits": 98,
+  "recipientCount": 21,
+  "title": "구매 서비스",
+  "body": "49,800원 패키지를 구매해 주셔서 감사합니다.\n구매 서비스로 코인 1,000조를 드립니다. 메시지함에서 보상을 수령해 주세요.",
+  "amountPerBuyer": "1000000000000000",
+  "totalCoin": "21000000000000000",
+  "planHash": "bbae37df66c96a45966a34e8d197e9ecbbe6e0ef294e77deb59f62724d3c67c4",
+  "sourceHash": "6a641dca0dfdc0d502379f538557e4e3077c771d73e6eb2d63a73150b20c9ee7",
+  "verification": {
+    "recipients": 21,
+    "messages": 21,
+    "rewardAttachments": 21,
+    "coinPerRecipient": "1000000000000000",
+    "totalCoin": "21000000000000000",
+    "claimed": 0,
+    "pending": 21,
+    "missing": 0,
+    "duplicates": 0,
+    "noImmediateWalletCredit": true
+  },
+  "messageSyncChanged": 21,
+  "tests": {
+    "actualDeployedClaim": 3,
+    "actualFailureAndSuccessRolledBack": true,
+    "independentReadOnly": true,
+    "selectOnlyReplayAdditionalWrites": 0
+  },
+  "directWalletStatements": 0,
+  "gameRedeployed": false,
+  "storageMaintenance": false,
+  "schedulesCreated": false
+}

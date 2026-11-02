@@ -1,0 +1,8 @@
+*
+!.gitignore
+!common.mjs
+!prepare.mjs
+!grant.mjs
+!run.mjs
+!claim.test.mjs
+!completion.json

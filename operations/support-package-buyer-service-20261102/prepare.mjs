@@ -1,0 +1,23 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {KEY,TITLE,BODY,AMOUNT,START,END,CODES,hash,eligible} from './common.mjs';
+const read=f=>JSON.parse(fs.readFileSync(new URL(f,import.meta.url)));
+const d=read('inspection.json'),request=read('request.json'),deployment=read('reopen-deployment.json');
+assert.equal(deployment.latestStage.ended_on,START);assert.equal(request.cutoffUtc,END);
+assert.equal(d.prior.receipts.length,0);assert.equal(d.prior.messages.length,0);
+const orders=d.relevant.filter(r=>eligible(r.order));assert.equal(orders.length,40);
+const proofs=orders.map(r=>{
+ const o=r.order;assert(CODES.includes(o.product.code));assert(o.createdAt>=Date.parse(START));
+ const quantity=o.quantity??1;assert(Number.isSafeInteger(quantity)&&quantity>=1&&quantity<=100);
+ assert.equal(o.fulfillment.priceWon,49800*quantity);
+ const audits=d.purchaseAudits.filter(a=>a.action_type==='SUPPORT_PACKAGE_FULFILL'&&JSON.parse(a.after_data).id===o.id);assert.equal(audits.length,1);assert.deepEqual(JSON.parse(audits[0].after_data),o);assert.equal(audits[0].target_id,String(o.userId));
+ const processes=d.process.filter(p=>p.receipt.result?.order?.id===o.id&&p.receipt.result.ok);assert.equal(processes.length,1);assert.deepEqual(processes[0].receipt.result.order,o);assert.equal(JSON.parse(processes[0].receipt.payload)[2],'FULFILL');
+ const logs=d.coins.filter(c=>c.reason==='시즌패스 패키지 구매 '+o.id);assert.equal(logs.length,1);assert.equal(logs[0].user_id,String(o.userId));assert.equal(logs[0].change_amount,String(o.fulfillment.coins));
+ return {orderId:o.id,key:r.key,orderHash:r.hash,userId:String(o.userId),quantity,productCode:o.product.code,createdAt:new Date(o.createdAt).toISOString(),processedAt:new Date(o.processedAt).toISOString(),paidWon:o.fulfillment.priceWon,coinAmount:logs[0].change_amount,auditId:audits[0].id,auditHash:hash(audits[0]),processKey:processes[0].key,processHash:processes[0].hash,coinLogId:logs[0].id,coinLogHash:hash(logs[0])};
+});
+const ids=[...new Set(proofs.map(o=>o.userId))].sort((a,b)=>Number(a)-Number(b));assert.equal(ids.length,21);
+const recipients=ids.map(userId=>{const u=d.users.find(u=>u.id===userId);assert(u);assert.equal(u.status,'ACTIVE');assert(BigInt(u.coin)+BigInt(AMOUNT)<=BigInt(Number.MAX_SAFE_INTEGER));return {userId,nickname:u.nickname,status:u.status,role:u.role,identityHash:u.identityHash,amount:AMOUNT,orderIds:proofs.filter(o=>o.userId===userId).map(o=>o.orderId)};});
+const plan={operationKey:KEY,authorization:request.authorization,dateKST:'2026-11-02',startUtc:START,endUtc:END,startKst:'2026-11-01T08:59:20.667125+09:00',endKst:request.cutoffKst,reopenDeployment:deployment.id,reopenCommit:deployment.commit,cutoffBasis:request.cutoffBasis,eligibility:'FULFILLED 49800-won November reopened-package orders; completion time inside the frozen inclusive window, corroborated by admin fulfillment audit, process receipt and coin ledger; one message per buyer account regardless of quantity or repeat orders.',delivery:'MESSAGE_ATTACHMENT',title:TITLE,body:BODY,rewardType:'COIN',amountPerBuyer:AMOUNT,recipientCount:recipients.length,totalCoin:String(BigInt(AMOUNT)*BigInt(recipients.length)),recipientHash:hash(recipients),recipients,orderCount:proofs.length,purchaseUnits:proofs.reduce((n,o)=>n+o.quantity,0),orders:proofs,exclusions:d.relevant.filter(r=>!eligible(r.order)).map(r=>({orderId:r.order.id,userId:String(r.order.userId),status:r.order.status})),inspectionHash:hash(d),inspectedAt:d.clock.now,noImmediateWalletCredit:true};
+fs.writeFileSync(new URL('plan.json',import.meta.url),JSON.stringify(plan,null,2)+'\n',{flag:'wx'});
+fs.writeFileSync(new URL('plan-hash.json',import.meta.url),JSON.stringify({planHash:hash(plan)},null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify({planHash:hash(plan),start:plan.startKst,end:plan.endKst,recipients:recipients.length,orders:proofs.length,purchaseUnits:plan.purchaseUnits,total:plan.totalCoin,names:recipients.map(u=>u.nickname),exclusions:plan.exclusions},null,2));

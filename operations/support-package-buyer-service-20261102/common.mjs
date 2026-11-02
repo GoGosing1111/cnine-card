@@ -1,0 +1,12 @@
+import {createHash} from 'node:crypto';
+export const KEY='ops:support-package-buyer-service:20261102:v1';
+export const ACTION='OPS_SUPPORT_PACKAGE_BUYER_SERVICE_MESSAGES_20261102';
+export const TITLE='구매 서비스';
+export const BODY='49,800원 패키지를 구매해 주셔서 감사합니다.\n구매 서비스로 코인 1,000조를 드립니다. 메시지함에서 보상을 수령해 주세요.';
+export const AMOUNT='1000000000000000';
+export const START='2026-10-31T23:59:20.667125Z';
+export const END='2026-11-02T11:11:09.000Z';
+export const CODES=['SEASON_PASS_PACKAGE_20261101','SEASON_PASS_PACKAGE_20261101_SCROLLS','SEASON_PASS_PACKAGE_20261101_500T'];
+export const hash=v=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
+export const eligible=o=>o.status==='FULFILLED'&&Number(o.processedAt)>=Date.parse(START)&&Number(o.processedAt)<=Date.parse(END)&&Number(o.product?.priceWon)===49800;
+export const identity=({provider,provider_user_id})=>hash({provider,providerUserId:provider_user_id});
