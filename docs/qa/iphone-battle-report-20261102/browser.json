@@ -1,0 +1,824 @@
+{
+  "webkitMobile": {
+    "reports": [
+      {
+        "width": 390,
+        "mode": "PVE",
+        "entry": "actual start button",
+        "result": true,
+        "return": true,
+        "actors": [
+          {
+            "id": "A:MERCENARY:V-989",
+            "visible": true,
+            "alpha": 1
+          }
+        ],
+        "levels": [
+          1
+        ]
+      },
+      {
+        "width": 390,
+        "mode": "PVP",
+        "entry": "actual start button",
+        "result": true,
+        "return": true,
+        "actors": [
+          {
+            "id": "A:MERCENARY:V-989",
+            "visible": true,
+            "alpha": 1
+          }
+        ],
+        "levels": [
+          1
+        ]
+      }
+    ],
+    "publicBase": "",
+    "productionWrites": 0
+  },
+  "chromiumDesktop": {
+    "reports": [
+      {
+        "width": 1440,
+        "mode": "PVE",
+        "entry": "actual start button",
+        "result": true,
+        "return": true,
+        "actors": [
+          {
+            "id": "A:MERCENARY:V-989",
+            "visible": true,
+            "alpha": 1
+          }
+        ],
+        "levels": [
+          1
+        ]
+      },
+      {
+        "width": 1440,
+        "mode": "PVP",
+        "entry": "actual start button",
+        "result": true,
+        "return": true,
+        "actors": [
+          {
+            "id": "A:MERCENARY:V-989",
+            "visible": false,
+            "alpha": 1
+          }
+        ],
+        "levels": [
+          1
+        ]
+      }
+    ],
+    "publicBase": "",
+    "productionWrites": 0
+  },
+  "legion": {
+    "engine": "webkit",
+    "publicBase": "",
+    "errors": [
+      "ResizeObserver loop completed with undelivered notifications."
+    ],
+    "samples": [
+      {
+        "label": "legion-active-0",
+        "rgbaBytes": 138140104,
+        "canvases": 1
+      },
+      {
+        "label": "legion-active-1",
+        "rgbaBytes": 138140104,
+        "canvases": 1
+      },
+      {
+        "label": "legion-active-2",
+        "rgbaBytes": 118190480,
+        "canvases": 1
+      },
+      {
+        "label": "legion-closed",
+        "rgbaBytes": 0,
+        "canvases": 0
+      }
+    ],
+    "productionWrites": 0,
+    "at": "2026-11-02T10:12:03.711Z"
+  },
+  "cooperative": {
+    "webkit": {
+      "reports": [
+        {
+          "scene": {
+            "root": [
+              true,
+              1,
+              true
+            ],
+            "stage": [
+              true,
+              1,
+              true
+            ],
+            "canvas": {
+              "width": 488,
+              "height": 893,
+              "css": "",
+              "parents": [
+                {
+                  "tag": "CANVAS",
+                  "cl": "pv-pixi-canvas",
+                  "opacity": "1",
+                  "display": "block",
+                  "visibility": "visible",
+                  "rect": {
+                    "x": 0,
+                    "y": 131,
+                    "width": 390,
+                    "height": 712.984375,
+                    "top": 131,
+                    "right": 390,
+                    "bottom": 843.984375,
+                    "left": 0
+                  }
+                },
+                {
+                  "tag": "DIV",
+                  "cl": "battle-v3-canvas-host pv-pixi-battle",
+                  "opacity": "1",
+                  "display": "block",
+                  "visibility": "visible",
+                  "rect": {
+                    "x": 0,
+                    "y": 131,
+                    "width": 390,
+                    "height": 712.984375,
+                    "top": 131,
+                    "right": 390,
+                    "bottom": 843.984375,
+                    "left": 0
+                  }
+                },
+                {
+                  "tag": "DIV",
+                  "cl": "modal-panel battle-stage battle-v3-live-shell is-roster-visible has-jinmu-dialogue is-v3-ready",
+                  "opacity": "1",
+                  "display": "block",
+                  "visibility": "visible",
+                  "rect": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 390,
+                    "height": 843.984375,
+                    "top": 0,
+                    "right": 390,
+                    "bottom": 843.984375,
+                    "left": 0
+                  }
+                },
+                {
+                  "tag": "DIV",
+                  "cl": "modal show battle-modal battle-v3-modal coop-battle-mount",
+                  "opacity": "1",
+                  "display": "block",
+                  "visibility": "visible",
+                  "rect": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 390,
+                    "height": 844,
+                    "top": 0,
+                    "right": 390,
+                    "bottom": 844,
+                    "left": 0
+                  }
+                },
+                {
+                  "tag": "DIV",
+                  "cl": "coop-battle-portal has-jinmu-dialogue",
+                  "opacity": "1",
+                  "display": "flex",
+                  "visibility": "visible",
+                  "rect": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 390,
+                    "height": 844,
+                    "top": 0,
+                    "right": 390,
+                    "bottom": 844,
+                    "left": 0
+                  }
+                },
+                {
+                  "tag": "BODY",
+                  "cl": "",
+                  "opacity": "1",
+                  "display": "block",
+                  "visibility": "visible",
+                  "rect": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 390,
+                    "height": 843.984375,
+                    "top": 0,
+                    "right": 390,
+                    "bottom": 843.984375,
+                    "left": 0
+                  }
+                },
+                {
+                  "tag": "HTML",
+                  "cl": "",
+                  "opacity": "1",
+                  "display": "block",
+                  "visibility": "visible",
+                  "rect": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 390,
+                    "height": 843.984375,
+                    "top": 0,
+                    "right": 390,
+                    "bottom": 843.984375,
+                    "left": 0
+                  }
+                }
+              ]
+            },
+            "actors": [
+              {
+                "id": "A:OWNER:1:CARD:CN-47AD4B47B6A7452C",
+                "visible": true,
+                "alpha": 1,
+                "x": 143.3711790393013,
+                "y": 730.9781659388645
+              },
+              {
+                "id": "A:OWNER:1:CARD:CN-5D0E2E4D58C9416F",
+                "visible": true,
+                "alpha": 1,
+                "x": 575.3711790393013,
+                "y": 730.9781659388645
+              },
+              {
+                "id": "A:OWNER:2:CARD:CN-5D0E2E4D58C9416F",
+                "visible": true,
+                "alpha": 1,
+                "x": 143.3711790393013,
+                "y": 1030.9781659388645
+              },
+              {
+                "id": "A:OWNER:2:CARD:CN-47AD4B47B6A7452C",
+                "visible": true,
+                "alpha": 1,
+                "x": 575.3711790393013,
+                "y": 1030.9781659388645
+              },
+              {
+                "id": "A:OWNER:3:CARD:CN-346F8DB0DEB84D41",
+                "visible": true,
+                "alpha": 1,
+                "x": 143.3711790393013,
+                "y": 1330.9781659388645
+              },
+              {
+                "id": "B:0:COOP:STALKER_A",
+                "visible": true,
+                "alpha": 1,
+                "x": 1007.3711790393013,
+                "y": 730.9781659388645
+              },
+              {
+                "id": "B:1:COOP:STALKER_B",
+                "visible": true,
+                "alpha": 1,
+                "x": 1007.3711790393013,
+                "y": 1030.9781659388645
+              },
+              {
+                "id": "B:2:COOP:WATCHER",
+                "visible": true,
+                "alpha": 1,
+                "x": 1007.3711790393013,
+                "y": 1330.9781659388645
+              },
+              {
+                "id": "ENEMY-04",
+                "visible": false,
+                "alpha": 0,
+                "x": 1007.3711790393013,
+                "y": 730.9781659388645
+              },
+              {
+                "id": "ENEMY-05",
+                "visible": false,
+                "alpha": 0,
+                "x": 1007.3711790393013,
+                "y": 1030.9781659388645
+              },
+              {
+                "id": "A:OWNER:3:CARD:CN-25F931CE393D474E",
+                "visible": true,
+                "alpha": 1,
+                "x": 575.3711790393013,
+                "y": 1330.9781659388645
+              },
+              {
+                "id": "A:OWNER:1:MERCENARY:V-989",
+                "visible": true,
+                "alpha": 1,
+                "x": 359.3711790393013,
+                "y": 730.9781659388645
+              },
+              {
+                "id": "A:OWNER:2:MERCENARY:V-055",
+                "visible": true,
+                "alpha": 1,
+                "x": 359.3711790393013,
+                "y": 1030.9781659388645
+              },
+              {
+                "id": "A:OWNER:3:MERCENARY:V-049",
+                "visible": true,
+                "alpha": 1,
+                "x": 359.3711790393013,
+                "y": 1330.9781659388645
+              }
+            ]
+          },
+          "width": 390,
+          "formation": true,
+          "mode": "RAID",
+          "actors": 9,
+          "dialogues": 1,
+          "rect": {
+            "x": 0,
+            "y": 131,
+            "width": 390,
+            "height": 106,
+            "top": 131,
+            "right": 390,
+            "bottom": 237,
+            "left": 0
+          },
+          "canvas": {
+            "x": 0,
+            "y": 131,
+            "width": 390,
+            "height": 712.984375,
+            "top": 131,
+            "right": 390,
+            "bottom": 843.984375,
+            "left": 0
+          },
+          "faceOpacity": "1",
+          "overlaps": [],
+          "overflow": false,
+          "framing": {
+            "before": {
+              "top": 131,
+              "height": 712.984375,
+              "root": 0.33925925925925926,
+              "stage": 1
+            },
+            "frames": [
+              {
+                "top": 131,
+                "height": 712.984375,
+                "root": 0.33925925925925926,
+                "stage": 1
+              },
+              {
+                "top": 131,
+                "height": 712.984375,
+                "root": 0.33925925925925926,
+                "stage": 1
+              },
+              {
+                "top": 131,
+                "height": 712.984375,
+                "root": 0.33925925925925926,
+                "stage": 1
+              },
+              {
+                "top": 131,
+                "height": 712.984375,
+                "root": 0.33925925925925926,
+                "stage": 1
+              },
+              {
+                "top": 131,
+                "height": 712.984375,
+                "root": 0.33925925925925926,
+                "stage": 1
+              },
+              {
+                "top": 131,
+                "height": 712.984375,
+                "root": 0.33925925925925926,
+                "stage": 1
+              }
+            ],
+            "zoomEnabled": false
+          },
+          "memory": {
+            "bytes": 238707504,
+            "loading": {
+              "active": 0,
+              "queued": 0,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 12,
+              "compaction": {
+                "images": 42,
+                "originalBytes": 558690880,
+                "residentBytes": 129055888,
+                "failures": 0
+              }
+            },
+            "lost": false
+          },
+          "dialogue": {
+            "visible": true,
+            "line": "“고개를 들어라. 마지막으로 볼 하늘이다.”",
+            "castIndex": 1,
+            "active": true,
+            "fullIllustration": false,
+            "speaker": "V-989"
+          },
+          "cleanup": {
+            "panels": 0,
+            "portal": false
+          }
+        }
+      ],
+      "errors": []
+    },
+    "chromium": {
+      "reports": [
+        {
+          "scene": {
+            "root": [
+              true,
+              1,
+              true
+            ],
+            "stage": [
+              true,
+              1,
+              true
+            ],
+            "canvas": {
+              "width": 488,
+              "height": 891,
+              "css": "",
+              "parents": [
+                {
+                  "tag": "CANVAS",
+                  "cl": "pv-pixi-canvas",
+                  "opacity": "1",
+                  "display": "block",
+                  "visibility": "visible",
+                  "rect": {
+                    "x": 0,
+                    "y": 131,
+                    "width": 390,
+                    "height": 713,
+                    "top": 131,
+                    "right": 390,
+                    "bottom": 844,
+                    "left": 0
+                  }
+                },
+                {
+                  "tag": "DIV",
+                  "cl": "battle-v3-canvas-host pv-pixi-battle",
+                  "opacity": "1",
+                  "display": "block",
+                  "visibility": "visible",
+                  "rect": {
+                    "x": 0,
+                    "y": 131,
+                    "width": 390,
+                    "height": 713,
+                    "top": 131,
+                    "right": 390,
+                    "bottom": 844,
+                    "left": 0
+                  }
+                },
+                {
+                  "tag": "DIV",
+                  "cl": "modal-panel battle-stage battle-v3-live-shell is-roster-visible has-jinmu-dialogue is-v3-ready",
+                  "opacity": "1",
+                  "display": "block",
+                  "visibility": "visible",
+                  "rect": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 390,
+                    "height": 844,
+                    "top": 0,
+                    "right": 390,
+                    "bottom": 844,
+                    "left": 0
+                  }
+                },
+                {
+                  "tag": "DIV",
+                  "cl": "modal show battle-modal battle-v3-modal coop-battle-mount",
+                  "opacity": "1",
+                  "display": "block",
+                  "visibility": "visible",
+                  "rect": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 390,
+                    "height": 844,
+                    "top": 0,
+                    "right": 390,
+                    "bottom": 844,
+                    "left": 0
+                  }
+                },
+                {
+                  "tag": "DIV",
+                  "cl": "coop-battle-portal has-jinmu-dialogue",
+                  "opacity": "1",
+                  "display": "flex",
+                  "visibility": "visible",
+                  "rect": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 390,
+                    "height": 844,
+                    "top": 0,
+                    "right": 390,
+                    "bottom": 844,
+                    "left": 0
+                  }
+                },
+                {
+                  "tag": "BODY",
+                  "cl": "",
+                  "opacity": "1",
+                  "display": "block",
+                  "visibility": "visible",
+                  "rect": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 390,
+                    "height": 844,
+                    "top": 0,
+                    "right": 390,
+                    "bottom": 844,
+                    "left": 0
+                  }
+                },
+                {
+                  "tag": "HTML",
+                  "cl": "",
+                  "opacity": "1",
+                  "display": "block",
+                  "visibility": "visible",
+                  "rect": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 390,
+                    "height": 844,
+                    "top": 0,
+                    "right": 390,
+                    "bottom": 844,
+                    "left": 0
+                  }
+                }
+              ]
+            },
+            "actors": [
+              {
+                "id": "A:OWNER:1:CARD:CN-47AD4B47B6A7452C",
+                "visible": true,
+                "alpha": 1,
+                "x": 143.3711790393013,
+                "y": 728.6200873362444
+              },
+              {
+                "id": "A:OWNER:1:CARD:CN-5D0E2E4D58C9416F",
+                "visible": true,
+                "alpha": 1,
+                "x": 575.3711790393013,
+                "y": 728.6200873362444
+              },
+              {
+                "id": "A:OWNER:2:CARD:CN-5D0E2E4D58C9416F",
+                "visible": true,
+                "alpha": 1,
+                "x": 143.3711790393013,
+                "y": 1028.6200873362445
+              },
+              {
+                "id": "A:OWNER:2:CARD:CN-47AD4B47B6A7452C",
+                "visible": true,
+                "alpha": 1,
+                "x": 575.3711790393013,
+                "y": 1028.6200873362445
+              },
+              {
+                "id": "A:OWNER:3:CARD:CN-346F8DB0DEB84D41",
+                "visible": true,
+                "alpha": 1,
+                "x": 143.3711790393013,
+                "y": 1328.6200873362445
+              },
+              {
+                "id": "B:0:COOP:STALKER_A",
+                "visible": true,
+                "alpha": 1,
+                "x": 1007.3711790393013,
+                "y": 728.6200873362444
+              },
+              {
+                "id": "B:1:COOP:STALKER_B",
+                "visible": true,
+                "alpha": 1,
+                "x": 1007.3711790393013,
+                "y": 1028.6200873362445
+              },
+              {
+                "id": "B:2:COOP:WATCHER",
+                "visible": true,
+                "alpha": 1,
+                "x": 1007.3711790393013,
+                "y": 1328.6200873362445
+              },
+              {
+                "id": "ENEMY-04",
+                "visible": false,
+                "alpha": 0,
+                "x": 1007.3711790393013,
+                "y": 728.6200873362444
+              },
+              {
+                "id": "ENEMY-05",
+                "visible": false,
+                "alpha": 0,
+                "x": 1007.3711790393013,
+                "y": 1028.6200873362445
+              },
+              {
+                "id": "A:OWNER:3:CARD:CN-25F931CE393D474E",
+                "visible": true,
+                "alpha": 1,
+                "x": 575.3711790393013,
+                "y": 1328.6200873362445
+              },
+              {
+                "id": "A:OWNER:1:MERCENARY:V-989",
+                "visible": true,
+                "alpha": 1,
+                "x": 359.3711790393013,
+                "y": 728.6200873362444
+              },
+              {
+                "id": "A:OWNER:2:MERCENARY:V-055",
+                "visible": true,
+                "alpha": 1,
+                "x": 359.3711790393013,
+                "y": 1028.6200873362445
+              },
+              {
+                "id": "A:OWNER:3:MERCENARY:V-049",
+                "visible": true,
+                "alpha": 1,
+                "x": 359.3711790393013,
+                "y": 1328.6200873362445
+              }
+            ]
+          },
+          "width": 390,
+          "formation": true,
+          "mode": "RAID",
+          "actors": 9,
+          "dialogues": 1,
+          "rect": {
+            "x": 0,
+            "y": 131,
+            "width": 390,
+            "height": 106,
+            "top": 131,
+            "right": 390,
+            "bottom": 237,
+            "left": 0
+          },
+          "canvas": {
+            "x": 0,
+            "y": 131,
+            "width": 390,
+            "height": 713,
+            "top": 131,
+            "right": 390,
+            "bottom": 844,
+            "left": 0
+          },
+          "faceOpacity": "1",
+          "overlaps": [],
+          "overflow": false,
+          "framing": {
+            "before": {
+              "top": 131,
+              "height": 713,
+              "root": 0.33925925925925926,
+              "stage": 1
+            },
+            "frames": [
+              {
+                "top": 131,
+                "height": 713,
+                "root": 0.33925925925925926,
+                "stage": 1
+              },
+              {
+                "top": 131,
+                "height": 713,
+                "root": 0.33925925925925926,
+                "stage": 1
+              },
+              {
+                "top": 131,
+                "height": 713,
+                "root": 0.33925925925925926,
+                "stage": 1
+              },
+              {
+                "top": 131,
+                "height": 713,
+                "root": 0.33925925925925926,
+                "stage": 1
+              },
+              {
+                "top": 131,
+                "height": 713,
+                "root": 0.33925925925925926,
+                "stage": 1
+              },
+              {
+                "top": 131,
+                "height": 713,
+                "root": 0.33925925925925926,
+                "stage": 1
+              }
+            ],
+            "zoomEnabled": false
+          },
+          "memory": {
+            "bytes": 239244300,
+            "loading": {
+              "active": 0,
+              "queued": 0,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 9,
+              "compaction": {
+                "images": 41,
+                "originalBytes": 551400880,
+                "residentBytes": 127233388,
+                "failures": 0
+              }
+            },
+            "lost": false
+          },
+          "dialogue": {
+            "visible": true,
+            "line": "“고개를 들어라. 마지막으로 볼 하늘이다.”",
+            "castIndex": 1,
+            "active": true,
+            "fullIllustration": false,
+            "speaker": "V-989"
+          },
+          "cleanup": {
+            "panels": 0,
+            "portal": false
+          }
+        }
+      ],
+      "errors": []
+    }
+  },
+  "limits": [
+    "Headless Windows browsers with iPhone UA/viewport, not an iPhone hardware test.",
+    "WebKit cooperative portal compositor screenshot blank in baseline and modified source. Extracted WebGL canvas contains full battlefield and 12 actors; Chromium portal screenshot is complete. This screenshot limitation is not treated as resolved iPhone behavior.",
+    "An initial concurrency=1 implementation exceeded the cooperative 14-second initialization watchdog; final maximum is 2 and was rerun.",
+    "One parallel WebKit PVE run exceeded result wait; final standalone run completed PVE and PVP results and returns. Existing ResizeObserver warning in legion is recorded."
+  ],
+  "sourceHashes": {
+    "BattleAssetMemory.mjs": "ec6a9b86af78b609dc487384694170a0229c7fc0b3b4a010d45fbbde83a7df79",
+    "BattleTextureLifecycle.mjs": "62b25a9e5ea3a7c6ba2a391ba414734b4250f32c71daaa966fa38398e04bd27a",
+    "BattleDevicePolicy.mjs": "d2c700a47839bcc8063e6f80d5171e830687eba773cec90969750be1864c1240"
+  }
+}

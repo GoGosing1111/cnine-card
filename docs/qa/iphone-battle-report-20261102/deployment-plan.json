@@ -1,0 +1,16 @@
+{
+  "base": "7bc4ca414fbb81917fede7719f4be17b75be15d1",
+  "reason": "iPhone 전투 도중 대형 용병 이미지의 원본 디코딩/GPU 부하를 낮추는 공통 로더 수정. 직접 사용하는 전투 이미지의 논리 프레임/UV/크기는 보존하고 iOS 디코딩과 축소의 동시 처리를 최대 두 장으로 제한한다. 원본 이미지·서버 피해·보상·입장·계정은 유지한다. PVE/PVP, 군단토벌 반복진입, 격전지 진무 스킬과 WebKit을 확인한다.",
+  "tests": [
+    "tests/iphone-battle-bitmap-20261102.test.mjs",
+    "tests/ios-safari-battle-memory-20261031.test.mjs",
+    "tests/battle-mobile-memory-20261024.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs",
+    "tests/v3-fluid-combat-v2126.test.mjs",
+    "tests/onestore-web-20261026.test.mjs",
+    "tests/operation-audit-packaging-20261029.test.mjs"
+  ],
+  "checks": [],
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

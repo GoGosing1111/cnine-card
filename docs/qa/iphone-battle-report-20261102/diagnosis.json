@@ -1,0 +1,44 @@
+{
+  "video": {
+    "path": "C:/Users/User/Desktop/KakaoTalk_20261102_183704363.mp4",
+    "sha256": "1194b643a3e59e9c5a1ff1d352b44e940a46e25d8583b9feec7ea3b2410e86a6",
+    "durationSeconds": 33.93,
+    "observations": [
+      {
+        "seconds": 0,
+        "description": "전투 로딩 시작"
+      },
+      {
+        "seconds": 9,
+        "description": "진무 및 전장 정상 표시, 회피 UI 동작"
+      },
+      {
+        "seconds": 21,
+        "description": "전장 배경과 대부분 캐릭터가 검게 사라짐; DOM 배너/카드 일부 유지"
+      },
+      {
+        "seconds": 30,
+        "description": "cnine-card.pages.dev/?source=pwa에서 문제가 반복적으로 발생했다는 iOS 오류 화면"
+      }
+    ],
+    "deviceModel": null,
+    "iosVersion": null,
+    "deviceTerminationLogProvided": false
+  },
+  "finding": "브라우저 전투 렌더링 실패와 페이지 종료 확인; 대형 동작/효과 이미지 메모리 부하 확인. 기기 로그 없이 OS 종료의 단일 원인 확정은 하지 않음.",
+  "jinmuAtlasMiB": {
+    "before": 178.5,
+    "after": 44.625,
+    "reductionPercent": 75
+  },
+  "pveImageCache": {
+    "metric": "unique cached image pixel width*height*4 estimate; not total RAM/GPU or actual iPhone memory",
+    "beforeMiB": 256.5619239807129,
+    "afterMiB": 122.68692398071289,
+    "reductionPercent": 52.18038511827814
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "realIphoneValidated": false,
+  "storageMaintenance": false
+}

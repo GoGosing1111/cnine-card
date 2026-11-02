@@ -12,7 +12,7 @@ function assets(){
   return {cache,unloaded,async load(url){cache.set(url,{url});return cache.get(url);},async unload(url){unloaded.push(url);cache.delete(url);}};
 }
 function memory(A,extra={}){
-  const context={Assets:A,URL,Map,Set,Promise,...extra};
+  const context={Assets:A,BATTLE_DEVICE:{ios:false},URL,Map,Set,Promise,...extra};
   vm.runInNewContext(memorySource.replace(/^import .*;\r?$/gm,'').replace(/^export /gm,'')+'\nthis.memory=battleAssetMemory;this.image=battleImageUrl;',context);
   return context;
 }

@@ -10,7 +10,7 @@ const tick=()=>new Promise(r=>setImmediate(r));
 
 test('iPhone and desktop-mode iPad are bounded without relying on deviceMemory or viewport',()=>{
  for(const device of [{userAgent:'Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X)'},{platform:'MacIntel',maxTouchPoints:5}]){
-  const p=battleDevicePolicy({...device,pixelRatio:3});assert.equal(p.ios,true);assert.equal(p.resolution,1.25);assert.equal(p.imageConcurrency,3);assert.equal(p.maxFPS,45);
+  const p=battleDevicePolicy({...device,pixelRatio:3});assert.equal(p.ios,true);assert.equal(p.resolution,1.25);assert.equal(p.imageConcurrency,2);assert.equal(p.maxFPS,45);
  }
  assert.equal(battleDevicePolicy({platform:'MacIntel',maxTouchPoints:0,pixelRatio:2}).resolution,2);
  assert.equal(battleDevicePolicy({coarse:true,pixelRatio:3}).resolution,1.5);

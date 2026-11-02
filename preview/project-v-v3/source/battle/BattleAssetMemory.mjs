@@ -1,4 +1,5 @@
 import {Assets} from 'pixi.js';
+import {BATTLE_DEVICE} from './BattleDevicePolicy.mjs';
 
 // These are per-battle bodies, cut-ins and authored motion banks. Shared role,
 // HUD and ballistic atlases keep their own persistent frame caches; do not
@@ -15,7 +16,7 @@ export function isBattleOwnedImage(value){
 // Observe only owned image URLs, not Pixi's private caches or JSON/atlas aliases.
 // Waiting for warm-up work and all loads before unload prevents a late download
 // from repopulating the retired scene, or an old release destroying battle two.
-export function createBattleAssetMemory(assets){
+export function createBattleAssetMemory(assets,{ios=false}={}){
   const paths=new Set(),pending=new Set(),load=assets.load.bind(assets),unload=assets.unload.bind(assets);
   let releasing=null;
   assets.load=function(input,...args){
@@ -23,7 +24,15 @@ export function createBattleAssetMemory(assets){
       const url=typeof item==='string'?item:item?.src;
       if(isBattleOwnedImage(url))paths.add(url);
     }
-    const result=load(input,...args);
+    // Only direct, battle-owned images use authored logical frame coordinates.
+    // Do not tag JSON spritesheets: Pixi applies their meta.scale separately.
+    const compact=item=>{
+      const url=typeof item==='string'?item:item?.src;
+      if(!ios||!isBattleOwnedImage(url))return item;
+      const asset=typeof item==='string'?{src:item}:item;
+      return {...asset,data:{...asset.data,battleLogicalPixels:true}};
+    };
+    const result=load(Array.isArray(input)?input.map(compact):compact(input),...args);
     pending.add(result);
     void Promise.resolve(result).then(()=>pending.delete(result),()=>pending.delete(result));
     return result;
@@ -49,7 +58,7 @@ export function createBattleAssetMemory(assets){
     diagnostics(){return {ownedImages:paths.size,pendingLoads:pending.size,releasing:!!releasing};}
   };
 }
-export const battleAssetMemory=createBattleAssetMemory(Assets);
+export const battleAssetMemory=createBattleAssetMemory(Assets,BATTLE_DEVICE);
 
 export function battleWarmupWork(engine){
   const work=[];
