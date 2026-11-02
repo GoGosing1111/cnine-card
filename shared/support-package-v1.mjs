@@ -33,9 +33,9 @@ export const SUPPORT_PACKAGE=Object.freeze({...SUPPORT_PACKAGE_CURRENT_UNIT,
 });
 // Display metadata stays outside immutable order/fulfillment products.
 export const SUPPORT_PACKAGE_EVENT_DEADLINE=Object.freeze({
-  eventCode:'SUPPORT_PACKAGE_BOGO_20261101',endsAt:'2026-11-03T00:00:00+09:00',
-  label:'11월 3일 00:00 판매 종료',detail:'11월 2일에서 3일로 넘어가는 자정 · 한국시간',
-  notice:'1+1 패키지 판매 종료: 2026년 11월 3일 00:00 (한국시간)\n11월 2일에서 3일로 넘어가는 자정'
+  eventCode:'SUPPORT_PACKAGE_BOGO_20261101',endsAt:'2026-11-04T00:00:00+09:00',
+  label:'11월 4일 00:00 판매 종료',detail:'11월 3일에서 4일로 넘어가는 자정 · 한국시간',
+  notice:'1+1 패키지 판매 종료: 2026년 11월 4일 00:00 (한국시간)\n11월 3일에서 4일로 넘어가는 자정'
 });
 export const supportPackageEventDeadline=product=>product?.eventCode===SUPPORT_PACKAGE_EVENT_DEADLINE.eventCode?SUPPORT_PACKAGE_EVENT_DEADLINE:null;
 export const SUPPORT_PACKAGE_SALES_ENDS_AT=Date.parse(SUPPORT_PACKAGE_EVENT_DEADLINE.endsAt);

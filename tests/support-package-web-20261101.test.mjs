@@ -17,7 +17,8 @@ test('direct Windows and Android clients plus browser/PWA user agents expose and
    assert.equal((await call(agent,'server-support/package/apply',{requestId:crypto.randomUUID(),quantity:1},3)).status,403);
   }
   assert.equal(Number((await f.one("SELECT COUNT(*) n FROM user_messages WHERE campaign_key LIKE 'support_package_owner_alert_v1:%'")).n),1);
-  f.clock.now=Date.parse('2026-11-03T00:00:00+09:00');for(const agent of agents){assert.equal((await call(agent,'server-support/info')).body.packageVisible,false);assert.equal((await call(agent,'server-support/package/apply',{requestId:crypto.randomUUID(),quantity:100})).status,410);}
+  f.clock.now=Date.parse('2026-11-03T00:00:00+09:00');for(const agent of agents){assert.equal((await call(agent,'server-support/info')).body.packageVisible,true);assert.equal((await call(agent,'server-support/package/apply',{requestId:crypto.randomUUID(),quantity:100})).status,200);}
+  f.clock.now=Date.parse('2026-11-04T00:00:00+09:00');for(const agent of agents){assert.equal((await call(agent,'server-support/info')).body.packageVisible,false);assert.equal((await call(agent,'server-support/package/apply',{requestId:crypto.randomUUID(),quantity:100})).status,410);}
  }finally{await f.close();}
 });
 const applyQuantity=(f,quantity,requestId=crypto.randomUUID())=>f.call('server-support/package/apply',{user:2,body:{requestId,quantity}});
@@ -67,7 +68,7 @@ test('November offer is 250 trillion per package, 500 trillion for 1+1; historic
  assert.notEqual(SUPPORT_PACKAGE.code,SUPPORT_PACKAGE_UNIT.code);assert.notEqual(SUPPORT_PACKAGE.eventCode,SUPPORT_PACKAGE_LEGACY_BOGO.eventCode);
  assert.deepEqual(SUPPORT_PACKAGE_CURRENT_UNIT.items.slice(-2).map(i=>[i.code,i.quantity]),[['WEAPON_ENHANCEMENT_SCROLL',5],['ARMOR_ENHANCEMENT_SCROLL',5]]);
  assert.deepEqual(SUPPORT_PACKAGE.items.map(i=>[i.code,i.quantity]),[['EMPEROR_ENERGY',400],['MERCENARY_SSS_LIMITED_SHARD',10],['WEAPON_ENHANCEMENT_SCROLL',10],['ARMOR_ENHANCEMENT_SCROLL',10]]);
- assert.equal(SUPPORT_PACKAGE_EVENT_DEADLINE.endsAt,'2026-11-03T00:00:00+09:00');
+ assert.equal(SUPPORT_PACKAGE_EVENT_DEADLINE.endsAt,'2026-11-04T00:00:00+09:00');
 });
 test('ordinary desktop, Android Chrome and iPhone Safari browsers stay eligible for web checkout',()=>{
  for(const agent of ['Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/130.0.0 Safari/537.36','Mozilla/5.0 (Linux; Android 14) Chrome/130.0.0 Mobile Safari/537.36','Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) Version/18.0 Mobile/15E148 Safari/604.1'])assert(supportPackageClientAllowed(new Request('https://support.test/api/server-support/package',{headers:{'user-agent':agent}})));

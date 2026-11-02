@@ -3,8 +3,10 @@ import assert from 'node:assert/strict';
 import {packageFixture} from './helpers/support-package-fixture.mjs';
 import {SUPPORT_PACKAGE,SUPPORT_PACKAGE_SALES_ENDS_AT,supportPackageSalesOpen} from '../shared/support-package-v1.mjs';
 
-test('package sales close at 2026-11-03 00:00 KST, not noon or the preceding midnight',()=>{
- assert.equal(new Date(SUPPORT_PACKAGE_SALES_ENDS_AT).toISOString(),'2026-11-02T15:00:00.000Z');
+test('package sales close at 2026-11-04 00:00 KST after exactly one day extension',()=>{
+ assert.equal(new Date(SUPPORT_PACKAGE_SALES_ENDS_AT).toISOString(),'2026-11-03T15:00:00.000Z');
+ assert.equal(SUPPORT_PACKAGE_SALES_ENDS_AT-Date.parse('2026-11-03T00:00:00+09:00'),86400000);
+ assert.equal(supportPackageSalesOpen(Date.parse('2026-11-03T00:00:00+09:00')),true);
  assert.equal(supportPackageSalesOpen(SUPPORT_PACKAGE_SALES_ENDS_AT-1),true);
  assert.equal(supportPackageSalesOpen(SUPPORT_PACKAGE_SALES_ENDS_AT),false);
  assert.equal(supportPackageSalesOpen(SUPPORT_PACKAGE_SALES_ENDS_AT+86400000),false);
