@@ -62,6 +62,9 @@ try{
    window.qaView=ProjectVBattleV3Live.prepareLoading({modal:document.querySelector('#modal'),mode:data.mode,playerName:'내 분대',opponentName:data.monster?.name||'상대 분대'});
    if(kind==='APOCALYPSE'){
     const link=document.createElement('link');link.rel='stylesheet';link.href='/css/pve-apocalypse-v1952.css';document.head.append(link);await new Promise(r=>link.onload=r);
+    // The fixture answers /open instantly. Load the mechanic stylesheet before
+    // starting its short timer so public-network screenshots capture the panel.
+    const mechanic=document.createElement('link');mechanic.rel='stylesheet';mechanic.href='/css/apocalypse-challenge-v1.css';mechanic.dataset.apocalypseChallengeCss='';document.head.append(mechanic);await new Promise(r=>mechanic.onload=r);
     qaView.stage.classList.add('apocalypse-battle-field');
    }
    if(kind==='WORLD'){

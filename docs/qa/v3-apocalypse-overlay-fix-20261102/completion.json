@@ -1,0 +1,296 @@
+{
+  "status": "LIVE_VERIFIED",
+  "at": "2026-11-02T11:02:25.512Z",
+  "release": {
+    "head": "6bccff691286065bf5d1101a92eb7b5a53d47541",
+    "base": "e3886b0e54e533f98c32b422c56c79a80c9c18a4",
+    "exitCode": 0,
+    "log": "file:///C:/Users/User/Downloads/upload/cnine-card/operations/v3-apocalypse-overlay-fix-20261102/deploy-6bccff691.log",
+    "startedAt": "2026-11-02T10:56:14.279Z",
+    "finishedAt": "2026-11-02T11:00:54.777Z"
+  },
+  "live": {
+    "at": "2026-11-02T11:01:45.023Z",
+    "pages": {
+      "id": "f75f00c4-027b-454d-8068-5ecf3d212943",
+      "url": "https://f75f00c4.cnine-card.pages.dev",
+      "status": "success",
+      "commit": "6bccff691286065bf5d1101a92eb7b5a53d47541"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "versions": [
+          {
+            "version_id": "374dfbe4-f34e-4a8a-bbb4-22430da6b446",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "versions": [
+          {
+            "version_id": "df06e505-fe15-446e-9fe8-8300abbf32d5",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "assets": [
+      {
+        "file": "index.html",
+        "bytes": 49008,
+        "sha256": "d01fd8e5d9531f3dbd40f32d090e10f0e80e5cbc42f54557920512b5458c70a2"
+      },
+      {
+        "file": "css/style.css",
+        "bytes": 535745,
+        "sha256": "68d6c9c3e0c21021ad1469da6098d3e44f9dc9521bcd561bc48ac1e4a4f6f492"
+      },
+      {
+        "file": "js/app.js",
+        "bytes": 803977,
+        "sha256": "db5e54df37ed4219ed2125ca2c3ba9fc981652a46389c7019ee91bc5c978cdba"
+      },
+      {
+        "file": "service-worker.js",
+        "bytes": 22969,
+        "sha256": "80241931237ae246b8cc626289b1e91dd7070e9b8e4830dc2f972aae99788389"
+      },
+      {
+        "file": "onestore/index.html",
+        "bytes": 48906,
+        "sha256": "f9695217f9f9224a4d9f30d0b05e79ad2e3185dc79b140cbb2d904c1c1dbc443"
+      },
+      {
+        "file": "onestore/js/app.js",
+        "bytes": 804885,
+        "sha256": "acb7391ca9ecc22eb1d92e8e2841a406ed97debafa8826ae6c870ce3b630bde0"
+      },
+      {
+        "file": "shared/onestore-web-assets-v1.mjs",
+        "bytes": 985,
+        "sha256": "4546b42f7816efea7c72fe9608f5943a1a14c475a2271d84bc8e620f5cada7f3"
+      },
+      {
+        "file": "js/battle-v3-live.js",
+        "bytes": 77944,
+        "sha256": "5fc9709884b73f66cba5c45e4723713ae103aaff26f3dc32ffad27e374e88636"
+      },
+      {
+        "file": "js/battle-v3-hud.mjs",
+        "bytes": 11991,
+        "sha256": "f79494757848a4d45286d820d9922d1477033c37464c1458a65261b236468a18"
+      },
+      {
+        "file": "css/battle-v3-live.css",
+        "bytes": 36112,
+        "sha256": "8c4842b91a4a8828e5458cf84d4deb013e2c059c3cd2a35eec5fc0968af0634b"
+      },
+      {
+        "file": "css/pve-apocalypse-v1952.css",
+        "bytes": 4304,
+        "sha256": "bb21e4be7c89aaf8e9451e76b2a04bdce1866749f746c06016f9b7d3d92d2138"
+      },
+      {
+        "file": "js/apocalypse-challenge-v1.mjs",
+        "bytes": 11524,
+        "sha256": "e5afddfa147368ded11b04a04475cfdf68643785745e1ea3e002dc823481ccfa"
+      },
+      {
+        "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "bytes": 2983697,
+        "sha256": "957f446025506595bf1bdafec8efe34083d70b6f7582fa02d9cd44174675473a"
+      },
+      {
+        "file": "pve-v3/battle.bundle.js",
+        "bytes": 2983671,
+        "sha256": "47b941fb1fd779294c289d06d216b6c4017b558c81c79a28046208cec9e34739"
+      },
+      {
+        "file": "preview/sustained-hunt-v2/battle.bundle.js",
+        "bytes": 3007295,
+        "sha256": "b1c34c1d627fa7c48ea2afbd570571360a3f297a71df7ff0f365b462ab77c4bc"
+      },
+      {
+        "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+        "bytes": 2983260,
+        "sha256": "3c0c265af1768175b5ecd4d3027a6ed3cc8c109c63b30cf88e9e4c9983753f55"
+      },
+      {
+        "file": "preview/cow-room-v3-v1/battle.bundle.js",
+        "bytes": 2983323,
+        "sha256": "b894fcfec849257d34bc2317bce899406545ad5de66f0e8d0edadeffc10dd3ca"
+      },
+      {
+        "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+        "bytes": 2983312,
+        "sha256": "f23eabee4d0d9e37d64a72e7c3a761347470db000b34d3e393fb8a8c28b21df0"
+      },
+      {
+        "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+        "bytes": 2986874,
+        "sha256": "129244fb668f4e9a070c35fd6a58cd22c9aa3a51967d700ab438e8746968ce90"
+      },
+      {
+        "file": "preview/boss-resources-v2048/lab.bundle.js",
+        "bytes": 2980338,
+        "sha256": "6da19f63438a2e75ff81014a618e73b40995cbbb9ac7ff85656e5da42563ef52"
+      },
+      {
+        "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+        "bytes": 2985025,
+        "sha256": "eda0c3b15bdece8f2a9c353d49b44b7943ce6bc26e1e7bb4db13b32aa2628e11"
+      },
+      {
+        "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+        "bytes": 3030096,
+        "sha256": "57add246353e64b1dd706ddf727debc0d35078e1718b8e7838c431b11f0fd3a5"
+      },
+      {
+        "file": "preview/coop-defense-v1/defense.bundle.js",
+        "bytes": 3122253,
+        "sha256": "26df9182cdb3907ea510fa38d87f317d821049133d91723a488f7b6a185e004c"
+      }
+    ],
+    "clientManifest": {
+      "releaseId": "ff4cab289d25dcf70bef551e08b4f0b9161eb9f29b79f59c779fc58c4395406c",
+      "files": [
+        "js/app.js",
+        "js/battle-v3-live.js",
+        "js/battle-v3-hud.mjs",
+        "css/battle-v3-live.css",
+        "css/pve-apocalypse-v1952.css",
+        "preview/project-v-v3/project-v-pixi-battle.bundle.js"
+      ]
+    },
+    "productionAccountWrites": 0,
+    "messagesSent": 0
+  },
+  "tests": 61,
+  "publicCases": [
+    {
+      "width": 1440,
+      "height": 900,
+      "overlay": {
+        "content": "none",
+        "display": "none",
+        "width": "auto",
+        "height": "auto",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "dodge": {
+        "controls": [
+          {
+            "w": 49.828125,
+            "h": 58,
+            "visible": true
+          },
+          {
+            "w": 64.6875,
+            "h": 58,
+            "visible": true
+          },
+          {
+            "w": 63.75,
+            "h": 58,
+            "visible": true
+          }
+        ],
+        "answers": [
+          1
+        ],
+        "outcome": {
+          "success": true
+        }
+      }
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "overlay": {
+        "content": "none",
+        "display": "none",
+        "width": "auto",
+        "height": "auto",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "dodge": {
+        "controls": [
+          {
+            "w": 107.328125,
+            "h": 54,
+            "visible": true
+          },
+          {
+            "w": 107.328125,
+            "h": 54,
+            "visible": true
+          },
+          {
+            "w": 107.34375,
+            "h": 54,
+            "visible": true
+          }
+        ],
+        "answers": [
+          0
+        ],
+        "outcome": {
+          "success": false
+        }
+      }
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "overlay": {
+        "content": "none",
+        "display": "none",
+        "width": "auto",
+        "height": "auto",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "dodge": {
+        "controls": [
+          {
+            "w": 120.65625,
+            "h": 45.890625,
+            "visible": true
+          },
+          {
+            "w": 120.671875,
+            "h": 45.890625,
+            "visible": true
+          },
+          {
+            "w": 120.65625,
+            "h": 45.890625,
+            "visible": true
+          }
+        ],
+        "answers": [
+          -1
+        ],
+        "outcome": {
+          "success": false
+        }
+      }
+    }
+  ],
+  "mixedCacheCases": 8,
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "realDevice": false,
+  "styledPublicCapture": {
+    "file": "public-styled/report.json",
+    "sha256": "eba8d9a4c7fa445a4bd767898b9bbe1b18e4118bee62ec96d32db6a7f5e0580a",
+    "widths": [
+      1440,
+      390,
+      844
+    ],
+    "note": "Preload the mechanic stylesheet before the instant fixture response starts its short countdown."
+  }
+}
