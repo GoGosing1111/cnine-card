@@ -4086,12 +4086,19 @@ function clearPlayerLogin() {
 }
 
 let accountPanelCleanup=null;
+function formatAccountBalance(value){
+  const amount=Number(value)||0;
+  if(amount<0)return '−'+formatAccountBalance(-amount);
+  const unit=amount>=1e12?[1e12,'조']:amount>=1e8?[1e8,'억']:amount>=1e4?[1e4,'만']:[1,''];
+  return (amount/unit[0]).toLocaleString('ko-KR',{maximumFractionDigits:unit[1]?1:0})+unit[1];
+}
 function showAccountPanel() {
   accountPanelCleanup?.();
   const user=loadUser();
   if(!user) return renderLogin();
   const modal=document.getElementById('modal');
   if(!modal) return;
+  const balanceHtml=(label,value)=>{const exact=Number(value||0).toLocaleString('ko-KR');return `<button type="button" class="account-balance" data-account-balance="${exact}" data-compact="${formatAccountBalance(value)}" data-label="${label}" title="${exact}" aria-label="${label} ${exact}, 정확한 수치 보기" aria-pressed="false">${formatAccountBalance(value)}</button>`;};
   let keyText=String(user.key||''),opener=document.activeElement;
   while(opener?.shadowRoot?.activeElement)opener=opener.shadowRoot.activeElement;
   // Safari does not focus buttons on pointer clicks, including in the lobby shadow root.
@@ -4104,9 +4111,9 @@ function showAccountPanel() {
     <header class="account-heading"><h2 id="accountTitle">내 계정</h2><button type="button" class="account-dismiss" id="closeAccount" aria-label="계정 창 닫기">×</button></header>
     <div class="account-identity"><span class="account-session"><i aria-hidden="true"></i>로그인 중</span><div class="account-player">${playerIdentityHtml(user.nickname,user.serverUserId||user.id)}</div><p>현재 접속한 계정의 정보입니다.</p></div>
     <dl class="account-stats">
-      <div class="account-stat-coin"><dt>보유 코인</dt><dd>${Number(user.coin||0).toLocaleString()}</dd></div>
+      <div class="account-stat-coin"><dt>보유 코인</dt><dd>${balanceHtml('보유 코인',user.coin)}</dd></div>
       <div><dt>수집 카드</dt><dd>${ownedIds(user).size}<small> / ${cards.length}</small></dd></div>
-      <div><dt>카드 조각</dt><dd>${Number(user.cardShards||0).toLocaleString()}</dd></div>
+      <div><dt>마스터의 별</dt><dd>${balanceHtml('마스터의 별',user.masterStars)}</dd></div>
     </dl>
     <section class="account-recovery" aria-labelledby="accountKeyLabel">
       <div class="account-recovery-heading"><label id="accountKeyLabel" for="accountKey">로그인 복구용 개인키</label><span id="accountKeyState">${keyText?'숨김':'저장된 키 없음'}</span></div>
@@ -4118,6 +4125,12 @@ function showAccountPanel() {
     <div class="account-footer"><button type="button" id="logoutPlayer" class="account-logout">로그아웃</button><button type="button" id="closeAccount2" class="account-continue">계속 이용하기</button></div>
   </section>`;
   const panel=modal.querySelector('.account-panel'),input=panel.querySelector('#accountKey'),toggle=panel.querySelector('#toggleAccountKey'),copy=panel.querySelector('#copyAccountKey'),state=panel.querySelector('#accountKeyState'),feedback=panel.querySelector('#accountKeyFeedback');
+  panel.querySelectorAll('[data-account-balance]').forEach(button=>button.onclick=()=>{
+    const expanded=button.getAttribute('aria-pressed')!=='true';
+    button.textContent=expanded?button.dataset.accountBalance:button.dataset.compact;
+    button.setAttribute('aria-pressed',String(expanded));
+    button.setAttribute('aria-label',`${button.dataset.label} ${button.dataset.accountBalance}, ${expanded?'간단히 보기':'정확한 수치 보기'}`);
+  });
   const lifecycle=new AbortController(),listen={signal:lifecycle.signal};
   let revealed=false,revealTimer=null;
   const hideKey=()=>{

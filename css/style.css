@@ -4036,6 +4036,7 @@ body.burning-notice-open .fullscreen-play-link{
 .account-panel .account-stats dt{margin:0 0 8px;color:#afc7d7;font-size:12px;font-weight:500}
 .account-panel .account-stats dd{margin:0;font-size:18px;line-height:1.4;font-weight:750;letter-spacing:-.035em;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .account-panel .account-stat-coin dd{color:#f4df9b}
+.account-panel .account-balance{max-width:100%;margin:0;padding:0;border:0;background:none;color:inherit;text-align:left;line-height:inherit;overflow-wrap:anywhere;text-decoration:underline dotted #527187;text-underline-offset:5px}
 .account-panel .account-stats small{font-size:13px;color:#a9bfce;font-weight:500}
 .account-panel .account-recovery{padding:18px;border:1px solid #38566d;border-radius:3px;background:#152c3e}
 .account-panel .account-recovery-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
