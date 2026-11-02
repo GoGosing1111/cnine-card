@@ -1,0 +1,86 @@
+{
+  "tool": "built-in image_gen",
+  "calls": 8,
+  "records": [
+    {
+      "name": "rift-poses-v1",
+      "source": "C:/Users/User/.codex/generated_images/01a19660-79fe-7861-8630-c01a2bd2c294/exec-ec49c7ef-da64-4af4-ae31-4ac99e519044.png",
+      "output": "art/rift-poses-v1.png",
+      "selected": false,
+      "sha256": "ef12f111fbe76dcdf7f74e64567109cd157435a8a935f7cc44c9e8fbe41f3a08",
+      "width": 1536,
+      "height": 1024,
+      "hasAlpha": true
+    },
+    {
+      "name": "rift-poses-v2",
+      "source": "C:/Users/User/.codex/generated_images/01a19660-79fe-7861-8630-c01a2bd2c294/exec-7763de89-5aa6-4e59-b429-d4bcb4fc76ca.png",
+      "output": "art/rift-poses-v2.png",
+      "selected": true,
+      "sha256": "3c47b060077ff3dc4f29bb06cebd093367a7827ac39009dcc1fab9292ae3a46d",
+      "width": 1536,
+      "height": 1024,
+      "hasAlpha": true
+    },
+    {
+      "name": "echo-poses-v1",
+      "source": "C:/Users/User/.codex/generated_images/01a19660-79fe-7861-8630-c01a2bd2c294/exec-3ada2454-feeb-4d27-8df7-95a0e56c7258.png",
+      "output": "art/echo-poses-v1.png",
+      "selected": true,
+      "sha256": "bf74dcf29f2637479802dcdc39f1c3e50a9f725a4606988113fbd2804d54d430",
+      "width": 1448,
+      "height": 1086,
+      "hasAlpha": true
+    },
+    {
+      "name": "verdict-poses-v1",
+      "source": "C:/Users/User/.codex/generated_images/01a19660-79fe-7861-8630-c01a2bd2c294/exec-fc9ecf64-1350-45f2-96d9-1f7610325612.png",
+      "output": "art/verdict-poses-v1.png",
+      "selected": true,
+      "sha256": "585cc672035e102094930c2ec5bc7da3413623e610ee201094e19eded634e01a",
+      "width": 1536,
+      "height": 1024,
+      "hasAlpha": true
+    },
+    {
+      "name": "rift-sequence-v1",
+      "source": "C:/Users/User/.codex/generated_images/01a19660-79fe-7861-8630-c01a2bd2c294/exec-ab59576d-71e3-4bda-8ee4-e08ac6ba2619.png",
+      "output": "effects/art/rift-sequence-v1.png",
+      "selected": true,
+      "sha256": "945af85d467faa75e4827ca27aab6a828f491c15f250feb1901075fdc6562e46",
+      "width": 1774,
+      "height": 887,
+      "hasAlpha": true
+    },
+    {
+      "name": "echo-sequence-v1",
+      "source": "C:/Users/User/.codex/generated_images/01a19660-79fe-7861-8630-c01a2bd2c294/exec-7e6c9b8b-d4bd-414f-8555-cf9be269085a.png",
+      "output": "effects/art/echo-sequence-v1.png",
+      "selected": true,
+      "sha256": "e920de4aeee0a7098f41c40b24060e13d88233d9c960ec7ea6cbfb00a3240e09",
+      "width": 1774,
+      "height": 887,
+      "hasAlpha": true
+    },
+    {
+      "name": "verdict-sequence-v1",
+      "source": "C:/Users/User/.codex/generated_images/01a19660-79fe-7861-8630-c01a2bd2c294/exec-cfa53319-6cdb-44a8-a861-3463d8218949.png",
+      "output": "effects/art/verdict-sequence-v1.png",
+      "selected": true,
+      "sha256": "7f6b4d8eb8377bedd83275cfab0525cf62dd4166024fe38bfc1b4c5866e86dd0",
+      "width": 1774,
+      "height": 887,
+      "hasAlpha": true
+    },
+    {
+      "name": "verdict-cutin-v1",
+      "source": "C:/Users/User/.codex/generated_images/01a19660-79fe-7861-8630-c01a2bd2c294/exec-554b1f03-8e00-49ed-9660-67fb7be771a4.png",
+      "output": "art/verdict-cutin-v1.png",
+      "selected": true,
+      "sha256": "81ddbf9b4312d835f622cb2ed20b490a4042cc3e1b8a30ae1200a428b8f8b103",
+      "width": 1774,
+      "height": 887,
+      "hasAlpha": true
+    }
+  ]
+}

@@ -1,0 +1,227 @@
+[
+  {
+    "id": "v4-rift",
+    "nodes": 8,
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-rift.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-rift.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\qa/v4-rift-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-rift.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-rift-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-rift.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-rift-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-rift-roundtrip2.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-rift-roundtrip2.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "efb1e905096fe483b9ee634dd3e0bef7c12a191065e9da6f02f8a9c661f8c249"
+  },
+  {
+    "id": "v4-echo",
+    "nodes": 8,
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-echo.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-echo.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\qa/v4-echo-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-echo.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-echo-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-echo.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-echo-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-echo-roundtrip2.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-echo-roundtrip2.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "3ef724cdda42a42d05956a53ff4d10a7148acb49dcf661cc4ec4c99bf4b7531a"
+  },
+  {
+    "id": "v4-verdict",
+    "nodes": 8,
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-verdict.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-verdict.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\qa/v4-verdict-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-verdict.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-verdict-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-verdict.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-verdict-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-verdict-roundtrip2.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-verdict-roundtrip2.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "32ac15cad3fc8cd34e5d90a1ff80ef1b6b8caff58cd3d057e2f8e288bfb8ddf8"
+  },
+  {
+    "id": "v4-incision",
+    "nodes": 30,
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-incision.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-incision.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\qa/v4-incision-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-incision.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-incision-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-incision.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-incision-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-incision-roundtrip2.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-incision-roundtrip2.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "0dea4aa347c1960ad858c53ead6af679f63deff86855ee4b3beda2389d2feb07"
+  },
+  {
+    "id": "v4-pressure",
+    "nodes": 36,
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-pressure.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-pressure.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\qa/v4-pressure-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-pressure.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-pressure-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-pressure.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-pressure-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-pressure-roundtrip2.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\skills-v4\\effects\\native/v4-pressure-roundtrip2.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "19179c3f57f4b8186e2463ea6774ede6ecad18c68e4d54a772202841a73fcbf5"
+  }
+]

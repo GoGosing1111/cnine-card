@@ -1,6 +1,7 @@
 import {Assets,Sprite,Texture,Rectangle,Point} from 'pixi.js';
 import {SwordTrail} from './SwordTrail.mjs';
 import {TempestEffects} from './action-v3/TempestEffects.mjs';
+import {SkillEffects} from './skills-v4/SkillEffects.mjs';
 export class WhitecoatEffects {
  static async load(){
   const base='/preview/v35-whitecoat-swordsman-20261102/effects/flourish-v2/runtime/',manifest=await(await fetch(base+'fx-manifest.json')).json(),textures={};
@@ -8,14 +9,19 @@ export class WhitecoatEffects {
   manifest.effects.debris={...old.effects.debris,externalBase:oldBase};
   const actionBase='/preview/v35-whitecoat-swordsman-20261102/action-v3/effects/runtime/',actionManifest=await(await fetch(actionBase+'fx-manifest.json')).json();
   manifest.effects['tempest-slam']={...actionManifest.effects['tempest-slam'],externalBase:actionBase};
+  const skillsBase='/preview/v35-whitecoat-swordsman-20261102/skills-v4/effects/runtime/',skillsManifest=await(await fetch(skillsBase+'fx-manifest.json')).json();
+  for(const [id,s]of Object.entries(skillsManifest.effects))manifest.effects[id]={...s,externalBase:skillsBase};
+  const cutinTexture=await Assets.load({src:'/preview/v35-whitecoat-swordsman-20261102/skills-v4/art/verdict-cutin-v1.png',data:{autoGenerateMipmaps:true,scaleMode:'linear'}});
   manifest.decodedBytes=Object.values(manifest.effects).reduce((sum,s)=>sum+s.atlasSize.reduce((a,v)=>a*v,4),0);
   // Battle-scale filaments need mipmaps to avoid glittering single-pixel noise.
   const trailTexture=await Assets.load({src:'/preview/v35-whitecoat-swordsman-20261102/effects/sword-trail/sword-ribbon-source.png',data:{autoGenerateMipmaps:true,scaleMode:'linear'}});
   let w=trailTexture.width,h=trailTexture.height;for(;;){manifest.decodedBytes+=w*h*4;if(w===1&&h===1)break;w=Math.max(1,Math.floor(w/2));h=Math.max(1,Math.floor(h/2));}
-  await Promise.all(Object.entries(manifest.effects).map(async([id,s])=>{const tex=await Assets.load((s.externalBase||base)+s.atlas);textures[id]=s.frames.map(f=>new Texture({source:tex.source,frame:new Rectangle(f.x,f.y,f.w,f.h)}));}));return {manifest,textures,trailTexture};
+  manifest.decodedBytes+=Math.ceil(cutinTexture.width*cutinTexture.height*4*4/3);
+  await Promise.all(Object.entries(manifest.effects).map(async([id,s])=>{const tex=await Assets.load((s.externalBase||base)+s.atlas);textures[id]=s.frames.map(f=>new Texture({source:tex.source,frame:new Rectangle(f.x,f.y,f.w,f.h)}));}));return {manifest,textures,trailTexture,cutinTexture};
  }
  constructor(engine,assets){Object.assign(this,{engine,assets,enabled:true,session:null,completed:0});}
  begin(adapter,target,mode,{rootAt}){
+  if(['skill_rift','skill_echo','skill_verdict'].includes(mode)){this.session?.destroy();return this.session=new SkillEffects(this,adapter,target,mode,{rootAt});}
   if(mode==='skill_tempest'){this.session?.destroy();return this.session=new TempestEffects(this,adapter,target,{rootAt});}
   this.session?.destroy();const owner=this,layer=this.engine.effectLayer,actor=adapter.actor,specs=this.assets.manifest.effects,sprites={},frames={};
   const trail=new SwordTrail(layer,adapter,this.assets.trailTexture,mode,rootAt);

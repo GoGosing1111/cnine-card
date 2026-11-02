@@ -1,0 +1,73 @@
+{
+  "tool": "Effekseer",
+  "version": "1.70e",
+  "fps": 60,
+  "seed": 3502,
+  "effects": [
+    {
+      "id": "v4-rift",
+      "frames": 26,
+      "blend": "normal",
+      "units": 12,
+      "width": 512,
+      "height": 512,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/v4-rift.efkefc"
+    },
+    {
+      "id": "v4-echo",
+      "frames": 26,
+      "blend": "normal",
+      "units": 12,
+      "width": 512,
+      "height": 512,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/v4-echo.efkefc"
+    },
+    {
+      "id": "v4-verdict",
+      "frames": 26,
+      "blend": "normal",
+      "units": 12,
+      "width": 512,
+      "height": 512,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/v4-verdict.efkefc"
+    },
+    {
+      "id": "v4-incision",
+      "frames": 34,
+      "blend": "add",
+      "units": 12,
+      "width": 512,
+      "height": 512,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/v4-incision.efkefc"
+    },
+    {
+      "id": "v4-pressure",
+      "frames": 48,
+      "blend": "add",
+      "units": 12,
+      "width": 512,
+      "height": 512,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/v4-pressure.efkefc"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+import {chromium} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import fs from 'node:fs/promises';import sharp from 'sharp';import {fileURLToPath} from 'node:url';
+const dir=fileURLToPath(new URL('.',import.meta.url)),actions=JSON.parse(await fs.readFile(dir+'../actions.json','utf8')),browser=await chromium.launch({headless:true,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',args:['--mute-audio','--enable-unsafe-swiftshader']});const errors=[];
+try{const p=await browser.newPage({viewport:{width:1440,height:950}});p.on('pageerror',e=>errors.push(e.stack));await p.goto('http://127.0.0.1:18766/?case=whitecoat');await p.waitForFunction(()=>v35Review.ready||v35Review.errors.length,{},{timeout:60000});if(await p.evaluate(()=>v35Review.errors.length))throw Error(await p.evaluate(()=>v35Review.errors.join('\n')));
+ for(const [mode,times]of Object.entries({skill_rift:[.09,.34,.42,.48,.61,.79],skill_echo:[.37,.57,.89,1.21,1.51,1.66],skill_verdict:[.48,.72,1.08,1.45,1.78,1.94]})){
+  await p.evaluate(mode=>{v35Review.pending=v35Review.attack(1,mode);v35Review.engine.pendingTails.get(v35Review.spine.actor).instance.pause();},mode);const states=[],panels=[];
+  for(const [i,time]of times.entries()){const elapsed=time+actions[mode].visualBeats.filter(b=>b.time<time-1e-7).reduce((n,b)=>n+b.hold,0);states.push(await p.evaluate(t=>{const a=v35Review;a.engine.pendingTails.get(a.spine.actor).instance.time(t,false);a.engine.app.render();return {native:a.spine.clock.time,attachment:a.spine.rig.skeleton.findSlot('body').appliedPose.attachment.name,fx:a.effects.session.audit(),errors:a.errors};},elapsed));const file=dir+mode+'-'+i+'.png';await p.screenshot({path:file});panels.push({input:await sharp(file).resize(720,475).png().toBuffer(),left:i%2*720,top:Math.floor(i/2)*475});}
+  await sharp({create:{width:1440,height:1425,channels:4,background:'#07101b'}}).composite(panels).png().toFile(dir+mode+'-sheet.png');await fs.writeFile(dir+mode+'-inspection.json',JSON.stringify(states,null,2));await p.evaluate(async()=>{v35Review.engine.cancelTimelines();await v35Review.pending;});
+ }
+ console.log({errors,canvasCount:await p.locator('canvas').count(),fx:await p.evaluate(()=>v35Review.effects.audit())});
+}finally{await browser.close();}

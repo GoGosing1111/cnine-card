@@ -1,0 +1,211 @@
+{
+  "skill_rift": {
+    "name": "흑금 단공",
+    "duration": 1.67,
+    "damageTime": 0.48,
+    "returnTime": 1.2,
+    "returnDuration": 0.3,
+    "keys": [
+      [
+        0,
+        "guard"
+      ],
+      [
+        0.09,
+        "v4_rift_ready"
+      ],
+      [
+        0.34,
+        "v4_rift_draw"
+      ],
+      [
+        0.42,
+        "v4_rift_drive"
+      ],
+      [
+        0.61,
+        "v4_rift_brake"
+      ],
+      [
+        0.91,
+        "v4_verdict_sheathe"
+      ],
+      [
+        1.12,
+        "guard"
+      ],
+      [
+        1.2,
+        "step"
+      ],
+      [
+        1.5,
+        "guard"
+      ],
+      [
+        1.67,
+        "guard"
+      ]
+    ],
+    "visualBeats": [
+      {
+        "time": 0.48,
+        "hold": 0.065,
+        "id": "pierce"
+      }
+    ],
+    "damageAuthority": "One V3 server callback at final impact; earlier contacts are visual only."
+  },
+  "skill_echo": {
+    "name": "잔영 삼재",
+    "duration": 2.62,
+    "damageTime": 1.51,
+    "returnTime": 2.03,
+    "returnDuration": 0.34,
+    "keys": [
+      [
+        0,
+        "guard"
+      ],
+      [
+        0.1,
+        "v4_echo_ready"
+      ],
+      [
+        0.37,
+        "v4_echo_command"
+      ],
+      [
+        1.12,
+        "v4_echo_rise"
+      ],
+      [
+        1.34,
+        "v3_aircut"
+      ],
+      [
+        1.51,
+        "v4_echo_cut"
+      ],
+      [
+        1.79,
+        "v4_verdict_sheathe"
+      ],
+      [
+        1.97,
+        "guard"
+      ],
+      [
+        2.03,
+        "step"
+      ],
+      [
+        2.37,
+        "guard"
+      ],
+      [
+        2.62,
+        "guard"
+      ]
+    ],
+    "visualBeats": [
+      {
+        "time": 0.57,
+        "hold": 0.025,
+        "id": "echo-left"
+      },
+      {
+        "time": 0.89,
+        "hold": 0.025,
+        "id": "echo-right"
+      },
+      {
+        "time": 1.21,
+        "hold": 0.035,
+        "id": "echo-high"
+      },
+      {
+        "time": 1.51,
+        "hold": 0.075,
+        "id": "closing-cleave"
+      }
+    ],
+    "damageAuthority": "One V3 server callback at final impact; earlier contacts are visual only."
+  },
+  "skill_verdict": {
+    "name": "천형 종결",
+    "duration": 3.3,
+    "damageTime": 1.78,
+    "returnTime": 2.71,
+    "returnDuration": 0.34,
+    "keys": [
+      [
+        0,
+        "guard"
+      ],
+      [
+        0.12,
+        "v4_verdict_focus"
+      ],
+      [
+        0.79,
+        "v4_echo_ready"
+      ],
+      [
+        1.04,
+        "v4_verdict_raise"
+      ],
+      [
+        1.61,
+        "v3_aircut"
+      ],
+      [
+        1.78,
+        "v4_verdict_cut"
+      ],
+      [
+        2.06,
+        "v4_verdict_sheathe"
+      ],
+      [
+        2.54,
+        "guard"
+      ],
+      [
+        2.71,
+        "step"
+      ],
+      [
+        3.05,
+        "guard"
+      ],
+      [
+        3.3,
+        "guard"
+      ]
+    ],
+    "visualBeats": [
+      {
+        "time": 0.66,
+        "hold": 0.02,
+        "id": "scar-one"
+      },
+      {
+        "time": 1.02,
+        "hold": 0.025,
+        "id": "scar-two"
+      },
+      {
+        "time": 1.36,
+        "hold": 0.03,
+        "id": "scar-three"
+      },
+      {
+        "time": 1.78,
+        "hold": 0.11,
+        "id": "verdict"
+      }
+    ],
+    "damageAuthority": "One V3 server callback at final impact; earlier contacts are visual only."
+  }
+}

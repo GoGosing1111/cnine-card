@@ -1,0 +1,135 @@
+{
+  "passed": true,
+  "oldAnimationsPreserved": [
+    "setup",
+    "idle",
+    "dash",
+    "attack_basic",
+    "skill_iai",
+    "hit",
+    "death",
+    "skill_tempest"
+  ],
+  "oldAttachmentsPreserved": [
+    "guard",
+    "windup",
+    "contact",
+    "follow",
+    "iai_ready",
+    "iai_cut",
+    "rise",
+    "step",
+    "hit",
+    "defeat",
+    "v3_pivot",
+    "v3_turn",
+    "v3_compress",
+    "v3_takeoff",
+    "v3_apex",
+    "v3_aircut",
+    "v3_slam",
+    "v3_recover"
+  ],
+  "totalAttachments": 30,
+  "totalAnimations": 11,
+  "nativeSha256": "b0abcbf1bda97b8d700328b9453e0a61fbec96cf0063e21a1907bef444a57ef6",
+  "checks": 68,
+  "eventChecks": 9,
+  "recordedPlays": 21,
+  "recordingFiles": [
+    "skill_rift-off.webm",
+    "skill_rift-on.webm",
+    "skill_echo-off.webm",
+    "skill_echo-on.webm",
+    "skill_verdict-off.webm",
+    "skill_verdict-on.webm",
+    "skills-half-speed.webm"
+  ],
+  "referenceHalfSpeed": true,
+  "referenceFrames": 131,
+  "links": [
+    {
+      "href": "/?case=whitecoat",
+      "status": 200
+    },
+    {
+      "href": "/?case=whitecoat-enemy",
+      "status": 200
+    },
+    {
+      "href": "PROJECT.md",
+      "status": 200
+    },
+    {
+      "href": "skills-v4/qa/skill_rift-on.webm",
+      "status": 200
+    },
+    {
+      "href": "skills-v4/qa/skill_rift-off.webm",
+      "status": 200
+    },
+    {
+      "href": "skills-v4/qa/skill_echo-on.webm",
+      "status": 200
+    },
+    {
+      "href": "skills-v4/qa/skill_echo-off.webm",
+      "status": 200
+    },
+    {
+      "href": "skills-v4/qa/skill_verdict-on.webm",
+      "status": 200
+    },
+    {
+      "href": "skills-v4/qa/skill_verdict-off.webm",
+      "status": 200
+    },
+    {
+      "href": "skills-v4/qa/skills-half-speed.webm",
+      "status": 200
+    },
+    {
+      "href": "skills-v4/qa/pose-lineup.png",
+      "status": 200
+    },
+    {
+      "href": "whitecoat-skills-v4-51fecca13bde.spine",
+      "status": 200
+    },
+    {
+      "href": "skills-v4/PROJECT.md",
+      "status": 200
+    },
+    {
+      "href": "action-v3/qa/normal-effects-on.webm",
+      "status": 200
+    },
+    {
+      "href": "action-v3/qa/normal-effects-off.webm",
+      "status": 200
+    },
+    {
+      "href": "qa/sword-trail-v2/normal-effects-on.webm",
+      "status": 200
+    },
+    {
+      "href": "action-v3/PROJECT.md",
+      "status": 200
+    },
+    {
+      "href": "action-v3/qa/action-review.png",
+      "status": 200
+    },
+    {
+      "href": "whitecoat-action-v3-93718185df11.spine",
+      "status": 200
+    },
+    {
+      "href": "action-v3/qa/pose-lineup.png",
+      "status": 200
+    }
+  ],
+  "desktopInput": false,
+  "productionDeployment": false,
+  "physicalDevice": false
+}

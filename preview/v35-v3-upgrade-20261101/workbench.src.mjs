@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded',async()=>{try{
   actor.setAnimationAdapter(adapter);engine.combatLayer.addChild(actor.root);engine.characters.push(actor);engine.mercenaries.push(actor);engine.setFormationMercenaries(engine.mercenaries);actor.formationHudY=-403;actor.hud.y=-403;engine.sortCombatDepth();connectSpineAttacks(engine);api.spine=adapter;
  }
  if(whitecoat){
-  const base='/preview/v35-whitecoat-swordsman-20261102/',delivery=await(await fetch(base+'action-v3/qa/native.json')).json();
+  const base='/preview/v35-whitecoat-swordsman-20261102/',delivery=await(await fetch(base+'skills-v4/qa/native.json')).json();
   await PIXI.Assets.load([{alias:'whitecoatSkeleton',src:base+delivery.runtimeDir+'/'+delivery.skeletonJson},{alias:'whitecoatAtlas',src:base+delivery.runtimeDir+'/'+delivery.atlas},{alias:'whitecoatReference',src:base+'images/guard.png'}]);
   const texture=PIXI.Assets.get('whitecoatReference'),actor=new BattleCharacter({id:'QA:WHITECOAT',name:'흰 코트 검사',team:kind==='whitecoat-enemy'?'ENEMY':'ALLY',texture,fullBodyTexture:texture,cutInTexture:texture,fullBodyHeight:310,hp:100,scale:.5});
   Object.assign(actor,{cardId:'QA-V35-WHITECOAT',actorKind:'MERCENARY',isMercenary:true,battleActive:true,enabled:true,serverMaxHp:100000,serverMaxShield:0,art:{bodyHeight:300,footAnchor:{x:740/1431,y:1082/1099}},role:'WARRIOR'});
@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded',async()=>{try{
  let paused=false;const pausedEntries=new Set();function pause(value){paused=value;for(const entry of engine.simpleTimelines){if(value&&!entry.instance.paused()){pausedEntries.add(entry);entry.instance.pause();}else if(!value&&pausedEntries.has(entry)){entry.instance.resume();pausedEntries.delete(entry);}}}
  document.querySelector('#attack').onclick=()=>attack(0);document.querySelector('#second').onclick=()=>attack(1);document.querySelector('#cancel').onclick=()=>{engine.cancelTimelines();for(const a of engine.mercenaries)a.setState('IDLE');};document.querySelector('#pause').onclick=e=>{pause(!paused);e.target.textContent=paused?'재개':'일시정지';};
  document.querySelector('#combo').hidden=!whitecoat;document.querySelector('#combo').onclick=()=>attack(engine.mercenaries.indexOf(api.spine.actor),'skill_tempest');
+ for(const [id,mode]of [['rift','skill_rift'],['echo','skill_echo'],['verdict','skill_verdict']]){document.querySelector('#'+id).hidden=!whitecoat;document.querySelector('#'+id).onclick=()=>attack(engine.mercenaries.indexOf(api.spine.actor),mode);}
  document.querySelector('#attack').textContent=whitecoat?'발테르 비교 공격':'첫 용병 공격';document.querySelector('#second').textContent=whitecoat?'흰 코트 기본 공격':'둘째 용병 공격';document.querySelector('#skill').hidden=!whitecoat;document.querySelector('#skill').onclick=()=>attack(engine.mercenaries.indexOf(api.spine.actor),'skill_iai');
  const rate=engine.actionPlaybackSpeed.bind(engine);engine.actionPlaybackSpeed=(options)=>rate(options)*Number(document.querySelector('#speed').value);
  document.querySelector('#case').onchange=e=>{location.search='?case='+e.target.value;};

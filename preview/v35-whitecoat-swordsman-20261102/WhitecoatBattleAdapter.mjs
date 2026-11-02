@@ -1,6 +1,7 @@
 import {gsap} from 'gsap';
 import {SpineBattleAdapter} from '../v35-v3-upgrade-20261101/SpineBattleAdapter.mjs';
 import {playTempest} from './action-v3/play-attack.mjs';
+import {playWhitecoatSkill,actions} from './skills-v4/play-skill.mjs';
 export class WhitecoatBattleAdapter extends SpineBattleAdapter {
  constructor(engine,actor,rig,options={}){super(engine,actor,rig,{bodyPixels:530,bodyHeight:300,...options});rig.position.set(0,0);rig.label='V35_WHITECOAT';this.skill='attack_basic';}
  // Native keys are float32 (for example .4 is .40000000596). Resolve exact
@@ -16,6 +17,7 @@ export class WhitecoatBattleAdapter extends SpineBattleAdapter {
  }
  destroy(){this.tempestVisualCleanup?.();super.destroy();}
  async attack({target,damage=0,targetHp=null,targetShield=null,onImpact=()=>{},action='attack_basic'}={}){
+  if(actions[action])return playWhitecoatSkill(this,action,{target,damage,targetHp,targetShield,onImpact});
   if(action==='skill_tempest')return playTempest(this,{target,damage,targetHp,targetShield,onImpact});
   const e=this.engine,a=this.actor;if(!e.isAlive(a)||!e.isAlive(target))return false;
   const mode=action==='skill_iai'?'skill_iai':'attack_basic',skill=mode==='skill_iai',contact=skill?.30:.32,duration=skill?1.55:1.18;

@@ -1,31 +1,33 @@
 {
   "sourceCheckout": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout",
-  "sourceRef": "3991dd3f91553475ee3e3cbb65d99af6f9af3bda",
+  "sourceRef": "df64d5304d433dded91726a77f1857a5a84d6494",
+  "sourceRead": "git objects, pinned commit; shared checkout unchanged",
   "sources": [
     {
       "path": "preview/project-v-v3/source/battle/BattleEngine.js",
-      "sha256": "47876e9fb925a630ff842f47d2391b7965054885effaf96f19c739425235839c",
+      "sha256": "4a7e153d3036b8f29ef8b0223ade1fe241ca593ee9749fe058962e9b484f76c5",
       "originMainNormalizedMatch": true
     },
     {
       "path": "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
-      "sha256": "a9e1e8af83bd78ff02b78d51dfa8805e1f76cafe445c71333940432356e1ab6b",
+      "sha256": "5cfe8330f55f728bd1e33b69869c2fb02df399a69cd522690208ab262b225722",
       "originMainNormalizedMatch": true
     },
     {
       "path": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
-      "sha256": "50bd15be236481a2442543cc6d3eb37fa25496fbf112935b548eb91d4d5a732e",
+      "sha256": "140f6a441c0f6cdedf28a416d5e19e5fac3c804198577dad75ef29f1c71b9106",
       "originMainNormalizedMatch": true
     },
     {
       "path": "js/battle-v3-live.js",
-      "sha256": "7db1f5883897891fc4627b37def5d3b7582bbe568437844cd9f692a65d7146ed",
+      "sha256": "6373f3142a8b108dbff2fe7018b8c371274d998edb66a1b6c6982acde78dc328",
       "originMainNormalizedMatch": true
     }
   ],
   "pixi": [
     "node_modules/pixi.js/lib/index.mjs"
   ],
+  "committedV3Modules": 325,
   "inputs": [
     "node_modules/pixi.js/lib/extensions/Extensions.mjs",
     "node_modules/eventemitter3/index.js",
@@ -1066,11 +1068,15 @@
     "preview/v35-whitecoat-swordsman-20261102/action-v3/action.json",
     "preview/v35-whitecoat-swordsman-20261102/action-v3/timing.mjs",
     "preview/v35-whitecoat-swordsman-20261102/action-v3/play-attack.mjs",
+    "preview/v35-whitecoat-swordsman-20261102/skills-v4/actions.json",
+    "preview/v35-whitecoat-swordsman-20261102/skills-v4/play-skill.mjs",
     "preview/v35-whitecoat-swordsman-20261102/WhitecoatBattleAdapter.mjs",
     "preview/v35-whitecoat-swordsman-20261102/pose-registration.json",
     "preview/v35-whitecoat-swordsman-20261102/SwordTrail.mjs",
     "preview/v35-whitecoat-swordsman-20261102/action-v3/pose-registration.json",
     "preview/v35-whitecoat-swordsman-20261102/action-v3/TempestEffects.mjs",
+    "preview/v35-whitecoat-swordsman-20261102/skills-v4/pose-registration.json",
+    "preview/v35-whitecoat-swordsman-20261102/skills-v4/SkillEffects.mjs",
     "preview/v35-whitecoat-swordsman-20261102/WhitecoatEffects.mjs",
     "preview/v35-v3-upgrade-20261101/workbench.src.mjs"
   ],

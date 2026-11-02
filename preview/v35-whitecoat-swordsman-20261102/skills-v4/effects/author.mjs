@@ -1,0 +1,25 @@
+import fs from 'node:fs/promises';import sharp from 'sharp';import path from 'node:path';import {spawn} from 'node:child_process';import {fileURLToPath} from 'node:url';import {createHash} from 'node:crypto';import {t,ring,spark} from '../../effects/primitives.mjs';
+const dir=fileURLToPath(new URL('.',import.meta.url)),tool='C:/Users/User/Tools/v35-production/effekseer-170e/Tool/Effekseer.exe',rnd=v=>t('Center',v)+t('Max',v)+t('Min',v),vec=a=>a.map((v,i)=>t('XYZ'[i],v)).join('');
+await fs.mkdir(dir+'native/Texture',{recursive:true});await fs.mkdir(dir+'qa',{recursive:true});const specs=[],cropAudit=[];
+for(const id of ['rift','echo','verdict']){
+ const source=dir+'art/'+id+'-sequence-v1.png',m=await sharp(source).metadata(),nodes=[];
+ for(let i=0;i<8;i++){
+  const x=Math.round(i%4*m.width/4),y=Math.round(Math.floor(i/4)*m.height/2),w=Math.round((i%4+1)*m.width/4)-x,h=Math.round((Math.floor(i/4)+1)*m.height/2)-y;
+  const buf=await sharp(source).extract({left:x,top:y,width:w,height:h}).png().toBuffer(),raw=await sharp(buf).ensureAlpha().raw().toBuffer();let boundary=0;for(let yy=0;yy<h;yy++)for(let xx=0;xx<w;xx++)if((xx===0||yy===0||xx===w-1||yy===h-1)&&raw[(yy*w+xx)*4+3]>32)boundary++;
+  cropAudit.push({id,frame:i,rect:[x,y,w,h],boundary});if(boundary)throw Error(id+' cell '+i+' is clipped: '+boundary);
+  await sharp(buf).resize(384,384,{fit:'contain',background:{r:0,g:0,b:0,alpha:0}}).png().toFile(dir+'native/Texture/'+id+'-'+i+'.png');
+  const pos=[['LL',[-5.5,-5.5]],['LR',[5.5,-5.5]],['UL',[-5.5,5.5]],['UR',[5.5,5.5]]].map(([n,v])=>t('Position_Fixed_'+n,vec(v))).join('');
+  nodes.push(t('Node',t('Name',id+' hand-drawn phase '+i)+t('CommonValues',t('Life',rnd(3))+t('GenerationTimeOffset',rnd(i*3)))+t('RendererCommonValues',t('ColorTexture','Texture/'+id+'-'+i+'.png')+t('AlphaBlend',1)+t('ZTest','False')+t('ZWrite','False')+t('Filter',1))+t('DrawingValues',t('Type',2)+t('Sprite',t('Billboard',2)+t('ColorAll',0)+t('ColorAll_Fixed','<R>255</R><G>255</G><B>255</B><A>255</A>')+t('Position',1)+pos))+t('Children','')));
+ }
+ specs.push({id:'v4-'+id,nodes,frames:26,blend:'normal'});
+}
+const white=[255,248,221,255],gold=[255,173,55,230],nodes=[spark({name:'Fast crossing incision',color:white,life:11,start:[.12,1,1],end:[1.05,.015,1],fade:9},4.9,.25),spark({name:'Gold inner incision',color:gold,life:19,start:[.2,1,1],end:[1,.02,1],fade:15},4.7,.32)];
+for(let i=0;i<28;i++){const a=i*2.39996;nodes.push(spark({name:'Flying cut splinter '+i,color:i%3?gold:white,life:17+i%10,delay:i%4,rotation:[0,0,a*180/Math.PI],location:[Math.cos(a)*.6,Math.sin(a)*.12,0],velocity:[Math.cos(a)*(.08+i*.003),Math.sin(a)*(.03+i*.002),0],start:[.7,1,1],end:[.02,.02,1]},.35,.028));}
+specs.push({id:'v4-incision',nodes,frames:34,blend:'add'});
+const pressure=[ring({name:'Expanding ground pressure front',r:4.8,inner:4.38,color:white,life:24,start:[.06,.025,1],end:[1,.28,1],fade:22}),ring({name:'Delayed broken ground crown',r:4.7,inner:4.52,from:5,to:330,color:gold,life:36,delay:3,start:[.15,.05,1],end:[1.08,.35,1],fade:29})];
+for(let i=0;i<34;i++){const a=i*2.39996;pressure.push(spark({name:'Rupture fragment '+i,color:i%4?gold:white,life:24+i%15,delay:i%7,rotation:[0,0,a*180/Math.PI],velocity:[Math.cos(a)*(.04+i*.002),Math.sin(a)*(.04+i*.002),0],start:[1,1,1],end:[.015,.015,1]},.45,.045));}
+specs.push({id:'v4-pressure',nodes:pressure,frames:48,blend:'add'});
+async function run(input,output,exportPath){return new Promise((resolve,reject)=>{const args=['-cui','-in',input,'-o',output,'-e',exportPath],p=spawn(tool,args,{cwd:path.dirname(tool),windowsHide:true,stdio:'pipe'});let log='';p.stdout.on('data',d=>log+=d);p.stderr.on('data',d=>log+=d);p.on('error',reject);p.on('exit',code=>resolve({args,code,log}));});}
+const reports=[];
+for(const s of specs){const src=dir+'native/'+s.id+'.efkproj',native=dir+'native/'+s.id+'.efkefc',runtime=dir+'native/'+s.id+'.efk';await fs.writeFile(src,'<?xml version="1.0" encoding="utf-8"?>'+t('EffekseerProject',t('Root',t('Name','Root')+t('Children',s.nodes.join('')))+t('ToolVersion','1.70e')+t('Version',3)+t('StartFrame',0)+t('EndFrame',s.frames)+t('IsLoop','False')));const save=await run(src,native,dir+'qa/'+s.id+'-import.efk'),reopen=await run(native,dir+'native/'+s.id+'-verified.efkefc',runtime),again=await run(dir+'native/'+s.id+'-verified.efkefc',dir+'native/'+s.id+'-roundtrip2.efkefc',dir+'native/'+s.id+'-roundtrip2.efk');const b=await fs.readFile(runtime),same=b.equals(await fs.readFile(dir+'native/'+s.id+'-roundtrip2.efk'));if(save.code||reopen.code||again.code||!same)throw Error(s.id+' native round trip');reports.push({id:s.id,nodes:s.nodes.length,save,reopen,again,roundTripBinaryEqual:same,sha256:createHash('sha256').update(b).digest('hex')});console.log(s.id+' native verified');}
+await fs.writeFile(dir+'effects.json',JSON.stringify({tool:'Effekseer',version:'1.70e',fps:60,seed:3502,effects:specs.map(({nodes,...s})=>({...s,units:12,width:512,height:512,pivot:[256,256],source:'native/'+s.id+'.efkefc'}))},null,2));await fs.writeFile(dir+'qa/native.json',JSON.stringify(reports,null,2));await fs.writeFile(dir+'qa/crop-audit.json',JSON.stringify(cropAudit,null,2));

@@ -1,0 +1,266 @@
+[
+  {
+    "id": "rift",
+    "frame": 0,
+    "rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "rift",
+    "frame": 1,
+    "rect": [
+      444,
+      0,
+      443,
+      444
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "rift",
+    "frame": 2,
+    "rect": [
+      887,
+      0,
+      444,
+      444
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "rift",
+    "frame": 3,
+    "rect": [
+      1331,
+      0,
+      443,
+      444
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "rift",
+    "frame": 4,
+    "rect": [
+      0,
+      444,
+      444,
+      443
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "rift",
+    "frame": 5,
+    "rect": [
+      444,
+      444,
+      443,
+      443
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "rift",
+    "frame": 6,
+    "rect": [
+      887,
+      444,
+      444,
+      443
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "rift",
+    "frame": 7,
+    "rect": [
+      1331,
+      444,
+      443,
+      443
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "echo",
+    "frame": 0,
+    "rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "echo",
+    "frame": 1,
+    "rect": [
+      444,
+      0,
+      443,
+      444
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "echo",
+    "frame": 2,
+    "rect": [
+      887,
+      0,
+      444,
+      444
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "echo",
+    "frame": 3,
+    "rect": [
+      1331,
+      0,
+      443,
+      444
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "echo",
+    "frame": 4,
+    "rect": [
+      0,
+      444,
+      444,
+      443
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "echo",
+    "frame": 5,
+    "rect": [
+      444,
+      444,
+      443,
+      443
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "echo",
+    "frame": 6,
+    "rect": [
+      887,
+      444,
+      444,
+      443
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "echo",
+    "frame": 7,
+    "rect": [
+      1331,
+      444,
+      443,
+      443
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "verdict",
+    "frame": 0,
+    "rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "verdict",
+    "frame": 1,
+    "rect": [
+      444,
+      0,
+      443,
+      444
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "verdict",
+    "frame": 2,
+    "rect": [
+      887,
+      0,
+      444,
+      444
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "verdict",
+    "frame": 3,
+    "rect": [
+      1331,
+      0,
+      443,
+      444
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "verdict",
+    "frame": 4,
+    "rect": [
+      0,
+      444,
+      444,
+      443
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "verdict",
+    "frame": 5,
+    "rect": [
+      444,
+      444,
+      443,
+      443
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "verdict",
+    "frame": 6,
+    "rect": [
+      887,
+      444,
+      444,
+      443
+    ],
+    "boundary": 0
+  },
+  {
+    "id": "verdict",
+    "frame": 7,
+    "rect": [
+      1331,
+      444,
+      443,
+      443
+    ],
+    "boundary": 0
+  }
+]

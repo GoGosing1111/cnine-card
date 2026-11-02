@@ -20,9 +20,14 @@
       "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
     },
     {
+      "path": "battle-v3-live.pinned.js",
+      "bytes": 89323,
+      "sha256": "6373f3142a8b108dbff2fe7018b8c371274d998edb66a1b6c6982acde78dc328"
+    },
+    {
       "path": "build.mjs",
-      "bytes": 2157,
-      "sha256": "11bf2d96415003298615cdfa1c3388e2d56c98108506d99d0e876759f994d972"
+      "bytes": 2886,
+      "sha256": "fca42f0d044ecf967b45a546f7f6df52ef9045e95d66e8e3962fc0a1537f56c9"
     },
     {
       "path": "finalize.mjs",
@@ -31,18 +36,18 @@
     },
     {
       "path": "index.html",
-      "bytes": 3036,
-      "sha256": "484decab7ba5e16dd2edbfdda7b56c12eea84e41a365d55ed6e56a63b4d8cfb0"
+      "bytes": 3237,
+      "sha256": "6642835cf71796822ac60db4c7edf380240ea29e73cfa31ce7959f1bb1ad4554"
     },
     {
       "path": "PROJECT.md",
-      "bytes": 11795,
-      "sha256": "a12e9e01d6d965ecddfb3d6006dd53c6e116892a9ef7fcb2c268936730052f02"
+      "bytes": 12473,
+      "sha256": "a3ff71c88325f32c6ceb4cdfdbd2f56f0a5de98661fe61248f2c5cda4b14e9cd"
     },
     {
       "path": "qa/build.json",
-      "bytes": 89478,
-      "sha256": "8f963d3d21b12c579e9a751713e48b685cb8c24a330d98f4d337488024f258cd"
+      "bytes": 89880,
+      "sha256": "62628713df2d6f161ae1a8915e766f22daae541cb6a123ab076c699b4162c1c2"
     },
     {
       "path": "qa/cardgu-after.png",
@@ -246,13 +251,13 @@
     },
     {
       "path": "workbench.bundle.js",
-      "bytes": 3295614,
-      "sha256": "985c98410969019411b9c6ea99cef2d49a068f1c86f127954e4f6e4622c11b6c"
+      "bytes": 3317710,
+      "sha256": "3bca2cb022463a5ff77e1c1d31f12aae876087eec316f6ca94a8c57dd418d4db"
     },
     {
       "path": "workbench.src.mjs",
-      "bytes": 7931,
-      "sha256": "569ae8d02270777531cfacc490a70d73ecf1048293a5f2edc3fd2444a666bdf7"
+      "bytes": 8180,
+      "sha256": "a3c9c3f564d2141ad2790d428662865ef885de664e63fc4d4eb1a10e4f5cc27f"
     }
   ],
   "swordTrailUpdate": {
@@ -276,6 +281,16 @@
     "newArtwork": 8,
     "totalPoses": 18,
     "newEffekseerEffects": 1,
+    "priorVersionsPreserved": true,
+    "productionDeployment": false
+  },
+  "distinctSkillsUpdate": {
+    "delivery": "../v35-whitecoat-swordsman-20261102/skills-v4/qa/delivery.json",
+    "currentNative": "whitecoat-skills-v4-51fecca13bde.spine",
+    "newArtwork": 12,
+    "totalPoses": 30,
+    "newEffekseerEffects": 5,
+    "referenceHalfSpeed": true,
     "priorVersionsPreserved": true,
     "productionDeployment": false
   }

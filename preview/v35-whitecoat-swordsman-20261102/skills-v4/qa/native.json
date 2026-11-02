@@ -1,0 +1,31 @@
+{
+  "editor": "4.3.26 Professional",
+  "native": "whitecoat-skills-v4-51fecca13bde.spine",
+  "nativeSha256": "b0abcbf1bda97b8d700328b9453e0a61fbec96cf0063e21a1907bef444a57ef6",
+  "inputSha256": "51fecca13bde67c26ae36a8ecb2fc25cc2a615a92131b3c0a6a436210b39f95f",
+  "runtimeDir": "runtime-skills-v4-51fecca13bde",
+  "atlas": "whitecoat-skills-v4-51fecca13bde.atlas",
+  "skeletonJson": "whitecoat.json",
+  "skeletonCount": 1,
+  "save": true,
+  "reopen": true,
+  "export": true,
+  "bones": 7,
+  "slots": 1,
+  "animations": [
+    "attack_basic",
+    "dash",
+    "death",
+    "hit",
+    "idle",
+    "setup",
+    "skill_echo",
+    "skill_iai",
+    "skill_rift",
+    "skill_tempest",
+    "skill_verdict"
+  ],
+  "visualReview": "12 new pose drawings, actual V3 phases, six normal-speed ON/OFF decoded contact sheets, enemy and 390px captures inspected. Continuous full-video viewing not claimed.",
+  "userMotionApproval": false,
+  "production": false
+}

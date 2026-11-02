@@ -1,0 +1,116 @@
+{
+  "source": "https://www.youtube.com/watch?v=HzCF1Iot0ew",
+  "title": "[던파] 진(眞) 검귀",
+  "channel": "던파TV(던전앤파이터)",
+  "durationSeconds": 32.921,
+  "inspection": {
+    "playbackRate": 0.5,
+    "continuousPublicPlaybackWallMs": 65934,
+    "endedAt": 32.921,
+    "timestampedDisplayedFrames": 131,
+    "reviewedContactSheets": 9,
+    "evidence": "output/reference-review/dnf-whitecoat-skills-20261102/half-speed.json",
+    "limitation": "Observed displayed frames during verified half-speed playback; not a claim of source asset layers or authored frame counts."
+  },
+  "observations": [
+    {
+      "seconds": [
+        4.5,
+        5.75
+      ],
+      "feature": "Low, rapid horizontal motion; a large flattened crescent has an opaque ink-dark body and a thin bright cyan/white edge; local impact sparks stay on enemies and the blade body dissolves after the pass."
+    },
+    {
+      "seconds": [
+        6.5,
+        8.5
+      ],
+      "feature": "Attacks arrive from different sides around a target. Ground mist, narrow white hit flashes, dark rotary mass and a final upright crescent have distinct timing and planes."
+    },
+    {
+      "seconds": [
+        9.75,
+        12.9
+      ],
+      "feature": "Spatial opening anticipates a piercing horizontal rush. Horizontal, vertical and oblique strokes have different silhouettes, and crossing arcs enclose readable negative space."
+    },
+    {
+      "seconds": [
+        13.5,
+        15
+      ],
+      "feature": "Darkened field and portrait herald a stronger technique; two large opposing curved strokes meet. Bright impact peaks are brief, followed by thinner lingering outlines."
+    },
+    {
+      "seconds": [
+        17.5,
+        20.5
+      ],
+      "feature": "A vertical scar remains while diagonal scars accumulate; successive portrait beats accompany the build-up, then a horizontal finish releases the stored shape. It is an accumulation-and-release concept, not a series of identical explosions."
+    },
+    {
+      "seconds": [
+        23.5,
+        28.8
+      ],
+      "feature": "Large skill alternates preparation, opposing entries, crossings and close-up beats, with a final concentrated contact, debris and controlled fade. Foreground cuts and ground response have distinct depth and duration."
+    }
+  ],
+  "newSkillConcepts": [
+    {
+      "id": "skill_rift",
+      "label": "흑금 단공",
+      "concept": "A compressed draw stance releases a piercing pass; a dark split with a gold-white lip stays in world space before tearing into short filaments.",
+      "mainShape": "Low elongated split; no circular blast as main effect",
+      "referenceWindows": [
+        [
+          4.5,
+          5.75
+        ],
+        [
+          9.75,
+          10.85
+        ]
+      ]
+    },
+    {
+      "id": "skill_echo",
+      "label": "잔영 삼재",
+      "concept": "The swordsman commands three solid pose echoes from different angles; their distinct slashes converge, then a vertical cleave closes the field.",
+      "mainShape": "Three independently timed curved planes enclosing the target",
+      "referenceWindows": [
+        [
+          6.5,
+          8.5
+        ],
+        [
+          12,
+          12.9
+        ]
+      ]
+    },
+    {
+      "id": "skill_verdict",
+      "label": "천형 종결",
+      "concept": "A deliberate two-hand preparation forms one vertical and two oblique scars; an overhead sword strike breaks their shared center and sends a ground pressure wave outward.",
+      "mainShape": "Accumulating intersecting scars followed by one decisive release",
+      "referenceWindows": [
+        [
+          17.5,
+          20.5
+        ],
+        [
+          23.5,
+          28.8
+        ]
+      ]
+    }
+  ],
+  "adaptation": "Keep the accepted white-coat character, black/gold identity and existing V3 camera, HUD and damage authority. Reference effects and composition principles, not copied game textures, character designs or the same skill order.",
+  "priorFeedback": {
+    "version": "action-v3",
+    "quote": "훌륭하네",
+    "scope": "Positive aesthetic feedback on the delivered turn/aerial combo; not blanket approval of future skills."
+  },
+  "status": "Three skills authored, integrated into local V3, playback and visual frame review complete; user review pending"
+}

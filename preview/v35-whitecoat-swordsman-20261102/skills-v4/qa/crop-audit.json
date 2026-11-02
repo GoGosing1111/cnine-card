@@ -1,0 +1,230 @@
+[
+  {
+    "name": "rift_ready",
+    "sheet": "rift-poses-v2",
+    "crop": {
+      "left": 0,
+      "top": 0,
+      "width": 768,
+      "height": 512
+    },
+    "bounds": [
+      118,
+      92,
+      578,
+      428
+    ],
+    "boundary": 0,
+    "nonempty": 89678,
+    "alphaPreserved": true
+  },
+  {
+    "name": "rift_draw",
+    "sheet": "rift-poses-v2",
+    "crop": {
+      "left": 768,
+      "top": 0,
+      "width": 768,
+      "height": 512
+    },
+    "bounds": [
+      98,
+      96,
+      646,
+      432
+    ],
+    "boundary": 0,
+    "nonempty": 88724,
+    "alphaPreserved": true
+  },
+  {
+    "name": "rift_drive",
+    "sheet": "rift-poses-v2",
+    "crop": {
+      "left": 0,
+      "top": 512,
+      "width": 812,
+      "height": 512
+    },
+    "bounds": [
+      85,
+      82,
+      778,
+      403
+    ],
+    "boundary": 0,
+    "nonempty": 91969,
+    "alphaPreserved": true
+  },
+  {
+    "name": "rift_brake",
+    "sheet": "rift-poses-v2",
+    "crop": {
+      "left": 812,
+      "top": 512,
+      "width": 724,
+      "height": 512
+    },
+    "bounds": [
+      105,
+      62,
+      630,
+      413
+    ],
+    "boundary": 0,
+    "nonempty": 92964,
+    "alphaPreserved": true
+  },
+  {
+    "name": "echo_ready",
+    "sheet": "echo-poses-v1",
+    "crop": {
+      "left": 0,
+      "top": 0,
+      "width": 724,
+      "height": 543
+    },
+    "bounds": [
+      119,
+      9,
+      535,
+      535
+    ],
+    "boundary": 0,
+    "nonempty": 112090,
+    "alphaPreserved": true
+  },
+  {
+    "name": "echo_command",
+    "sheet": "echo-poses-v1",
+    "crop": {
+      "left": 724,
+      "top": 0,
+      "width": 724,
+      "height": 543
+    },
+    "bounds": [
+      33,
+      117,
+      624,
+      519
+    ],
+    "boundary": 0,
+    "nonempty": 110884,
+    "alphaPreserved": true
+  },
+  {
+    "name": "echo_rise",
+    "sheet": "echo-poses-v1",
+    "crop": {
+      "left": 0,
+      "top": 543,
+      "width": 724,
+      "height": 543
+    },
+    "bounds": [
+      61,
+      37,
+      673,
+      496
+    ],
+    "boundary": 0,
+    "nonempty": 125199,
+    "alphaPreserved": true
+  },
+  {
+    "name": "echo_cut",
+    "sheet": "echo-poses-v1",
+    "crop": {
+      "left": 724,
+      "top": 543,
+      "width": 724,
+      "height": 543
+    },
+    "bounds": [
+      53,
+      69,
+      659,
+      494
+    ],
+    "boundary": 0,
+    "nonempty": 122543,
+    "alphaPreserved": true
+  },
+  {
+    "name": "verdict_focus",
+    "sheet": "verdict-poses-v1",
+    "crop": {
+      "left": 0,
+      "top": 0,
+      "width": 768,
+      "height": 512
+    },
+    "bounds": [
+      159,
+      6,
+      555,
+      502
+    ],
+    "boundary": 0,
+    "nonempty": 106613,
+    "alphaPreserved": true
+  },
+  {
+    "name": "verdict_raise",
+    "sheet": "verdict-poses-v1",
+    "crop": {
+      "left": 768,
+      "top": 0,
+      "width": 768,
+      "height": 512
+    },
+    "bounds": [
+      125,
+      57,
+      668,
+      497
+    ],
+    "boundary": 0,
+    "nonempty": 122658,
+    "alphaPreserved": true
+  },
+  {
+    "name": "verdict_cut",
+    "sheet": "verdict-poses-v1",
+    "crop": {
+      "left": 0,
+      "top": 512,
+      "width": 768,
+      "height": 512
+    },
+    "bounds": [
+      79,
+      57,
+      717,
+      482
+    ],
+    "boundary": 0,
+    "nonempty": 124756,
+    "alphaPreserved": true
+  },
+  {
+    "name": "verdict_sheathe",
+    "sheet": "verdict-poses-v1",
+    "crop": {
+      "left": 768,
+      "top": 512,
+      "width": 768,
+      "height": 512
+    },
+    "bounds": [
+      96,
+      98,
+      630,
+      466
+    ],
+    "boundary": 0,
+    "nonempty": 118543,
+    "alphaPreserved": true
+  }
+]

@@ -2417,6 +2417,66 @@
       "sha256": "c54aee2b8e0b45cdfe4e824e5f7739d1be9be361b8cf955a1661e4face304eba"
     },
     {
+      "path": "images/v4_echo_command.png",
+      "bytes": 716293,
+      "sha256": "ac606ccda64ef1917bc234296bd6465a8687f042f0a80ed00e20a1e4b578f99e"
+    },
+    {
+      "path": "images/v4_echo_cut.png",
+      "bytes": 782750,
+      "sha256": "0f5012086f8a52cc58c91089525ed59fe694f4607a86b9c5969537cc604ac93a"
+    },
+    {
+      "path": "images/v4_echo_ready.png",
+      "bytes": 735604,
+      "sha256": "a8b7e10d2e4f5389675dfd13dcb0ec291110614b1fbb11fa7de7a486ef3034c3"
+    },
+    {
+      "path": "images/v4_echo_rise.png",
+      "bytes": 815914,
+      "sha256": "21720be0d63fbe4a998a5a40b782c0ac0c5ef16e1ec5f45011d144b802040c75"
+    },
+    {
+      "path": "images/v4_rift_brake.png",
+      "bytes": 784099,
+      "sha256": "275321c92790a1123cf722e2123fab80dd7dd166233a5eb56b4d81c8a2cb672e"
+    },
+    {
+      "path": "images/v4_rift_draw.png",
+      "bytes": 756424,
+      "sha256": "6cd3029b0ab5c8c7097aaeef2c67b611647495057c9832f1e7a2372432ed0223"
+    },
+    {
+      "path": "images/v4_rift_drive.png",
+      "bytes": 781331,
+      "sha256": "39f061aaeada59ddd63e3dfdeea5a6e8d730a6b0d7630cc06f1b1bdd28886553"
+    },
+    {
+      "path": "images/v4_rift_ready.png",
+      "bytes": 748734,
+      "sha256": "e7d25e07060605d87c27e177d05e5cbbdbbbe0ff9e1cc74c7f211b2a62b05092"
+    },
+    {
+      "path": "images/v4_verdict_cut.png",
+      "bytes": 757180,
+      "sha256": "c0eecab24766b6cd3dd05b1620e7951ea1acc096120e7afdf2634470a93bf4b3"
+    },
+    {
+      "path": "images/v4_verdict_focus.png",
+      "bytes": 670458,
+      "sha256": "342b6d8dd5b2d1f0e0e15dd23275d5a7a96bed4cfdc98d23641c30dbc7e47148"
+    },
+    {
+      "path": "images/v4_verdict_raise.png",
+      "bytes": 750805,
+      "sha256": "f2c3b9322c9175e07d2d368070d52c16fcb983b26954997872cf8075ab773f74"
+    },
+    {
+      "path": "images/v4_verdict_sheathe.png",
+      "bytes": 709745,
+      "sha256": "c74d608e3908b4b65bbe9e061ecdbd90dfbaa6a412ced740b1365692dec7bfdb"
+    },
+    {
       "path": "images/windup.png",
       "bytes": 718528,
       "sha256": "5c6f55fd2532c0742dc63b3b9ccd1829ba8348db9f1368fda8671d8304ccc0d7"
@@ -2443,8 +2503,8 @@
     },
     {
       "path": "PROJECT.md",
-      "bytes": 19806,
-      "sha256": "80cdcee56c6d12732b031f457f9a715d8b689420f3a4fdd61fee1be6aa35ddc8"
+      "bytes": 21603,
+      "sha256": "e067181c066510096c21739bd12be721b88cfc80c7ab7da5c73f9b88a7d70bc5"
     },
     {
       "path": "qa/art-compare.json",
@@ -3243,8 +3303,8 @@
     },
     {
       "path": "review.html",
-      "bytes": 2685,
-      "sha256": "c83fdab4a3e00770b02233d4e69d2660529436c75dba54b22904c8775748d20d"
+      "bytes": 6421,
+      "sha256": "9d080d1230a282c2efb036ce191ee0a26f088a214787deeae0d0a3b51a784c35"
     },
     {
       "path": "runtime-action-v3-93718185df11/whitecoat-action-v3-93718185df11_2.png",
@@ -3280,6 +3340,1761 @@
       "path": "runtime-c3ad326c9e61/whitecoat.json",
       "bytes": 9368,
       "sha256": "ef24ac2184796199bf589c9290ca426515d3c8be5b584921d1cfafca0321f51c"
+    },
+    {
+      "path": "runtime-skills-v4-51fecca13bde/whitecoat-skills-v4-51fecca13bde_2.png",
+      "bytes": 6692265,
+      "sha256": "e1fb6c4714ec4be26c26c0c398e428ed3c13cb0e03a3e99bfe7b03502eb43078"
+    },
+    {
+      "path": "runtime-skills-v4-51fecca13bde/whitecoat-skills-v4-51fecca13bde_3.png",
+      "bytes": 5879849,
+      "sha256": "4e90ac9b34f3b7f083dc2e7f17b1571162c03f8936f29197309503d85f4e0d01"
+    },
+    {
+      "path": "runtime-skills-v4-51fecca13bde/whitecoat-skills-v4-51fecca13bde_4.png",
+      "bytes": 1302833,
+      "sha256": "729ee7e3e29e1c47ddcb710805b3f511f87d3ed54344dfe603889535517576e0"
+    },
+    {
+      "path": "runtime-skills-v4-51fecca13bde/whitecoat-skills-v4-51fecca13bde.atlas",
+      "bytes": 2099,
+      "sha256": "bd45ac1d451c5690054056614256daf6ebc1a5fab6d514ace164920b8eaf745c"
+    },
+    {
+      "path": "runtime-skills-v4-51fecca13bde/whitecoat-skills-v4-51fecca13bde.png",
+      "bytes": 6679222,
+      "sha256": "bb12d5b1cb7b6434275c9b1a431a10f7e0092be651dbb80d4ab56907668a8f16"
+    },
+    {
+      "path": "runtime-skills-v4-51fecca13bde/whitecoat.json",
+      "bytes": 25201,
+      "sha256": "87e42a072382941d196846d1bf6de95b086060a57e3dde3f7dab9d26292087ee"
+    },
+    {
+      "path": "skills-v4/actions.json",
+      "bytes": 3315,
+      "sha256": "5e311327854023511a4e75a57a9d011ee2f907867bde335d0ae9342f17f6e878"
+    },
+    {
+      "path": "skills-v4/art/echo-poses-v1.png",
+      "bytes": 1752072,
+      "sha256": "bf74dcf29f2637479802dcdc39f1c3e50a9f725a4606988113fbd2804d54d430"
+    },
+    {
+      "path": "skills-v4/art/rift-poses-v1.png",
+      "bytes": 2418154,
+      "sha256": "ef12f111fbe76dcdf7f74e64567109cd157435a8a935f7cc44c9e8fbe41f3a08"
+    },
+    {
+      "path": "skills-v4/art/rift-poses-v2.png",
+      "bytes": 2078260,
+      "sha256": "3c47b060077ff3dc4f29bb06cebd093367a7827ac39009dcc1fab9292ae3a46d"
+    },
+    {
+      "path": "skills-v4/art/verdict-cutin-v1.png",
+      "bytes": 2390511,
+      "sha256": "81ddbf9b4312d835f622cb2ed20b490a4042cc3e1b8a30ae1200a428b8f8b103"
+    },
+    {
+      "path": "skills-v4/art/verdict-poses-v1.png",
+      "bytes": 2230471,
+      "sha256": "585cc672035e102094930c2ec5bc7da3413623e610ee201094e19eded634e01a"
+    },
+    {
+      "path": "skills-v4/author.mjs",
+      "bytes": 6118,
+      "sha256": "80897869ff0efd47d6ef74d9c4a3f2ad19b7a0d913df6a1e1546a6199c932406"
+    },
+    {
+      "path": "skills-v4/cropped/echo_command.png",
+      "bytes": 436040,
+      "sha256": "0a5cadfa8f21690a71d9808a952dd23a72bc97866e776da773c37c4cf01551eb"
+    },
+    {
+      "path": "skills-v4/cropped/echo_cut.png",
+      "bytes": 475876,
+      "sha256": "193972847fe0df20922550b36504e968ed42d04277e884b7831c345b6a0c4dd2"
+    },
+    {
+      "path": "skills-v4/cropped/echo_ready.png",
+      "bytes": 445893,
+      "sha256": "97326cd113bece3f1d045536e381c3b87ead40631d48377c3e07071baf175069"
+    },
+    {
+      "path": "skills-v4/cropped/echo_rise.png",
+      "bytes": 495473,
+      "sha256": "f34509e3bf0fb3204230241984a4973435236a115833d7f7b1f00ac9efc35831"
+    },
+    {
+      "path": "skills-v4/cropped/rift_brake.png",
+      "bytes": 672583,
+      "sha256": "3de02bc535522f05640fd2c064f9f22719fafca66d6384984c07e659be593c40"
+    },
+    {
+      "path": "skills-v4/cropped/rift_draw.png",
+      "bytes": 686541,
+      "sha256": "fa8a0f3f735e46e9bf33078d785b6286716ec56dda898f1679a867f8d86ce307"
+    },
+    {
+      "path": "skills-v4/cropped/rift_drive.png",
+      "bytes": 714408,
+      "sha256": "b41ea72a786ef7d40a02a4a95b127f2cb8bbf01b1cb1429862318e02ea6a4449"
+    },
+    {
+      "path": "skills-v4/cropped/rift_ready.png",
+      "bytes": 676164,
+      "sha256": "9dceec6cecf57204c69a78c072cdcbd4a8704d360e37a3f0893a653db73ab0ef"
+    },
+    {
+      "path": "skills-v4/cropped/verdict_cut.png",
+      "bytes": 781077,
+      "sha256": "aad999ebf855e3d5a8334785459d397943d5a3c9b970cb0f95ed5f6a313e585c"
+    },
+    {
+      "path": "skills-v4/cropped/verdict_focus.png",
+      "bytes": 732101,
+      "sha256": "2acf3c89b5895f855d1d14ef938de82c6262bbe0528c9b41d9a643f65bd28d40"
+    },
+    {
+      "path": "skills-v4/cropped/verdict_raise.png",
+      "bytes": 776502,
+      "sha256": "a073ad5c3edae4a33720d159fdd3a760226894d7149a0f012aceeae74ed8a145"
+    },
+    {
+      "path": "skills-v4/cropped/verdict_sheathe.png",
+      "bytes": 733527,
+      "sha256": "7456870300e827b241cdfee3057ea1cf610e61ce8dadc108b486ae0d29845f9a"
+    },
+    {
+      "path": "skills-v4/effects/art/echo-sequence-v1.png",
+      "bytes": 857064,
+      "sha256": "e920de4aeee0a7098f41c40b24060e13d88233d9c960ec7ea6cbfb00a3240e09"
+    },
+    {
+      "path": "skills-v4/effects/art/rift-sequence-v1.png",
+      "bytes": 391982,
+      "sha256": "945af85d467faa75e4827ca27aab6a828f491c15f250feb1901075fdc6562e46"
+    },
+    {
+      "path": "skills-v4/effects/art/verdict-sequence-v1.png",
+      "bytes": 1580258,
+      "sha256": "7f6b4d8eb8377bedd83275cfab0525cf62dd4166024fe38bfc1b4c5866e86dd0"
+    },
+    {
+      "path": "skills-v4/effects/author.mjs",
+      "bytes": 5157,
+      "sha256": "0ccad46857840c61e3e9abe92621c56ea2a54fd09587c3d8b2c04c2b44f316c7"
+    },
+    {
+      "path": "skills-v4/effects/bake.html",
+      "bytes": 2171,
+      "sha256": "d6add0153dc78b0abc044b39d56c3ef2004690cd63833ce3cc9db8f22c2ea0c4"
+    },
+    {
+      "path": "skills-v4/effects/bake.mjs",
+      "bytes": 3284,
+      "sha256": "f991e2f7599ec0ba2df14f55869db2aab789f2b9e5c278aae549e041d41e18fb"
+    },
+    {
+      "path": "skills-v4/effects/effects.json",
+      "bytes": 1271,
+      "sha256": "4a3bd08bf8a704f1fb62bcbd5573baf9e3a6a6ae4cb1d129a0c155555fd518b8"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0000.png",
+      "bytes": 61504,
+      "sha256": "575be983a3e7b72bd5f4893de4ed366e627ab80c9f2a4ddf9efe41bd3053e825"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0001.png",
+      "bytes": 61504,
+      "sha256": "575be983a3e7b72bd5f4893de4ed366e627ab80c9f2a4ddf9efe41bd3053e825"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0002.png",
+      "bytes": 61504,
+      "sha256": "575be983a3e7b72bd5f4893de4ed366e627ab80c9f2a4ddf9efe41bd3053e825"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0003.png",
+      "bytes": 61504,
+      "sha256": "575be983a3e7b72bd5f4893de4ed366e627ab80c9f2a4ddf9efe41bd3053e825"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0004.png",
+      "bytes": 100647,
+      "sha256": "3da67fee74a5445795320ebe61add9707e4e20730932f252764f62d7a272bc5e"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0005.png",
+      "bytes": 86628,
+      "sha256": "d60fc9100c1aa683a517ee8fb49b614d82192f036b2a9de2165f241a71f98a30"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0006.png",
+      "bytes": 86628,
+      "sha256": "d60fc9100c1aa683a517ee8fb49b614d82192f036b2a9de2165f241a71f98a30"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0007.png",
+      "bytes": 175291,
+      "sha256": "d8cae7122a4cdeb422e8a368c3404a387610a4bb07809165c2d2a9589d6adc59"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0008.png",
+      "bytes": 163646,
+      "sha256": "57e29a2a42be2e658ad7f8f71a932ead537e3cbcd9ecbe2e6ccc5f074b6ab521"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0009.png",
+      "bytes": 163646,
+      "sha256": "57e29a2a42be2e658ad7f8f71a932ead537e3cbcd9ecbe2e6ccc5f074b6ab521"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0010.png",
+      "bytes": 231068,
+      "sha256": "3f347bbe5905f7ce98f526128c2e0603c2ccf205e6865cbf182d15933e0044da"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0011.png",
+      "bytes": 222722,
+      "sha256": "8f06b31dae375cffd24130945a50f986c7b75917285ed219da106164a1e6cd70"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0012.png",
+      "bytes": 222722,
+      "sha256": "8f06b31dae375cffd24130945a50f986c7b75917285ed219da106164a1e6cd70"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0013.png",
+      "bytes": 251050,
+      "sha256": "c3af9918c85cd8d2a8217a2fc36c48dc89638c54a56f5ff387c96d344674f9d4"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0014.png",
+      "bytes": 205552,
+      "sha256": "5bde0d3257c7f294a9c47ad2f960d4697783e717b1056f57e59f4c94ad2a129b"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0015.png",
+      "bytes": 205552,
+      "sha256": "5bde0d3257c7f294a9c47ad2f960d4697783e717b1056f57e59f4c94ad2a129b"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0016.png",
+      "bytes": 232941,
+      "sha256": "6f13d40638db82134e09c31082b10b860815365bbdd1fd2328a97d10d03dddfd"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0017.png",
+      "bytes": 136025,
+      "sha256": "2a6b4dc138f115789b2e4c06474b88f262ef6f993f8f98802c2f05cb4c9ca6ac"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0018.png",
+      "bytes": 136025,
+      "sha256": "2a6b4dc138f115789b2e4c06474b88f262ef6f993f8f98802c2f05cb4c9ca6ac"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0019.png",
+      "bytes": 160130,
+      "sha256": "302b68f04ac2d2f58a632519032fc67ae5a19c4035b4bc6d351a813c7448f6c6"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0020.png",
+      "bytes": 73035,
+      "sha256": "14ba0760ff972daac884a60ccf7f2bad029c3797541511a8abe87685fe91f8b3"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0021.png",
+      "bytes": 73035,
+      "sha256": "14ba0760ff972daac884a60ccf7f2bad029c3797541511a8abe87685fe91f8b3"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0022.png",
+      "bytes": 87715,
+      "sha256": "b2981d99f37a887650096fab5562d8d35920fc1077daf9aef1cb944897a8d09f"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0023.png",
+      "bytes": 35905,
+      "sha256": "d129131f46e151c7ac592140b9f7a8fe668b80df95665ae4be374e5c4a97565c"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0024.png",
+      "bytes": 35905,
+      "sha256": "d129131f46e151c7ac592140b9f7a8fe668b80df95665ae4be374e5c4a97565c"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-echo/frame-0025.png",
+      "bytes": 35905,
+      "sha256": "d129131f46e151c7ac592140b9f7a8fe668b80df95665ae4be374e5c4a97565c"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0000.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0001.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0002.png",
+      "bytes": 8210,
+      "sha256": "b9b45ec1722a05e131a551a90396f9b500e363332a2a1da171310cda3168beed"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0003.png",
+      "bytes": 8561,
+      "sha256": "a87236de3e8380f0379bc42e9d0c45cdef38aea89928047c0a31828b6b485a64"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0004.png",
+      "bytes": 9217,
+      "sha256": "dab1e81796669b33abff739b6726bdc76dd7de6003aa9ca6359f6d1881a930c7"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0005.png",
+      "bytes": 9958,
+      "sha256": "00cc84eb48ff661bcbb76ef7b82a16cdab0a867a3888950c37c66c3ce62ac737"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0006.png",
+      "bytes": 11083,
+      "sha256": "ab05f475f3d8d92afcae053a1e7fa66c4ebd567d571e9f07bf7939c3fc3a0398"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0007.png",
+      "bytes": 11387,
+      "sha256": "94a5b5f5d3224d113564395477929d929cd50b2f109079c425831e3048c0db0d"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0008.png",
+      "bytes": 11294,
+      "sha256": "ebd2b598175af22e4a93a12a4d358595a8d50452d192f8b5e0f092fedc5d5116"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0009.png",
+      "bytes": 11071,
+      "sha256": "82f9c68e8e182f58b6c00d569e3ae5b9c68c86a527b9a3258182806137d27b14"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0010.png",
+      "bytes": 10943,
+      "sha256": "a756ba6aadf11d03cf04629f77f4694afd3a2ab999a1a8161c27cf2e1f22e315"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0011.png",
+      "bytes": 10507,
+      "sha256": "88c75c5811bed1240fa16777fd6d08a4e150b11dde3c50773abb2ab9393dfd43"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0012.png",
+      "bytes": 10248,
+      "sha256": "1249ee0906e7589ff8d4bdf433b4559100e88f03bea257304fc2bdffbb773747"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0013.png",
+      "bytes": 9937,
+      "sha256": "7f4aa528bc0f05efbd9ead5e2081646664124d5edb11aabc57c797fbda086247"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0014.png",
+      "bytes": 9604,
+      "sha256": "5518af2c7e71be6ea84b15e2d2518eb04a213a99a1f5f691ba6a8655effe0723"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0015.png",
+      "bytes": 9381,
+      "sha256": "2fe748a4cfe8dcfbc6ea92c74c6dc511a5f97efea845e5a62bf9e9103e4fbe36"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0016.png",
+      "bytes": 8991,
+      "sha256": "ce79b0e3226227374e969cc7a06b295665cf4f01fcae68d1e54662dceb1c6afa"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0017.png",
+      "bytes": 8765,
+      "sha256": "42a8337de3011363a41ff0bf56c613ffbcf19be83e749ee94a159e7b4e21be94"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0018.png",
+      "bytes": 8496,
+      "sha256": "0c7e4d92571898c085cd6687dd63ea5b181d45a4f3ee1bb3f59fcf0afd07e492"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0019.png",
+      "bytes": 8184,
+      "sha256": "1fcecd3645f58fdb47cf253ede14479eb1529244e2fdcada1dde57d62c30f2ec"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0020.png",
+      "bytes": 7931,
+      "sha256": "4ff346f703183462136f916800b15abac57674a0dcc1f7d3f649f59a6c4e817a"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0021.png",
+      "bytes": 7803,
+      "sha256": "7aeeaa7db3071c8ac2e21cbbc862a861e8ac1be76e2835b6d3a8419f23008bc1"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0022.png",
+      "bytes": 7575,
+      "sha256": "c06c9a5193eaaf7b22972df4107e3cff1f1ee414910b526094ab23b0b4f19392"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0023.png",
+      "bytes": 7446,
+      "sha256": "33e7e13c073f3d609f4a92ec9c29be38ca9b4b22b85dd72b0977118f0f3b044e"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0024.png",
+      "bytes": 7298,
+      "sha256": "85c022008a2a67ad652f2a1bee6cde418ed376b89204bf8297ff8ad0a201588a"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0025.png",
+      "bytes": 7230,
+      "sha256": "89d75da56a7fd8b221a928eb6210898b353f54089d8adba766c50a258ee31b34"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0026.png",
+      "bytes": 7203,
+      "sha256": "3b648e2bcc5532b7082a9e47a90f36b8664b94e8c6cad8c4679ffa2daa2a3d68"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0027.png",
+      "bytes": 7129,
+      "sha256": "67e43d8d07d7d7bcba470a2b2baa922ef6bd4d783d238091dec7cc57edcb33a9"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0028.png",
+      "bytes": 7129,
+      "sha256": "2daa2970cdb6119367eaa4ae751dc475f4da2804e153544fd195c8d18b0db322"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0029.png",
+      "bytes": 7126,
+      "sha256": "55aa60b74fdb3d0943324a0653f8cf5afb64acc79ee80d9d88dc01d2910bb142"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0030.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0031.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0032.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-incision/frame-0033.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0000.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0001.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0002.png",
+      "bytes": 8643,
+      "sha256": "c94ebf8a570662ad4e60bc31904fe584dd8d3402e305c49ee71e3e385a23a08c"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0003.png",
+      "bytes": 9368,
+      "sha256": "560eddb5dbb6546ff13bb94ae20134ea7883bbc7beeae386a27427ad341d49a1"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0004.png",
+      "bytes": 10561,
+      "sha256": "28a9c83b92f0efa9ac99b0fb8e9b8c2662a0df3582e58994bd1e87bb7c9b0b9e"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0005.png",
+      "bytes": 12075,
+      "sha256": "149eb7801731be89d25aa6061f0f70500d53b05a24bdcd72d2595431bbae016a"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0006.png",
+      "bytes": 13434,
+      "sha256": "b0ec2df87537ce386ff7c3cec57265c06c27eb59f7b0f2114378fe76a645047d"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0007.png",
+      "bytes": 14814,
+      "sha256": "e28f9c12bb09b108fa780efd48d10dc3f828c154aef5450a74e352b7eac49ccf"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0008.png",
+      "bytes": 16390,
+      "sha256": "a31dcce807e48d691a346845b1ae6b446a78e09a62330c11e58f592aeea5f202"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0009.png",
+      "bytes": 17909,
+      "sha256": "de4dddd05ddc8cdf2d8a3be6fe4eb6846ee64863206a8340f79dbc567063423e"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0010.png",
+      "bytes": 19381,
+      "sha256": "95edb0b5b68e5671123d0be59b9db82a52d0529ebba116363f002dc3f0230a76"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0011.png",
+      "bytes": 20772,
+      "sha256": "5a410b609711017a317de6e1831514c8f1c4038db885826479b37264182f0d9f"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0012.png",
+      "bytes": 21880,
+      "sha256": "e4250c62ccf0d114c732dd37418c1c8c4097e249e522000b72d34477b9a1529b"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0013.png",
+      "bytes": 22889,
+      "sha256": "37a908e6fc763f24497a1ff2adc15d21508bbb6c2aa15688c416548c4d2f58af"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0014.png",
+      "bytes": 23937,
+      "sha256": "4aea3fd8631660d620646d47873d5d2483c685a0f18630c6ca7e0faf4db679b4"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0015.png",
+      "bytes": 24694,
+      "sha256": "a7ae0b295d50b080c1a88c59b549ee2d4a0b6f35ff7da0b8583eba0353701d89"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0016.png",
+      "bytes": 25476,
+      "sha256": "f5d8e0fe3546ee723bb62dba5e7fd0d36e8c12f2e18c974599db18a82b8ce2f2"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0017.png",
+      "bytes": 26429,
+      "sha256": "7e1bec84b7a12688c531262f9efbe97dc7e88739a1c7637245484e03fbf2c1df"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0018.png",
+      "bytes": 26984,
+      "sha256": "fbf43d02bb9ee673185aceafa7abfc608cd53885287c76fde84d043c0a91e0d3"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0019.png",
+      "bytes": 27764,
+      "sha256": "32cdd7a72e53bcdee1417c4983ffe8eb708d38b28917ceda7ec93ecc47e0d8fa"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0020.png",
+      "bytes": 28434,
+      "sha256": "7b9ff9d6aa13abef5cbe159a27092002eb9f92b22a39f77fa9ec9e281b0557b1"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0021.png",
+      "bytes": 28964,
+      "sha256": "6085e86f1977075ff1bdd932cdf383de45da002ef5a096876fb9d8aa20726c0c"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0022.png",
+      "bytes": 29074,
+      "sha256": "d1d481a76a6aad6d1fa6341fbf24bca81f5469aaf342df4afc018a9d8f807e12"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0023.png",
+      "bytes": 27822,
+      "sha256": "eb8e2c05b9d4ddc7c4d2017c9c4eee067cec0e66545b49813bde16c23be9c91d"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0024.png",
+      "bytes": 26400,
+      "sha256": "7e4adee546774ffcc84711d8541b3c01bc592a31d30f61c7dd93b32ab10596fb"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0025.png",
+      "bytes": 17004,
+      "sha256": "0cbf7df7b09a37520f81534d4527e46bf62a22ee4639724c476d493337280cc3"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0026.png",
+      "bytes": 17050,
+      "sha256": "ba7d4a9efc9e5e692f92a9468d86292d2c9e834f980e3ff46411d4ba85282ea3"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0027.png",
+      "bytes": 16962,
+      "sha256": "7a04574ab977796a1683bfe32e4ad531a648b394ab90210d97fe8975dc3ac913"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0028.png",
+      "bytes": 17165,
+      "sha256": "e9eb7b71f46bd36e49d0d1f125acc91f465fa796f967ecf93626b09fceaf8612"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0029.png",
+      "bytes": 17216,
+      "sha256": "1762aa253512a9ea815347ad673edcef65ac0dfabca76b1e2d6d07e1438ec790"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0030.png",
+      "bytes": 17252,
+      "sha256": "ba6f2ffff2b4d9de7602acadbd2e5a81ce5b83ec9c172691631815ee9ade4aad"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0031.png",
+      "bytes": 17452,
+      "sha256": "0208a566103142d07783b701d5d3fbb03cd36ee1d7ebef9faabaf79ac361abf3"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0032.png",
+      "bytes": 17515,
+      "sha256": "ed1a9295598bb62fc9006dfb939d6dd277b86c9b3c97b010a42fd684043fdef7"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0033.png",
+      "bytes": 17551,
+      "sha256": "52a0a22f588b438cf65f638069788ffa4bd5353d82344001fc5aee30b4487905"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0034.png",
+      "bytes": 17583,
+      "sha256": "f0a8a24a3303e07112db87cb637959fd060196bfe943ee8a6ee0abea12543857"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0035.png",
+      "bytes": 17503,
+      "sha256": "26bf214d45a3d4e3dd2494c31f60198e0fa2589a01e91e60a65ca146fe1297da"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0036.png",
+      "bytes": 17169,
+      "sha256": "2abb3eb6cfaaedb17393ab5679cca78b194e802860aeb0cfab3d902ee940e0d9"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0037.png",
+      "bytes": 16764,
+      "sha256": "058589744790e86ecceae703d2a378c718d60c4ef266e7013e3ba95135a23bb6"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0038.png",
+      "bytes": 15658,
+      "sha256": "8b5498cc926973b4efe30efb061f8d63021a945312470c3b6f8485cc4874fa4e"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0039.png",
+      "bytes": 13572,
+      "sha256": "854081eb17bbefcdca71832959fb7ea552c5907a03d4b601fae523204cf4f442"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0040.png",
+      "bytes": 7194,
+      "sha256": "5fe40cc77799168e8f1351bf16de4217c5db9c622f0df4fc011327898532f3f1"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0041.png",
+      "bytes": 7153,
+      "sha256": "3a07500b4825a0f09cef87dbbe1ab31fb7babf60437ff99dfd4379320c9348ca"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0042.png",
+      "bytes": 7145,
+      "sha256": "cf0071ee4daceac65a91902f817f8917dc527023a8e56a18452008cf3366fb5f"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0043.png",
+      "bytes": 7126,
+      "sha256": "508fdfe459af203816c8443f976aa1067ee592fe97344e4b33c034aff7814502"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0044.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0045.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0046.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-pressure/frame-0047.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0000.png",
+      "bytes": 26912,
+      "sha256": "9eb9be8c4c39852a338fbdb34bc530ead41e57a3bc8ac50a2533f08797428e32"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0001.png",
+      "bytes": 26912,
+      "sha256": "9eb9be8c4c39852a338fbdb34bc530ead41e57a3bc8ac50a2533f08797428e32"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0002.png",
+      "bytes": 26912,
+      "sha256": "9eb9be8c4c39852a338fbdb34bc530ead41e57a3bc8ac50a2533f08797428e32"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0003.png",
+      "bytes": 26912,
+      "sha256": "9eb9be8c4c39852a338fbdb34bc530ead41e57a3bc8ac50a2533f08797428e32"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0004.png",
+      "bytes": 57825,
+      "sha256": "fbef3384165ef4d11e7b6dd52cda53384426f01eb6a11f487b0b059ee7c18bf6"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0005.png",
+      "bytes": 51227,
+      "sha256": "5ecdf7097e602fe924a9f7f18ab8024bbf74b4eab5636e47b07ede28b93341a0"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0006.png",
+      "bytes": 51227,
+      "sha256": "5ecdf7097e602fe924a9f7f18ab8024bbf74b4eab5636e47b07ede28b93341a0"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0007.png",
+      "bytes": 91812,
+      "sha256": "4127b9c514cba74b29e1dfbbd4b312d7bbefa2ade695205586f9ab268d7a7286"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0008.png",
+      "bytes": 79971,
+      "sha256": "b5ddcb92be1e3dbc65770c8c245e975f9df2bca9f0cdbaf8012f27ff9f999ca8"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0009.png",
+      "bytes": 79971,
+      "sha256": "b5ddcb92be1e3dbc65770c8c245e975f9df2bca9f0cdbaf8012f27ff9f999ca8"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0010.png",
+      "bytes": 116231,
+      "sha256": "983f1d6e9bf983d934b11f324bd7ad528e1434d1ddb1bf206e163aa1d068fc38"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0011.png",
+      "bytes": 102156,
+      "sha256": "54dc256cb71c6ba39a2147809639adef19a5677f47143983157b224258a81ecf"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0012.png",
+      "bytes": 102156,
+      "sha256": "54dc256cb71c6ba39a2147809639adef19a5677f47143983157b224258a81ecf"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0013.png",
+      "bytes": 119847,
+      "sha256": "b34db976b1df9a9ffb636608c8af3d12a7d49d18770f20a9e3b67a5ba86971a2"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0014.png",
+      "bytes": 98863,
+      "sha256": "5c7939ab04c1c045d44a6dccabd66b732934a482bb48921a59c3451d7d39fe43"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0015.png",
+      "bytes": 98863,
+      "sha256": "5c7939ab04c1c045d44a6dccabd66b732934a482bb48921a59c3451d7d39fe43"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0016.png",
+      "bytes": 118297,
+      "sha256": "c7e632f7aa88abec7f67a33bbc705b8598f3342c847a12ba2c11964d17f83d45"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0017.png",
+      "bytes": 72978,
+      "sha256": "c9e54e62435fcb25987a3c3df4ba84b354146d0638b0691e1024f82539f18fc5"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0018.png",
+      "bytes": 72978,
+      "sha256": "c9e54e62435fcb25987a3c3df4ba84b354146d0638b0691e1024f82539f18fc5"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0019.png",
+      "bytes": 88290,
+      "sha256": "61efd9ba4d5c3b5d570a42699f09f065150a181222740cb61fb071918e352ecd"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0020.png",
+      "bytes": 46128,
+      "sha256": "57c932719f3256c4240829be6d8cc257e43edd9aea9e4549c3a0836e4f3ed62f"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0021.png",
+      "bytes": 46128,
+      "sha256": "57c932719f3256c4240829be6d8cc257e43edd9aea9e4549c3a0836e4f3ed62f"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0022.png",
+      "bytes": 59093,
+      "sha256": "9b8c8b92321e5af475a71dcdaaa0b68a76bb2d0a812625fe6d561be6f9f8a8e0"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0023.png",
+      "bytes": 26029,
+      "sha256": "12276f04dde5f80ef30a77ea6d6f0e416b107e34f6a430e0a8080cb07a7f06ab"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0024.png",
+      "bytes": 26029,
+      "sha256": "12276f04dde5f80ef30a77ea6d6f0e416b107e34f6a430e0a8080cb07a7f06ab"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-rift/frame-0025.png",
+      "bytes": 26029,
+      "sha256": "12276f04dde5f80ef30a77ea6d6f0e416b107e34f6a430e0a8080cb07a7f06ab"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0000.png",
+      "bytes": 133308,
+      "sha256": "2f58d873bf1af15f72f31a597b47449790dc8d0330eab0dca068a49473651229"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0001.png",
+      "bytes": 133308,
+      "sha256": "2f58d873bf1af15f72f31a597b47449790dc8d0330eab0dca068a49473651229"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0002.png",
+      "bytes": 133308,
+      "sha256": "2f58d873bf1af15f72f31a597b47449790dc8d0330eab0dca068a49473651229"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0003.png",
+      "bytes": 133308,
+      "sha256": "2f58d873bf1af15f72f31a597b47449790dc8d0330eab0dca068a49473651229"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0004.png",
+      "bytes": 231313,
+      "sha256": "cd82e3bc2109ad8b69b080e2b4f6f55166569cb8db95884d1df5839a93a5e9cf"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0005.png",
+      "bytes": 208283,
+      "sha256": "30134c4eb5ffb61ddd5ac789a459abc543e4db51f9862387c25cf1beef6369cf"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0006.png",
+      "bytes": 208283,
+      "sha256": "30134c4eb5ffb61ddd5ac789a459abc543e4db51f9862387c25cf1beef6369cf"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0007.png",
+      "bytes": 301162,
+      "sha256": "fc1765ccff34cbd6efd5bc6d6fac0d0cdb299a0b00d44989f6d7265b302f738f"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0008.png",
+      "bytes": 253412,
+      "sha256": "d4b461abcdedb5e4a11bdfb4786e9276f60e6989252b0a4321c9422134fe6432"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0009.png",
+      "bytes": 253412,
+      "sha256": "d4b461abcdedb5e4a11bdfb4786e9276f60e6989252b0a4321c9422134fe6432"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0010.png",
+      "bytes": 340251,
+      "sha256": "5a7708a0d425450bc8f8bac39a3cae938567ca36adfa5f22e342c3a5e6aeca5b"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0011.png",
+      "bytes": 285643,
+      "sha256": "10edcae1eb7cd35c82c9c26e2593629a727fa6cce15842575885b9c9c649d017"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0012.png",
+      "bytes": 285643,
+      "sha256": "10edcae1eb7cd35c82c9c26e2593629a727fa6cce15842575885b9c9c649d017"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0013.png",
+      "bytes": 359632,
+      "sha256": "4e4899b9e501e78bb36527c16a55e433949951e4311dcfa47cac0b47a58588f0"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0014.png",
+      "bytes": 273388,
+      "sha256": "84b2e54a7837604c27356c569034103874e7266dd1482963736fcc9a6a7cc5b8"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0015.png",
+      "bytes": 273388,
+      "sha256": "84b2e54a7837604c27356c569034103874e7266dd1482963736fcc9a6a7cc5b8"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0016.png",
+      "bytes": 354788,
+      "sha256": "6988034a578b08254f3a30746308366519a4faf3e3dd1fbd288686254f7fc977"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0017.png",
+      "bytes": 223167,
+      "sha256": "c8b022aa01a81fe65d53663fdd0c910a28067e7fcf19ffbff2ed2dc8fd05ffd0"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0018.png",
+      "bytes": 223167,
+      "sha256": "c8b022aa01a81fe65d53663fdd0c910a28067e7fcf19ffbff2ed2dc8fd05ffd0"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0019.png",
+      "bytes": 289494,
+      "sha256": "d5f00f07d6f5f8a85a4c1e8f90df42882e2a373a5e0d3898680ed6630f29fd22"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0020.png",
+      "bytes": 150832,
+      "sha256": "809efb1424d8129d693fa02d60046bf8f459d22f2a5ae077f56a681278c17f1a"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0021.png",
+      "bytes": 150832,
+      "sha256": "809efb1424d8129d693fa02d60046bf8f459d22f2a5ae077f56a681278c17f1a"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0022.png",
+      "bytes": 176342,
+      "sha256": "8348cfad931fe61793eb85e0719ec59262254d0449e571c4ade8712db28b7c04"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0023.png",
+      "bytes": 53347,
+      "sha256": "2aaa49e38091270efbacb2ea6fa31415160d438b8bc119c9231e2d66650b9d40"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0024.png",
+      "bytes": 53347,
+      "sha256": "2aaa49e38091270efbacb2ea6fa31415160d438b8bc119c9231e2d66650b9d40"
+    },
+    {
+      "path": "skills-v4/effects/frames/v4-verdict/frame-0025.png",
+      "bytes": 53347,
+      "sha256": "2aaa49e38091270efbacb2ea6fa31415160d438b8bc119c9231e2d66650b9d40"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/echo-0.png",
+      "bytes": 38357,
+      "sha256": "c96c0cc5d396b623ccca08d7382d8c5e4a287e8f2fb4dc98272d893292c6681b"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/echo-1.png",
+      "bytes": 57624,
+      "sha256": "21b07b72718dc7459207f6b17fc3b1981bac868396b868a01655d858d47f1ee8"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/echo-2.png",
+      "bytes": 118112,
+      "sha256": "5346d1b6a813138b6286d2f137aa532dd7e8c51cd7a60d462cc879ea66b14b86"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/echo-3.png",
+      "bytes": 160092,
+      "sha256": "883c03d7b3fd5f63952006d7991d7c042ea8f1e6b9133e5b4ec4848743c956f5"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/echo-4.png",
+      "bytes": 141704,
+      "sha256": "163f7cb7c8e5828c47be8a691e481c58c5ae868ac5f979c4ef162902b65d5ca3"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/echo-5.png",
+      "bytes": 82447,
+      "sha256": "e803a7e88632c53540b7daacc8a0719ecf7942cac1e82b1dfc554a547090bc50"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/echo-6.png",
+      "bytes": 38770,
+      "sha256": "078f180351064580537d8b8a193286d8fa3a1d296d83066aa9d03e4a0a4e0f43"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/echo-7.png",
+      "bytes": 15489,
+      "sha256": "e1d38b9d9c07211836fde9f5b287b9fba528ba46f603c0c82fa8a116ca0c5218"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/rift-0.png",
+      "bytes": 11162,
+      "sha256": "42627fc37c53326a103ca3842a84f89509e892274d38cd0eee0939f1dbcd86e8"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/rift-1.png",
+      "bytes": 25743,
+      "sha256": "2833cba59e9dce30de4d8aa7a119e2884e18e64e364bf60c32e694778e332ba3"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/rift-2.png",
+      "bytes": 44999,
+      "sha256": "090f532add1c943f9986f228194872f4458ea7e7f4f19dd802af3e48b3354bc5"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/rift-3.png",
+      "bytes": 62806,
+      "sha256": "e086811eadfc6332289e5352aa088094af932331bebc1b7820b18f8719f67c56"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/rift-4.png",
+      "bytes": 57387,
+      "sha256": "da30994e45b54e197d96c243bd905d8afb6e43a2ab8023a7d7ad1339feecaf65"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/rift-5.png",
+      "bytes": 36974,
+      "sha256": "d4922a35fb54fd5e129b322c15dabb19d73ed427069525443a0ecda7c819e2ba"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/rift-6.png",
+      "bytes": 20779,
+      "sha256": "c110e42396e5954961ba25c6696b668cf87923252ef9b28b7ed5ef298eaca5b3"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/rift-7.png",
+      "bytes": 9783,
+      "sha256": "7f281e710d2a466ed0a959d869faf03c8ce9f5ef5830e576556f767e3476e4ad"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/verdict-0.png",
+      "bytes": 79613,
+      "sha256": "ab580877c7cd0297ddef097ffbdfca8dd24dfc48f415e7927c2603ba6fbc5b7b"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/verdict-1.png",
+      "bytes": 137918,
+      "sha256": "44689cf434b691a01bfda584bb1d2f42ec1e0b6254e2b55e6d34bcf3ec0a755d"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/verdict-2.png",
+      "bytes": 172005,
+      "sha256": "88a578223c81e8ed23004c29e3e503bd298f942a477d40c16014f7e523777687"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/verdict-3.png",
+      "bytes": 199207,
+      "sha256": "f8a51e75a3a0120a825ef986718b6a4414f15560d5c64b7eed462edd5c278efa"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/verdict-4.png",
+      "bytes": 171690,
+      "sha256": "6e1f466003b9e868870fc3f301d71e55a09f952ae1cb0d71ced2ab3b19e1c870"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/verdict-5.png",
+      "bytes": 125466,
+      "sha256": "de65ac3ea45687cdab438c8b7413f9d9eba19564e520b2d28c2c58021026d2fb"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/verdict-6.png",
+      "bytes": 76738,
+      "sha256": "c2448a68307b9238f02382ec9ff96de94ae03ab86bbd73ee2c0a02eb16cd0863"
+    },
+    {
+      "path": "skills-v4/effects/native/Texture/verdict-7.png",
+      "bytes": 25519,
+      "sha256": "c669f3dcd68d56bcf08ea47f832c9ad91e81c5f6a679863c1202f7aecdb40802"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-echo-roundtrip2.efk",
+      "bytes": 5632,
+      "sha256": "3ef724cdda42a42d05956a53ff4d10a7148acb49dcf661cc4ec4c99bf4b7531a"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-echo-roundtrip2.efkefc",
+      "bytes": 6833,
+      "sha256": "6536211cfadc4ea6fec001395d066f908c9a7cab85307e2e140f81efecb7d12b"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-echo-verified.efkefc",
+      "bytes": 6833,
+      "sha256": "6536211cfadc4ea6fec001395d066f908c9a7cab85307e2e140f81efecb7d12b"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-echo.efk",
+      "bytes": 5632,
+      "sha256": "3ef724cdda42a42d05956a53ff4d10a7148acb49dcf661cc4ec4c99bf4b7531a"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-echo.efkefc",
+      "bytes": 6843,
+      "sha256": "e80ba0a62c01dd2d2b71c4a3debefdbb7f5acf8417c70b0fada940355b5e8117"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-echo.efkproj",
+      "bytes": 7157,
+      "sha256": "8989ace108c0207d6136dda350f5b93b57333a8f3bdafbc7f5b5eaa9fe57b9d6"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-incision-roundtrip2.efk",
+      "bytes": 27614,
+      "sha256": "0dea4aa347c1960ad858c53ead6af679f63deff86855ee4b3beda2389d2feb07"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-incision-roundtrip2.efkefc",
+      "bytes": 31621,
+      "sha256": "f4bb37e251dbbd51c0a7b12776b1c622a73ba62720b1283255e52203d4e519ed"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-incision-verified.efkefc",
+      "bytes": 31621,
+      "sha256": "f4bb37e251dbbd51c0a7b12776b1c622a73ba62720b1283255e52203d4e519ed"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-incision.efk",
+      "bytes": 27614,
+      "sha256": "0dea4aa347c1960ad858c53ead6af679f63deff86855ee4b3beda2389d2feb07"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-incision.efkefc",
+      "bytes": 31621,
+      "sha256": "9d215aa91c963434c3f0df4bdbf01f967f7e74216b54918284603956fcd7f585"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-incision.efkproj",
+      "bytes": 70897,
+      "sha256": "f6503f5038a4476e75d837d9274eb81d076ada5f74c569d37eaf6685e5792714"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-pressure-roundtrip2.efk",
+      "bytes": 33188,
+      "sha256": "19179c3f57f4b8186e2463ea6774ede6ecad18c68e4d54a772202841a73fcbf5"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-pressure-roundtrip2.efkefc",
+      "bytes": 37055,
+      "sha256": "88be30d4dddcb451d3901fe108e6c7c01b4357d3e1103c740ec7b2d00e2edeaa"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-pressure-verified.efkefc",
+      "bytes": 37055,
+      "sha256": "88be30d4dddcb451d3901fe108e6c7c01b4357d3e1103c740ec7b2d00e2edeaa"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-pressure.efk",
+      "bytes": 33188,
+      "sha256": "19179c3f57f4b8186e2463ea6774ede6ecad18c68e4d54a772202841a73fcbf5"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-pressure.efkefc",
+      "bytes": 37053,
+      "sha256": "681addeffb4cf45f5a45404bf9dacff30c2b9b07982a517edbc50cc48d2e78fe"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-pressure.efkproj",
+      "bytes": 81827,
+      "sha256": "3378b703e0672933a866cd52656a20fae00d8283d54ab008060094b15139e727"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-rift-roundtrip2.efk",
+      "bytes": 5632,
+      "sha256": "efb1e905096fe483b9ee634dd3e0bef7c12a191065e9da6f02f8a9c661f8c249"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-rift-roundtrip2.efkefc",
+      "bytes": 6833,
+      "sha256": "97f7cba1b97ff4e42b90a48ebce569c41e19b14b335c823315ac3e04d68caa75"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-rift-verified.efkefc",
+      "bytes": 6833,
+      "sha256": "97f7cba1b97ff4e42b90a48ebce569c41e19b14b335c823315ac3e04d68caa75"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-rift.efk",
+      "bytes": 5632,
+      "sha256": "efb1e905096fe483b9ee634dd3e0bef7c12a191065e9da6f02f8a9c661f8c249"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-rift.efkefc",
+      "bytes": 6842,
+      "sha256": "6130f3e5f74322c2e05d00103fa3cdb09e19a8befa0f39cc5235402721735f4f"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-rift.efkproj",
+      "bytes": 7157,
+      "sha256": "5fc4f03b7d9d9053284e37bb76790d67252ab81c2db86ad6b2694415af3d8ccd"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-verdict-roundtrip2.efk",
+      "bytes": 5680,
+      "sha256": "32ac15cad3fc8cd34e5d90a1ff80ef1b6b8caff58cd3d057e2f8e288bfb8ddf8"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-verdict-roundtrip2.efkefc",
+      "bytes": 6935,
+      "sha256": "50e6aa1cd7119040428748207cc5273fcef0f250ad2140ab910b7da43feb857b"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-verdict-verified.efkefc",
+      "bytes": 6935,
+      "sha256": "50e6aa1cd7119040428748207cc5273fcef0f250ad2140ab910b7da43feb857b"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-verdict.efk",
+      "bytes": 5680,
+      "sha256": "32ac15cad3fc8cd34e5d90a1ff80ef1b6b8caff58cd3d057e2f8e288bfb8ddf8"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-verdict.efkefc",
+      "bytes": 6942,
+      "sha256": "c6eca954b1a22092f92768d856fc26e9eabd15a41db94d7c7c4f52d0b7fee4ed"
+    },
+    {
+      "path": "skills-v4/effects/native/v4-verdict.efkproj",
+      "bytes": 7205,
+      "sha256": "562964e817d02168a3017ad32f513420ee1025b030451853d6902f6476ee7a65"
+    },
+    {
+      "path": "skills-v4/effects/pack.mjs",
+      "bytes": 3698,
+      "sha256": "01f3320be8a96ab1d9b60b643e704f3c5eb1de74434c73b1ae06fcb45b92d76a"
+    },
+    {
+      "path": "skills-v4/effects/qa/crop-audit.json",
+      "bytes": 2996,
+      "sha256": "b58d0593ca3cdf2843c475918fe0ead450a847d627f91aa243c42a39d6d1e158"
+    },
+    {
+      "path": "skills-v4/effects/qa/effekseer-bake.json",
+      "bytes": 3340,
+      "sha256": "98ee10a434321ea21ba0358d29192c0e654c6bf80114326cb4e7d5084e5039cb"
+    },
+    {
+      "path": "skills-v4/effects/qa/native.json",
+      "bytes": 17384,
+      "sha256": "ce09163870efcf4cc13262402f5bde9f80925085c96b77900e18566ba18eacdf"
+    },
+    {
+      "path": "skills-v4/effects/qa/v4-echo-import.efk",
+      "bytes": 5632,
+      "sha256": "3ef724cdda42a42d05956a53ff4d10a7148acb49dcf661cc4ec4c99bf4b7531a"
+    },
+    {
+      "path": "skills-v4/effects/qa/v4-incision-import.efk",
+      "bytes": 27614,
+      "sha256": "014efabeae69f49b6d6d4cee89f930caff3fbc340ac09b70b3b3f7d5158d9268"
+    },
+    {
+      "path": "skills-v4/effects/qa/v4-pressure-import.efk",
+      "bytes": 33188,
+      "sha256": "76586a9796811a69007030ed4fc59d9944d6a77b3ce8446684735261b0d15399"
+    },
+    {
+      "path": "skills-v4/effects/qa/v4-rift-import.efk",
+      "bytes": 5632,
+      "sha256": "efb1e905096fe483b9ee634dd3e0bef7c12a191065e9da6f02f8a9c661f8c249"
+    },
+    {
+      "path": "skills-v4/effects/qa/v4-rift-second.efk",
+      "bytes": 5792,
+      "sha256": "e3af8dd9508e6370dbba66db073fa4aacf2f2e31661f30adff736c04e70bd264"
+    },
+    {
+      "path": "skills-v4/effects/qa/v4-rift-second.efkefc",
+      "bytes": 7164,
+      "sha256": "5cf8109c15b88aee77da0ff6cd79a694a6a3015e7538fe32bec0a56c34638bdf"
+    },
+    {
+      "path": "skills-v4/effects/qa/v4-verdict-import.efk",
+      "bytes": 5680,
+      "sha256": "32ac15cad3fc8cd34e5d90a1ff80ef1b6b8caff58cd3d057e2f8e288bfb8ddf8"
+    },
+    {
+      "path": "skills-v4/effects/runtime/fx-manifest.json",
+      "bytes": 22003,
+      "sha256": "06a11746e41530daf0746aadf966a2574ab693264f25bd2229ce634047b922b8"
+    },
+    {
+      "path": "skills-v4/effects/runtime/v4-echo.png",
+      "bytes": 1104147,
+      "sha256": "55829c455a7816ebc4ecc443244f1170131bb18ef76aa80a4eb7131750327553"
+    },
+    {
+      "path": "skills-v4/effects/runtime/v4-incision.png",
+      "bytes": 47811,
+      "sha256": "2f84a056ff7e4e206962ba10c6295ee7dc28ed4005da797fbcd0b633cfd5a8be"
+    },
+    {
+      "path": "skills-v4/effects/runtime/v4-pressure.png",
+      "bytes": 276662,
+      "sha256": "c6aa78c24eb07b131e831814385db1e8e48336491d5b2715a0b0e9856737390c"
+    },
+    {
+      "path": "skills-v4/effects/runtime/v4-rift.png",
+      "bytes": 450757,
+      "sha256": "a5b3897b77f174438192aa0bc2ee579624c1aa1c993b31cda995f5014c741831"
+    },
+    {
+      "path": "skills-v4/effects/runtime/v4-verdict.png",
+      "bytes": 1851559,
+      "sha256": "97173d7d283682334a69f00794ec1434dc658b8c111cfea0874777ade05e2eae"
+    },
+    {
+      "path": "skills-v4/native.mjs",
+      "bytes": 2679,
+      "sha256": "4052fa75a411c70f29e0df9109d3880972b8deb67f209379c3667d87bdc6f9fa"
+    },
+    {
+      "path": "skills-v4/play-skill.mjs",
+      "bytes": 3953,
+      "sha256": "d977ce283026dba9ee2daf8cec8d4d4a23a50ebc56c337aac10e155eee25bb8d"
+    },
+    {
+      "path": "skills-v4/pose-inputs.json",
+      "bytes": 3749,
+      "sha256": "ecc3cd5467e7a9945afb3f77a17bdd8e501ffd62f37ac12e81b582beb5ea461d"
+    },
+    {
+      "path": "skills-v4/pose-registration.json",
+      "bytes": 27856,
+      "sha256": "af7951c014bdc0bd48221bb04df2ef28173edb5662ff86412b82c1f3ef843b52"
+    },
+    {
+      "path": "skills-v4/prepare-art.mjs",
+      "bytes": 3744,
+      "sha256": "425b10dd0be87879c3a20e634640bb99271ff5ad28379dcf982d6e2780799ae1"
+    },
+    {
+      "path": "skills-v4/PROJECT.md",
+      "bytes": 9797,
+      "sha256": "cece8f2961f1a60213d5aac550b18c4d99218dafd164a4d5f284578d7b0c50d8"
+    },
+    {
+      "path": "skills-v4/qa/crop-audit.json",
+      "bytes": 3564,
+      "sha256": "5e997a282df178ce950f3ddf389b7e3eb5db63b02d36cc3d2a150afed63a1828"
+    },
+    {
+      "path": "skills-v4/qa/delivery.json",
+      "bytes": 111333,
+      "sha256": "0d2e393e07b9f17b2d922eb6a83393983dc35e87730ce1dde2be78c0ceb8bfd9"
+    },
+    {
+      "path": "skills-v4/qa/echo_command-grid.png",
+      "bytes": 410190,
+      "sha256": "eb4a5731472b3d4f128a159193587509ff6d58c9193641abce3fb66f7af6658f"
+    },
+    {
+      "path": "skills-v4/qa/echo_cut-grid.png",
+      "bytes": 443923,
+      "sha256": "0aa25a33c43b966e0e259ef71d5907e608a0c206f07d9d6d654351611be8bbc5"
+    },
+    {
+      "path": "skills-v4/qa/echo_ready-grid.png",
+      "bytes": 422173,
+      "sha256": "ea62d7355451308d7d76afb64eaedccf260c02f2581ab6eb5db61693415d1375"
+    },
+    {
+      "path": "skills-v4/qa/echo_rise-grid.png",
+      "bytes": 460861,
+      "sha256": "7507d9f3281ed9f2ede16a481b3298437195613755c5623e51629740e5bf0aa0"
+    },
+    {
+      "path": "skills-v4/qa/enemy-skill_echo.png",
+      "bytes": 1793341,
+      "sha256": "3ae55f9840592cb1657f1bf0d859893aa3e153be10fba58c7175aade49b8d9b4"
+    },
+    {
+      "path": "skills-v4/qa/enemy-skill_rift.png",
+      "bytes": 1790895,
+      "sha256": "edd7a1f00766157920046666a0174eff710c646c3cc78a18ad5f768981c23005"
+    },
+    {
+      "path": "skills-v4/qa/enemy-skill_verdict.png",
+      "bytes": 1770529,
+      "sha256": "872fd3a7dd94ac5a054ce2a332f0622d68372e7da511fe617cb736e4b85738b9"
+    },
+    {
+      "path": "skills-v4/qa/event-integration.json",
+      "bytes": 1718,
+      "sha256": "ff668fdea1f8631fe7e40e01edad1f484c87b491b97ad04e215272b95c4e7ee1"
+    },
+    {
+      "path": "skills-v4/qa/final-page.json",
+      "bytes": 2664,
+      "sha256": "6e4e44cda429f4acf364bf85c16d691b20bc7f4ab97a4c9a153db7fdb0b94437"
+    },
+    {
+      "path": "skills-v4/qa/finalize.mjs",
+      "bytes": 3790,
+      "sha256": "22143b4c10793bff5a5607fb88ef938478a453a3e26493c5740448906d6723bc"
+    },
+    {
+      "path": "skills-v4/qa/inspect.mjs",
+      "bytes": 2348,
+      "sha256": "2a425f94025737ac7a96b96924dfbe7befcc5a233b902f186812e37bae85b92e"
+    },
+    {
+      "path": "skills-v4/qa/mobile-skill_echo.png",
+      "bytes": 407906,
+      "sha256": "bed95671e0a37e52f7c4d46730368aa05a3aea342043dfb879507eb60bf72f27"
+    },
+    {
+      "path": "skills-v4/qa/mobile-skill_rift.png",
+      "bytes": 408095,
+      "sha256": "17f0501f1be60bed725d1ce426e851e10beed5f4673462aea540df74a08b0a9b"
+    },
+    {
+      "path": "skills-v4/qa/mobile-skill_verdict.png",
+      "bytes": 408115,
+      "sha256": "dad7512b37b762f7ac596ed84889ceebc961f403f23f29726e8f9d7d467c5d82"
+    },
+    {
+      "path": "skills-v4/qa/native-export.log",
+      "bytes": 319,
+      "sha256": "32ed42df2d39b3754a14545f3696fcb7d679f9d9e7662c74b31bef20351b4d0f"
+    },
+    {
+      "path": "skills-v4/qa/native-import.log",
+      "bytes": 304,
+      "sha256": "487b70a29c39d5ae13e8d41b1713ee161b0ff93a1584938f0a860679ca76eaae"
+    },
+    {
+      "path": "skills-v4/qa/native-reopen.log",
+      "bytes": 723,
+      "sha256": "94ceee2cc5ce390689ebc40b1dd14231a72872e5c204235a29d78f6e07f32353"
+    },
+    {
+      "path": "skills-v4/qa/native.json",
+      "bytes": 943,
+      "sha256": "80429fadd13792d7d9e4c11f443ee69a77bcf0b9422bd36f198537999a037e26"
+    },
+    {
+      "path": "skills-v4/qa/pose-lineup.png",
+      "bytes": 2170139,
+      "sha256": "df5060f9e897ff64ca94ff231f1346f7da008d85355a1676a3a3aa1342545b07"
+    },
+    {
+      "path": "skills-v4/qa/record.mjs",
+      "bytes": 3626,
+      "sha256": "16b872a261efcfd318b9cc1d4a99fafb695ba2882a49036015ead50097b982f3"
+    },
+    {
+      "path": "skills-v4/qa/recording.json",
+      "bytes": 19699,
+      "sha256": "8350e6355efcbc1fabe24ef8db3b3fff1df75d4e5e318a7f04de352f23212091"
+    },
+    {
+      "path": "skills-v4/qa/review-mobile.png",
+      "bytes": 142769,
+      "sha256": "7c139260e02137c4233e0cc84c72cd300b2f5621720e7f6d1ad5529f2defcfa8"
+    },
+    {
+      "path": "skills-v4/qa/review-pc.png",
+      "bytes": 989253,
+      "sha256": "bb7d39388f1519ae3d5375dc287d0d308e4cf38d77fbdb8dd13da9feeee6a5dc"
+    },
+    {
+      "path": "skills-v4/qa/review-video.json",
+      "bytes": 7752,
+      "sha256": "07134ef0d04a35c4bdf3e4cc70cf62f6fe2b766e9de160d5117bb16372fb2486"
+    },
+    {
+      "path": "skills-v4/qa/review-video.mjs",
+      "bytes": 5836,
+      "sha256": "4c6b3c7867bc9d8b09c76968900c2bc2716bbcd26b651d9fa5a1e53404217200"
+    },
+    {
+      "path": "skills-v4/qa/rift_brake-grid.png",
+      "bytes": 339108,
+      "sha256": "c63ad90760538b514ed85bd60ab029729d26d4da4acd55bb00e8c1ad16fb78b2"
+    },
+    {
+      "path": "skills-v4/qa/rift_draw-grid.png",
+      "bytes": 328305,
+      "sha256": "ff0287ea68f1e4e04b710eb2a18d63618c6c5393ce25af4d099a183f00d3933a"
+    },
+    {
+      "path": "skills-v4/qa/rift_drive-grid.png",
+      "bytes": 337427,
+      "sha256": "809d7ff6ecda0585f2c2be3e3fee65d72245efe63485b6d9a6f6d0860ae9dbac"
+    },
+    {
+      "path": "skills-v4/qa/rift_ready-grid.png",
+      "bytes": 330452,
+      "sha256": "468c3bec7b28261a583f3f47078f687bdc56ee4fbc57f785f1abf84aacaa6da7"
+    },
+    {
+      "path": "skills-v4/qa/skill_echo-0.png",
+      "bytes": 1792685,
+      "sha256": "41ee9c0908043a6864fdc156e4c7dd651e1d01eda6707d92405eda5b3e61e749"
+    },
+    {
+      "path": "skills-v4/qa/skill_echo-1.png",
+      "bytes": 1799418,
+      "sha256": "a5e61d780a614acfc769da80e1f3150686bf8a434363c49dbc26a02abbd7a39e"
+    },
+    {
+      "path": "skills-v4/qa/skill_echo-2.png",
+      "bytes": 1804847,
+      "sha256": "8038fae8cbd31ce3dd827451f0bcf41177cc8d14df4d61442897afa9f8f118fd"
+    },
+    {
+      "path": "skills-v4/qa/skill_echo-3.png",
+      "bytes": 1808243,
+      "sha256": "0c78680f4224792f343f71cf099f121f48b7683bf3700d6e5d13f0b02b45352b"
+    },
+    {
+      "path": "skills-v4/qa/skill_echo-4.png",
+      "bytes": 1796657,
+      "sha256": "a6db99e331d8140e57e58ad69dfbbeb9dbf20c4175442e4ae79d132bfcc31f5c"
+    },
+    {
+      "path": "skills-v4/qa/skill_echo-5.png",
+      "bytes": 1799870,
+      "sha256": "c0bf98d9d5779d69951e325f96db0f1233e7a4222c77f4f1e437fdab2ee88607"
+    },
+    {
+      "path": "skills-v4/qa/skill_echo-inspection.json",
+      "bytes": 36044,
+      "sha256": "1451c51f18fcf40e041f55914b9f84408bf3a844eb3c247d3860da9011660f45"
+    },
+    {
+      "path": "skills-v4/qa/skill_echo-off-sampled.png",
+      "bytes": 1764458,
+      "sha256": "c7363a01a35557918b94b670e73c3b9133ae76c9c0c69a769aa77d178a56ac31"
+    },
+    {
+      "path": "skills-v4/qa/skill_echo-off.webm",
+      "bytes": 4445773,
+      "sha256": "08df2eab23aade7e5d1d8d72c77c8c5df9bf1751a06352d63847b109742988a5"
+    },
+    {
+      "path": "skills-v4/qa/skill_echo-on-sampled.png",
+      "bytes": 2070523,
+      "sha256": "fcee28f98c5af8821766aa15e1f85ed714de7445ce3b7a7eb39e0a047d2b4842"
+    },
+    {
+      "path": "skills-v4/qa/skill_echo-on.webm",
+      "bytes": 4014544,
+      "sha256": "0e46989669a6c7cc7f67cfa22c8e7ac8074457005ab5552ebd0b7c6bcff19b63"
+    },
+    {
+      "path": "skills-v4/qa/skill_echo-sheet.png",
+      "bytes": 2289438,
+      "sha256": "56703bde455a45fb108d48a2213f4b867e9be405e9c5e0948da7564319d8db34"
+    },
+    {
+      "path": "skills-v4/qa/skill_rift-0.png",
+      "bytes": 1798284,
+      "sha256": "ed455fb4eb1689ed666a36c91f9e025ac36480e48b59e3dadd4715562c8e8ef2"
+    },
+    {
+      "path": "skills-v4/qa/skill_rift-1.png",
+      "bytes": 1794551,
+      "sha256": "3a4ca063865bc6ed6e54ce40ec6f90879fe70becd17d31ad1656866be5d758d0"
+    },
+    {
+      "path": "skills-v4/qa/skill_rift-2.png",
+      "bytes": 1794076,
+      "sha256": "ccb0f944dcf1f3f234332d061ea97d105cd816607f8b7dba7a522a6970bcad0f"
+    },
+    {
+      "path": "skills-v4/qa/skill_rift-3.png",
+      "bytes": 1789084,
+      "sha256": "48dd5a71738c7630c3732dccaf91b9d27a66d3084648290ab7329d0268639faf"
+    },
+    {
+      "path": "skills-v4/qa/skill_rift-4.png",
+      "bytes": 1793698,
+      "sha256": "997e4576af3e650faaee081e035033f781e60e47c07f90666aa883dc3e8bf8b5"
+    },
+    {
+      "path": "skills-v4/qa/skill_rift-5.png",
+      "bytes": 1795528,
+      "sha256": "d93a978f19f0b3dec189f6e1fc787e6e434b94e68be712b98b8ee9d9f7bd406e"
+    },
+    {
+      "path": "skills-v4/qa/skill_rift-inspection.json",
+      "bytes": 61773,
+      "sha256": "48587116a348a4430fd2e360f5653f0d243cd350e7ac70cf128ee56413b1ef64"
+    },
+    {
+      "path": "skills-v4/qa/skill_rift-off-sampled.png",
+      "bytes": 1812782,
+      "sha256": "73f21a66bba4478740b7c1e560ac745d54d2464fa34808002c888f778cf7b4bc"
+    },
+    {
+      "path": "skills-v4/qa/skill_rift-off.webm",
+      "bytes": 2697191,
+      "sha256": "f1876a8baf95070177a429043e4845712b7721ba225262b171ce54b830f99740"
+    },
+    {
+      "path": "skills-v4/qa/skill_rift-on-sampled.png",
+      "bytes": 1864011,
+      "sha256": "b95ca2b37340837399a975fe4b974af5a95cb104d21cc4dd870bf78d085e8f2c"
+    },
+    {
+      "path": "skills-v4/qa/skill_rift-on.webm",
+      "bytes": 2786721,
+      "sha256": "56e4cc2ad25ce26651099f6f112cef3bdb14056baefc8f9d91c9cd65f4c88537"
+    },
+    {
+      "path": "skills-v4/qa/skill_rift-sheet.png",
+      "bytes": 2333670,
+      "sha256": "23bdcd88a20dd3c9afe69d6206d3f4d395e6a3c8bcdcba6c2a5fcdc8c3764408"
+    },
+    {
+      "path": "skills-v4/qa/skill_verdict-0.png",
+      "bytes": 1775396,
+      "sha256": "0f4dda155e769d774f4c9ee0213d552674f56b160c5a4e7931eb9c1c0d05dcfd"
+    },
+    {
+      "path": "skills-v4/qa/skill_verdict-1.png",
+      "bytes": 1775907,
+      "sha256": "5004b14333b431a18f7b54aab09e6b3e95490a951412a7cefca44f571be5859a"
+    },
+    {
+      "path": "skills-v4/qa/skill_verdict-2.png",
+      "bytes": 1766792,
+      "sha256": "5099a93588a94b0a9c70a037a0335f2a7ecff2202c2d1198897e2afce3f8aef9"
+    },
+    {
+      "path": "skills-v4/qa/skill_verdict-3.png",
+      "bytes": 1775963,
+      "sha256": "ad959e10e23c7747147576563dc7ba6bb55735ef89d70629073bb8af123be8ad"
+    },
+    {
+      "path": "skills-v4/qa/skill_verdict-4.png",
+      "bytes": 1781659,
+      "sha256": "7c52a24ae0beeb6cab9f7ea58d5687f32a7e06a54f11d71d18b4b25538fa42d1"
+    },
+    {
+      "path": "skills-v4/qa/skill_verdict-5.png",
+      "bytes": 1779237,
+      "sha256": "464b6b490dc8ee7deecf002bd6ef1878962619f781787acf4c39b9680a585ab1"
+    },
+    {
+      "path": "skills-v4/qa/skill_verdict-inspection.json",
+      "bytes": 23259,
+      "sha256": "94a7a21eed81b913d68a7f7c7da8e7a477467ac2a597d78ed73601bb3fad1d01"
+    },
+    {
+      "path": "skills-v4/qa/skill_verdict-off-sampled.png",
+      "bytes": 1947013,
+      "sha256": "1de6d02c83f6769ffb2efd350b4a831578546d14683265840a3538e1e9144527"
+    },
+    {
+      "path": "skills-v4/qa/skill_verdict-off.webm",
+      "bytes": 4956299,
+      "sha256": "683eb2e63593bd03555b1ff0dfa3d9fe9901cb955e649f3873fba7c07a370f17"
+    },
+    {
+      "path": "skills-v4/qa/skill_verdict-on-sampled.png",
+      "bytes": 2203188,
+      "sha256": "b5707118ffd725412b121abcdf334195d51e77db300a7be1ad43b965f3a5f4d4"
+    },
+    {
+      "path": "skills-v4/qa/skill_verdict-on.webm",
+      "bytes": 5019945,
+      "sha256": "63d86bedfd5690321aeb9d85e106eed42b4ae74b82f6a725861ea4483f5b3240"
+    },
+    {
+      "path": "skills-v4/qa/skill_verdict-sheet.png",
+      "bytes": 2340047,
+      "sha256": "4a2d32f098bb351d574cc8bb950c29b14964a190fc1e186fd6b311d18abeb42e"
+    },
+    {
+      "path": "skills-v4/qa/skills-half-speed.webm",
+      "bytes": 7405837,
+      "sha256": "7390bf40ce82c0b3db1c0b40749ad0e102416c3adc30d488979c13b06a4fb1b4"
+    },
+    {
+      "path": "skills-v4/qa/verdict_cut-grid.png",
+      "bytes": 429788,
+      "sha256": "289f177673ffc2a74dd51a128564f73bab9b672f28d51593a90d7ddf00628151"
+    },
+    {
+      "path": "skills-v4/qa/verdict_focus-grid.png",
+      "bytes": 385259,
+      "sha256": "c35cd34a9d8a0f812fdbfa8a957d0df0dabe6ed2befa6784ebb85542099978ac"
+    },
+    {
+      "path": "skills-v4/qa/verdict_raise-grid.png",
+      "bytes": 426225,
+      "sha256": "391a293ca78fde3729c39830b72652deb8dadf92914000565755c052da7ef1a3"
+    },
+    {
+      "path": "skills-v4/qa/verdict_sheathe-grid.png",
+      "bytes": 410133,
+      "sha256": "90b517f53d232131f3b97c0b99b7610cd17685c0d3b18e9671563e35d1846d0c"
+    },
+    {
+      "path": "skills-v4/qa/verification.json",
+      "bytes": 445758,
+      "sha256": "2c3ea5d9293917256d5c5e677aa33c8c6e3c80f5665fb6238f325d324695cbd8"
+    },
+    {
+      "path": "skills-v4/qa/verify.mjs",
+      "bytes": 7172,
+      "sha256": "84c080f8a6edd021c06a16be6474dfada6af8ad2b627f115a7f7eac4969000f2"
+    },
+    {
+      "path": "skills-v4/reference/analysis.json",
+      "bytes": 4301,
+      "sha256": "79624458af79060a969aab3258cf51e108b12360fd6cf6e277a8b21e6a74d445"
+    },
+    {
+      "path": "skills-v4/reference/playback-proof.json",
+      "bytes": 17299,
+      "sha256": "4417f3c7f2745a52a6ef440290f060d4e94250aedd67dbd4b2223c17fa4b581f"
+    },
+    {
+      "path": "skills-v4/SkillEffects.mjs",
+      "bytes": 7520,
+      "sha256": "d6a2db3c5909ffb5d8a8e8a4ceaa83c7c8e52644f54f0ff3215687bbe48c42cd"
+    },
+    {
+      "path": "skills-v4/source/cutin-prompt.txt",
+      "bytes": 1085,
+      "sha256": "b5c6d5f78f4dbdcb3dd42c58ee37356057a5729e5ffa2b0cec62072e4bb65820"
+    },
+    {
+      "path": "skills-v4/source/effect-prompts.json",
+      "bytes": 6761,
+      "sha256": "e9b9948ab958e607201586f599f9996742581ea107a18a8b07cf3e3c8574bb6c"
+    },
+    {
+      "path": "skills-v4/source/generation.json",
+      "bytes": 3316,
+      "sha256": "160dd451d83c113a551c04989577a1b2b0ae0aab575ef275516dea657131c998"
+    },
+    {
+      "path": "skills-v4/source/pose-prompts.json",
+      "bytes": 7407,
+      "sha256": "e2d77185e4c5b6b7987591d0ab49fe312407c5ff0834c08f6a6c47b592233c5a"
+    },
+    {
+      "path": "skills-v4/source/rift-pose-fix.txt",
+      "bytes": 994,
+      "sha256": "4254c4e8adf7b330bef32c66baecd071521046208dc7dcd343f2e5629bb8fd0a"
     },
     {
       "path": "source/approval.json",
@@ -3367,22 +5182,32 @@
       "sha256": "a2e45365a8f830266d3b91c1e9c76dc35f0bf93409b69027300954977f7bbf57"
     },
     {
+      "path": "whitecoat-skills-v4-51fecca13bde.spine",
+      "bytes": 4314,
+      "sha256": "b0abcbf1bda97b8d700328b9453e0a61fbec96cf0063e21a1907bef444a57ef6"
+    },
+    {
+      "path": "whitecoat-skills-v4.input.json",
+      "bytes": 83653,
+      "sha256": "51fecca13bde67c26ae36a8ecb2fc25cc2a615a92131b3c0a6a436210b39f95f"
+    },
+    {
       "path": "whitecoat.input.json",
       "bytes": 32718,
       "sha256": "c3ad326c9e61b585618bc08e8895aa2f35c9b051b90c4b0849961f148e8637fc"
     },
     {
       "path": "WhitecoatBattleAdapter.mjs",
-      "bytes": 4268,
-      "sha256": "5e07a0c429c363757e8a764293fc5560a473c18b7cfc0df0fa8ba9b5c4b4ebaf"
+      "bytes": 4447,
+      "sha256": "2d2ba2732d5f533978aefbdd2ccd2b5dab11bb2123e17329772dfe6223b3db23"
     },
     {
       "path": "WhitecoatEffects.mjs",
-      "bytes": 4618,
-      "sha256": "48c8170a290ad8883a00f4adcdd3f796b703c28ac884cdcfa55074cad563ef45"
+      "bytes": 5388,
+      "sha256": "8de84096dadcdb22f116690c1f8da4237a4891860438edf13d497caf2dce74d4"
     }
   ],
-  "totalBytes": 380980500,
+  "totalBytes": 547752733,
   "swordTrailUpdate": {
     "plugin": "Runway",
     "delivery": "qa/sword-trail/delivery.json",
@@ -3404,6 +5229,16 @@
     "newArtwork": 8,
     "totalPoses": 18,
     "newEffekseerEffects": 1,
+    "priorVersionsPreserved": true,
+    "productionDeployment": false
+  },
+  "distinctSkillsUpdate": {
+    "delivery": "skills-v4/qa/delivery.json",
+    "currentNative": "whitecoat-skills-v4-51fecca13bde.spine",
+    "newArtwork": 12,
+    "totalPoses": 30,
+    "newEffekseerEffects": 5,
+    "referenceHalfSpeed": true,
     "priorVersionsPreserved": true,
     "productionDeployment": false
   }

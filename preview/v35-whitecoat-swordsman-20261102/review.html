@@ -2,7 +2,7 @@
 <html lang="ko">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>흰 코트 검사 · 회전·도약 연격</title>
+<title>흰 코트 검사 · 흑금 단공 · 잔영 삼재 · 천형 종결</title>
 <link rel="icon" href="data:,">
 <style>
 body{margin:0;background:#101923;color:#e6edf5;font:16px/1.7 system-ui}
@@ -12,13 +12,25 @@ img{display:block;width:100%;border-radius:8px}section{display:grid;grid-templat
 video{display:block;width:100%;background:#080e15;border-radius:8px}h2{font-size:18px}
 details{margin:24px 0}summary{cursor:pointer;color:#b9daee;padding:12px 0}
 .tag{display:inline-block;color:#f5dfab;font-size:13px;letter-spacing:.08em;margin-bottom:8px}
+button{font:inherit;color:#f5dfab;border:1px solid #88704b;background:#1c2938;padding:7px 15px;border-radius:6px;cursor:pointer}.skills{display:grid;grid-template-columns:1fr;gap:30px}.skill{padding-bottom:24px;border-bottom:1px solid #324354}.skill p{margin:8px 0 16px}.video-controls{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}.half{margin:24px 0}small{color:#9fb3c8}
 @media(max-width:700px){section{grid-template-columns:1fr}main{padding:20px 14px}h1{font-size:24px}}
 </style>
 <main>
-<span class="tag">V3.5 · 2026.11.02 액션 확장</span>
-<h1>발도 → 회전 베기 → 공중 내려베기</h1>
-<p>낮게 파고드는 발도에서 몸을 틀어 다시 베고, 도약 후 내려찍습니다. 세 번의 검격에 짧은 멈춤과 자세 잔상, 착지 충격파를 연결했습니다.</p>
+<span class="tag">V3.5 · 흰 코트 검사의 세 가지 신규 기술</span>
+<h1>관통하고, 협공하고, 검흔을 터뜨리다</h1>
+<p>빠르게 지나가는 발도, 세 방향의 잔영 협공, 검흔을 쌓아 종결하는 대형기. 새 자세 12개와 기술별 검흔 작화를 기존 V3 전장에 연결했습니다.</p>
 <nav><a href="/?case=whitecoat">V3 전장에서 직접 재생</a><a href="/?case=whitecoat-enemy">적 방향 확인</a><a href="PROJECT.md">제작·검수 기록</a></nav>
+<div class="video-controls"><button data-rate="1">영상 1배속</button><button data-rate="0.5">영상 0.5배속</button><small id="rate-status">영상 1배속 · 한 영상씩 재생</small></div>
+<div class="skills">
+<article class="skill"><h2>01 · 흑금 단공</h2><p>낮게 모은 자세에서 적을 관통합니다. 지나간 자리에 먹빛 검흔과 금백색 날이 남고, 뒤돌아 제동합니다.</p><video controls playsinline preload="metadata" src="skills-v4/qa/skill_rift-on.webm"></video><details><summary>효과 OFF · 몸동작 비교</summary><video controls playsinline preload="metadata" src="skills-v4/qa/skill_rift-off.webm"></video></details></article>
+<article class="skill"><h2>02 · 잔영 삼재</h2><p>지휘하는 본체 주변으로 잔영이 좌측·우측·상단에서 베어 들어옵니다. 서로 다른 각도의 검광을 세운 뒤 본체의 내려베기로 닫습니다.</p><video controls playsinline preload="metadata" src="skills-v4/qa/skill_echo-on.webm"></video><details><summary>효과 OFF · 몸동작 비교</summary><video controls playsinline preload="metadata" src="skills-v4/qa/skill_echo-off.webm"></video></details></article>
+<article class="skill"><h2>03 · 천형 종결</h2><p>준비 컷인 이후 세 방향의 검흔을 쌓습니다. 양손 내려베기와 함께 중심을 파열시키고 지면 충격과 파편으로 마무리합니다.</p><video controls playsinline preload="metadata" src="skills-v4/qa/skill_verdict-on.webm"></video><details><summary>효과 OFF · 몸동작 비교</summary><video controls playsinline preload="metadata" src="skills-v4/qa/skill_verdict-off.webm"></video></details></article>
+</div>
+<div class="half"><h2>실제 전투를 0.5배속으로 재생한 세 기술</h2><video controls playsinline preload="metadata" src="skills-v4/qa/skills-half-speed.webm"></video><p>위 영상은 V3 전투 시계 자체를 0.5배로 재생한 기록입니다. 상단 영상 배속을 더 낮추면 이 영상도 한 번 더 느려집니다.</p></div>
+<p>각 기술은 정상 전투 속도에서 효과 ON/OFF를 3회씩 재생했습니다. 참고 영상은 <a href="https://www.youtube.com/watch?v=HzCF1Iot0ew">던파TV의 진(眞) 검귀</a>를 0.5배속으로 재생하고 구간별 프레임을 확인했습니다. 현재 결과는 로컬 제작·검수본입니다.</p>
+<h2>새 자세 12개</h2><img loading="lazy" src="skills-v4/qa/pose-lineup.png" alt="흑금 단공, 잔영 삼재, 천형 종결의 준비·공격·제동 자세 12개">
+<p><a href="whitecoat-skills-v4-51fecca13bde.spine" download>최신 Spine 편집 원본</a> · <a href="skills-v4/PROJECT.md">새 기술·효과 제작 기록</a></p>
+<details><summary>이전 회전·도약 연격과 검격 영상</summary>
 <section>
 <div><h2>회전·도약 연격 · 효과 ON</h2><video controls playsinline preload="metadata" src="action-v3/qa/normal-effects-on.webm"></video></div>
 <div><h2>몸동작 비교 · 효과 OFF</h2><video controls playsinline preload="metadata" src="action-v3/qa/normal-effects-off.webm"></video></div>
@@ -28,5 +40,8 @@ details{margin:24px 0}summary{cursor:pointer;color:#b9daee;padding:12px 0}
 <h2>자세와 검격이 바뀌는 여섯 순간</h2>
 <img src="action-v3/qa/action-review.png" alt="발도, 몸통 회전, 회전 베기, 공중 준비, 내려베기, 착지 충격의 여섯 장면">
 <details><summary>새 작화와 Spine 원본</summary><p>새 자세 8개를 추가한 로컬 검토용 리소스입니다.</p><a href="whitecoat-action-v3-93718185df11.spine" download>Spine 편집 원본 다운로드</a><img loading="lazy" src="action-v3/qa/pose-lineup.png" alt="회전 준비, 회전 베기, 압축, 도약, 공중 준비, 내려베기, 착지, 회복 작화"></details>
+</details>
+<!-- whitecoat-overview.png: retained original review-server readiness marker -->
 </main>
+<script>const videos=[...document.querySelectorAll('video')];for(const v of videos)v.addEventListener('play',()=>{for(const other of videos)if(other!==v)other.pause();});for(const button of document.querySelectorAll('[data-rate]'))button.onclick=()=>{const rate=Number(button.dataset.rate);for(const v of videos)v.playbackRate=rate;document.querySelector('#rate-status').textContent='영상 '+rate+'배속 · 한 영상씩 재생';};</script>
 </html>
