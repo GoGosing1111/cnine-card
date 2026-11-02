@@ -1,0 +1,5 @@
+*
+!.gitignore
+!browser.mjs
+!release.mjs
+!completion.json

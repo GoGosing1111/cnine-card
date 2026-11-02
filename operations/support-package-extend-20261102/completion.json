@@ -1,0 +1,214 @@
+{
+  "status": "LIVE_VERIFIED",
+  "completedAt": "2026-11-02T13:51:31.946Z",
+  "sourceCommit": "f3d89c85c4a11f16b28324b296208fdd81fdf2f3",
+  "pages": {
+    "id": "40bce51c-510f-4956-b9b9-38b2500db7a3",
+    "url": "https://40bce51c.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "f3d89c85c4a11f16b28324b296208fdd81fdf2f3"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "de422d58-adf3-4c4c-ab15-9d2f50ceffd9",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "66beccf4-b185-4d25-beef-04f56ad156f8",
+      "percentage": 100
+    }
+  ],
+  "previousEndsAt": "2026-11-03T00:00:00+09:00",
+  "endsAt": "2026-11-04T00:00:00+09:00",
+  "extensionHours": 24,
+  "priceWon": 49800,
+  "coinsPerPurchase": "500000000000000",
+  "tests": 45,
+  "browserCases": [
+    {
+      "profile": "desktop",
+      "width": 1440,
+      "engine": "chromium",
+      "oldDeadlineStillOpen": true,
+      "newDeadlineDisplayed": "2026-11-04T00:00:00+09:00",
+      "newDeadlineHidesPackage": true,
+      "priceWon": 49800,
+      "coins": "500000000000000",
+      "imagesLoaded": true,
+      "noOverflow": true,
+      "errors": [],
+      "failed": [],
+      "publicAssets": false,
+      "productionWrites": 0
+    },
+    {
+      "profile": "mobile",
+      "width": 390,
+      "engine": "chromium",
+      "oldDeadlineStillOpen": true,
+      "newDeadlineDisplayed": "2026-11-04T00:00:00+09:00",
+      "newDeadlineHidesPackage": true,
+      "priceWon": 49800,
+      "coins": "500000000000000",
+      "imagesLoaded": true,
+      "noOverflow": true,
+      "errors": [],
+      "failed": [],
+      "publicAssets": false,
+      "productionWrites": 0
+    },
+    {
+      "profile": "safari",
+      "width": 390,
+      "engine": "webkit",
+      "oldDeadlineStillOpen": true,
+      "newDeadlineDisplayed": "2026-11-04T00:00:00+09:00",
+      "newDeadlineHidesPackage": true,
+      "priceWon": 49800,
+      "coins": "500000000000000",
+      "imagesLoaded": true,
+      "noOverflow": true,
+      "errors": [],
+      "failed": [],
+      "publicAssets": false,
+      "productionWrites": 0
+    }
+  ],
+  "publicBrowserCases": [
+    {
+      "profile": "public-mobile",
+      "width": 390,
+      "engine": "webkit",
+      "oldDeadlineStillOpen": true,
+      "newDeadlineDisplayed": "2026-11-04T00:00:00+09:00",
+      "newDeadlineHidesPackage": true,
+      "priceWon": 49800,
+      "coins": "500000000000000",
+      "imagesLoaded": true,
+      "noOverflow": true,
+      "errors": [],
+      "failed": [],
+      "publicAssets": true,
+      "productionWrites": 0
+    }
+  ],
+  "assets": [
+    {
+      "file": "onestore/index.html",
+      "sha256": "5a72e9f41eeda31fc0c474687ddfec8bda4d9c68a4d357718a1e42213549cee0",
+      "serverTransformed": true
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "ab02789b3807ed85a7e7661a3d41a6885b3250937f58541bc408f36e2be8e3c8",
+      "serverTransformed": false
+    },
+    {
+      "file": "onestore/js/adventure-lobby-v2107.js",
+      "sha256": "cff5d61bae400487928bf5ffe66d33ecc9c5e53af65195d9e699c94878de1306",
+      "serverTransformed": false
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "d3669004b24d64acee818d214b0ea9eaf664fb3956c532e1e9452c7c7942edca",
+      "serverTransformed": false
+    },
+    {
+      "file": "shared/equipment-forge-advanced-v1.mjs",
+      "sha256": "615731157e2ec693ed6947264cd8dd87806f03dca90eeca75f0ee6f0485e27b1",
+      "serverTransformed": false
+    },
+    {
+      "file": "css/support-package-v1.css",
+      "sha256": "717ff6eb37b4b62daeec53fa0889c1224f9edd22cdc03ed44c6ea0eb8fc52ea2",
+      "serverTransformed": false
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "8778cd7b7fcdb9db6bd6f1c6223df651b8f0f534560bbe4685478055d8f8d27a",
+      "serverTransformed": false
+    },
+    {
+      "file": "shared/support-package-v1.mjs",
+      "sha256": "728074af2fa447aca377fd51ffd76acf515c24f1bebc7aad5907f4de386ca0da",
+      "serverTransformed": false
+    },
+    {
+      "file": "js/support-package-v1.mjs",
+      "sha256": "21b87c5f7d03393c7889a494197c4cea34783c1ddce0ef0e55413f8c891af6a8",
+      "serverTransformed": false
+    },
+    {
+      "file": "js/server-support-v1.mjs",
+      "sha256": "2f031ec6ae6ef4e8869963f53e8be41815a6ea1c32d5365994a1d6298ec69866",
+      "serverTransformed": false
+    },
+    {
+      "file": "js/support-package-alerts-v1.mjs",
+      "sha256": "8b370aafc66f91a32fb50be6591f5b211ef052f78f3f8425cff31d5fa996983a",
+      "serverTransformed": false
+    },
+    {
+      "file": "admin/support-package-admin-v1.mjs",
+      "sha256": "f3607f6c92cca808930ec31744d13529b56463db07955d8fd2106e50e6b0a637",
+      "serverTransformed": false
+    },
+    {
+      "file": "admin/server-support-admin-v1.mjs",
+      "sha256": "ae016fbbe6b85b27182b6e91aa5806de7646162c125d96de3f0b7eb76efe71e8",
+      "serverTransformed": false
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "sha256": "2d0d79585d2a79de1d8b6be6e7f3234572b1762353ed62a47b06139cd7fce026",
+      "serverTransformed": false
+    },
+    {
+      "file": "index.html",
+      "sha256": "2c3bdae4763899d0bcb8934b5acea69f34cb1e206ad4c553b0f69cbd7ba9152e",
+      "serverTransformed": false
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "90e72b74f6556c657edc792277edf033644c12981ec47ff748f3a4e4bcee6fdd",
+      "serverTransformed": false
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "6818b9dd7e84bbd66112fe3ff12a7b0f7334c7294d6b2352e304023121e77526",
+      "serverTransformed": false
+    }
+  ],
+  "clientManifest": {
+    "releaseId": "d043de875b1be3f2ac100e8f2f45a35292e007dee92eb93ebaaf050dd9e88345",
+    "files": [
+      {
+        "path": "/shared/support-package-v1.mjs",
+        "sha256": "ec8140bb25da8361a471cca7f670007aaa728db5ea6c478dd8482f0ab3b5c8fe",
+        "essential": true
+      },
+      {
+        "path": "/js/support-package-v1.mjs",
+        "sha256": "9fbc8abcf68e18f78901bef329fcd1d221e88cfb73aaf7ff2d6ea857b345e2d7",
+        "essential": true
+      },
+      {
+        "path": "/js/server-support-v1.mjs",
+        "sha256": "46114286a34267d79a44cd0ad61fba39f28be29c99e6369b695d2b33b8e883aa",
+        "essential": true
+      },
+      {
+        "path": "/css/support-package-v1.css",
+        "sha256": "99d651cbe8bbe18fb8fd70ecfccb3cc467c659df95f362c5cee62072c3a06815",
+        "essential": true
+      }
+    ]
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "realDevice": false,
+  "storageMaintenance": false,
+  "schedulesCreated": false
+}
