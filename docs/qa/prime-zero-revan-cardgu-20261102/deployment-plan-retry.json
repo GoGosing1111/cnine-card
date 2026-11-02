@@ -1,0 +1,14 @@
+{
+  "base": "5f3b3b6947050505ff6f2507e93ebe1fd85c49b4",
+  "reason": "사용자 프라임·제로 최강 상향 확정 및 높은 승률 유지 지시. PVP 공격/기본상한30%, 체력/방벽6배를 성장/장비 이후 1회 적용. 레반/카드구 및 SSS19종 별도시드 검증, PVE와 다른 용병 전투 동일, PC/모바일 실제 2용병 재생. 이전 제너럴 족 우위·기본 전투력·성장·획득·계정/보상 보존. 관련 회귀·실제 번들 로더와 파생본만 검증. 첫 게시 전 캐시 태그 일치 검사에서 중단되어 메인/파생 HTML만 정정했다. 기존 전투·성장38검사 통과 로그는 보존하고 재시도는 캐시·로더·파생본·포장만 검사한다.",
+  "tests": [
+    "tests/pve-battlefield-entry-v2117.test.mjs",
+    "tests/onestore-web-20261026.test.mjs",
+    "tests/operation-audit-packaging-20261029.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}
