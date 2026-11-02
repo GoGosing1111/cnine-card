@@ -1,0 +1,92 @@
+[
+  {
+    "id": "impact-burst",
+    "nodes": 43,
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\effects\\flourish-v2\\native/impact-burst.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\effects\\flourish-v2\\native/impact-burst.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\effects\\flourish-v2\\qa/impact-burst-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\effects\\flourish-v2\\native/impact-burst.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\effects\\flourish-v2\\qa/impact-burst-reopened.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\effects\\flourish-v2\\native/impact-burst.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\effects\\flourish-v2\\qa/impact-burst-reopened.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\effects\\flourish-v2\\qa/impact-burst-second.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\effects\\flourish-v2\\qa/impact-burst-second.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "e7dd8a99ea830453f8c84085aa038df5988d98d80d35f86fe487c6bb9fc5dbd4"
+  },
+  {
+    "id": "rising-release",
+    "nodes": 26,
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\effects\\flourish-v2\\native/rising-release.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\effects\\flourish-v2\\native/rising-release.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\effects\\flourish-v2\\qa/rising-release-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\effects\\flourish-v2\\native/rising-release.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\effects\\flourish-v2\\qa/rising-release-reopened.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\effects\\flourish-v2\\native/rising-release.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\effects\\flourish-v2\\qa/rising-release-reopened.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\effects\\flourish-v2\\qa/rising-release-second.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-whitecoat-swordsman-20261102\\effects\\flourish-v2\\qa/rising-release-second.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "d206a4f59f2aebc6fcaf1b29d3108522a729408c50b6118619b9132479f0446b"
+  }
+]

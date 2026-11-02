@@ -36,13 +36,13 @@
     },
     {
       "path": "PROJECT.md",
-      "bytes": 10411,
-      "sha256": "a5a835f72c5040fe289a7864cffcaf14948edc9682c3d121a5caf06570126d6b"
+      "bytes": 11056,
+      "sha256": "3017e743979209ec987eabd825ee8ba63bbb0b320360c8769da07fbbeb464bff"
     },
     {
       "path": "qa/build.json",
       "bytes": 89107,
-      "sha256": "17e71cb85514e1e5b676fe0446c4619a28930dba87fbd71a82ef0dfd1c5410c0"
+      "sha256": "01cbeda0447d68689e209d086c93f1a09b932128e3c4ec5ce1ccbf0bbb92115e"
     },
     {
       "path": "qa/cardgu-after.png",
@@ -246,8 +246,8 @@
     },
     {
       "path": "workbench.bundle.js",
-      "bytes": 3279558,
-      "sha256": "0fb9492ceb8efcd48d764dea11058f519c60e5963c6cd72a48b642bc13c6e98a"
+      "bytes": 3280950,
+      "sha256": "60dc6ee139ecbd4d346da83b7aca05f0676964df31f4faba9f3fa998d02ac823"
     },
     {
       "path": "workbench.src.mjs",
@@ -260,6 +260,14 @@
     "delivery": "../v35-whitecoat-swordsman-20261102/qa/sword-trail/delivery.json",
     "sourceNativeUnmodified": true,
     "layerConnected": false,
+    "productionDeployment": false
+  },
+  "swordTrailFlourishUpdate": {
+    "delivery": "../v35-whitecoat-swordsman-20261102/qa/sword-trail-v2/delivery.json",
+    "newEffekseerEffects": 2,
+    "sourceNativeUnmodified": true,
+    "priorVersionPreserved": true,
+    "additionalCredits": 0,
     "productionDeployment": false
   }
 }

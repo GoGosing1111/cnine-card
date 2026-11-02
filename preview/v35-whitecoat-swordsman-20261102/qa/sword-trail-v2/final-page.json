@@ -1,0 +1,31 @@
+{
+  "records": [
+    {
+      "mobile": false,
+      "panel": [
+        1520,
+        1590
+      ],
+      "videos": [
+        "qa/sword-trail-v2/normal-effects-on.webm",
+        "qa/sword-trail-v2/normal-effects-off.webm"
+      ],
+      "noOverflow": true,
+      "previousVersionLink": true
+    },
+    {
+      "mobile": true,
+      "panel": [
+        1520,
+        1590
+      ],
+      "videos": [
+        "qa/sword-trail-v2/normal-effects-on.webm",
+        "qa/sword-trail-v2/normal-effects-off.webm"
+      ],
+      "noOverflow": true,
+      "previousVersionLink": true
+    }
+  ],
+  "passed": true
+}

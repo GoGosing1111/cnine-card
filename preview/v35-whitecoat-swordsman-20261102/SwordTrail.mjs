@@ -11,12 +11,12 @@ const SEGMENTS=32;
 // blade pose. A held drawing must not have a trail head moving ahead of its sword.
 export const swordStrokes={
  attack_basic:[
-  {id:'descending-cut',from:'windup',to:'contact',start:.282,end:.32,life:.15},
-  {id:'follow-through',from:'contact',to:'follow',start:.32,end:.40,life:.18}
+  {id:'descending-cut',from:'windup',to:'contact',start:.282,end:.32,life:.20},
+  {id:'follow-through',from:'contact',to:'follow',start:.32,end:.40,life:.23}
  ],
  skill_iai:[
-  {id:'draw-cut',from:'iai_ready',to:'iai_cut',start:.26,end:.30,life:.16,draw:true},
-  {id:'rising-cut',from:'iai_cut',to:'rise',start:.43,end:.51,life:.20}
+  {id:'draw-cut',from:'iai_ready',to:'iai_cut',start:.26,end:.30,life:.19,draw:true},
+  {id:'rising-cut',from:'iai_cut',to:'rise',start:.43,end:.51,life:.25}
  ]
 };
 
@@ -31,9 +31,11 @@ export class SwordTrail {
    }
    const geometry=new MeshGeometry({positions,uvs,indices}),mesh=new Mesh({geometry,texture});
    mesh.label='V35_WHITECOAT_FX_TRAIL_'+spec.id;mesh.blendMode='add';mesh.visible=false;
+   const glowGeometry=new MeshGeometry({positions:new Float32Array(positions.length),uvs:uvs.slice(),indices:indices.slice()}),glow=new Mesh({geometry:glowGeometry,texture});
+   glow.label=mesh.label+'_GOLD_WAKE';glow.blendMode='add';glow.tint=0xffa844;glow.visible=false;
    const edge=new Graphics();edge.label=mesh.label+'_EDGE';edge.blendMode='add';edge.visible=false;
-   layer.addChild(mesh,edge);
-   return {spec,geometry,mesh,edge,front:null,grip:null,visible:false};
+   layer.addChild(glow,mesh,edge);
+   return {spec,geometry,mesh,glowGeometry,glow,edge,front:null,grip:null,visible:false};
   });
  }
 
@@ -60,29 +62,42 @@ export class SwordTrail {
   return this.layer.toLocal(p);
  }
 
+ anchor(id,u=1){const r=this.ribbons.find(r=>r.spec.id===id),s=this.sample(r.spec,u),hand=this.world(s.hand,s.time),tip=this.world(s.tip,s.time);return {hand,tip,angle:Math.atan2(tip.y-hand.y,tip.x-hand.x)};}
+
  render(time,enabled){
   if(this.disposed)return;
   this.time=time;this.enabled=enabled;
   for(const r of this.ribbons){
    const age=time-r.spec.end,fade=1-smooth(clamp(age/r.spec.life));
    r.visible=enabled&&age>=-1e-7&&age<r.spec.life;
-   r.mesh.visible=r.edge.visible=r.visible;r.edge.clear();
+   r.mesh.visible=r.glow.visible=r.edge.visible=r.visible;r.edge.clear();
    if(!r.visible)continue;
-   const tips=[],oldest=clamp(age/r.spec.life)*.55;
+   const tips=[],innerEdge=[],oldest=clamp(age/r.spec.life)*.55;
    for(let i=0;i<=SEGMENTS;i++){
     const u=mix(oldest,1,i/SEGMENTS),sample=this.sample(r.spec,u);
     const h=this.world(sample.hand,sample.time),tip=this.world(sample.tip,sample.time);
-    const inner={x:mix(h.x,tip.x,.18),y:mix(h.y,tip.y,.18)};
+    const inner={x:mix(h.x,tip.x,.12),y:mix(h.y,tip.y,.12)},spread=Math.sin(Math.PI*i/SEGMENTS)*.18;
     r.geometry.positions.set([inner.x,inner.y,tip.x,tip.y],i*4);tips.push(tip);
+    r.glowGeometry.positions.set([mix(h.x,tip.x,.10-spread*.3),mix(h.y,tip.y,.10-spread*.3),mix(h.x,tip.x,1+spread),mix(h.y,tip.y,1+spread)],i*4);
+    innerEdge.push({x:mix(h.x,tip.x,.72),y:mix(h.y,tip.y,.72)});
     if(i===SEGMENTS){r.front={x:tip.x,y:tip.y};r.grip={x:h.x,y:h.y};}
    }
-   r.geometry.getBuffer('aPosition').update();r.mesh.alpha=.84*fade;
+   r.geometry.getBuffer('aPosition').update();r.mesh.alpha=(r.spec.draw?.76:.88)*fade;
+   r.glowGeometry.getBuffer('aPosition').update();r.glow.alpha=(r.spec.draw?.22:.30)*fade;
    // A fine outer edge keeps the swept blade boundary readable at battle scale.
-   const width=Math.max(.65,Math.hypot(r.front.x-r.grip.x,r.front.y-r.grip.y)*.009);
-   for(const [thickness,alpha,color] of [[width*4,.12,0xffd78a],[width,.67,0xfff4d7]]){
+   const length=Math.hypot(r.front.x-r.grip.x,r.front.y-r.grip.y),width=Math.max(.8,length*.016);
+   for(const [thickness,alpha,color] of [[width*7,.14,0xffc563],[width*3,.25,0xffd88d],[width,.92,0xfff8e8]]){
     r.edge.moveTo(tips[0].x,tips[0].y);
     for(const p of tips.slice(1))r.edge.lineTo(p.x,p.y);
     r.edge.stroke({width:thickness,alpha:alpha*fade,color});
+   }
+   r.edge.moveTo(innerEdge[5].x,innerEdge[5].y);for(const p of innerEdge.slice(6,-4))r.edge.lineTo(p.x,p.y);r.edge.stroke({width:width*.7,alpha:.56*fade,color:0xffd18b});
+   // Deterministic fragments leave different points of the same swept edge.
+   for(let i=0;i<7;i++){
+    const j=6+i*3,p=tips[j],prev=tips[j-1],dx=p.x-prev.x,dy=p.y-prev.y,n=Math.hypot(dx,dy)||1;
+    const travel=clamp(age/r.spec.life)*length*(.28+i*.025),nx=dy/n,ny=-dx/n;
+    const x=p.x+nx*travel,y=p.y+ny*travel,tail=length*(.035+i%3*.012)*fade;
+    r.edge.moveTo(x,y).lineTo(x-nx*tail,y-ny*tail).stroke({width:Math.max(.6,width*.55),alpha:.8*fade,color:i%3===0?0xfff7de:0xffbd52});
    }
   }
  }
@@ -91,12 +106,12 @@ export class SwordTrail {
   const attachment=this.adapter.rig.skeleton.findSlot('body').appliedPose.attachment?.name;
   const bone=this.adapter.rig.skeleton.findBone('blade_tip').appliedPose;
   const current=this.layer.toLocal(this.adapter.rig.toGlobal(new Point(bone.worldX,bone.worldY)));
-  return {time:this.time,active:this.ribbons.filter(r=>r.visible).length,segments:SEGMENTS,source:'Runway textured swept blade',strokes:this.ribbons.map(r=>({
+  return {time:this.time,active:this.ribbons.filter(r=>r.visible).length,segments:SEGMENTS,source:'Runway textured swept blade + gold wake v2',strokes:this.ribbons.map(r=>({
    id:r.spec.id,to:r.spec.to,end:r.spec.end,visible:r.visible,alpha:r.visible?r.mesh.alpha:0,front:r.visible?r.front:null,grip:r.visible?r.grip:null,
    bladeAnchorError:r.visible&&attachment===r.spec.to?Math.hypot(r.front.x-current.x,r.front.y-current.y):null,
-   vertices:r.visible?Array.from(r.geometry.positions):[]
+   vertices:r.visible?Array.from(r.geometry.positions):[],glowVertices:r.visible?Array.from(r.glowGeometry.positions):[]
   }))};
  }
 
- destroy(){if(this.disposed)return;this.disposed=true;for(const r of this.ribbons){r.mesh.removeFromParent();r.mesh.destroy();r.geometry.destroy();r.edge.removeFromParent();r.edge.destroy();}}
+ destroy(){if(this.disposed)return;this.disposed=true;for(const r of this.ribbons){r.mesh.removeFromParent();r.mesh.destroy();r.geometry.destroy();r.glow.removeFromParent();r.glow.destroy();r.glowGeometry.destroy();r.edge.removeFromParent();r.edge.destroy();}}
 }

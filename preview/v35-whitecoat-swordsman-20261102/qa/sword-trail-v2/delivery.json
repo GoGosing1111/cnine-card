@@ -1,0 +1,99 @@
+{
+  "id": "whitecoat-sword-trail-flourish-20261102",
+  "sourceParent": "d1867901bb1d695b9b488f74a94ec936fefe8085",
+  "newEffects": [
+    {
+      "id": "impact-burst",
+      "tool": "Effekseer",
+      "frames": 36,
+      "atlas": [
+        1632,
+        1215
+      ],
+      "sha256": "d8fb8ff37b41cd1dce1d5450b3001bd8c1651eacbaf56f78fafbcbc3ba5fc25e"
+    },
+    {
+      "id": "rising-release",
+      "tool": "Effekseer",
+      "frames": 42,
+      "atlas": [
+        1640,
+        1422
+      ],
+      "sha256": "51514171c561b2d3ec8e9767afe30cc570caf8ecd0725dc3eb595fb33c871c32"
+    }
+  ],
+  "editingTools": [
+    "Effekseer 1.70e CUI",
+    "Official EffekseerForWebGL 1.70e offline renderer",
+    "Existing Pixi/GSAP integration"
+  ],
+  "reused": [
+    "Runway ribbon texture from V1",
+    "Blender contact debris"
+  ],
+  "creditsUsedThisUpdate": 0,
+  "purchases": 0,
+  "nativeUnmodified": true,
+  "newBodyArtwork": false,
+  "v1DirectionAccepted": true,
+  "userFinalVisualApprovalV2": false,
+  "desktopInput": false,
+  "productionDeployment": false,
+  "immutableHashes": {
+    "preview/v35-whitecoat-swordsman-20261102/source/approved-illustration.png": "2e0c6fbf95ba10dcafbddd1435c88f16590e9594206ad3f5053665b9aac627a1",
+    "preview/v35-whitecoat-swordsman-20261102/whitecoat-c3ad326c9e61.spine": "a2e45365a8f830266d3b91c1e9c76dc35f0bf93409b69027300954977f7bbf57",
+    "preview/v35-character-baseline-20261101/baseline-v4.png": "fd8eea2da078ba3f7cfcef7da44946612e950ce2b0d0cd778a4b57976e00aa44",
+    "preview/v35-character-baseline-20261101/attack-v2/swordsman-7400ac091863.spine": "7acefc8c706857b88bf85a4c24d21af61c726bdee0933511899efc8730611dd0",
+    "preview/v35-character-baseline-20261101/attack-v1/images/weapon-restored-v2.png": "5e485052a02909c94cc91f4f75072ca42ce59ba1384ce1a5f299f0714f23ae07",
+    "preview/v35-effects-production-20261102/native/contact-debris.blend": "5e2bf58ad2d0bc57771e0639c80d108e4022b17b80e7dfb52ce920b868879fa3",
+    "preview/v35-effects-production-20261102/runtime/debris.png": "044417435ba9afdfe6585a5624f4ec2354cde486c047fffe7e7e8d8e9a010981"
+  },
+  "preservedV1Files": {
+    "preview/v35-whitecoat-swordsman-20261102/effects/sword-trail/runway-generation.json": "17711c6192db504f111779982aa5e7711f549911de9e4c609750e546781b2d46",
+    "preview/v35-whitecoat-swordsman-20261102/effects/sword-trail/sword-ribbon-source.png": "51e81098d98f7edf7e520668cb428635aea231879021c92f1eb593195de3138e",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/attack_basic-280.png": "6815bdc6bf40e9dc0c369ecf835be5d82e546a60665d168201edcda396f3fe7b",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/attack_basic-320.png": "a1d3f7544f887ccb0ae5c9a64c3de8958dff49d6f34d10715210672d25b1abf1",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/attack_basic-350.png": "3c1f07cb739c0e0233633879402482e1bc4d6153a70e5ec913b0ed7e955a7a4e",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/attack_basic-400.png": "b9e64717c2921eb1e776b62849df6e91db36ccfd0f6b9931f81444d390dffcd0",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/attack_basic-440.png": "f9d898b8eeb6cc1b8ff4d51bc835753e08b38ff41c5ae721b83a760a257e0095",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/attack_basic-520.png": "897cecf03bd3532400a8ece797f7fe2da513a7ec7a60926386c44ff047e73ca9",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/attack_basic-600.png": "f857e57816ebde13e853b06a31f9828da720bfa27533674c1c67f48a8cfe5986",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/delivery.json": "e19feeaffe13aae085f4b38c639dd957f8761ed21be857bad4aa05a56e2e9c87",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/enemy-attack_basic.png": "a7631295b52dca8f11453a2db3e765c20ea4827f85558d2c15fc4e699cb01ec2",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/enemy-skill_iai.png": "6b8394fadf3b21d2c282bd6fd9d114d1f12b007268a53ce3886047e9a9db6b41",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/event-integration.json": "039d2b5a166427dc9b8828ac2ecf540878f8d34fc5bff9c1d0e9d455e25888f2",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/mobile-attack_basic.png": "590a83a04a501da637a95d9f71e99e896ad5f51f45e57e4470a7d7e9affe84a9",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/mobile-skill_iai.png": "a65b3359d2384b7c27a53da079cae1e144cad64decb5aa273fd8ba900ac6b215",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/normal-effects-off.webm": "11cc27ac2644f8e9ede2394bf122afa85c977977f97ee822e77f4ccf8a046c42",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/normal-effects-on.webm": "807e8dd2805dbbcb1c9828e837e95ad0104638871ccd4d9f510b51828d0a96da",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/normal-off-sampled.png": "e54ecf440bcad578125a65d9dc511e566a5067d892b988f17ee2d407f984c182",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/normal-on-sampled.png": "4913e08202ac0ef825d6bd5184b58338168aff4011535ac0b4ebd559cdd73425",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/review-mobile.png": "554b6fa8bdbf78a16eb3f8a582f3a24f59e00046605477700373d146f86646f4",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/review-pc.png": "2cddddfe7ec7a97e338452ca248499ef36fb998d48c5c1cf68097e4193813b15",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/review-video.json": "494f3d0b8f7a050523ddb4291378164e18b69c832133217cae2c0025697caf60",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/review-video.mjs": "e425b0c95467505815287194b17ba136141db79841d85227622dd3926951c578",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/skill_iai-260.png": "a0d004286a0f1ee96377ea7bcc3667b4ea4b3290c6a1283b4360dc3a9b9b85b6",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/skill_iai-300.png": "1ff16f6cadf737e55beeba5d2a1e4bc059641354d485fcd9afeef455b35f2186",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/skill_iai-350.png": "f11192c2215dde70a1a4f456ce5b415ca697f916a93e649b47d0aba7a6f3f066",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/skill_iai-430.png": "a788d08e57d04c952e9429895edaf9927194948db7a7bbd46ccd4e6a2cc70f25",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/skill_iai-510.png": "949acf714fb52354e7d79c6465c0552ff54b021214a718470c1f9135c7f33fa8",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/skill_iai-550.png": "a9c16c509059aa2ad15893621d3f2c986b896fb1ec7fb090915fde8e19fd17c0",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/skill_iai-620.png": "658bcf93d9fbc5a73731a1859f3bbb9251b0cb9b8d87a693a9c8f0dc2cd225f4",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/skill_iai-720.png": "85c874e343c6da55a30dad5e7b1c3655a87550f793585b808b66a7053bba9a0e",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/trail-review.png": "74968bc815f58672974ccea9145d9fffa7e18d14836b68aa3e0460df9056759b",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/verification.json": "0b7023b00cf777236e326589534478da8ad8c9b8ac0df8a96c417bcc461edf03",
+    "preview/v35-whitecoat-swordsman-20261102/qa/sword-trail/verify.mjs": "2be2b4d77bba35b55aca0a6527a901efc93c1df04e156bbcfb9031baee88c634"
+  },
+  "checks": 26,
+  "eventChecks": 9,
+  "normalAttacks": 12,
+  "maxBladeAnchorError": 0.000004955223682819684,
+  "deterministicAt24And60Fps": true,
+  "reviewPlaybackVerified": true,
+  "finalPageVerified": true,
+  "textureEstimateBytes": 43099788,
+  "textureEstimateScope": "Native atlas + two new Effekseer atlases + shared debris atlas + Runway mip chain; reference PNG and existing V3 assets excluded.",
+  "visualReview": "Actual V3 full battle, phase crops, enemy/mobile and 65ms decoded normal-playback samples reviewed. No continuous video viewing or physical-device performance claim.",
+  "limitation": "Whole-pose character artwork is unchanged. Added effect paths bridge stepped drawings; no DNF-level certification or new continuous native limb animation."
+}

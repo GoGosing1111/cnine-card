@@ -16,7 +16,7 @@ function ring({name,r=3,inner=r-.12,from=0,to=360,angleMotion=null,color=[255,18
 }
 function spark(options,length,width){
  const positions=[['LL',[-length,0]],['LR',[0,-width]],['UL',[0,width]],['UR',[length,0]]].map(([k,v])=>t('Position_Fixed_'+k,vec(v))).join('');
- const drawing=t('DrawingValues',t('Type',2)+t('ColorAll',t('Type',0)+t('Fixed',col(options.color)))+t('Sprite',t('Billboard',2)+t('Position',1)+positions));
+ const drawing=t('DrawingValues',t('Type',2)+t('Sprite',t('Billboard',2)+t('ColorAll',0)+t('ColorAll_Fixed',col(options.color))+t('Position',1)+positions));
  return ring(options).replace(/<DrawingValues>.*?<\/DrawingValues>/,drawing);
 }
 

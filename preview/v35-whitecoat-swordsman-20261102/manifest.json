@@ -123,8 +123,8 @@
     },
     {
       "path": "effects/bake-effekseer.mjs",
-      "bytes": 3111,
-      "sha256": "2cfcaa53778598e007b7805fa5f9a1cf48bf9045f84a9fc796f1b19d04728a88"
+      "bytes": 3229,
+      "sha256": "d3f81d4306efc5024c59c07443812c6b288cf08bcc7a8171422c43e6bf7512b9"
     },
     {
       "path": "effects/bake.html",
@@ -135,6 +135,521 @@
       "path": "effects/effects.json",
       "bytes": 1021,
       "sha256": "9d1b9d05f910076d512ed2c3fcf355d145faa6a6f88795bb121444ef8814e589"
+    },
+    {
+      "path": "effects/flourish-v2/author.mjs",
+      "bytes": 4273,
+      "sha256": "7047d3faed2d0465debbdd9ae2040dfd40d6f80c672b7c09521ebea502e1e5b9"
+    },
+    {
+      "path": "effects/flourish-v2/effects.json",
+      "bytes": 610,
+      "sha256": "f3f0926308e7e0d163d2e59abafca129eadb19b7b3e13d3af9cf22dd4876eac6"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0000.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0001.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0002.png",
+      "bytes": 9695,
+      "sha256": "07beaf835829d3202c7535c4cbd8805201776837cda782b4a9a6edc1155ed1d9"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0003.png",
+      "bytes": 10461,
+      "sha256": "af0998b2e66f1723eb3686f779212d9766efd787bcc7fa06f540c58ed74660de"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0004.png",
+      "bytes": 11345,
+      "sha256": "733f9019dce227517ab102b1119f66b485682963b33eaafd20e39826ae68af74"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0005.png",
+      "bytes": 12717,
+      "sha256": "146ef4e4518a8594244cf9cea1943d44c8c6584265b1699c5787fb1a2c241fe0"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0006.png",
+      "bytes": 14018,
+      "sha256": "7a72821603760cf6dc0e400fd59c4c8464d91b5463aa614e934fa4fe978907b1"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0007.png",
+      "bytes": 15377,
+      "sha256": "16ccf612c90155b106a65c7783f351fd90a353ea431234dd4570924c34f187b0"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0008.png",
+      "bytes": 16491,
+      "sha256": "4035c0e7aec70f22b513dd27f443c538153c3b78f6a24ec85b09702c18410042"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0009.png",
+      "bytes": 16780,
+      "sha256": "fe6364eced55a1b72d78e935362d62756f492e5085cf713be8e6e8c7b12f17e5"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0010.png",
+      "bytes": 16884,
+      "sha256": "c9465d8632c140596bb5324e8c25385a17fd8e22025cb3e0c10e6b81603cd6b2"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0011.png",
+      "bytes": 17020,
+      "sha256": "fb17eaf08e046f0b0fa185bf55c59724b94f57a92950af4e3d28f14a945c6cb2"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0012.png",
+      "bytes": 17731,
+      "sha256": "2b01c0a48015056a18b0dddbce1c3f347a8108ad4f3058a4082c587c88852a91"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0013.png",
+      "bytes": 18283,
+      "sha256": "56724d912371c2dc60962617355381f1cf7fea388d35da7231bc039903e5e0e4"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0014.png",
+      "bytes": 18796,
+      "sha256": "a8adb7a0edbd6cdf3ad1892c5d1fcc54516c4f7fe8ba75b098985013891cfeab"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0015.png",
+      "bytes": 18722,
+      "sha256": "38598111cfc21d8ff56250d220da9cc534c37408aa4acac22504c0bee65b4abb"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0016.png",
+      "bytes": 18096,
+      "sha256": "8645328074aea6f0c961f876d202619ab96ac05ea0654f4cb5c840dd1d27ba99"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0017.png",
+      "bytes": 16650,
+      "sha256": "a3ce3e96d692c5b2467d00495f45acb81872ec25b615acebde55a6e1e05af100"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0018.png",
+      "bytes": 10364,
+      "sha256": "a8a1167d339fb1bc4d4c7546dbff0808d1bb17e514147a606822c6ba95ec3587"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0019.png",
+      "bytes": 9453,
+      "sha256": "409a86446ef30695f0f5412e321f762ff30531f48e2ec50b7a895e47764e8b01"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0020.png",
+      "bytes": 8137,
+      "sha256": "58af51027014b344891cf9f3e8508ab2ef85a2b314d665685a160c065bbb91f6"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0021.png",
+      "bytes": 7918,
+      "sha256": "8653d0fb8eeffa63c2fb2425003d57553528386f0e7b91b989921fba5a5fce0d"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0022.png",
+      "bytes": 7774,
+      "sha256": "09f42415bbd47c7839348fc70d97efee3cdf7ae252285c3e08750c6b849f808a"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0023.png",
+      "bytes": 7587,
+      "sha256": "cf7b73281300f0a235b2dfc87485fe80ab1df219013cd514b8d6d9e93e5c732a"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0024.png",
+      "bytes": 7468,
+      "sha256": "d97bec25b041cc2bad0bd1a7e7f15d4a5ebf577d678092bb0f4523b0099c4848"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0025.png",
+      "bytes": 7343,
+      "sha256": "3ca6ebd8fd8756bad70219c9dafa38f4f7571495107caa06e0025b11e26865c2"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0026.png",
+      "bytes": 7215,
+      "sha256": "bf1664b27c2e5ed7818673619b2db330e29acdcf7af7854500d78bc504af50ea"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0027.png",
+      "bytes": 7152,
+      "sha256": "7ccb2a881eff9303c0168259d89aaae98e00a676d758a47db16684aadb899464"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0028.png",
+      "bytes": 7158,
+      "sha256": "5502aa1c3fb05c78e4f535e13da8c002b4a3b5be07f681a5e8f665e05fd7dabd"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0029.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0030.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0031.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0032.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0033.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0034.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0035.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0036.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/impact-burst/frame-0037.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0000.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0001.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0002.png",
+      "bytes": 8912,
+      "sha256": "eaffd56658e52a80ed15a939557c20b7849442f13502ae8e83d92f5510cc19ca"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0003.png",
+      "bytes": 9510,
+      "sha256": "3d6a2aa7df401fe161716d8814b6224b798aea574df56f798af7509fb7ca7291"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0004.png",
+      "bytes": 10843,
+      "sha256": "6ea4a97e2aeed37cdb6e92d750ad382c3f37eacbefce532afd90524a7bf10388"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0005.png",
+      "bytes": 11311,
+      "sha256": "056ef6eb3c33cb8657cece897830d7462dc274c8f011e967f96ecd6247834be0"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0006.png",
+      "bytes": 11721,
+      "sha256": "1c6f4d6e552f196f5ecd3ffffb5652b43a837bb4f3b81a8246161c0d53915f57"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0007.png",
+      "bytes": 12113,
+      "sha256": "149725b39061c470caef8201a85e4f2ff2a368a68004381e130ddf5c56ac2a13"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0008.png",
+      "bytes": 12637,
+      "sha256": "35461e79a653058349ba9ea8c2a0e7424d89f883e6e00947c9a15f9d52c4bacf"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0009.png",
+      "bytes": 12736,
+      "sha256": "11a61ce290e9821b9119444c20b67f2ba28a33570573138d1b96f9f7eed0c819"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0010.png",
+      "bytes": 13053,
+      "sha256": "297851fcfda5facd1ec5d953734c4ba2329ebb79e959e90a9eda494ed392f70e"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0011.png",
+      "bytes": 13078,
+      "sha256": "e799f44fafcce9ea4506c66fa6d8b8ea53efbbda63246e5ec56f6fe3c7d69471"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0012.png",
+      "bytes": 13182,
+      "sha256": "8eac76a3e1d16dab4b61f624ae60b97651c950132a4f79b4106ab9b134df4e0f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0013.png",
+      "bytes": 13285,
+      "sha256": "c3e31b8d248a76a3169a4b775c8417b6f170bbe57912a02fa0cabb0d82921339"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0014.png",
+      "bytes": 13541,
+      "sha256": "2bcc8af77927a8917c90805cefc75a6ca3d4a5e90af4b662bedf7ed1b8053a9f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0015.png",
+      "bytes": 13813,
+      "sha256": "b66795811541c42f1a4dea5ea2a5f9126b06911f5ce4ea7c605bf83a8fe091d3"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0016.png",
+      "bytes": 14077,
+      "sha256": "782fb272bd752a9e2993210d2d7f30595c2166610f1345d13f8f2850ff09b43b"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0017.png",
+      "bytes": 14158,
+      "sha256": "bf49a5a5e00f0ed5bafd43a753a8dc3728b438ec6520697164e747a40b900f95"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0018.png",
+      "bytes": 13777,
+      "sha256": "127e8f472d41930bc358d49b5200b39800113b30a3f9cd0966ed4ebe4a9642a7"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0019.png",
+      "bytes": 13535,
+      "sha256": "ca7ac1c98cfdbd27fabc5591a8bca64a492f092d9e81f7a00d6f096d244278b2"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0020.png",
+      "bytes": 13013,
+      "sha256": "e85410641336cb6461ce45a442645e4f5f2e02a655333bc75cfc57752112941b"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0021.png",
+      "bytes": 10726,
+      "sha256": "84f301526af5fed4d905d9bc35188b898c62f12b2344b7efa4b57620ba61d0f3"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0022.png",
+      "bytes": 10817,
+      "sha256": "65cac12b45cb83de8bd4f8240666b8400e1db1dd14d8ce66a13b4ce084662853"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0023.png",
+      "bytes": 10850,
+      "sha256": "dc671ed756d8b10d98c50133b65a3d86b4d54e74eaeaba2f1c297e5d97df9494"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0024.png",
+      "bytes": 10713,
+      "sha256": "3eebb8cf73a9bcccf4b9ee49958e90287bf710a46f10e69745d45425007c3a58"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0025.png",
+      "bytes": 10448,
+      "sha256": "6ccefffb9acd74befea0e2a704f5769517a53ed2e57c2c793ccbb4e31801fce5"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0026.png",
+      "bytes": 9751,
+      "sha256": "d3e0ee4a124902587b6b9d86a12f03647695ea45b3a1327912df828a7bd6dd08"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0027.png",
+      "bytes": 7455,
+      "sha256": "5ecff6773cd3e487110d8fe32a36872617d353aeb212c85e9059146d2af8d913"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0028.png",
+      "bytes": 7353,
+      "sha256": "9ca172104208a75da641824b62325898602225c06d0f86f105626c9d6e6719b7"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0029.png",
+      "bytes": 7337,
+      "sha256": "329922fa8a89eb710c74f9d670f94757879512aefcbc8add128afcb0c6acfbf1"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0030.png",
+      "bytes": 7195,
+      "sha256": "67154cdae4ae897b143fc5267775d7dfbe577945d38f013a1bb07841bea1a59a"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0031.png",
+      "bytes": 7212,
+      "sha256": "a26633288a97ef7e5f5cbca9bc7516299a514c1a86755e4cfb8f2e6dac83d903"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0032.png",
+      "bytes": 7177,
+      "sha256": "dbeb70b5ff38ebe35ecc0a6a17c78fcb2092b60247b56dbd97fa4232eb9456ce"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0033.png",
+      "bytes": 7131,
+      "sha256": "9375f13302474f2099f93a289544684157cad49b90c1f186f405bc0ca8e925fb"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0034.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0035.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0036.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0037.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0038.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0039.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0040.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0041.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0042.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/frames/rising-release/frame-0043.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "effects/flourish-v2/native/impact-burst.efk",
+      "bytes": 39679,
+      "sha256": "e7dd8a99ea830453f8c84085aa038df5988d98d80d35f86fe487c6bb9fc5dbd4"
+    },
+    {
+      "path": "effects/flourish-v2/native/impact-burst.efkefc",
+      "bytes": 43943,
+      "sha256": "f3e5ae92dccc5534b2d10ad3e2976a2427cd2cd3470a8b5f5f2559158dfb2a19"
+    },
+    {
+      "path": "effects/flourish-v2/native/impact-burst.efkproj",
+      "bytes": 97652,
+      "sha256": "cbaa3f04d1cc9df09243c656ca62f385da391a2eed111fc36c5c0f2ddbce48d9"
+    },
+    {
+      "path": "effects/flourish-v2/native/rising-release.efk",
+      "bytes": 24042,
+      "sha256": "d206a4f59f2aebc6fcaf1b29d3108522a729408c50b6118619b9132479f0446b"
+    },
+    {
+      "path": "effects/flourish-v2/native/rising-release.efkefc",
+      "bytes": 27193,
+      "sha256": "b2ec6ac15e1323077f154c61fd315f9b59658510545ec3f1681e68f10ae667ca"
+    },
+    {
+      "path": "effects/flourish-v2/native/rising-release.efkproj",
+      "bytes": 59142,
+      "sha256": "fb1b4392250ea7bf557e153ea51eb3ca58ca8c21390635c0e707f77265cb8bdd"
+    },
+    {
+      "path": "effects/flourish-v2/qa/effekseer-bake.json",
+      "bytes": 1543,
+      "sha256": "9fa11a86df13619a44f3c475c9329ced52b558a38e8f4c2089b2395e4b5f1cdf"
+    },
+    {
+      "path": "effects/flourish-v2/qa/impact-burst-import.efk",
+      "bytes": 39679,
+      "sha256": "b9f0ea11489d7d7020d72be8744218819e4e591b8d536a20623222561c3b10bf"
+    },
+    {
+      "path": "effects/flourish-v2/qa/impact-burst-reopened.efkefc",
+      "bytes": 43943,
+      "sha256": "a9580401081886b397209b09d19678cd09f852168e3823d7b4ac39db8a0ff9f1"
+    },
+    {
+      "path": "effects/flourish-v2/qa/impact-burst-second.efk",
+      "bytes": 39679,
+      "sha256": "e7dd8a99ea830453f8c84085aa038df5988d98d80d35f86fe487c6bb9fc5dbd4"
+    },
+    {
+      "path": "effects/flourish-v2/qa/impact-burst-second.efkefc",
+      "bytes": 43943,
+      "sha256": "a9580401081886b397209b09d19678cd09f852168e3823d7b4ac39db8a0ff9f1"
+    },
+    {
+      "path": "effects/flourish-v2/qa/native.json",
+      "bytes": 7020,
+      "sha256": "200d8e2c06a021e1634309c863342f1fb17f189d55c9c2353d358f0f1a6d1859"
+    },
+    {
+      "path": "effects/flourish-v2/qa/rising-release-import.efk",
+      "bytes": 24042,
+      "sha256": "b0151e00b475068e4489365d64a7bba66790a6418dd8e30de15231caeea4c619"
+    },
+    {
+      "path": "effects/flourish-v2/qa/rising-release-reopened.efkefc",
+      "bytes": 27193,
+      "sha256": "7703bab649f5978844cd2d2b693c7bc3d3c13d23a636f1d14443db451f596d65"
+    },
+    {
+      "path": "effects/flourish-v2/qa/rising-release-second.efk",
+      "bytes": 24042,
+      "sha256": "d206a4f59f2aebc6fcaf1b29d3108522a729408c50b6118619b9132479f0446b"
+    },
+    {
+      "path": "effects/flourish-v2/qa/rising-release-second.efkefc",
+      "bytes": 27193,
+      "sha256": "7703bab649f5978844cd2d2b693c7bc3d3c13d23a636f1d14443db451f596d65"
+    },
+    {
+      "path": "effects/flourish-v2/runtime/fx-manifest.json",
+      "bytes": 10628,
+      "sha256": "1d4a4cc29059537723d06af447d5f649a2e6d88530601b5f00d6fc5a069203e7"
+    },
+    {
+      "path": "effects/flourish-v2/runtime/impact-burst.png",
+      "bytes": 110814,
+      "sha256": "d8fb8ff37b41cd1dce1d5450b3001bd8c1651eacbaf56f78fafbcbc3ba5fc25e"
+    },
+    {
+      "path": "effects/flourish-v2/runtime/rising-release.png",
+      "bytes": 101186,
+      "sha256": "51514171c561b2d3ec8e9767afe30cc570caf8ecd0725dc3eb595fb33c871c32"
     },
     {
       "path": "effects/frames/contact/frame-0000.png",
@@ -828,13 +1343,13 @@
     },
     {
       "path": "effects/pack.mjs",
-      "bytes": 3303,
-      "sha256": "3c5cbb687494d22672cd0b728df26a63b4fa9206a2667856b3e08f3fda047893"
+      "bytes": 3366,
+      "sha256": "6f1e0a0fc9df28db8dc9995f021bcc3a4ccb8851bb3ab038a625681e8de6b11f"
     },
     {
       "path": "effects/primitives.mjs",
-      "bytes": 2265,
-      "sha256": "03a32f52aec0849a4c2e02b8363360b4ece83e2226865db59cfae79ae1d612cc"
+      "bytes": 2264,
+      "sha256": "fb1dcbd6c0fe9d82cd557366ea281644227319c077cdc0556e00fbbc75dda88d"
     },
     {
       "path": "effects/qa/contact-import.efk",
@@ -1038,8 +1553,8 @@
     },
     {
       "path": "PROJECT.md",
-      "bytes": 14276,
-      "sha256": "3fd9dc6c71b0c5cc8e58f18958593686baf6ee7fa3f70d9e6fa8609bc9dd1e08"
+      "bytes": 18143,
+      "sha256": "74b146d8f04f90bf69641db59e8df6432715dbd4d8c4f3be23e8f0ddc541155b"
     },
     {
       "path": "qa/art-compare.json",
@@ -1437,6 +1952,201 @@
       "sha256": "4835d4ba3ca7324f1f82821deb7baaef1fa51d131fc8e100a42eefb4e918a1cf"
     },
     {
+      "path": "qa/sword-trail-v2/attack_basic-280.png",
+      "bytes": 1860783,
+      "sha256": "15751ba5c604415cd45edad5600ee04ac80885e77bb468577b5f27d6a777ba40"
+    },
+    {
+      "path": "qa/sword-trail-v2/attack_basic-320.png",
+      "bytes": 1862798,
+      "sha256": "0bb9793a540d07ed2da0afe0cb258d0fd631773f8cfa690de16fbf3860a6934e"
+    },
+    {
+      "path": "qa/sword-trail-v2/attack_basic-350.png",
+      "bytes": 1862947,
+      "sha256": "201d496b151d452f664c0e5f877f4de77626039120c0ac81b4e27e296b80f58b"
+    },
+    {
+      "path": "qa/sword-trail-v2/attack_basic-400.png",
+      "bytes": 1863462,
+      "sha256": "11c9e6e305b05aad62dbade2b2c5a59d649d891a721dc821e269277eb34de425"
+    },
+    {
+      "path": "qa/sword-trail-v2/attack_basic-440.png",
+      "bytes": 1862893,
+      "sha256": "bd61c9bb6aa53dc944a631486471a8d59e5a43d86c23605b1df51cb63ecc78ab"
+    },
+    {
+      "path": "qa/sword-trail-v2/attack_basic-520.png",
+      "bytes": 1863104,
+      "sha256": "6d85f567aae148af7b1d5331b3afcf2f15bddd7902d6af544c3660f1f691a077"
+    },
+    {
+      "path": "qa/sword-trail-v2/attack_basic-600.png",
+      "bytes": 1863643,
+      "sha256": "390bc21cee1f24d5e3f87b4f6a335fe8c0ea181df179e5a73020eb13c834ea65"
+    },
+    {
+      "path": "qa/sword-trail-v2/attack_basic-680.png",
+      "bytes": 1863202,
+      "sha256": "a8af4298c385e724d942d140b9d556a948963ccd49dcb0a81dc68e44d6be7d52"
+    },
+    {
+      "path": "qa/sword-trail-v2/delivery.json",
+      "bytes": 8012,
+      "sha256": "001a133da1eaabd373c98bf44ff9ea10a90b352c87f1b9c5d3ce3ee2a6a9affa"
+    },
+    {
+      "path": "qa/sword-trail-v2/enemy-attack_basic.png",
+      "bytes": 1859639,
+      "sha256": "74e44410d6e1a80a3254751d3842e9f61f47635ff3305de57d72b1a85ead47b5"
+    },
+    {
+      "path": "qa/sword-trail-v2/enemy-skill_iai.png",
+      "bytes": 1858694,
+      "sha256": "f4aa3d0720967d05fa5cf5f8bf664b5ae7f4e4f92730466b74ba4ac1767f27e8"
+    },
+    {
+      "path": "qa/sword-trail-v2/event-integration.json",
+      "bytes": 1717,
+      "sha256": "569e584d05bdc0531a409edae7cd62ddb5dd7b17b062d3cf12097028cae948e7"
+    },
+    {
+      "path": "qa/sword-trail-v2/final-page.json",
+      "bytes": 598,
+      "sha256": "64d81470e4976d5719dbc936481ea161d3f60374a27613659647bcd40de3c00e"
+    },
+    {
+      "path": "qa/sword-trail-v2/final-review-mobile.png",
+      "bytes": 244476,
+      "sha256": "1863672118f9f97e84c5e2f8dfa1d655a0cdead043c816862e129abd79976cf5"
+    },
+    {
+      "path": "qa/sword-trail-v2/final-review-pc.png",
+      "bytes": 629063,
+      "sha256": "1df57ae6b39ebbf2c28e6de50ffad00c80f734199bbcde32a5f5262f1be6d294"
+    },
+    {
+      "path": "qa/sword-trail-v2/flourish-review.png",
+      "bytes": 3174242,
+      "sha256": "5f29619f80b673a15965e7193c0d977ddeb7994d5f224753d38326a4e4869b00"
+    },
+    {
+      "path": "qa/sword-trail-v2/mobile-attack_basic.png",
+      "bytes": 395079,
+      "sha256": "a312c0503dfd43af229f6adaa0af484ee6610616446b8bcfd48a2d8dcff36b7e"
+    },
+    {
+      "path": "qa/sword-trail-v2/mobile-skill_iai.png",
+      "bytes": 394376,
+      "sha256": "e62a04f1297108c983b974fa1c69954c6ac03d27b5d27fa974d2f57299eb72ee"
+    },
+    {
+      "path": "qa/sword-trail-v2/normal-effects-off.webm",
+      "bytes": 3456193,
+      "sha256": "199fd019340c43a3281210b6714ae34c3d74d28cae307a1c7f84b27c7cfa34b2"
+    },
+    {
+      "path": "qa/sword-trail-v2/normal-effects-on.webm",
+      "bytes": 3655474,
+      "sha256": "22b03053d9a08b979cf08f2fff408683d6df6ca5d44294b0a2328a4d735ea378"
+    },
+    {
+      "path": "qa/sword-trail-v2/normal-off-sampled.png",
+      "bytes": 1700335,
+      "sha256": "3400b1bdd0832a52949226b3636f4ea844a4553965a42b202a4fb337bc3884d5"
+    },
+    {
+      "path": "qa/sword-trail-v2/normal-on-sampled.png",
+      "bytes": 1889153,
+      "sha256": "67f76f8baa9bff6427114d8156d51834a7219c1ede4ab2a9d5e4f2547d698db1"
+    },
+    {
+      "path": "qa/sword-trail-v2/review-mobile.png",
+      "bytes": 266889,
+      "sha256": "4bf9fd1042729678e9a88f9e936d8ad28905a2a04a5253ea8e9df35ea439ce65"
+    },
+    {
+      "path": "qa/sword-trail-v2/review-panels.mjs",
+      "bytes": 1134,
+      "sha256": "c5d7570fdccc62079047c3d6ef5c018f150bfad499dac8d0a75509a42711b8d1"
+    },
+    {
+      "path": "qa/sword-trail-v2/review-pc.png",
+      "bytes": 893439,
+      "sha256": "c860639a1045698998c8db412c86746f66dbdc7ba730ead327eddf745ee20639"
+    },
+    {
+      "path": "qa/sword-trail-v2/review-video.json",
+      "bytes": 2899,
+      "sha256": "912ca26b0ccf1c30e681cbd13f372a4ed50a751b956dfa3ecf9126d99d491d46"
+    },
+    {
+      "path": "qa/sword-trail-v2/review-video.mjs",
+      "bytes": 5290,
+      "sha256": "ce89824e212bdf6cfde7df568727cc570b3bfd523d209f95b4c67e38e32c3538"
+    },
+    {
+      "path": "qa/sword-trail-v2/skill_iai-260.png",
+      "bytes": 1861213,
+      "sha256": "325f2e8aaa805396127cfde0a2b6447f86224666b97eff91d66a72ec91cc9cb8"
+    },
+    {
+      "path": "qa/sword-trail-v2/skill_iai-300.png",
+      "bytes": 1859950,
+      "sha256": "11bddfdff45a6087787f2ced451e87940c99451e869561d5520864f6bd4ff8f8"
+    },
+    {
+      "path": "qa/sword-trail-v2/skill_iai-350.png",
+      "bytes": 1862494,
+      "sha256": "b3bc9280ffb3038e414a94727cef023af7d2fdd9dbbefc877b47da3af83424e7"
+    },
+    {
+      "path": "qa/sword-trail-v2/skill_iai-430.png",
+      "bytes": 1860763,
+      "sha256": "f00b5d8916aa9a5da3110fc9de9cdec75f6d0e69a3a2c17e6a7e6f1178132d05"
+    },
+    {
+      "path": "qa/sword-trail-v2/skill_iai-510.png",
+      "bytes": 1862894,
+      "sha256": "d248c76dc398b245a083e5e149868e5cbb32bbdc5007d070731a1a85b3063bcf"
+    },
+    {
+      "path": "qa/sword-trail-v2/skill_iai-550.png",
+      "bytes": 1862988,
+      "sha256": "ae8c59a27be1b0ca13ab32a27b1d60ab23ba3676eb49521397f7f31e95c69ca4"
+    },
+    {
+      "path": "qa/sword-trail-v2/skill_iai-620.png",
+      "bytes": 1862727,
+      "sha256": "b3cb350fe6f859da9a5226ac38578a7c2b4196fb01ceaf74b82619058c02b065"
+    },
+    {
+      "path": "qa/sword-trail-v2/skill_iai-720.png",
+      "bytes": 1862197,
+      "sha256": "47772cb8947b01e3d9785d27a01ac2cb662d30dac2f13bb2b7cbe6a728ea3aa6"
+    },
+    {
+      "path": "qa/sword-trail-v2/skill_iai-800.png",
+      "bytes": 1861902,
+      "sha256": "ac2dbc57bfe673e4c3aeab54fb8c205a95fec53c6ee3bd7fb76a408c151ea688"
+    },
+    {
+      "path": "qa/sword-trail-v2/trail-review.png",
+      "bytes": 2200770,
+      "sha256": "7f44161b48d666de511c22cde7ddd03414f022147575b4b1e4b508a6b650ccdc"
+    },
+    {
+      "path": "qa/sword-trail-v2/verification.json",
+      "bytes": 283632,
+      "sha256": "85bdc785d7d7b5ef1f285c93cc24c165999edb593fac495112feb58b8d57237f"
+    },
+    {
+      "path": "qa/sword-trail-v2/verify.mjs",
+      "bytes": 9650,
+      "sha256": "913ac1e1b89d3629392e5ddebc832796d8de83f978b7fbe276509b930bf6aac8"
+    },
+    {
       "path": "qa/sword-trail/attack_basic-280.png",
       "bytes": 1860474,
       "sha256": "6815bdc6bf40e9dc0c369ecf835be5d82e546a60665d168201edcda396f3fe7b"
@@ -1643,8 +2353,8 @@
     },
     {
       "path": "review.html",
-      "bytes": 2436,
-      "sha256": "da02e860a87fffb45dfb281965a53a9d1c458e1868b915af89562ce79a4a48ca"
+      "bytes": 2575,
+      "sha256": "0d927a30d8f752a049d4a847d7e1b64b90b121d861eb3b7d6596cedb44df400f"
     },
     {
       "path": "runtime-c3ad326c9e61/whitecoat-c3ad326c9e61.atlas",
@@ -1728,8 +2438,8 @@
     },
     {
       "path": "SwordTrail.mjs",
-      "bytes": 5089,
-      "sha256": "3d4a7b4a8a837a790f2ed1a96f1e323131c3c098062e0428c9c73ff1fea36b1e"
+      "bytes": 6830,
+      "sha256": "495e67199a443cb06702634c5ddbc2ca69d55f96c3db44726a1633909569d2d6"
     },
     {
       "path": "whitecoat-c3ad326c9e61.spine",
@@ -1748,16 +2458,24 @@
     },
     {
       "path": "WhitecoatEffects.mjs",
-      "bytes": 4040,
-      "sha256": "addc9029af93b18de956b72ea49383ea0e7c18f862211a548058f944c0d060b6"
+      "bytes": 4164,
+      "sha256": "5a0fb3dc0ddaf7590226792f979d780cad08a84a0a778970e968f608a8eba7f8"
     }
   ],
-  "totalBytes": 190234861,
+  "totalBytes": 246481575,
   "swordTrailUpdate": {
     "plugin": "Runway",
     "delivery": "qa/sword-trail/delivery.json",
     "sourceNativeUnmodified": true,
     "layerConnected": false,
+    "productionDeployment": false
+  },
+  "swordTrailFlourishUpdate": {
+    "delivery": "qa/sword-trail-v2/delivery.json",
+    "newEffekseerEffects": 2,
+    "sourceNativeUnmodified": true,
+    "priorVersionPreserved": true,
+    "additionalCredits": 0,
     "productionDeployment": false
   }
 }

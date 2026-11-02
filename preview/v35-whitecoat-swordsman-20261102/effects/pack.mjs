@@ -1,9 +1,9 @@
 import fs from 'node:fs/promises';import path from 'node:path';import sharp from 'sharp';import {fileURLToPath} from 'node:url';import {createHash} from 'node:crypto';
-const dir=fileURLToPath(new URL('.',import.meta.url));
+const dir=process.argv[2]?path.resolve(process.argv[2])+path.sep:fileURLToPath(new URL('.',import.meta.url));
 const efk=JSON.parse(await fs.readFile(dir+'effects.json','utf8'));
 const specs=efk.effects.map(s=>({...s,fps:efk.fps,first:0,tool:'Effekseer'}));
 await fs.mkdir(dir+'runtime',{recursive:true});
-const manifest={schema:1,id:'whitecoat-distinct-cuts-v1',sourceDate:'2026-11-02',phase:'local V3 integration',alpha:'straight PNG; Pixi premultiplies on upload',effects:{},decodedBytes:0};
+const manifest={schema:1,id:efk.id||'whitecoat-distinct-cuts-v1',sourceDate:'2026-11-02',phase:'local V3 integration',alpha:'straight PNG; Pixi premultiplies on upload',effects:{},decodedBytes:0};
 for(const s of specs){
  let minX=512,minY=512,maxX=-1,maxY=-1;const files=[],stats=[];
  for(let i=0;i<s.frames;i++){const file=`${dir}frames/${s.id}/frame-${String(i+s.first).padStart(4,'0')}.png`;files.push(file);const {data,info}=await sharp(file).ensureAlpha().raw().toBuffer({resolveWithObject:true});let opaque=0;for(let y=0;y<info.height;y++)for(let x=0;x<info.width;x++)if(data[(y*info.width+x)*4+3]){opaque++;minX=Math.min(minX,x);minY=Math.min(minY,y);maxX=Math.max(maxX,x);maxY=Math.max(maxY,y);}stats.push(opaque);}

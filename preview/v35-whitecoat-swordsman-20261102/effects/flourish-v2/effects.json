@@ -1,0 +1,35 @@
+{
+  "id": "whitecoat-flourish-v2",
+  "tool": "Effekseer",
+  "version": "1.70e",
+  "seed": 3502,
+  "fps": 60,
+  "effects": [
+    {
+      "id": "impact-burst",
+      "frames": 38,
+      "units": 12,
+      "width": 512,
+      "height": 512,
+      "pivot": [
+        256,
+        256
+      ],
+      "blend": "add",
+      "source": "native/impact-burst.efkefc"
+    },
+    {
+      "id": "rising-release",
+      "frames": 44,
+      "units": 12,
+      "width": 512,
+      "height": 512,
+      "pivot": [
+        256,
+        256
+      ],
+      "blend": "add",
+      "source": "native/rising-release.efkefc"
+    }
+  ]
+}
