@@ -1,0 +1,175 @@
+{
+  "deployment": {
+    "head": "ab6c5a2d656c01ed40a26ad5a6e9441cee8b57c5",
+    "base": "7bc4ca414fbb81917fede7719f4be17b75be15d1",
+    "exitCode": 0,
+    "log": "file:///C:/Users/User/Downloads/upload/cnine-card/operations/iphone-battle-report-20261102/deploy-ab6c5a2d6.log",
+    "startedAt": "2026-11-02T10:24:45.964Z",
+    "finishedAt": "2026-11-02T10:30:09.153Z"
+  },
+  "verification": {
+    "at": "2026-11-02T10:31:05.546Z",
+    "pages": {
+      "id": "65edf3e3-bc5e-40e8-bf69-922eb82ad123",
+      "url": "https://65edf3e3.cnine-card.pages.dev",
+      "status": "success",
+      "commit": "ab6c5a2d656c01ed40a26ad5a6e9441cee8b57c5"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "versions": [
+          {
+            "version_id": "c89bbdbc-21dd-4adf-b855-d7c203e2a952",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "versions": [
+          {
+            "version_id": "1daa6eb5-f0d7-4f24-9496-5c66b3544516",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "assets": [
+      {
+        "file": "index.html",
+        "bytes": 49119,
+        "sha256": "51967e1dee0df2f9bad7337cd1cd0bf7f1238a5adaf3f521a5d0ef49096dcaae"
+      },
+      {
+        "file": "js/app.js",
+        "bytes": 810205,
+        "sha256": "8bb9805c153f390846d3020b239d0617dd55a128bad794a6d1d46abde284fef4"
+      },
+      {
+        "file": "js/battle-v3-live.js",
+        "bytes": 90814,
+        "sha256": "196454f09fb67fc5c4c39954c6c97b34051ce86f635dceeea849f517952b07cd"
+      },
+      {
+        "file": "service-worker.js",
+        "bytes": 22988,
+        "sha256": "432e8e207e1a382229bffa6fe1e4c429ef2f8dd1cf615de475363afeb75cf290"
+      },
+      {
+        "file": "onestore/index.html",
+        "bytes": 48738,
+        "sha256": "ef9a7650d84955ed84571679ee7a8966ebfb6d3c1e44abea6d0fedc2ed1709dd"
+      },
+      {
+        "file": "onestore/js/app.js",
+        "bytes": 804759,
+        "sha256": "bb4a1d628a048caf642c02c9b543b78052c89590ce4cadf35b781e44a6ba2f83"
+      },
+      {
+        "file": "shared/onestore-web-assets-v1.mjs",
+        "bytes": 985,
+        "sha256": "ac7839dc4547b504acf40a99f7ec99dc1a6272d46f26965deba9fe7755ea1952"
+      },
+      {
+        "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "bytes": 2978970,
+        "sha256": "4c6543bae03c5b4cd53168d1581329ca6b546ebe3ab91672ac84b15d31fda826"
+      },
+      {
+        "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+        "bytes": 2978529,
+        "sha256": "7a3bbe6d4cc7a7ac5c2be63322417787d09ad2b447c41bb6caee871d4e824271"
+      },
+      {
+        "file": "preview/cow-room-v3-v1/battle.bundle.js",
+        "bytes": 2978596,
+        "sha256": "e3d54854ce007700331ed30c85a3a902da7423a6390ea603ca0b23474dca6850"
+      },
+      {
+        "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+        "bytes": 2978585,
+        "sha256": "c2390d606ad98aad964bf08e62ef3610540f105f59b6886dd9b639bc23029ea6"
+      },
+      {
+        "file": "pve-v3/battle.bundle.js",
+        "bytes": 2978944,
+        "sha256": "1d5e7643abc0680231f948ab6bb3cddefb62b5c96ee6577b7bd80cab52ee302c"
+      },
+      {
+        "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+        "bytes": 2982147,
+        "sha256": "c377c29b7b5c87b5ff74647a981951889f6aa8571dd3cc727e7c93b121bfb518"
+      },
+      {
+        "file": "preview/boss-resources-v2048/lab.bundle.js",
+        "bytes": 2975609,
+        "sha256": "834f83e1ede4395852a093ebf5f3ae206f68248def0381fab94937c3e3b75217"
+      },
+      {
+        "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+        "bytes": 2980296,
+        "sha256": "633dbff24253fd91500c17cbae602368701999ebb9e7f8f02b9d172ef383aa21"
+      },
+      {
+        "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+        "bytes": 3025366,
+        "sha256": "682130ec508c13f52aabd684ff22ffef1511c2d7c085e5e3ce7e2e3ef748c5b3"
+      },
+      {
+        "file": "preview/coop-defense-v1/defense.bundle.js",
+        "bytes": 3117787,
+        "sha256": "a320cfe68050adb07fcc3b4fb312dfe974f15ddbfcbc512ee5482676bd6fa367"
+      },
+      {
+        "file": "preview/sustained-hunt-v2/battle.bundle.js",
+        "bytes": 3002566,
+        "sha256": "b2c7f35a68145bf21e385059847f96499681b839f693598219885d4bb3161f36"
+      }
+    ],
+    "clientManifest": {
+      "releaseId": "1816b5c9a12c36bee86ab40fccbe275fd3740ed3864469a2310c2b54641ad6ef",
+      "files": [
+        "js/app.js",
+        "js/battle-v3-live.js",
+        "preview/project-v-v3/project-v-pixi-battle.bundle.js"
+      ]
+    },
+    "productionAccountWrites": 0,
+    "messagesSent": 0
+  },
+  "relatedTests": {
+    "passed": 46,
+    "failed": 0
+  },
+  "publicBrowser": {
+    "reports": [
+      {
+        "width": 390,
+        "mode": "PVP",
+        "entry": "actual start button",
+        "result": true,
+        "return": true,
+        "actors": [
+          {
+            "id": "A:MERCENARY:V-989",
+            "visible": true,
+            "alpha": 1
+          }
+        ],
+        "levels": [
+          1
+        ]
+      }
+    ],
+    "publicBase": "https://cnine-card.pages.dev",
+    "productionWrites": 0
+  },
+  "realIphoneValidated": false,
+  "fullResolutionArtworkPreserved": true,
+  "imageCacheMetric": "unique image width*height*4 estimate, not physical iPhone process/GPU memory",
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "newScheduledTasks": 0,
+  "storageMaintenance": false
+}
