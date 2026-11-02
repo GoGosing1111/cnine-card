@@ -1,0 +1,35 @@
+{
+  "operationKey": "ops:heukgu-draw-winners:20261102:v1",
+  "authorization": "3명 흑구 지급해",
+  "interpretation": "One Heukgu pet per winner from the preceding drawing in this chat. Ticket counts are draw weights, not reward quantities. No redraw, messages, or automatic equip.",
+  "quantityPerAccount": 1,
+  "recipientCount": 3,
+  "draw": {
+    "participants": 42,
+    "tickets": 153,
+    "method": "Python secrets.randbelow; weighted draw without replacement of people",
+    "winners": [
+      {
+        "draw": 1,
+        "nickname": "˚쟁이。",
+        "tickets": 5,
+        "pickedTicket": 64,
+        "remainingPoolBeforeDraw": 153
+      },
+      {
+        "draw": 2,
+        "nickname": "Moo날두",
+        "tickets": 5,
+        "pickedTicket": 43,
+        "remainingPoolBeforeDraw": 148
+      },
+      {
+        "draw": 3,
+        "nickname": "박사",
+        "tickets": 2,
+        "pickedTicket": 104,
+        "remainingPoolBeforeDraw": 143
+      }
+    ]
+  }
+}

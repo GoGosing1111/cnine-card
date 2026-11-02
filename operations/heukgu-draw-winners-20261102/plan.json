@@ -1,0 +1,64 @@
+{
+  "operationKey": "ops:heukgu-draw-winners:20261102:v1",
+  "authorization": "3명 흑구 지급해",
+  "petCode": "PET-HEUKGU",
+  "petName": "흑구",
+  "petDefinition": {
+    "code": "PET-HEUKGU",
+    "name": "흑구",
+    "sourceArt": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+    "battleSprite": "",
+    "enabled": false,
+    "modes": [
+      "PVE",
+      "PVP"
+    ],
+    "target": "ALL_ALLIES",
+    "buffs": [
+      {
+        "type": "ATTACK_PERCENT",
+        "percent": 50
+      }
+    ],
+    "notes": "2026-10-25 사용자 승인 및 라이브 반영 요청. 흑구 이름·정지 전신 원화 등록. 버프 수치·획득 경로·실전 효과 미설정.",
+    "liveEnabled": true,
+    "rewardBonuses": {
+      "dropPercent": 20,
+      "accountXpPercent": 50,
+      "coinPercent": 50
+    }
+  },
+  "petCmsRevision": 44,
+  "settingsHash": "9c32ccfcabf40f2abc45807fcdf9802616df446c63062c89dc5d79b72cb68302",
+  "delivery": "DIRECT_PET_COLLECTION",
+  "recipientCount": 3,
+  "totalPets": 3,
+  "targets": [
+    {
+      "order": 3,
+      "nickname": "박사",
+      "userId": "164",
+      "role": "USER",
+      "identityHash": "b3f20dba584cb6d5141004a0e8ed18c452cd860bc62b22f0b832060295462afd",
+      "amount": 1
+    },
+    {
+      "order": 2,
+      "nickname": "Moo날두",
+      "userId": "4415",
+      "role": "USER",
+      "identityHash": "1eb54b7a104eb880aa4abc82451977fe41d68477dc3b6728e525581a6f673bcb",
+      "amount": 1
+    },
+    {
+      "order": 1,
+      "nickname": "˚쟁이。",
+      "userId": "4705",
+      "role": "USER",
+      "identityHash": "027792fc093ac3fa943345cd6db7de7ac6a03db9e896132a55cddbb3760ce69a",
+      "amount": 1
+    }
+  ],
+  "pending": [],
+  "checkedAt": "2026-11-02T01:11:23.335Z"
+}

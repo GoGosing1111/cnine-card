@@ -1,0 +1,126 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:heukgu-draw-winners:20261102:v1",
+  "authorization": "3명 흑구 지급해",
+  "completedAt": "2026-11-02T01:13:00.619Z",
+  "completedAtKst": "2026-11-02 10:13:00 KST",
+  "verifiedAt": "2026-11-02T01:13:27.112Z",
+  "auditId": "53801",
+  "recipientCount": 3,
+  "petCode": "PET-HEUKGU",
+  "petName": "흑구",
+  "totalPets": 3,
+  "quantityEach": 1,
+  "petAudits": 3,
+  "missing": 0,
+  "duplicates": 0,
+  "planHash": "64de7fece5aace6a2f7c2f5b15632051e6f2993b8abfa129ceb3e3f54d670827",
+  "sourceSha256": "668220c8a02f2331a64b74b77252f051e278d1ba033391a9e9f0ff5bd443f53f",
+  "targetedTests": 4,
+  "actualPetReadersChecked": 3,
+  "rollbackVerified": true,
+  "injectedFailureRollback": true,
+  "noWriteReplayVerified": true,
+  "independentConnection": true,
+  "leasesReleased": true,
+  "autoEquip": false,
+  "petPolicyChanges": false,
+  "messagesSent": false,
+  "deployment": false,
+  "storageMaintenance": false,
+  "petGrants": [
+    {
+      "userId": "164",
+      "nickname": "박사",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 20,
+      "afterRevision": 21,
+      "payloadHash": "e6b5a86f96a7af1f5869b06b149d0d5fc37ae82cbdbe30d4a9504959030bcbcc",
+      "result": {
+        "ok": true,
+        "requestId": "ops-heukgu-draw-20261102-164",
+        "adminId": 1,
+        "target": {
+          "id": 164,
+          "nickname": "박사"
+        },
+        "pet": {
+          "code": "PET-HEUKGU",
+          "name": "흑구",
+          "sourceArt": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png"
+        },
+        "quantity": 1,
+        "reason": "응모권 추첨 당첨자 흑구 펫 각1마리 지급 · 20261102",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 21,
+        "grantedAt": "2026-11-02T01:13:00.619Z",
+        "replayed": false
+      },
+      "auditId": "53798"
+    },
+    {
+      "userId": "4415",
+      "nickname": "Moo날두",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 24,
+      "afterRevision": 25,
+      "payloadHash": "ea555b41046c1c325808f24517841d7758f9cf8d5bf9a902fb97ceec801a4986",
+      "result": {
+        "ok": true,
+        "requestId": "ops-heukgu-draw-20261102-4415",
+        "adminId": 1,
+        "target": {
+          "id": 4415,
+          "nickname": "Moo날두"
+        },
+        "pet": {
+          "code": "PET-HEUKGU",
+          "name": "흑구",
+          "sourceArt": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png"
+        },
+        "quantity": 1,
+        "reason": "응모권 추첨 당첨자 흑구 펫 각1마리 지급 · 20261102",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 25,
+        "grantedAt": "2026-11-02T01:13:00.619Z",
+        "replayed": false
+      },
+      "auditId": "53799"
+    },
+    {
+      "userId": "4705",
+      "nickname": "˚쟁이。",
+      "beforeQuantity": 0,
+      "afterQuantity": 1,
+      "beforeRevision": 12,
+      "afterRevision": 13,
+      "payloadHash": "2396ebb00b09c06f2666dcacddf2c8d0b9fb7ac3f28a2908b47e0b52d314ec49",
+      "result": {
+        "ok": true,
+        "requestId": "ops-heukgu-draw-20261102-4705",
+        "adminId": 1,
+        "target": {
+          "id": 4705,
+          "nickname": "˚쟁이。"
+        },
+        "pet": {
+          "code": "PET-HEUKGU",
+          "name": "흑구",
+          "sourceArt": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png"
+        },
+        "quantity": 1,
+        "reason": "응모권 추첨 당첨자 흑구 펫 각1마리 지급 · 20261102",
+        "before": 0,
+        "after": 1,
+        "collectionRevision": 13,
+        "grantedAt": "2026-11-02T01:13:00.619Z",
+        "replayed": false
+      },
+      "auditId": "53800"
+    }
+  ]
+}
