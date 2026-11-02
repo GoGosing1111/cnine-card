@@ -7,10 +7,12 @@ import {pathToFileURL} from 'node:url';
 import {createPvpBattleV2} from '../functions/_battle_v2_preview.js';
 import {operatingMercenaries} from './helpers/mercenary-operating-roster-v2144.mjs';
 import {rankedPublicMercenary,rankedSeriesReceipt} from '../shared/ranked-series-v1.mjs';
+import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-v1.mjs';
+const labelsOnly=process.argv.includes('--labels-only');
 const root=path.resolve(import.meta.dirname,'..'),out=process.env.RANKED_QA_DIR;if(!out)throw Error('RANKED_QA_DIR required');fs.mkdirSync(out,{recursive:true});
 const fixture=JSON.parse(fs.readFileSync(path.join(root,'tests/fixtures/v3-completion-payload-20260928.json'))),fur=JSON.parse(fs.readFileSync(path.join(root,'assets/ui/project-v/characters/fur/manifest-v1.json'))).characters[1];
 const cards=[...fixture.battleV2.teams.A.cards.slice(0,4),{cardId:fur.cardId,title:fur.title,grade:'FUR',image:fur.sourceArt,type:'ATTACK'}].map(c=>({id:c.cardId,title:c.title,rarity:c.grade,image:c.image,image_url:c.image,power:90000,baseBattlePower:90000,powerType:c.type,power_type:c.type}));
-const mercenaries=operatingMercenaries.slice(0,6),publicCards=mercenaries.map(rankedPublicMercenary),codes=publicCards.slice(0,6).map(c=>c.code);
+const mercenaries=labelsOnly?['V-951','V-996','V-960','V-970','V-980','V-003'].map(code=>limitedDeploymentSnapshot(code)||operatingMercenaries.find(m=>m.code===code)):operatingMercenaries.slice(0,6),publicCards=mercenaries.map(rankedPublicMercenary),codes=publicCards.slice(0,6).map(c=>c.code);
 const user={pigCoin:0,id:4242,serverUserId:4242,nickname:'랭크전 검수',role:'USER',coin:100000,owned:cards.map(c=>c.id),quantities:Object.fromEntries(cards.map(c=>[c.id,1])),breakthroughs:{},history:[],attendance:{totalDays:0},testCoinGrantedV13:true,collectionRepairR6:true};
 const mime={'.html':'text/html','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.webp':'image/webp','.avif':'image/avif','.png':'image/png','.jpg':'image/jpeg','.svg':'image/svg+xml','.woff2':'font/woff2'};
 const assetCache=new Map();
@@ -19,7 +21,7 @@ await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));const origin='h
 const {chromium}=await import(pathToFileURL(process.env.PLAYWRIGHT_MODULE).href),browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio','--enable-unsafe-swiftshader']}),reports=[];
 try{for(const width of [1440,390]){
  const page=await browser.newPage({viewport:{width,height:width===390?844:1000},hasTouch:width===390,serviceWorkers:'block'}),errors=[],requests=[],dialogs=[];let state='insufficient',savedCodes=[],revision=0,replay=false;
- const score={A:0,B:0},outcomes=width===1440?['A','A']:['A','B','A'];
+ const score={A:0,B:0},outcomes=labelsOnly?[]:width===1440?['A','A']:['A','B','A'];
  const rounds=outcomes.map((winner,i)=>{score[winner]++;const battleV2=createPvpBattleV2({attackerCards:cards.map(c=>({...c,power:winner==='A'?8e6:10000})),defenderCards:cards.map(c=>({...c,power:winner==='B'?8e6:10000})),attackerMercenaries:mercenaries.slice(i*2,i*2+2),defenderMercenaries:mercenaries.slice((2-i)*2,(2-i)*2+2),seed:81+i});assert.equal(battleV2.result.winner,winner);assert.equal(battleV2.teams.A.mercenaries.length,2);assert.equal(battleV2.teams.B.mercenaries.length,2);return {number:i+1,winner,score:{...score},attacker:publicCards[i*2],defender:publicCards[(2-i)*2],attackerMercenaries:publicCards.slice(i*2,i*2+2),defenderMercenaries:publicCards.slice((2-i)*2,(2-i)*2+2),battleV2};});
  const series={version:'ranked-series-pairs-20261028',mercenariesPerRound:2,winsRequired:2,winner:'A',score,rounds};
  const roster=()=>({version:'ranked-series-pairs-20261028',mercenariesPerRound:2,rosterSize:6,cards:state==='insufficient'?publicCards.slice(0,2):publicCards,codes:savedCodes,revision,ready:savedCodes.length===6,ownedCount:state==='insufficient'?2:6});
@@ -34,17 +36,28 @@ try{for(const width of [1440,390]){
    'pvp/config':{settings:{enabled:true,seasonName:'시즌 19',tiers:[],startsAt:'2026-01-01 00:00:00',endsAt:'2027-01-01 00:00:00'},rankedSeries:roster(),deck:cards.map(c=>c.id),energy,profile:{season_score:1000,tier:{id:'bronze',name:'브론즈',min:0}},deckRules:{deckSize:5,gradeLimits:{FUR:2,ZENITH:2,SUPERSTAR:1}},battleSettings:{},battleEngine:{active:true,version:'V3',mode:'V3'},serverNow:new Date().toISOString()},
    'pvp/series-roster':{ok:true,rankedSeries:roster()},
    'pvp/match':{token:'fixture-'+width,opponent:{id:999,nickname:'대전 상대'},series:{mercenariesPerRound:2,attacker:savedCodes.map(c=>publicCards.find(m=>m.code===c)),opponent:[...publicCards.slice(0,6)].sort((a,b)=>a.code.localeCompare(b.code)),opponentOrderHidden:true}},
-   'pvp/fight':{result:'WIN',battleV2:rounds.at(-1).battleV2,rankedSeries:replay?rankedSeriesReceipt(series):series,replayed:replay,scoreAfter:1024,scoreChange:24,coinReward:250000,coinAfter:350000,opponent:'대전 상대',energy:{...energy,energy:9},serverNow:new Date().toISOString()}
+   'pvp/fight':labelsOnly?{error:'Not used in label review'}:{result:'WIN',battleV2:rounds.at(-1).battleV2,rankedSeries:replay?rankedSeriesReceipt(series):series,replayed:replay,scoreAfter:1024,scoreChange:24,coinReward:250000,coinAfter:350000,opponent:'대전 상대',energy:{...energy,energy:9},serverNow:new Date().toISOString()}
   }[key]||{visible:false,enabled:false,items:[],profiles:[],cards:[],loadouts:[],settings:{}};
   return route.fulfill({status:200,json:data});
  });
  await page.goto(origin,{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>typeof renderShell==='function');await page.evaluate(()=>{pvpState.tab='match';renderShell('pvp');});await page.locator('#rsSelect0').waitFor();
  assert.equal(await page.locator('#rankedMatchStart').isDisabled(),true);assert.match(await page.locator('#rsNotice').innerText(),/현재 2종/);await page.screenshot({path:path.join(out,`insufficient-${width}.png`),fullPage:true});
  state='open';await page.evaluate(()=>loadPvpView());
+ if(labelsOnly){const options=await page.locator('#rsSelect0 option').allTextContents();for(const label of ['블랙크라운 SS 리미티드','블러드문 SS 리미티드','할로윈 SS 리미티드'])assert(options.includes(label+' · 나무늘봉순'));}
  for(let i=0;i<6;i++)await page.locator('#rsSelect'+i).selectOption(codes[i]);
  assert.equal(await page.locator('#rsSelect1 option[value="'+codes[0]+'"]').isDisabled(),true);assert.equal(await page.locator('#rankedMatchStart').isDisabled(),true);
  await page.locator('[data-rs-round-move="1:0"]').click();await page.locator('#rsSave').click();await page.locator('#rankedMatchStart:not([disabled])').waitFor();assert.deepEqual(savedCodes,[codes[2],codes[3],codes[0],codes[1],codes[4],codes[5]]);
  await page.locator('.rs-console').evaluate(el=>el.scrollIntoView({block:'start'}));const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth);assert.equal(overflow,false);await page.locator('.rs-console').screenshot({path:path.join(out,`match-${width}.png`)});if(process.argv.includes('--layout-only')){reports.push({width,overflow});await page.close();continue;}
+ if(labelsOnly){
+  const labels=savedCodes.map(code=>publicCards.find(c=>c.code===code).identityLabel);assert.deepEqual(await page.locator('.rs-slot>.rs-identity').allTextContents(),labels);
+  for(let i=0;i<3;i++){const round=page.locator('.rs-round').nth(i);await round.scrollIntoViewIfNeeded();await round.screenshot({path:path.join(out,`round-${i+1}-${width}.png`)});}
+  await page.evaluate(match=>{window.__labelsPreview=CNineRankedSeries.preview(match);},{opponent:{nickname:'표기 검수 상대'},series:{mercenariesPerRound:2,attacker:savedCodes.map(code=>publicCards.find(c=>c.code===code)),opponent:[...publicCards].sort((a,b)=>a.code.localeCompare(b.code)),opponentOrderHidden:true}});
+  await page.locator('.rs-match-reveal').waitFor();assert.match(await page.locator('.rs-match-reveal').innerText(),/순서 비공개/);
+  for(const label of ['블랙크라운 SS 리미티드','블러드문 SS 리미티드','할로윈 SS 리미티드'])assert.equal(await page.locator(`.rs-opponent-roster article[aria-label="${label} · 나무늘봉순"]`).count(),1);
+  const previewOverflow=await page.locator('.rs-match-reveal').evaluate(el=>el.scrollWidth>el.clientWidth);assert.equal(previewOverflow,false);
+  await page.screenshot({path:path.join(out,`opponent-${width}.png`)});await page.locator('#rsBegin').click();await page.evaluate(()=>__labelsPreview);
+  assert.deepEqual(errors,[]);assert.deepEqual(dialogs,[]);reports.push({width,labels,savedCodes,overflow,previewOverflow,errors});await page.close();continue;
+ }
  await page.evaluate(async()=>{await ensureFeatureResources('battleV2');window.__rankedRounds=[];const original=window.playPvpBattleV2Live;window.playPvpBattleV2Live=async options=>{__rankedRounds.push({stage:options.stage.id,result:options.data.result});return original(options);};});
  await page.locator('#rankedMatchStart').click();await page.locator('.rs-match-reveal').waitFor();assert.match(await page.locator('.rs-match-reveal').innerText(),/순서 비공개/);await page.screenshot({path:path.join(out,`opponent-${width}.png`)});await page.locator('#rsBegin').click();
  await page.locator('.rs-battle-progress').waitFor();await page.screenshot({path:path.join(out,`battle-${width}.png`)});

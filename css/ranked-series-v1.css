@@ -11,3 +11,6 @@
 
 .rs-dual .rs-round{min-width:0}.rs-dual h3{font-size:15px;margin:0 0 12px;text-align:center;color:#dceaf3}.rs-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.rs-dual .rs-slot-top b{font-size:10px}.rs-pair-rule{font-size:12px;color:#afc7d8;text-align:center;line-height:1.6}.rs-dual .rs-art strong{font-size:12px}
 @media(max-width:900px){.rs-roster.rs-dual{grid-template-columns:1fr;gap:22px}.rs-dual .rs-art{max-width:210px}.rs-dual .rs-slot-top b{font-size:12px}.rs-dual .rs-slot select{font-size:12px}.rs-dual .rs-order{flex-direction:row}.rs-dual .rs-order .rs-button{font-size:12px}.rs-dual .rs-art strong{font-size:14px}}
+
+/* Collection labels stay outside the portrait so identical names remain legible. */
+.rs-identity{color:#c4d9e7;font-size:11px;line-height:1.5;text-align:center;white-space:normal;word-break:keep-all;overflow-wrap:anywhere}.rs-slot>.rs-identity{min-height:1.5em;margin:7px 0}.rs-opponent-roster article{aspect-ratio:auto;overflow:visible;min-width:0}.rs-opponent-art{position:relative;aspect-ratio:3/4;overflow:hidden}.rs-opponent-roster .rs-identity{display:block;margin-top:6px}

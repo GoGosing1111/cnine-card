@@ -1,0 +1,15 @@
+{
+  "base": "1dcfee261ba7965c0f1bbd4a38352c606484b180",
+  "reason": "사용자 랭크전 편성 피드백: 같은 이름·등급 용병을 블랙크라운/블러드문/할로윈 컬렉션과 리미티드 표기로 구분. 출전 선택 목록·선택 카드·매칭 확인만 수정. 실제 코드/보유/성장/2용병 편성/상대 순서 비공개/전투/보상 유지. 관련 회귀와 PC/모바일 화면 확인.",
+  "tests": [
+    "tests/ranked-mercenary-labels-20261102.test.mjs",
+    "tests/dual-mercenary-ranked-20261028.test.mjs",
+    "tests/onestore-web-20261026.test.mjs",
+    "tests/operation-audit-packaging-20261029.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

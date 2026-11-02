@@ -1,0 +1,46 @@
+[
+  {
+    "width": 1440,
+    "labels": [
+      "블러드문 SS 리미티드",
+      "블랙크라운 SSS 리미티드",
+      "블랙크라운 SS 리미티드",
+      "SSS 리미티드",
+      "할로윈 SS 리미티드",
+      "S"
+    ],
+    "savedCodes": [
+      "V-960",
+      "V-970",
+      "V-951",
+      "V-996",
+      "V-980",
+      "V-003"
+    ],
+    "overflow": false,
+    "previewOverflow": false,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "labels": [
+      "블러드문 SS 리미티드",
+      "블랙크라운 SSS 리미티드",
+      "블랙크라운 SS 리미티드",
+      "SSS 리미티드",
+      "할로윈 SS 리미티드",
+      "S"
+    ],
+    "savedCodes": [
+      "V-960",
+      "V-970",
+      "V-951",
+      "V-996",
+      "V-980",
+      "V-003"
+    ],
+    "overflow": false,
+    "previewOverflow": false,
+    "errors": []
+  }
+]

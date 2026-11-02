@@ -1,0 +1,25 @@
+✔ released PVE pairs and ranked six selections preserve explicit legacy rules (20.1737ms)
+✔ both companions act in canonical PVE and PVP at card power 1000000 (15.6646ms)
+✔ both companions act in canonical PVE and PVP at card power 20000000 (9.9355ms)
+✔ both companions act in canonical PVE and PVP at card power 100000000 (10.1448ms)
+✔ two slots reject repeated codes, repeated SS and malformed regular decks (1.115ms)
+✔ current premium cadence is earned independently without cross-credit or starvation (3.7412ms)
+✔ six unique selections form three valid pairs; each round starts fresh and stops at two wins (1.7513ms)
+✔ real ranked pairs match individually simulated deterministic battles (27.7394ms)
+✔ SQLite dual roster, ticket privacy, ownership rollback and one settlement (42.8276ms)
+✔ PostgreSQL dual roster, ticket privacy, ownership rollback and one settlement (2352.7576ms)
+✔ OWNER dual preview is read-only and rejects stale revisions and injected stats (1172.9681ms)
+✔ OWNER ranked preview validates six canonical selections and returns two actors every round (1286.0528ms)
+✔ two mercenaries use unique occupied stations while every existing station stays fixed (1.0872ms)
+✔ SSS including LIMITED and SS each occupy at most one slot; different S or lower mercenaries may pair (19.3456ms)
+✔ SQLite identical ranked names keep canonical collection labels through save and hidden-order preview (21.0419ms)
+✔ PostgreSQL identical ranked names keep canonical collection labels through save and hidden-order preview (2260.4572ms)
+✔ canonical pack membership also labels SSS editions without name or numeric-range guesses (0.6138ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5390.2978
