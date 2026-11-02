@@ -2,6 +2,8 @@
 
 **2026-11-02 현재 기본 검수 대상은 [첨부 흰 코트 검사](../v35-whitecoat-swordsman-20261102/PROJECT.md)다.** 새 자세10종과 실제 Spine 원본, 서로 다른 전진 베기/발도·올려베기, Effekseer 신규4종/공유 Blender 파편을 기존 전장에 연결했다. 기본 주소는 http://127.0.0.1:18766/?case=whitecoat 이며 적 반전은 case=whitecoat-enemy다. [검토 화면/ON·OFF 영상](../v35-whitecoat-swordsman-20261102/review.html)을 함께 제공한다.
 
+**후속 칼 궤적 업데이트:** 현재 흰 코트의 주 검광은 Runway에서 만든 흰색·금색 재질과 실제 손잡이/칼끝·배우 이동 경로를 쓰는 `SwordTrail`로 교체했다. Effekseer 접촉/Blender 파편은 유지하며 이전 3종 주 효과 파일은 보존한다. 새 자세 제작 없이 교체 작화의 0.32/0.40초 베기와 0.30/0.51초 발도·올려베기를 구분했다. 공용 GSAP의 이동 후 몸/효과를 갱신하고 피해 시점/타수는 유지한다. 관련 24검사·실제 이벤트 9검사·정상속도 OFF/ON·적 반전/390px·기존 mixed/cardgu 경로를 확인했다. 최신 영상은 흰 코트 `qa/sword-trail/`에 있으며 Layer는 아직 미연결이다.
+
 기존 red-coat mixed/enemy와 sword/cardgu case는 보존한다. native 전신 교체 작화와 V3 등록 GSAP 타임라인을 사용하며 정식 로스터/서버 스킬·운영 배포는 하지 않았다. 최신 검수/품질 한계는 흰 코트 PROJECT.md를 따른다. 사용자 화면을 자동으로 열지 않는다.
 
 ## 2026-11-01~02 이전 붉은 코트 연결 기록

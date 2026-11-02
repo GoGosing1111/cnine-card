@@ -1,0 +1,17 @@
+{
+  "plugin": "Runway",
+  "taskId": "47f9bb28-647b-4a1f-ae45-40348bf87570",
+  "prompt": "Create ONE production game VFX texture for the swept trail of a katana, not a scene. A flat rectangular UV ribbon of luminous ivory-white and pale antique-gold cutting energy on a perfectly pure black RGB(0,0,0) background, viewed orthographically. Extremely wide horizontal 4:1 composition. The ribbon runs horizontally from LEFT (old fading tail) to RIGHT (fresh bright head), with fine elegant parallel energy filaments and sharp tapered brush-like slivers, finely painted high-end 2D action-game finish. The upper edge is the thin brilliant cutting edge, its halo very restrained; brightness gradually feathers downwards to black across the lower half. Fade gently to pure black along the left edge, and leave a narrow black gutter on all four canvas borders. The fresh right section has controlled white-hot threads and gold secondary threads, no huge impact flare. Mostly white light with delicate warm gold outlines, fine dark gaps between filaments, strong crisp strokes, no cyan or rainbow colors. Straight texture, no curve, no circular arc, no crescent, no explosion, no smoke plume, no weapon, no person, no environment, no ground, no lettering, no logo, no diagram, no grid. This image will be bent along the actual sword-tip and hilt trajectory by a textured triangle-strip mesh in a 2D game; it must read as an elongated flowing ribbon material, not as a complete slash icon.",
+  "model": "nano-banana-2",
+  "requestedSize": "1K",
+  "ratio": "4:1",
+  "output": "sword-ribbon-source.png",
+  "width": 2064,
+  "height": 512,
+  "creditsUsed": 7,
+  "outputOrigin": "https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3.1-flash-image/images/47f9bb28-647b-4a1f-ae45-40348bf87570/fe7c6f83-6cc2-4ca5-8fd9-c71fbe86768f/Create_ONE_production_game_VFX_texture_for_the_swept_trail_o.png",
+  "purpose": "A texture bent over hand/blade-tip swept geometry in the existing V3 Pixi layer. Not a generated combat video.",
+  "sourceCharacterUploaded": false,
+  "sha256": "51e81098d98f7edf7e520668cb428635aea231879021c92f1eb593195de3138e",
+  "bytes": 1197394
+}

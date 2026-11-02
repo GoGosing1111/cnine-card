@@ -31,18 +31,18 @@
     },
     {
       "path": "index.html",
-      "bytes": 2993,
-      "sha256": "0ae58168ba2e7daf6f85c18e0d848d64c7853ab2237aa869c07696c2eefe9366"
+      "bytes": 2987,
+      "sha256": "b871a3dcfd6a74215f12152f51fef60d562e6d8830c688eb4c9ee62aab421cd2"
     },
     {
       "path": "PROJECT.md",
-      "bytes": 9688,
-      "sha256": "58f85736fab19be35c46351f772d9ceac088ff4fd2478a4bff269791e976300b"
+      "bytes": 10411,
+      "sha256": "a5a835f72c5040fe289a7864cffcaf14948edc9682c3d121a5caf06570126d6b"
     },
     {
       "path": "qa/build.json",
-      "bytes": 88973,
-      "sha256": "eff8ba8e877cd733e42d7ac7f34f363a429eb761469a45f48fc75a0fda1c07e1"
+      "bytes": 89107,
+      "sha256": "17e71cb85514e1e5b676fe0446c4619a28930dba87fbd71a82ef0dfd1c5410c0"
     },
     {
       "path": "qa/cardgu-after.png",
@@ -246,13 +246,20 @@
     },
     {
       "path": "workbench.bundle.js",
-      "bytes": 3271452,
-      "sha256": "1885ad86bdb1d51c0a4cd1d1c4521b173639cfe2f1e52d64065c4dfd2438e569"
+      "bytes": 3279558,
+      "sha256": "0fb9492ceb8efcd48d764dea11058f519c60e5963c6cd72a48b642bc13c6e98a"
     },
     {
       "path": "workbench.src.mjs",
       "bytes": 7755,
       "sha256": "1d9739303ddeff137d362ffe7810567ca48b032beb3822e8ec8335df8f7efad5"
     }
-  ]
+  ],
+  "swordTrailUpdate": {
+    "plugin": "Runway",
+    "delivery": "../v35-whitecoat-swordsman-20261102/qa/sword-trail/delivery.json",
+    "sourceNativeUnmodified": true,
+    "layerConnected": false,
+    "productionDeployment": false
+  }
 }

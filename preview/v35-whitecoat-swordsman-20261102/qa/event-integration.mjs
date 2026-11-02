@@ -1,6 +1,6 @@
 import {chromium} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
 import fs from 'node:fs/promises';import path from 'node:path';import {fileURLToPath} from 'node:url';
-const dir=fileURLToPath(new URL('.',import.meta.url));
+const dir=process.argv[2]?path.resolve(process.argv[2]):fileURLToPath(new URL('.',import.meta.url));
 const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',args:['--mute-audio','--enable-unsafe-swiftshader']});
 try{const page=await browser.newPage({viewport:{width:1440,height:950}});await page.goto('http://127.0.0.1:18766/?case=whitecoat');await page.waitForFunction(()=>window.v35Review?.ready);
 const result=await page.evaluate(async()=>{const api=v35Review,e=api.engine,a=api.spine.actor,target=e.enemies.find(x=>e.isAlive(x));const writes=[],sync=e.syncTargetHp;e.syncTargetHp=function(t,v){writes.push({id:t.id,value:v});return sync.call(this,t,v);};

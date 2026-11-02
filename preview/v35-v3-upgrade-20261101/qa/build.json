@@ -1,6 +1,6 @@
 {
   "sourceCheckout": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout",
-  "sourceRef": "64fae43c6506fff00c12134745d66a0b3cddf3dd",
+  "sourceRef": "a56af39c1d9427a7771bb1632c7cc9416ee4a266",
   "sources": [
     {
       "path": "preview/project-v-v3/source/battle/BattleEngine.js",
@@ -19,7 +19,7 @@
     },
     {
       "path": "js/battle-v3-live.js",
-      "sha256": "9ec96c77416c43baa228008a97329dd5eb07e5adca2d3ef57300af84ef13ee7d",
+      "sha256": "7db1f5883897891fc4627b37def5d3b7582bbe568437844cd9f692a65d7146ed",
       "originMainNormalizedMatch": true
     }
   ],
@@ -1064,6 +1064,8 @@
     "preview/v35-v3-upgrade-20261101/SpineBattleAdapter.mjs",
     "preview/v35-effects-production-20261102/BakedBattleEffects.mjs",
     "preview/v35-whitecoat-swordsman-20261102/WhitecoatBattleAdapter.mjs",
+    "preview/v35-whitecoat-swordsman-20261102/pose-registration.json",
+    "preview/v35-whitecoat-swordsman-20261102/SwordTrail.mjs",
     "preview/v35-whitecoat-swordsman-20261102/WhitecoatEffects.mjs",
     "preview/v35-v3-upgrade-20261101/workbench.src.mjs"
   ],

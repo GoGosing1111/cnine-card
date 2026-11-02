@@ -1,0 +1,33 @@
+{
+  "id": "whitecoat-sword-trail-20261102",
+  "plugin": "Runway",
+  "taskId": "47f9bb28-647b-4a1f-ae45-40348bf87570",
+  "textureSha256": "51e81098d98f7edf7e520668cb428635aea231879021c92f1eb593195de3138e",
+  "creditsUsed": 7,
+  "nativeUnmodified": true,
+  "newBodyArtwork": false,
+  "aiVideoGenerated": false,
+  "layerConnected": false,
+  "desktopInput": false,
+  "productionDeployment": false,
+  "userFinalVisualApproval": false,
+  "immutableHashes": {
+    "preview/v35-whitecoat-swordsman-20261102/source/approved-illustration.png": "2e0c6fbf95ba10dcafbddd1435c88f16590e9594206ad3f5053665b9aac627a1",
+    "preview/v35-whitecoat-swordsman-20261102/whitecoat-c3ad326c9e61.spine": "a2e45365a8f830266d3b91c1e9c76dc35f0bf93409b69027300954977f7bbf57",
+    "preview/v35-character-baseline-20261101/baseline-v4.png": "fd8eea2da078ba3f7cfcef7da44946612e950ce2b0d0cd778a4b57976e00aa44",
+    "preview/v35-character-baseline-20261101/attack-v2/swordsman-7400ac091863.spine": "7acefc8c706857b88bf85a4c24d21af61c726bdee0933511899efc8730611dd0",
+    "preview/v35-character-baseline-20261101/attack-v1/images/weapon-restored-v2.png": "5e485052a02909c94cc91f4f75072ca42ce59ba1384ce1a5f299f0714f23ae07",
+    "preview/v35-effects-production-20261102/native/contact-debris.blend": "5e2bf58ad2d0bc57771e0639c80d108e4022b17b80e7dfb52ce920b868879fa3",
+    "preview/v35-effects-production-20261102/runtime/debris.png": "044417435ba9afdfe6585a5624f4ec2354cde486c047fffe7e7e8d8e9a010981"
+  },
+  "checks": 24,
+  "eventChecks": 9,
+  "normalAttacks": 12,
+  "maxBladeAnchorError": 0.000004955223682819684,
+  "deterministicAt24And60Fps": true,
+  "reviewPlaybackVerified": true,
+  "textureEstimateBytes": 29534028,
+  "textureEstimateScope": "Native atlas + contact atlas + shared debris atlas + Runway texture mip chain; reference PNG and existing V3 assets excluded.",
+  "visualReview": "Reviewed full battle, 4 phase crops, enemy/mobile views and 65ms decoded samples from recorded normal playback. Not a continuous video viewing claim.",
+  "limitation": "Authored effect interpolation bridges stepped whole-pose drawings; no continuous native limb/weapon animation or DNF-level certification."
+}

@@ -1,0 +1,153 @@
+{
+  "recordings": [
+    {
+      "state": "off",
+      "duration": 6.937837,
+      "width": 1440,
+      "height": 796,
+      "times": [
+        0.04,
+        0.10500000000000001,
+        0.17,
+        0.23500000000000001,
+        0.3,
+        0.365,
+        0.43,
+        0.495,
+        0.56,
+        0.625,
+        0.6900000000000001,
+        0.7550000000000001,
+        0.8200000000000001,
+        0.885,
+        0.9500000000000001,
+        1.0150000000000001,
+        1.08,
+        1.145,
+        1.21,
+        1.2750000000000001,
+        1.34,
+        1.405,
+        1.4700000000000002,
+        1.5350000000000001,
+        1.6,
+        1.665,
+        1.73,
+        1.7950000000000002,
+        1.86,
+        1.925,
+        1.9900000000000002,
+        2.055,
+        2.12,
+        2.185,
+        2.25,
+        2.315
+      ]
+    },
+    {
+      "state": "on",
+      "duration": 6.928416,
+      "width": 1440,
+      "height": 796,
+      "times": [
+        0.04,
+        0.10500000000000001,
+        0.17,
+        0.23500000000000001,
+        0.3,
+        0.365,
+        0.43,
+        0.495,
+        0.56,
+        0.625,
+        0.6900000000000001,
+        0.7550000000000001,
+        0.8200000000000001,
+        0.885,
+        0.9500000000000001,
+        1.0150000000000001,
+        1.08,
+        1.145,
+        1.21,
+        1.2750000000000001,
+        1.34,
+        1.405,
+        1.4700000000000002,
+        1.5350000000000001,
+        1.6,
+        1.665,
+        1.73,
+        1.7950000000000002,
+        1.86,
+        1.925,
+        1.9900000000000002,
+        2.055,
+        2.12,
+        2.185,
+        2.25,
+        2.315
+      ]
+    }
+  ],
+  "page": [
+    {
+      "mobile": false,
+      "checks": {
+        "videos": [
+          {
+            "src": "qa/sword-trail/normal-effects-on.webm",
+            "changed": true,
+            "resumed": true,
+            "error": null
+          },
+          {
+            "src": "qa/sword-trail/normal-effects-off.webm",
+            "changed": true,
+            "resumed": true,
+            "error": null
+          }
+        ],
+        "noOverflow": true
+      },
+      "errors": []
+    },
+    {
+      "mobile": true,
+      "checks": {
+        "videos": [
+          {
+            "src": "qa/sword-trail/normal-effects-on.webm",
+            "changed": true,
+            "resumed": true,
+            "error": null
+          },
+          {
+            "src": "qa/sword-trail/normal-effects-off.webm",
+            "changed": true,
+            "resumed": true,
+            "error": null
+          }
+        ],
+        "noOverflow": true
+      },
+      "errors": []
+    }
+  ],
+  "legacy": [
+    {
+      "kind": "mixed",
+      "passed": true
+    },
+    {
+      "kind": "cardgu",
+      "passed": true
+    }
+  ],
+  "realDevice": false,
+  "continuousVideoWatched": false,
+  "range": {
+    "status": 206,
+    "exactBytes": true
+  },
+  "passed": true
+}
