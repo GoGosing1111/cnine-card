@@ -60,6 +60,10 @@ try{
   await page.evaluate(async({data,kind})=>{
    const api=ProjectVPixiBattle,mount=api.mountForBattle;api.mountForBattle=async(...a)=>window.qaEngine=await mount(...a);
    window.qaView=ProjectVBattleV3Live.prepareLoading({modal:document.querySelector('#modal'),mode:data.mode,playerName:'내 분대',opponentName:data.monster?.name||'상대 분대'});
+   if(kind==='APOCALYPSE'){
+    const link=document.createElement('link');link.rel='stylesheet';link.href='/css/pve-apocalypse-v1952.css';document.head.append(link);await new Promise(r=>link.onload=r);
+    qaView.stage.classList.add('apocalypse-battle-field');
+   }
    if(kind==='WORLD'){
     const link=document.createElement('link');link.rel='stylesheet';link.href='/css/world-raid-v3-live.css';document.head.append(link);await new Promise(r=>link.onload=r);
     window.ensureFeatureResources=async()=>{};
@@ -105,7 +109,7 @@ try{
    assert(geometry.dialogue.top>=geometry.headerBottom-.1);assert(geometry.firstTop>=geometry.dialogue.bottom);assert(geometry.banner.left>=0&&geometry.banner.top>=geometry.dialogue.bottom&&geometry.banner.right<=width&&geometry.banner.bottom<=height);reports.at(-1).dialogue=geometry;
    await page.screenshot({path:path.join(out,`dialogue-banner-${width}.png`)});
   }
-  if(kind==='HUNT'){
+  if(kind==='HUNT'||kind==='APOCALYPSE'){
    const expectedZone=width===1440?1:width===390?0:-1;
    await page.evaluate(async()=>{
     const {playDodge}=await import('/js/apocalypse-challenge-v1.mjs?v=20261102-v1');
@@ -117,6 +121,11 @@ try{
    const controls=await page.locator('[data-dodge-zone]').evaluateAll(buttons=>buttons.map(b=>{const r=b.getBoundingClientRect();return {w:r.width,h:r.height,visible:r.x>=0&&r.y>=0&&r.right<=innerWidth&&r.bottom<=innerHeight};}));
    assert(controls.every(b=>b.visible&&b.w>=44&&b.h>=44));
    await page.screenshot({path:path.join(out,`dodge-${width}.png`)});
+   if(kind==='APOCALYPSE'){
+    const overlay=await page.evaluate(()=>{const s=getComputedStyle(qaView.stage,'::after');return {content:s.content,display:s.display,width:s.width,height:s.height,background:s.backgroundColor};});
+    reports.at(-1).apocalypseOverlay=overlay;
+    assert(overlay.display==='none'||overlay.content==='none','Apocalypse must not paint a battlefield-covering badge/overlay');
+   }
    if(expectedZone>=0){if(width===1440)await page.keyboard.press('2');else await page.locator('[data-dodge-zone="0"]').click();await page.keyboard.press('3');assert.equal(await page.locator('[data-dodge-zone]:disabled').count(),3);}
    const outcome=await page.evaluate(()=>qaDodge),answers=await page.evaluate(()=>qaAnswers);assert.deepEqual(answers,[expectedZone]);assert.equal(outcome.success,expectedZone===1);reports.at(-1).dodge={controls,answers,outcome};
   }

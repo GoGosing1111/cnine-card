@@ -92,6 +92,8 @@
 .has-tactical-hud{--hud-ink:#f1f5fb;--hud-muted:#becbdb;--hud-lime:#c8ff6b;--hud-red:#ff837a;--hud-blue:#83d5ee;--hud-panel:url('/assets/ui/mercenary-codex/command-20261021/panel-v3.webp');--hud-action:url('/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp');--hud-rail:88px;--v3-dock-h:0px;font-family:V3Noto,sans-serif}
 .has-tactical-hud [hidden]{display:none!important}
 .has-tactical-hud::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,#030a13bb 0,transparent 120px),linear-gradient(90deg,#030a1380 0,transparent 130px);z-index:10}
+/* The retired Apocalypse badge used this pseudo-element; never paint it over combat. */
+.battle-v3-live-shell.has-tactical-hud.apocalypse-battle-field::after{content:none!important;display:none!important}
 .battle-v3-live-shell.has-tactical-hud .battle-v3-canvas-host{inset:0!important}
 .battle-v3-live-shell.has-tactical-hud>.battle-v3-header{display:grid!important;grid-template-columns:1fr minmax(260px,360px) 1fr!important;align-items:start;top:max(16px,env(safe-area-inset-top));left:18px;right:18px;height:auto!important;padding:0!important;gap:24px;border:0!important;border-image:none!important;background:none!important;z-index:20;pointer-events:none;text-shadow:0 2px 6px #000}
 .has-tactical-hud .v3-hud-location{display:flex;align-items:center;gap:10px;min-width:0}

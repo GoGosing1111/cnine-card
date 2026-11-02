@@ -1,0 +1,21 @@
+{
+  "base": "e3886b0e54e533f98c32b422c56c79a80c9c18a4",
+  "reason": "사용자 긴급 요청: 아포칼립스 전장을 덮은 빨간 타원 제거. 기존 Apocalypse 배지와 tactical HUD의 ::after가 합쳐진 CSS 충돌을 제거한다. 신구 CSS 혼용에서도 덮개를 숨기고 메인/원스토어/서비스워커 캐시를 갱신한다. PC·모바일·가로 실제 회피 성공/실패/시간초과와 덮개 비표시 검증, 피해·보상·입장 판정 유지.",
+  "tests": [
+    "tests/v3-tactical-hud-20261102.test.mjs",
+    "tests/battle-hud-b-20261017.test.mjs",
+    "tests/v3-hp-max-sync-20261002.test.mjs",
+    "tests/battlefield-load-recovery-20261006.test.mjs",
+    "tests/v3-common-grid-v1.test.mjs",
+    "tests/cooperative-responsive-combat-20261005.test.mjs",
+    "tests/cooperative-player-ranks-20261014.test.mjs",
+    "tests/apocalypse-request-queue-20261005.test.mjs",
+    "tests/apocalypse-attempt-ownership-20261005.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs",
+    "tests/onestore-web-20261026.test.mjs",
+    "tests/operation-audit-packaging-20261029.test.mjs"
+  ],
+  "checks": [],
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

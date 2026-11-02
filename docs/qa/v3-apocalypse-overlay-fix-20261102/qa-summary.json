@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "screens": 3,
+  "productionWrites": 0,
+  "realDevice": false,
+  "reports": [
+    {
+      "width": 1440,
+      "height": 900,
+      "overlay": {
+        "content": "none",
+        "display": "none",
+        "width": "auto",
+        "height": "auto",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "answers": [
+        1
+      ],
+      "success": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "overlay": {
+        "content": "none",
+        "display": "none",
+        "width": "auto",
+        "height": "auto",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "answers": [
+        0
+      ],
+      "success": false
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "overlay": {
+        "content": "none",
+        "display": "none",
+        "width": "auto",
+        "height": "auto",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "answers": [
+        -1
+      ],
+      "success": false
+    }
+  ]
+}
