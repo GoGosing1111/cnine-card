@@ -1,0 +1,63 @@
+{
+  "at": "2026-11-02T00:16:23.379Z",
+  "pages": {
+    "id": "810f0332-1f6c-4324-99ac-1373bf08ac41",
+    "url": "https://810f0332.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "5f3b3b6947050505ff6f2507e93ebe1fd85c49b4"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "0d5cc0f8-45f8-4741-93a5-cecb104dc874",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "9aaba605-b825-4157-bc0b-2f625b48a940",
+      "percentage": 100
+    }
+  ],
+  "assets": [
+    {
+      "file": "index.html",
+      "bytes": 49011,
+      "sha256": "e5c7d0c71305d461496325f7901a3025b04ae9bb9038186c21ba0f5d44c61c21"
+    },
+    {
+      "file": "service-worker.js",
+      "bytes": 22909,
+      "sha256": "3f0a486a263fce8d53a712203cf16ba26731cdcd23b861c23a763a26e8bb6f8f"
+    },
+    {
+      "file": "onestore/index.html",
+      "bytes": 48630,
+      "sha256": "7993076a92ab86233cb0a774436768889fcd1416dfe869f8259682320f23fab6"
+    },
+    {
+      "file": "js/ranked-series-ui-v1.js",
+      "bytes": 11723,
+      "sha256": "3f19173dcec905b73a6d2f4c9e714d782cbf98fc170cd7dc88123a11c86e7964"
+    },
+    {
+      "file": "css/ranked-series-v1.css",
+      "bytes": 7419,
+      "sha256": "1f86b2a0997d55281e147f1fea6e337f7acd775e06296e5c3dfa360bc53457c8"
+    },
+    {
+      "file": "shared/ranked-series-v1.mjs",
+      "bytes": 4233,
+      "sha256": "9c362ed965d34c0d60208d050610b246945a61106ffb1828accae124968f5e4a"
+    }
+  ],
+  "clientManifest": {
+    "releaseId": "7bb085aedf48ed61b77c2f69d7a23f44c91f6ddee62e5243b0f54be0d8b43834",
+    "files": [
+      "/js/ranked-series-ui-v1.js",
+      "/css/ranked-series-v1.css",
+      "/shared/ranked-series-v1.mjs"
+    ]
+  },
+  "accountWrites": 0,
+  "messagesSent": 0
+}
