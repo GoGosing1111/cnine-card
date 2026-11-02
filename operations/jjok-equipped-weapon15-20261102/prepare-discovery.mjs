@@ -1,0 +1,11 @@
+import fs from 'node:fs/promises';
+import assert from 'node:assert/strict';
+let source=(await fs.readFile(new URL('../jjok-equipped-armor15-20261102/discover.mjs',import.meta.url),'utf8')).replaceAll('\r\n','\n');
+const replace=(from,to)=>{assert(source.includes(from),'Missing discovery fragment: '+from);source=source.replaceAll(from,to);};
+replace('jjok-equipped-armor15','jjok-equipped-weapon15');
+replace('ops:%jjok%armor15%','ops:%jjok%weapon15%');
+replace("['TOP','BOTTOM','SHOES','ACCESSORY']","['WEAPON']");
+replace('[C9]족쪽이 장착중인 방어구,장신구 다 15강으로 변경해','족쪽이 무기도 15강으로 변경');
+replace('CURRENT_CHARACTER_EQUIPPED_ARMOR_AND_ACCESSORY','CURRENT_CHARACTER_EQUIPPED_WEAPON');
+replace(',planHash:report.planHash,triggers}',',planHash:report.planHash}');
+await fs.writeFile(new URL('discover.mjs',import.meta.url),source,{flag:'wx'});

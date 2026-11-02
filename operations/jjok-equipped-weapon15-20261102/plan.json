@@ -1,0 +1,33 @@
+{
+  "operationKey": "ops:jjok-equipped-weapon15:20261102:v1",
+  "authorization": "족쪽이 무기도 15강으로 변경",
+  "recipient": {
+    "id": "303",
+    "nickname": "[C9]족쪽이",
+    "role": "USER",
+    "status": "ACTIVE",
+    "identityHash": "6abd44fb8640b6b0961a6f987c0d9ef93ed74d28035c595d978c6d535a80e53b"
+  },
+  "scope": "CURRENT_CHARACTER_EQUIPPED_WEAPON",
+  "targetSlots": [
+    "WEAPON"
+  ],
+  "targetLevel": 15,
+  "targets": [
+    {
+      "slot": "WEAPON",
+      "instanceId": "3033292392",
+      "equipmentId": "40",
+      "code": "EQ_1788486888336",
+      "name": "東方軍火商(동방무기상)",
+      "beforeLevel": 0,
+      "beforeRevision": 0,
+      "hasForgeState": false,
+      "afterLevel": 15
+    }
+  ],
+  "cost": 0,
+  "automaticLoadout": false,
+  "sendMessages": false,
+  "checkedAt": "2026-11-02T02:44:41.496Z"
+}

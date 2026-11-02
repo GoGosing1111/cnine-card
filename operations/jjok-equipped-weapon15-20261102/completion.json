@@ -1,0 +1,42 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:jjok-equipped-weapon15:20261102:v1",
+  "authorization": "족쪽이 무기도 15강으로 변경",
+  "userId": "303",
+  "nickname": "[C9]족쪽이",
+  "completedAt": "2026-11-02T02:47:07.681Z",
+  "completedAtKst": "2026-11-02 11:47:07 KST",
+  "verifiedAt": "2026-11-02T02:47:58.320Z",
+  "auditId": "53815",
+  "changedEquipment": 1,
+  "targetLevel": 15,
+  "changes": [
+    {
+      "slot": "WEAPON",
+      "instanceId": "3033292392",
+      "equipmentId": "40",
+      "code": "EQ_1788486888336",
+      "name": "東方軍火商(동방무기상)",
+      "beforeLevel": 0,
+      "beforeRevision": 0,
+      "hasForgeState": false,
+      "afterLevel": 15,
+      "afterRevision": 1
+    }
+  ],
+  "planHash": "11e92345fb8ecee961b17f0f6f45e3c53c581b97b1e0dd6249492f508ef2a5db",
+  "sourceSha256": "0df1757f208d8c701d30e327363ce1672a5e36aaec0c2dea0f7c23d8d75ccb48",
+  "targetedTests": 3,
+  "actualInventoryReadersChecked": 5,
+  "battleBonusReaderChecked": true,
+  "previousArmorUpgradePreserved": true,
+  "rollbackVerified": true,
+  "injectedFailureRollback": true,
+  "noWriteReplayVerified": true,
+  "independentConnection": true,
+  "leasesReleased": true,
+  "cost": 0,
+  "messagesSent": 0,
+  "deployment": false,
+  "storageMaintenance": false
+}
