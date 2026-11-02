@@ -1,0 +1,43 @@
+{
+  "policy": {
+    "version": "20261102-prime-zero-pvp-v1",
+    "attackScale": 1.3,
+    "durabilityScale": 6
+  },
+  "policySha256": "01ac4d2fe284dcebd370e2c4b9881a5ce275b205ed2ab069d55b9185774034af",
+  "sources": [
+    {
+      "path": "shared/mercenary-zero-v1.mjs",
+      "sha256": "d5046d11df8a39cd5f7ba11e1a70a355e29c6d6a56a7dad80688754ec5d557ee"
+    },
+    {
+      "path": "shared/mercenary-prime-requiem-v1.mjs",
+      "sha256": "1e777f6f2f1ebb5f08a645b96198bcf2a808163960d5b540de1810186189258d"
+    },
+    {
+      "path": "shared/mercenary-combat-link-v2103.mjs",
+      "sha256": "dccea61d41e70e2dccddc4c77bf2cc8a8b2641589b450979ca6608660a4ef81d"
+    },
+    {
+      "path": "scripts/measure-prime-zero-revan-cardgu-20261102.mjs",
+      "sha256": "c7fcfbe9b78c95b153fea2306cec2c92505cf364bca3439911a7e386f43faaae"
+    },
+    {
+      "path": "tests/prime-zero-top-tier-20261102.test.mjs",
+      "sha256": "87e1119219ad61337f6815bca65c000f722c7d559a570a75eb77a11a4c62ff9b"
+    }
+  ],
+  "runtimeSourceCommit": "41e6eea83804ccd4e59e7cd4c69d6a41d17c9043",
+  "deliveryCommit": "274ba5a020f2223bdcb10efe768635e534b1a2f4",
+  "controlsExcludedFields": [
+    "combatLinkDescription"
+  ],
+  "regressions": {
+    "passedBeforeDelivery": 38,
+    "initialUnrelatedHistoricalFailures": [
+      "Old Razak tier guard expected 1; previous production also produces 6",
+      "Old ranked fixture supplies 3 mercenaries after six-selection release"
+    ]
+  },
+  "originalEvidence": "operations/prime-zero-revan-cardgu-20261102/"
+}

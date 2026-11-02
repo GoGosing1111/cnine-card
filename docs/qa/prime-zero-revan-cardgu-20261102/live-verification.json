@@ -1,0 +1,152 @@
+{
+  "at": "2026-11-02T01:25:57.943Z",
+  "pages": {
+    "id": "0ff8ccc5-44d4-4224-ac98-ca29cf61e092",
+    "url": "https://0ff8ccc5.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "274ba5a020f2223bdcb10efe768635e534b1a2f4"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "866c5f71-e304-42dd-94ae-878600cc03cc",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "bf79b90d-ef25-4113-9d2c-7699728b1a22",
+      "percentage": 100
+    }
+  ],
+  "assets": [
+    {
+      "file": "index.html",
+      "bytes": 49042,
+      "sha256": "d61fdd3789a009d7dd447af3f3276685f3d3d9c4c062238e17810cf1a9e75669"
+    },
+    {
+      "file": "service-worker.js",
+      "bytes": 22936,
+      "sha256": "b65ab1f9b9c006421f471e67cf2d4e26477043e838f5fdd166496762a78abc76"
+    },
+    {
+      "file": "onestore/index.html",
+      "bytes": 48661,
+      "sha256": "7cff44312f1075c1571c158d63b773af2ab51de58d6413a8c759397fc520f5ad"
+    },
+    {
+      "file": "js/app.js",
+      "bytes": 803390,
+      "sha256": "56ece718d6fc5e9eaa4b3867388ab0d5c5d936e684f227093b66eb8a1d932244"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "bytes": 798034,
+      "sha256": "b8b9fd723cacc354dba7a45525edca73ac07fc0afc8399c5c730d8b53ea09c27"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "bytes": 90766,
+      "sha256": "7db1f5883897891fc4627b37def5d3b7582bbe568437844cd9f692a65d7146ed"
+    },
+    {
+      "file": "shared/mercenary-zero-v1.mjs",
+      "bytes": 5934,
+      "sha256": "d5046d11df8a39cd5f7ba11e1a70a355e29c6d6a56a7dad80688754ec5d557ee"
+    },
+    {
+      "file": "shared/mercenary-prime-requiem-v1.mjs",
+      "bytes": 4451,
+      "sha256": "1e777f6f2f1ebb5f08a645b96198bcf2a808163960d5b540de1810186189258d"
+    },
+    {
+      "file": "shared/mercenary-combat-link-v2103.mjs",
+      "bytes": 17557,
+      "sha256": "dccea61d41e70e2dccddc4c77bf2cc8a8b2641589b450979ca6608660a4ef81d"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "bytes": 985,
+      "sha256": "5eb79d2d237bfd949d2511f5d3d386558f4edfcf58eca444d549614db73ceb51"
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "bytes": 10520,
+      "sha256": "efe5486998ac81ae830d86dd6de9dc5d0d0a0169d4a44621756bfc281e726b7c"
+    },
+    {
+      "file": "mercenary-codex/shell.mjs",
+      "bytes": 10522,
+      "sha256": "9ea5b8928506a68d66b49f96a82c26750f5a6a0f828b2a7a25fa9b15b5fc44ce"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "bytes": 2977758,
+      "sha256": "2dad48dec2592f332823cda740793965a9dbb15a40f56544860b2c88380a09e9"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "bytes": 2977317,
+      "sha256": "0825f44f030b52b6dbe9e89491a3b84ab11d44ce318bb5656537303f2ef49f33"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "bytes": 2977384,
+      "sha256": "c02dd4f5294dd99275f5eaa0a702a834f721680b59f2dd3c28886410df3565ee"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "bytes": 2977373,
+      "sha256": "00997651c7d8d8304a4e417b29d72e26f210e92ffe5eb870a877c590cb640320"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "bytes": 2977732,
+      "sha256": "901b9aec0a19a6f8180072649ab5ce460b94ab3f238edf2b537ad87388e16f06"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "bytes": 2980937,
+      "sha256": "928c6f92ab0161772a68ebde3e7d54595cd4c31414b1f1a933b1b2d0389f2af1"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "bytes": 2974397,
+      "sha256": "1abfb68e5e776e4bed56cc37c49f20280e378d7ff0aeee4ae968ff427f5be2fd"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "bytes": 2979086,
+      "sha256": "c5c6ad8fae99f4b8922a9b5ecc18e0e6cf233d422869cbd2cefc511e4c6f9f76"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "bytes": 3024154,
+      "sha256": "df10a7c66f53f6f69c4d3a37bf0676aa51d1492ae44f509668ecf25c57e9e687"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "bytes": 3116622,
+      "sha256": "f23cfc66b1856400cbd2bd7ab1bbfb343b7741b93144c468ad8d7a65faa2adc2"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "bytes": 3001354,
+      "sha256": "13fa7751c8987524651d14e412c1246b3e5ac8a5fda5171b509148baf5b2861f"
+    }
+  ],
+  "clientManifest": {
+    "releaseId": "4ca1b2df9c9c22250a93f0dc96a6139e1eaa554db0f3693b775ca2767e086658",
+    "files": [
+      "/js/app.js",
+      "/js/battle-v3-live.js",
+      "/preview/project-v-v3/project-v-pixi-battle.bundle.js"
+    ]
+  },
+  "publicCodex": [
+    "V-975",
+    "V-976"
+  ],
+  "accountWrites": 0,
+  "messagesSent": 0
+}
