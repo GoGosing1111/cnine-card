@@ -240,6 +240,11 @@
       "sha256": "c0d79c8882eb5fcd0515192eb270c348aaf59adf2d188f70a4a8576608d075dd"
     },
     {
+      "path": "start-review.ps1",
+      "bytes": 1870,
+      "sha256": "c0810b6227c9e8825e3946fffe1e143e38ebd8f32f2086989b73fe9edeb35422"
+    },
+    {
       "path": "workbench.bundle.js",
       "bytes": 3271452,
       "sha256": "1885ad86bdb1d51c0a4cd1d1c4521b173639cfe2f1e52d64065c4dfd2438e569"

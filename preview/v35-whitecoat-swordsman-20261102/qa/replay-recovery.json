@@ -1,0 +1,89 @@
+{
+  "cause": {
+    "before": "ECONNREFUSED 127.0.0.1:18766; no listener or review-server process",
+    "repair": "separate hidden Start-Process, outside the previous terminal session"
+  },
+  "videos": [
+    {
+      "mobile": false,
+      "results": [
+        {
+          "src": "qa/normal-effects-off.webm",
+          "ready": 4,
+          "error": null,
+          "secondsAdvanced": 1.5393000000000001,
+          "decodedImageChanged": true,
+          "seek": 0.4,
+          "continuedAfterSeek": true,
+          "dimensions": [
+            1440,
+            796
+          ]
+        },
+        {
+          "src": "qa/normal-effects-on.webm",
+          "ready": 4,
+          "error": null,
+          "secondsAdvanced": 1.3269,
+          "decodedImageChanged": true,
+          "seek": 0.4,
+          "continuedAfterSeek": true,
+          "dimensions": [
+            1440,
+            796
+          ]
+        }
+      ],
+      "errors": []
+    },
+    {
+      "mobile": true,
+      "results": [
+        {
+          "src": "qa/normal-effects-off.webm",
+          "ready": 4,
+          "error": null,
+          "secondsAdvanced": 1.3221,
+          "decodedImageChanged": true,
+          "seek": 0.4,
+          "continuedAfterSeek": true,
+          "dimensions": [
+            1440,
+            796
+          ]
+        },
+        {
+          "src": "qa/normal-effects-on.webm",
+          "ready": 4,
+          "error": null,
+          "secondsAdvanced": 1.3339,
+          "decodedImageChanged": true,
+          "seek": 0.4,
+          "continuedAfterSeek": true,
+          "dimensions": [
+            1440,
+            796
+          ]
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "desktopInput": false,
+  "artworkChanged": false,
+  "productionDeployment": false,
+  "battle": {
+    "ready": true,
+    "impacts": 2,
+    "errors": [],
+    "returned": true,
+    "canvasCount": 1
+  },
+  "range": {
+    "status": 206,
+    "contentRange": "bytes 1024-2047/2816413",
+    "exactBytes": true
+  },
+  "nativeSha256": "a2e45365a8f830266d3b91c1e9c76dc35f0bf93409b69027300954977f7bbf57",
+  "passed": true
+}

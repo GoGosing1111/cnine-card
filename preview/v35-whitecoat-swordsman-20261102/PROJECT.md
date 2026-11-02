@@ -6,6 +6,7 @@
 
 ## 정본과 재생
 
+- **2026-11-02 재생 복구:** 로컬 18766 서버가 종료돼 `ECONNREFUSED`가 발생했다. `../v35-v3-upgrade-20261101/start-review.ps1`로 별도 숨김 서버를 실행하도록 보완했다. 이 폴더의 `open-review.vbs`를 사용자가 직접 실행하면 서버를 확인/시작한 뒤 검토 화면을 연다. 에이전트는 `-OpenReview` 없이 실행해 사용자 화면을 조작하지 않았다. PC/390px에서 두 영상의 시간 진행·실제 디코딩 프레임 변화·탐색 후 재생, HTTP Range 206, 실제 V3 두 공격/복귀를 [복구 검사](qa/replay-recovery.json)로 확인했다. 원화/native/전투 구현 변경이나 운영 재배포는 없다.
 - [검토 화면](review.html): 자세 비교와 정상 속도 효과 OFF/ON 영상. 로컬 서버 주소 `http://127.0.0.1:18766/preview/v35-whitecoat-swordsman-20261102/review.html`.
 - 실제 V3 재생: `http://127.0.0.1:18766/?case=whitecoat`, 적 방향 `?case=whitecoat-enemy`. 기존 발테르 비교 버튼과 흰 코트 기본 공격/발도 스킬 버튼을 제공한다.
 - [Spine 정본](whitecoat-c3ad326c9e61.spine): **Professional 4.3.26**, SHA-256 `a2e45365a8f830266d3b91c1e9c76dc35f0bf93409b69027300954977f7bbf57`. 스켈레톤 1개, 7뼈/1슬롯/10 region attachment, 7개 애니메이션. 상대 `images/`를 함께 유지한다.
@@ -71,7 +72,7 @@ node preview/v35-whitecoat-swordsman-20261102/effects/author.mjs
 node preview/v35-whitecoat-swordsman-20261102/effects/bake-effekseer.mjs
 node preview/v35-whitecoat-swordsman-20261102/effects/pack.mjs
 node preview/v35-v3-upgrade-20261101/build.mjs
-node preview/v35-v3-upgrade-20261101/serve.mjs
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File preview/v35-v3-upgrade-20261101/start-review.ps1
 ```
 
 현재 native가 사용자 편집으로 바뀌면 생성 입력으로 덮지 않고 native를 정본으로 이어간다. 이미지 생성은 자동 재실행하지 않으며 보존된 ImageGen 원본을 사용한다.
