@@ -135,11 +135,11 @@ test('repeated layouts give both factions, mercenaries and support the same scal
   mercenary.root.destroy(); value.accountBattleUnit.root.destroy();
 });
 
-test('all ten served V3 bundles including the account entry and hunt share the current common grid', () => {
+test('all eleven served V3 bundles including the account entry and hunt share the current common grid', () => {
   const report = JSON.parse(read('preview/project-v-v3/grid-build-report.json'));
   assert.equal(report.version, 'OCCUPIED_GRID_V1');
   assert.equal(report.layoutVersion, 'UNIFORM_LATTICE_V2');
-  assert.equal(report.outputs.length, 10);
+  assert.equal(report.outputs.length, 11);
   assert.ok(report.sources.length>=99);
   assert.equal(new Set(report.sources.map(row=>row.file)).size,report.sources.length);
   for(const file of ['preview/project-v-v3/source/battle/HeliosCombatPlayback.js','shared/mercenary-helios-v1.mjs','preview/mercenary-limited-solar-sword-20261009-v1/source/SolarFX.js','preview/mercenary-limited-solar-sword-20261009-v1/motion.mjs'])assert.ok(report.sources.some(row=>row.file===file),file);

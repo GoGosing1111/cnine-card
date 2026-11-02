@@ -1,0 +1,205 @@
+{
+  "status": "PASS",
+  "at": "2026-11-02T10:33:52.183Z",
+  "screens": 17,
+  "layoutCases": 12,
+  "dialogueCases": 3,
+  "worldCases": 2,
+  "mobilePortraitWidth": 50,
+  "productionWrites": 0,
+  "realDevice": false,
+  "checks": [
+    {
+      "file": "browser-final/report.json",
+      "rows": 12,
+      "sha256": "766b0da19fbb1c154d488387441668ae783af442fc544b73f431ad891fd5b811"
+    },
+    {
+      "file": "dialogue-final/report.json",
+      "rows": 3,
+      "sha256": "f455d72bb9ecf1d021dd7fd0e6090fb102c59bd90c74596f13330fc04bf8ae9d"
+    },
+    {
+      "file": "world-final/report.json",
+      "rows": 2,
+      "sha256": "b969623b14e28fd3b5704c1f5c888286458769fceab60394373670417acf83de"
+    },
+    {
+      "file": "tower-browser/verification.json",
+      "rows": 6,
+      "sha256": "12e06fbe279173813aad2cd84a9efc5331d95d8b6797b8cc3d5bc3905d77cac7"
+    },
+    {
+      "file": "coop-browser/report.json",
+      "rows": 2,
+      "sha256": "e189fdd4539106e97a1334facb46b72378005f9cc56243a193cf64cc66ba5027"
+    },
+    {
+      "file": "blackwing-browser/browser-battlefield.json",
+      "rows": 2,
+      "sha256": "cfce58fea21dc900508a671c701789375b90db21aefc93b4b33130e9d1450f71"
+    },
+    {
+      "file": "entry/report.json",
+      "rows": 8,
+      "sha256": "b58ad3aaeb3951b4f5f4a2065fda7e8cfbc7c9e94b5189ac4ff1bd2904664f99"
+    },
+    {
+      "file": "ranked-series/browser-results.json",
+      "rows": 2,
+      "sha256": "bfc39021b52fbb7bb6af056a03d286332761b16d8cacf0b78c82dc744726a0e8"
+    }
+  ],
+  "sourceHashes": [
+    {
+      "file": "css/battle-v3-live.css",
+      "sha256": "9adad72895e317e182796465364f5a0f12dc690534ea7f7335a5920d5abc9c4f"
+    },
+    {
+      "file": "index.html",
+      "sha256": "0e74e0dd58d8e5e7a376efe4282d182f6f1af301a82625bb5657d0053ec1978c"
+    },
+    {
+      "file": "js/apocalypse-challenge-v1.mjs",
+      "sha256": "e5afddfa147368ded11b04a04475cfdf68643785745e1ea3e002dc823481ccfa"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "6f4e319c6821f81c222f5427d2f5790aea23f142d8f296d770257fa73326277b"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "5fc9709884b73f66cba5c45e4723713ae103aaff26f3dc32ffad27e374e88636"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "3707e421d807fe53892046b225485f0f751f7b82608041408a7391b62dd62697"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "e1aa1489c3fbb393aa8e6f482874de98782db4dad54eab2e250a8127edba7435"
+    },
+    {
+      "file": "packaging/onestore/web-build.json",
+      "sha256": "02ea7047527c65bb8e861c83953ef91b6a9c363b5ba129c697647b6f045c30d3"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/build-report.json",
+      "sha256": "eb796a6206c547006bfe5015ccd2674c13a6045bd9c75c20ab818a9d651cedc3"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "sha256": "6395fc21b497a8450a9163b3591b464c03cc557d6bb7d0f863edf8c0b66ec498"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "sha256": "51c9d8acbe51917bcba59d0364c035ff99e0775ef792a8cdc03728a4596354f4"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "sha256": "dceebbb9a4bc24f557b38cacd0a44f5854eb13946d2304a4cb351afeeafc1416"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "sha256": "21add1282ec1d4743a07b119f62bf8b5a1f5b4a242b45963bfb9c4e641d1b23c"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "2a834a2fd50916252945b81fff88b54cc535afc1305ca9930a8f52860f42a78b"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "sha256": "04c153200b56e6c82a9cab41369bb3ae76d3c0d0277dc750ed67da91765d2421"
+    },
+    {
+      "file": "preview/project-v-v3/grid-build-report.json",
+      "sha256": "50d0632f87d88053568d23eeb80f0f99304985a1e01ef6768561c6e88185f7ba"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "62a8ee1457586072ad091886d9765c53a4bf168ee0cd8ea56ba5bf8919ba1627"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/JinmuDialogue.js",
+      "sha256": "d445c9a2f131337058304e401b5f48e0f9b7c8c3022837a05f01aed66504f41f"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
+      "sha256": "6c290f71e23e1afa06e07bade445d5a1e1af7265f9e492b065e92e118fb87c0e"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/ViewportLayout.mjs",
+      "sha256": "efda936a6ac1b15a5ed476017df04cf130445aac00465b47bdfc047c07b306c7"
+    },
+    {
+      "file": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+      "sha256": "6cb91c1a233a91d88702a70786912ffcf7a96f7c8bfcf01c0057e276c4986088"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "sha256": "7bb87fdb3a5827351a4520dc78470c87c1835d467315a01c9b1b20394711b558"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "d4e93d2c40d315008feee2cbc09875f6303bc60a83699a5b73095d6359093ae6"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/engine-build.json",
+      "sha256": "1f7376b4ef954f374dcd635ed623d5945e5895c569eba599b5948edef7efabb2"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "sha256": "fba90751f8582e839e65ef13a6a978e738121a1333b7c27536dabc7ecf5623b0"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "112db8533c0bfff01d6343d1a9695085e41be6f79a3c9d36324c98373d9099d5"
+    },
+    {
+      "file": "scripts/build-v3-grid-consumers.mjs",
+      "sha256": "a9090d142c3c4b4a75b232d82fe427c244947d7d14629cec335e8e910d6da5da"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "1f10c90fc5f25543291333f01d6a02c5c44fb8b37c8b2a0ef109ef7fc86e22f9"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "bfb182b8f9a45db527492ae447b08fb217a0628fc8436b3c565d90b9ef1041ff"
+    },
+    {
+      "file": "tests/cooperative-player-ranks-20261014.test.mjs",
+      "sha256": "7b61f6ee5c0b862b7a17e3307093092d3623b2b2fe1953f8628a7d2b49a41adf"
+    },
+    {
+      "file": "tests/v3-common-grid-v1.test.mjs",
+      "sha256": "085fb452395733ec8fcffbca0a2a0cba7ae5aa4e6e1ef6191c9c9958c431729e"
+    },
+    {
+      "file": "tests/v3-hp-max-sync-20261002.test.mjs",
+      "sha256": "4ee0860c4c9b93bd22c7c8319ccd2c41cb2c1a27afbf015a4ba329f4abb95ee0"
+    },
+    {
+      "file": "js/battle-v3-hud.mjs",
+      "sha256": "b9e8408778e30fbcc5a04931d36eb792c594a407373bcb3fcd31bd0311d6ed4b"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/TacticalHudLayout.js",
+      "sha256": "82f32a0b11e34984f7a673dedeca5014975f9178c9a5648eb45dec058f2792f0"
+    },
+    {
+      "file": "tests/v3-tactical-hud-20261102.browser.mjs",
+      "sha256": "66917c1415f8236352dab1f5bda1c2a293394d69484667106957148fa224f16e"
+    },
+    {
+      "file": "tests/v3-tactical-hud-20261102.test.mjs",
+      "sha256": "471560f65fa4bd969dbb4ffdb632d5c3d8f28e278bb5ca75125de553bd51132e"
+    }
+  ],
+  "limitations": [
+    "Actual phones and installed clients were not exercised.",
+    "World raid layout uses its actual UI controller with isolated frozen effects.",
+    "Actual cooperative server run covers two players; three-squad layout is fixture coverage.",
+    "Impeccable reports one legacy CSS border warning; result preserved, not suppressed."
+  ]
+}

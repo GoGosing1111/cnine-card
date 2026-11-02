@@ -88,9 +88,9 @@ test('PvP and PvE server timelines keep renderer HP in agreement with authoritat
 test('the cache-versioned production loader selects the bundle containing this HP correction',()=>{
  const bundle=readFileSync('preview/project-v-v3/project-v-pixi-battle.bundle.js','utf8'),app=readFileSync('js/app.js','utf8'),bridge=readFileSync('js/battle-v3-live.js','utf8'),entry=readFileSync('index.html','utf8');
  const runtime=bundle.match(/runtimeVersion:\s*["']([^"']+)["']/)?.[1];
- assert.equal(runtime,'20261003-territory-scene-v5');
- assert.ok(app.includes('project-v-pixi-battle.bundle.js?coop='+runtime));
- assert.ok(app.includes('battle-v3-live.js?coop='+runtime));
+ assert.ok(runtime?.includes('damage-hp-sync-20261029-v1'));
+ assert.ok(app.includes('project-v-pixi-battle.bundle.js?')&&app.includes('hpSync=20261029-v1'));
+ assert.ok(app.includes('battle-v3-live.js?')&&app.includes('tacticalHud=20261102-v1'));
  assert.ok(bridge.includes("BATTLE_RUNTIME = '"+runtime+"'"));
- assert.ok(entry.includes('coop='+runtime));
+ assert.ok(entry.includes('tacticalHud=20261102-v1'));
 });

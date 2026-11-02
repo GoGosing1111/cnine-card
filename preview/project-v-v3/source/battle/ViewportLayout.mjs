@@ -13,8 +13,8 @@ export function preferredFrameHeight({width, header = 60, dock = 120, notice = 3
   const scale = Math.max(1, width - 24) / COMPACT_BOARD.width;
   return Math.ceil(header + notice + COMPACT_BOARD.height * scale + dock + 24);
 }
-export function fitCompactViewport({width, height, top = 36, bottom = 120,board=COMPACT_BOARD}) {
-  const available = {left: 12, top: top + 8, width: Math.max(1, width - 24), height: Math.max(1, height - top - bottom - 24)};
+export function fitCompactViewport({width, height, top = 36, bottom = 120,left = 12,right = 12,board=COMPACT_BOARD}) {
+  const available = {left, top: top + 8, width: Math.max(1, width - left - right), height: Math.max(1, height - top - bottom - 24)};
   const scale = Math.min(available.width / board.width, available.height / board.height);
   return {scale, available,
     offsetX: (available.left + (available.width - board.width * scale) / 2) / scale,

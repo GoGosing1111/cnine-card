@@ -3,7 +3,7 @@
 
   const root = window;
   const VERSION = '3.37.7-bloodmoon-balance';
-  const BATTLE_RUNTIME = '20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3-jokro-manifest-bundled-20261027-v1-blackcrown-live-20261027-v1-revan-general-jok-20261027-v2-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-classic-colosseum-20261027-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-kamishiro-live-20261028-v1-damage-hp-sync-20261029-v1-icon-diim-front-20261029-v1-limited-220-balance-20261029-v1-omega-craft-20261029-v1-heukmu-live-20261029-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-pet-pepegu-20261101-v1';
+  const BATTLE_RUNTIME = '20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3-jokro-manifest-bundled-20261027-v1-blackcrown-live-20261027-v1-revan-general-jok-20261027-v2-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-classic-colosseum-20261027-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-kamishiro-live-20261028-v1-damage-hp-sync-20261029-v1-icon-diim-front-20261029-v1-limited-220-balance-20261029-v1-omega-craft-20261029-v1-heukmu-live-20261029-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-pet-pepegu-20261101-v1-tactical-hud-20261102-v1';
   let battleRuntimeRefresh = null;
   async function ensureCurrentBattleRuntime({effects=false}={}) {
     const ready=()=>root.ProjectVPixiBattle?.runtimeVersion===BATTLE_RUNTIME&&(!effects||Boolean(root.ProjectVPixiBattle.fxRuntime));
@@ -14,7 +14,7 @@
       root.__V3_PIXI_GENERATION = Number(root.__V3_PIXI_GENERATION || 0) + 1;
       root.__V3_PIXI_MOUNTED = false; root.__V3_PIXI_CANVAS = null; root.__V3_PIXI_INIT_PROMISE = null;
       const script = document.createElement('script');
-      script.src = '/preview/project-v-v3/project-v-pixi-battle.bundle.js?iosBitmap=20261102-v1&primeZeroTop=20261102-v1&blackcrownBalance=20261031-v1&heukmu=20261029-swing-fx-v2&omegaCraft=20261029-v1&balance220=20261029-v1&diimFront=20261029-v1&iconFour=20261029-v1&hpSync=20261029-v1&kamishiro=20261028-live-v1&heukgu=20261025-large-head-v3&bloodmoonBattle=20261025-status-v2&deployment=20261025-bloodmoon&namsudaeng=20261024-v1&eunseol=20261023-v1&generalJok=20261023-v15&valterParity=20261021-v1&prime=20261021-v2&towerAbyss=20261021-v1&zero=20261020-wings-live-v1&leonel=20261018-live-v1&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&v=20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-jinmu-jokro-v2&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&battleRuntime=' + BATTLE_RUNTIME + (effects?'&lichFx=20261001':'');
+      script.src = '/preview/project-v-v3/project-v-pixi-battle.bundle.js?iosBitmap=20261102-v1&primeZeroTop=20261102-v1&blackcrownBalance=20261031-v1&heukmu=20261029-swing-fx-v2&omegaCraft=20261029-v1&balance220=20261029-v1&diimFront=20261029-v1&iconFour=20261029-v1&hpSync=20261029-v1&kamishiro=20261028-live-v1&heukgu=20261025-large-head-v3&bloodmoonBattle=20261025-status-v2&deployment=20261025-bloodmoon&namsudaeng=20261024-v1&eunseol=20261023-v1&generalJok=20261023-v15&valterParity=20261021-v1&prime=20261021-v2&towerAbyss=20261021-v1&zero=20261020-wings-live-v1&leonel=20261018-live-v1&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&v=20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-jinmu-jokro-v2&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&tacticalHud=20261102-v1&battleRuntime=' + BATTLE_RUNTIME + (effects?'&lichFx=20261001':'');
       script.async = false;
       const timer = setTimeout(() => { script.remove(); reject(new Error('전투 엔진을 새로 불러오지 못했습니다. 다시 입장해 주세요.')); }, 20000);
       script.onload = () => { clearTimeout(timer); ready() ? resolve() : reject(new Error('전투 엔진 버전 확인에 실패했습니다.')); };
@@ -287,220 +287,8 @@
     };
   }
 
-  function rosterUniqueBadgeHtml(card) {
-    const ability = card?.uniqueAbility || card?.unique_ability || null;
-    const rawType = card?.type || card?.powerType || card?.power_type || ability?.dominantType || ability?.dominant_type;
-    const type = typeKey(rawType);
-    if (!type || !ability) return '';
-    const label = card?.typeLabel || card?.type_label || ability?.dominantLabel || ability?.dominant_label || typeLabel(rawType);
-    return `<span class="card-unique-badge unique-type-${type}"><i>${typeIcon(rawType)}</i><b>${esc(label)}</b><small>${esc(ability.effectName || ability.effect_name || '')}</small></span>`;
-  }
-
-  // 카드 겉모습은 새로 만들지 않는다. card.css 의 .card-frame(2 : 2.82) 구조를
-  // 그대로 찍어내고, 크기만 CSS transform:scale 로 줄인다. 폭·높이를 따로
-  // 지정하면 카드가 찌부되므로 비율에는 손대지 않는다.
-  // 광택 레이어(.card-holo)만 뺐다 — 이미 no-light-beams 로 죽여 둔 요소다.
-  function rosterCardHtml(card, index, catalog) {
-    const dex = dexCardFor(card, catalog);
-    const art = rosterArt(card, dex);
-    const grade = (String(card?.grade || dex?.grade || card?.rarity || 'C').toUpperCase().replace(/[^A-Z0-9_-]/g, '') || 'C');
-    const level = Math.max(0, Math.min(grade === 'FUR' ? 15 : 13, Number(card?.breakthroughLevel || 0)));
-    const title = String(card?.title || dex?.title || card?.name || `CARD ${index + 1}`);
-    const owner = String(card?.memberName || dex?.memberName || '');
-    const row = String(card?.row || '').toUpperCase();
-    const key = rosterKeys(card)[0] || `slot-${index + 1}`;
-    if(grade==='ICON'&&window.IconFusion?.cardHtml)return `<li class="battle-v3-roster-card" data-v3-roster-card="${esc(key)}" data-v3-roster-keys="${esc(rosterKeys(card).join('|'))}"><span class="battle-v3-roster-slot">${window.IconFusion.cardHtml({...dex,...card,id:card.cardId||card.id,image:art.url},true,'battle-v3-roster-frame')}<i class="battle-v3-roster-ko" aria-hidden="true">KO</i></span>${row?`<b class="battle-v3-roster-row">${row==='FRONT'?'전열':'후열'}</b>`:''}</li>`;
-    const isFaker = String(card?.cardId || card?.id || '') === FAKER_CHAMPIONSHIP_CARD_ID;
-    const tierFrameSrc = grade === 'FUR' && level >= 14 && !isFaker
-      ? `/assets/ui/card-frames/fur-tier-frame-${level}-v20261002.png` : '';
-    const superstarFrame = grade === 'SUPERSTAR'
-      ? '<img class="superstar-card-frame" src="/assets/ui/card-frames/superstar-championship-frame-v1.webp?v=1-superstar-grade" alt="" aria-hidden="true">'
-      : '';
-    const zenithFrame = grade === 'ZENITH'
-      ? '<img class="zenith-card-frame" src="/assets/ui/card-frames/zenith-frame-concept-v2.png" alt="" aria-hidden="true">'
-      : '';
-    return `<li class="battle-v3-roster-card" data-v3-roster-card="${esc(key)}" data-v3-roster-keys="${esc(rosterKeys(card).join('|'))}">
-      <span class="battle-v3-roster-slot">
-      <div class="card-frame grade-${esc(grade)}${level > 0 ? ` breakthrough-${level}` : ''}${tierFrameSrc ? ` bt-tier-${level} has-tier-frame` : ''}${isFaker ? ' faker-championship-card' : ''} battle-v3-roster-frame">
-        ${tierFrameSrc ? `<img class="tier-card-frame" src="${tierFrameSrc}" alt="" aria-hidden="true">` : ''}
-        ${level > 0 ? `<div class="breakthrough-badge">★${level}</div>` : ''}
-        ${rosterUniqueBadgeHtml(card)}
-        <div class="breakthrough-effect"></div>
-        <div class="card-inner">
-          <div class="card-header"><span>${esc(grade)}</span><b class="card-brand-mark"><img class="card-brand-logo" src="/assets/ui/brand/reverse-call-20261016/icon-128.png" alt="리버스콜" width="18" height="18" decoding="async"></b></div>
-          <div class="card-art"><img src="${esc(art.url)}" alt="${esc(title)}" loading="lazy" decoding="async" data-v3-roster-art="1" style="object-position:${art.focusX}% ${art.focusY}%" onerror="this.onerror=null;this.src='${FALLBACK_ART}'"></div>
-          <div class="card-footer"><div><small>${esc(owner)}</small><div class="card-title-row"><div class="card-title">${esc(title)}</div></div></div><img src="/assets/ui/brand/reverse-call-20261016/icon-512.png" class="card-mini-logo" alt="리버스콜"></div>
-        </div>
-        ${superstarFrame}${zenithFrame}${isFaker ? '<img class="faker-championship-frame" src="/assets/ui/card-frames/faker-t1-championship-frame-v2.png" alt="" aria-hidden="true"><img class="faker-t1-mark" src="/assets/ui/brands/t1-logo-red-official-cropped.png" alt="T1"><img class="faker-signature-mark" src="/assets/ui/card-frames/faker-wordmark-clear-v2.svg" alt="FAKER"><span class="faker-t1-subtitle">THE UNKILLABLE DEMON KING</span>' : ''}
-      </div>
-      <i class="battle-v3-roster-ko" aria-hidden="true">KO</i>
-      </span>
-      ${row ? `<b class="battle-v3-roster-row">${row === 'FRONT' ? '전열' : '후열'}</b>` : ''}
-    </li>`;
-  }
-
-  // V1800: 옛 CSS가 캐시에 남은 기기 대비 안전장치.
-  //
-  // 로스터 카드는 원본 .card-frame(180px 고정)을 transform:scale 로 줄여서 쓴다.
-  // 그 scale 값(--v3-card-s)이 battle-v3-live.css 에 있는데, 예전에 같은 ?v= 로
-  // 서로 다른 CSS 를 배포한 적이 있어(immutable 캐시) "새 JS + 옛 CSS" 기기가 생겼다.
-  // 그러면 scale 이 없어서 180px 카드가 그대로 그려지고 서로 겹쳐 화면이 무너진다.
-  // CSS 가 정상이면 이 함수는 아무것도 하지 않고, 값이 없을 때만 JS 가 직접 잡아준다.
-  const ROSTER_FRAME_WIDTH = 180;
-  const ROSTER_FRAME_RATIO = 2.82 / 2;
-  function fallbackCardWidth(versus) {
-    const width = Number(root.innerWidth || document.documentElement?.clientWidth || 0);
-    const landscape = Number(root.innerHeight || 0) > 0 && Number(root.innerHeight) <= 620 && width > Number(root.innerHeight);
-    if (landscape) return versus ? 54 : 62;
-    if (width <= 760) return versus ? 58 : 66;
-    if (width <= 1180) return versus ? 76 : 112;
-    return versus ? 96 : 112;
-  }
-  function ensureRosterGeometry(roster) {
-    if (!roster || roster.hidden) return false;
-    const declared = parseFloat(getComputedStyle(roster).getPropertyValue('--v3-card-s'));
-    if (Number.isFinite(declared) && declared > 0) return false;   // CSS 정상 — 손대지 않는다
-    const versus = roster.classList.contains('is-versus');
-    const cardWidth = fallbackCardWidth(versus);
-    const scale = cardWidth / ROSTER_FRAME_WIDTH;
-    console.warn('[PROJECT V V3] battle-v3-live.css 가 최신이 아닙니다. 로스터 크기를 코드에서 대신 잡습니다.');
-    roster.style.display = 'flex';
-    roster.style.flexWrap = 'nowrap';
-    if (versus) { roster.style.flexDirection = cardWidth <= 58 ? 'column' : 'row'; roster.style.justifyContent = 'space-between'; }
-    else roster.style.justifyContent = 'center';
-    roster.querySelectorAll('[data-v3-roster-list]').forEach(list => {
-      list.style.display = 'flex';
-      list.style.listStyle = 'none';
-      list.style.margin = '0';
-      list.style.padding = '0';
-      list.style.gap = '6px';
-    });
-    roster.querySelectorAll('.battle-v3-roster-card').forEach(card => {
-      card.style.display = 'flex';
-      card.style.flexDirection = 'column';
-      card.style.alignItems = 'center';
-      card.style.flex = '0 0 auto';
-      card.style.width = `${cardWidth}px`;
-    });
-    roster.querySelectorAll('.battle-v3-roster-slot').forEach(slot => {
-      slot.style.position = 'relative';
-      slot.style.display = 'block';
-      slot.style.width = `${cardWidth}px`;
-      slot.style.height = `${Math.round(ROSTER_FRAME_WIDTH * ROSTER_FRAME_RATIO * scale)}px`;
-    });
-    roster.querySelectorAll('.battle-v3-roster-frame').forEach(frame => {
-      frame.style.position = 'absolute';
-      frame.style.top = '0';
-      frame.style.left = '0';
-      frame.style.width = `${ROSTER_FRAME_WIDTH}px`;
-      frame.style.transformOrigin = 'top left';
-      // card.css 의 .card-frame 은 transition:.28s transform 을 갖고 있다.
-      // 끄지 않으면 축소가 0.28초 동안 애니메이션되며 그 사이 원본 크기로 보인다.
-      frame.style.transition = 'none';
-      frame.style.transform = `scale(${scale})`;
-    });
-    roster.querySelectorAll('.battle-v3-roster-row').forEach(row => {
-      row.style.fontSize = '9px';
-      row.style.fontWeight = '800';
-      row.style.color = '#8fa5b2';
-      row.style.whiteSpace = 'nowrap';
-    });
-    return true;
-  }
-
-  function setRosterOwner(owner, name, member=null) {
-    if(!owner)return;
-    owner.textContent=name||'';
-    delete owner.dataset.v3RosterOwnerId;
-    delete owner.dataset.v3RosterOwnerRankLevel;
-    if(member){
-      owner.dataset.v3RosterOwnerId=String(member.ownerId||'');
-      const level=Number(member.ownerRankLevel);
-      if(Number.isInteger(level)&&level>=1&&level<=250)owner.dataset.v3RosterOwnerRankLevel=String(level);
-    }
-  }
-
-  function renderRoster(stage, payload, mode) {
-    const roster = stage?.querySelector?.('[data-v3-roster]');
-    if (!roster) return 0;
-    const teams = payload?.battleV2?.teams || {};
-    const versus = mode === 'PVP' || mode === 'SIEGE';
-    const catalog = cardCatalogMap();
-    const owners = [...stage.querySelectorAll('.battle-v3-versus span')].map(node => String(node.textContent || '').trim());
-    let shown = 0;
-    const duo=payload?.battleV2?.rules?.formation==='DUO_TWO_SQUADS';
-    const cooperative=payload?.battleV2?.rules?.formation==='COOP_THREE_SQUADS';
-    roster.querySelectorAll('[data-v3-duo-extra]').forEach(node=>node.remove());
-    roster.classList.toggle('is-cooperative',cooperative);
-    roster.classList.toggle('is-duo',duo);stage.classList.toggle('is-duo-battle',duo);
-    if(cooperative){
-      const original=roster.querySelector('[data-v3-roster-side="A"]');
-      roster.querySelector('[data-v3-roster-side="B"]').hidden=true;
-      for(let squad=0;squad<teams.A.members.length;squad++){
-        const section=squad?original.cloneNode(true):original;
-        if(squad){section.dataset.v3DuoExtra='1';roster.append(section);}
-        const member=teams.A.members[squad];section.hidden=false;
-        section.querySelector('[data-v3-roster-label]').textContent=`분대 ${squad+1}`;
-        setRosterOwner(section.querySelector('[data-v3-roster-owner]'),member.ownerName,member);
-        section.querySelector('[data-v3-roster-list]').innerHTML=teams.A.cards.filter(c=>c.squadIndex===squad).map((c,i)=>rosterCardHtml(c,i,catalog)).join('');
-      }
-      roster.hidden=false;stage.classList.add('is-roster-visible');ensureRosterGeometry(roster);return teams.A.members.length;
-    }
-    if(duo){
-      const originals=['A','B'].map(side=>roster.querySelector(`[data-v3-roster-side="${side}"]`));
-      for(let squad=0;squad<2;squad++)for(const [i,side]of ['A','B'].entries()){
-        const section=squad===0?originals[i]:originals[i].cloneNode(true);if(squad){section.dataset.v3DuoExtra='1';roster.append(section);}
-        const member=teams[side].members?.[squad],cards=(teams[side].cards||[]).filter(c=>Number(c.squadIndex)===squad);
-        section.hidden=false;section.querySelector('[data-v3-roster-label]').textContent=`${side==='A'?'우리 팀':'상대 팀'} · ${squad+1}`;
-        setRosterOwner(section.querySelector('[data-v3-roster-owner]'),member?.ownerName,{...member});
-        section.querySelector('[data-v3-roster-list]').innerHTML=cards.map((card,j)=>rosterCardHtml(card,j,catalog)).join('');
-      }
-      roster.hidden=false;stage.classList.add('is-roster-visible');ensureRosterGeometry(roster);return 4;
-    }
-    ['A', 'B'].forEach((side, index) => {
-      const section = roster.querySelector(`[data-v3-roster-side="${side}"]`);
-      if (!section) return;
-      const cards = (Array.isArray(teams?.[side]?.cards) ? teams[side].cards : [])
-        .filter(card => card && !isMonsterCard(card))
-        .slice(0, ROSTER_MAX);
-      const visible = (side === 'A' || versus) && cards.length > 0;
-      section.hidden = !visible;
-      if (!visible) {
-        section.querySelector('[data-v3-roster-list]').innerHTML = '';
-        return;
-      }
-      shown += 1;
-      const label = section.querySelector('[data-v3-roster-label]');
-      const owner = section.querySelector('[data-v3-roster-owner]');
-      if (label) label.textContent = side === 'A' ? (versus ? 'MY TEAM' : '출전 카드') : 'OPPONENT';
-      setRosterOwner(owner,owners[index]);
-      section.querySelector('[data-v3-roster-list]').innerHTML = cards.map((entry, index) => rosterCardHtml(entry, index, catalog)).join('');
-    });
-    roster.hidden = shown === 0;
-    stage.classList.toggle('is-roster-visible', shown > 0);
-    ensureRosterGeometry(roster);
-    return shown;
-  }
-
   function markRosterFinalState(stage, finalState) {
-    const roster = stage?.querySelector?.('[data-v3-roster]');
-    if (!roster || roster.hidden) return;
-    const hpByKey = new Map();
-    ['A', 'B'].forEach(side => {
-      (Array.isArray(finalState?.[side]) ? finalState[side] : []).forEach(card => {
-        const hp = Number(card?.hp || 0);
-        rosterKeys(card).forEach(key => hpByKey.set(key, hp));
-      });
-    });
-    if (!hpByKey.size) return;
-    roster.querySelectorAll('[data-v3-roster-card]').forEach(node => {
-      const key = String(node.dataset.v3RosterKeys || node.dataset.v3RosterCard || '')
-        .split('|').find(candidate => hpByKey.has(candidate));
-      if (key === undefined) return;
-      const hp = hpByKey.get(key);
-      node.classList.toggle('is-ko', hp <= 0);
-      node.classList.toggle('is-alive', hp > 0);
-    });
+    stage?.__v3Hud?.finalState(finalState);
   }
 
   function survivorCounts(result) {
@@ -608,16 +396,16 @@
     // over that scene only until Pixi commits its first authoritative frame.
     modal.onclick=null;
     modal.className = `modal show battle-modal battle-v3-modal battle-v3-preparing ${field === 'PVP' || field === 'SIEGE' ? 'pvp-battle-modal' : ''}`;
-    modal.innerHTML = `<div class="modal-panel battle-stage battle-v3-live-shell" data-battle-v3-live="${VERSION}" data-v3-field="${field}">
+    modal.innerHTML = `<div class="modal-panel battle-stage battle-v3-live-shell has-tactical-hud" data-battle-v3-live="${VERSION}" data-v3-field="${field}">
       <header class="battle-v3-header">
-        <div><small>PROJECT V · PIXIJS WEBGL</small><strong>${field === 'TOWER' ? '무한의 탑' : field === 'PVP' ? 'PVP 랭크전' : field === 'SIEGE' ? '영토전 공성 교전' : field === 'RAID' ? '월드 레이드 개인전' : field === 'SEAL' ? '봉인전' : field === 'ESCORT' ? '철벽 호송작전' : '몬스터 토벌'}</strong></div>
-        <div class="battle-v3-versus"><span>${esc(playerName)}</span><i>VS</i><span>${esc(opponentName)}</span></div>
-        <b id="battlePhase">V3 LOADING</b>
+        <div class="v3-hud-location"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3l12 16M17 3L5 19M4 14l6 5M20 14l-6 5"/></svg><small></small><strong>${field === 'TOWER' ? '무한의 탑' : field === 'PVP' ? 'PVP 랭크전' : field === 'SIEGE' ? '영토전 공성 교전' : field === 'RAID' ? '월드 레이드 개인전' : field === 'SEAL' ? '봉인전' : field === 'ESCORT' ? '철벽 호송작전' : '몬스터 토벌'}</strong></div>
+        <div class="v3-hud-objective"><div class="battle-v3-versus"><span>${esc(playerName)}</span><i>대</i><span>${esc(opponentName)}</span></div><div class="v3-hud-boss-health" data-hud-boss-meter role="meter" aria-label="적 체력" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><i></i></div><div class="v3-hud-objective-foot"><span data-hud-enemies></span><b data-hud-boss-percent></b></div></div>
+        <b id="battlePhase">전장 준비 중</b>
       </header>
       <div class="battle-v3-canvas-host pv-pixi-battle" id="pvPixiBattle">
-        <div class="battle-v3-loader"><i></i><b>V3 WebGL 전장 구성 중</b><span>${esc(autoText || 'SD 전투 자산과 서버 타임라인을 동기화하고 있습니다.')}</span></div>
+        <div class="battle-v3-loader"><i></i><b>전장 준비 중</b><span>${esc(autoText || '출전한 분대가 전장에 집결합니다.')}</span></div>
       </div>
-      <div class="battle-v3-status pv-battle-status" id="pvBattleStatus" role="status" aria-live="polite">PixiJS 렌더러 준비 중</div>
+      <div class="battle-v3-status pv-battle-status" id="pvBattleStatus" role="status" aria-live="polite">전장 준비 중</div>
       <!-- V1796: SD 캐릭터만으로는 어떤 카드가 출전했는지 알 수 없다.
            PVE 계열은 하단 중앙에 내 출전 카드 한 줄,
            PVP 는 좌(나)/우(상대) 두 줄로 양쪽 출전 카드를 보여준다. -->
@@ -637,8 +425,8 @@
         </div>
       </div>
       <span id="towerBattleCountdown" hidden></span>
-      <div id="battleMessage" class="battle-message battle-v3-result"><span>V3 전투 준비 중...</span></div>
-      <div id="towerBattleMessage" class="battle-message battle-v3-result tower-v3-result" hidden><span>V3 전투 준비 중...</span></div>
+      <div id="battleMessage" class="battle-message battle-v3-result"><span>전투 준비 중...</span></div>
+      <div id="towerBattleMessage" class="battle-message battle-v3-result tower-v3-result" hidden><span>전투 준비 중...</span></div>
     </div>`;
     const stage = modal.querySelector('.battle-v3-live-shell');
     return {
@@ -898,7 +686,9 @@
     // V1796: payload 가 확정된 직후 로스터를 그린다. 자동전투 2판째처럼
     // 셸을 다시 만들지 않는 경로에서도 매 판 새 카드로 덮어써야 하므로
     // prepareLoading 이 아니라 createRenderer 에서 호출한다.
-    renderRoster(stage, payload, mode);
+    const {createBattleHud}=await import('/js/battle-v3-hud.mjs?v=20261102-v1');
+    const catalog=cardCatalogMap();
+    const hud=createBattleHud({stage,payload,mode,runtime:root.ProjectVPixiBattle,artFor:card=>rosterArt(card,dexCardFor(card,catalog)),isCurrent:()=>root.__V3_PIXI_OWNER===owner&&!destroyed});
     const verdictNode = stage.querySelector('[data-v3-verdict]');
     if (verdictNode) { verdictNode.textContent = ''; verdictNode.hidden = true; verdictNode.classList.remove('is-win', 'is-lose'); }
     syncDockMetrics(stage);
@@ -1013,7 +803,7 @@
         const assertGeneration = () => {
           if (Number(root.__V3_PIXI_GENERATION || 0) !== generation) throw new Error('V3 렌더러 초기화가 취소되었습니다.');
         };
-        if (phase) phase.textContent = 'V3 RENDERER';
+        if (phase) phase.textContent = '전장 준비 중';
         const diagnostics = root.ProjectVPixiBattle.diagnostics?.();
         if (root.__V3_PIXI_MOUNTED && diagnostics?.mounted === false) {
           root.__V3_PIXI_MOUNTED = false;
@@ -1047,7 +837,7 @@
           const canvas = root.__V3_PIXI_CANVAS;
           if (canvas && canvas.parentNode !== host) host.appendChild(canvas);
           await root.ProjectVPixiBattle.setVisible(false);
-          if (phase) phase.textContent = 'SERVER ASSET SYNC';
+          if (phase) phase.textContent = '분대 집결 중';
           if (typeof root.ProjectVPixiBattle.resetSession === 'function') {
             await root.ProjectVPixiBattle.resetSession(payload, host);
           } else {
@@ -1070,7 +860,7 @@
         await assertFirstFrame();
         stage.classList.add('is-v3-ready');
         revealBattle();
-        if (phase) phase.textContent = 'V3 READY';
+        if (phase) phase.textContent = '전투 준비 완료';
         if (status) status.textContent = '서버 전투 데이터 동기화 완료';
       };
       let lastError = null;
@@ -1082,8 +872,8 @@
           lastError = error;
           await hardResetPixiBattle(host);
           if (attempt === 0) {
-            if (phase) phase.textContent = 'V3 RENDER RETRY';
-            if (status) status.textContent = 'WebGL 전장을 즉시 다시 구성하고 있습니다.';
+            if (phase) phase.textContent = '전장 다시 연결 중';
+            if (status) status.textContent = '전장을 다시 연결하고 있습니다.';
             await nextPaint();
           }
         }
@@ -1095,7 +885,7 @@
     };
 
     bindAccountBattleUnitFirearmAudio();
-    await init();
+    try { await init(); hud.start(); } catch(error) { hud.destroy(); dockObserver?.disconnect(); throw error; }
     const expectedQtes = (payload?.battleV2?.result?.timeline || []).filter(event => /^RAID_QTE_/.test(event.type)).map(event => event.qteId || event.type.slice(9));
     let interactiveFailure = null;
     const qteBranchAllowed = condition => {
@@ -1115,7 +905,7 @@
         if (destroyed) return false;
         if(!await waitForForeground())return false;
         let timeline = Array.isArray(payload?.battleV2?.result?.timeline) ? payload.battleV2.result.timeline : [];
-        if (phase) phase.textContent = options.continuousPlayback?'전장 진입':'V3 LIVE BATTLE';
+        if (phase) phase.textContent = options.continuousPlayback?'전장 진입':'자동 전투';
         try {
           if (options.continuousPlayback) await root.ProjectVPixiBattle.playEvents([{ type: 'DEPLOY' }]);
           else await safePlayEvents([{ type: 'DEPLOY' }], 'V3 배치 연출이 지연되어 생략되었습니다.');
@@ -1283,7 +1073,7 @@
           await stopAccountBattleUnitContinuousFire({ drain: !destroyed && !stage.classList?.contains?.("is-v3-error") });
           if (!destroyed) root.ProjectVPixiBattle.completePlayback?.();
         }
-        if (phase) phase.textContent = 'BATTLE COMPLETE';
+        if (phase) phase.textContent = '전투 종료';
         return true;
       },
       showResult(verifiedResult) {
@@ -1308,6 +1098,7 @@
       destroy() {
         if (destroyed) return;
         destroyed = true;
+        hud.destroy();
         try { dockObserver?.disconnect?.(); } catch {}
         dockObserver = null;
         if (root.__V3_PIXI_OWNER !== owner) return;

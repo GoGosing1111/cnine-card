@@ -1,0 +1,24 @@
+{
+  "base": "ab6c5a2d656c01ed40a26ad5a6e9441cee8b57c5",
+  "reason": "사용자가 승인한 V3 전투 HUD 전체 라이브 배포. 고정 폭 표시용 초상과 실시간 HP/보호막/전투불능, 얇은 전황 헤더, 검은 여백 없는 단일 Pixi 배경, 소형 회피 기믹을 공통 셸에 연결한다. 일반/PVP/듀오/협동2·3분대/탑/흑익과 실제 메인 입장·결과·복귀를 격리 브라우저로 검사한다. 대사·연속 보스·서버 최종 상태를 보존하며 전투/보상/운영DB는 변경하지 않는다. 공통 엔진 파생11개와 원스토어/캐시를 동기화한다.",
+  "tests": [
+    "tests/v3-tactical-hud-20261102.test.mjs",
+    "tests/battle-hud-b-20261017.test.mjs",
+    "tests/v3-hp-max-sync-20261002.test.mjs",
+    "tests/battlefield-load-recovery-20261006.test.mjs",
+    "tests/v3-common-grid-v1.test.mjs",
+    "tests/cooperative-responsive-combat-20261005.test.mjs",
+    "tests/cooperative-player-ranks-20261014.test.mjs",
+    "tests/apocalypse-request-queue-20261005.test.mjs",
+    "tests/apocalypse-attempt-ownership-20261005.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs",
+    "tests/onestore-web-20261026.test.mjs",
+    "tests/operation-audit-packaging-20261029.test.mjs",
+    "tests/iphone-battle-bitmap-20261102.test.mjs",
+    "tests/ios-safari-battle-memory-20261031.test.mjs",
+    "tests/battle-mobile-memory-20261024.test.mjs"
+  ],
+  "checks": [],
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

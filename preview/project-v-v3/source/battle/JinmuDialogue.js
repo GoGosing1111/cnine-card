@@ -128,7 +128,8 @@ class DialogueRail{
     this.node.dataset.theme=theme;this.node.style.minHeight=Math.ceil(height)+'px';this.measuredWidth=width;
    }
    const shellTop=shell.getBoundingClientRect().top;
-   const header=Math.max(this.header?.getBoundingClientRect().height||0,...this.coopHeaders.map(el=>Math.max(0,el.getBoundingClientRect().bottom-shellTop))),height=this.node.getBoundingClientRect().height;
+   const headerRect=this.header?.getBoundingClientRect();
+   const header=Math.max(headerRect?.height?Math.max(0,headerRect.bottom-shellTop):0,...this.coopHeaders.map(el=>Math.max(0,el.getBoundingClientRect().bottom-shellTop))),height=this.node.getBoundingClientRect().height;
    this.node.style.top=header+'px';shell.style.setProperty('--jinmu-dialogue-height',height+'px');
    if(this.body.dataset.jinmuDialogue==='true')this.body.style.setProperty('--jinmu-dialogue-height',height+'px');
    this.portal?.style.setProperty('--jinmu-dialogue-bottom',(header+height)+'px');

@@ -1,3 +1,4 @@
+import {layoutTacticalHud} from './TacticalHudLayout.js';
 import {layoutIconTechniqueWeapons} from './IconTechniquePlayback.js';
 import {drawBattleGroundStations} from './BattleGroundSigil.js';
 import {battleGroundSignature} from './BattleGroundStyle.mjs';
@@ -57,6 +58,7 @@ export const withOccupiedGrid = Base => class extends Base {
   resize() {
     this.viewportFit = null;
     super.resize();
+    if(layoutTacticalHud(this))return;
     // Desktop cooperative battles use the ordinary 1600 x 820 viewport.
     // Fitting the board again above the card dock shrinks the entire battle.
     if (!this.root || this.gridMode !== 'wide' || !this.formationDuo&&!usesCompactViewport(this.app.screen.width)) return;

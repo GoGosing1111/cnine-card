@@ -14,7 +14,7 @@ test('each authenticated participant carries their own server rank through ready
   const created=await cmd(1,'create',{difficulty:'NORMAL'});assert.equal(created.status,200,JSON.stringify(created));roomId=created.roomId;
   for(const id of [2,3])assert.equal((await cmd(id,'join')).status,200);
   for(const id of [1,2,3]){
-   const squad=squads[id-1],result=await cmd(id,'ready',{cardIds:squad.cards.map(c=>c.id),mercenaryCode:squad.mercenary.code});
+   const squad=squads[id-1],result=await cmd(id,'ready',{cardIds:squad.cards.map(c=>c.id),mercenaryCodes:[squad.mercenary.code,'V-055']});
    assert.equal(result.status,200,JSON.stringify(result));
   }
   for(const id of [1,2,3]){
