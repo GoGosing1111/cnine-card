@@ -1,0 +1,69 @@
+{
+  "operationKey": "ops:jjok-equipped-armor15:20261102:v1",
+  "authorization": "[C9]족쪽이 장착중인 방어구,장신구 다 15강으로 변경해",
+  "recipient": {
+    "id": "303",
+    "nickname": "[C9]족쪽이",
+    "role": "USER",
+    "status": "ACTIVE",
+    "identityHash": "6abd44fb8640b6b0961a6f987c0d9ef93ed74d28035c595d978c6d535a80e53b"
+  },
+  "scope": "CURRENT_CHARACTER_EQUIPPED_ARMOR_AND_ACCESSORY",
+  "targetSlots": [
+    "TOP",
+    "BOTTOM",
+    "SHOES",
+    "ACCESSORY"
+  ],
+  "targetLevel": 15,
+  "targets": [
+    {
+      "slot": "TOP",
+      "instanceId": "3033292389",
+      "equipmentId": "43",
+      "code": "EMPEROR_TOP",
+      "name": "엠퍼러 슈트",
+      "beforeLevel": 14,
+      "beforeRevision": 21,
+      "hasForgeState": true,
+      "afterLevel": 15
+    },
+    {
+      "slot": "BOTTOM",
+      "instanceId": "2205682905",
+      "equipmentId": "44",
+      "code": "EMPEROR_BOTTOM",
+      "name": "엠퍼러 레깅스",
+      "beforeLevel": 10,
+      "beforeRevision": 6,
+      "hasForgeState": true,
+      "afterLevel": 15
+    },
+    {
+      "slot": "SHOES",
+      "instanceId": "3032290095",
+      "equipmentId": "45",
+      "code": "EMPEROR_SHOES",
+      "name": "엠퍼러 슈즈",
+      "beforeLevel": 10,
+      "beforeRevision": 4,
+      "hasForgeState": true,
+      "afterLevel": 15
+    },
+    {
+      "slot": "ACCESSORY",
+      "instanceId": "2262205865",
+      "equipmentId": "46",
+      "code": "EMPEROR_DUAL_DISK",
+      "name": "엠퍼러 듀얼디스크",
+      "beforeLevel": 10,
+      "beforeRevision": 2,
+      "hasForgeState": true,
+      "afterLevel": 15
+    }
+  ],
+  "cost": 0,
+  "automaticLoadout": false,
+  "sendMessages": false,
+  "checkedAt": "2026-11-02T01:23:54.351Z"
+}
