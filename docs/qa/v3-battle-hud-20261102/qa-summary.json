@@ -53,7 +53,7 @@
   "sourceHashes": [
     {
       "file": "docs/qa/v3-battle-hud-20261102/README.md",
-      "sha256": "3ff07c392d0ab0e78dc066a0937576ca2fdd207c3f51d52754de27468558d6c5"
+      "sha256": "bf409e85a18f89f6061b24f8e88a8612b6476a23074796cc27a3610fb91017db"
     },
     {
       "file": "scripts/prepare-production-assets.mjs",
@@ -69,7 +69,7 @@
     },
     {
       "file": "index.html",
-      "sha256": "0e74e0dd58d8e5e7a376efe4282d182f6f1af301a82625bb5657d0053ec1978c"
+      "sha256": "8047e1eafe06a2d67a415748382474dfb1aa6693d6fb2223eca8b1e2f8ce63be"
     },
     {
       "file": "js/apocalypse-challenge-v1.mjs",
@@ -85,15 +85,15 @@
     },
     {
       "file": "onestore/index.html",
-      "sha256": "4452fdd59c7e0ad9f4253fae834c99cfbd2ad9a4cf31ed1a83a662f9ac8fc1a2"
+      "sha256": "34af6e12c670288f93a36e34019c4fbe9500724bdf5d52cb8f7609aadb12efde"
     },
     {
       "file": "onestore/js/app.js",
-      "sha256": "3c0df35200d2f77a8e4c5ae226fb5affefcf112eb0b410d20f3e8c5a00b4375d"
+      "sha256": "e1aa1489c3fbb393aa8e6f482874de98782db4dad54eab2e250a8127edba7435"
     },
     {
       "file": "packaging/onestore/web-build.json",
-      "sha256": "9b7ad47fcfe11006a7eda0532348320ba488d8b20826fe516e083c4243d9674b"
+      "sha256": "b86ef79502babb6d81ccdb12973ac6520570a855722d0fcdae7512d488dd6e36"
     },
     {
       "file": "preview/battle-suit-skill-chip-v1/build-report.json",
@@ -177,7 +177,7 @@
     },
     {
       "file": "shared/onestore-web-assets-v1.mjs",
-      "sha256": "7f3eb940081724fd7cfb6a2c3d75fb93efa5436e84b7d997cb72490d8c7555ba"
+      "sha256": "bfb182b8f9a45db527492ae447b08fb217a0628fc8436b3c565d90b9ef1041ff"
     },
     {
       "file": "tests/cooperative-player-ranks-20261014.test.mjs",
