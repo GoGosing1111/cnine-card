@@ -1,0 +1,10 @@
+{
+  "pivot":{"file":"cropped/pivot.png","scale":1.35,"pivot":[420,420],"head":[490,112],"hand":[302,239],"tip":[121,251],"feet":[[216,418],[622,418]]},
+  "turn":{"file":"cropped/turn.png","scale":1.35,"pivot":[355,421],"head":[356,105],"hand":[469,160],"tip":[671,150],"feet":[[164,418],[545,421]]},
+  "compress":{"file":"cropped/compress.png","scale":1.35,"pivot":[430,427],"head":[485,180],"hand":[313,162],"tip":[466,52],"feet":[[295,430],[583,417]]},
+  "takeoff":{"file":"cropped/takeoff.png","scale":1.35,"pivot":[340,439],"head":[360,87],"hand":[479,76],"tip":[609,26],"feet":[[250,427],[397,331]],"airborne":true},
+  "apex":{"file":"cropped/apex.png","scale":1.22,"pivot":[450,510],"head":[481,166],"hand":[415,87],"tip":[171,115],"feet":[[383,441],[432,429]],"airborne":true,"pivotNote":"Projected standing floor; tucked feet remain above the local origin."},
+  "aircut":{"file":"cropped/aircut.png","scale":1.22,"pivot":[350,490],"head":[440,194],"hand":[420,322],"tip":[620,471],"feet":[[124,472],[322,404]],"airborne":true},
+  "slam":{"file":"cropped/slam.png","scale":1.22,"pivot":[380,430],"head":[494,131],"hand":[438,294],"tip":[679,420],"feet":[[164,425],[593,419]]},
+  "recover":{"file":"cropped/recover.png","scale":1.22,"pivot":[350,451],"head":[423,77],"hand":[333,232],"tip":[611,374],"feet":[[234,444],[412,429]]}
+}

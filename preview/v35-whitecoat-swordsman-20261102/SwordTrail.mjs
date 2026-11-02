@@ -21,9 +21,9 @@ export const swordStrokes={
 };
 
 export class SwordTrail {
- constructor(layer,adapter,texture,mode,rootAt){
-  Object.assign(this,{layer,adapter,rootAt,disposed:false,enabled:true,time:0});
-  this.ribbons=swordStrokes[mode].map(spec=>{
+ constructor(layer,adapter,texture,mode,rootAt,options={}){
+  Object.assign(this,{layer,adapter,rootAt,registration:options.registration||registration,poseOffsetAt:options.poseOffsetAt||(()=>({x:0,y:0})),disposed:false,enabled:true,time:0});
+  this.ribbons=(options.strokes||swordStrokes[mode]).map(spec=>{
    const positions=new Float32Array((SEGMENTS+1)*4),uvs=new Float32Array(positions.length),indices=new Uint32Array(SEGMENTS*6);
    for(let i=0;i<=SEGMENTS;i++){
     uvs.set([i/SEGMENTS,1,i/SEGMENTS,0],i*4);
@@ -39,8 +39,8 @@ export class SwordTrail {
   });
  }
 
- sample(spec,u){
-  const poses=registration.poses,from=poses[spec.from].sockets,to=poses[spec.to].sockets;
+ sample(spec,u,endTime=spec.end){
+  const poses=this.registration.poses,from=poses[spec.from].sockets,to=poses[spec.to].sockets;
   const a=from.weapon_grip,b=to.weapon_grip,at=from.blade_tip,bt=to.blade_tip;
   const angleB=Math.atan2(bt[1]-b[1],bt[0]-b[0]);
   const angleA=spec.draw?angleB:Math.atan2(at[1]-a[1],at[0]-a[0]);
@@ -49,13 +49,13 @@ export class SwordTrail {
   const lengthB=Math.hypot(bt[0]-b[0],bt[1]-b[1]);
   const h=[mix(a[0],b[0],u),mix(a[1],b[1],u)],angle=angleA+delta*u,length=mix(lengthA,lengthB,u);
   const tip=[h[0]+Math.cos(angle)*length,h[1]+Math.sin(angle)*length];
-  return {hand:h,tip,time:mix(spec.start,spec.end,u)};
+  return {hand:h,tip,time:mix(spec.start,endTime,u)};
  }
 
  world(point,time){
   const {actor,rig}=this.adapter;
   // Registered sockets are Spine Y-up; Pixi's native pose is Y-down.
-  const p=rig.toGlobal(new Point(point[0],-point[1]));
+  const offset=this.poseOffsetAt(time),p=rig.toGlobal(new Point(point[0]+offset.x,-point[1]-offset.y));
   const now=actor.root.toGlobal(new Point(0,0)),at=this.rootAt(time);
   const past=actor.root.parent.toGlobal(new Point(at.x,at.y));
   p.x+=past.x-now.x;p.y+=past.y-now.y;
@@ -72,9 +72,9 @@ export class SwordTrail {
    r.visible=enabled&&age>=-1e-7&&age<r.spec.life;
    r.mesh.visible=r.glow.visible=r.edge.visible=r.visible;r.edge.clear();
    if(!r.visible)continue;
-   const tips=[],innerEdge=[],oldest=clamp(age/r.spec.life)*.55;
+   const tips=[],innerEdge=[],oldest=clamp(age/r.spec.life)*.55,headTime=r.spec.followUntil?Math.min(Math.max(time,r.spec.end),r.spec.followUntil):r.spec.end;
    for(let i=0;i<=SEGMENTS;i++){
-    const u=mix(oldest,1,i/SEGMENTS),sample=this.sample(r.spec,u);
+    const u=mix(oldest,1,i/SEGMENTS),sample=this.sample(r.spec,u,headTime);
     const h=this.world(sample.hand,sample.time),tip=this.world(sample.tip,sample.time);
     const inner={x:mix(h.x,tip.x,.12),y:mix(h.y,tip.y,.12)},spread=Math.sin(Math.PI*i/SEGMENTS)*.18;
     r.geometry.positions.set([inner.x,inner.y,tip.x,tip.y],i*4);tips.push(tip);

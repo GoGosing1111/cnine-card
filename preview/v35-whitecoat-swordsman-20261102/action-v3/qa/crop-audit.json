@@ -1,0 +1,138 @@
+[
+  {
+    "name": "pivot",
+    "sheet": "turn-sheet-v2.png",
+    "crop": {
+      "left": 0,
+      "top": 0,
+      "width": 768,
+      "height": 512
+    },
+    "bounds": [
+      103,
+      54,
+      660,
+      422
+    ],
+    "boundary": 0
+  },
+  {
+    "name": "turn",
+    "sheet": "turn-sheet-v2.png",
+    "crop": {
+      "left": 768,
+      "top": 0,
+      "width": 768,
+      "height": 512
+    },
+    "bounds": [
+      73,
+      59,
+      672,
+      424
+    ],
+    "boundary": 0
+  },
+  {
+    "name": "compress",
+    "sheet": "turn-sheet-v2.png",
+    "crop": {
+      "left": 0,
+      "top": 512,
+      "width": 768,
+      "height": 512
+    },
+    "bounds": [
+      137,
+      52,
+      623,
+      433
+    ],
+    "boundary": 0
+  },
+  {
+    "name": "takeoff",
+    "sheet": "turn-sheet-v2.png",
+    "crop": {
+      "left": 768,
+      "top": 512,
+      "width": 768,
+      "height": 512
+    },
+    "bounds": [
+      66,
+      24,
+      611,
+      438
+    ],
+    "boundary": 0
+  },
+  {
+    "name": "apex",
+    "sheet": "air-sheet-v2.png",
+    "crop": {
+      "left": 0,
+      "top": 0,
+      "width": 724,
+      "height": 543
+    },
+    "bounds": [
+      155,
+      64,
+      608,
+      452
+    ],
+    "boundary": 0
+  },
+  {
+    "name": "aircut",
+    "sheet": "air-sheet-v2.png",
+    "crop": {
+      "left": 724,
+      "top": 0,
+      "width": 724,
+      "height": 543
+    },
+    "bounds": [
+      87,
+      96,
+      622,
+      488
+    ],
+    "boundary": 0
+  },
+  {
+    "name": "slam",
+    "sheet": "air-sheet-v2.png",
+    "crop": {
+      "left": 0,
+      "top": 543,
+      "width": 724,
+      "height": 543
+    },
+    "bounds": [
+      130,
+      51,
+      683,
+      436
+    ],
+    "boundary": 0
+  },
+  {
+    "name": "recover",
+    "sheet": "air-sheet-v2.png",
+    "crop": {
+      "left": 724,
+      "top": 543,
+      "width": 724,
+      "height": 543
+    },
+    "bounds": [
+      107,
+      30,
+      613,
+      453
+    ],
+    "boundary": 0
+  }
+]

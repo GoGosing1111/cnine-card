@@ -1,0 +1,18 @@
+{
+  "id": "whitecoat-tempest-action-20261102",
+  "approvedSource": "../../source/approved-illustration.png",
+  "priorNative": "../../whitecoat-c3ad326c9e61.spine",
+  "intent": "Low draw dash → reversing body turn and horizontal cut → leap, overhead drop cut and grounded recovery",
+  "animation": "skill_tempest",
+  "view": "Existing V3 3/4 side battle view facing right; mirror via existing view transform",
+  "identity": "Same long black hair/braid, black eye marking, tattooed bare chest, gold white coat, black torn lower robes, wrapped bare feet, katana",
+  "damageAuthority": "One existing V3 callback; visual combo contacts do not add server damage",
+  "constraints": [
+    "No user desktop input",
+    "Preserve original and accepted native/previous effects",
+    "No cloth-detail priority",
+    "Whole-pose authored frames, not limb IK claims",
+    "Common GSAP clock, body/FX/afterimages pause and cancel together"
+  ],
+  "status": "implemented-local-V3-reviewed; user final visual approval and production registration pending"
+}

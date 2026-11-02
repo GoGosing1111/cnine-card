@@ -1,10 +1,13 @@
 import {Assets,Sprite,Texture,Rectangle,Point} from 'pixi.js';
 import {SwordTrail} from './SwordTrail.mjs';
+import {TempestEffects} from './action-v3/TempestEffects.mjs';
 export class WhitecoatEffects {
  static async load(){
   const base='/preview/v35-whitecoat-swordsman-20261102/effects/flourish-v2/runtime/',manifest=await(await fetch(base+'fx-manifest.json')).json(),textures={};
   const oldBase='/preview/v35-effects-production-20261102/runtime/',old=await(await fetch(oldBase+'fx-manifest.json')).json();
   manifest.effects.debris={...old.effects.debris,externalBase:oldBase};
+  const actionBase='/preview/v35-whitecoat-swordsman-20261102/action-v3/effects/runtime/',actionManifest=await(await fetch(actionBase+'fx-manifest.json')).json();
+  manifest.effects['tempest-slam']={...actionManifest.effects['tempest-slam'],externalBase:actionBase};
   manifest.decodedBytes=Object.values(manifest.effects).reduce((sum,s)=>sum+s.atlasSize.reduce((a,v)=>a*v,4),0);
   // Battle-scale filaments need mipmaps to avoid glittering single-pixel noise.
   const trailTexture=await Assets.load({src:'/preview/v35-whitecoat-swordsman-20261102/effects/sword-trail/sword-ribbon-source.png',data:{autoGenerateMipmaps:true,scaleMode:'linear'}});
@@ -13,6 +16,7 @@ export class WhitecoatEffects {
  }
  constructor(engine,assets){Object.assign(this,{engine,assets,enabled:true,session:null,completed:0});}
  begin(adapter,target,mode,{rootAt}){
+  if(mode==='skill_tempest'){this.session?.destroy();return this.session=new TempestEffects(this,adapter,target,{rootAt});}
   this.session?.destroy();const owner=this,layer=this.engine.effectLayer,actor=adapter.actor,specs=this.assets.manifest.effects,sprites={},frames={};
   const trail=new SwordTrail(layer,adapter,this.assets.trailTexture,mode,rootAt);
   for(const [id,s] of Object.entries(specs)){const sprite=new Sprite(this.assets.textures[id][0]);sprite.label='V35_WHITECOAT_FX_'+id;sprite.anchor.set(s.pivot[0]/s.frames[0].w,s.pivot[1]/s.frames[0].h);sprite.blendMode=s.blend;sprite.visible=false;layer.addChild(sprite);sprites[id]=sprite;}

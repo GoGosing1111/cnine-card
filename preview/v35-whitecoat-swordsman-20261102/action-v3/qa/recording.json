@@ -1,0 +1,210 @@
+{
+  "records": [
+    {
+      "on": false,
+      "poses": {
+        "guard": 50,
+        "iai_ready": 30,
+        "iai_cut": 18,
+        "follow": 11,
+        "v3_pivot": 22,
+        "v3_turn": 21,
+        "v3_compress": 12,
+        "v3_takeoff": 19,
+        "v3_apex": 17,
+        "v3_aircut": 16,
+        "v3_slam": 33,
+        "v3_recover": 26,
+        "step": 36
+      },
+      "maxRenderGapMs": 21.900000005960464,
+      "capture": "VP8 postrender requestFrame, normal V3 clock",
+      "impacts": 3,
+      "playback": [
+        {
+          "actor": "QA:WHITECOAT",
+          "ok": true,
+          "elapsedMs": 1761.5,
+          "last": {
+            "code": "QA-V35-WHITECOAT",
+            "mode": "skill_tempest",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "contactSeconds": 1.305,
+            "nativeContactSeconds": 1.22,
+            "durationSeconds": 2.29,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "draw",
+              "turn",
+              "slam"
+            ],
+            "hitstopHolds": [
+              0.035,
+              0.05,
+              0.085
+            ]
+          }
+        },
+        {
+          "actor": "QA:WHITECOAT",
+          "ok": true,
+          "elapsedMs": 1761.5,
+          "last": {
+            "code": "QA-V35-WHITECOAT",
+            "mode": "skill_tempest",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "contactSeconds": 1.305,
+            "nativeContactSeconds": 1.22,
+            "durationSeconds": 2.29,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "draw",
+              "turn",
+              "slam"
+            ],
+            "hitstopHolds": [
+              0.035,
+              0.05,
+              0.085
+            ]
+          }
+        },
+        {
+          "actor": "QA:WHITECOAT",
+          "ok": true,
+          "elapsedMs": 1762.4000000059605,
+          "last": {
+            "code": "QA-V35-WHITECOAT",
+            "mode": "skill_tempest",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "contactSeconds": 1.305,
+            "nativeContactSeconds": 1.22,
+            "durationSeconds": 2.29,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "draw",
+              "turn",
+              "slam"
+            ],
+            "hitstopHolds": [
+              0.035,
+              0.05,
+              0.085
+            ]
+          }
+        }
+      ],
+      "errors": []
+    },
+    {
+      "on": true,
+      "poses": {
+        "guard": 52,
+        "iai_ready": 30,
+        "iai_cut": 18,
+        "follow": 12,
+        "v3_pivot": 21,
+        "v3_turn": 22,
+        "v3_compress": 11,
+        "v3_takeoff": 20,
+        "v3_apex": 16,
+        "v3_aircut": 16,
+        "v3_slam": 35,
+        "v3_recover": 24,
+        "step": 34
+      },
+      "maxRenderGapMs": 21.599999994039536,
+      "capture": "VP8 postrender requestFrame, normal V3 clock",
+      "impacts": 3,
+      "playback": [
+        {
+          "actor": "QA:WHITECOAT",
+          "ok": true,
+          "elapsedMs": 1762.5,
+          "last": {
+            "code": "QA-V35-WHITECOAT",
+            "mode": "skill_tempest",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "contactSeconds": 1.305,
+            "nativeContactSeconds": 1.22,
+            "durationSeconds": 2.29,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "draw",
+              "turn",
+              "slam"
+            ],
+            "hitstopHolds": [
+              0.035,
+              0.05,
+              0.085
+            ]
+          }
+        },
+        {
+          "actor": "QA:WHITECOAT",
+          "ok": true,
+          "elapsedMs": 1760.800000011921,
+          "last": {
+            "code": "QA-V35-WHITECOAT",
+            "mode": "skill_tempest",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "contactSeconds": 1.305,
+            "nativeContactSeconds": 1.22,
+            "durationSeconds": 2.29,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "draw",
+              "turn",
+              "slam"
+            ],
+            "hitstopHolds": [
+              0.035,
+              0.05,
+              0.085
+            ]
+          }
+        },
+        {
+          "actor": "QA:WHITECOAT",
+          "ok": true,
+          "elapsedMs": 1759.9000000059605,
+          "last": {
+            "code": "QA-V35-WHITECOAT",
+            "mode": "skill_tempest",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "contactSeconds": 1.305,
+            "nativeContactSeconds": 1.22,
+            "durationSeconds": 2.29,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "draw",
+              "turn",
+              "slam"
+            ],
+            "hitstopHolds": [
+              0.035,
+              0.05,
+              0.085
+            ]
+          }
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "realDevice": false,
+  "passed": true
+}

@@ -1,0 +1,2 @@
+# Preserve native CLI logs with their original Windows line endings.
+*.log -text -diff

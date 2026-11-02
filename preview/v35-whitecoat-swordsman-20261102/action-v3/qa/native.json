@@ -1,0 +1,28 @@
+{
+  "editor": "4.3.26 Professional",
+  "native": "whitecoat-action-v3-93718185df11.spine",
+  "nativeSha256": "6060250d7e614e59ed5b09044f93ad65beca438eeb878ee44f25674cf5f24901",
+  "inputSha256": "93718185df11432ce7d9a52b99f6c9db7ecae2a5f3ca074a8f089127cf7c6635",
+  "runtimeDir": "runtime-action-v3-93718185df11",
+  "atlas": "whitecoat-action-v3-93718185df11.atlas",
+  "skeletonJson": "whitecoat.json",
+  "skeletonCount": 1,
+  "save": true,
+  "reopen": true,
+  "export": true,
+  "bones": 7,
+  "slots": 1,
+  "animations": [
+    "attack_basic",
+    "dash",
+    "death",
+    "hit",
+    "idle",
+    "setup",
+    "skill_iai",
+    "skill_tempest"
+  ],
+  "visualReview": "Headless actual V3 OFF/ON phase captures, normal-speed decoded frames, enemy/mirrored and 390px views reviewed. Native whole-pose playback; no continuous full-video or physical-device claim.",
+  "userMotionApproval": false,
+  "production": false
+}

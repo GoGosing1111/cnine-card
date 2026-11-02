@@ -1,6 +1,10 @@
 # V3 → V3.5 실제 전장 연결·기존 동작 점검
 
-**2026-11-02 현재 기본 검수 대상은 [첨부 흰 코트 검사](../v35-whitecoat-swordsman-20261102/PROJECT.md)다.** 새 자세10종과 실제 Spine 원본, 서로 다른 전진 베기/발도·올려베기, Effekseer 신규4종/공유 Blender 파편을 기존 전장에 연결했다. 기본 주소는 http://127.0.0.1:18766/?case=whitecoat 이며 적 반전은 case=whitecoat-enemy다. [검토 화면/ON·OFF 영상](../v35-whitecoat-swordsman-20261102/review.html)을 함께 제공한다.
+**2026-11-02 현재 기본 검수 대상은 [첨부 흰 코트 검사](../v35-whitecoat-swordsman-20261102/PROJECT.md)다.** 기본 주소는 http://127.0.0.1:18766/?case=whitecoat 이며 적 반전은 case=whitecoat-enemy다. [검토 화면/ON·OFF 영상](../v35-whitecoat-swordsman-20261102/review.html)을 함께 제공한다.
+
+**최신 회전·도약 연격:** [action-v3 제작 기록](../v35-whitecoat-swordsman-20261102/action-v3/PROJECT.md). 새 교체 작화 8개를 더한 18자세/8애니메이션 native를 로드한다. 발도→몸통 회전 베기→도약·내려베기·착지, 공용 GSAP의 세 타격 정지와 자세 잔상, Effekseer 신규 착지 효과를 **회전·도약 연격** 버튼으로 실행한다. 피해 콜백은 최종 1회, 기존 두 공격은 유지한다. 23개 재생·기존 이벤트 9개·기존 공격 교차·정상 OFF/ON 3회씩·적 반전/390px·기존 mixed/cardgu 경로를 확인했다. 공중 HUD 간섭과 정상 영상의 초기 캡처 누락을 수정했다. 운영/정식 서버 스킬 등록이나 DNF급 품질 달성은 아니다.
+
+다음 두 단락은 **초기 10자세 및 검격 V1/V2 당시 이력**이다. 최신 영상과 원본은 위 action-v3 기록을 따른다.
 
 **후속 칼 궤적 업데이트:** 현재 흰 코트의 주 검광은 Runway에서 만든 흰색·금색 재질과 실제 손잡이/칼끝·배우 이동 경로를 쓰는 `SwordTrail`로 교체했다. Effekseer 접촉/Blender 파편은 유지하며 이전 3종 주 효과 파일은 보존한다. 새 자세 제작 없이 교체 작화의 0.32/0.40초 베기와 0.30/0.51초 발도·올려베기를 구분했다. 공용 GSAP의 이동 후 몸/효과를 갱신하고 피해 시점/타수는 유지한다. 관련 24검사·실제 이벤트 9검사·정상속도 OFF/ON·적 반전/390px·기존 mixed/cardgu 경로를 확인했다. 최신 영상은 흰 코트 `qa/sword-trail/`에 있으며 Layer는 아직 미연결이다.
 

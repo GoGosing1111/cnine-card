@@ -31,18 +31,18 @@
     },
     {
       "path": "index.html",
-      "bytes": 2987,
-      "sha256": "b871a3dcfd6a74215f12152f51fef60d562e6d8830c688eb4c9ee62aab421cd2"
+      "bytes": 3036,
+      "sha256": "484decab7ba5e16dd2edbfdda7b56c12eea84e41a365d55ed6e56a63b4d8cfb0"
     },
     {
       "path": "PROJECT.md",
-      "bytes": 11056,
-      "sha256": "3017e743979209ec987eabd825ee8ba63bbb0b320360c8769da07fbbeb464bff"
+      "bytes": 11795,
+      "sha256": "a12e9e01d6d965ecddfb3d6006dd53c6e116892a9ef7fcb2c268936730052f02"
     },
     {
       "path": "qa/build.json",
-      "bytes": 89107,
-      "sha256": "01cbeda0447d68689e209d086c93f1a09b932128e3c4ec5ce1ccbf0bbb92115e"
+      "bytes": 89478,
+      "sha256": "8f963d3d21b12c579e9a751713e48b685cb8c24a330d98f4d337488024f258cd"
     },
     {
       "path": "qa/cardgu-after.png",
@@ -246,13 +246,13 @@
     },
     {
       "path": "workbench.bundle.js",
-      "bytes": 3280950,
-      "sha256": "60dc6ee139ecbd4d346da83b7aca05f0676964df31f4faba9f3fa998d02ac823"
+      "bytes": 3295614,
+      "sha256": "985c98410969019411b9c6ea99cef2d49a068f1c86f127954e4f6e4622c11b6c"
     },
     {
       "path": "workbench.src.mjs",
-      "bytes": 7755,
-      "sha256": "1d9739303ddeff137d362ffe7810567ca48b032beb3822e8ec8335df8f7efad5"
+      "bytes": 7931,
+      "sha256": "569ae8d02270777531cfacc490a70d73ecf1048293a5f2edc3fd2444a666bdf7"
     }
   ],
   "swordTrailUpdate": {
@@ -268,6 +268,15 @@
     "sourceNativeUnmodified": true,
     "priorVersionPreserved": true,
     "additionalCredits": 0,
+    "productionDeployment": false
+  },
+  "tempestActionUpdate": {
+    "delivery": "../v35-whitecoat-swordsman-20261102/action-v3/qa/delivery.json",
+    "currentNative": "whitecoat-action-v3-93718185df11.spine",
+    "newArtwork": 8,
+    "totalPoses": 18,
+    "newEffekseerEffects": 1,
+    "priorVersionsPreserved": true,
     "productionDeployment": false
   }
 }

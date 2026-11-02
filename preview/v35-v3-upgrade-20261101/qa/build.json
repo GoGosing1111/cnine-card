@@ -1,6 +1,6 @@
 {
   "sourceCheckout": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout",
-  "sourceRef": "d1867901bb1d695b9b488f74a94ec936fefe8085",
+  "sourceRef": "3991dd3f91553475ee3e3cbb65d99af6f9af3bda",
   "sources": [
     {
       "path": "preview/project-v-v3/source/battle/BattleEngine.js",
@@ -1063,9 +1063,14 @@
     "output/revan-live-20261027/release-checkout/preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/v35-v3-upgrade-20261101/SpineBattleAdapter.mjs",
     "preview/v35-effects-production-20261102/BakedBattleEffects.mjs",
+    "preview/v35-whitecoat-swordsman-20261102/action-v3/action.json",
+    "preview/v35-whitecoat-swordsman-20261102/action-v3/timing.mjs",
+    "preview/v35-whitecoat-swordsman-20261102/action-v3/play-attack.mjs",
     "preview/v35-whitecoat-swordsman-20261102/WhitecoatBattleAdapter.mjs",
     "preview/v35-whitecoat-swordsman-20261102/pose-registration.json",
     "preview/v35-whitecoat-swordsman-20261102/SwordTrail.mjs",
+    "preview/v35-whitecoat-swordsman-20261102/action-v3/pose-registration.json",
+    "preview/v35-whitecoat-swordsman-20261102/action-v3/TempestEffects.mjs",
     "preview/v35-whitecoat-swordsman-20261102/WhitecoatEffects.mjs",
     "preview/v35-v3-upgrade-20261101/workbench.src.mjs"
   ],

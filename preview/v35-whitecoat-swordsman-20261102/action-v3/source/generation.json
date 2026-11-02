@@ -1,0 +1,39 @@
+{
+  "tool": "built-in image_gen",
+  "prompts": "prompts.json",
+  "originalReference": "../../source/approved-illustration.png",
+  "files": [
+    {
+      "file": "art/turn-sheet-v1.png",
+      "source": "C:/Users/User/.codex/generated_images/01a19660-79fe-7861-8630-c01a2bd2c294/exec-dcd795be-192a-4584-b6bc-265032d09ed1.png",
+      "selected": false,
+      "width": 1536,
+      "height": 1024,
+      "sha256": "28b8a4588c836a54427bdb2f49903eb456d65d14be2bb7026cc6458bb46bfc62"
+    },
+    {
+      "file": "art/air-sheet-v1.png",
+      "source": "C:/Users/User/.codex/generated_images/01a19660-79fe-7861-8630-c01a2bd2c294/exec-3f70e7ea-c23d-4517-afc2-4290cf06c370.png",
+      "selected": false,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "d2eeff65569c465f98bc738b5a0fc4b6fe9bd42a3ce7569ef480333f8d7aed67"
+    },
+    {
+      "file": "art/turn-sheet-v2.png",
+      "source": "C:/Users/User/.codex/generated_images/01a19660-79fe-7861-8630-c01a2bd2c294/exec-29d538cf-0119-49d6-b991-fe9ddddd2523.png",
+      "selected": true,
+      "width": 1536,
+      "height": 1024,
+      "sha256": "faf51426934477f0e7d6a95a20f30df64ecabf793ff5dc3dc2284235ca420426"
+    },
+    {
+      "file": "art/air-sheet-v2.png",
+      "source": "C:/Users/User/.codex/generated_images/01a19660-79fe-7861-8630-c01a2bd2c294/exec-1cb70357-105c-403f-a6b4-83953a3b353a.png",
+      "selected": true,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "3f33bb95a778d69e8245d6e194169c56397b6ff79e19e1ac3b982c774f0f04fb"
+    }
+  ]
+}

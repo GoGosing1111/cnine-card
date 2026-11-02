@@ -1,0 +1,86 @@
+{
+  "oldAnimationsPreserved": [
+    "setup",
+    "idle",
+    "dash",
+    "attack_basic",
+    "skill_iai",
+    "hit",
+    "death"
+  ],
+  "oldAttachmentsPreserved": [
+    "guard",
+    "windup",
+    "contact",
+    "follow",
+    "iai_ready",
+    "iai_cut",
+    "rise",
+    "step",
+    "hit",
+    "defeat"
+  ],
+  "newNativeSha256": "6060250d7e614e59ed5b09044f93ad65beca438eeb878ee44f25674cf5f24901",
+  "totalAttachments": 18,
+  "totalAnimations": 8,
+  "checks": 23,
+  "eventChecks": 9,
+  "normalCombos": 6,
+  "capture": [
+    {
+      "on": false,
+      "capture": "VP8 postrender requestFrame, normal V3 clock",
+      "maxRenderGapMs": 21.900000005960464,
+      "impacts": 3
+    },
+    {
+      "on": true,
+      "capture": "VP8 postrender requestFrame, normal V3 clock",
+      "maxRenderGapMs": 21.599999994039536,
+      "impacts": 3
+    }
+  ],
+  "links": [
+    {
+      "href": "/?case=whitecoat",
+      "status": 200
+    },
+    {
+      "href": "/?case=whitecoat-enemy",
+      "status": 200
+    },
+    {
+      "href": "PROJECT.md",
+      "status": 200
+    },
+    {
+      "href": "action-v3/qa/normal-effects-on.webm",
+      "status": 200
+    },
+    {
+      "href": "action-v3/qa/normal-effects-off.webm",
+      "status": 200
+    },
+    {
+      "href": "qa/sword-trail-v2/normal-effects-on.webm",
+      "status": 200
+    },
+    {
+      "href": "action-v3/PROJECT.md",
+      "status": 200
+    },
+    {
+      "href": "action-v3/qa/action-review.png",
+      "status": 200
+    },
+    {
+      "href": "whitecoat-action-v3-93718185df11.spine",
+      "status": 200
+    },
+    {
+      "href": "action-v3/qa/pose-lineup.png",
+      "status": 200
+    }
+  ],
+  "passed": true
+}

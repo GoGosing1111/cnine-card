@@ -1,0 +1,155 @@
+{
+  "results": [
+    {
+      "action": "skill_tempest",
+      "impacts": 1,
+      "last": {
+        "code": "QA-V35-WHITECOAT",
+        "mode": "skill_tempest",
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "spineAutoUpdate": false,
+        "damageApplications": 1,
+        "contactSeconds": 1.305,
+        "nativeContactSeconds": 1.22,
+        "durationSeconds": 2.29,
+        "wholePoseAttachments": true,
+        "visualContacts": [
+          "draw",
+          "turn",
+          "slam"
+        ],
+        "hitstopHolds": [
+          0.035,
+          0.05,
+          0.085
+        ]
+      },
+      "pose": "guard",
+      "hudY": -403,
+      "position": [
+        170,
+        592
+      ],
+      "base": [
+        170,
+        592
+      ],
+      "errors": []
+    },
+    {
+      "action": "attack_basic",
+      "impacts": 1,
+      "last": {
+        "code": "QA-V35-WHITECOAT",
+        "mode": "attack_basic",
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "spineAutoUpdate": false,
+        "damageApplications": 1,
+        "contactSeconds": 0.32,
+        "durationSeconds": 1.18,
+        "wholePoseAttachments": true
+      },
+      "pose": "guard",
+      "hudY": -403,
+      "position": [
+        170,
+        592
+      ],
+      "base": [
+        170,
+        592
+      ],
+      "errors": []
+    },
+    {
+      "action": "skill_iai",
+      "impacts": 1,
+      "last": {
+        "code": "QA-V35-WHITECOAT",
+        "mode": "skill_iai",
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "spineAutoUpdate": false,
+        "damageApplications": 1,
+        "contactSeconds": 0.3,
+        "durationSeconds": 1.55,
+        "wholePoseAttachments": true
+      },
+      "pose": "guard",
+      "hudY": -403,
+      "position": [
+        170,
+        592
+      ],
+      "base": [
+        170,
+        592
+      ],
+      "errors": []
+    },
+    {
+      "action": "attack_basic",
+      "impacts": 1,
+      "last": {
+        "code": "QA-V35-WHITECOAT",
+        "mode": "attack_basic",
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "spineAutoUpdate": false,
+        "damageApplications": 1,
+        "contactSeconds": 0.32,
+        "durationSeconds": 1.18,
+        "wholePoseAttachments": true
+      },
+      "pose": "guard",
+      "hudY": -403,
+      "position": [
+        170,
+        592
+      ],
+      "base": [
+        170,
+        592
+      ],
+      "errors": []
+    },
+    {
+      "action": "skill_iai",
+      "impacts": 1,
+      "last": {
+        "code": "QA-V35-WHITECOAT",
+        "mode": "skill_iai",
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "spineAutoUpdate": false,
+        "damageApplications": 1,
+        "contactSeconds": 0.3,
+        "durationSeconds": 1.55,
+        "wholePoseAttachments": true
+      },
+      "pose": "guard",
+      "hudY": -403,
+      "position": [
+        170,
+        592
+      ],
+      "base": [
+        170,
+        592
+      ],
+      "errors": []
+    }
+  ],
+  "anchors": [
+    {
+      "action": "attack_basic",
+      "errors": [
+        0.0000012479645265670943
+      ]
+    },
+    {
+      "action": "skill_iai",
+      "errors": [
+        0.000004955223456140288
+      ]
+    }
+  ],
+  "passed": true
+}

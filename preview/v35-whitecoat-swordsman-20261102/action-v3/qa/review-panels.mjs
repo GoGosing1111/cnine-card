@@ -1,0 +1,4 @@
+import sharp from 'sharp';import {fileURLToPath} from 'node:url';
+const dir=fileURLToPath(new URL('.',import.meta.url)),panels=[],frames=[300,480,640,980,1100,1320],labels=['Draw / 0.30','Body turn / 0.48','Reverse cut / 0.64','Airborne / 0.98','Downward cut / 1.10','Ground impact / 1.32'];
+for(const[i,t]of frames.entries()){const png=await sharp(dir+'on-'+t+'.png').extract({left:670,top:370,width:420,height:280}).resize(600,400).png().toBuffer();panels.push({input:png,left:i%3*600,top:Math.floor(i/3)*440});}
+const text=labels.map((s,i)=>`<text x="${i%3*600+12}" y="${Math.floor(i/3)*440+428}">${s}</text>`).join('');panels.push({input:Buffer.from(`<svg width="1800" height="880"><g font-family="Arial" font-size="23" fill="#e4edf5">${text}</g></svg>`),left:0,top:0});await sharp({create:{width:1800,height:880,channels:4,background:'#172534'}}).composite(panels).png().toFile(dir+'action-review.png');
