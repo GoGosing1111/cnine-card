@@ -1,0 +1,218 @@
+{
+  "status": "LIVE_VERIFIED",
+  "at": "2026-11-02T10:47:45.233Z",
+  "release": {
+    "head": "e3886b0e54e533f98c32b422c56c79a80c9c18a4",
+    "base": "ab6c5a2d656c01ed40a26ad5a6e9441cee8b57c5",
+    "exitCode": 0,
+    "log": "file:///C:/Users/User/Downloads/upload/cnine-card/operations/v3-battle-hud-20261102/deploy-e3886b0e5.log",
+    "startedAt": "2026-11-02T10:40:54.776Z",
+    "finishedAt": "2026-11-02T10:46:24.813Z"
+  },
+  "live": {
+    "at": "2026-11-02T10:46:43.973Z",
+    "pages": {
+      "id": "1cf1116e-5c86-4b59-9c70-9d1840a87f2c",
+      "url": "https://1cf1116e.cnine-card.pages.dev",
+      "status": "success",
+      "commit": "e3886b0e54e533f98c32b422c56c79a80c9c18a4"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "versions": [
+          {
+            "version_id": "a76b1fbe-93cd-4248-99ce-f488739c80d6",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "versions": [
+          {
+            "version_id": "5d04a40a-52d4-4c0f-8476-42a6294b8bb7",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "assets": [
+      {
+        "file": "index.html",
+        "bytes": 48913,
+        "sha256": "8047e1eafe06a2d67a415748382474dfb1aa6693d6fb2223eca8b1e2f8ce63be"
+      },
+      {
+        "file": "css/style.css",
+        "bytes": 535745,
+        "sha256": "68d6c9c3e0c21021ad1469da6098d3e44f9dc9521bcd561bc48ac1e4a4f6f492"
+      },
+      {
+        "file": "js/app.js",
+        "bytes": 810301,
+        "sha256": "6f4e319c6821f81c222f5427d2f5790aea23f142d8f296d770257fa73326277b"
+      },
+      {
+        "file": "service-worker.js",
+        "bytes": 23150,
+        "sha256": "157d286aa03633ecfaf800ebe71fcb0e656eb9c045c6fdb4a86d755368efb3ea"
+      },
+      {
+        "file": "onestore/index.html",
+        "bytes": 48811,
+        "sha256": "c69babbe97ab833a153c608e81a7a8d239df4d595c29d93148bdbdf060a1fdb4"
+      },
+      {
+        "file": "onestore/js/app.js",
+        "bytes": 804855,
+        "sha256": "e1aa1489c3fbb393aa8e6f482874de98782db4dad54eab2e250a8127edba7435"
+      },
+      {
+        "file": "shared/onestore-web-assets-v1.mjs",
+        "bytes": 985,
+        "sha256": "bfb182b8f9a45db527492ae447b08fb217a0628fc8436b3c565d90b9ef1041ff"
+      },
+      {
+        "file": "js/battle-v3-live.js",
+        "bytes": 77944,
+        "sha256": "5fc9709884b73f66cba5c45e4723713ae103aaff26f3dc32ffad27e374e88636"
+      },
+      {
+        "file": "js/battle-v3-hud.mjs",
+        "bytes": 11991,
+        "sha256": "f79494757848a4d45286d820d9922d1477033c37464c1458a65261b236468a18"
+      },
+      {
+        "file": "css/battle-v3-live.css",
+        "bytes": 35904,
+        "sha256": "1b75b5ce741e54e85220a9b2791adfb2945706be27b95d65412df1fcc4cc19d8"
+      },
+      {
+        "file": "js/apocalypse-challenge-v1.mjs",
+        "bytes": 11524,
+        "sha256": "e5afddfa147368ded11b04a04475cfdf68643785745e1ea3e002dc823481ccfa"
+      },
+      {
+        "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "bytes": 2983697,
+        "sha256": "957f446025506595bf1bdafec8efe34083d70b6f7582fa02d9cd44174675473a"
+      },
+      {
+        "file": "pve-v3/battle.bundle.js",
+        "bytes": 2983671,
+        "sha256": "47b941fb1fd779294c289d06d216b6c4017b558c81c79a28046208cec9e34739"
+      },
+      {
+        "file": "preview/sustained-hunt-v2/battle.bundle.js",
+        "bytes": 3007295,
+        "sha256": "b1c34c1d627fa7c48ea2afbd570571360a3f297a71df7ff0f365b462ab77c4bc"
+      },
+      {
+        "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+        "bytes": 2983260,
+        "sha256": "3c0c265af1768175b5ecd4d3027a6ed3cc8c109c63b30cf88e9e4c9983753f55"
+      },
+      {
+        "file": "preview/cow-room-v3-v1/battle.bundle.js",
+        "bytes": 2983323,
+        "sha256": "b894fcfec849257d34bc2317bce899406545ad5de66f0e8d0edadeffc10dd3ca"
+      },
+      {
+        "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+        "bytes": 2983312,
+        "sha256": "f23eabee4d0d9e37d64a72e7c3a761347470db000b34d3e393fb8a8c28b21df0"
+      },
+      {
+        "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+        "bytes": 2986874,
+        "sha256": "129244fb668f4e9a070c35fd6a58cd22c9aa3a51967d700ab438e8746968ce90"
+      },
+      {
+        "file": "preview/boss-resources-v2048/lab.bundle.js",
+        "bytes": 2980338,
+        "sha256": "6da19f63438a2e75ff81014a618e73b40995cbbb9ac7ff85656e5da42563ef52"
+      },
+      {
+        "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+        "bytes": 2985025,
+        "sha256": "eda0c3b15bdece8f2a9c353d49b44b7943ce6bc26e1e7bb4db13b32aa2628e11"
+      },
+      {
+        "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+        "bytes": 3030096,
+        "sha256": "57add246353e64b1dd706ddf727debc0d35078e1718b8e7838c431b11f0fd3a5"
+      },
+      {
+        "file": "preview/coop-defense-v1/defense.bundle.js",
+        "bytes": 3122253,
+        "sha256": "26df9182cdb3907ea510fa38d87f317d821049133d91723a488f7b6a185e004c"
+      }
+    ],
+    "clientManifest": {
+      "releaseId": "6eeec22f0ed03c34783b6041feb2564c0ca4a165b6c41956c0c2a6084e899efb",
+      "files": [
+        "js/app.js",
+        "js/battle-v3-live.js",
+        "js/battle-v3-hud.mjs",
+        "css/battle-v3-live.css",
+        "preview/project-v-v3/project-v-pixi-battle.bundle.js"
+      ]
+    },
+    "productionAccountWrites": 0,
+    "messagesSent": 0
+  },
+  "publicHud": [
+    {
+      "kind": "HUNT",
+      "width": 390,
+      "height": 844,
+      "portraits": 7,
+      "errors": []
+    },
+    {
+      "kind": "PVP",
+      "width": 390,
+      "height": 844,
+      "portraits": 14,
+      "errors": []
+    }
+  ],
+  "publicEntry": [
+    {
+      "width": 390,
+      "mode": "PVP",
+      "entry": "actual start button",
+      "result": true,
+      "return": true,
+      "actors": [
+        {
+          "id": "B:MERCENARY:V-976",
+          "visible": true,
+          "alpha": 1
+        }
+      ],
+      "levels": [
+        21,
+        21
+      ]
+    },
+    {
+      "width": 390,
+      "code": "V-975",
+      "codex": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "code": "V-976",
+      "codex": true,
+      "overflow": false
+    }
+  ],
+  "tests": 83,
+  "assetCount": 20000,
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "realDevice": false
+}
