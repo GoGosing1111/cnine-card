@@ -1,0 +1,22 @@
+{
+  "operationKey": "ops:ganjang-master-star-300m:20261103:v1",
+  "itemCode": "MASTER_STAR",
+  "delivery": "DIRECT",
+  "sendMessages": false,
+  "amount": "300000000",
+  "recipientCount": 1,
+  "recipients": [
+    {
+      "userId": "4981",
+      "nickname": "간장왕대게찜",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "192c01214a71494434f0966fb4ce0c9ffb8fc494b184ebc804495b6330e9583e"
+    }
+  ],
+  "logFloor": {
+    "inventory": "88394132",
+    "audit": "54005"
+  },
+  "authorization": "간장왕대게찜 계정에 마별 3억 지급해"
+}

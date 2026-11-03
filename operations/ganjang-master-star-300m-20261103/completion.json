@@ -1,0 +1,81 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:ganjang-master-star-300m:20261103:v1",
+  "authorization": "간장왕대게찜 계정에 마별 3억 지급해",
+  "userId": "4981",
+  "nickname": "간장왕대게찜",
+  "itemCode": "MASTER_STAR",
+  "amount": "300000000",
+  "before": "68464540",
+  "after": "368464540",
+  "inventoryLogId": "88394447",
+  "auditId": "54008",
+  "completedAt": "2026-11-03T09:52:17.644Z",
+  "completedAtKst": "2026-11-03 18:52:17 KST",
+  "planHash": "930f2035a921d3bf75631967baf753ed5be09721c6c9cf50fc8c07a39b80c67b",
+  "sourceSha256": "316a7733a44246d1ad9866bc74a78abe3097479ace60d504d1759b4aa648899f",
+  "testsPassed": 5,
+  "atomic": true,
+  "failureAndSuccessRehearsalsRolledBack": true,
+  "independentReadOnlyVerified": true,
+  "noWriteReplayVerified": true,
+  "leasesReleased": true,
+  "inventorySyncVerified": true,
+  "postGrantUsage": {
+    "verifiedAt": "2026-11-03T09:53:39.259Z",
+    "currentAtVerification": "268464540",
+    "ledgerEntries": 5,
+    "amount": "-100000000",
+    "preserved": true
+  },
+  "messagesSent": 0,
+  "gameRedeployed": false,
+  "storageMaintenance": false,
+  "scheduledAutomations": 0,
+  "evidence": [
+    {
+      "file": "preflight.json",
+      "sha256": "ca3373bd46168cfe8803aaf635d80418ec45561849c0fb11df91dec6c6d61ad9"
+    },
+    {
+      "file": "plan.json",
+      "sha256": "a17c32a8dd13bf46218e384802f953ef0d31c724065eeba0c48a063136cb2b2c"
+    },
+    {
+      "file": "tests.json",
+      "sha256": "330f13c160da6e409745c8afe99910ab62849066c63df64d3f462d79ad38854c"
+    },
+    {
+      "file": "tests.log",
+      "sha256": "02b2dda1dba4fa5de60068164a1701a66a0226f4cec50f048685624b88c9d710"
+    },
+    {
+      "file": "proof/read.json",
+      "sha256": "cd0b5740cc72438ef5247baa12485cd578decbf8b0908196231d047549723fcc"
+    },
+    {
+      "file": "proof/dry-run.json",
+      "sha256": "be06bdfa2046f8787fcd471a720cc8ca959b455facb20ce52d38564ce352da7b"
+    },
+    {
+      "file": "proof/apply.json",
+      "sha256": "05b6c914a9a600705e2f4084870c7a80f2baa4db0769a04f615d3c24b7a963fb"
+    },
+    {
+      "file": "proof/verify.json",
+      "sha256": "80e0132ea3dfa1520cb6a849f09d1d104ad887e883cb669a92fb3ff48482b718"
+    },
+    {
+      "file": "proof/replay.json",
+      "sha256": "54e1fb3b46a3b30b449ab51f056a2db188f52beff73f822662ce294c8c8abe55"
+    },
+    {
+      "file": "proof/independent.json",
+      "sha256": "3606b45a389f331e9dc1dc56f258aa67cf9481cc9c059c06bb24347989e14d18"
+    },
+    {
+      "file": "proof/committed-snapshots.json",
+      "sha256": "3e3d0be10de7bd9f0e42cb38fa8c5ce2327453a2bb073f0970b48fb1670d2b86"
+    }
+  ]
+}

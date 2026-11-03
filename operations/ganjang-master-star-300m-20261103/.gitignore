@@ -1,0 +1,5 @@
+preflight.json
+tests.json
+tests.log
+proof/
+.wrangler/
