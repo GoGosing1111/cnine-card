@@ -1,0 +1,19 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';
+const root='C:/Users/User/Downloads/upload/cnine-card',release=root+'/output/revan-live-20261027/release-checkout',op=root+'/operations/quest-command-20261103',qa=release+'/docs/qa/quest-command-20261103';
+const read=name=>JSON.parse(fs.readFileSync(op+'/'+name+'.json'));
+const statusRead=read('live-status-readonly');assert.equal(statusRead.writes,0);assert(statusRead.results.every(r=>r.rulesVerified));
+const deployed=read('deployment-result'),live=read('live-verification'),applied=read('applied'),policy=read('policy-verification'),browser=read('public-browser/report');
+assert.equal(deployed.exitCode,0);assert.equal(live.pages.commit,deployed.head);assert.equal(applied.receipt.sourceCommit,deployed.head);assert.equal(policy.replayWrites,0);assert.equal(browser.status,'PASS');
+const log=fs.readFileSync(new URL(deployed.logfile),'utf8'),testCount=Number(log.match(/ℹ tests (\d+)/)?.[1]);assert.equal(testCount,60);
+const summary={status:'LIVE',at:new Date().toISOString(),sourceCommit:deployed.head,pages:live.pages,workers:live.workers,operation:applied.receipt.operation,auditId:applied.receipt.auditId,appliedAt:applied.receipt.appliedAt,tests:testCount,localBrowserProfiles:['Chromium1440','Chromium390','Chromium320','WebKit390'],publicBrowserProfiles:browser.reports.map(r=>r.profile),publicFiles:live.assets.length,windowsEssentialFiles:live.clientManifest.files.length,assets:19999,approvedArtUnchanged:true,priorClaims:applied.receipt.priorClaims,postPreserved:true,productionAccountGrants:0,messagesSent:0,replayWrites:0,realDeviceTest:false};
+fs.writeFileSync(op+'/completion.json',JSON.stringify(summary,null,2),{flag:'wx'});
+for(const name of ['deployment-result.json','deployment-blocked-db6c75ae0.json','live-verification.json','applied.json','policy-verification.json','live-status-readonly.json','completion.json'])fs.copyFileSync(op+'/'+name,qa+'/'+name);
+fs.copyFileSync(op+'/public-browser/report.json',qa+'/public-browser-report.json');
+for(const name of ['finalize.mjs','verify-status.mjs','release.mjs','browser.mjs'])fs.copyFileSync(op+'/'+name,qa+'/'+name+'.source.txt');
+const note=`\n\n운영 완료: 소스 ${deployed.head}, Pages ${live.pages.id}, 두 Worker 100%. 설정 감사 ${applied.receipt.auditId}, 완료 키 ${applied.receipt.operation}. 검증 ${testCount}개 및 공개 WebKit390 실제 로비 진입/복귀(격리 API), 공개 ${live.assets.length}파일과 Windows 필수 ${live.clientManifest.files.length}파일 해시 확인. 초기 배포는 앱/서비스워커 버전 불일치로 공개 반영 전 검사에서 중단했고 버전을 맞춘 후 정상 배포했다. 이전 로그/차단 결과는 그대로 보존했다. 주간 영수증 ${applied.receipt.priorClaims.count}건을 변경하지 않았고, 독립 READ ONLY와 SELECT전용 재실행 추가쓰기0을 확인했다. 직접 계정 지급/메시지 발송 없음.\n`;
+fs.appendFileSync(qa+'/README.md',note);
+fs.appendFileSync(root+'/preview/weekly-command-20261103/PROJECT.md',note);
+const marker='## 최고사령부 서린 · 일일/주간 퀘스트 승인 규정 — 2026-11-03';
+for(const folder of [root,release]){const p=folder+'/AGENTS.md',s=fs.readFileSync(p,'utf8');assert(s.includes(marker));const line=`\n\n- **운영 완료:** 소스 \`${deployed.head.slice(0,9)}\`·Pages \`${live.pages.id.slice(0,8)}\`·두Worker100%·감사${applied.receipt.auditId}. 완료키 \`${applied.receipt.operation}\` 재실행 금지. 관련60검사·PC/390/320/WebKit·공개모바일·공개${live.assets.length}파일/Windows필수${live.clientManifest.files.length}해시 확인, 자산19,999개. 기존 주간영수증${applied.receipt.priorClaims.count}건/POST 설정 보존·직접계정지급/메시지발송0. 상세 docs/qa/quest-command-20261103/. 실기기검수 아님.`;fs.writeFileSync(p,s.replace(marker,marker+line));}
+const rootQa=root+'/docs/qa/quest-command-20261103';fs.mkdirSync(rootQa,{recursive:true});for(const name of ['README.md','completion.json','approval.json'])fs.copyFileSync(qa+'/'+name,rootQa+'/'+name);
+console.log(JSON.stringify(summary));

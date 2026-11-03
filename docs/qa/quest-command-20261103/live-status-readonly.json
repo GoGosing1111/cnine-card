@@ -1,0 +1,168 @@
+{
+  "at": "2026-11-03T04:17:58.291Z",
+  "results": [
+    {
+      "userId": 19,
+      "daily": [
+        {
+          "id": "RANKED",
+          "count": 0,
+          "claimed": false,
+          "enabled": true
+        },
+        {
+          "id": "WORLD_RAID",
+          "count": 7,
+          "claimed": false,
+          "enabled": true
+        },
+        {
+          "id": "DUO_RANKED",
+          "count": 0,
+          "claimed": false,
+          "enabled": true
+        }
+      ],
+      "weekly": [
+        {
+          "id": "POST",
+          "count": 84,
+          "claimed": false,
+          "claimedReward": null
+        },
+        {
+          "id": "CORE_RAID",
+          "count": 4,
+          "claimed": true,
+          "claimedReward": {
+            "type": "MASTER_STAR",
+            "label": "마스터의 별",
+            "amount": 300000
+          }
+        },
+        {
+          "id": "TERRITORY",
+          "count": 63,
+          "claimed": false,
+          "claimedReward": null
+        },
+        {
+          "id": "CLAN",
+          "count": 0,
+          "claimed": false,
+          "claimedReward": null
+        }
+      ],
+      "rulesVerified": true
+    },
+    {
+      "userId": 22,
+      "daily": [
+        {
+          "id": "RANKED",
+          "count": 5,
+          "claimed": false,
+          "enabled": true
+        },
+        {
+          "id": "WORLD_RAID",
+          "count": 1,
+          "claimed": false,
+          "enabled": true
+        },
+        {
+          "id": "DUO_RANKED",
+          "count": 94,
+          "claimed": false,
+          "enabled": true
+        }
+      ],
+      "weekly": [
+        {
+          "id": "POST",
+          "count": 85,
+          "claimed": false,
+          "claimedReward": null
+        },
+        {
+          "id": "CORE_RAID",
+          "count": 7,
+          "claimed": true,
+          "claimedReward": {
+            "type": "MASTER_STAR",
+            "label": "마스터의 별",
+            "amount": 300000
+          }
+        },
+        {
+          "id": "TERRITORY",
+          "count": 76,
+          "claimed": false,
+          "claimedReward": null
+        },
+        {
+          "id": "CLAN",
+          "count": 0,
+          "claimed": false,
+          "claimedReward": null
+        }
+      ],
+      "rulesVerified": true
+    },
+    {
+      "userId": 164,
+      "daily": [
+        {
+          "id": "RANKED",
+          "count": 1,
+          "claimed": false,
+          "enabled": true
+        },
+        {
+          "id": "WORLD_RAID",
+          "count": 10,
+          "claimed": false,
+          "enabled": true
+        },
+        {
+          "id": "DUO_RANKED",
+          "count": 0,
+          "claimed": false,
+          "enabled": true
+        }
+      ],
+      "weekly": [
+        {
+          "id": "POST",
+          "count": 118,
+          "claimed": false,
+          "claimedReward": null
+        },
+        {
+          "id": "CORE_RAID",
+          "count": 3,
+          "claimed": true,
+          "claimedReward": {
+            "type": "MASTER_STAR",
+            "label": "마스터의 별",
+            "amount": 300000
+          }
+        },
+        {
+          "id": "TERRITORY",
+          "count": 135,
+          "claimed": false,
+          "claimedReward": null
+        },
+        {
+          "id": "CLAN",
+          "count": 0,
+          "claimed": false,
+          "claimedReward": null
+        }
+      ],
+      "rulesVerified": true
+    }
+  ],
+  "writes": 0
+}

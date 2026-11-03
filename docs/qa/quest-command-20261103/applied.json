@@ -1,0 +1,71 @@
+{
+  "at": "2026-11-03T04:17:09.510Z",
+  "dryRun": false,
+  "replayed": false,
+  "receipt": {
+    "operation": "ops:quest-command:20261103:v1",
+    "sourceCommit": "ee28a020defc661e42cdb127b2672c9a155ad290",
+    "beforeWeeklyHash": "10795406009ca0ca4a0702956b6d72e4c43493d88c4cc3b4f74c516560087bc8",
+    "afterWeeklyHash": "76890fd66e466de58fc10c556cf0504f83267828c3828e5e034ad3eb0793abee",
+    "weekly": {
+      "revision": 7,
+      "quests": {
+        "POST": {
+          "enabled": true,
+          "rewardType": "COIN",
+          "rewardAmount": 30000000000000
+        },
+        "CORE_RAID": {
+          "enabled": true,
+          "rewardType": "COIN",
+          "rewardAmount": 15000000000000
+        },
+        "TERRITORY": {
+          "enabled": true,
+          "rewardType": "COIN",
+          "rewardAmount": 20000000000000
+        },
+        "CLAN": {
+          "enabled": true,
+          "rewardType": "COIN",
+          "rewardAmount": 50000000000000
+        }
+      },
+      "operationToken": "ops:quest-command:20261103:v1"
+    },
+    "daily": {
+      "version": 1,
+      "enabled": true,
+      "operation": "ops:quest-command:20261103:v1",
+      "quests": [
+        {
+          "id": "RANKED",
+          "target": 30,
+          "coin": 3000000000000,
+          "masterStars": 10000000
+        },
+        {
+          "id": "WORLD_RAID",
+          "target": 5,
+          "coin": 1000000000000,
+          "masterStars": 10000000
+        },
+        {
+          "id": "DUO_RANKED",
+          "target": 10,
+          "coin": 2000000000000,
+          "masterStars": 10000000
+        }
+      ]
+    },
+    "postPreserved": true,
+    "priorClaims": {
+      "count": 1900,
+      "sha256": "49e3123201fabbb3d9e5f4cab3a4186d20ae35c577e86e27ead5939848284c8f"
+    },
+    "accountWrites": 0,
+    "messagesSent": 0,
+    "auditId": "53954",
+    "appliedAt": "2026-11-03 04:17:07"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "status": "LIVE",
+  "at": "2026-11-03T04:18:41.548Z",
+  "sourceCommit": "ee28a020defc661e42cdb127b2672c9a155ad290",
+  "pages": {
+    "id": "89d42a30-2924-487a-9334-685c2a5aa334",
+    "url": "https://89d42a30.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "ee28a020defc661e42cdb127b2672c9a155ad290"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "f876b004-4313-4bc1-b424-5cc29f9cc0d3",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "6ff6a57c-8c71-41d7-afbd-98420998c160",
+      "percentage": 100
+    }
+  ],
+  "operation": "ops:quest-command:20261103:v1",
+  "auditId": "53954",
+  "appliedAt": "2026-11-03 04:17:07",
+  "tests": 60,
+  "localBrowserProfiles": [
+    "Chromium1440",
+    "Chromium390",
+    "Chromium320",
+    "WebKit390"
+  ],
+  "publicBrowserProfiles": [
+    "public-mobile"
+  ],
+  "publicFiles": 16,
+  "windowsEssentialFiles": 6,
+  "assets": 19999,
+  "approvedArtUnchanged": true,
+  "priorClaims": {
+    "count": 1900,
+    "sha256": "49e3123201fabbb3d9e5f4cab3a4186d20ae35c577e86e27ead5939848284c8f"
+  },
+  "postPreserved": true,
+  "productionAccountGrants": 0,
+  "messagesSent": 0,
+  "replayWrites": 0,
+  "realDeviceTest": false
+}

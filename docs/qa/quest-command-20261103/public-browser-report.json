@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "reports": [
+    {
+      "profile": "public-mobile",
+      "width": 390,
+      "actualLobbyEntry": true,
+      "closeAndReenter": true,
+      "approvedRewards": true,
+      "contextualDialogue": true,
+      "lostAckRecovered": true,
+      "failedClaimPreserved": true,
+      "writes": [
+        "sync/ticket",
+        "sync/ticket",
+        "sync/ticket",
+        "sync/ticket",
+        "quests/daily/claim",
+        "quests/daily/claim",
+        "quests/weekly/claim"
+      ],
+      "measurements": {
+        "scroll": 390,
+        "width": 390,
+        "boardBottom": 962.375,
+        "dialogTop": 341,
+        "dialogBottom": 517,
+        "portrait": 1024,
+        "font": "Quest Pretendard, Pretendard Variable, Pretendard, Malgun Gothic, sans-serif"
+      },
+      "errors": [],
+      "warnings": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "unrelatedAssetFailures": []
+    }
+  ],
+  "productionAccountWrites": 0
+}

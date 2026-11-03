@@ -1,0 +1,137 @@
+{
+  "at": "2026-11-03T04:16:42.164Z",
+  "pages": {
+    "id": "89d42a30-2924-487a-9334-685c2a5aa334",
+    "url": "https://89d42a30.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "ee28a020defc661e42cdb127b2672c9a155ad290"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "f876b004-4313-4bc1-b424-5cc29f9cc0d3",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "6ff6a57c-8c71-41d7-afbd-98420998c160",
+      "percentage": 100
+    }
+  ],
+  "assets": [
+    {
+      "file": "onestore/index.html",
+      "sha256": "90887178d0c2681b4ef30df744ebbc36bacf6c4e31fc68edc78161c9ca6a41f1",
+      "serverTransformed": true
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "cb399dbe7a59a9974d7854b58457a368b2891c4404f185cd14995acbd7a3d11e",
+      "serverTransformed": false
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "99d9b3c2d9d25c532d8fc6b401fd097f91defe33abcd19e717dabad8ebf8b4bb",
+      "serverTransformed": false
+    },
+    {
+      "file": "index.html",
+      "sha256": "8737dba6547b57f9ba6850231bc06944d874b6bcc029d83709da595ed30db951",
+      "serverTransformed": false
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "7f63fcb958843eddea9ad6d5b32abc7eae4f232bd5f5fcc0373a600995751891",
+      "serverTransformed": false
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "87f1af8320fc52cf5b3c39fc3dbc95f668d095ddebe2e4bfc11aec86ddeb16b0",
+      "serverTransformed": false
+    },
+    {
+      "file": "js/quest-hub-live.mjs",
+      "sha256": "173f07f7deb36a1fa189f16413c3035acf9d552300a60cfc6636e098bc909bd3",
+      "serverTransformed": false
+    },
+    {
+      "file": "js/quest-command-ui.mjs",
+      "sha256": "bb739cd4bc10fbbc04324db2c09299a8e0f4125510448db9b209f4d18fcc9b25",
+      "serverTransformed": false
+    },
+    {
+      "file": "shared/quest-command-v1.mjs",
+      "sha256": "ec6b6b1b83f80812c983a1ccba68c767bd1a0f238d68fe49e827a426e5c78488",
+      "serverTransformed": false
+    },
+    {
+      "file": "css/quest-command-20261103.css",
+      "sha256": "b8b7b66f7a0644843cfa23ca6149653e38a0fda7a31c81f77c81efcad893b048",
+      "serverTransformed": false
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "3ab4d0e0fc1923f1c72100d067edcfc3f3577b49dcd956bb3834977c59e979c6",
+      "serverTransformed": false
+    },
+    {
+      "file": "admin/admin-v1276.js",
+      "sha256": "3ffdb6318af07ffc6b4dac94311f72da99dda765ffd05ed755a78c51c7901459",
+      "serverTransformed": false
+    },
+    {
+      "file": "admin/weekly-quest-admin.mjs",
+      "sha256": "3b7413dc4b3036b1a540573e2e057d10ebd2396c562134541e5829980ca88b7c",
+      "serverTransformed": false
+    },
+    {
+      "file": "assets/quest-command-20261103/commander-seorin-v1.png",
+      "sha256": "2b8520841d954343e2f5b2ec279cbcf9ab27e5e523567c9973f2a0a0bafed48e"
+    },
+    {
+      "file": "assets/quest-command-20261103/headquarters-v1.png",
+      "sha256": "1c81299aba69c72b0696c3ccbb1c5a78279c29e28b7acf556a2d60cce01d49bf"
+    },
+    {
+      "file": "assets/quest-command-20261103/lobby-panel.webp",
+      "sha256": "b09ad6d16bcf520352f8185ebc55ae38596e0574b865adc93ecba1cee1fe834b"
+    }
+  ],
+  "clientManifest": {
+    "releaseId": "1d53cc63bcf78bdaceab303b72fceb9b3c93de7b24848b81c58cec3e77a8af49",
+    "files": [
+      {
+        "path": "/shared/quest-command-v1.mjs",
+        "sha256": "3eef21961f71242cd8da6a5dae56f5a54e4c8a87602e79afe193e53936172852",
+        "essential": true
+      },
+      {
+        "path": "/js/quest-command-ui.mjs",
+        "sha256": "31c55e55aa3f237853475d81af2971c8fe91d4ac8a1a8466842b022cea11543c",
+        "essential": true
+      },
+      {
+        "path": "/js/quest-hub-live.mjs",
+        "sha256": "29012f4334c815f27f4083377a9618188f9e0ce57510618b993ca255004ad288",
+        "essential": true
+      },
+      {
+        "path": "/css/quest-command-20261103.css",
+        "sha256": "9c7f36cef7ecc27fa240798469114a445dcb7b10bbde6c069a25a9285599362e",
+        "essential": true
+      },
+      {
+        "path": "/assets/quest-command-20261103/PretendardVariable.woff2",
+        "sha256": "9599f12fd42fc0bce1cd50b47a0c022e108d7aa64dd0d1bb0ed44f3282d900b4",
+        "essential": true
+      },
+      {
+        "path": "/assets/quest-command-20261103/BlackHanSans-Regular.ttf",
+        "sha256": "31960809284026681774a8e52dc19ebcad26cf69b0ad9d560f288296fbb52739",
+        "essential": true
+      }
+    ]
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

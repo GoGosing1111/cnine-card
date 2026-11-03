@@ -1,0 +1,14 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';import {connect,safe} from '../rap-contest-rewards-20261027/preflight.mjs';
+import {__postgresCompatTest} from '../../output/revan-live-20261027/release-checkout/functions/_postgres_d1_compat.js';
+import {questHubStatus} from '../../output/revan-live-20261027/release-checkout/functions/_quest_hub.js';
+const db=connect();try{await db.connect();await db.query("BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY; SET LOCAL statement_timeout='15s'");
+ const env={DB:new __postgresCompatTest.PostgresD1Database(db)},users=(await db.query('SELECT id,role FROM users WHERE id=ANY($1::bigint[]) ORDER BY id',[[19,22,164]])).rows;
+ const daily=JSON.parse((await db.query("SELECT value FROM app_meta WHERE key='playdk_daily_quest_settings_v1'")).rows[0].value),results=[];
+ for(const user of users){assert.equal(user.role,'USER');const status=await questHubStatus(env,user,{dailySettings:async()=>daily,excluded:()=>false});
+  assert.deepEqual(status.dailyCombat.map(q=>[q.id,q.target,q.coin,q.masterStars,q.enabled]),[['RANKED',30,3e12,1e7,true],['WORLD_RAID',5,1e12,1e7,true],['DUO_RANKED',10,2e12,1e7,true]]);
+  assert.deepEqual(status.weekly.filter(q=>q.id!=='POST').map(q=>[q.id,q.target,q.rewardType,q.rewardAmount,q.enabled]),[['CORE_RAID',7,'COIN',15e12,true],['TERRITORY',1,'COIN',20e12,true],['CLAN',1,'COIN',50e12,true]]);
+  assert.equal(status.daily.target,15);assert.equal(status.daily.rewardAmount,5e12);assert.equal(status.weekly[0].target,300);assert.equal(status.weekly[0].rewardAmount,30e12);
+  results.push({userId:user.id,daily:status.dailyCombat.map(q=>({id:q.id,count:q.count,claimed:q.claimed,enabled:q.enabled})),weekly:status.weekly.map(q=>({id:q.id,count:q.count,claimed:q.claimed,claimedReward:q.claimedReward})),rulesVerified:true});
+ }
+ assert.equal((await db.query('SELECT relname FROM pg_stat_xact_user_tables WHERE n_tup_ins<>0 OR n_tup_upd<>0 OR n_tup_del<>0')).rowCount,0);await db.query('ROLLBACK');fs.writeFileSync(new URL('live-status-readonly.json',import.meta.url),JSON.stringify({at:new Date().toISOString(),results,writes:0},null,2),{flag:'wx'});console.log(JSON.stringify({accounts:results.length,allSixRulesVerified:true,postPreserved:true,writes:0}));
+}catch(e){await db.query('ROLLBACK').catch(()=>{});console.error(safe(e));process.exitCode=1}finally{await db.end()}
