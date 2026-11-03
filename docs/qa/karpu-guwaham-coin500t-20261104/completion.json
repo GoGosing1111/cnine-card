@@ -1,0 +1,38 @@
+{
+  "status": "COMPLETED_AND_VERIFIED",
+  "operationKey": "ops:karpu-guwaham-coin500t:20261104:v1",
+  "authorization": "카르푸 500조 지급해\n구와함도",
+  "completedAt": "2026-11-03T15:14:58.865Z",
+  "completedKst": "2026-11-04 00:14:58 KST",
+  "amountPerUser": "500000000000000",
+  "totalAmount": "1000000000000000",
+  "recipientCount": 2,
+  "grants": [
+    {
+      "userId": "85",
+      "nickname": "카르푸",
+      "amount": "500000000000000",
+      "logId": "101328644"
+    },
+    {
+      "userId": "2333",
+      "nickname": "구와함",
+      "amount": "500000000000000",
+      "logId": "101328645"
+    }
+  ],
+  "auditId": "54119",
+  "planHash": "51ea81c515b26dc88ac82ad77d2198f58a0dd39ce892290b106319fbc4956a0a",
+  "executedSourceSha256": "6547230639ca9a50f63d5b82fd15e1cfdb537f3b83d066a62dbf01b9ee849fc5",
+  "checks": {
+    "failureRollback": true,
+    "successRollback": true,
+    "selectOnlyReplay": true,
+    "independentReadOnly": true,
+    "onlyExpectedWrites": true,
+    "leasesReleased": true
+  },
+  "evidenceDirectory": "operations/karpu-guwaham-coin500t-20261104/evidence/",
+  "messagesSent": 0,
+  "gameRedeployed": false
+}
