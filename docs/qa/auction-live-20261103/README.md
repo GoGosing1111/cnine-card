@@ -74,3 +74,5 @@
 - Shared fixture consumers include nested gate stages, and the codex template changed, so completed-prefix reuse is disabled. The final candidate will execute a fresh full gate through the prescribed production deployment command. Earlier logs and resume metadata are preserved.
 
 - Diagnostic recheck completed all 41 formerly failing content stages. Follow-up corrections passed 172 focused checks; the remaining seal source-media check passed all four tests. Full-gate execution is still required and none of these diagnostics deploy or modify production accounts.
+
+- Fresh full gate 7adc7b2bd passed stages 1–47. Stage 48 hit a Windows ephemeral port rejected by Node fetch (`bad port`) in two isolated Madara lobby fixtures. The listener now probes a read-only HEAD request and rebinds only that specific allocation error, with eight attempts. All real route and atomicity assertions remain. The failed log is retained; only this test/document correction will resume the completed full-gate prefix.

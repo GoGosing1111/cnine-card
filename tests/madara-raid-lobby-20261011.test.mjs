@@ -6,8 +6,15 @@ import {readFile} from 'node:fs/promises';
 import sharp from 'sharp';
 import {createMadaraPreviewServer} from '../preview/madara-raid-v1/server.mjs';
 async function fixture(t){
- const server=createMadaraPreviewServer();await new Promise(r=>server.listen(0,'127.0.0.1',r));t.after(()=>new Promise(r=>server.close(r)));
- const base=`http://127.0.0.1:${server.address().port}`;
+ const server=createMadaraPreviewServer();let base;
+ t.after(()=>server.listening?new Promise(r=>server.close(r)):undefined);
+ // Some Windows ephemeral allocations are forbidden by fetch's port policy.
+ // Probe the real local HTTP listener and rebind only that specific failure.
+ for(let attempt=0;attempt<8;attempt++){
+  await new Promise(r=>server.listen(0,'127.0.0.1',r));base=`http://127.0.0.1:${server.address().port}`;
+  try{await fetch(base+'/',{method:'HEAD'});break;}
+  catch(error){if(error.cause?.message!=='bad port'||attempt===7)throw error;await new Promise(r=>server.close(r));}
+ }
  const call=async(token,route,body)=>{const response=await fetch(base+'/__madara/'+route,{method:body?'POST':'GET',headers:{authorization:token?'Bearer '+token:'',...(body?{origin:base,'content-type':'application/json'}:{})},body:body?JSON.stringify(body):undefined});return {status:response.status,...await response.json()};};
  const session=async()=>call(null,'session',{});
  return {call,session,host:await session(),guest:await session(),third:await session()};
