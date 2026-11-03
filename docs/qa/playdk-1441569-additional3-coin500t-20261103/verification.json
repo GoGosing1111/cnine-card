@@ -1,0 +1,45 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:playdk:1441569:comment-coin500t-additional3:20261103:v1",
+  "verifiedRecipients": 3,
+  "recipients": [
+    {
+      "userId": "233",
+      "dkName": "ShowMaker",
+      "gameName": "ShowMaker",
+      "amount": "500000000000000",
+      "coinLogId": "101207290"
+    },
+    {
+      "userId": "4712",
+      "dkName": "튜브브브브",
+      "gameName": "겨밥디임",
+      "amount": "500000000000000",
+      "coinLogId": "101207291"
+    },
+    {
+      "userId": "4917",
+      "dkName": "범용e",
+      "gameName": "지엘라",
+      "amount": "500000000000000",
+      "coinLogId": "101207292"
+    }
+  ],
+  "amountPerRecipient": "500000000000000",
+  "totalAmount": "1500000000000000",
+  "coinLogs": 3,
+  "auditId": "53982",
+  "auditRecords": 1,
+  "completedAt": "2026-11-03T08:57:39.750Z",
+  "parentReceiptPreserved": true,
+  "parentAuditId": "53979",
+  "noOverlapWithOriginal96": true,
+  "missing": 0,
+  "duplicates": 0,
+  "walletSyncChanged": 3,
+  "productionWrites": 0,
+  "operationLocksRemaining": 0,
+  "messagesSent": 0,
+  "readOnly": "on",
+  "checkedAt": "2026-11-03T08:59:47.183Z"
+}

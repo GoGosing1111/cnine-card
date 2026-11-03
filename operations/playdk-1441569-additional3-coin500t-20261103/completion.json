@@ -1,0 +1,59 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:playdk:1441569:comment-coin500t-additional3:20261103:v1",
+  "parentOperation": "ops:playdk:1441569:comment-coin500t:20261103:v1",
+  "parentReceiptHash": "600ac2e4b8b9b0f46322e1bc8490ddf0f85d25db8664a93b6d01ea2f14e37652",
+  "authorization": "튜브브브브 https://www.playdk.kr/user/70cfc2ad / ShowMaker https://www.playdk.kr/user/25958d94 / 범용e https://www.playdk.kr/user/6bfab491 추가 지급",
+  "delivery": "DIRECT_WALLET",
+  "recipientCount": 3,
+  "amountPerRecipient": "500000000000000",
+  "totalAmount": "1500000000000000",
+  "completedAt": "2026-11-03T08:57:39.750Z",
+  "completedAtKst": "2026-11-03 17:57:39 KST",
+  "auditId": "53982",
+  "sourceHash": "ba601740431de8448fee69eb8263963512fb1910e3cfa1b5ec871938ffe244ed",
+  "planHash": "53516b762a196311b9801ed192248be69af6d05dca2e4f1f249e0acf44f2c42d",
+  "executionSourceSha256": "c94bb598711e36166e65a39cc0bc7b4bf52edd2008b79cfeb24ad3769d609e7c",
+  "recipients": [
+    {
+      "userId": "233",
+      "dkName": "ShowMaker",
+      "gameName": "ShowMaker",
+      "amount": "500000000000000",
+      "coinLogId": "101207290"
+    },
+    {
+      "userId": "4712",
+      "dkName": "튜브브브브",
+      "gameName": "겨밥디임",
+      "amount": "500000000000000",
+      "coinLogId": "101207291"
+    },
+    {
+      "userId": "4917",
+      "dkName": "범용e",
+      "gameName": "지엘라",
+      "amount": "500000000000000",
+      "coinLogId": "101207292"
+    }
+  ],
+  "verification": {
+    "coinLogs": 3,
+    "auditRecords": 1,
+    "missing": 0,
+    "duplicates": 0,
+    "walletSyncChanged": 3,
+    "testsPassed": 5,
+    "failedDryRunRolledBack": true,
+    "successfulDryRunRolledBack": true,
+    "independentReadOnly": true,
+    "replayAdditionalWrites": 0,
+    "locksReleased": true,
+    "parent96ReceiptPreserved": true,
+    "noOverlapWithParent": true
+  },
+  "messagesSent": 0,
+  "gameDeployment": false,
+  "storageMaintenance": false,
+  "scheduledAutomations": 0
+}

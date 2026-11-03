@@ -1,0 +1,68 @@
+{
+  "operationKey": "ops:playdk:1441569:comment-coin500t-additional3:20261103:v1",
+  "parentOperation": "ops:playdk:1441569:comment-coin500t:20261103:v1",
+  "authorization": "튜브브브브 https://www.playdk.kr/user/70cfc2ad / ShowMaker https://www.playdk.kr/user/25958d94 / 범용e https://www.playdk.kr/user/6bfab491 추가 지급",
+  "amountContext": "Preceding post reward: 500 trillion coins per second-verified account",
+  "selection": "Only the three explicitly requested additional PLAYDK identities; no rerun of the original 96 accounts",
+  "requested": [
+    {
+      "uuid": "70cfc2ad",
+      "name": "튜브브브브",
+      "url": "https://www.playdk.kr/user/70cfc2ad"
+    },
+    {
+      "uuid": "25958d94",
+      "name": "ShowMaker",
+      "url": "https://www.playdk.kr/user/25958d94"
+    },
+    {
+      "uuid": "6bfab491",
+      "name": "범용e",
+      "url": "https://www.playdk.kr/user/6bfab491"
+    }
+  ],
+  "postId": 1441569,
+  "collectedAt": "2026-11-03T08:54:18.715Z",
+  "comments": [
+    {
+      "uuid": "70cfc2ad",
+      "commentIds": [
+        6496923
+      ],
+      "names": [
+        "튜브브브브"
+      ],
+      "createdAt": [
+        "2026-11-03T17:49:34"
+      ]
+    },
+    {
+      "uuid": "25958d94",
+      "commentIds": [
+        6496872,
+        6496930,
+        6496936
+      ],
+      "names": [
+        "ShowMaker"
+      ],
+      "createdAt": [
+        "2026-11-03T17:45:24",
+        "2026-11-03T17:50:41",
+        "2026-11-03T17:51:57"
+      ]
+    },
+    {
+      "uuid": "6bfab491",
+      "commentIds": [
+        6496745
+      ],
+      "names": [
+        "범용e"
+      ],
+      "createdAt": [
+        "2026-11-03T17:35:34"
+      ]
+    }
+  ]
+}
