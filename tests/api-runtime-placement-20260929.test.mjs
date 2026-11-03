@@ -86,13 +86,22 @@ test('same game entry runs behind private service with Singapore placement, exis
   for (const change of [{workers_dev: true}, {preview_urls: true}, {placement: {mode: 'smart'}}, {routes: ['example.com/*']}])
     assert.throws(() => validateApiRuntimeConfig(pages, JSON.stringify({...JSON.parse(text), ...change})));
   assert.throws(() => validateApiRuntimeConfig(pages, text.replace('12ed48b0fb374f82a610cc1daba92e95', '0'.repeat(32))));
-  assert.match(read('workers/api-runtime/src/index.js'), /import \{onRequest\} from '\.\.\/\.\.\/\.\.\/functions\/api\/\[\[path\]\]\.js'/);
+  assert.match(read('workers/api-runtime/src/index.js'), /import \{onRequest(?:,[\w\s,]+)?\} from '\.\.\/\.\.\/\.\.\/functions\/api\/\[\[path\]\]\.js'/);
   assert.match(read('workers/api-runtime/src/index.js'), /waitUntil: context\.waitUntil\.bind\(context\)/);
   assert.match(read('functions/api/[[path]].js'), /API_RUNTIME_DISABLED!=='1'\)return forwardApiRuntimeRequest\(context\)/);
   assert.ok(API_RUNTIME_VARIABLES.includes('PLAYDK_SECRET_KEY'));
   const deploy = read('scripts/deploy-production.mjs');
   assert.ok(deploy.indexOf("'workers/api-runtime/wrangler.jsonc'") < deploy.indexOf("'pages','deploy'"));
   assert.ok(deploy.indexOf('await prepareApiRuntime(') < deploy.indexOf("'pages','deploy'"));
+});
+
+test('minute cron delegates auction settlement to the shared service and retains its promise', async () => {
+  const source = read('workers/api-runtime/src/index.js').replace(/^import .*;\n/gm, '').replace(/^export \{.*;\n/gm, '').replace('export default', 'return');
+  const environment = {DB: {}}, completion = Promise.resolve('settled');let calls = 0, pending;
+  const worker = new Function('onRequest', 'runUserAuctionSchedule', 'openApiRuntimeRequest', source)(null, env => {assert.equal(env, environment);calls++;return completion;}, null);
+  await worker.scheduled({}, environment, {waitUntil(value){pending=value;}});
+  assert.equal(calls, 1);assert.equal(pending, completion);assert.equal(await pending, 'settled');
+  assert.deepEqual(JSON.parse(read('workers/api-runtime/wrangler.jsonc')).triggers.crons, ['* * * * *']);
 });
 
 test('bootstrap initializes one shared key only before cutover and never logs application secrets', async () => {
