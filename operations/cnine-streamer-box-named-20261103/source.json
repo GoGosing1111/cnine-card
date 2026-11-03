@@ -1,0 +1,17 @@
+{
+  "operationKey": "ops:cnine-streamer-box-named:20261103:v1",
+  "authorization": "309개 씨나인 스트리머 박스 7개 / 209개 씨나인 스트리머 박스 5개 / 109개 씨나인 스트리머 박스 2개 / 씨나인 스트리머 박스 지급해",
+  "clarification": "쟁이는 7개만 지급",
+  "itemCode": "CNINE_STREAMER_BOX",
+  "delivery": "DIRECT_INVENTORY",
+  "sendMessages": false,
+  "autoOpen": false,
+  "groups": [
+    {"marker":309,"amount":7,"names":["ShowMaker","더듬이구","라피e","간장왕대게찜","Moo날두","족단","딤럼프","베베킹","암살자..","도댕","핫시","쟁이","단정한밤","전게씹선미아웃","점빡이","Mild7","0수표","깅더듬","응맨","세라네꼬라지","고라니ㅇ","현하루","꺽꿀"]},
+    {"marker":209,"amount":5,"names":["찬호","학벌","블랙캐슬","박사","쟁이","남수댕","씨나인택갓","찡찡","비니","족구조아","좋은하루","오일바른가지"]},
+    {"marker":109,"amount":2,"names":["커피먹는철구","토닭토닭","혜정"]}
+  ],
+  "duplicateResolution": {"nickname":"쟁이","amount":7,"omitFromMarker":209},
+  "recipientCount":37,
+  "totalBoxes":222
+}

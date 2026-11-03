@@ -1,0 +1,17 @@
+import fs from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const write=(file,text)=>fs.writeFile(new URL(file,import.meta.url),text,{flag:'wx'});
+const replace=(text,from,to)=>{assert(text.includes(from),from);return text.replaceAll(from,to);};
+let run=await fs.readFile(new URL('../playdk-1441569-comment-coin500t-20261103/run.mjs',import.meta.url),'utf8');
+run=replace(run,"['users','coin_logs','admin_logs','app_meta']","['cnine_user_inventory','inventory_logs','admin_logs','app_meta']");
+run=replace(run,"['users','coin_logs','admin_logs','app_meta','account_sync_versions_v1']","['cnine_user_inventory','inventory_logs','admin_logs','app_meta','account_sync_versions_v1','user_mutation_locks_v1520']");
+run=replace(run,'Unexpected write outside coin grant and synchronization','Unexpected write outside box grant and synchronization');
+run=replace(run,'playdk-1441569-comment-coin500t-','cnine-streamer-box-named-');
+run=replace(run,'{receipt:null,coins:[],audits:[]}','{receipt:null,logs:[],audits:[]}');
+run=replace(run,'totalAmount:PLAN.totalAmount','totalBoxes:PLAN.totalBoxes');
+run=replace(run,"'plan.json','source.json','preflight.mjs'","'plan.json','source.json','preflight.mjs','preflight.json'");
+await write('run.mjs',run);
+let tests=await fs.readFile(new URL('../ganjang-master-star-300m-20261103/test-run.mjs',import.meta.url),'utf8');
+tests=replace(tests,"out=dir;await fs.mkdir(out,{recursive:true});","out=new URL('./evidence/',dir);await fs.mkdir(out,{recursive:true});");
+await write('test-run.mjs',tests);
+console.log('Prepared scoped runner and test runner');
