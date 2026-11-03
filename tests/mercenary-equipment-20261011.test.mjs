@@ -16,6 +16,8 @@ import {readForgePreparationInventory} from '../functions/_equipment_forge_prepa
 const rid=()=>crypto.randomUUID();
 async function fixture(t,postgres=false){
   const f=await mercenaryFixture(t,{postgres});await ensureForgeTransactionSchema(f.env);
+  for(const [code,rank] of [['V-001','SSS'],['V-002','SS']])f.document.mercenaries.find(row=>row.code===code).rank=rank;
+  await f.p("UPDATE mercenary_cms_documents_v1 SET payload_json=? WHERE doc_key='config'",JSON.stringify(f.document)).run();
   const gear=REGION_EQUIPMENT.filter(item=>item.regionId==='coast');
   for(const [i,item] of gear.entries()){
     const pve=Math.floor(item.totalPower*.9);
@@ -24,8 +26,8 @@ async function fixture(t,postgres=false){
   }
   await f.p("INSERT INTO user_equipment_instances(id,user_id,equipment_id,source_type,request_id) VALUES(2000,8,100,'QA',?)",rid()).run();
   for(const code of ['V-001','V-002'])await f.env.DB.batch(mercenaryCardAcquisitionStatements(f.env.DB,{userId:7,mercenaryCode:code,acquisitionId:rid()}));
-  await saveMercenaryLoadout(f.env,f.user,{requestId:rid(),mode:'PVE',mercenaryCode:'V-001',revision:0});
-  await saveMercenaryLoadout(f.env,f.user,{requestId:rid(),mode:'PVP',mercenaryCode:'V-001',revision:0});
+  await saveMercenaryLoadout(f.env,f.user,{requestId:rid(),mode:'PVE',mercenaryCodes:['V-001'],revision:0});
+  await saveMercenaryLoadout(f.env,f.user,{requestId:rid(),mode:'PVP',mercenaryCodes:['V-001'],revision:0});
   return f;
 }
 const save=(f,mode,slot,instanceId,revision,requestId=rid())=>saveMercenaryEquipment(f.env,f.user,{mode,slot,instanceId,revision,requestId});
@@ -36,7 +38,7 @@ for(const postgres of [false,true]){
     await save(f,'PVE','WEAPON','1000',0);await save(f,'PVP','WEAPON','1000',0);
     let state=await mercenaryEquipmentState(f.env,f.user);
     assert.equal(state.loadouts.PVE.power,180000);assert.equal(state.loadouts.PVP.power,20000);
-    await saveMercenaryLoadout(f.env,f.user,{requestId:rid(),mode:'PVE',mercenaryCode:'V-002',revision:1});
+    await saveMercenaryLoadout(f.env,f.user,{requestId:rid(),mode:'PVE',mercenaryCodes:['V-002'],revision:1});
     const snapshot=await releasedMercenarySnapshot(f.env,f.user,'PVE');assert.equal(snapshot.code,'V-002');assert.equal(snapshot.equipment.items[0].instanceId,'1000');
     assert.equal((await releasedMercenarySnapshots(f.env,[7],'PVE')).get(7).equipment.power,180000);
     await save(f,'PVE','WEAPON',null,1);state=await mercenaryEquipmentState(f.env,f.user);
