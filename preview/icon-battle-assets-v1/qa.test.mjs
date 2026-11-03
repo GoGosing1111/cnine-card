@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
+import {readCommittedAsset} from '../../tests/helpers/committed-asset-read.mjs';
 import crypto from 'node:crypto';
 import sharp from 'sharp';
 import {Container,Texture} from 'pixi.js';
@@ -8,7 +9,7 @@ import {ICON_CARD_ROSTER} from '../../shared/icon-card-roster-v1.mjs';
 import {sampleIconSequence} from './sequence.mjs';
 import {IconEffectPlayback} from './source/IconEffectPlayback.js';
 
-const root=new URL('./',import.meta.url),read=path=>fs.readFile(new URL(path,root));
+const root=new URL('./',import.meta.url),read=path=>readCommittedAsset(new URL(path,root));
 const manifest=JSON.parse(await read('manifest.json'));
 const hash=bytes=>crypto.createHash('sha256').update(bytes).digest('hex').toUpperCase();
 const visibleRgbaHash=bytes=>{

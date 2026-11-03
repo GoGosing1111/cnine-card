@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
+import {readCommittedAssetSync} from './helpers/committed-asset-read.mjs';
 import test from 'node:test';
 import sharp from 'sharp';
 import {ICON_GRADE,ICON_EFFECTS,isIconGrade,iconCardBasePower,uniqueEffectDefinitionsForGrade,emptyIconDraft,validateIconDraft,iconReadiness,iconAcquisitionAllowed} from '../shared/icon-grade-v1.mjs';
@@ -19,7 +20,7 @@ test('ICON is a distinct streamer tier above ZENITH, fixed base 180,000 with und
 });
 
 test('approved frame is byte-identical and keeps exact transparent portrait dimensions',()=>{
-  const frame=readFileSync(new URL('../'+ICON_GRADE.frame.source,import.meta.url));
+  const frame=readCommittedAssetSync(new URL('../'+ICON_GRADE.frame.source,import.meta.url));
   assert.equal(createHash('sha256').update(frame).digest('hex').toUpperCase(),ICON_GRADE.frame.sha256);
   assert.equal(frame.subarray(1,4).toString(),'PNG');
   assert.equal(frame.readUInt32BE(16),1024);assert.equal(frame.readUInt32BE(20),1536);
