@@ -1,11 +1,11 @@
 import {jointAccountRequest} from './joint-account-transport.mjs?v=20261024-namsudaeng-v1';
-import {BLOODMOON_PACK,bloodmoonReceiptResults,bloodmoonPackPrice} from '../shared/mercenary-bloodmoon-pack-v1.mjs?v=20261026-stock-schedule-v1';
-import {BloodmoonOpeningSession} from '../shared/mercenary-bloodmoon-session-v2.mjs?v=20261026-stock-schedule-v1';
+import {BLOODMOON_PACK,bloodmoonReceiptResults,bloodmoonPackPrice} from '../shared/mercenary-bloodmoon-pack-v1.mjs?v=20261103-unique-v1';
+import {BloodmoonOpeningSession} from '../shared/mercenary-bloodmoon-session-v2.mjs?v=20261103-unique-v1';
 import {BloodmoonReceiptRecovery,bloodmoonReceiptRetryable} from '../shared/mercenary-bloodmoon-recovery-v1.mjs?v=20261024-namsudaeng-v1';
 import {BloodmoonAutoOpening,bloodmoonAutoQuote} from '../shared/mercenary-bloodmoon-auto-v1.mjs?v=20261024-namsudaeng-v1';
-import {bloodmoonBulkQuote,bloodmoonBulkPriceSource,bloodmoonCoinText} from '../shared/mercenary-bloodmoon-bulk-v1.mjs';
+import {bloodmoonBulkQuote,bloodmoonBulkPriceSource,bloodmoonCoinText} from '../shared/mercenary-bloodmoon-bulk-v1.mjs?v=20261103-unique-v1';
 import {MercenaryAcquisitionVideo,mercenaryCinematicFor} from './mercenary-acquisition-video.mjs?v=20261024-namsudaeng-v1';
-import {bloodmoonStockText,bloodmoonCollectionMarkup,bloodmoonResultsMarkup,bloodmoonRoomMarkup} from './mercenary-bloodmoon-presentation-v2.mjs?v=20261026-prime-craft-open-v1';
+import {bloodmoonStockText,bloodmoonCollectionMarkup,bloodmoonResultsMarkup,bloodmoonRoomMarkup} from './mercenary-bloodmoon-presentation-v2.mjs?v=20261103-unique-v1';
 const fmt=n=>n==null?'미정':BigInt(n).toLocaleString('ko-KR');
 const currentAccount=()=>Number(globalThis.loadUser?.()?.serverUserId)||0;
 const browserLock=(key,work)=>{if(!navigator.locks?.request)throw Error('안전한 개봉을 지원하는 최신 브라우저에서 이용해 주세요.');return navigator.locks.request(key,{ifAvailable:true},lock=>{if(!lock)throw Error('다른 창에서 블러드문팩을 처리 중입니다.');return work();});};
@@ -15,7 +15,7 @@ export function bloodmoonBatchCinematic(results){return bloodmoonBatchCinematics
 export function openBloodmoonPack(){return mountBloodmoonPack();}
 export async function mountBloodmoonPack({api=jointAccountRequest,accountId=currentAccount(),getAccountId=currentAccount,storage=localStorage,lock=browserLock,videoFactory=host=>new MercenaryAcquisitionVideo(host)}={}){
  if(active)return active;
- if(!document.querySelector('[data-bloodmoon-pack-style]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-bloodmoon-pack-v2.css?v=20261026-stock-schedule-v1';link.dataset.bloodmoonPackStyle='';document.head.append(link);}
+ if(!document.querySelector('[data-bloodmoon-pack-style]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-bloodmoon-pack-v2.css?v=20261103-unique-v1';link.dataset.bloodmoonPackStyle='';document.head.append(link);}
  const previous=document.activeElement,dialog=document.createElement('dialog');dialog.className='bwp-dialog';active=dialog;
  dialog.setAttribute('aria-labelledby','bwp-title');dialog.innerHTML=bloodmoonRoomMarkup(BLOODMOON_PACK);
  const $=selector=>dialog.querySelector(selector);let stockTimer=null;let config=null,busy=false,disposed=false,quote=null,paused=false,auto=null,session=null,recovery=null;
@@ -48,8 +48,9 @@ export async function mountBloodmoonPack({api=jointAccountRequest,accountId=curr
   $('.bwp-buy-actions').hidden=running;$('.bwp-secondary-actions').hidden=running&&!pending;$('[data-bwp-auto-running]').hidden=!running;
   if(running){const s=auto.state;$('[data-bwp-auto-progress]').textContent=s.completed+' / '+s.repeats+'회 반복 · '+s.totalDraws+'회 개봉 · '+fmt(s.spent)+' 코인 사용'+(s.phase==='stopping'?' · 중지 요청됨':'');$('[data-bwp-auto-stop]').disabled=s.phase==='stopping';}
   if(config){
+   $('[data-bwp-ownership]').textContent=config.personalOddsKnown?'현재 '+config.ownedDistinctCount+'종 보유 · 보유한 SS 중복 획득 불가 · '+(config.ownedDistinctCount===6?'SS 6종 수집 완료':'미보유 SS 확률 '+(config.ssProbabilityDivisor===1?'기본':'기본의 1/'+config.ssProbabilityDivisor))+' · 카드별 확률은 아래 표시':'로그인 후 현재 보유 종류와 개인 확률을 확인할 수 있습니다.';
    for(const label of dialog.querySelectorAll('[data-bwp-stock-code]'))label.textContent=bloodmoonStockText(config.cards.find(c=>c.code===label.dataset.bwpStockCode),config.stock?.find(row=>row.code===label.dataset.bwpStockCode));
-   for(const label of dialog.querySelectorAll('[data-bwp-chance-code]')){const percent=config.effectiveCardPercents?.[label.dataset.bwpChanceCode];label.textContent='1회 확률 '+(percent==null?'미정':percent+'%');}
+   for(const label of dialog.querySelectorAll('[data-bwp-chance-code]')){const code=label.dataset.bwpChanceCode,percent=config.effectiveCardPercents?.[code],owned=config.ownedCodes?.includes(code);label.textContent=owned?'보유 중 · 중복 획득 불가 (0%)':'1회 확률 '+(percent==null?'미정':percent+'%');}
    for(const count of [1,10]){const price=count===10?config.settings.prices.ten:config.settings.prices.single;$('[data-bwp-price="'+count+'"]').textContent=price==null?'가격 미정':fmt(price)+' 코인';}
    $('[data-bwp-availability]').textContent=config.userOpeningEnabled?'개봉 가능 · 수량을 선택하세요':config.settings.mode==='ON'?'현재 개봉 불가 · 운영 설정 확인 필요':'출시 준비 중 · 개봉 OFF';
   }

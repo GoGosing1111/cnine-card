@@ -1,3 +1,4 @@
+import {bloodmoonOwnedCodes,bloodmoonAcceptSs} from './mercenary-bloodmoon-ownership-v1.mjs?v=20261103-unique-v1';
 import {BLOODMOON_PACK_CARDS,isBloodmoonLimited,bloodmoonUnlimitedDraw} from './mercenary-bloodmoon-pool-v3.mjs?v=20261025-eunseol4-v1';
 import {PRIME_MATERIAL_STOCK_CODE,primeMaterialDraw,isPrimeMaterialDraw,bloodmoonDrawCode} from './mercenary-prime-material-v1.mjs';
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
@@ -53,24 +54,25 @@ export function pickBloodmoonBulk(state,count,random,{firstLimitedCode=null,slot
  };
  const first=table([...MERCENARY_RANKS.map(rank=>({value:rank,weight:limitedRateUnits(state.settings.normalRankRatesPpm[rank])})),{value:'NONE',weight:limitedRateUnits(state.settings.missRatePpm)}],LIMITED_RATE_TOTAL);
  const second=table([...BLOODMOON_PACK_CARDS.map(c=>({value:c.code,weight:limitedRateUnits(state.settings.cardRatesPpm[c.code])})),{value:'STANDARD_SSS',weight:limitedRateUnits(state.settings.normalSssRatePpm)}],LIMITED_RATE_TOTAL);
- const normal=new Map(),remaining=new Map(state.stock.map(s=>[s.code,s.remaining]));
+ const normal=new Map(),remaining=new Map(state.stock.map(s=>[s.code,s.remaining])),owned=new Set(bloodmoonOwnedCodes(state.ownedCodes));
  const normalCard=rank=>{
   if(!normal.has(rank))normal.set(rank,table(state.normalCards.filter(c=>c.rank===rank&&c.weight>0).map(c=>({value:c,weight:c.weight}))));
   const c=normal.get(rank)();return {outcomeId:'CARD_'+rank,mercenaryCode:c.code,name:c.name,rank,edition:'STANDARD',quantity:1};
  };
  const result={format:BLOODMOON_BULK_FORMAT,draws:[],normalDraws:[],missCount:0};
- const limited=(code,index)=>{
+ const limited=(code,index,guaranteed=false)=>{
   const c=BLOODMOON_PACK_CARDS.find(c=>c.code===code),s=state.stock.find(s=>s.code===code);
   if(!isBloodmoonLimited(code)||!c||!s?.prepared)throw fail('리미티드 발행 수량을 확인하세요.');
-  if(!(remaining.get(code)>0))return false;
+  if(!(remaining.get(code)>0)||owned.has(code)||!guaranteed&&!bloodmoonAcceptSs(code,owned,random))return false;
   // Bound the serial ledger and transaction even if future stock policies grow.
   if(result.draws.length>=256)throw fail('리미티드 결과가 많습니다. 사용 한도를 낮춰 주세요.');
   remaining.set(code,remaining.get(code)-1);
+  if(c.rank==='SS')owned.add(code);
   const draw={outcomeId:c.rank==='SSS'?'BLOODMOON_SSS':'BLOODMOON_SS',mercenaryCode:c.code,name:c.name,rank:c.rank,gateRank:'SSS',edition:c.rank==='SSS'?'SSS_LIMITED':'BLOODMOON_LIMITED',stockLimit:s.limit,quantity:1,drawIndex:index};
   result.draws.push(c.code===PRIME_MATERIAL_STOCK_CODE?primeMaterialDraw(draw):draw);return true;
  };
  // Reserve an explicitly authorized guarantee before the normal lottery.
- if(firstLimitedCode&&(!Number.isSafeInteger(slotIndex)||slotIndex<0||slotIndex>=count||!(state.settings.cardRatesPpm[firstLimitedCode]>0)||!limited(firstLimitedCode,slotIndex)))throw fail('1회 확정 위치와 재고를 확인하세요.');
+ if(firstLimitedCode&&(!Number.isSafeInteger(slotIndex)||slotIndex<0||slotIndex>=count||!(state.settings.cardRatesPpm[firstLimitedCode]>0)||!limited(firstLimitedCode,slotIndex,true)))throw fail('1회 확정 위치와 재고를 확인하세요.');
  for(let i=0;i<count;i++){
   if(firstLimitedCode&&i===slotIndex)continue;
   const rank=first();if(rank==='NONE'){result.missCount++;continue;}

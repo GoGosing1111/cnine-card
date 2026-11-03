@@ -1,3 +1,5 @@
+import {BLOODMOON_CODES} from '../shared/mercenary-bloodmoon-catalog-v1.mjs';
+import {bloodmoonOwnedCodes} from '../shared/mercenary-bloodmoon-ownership-v1.mjs';
 import {isBloodmoonLimited,bloodmoonUnlimitedDraw} from '../shared/mercenary-bloodmoon-pool-v3.mjs';
 import {BLOODMOON_PACK,BLOODMOON_PACK_KEY,BLOODMOON_OPEN_KIND,BLOODMOON_PACK_RELEASE_ENABLED,bloodmoonPackPrice,validateBloodmoonOpeningBody,pickBloodmoonBatch,pickBloodmoonNormalCard} from '../shared/mercenary-bloodmoon-pack-v1.mjs';
 import {limitedPackRandomInt} from './_mercenary_limited_pack.js';
@@ -46,7 +48,7 @@ async function reconcileBloodmoonStock(DB,userId,requestId,plan,state,randomInt)
 // No HTTP release override. Tests use this factory against isolated databases.
 export function createBloodmoonPackService({readState,releaseEnabled=BLOODMOON_PACK_RELEASE_ENABLED,randomInt=limitedPackRandomInt}={}){
  if(typeof readState!=='function')throw Error('Bloodmoon state reader required');
- const stateFor=env=>readState(env,{releaseEnabled});
+ const stateFor=(env,user)=>readState(env,{releaseEnabled,userId:user.id});
  async function open(env,user,raw){
   if(!releaseEnabled)throw jointError('MERCENARY_BLOODMOON_CLOSED','블러드문팩은 출시 준비 중입니다. 코인은 차감되지 않았습니다.',423);
   const {requestId,count,expectedRevision}=validateBloodmoonOpeningBody(raw);
@@ -57,7 +59,7 @@ export function createBloodmoonPackService({readState,releaseEnabled=BLOODMOON_P
   for(let attempt=0;;attempt++){
    try{result=await runJointOperation(env,user,{requestId,kind:BLOODMOON_OPEN_KIND,input:{count,expectedRevision,...(bulk?{budget:raw.budget}:{})},
    prepare:async()=>{
-    const state=await stateFor(env);
+    const state=await stateFor(env,user);
     if(state.settings.mode!=='ON')throw terminal('CLOSED','블러드문팩 개봉이 중지됐습니다.');
     if(state.revision!==expectedRevision)throw terminal('CHANGED','가격·확률이 변경됐습니다. 새 설정을 확인하세요.');
     if(!state.readiness.ready)throw terminal('NOT_READY',state.readiness.blockers.join(' '));
@@ -69,16 +71,26 @@ export function createBloodmoonPackService({readState,releaseEnabled=BLOODMOON_P
     // A single opening cannot consume a guarantee for a later batch slot.
     const once=configuredOnce&&(configuredOnce.slotIndex??0)<count?configuredOnce:null;
     const firstLimitedCode=once?pickBloodmoonSsOnceCode(state,random,once):null;
-    if(bulk)return {count,coinCost,budget:raw.budget,...pickBloodmoonBulk(state,count,random,{firstLimitedCode,slotIndex:once?.slotIndex??0}),...(once&&firstLimitedCode?{once}:{}),revision:state.revision,rawPack:state.rawPack,normalCmsRevision:state.normalCmsRevision,normalDrawRevision:state.normalDrawRevision};
+    if(bulk)return {count,coinCost,budget:raw.budget,...pickBloodmoonBulk(state,count,random,{firstLimitedCode,slotIndex:once?.slotIndex??0}),...(once&&firstLimitedCode?{once}:{}),ownershipPolicy:'20261103-v1',ownedCodes:bloodmoonOwnedCodes(state.ownedCodes),revision:state.revision,rawPack:state.rawPack,normalCmsRevision:state.normalCmsRevision,normalDrawRevision:state.normalDrawRevision};
     const draws=pickBloodmoonBatch(state,count,randomInt,{firstLimitedCode});
     // Generate the guaranteed card first to reserve its stock, then place it
     // in the requested slot without rerolling the ordinary results.
     if(firstLimitedCode&&once.slotIndex){const [guaranteed]=draws.splice(0,1);draws.splice(once.slotIndex,0,guaranteed);}
-    return {count,coinCost,draws,...(once&&firstLimitedCode?{once}:{}),revision:state.revision,rawPack:state.rawPack,normalCmsRevision:state.normalCmsRevision,normalDrawRevision:state.normalDrawRevision};
+    return {count,coinCost,draws,...(once&&firstLimitedCode?{once}:{}),ownershipPolicy:'20261103-v1',ownedCodes:bloodmoonOwnedCodes(state.ownedCodes),revision:state.revision,rawPack:state.rawPack,normalCmsRevision:state.normalCmsRevision,normalDrawRevision:state.normalDrawRevision};
    },
    statements:async plan=>{
-    const state=await stateFor(env);
+    const state=await stateFor(env,user);
     if(state.settings.mode!=='ON'||state.rawPack!==plan.rawPack||state.normalCmsRevision!==plan.normalCmsRevision||state.normalDrawRevision!==plan.normalDrawRevision)throw terminal('CHANGED','개봉 설정이 변경되어 미완료 요청을 취소했습니다.');
+    if(plan.ownershipPolicy!=='20261103-v1')throw terminal('CHANGED','보유 확률 규칙이 변경됐습니다. 코인은 차감되지 않았습니다. 새 개봉으로 다시 시도하세요.');
+    if(JSON.stringify(bloodmoonOwnedCodes(plan.ownedCodes))!==JSON.stringify(bloodmoonOwnedCodes(state.ownedCodes)))throw terminal('CHANGED','보유 종류가 변경됐습니다. 현재 확률을 확인한 뒤 다시 개봉하세요.');
+    // Older PENDING plans may contain duplicate SS draws. They have not paid;
+    // cancel them rather than replaying their pre-rule lottery or charging it.
+    const uniqueSs=new Set(state.ownedCodes);
+    for(const draw of [...plan.draws,...(plan.normalDraws||[])]){
+     if(!BLOODMOON_CODES.includes(draw.mercenaryCode))continue;
+     if(uniqueSs.has(draw.mercenaryCode)||draw.quantity!==1)throw terminal('DUPLICATE_SS','보유한 SS 리미티드는 다시 획득할 수 없습니다. 코인은 차감되지 않았습니다. 새 개봉으로 다시 시도하세요.');
+     uniqueSs.add(draw.mercenaryCode);
+    }
     await reconcileBloodmoonStock(env.DB,user.id,requestId,plan,state,random);
     if(plan.draws.some(isPrimeMaterialDraw))await ensurePrimeMaterialCatalog(env);
     const DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v),grouped=new Map(),token=crypto.randomUUID(),timestamp=new Date().toISOString();
@@ -92,10 +104,12 @@ export function createBloodmoonPackService({readState,releaseEnabled=BLOODMOON_P
     // A stock-race fallback must not consume a separately armed guarantee.
     const guaranteedDraw=bulk?plan.draws.find(r=>r.drawIndex===(plan.once?.slotIndex??0)):plan.draws[plan.once?.slotIndex??0];
     const list=await consumeBloodmoonSsOnce(DB,user.id,requestId,bloodmoon(bloodmoonDrawCode(guaranteedDraw))?plan.once:null,guaranteedDraw);
+    list.push(jointGuard(DB,token+':ownership','(SELECT COALESCE(SUM(CASE mercenary_code '+BLOODMOON_CODES.map((code,i)=>"WHEN '"+code+"' THEN "+2**i).join(' ')+" ELSE 0 END),0) FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code IN ("+BLOODMOON_CODES.map(()=>'?').join(',')+') AND total_copies>0)=?',[user.id,...BLOODMOON_CODES,plan.ownedCodes.reduce((mask,code)=>mask+2**BLOODMOON_CODES.indexOf(code),0)]),jointGuardEnd(DB,token+':ownership'));
     if(DB.dialect==='postgres')list.push(p('SELECT key FROM app_meta WHERE key=? FOR SHARE',BLOODMOON_PACK_KEY),p("SELECT doc_key FROM mercenary_cms_documents_v1 WHERE doc_key='config' FOR SHARE"),p('SELECT id FROM mercenary_draw_config_v1 WHERE id=1 FOR SHARE'));
     list.push(jointGuard(DB,token,"EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM mercenary_cms_documents_v1 WHERE doc_key='config' AND revision=?) AND EXISTS(SELECT 1 FROM mercenary_draw_config_v1 WHERE id=1 AND revision=?) AND EXISTS(SELECT 1 FROM joint_operations_v1 WHERE request_id=? AND user_id=? AND status='PENDING' AND plan_json=?)",[BLOODMOON_PACK_KEY,plan.rawPack,plan.normalCmsRevision,plan.normalDrawRevision,requestId,user.id,JSON.stringify(plan)]));
     for(const [code,indices] of [...grouped].sort(([a],[b])=>a.localeCompare(b))){
      const size=indices.length,claim=crypto.randomUUID();
+     if(BLOODMOON_CODES.includes(code))list.push(jointGuard(DB,claim+':unique','NOT EXISTS(SELECT 1 FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=? AND total_copies>0)',[user.id,code]),jointGuardEnd(DB,claim+':unique'));
      list.push(p('UPDATE mercenary_limited_stock_v1 SET issued=issued+?,revision=revision+1,last_token=? WHERE code=? AND stock_limit=? AND issued+?<=stock_limit',size,claim,code,plan.draws[indices[0]].stockLimit,size),
       jointGuard(DB,claim,'EXISTS(SELECT 1 FROM mercenary_limited_stock_v1 WHERE code=? AND last_token=?)',[code,claim]));
      if(code!==PRIME_MATERIAL_STOCK_CODE)list.push(p('INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last_obtained_at) VALUES(?,?,?,?,?,?) ON CONFLICT(user_id,mercenary_code) DO UPDATE SET total_copies=user_mercenary_cards_v1.total_copies+excluded.total_copies,duplicate_count=user_mercenary_cards_v1.duplicate_count+excluded.total_copies,last_obtained_at=excluded.last_obtained_at',user.id,code,size,size-1,timestamp,timestamp));
@@ -117,10 +131,10 @@ export function createBloodmoonPackService({readState,releaseEnabled=BLOODMOON_P
    if(error.code==='MERCENARY_BLOODMOON_PLAN_CONFLICT'&&attempt<(bulk?3:count+1))continue;
    const row=await env.DB.prepare('SELECT status,plan_json FROM joint_operations_v1 WHERE request_id=? AND user_id=? AND kind=?').bind(requestId,user.id,BLOODMOON_OPEN_KIND).first();
    if(row?.status==='PENDING'){
-    const plan=JSON.parse(row.plan_json),state=await stateFor(env),counts={};
+    const plan=JSON.parse(row.plan_json),state=await stateFor(env,user),counts={};
     for(const r of plan.draws){const code=bloodmoonDrawCode(r);if(bloodmoon(code))counts[code]=(counts[code]||0)+1;}
     const stockChanged=Object.entries(counts).some(([code,n])=>{const stock=state.stock.find(s=>s.code===code);return stock?.prepared&&(stock.remaining<n||stock.limit!==plan.draws.find(r=>bloodmoonDrawCode(r)===code).stockLimit);});
-    const changed=state.rawPack!==plan.rawPack||state.normalCmsRevision!==plan.normalCmsRevision||state.normalDrawRevision!==plan.normalDrawRevision;
+    const changed=state.rawPack!==plan.rawPack||state.normalCmsRevision!==plan.normalCmsRevision||state.normalDrawRevision!==plan.normalDrawRevision||JSON.stringify(bloodmoonOwnedCodes(plan.ownedCodes))!==JSON.stringify(bloodmoonOwnedCodes(state.ownedCodes));
     if(changed){await env.DB.prepare("UPDATE joint_operations_v1 SET status='CANCELLED',completed_at=? WHERE request_id=? AND user_id=? AND status='PENDING'").bind(new Date().toISOString(),requestId,user.id).run();throw terminal('CHANGED','설정이 변경되어 개봉을 취소했습니다. 코인은 차감되지 않았습니다.');}
     if(stockChanged&&attempt<(bulk?3:count+1))continue;
    }throw error;
