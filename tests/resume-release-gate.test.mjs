@@ -1,7 +1,25 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {fullGateResumePlan,codexCompatibilityRepair} from '../scripts/resume-release-gate.mjs';
+import {fullGateResumePlan,codexCompatibilityRepair,privateOperationAdditions} from '../scripts/resume-release-gate.mjs';
+
+test('concurrent private operations archives are additive, unpublished, regular and unreferenced',()=>{
+ const path='operations/example-completion-20261103/run.mjs';
+ const setup=()=>({base:'a'.repeat(40),changed:[path],git:(cmd,...args)=>{
+  if(cmd==='diff')return path;
+  if(cmd==='ls-tree')return '100644 blob '+ 'b'.repeat(40)+'\t'+path;
+  if(cmd==='grep'){assert.ok(args.includes('example-completion-20261103'));assert.ok(args.includes(':(exclude)operations/**'));throw Object.assign(Error('no matches'),{status:1});}
+  throw Error('Unexpected git command');
+ }});
+ assert.deepEqual([...privateOperationAdditions(setup())],[path]);
+ for(const [cmd,value] of [['diff',''],['ls-tree','120000 blob '+ 'b'.repeat(40)+'\t'+path],['grep','HEAD:js/runtime.mjs']]){
+  const f=setup(),git=f.git;f.git=(name,...args)=>name===cmd?value:git(name,...args);
+  assert.throws(()=>privateOperationAdditions(f),/Private operations/);
+ }
+ assert.throws(()=>privateOperationAdditions({...setup(),productionFile:()=>true}),/unpublished/);
+ const f=setup(),git=f.git;f.git=(cmd,...args)=>{if(cmd==='grep')throw Object.assign(Error('git failed'),{status:128});return git(cmd,...args);};
+ assert.throws(()=>privateOperationAdditions(f),/git failed/);
+});
 
 test('codex authoring template can retain the cache token from unchanged public HTML only',()=>{
  const shell='mercenary-codex/shell.mjs',page='mercenary-codex/index.html';

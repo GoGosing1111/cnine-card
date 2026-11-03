@@ -1,5 +1,6 @@
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+import {isProductionFile} from './prepare-production-assets.mjs';
 
 // Reuse only a completed prefix of the exact full gate, after test/document fixes.
 // Backend, shared renderer, dependency, schema and gate-command changes require
@@ -15,6 +16,22 @@ const offlineSkillPreview=new Set([
 const limitedPackView='js/mercenary-limited-pack-live.mjs';
 const limitedPackBrowser='tests/mercenary-limited-shop-20261006.browser.mjs';
 const gateTestPath=path=>/^(?:tests\/[^/]+\.mjs|preview\/(?:[a-zA-Z0-9_-]+\/)+qa\.test\.mjs)$/.test(path);
+// Concurrent operations may append a private completion archive. Reuse game
+// checks only for new regular files excluded by the real publication filter
+// and unreferenced by tracked runtime/build inputs. Never execute the archive.
+export function privateOperationAdditions({changed,base,git,productionFile=isProductionFile}){
+  const paths=changed.filter(path=>path.startsWith('operations/'));
+  if(!paths.length)return new Set();
+  const added=new Set(git('diff','--name-only','--diff-filter=A',base,'HEAD').split('\n'));
+  const modes=new Map(git('ls-tree','-r','HEAD','--','operations').split('\n').filter(Boolean).map(line=>{const [entry,path]=line.split('\t');return [path,entry.split(' ')[0]];}));
+  for(const path of paths)if(!/^operations\/[a-zA-Z0-9_-]+\/(?:[a-zA-Z0-9_-]+(?:\.[a-zA-Z0-9_-]+)*|\.gitignore)$/.test(path)||!added.has(path)||!['100644','100755'].includes(modes.get(path))||productionFile(path))throw Error('Private operations reuse requires added regular unpublished files.');
+  const directories=[...new Set(paths.map(path=>path.split('/')[1]))];
+  let references='';
+  try{references=git('grep','-I','-l','-F',...directories.flatMap(name=>['-e',name]),'HEAD','--',':(exclude)operations/**',':(exclude)docs/**',':(exclude)tests/**',':(exclude)AGENTS.md');}
+  catch(error){if(error.status!==1)throw error;}
+  if(references)throw Error('Private operations archive is referenced by runtime/tooling: run a fresh full gate.');
+  return new Set(paths);
+}
 // A newly approved card may lack its read-only thumbnails. Preserve every
 // existing entry and source byte; this narrowly scoped repair has no game state.
 export function codexCompatibilityRepair({changed,base,git,read,readBytes}){
@@ -99,6 +116,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
   const commands=gate.split(' && '),names=commands.map(command=>command.match(/^npm run ([\w:-]+)$/)?.[1]);
   if(commands.at(-1)!=='node scripts/verify-production-release.mjs'||names.slice(0,-1).some(name=>!name))throw Error('Unsupported full gate structure.');
   const changed=git('diff','--name-only',base,'HEAD').split('\n').filter(Boolean),bgmAdditions=new Set(),artAdditions=new Set();
+  const privateOperations=privateOperationAdditions({changed,base,git});
   const codexRepairs=codexCompatibilityRepair({changed,base,git,read,readBytes});
   // A fixture used only by directly registered gate tests may be repaired.
   // Every importing stage is rechecked; runtime, shared-helper and unregistered
@@ -207,7 +225,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     if(/^ℹ fail [1-9]/m.test(continuation.slice(0,continuationStart)))throw Error('Continuation guard tests failed.');
     changesAfterLastRun=new Set(git('diff','--name-only',candidate,'HEAD').split('\n').filter(Boolean));
     const repairTools=new Set(['scripts/deploy-production.mjs','scripts/resume-release-gate.mjs','tests/resume-release-gate.test.mjs']);
-    for(const path of changesAfterLastRun)if(path!=='AGENTS.md'&&!(path==='index.html'&&cacheOrderOnly)&&!path.startsWith('docs/')&&!gateTestPath(path)&&!helperStages.has(path)&&!repairTools.has(path)&&!bgmAdditions.has(path)&&!artAdditions.has(path)&&!codexRepairs.has(path)&&!/^scripts\/ops\/[a-zA-Z0-9_-]+(?:\.[a-zA-Z0-9_-]+)*\.(?:mjs|json)$/.test(path)&&!(env.RELEASE_GATE_RESUME_UI_REPORT&&/^raid\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+\.(?:mjs|css)$/.test(path))&&!/^preview\/[a-zA-Z0-9_-]+\/qa\/production\.json$/.test(path))throw Error(`Runtime changed after continuation (${path}): run a fresh full gate.`);
+    for(const path of changesAfterLastRun)if(path!=='AGENTS.md'&&!(path==='index.html'&&cacheOrderOnly)&&!path.startsWith('docs/')&&!privateOperations.has(path)&&!gateTestPath(path)&&!helperStages.has(path)&&!repairTools.has(path)&&!bgmAdditions.has(path)&&!artAdditions.has(path)&&!codexRepairs.has(path)&&!/^scripts\/ops\/[a-zA-Z0-9_-]+(?:\.[a-zA-Z0-9_-]+)*\.(?:mjs|json)$/.test(path)&&!(env.RELEASE_GATE_RESUME_UI_REPORT&&/^raid\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+\.(?:mjs|css)$/.test(path))&&!/^preview\/[a-zA-Z0-9_-]+\/qa\/production\.json$/.test(path))throw Error(`Runtime changed after continuation (${path}): run a fresh full gate.`);
     logText=logText.slice(0,originalLast)+continuation.slice(continuationStart);
     seen=stageNames(logText);
   }
@@ -335,6 +353,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     if(codexRepairs.has(path))continue;
     if(qaReceipts.includes(path))continue;
     if(operations.includes(path))continue;
+    if(privateOperations.has(path))continue;
     if(browserProof.has(path))continue;
     if(lobbySourceRepair&&(lobbySources.has(path)||(lobbyBundleRepair&&path==='js/adventure-lobby-v2107.js')))continue;
     // Legacy gate entry points also use .mjs without the .test suffix. Require
