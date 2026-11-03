@@ -50,10 +50,10 @@ for(const postgres of [false,true]){
  });
  test(`${label}: owner roles cannot bypass rank; PVE/PVP, legacy slots and ranked selections recheck current rank`,async t=>{
   const f=await fixture(t,postgres);await f.rank(SHIRANUI_MIN_RANK_TICKS);await ensureShiranuiRankReward(f.env,7);await f.claim((await f.rewards())[0]);
-  for(const mode of ['PVE','PVP'])await saveMercenaryLoadout(f.env,f.user,{requestId:rid(),mode,mercenaryCode:SHIRANUI_CODE,revision:0});
+  for(const mode of ['PVE','PVP'])await saveMercenaryLoadout(f.env,f.user,{requestId:rid(),mode,mercenaryCodes:[SHIRANUI_CODE],revision:0});
   assert.equal((await loadMercenaryBattleSnapshot(f.env,f.user)).code,SHIRANUI_CODE);assert.equal((await rankedOwnedMercenaries(f.env,[7])).get(7)[0].code,SHIRANUI_CODE);
   await f.rank(SHIRANUI_MIN_RANK_TICKS-1);
-  for(const mode of ['PVE','PVP']){await assert.rejects(()=>saveMercenaryLoadout(f.env,f.user,{requestId:rid(),mode,mercenaryCode:SHIRANUI_CODE,revision:1}),{code:'MERCENARY_ACCOUNT_RANK'});assert.equal(await loadMercenaryBattleSnapshot(f.env,f.user,mode),null);assert.equal((await releasedMercenarySnapshots(f.env,[7],mode)).size,0);}
+  for(const mode of ['PVE','PVP']){await assert.rejects(()=>saveMercenaryLoadout(f.env,f.user,{requestId:rid(),mode,mercenaryCodes:[SHIRANUI_CODE],revision:1}),{code:'MERCENARY_ACCOUNT_RANK'});assert.equal(await loadMercenaryBattleSnapshot(f.env,f.user,mode),null);assert.equal((await releasedMercenarySnapshots(f.env,[7],mode)).size,0);}
   const state=await mercenaryAccountState(f.env,f.user);assert.equal(state.cards[0].canDeploy,false);assert.match(state.cards[0].deploymentBlockedReason,/중장/);assert.equal(await f.copies(),1);
   assert.equal((await rankedOwnedMercenaries(f.env,[7])).get(7).length,0);await assert.rejects(()=>rankedSelectedMercenaries(f.env,new Map([[7,[SHIRANUI_CODE,SHIRANUI_CODE,SHIRANUI_CODE]]])),{code:'PVP_SERIES_ROSTER'});
   for(const code of ['V-001','V-002'])await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(7,?,1,0,?,?)',code,'now','now').run();

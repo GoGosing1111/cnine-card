@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {RANKS,POLICY,rankForLevel,draftEffects} from '../preview/account-rank-v1/model.mjs';
 import {GROWTH_POLICY,XP_SOURCES,estimateGrowth,totalXpForLevel,levelFromXp,nextLevelXp} from '../scripts/internal/account-rank-growth-v1.mjs';
 import {readFile} from 'node:fs/promises';
+import {readCommittedAsset} from './helpers/committed-asset-read.mjs';
 import {spawn} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import sharp from 'sharp';
@@ -42,7 +43,7 @@ test('all 21 rank PNGs are present, transparent, and match their provenance hash
   const manifest=JSON.parse(await readFile(new URL('manifest.json',base),'utf8'));
   assert.equal(manifest.readyArtCount,21);assert.equal(manifest.files.length,21);
   for(const rank of RANKS){
-    const bytes=await readFile(new URL(rank.art,base)),entry=manifest.files.find(f=>f.file===rank.art);
+    const bytes=await readCommittedAsset(new URL(rank.art,base)),entry=manifest.files.find(f=>f.file===rank.art);
     assert.ok(entry,rank.code);assert.equal(createHash('sha256').update(bytes).digest('hex'),entry.sha256);
     const meta=await sharp(bytes).metadata(),stats=await sharp(bytes).stats();
     assert.ok(meta.width>=1024);assert.equal(meta.width,meta.height);assert.equal(meta.hasAlpha,true);
