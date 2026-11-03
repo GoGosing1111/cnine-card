@@ -1,0 +1,1005 @@
+{
+  "operationKey": "ops:playdk:1441569:comment-coin500t:20261103:v1",
+  "authorization": "https://www.playdk.kr/board/skm/1441569 댓글 전체 2차인증 검증 후 500조씩 지급",
+  "sourceUrl": "https://www.playdk.kr/board/skm/1441569",
+  "sourceApi": "https://www.playdk.kr/api/v2/p/comment",
+  "postId": 1441569,
+  "board": "skm",
+  "title": "[다 들어주는 신령] 내가 갤질도 열심히하고 게임도 열심히했다 댓글",
+  "collectedAt": "2026-11-03T08:17:28.846Z",
+  "selection": "All publicly returned comments and replies in the stable complete snapshot; one reward per verified game account",
+  "commentCount": 104,
+  "pages": 3,
+  "pageSize": 50,
+  "uniqueAuthors": 97,
+  "selected": [
+    {
+      "uuid": "00a28fb2",
+      "names": [
+        "박사"
+      ],
+      "commentIds": [
+        6487968,
+        6492099
+      ]
+    },
+    {
+      "uuid": "03320b3e",
+      "names": [
+        "비쥬얼깡패"
+      ],
+      "commentIds": [
+        6488133
+      ]
+    },
+    {
+      "uuid": "0548cdfe",
+      "names": [
+        "다르"
+      ],
+      "commentIds": [
+        6491793
+      ]
+    },
+    {
+      "uuid": "0559204b",
+      "names": [
+        "공단"
+      ],
+      "commentIds": [
+        6489602
+      ]
+    },
+    {
+      "uuid": "05f75c4c",
+      "names": [
+        "희동"
+      ],
+      "commentIds": [
+        6488113
+      ]
+    },
+    {
+      "uuid": "0791c490",
+      "names": [
+        "놀숲"
+      ],
+      "commentIds": [
+        6490886
+      ]
+    },
+    {
+      "uuid": "09096e0b",
+      "names": [
+        "짝밤"
+      ],
+      "commentIds": [
+        6488421
+      ]
+    },
+    {
+      "uuid": "0ab57d26",
+      "names": [
+        "박세라-ㅂ-"
+      ],
+      "commentIds": [
+        6487955
+      ]
+    },
+    {
+      "uuid": "0b464ee5",
+      "names": [
+        "망순이ෆ"
+      ],
+      "commentIds": [
+        6487951
+      ]
+    },
+    {
+      "uuid": "0c98c0a7",
+      "names": [
+        "레가파"
+      ],
+      "commentIds": [
+        6487963
+      ]
+    },
+    {
+      "uuid": "0cd6253c",
+      "names": [
+        "차단하다"
+      ],
+      "commentIds": [
+        6489408
+      ]
+    },
+    {
+      "uuid": "0e8cf635",
+      "names": [
+        "혜정"
+      ],
+      "commentIds": [
+        6487952
+      ]
+    },
+    {
+      "uuid": "10b0622c",
+      "names": [
+        "닥터피쉬"
+      ],
+      "commentIds": [
+        6489967
+      ]
+    },
+    {
+      "uuid": "11092f52",
+      "names": [
+        "모래"
+      ],
+      "commentIds": [
+        6488152
+      ]
+    },
+    {
+      "uuid": "119ccbaf",
+      "names": [
+        "족날두"
+      ],
+      "commentIds": [
+        6487958
+      ]
+    },
+    {
+      "uuid": "2113359e",
+      "names": [
+        "zkzk9999"
+      ],
+      "commentIds": [
+        6487970
+      ]
+    },
+    {
+      "uuid": "21bea729",
+      "names": [
+        "슈라"
+      ],
+      "commentIds": [
+        6487976
+      ]
+    },
+    {
+      "uuid": "22c31ef9",
+      "names": [
+        "족단"
+      ],
+      "commentIds": [
+        6487988
+      ]
+    },
+    {
+      "uuid": "22ca5c12",
+      "names": [
+        "대지"
+      ],
+      "commentIds": [
+        6489924
+      ]
+    },
+    {
+      "uuid": "29372c57",
+      "names": [
+        "젤리피쉬"
+      ],
+      "commentIds": [
+        6490286,
+        6489944
+      ]
+    },
+    {
+      "uuid": "2ed65346",
+      "names": [
+        "0수표"
+      ],
+      "commentIds": [
+        6487948
+      ]
+    },
+    {
+      "uuid": "2f9fa1d1",
+      "names": [
+        "치타구"
+      ],
+      "commentIds": [
+        6489942
+      ]
+    },
+    {
+      "uuid": "372f52a0",
+      "names": [
+        "고라니ㅇ"
+      ],
+      "commentIds": [
+        6487956
+      ]
+    },
+    {
+      "uuid": "3c4794b7",
+      "names": [
+        "오일바른가지"
+      ],
+      "commentIds": [
+        6487959
+      ]
+    },
+    {
+      "uuid": "416c1cc2",
+      "names": [
+        "펜타"
+      ],
+      "commentIds": [
+        6489142
+      ]
+    },
+    {
+      "uuid": "43004bd8",
+      "names": [
+        "최성수"
+      ],
+      "commentIds": [
+        6488100,
+        6488947,
+        6490294
+      ]
+    },
+    {
+      "uuid": "4859c4a2",
+      "names": [
+        "쁠리의무사시"
+      ],
+      "commentIds": [
+        6488562
+      ]
+    },
+    {
+      "uuid": "49cd3f96",
+      "names": [
+        "커피먹는봉순"
+      ],
+      "commentIds": [
+        6487960
+      ]
+    },
+    {
+      "uuid": "4c7adda2",
+      "names": [
+        "암살자.."
+      ],
+      "commentIds": [
+        6487993
+      ]
+    },
+    {
+      "uuid": "4dc347ca",
+      "names": [
+        "옴마니반메훔"
+      ],
+      "commentIds": [
+        6492614
+      ]
+    },
+    {
+      "uuid": "53bc438a",
+      "names": [
+        "리이렐"
+      ],
+      "commentIds": [
+        6490078
+      ]
+    },
+    {
+      "uuid": "5425756a",
+      "names": [
+        "찡찡ෆ"
+      ],
+      "commentIds": [
+        6488528
+      ]
+    },
+    {
+      "uuid": "54be10d5",
+      "names": [
+        "햬카세"
+      ],
+      "commentIds": [
+        6487957
+      ]
+    },
+    {
+      "uuid": "561a0ff8",
+      "names": [
+        "전게씹선미아웃"
+      ],
+      "commentIds": [
+        6488043
+      ]
+    },
+    {
+      "uuid": "5655d558",
+      "names": [
+        "좋은하루"
+      ],
+      "commentIds": [
+        6488071
+      ]
+    },
+    {
+      "uuid": "5800347a",
+      "names": [
+        "추종"
+      ],
+      "commentIds": [
+        6487961,
+        6487974
+      ]
+    },
+    {
+      "uuid": "5b629087",
+      "names": [
+        "에타"
+      ],
+      "commentIds": [
+        6490930
+      ]
+    },
+    {
+      "uuid": "5c0809e6",
+      "names": [
+        "씨나인택갓"
+      ],
+      "commentIds": [
+        6487946
+      ]
+    },
+    {
+      "uuid": "5de5f0c2",
+      "names": [
+        "토닭토닭"
+      ],
+      "commentIds": [
+        6487992
+      ]
+    },
+    {
+      "uuid": "5ecad84f",
+      "names": [
+        "지아영"
+      ],
+      "commentIds": [
+        6487998
+      ]
+    },
+    {
+      "uuid": "634d4201",
+      "names": [
+        "˚쟁이。"
+      ],
+      "commentIds": [
+        6487954
+      ]
+    },
+    {
+      "uuid": "644d3393",
+      "names": [
+        "세라네꼬라지"
+      ],
+      "commentIds": [
+        6488058
+      ]
+    },
+    {
+      "uuid": "6d611603",
+      "names": [
+        "숭구릭"
+      ],
+      "commentIds": [
+        6488030
+      ]
+    },
+    {
+      "uuid": "6da5a7a7",
+      "names": [
+        "학벌"
+      ],
+      "commentIds": [
+        6487983
+      ]
+    },
+    {
+      "uuid": "6edf889b",
+      "names": [
+        "김치보이"
+      ],
+      "commentIds": [
+        6489021
+      ]
+    },
+    {
+      "uuid": "6f84c07a",
+      "names": [
+        "다시생각"
+      ],
+      "commentIds": [
+        6490414
+      ]
+    },
+    {
+      "uuid": "6fc616f7",
+      "names": [
+        "레드클라우드"
+      ],
+      "commentIds": [
+        6488823
+      ]
+    },
+    {
+      "uuid": "704b0297",
+      "names": [
+        "화성가뿌자"
+      ],
+      "commentIds": [
+        6490263
+      ]
+    },
+    {
+      "uuid": "70f6dcb8",
+      "names": [
+        "랭비!"
+      ],
+      "commentIds": [
+        6487950
+      ]
+    },
+    {
+      "uuid": "74c50775",
+      "names": [
+        "뚱초환🫐"
+      ],
+      "commentIds": [
+        6488094
+      ]
+    },
+    {
+      "uuid": "76aa86ba",
+      "names": [
+        "비니"
+      ],
+      "commentIds": [
+        6487949
+      ]
+    },
+    {
+      "uuid": "8b176e68",
+      "names": [
+        "오승환이다."
+      ],
+      "commentIds": [
+        6487975
+      ]
+    },
+    {
+      "uuid": "8dce33d8",
+      "names": [
+        "아크"
+      ],
+      "commentIds": [
+        6488341
+      ]
+    },
+    {
+      "uuid": "8dd27727",
+      "names": [
+        "핫시"
+      ],
+      "commentIds": [
+        6487979
+      ]
+    },
+    {
+      "uuid": "8df763bd",
+      "names": [
+        "정원이"
+      ],
+      "commentIds": [
+        6488104
+      ]
+    },
+    {
+      "uuid": "8eeb626d",
+      "names": [
+        "쑤댕"
+      ],
+      "commentIds": [
+        6488212
+      ]
+    },
+    {
+      "uuid": "9064056b",
+      "names": [
+        "깜찍소녀"
+      ],
+      "commentIds": [
+        6488506
+      ]
+    },
+    {
+      "uuid": "9363afd4",
+      "names": [
+        "불곰덫"
+      ],
+      "commentIds": [
+        6488073
+      ]
+    },
+    {
+      "uuid": "94502a2d",
+      "names": [
+        "베베킹"
+      ],
+      "commentIds": [
+        6487964
+      ]
+    },
+    {
+      "uuid": "945f7501",
+      "names": [
+        "풍으로말해요"
+      ],
+      "commentIds": [
+        6487981
+      ]
+    },
+    {
+      "uuid": "968bf91a",
+      "names": [
+        "x수댕"
+      ],
+      "commentIds": [
+        6487994
+      ]
+    },
+    {
+      "uuid": "979169df",
+      "names": [
+        "#크레파스"
+      ],
+      "commentIds": [
+        6488459
+      ]
+    },
+    {
+      "uuid": "9f0cdb34",
+      "names": [
+        "음순"
+      ],
+      "commentIds": [
+        6491246
+      ]
+    },
+    {
+      "uuid": "9f14e684",
+      "names": [
+        "닉네임없음"
+      ],
+      "commentIds": [
+        6496390
+      ]
+    },
+    {
+      "uuid": "9f8e3d1b",
+      "names": [
+        "우회하세요"
+      ],
+      "commentIds": [
+        6489818
+      ]
+    },
+    {
+      "uuid": "a05e2d57",
+      "names": [
+        "현하루"
+      ],
+      "commentIds": [
+        6488732
+      ]
+    },
+    {
+      "uuid": "a2c1e499",
+      "names": [
+        "블랙캐슬"
+      ],
+      "commentIds": [
+        6487969
+      ]
+    },
+    {
+      "uuid": "a5c2044a",
+      "names": [
+        "늑대울프"
+      ],
+      "commentIds": [
+        6488414
+      ]
+    },
+    {
+      "uuid": "a65c9744",
+      "names": [
+        "관종이얌"
+      ],
+      "commentIds": [
+        6490444
+      ]
+    },
+    {
+      "uuid": "aa18e32d",
+      "names": [
+        "단정한밤"
+      ],
+      "commentIds": [
+        6488034
+      ]
+    },
+    {
+      "uuid": "aac30f81",
+      "names": [
+        "남수댕ㅗ"
+      ],
+      "commentIds": [
+        6488053
+      ]
+    },
+    {
+      "uuid": "b183dbb1",
+      "names": [
+        "조은"
+      ],
+      "commentIds": [
+        6490703
+      ]
+    },
+    {
+      "uuid": "b6e04c16",
+      "names": [
+        "센텀신사"
+      ],
+      "commentIds": [
+        6488056,
+        6490807
+      ]
+    },
+    {
+      "uuid": "b86ce1fb",
+      "names": [
+        "더듬이구"
+      ],
+      "commentIds": [
+        6487947
+      ]
+    },
+    {
+      "uuid": "bc55305b",
+      "names": [
+        "꾸까"
+      ],
+      "commentIds": [
+        6487987,
+        6491689
+      ]
+    },
+    {
+      "uuid": "bdff325e",
+      "names": [
+        "심심이"
+      ],
+      "commentIds": [
+        6487982
+      ]
+    },
+    {
+      "uuid": "c080c2f3",
+      "names": [
+        "Mild7"
+      ],
+      "commentIds": [
+        6488002
+      ]
+    },
+    {
+      "uuid": "c2b34582",
+      "names": [
+        "애장"
+      ],
+      "commentIds": [
+        6494361
+      ]
+    },
+    {
+      "uuid": "c48daa8c",
+      "names": [
+        "택신"
+      ],
+      "commentIds": [
+        6487966
+      ]
+    },
+    {
+      "uuid": "c6f83864",
+      "names": [
+        "타몽"
+      ],
+      "commentIds": [
+        6494341
+      ]
+    },
+    {
+      "uuid": "c7626e57",
+      "names": [
+        "유나이은"
+      ],
+      "commentIds": [
+        6488367
+      ]
+    },
+    {
+      "uuid": "cba2b411",
+      "names": [
+        "족구조아"
+      ],
+      "commentIds": [
+        6487973
+      ]
+    },
+    {
+      "uuid": "cd23e0b4",
+      "names": [
+        "찬호"
+      ],
+      "commentIds": [
+        6490833
+      ]
+    },
+    {
+      "uuid": "cd31c10a",
+      "names": [
+        "구와함"
+      ],
+      "commentIds": [
+        6489297
+      ]
+    },
+    {
+      "uuid": "cd3ea662",
+      "names": [
+        "폭군"
+      ],
+      "commentIds": [
+        6487962
+      ]
+    },
+    {
+      "uuid": "ce44a7ee",
+      "names": [
+        "장씨아저씨"
+      ],
+      "commentIds": [
+        6488289
+      ]
+    },
+    {
+      "uuid": "cfd8587e",
+      "names": [
+        "의지"
+      ],
+      "commentIds": [
+        6488218
+      ]
+    },
+    {
+      "uuid": "d179a0be",
+      "names": [
+        "깅더듬"
+      ],
+      "commentIds": [
+        6488473
+      ]
+    },
+    {
+      "uuid": "d98a8c3a",
+      "names": [
+        "#유나랜드"
+      ],
+      "commentIds": [
+        6488431
+      ]
+    },
+    {
+      "uuid": "de4e77bb",
+      "names": [
+        "하트!"
+      ],
+      "commentIds": [
+        6488195
+      ]
+    },
+    {
+      "uuid": "e7a4d95d",
+      "names": [
+        "족알못"
+      ],
+      "commentIds": [
+        6488992
+      ]
+    },
+    {
+      "uuid": "ec40706c",
+      "names": [
+        "CHO22"
+      ],
+      "commentIds": [
+        6488867
+      ]
+    },
+    {
+      "uuid": "f4345135",
+      "names": [
+        "[C9]가시"
+      ],
+      "commentIds": [
+        6488091
+      ]
+    },
+    {
+      "uuid": "f594094d",
+      "names": [
+        "꼰머냥"
+      ],
+      "commentIds": [
+        6488092
+      ]
+    },
+    {
+      "uuid": "f6ec95f7",
+      "names": [
+        "조은홧팅"
+      ],
+      "commentIds": [
+        6488006
+      ]
+    },
+    {
+      "uuid": "fcc10c81",
+      "names": [
+        "거북이"
+      ],
+      "commentIds": [
+        6488075
+      ]
+    },
+    {
+      "uuid": "ff8c0922",
+      "names": [
+        "스루형2↑"
+      ],
+      "commentIds": [
+        6487996
+      ]
+    }
+  ],
+  "unattributable": [],
+  "commentIds": [
+    6487946,
+    6487947,
+    6487948,
+    6487949,
+    6487950,
+    6487951,
+    6487952,
+    6487954,
+    6487955,
+    6487956,
+    6487957,
+    6487958,
+    6487959,
+    6487960,
+    6487961,
+    6487962,
+    6487963,
+    6487964,
+    6487966,
+    6487968,
+    6487969,
+    6487970,
+    6487973,
+    6487974,
+    6487975,
+    6487976,
+    6487979,
+    6487981,
+    6487982,
+    6487983,
+    6487987,
+    6487988,
+    6487992,
+    6487993,
+    6487994,
+    6487996,
+    6487998,
+    6488002,
+    6488006,
+    6488030,
+    6488034,
+    6488043,
+    6488053,
+    6488056,
+    6488058,
+    6488071,
+    6488073,
+    6488075,
+    6488091,
+    6488092,
+    6488094,
+    6488100,
+    6488104,
+    6488113,
+    6488133,
+    6488152,
+    6488195,
+    6488212,
+    6488218,
+    6488289,
+    6488341,
+    6488367,
+    6488414,
+    6488421,
+    6488431,
+    6488459,
+    6488473,
+    6488506,
+    6488947,
+    6490286,
+    6490294,
+    6488528,
+    6488562,
+    6488732,
+    6488823,
+    6488867,
+    6488992,
+    6489021,
+    6489142,
+    6489297,
+    6489408,
+    6489602,
+    6489818,
+    6489924,
+    6489942,
+    6489944,
+    6489967,
+    6490078,
+    6490263,
+    6490414,
+    6490444,
+    6490703,
+    6490807,
+    6492099,
+    6490833,
+    6490886,
+    6490930,
+    6491246,
+    6491689,
+    6491793,
+    6492614,
+    6494341,
+    6494361,
+    6496390
+  ],
+  "rawCommentsHash": "b4acabffa8f9ef390e6bc5346e902cfafb776620b197e48602755c722c6da329"
+}
