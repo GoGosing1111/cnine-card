@@ -2,8 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {RANKS,POLICY,rankForLevel,draftEffects} from '../preview/account-rank-v1/model.mjs';
 import {GROWTH_POLICY,XP_SOURCES,estimateGrowth,totalXpForLevel,levelFromXp,nextLevelXp} from '../scripts/internal/account-rank-growth-v1.mjs';
-import {readFile} from 'node:fs/promises';
+import {readFile,mkdtemp,mkdir,writeFile,realpath,rm} from 'node:fs/promises';
 import {readCommittedAsset} from './helpers/committed-asset-read.mjs';
+import path from 'node:path';import os from 'node:os';import {once} from 'node:events';
 import {spawn} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import sharp from 'sharp';
@@ -57,8 +58,12 @@ test('public client has no growth-method UI, source payouts, or growth formula i
   }
 });
 test('preview server exposes UI and art but denies internal XP policy and authoring files',async t=>{
-  const child=spawn(process.execPath,['preview/account-rank-v1/serve.mjs'],{cwd:new URL('../',import.meta.url),env:{...process.env,RANK_PREVIEW_PORT:'0'},stdio:['ignore','pipe','pipe']});
-  t.after(()=>child.kill());
+  const stage=await mkdtemp(path.join(os.tmpdir(),'cnine-rank-preview-'));let child;
+  t.after(async()=>{if(child?.pid&&child.exitCode===null&&child.signalCode===null){const exited=once(child,'exit');child.kill();await exited;}const actual=await realpath(stage);assert.equal(path.dirname(actual),await realpath(os.tmpdir()));assert(path.basename(actual).startsWith('cnine-rank-preview-'));await rm(actual,{recursive:true,force:true});});
+  // Run the unchanged server against its bounded, byte-identical source files.
+  // Sparse source art remains in Git; both allowed and denied files really exist.
+  for(const file of ['preview/account-rank-v1/serve.mjs','preview/account-rank-v1/index.html','preview/account-rank-v1/model.mjs','preview/account-rank-v1/assets/marshal-v1.png','scripts/internal/account-rank-growth-v1.mjs','docs/account-level-rank-proposal-20260916.md','preview/account-rank-v1/README.md','preview/account-rank-v1/assets/prompts.json']){const target=path.join(stage,file);await mkdir(path.dirname(target),{recursive:true});await writeFile(target,await readCommittedAsset(new URL('../'+file,import.meta.url)));}
+  child=spawn(process.execPath,['preview/account-rank-v1/serve.mjs'],{cwd:stage,env:{...process.env,RANK_PREVIEW_PORT:'0'},stdio:['ignore','pipe','pipe']});
   const base=await new Promise((resolve,reject)=>{
     const timer=setTimeout(()=>reject(new Error('preview server startup timeout')),8000);
     child.once('error',e=>{clearTimeout(timer);reject(e);});
