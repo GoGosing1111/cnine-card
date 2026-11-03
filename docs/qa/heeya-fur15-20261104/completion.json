@@ -1,0 +1,157 @@
+{
+  "status": "COMPLETED_AND_VERIFIED",
+  "operationKey": "ops:heeya-fur15:20261104:v1",
+  "authorization": "하이희야♡ FUR 15강 아닌거 있으면 15강으로 업그레이드 시켜",
+  "userId": "4977",
+  "nickname": "하이희야♡",
+  "grade": "FUR",
+  "targetLevel": 15,
+  "upgraded": 12,
+  "already15Skipped": 2,
+  "currentOwnedFur": 14,
+  "currentOwnedFurAt15": 14,
+  "quantityGranted": 0,
+  "materialsConsumed": 0,
+  "cost": 0,
+  "changes": [
+    {
+      "cardId": "CN-02D9DC1E8A8A4209",
+      "title": "철와대 킴성태",
+      "before": 0,
+      "after": 15,
+      "quantityBefore": "414",
+      "quantityAfter": "414",
+      "auditId": "54193"
+    },
+    {
+      "cardId": "CN-284FB135B2AB4D31",
+      "title": "프로필찍는 봉준",
+      "before": 0,
+      "after": 15,
+      "quantityBefore": "347",
+      "quantityAfter": "347",
+      "auditId": "54194"
+    },
+    {
+      "cardId": "CN-2CEC24C0087A4B61",
+      "title": "와룡킹남순",
+      "before": 0,
+      "after": 15,
+      "quantityBefore": "369",
+      "quantityAfter": "369",
+      "auditId": "54195"
+    },
+    {
+      "cardId": "CN-346F8DB0DEB84D41",
+      "title": "철구",
+      "before": 13,
+      "after": 15,
+      "quantityBefore": "38",
+      "quantityAfter": "38",
+      "auditId": "54196"
+    },
+    {
+      "cardId": "CN-716F6A71EE5F488E",
+      "title": "이상호",
+      "before": 0,
+      "after": 15,
+      "quantityBefore": "366",
+      "quantityAfter": "366",
+      "auditId": "54197"
+    },
+    {
+      "cardId": "CN-A21C3D87C47D4D95",
+      "title": "거품목욕 이상호",
+      "before": 0,
+      "after": 15,
+      "quantityBefore": "365",
+      "quantityAfter": "365",
+      "auditId": "54198"
+    },
+    {
+      "cardId": "CN-AD85A1AFB7234D1B",
+      "title": "NS남순",
+      "before": 0,
+      "after": 15,
+      "quantityBefore": "437",
+      "quantityAfter": "437",
+      "auditId": "54199"
+    },
+    {
+      "cardId": "CN-B2D79A6239AA4A1B",
+      "title": "헬창 봉준",
+      "before": 0,
+      "after": 15,
+      "quantityBefore": "361",
+      "quantityAfter": "361",
+      "auditId": "54200"
+    },
+    {
+      "cardId": "CN-BEE87AB06483449A",
+      "title": "프로필 김민교",
+      "before": 0,
+      "after": 15,
+      "quantityBefore": "422",
+      "quantityAfter": "422",
+      "auditId": "54201"
+    },
+    {
+      "cardId": "CN-CE16D291605A47F0",
+      "title": "킹봉준",
+      "before": 0,
+      "after": 15,
+      "quantityBefore": "382",
+      "quantityAfter": "382",
+      "auditId": "54202"
+    },
+    {
+      "cardId": "CN-DAE98309A47C4CCA",
+      "title": "서수길",
+      "before": 0,
+      "after": 15,
+      "quantityBefore": "397",
+      "quantityAfter": "397",
+      "auditId": "54203"
+    },
+    {
+      "cardId": "CN-F500880B2ED34350",
+      "title": "프로필 킴성태",
+      "before": 0,
+      "after": 15,
+      "quantityBefore": "435",
+      "quantityAfter": "435",
+      "auditId": "54204"
+    }
+  ],
+  "skipped": [
+    {
+      "cardId": "CN-47AD4B47B6A7452C",
+      "title": "아이젠 족스케",
+      "level": 15
+    },
+    {
+      "cardId": "CN-5D0E2E4D58C9416F",
+      "title": "치타구",
+      "level": 15
+    }
+  ],
+  "auditId": "54205",
+  "completedAt": "2026-11-03T15:42:27.183Z",
+  "completedKst": "2026-11-04 00:42:27 KST",
+  "planHash": "d38ac8360a5e7192cb414f69a7618e710c27f4fc45f6477b352556c4dc194db4",
+  "sourceSha256": "936ec13d3bfd1206e32f247fea6ebff673eebc4a611d38f3ec89deeb24270c7b",
+  "parentOperation": "ops:heeya-jinmu21-icons-eumsooni-pig3000:20261104:v1",
+  "parentReceiptHash": "cce89f2d3768bfd6b64dab06897654e99a6012dacf8d88427214b64ec2427a3b",
+  "checks": {
+    "injectedFailureRollback": true,
+    "successfulRollback": true,
+    "independentReadOnlyVerification": true,
+    "selectOnlyReplay": true,
+    "previousJinmuAndIconPreserved": true,
+    "otherAccountStatePreserved": true,
+    "collectionSyncAdvance": 1,
+    "rankedSourceAdvance": 12,
+    "leasesReleased": true
+  },
+  "evidenceDirectory": "operations/heeya-fur15-20261104/evidence"
+}
