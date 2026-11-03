@@ -2,6 +2,7 @@ import {handleWarChat,warChatStream} from '../_war_chat.js';
 import {handleBlackcrownPack,blackcrownPackShopRow} from '../_mercenary_blackcrown_pack.js';
 import {ensureSigHunterBoxCatalog,openSigHunterBox,grantSigHunterBox} from '../_sig_hunter_box.js';
 import {ensureReversecallStreamerGiftCatalog,openReversecallStreamerGift,grantReversecallStreamerGift} from '../_reversecall_streamer_gift.js';
+import {ensureCnineStreamerBoxCatalog,openCnineStreamerBox,grantCnineStreamerBox} from '../_cnine_streamer_box.js';
 import {visibleAdminLogs} from '../_admin_log_visibility.js';
 import {deleteReadPackageNotice,presentPackageNotice} from '../_support_package_notice.js';
 import {messageCleanupEligibleSql,messageCleanupAfterReadSql,countCompletedMessages,hideCompletedMessages} from '../_message_cleanup.js';
@@ -589,6 +590,7 @@ const VERIFIED_MESSAGE_REWARD_TYPES={
   MIRACLE_CUBE:{label:'미라클 큐브',icon:'🎲',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   SIG_HUNTER_BOX:{label:'시그헌터 박스',icon:'🎁',inventory:true,messageOnly:true,max:9999,messageType:'ITEM_REWARD'},
   REVERSECALL_STREAMER_GIFT_BOX:{label:'리버스콜 스트리머 선물',icon:'🎁',inventory:true,messageOnly:true,max:9999,messageType:'ITEM_REWARD'},
+  CNINE_STREAMER_BOX:{label:'씨나인 스트리머 박스',icon:'🎁',inventory:true,messageOnly:true,max:9999,messageType:'ITEM_REWARD'},
   MERCENARY_SSS_REROLL_TICKET:{label:'SSS 재뽑기권',icon:'🎟️',inventory:true,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   WORM_CONTEST_GIFT_BOX:{label:'지렁이대회 사은품',icon:'🎁',inventory:true,messageOnly:true,max:9999,messageType:'ITEM_REWARD'},
   MERCENARY_SSS_CARD_SHARD:{label:'SSS 용병 카드 조각',icon:'🧩',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
@@ -666,6 +668,7 @@ async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowCla
   if(rewardType==='TOURNAMENT_GIFT_BOX')await ensureTournamentGiftCatalog(env);
   if(rewardType==='SIG_HUNTER_BOX')await ensureSigHunterBoxCatalog(env);
   if(rewardType==='REVERSECALL_STREAMER_GIFT_BOX')await ensureReversecallStreamerGiftCatalog(env);
+  if(rewardType==='CNINE_STREAMER_BOX')await ensureCnineStreamerBoxCatalog(env);
   if(rewardType==='WORM_CONTEST_GIFT_BOX')await ensureWormContestGiftCatalog(env);
   if(rewardType==='FUNDING_GIFT_BOX')await ensureFundingGiftCatalog(env);
   if(rewardType==='RECRUITMENT_GIFT_BOX')await ensureRecruitmentGiftCatalog(env);
@@ -5356,6 +5359,7 @@ async function handleRequest(context){
       await ensureWormContestGiftCatalog(env);
       await ensureSigHunterBoxCatalog(env);
       await ensureReversecallStreamerGiftCatalog(env);
+      await ensureCnineStreamerBoxCatalog(env);
       await ensureRecruitmentGiftCatalog(env);
       await ensurePingduThanksGiftCatalog(env);
       await ensureForgeProtectionCatalog(env);
@@ -5402,6 +5406,7 @@ async function handleRequest(context){
       }
       if(itemCode==='SIG_HUNTER_BOX'){try{return json(await openSigHunterBox(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
       if(itemCode==='REVERSECALL_STREAMER_GIFT_BOX'){try{return json(await openReversecallStreamerGift(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
+      if(itemCode==='CNINE_STREAMER_BOX'){try{return json(await openCnineStreamerBox(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
       if(itemCode==='WORM_CONTEST_GIFT_BOX'){try{return json(await openWormContestGift(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
       if(itemCode==='FUNDING_GIFT_BOX'){try{return json(await openFundingGift(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
       if(itemCode==='PINGDU_THANKS_GIFT_BOX'){try{return json(await openPingduThanksGift(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
@@ -7579,7 +7584,7 @@ async function handleRequest(context){
       const body=await readBody(request);
       const requestedType=path==='admin/verified-coin-message-send'?'COIN':String(body.rewardType||'COIN').trim().toUpperCase();
       const spec=verifiedMessageRewardSpec(requestedType);
-      if(!spec||!['SIG_HUNTER_BOX','REVERSECALL_STREAMER_GIFT_BOX','COIN','MASTER_STAR','EQUIPMENT_SUPPLY_BOX','PINGDU_REPAIR_COUPON','FUNDING_GIFT_BOX','RECRUITMENT_GIFT_BOX','PINGDU_THANKS_GIFT_BOX','HIGH_GRADE_REROLL_TICKET','UNIQUE_ADVANCEMENT_PASS','STARLIGHT_ARMOR_CORE'].includes(requestedType))return json({error:'지원하지 않는 인증자 메시지 보상입니다.'},400);
+      if(!spec||!['SIG_HUNTER_BOX','REVERSECALL_STREAMER_GIFT_BOX','CNINE_STREAMER_BOX','COIN','MASTER_STAR','EQUIPMENT_SUPPLY_BOX','PINGDU_REPAIR_COUPON','FUNDING_GIFT_BOX','RECRUITMENT_GIFT_BOX','PINGDU_THANKS_GIFT_BOX','HIGH_GRADE_REROLL_TICKET','UNIQUE_ADVANCEMENT_PASS','STARLIGHT_ARMOR_CORE'].includes(requestedType))return json({error:'지원하지 않는 인증자 메시지 보상입니다.'},400);
       const rawAmount=Number(String(body.rewardAmount??body.rewardCoin??'').replace(/,/g,'').trim());
       if(!Number.isSafeInteger(rawAmount)||rawAmount<1||rawAmount>spec.max)return json({error:`지급 ${spec.label} 수량은 1~${spec.max.toLocaleString()} 범위의 정수로 입력하세요.`},400);
       const rewardAmount=rawAmount;
@@ -8346,6 +8351,7 @@ async function handleRequest(context){
         if(itemCode==='RANK_EXP_POTION_2X_60M'){try{return json(await withJointUserMutationLock(env,userId,'admin/rank-exp-potion/grant',()=>grantRankExpPotion(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급 결과를 확인하지 못했습니다. 같은 내용으로 다시 시도하세요.'},error.status||409);}}
         if(itemCode==='SIG_HUNTER_BOX'){try{return json(await withJointUserMutationLock(env,userId,'admin/sig-hunter-box/grant',()=>grantSigHunterBox(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
         if(itemCode==='REVERSECALL_STREAMER_GIFT_BOX'){try{return json(await withJointUserMutationLock(env,userId,'admin/reversecall-streamer-gift/grant',()=>grantReversecallStreamerGift(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
+        if(itemCode==='CNINE_STREAMER_BOX'){try{return json(await withJointUserMutationLock(env,userId,'admin/cnine-streamer-box/grant',()=>grantCnineStreamerBox(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
         if(itemCode==='WORM_CONTEST_GIFT_BOX'){try{return json(await withJointUserMutationLock(env,userId,'admin/worm-contest-gift/grant',()=>grantWormContestGift(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
         if(itemCode==='FUNDING_GIFT_BOX'){try{return json(await withJointUserMutationLock(env,userId,'admin/funding-gift/grant',()=>grantFundingGift(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
         if(itemCode==='PINGDU_THANKS_GIFT_BOX'){try{return json(await withJointUserMutationLock(env,userId,'admin/pingdu-thanks-gift/grant',()=>grantPingduThanksGift(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}

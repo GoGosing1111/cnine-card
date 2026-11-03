@@ -957,6 +957,11 @@ const FEATURE_RESOURCE_MANIFEST={
     scripts:['js/reversecall-streamer-gift-v1.js?v=20261021-v1'],
     ready:()=>typeof window.ReversecallStreamerGiftV1?.open==='function'
   },
+  cnineStreamerBox:{
+    styles:['css/reversecall-streamer-gift-v1.css?v=20261021-v1'],
+    scripts:['js/cnine-streamer-box-v1.js?v=20261103-v1'],
+    ready:()=>typeof window.CnineStreamerBoxV1?.open==='function'
+  },
   pingduThanksGift:{
     styles:['css/pingdu-thanks-gift-v1.css?v=20261002-open-fix'],
     scripts:['js/pingdu-thanks-gift-v1.js?v=20261002-open-fix'],
@@ -4386,6 +4391,7 @@ function inventoryPendingGifts(){
   try{const potionKey=`cnine.rank-potion.v1:${owner}`,potion=(()=>{try{return JSON.parse(localStorage.getItem(potionKey)||'null');}catch{return null;}})(),multiplier=({'RANK_EXP_POTION_2X_60M':2,'RANK_EXP_POTION_3X_60M':3})[potion?.itemCode];return [
     {code:'SIG_HUNTER_BOX',key:'sig-hunter-box',name:'시그헌터 박스'},
     {code:'REVERSECALL_STREAMER_GIFT_BOX',key:'reversecall-streamer-gift',name:'리버스콜 스트리머 선물'},
+    {code:'CNINE_STREAMER_BOX',key:'cnine-streamer-box',name:'씨나인 스트리머 박스'},
     {code:'WORM_CONTEST_GIFT_BOX',key:'worm-contest-gift',name:'지렁이대회 사은품'},
     {code:'FUNDING_GIFT_BOX',key:'funding-gift',name:'펀딩 사은품'},
     {code:'RECRUITMENT_GIFT_BOX',key:'recruitment-gift',name:'영입전 사은품'},
@@ -4578,6 +4584,12 @@ async function openInventoryPack(itemCode,ownedQuantity=0){
       return await window.ReversecallStreamerGiftV1.open({apiRequest,clearApiCache,loadUser,saveUser,apiUserToLocal,renderShell},ownedQuantity);
     }catch(error){console.warn('스트리머 선물 화면 로드 실패:',error);alert('선물 화면을 불러오지 못했습니다. 다시 눌러 주세요.');return;}
   }
+  if(itemCode==='CNINE_STREAMER_BOX'){
+    try{
+      await ensureFeatureResources('cnineStreamerBox');
+      return await window.CnineStreamerBoxV1.open({apiRequest,clearApiCache,loadUser,saveUser,apiUserToLocal,renderShell},ownedQuantity);
+    }catch(error){console.warn('스트리머 선물 화면 로드 실패:',error);alert('선물 화면을 불러오지 못했습니다. 다시 눌러 주세요.');return;}
+  }
   if(itemCode==='PINGDU_THANKS_GIFT_BOX'){
     try{
       await ensureFeatureResources('pingduThanksGift');
@@ -4763,7 +4775,7 @@ async function openPrimeDrawPack(kind,ownedQuantity=null,suppliedConfig=null,aut
 }
 
 function messagesView(){return `${summaryBar(loadUser())}<section class="message-center"><div class="message-head"><div><p class="eyebrow">REVERSE CALL MESSAGE CENTER</p><h2>메시지함</h2><p>운영 공지, 인증 결과와 개인 귀속 쿠폰을 확인할 수 있습니다.</p></div><div class="message-head-actions"><button class="btn message-claim-all" id="claimAllMessages" type="button" disabled aria-live="polite">보상 일괄 수령</button><button class="btn secondary" id="openWagoVerify" type="button">2차 인증</button><button class="btn secondary" id="openSoopWatchConsent" type="button">시청시간 동의</button><button class="message-cleanup-all" id="deleteCompletedMessages" type="button" disabled aria-describedby="messageCleanupHint">메시지 일괄삭제</button><small id="messageCleanupHint" class="message-cleanup-hint">시스템·쿠폰·구매 안내도 함께 삭제합니다.<br>미수령·지급 확인 중인 보상만 남습니다.</small></div></div><div id="wagoVerifyPanel" class="wago-verify-panel secondary-verification-panel" hidden></div><div id="messageList" class="message-list"><div class="empty-recent">메시지를 불러오는 중...</div></div></section>`}
-const MESSAGE_REWARD_META={SIG_HUNTER_BOX:{label:'시그헌터 박스',icon:'🎁'},REVERSECALL_STREAMER_GIFT_BOX:{label:'리버스콜 스트리머 선물',icon:'🎁'},JOKGAK_CITY_REWARD:{label:'족각도시 보상',icon:'🏙️'},MINE_ELECTRIC_DRILL:{label:'전동드릴',icon:'🛠️'},LICH_KING_ENTRY_TICKET:{label:'이스겐 정벌 입장권',icon:'🎟️'},PINGDU_THANKS_GIFT_BOX:{label:'핑두의 감사 선물',icon:'🎁'},MERCENARY_SHIRANUI:{label:'시라누이 SSS 리미티드',icon:'🃏'},MERCENARY_OMEGA_X:{label:'오메가-X SSS',icon:'🃏'},TOURNAMENT_GIFT_BOX:{label:'대회 사은품',icon:'🎁'},RECRUITMENT_GIFT_BOX:{label:'영입전 사은품',icon:'🎁'},FUNDING_GIFT_BOX:{label:'펀딩 사은품',icon:'🎁'},PIG_COIN:{label:'피그코인',icon:'🐷'},COIN:{label:'코인',icon:'🪙'},SHARDS:{label:'카드 조각',icon:'🧩'},MASTER_STAR:{label:'마스터의 별',icon:'⭐'},EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦'},HIGH_GRADE_REROLL_TICKET:{label:'고등급 재뽑기권',icon:'♻️'},UNIQUE_ADVANCEMENT_PASS:{label:'전직 패스권',icon:'🎟️'},STARLIGHT_ARMOR_CORE:{label:'미스틱 에너지',icon:'🔮'},PINGDU_REPAIR_COUPON:{label:'핑두 리페어 쿠폰',icon:'🎟️'}};
+const MESSAGE_REWARD_META={SIG_HUNTER_BOX:{label:'시그헌터 박스',icon:'🎁'},REVERSECALL_STREAMER_GIFT_BOX:{label:'리버스콜 스트리머 선물',icon:'🎁'},CNINE_STREAMER_BOX:{label:'씨나인 스트리머 박스',icon:'🎁'},JOKGAK_CITY_REWARD:{label:'족각도시 보상',icon:'🏙️'},MINE_ELECTRIC_DRILL:{label:'전동드릴',icon:'🛠️'},LICH_KING_ENTRY_TICKET:{label:'이스겐 정벌 입장권',icon:'🎟️'},PINGDU_THANKS_GIFT_BOX:{label:'핑두의 감사 선물',icon:'🎁'},MERCENARY_SHIRANUI:{label:'시라누이 SSS 리미티드',icon:'🃏'},MERCENARY_OMEGA_X:{label:'오메가-X SSS',icon:'🃏'},TOURNAMENT_GIFT_BOX:{label:'대회 사은품',icon:'🎁'},RECRUITMENT_GIFT_BOX:{label:'영입전 사은품',icon:'🎁'},FUNDING_GIFT_BOX:{label:'펀딩 사은품',icon:'🎁'},PIG_COIN:{label:'피그코인',icon:'🐷'},COIN:{label:'코인',icon:'🪙'},SHARDS:{label:'카드 조각',icon:'🧩'},MASTER_STAR:{label:'마스터의 별',icon:'⭐'},EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦'},HIGH_GRADE_REROLL_TICKET:{label:'고등급 재뽑기권',icon:'♻️'},UNIQUE_ADVANCEMENT_PASS:{label:'전직 패스권',icon:'🎟️'},STARLIGHT_ARMOR_CORE:{label:'미스틱 에너지',icon:'🔮'},PINGDU_REPAIR_COUPON:{label:'핑두 리페어 쿠폰',icon:'🎟️'}};
 function messageRewardMeta(message){
   const type=String(message?.reward_type||'').trim().toUpperCase();
   return MESSAGE_REWARD_META[type]||(message?.reward_supported===true?{label:String(message.reward_label||'보상'),icon:String(message.reward_icon||'🎁')}:null);
