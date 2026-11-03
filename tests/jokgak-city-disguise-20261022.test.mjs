@@ -8,11 +8,12 @@ import {CITY_DISGUISE} from '../shared/jokgak-city-disguise-v1.mjs';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {isProductionFile,cityDisguiseQaOnly} from '../scripts/prepare-production-assets.mjs';
+function readAsset(file){try{return readFileSync(file);}catch(e){if(e.code!=='ENOENT')throw e;const entry=execFileSync('git',['ls-files','-v','--',file],{encoding:'utf8'});assert.ok(entry.startsWith('S '),'only unchanged sparse assets can come from Git');return execFileSync('git',['cat-file','blob','HEAD:'+file],{maxBuffer:40000000});}}
 test('production delivers every disguise asset and module within the Pages cap while preserving Node QA sources',()=>{
  const manifest=JSON.parse(readFileSync('assets/ui/jokgak-city/disguise-v1/manifest.json','utf8'));
  for(const row of manifest.assets){
   assert.equal(isProductionFile(row.original),false);
-  for(const asset of row.derivatives){assert(isProductionFile(asset.path));assert(readFileSync(asset.path).length>0);}
+  for(const asset of row.derivatives){assert(isProductionFile(asset.path));assert(readAsset(asset.path).length>0);}
  }
  for(const path of ['js/jokgak-city-disguise-ui-v1.mjs','css/jokgak-city-disguise-v1.css','shared/jokgak-city-disguise-v1.mjs'])assert(isProductionFile(path));
  for(const path of cityDisguiseQaOnly){assert.equal(isProductionFile(path),false);assert.match(readFileSync(path,'utf8'),/from ['"]node:/);}
