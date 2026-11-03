@@ -75,7 +75,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} SS op
  const result=await openMercenaryCards(f.env,f.user,request,{randomInt:max=>max===1000000?0:ticket});
  assert.ok(result.draws.every(d=>d.mercenaryCode==='V-045'));assert.deepEqual(result.draws.map(d=>d.duplicate),[false,true]);assert.equal(await f.coin(),before-2000);
  await openMercenaryCards(f.env,f.user,request,{randomInt:()=>{throw Error('Repeated draw')}});assert.equal(await f.coin(),before-2000);
- await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:'V-045',revision:0});
+ await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCodes:['V-045'],revision:0});
  const deployed=await loadMercenaryBattleSnapshot(f.env,f.user);assert.equal(deployed.basePower,120000);assert.equal(deployed.rank,'SS');assert.equal(deployed.battleSprite,art.battleSprite);assert.deepEqual(deployed.skills.map(s=>s.id),['MS-045']);
 });
 test('canonical PVE and both PVP teams expose five ordinary cards plus one Mangisa and resolved volley snapshots',()=>{

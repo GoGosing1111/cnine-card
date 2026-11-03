@@ -1,3 +1,4 @@
+import {readCommittedAssetSync} from './helpers/committed-asset-read.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -30,7 +31,7 @@ test('previous complete CMS expands once, preserving every prior operator edit a
 });
 test('live originals match approval and card art never becomes the SD',()=>{
  const m=JSON.parse(fs.readFileSync(new URL('../preview/mercenary-black-moon-swordsman-ss-v1/manifest.json',import.meta.url)));
- for(const [file,hash]of [[art.sourceArt,art.sourceArtSha256],[art.battleSprite,art.battleSpriteSha256]])assert.equal(createHash('sha256').update(fs.readFileSync(new URL('../'+file,import.meta.url))).digest('hex').toUpperCase(),hash);
+ for(const [file,hash]of [[art.sourceArt,art.sourceArtSha256],[art.battleSprite,art.battleSpriteSha256]])assert.equal(createHash('sha256').update(readCommittedAssetSync(new URL('../'+file,import.meta.url))).digest('hex').toUpperCase(),hash);
  assert.equal(art.name,'흑월');assert.equal(art.rank,'SS');assert.equal(art.sourceArtSha256,m.sourceArtInfo.sha256);assert.notEqual(art.sourceArt,art.battleSprite);
 });
 test('three authoritative contacts share one budget; dodge, knockout and control cannot create spare hits',()=>{
@@ -62,7 +63,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} SS ac
  const before=await f.coin(),request={requestId:crypto.randomUUID(),count:1};const result=await openMercenaryCards(f.env,f.user,request,{randomInt:n=>n===1000000?0:ticket});assert.equal(result.draws[0].mercenaryCode,'V-048');
  assert.equal(mercenaryPackResults(result)[0].mercenaryCode,'V-048');
  await openMercenaryCards(f.env,f.user,request,{randomInt:()=>{throw Error('Duplicate reroll');}});assert.equal(await f.coin(),before-1000);
- await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:'V-048',revision:0});const deployed=await loadMercenaryBattleSnapshot(f.env,f.user);
+ await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCodes:['V-048'],revision:0});const deployed=await loadMercenaryBattleSnapshot(f.env,f.user);
  assert.equal(deployed.rank,'SS');assert.equal(deployed.basePower,120000);assert.equal(deployed.sourceArt,art.sourceArt);assert.equal(deployed.battleSprite,art.battleSprite);assert.deepEqual(deployed.skills.map(s=>s.id),['MS-048']);
 });
 test('PVE and both PVP teams use five regular cards plus Heukwol with server combo events',()=>{

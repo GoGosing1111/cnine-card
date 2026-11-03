@@ -1,3 +1,4 @@
+import {readCommittedAssetSync} from './helpers/committed-asset-read.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -25,8 +26,8 @@ test('complete previous CMS expands exactly once and retains every saved operato
  const pools=mercenaryGradePools(next.mercenaries,seed.catalog.cards.map(c=>c.code));assert.ok(JSON.stringify(pools.SS).includes('V-044'));
 });
 test('approved source art and SD bytes, anchors and full nine-shot timing are preserved',()=>{
- for(const [file,expected]of [[art.sourceArt,art.sourceArtSha256],[art.battleSprite,art.battleSpriteSha256]])assert.equal(createHash('sha256').update(fs.readFileSync(new URL('../'+file,import.meta.url))).digest('hex').toUpperCase(),expected);
- const sd=fs.readFileSync(new URL('../'+art.battleSprite,import.meta.url));assert.equal(sd[25],6);assert.equal(sd.readUInt32BE(16),1024);assert.equal(sd.readUInt32BE(20),1536);
+ for(const [file,expected]of [[art.sourceArt,art.sourceArtSha256],[art.battleSprite,art.battleSpriteSha256]])assert.equal(createHash('sha256').update(readCommittedAssetSync(new URL('../'+file,import.meta.url))).digest('hex').toUpperCase(),expected);
+ const sd=readCommittedAssetSync(new URL('../'+art.battleSprite,import.meta.url));assert.equal(sd[25],6);assert.equal(sd.readUInt32BE(16),1024);assert.equal(sd.readUInt32BE(20),1536);
  assert.deepEqual(art.battleSpriteFootAnchor,{x:.5,y:1485/1536});assert.deepEqual(HEEYA_IMPACTS,[.66,.83,1,1.17,1.34,1.51,1.68,1.85,2.02]);
  assert.notEqual(art.battleSprite,art.sourceArt);
 });
@@ -37,7 +38,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: SS d
  const result=await openMercenaryCards(f.env,f.user,request,{randomInt:()=>0});assert.ok(result.draws.every(d=>d.mercenaryCode==='V-044'));
  assert.deepEqual(result.draws.map(d=>d.duplicate),[false,true]);assert.equal(await f.coin(),before-2000);
  await openMercenaryCards(f.env,f.user,request,{randomInt:()=>{throw Error('Unexpected reroll');}});assert.equal(await f.coin(),before-2000);
- await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:'V-044',revision:0});
+ await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCodes:['V-044'],revision:0});
  const deployed=await loadMercenaryBattleSnapshot(f.env,f.user);assert.equal(deployed.rank,'SS');assert.equal(deployed.basePower,120000);assert.equal(deployed.battleSprite,art.battleSprite);assert.deepEqual(deployed.skills.map(s=>s.id),['MS-044']);
 });
 // v2119: 스킬은 시전한 그 행동에서 타격한다. 준비만 하는 행동이 없으므로 준비 중 표적을

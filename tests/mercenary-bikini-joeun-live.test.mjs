@@ -1,3 +1,4 @@
+import {readCommittedAssetSync} from './helpers/committed-asset-read.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -27,16 +28,16 @@ test('previous complete CMS adds only Bikini Joeun while preserving live edits a
 });
 test('approved card art stays separate; native six poses and sixteen impact frames have safe alpha borders',async()=>{
  const base=new URL('../',import.meta.url),m=JSON.parse(fs.readFileSync(new URL('preview/mercenary-bikini-joeun-v1/manifest.json',base)));
- for(const [file,hash]of [[art.sourceArt,art.sourceArtSha256],[art.battleSprite,art.battleSpriteSha256]])assert.equal(createHash('sha256').update(fs.readFileSync(new URL(file,base))).digest('hex').toUpperCase(),hash);
+ for(const [file,hash]of [[art.sourceArt,art.sourceArtSha256],[art.battleSprite,art.battleSpriteSha256]])assert.equal(createHash('sha256').update(readCommittedAssetSync(new URL(file,base))).digest('hex').toUpperCase(),hash);
  assert.equal(art.sourceArtSha256,m.sourceArtInfo.sha256);assert.notEqual(art.sourceArt,art.battleSprite);assert.equal(m.sourceArtInfo.width,1024);assert.equal(m.sourceArtInfo.height,1536);
  for(const [type,count]of [['motion',6],['impact',16]]){
   const frames=m[type].frames;assert.equal(frames.length,count);assert.equal(new Set(frames.map(f=>f.sha256)).size,count);
-  for(const f of frames){const {data,info}=await sharp(new URL('preview/mercenary-bikini-joeun-v1/'+f.file,base).pathname.replace(/^\/([A-Z]:)/,'$1')).ensureAlpha().raw().toBuffer({resolveWithObject:true});let filled=0;
+  for(const f of frames){const {data,info}=await sharp(readCommittedAssetSync(new URL('preview/mercenary-bikini-joeun-v1/'+f.file,base))).ensureAlpha().raw().toBuffer({resolveWithObject:true});let filled=0;
    for(let y=0;y<info.height;y++)for(let x=0;x<info.width;x++){const a=data[(y*info.width+x)*4+3];if(a>=24)filled++;if(x===0||y===0||x===info.width-1||y===info.height-1)assert.equal(a,0,'padded frame edge');}
    assert.ok(filled>20);if(type==='motion'){assert.ok(f.muzzle.x>f.footAnchor.x);assert.ok(f.muzzle.y<f.footAnchor.y);assert.ok(f.bodyPixels>400);}
   }
  }
- assert.equal(createHash('sha256').update(fs.readFileSync(new URL(art.battleSprite,base))).digest('hex').toUpperCase(),m.motion.frames[0].sha256,'idle and shooting costume must match');
+ assert.equal(createHash('sha256').update(readCommittedAssetSync(new URL(art.battleSprite,base))).digest('hex').toUpperCase(),m.motion.frames[0].sha256,'idle and shooting costume must match');
 });
 test('both attacks sample real recoil poses; visual plans never own damage',()=>{
  const poses=new Set(Array.from({length:190},(_,i)=>bikiniJoeunPoseAt(i/100)));assert.deepEqual([...poses].sort(),[0,1,2,3,4,5]);
@@ -74,7 +75,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} SS ac
  const choices=mercenaryCardChances(1000000,pools.SS,f.draw.cardRules),ticket=choices.slice(0,index).reduce((n,r)=>n+r.weight,0);
  const before=await f.coin(),request={requestId:crypto.randomUUID(),count:1};const result=await openMercenaryCards(f.env,f.user,request,{randomInt:n=>n===1000000?0:ticket});assert.equal(result.draws[0].mercenaryCode,'V-047');
  await openMercenaryCards(f.env,f.user,request,{randomInt:()=>{throw Error('Duplicate reroll')}});assert.equal(await f.coin(),before-1000);
- await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:'V-047',revision:0});const deployed=await loadMercenaryBattleSnapshot(f.env,f.user);
+ await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCodes:['V-047'],revision:0});const deployed=await loadMercenaryBattleSnapshot(f.env,f.user);
  assert.equal(deployed.rank,'SS');assert.equal(deployed.basePower,120000);assert.equal(deployed.sourceArt,art.sourceArt);assert.equal(deployed.battleSprite,art.battleSprite);assert.deepEqual(deployed.skills.map(s=>s.id),['MS-047']);
 });
 test('PVE and both PVP sides receive five regular cards plus SS Joeun and immediate skill events',()=>{

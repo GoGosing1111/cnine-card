@@ -1,3 +1,4 @@
+import {readCommittedAsset} from '../../tests/helpers/committed-asset-read.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -33,17 +34,17 @@ test('approved name, SS rank, immutable source, separate alpha SD and disabled r
  assert.equal(manifest.name,'망이사');assert.equal(manifest.rank,'SS');assert.equal(manifest.sourceArtStatus,'APPROVED_SOURCE_ART');assert.equal(manifest.runtimeEnabled,false);
  assert.notEqual(manifest.sourceArt,manifest.battleSprite);
  for(const [file,expected]of [[manifest.sourceArt,manifest.sourceArtInfo.sha256],[manifest.battleSprite,manifest.battleSpriteInfo.sha256]]){
-  const bytes=await fs.readFile(new URL(file,project));assert.equal(createHash('sha256').update(bytes).digest('hex').toUpperCase(),expected);
+  const bytes=await readCommittedAsset(new URL(file,project));assert.equal(createHash('sha256').update(bytes).digest('hex').toUpperCase(),expected);
  }
- const m=await sharp(await fs.readFile(new URL(manifest.battleSprite,project))).metadata();assert.equal(m.hasAlpha,true);
+ const m=await sharp(await readCommittedAsset(new URL(manifest.battleSprite,project))).metadata();assert.equal(m.hasAlpha,true);
  assert.equal(m.width,1024);assert.equal(m.height,1536);assert.equal(manifest.battleSpriteInfo.borderPixels,0);
  assert.ok(manifest.battleSpriteInfo.transparentFraction>.6);assert.ok(manifest.battleSpriteInfo.opaqueFraction>.2);
 });
 test('six distinct poses and sixteen actual RGBA impact frames with safe atlas padding',async()=>{
  for(const spec of [manifest.motion,manifest.impact]){
   assert.equal(new Set(spec.frames.map(f=>f.sha256)).size,spec.frameCount);
-  const m=await sharp(await fs.readFile(new URL(spec.atlas,root))).metadata();assert.equal(m.width,spec.cellSize*spec.columns);assert.equal(m.height,spec.cellSize*spec.rows);assert.equal(m.hasAlpha,true);
-  for(const frame of spec.frames){const {data,info}=await sharp(await fs.readFile(new URL(frame.file,root))).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+  const m=await sharp(await readCommittedAsset(new URL(spec.atlas,root))).metadata();assert.equal(m.width,spec.cellSize*spec.columns);assert.equal(m.height,spec.cellSize*spec.rows);assert.equal(m.hasAlpha,true);
+  for(const frame of spec.frames){const {data,info}=await sharp(await readCommittedAsset(new URL(frame.file,root))).ensureAlpha().raw().toBuffer({resolveWithObject:true});
    for(let x=0;x<info.width;x++){assert.equal(data[x*4+3],0);assert.equal(data[((info.height-1)*info.width+x)*4+3],0);}
    for(let y=0;y<info.height;y++){assert.equal(data[(y*info.width)*4+3],0);assert.equal(data[(y*info.width+info.width-1)*4+3],0);}
   }

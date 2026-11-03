@@ -61,13 +61,13 @@ for(const postgres of [false,true]){
   for(const path of ['mercenary-cards/open-batch','mercenaries/v3/open']){const replay=await(await call(path)).json();assert.equal(replay.replayed,true);assert.deepEqual(replay.draws,receipt.draws);assert.equal(await f.coin(),9990000);}
   const total=(await f.p('SELECT SUM(total_copies) AS n FROM user_mercenary_cards_v1 WHERE user_id=7').first()).n;assert.equal(Number(total),10);
  });
- test(`${label}: S6 and SS8 CMS assignments reach owned cards, separate loadout and real PVE snapshots`,async t=>{
+ test(`${label}: S6 and SS8 CMS assignments reach owned cards, array loadout and real PVE snapshots`,async t=>{
   const f=await mercenaryFixture(t,{postgres}),d=structuredClone(f.document);for(const c of d.mercenaries)c.rank=plan.targets.find(r=>r.code===c.code)?.rank||seed.catalog.cards.find(r=>r.code===c.code).rank||'C';
   for(const s of d.skills){s.review='REVIEWED';s.balance={damageRatio:1,cooldownTurns:3,cost:0};}
   const next=prepareSSkillAssignments(d,seed.document,seed.catalog,{...plan,targets:[...plan.targets,{code:'V-044',rank:'SS',skillId:'MS-044'},{code:'V-045',rank:'SS',skillId:'MS-045'},{code:'V-047',rank:'SS',skillId:'MS-047'},{code:'V-048',rank:'SS',skillId:'MS-048'},{code:'V-050',rank:'SS',skillId:'MS-050'},...['V-051','V-052','V-053','V-054'].map(code=>({code,rank:'SS',skillId:'MS-051'}))]});await f.p("UPDATE mercenary_cms_documents_v1 SET payload_json=? WHERE doc_key='config'",JSON.stringify(next)).run();
   let revision=0;for(const row of plan.targets){
    await f.env.DB.batch(mercenaryCardAcquisitionStatements(f.env.DB,{userId:7,mercenaryCode:row.code,acquisitionId:crypto.randomUUID()}));
-   await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:row.code,revision:revision++});
+   await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCodes:[row.code],revision:revision++});
    const snapshot=await loadMercenaryBattleSnapshot(f.env,f.user);assert.equal(snapshot.rank,row.rank);assert.ok(snapshot.skills.some(s=>s.id===row.skillId));assert.notEqual(snapshot.sourceArt,snapshot.battleSprite);
    const cards=Array.from({length:5},(_,i)=>({id:String(i+1),title:'계정 덱',rarity:'FUR',power:1000,power_type:'ATTACK'}));
    const battle=createPveBattleV2({cards,mercenary:snapshot,monster:{id:1,name:'전투 연결 검수',battle_power:100000},seed:12});

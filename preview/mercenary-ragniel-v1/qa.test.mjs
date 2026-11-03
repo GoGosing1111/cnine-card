@@ -1,3 +1,4 @@
+import {readCommittedAsset} from '../../tests/helpers/committed-asset-read.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -43,8 +44,8 @@ test('contact cues select the actual authored sword and ultimate collision frame
 
 test('user-selected source and separate native-alpha SD are immutable',async()=>{
  assert.equal(manifest.name,'라그니엘');assert.equal(manifest.rank,'SSS');assert.equal(manifest.runtimeEnabled,true);assert.equal(manifest.liveApprovalRequest,'반영해 SSS로');assert.notEqual(manifest.sourceArt,manifest.battleSprite);
- assert.equal(hash(await fs.readFile(new URL(manifest.sourceArt,project))),'B6EC66166A3AF153A9A6BAB827C0FE998E94855B16F67E0683BBFF4B0CCD0F89');
- const bytes=await fs.readFile(new URL(manifest.battleSprite,project));assert.equal(hash(bytes),'5283F8D4D2850D271D3396358333D53242491E5650E952B853B7EC646A86A194');
+ assert.equal(hash(await readCommittedAsset(new URL(manifest.sourceArt,project))),'B6EC66166A3AF153A9A6BAB827C0FE998E94855B16F67E0683BBFF4B0CCD0F89');
+ const bytes=await readCommittedAsset(new URL(manifest.battleSprite,project));assert.equal(hash(bytes),'5283F8D4D2850D271D3396358333D53242491E5650E952B853B7EC646A86A194');
  const m=await sharp(bytes).metadata();assert.equal(m.hasAlpha,true);assert.equal(manifest.battleSpriteInfo.border,0);assert.ok(manifest.battleSpriteInfo.clear>.5);assert.ok(manifest.battleSpriteInfo.solid>.4);
 });
 
@@ -52,11 +53,11 @@ test('54 distinct RGBA frames retain original masters and have transparent atlas
  let count=0;
  for(const spec of [...Object.values(manifest.motion),...Object.values(manifest.effects)]){
   assert.equal(new Set(spec.frames.map(f=>f.sha256)).size,spec.frameCount);
-  assert.equal(hash(await fs.readFile(new URL(spec.source,root))),spec.sourceInfo.sha256);
-  const atlas=await fs.readFile(new URL(spec.atlas,root));assert.equal(hash(atlas),spec.atlasSha256);
+  assert.equal(hash(await readCommittedAsset(new URL(spec.source,root))),spec.sourceInfo.sha256);
+  const atlas=await readCommittedAsset(new URL(spec.atlas,root));assert.equal(hash(atlas),spec.atlasSha256);
   const m=await sharp(atlas).metadata();assert.equal(m.width,spec.cellSize*spec.columns);assert.equal(m.height,spec.cellSize*spec.rows);assert.equal(m.hasAlpha,true);
   for(const frame of spec.frames){
-   count++;const bytes=await fs.readFile(new URL(frame.file,root));assert.equal(hash(bytes),frame.sha256);
+   count++;const bytes=await readCommittedAsset(new URL(frame.file,root));assert.equal(hash(bytes),frame.sha256);
    const {data,info}=await sharp(bytes).ensureAlpha().raw().toBuffer({resolveWithObject:true});let pixels=0;
    for(let y=0;y<info.height;y++)for(let x=0;x<info.width;x++){const alpha=data[(y*info.width+x)*4+3];if(alpha>24)pixels++;if(x<4||y<4||x>=info.width-4||y>=info.height-4)assert.equal(alpha,0,`${frame.file}: unsafe edge`);}
    assert.ok(pixels>100,`${frame.file}: empty frame`);assert.ok(pixels<info.width*info.height*.75,`${frame.file}: opaque background`);
@@ -69,7 +70,7 @@ test('54 distinct RGBA frames retain original masters and have transparent atlas
 test('recorded sound masters match declared license, sources and synchronization points',async()=>{
  assert.equal(manifest.audio.proceduralSynthesis,false);assert.equal(manifest.audio.license,'Mixkit Free License');
  for(const [key,sync]of [['dash',178],['slash',250],['ultimate',333]]){
-  const a=manifest.audio.assets[key];assert.equal(a.syncPointMs,sync);assert.ok(a.sourceIds.length>=3);assert.equal(hash(await fs.readFile(new URL(a.file,project))),a.sha256.toUpperCase());
+  const a=manifest.audio.assets[key];assert.equal(a.syncPointMs,sync);assert.ok(a.sourceIds.length>=3);assert.equal(hash(await readCommittedAsset(new URL(a.file,project))),a.sha256.toUpperCase());
  }
 });
 

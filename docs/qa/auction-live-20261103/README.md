@@ -53,3 +53,12 @@
 동시 main 기록 06a567ea8 병합: 혜야 용병 지급 완료 문서/원본 운영 스크립트를 보존하며 재실행하지 않는다. 신규 operations/ 추적 파일이 공개 포장에 포함되지 않도록 전용 폴더 제외와 원본 보존 검사를 추가했다. 포장 코드가 변경되었으므로 이전 로그는 보관하고 새 기준에서 전체 게이트를 처음부터 다시 실행한다. 게임 런타임·승인 아트/계정 값 변화 없음.
 
 새 전체 게이트 c37f5c77c: 첫13단계 통과. 병합이 sparse 규칙을 재적용하여 체크아웃했던 원수 PNG가 다시 생략되었다. 프리뷰 서버 테스트는 원본 서버와 필요한8파일만 임시 fixture에 바이트 그대로 준비하여 허용/차단 URL을 검증하도록 안정화했다. 로비 빌드 아이콘도 현재 체크아웃에 다시 준비한다. 포장 변경 후 새 전체 로그를 해시 기준으로 재개한다.
+
+## Full-gate runtime corrections before deployment
+
+- Candidate ea32d5bae stopped at live connections. The full service-worker execution test caught an auction cache registration insertion that nested two loops and referenced an out-of-scope path. Restored independent loops and added actual activate/fetch coverage for original account and new auction resources; CMS cache removal and native no-store bypass are checked.
+- Existing battle recovery selected scripts using old query strings, omitting the current bridge. It now selects only the two exact script filenames independently of cache query order; the existing stale-wrapper recovery and bounded-failure tests exercise this defect. The main loader runtime version is synchronized to the already shipped tactical HUD engine/bridge.
+- Cache release updated to auction-user-off-20261103-v2 and ONE store derivatives regenerated. User hosting remains OFF and operator hosting ON. This runtime correction requires a fresh full release gate; previous gate logs remain preserved and are not reused.
+- Legacy live-connection fixtures use the current array loadout API. S/SS assignment, single-unit selection in the current array API, and combat snapshots retain their previous assertions. Media hash/pixel/audio checks read only unchanged sparse assets from committed Git bytes. Nonblocking banner coverage includes the eight subsequent production adapters.
+
+- Four fresh browser profiles passed after the runtime correction (`browser-runtime-repair/report.json`), including user hosting OFF and operator/prohibited-item controls. The payload VM fixture now binds the actual newly imported HUD module while retaining the original server event/order assertions.

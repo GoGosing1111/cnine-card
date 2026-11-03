@@ -1,3 +1,4 @@
+import {readCommittedAssetSync} from './helpers/committed-asset-read.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -24,7 +25,7 @@ test('approved originals and SSS defaults register once while prior CMS edits su
  assert.equal(next.mercenaries.at(-1).rank,'SSS');assert.deepEqual(next.assignments.at(-1).skillIds,['MS-046']);
  next.skills.at(-1).balance.cost=40;next.assignments.at(-1).skillIds=[];assert.deepEqual(expandMercenarySkillCatalog(next,seed.document,seed.catalog),next);
  old.mercenaries.pop();assert.throws(()=>expandMercenarySkillCatalog(old,seed.document,seed.catalog));
- for(const [file,hash]of [[art.sourceArt,art.sourceArtSha256],[art.battleSprite,art.battleSpriteSha256]])assert.equal(createHash('sha256').update(fs.readFileSync(file)).digest('hex').toUpperCase(),hash);
+ for(const [file,hash]of [[art.sourceArt,art.sourceArtSha256],[art.battleSprite,art.battleSpriteSha256]])assert.equal(createHash('sha256').update(readCommittedAssetSync(file)).digest('hex').toUpperCase(),hash);
 });
 function harness({count=2,mode='PVE',dodge=false,hp=100000,controlled=false,revive=false}={}){
  const actor=buildMercenaryFighter(snapshot,'A',mode);actor.stunned=controlled;
@@ -81,7 +82,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} weigh
  const before=await f.coin(),request={requestId:crypto.randomUUID(),count:2};
  const result=await openMercenaryCards(f.env,f.user,request,{randomInt:max=>max===10000?8991:0});assert.ok(result.draws.every(d=>d.mercenaryCode==='V-046'));assert.deepEqual(result.draws.map(d=>d.duplicate),[false,true]);
  await openMercenaryCards(f.env,f.user,request,{randomInt:()=>{throw Error('Repeated draw')}});assert.equal(await f.coin(),before-2000);
- await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:'V-046',revision:0});
+ await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCodes:['V-046'],revision:0});
  const deployed=await loadMercenaryBattleSnapshot(f.env,f.user);assert.equal(deployed.basePower,180000);assert.equal(deployed.rank,'SSS');assert.equal(deployed.sourceArt,art.sourceArt);assert.equal(deployed.battleSprite,art.battleSprite);assert.deepEqual(deployed.skills.map(s=>s.id),['MS-046']);
 });
 test('canonical PVE and both PVP sides include five regular cards, separate Ragniel, and server-resolved contacts',()=>{
