@@ -4,29 +4,30 @@ import {weeklyFixture,day} from './helpers/ranked-duo-weekly.mjs';
 import {duoFixture} from './helpers/ranked-duo-db.mjs';
 import {DUO_WEEKLY_POLICY_KEY} from '../shared/ranked-duo-weekly-v3.mjs';
 import {rankedDuoPoolCandidates,rankedDuoPoolCount} from '../functions/_ranked_duo_pool.js';
-import {readMercenaryModes,mercenaryModeStatements,mercenaryPvpLoadoutKey} from '../functions/_mercenary_loadout_modes.js';
+import {dualMercenaryLoadoutKey} from '../functions/_mercenary_dual_loadout.js';
 
 async function equipMercenaries(f){
  const schema='ALTER TABLE user_mercenary_loadout_v1 ADD COLUMN revision INTEGER DEFAULT 0; ALTER TABLE user_mercenary_loadout_v1 ADD COLUMN updated_at TEXT';
  if(f.pg)await f.pg.exec(schema);else f.native.exec(schema);
  const document=JSON.parse((await f.p("SELECT payload_json FROM mercenary_cms_documents_v1 WHERE doc_key='config'").first()).payload_json);
- document.mercenaries.find(c=>c.code==='V-001').rank='C';
+ document.mercenaries.find(c=>c.code==='V-001').rank='SSS';document.mercenaries.find(c=>c.code==='V-002').rank='SS';
  await f.p("UPDATE mercenary_cms_documents_v1 SET payload_json=? WHERE doc_key='config'",JSON.stringify(document)).run();
  for(let user=1;user<=7;user++){
-  await f.p("INSERT INTO user_mercenary_cards_v1 VALUES(?,'V-001',1)",user).run();
+  for(const code of ['V-001','V-002'])await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(?,?,1)',user,code).run();
+  await f.p('INSERT INTO app_meta(key,value) VALUES(?,?)',dualMercenaryLoadoutKey(user),JSON.stringify({version:2,PVE:{mercenaryCodes:['V-001','V-002'],revision:0},PVP:{mercenaryCodes:['V-001','V-002'],revision:0}})).run();
   await f.p("INSERT INTO user_mercenary_loadout_v1(user_id,mercenary_code) VALUES(?,'V-001')",user).run();
  }
 }
 async function saveMercenary(f,user,code,mode='PVP'){
- const record=(await readMercenaryModes(f.env,[user])).get(user);
- await f.DB.batch(mercenaryModeStatements(f.DB,user,record,mode,{mercenaryCode:code,revision:record.loadouts[mode].revision+1}));
+ const key=dualMercenaryLoadoutKey(user),record=JSON.parse((await f.p('SELECT value FROM app_meta WHERE key=?',key).first()).value);
+ record[mode]={mercenaryCodes:code?[code,'V-002']:[],revision:record[mode].revision+1};await f.p('UPDATE app_meta SET value=? WHERE key=?',JSON.stringify(record),key).run();
 }
 async function fixture(t,options={}){
  const f=await weeklyFixture(t,{...options,matchmaking:'RANDOM_ASYNC',entryMode:'RANKED_POOL'});
  if(f.pg)await f.pg.exec(`
   CREATE FUNCTION sqlite_json_valid(text) RETURNS boolean LANGUAGE plpgsql IMMUTABLE AS $$BEGIN PERFORM $1::jsonb; RETURN true; EXCEPTION WHEN OTHERS THEN RETURN false; END$$;
   CREATE FUNCTION sqlite_json_array_length(text) RETURNS integer LANGUAGE SQL IMMUTABLE AS $$SELECT jsonb_array_length($1::jsonb)$$;
-  CREATE FUNCTION sqlite_json_extract(text,text) RETURNS text LANGUAGE SQL IMMUTABLE AS $$SELECT $1::jsonb->>substring($2 from 3)$$;
+  CREATE FUNCTION sqlite_json_extract(text,text) RETURNS text LANGUAGE SQL IMMUTABLE AS $$SELECT CASE WHEN left($2,2)='$[' THEN $1::jsonb->>(substring($2 from 3 for length($2)-3)::integer) ELSE $1::jsonb->>substring($2 from 3) END$$;
  `);
  await equipMercenaries(f);await f.tick();return f;
 }
@@ -47,7 +48,7 @@ for(const postgres of [false,true,'pipeline'])test(`${postgres||'SQLite'} no enr
  assert.equal(await count(f,'ranked_duo_entries_v1'),1);assert.equal(await count(f,'ranked_duo_players_v4'),1);
  const result=await fight(f,ticket.data);assert.equal(result.status,200,JSON.stringify(result));assert.equal(result.data.status,'COMPLETED');
  assert.equal(result.data.scoreScope,'INITIATOR');assert.equal(result.data.battleV2.teams.A.cards.length,10);assert.equal(result.data.battleV2.teams.B.cards.length,10);
- assert.equal(result.data.battleV2.teams.A.mercenaries.length,2);assert.equal(result.data.battleV2.teams.B.mercenaries.length,2);
+ assert.equal(result.data.battleV2.teams.A.mercenaries.length,4);assert.equal(result.data.battleV2.teams.B.mercenaries.length,4);
  const after=(await f.call('ranked-duo/status',{user:2})).data;
  assert.equal(after.energy.current,9);assert.equal(after.joined,true);assert.equal(after.hasSeasonRecord,true);
  for(const user of roster(ticket.data).filter(id=>id!==2)){
@@ -159,9 +160,9 @@ test('the global pool includes late saved decks and excludes deleted decks witho
 });
 
 for(const postgres of [false,true,'pipeline']){
- test(`${postgres||'SQLite'} pool requires ownership and the effective PVP slot, including legacy inheritance`,async t=>{
+ test(`${postgres||'SQLite'} pool requires ownership and the released PVP pair, independently of PVE`,async t=>{
   const f=await fixture(t);
-  await f.p('DELETE FROM user_mercenary_loadout_v1 WHERE user_id=3').run(); // Owned, never equipped.
+  await f.p('DELETE FROM app_meta WHERE key=?',dualMercenaryLoadoutKey(3)).run(); // A legacy one-slot selection is not a complete PVP pair.
   await saveMercenary(f,5,null); // PVE remains equipped; explicit empty PVP must win.
   await saveMercenary(f,6,'V-001');await saveMercenary(f,6,null,'PVE'); // PVP-only is eligible.
   await f.p('UPDATE user_mercenary_cards_v1 SET total_copies=0 WHERE user_id=7').run();
@@ -172,7 +173,7 @@ for(const postgres of [false,true,'pipeline']){
   await saveMercenary(f,5,'V-001');
   assert.deepEqual((await rankedDuoPoolCandidates(f.env,2,f.clock())).sort(),[4,5,6]);
   const ticket=await match(f);assert.equal(ticket.status,200,JSON.stringify(ticket));assert.deepEqual(roster(ticket.data).sort(),[2,4,5,6]);
-  await f.p('INSERT INTO app_meta(key,value) VALUES(?,?)',mercenaryPvpLoadoutKey(4),'broken json').run();
+  await f.p('UPDATE app_meta SET value=? WHERE key=?','broken json',dualMercenaryLoadoutKey(4)).run();
   assert.deepEqual((await rankedDuoPoolCandidates(f.env,2,f.clock())).sort(),[5,6]);
   assert.equal(await count(f,'ranked_duo_matches_v1'),0);
  });
@@ -209,7 +210,7 @@ for(const postgres of [false,true,'pipeline']){
     injected=true;
     // No profile-version change: the admission query must independently reject
     // the now-empty PVP override, even with an otherwise current cached profile.
-    await f.p('INSERT INTO app_meta(key,value) VALUES(?,?)',mercenaryPvpLoadoutKey(ticket.opponent.members[0].userId),JSON.stringify({mercenaryCode:null,revision:1})).run();
+    await saveMercenary(f,ticket.opponent.members[0].userId,null);
    }
    return batch(statements);
   };
