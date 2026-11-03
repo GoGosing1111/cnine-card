@@ -1,0 +1,50 @@
+[
+  {
+    "profile": "desktop",
+    "width": 1440,
+    "quickButtons": 5,
+    "maximumBid": 100000000000000,
+    "hosted": true,
+    "queueCancelled": true,
+    "noticeOnce": true,
+    "overflow": false,
+    "pageErrors": [],
+    "failedResponses": []
+  },
+  {
+    "profile": "mobile",
+    "width": 390,
+    "quickButtons": 5,
+    "maximumBid": 100000000000000,
+    "hosted": true,
+    "queueCancelled": true,
+    "noticeOnce": true,
+    "overflow": false,
+    "pageErrors": [],
+    "failedResponses": []
+  },
+  {
+    "profile": "small",
+    "width": 320,
+    "quickButtons": 5,
+    "maximumBid": 100000000000000,
+    "hosted": true,
+    "queueCancelled": true,
+    "noticeOnce": true,
+    "overflow": false,
+    "pageErrors": [],
+    "failedResponses": []
+  },
+  {
+    "profile": "webkit",
+    "width": 390,
+    "quickButtons": 5,
+    "maximumBid": 100000000000000,
+    "hosted": true,
+    "queueCancelled": true,
+    "noticeOnce": true,
+    "overflow": false,
+    "pageErrors": [],
+    "failedResponses": []
+  }
+]

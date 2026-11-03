@@ -1,0 +1,38 @@
+{
+  "date": "2026-11-03",
+  "status": "PREPARATION_ONLY",
+  "imageGenerator": "built-in image_gen",
+  "imageSource": "C:/Users/User/.codex/generated_images/01a19fc8-41d2-7442-8db9-f3343ffeaa45/exec-6a36925f-781b-43b0-8b44-5aef427bcfa9.png",
+  "files": [
+    {
+      "path": "assets/items/auction-host-ticket-20261103-v1.png",
+      "bytes": 1749831,
+      "sha256": "814750b21f7138adf89510b8b9a7c2729c0b8e571910b084cba36b29dd5f248c"
+    },
+    {
+      "path": "css/auction-user-v1.css",
+      "bytes": 13783,
+      "sha256": "934a290a5e7acfe87187219b7717cba86ff20bc3fec71a42aae4f1ee431ec6ca"
+    },
+    {
+      "path": "js/auction-user-v1.mjs",
+      "bytes": 18220,
+      "sha256": "87cb2e8ba1ceb68134dc0dcbdc2066820105029e58cbcaee73b53e35d4ee1c21"
+    },
+    {
+      "path": "shared/auction-user-policy-v1.mjs",
+      "bytes": 2614,
+      "sha256": "1ab61096e4a12d64e8c366a597068f3b70ecae4cdeeb70d1910bb0c2d351c5c4"
+    },
+    {
+      "path": "functions/_auction_user_assets.js",
+      "bytes": 10863,
+      "sha256": "586e2fa806af094288577f85e0e1476548c3f5a176024e8e1e8f9b152206f8e5"
+    },
+    {
+      "path": "functions/_auction_user_service.js",
+      "bytes": 15586,
+      "sha256": "f21eb3f31209da31faf661ccd74f9510d4d3700f3e979c11d8cc11ec53646cf5"
+    }
+  ]
+}
