@@ -478,6 +478,7 @@ const prisonUiState={incarcerated:false,reason:'',jailedAt:null,jailedUntil:null
 let prisonPollTimer=null,prisonCountdownTimer=null,prisonHitResetTimer=null,prisonRoomBusy=false,prisonChatBusy=false,prisonCommunityBusy=false;
 function prisonTimestampMs(value){if(!value)return 0;const raw=String(value),normalized=raw.includes('T')?raw:raw.replace(' ','T')+'Z',parsed=Date.parse(normalized);return Number.isFinite(parsed)?parsed:0}
 function applyPrisonStatus(prison={},room={}){
+  if(prison.facility==='CLAN_CAMP')prison={incarcerated:false};
   if(room.serverNow){const serverTime=Date.parse(String(room.serverNow));if(Number.isFinite(serverTime))prisonUiState.serverOffsetMs=serverTime-Date.now()}
   prisonUiState.incarcerated=prison?.incarcerated===true;
   prisonUiState.facility=prison?.facility||'PRISON';
@@ -659,6 +660,7 @@ function bindPrisonView(){
 }
 function renderLockedPrison(prison=null){
   if(prison)applyPrisonStatus(prison);
+  if(!isPrisonLocked())return renderShell('battle');
   const user=loadUser();if(!user)return renderLogin();
   // Background reads may return the same 423 while a camp game is in progress.
   // Keep its DOM, focus and input handlers until the account/facility/sentence changes.
@@ -792,8 +794,8 @@ function navGroupForTab(tab){
   if(['attendance','dailyquest','messages','mineral'].includes(tab))return 'rewards';
   if(['magic','upgrade'].includes(tab))return 'dex';
   if(['character','workshop','alchemy','avatar'].includes(tab))return 'character';
-  if(['prediction','auction'].includes(tab))return 'market';
-  if(['prison','prisoncamp','soopketland','coup'].includes(tab))return 'administration';
+  if(['auction'].includes(tab))return 'market';
+  if(['prison','soopketland','coup'].includes(tab))return 'administration';
   if(['dex','evolution'].includes(tab))return 'dex';
   return 'buy';
 }
@@ -806,16 +808,16 @@ function renderMainNavigation(tab){
     {id:'battle',label:'전투',tab:group==='battle'?tab:'battle'},
     {id:'character',label:'성장·제작',tab:group==='character'?tab:'character'},
     {id:'rewards',label:'보상',tab:group==='rewards'?tab:'attendance'},
-    {id:'market',label:'승부·경매',tab:group==='market'?tab:'prediction'},
+    {id:'market',label:'경매장',tab:'auction'},
     {id:'administration',label:'행정부',tab:group==='administration'?tab:'coup'}
   ];
   const primaryHtml=`<nav class="tabs primary-tabs" aria-label="메인 메뉴">${primary.map(item=>`<button class="tab ${((item.id===group)||(item.id===tab))?'active':''}" data-tab="${item.tab||item.id}">${item.label}</button>`).join('')}</nav>`;
   if(group==='dex')return `${primaryHtml}<nav class="sub-tabs" aria-label="도감과 강화 메뉴"><button class="tab ${tab==='dex'?'active':''}" data-tab="dex">카드 도감</button><button class="tab" data-tab="mercenaryDex">용병도감</button><button class="tab ${tab==='upgrade'?'active':''}" data-tab="upgrade">일괄 강화</button><button class="tab ${tab==='evolution'?'active':''}" data-tab="evolution">카드 진화</button>${magicSystemState.visible?`<button class="tab ${tab==='magic'?'active':''}" data-tab="magic">마법카드</button>`:''}</nav>`;
   if(group==='battle')return `${primaryHtml}<nav class="sub-tabs" aria-label="전투 메뉴"><button class="tab ${tab==='duo'?'active':''}" data-tab="duo">랭크 듀오</button><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE 전투</button><button class="tab ${tab==='scrapyard'?'active':''}" data-tab="scrapyard">폐차장 원정</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">PVP·경쟁</button><button class="tab ${tab==='rank'?'active':''}" data-tab="rank">시즌 랭킹</button>`:''}${clanFeatureVisible()?`<button class="tab ${tab==='clan'?'active':''}" data-tab="clan">클랜</button>`:''}</nav>`;
   if(group==='character')return `${primaryHtml}<nav class="sub-tabs" aria-label="장비와 제작 메뉴"><button class="tab ${tab==='character'?'active':''}" data-tab="character">장비·칭호·차고</button><button class="tab ${tab==='workshop'?'active':''}" data-tab="workshop">제작소</button>${alchemyFeatureVisible()?`<button class="tab ${tab==='alchemy'?'active':''}" data-tab="alchemy">연금술</button>`:''}${avatarFeatureVisible()?`<button class="tab ${tab==='avatar'?'active':''}" data-tab="avatar">아바타</button>`:''}</nav>`;
-  if(group==='market')return `${primaryHtml}<nav class="sub-tabs" aria-label="승부와 경매 메뉴"><button class="tab ${tab==='prediction'?'active':''}" data-tab="prediction">승부예측</button><button class="tab ${tab==='auction'?'active':''}" data-tab="auction">경매장</button></nav>`;
+  if(group==='market')return `${primaryHtml}<nav class="sub-tabs" aria-label="경매장 메뉴"><button class="tab ${tab==='auction'?'active':''}" data-tab="auction">경매장</button></nav>`;
   if(group==='rewards')return `${primaryHtml}<nav class="sub-tabs" aria-label="보상 메뉴"><button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='dailyquest'?'active':''}" data-tab="dailyquest">일일·주간 퀘스트</button><button class="tab ${tab==='messages'?'active':''}" data-tab="messages">메시지함</button><button class="tab ${tab==='mineral'?'active':''}" data-tab="mineral">교환소</button></nav>`;
-  if(group==='administration')return `${primaryHtml}<nav class="sub-tabs" aria-label="행정부 메뉴"><button class="tab ${tab==='soopketland'?'active':''}" data-tab="soopketland">리버스랜드</button><button class="tab ${tab==='prison'?'active':''}" data-tab="prison">감옥</button><button class="tab ${tab==='prisoncamp'?'active':''}" data-tab="prisoncamp">포로수용소</button></nav>`;
+  if(group==='administration')return `${primaryHtml}<nav class="sub-tabs" aria-label="행정부 메뉴"><button class="tab ${tab==='soopketland'?'active':''}" data-tab="soopketland">리버스랜드</button><button class="tab ${tab==='prison'?'active':''}" data-tab="prison">감옥</button></nav>`;
   return `${primaryHtml}<div class="sub-tabs sub-tabs-placeholder" aria-hidden="true"></div>`;
 }
 
@@ -826,7 +828,7 @@ function updateMessageNewBadges(count){messageUnreadCount=Math.max(0,Number(coun
 
 function mobileNavigationHtml(tab){
   const group=navGroupForTab(tab);
-  const moreActive=['attendance','dailyquest','messages','prediction','auction','mineral','inventory','character','workshop','alchemy','avatar','prison'].includes(tab);
+  const moreActive=['attendance','dailyquest','messages','auction','mineral','inventory','character','workshop','alchemy','avatar','prison'].includes(tab);
   return `<nav class="mobile-bottom-nav" aria-label="모바일 주요 메뉴">
     <button class="mobile-bottom-item ${tab==='buy'?'active':''}" type="button" data-mobile-tab="buy"><span>▣</span><b>카드·상점</b></button>
     <button class="mobile-bottom-item ${group==='dex'?'active':''}" type="button" data-mobile-open-sheet="collection"><span>▤</span><b>도감·강화</b></button>
@@ -860,7 +862,7 @@ function mobileNavigationHtml(tab){
       <header><div><small>MORE MENU</small><h2>더보기</h2><p>보상과 편의 기능을 모았습니다.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
       <button type="button" class="mobile-reward-hub-button" data-mobile-switch-sheet="rewards"><i>✓</i><span><b>보상 허브</b><small>접속 보상 · 일일 퀘스트 · 메시지함</small></span><em>열기</em>${messageBadgeMarkup()}</button>
       <div class="mobile-more-grid">
-        <button type="button" data-mobile-switch-sheet="market"><i>V</i><b>승부·경매</b></button>
+        <button type="button" data-mobile-switch-sheet="market"><i>V</i><b>경매장</b></button>
         <button type="button" data-mobile-tab="inventory"><i>▱</i><b>인벤토리</b></button>
         <button type="button" data-mobile-switch-sheet="character"><i>⚙</i><b>성장·제작</b></button>
         <button type="button" data-mobile-tab="coup"><i>₵</i><b>행정부</b></button>
@@ -877,10 +879,10 @@ function mobileNavigationHtml(tab){
       </div>
       <button type="button" class="mobile-sheet-back" data-mobile-switch-sheet="more">← 더보기로 돌아가기</button>
     </section>
-    <section class="mobile-nav-sheet" data-mobile-sheet="market" aria-label="승부예측과 경매장 메뉴">
-      <header><div><small>PREDICTION & AUCTION</small><h2>승부·경매</h2><p>코인 승부예측 또는 실시간 경매장에 입장하세요.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
+    <section class="mobile-nav-sheet" data-mobile-sheet="market" aria-label="경매장 메뉴">
+      <header><div><small>AUCTION</small><h2>경매장</h2><p>실시간 경매장에 입장하세요.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
       <div class="mobile-sheet-action-list">
-        <button type="button" data-mobile-tab="prediction"><i>P</i><span><b>승부예측</b><small>게임 속 승부를 코인으로 예측</small></span><em>입장</em></button>
+
         <button type="button" data-mobile-tab="auction"><i>A</i><span><b>경매장</b><small>실시간 입찰과 낙찰</small></span><em>입장</em></button>
       </div>
       <button type="button" class="mobile-sheet-back" data-mobile-switch-sheet="more">← 더보기로 돌아가기</button>
@@ -1009,11 +1011,6 @@ const FEATURE_RESOURCE_MANIFEST={
     styles:['css/auction-house-v1553.css?v=1592-responsive-stage','css/soopketmon-v21-auction-hunt-responsive.css?v=21.7.0'],
     scripts:['js/auction-house-v1553.js?v=20260926-bgm-bids'],
     ready:()=>typeof window.auctionHouseView==='function'&&typeof window.bindAuctionHouseView==='function'
-  },
-  prediction:{
-    styles:['css/coin-prediction-v2033.css?v=20261020-package2'],
-    scripts:['js/coin-prediction-model-v2033.js?v=20261011-subsidy-option','js/coin-prediction-v2033.js?v=20261022-bet-3000eok'],
-    ready:()=>typeof window.coinPredictionView==='function'&&typeof window.bindCoinPredictionView==='function'
   },
   soopketland:{
     styles:['css/soopketland-v2039.css?v=20261020-land-coupon8h&suggestions=20261005'],
@@ -1160,7 +1157,7 @@ function ensureFeatureResources(key){
   }).finally(()=>{featureResourcePromises.delete(key)});
   featureResourcePromises.set(key,request);return request;
 }
-function featureKeyForTab(tab){return tab==='character'?'character':tab==='avatar'?'avatar':tab==='workshop'?'workshop':tab==='alchemy'?'alchemy':tab==='scrapyard'?'scrapyard':['dex','inventory'].includes(tab)?'dexTools':tab==='auction'?'auction':tab==='prediction'?'prediction':tab==='soopketland'?'soopketland':['battle','pvp'].includes(tab)?'battleV2':''}
+function featureKeyForTab(tab){return tab==='character'?'character':tab==='avatar'?'avatar':tab==='workshop'?'workshop':tab==='alchemy'?'alchemy':tab==='scrapyard'?'scrapyard':['dex','inventory'].includes(tab)?'dexTools':tab==='auction'?'auction':tab==='soopketland'?'soopketland':['battle','pvp'].includes(tab)?'battleV2':''}
 // V1803: 전투 화면의 카드 스프라이트는 실제로 58~112 CSS px 로 그려진다(battle-v3-live 의 카드 폭).
 // 그런데 지금까지 도감 원본 이미지를 그대로 받고 있었다 — 평균 334KB, 가장 큰 것은 9.4MB.
 // 5장 덱이면 매 전투마다 약 1.7MB 다. 게다가 도감 화면은 384px 변형(평균 9~13KB)을 쓰기 때문에
@@ -1257,7 +1254,7 @@ function warmFeatureForTab(tab){
   if(key==='battleV2')resources.then(()=>warmBattleArtAssets()).catch(error=>console.warn(`${key} 리소스 사전 로딩 실패:`,error));
   else resources.catch(error=>console.warn(`${key} 리소스 사전 로딩 실패:`,error));
 }
-function featureRouteLoadingHtml(tab){const label=tab==='upgrade'?'일괄 강화':tab==='auction'?'경매장':tab==='prediction'?'승부예측':tab==='soopketland'?'리버스랜드':tab==='character'?'장비·칭호':tab==='avatar'?'아바타':tab==='workshop'?'제작소':tab==='alchemy'?'연금 공방':tab==='scrapyard'?'폐차장 원정':'게임 화면';return `<section class="route-feature-loader" aria-live="polite"><span></span><b>${label} 리소스를 준비하는 중...</b><small>현재 화면에 필요한 파일만 불러오고 있습니다.</small></section>`}
+function featureRouteLoadingHtml(tab){const label=tab==='upgrade'?'일괄 강화':tab==='auction'?'경매장':tab==='soopketland'?'리버스랜드':tab==='character'?'장비·칭호':tab==='avatar'?'아바타':tab==='workshop'?'제작소':tab==='alchemy'?'연금 공방':tab==='scrapyard'?'폐차장 원정':'게임 화면';return `<section class="route-feature-loader" aria-live="polite"><span></span><b>${label} 리소스를 준비하는 중...</b><small>현재 화면에 필요한 파일만 불러오고 있습니다.</small></section>`}
 function featureRouteErrorHtml(tab,message){return `<section class="route-feature-loader is-error"><b>${escapeHtml(message||'화면을 불러오지 못했습니다.')}</b><button type="button" class="btn" data-feature-retry="${escapeHtml(tab)}">다시 시도</button></section>`}
 window.ensureFeatureResources=ensureFeatureResources;
 
@@ -1358,7 +1355,7 @@ function markBlockedTabButtons(){
 function renderShell(tab,routeOptions={}) {
   if(window.CNineStorePolicy?.allowsRoute(tab)===false)tab='buy';
   window.__activeApocalypseAttempt?.abandon();
-  if(tab==='treasury'||tab==='idle')tab='battle';
+  if(['treasury','idle','prediction','prisoncamp'].includes(tab))tab='battle';
   if(document.getElementById('magicSystemRoot')&&tab!=='magic'&&window.MagicWorkbench&&!window.MagicWorkbench.canLeave())return false;
   if(document.getElementById('pvpDeckSlots')&&tab!=='pvp'){
     if(pvpState.saving)return false;
@@ -1413,8 +1410,8 @@ function renderShell(tab,routeOptions={}) {
   else if(previousTab!=='workshop')prepareWorkshopEntryRead();
   if(tab!=='workshop')workshopEntrySection=null;
   else if(['VEHICLE','SYNTHESIS'].includes(routeOptions.workshopSection))workshopEntrySection=routeOptions.workshopSection;
-  const views = { jokgakCity:()=>window.JokgakCity.view(), iconfusion:()=>window.IconFusion.view(), buy: buyView, dex: dexView, upgrade:(typeof window.bulkEnhancementView==='function'?window.bulkEnhancementView:(user)=>`${summaryBar(user)}${featureRouteLoadingHtml('upgrade')}`), evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, scrapyard:(...args)=>(routeFeatureReady&&typeof window.scrapyardView==='function'?window.scrapyardView(...args):featureRouteLoadingHtml('scrapyard')), pvp: pvpView, duo:()=>'<div id="rankedDuoRoot" aria-live="polite">듀오 시즌을 불러오는 중...</div>', clan:(user)=>`${summaryBar(user)}${typeof window.ClanV1?.view==='function'?window.ClanV1.view(user):'<section class="clan-shell"><div class="clan-error"><h2>클랜 모듈을 불러오지 못했습니다</h2></div></section>'}`, magic: magicView, character:(...args)=>(routeFeatureReady&&typeof window.characterView==='function'?window.characterView(...args):featureRouteLoadingHtml('character')), avatar:(...args)=>(routeFeatureReady&&typeof window.avatarShopView==='function'?window.avatarShopView(...args):featureRouteLoadingHtml('avatar')), workshop:(...args)=>(routeFeatureReady&&typeof window.workshopView==='function'?window.workshopView(...args):featureRouteLoadingHtml('workshop')), alchemy:(...args)=>(routeFeatureReady&&typeof window.alchemyView==='function'?window.alchemyView(...args):featureRouteLoadingHtml('alchemy')), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, prediction:(...args)=>(routeFeatureReady&&typeof window.coinPredictionView==='function'?window.coinPredictionView(...args):featureRouteLoadingHtml('prediction')), auction:(...args)=>(routeFeatureReady&&typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):featureRouteLoadingHtml('auction')), soopketland:(...args)=>(routeFeatureReady&&typeof window.soopketLandView==='function'?window.soopketLandView(...args):featureRouteLoadingHtml('soopketland')), mineral: mineralExchangeView, inventory: inventoryView, prison: prisonView, coup:()=>window.CoupPalace.view(), prisoncamp:(user)=>window.ClanPrisonCamp.view(user) };
-  const battleActive=['battle','scrapyard','pvp','duo','rank','clan','jokgakCity'].includes(tab),rewardActive=['attendance','dailyquest','messages','mineral'].includes(tab),collectionActive=['dex','upgrade','evolution','iconfusion','magic'].includes(tab),characterActive=['character','workshop','alchemy','avatar'].includes(tab),marketActive=['prediction','auction'].includes(tab),administrationActive=['prison','prisoncamp','soopketland','coup'].includes(tab);
+  const views = { jokgakCity:()=>window.JokgakCity.view(), iconfusion:()=>window.IconFusion.view(), buy: buyView, dex: dexView, upgrade:(typeof window.bulkEnhancementView==='function'?window.bulkEnhancementView:(user)=>`${summaryBar(user)}${featureRouteLoadingHtml('upgrade')}`), evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, scrapyard:(...args)=>(routeFeatureReady&&typeof window.scrapyardView==='function'?window.scrapyardView(...args):featureRouteLoadingHtml('scrapyard')), pvp: pvpView, duo:()=>'<div id="rankedDuoRoot" aria-live="polite">듀오 시즌을 불러오는 중...</div>', clan:(user)=>`${summaryBar(user)}${typeof window.ClanV1?.view==='function'?window.ClanV1.view(user):'<section class="clan-shell"><div class="clan-error"><h2>클랜 모듈을 불러오지 못했습니다</h2></div></section>'}`, magic: magicView, character:(...args)=>(routeFeatureReady&&typeof window.characterView==='function'?window.characterView(...args):featureRouteLoadingHtml('character')), avatar:(...args)=>(routeFeatureReady&&typeof window.avatarShopView==='function'?window.avatarShopView(...args):featureRouteLoadingHtml('avatar')), workshop:(...args)=>(routeFeatureReady&&typeof window.workshopView==='function'?window.workshopView(...args):featureRouteLoadingHtml('workshop')), alchemy:(...args)=>(routeFeatureReady&&typeof window.alchemyView==='function'?window.alchemyView(...args):featureRouteLoadingHtml('alchemy')), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, auction:(...args)=>(routeFeatureReady&&typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):featureRouteLoadingHtml('auction')), soopketland:(...args)=>(routeFeatureReady&&typeof window.soopketLandView==='function'?window.soopketLandView(...args):featureRouteLoadingHtml('soopketland')), mineral: mineralExchangeView, inventory: inventoryView, prison: prisonView, coup:()=>window.CoupPalace.view() };
+  const battleActive=['battle','scrapyard','pvp','duo','rank','clan','jokgakCity'].includes(tab),rewardActive=['attendance','dailyquest','messages','mineral'].includes(tab),collectionActive=['dex','upgrade','evolution','iconfusion','magic'].includes(tab),characterActive=['character','workshop','alchemy','avatar'].includes(tab),marketActive=['auction'].includes(tab),administrationActive=['prison','soopketland','coup'].includes(tab);
   views.classicColosseum=()=>'<div id="classicColosseumRoot" aria-live="polite">클래식 멸망전을 불러오는 중...</div>';
   const navHtml=`<nav class="main-nav" aria-label="주요 메뉴">
     <button class="main-nav-item ${tab==='buy'?'active':''}" type="button" data-tab="buy"><span class="main-nav-icon">▣</span><b>카드·상점</b></button>
@@ -1459,15 +1456,15 @@ function renderShell(tab,routeOptions={}) {
       </div>
     </div>
     <div class="main-nav-group ${marketActive?'active':''}" data-nav-group="market">
-      <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">M</span><b>승부·경매</b><i>⌄</i></button>
+      <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">M</span><b>경매장</b><i>⌄</i></button>
       <div class="main-nav-dropdown" role="menu">
-        <button type="button" data-tab="prediction"><span>게임 결과 코인 예측</span><b>승부예측</b></button>
+
         <button type="button" data-tab="auction"><span>실시간 입찰·낙찰</span><b>경매장</b></button>
       </div>
     </div>
     <div class="main-nav-group ${administrationActive?'active':''}" data-nav-group="administration">
       <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">A</span><b>행정부</b><i>⌄</i></button>
-      <div class="main-nav-dropdown" role="menu"><button type="button" data-tab="coup"><span>황궁 영토전·족장 국민 재판</span><b>쿠데타</b></button><button type="button" data-tab="soopketland"><span>스트리머 전용 방송 이벤트</span><b>리버스랜드</b></button><button type="button" data-tab="prison"><span>행정부 제재 현황</span><b>감옥</b></button><button type="button" data-tab="prisoncamp"><span>시즌 최하위 클랜 수감 구역</span><b>포로수용소</b></button></div>
+      <div class="main-nav-dropdown" role="menu"><button type="button" data-tab="coup"><span>황궁 영토전·족장 국민 재판</span><b>쿠데타</b></button><button type="button" data-tab="soopketland"><span>스트리머 전용 방송 이벤트</span><b>리버스랜드</b></button><button type="button" data-tab="prison"><span>행정부 제재 현황</span><b>감옥</b></button></div>
     </div>
   </nav>`;
   const routeHtml=`${mobileNavigationHtml(tab)}${tab==='workshop'&&routeFeatureReady?window.workshopView(user,{workshopSection:workshopEntrySection}):(views[tab]||buyView)(user)}`;
@@ -1486,7 +1483,7 @@ function renderShell(tab,routeOptions={}) {
   bindPersistentDesktopNavigation(header);if(header?.dataset.fullscreenBound!=='1'){header.dataset.fullscreenBound='1';bindFullscreenPlayLink(header)}
   bindMobileNavigation();
   markBlockedTabButtons();
-  const routeWaitsForFeature=['auction','prediction','soopketland','character','avatar','workshop','alchemy','scrapyard'].includes(tab)&&!routeFeatureReady;
+  const routeWaitsForFeature=['auction','soopketland','character','avatar','workshop','alchemy','scrapyard'].includes(tab)&&!routeFeatureReady;
   if(routeWaitsForFeature){
     ensureFeatureResources(routeFeatureKey).then(()=>{if(renderSeq===shellRenderSeq&&runtimeCommandContext===tab)renderShell(tab,routeOptions)}).catch(error=>{
       if(renderSeq!==shellRenderSeq||runtimeCommandContext!==tab)return;
@@ -3676,7 +3673,6 @@ function bindView(tab) {
   if(tab==='prison')bindPrisonView();
   if(tab==='coup')window.CoupPalace?.bind();
   if(tab==='jokgakCity')void window.JokgakCity?.bind();
-  if(tab==='prisoncamp')window.ClanPrisonCamp?.bind(loadUser());
   if(tab==='buy'){loadPrimeDrawShop('equipment');loadPrimeDrawShop('suit_core');loadPrimeDrawShop('vehicle');}
   if(tab==='inventory')loadInventory();
   if(tab==='character'&&typeof window.bindCharacterView==='function')window.bindCharacterView();
@@ -3713,7 +3709,6 @@ function bindView(tab) {
   if(tab==='clan'&&typeof window.ClanV1?.bind==='function')window.ClanV1.bind({apiRequest,clearApiCache,renderShell,ensureFeatureResources,prepareImmediateBattleV3Entry,ensureBattleSoundButton,battleSfx});
   if(tab==='mineral') loadMineralExchange();
   if(tab==='auction'&&typeof window.bindAuctionHouseView==='function')window.bindAuctionHouseView();
-  if(tab==='prediction'&&typeof window.bindCoinPredictionView==='function')window.bindCoinPredictionView();
   if(tab==='dex') {
     syncCollectionFromServer({rerender:true});
     const bulkEnhancementEntry=document.getElementById('dexBulkEnhancementBtn');if(bulkEnhancementEntry)bulkEnhancementEntry.onclick=()=>renderShell('upgrade');

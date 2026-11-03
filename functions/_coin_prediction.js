@@ -1,3 +1,4 @@
+import {retiredContentResponse} from './_retired_content.js';
 import {readPackageCoinAccounting,packageCoinGuardStatements,requirePredictionCoins} from './_package_coin_accounting.js';
 import {ensureJointAtomicSchema} from './_joint_atomic.js';
 import { activePredictionSubsidy,predictionSubsidyFinalizationStatements,TREASURY_PREDICTION_SUBSIDY_TABLE } from './_administration_treasury.js';
@@ -133,6 +134,7 @@ export async function settleCoinPrediction(env,eventId,resultOptionId,voided=fal
   ]);return{pool,distributable,fee:voided?0:pool-baseDistributable,treasurySubsidy,cmsSubsidy:voided?0:cmsSubsidy,winnerTotal,participants:allBets.length};}finally{await unlock(env,l)}
 }
 export async function handleCoinPrediction({path,request,env,deps}){
+  const retired=retiredContentResponse(path,deps.json);if(retired)return retired;
   if(!String(path).startsWith('coin-prediction')&&!String(path).startsWith('admin/coin-prediction'))return null;await foundation(env);const user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);const adminPath=String(path).startsWith('admin/coin-prediction'),admin=adminPath?Boolean(await deps.requirePermission(request,env,'COIN_PREDICTION_MANAGE')):deps.isAdminRole(user),ownerUnlimited=String(user?.role||'').trim().toUpperCase()==='OWNER',query=new URL(request.url).searchParams,listView=predictionListView(query.get('view')),listPage=predictionListPage(query.get('page')),filters={category:query.get('category')||'ALL',mine:query.get('mine')==='1',canManageSubsidy:admin&&['ADMIN','OWNER'].includes(String(user.role||'').toUpperCase())};
   if(path==='coin-prediction/state'&&request.method==='GET')return deps.json(await eventData(env,user.id,false,ownerUnlimited,listView,listPage,filters));
   if(path==='coin-prediction/bet'&&request.method==='POST'){

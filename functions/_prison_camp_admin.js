@@ -1,3 +1,4 @@
+import {retiredContentResponse} from './_retired_content.js';
 import { ensureClanCampSchema, clanCampProbeTime } from './_clan_prison_camp.js';
 
 export const CAMP_ADMIN_LIMITS = Object.freeze({ minMinutes: 1, maxMinutes: 10080 });
@@ -93,6 +94,7 @@ export async function operateAdminCamp(env, owner, body = {}, now = Date.now()) 
 }
 
 export async function handlePrisonCampAdmin({ path, request, env, deps }) {
+  const retired=retiredContentResponse(path,deps.json);if(retired)return retired;
   if (!path.startsWith('admin/prison-camp/')) return null;
   const owner = await deps.requirePermission(request, env, 'USER_MANAGE');
   try {

@@ -1,3 +1,4 @@
+import {retiredContentResponse} from './_retired_content.js';
 import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 
 export const CLAN_CAMP_HOURS = 8;
@@ -53,34 +54,10 @@ export async function ensureClanCampSchema(env) {
   cacheRuntimeData(env, SCHEMA_KEY, true, 1800000);
 }
 
-// These statements MUST share the season-completion transaction. The creation
-// token prevents retries from changing the roster, resetting a sentence or re-jailing released users.
-export async function clanCampSettlementStatements(env, season, settings, rankedTeams, now = Date.now()) {
-  if (settings.mode !== 'ON' || season?.phase !== 'SETTLEMENT' || rankedTeams.length < 2) return [];
-  const completed = await env.DB.prepare("SELECT 1 FROM clan_wars WHERE season_id=? AND status='COMPLETED' AND round_no<1000 LIMIT 1").bind(season.id).first();
-  if (!completed) return [];
-  await ensureClanCampSchema(env);
-  const last = rankedTeams.at(-1), token = crypto.randomUUID();
-  const {clanReformEnabled}=await import('./_clan_governance.js');
-  const reformOn=await clanReformEnabled(env);
-  return [
-    env.DB.prepare(`DELETE FROM clan_prison_chat WHERE NOT EXISTS(SELECT 1 ${ACTIVE})`).bind(sqlTime(now)),
-    env.DB.prepare(`INSERT OR IGNORE INTO clan_prison_camps
-      (season_id,season_no,clan_id,clan_name,final_rank,creation_token,jailed_at,jailed_until)
-      VALUES(?,?,?,?,?,?,?,?)`).bind(season.id, season.season_no, last.clan_id, last.name, rankedTeams.length,
-        token, sqlTime(now), sqlTime(now + CLAN_CAMP_HOURS * 3600000)),
-    env.DB.prepare(`INSERT OR IGNORE INTO clan_prison_captives(season_id,user_id,member_role)
-      SELECT m.season_id,m.user_id,${reformOn?"CASE WHEN EXISTS(SELECT 1 FROM clan_executives e WHERE e.season_id=m.season_id AND e.clan_id=m.clan_id AND e.user_id=m.user_id) THEN 'EXECUTIVE' ELSE 'MEMBER' END":'m.member_role'} FROM clan_members m
-      JOIN clan_prison_camps c ON c.season_id=m.season_id AND c.clan_id=m.clan_id
-      WHERE c.season_id=? AND c.creation_token=?`).bind(season.id, token),
-    ...(reformOn?[]:[env.DB.prepare(`INSERT OR IGNORE INTO clan_prison_captives(season_id,user_id,member_role)
-      SELECT c.season_id,t.master_user_id,'MASTER' FROM clan_prison_camps c
-      JOIN clan_season_teams t ON t.season_id=c.season_id AND t.clan_id=c.clan_id
-      WHERE c.season_id=? AND c.creation_token=?`).bind(season.id, token)])
-  ];
-}
+// Permanently closed on 2026-11-03. Even legacy callers cannot create a new sentence.
+export async function clanCampSettlementStatements() { return []; }
 
-const ACTIVE = `FROM prison_camp_entries_v2115 c WHERE c.released_at IS NULL AND c.jailed_until>?`;
+const ACTIVE = `FROM prison_camp_entries_v2115 c WHERE c.source_type='DEATH_GAME' AND c.released_at IS NULL AND c.jailed_until>?`;
 
 // PERF-0919: 모든 로그인 요청의 감옥 게이트가 개인 감옥 행과 같은 한 문장에서 읽는 수용소 존재 여부.
 //   대부분의 유저는 수용 중이 아니므로 상세 조회(clanCampStatusForUser)는 이 값이 1일 때만 한다.
@@ -163,6 +140,7 @@ export async function releaseClanCaptives(env, user, payload, now = Date.now()) 
 }
 
 export async function handleClanPrisonCamp({ path, request, env, deps }) {
+  const retired=retiredContentResponse(path,deps.json);if(retired)return retired;
   if (!path.startsWith('prison-camp/')) return null;
   const user = await deps.authenticate(request, env);
   if (!user) return deps.json({ error: '로그인이 필요합니다.' }, 401);

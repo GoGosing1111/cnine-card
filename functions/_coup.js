@@ -2,7 +2,6 @@ import { coupSettings, advanceFront, deadlineWinner, trialVerdict, PALACE_NODES,
 import { currentCoupFormation, currentCoupOpponents } from './_coup_matchmaking.js';
 import { ensureCoupSchema, chiefMetaLock, chiefDuty, chiefAuthorityGuard } from './_coup_schema.js';
 import { coupEnergy, chooseNuclearTargets, COUP_CHIEF_SKILLS, coupCommandSkills, coupNuclearEnabled, coupRebelNuclearEnabled, coupRebelCommanderId, coupSkillCooldown, coupRecoveryMs, COUP_REBEL_SUPPORT_PRESET, COUP_NUCLEAR_BLOCK_MS, COUP_ENERGY_MAX, COUP_ENERGY_RECOVERY_MS } from '../shared/coup-chief-skills-v2118.mjs';
-import { ensureClanCampSchema, CLAN_CAMP_HOURS } from './_clan_prison_camp.js';
 import { simulateTerritoryDuel, territoryFormationSnapshot, territorySiegeDamage } from './_territory_war.js';
 import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 
@@ -134,25 +133,18 @@ export async function joinCoupRound(env, deps, user, body, now = Date.now()) {
   return { ok: true };
 }
 
-// Round completion, imprisonment and immediate succession commit together.
+// Round completion and immediate succession commit together.
 // Retries cannot extend a sentence or create another term. Old trials stay intact.
 export async function settleCoupRound(env, id, now = Date.now()) {
   await ensureCoupSchema(env);
   const round = await getRound(env, id);
   if (!round || !['ACTIVE', 'SETTLING'].includes(round.status)) return;
   if (round.status === 'ACTIVE' && Number(round.ends_at) > now) return;
-  await ensureClanCampSchema(env);
   const winner = round.winner || deadlineWinner(round), token = crypto.randomUUID();
   const statements = [chiefMetaLock(env), ...roundClaim(env, round, token, "AND status IN ('ACTIVE','SETTLING')"),
     p(env, "UPDATE coup_rounds_v2115 SET status='FINISHED',winner=?,finished_at=? WHERE id=?", winner, now, id)];
-  const rebelPolicy = coupRebelDefeatPolicy();
-  if (winner === 'CHIEF') {
-    const eventId = `coup:${id}`;
-    statements.push(
-      p(env, `INSERT INTO event_prison_camps(event_id,source_type,title,reason,jailed_at,jailed_until) VALUES(?,'COUP','황궁 쿠데타 · 반란군',?,?,?)`, eventId, `반란군 패배 · ${rebelPolicy.hours}시간 수감`, sqlTime(now), sqlTime(now + rebelPolicy.hours * 3600000)),
-      p(env, `INSERT INTO event_prison_captives(event_id,user_id,member_role) SELECT ?,user_id,'REBEL' FROM coup_participants_v2115 WHERE round_id=? AND side='REBEL'`, eventId, id));
-  } else if (winner === 'REBEL') {
-    const eventId = `coup:${id}`;
+  // Camp closure removes both defeat sentences; victory and succession remain atomic.
+  if (winner === 'REBEL') {
     const chiefRaw = (await p(env, "SELECT value FROM app_meta WHERE key='chief_appointment_v1'").first())?.value;
     const current = parse(chiefRaw), replace = current.id === round.appointment_id && Number(current.userId) === Number(round.chief_user_id);
     const commander = replace ? await rebelCommander(env, round) : null;
@@ -172,10 +164,6 @@ export async function settleCoupRound(env, id, now = Date.now()) {
         WHERE u.id=? AND u.status='ACTIVE' AND COALESCE(u.role,'USER') IN ('USER','OWNER') AND c.round_id=? AND c.side='REBEL'`, commander.userId, id),
       p(env, "UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key='chief_appointment_v1'", JSON.stringify(next)));
     statements.push(
-      p(env, `INSERT INTO event_prison_camps(event_id,source_type,title,reason,jailed_at,jailed_until) VALUES(?,'COUP','황궁 쿠데타','족장팀 패배 · 황궁 함락',?,?)`, eventId, sqlTime(now), sqlTime(now + CLAN_CAMP_HOURS * 3600000)),
-      p(env, `INSERT INTO event_prison_captives(event_id,user_id,member_role)
-        SELECT ?,user_id,CASE WHEN user_id=? THEN 'CHIEF' ELSE 'LOYALIST' END FROM coup_participants_v2115 WHERE round_id=? AND side='CHIEF'`, eventId, round.chief_user_id, id),
-      p(env, "INSERT OR IGNORE INTO event_prison_captives(event_id,user_id,member_role) VALUES(?,?,'CHIEF')", eventId, round.chief_user_id),
       p(env, `INSERT INTO chief_duty_cases_v2115(appointment_id,trial_id,status) VALUES(?,?,'REMOVED')
         ON CONFLICT(appointment_id) DO UPDATE SET trial_id=excluded.trial_id,status='REMOVED'`, round.appointment_id, id),
       p(env, 'UPDATE coup_rounds_v2115 SET settings_json=? WHERE id=?', JSON.stringify({...parse(round.settings_json), succession}), id),

@@ -22,7 +22,6 @@ import {CLAN_PARTICIPATION_DEFAULTS,ensureClanParticipationSchema,clanWarPartici
 import {handleClanInactivityCleanup} from './_clan_inactivity_cleanup.js';
 import {handleClanMemberAssignment} from './_clan_member_assignment.js';
 import {CLAN_RANKED_TEAMS_SQL,clanCombatStats} from './_clan_ranking.js';
-import {clanCampSettlementStatements} from './_clan_prison_camp.js';
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 import {CHAMPIONS_DEFAULTS,cleanChampionsSettings,validateChampionsSettings,ensureChampionsSchema,startChampions,advanceChampions,championsBattleSettings,championsMemberEligible,championsPublicState,deliverChampionsRewards} from './_clan_champions.js';
 
@@ -615,7 +614,6 @@ async function settleSeason(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
     const processingToken=crypto.randomUUID(),claim=await env.DB.prepare("UPDATE clan_season_settlements SET status='PROCESSING',processing_token=?,champion_clan_id=?,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND status='PENDING'").bind(processingToken,championId||null,season.id).run();
     if(Number(claim?.meta?.changes||0)!==1)return env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first();
     const rewardStatus=await payClanSeasonRewards(env,season,settings,rankedTeams),writes=[];if(championId)writes.push(env.DB.prepare("UPDATE clan_organizations SET trophies=trophies+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND EXISTS(SELECT 1 FROM clan_season_settlements WHERE season_id=? AND status='PROCESSING' AND processing_token=?)").bind(championId,season.id,processingToken));
-    writes.push(...await clanCampSettlementStatements(env,season,settings,rankedTeams));
     writes.push(env.DB.prepare("UPDATE clan_season_settlements SET status='COMPLETED',processing_token=NULL,reward_status=?,completed_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND status='PROCESSING' AND processing_token=?").bind(rewardStatus,season.id,processingToken));
     await env.DB.batch(writes);await startChampions(env,season,settings,rankedTeams);return env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first();
   }finally{await releaseDraftLock(env,settleLock)}

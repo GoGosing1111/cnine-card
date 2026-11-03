@@ -5,7 +5,11 @@ export function retiredContentResponse(path,json){
   const matches=prefix=>key===prefix||key.startsWith(prefix+'/');
   // Previously earned prize vouchers still redeem from inventory.
   const axeVoucher=['events/golden-axe/item-options','events/golden-axe/use-item','events/golden-axe/receipt'].includes(key);
-  const content=matches('administration/treasury')||matches('admin/administration/treasury')
+  const content=matches('coin-prediction')||matches('admin/coin-prediction')
+    ?{code:'COIN_PREDICTION_RETIRED',name:'승부예측'}
+    :matches('prison-camp')||matches('admin/prison-camp')
+      ?{code:'PRISON_CAMP_RETIRED',name:'포로수용소'}
+    :matches('administration/treasury')||matches('admin/administration/treasury')
     ?{code:'TREASURY_RETIRED',name:'세금 시스템'}
     :matches('idle-dungeon')||matches('admin/idle-dungeon')
       ?{code:'IDLE_DUNGEON_RETIRED',name:'방치형 원정'}
