@@ -1,0 +1,27 @@
+{
+  "exitCode": 0,
+  "passed": 26,
+  "failed": 0,
+  "files": [
+    "tests/blackcrown-conditional-refill-20261103.test.mjs",
+    "tests/blackcrown-bloodmoon-refill-20261103.test.mjs",
+    "tests/blackcrown-ss-unique-20261031.test.mjs",
+    "tests/bloodmoon-conditional-refill-20261103.test.mjs"
+  ],
+  "hashes": {
+    "functions/_mercenary_blackcrown_stock_schedule.js": "058a952ccb167b5cfb81dcfdfd1f533384e76f757d569bba5bb5c5becb4d3bb1",
+    "functions/_mercenary_blackcrown_pack.js": "ff1329bc9d18eb42d9509dcd45d88cedc0ec53c257e6437cb899f25117638f1c",
+    "functions/_mercenary_stock_schedule.js": "d583e34ee309168454ceb4df4154ed296bc73c5e8173f9152d6ff3e3bc53ba86",
+    "workers/clan-draft/src/mercenary-stock-schedule.js": "0b487ddf10961d438776dfa497d344d0b3e562787abaf1674d4abad62369b95f",
+    "shared/mercenary-blackcrown-pack-v1.mjs": "531e34df12d072a13c3afcc2dca2213586efe355a8851225356fc178e8a1ac18",
+    "shared/mercenary-blackcrown-pool-v3.mjs": "4bcb8082a156d69b8a340230eefadcf232a7ff20d09e0aed86f53cdd41f6d986",
+    "admin/mercenary-blackcrown-admin-v1.mjs": "373ea4dd31e635edc8accd051aab150646b9afdf00b8ead861998932bbdc3ad4",
+    "admin/mercenary-blackcrown-admin-v1.bundle.mjs": "1644b5bd74104e7519c6eba579ec38c3058dde867d58f6cd84d54fe27681893a",
+    "tests/blackcrown-conditional-refill-20261103.test.mjs": "43bec8b36cef6abed26471c5cb7dc3fac385aacdd7afd3b2820dfe7d38219e66",
+    "tests/blackcrown-bloodmoon-refill-20261103.test.mjs": "e4d5ccb38f27369ead6f3cc2ae2685b42744e26cc85261ceed0749f6870c0e73",
+    "tests/blackcrown-ss-unique-20261031.test.mjs": "13484dddfd1117adb17d8996c2fed187a4e389a502f0e8c9e57a7b811fe4df79",
+    "tests/bloodmoon-conditional-refill-20261103.test.mjs": "a6199d31a127b27f0dc7a8fc2218aa70af624ef7b2cff9cbac7bf099881879dd"
+  },
+  "logfile": "file:///C:/Users/User/Downloads/upload/cnine-card/operations/blackcrown-refill-20261105/evidence/tests-1793701972331.log",
+  "at": "2026-11-03T10:33:13.617Z"
+}

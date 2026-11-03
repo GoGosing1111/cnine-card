@@ -1,0 +1,145 @@
+{
+  "status": "VERIFIED_SCHEDULED",
+  "sourceHash": "45662c8a0fbfae059f31aa5f08980b046620f8569fd28107264742847e9e52b5",
+  "requests": [
+    {
+      "action": "SCHEDULE_STOCK",
+      "requestId": "stock-20261105-2000-blackcrown-ss20-sss3-v1",
+      "executeAt": "2026-11-05T11:00:00.000Z",
+      "changes": [
+        {
+          "code": "V-950",
+          "quantity": 20
+        },
+        {
+          "code": "V-951",
+          "quantity": 20
+        },
+        {
+          "code": "V-952",
+          "quantity": 20
+        },
+        {
+          "code": "V-953",
+          "quantity": 20
+        },
+        {
+          "code": "V-954",
+          "quantity": 20
+        },
+        {
+          "code": "V-955",
+          "quantity": 20
+        },
+        {
+          "code": "V-970",
+          "quantity": 3
+        },
+        {
+          "code": "V-971",
+          "quantity": 3
+        }
+      ],
+      "reason": "사용자 요청: 11월5일20시 블랙크라운 SS6종 각20장 및 SSS리미티드2종 각3장 추가"
+    },
+    {
+      "action": "SCHEDULE_STOCK",
+      "requestId": "stock-20261105-2200-blackcrown-soldout-ss20-sss3-v1",
+      "executeAt": "2026-11-05T13:00:00.000Z",
+      "changes": [
+        {
+          "code": "V-950",
+          "quantity": 20
+        },
+        {
+          "code": "V-951",
+          "quantity": 20
+        },
+        {
+          "code": "V-952",
+          "quantity": 20
+        },
+        {
+          "code": "V-953",
+          "quantity": 20
+        },
+        {
+          "code": "V-954",
+          "quantity": 20
+        },
+        {
+          "code": "V-955",
+          "quantity": 20
+        },
+        {
+          "code": "V-970",
+          "quantity": 3
+        },
+        {
+          "code": "V-971",
+          "quantity": 3
+        }
+      ],
+      "condition": "SOLD_OUT_ONLY",
+      "reason": "사용자 요청: 11월5일22시 블랙크라운 소진된 종류만 SS각20장 및 SSS구간각3장 추가"
+    }
+  ],
+  "auditIds": [
+    "54051",
+    "54052"
+  ],
+  "alarm": {
+    "version": "20261026-v1",
+    "checkedAt": "2026-11-03T10:39:04.000Z",
+    "applied": 0,
+    "nextAt": "2026-11-05T11:00:00.000Z",
+    "nextAlarmAt": 1793876400000
+  },
+  "stock": [
+    {
+      "code": "V-950",
+      "stock_limit": 40,
+      "issued": 40
+    },
+    {
+      "code": "V-951",
+      "stock_limit": 40,
+      "issued": 40
+    },
+    {
+      "code": "V-952",
+      "stock_limit": 40,
+      "issued": 40
+    },
+    {
+      "code": "V-953",
+      "stock_limit": 40,
+      "issued": 40
+    },
+    {
+      "code": "V-954",
+      "stock_limit": 40,
+      "issued": 40
+    },
+    {
+      "code": "V-955",
+      "stock_limit": 40,
+      "issued": 40
+    },
+    {
+      "code": "V-970",
+      "stock_limit": 7,
+      "issued": 7
+    },
+    {
+      "code": "V-971",
+      "stock_limit": 5,
+      "issued": 4
+    }
+  ],
+  "unchangedPackAndIssuance": true,
+  "existingSchedulesPreserved": true,
+  "selectOnlyReplay": true,
+  "accountWrites": 0,
+  "checkedAt": "2026-11-03T10:39:23.416Z"
+}

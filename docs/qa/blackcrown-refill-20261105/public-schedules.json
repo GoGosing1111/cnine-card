@@ -1,0 +1,219 @@
+{
+  "checkedAt": "2026-11-03T10:39:19.713Z",
+  "reports": [
+    {
+      "pack": "blackcrown",
+      "revision": 9,
+      "schedules": [
+        {
+          "id": "stock-20261105-2000-blackcrown-ss20-sss3-v1",
+          "executeAt": "2026-11-05T11:00:00.000Z",
+          "changes": [
+            {
+              "code": "V-950",
+              "quantity": 20
+            },
+            {
+              "code": "V-951",
+              "quantity": 20
+            },
+            {
+              "code": "V-952",
+              "quantity": 20
+            },
+            {
+              "code": "V-953",
+              "quantity": 20
+            },
+            {
+              "code": "V-954",
+              "quantity": 20
+            },
+            {
+              "code": "V-955",
+              "quantity": 20
+            },
+            {
+              "code": "V-970",
+              "quantity": 3
+            },
+            {
+              "code": "V-971",
+              "quantity": 3
+            }
+          ]
+        },
+        {
+          "id": "stock-20261105-2200-blackcrown-soldout-ss20-sss3-v1",
+          "executeAt": "2026-11-05T13:00:00.000Z",
+          "changes": [
+            {
+              "code": "V-950",
+              "quantity": 20
+            },
+            {
+              "code": "V-951",
+              "quantity": 20
+            },
+            {
+              "code": "V-952",
+              "quantity": 20
+            },
+            {
+              "code": "V-953",
+              "quantity": 20
+            },
+            {
+              "code": "V-954",
+              "quantity": 20
+            },
+            {
+              "code": "V-955",
+              "quantity": 20
+            },
+            {
+              "code": "V-970",
+              "quantity": 3
+            },
+            {
+              "code": "V-971",
+              "quantity": 3
+            }
+          ],
+          "condition": "SOLD_OUT_ONLY"
+        }
+      ],
+      "ownershipRule": {
+        "basis": "CURRENT_DISTINCT_BLACKCROWN_SS",
+        "duplicatesAllowed": false,
+        "threshold": 2,
+        "divisors": [
+          1,
+          1,
+          2,
+          4,
+          8,
+          16,
+          32
+        ],
+        "fallback": "STANDARD_SSS"
+      }
+    },
+    {
+      "pack": "bloodmoon",
+      "revision": 11,
+      "schedules": [
+        {
+          "id": "stock-20261105-2000-bloodmoon-ss20-sss3-v1",
+          "executeAt": "2026-11-05T11:00:00.000Z",
+          "changes": [
+            {
+              "code": "V-960",
+              "quantity": 20
+            },
+            {
+              "code": "V-961",
+              "quantity": 20
+            },
+            {
+              "code": "V-962",
+              "quantity": 20
+            },
+            {
+              "code": "V-963",
+              "quantity": 20
+            },
+            {
+              "code": "V-964",
+              "quantity": 20
+            },
+            {
+              "code": "V-965",
+              "quantity": 20
+            },
+            {
+              "code": "V-973",
+              "quantity": 3
+            },
+            {
+              "code": "V-974",
+              "quantity": 3
+            },
+            {
+              "code": "V-975",
+              "quantity": 3
+            },
+            {
+              "code": "V-978",
+              "quantity": 3
+            }
+          ]
+        },
+        {
+          "id": "stock-20261105-2200-bloodmoon-soldout-ss20-sss3-v1",
+          "executeAt": "2026-11-05T13:00:00.000Z",
+          "changes": [
+            {
+              "code": "V-960",
+              "quantity": 20
+            },
+            {
+              "code": "V-961",
+              "quantity": 20
+            },
+            {
+              "code": "V-962",
+              "quantity": 20
+            },
+            {
+              "code": "V-963",
+              "quantity": 20
+            },
+            {
+              "code": "V-964",
+              "quantity": 20
+            },
+            {
+              "code": "V-965",
+              "quantity": 20
+            },
+            {
+              "code": "V-973",
+              "quantity": 3
+            },
+            {
+              "code": "V-974",
+              "quantity": 3
+            },
+            {
+              "code": "V-975",
+              "quantity": 3
+            },
+            {
+              "code": "V-978",
+              "quantity": 3
+            }
+          ],
+          "condition": "SOLD_OUT_ONLY"
+        }
+      ],
+      "ownershipRule": {
+        "basis": "CURRENT_DISTINCT_BLOODMOON_SS",
+        "duplicatesAllowed": false,
+        "threshold": 2,
+        "divisors": [
+          1,
+          1,
+          2,
+          4,
+          8,
+          16,
+          32
+        ],
+        "fallback": "STANDARD_SSS"
+      }
+    }
+  ],
+  "productionAccountWrites": 0,
+  "allFourScheduled": true
+}

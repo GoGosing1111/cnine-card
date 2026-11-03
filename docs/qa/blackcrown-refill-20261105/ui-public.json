@@ -1,0 +1,20 @@
+{
+  "reports": [
+    {
+      "width": 390,
+      "controls": 8,
+      "schedules": 2,
+      "sssNames": true,
+      "soldOutCondition": true,
+      "geometry": {
+        "client": 358,
+        "scroll": 358
+      }
+    }
+  ],
+  "errors": [],
+  "fixture": true,
+  "publicAssets": true,
+  "productionAccountWrites": 0,
+  "at": "2026-11-03T10:38:58.478Z"
+}

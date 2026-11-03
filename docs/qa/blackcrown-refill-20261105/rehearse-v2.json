@@ -1,0 +1,108 @@
+{
+  "status": "REHEARSED_AND_ROLLED_BACK",
+  "sourceHash": "45662c8a0fbfae059f31aa5f08980b046620f8569fd28107264742847e9e52b5",
+  "sourceHashes": {
+    "functions/_mercenary_blackcrown_stock_schedule.js": "058a952ccb167b5cfb81dcfdfd1f533384e76f757d569bba5bb5c5becb4d3bb1",
+    "shared/mercenary-stock-schedule-v1.mjs": "c9cfcb13549942b8bab2d73d2a492149047d2f336deb71a6d34276bcf63585b5",
+    "shared/mercenary-blackcrown-pool-v3.mjs": "4bcb8082a156d69b8a340230eefadcf232a7ff20d09e0aed86f53cdd41f6d986"
+  },
+  "requests": [
+    {
+      "action": "SCHEDULE_STOCK",
+      "requestId": "stock-20261105-2000-blackcrown-ss20-sss3-v1",
+      "executeAt": "2026-11-05T11:00:00.000Z",
+      "changes": [
+        {
+          "code": "V-950",
+          "quantity": 20
+        },
+        {
+          "code": "V-951",
+          "quantity": 20
+        },
+        {
+          "code": "V-952",
+          "quantity": 20
+        },
+        {
+          "code": "V-953",
+          "quantity": 20
+        },
+        {
+          "code": "V-954",
+          "quantity": 20
+        },
+        {
+          "code": "V-955",
+          "quantity": 20
+        },
+        {
+          "code": "V-970",
+          "quantity": 3
+        },
+        {
+          "code": "V-971",
+          "quantity": 3
+        }
+      ],
+      "reason": "사용자 요청: 11월5일20시 블랙크라운 SS6종 각20장 및 SSS리미티드2종 각3장 추가"
+    },
+    {
+      "action": "SCHEDULE_STOCK",
+      "requestId": "stock-20261105-2200-blackcrown-soldout-ss20-sss3-v1",
+      "executeAt": "2026-11-05T13:00:00.000Z",
+      "changes": [
+        {
+          "code": "V-950",
+          "quantity": 20
+        },
+        {
+          "code": "V-951",
+          "quantity": 20
+        },
+        {
+          "code": "V-952",
+          "quantity": 20
+        },
+        {
+          "code": "V-953",
+          "quantity": 20
+        },
+        {
+          "code": "V-954",
+          "quantity": 20
+        },
+        {
+          "code": "V-955",
+          "quantity": 20
+        },
+        {
+          "code": "V-970",
+          "quantity": 3
+        },
+        {
+          "code": "V-971",
+          "quantity": 3
+        }
+      ],
+      "condition": "SOLD_OUT_ONLY",
+      "reason": "사용자 요청: 11월5일22시 블랙크라운 소진된 종류만 SS각20장 및 SSS구간각3장 추가"
+    }
+  ],
+  "rounds": [
+    {
+      "injectedFailure": true,
+      "rollbackVerified": true
+    },
+    {
+      "injectedFailure": false,
+      "rollbackVerified": true
+    }
+  ],
+  "boundaries": true,
+  "twentyAllEight": true,
+  "twentyTwoSoldoutThreeSkippedFive": true,
+  "issuedNeverReset": true,
+  "accountWrites": 0,
+  "checkedAt": "2026-11-03T10:34:25.668Z"
+}

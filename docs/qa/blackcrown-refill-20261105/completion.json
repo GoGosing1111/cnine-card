@@ -1,0 +1,145 @@
+{
+  "status": "BOTH_PACKS_REFILL_SCHEDULED",
+  "sourceCommit": "029534c7aa1330066a63bd508e4ec21d5b1f023d",
+  "pagesId": "e9fdbfb3-9ca9-45c5-ad99-02f19b3477e9",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "8854f51e-cb3f-4b06-ab1e-387de288b9fd",
+      "percentage": 100,
+      "conditionalStock": true,
+      "blackcrownConditionalStock": true,
+      "bloodmoonRulesPreserved": true
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "16f0efb6-1d0f-4ec8-8bde-8e384a0595f7",
+      "percentage": 100,
+      "conditionalStock": true,
+      "blackcrownConditionalStock": true,
+      "bloodmoonRulesPreserved": true
+    }
+  ],
+  "operationKey": "ops:blackcrown-refill:20261105:v1",
+  "registeredAt": "2026-11-03T10:39:06.000Z",
+  "registeredKst": "2026-11-03 19:39:06 KST",
+  "auditIds": [
+    "54051",
+    "54052"
+  ],
+  "newBlackcrownSchedules": [
+    {
+      "id": "stock-20261105-2000-blackcrown-ss20-sss3-v1",
+      "status": "SCHEDULED",
+      "executeAt": "2026-11-05T11:00:00.000Z",
+      "changes": [
+        {
+          "code": "V-950",
+          "quantity": 20
+        },
+        {
+          "code": "V-951",
+          "quantity": 20
+        },
+        {
+          "code": "V-952",
+          "quantity": 20
+        },
+        {
+          "code": "V-953",
+          "quantity": 20
+        },
+        {
+          "code": "V-954",
+          "quantity": 20
+        },
+        {
+          "code": "V-955",
+          "quantity": 20
+        },
+        {
+          "code": "V-970",
+          "quantity": 3
+        },
+        {
+          "code": "V-971",
+          "quantity": 3
+        }
+      ],
+      "reason": "사용자 요청: 11월5일20시 블랙크라운 SS6종 각20장 및 SSS리미티드2종 각3장 추가",
+      "createdAt": "2026-11-03T10:39:06.000Z",
+      "createdBy": 1
+    },
+    {
+      "id": "stock-20261105-2200-blackcrown-soldout-ss20-sss3-v1",
+      "status": "SCHEDULED",
+      "executeAt": "2026-11-05T13:00:00.000Z",
+      "changes": [
+        {
+          "code": "V-950",
+          "quantity": 20
+        },
+        {
+          "code": "V-951",
+          "quantity": 20
+        },
+        {
+          "code": "V-952",
+          "quantity": 20
+        },
+        {
+          "code": "V-953",
+          "quantity": 20
+        },
+        {
+          "code": "V-954",
+          "quantity": 20
+        },
+        {
+          "code": "V-955",
+          "quantity": 20
+        },
+        {
+          "code": "V-970",
+          "quantity": 3
+        },
+        {
+          "code": "V-971",
+          "quantity": 3
+        }
+      ],
+      "condition": "SOLD_OUT_ONLY",
+      "reason": "사용자 요청: 11월5일22시 블랙크라운 소진된 종류만 SS각20장 및 SSS구간각3장 추가",
+      "createdAt": "2026-11-03T10:39:06.000Z",
+      "createdBy": 1
+    }
+  ],
+  "existingBloodmoonSchedulesPreserved": true,
+  "allFourSchedulesPubliclyVerified": true,
+  "refillAlreadyExecuted": false,
+  "stockPolicy": "ADD_TO_CURRENT_LIMIT_PRESERVE_ISSUED",
+  "checks": {
+    "relatedTests": 26,
+    "mandatoryReleaseTests": 2,
+    "sourceBoundRehearsals": 2,
+    "readOnlyIndependent": true,
+    "selectOnlyReplay": true,
+    "cmsPc1440AndMobile390": true,
+    "publicCmsMobile390": true,
+    "publicFileHashes": 4,
+    "assetCount": 20000
+  },
+  "preserved": {
+    "existingStockLimitsAndIssuance": true,
+    "packPricesAndBaseRates": true,
+    "previousScheduleHistory": true,
+    "bloodmoonPackScheduleAndReceipt": true,
+    "completedReceiptsAndOwnedCards": true
+  },
+  "messagesSent": 0,
+  "announcementPublished": false,
+  "gameAccountWrites": 0,
+  "storageMaintenance": false,
+  "codexAutomationsCreated": 0,
+  "newServerSchedulesRegistered": 2
+}

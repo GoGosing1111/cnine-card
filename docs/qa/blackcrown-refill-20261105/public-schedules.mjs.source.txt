@@ -1,0 +1,9 @@
+import assert from 'node:assert/strict';import fs from 'node:fs/promises';
+const dates=['2026-11-05T11:00:00.000Z','2026-11-05T13:00:00.000Z'],reports=[];
+for(const [pack,codes]of [['blackcrown',[950,951,952,953,954,955,970,971]],['bloodmoon',[960,961,962,963,964,965,973,974,975,978]]]){
+ const r=await fetch('https://cnine-card.pages.dev/api/mercenaries/v3/'+pack+'-pack/feature?verify-refill='+Date.now(),{signal:AbortSignal.timeout(30000)});assert(r.ok);const state=await r.json();
+ const ids=['stock-20261105-2000-'+pack+'-ss20-sss3-v1','stock-20261105-2200-'+pack+'-soldout-ss20-sss3-v1'],schedules=state.stockSchedules.filter(s=>ids.includes(s.id));assert.equal(schedules.length,2);
+ for(const [i,id]of ids.entries()){const row=schedules.find(s=>s.id===id);assert.equal(row.executeAt,dates[i]);assert.equal(row.condition,i?'SOLD_OUT_ONLY':undefined);assert.deepEqual(row.changes.map(c=>c.code),codes.map(n=>'V-'+n));for(const c of row.changes)assert.equal(c.quantity,codes.slice(0,6).map(n=>'V-'+n).includes(c.code)?20:3);}
+ assert.equal(state.ownershipRule.duplicatesAllowed,false);reports.push({pack,revision:state.revision,schedules,ownershipRule:state.ownershipRule});
+}
+const result={checkedAt:new Date().toISOString(),reports,productionAccountWrites:0,allFourScheduled:true};await fs.writeFile(new URL('evidence/public-schedules.json',import.meta.url),JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({allFourScheduled:true,packs:reports.map(r=>({pack:r.pack,revision:r.revision,schedules:r.schedules.length}))}));

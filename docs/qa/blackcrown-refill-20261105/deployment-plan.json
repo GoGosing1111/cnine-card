@@ -1,0 +1,16 @@
+{
+  "before": {
+    "id": "1fee54c3-3967-4012-b32b-0a1ba17110c0",
+    "url": "https://1fee54c3.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "4b9469a80ae0a53efbb5672ba7f5509f7ad0a495"
+  },
+  "base": "4b9469a80ae0a53efbb5672ba7f5509f7ad0a495",
+  "reason": "블랙크라운을 기존 블러드문과 같은 11월5일20시 전체 SS20 SSS3·22시 소진종만 리필에 포함. 관련26검사·실제 DB 실패/정상예행 원복·CMS PC1440/390 검증 완료. 새 두 팩 동시 실행 및 SSS 연속 일련번호 검사2개와 Worker 컴파일을 필수 배포 게이트에서 확인. 기존 블러드문 예약과 원장은 유지.",
+  "tests": [
+    "tests/blackcrown-bloodmoon-refill-20261103.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

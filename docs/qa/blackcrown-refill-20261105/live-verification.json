@@ -1,0 +1,64 @@
+{
+  "at": "2026-11-03T10:39:00.456Z",
+  "pages": {
+    "id": "e9fdbfb3-9ca9-45c5-ad99-02f19b3477e9",
+    "url": "https://e9fdbfb3.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "029534c7aa1330066a63bd508e4ec21d5b1f023d"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "8854f51e-cb3f-4b06-ab1e-387de288b9fd",
+      "percentage": 100,
+      "conditionalStock": true,
+      "blackcrownConditionalStock": true,
+      "bloodmoonRulesPreserved": true
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "16f0efb6-1d0f-4ec8-8bde-8e384a0595f7",
+      "percentage": 100,
+      "conditionalStock": true,
+      "blackcrownConditionalStock": true,
+      "bloodmoonRulesPreserved": true
+    }
+  ],
+  "files": [
+    {
+      "file": "admin/index.html",
+      "sha256": "46a71d48c6bcfd9190bb1cd6e831457baf07968fc94d43da5540079717352843"
+    },
+    {
+      "file": "admin/mercenary-admin-v1.js",
+      "sha256": "e784c3000195a7fbebdbc3308c35c64f8cc68900d0af1576abf0d2f29a1e1990"
+    },
+    {
+      "file": "admin/mercenary-blackcrown-admin-v1.bundle.mjs",
+      "sha256": "e554fa37b9685fd69522ec6cf13914ea112d9cde0fcf6e44c2d8044643e2ef64"
+    },
+    {
+      "file": "admin/mercenary-stock-schedule-v1.mjs",
+      "sha256": "492899fb4e1112ecc730c8cad35656b14fbf43b51db971b47e02fff68d14b897"
+    }
+  ],
+  "clientFiles": [],
+  "ownershipRule": {
+    "basis": "CURRENT_DISTINCT_BLOODMOON_SS",
+    "duplicatesAllowed": false,
+    "threshold": 2,
+    "divisors": [
+      1,
+      1,
+      2,
+      4,
+      8,
+      16,
+      32
+    ],
+    "fallback": "STANDARD_SSS"
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "assetCount": 20000
+}
