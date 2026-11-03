@@ -1,0 +1,14 @@
+{
+  "operationKey": "ops:cnine-streamer-box-bini-add2:20261103:v1",
+  "authorization": "비니 2개 추가지급",
+  "itemCode": "CNINE_STREAMER_BOX",
+  "userId": "4595",
+  "nickname": "비니",
+  "amount": 2,
+  "delivery": "DIRECT_INVENTORY",
+  "parentOperation": "ops:cnine-streamer-box-named:20261103:v1",
+  "priorGranted": 5,
+  "combinedGranted": 7,
+  "sendMessages": false,
+  "autoOpen": false
+}

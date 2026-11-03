@@ -1,0 +1,87 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:cnine-streamer-box-bini-add2:20261103:v1",
+  "parentOperation": "ops:cnine-streamer-box-named:20261103:v1",
+  "parentReceiptHash": "2097fc4032801c7dce90b2e73810a67157c0a9836698f147cc3cfd6b4589a52b",
+  "userId": "4595",
+  "nickname": "비니",
+  "itemCode": "CNINE_STREAMER_BOX",
+  "amount": 2,
+  "priorGranted": 5,
+  "combinedGranted": 7,
+  "before": "5",
+  "after": "7",
+  "logId": "88412469",
+  "auditId": "54108",
+  "completedAt": "2026-11-03T14:33:53.543Z",
+  "completedAtKst": "2026-11-03 23:33:53 KST",
+  "planHash": "0cfd5eab951494d849208c74ddcf1969356fb7fef4da211780198ad19057a32d",
+  "sourceSha256": "88220afafcfff9b9dabc4aa9edfa99a539614f74fecb180265e67519fd4be1c1",
+  "testsPassed": 4,
+  "independentReadOnly": true,
+  "parentReceiptPreserved": true,
+  "noWriteReplay": true,
+  "locksReleased": true,
+  "inventorySyncVerified": true,
+  "missing": 0,
+  "duplicates": 0,
+  "messagesSent": 0,
+  "automaticOpening": false,
+  "gameDeployment": false,
+  "storageMaintenance": false,
+  "scheduledAutomations": 0,
+  "evidence": [
+    {
+      "file": "preflight.json",
+      "sha256": "0d548705e4d39127e439286bb7a8d89415a08a9ade5322e5a1eca5c5f4ec917a"
+    },
+    {
+      "file": "source.json",
+      "sha256": "7967acf61b698655c199bc87438b20c882b86e525d6ea2b6eb101de1eb5f2fd2"
+    },
+    {
+      "file": "plan.json",
+      "sha256": "046009d41d3e65d42be87859c5f806c972a15532efdeadf08387ccdbbae442f2"
+    },
+    {
+      "file": "evidence/tests.json",
+      "sha256": "548046eed85603d07d3d5e29468219ceca988e0f7e7a68b993b46a5c02900993"
+    },
+    {
+      "file": "evidence/tests.log",
+      "sha256": "7a5361025306db82fd3f022e3e96aa30d56cbdfc7b9e2b8f4712b6f4f2bf5035"
+    },
+    {
+      "file": "evidence/tests-initial-fixture-failure.json",
+      "sha256": "d42068be2e5dcdd5c1aedc3013b8e35a2939203dc3ee15eeaa497ef18bff5f6b"
+    },
+    {
+      "file": "evidence/dry-run.json",
+      "sha256": "370bfa21277fec7ab9497154bc6e008f1c9e50761383b6d5e5a911f4d9b08128"
+    },
+    {
+      "file": "evidence/apply.json",
+      "sha256": "3879110fd995ffa5d65244f8df9eac2bb1c5ef8891ede69cd4a7b36a3521a914"
+    },
+    {
+      "file": "evidence/commit-candidate.json",
+      "sha256": "f3d6c77cad69130b6d37bd79035c3c6a2fb2323bbfcb1d811e93f7fa66958227"
+    },
+    {
+      "file": "evidence/commit-confirmed.json",
+      "sha256": "d196bfa82cd22c96584a483144396d3390951a78ec5c309d315d3e1cc88aaef9"
+    },
+    {
+      "file": "evidence/verify.json",
+      "sha256": "2358f7228191f23e307c0bf636e6fcd72f89678bc7b6a9fa3a1f03ce6594deb2"
+    },
+    {
+      "file": "evidence/replay.json",
+      "sha256": "24c4c5f2bd606ab8e1c675a506631ea5d344b264a146b388b28753227132650a"
+    },
+    {
+      "file": "evidence/independent.json",
+      "sha256": "bc90117965f64e294fcabf29bd1edfe45a037a77f1254181ae45db35ba0e7b52"
+    }
+  ]
+}

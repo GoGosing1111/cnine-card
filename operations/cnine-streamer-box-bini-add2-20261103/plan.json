@@ -1,0 +1,39 @@
+{
+  "operationKey": "ops:cnine-streamer-box-bini-add2:20261103:v1",
+  "dateKst": "2026-11-03",
+  "authorization": "비니 2개 추가지급",
+  "sourceHash": "c427113dab5fc839ce629e7756da84639172ae591762bffc7f392b971d2a3e6f",
+  "parentOperation": "ops:cnine-streamer-box-named:20261103:v1",
+  "parentReceiptHash": "2097fc4032801c7dce90b2e73810a67157c0a9836698f147cc3cfd6b4589a52b",
+  "priorGranted": 5,
+  "combinedGranted": 7,
+  "itemCode": "CNINE_STREAMER_BOX",
+  "itemName": "씨나인 스트리머 박스",
+  "itemDescription": "개봉 시 코인 25조, 마스터의 별 2억 개, 핑두 리페어 쿠폰 3개, 슈트 코어 6 10개를 모두 받습니다. 상자 1개당 확정 지급됩니다.",
+  "delivery": "DIRECT_INVENTORY",
+  "sendMessages": false,
+  "autoOpen": false,
+  "recipientCount": 1,
+  "totalBoxes": 2,
+  "groupCounts": {
+    "2": 1
+  },
+  "identityCheckedAt": "2026-11-03T14:31:45.400Z",
+  "logFloor": {
+    "inventory": "88412300",
+    "audit": "54105"
+  },
+  "recipients": [
+    {
+      "order": 1,
+      "userId": "4595",
+      "nickname": "비니",
+      "inputNickname": "비니",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "f6dfe6b8db6880da1ec1b7482905904f2ec843c1f89a58a280b53fea1c92f252",
+      "amount": 2,
+      "marker": "ADDITIONAL"
+    }
+  ]
+}
