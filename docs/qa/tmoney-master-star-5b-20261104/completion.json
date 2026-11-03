@@ -1,0 +1,26 @@
+{
+  "status": "COMPLETED_AND_VERIFIED",
+  "operationKey": "ops:tmoney-master-star-5b:20261104:v1",
+  "authorization": "T-Money™ 계정에 마별 50억 지급해",
+  "userId": "5147",
+  "nickname": "T-Money™",
+  "itemCode": "MASTER_STAR",
+  "amount": "5000000000",
+  "balanceBefore": "745663765",
+  "balanceAfter": "5745663765",
+  "inventoryLogId": "88419082",
+  "auditId": "54153",
+  "completedAt": "2026-11-03T15:31:14.462Z",
+  "completedKst": "2026-11-04 00:31:14 KST",
+  "planHash": "9f0c86d600150bf1423ce4edb4c6e9032383fe9091c0a4d8f2a04ffc63372f16",
+  "executedSourceSha256": "23020cd19596f7f9de50d2e8d14bc47496b8e4a4eb2c066ad83edc8c792c57e2",
+  "checks": {
+    "failureRollback": true,
+    "successRollback": true,
+    "independentReadOnly": true,
+    "selectOnlyReplay": true,
+    "leasesReleased": true,
+    "inventorySync": true
+  },
+  "evidenceDirectory": "operations/tmoney-master-star-5b-20261104/evidence/"
+}
