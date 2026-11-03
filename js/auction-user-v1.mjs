@@ -1,5 +1,5 @@
-import {AUCTION_QUICK_BIDS,AUCTION_MAX_BID,AUCTION_ASSET_TYPES,AUCTION_TICKET_IMAGE,auctionCoinLabel,auctionProceeds} from '../shared/auction-user-policy-v1.mjs';
-import {createAuctionBgmPlayer} from './auction-user-bgm-v1.mjs';
+import {AUCTION_QUICK_BIDS,AUCTION_MAX_BID,AUCTION_ASSET_TYPES,AUCTION_TICKET_IMAGE,auctionCoinLabel,auctionProceeds} from '../shared/auction-user-policy-v1.mjs?v=20261103-live-v1';
+import {createAuctionBgmPlayer} from './auction-user-bgm-v1.mjs?v=20261103-live-v1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=v=>Number.isSafeInteger(Number(v||0))&&Number(v||0)>=0?auctionCoinLabel(Number(v||0)):'금액 확인';
 const integer=v=>Number(v||0).toLocaleString('ko-KR');
@@ -19,7 +19,7 @@ export function createAuctionOpeningNotice({api,getContext,onEnter}){
    const claimed=await api('notice',{lotId:a.id});
    const fresh=getContext();if(!claimed.show||destroyed||!fresh.inLobby||fresh.userId!==ctx.userId||latest?.active?.id!==a.id)return;
    const node=document.createElement('dialog'),previous=document.activeElement;node.className='auc-opening auc-skin';node.setAttribute('aria-labelledby','auc-opening-title');
-   node.innerHTML=`<div class="auc-opening-art">${art(a.asset)}</div><div class="auc-opening-copy"><span class="auc-eyebrow">NEW AUCTION</span><h2 id="auc-opening-title">새 경매가 열렸습니다</h2><p><b>${esc(a.sellerName)}</b> 님의 경매</p><h3>${esc(a.asset.name)}</h3><p>${integer(a.asset.quantity)}개 · 시작가 <strong>${money(a.startPrice)} 코인</strong></p><p class="auc-muted">지금부터 2시간 동안 입찰할 수 있습니다.</p><button class="auc-button auc-primary" data-enter>경매장 입장 <span>→</span></button><button class="auc-button" data-close autofocus>닫기</button></div>`;
+   node.innerHTML=`<div class="auc-opening-art">${art(a.asset)}</div><div class="auc-opening-copy"><span class="auc-eyebrow">NEW AUCTION</span><h2 id="auc-opening-title">새 경매가 열렸습니다</h2><p><b>${esc(a.sellerName)}</b> 님의 경매</p><h3>${esc(a.asset.name)}</h3><p>${integer(a.asset.quantity)}개 · 시작가 <strong>${money(a.startPrice)} 코인</strong></p><p class="auc-muted">실제 시작부터 2시간 동안 입찰할 수 있습니다.</p><button class="auc-button auc-primary" data-enter>경매장 입장 <span>→</span></button><button class="auc-button" data-close autofocus>닫기</button></div>`;
    node.querySelector('[data-enter]').onclick=()=>{close();onEnter(a.id);};node.querySelector('[data-close]').onclick=close;node.addEventListener('cancel',e=>{e.preventDefault();close();});node.addEventListener('close',()=>previous?.isConnected&&previous.focus({preventScroll:true}),{once:true});
    document.body.append(node);node.showModal();dialog=node;shown={id:a.id,userId:ctx.userId};
   }finally{pending=false;}

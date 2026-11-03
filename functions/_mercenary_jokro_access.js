@@ -1,6 +1,7 @@
 import {JOKRO_CODE,JOKRO_OWNER_ID} from '../shared/mercenary-jokro-v1.mjs';
 import {readLimitedShardCraftOwners} from './_mercenary_craft_access.js';
 import {sssCubeStockCode} from '../shared/sss-miracle-cube-stock-v1.mjs';
+import {readAuctionMercenaryOwners} from './_auction_user_access.js';
 
 // A holding alone is not an entitlement. Accept both approved stock limits
 // during rollout; real issued serials and completed receipts remain mandatory.
@@ -24,5 +25,6 @@ export async function readJokroPackOwners(env,userIds){
   for(const row of crafted.results)owners.add(Number(row.user_id));
  }
  for(const id of await readLimitedShardCraftOwners(env,JOKRO_CODE,ids.filter(id=>!owners.has(id))))owners.add(id);
+ for(const id of await readAuctionMercenaryOwners(env,JOKRO_CODE,ids.filter(id=>!owners.has(id))))owners.add(id);
  return owners;
 }

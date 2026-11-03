@@ -78,6 +78,7 @@ async function state(env,userId,admin=false){
 
 export async function handleAuction({path,request,env,deps}){
   if(!path.startsWith('auction'))return null;const {authenticate,readBody,json,isAdminRole,writeAdminLog}=deps;await ensureFoundation(env);const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+  if(request.method==='POST'&&['auction/admin/create','auction/admin/create-vehicle','auction/admin/bgm-rules','auction/admin/settings'].includes(path)&&await env.DB.prepare("SELECT 1 FROM app_meta WHERE key='auction_user_policy_v1'").first())return json({error:'경매 관리 화면을 새로고침해 새 경매 CMS를 사용하세요.',code:'AUCTION_CMS_UPDATED'},409);
   const enabledRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='auction_house_enabled_v1554'").first(),enabled=enabledRow?.value!=='0';
   if(path==='auction/state'&&request.method==='GET'&&!enabled)return json({enabled:false,auction:null,bidders:[],mine:{totalBid:0},serverNow:nowIso(),pollSeconds:15,version:0});
   if(path==='auction/bid'&&request.method==='POST'&&!enabled)return json({error:'현재 경매장이 운영 중지 상태입니다.',code:'AUCTION_DISABLED'},409);

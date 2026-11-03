@@ -1,6 +1,7 @@
 import {JINMU_CODE,JINMU_OWNER_ID,JINMU_PACK_SERVER_LIMIT} from '../shared/mercenary-jinmu-v1.mjs';
 import {readLimitedShardCraftOwners} from './_mercenary_craft_access.js';
 import {sssCubeStockCode} from '../shared/sss-miracle-cube-stock-v1.mjs';
+import {readAuctionMercenaryOwners} from './_auction_user_access.js';
 
 // The original exclusive grant stays valid. Other accounts require a real,
 // completed Halloween pack or SSS cube issuance; a stray holding or recalled grant is not
@@ -15,5 +16,6 @@ export async function readJinmuPackOwners(env,userIds){
  WHERE (i.code=? OR (i.code=? AND o.kind='SSS_MIRACLE_CUBE_OPEN')) AND i.serial<=s.stock_limit AND i.user_id IN (${ids.map(()=>'?').join(',')})`).bind(JINMU_CODE,sssCubeStockCode(JINMU_CODE),...ids).all();
  const owners=new Set(rows.results.map(r=>Number(r.user_id)));
  for(const id of await readLimitedShardCraftOwners(env,JINMU_CODE,ids.filter(id=>!owners.has(id))))owners.add(id);
+ for(const id of await readAuctionMercenaryOwners(env,JINMU_CODE,ids.filter(id=>!owners.has(id))))owners.add(id);
  return owners;
 }

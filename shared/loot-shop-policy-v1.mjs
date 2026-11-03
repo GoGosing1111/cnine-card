@@ -5,9 +5,10 @@ export const LOOT_MYSTIC_NAME_PREFIX='미스틱 ';
 export const LOOT_MYSTIC_NAMES=Object.freeze(['미스틱 슈트','미스틱 레깅스','미스틱 슈즈','미스틱 듀얼디스크']);
 export const LOOT_MYSTIC_CHANCE_PERCENT=25;
 export const LOOT_PURCHASE_MAX_QUANTITY=100;
+export const unlimitedAuctionTicket=p=>p?.id==='auction_host_ticket'&&p.type==='ITEM_BUNDLE'&&p.accountLimit===null&&p.items?.length===1&&p.items[0].code==='AUCTION_HOST_TICKET'&&p.items[0].quantity===1;
 export function lootPurchaseMaximum(product,balance){
  if(!product?.canBuy||!Number.isSafeInteger(product.price)||product.price<1)return 0;
- return Math.max(0,Math.min(LOOT_PURCHASE_MAX_QUANTITY,Number(product.remaining)||0,Math.floor(Number(balance)/product.price)||0));
+ return Math.max(0,Math.min(LOOT_PURCHASE_MAX_QUANTITY,unlimitedAuctionTicket(product)?LOOT_PURCHASE_MAX_QUANTITY:Number(product.remaining)||0,Math.floor(Number(balance)/product.price)||0));
 }
 export function lootEquipmentMatchesProduct(item,type){
  if(type==='F_BODY')return item?.code==='BATTLE_SUIT_02';
@@ -125,7 +126,7 @@ export function validateLootShopPolicy(raw,{petRentals=false}={}){
    if(r.equipmentId!==null||r.cardIds.length||r.mercenaryCodes.length||r.items?.length)throw error('기간제 펫 상품에는 다른 보상을 함께 등록할 수 없습니다.');
   }
   if(r.enabled){
-   if(r.price===null||r.accountLimit===null&&r.type!=='PET_RENTAL')throw error(`${r.name}의 가격과 구매 횟수를 입력하세요.`);
+   if(r.price===null||r.accountLimit===null&&r.type!=='PET_RENTAL'&&!unlimitedAuctionTicket(r))throw error(`${r.name}의 가격과 구매 횟수를 입력하세요.`);
    if(r.type.endsWith('_CHOICE')&&!r.cardIds.length)throw error(`${r.name}의 선택 카드를 등록하세요.`);
    if(r.type==='F_BODY'&&!r.equipmentId)throw error(`${r.name}의 지급 장비를 선택하세요.`);
    if(r.type==='MERCENARY_PACK'&&(!r.mercenaryCodes.length||r.mercenaryWeights.A===null||r.mercenaryWeights.S===null||r.mercenaryWeights.A+r.mercenaryWeights.S<=0))throw error('용병 목록과 A/S 등급 가중치를 설정하세요.');

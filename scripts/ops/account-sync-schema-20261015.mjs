@@ -3,7 +3,7 @@ export const ACCOUNT_SYNC_TABLES=Object.freeze({
  users:['id','wallet'],user_cards:['user_id','collection'],cnine_user_inventory:['user_id','inventory'],user_inventory:['user_id','inventory'],
  user_mercenary_cards_v1:['user_id','collection'],user_mercenary_growth_v1:['user_id','loadout'],user_mercenary_loadout_v1:['user_id','loadout'],
  pve_decks:['user_id','loadout'],pvp_decks:['user_id','loadout'],pvp_active_presets:['user_id','loadout'],pvp_deck_presets:['user_id','loadout'],magic_card_loadouts:['user_id','loadout'],user_magic_cards:['user_id','collection'],
- user_equipment_instances:['user_id','inventory'],user_equipment_loadout:['user_id','loadout'],user_skill_chip_loadout_v2046:['user_id','loadout'],
+ user_garage_vehicles:['user_id','inventory'],user_equipment_instances:['user_id','inventory'],user_equipment_loadout:['user_id','loadout'],user_skill_chip_loadout_v2046:['user_id','loadout'],
  avatar_user_loadout_v1:['user_id','loadout'],avatar_user_ownership_v1:['user_id','collection'],equipment_forge_states_v1:['user_id','inventory'],user_title_loadout:['user_id','loadout'],user_garage_loadout:['user_id','loadout'],
  account_rank_progress_v1:['user_id','wallet'],pvp_profiles:['user_id','pvp'],user_pvp_energy:['user_id','pvp'],user_battle_energy:['user_id','wallet'],user_apocalypse_energy:['user_id','wallet'],
  user_messages:['user_id','messages'],user_runtime_commands:['user_id','messages'],app_meta:['key','meta']

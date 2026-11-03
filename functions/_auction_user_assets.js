@@ -1,10 +1,25 @@
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {jointInventoryChange} from './_joint_transactions.js';
 import {AUCTION_TICKET,AUCTION_ASSET_TYPES} from '../shared/auction-user-policy-v1.mjs';
+import {RANKED_SERIES_RULES} from '../shared/ranked-series-v1.mjs';
+import {COMPANION_RELEASE} from '../shared/companion-loadout-v2.mjs';
+import {mercenaryModeAllowed} from '../shared/mercenary-eunseol-v1.mjs';
 
 const fail=message=>{throw Object.assign(Error(message),{status:409})};
 const parse=raw=>raw==null?null:JSON.parse(raw);
 const contains=(value,ref)=>Array.isArray(value)?value.some(v=>contains(v,ref)):value&&typeof value==='object'?Object.values(value).some(v=>contains(v,ref)):String(value)===String(ref);
+export function auctionMetaSelectionContains(kind,key,value,ref){
+ const selected=kind==='PET'?value?.petCode:kind==='EQUIPMENT'?value?.slots:key.startsWith('ranked_series_roster_')?value?.codes:key.startsWith('mercenary_dual_')?[value?.PVE?.mercenaryCodes,value?.PVP?.mercenaryCodes]:value?.mercenaryCode;
+ return selected!=null&&contains(selected,ref);
+}
+export function auctionMercenarySelected(legacy,pvp,dual,ranked,ref){
+ const old=legacy?.mercenary_code||null;
+ return ['PVE','PVP'].some(mode=>{
+  const codes=COMPANION_RELEASE.dualMercenaries&&dual?.[mode]?dual[mode].mercenaryCodes:[mode==='PVE'?old:pvp?pvp.mercenaryCode:old];
+  if(!Array.isArray(codes))fail('용병 편성 정보를 확인하세요.');
+  return codes.some(code=>code===ref&&mercenaryModeAllowed(code,mode));
+ })||contains(ranked?.codes||[],ref);
+}
 const p=(DB,sql,...args)=>DB.prepare(sql).bind(...args);
 export const auctionRowLock=(DB,sql,...args)=>DB.dialect==='postgres'?[p(DB,sql+' FOR UPDATE',...args)]:[];
 function metaGuard(DB,key,raw){const token=crypto.randomUUID();return [jointGuard(DB,token,raw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',raw===null?[key]:[key,raw]),jointGuardEnd(DB,token)];}
@@ -23,15 +38,19 @@ async function protectedLoadouts(DB,userId,kind,ref){
   if(kind==='CARD')for(const table of ['pve_decks','pvp_decks','pvp_deck_presets']){
     const rows=(await p(DB,`SELECT card_ids FROM ${table} WHERE user_id=?`,userId).all()).results;
     if(rows.some(r=>contains(parse(r.card_ids),ref)))fail('편성 중인 마지막 카드는 편성을 해제한 뒤 등록하세요.');
-    const token=crypto.randomUUID();checks.push(jointGuard(DB,token,`NOT EXISTS(SELECT 1 FROM ${table} WHERE user_id=? AND card_ids LIKE ?)`,[userId,`%${ref}%`]),jointGuardEnd(DB,token));
+    const token=crypto.randomUUID(),counts=new Map();for(const row of rows)counts.set(row.card_ids,(counts.get(row.card_ids)||0)+1);
+    const predicates=[`(SELECT COUNT(*) FROM ${table} WHERE user_id=?)=?`],args=[userId,rows.length];for(const [raw,count] of counts){predicates.push(`(SELECT COUNT(*) FROM ${table} WHERE user_id=? AND card_ids=?)=?`);args.push(userId,raw,count);}
+    checks.push(jointGuard(DB,token,predicates.join(' AND '),args),jointGuardEnd(DB,token));
   }
   if(kind==='MERCENARY'){
     const old=await p(DB,'SELECT mercenary_code FROM user_mercenary_loadout_v1 WHERE user_id=?',userId).first();
-    if(old?.mercenary_code===ref)fail('편성 중인 마지막 용병은 편성을 해제한 뒤 등록하세요.');
-    const token=crypto.randomUUID();checks.push(jointGuard(DB,token,'NOT EXISTS(SELECT 1 FROM user_mercenary_loadout_v1 WHERE user_id=? AND mercenary_code=?)',[userId,ref]),jointGuardEnd(DB,token));
+    const keys=[`mercenary_pvp_loadout_v1:${userId}`,`mercenary_dual_loadout_v2:${userId}`,`ranked_series_roster_v${RANKED_SERIES_RULES.mercenariesPerRound}:${userId}`],raws=await Promise.all(keys.map(key=>meta(DB,key)));
+    if(auctionMercenarySelected(old,...raws.map(parse),ref))fail('편성 중인 마지막 용병은 편성을 해제한 뒤 등록하세요.');
+    const token=crypto.randomUUID();checks.push(jointGuard(DB,token,"COALESCE((SELECT mercenary_code FROM user_mercenary_loadout_v1 WHERE user_id=?),'')=?",[userId,old?.mercenary_code||'']),jointGuardEnd(DB,token));
+    keys.forEach((key,i)=>checks.push(...metaGuard(DB,key,raws[i])));return checks;
   }
-  const keys=kind==='MERCENARY'?[`mercenary_pvp_loadout_v1:${userId}`,`mercenary_dual_loadout_v2:${userId}`]:kind==='PET'?[`pet_loadout_v1:${userId}`]:kind==='EQUIPMENT'?[`mercenary_equipment_v1:${userId}:PVE`,`mercenary_equipment_v1:${userId}:PVP`]:[];
-  for(const key of keys){const raw=await meta(DB,key);if(contains(parse(raw),ref))fail('편성 중인 물품은 편성을 해제한 뒤 등록하세요.');checks.push(...metaGuard(DB,key,raw));}
+  const keys=kind==='MERCENARY'?[`mercenary_pvp_loadout_v1:${userId}`,`mercenary_dual_loadout_v2:${userId}`,`ranked_series_roster_v${RANKED_SERIES_RULES.mercenariesPerRound}:${userId}`]:kind==='PET'?[`pet_loadout_v1:${userId}`]:kind==='EQUIPMENT'?[`mercenary_equipment_v1:${userId}:PVE`,`mercenary_equipment_v1:${userId}:PVP`]:[];
+  for(const key of keys){const raw=await meta(DB,key);if(auctionMetaSelectionContains(kind,key,parse(raw),ref))fail('편성 중인 물품은 편성을 해제한 뒤 등록하세요.');checks.push(...metaGuard(DB,key,raw));}
   return checks;
 }
 
@@ -42,14 +61,14 @@ export async function auctionAssetDebit(env,userId,definition,quantity,reference
   if(!AUCTION_ASSET_TYPES[kind]||!ref||definition.tradeable!==true)fail('거래 가능한 보유 물품을 선택하세요.');
   if(!Number.isSafeInteger(quantity)||quantity<1||quantity>1e10)fail('판매 수량을 확인하세요.');
   if(ref===AUCTION_TICKET||definition.bound===true||definition.rental===true)fail('이 물품은 경매에 등록할 수 없습니다.');
-  const asset={kind,ref,name:definition.name,image:definition.image||'',quantity,provenance:definition.provenance||null};let statements=[];
+  const asset={kind,ref,policyRef:definition.policyRef??ref,name:definition.name,image:definition.image||'',quantity,provenance:definition.provenance||null};let statements=[];
   if(kind==='ITEM'||kind==='MASTER_STAR'){
     asset.ref=kind==='MASTER_STAR'?'MASTER_STAR':ref;
     statements=[...auctionRowLock(DB,'SELECT user_id FROM cnine_user_inventory WHERE user_id=? AND item_code=?',userId,asset.ref),...jointInventoryChange(DB,userId,asset.ref,-quantity,'AUCTION_ESCROW',reference)];
   }else if(kind==='CARD'){
     const row=await p(DB,'SELECT quantity FROM user_cards WHERE user_id=? AND card_id=?',userId,ref).first();
     if(Number(row?.quantity||0)<quantity)fail('보유 카드가 부족합니다.');
-    if(Number(row.quantity)===quantity)statements.push(...await protectedLoadouts(DB,userId,kind,ref));
+    if(Number(row.quantity)===quantity)statements.push(...await protectedLoadouts(DB,userId,kind,ref),p(DB,'INSERT OR IGNORE INTO auction_user_card_growth_v1(user_id,card_id) VALUES(?,?)',userId,ref));
     statements.push(...auctionRowLock(DB,'SELECT user_id FROM user_cards WHERE user_id=? AND card_id=?',userId,ref),...guarded(DB,'EXISTS(SELECT 1 FROM user_cards WHERE user_id=? AND card_id=? AND quantity=?)',[userId,ref,row.quantity],[p(DB,'UPDATE user_cards SET quantity=quantity-? WHERE user_id=? AND card_id=?',quantity,userId,ref)]));
   }else if(kind==='MERCENARY'){
     const row=await p(DB,'SELECT total_copies,duplicate_count FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=?',userId,ref).first();
@@ -83,9 +102,11 @@ export async function auctionAssetCredit(env,userId,asset,reference){
   if(kind==='MERCENARY')return [p(DB,`INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last_obtained_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,mercenary_code) DO UPDATE SET total_copies=user_mercenary_cards_v1.total_copies+excluded.total_copies,duplicate_count=user_mercenary_cards_v1.duplicate_count+excluded.total_copies,last_obtained_at=excluded.last_obtained_at`,userId,ref,q,q-1)];
   if(kind==='PET')return petChange(DB,userId,ref,q);
   if(kind==='EQUIPMENT'){
+    if(asset.sourceKind==='SYSTEM')return [p(DB,"INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) VALUES(?,?,'AUCTION',?,?)",userId,ref,reference,'AUCTION_USER:'+reference)];
     const x=asset.instance;return [p(DB,'INSERT INTO user_equipment_instances(id,user_id,equipment_id,source_type,source_id,request_id,acquired_at) VALUES(?,?,?,?,?,?,?)',x.id,userId,x.equipment_id,x.source_type,x.source_id,x.request_id,x.acquired_at)];
   }
   if(kind==='VEHICLE'){
+    if(asset.sourceKind==='SYSTEM')return guarded(DB,'NOT EXISTS(SELECT 1 FROM user_garage_vehicles WHERE user_id=? AND garage_id=?)',[userId,ref],[p(DB,"INSERT INTO user_garage_vehicles(user_id,garage_id,source_type,source_id) VALUES(?,?,'AUCTION',?)",userId,ref,reference)]);
     const x=asset.instance;return guarded(DB,'NOT EXISTS(SELECT 1 FROM user_garage_vehicles WHERE user_id=? AND garage_id=?)',[userId,ref],[p(DB,'INSERT INTO user_garage_vehicles(user_id,garage_id,source_type,source_id,acquired_at) VALUES(?,?,?,?,?)',userId,x.garage_id,x.source_type,x.source_id,x.acquired_at)]);
   }
   fail('지원하지 않는 경매 물품입니다.');

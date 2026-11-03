@@ -1,4 +1,4 @@
-import {createLootProductDraft} from './loot-shop-policy-v1.mjs';
+import {createLootProductDraft} from './loot-shop-policy-v1.mjs?v=20261103-live-v1';
 
 export const AUCTION_USER_POLICY_KEY='auction_user_policy_v1';
 export const AUCTION_TICKET='AUCTION_HOST_TICKET';

@@ -72,5 +72,5 @@ test('vehicle reacquisition preserves return custody without blocking FIFO and c
  await f.service.claimReturn(f.user(1),a.lot.id);assert.equal((await f.service.claimReturn(f.user(1),a.lot.id)).replayed,true);assert.equal(f.row('SELECT source_id FROM user_garage_vehicles WHERE user_id=1').source_id,'original');
 });
 test('disabled policy prevents new hosts but drains existing auctions and refunds normally',async t=>{
- const f=await userAuctionFixture(t);await f.host(1);f.sql.exec("UPDATE app_meta SET value='{\"version\":1,\"enabled\":false}' WHERE key='auction_user_policy_v1'");await assert.rejects(f.host(2),/준비 중/);f.advance(AUCTION_DURATION_MS);await f.service.tick();assert.equal(f.row("SELECT COUNT(*) n FROM auction_user_lots_v1 WHERE status='UNSOLD'").n,1);
+ const f=await userAuctionFixture(t);await f.host(1);f.sql.exec("UPDATE app_meta SET value='{\"version\":1,\"enabled\":false}' WHERE key='auction_user_policy_v1'");await assert.rejects(f.host(2),/일시 중지/);f.advance(AUCTION_DURATION_MS);await f.service.tick();assert.equal(f.row("SELECT COUNT(*) n FROM auction_user_lots_v1 WHERE status='UNSOLD'").n,1);
 });

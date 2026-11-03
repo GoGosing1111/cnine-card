@@ -1,4 +1,4 @@
-import {auctionCoinLabel} from '../shared/auction-user-policy-v1.mjs';
+import {auctionCoinLabel} from '../shared/auction-user-policy-v1.mjs?v=20261103-live-v1';
 const SILENT='data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQQAAACAgICA';
 export function auctionAudioSource(raw,sequence,base=location.href){
  const text=String(raw||''),volume=Math.max(0,Math.min(1,Number(text.match(/#av=(\d{1,3})$/)?.[1]??25)/100));
@@ -14,7 +14,7 @@ export function createAuctionBgmPlayer({root,api,AudioClass=Audio,now=Date.now,p
  const events=new Map(),finished=new Set();let lotId=null,lastSequence=0,offset=0,current=null,media=null,destroyed=false,polling=false,generation=0,unlocked=false,blocked=false;
  const banner=document.createElement('section');banner.className='auc-bgm-event auc-skin';banner.hidden=true;banner.setAttribute('role','status');banner.setAttribute('aria-live','polite');
  banner.innerHTML='<img src="/assets/ui/tactical-20261030/auction.webp" alt=""><div><small>BGM 입찰</small><strong data-bgm-bidder></strong><span data-bgm-amount></span><q data-bgm-message hidden></q><small data-bgm-status></small><button type="button" class="auc-text-button" data-bgm-play hidden>음악 듣기</button></div>';
- root.append(banner);
+ document.body.append(banner);
  const clockNow=()=>now()+offset;
  function audio(){if(!media){media=new AudioClass();media.preload='auto';media.playsInline=true;media.setAttribute('playsinline','');media.setAttribute('webkit-playsinline','');media.addEventListener('ended',()=>{if(current)finish();});}return media;}
  function stopAudio(){generation++;if(media){media.pause();media.removeAttribute('src');media.load();}blocked=false;}

@@ -1,7 +1,7 @@
 import {jointAccountRequest as request} from './joint-account-transport.mjs';
-import {LOOT_SOURCE_LABELS,LOOT_CATEGORIES,pigCoinSourceSummary,lootIsDirect,lootPurchaseMaximum} from '../shared/loot-shop-policy-v1.mjs?v=20261023-bulk-v1';
-import {esc,fmt,lootShopAsset as asset,productArt,productDescription,mercenaryOdds,lootProductOptionsMarkup,lootRewardMarkup,productMarkup,inspectionMarkup,filterLootProducts} from './loot-shop-presentation-v2.mjs?v=20261023-bulk-v1';
-export {lootShopAsset,lootProductOptionsMarkup,lootRewardMarkup,productMarkup,inspectionMarkup} from './loot-shop-presentation-v2.mjs?v=20261023-bulk-v1';
+import {LOOT_SOURCE_LABELS,LOOT_CATEGORIES,pigCoinSourceSummary,lootIsDirect,lootPurchaseMaximum} from '../shared/loot-shop-policy-v1.mjs?v=20261103-live-v1';
+import {esc,fmt,lootShopAsset as asset,productArt,productDescription,mercenaryOdds,lootProductOptionsMarkup,lootRewardMarkup,productMarkup,inspectionMarkup,filterLootProducts} from './loot-shop-presentation-v2.mjs?v=20261103-live-v1';
+export {lootShopAsset,lootProductOptionsMarkup,lootRewardMarkup,productMarkup,inspectionMarkup} from './loot-shop-presentation-v2.mjs?v=20261103-live-v1';
 export async function mountLootShop({api=request,root=document}={}){
  const byId=id=>root.getElementById(id),dialog=byId('lootDialog'),status=byId('lootStatus');let state=null,busy=false,selected=null,pending=null,category='ALL',purchaseQuantity=1;
  const filtered=()=>filterLootProducts(state?.products||[],{category,search:byId('lootSearch')?.value||'',sort:byId('lootSort')?.value||'recommended',available:byId('lootAvailable')?.checked||false});

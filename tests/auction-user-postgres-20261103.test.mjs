@@ -1,6 +1,8 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {PGlite} from '@electric-sql/pglite';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 import {createUserAuctionService} from '../functions/_auction_user_service.js';
+import {AUCTION_GROWTH_TRIGGER_SQL} from '../scripts/ops/auction-user-schema-20261103.mjs';
+import {auctionAssetDebit} from '../functions/_auction_user_assets.js';
 import {userAuctionFixture} from './helpers/auction-user-fixture-20261103.mjs';
 test('actual PostgreSQL adapter: 100조 payment, rollback, queue promotion and exactly-once settlement',async t=>{
  const f=await userAuctionFixture(t),pg=new PGlite();t.after(()=>pg.close());
@@ -32,4 +34,15 @@ test('actual PostgreSQL adapter: 100조 payment, rollback, queue promotion and e
  assert.equal((await s.state(f.user(2))).active.id,b.lot.id);
  assert.equal((await s.claimNotice(f.user(2),b.lot.id)).show,true);assert.equal((await s.claimNotice(f.user(2),b.lot.id)).show,false);
  assert.equal(Number((await pg.query('SELECT COUNT(*) n FROM joint_atomic_guards_v1')).rows[0].n),0);
+ await pg.exec(AUCTION_GROWTH_TRIGGER_SQL);
+ await pg.exec("UPDATE user_cards SET quantity=1,breakthrough_level=13,breakthrough_fail_count=7 WHERE user_id=1 AND card_id='C001'");
+ const debit=await auctionAssetDebit(f.env,1,f.assets.find(a=>a.kind==='CARD'),1,'growth-test');await f.env.DB.batch(debit.statements);
+ assert.equal(Number((await pg.query("SELECT quantity FROM user_cards WHERE user_id=1 AND card_id='C001'")).rows[0].quantity),0);
+ // The ordinary pack/shop upsert resets a zero-quantity card. The auction-only
+ // trigger preserves this seller's growth while leaving other reset cases intact.
+ const reacquire=`INSERT INTO user_cards(user_id,card_id,quantity,breakthrough_level,breakthrough_fail_count) VALUES($1,'C001',1,0,0) ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+1,breakthrough_level=CASE WHEN user_cards.quantity<=0 THEN 0 ELSE user_cards.breakthrough_level END,breakthrough_fail_count=CASE WHEN user_cards.quantity<=0 THEN 0 ELSE user_cards.breakthrough_fail_count END`;
+ await pg.query(reacquire,[1]);let growth=(await pg.query("SELECT quantity,breakthrough_level,breakthrough_fail_count FROM user_cards WHERE user_id=1 AND card_id='C001'")).rows[0];assert.deepEqual(Object.values(growth).map(Number),[1,13,7]);
+ assert.equal(Number((await pg.query('SELECT COUNT(*) n FROM auction_user_card_growth_v1')).rows[0].n),0);
+ await pg.exec("UPDATE user_cards SET quantity=0,breakthrough_level=4,breakthrough_fail_count=2 WHERE user_id=2 AND card_id='C001'");await pg.query(reacquire,[2]);assert.equal(Number((await pg.query("SELECT breakthrough_level FROM user_cards WHERE user_id=2 AND card_id='C001'")).rows[0].breakthrough_level),0);
+
 });

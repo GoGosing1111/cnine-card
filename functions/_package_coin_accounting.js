@@ -5,6 +5,9 @@ export const packageCoinKey=userId=>'support_package_coin_v1:'+Number(userId);
 const GRANT='시즌패스 패키지 구매 ',BET='코인 승부예측 참여';
 const safe=n=>Number.isSafeInteger(n)&&n>=0;
 const MAX_COIN=9223372036854775807n;
+const auctionIdPattern='(?:\\d+|U[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})';
+const auctionReserveReason=new RegExp('^경매 (?:#(\\d+)|(U[0-9a-f-]{36})) 누적 입찰$');
+const auctionRefundReason=new RegExp('^경매 (?:#(\\d+)|(U[0-9a-f-]{36})) (?:유찰·차순위 환급|운영자 무효 전액 환불)$');
 function coinInteger(value,message,minimum=0n){
  const text=String(value??'');
  if(typeof value==='number'&&!Number.isSafeInteger(value)||!(/^-?\d+$/).test(text))throw Error(message);
@@ -16,7 +19,7 @@ const exactValue=n=>n<=BigInt(Number.MAX_SAFE_INTEGER)?Number(n):n.toString();
 const validCoins=n=>{try{coinInteger(n,'Invalid package coins');return true;}catch{return false;}};
 const empty=()=>({version:1,revision:0,cursor:0,restricted:0,auctionReserved:{},precredited:null});
 function validate(state){
- if(state.version!==1||!safe(state.revision)||!safe(state.cursor)||!validCoins(state.restricted)||!state.auctionReserved||typeof state.auctionReserved!=='object'||Array.isArray(state.auctionReserved)||Object.entries(state.auctionReserved).some(([id,n])=>!/^\d+$/.test(id)||!validCoins(n)))throw Error('Invalid package coin accounting');
+ if(state.version!==1||!safe(state.revision)||!safe(state.cursor)||!validCoins(state.restricted)||!state.auctionReserved||typeof state.auctionReserved!=='object'||Array.isArray(state.auctionReserved)||Object.entries(state.auctionReserved).some(([id,n])=>!new RegExp('^'+auctionIdPattern+'$').test(id)||!validCoins(n)))throw Error('Invalid package coin accounting');
  return state;
 }
 // Coin logs are the existing authoritative debit ledger. Ordinary spending uses
@@ -33,11 +36,13 @@ export function reconcilePackageCoinLogs(before,logs){
    else state.restricted=exactValue(coinInteger(state.restricted,'Invalid package balance')+amount);
   }else if(amount<0n&&reason!==BET){
    const consumed=limitedCoins(-amount,state.restricted);state.restricted=exactValue(BigInt(state.restricted)-consumed);
-   const auction=reason.match(/^경매 #(\d+) 누적 입찰$/);
-   if(auction&&consumed)state.auctionReserved[auction[1]]=exactValue(BigInt(state.auctionReserved[auction[1]]||0)+consumed);
+   const auction=reason.match(auctionReserveReason),key=auction?.[1]||auction?.[2];
+   if(key&&consumed)state.auctionReserved[key]=exactValue(BigInt(state.auctionReserved[key]||0)+consumed);
   }else if(amount>0n){
-   const refund=reason.match(/^경매 #(\d+) (?:유찰·차순위 환급|운영자 무효 전액 환불)$/);
-   if(refund){const restored=limitedCoins(amount,state.auctionReserved[refund[1]]||0);state.restricted=exactValue(BigInt(state.restricted)+restored);const left=BigInt(state.auctionReserved[refund[1]]||0)-restored;if(left)state.auctionReserved[refund[1]]=exactValue(left);else delete state.auctionReserved[refund[1]];}
+   const refund=reason.match(auctionRefundReason),key=refund?.[1]||refund?.[2];
+   if(key){const restored=limitedCoins(amount,state.auctionReserved[key]||0);state.restricted=exactValue(BigInt(state.restricted)+restored);const left=BigInt(state.auctionReserved[key]||0)-restored;if(left)state.auctionReserved[key]=exactValue(left);else delete state.auctionReserved[key];}
+   const sale=reason.match(/^유저 경매 U[0-9a-f-]{36} 판매 정산 \(수수료 20%; 패키지 코인 (\d+)\)$/);
+   if(sale){const restricted=coinInteger(sale[1],'Invalid auction source');if(restricted>amount)throw Error('Invalid auction source');state.restricted=exactValue(BigInt(state.restricted)+restricted);}
   }
   validate(state);
  }
