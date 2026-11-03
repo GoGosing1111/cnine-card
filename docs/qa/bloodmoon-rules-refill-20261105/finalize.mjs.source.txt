@@ -1,0 +1,48 @@
+import fs from 'node:fs/promises';import path from 'node:path';import assert from 'node:assert/strict';
+const root='C:/Users/User/Downloads/upload/cnine-card',checkout=root+'/output/revan-live-20261027/release-checkout',folder='bloodmoon-rules-refill-20261105',out=new URL('evidence/',import.meta.url),read=async f=>JSON.parse(await fs.readFile(new URL(f+'.json',out),'utf8'));
+const [live,apply,verify,independent,ui,tests,rehearse]=await Promise.all(['live-verification','apply','verify','independent','public-ui','tests','rehearse'].map(read));
+assert.equal(live.pages.commit,apply.liveSource);assert.equal(apply.status,'SCHEDULED');assert.equal(verify.status,'VERIFIED_SCHEDULED');assert.equal(independent.status,'VERIFIED_SCHEDULED');assert(verify.selectOnlyReplay&&independent.existingScheduleHistoryPreserved);assert.equal(independent.appliedCount,0);assert.equal(tests.passed,30);assert.equal(tests.failed,0);assert.equal(ui.productionWrites,0);assert.equal(live.assetCount,20000);assert(rehearse.rounds.every(r=>r.rollbackVerified));
+const registeredKst=new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Seoul',dateStyle:'short',timeStyle:'medium'}).format(new Date(independent.registeredAt))+' KST';
+const notice=`[블러드문팩 규칙 변경 및 11월 5일 리필 안내]
+
+블러드문팩에도 블랙크라운팩과 동일한 SS 리미티드 중복 획득 제한과 보유 종류별 확률 감소가 적용되었습니다.
+
+■ SS 리미티드 중복 획득 제한
+현재 보유한 블러드문 SS 리미티드는 추가로 획득할 수 없습니다.
+1회·10회·일괄·자동 개봉 모두 적용되며, 한 번의 개봉 묶음에서 새로 획득한 SS도 다음 추첨부터 제외됩니다.
+기존에 보유한 카드와 성장 상태는 그대로 유지됩니다.
+
+■ 보유 종류에 따른 미보유 SS 획득 확률
+0~1종 보유: 기본 확률
+2종 보유: 기본의 1/2
+3종 보유: 기본의 1/4
+4종 보유: 기본의 1/8
+5종 보유: 기본의 1/16
+6종 모두 보유: SS 리미티드 추가 획득 불가
+
+현재 보유한 서로 다른 블러드문 SS 종류 수를 기준으로 합니다.
+보유·확률 감소·재고 소진으로 제외된 확률은 일반 SSS로 이동합니다.
+SSS 리미티드·프라임 제작 재료·라자크의 기본 확률은 이번 보유 페널티의 영향을 받지 않습니다.
+
+■ 리필 일정 — 2026년 11월 5일, 한국시간
+20:00: 블러드문 SS 리미티드 6종 각 20장, SSS 구간 4종 각 3장 추가
+22:00: 해당 시각에 재고가 모두 소진된 종류만 SS 각 20장, SSS 구간 각 3장 추가
+
+SS 리미티드 대상: 나무늘봉순·조은·디임·카르베나·네베라·블러드문 남수댕
+SSS 구간 대상: 레오넬·은설·제너럴 족·기운잃은 프라임 카드
+※ 프라임 구간은 기존과 동일하게 제작 재료인 ‘기운잃은 프라임 카드’를 지급합니다.
+※ 리필 수량은 서버 전체 이용자가 공유합니다. 22시에 재고가 남아 있는 종류는 추가 리필하지 않습니다.
+※ 팩 가격과 기존 발행 기록은 유지됩니다. 실제 개인 확률과 잔여 수량은 팩 화면에서 확인해 주세요.
+`;
+const completion={status:'LIVE_RULES_AND_REFILL_SCHEDULES_REGISTERED',sourceCommit:live.pages.commit,pagesId:live.pages.id,workers:live.workers,operationKey:apply.operationKey,registeredAt:independent.registeredAt,registeredKst,auditIds:independent.auditIds,schedules:independent.schedules,refillAlreadyExecuted:false,stockPolicy:'ADD_TO_CURRENT_LIMIT_PRESERVE_ISSUED',rules:{appliesTo:'BLOODMOON_SS_V960_TO_V965',duplicatesAllowed:false,distinctOwnershipDivisors:[1,1,2,4,8,16,32],allSixOwnedZero:true,sssAndPrimeMaterialUnchanged:true},checks:{relatedTests:30,deliveryAndLoaderTests:18,productionRollbackRehearsals:2,readOnlyIndependent:true,selectOnlyReplay:true,pc1440AndMobile390:true,publicMobile390:true,publicFileHashes:live.files.length,windowsEssentialHashes:live.clientFiles.length,assetCount:live.assetCount},preserved:{existingStockLimitsAndIssuance:true,packPricesAndBaseRates:true,previousScheduleHistory:true,blackcrownPolicy:true,completedReceiptsAndOwnedCards:true},messagesSent:0,announcementPublished:false,gameAccountWrites:0,storageMaintenance:false,codexAutomationsCreated:0,serverSchedulesRegistered:2};
+const docdir=path.join(checkout,'docs/qa',folder);await fs.mkdir(docdir,{recursive:true});
+await fs.writeFile(new URL('announcement.txt',import.meta.url),notice,{flag:'wx'});await fs.writeFile(path.join(docdir,'announcement.txt'),notice,{flag:'wx'});
+await fs.writeFile(new URL('completion.json',import.meta.url),JSON.stringify(completion,null,2)+'\n',{flag:'wx'});await fs.writeFile(path.join(docdir,'completion.json'),JSON.stringify(completion,null,2)+'\n',{flag:'wx'});
+let readme=await fs.readFile(path.join(docdir,'README.md'),'utf8');readme=readme.replace('현 기록은 배포·예약 등록 전 준비 상태이며 최종 운영 증거는 완료 후 갱신한다.','**운영 규칙 반영 및 두 리필 예약 등록 완료. 실제 리필은 아직 실행 전이다.**');
+readme+=`\n운영 소스 ${live.pages.commit}, Pages ${live.pages.id}, 두 Worker100%. 예약 등록 ${registeredKst}, 감사${independent.auditIds.join('·')}. 서버 알람 ${independent.alarm.nextAt} 정각 확인. 기존 팩r11/발행·재고 그대로,22시 조건 SOLD_OUT_ONLY 확인. 관련30검사 및 배송18검사, 공개${live.files.length}파일/Windows필수${live.clientFiles.length}해시 확인. 공개 모바일은 배포된 파일과 격리 계정 fixture로 확인했고 실제 계정 개봉0. 실기기/설치앱 검수 아님.\n\n서버 기능 검사는30개 모두 통과했다. 테스트 파일의 끝 빈줄1개만 이후 제거했고 원본 해시/정리 후 해시를 기록했다. 브라우저 검수기의 Windows 경로 정규화 오류로 최초 로드가 실패한 기록은 보존했다. 실제 런타임 오류가 아니며 경로를 수정한 뒤 PC·모바일 개봉과 공개 모바일을 확인했다. 신규 런타임1개를 싣기 위해 과거 관리자 한도 감사문서1개를 공개 포장에서만 제외했고 Git/원본을 유지했다.\n\n유저 공지 문안 announcement.txt 작성 완료·게시/발송0.\n`;
+await fs.writeFile(path.join(docdir,'README.md'),readme);await fs.writeFile(new URL('README.md',import.meta.url),readme,{flag:'wx'});
+for(const file of ['live-verification','verify','independent','public-ui','tests','rehearse','deployment-plan'])await fs.copyFile(new URL(file+'.json',out),path.join(docdir,file+'.json'));
+for(const file of ['stock.mjs','independent.mjs','release.mjs','ui.mjs','public-ui.mjs','test-run.mjs','finalize.mjs'])await fs.copyFile(new URL(file,import.meta.url),path.join(docdir,file+'.source.txt'));
+const entry=`## 블러드문 SS 중복 금지·보유 보정 / 11월5일20시·22시 리필 예약 — 2026-11-03\n\n- **운영 규칙 반영·예약 등록 완료:** 소스 ${live.pages.commit.slice(0,9)}·Pages ${live.pages.id.slice(0,8)}·두Worker100%. 등록 **${registeredKst}·감사${independent.auditIds.join('·')}**. 실제 리필은 실행 전.\n- 블러드문 SS6종 V-960~V-965 현재 보유/묶음 내 중복0. 미보유 SS 확률 0~1종기본·2종1/2·3종1/4·4종1/8·5종1/16·6종전부0. 감소분 일반SSS전환. SSS/프라임재료/라자크 기본확률·가격·기존보유/성장/완료영수증 보존.\n- **11월5일20:00 KST 전체 SS6종각20·SSS구간4종각3 추가,22:00 소진된종류만 동일수량 추가.** 프라임은 기운잃은 프라임 재료 유지. 누적발행/일련번호 초기화0·잔여종류22시리필0. DB시각/DO알람20시 확인·두예약단일거래.\n- 작업키 **${apply.operationKey}**, 예약 **stock-20261105-2000-bloodmoon-ss20-sss3-v1 / stock-20261105-2200-bloodmoon-soldout-ss20-sss3-v1**. 같은요청 새키등록·리필후소진분복구 금지. 기존팩r11/현재발행보존·기존예약내역보존.\n- 관련30/배송18검사·실제실패/정상예행원복·PC1440/390/CMS·공개모바일·공개16파일/Windows필수6해시 확인. 독립READ ONLY·SELECT재실행쓰기0. 실기기/설치앱검수아님.\n- 기록 docs/qa/${folder}/, 원본증거 operations/${folder}/. 공지문안작성·게시/메시지0·계정직접쓰기0. 기존폴더/의존성재사용·유지관리/삭제/Codex예약0.\n\n`;
+for(const file of [checkout+'/AGENTS.md',root+'/AGENTS.md']){const current=await fs.readFile(file,'utf8');assert(!current.includes('## 블러드문 SS 중복 금지·보유 보정'));await fs.writeFile(file,entry+current);}
+console.log(JSON.stringify({status:completion.status,auditIds:independent.auditIds,registeredKst,source:live.pages.commit,announcementWritten:true,announcementPublished:false}));

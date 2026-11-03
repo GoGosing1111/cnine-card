@@ -1,0 +1,117 @@
+{
+  "at": "2026-11-03T10:22:45.209Z",
+  "pages": {
+    "id": "1877ed30-5f56-42a0-871c-1f6f7ae16ceb",
+    "url": "https://1877ed30.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "d462bac0a020a2cc02bd6484e63899c518eacb40"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "34b74774-594e-4f24-b66d-2208ed417c21",
+      "percentage": 100,
+      "conditionalStock": true,
+      "ownershipRule": true
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "5a1a2281-8336-4401-b6e9-99a365fb1697",
+      "percentage": 100,
+      "conditionalStock": true,
+      "ownershipRule": true
+    }
+  ],
+  "files": [
+    {
+      "file": "js/mercenary-bloodmoon-pack-live.mjs",
+      "sha256": "8b4a1b840bf4c1c658918475f7e22145c66e1f90b8298a923c49f90b39889350"
+    },
+    {
+      "file": "js/mercenary-bloodmoon-presentation-v2.mjs",
+      "sha256": "6567942d28c60f44f749c17f6a2b08e9c94afd3ac76a9cbd2b697c5d0dce2b6a"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-ownership-v1.mjs",
+      "sha256": "7e5e501bf1dcfcd120ce1905e97a1634db15971e1d740f5bc93fdc6bb77d2687"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-pack-v1.mjs",
+      "sha256": "ad15dc3fcf94eff38a392db1eaffbda7a2b55bd898990b33d86c6c7650427077"
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-bulk-v1.mjs",
+      "sha256": "b6adbfe87b0abe12e6d703d53500f6f6b248cf4e37f5648cb990b6c227ca4aa2"
+    },
+    {
+      "file": "css/mercenary-bloodmoon-pack-v2.css",
+      "sha256": "718398936c88c4cf6c1e3300617566b8f51399c949ac3adc18cf3d7e862b5355"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "d1a1922d55ecdb6ebaf2f5792f86e4a1ab82dc6e58d022379e8707527aaca797"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "80acc4476e19d726422cd05361daae9b49c5fc869b7d3bf2b1a7c61442f2a7c9"
+    },
+    {
+      "file": "index.html",
+      "sha256": "335ea1fd257853ac33aa1cddb944ce70abd10a0cf9b44c74f4250ddb9a203012"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "7951f9f1feba2cd9e066b3efef2b8df01092e307d4a2b19998f27cf91d8c5ace"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "7c933e8f4f62413111dae5fd1f0dcb194192791999019c5d987a2f5118e27fd9"
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "e9da2082f123d1029331231b92f3f2b237b14d9d935b74233413ed2f8e45f00a"
+    },
+    {
+      "file": "admin/mercenary-admin-v1.js",
+      "sha256": "14e9b20f0465c4a57497552a66fbfb5066842cadd2a8fcd177f994c31cfd7cd2"
+    },
+    {
+      "file": "admin/mercenary-bloodmoon-admin-v1.mjs",
+      "sha256": "1e74ab70cb5cfc0ecb04e242a83d46f52e9f3ca0b2e968edceb2bcaa7979650b"
+    },
+    {
+      "file": "admin/mercenary-stock-schedule-v1.mjs",
+      "sha256": "492899fb4e1112ecc730c8cad35656b14fbf43b51db971b47e02fff68d14b897"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "0ee0871fda5f959f2f652d005488d137b32f0ab6b318b7bda4c61e3309b42a71"
+    }
+  ],
+  "clientFiles": [
+    "js/mercenary-bloodmoon-pack-live.mjs",
+    "js/mercenary-bloodmoon-presentation-v2.mjs",
+    "shared/mercenary-bloodmoon-ownership-v1.mjs",
+    "shared/mercenary-bloodmoon-pack-v1.mjs",
+    "shared/mercenary-bloodmoon-bulk-v1.mjs",
+    "css/mercenary-bloodmoon-pack-v2.css"
+  ],
+  "ownershipRule": {
+    "basis": "CURRENT_DISTINCT_BLOODMOON_SS",
+    "duplicatesAllowed": false,
+    "threshold": 2,
+    "divisors": [
+      1,
+      1,
+      2,
+      4,
+      8,
+      16,
+      32
+    ],
+    "fallback": "STANDARD_SSS"
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "assetCount": 20000
+}
