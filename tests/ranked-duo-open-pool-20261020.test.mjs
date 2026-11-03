@@ -4,7 +4,7 @@ import {weeklyFixture,day} from './helpers/ranked-duo-weekly.mjs';
 import {duoFixture} from './helpers/ranked-duo-db.mjs';
 import {DUO_WEEKLY_POLICY_KEY} from '../shared/ranked-duo-weekly-v3.mjs';
 import {rankedDuoPoolCandidates,rankedDuoPoolCount} from '../functions/_ranked_duo_pool.js';
-import {dualMercenaryLoadoutKey} from '../functions/_mercenary_dual_loadout.js';
+import {dualMercenaryLoadoutKey,dualMercenaryStatements} from '../functions/_mercenary_dual_loadout.js';
 
 async function equipMercenaries(f){
  const schema='ALTER TABLE user_mercenary_loadout_v1 ADD COLUMN revision INTEGER DEFAULT 0; ALTER TABLE user_mercenary_loadout_v1 ADD COLUMN updated_at TEXT';
@@ -20,7 +20,7 @@ async function equipMercenaries(f){
 }
 async function saveMercenary(f,user,code,mode='PVP'){
  const key=dualMercenaryLoadoutKey(user),record=JSON.parse((await f.p('SELECT value FROM app_meta WHERE key=?',key).first()).value);
- record[mode]={mercenaryCodes:code?[code,'V-002']:[],revision:record[mode].revision+1};await f.p('UPDATE app_meta SET value=? WHERE key=?',JSON.stringify(record),key).run();
+ await f.DB.batch(dualMercenaryStatements(f.DB,user,{dualKey:key,loadouts:record},mode,{mercenaryCodes:code?[code,'V-002']:[],revision:record[mode].revision+1}));
 }
 async function fixture(t,options={}){
  const f=await weeklyFixture(t,{...options,matchmaking:'RANDOM_ASYNC',entryMode:'RANKED_POOL'});
@@ -210,7 +210,7 @@ for(const postgres of [false,true,'pipeline']){
     injected=true;
     // No profile-version change: the admission query must independently reject
     // the now-empty PVP override, even with an otherwise current cached profile.
-    await saveMercenary(f,ticket.opponent.members[0].userId,null);
+    await f.p('UPDATE app_meta SET value=? WHERE key=?',JSON.stringify({version:2,PVE:{mercenaryCodes:['V-001','V-002'],revision:0},PVP:{mercenaryCodes:[],revision:1}}),dualMercenaryLoadoutKey(ticket.opponent.members[0].userId)).run();
    }
    return batch(statements);
   };
