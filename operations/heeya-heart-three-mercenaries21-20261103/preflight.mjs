@@ -1,0 +1,31 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import {connect,safe,hash} from '../rap-contest-rewards-20261027/preflight.mjs';
+import {ALL_LIMITED_MERCENARIES} from '../../shared/mercenary-limited-catalog-v1.mjs';
+import {GENERAL_JOK_ART} from '../../shared/mercenary-general-jok-v1.mjs';
+import {mercenaryLevelStateFromStorage,mercenaryLevelStorageLevel,validateMercenaryLevelPolicy,levelProgress,MERCENARY_LEVEL_KEY} from '../../shared/mercenary-level-v1.mjs';
+const OP='ops:heeya-heart-three-mercenaries21:20261103:v1',ID='4977',codes=['V-974','V-950','V-982'],db=connect();
+db.connectionParameters.application_name='heeya-heart-three-mercenaries21-preflight';
+try{
+ await db.connect();await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');await db.query("SET LOCAL statement_timeout='20s'");
+ const q=async(s,a=[])=>(await db.query(s,a)).rows,one=r=>(assert.equal(r.length,1),r[0]);
+ const target=one(await q('SELECT id::text,nickname,role,status FROM users WHERE id=$1 OR nickname=$2',[ID,'하이희야♡']));
+ assert.deepEqual(target,{id:ID,nickname:'하이희야♡',role:'USER',status:'ACTIVE'});
+ const identity=one(await q('SELECT provider,provider_user_id FROM user_second_verifications WHERE user_id=$1',[ID]));target.identityHash=hash({provider:identity.provider,providerUserId:identity.provider_user_id});assert.equal(target.identityHash,'26d28b73b2da936ad9a5a5a2cc689e8631c0922a9e1ce84e126cf54e3f2eef64');
+ const cards=await q('SELECT * FROM user_mercenary_cards_v1 WHERE user_id=$1 AND mercenary_code=ANY($2::text[]) ORDER BY mercenary_code',[ID,codes]);
+ const levels=await q('SELECT * FROM user_mercenary_levels_v1 WHERE user_id=$1 AND mercenary_code=ANY($2::text[]) ORDER BY mercenary_code',[ID,codes]);
+ const stock=await q('SELECT * FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code',[codes]);
+ const policy=validateMercenaryLevelPolicy(JSON.parse(one(await q('SELECT value FROM app_meta WHERE key=$1',[MERCENARY_LEVEL_KEY])).value));assert.equal(policy.mode,'ON');
+ const catalog=[GENERAL_JOK_ART,...ALL_LIMITED_MERCENARIES];
+ const targets=codes.map(code=>{const art=one(catalog.filter(c=>c.code===code)),card=cards.find(c=>c.mercenary_code===code)||null,row=levels.find(c=>c.mercenary_code===code)||null,before=mercenaryLevelStateFromStorage(row),copies=Number(card?.total_copies||0);assert(Number.isSafeInteger(copies)&&copies>=0);const after=before.level===21?before:{level:21,experience:0,breakthroughMask:15,revision:before.revision+1};assert(levelProgress(policy,after,art).complete);return {code,name:art.name,rank:art.rank,season:art.season||null,expectedCard:card,expectedLevelRow:row,copiesBefore:copies,quantity:copies>0?0:1,before,after,storedLevel:mercenaryLevelStorageLevel(after)};});
+ assert.deepEqual(targets.map(t=>[t.code,t.name,t.rank,t.season]),[['V-974','제너럴 족','SSS',null],['V-950','희야','SS','BLACKCROWN'],['V-982','하이희야','SS','HALLOWEEN']]);
+ const prior=await q("SELECT key FROM app_meta WHERE key=$1 OR key LIKE 'ops:heeya-heart-three-mercenaries21:%'",[OP]);assert.equal(prior.length,0,'Prior operation exists; inspect instead of issuing a new key');
+ const tables=['user_mercenary_cards_v1','user_mercenary_levels_v1','mercenary_card_acquisitions_v1','account_sync_versions_v1','ranked_duo_accounts_v1'];
+ const triggers=await q('SELECT c.relname,t.tgname,pg_get_triggerdef(t.oid) definition,pg_get_functiondef(t.tgfoid) function FROM pg_trigger t JOIN pg_class c ON c.oid=t.tgrelid WHERE NOT t.tgisinternal AND c.relname=ANY($1::text[]) ORDER BY c.relname,t.tgname',[tables]);
+ const columns=await q("SELECT table_name,column_name,data_type,column_default FROM information_schema.columns WHERE table_schema='public' AND table_name=ANY($1::text[]) ORDER BY table_name,ordinal_position",[tables]);
+ const plan={operationKey:OP,authorization:'하이희야♡ 계정에 제너럴 족 21레벨 블랙크라운 희야 21레벨 할로윈희야 21레벨 지급해\n있으면 레벨업만 적용',target,targets,delivery:'DIRECT',ownershipRule:'GRANT_ONE_ONLY_WHEN_UNOWNED',stockPolicy:'DIRECT_ADMIN_GRANT_PRESERVE_PUBLIC_STOCK',stockInterpretation:'Requested direct account grant; preserve existing public pack limits, issued counters and numbered issues. No global stock increase.',cost:0,materialsConsumed:0,automaticLoadout:false,sendMessages:false};
+ await db.query('ROLLBACK');
+ await fs.writeFile(new URL('./preflight.json',import.meta.url),JSON.stringify({checkedAt:new Date().toISOString(),readOnly:true,target,cards,levels,stock,policy,triggers,columns,prior,planHash:hash(plan)},null,2)+'\n',{flag:'wx'});
+ await fs.writeFile(new URL('./plan.json',import.meta.url),JSON.stringify(plan,null,2)+'\n',{flag:'wx'});
+ console.log(JSON.stringify({target,targets:targets.map(({expectedCard,expectedLevelRow,...t})=>t),stock,planHash:hash(plan),triggers:triggers.map(t=>({table:t.relname,name:t.tgname,definition:t.definition}))}));
+}catch(e){await db.query('ROLLBACK').catch(()=>{});console.error(safe(e));process.exitCode=1;}finally{await db.end();}

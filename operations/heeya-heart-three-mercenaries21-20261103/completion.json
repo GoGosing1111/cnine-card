@@ -1,0 +1,101 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:heeya-heart-three-mercenaries21:20261103:v1",
+  "authorization": "하이희야♡ 계정에 제너럴 족 21레벨 블랙크라운 희야 21레벨 할로윈희야 21레벨 지급해\n있으면 레벨업만 적용",
+  "completedAt": "2026-11-03T07:15:51.228Z",
+  "completedKst": "2026-11-03 16:15:51 KST",
+  "target": {
+    "id": "4977",
+    "nickname": "하이희야♡",
+    "role": "USER",
+    "status": "ACTIVE"
+  },
+  "grants": [
+    {
+      "code": "V-974",
+      "name": "제너럴 족",
+      "season": null,
+      "quantityGranted": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1,
+      "currentCopies": 1,
+      "levelBefore": 1,
+      "levelAfter": 21,
+      "currentLevel": 21,
+      "breakthroughMask": 15
+    },
+    {
+      "code": "V-950",
+      "name": "희야",
+      "season": "BLACKCROWN",
+      "quantityGranted": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1,
+      "currentCopies": 1,
+      "levelBefore": 1,
+      "levelAfter": 21,
+      "currentLevel": 21,
+      "breakthroughMask": 15
+    },
+    {
+      "code": "V-982",
+      "name": "하이희야",
+      "season": "HALLOWEEN",
+      "quantityGranted": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1,
+      "currentCopies": 1,
+      "levelBefore": 1,
+      "levelAfter": 21,
+      "currentLevel": 21,
+      "breakthroughMask": 15
+    }
+  ],
+  "totalGranted": 3,
+  "auditId": "53973",
+  "planHash": "a38fc327133c2a7918faf0b77740babdccc2f51490ea3f739bb694c8e1172c32",
+  "sourceSha256": "b108de3ec17d9c1b2ad8c2c577d94e9d32d984e626f7d5e11aef567717343155",
+  "stockPolicy": "DIRECT_ADMIN_GRANT_PRESERVE_PUBLIC_STOCK",
+  "stockBefore": [
+    {
+      "code": "V-950",
+      "stock_limit": "40",
+      "issued": "40",
+      "revision": "41",
+      "last_token": "3e57ac0e-6d1e-4214-9f73-517d687b13c4"
+    },
+    {
+      "code": "V-974",
+      "stock_limit": "3",
+      "issued": "3",
+      "revision": "3",
+      "last_token": "c3e967b6-83b8-43b4-800b-f29dd87fdbfc"
+    },
+    {
+      "code": "V-982",
+      "stock_limit": "13",
+      "issued": "13",
+      "revision": "16",
+      "last_token": "ee7c3a9a-db87-419b-86a6-8431dea15c26"
+    }
+  ],
+  "stockCountersChanged": false,
+  "numberedIssuesAdded": 0,
+  "checks": {
+    "testsPassed": 5,
+    "testsFailed": 0,
+    "failureAndSuccessRollback": true,
+    "independentReadOnly": true,
+    "selectOnlyReplay": true,
+    "actualAccountGrowthAndRankedVisibility": true,
+    "actualPvePvpSelection": true,
+    "leasesReleased": true
+  },
+  "cost": 0,
+  "materialsConsumed": 0,
+  "automaticLoadout": false,
+  "messagesSent": 0,
+  "gameRedeployed": false,
+  "storageMaintenance": false,
+  "schedulesCreated": false
+}

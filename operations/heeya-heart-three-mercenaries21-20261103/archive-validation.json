@@ -1,0 +1,9 @@
+{
+  "command": "node --test operations/heeya-heart-three-mercenaries21-20261103/grant.test.mjs",
+  "scope": "Canonical repository imports and standalone public test policy",
+  "passed": 5,
+  "failed": 0,
+  "exitCode": 0,
+  "durationMs": 12243.3187,
+  "verifiedAt": "2026-11-03T07:19:11.979Z"
+}

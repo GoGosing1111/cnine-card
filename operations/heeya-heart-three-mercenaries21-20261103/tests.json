@@ -1,0 +1,8 @@
+{
+  "command": "node --test operations/heeya-heart-three-mercenaries21-20261103/grant.test.mjs",
+  "passed": 5,
+  "failed": 0,
+  "exitCode": 0,
+  "durationMs": 6789.5102,
+  "verifiedAt": "2026-11-03T07:14:40.472Z"
+}
