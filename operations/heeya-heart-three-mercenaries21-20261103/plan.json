@@ -1,0 +1,90 @@
+{
+  "operationKey": "ops:heeya-heart-three-mercenaries21:20261103:v1",
+  "authorization": "하이희야♡ 계정에 제너럴 족 21레벨 블랙크라운 희야 21레벨 할로윈희야 21레벨 지급해\n있으면 레벨업만 적용",
+  "target": {
+    "id": "4977",
+    "nickname": "하이희야♡",
+    "role": "USER",
+    "status": "ACTIVE",
+    "identityHash": "26d28b73b2da936ad9a5a5a2cc689e8631c0922a9e1ce84e126cf54e3f2eef64"
+  },
+  "targets": [
+    {
+      "code": "V-974",
+      "name": "제너럴 족",
+      "rank": "SSS",
+      "season": null,
+      "expectedCard": null,
+      "expectedLevelRow": null,
+      "copiesBefore": 0,
+      "quantity": 1,
+      "before": {
+        "level": 1,
+        "experience": 0,
+        "breakthroughMask": 0,
+        "revision": 0
+      },
+      "after": {
+        "level": 21,
+        "experience": 0,
+        "breakthroughMask": 15,
+        "revision": 1
+      },
+      "storedLevel": 20
+    },
+    {
+      "code": "V-950",
+      "name": "희야",
+      "rank": "SS",
+      "season": "BLACKCROWN",
+      "expectedCard": null,
+      "expectedLevelRow": null,
+      "copiesBefore": 0,
+      "quantity": 1,
+      "before": {
+        "level": 1,
+        "experience": 0,
+        "breakthroughMask": 0,
+        "revision": 0
+      },
+      "after": {
+        "level": 21,
+        "experience": 0,
+        "breakthroughMask": 15,
+        "revision": 1
+      },
+      "storedLevel": 20
+    },
+    {
+      "code": "V-982",
+      "name": "하이희야",
+      "rank": "SS",
+      "season": "HALLOWEEN",
+      "expectedCard": null,
+      "expectedLevelRow": null,
+      "copiesBefore": 0,
+      "quantity": 1,
+      "before": {
+        "level": 1,
+        "experience": 0,
+        "breakthroughMask": 0,
+        "revision": 0
+      },
+      "after": {
+        "level": 21,
+        "experience": 0,
+        "breakthroughMask": 15,
+        "revision": 1
+      },
+      "storedLevel": 20
+    }
+  ],
+  "delivery": "DIRECT",
+  "ownershipRule": "GRANT_ONE_ONLY_WHEN_UNOWNED",
+  "stockPolicy": "DIRECT_ADMIN_GRANT_PRESERVE_PUBLIC_STOCK",
+  "stockInterpretation": "Requested direct account grant; preserve existing public pack limits, issued counters and numbered issues. No global stock increase.",
+  "cost": 0,
+  "materialsConsumed": 0,
+  "automaticLoadout": false,
+  "sendMessages": false
+}

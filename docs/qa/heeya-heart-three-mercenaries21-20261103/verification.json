@@ -1,0 +1,82 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:heeya-heart-three-mercenaries21:20261103:v1",
+  "identity": {
+    "id": "4977",
+    "nickname": "하이희야♡",
+    "role": "USER",
+    "status": "ACTIVE"
+  },
+  "completedAt": "2026-11-03T07:15:51.228Z",
+  "auditId": "53973",
+  "access": [
+    {
+      "code": "V-974",
+      "name": "제너럴 족",
+      "totalCopies": 1,
+      "level": 21,
+      "canDeploy": true,
+      "rankedVisible": true,
+      "growthVisible": true,
+      "battle": {
+        "PVE": {
+          "selectable": true,
+          "level": 21
+        },
+        "PVP": {
+          "selectable": true,
+          "level": 21
+        }
+      }
+    },
+    {
+      "code": "V-950",
+      "name": "희야",
+      "totalCopies": 1,
+      "level": 21,
+      "canDeploy": true,
+      "rankedVisible": true,
+      "growthVisible": true,
+      "battle": {
+        "PVE": {
+          "selectable": true,
+          "level": 21
+        },
+        "PVP": {
+          "selectable": true,
+          "level": 21
+        }
+      }
+    },
+    {
+      "code": "V-982",
+      "name": "하이희야",
+      "totalCopies": 1,
+      "level": 21,
+      "canDeploy": true,
+      "rankedVisible": true,
+      "growthVisible": true,
+      "battle": {
+        "PVE": {
+          "selectable": true,
+          "level": 21
+        },
+        "PVP": {
+          "selectable": true,
+          "level": 21
+        }
+      }
+    }
+  ],
+  "totalGranted": 3,
+  "acquisitionRecords": 3,
+  "auditRecords": 1,
+  "actualAccountAndGrowthReads": true,
+  "actualPvePvpSelection": true,
+  "selectOnlyReplayVerified": true,
+  "productionWrites": 0,
+  "operationLocksRemaining": 0,
+  "readOnly": "on",
+  "selectQueries": 73,
+  "checkedAt": "2026-11-03T07:16:41.366Z"
+}
