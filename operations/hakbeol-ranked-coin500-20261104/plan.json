@@ -1,0 +1,31 @@
+{
+  "operationKey": "ops:hakbeol-ranked-coin500:20261104:v1",
+  "dateKst": "2026-11-04",
+  "authorization": "학벌 계정에 랭크전 코인 500개 지급해",
+  "sourceHash": "84a73f22c0d9979b90a487f61953c54ddeb0368bc4582502445c3d6b488eb85b",
+  "itemCode": "RANKED_COIN",
+  "itemName": "랭크전 코인",
+  "itemDescription": "랭크전·랭크전 듀오 시즌 티어 보상으로 획득하며 랭크전 상점에서 사용합니다.",
+  "delivery": "DIRECT_INVENTORY",
+  "sendMessages": false,
+  "changeRankingOrSeason": false,
+  "recipientCount": 1,
+  "totalAmount": 500,
+  "identityCheckedAt": "2026-11-03T15:31:51.608Z",
+  "logFloor": {
+    "inventory": "88419197",
+    "audit": "54153"
+  },
+  "recipients": [
+    {
+      "order": 1,
+      "userId": "4627",
+      "nickname": "학벌",
+      "inputNickname": "학벌",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "597d2219348a05cd3be06641c99ee83f7e7da0b0105c562a04b2f63e010925c2",
+      "amount": 500
+    }
+  ]
+}

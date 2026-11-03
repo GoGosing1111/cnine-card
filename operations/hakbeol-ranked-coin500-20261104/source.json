@@ -1,0 +1,11 @@
+{
+  "operationKey": "ops:hakbeol-ranked-coin500:20261104:v1",
+  "authorization": "학벌 계정에 랭크전 코인 500개 지급해",
+  "userId": "4627",
+  "nickname": "학벌",
+  "itemCode": "RANKED_COIN",
+  "amount": 500,
+  "delivery": "DIRECT_INVENTORY",
+  "sendMessages": false,
+  "changeRankingOrSeason": false
+}

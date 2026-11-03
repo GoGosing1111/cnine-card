@@ -1,0 +1,87 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:hakbeol-ranked-coin500:20261104:v1",
+  "userId": "4627",
+  "nickname": "학벌",
+  "itemCode": "RANKED_COIN",
+  "itemName": "랭크전 코인",
+  "amount": 500,
+  "before": "1250",
+  "after": "1750",
+  "logId": "88419580",
+  "auditId": "54156",
+  "completedAt": "2026-11-03T15:33:36.840Z",
+  "completedAtKst": "2026-11-04 00:33:36 KST",
+  "planHash": "a5c8fc010dacc30f04ed989a4175a03b21e73c9cfd1467f2bee499689c1a0b40",
+  "sourceSha256": "c2d8d8d9c06b7abed360d3443add830c2b51c76e64ad4edfc7dab3f1f7288239",
+  "testsPassed": 4,
+  "independentReadOnly": true,
+  "rankedServiceBalanceAtVerification": 250,
+  "noWriteReplay": true,
+  "locksReleased": true,
+  "inventorySyncVerified": true,
+  "ordinaryCurrencyAndOtherInventoryPreserved": true,
+  "missing": 0,
+  "duplicates": 0,
+  "messagesSent": 0,
+  "gameDeployment": false,
+  "storageMaintenance": false,
+  "scheduledAutomations": 0,
+  "evidence": [
+    {
+      "file": "preflight.json",
+      "sha256": "431307f25f9fe2f51e46ce652396eacc643c9f9de9c74352900260b61a08a13e"
+    },
+    {
+      "file": "source.json",
+      "sha256": "89aaa2d38a14eb174216453be4c710616af0ed21685332fbf0d936b7b44d353a"
+    },
+    {
+      "file": "plan.json",
+      "sha256": "5cfa5c76ec0e7f340ccc63ac9fc8ba5d301012c5016b4b9c92336813a9914e99"
+    },
+    {
+      "file": "evidence/tests.json",
+      "sha256": "badd3b175d3f0b78860d711842f32424cc55290103cb1428d49baa25141e4cab"
+    },
+    {
+      "file": "evidence/tests.log",
+      "sha256": "20322c41ff4ac0fc26ab06fc53870dd55140ee9a2f5a87b362771a752fef093f"
+    },
+    {
+      "file": "evidence/dry-run.json",
+      "sha256": "9e23d5878b25e2858d2a07c44f58a949a96bf581600ed423ae182a7c117486a9"
+    },
+    {
+      "file": "evidence/apply.json",
+      "sha256": "3aa6354ca4316d3f41dcce53a05770eff46ced526385c4c35a5c86eb19407198"
+    },
+    {
+      "file": "evidence/commit-candidate.json",
+      "sha256": "e3dc8ce46370c5e30901a096e67a4f704622e644776c54f868278a3f18365207"
+    },
+    {
+      "file": "evidence/commit-confirmed.json",
+      "sha256": "be79392e183e8b67d9c9c5bfbf61fe7ef2e8e9fcd4f50327ca156d07846c0437"
+    },
+    {
+      "file": "evidence/verify.json",
+      "sha256": "cad7f27965ded4ba3d93be72c66d874fc839d25ef253b418cc1de5d7edc8b9a6"
+    },
+    {
+      "file": "evidence/replay.json",
+      "sha256": "a1ca35590a3b56d8c3bb4503b0e2fd3cc426413f3df5562b3c88390038bdb535"
+    },
+    {
+      "file": "evidence/independent.json",
+      "sha256": "c0b7b544cb9c31506092b4a8b259ebbd07fe6001bc03d1aa6bbef9c8f2a1343b"
+    }
+  ],
+  "postGrantUsage": {
+    "checkedAt": "2026-11-03T15:33:55.078Z",
+    "currentQuantity": "250",
+    "subsequentLedgerEntries": 1,
+    "subsequentChange": "-1500",
+    "preserved": true
+  }
+}
