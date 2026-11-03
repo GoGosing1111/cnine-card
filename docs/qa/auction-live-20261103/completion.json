@@ -1,0 +1,145 @@
+{
+  "completedAt": "2026-11-03T09:30:24.119564+00:00",
+  "operation": "ops:auction-user-live:20261103:v1",
+  "auditId": "53984",
+  "activatedAtUtc": "2026-11-03 09:18:33",
+  "activationSource": "ce2b2fcac87a9914ef33e80a84a934ba586bd234",
+  "sourceCommit": "90ea357df360d141239901777fd6f2aaacf04fac",
+  "pages": {
+    "id": "40e7504f-6564-4722-87b4-90b88bb4fe71",
+    "url": "https://40e7504f.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "90ea357df360d141239901777fd6f2aaacf04fac"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "a14a430c-380e-4ef5-bd63-2a8016c119ab",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "eca1060e-2e42-4c56-9603-2d39b66dd42a",
+      "percentage": 100
+    }
+  ],
+  "userHosting": false,
+  "operatorHosting": true,
+  "userHostStatus": 423,
+  "blockedAssetsConfigurable": true,
+  "accountGrowthRetained": true,
+  "durationMs": 7200000,
+  "feePercent": 20,
+  "maxActive": 1,
+  "queue": "FIFO",
+  "shops": [
+    {
+      "name": "LOOT",
+      "revision": 41,
+      "price": 500,
+      "ticketRegistered": true
+    },
+    {
+      "name": "RANKED",
+      "revision": 7,
+      "price": 300,
+      "ticketRegistered": true
+    }
+  ],
+  "bgm": {
+    "count": 42,
+    "sha256": "9b64d87e29f6ad020601c7b3facbcb660cde3df41867751f8880a5a5948b87bd",
+    "preserved": true
+  },
+  "publicAssets": 21,
+  "windowsEssentialAssets": 6,
+  "localBrowserProfiles": [
+    "desktop",
+    "mobile",
+    "small",
+    "webkit"
+  ],
+  "publicBrowserProfiles": [
+    "public-mobile"
+  ],
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "policyReplayWrites": 0,
+  "limitations": [
+    "Browser checks use isolated API data, not real-device or installed-app tests.",
+    "Existing WebKit ResizeObserver warning and pre-existing dex.webp 404 recorded separately.",
+    "Initial final WebKit full-page CMS screenshot was blank despite passing DOM checks; it was not counted as visual success. Foreground/font/frame-synchronized recapture and direct host-form capture were reviewed successfully."
+  ],
+  "evidence": [
+    {
+      "file": "deployment-result.json",
+      "sha256": "7a4d043f53f2eed9efac3c4c808df54e58888b926efdd7f4a3977f6d4ce0e795"
+    },
+    {
+      "file": "deploy-ce2b2fcac.log",
+      "sha256": "f1294149c2aa4302bd517cc140fa7cef845f0197c3004dc7963e9c22433e5411"
+    },
+    {
+      "file": "cms-contrast-release/deployment-result.json",
+      "sha256": "d05d65dfd57415e82b0dc2cb1c091514642182c6294d65aa387d5fd2d303dd21"
+    },
+    {
+      "file": "cms-contrast-release/deploy-90ea357df.log",
+      "sha256": "d3800b9e7b28a60fba554c6d4ef014bf1a8bd5e2ec01d477d883852d5bced1e6"
+    },
+    {
+      "file": "cms-contrast-release/live-verification.json",
+      "sha256": "1769b43ee5d7da2bd9c2eeef1d9ee87fca988b3bb90fde553c748bd85bdb7f53"
+    },
+    {
+      "file": "applied.json",
+      "sha256": "b80e93c30a16d577ea4d1530a66b5976485dff202b29ad829b4a9d3f04848988"
+    },
+    {
+      "file": "final-policy-verification.json",
+      "sha256": "37d0662ac282ab377d2e3f9b39729c81835d65e964a6edb27c05540b75ae0422"
+    },
+    {
+      "file": "final-runtime-readonly.json",
+      "sha256": "7f403bf54924f59379c057e848e5656ebd77151faf40671a6fbbde91905c8980"
+    },
+    {
+      "file": "browser-cms-contrast/report.json",
+      "sha256": "fb10460fa83af3afd739245619b60cbd817f390bc949f2fe991d85f4022b4626"
+    },
+    {
+      "file": "public-browser-final/report.json",
+      "sha256": "b22b7b0e7ed457e393e9909a31b8ed0877eaae56ea6c5b02b5c0b88323e32400"
+    },
+    {
+      "file": "public-existing-asset-baseline.json",
+      "sha256": "e29dc8ca9c8099b448df881f8c78bd4dd610f130c62808a0285df21903cdde0b"
+    },
+    {
+      "file": "verify-public-painted.mjs",
+      "sha256": "9466e09569e8530212b994f02cd14054a3f2393500c77f9c2fff6b9d06a47c87"
+    },
+    {
+      "file": "public-browser-painted/report.json",
+      "sha256": "d1d25825211b9621695037934977d23d7cc8f979ad542ec970b8724203b3d34e"
+    },
+    {
+      "file": "public-browser-painted/public-mobile-cms-host-form.png",
+      "sha256": "3ecfbe851a94e4461666eaff6e53d9be9fc99a1a9e57d2ca90d709ff00cb2c43"
+    },
+    {
+      "file": "public-browser-painted/public-mobile-cms-viewport.png",
+      "sha256": "93dfe31709e59411ca3ed2c774e90ff3d6c46e7b51c0cd24cf00a40a971d972c"
+    },
+    {
+      "file": "public-browser-painted/public-mobile-user-hosting-off.png",
+      "sha256": "defe984d78fbab3616d38e0c31ea2b48daea4757c72f2820f90a6953facda91a"
+    }
+  ],
+  "publicPaintVerification": {
+    "status": "PASS",
+    "foregroundAndFontsReady": true,
+    "hostFormAndUserOffVisuallyReviewed": true,
+    "initialBlankFullPageCapturePreserved": true
+  }
+}

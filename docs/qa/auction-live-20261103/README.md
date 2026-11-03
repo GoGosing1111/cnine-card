@@ -1,5 +1,9 @@
 # 유저 경매 · CMS 라이브 전환
 
+**운영 완료:** 최종 소스 `90ea357df` · Pages `40e7504f` · 두 Worker100%. 설정 적용 2026-11-03 18:18:33 KST·감사53984. **유저 개최 OFF / 운영자 개최 ON**, 경매 공개·입찰 유지. CMS 금지 품목/개최 스위치/예약/기존 금액별 BGM 편집, 중앙 확대 입찰 알림 반영.
+
+완료키 `ops:auction-user-live:20261103:v1` 재실행 금지. 42 BGM 전체 해시·원래 상점 상품·계정 성장/보유 보존, READ ONLY 재확인·재실행쓰기0. 공개21파일/Windows필수6해시·PC1440/390/320/WebKit390 및 공개모바일 검증. CMS WebKit 선택상자 대비 보완 후17관련검사/4화면/공개검수 완료. 실기기/설치앱 검수 아님. 원본 증거는 프로젝트루트 operations/auction-live-20261103/, 최종 상세는 completion.json.
+
 사용자 확정: 본인 보유 카드/용병/펫/장비/이동수단/아이템/마스터의 별 판매, 티켓 1장, 전리품500·랭크300, 서버 전체 진행1건/FIFO 예약, 시작부터2시간, 판매수수료20%. 성장·강화·잠재력은 각 계정에 유지. 추가입찰 퀵 버튼1천만/1천억/1조/10조/100조, 기존 추가입찰 금액별 BGM42개·음량·순서 보존, 입찰 알림 중앙560px/모바일좌우16px. 실제 시작 경매마다 계정별 로비 팝업1회.
 
 2026-11-03 후속 사용자 지시로 실제 게임/CMS 연결과 운영 활성화까지 범위를 확장했다. OWNER CMS에서 운영자 물품 공급 경매(티켓·소유분 소모0, 운영자 낙찰금0), 유저/운영자 개최 스위치, 품목별 신규 개최 금지, 예약 취소, 금액별BGM 편집을 제공한다. 운영자 경매도 같은 단일 진행/FIFO 대기열을 따른다. 기존 등록 건은 금지 정책 변경 후에도 약정대로 종료한다.
@@ -84,3 +88,5 @@ Fresh gate `7adc7b2bd` passed stages 1–47. Hash-bound continuation `d9a0141ac`
 ### Mobile CMS appearance follow-up
 
 Initial production `ce2b2fcac` / Pages `f28c61d5` and both Workers deployed successfully. Policy applied at 2026-11-03 18:18:33 KST, audit53984: user hosting OFF / operator ON, shops500/300, 42 BGM rows unchanged. Independent READ ONLY replay and actual service refusal423 verified, public21files/Windows6 hashes matched. Public WebKit390 fixture passed; visual review found native select controls painting a light background beneath light text. Correct only CMS select appearance/dark control scheme and CSS query version. Full local Chromium1440/390/320 + WebKit390 browser flow passed again. User policy, runtime and accounting remain unchanged; activation must not be repeated. An unrelated dex.webp404 reproduces on prior Pages6b407ab0 and is recorded separately from auction assets.
+
+최종 공개 WebKit DOM 검사는 통과했으나 첫 CMS 전체 캡처가 비어 시각 통과로 세지 않았다. 원본을 보존하고 같은 공개본에서 전경 전환·폰트/2프레임 준비 뒤 다시 촬영했다. 운영자 개최 폼의 선택상자/입력/버튼과 유저 개최 OFF·중앙 BGM 알림을 직접 확인했다. 추가 실행은 격리 API이며 운영 계정쓰기0. 증거 public-browser-painted/, SHA는 completion.json.
