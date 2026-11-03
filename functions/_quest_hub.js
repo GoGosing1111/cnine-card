@@ -1,12 +1,13 @@
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
+import {ensureCombatQuestSchema,extraWeeklyRaidCounts,dailyCombatStatus,claimDailyCombatQuest,DAILY_COMBAT_QUESTS,combatQuestPolicy} from './_quest_combat.js';
 
 export const QUEST_SETTINGS_KEY='quest_weekly_settings_v20260924';
 const SCHEMA='quest_hub_foundation_20260924_v1';
 export const WEEKLY_QUESTS=Object.freeze([
  {id:'POST',title:'PLAY DK 게시글 작성',target:300,unit:'개',description:'월요일부터 일요일까지 작성한 게시글을 합산합니다.'},
- {id:'CORE_RAID',title:'붕괴코어 레이드 참여',target:3,unit:'회',description:'실제 공략 전투를 완료한 레이드 방을 1회씩 집계합니다. 같은 방의 추가 공략은 중복 계산하지 않습니다.'},
+ {id:'CORE_RAID',title:'공대 레이드 총합 7회 참여',target:7,unit:'회',description:'월드레이드 제외: 붕괴코어·리치왕 정벌·바르센·흑익의 맹약을 합산합니다. 붕괴코어는 공략 전투 완료, 나머지는 정상 종료된 공대 전투를 방당 1회 집계합니다. 대기·중도 이탈로 취소된 방·운영 테스트는 제외합니다.'},
  {id:'TERRITORY',title:'영토전 참여',target:1,unit:'회',description:'직접 진행하여 완료한 영토전 공격을 집계합니다. 자동 편성과 방어는 제외됩니다.'},
- {id:'CLAN',title:'클랜전 참여',target:2,unit:'회',description:'직접 진행하여 완료한 클랜전 전투를 집계합니다. 승패와 관계없이 인정하며 방어는 제외됩니다.'}
+ {id:'CLAN',title:'클랜전 1회 참여',target:1,unit:'회',description:'직접 진행하여 완료한 클랜전 전투를 집계합니다. 승패와 관계없이 인정하며 방어는 제외됩니다.'}
 ]);
 export const QUEST_REWARDS=Object.freeze({COIN:'코인',MASTER_STAR:'마스터의 별',EQUIPMENT_SUPPLY_BOX:'장비 보급상자',HIGH_GRADE_REROLL_TICKET:'고등급 재뽑기권',STARLIGHT_ARMOR_CORE:'미스틱 에너지'});
 const parse=(value,fallback={})=>{try{return JSON.parse(value)}catch{return fallback}};
@@ -32,6 +33,7 @@ export function validateQuestSettings(input,before){
  return next;
 }
 export async function ensureQuestHub(env){
+ await ensureCombatQuestSchema(env);
  if(readRuntimeData(env,SCHEMA))return;
  const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(SCHEMA).first();
  if(!marker){
@@ -78,10 +80,13 @@ async function activityCounts(env,user,period){
   TERRITORY:`SELECT COUNT(*) c FROM territory_war_v3_actions WHERE user_id=? AND status IN ('APPLIED','COMPLETED') AND ${range('updated_at')}`,
   CLAN:`SELECT COUNT(*) c FROM clan_war_battles WHERE attacker_user_id=? AND status='COMPLETED' AND ${range('updated_at')}`
  };
- return Object.fromEntries(await Promise.all(Object.entries(queries).map(async([key,sql])=>{
+ const result=Object.fromEntries(await Promise.all(Object.entries(queries).map(async([key,sql])=>{
   try{return [key,{count:Number((await env.DB.prepare(sql).bind(user.id,period.start,period.end).first())?.c||0),available:true}]}
   catch(error){if(/no such table|relation .* does not exist/i.test(String(error?.message)))return [key,{count:0,available:false}];throw error}
  })));
+ const extra=await extraWeeklyRaidCounts(env,user,period);
+ result.CORE_RAID.count+=extra.count;result.CORE_RAID.available ||= extra.available;
+ return result;
 }
 export async function checkWeeklyPosts(env,user,deps,{force=false}={}){
  const period=questPeriod(deps.now?.()),daily=await deps.dailySettings(env),verification=await identity(env,user);
@@ -109,16 +114,16 @@ export async function checkWeeklyPosts(env,user,deps,{force=false}={}){
 export async function questHubStatus(env,user,deps){
  const period=questPeriod(deps.now?.()),[{value:config},daily,verification]=await Promise.all([settings(env),deps.dailySettings(env),identity(env,user)]);
  const [activities,posts,claims,dayProgress,dayClaim]=await Promise.all([
-  activityCounts(env,user,period),savedPosts(env,user,period,verification,daily),env.DB.prepare('SELECT quest_id,message_id FROM quest_weekly_claims_v1 WHERE user_id=? AND week_key=? AND status=\'COMPLETED\'').bind(user.id,period.weekKey).all(),
+  activityCounts(env,user,period),savedPosts(env,user,period,verification,daily),env.DB.prepare('SELECT quest_id,message_id,reward_type,reward_amount FROM quest_weekly_claims_v1 WHERE user_id=? AND week_key=? AND status=\'COMPLETED\'').bind(user.id,period.weekKey).all(),
   env.DB.prepare('SELECT post_count,last_checked_at FROM wago_daily_post_progress_v2 WHERE user_id=? AND quest_date=?').bind(user.id,period.today).first(),
   env.DB.prepare('SELECT reward_coin,claimed_at FROM wago_daily_quest_claims WHERE user_id=? AND quest_date=?').bind(user.id,period.today).first()
  ]);
  const verified=Boolean(verification),excluded=deps.excluded(user,daily),blocked=!verified||excluded;
- return {period,verified,excluded,playdkName:verification?.provider_name||'',
+ return {period,verified,excluded,playdkName:verification?.provider_name||'',dailyCombat:await dailyCombatStatus(env,user,{now:deps.now?.(),blocked}),
   daily:{id:'DAILY_POST',title:'PLAY DK 게시글 작성',target:15,unit:'개',count:Number(dayProgress?.post_count||0),checkedAt:dayProgress?.last_checked_at||null,claimed:Boolean(dayClaim),rewardType:'COIN',rewardAmount:Number(daily.postRewardCoin??0),rewardLabel:'코인',enabled:daily.enabled!==false&&daily.postEnabled!==false,blocked,description:'하루에 글 15개를 작성하고 일일 보상을 받으세요. 매일 00:00 KST에 초기화됩니다.'},
   weekly:WEEKLY_QUESTS.map(q=>({...q,...config.quests[q.id],rewardLabel:QUEST_REWARDS[config.quests[q.id]?.rewardType]||'',count:q.id==='POST'?Number(posts?.post_count||0):activities[q.id].count,
    available:q.id==='POST'?Boolean(posts):activities[q.id].available,checkedAt:q.id==='POST'?posts?.checked_at||null:null,days:q.id==='POST'?parse(posts?.days_json,[]):[],
-   claimed:(claims.results||[]).some(row=>row.quest_id===q.id),blocked}))};
+   claimed:(claims.results||[]).some(row=>row.quest_id===q.id),claimedReward:(()=>{const r=(claims.results||[]).find(row=>row.quest_id===q.id);return r?{type:r.reward_type,label:QUEST_REWARDS[r.reward_type],amount:Number(r.reward_amount)}:null})(),blocked}))};
 }
 export async function claimWeeklyQuest(env,user,questId,deps){
  const quest=WEEKLY_QUESTS.find(q=>q.id===questId);if(!quest)fail('지원하지 않는 주간 퀘스트입니다.',400);
@@ -160,7 +165,7 @@ export async function handleQuestHub({path,request,env,deps}){
   await deps.ensureDaily(env);await ensureQuestHub(env);
   if(adminPath){
    const before=await settings(env);
-   if(request.method==='GET')return deps.json({settings:before.value,definitions:WEEKLY_QUESTS,rewardTypes:QUEST_REWARDS,period:questPeriod(deps.now?.()),canEdit:user.role==='OWNER'});
+   if(request.method==='GET')return deps.json({settings:before.value,definitions:WEEKLY_QUESTS,rewardTypes:QUEST_REWARDS,period:questPeriod(deps.now?.()),canEdit:user.role==='OWNER',dailyCombat:DAILY_COMBAT_QUESTS,dailyCombatEnabled:(await combatQuestPolicy(env)).enabled});
    if(request.method!=='PATCH')return deps.json({error:'지원하지 않는 요청입니다.'},405);
    if(user.role!=='OWNER')return deps.json({error:'OWNER만 보상을 설정할 수 있습니다.'},403);
    const body=await deps.readBody(request);if(body.revision!==before.value.revision)fail('다른 운영자가 설정을 변경했습니다. 새로고침 후 다시 저장하세요.');
@@ -175,6 +180,7 @@ export async function handleQuestHub({path,request,env,deps}){
   if(path==='quests/status'&&request.method==='GET')return deps.json(await questHubStatus(env,user,deps));
   if(path==='quests/weekly/check'&&request.method==='POST')return deps.json({ok:true,...await checkWeeklyPosts(env,user,deps)});
   if(path==='quests/weekly/claim'&&request.method==='POST'){const body=await deps.readBody(request);return deps.json(await claimWeeklyQuest(env,user,String(body.questId||''),deps))}
+  if(path==='quests/daily/claim'&&request.method==='POST'){const body=await deps.readBody(request);return deps.json(await claimDailyCombatQuest(env,user,String(body.questId||''),deps))}
   return deps.json({error:'지원하지 않는 퀘스트 요청입니다.'},404);
  }catch(error){return deps.json({error:error?.status===400||error?.status===403||error?.status===409?error.message:'퀘스트 집계를 확인하지 못했습니다. 잠시 후 다시 확인해 주세요.',code:'QUEST_HUB_ERROR'},[400,401,403,409,429].includes(error.status)?error.status:502)}
 }

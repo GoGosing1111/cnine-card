@@ -59,10 +59,12 @@ test('perfect execution can clear every mandatory phase; resources and HP carry 
   assert.equal(h.room.statistics.interrupts,6);assert.equal(h.room.resources.interrupt,1);
   assert.equal(h.room.statistics.transfers,6);assert.equal(h.room.souls,4);
   assert.equal(h.room.boss.hp,0);assert.equal(h.room.events.filter(e=>e.type==='RESULT'&&e.winner==='A').length,1);
+  assert.deepEqual(h.room.questParticipants,['host']);h.room.members=[];assert.deepEqual(h.room.questParticipants,['host']);
 });
 test('correct mechanics with an underpowered deck fail the damage check',()=>{
   const h=harness({powerScale:.04});h.start();solveMechanic(h);damageWindow(h);
   assert.equal(h.room.status,'FAILED');assert.ok(['DPS_CHECK','COMBAT_LOSS'].includes(h.room.failure.code));assert.ok(h.room.boss.hp>0);
+  assert.deepEqual(h.room.questParticipants,['host']);
 });
 test('plague requires readable matching target and timing, not a success boolean',()=>{
   const h=harness();h.start();assert.throws(()=>h.act('TRANSFER',h.room.challenge.plagueRune),/2중첩/);

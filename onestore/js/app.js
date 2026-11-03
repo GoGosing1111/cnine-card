@@ -3031,9 +3031,9 @@ async function loadDailyQuest(){
   const root=document.getElementById('questHubRoot');if(!root)return;
   root.textContent='퀘스트 기록을 불러오는 중…';
   try{
-    const {mountQuestHub}=await import('/js/quest-hub-live.mjs?v=20261009-weekly');
+    const {mountQuestHub}=await import('/js/quest-hub-live.mjs?v=20261103-v1');
     if(!root.isConnected)return;
-    await mountQuestHub({root,api:(path,options)=>apiRequest(path,options,{timeoutMs:40000,microcache:false}),onUser:user=>saveUser(apiUserToLocal(user)),navigate:tab=>renderShell(tab)});
+    await mountQuestHub({root,api:(path,options)=>apiRequest(path,options,{timeoutMs:40000,microcache:false}),onUser:user=>saveUser(apiUserToLocal(user)),navigate:async tab=>{const shell=window.SoopketmonV21ExactShell;if(shell){if(tab==='territory')await shell.navigate('home');return shell.navigate(tab)}return renderShell(tab)}});
   }catch(error){if(root.isConnected)root.textContent=error.message||'퀘스트 화면을 불러오지 못했습니다. 다시 진입해 주세요.'}
 }
 async function checkDailyQuest(){

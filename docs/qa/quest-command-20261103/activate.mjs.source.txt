@@ -1,0 +1,36 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';
+import {connect,safe} from '../rap-contest-rewards-20261027/preflight.mjs';
+import {OP,WEEKLY,QUEST_FINISH_INDEXES,stageQuestSchema,stageQuestIndexes,applyQuestPolicy} from '../../output/revan-live-20261027/release-checkout/scripts/ops/quest-command-20261103.mjs';
+import pg from 'pg';
+import {dailyCombatCounts,extraWeeklyRaidCounts,questDay} from '../../output/revan-live-20261027/release-checkout/functions/_quest_combat.js';
+import {questPeriod} from '../../output/revan-live-20261027/release-checkout/functions/_quest_hub.js';
+import {__postgresCompatTest} from '../../output/revan-live-20261027/release-checkout/functions/_postgres_d1_compat.js';
+const mode=process.argv[2],root='C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout';
+function indexClient(){const raw=execFileSync(process.execPath,['C:/Users/User/AppData/Local/npm-cache/_npx/74274893b9fe65d3/node_modules/neonctl/bin/cli.js','connection-string','br-misty-hat-az5in4f4','--project-id','purple-king-54735192','--database-name','cnine','--role-name','neondb_owner','--ssl','verify-full'],{encoding:'utf8',timeout:30000,windowsHide:true,stdio:['ignore','pipe','pipe']});const connectionString=raw.trim().replace(/^[\"']|[\"']$/g,''),uri=new URL(connectionString);assert(uri.hostname.endsWith('.neon.tech')&&uri.pathname==='/cnine');return new pg.Client({connectionString,application_name:'quest-command-index-20261103',connectionTimeoutMillis:15000});}
+const db=connect();
+const save=(name,value)=>fs.writeFileSync(new URL(name+'.json',import.meta.url),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+const pre=JSON.parse(fs.readFileSync(new URL('preflight.json',import.meta.url))),args={authorization:OP,expectedWeekly:pre.policies.find(r=>r.key===WEEKLY).value,sourceCommit:execFileSync('git',['-c','gc.auto=0','-c','maintenance.auto=false','rev-parse','HEAD'],{cwd:root,encoding:'utf8',windowsHide:true}).trim()};
+try{await db.connect();await db.query("SET application_name='quest-command-20261103'; SET statement_timeout='15s'");
+ if(mode==='indexes'){
+  await db.query("SET statement_timeout='60s'; SET lock_timeout='8s'");const owners=(await db.query("SELECT c.relname,pg_get_userbyid(c.relowner) owner FROM pg_class c WHERE c.relname=ANY($1::text[])",[QUEST_FINISH_INDEXES.map(r=>r.table)])).rows;assert(owners.every(r=>['cnine_migrator','neondb_owner'].includes(r.owner)));const indexes=await stageQuestIndexes(db,QUEST_FINISH_INDEXES.filter(r=>owners.find(o=>o.relname===r.table).owner==='cnine_migrator'));const ownerDb=indexClient();try{await ownerDb.connect();await ownerDb.query("SET statement_timeout='60s'; SET lock_timeout='8s'");indexes.push(...await stageQuestIndexes(ownerDb,QUEST_FINISH_INDEXES.filter(r=>owners.find(o=>o.relname===r.table).owner==='neondb_owner')));}finally{await ownerDb.end()}save('indexes-staged',{at:new Date().toISOString(),indexes,accountWrites:0});console.log(JSON.stringify({indexes:indexes.map(r=>r.name),accountWrites:0}));
+ }else if(mode==='rehearse'){
+  const before=(await db.query('SELECT value FROM app_meta WHERE key=$1',[WEEKLY])).rows[0].value;
+  await assert.rejects(()=>applyQuestPolicy(db,{...args,failAt:'weekly'}),/INJECTED_FAILURE/);await assert.rejects(()=>applyQuestPolicy(db,{...args,failAt:'receipt'}),/INJECTED_FAILURE/);
+  const normal=await applyQuestPolicy(db,args);assert.equal(normal.dryRun,true);assert.equal((await db.query('SELECT value FROM app_meta WHERE key=$1',[WEEKLY])).rows[0].value,before);assert.equal((await db.query('SELECT key FROM app_meta WHERE key=ANY($1::text[])',[[OP,'quest_combat_policy_20261103_v1']])).rowCount,0);
+  save('rehearsal',{at:new Date().toISOString(),injectedFailuresRolledBack:2,normalRolledBack:true,receipt:normal.receipt});console.log('Policy failure and success rehearsals rolled back; existing claims preserved.');
+ }else if(mode==='stage'){
+  const result=await stageQuestSchema(db,{dryRun:false});save('schema-staged',{at:new Date().toISOString(),...result});console.log(result);
+ }else if(mode==='counts'){
+  await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');const env={DB:new __postgresCompatTest.PostgresD1Database({async query(input){try{return await db.query(input)}catch(e){console.error('Count query: '+String(input.text||input).slice(0,85)+' -> '+safe(e));throw e}}})},samples=[];
+  const ids=(await db.query('SELECT DISTINCT user_id FROM quest_weekly_claims_v1 WHERE week_key=$1 ORDER BY user_id LIMIT 3',[questPeriod().weekKey])).rows;
+  for(const row of ids){const start=Date.now();samples.push({userId:row.user_id,daily:await dailyCombatCounts(env,{id:Number(row.user_id)},questDay()),extraRaids:await extraWeeklyRaidCounts(env,{id:Number(row.user_id)},questPeriod()),elapsedMs:Date.now()-start});}
+  assert.equal((await db.query('SELECT relname FROM pg_stat_xact_user_tables WHERE n_tup_ins<>0 OR n_tup_upd<>0 OR n_tup_del<>0')).rowCount,0);await db.query('ROLLBACK');save(process.argv.includes('--final')?'live-counts-final-readonly':process.argv.includes('--indexed')?'live-counts-indexed-readonly':'live-counts-readonly',{at:new Date().toISOString(),samples,writes:0});console.log(JSON.stringify({samples:samples.length,writes:0,maxMs:Math.max(...samples.map(s=>s.elapsedMs))}));
+ }else if(mode==='apply'){
+  const release=JSON.parse(fs.readFileSync(new URL('deployment-result.json',import.meta.url)));assert.equal(release.exitCode,0);assert.equal(release.head,args.sourceCommit);
+  const result=await applyQuestPolicy(db,{...args,dryRun:false});save('applied',{at:new Date().toISOString(),...result});console.log(JSON.stringify(result.receipt));
+ }else if(mode==='verify'){
+  await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');const receipt=JSON.parse((await db.query('SELECT value FROM app_meta WHERE key=$1',[OP])).rows[0].value);
+  const weekly=JSON.parse((await db.query('SELECT value FROM app_meta WHERE key=$1',[WEEKLY])).rows[0].value),daily=JSON.parse((await db.query('SELECT value FROM app_meta WHERE key=$1',['quest_combat_policy_20261103_v1'])).rows[0].value);assert.deepEqual(weekly,receipt.weekly);assert.deepEqual(daily,receipt.daily);
+  const replay=await applyQuestPolicy(db,{...args,dryRun:false});assert.equal(replay.replayed,true);assert.equal((await db.query("SELECT id FROM admin_logs WHERE action_type='QUEST_COMMAND_POLICY' AND target_id=$1",[OP])).rowCount,1);assert.equal((await db.query('SELECT relname FROM pg_stat_xact_user_tables WHERE n_tup_ins<>0 OR n_tup_upd<>0 OR n_tup_del<>0')).rowCount,0);await db.query('ROLLBACK');save('policy-verification',{at:new Date().toISOString(),receipt,replayWrites:0,independentReadOnly:true});console.log(JSON.stringify({auditId:receipt.auditId,weekly:weekly.quests,daily:daily.quests,replayWrites:0}));
+ }else throw Error('Use rehearse|stage|counts|apply|verify');
+}catch(e){await db.query('ROLLBACK').catch(()=>{});console.error(safe(e));process.exitCode=1}finally{await db.end()}

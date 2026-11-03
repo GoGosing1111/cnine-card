@@ -1,0 +1,19 @@
+{
+  "before": {
+    "id": "40bce51c-510f-4956-b9b9-38b2500db7a3",
+    "url": "https://40bce51c.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "f3d89c85c4a11f16b28324b296208fdd81fdf2f3"
+  },
+  "base": "f3d89c85c4a11f16b28324b296208fdd81fdf2f3",
+  "reason": "사용자 승인 서린 NPC 시안으로 일일/주간 퀘스트 실제 연결. 주간 비월드레이드7회15조·영토전1회20조·클랜전1회50조. 일일 랭크30회3조/월드5회1조/듀오10회2조 각각 마스터의별1천만 동시지급. 기존 PLAY DK/주간수령 이력 보존. 단계별 전투대사, 실제 로비 PC/390/320/WebKit, 지급 원자성/재시도/경계 검증. 배포 후 단일 설정 operation 활성화. 운영계정 직접지급·메시지발송 없음.",
+  "tests": [
+    "tests/quest-command-20261103.test.mjs",
+    "tests/quest-hub-20260924.test.mjs",
+    "tests/lich-king-raid-v1.test.mjs",
+    "tests/onestore-web-20261026.test.mjs",
+    "tests/onestore-distribution-20261026.test.mjs",
+    "tests/operation-audit-packaging-20261029.test.mjs"
+  ],
+  "checks": []
+}

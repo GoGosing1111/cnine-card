@@ -1,0 +1,24 @@
+{
+  "at": "2026-11-03T03:56:14.336Z",
+  "indexes": [
+    {
+      "name": "idx_quest_lich_finished_20261103",
+      "table": "raid_lich_rooms_v1",
+      "indisvalid": true,
+      "definition": "CREATE INDEX idx_quest_lich_finished_20261103 ON public.raid_lich_rooms_v1 USING btree (((((state_json)::jsonb ->> 'finishedAt'::text))::bigint)) WHERE (status = ANY (ARRAY['CLEAR'::text, 'FAILED'::text]))"
+    },
+    {
+      "name": "idx_quest_madara_finished_20261103",
+      "table": "raid_madara_rooms_v1",
+      "indisvalid": true,
+      "definition": "CREATE INDEX idx_quest_madara_finished_20261103 ON public.raid_madara_rooms_v1 USING btree (((((state_json)::jsonb ->> 'finishedAt'::text))::bigint)) WHERE (status = ANY (ARRAY['CLEAR'::text, 'FAILED'::text]))"
+    },
+    {
+      "name": "idx_quest_blackwing_finished_20261103",
+      "table": "raid_blackwing_rooms_v1",
+      "indisvalid": true,
+      "definition": "CREATE INDEX idx_quest_blackwing_finished_20261103 ON public.raid_blackwing_rooms_v1 USING btree (((((state_json)::jsonb ->> 'finishedAt'::text))::bigint)) WHERE (status = ANY (ARRAY['CLEAR'::text, 'FAILED'::text]))"
+    }
+  ],
+  "accountWrites": 0
+}

@@ -40,6 +40,7 @@ function wipe(room,code,reason) {
   const hits=alive(room).map(card=>{const damage=card.hp;card.hp=0;card.alive=false;return {targetId:card.id,damage,targetHpAfter:0};});
   room.status='FAILED';room.failure={code,reason,round:room.round+1,phase:room.phase};
   room.finishedAt=room.clock;
+  room.questParticipants=room.members.map(member=>String(member.id));
   record(room,'RAID_LICH_WIPE',reason,{code});
   if(hits.length)record(room,'BOSS_ULTIMATE',reason,{actorId:room.boss.id,hits});
   record(room,'RESULT',reason,{winner:'B',reason:code});
@@ -223,7 +224,7 @@ function applyCombat(room,burst,memberId=null) {
   if(!(room.round===PLANS.length-1&&room.boss.hp===0))wound(room,revised?.015+room.doom*.005:(room.rulesVersion===2?.045:.055)+room.doom*.025,'서리한 반격',null,memberId);
   if(room.status!=='ACTIVE')return;
   if(room.boss.hp<=floor){
-    if(room.round===PLANS.length-1){room.status='CLEAR';room.finishedAt=room.clock;record(room,'KO','리치왕 정벌',{targetId:room.boss.id});record(room,'RESULT','리치왕 정벌 성공',{winner:'A'});}
+    if(room.round===PLANS.length-1){room.status='CLEAR';room.finishedAt=room.clock;room.questParticipants=room.members.map(member=>String(member.id));record(room,'KO','리치왕 정벌',{targetId:room.boss.id});record(room,'RESULT','리치왕 정벌 성공',{winner:'A'});}
     else {room.step='TRANSITION';c.deadline=room.clock+3000;record(room,'RAID_LICH_ROUND_CLEAR','방벽 돌파 · 다음 작전 준비');}
   }
 }

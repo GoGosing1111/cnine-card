@@ -1,0 +1,118 @@
+{
+  "approvedAt": "2026-11-03",
+  "npc": "최고사령부 - 서린",
+  "authorization": "좋은데 … 니 시안 승인하고 규정으로 저장 그렇게 만들어",
+  "standard": "docs/project-quest-command-standard.md",
+  "approvedSource": "preview/weekly-command-20261103/approved-v1/",
+  "files": [
+    {
+      "file": "assets/quest-command-20261103/BlackHanSans-OFL.txt",
+      "bytes": 4399,
+      "sha256": "c324192c8b3a988bae45a9a7e4ac1258b684739003bda114e0523423440457c9"
+    },
+    {
+      "file": "assets/quest-command-20261103/BlackHanSans-Regular.ttf",
+      "bytes": 998424,
+      "sha256": "31960809284026681774a8e52dc19ebcad26cf69b0ad9d560f288296fbb52739"
+    },
+    {
+      "file": "assets/quest-command-20261103/brand.png",
+      "bytes": 47572,
+      "sha256": "a4f64d51ddce28c23a3509a7c3554a1b6351d5f64833f9c96f24794aaf44bae6"
+    },
+    {
+      "file": "assets/quest-command-20261103/clanWar.webp",
+      "bytes": 15702,
+      "sha256": "cb94c971a9a73cf1c8caca4cb0e068adb441fbde24f8c5c7f815dcd09648c9ef"
+    },
+    {
+      "file": "assets/quest-command-20261103/coin.webp",
+      "bytes": 27412,
+      "sha256": "d9f89b969bcb6aebe890016bb1f2e0cbcc9caff241959aae4dd1dd6b9d3244ea"
+    },
+    {
+      "file": "assets/quest-command-20261103/commander-seorin-v1.png",
+      "bytes": 1816848,
+      "sha256": "2b8520841d954343e2f5b2ec279cbcf9ab27e5e523567c9973f2a0a0bafed48e"
+    },
+    {
+      "file": "assets/quest-command-20261103/duo.webp",
+      "bytes": 14076,
+      "sha256": "ee2c2fc13c9c25bb87cc55122d29f3118feeec0b6ac83326e2c0e87131923296"
+    },
+    {
+      "file": "assets/quest-command-20261103/headquarters-v1.png",
+      "bytes": 1846547,
+      "sha256": "1c81299aba69c72b0696c3ccbb1c5a78279c29e28b7acf556a2d60cce01d49bf"
+    },
+    {
+      "file": "assets/quest-command-20261103/lobby-panel.webp",
+      "bytes": 40384,
+      "sha256": "b09ad6d16bcf520352f8185ebc55ae38596e0574b865adc93ecba1cee1fe834b"
+    },
+    {
+      "file": "assets/quest-command-20261103/master-star.webp",
+      "bytes": 20252,
+      "sha256": "ae551542256d9b0056a9f0046b638cd9eaa5bb8ad4ea5be51b1feeeee07a6044"
+    },
+    {
+      "file": "assets/quest-command-20261103/messages.webp",
+      "bytes": 10058,
+      "sha256": "52791b96ae5e045f12a583d733ed4709a0cf97e741acb1a7e4f9ed633a948676"
+    },
+    {
+      "file": "assets/quest-command-20261103/Pretendard-LICENSE.txt",
+      "bytes": 4418,
+      "sha256": "d31ddd9f2bed32fd7e302a205cf2380ba0de6529152d239ef99cfb6f261bfc04"
+    },
+    {
+      "file": "assets/quest-command-20261103/PretendardVariable.woff2",
+      "bytes": 2057688,
+      "sha256": "9599f12fd42fc0bce1cd50b47a0c022e108d7aa64dd0d1bb0ed44f3282d900b4"
+    },
+    {
+      "file": "assets/quest-command-20261103/pvp.webp",
+      "bytes": 12468,
+      "sha256": "8bfac141b8e0d31c8de00f06525d24608e9dc819f33bf451a988010936ec0487"
+    },
+    {
+      "file": "assets/quest-command-20261103/raid.webp",
+      "bytes": 15468,
+      "sha256": "ab453e5b96465b332622b855014953d8a2ebc75106d7ad787a3b382d3499fc32"
+    },
+    {
+      "file": "assets/quest-command-20261103/territory.webp",
+      "bytes": 13406,
+      "sha256": "4d08f9b9019ffb569ed0826a6a03f9ba75581f490e2a492bb147389e0d2c78e6"
+    }
+  ],
+  "weekly": {
+    "CORE_RAID": 15000000000000,
+    "TERRITORY": 20000000000000,
+    "CLAN": 50000000000000
+  },
+  "daily": [
+    {
+      "id": "RANKED",
+      "target": 30,
+      "coin": 3000000000000,
+      "masterStars": 10000000
+    },
+    {
+      "id": "WORLD_RAID",
+      "target": 5,
+      "coin": 1000000000000,
+      "masterStars": 10000000
+    },
+    {
+      "id": "DUO_RANKED",
+      "target": 10,
+      "coin": 2000000000000,
+      "masterStars": 10000000
+    }
+  ],
+  "originalPrompts": [
+    "preview/weekly-command-20261103/character-prompt.txt",
+    "preview/weekly-command-20261103/background-prompt.txt"
+  ]
+}

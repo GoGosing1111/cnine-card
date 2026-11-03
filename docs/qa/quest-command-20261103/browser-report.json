@@ -1,0 +1,151 @@
+{
+  "status": "PASS",
+  "reports": [
+    {
+      "profile": "desktop",
+      "width": 1440,
+      "actualLobbyEntry": true,
+      "closeAndReenter": true,
+      "approvedRewards": true,
+      "contextualDialogue": true,
+      "lostAckRecovered": true,
+      "failedClaimPreserved": true,
+      "writes": [
+        "sync/ticket",
+        "sync/ticket",
+        "sync/ticket",
+        "quests/daily/claim",
+        "quests/daily/claim",
+        "quests/weekly/claim",
+        "sync/ticket"
+      ],
+      "measurements": {
+        "scroll": 1440,
+        "width": 1440,
+        "boardBottom": 623.34375,
+        "dialogTop": 658,
+        "dialogBottom": 863,
+        "portrait": 1024,
+        "font": "\"Quest Pretendard\", \"Pretendard Variable\", Pretendard, \"Malgun Gothic\", sans-serif"
+      },
+      "errors": [],
+      "warnings": [],
+      "unrelatedAssetFailures": [
+        {
+          "url": "http://127.0.0.1:7257/preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png",
+          "status": 404
+        }
+      ]
+    },
+    {
+      "profile": "mobile",
+      "width": 390,
+      "actualLobbyEntry": true,
+      "closeAndReenter": true,
+      "approvedRewards": true,
+      "contextualDialogue": true,
+      "lostAckRecovered": true,
+      "failedClaimPreserved": true,
+      "writes": [
+        "sync/ticket",
+        "sync/ticket",
+        "quests/daily/claim",
+        "quests/daily/claim",
+        "sync/ticket",
+        "quests/weekly/claim"
+      ],
+      "measurements": {
+        "scroll": 390,
+        "width": 390,
+        "boardBottom": 965.9375,
+        "dialogTop": 341,
+        "dialogBottom": 517,
+        "portrait": 1024,
+        "font": "\"Quest Pretendard\", \"Pretendard Variable\", Pretendard, \"Malgun Gothic\", sans-serif"
+      },
+      "errors": [],
+      "warnings": [],
+      "unrelatedAssetFailures": [
+        {
+          "url": "http://127.0.0.1:7257/preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png",
+          "status": 404
+        }
+      ]
+    },
+    {
+      "profile": "small",
+      "width": 320,
+      "actualLobbyEntry": true,
+      "closeAndReenter": true,
+      "approvedRewards": true,
+      "contextualDialogue": true,
+      "lostAckRecovered": true,
+      "failedClaimPreserved": true,
+      "writes": [
+        "sync/ticket",
+        "sync/ticket",
+        "sync/ticket",
+        "quests/daily/claim",
+        "quests/daily/claim",
+        "quests/weekly/claim"
+      ],
+      "measurements": {
+        "scroll": 320,
+        "width": 320,
+        "boardBottom": 977.5,
+        "dialogTop": 341,
+        "dialogBottom": 528.5625,
+        "portrait": 1024,
+        "font": "\"Quest Pretendard\", \"Pretendard Variable\", Pretendard, \"Malgun Gothic\", sans-serif"
+      },
+      "errors": [],
+      "warnings": [],
+      "unrelatedAssetFailures": [
+        {
+          "url": "http://127.0.0.1:7257/preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png",
+          "status": 404
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "width": 390,
+      "actualLobbyEntry": true,
+      "closeAndReenter": true,
+      "approvedRewards": true,
+      "contextualDialogue": true,
+      "lostAckRecovered": true,
+      "failedClaimPreserved": true,
+      "writes": [
+        "sync/ticket",
+        "sync/ticket",
+        "sync/ticket",
+        "sync/ticket",
+        "quests/daily/claim",
+        "quests/daily/claim",
+        "quests/weekly/claim",
+        "sync/ticket"
+      ],
+      "measurements": {
+        "scroll": 390,
+        "width": 390,
+        "boardBottom": 962.375,
+        "dialogTop": 341,
+        "dialogBottom": 517,
+        "portrait": 1024,
+        "font": "Quest Pretendard, Pretendard Variable, Pretendard, Malgun Gothic, sans-serif"
+      },
+      "errors": [],
+      "warnings": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "unrelatedAssetFailures": [
+        {
+          "url": "http://127.0.0.1:7257/preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png",
+          "status": 404
+        }
+      ]
+    }
+  ],
+  "productionAccountWrites": 0
+}

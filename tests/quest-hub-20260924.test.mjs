@@ -50,10 +50,19 @@ async function fixture({denyLegacyIndexes=false}={}){
 test('status preserves daily reward and counts actual completed attacker participation, not defense/abandon/repeated rooms',async()=>{
  const f=await fixture();try{
   const status=await questHubStatus(f.env,f.user,f.deps);assert.equal(status.daily.target,15);assert.equal(status.daily.rewardAmount,10000000000);
-  assert.deepEqual(status.weekly.map(q=>[q.id,q.target,q.count]),[['POST',300,0],['CORE_RAID',3,3],['TERRITORY',1,1],['CLAN',2,2]]);
+  assert.deepEqual(status.weekly.map(q=>[q.id,q.target,q.count]),[['POST',300,0],['CORE_RAID',7,3],['TERRITORY',1,1],['CLAN',1,2]]);
   assert.ok(status.weekly.every(q=>!q.enabled));assert.equal(status.weekly[0].available,false);
   await assert.rejects(()=>claimWeeklyQuest(f.env,f.user,'TERRITORY',f.deps),/보상 설정/);
   assert.equal((await f.pg.query('SELECT * FROM user_messages')).rows.length,0);
+ }finally{await f.pg.close()}
+});
+test('combined non-world raids require seven; reward changes preserve the original receipt and paid amount',async()=>{
+ const f=await fixture();try{
+  await f.enable('CORE_RAID',15e12);await f.pg.exec('CREATE TABLE raid_lich_rooms_v1(room_id TEXT PRIMARY KEY,status TEXT,state_json TEXT)');
+  const add=i=>f.pg.query("INSERT INTO raid_lich_rooms_v1 VALUES($1,'CLEAR',$2)",['extra'+i,JSON.stringify({releaseMode:'ON',startedAt:Date.now()-1000,finishedAt:Date.now(),questParticipants:['1']})]);
+  for(let i=0;i<3;i++)await add(i);assert.equal((await questHubStatus(f.env,f.user,f.deps)).weekly[1].count,6);await assert.rejects(()=>claimWeeklyQuest(f.env,f.user,'CORE_RAID',f.deps),/목표/);
+  await add(3);assert.equal((await claimWeeklyQuest(f.env,f.user,'CORE_RAID',f.deps)).replayed,false);await f.enable('CORE_RAID',20e12);assert.equal((await claimWeeklyQuest(f.env,f.user,'CORE_RAID',f.deps)).replayed,true);
+  const q=(await questHubStatus(f.env,f.user,f.deps)).weekly[1];assert.equal(q.rewardAmount,20e12);assert.equal(q.claimedReward.amount,15e12);assert.equal((await f.pg.query('SELECT * FROM user_messages')).rows.length,1);
  }finally{await f.pg.close()}
 });
 test('legacy index ownership cannot block additive quest tables or OFF defaults',async()=>{

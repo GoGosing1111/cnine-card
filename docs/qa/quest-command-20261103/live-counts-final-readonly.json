@@ -1,0 +1,72 @@
+{
+  "at": "2026-11-03T04:06:26.943Z",
+  "samples": [
+    {
+      "userId": 19,
+      "daily": {
+        "RANKED": {
+          "count": 0,
+          "available": true
+        },
+        "DUO_RANKED": {
+          "count": 0,
+          "available": true
+        },
+        "WORLD_RAID": {
+          "count": 7,
+          "available": true
+        }
+      },
+      "extraRaids": {
+        "count": 0,
+        "available": true
+      },
+      "elapsedMs": 1195
+    },
+    {
+      "userId": 22,
+      "daily": {
+        "RANKED": {
+          "count": 5,
+          "available": true
+        },
+        "DUO_RANKED": {
+          "count": 92,
+          "available": true
+        },
+        "WORLD_RAID": {
+          "count": 1,
+          "available": true
+        }
+      },
+      "extraRaids": {
+        "count": 1,
+        "available": true
+      },
+      "elapsedMs": 1269
+    },
+    {
+      "userId": 88,
+      "daily": {
+        "RANKED": {
+          "count": 2,
+          "available": true
+        },
+        "DUO_RANKED": {
+          "count": 99,
+          "available": true
+        },
+        "WORLD_RAID": {
+          "count": 11,
+          "available": true
+        }
+      },
+      "extraRaids": {
+        "count": 47,
+        "available": true
+      },
+      "elapsedMs": 1805
+    }
+  ],
+  "writes": 0
+}
