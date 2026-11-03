@@ -56,9 +56,9 @@ for(const postgres of [false,true]){
   for(const mode of ['PVE','PVP']){await assert.rejects(()=>saveMercenaryLoadout(f.env,f.user,{requestId:rid(),mode,mercenaryCodes:[SHIRANUI_CODE],revision:1}),{code:'MERCENARY_ACCOUNT_RANK'});assert.equal(await loadMercenaryBattleSnapshot(f.env,f.user,mode),null);assert.equal((await releasedMercenarySnapshots(f.env,[7],mode)).size,0);}
   const state=await mercenaryAccountState(f.env,f.user);assert.equal(state.cards[0].canDeploy,false);assert.match(state.cards[0].deploymentBlockedReason,/중장/);assert.equal(await f.copies(),1);
   assert.equal((await rankedOwnedMercenaries(f.env,[7])).get(7).length,0);await assert.rejects(()=>rankedSelectedMercenaries(f.env,new Map([[7,[SHIRANUI_CODE,SHIRANUI_CODE,SHIRANUI_CODE]]])),{code:'PVP_SERIES_ROSTER'});
-  for(const code of ['V-001','V-002'])await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(7,?,1,0,?,?)',code,'now','now').run();
-  await assert.rejects(()=>f.DB.batch(rankedOwnershipGuard(f.env,new Map([[7,[SHIRANUI_CODE,'V-001','V-002']]]))));
-  await f.rank(SHIRANUI_MIN_RANK_TICKS);await f.DB.batch(rankedOwnershipGuard(f.env,new Map([[7,[SHIRANUI_CODE,'V-001','V-002']]])));
+  for(const code of ['V-001','V-002','V-003','V-004','V-005'])await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(7,?,1,0,?,?)',code,'now','now').run();
+  await assert.rejects(()=>f.DB.batch(rankedOwnershipGuard(f.env,new Map([[7,[SHIRANUI_CODE,'V-001','V-002','V-003','V-004','V-005']]]))));
+  await f.rank(SHIRANUI_MIN_RANK_TICKS);await f.DB.batch(rankedOwnershipGuard(f.env,new Map([[7,[SHIRANUI_CODE,'V-001','V-002','V-003','V-004','V-005']]])));
   assert.equal((await mercenaryAccountState(f.env,f.user)).cards.find(c=>c.code===SHIRANUI_CODE).canDeploy,true);
  });
 }
