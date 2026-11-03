@@ -22,14 +22,12 @@
     'dailyquest',
     'messages',
     'rank',
-    'prediction',
     'auction',
     'mineral',
     'inventory',
     'soopketland',
     'coup',
     'clan',
-    'prisoncamp'
   ]);
 
   const SHELL_ROUTE_SET = new Set(SHELL_ROUTES);
@@ -68,7 +66,6 @@
     dailyquest: { shell: 'dailyquest' },
     messages: { shell: 'messages' },
     rank: { shell: 'rank' },
-    prediction: { shell: 'prediction' },
     auction: { shell: 'auction' },
     mineral: { shell: 'mineral' },
     inventory: { shell: 'inventory' },
@@ -77,7 +74,6 @@
     clan: { shell: 'clan' },
     clanWar: { shell: 'clan', global: 'ClanV1.openWar' },
     clanFaction: { shell: 'clan', global: 'ClanV1.openFaction' },
-    prisoncamp: { shell: 'prisoncamp' },
 
     profile: { global: 'showAccountPanel', fallbackSelector: '#playerAccountBtn' },
     territory: {

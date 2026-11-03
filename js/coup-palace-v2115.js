@@ -34,7 +34,7 @@
   }
   function rebelSentence() { return cooldownLabel(Number(state?.round?.rebelDefeat?.hours || 8) * 3600000); }
   function defeatNotice() {
-    return `<p class="coup-trial-notice"><b>반란군 패배 규칙</b><span>코인 차감 없이 반란군 참가자 전원 ${rebelSentence()} 수감</span></p>`;
+    return `<p class="coup-trial-notice"><b>반란군 패배 규칙</b><span>포로수용소 폐쇄로 패배 시 수감되지 않습니다.</span></p>`;
   }
   const commandSkills = () => state?.commandSkills || state?.chiefSkills || [];
   const canCommand = () => state?.canUseCommandSkills ?? state?.canUseChiefSkills;
@@ -126,11 +126,11 @@
     d.querySelector('.coup-dialog-close').onclick = () => d.close(); d.addEventListener('close', () => { d.remove(); previous?.focus?.(); }, { once: true }); d.showModal(); return d;
   }
   function rules() {
-    modal(`<span class="coup-eyebrow">RULES OF ENGAGEMENT</span><h2>황궁 전쟁 규정</h2><ol class="coup-rules"><li><b>진영 선택</b>PVP 일반 카드 5장을 등록합니다. 진영은 참가 확정 후 변경할 수 없습니다. 용병은 기존 전용 슬롯을 사용합니다.</li><li><b>출격 행동력</b>최대 10회 · 출격당 1회 소모 · 족장팀 ${recoveryLabel(state?.energyPolicies?.CHIEF?.recoveryMs || 120000)}, 반란군 ${recoveryLabel(state?.energyPolicies?.REBEL?.recoveryMs || 120000)}마다 1회 충전됩니다. 결사대 결집으로 받은 초과 행동력은 별도로 유지됩니다.</li><li><b>출격 보상</b>승리·무승부 2,000만 코인, 패배 1,000만 코인을 지급합니다. 완료된 전투마다 한 번만 지급합니다.</li><li><b>최신 덱과 매칭</b>현재 PVP 덱·장비·용병을 자동 반영합니다. 비슷한 전투력의 상대 중 최근 만난 상대를 피해서 매칭합니다.</li><li><b>전선 돌파</b>출격에서 승리하면 기본 피해의 100%, 패배해도 20%를 상대 진영에 줍니다. 내 패배로 우리 진영 HP가 깎이지 않으며, 무승부는 피해가 없습니다. 진영 체력이 소진되면 전선이 이동합니다. 반란군은 정전, 족장팀은 외문을 함락하면 승리합니다.</li><li><b>시간 종료</b>중앙보다 전진한 진영이 승리합니다. 중앙 교전 중이면 남은 진영 체력으로 결정하며, 동률은 무승부입니다.</li><li><b>족장팀 패배</b>족장과 참가자 전원이 포로수용소에 8시간 수감됩니다. 족장은 즉시 파면되며 반란군 지휘관이 투표 없이 새로운 족장으로 즉위합니다.</li><li><b>반란군 패배</b>코인은 차감하지 않으며, 반란군 참가자 전원이 포로수용소에 ${rebelSentence()} 수감됩니다.</li><li><b>족장 교체</b>반란군 승리 시 지휘관이 즉시 족장 권한을 이어받습니다. 로비의 쿠데타 성공 연출에서 이전·새 족장을 확인할 수 있습니다.</li></ol>`, '황궁 전쟁 규정');
+    modal(`<span class="coup-eyebrow">RULES OF ENGAGEMENT</span><h2>황궁 전쟁 규정</h2><ol class="coup-rules"><li><b>진영 선택</b>PVP 일반 카드 5장을 등록합니다. 진영은 참가 확정 후 변경할 수 없습니다. 용병은 기존 전용 슬롯을 사용합니다.</li><li><b>출격 행동력</b>최대 10회 · 출격당 1회 소모 · 족장팀 ${recoveryLabel(state?.energyPolicies?.CHIEF?.recoveryMs || 120000)}, 반란군 ${recoveryLabel(state?.energyPolicies?.REBEL?.recoveryMs || 120000)}마다 1회 충전됩니다. 결사대 결집으로 받은 초과 행동력은 별도로 유지됩니다.</li><li><b>출격 보상</b>승리·무승부 2,000만 코인, 패배 1,000만 코인을 지급합니다. 완료된 전투마다 한 번만 지급합니다.</li><li><b>최신 덱과 매칭</b>현재 PVP 덱·장비·용병을 자동 반영합니다. 비슷한 전투력의 상대 중 최근 만난 상대를 피해서 매칭합니다.</li><li><b>전선 돌파</b>출격에서 승리하면 기본 피해의 100%, 패배해도 20%를 상대 진영에 줍니다. 내 패배로 우리 진영 HP가 깎이지 않으며, 무승부는 피해가 없습니다. 진영 체력이 소진되면 전선이 이동합니다. 반란군은 정전, 족장팀은 외문을 함락하면 승리합니다.</li><li><b>시간 종료</b>중앙보다 전진한 진영이 승리합니다. 중앙 교전 중이면 남은 진영 체력으로 결정하며, 동률은 무승부입니다.</li><li><b>족장팀 패배</b>족장팀은 수감되지 않습니다. 족장은 즉시 파면되며 반란군 지휘관이 투표 없이 새로운 족장으로 즉위합니다.</li><li><b>반란군 패배</b>코인 차감과 수감은 없습니다.</li><li><b>족장 교체</b>반란군 승리 시 지휘관이 즉시 족장 권한을 이어받습니다. 로비의 쿠데타 성공 연출에서 이전·새 족장을 확인할 수 있습니다.</li></ol>`, '황궁 전쟁 규정');
   }
   function join(side) {
     const roundId = state?.round?.id;
-    const d = modal(`<div class="coup-oath ${side.toLowerCase()}">${crest(side)}<span class="coup-eyebrow">OATH OF ALLEGIANCE</span><h2>${sideName(side)}에 합류</h2><p>${side === 'CHIEF' ? '패배하면 족장과 함께 포로수용소에 8시간 수감됩니다.' : `패배하면 코인 차감 없이 반란군 참가자 전원이 포로수용소에 ${rebelSentence()} 수감됩니다.`}</p><small>참가 확정 후 진영을 바꿀 수 없습니다.</small><label><input type="checkbox" data-oath> 패배 시 불이익을 확인했습니다.</label><button class="coup-primary" data-enlist disabled>참가 확정</button><p role="status" data-error></p></div>`, '진영 참가 확인');
+    const d = modal(`<div class="coup-oath ${side.toLowerCase()}">${crest(side)}<span class="coup-eyebrow">OATH OF ALLEGIANCE</span><h2>${sideName(side)}에 합류</h2><p>패배 시 수감되지 않습니다. 족장팀 패배 시 족장이 교체됩니다.</p><small>참가 확정 후 진영을 바꿀 수 없습니다.</small><label><input type="checkbox" data-oath> 진영 규칙을 확인했습니다.</label><button class="coup-primary" data-enlist disabled>참가 확정</button><p role="status" data-error></p></div>`, '진영 참가 확인');
     const button = d.querySelector('[data-enlist]'); d.querySelector('[data-oath]').onchange = e => { button.disabled = !e.target.checked; };
     button.onclick = async () => { button.disabled = true; try { state = await api('join', { roundId, side, acceptPenalty: true }); d.close(); render(); } catch (e) { d.querySelector('[data-error]').textContent = e.message; button.disabled = false; } };
   }
@@ -139,7 +139,7 @@
     const open = t.status === 'OPEN', total = t.reinstate + t.remove, ratio = total ? t.reinstate / total * 100 : 50;
     return `<div class="coup-court"><span class="coup-court-symbol">⚖</span><span class="coup-eyebrow">THE PEOPLE’S VERDICT</span><h2>족장 국민 재판</h2><p class="coup-defendant">${esc(t.defendantName)} <span>${open ? '직무정지' : t.status === 'REMOVED' ? '파면 확정' : '복직 판결'}</span></p>${open ? `<div class="coup-court-deadline">투표 종료까지 <time data-coup-until="${t.endsAt}">${countdown(t.endsAt)}</time></div>` : ''}<div class="coup-ballot-totals"><div><span>복직</span><b>${num(t.reinstate)}</b></div><div><span>파면</span><b>${num(t.remove)}</b></div></div><div class="coup-ballot-meter"><i style="width:${ratio}%"></i></div><p class="coup-turnout">${num(total)} / ${num(t.electorate)}명 참여</p>
       ${open && t.eligible && !t.myVote ? '<fieldset class="coup-ballot"><legend>족장의 거취를 선택하세요</legend><label><input type="radio" name="coup-verdict" value="REINSTATE"><span><b>복직</b><small>남은 임기 동안 권한 복구</small></span></label><label><input type="radio" name="coup-verdict" value="REMOVE"><span><b>파면</b><small>해당 임기의 족장 권한 박탈</small></span></label><button class="coup-primary" data-vote-submit disabled>선택한 판결에 투표</button></fieldset>' : `<p class="coup-voted">${t.myVote ? `${t.myVote === 'REMOVE' ? '파면' : '복직'}에 투표했습니다.` : open ? '재판 개시 당시의 활성 계정만 투표할 수 있습니다.' : '유저 투표 결과에 따라 판결이 확정되었습니다.'}</p>`}
-      <p class="coup-court-rule">계정당 1표 · 제출 후 변경 불가<br>파면 표가 더 많으면 파면, 동률·무투표는 복직합니다.<br>수감 중에도 투표할 수 있습니다. 복직해도 형기는 유지됩니다.</p><p data-vote-error role="status"></p></div>`;
+      <p class="coup-court-rule">계정당 1표 · 제출 후 변경 불가<br>파면 표가 더 많으면 파면, 동률·무투표는 복직합니다.<br>기존 재판의 투표 규칙은 유지됩니다.</p><p data-vote-error role="status"></p></div>`;
   }
   async function openTrial() {
     const d = modal('<p>재판 기록을 확인하고 있습니다.</p>', '족장 국민 재판'); let updating = false;

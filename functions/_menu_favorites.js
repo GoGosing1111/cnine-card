@@ -5,7 +5,7 @@ export const FAVORITE_MENU_ROUTES = Object.freeze([
   'battle','deck','hunt','coop','legion','raid','escort','siege','seal','tower','scrapyard','masterStarMine',
   'pvp','jokgakCity','duo','rank','clanWar','clanFaction','clan','territory','character','avatar',
   'vehicle','fusion','alchemy','attendance','dailyquest','messages','mineral','chicken','goldenAxe',
-  'prediction','auction','coup','soopketland','prison','prisoncamp','mercenaryEquipment','equipmentForge','seasonPass'
+  'auction','coup','soopketland','prison','mercenaryEquipment','equipmentForge','seasonPass'
 ]);
 const allowed = new Set(FAVORITE_MENU_ROUTES);
 const prefixFor = id => `menu_favorite_v1:${id}:`;

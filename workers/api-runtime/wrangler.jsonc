@@ -8,6 +8,7 @@
     "nodejs_compat"
   ],
   "workers_dev": false,
+  "triggers": {"crons": ["* * * * *"]},
   "preview_urls": false,
   "placement": {
     "region": "aws:ap-southeast-1"

@@ -41,7 +41,7 @@
     if (busy) return;
     if (name === 'reload') return load();
     const labels = { open:'새 쿠데타 참가 모집을 개설', start:'쿠데타 전투를 시작', cancel:'참가 모집을 취소' };
-    if (!confirm(`${labels[name]}할까요?${name === 'start' ? '\n확정된 전투 결과에 따라 패배 진영이 8시간 수감됩니다. 족장팀 패배 시 반란군 지휘관이 투표 없이 즉시 족장으로 교체됩니다. 코인 차감은 없습니다.' : ''}`)) return;
+    if (!confirm(`${labels[name]}할까요?${name === 'start' ? '\n포로수용소 폐쇄로 패배 시 수감되지 않습니다. 족장팀 패배 시 반란군 지휘관이 투표 없이 즉시 족장으로 교체됩니다. 코인 차감은 없습니다.' : ''}`)) return;
     busy = true; section.querySelectorAll('[data-coup-admin]').forEach(b => { b.disabled = true; });
     try { state = await api('/' + name, { roundId: state.round?.id }); render(); message('운영 설정을 반영했습니다.'); }
     catch (e) { message(e.message, true); render(); } finally { busy = false; }

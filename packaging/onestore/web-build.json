@@ -1,11 +1,11 @@
 {
   "textNewlines": "LF",
   "sourceHashes": {
-    "packaging/onestore/web/client-patch.json": "b14f4847593facdbfd8b97fe4688f79bf81ed591abc483423b197c05d6f2d432",
-    "index.html": "4c7fb6152193357e7a0072c8ee9b93217b420b87c7979000ee69464efc88ef35",
-    "js/app.js": "9df103bc1c74a797f51f08bbb1bc5321530477835294e6d2bac299688e242eb3",
-    "js/soopketmon-v21-exact-shell-adapter.js": "c0ea473e2b7cc17b59dc5ed97637fba75a88145e6a5469d52d23338970541744",
-    "js/soopketmon-v21-runtime-router.js": "52db16c155c979d118c795942113cbde95c4d518a7884bcc559c4138746ece12",
+    "packaging/onestore/web/client-patch.json": "ba2b9d221599232fbc8710c2f8b5ff84a7b32164200d343a4540116c367e3f2e",
+    "index.html": "abedc3b6e891c9fed4d1448147fa57213860e898a5fb42ed54b891304cfe2dea",
+    "js/app.js": "525eb727e76b0cef2adaa6393f50578d6fff6d52ef9273420fb5c9979f0dd723",
+    "js/soopketmon-v21-exact-shell-adapter.js": "89d7d27bf3ad9b565686df92c8614d556083e5575a6023894bc103a14b269dc6",
+    "js/soopketmon-v21-runtime-router.js": "08e559eabd96931575a4854ab3052bbf5e33b537dc7e12c0e750f95c7de532dd",
     "js/adventure-lobby-v2107.js": "552c596601602b8aa6b7736114ac5c4df358dedca598fa162f52e787c0ecf743",
     "js/pet-equipment-window-v1.mjs": "08ef4471e45b858469a3b168bf58c32d0f812d28995efc52d5289c91df431b4d",
     "js/adventure-navigation-standalone.js": "8e28fc6834c460fa50921078ed2e1dcc2265cabff1da605687e3e2e9c58086b8",
@@ -21,9 +21,9 @@
     "packaging/onestore/web/h5.css": "7c77779b15fef492acd7647c0d091b52a8c74b44ce511aff793ad66ac25d3d27"
   },
   "outputs": {
-    "onestore/js/app.js": "008e8c36e60ba8653e1bf470f368c3744aa7893d37a64a50716a1eef68b39a2f",
-    "onestore/js/soopketmon-v21-exact-shell-adapter.js": "d5c0d258e55a1cd841ff63379c34db7896ca1e07e1f37a8bc218b4bc52c06e0f",
-    "onestore/js/soopketmon-v21-runtime-router.js": "1a659fd42599665466573a403ed73e24742ae315401b83a30d240d27ff592431",
+    "onestore/js/app.js": "fffe5a9a1673424ff96e2b028cae1f2abaa8b44dc11f4b0a710ce468d7e9d5ca",
+    "onestore/js/soopketmon-v21-exact-shell-adapter.js": "fa5a943973115dc6d38c28b7aefde7b40be2738a6cdb9f4521e74a1afb7e2ebe",
+    "onestore/js/soopketmon-v21-runtime-router.js": "7a2136f62d1548936e784b3b64e85ae3fea1ea7c90e07da85575b8d5619b8e80",
     "onestore/js/adventure-lobby-v2107.js": "f5ff5505f668e233b2b9ca97fbd710d1826f18ac907377790c51846962c67b02",
     "onestore/js/pet-equipment-window-v1.mjs": "3d0f06659103a9120774878c1de9e00a6268ee3fa8554a89236889c33ccff7fa",
     "onestore/js/adventure-navigation-standalone.js": "0bd3f76f88aa1db0a27be817d317ad5b9810f4bae28951e6524085f96b59a3f2",
@@ -33,7 +33,7 @@
     "onestore/h5-policy.js": "8f435c8ad130f13abb48f6d59d5cc7a72bc1d1a8f4fb2b6aaa9545aa276b0eef",
     "onestore/h5-sdk.js": "c9e18131d55df5ad36ec1c8bd6bc78f9f1113be8e49cf946f2ed121d58b4ee19",
     "onestore/h5.css": "7c77779b15fef492acd7647c0d091b52a8c74b44ce511aff793ad66ac25d3d27",
-    "onestore/index.html": "8d9202de38883e90aaa3f4e5fe4334c40593cf3ea021b3a4484cad57148504c7",
-    "shared/onestore-web-assets-v1.mjs": "369fa630f2b7b847ab00656434ca1cb779ab277f17cf50cb75283a6e96355ad3"
+    "onestore/index.html": "b33722f3293f23626a654627bc738db9721c923e6fce47887e87c60aa140be00",
+    "shared/onestore-web-assets-v1.mjs": "7af1fd689ec574d343f8ecd1ba68dd91b39e20ed25629686fe47c4d1d7358114"
   }
 }

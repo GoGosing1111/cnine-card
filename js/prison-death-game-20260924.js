@@ -293,7 +293,7 @@
         if (data.serverNow) offset = Date.parse(data.serverNow) - Date.now();
         window.PrisonV1.apply(data.prison || {}, data);
         if (!data.prison?.incarcerated || data.prison.facility !== 'DEATH_GAME') {
-          stop(); if (data.prison?.incarcerated) window.PrisonV1.renderLocked(data.prison); else renderShell('prisoncamp'); return;
+          stop(); if (data.prison?.incarcerated) window.PrisonV1.renderLocked(data.prison); else renderShell('battle'); return;
         }
         until = Date.parse(data.prison.jailedUntil.replace(' ','T').replace(/Z?$/,'Z'));
       } catch (error) { if (version === generation) root.querySelector('[data-death-lock-notice]').textContent = `서버 확인이 필요합니다 · ${error.message}`; }

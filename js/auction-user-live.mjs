@@ -10,7 +10,7 @@ function ensureStyle(){if(!document.querySelector('link[data-auction-live-style]
 export function installAuctionLive(){
  if(window.CNineUserAuction)return window.CNineUserAuction;
  let view=null,root=null,polling=false,lastRead=0,disposed=false;
- const context=()=>{let user=null;try{user=window.loadUser?.();}catch{}const route=window.SoopketmonV21ExactShell?.currentRoute;return {userId:Number(user?.id||0),inLobby:route?route==='home':!!document.querySelector('.pc-lobby-scene,.mobile-command-lobby')};};
+ const context=()=>{let user=null;try{user=window.loadUser?.();}catch{}const route=window.SoopketmonV21ExactShell?.currentRoute;return {userId:Number(user?.serverUserId||user?.id||0),inLobby:route?route==='home':!!document.querySelector('.pc-lobby-scene,.mobile-command-lobby')};};
  const notice=createAuctionOpeningNotice({api:auctionLiveApi,getContext:context,onEnter:()=>window.renderShell?.('auction')});
  window.auctionHouseView=()=>'<div data-user-auction-mount><p role="status">경매장을 불러오는 중입니다.</p></div>';
  window.bindAuctionHouseView=()=>{const next=document.querySelector('[data-user-auction-mount]');if(!next||next===root)return;view?.destroy();root=next;ensureStyle();view=mountUserAuction({root,api:auctionLiveApi,onLobby:()=>window.renderShell?.('home')});};

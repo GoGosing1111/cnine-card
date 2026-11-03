@@ -18,7 +18,7 @@ export function coupSettings(input = {}) {
 // Applies to every future settlement, including rounds already recruiting.
 // Legacy trial settings cannot restore coin deductions or shorter sentences.
 export function coupRebelDefeatPolicy() {
-  return { type: 'PRISON', hours: 8, trialRun: false };
+  return { type: 'NONE', hours: 0, trialRun: false, campRetired: true };
 }
 export function coupMatchedOpponent(candidates, attackerPower, recentIds = [], random = Math.random) {
   const power = Math.max(1, Number(attackerPower) || 1);
