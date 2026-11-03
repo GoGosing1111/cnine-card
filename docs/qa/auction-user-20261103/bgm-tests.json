@@ -1,0 +1,14 @@
+{
+  "date": "2026-11-03",
+  "status": "PREPARATION_ONLY",
+  "command": "node --test tests/auction-user-20261103.test.mjs tests/auction-user-postgres-20261103.test.mjs tests/auction-user-bgm-20261103.test.mjs",
+  "tests": 30,
+  "pass": 30,
+  "fail": 0,
+  "duration_ms": 1901.7748,
+  "existing": 22,
+  "additional": 8,
+  "postgres": "PGlite with current PostgresD1Database adapter; single connection; BGM insertion rollback and 100-trillion matching included",
+  "live_database_access": false,
+  "deployment": false
+}

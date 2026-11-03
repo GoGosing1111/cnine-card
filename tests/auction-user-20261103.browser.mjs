@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';import {pathToFileURL} from 'node:url';
 import {startAuctionPreview} from './helpers/auction-user-preview-server-20261103.mjs';
 const {chromium,webkit}=await import(process.env.PLAYWRIGHT_MODULE?pathToFileURL(process.env.PLAYWRIGHT_MODULE).href:'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs');
-const out=path.resolve(import.meta.dirname,'../../../../operations/auction-user-20261103/browser');fs.mkdirSync(out,{recursive:true});const report=[];
+const out=process.env.AUCTION_BROWSER_OUTPUT?path.resolve(process.env.AUCTION_BROWSER_OUTPUT):path.resolve(import.meta.dirname,'../../../../operations/auction-user-20261103/browser');fs.mkdirSync(out,{recursive:true});const report=[];
 for(const profile of [{name:'desktop',width:1440,engine:chromium},{name:'mobile',width:390,engine:chromium},{name:'small',width:320,engine:chromium},{name:'webkit',width:390,engine:webkit}]){
  const server=await startAuctionPreview(),browser=await profile.engine.launch({headless:true,...(profile.engine===chromium?{channel:'chrome'}:{})});
  try{

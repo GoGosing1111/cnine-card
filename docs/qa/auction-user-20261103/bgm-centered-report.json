@@ -1,0 +1,83 @@
+[
+  {
+    "profile": "desktop",
+    "width": 1440,
+    "centered": {
+      "x": 440,
+      "y": 388.359375,
+      "width": 560,
+      "height": 223.28125,
+      "centerX": 720,
+      "centerY": 500,
+      "viewportWidth": 1440,
+      "viewportHeight": 1000
+    },
+    "guide": true,
+    "volumePreserved": true,
+    "normalBidDoesNotInterrupt": true,
+    "singleAudioElement": true,
+    "messageEscaped": true,
+    "lateJoinSeeks": true,
+    "autoplayFallback": true,
+    "sharedQueueOrder": true,
+    "stopsOnExit": true,
+    "overflow": false,
+    "pageErrors": [],
+    "failedResponses": [],
+    "audio": "instrumented; no real audible track or physical device tested"
+  },
+  {
+    "profile": "small",
+    "width": 320,
+    "centered": {
+      "x": 16,
+      "y": 395,
+      "width": 288,
+      "height": 210,
+      "centerX": 160,
+      "centerY": 500,
+      "viewportWidth": 320,
+      "viewportHeight": 1000
+    },
+    "guide": true,
+    "volumePreserved": true,
+    "normalBidDoesNotInterrupt": true,
+    "singleAudioElement": true,
+    "messageEscaped": true,
+    "lateJoinSeeks": true,
+    "autoplayFallback": true,
+    "sharedQueueOrder": true,
+    "stopsOnExit": true,
+    "overflow": false,
+    "pageErrors": [],
+    "failedResponses": [],
+    "audio": "instrumented; no real audible track or physical device tested"
+  },
+  {
+    "profile": "webkit",
+    "width": 390,
+    "centered": {
+      "x": 16,
+      "y": 395,
+      "width": 358,
+      "height": 210,
+      "centerX": 195,
+      "centerY": 500,
+      "viewportWidth": 390,
+      "viewportHeight": 1000
+    },
+    "guide": true,
+    "volumePreserved": true,
+    "normalBidDoesNotInterrupt": true,
+    "singleAudioElement": true,
+    "messageEscaped": true,
+    "lateJoinSeeks": true,
+    "autoplayFallback": true,
+    "sharedQueueOrder": true,
+    "stopsOnExit": true,
+    "overflow": false,
+    "pageErrors": [],
+    "failedResponses": [],
+    "audio": "instrumented; no real audible track or physical device tested"
+  }
+]

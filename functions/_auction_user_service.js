@@ -2,6 +2,7 @@ import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.
 import {jointInventoryChange} from './_joint_transactions.js';
 import {auctionAssetDebit,auctionAssetCredit,auctionCanReceive,auctionRowLock} from './_auction_user_assets.js';
 import {AUCTION_USER_POLICY_KEY,AUCTION_TICKET,AUCTION_DURATION_MS,AUCTION_MAX_BID,AUCTION_USER_DRAFT,auctionProceeds} from '../shared/auction-user-policy-v1.mjs';
+import {readAuctionBgmGuide,auctionBgmBidStatements,readAuctionBgmEvents} from './_auction_user_bgm.js';
 
 export const AUCTION_USER_SCHEMA=[
  `CREATE TABLE IF NOT EXISTS auction_user_clock_v1(id BIGINT PRIMARY KEY CHECK(id=1),version BIGINT NOT NULL)`,
@@ -12,7 +13,9 @@ export const AUCTION_USER_SCHEMA=[
  `CREATE TABLE IF NOT EXISTS auction_user_bid_receipts_v1(request_id TEXT PRIMARY KEY,lot_id TEXT NOT NULL,user_id BIGINT NOT NULL,amount BIGINT NOT NULL,created_ms BIGINT NOT NULL)`,
  `CREATE TABLE IF NOT EXISTS auction_user_settlements_v1(lot_id TEXT PRIMARY KEY,seller_id BIGINT NOT NULL,recipient_id BIGINT NOT NULL,asset_json TEXT NOT NULL,gross BIGINT NOT NULL,fee BIGINT NOT NULL,net BIGINT NOT NULL,kind TEXT NOT NULL,created_ms BIGINT NOT NULL)`,
  `CREATE TABLE IF NOT EXISTS auction_user_notices_v1(lot_id TEXT NOT NULL,user_id BIGINT NOT NULL,claimed_ms BIGINT NOT NULL,PRIMARY KEY(lot_id,user_id))`,
- `CREATE TABLE IF NOT EXISTS auction_user_returns_v1(lot_id TEXT PRIMARY KEY,user_id BIGINT NOT NULL,asset_json TEXT NOT NULL,created_ms BIGINT NOT NULL,claimed_ms BIGINT)`
+ `CREATE TABLE IF NOT EXISTS auction_user_returns_v1(lot_id TEXT PRIMARY KEY,user_id BIGINT NOT NULL,asset_json TEXT NOT NULL,created_ms BIGINT NOT NULL,claimed_ms BIGINT)`,
+ `CREATE TABLE IF NOT EXISTS auction_user_bgm_events_v1(id TEXT PRIMARY KEY,sequence BIGINT NOT NULL UNIQUE,request_id TEXT NOT NULL UNIQUE,lot_id TEXT NOT NULL,user_id BIGINT NOT NULL,nickname TEXT NOT NULL,amount BIGINT NOT NULL,message TEXT NOT NULL,bgm_url TEXT NOT NULL,duration_seconds BIGINT NOT NULL,starts_ms BIGINT NOT NULL,ends_ms BIGINT NOT NULL)`,
+ `CREATE INDEX IF NOT EXISTS auction_user_bgm_poll_v1 ON auction_user_bgm_events_v1(lot_id,sequence)`
 ];
 // Explicit staging entry point, never called merely by opening a production page.
 export async function prepareUserAuctionSchema(env){
@@ -86,8 +89,8 @@ export function createUserAuctionService(env,{catalog,now=Date.now,legacyActive=
   if(!await auctionCanReceive(env,user.id,JSON.parse(a.asset_json)))fail('이미 보유한 이동수단에는 입찰할 수 없습니다.');
   const mine=await p('SELECT total FROM auction_user_bidders_v1 WHERE lot_id=? AND user_id=?',id,user.id).first();
   if(!Number.isSafeInteger(Number(mine?.total||0)+amount))fail('정확하게 처리할 수 있는 누적 입찰 범위를 초과했습니다.');
-  const token=crypto.randomUUID();
-  await commit(expected,[jointGuard(DB,token,'EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?)',[user.id,amount]),p('UPDATE users SET coin=coin-? WHERE id=? AND coin>=?',amount,user.id,amount),p('INSERT INTO auction_user_bidders_v1(lot_id,user_id,nickname,total,last_ms) VALUES(?,?,?,?,?) ON CONFLICT(lot_id,user_id) DO UPDATE SET total=auction_user_bidders_v1.total+excluded.total,last_ms=excluded.last_ms,nickname=excluded.nickname',id,user.id,user.nickname,amount,at),p('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?',-amount,`경매 U${id} 누적 입찰`,user.id),p('INSERT INTO auction_user_bid_receipts_v1(request_id,lot_id,user_id,amount,created_ms) VALUES(?,?,?,?,?)',requestId,id,user.id,amount,at),jointGuardEnd(DB,token)],[Number(user.id)]);
+  const token=crypto.randomUUID(),bgm=await auctionBgmBidStatements(env,{lotId:id,user,amount,requestId,message:body.message,at,sequence:expected+1});
+  await commit(expected,[jointGuard(DB,token,'EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?)',[user.id,amount]),p('UPDATE users SET coin=coin-? WHERE id=? AND coin>=?',amount,user.id,amount),p('INSERT INTO auction_user_bidders_v1(lot_id,user_id,nickname,total,last_ms) VALUES(?,?,?,?,?) ON CONFLICT(lot_id,user_id) DO UPDATE SET total=auction_user_bidders_v1.total+excluded.total,last_ms=excluded.last_ms,nickname=excluded.nickname',id,user.id,user.nickname,amount,at),p('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?',-amount,`경매 U${id} 누적 입찰`,user.id),p('INSERT INTO auction_user_bid_receipts_v1(request_id,lot_id,user_id,amount,created_ms) VALUES(?,?,?,?,?)',requestId,id,user.id,amount,at),...bgm,jointGuardEnd(DB,token)],[Number(user.id)]);
   return {ok:true,replayed:false};
  }
  async function cancel(user,id){
@@ -101,12 +104,13 @@ export function createUserAuctionService(env,{catalog,now=Date.now,legacyActive=
   await tick();const active=await p("SELECT * FROM auction_user_lots_v1 WHERE status='ACTIVE'").first();
   const [queue,history,bidders,tickets,wallet,rules]=await Promise.all([p("SELECT * FROM auction_user_lots_v1 WHERE status='QUEUED' ORDER BY queue_order LIMIT 50").all(),p("SELECT * FROM auction_user_lots_v1 WHERE status IN ('SOLD','UNSOLD','CANCELLED') ORDER BY settled_ms DESC LIMIT 20").all(),active?p('SELECT user_id,nickname,total FROM auction_user_bidders_v1 WHERE lot_id=? ORDER BY total DESC,last_ms,user_id',active.id).all():{results:[]},p('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?',user.id,AUCTION_TICKET).first(),p('SELECT CAST(coin AS TEXT) coin FROM users WHERE id=?',user.id).first(),policy()]);
   const returns=(await p('SELECT lot_id,asset_json FROM auction_user_returns_v1 WHERE user_id=? AND claimed_ms IS NULL',user.id).all()).results.map(r=>({lotId:r.lot_id,asset:publicAsset(JSON.parse(r.asset_json))}));
-  return {enabled:rules.enabled===true,active:publicLot(active),queue:queue.results.map(publicLot),history:history.results.map(publicLot),bidders:bidders.results.map(x=>({...x,user_id:Number(x.user_id),total:Number(x.total)})),returns,tickets:Number(tickets?.quantity||0),coin:wallet?.coin||'0',serverNow:now(),userId:Number(user.id),legacyActive:await legacyActive()};
+  return {enabled:rules.enabled===true,active:publicLot(active),queue:queue.results.map(publicLot),history:history.results.map(publicLot),bidders:bidders.results.map(x=>({...x,user_id:Number(x.user_id),total:Number(x.total)})),returns,tickets:Number(tickets?.quantity||0),coin:wallet?.coin||'0',bgmGuide:await readAuctionBgmGuide(env),serverNow:now(),userId:Number(user.id),legacyActive:await legacyActive()};
  }
  async function claimNotice(user,id){
   const result=await p("INSERT OR IGNORE INTO auction_user_notices_v1(lot_id,user_id,claimed_ms) SELECT id,?,? FROM auction_user_lots_v1 WHERE id=? AND status='ACTIVE' AND started_ms<=? AND ends_ms>?",user.id,now(),id,now(),now()).run();
   return {show:Number(result?.meta?.changes||0)===1};
  }
  async function claimReturn(user,id){const expected=await version(),r=await p('SELECT * FROM auction_user_returns_v1 WHERE lot_id=? AND user_id=?',id,user.id).first();if(!r)fail('반환 대기 물품을 찾을 수 없습니다.',404);if(r.claimed_ms!==null)return {ok:true,replayed:true};const asset=JSON.parse(r.asset_json);if(!await auctionCanReceive(env,user.id,asset))fail('같은 이동수단을 보유하고 있어 안전 보관 중입니다. 기존 보유분을 정리한 뒤 수령하세요.');await commit(expected,[...await auctionAssetCredit(env,user.id,asset,id),p('UPDATE auction_user_returns_v1 SET claimed_ms=? WHERE lot_id=?',now(),id)],[Number(user.id)]);return {ok:true};}
- return {host,bid,cancel,state,tick,claimNotice,claimReturn,catalog};
+ const bgmEvents=body=>readAuctionBgmEvents(env,{lotId:body.lotId,after:body.after,at:now()});
+ return {host,bid,cancel,state,tick,claimNotice,claimReturn,catalog,bgmEvents};
 }

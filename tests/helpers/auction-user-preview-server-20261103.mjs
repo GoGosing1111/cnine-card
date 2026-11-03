@@ -13,9 +13,9 @@ export async function startAuctionPreview(){
    if(url.pathname.startsWith('/__auction-preview/')){
     const action=url.pathname.split('/').pop(),user=f.user(Number(req.headers['x-preview-user']||2));if(!user)return json(res,{error:'Unknown preview account'},401);
     let raw='';for await(const part of req){raw+=part;if(raw.length>10000)return json(res,{error:'Too large'},413);}const body=raw?JSON.parse(raw):null;
-    if(!['state','catalog','host','bid','cancel','notice','return'].includes(action))return json(res,{error:'Unknown preview route'},404);
+    if(!['state','catalog','host','bid','cancel','notice','return','bgm-events'].includes(action))return json(res,{error:'Unknown preview route'},404);
     if(['host','bid','cancel','notice','return'].includes(action)&&req.method!=='POST')return json(res,{error:'POST required'},405);
-    const run=async()=>{if(action==='state')return f.service.state(user);if(action==='catalog')return {assets:await f.catalog(user)};if(action==='host')return f.service.host(user,body);if(action==='bid')return f.service.bid(user,body);if(action==='cancel')return f.service.cancel(user,body.lotId);if(action==='notice')return f.service.claimNotice(user,body.lotId);if(action==='return')return f.service.claimReturn(user,body.lotId);};
+    const run=async()=>{if(action==='state')return f.service.state(user);if(action==='catalog')return {assets:await f.catalog(user)};if(action==='host')return f.service.host(user,body);if(action==='bid')return f.service.bid(user,body);if(action==='cancel')return f.service.cancel(user,body.lotId);if(action==='notice')return f.service.claimNotice(user,body.lotId);if(action==='return')return f.service.claimReturn(user,body.lotId);if(action==='bgm-events')return f.service.bgmEvents(body||{});};
     const result=queue.then(run);queue=result.catch(()=>{});return json(res,await result);
    }
    if(url.pathname.startsWith('/api/'))return json(res,{error:'Live API unavailable in this isolated preview'},403);

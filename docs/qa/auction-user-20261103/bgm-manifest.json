@@ -1,0 +1,63 @@
+{
+  "date": "2026-11-03",
+  "status": "PREPARATION_ONLY",
+  "supersedes_code_hashes_only": "assets-manifest.json remains original preparation evidence; ticket art unchanged",
+  "files": [
+    {
+      "path": "functions/_auction_user_bgm.js",
+      "bytes": 2885,
+      "sha256": "19d406991e2f78a5ce3bf467e2928c30768ebfe1679eef70cd9b933a253e48b6"
+    },
+    {
+      "path": "functions/_auction_user_service.js",
+      "bytes": 16423,
+      "sha256": "545dc01018d2bf79f6616ea0761b01c57808484e03e3548a7233ff00e9a7a599"
+    },
+    {
+      "path": "js/auction-user-bgm-v1.mjs",
+      "bytes": 5836,
+      "sha256": "83695e7ab333b6e85316e25d68905c7286c7ed2805e28102ac64e0e63181fc6b"
+    },
+    {
+      "path": "js/auction-user-v1.mjs",
+      "bytes": 19733,
+      "sha256": "1acd67b752e1913bc16e4541b0dde9af8d1878c68412392ce63f4bd5a859bb45"
+    },
+    {
+      "path": "css/auction-user-v1.css",
+      "bytes": 15913,
+      "sha256": "37bad5da4ea9b96d72037ad31ea71b8dec737334a203ad48de141e156282413a"
+    },
+    {
+      "path": "tests/auction-user-bgm-20261103.test.mjs",
+      "bytes": 7357,
+      "sha256": "4888656d4e41c9e1e9df2f93966504bd1d699d2907e3210fe98d0d9407cbc769"
+    },
+    {
+      "path": "tests/auction-user-bgm-20261103.browser.mjs",
+      "bytes": 7861,
+      "sha256": "d28a5262a97749cb603abe6d64ae364230833d35c3b1a4b220bf4d9011c71ffe"
+    },
+    {
+      "path": "tests/auction-user-postgres-20261103.test.mjs",
+      "bytes": 4352,
+      "sha256": "50819f23c6adcbc188fa436758bbe8baca793b1afae13983d00555dfd805feda"
+    },
+    {
+      "path": "tests/auction-user-20261103.browser.mjs",
+      "bytes": 4918,
+      "sha256": "36068eae41b2fe2d00389c3a7d5ea34f69f8e711646a1241ae6747bafda18e7f"
+    },
+    {
+      "path": "tests/helpers/auction-user-fixture-20261103.mjs",
+      "bytes": 7931,
+      "sha256": "69731bbc560017e9d5ff430bc41912506043974e328b8e99da2bd193e00aec6b"
+    },
+    {
+      "path": "tests/helpers/auction-user-preview-server-20261103.mjs",
+      "bytes": 4006,
+      "sha256": "49d2b333d424c5643b3897f2d7eda8fc190fe59ee6500ca3cb2ac786d850479a"
+    }
+  ],
+  "latest_ui": "Centered bid announcement, desktop width 560px, mobile margin 16px; centered-final evidence"
+}

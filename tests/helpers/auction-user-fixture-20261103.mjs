@@ -10,6 +10,7 @@ export async function userAuctionFixture(t){
  CREATE TABLE users(id INTEGER PRIMARY KEY,nickname TEXT,coin INTEGER);
  CREATE TABLE coin_logs(id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER,change_amount INTEGER,balance_after INTEGER,reason TEXT);
  CREATE TABLE inventory_items(code TEXT PRIMARY KEY,name TEXT,is_active INTEGER);
+ CREATE TABLE auction_bgm_rules_v1554(id INTEGER PRIMARY KEY,auction_id INTEGER NOT NULL,min_bid INTEGER NOT NULL DEFAULT 0,max_bid INTEGER NOT NULL DEFAULT 0,bgm_url TEXT NOT NULL,bgm_duration INTEGER NOT NULL DEFAULT 40,sort_order INTEGER NOT NULL DEFAULT 0);
  CREATE TABLE cnine_user_inventory(user_id INTEGER,item_code TEXT,quantity INTEGER,unseen_quantity INTEGER,created_at TEXT DEFAULT CURRENT_TIMESTAMP,updated_at TEXT DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,item_code));
  CREATE TABLE inventory_logs(user_id INTEGER,item_code TEXT,change_amount INTEGER,balance_after INTEGER,reason TEXT,reference_type TEXT,reference_id TEXT);
  CREATE TABLE user_cards(user_id INTEGER,card_id TEXT,quantity INTEGER,breakthrough_level INTEGER,breakthrough_fail_count INTEGER,first_obtained_at TEXT,last_obtained_at TEXT,PRIMARY KEY(user_id,card_id));
