@@ -1,0 +1,6 @@
+{
+  "issue": "Initial verification incorrectly assumed WebP images are Windows startup-essential.",
+  "resolution": "The existing manifest builder marks scripts/styles/fonts essential and images on-demand. Both CNINE WebPs are present with matching exact byte hashes; preserve that existing policy and require essential only for the two JS/MJS modules.",
+  "runtimeChanges": 0,
+  "redeploys": 0
+}

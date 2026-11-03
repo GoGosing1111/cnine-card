@@ -1,0 +1,71 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:dimkiwoogi-clan-withdraw:20261103:v1",
+  "authorization": "딤키우기 클랜 탈퇴시켜",
+  "completedAt": "2026-11-03T10:33:07.415Z",
+  "completedAtKst": "2026-11-03 19:33:07 KST",
+  "auditId": "54037",
+  "targets": [
+    {
+      "id": 4836,
+      "name": "딤키우기",
+      "clanId": 3
+    }
+  ],
+  "counts": [
+    {
+      "clanId": 3,
+      "clan": "T1",
+      "before": 11,
+      "after": 10
+    }
+  ],
+  "formationsRemoved": [],
+  "surveysDeactivated": 1,
+  "poolsWithdrawn": 1,
+  "archiveKey": "ops:dimkiwoogi-clan-withdraw:20261103:v1:before",
+  "testsPassed": 8,
+  "atomic": true,
+  "rollbackVerified": true,
+  "independentReadOnly": true,
+  "runtimeViews": [
+    {
+      "userId": 4836,
+      "nickname": "딤키우기",
+      "membership": null,
+      "rosterCount": 0
+    }
+  ],
+  "noWriteReplayVerified": true,
+  "messagesSent": 0,
+  "economyWrites": 0,
+  "gameDeployment": false,
+  "storageMaintenance": false,
+  "scheduledAutomations": 0,
+  "evidence": [
+    {
+      "file": "preflight.json",
+      "sha256": "1ea18a26dcc2a15812fae617fa83fbebd795b41fcb8ced74b0a9ceafa335c2e6"
+    },
+    {
+      "file": "operation.mjs",
+      "sha256": "a5cdf3d15047100ebd109f30ee11c7c496db182640e552f1a178139f0c8feffa"
+    },
+    {
+      "file": "run.mjs",
+      "sha256": "32e24bd1ab7d257b2303464e8e43ac31c3e4fa9150c320b794ea9195fbc99081"
+    },
+    {
+      "file": "rehearsal.json",
+      "sha256": "6921569d541971384fbfffc914467f025387d2392c8589784bdef37365db626c"
+    },
+    {
+      "file": "receipt.json",
+      "sha256": "ca77850f5196f89e5de741cdce8ff78fb29aa1984554f3c6e5baaac3193b1aae"
+    },
+    {
+      "file": "verify.json",
+      "sha256": "f2ef5facd5b93f221d85ff17a48909a62fb694a3bd73d663294aa4e715563c6e"
+    }
+  ]
+}
