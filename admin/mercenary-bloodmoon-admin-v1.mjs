@@ -1,5 +1,5 @@
-import {createStockScheduleEditor} from './mercenary-stock-schedule-v1.mjs?v=20261026-v1';
-import {BLOODMOON_PACK,BLOODMOON_NORMAL_RANKS,validateBloodmoonPack,bloodmoonPackReadiness,bloodmoonEffectivePercent} from '../shared/mercenary-bloodmoon-pack-v1.mjs?v=20261026-stock-schedule-v1';
+import {createStockScheduleEditor} from './mercenary-stock-schedule-v1.mjs?v=20261103-soldout-v1';
+import {BLOODMOON_PACK,BLOODMOON_NORMAL_RANKS,validateBloodmoonPack,bloodmoonPackReadiness,bloodmoonEffectivePercent} from '../shared/mercenary-bloodmoon-pack-v1.mjs?v=20261103-bloodmoon-unique-v1';
 import {parseLimitedPercent,formatLimitedPercent,LIMITED_RATE_STEP,limitedRateUnits,LIMITED_RATE_SCALE,LIMITED_RATE_TOTAL} from '../shared/mercenary-limited-rates-v1.mjs';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const field=(label,attrs,value)=>'<label class="mc-field"><span>'+label+'</span><input '+attrs+' value="'+(value??'')+'" placeholder="미정"></label>';

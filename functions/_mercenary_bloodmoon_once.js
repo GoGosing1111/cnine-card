@@ -22,7 +22,7 @@ export async function readBloodmoonSsOnce(DB,userId){
  return {key,before:row.value,operationId:value.operationId,...(specific?{mercenaryCode:value.mercenaryCode}:{}),...(indexed?{slotIndex:value.slotIndex}:{})};
 }
 export function pickBloodmoonSsOnceCode(state,randomInt,once=null){
- const eligible=BLOODMOON_LIMITED_CARDS.filter(c=>once?.mercenaryCode?c.rank==='SSS'&&c.code===once.mercenaryCode:c.rank==='SS').map(c=>({code:c.code,weight:limitedRateUnits(state.settings.cardRatesPpm[c.code]),stock:state.stock.find(s=>s.code===c.code)})).filter(c=>c.weight>0&&c.stock?.prepared&&c.stock.remaining>0);
+ const eligible=BLOODMOON_LIMITED_CARDS.filter(c=>once?.mercenaryCode?c.rank==='SSS'&&c.code===once.mercenaryCode:c.rank==='SS').map(c=>({code:c.code,weight:limitedRateUnits(state.settings.cardRatesPpm[c.code]),stock:state.stock.find(s=>s.code===c.code)})).filter(c=>c.weight>0&&c.stock?.prepared&&c.stock.remaining>0&&!state.ownedCodes?.includes(c.code));
  const total=eligible.reduce((sum,c)=>sum+c.weight,0);
  // With no available guarantee target, use ordinary pack odds and leave the
  // entitlement armed. Exhaustion must not prevent the pack from opening.

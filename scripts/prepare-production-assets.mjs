@@ -222,6 +222,8 @@ const sssCutinAuthoringOnly=file=>file.startsWith('preview/sss-area-cutscenes-20
 // The tactical layout is embedded in all eleven V3 bundles. The internal rank
 // growth model is test-only and already blocked by the public scripts route. Keep both in Git, reserving Pages for the HUD.
 const tacticalHudRepositoryOnly=new Set(['preview/project-v-v3/source/battle/TacticalHudLayout.js','scripts/internal/account-rank-growth-v1.mjs']);
+// Keep the historical admin-limit audit in Git; its delivery slot holds Bloodmoon personal odds.
+operationAuditOnly.add('docs/admin-master-star-limit-20261006.json');
 // Preserve Kamishiro runtime sources and historical QA reports in Git; ship their compiled code and approved PNGs.
 export const kamishiroAuditOnly=new Set(JSON.parse(readFileSync(new URL('./kamishiro-audit-only-20261028.json',import.meta.url),'utf8')));
 const kamishiroBundledOnly=file=>file==='preview/project-v-v3/source/battle/KamishiroCombatPlayback.js'||file.startsWith('preview/project-v-v3/source/battle/kamishiro/');

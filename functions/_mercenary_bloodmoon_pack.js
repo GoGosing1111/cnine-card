@@ -1,3 +1,5 @@
+import {BLOODMOON_CODES} from '../shared/mercenary-bloodmoon-catalog-v1.mjs';
+import {bloodmoonOwnedCodes} from '../shared/mercenary-bloodmoon-ownership-v1.mjs';
 import {BLOODMOON_LIMITED_CARDS} from '../shared/mercenary-bloodmoon-pool-v3.mjs';
 import {BLOODMOON_PACK,BLOODMOON_PACK_KEY,BLOODMOON_PACK_RELEASE_ENABLED,bloodmoonPackDraft,validateBloodmoonPack,bloodmoonPackState,bloodmoonPackCatalogRow,bloodmoonPackReadiness} from '../shared/mercenary-bloodmoon-pack-v1.mjs';
 import {readMercenaryDocument} from './_mercenary_account.js';
@@ -11,16 +13,17 @@ import {jointError,readJointBody,jointResponseError} from './_joint_request.js';
 import {processMercenaryStockSchedules,changeMercenaryStockSchedule,readBloodmoonStockSnapshot} from './_mercenary_stock_schedule.js';
 
 const initial=()=>({revision:1,settings:bloodmoonPackDraft(),updatedAt:null});
-export async function readBloodmoonPackState(env,{releaseEnabled=BLOODMOON_PACK_RELEASE_ENABLED}={}){
+export async function readBloodmoonPackState(env,{releaseEnabled=BLOODMOON_PACK_RELEASE_ENABLED,userId=null}={}){
  const scheduling=await processMercenaryStockSchedules(env);
- const [{row,stock},cms,normalDraw]=await Promise.all([
+ const [{row,stock},cms,normalDraw,owned]=await Promise.all([
   readBloodmoonStockSnapshot(env),
-  readMercenaryDocument(env),env.DB.prepare('SELECT payload_json,revision FROM mercenary_draw_config_v1 WHERE id=1').first()
+  readMercenaryDocument(env),env.DB.prepare('SELECT payload_json,revision FROM mercenary_draw_config_v1 WHERE id=1').first(),
+  userId?env.DB.prepare('SELECT mercenary_code,total_copies FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code IN ('+BLOODMOON_CODES.map(()=>'?').join(',')+') AND total_copies>0').bind(userId,...BLOODMOON_CODES).all():{results:[]}
  ]);
  const saved=row?JSON.parse(row.value):initial();
  const rules=normalDraw?validateMercenaryCardRules(JSON.parse(normalDraw.payload_json).cardRules,MERCENARY_CMS_SEED.catalog.cards.map(c=>c.code)):null;
  const normalCards=rules?limitedNormalCards(cms.document.mercenaries,MERCENARY_CMS_SEED.catalog.cards,rules):[];
- return {revision:saved.revision,updatedAt:saved.updatedAt,rawPack:row?.value??null,normalCmsRevision:cms.revision,normalDrawRevision:Number(normalDraw?.revision||0),serverNow:scheduling.serverNow,stockScheduleHistory:scheduling.document.schedules,stockSchedules:scheduling.document.schedules.filter(s=>s.status==='SCHEDULED').map(({id,executeAt,changes})=>({id,executeAt,changes})),...bloodmoonPackState(saved.settings,stock,normalCards,{releaseEnabled})};
+ return {revision:saved.revision,updatedAt:saved.updatedAt,rawPack:row?.value??null,normalCmsRevision:cms.revision,normalDrawRevision:Number(normalDraw?.revision||0),serverNow:scheduling.serverNow,stockScheduleHistory:scheduling.document.schedules,stockSchedules:scheduling.document.schedules.filter(s=>s.status==='SCHEDULED').map(({id,executeAt,changes,condition})=>({id,executeAt,changes,...(condition?{condition}:{})})),personalOddsKnown:Boolean(userId),...bloodmoonPackState(saved.settings,stock,normalCards,{releaseEnabled,ownedCodes:bloodmoonOwnedCodes(owned.results)})};
 }
 const publicState=(state,{admin=false}={})=>{const {rawPack,stockScheduleHistory,...safe}=state;return {...safe,...(admin?{stockScheduleHistory}:{}),id:state.pack.id,name:state.pack.name,packSettings:state.settings};};
 export async function bloodmoonPackShopRow(env){
@@ -81,6 +84,7 @@ export async function handleBloodmoonPack({path,request,env,deps}){
    if(request.method==='GET')return deps.json(publicState(await readBloodmoonPackState(env),{admin:true}),200,{'cache-control':'no-store'});
   }
   if(request.method!=='GET')return deps.json({error:'지원하지 않는 요청입니다.'},405);
-  return deps.json(publicState(await readBloodmoonPackState(env)),200,{'cache-control':'no-store'});
+  const viewer=await deps.authenticate?.(request,env);
+  return deps.json(publicState(await readBloodmoonPackState(env,{userId:viewer?.id})),200,{'cache-control':'no-store'});
  }catch(e){return jointResponseError(e,deps.json);}
 }

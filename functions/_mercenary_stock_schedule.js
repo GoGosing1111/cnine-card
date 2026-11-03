@@ -22,7 +22,7 @@ function validateRequest(actor,body){
   if(!exact(body,['action','requestId','scheduleId','reason'])||!validId(body.scheduleId))throw fail('취소할 예약을 확인하세요.');
   return structuredClone(body);
  }
- if(!exact(body,['action','requestId','executeAt','changes','reason'])||typeof body.executeAt!=='string'||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.000Z$/.test(body.executeAt)||!Number.isFinite(Date.parse(body.executeAt))||new Date(body.executeAt).toISOString()!==body.executeAt)throw fail('예약 시각을 초 단위로 확인하세요.');
+ if(!(exact(body,['action','requestId','executeAt','changes','reason'])||exact(body,['action','requestId','executeAt','changes','reason','condition'])&&body.condition==='SOLD_OUT_ONLY')||typeof body.executeAt!=='string'||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.000Z$/.test(body.executeAt)||!Number.isFinite(Date.parse(body.executeAt))||new Date(body.executeAt).toISOString()!==body.executeAt)throw fail('예약 시각을 초 단위로 확인하세요.');
  if(!Array.isArray(body.changes)||!body.changes.length||body.changes.length>BLOODMOON_LIMITED_CARDS.length||new Set(body.changes.map(c=>c?.code)).size!==body.changes.length||body.changes.some(c=>!exact(c,['code','quantity'])||!BLOODMOON_LIMITED_CARDS.some(card=>card.code===c.code)||!Number.isSafeInteger(c.quantity)||c.quantity<1||c.quantity>10000))throw fail('한정 용병과 추가 수량(1~10,000장)을 확인하세요.');
  return {...body,changes:[...body.changes].sort((a,b)=>a.code.localeCompare(b.code))};
 }
@@ -49,7 +49,7 @@ export async function changeMercenaryStockSchedule(env,actor,input){
     const row=snapshot.stock.find(r=>r.code===change.code),reserved=stockScheduleNext(next).flatMap(s=>s.changes).filter(c=>c.code===change.code).reduce((n,c)=>n+c.quantity,0);
     if(!row||Number(row.stock_limit)!==settings.stockLimits[change.code]||Number(row.issued)>Number(row.stock_limit)||Number(row.stock_limit)+reserved+change.quantity>STOCK_SCHEDULE_MAX_LIMIT)throw fail('현재 발행 한도와 예약 증가분을 확인하세요.',409);
    }
-   schedule={id:body.requestId,status:'SCHEDULED',executeAt:body.executeAt,changes:body.changes,reason:body.reason.trim(),createdAt:before.serverNow,createdBy:Number(actor.id)};
+   schedule={id:body.requestId,status:'SCHEDULED',executeAt:body.executeAt,changes:body.changes,...(body.condition?{condition:body.condition}:{}),reason:body.reason.trim(),createdAt:before.serverNow,createdBy:Number(actor.id)};
    next.schedules.push(schedule);
   }else{
    schedule=next.schedules.find(s=>s.id===body.scheduleId);
@@ -75,21 +75,33 @@ export async function processMercenaryStockSchedules(env,{clock}={}){
   const before=await readMercenaryStockSchedules(env),now=clock?clock():Date.parse(before.serverNow),due=stockScheduleNext(before.document).find(s=>Date.parse(s.executeAt)<=now);
   if(!due)return {...before,applied};
   const snapshot=await readBloodmoonStockSnapshot(env);if(!snapshot.row)throw fail('예약 실행에 필요한 팩 설정이 없습니다.',503);
-  const pack=JSON.parse(snapshot.row.value),settings=readBloodmoonPackSettings(pack.settings),limits=[];
+  const pack=JSON.parse(snapshot.row.value),settings=readBloodmoonPackSettings(pack.settings),limits=[],skipped=[];
+  if(due.condition!==undefined&&due.condition!=='SOLD_OUT_ONLY')throw fail('예약 조건을 확인해야 합니다.',503);
   for(const change of due.changes){
    const row=snapshot.stock.find(s=>s.code===change.code),limit=Number(row?.stock_limit),issued=Number(row?.issued);
    if(!row||limit!==settings.stockLimits[change.code]||!Number.isSafeInteger(issued)||issued<0||issued>limit||limit+change.quantity>STOCK_SCHEDULE_MAX_LIMIT)throw fail('예약 대상의 발행 수량을 확인해야 합니다.',503);
+   if(due.condition==='SOLD_OUT_ONLY'&&issued!==limit){skipped.push({code:change.code,limit,issued,remaining:limit-issued,reason:'STOCK_REMAINS'});continue;}
    limits.push({code:change.code,before:limit,after:limit+change.quantity,quantity:change.quantity});settings.stockLimits[change.code]=limit+change.quantity;
   }
   validateBloodmoonPack(settings,{allowLegacyStock:true});
-  const completedAt=new Date(now).toISOString(),receipt={...due,status:'APPLIED',completedAt,limits},next=structuredClone(before.document);
+  const completedAt=new Date(now).toISOString(),receipt={...due,status:'APPLIED',completedAt,limits,...(due.condition?{skipped}:{} )},next=structuredClone(before.document);
   next.revision++;next.schedules=trimStockScheduleHistory(next.schedules.map(s=>s.id===due.id?receipt:s));
-  const after=JSON.stringify(next),nextPack=JSON.stringify({...pack,revision:pack.revision+1,settings,updatedAt:completedAt,updatedBy:due.createdBy,lastStockScheduleId:due.id}),token=crypto.randomUUID();
-  const statements=[p('UPDATE app_meta SET value=? WHERE key=? AND value=?',after,STOCK_SCHEDULE_KEY,before.raw),jointGuard(DB,token,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[STOCK_SCHEDULE_KEY,after]),
-   p('UPDATE app_meta SET value=? WHERE key=? AND value=?',nextPack,BLOODMOON_PACK_KEY,snapshot.row.value),jointGuard(DB,token+'p','EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[BLOODMOON_PACK_KEY,nextPack])];
+  const after=JSON.stringify(next),nextPack=limits.length?JSON.stringify({...pack,revision:pack.revision+1,settings,updatedAt:completedAt,updatedBy:due.createdBy,lastStockScheduleId:due.id}):snapshot.row.value,token=crypto.randomUUID();
+  const statements=[];
+  // Openings lock policy before stock. Keep the same lock order here.
+  if(DB.dialect==='postgres')statements.push(p('SELECT key FROM app_meta WHERE key=? FOR UPDATE',BLOODMOON_PACK_KEY));
+  // Freeze the decision on exhausted stock in the same transaction as the receipt.
+  // A concurrent opening forces a fresh snapshot, including previously skipped cards.
+  if(due.condition==='SOLD_OUT_ONLY'){
+   const codes=due.changes.map(c=>c.code);
+   if(DB.dialect==='postgres')statements.push(p('SELECT code FROM mercenary_limited_stock_v1 WHERE code IN ('+codes.map(()=>'?').join(',')+') ORDER BY code FOR UPDATE',...codes));
+   for(const code of codes){const row=snapshot.stock.find(s=>s.code===code),g=token+':snapshot:'+code;statements.push(jointGuard(DB,g,'EXISTS(SELECT 1 FROM mercenary_limited_stock_v1 WHERE code=? AND stock_limit=? AND issued=?)',[code,Number(row.stock_limit),Number(row.issued)]),jointGuardEnd(DB,g));}
+  }
+  statements.push(p('UPDATE app_meta SET value=? WHERE key=? AND value=?',after,STOCK_SCHEDULE_KEY,before.raw),jointGuard(DB,token,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[STOCK_SCHEDULE_KEY,after]),
+   p('UPDATE app_meta SET value=? WHERE key=? AND value=?',nextPack,BLOODMOON_PACK_KEY,snapshot.row.value),jointGuard(DB,token+'p','EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[BLOODMOON_PACK_KEY,nextPack]));
   for(const limit of limits){const guard=token+limit.code;statements.push(p('UPDATE mercenary_limited_stock_v1 SET stock_limit=?,revision=revision+1,last_token=? WHERE code=? AND stock_limit=? AND issued<=stock_limit',limit.after,guard,limit.code,limit.before),jointGuard(DB,guard,'EXISTS(SELECT 1 FROM mercenary_limited_stock_v1 WHERE code=? AND stock_limit=? AND last_token=?)',[limit.code,limit.after,guard]),jointGuardEnd(DB,guard));}
   statements.push(p('INSERT INTO app_meta(key,value) VALUES(?,?)',STOCK_SCHEDULE_KEY+':applied:'+due.id,JSON.stringify(receipt)),p('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)',due.createdBy,'MERCENARY_STOCK_SCHEDULE_APPLY','SETTING',due.id,JSON.stringify(limits.map(r=>({code:r.code,limit:r.before}))),JSON.stringify(receipt)),jointGuardEnd(DB,token+'p'),jointGuardEnd(DB,token));
-  try{await DB.batch(statements);applied++;conflicts=0;}catch(error){const current=await readMercenaryStockSchedules(env);if(current.document.schedules.some(s=>s.id===due.id&&s.status!=='SCHEDULED'))continue;if(++conflicts>3||current.raw===before.raw&&(await readBloodmoonStockSnapshot(env)).row?.value===snapshot.row.value)throw error;}
+  try{await DB.batch(statements);applied++;conflicts=0;}catch(error){const current=await readMercenaryStockSchedules(env);if(current.document.schedules.some(s=>s.id===due.id&&s.status!=='SCHEDULED'))continue;const latest=await readBloodmoonStockSnapshot(env),stockChanged=due.condition==='SOLD_OUT_ONLY'&&JSON.stringify(latest.stock)!==JSON.stringify(snapshot.stock);if(++conflicts>3||current.raw===before.raw&&latest.row?.value===snapshot.row.value&&!stockChanged)throw error;}
  }
  throw fail('예약 처리 중입니다. 잠시 후 다시 확인하세요.',503);
 }
