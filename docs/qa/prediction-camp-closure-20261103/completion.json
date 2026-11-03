@@ -1,0 +1,97 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:prediction-camp-closure:20261103:v1",
+  "completedAt": "2026-11-03T06:04:51.212Z",
+  "completedAtKst": "2026-11-03 15:04:51 KST",
+  "source": "fbf999a91bd17f9a5260fb9f0f80793f4627a491",
+  "pages": {
+    "id": "6b407ab0-17c3-401f-bfe8-309ab81755ba",
+    "url": "https://6b407ab0.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "fbf999a91bd17f9a5260fb9f0f80793f4627a491"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "45266c2b-dc01-40a3-a7ea-45b03f07d338",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "00595801-eedd-40ef-9f22-c4012df7acc4",
+      "percentage": 100
+    }
+  ],
+  "auditId": "53966",
+  "events": [
+    "3189",
+    "3716"
+  ],
+  "users": 44,
+  "betCount": 50,
+  "totalRefund": "3575092800000",
+  "releasedClan": 0,
+  "releasedEvent": 0,
+  "tests": 40,
+  "publicFiles": 13,
+  "publicEndpoints": [
+    {
+      "route": "coin-prediction/state",
+      "method": "GET",
+      "status": 410,
+      "code": "COIN_PREDICTION_RETIRED"
+    },
+    {
+      "route": "coin-prediction/bet",
+      "method": "POST",
+      "status": 410,
+      "code": "COIN_PREDICTION_RETIRED"
+    },
+    {
+      "route": "admin/coin-prediction/event",
+      "method": "POST",
+      "status": 410,
+      "code": "COIN_PREDICTION_RETIRED"
+    },
+    {
+      "route": "admin/coin-prediction/settings",
+      "method": "POST",
+      "status": 410,
+      "code": "COIN_PREDICTION_RETIRED"
+    },
+    {
+      "route": "prison-camp/status",
+      "method": "GET",
+      "status": 410,
+      "code": "PRISON_CAMP_RETIRED"
+    },
+    {
+      "route": "admin/prison-camp/action",
+      "method": "POST",
+      "status": 410,
+      "code": "PRISON_CAMP_RETIRED"
+    }
+  ],
+  "windowsFiles": [
+    {
+      "file": "js/app.js",
+      "sha256": "e0a9dfd79303f50a0b502b0304e2c0a733317a3b461630e8941fa61b44ad96cd"
+    },
+    {
+      "file": "js/soopketmon-v21-exact-shell-adapter.js",
+      "sha256": "89d7d27bf3ad9b565686df92c8614d556083e5575a6023894bc103a14b269dc6"
+    },
+    {
+      "file": "js/soopketmon-v21-runtime-router.js",
+      "sha256": "08e559eabd96931575a4854ab3052bbf5e33b537dc7e12c0e750f95c7de532dd"
+    }
+  ],
+  "historyPreserved": true,
+  "selectOnlyReplay": true,
+  "allWalletSyncAdvanced": true,
+  "publicMobile": true,
+  "realDeviceValidation": false,
+  "messagesSent": 0,
+  "maintenance": 0,
+  "schedules": 0
+}
