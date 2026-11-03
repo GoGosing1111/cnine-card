@@ -1,3 +1,4 @@
+import {readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -15,7 +16,7 @@ import {cryvern,ragniel} from '../scripts/measure-cryvern-balance.mjs';
 import {tierCards,fixture} from './helpers/mercenary-operating-roster-v2144.mjs';
 import {cryvernPlaybackPlan} from '../preview/project-v-v3/source/battle/CryvernCombatPlayback.js';
 import {sample} from '../preview/mercenary-ice-crystal-dual-sword-v1/skill.mjs';
-const manifest=JSON.parse(fs.readFileSync('preview/mercenary-ice-crystal-dual-sword-v1/manifest.json'));
+const manifest=JSON.parse(readCommittedAssetSync('preview/mercenary-ice-crystal-dual-sword-v1/manifest.json'));
 const prepared=prepareCryvernCandidate(seed,manifest);
 const prior=structuredClone(seed);prior.catalog.cards=prior.catalog.cards.filter(c=>c.code!==CRYVERN_CODE);prior.catalog.skills=prior.catalog.skills.filter(s=>s.id!==CRYVERN_SKILL_ID);
 prior.document.mercenaries=prior.document.mercenaries.filter(c=>c.code!==CRYVERN_CODE);prior.document.skills=prior.document.skills.filter(s=>s.id!==CRYVERN_SKILL_ID);prior.document.assignments=prior.document.assignments.filter(c=>c.code!==CRYVERN_CODE);
@@ -28,7 +29,7 @@ test('catalog and grade pool exactly follow the explicit release gate; name has 
  assert.equal(prepared.registration.card.rank,'SSS');assert.equal(manifest.motionStatus,'USER_APPROVED');
  assert.equal(manifest.runtimeEnabled,CRYVERN_RELEASE_ENABLED);
  for(const [file,hash] of [[manifest.sourceArt,manifest.sourceArtInfo.sha256],[manifest.battleSprite,manifest.battleSpriteSha256]])
-  assert.equal(createHash('sha256').update(fs.readFileSync(file)).digest('hex').toUpperCase(),hash);
+  assert.equal(createHash('sha256').update(readCommittedAssetSync(file)).digest('hex').toUpperCase(),hash);
 });
 test('local release candidate appends only one card/skill, retains CMS edits and is idempotent',()=>{
  const current=structuredClone(prior.document);current.mercenaries[0].name='보존할 운영 이름';current.skills[0].balance.cost=17;current.assignments[0].skillIds=['MS-004'];
@@ -42,7 +43,7 @@ test('local release candidate appends only one card/skill, retains CMS edits and
  const incomplete=structuredClone(current);incomplete.mercenaries.pop();assert.throws(()=>expandMercenarySkillCatalog(incomplete,prepared.document,prepared.catalog));
  const collision=structuredClone(prior);collision.catalog.cards.push({...prepared.registration.card,sourceArtSha256:'0'.repeat(64)});
  assert.throws(()=>prepareCryvernCandidate(collision,manifest),/COLLISION/);
- const roster=JSON.parse(fs.readFileSync('assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json'));
+ const roster=JSON.parse(readCommittedAssetSync('assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json'));
  const extended=appendCryvernRoster(roster,prepared.registration.card);assert.deepEqual(appendCryvernRoster(extended,prepared.registration.card),extended);
  assert.deepEqual(extended.cards.filter(c=>c.code!==CRYVERN_CODE),roster.cards.filter(c=>c.code!==CRYVERN_CODE));
 });

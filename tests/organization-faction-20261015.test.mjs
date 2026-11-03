@@ -26,7 +26,7 @@ test('25 Seoul districts, policy nulls, own-member authority and no clan data wr
  assert.equal(ORGANIZATION_DISTRICTS.length,25);assert.equal(new Set(ORGANIZATION_DISTRICTS.map(x=>x.id)).size,25);
  assert.throws(()=>validateOrganizationFactionPolicy({revision:0,mode:'ON',fundsPerRegion:0,upgradeCosts:[0,null,null,null,null]}));
  const f=await fixture(t),v=await f.overview();assert.equal(v.status,200);assert.equal(v.data.sessions.active,true);assert.equal(v.data.treasury.funds,0);
- assert.equal(v.data.districts.length,25);assert.equal(v.data.roster.length,5);assert.equal(v.data.clans.length,6);
+ assert.equal(v.data.districts.length,25);assert.equal(v.data.roster.length,5);assert.equal(v.data.clans.length,8);
  assert.equal((await f.commander(1,7)).status,409);assert.equal((await f.post('organization/faction/formation',{formation:{...empty,attack1:[2,7]}})).status,403);
  assert.equal((await f.post('organization/faction/formation',{formation:{...empty,attack1:[2,3],defense1:[4,5,6]}},3)).status,403);
  assert.equal((await f.post('organization/faction/formation',{formation:{...empty,attack1:[2,3],defense1:[4,5,6]}})).status,200);

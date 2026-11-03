@@ -1,3 +1,5 @@
+import {readCommittedAsset,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import test,{after} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -31,12 +33,12 @@ function rig(){
 }
 test('24 frames have preserved generated sources, real alpha, unique pixels and transparent cell gutters',async()=>{
   for(const [key,spec] of Object.entries(assets.atlases)){
-    const data=await readFile(new URL('..'+spec.url,import.meta.url));
+    const data=await readCommittedAsset(new URL('..'+spec.url,import.meta.url));
     assert.equal(createHash('sha256').update(data).digest('hex'),spec.sha256);
-    const raw=await sharp(data).raw().toBuffer({resolveWithObject:true});
+    const raw=await sharpCommittedAsset(data).raw().toBuffer({resolveWithObject:true});
     assert.equal(raw.info.channels,4);assert.equal(raw.info.width,4*spec.frameWidth);
     assert.equal(new Set(spec.frames.map(f=>f.sha256)).size,12);
-    const source=await readFile(new URL('../preview/z-body-thunder-v3/'+spec.source.file,import.meta.url));
+    const source=await readCommittedAsset(new URL('../preview/z-body-thunder-v3/'+spec.source.file,import.meta.url));
     assert.equal(createHash('sha256').update(source).digest('hex'),spec.source.sha256);
     let transparent=0,opaque=0;
     for(let y=0;y<raw.info.height;y++)for(let x=0;x<raw.info.width;x++){

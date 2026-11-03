@@ -1,3 +1,5 @@
+import {readCommittedAsset,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {DatabaseSync} from 'node:sqlite';
@@ -11,7 +13,7 @@ import {resolveAccountBattleSuitAnimation,ACCOUNT_BATTLE_SUIT_ANIMATION_CATALOG}
 import {buildBattleSuitFighter} from '../functions/_battle_v2_preview.js';
 
 const file=p=>new URL('../'+p.replace(/^\//,''),import.meta.url);
-const read=p=>readFile(file(p),'utf8');
+const read=p=>readCommittedAsset(file(p),'utf8');
 const manifest=JSON.parse(await read('assets/ui/project-v/account-battle-suits/h-body-v2066.json'));
 const sha=b=>createHash('sha256').update(b).digest('hex').toUpperCase();
 function fixture(){
@@ -85,9 +87,9 @@ test('H-BODY item art and separate V3 fallback are true RGBA with clear margins'
   assert.equal(manifest.liveEnabled,true);assert.equal(manifest.scope,'PVE_ONLY');
   assert.equal(manifest.suit.code,H_BODY_ITEM.code);
   for(const asset of [...manifest.items,{image:manifest.suit.battleSprite,sha256:manifest.suit.sha256}]){
-    const bytes=await readFile(file(asset.image)),meta=await sharp(bytes).metadata();
+    const bytes=await readCommittedAsset(file(asset.image)),meta=await sharpCommittedAsset(bytes).metadata();
     assert.equal(sha(bytes),asset.sha256);assert.equal(meta.hasAlpha,true);
-    const {data,info}=await sharp(bytes).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+    const {data,info}=await sharpCommittedAsset(bytes).ensureAlpha().raw().toBuffer({resolveWithObject:true});
     let clear=0;for(let o=3;o<data.length;o+=4)if(data[o]===0)clear++;
     assert.ok(clear>info.width*info.height*.15);
     for(let x=0;x<info.width;x++){assert.equal(data[x*4+3],0);assert.equal(data[((info.height-1)*info.width+x)*4+3],0)}
@@ -105,9 +107,9 @@ test('six H-BODY profiles bind the real V3 catalog to byte-identical approved pr
     const profile=resolveAccountBattleSuitAnimation('BATTLE_SUIT_H_BODY',entry.weaponCode);
     assert.deepEqual(profile,entry.profile);assert.ok(profile.sheetUrl.startsWith('/assets/ui/'));
     assert.ok(Object.isFrozen(profile.pivots));
-    const bytes=await readFile(file(profile.sheetUrl));assert.equal(sha(bytes),entry.atlasSha256);
+    const bytes=await readCommittedAsset(file(profile.sheetUrl));assert.equal(sha(bytes),entry.atlasSha256);
     assert.equal(sha(bytes),preview.suits[0].entries[entry.weaponIndex].atlasSha256);
-    const raw=await sharp(bytes).extract({left:0,top:profile.row*512,width:384,height:512}).ensureAlpha().raw().toBuffer();
+    const raw=await sharpCommittedAsset(bytes).extract({left:0,top:profile.row*512,width:384,height:512}).ensureAlpha().raw().toBuffer();
     let bottom=-1,sumX=0,n=0;
     for(let y=0;y<512;y++)for(let x=0;x<384;x++)if(raw[(y*384+x)*4+3]>=16)bottom=Math.max(bottom,y);
     for(let y=bottom-8;y<=bottom;y++)for(let x=0;x<384;x++)if(raw[(y*384+x)*4+3]>=16){sumX+=x;n++}

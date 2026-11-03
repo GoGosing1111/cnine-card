@@ -1,3 +1,5 @@
+import {ensurePrimeMaterialCatalog} from '../functions/_mercenary_prime_material.js';
+import {readCommittedAssetSync,statCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import {ensureSigHunterBoxCatalog} from '../functions/_sig_hunter_box.js';
 import {presentSssCubeInventory} from '../functions/_sss_miracle_cube.js';
 import {ensureLimitedShardCatalog} from '../functions/_support_package.js';
@@ -23,15 +25,15 @@ import {TOURNAMENT_GIFT} from '../functions/_tournament_gift.js';
 import {FORGE_RUNTIME_KEY} from '../shared/equipment-forge-policy-v1.mjs';
 
 const rid=()=>crypto.randomUUID();
-const api=fs.readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
+const api=readCommittedAssetSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
 const inventoryBody=api.slice(api.indexOf("    if(path==='inventory'){"),api.indexOf("    if(path==='inventory/seen'"));
-const inventory=new AsyncFunction('deps',`const {env,request,authenticate,json,ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM,ensureForgeScrollCatalog,ensureEmperorEnergyCatalog,ensurePetOpeningItems,ensurePetPotentialItem,LICH_TICKET,MADARA_TICKET,presentMiracleInventory,ensureWormContestGiftCatalog,ensureMercenarySssShardCatalog,ensureSssRerollCatalog,presentSssRerollInventory,presentSssCubeInventory,ensureLimitedShardCatalog,ensureSigHunterBoxCatalog}=deps;
+const inventory=new AsyncFunction('deps',`const {env,request,authenticate,json,ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM,ensureForgeScrollCatalog,ensureEmperorEnergyCatalog,ensurePetOpeningItems,ensurePetPotentialItem,LICH_TICKET,MADARA_TICKET,presentMiracleInventory,ensureWormContestGiftCatalog,ensureMercenarySssShardCatalog,ensureSssRerollCatalog,presentSssRerollInventory,presentSssCubeInventory,ensureLimitedShardCatalog,ensureSigHunterBoxCatalog,ensurePrimeMaterialCatalog}=deps;
 const path='inventory',ensureReversecallStreamerGiftCatalog=async()=>{},ensureTournamentGiftCatalog=async()=>{},ensureFundingGiftCatalog=async()=>{},ensureRecruitmentGiftCatalog=async()=>{},ensurePingduThanksGiftCatalog=async()=>{},ensureSkillChipFoundation=async()=>{},ensureBattleSuitCoreCatalog=async()=>{},ensureUniqueAdvancementPassCatalog=async()=>{},ensureMysticEnergyCatalog=async()=>{},blackMiracleSettings=async()=>({enabled:false}),UNIQUE_ADVANCEMENT_PASS_CODE='UNIQUE_ADVANCEMENT_PASS';${inventoryBody}`);
 const useStart=api.indexOf("    if(path==='inventory/use'&&request.method==='POST'){");
 const useBody=api.slice(useStart,api.indexOf('      const usableCodes=',useStart))+'}';
 const directUse=new AsyncFunction('deps',`const {env,request,authenticate,json,readBody,FORGE_REPAIR_ITEM,TOURNAMENT_GIFT}=deps;const path='inventory/use',UNIQUE_ADVANCEMENT_PASS_CODE='UNIQUE_ADVANCEMENT_PASS';${useBody}`);
-const deps=f=>({env:f.env,request:new Request('https://qa.test/api/inventory'),authenticate:async()=>f.user,json:(body,status=200)=>({body,status}),ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM:item,ensureForgeScrollCatalog,ensureEmperorEnergyCatalog,ensurePetOpeningItems,ensurePetPotentialItem,TOURNAMENT_GIFT,LICH_TICKET,MADARA_TICKET,presentMiracleInventory,ensureWormContestGiftCatalog,ensureMercenarySssShardCatalog,ensureSssRerollCatalog,presentSssRerollInventory,presentSssCubeInventory,ensureLimitedShardCatalog,ensureSigHunterBoxCatalog});
+const deps=f=>({env:f.env,request:new Request('https://qa.test/api/inventory'),authenticate:async()=>f.user,json:(body,status=200)=>({body,status}),ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM:item,ensureForgeScrollCatalog,ensureEmperorEnergyCatalog,ensurePetOpeningItems,ensurePetPotentialItem,TOURNAMENT_GIFT,LICH_TICKET,MADARA_TICKET,presentMiracleInventory,ensureWormContestGiftCatalog,ensureMercenarySssShardCatalog,ensureSssRerollCatalog,presentSssRerollInventory,presentSssCubeInventory,ensureLimitedShardCatalog,ensureSigHunterBoxCatalog,ensurePrimeMaterialCatalog});
 async function ready(t,postgres,quantity=2){
   const f=await forgeFixture(t,{postgres});await ensureForgeRepairCatalog(f.env);
   const policy={...f.policy,restoration:{enabled:true,coinCost:0,itemCode:item.code,itemQuantity:1,levelMode:'PREVIOUS',expiresHours:0}};
@@ -115,16 +117,16 @@ for(const postgres of [false,true]){
 }
 test('live host and generator share the new coupon asset while retaining disabled restore',()=>{
   for(const file of ['equipment-forge/index.html','scripts/build-equipment-forge-public-v1.mjs']){
-    const text=fs.readFileSync(new URL('../'+file,import.meta.url),'utf8');assert.ok(text.includes('/'+item.image));assert.match(text,/핑두 리페어 쿠폰/);assert.match(text,/id="restore-button"[^>]* disabled/);
+    const text=readCommittedAssetSync(new URL('../'+file,import.meta.url),'utf8');assert.ok(text.includes('/'+item.image));assert.match(text,/핑두 리페어 쿠폰/);assert.match(text,/id="restore-button"[^>]* disabled/);
   }
-  assert.ok(fs.statSync(new URL('../'+item.image,import.meta.url)).size<100000);
+  assert.ok(statCommittedAssetSync(new URL('../'+item.image,import.meta.url)).size<100000);
 });
 
 async function opsFixture(t){
   const f=await forgeFixture(t,{postgres:true}),policy={...f.policy,revision:1,mode:'OFF',restoration:{enabled:false,coinCost:null,itemCode:null,itemQuantity:null,levelMode:'UNSET',expiresHours:null}};
   await f.setting(FORGE_RUNTIME_KEY,policy);await f.setting('equipment_forge_public_settings_v1',{revision:1,executionMode:'OFF',publicVisible:true});
   await f.p("INSERT INTO users(id,nickname,role) VALUES(1,'검수 OWNER','OWNER')").run();
-  const sql=fs.readFileSync(new URL('../scripts/ops/pingdu-repair-policy-20260922.sql',import.meta.url),'utf8');
+  const sql=readCommittedAssetSync(new URL('../scripts/ops/pingdu-repair-policy-20260922.sql',import.meta.url),'utf8');
   // The production database-name guard is first verified; only its literal is
   // localized to PGlite's database for the subsequent exact SQL transaction.
   const database=(await f.pg.query('SELECT current_database() AS name')).rows[0].name;assert.match(database,/^[a-z0-9_]+$/);

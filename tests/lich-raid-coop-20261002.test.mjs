@@ -125,5 +125,5 @@ test('live concurrent personal inputs, replay and failed transaction preserve ex
  h.inject('INSERT INTO raid_lich_receipts_v1');assert.equal((await h.call('action',{user:2,body:next})).status,503);h.inject('');
  assert.equal((await h.call('status?roomId='+roomId,{user:2})).body.state.challenge.seals[0].index,1);
  assert.equal((await h.call('action',{user:2,body:next})).status,200);assert.equal((await h.call('status?roomId='+roomId,{user:2})).body.state.challenge.seals[0].index,2);
- assert.equal(Number((await h.one("SELECT quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code='LICH_KING_ENTRY_TICKET'")).quantity),4);
+ assert.equal(Number((await h.one("SELECT quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code='LICH_KING_ENTRY_TICKET'")).quantity),5);
 });

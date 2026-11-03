@@ -1,17 +1,18 @@
+import {readCommittedAsset} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-const read=p=>readFile(new URL('../'+p,import.meta.url),'utf8');
+const read=p=>readCommittedAsset(new URL('../'+p,import.meta.url),'utf8');
 test('all six live atlases are the exact user-approved pixels and retain their generation records',async()=>{
   for(const [folder,preview] of [['z-thunder-v3','assets.json'],['z-normal-lightning-v3','normal-assets.json']]){
     const m=JSON.parse(await read('assets/ui/project-v/account-battle-suits/'+folder+'/manifest.json'));
     const source=JSON.parse(await read('preview/z-body-thunder-v3/'+preview));
     assert.equal(m.status,'USER_APPROVED_LIVE');assert.equal(m.liveEnabled,true);assert.equal(m.approval.userMessage,'ㅇㅋ 전체 승인');
     for(const [key,spec] of Object.entries(m.atlases)){
-      const bytes=await readFile(new URL('..'+spec.url,import.meta.url));
+      const bytes=await readCommittedAsset(new URL('..'+spec.url,import.meta.url));
       assert.equal(createHash('sha256').update(bytes).digest('hex'),source.atlases[key].sha256);
-      const master=await readFile(new URL('../'+spec.source.file,import.meta.url));
+      const master=await readCommittedAsset(new URL('../'+spec.source.file,import.meta.url));
       assert.equal(createHash('sha256').update(master).digest('hex'),spec.source.sha256);
     }
   }

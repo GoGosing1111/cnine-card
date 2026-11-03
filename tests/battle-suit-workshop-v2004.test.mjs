@@ -1,3 +1,4 @@
+import {existsCommittedAssetSync,readCommittedAssetSync,statCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import assert from 'node:assert/strict';
 import {existsSync,readFileSync,statSync} from 'node:fs';
 import test from 'node:test';
@@ -5,15 +6,15 @@ import {BATTLE_SUIT_CORE_CATALOG,BATTLE_SUIT_CORE_CODES,VEHICLE_WORKSHOP_PART_CO
 import {__workshopBattleSuitTest} from '../functions/_workshop.js';
 
 const root=new URL('../',import.meta.url);
-const read=path=>readFileSync(new URL(path,root),'utf8');
+const read=path=>readCommittedAssetSync(new URL(path,root),'utf8');
 
 test('SUT 원본은 보존하고 슈트 코어 1·2·3을 투명 RGBA PNG로 등록한다',()=>{
   assert.deepEqual(BATTLE_SUIT_CORE_CODES,['SUIT_CORE_1','SUIT_CORE_2','SUIT_CORE_3','SUIT_CORE_4','SUIT_CORE_5','SUIT_CORE_6','SUIT_CORE_7']);
   assert.deepEqual(BATTLE_SUIT_CORE_CATALOG.map(item=>item.name),['슈트 코어 1','슈트 코어 2','슈트 코어 3','슈트 코어 4','슈트 코어 5','슈트 코어 6','슈트 코어 7']);
   for(let index=1;index<=3;index++){
-    assert.ok(existsSync(new URL(`assets/items/SUT${index}.jpeg`,root)),`SUT${index}.jpeg source must remain`);
-    const url=new URL(`assets/items/suit-core-${index}-v2004.png`,root),png=readFileSync(url);
-    assert.ok(statSync(url).size>100_000,`suit core ${index} must be a production asset`);
+    assert.ok(existsCommittedAssetSync(new URL(`assets/items/SUT${index}.jpeg`,root)),`SUT${index}.jpeg source must remain`);
+    const url=new URL(`assets/items/suit-core-${index}-v2004.png`,root),png=readCommittedAssetSync(url);
+    assert.ok(statCommittedAssetSync(url).size>100_000,`suit core ${index} must be a production asset`);
     assert.equal(png.subarray(1,4).toString(),'PNG');
     assert.equal(png.readUInt32BE(16),1254);
     assert.equal(png.readUInt32BE(20),1254);

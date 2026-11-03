@@ -1,3 +1,5 @@
+import {readCommittedAsset,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import {ADMINISTRATION_TITLE_KEY} from '../functions/_administration_title.js';
 import {FLAG_BRIGADE_TITLE_KEY} from '../functions/_flag_brigade_title.js';
 import {RAID_BUS_DRIVER_TITLE_KEY} from '../functions/_raid_bus_driver_title.js';
@@ -25,12 +27,12 @@ import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 
 test('approved atlas bytes, alpha, dimensions and tall-foot pivots survive promotion',async()=>{
   for(const asset of Z_SWORD.assets){
-    const data=await readFile(new URL('..'+asset.url,import.meta.url));
+    const data=await readCommittedAsset(new URL('..'+asset.url,import.meta.url));
     assert.equal(createHash('sha256').update(data).digest('hex'),asset.sha256);
-    assert.ok((await sharp(data).metadata()).hasAlpha);
+    assert.ok((await sharpCommittedAsset(data).metadata()).hasAlpha);
   }
   for(const spec of [Z_SWORD.attack,Z_SWORD.cast]){
-    const meta=await sharp(new URL('..'+spec.url,import.meta.url).pathname.replace(/^\/([A-Za-z]:)/,'$1')).metadata();
+    const meta=await sharpCommittedAsset(new URL('..'+spec.url,import.meta.url).pathname.replace(/^\/([A-Za-z]:)/,'$1')).metadata();
     assert.equal(meta.width,spec.columns*spec.frameWidth);assert.equal(meta.height,spec.rows*spec.frameHeight);
     assert.equal(new Set(spec.frames.map(f=>JSON.stringify(f.pivot))).size,1);
   }

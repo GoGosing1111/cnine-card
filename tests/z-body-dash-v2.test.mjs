@@ -1,3 +1,5 @@
+import {readCommittedAsset,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -27,12 +29,12 @@ function rig(){
 }
 test('20 genuine-alpha authored frames are distinct, padded, and preserve generated masters',async()=>{
   for(const [key,spec] of Object.entries(assets.atlases)){
-    const data=await readFile(path.join(root,spec.url)),meta=await sharp(data).metadata();
+    const data=await readCommittedAsset(path.join(root,spec.url)),meta=await sharpCommittedAsset(data).metadata();
     assert.equal(meta.width,2048);assert.equal(meta.height,spec.rows*512);assert.ok(meta.hasAlpha);assert.equal(sha(data),spec.sha256);
-    assert.equal(sha(await readFile(path.join(root,spec.source.file))),spec.source.sha256);
+    assert.equal(sha(await readCommittedAsset(path.join(root,spec.source.file))),spec.source.sha256);
     const hashes=[];
     for(let i=0;i<spec.frames.length;i++){
-      const pixels=await sharp(data).extract({left:i%4*512,top:Math.floor(i/4)*512,width:512,height:512}).raw().toBuffer();
+      const pixels=await sharpCommittedAsset(data).extract({left:i%4*512,top:Math.floor(i/4)*512,width:512,height:512}).raw().toBuffer();
       let clear=0,partial=0,visible=0;
       for(let y=0;y<512;y++)for(let x=0;x<512;x++){
         const alpha=pixels[(y*512+x)*4+3];

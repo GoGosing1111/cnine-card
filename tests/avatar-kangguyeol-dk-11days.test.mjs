@@ -1,3 +1,4 @@
+import {readCommittedAsset} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -6,7 +7,7 @@ import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 import * as api from '../functions/_avatar.js';
 
 test('DK event avatar supports an 11-day cosmetic ownership through the live catalog and equip API',async()=>{
- const item=JSON.parse(await readFile(new URL('../preview/avatar-kangguyeol-dk-v1/catalog.json',import.meta.url),'utf8'));
+ const item=JSON.parse(await readCommittedAsset(new URL('../preview/avatar-kangguyeol-dk-v1/catalog.json',import.meta.url),'utf8'));
  const pg=new PGlite();
  try{
   await pg.exec(`CREATE FUNCTION sqlite_now() RETURNS text LANGUAGE SQL STABLE AS $$SELECT to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS')$$;
@@ -40,7 +41,7 @@ test('DK event avatar supports an 11-day cosmetic ownership through the live cat
   assert.equal(equipped.code,item.code);assert.deepEqual(equipped.effects,[]);
   assert.equal(equipped.lobbyImage,item.lobby_image);assert.equal(equipped.lobbyMobileImage,item.lobby_mobile_image);assert.equal(equipped.equipmentImage,item.equipment_image);
   assert.equal(api.applyAvatarCoinGain(100,equipped).total,100);
-  for(const path of [equipped.lobbyImage,equipped.lobbyMobileImage,equipped.equipmentImage])assert.ok((await readFile(new URL('../'+path,import.meta.url))).length>0);
+  for(const path of [equipped.lobbyImage,equipped.lobbyMobileImage,equipped.equipmentImage])assert.ok((await readCommittedAsset(new URL('../'+path,import.meta.url))).length>0);
   await pg.query("UPDATE avatar_user_ownership_v1 SET expires_at='2000-01-01 00:00:00' WHERE user_id=1");
   const expired=(await call(1,'avatar/catalog')).body.avatars.find(a=>a.code===item.code);
   assert.equal(expired.owned,false);assert.equal(expired.equipped,false);

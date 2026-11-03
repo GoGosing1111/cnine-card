@@ -53,7 +53,7 @@ assert.deepEqual(Array.from(navigation.menuGroupOrder), [
 ]);
 assert.deepEqual(
   Array.from(navigation.menuGroupOrder, id => navigation.groups[id].title),
-  ['인벤토리', '카드·상점', '카드·용병·펫', '모험 · PVE', '대전 · PVP', '장비·칭호·차고', '제작소', '보상', '승부·경매', '행정부']
+  ['인벤토리', '카드·상점', '카드·용병·펫', '모험 · PVE', '대전 · PVP', '장비·칭호·차고', '제작소', '보상', '경매장', '행정부']
 );
 assert.equal(navigation.routes.fusion.title, '제작소');
 assert.equal(navigation.routes.workshop.title, '제작소');

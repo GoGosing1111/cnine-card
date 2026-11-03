@@ -437,27 +437,27 @@ test('CMS coin field accepts 100/300 eok and blocks invalid amounts before reque
     fetch: async (_path, options) => { requests.push(JSON.parse(options.body)); return { ok: true, json: async () => ({ settings: requests.at(-1) }) }; }
   });
   api.render(configured({ rewardLocked: false }));
-  assert.match(api.panelMarkup(), /클리어 보상 코인 · 최대 300억/);
-  assert.match(api.panelMarkup(), /id="coreRaidRewardCoin" type="number" min="0" max="30000000000"/);
-  for (const amount of ['10000000000', '30000000000']) {
+  assert.match(api.panelMarkup(), /클리어 보상 코인 · 최대 1조/);
+  assert.match(api.panelMarkup(), /id="coreRaidRewardCoin" type="number" min="0" max="1000000000000"/);
+  for (const amount of ['10000000000', '1000000000000']) {
     node('#coreRaidRewardCoin').value = amount;
     await api.save();
     assert.equal(requests.at(-1).rewardCoin, Number(amount));
     assert.equal(Number(node('#coreRaidRewardCoin').value), Number(amount));
   }
-  for (const amount of ['30000000001', '-1', '1.5', 'invalid']) {
+  for (const amount of ['1000000000001', '-1', '1.5', 'invalid']) {
     node('#coreRaidRewardCoin').value = amount;
     await api.save();
-    assert.match(alerts.at(-1), /300억/);
+    assert.match(alerts.at(-1), /1조/);
   }
   assert.equal(requests.length, 2);
 });
 
 test('new runtime and nested CMS cache tags are reachable from their actual entry points', () => {
-  assert.match(read('index.html'), /core-protocol-raid-v1924\.js\?v=20260922-abandon-defeat/);
-  assert.match(read('scripts/verify-production-release.mjs'), /core-protocol-raid-v1924\.js\?v=20260922-abandon-defeat/);
-  assert.match(read('admin/index.html'), /raid-overhaul-v1293\.js\?v=20260923-coin-cap-300eok/);
-  assert.match(read('admin/raid-overhaul-v1293.js'), /core-protocol-raid-admin-v2021\.js\?v=20260923-coin-cap-300eok/);
+  assert.match(read('index.html'), /core-protocol-raid-v1924\.js\?v=20261029-free-entry/);
+  assert.match(read('scripts/verify-production-release.mjs'), /core-protocol-raid-v1924\.js\?v=20261029-free-entry/);
+  assert.match(read('admin/index.html'), /raid-overhaul-v1293\.js\?v=20261029-free-entry/);
+  assert.match(read('admin/raid-overhaul-v1293.js'), /core-protocol-raid-admin-v2021\.js\?v=20261029-free-entry/);
   assert.match(read('preview/core-protocol-raid-v1/index.html'), /core-protocol-raid-v1924\.js\?v=20260922-abandon-defeat/);
   assert.match(read('preview/core-protocol-raid-v1/preview.js'), /운영 설정 아님/);
 });

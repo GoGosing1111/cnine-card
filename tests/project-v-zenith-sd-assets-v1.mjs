@@ -1,3 +1,4 @@
+import {readCommittedAsset,readCommittedDirectory,statCommittedAsset} from './helpers/sparse-media-fixture.mjs';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFile, readdir, stat} from 'node:fs/promises';
@@ -8,7 +9,7 @@ import {inflateSync} from 'node:zlib';
 const rootUrl=new URL('../',import.meta.url);
 const rootPath=fileURLToPath(rootUrl);
 const manifestUrl=new URL('assets/ui/project-v/characters/zenith/manifest-v1.json',rootUrl);
-const manifest=JSON.parse(await readFile(manifestUrl,'utf8'));
+const manifest=JSON.parse(await readCommittedAsset(manifestUrl,'utf8'));
 
 const liveRoster=[
   ['CN-519C181C18DF4B8E','토마토','토마토','assets/cards/ZENITH/1.jpg'],
@@ -253,9 +254,9 @@ for(const [index,entry] of manifest.characters.entries()){
   assert.equal(entry.battleSprite,expectedSprite,`${label}: canonical battleSprite 경로 불일치`);
   assert(!expectedSpritePaths.has(entry.battleSprite),`${label}: battleSprite 경로 중복`);
   expectedSpritePaths.add(entry.battleSprite);
-  await stat(new URL(entry.sourceArt,rootUrl));
+  await statCommittedAsset(new URL(entry.sourceArt,rootUrl));
   const spriteUrl=new URL(entry.battleSprite,rootUrl);
-  const sprite=await readFile(spriteUrl);
+  const sprite=await readCommittedAsset(spriteUrl);
   const hash=createHash('sha256').update(sprite).digest('hex').toUpperCase();
   assert.equal(hash,entry.sha256,`${label}: SHA-256 불일치`);
   const actual=inspectRgbaPng(sprite,manifest.assetContract.alphaThreshold);
@@ -297,7 +298,7 @@ for(const [index,entry] of manifest.characters.entries()){
     for(const variant of variants){
       assert(variant.path.startsWith('assets/'),`${label}: responsive 경로는 assets/로 시작해야 합니다.`);
       assert(!variant.path.includes('..')&&!variant.path.includes('\\')&&!variant.path.includes(':'),`${label}: responsive 경로가 안전하지 않습니다.`);
-      const derivative=await readFile(new URL(variant.path,rootUrl));
+      const derivative=await readCommittedAsset(new URL(variant.path,rootUrl));
       const dimensions=variant.format==='webp'?inspectWebpSize(derivative):inspectAvifSize(derivative,variant.width);
       assert.equal(dimensions.width,variant.width,`${label}: ${variant.format} 실제 width가 ${variant.width}px가 아닙니다.`);
       assert(dimensions.height>0,`${label}: ${variant.format} height가 올바르지 않습니다.`);
@@ -306,13 +307,13 @@ for(const [index,entry] of manifest.characters.entries()){
 }
 
 const spriteDirectory=new URL('assets/ui/project-v/characters/zenith/',rootUrl);
-const actualSpriteNames=(await readdir(spriteDirectory)).filter(name=>name.endsWith('.png')).sort();
+const actualSpriteNames=(await readCommittedDirectory(spriteDirectory)).filter(name=>name.endsWith('.png')).sort();
 const expectedSpriteNames=[...expectedSpritePaths].map(path=>path.split('/').at(-1)).sort();
 assert.deepEqual(actualSpriteNames,expectedSpriteNames,'ZENITH 디렉터리에 manifest 밖 PNG가 있거나 canonical PNG가 누락됐습니다.');
 
 const collectTextFiles=async target=>{
   const absolute=resolve(rootPath,target);
-  const info=await stat(absolute);
+  const info=await statCommittedAsset(absolute);
   if(info.isFile())return [absolute];
   const output=[];
   for(const entry of await readdir(absolute,{withFileTypes:true})){
@@ -334,7 +335,7 @@ for(const file of productionFiles){
   // 전투 어댑터와 전투 전용 반응형 맵만 BATTLE_ENGINE_ONLY 자산을 읽을 수 있다.
   // 덱/도감/뽑기 렌더러는 계속 전면 금지한다.
   if(approvedBattleConsumers.has(file))continue;
-  const source=await readFile(file,'utf8');
+  const source=await readCommittedAsset(file,'utf8');
   if(file===resolve(rootPath,'functions/_monster_defense_roster.js')){
     // Defense is a battle consumer. Its card portrait remains separate from
     // the battlefield SD; the ordinary deck/dex routes remain prohibited.
@@ -357,9 +358,9 @@ for(const file of productionFiles){
   }
 }
 
-const previewHtml=await readFile(new URL('preview/project-v-zenith-sd-v1/index.html',rootUrl),'utf8');
-const previewJs=await readFile(new URL('preview/project-v-zenith-sd-v1/zenith-sd-battle.js',rootUrl),'utf8');
-const responsiveBattleMap=await readFile(new URL('js/responsive-battle-sprites-v1815.js',rootUrl),'utf8');
+const previewHtml=await readCommittedAsset(new URL('preview/project-v-zenith-sd-v1/index.html',rootUrl),'utf8');
+const previewJs=await readCommittedAsset(new URL('preview/project-v-zenith-sd-v1/zenith-sd-battle.js',rootUrl),'utf8');
+const responsiveBattleMap=await readCommittedAsset(new URL('js/responsive-battle-sprites-v1815.js',rootUrl),'utf8');
 assert.match(previewHtml,/v=9-orikkung-heeya/,'프리뷰 cache key가 전체 로스터 검수 버전이 아닙니다.');
 assert.match(previewHtml,/TECHNICAL PASS 29 \/ 29 · VISUAL APPROVED/);
 assert.match(responsiveBattleMap,/zenith-cn-25f931ce393d474e-sd-v1\.png":"\/assets\/responsive\/project-v\/zenith\/zenith-cn-25f931ce393d474e-sd-v1-768\.webp/,'딤우스 SD 반응형 전투 매핑이 누락됐습니다.');

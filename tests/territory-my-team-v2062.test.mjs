@@ -1,16 +1,17 @@
+import * as warChat from '../js/war-chat-v1.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 
 const read = path => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
-const client = read('js/territory-war-v1811.js');
+const client = read('js/territory-war-v1811.js').replace("import('./war-chat-v1.mjs?v=20261028-chat2')",'Promise.resolve(globalThis.__testWarChat)');
 const css = read('css/territory-war-v1824.css');
 const index = read('index.html');
 const server = read('functions/_territory_war.js');
 
 function renderer(mine, settings = {}) {
-  const sandbox = {};
+  const sandbox = {__testWarChat:warChat};
   const bootstrap = client.lastIndexOf("  document.addEventListener('visibilitychange'");
   assert.ok(bootstrap > 0, 'isolate real renderers before browser bootstrap');
   vm.runInNewContext(client.slice(0, bootstrap) + `
@@ -103,7 +104,7 @@ test('강조는 저속 테두리 광원이며 모션 줄이기 설정에서는 �
 
 test('배포 HTML이 새 팀 강조 CSS/JS 버전을 함께 요청한다', () => {
   assert.match(index, /css\/territory-war-v1824\.css\?v=2062-my-team-emphasis/);
-  assert.match(index, /js\/territory-war-v1811\.js\?v=2062-my-team-emphasis/);
+  assert.match(index, /js\/territory-war-v1811\.js\?[^"\s]*\bv=2062-my-team-emphasis/);
 });
 
 test('참가 신청과 관리자 수동 편성은 동시 중복 요청에도 기본키 오류를 노출하지 않는다', () => {

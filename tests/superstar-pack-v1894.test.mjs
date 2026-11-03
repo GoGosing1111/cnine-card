@@ -1,3 +1,4 @@
+import {existsCommittedAssetSync,readCommittedAssetSync,statCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
@@ -11,7 +12,7 @@ import {
 } from '../functions/_superstar_pack.js';
 
 const root = path.resolve(import.meta.dirname, '..');
-const read = (relative) => readFileSync(path.join(root, relative), 'utf8');
+const read = (relative) => readCommittedAssetSync(path.join(root, relative), 'utf8');
 
 test('슈퍼스타팩 기본 운영값은 공개·일반 개봉 ON·1장 3억·10%와 빠른 개봉 최대 10,000회다', () => {
   const settings = __superstarPackTest.cleanSuperstarPackSettings({});
@@ -117,7 +118,7 @@ test('클라이언트는 일반·프리미엄팩을 제거하고 슈퍼스타 �
   const hyper = source.indexOf("id: 'hyper'");
   assert.equal(premium, -1);
   assert.ok(advanced >= 0 && advanced < pickup && pickup < superstar && superstar < hyper);
-  assert.match(source, /rows\.filter\(row => !\['basic','premium','hyper'\]\.includes\(String\(row\.id\)\)\)/);
+  assert.match(source, /rows\.filter\(row => row&&!\['basic','premium','hyper','halloween','mercenary-halloween-ss-limited'\]\.includes\(String\(row\.id\)\)\)/);
   assert.match(source, /const SUPERSTAR_PACK_EARLY_ACCESS_NICKNAMES=new Set\(\['조은','강구열','진짜디임','오리꿍','요닝','하이희야♡'\]\);/);
   assert.match(source, /const early=SUPERSTAR_PACK_EARLY_ACCESS_NICKNAMES\.has\(nickname\);/);
   assert.match(source, /OWNER OPEN/);
@@ -163,10 +164,10 @@ test('팩 원본·반응형 리소스와 전용 스타일이 배포 엔트리에
     'css/superstar-pack-v1894.css',
   ];
   files.forEach((file) => {
-    assert.equal(existsSync(path.join(root, file)), true, `${file} missing`);
-    assert.ok(statSync(path.join(root, file)).size > 1_000, `${file} unexpectedly small`);
+    assert.equal(existsCommittedAssetSync(path.join(root, file)), true, `${file} missing`);
+    assert.ok(statCommittedAssetSync(path.join(root, file)).size > 1_000, `${file} unexpectedly small`);
   });
-  const png = readFileSync(path.join(root, files[0]));
+  const png = readCommittedAssetSync(path.join(root, files[0]));
   assert.equal(png.readUInt32BE(16), 1024);
   assert.equal(png.readUInt32BE(20), 1536);
   const index = read('index.html');

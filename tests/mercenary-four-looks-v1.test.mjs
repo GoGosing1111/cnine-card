@@ -1,3 +1,5 @@
+import {readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFileSync } from 'node:fs';
@@ -6,7 +8,7 @@ import sharp from 'sharp';
 
 const root = new URL('../', import.meta.url);
 const base = new URL('preview/mercenary-four-looks-v1/', root);
-const read = path => readFileSync(new URL(path, base));
+const read = path => readCommittedAssetSync(new URL(path, base));
 const prompts = JSON.parse(read('prompts.json'));
 const sha = buffer => createHash('sha256').update(buffer).digest('hex').toUpperCase();
 
@@ -31,7 +33,7 @@ test('4종 원본은 개별 1024×1536 sRGB PNG이며 네이티브 생성 파일
   const hashes = new Set();
   for (const job of prompts.jobs) {
     const file = read(`assets/${job.file}`);
-    const metadata = await sharp(file).metadata();
+    const metadata = await sharpCommittedAsset(file).metadata();
     assert.equal(metadata.format, 'png');
     assert.equal(metadata.width, 1024);
     assert.equal(metadata.height, 1536);
@@ -47,7 +49,7 @@ test('4종 원본은 개별 1024×1536 sRGB PNG이며 네이티브 생성 파일
 });
 
 test('베스페라 앵커를 보존하고 원화·프레임은 검수 페이지에서 별도 계층으로 표시한다', () => {
-  const anchor = readFileSync(new URL('assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png', root));
+  const anchor = readCommittedAssetSync(new URL('assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png', root));
   assert.equal(sha(anchor), '629564D768A4BCEFCD0BE746E744DA49A64F1CF2BE7D048E7485FC6CB14FF874');
   const html = read('index.html').toString();
   assert.equal((html.match(/class="art"/g) || []).length, 4);

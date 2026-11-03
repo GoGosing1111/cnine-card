@@ -1,3 +1,4 @@
+import {readCommittedAsset} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -65,7 +66,7 @@ test('DC members receive the same T1 options for exactly eleven days; replay and
   assert.deepEqual(equipped.effects,owned.effects);
   assert.equal(api.applyAvatarCoinGain(100,equipped).total,175);
   assert.equal(api.applyAvatarRaidEntryBonus(3,equipped).limit,13);
-  for(const file of [equipped.lobbyImage,equipped.lobbyMobileImage,equipped.equipmentImage])assert.ok((await readFile(new URL('../'+file,import.meta.url))).length>0);
+  for(const file of [equipped.lobbyImage,equipped.lobbyMobileImage,equipped.equipmentImage])assert.ok((await readCommittedAsset(new URL('../'+file,import.meta.url))).length>0);
   await q('UPDATE avatar_user_ownership_v1 SET expires_at=sqlite_now() WHERE user_id=1 AND avatar_code=$1',[DC_AVATAR.code]);
   const expired=(await call(1,'avatar/catalog')).body.avatars.find(a=>a.code===DC_AVATAR.code);
   assert.equal(expired.owned,false);assert.equal(expired.equipped,false);

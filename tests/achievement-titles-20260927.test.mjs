@@ -1,3 +1,6 @@
+import {readCodexSssLimitedCodes} from '../functions/_trophy_milestones.js';
+import {JINMU_CODE} from '../shared/mercenary-jinmu-v1.mjs';
+import {JOKRO_CODE} from '../shared/mercenary-jokro-v1.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -165,10 +168,10 @@ for (const postgres of [false, true]) {
     const before=await syncAchievementTitles(f.env,7);
     assert.equal(before.progress.TROPHY_HUNTER.owned,3);assert(before.progress.TROPHY_HUNTER.codes.includes('BLUE_EMPIRE_20'));
     assert.deepEqual(before.granted,[]);
-    const codexHoldings=['V-973','V-974','V-975','V-976','V-987','V-978','V-996','V-999','V-988'];
-    for(const code of codexHoldings.slice(0,8))await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(7,?,99)',code).run();
-    const partial=await syncAchievementTitles(f.env,7);assert.equal(partial.progress.TROPHY_HUNTER.owned,3);assert.deepEqual(partial.granted,[],'Copies of eight distinct codex types cannot satisfy 9/11');
-    await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(7,?,99)',codexHoldings[8]).run();
+    const codes=readCodexSssLimitedCodes(),goal=Math.ceil(codes.length*4/5),codexHoldings=codes.filter(code=>![JINMU_CODE,JOKRO_CODE].includes(code)).slice(0,goal);assert.equal(codexHoldings.length,goal);
+    for(const code of codexHoldings.slice(0,goal-1))await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(7,?,99)',code).run();
+    const partial=await syncAchievementTitles(f.env,7);assert.equal(partial.progress.TROPHY_HUNTER.owned,3);assert.deepEqual(partial.granted,[],'Multiple copies below the current 80% distinct-type threshold cannot earn the trophy');
+    await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(7,?,99)',codexHoldings[goal-1]).run();
     const earned=await syncAchievementTitles(f.env,7);
     assert.equal(earned.progress.TROPHY_HUNTER.owned,4);assert(earned.progress.TROPHY_HUNTER.codes.includes('LIMITED_EDITION_80'));assert.equal(earned.granted.length,1);
     assert.deepEqual((await syncAchievementTitles(f.env,7)).granted,[]);

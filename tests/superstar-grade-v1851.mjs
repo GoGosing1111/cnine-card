@@ -1,3 +1,4 @@
+import {readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -5,7 +6,7 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const read=relative=>fs.readFileSync(path.join(root,relative),'utf8');
+const read=relative=>readCommittedAssetSync(path.join(root,relative),'utf8');
 
 test('SUPERSTAR uses the same championship frame in live cards and CMS previews',()=>{
   const app=read('js/app.js');
@@ -37,7 +38,7 @@ test('SUPERSTAR remains event-exclusive and cannot enter normal card packs',()=>
 
 test('SUPERSTAR frame is a compressed transparent WebP production asset',()=>{
   const framePath=path.join(root,'assets/ui/card-frames/superstar-championship-frame-v1.webp');
-  const data=fs.readFileSync(framePath);
+  const data=readCommittedAssetSync(framePath);
 
   assert.equal(data.subarray(0,4).toString('ascii'),'RIFF');
   assert.equal(data.subarray(8,12).toString('ascii'),'WEBP');

@@ -1,3 +1,5 @@
+import {readCommittedAsset,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -5,8 +7,8 @@ import {readFile} from 'node:fs/promises';
 import sharp from 'sharp';
 
 const rootUrl=new URL('../',import.meta.url);
-const read=path=>readFile(new URL(path,rootUrl));
-const text=path=>readFile(new URL(path,rootUrl),'utf8');
+const read=path=>readCommittedAsset(new URL(path,rootUrl));
+const text=path=>readCommittedAsset(new URL(path,rootUrl),'utf8');
 const sha256=buffer=>createHash('sha256').update(buffer).digest('hex').toUpperCase();
 
 test('아포칼립스 보스 71/72는 승인된 투명 SD로 전투에만 연결된다',async()=>{
@@ -49,7 +51,7 @@ test('아포칼립스 보스 71/72는 승인된 투명 SD로 전투에만 연결
 
     const sprite=await read(item.sprite);
     assert.equal(sha256(sprite),entry.sha256);
-    const spriteImage=sharp(sprite,{failOn:'error'});
+    const spriteImage=sharpCommittedAsset(sprite,{failOn:'error'});
     const metadata=await spriteImage.metadata();
     assert.deepEqual(
       {format:metadata.format,width:metadata.width,height:metadata.height,channels:metadata.channels,hasAlpha:metadata.hasAlpha},

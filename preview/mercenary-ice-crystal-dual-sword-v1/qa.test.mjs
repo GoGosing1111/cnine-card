@@ -1,3 +1,5 @@
+import {readCommittedAsset,readCommittedAssetSync} from '../../tests/helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -8,7 +10,7 @@ import {gsap} from 'gsap';
 import {MODES,makePlan,sample} from './skill.mjs';
 import {CueAudio} from './source/CueAudio.js';
 import {IceDualSwordFX} from './source/IceDualSwordFX.js';
-const root=new URL('./',import.meta.url),project=new URL('../../',import.meta.url),manifest=JSON.parse(await fs.readFile(new URL('manifest.json',root),'utf8'));
+const root=new URL('./',import.meta.url),project=new URL('../../',import.meta.url),manifest=JSON.parse(await readCommittedAsset(new URL('manifest.json',root),'utf8'));
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex').toUpperCase();
 
 test('all seven sequences seek deterministically and never alter gameplay',()=>{
@@ -36,8 +38,8 @@ test('every collision cue selects authored contact poses and effect peaks',()=>{
 });
 test('approved source and SD are preserved, separate and explicitly approved for release',async()=>{
  assert.equal(manifest.rank,'SSS');assert.equal(manifest.runtimeEnabled,true);assert.equal(manifest.skillsAssigned,true);assert.notEqual(manifest.sourceArt,manifest.battleSprite);
- assert.equal(hash(await fs.readFile(new URL(manifest.sourceArt,project))),'321600E04E4CDB3ABD9D35CCEEFCF4AFBD9F34AED73ABD5A8AD038123A999535');
- assert.equal(hash(await fs.readFile(new URL(manifest.battleSprite,project))),'DAE9EAA500E924E8561D6823D1A89C90F63A77EF5C8727A835E196C6F98016BD');
+ assert.equal(hash(await readCommittedAsset(new URL(manifest.sourceArt,project))),'321600E04E4CDB3ABD9D35CCEEFCF4AFBD9F34AED73ABD5A8AD038123A999535');
+ assert.equal(hash(await readCommittedAsset(new URL(manifest.battleSprite,project))),'DAE9EAA500E924E8561D6823D1A89C90F63A77EF5C8727A835E196C6F98016BD');
  assert.equal(manifest.battleSpriteStatus,'USER_APPROVED_BATTLE_SPRITE');assert.equal(manifest.codeStatus,'LIVE_APPROVED');assert.equal(manifest.name,'크라이베른');assert.equal(manifest.title,'');assert.ok(manifest.battleSpriteInfo.clear>.7);assert.equal(manifest.battleSpriteInfo.border,0);
 });
 test('134 distinct generated frames preserve original alpha, sources and atlas borders',async()=>{
@@ -45,10 +47,10 @@ test('134 distinct generated frames preserve original alpha, sources and atlas b
  assert.equal(new Set(specs.map(s=>s.atlas)).size,specs.length,'Motion/FX atlas paths must not collide');
  let count=0;
  for(const spec of [...Object.values(manifest.motion),...Object.values(manifest.effects)]){
-  assert.equal(new Set(spec.frames.map(f=>f.sha256)).size,spec.frameCount);assert.equal(hash(await fs.readFile(new URL(spec.source,root))),spec.sourceInfo.sha256);
-  const atlas=await fs.readFile(new URL(spec.atlas,root));assert.equal(hash(atlas),spec.atlasSha256);const metadata=await sharp(atlas).metadata();assert.equal(metadata.width,spec.cellSize*spec.columns);assert.equal(metadata.height,spec.cellSize*spec.rows);assert.equal(metadata.hasAlpha,true);
+  assert.equal(new Set(spec.frames.map(f=>f.sha256)).size,spec.frameCount);assert.equal(hash(await readCommittedAsset(new URL(spec.source,root))),spec.sourceInfo.sha256);
+  const atlas=await readCommittedAsset(new URL(spec.atlas,root));assert.equal(hash(atlas),spec.atlasSha256);const metadata=await sharpCommittedAsset(atlas).metadata();assert.equal(metadata.width,spec.cellSize*spec.columns);assert.equal(metadata.height,spec.cellSize*spec.rows);assert.equal(metadata.hasAlpha,true);
   for(const f of spec.frames){
-   count++;const bytes=await fs.readFile(new URL(f.file,root));assert.equal(hash(bytes),f.sha256);const {data,info}=await sharp(bytes).ensureAlpha().raw().toBuffer({resolveWithObject:true});let visible=0;
+   count++;const bytes=await readCommittedAsset(new URL(f.file,root));assert.equal(hash(bytes),f.sha256);const {data,info}=await sharpCommittedAsset(bytes).ensureAlpha().raw().toBuffer({resolveWithObject:true});let visible=0;
    for(let y=0;y<info.height;y++)for(let x=0;x<info.width;x++){const a=data[(y*info.width+x)*4+3];if(a>24)visible++;if(x<4||y<4||x>=info.width-4||y>=info.height-4)assert.equal(a,0,f.file+' border');}
    assert.ok(visible>100,f.file+' empty');assert.ok(visible<info.width*info.height*.75,f.file+' opaque');const anchor=f.footAnchor||f.anchor;assert.ok(anchor.x>0&&anchor.x<1&&anchor.y>0&&anchor.y<1);
   }
@@ -56,13 +58,13 @@ test('134 distinct generated frames preserve original alpha, sources and atlas b
  assert.equal(count,134);assert.equal(Object.values(manifest.motion).reduce((s,v)=>s+v.frameCount,0),54);
 });
 test('every implemented mode has its own well-formed preview select option',async()=>{
- const html=await fs.readFile(new URL('index.html',root),'utf8');
+ const html=await readCommittedAsset(new URL('index.html',root),'utf8');
  for(const key of Object.keys(MODES))assert.ok(html.includes('<option value="'+key+'">'),key+' select option');
  assert.equal(html.includes('</option value='),false);
 });
 test('recorded audio matches license, original assets and sync points',async()=>{
  assert.equal(manifest.audio.proceduralSynthesis,false);assert.equal(manifest.audio.license,'Mixkit Free License');
- for(const [key,sync] of [['dash',178],['slash',250],['ultimate',333]]){const a=manifest.audio.assets[key];assert.equal(a.syncPointMs,sync);assert.ok(a.sourceIds.length>=3);assert.equal(hash(await fs.readFile(new URL(a.file,project))),a.sha256.toUpperCase());}
+ for(const [key,sync] of [['dash',178],['slash',250],['ultimate',333]]){const a=manifest.audio.assets[key];assert.equal(a.syncPointMs,sync);assert.ok(a.sourceIds.length>=3);assert.equal(hash(await readCommittedAsset(new URL(a.file,project))),a.sha256.toUpperCase());}
 });
 function audioHarness(){
  const audio=new CueAudio();audio.enabled=true;const nodes=[];audio.context={currentTime:50,destination:{},createGain:()=>({gain:{value:0},connect(){},disconnect(){}}),createBufferSource:()=>{const node={playbackRate:{value:0},connect(){},disconnect(){},start(when,offset){this.when=when;this.offset=offset;},stop(){this.stopped=true;}};nodes.push(node);return node;}};return {audio,nodes,buffers:{dash:{duration:.86},slash:{duration:1.3},ultimate:{duration:2.1}}};

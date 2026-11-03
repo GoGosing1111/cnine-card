@@ -1,3 +1,4 @@
+import {existsCommittedAssetSync,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {DatabaseSync} from 'node:sqlite';
@@ -16,7 +17,7 @@ import {EQUIPMENT_FORGE_RELEASE_KEY} from '../shared/equipment-forge-release-v1.
 import {jointHash} from '../functions/_joint_transactions.js';
 import {ensureRankRewardFixture} from './helpers/rank-reward-schema.mjs';
 
-const read=path=>fs.readFileSync(new URL('../'+path,import.meta.url),'utf8');
+const read=path=>readCommittedAssetSync(new URL('../'+path,import.meta.url),'utf8');
 const user={id:7,nickname:'LOCAL QA',role:'USER'};
 const settings=()=>structuredClone({...__scrapyardTest.DEFAULT_SETTINGS,mode:'ON'});
 function deck(power=200000){
@@ -140,7 +141,7 @@ test('all 3 zone encounters use fixed CMS enemies; weak decks really lose; each 
     assert.deepEqual(b.scrapyardEncounter.instances,w.scrapyardEncounter.instances);
     assert.equal(w.success,false);assert.equal(w.battleV2.result.winner,'B');
     assert.equal(b.resourceReady,true);
-    for(const row of b.continuousEncounter.instances){assert.ok(fs.existsSync(new URL('..'+row.battleSprite,import.meta.url)));assert.notEqual(row.battleSprite,row.sourceArt);}
+    for(const row of b.continuousEncounter.instances){assert.ok(existsCommittedAssetSync(new URL('..'+row.battleSprite,import.meta.url)));assert.notEqual(row.battleSprite,row.sourceArt);}
     assert.ok(b.scrapyardEncounter.instances.every(row=>typeof row.battleSprite==='string'));
     assert.ok(b.battleV2.result.encounter.defeated<=b.enemiesTotal);
   }

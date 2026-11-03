@@ -1,3 +1,5 @@
+import {readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import test from 'node:test';
 import { beforeSdCompletion } from './helpers/mercenary-sd-history.mjs';
 import assert from 'node:assert/strict';
@@ -10,7 +12,7 @@ import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
 import {MERCENARY_CMS_SEED} from '../functions/_mercenary_cms_seed.js';
 
 const root=new URL('../',import.meta.url);
-const read=file=>fs.readFileSync(new URL(file,root));
+const read=file=>readCommittedAssetSync(new URL(file,root));
 const json=file=>JSON.parse(read(file));
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex').toUpperCase();
 const roster=json('assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json');
@@ -44,7 +46,7 @@ test('the final game-illustration V4 is connected byte-for-byte with only separa
   assert.equal(hash(read(entry.reviewSource)),sourceHash);
   assert.equal(hash(read(card.sourceArt)),sourceHash);
   assert.ok(read(entry.promptRecord).toString().includes('Exact style-transfer prompt'));
-  const meta=await sharp(read(card.sourceArt)).metadata();
+  const meta=await sharpCommittedAsset(read(card.sourceArt)).metadata();
   assert.deepEqual([meta.width,meta.height,meta.channels,meta.hasAlpha,meta.space],[1024,1536,3,false,'srgb']);
   const images=json('assets/ui/project-v/mercenaries/codex-v1/manifest.json').entries.filter(entry=>entry.code===card.code && entry.kind==='art');
   assert.deepEqual(images.map(entry=>[entry.kind,entry.width]),[['art',320],['art',640]]);

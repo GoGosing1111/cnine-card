@@ -62,3 +62,15 @@
 - Legacy live-connection fixtures use the current array loadout API. S/SS assignment, single-unit selection in the current array API, and combat snapshots retain their previous assertions. Media hash/pixel/audio checks read only unchanged sparse assets from committed Git bytes. Nonblocking banner coverage includes the eight subsequent production adapters.
 
 - Four fresh browser profiles passed after the runtime correction (`browser-runtime-repair/report.json`), including user hosting OFF and operator/prohibited-item controls. The payload VM fixture now binds the actual newly imported HUD module while retaining the original server event/order assertions.
+
+## Remaining full-gate fixture repairs
+
+- Candidate 81370de72 passed the first 24 full-gate stages. The next stage exposed sparse-media fixture reads; a diagnostic run executed every remaining content stage without deploying, with immutable logs under `remaining-gate-diagnostics/`.
+- Media tests retain the original hashes, pixels, dimensions, audio and provenance assertions. Their file reader falls back only to exact HEAD blobs marked skip-worktree. Native checkers receive only their required unchanged media (45 + 26 files and the original Hiheeya card), recorded under `native-*-fixtures.json`.
+- Stale contracts were synchronized with already released dual mercenaries, eight clans/200 seats, current catalog and cache parameters, and the November 3 prediction/camp closure. The completed six-clan migration now has an explicit refusal/no-write test under the eight-clan catalog. No historical production operation was executed.
+- Weekly competition tests now exercise the actual October 25 schedule lock, preserving historical snapshots and refusing future rewards. They do not disable the restoration lock or reactivate old competitions. Current camp integration checks both SQL engines, reward preservation, coup succession and rollback, API 410 before database access, and the independent five-minute death-game restriction.
+- VM render fixtures bind the actual HUD/chat modules now imported by production code. No game behavior is stubbed to make entry succeed.
+- The public codex builder template lagged behind its already deployed page. It now reproduces the current checked-in page exactly, retaining the approved layout and every existing cache hook. Public HTML is unchanged.
+- Shared fixture consumers include nested gate stages, and the codex template changed, so completed-prefix reuse is disabled. The final candidate will execute a fresh full gate through the prescribed production deployment command. Earlier logs and resume metadata are preserved.
+
+- Diagnostic recheck completed all 41 formerly failing content stages. Follow-up corrections passed 172 focused checks; the remaining seal source-media check passed all four tests. Full-gate execution is still required and none of these diagnostics deploy or modify production accounts.

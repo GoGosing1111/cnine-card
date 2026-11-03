@@ -1,3 +1,4 @@
+import {existsCommittedAssetSync,readCommittedAssetSync} from '../../tests/helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
@@ -102,11 +103,11 @@ test('repeated requests return the same isolated receipt without duplicate costs
   assert.deepEqual(m.restore({ recordId: r.recordId, requestId: 'restore-once' }), restored); assert.equal(snapshot(m), after);
 });
 test('preview modules have no account persistence or account mutation paths', () => {
-  const app = readFileSync(new URL('./source/app.mjs', import.meta.url), 'utf8');
-  const fx = readFileSync(new URL('./source/fx.mjs', import.meta.url), 'utf8');
-  const success = readFileSync(new URL('./source/success-v2.mjs', import.meta.url), 'utf8');
+  const app = readCommittedAssetSync(new URL('./source/app.mjs', import.meta.url), 'utf8');
+  const fx = readCommittedAssetSync(new URL('./source/fx.mjs', import.meta.url), 'utf8');
+  const success = readCommittedAssetSync(new URL('./source/success-v2.mjs', import.meta.url), 'utf8');
   assert.doesNotMatch(app + fx + success, /\/api\/|apiRequest\(|localStorage|sessionStorage|createOscillator|createPeriodicWave/);
-  const index = readFileSync(new URL('./index.html', import.meta.url), 'utf8');
+  const index = readCommittedAssetSync(new URL('./index.html', import.meta.url), 'utf8');
   assert.match(index, /ui-fx-vendor-v2045\.bundle\.js/); assert.doesNotMatch(index, /cdn.*(?:pixi|gsap)/i);
   assert.match(fx, /part\.node\.position\.set/); assert.match(fx, /source\.playbackRate\.value = speed/);
 });
@@ -125,19 +126,19 @@ test('authored success sequence reaches its blast at the shared impact and visit
 });
 
 test('V2 authored assets match their recorded originals and actual atlas dimensions', () => {
-  const manifest = JSON.parse(readFileSync(new URL('./asset-manifest.json', import.meta.url), 'utf8'));
+  const manifest = JSON.parse(readCommittedAssetSync(new URL('./asset-manifest.json', import.meta.url), 'utf8'));
   assert.equal(manifest.version, 2);
   for (const asset of manifest.assets) {
-    const data = readFileSync(new URL('../../' + asset.path, import.meta.url));
+    const data = readCommittedAssetSync(new URL('../../' + asset.path, import.meta.url));
     assert.equal(createHash('sha256').update(data).digest('hex'), asset.sha256, asset.path);
   }
-  const png = readFileSync(new URL('./' + SUCCESS_ATLAS.file, import.meta.url));
+  const png = readCommittedAssetSync(new URL('./' + SUCCESS_ATLAS.file, import.meta.url));
   assert.equal(png.readUInt32BE(16), SUCCESS_ATLAS.width);
   assert.equal(png.readUInt32BE(20), SUCCESS_ATLAS.height);
 });
 test('all equipment source images exist and preserved source audio hashes match provenance', () => {
-  const m = new ForgeSimulation(); for (const item of m.items) assert.ok(existsSync(new URL('../..' + item.image, import.meta.url)));
+  const m = new ForgeSimulation(); for (const item of m.items) assert.ok(existsCommittedAssetSync(new URL('../..' + item.image, import.meta.url)));
   const root = new URL('../../assets/sfx/v3-advancement-awakening-v1/', import.meta.url);
-  const manifest = JSON.parse(readFileSync(new URL('manifest.json', root), 'utf8'));
-  for (const asset of Object.values(manifest.assets)) assert.equal(createHash('sha256').update(readFileSync(new URL(asset.file, root))).digest('hex'), asset.sha256);
+  const manifest = JSON.parse(readCommittedAssetSync(new URL('manifest.json', root), 'utf8'));
+  for (const asset of Object.values(manifest.assets)) assert.equal(createHash('sha256').update(readCommittedAssetSync(new URL(asset.file, root))).digest('hex'), asset.sha256);
 });

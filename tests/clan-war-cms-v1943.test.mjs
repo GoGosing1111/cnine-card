@@ -120,8 +120,8 @@ test('공식 공개 전환은 테스트 시즌 기록과 트로피를 원자적�
 test('60분·21회 상한·랜덤 승점·최신 덱·보상 영수증이 모두 라이브 계약으로 연결된다',()=>{
   assert.equal(__clanTest.CLAN_ATTACKS_PER_WAR,21);
   assert.equal(__clanTest.CLAN_DEFENSES_PER_TARGET,21);
-  assert.match(server,/runtimeContract:\{maxMembers:CLAN_MAX_MEMBERS,maxParticipants:CLAN_MAX_PARTICIPANTS,[^}]*attacksPerWar:settings\.totalUseLimit/);
-  assert.match(server,/targetContract:\{maxMembers:CLAN_MAX_MEMBERS,maxParticipants:CLAN_MAX_PARTICIPANTS,warDurationMinutes:settings\.warDurationMinutes/);
+  assert.match(server,/runtimeContract:\{maxMembers:settings\.maxMembers,maxParticipants:settings\.maxParticipants,[^}]*attacksPerWar:settings\.totalUseLimit/);
+  assert.match(server,/targetContract:\{maxMembers:settings\.maxMembers,maxParticipants:settings\.maxParticipants,warDurationMinutes:settings\.warDurationMinutes/);
   for(const key of ['WAR_WINDOW','ENERGY','RANDOM_MATCH','REWARDS'])assert.match(server,new RegExp(`key:'${key}',status:'READY'`));
   assert.match(server,/ROUND_ROBIN_7_WINDOWS/);
   assert.match(server,/CREATE TABLE IF NOT EXISTS clan_reward_receipts/);

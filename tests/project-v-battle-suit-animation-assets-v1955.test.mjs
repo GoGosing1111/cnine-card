@@ -1,3 +1,5 @@
+import {readCommittedAsset,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
@@ -63,8 +65,8 @@ const decodedSheetCache=new Map();
 
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex').toUpperCase();
 const sorted=values=>[...values].sort((left,right)=>String(left).localeCompare(String(right)));
-const readManifest=()=>manifestPromise??=readFile(manifestUrl,'utf8').then(JSON.parse);
-const readDiagnostics=()=>diagnosticsPromise??=readFile(diagnosticsUrl,'utf8').then(JSON.parse);
+const readManifest=()=>manifestPromise??=readCommittedAsset(manifestUrl,'utf8').then(JSON.parse);
+const readDiagnostics=()=>diagnosticsPromise??=readCommittedAsset(diagnosticsUrl,'utf8').then(JSON.parse);
 
 function assetFileUrl(publicPath){
   const pathname=new URL(String(publicPath||''),'https://soopketmon.invalid').pathname.replace(/^\//,'');
@@ -73,8 +75,8 @@ function assetFileUrl(publicPath){
 
 async function decodedSheet(publicPath){
   if(!decodedSheetCache.has(publicPath)){
-    decodedSheetCache.set(publicPath,readFile(assetFileUrl(publicPath))
-      .then(bytes=>sharp(bytes).ensureAlpha().raw().toBuffer({resolveWithObject:true})));
+    decodedSheetCache.set(publicPath,readCommittedAsset(assetFileUrl(publicPath))
+      .then(bytes=>sharpCommittedAsset(bytes).ensureAlpha().raw().toBuffer({resolveWithObject:true})));
   }
   return decodedSheetCache.get(publicPath);
 }
@@ -170,7 +172,7 @@ test('Battle Suit v8 manifest connects both CMS gilded-dragon rifles without wea
   assert.deepEqual(manifest.suits.map(item=>item.code),SUIT_CODES);
   assert.deepEqual(sorted(manifest.weapons.map(item=>item.equipmentCode)),sorted(WEAPON_CODES));
 
-  const provenance=JSON.parse(await readFile(assetFileUrl(manifest.generationProvenance),'utf8'));
+  const provenance=JSON.parse(await readCommittedAsset(assetFileUrl(manifest.generationProvenance),'utf8'));
   assert.equal(provenance.version,'v5');
   assert.equal(provenance.tool,'OpenAI built-in image generation tool');
   assert.match(provenance.mode,/deterministic local alpha extraction/i);
@@ -184,28 +186,28 @@ test('Battle Suit v8 manifest connects both CMS gilded-dragon rifles without wea
     assert.match(prompt,/no .*text, logo/i);
   }
   for(const source of provenance.generatedSources){
-    const bytes=await readFile(assetFileUrl(source.path));
-    const metadata=await sharp(bytes).metadata();
+    const bytes=await readCommittedAsset(assetFileUrl(source.path));
+    const metadata=await sharpCommittedAsset(bytes).metadata();
     assert.equal(sha256(bytes),source.sha256,source.path);
     assert.deepEqual({width:metadata.width,height:metadata.height},source.dimensions,source.path);
   }
   for(const cutout of provenance.weaponCutouts){
-    const bytes=await readFile(assetFileUrl(cutout.path));
-    const metadata=await sharp(bytes).metadata();
+    const bytes=await readCommittedAsset(assetFileUrl(cutout.path));
+    const metadata=await sharpCommittedAsset(bytes).metadata();
     assert.equal(sha256(bytes),cutout.sha256,cutout.path);
     assert.deepEqual({width:metadata.width,height:metadata.height},cutout.dimensions,cutout.path);
     assert.equal(metadata.hasAlpha,true,cutout.path);
   }
-  const baseProvenance=JSON.parse(await readFile(assetFileUrl(provenance.baseProvenance),'utf8'));
+  const baseProvenance=JSON.parse(await readCommittedAsset(assetFileUrl(provenance.baseProvenance),'utf8'));
   assert.equal(baseProvenance.correction.pair,'BATTLE_SUIT_03:EQ_1785961300455');
   assert.match(baseProvenance.correction.action,/restore.*helmeted.*byte-for-byte/i);
-  const builder=await readFile(builderUrl,'utf8');
+  const builder=await readCommittedAsset(builderUrl,'utf8');
   assert.match(builder,/Buffer\.BlockCopy/i);
   assert.match(builder,/runtime phase reuses the same/i);
-  const gildedBuilder=await readFile(gildedBuilderUrl,'utf8');
+  const gildedBuilder=await readCommittedAsset(gildedBuilderUrl,'utf8');
   assert.match(gildedBuilder,/markEdgeConnectedCheckerboard/);
   assert.match(gildedBuilder,/frame\.copy\(row/);
-  const diagnosticsBuilder=await readFile(diagnosticsBuilderUrl,'utf8');
+  const diagnosticsBuilder=await readCommittedAsset(diagnosticsBuilderUrl,'utf8');
   assert.match(diagnosticsBuilder,/STATIC_STANDING_AIM/);
 });
 
@@ -219,9 +221,9 @@ test('all nine selected atlases are immutable transparent 1536x1024 4x2 grids',a
     const rows=sheet.weaponRows;
     assert.deepEqual(rows.map(item=>item.row).sort(),[0,1],`${suit.code}/${group}`);
     assert.deepEqual(sorted(rows.map(item=>item.weaponCode)),sorted(WEAPON_GROUPS[group]),`${suit.code}/${group}`);
-    const bytes=await readFile(assetFileUrl(sheet.image));
+    const bytes=await readCommittedAsset(assetFileUrl(sheet.image));
     assert.equal(sha256(bytes),sheet.sha256,sheet.image);
-    const [metadata,stats]=await Promise.all([sharp(bytes).metadata(),sharp(bytes).stats()]);
+    const [metadata,stats]=await Promise.all([sharpCommittedAsset(bytes).metadata(),sharpCommittedAsset(bytes).stats()]);
     assert.equal(metadata.width,1536,sheet.image);
     assert.equal(metadata.height,1024,sheet.image);
     assert.equal(metadata.channels,4,sheet.image);

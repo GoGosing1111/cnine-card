@@ -1,3 +1,4 @@
+import {readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -8,7 +9,7 @@ import { DEATH_GAME_RULES, ensureDeathGameSchema, createDeathGameTimeline, death
 import { clanCampStatusForUser, clanCampActiveProbeSql, clanCampProbeTime, releaseClanCaptives } from '../functions/_clan_prison_camp.js';
 
 const owner = { id:999, role:'OWNER' }, a = { id:101, role:'USER' }, b = { id:102, role:'USER' };
-const read = path => readFileSync(new URL('../' + path, import.meta.url), 'utf8');
+const read = path => readCommittedAssetSync(new URL('../' + path, import.meta.url), 'utf8');
 async function started(f) {
   const roundId = 'open_round_request_001';
   await operateDeathGame(f.env, owner, 'open', { requestId:roundId }, f.now);
@@ -67,8 +68,8 @@ for (const postgres of [false,true]) {
     const prison=await clanCampStatusForUser(f.env,a.id,when+1);
     assert.equal(prison.facility,'DEATH_GAME');assert.equal(prison.incarcerated,true);
     assert.equal((await clanCampStatusForUser(f.env,a.id,when+299999)).incarcerated,true);
-    assert.equal((await clanCampStatusForUser(f.env,a.id,when+300000)).facility,'CLAN_CAMP');
-    assert.equal((await clanCampStatusForUser(f.env,b.id,when+1)).facility,'CLAN_CAMP');
+    assert.equal((await clanCampStatusForUser(f.env,a.id,when+300000)).incarcerated,false);
+    assert.equal((await clanCampStatusForUser(f.env,b.id,when+1)).incarcerated,false);
     const eventId=`DEATH_GAME:${s.roundId}:${a.id}`;
     assert.equal((await releaseClanCaptives(f.env,owner,{eventId,userId:a.id},when+1000)).releasedCount,0);
     await operateDeathGame(f.env,owner,'cancel',{roundId:s.roundId,requestId:'cancel_round_request_001'},when+3000);
@@ -127,8 +128,8 @@ test('UI links, exact death wording, touch/keyboard release, cleanup, escaped na
   assert.match(client,/esc\(p.nickname\)/);assert.match(client,/lastSeq \+ 1/);assert.match(client,/if \(version !== generation\) return/);
   assert.match(app,/prisonUiState.facility==='DEATH_GAME'/);assert.match(app,/PrisonDeathGame.bindLock\(prisonUiState\)/);
   assert.match(read('js/clan-prison-camp-v2083.js'),/data-camp-death-game/);
-  assert.match(index,/prison-death-game-20260924\.js\?v=/);assert.match(index,/prison-death-game-20260924\.css\?v=/);
-  const png=readFileSync(new URL('../assets/ui/prison/death-game-overseer-atlas-20260924.png',import.meta.url));
+  assert.match(index,/prison-death-game-20260924\.js\?[^"\s]*\bv=/);assert.match(index,/prison-death-game-20260924\.css\?v=/);
+  const png=readCommittedAssetSync(new URL('../assets/ui/prison/death-game-overseer-atlas-20260924.png',import.meta.url));
   assert.equal(png[25],6,'new atlas retains genuine RGBA alpha');
   const context={window:{}};vm.runInNewContext(client,context);assert.match(context.window.PrisonDeathGame.lockView(),/data-death-lock-timer/);
   assert.match(read('css/prison-death-game-20260924.css'),/prefers-reduced-motion/);

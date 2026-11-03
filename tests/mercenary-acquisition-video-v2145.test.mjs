@@ -1,10 +1,11 @@
+import {readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import vm from 'node:vm';
 import {MERCENARY_CINEMATICS,mercenaryCinematicFor} from '../js/mercenary-acquisition-video.mjs';
-const read=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
+const read=path=>readCommittedAssetSync(new URL('../'+path,import.meta.url),'utf8');
 const result=(rank='SS')=>({kind:'MERCENARY',rank,granted:true,preview:false,receiptId:'saved-receipt',mercenaryCode:rank==='SSS'?'V-021':'V-004'});
 const settle=()=>new Promise(resolve=>setImmediate(resolve));
 
@@ -108,7 +109,7 @@ function child(buffer,parent,type){return atoms(buffer,parent.start,parent.end).
 test('compressed assets retain 720p/24fps/full frame counts, AAC and fast-start; hashes and sizes are locked',()=>{
   const manifest=JSON.parse(read('assets/ui/project-v/mercenary-acquisition/manifest-v1.json'));
   for(const row of manifest.videos){
-    const asset=MERCENARY_CINEMATICS[row.rank],buffer=readFileSync(new URL('..'+asset.src,import.meta.url));
+    const asset=MERCENARY_CINEMATICS[row.rank],buffer=readCommittedAssetSync(new URL('..'+asset.src,import.meta.url));
     assert.equal(buffer.length,row.bytes);assert.equal(asset.bytes,row.bytes);assert(buffer.length<row.sourceBytes*.6);assert(buffer.length<5*1024*1024);
     assert.equal(createHash('sha256').update(buffer).digest('hex'),row.sha256);
     const top=atoms(buffer),moov=top.find(a=>a.type==='moov'),mdat=top.find(a=>a.type==='mdat');assert(moov.start<mdat.start);

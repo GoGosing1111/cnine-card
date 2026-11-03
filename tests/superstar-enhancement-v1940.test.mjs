@@ -98,6 +98,6 @@ test('SUPERSTAR +11~+13은 챔피언십 프레임과 강화 자산을 유지하�
     assert.match(adminIndex,new RegExp(`${asset.replaceAll('.','\\.')}\\?v=1941-superstar-pack-early-access`));
   }
   assert.match(index,/js\/app\.js\?v=[A-Za-z0-9][A-Za-z0-9-]+/);
-  assert.match(adminIndex,/admin-v1276\.js\?v=2050-verified-coin-50eok/);
+  assert.match(adminIndex,/admin-v1276\.js\?[^"\s]*\bv=2050-verified-coin-50eok/);
   assert.match(serviceWorker,/SHELL_CACHE='soop-card-shell-v[A-Za-z0-9][A-Za-z0-9-]+'/);
 });

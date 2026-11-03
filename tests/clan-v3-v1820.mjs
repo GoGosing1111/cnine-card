@@ -1,23 +1,24 @@
+import {readCommittedAsset,statCommittedAsset} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile,stat} from 'node:fs/promises';
 import {__clanTest} from '../functions/_clan.js';
 
 const [server,router,app,client,shell,html,css,postgresMigration,markCatalogRaw]=await Promise.all([
-  readFile(new URL('../functions/_clan.js',import.meta.url),'utf8'),
-  readFile(new URL('../functions/api/[[path]].js',import.meta.url),'utf8'),
-  readFile(new URL('../js/app.js',import.meta.url),'utf8'),
-  readFile(new URL('../js/clan-v1.js',import.meta.url),'utf8'),
-  readFile(new URL('../js/soopketmon-v21-exact-shell-adapter.js',import.meta.url),'utf8'),
-  readFile(new URL('../index.html',import.meta.url),'utf8'),
-  readFile(new URL('../css/clan-v1.css',import.meta.url),'utf8'),
-  readFile(new URL('../scripts/postgres-clan-v1820.sql',import.meta.url),'utf8'),
-  readFile(new URL('../assets/ui/clan/marks/clan-mark-catalog-v1.json',import.meta.url),'utf8')
+  readCommittedAsset(new URL('../functions/_clan.js',import.meta.url),'utf8'),
+  readCommittedAsset(new URL('../functions/api/[[path]].js',import.meta.url),'utf8'),
+  readCommittedAsset(new URL('../js/app.js',import.meta.url),'utf8'),
+  readCommittedAsset(new URL('../js/clan-v1.js',import.meta.url),'utf8'),
+  readCommittedAsset(new URL('../js/soopketmon-v21-exact-shell-adapter.js',import.meta.url),'utf8'),
+  readCommittedAsset(new URL('../index.html',import.meta.url),'utf8'),
+  readCommittedAsset(new URL('../css/clan-v1.css',import.meta.url),'utf8'),
+  readCommittedAsset(new URL('../scripts/postgres-clan-v1820.sql',import.meta.url),'utf8'),
+  readCommittedAsset(new URL('../assets/ui/clan/marks/clan-mark-catalog-v1.json',import.meta.url),'utf8')
 ]);
-const commandRoomAsset=await stat(new URL('../assets/ui/clan/clan-command-room-v1.webp',import.meta.url));
+const commandRoomAsset=await statCommittedAsset(new URL('../assets/ui/clan/clan-command-room-v1.webp',import.meta.url));
 const markCatalog=JSON.parse(markCatalogRaw);
-const markAssets=await Promise.all(markCatalog.clans.map(clan=>stat(new URL(`../assets/ui/clan/marks/${clan.asset}`,import.meta.url))));
-const markSources=await Promise.all(markCatalog.clans.map(clan=>stat(new URL(`../assets/ui/clan/marks/${clan.source}`,import.meta.url))));
+const markAssets=await Promise.all(markCatalog.clans.map(clan=>statCommittedAsset(new URL(`../assets/ui/clan/marks/${clan.asset}`,import.meta.url))));
+const markSources=await Promise.all(markCatalog.clans.map(clan=>statCommittedAsset(new URL(`../assets/ui/clan/marks/${clan.source}`,import.meta.url))));
 const fightSource=server.slice(server.indexOf('async function fight('),server.indexOf('\nexport async function handleClan'));
 
 test('클랜 정원과 스네이크 드래프트 순서가 고정된다',()=>{
@@ -179,7 +180,7 @@ test('현 로비 기준 클랜 본부와 정규·세력전 진입을 제공한�
   assert.match(html,/clan-v1\.css\?v=20261005-reform/);
   assert.match(html,/clan-command-v1\.css\?v=2127/);
   assert.match(html,/clan-faction-v1\.css\?v=20261001-session-rewards/);
-  assert.match(html,/clan-v1\.js\?v=20261023-clan-identity/);
+  assert.match(html,/clan-v1\.js\?[^"\s]*\bv=20261025-wed-sat-sun/);
   assert.match(html,/js\/app\.js\?[^"\n]+clanFaction=20261001-session-rewards/);
   for(const loader of [app,client])assert.match(loader,/import\('\.\/clan-faction-v1\.mjs\?v=20261005-executives'\)/);
 });

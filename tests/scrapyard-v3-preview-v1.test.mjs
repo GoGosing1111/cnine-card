@@ -1,3 +1,5 @@
+import {existsCommittedAssetSync,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -8,7 +10,7 @@ import {buildFighter, buildMonsterFighter, simulateBattleV2Preview} from '../fun
 import {createEncounter, NORMAL_COUNT, ACTION_LIMIT, SPECIMENS} from '../preview/scrapyard-v3-v1/source/encounter-model.mjs';
 
 const root = new URL('../', import.meta.url);
-const read = p => fs.readFileSync(new URL(p, root), 'utf8');
+const read = p => readCommittedAssetSync(new URL(p, root), 'utf8');
 const catalog = ['fur/manifest-v2.json', 'zenith/manifest-v1.json', 'superstar/manifest-v1.json'].flatMap(p => {
   const m = JSON.parse(read('assets/ui/project-v/characters/' + p));
   return m.characters.map(c => ({...c, grade: m.rarity}));
@@ -59,7 +61,7 @@ test('exactly five real cards, separate suit and distinct original/SD resources'
   for (const c of p.cards) {
     assert.equal(c.image, c.sourceArt);
     assert.notEqual(c.image, c.battleSprite);
-    assert.ok(fs.existsSync(new URL(c.image.replace(/^\//, ''), root)));
+    assert.ok(existsCommittedAssetSync(new URL(c.image.replace(/^\//, ''), root)));
   }
 });
 test('fixed enemy stats, real loss at low power, no automatic player-strength scaling', () => {
@@ -132,12 +134,12 @@ test('battle suit damage has one authoritative lane through all generations', ()
 test('new monster PNGs have actual transparent alpha, intact padding and separate source art', async () => {
   for (const specimen of Object.values(SPECIMENS)) {
     assert.notEqual(specimen.sourceArt, specimen.battleSprite);
-    assert.ok(fs.existsSync(new URL(specimen.sourceArt.slice(1), root)));
-    const file = fs.readFileSync(new URL(specimen.battleSprite.slice(1), root));
-    const metadata = await sharp(file).metadata();
+    assert.ok(existsCommittedAssetSync(new URL(specimen.sourceArt.slice(1), root)));
+    const file = readCommittedAssetSync(new URL(specimen.battleSprite.slice(1), root));
+    const metadata = await sharpCommittedAsset(file).metadata();
     assert.equal(metadata.hasAlpha, true);
     assert.ok(metadata.width >= 1024 && metadata.height >= 1024);
-    const {data, info} = await sharp(file).extractChannel('alpha').raw().toBuffer({resolveWithObject: true});
+    const {data, info} = await sharpCommittedAsset(file).extractChannel('alpha').raw().toBuffer({resolveWithObject: true});
     assert.ok(data.some(v => v === 0)); assert.ok(data.some(v => v === 255));
     // Faint generator alpha noise (observed max 4/255) is not a clipped limb.
     // Assert all visible pixels stay strictly inside the canvas on every edge.
@@ -151,7 +153,7 @@ test('new monster PNGs have actual transparent alpha, intact padding and separat
 test('manifest pins generated SD, unchanged original art and approved battlefield hashes', () => {
   const manifest = JSON.parse(read('preview/scrapyard-v3-v1/manifest.json'));
   assert.equal(manifest.liveConnected, false);
-  const hash = path => crypto.createHash('sha256').update(fs.readFileSync(new URL(path, root))).digest('hex').toUpperCase();
+  const hash = path => crypto.createHash('sha256').update(readCommittedAssetSync(new URL(path, root))).digest('hex').toUpperCase();
   for (const row of manifest.assets) {
     assert.equal(hash(row.path), row.sha256);
     assert.equal(hash(row.sourceArt), row.sourceSha256);

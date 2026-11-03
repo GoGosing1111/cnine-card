@@ -1,9 +1,10 @@
+import {readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 
 const root = process.cwd();
-const read = value => fs.readFileSync(path.join(root, value));
+const read = value => readCommittedAssetSync(path.join(root, value));
 const text = value => read(value).toString('utf8');
 const master = read('assets/ui/project-v/monsters/seal-crystal-orb-sd-v1.png');
 
@@ -33,7 +34,7 @@ assert.match(seal, /const raidHub = document\.getElementById\('pveRaidHubView'\)
 assert.match(seal, /if \(raidHub\) raidHub\.hidden = true;\s*else if \(raid\) raid\.hidden = true;/);
 assert.match(seal, /const placementAnchor = document\.getElementById\('pveRaidHubView'\) \|\| raidView;/);
 assert.match(seal, /placementAnchor\.insertAdjacentElement\('afterend', view\)/);
-assert.match(index, /js\/seal-battle\.js\?v=20260922-reward-attempts/);
+assert.match(index, /js\/seal-battle\.js\?[^"\s]*\bv=20260922-reward-attempts/);
 assert.doesNotMatch(seal, /const bossImage = source\(event\.bossImage/);
 
 console.log('seal V3 crystal orb contract: OK');

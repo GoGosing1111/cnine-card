@@ -1,3 +1,4 @@
+import {readCommittedAssetSync,statCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,statSync} from 'node:fs';
@@ -6,7 +7,7 @@ import {PGlite} from '@electric-sql/pglite';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 import {HYPER_PACK_PRICE,HYPER_PACK_RELEASE_ENABLED,HYPER_PACK_IMAGE,HYPER_PACK_MATERIALS,hyperPackCost,hyperPackCatalogRow,arrangeHyperPackCatalog,cleanHyperPackDraft,hyperPackDraftStatus,handleHyperPack} from '../functions/_hyper_pack.js';
 import {buildHyperPreview} from '../js/hyper-pack-preview-model-v2076.js';
-const read=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
+const read=path=>readCommittedAssetSync(new URL('../'+path,import.meta.url),'utf8');
 const admin={id:9,role:'OWNER'};
 const json=(body,status=200)=>new Response(JSON.stringify(body),{status,headers:{'content-type':'application/json'}});
 const request=(path,method='GET',body,headers={})=>new Request('https://cnine-card.pages.dev/api/'+path,{method,headers:{'content-type':'application/json',...headers},...(body===undefined?{}:{body:JSON.stringify(body)})});
@@ -70,12 +71,12 @@ test('public preview returns to the game lobby in the same tab and exposes no CM
   assert.doesNotMatch(html,/<a\b[^>]*href="\/\?screen=home"[^>]*target=/);
 });
 test('original artwork preserved; lightweight shared Pixi/GSAP preview, live does not load renderer',()=>{
-  const image=readFileSync(new URL('../'+HYPER_PACK_IMAGE,import.meta.url));assert.equal(createHash('sha256').update(image).digest('hex'),'871334757ed88d949e75cca3cf2d07bacdc2550f7d883d26e45948ef2da11668','released Reverse Call pack artwork');
-  assert.equal(createHash('sha256').update(readFileSync(new URL('../assets/ui/packs/hyper-pack-v2076.png',import.meta.url))).digest('hex'),'b23ba9f88b98a17f400a96cb7bcf19c82933c4d66275d6f96c3c6d1bab74a80c','original artwork stays preserved');
+  const image=readCommittedAssetSync(new URL('../'+HYPER_PACK_IMAGE,import.meta.url));assert.equal(createHash('sha256').update(image).digest('hex'),'871334757ed88d949e75cca3cf2d07bacdc2550f7d883d26e45948ef2da11668','released Reverse Call pack artwork');
+  assert.equal(createHash('sha256').update(readCommittedAssetSync(new URL('../assets/ui/packs/hyper-pack-v2076.png',import.meta.url))).digest('hex'),'b23ba9f88b98a17f400a96cb7bcf19c82933c4d66275d6f96c3c6d1bab74a80c','original artwork stays preserved');
   const runtime=read('js/hyper-pack-fx-v2076.src.js'),preview=read('preview/hyper-pack-v1/preview.js'),index=read('index.html');
   assert.match(runtime,/new Application/);assert.match(runtime,/gsap\.timeline/);assert.match(runtime,/resolveSegment\?\.\(\)/);assert.match(runtime,/observer\?\.disconnect/);
   assert.doesNotMatch(runtime+preview,/\/api\/.*(?:draw|open)|user_cards|fetch\(/);assert.doesNotMatch(index,/<script[^>]+hyper-pack-fx/);
-  assert(statSync(new URL('../js/hyper-pack-fx-v2076.bundle.js',import.meta.url)).size<20000);
+  assert(statCommittedAssetSync(new URL('../js/hyper-pack-fx-v2076.bundle.js',import.meta.url)).size<20000);
 });
 test('retired/hyper API guards precede receipt claiming and Premium Cube remains untouched',()=>{
   const api=read('functions/api/[[path]].js'),app=read('js/app.js');

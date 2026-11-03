@@ -1,3 +1,5 @@
+import {readCommittedAsset,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -61,11 +63,11 @@ test('full and started parties reject new participants without charges; active k
  assert.equal((await call(extra.token,'lobby')).rooms[0].canJoin,false);
 });
 test('packed motion and five distinct effects retain real alpha and source hashes',async()=>{
- const manifest=JSON.parse(await readFile(new URL('../preview/madara-raid-v1/assets/presentation-manifest.json',import.meta.url)));
+ const manifest=JSON.parse(await readCommittedAsset(new URL('../preview/madara-raid-v1/assets/presentation-manifest.json',import.meta.url)));
  assert.equal(manifest.atlases.cast.frames.length,4);assert.equal(Object.keys(manifest.atlases).length,6);
  for(const [key,a]of Object.entries(manifest.atlases)){
   assert.equal(a.frames.length,key==='cast'?4:12);assert.equal(new Set(a.frames.map(f=>f.sha256)).size,a.frames.length);
-  const meta=await sharp(new URL('../preview/madara-raid-v1/'+a.url,import.meta.url).pathname.slice(1)).metadata();assert.equal(meta.hasAlpha,true);
+  const meta=await sharpCommittedAsset(new URL('../preview/madara-raid-v1/'+a.url,import.meta.url).pathname.slice(1)).metadata();assert.equal(meta.hasAlpha,true);
   assert.equal(meta.width,a.columns*a.frameSize);assert.equal(meta.height,a.rows*a.frameSize);
  }
 });

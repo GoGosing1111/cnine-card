@@ -1,3 +1,5 @@
+import {readCommittedAsset,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
@@ -174,7 +176,7 @@ test('stale-tab unequip cannot delete a different chip recently equipped into th
   assert.deepEqual((await call(env,'/unequip',{slot:1,code:HELI})).skillChips.loadout,[null,null,null]);
 });
 test('live asset loader includes styles and puts skill chips immediately to the right of avatar',async()=>{
-  const [ui,app,preview]=await Promise.all(['../js/character-loadout-v2.js','../js/app.js','../preview/battle-suit-skill-chip-v1/source/skill-chip-loadout-preview.mjs'].map(path=>readFile(new URL(path,import.meta.url),'utf8')));
+  const [ui,app,preview]=await Promise.all(['../js/character-loadout-v2.js','../js/app.js','../preview/battle-suit-skill-chip-v1/source/skill-chip-loadout-preview.mjs'].map(path=>readCommittedAsset(new URL(path,import.meta.url),'utf8')));
   assert.match(ui,/\$\{avatarEntry\}\$\{chipEntry\}/);
   assert.match(app,/css\/character-skill-chips-v2046\.css\?v=1/);
   assert.match(app,/character-loadout-v2\.js\?v=20261008-growth/);
@@ -182,7 +184,7 @@ test('live asset loader includes styles and puts skill chips immediately to the 
   assert.match(preview,/battleEnabled:true/);
 });
 test('inventory seeds the chip catalog but chips are equipped, never consumed through item-use',async()=>{
-  const api=await readFile(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
+  const api=await readCommittedAsset(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
   const start=api.indexOf("if(path==='inventory'){"),end=api.indexOf("if(path==='inventory/seen'",start);
   assert.ok(start>=0&&end>start,'the inventory route must be present');
   const inventory=api.slice(start,end);
@@ -191,14 +193,14 @@ test('inventory seeds the chip catalog but chips are equipped, never consumed th
   assert.match(inventory,/장비 → 스킬칩 탭에서 장착/);
 });
 test('each registry icon has 512px transparent PNG and lossless WebP with recorded provenance',async()=>{
-  const manifest=JSON.parse(await readFile(new URL('../assets/ui/project-v/skill-chips/manifest-v1.json',import.meta.url),'utf8'));
+  const manifest=JSON.parse(await readCommittedAsset(new URL('../assets/ui/project-v/skill-chips/manifest-v1.json',import.meta.url),'utf8'));
   assert.equal(manifest.assets.length,3);
   for(const chip of SKILL_CHIP_CATALOG){
-    const path=new URL(`..${chip.image}`,import.meta.url),bytes=await readFile(path),metadata=await sharp(bytes).metadata();
+    const path=new URL(`..${chip.image}`,import.meta.url),bytes=await readCommittedAsset(path),metadata=await sharpCommittedAsset(bytes).metadata();
     assert.equal(metadata.width,512);assert.equal(metadata.height,512);assert.equal(metadata.hasAlpha,true);
-    const stats=await sharp(bytes).stats();assert.equal(stats.channels[3].min,0);
+    const stats=await sharpCommittedAsset(bytes).stats();assert.equal(stats.channels[3].min,0);
     assert.match(JSON.stringify(manifest),new RegExp(createHash('sha256').update(bytes).digest('hex')));
-    const png=await sharp(await readFile(new URL(path.href.replace(/\.webp$/,'.png')))).metadata();
+    const png=await sharpCommittedAsset(await readCommittedAsset(new URL(path.href.replace(/\.webp$/,'.png')))).metadata();
     assert.equal(png.width,512);assert.equal(png.height,512);assert.equal(png.hasAlpha,true);
   }
 });

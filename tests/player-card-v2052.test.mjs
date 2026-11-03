@@ -1,3 +1,5 @@
+import {readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { PGlite } from '@electric-sql/pglite';
@@ -234,8 +236,8 @@ test('current LIVE clan excludes TEST, previous rounds, non-assigned rounds and 
       await f.pg.query("UPDATE organization_rounds_v1 SET phase=$1 WHERE id='live'",[phase]);
       assert.equal((await f.call()).body.player.clan,null,'latest LIVE '+phase+' cannot fall back to older ASSIGNED');
     }
-    await f.pg.exec("UPDATE organization_rounds_v1 SET phase='ASSIGNED' WHERE id='live'; UPDATE organization_members_v1 SET organization_id=7 WHERE round_id='live' AND user_id=2");
-    assert.equal((await f.call()).body.player.clan,null,'retired identities outside the current six are not displayed');
+    await f.pg.exec("UPDATE organization_rounds_v1 SET phase='ASSIGNED' WHERE id='live'; UPDATE organization_members_v1 SET organization_id=999 WHERE round_id='live' AND user_id=2");
+    assert.equal((await f.call()).body.player.clan,null,'unsupported identities outside the current roster are not displayed');
     await f.pg.exec("DELETE FROM organization_rounds_v1 WHERE scope='LIVE'");
     assert.equal((await f.call()).body.player.clan,null,'TEST alone cannot supply current affiliation');
     assert.ok(f.sql.every(s=>/^\s*(SELECT|WITH)\b/i.test(s)),f.sql.join('\n'));
@@ -336,7 +338,7 @@ test('history is bounded but all-time honors survive outside the displayed 12 se
 test('unavailable source records return a retryable error, not invented zero awards', async () => {
   const f = await fixture(); try { await f.pg.exec('DROP TABLE clan_season_settlements'); assert.equal((await f.call()).status,503); } finally { await f.close(); }
 });
-const read = file => readFileSync(new URL('../'+file,import.meta.url),'utf8');
+const read = file => readCommittedAssetSync(new URL('../'+file,import.meta.url),'utf8');
 test('nickname renderer escapes text and attributes; only local asset images allowed', () => {
   const window = { location:{origin:'https://game.test'} }; vm.runInNewContext(read('js/player-card-v2052.js'),{window,URL,Intl,AbortController});
   const ui=window.PlayerCallingCard,html=ui.nameHtml('<img onerror="bad">',0);
@@ -364,7 +366,7 @@ test('live Hi Heeya and Cheon portrait paths render without widening trophy imag
         assert.match(html,/class="pc-portrait"/);assert.doesNotMatch(html,/class="pc-monogram"/);
         assert.ok(html.includes(`src="/${path}`),name);
       }
-      const metadata=await sharp(new URL('../'+path,import.meta.url).pathname.replace(/^\/(?=[A-Z]:)/,'')).metadata();
+      const metadata=await sharpCommittedAsset(new URL('../'+path,import.meta.url).pathname.replace(/^\/(?=[A-Z]:)/,'')).metadata();
       assert.equal(metadata.format,'webp');assert.ok(metadata.width>=640);
     }
     async function pgAvatar(code,name,path) {
@@ -408,9 +410,9 @@ test('live connections use exact user IDs; FX remains lazy, cancellable and non-
 });
 test('all trophy assets are real transparent production assets with preserved high-resolution originals', async () => {
   for(const t of TROPHY_CATALOG) {
-    const path=new URL('..'+t.art,import.meta.url),meta=await sharp(path.pathname.replace(/^\/(?=[A-Z]:)/,'' )).metadata();
+    const path=new URL('..'+t.art,import.meta.url),meta=await sharpCommittedAsset(path.pathname.replace(/^\/(?=[A-Z]:)/,'' )).metadata();
     assert.equal(meta.width,512); assert.equal(meta.height,512); assert.equal(meta.hasAlpha,true);
-    const file=new URL('..'+t.art.replace('.webp','.png'),import.meta.url),src=sharp(file.pathname.replace(/^\/(?=[A-Z]:)/,''));
+    const file=new URL('..'+t.art.replace('.webp','.png'),import.meta.url),src=sharpCommittedAsset(file.pathname.replace(/^\/(?=[A-Z]:)/,''));
     const original=await src.metadata(); assert.ok(original.width>=1024); const {data}=await src.ensureAlpha().raw().toBuffer({resolveWithObject:true});
     let transparent=0,opaque=0;for(let i=3;i<data.length;i+=4){if(data[i]===0)transparent++;if(data[i]>=250)opaque++;}assert.ok(transparent>100000);assert.ok(opaque>100000,'at least 98% opacity through the trophy body');
   }

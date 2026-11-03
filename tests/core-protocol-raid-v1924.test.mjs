@@ -462,8 +462,8 @@ test('Core UI is a room expedition overlay and delegates the actual fight to liv
   for (const selector of ['[data-v3-verdict]', '#battleMessage', '.card-frame', '.battle-v3-roster', '.battle-v3-roster-card', '[data-v3-roster', '.battle-character', '.project-v-battle-character', '[data-formation']) {
     assert.equal(coreOwnedSource.includes(selector), false, `Core must not target live V3 selector ${selector}`);
   }
-  assert.match(liveV3, /class="zenith-card-frame"[^>]+zenith-frame-concept-v2\.png/);
-  assert.match(liveV3, /class="superstar-card-frame"[^>]+superstar-championship-frame-v1\.webp/);
+  assert.match(liveV3, /createBattleHud/);
+  const hud=read('js/battle-v3-hud.mjs');assert.match(hud,/v3-hud-portrait/);assert.match(hud,/artFor\(c\)/);
 });
 
 test('preview exercises room browse, repeated battle resume and the live art adapter chain', () => {
@@ -523,7 +523,7 @@ test('legacy world raid remains direct while Core ships as a hidden TEST tab', (
   assert.match(index, /project-v-raid-qte-v1924\.js\?v=2086-random-two/);
   assert.match(index, /raid-qte-mobile-v2085\.css\?v=2085/);
   assert.match(index, /core-protocol-raid-v1924\.js\?v=20261029-free-entry/);
-  assert.match(adminIndex, /admin-v1276\.js\?v=2050-verified-coin-50eok/);
+  assert.match(adminIndex, /admin-v1276\.js\?[^"\s]*\bv=2050-verified-coin-50eok/);
   assert.match(adminIndex, /raid-overhaul-v1293\.js\?v=20261029-free-entry/);
   assert.match(coreAdmin, /coreRaidBalanceTolerance/);
   assert.match(coreAdmin, /coreRaidImbalanceDamage/);

@@ -1,3 +1,4 @@
+import {createBattleHud} from '../js/battle-v3-hud.mjs';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import vm from 'node:vm';
@@ -120,7 +121,7 @@ const modal={classList};
 let firearmHook=null;
 let sustainedStarts=0;
 let sustainedStops=0;
-const context={
+const context={__testCreateBattleHud:createBattleHud,
   console,setTimeout,clearTimeout,Promise,
   requestAnimationFrame(callback){callback(0);return 1},
   document:{querySelectorAll(){return []}},
@@ -141,7 +142,7 @@ const context={
   }
 };
 context.window=context;
-vm.runInNewContext(live,context,{filename:'battle-v3-live.js'});
+vm.runInNewContext(live.replace("await import('/js/battle-v3-hud.mjs?v=20261102-v1')",'({createBattleHud:globalThis.__testCreateBattleHud})'),context,{filename:'battle-v3-live.js'});
 
 const battleV2={rules:{battleSuitDamageAuthority:'SERVER_TIMELINE'},teams:{A:{cards:[],supports:[{id:'A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_01',actorKind:'BATTLE_SUIT',authoritative:true,damageAuthority:'SERVER_TIMELINE'}]},B:{cards:[]}},result:{timeline:[]}};
 const suit={code:'BATTLE_SUIT_01',battleSprite:'/suit.png'};

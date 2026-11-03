@@ -1,10 +1,12 @@
+import {readCommittedAsset,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import vm from 'node:vm';
 import sharp from 'sharp';
-const read=path=>readFile(new URL('../'+path,import.meta.url));
+const read=path=>readCommittedAsset(new URL('../'+path,import.meta.url));
 const json=async path=>JSON.parse((await read(path)).toString('utf8'));
 const root='assets/ui/project-v/monsters/hunt-tower/';
 const expected=[
@@ -17,11 +19,11 @@ test('all four SDs have real alpha, clear edges and full-body safe margins; resp
   const provenance=await json('docs/boss-resources-v2048-prompts.json');
   for(const entry of expected){
     await read(entry.art);
-    const buffer=await read(entry.master),metadata=await sharp(buffer).metadata();
+    const buffer=await read(entry.master),metadata=await sharpCommittedAsset(buffer).metadata();
     assert.equal(metadata.hasAlpha,true);assert.equal(metadata.width,1350);assert.equal(metadata.height,1350);
     const record=provenance.finals.find(row=>row.outputPath===entry.master);
     assert.equal(createHash('sha256').update(buffer).digest('hex').toUpperCase(),record.sha256);
-    const {data,info}=await sharp(buffer).raw().toBuffer({resolveWithObject:true});
+    const {data,info}=await sharpCommittedAsset(buffer).raw().toBuffer({resolveWithObject:true});
     let clear=0,solid=0;const bounds={left:info.width,top:info.height,right:-1,bottom:-1};
     for(let y=0;y<info.height;y++)for(let x=0;x<info.width;x++){
       const alpha=data[(y*info.width+x)*4+3];if(alpha===0)clear++;if(alpha>245)solid++;
@@ -33,7 +35,7 @@ test('all four SDs have real alpha, clear edges and full-body safe margins; resp
     assert.equal(bounds.bottom,1277);assert(bounds.left>=72&&bounds.top>=72&&bounds.right<1278);
     const base=entry.master.split('/').at(-1).replace('.png','');
     for(const size of [384,768])for(const extension of ['webp','avif']){
-      const file=`assets/responsive/project-v/${entry.folder}/${base}-${size}.${extension}`,m=await sharp(await read(file)).metadata();
+      const file=`assets/responsive/project-v/${entry.folder}/${base}-${size}.${extension}`,m=await sharpCommittedAsset(await read(file)).metadata();
       assert.equal(m.width,size);assert.equal(m.height,size);assert.equal(m.hasAlpha,true);
     }
   }

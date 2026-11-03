@@ -1,3 +1,5 @@
+import {readCommittedAsset,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import test,{after} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -28,12 +30,12 @@ function rig(){
 }
 test('48 normal frames preserve generated alpha, original hashes and non-bleeding atlas cells',async()=>{
   for(const spec of Object.values(assets.atlases)){
-    const data=await readFile(new URL('..'+spec.url,import.meta.url)),meta=await sharp(data).metadata();
+    const data=await readCommittedAsset(new URL('..'+spec.url,import.meta.url)),meta=await sharpCommittedAsset(data).metadata();
     assert.equal(sha(data),spec.sha256);assert.equal(meta.width,2048);assert.equal(meta.height,1536);assert.ok(meta.hasAlpha);
-    assert.equal(sha(await readFile(new URL('../preview/z-body-thunder-v3/'+spec.source.file,import.meta.url))),spec.source.sha256);
+    assert.equal(sha(await readCommittedAsset(new URL('../preview/z-body-thunder-v3/'+spec.source.file,import.meta.url))),spec.source.sha256);
     const hashes=[];
     for(let i=0;i<12;i++){
-      const raw=await sharp(data).extract({left:i%4*512,top:Math.floor(i/4)*512,width:512,height:512}).raw().toBuffer();
+      const raw=await sharpCommittedAsset(data).extract({left:i%4*512,top:Math.floor(i/4)*512,width:512,height:512}).raw().toBuffer();
       let visible=0,partial=0;
       for(let y=0;y<512;y++)for(let x=0;x<512;x++){
         const a=raw[(y*512+x)*4+3];if(a)visible++;if(a>0&&a<255)partial++;

@@ -1,3 +1,4 @@
+import {readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -8,7 +9,7 @@ import { inspectMercenarySprite } from '../scripts/inspect-mercenary-sd-v2061.mj
 import { createMercenaryBattleArtAdapter, validateMercenaryBattleRoster } from '../js/project-v-mercenary-battle-art-adapter-v1.js';
 
 const root = path.resolve(import.meta.dirname, '..');
-const read = name => JSON.parse(fs.readFileSync(path.join(root, name), 'utf8'));
+const read = name => JSON.parse(readCommittedAssetSync(path.join(root, name), 'utf8'));
 const roster = read('assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json');
 const records = [
   { record: read('assets/ui/project-v/characters/mercenary/sd-generation-20260907.json'), start: 21, end: 37 },
@@ -24,7 +25,7 @@ for (const { record, start, end } of records) test(`${record.date} native SD out
   assert.deepEqual(record.entries.map(entry => entry.code), roster.cards.slice(start, end).map(card => card.code));
   for (const entry of record.entries) {
     const card = roster.cards.find(card => card.code === entry.code);
-    const qa = await inspectMercenarySprite(path.join(root, card.battleSprite));
+    const qa = await inspectMercenarySprite(readCommittedAssetSync(path.join(root, card.battleSprite)));
     assert.equal(entry.status, 'TECH_QA_COMPLETE_USER_REVIEW_PENDING');
     assert.equal(entry.battleSprite, card.battleSprite);
     assert.equal(entry.sourceArt, card.sourceArt);

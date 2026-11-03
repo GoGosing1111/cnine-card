@@ -1,3 +1,4 @@
+import {existsCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {existsSync} from 'node:fs';
@@ -47,7 +48,7 @@ test('Saengbyuwang CMS registration executes atomically against PostgreSQL witho
       assert.equal(item.lobbyImage,'preview/avatar-saengbyuwang-v1/assets/avatar-saengbyuwang-lobby-v1-1024.webp');
       assert.equal(item.lobbyMobileImage,'preview/avatar-saengbyuwang-v1/assets/avatar-saengbyuwang-lobby-v1-640.webp');
       assert.equal(item.equipmentImage,'preview/avatar-saengbyuwang-v1/assets/avatar-saengbyuwang-equipment-v1-640.webp');
-      for(const field of ['lobbyImage','lobbyMobileImage','equipmentImage'])assert.ok(existsSync(new URL(`../${item[field]}`,import.meta.url)));
+      for(const field of ['lobbyImage','lobbyMobileImage','equipmentImage'])assert.ok(existsCommittedAssetSync(new URL(`../${item[field]}`,import.meta.url)));
       const catalog=await call('avatar/catalog');assert.equal(catalog.status,200);
       assert.ok(!catalog.body.avatars.some(a=>a.code==='SAENGBYUWANG'));
       assert.equal((await call('avatar/equip',{avatarCode:'SAENGBYUWANG'})).status,404);

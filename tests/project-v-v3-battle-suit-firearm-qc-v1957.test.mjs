@@ -1,3 +1,4 @@
+import {readCommittedAsset} from './helpers/sparse-media-fixture.mjs';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
@@ -5,7 +6,7 @@ import test from 'node:test';
 import {runInNewContext} from 'node:vm';
 
 const root=new URL('../',import.meta.url);
-const read=path=>readFile(new URL(path,root),'utf8');
+const read=path=>readCommittedAsset(new URL(path,root),'utf8');
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex').toUpperCase();
 
 const [html,client,baseCss,cardCss,css,responsiveCss,entry,engineSource,ballisticSource,ballisticManifestText,bundle,audioSource,manifestText,sourcesText,liveIndex,liveApp,liveBattle]=await Promise.all([
@@ -130,7 +131,7 @@ test('ballistic trajectory and monster hit use alpha PNG atlases through Pixi on
     assert.equal(asset.grid.frameCount,contract.frames,asset.id);
     assert.equal(asset.grid.cells.length,contract.frames,asset.id);
     assert.ok(asset.grid.cells.every(cell=>cell.alphaPixels>96),`${asset.id} contains an empty frame`);
-    const bytes=await readFile(new URL(`assets/ui/project-v/fx/ballistic-impact-v1/${contract.file}`,root));
+    const bytes=await readCommittedAsset(new URL(`assets/ui/project-v/fx/ballistic-impact-v1/${contract.file}`,root));
     assert.equal(sha256(bytes),contract.sha,asset.id);
   }
   assert.match(ballisticSource,/BallisticMuzzleAtlas/);
@@ -178,7 +179,7 @@ test('six live PVE profiles backed by three immutable CC0 real recordings satisf
     assert.ok(profile.final.peakMs>=0,code);
     assert.ok(profile.runtimeMix.masterGain>0&&profile.runtimeMix.masterGain<1,code);
     assert.deepEqual(Object.keys(profile.runtimeMix).filter(key=>key!=='masterGain').sort(),['action','impact','tail'],code);
-    const bytes=await readFile(new URL(`preview/project-v-v3/assets/audio/firearm-qc-v1/${expected.file}`,root));
+    const bytes=await readCommittedAsset(new URL(`preview/project-v-v3/assets/audio/firearm-qc-v1/${expected.file}`,root));
     assert.equal(sha256(bytes),expected.sha,code);
     assert.ok(bytes.length>15000,`${code} audio payload is unexpectedly empty`);
   }

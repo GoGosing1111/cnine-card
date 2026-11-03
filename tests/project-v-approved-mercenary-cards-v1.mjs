@@ -1,3 +1,4 @@
+import {existsCommittedAssetSync,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
@@ -8,8 +9,8 @@ import path from 'node:path';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const rosterPath = path.join(root, 'assets/ui/project-v/mercenaries/mercenary-card-roster-approved-v1.json');
 const previewPath = path.join(root, 'preview/mercenary-cards-approved-v1/index.html');
-const roster = JSON.parse(readFileSync(rosterPath, 'utf8'));
-const preview = readFileSync(previewPath, 'utf8');
+const roster = JSON.parse(readCommittedAssetSync(rosterPath, 'utf8'));
+const preview = readCommittedAssetSync(previewPath, 'utf8');
 
 const sha256 = buffer => createHash('sha256').update(buffer).digest('hex').toUpperCase();
 
@@ -34,15 +35,15 @@ test('approved mercenary roster has the canonical V-013 through V-020 range', ()
 test('every approved source art remains hash-locked and has a separate RGBA battle sprite', () => {
   for (const card of roster.cards) {
     const assetPath = path.join(root, card.sourceArt);
-    assert.equal(existsSync(assetPath), true, `${card.code} source art is missing`);
-    const buffer = readFileSync(assetPath);
+    assert.equal(existsCommittedAssetSync(assetPath), true, `${card.code} source art is missing`);
+    const buffer = readCommittedAssetSync(assetPath);
     assert.equal(sha256(buffer), card.sourceArtSha256, `${card.code} source art hash changed`);
     assert.deepEqual(readPngSize(buffer), { width: 1024, height: 1536 }, `${card.code} source art size is invalid`);
     assert.equal(card.sourceArtStatus, 'APPROVED_SOURCE_ART');
     assert.notEqual(card.battleSprite, card.sourceArt);
     const spritePath = path.join(root, card.battleSprite);
-    assert.equal(existsSync(spritePath), true, `${card.code} battle sprite is missing`);
-    const sprite = readFileSync(spritePath);
+    assert.equal(existsCommittedAssetSync(spritePath), true, `${card.code} battle sprite is missing`);
+    const sprite = readCommittedAssetSync(spritePath);
     assert.equal(sha256(sprite), card.battleSpriteSha256, `${card.code} battle sprite hash changed`);
     const spriteSize = readPngSize(sprite);
     assert.ok(spriteSize.width >= 1024, `${card.code} battle sprite width is too small`);
@@ -53,10 +54,10 @@ test('every approved source art remains hash-locked and has a separate RGBA batt
 });
 
 test('card frame assets and consolidated preview cover the full roster', () => {
-  assert.equal(existsSync(path.join(root, roster.cardComposition.frame)), true);
-  assert.equal(existsSync(path.join(root, roster.cardComposition.editableFrameSource)), true);
-  assert.equal(existsSync(path.join(root, 'css/mercenary-card-v1.css')), true);
-  assert.equal(existsSync(path.join(root, 'preview/mercenary-cards-v1/mercenary-cards-preview.js')), true);
+  assert.equal(existsCommittedAssetSync(path.join(root, roster.cardComposition.frame)), true);
+  assert.equal(existsCommittedAssetSync(path.join(root, roster.cardComposition.editableFrameSource)), true);
+  assert.equal(existsCommittedAssetSync(path.join(root, 'css/mercenary-card-v1.css')), true);
+  assert.equal(existsCommittedAssetSync(path.join(root, 'preview/mercenary-cards-v1/mercenary-cards-preview.js')), true);
 
   for (const card of roster.cards) {
     assert.match(preview, new RegExp(`data-code="${card.code}"`));

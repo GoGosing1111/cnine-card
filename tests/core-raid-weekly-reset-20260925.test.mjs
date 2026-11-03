@@ -80,6 +80,6 @@ test('approved player and CMS flows use the same isolated renderer with refreshe
   assert.match(read('js/core-raid-reward-picker-v2.mjs'),/preview=false/);
   assert.match(read('js/core-raid-reward-picker-v2.mjs'),/주간 최대 3회/);
   assert.doesNotMatch(read('css/core-raid-reward-picker-v2.css'),/(^|\n)(?::root|body|button|\*)[,{]/);
-  for(const file of ['index.html','admin/index.html','admin/raid-overhaul-v1293.js'])assert.match(read(file),/rewards=20260925-live/);
+  assert.match(read('index.html'),/rewards=20260925-live/);for(const file of ['admin/index.html','admin/raid-overhaul-v1293.js'])assert.match(read(file),/v=20261029-free-entry/);
   assert.match(read('preview/core-raid-rewards-v2/picker.mjs'),/\/js\/core-raid-reward-picker-v2/);
 });

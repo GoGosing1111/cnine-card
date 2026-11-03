@@ -1,3 +1,4 @@
+import {existsCommittedAssetSync,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
@@ -48,7 +49,7 @@ test('Hi Heeya CMS registration executes atomically against PostgreSQL without r
       assert.equal(item.lobbyImage,'preview/avatar-hi-heeya-v1/assets/avatar-hi-heeya-lobby-v1-1024.webp');
       assert.equal(item.lobbyMobileImage,'preview/avatar-hi-heeya-v1/assets/avatar-hi-heeya-lobby-v1-640.webp');
       assert.equal(item.equipmentImage,'preview/avatar-hi-heeya-v1/assets/avatar-hi-heeya-equipment-v1-640.webp');
-      for(const field of ['lobbyImage','lobbyMobileImage','equipmentImage'])assert.ok(existsSync(new URL(`../${item[field]}`,import.meta.url)));
+      for(const field of ['lobbyImage','lobbyMobileImage','equipmentImage'])assert.ok(existsCommittedAssetSync(new URL(`../${item[field]}`,import.meta.url)));
       const catalog=await call('avatar/catalog');assert.equal(catalog.status,200);
       assert.ok(!catalog.body.avatars.some(a=>a.code==='HI_HEEYA'));
       assert.equal((await call('avatar/equip',{avatarCode:'HI_HEEYA'})).status,404);
@@ -92,7 +93,7 @@ test('Hi Heeya CMS registration executes atomically against PostgreSQL without r
 });
 
 test('CMS displays an unset effect honestly, retaining existing configured effects and a cache-busted script',()=>{
-  const source=readFileSync(new URL('../admin/avatar-admin-v1.js',import.meta.url),'utf8');
+  const source=readCommittedAssetSync(new URL('../admin/avatar-admin-v1.js',import.meta.url),'utf8');
   const context={document:{readyState:'loading',addEventListener(){}},setTimeout(){}};
   vm.createContext(context);
   vm.runInContext(source.replace('  const boot=()=>','  globalThis.qa={avatarCard,effectRow};\n  const boot=()=>'),context);
@@ -103,5 +104,5 @@ test('CMS displays an unset effect honestly, retaining existing configured effec
   const legacy=context.qa.effectRow({type:'COIN_GAIN_PERCENT',value:50},0);
   assert.match(legacy,/<option value="COIN_GAIN_PERCENT" selected>/);
   assert.doesNotMatch(legacy,/<option value=""/);
-  assert.match(readFileSync(new URL('../admin/index.html',import.meta.url),'utf8'),/avatar-admin-v1\.js\?v=20261018-iyejun/);
+  assert.match(readCommittedAssetSync(new URL('../admin/index.html',import.meta.url),'utf8'),/avatar-admin-v1\.js\?v=20261018-iyejun/);
 });

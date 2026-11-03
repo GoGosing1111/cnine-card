@@ -29,17 +29,17 @@ test('private scheduler closes and fairly assigns 150 applicants atomically with
  assert.equal((await tick(f)).waiting,true);f.advance(ORGANIZATION_RECRUITMENT_MS);
  const outputs=await Promise.all([tick(f),tick(f)]);assert.equal(outputs.filter(r=>r.status==='ASSIGNED').length,1);
  const state=(await f.call('admin/organization')).data;assert.equal(state.round.phase,'ASSIGNED');assert.equal(state.round.assignment_status,'COMPLETED');assert.equal(state.participants.length,150);
- assert.equal(state.organizations.length,6);assert.ok(state.organizations.every(o=>o.memberCount===25));
+ assert.equal(state.organizations.length,8);assert.deepEqual(state.organizations.map(o=>o.memberCount).sort(),[18,18,19,19,19,19,19,19]);
  const rows=(await f.pg.query('SELECT user_id FROM organization_members_v1 WHERE round_id=$1',[id])).rows;assert.equal(rows.length,150);assert.equal(new Set(rows.map(r=>r.user_id)).size,150);
  assert.equal((await tick(f)).status,'IDLE');assert.equal((await f.pg.query('SELECT COUNT(*)::int n FROM clan_members')).rows[0].n,1);
- const user=(await f.call('organization/overview',{user:2})).data;assert.equal(user.roster.length,25);assert.equal(user.proposal,null);assert.equal(user.participants,undefined);assert.equal(user.round.assignment_token,undefined);
+ const user=(await f.call('organization/overview',{user:2})).data;assert.ok([18,19].includes(user.roster.length));assert.equal(user.proposal,null);assert.equal(user.participants,undefined);assert.equal(user.round.assignment_token,undefined);
 });
 test('overflow preserves every application and stops without arbitrary removal or clan migration',async t=>{
- const f=await organizationFixture(t,{people:151}),id=await live(f,{enroll:151});f.advance(ORGANIZATION_RECRUITMENT_MS);
- const result=await tick(f);assert.equal(result.status,'BLOCKED');assert.equal(result.participants,151);
- const state=(await f.call('admin/organization')).data;assert.equal(state.round.phase,'CLOSED');assert.match(state.round.assignment_error,/150명/);assert.equal(state.participantCount,151);assert.equal(state.participants.length,151);
+ const f=await organizationFixture(t,{people:201}),id=await live(f,{enroll:201});f.advance(ORGANIZATION_RECRUITMENT_MS);
+ const result=await tick(f);assert.equal(result.status,'BLOCKED');assert.equal(result.participants,201);
+ const state=(await f.call('admin/organization')).data;assert.equal(state.round.phase,'CLOSED');assert.match(state.round.assignment_error,/200명/);assert.equal(state.participantCount,201);assert.equal(state.participants.length,201);
  assert.equal((await f.pg.query('SELECT COUNT(*)::int n FROM organization_members_v1')).rows[0].n,0);
- assert.equal((await f.pg.query('SELECT COUNT(*)::int n FROM organization_surveys_v1 WHERE round_id=$1 AND active=1',[id])).rows[0].n,151);
+ assert.equal((await f.pg.query('SELECT COUNT(*)::int n FROM organization_surveys_v1 WHERE round_id=$1 AND active=1',[id])).rows[0].n,201);
 });
 test('manual mode closes on time but does not assign, and explicit reopening starts a fresh 24-hour window',async t=>{
  const f=await organizationFixture(t),id=await live(f,{enroll:2,autoAssign:false});f.advance(ORGANIZATION_RECRUITMENT_MS);

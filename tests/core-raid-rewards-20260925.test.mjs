@@ -113,7 +113,7 @@ for(const dialect of ['sqlite','postgres']){
 test('live loaders include reward UI/CMS and current cache versions without replacing V3 battle UI',()=>{
   const read=path=>fs.readFileSync(new URL('../'+path,import.meta.url),'utf8');
   assert.match(read('index.html'),/core-protocol-raid-v1924.js[^"\n]*rewards=20260925/);
-  assert.match(read('admin/index.html'),/raid-overhaul-v1293.js[^"\n]*rewards=20260925/);
+  assert.match(read('admin/index.html'),/raid-overhaul-v1293.js\?v=20261029-free-entry/);
   assert.match(read('admin/core-protocol-raid-admin-v2021.js'),/mountCoreRewardAdmin/);
   assert.match(read('js/core-protocol-raid-v1924.js'),/showCoreRewardPicker/);
   assert.doesNotMatch(read('css/core-raid-reward-picker-v1.css'),/rosterCard|battle-v3-live/);

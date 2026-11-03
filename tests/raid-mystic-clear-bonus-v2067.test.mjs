@@ -176,8 +176,8 @@ test('result display and current CMS resources keep the mystic bonus exclusive t
   assert.equal(quantity(display),3);assert.equal(display.inventoryRewards.find(x=>x.itemCode===ENERGY).label,'미스틱 에너지');
   const index=read('admin/index.html');
   assert.ok(index.includes('raid-overhaul-v1293.css?v=2067-raid-mystic-bonus'));
-  assert.ok(index.includes('raid-overhaul-v1293.js?v=20260923-coin-cap-300eok'));
-  assert.match(admin,/core-protocol-raid-admin-v2021\.js\?v=20260923-coin-cap-300eok/);
+  assert.ok(index.includes('raid-overhaul-v1293.js?v=20261029-free-entry'));
+  assert.match(admin,/core-protocol-raid-admin-v2021\.js\?v=20261029-free-entry/);
   const core=read('functions/_raid_core_protocol.js');assert.doesNotMatch(core,/clearMysticEnergy|DEFAULT_CLEAR_MYSTIC_ENERGY/);
   assert.ok(JSON.parse(read('package.json')).scripts['test:raid-entry'].includes('raid-mystic-clear-bonus-v2067.test.mjs'));
 });

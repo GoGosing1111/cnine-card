@@ -23,10 +23,10 @@ function fixture({win=true,deckLength=5,stale=false,recent=[],invalidTicket=fals
     async batch(statements){for(const statement of statements)await statement.run();}
   }};
   const reward=name=>async()=>{effects.push(name);return null;};
-  const selectedCodes=['V-001','V-002','V-003'];
+  const selectedCodes=['V-001','V-002','V-003','V-004','V-005','V-006'];
   const deps={simulateRankedSeries,rankedSeriesReceipt,rankedOwnershipGuard:()=>[],
     readRankedSeriesTicket:async()=>missingSeries?null:{A:selectedCodes,B:[...selectedCodes].reverse()},
-    rankedSelectedMercenaries:async(_,selections)=>{if(invalidRoster)throw Object.assign(Error('ownership changed'),{status:409});return new Map([...selections].map(([id,codes])=>[id,codes.map(code=>({code,basePower:mercenaryPowers[id]||100}))]));},
+    rankedSelectedMercenaries:async(_,selections)=>{if(invalidRoster)throw Object.assign(Error('ownership changed'),{status:409});return new Map([...selections].map(([id,codes])=>[id,codes.map(code=>({code,rank:Number(code.slice(2))%2?'SSS':'SS',basePower:mercenaryPowers[id]||100}))]));},
     ensureRankedPvpFoundation:async()=>{},rankedFightReceipt:async()=>receipt?{...receipt,replayed:true}:null,utcMs:()=>0,authenticate:async()=>users[1],readBody:async()=>({requestId:'ranked-performance-request',matchToken:'ticket'}),
     advancePvpSeasonLifecycle:async()=>({settings,settling:false}),burningEventSettings:async()=>({}),applyBurningPvpSettings:s=>s,isAdminRole:()=>false,
     claimRankedMatchTicket:async()=>{if(claimed||invalidTicket)throw Object.assign(Error('invalid or used'),{status:409});claimed=true;return {token:'ticket',defender_id:2,attacker_score:stale?999:1000,defender_score:1000,attacker_power:500,defender_power:500};},
@@ -95,7 +95,7 @@ test('repeat-opponent fallback still requires a valid ticket and current score a
 
 test('ranked mercenary power is unchanged, order is frozen, and recalled ownership stops before charging',async()=>{
  const f=fixture({mercenaryPowers:{1:1080000,2:180000},outcomes:['A','B','A']}),r=await f.call();
- assert.equal(r.status,200);assert.equal(f.combatInputs.length,3);assert.equal(f.combatInputs[0].attackerMercenary.basePower,1080000);assert.equal(f.combatInputs[0].defenderMercenary.basePower,180000);assert.equal(f.energy(),4);
- assert.deepEqual(f.combatInputs.map(c=>c.attackerMercenary.code),['V-001','V-002','V-003']);assert.deepEqual(r.data.rankedSeries.score,{A:2,B:1});assert.equal(f.effects.filter(x=>x==='history').length,1);
+ assert.equal(r.status,200);assert.equal(f.combatInputs.length,3);assert.equal(f.combatInputs[0].attackerMercenaries[0].basePower,1080000);assert.equal(f.combatInputs[0].defenderMercenaries[0].basePower,180000);assert.equal(f.energy(),4);
+ assert.deepEqual(f.combatInputs.map(c=>c.attackerMercenaries.map(m=>m.code)),[['V-001','V-002'],['V-003','V-004'],['V-005','V-006']]);assert.deepEqual(r.data.rankedSeries.score,{A:2,B:1});assert.equal(f.effects.filter(x=>x==='history').length,1);
  for(const options of [{invalidRoster:true},{missingSeries:true}]){const bad=fixture(options),response=await bad.call();assert.equal(response.status,409);assert.equal(bad.energy(),5);assert.deepEqual(bad.effects,[]);assert.deepEqual(bad.combatInputs,[]);}
 });

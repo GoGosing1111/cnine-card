@@ -1,3 +1,5 @@
+import {readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -8,8 +10,8 @@ import sharp from 'sharp';
 
 const root = path.resolve(import.meta.dirname, '..');
 const dir = path.join(root, 'preview/mercenary-weapons-beauty-v1');
-const read = file => fs.readFileSync(path.join(root, file), 'utf8');
-const manifest = JSON.parse(fs.readFileSync(path.join(dir, 'generation.json'), 'utf8'));
+const read = file => readCommittedAssetSync(path.join(root, file), 'utf8');
+const manifest = JSON.parse(readCommittedAssetSync(path.join(dir, 'generation.json'), 'utf8'));
 const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex').toUpperCase();
 
 test('eight weapon families plus six female firearms are separate native 2:3 PNG illustrations', async () => {
@@ -23,10 +25,10 @@ test('eight weapon families plus six female firearms are separate native 2:3 PNG
   assert.equal(new Set(manifest.entries.map(entry => entry.sha256)).size, 14);
   for (const entry of manifest.entries) {
     assert.match(entry.file, /^assets\/[0-9]{2}-[a-z-]+-v[123]\.png$/);
-    const bytes = fs.readFileSync(path.join(dir, entry.file));
+    const bytes = readCommittedAssetSync(path.join(dir, entry.file));
     assert.equal(hash(bytes), entry.sha256);
     assert.equal(bytes.length, entry.bytes);
-    const m = await sharp(bytes).metadata();
+    const m = await sharpCommittedAsset(bytes).metadata();
     assert.deepEqual([m.width, m.height, m.channels, m.format], [1024, 1536, 3, 'png']);
     assert.equal(entry.cardCode, `V-${String(entry.number + 23).padStart(3, '0')}`);
     assert.equal(entry.rank, null);
@@ -46,7 +48,7 @@ test('eight weapon families plus six female firearms are separate native 2:3 PNG
 });
 
 test('approved style references remain byte-identical and outfit variety matches the request', () => {
-  for (const ref of manifest.styleReferences) assert.equal(hash(fs.readFileSync(path.resolve(dir, ref.file))), ref.sha256);
+  for (const ref of manifest.styleReferences) assert.equal(hash(readCommittedAssetSync(path.resolve(dir, ref.file))), ref.sha256);
   assert.equal(manifest.entries.filter(entry => entry.gender === '여성').length, 10);
   assert.equal(manifest.entries.filter(entry => entry.gender === '남성').length, 4);
   assert.deepEqual(manifest.entries.slice(0, 8).filter(entry => entry.revealingOutfit).map(entry => entry.key), ['pistol', 'katana']);
@@ -57,8 +59,8 @@ test('approved style references remain byte-identical and outfit variety matches
 });
 
 test('preview is silent, isolated, frame-compatible and exposes all fourteen original downloads', () => {
-  const html = fs.readFileSync(path.join(dir, 'index.html'), 'utf8');
-  const js = fs.readFileSync(path.join(dir, 'review.js'), 'utf8');
+  const html = readCommittedAssetSync(path.join(dir, 'index.html'), 'utf8');
+  const js = readCommittedAssetSync(path.join(dir, 'review.js'), 'utf8');
   assert.match(html, /원화 승인/);
   assert.match(html, /noindex,nofollow/);
   assert.match(html, /160px 카드 크기/);
@@ -84,7 +86,7 @@ test('all filters show the correct cards and announce counts without any account
     querySelector:selector => selector === '#gallery' ? gallery : selector === '#resultCount' ? count : assert.fail(selector),
     querySelectorAll:selector => {assert.equal(selector, 'button[data-filter]'); return buttons;}
   };
-  vm.runInNewContext(fs.readFileSync(path.join(dir, 'review.js'), 'utf8'), {document});
+  vm.runInNewContext(readCommittedAssetSync(path.join(dir, 'review.js'), 'utf8'), {document});
   for (const button of [...buttons.slice(1), buttons[0]]) {
     button.listeners.click();
     const expected = {current:7, all:14, firearm:10, melee:4, female:10, male:4}[button.dataset.filter];
@@ -100,9 +102,9 @@ test('the final SKS revision preserves both pistol originals with traceable edit
   assert.equal(pistol.revision, 'SKS_REPLACEMENT_V3');
   assert.equal(pistol.file, 'assets/01-sks-nocturne-v3.png');
   assert.equal(pistol.gripRevision.file, 'assets/01-pistol-nocturne-v2.png');
-  assert.equal(hash(fs.readFileSync(path.join(dir, pistol.gripRevision.file))), pistol.gripRevision.sha256);
+  assert.equal(hash(readCommittedAssetSync(path.join(dir, pistol.gripRevision.file))), pistol.gripRevision.sha256);
   assert.equal(pistol.previousVersion.file, 'assets/01-pistol-nocturne-v1.png');
-  assert.equal(hash(fs.readFileSync(path.join(dir, pistol.previousVersion.file))), pistol.previousVersion.sha256);
+  assert.equal(hash(readCommittedAssetSync(path.join(dir, pistol.previousVersion.file))), pistol.previousVersion.sha256);
   assert.notEqual(pistol.sha256, pistol.previousVersion.sha256);
   assert.match(pistol.prompt, /PRESERVE her exact face/);
   assert.match(pistol.prompt, /SKS semi-automatic carbine/);

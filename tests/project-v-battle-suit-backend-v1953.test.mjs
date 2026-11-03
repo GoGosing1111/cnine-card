@@ -1,3 +1,4 @@
+import {readCommittedAsset} from './helpers/sparse-media-fixture.mjs';
 import {SECRET_POLICE_TITLE_KEY} from '../functions/_secret_police_title.js';
 import {ADMINISTRATION_TITLE_KEY} from '../functions/_administration_title.js';
 import {FLAG_BRIGADE_TITLE_KEY} from '../functions/_flag_brigade_title.js';
@@ -79,9 +80,9 @@ test('battle-suit CMS power is PVE-only and the catalog points at the three appr
 test('Battle Suit 01 female refresh replaces only the appearance metadata',async()=>{
   const sqlite=new DatabaseSync(':memory:');
   createEquipmentSchema(sqlite);
-  sqlite.exec(await readFile(migrationUrl,'utf8'));
+  sqlite.exec(await readCommittedAsset(migrationUrl,'utf8'));
   sqlite.prepare("UPDATE character_equipment_items SET total_power=777,pve_power=777,pvp_power=0 WHERE code='BATTLE_SUIT_01'").run();
-  const refresh=await readFile(femaleRefreshMigrationUrl,'utf8');
+  const refresh=await readCommittedAsset(femaleRefreshMigrationUrl,'utf8');
   sqlite.exec(refresh);
   sqlite.exec(refresh);
   const row=sqlite.prepare("SELECT image_url,description,total_power,pve_power,pvp_power FROM character_equipment_items WHERE code='BATTLE_SUIT_01'").get();
@@ -93,14 +94,14 @@ test('Battle Suit 01 female refresh replaces only the appearance metadata',async
 });
 
 test('competitive server paths hard-exclude Battle Suit power',async()=>{
-  const apiSource=await readFile(apiUrl,'utf8');
+  const apiSource=await readCommittedAsset(apiUrl,'utf8');
   assert.match(apiSource,/AND i\.slot<>'BATTLE_SUIT' AND i\.code NOT IN \(\$\{MERCENARY_EQUIPMENT_SQL_CODES\}\) GROUP BY l\.user_id/);
 });
 
 test('battle-suit migration is idempotent, starts at zero power and never opts into supply',async()=>{
   const sqlite=new DatabaseSync(':memory:');
   createEquipmentSchema(sqlite);
-  const migration=await readFile(migrationUrl,'utf8');
+  const migration=await readCommittedAsset(migrationUrl,'utf8');
   sqlite.exec(migration);
 
   const initial=sqlite.prepare("SELECT code,total_power,pve_power,pvp_power,supply_enabled,supply_weight FROM character_equipment_items WHERE slot='BATTLE_SUIT' ORDER BY code").all();
@@ -122,8 +123,8 @@ test('battle-suit migration is idempotent, starts at zero power and never opts i
 test('V1969 migration applies the exact 100k/200k/300k PVE tiers and keeps PVP disabled',async()=>{
   const sqlite=new DatabaseSync(':memory:');
   createEquipmentSchema(sqlite);
-  sqlite.exec(await readFile(migrationUrl,'utf8'));
-  sqlite.exec(await readFile(powerTierMigrationUrl,'utf8'));
+  sqlite.exec(await readCommittedAsset(migrationUrl,'utf8'));
+  sqlite.exec(await readCommittedAsset(powerTierMigrationUrl,'utf8'));
 
   const rows=sqlite.prepare("SELECT code,total_power,pve_power,pvp_power,supply_enabled,supply_weight FROM character_equipment_items WHERE slot='BATTLE_SUIT' ORDER BY code").all();
   assert.deepEqual(rows.map(row=>({
@@ -142,7 +143,7 @@ test('V1969 migration applies the exact 100k/200k/300k PVE tiers and keeps PVP d
 });
 
 test('runtime Battle Suit and weapon cutout manifest matches the committed assets',async()=>{
-  const manifest=JSON.parse(await readFile(assetManifestUrl,'utf8'));
+  const manifest=JSON.parse(await readCommittedAsset(assetManifestUrl,'utf8'));
   assert.equal(manifest.scope,'PVE_ONLY');
   assert.equal(manifest.powerContract.pvpTotalIncludesBattleSuit,false);
   assert.deepEqual(manifest.powerContract.tiersBySuitCode,{BATTLE_SUIT_01:100000,BATTLE_SUIT_02:200000,BATTLE_SUIT_03:300000});
@@ -155,7 +156,7 @@ test('runtime Battle Suit and weapon cutout manifest matches the committed asset
   assert.deepEqual(manifest.weapons.map(item=>item.equipmentCode),['EQ_1785427638137','EQ_1785961232958','EQ_1785961300455','EQ_1786966923833','EQ_1788486929132','EQ_1788486888336']);
   for(const item of [...manifest.suits,...manifest.weapons]){
     const relative=String(item.image||item.battleSprite||'').replace(/^\//,'');
-    const bytes=await readFile(new URL(`../${relative}`,import.meta.url));
+    const bytes=await readCommittedAsset(new URL(`../${relative}`,import.meta.url));
     assert.equal(createHash('sha256').update(bytes).digest('hex').toUpperCase(),item.sha256,relative);
   }
 });
@@ -246,7 +247,7 @@ test('Battle Suit is a sixth PVE support actor with authoritative independent da
   assert.equal(battle.rules.battleSuitDamageAuthority,'SERVER_TIMELINE');
   assert.equal(battle.rules.battleSuitOccupiesCardSlot,false);
 
-  const battleEngineSource=await readFile(battleEngineUrl,'utf8');
+  const battleEngineSource=await readCommittedAsset(battleEngineUrl,'utf8');
   assert.match(battleEngineSource,/const previousDamage=Math\.max\(1,Math\.round\(Number\(hit\.damage\|\|0\)\/shotsPerCycle\*battleSuitFirepowerBeforeV2011\(actor,target\)\)\);\s*hit\.damage=previousDamage\*BATTLE_SUIT_DAMAGE_MULTIPLIER/,
     'V2012 must apply the cumulative final multiplier after the integer-rounded minimum-damage split');
   assert.equal(APOCALYPSE_RULES.suitDamageMultiplier,4);
@@ -263,7 +264,7 @@ test('Battle Suit is a sixth PVE support actor with authoritative independent da
 });
 
 test('ordinary rollback retains the older V2012 x2 buff in normal and apocalypse PVE without changing cadence',async()=>{
-  const currentSource=await readFile(battleEngineUrl,'utf8');
+  const currentSource=await readCommittedAsset(battleEngineUrl,'utf8');
   const previousSource=currentSource.replace(
     'const BATTLE_SUIT_DAMAGE_MULTIPLIER = 4;',
     'const BATTLE_SUIT_DAMAGE_MULTIPLIER = 2;',

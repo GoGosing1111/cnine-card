@@ -9,28 +9,6 @@ import { PREDICTION_CATEGORIES,PREDICTION_CATEGORY_PREFIX,predictionFilterSql } 
 const read=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
 const context={window:{}};vm.runInNewContext(read('js/coin-prediction-model-v2033.js'),context);
 const model=context.window.CoinPredictionModel;
-const db=new DatabaseSync(':memory:');
-db.exec(`CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT NOT NULL,updated_at TEXT DEFAULT CURRENT_TIMESTAMP);
-CREATE TABLE users(id INTEGER PRIMARY KEY,nickname TEXT,coin INTEGER,role TEXT,status TEXT);
-CREATE TABLE coin_logs(id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER,change_amount INTEGER,balance_after INTEGER,reason TEXT,created_at TEXT DEFAULT CURRENT_TIMESTAMP);
-CREATE TABLE administration_prediction_subsidies_v2030(proposal_id TEXT PRIMARY KEY,event_id INTEGER,amount INTEGER,status TEXT,updated_at TEXT);
-INSERT INTO users VALUES(1,'운영 테스트',900000000000,'OWNER','ACTIVE'),(2,'유저 테스트',2000000000,'USER','ACTIVE');`);
-const audit=[];
-const env={DB:{prepare(sql){let args=[];return {bind(...values){args=values;return this;},first(){return db.prepare(sql).get(...args)||null;},all(){return{results:db.prepare(sql).all(...args)};},run(){const r=db.prepare(sql).run(...args);return{meta:{changes:Number(r.changes),last_row_id:Number(r.lastInsertRowid)}};}};},batch(statements){db.exec('BEGIN');try{const result=statements.map(s=>s.run());db.exec('COMMIT');return result;}catch(error){db.exec('ROLLBACK');throw error;}}}};
-async function request(path,body,role='OWNER'){
-  const request=new Request('https://prediction.test/api/'+path,{method:body?'POST':'GET',...(body?{body:JSON.stringify(body),headers:{'content-type':'application/json'}}:{})});
-  const deps={authenticate:async()=>db.prepare('SELECT * FROM users WHERE id=?').get(role==='OWNER'?1:2),requirePermission:async()=>role==='OWNER',isAdminRole:u=>u.role==='OWNER',readBody:r=>r.json(),json:(data,status=200)=>Response.json(data,{status}),writeAdminLog:async(...args)=>audit.push(args.slice(2))};
-  const response=await handleCoinPrediction({path:path.split('?')[0],request,env,deps});return{status:response.status,body:await response.json()};
-}
-await request('coin-prediction/state');
-const close=new Date(Date.now()+86400000).toISOString();
-for(let i=1;i<=29;i++){
-  db.prepare("INSERT INTO coin_prediction_events(id,title,status,closes_at,total_pool) VALUES(?,?,'OPEN',?,30000000)").run(i,'테스트 경기 '+i,close);
-  db.prepare('INSERT INTO coin_prediction_options(id,event_id,label,total_bet,bet_count) VALUES(?,?,?,10000000,1),(?,?,?,20000000,1)').run(i*10+1,i,'선택 A',i*10+2,i,'선택 B');
-  if(i<29)db.prepare('INSERT INTO app_meta(key,value) VALUES(?,?)').run(PREDICTION_CATEGORY_PREFIX+i,i<=20?'SOCCER':PREDICTION_CATEGORIES[(i-21)%PREDICTION_CATEGORIES.length]);
-  if(i%2===0)db.prepare('INSERT INTO coin_prediction_bets(event_id,user_id,option_id,amount) VALUES(?,1,?,1000000)').run(i,i*10+1);
-}
-
 test('카테고리 7종은 유저/CMS/서버가 동일하고 스타는 기타 바로 앞이며 SQL은 바인딩한다',()=>{
   assert.deepEqual(Array.from(model.categories,c=>c.code),Array.from(PREDICTION_CATEGORIES));
   assert.deepEqual(Array.from(model.categories.slice(-2),c=>[c.code,c.label]),[['STARCRAFT','스타'],['OTHER','기타']]);
@@ -59,92 +37,11 @@ test('정산·미적중·VOID 환불은 예상 대신 실제 payout을 표시한
   event.status='VOID';event.myBet.status='REFUNDED';event.myBet.payout=1000000;
   assert.equal(model.outcome(event).refunded,true);assert.equal(model.outcome(event).profit,0);
 });
-test('서버 카테고리 필터는 LIMIT 이전에 적용·12개 이상 페이지·범위 보정',async()=>{
-  const first=await request('coin-prediction/state?view=active&category=SOCCER&page=1');assert.equal(first.status,200);assert.equal(first.body.events.length,12);assert.equal(first.body.navigation.total,22);assert.equal(first.body.navigation.totalPages,2);
-  assert.ok(first.body.events.every(e=>e.category==='SOCCER'));assert.equal(first.body.navigation.categoryCounts.ALL,29);
-  const second=await request('coin-prediction/state?category=SOCCER&page=99');assert.equal(second.body.navigation.page,2);assert.equal(second.body.events.length,10);
-});
-test('내 배팅 필터는 모든 페이지·종목에 적용, 미분류 기타 호환',async()=>{
-  const mine=await request('coin-prediction/state?category=SOCCER&mine=1');assert.equal(mine.status,200);assert.equal(mine.body.navigation.total,11);assert.ok(mine.body.events.every(e=>e.myBet));
-  const other=await request('coin-prediction/state?category=OTHER');assert.ok(other.body.events.some(e=>e.id===29));
-  const nobody=await request('coin-prediction/state?mine=1',null,'USER');assert.equal(nobody.body.navigation.total,0);
-});
-test('CMS 등록 시 카테고리 저장·구 CMS 누락 입력은 기타·잘못된 값 거부',async()=>{
-  const good=await request('admin/coin-prediction/event',{title:'분류 신규',category:'LOL',closesAt:close,options:['A','B']});assert.equal(good.status,200);
-  assert.equal(db.prepare('SELECT value FROM app_meta WHERE key=?').get(PREDICTION_CATEGORY_PREFIX+good.body.id).value,'LOL');
-  const legacy=await request('admin/coin-prediction/event',{title:'레거시 호환',closesAt:close,options:['A','B']});assert.equal(legacy.status,200);assert.equal(db.prepare('SELECT value FROM app_meta WHERE key=?').get(PREDICTION_CATEGORY_PREFIX+legacy.body.id).value,'OTHER');
-  const invalid=await request('admin/coin-prediction/event',{title:'잘못된 종목',category:'NOT_REAL',closesAt:close,options:['A','B']});assert.equal(invalid.status,400);
-});
-test('CMS 기존 경기 분류 변경은 금액·배당·선택·수령 기록 불변, 권한 검사',async()=>{
-  const before=JSON.stringify([db.prepare('SELECT * FROM coin_prediction_events WHERE id=2').get(),db.prepare('SELECT * FROM coin_prediction_bets WHERE event_id=2').all(),db.prepare('SELECT * FROM coin_prediction_options WHERE event_id=2').all(),db.prepare('SELECT * FROM users').all()]);
-  assert.equal((await request('admin/coin-prediction/category',{eventId:2,category:'LOL'},'USER')).status,403);
-  assert.equal((await request('admin/coin-prediction/category',{eventId:2,category:'INVALID'})).status,400);
-  assert.equal((await request('admin/coin-prediction/category',{eventId:999999,category:'LOL'})).status,404);
-  assert.equal((await request('admin/coin-prediction/category',{eventId:2,category:'LOL'})).status,200);
-  const after=JSON.stringify([db.prepare('SELECT * FROM coin_prediction_events WHERE id=2').get(),db.prepare('SELECT * FROM coin_prediction_bets WHERE event_id=2').all(),db.prepare('SELECT * FROM coin_prediction_options WHERE event_id=2').all(),db.prepare('SELECT * FROM users').all()]);assert.equal(after,before);
-  assert.ok(audit.some(x=>x[0]==='COIN_PREDICTION_CATEGORY'));
-  const listed=await request('admin/coin-prediction/state?category=LOL');assert.ok(listed.body.events.some(e=>e.id===2));assert.ok(listed.body.events.every(e=>e.category==='LOL'));
-});
-test('필터 개편 이후 기존 배팅·같은 선택 추가·요청 재시도·상한 유지',async()=>{
-  const payload={eventId:1,optionId:11,amount:1000000,requestId:'matchday-bet-2033'};
-  const coinBefore=db.prepare('SELECT coin FROM users WHERE id=2').get().coin;
-  assert.equal((await request('coin-prediction/bet',payload,'USER')).status,200);
-  const replay=await request('coin-prediction/bet',payload,'USER');assert.equal(replay.body.replayed,true);
-  assert.equal(db.prepare('SELECT coin FROM users WHERE id=2').get().coin,coinBefore-1000000);
-  assert.equal((await request('coin-prediction/bet',{...payload,requestId:'different-option',optionId:12},'USER')).status,409);
-  assert.equal((await request('coin-prediction/bet',{...payload,requestId:'over-event-limit',amount:300000000001},'USER')).status,400);
-  assert.equal((await request('coin-prediction/bet',{...payload,requestId:'additional-ok'},'USER')).status,200);
-});
-test('기존 마감·정산식·무효 환불 경로는 새 UI와 그대로 호환',async()=>{
-  const created=await request('admin/coin-prediction/event',{title:'정산 검증',category:'BASEBALL',closesAt:close,options:['승','패']}),id=created.body.id;
-  const option=db.prepare('SELECT id FROM coin_prediction_options WHERE event_id=? ORDER BY id').get(id).id;
-  await request('coin-prediction/bet',{eventId:id,optionId:option,amount:1000000,requestId:'settlement-bet-2033'},'USER');
-  assert.equal((await request('admin/coin-prediction/action',{eventId:id,action:'CLOSE'})).status,200);
-  assert.equal((await request('admin/coin-prediction/action',{eventId:id,optionId:option,action:'SETTLE'})).status,200);
-  assert.equal(db.prepare('SELECT payout FROM coin_prediction_bets WHERE event_id=? AND user_id=2').get(id).payout,900000);
-  assert.equal((await request('admin/coin-prediction/action',{eventId:1,action:'VOID'})).status,200);
-  const refunded=db.prepare('SELECT * FROM coin_prediction_bets WHERE event_id=1 AND user_id=2').get();assert.equal(refunded.payout,refunded.amount);assert.equal(refunded.status,'REFUNDED');
-  const history=await request('coin-prediction/state?view=history&category=SOCCER&mine=1',null,'USER');assert.ok(history.body.events.some(e=>e.id===1));assert.equal(history.body.navigation.historyRetentionHours,24);
-});
-test('100억 포함 부분 환불 실패는 경기 마감 유지·미환불만 재개·전액 한 번 지급',async()=>{
-  const created=await request('admin/coin-prediction/event',{title:'100억 환불 복구',closesAt:close,options:['A','B']}),id=created.body.id;
-  const option=db.prepare('SELECT id FROM coin_prediction_options WHERE event_id=? ORDER BY id').get(id).id;
-  await request('coin-prediction/bet',{eventId:id,optionId:option,amount:10000000000,requestId:'refund-owner-bigint-2042'});
-  await request('coin-prediction/bet',{eventId:id,optionId:option,amount:100000,requestId:'refund-user-bigint-2042'},'USER');
-  const before=db.prepare('SELECT id,coin FROM users ORDER BY id').all(),beforeLogs=db.prepare("SELECT COUNT(*) n FROM coin_logs WHERE reason='코인 승부예측 무효 환불'").get().n;
-  const batch=env.DB.batch;let calls=0;
-  env.DB.batch=statements=>{if(++calls===2)throw new Error('INJECTED_SECOND_REFUND_FAILURE');return batch(statements)};
-  try{await assert.rejects(()=>request('admin/coin-prediction/action',{eventId:id,action:'VOID'}),/INJECTED_SECOND_REFUND_FAILURE/)}finally{env.DB.batch=batch}
-  assert.equal(db.prepare('SELECT status FROM coin_prediction_events WHERE id=?').get(id).status,'CLOSED');
-  assert.equal(db.prepare("SELECT COUNT(*) n FROM coin_prediction_bets WHERE event_id=? AND status='REFUNDED'").get(id).n,1);
-  assert.equal((await request('coin-prediction/bet',{eventId:id,optionId:option,amount:100000,requestId:'closed-retry-2042'},'USER')).status,409);
-  const resumed=await request('admin/coin-prediction/action',{eventId:id,action:'VOID'});assert.equal(resumed.status,200);
-  assert.equal(db.prepare('SELECT status FROM coin_prediction_events WHERE id=?').get(id).status,'VOID');
-  assert.equal(db.prepare("SELECT COUNT(*) n FROM coin_prediction_bets WHERE event_id=? AND status='ACTIVE'").get(id).n,0);
-  const after=db.prepare('SELECT id,coin FROM users ORDER BY id').all();assert.equal(after[0].coin-before[0].coin,10000000000);assert.equal(after[1].coin-before[1].coin,100000);
-  assert.equal(db.prepare("SELECT COUNT(*) n FROM coin_logs WHERE reason='코인 승부예측 무효 환불'").get().n-beforeLogs,2);
-  await assert.rejects(()=>request('admin/coin-prediction/action',{eventId:id,action:'VOID'}),/이미 정산/);
-  assert.deepEqual(db.prepare('SELECT id,coin FROM users ORDER BY id').all(),after);
-  db.prepare("UPDATE coin_prediction_events SET status='OPEN' WHERE id=?").run(id);
-  assert.equal((await request('coin-prediction/bet',{eventId:id,optionId:option,amount:100000,requestId:'legacy-refunded-rebet-2042'},'USER')).status,409);
-  assert.deepEqual(db.prepare('SELECT id,coin FROM users ORDER BY id').all(),after);
-  db.prepare("UPDATE coin_prediction_events SET status='VOID' WHERE id=?").run(id);
-});
-test('진행 중인 정산의 이벤트 잠금은 신규 참여를 차감 없이 막는다',async()=>{
-  const created=await request('admin/coin-prediction/event',{title:'환불 잠금',closesAt:close,options:['A','B']}),id=created.body.id;
-  const option=db.prepare('SELECT id FROM coin_prediction_options WHERE event_id=? ORDER BY id').get(id).id;
-  const key=`coin_prediction_lock_event_${id}`,before=db.prepare('SELECT coin FROM users WHERE id=2').get().coin;
-  db.prepare('INSERT INTO app_meta(key,value) VALUES(?,?)').run(key,`test-token|${Date.now()+300000}`);
-  assert.equal((await request('coin-prediction/bet',{eventId:id,optionId:option,amount:100000,requestId:'locked-bet-2042'},'USER')).status,409);
-  assert.equal(db.prepare('SELECT coin FROM users WHERE id=2').get().coin,before);
-  assert.equal(db.prepare("SELECT COUNT(*) n FROM app_meta WHERE key='coin_prediction_lock_bet_2'").get().n,0);
-  db.prepare('DELETE FROM app_meta WHERE key=?').run(key);
-});
 test('개편 UI 리소스 격리·확정/예상 구분·접근성·폴링 수명 계약',()=>{
   const ui=read('js/coin-prediction-v2033.js'),css=read('css/coin-prediction-v2033.css'),app=read('js/app.js'),admin=read('admin/coin-prediction-admin-v1.js');
   for(const word of ['내 배팅만','적중 시 예상 수령액','원금 포함','실제 수령액','최초 선택','showModal','requestSequence!==sequence','settings?.pollSeconds'])assert.ok(ui.includes(word),word);
   assert.ok(css.includes('prefers-reduced-motion'));assert.ok(css.includes('max-width:560px'));assert.ok(css.includes(':focus-visible'));
-  assert.match(app,/styles:\['css\/coin-prediction-v2033\.css/);assert.match(app,/coin-prediction-model-v2033\.js.*coin-prediction-v2033\.js/);
+  assert.doesNotMatch(app,/styles:\['css\/coin-prediction-v2033\.css/);assert.doesNotMatch(app,/coin-prediction-model-v2033\.js.*coin-prediction-v2033\.js/);
   assert.match(admin,/admin\/coin-prediction\/category/);assert.match(admin,/cpAdminCategory/);
   assert.match(ui,/id="coinPredictionRoot"/,'V21 화면 경로 식별자를 유지한다');
   assert.doesNotMatch(ui,/cp3-event-image|event\.image_url|function imageUrl/,'레거시 경기 이미지가 있어도 렌더링하지 않는다');
@@ -153,84 +50,23 @@ test('개편 UI 리소스 격리·확정/예상 구분·접근성·폴링 수명
   assert.doesNotMatch(ui,/battle-v3|Pixi|setBattlefield/);
 });
 
-test('스타 경기 CMS 등록·기존 분류 변경·유저/CMS 조회가 실제 SQL에 반영된다',async()=>{
-  const created=await request('admin/coin-prediction/event',{title:'스타 신규 경기',category:'STARCRAFT',closesAt:close,options:['테란','저그']});
-  assert.equal(created.status,200);const id=created.body.id;
-  assert.equal(db.prepare('SELECT value FROM app_meta WHERE key=?').get(PREDICTION_CATEGORY_PREFIX+id).value,'STARCRAFT');
-  const before=JSON.stringify([db.prepare('SELECT * FROM coin_prediction_events WHERE id=3').get(),db.prepare('SELECT * FROM coin_prediction_options WHERE event_id=3').all(),db.prepare('SELECT * FROM coin_prediction_bets WHERE event_id=3').all(),db.prepare('SELECT * FROM users').all()]);
-  assert.equal((await request('admin/coin-prediction/category',{eventId:3,category:'STARCRAFT'},'USER')).status,403);
-  assert.equal((await request('admin/coin-prediction/category',{eventId:3,category:'STARCRAFT'})).status,200);
-  assert.equal(JSON.stringify([db.prepare('SELECT * FROM coin_prediction_events WHERE id=3').get(),db.prepare('SELECT * FROM coin_prediction_options WHERE event_id=3').all(),db.prepare('SELECT * FROM coin_prediction_bets WHERE event_id=3').all(),db.prepare('SELECT * FROM users').all()]),before);
-  for(const path of ['coin-prediction/state','admin/coin-prediction/state']){
-    const listed=await request(path+'?category=STARCRAFT');assert.equal(listed.status,200);assert.equal(listed.body.navigation.category,'STARCRAFT');
-    assert.ok(listed.body.events.some(e=>e.id===id));assert.ok(listed.body.events.some(e=>e.id===3));assert.ok(listed.body.events.every(e=>e.category==='STARCRAFT'));
-    assert.equal(listed.body.navigation.categoryCounts.STARCRAFT,listed.body.navigation.total);
-    const other=await request(path+'?category=OTHER');assert.ok(other.body.events.every(e=>e.category==='OTHER'&&e.id!==id&&e.id!==3));
+// The archived estimates/renderer remain available as source, but November 3
+// retirement supersedes registration, betting, filtering and all settlements.
+test('all former prediction entry points return 410 before auth, schema or settlement and preserve existing history',async()=>{
+ const db=new DatabaseSync(':memory:');
+ try{
+  db.exec(`CREATE TABLE users(id INTEGER PRIMARY KEY,coin INTEGER);INSERT INTO users VALUES(1,900000000000),(2,2000000000);
+   CREATE TABLE coin_prediction_events(id INTEGER PRIMARY KEY,status TEXT,total_pool INTEGER);INSERT INTO coin_prediction_events VALUES(1,'OPEN',30000000),(2,'SETTLED',50000000);
+   CREATE TABLE coin_prediction_bets(event_id INTEGER,user_id INTEGER,amount INTEGER,payout INTEGER,status TEXT);INSERT INTO coin_prediction_bets VALUES(1,2,1000000,0,'ACTIVE'),(2,2,1000000,2500000,'SETTLED');`);
+  const snapshot=()=>['users','coin_prediction_events','coin_prediction_bets'].map(table=>db.prepare('SELECT * FROM '+table).all());
+  const before=snapshot(),forbidden=new Proxy({},{get(){throw Error('Retired prediction accessed runtime/auth/database');}});
+  for(const path of ['coin-prediction/state','coin-prediction/bet','admin/coin-prediction/state','admin/coin-prediction/event','admin/coin-prediction/category','admin/coin-prediction/action','admin/coin-prediction/settings']){
+   for(const method of ['GET','POST']){
+    const request=new Request('https://qa.test/api/'+path+'?view=history&category=SOCCER&mine=1&page=99',{method,...(method==='POST'?{body:JSON.stringify({eventId:1,action:'VOID',amount:300000000000,requestId:'old-request'})}:{})});
+    const response=await handleCoinPrediction({path,request,env:forbidden,deps:{...Object.fromEntries(['authenticate','requirePermission','readBody','writeAdminLog'].map(name=>[name,()=>{throw Error(name)}])),json:(body,status)=>Response.json(body,{status})}});
+    assert.equal(response.status,410);assert.equal((await response.json()).code,'COIN_PREDICTION_RETIRED');
+   }
   }
-});
-
-
-test('경기당 누적 3,000억 허용, 초과 요청과 중복 재시도는 추가 차감 없음',async()=>{
-  db.prepare('UPDATE users SET coin=600000000000 WHERE id=2').run();
-  const created=await request('admin/coin-prediction/event',{title:'3,000억 경계 검증',closesAt:close,options:['승','패']});
-  assert.equal(created.status,200);
-  const eventId=created.body.id,optionId=db.prepare('SELECT id FROM coin_prediction_options WHERE event_id=? ORDER BY id').get(eventId).id;
-  assert.equal(db.prepare('SELECT max_bet FROM coin_prediction_events WHERE id=?').get(eventId).max_bet,300000000000);
-  assert.equal(created.body.state.settings.maxBetPerEvent,300000000000);
-  assert.equal(created.body.state.terms.version,'2026-10-22-bet-3000eok');
-  assert.ok(created.body.state.terms.items.some(x=>x.includes('300,000,000,000코인')));
-  const submit=(amount,requestId)=>request('coin-prediction/bet',{eventId,optionId,amount,requestId},'USER');
-  assert.equal((await submit(300000000001,'three-thousand-over-single')).status,400);
-  assert.equal(db.prepare('SELECT coin FROM users WHERE id=2').get().coin,600000000000);
-  assert.equal((await submit(100000000000,'cap-first-thousand')).status,200);
-  assert.equal((await submit(200000000000,'cap-add-two-thousand')).status,200);
-  assert.equal((await submit(200000000000,'cap-add-two-thousand')).body.replayed,true);
-  assert.equal((await submit(100000,'cap-over-cumulative')).status,400);
-  assert.equal(db.prepare('SELECT amount FROM coin_prediction_bets WHERE event_id=? AND user_id=2').get(eventId).amount,300000000000);
-  assert.equal(db.prepare('SELECT total_pool FROM coin_prediction_events WHERE id=?').get(eventId).total_pool,300000000000);
-  assert.equal(db.prepare('SELECT total_bet FROM coin_prediction_options WHERE id=?').get(optionId).total_bet,300000000000);
-  assert.equal(db.prepare('SELECT coin FROM users WHERE id=2').get().coin,300000000000);
-});
-
-test('1회 3,000억 차감 중 실패는 전체 롤백, 재시도와 응답 재조회는 한 번만 차감',async()=>{
-  db.prepare('UPDATE users SET coin=600000000000 WHERE id=2').run();
-  const created=await request('admin/coin-prediction/event',{title:'3,000억 원자성 검증',closesAt:close,options:['승','패']});
-  const eventId=created.body.id,optionId=db.prepare('SELECT id FROM coin_prediction_options WHERE event_id=? ORDER BY id').get(eventId).id;
-  const payload={eventId,optionId,amount:300000000000,requestId:'cap-atomic-retry'};
-  const beforeLogs=db.prepare('SELECT COUNT(*) n FROM coin_logs WHERE user_id=2').get().n;
-  db.exec("CREATE TEMP TRIGGER fail_cap_bet BEFORE INSERT ON coin_logs WHEN NEW.user_id=2 AND NEW.change_amount=-300000000000 BEGIN SELECT RAISE(ABORT,'INJECTED_BET_LOG_FAILURE'); END");
-  try{const failed=await request('coin-prediction/bet',payload,'USER');assert.equal(failed.status,503);assert.equal(failed.body.retryable,true)}finally{db.exec('DROP TRIGGER fail_cap_bet')}
-  assert.equal(db.prepare('SELECT coin FROM users WHERE id=2').get().coin,600000000000);
-  assert.equal(db.prepare('SELECT COUNT(*) n FROM coin_prediction_bets WHERE event_id=?').get(eventId).n,0);
-  assert.equal(db.prepare('SELECT COUNT(*) n FROM coin_prediction_receipts WHERE request_id=?').get(payload.requestId).n,0);
-  assert.equal(db.prepare('SELECT total_pool FROM coin_prediction_events WHERE id=?').get(eventId).total_pool,0);
-  assert.equal(db.prepare('SELECT total_bet FROM coin_prediction_options WHERE id=?').get(optionId).total_bet,0);
-  assert.equal(db.prepare('SELECT COUNT(*) n FROM coin_logs WHERE user_id=2').get().n,beforeLogs);
-  const accepted=await request('coin-prediction/bet',payload,'USER');assert.equal(accepted.status,200);assert.equal(accepted.body.total,300000000000);
-  const replay=await request('coin-prediction/bet',payload,'USER');assert.equal(replay.status,200);assert.equal(replay.body.replayed,true);
-  assert.equal(db.prepare('SELECT coin FROM users WHERE id=2').get().coin,300000000000);
-  assert.equal(db.prepare('SELECT amount FROM coin_prediction_bets WHERE event_id=? AND user_id=2').get(eventId).amount,300000000000);
-  assert.equal(db.prepare('SELECT total_pool FROM coin_prediction_events WHERE id=?').get(eventId).total_pool,300000000000);
-  assert.equal(db.prepare('SELECT total_bet FROM coin_prediction_options WHERE id=?').get(optionId).total_bet,300000000000);
-  assert.equal(db.prepare('SELECT COUNT(*) n FROM coin_logs WHERE user_id=2').get().n,beforeLogs+1);
-});
-
-test('기존 500억 설정과 DRAFT/OPEN 경기는 3,000억으로 이관하고 마감·재화 기록 보존',async()=>{
-  const settings=JSON.parse(db.prepare("SELECT value FROM app_meta WHERE key='coin_prediction_settings_v1'").get().value);
-  db.prepare("UPDATE app_meta SET value=? WHERE key='coin_prediction_settings_v1'").run(JSON.stringify({...settings,enabled:false,pollSeconds:30,maxBetPerEvent:50000000000,termsVersion:'2026-10-20-package-coins'}));
-  db.prepare("INSERT INTO coin_prediction_events(title,status) VALUES('기존 초안','DRAFT')").run();
-  db.prepare('UPDATE coin_prediction_events SET max_bet=50000000000').run();
-  const closed=db.prepare("SELECT id,max_bet FROM coin_prediction_events WHERE status NOT IN ('DRAFT','OPEN') ORDER BY id").all();
-  assert.ok(closed.length>0);
-  const economySnapshot=()=>JSON.stringify([db.prepare('SELECT * FROM users ORDER BY id').all(),db.prepare('SELECT * FROM coin_prediction_bets ORDER BY event_id,user_id').all(),db.prepare('SELECT * FROM coin_logs ORDER BY id').all()]);
-  const economyBefore=economySnapshot();
-  const {handleCoinPrediction:freshHandler}=await import('../functions/_coin_prediction.js?limit-migration');
-  const response=await freshHandler({path:'coin-prediction/state',request:new Request('https://prediction.test/api/coin-prediction/state'),env,deps:{authenticate:async()=>null,json:(data,status)=>Response.json(data,{status})}});
-  assert.equal(response.status,401);
-  const migrated=JSON.parse(db.prepare("SELECT value FROM app_meta WHERE key='coin_prediction_settings_v1'").get().value);
-  assert.equal(migrated.maxBetPerEvent,300000000000);assert.equal(migrated.termsVersion,'2026-10-22-bet-3000eok');
-  assert.equal(migrated.enabled,false);assert.equal(migrated.pollSeconds,30);
-  assert.equal(db.prepare("SELECT COUNT(*) n FROM coin_prediction_events WHERE status IN ('DRAFT','OPEN') AND max_bet<>300000000000").get().n,0);
-  assert.deepEqual(db.prepare("SELECT id,max_bet FROM coin_prediction_events WHERE status NOT IN ('DRAFT','OPEN') ORDER BY id").all(),closed);
-  assert.equal(economySnapshot(),economyBefore);
+  assert.deepEqual(snapshot(),before);
+ }finally{db.close();}
 });

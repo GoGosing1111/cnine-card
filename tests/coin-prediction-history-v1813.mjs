@@ -57,56 +57,16 @@ assert.match(adminUi, /이벤트당 최대<\/span><b>300,000,000,000/);
 assert.match(adminCss, /\.cp-admin-tabs/);
 assert.match(adminCss, /@media\(max-width:560px\).*\.cp-admin-tabs/s);
 
-assert.match(app, /coin-prediction-v2033\.css\?v=[0-9][A-Za-z0-9-]+/);
-assert.match(app, /coin-prediction-model-v2033\.js\?v=[0-9][A-Za-z0-9-]+/);
-assert.match(app, /coin-prediction-v2033\.js\?v=[0-9][A-Za-z0-9-]+/);
-assert.match(index, /js\/app\.js\?v=[A-Za-z0-9][A-Za-z0-9-]+/);
-assert.match(adminIndex, /coin-prediction-admin-v1\.css\?v=[0-9][A-Za-z0-9-]+/);
-assert.match(adminIndex, /coin-prediction-admin-v1\.js\?v=[0-9][A-Za-z0-9-]+/);
+// Preserved historical renderer/model tests above; public loaders remain retired.
+assert.doesNotMatch(app,/coin-prediction-v2033\.(?:js|css)\?v=/);
+assert.doesNotMatch(adminIndex,/coin-prediction-admin-v1\.(?:js|css)\?v=/);
 assert.match(serviceWorker, /soop-card-shell-v[A-Za-z0-9][A-Za-z0-9-]+/);
 
 console.log('coin prediction active/history tabs + 24-hour retention PASS');
 
-const connectionString = process.env.CNINE_NEON_DATABASE_URL;
-if (connectionString) {
-  const client = new Client({ connectionString, application_name: 'coin-prediction-history-v1813' });
-  await client.connect();
-  const token = `prediction-history-${randomUUID()}`;
-  const tokenHash = createHash('sha256').update(token).digest('hex');
-  try {
-    const owner = (await client.query(
-      "SELECT id FROM users WHERE UPPER(role)='OWNER' ORDER BY id LIMIT 1",
-    )).rows[0];
-    assert.ok(owner?.id, 'OWNER account is required for PostgreSQL route checks');
-    await client.query(
-      "INSERT INTO sessions(token_hash,user_id,expires_at,client_id) VALUES($1,$2,'2099-12-31 23:59:59',$3)",
-      [tokenHash, owner.id, 'coin-prediction-history-v1813'],
-    );
-    for (const [route, expectedView] of [
-      ['coin-prediction/state?view=active&page=1', 'active'],
-      ['coin-prediction/state?view=history&page=1', 'history'],
-      ['admin/coin-prediction/state?view=active&page=1', 'active'],
-      ['admin/coin-prediction/state?view=history&page=1', 'history'],
-    ]) {
-      const background = [];
-      const response = await onRequest({
-        request: new Request(`https://cnine-card.test/api/${route}`, {
-          headers: { authorization: `Bearer ${token}`, 'x-cnine-client-id': 'coin-prediction-history-v1813' },
-        }),
-        env: { DB_BACKEND: 'postgres', HYPERDRIVE: { connectionString } },
-        waitUntil(promise) { background.push(Promise.resolve(promise)); },
-      });
-      await Promise.allSettled(background);
-      const body = await response.json().catch(() => ({}));
-      assert.equal(response.status, 200, `${route}: HTTP ${response.status} ${JSON.stringify(body).slice(0, 300)}`);
-      assert.equal(body.navigation?.view, expectedView, `${route}: wrong navigation view`);
-      assert.equal(body.navigation?.historyRetentionHours, 24, `${route}: wrong retention`);
-      assert.ok(Number.isInteger(body.navigation?.counts?.active), `${route}: active count missing`);
-      assert.ok(Number.isInteger(body.navigation?.counts?.history), `${route}: history count missing`);
-    }
-    console.log('coin prediction PostgreSQL active/history routes PASS');
-  } finally {
-    await client.query('DELETE FROM sessions WHERE token_hash=$1', [tokenHash]).catch(() => {});
-    await client.end();
-  }
+const forbidden=new Proxy({},{get(){throw Error('Retired prediction accessed auth/database');}});
+for(const route of ['coin-prediction/state?view=active','coin-prediction/state?view=history','admin/coin-prediction/state?view=history']){
+ const response=await onRequest({request:new Request('https://qa.test/api/'+route),env:forbidden,params:{path:route.split('?')[0].split('/')}});
+ assert.equal(response.status,410);
 }
+console.log('retired prediction routes return 410 without auth/database access');

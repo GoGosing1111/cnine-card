@@ -1,3 +1,4 @@
+import * as warChat from '../js/war-chat-v1.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {DatabaseSync} from 'node:sqlite';
@@ -96,8 +97,8 @@ test('신규 스키마 설치는 멱등, 경제 영수증은 시즌 초기화·�
   const source=readFileSync(new URL('../functions/_clan.js',import.meta.url),'utf8');assert.doesNotMatch(source,/DELETE FROM clan_participation_receipts/);assert.equal((source.match(/base_coin\+win_bonus_coin\+milestone_coin>0/g)||[]).length,2);
 });
 test('클라이언트는 재요청 ID 유지·공격자 득점·코인 동기화·최소 응답 복구를 지원',()=>{
-  let client=readFileSync(new URL('../js/clan-v1.js',import.meta.url),'utf8').replace(/global\.ClanV1=\{[^;]+\};/,'global.ClanV1={state,scoreRuleText,battleResultText,pendingRequest,finishRequest};');
+  let client=readFileSync(new URL('../js/clan-v1.js',import.meta.url),'utf8').replace("import('./war-chat-v1.mjs?v=20261028-chat2')",'Promise.resolve(globalThis.__testWarChat)').replace(/global\.ClanV1=\{[^;]+\};/,'global.ClanV1={state,scoreRuleText,battleResultText,pendingRequest,finishRequest};');
   const storage=new Map(),window={sessionStorage:{getItem:key=>storage.get(key),setItem:(key,value)=>storage.set(key,value),removeItem:key=>storage.delete(key)},crypto:{randomUUID:()=>crypto.randomUUID()}};
-  vm.runInNewContext(client,{window});const api=window.ClanV1,id=api.pendingRequest('one');assert.equal(api.pendingRequest('one'),id);api.state.pending.clear();assert.equal(api.pendingRequest('one'),id);api.finishRequest('one');assert.notEqual(api.pendingRequest('one'),id);
+  vm.runInNewContext(client,{window,__testWarChat:warChat});const api=window.ClanV1,id=api.pendingRequest('one');assert.equal(api.pendingRequest('one'),id);api.state.pending.clear();assert.equal(api.pendingRequest('one'),id);api.finishRequest('one');assert.notEqual(api.pendingRequest('one'),id);
   assert.match(api.battleResultText({result:'LOSE',clanWar:{scorePolicy:'ATTACKER_PARTICIPATION_V1',pointsAwarded:1}}),/우리 클랜 \+1점/);assert.match(client,/if\(data.replayed\)/);assert.match(client,/syncBattleWallet\(data.wallet\)/);
 });

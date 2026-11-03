@@ -1,3 +1,5 @@
+import {readCommittedAsset,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -8,7 +10,7 @@ import {RAID_COIN_REWARD_CAP_V2140,cleanRaidSettingsV1293,defaultRaidSettingsV12
 
 const root=path.resolve('.');
 const local=webPath=>path.join(root,String(webPath).replace(/^\//,''));
-const text=file=>fs.readFile(path.join(root,file),'utf8');
+const text=file=>readCommittedAsset(path.join(root,file),'utf8');
 
 test('사용자가 지정한 나가토·요리이치·이치고 3종만 KST 7일을 반복한다',()=>{
   assert.deepEqual(WEEKLY_RAID_BOSSES_V1.map(x=>x.code),['NAGATO','YORIICHI','ICHIGO']);
@@ -22,13 +24,13 @@ test('사용자가 지정한 나가토·요리이치·이치고 3종만 KST 7일
 
 test('신규 보스 SD는 투명 RGBA와 경량 768 WebP를 함께 제공하고 나가토 V2만 연결한다',async()=>{
   const expected=['nagato-sd-v2.png','yoriichi-sd-v1.png','ichigo-sd-v1.png'];
-  for(const name of expected){const meta=await sharp(path.join(root,'assets/ui/project-v/monsters/weekly-raid-v1',name)).metadata();assert.equal(meta.hasAlpha,true,name);assert.ok(meta.width>=1024&&meta.height>=1024,name);}
-  for(const boss of WEEKLY_RAID_BOSSES_V1){await fs.access(local(boss.battleSprite));for(const add of boss.minions)await fs.access(local(add.sprite));}
+  for(const name of expected){const meta=await sharpCommittedAsset(path.join(root,'assets/ui/project-v/monsters/weekly-raid-v1',name)).metadata();assert.equal(meta.hasAlpha,true,name);assert.ok(meta.width>=1024&&meta.height>=1024,name);}
+  for(const boss of WEEKLY_RAID_BOSSES_V1){await readCommittedAsset(local(boss.battleSprite));for(const add of boss.minions)await readCommittedAsset(local(add.sprite));}
   const nagato=WEEKLY_RAID_BOSSES_V1.find(x=>x.code==='NAGATO');assert.match(nagato.battleSprite,/nagato-sd-v2-768\.webp$/);assert.doesNotMatch(nagato.battleSprite,/nagato-sd-v1/);
 });
 
 test('보스별 궁극기는 개별 12프레임 Pixi atlas이고 런타임은 Sprite 시퀀스와 GSAP을 사용한다',async()=>{
-  for(const boss of WEEKLY_RAID_BOSSES_V1){const atlas=JSON.parse(await fs.readFile(local(boss.ultimate.atlas),'utf8')),frames=Object.keys(atlas.frames||{}).filter(name=>name.startsWith(boss.ultimate.framePrefix));assert.equal(frames.length,12,boss.name);}
+  for(const boss of WEEKLY_RAID_BOSSES_V1){const atlas=JSON.parse(await readCommittedAsset(local(boss.ultimate.atlas),'utf8')),frames=Object.keys(atlas.frames||{}).filter(name=>name.startsWith(boss.ultimate.framePrefix));assert.equal(frames.length,12,boss.name);}
   const runtime=await text('js/raid-weekly-boss-fx-v1.src.js');assert.match(runtime,/new Sprite\(frames\[0\]\)/);assert.match(runtime,/sprite\.texture=frames\[/);assert.match(runtime,/gsap\.timeline/);assert.match(runtime,/powerPreference:'low-power'/);assert.doesNotMatch(runtime,/Audio|Oscillator|createOscillator/);
 });
 

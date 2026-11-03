@@ -1,3 +1,4 @@
+import {readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { DatabaseSync } from 'node:sqlite';
@@ -85,7 +86,7 @@ test('corrupt persisted config fails closed, not silently replaced by initial ro
   await assert.rejects(()=>f.call());assert.equal(f.db.prepare('SELECT value FROM app_meta').get().value,'{broken');f.db.close();
 });
 test('isolated live and CMS wiring, safe new-tab links and permanent no-LIVE contract', () => {
-  const read=path=>readFileSync(new URL(`../${path}`,import.meta.url),'utf8');
+  const read=path=>readCommittedAssetSync(new URL(`../${path}`,import.meta.url),'utf8');
   const client=read('js/streamer-lounge-v2036.js'),shell=read('js/soopketmon-v21-exact-shell-adapter.js'),api=read('functions/api/[[path]].js');
   assert.equal((shell.match(/data-streamer-lounge-host/g)||[]).length,2);assert.match(shell,/global\.StreamerLounge\?\.mount/);
   assert.match(client,/dialog\.showModal\(\)/);assert.match(client,/target="_blank" rel="noopener noreferrer"/);assert.match(client,/delete host\.dataset\.profileKey/);
@@ -97,8 +98,8 @@ test('isolated live and CMS wiring, safe new-tab links and permanent no-LIVE con
 });
 
 test('the lounge entry preserves mobile geometry and stays isolated from battle styles', () => {
-  const css=readFileSync(new URL('../css/streamer-lounge-v2036.css',import.meta.url),'utf8');
-  const client=readFileSync(new URL('../js/streamer-lounge-v2036.js',import.meta.url),'utf8');
+  const css=readCommittedAssetSync(new URL('../css/streamer-lounge-v2036.css',import.meta.url),'utf8');
+  const client=readCommittedAssetSync(new URL('../js/streamer-lounge-v2036.js',import.meta.url),'utf8');
   assert.match(css,/\.mobile-command-lobby > \[data-streamer-lounge-host\] \{ left:0; top:115px; width:calc\(53% - 11px\); max-width:213px;/);
   assert.match(css,/\.pc-lobby-scene > \[data-streamer-lounge-host\] \{ left:0;/);
   assert.match(client,/sl36-dock-spine/);
@@ -108,7 +109,7 @@ test('the lounge entry preserves mobile geometry and stays isolated from battle 
 });
 
 test('premium lounge uses generated image plates, native station links and no new CSS rules', () => {
-  const read=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
+  const read=path=>readCommittedAssetSync(new URL('../'+path,import.meta.url),'utf8');
   const client=read('js/streamer-lounge-v2036.js');
   assert.match(client,/sl40-station-link/);
   assert.match(client,/member-card\.png/);
@@ -116,7 +117,7 @@ test('premium lounge uses generated image plates, native station links and no ne
   assert.doesNotMatch(client,/<style|style=|\.style\b|insertRule|adoptedStyleSheets|CSSStyleSheet/);
   assert.doesNotMatch(client,/프로필 보기|data-streamer-details|selectedId|sl36-detail|flower|sl36-tone/);
   for(const name of ['lounge-interior.png','member-card.png']) {
-    const bytes=readFileSync(new URL('../assets/ui/streamer-lounge/premium-v1/'+name,import.meta.url));
+    const bytes=readCommittedAssetSync(new URL('../assets/ui/streamer-lounge/premium-v1/'+name,import.meta.url));
     assert.deepEqual([...bytes.subarray(0,8)],[137,80,78,71,13,10,26,10]);
   }
   assert.match(read('index.html'),/css\/streamer-lounge-v2036\.css\?v=2038-station-only/);

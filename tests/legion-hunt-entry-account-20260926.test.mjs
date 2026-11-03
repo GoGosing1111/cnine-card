@@ -113,7 +113,7 @@ for(const postgres of [false,true]){
   test((postgres?'PostgreSQL':'SQLite')+': owned mercenary loadout and CMS skill reach the actual hunt handler',async t=>{
     const f=await mercenaryFixture(t,{postgres});
     await f.env.DB.batch(mercenaryCardAcquisitionStatements(f.env.DB,{userId:7,mercenaryCode:'V-050',acquisitionId:crypto.randomUUID()}));
-    await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:'V-050',revision:0});
+    await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCodes:['V-050'],revision:0});
     const deps={...f.deps,loadMercenaryBattleSnapshot},call=async(action,body)=>{
       if(action==='start')body={version:4,...body};
       const path='legion-hunt/'+action,request=new Request('https://game.test/api/'+path,{method:body?'POST':'GET',headers:{authorization:'Bearer local-account-7',origin:'https://game.test','content-type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});
@@ -124,7 +124,7 @@ for(const postgres of [false,true]){
     const run=await call('start',{difficulty:'normal'});assert.equal(run.payload.battleV2.teams.A.cards.length,5);assert.equal(run.payload.battleV2.teams.A.mercenaries.length,1);
     assert.equal(run.payload.battleV2.teams.A.mercenaries[0].cardId,'V-050');
     assert.ok(run.payload.battleV2.result.timeline.some(e=>e.skillId==='MS-050'));
-    await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:null,revision:1});
+    await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCodes:[],revision:1});
     const next=await call('start',{difficulty:'normal'});assert.equal(next.payload.battleV2.teams.A.mercenaries,undefined);
     assert.equal(await f.coin(),10000000,'entry and inspection do not charge or grant rewards');
   });

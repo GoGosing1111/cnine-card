@@ -1,3 +1,5 @@
+import {readCommittedAsset,readCommittedAssetSync} from '../../tests/helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import test,{after} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -9,18 +11,18 @@ import {makePlan,sample,AREA} from './skill.mjs';
 import {BerkanAreaFX} from './source/BerkanAreaFX.js';
 import {MERCENARY_CMS_SEED as seed} from '../../functions/_mercenary_cms_seed.js';
 after(()=>gsap.ticker.sleep());
-const root=new URL('./',import.meta.url),area=JSON.parse(await fs.readFile(new URL('manifest.json',root))),base=JSON.parse(await fs.readFile(new URL('../mercenary-berkan-sss-v1/manifest.json',root)));
+const root=new URL('./',import.meta.url),area=JSON.parse(await readCommittedAsset(new URL('manifest.json',root))),base=JSON.parse(await readCommittedAsset(new URL('../mercenary-berkan-sss-v1/manifest.json',root)));
 const sha=b=>createHash('sha256').update(b).digest('hex');
 test('new area sequence has sixteen unique RGBA frames with clear gutters and preserved source hash',async()=>{
- assert.equal(sha(await fs.readFile(new URL(area.source.file,root))),area.source.sha256);
+ assert.equal(sha(await readCommittedAsset(new URL(area.source.file,root))),area.source.sha256);
  assert.equal(area.arrowRainArea.frameCount,16);assert.equal(new Set(area.arrowRainArea.frames.map(f=>f.sha256)).size,16);
  for(const f of area.arrowRainArea.frames){
-  const bytes=await fs.readFile(new URL(f.file,root));assert.equal(sha(bytes),f.sha256);
-  const {data,info}=await sharp(bytes).ensureAlpha().raw().toBuffer({resolveWithObject:true});let occupied=0,border=0;
+  const bytes=await readCommittedAsset(new URL(f.file,root));assert.equal(sha(bytes),f.sha256);
+  const {data,info}=await sharpCommittedAsset(bytes).ensureAlpha().raw().toBuffer({resolveWithObject:true});let occupied=0,border=0;
   for(let y=0;y<info.height;y++)for(let x=0;x<info.width;x++){const a=data[(y*info.width+x)*4+3];if(a>0)occupied++;if((x===0||y===0||x===info.width-1||y===info.height-1)&&a>0)border++;}
   assert.equal(border,0);assert.ok(occupied>0&&occupied<info.width*info.height*.8);
  }
- assert.equal(sha(await fs.readFile(new URL('assets/arrow-rain-atlas-v1.png',root))),area.arrowRainArea.sha256);
+ assert.equal(sha(await readCommittedAsset(new URL('assets/arrow-rain-atlas-v1.png',root))),area.arrowRainArea.sha256);
  assert.equal(area.runtimeEnabled,true);assert.equal(AREA.runtimeEnabled,true);
  assert.deepEqual(seed.document.assignments.find(a=>a.code==='V-055').skillIds,['MS-055','MS-056'],'PVE connection approved on 2026-09-30');
 });

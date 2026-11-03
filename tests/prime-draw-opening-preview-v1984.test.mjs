@@ -1,3 +1,4 @@
+import {readCommittedAsset,statCommittedAsset} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -6,7 +7,7 @@ import {fileURLToPath} from 'node:url';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const PREVIEW=path.join(ROOT,'preview','prime-draw-opening-v1');
-const read=relative=>fs.readFile(path.join(PREVIEW,...relative.split('/')),'utf8');
+const read=relative=>readCommittedAsset(path.join(PREVIEW,...relative.split('/')),'utf8');
 const CONFIG=JSON.parse(await read('config/prime-drop-pools.v1.json'));
 const MANIFEST=JSON.parse(await read('manifest.json'));
 
@@ -76,8 +77,8 @@ test('preview audio is licensed recorded material with no runtime synthesis',asy
     assert.match(source,new RegExp(audio.path.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));
     const localPath=path.join(ROOT,...audio.path.slice(1).split('/'));
     const provenancePath=path.join(ROOT,...audio.provenance.slice(1).split('/'));
-    assert.ok((await fs.stat(localPath)).size>0);
-    assert.match(await fs.readFile(provenancePath,'utf8'),/Mixkit Sound Effects Free License/);
+    assert.ok((await statCommittedAsset(localPath)).size>0);
+    assert.match(await readCommittedAsset(provenancePath,'utf8'),/Mixkit Sound Effects Free License/);
   }
   assert.equal(MANIFEST.audio.masterVolume,0.12);
   assert.equal(MANIFEST.audio.proceduralSynthesis,false);

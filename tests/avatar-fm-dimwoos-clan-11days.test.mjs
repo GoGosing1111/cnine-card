@@ -1,3 +1,4 @@
+import {readCommittedAsset} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {PGlite} from '@electric-sql/pglite';
@@ -75,7 +76,7 @@ test('FM admission and 22 eleven-day grants are atomic, idempotent and expire th
  assert.equal((await f.call(4773,'avatar/purchase',{avatarCode:FM_AVATAR.code,requestId:'not-for-sale'})).status,404);
  assert.equal((await f.call(4773,'avatar/equip',{avatarCode:FM_AVATAR.code})).status,200);
  const effect=await f.api.equippedAvatarEffect(f.env,4773);assert.equal(f.api.applyAvatarCoinGain(100,effect).total,175);assert.equal(f.api.applyAvatarRaidEntryBonus(3,effect).limit,13);
- for(const p of [effect.lobbyImage,effect.lobbyMobileImage,effect.equipmentImage])assert.ok((await readFile(new URL('../'+p,import.meta.url))).length>0);
+ for(const p of [effect.lobbyImage,effect.lobbyMobileImage,effect.equipmentImage])assert.ok((await readCommittedAsset(new URL('../'+p,import.meta.url))).length>0);
  await f.q('UPDATE avatar_user_ownership_v1 SET expires_at=sqlite_now() WHERE user_id=4773 AND avatar_code=$1',[FM_AVATAR.code]);
  assert.equal(await f.api.equippedAvatarEffect(f.env,4773),null);assert.equal((await f.call(4773,'avatar/equip',{avatarCode:FM_AVATAR.code})).status,404);
  }finally{await f.pg.close()}

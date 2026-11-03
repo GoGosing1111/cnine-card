@@ -1,3 +1,5 @@
+import {readCommittedAsset,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import test,{after} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -12,7 +14,7 @@ import {buildCoreRaidBattlePayload,defaultCoreRaidSettings,cleanCoreRaidSettings
 import {ApocalypseSignatureSkillFX,fitSignatureScale} from '../preview/project-v-v3/source/battle/ApocalypseSignatureSkillFX.js';
 
 after(()=>gsap.ticker.sleep());
-const read=path=>readFile(new URL('../'+path,import.meta.url));
+const read=path=>readCommittedAsset(new URL('../'+path,import.meta.url));
 const text=async path=>(await read(path)).toString('utf8');
 const hash=buffer=>createHash('sha256').update(buffer).digest('hex');
 const cards=['HP','DEFENSE','SPEED','ATTACK','DEFENSE'].map((power_type,i)=>({id:'TEST-'+i,power_type,power:400000}));
@@ -68,7 +70,7 @@ test('both authored atlases contain twelve RGBA frames, distinct artwork and a f
   for(const spec of Object.values(APOCALYPSE_SIGNATURE_SKILLS)){
     const root='assets/ui/project-v/fx/apocalypse-signature-v2048/';
     const atlas=JSON.parse(await text(root+spec.asset+'-impact-atlas-v2.json'));
-    const png=await read(root+atlas.meta.image),metadata=await sharp(png).metadata();
+    const png=await read(root+atlas.meta.image),metadata=await sharpCommittedAsset(png).metadata();
     assert.equal(metadata.hasAlpha,true);assert.equal(metadata.channels,4);
     assert.equal(Object.keys(atlas.frames).length,12);assert.equal(atlas.meta.collisionFrame,6);
     assert.equal(atlas.meta.hashes.atlas,hash(png));assert.equal(atlas.meta.fps,18);

@@ -1,3 +1,4 @@
+import {readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -6,7 +7,7 @@ import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import sharp from 'sharp';
 import {isProductionFile,sealOrbQaOnly} from '../scripts/prepare-production-assets.mjs';
-const source=fs.readFileSync('js/battle-v3-live.js','utf8');
+const source=readCommittedAssetSync('js/battle-v3-live.js','utf8');
 function bridge(Image=class {}){
   const context={console,setTimeout,clearTimeout,Image};context.window=context;
   vm.runInNewContext(source,context);
@@ -42,7 +43,7 @@ test('orb preload shares work, supports the matching PNG, and retries after tota
   failAll=true;await assert.rejects(api.prepareSealOrb('PURIFY'),/봉인구/);
   failAll=false;await api.prepareSealOrb('PURIFY');
   assert.equal(requests.length,6);
-  const player=fs.readFileSync('js/seal-battle.js','utf8');
+  const player=readCommittedAssetSync('js/seal-battle.js','utf8');
   assert(player.indexOf('await globalThis.ProjectVBattleV3Live.prepareSealOrb(roleKey)')<player.indexOf("await api('seal-battle/participate'"));
 });
 
@@ -71,19 +72,19 @@ test('seal and dragon playback include the saved mercenary attack and exactly th
 });
 
 test('all six runtime orb files retain alpha and ship within the Pages cap; exact sources remain in Git',async()=>{
-  const manifest=JSON.parse(fs.readFileSync('docs/qa/seal-orbs-20261022/manifest.json','utf8'));
+  const manifest=JSON.parse(readCommittedAssetSync('docs/qa/seal-orbs-20261022/manifest.json','utf8'));
   const hash=b=>createHash('sha256').update(b).digest('hex');
   for(const row of manifest.assets){
-    assert.equal(hash(fs.readFileSync(row.source.file)),row.source.sha256);
+    assert.equal(hash(readCommittedAssetSync(row.source.file)),row.source.sha256);
     assert.equal(isProductionFile(row.source.file),false);
     for(const asset of row.outputs){
-      const buffer=fs.readFileSync(asset.file);assert.equal(hash(buffer),asset.sha256);assert(isProductionFile(asset.file));
+      const buffer=readCommittedAssetSync(asset.file);assert.equal(hash(buffer),asset.sha256);assert(isProductionFile(asset.file));
       const m=await sharp(buffer).metadata(),s=await sharp(buffer).stats();
       assert.equal(m.width,768);assert.equal(m.height,768);assert.equal(m.hasAlpha,true);
       assert.equal(s.channels[3].min,0);assert.equal(s.channels[3].max,255);
     }
   }
-  for(const file of sealOrbQaOnly){assert.equal(isProductionFile(file),false);assert.match(fs.readFileSync(file,'utf8'),/from 'node:/);}
+  for(const file of sealOrbQaOnly){assert.equal(isProductionFile(file),false);assert.match(readCommittedAssetSync(file,'utf8'),/from 'node:/);}
   const tracked=execFileSync('git',['ls-files','-z'],{maxBuffer:40e6}).toString().split('\0').filter(Boolean);
   const count=tracked.filter(isProductionFile).filter(f=>!f.startsWith('functions/')&&!['_headers','_redirects','_routes.json','_worker.js'].includes(f)).length+1;
   assert(count<=20000,`Pages has ${count} assets`);

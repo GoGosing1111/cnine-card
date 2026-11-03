@@ -55,7 +55,7 @@ async function noRedemption(f){
 
 test('cube coupon allows every authenticated OWNER regardless of nickname and remains separate from other rewards',()=>{
  assert.equal(couponRewardSpec(' miracle_cube ').max,MIRACLE_CUBE_COUPON_MAX);
- assert.equal(couponRewardSpec('PREMIUM_CUBE'),null);assert.equal(verifiedMessageRewardSpec('MIRACLE_CUBE'),null);
+ assert.equal(couponRewardSpec('PREMIUM_CUBE'),null);assert.deepEqual(verifiedMessageRewardSpec('MIRACLE_CUBE'),{type:'MIRACLE_CUBE',label:'미라클 큐브',icon:'🎲',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'});
  assert(canIssueMiracleCubeCoupon(owner));
  for(const user of [{role:'OWNER',nickname:'다른관리자'},{role:'OWNER',nickname:'핑크빛유두 '},{role:'OWNER'}])assert(canIssueMiracleCubeCoupon(user));
  for(const user of [null,{role:'ADMIN',nickname:owner.nickname},{role:'USER',nickname:owner.nickname},{role:'CARD_MANAGER',nickname:owner.nickname},{role:'EVENT_MANAGER',nickname:owner.nickname},{role:'SUPPORT',nickname:owner.nickname}])assert(!canIssueMiracleCubeCoupon(user));

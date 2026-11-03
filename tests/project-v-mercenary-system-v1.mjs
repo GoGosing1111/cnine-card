@@ -1,3 +1,4 @@
+import {existsCommittedAssetSync,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -18,12 +19,12 @@ import {
 
 const root = path.resolve(import.meta.dirname, '..');
 const rosterPath = path.join(root, 'assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json');
-const roster = JSON.parse(fs.readFileSync(rosterPath, 'utf8'));
+const roster = JSON.parse(readCommittedAssetSync(rosterPath, 'utf8'));
 
 test('new rank ladder assigns only user-directed Omega and preserves every prior card field', () => {
   assert.deepEqual(MERCENARY_RANKS, ['C','B','A','S','SS','SSS']);
   assert.equal(validateRankPolicy(roster), roster);
-  const record = JSON.parse(fs.readFileSync(path.join(root, 'assets/ui/project-v/mercenaries/mercenary-rank-approval-20260911.json'), 'utf8'));
+  const record = JSON.parse(readCommittedAssetSync(path.join(root, 'assets/ui/project-v/mercenaries/mercenary-rank-approval-20260911.json'), 'utf8'));
   const digest = crypto.createHash('sha256').update(JSON.stringify(beforeOmegaRankAssignment(roster.cards.slice(0,43)))).digest('hex').toUpperCase();
   assert.equal(digest, record.previousCardsSha256);
   const bad = structuredClone(roster);bad.cards[20].rank = 'SS';assert.throws(() => validateRankPolicy(bad));
@@ -31,7 +32,7 @@ test('new rank ladder assigns only user-directed Omega and preserves every prior
 });
 
 function sha256(relativePath) {
-  return crypto.createHash('sha256').update(fs.readFileSync(path.join(root, relativePath))).digest('hex').toUpperCase();
+  return crypto.createHash('sha256').update(readCommittedAssetSync(path.join(root, relativePath))).digest('hex').toUpperCase();
 }
 
 test('mercenary system keeps five regular cards and one separate mercenary slot', () => {
@@ -86,12 +87,12 @@ test('all source art and all declared battle sprites exist with recorded hashes'
   assert.equal(roster.summary.battleSpritePending, 0);
 
   for (const card of roster.cards) {
-    assert.equal(fs.existsSync(path.join(root, card.sourceArt)), true, `${card.code} source art missing`);
+    assert.equal(existsCommittedAssetSync(path.join(root, card.sourceArt)), true, `${card.code} source art missing`);
     assert.equal(sha256(card.sourceArt), card.sourceArtSha256, `${card.code} source art hash mismatch`);
     if (card.battleSprite) {
-      assert.equal(fs.existsSync(path.join(root, card.battleSprite)), true, `${card.code} battle sprite missing`);
+      assert.equal(existsCommittedAssetSync(path.join(root, card.battleSprite)), true, `${card.code} battle sprite missing`);
       assert.equal(sha256(card.battleSprite), card.battleSpriteSha256, `${card.code} battle sprite hash mismatch`);
-      const png = fs.readFileSync(path.join(root, card.battleSprite));
+      const png = readCommittedAssetSync(path.join(root, card.battleSprite));
       assert.equal(png.subarray(1, 4).toString('ascii'), 'PNG', `${card.code} battle sprite is not PNG`);
       // V-047 and V-050 idle on native 640px shooting-atlas poses. Do not upscale them
       // merely to match the older standalone-SD canvas; its six poses are tested separately.
@@ -166,9 +167,9 @@ test('official supporting anchors are preserved in main with canonical hashes', 
 });
 
 test('preview states the 5+1 rule and never exposes legacy ranks', () => {
-  const html = fs.readFileSync(path.join(root, 'preview/project-v-mercenary-system-v1/index.html'), 'utf8');
-  const client = fs.readFileSync(path.join(root, 'preview/project-v-mercenary-system-v1/mercenary-system.js'), 'utf8');
-  const standard = fs.readFileSync(path.join(root, 'docs/project-v-mercenary-system-standard.md'), 'utf8');
+  const html = readCommittedAssetSync(path.join(root, 'preview/project-v-mercenary-system-v1/index.html'), 'utf8');
+  const client = readCommittedAssetSync(path.join(root, 'preview/project-v-mercenary-system-v1/mercenary-system.js'), 'utf8');
+  const standard = readCommittedAssetSync(path.join(root, 'docs/project-v-mercenary-system-standard.md'), 'utf8');
   assert.match(html, /다섯 장의 덱/);
   assert.match(html, /한 장의 독립 용병/);
   assert.match(html, /5 \+ 1 편성 구조/);

@@ -1,3 +1,4 @@
+import {readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import {S_SKILL_IDS} from '../shared/mercenary-s-skills-v2.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -14,7 +15,7 @@ import {sampleSequence,releaseFrameViews} from '../preview/project-v-mercenary-s
 // The area sequence has a dedicated Pixi/GSAP player, including its own real
 // frame, seek, cancellation, sprite-budget and shared-texture lifecycle tests.
 import '../preview/mercenary-berkan-area-v1/qa.test.mjs';
-const read=p=>JSON.parse(fs.readFileSync(new URL('../'+p,import.meta.url),'utf8'));
+const read=p=>JSON.parse(readCommittedAssetSync(new URL('../'+p,import.meta.url),'utf8'));
 const roster=read('assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json');
 const positions=read('preview/project-v-mercenary-system-v1/position-draft-v1.json');
 const finish=(id,scenario='normal',snapshot)=>sampleRehearsal(compileRehearsal(id,scenario,snapshot),10);
@@ -252,7 +253,7 @@ test('rejected V1 originals remain preserved as history, not a runtime fallback'
   assert.equal(new Set(manifest.images.map(i=>i.runtimeSha256)).size,16);
   for(const image of manifest.images){
     for(const [key,hash] of [['source','sourceSha256'],['runtime','runtimeSha256']]){
-      const file=fs.readFileSync(new URL('../preview/project-v-mercenary-system-v1/'+image[key],import.meta.url));
+      const file=readCommittedAssetSync(new URL('../preview/project-v-mercenary-system-v1/'+image[key],import.meta.url));
       assert.equal(crypto.createHash('sha256').update(file).digest('hex').toUpperCase(),image[hash]);
     }
     assert.ok(image.alpha.transparentFraction>.15);assert.ok(image.alpha.edgeMax<=5);assert.deepEqual(image.runtimeSize,[512,512]);
@@ -267,7 +268,7 @@ test('thirty-six individually authored sequences retain 576 original frames and 
     assert.equal(row.code,undefined,'Creation references must never be used as skill ownership');
     assert.ok(skills.some(s=>s.id===row.skillId&&s.visual.asset===row.id));assert.equal(row.frameCount,16);assert.equal(row.frames.length,16);ids.add(row.skillId);
     for(const [file,hash]of [[row.source,row.sourceSha256],[row.runtime,row.runtimeSha256],...row.frames.map(f=>[f.file,f.sha256])]){
-      const bytes=fs.readFileSync(new URL('../preview/project-v-mercenary-system-v1/skill-assets-v2/'+file,import.meta.url));
+      const bytes=readCommittedAssetSync(new URL('../preview/project-v-mercenary-system-v1/skill-assets-v2/'+file,import.meta.url));
       assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),hash.toLowerCase());
     }
     assert.equal(new Set(row.frames.map(f=>f.rawSha256)).size,16);
@@ -277,7 +278,7 @@ test('thirty-six individually authored sequences retain 576 original frames and 
 });
 test('skill review stays outside production battle routes, source-art roster and five-card contract',()=>{
   for(const path of ['index.html','js/app.js','functions/api/[[path]].js','js/battle-v3-live.js']){
-    const content=fs.readFileSync(new URL('../'+path,import.meta.url),'utf8');assert.ok(!/mercenary-skills-v1|skills\.bundle\.js|skill-rehearsal\.mjs/.test(content),path);
+    const content=readCommittedAssetSync(new URL('../'+path,import.meta.url),'utf8');assert.ok(!/mercenary-skills-v1|skills\.bundle\.js|skill-rehearsal\.mjs/.test(content),path);
   }
   assert.ok(roster.cards.every(c=>['V-021','V-046','V-049','V-055','V-056','V-057'].includes(c.code)?c.rank==='SSS':['V-044','V-045','V-047','V-048','V-050','V-051','V-052','V-053','V-054'].includes(c.code)?c.rank==='SS':c.rank===null));assert.equal(roster.formationRule.regularCardSlots,5);
 });

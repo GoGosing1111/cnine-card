@@ -1,10 +1,11 @@
+import {existsCommittedAssetSync,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
 import {inventoryUiFixture} from './fixtures/inventory-ui-v2125.mjs';
 
-const app=fs.readFileSync(new URL('../js/app.js',import.meta.url),'utf8');
+const app=readCommittedAssetSync(new URL('../js/app.js',import.meta.url),'utf8');
 function model(){
   const context=vm.createContext({Intl,Set,escapeHtml:value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))});
   const code=app.slice(app.indexOf('const RETIREMENT_REROLL_META='),app.indexOf('let landSuperstarBusy=false;'));
@@ -83,7 +84,7 @@ test('item names, codes, descriptions and image URLs are escaped before HTML ins
   }
 });
 test('all fixture media resolve to real assets and include the released fifth and sixth cores',()=>{
-  for(const item of inventoryUiFixture().items){if(item.image)assert.ok(fs.existsSync(new URL('../'+item.image.replace(/^\//,''),import.meta.url)),item.code);}
+  for(const item of inventoryUiFixture().items){if(item.image)assert.ok(existsCommittedAssetSync(new URL('../'+item.image.replace(/^\//,''),import.meta.url)),item.code);}
   assert.ok(inventoryUiFixture().items.some(x=>x.code==='SUIT_CORE_5'));
   assert.ok(inventoryUiFixture().items.some(x=>x.code==='SUIT_CORE_6'));
 });

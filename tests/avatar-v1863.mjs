@@ -1,3 +1,5 @@
+import {statCommittedAsset,readCommittedAsset,readCommittedAssetSync,readCommittedDirectory} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFile, readdir, stat } from 'node:fs/promises';
@@ -79,15 +81,15 @@ test('equipped avatar raid effect increases the usable daily and slot entry limi
 });
 test('all twelve final equipment avatars ship as defringed versioned WebP files with real alpha', async () => {
   const directory=new URL('../assets/ui/avatars-v1/equipment-v3/',import.meta.url);
-  const files=(await readdir(directory)).filter(name=>name.endsWith('.webp')).sort();
+  const files=(await readCommittedDirectory(directory)).filter(name=>name.endsWith('.webp')).sort();
   assert.equal(files.length,12);
   for(const filename of files){
-    const url=new URL(filename,directory),header=await readFile(url),metadata=await stat(url);
+    const url=new URL(filename,directory),header=await readCommittedAsset(url),metadata=await statCommittedAsset(url);
     assert.equal(header.subarray(0,4).toString('ascii'),'RIFF',`${filename} is not RIFF`);
     assert.equal(header.subarray(8,16).toString('ascii'),'WEBPVP8X',`${filename} is not extended WebP`);
     assert.equal(header[20]&0x10,0x10,`${filename} has no alpha flag`);
     assert.ok(metadata.size>50000,`${filename} looks truncated`);
-    const {data,info}=await sharp(fileURLToPath(url)).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+    const {data,info}=await sharpCommittedAsset(fileURLToPath(url)).ensureAlpha().raw().toBuffer({resolveWithObject:true});
     assert.equal(info.width,640,`${filename} width changed`);
     assert.equal(info.height,960,`${filename} height changed`);
     let visible=0,whiteFringe=0;
@@ -109,11 +111,11 @@ test('Terran Empress Joeun keeps the approved lobby illustration separate from t
   const equipmentSource=new URL('../assets/ui/avatars-v1/equipment-source-approved/avatar-f09-terran-empress-joeun-equipment-v1.png',import.meta.url);
   const equipmentRuntime=new URL('../assets/ui/avatars-v1/equipment-v3/avatar-f09-terran-empress-joeun-equipment-v1-640.webp',import.meta.url);
   const [approvedMeta,lobby1024Meta,lobby640Meta,equipmentSourceMeta,equipmentRuntimeMeta]=await Promise.all([
-    sharp(fileURLToPath(approvedLobby)).metadata(),
-    sharp(fileURLToPath(lobby1024)).metadata(),
-    sharp(fileURLToPath(lobby640)).metadata(),
-    sharp(fileURLToPath(equipmentSource)).metadata(),
-    sharp(fileURLToPath(equipmentRuntime)).metadata()
+    sharpCommittedAsset(fileURLToPath(approvedLobby)).metadata(),
+    sharpCommittedAsset(fileURLToPath(lobby1024)).metadata(),
+    sharpCommittedAsset(fileURLToPath(lobby640)).metadata(),
+    sharpCommittedAsset(fileURLToPath(equipmentSource)).metadata(),
+    sharpCommittedAsset(fileURLToPath(equipmentRuntime)).metadata()
   ]);
   assert.deepEqual([approvedMeta.width,approvedMeta.height],[853,1280]);
   assert.deepEqual([lobby1024Meta.width,lobby1024Meta.height],[1024,1536]);
@@ -125,17 +127,17 @@ test('Terran Empress Joeun keeps the approved lobby illustration separate from t
 });
 test('live avatar route is gated and wired through both V21 routers', async () => {
   const [app,exact,runtime,server,battleApi,chief,loadout,avatarCss,lobbyCss,index,serviceWorker]=await Promise.all([
-    readFile(new URL('../js/app.js',import.meta.url),'utf8'),
-    readFile(new URL('../js/soopketmon-v21-exact-shell-adapter.js',import.meta.url),'utf8'),
-    readFile(new URL('../js/soopketmon-v21-runtime-router.js',import.meta.url),'utf8'),
-    readFile(new URL('../functions/_avatar.js',import.meta.url),'utf8'),
-    readFile(new URL('../functions/api/[[path]].js',import.meta.url),'utf8'),
-    readFile(new URL('../functions/_chief.js',import.meta.url),'utf8'),
-    readFile(new URL('../js/character-loadout-v2.js',import.meta.url),'utf8'),
-    readFile(new URL('../css/avatar-shop-v1.css',import.meta.url),'utf8'),
-    readFile(new URL('../css/soopketmon-v21-exact-luxury.css',import.meta.url),'utf8'),
-    readFile(new URL('../index.html',import.meta.url),'utf8'),
-    readFile(new URL('../service-worker.js',import.meta.url),'utf8')
+    readCommittedAsset(new URL('../js/app.js',import.meta.url),'utf8'),
+    readCommittedAsset(new URL('../js/soopketmon-v21-exact-shell-adapter.js',import.meta.url),'utf8'),
+    readCommittedAsset(new URL('../js/soopketmon-v21-runtime-router.js',import.meta.url),'utf8'),
+    readCommittedAsset(new URL('../functions/_avatar.js',import.meta.url),'utf8'),
+    readCommittedAsset(new URL('../functions/api/[[path]].js',import.meta.url),'utf8'),
+    readCommittedAsset(new URL('../functions/_chief.js',import.meta.url),'utf8'),
+    readCommittedAsset(new URL('../js/character-loadout-v2.js',import.meta.url),'utf8'),
+    readCommittedAsset(new URL('../css/avatar-shop-v1.css',import.meta.url),'utf8'),
+    readCommittedAsset(new URL('../css/soopketmon-v21-exact-luxury.css',import.meta.url),'utf8'),
+    readCommittedAsset(new URL('../index.html',import.meta.url),'utf8'),
+    readCommittedAsset(new URL('../service-worker.js',import.meta.url),'utf8')
   ]);
   assert.match(app,/if\(tab==='avatar'&&!avatarFeatureVisible\(\)\)tab='buy'/);
   assert.match(exact,/avatar:\s*Object\.freeze\(\{ title: '아바타'/);

@@ -1,3 +1,5 @@
+import {statCommittedAsset,readCommittedAsset,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
@@ -5,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 import { normalizedOdds, weightedPick, materialScore, cardEffectScore, rewardAutoFactor, rewardGradeFactor, applyAlchemyCardPoolDensity } from '../functions/_alchemy.js';
 
-const read = path => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
+const read = path => readCommittedAsset(new URL(`../${path}`, import.meta.url), 'utf8');
 
 test('alchemy reward weights are normalized and selected deterministically at boundaries', () => {
   const source = [{ id:'A', weight:100, effectiveWeight:1 }, { id:'B', weight:1, effectiveWeight:3 }, { id:'OFF', weight:1, effectiveWeight:0 }];
@@ -136,8 +138,8 @@ test('truth orb and fortified five-slot renderer are shared by preview and live'
   assert.match(preview, /type: 'VEHICLE'/);
   assert.doesNotMatch(preview, /assets:\s*\[[\s\S]*?type: 'ITEM'[\s\S]*?\],\s*rewardPool:/);
   const orb = new URL('../assets/ui/alchemy-v1/alchemy-truth-orb-v2.webp', import.meta.url);
-  assert.ok((await stat(orb)).size > 100000);
-  const metadata = await sharp(fileURLToPath(orb)).metadata();
+  assert.ok((await statCommittedAsset(orb)).size > 100000);
+  const metadata = await sharpCommittedAsset(fileURLToPath(orb)).metadata();
   assert.equal(metadata.width, 1024);
   assert.equal(metadata.height, 1024);
   assert.equal(metadata.hasAlpha, true);
@@ -157,6 +159,6 @@ test('alchemy CMS exposes material curve, vehicles, inverse reward weights and s
   assert.doesNotMatch(admin, /alchemyRewardMode|PRECISION|CHAOS|정밀/);
   assert.match(admin, /VEHICLE:'이동수단'/);
   assert.match(loader, /alchemy-admin-v1\.js\?v=5-zenith-era/);
-  assert.match(adminHtml, /admin-v1276\.js\?v=2050-verified-coin-50eok/);
+  assert.match(adminHtml, /admin-v1276\.js\?[^"\s]*\bv=2050-verified-coin-50eok/);
   for (const table of ['alchemy_runs_v1','alchemy_user_state_v1','alchemy_asset_locks_v1','alchemy_guards_v1']) assert.match(cleanup, new RegExp(table));
 });

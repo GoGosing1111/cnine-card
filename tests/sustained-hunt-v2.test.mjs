@@ -1,3 +1,4 @@
+import {existsCommittedAssetSync,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -8,7 +9,7 @@ import vm from 'node:vm';
 import {createHuntSession} from '../preview/sustained-hunt-v2/session.mjs';
 import {chooseDropPosition,DIFFICULTIES,MONSTERS,BOSSES} from '../preview/sustained-hunt-v2/hunt-rules.mjs';
 import {simulateBattleV2Preview,createPveBattleV2,createPvpBattleV2,buildFighter,buildMonsterFighter} from '../functions/_battle_v2_preview.js';
-const read=f=>JSON.parse(fs.readFileSync(f,'utf8'));
+const read=f=>JSON.parse(readCommittedAssetSync(f,'utf8'));
 const catalog=['fur/manifest-v2.json','zenith/manifest-v1.json','superstar/manifest-v1.json'].flatMap(f=>{const m=read('assets/ui/project-v/characters/'+f);return m.characters.map(c=>({...c,grade:m.rarity}));});
 const equipment=read('assets/ui/project-v/account-battle-suits/manifest-v2.json');
 const make=o=>createHuntSession({catalog,equipment,seed:1731,...o});
@@ -139,17 +140,17 @@ test('preview bundle includes the latest canonical engine and playback, with no 
   const build=read('preview/sustained-hunt-v2/engine-build.json');
   assert.equal(build.engineBase,'0d67ae862a1f9763605ad7323e889acf5d51ad41');assert.deepEqual(build.legacyHuntInputs,[]);
   assert.ok(build.commonInputs.some(f=>f.endsWith('/BattleEngine.js')));assert.ok(build.commonInputs.some(f=>f.endsWith('/BattleSuitSkillChipPlayback.js')));
-  const source=fs.readFileSync('preview/sustained-hunt-v2/source/HuntBattleEngine.js','utf8');
+  const source=readCommittedAssetSync('preview/sustained-hunt-v2/source/HuntBattleEngine.js','utf8');
   // Background mode freezes only the cosmetic clock and restores its prior state.
   // The canonical hunt cadence must never be changed through global timeScale.
   assert.doesNotMatch(source,/gsap\.globalTimeline\.timeScale\s*\(/);
   assert.match(source,/gsap\.globalTimeline\.paused\(this\.huntVisualClock\.wasPaused\)/);
   assert.ok(source.includes('ensureEnemyCapacity'));
-  for(const f of [...MONSTERS,...BOSSES].map(r=>r.sprite))assert.ok(fs.existsSync('.'+f));
+  for(const f of [...MONSTERS,...BOSSES].map(r=>r.sprite))assert.ok(existsCommittedAssetSync('.'+f));
 });
 
 test('pausing longer than the bullet-drain timeout resumes safely, but an active stall still fails',async()=>{
-  const source=fs.readFileSync('preview/sustained-hunt-v2/source/HuntBattleEngine.js','utf8').replace(/^import .*;$/gm,'').replace('export class BattleEngine','class BattleEngine');
+  const source=readCommittedAssetSync('preview/sustained-hunt-v2/source/HuntBattleEngine.js','utf8').replace(/^import .*;$/gm,'').replace('export class BattleEngine','class BattleEngine');
   let clock=0;const callbacks=[],context={ScrapyardEngine:class{},BattleAnimation:class{},performance:{now:()=>clock},setTimeout:fn=>callbacks.push(fn)};
   vm.runInNewContext(source+'\nthis.HuntEngine=BattleEngine;',context);
   const engine=Object.create(context.HuntEngine.prototype);

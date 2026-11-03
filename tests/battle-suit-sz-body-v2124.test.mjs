@@ -1,3 +1,5 @@
+import {readCommittedAsset,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -13,7 +15,7 @@ import {buildBattleSuitFighter} from '../functions/_battle_v2_preview.js';
 import {resolveAccountBattleSuitAnimation,ACCOUNT_BATTLE_SUIT_ANIMATION_CATALOG} from '../preview/project-v-v3/source/battle/AccountBattleSuitAnimationCatalog.js';
 
 const file=p=>new URL('../'+p.replace(/^\//,''),import.meta.url);
-const bytes=p=>readFile(file(p));
+const bytes=p=>readCommittedAsset(file(p));
 const sha=b=>createHash('sha256').update(b).digest('hex').toUpperCase();
 const manifest=JSON.parse(await bytes('assets/ui/project-v/account-battle-suits/sz-body-v2124.json'));
 const preview=JSON.parse(await bytes('preview/battle-suit-sz-v1/manifest.json'));
@@ -82,13 +84,13 @@ test('approved S/Z full-body alpha and all twelve atlas profiles are byte-identi
       assert.ok(profile.sheetUrl.startsWith('/assets/ui/'));
       assert.equal(sha(await bytes(profile.sheetUrl)),prior.atlasSha256);
       assert.deepEqual(profile.pivots,prior.profile.pivots);assert.deepEqual(profile.muzzle,prior.profile.muzzle);
-      const meta=await sharp(await bytes(profile.sheetUrl)).metadata();
+      const meta=await sharpCommittedAsset(await bytes(profile.sheetUrl)).metadata();
       assert.deepEqual([meta.width,meta.height,meta.hasAlpha],[1536,1024,true]);
     }
   }
   for(const item of manifest.items){
     const b=await bytes(item.image);assert.equal(sha(b),item.sha256);
-    const {data,info}=await sharp(b).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+    const {data,info}=await sharpCommittedAsset(b).ensureAlpha().raw().toBuffer({resolveWithObject:true});
     let clear=0;for(let i=3;i<data.length;i+=4)if(data[i]===0)clear++;
     assert.ok(clear>info.width*info.height*.10,item.code);
     for(let x=0;x<info.width;x++){assert.equal(data[x*4+3],0);assert.equal(data[((info.height-1)*info.width+x)*4+3],0);}

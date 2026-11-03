@@ -1,3 +1,4 @@
+import {existsCommittedAssetSync,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
@@ -24,7 +25,7 @@ test('canonical registration contains every mercenary, independent skill and ori
   assert.equal(seed.document.mercenaries.filter(r=>r.rank===null).length,42);
   assert.equal(seed.document.mercenaries.find(r=>r.code==='V-021').rank,'SSS');
   assert.ok(seed.document.assignments.every(r=>r.code==='V-057'?r.skillIds.join()==='MS-059,MS-060':r.code==='V-056'?r.skillIds.join()==='MS-057,MS-058':r.code==='V-055'?r.skillIds.join()==='MS-055,MS-056':['V-051','V-052','V-053','V-054'].includes(r.code)?r.skillIds.join()==='MS-051':['V-044','V-045','V-046','V-047','V-048','V-049','V-050'].includes(r.code)?r.skillIds.join()==='MS-'+r.code.slice(2):r.skillIds.length===0));
-  for(const c of seed.catalog.cards){assert.notEqual(c.sourceArt,c.battleSprite);assert.ok(existsSync(new URL('../'+c.sourceArt,import.meta.url)));assert.ok(existsSync(new URL('../'+c.battleSprite,import.meta.url)));}
+  for(const c of seed.catalog.cards){assert.notEqual(c.sourceArt,c.battleSprite);assert.ok(existsCommittedAssetSync(new URL('../'+c.sourceArt,import.meta.url)));assert.ok(existsCommittedAssetSync(new URL('../'+c.battleSprite,import.meta.url)));}
   assert.equal(seed.catalog.formation.regularCardSlots,5);assert.equal(seed.catalog.formation.mercenarySlots,1);
   assert.deepEqual(seed.catalog.release,{group:'V3_MERCENARY_EQUIPMENT',acquisitionEnabled:false,formationEnabled:false,battleEnabled:false});
 });
@@ -86,9 +87,9 @@ test('unknown fields, ranks, missing entries, automatic skill owners and runtime
   }finally{await f.close();}
 });
 test('API and CMS navigation are connected without gameplay imports',()=>{
-  const read=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
+  const read=path=>readCommittedAssetSync(new URL('../'+path,import.meta.url),'utf8');
   assert.match(read('functions/api/[[path]].js'),/handleMercenaryCms\(\{path,request,env,deps:\{requirePermission,json\}\}\)/);
-  assert.match(read('admin/index.html'),/src="mercenary-admin-v1\.js\?v=[A-Za-z0-9-]+(?:&amp;[^"]*)?"/);
+  assert.match(read('admin/index.html'),/src="mercenary-admin-v1\.js\?[^"]*\bv=[A-Za-z0-9-]+(?:&(?:amp;)?[^"]*)?"/);
   assert.match(read('admin/mercenary-admin-v1.js'),/badge.textContent.trim\(\)!=='OWNER'/);
   for(const path of ['index.html','js/app.js','js/battle-v3-live.js'])assert.doesNotMatch(read(path),/mercenary-cms|mercenary-admin-v1/);
 });

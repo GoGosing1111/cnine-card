@@ -1,3 +1,5 @@
+import {readCommittedAsset,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -7,7 +9,7 @@ import {Container,Texture} from 'pixi.js';
 import {DURATION,MODES,acceptResult,phaseAt,previewResult} from '../preview/workshop-assembly-v1/source/contract.mjs';
 import {MODELS,MODEL_ORDER,modelFor,resolveModel,modelPhases,suitPlacement} from '../preview/workshop-assembly-v1/source/models.mjs';
 const folder=new URL('../preview/workshop-assembly-v1/',import.meta.url);
-const read=p=>readFile(new URL(p,folder),'utf8');
+const read=p=>readCommittedAsset(new URL(p,folder),'utf8');
 test('only an authoritative boolean outcome with a request identity is accepted',()=>{
   for(const value of [undefined,{success:'true',requestId:'x'},{success:true,requestId:'x'},{success:false,requestId:''}])assert.throws(()=>acceptResult(value));
   const input={success:true,requestId:'confirmed-1',output:{name:'H-BODY'}};
@@ -23,12 +25,12 @@ test('both films are distinct nine-phase sequences with deterministic failure/su
 });
 test('all H-BODY RGBA source pixels reassemble exactly once without artwork changes',async()=>{
   const report=JSON.parse(await read('build-report.json'));
-  const source=await readFile(new URL('../assets/items/h-body-v2066.png',import.meta.url));
+  const source=await readCommittedAsset(new URL('../assets/items/h-body-v2066.png',import.meta.url));
   assert.equal(createHash('sha256').update(source).digest('hex'),report.hBodySha256);
-  const raw=await sharp(source).ensureAlpha().raw().toBuffer();
+  const raw=await sharpCommittedAsset(source).ensureAlpha().raw().toBuffer();
   const sum=new Uint16Array(raw.length);const coverage=new Uint8Array(raw.length/4);
   for(const name of report.parts){
-    const piece=await sharp(new URL(`assets/parts/${name}.png`,folder).pathname.replace(/^\/([A-Za-z]:)/,'$1')).raw().toBuffer();
+    const piece=await sharpCommittedAsset(new URL(`assets/parts/${name}.png`,folder).pathname.replace(/^\/([A-Za-z]:)/,'$1')).raw().toBuffer();
     assert.equal(piece.length,raw.length);for(let i=0;i<piece.length;i++)sum[i]+=piece[i];
     for(let i=3;i<piece.length;i+=4)if(piece[i])coverage[(i-3)/4]++;
   }
@@ -37,7 +39,7 @@ test('all H-BODY RGBA source pixels reassemble exactly once without artwork chan
 });
 test('car and actuator assets contain genuine transparency',async()=>{
   for(const p of ['assets/car-cutout.png','assets/parts/robot-upper.png','assets/parts/robot-lower.png','assets/parts/robot-grip.png']){
-    const {data,info}=await sharp(await readFile(new URL(p,folder))).raw().toBuffer({resolveWithObject:true});assert.equal(info.channels,4);
+    const {data,info}=await sharpCommittedAsset(await readCommittedAsset(new URL(p,folder))).raw().toBuffer({resolveWithObject:true});assert.equal(info.channels,4);
     let empty=0,visible=0;for(let i=3;i<data.length;i+=4){if(data[i]===0)empty++;if(data[i]>100)visible++;}
     assert.ok(empty>data.length/4*.1,p);assert.ok(visible>1000,p);
   }
@@ -46,12 +48,12 @@ test('one existing shared vendor, preview controls stay isolated, no mutations o
   const source=await read('source/AssemblyFilm.js'),html=await read('index.html'),bundle=await read('assembly.bundle.js');
   assert.match(html,/ui-fx-vendor-v2045\.bundle/);assert.doesNotMatch(bundle,/class WebGLRenderer|class WebGPURenderer/);
   assert.doesNotMatch(source,/Math\.random|createOscillator|createScriptProcessor|method:\s*['"]POST|workshop\/craft/);
-  for(const p of ['../js/workshop-v1881.js','../index.html'])assert.doesNotMatch(await readFile(new URL(p,import.meta.url),'utf8'),/WorkshopAssemblyPreview|source\/preview\.js|previewResult/);
-  assert.match(await readFile(new URL('../js/workshop-v1881.js',import.meta.url),'utf8'),/presentWorkshopAssembly/);
+  for(const p of ['../js/workshop-v1881.js','../index.html'])assert.doesNotMatch(await readCommittedAsset(new URL(p,import.meta.url),'utf8'),/WorkshopAssemblyPreview|source\/preview\.js|previewResult/);
+  assert.match(await readCommittedAsset(new URL('../js/workshop-v1881.js',import.meta.url),'utf8'),/presentWorkshopAssembly/);
 });
 test('recorded Foley assets match source manifest hashes',async()=>{
   const m=JSON.parse(await read('assets/audio/manifest.json'));assert.equal(m.proceduralSynthesis,false);assert.equal(m.records.length,4);
-  for(const r of m.records){const b=await readFile(new URL(r.local,folder));assert.equal(createHash('sha256').update(b).digest('hex'),r.sha256);assert.equal(b.toString('ascii',0,4),'RIFF');}
+  for(const r of m.records){const b=await readCommittedAsset(new URL(r.local,folder));assert.equal(createHash('sha256').update(b).digest('hex'),r.sha256);assert.equal(b.toString('ascii',0,4),'RIFF');}
 });
 test('real GSAP timelines seek, skip, restart and cancel without altering outcome or leaking timelines',async()=>{
   // Pixi display objects and real GSAP run without a GPU. Only renderer I/O is
@@ -113,11 +115,11 @@ test('E/F/G and Ignis-X map to verified CMS identities with model-specific geome
 test('all E/F/G/S visible RGBA pixels reconstruct once from cropped anatomical parts',async()=>{
   const variants=JSON.parse(await read('parts-manifest.json'));
   for(const [key,v]of Object.entries(variants)){
-    const source=await readFile(new URL('..'+v.source,import.meta.url));
+    const source=await readCommittedAsset(new URL('..'+v.source,import.meta.url));
     assert.equal(createHash('sha256').update(source).digest('hex'),MODELS[key].sha256);
-    const raw=await sharp(source).ensureAlpha().raw().toBuffer(),out=Buffer.alloc(raw.length),coverage=new Uint8Array(raw.length/4);
+    const raw=await sharpCommittedAsset(source).ensureAlpha().raw().toBuffer(),out=Buffer.alloc(raw.length),coverage=new Uint8Array(raw.length/4);
     for(const p of v.parts){
-      const {data,info}=await sharp(await readFile(new URL(p.path,folder))).raw().toBuffer({resolveWithObject:true});assert.equal(info.channels,4);assert.equal(info.width,p.width);assert.equal(info.height,p.height);
+      const {data,info}=await sharpCommittedAsset(await readCommittedAsset(new URL(p.path,folder))).raw().toBuffer({resolveWithObject:true});assert.equal(info.channels,4);assert.equal(info.width,p.width);assert.equal(info.height,p.height);
       for(let y=0;y<p.height;y++)for(let x=0;x<p.width;x++){
         const i=(y*p.width+x)*4;if(!data[i+3])continue;const target=((y+p.y)*v.width+x+p.x)*4;
         assert.equal(coverage[target/4],0,`${key}/${p.name} overlap`);coverage[target/4]++;data.copy(out,target,i,i+4);
@@ -128,8 +130,8 @@ test('all E/F/G/S visible RGBA pixels reconstruct once from cropped anatomical p
   }
 });
 test('Ignis background cleanup changes alpha only and clears turbine support openings',async()=>{
-  const source=await sharp(await readFile(new URL('assets/sources/ignis-x-extracted-source-v1.png',folder))).ensureAlpha().raw().toBuffer();
-  const {data,info}=await sharp(await readFile(new URL('assets/ignis-x-cutout.png',folder))).raw().toBuffer({resolveWithObject:true});
+  const source=await sharpCommittedAsset(await readCommittedAsset(new URL('assets/sources/ignis-x-extracted-source-v1.png',folder))).ensureAlpha().raw().toBuffer();
+  const {data,info}=await sharpCommittedAsset(await readCommittedAsset(new URL('assets/ignis-x-cutout.png',folder))).raw().toBuffer({resolveWithObject:true});
   assert.equal(info.channels,4);assert.equal(source.length,data.length);
   for(let i=0;i<data.length;i+=4){assert.equal(data[i],source[i]);assert.equal(data[i+1],source[i+1]);assert.equal(data[i+2],source[i+2]);}
   for(const [x,y]of [[0,0],[835,335],[790,350],[969,267],[1031,280],[1046,281],[733,371],[1400,100]])assert.equal(data[(y*info.width+x)*4+3],0);
@@ -139,13 +141,13 @@ test('Ignis background cleanup changes alpha only and clears turbine support ope
 test('Solaris authored cutout has real alpha and source catalogue remains untouched',async()=>{
   const manifest=JSON.parse(await read('asset-manifest.json'));
   const entry=manifest.visualAssets.find(p=>p.path===MODELS.solaris.source);
-  const bytes=await readFile(new URL(entry.path,folder));
+  const bytes=await readCommittedAsset(new URL(entry.path,folder));
   assert.equal(createHash('sha256').update(bytes).digest('hex'),entry.sha256);
-  const {data,info}=await sharp(bytes).raw().toBuffer({resolveWithObject:true});
+  const {data,info}=await sharpCommittedAsset(bytes).raw().toBuffer({resolveWithObject:true});
   assert.equal(info.channels,4);assert.equal(info.width,1672);assert.equal(info.height,941);
   for(const [x,y]of [[0,0],[1600,900],[1440,243],[1520,280]])assert.equal(data[(y*info.width+x)*4+3],0);
   for(const [x,y]of [[890,620],[780,430],[1192,285]])assert.equal(data[(y*info.width+x)*4+3],255);
-  const original=await readFile(new URL('../assets/tire/solaris-omega-v1.png',import.meta.url));
+  const original=await readCommittedAsset(new URL('../assets/tire/solaris-omega-v1.png',import.meta.url));
   assert.equal(createHash('sha256').update(original).digest('hex'),'0bbaaa7e8daf6de3091980cd6251695a528a079faf2ea84da1abea81c017c5c5');
   assert.equal(MODELS.solaris.turbines.length,2);
   assert.notEqual(MODELS.solaris.turbines[0].at,MODELS.solaris.turbines[1].at);
@@ -156,13 +158,13 @@ test('Solaris authored cutout has real alpha and source catalogue remains untouc
 test('new vehicle sprites preserve actual alpha and catalogue originals remain intact',async()=>{
   const manifest=JSON.parse(await read('vehicle-expansion-20261018-assets.json'));
   for(const item of manifest.catalogue){
-    const data=await readFile(new URL('../'+item.path,import.meta.url));
+    const data=await readCommittedAsset(new URL('../'+item.path,import.meta.url));
     assert.equal(createHash('sha256').update(data).digest('hex'),item.sha256);
   }
   for(const item of manifest.assets){
-    const bytes=await readFile(new URL(item.path,folder));
+    const bytes=await readCommittedAsset(new URL(item.path,folder));
     assert.equal(createHash('sha256').update(bytes).digest('hex'),item.sha256);
-    const {data,info}=await sharp(bytes).raw().toBuffer({resolveWithObject:true});
+    const {data,info}=await sharpCommittedAsset(bytes).raw().toBuffer({resolveWithObject:true});
     assert.equal(info.channels,4);
     let empty=0,visible=0;for(let i=3;i<data.length;i+=4){if(data[i]===0)empty++;if(data[i]>100)visible++;}
     assert.ok(empty>data.length/4*.03,item.path);assert.ok(visible>1000,item.path);

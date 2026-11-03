@@ -1,3 +1,5 @@
+import {readCommittedAsset,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import test,{after} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -10,7 +12,7 @@ import {OctaSeekerFX} from '../preview/battle-suit-octaseeker-v1/source/OctaSeek
 import {OctaSeekerAudio} from '../preview/battle-suit-octaseeker-v1/source/OctaSeekerAudio.js';
 import {SKILL_CHIP_CATALOG} from '../shared/battle-suit-skill-chips.mjs';
 const base=new URL('../preview/battle-suit-octaseeker-v1/',import.meta.url);
-const read=file=>readFile(new URL(file,base),'utf8');
+const read=file=>readCommittedAsset(new URL(file,base),'utf8');
 const near=(a,b,epsilon=1e-7)=>assert.ok(Math.abs(a-b)<epsilon,`${a} != ${b}`);
 after(()=>gsap.ticker.sleep());
 const points={source:{x:580,y:490},hit:{x:1100,y:558},blast:{x:1100,y:620}};
@@ -115,25 +117,25 @@ test('pause leaves visual clock stable and speed changes do not change hit timin
 test('generated atlases have 24 distinct RGBA frames, transparent gutters and locked source hashes',async()=>{
   const report=JSON.parse(await read('build-report.json')),origins=JSON.parse(await read('assets/textures/frame-origins.json'));
   for(const key of ['flight','impact']){
-    const bytes=await readFile(new URL(`assets/generated/${key}-atlas.png`,base)),meta=await sharp(bytes).metadata();
+    const bytes=await readCommittedAsset(new URL(`assets/generated/${key}-atlas.png`,base)),meta=await sharpCommittedAsset(bytes).metadata();
     assert.equal(meta.width,1536);assert.equal(meta.height,1024);assert.ok(meta.hasAlpha);
-    const stats=await sharp(bytes).stats();assert.equal(stats.channels[3].min,0);assert.ok(stats.channels[3].max>=250);
+    const stats=await sharpCommittedAsset(bytes).stats();assert.equal(stats.channels[3].min,0);assert.ok(stats.channels[3].max>=250);
     const frameHashes=[];
     for(let i=0;i<24;i++){
-      const cell=await sharp(bytes).extract({left:i%6*256,top:Math.floor(i/6)*256,width:256,height:256}).raw().toBuffer();
+      const cell=await sharpCommittedAsset(bytes).extract({left:i%6*256,top:Math.floor(i/6)*256,width:256,height:256}).raw().toBuffer();
       frameHashes.push(createHash('sha256').update(cell).digest('hex'));
       assert.ok(origins[key][i].edgeAlphaMax<=4);assert.ok(origins[key][i].y>.4&&origins[key][i].y<1);
     }
     assert.equal(new Set(frameHashes).size,24);
     assert.equal(createHash('sha256').update(bytes).digest('hex'),report.assets.find(a=>a.path.endsWith(`${key}-atlas.png`)).sha256);
-    const runtime=await sharp(await readFile(new URL(`assets/textures/${key}-atlas.webp`,base))).raw().toBuffer();
-    const original=await sharp(bytes).raw().toBuffer();
+    const runtime=await sharpCommittedAsset(await readCommittedAsset(new URL(`assets/textures/${key}-atlas.webp`,base))).raw().toBuffer();
+    const original=await sharpCommittedAsset(bytes).raw().toBuffer();
     for(let i=0;i<original.length;i+=4){
       assert.equal(runtime[i+3],original[i+3]);
       if(original[i+3])for(let c=0;c<3;c++)assert.equal(runtime[i+c],original[i+c]);
     }
   }
-  const icon=await sharp(await readFile(new URL('assets/textures/chip.webp',base))).metadata();
+  const icon=await sharpCommittedAsset(await readCommittedAsset(new URL('assets/textures/chip.webp',base))).metadata();
   assert.equal(icon.width,512);assert.equal(icon.height,512);assert.ok(icon.hasAlpha);
 });
 test('existing engine, source-art adapters and grade frames are reused; preview never mutates accounts',async()=>{
@@ -145,7 +147,7 @@ test('existing engine, source-art adapters and grade frames are reused; preview 
   assert.doesNotMatch(source,/\/api\/|localStorage\.setItem|sessionStorage\.setItem|\.setHp\(/);
   assert.doesNotMatch(await read('preview.css'),/\.battle-v3-roster|\.card-frame|\.battle-v3-dock/);
   for(const file of ['index.html','js/character-loadout-v2.js','functions/api/[[path]].js']){
-    assert.doesNotMatch(await readFile(new URL('../'+file,import.meta.url),'utf8'),/octaseeker|OCTA_SEEKER/);
+    assert.doesNotMatch(await readCommittedAsset(new URL('../'+file,import.meta.url),'utf8'),/octaseeker|OCTA_SEEKER/);
   }
 });
 test('Pages extensionless battle URL resolves existing engine assets from the site root',async()=>{
@@ -180,6 +182,6 @@ test('recorded audio uses one launch, eight measured impact peaks and one shared
 test('original licensed recording bytes and no synthesized sound are preserved',async()=>{
   const sources=[['../battle-suit-skill-chip-v1/assets/audio/explosion-182797-cc0.mp3','7c5c8204d55d9127c19b389cdee2ae415cd78523eb132883497d2d5d0c5cd890'],
     ['../project-v-v3/assets/audio/firearm-qc-v1/m4a1-colt-socom-cc0-freesound-737569.mp3','1735b196b5db6369d734ee5731834e35c9ad17a2a32353e9d809b6c6c2ecb6f2']];
-  for(const [file,hash] of sources)assert.equal(createHash('sha256').update(await readFile(new URL(file,base))).digest('hex'),hash);
+  for(const [file,hash] of sources)assert.equal(createHash('sha256').update(await readCommittedAsset(new URL(file,base))).digest('hex'),hash);
   assert.doesNotMatch(await read('source/OctaSeekerAudio.js'),/createOscillator|createPeriodicWave|Math\.random/);
 });

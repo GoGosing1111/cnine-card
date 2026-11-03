@@ -10,9 +10,9 @@ async function fixture({ cost = 5000000000, output = 'VEHICLE' } = {}) {
   const pg = new PGlite();
   await pg.exec(`
     CREATE FUNCTION sqlite_now() RETURNS text LANGUAGE SQL STABLE AS $$SELECT to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS')$$;
-    CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT);
+    CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT);
     CREATE TABLE users(id BIGINT PRIMARY KEY,coin BIGINT,card_shards BIGINT);
-    CREATE TABLE inventory_items(code TEXT PRIMARY KEY,name TEXT,category TEXT,rarity TEXT,image_url TEXT,is_active BIGINT DEFAULT 1);
+    CREATE TABLE inventory_items(code TEXT PRIMARY KEY,name TEXT,subtitle TEXT,description TEXT,category TEXT,rarity TEXT,image_url TEXT,sort_order BIGINT DEFAULT 0,is_active BIGINT DEFAULT 1);
     CREATE TABLE cnine_user_inventory(user_id BIGINT,item_code TEXT,quantity BIGINT,unseen_quantity BIGINT,created_at TEXT DEFAULT sqlite_now(),updated_at TEXT DEFAULT sqlite_now(),PRIMARY KEY(user_id,item_code));
     CREATE TABLE inventory_logs(user_id BIGINT,item_code TEXT,change_amount BIGINT,balance_after BIGINT,reason TEXT,reference_type TEXT,reference_id TEXT);
     CREATE TABLE coin_logs(user_id BIGINT,change_amount BIGINT,balance_after BIGINT,reason TEXT);
@@ -48,7 +48,7 @@ async function fixture({ cost = 5000000000, output = 'VEHICLE' } = {}) {
   const DB = new __postgresCompatTest.PostgresD1Database(client);
   let beforeBatch = null, batchSize = 0;
   const batch = DB.batch.bind(DB);
-  DB.batch = async statements => { batchSize = statements.length; if (beforeBatch) { const hook = beforeBatch; beforeBatch = null; await hook(); } return batch(statements); };
+  DB.batch = async statements => { batchSize = statements.length; if (beforeBatch && statements.some(stmt=>stmt.source.startsWith('INSERT INTO workshop_craft_logs_v1668'))) { const hook = beforeBatch; beforeBatch = null; await hook(); } return batch(statements); };
   return {
     pg, DB, cost,
     craft: (requestId, body = {}) => __workshopCraftTest.craft({ DB }, { id: 1, role: 'USER' }, { recipeId: 1, requestId, ...body }),
@@ -252,7 +252,7 @@ test('material batch independently rolls each attempt, spends the total once and
     await f.pg.exec(`
       INSERT INTO app_meta(key,value) VALUES('safe_runtime_upgrade_emperor_energy_catalog_20260926','1');
       ALTER TABLE users ADD COLUMN nickname TEXT;
-      ALTER TABLE inventory_items ADD COLUMN sort_order BIGINT;
+      ALTER TABLE inventory_items ADD COLUMN IF NOT EXISTS sort_order BIGINT;
       ALTER TABLE character_garage_items ADD COLUMN code TEXT,ADD COLUMN sort_order BIGINT;
       ALTER TABLE character_equipment_items ADD COLUMN code TEXT,ADD COLUMN sort_order BIGINT;
     `);

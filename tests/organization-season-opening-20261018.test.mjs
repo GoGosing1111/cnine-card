@@ -7,13 +7,13 @@ import {organizationFixture} from './helpers/organization-fixture.mjs';
 import {runOrganizationAllocation} from '../functions/_organization.js';
 import {organizationAssignmentAvailability} from '../admin/organization-admin-v1.mjs';
 
-test('115 preserved members plus 14 additions fill 21–22 slots across six organizations, preserving a fixed assignment',()=>{
- const counts=[20,19,19,19,19,19];let id=1;
+test('115 preserved members plus 14 additions fill 16–17 slots across eight organizations, preserving a fixed assignment',()=>{
+ const counts=[15,15,15,14,14,14,14,14];let id=1;
  const existing=counts.flatMap((n,i)=>Array.from({length:n},(_,j)=>({userId:id++,organizationId:i+1,slot:j+1,power:2300+(j%3)*100,nickname:'기존 '+id,preferredOrganizationId:i+1})));
  const before=structuredClone(existing),applicants=Array.from({length:14},(_,i)=>({userId:5426+i,power:1500+i*111,nickname:i?'추가 '+i:'나무늘봉순',preferredOrganizationId:3})),fixedAssignments=[{userId:5426,organizationId:3}];
  const result=allocateAdditionalOrganizations(applicants,existing,{fixedAssignments});
- assert.deepEqual(existing,before);assert.equal(result.stats.participants,129);assert.equal(result.stats.minMembers,21);assert.equal(result.stats.maxMembers,22);
- assert.equal(result.organizations.filter(o=>o.memberCount===22).length,3);assert.equal(result.organizations[2].members.find(m=>m.userId===5426).fixed,true);
+ assert.deepEqual(existing,before);assert.equal(result.stats.participants,129);assert.equal(result.stats.minMembers,16);assert.equal(result.stats.maxMembers,17);
+ assert.equal(result.organizations.filter(o=>o.memberCount===17).length,1);assert.equal(result.organizations[2].members.find(m=>m.userId===5426).fixed,true);
  for(const p of existing){const found=result.organizations[p.organizationId-1].members.find(m=>m.userId===p.userId);for(const [key,value] of Object.entries(p))assert.equal(found[key],value);}
  assert.equal(new Set(result.organizations.flatMap(o=>o.members.map(m=>m.userId))).size,129);
  assert.deepEqual(allocateAdditionalOrganizations([...applicants].reverse(),[...existing].reverse(),{fixedAssignments}),result);

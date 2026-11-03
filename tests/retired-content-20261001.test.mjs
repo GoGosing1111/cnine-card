@@ -34,9 +34,10 @@ test('stale internal entry points cannot settle coins, XP, leases or receipts',a
       assert.equal(result.status,410);assert.equal((await result.json()).code,'IDLE_DUNGEON_RETIRED');
     }
   }
+  assert.equal(retiredContentResponse('coin-prediction/state',json).status,410);
   await assert.rejects(()=>claimIdleV3(forbidden,{id:7},{requestId:'stale'}),{code:'IDLE_DUNGEON_RETIRED',status:410});
   assert.deepEqual(await accountRankIdleSettlement(forbidden,7,{},{}),[]);
-  for(const path of ['legion-hunt/bootstrap','scrapyard/v3/run','coin-prediction/state','administration/treasury-other','idle-dungeon-other'])assert.equal(retiredContentResponse(path,json),null,path);
+  for(const path of ['legion-hunt/bootstrap','scrapyard/v3/run','administration/treasury-other','idle-dungeon-other'])assert.equal(retiredContentResponse(path,json),null,path);
 });
 
 test('PC/mobile navigation shares legion entry and excludes retired features/loaders',()=>{

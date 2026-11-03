@@ -1,3 +1,4 @@
+import {existsCommittedAssetSync,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
@@ -8,18 +9,18 @@ const paths={
   PRESTIGE:'assets/ui/project-v/characters/prestige/manifest-v1.json',
   SUPERSTAR:'assets/ui/project-v/characters/superstar/manifest-v1.json'
 };
-const manifests=Object.fromEntries(Object.entries(paths).map(([key,path])=>[key,JSON.parse(fs.readFileSync(path,'utf8'))]));
+const manifests=Object.fromEntries(Object.entries(paths).map(([key,path])=>[key,JSON.parse(readCommittedAssetSync(path,'utf8'))]));
 assert.equal(manifests.FUR.characters.length,15);
 assert.equal(manifests.PRESTIGE.characters.length,28);
 assert.equal(manifests.SUPERSTAR.characters.length,9);
 const all=[...manifests.FUR.characters,...manifests.PRESTIGE.characters,...manifests.SUPERSTAR.characters];
 assert.equal(new Set(all.map(row=>row.cardId)).size,52);
 for(const row of all){
-  assert.ok(fs.existsSync(row.battleSprite),`missing ${row.battleSprite}`);
-  assert.equal(crypto.createHash('sha256').update(fs.readFileSync(row.battleSprite)).digest('hex').toUpperCase(),row.sha256);
+  assert.ok(existsCommittedAssetSync(row.battleSprite),`missing ${row.battleSprite}`);
+  assert.equal(crypto.createHash('sha256').update(readCommittedAssetSync(row.battleSprite)).digest('hex').toUpperCase(),row.sha256);
 }
 
-const source=fs.readFileSync('js/project-v-tier-battle-art-adapter-v1.js','utf8');
+const source=readCommittedAssetSync('js/project-v-tier-battle-art-adapter-v1.js','utf8');
 const sandbox={console,setTimeout:fn=>fn(),globalThis:null};
 sandbox.globalThis=sandbox;
 vm.runInNewContext(source,sandbox);
@@ -57,13 +58,13 @@ const adapted=adapter.adaptBattlePayload(payload);
 assert.match(adapted.battleV2.teams.A.cards[0].image,/prestige-kim-taekyong/);
 assert.equal(payload.battleV2.teams.A.cards[0].image,undefined,'원본 payload mutation');
 
-if(fs.existsSync('tmp/project-v-battle-modules/battle/BattleEngine.js')){
-  const engine=fs.readFileSync('tmp/project-v-battle-modules/battle/BattleEngine.js','utf8');
+if(existsCommittedAssetSync('tmp/project-v-battle-modules/battle/BattleEngine.js')){
+  const engine=readCommittedAssetSync('tmp/project-v-battle-modules/battle/BattleEngine.js','utf8');
   assert.match(engine,/zenithAdapter\?\.resolveForBattle/);
   assert.match(engine,/tierAdapter\?\.resolveForV3/);
 }
-if(fs.existsSync('tmp/project-v-index.html')){
-  const preview=fs.readFileSync('tmp/project-v-index.html','utf8');
+if(existsCommittedAssetSync('tmp/project-v-index.html')){
+  const preview=readCommittedAssetSync('tmp/project-v-index.html','utf8');
   assert.match(preview,/project-v-battle-art-adapter-v1\.js[\s\S]*project-v-tier-battle-art-adapter-v1\.js[\s\S]*project-v-unassigned-battle-fallback-v1\.js/);
 }
 console.log('project-v FUR/PRESTIGE/SUPERSTAR battle art adapter: OK');

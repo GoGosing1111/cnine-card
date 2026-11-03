@@ -1,3 +1,5 @@
+import {readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -7,8 +9,8 @@ import sharp from 'sharp';
 
 const root = path.resolve(import.meta.dirname, '..');
 const dir = path.join(root, 'preview/mercenary-vespera-beauty-v1');
-const read = file => fs.readFileSync(path.join(root, file), 'utf8');
-const manifest = JSON.parse(fs.readFileSync(path.join(dir, 'generation.json'), 'utf8'));
+const read = file => readCommittedAssetSync(path.join(root, file), 'utf8');
+const manifest = JSON.parse(readCommittedAssetSync(path.join(dir, 'generation.json'), 'utf8'));
 const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex').toUpperCase();
 
 test('Vespera is the preserved style anchor and both beauty drafts are original-size RGB PNGs', async () => {
@@ -17,13 +19,13 @@ test('Vespera is the preserved style anchor and both beauty drafts are original-
   assert.ok(manifest.approval.userQuotes.includes('좋다'));
   assert.equal(manifest.runtimeConnected, false);
   assert.equal(manifest.originalsModified, false);
-  assert.equal(hash(fs.readFileSync(path.resolve(dir, manifest.anchor.file))), manifest.anchor.sha256);
+  assert.equal(hash(readCommittedAssetSync(path.resolve(dir, manifest.anchor.file))), manifest.anchor.sha256);
   assert.equal(manifest.entries.length, 2);
   for (const entry of manifest.entries) {
     assert.match(entry.file, /^assets\/[a-z-]+-v1\.png$/);
-    const bytes = fs.readFileSync(path.join(dir, entry.file));
+    const bytes = readCommittedAssetSync(path.join(dir, entry.file));
     assert.equal(hash(bytes), entry.sha256);
-    const m = await sharp(bytes).metadata();
+    const m = await sharpCommittedAsset(bytes).metadata();
     assert.deepEqual([m.width, m.height, m.channels, m.format], [1024, 1536, 3, 'png']);
     assert.equal(bytes.length, entry.bytes);
     assert.equal(entry.cardCode, entry.key === 'beauty_female' ? 'V-022' : 'V-023');
@@ -35,8 +37,8 @@ test('Vespera is the preserved style anchor and both beauty drafts are original-
 });
 
 test('art review is isolated, silent and cannot register cards or overwrite the public codex', () => {
-  const html = fs.readFileSync(path.join(dir, 'index.html'), 'utf8');
-  const js = fs.readFileSync(path.join(dir, 'review.js'), 'utf8');
+  const html = readCommittedAssetSync(path.join(dir, 'index.html'), 'utf8');
+  const js = readCommittedAssetSync(path.join(dir, 'review.js'), 'utf8');
   assert.match(html, /원화 승인/);
   assert.match(html, /noindex,nofollow/);
   assert.match(html, /160px 카드 크기/);

@@ -103,7 +103,7 @@ test('actual PVE renderer hides the entry until the server mode check and main/C
   const entry=fs.readFileSync('index.html','utf8').match(/<script\b[^>]*\bsrc="([^"]*\/legion-hunt-entry-v1\.mjs\?[^"]+)"/)?.[1];
   assert.ok(entry,'main page loads the Legion Hunt entry module');
   assert.match(new URL(entry.replaceAll('&amp;','&'),'https://fixture.invalid/').searchParams.get('v')||'',/^\d{8}-[a-z0-9-]+$/);
-  assert.match(fs.readFileSync('admin/index.html','utf8'),/legion-hunt-admin-v1.mjs\?v=20261020-energy-v1/);
+  assert.match(fs.readFileSync('admin/index.html','utf8'),/legion-hunt-admin-v1.mjs\?v=20261029-legion-ascendant-v1/);
   assert.match(fs.readFileSync('functions/api/[[path]].js','utf8'),/await handleLegionHunt/);
 });
 test('OWNER client serializes reveal/pickup/finish and retries account lock contention with the same body',async()=>{

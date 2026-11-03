@@ -1,3 +1,4 @@
+import * as warChat from '../js/war-chat-v1.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { DatabaseSync } from 'node:sqlite';
@@ -296,8 +297,8 @@ test('live/CMS expose the bracket, reward editor and scoped cache versions; no r
 });
 
 test('bracket renderer handles empty, active and historical results without raw HTML/name injection',()=>{
-  const code=read('js/clan-v1.js').replace(/global\.ClanV1=\{[^;]+\};/,'global.ClanV1={championsView};');
-  const sandbox={window:{},Date,Map,Number,String};vm.runInNewContext(code,sandbox);
+  const code=read('js/clan-v1.js').replace("import('./war-chat-v1.mjs?v=20261028-chat2')",'Promise.resolve(globalThis.__testWarChat)').replace(/global\.ClanV1=\{[^;]+\};/,'global.ClanV1={championsView};');
+  const sandbox={__testWarChat:warChat,window:{},Date,Map,Number,String};vm.runInNewContext(code,sandbox);
   const render=sandbox.window.ClanV1.championsView;
   const empty=render({champions:{status:'UPCOMING'}});assert.match(empty,/정규시즌 1위/);assert.doesNotMatch(empty,/clan-cup-team is-winner/);
   const html=render({champions:{seeds:[{seed:1,clanId:1,name:'<img onerror=alert(1)>'}],status:'COMPLETED',winnerClanId:1,rewardStatus:'AWAITING_CONFIG'}});

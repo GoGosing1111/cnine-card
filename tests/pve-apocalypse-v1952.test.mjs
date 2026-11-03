@@ -1,3 +1,4 @@
+import {readCommittedAssetSync,statCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,statSync} from 'node:fs';
 import {
@@ -44,24 +45,24 @@ assert.ok(simulation.timeline.some(event=>event.type==='BOSS_ULTIMATE'&&event.da
 assert.ok(simulation.timeline.some(event=>event.type==='MONSTER_MULTI_ATTACK_READY'&&event.attackCount===2),'multi-attack must be scheduled in the authoritative timeline');
 assert.ok(simulation.timeline.filter(event=>event.type==='TURN'&&event.actorId===fighter.id).length>=2,'the monster must perform the configured repeated attacks');
 
-const apiSource=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
-const appSource=readFileSync(new URL('../js/app.js',import.meta.url),'utf8');
-const pveCommandSource=readFileSync(new URL('../js/pve-command-v2-live.js',import.meta.url),'utf8');
-const pveCommandCss=readFileSync(new URL('../css/pve-command-v2.css',import.meta.url),'utf8');
-const dropSource=readFileSync(new URL('../functions/_drop_pool.js',import.meta.url),'utf8');
-const adminSource=readFileSync(new URL('../admin/apocalypse-admin-v1952.js',import.meta.url),'utf8');
-const indexSource=readFileSync(new URL('../index.html',import.meta.url),'utf8');
-const packageSource=readFileSync(new URL('../package.json',import.meta.url),'utf8');
-const battleCharacterSource=readFileSync(new URL('../preview/project-v-v3/source/battle/BattleCharacter.js',import.meta.url),'utf8');
-const battleHudSource=readFileSync(new URL('../preview/project-v-v3/source/battle/BattleHud.js',import.meta.url),'utf8');
-const battleEngineSource=readFileSync(new URL('../preview/project-v-v3/source/battle/BattleEngine.js',import.meta.url),'utf8');
-const battleAudioSource=readFileSync(new URL('../preview/project-v-v3/source/battle/BattleAudioMixer.js',import.meta.url),'utf8');
-const apocalypseFxSource=readFileSync(new URL('../preview/project-v-v3/source/battle/ApocalypseBossUltimateFX.js',import.meta.url),'utf8');
-const v3LiveSource=readFileSync(new URL('../js/battle-v3-live.js',import.meta.url),'utf8');
-const v2LiveSource=readFileSync(new URL('../js/battle-v2-live.js',import.meta.url),'utf8');
-const apocalypsePreviewSource=readFileSync(new URL('../preview/apocalypse-boss-skill-fx-v2/index.html',import.meta.url),'utf8');
-const apocalypseAtlas=JSON.parse(readFileSync(new URL('../assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json',import.meta.url),'utf8'));
-const apocalypseManifest=JSON.parse(readFileSync(new URL('../assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/manifest.json',import.meta.url),'utf8'));
+const apiSource=readCommittedAssetSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
+const appSource=readCommittedAssetSync(new URL('../js/app.js',import.meta.url),'utf8');
+const pveCommandSource=readCommittedAssetSync(new URL('../js/pve-command-v2-live.js',import.meta.url),'utf8');
+const pveCommandCss=readCommittedAssetSync(new URL('../css/pve-command-v2.css',import.meta.url),'utf8');
+const dropSource=readCommittedAssetSync(new URL('../functions/_drop_pool.js',import.meta.url),'utf8');
+const adminSource=readCommittedAssetSync(new URL('../admin/apocalypse-admin-v1952.js',import.meta.url),'utf8');
+const indexSource=readCommittedAssetSync(new URL('../index.html',import.meta.url),'utf8');
+const packageSource=readCommittedAssetSync(new URL('../package.json',import.meta.url),'utf8');
+const battleCharacterSource=readCommittedAssetSync(new URL('../preview/project-v-v3/source/battle/BattleCharacter.js',import.meta.url),'utf8');
+const battleHudSource=readCommittedAssetSync(new URL('../preview/project-v-v3/source/battle/BattleHud.js',import.meta.url),'utf8');
+const battleEngineSource=readCommittedAssetSync(new URL('../preview/project-v-v3/source/battle/BattleEngine.js',import.meta.url),'utf8');
+const battleAudioSource=readCommittedAssetSync(new URL('../preview/project-v-v3/source/battle/BattleAudioMixer.js',import.meta.url),'utf8');
+const apocalypseFxSource=readCommittedAssetSync(new URL('../preview/project-v-v3/source/battle/ApocalypseBossUltimateFX.js',import.meta.url),'utf8');
+const v3LiveSource=readCommittedAssetSync(new URL('../js/battle-v3-live.js',import.meta.url),'utf8');
+const v2LiveSource=readCommittedAssetSync(new URL('../js/battle-v2-live.js',import.meta.url),'utf8');
+const apocalypsePreviewSource=readCommittedAssetSync(new URL('../preview/apocalypse-boss-skill-fx-v2/index.html',import.meta.url),'utf8');
+const apocalypseAtlas=JSON.parse(readCommittedAssetSync(new URL('../assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json',import.meta.url),'utf8'));
+const apocalypseManifest=JSON.parse(readCommittedAssetSync(new URL('../assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/manifest.json',import.meta.url),'utf8'));
 const apocalypseAudioPath=new URL('../assets/sfx/v3-apocalypse-boss-ultimate-v1/boss-ultimate-combat-v2.mp3',import.meta.url);
 assert.match(apiSource,/CREATE TABLE IF NOT EXISTS user_apocalypse_energy/);
 assert.match(apiSource,/function apocalypseEnergySchemaStatements\(env\)/);
@@ -135,6 +136,6 @@ assert.match(apocalypsePreviewSource,/APOCALYPSE SKILL/);
 assert.match(apocalypsePreviewSource,/fullscreenVideo:false/);
 assert.match(apocalypsePreviewSource,/audio\.volume=\.1/,'the isolated preview must use the same 10% boss-skill volume');
 assert.doesNotMatch(apocalypsePreviewSource,/<video\b|playBossBattleUltimate/,'the isolated review page must preview only the text banner and in-battle effect');
-assert.equal(statSync(apocalypseAudioPath).size,86828,'the approved recorded boss-impact SFX must remain byte-identical');
+assert.equal(statCommittedAssetSync(apocalypseAudioPath).size,86828,'the approved recorded boss-impact SFX must remain byte-identical');
 
 console.log('PVE Apocalypse: energy, shield HUD, low-afterimage boss atlas/SFX, text-only announcement, combat rules, CMS and drops verified');

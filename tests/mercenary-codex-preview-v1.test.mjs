@@ -1,3 +1,5 @@
+import {existsCommittedAssetSync,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -8,8 +10,8 @@ import sharp from 'sharp';
 import { ROSTER_URL, ENTRY, assetUrl, mediaPath, queryMatches, filterCards, validateRoster, summarize, collectionEntries, readState, artStatus, sdStatus } from '../preview/mercenary-codex-v1/model.js';
 
 const root = path.resolve(import.meta.dirname, '..');
-const read = file => fs.readFileSync(path.join(root, file), 'utf8');
-const roster = JSON.parse(fs.readFileSync(ROSTER_URL, 'utf8'));
+const read = file => readCommittedAssetSync(path.join(root, file), 'utf8');
+const roster = JSON.parse(readCommittedAssetSync(ROSTER_URL, 'utf8'));
 const html = read('preview/mercenary-codex-v1/index.html');
 const client = read('preview/mercenary-codex-v1/codex.js');
 const css = read('preview/mercenary-codex-v1/codex.css');
@@ -24,11 +26,11 @@ test('reads the canonical 57-card preview roster and never inherits historic ran
 });
 test('current mercenary frame is the native transparent slim V3 asset, never a checkerboard draft', async () => {
   assert.equal(roster.cardComposition.frame, 'assets/ui/card-frames/mercenary-contract-frame-slim-v3.png');
-  const bytes = fs.readFileSync(path.join(root, roster.cardComposition.frame));
+  const bytes = readCommittedAssetSync(path.join(root, roster.cardComposition.frame));
   assert.equal(crypto.createHash('sha256').update(bytes).digest('hex').toUpperCase(), roster.cardComposition.frameSha256);
-  const metadata = await sharp(bytes).metadata();
+  const metadata = await sharpCommittedAsset(bytes).metadata();
   assert.deepEqual([metadata.width, metadata.height, metadata.channels, metadata.hasAlpha], [1024, 1536, 4, true]);
-  const { data, info } = await sharp(bytes).raw().toBuffer({ resolveWithObject: true });
+  const { data, info } = await sharpCommittedAsset(bytes).raw().toBuffer({ resolveWithObject: true });
   let transparent = 0;
   let solidMetal = 0;
   for (let i = 3; i < data.length; i += 4) {
@@ -68,7 +70,7 @@ test('all sixteen approved additions preserve reviewed originals and have separa
     assert.equal(card.sourceArtSha256, entry.sha256);
     assert.match(card.battleSprite, /^assets\/ui\/project-v\/characters\/mercenary\/mercenary-v\d{3}-.+-sd-v1\.png$/);
     assert.equal(card.battleSpriteStatus, 'TECH_QA_COMPLETE_USER_REVIEW_PENDING');
-    const hash = file => crypto.createHash('sha256').update(fs.readFileSync(path.join(root, file))).digest('hex').toUpperCase();
+    const hash = file => crypto.createHash('sha256').update(readCommittedAssetSync(path.join(root, file))).digest('hex').toUpperCase();
     assert.equal(hash(entry.reviewSource), entry.sha256);
     assert.equal(hash(entry.sourceArt), entry.sha256);
   }
@@ -150,11 +152,11 @@ test('responsive WebP derivatives are complete, traceable, transparent for SD an
   const seen = new Set();
   for (const entry of media.entries) {
     const full = path.join(root, 'assets/ui/project-v/mercenaries/codex-v1', entry.file);
-    const bytes = fs.readFileSync(full);
+    const bytes = readCommittedAssetSync(full);
     assert.equal(crypto.createHash('sha256').update(bytes).digest('hex').toUpperCase(), entry.sha256);
-    const original = fs.readFileSync(path.join(root, entry.source));
+    const original = readCommittedAssetSync(path.join(root, entry.source));
     assert.equal(crypto.createHash('sha256').update(original).digest('hex').toUpperCase(), entry.sourceSha256);
-    const m = await sharp(bytes).metadata();
+    const m = await sharpCommittedAsset(bytes).metadata();
     assert.equal(m.width, entry.width);
     if (entry.kind === 'art') assert.equal(m.height / m.width, 1.5);
     else assert.equal(m.hasAlpha, true);
@@ -164,7 +166,7 @@ test('responsive WebP derivatives are complete, traceable, transparent for SD an
   }
   assert.ok(listBytes < 1100000 / 21 * roster.cards.length, `${listBytes} byte list exceeds the existing per-card budget`);
   for (const card of roster.cards) {
-    for (const [kind, size] of [['art', 320], ['art', 640], ...(card.battleSprite ? [['sd', 640]] : [])]) assert.ok(fs.existsSync(path.join(root, mediaPath(card.code, kind, size))));
+    for (const [kind, size] of [['art', 320], ['art', 640], ...(card.battleSprite ? [['sd', 640]] : [])]) assert.ok(existsCommittedAssetSync(path.join(root, mediaPath(card.code, kind, size))));
     if (!card.battleSprite) assert.ok(!media.entries.some(entry => entry.code === card.code && entry.kind === 'sd'));
   }
 });

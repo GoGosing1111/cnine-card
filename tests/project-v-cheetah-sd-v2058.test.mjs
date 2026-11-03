@@ -1,3 +1,5 @@
+import {existsCommittedAssetSync,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
+const sharpCommittedAsset=(input,...options)=>sharp(typeof input==='string'||input instanceof URL?readCommittedAssetSync(input):input,...options);
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
@@ -12,7 +14,7 @@ const spriteRelative='assets/ui/project-v/characters/fur/fur-cn-5d0e2e4d58c9416f
 const spritePath=path.join(root,spriteRelative);
 const expectedHash='CE63406916F6BD6C03DDE62E0E25910FB104C130A8A86803E95C2ABA4078BA2F';
 
-const sha256=file=>crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex').toUpperCase();
+const sha256=file=>crypto.createHash('sha256').update(readCommittedAssetSync(file)).digest('hex').toUpperCase();
 
 function visibleBounds(rgba,width,height,threshold=18){
   let minX=width,minY=height,maxX=-1,maxY=-1,transparent=0,partial=0;
@@ -29,7 +31,7 @@ function visibleBounds(rgba,width,height,threshold=18){
 }
 
 test('치타구 FUR는 카드 원화와 분리된 투명 전투 SD로 연결된다',async()=>{
-  const manifest=JSON.parse(fs.readFileSync(manifestPath,'utf8'));
+  const manifest=JSON.parse(readCommittedAssetSync(manifestPath,'utf8'));
   const entry=manifest.characters.find(row=>row.cardId==='CN-5D0E2E4D58C9416F');
   assert.ok(entry,'치타구 FUR manifest 항목이 없습니다.');
   assert.equal(entry.title,'치타구');
@@ -42,7 +44,7 @@ test('치타구 FUR는 카드 원화와 분리된 투명 전투 SD로 연결된�
   assert.equal(sha256(spritePath),expectedHash);
   assert.equal(entry.sha256,expectedHash);
 
-  const {data,info}=await sharp(spritePath).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+  const {data,info}=await sharpCommittedAsset(spritePath).ensureAlpha().raw().toBuffer({resolveWithObject:true});
   assert.equal(info.width,1350);
   assert.equal(info.height,1350);
   assert.equal(info.channels,4);
@@ -57,23 +59,23 @@ test('치타구 FUR는 카드 원화와 분리된 투명 전투 SD로 연결된�
 test('치타구 반응형 자산과 V3 캐시·라우팅 계약이 함께 갱신된다',async()=>{
   for(const [width,extension] of [[384,'avif'],[384,'webp'],[768,'avif'],[768,'webp']]){
     const file=path.join(root,`assets/responsive/project-v/fur/fur-cn-5d0e2e4d58c9416f-sd-v1-${width}.${extension}`);
-    assert.ok(fs.existsSync(file),`${path.basename(file)} 누락`);
-    const metadata=await sharp(file).metadata();
+    assert.ok(existsCommittedAssetSync(file),`${path.basename(file)} 누락`);
+    const metadata=await sharpCommittedAsset(file).metadata();
     assert.equal(metadata.width,width);
     assert.equal(metadata.height,width);
     assert.equal(metadata.hasAlpha,true);
   }
 
-  const responsive=fs.readFileSync(path.join(root,'js/responsive-battle-sprites-v1815.js'),'utf8');
-  const adapter=fs.readFileSync(path.join(root,'js/project-v-tier-battle-art-adapter-v1.js'),'utf8');
-  const app=fs.readFileSync(path.join(root,'js/app.js'),'utf8');
-  const index=fs.readFileSync(path.join(root,'index.html'),'utf8');
-  const worker=fs.readFileSync(path.join(root,'service-worker.js'),'utf8');
+  const responsive=readCommittedAssetSync(path.join(root,'js/responsive-battle-sprites-v1815.js'),'utf8');
+  const adapter=readCommittedAssetSync(path.join(root,'js/project-v-tier-battle-art-adapter-v1.js'),'utf8');
+  const app=readCommittedAssetSync(path.join(root,'js/app.js'),'utf8');
+  const index=readCommittedAssetSync(path.join(root,'index.html'),'utf8');
+  const worker=readCommittedAssetSync(path.join(root,'service-worker.js'),'utf8');
   assert.match(responsive,/fur-cn-5d0e2e4d58c9416f-sd-v1\.png/);
   assert.match(responsive,/fur-cn-5d0e2e4d58c9416f-sd-v1-768\.webp/);
   assert.match(adapter,/manifest-v2\.json\?v=4-cheetah-scale/);
   assert.match(adapter,/scaleMultiplier: Math\.min\(2, Math\.max\(\.5, Number\(entry\.scaleMultiplier\) \|\| 1\)\)/);
-  assert.match(app,/project-v-tier-battle-art-adapter-v1\.js\?v=3\.7\.1-cheetah-scale/);
+  assert.match(app,/project-v-tier-battle-art-adapter-v1\.js\?[^\s\x22\x27]*\bv=3\.7\.1-cheetah-scale/);
   assert.match(index,/responsive-battle-sprites-v1815\.js\?v=2060-nonblocking-fx/);
   assert.match(index,/js\/app\.js\?v=[A-Za-z0-9][A-Za-z0-9-]+/);
   assert.match(worker,/soop-card-shell-v[A-Za-z0-9][A-Za-z0-9-]+/);

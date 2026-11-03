@@ -1,3 +1,4 @@
+import {existsCommittedAssetSync,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -9,7 +10,7 @@ import {ACTION_LIMIT, BATTLE_SUIT, CARD_IDS, IdleSession, MAX_TRAINING, STAGES, 
   from '../preview/idle-v3-v1/source/idle-model.mjs';
 
 const root = new URL('../', import.meta.url);
-const read = name => fs.readFileSync(new URL(name, root), 'utf8');
+const read = name => readCommittedAssetSync(new URL(name, root), 'utf8');
 const catalog = ['fur/manifest-v2.json', 'zenith/manifest-v1.json', 'superstar/manifest-v1.json'].flatMap(p => {
   const manifest = JSON.parse(read('assets/ui/project-v/characters/' + p));
   return manifest.characters.map(c => ({...c, grade: manifest.rarity}));
@@ -33,8 +34,8 @@ test('real, approved five-card identities; one SUPERSTAR and one ZENITH; artwork
     assert.ok(CARD_IDS.includes(c.id));
     assert.equal(c.image, c.sourceArt);
     assert.notEqual(c.image, c.battleSprite);
-    assert.ok(fs.existsSync(new URL(c.image, root)));
-    assert.ok(fs.existsSync(new URL(c.battleSprite, root)));
+    assert.ok(existsCommittedAssetSync(new URL(c.image, root)));
+    assert.ok(existsCommittedAssetSync(new URL(c.battleSprite, root)));
   }
 });
 test('all twelve encounters use existing approved monster originals and SD', () => {
@@ -44,8 +45,8 @@ test('all twelve encounters use existing approved monster originals and SD', () 
   for (const s of STAGES) {
     const m = monsters.find(m => m.mode === 'HUNT' && m.monsterId === s.monsterId);
     assert.equal(m.qa.visualApproval, true);
-    assert.ok(fs.existsSync(new URL(m.sourceArt, root)));
-    assert.ok(fs.existsSync(new URL(m.battleSprite, root)));
+    assert.ok(existsCommittedAssetSync(new URL(m.sourceArt, root)));
+    assert.ok(existsCommittedAssetSync(new URL(m.battleSprite, root)));
   }
 });
 test('monster stats do not scale to player strength', () => {
@@ -263,8 +264,8 @@ test('battle suit is a separate support with real suit/weapon assets and indepen
   const payload = simulate(3);
   assert.equal(payload.equippedBattleSuit.code, BATTLE_SUIT.code);
   assert.equal(payload.equippedWeapon.code, BATTLE_SUIT.weaponCode);
-  assert.ok(fs.existsSync(new URL(payload.equippedBattleSuit.appearance.battleSprite.replace(/^\//, ''), root)));
-  assert.ok(fs.existsSync(new URL(payload.equippedWeapon.appearance.battleSprite.replace(/^\//, ''), root)));
+  assert.ok(existsCommittedAssetSync(new URL(payload.equippedBattleSuit.appearance.battleSprite.replace(/^\//, ''), root)));
+  assert.ok(existsCommittedAssetSync(new URL(payload.equippedWeapon.appearance.battleSprite.replace(/^\//, ''), root)));
   const battle = payload.battleV2;
   assert.equal(battle.teams.A.cards.length, 5);
   assert.equal(battle.result.final.A.length, 5);

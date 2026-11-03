@@ -117,7 +117,7 @@ test('CMS and API expose the same 50-eok coin limit with a fresh admin script ca
   assert.match(specs,/COIN:\{[^\n]+max:5000000000/);
   assert.match(read('admin/admin-v1276.js'),/COIN:\{label:'코인',defaultAmount:1000,max:5000000000\}/);
   assert.match(read('admin/index.html'),/id="verifiedRewardAmount"[^>]+max="5000000000"/);
-  assert.match(read('admin/index.html'),/admin-v1276\.js\?v=2050-verified-coin-50eok/);
+  assert.match(read('admin/index.html'),/admin-v1276\.js\?[^"\s]*\bv=2050-verified-coin-50eok/);
   assert.match(read('package.json'),/verified-message-coin-v2050\.test\.mjs/);
 });
 

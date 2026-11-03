@@ -1,3 +1,4 @@
+import {existsCommittedAssetSync,readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -39,12 +40,12 @@ test('seven positions share existing lattice pitch and never collide with each o
  for(const profile of ['desktop','compact']){const cells=Array.from({length:7},(_,i)=>latticeStation('squad',i,'ENEMY',profile));assert.equal(new Set(cells.map(c=>`${c.x},${c.y}`)).size,7);for(const p of cells)assert(p.x>0&&p.y>0);}
 });
 test('all approved sprites and 12-frame atlases exist and stay separate from source artwork',()=>{
- for(const boss of APOCALYPSE_LEGION_BOSSES){assert.notEqual(boss.sourceArt,boss.battleSprite);assert(fs.existsSync('.'+boss.sourceArt));assert(fs.existsSync('.'+boss.battleSprite));for(const s of boss.skills){if(s.visual==='HOLLOW_LENS'){assert.equal(boss.code,'APOCALYPSE_SAHYEON');assert(s.duration>s.impactAt);continue;}const atlas=JSON.parse(fs.readFileSync('.'+s.atlas));assert.equal(Object.keys(atlas.frames).length,12);assert.equal(s.collisionFrame,6);}}
+ for(const boss of APOCALYPSE_LEGION_BOSSES){assert.notEqual(boss.sourceArt,boss.battleSprite);assert(existsCommittedAssetSync('.'+boss.sourceArt));assert(existsCommittedAssetSync('.'+boss.battleSprite));for(const s of boss.skills){if(s.visual==='HOLLOW_LENS'){assert.equal(boss.code,'APOCALYPSE_SAHYEON');assert(s.duration>s.impactAt);continue;}const atlas=JSON.parse(readCommittedAssetSync('.'+s.atlas));assert.equal(Object.keys(atlas.frames).length,12);assert.equal(s.collisionFrame,6);}}
  assert.equal(apocalypseLegionBoss({id:74}),null);assert.equal(apocalypseLegionBoss({id:75}).name,'아카드');
 });
 test('live monster adapter resolves escort art from monster ID, never the instance suffix',async()=>{
  await import('../js/project-v-monster-battle-art-adapter-v1.js');
- const manifest=JSON.parse(fs.readFileSync('assets/ui/project-v/monsters/hunt-tower/manifest-v1.json'));
+ const manifest=JSON.parse(readCommittedAssetSync('assets/ui/project-v/monsters/hunt-tower/manifest-v1.json'));
  const adapter=globalThis.ProjectVMonsterBattleArt.createAdapter({manifest});
  const battleV2=createPveBattleV2({cards:party(10000000),monster:monster(75),seed:83});
  const actual=adapter.adaptBattlePayload({battleV2}).battleV2.teams.B.cards;

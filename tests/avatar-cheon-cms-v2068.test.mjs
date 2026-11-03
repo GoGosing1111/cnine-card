@@ -1,3 +1,4 @@
+import {existsCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {existsSync} from 'node:fs';
@@ -47,7 +48,7 @@ test('Cheon CMS registration executes atomically against PostgreSQL without rele
       assert.equal(item.lobbyImage,'preview/avatar-cheon-v1/assets/avatar-cheon-lobby-v1-1024.webp');
       assert.equal(item.lobbyMobileImage,'preview/avatar-cheon-v1/assets/avatar-cheon-lobby-v1-640.webp');
       assert.equal(item.equipmentImage,'preview/avatar-cheon-v1/assets/avatar-cheon-equipment-v1-640.webp');
-      for(const field of ['lobbyImage','lobbyMobileImage','equipmentImage'])assert.ok(existsSync(new URL(`../${item[field]}`,import.meta.url)));
+      for(const field of ['lobbyImage','lobbyMobileImage','equipmentImage'])assert.ok(existsCommittedAssetSync(new URL(`../${item[field]}`,import.meta.url)));
       const catalog=await call('avatar/catalog');assert.equal(catalog.status,200);
       assert.ok(!catalog.body.avatars.some(a=>a.code==='CHEON'));
       assert.equal((await call('avatar/equip',{avatarCode:'CHEON'})).status,404);

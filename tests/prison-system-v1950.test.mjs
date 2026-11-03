@@ -1,17 +1,18 @@
+import {statCommittedAsset,readCommittedAsset} from './helpers/sparse-media-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile,stat} from 'node:fs/promises';
 import {PRISON_HIT_COOLDOWN_SECONDS,PRISON_RELEASE_PRICE_MAX,prisonHitCooldownRemaining,prisonReleaseProgress} from '../functions/_prison_community.js';
 
 const [server,communityServer,client,menu,cms,css,index,packageRaw]=await Promise.all([
-  readFile(new URL('../functions/api/[[path]].js',import.meta.url),'utf8'),
-  readFile(new URL('../functions/_prison_community.js',import.meta.url),'utf8'),
-  readFile(new URL('../js/app.js',import.meta.url),'utf8'),
-  readFile(new URL('../js/soopketmon-v21-exact-shell-adapter.js',import.meta.url),'utf8'),
-  readFile(new URL('../admin/admin-v1276.js',import.meta.url),'utf8'),
-  readFile(new URL('../css/prison-v1950.css',import.meta.url),'utf8'),
-  readFile(new URL('../index.html',import.meta.url),'utf8'),
-  readFile(new URL('../package.json',import.meta.url),'utf8')
+  readCommittedAsset(new URL('../functions/api/[[path]].js',import.meta.url),'utf8'),
+  readCommittedAsset(new URL('../functions/_prison_community.js',import.meta.url),'utf8'),
+  readCommittedAsset(new URL('../js/app.js',import.meta.url),'utf8'),
+  readCommittedAsset(new URL('../js/soopketmon-v21-exact-shell-adapter.js',import.meta.url),'utf8'),
+  readCommittedAsset(new URL('../admin/admin-v1276.js',import.meta.url),'utf8'),
+  readCommittedAsset(new URL('../css/prison-v1950.css',import.meta.url),'utf8'),
+  readCommittedAsset(new URL('../index.html',import.meta.url),'utf8'),
+  readCommittedAsset(new URL('../package.json',import.meta.url),'utf8')
 ]);
 const packageJson=JSON.parse(packageRaw);
 
@@ -112,7 +113,7 @@ test('수감자 때리기는 60초 서버 쿨타임·중복 영수증·자기 �
 });
 
 test('전체 메뉴 맨 아래에 행정부·감옥이 연결된다',()=>{
-  assert.match(menu,/administration: Object\.freeze\(\{ title: '행정부', routes: Object\.freeze\(\['coup', 'soopketland', 'prison', 'prisoncamp'\]\) \}\)/);
+  assert.match(menu,/administration: Object\.freeze\(\{ title: '행정부', routes: Object\.freeze\(\['coup', 'soopketland', 'prison'\]\) \}\)/);
   assert.doesNotMatch(menu,/treasury: Object\.freeze/,'retired treasury must remain outside the menu');
   assert.match(menu,/MENU_GROUP_ORDER = Object\.freeze\(\[[^\]]*'market', 'administration'\]\)/);
   assert.match(menu,/prison: Object\.freeze\(\{ title: '감옥', group: 'administration', icon: 'prison' \}\)/);
@@ -121,7 +122,7 @@ test('전체 메뉴 맨 아래에 행정부·감옥이 연결된다',()=>{
 
 test('경비 감옥은 계정명·남은 형기·사식 UI를 표시하고 과거 승인 자산은 보존한다',async()=>{
   assert.match(client,/id="prisonSceneName"/);
-  const renewedCss=await readFile(new URL('../css/prison-hunger-20261005.css',import.meta.url),'utf8');
+  const renewedCss=await readCommittedAsset(new URL('../css/prison-hunger-20261005.css',import.meta.url),'utf8');
   assert.match(renewedCss,/general-guarded-prison-20261005\.png/);
   assert.match(client,/PrisonHunger\?\.panel/);
   assert.doesNotMatch(client,/prisoner-cartoon-(servile-v1|hit-v2031)\.png/);
@@ -137,10 +138,10 @@ test('경비 감옥은 계정명·남은 형기·사식 UI를 표시하고 과�
   assert.match(css,/\.prison-bars i/);
   assert.match(index,/css\/prison-v1950\.css\?v=2045-mobile-perf/);
   const [background,character,hitCharacter,hitPng]=await Promise.all([
-    stat(new URL('../assets/ui/prison/prison-cell-background-v1.png',import.meta.url)),
-    stat(new URL('../assets/ui/prison/prisoner-cartoon-servile-v1.png',import.meta.url)),
-    stat(new URL('../assets/ui/prison/prisoner-cartoon-hit-v2031.png',import.meta.url)),
-    readFile(new URL('../assets/ui/prison/prisoner-cartoon-hit-v2031.png',import.meta.url))
+    statCommittedAsset(new URL('../assets/ui/prison/prison-cell-background-v1.png',import.meta.url)),
+    statCommittedAsset(new URL('../assets/ui/prison/prisoner-cartoon-servile-v1.png',import.meta.url)),
+    statCommittedAsset(new URL('../assets/ui/prison/prisoner-cartoon-hit-v2031.png',import.meta.url)),
+    readCommittedAsset(new URL('../assets/ui/prison/prisoner-cartoon-hit-v2031.png',import.meta.url))
   ]);
   assert.ok(background.size>100_000);
   assert.ok(character.size>100_000);

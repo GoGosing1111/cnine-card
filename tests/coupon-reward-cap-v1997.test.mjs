@@ -36,7 +36,7 @@ test('CMS도 보상 종류별 최대값을 즉시 표시하고 1조 초과 입�
   assert.match(admin,/COUPON_REWARD_META=\{COIN:\{label:'코인',max:1000000000000\}/);
   assert.match(admin,/amount\.max=String\(meta\.max\)/);
   assert.match(admin,/rewardAmount>meta\.max/);
-  assert.match(adminHtml,/admin-v1276\.js\?v=2050-verified-coin-50eok/);
+  assert.match(adminHtml,/admin-v1276\.js\?[^"\s]*\bv=2050-verified-coin-50eok/);
   assert.match(adminHtml,/coupon-1jo-owner-daily-10jo-20261029/);
 });
 
