@@ -1,6 +1,9 @@
+import {COMPANION_PREPARATION_REVIEW as REVIEW} from '../shared/companion-loadout-v2.mjs';
+// Retain a historical one-companion room snapshot for the original scenario.
+function createCoopRoom(args){const room=createCurrentCoopRoom(args);delete room[REVIEW];delete room.dualBalance;delete room.mercenariesPerOwner;return room;}
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createCoopRoom,coopCommand,advanceCoopRoom,coopView} from '../functions/_cooperative_room.js';
+import {createCoopRoom as createCurrentCoopRoom,coopCommand,advanceCoopRoom,coopView} from '../functions/_cooperative_room.js';
 import {createCooperativeBattle} from '../functions/_cooperative_battle.js';
 import {COOP_ENCOUNTER} from '../shared/cooperative-battleground-v1.mjs';
 import {coopSquads} from './helpers/cooperative-fixture.mjs';

@@ -12,8 +12,8 @@ test('real room recovers a durable start intent after DB failure and a lost comm
   const squads=coopSquads();
   for(const id of [1,2,3])await h.request(id,'feature');
   await h.db.batch([{sql:"CREATE TRIGGER energy_failure BEFORE INSERT ON app_meta WHEN NEW.key LIKE 'coop_entry_energy_v1:%' BEGIN SELECT RAISE(ABORT,'injected entry failure'); END"}]);
-  for(const id of [1,2])assert.equal((await command(id,'ready',{cardIds:squads[id-1].cards.map(c=>c.id),mercenaryCode:squads[id-1].mercenary.code})).status,200);
-  const third=await command(3,'ready',{cardIds:squads[2].cards.map(c=>c.id),mercenaryCode:squads[2].mercenary.code});assert.equal(third.code,'COOP_ENERGY_PENDING');
+  for(const id of [1,2])assert.equal((await command(id,'ready',{cardIds:squads[id-1].cards.map(c=>c.id),mercenaryCodes:[squads[id-1].mercenary.code,'V-055']})).status,200);
+  const third=await command(3,'ready',{cardIds:squads[2].cards.map(c=>c.id),mercenaryCodes:[squads[2].mercenary.code,'V-055']});assert.equal(third.code,'COOP_ENERGY_PENDING');
   for(const id of [1,2,3])assert.equal((await h.request(id,'feature')).energy.current,3);
   await h.db.batch([{sql:'DROP TRIGGER energy_failure'}]);
   const recovered=await h.request(1,'current');assert.equal(recovered.status,200);assert.equal(recovered.state.status,'LOADING');

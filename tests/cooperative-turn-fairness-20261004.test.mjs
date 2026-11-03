@@ -1,10 +1,13 @@
+import {COMPANION_PREPARATION_REVIEW as REVIEW} from '../shared/companion-loadout-v2.mjs';
+// Retain a historical one-companion room snapshot for the original scenario.
+function createCoopRoom(args){const room=createCurrentCoopRoom(args);delete room[REVIEW];delete room.dualBalance;delete room.mercenariesPerOwner;return room;}
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import inputs from './fixtures/cooperative-mixed-speed-20261004.json' with {type:'json'};
 import {candidate} from '../scripts/measure-berkan-balance.mjs';
 import {fixture} from './helpers/cooperative-fixture.mjs';
 import {createCooperativeBattle} from '../functions/_cooperative_battle.js';
-import {createCoopRoom,coopCommand} from '../functions/_cooperative_room.js';
+import {createCoopRoom as createCurrentCoopRoom,coopCommand} from '../functions/_cooperative_room.js';
 const squads=(code='V-049')=>inputs.map((s,i)=>({...structuredClone(s),mercenary:candidate(i===2?code:s.mercenaryCode),singleHealerBonus:fixture.singleHealerBonus}));
 const build=(party,version=2)=>createCooperativeBattle({squads:party,difficulty:'HARD',seed:3375805316,turnClockVersion:version});
 const first=(b,id)=>b.payload.battleV2.result.timeline.find(e=>e.actorId===id&&['TURN','MERCENARY_WINDUP'].includes(e.type));

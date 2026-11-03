@@ -93,7 +93,7 @@ for(const postgres of [false,true]){
    await f.call('legion-hunt/cancel',{id});assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.current,1);
    const next=await f.call('legion-hunt/start',{difficulty:'normal'});await f.call('legion-hunt/begin',{id:next.body.id});
    const run=await read(f,key);run.coins.paid=1;await put(f,key,run);
-   assert.equal((await f.call('legion-hunt/recover',{})).body.recovery.refunded,false);
+   const paidRecovery=(await f.call('legion-hunt/recover',{})).body;assert.equal(paidRecovery.recovery.kind,'SETTLED');assert.equal(paidRecovery.entries.current,0,'a paid run settles without refunding entry energy');
    assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.current,0);
    const support={active:true,startsAt:at-1,endsAt:at+10*H};
    assert.equal(legionHuntEntries(null,at,f.player,support).maximum,13);

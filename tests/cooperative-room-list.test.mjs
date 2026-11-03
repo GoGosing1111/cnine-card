@@ -35,7 +35,7 @@ test('real directory: authenticated listing, filters, creation retry, joining, h
   await h.request(1,'settings',{settings:{mode:'ON',testUserIds:[],revision:0}});
   assert.equal((await command(4,'join',created.roomId)).code,'COOP_FULL');
   const squads=coopSquads();for(const id of [1,2,3]){
-   const ready=await command(id,'ready',created.roomId,{cardIds:squads[id-1].cards.map(c=>c.id),mercenaryCode:squads[id-1].mercenary.code});assert.equal(ready.status,200,JSON.stringify(ready));
+   const ready=await command(id,'ready',created.roomId,{cardIds:squads[id-1].cards.map(c=>c.id),mercenaryCodes:[squads[id-1].mercenary.code,'V-055']});assert.equal(ready.status,200,JSON.stringify(ready));
    if(id===1){list=await h.request(4,'rooms');assert.equal(list.rooms[0].ready,1);assert.ok(list.rooms[0].power>0);}
   }
   assert.deepEqual((await h.request(4,'rooms')).rooms,[]);assert.equal((await command(4,'join',created.roomId)).code,'COOP_STARTED');

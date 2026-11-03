@@ -20,10 +20,10 @@ test('real Durable Objects: gated/authenticated API, ownership, retry, three Web
   assert.equal((await command(1,'create',{difficulty:'NORMAL'})).code,'COOP_ALREADY_JOINED');
   for(let id=2;id<=3;id++)assert.equal((await command(id,'join')).status,200);
   const squads=coopSquads();
-  const selection=id=>({cardIds:squads[id-1].cards.map(c=>c.id),mercenaryCode:squads[id-1].mercenary.code});
+  const selection=id=>({cardIds:squads[id-1].cards.map(c=>c.id),mercenaryCodes:[squads[id-1].mercenary.code,'V-055']});
   assert.equal((await command(1,'select',{...selection(1),power:999999999})).status,400);
   assert.equal((await command(1,'select',{...selection(1),cardIds:['NOT-OWNED',selection(1).cardIds[1]]})).status,403);
-  assert.equal((await command(1,'select',{...selection(1),mercenaryCode:'V-001'})).status,403);
+  assert.equal((await command(1,'select',{...selection(1),mercenaryCodes:['V-001','V-055']})).status,403);
   const wrongOrigin=await fetch(h.origin+'/api/coop/ticket',{method:'POST',headers:{authorization:'Bearer local-qa-1',origin:'https://outside.example','content-type':'application/json'},body:JSON.stringify({roomId,clientId:clients[0],requestId:crypto.randomUUID()})});assert.equal(wrongOrigin.status,403);
   for(let id=1;id<=3;id++){
    const ticket=await command(id,'ticket');assert.equal(ticket.status,200);
@@ -39,7 +39,7 @@ test('real Durable Objects: gated/authenticated API, ownership, retry, three Web
   assert.equal((await command(1,'select',selection(1))).code,'COOP_LOCKED');
   const refresh=await command(1,'ticket',{clientId:'qa-websocket-refreshed-1'});assert.equal(refresh.state.myResult,'DEFEAT');assert.equal(refresh.ticket,undefined);
   await waitFor(()=>messages[1].some(m=>m.state?.members[0].result==='DEFEAT'));
-  const other=messages[1].findLast(m=>m.state).state;assert.equal(other.status,'ACTIVE');assert.equal(other.members.filter(m=>m.result==='DEFEAT').length,1);assert.equal(other.fighters.A.filter(f=>f.ownerId===1&&f.hp===0).length,3);
+  const other=messages[1].findLast(m=>m.state).state;assert.equal(other.status,'ACTIVE');assert.equal(other.members.filter(m=>m.result==='DEFEAT').length,1);assert.equal(other.fighters.A.filter(f=>f.ownerId===1&&f.hp===0).length,4);
   assert.equal((await command(2,'abandon')).status,200);assert.equal((await h.request(2,'current')).state.myResult,'DEFEAT');
   assert.equal((await command(2,'leave',{clientId:'qa-websocket-result-return-2'})).status,200);assert.equal((await command(3,'leave')).status,200);
   const end=await h.request(1,'current');assert.equal(end.state.status,'DEFEAT');assert.ok(end.state.members.every(m=>m.result==='DEFEAT'));
