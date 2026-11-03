@@ -1,0 +1,1965 @@
+{
+  "operationKey": "ops:playdk:1441569:comment-coin500t:20261103:v1",
+  "authorization": "https://www.playdk.kr/board/skm/1441569 댓글 전체 2차인증 검증 후 500조씩 지급",
+  "dateKst": "2026-11-03",
+  "delivery": "DIRECT",
+  "currency": "COIN",
+  "amountPerUser": "500000000000000",
+  "totalAmount": "48000000000000000",
+  "recipientCount": 96,
+  "sendMessages": false,
+  "sourceHash": "df776e70ca78e05b298b55e9746254dd428a3fbff62b1f9baedd9333fa31964e",
+  "sourceCutoff": "2026-11-03T08:17:28.846Z",
+  "sourcePostId": 1441569,
+  "sourceCommentCount": 104,
+  "sourceUniqueAuthors": 97,
+  "targets": [
+    {
+      "id": "8",
+      "nickname": "최성수",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "77a643e48dc0bfef9386c8004a42ef0c240c73e084633bbee833d8ea352cf058",
+      "provider": "PLAYDK",
+      "dkUuid": "43004bd8",
+      "dkNames": [
+        "최성수"
+      ],
+      "commentIds": [
+        6488100,
+        6488947,
+        6490294
+      ],
+      "verifiedAt": "2026-08-22 03:16:45",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "16",
+      "nickname": "오승환이다",
+      "role": "ADMIN",
+      "status": "ACTIVE",
+      "identityHash": "c199997964e49bc1ca82a757d518e4fc926ed9c7ee712d92cc6103ab050dc564",
+      "provider": "PLAYDK",
+      "dkUuid": "8b176e68",
+      "dkNames": [
+        "오승환이다."
+      ],
+      "commentIds": [
+        6487975
+      ],
+      "verifiedAt": "2026-08-29 05:21:32",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "19",
+      "nickname": "토닭토닭",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "6972b47b4ada68b416fe23db0a20d81b59c24b5c5a9d42e115a2e276cbefb679",
+      "provider": "PLAYDK",
+      "dkUuid": "5de5f0c2",
+      "dkNames": [
+        "토닭토닭"
+      ],
+      "commentIds": [
+        6487992
+      ],
+      "verifiedAt": "2026-08-22 02:55:50",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "22",
+      "nickname": "커피먹는철구",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "c198201dc5db21d9321fa512ea16392d3c60ba6c12975210ae64f71fcbd0744a",
+      "provider": "PLAYDK",
+      "dkUuid": "49cd3f96",
+      "dkNames": [
+        "커피먹는봉순"
+      ],
+      "commentIds": [
+        6487960
+      ],
+      "verifiedAt": "2026-08-22 23:33:18",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "32",
+      "nickname": "쑤댕",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "6f19640848b1f89b32c7a4fd91d387eb0115345b9814aeebc5b3b968ec437eea",
+      "provider": "PLAYDK",
+      "dkUuid": "8eeb626d",
+      "dkNames": [
+        "쑤댕"
+      ],
+      "commentIds": [
+        6488212
+      ],
+      "verifiedAt": "2026-08-22 02:45:39",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "45",
+      "nickname": "박세라-ㅂ-",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "b411d73e9264e2c1370d106140904da154db242d5ed0f8d071a5f6ca272a5935",
+      "provider": "PLAYDK",
+      "dkUuid": "0ab57d26",
+      "dkNames": [
+        "박세라-ㅂ-"
+      ],
+      "commentIds": [
+        6487955
+      ],
+      "verifiedAt": "2026-08-22 02:46:54",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "52",
+      "nickname": "폭군#",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "9736a8d160adf323af8211c01430656ab33d1ae2e860ec7becf8061a42a35004",
+      "provider": "PLAYDK",
+      "dkUuid": "cd3ea662",
+      "dkNames": [
+        "폭군"
+      ],
+      "commentIds": [
+        6487962
+      ],
+      "verifiedAt": "2026-08-22 03:15:57",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "62",
+      "nickname": "숭구릭",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "3d0f5f8aeafda0c692e2c8feca1b69bee61e3c211b63550c711b4358e767fded",
+      "provider": "PLAYDK",
+      "dkUuid": "6d611603",
+      "dkNames": [
+        "숭구릭"
+      ],
+      "commentIds": [
+        6488030
+      ],
+      "verifiedAt": "2026-08-23 11:21:14",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "65",
+      "nickname": "음순이",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "d662730260a11f4f64abb6160f1d8c31cb700a3cedb023e9da28c1a9a5a06147",
+      "provider": "PLAYDK",
+      "dkUuid": "9f0cdb34",
+      "dkNames": [
+        "음순"
+      ],
+      "commentIds": [
+        6491246
+      ],
+      "verifiedAt": "2026-08-22 20:18:29",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "81",
+      "nickname": "비쥬얼깡패",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "6050169c2537716e2a3995c7ea229bfe50a0437e9f01c9f58a1f1544e0b587a4",
+      "provider": "PLAYDK",
+      "dkUuid": "03320b3e",
+      "dkNames": [
+        "비쥬얼깡패"
+      ],
+      "commentIds": [
+        6488133
+      ],
+      "verifiedAt": "2026-08-22 03:13:53",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "83",
+      "nickname": "애장이",
+      "role": "ADMIN",
+      "status": "ACTIVE",
+      "identityHash": "384a5d8c3f19a1575887d399c935cfa3c1f95f099ef722b6e6c6122bb1dfc2f2",
+      "provider": "PLAYDK",
+      "dkUuid": "c2b34582",
+      "dkNames": [
+        "애장"
+      ],
+      "commentIds": [
+        6494361
+      ],
+      "verifiedAt": "2026-08-29 04:03:36",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "88",
+      "nickname": "0수표",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "9e918ae411cf083e3edaf71f1b146099fac6a49ee815783927035a0cfefa466e",
+      "provider": "PLAYDK",
+      "dkUuid": "2ed65346",
+      "dkNames": [
+        "0수표"
+      ],
+      "commentIds": [
+        6487948
+      ],
+      "verifiedAt": "2026-08-22 03:08:07",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "91",
+      "nickname": "정원이",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "24405519ec540c049ec94a594b490d358ab51d6b4dc2bd33ecdc480c323e4922",
+      "provider": "PLAYDK",
+      "dkUuid": "8df763bd",
+      "dkNames": [
+        "정원이"
+      ],
+      "commentIds": [
+        6488104
+      ],
+      "verifiedAt": "2026-08-22 03:41:37",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "92",
+      "nickname": "불곰덫",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "1ce87124f2114a393d8fe4266430ca5ba51ed6f6e24a4d79d4386a7849e152b2",
+      "provider": "PLAYDK",
+      "dkUuid": "9363afd4",
+      "dkNames": [
+        "불곰덫"
+      ],
+      "commentIds": [
+        6488073
+      ],
+      "verifiedAt": "2026-08-22 13:31:07",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "115",
+      "nickname": "쁠리의무사시",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "c699e17dde7c2dabf259ef99df0d1a9ace12e3e7b1f9658dbcadc1453ce19460",
+      "provider": "PLAYDK",
+      "dkUuid": "4859c4a2",
+      "dkNames": [
+        "쁠리의무사시"
+      ],
+      "commentIds": [
+        6488562
+      ],
+      "verifiedAt": "2026-08-24 01:22:37",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "148",
+      "nickname": "꾸까1",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "87148d0f67a7b0a483ae13730f2e4db7117bc74979f9afb73ded2b310c241074",
+      "provider": "PLAYDK",
+      "dkUuid": "bc55305b",
+      "dkNames": [
+        "꾸까"
+      ],
+      "commentIds": [
+        6487987,
+        6491689
+      ],
+      "verifiedAt": "2026-08-22 02:45:18",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "162",
+      "nickname": "차단하다",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "f5174affaa426f84b5e3c47b6c010966db9c90f5ecd4bb1b21336e151bd018cd",
+      "provider": "PLAYDK",
+      "dkUuid": "0cd6253c",
+      "dkNames": [
+        "차단하다"
+      ],
+      "commentIds": [
+        6489408
+      ],
+      "verifiedAt": "2026-08-25 11:29:41",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "164",
+      "nickname": "박사",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "a1fd6d691dc5786cdfa58f28b310952ab89b7ccde4e792f9593c719e78d43ecc",
+      "provider": "PLAYDK",
+      "dkUuid": "00a28fb2",
+      "dkNames": [
+        "박사"
+      ],
+      "commentIds": [
+        6487968,
+        6492099
+      ],
+      "verifiedAt": "2026-08-22 03:24:14",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "216",
+      "nickname": "x수댕",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "6b0b8b06b435f7baac0f0f4268d007b095dea10d1168d309a4b58c4e6dcf811c",
+      "provider": "PLAYDK",
+      "dkUuid": "968bf91a",
+      "dkNames": [
+        "x수댕"
+      ],
+      "commentIds": [
+        6487994
+      ],
+      "verifiedAt": "2026-08-22 18:28:48",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "218",
+      "nickname": "현하루",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "7416a162e1d11e4085ef3d7ce3df1e13e68fa740aa05df7c4ec24dd0a233e285",
+      "provider": "PLAYDK",
+      "dkUuid": "a05e2d57",
+      "dkNames": [
+        "현하루"
+      ],
+      "commentIds": [
+        6488732
+      ],
+      "verifiedAt": "2026-08-27 06:42:55",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "220",
+      "nickname": "족알못",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "162451ff8b8737085961fd91bbef57daa5be0d0f207100196dc134f1d831bfc6",
+      "provider": "PLAYDK",
+      "dkUuid": "e7a4d95d",
+      "dkNames": [
+        "족알못"
+      ],
+      "commentIds": [
+        6488992
+      ],
+      "verifiedAt": "2026-08-22 03:09:59",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "226",
+      "nickname": "햬카세",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "4202924d63fb44da4b00ff99311e8109a10158045c809971f49a958c6dbbaa24",
+      "provider": "PLAYDK",
+      "dkUuid": "54be10d5",
+      "dkNames": [
+        "햬카세"
+      ],
+      "commentIds": [
+        6487957
+      ],
+      "verifiedAt": "2026-08-22 02:44:22",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "236",
+      "nickname": "유나이은",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "bf96b3d658cec57a4a5bf702152e415dbe057a2e59beb230c804d85351c34a18",
+      "provider": "PLAYDK",
+      "dkUuid": "c7626e57",
+      "dkNames": [
+        "유나이은"
+      ],
+      "commentIds": [
+        6488367
+      ],
+      "verifiedAt": "2026-08-22 03:18:36",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "289",
+      "nickname": "베베킹",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "9074df6c3049570e656a16d7fa3d7060130f48210412cd54f94803b593c02b57",
+      "provider": "PLAYDK",
+      "dkUuid": "94502a2d",
+      "dkNames": [
+        "베베킹"
+      ],
+      "commentIds": [
+        6487964
+      ],
+      "verifiedAt": "2026-08-22 03:14:41",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "290",
+      "nickname": "Mild7",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "b237eda07f0039a7a79ae91d1ecc1e85643c14bd9bf30f71e9ed0a3208c72457",
+      "provider": "PLAYDK",
+      "dkUuid": "c080c2f3",
+      "dkNames": [
+        "Mild7"
+      ],
+      "commentIds": [
+        6488002
+      ],
+      "verifiedAt": "2026-08-22 03:45:16",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "295",
+      "nickname": "모래",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "e5701537bd361ed4ee52325ab6f5e8864411fe3102881052fadc55c5b7952704",
+      "provider": "PLAYDK",
+      "dkUuid": "11092f52",
+      "dkNames": [
+        "모래"
+      ],
+      "commentIds": [
+        6488152
+      ],
+      "verifiedAt": "2026-08-22 02:59:17",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "315",
+      "nickname": "에타",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "0822ed80b1d73ae7ca150f946c0058433c6a18d95d84be8e0796d56ed1f7d8ac",
+      "provider": "PLAYDK",
+      "dkUuid": "5b629087",
+      "dkNames": [
+        "에타"
+      ],
+      "commentIds": [
+        6490930
+      ],
+      "verifiedAt": "2026-08-22 05:28:18",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "364",
+      "nickname": "풍으로말해요",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "a964d13a26255148653654b8a97b16a15a225d7c42b2e7d4841166b1801b31c6",
+      "provider": "PLAYDK",
+      "dkUuid": "945f7501",
+      "dkNames": [
+        "풍으로말해요"
+      ],
+      "commentIds": [
+        6487981
+      ],
+      "verifiedAt": "2026-08-23 11:49:32",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "493",
+      "nickname": "치타구",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "61d949e3b4e6309ef2c55b48bf764c87d4fc58685a614de73ded5b23dccf8c6b",
+      "provider": "PLAYDK",
+      "dkUuid": "2f9fa1d1",
+      "dkNames": [
+        "치타구"
+      ],
+      "commentIds": [
+        6489942
+      ],
+      "verifiedAt": "2026-08-22 02:45:31",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "525",
+      "nickname": "족구조아",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "0f81ee581e853760ce6013e22a34356e5939726950a6dd08aad7df99d4ffc37e",
+      "provider": "PLAYDK",
+      "dkUuid": "cba2b411",
+      "dkNames": [
+        "족구조아"
+      ],
+      "commentIds": [
+        6487973
+      ],
+      "verifiedAt": "2026-08-22 04:10:11",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "787",
+      "nickname": "뚱초환",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "c954ddbe54280bb78c3762207c1a123446f285103d36287f2a61cb386b49ba4e",
+      "provider": "PLAYDK",
+      "dkUuid": "74c50775",
+      "dkNames": [
+        "뚱초환🫐"
+      ],
+      "commentIds": [
+        6488094
+      ],
+      "verifiedAt": "2026-08-22 02:52:47",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "792",
+      "nickname": "센텀신사",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "6a767ae02ccd8fb9a3fe847352a97ef140b4b86c830085ab3ba9a49113740a3e",
+      "provider": "PLAYDK",
+      "dkUuid": "b6e04c16",
+      "dkNames": [
+        "센텀신사"
+      ],
+      "commentIds": [
+        6488056,
+        6490807
+      ],
+      "verifiedAt": "2026-08-22 03:23:08",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "1195",
+      "nickname": "씨나인택갓",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "17850f115029985e3c4c5a7c59596074414292214549184a92d199ef4acc2c05",
+      "provider": "PLAYDK",
+      "dkUuid": "5c0809e6",
+      "dkNames": [
+        "씨나인택갓"
+      ],
+      "commentIds": [
+        6487946
+      ],
+      "verifiedAt": "2026-08-22 02:48:30",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "1255",
+      "nickname": "전게씹선미아웃",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "c52449af0f0027152625945987b3c4e9b9b068f9e805ef804b77966bfaa6665c",
+      "provider": "PLAYDK",
+      "dkUuid": "561a0ff8",
+      "dkNames": [
+        "전게씹선미아웃"
+      ],
+      "commentIds": [
+        6488043
+      ],
+      "verifiedAt": "2026-08-22 03:22:17",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "1421",
+      "nickname": "다시생각",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "8a416cb66f23e281b5e5af989c170a9408904d82a4781e38b03adbed5773736e",
+      "provider": "PLAYDK",
+      "dkUuid": "6f84c07a",
+      "dkNames": [
+        "다시생각"
+      ],
+      "commentIds": [
+        6490414
+      ],
+      "verifiedAt": "2026-08-22 05:38:41",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "1545",
+      "nickname": "좋은하루",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "eaab7a2da3272aba932998c760df4132f5eddd13e8132c691316b4263f28ba4b",
+      "provider": "PLAYDK",
+      "dkUuid": "5655d558",
+      "dkNames": [
+        "좋은하루"
+      ],
+      "commentIds": [
+        6488071
+      ],
+      "verifiedAt": "2026-08-21 05:06:28",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "1768",
+      "nickname": "핫시",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "6202cde047aec1dbd6a2e3078f87d138cb0581c3496d16eb35aa897724c7c7e1",
+      "provider": "PLAYDK",
+      "dkUuid": "8dd27727",
+      "dkNames": [
+        "핫시"
+      ],
+      "commentIds": [
+        6487979
+      ],
+      "verifiedAt": "2026-08-22 18:13:30",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "2333",
+      "nickname": "구와함",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "c802f56c850e7a50f5c29950347219f9b4eaa153e095d0b4851ebf529685f450",
+      "provider": "PLAYDK",
+      "dkUuid": "cd31c10a",
+      "dkNames": [
+        "구와함"
+      ],
+      "commentIds": [
+        6489297
+      ],
+      "verifiedAt": "2026-08-22 08:07:15",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "2420",
+      "nickname": "블랙캐슬",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "936114f4fbfa955199c1a489b1ad78426cc6f8e59c800275eefa993118de2f82",
+      "provider": "PLAYDK",
+      "dkUuid": "a2c1e499",
+      "dkNames": [
+        "블랙캐슬"
+      ],
+      "commentIds": [
+        6487969
+      ],
+      "verifiedAt": "2026-08-22 03:36:58",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "2563",
+      "nickname": "김치보이",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "203dd2f3e7bd30401ef4d100d3ad6493de0ce6519dd25ced26bf02fac965783e",
+      "provider": "PLAYDK",
+      "dkUuid": "6edf889b",
+      "dkNames": [
+        "김치보이"
+      ],
+      "commentIds": [
+        6489021
+      ],
+      "verifiedAt": "2026-08-22 08:06:44",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "3011",
+      "nickname": "오일바른가지",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "5b36f5be3b170f9db10df9f14047b7329625a2fc7922ff96c2c373219baf2fd7",
+      "provider": "PLAYDK",
+      "dkUuid": "3c4794b7",
+      "dkNames": [
+        "오일바른가지"
+      ],
+      "commentIds": [
+        6487959
+      ],
+      "verifiedAt": "2026-08-22 05:21:09",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "3867",
+      "nickname": "레드클라우드",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "2f434257900449579b5347108fd62c375febd9d08c614362ff571f44950f9bb0",
+      "provider": "PLAYDK",
+      "dkUuid": "6fc616f7",
+      "dkNames": [
+        "레드클라우드"
+      ],
+      "commentIds": [
+        6488823
+      ],
+      "verifiedAt": "2026-08-24 13:53:59",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "3884",
+      "nickname": "zkzk9999",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "deccc6002fd7f3cde7c3cee88e94c021fed9cc97413e32422e3212b336bb3705",
+      "provider": "PLAYDK",
+      "dkUuid": "2113359e",
+      "dkNames": [
+        "zkzk9999"
+      ],
+      "commentIds": [
+        6487970
+      ],
+      "verifiedAt": "2026-08-22 05:20:21",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "3974",
+      "nickname": "우회하세요",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "a79a76ff41b325a9a3d538b7ef89613d284ede8e7fb5aed33a3edd62c25e51ae",
+      "provider": "PLAYDK",
+      "dkUuid": "9f8e3d1b",
+      "dkNames": [
+        "우회하세요"
+      ],
+      "commentIds": [
+        6489818
+      ],
+      "verifiedAt": "2026-08-23 00:48:30",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4010",
+      "nickname": "슈라",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "a2ef021043a516851a318f1840b1fac816f06d2b23a98d35231b02cddc5afbc1",
+      "provider": "PLAYDK",
+      "dkUuid": "21bea729",
+      "dkNames": [
+        "슈라"
+      ],
+      "commentIds": [
+        6487976
+      ],
+      "verifiedAt": "2026-08-22 22:36:14",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4199",
+      "nickname": "택신",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "de0c3d410b0f45961ea0fa62fe68b99c8d2315f1c8f9b6c3caf7dac912efb347",
+      "provider": "PLAYDK",
+      "dkUuid": "c48daa8c",
+      "dkNames": [
+        "택신"
+      ],
+      "commentIds": [
+        6487966
+      ],
+      "verifiedAt": "2026-08-22 11:57:00",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4209",
+      "nickname": "#유나랜드",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "54233aafa027b1a8cba18fe1edc3258d962386466c3a25cfa3f09d4357e13e98",
+      "provider": "PLAYDK",
+      "dkUuid": "d98a8c3a",
+      "dkNames": [
+        "#유나랜드"
+      ],
+      "commentIds": [
+        6488431
+      ],
+      "verifiedAt": "2026-08-21 03:26:30",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4222",
+      "nickname": "#크레파스",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "6deac12a8ed1e87650e9610ca1d40c5ebed08943e09fdb0d050c3fada70d9c7d",
+      "provider": "PLAYDK",
+      "dkUuid": "979169df",
+      "dkNames": [
+        "#크레파스"
+      ],
+      "commentIds": [
+        6488459
+      ],
+      "verifiedAt": "2026-08-22 17:57:53",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4389",
+      "nickname": "다르",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "0ae722c664c87e95ad75a7a1c18681cdbca3c00db1b1896508ac2f0a0080b235",
+      "provider": "PLAYDK",
+      "dkUuid": "0548cdfe",
+      "dkNames": [
+        "다르"
+      ],
+      "commentIds": [
+        6491793
+      ],
+      "verifiedAt": "2026-08-23 22:42:43",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4391",
+      "nickname": "더듬이구",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "e3a5106d954725ea57feb9fc2b29e938fe43aed43dedb1843bcc9fa4c1cfbb89",
+      "provider": "PLAYDK",
+      "dkUuid": "b86ce1fb",
+      "dkNames": [
+        "더듬이구"
+      ],
+      "commentIds": [
+        6487947
+      ],
+      "verifiedAt": "2026-08-23 03:55:54",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4408",
+      "nickname": "레가파",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "14c85a341992ae21e1a71c8cc46e50490a9df801f7ec82ce646ca3a68d6ceab9",
+      "provider": "PLAYDK",
+      "dkUuid": "0c98c0a7",
+      "dkNames": [
+        "레가파"
+      ],
+      "commentIds": [
+        6487963
+      ],
+      "verifiedAt": "2026-08-22 03:03:02",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4415",
+      "nickname": "Moo날두",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "545f7fa624f25bd6a9833e79475419aa0571a0b0a8a085dbba9b14de981f94fe",
+      "provider": "PLAYDK",
+      "dkUuid": "119ccbaf",
+      "dkNames": [
+        "족날두"
+      ],
+      "commentIds": [
+        6487958
+      ],
+      "verifiedAt": "2026-08-22 02:44:22",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4479",
+      "nickname": "대지",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "96b9e14f800578874d95a9dd86195a0eae0cb557bfb10f3f0376191dec253d95",
+      "provider": "PLAYDK",
+      "dkUuid": "22ca5c12",
+      "dkNames": [
+        "대지"
+      ],
+      "commentIds": [
+        6489924
+      ],
+      "verifiedAt": "2026-08-21 03:56:32",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4501",
+      "nickname": "장씨아저씨",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "efda11354ecb520d43f59223b0af13b8fd6b5d7e6e5886c2e23222ffe5294ca2",
+      "provider": "PLAYDK",
+      "dkUuid": "ce44a7ee",
+      "dkNames": [
+        "장씨아저씨"
+      ],
+      "commentIds": [
+        6488289
+      ],
+      "verifiedAt": "2026-08-22 04:24:57",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4504",
+      "nickname": "깜찍소녀",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "04f4e76af8553b406006561cbc6f53b1e9bff60e94de3fe79e555d7bb39e4a08",
+      "provider": "PLAYDK",
+      "dkUuid": "9064056b",
+      "dkNames": [
+        "깜찍소녀"
+      ],
+      "commentIds": [
+        6488506
+      ],
+      "verifiedAt": "2026-08-23 00:00:04",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4540",
+      "nickname": "지아영",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "7062c2b4f710c5daec50adeb69da7b447fdac5d2ae7f4595f71403da7b839d19",
+      "provider": "PLAYDK",
+      "dkUuid": "5ecad84f",
+      "dkNames": [
+        "지아영"
+      ],
+      "commentIds": [
+        6487998
+      ],
+      "verifiedAt": "2026-08-22 02:44:23",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4562",
+      "nickname": "찡찡ෆ",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "99ebd809555f07452142b2fca7af8cd214c48afec8445259f9e902d73219c4bf",
+      "provider": "PLAYDK",
+      "dkUuid": "5425756a",
+      "dkNames": [
+        "찡찡ෆ"
+      ],
+      "commentIds": [
+        6488528
+      ],
+      "verifiedAt": "2026-08-20 12:01:30",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4570",
+      "nickname": "혜정",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "cd1fb88a0043f82c8010dea62ccb8612558c3c1a588db75ec57c34a979fe1e12",
+      "provider": "PLAYDK",
+      "dkUuid": "0e8cf635",
+      "dkNames": [
+        "혜정"
+      ],
+      "commentIds": [
+        6487952
+      ],
+      "verifiedAt": "2026-08-20 01:38:28",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4580",
+      "nickname": "CHO22",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "8f9fac600497d1a6b4c336bf71f916c731a1ffde01566ea4f5e7af99794f589f",
+      "provider": "PLAYDK",
+      "dkUuid": "ec40706c",
+      "dkNames": [
+        "CHO22"
+      ],
+      "commentIds": [
+        6488867
+      ],
+      "verifiedAt": "2026-08-20 01:26:28",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4582",
+      "nickname": "족단",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "8ce5816fdce2324c397db47a1d1e8683f3beeefbbe5790484b645da8ed4e04c6",
+      "provider": "PLAYDK",
+      "dkUuid": "22c31ef9",
+      "dkNames": [
+        "족단"
+      ],
+      "commentIds": [
+        6487988
+      ],
+      "verifiedAt": "2026-08-21 11:44:55",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4595",
+      "nickname": "비니",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "bf98fb2d8c579087463b82e79a760a614341019cbd4ec72eb0a188d718969ca1",
+      "provider": "PLAYDK",
+      "dkUuid": "76aa86ba",
+      "dkNames": [
+        "비니"
+      ],
+      "commentIds": [
+        6487949
+      ],
+      "verifiedAt": "2026-08-20 00:44:38",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4597",
+      "nickname": "찬호",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "7fb3ed96eaff0baf400ec52b93258975ade8ed08316b87c8f4164546afe6f60d",
+      "provider": "PLAYDK",
+      "dkUuid": "cd23e0b4",
+      "dkNames": [
+        "찬호"
+      ],
+      "commentIds": [
+        6490833
+      ],
+      "verifiedAt": "2026-08-20 02:07:26",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4598",
+      "nickname": "암살자..",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "8095a5b5e70bf578671288f7683a2db3689f00525085b0f2af8cf686b99ac557",
+      "provider": "PLAYDK",
+      "dkUuid": "4c7adda2",
+      "dkNames": [
+        "암살자.."
+      ],
+      "commentIds": [
+        6487993
+      ],
+      "verifiedAt": "2026-08-20 02:12:43",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4605",
+      "nickname": "희동",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "18f022d60bab51cd1366ada5de408f5c431a8c1012090dda183cd366192f5b7c",
+      "provider": "PLAYDK",
+      "dkUuid": "05f75c4c",
+      "dkNames": [
+        "희동"
+      ],
+      "commentIds": [
+        6488113
+      ],
+      "verifiedAt": "2026-08-20 22:40:59",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4608",
+      "nickname": "하트!",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "777d34447997641015f36553acce68d8dc6bf4af52c957507fc05e749e79814c",
+      "provider": "PLAYDK",
+      "dkUuid": "de4e77bb",
+      "dkNames": [
+        "하트!"
+      ],
+      "commentIds": [
+        6488195
+      ],
+      "verifiedAt": "2026-08-31 12:37:29",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4610",
+      "nickname": "고라니ㅇ",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "4e5963a28f00a9e059c4d63b920c0e39279838d9273d3daf80b46eb91d9c56aa",
+      "provider": "PLAYDK",
+      "dkUuid": "372f52a0",
+      "dkNames": [
+        "고라니ㅇ"
+      ],
+      "commentIds": [
+        6487956
+      ],
+      "verifiedAt": "2026-08-20 00:34:33",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4614",
+      "nickname": "공단",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "448892fb476783fb950a1a4fb30852ba6fc47275f774c234ec97633c628f72f0",
+      "provider": "PLAYDK",
+      "dkUuid": "0559204b",
+      "dkNames": [
+        "공단"
+      ],
+      "commentIds": [
+        6489602
+      ],
+      "verifiedAt": "2026-08-20 02:21:25",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4615",
+      "nickname": "랭비!",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "1da3174f105eda096867b3ed84d1a6321c1acb0708973ba09df09a95edc20713",
+      "provider": "PLAYDK",
+      "dkUuid": "70f6dcb8",
+      "dkNames": [
+        "랭비!"
+      ],
+      "commentIds": [
+        6487950
+      ],
+      "verifiedAt": "2026-08-20 04:21:25",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4621",
+      "nickname": "리이렐",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "a1e7c0826a4f77b058a2aa1d2310df1386b25faea54d7251f4ae7d3b9ef926ea",
+      "provider": "PLAYDK",
+      "dkUuid": "53bc438a",
+      "dkNames": [
+        "리이렐"
+      ],
+      "commentIds": [
+        6490078
+      ],
+      "verifiedAt": "2026-08-20 04:21:49",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4627",
+      "nickname": "학벌",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "cc225638bec5ef6513c0c0a4365b4df20de606081790e6380e9caafc96a4a563",
+      "provider": "PLAYDK",
+      "dkUuid": "6da5a7a7",
+      "dkNames": [
+        "학벌"
+      ],
+      "commentIds": [
+        6487983
+      ],
+      "verifiedAt": "2026-08-20 09:08:30",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4628",
+      "nickname": "망순이ෆ",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "beb4952f25d842ceed20ff531cf4d51f7c10f9da0f0cbda7b384e25635eafa75",
+      "provider": "PLAYDK",
+      "dkUuid": "0b464ee5",
+      "dkNames": [
+        "망순이ෆ"
+      ],
+      "commentIds": [
+        6487951
+      ],
+      "verifiedAt": "2026-08-20 01:37:05",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4629",
+      "nickname": "Veil",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "19679ad9e68bbfe6f587d38798baf13ec3231bf370e34369b76b56eb032946c8",
+      "provider": "PLAYDK",
+      "dkUuid": "0791c490",
+      "dkNames": [
+        "놀숲"
+      ],
+      "commentIds": [
+        6490886
+      ],
+      "verifiedAt": "2026-08-20 00:52:34",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4641",
+      "nickname": "의지",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "818c696a35a21ce5a8abfe78d050b0a764dee2951a81e85dacba3b0bc21b6e9a",
+      "provider": "PLAYDK",
+      "dkUuid": "cfd8587e",
+      "dkNames": [
+        "의지"
+      ],
+      "commentIds": [
+        6488218
+      ],
+      "verifiedAt": "2026-08-20 01:37:16",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4651",
+      "nickname": "세라네꼬라지",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "bcf5e595208f67049e70bf16cf7ca569fb321569899f85447fd62cd0e5f8c1bc",
+      "provider": "PLAYDK",
+      "dkUuid": "644d3393",
+      "dkNames": [
+        "세라네꼬라지"
+      ],
+      "commentIds": [
+        6488058
+      ],
+      "verifiedAt": "2026-08-20 06:09:17",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4668",
+      "nickname": "화성가뿌자",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "481deb32c75a907ec39786c26713420c0fd8488ce6917232d12b8348c99ea693",
+      "provider": "PLAYDK",
+      "dkUuid": "704b0297",
+      "dkNames": [
+        "화성가뿌자"
+      ],
+      "commentIds": [
+        6490263
+      ],
+      "verifiedAt": "2026-08-24 15:58:44",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4675",
+      "nickname": "옴마니반메훔",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "c20e6fd09209b7eb614d9dbd2866ce094bd36d0ba7f98d80ac9b285486fe4cb3",
+      "provider": "PLAYDK",
+      "dkUuid": "4dc347ca",
+      "dkNames": [
+        "옴마니반메훔"
+      ],
+      "commentIds": [
+        6492614
+      ],
+      "verifiedAt": "2026-08-21 14:52:03",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4691",
+      "nickname": "짝밤",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "d17d31e5123d02998cdfe3feec608c4626235b3ca94bb0cf0e85b879266c3bc8",
+      "provider": "PLAYDK",
+      "dkUuid": "09096e0b",
+      "dkNames": [
+        "짝밤"
+      ],
+      "commentIds": [
+        6488421
+      ],
+      "verifiedAt": "2026-08-22 05:20:11",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4705",
+      "nickname": "˚쟁이。",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "8b76be53545ad3227d7d9caf2ff9b9f0f35b1594671eb2c7da05854c41a7afcb",
+      "provider": "PLAYDK",
+      "dkUuid": "634d4201",
+      "dkNames": [
+        "˚쟁이。"
+      ],
+      "commentIds": [
+        6487954
+      ],
+      "verifiedAt": "2026-08-22 22:04:47",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4754",
+      "nickname": "조은",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "1b9f8c36e8f3681d7f906226ebbb284ada2ffe0dc713e066aac7fe61b21ef1b9",
+      "provider": "PLAYDK",
+      "dkUuid": "b183dbb1",
+      "dkNames": [
+        "조은"
+      ],
+      "commentIds": [
+        6490703
+      ],
+      "verifiedAt": "2026-08-27 09:23:31",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4760",
+      "nickname": "추종",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "08aaf8cbfd746b435c85ee89eda7ac52d9ff3ba542d081a748aea1f10d087bdb",
+      "provider": "PLAYDK",
+      "dkUuid": "5800347a",
+      "dkNames": [
+        "추종"
+      ],
+      "commentIds": [
+        6487961,
+        6487974
+      ],
+      "verifiedAt": "2026-08-25 23:45:54",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4772",
+      "nickname": "펜타",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "5519fca09f8cf9c7ed7c30e98d951c59a0b280c10050ffc974eebf65d428abc5",
+      "provider": "PLAYDK",
+      "dkUuid": "416c1cc2",
+      "dkNames": [
+        "펜타"
+      ],
+      "commentIds": [
+        6489142
+      ],
+      "verifiedAt": "2026-08-28 10:40:25",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4828",
+      "nickname": "조은홧팅",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "2e7c988d7d00dcc47b3eebf5ba5f94f49d9d61fdda0ef00ea56c0a304fcd0b0c",
+      "provider": "PLAYDK",
+      "dkUuid": "f6ec95f7",
+      "dkNames": [
+        "조은홧팅"
+      ],
+      "commentIds": [
+        6488006
+      ],
+      "verifiedAt": "2026-08-28 10:42:49",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4866",
+      "nickname": "[C9]가시",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "15442a469503c733a55590ec8f9e295656061780870c4423efa9ff7e953b766b",
+      "provider": "PLAYDK",
+      "dkUuid": "f4345135",
+      "dkNames": [
+        "[C9]가시"
+      ],
+      "commentIds": [
+        6488091
+      ],
+      "verifiedAt": "2026-08-29 00:59:30",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4910",
+      "nickname": "스루형2↑",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "7803ddcfd46ecbc82ad0f8d697a5141de112ab9a0be092994a9cd34ab7585715",
+      "provider": "PLAYDK",
+      "dkUuid": "ff8c0922",
+      "dkNames": [
+        "스루형2↑"
+      ],
+      "commentIds": [
+        6487996
+      ],
+      "verifiedAt": "2026-08-31 05:42:55",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "4933",
+      "nickname": "심심이",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "ae7c825987b8e894d74116a7e201164850e631a7f167bd8d800aee12c7de5b15",
+      "provider": "PLAYDK",
+      "dkUuid": "bdff325e",
+      "dkNames": [
+        "심심이"
+      ],
+      "commentIds": [
+        6487982
+      ],
+      "verifiedAt": "2026-08-31 12:39:39",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "5008",
+      "nickname": "단정한밤",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "18ae9b9bcebd7796f752826f71458a4fbe2cc01ac6edf309cb813bf8118f6e48",
+      "provider": "PLAYDK",
+      "dkUuid": "aa18e32d",
+      "dkNames": [
+        "단정한밤"
+      ],
+      "commentIds": [
+        6488034
+      ],
+      "verifiedAt": "2026-09-21 16:41:47",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "5092",
+      "nickname": "늑대울프",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "f0b87b084d2a7b489081a710ea0d52f058feed7c4ca5c3b88457f77b8ed3c3e0",
+      "provider": "PLAYDK",
+      "dkUuid": "a5c2044a",
+      "dkNames": [
+        "늑대울프"
+      ],
+      "commentIds": [
+        6488414
+      ],
+      "verifiedAt": "2026-09-13 14:33:38",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "5148",
+      "nickname": "타몽",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "67f0fa8eff9a075f52582bd320d5b7448c493f710c17a7d0bbeabfdb4ad1ddec",
+      "provider": "PLAYDK",
+      "dkUuid": "c6f83864",
+      "dkNames": [
+        "타몽"
+      ],
+      "commentIds": [
+        6494341
+      ],
+      "verifiedAt": "2026-09-09 17:24:19",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "5362",
+      "nickname": "점빡이",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "5a75bcc6b5fe28292d2fab725f2c838542cc907fa9ea6cf570bbbf5a2fc14cf3",
+      "provider": "PLAYDK",
+      "dkUuid": "29372c57",
+      "dkNames": [
+        "젤리피쉬"
+      ],
+      "commentIds": [
+        6490286,
+        6489944
+      ],
+      "verifiedAt": "2026-10-28 21:57:36",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "5429",
+      "nickname": "꼰머냥",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "a7c6d89c3d682d38e63a8b39c23ba056ab7acd49401f706b94449a81f1af3595",
+      "provider": "PLAYDK",
+      "dkUuid": "f594094d",
+      "dkNames": [
+        "꼰머냥"
+      ],
+      "commentIds": [
+        6488092
+      ],
+      "verifiedAt": "2026-09-18 17:02:46",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "5877",
+      "nickname": "깅더듬",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "f225e6a6fe6f56bd9089760a81bec91803f4ef0c20ef2dc34ca660cfb04c22fb",
+      "provider": "PLAYDK",
+      "dkUuid": "d179a0be",
+      "dkNames": [
+        "깅더듬"
+      ],
+      "commentIds": [
+        6488473
+      ],
+      "verifiedAt": "2026-10-09 20:22:09",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "5950",
+      "nickname": "남수댕ㅗ",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "65b5942dbd1b33aa4cdda875226f263981cef06afc1829cd9c9e102868337a36",
+      "provider": "PLAYDK",
+      "dkUuid": "aac30f81",
+      "dkNames": [
+        "남수댕ㅗ"
+      ],
+      "commentIds": [
+        6488053
+      ],
+      "verifiedAt": "2026-10-13 14:15:35",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "5972",
+      "nickname": "아까르씨",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "9a3cae6e59ca1c191a02fdfd9be85df35d384614e687c2123d1f2833aa9ac509",
+      "provider": "PLAYDK",
+      "dkUuid": "9f14e684",
+      "dkNames": [
+        "닉네임없음"
+      ],
+      "commentIds": [
+        6496390
+      ],
+      "verifiedAt": "2026-10-14 10:56:35",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "5986",
+      "nickname": "거북이",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "1bfcf7242fbdfa2f3cc4205fe350452b5ff5ea6c82017e574d9199f8a0fef4f1",
+      "provider": "PLAYDK",
+      "dkUuid": "fcc10c81",
+      "dkNames": [
+        "거북이"
+      ],
+      "commentIds": [
+        6488075
+      ],
+      "verifiedAt": "2026-10-17 15:37:31",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "5996",
+      "nickname": "관종이얌",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "20359466a50b84bb3a78deede8d76157ae41ca157a40aa5b33c17afc9fc0183e",
+      "provider": "PLAYDK",
+      "dkUuid": "a65c9744",
+      "dkNames": [
+        "관종이얌"
+      ],
+      "commentIds": [
+        6490444
+      ],
+      "verifiedAt": "2026-10-16 23:51:26",
+      "amount": "500000000000000"
+    },
+    {
+      "id": "6046",
+      "nickname": "아크",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "4c53d5759f5ab50165489c1be182da459d0f650dc573b705971c92bb5347df34",
+      "provider": "PLAYDK",
+      "dkUuid": "8dce33d8",
+      "dkNames": [
+        "아크"
+      ],
+      "commentIds": [
+        6488341
+      ],
+      "verifiedAt": "2026-10-23 06:37:20",
+      "amount": "500000000000000"
+    }
+  ],
+  "excluded": [
+    {
+      "uuid": "10b0622c",
+      "names": [
+        "닥터피쉬"
+      ],
+      "commentIds": [
+        6489967
+      ],
+      "reason": "NO_MATCHING_PLAYDK_SECOND_VERIFICATION",
+      "userId": null,
+      "status": null
+    }
+  ],
+  "recipients": [
+    {
+      "userId": "8"
+    },
+    {
+      "userId": "16"
+    },
+    {
+      "userId": "19"
+    },
+    {
+      "userId": "22"
+    },
+    {
+      "userId": "32"
+    },
+    {
+      "userId": "45"
+    },
+    {
+      "userId": "52"
+    },
+    {
+      "userId": "62"
+    },
+    {
+      "userId": "65"
+    },
+    {
+      "userId": "81"
+    },
+    {
+      "userId": "83"
+    },
+    {
+      "userId": "88"
+    },
+    {
+      "userId": "91"
+    },
+    {
+      "userId": "92"
+    },
+    {
+      "userId": "115"
+    },
+    {
+      "userId": "148"
+    },
+    {
+      "userId": "162"
+    },
+    {
+      "userId": "164"
+    },
+    {
+      "userId": "216"
+    },
+    {
+      "userId": "218"
+    },
+    {
+      "userId": "220"
+    },
+    {
+      "userId": "226"
+    },
+    {
+      "userId": "236"
+    },
+    {
+      "userId": "289"
+    },
+    {
+      "userId": "290"
+    },
+    {
+      "userId": "295"
+    },
+    {
+      "userId": "315"
+    },
+    {
+      "userId": "364"
+    },
+    {
+      "userId": "493"
+    },
+    {
+      "userId": "525"
+    },
+    {
+      "userId": "787"
+    },
+    {
+      "userId": "792"
+    },
+    {
+      "userId": "1195"
+    },
+    {
+      "userId": "1255"
+    },
+    {
+      "userId": "1421"
+    },
+    {
+      "userId": "1545"
+    },
+    {
+      "userId": "1768"
+    },
+    {
+      "userId": "2333"
+    },
+    {
+      "userId": "2420"
+    },
+    {
+      "userId": "2563"
+    },
+    {
+      "userId": "3011"
+    },
+    {
+      "userId": "3867"
+    },
+    {
+      "userId": "3884"
+    },
+    {
+      "userId": "3974"
+    },
+    {
+      "userId": "4010"
+    },
+    {
+      "userId": "4199"
+    },
+    {
+      "userId": "4209"
+    },
+    {
+      "userId": "4222"
+    },
+    {
+      "userId": "4389"
+    },
+    {
+      "userId": "4391"
+    },
+    {
+      "userId": "4408"
+    },
+    {
+      "userId": "4415"
+    },
+    {
+      "userId": "4479"
+    },
+    {
+      "userId": "4501"
+    },
+    {
+      "userId": "4504"
+    },
+    {
+      "userId": "4540"
+    },
+    {
+      "userId": "4562"
+    },
+    {
+      "userId": "4570"
+    },
+    {
+      "userId": "4580"
+    },
+    {
+      "userId": "4582"
+    },
+    {
+      "userId": "4595"
+    },
+    {
+      "userId": "4597"
+    },
+    {
+      "userId": "4598"
+    },
+    {
+      "userId": "4605"
+    },
+    {
+      "userId": "4608"
+    },
+    {
+      "userId": "4610"
+    },
+    {
+      "userId": "4614"
+    },
+    {
+      "userId": "4615"
+    },
+    {
+      "userId": "4621"
+    },
+    {
+      "userId": "4627"
+    },
+    {
+      "userId": "4628"
+    },
+    {
+      "userId": "4629"
+    },
+    {
+      "userId": "4641"
+    },
+    {
+      "userId": "4651"
+    },
+    {
+      "userId": "4668"
+    },
+    {
+      "userId": "4675"
+    },
+    {
+      "userId": "4691"
+    },
+    {
+      "userId": "4705"
+    },
+    {
+      "userId": "4754"
+    },
+    {
+      "userId": "4760"
+    },
+    {
+      "userId": "4772"
+    },
+    {
+      "userId": "4828"
+    },
+    {
+      "userId": "4866"
+    },
+    {
+      "userId": "4910"
+    },
+    {
+      "userId": "4933"
+    },
+    {
+      "userId": "5008"
+    },
+    {
+      "userId": "5092"
+    },
+    {
+      "userId": "5148"
+    },
+    {
+      "userId": "5362"
+    },
+    {
+      "userId": "5429"
+    },
+    {
+      "userId": "5877"
+    },
+    {
+      "userId": "5950"
+    },
+    {
+      "userId": "5972"
+    },
+    {
+      "userId": "5986"
+    },
+    {
+      "userId": "5996"
+    },
+    {
+      "userId": "6046"
+    }
+  ],
+  "logFloor": {
+    "coins": "101203080",
+    "audit": "53974"
+  }
+}

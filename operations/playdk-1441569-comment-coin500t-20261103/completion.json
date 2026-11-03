@@ -1,0 +1,1207 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:playdk:1441569:comment-coin500t:20261103:v1",
+  "authorization": "https://www.playdk.kr/board/skm/1441569 댓글 전체 2차인증 검증 후 500조씩 지급",
+  "sourceUrl": "https://www.playdk.kr/board/skm/1441569",
+  "sourceCutoff": "2026-11-03T08:17:28.846Z",
+  "sourceCutoffKst": "2026-11-03 17:17:28 KST",
+  "commentCount": 104,
+  "uniqueAuthors": 97,
+  "duplicateComments": 7,
+  "replyComments": 5,
+  "recipientCount": 96,
+  "excluded": [
+    {
+      "name": "닥터피쉬",
+      "reason": "NO_MATCHING_PLAYDK_SECOND_VERIFICATION"
+    }
+  ],
+  "delivery": "DIRECT_WALLET",
+  "amountPerRecipient": "500000000000000",
+  "totalAmount": "48000000000000000",
+  "completedAt": "2026-11-03T08:24:46.460Z",
+  "completedAtKst": "2026-11-03 17:24:46 KST",
+  "auditId": "53979",
+  "sourceHash": "df776e70ca78e05b298b55e9746254dd428a3fbff62b1f9baedd9333fa31964e",
+  "planHash": "541e4b4ba44ae836c495c48cf5622af540662f3637d7d4b6ddd881c1c9b4dfe0",
+  "executionSourceSha256": "72007a0daf39bb1da7a86740510bb3262dbc7c841c1dd3c2ef19b63ae0989adf",
+  "recipients": [
+    {
+      "dkNames": [
+        "최성수"
+      ],
+      "gameNickname": "최성수",
+      "userId": "8",
+      "commentIds": [
+        6488100,
+        6488947,
+        6490294
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203913"
+    },
+    {
+      "dkNames": [
+        "오승환이다."
+      ],
+      "gameNickname": "오승환이다",
+      "userId": "16",
+      "commentIds": [
+        6487975
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203914"
+    },
+    {
+      "dkNames": [
+        "토닭토닭"
+      ],
+      "gameNickname": "토닭토닭",
+      "userId": "19",
+      "commentIds": [
+        6487992
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203915"
+    },
+    {
+      "dkNames": [
+        "커피먹는봉순"
+      ],
+      "gameNickname": "커피먹는철구",
+      "userId": "22",
+      "commentIds": [
+        6487960
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203916"
+    },
+    {
+      "dkNames": [
+        "쑤댕"
+      ],
+      "gameNickname": "쑤댕",
+      "userId": "32",
+      "commentIds": [
+        6488212
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203917"
+    },
+    {
+      "dkNames": [
+        "박세라-ㅂ-"
+      ],
+      "gameNickname": "박세라-ㅂ-",
+      "userId": "45",
+      "commentIds": [
+        6487955
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203918"
+    },
+    {
+      "dkNames": [
+        "폭군"
+      ],
+      "gameNickname": "폭군#",
+      "userId": "52",
+      "commentIds": [
+        6487962
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203919"
+    },
+    {
+      "dkNames": [
+        "숭구릭"
+      ],
+      "gameNickname": "숭구릭",
+      "userId": "62",
+      "commentIds": [
+        6488030
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203920"
+    },
+    {
+      "dkNames": [
+        "음순"
+      ],
+      "gameNickname": "음순이",
+      "userId": "65",
+      "commentIds": [
+        6491246
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203921"
+    },
+    {
+      "dkNames": [
+        "비쥬얼깡패"
+      ],
+      "gameNickname": "비쥬얼깡패",
+      "userId": "81",
+      "commentIds": [
+        6488133
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203922"
+    },
+    {
+      "dkNames": [
+        "애장"
+      ],
+      "gameNickname": "애장이",
+      "userId": "83",
+      "commentIds": [
+        6494361
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203923"
+    },
+    {
+      "dkNames": [
+        "0수표"
+      ],
+      "gameNickname": "0수표",
+      "userId": "88",
+      "commentIds": [
+        6487948
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203924"
+    },
+    {
+      "dkNames": [
+        "정원이"
+      ],
+      "gameNickname": "정원이",
+      "userId": "91",
+      "commentIds": [
+        6488104
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203925"
+    },
+    {
+      "dkNames": [
+        "불곰덫"
+      ],
+      "gameNickname": "불곰덫",
+      "userId": "92",
+      "commentIds": [
+        6488073
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203926"
+    },
+    {
+      "dkNames": [
+        "쁠리의무사시"
+      ],
+      "gameNickname": "쁠리의무사시",
+      "userId": "115",
+      "commentIds": [
+        6488562
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203927"
+    },
+    {
+      "dkNames": [
+        "꾸까"
+      ],
+      "gameNickname": "꾸까1",
+      "userId": "148",
+      "commentIds": [
+        6487987,
+        6491689
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203928"
+    },
+    {
+      "dkNames": [
+        "차단하다"
+      ],
+      "gameNickname": "차단하다",
+      "userId": "162",
+      "commentIds": [
+        6489408
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203929"
+    },
+    {
+      "dkNames": [
+        "박사"
+      ],
+      "gameNickname": "박사",
+      "userId": "164",
+      "commentIds": [
+        6487968,
+        6492099
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203930"
+    },
+    {
+      "dkNames": [
+        "x수댕"
+      ],
+      "gameNickname": "x수댕",
+      "userId": "216",
+      "commentIds": [
+        6487994
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203931"
+    },
+    {
+      "dkNames": [
+        "현하루"
+      ],
+      "gameNickname": "현하루",
+      "userId": "218",
+      "commentIds": [
+        6488732
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203932"
+    },
+    {
+      "dkNames": [
+        "족알못"
+      ],
+      "gameNickname": "족알못",
+      "userId": "220",
+      "commentIds": [
+        6488992
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203933"
+    },
+    {
+      "dkNames": [
+        "햬카세"
+      ],
+      "gameNickname": "햬카세",
+      "userId": "226",
+      "commentIds": [
+        6487957
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203934"
+    },
+    {
+      "dkNames": [
+        "유나이은"
+      ],
+      "gameNickname": "유나이은",
+      "userId": "236",
+      "commentIds": [
+        6488367
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203935"
+    },
+    {
+      "dkNames": [
+        "베베킹"
+      ],
+      "gameNickname": "베베킹",
+      "userId": "289",
+      "commentIds": [
+        6487964
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203936"
+    },
+    {
+      "dkNames": [
+        "Mild7"
+      ],
+      "gameNickname": "Mild7",
+      "userId": "290",
+      "commentIds": [
+        6488002
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203937"
+    },
+    {
+      "dkNames": [
+        "모래"
+      ],
+      "gameNickname": "모래",
+      "userId": "295",
+      "commentIds": [
+        6488152
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203938"
+    },
+    {
+      "dkNames": [
+        "에타"
+      ],
+      "gameNickname": "에타",
+      "userId": "315",
+      "commentIds": [
+        6490930
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203939"
+    },
+    {
+      "dkNames": [
+        "풍으로말해요"
+      ],
+      "gameNickname": "풍으로말해요",
+      "userId": "364",
+      "commentIds": [
+        6487981
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203940"
+    },
+    {
+      "dkNames": [
+        "치타구"
+      ],
+      "gameNickname": "치타구",
+      "userId": "493",
+      "commentIds": [
+        6489942
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203941"
+    },
+    {
+      "dkNames": [
+        "족구조아"
+      ],
+      "gameNickname": "족구조아",
+      "userId": "525",
+      "commentIds": [
+        6487973
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203942"
+    },
+    {
+      "dkNames": [
+        "뚱초환🫐"
+      ],
+      "gameNickname": "뚱초환",
+      "userId": "787",
+      "commentIds": [
+        6488094
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203943"
+    },
+    {
+      "dkNames": [
+        "센텀신사"
+      ],
+      "gameNickname": "센텀신사",
+      "userId": "792",
+      "commentIds": [
+        6488056,
+        6490807
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203944"
+    },
+    {
+      "dkNames": [
+        "씨나인택갓"
+      ],
+      "gameNickname": "씨나인택갓",
+      "userId": "1195",
+      "commentIds": [
+        6487946
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203945"
+    },
+    {
+      "dkNames": [
+        "전게씹선미아웃"
+      ],
+      "gameNickname": "전게씹선미아웃",
+      "userId": "1255",
+      "commentIds": [
+        6488043
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203946"
+    },
+    {
+      "dkNames": [
+        "다시생각"
+      ],
+      "gameNickname": "다시생각",
+      "userId": "1421",
+      "commentIds": [
+        6490414
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203947"
+    },
+    {
+      "dkNames": [
+        "좋은하루"
+      ],
+      "gameNickname": "좋은하루",
+      "userId": "1545",
+      "commentIds": [
+        6488071
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203948"
+    },
+    {
+      "dkNames": [
+        "핫시"
+      ],
+      "gameNickname": "핫시",
+      "userId": "1768",
+      "commentIds": [
+        6487979
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203949"
+    },
+    {
+      "dkNames": [
+        "구와함"
+      ],
+      "gameNickname": "구와함",
+      "userId": "2333",
+      "commentIds": [
+        6489297
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203950"
+    },
+    {
+      "dkNames": [
+        "블랙캐슬"
+      ],
+      "gameNickname": "블랙캐슬",
+      "userId": "2420",
+      "commentIds": [
+        6487969
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203951"
+    },
+    {
+      "dkNames": [
+        "김치보이"
+      ],
+      "gameNickname": "김치보이",
+      "userId": "2563",
+      "commentIds": [
+        6489021
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203952"
+    },
+    {
+      "dkNames": [
+        "오일바른가지"
+      ],
+      "gameNickname": "오일바른가지",
+      "userId": "3011",
+      "commentIds": [
+        6487959
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203953"
+    },
+    {
+      "dkNames": [
+        "레드클라우드"
+      ],
+      "gameNickname": "레드클라우드",
+      "userId": "3867",
+      "commentIds": [
+        6488823
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203954"
+    },
+    {
+      "dkNames": [
+        "zkzk9999"
+      ],
+      "gameNickname": "zkzk9999",
+      "userId": "3884",
+      "commentIds": [
+        6487970
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203955"
+    },
+    {
+      "dkNames": [
+        "우회하세요"
+      ],
+      "gameNickname": "우회하세요",
+      "userId": "3974",
+      "commentIds": [
+        6489818
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203956"
+    },
+    {
+      "dkNames": [
+        "슈라"
+      ],
+      "gameNickname": "슈라",
+      "userId": "4010",
+      "commentIds": [
+        6487976
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203957"
+    },
+    {
+      "dkNames": [
+        "택신"
+      ],
+      "gameNickname": "택신",
+      "userId": "4199",
+      "commentIds": [
+        6487966
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203958"
+    },
+    {
+      "dkNames": [
+        "#유나랜드"
+      ],
+      "gameNickname": "#유나랜드",
+      "userId": "4209",
+      "commentIds": [
+        6488431
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203959"
+    },
+    {
+      "dkNames": [
+        "#크레파스"
+      ],
+      "gameNickname": "#크레파스",
+      "userId": "4222",
+      "commentIds": [
+        6488459
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203960"
+    },
+    {
+      "dkNames": [
+        "다르"
+      ],
+      "gameNickname": "다르",
+      "userId": "4389",
+      "commentIds": [
+        6491793
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203961"
+    },
+    {
+      "dkNames": [
+        "더듬이구"
+      ],
+      "gameNickname": "더듬이구",
+      "userId": "4391",
+      "commentIds": [
+        6487947
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203962"
+    },
+    {
+      "dkNames": [
+        "레가파"
+      ],
+      "gameNickname": "레가파",
+      "userId": "4408",
+      "commentIds": [
+        6487963
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203963"
+    },
+    {
+      "dkNames": [
+        "족날두"
+      ],
+      "gameNickname": "Moo날두",
+      "userId": "4415",
+      "commentIds": [
+        6487958
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203964"
+    },
+    {
+      "dkNames": [
+        "대지"
+      ],
+      "gameNickname": "대지",
+      "userId": "4479",
+      "commentIds": [
+        6489924
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203965"
+    },
+    {
+      "dkNames": [
+        "장씨아저씨"
+      ],
+      "gameNickname": "장씨아저씨",
+      "userId": "4501",
+      "commentIds": [
+        6488289
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203966"
+    },
+    {
+      "dkNames": [
+        "깜찍소녀"
+      ],
+      "gameNickname": "깜찍소녀",
+      "userId": "4504",
+      "commentIds": [
+        6488506
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203967"
+    },
+    {
+      "dkNames": [
+        "지아영"
+      ],
+      "gameNickname": "지아영",
+      "userId": "4540",
+      "commentIds": [
+        6487998
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203968"
+    },
+    {
+      "dkNames": [
+        "찡찡ෆ"
+      ],
+      "gameNickname": "찡찡ෆ",
+      "userId": "4562",
+      "commentIds": [
+        6488528
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203969"
+    },
+    {
+      "dkNames": [
+        "혜정"
+      ],
+      "gameNickname": "혜정",
+      "userId": "4570",
+      "commentIds": [
+        6487952
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203970"
+    },
+    {
+      "dkNames": [
+        "CHO22"
+      ],
+      "gameNickname": "CHO22",
+      "userId": "4580",
+      "commentIds": [
+        6488867
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203971"
+    },
+    {
+      "dkNames": [
+        "족단"
+      ],
+      "gameNickname": "족단",
+      "userId": "4582",
+      "commentIds": [
+        6487988
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203972"
+    },
+    {
+      "dkNames": [
+        "비니"
+      ],
+      "gameNickname": "비니",
+      "userId": "4595",
+      "commentIds": [
+        6487949
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203973"
+    },
+    {
+      "dkNames": [
+        "찬호"
+      ],
+      "gameNickname": "찬호",
+      "userId": "4597",
+      "commentIds": [
+        6490833
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203974"
+    },
+    {
+      "dkNames": [
+        "암살자.."
+      ],
+      "gameNickname": "암살자..",
+      "userId": "4598",
+      "commentIds": [
+        6487993
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203975"
+    },
+    {
+      "dkNames": [
+        "희동"
+      ],
+      "gameNickname": "희동",
+      "userId": "4605",
+      "commentIds": [
+        6488113
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203976"
+    },
+    {
+      "dkNames": [
+        "하트!"
+      ],
+      "gameNickname": "하트!",
+      "userId": "4608",
+      "commentIds": [
+        6488195
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203977"
+    },
+    {
+      "dkNames": [
+        "고라니ㅇ"
+      ],
+      "gameNickname": "고라니ㅇ",
+      "userId": "4610",
+      "commentIds": [
+        6487956
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203978"
+    },
+    {
+      "dkNames": [
+        "공단"
+      ],
+      "gameNickname": "공단",
+      "userId": "4614",
+      "commentIds": [
+        6489602
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203979"
+    },
+    {
+      "dkNames": [
+        "랭비!"
+      ],
+      "gameNickname": "랭비!",
+      "userId": "4615",
+      "commentIds": [
+        6487950
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203980"
+    },
+    {
+      "dkNames": [
+        "리이렐"
+      ],
+      "gameNickname": "리이렐",
+      "userId": "4621",
+      "commentIds": [
+        6490078
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203981"
+    },
+    {
+      "dkNames": [
+        "학벌"
+      ],
+      "gameNickname": "학벌",
+      "userId": "4627",
+      "commentIds": [
+        6487983
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203982"
+    },
+    {
+      "dkNames": [
+        "망순이ෆ"
+      ],
+      "gameNickname": "망순이ෆ",
+      "userId": "4628",
+      "commentIds": [
+        6487951
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203983"
+    },
+    {
+      "dkNames": [
+        "놀숲"
+      ],
+      "gameNickname": "Veil",
+      "userId": "4629",
+      "commentIds": [
+        6490886
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203984"
+    },
+    {
+      "dkNames": [
+        "의지"
+      ],
+      "gameNickname": "의지",
+      "userId": "4641",
+      "commentIds": [
+        6488218
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203985"
+    },
+    {
+      "dkNames": [
+        "세라네꼬라지"
+      ],
+      "gameNickname": "세라네꼬라지",
+      "userId": "4651",
+      "commentIds": [
+        6488058
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203986"
+    },
+    {
+      "dkNames": [
+        "화성가뿌자"
+      ],
+      "gameNickname": "화성가뿌자",
+      "userId": "4668",
+      "commentIds": [
+        6490263
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203987"
+    },
+    {
+      "dkNames": [
+        "옴마니반메훔"
+      ],
+      "gameNickname": "옴마니반메훔",
+      "userId": "4675",
+      "commentIds": [
+        6492614
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203988"
+    },
+    {
+      "dkNames": [
+        "짝밤"
+      ],
+      "gameNickname": "짝밤",
+      "userId": "4691",
+      "commentIds": [
+        6488421
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203989"
+    },
+    {
+      "dkNames": [
+        "˚쟁이。"
+      ],
+      "gameNickname": "˚쟁이。",
+      "userId": "4705",
+      "commentIds": [
+        6487954
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203990"
+    },
+    {
+      "dkNames": [
+        "조은"
+      ],
+      "gameNickname": "조은",
+      "userId": "4754",
+      "commentIds": [
+        6490703
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203991"
+    },
+    {
+      "dkNames": [
+        "추종"
+      ],
+      "gameNickname": "추종",
+      "userId": "4760",
+      "commentIds": [
+        6487961,
+        6487974
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203992"
+    },
+    {
+      "dkNames": [
+        "펜타"
+      ],
+      "gameNickname": "펜타",
+      "userId": "4772",
+      "commentIds": [
+        6489142
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203993"
+    },
+    {
+      "dkNames": [
+        "조은홧팅"
+      ],
+      "gameNickname": "조은홧팅",
+      "userId": "4828",
+      "commentIds": [
+        6488006
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203994"
+    },
+    {
+      "dkNames": [
+        "[C9]가시"
+      ],
+      "gameNickname": "[C9]가시",
+      "userId": "4866",
+      "commentIds": [
+        6488091
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203995"
+    },
+    {
+      "dkNames": [
+        "스루형2↑"
+      ],
+      "gameNickname": "스루형2↑",
+      "userId": "4910",
+      "commentIds": [
+        6487996
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203996"
+    },
+    {
+      "dkNames": [
+        "심심이"
+      ],
+      "gameNickname": "심심이",
+      "userId": "4933",
+      "commentIds": [
+        6487982
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203997"
+    },
+    {
+      "dkNames": [
+        "단정한밤"
+      ],
+      "gameNickname": "단정한밤",
+      "userId": "5008",
+      "commentIds": [
+        6488034
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203998"
+    },
+    {
+      "dkNames": [
+        "늑대울프"
+      ],
+      "gameNickname": "늑대울프",
+      "userId": "5092",
+      "commentIds": [
+        6488414
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101203999"
+    },
+    {
+      "dkNames": [
+        "타몽"
+      ],
+      "gameNickname": "타몽",
+      "userId": "5148",
+      "commentIds": [
+        6494341
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101204000"
+    },
+    {
+      "dkNames": [
+        "젤리피쉬"
+      ],
+      "gameNickname": "점빡이",
+      "userId": "5362",
+      "commentIds": [
+        6490286,
+        6489944
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101204001"
+    },
+    {
+      "dkNames": [
+        "꼰머냥"
+      ],
+      "gameNickname": "꼰머냥",
+      "userId": "5429",
+      "commentIds": [
+        6488092
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101204002"
+    },
+    {
+      "dkNames": [
+        "깅더듬"
+      ],
+      "gameNickname": "깅더듬",
+      "userId": "5877",
+      "commentIds": [
+        6488473
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101204003"
+    },
+    {
+      "dkNames": [
+        "남수댕ㅗ"
+      ],
+      "gameNickname": "남수댕ㅗ",
+      "userId": "5950",
+      "commentIds": [
+        6488053
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101204004"
+    },
+    {
+      "dkNames": [
+        "닉네임없음"
+      ],
+      "gameNickname": "아까르씨",
+      "userId": "5972",
+      "commentIds": [
+        6496390
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101204005"
+    },
+    {
+      "dkNames": [
+        "거북이"
+      ],
+      "gameNickname": "거북이",
+      "userId": "5986",
+      "commentIds": [
+        6488075
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101204006"
+    },
+    {
+      "dkNames": [
+        "관종이얌"
+      ],
+      "gameNickname": "관종이얌",
+      "userId": "5996",
+      "commentIds": [
+        6490444
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101204007"
+    },
+    {
+      "dkNames": [
+        "아크"
+      ],
+      "gameNickname": "아크",
+      "userId": "6046",
+      "commentIds": [
+        6488341
+      ],
+      "amount": "500000000000000",
+      "coinLogId": "101204008"
+    }
+  ],
+  "verification": {
+    "coinLogs": 96,
+    "auditRecords": 1,
+    "missing": 0,
+    "duplicates": 0,
+    "walletSyncChanged": 96,
+    "testsPassed": 4,
+    "failedDryRunRolledBack": true,
+    "successfulDryRunRolledBack": true,
+    "independentReadOnly": true,
+    "replayAdditionalWrites": 0,
+    "locksReleased": true
+  },
+  "priorDryRunFailures": 2,
+  "messagesSent": 0,
+  "gameDeployment": false,
+  "storageMaintenance": false,
+  "scheduledAutomations": 0
+}

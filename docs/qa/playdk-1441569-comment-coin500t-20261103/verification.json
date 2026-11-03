@@ -1,0 +1,28 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:playdk:1441569:comment-coin500t:20261103:v1",
+  "commentCount": 104,
+  "uniqueAuthors": 97,
+  "verifiedRecipients": 96,
+  "excluded": [
+    {
+      "name": "닥터피쉬",
+      "reason": "NO_MATCHING_PLAYDK_SECOND_VERIFICATION"
+    }
+  ],
+  "amountPerRecipient": "500000000000000",
+  "totalAmount": "48000000000000000",
+  "coinLogs": 96,
+  "auditId": "53979",
+  "auditRecords": 1,
+  "completedAt": "2026-11-03T08:24:46.460Z",
+  "sourceCutoff": "2026-11-03T08:17:28.846Z",
+  "missing": 0,
+  "duplicates": 0,
+  "walletSyncChanged": 96,
+  "productionWrites": 0,
+  "operationLocksRemaining": 0,
+  "messagesSent": 0,
+  "readOnly": "on",
+  "checkedAt": "2026-11-03T08:26:30.950Z"
+}
