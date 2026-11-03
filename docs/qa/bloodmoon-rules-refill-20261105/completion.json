@@ -1,0 +1,173 @@
+{
+  "status": "LIVE_RULES_AND_REFILL_SCHEDULES_REGISTERED",
+  "sourceCommit": "d462bac0a020a2cc02bd6484e63899c518eacb40",
+  "pagesId": "1877ed30-5f56-42a0-871c-1f6f7ae16ceb",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "34b74774-594e-4f24-b66d-2208ed417c21",
+      "percentage": 100,
+      "conditionalStock": true,
+      "ownershipRule": true
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "5a1a2281-8336-4401-b6e9-99a365fb1697",
+      "percentage": 100,
+      "conditionalStock": true,
+      "ownershipRule": true
+    }
+  ],
+  "operationKey": "ops:bloodmoon-refill:20261105:v1",
+  "registeredAt": "2026-11-03T10:23:10.000Z",
+  "registeredKst": "2026-11-03 19:23:10 KST",
+  "auditIds": [
+    "54025",
+    "54026"
+  ],
+  "schedules": [
+    {
+      "id": "stock-20261105-2000-bloodmoon-ss20-sss3-v1",
+      "status": "SCHEDULED",
+      "executeAt": "2026-11-05T11:00:00.000Z",
+      "changes": [
+        {
+          "code": "V-960",
+          "quantity": 20
+        },
+        {
+          "code": "V-961",
+          "quantity": 20
+        },
+        {
+          "code": "V-962",
+          "quantity": 20
+        },
+        {
+          "code": "V-963",
+          "quantity": 20
+        },
+        {
+          "code": "V-964",
+          "quantity": 20
+        },
+        {
+          "code": "V-965",
+          "quantity": 20
+        },
+        {
+          "code": "V-973",
+          "quantity": 3
+        },
+        {
+          "code": "V-974",
+          "quantity": 3
+        },
+        {
+          "code": "V-975",
+          "quantity": 3
+        },
+        {
+          "code": "V-978",
+          "quantity": 3
+        }
+      ],
+      "reason": "사용자 요청: 11월5일20시 블러드문 SS6종 각20장 및 SSS구간4종 각3장 추가",
+      "createdAt": "2026-11-03T10:23:10.000Z",
+      "createdBy": 1
+    },
+    {
+      "id": "stock-20261105-2200-bloodmoon-soldout-ss20-sss3-v1",
+      "status": "SCHEDULED",
+      "executeAt": "2026-11-05T13:00:00.000Z",
+      "changes": [
+        {
+          "code": "V-960",
+          "quantity": 20
+        },
+        {
+          "code": "V-961",
+          "quantity": 20
+        },
+        {
+          "code": "V-962",
+          "quantity": 20
+        },
+        {
+          "code": "V-963",
+          "quantity": 20
+        },
+        {
+          "code": "V-964",
+          "quantity": 20
+        },
+        {
+          "code": "V-965",
+          "quantity": 20
+        },
+        {
+          "code": "V-973",
+          "quantity": 3
+        },
+        {
+          "code": "V-974",
+          "quantity": 3
+        },
+        {
+          "code": "V-975",
+          "quantity": 3
+        },
+        {
+          "code": "V-978",
+          "quantity": 3
+        }
+      ],
+      "condition": "SOLD_OUT_ONLY",
+      "reason": "사용자 요청: 11월5일22시 블러드문 소진된 종류만 SS각20장 및 SSS구간각3장 추가",
+      "createdAt": "2026-11-03T10:23:10.000Z",
+      "createdBy": 1
+    }
+  ],
+  "refillAlreadyExecuted": false,
+  "stockPolicy": "ADD_TO_CURRENT_LIMIT_PRESERVE_ISSUED",
+  "rules": {
+    "appliesTo": "BLOODMOON_SS_V960_TO_V965",
+    "duplicatesAllowed": false,
+    "distinctOwnershipDivisors": [
+      1,
+      1,
+      2,
+      4,
+      8,
+      16,
+      32
+    ],
+    "allSixOwnedZero": true,
+    "sssAndPrimeMaterialUnchanged": true
+  },
+  "checks": {
+    "relatedTests": 30,
+    "deliveryAndLoaderTests": 18,
+    "productionRollbackRehearsals": 2,
+    "readOnlyIndependent": true,
+    "selectOnlyReplay": true,
+    "pc1440AndMobile390": true,
+    "publicMobile390": true,
+    "publicFileHashes": 16,
+    "windowsEssentialHashes": 6,
+    "assetCount": 20000
+  },
+  "preserved": {
+    "existingStockLimitsAndIssuance": true,
+    "packPricesAndBaseRates": true,
+    "previousScheduleHistory": true,
+    "blackcrownPolicy": true,
+    "completedReceiptsAndOwnedCards": true
+  },
+  "messagesSent": 0,
+  "announcementPublished": false,
+  "gameAccountWrites": 0,
+  "storageMaintenance": false,
+  "codexAutomationsCreated": 0,
+  "serverSchedulesRegistered": 2
+}

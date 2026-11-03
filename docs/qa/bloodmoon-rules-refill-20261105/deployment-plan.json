@@ -1,0 +1,16 @@
+{
+  "before": {
+    "id": "40e7504f-6564-4722-87b4-90b88bb4fe71",
+    "url": "https://40e7504f.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "90ea357df360d141239901777fd6f2aaacf04fac"
+  },
+  "base": "90ea357df360d141239901777fd6f2aaacf04fac",
+  "reason": "블러드문 SS 중복 획득 차단·보유 종류별 확률 감소 및 11월5일20시 전체/22시 소진종만 SS20 SSS3 예약. 동일 서버 소스 해시의 관련30검사와 실제 DB 실패/정상예행원복 완료, PC1440/모바일390 실제 개봉과 CMS 확인. 통과한 서버 검사는 보존하고 배송/캐시/포장·실제 로더 연결·Worker 컴파일만 배포에서 확인.",
+  "tests": [
+    "tests/bloodmoon-rules-delivery-20261103.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

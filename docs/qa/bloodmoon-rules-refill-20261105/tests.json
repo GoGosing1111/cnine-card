@@ -1,0 +1,30 @@
+{
+  "exitCode": 0,
+  "passed": 30,
+  "failed": 0,
+  "files": [
+    "tests/bloodmoon-unique-20261103.test.mjs",
+    "tests/bloodmoon-conditional-refill-20261103.test.mjs",
+    "tests/mercenary-stock-schedule-20261026.test.mjs"
+  ],
+  "hashes": {
+    "functions/_mercenary_bloodmoon_pack.js": "cffc02c2f1c0227a11c62540b44b57edc5d6882610dfd89f9beb02b0a0d338a6",
+    "functions/_mercenary_bloodmoon_opening.js": "e38fd58fbc11a0c7aefea0b4eb919b05475d034004da4225dd1609f148a41cca",
+    "functions/_mercenary_bloodmoon_once.js": "d239c049d032186dd74adfedc28593db369b7db01c9a8aa493457cc7fd9de0ff",
+    "functions/_mercenary_stock_schedule.js": "d583e34ee309168454ceb4df4154ed296bc73c5e8173f9152d6ff3e3bc53ba86",
+    "shared/mercenary-bloodmoon-pack-v1.mjs": "f9f30a01bbb99c6f792a23e15b0581bbe9e72698ebfae8a041859f929b34344a",
+    "shared/mercenary-bloodmoon-bulk-v1.mjs": "e48ef7130d38d25e0a10f6d5e97221675cdb9f666ebf915c2f24835bf30074a9",
+    "shared/mercenary-bloodmoon-ownership-v1.mjs": "720664a7b11330707ca01f420424af67daf9304ed230731e449af7300b875f0a",
+    "tests/bloodmoon-unique-20261103.test.mjs": "80d18c97481c31e61997bbac60dbecb24c25516a28a7e4f06f368490bed25066",
+    "tests/bloodmoon-conditional-refill-20261103.test.mjs": "a6199d31a127b27f0dc7a8fc2218aa70af624ef7b2cff9cbac7bf099881879dd",
+    "tests/mercenary-stock-schedule-20261026.test.mjs": "5929fd0593488773c80a63d33da386d0fd3b188a2ea5d446ce51815dcd423d9f"
+  },
+  "logfile": "file:///C:/Users/User/Downloads/upload/cnine-card/operations/bloodmoon-rules-refill-20261105/evidence/tests-1793700659513.log",
+  "at": "2026-11-03T10:11:24.706Z",
+  "formattingOnly": {
+    "file": "tests/bloodmoon-unique-20261103.test.mjs",
+    "beforeHash": "7003e38375ec19d9348f28487a76d03a37c55091848c36b84db110b33d9f109e",
+    "afterHash": "80d18c97481c31e61997bbac60dbecb24c25516a28a7e4f06f368490bed25066",
+    "change": "Removed one trailing blank line; executable content identical"
+  }
+}

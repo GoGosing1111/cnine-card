@@ -1,0 +1,58 @@
+import fs from 'node:fs/promises';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';
+import {connect,safe} from '../rap-contest-rewards-20261027/preflight.mjs';
+import {__postgresCompatTest} from '../../output/revan-live-20261027/release-checkout/functions/_postgres_d1_compat.js';
+import {changeMercenaryStockSchedule,processMercenaryStockSchedules,readMercenaryStockSchedules,readBloodmoonStockSnapshot} from '../../output/revan-live-20261027/release-checkout/functions/_mercenary_stock_schedule.js';
+import {BLOODMOON_LIMITED_CARDS} from '../../output/revan-live-20261027/release-checkout/shared/mercenary-bloodmoon-pool-v3.mjs';
+const root=new URL('../../output/revan-live-20261027/release-checkout/',import.meta.url),out=new URL('evidence/',import.meta.url),mode=process.argv[2];assert(['rehearse','apply','verify'].includes(mode));
+const OP='ops:bloodmoon-refill:20261105:v1',scheduleKey='mercenary_stock_schedule_v1',packKey='mercenary_bloodmoon_ss_pack_v1',changes=BLOODMOON_LIMITED_CARDS.map(c=>({code:c.code,quantity:c.rank==='SS'?20:3})).sort((a,b)=>a.code.localeCompare(b.code));
+assert.equal(changes.length,10);assert.equal(changes.filter(c=>c.quantity===20).length,6);
+const requests=[{action:'SCHEDULE_STOCK',requestId:'stock-20261105-2000-bloodmoon-ss20-sss3-v1',executeAt:'2026-11-05T11:00:00.000Z',changes,reason:'사용자 요청: 11월5일20시 블러드문 SS6종 각20장 및 SSS구간4종 각3장 추가'},{action:'SCHEDULE_STOCK',requestId:'stock-20261105-2200-bloodmoon-soldout-ss20-sss3-v1',executeAt:'2026-11-05T13:00:00.000Z',changes,condition:'SOLD_OUT_ONLY',reason:'사용자 요청: 11월5일22시 블러드문 소진된 종류만 SS각20장 및 SSS구간각3장 추가'}];
+const digest=v=>createHash('sha256').update(v).digest('hex'),sources=['functions/_mercenary_stock_schedule.js','shared/mercenary-stock-schedule-v1.mjs','shared/mercenary-bloodmoon-pool-v3.mjs'];
+const sourceHashes=Object.fromEntries(await Promise.all(sources.map(async p=>[p,digest(await fs.readFile(new URL(p,root)))]))),sourceHash=digest(JSON.stringify({requests,sourceHashes}));
+const db=connect();let nested=false,inject=false,queries=[];
+try{await db.connect();
+ const DB=new __postgresCompatTest.PostgresD1Database({query:input=>{const sql=typeof input==='string'?input:input.text,values=typeof input==='string'?[]:input.values||[];queries.push(sql);if(inject&&sql.startsWith('INSERT INTO admin_logs')&&values.includes(requests[1].requestId)&&values.includes('MERCENARY_STOCK_SCHEDULE_APPLY'))throw Error('INJECTED_LATE_22H_AUDIT_FAILURE');if(nested&&sql==='BEGIN')return db.query('SAVEPOINT bloodmoon_schedule');if(nested&&sql==='COMMIT')return db.query('RELEASE SAVEPOINT bloodmoon_schedule');if(nested&&sql==='ROLLBACK')return db.query('ROLLBACK TO SAVEPOINT bloodmoon_schedule');return db.query(sql,values);}}),env={DB};
+ const snap=async()=>({schedule:await readMercenaryStockSchedules(env),pack:await readBloodmoonStockSnapshot(env),blackcrown:(await db.query("SELECT key,value FROM app_meta WHERE key IN ('mercenary_blackcrown_ss_pack_v1','mercenary_blackcrown_stock_schedule_v1') ORDER BY key")).rows});
+ const prior=async()=>{const r=(await db.query('SELECT value FROM app_meta WHERE key=$1',[OP])).rows[0];return r?JSON.parse(r.value):null;};
+ const actor=(await db.query('SELECT id,role FROM users WHERE id=1')).rows[0];assert.equal(actor.role,'OWNER');
+ const begin=async()=>{await db.query('BEGIN');await db.query("SET LOCAL lock_timeout='3s'");nested=true;};
+ const finish=async commit=>{await db.query(commit?'COMMIT':'ROLLBACK');nested=false;};
+ const register=async()=>{assert.equal(await prior(),null);const receipts=[];for(const r of requests)receipts.push(await changeMercenaryStockSchedule(env,actor,r));return receipts;};
+ let result;
+ if(mode==='verify'){
+  await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');const receipt=await prior();assert(receipt);assert.equal(receipt.status,'SCHEDULED');assert.equal(receipt.sourceHash,sourceHash);
+  const state=await snap(),list=state.schedule.document.schedules.filter(s=>requests.some(r=>r.requestId===s.id));assert.equal(list.length,2);
+  for(const [i,r]of requests.entries()){const s=list.find(s=>s.id===r.requestId);assert.equal(s.status,'SCHEDULED');assert.equal(s.executeAt,r.executeAt);assert.deepEqual(s.changes,r.changes);assert.equal(s.condition,r.condition);}
+  const beforeQueries=queries.length;for(const r of requests)assert((await changeMercenaryStockSchedule(env,actor,r)).replayed);assert(queries.slice(beforeQueries).every(s=>/^SELECT\b/.test(s)));
+  const audits=(await db.query("SELECT id,action_type,after_data FROM admin_logs WHERE action_type='MERCENARY_STOCK_SCHEDULE_STOCK' AND (after_data::jsonb->'schedule'->>'id')=ANY($1::text[]) ORDER BY id",[requests.map(r=>r.requestId)])).rows;assert.equal(audits.length,2);
+  const alarm=JSON.parse((await db.query("SELECT value FROM app_meta WHERE key='mercenary_stock_alarm_v1'")).rows[0].value);assert.equal(alarm.nextAt,requests[0].executeAt);assert.equal(alarm.nextAlarmAt,Date.parse(requests[0].executeAt));
+  assert.deepEqual(state.pack,receipt.before.pack);assert.deepEqual(state.blackcrown,receipt.before.blackcrown);
+  await db.query('ROLLBACK');result={status:'VERIFIED_SCHEDULED',sourceHash,requests,auditIds:audits.map(a=>String(a.id)),alarm,stock:state.pack.stock,unchangedPackAndIssuance:true,existingSchedulesPreserved:receipt.before.schedule.document.schedules.every(s=>state.schedule.document.schedules.some(n=>JSON.stringify(n)===JSON.stringify(s))),selectOnlyReplay:true,accountWrites:0,checkedAt:new Date().toISOString()};assert(result.existingSchedulesPreserved);
+ }else if(mode==='rehearse'){
+  const before=await snap();assert.equal(await prior(),null);const rounds=[];
+  for(const fault of [true,false]){
+   await begin();try{
+    await register();assert.deepEqual((await snap()).pack,before.pack);
+    assert.equal((await processMercenaryStockSchedules(env,{clock:()=>Date.parse(requests[0].executeAt)-1})).applied,0);
+    await processMercenaryStockSchedules(env,{clock:()=>Date.parse(requests[0].executeAt)});const after20=await readBloodmoonStockSnapshot(env);
+    for(const c of changes){const old=before.pack.stock.find(s=>s.code===c.code),row=after20.stock.find(s=>s.code===c.code);assert.equal(Number(row.stock_limit),Number(old.stock_limit)+c.quantity);assert.equal(row.issued,old.issued);}
+    await db.query("UPDATE mercenary_limited_stock_v1 SET issued=stock_limit WHERE code IN ('V-960','V-974','V-975')");
+    inject=fault;let error=null;try{await processMercenaryStockSchedules(env,{clock:()=>Date.parse(requests[1].executeAt)});}catch(e){error=e;}inject=false;
+    if(fault){assert.match(error?.message||'',/INJECTED_LATE_22H_AUDIT_FAILURE/);assert.equal((await readMercenaryStockSchedules(env)).document.schedules.find(s=>s.id===requests[1].requestId).status,'SCHEDULED');}
+    else{assert.equal(error,null);const done=(await readMercenaryStockSchedules(env)).document.schedules.find(s=>s.id===requests[1].requestId);assert.equal(done.limits.length,3);assert.equal(done.skipped.length,7);assert.equal((await processMercenaryStockSchedules(env,{clock:()=>Date.parse(requests[1].executeAt)})).applied,0);}
+    assert.deepEqual((await snap()).blackcrown,before.blackcrown);await finish(false);
+   }catch(e){inject=false;await finish(false);throw e;}
+   const restored=await snap();assert.equal(restored.schedule.raw,before.schedule.raw);assert.deepEqual(restored.pack,before.pack);assert.equal(await prior(),null);rounds.push({injectedFailure:fault,rollbackVerified:true});
+  }
+  result={status:'REHEARSED_AND_ROLLED_BACK',sourceHash,sourceHashes,requests,rounds,boundaries:true,twentyAllTen:true,twentyTwoSoldoutThreeSkippedSeven:true,issuedNeverReset:true,accountWrites:0,checkedAt:new Date().toISOString()};
+ }else{
+  const dry=JSON.parse(await fs.readFile(new URL('rehearse.json',out),'utf8'));assert.equal(dry.sourceHash,sourceHash);assert.equal(dry.status,'REHEARSED_AND_ROLLED_BACK');
+  const live=JSON.parse(await fs.readFile(new URL('live-verification.json',out),'utf8'));assert.equal(live.workers.length,2);assert(live.workers.every(w=>w.percentage===100&&w.conditionalStock));
+  assert.equal(await prior(),null,'Already scheduled: use verify; never re-register');await begin();
+  const before=await snap();const receipts=await register(),after=await snap();assert.deepEqual(after.pack,before.pack);assert.deepEqual(after.blackcrown,before.blackcrown);
+  const receipt={status:'SCHEDULED',operationKey:OP,sourceHash,requests,registeredAt:after.schedule.serverNow,before,receipts,liveSource:live.pages.commit};await db.query('INSERT INTO app_meta(key,value) VALUES($1,$2)',[OP,JSON.stringify(receipt)]);await finish(true);
+  result={...receipt,accountWrites:0,immediateRefill:false,existingIssuancePreserved:true};
+ }
+ assert.equal(queries.filter(s=>/^(UPDATE|INSERT INTO|DELETE FROM)\s+(users|user_mercenary_cards_v1|cnine_user_inventory|mercenary_limited_issues_v1)\b/i.test(s)).length,0);
+ await fs.writeFile(new URL(mode+'.json',out),JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({mode,status:result.status,sourceHash,auditIds:result.auditIds,requests:requests.map(r=>({id:r.requestId,at:r.executeAt,condition:r.condition||'ALL'})),rollback:result.rounds,alarm:result.alarm,accountWrites:0}));
+}catch(e){await db.query('ROLLBACK').catch(()=>{});console.error(safe(e));process.exitCode=1;}finally{await db.end();}

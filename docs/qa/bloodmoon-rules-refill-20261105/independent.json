@@ -1,0 +1,178 @@
+{
+  "status": "VERIFIED_SCHEDULED",
+  "operationKey": "ops:bloodmoon-refill:20261105:v1",
+  "readOnly": "on",
+  "productionWrites": 0,
+  "auditIds": [
+    "54025",
+    "54026"
+  ],
+  "registeredAt": "2026-11-03T10:23:10.000Z",
+  "schedules": [
+    {
+      "id": "stock-20261105-2000-bloodmoon-ss20-sss3-v1",
+      "status": "SCHEDULED",
+      "executeAt": "2026-11-05T11:00:00.000Z",
+      "changes": [
+        {
+          "code": "V-960",
+          "quantity": 20
+        },
+        {
+          "code": "V-961",
+          "quantity": 20
+        },
+        {
+          "code": "V-962",
+          "quantity": 20
+        },
+        {
+          "code": "V-963",
+          "quantity": 20
+        },
+        {
+          "code": "V-964",
+          "quantity": 20
+        },
+        {
+          "code": "V-965",
+          "quantity": 20
+        },
+        {
+          "code": "V-973",
+          "quantity": 3
+        },
+        {
+          "code": "V-974",
+          "quantity": 3
+        },
+        {
+          "code": "V-975",
+          "quantity": 3
+        },
+        {
+          "code": "V-978",
+          "quantity": 3
+        }
+      ],
+      "reason": "사용자 요청: 11월5일20시 블러드문 SS6종 각20장 및 SSS구간4종 각3장 추가",
+      "createdAt": "2026-11-03T10:23:10.000Z",
+      "createdBy": 1
+    },
+    {
+      "id": "stock-20261105-2200-bloodmoon-soldout-ss20-sss3-v1",
+      "status": "SCHEDULED",
+      "executeAt": "2026-11-05T13:00:00.000Z",
+      "changes": [
+        {
+          "code": "V-960",
+          "quantity": 20
+        },
+        {
+          "code": "V-961",
+          "quantity": 20
+        },
+        {
+          "code": "V-962",
+          "quantity": 20
+        },
+        {
+          "code": "V-963",
+          "quantity": 20
+        },
+        {
+          "code": "V-964",
+          "quantity": 20
+        },
+        {
+          "code": "V-965",
+          "quantity": 20
+        },
+        {
+          "code": "V-973",
+          "quantity": 3
+        },
+        {
+          "code": "V-974",
+          "quantity": 3
+        },
+        {
+          "code": "V-975",
+          "quantity": 3
+        },
+        {
+          "code": "V-978",
+          "quantity": 3
+        }
+      ],
+      "condition": "SOLD_OUT_ONLY",
+      "reason": "사용자 요청: 11월5일22시 블러드문 소진된 종류만 SS각20장 및 SSS구간각3장 추가",
+      "createdAt": "2026-11-03T10:23:10.000Z",
+      "createdBy": 1
+    }
+  ],
+  "alarm": {
+    "version": "20261026-v1",
+    "checkedAt": "2026-11-03T10:24:04.000Z",
+    "applied": 0,
+    "nextAt": "2026-11-05T11:00:00.000Z",
+    "nextAlarmAt": 1793876400000
+  },
+  "stock": [
+    {
+      "code": "V-960",
+      "stock_limit": "65",
+      "issued": "65"
+    },
+    {
+      "code": "V-961",
+      "stock_limit": "65",
+      "issued": "65"
+    },
+    {
+      "code": "V-962",
+      "stock_limit": "65",
+      "issued": "65"
+    },
+    {
+      "code": "V-963",
+      "stock_limit": "65",
+      "issued": "65"
+    },
+    {
+      "code": "V-964",
+      "stock_limit": "65",
+      "issued": "65"
+    },
+    {
+      "code": "V-965",
+      "stock_limit": "65",
+      "issued": "65"
+    },
+    {
+      "code": "V-973",
+      "stock_limit": "4",
+      "issued": "3"
+    },
+    {
+      "code": "V-974",
+      "stock_limit": "3",
+      "issued": "3"
+    },
+    {
+      "code": "V-975",
+      "stock_limit": "3",
+      "issued": "3"
+    },
+    {
+      "code": "V-978",
+      "stock_limit": "12",
+      "issued": "12"
+    }
+  ],
+  "policyPreserved": true,
+  "packSha256": "240f20e1b515da6e55560862376f6a15ae7b2a7c01c6f25a4cc192037273ba7f",
+  "existingScheduleHistoryPreserved": true,
+  "appliedCount": 0,
+  "checkedAt": "2026-11-03T10:24:28.160Z"
+}
