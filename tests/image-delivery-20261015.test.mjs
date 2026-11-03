@@ -1,9 +1,22 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {readFile,mkdtemp,mkdir,writeFile,access,realpath,rm} from 'node:fs/promises';
 import {createHash} from 'node:crypto';import {tmpdir} from 'node:os';import path from 'node:path';
-import {execFileSync} from 'node:child_process';
+import {execFileSync,spawn} from 'node:child_process';
 import {prepareProductionAssets,isProductionFile} from '../scripts/prepare-production-assets.mjs';
-async function readAsset(file){try{return await readFile(new URL('../'+file,import.meta.url));}catch(e){if(e.code!=='ENOENT')throw e;const entry=execFileSync('git',['ls-files','-v','--',file],{encoding:'utf8'});assert.ok(entry.startsWith('S '),'only unchanged sparse assets can come from Git');return execFileSync('git',['cat-file','blob','HEAD:'+file],{maxBuffer:40000000});}}
+function assetReader(t){
+ const sparse=new Set(execFileSync('git',['ls-files','-v','-z'],{encoding:'utf8',maxBuffer:20000000}).split('\0').filter(s=>s.startsWith('S ')).map(s=>s.slice(2)));
+ const child=spawn('git',['cat-file','--batch'],{windowsHide:true,stdio:['pipe','pipe','pipe']}),stream=child.stdout[Symbol.asyncIterator]();let pending=Buffer.alloc(0),stderr='';
+ child.stderr.on('data',chunk=>{stderr+=chunk.toString();});const closed=new Promise((resolve,reject)=>{child.once('error',reject);child.once('close',code=>resolve(code));});
+ t.after(async()=>{child.stdin.end();assert.equal(await closed,0,stderr);});
+ const more=async()=>{const next=await stream.next();assert.equal(next.done,false,'Git asset stream ended unexpectedly');pending=Buffer.concat([pending,next.value]);};
+ return async file=>{
+  try{return await readFile(new URL('../'+file,import.meta.url));}catch(e){if(e.code!=='ENOENT')throw e;assert.ok(sparse.has(file),'only unchanged sparse assets can come from Git');}
+  assert(!/[\r\n]/.test(file));child.stdin.write('HEAD:'+file+'\n');let end;
+  while((end=pending.indexOf(10))<0)await more();const header=pending.subarray(0,end).toString();pending=pending.subarray(end+1);
+  const match=header.match(/^[a-f0-9]+ blob (\d+)$/);assert(match,'Git must return a committed asset blob');const size=Number(match[1]);assert(size<=40000000);
+  while(pending.length<size+1)await more();assert.equal(pending[size],10);const bytes=pending.subarray(0,size);pending=pending.subarray(size+1);return bytes;
+ };
+}
 test('overlapping Pages image rules emit one cache lifetime and keep immutable limited to hashed derivatives',async()=>{
  const headers=await readFile(new URL('../_headers',import.meta.url),'utf8'),rules=[];let route;
  for(const line of headers.split(/\r?\n/)){
@@ -19,7 +32,8 @@ test('overlapping Pages image rules emit one cache lifetime and keep immutable l
  }
  assert.equal(cacheFor('/api/sync/state'),'');
 });
-test('all delivery mappings preserve their originals and resolve to verified smaller derivatives',async()=>{
+test('all delivery mappings preserve their originals and resolve to verified smaller derivatives',async t=>{
+ const readAsset=assetReader(t);
  const manifest=JSON.parse(await readFile(new URL('../docs/image-delivery-20261015/manifest.json',import.meta.url),'utf8')),checked=new Set();
  const hash=b=>createHash('sha256').update(b).digest('hex');let source=0,compressed=0;
  for(const row of manifest.files){
