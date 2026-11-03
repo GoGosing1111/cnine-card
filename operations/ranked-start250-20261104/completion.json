@@ -1,0 +1,92 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:ranked-start250:20261104:v1",
+  "seasonKey": "시즌 25|2026-10-31 16:09:00|2026-11-05 16:09:00",
+  "completedAt": "2026-11-03T15:48:48.014Z",
+  "completedAtKst": "2026-11-04 00:48:48 KST",
+  "auditId": "54208",
+  "correctedCount": 1886,
+  "oldScore": 1000,
+  "newScore": 250,
+  "highestScoreCorrected": 250,
+  "playedAccountsPreserved": 109,
+  "initialScore": 250,
+  "initialScoreAlreadySavedBeforeOperation": true,
+  "nextSeasonInitialScore": 250,
+  "settingsWrites": 0,
+  "archiveCount": 1886,
+  "accountSyncCount": 1886,
+  "remainingUnplayedScoreMismatch": 0,
+  "sourceHash": "a5cb3f13c1bb52b5923d81645bd82f5d6e0c3f15966d00b1fb1da7d72d023cfa",
+  "planHash": "bec4cbe84f15f3382e8afd474ea135bf67c614ffb814f989e907ca71b52a6db3",
+  "testsPassed": 5,
+  "failureRollback": true,
+  "normalRollback": true,
+  "concurrentFightAndProfileWritesBlocked": true,
+  "seasonLifecycleBlocked": true,
+  "independentReadOnly": true,
+  "selectOnlyReplay": true,
+  "additionalReplayWrites": 0,
+  "messagesSent": 0,
+  "gameDeployment": false,
+  "storageMaintenance": false,
+  "scheduledAutomations": 0,
+  "evidence": [
+    {
+      "file": "inspect.json",
+      "sha256": "c0fa2dfc1df1d226d4e4fc670b807eae8ab4a0ef3d7662d141b32fe1b98b11b2"
+    },
+    {
+      "file": "plan.json",
+      "sha256": "7cc54c080fbb1f9492e12cb2d90c0e43832769a42dd6e7a63d269731406db345"
+    },
+    {
+      "file": "preflight-profiles.json",
+      "sha256": "e6d2165787b4cda8872ae185245a54964370705de23110b0164e0b5d488df727"
+    },
+    {
+      "file": "runtime-sources.json",
+      "sha256": "62115807a3c93ac51643df54b80af8716f6ba264521c24ad7c10697d53619b4b"
+    },
+    {
+      "file": "correct.mjs",
+      "sha256": "9b71774cf459d04f067d95267976687042abb3f4aed484e62d4244eb33796f47"
+    },
+    {
+      "file": "correct.test.mjs",
+      "sha256": "269317410628f21c072a156d0c85732343a66e68b0a1b26018dc235a91314cc3"
+    },
+    {
+      "file": "run.mjs",
+      "sha256": "83a76d80d44cb52908b7cc2a7d36f251eaca8f5739fd9e17e687622234dbea10"
+    },
+    {
+      "file": "evidence/tests.json",
+      "sha256": "defdc0dd8f43c2d8f8118f5df4bcdbe097adbe7c0902fd4ba72ef2e980cdd9bb"
+    },
+    {
+      "file": "evidence/rehearse.json",
+      "sha256": "e82fb9e31fff590262706d6bbedbbd2b6f0ce4fc20896242ba3791b92c6dbf58"
+    },
+    {
+      "file": "evidence/apply.json",
+      "sha256": "2cbc6cb19ed98f36e10ef7a0fd70edfff132bf417a49e4c15506a6cb21d42844"
+    },
+    {
+      "file": "evidence/commit-candidate.json",
+      "sha256": "597b8cc4c6bb2b5a447d7c48541ae8812041f4883592b86f2a513800c3def85a"
+    },
+    {
+      "file": "evidence/verify.json",
+      "sha256": "16702330009ee4d736d9997ada8cffd187cae9d67ea1a3747ceb24daf1082c74"
+    },
+    {
+      "file": "evidence/replay.json",
+      "sha256": "13a7750cb3c8be54e35514f438ef11b50474d5ba6a772326880efaaa3c7c90f9"
+    },
+    {
+      "file": "evidence/independent.json",
+      "sha256": "cd55b6372ccf35ad6ed5b4e1d5affdada6f47c77c31e5698ca9c1c4dd3cf8df1"
+    }
+  ]
+}
