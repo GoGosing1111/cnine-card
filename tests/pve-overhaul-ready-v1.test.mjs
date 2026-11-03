@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import {readCommittedAssetSync} from './helpers/committed-asset-read.mjs';
 import sharp from 'sharp';
 import {createReleaseEncounter,ZONES} from '../preview/scrapyard-v3-v1/source/release-model.mjs';
 import {createTowerV3Session} from '../js/tower-v3-session.mjs';
@@ -15,8 +16,8 @@ test('all three release encounters display the same server rules and the six sep
 test('four generated sprites have real alpha, clear borders and unchanged foreground RGB',async()=>{
   for(const code of ['polarity','atlas','ravager','moloch']){
     const prefix=new URL('../preview/scrapyard-v3-v1/assets/'+code+'-sd-',import.meta.url);
-    const source=await sharp(fs.readFileSync(new URL(prefix+'source-v1.png'))).removeAlpha().raw().toBuffer();
-    const {data,info}=await sharp(fs.readFileSync(new URL(prefix+'v1.png'))).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+    const source=await sharp(readCommittedAssetSync(new URL(prefix+'source-v1.png'))).removeAlpha().raw().toBuffer();
+    const {data,info}=await sharp(readCommittedAssetSync(new URL(prefix+'v1.png'))).ensureAlpha().raw().toBuffer({resolveWithObject:true});
     let clear=0;for(let i=0;i<info.width*info.height;i++){for(let c=0;c<3;c++)assert.equal(data[i*4+c],source[i*3+c]);if(data[i*4+3]===0)clear++;if(i<info.width||i>=info.width*(info.height-1)||i%info.width===0||i%info.width===info.width-1)assert.equal(data[i*4+3],0);}
     assert.ok(clear/(info.width*info.height)>.3);
   }

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import {readCommittedAssetSync} from './helpers/committed-asset-read.mjs';
 import {GRID, FORMATIONS, FORMATION_LATTICES, latticeStation, formationActorScale, configuration, project, formationPoint, bounds, occupiedStations, stationPoint, mercenaryCount} from '../preview/v3-wide-grid-v1/source/grid-layout.mjs';
 import {createEncounter} from '../preview/scrapyard-v3-v1/source/encounter-model.mjs';
 import {createGridPreview} from '../preview/v3-wide-grid-v1/source/preview-model.mjs';
@@ -85,7 +86,7 @@ test('comparison shares one frozen combat snapshot and cannot alter damage, targ
   assert.equal(pvp.wideGridPreview.mercenaries.ENEMY.length, 1);
   assert.equal(pve.wideGridPreview.mercenaries.ENEMY.length, 0);
   for (const art of Object.values(pvp.wideGridPreview.mercenaries).flat()) {
-    assert.notEqual(art.sourceArt, art.battleSprite); assert.ok(fs.existsSync(new URL(art.battleSprite, root)));
+    assert.notEqual(art.sourceArt, art.battleSprite); assert.ok(readCommittedAssetSync(new URL(art.battleSprite, root)).length>0);
   }
   const app = read('preview/v3-wide-grid-v1/source/app.mjs');
   assert.match(app, /if \(!ready \|\| busy/);
@@ -178,8 +179,8 @@ test('comparison controls extend the common grid; shared card art, dock and time
   for (const file of ['index.html', 'js/app.js', 'functions/api/[[path]].js']) assert.ok(!read(file).includes('v3-wide-grid-v1'));
 });
 
-test('zero or one mercenary removes unused stations independently on each side, and a second is rejected', () => {
-  for (const allyMercenaries of [0, 1]) for (const enemyMercenaries of [0, 1]) {
+test('zero to two mercenaries remove unused stations independently on each side, and a third is rejected', () => {
+  for (const allyMercenaries of [0, 1, 2]) for (const enemyMercenaries of [0, 1, 2]) {
     const rows = occupiedStations({allyMercenaries, enemyMercenaries});
     assert.equal(rows.length, 10 + allyMercenaries + enemyMercenaries);
     assert.equal(rows.filter(p => p.kind === 'support').length, 0);
@@ -187,7 +188,8 @@ test('zero or one mercenary removes unused stations independently on each side, 
   const rows = occupiedStations({scenario: 'PVE', enemySlots: [1], allySlots: [0, 3], allyMercenaries: 0, enemyMercenaries: 1, support: false});
   assert.equal(rows.length, 3);
   assert.deepEqual(rows.map(p => p.id), ['ALLY:cards:0', 'ALLY:cards:3', 'ENEMY:cards:1']);
-  for (const invalid of [-1, 2, 3, 1.5, NaN, 'bad']) assert.throws(() => mercenaryCount(invalid));
+  assert.equal(mercenaryCount(2),2);
+  for (const invalid of [-1, 3, 1.5, NaN, 'bad']) assert.throws(() => mercenaryCount(invalid));
 });
 
 test('the PVE suit sits inside the allied formation above the existing dock on both screen sizes', () => {

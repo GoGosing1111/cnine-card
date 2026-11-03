@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import {readCommittedAssetSync} from './helpers/committed-asset-read.mjs';
 import sharp from 'sharp';
 import {createCowEncounter} from '../preview/cow-room-v3-v1/source/model.mjs';
 import {COW_ROOM_DRAFT,COW_ROOM_RELEASE_ENABLED,buildCowRoomBattle} from '../functions/_cow_room_v3.js';
@@ -47,7 +48,7 @@ test('server builder rejects invalid parties, unsafe powers and oversized encoun
 });
 test('new sprites have real alpha and keep useful silhouettes inside the canvas',async()=>{
   for(const name of ['cow-warrior','cow-king']){
-    const image=sharp(new URL('../assets/ui/project-v/monsters/cow-room/'+name+'-sd-v1.png',import.meta.url).pathname.replace(/^\/(.:)/,'$1'));
+    const image=sharp(readCommittedAssetSync(new URL('../assets/ui/project-v/monsters/cow-room/'+name+'-sd-v1.png',import.meta.url)));
     const m=await image.metadata(),s=await image.stats();assert.equal(m.hasAlpha,true);assert.ok(m.width>=1024&&m.height>=1024);assert.equal(s.channels[3].min,0);assert.equal(s.channels[3].max,255);
     const {data,info}=await image.ensureAlpha().raw().toBuffer({resolveWithObject:true});
     let x0=info.width,y0=info.height,x1=0,y1=0;
