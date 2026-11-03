@@ -1,0 +1,96 @@
+{
+  "at": "2026-11-03T10:29:06.038Z",
+  "pages": {
+    "id": "1fee54c3-3967-4012-b32b-0a1ba17110c0",
+    "url": "https://1fee54c3.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "4b9469a80ae0a53efbb5672ba7f5509f7ad0a495"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "442f1052-9ccc-4e48-a9ef-93d009284719",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "8d31d456-f2f2-475b-8d76-8db6891c834d",
+      "percentage": 100
+    }
+  ],
+  "files": [
+    {
+      "file": "js/cnine-streamer-box-v1.js",
+      "sha256": "edf9eaf0525345d070ff44a8e35ad7d348e43c333a0fb5f2081ce6392f469d2e"
+    },
+    {
+      "file": "shared/cnine-streamer-box-v1.mjs",
+      "sha256": "b6675c719aee1b8004c10114a94c48fdbb2cbe27fb7875ce0d2afc4ef67ade19"
+    },
+    {
+      "file": "shared/reversecall-streamer-gift-v1.mjs",
+      "sha256": "f6d2c3e865131eb4b867c1283fcb704b1a30acc5c81e390f98d75bd5ff259ea4"
+    },
+    {
+      "file": "assets/ui/packs/cnine-streamer-box-20261103/gift-768.webp",
+      "sha256": "abbb7dfe489642b4e8e7409743fa14b1c027ab5a5011d9c41a93e7c09ccd15f3"
+    },
+    {
+      "file": "assets/ui/packs/cnine-streamer-box-20261103/gift-256.webp",
+      "sha256": "28a0ca18a0f1c330c180ee84fe4a04cd8b23d5203329d7627bbbf9981a08bb6d"
+    },
+    {
+      "file": "css/reversecall-streamer-gift-v1.css",
+      "sha256": "75f95987bc3e87cee145ae95c944b76473d8277ef40759cd19abea4cb7c110b7"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "c4dc9b69898055da34a00621fb600e0d159e0b397cf6e510008eebf433366cd3"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "4734e6cac211a69fe538df32234c691f1f0ec81ef6989a2c7c0629a3d9c91902"
+    },
+    {
+      "file": "index.html",
+      "sha256": "e94fd8bb92c0da7a40cb5f6141807c01202405c148d29edbad200ea5f0d8c292"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "7c2c611b49620ab8fe261748a2ee16291b5fc5afbaf9ee7bd9eae3db436fc329"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "894f13e2b88cac0ef300f89f83dc249e751724c9fce356c6e9be7afb7629ca2a"
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "e06a0e5d1c8fc8aebe101bc7bafebbe4f7d9baaf0ffba8ef3dcd35403298a4a1"
+    },
+    {
+      "file": "admin/admin-v1276.js",
+      "sha256": "b4aaa4107126e8cd80a764517b6bed41b92b53f75d7c710aaa224ea15d1ea84c"
+    },
+    {
+      "file": "admin/reversecall-streamer-gift-v1.css",
+      "sha256": "c94be26f32362fcd48835142791db6177f7b185292e96dba4ede7a822b46a3bc"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "49b943701db703f17a8dd4a273ae32c41539cd6739a3043d5dee18800d117537"
+    }
+  ],
+  "clientFiles": [
+    "js/cnine-streamer-box-v1.js",
+    "shared/cnine-streamer-box-v1.mjs",
+    "assets/ui/packs/cnine-streamer-box-20261103/gift-768.webp",
+    "assets/ui/packs/cnine-streamer-box-20261103/gift-256.webp"
+  ],
+  "clientEssentialFiles": [
+    "js/cnine-streamer-box-v1.js",
+    "shared/cnine-streamer-box-v1.mjs"
+  ],
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "assetCount": 20000
+}

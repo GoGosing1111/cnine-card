@@ -1,0 +1,138 @@
+{
+  "completedAt": "2026-11-03T10:31:02.032Z",
+  "operation": "ops:cnine-streamer-box-catalog:20261103:v1",
+  "sourceCommit": "4b9469a80ae0a53efbb5672ba7f5509f7ad0a495",
+  "pages": {
+    "id": "1fee54c3-3967-4012-b32b-0a1ba17110c0",
+    "url": "https://1fee54c3.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "4b9469a80ae0a53efbb5672ba7f5509f7ad0a495"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "442f1052-9ccc-4e48-a9ef-93d009284719",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "8d31d456-f2f2-475b-8d76-8db6891c834d",
+      "percentage": 100
+    }
+  ],
+  "itemCode": "CNINE_STREAMER_BOX",
+  "name": "씨나인 스트리머 박스",
+  "rewards": {
+    "coin": 25000000000000,
+    "masterStar": 200000000,
+    "repairCoupon": 3,
+    "suitCore6": 10
+  },
+  "openCount": 1,
+  "originalReversecallPreserved": true,
+  "tests": {
+    "passed": 41,
+    "failed": 0,
+    "localWidths": [
+      1440,
+      390
+    ],
+    "publicWidths": [
+      390
+    ]
+  },
+  "publicFiles": 15,
+  "windowsManifestFiles": 4,
+  "windowsEssentialFiles": 2,
+  "assetCount": 20000,
+  "catalogRegistered": true,
+  "catalogReplayWrites": 0,
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "limitations": [
+    "Browser verification uses isolated API fixtures, not a physical device or installed app.",
+    "Generated art is integrated and visually inspected; user visual approval is not claimed."
+  ],
+  "evidence": [
+    {
+      "file": "deployment-plan.json",
+      "sha256": "3f5e07f00dda0317549e24d1b7f6031a565365af87674478b321e97b43d97cdb",
+      "bytes": 782
+    },
+    {
+      "file": "deployment-result.json",
+      "sha256": "2e451888eac57b7c7ee93bd5a51c2e154ac52ed59a0e1493eb4ff3ec249e9397",
+      "bytes": 298
+    },
+    {
+      "file": "live-verification.json",
+      "sha256": "48a7ac110e0a36feda36c09aae7c42bac1c7c1fa122500f257e4a647ceac3735",
+      "bytes": 3093
+    },
+    {
+      "file": "catalog-inspect.json",
+      "sha256": "6939a7ff5b8d39dc482577df3aad7c98d0fed00e096c4248bf86f167b758760d",
+      "bytes": 2147
+    },
+    {
+      "file": "catalog-rehearse.json",
+      "sha256": "7c6684153d075310e0095ba34941bfb4fdf11edf2b861a0e58d3b124d6d671b6",
+      "bytes": 2289
+    },
+    {
+      "file": "catalog-register.json",
+      "sha256": "d0fa385aa8994f6005e7a252821a2c8bfebe898b116b360c4a45801eb60ade23",
+      "bytes": 3400
+    },
+    {
+      "file": "catalog-independent.json",
+      "sha256": "afbdd44e93c9d4daa1c81bb0c0268a582c8afc8efa17324776d162c3d82fc63e",
+      "bytes": 3644
+    },
+    {
+      "file": "catalog-replay.json",
+      "sha256": "f7497d3cb1b540a16d0a6a88820c1065f551eef4550a8c30f6d0628005c4a103",
+      "bytes": 3646
+    },
+    {
+      "file": "browser/report.json",
+      "sha256": "d6830548f98dbe112de464f0b1510cad7352cba22015981b7360dda43c489feb",
+      "bytes": 239
+    },
+    {
+      "file": "public-browser/report.json",
+      "sha256": "7ebab988e14379c2e4f1a3cabfe7e4c9e5db44f006b670126fce44708fc81d59",
+      "bytes": 120
+    },
+    {
+      "file": "public-browser-painted/report.json",
+      "sha256": "7ebab988e14379c2e4f1a3cabfe7e4c9e5db44f006b670126fce44708fc81d59",
+      "bytes": 120
+    },
+    {
+      "file": "verification-policy-note.json",
+      "sha256": "1ba63fd5a7898bd40ece7fb45535606f19a8961f4ec05d3caebc96bdcdef7605",
+      "bytes": 397
+    },
+    {
+      "file": "browser/1440-before.png",
+      "sha256": "d60f7d7a6d0996467f5e575b7fd4ff8f944f529c09af47a42dae148a6068ff80",
+      "bytes": 518856
+    },
+    {
+      "file": "browser/390-before.png",
+      "sha256": "3140040e8bcb3e85a04224e5a91f26695955dba25cc361bf45d4e914c7193d8d",
+      "bytes": 305385
+    },
+    {
+      "file": "public-browser-painted/390-before.png",
+      "sha256": "3140040e8bcb3e85a04224e5a91f26695955dba25cc361bf45d4e914c7193d8d",
+      "bytes": 305385
+    },
+    {
+      "file": "deploy-4b9469a80.log",
+      "sha256": "815856483ebbf8df390e1aaf8b809246baef781e429a0ed4e43b6eabf9ae1371",
+      "bytes": 13856
+    }
+  ]
+}

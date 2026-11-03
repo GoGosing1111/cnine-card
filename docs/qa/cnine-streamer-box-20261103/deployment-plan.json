@@ -1,0 +1,18 @@
+{
+  "before": {
+    "id": "1877ed30-5f56-42a0-871c-1f6f7ae16ceb",
+    "url": "https://1877ed30.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "d462bac0a020a2cc02bd6484e63899c518eacb40"
+  },
+  "base": "d462bac0a020a2cc02bd6484e63899c518eacb40",
+  "reason": "씨나인 스트리머 박스 1종 추가: 코인25조·마스터의별2억·리페어3·코어6 10 확정. 기존 리버스콜 보존, 독립 원자개봉/영수증/재시도 및 CMS·PC1440/모바일390 완료. 새원화·개봉/지급·포장·원스토어 파생본/로더 검사를 선택한다.",
+  "tests": [
+    "tests/cnine-streamer-box-20261103.test.mjs",
+    "tests/reversecall-streamer-gift-20261021.test.mjs",
+    "tests/onestore-web-20261026.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}
