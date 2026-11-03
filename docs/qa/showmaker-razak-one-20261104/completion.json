@@ -1,0 +1,26 @@
+{
+  "status": "COMPLETED_AND_VERIFIED",
+  "operationKey": "ops:showmaker-razak-one:20261104:v1",
+  "authorization": "ShowMaker 라자크 1장 지급",
+  "userId": "233",
+  "nickname": "ShowMaker",
+  "card": "라자크",
+  "code": "V-058",
+  "quantityGranted": 1,
+  "copiesBefore": 0,
+  "copiesAfter": 1,
+  "completedAt": "2026-11-03T15:04:31.715Z",
+  "completedKst": "2026-11-04 00:04:31 KST",
+  "auditId": "54113",
+  "planHash": "6047530d5d80da714a9ebcf0a0eff4ba0b891fc1197f6c1aa29cc534250c92ba",
+  "executedSourceSha256": "4791d2be9c945b4bd7d32912ee7469eba85b9653b41e882a322308732bc3a080",
+  "checks": {
+    "actualFailureRollback": true,
+    "actualSuccessRollback": true,
+    "independentReadOnly": true,
+    "selectOnlyReplay": true,
+    "leasesReleased": true,
+    "levelsAndGrowthPreserved": true
+  },
+  "evidenceDirectory": "operations/showmaker-razak-one-20261104/"
+}

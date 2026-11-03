@@ -1,0 +1,26 @@
+{
+  "status": "COMPLETED_AND_VERIFIED",
+  "operationKey": "ops:karpu-razak-one:20261104:v1",
+  "authorization": "카르푸도 라자크 지급",
+  "userId": "85",
+  "nickname": "카르푸",
+  "card": "라자크",
+  "code": "V-058",
+  "quantityGranted": 1,
+  "copiesBefore": 1,
+  "copiesAfter": 2,
+  "completedAt": "2026-11-03T15:07:26.501Z",
+  "completedKst": "2026-11-04 00:07:26 KST",
+  "auditId": "54116",
+  "planHash": "b949e04e59fe79d4fca763a69ac3f65cb4b231c2166a43071adb4f965cada543",
+  "executedSourceSha256": "190eb7feac8c51179e6bd0860397e3a3c9a2282303fca1b010707210c8f8a3eb",
+  "checks": {
+    "actualFailureRollback": true,
+    "actualSuccessRollback": true,
+    "independentReadOnly": true,
+    "selectOnlyReplay": true,
+    "leasesReleased": true,
+    "levelsAndGrowthPreserved": true
+  },
+  "evidenceDirectory": "operations/karpu-razak-one-20261104/"
+}
