@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "date": "2026-11-03",
+  "itemCode": "CNINE_STREAMER_BOX",
+  "tool": "image_gen.imagegen (built-in)",
+  "userVisualApproval": "not claimed",
+  "transforms": "Generated PNG preserved byte-for-byte; proportional WebP delivery derivatives only.",
+  "reference": "assets/ui/packs/reversecall-streamer-gift-20261021/gift-768.webp",
+  "sharedUi": "Existing same-family Reversecall panel/reward/button art is reused unchanged.",
+  "consumers": [
+    "shared/cnine-streamer-box-v1.mjs",
+    "functions/_cnine_streamer_box.js",
+    "js/cnine-streamer-box-v1.js",
+    "admin/admin-v1276.js"
+  ],
+  "alpha": {
+    "transparent": 584556,
+    "opaque": 458
+  },
+  "files": [
+    {
+      "file": "sources/gift-original.png",
+      "bytes": 2495134,
+      "sha256": "7bd41da166bc871b14c3e6eb2c1e9a3508c42776d8d0ae18d644b56d1e939cf7",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true
+    },
+    {
+      "file": "gift-768.webp",
+      "bytes": 214630,
+      "sha256": "abbb7dfe489642b4e8e7409743fa14b1c027ab5a5011d9c41a93e7c09ccd15f3",
+      "width": 768,
+      "height": 768,
+      "hasAlpha": true
+    },
+    {
+      "file": "gift-256.webp",
+      "bytes": 35732,
+      "sha256": "28a0ca18a0f1c330c180ee84fe4a04cd8b23d5203329d7627bbbf9981a08bb6d",
+      "width": 256,
+      "height": 256,
+      "hasAlpha": true
+    },
+    {
+      "file": "prompts.json",
+      "bytes": 1720,
+      "sha256": "5d0d35fbd5d4c920f7e7493085089f130b72c5cb5708aa284fb11cb77d901b67"
+    }
+  ],
+  "textHashNormalization": "UTF-8/LF for prompts.json; PNG/WebP byte hashes"
+}

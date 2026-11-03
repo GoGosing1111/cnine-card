@@ -1,0 +1,8 @@
+{
+  "date": "2026-11-03",
+  "tool": "image_gen.imagegen (built-in)",
+  "useCase": "precise-object-edit",
+  "reference": "assets/ui/packs/reversecall-streamer-gift-20261021/gift-768.webp",
+  "prompt": "Use case: precise-object-edit.\nAsset type: transparent square inventory item illustration for the Korean RPG CNINE, item name \"씨나인 스트리머 박스\".\nPrimary request: Create a new CNINE variant of the referenced luxury streamer gift coffer. Preserve the reference's premium hand-painted 2D RPG material rendering, substantial sculpted lid, coherent three-quarter perspective, compact faceted coffer construction and readable silhouette. Change the identity to CNINE: replace the two returning arrows on the lid with one elegant raised interlocking \"C9\" crest in polished pale gold, nestled in a nine-point star medallion. Use midnight navy enamel, luminous teal gemstone accents, ivory ceramic inserts, champagne-gold metalwork, and rich teal satin ribbons. Lid slightly lifted to show warm gold coins and a small luminous star jewel. Intricate but restrained engraved metalwork, physically wrapped ribbon and clean highlights.\nComposition: ONE centered complete object, square canvas, 82 percent of canvas, entire ribbon tails and ornamental edges inside safe padding, readable at 64px.\nBackground: genuine transparent alpha, no scene, no checkerboard, only a subtle contact shadow.\nConstraints: new sibling asset, not replacement of the original. No character, no UI panel, no reward icons array, no denomination labels, no arbitrary slogan or watermark. Only the exact integrated crest \"C9\", no other letters or words. No huge glow obscuring silhouette.",
+  "userVisualApproval": "not claimed"
+}
