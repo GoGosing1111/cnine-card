@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readCommittedAssetSync} from './helpers/committed-asset-read.mjs';
 import {createHash} from 'node:crypto';
 import {Container,Sprite,Texture,TextureSource} from 'pixi.js';
 import {MERCENARY_SKILLS} from '../shared/mercenary-skills-v1.mjs';
@@ -8,7 +8,7 @@ import {compileRehearsal} from '../preview/project-v-mercenary-system-v1/skill-r
 import {mercenaryAudioEvents,MercenarySkillAudio} from '../preview/project-v-mercenary-system-v1/source/MercenarySkillAudio.js';
 import {attachMercenaryArt,attachmentProfile,mercenaryAttachment} from '../preview/project-v-mercenary-system-v1/source/MercenaryAttachmentPoints.js';
 import {BattleCharacter} from '../preview/project-v-v3/source/battle/BattleCharacter.js';
-const read=path=>readFileSync(new URL('../'+path,import.meta.url));
+const read=path=>readCommittedAssetSync(new URL('../'+path,import.meta.url));
 const roster=JSON.parse(read('assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json'));
 const audio=JSON.parse(read('preview/project-v-mercenary-system-v1/skill-audio-v1.json'));
 

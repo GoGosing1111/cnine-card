@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
+import {readCommittedAsset} from './helpers/committed-asset-read.mjs';
 import crypto from 'node:crypto';
 import sharp from 'sharp';
 import {ROLES} from '../shared/mercenary-position-config-v1.mjs';
@@ -25,13 +26,13 @@ test('seven mercenary roles own 112 genuine native frames with preserved origina
  assert.deepEqual(manifest.images.map(i=>i.role).sort(),Object.keys(ROLES).sort());assert.equal(manifest.frameCount,112);
  const allHashes=[];
  for(const row of manifest.images){
-  const source=await fs.readFile(new URL(row.source,new URL('../',import.meta.url)));assert.equal(digest(source),row.sourceSha256);
+  const source=await readCommittedAsset(new URL(row.source,new URL('../',import.meta.url)));assert.equal(digest(source),row.sourceSha256);
   const sourceMeta=await sharp(source).metadata();assert.equal(sourceMeta.hasAlpha,true);assert.ok(sourceMeta.width>=1024);
-  const runtime=new URL(`assets/${row.role.toLowerCase()}/atlas.webp`,root),atlas=await fs.readFile(runtime);assert.equal(digest(atlas),row.runtimeSha256);
+  const runtime=new URL(`assets/${row.role.toLowerCase()}/atlas.webp`,root),atlas=await readCommittedAsset(runtime);assert.equal(digest(atlas),row.runtimeSha256);
   const {data,info}=await sharp(atlas).ensureAlpha().raw().toBuffer({resolveWithObject:true});
   assert.equal(info.channels,4);assert.equal(row.frames.length,16);assert.equal(row.contactFrame,4);
   for(const f of row.frames){
-   const tile=await fs.readFile(new URL('assets/'+f.file,root));assert.equal(digest(tile),f.sha256);allHashes.push(f.rawSha256);
+   const tile=await readCommittedAsset(new URL('assets/'+f.file,root));assert.equal(digest(tile),f.sha256);allHashes.push(f.rawSha256);
    const left=f.index%4*row.cellSize,top=Math.floor(f.index/4)*row.cellSize;
    for(let y=0;y<row.cellSize;y++)for(let x=0;x<row.cellSize;x++)if(x<2||y<2||x>=row.cellSize-2||y>=row.cellSize-2)assert.ok(data[((top+y)*info.width+left+x)*4+3]<=5,`${row.role} ${f.index} gutter`);
   }
