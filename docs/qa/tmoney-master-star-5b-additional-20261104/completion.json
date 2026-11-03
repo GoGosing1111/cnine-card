@@ -1,0 +1,29 @@
+{
+  "status": "COMPLETED_AND_VERIFIED",
+  "operationKey": "ops:tmoney-master-star-5b-additional:20261104:v1",
+  "authorization": "T-Money™ 계정에 마스터의 별 50억 한번 더 지급해",
+  "parentOperation": "ops:tmoney-master-star-5b:20261104:v1",
+  "parentReceiptHash": "d6b844e40e7df16bf115d6b67414c7841455c7e922ce7b2f2c64579d075d6e1a",
+  "userId": "5147",
+  "nickname": "T-Money™",
+  "itemCode": "MASTER_STAR",
+  "amount": "5000000000",
+  "before": "5745663765",
+  "after": "10745663765",
+  "logId": "88420070",
+  "auditId": "54159",
+  "completedAt": "2026-11-03T15:37:17.570Z",
+  "completedKst": "2026-11-04 00:37:17 KST",
+  "planHash": "82f7463d34f455e3739a085ae4f7f92bf688299a11bd40af2846f93d94a6bf4e",
+  "sourceSha256": "70b8624404305f009ec9623d14f947db7f1edd93c1eef2699f5cd767c71c7c39",
+  "checks": {
+    "injectedFailureRollback": true,
+    "successfulRollback": true,
+    "independentReadOnlyVerification": true,
+    "selectOnlyReplay": true,
+    "parentReceiptAndLedgerPreserved": true,
+    "otherAccountStatePreserved": true,
+    "leasesReleased": true
+  },
+  "evidenceDirectory": "operations/tmoney-master-star-5b-additional-20261104/evidence"
+}
