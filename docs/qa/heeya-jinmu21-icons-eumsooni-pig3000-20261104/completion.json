@@ -1,0 +1,128 @@
+{
+  "status": "COMPLETED_AND_VERIFIED",
+  "operationKey": "ops:heeya-jinmu21-icons-eumsooni-pig3000:20261104:v1",
+  "authorization": [
+    "하이희야♡ 계정에 진무 21레벨로 지급하고 (있으면 레벨업)\n아이콘 카드 전체 다 지급해 (있는건 제외)",
+    "음순이 계정에 피그코인 3000개 지급해"
+  ],
+  "completedAt": "2026-11-03T15:24:41.220Z",
+  "completedKst": "2026-11-04 00:24:41 KST",
+  "jinmu": {
+    "userId": "4977",
+    "nickname": "하이희야♡",
+    "copies": 1,
+    "quantityGranted": 0,
+    "levelBefore": 1,
+    "levelAfter": 21,
+    "currentLevel": 21
+  },
+  "icons": {
+    "catalogCount": 13,
+    "granted": [
+      {
+        "cardId": "CN-1C000003",
+        "title": "나무늘봉순",
+        "quantity": 1,
+        "auditId": "54140"
+      },
+      {
+        "cardId": "CN-1C000005",
+        "title": "오리꿍",
+        "quantity": 1,
+        "auditId": "54141"
+      },
+      {
+        "cardId": "CN-1C000006",
+        "title": "강구열",
+        "quantity": 1,
+        "auditId": "54142"
+      },
+      {
+        "cardId": "CN-1C000007",
+        "title": "아윤",
+        "quantity": 1,
+        "auditId": "54143"
+      },
+      {
+        "cardId": "CN-1C000009",
+        "title": "구수댕",
+        "quantity": 1,
+        "auditId": "54144"
+      },
+      {
+        "cardId": "CN-1C000010",
+        "title": "남수댕",
+        "quantity": 1,
+        "auditId": "54145"
+      },
+      {
+        "cardId": "CN-1C000011",
+        "title": "디임",
+        "quantity": 1,
+        "auditId": "54146"
+      },
+      {
+        "cardId": "CN-1C000012",
+        "title": "오조은",
+        "quantity": 1,
+        "auditId": "54147"
+      },
+      {
+        "cardId": "CN-1C000013",
+        "title": "나무늘봉순",
+        "quantity": 1,
+        "auditId": "54148"
+      }
+    ],
+    "skippedOwned": 4,
+    "skipped": [
+      {
+        "cardId": "CN-1C000001",
+        "title": "디임",
+        "quantity": 1
+      },
+      {
+        "cardId": "CN-1C000002",
+        "title": "하이희야",
+        "quantity": 1
+      },
+      {
+        "cardId": "CN-1C000004",
+        "title": "오조은",
+        "quantity": 1
+      },
+      {
+        "cardId": "CN-1C000008",
+        "title": "제우스 철구",
+        "quantity": 2
+      }
+    ]
+  },
+  "pig": {
+    "userId": "65",
+    "nickname": "음순이",
+    "amount": 3000,
+    "balanceAfterGrant": "3745"
+  },
+  "auditId": "54149",
+  "planHash": "66acbf0e88d5e05918fbb127963f54d99d2bd1071e8d62aa01843fb0df99d5b7",
+  "executedSourceSha256": "bbea639997d993dc62de01f8b6dbd890b4687c07c07757eaeb174a9e7c914df8",
+  "checks": {
+    "failureRollback": true,
+    "successRollback": true,
+    "selectOnlyReplay": true,
+    "independentReadOnly": true,
+    "onlyExpectedWrites": true,
+    "leasesReleased": true
+  },
+  "stockCountersChanged": false,
+  "levelStorage": {
+    "level": 20,
+    "breakthroughMask": 15,
+    "effectiveLevel": 21
+  },
+  "evidenceDirectory": "operations/heeya-jinmu21-icons-eumsooni-pig3000-20261104/evidence/",
+  "teardownNotice": "A background heartbeat fetch failed after COMMITTED while the local lock proxy was stopping; release checks passed and the independent read found no remaining operation locks.",
+  "messagesSent": 0,
+  "gameRedeployed": false
+}
