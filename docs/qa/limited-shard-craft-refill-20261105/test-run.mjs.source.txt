@@ -1,0 +1,9 @@
+import fs from 'node:fs';
+import {spawn} from 'node:child_process';
+import {createHash} from 'node:crypto';
+const root='C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout',out=new URL('evidence/',import.meta.url),stamp=Date.now(),files=['tests/limited-craft-stock-schedule-20261104.test.mjs'];
+const sources=['functions/_mercenary_craft_stock_schedule.js','workers/clan-draft/src/mercenary-stock-schedule.js',...files],hashes=Object.fromEntries(sources.map(f=>[f,createHash('sha256').update(fs.readFileSync(root+'/'+f)).digest('hex')]));
+const logfile=new URL('tests-'+stamp+'.log',out),fd=fs.openSync(logfile,'wx'),child=spawn(process.execPath,['--test',...files],{cwd:root,windowsHide:true,stdio:['ignore',fd,fd]});
+const exitCode=await new Promise(r=>child.once('exit',r));fs.closeSync(fd);const log=fs.readFileSync(logfile,'utf8');
+const result={exitCode,passed:Number(log.match(/(?:#|ℹ) pass (\d+)/)?.[1]),failed:Number(log.match(/(?:#|ℹ) fail (\d+)/)?.[1]),files,hashes,logfile:logfile.href,at:new Date().toISOString(),priorRelatedRun:{passed:29,failed:1,knownExistingFailure:'mercenary-limited-shard-craft-20261025.test.mjs:118 uses obsolete single mercenaryCode loadout payload; current loadout requires up to two codes. Test and account implementation identical to origin/main f3b1773ee. Scheduler not in that test dependency graph. The other 10 craft stock checks and all 10 existing scheduler checks passed.'}};
+fs.writeFileSync(new URL('tests-'+stamp+'.json',out),JSON.stringify(result,null,2)+'\n');if(!exitCode)fs.writeFileSync(new URL('tests.json',out),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));if(exitCode)console.log(log.slice(-6000));process.exitCode=exitCode||0;

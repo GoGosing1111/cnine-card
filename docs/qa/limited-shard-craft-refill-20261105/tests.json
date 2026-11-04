@@ -1,0 +1,20 @@
+{
+  "exitCode": 0,
+  "passed": 9,
+  "failed": 0,
+  "files": [
+    "tests/limited-craft-stock-schedule-20261104.test.mjs"
+  ],
+  "hashes": {
+    "functions/_mercenary_craft_stock_schedule.js": "0d427f82c3c1eb9fbece8c4c93eaeb2ca38ec2c78e8bc591d7ac7d0c50897d7d",
+    "workers/clan-draft/src/mercenary-stock-schedule.js": "02a6d07706854c4c7d63b4e7fe892232af806138d6f8e7903364f20656ac10ea",
+    "tests/limited-craft-stock-schedule-20261104.test.mjs": "50d00f86922f6a5abc19ba1fd9d2b70d8f00d9f07dc1b4df4076ce29a7da0b45"
+  },
+  "logfile": "file:///C:/Users/User/Downloads/upload/cnine-card/operations/limited-shard-craft-refill-20261105/evidence/tests-1793791801592.log",
+  "at": "2026-11-04T11:30:05.469Z",
+  "priorRelatedRun": {
+    "passed": 29,
+    "failed": 1,
+    "knownExistingFailure": "mercenary-limited-shard-craft-20261025.test.mjs:118 uses obsolete single mercenaryCode loadout payload; current loadout requires up to two codes. Test and account implementation identical to origin/main f3b1773ee. Scheduler not in that test dependency graph. The other 10 craft stock checks and all 10 existing scheduler checks passed."
+  }
+}

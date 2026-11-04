@@ -1,0 +1,94 @@
+{
+  "status": "SCHEDULED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:limited-shard-craft-refill:20261105:v1",
+  "scheduleId": "craft-stock-20261105-2100-sss-limited-plus10-v1",
+  "registeredAt": "2026-11-04T11:36:36.000Z",
+  "registeredAtKst": "2026-11-04 20:36:36 KST",
+  "executeAt": "2026-11-05T12:00:00.000Z",
+  "executeAtKst": "2026-11-05 21:00:00 KST",
+  "auditId": "54355",
+  "sourceCommit": "5ac4af0501c7f8fdae3bf97829e7066eb32e1bbb",
+  "pagesId": "afe6bb86-9ad0-401c-bbdd-033c6453588e",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "a0735696-e838-4405-8698-a5b764aaff43",
+      "percentage": 100,
+      "craftScheduler": false,
+      "scriptSha256": "02f4ca001468d43efa5bad5a80a9e557bc017f8cc7d708f303e1cad0a1ed840d"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "3c2b4295-60d3-4ccf-b731-3eeb70fec5ac",
+      "percentage": 100,
+      "craftScheduler": true,
+      "scriptSha256": "d5734a0960cf4a56254e4fab4fd89eb8f2f96c5817d4cafd883b3333d89d66ab"
+    }
+  ],
+  "targets": [
+    {
+      "code": "V-979",
+      "currentLimit": 15,
+      "crafted": 15,
+      "addition": 10,
+      "scheduledLimit": 25,
+      "name": "족로"
+    },
+    {
+      "code": "V-989",
+      "currentLimit": 15,
+      "crafted": 15,
+      "addition": 10,
+      "scheduledLimit": 25,
+      "name": "천룡검황 진무"
+    },
+    {
+      "code": "V-996",
+      "currentLimit": 15,
+      "crafted": 15,
+      "addition": 10,
+      "scheduledLimit": 25,
+      "name": "발테르"
+    },
+    {
+      "code": "V-999",
+      "currentLimit": 15,
+      "crafted": 15,
+      "addition": 10,
+      "scheduledLimit": 25,
+      "name": "헬리오스"
+    }
+  ],
+  "totalAddedAtExecution": 40,
+  "immediateRefill": false,
+  "appliedCount": 0,
+  "existingPackSchedulesPreserved": 4,
+  "hiddenRecipesPreserved": 8,
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "noticePublished": false,
+  "tests": {
+    "new": 9,
+    "delivery": 1,
+    "existingStockAndCraft": 20,
+    "knownLegacyLoadoutFailure": "mercenary-limited-shard-craft-20261025.test.mjs:118 uses obsolete single mercenaryCode loadout payload; current loadout requires up to two codes. Test and account implementation identical to origin/main f3b1773ee. Scheduler not in that test dependency graph. The other 10 craft stock checks and all 10 existing scheduler checks passed."
+  },
+  "rehearsalRollback": true,
+  "independentReadOnly": true,
+  "replaySelectOnly": true,
+  "liveCronObserved": true,
+  "alarm": {
+    "version": "20261026-v1",
+    "checkedAt": "2026-11-04T11:37:04.000Z",
+    "applied": 0,
+    "nextAt": "2026-11-05T11:00:00.000Z",
+    "nextBySource": {
+      "bloodmoon": "2026-11-05T11:00:00.000Z",
+      "blackcrown": "2026-11-05T11:00:00.000Z",
+      "limitedCraft": "2026-11-05T12:00:00.000Z"
+    },
+    "nextAlarmAt": 1793876400000
+  },
+  "assetCount": 20000,
+  "planHash": "acfe8116bb157f5420cc2325e4b32540ebd8392257aa48ed34c21e6fce591fd5"
+}

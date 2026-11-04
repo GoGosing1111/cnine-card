@@ -1,0 +1,81 @@
+{
+  "status": "INDEPENDENTLY_VERIFIED_SCHEDULED",
+  "operationKey": "ops:limited-shard-craft-refill:20261105:v1",
+  "readOnly": "on",
+  "productionWrites": 0,
+  "registeredAt": "2026-11-04T11:36:36.000Z",
+  "auditId": "54355",
+  "schedule": {
+    "id": "craft-stock-20261105-2100-sss-limited-plus10-v1",
+    "status": "SCHEDULED",
+    "executeAt": "2026-11-05T12:00:00.000Z",
+    "changes": [
+      {
+        "code": "V-979",
+        "quantity": 10
+      },
+      {
+        "code": "V-989",
+        "quantity": 10
+      },
+      {
+        "code": "V-996",
+        "quantity": 10
+      },
+      {
+        "code": "V-999",
+        "quantity": 10
+      }
+    ],
+    "reason": "사용자 요청: 11월5일21시 제작소 공개 SSS 리미티드 조각 제작 발테르·헬리오스·천룡검황 진무·족로 한도 각10장 추가",
+    "createdAt": "2026-11-04T11:36:36.000Z",
+    "createdBy": 1
+  },
+  "targets": [
+    {
+      "code": "V-979",
+      "currentLimit": 15,
+      "crafted": 15,
+      "addition": 10,
+      "scheduledLimit": 25
+    },
+    {
+      "code": "V-989",
+      "currentLimit": 15,
+      "crafted": 15,
+      "addition": 10,
+      "scheduledLimit": 25
+    },
+    {
+      "code": "V-996",
+      "currentLimit": 15,
+      "crafted": 15,
+      "addition": 10,
+      "scheduledLimit": 25
+    },
+    {
+      "code": "V-999",
+      "currentLimit": 15,
+      "crafted": 15,
+      "addition": 10,
+      "scheduledLimit": 25
+    }
+  ],
+  "hiddenRecipesPreserved": 8,
+  "packSchedulesPreserved": 4,
+  "policiesSha256": "07838d703986d393bb36df4d1932505b5553349feb85c5b4200df81d586b386b",
+  "alarm": {
+    "version": "20261026-v1",
+    "checkedAt": "2026-11-04T11:37:04.000Z",
+    "applied": 0,
+    "nextAt": "2026-11-05T11:00:00.000Z",
+    "nextBySource": {
+      "bloodmoon": "2026-11-05T11:00:00.000Z",
+      "blackcrown": "2026-11-05T11:00:00.000Z",
+      "limitedCraft": "2026-11-05T12:00:00.000Z"
+    },
+    "nextAlarmAt": 1793876400000
+  },
+  "appliedCount": 0,
+  "checkedAt": "2026-11-04T11:37:28.867Z"
+}

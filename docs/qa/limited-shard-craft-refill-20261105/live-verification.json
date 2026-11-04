@@ -1,0 +1,212 @@
+{
+  "at": "2026-11-04T11:36:27.847Z",
+  "pages": {
+    "id": "afe6bb86-9ad0-401c-bbdd-033c6453588e",
+    "url": "https://afe6bb86.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "5ac4af0501c7f8fdae3bf97829e7066eb32e1bbb"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "a0735696-e838-4405-8698-a5b764aaff43",
+      "percentage": 100,
+      "craftScheduler": false,
+      "scriptSha256": "02f4ca001468d43efa5bad5a80a9e557bc017f8cc7d708f303e1cad0a1ed840d"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "3c2b4295-60d3-4ccf-b731-3eeb70fec5ac",
+      "percentage": 100,
+      "craftScheduler": true,
+      "scriptSha256": "d5734a0960cf4a56254e4fab4fd89eb8f2f96c5817d4cafd883b3333d89d66ab"
+    }
+  ],
+  "packs": [
+    {
+      "pack": "blackcrown",
+      "schedules": [
+        {
+          "id": "stock-20261105-2000-blackcrown-ss20-sss3-v1",
+          "executeAt": "2026-11-05T11:00:00.000Z",
+          "changes": [
+            {
+              "code": "V-950",
+              "quantity": 20
+            },
+            {
+              "code": "V-951",
+              "quantity": 20
+            },
+            {
+              "code": "V-952",
+              "quantity": 20
+            },
+            {
+              "code": "V-953",
+              "quantity": 20
+            },
+            {
+              "code": "V-954",
+              "quantity": 20
+            },
+            {
+              "code": "V-955",
+              "quantity": 20
+            },
+            {
+              "code": "V-970",
+              "quantity": 3
+            },
+            {
+              "code": "V-971",
+              "quantity": 3
+            }
+          ]
+        },
+        {
+          "id": "stock-20261105-2200-blackcrown-soldout-ss20-sss3-v1",
+          "executeAt": "2026-11-05T13:00:00.000Z",
+          "changes": [
+            {
+              "code": "V-950",
+              "quantity": 20
+            },
+            {
+              "code": "V-951",
+              "quantity": 20
+            },
+            {
+              "code": "V-952",
+              "quantity": 20
+            },
+            {
+              "code": "V-953",
+              "quantity": 20
+            },
+            {
+              "code": "V-954",
+              "quantity": 20
+            },
+            {
+              "code": "V-955",
+              "quantity": 20
+            },
+            {
+              "code": "V-970",
+              "quantity": 3
+            },
+            {
+              "code": "V-971",
+              "quantity": 3
+            }
+          ],
+          "condition": "SOLD_OUT_ONLY"
+        }
+      ],
+      "revision": 9
+    },
+    {
+      "pack": "bloodmoon",
+      "schedules": [
+        {
+          "id": "stock-20261105-2000-bloodmoon-ss20-sss3-v1",
+          "executeAt": "2026-11-05T11:00:00.000Z",
+          "changes": [
+            {
+              "code": "V-960",
+              "quantity": 20
+            },
+            {
+              "code": "V-961",
+              "quantity": 20
+            },
+            {
+              "code": "V-962",
+              "quantity": 20
+            },
+            {
+              "code": "V-963",
+              "quantity": 20
+            },
+            {
+              "code": "V-964",
+              "quantity": 20
+            },
+            {
+              "code": "V-965",
+              "quantity": 20
+            },
+            {
+              "code": "V-973",
+              "quantity": 3
+            },
+            {
+              "code": "V-974",
+              "quantity": 3
+            },
+            {
+              "code": "V-975",
+              "quantity": 3
+            },
+            {
+              "code": "V-978",
+              "quantity": 3
+            }
+          ]
+        },
+        {
+          "id": "stock-20261105-2200-bloodmoon-soldout-ss20-sss3-v1",
+          "executeAt": "2026-11-05T13:00:00.000Z",
+          "changes": [
+            {
+              "code": "V-960",
+              "quantity": 20
+            },
+            {
+              "code": "V-961",
+              "quantity": 20
+            },
+            {
+              "code": "V-962",
+              "quantity": 20
+            },
+            {
+              "code": "V-963",
+              "quantity": 20
+            },
+            {
+              "code": "V-964",
+              "quantity": 20
+            },
+            {
+              "code": "V-965",
+              "quantity": 20
+            },
+            {
+              "code": "V-973",
+              "quantity": 3
+            },
+            {
+              "code": "V-974",
+              "quantity": 3
+            },
+            {
+              "code": "V-975",
+              "quantity": 3
+            },
+            {
+              "code": "V-978",
+              "quantity": 3
+            }
+          ],
+          "condition": "SOLD_OUT_ONLY"
+        }
+      ],
+      "revision": 11
+    }
+  ],
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "assetCount": 20000
+}

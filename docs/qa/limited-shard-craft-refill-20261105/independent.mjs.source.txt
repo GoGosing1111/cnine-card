@@ -1,0 +1,28 @@
+import fs from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {connect,safe} from '../rap-contest-rewards-20261027/preflight.mjs';
+const OP='ops:limited-shard-craft-refill:20261105:v1',ID='craft-stock-20261105-2100-sss-limited-plus10-v1',KEY='mercenary_limited_shard_stock_schedule_v1',AT='2026-11-05T12:00:00.000Z',codes=['V-979','V-989','V-996','V-999'];
+const db=connect();try{
+ await db.connect();await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');
+ const readOnly=(await db.query('SHOW transaction_read_only')).rows[0].transaction_read_only;assert.equal(readOnly,'on');
+ const value=async key=>(await db.query('SELECT value FROM app_meta WHERE key=$1',[key])).rows[0]?.value??null;
+ const receipt=JSON.parse(await value(OP));assert.equal(receipt.status,'SCHEDULED');assert.equal(receipt.operationKey,OP);
+ const doc=JSON.parse(await value(KEY)),rows=doc.schedules.filter(s=>s.id===ID);assert.equal(rows.length,1);const schedule=rows[0];
+ assert.equal(schedule.status,'SCHEDULED');assert.equal(schedule.executeAt,AT);assert.deepEqual(schedule.changes,codes.map(code=>({code,quantity:10})));
+ assert.equal(await value(KEY+':applied:'+ID),null);const registered=JSON.parse(await value(KEY+':request:'+ID));assert.deepEqual(registered.schedule,schedule);
+ for(const old of receipt.before.schedule.document.schedules)assert(doc.schedules.some(s=>JSON.stringify(s)===JSON.stringify(old)));
+ const policies=(await db.query("SELECT key,value FROM app_meta WHERE key LIKE 'mercenary_limited_shard_craft_v1:%' ORDER BY key")).rows;assert.deepEqual(policies,receipt.before.policies);
+ const targets=[];for(const code of codes){
+  const policy=JSON.parse(policies.find(p=>p.key==='mercenary_limited_shard_craft_v1:'+code).value);assert.equal(policy.stockLimit,15);assert(policy.isPublic&&policy.isActive);
+  const crafted=Number((await db.query("SELECT COALESCE(SUM(l.output_quantity),0) n FROM workshop_craft_logs_v1668 l JOIN workshop_recipes_v1668 r ON r.id=l.recipe_id WHERE r.code=$1 AND l.output_type='MERCENARY' AND l.output_ref=$2 AND l.success=1",['WORKSHOP_SSS_LIMITED_SHARD_'+code.replace('-','_'),code])).rows[0].n);assert.equal(crafted,15);
+  targets.push({code,currentLimit:policy.stockLimit,crafted,addition:10,scheduledLimit:policy.stockLimit+10});
+ }
+ for(const old of receipt.before.packMeta)assert.equal(await value(old.key),old.value);
+ const audit=(await db.query("SELECT id::text,created_at,after_data FROM admin_logs WHERE action_type='MERCENARY_CRAFT_STOCK_SCHEDULE' AND after_data::jsonb->'schedule'->>'id'=$1",[ID])).rows;assert.equal(audit.length,1);assert.equal(audit[0].id,receipt.auditId);
+ assert.equal(Number((await db.query("SELECT COUNT(*) n FROM admin_logs WHERE action_type='MERCENARY_CRAFT_STOCK_SCHEDULE_APPLY' AND target_id=$1",[ID])).rows[0].n),0);
+ const alarm=JSON.parse(await value('mercenary_stock_alarm_v1'));assert.equal(alarm.nextBySource.limitedCraft,AT);assert.equal(alarm.nextAt,'2026-11-05T11:00:00.000Z');assert.equal(alarm.nextAlarmAt,Date.parse(alarm.nextAt));assert(Date.parse(alarm.checkedAt)>=Date.parse(receipt.registeredAt));
+ const writes=Number((await db.query('SELECT SUM(n_tup_ins+n_tup_upd+n_tup_del) n FROM pg_stat_xact_user_tables')).rows[0].n);assert.equal(writes,0);
+ await db.query('ROLLBACK');const result={status:'INDEPENDENTLY_VERIFIED_SCHEDULED',operationKey:OP,readOnly,productionWrites:0,registeredAt:receipt.registeredAt,auditId:receipt.auditId,schedule,targets,hiddenRecipesPreserved:8,packSchedulesPreserved:4,policiesSha256:createHash('sha256').update(JSON.stringify(policies)).digest('hex'),alarm,appliedCount:0,checkedAt:new Date().toISOString()};
+ await fs.writeFile(new URL('evidence/independent.json',import.meta.url),JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(result));
+}catch(e){console.error(safe(e));process.exitCode=1;}finally{await db.end();}

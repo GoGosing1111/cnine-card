@@ -1,0 +1,53 @@
+{
+  "status": "REHEARSED_AND_ROLLED_BACK",
+  "planHash": "acfe8116bb157f5420cc2325e4b32540ebd8392257aa48ed34c21e6fce591fd5",
+  "sourceHashes": {
+    "functions/_mercenary_craft_stock_schedule.js": "0d427f82c3c1eb9fbece8c4c93eaeb2ca38ec2c78e8bc591d7ac7d0c50897d7d",
+    "workers/clan-draft/src/mercenary-stock-schedule.js": "02a6d07706854c4c7d63b4e7fe892232af806138d6f8e7903364f20656ac10ea",
+    "shared/mercenary-limited-shard-craft-v1.mjs": "3ad9f3d527391e8f0315ffcd77aaff303f1856414903b947641af992664f7a4d"
+  },
+  "request": {
+    "requestId": "craft-stock-20261105-2100-sss-limited-plus10-v1",
+    "executeAt": "2026-11-05T12:00:00.000Z",
+    "changes": [
+      {
+        "code": "V-979",
+        "quantity": 10
+      },
+      {
+        "code": "V-989",
+        "quantity": 10
+      },
+      {
+        "code": "V-996",
+        "quantity": 10
+      },
+      {
+        "code": "V-999",
+        "quantity": 10
+      }
+    ],
+    "reason": "사용자 요청: 11월5일21시 제작소 공개 SSS 리미티드 조각 제작 발테르·헬리오스·천룡검황 진무·족로 한도 각10장 추가"
+  },
+  "rounds": [
+    {
+      "injectedFailure": true,
+      "rollbackVerified": true,
+      "allFourAtomic": true
+    },
+    {
+      "injectedFailure": false,
+      "rollbackVerified": true,
+      "allFourAtomic": true
+    }
+  ],
+  "readPath": {
+    "fourRecipes": true,
+    "limit": 25,
+    "crafted": 15,
+    "remaining": 10,
+    "unlocked": true
+  },
+  "accountWrites": 0,
+  "checkedAt": "2026-11-04T11:28:47.418Z"
+}

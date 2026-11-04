@@ -1,0 +1,28 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+const root='C:/Users/User/Downloads/upload/cnine-card',checkout=root+'/output/revan-live-20261027/release-checkout',here=new URL('./',import.meta.url),qa='docs/qa/limited-shard-craft-refill-20261105';
+const read=async file=>JSON.parse(await fs.readFile(new URL('evidence/'+file+'.json',here)));
+const [apply,verify,independent,live,tests,rehearse,deployed,alarm]=await Promise.all(['apply','verify','independent','live-verification','tests','rehearse','deployment-result','alarm-observed'].map(read));
+assert.equal(apply.status,'SCHEDULED');assert.equal(verify.status,'VERIFIED_SCHEDULED');assert.equal(independent.status,'INDEPENDENTLY_VERIFIED_SCHEDULED');assert.equal(independent.appliedCount,0);assert.equal(independent.productionWrites,0);assert.equal(tests.failed,0);assert.equal(rehearse.rounds.length,2);assert.equal(deployed.exitCode,0);assert.equal(alarm.status,'LIVE_CRON_OBSERVED_NEW_QUEUE');
+const kst=iso=>new Date(Date.parse(iso)+9*3600000).toISOString().replace('T',' ').slice(0,19)+' KST';
+const names={'V-996':'발테르','V-999':'헬리오스','V-989':'천룡검황 진무','V-979':'족로'};
+const completion={status:'SCHEDULED_AND_INDEPENDENTLY_VERIFIED',operationKey:apply.operationKey,scheduleId:apply.request.requestId,registeredAt:apply.registeredAt,registeredAtKst:kst(apply.registeredAt),executeAt:apply.request.executeAt,executeAtKst:kst(apply.request.executeAt),auditId:apply.auditId,sourceCommit:live.pages.commit,pagesId:live.pages.id,workers:live.workers,targets:independent.targets.map(t=>({...t,name:names[t.code]})),totalAddedAtExecution:40,immediateRefill:false,appliedCount:0,existingPackSchedulesPreserved:4,hiddenRecipesPreserved:8,productionAccountWrites:0,messagesSent:0,noticePublished:false,tests:{new:tests.passed,delivery:1,existingStockAndCraft:20,knownLegacyLoadoutFailure:tests.priorRelatedRun.knownExistingFailure},rehearsalRollback:true,independentReadOnly:true,replaySelectOnly:true,liveCronObserved:true,alarm:independent.alarm,assetCount:live.assetCount,planHash:apply.planHash};
+await fs.writeFile(new URL('completion.json',here),JSON.stringify(completion,null,2)+'\n',{flag:'wx'});
+let readme=await fs.readFile(path.join(checkout,qa,'README.md'),'utf8');
+readme+='\n## 운영 예약 완료\n\n'+`등록 ${completion.registeredAtKst} · 감사${apply.auditId}. 소스 ${live.pages.commit} · Pages ${live.pages.id} · 두 Worker100%. 예약은 SCHEDULED이며 현재 한도는15, 실제 증가는 11월5일21시다. 독립 READ ONLY·SELECT전용 재시도쓰기0 확인. 기존 cron이 새 제작 큐의21시를 실제로 읽었고, 공용 DO의 다음 알람은 기존 팩20시를 유지하며 이후21시/22시로 이어진다.\n\n`;
+readme+='배포 필수 통합검사1개와 Worker검사 통과. 첫 두 배포 시도는 통합검수 fixture의 app_meta.updated_at 열 누락/DDL 무시 때문에 실제 업로드 전에 중단됐고, PGlite 스키마 연결로 필드를 추가한 뒤 통과했다. 운영 런타임 수정은 추가되지 않았다. 최초 실패 로그도 보존한다.\n\n';
+readme+='공지 announcement.txt는 작성 완료했으며 게시/메시지 발송은 없다. 즉시 한도 가산·계정 직접쓰기·저장공간 유지관리·Codex 자동화0.\n';
+const notice=await fs.readFile(new URL('announcement.txt',here),'utf8');
+for(const base of [root,checkout]){
+ const dest=path.join(base,qa);await fs.mkdir(dest,{recursive:true});await fs.writeFile(path.join(dest,'README.md'),readme);await fs.writeFile(path.join(dest,'announcement.txt'),notice);await fs.writeFile(path.join(dest,'completion.json'),JSON.stringify(completion,null,2)+'\n');
+ for(const file of ['tests','rehearse','verify','independent','live-verification','deployment-plan','deployment-result','alarm-observed'])await fs.copyFile(new URL('evidence/'+file+'.json',here),path.join(dest,file+'.json'));
+ for(const file of ['preflight.mjs','run.mjs','release.mjs','independent.mjs','wait-alarm.mjs','test-run.mjs','finalize.mjs'])await fs.copyFile(new URL(file,here),path.join(dest,file+'.source.txt'));
+ const memory=`## 제작소 SSS 리미티드 조각4종 11월5일21시 각10개 추가 예약 — 2026-11-04\n\n- **운영 예약 완료:** ${completion.registeredAtKst}·감사${apply.auditId}, 소스 ${live.pages.commit.slice(0,9)}·Pages ${live.pages.id.slice(0,8)}·두Worker100%. **발테르 V-996·헬리오스 V-999·천룡검황 진무 V-989·족로 V-979**, **2026-11-05 21:00 KST 각10장·총40장 추가**, 현재15→25. 실제 한도 증가는 실행 전.\n- 현재 공개/활성 SSS 리미티드 조각 제작4종 대상·비공개8종 보존. 제작 성공기록/비용/재료/확률·일반제작/팩/큐브 한도 보존. 기존 두팩20시/22시 예약4건 유지. 기존 cron/DO가 제작21시 큐 인식·다음20시 알람 확인.\n- 완료키 **${apply.operationKey}**, 예약 **${apply.request.requestId}**. 같은요청 새키재등록·소진후복구 금지. 원자4정책/영수증/감사·최신정책비교·관련29검사+배포통합1검사·운영실패/정상예행원복·독립READ ONLY·SELECT재실행쓰기0. 과거 단일편성 테스트1건 비관련 실패는 기록에 명시.\n- 기록 ${qa}/, 원본증거 operations/limited-shard-craft-refill-20261105/. 유저공지문 작성완료·게시/메시지/계정직접쓰기0·UI변경0·유지관리/삭제/Codex예약0. 기존폴더/의존성재사용·Git자동정리OFF.\n\n`;
+ const agents=path.join(base,'AGENTS.md'),old=await fs.readFile(agents,'utf8');assert(!old.includes('## 제작소 SSS 리미티드 조각4종 11월5일21시 각10개 추가 예약'));await fs.writeFile(agents,memory+old);
+}
+await fs.writeFile(new URL('README.md',here),readme);
+const hashes={};for(const file of ['completion.json','announcement.txt','run.mjs','release.mjs','independent.mjs'])hashes[file]=createHash('sha256').update(await fs.readFile(new URL(file,here))).digest('hex');
+await fs.writeFile(new URL('evidence/final-records.json',here),JSON.stringify({recordedAt:new Date().toISOString(),completion,hashes},null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify({status:completion.status,registeredAtKst:completion.registeredAtKst,executeAtKst:completion.executeAtKst,auditId:completion.auditId,targets:completion.targets,notice:path.join(root,qa,'announcement.txt')}));

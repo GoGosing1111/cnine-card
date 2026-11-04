@@ -1,0 +1,6 @@
+import fs from 'node:fs/promises';import assert from 'node:assert/strict';import {connect,safe} from '../rap-contest-rewards-20261027/preflight.mjs';
+const db=connect();try{await db.connect();const registered=JSON.parse(await fs.readFile(new URL('evidence/apply.json',import.meta.url))).registeredAt,start=Date.now();let alarm;
+ while(Date.now()-start<180000){alarm=JSON.parse((await db.query("SELECT value FROM app_meta WHERE key='mercenary_stock_alarm_v1'")).rows[0].value);if(alarm.nextBySource?.limitedCraft==='2026-11-05T12:00:00.000Z'&&Date.parse(alarm.checkedAt)>=Date.parse(registered))break;await new Promise(r=>setTimeout(r,15000));}
+ assert.equal(alarm.nextBySource?.limitedCraft,'2026-11-05T12:00:00.000Z');assert(Date.parse(alarm.checkedAt)>=Date.parse(registered));
+ const result={status:'LIVE_CRON_OBSERVED_NEW_QUEUE',alarm,productionWrites:0,waitedMs:Date.now()-start};await fs.writeFile(new URL('evidence/alarm-observed.json',import.meta.url),JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(result));
+}catch(e){console.error(safe(e));process.exitCode=1;}finally{await db.end();}

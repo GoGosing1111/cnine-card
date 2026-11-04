@@ -1,0 +1,17 @@
+{
+  "status": "LIVE_CRON_OBSERVED_NEW_QUEUE",
+  "alarm": {
+    "version": "20261026-v1",
+    "checkedAt": "2026-11-04T11:37:04.000Z",
+    "applied": 0,
+    "nextAt": "2026-11-05T11:00:00.000Z",
+    "nextBySource": {
+      "bloodmoon": "2026-11-05T11:00:00.000Z",
+      "blackcrown": "2026-11-05T11:00:00.000Z",
+      "limitedCraft": "2026-11-05T12:00:00.000Z"
+    },
+    "nextAlarmAt": 1793876400000
+  },
+  "productionWrites": 0,
+  "waitedMs": 30242
+}

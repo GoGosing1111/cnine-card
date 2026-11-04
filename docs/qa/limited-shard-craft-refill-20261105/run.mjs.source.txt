@@ -1,0 +1,81 @@
+import fs from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {connect,safe} from '../rap-contest-rewards-20261027/preflight.mjs';
+import {__postgresCompatTest} from '../../output/revan-live-20261027/release-checkout/functions/_postgres_d1_compat.js';
+import {CRAFT_STOCK_SCHEDULE_KEY,scheduleLimitedCraftStock,processLimitedCraftStockSchedules,readLimitedCraftStockSchedules} from '../../output/revan-live-20261027/release-checkout/functions/_mercenary_craft_stock_schedule.js';
+import {decorateMercenaryCraft} from '../../output/revan-live-20261027/release-checkout/functions/_mercenary_craft.js';
+const mode=process.argv[2];assert(['rehearse','apply','verify'].includes(mode));
+const OP='ops:limited-shard-craft-refill:20261105:v1',ID='craft-stock-20261105-2100-sss-limited-plus10-v1',codes=['V-979','V-989','V-996','V-999'];
+const request={requestId:ID,executeAt:'2026-11-05T12:00:00.000Z',changes:codes.map(code=>({code,quantity:10})),reason:'사용자 요청: 11월5일21시 제작소 공개 SSS 리미티드 조각 제작 발테르·헬리오스·천룡검황 진무·족로 한도 각10장 추가'};
+const out=new URL('evidence/',import.meta.url),sourceRoot=new URL('../../output/revan-live-20261027/release-checkout/',import.meta.url),digest=v=>createHash('sha256').update(v).digest('hex');
+const sourceFiles=['functions/_mercenary_craft_stock_schedule.js','workers/clan-draft/src/mercenary-stock-schedule.js','shared/mercenary-limited-shard-craft-v1.mjs'];
+const sourceHashes=Object.fromEntries(await Promise.all(sourceFiles.map(async f=>[f,digest(await fs.readFile(new URL(f,sourceRoot)))]))),planHash=digest(JSON.stringify({OP,request,sourceHashes}));
+const db=connect();let outer=false,inject=false;const queries=[];
+try{
+ await db.connect();
+ const DB=new __postgresCompatTest.PostgresD1Database({query:input=>{
+  const sql=typeof input==='string'?input:input.text,values=typeof input==='string'?[]:input.values||[];queries.push(sql);
+  if(inject&&sql.startsWith('INSERT INTO admin_logs')&&values.includes('MERCENARY_CRAFT_STOCK_SCHEDULE_APPLY'))throw Error('INJECTED_LATE_CRAFT_AUDIT_FAILURE');
+  if(outer&&sql==='BEGIN')return db.query('SAVEPOINT craft_schedule_batch');
+  if(outer&&sql==='COMMIT')return db.query('RELEASE SAVEPOINT craft_schedule_batch');
+  if(outer&&sql==='ROLLBACK')return db.query('ROLLBACK TO SAVEPOINT craft_schedule_batch');
+  return db.query(sql,values);
+ }}),env={DB};
+ const actor=(await db.query('SELECT id,role FROM users WHERE id=1')).rows[0];assert.equal(actor.role,'OWNER');
+ const prior=async()=>{const row=(await db.query('SELECT value FROM app_meta WHERE key=$1',[OP])).rows[0];return row?JSON.parse(row.value):null;};
+ const snap=async()=>({
+  policies:(await db.query("SELECT key,value FROM app_meta WHERE key LIKE 'mercenary_limited_shard_craft_v1:%' ORDER BY key")).rows,
+  packMeta:(await db.query("SELECT key,value FROM app_meta WHERE key IN ('mercenary_stock_schedule_v1','mercenary_blackcrown_stock_schedule_v1','mercenary_bloodmoon_ss_pack_v1','mercenary_blackcrown_ss_pack_v1','ops:blackcrown-refill:20261105:v1','ops:bloodmoon-refill:20261105:v1') ORDER BY key")).rows,
+  stock:(await db.query('SELECT code,stock_limit,issued FROM mercenary_limited_stock_v1 ORDER BY code')).rows,
+  craftCounts:(await db.query("SELECT r.code,COALESCE(SUM(l.output_quantity),0) crafted FROM workshop_recipes_v1668 r LEFT JOIN workshop_craft_logs_v1668 l ON l.recipe_id=r.id AND l.success=1 AND l.output_type='MERCENARY' AND l.output_ref=r.output_ref WHERE r.code LIKE 'WORKSHOP_SSS_LIMITED_SHARD_%' GROUP BY r.code ORDER BY r.code")).rows,
+  schedule:await readLimitedCraftStockSchedules(env)
+ });
+ const begin=async()=>{await db.query('BEGIN');await db.query("SET LOCAL lock_timeout='3s'");await db.query("SET LOCAL statement_timeout='25s'");outer=true;await db.query('SELECT key FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key FOR UPDATE',[codes.map(c=>'mercenary_limited_shard_craft_v1:'+c)]);};
+ const finish=async commit=>{await db.query(commit?'COMMIT':'ROLLBACK');outer=false;};
+ let result;
+ if(mode==='rehearse'){
+  assert.equal(await prior(),null);const rounds=[];
+  for(const fault of [true,false]){
+   await begin();const before=await snap();assert.equal(before.schedule.raw,null);
+   const registered=await scheduleLimitedCraftStock(env,actor,request);assert.equal(registered.replayed,false);
+   assert.deepEqual((await snap()).policies,before.policies);
+   assert.equal((await processLimitedCraftStockSchedules(env,{clock:()=>Date.parse(request.executeAt)-1})).applied,0);
+   const queue=(await readLimitedCraftStockSchedules(env)).raw;inject=fault;let error;
+   try{await processLimitedCraftStockSchedules(env,{clock:()=>Date.parse(request.executeAt)});}catch(e){error=e;}inject=false;
+   if(fault){assert.match(error?.message||'',/INJECTED_LATE_CRAFT_AUDIT_FAILURE/);assert.equal((await readLimitedCraftStockSchedules(env)).raw,queue);assert.deepEqual((await snap()).policies,before.policies);}
+   else{
+    assert.equal(error,undefined);const after=await snap();
+    for(const row of after.policies){const b=before.policies.find(x=>x.key===row.key),old=JSON.parse(b.value),p=JSON.parse(row.value),target=codes.some(c=>row.key.endsWith(c));assert.deepEqual(p,{...old,revision:old.revision+(target?1:0),stockLimit:old.stockLimit+(target?10:0)});}
+    assert.deepEqual(after.craftCounts,before.craftCounts);assert.deepEqual(after.packMeta,before.packMeta);assert.deepEqual(after.stock,before.stock);
+    const rows=(await decorateMercenaryCraft(env,[])).filter(r=>codes.includes(r.output_ref)&&r.craftScope==='SSS_LIMITED_SHARD');assert.equal(rows.length,4);
+    for(const row of rows){assert.equal(row.craftStock.limit,25);assert.equal(row.craftStock.crafted,15);assert.equal(row.craftStock.remaining,10);assert.equal(row.craftLocked,false);}
+    assert.equal((await processLimitedCraftStockSchedules(env,{clock:()=>Date.parse(request.executeAt)})).applied,0);
+   }
+   await finish(false);const restored=await snap();assert.deepEqual(restored.policies,before.policies);assert.deepEqual(restored.craftCounts,before.craftCounts);assert.deepEqual(restored.packMeta,before.packMeta);assert.equal(restored.schedule.raw,null);assert.equal(await prior(),null);
+   rounds.push({injectedFailure:fault,rollbackVerified:true,allFourAtomic:true});
+  }
+  result={status:'REHEARSED_AND_ROLLED_BACK',planHash,sourceHashes,request,rounds,readPath:{fourRecipes:true,limit:25,crafted:15,remaining:10,unlocked:true},accountWrites:0,checkedAt:new Date().toISOString()};
+ }else if(mode==='apply'){
+  const dry=JSON.parse(await fs.readFile(new URL('rehearse.json',out)));assert.equal(dry.planHash,planHash);assert.equal(dry.status,'REHEARSED_AND_ROLLED_BACK');
+  const live=JSON.parse(await fs.readFile(new URL('live-verification.json',out)));assert(live.workers.some(w=>w.name==='cnine-card-clan-draft'&&w.percentage===100&&w.craftScheduler));
+  assert.equal(await prior(),null,'Already scheduled; use verify, never register a new key');await begin();
+  await db.query('SELECT pg_advisory_xact_lock(hashtext($1))',[OP]);assert.equal(await prior(),null);
+  const before=await snap();assert.equal(before.schedule.document.schedules.some(s=>s.id===ID),false);
+  const registered=await scheduleLimitedCraftStock(env,actor,request),after=await snap();assert.deepEqual(after.policies,before.policies);assert.deepEqual(after.craftCounts,before.craftCounts);assert.deepEqual(after.packMeta,before.packMeta);assert.deepEqual(after.stock,before.stock);
+  const audit=(await db.query("SELECT id::text,created_at FROM admin_logs WHERE action_type='MERCENARY_CRAFT_STOCK_SCHEDULE' AND after_data::jsonb->'schedule'->>'id'=$1",[ID])).rows;assert.equal(audit.length,1);
+  result={status:'SCHEDULED',operationKey:OP,planHash,sourceHashes,request,registeredAt:registered.schedule.createdAt,auditId:audit[0].id,before,registered,liveSource:live.pages.commit,accountWrites:0,immediateRefill:false};
+  await db.query('INSERT INTO app_meta(key,value) VALUES($1,$2)',[OP,JSON.stringify(result)]);await finish(true);
+ }else{
+  await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');const receipt=await prior();assert(receipt);assert.equal(receipt.planHash,planHash);assert.equal(receipt.status,'SCHEDULED');
+  const state=await snap(),scheduled=state.schedule.document.schedules.filter(s=>s.id===ID);assert.equal(scheduled.length,1);assert.equal(scheduled[0].status,'SCHEDULED');assert.equal(scheduled[0].executeAt,request.executeAt);assert.deepEqual(scheduled[0].changes,request.changes);
+  const start=queries.length;assert((await scheduleLimitedCraftStock(env,actor,request)).replayed);assert(queries.slice(start).every(s=>/^SELECT\b/.test(s)));
+  assert.deepEqual(state.policies,receipt.before.policies);assert.deepEqual(state.packMeta,receipt.before.packMeta);assert.deepEqual(state.craftCounts,receipt.before.craftCounts);
+  const alarm=JSON.parse((await db.query("SELECT value FROM app_meta WHERE key='mercenary_stock_alarm_v1'")).rows[0].value);
+  assert.equal(alarm.nextBySource?.limitedCraft,request.executeAt);assert.equal(alarm.nextAt,'2026-11-05T11:00:00.000Z');assert.equal(alarm.nextAlarmAt,Date.parse(alarm.nextAt));
+  assert.equal(Number((await db.query('SELECT SUM(n_tup_ins+n_tup_upd+n_tup_del) n FROM pg_stat_xact_user_tables')).rows[0].n),0);
+  await db.query('ROLLBACK');result={status:'VERIFIED_SCHEDULED',operationKey:OP,planHash,request,auditId:receipt.auditId,registeredAt:receipt.registeredAt,schedule:scheduled[0],alarm,readOnly:true,replaySelectOnly:true,productionWrites:0,checkedAt:new Date().toISOString()};
+ }
+ assert.equal(queries.filter(s=>/^(UPDATE|INSERT INTO|DELETE FROM)\s+(users|user_mercenary_cards_v1|cnine_user_inventory|workshop_craft_logs_v1668|mercenary_limited_issues_v1)\b/i.test(s)).length,0);
+ await fs.writeFile(new URL(mode+'.json',out),JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({mode,status:result.status,planHash,auditId:result.auditId,registeredAt:result.registeredAt,request,rounds:result.rounds,alarm:result.alarm,accountWrites:0}));
+}catch(e){inject=false;await db.query('ROLLBACK').catch(()=>{});console.error(safe(e));process.exitCode=1;}finally{await db.end();}

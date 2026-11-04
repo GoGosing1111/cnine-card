@@ -1,0 +1,19 @@
+import fs from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import {connect,safe} from '../rap-contest-rewards-20261027/preflight.mjs';
+import {LIMITED_SHARD_CRAFTS} from '../../output/revan-live-20261027/release-checkout/shared/mercenary-limited-shard-craft-v1.mjs';
+const db=connect();
+try{
+ await db.connect();await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');
+ const now=(await db.query('SELECT CURRENT_TIMESTAMP AS now')).rows[0].now;
+ assert(Date.parse(now)<Date.parse('2026-11-05T12:00:00.000Z'));
+ const policies=(await db.query('SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key',[LIMITED_SHARD_CRAFTS.map(d=>d.key)])).rows;
+ const recipes=(await db.query('SELECT r.id,r.code,r.name,r.is_active,r.is_public,COALESCE((SELECT SUM(l.output_quantity) FROM workshop_craft_logs_v1668 l WHERE l.recipe_id=r.id AND l.output_type=\'MERCENARY\' AND l.output_ref=r.output_ref AND l.success=1),0) crafted FROM workshop_recipes_v1668 r WHERE r.code=ANY($1::text[]) ORDER BY r.code',[LIMITED_SHARD_CRAFTS.map(d=>d.recipeCode)])).rows;
+ const meta=(await db.query("SELECT key,value FROM app_meta WHERE key IN ('mercenary_stock_schedule_v1','mercenary_blackcrown_stock_schedule_v1','mercenary_stock_alarm_v1','mercenary_limited_shard_stock_schedule_v1','ops:limited-shard-craft-refill:20261105:v1') OR key LIKE 'ops:%craft%refill%20261105%' ORDER BY key")).rows;
+ const targets=LIMITED_SHARD_CRAFTS.map(d=>{const raw=policies.find(r=>r.key===d.key)?.value,p=raw?JSON.parse(raw):null,r=recipes.find(r=>r.code===d.recipeCode);return {code:d.code,name:d.art.name,key:d.key,recipeCode:d.recipeCode,policy:p,crafted:Number(r?.crafted??0),recipeId:r?.id,recipeActive:r?.is_active,recipePublic:r?.is_public};});
+ assert.equal(targets.length,12);assert(targets.every(t=>t.policy));
+ const report={checkedAt:now,executeAt:'2026-11-05T12:00:00.000Z',executeAtKst:'2026-11-05 21:00 KST',quantityEach:10,targets,policies,recipes,meta,readOnly:true,productionWrites:0};
+ await db.query('ROLLBACK');await fs.mkdir(new URL('evidence/',import.meta.url),{recursive:true});
+ await fs.writeFile(new URL('evidence/preflight.json',import.meta.url),JSON.stringify(report,null,2)+'\n',{flag:'wx'});
+ console.log(JSON.stringify({checkedAt:now,targets:targets.map(t=>({code:t.code,name:t.name,limit:t.policy.stockLimit,crafted:t.crafted,active:t.policy.isActive,public:t.policy.isPublic})),schedules:meta.map(r=>({key:r.key,pending:JSON.parse(r.value).schedules?.filter(s=>s.status==='SCHEDULED').map(s=>({id:s.id,executeAt:s.executeAt})),nextAt:JSON.parse(r.value).nextAt})),productionWrites:0}));
+}catch(e){console.error(safe(e));process.exitCode=1;}finally{await db.end();}

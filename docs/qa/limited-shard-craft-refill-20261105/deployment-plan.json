@@ -1,0 +1,16 @@
+{
+  "before": {
+    "id": "e9fdbfb3-9ca9-45c5-ad99-02f19b3477e9",
+    "url": "https://e9fdbfb3.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "029534c7aa1330066a63bd508e4ec21d5b1f023d"
+  },
+  "base": "029534c7aa1330066a63bd508e4ec21d5b1f023d",
+  "reason": "제작소 공개 SSS 리미티드 조각 제작4종의 11월5일21시 각10장 추가 예약. 독립 제작한도 큐를 기존 DO 알람에 연결하며 팩 20시·22시 예약과 발행기록 유지. 신규9검사 및 운영DB 실패/정상예행 원복 완료. 실제 20/21/22시 연결 검사와 Worker 문법을 배포 게이트로 확인. UI·경제비용·확률 변경 없음.",
+  "tests": [
+    "tests/limited-craft-stock-delivery-20261104.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}
