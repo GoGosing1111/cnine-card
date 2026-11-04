@@ -1,0 +1,95 @@
+{
+  "status": "SOURCE_ART_APPROVED",
+  "approvedAt": "2026-11-04T14:57:32.279Z",
+  "userApproval": "반영해 흑구랑 동일 옵션으로해",
+  "userRequests": [
+    "짱구희야 아바타 확인해서 펫 리소스 만들어봐 디자인 잘 살려서 만들어라",
+    "다른펫들 크기랑 맞춰"
+  ],
+  "assets": [
+    {
+      "code": "PET-JJANGGU-HEEYA",
+      "name": "짱구희야",
+      "approvedAsset": "assets/ui/pets/jjanggu-heeya-20261104/pet-jjanggu-heeya-approved.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "png",
+      "channels": 4,
+      "hasAlpha": true,
+      "bytes": 897122,
+      "sha256": "b035ee16a1db07b540510ffbef56465862d6e1c3c38106fe3125128595623773",
+      "transparentPixels": 1168586,
+      "nearOpaquePixels": 350217,
+      "visibleBoundsAlpha32": {
+        "left": 359,
+        "top": 47,
+        "right": 895,
+        "bottom": 1216,
+        "width": 537,
+        "height": 1170
+      },
+      "cornerAlpha": [
+        1,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "sourcePreview": "preview/pet-jjanggu-heeya-20261104-v1/",
+  "selectedDraft": "pet-jjanggu-heeya-v2.png",
+  "previousDraftPreserved": "pet-jjanggu-heeya-v1.png",
+  "generation": {
+    "tool": "built-in image_gen.imagegen",
+    "originalGeneratedFile": "C:/Users/User/.codex/generated_images/01a1a5e0-d511-7f92-80f7-d14dcd7ae2e7/exec-4bcc492e-9d9e-41d1-8232-28dfa8215152.png",
+    "prompts": [
+      "prompt-v1.txt",
+      "prompt-v2-match-pet-size.txt"
+    ],
+    "transparentBackground": true,
+    "apiCliFallbackUsed": false,
+    "codeImageEditingUsed": false,
+    "generatedBytesPreserved": true
+  },
+  "referencePet": {
+    "code": "PET-HEUKGU",
+    "cmsRevision": 44,
+    "checkedAt": "2026-11-04T14:51:20.433Z",
+    "options": {
+      "enabled": false,
+      "liveEnabled": true,
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "target": "ALL_ALLIES",
+      "buffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": 50
+        }
+      ],
+      "rewardBonuses": {
+        "dropPercent": 20,
+        "accountXpPercent": 50,
+        "coinPercent": 50
+      }
+    }
+  },
+  "display": {
+    "canvas": [
+      1254,
+      1254
+    ],
+    "battleFactor": 0.8,
+    "codexDesktopHeight": 340,
+    "codexMobileHeight": 235,
+    "note": "Compact V2 follows the standard pet layout; original pixels retained."
+  },
+  "scope": {
+    "animationApproved": false,
+    "battleBuffPolicyApproved": true,
+    "acquisitionApproved": false,
+    "accountGrantsPerformed": false
+  }
+}

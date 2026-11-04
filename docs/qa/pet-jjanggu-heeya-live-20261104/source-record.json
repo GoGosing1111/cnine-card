@@ -1,0 +1,40 @@
+{
+  "name": "짱구희야 펫",
+  "userRequest": "짱구희야 아바타 확인해서 펫 리소스 만들어봐 디자인 잘 살려서 만들어라",
+  "dateKst": "2026-11-04",
+  "scope": "NEW_GAME_PET_SOURCE_ART_PREVIEW",
+  "status": "GENERATION_PENDING",
+  "referenceAvatar": {
+    "code": "HI_HEEYA",
+    "serial": "A-13",
+    "name": "하이희야",
+    "roleLabel": "짱구 희야",
+    "checked": "Local catalog seed and full-resolution source art inspected",
+    "lobby": {
+      "path": "C:/Users/User/Downloads/upload/cnine-card/preview/avatar-hi-heeya-v1/assets/avatar-hi-heeya-lobby-source-art-v1.png",
+      "sha256": "40fae11577976a810084931fc110985765eb75650deeda6b53e82c762d161897"
+    },
+    "fullBody": {
+      "path": "C:/Users/User/Downloads/upload/cnine-card/preview/avatar-hi-heeya-v1/assets/avatar-hi-heeya-equipment-source-art-v1.png",
+      "sha256": "789d31328632d7f308e73e3fec223596d54e3b5670be047d213680a5c0695b13"
+    }
+  },
+  "proportionsOnlyReference": {
+    "path": "C:/Users/User/Downloads/upload/cnine-card/assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png",
+    "sha256": "cd3d76da195a5f3f82c8ae7711447a6d18cbf4fe934e04524f1ec348beea2d43"
+  },
+  "supplementaryCardInspected": "assets/cards/0719card/hih9.png",
+  "invariants": [
+    "원래 눈썹 위 굵고 둥근 짱구 분장 눈썹",
+    "부푼 볼과 작은 입을 다문 표정",
+    "가운데 가르마와 뒤로 묶은 어두운 머리",
+    "빨간 반팔 티셔츠",
+    "겨자색 반바지",
+    "흰 끈 운동화"
+  ],
+  "runtimeConnected": false,
+  "catalogRegistered": false,
+  "sourceModified": false,
+  "effectsConfigured": false,
+  "grantsIssued": false
+}

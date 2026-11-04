@@ -1,0 +1,20 @@
+{
+  "status": "TECHNICAL_QA_COMPLETE_USER_ART_REVIEW_PENDING",
+  "asset": "pet-jjanggu-heeya-v2.png",
+  "checkedDateKst": "2026-11-04",
+  "sourceCanvas": [1254, 1254],
+  "referencePets": ["댕소룡", "호박봉순", "호박조은"],
+  "sourceCanvasMatchesAllReferences": true,
+  "desktopComparison": {"viewport": [1442, 1020], "imageSlots": [340, 340], "allLoaded": true, "horizontalOverflow": false, "visuallyInspected": true},
+  "mobileComparison": {"requestedViewport": [390, 844], "actualBrowserViewport": [502, 846], "mobileCssBreakpointActive": true, "imageSlots": [235, 235], "allLoaded": true, "horizontalOverflow": false, "visuallyInspected": true, "physicalDeviceTest": false},
+  "backgroundChecks": ["white", "dark navy"],
+  "faceEyebrowsHairClothingAndGreetingPreserved": true,
+  "torsoAndLegsMoreCompact": true,
+  "headHandsAndFootwearVisible": true,
+  "trueTransparentPng": true,
+  "cornerAlpha": [1, 0, 0, 0],
+  "note": "Tiny 1/255 residual at the first corner is recorded rather than described as exact zero. Generated PNG bytes were preserved.",
+  "productionRegistration": false,
+  "otherPetResourcesModified": false,
+  "codeImageEditingUsed": false
+}
