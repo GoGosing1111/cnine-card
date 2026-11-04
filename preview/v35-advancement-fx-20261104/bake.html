@@ -1,0 +1,27 @@
+<!doctype html><meta charset="utf-8"><title>Advancement offline frame baker</title>
+<canvas id="canvas" width="512" height="512"></canvas>
+<script src="/vendor/effekseer.min.js"></script>
+<script>
+const canvas=document.querySelector('canvas'),gl=canvas.getContext('webgl',{alpha:true,premultipliedAlpha:false,antialias:true,preserveDrawingBuffer:true});
+window.ready=false;window.failures=[];
+effekseer.initRuntime('/vendor/effekseer.wasm',()=>{try{
+ const context=effekseer.createContext();context.init(gl,{instanceMaxCount:2048});
+ context.setProjectionOrthographic(12,12,.1,100);context.setCameraLookAt(0,0,20,0,0,0,0,1,0);context.setRestorationOfStatesFlag(false);
+ window.load=async id=>{context.stopAll();if(window.effect)context.releaseEffect(window.effect);await new Promise((resolve,reject)=>{window.effect=context.loadEffect('/native/'+id+'.efk',1,resolve,(m,u)=>reject(Error(m+' '+u)));});};
+ window.frame=number=>{
+  context.stopAll();context.update(0);const h=context.play(window.effect,0,0,0);h.setRandomSeed(3504);h.setFrame(number);context.update(0);
+  gl.viewport(0,0,512,512);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);context.draw();
+  const pixels=new Uint8Array(512*512*4);gl.readPixels(0,0,512,512,gl.RGBA,gl.UNSIGNED_BYTE,pixels);
+  const c=document.createElement('canvas');c.width=c.height=512;const ctx=c.getContext('2d'),data=ctx.createImageData(512,512);
+  // Additive radiance is converted to straight alpha for Pixi upload. Dark
+  // dispelled debris is baked separately with normal alpha, never additive.
+  let nonzero=0;
+  for(let y=0;y<512;y++)for(let x=0;x<512;x++){
+   const src=((511-y)*512+x)*4,dst=(y*512+x)*4,a=window.blend==='normal'?pixels[src+3]:Math.max(pixels[src],pixels[src+1],pixels[src+2]);
+   if(a){nonzero++;for(let k=0;k<3;k++)data.data[dst+k]=Math.min(255,Math.round(pixels[src+k]*255/a));}data.data[dst+3]=a;
+  }
+  ctx.putImageData(data,0,0);return {png:c.toDataURL('image/png').split(',')[1],nonzero,glError:gl.getError()};
+ };
+ window.ready=true;
+}catch(e){window.failures.push(e.stack);}},()=>window.failures.push('WASM initialization failed'));
+</script>

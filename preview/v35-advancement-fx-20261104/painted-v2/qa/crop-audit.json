@@ -1,0 +1,1538 @@
+[
+  {
+    "id": "vanguard",
+    "frame": 0,
+    "rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "vanguard",
+    "frame": 1,
+    "rect": [
+      444,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "vanguard",
+    "frame": 2,
+    "rect": [
+      887,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "vanguard",
+    "frame": 3,
+    "rect": [
+      1331,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "vanguard",
+    "frame": 4,
+    "rect": [
+      0,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "vanguard",
+    "frame": 5,
+    "rect": [
+      444,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "vanguard",
+    "frame": 6,
+    "rect": [
+      887,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "vanguard",
+    "frame": 7,
+    "rect": [
+      1331,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "duelist",
+    "frame": 0,
+    "rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "duelist",
+    "frame": 1,
+    "rect": [
+      444,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "duelist",
+    "frame": 2,
+    "rect": [
+      887,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "duelist",
+    "frame": 3,
+    "rect": [
+      1331,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "duelist",
+    "frame": 4,
+    "rect": [
+      0,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "duelist",
+    "frame": 5,
+    "rect": [
+      444,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "duelist",
+    "frame": 6,
+    "rect": [
+      887,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "duelist",
+    "frame": 7,
+    "rect": [
+      1331,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "executioner",
+    "frame": 0,
+    "rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "executioner",
+    "frame": 1,
+    "rect": [
+      444,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "executioner",
+    "frame": 2,
+    "rect": [
+      887,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "executioner",
+    "frame": 3,
+    "rect": [
+      1331,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "executioner",
+    "frame": 4,
+    "rect": [
+      0,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "executioner",
+    "frame": 5,
+    "rect": [
+      444,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "executioner",
+    "frame": 6,
+    "rect": [
+      887,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "executioner",
+    "frame": 7,
+    "rect": [
+      1331,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "berserker",
+    "frame": 0,
+    "rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "berserker",
+    "frame": 1,
+    "rect": [
+      444,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "berserker",
+    "frame": 2,
+    "rect": [
+      887,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "berserker",
+    "frame": 3,
+    "rect": [
+      1331,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "berserker",
+    "frame": 4,
+    "rect": [
+      0,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "berserker",
+    "frame": 5,
+    "rect": [
+      444,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "berserker",
+    "frame": 6,
+    "rect": [
+      887,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "berserker",
+    "frame": 7,
+    "rect": [
+      1331,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "combo",
+    "frame": 0,
+    "rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "combo",
+    "frame": 1,
+    "rect": [
+      444,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "combo",
+    "frame": 2,
+    "rect": [
+      887,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "combo",
+    "frame": 3,
+    "rect": [
+      1331,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "combo",
+    "frame": 4,
+    "rect": [
+      0,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "combo",
+    "frame": 5,
+    "rect": [
+      444,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "combo",
+    "frame": 6,
+    "rect": [
+      887,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "combo",
+    "frame": 7,
+    "rect": [
+      1331,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "vampire",
+    "frame": 0,
+    "rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "vampire",
+    "frame": 1,
+    "rect": [
+      444,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "vampire",
+    "frame": 2,
+    "rect": [
+      887,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "vampire",
+    "frame": 3,
+    "rect": [
+      1331,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "vampire",
+    "frame": 4,
+    "rect": [
+      0,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "vampire",
+    "frame": 5,
+    "rect": [
+      444,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "vampire",
+    "frame": 6,
+    "rect": [
+      887,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "vampire",
+    "frame": 7,
+    "rect": [
+      1331,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "avenger",
+    "frame": 0,
+    "rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "avenger",
+    "frame": 1,
+    "rect": [
+      444,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "avenger",
+    "frame": 2,
+    "rect": [
+      887,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "avenger",
+    "frame": 3,
+    "rect": [
+      1331,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "avenger",
+    "frame": 4,
+    "rect": [
+      0,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "avenger",
+    "frame": 5,
+    "rect": [
+      444,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "avenger",
+    "frame": 6,
+    "rect": [
+      887,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "avenger",
+    "frame": 7,
+    "rect": [
+      1331,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "shield-knight",
+    "frame": 0,
+    "rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "shield-knight",
+    "frame": 1,
+    "rect": [
+      444,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "shield-knight",
+    "frame": 2,
+    "rect": [
+      887,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "shield-knight",
+    "frame": 3,
+    "rect": [
+      1331,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "shield-knight",
+    "frame": 4,
+    "rect": [
+      0,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "shield-knight",
+    "frame": 5,
+    "rect": [
+      444,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "shield-knight",
+    "frame": 6,
+    "rect": [
+      887,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "shield-knight",
+    "frame": 7,
+    "rect": [
+      1331,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "barrier",
+    "frame": 0,
+    "rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "barrier",
+    "frame": 1,
+    "rect": [
+      444,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "barrier",
+    "frame": 2,
+    "rect": [
+      887,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "barrier",
+    "frame": 3,
+    "rect": [
+      1331,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "barrier",
+    "frame": 4,
+    "rect": [
+      0,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "barrier",
+    "frame": 5,
+    "rect": [
+      444,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "barrier",
+    "frame": 6,
+    "rect": [
+      887,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "barrier",
+    "frame": 7,
+    "rect": [
+      1331,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "undying",
+    "frame": 0,
+    "rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "undying",
+    "frame": 1,
+    "rect": [
+      444,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "undying",
+    "frame": 2,
+    "rect": [
+      887,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "undying",
+    "frame": 3,
+    "rect": [
+      1331,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "undying",
+    "frame": 4,
+    "rect": [
+      0,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "undying",
+    "frame": 5,
+    "rect": [
+      444,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "undying",
+    "frame": 6,
+    "rect": [
+      887,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "undying",
+    "frame": 7,
+    "rect": [
+      1331,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "regenerator",
+    "frame": 0,
+    "rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "regenerator",
+    "frame": 1,
+    "rect": [
+      444,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "regenerator",
+    "frame": 2,
+    "rect": [
+      887,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "regenerator",
+    "frame": 3,
+    "rect": [
+      1331,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "regenerator",
+    "frame": 4,
+    "rect": [
+      0,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "regenerator",
+    "frame": 5,
+    "rect": [
+      444,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "regenerator",
+    "frame": 6,
+    "rect": [
+      887,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "regenerator",
+    "frame": 7,
+    "rect": [
+      1331,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "healer",
+    "frame": 0,
+    "rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "healer",
+    "frame": 1,
+    "rect": [
+      444,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "healer",
+    "frame": 2,
+    "rect": [
+      887,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "healer",
+    "frame": 3,
+    "rect": [
+      1331,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "healer",
+    "frame": 4,
+    "rect": [
+      0,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "healer",
+    "frame": 5,
+    "rect": [
+      444,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "healer",
+    "frame": 6,
+    "rect": [
+      887,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "healer",
+    "frame": 7,
+    "rect": [
+      1331,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "guardian",
+    "frame": 0,
+    "rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "guardian",
+    "frame": 1,
+    "rect": [
+      444,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "guardian",
+    "frame": 2,
+    "rect": [
+      887,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "guardian",
+    "frame": 3,
+    "rect": [
+      1331,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "guardian",
+    "frame": 4,
+    "rect": [
+      0,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "guardian",
+    "frame": 5,
+    "rect": [
+      444,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "guardian",
+    "frame": 6,
+    "rect": [
+      887,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "guardian",
+    "frame": 7,
+    "rect": [
+      1331,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "cleanser",
+    "frame": 0,
+    "rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "cleanser",
+    "frame": 1,
+    "rect": [
+      444,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "cleanser",
+    "frame": 2,
+    "rect": [
+      887,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "cleanser",
+    "frame": 3,
+    "rect": [
+      1331,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "cleanser",
+    "frame": 4,
+    "rect": [
+      0,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "cleanser",
+    "frame": 5,
+    "rect": [
+      444,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "cleanser",
+    "frame": 6,
+    "rect": [
+      887,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "cleanser",
+    "frame": 7,
+    "rect": [
+      1331,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "commander",
+    "frame": 0,
+    "rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "commander",
+    "frame": 1,
+    "rect": [
+      444,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "commander",
+    "frame": 2,
+    "rect": [
+      887,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "commander",
+    "frame": 3,
+    "rect": [
+      1331,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "commander",
+    "frame": 4,
+    "rect": [
+      0,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "commander",
+    "frame": 5,
+    "rect": [
+      444,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "commander",
+    "frame": 6,
+    "rect": [
+      887,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "commander",
+    "frame": 7,
+    "rect": [
+      1331,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "breaker",
+    "frame": 0,
+    "rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "breaker",
+    "frame": 1,
+    "rect": [
+      444,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "breaker",
+    "frame": 2,
+    "rect": [
+      887,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "breaker",
+    "frame": 3,
+    "rect": [
+      1331,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "breaker",
+    "frame": 4,
+    "rect": [
+      0,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "breaker",
+    "frame": 5,
+    "rect": [
+      444,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "breaker",
+    "frame": 6,
+    "rect": [
+      887,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "breaker",
+    "frame": 7,
+    "rect": [
+      1331,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  }
+]

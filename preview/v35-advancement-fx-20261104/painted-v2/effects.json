@@ -1,0 +1,235 @@
+{
+  "id": "mercenary-advancement-painted-v2",
+  "sourceDate": "2026-11-05",
+  "tool": "Effekseer",
+  "version": "1.70e",
+  "fps": 30,
+  "nativeFps": 60,
+  "seed": 3504,
+  "effects": [
+    {
+      "id": "vanguard",
+      "frames": 19,
+      "nativeFrames": 36,
+      "blend": "normal",
+      "width": 512,
+      "height": 512,
+      "units": 12,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/vanguard.efkefc"
+    },
+    {
+      "id": "duelist",
+      "frames": 19,
+      "nativeFrames": 36,
+      "blend": "normal",
+      "width": 512,
+      "height": 512,
+      "units": 12,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/duelist.efkefc"
+    },
+    {
+      "id": "executioner",
+      "frames": 19,
+      "nativeFrames": 36,
+      "blend": "normal",
+      "width": 512,
+      "height": 512,
+      "units": 12,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/executioner.efkefc"
+    },
+    {
+      "id": "berserker",
+      "frames": 19,
+      "nativeFrames": 36,
+      "blend": "normal",
+      "width": 512,
+      "height": 512,
+      "units": 12,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/berserker.efkefc"
+    },
+    {
+      "id": "combo",
+      "frames": 19,
+      "nativeFrames": 36,
+      "blend": "normal",
+      "width": 512,
+      "height": 512,
+      "units": 12,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/combo.efkefc"
+    },
+    {
+      "id": "vampire",
+      "frames": 19,
+      "nativeFrames": 36,
+      "blend": "normal",
+      "width": 512,
+      "height": 512,
+      "units": 12,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/vampire.efkefc"
+    },
+    {
+      "id": "avenger",
+      "frames": 19,
+      "nativeFrames": 36,
+      "blend": "normal",
+      "width": 512,
+      "height": 512,
+      "units": 12,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/avenger.efkefc"
+    },
+    {
+      "id": "shield-knight",
+      "frames": 19,
+      "nativeFrames": 36,
+      "blend": "normal",
+      "width": 512,
+      "height": 512,
+      "units": 12,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/shield-knight.efkefc"
+    },
+    {
+      "id": "barrier",
+      "frames": 19,
+      "nativeFrames": 36,
+      "blend": "normal",
+      "width": 512,
+      "height": 512,
+      "units": 12,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/barrier.efkefc"
+    },
+    {
+      "id": "undying",
+      "frames": 19,
+      "nativeFrames": 36,
+      "blend": "normal",
+      "width": 512,
+      "height": 512,
+      "units": 12,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/undying.efkefc"
+    },
+    {
+      "id": "regenerator",
+      "frames": 19,
+      "nativeFrames": 36,
+      "blend": "normal",
+      "width": 512,
+      "height": 512,
+      "units": 12,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/regenerator.efkefc"
+    },
+    {
+      "id": "healer",
+      "frames": 19,
+      "nativeFrames": 36,
+      "blend": "normal",
+      "width": 512,
+      "height": 512,
+      "units": 12,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/healer.efkefc"
+    },
+    {
+      "id": "guardian",
+      "frames": 19,
+      "nativeFrames": 36,
+      "blend": "normal",
+      "width": 512,
+      "height": 512,
+      "units": 12,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/guardian.efkefc"
+    },
+    {
+      "id": "cleanser",
+      "frames": 19,
+      "nativeFrames": 36,
+      "blend": "normal",
+      "width": 512,
+      "height": 512,
+      "units": 12,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/cleanser.efkefc"
+    },
+    {
+      "id": "commander",
+      "frames": 19,
+      "nativeFrames": 36,
+      "blend": "normal",
+      "width": 512,
+      "height": 512,
+      "units": 12,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/commander.efkefc"
+    },
+    {
+      "id": "breaker",
+      "frames": 19,
+      "nativeFrames": 36,
+      "blend": "normal",
+      "width": 512,
+      "height": 512,
+      "units": 12,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/breaker.efkefc"
+    }
+  ]
+}

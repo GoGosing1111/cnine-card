@@ -1,0 +1,1234 @@
+(() => {
+  'use strict';
+
+  const root = window;
+  const VERSION = '3.37.7-bloodmoon-balance';
+  const BATTLE_RUNTIME = '20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3-jokro-manifest-bundled-20261027-v1-blackcrown-live-20261027-v1-revan-general-jok-20261027-v2-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-classic-colosseum-20261027-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-kamishiro-live-20261028-v1-damage-hp-sync-20261029-v1-icon-diim-front-20261029-v1-limited-220-balance-20261029-v1-omega-craft-20261029-v1-heukmu-live-20261029-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-pet-pepegu-20261101-v1-tactical-hud-20261102-v1';
+  let battleRuntimeRefresh = null;
+  async function ensureCurrentBattleRuntime({effects=false}={}) {
+    const ready=()=>root.ProjectVPixiBattle?.runtimeVersion===BATTLE_RUNTIME&&(!effects||Boolean(root.ProjectVPixiBattle.fxRuntime));
+    if (ready()) return;
+    if (battleRuntimeRefresh) { await battleRuntimeRefresh; if(ready())return; return ensureCurrentBattleRuntime({effects}); }
+    battleRuntimeRefresh = new Promise((resolve, reject) => {
+      root.ProjectVPixiBattle?.destroy?.();
+      root.__V3_PIXI_GENERATION = Number(root.__V3_PIXI_GENERATION || 0) + 1;
+      root.__V3_PIXI_MOUNTED = false; root.__V3_PIXI_CANVAS = null; root.__V3_PIXI_INIT_PROMISE = null;
+      const script = document.createElement('script');
+      script.src = '/preview/project-v-v3/project-v-pixi-battle.bundle.js?iosBitmap=20261102-v1&primeZeroTop=20261102-v1&blackcrownBalance=20261031-v1&heukmu=20261029-swing-fx-v2&omegaCraft=20261029-v1&balance220=20261029-v1&diimFront=20261029-v1&iconFour=20261029-v1&hpSync=20261029-v1&kamishiro=20261028-live-v1&heukgu=20261025-large-head-v3&bloodmoonBattle=20261025-status-v2&deployment=20261025-bloodmoon&namsudaeng=20261024-v1&eunseol=20261023-v1&generalJok=20261023-v15&valterParity=20261021-v1&prime=20261021-v2&towerAbyss=20261021-v1&zero=20261020-wings-live-v1&leonel=20261018-live-v1&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&v=20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-jinmu-jokro-v2&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&tacticalHud=20261102-v1&battleRuntime=' + BATTLE_RUNTIME + (effects?'&lichFx=20261001':'');
+      script.async = false;
+      const timer = setTimeout(() => { script.remove(); reject(new Error('전투 엔진을 새로 불러오지 못했습니다. 다시 입장해 주세요.')); }, 20000);
+      script.onload = () => { clearTimeout(timer); ready() ? resolve() : reject(new Error('전투 엔진 버전 확인에 실패했습니다.')); };
+      script.onerror = () => { clearTimeout(timer); script.remove(); reject(new Error('전투 엔진을 불러오지 못했습니다.')); };
+      document.head.appendChild(script);
+    }).finally(() => { battleRuntimeRefresh = null; });
+    return battleRuntimeRefresh;
+  }
+  const PLAYBACK_SPEED = 1.3;
+  const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
+  const SEAL_ORB_ART = '/assets/ui/seal-battle/orbs-20261022';
+  const SEAL_ORB_ROLES = Object.freeze({ATTACK:{file:'attack',name:'파괴 봉인구'},GUARD:{file:'guard',name:'수호 봉인구'},PURIFY:{file:'purify',name:'정화 봉인구'}});
+  const sealOrbLoads = new Map();
+  function sealOrbArt(roleKey='ATTACK') {
+    const key=Object.hasOwn(SEAL_ORB_ROLES,roleKey)?roleKey:'ATTACK',row=SEAL_ORB_ROLES[key];
+    return {scope:'BATTLE_ENGINE_ONLY',kind:'SEAL_CRYSTAL_ORB_SD',sealRole:key,name:row.name,
+      primaryUrl:`${SEAL_ORB_ART}/${row.file}.webp`,pngFallbackUrl:`${SEAL_ORB_ART}/${row.file}.png`,
+      footAnchor:{x:.5,y:.94},objectFit:'contain',objectPosition:'50% 100%',scaleMultiplier:1.04,
+      approved:false,technicalPass:true};
+  }
+  function prepareSealOrb(roleKey) {
+    const art=sealOrbArt(roleKey);
+    if(!sealOrbLoads.has(art.primaryUrl)){
+      const pending=(async()=>{
+        for(const url of [art.primaryUrl,art.pngFallbackUrl]){
+          try{
+            await new Promise((resolve,reject)=>{
+              const image=new root.Image(),timer=setTimeout(()=>finish(false),12000);
+              const finish=ok=>{clearTimeout(timer);image.onload=null;image.onerror=null;ok?resolve():reject(new Error('봉인구 이미지를 불러오지 못했습니다.'));};
+              image.onload=()=>finish(image.naturalWidth>0);image.onerror=()=>finish(false);image.src=url;
+            });
+            return art;
+          }catch{}
+        }
+        throw new Error('봉인구 이미지를 불러오지 못했습니다. 다시 시도해 주세요.');
+      })().catch(error=>{sealOrbLoads.delete(art.primaryUrl);throw error;});
+      sealOrbLoads.set(art.primaryUrl,pending);
+    }
+    return sealOrbLoads.get(art.primaryUrl);
+  }
+  const sleep = ms => new Promise(resolve => setTimeout(resolve, Math.max(0, Number(ms || 0))));
+  const withTimeout = (promise, ms, message, options = {}) => new Promise((resolve, reject) => {
+    let settled = false;
+    let timer, started=0, remaining=Math.max(50,Number(ms||0));
+    let progress=options.progress?.();
+    const onDeadline=()=>{
+      timer=undefined;
+      const current=options.progress?.();
+      if(typeof options.progress==='function'&&current!==progress){
+        progress=current;remaining=Math.max(50,Number(options.progressTimeoutMs||ms));onVisibility();
+      }else recover(new Error(message));
+    };
+    const onVisibility=()=>{
+      if(timer!==undefined){remaining=Math.max(0,remaining-(Date.now()-started));clearTimeout(timer);timer=undefined;}
+      if(!settled&&(!options.pauseWhenHidden||!document.hidden)){
+        started=Date.now();timer=setTimeout(onDeadline,remaining);
+      }
+    };
+    const cleanup=()=>{clearTimeout(timer);if(options.pauseWhenHidden)document.removeEventListener('visibilitychange',onVisibility);};
+    const fallback = options.fallback ?? false;
+    const finish = value => {
+      if (settled) return;
+      settled = true;
+      cleanup();
+      resolve(value);
+    };
+    const recover = error => {
+      if (settled) return;
+      settled = true;
+      cleanup();
+      console.warn(`[PROJECT V V3] ${message}`, error);
+      Promise.resolve(options.onFailure?.(error)).catch(recoveryError => {
+        console.warn('[PROJECT V V3] 타임아웃 복구 처리 실패', recoveryError);
+      }).finally(() => options.rejectOnFailure?reject(error):resolve(fallback));
+    };
+    if(options.pauseWhenHidden)document.addEventListener('visibilitychange',onVisibility);
+    onVisibility();
+    Promise.resolve(promise).then(finish, recover);
+  });
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[char]);
+  const nextPaint = () => new Promise(resolve => requestAnimationFrame(() => resolve()));
+  const withRejectingTimeout = (promise, ms, message) => new Promise((resolve, reject) => {
+    let settled = false;
+    const finish = (callback, value) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      callback(value);
+    };
+    const timer = setTimeout(() => finish(reject, new Error(message)), Math.max(250, Number(ms || 0)));
+    Promise.resolve(promise).then(value => finish(resolve, value), error => finish(reject, error));
+  });
+  const hardResetPixiBattle = async target => {
+    // A lost WebGL context cannot be recovered by setVisible/resetSession. Invalidate
+    // every late async continuation before destroying the shared Pixi application.
+    root.__V3_PIXI_GENERATION = Number(root.__V3_PIXI_GENERATION || 0) + 1;
+    try { root.ProjectVPixiBattle?.cancelActiveAnimations?.(); } catch {}
+    try { root.ProjectVPixiBattle?.destroy?.(); } catch {}
+    root.__V3_PIXI_MOUNTED = false;
+    root.__V3_PIXI_CANVAS = null;
+    root.__V3_PIXI_INIT_PROMISE = null;
+    const scope = target?.querySelectorAll ? target : document;
+    try { scope.querySelectorAll('.battle-v3-canvas-host canvas,canvas[data-pv-v3-canvas]').forEach(canvas => canvas.remove()); } catch {}
+    await nextPaint();
+    return true;
+  };
+  // ---------------------------------------------------------------------
+  // V1796: 출전 카드 로스터 + 판정 근거 노출
+  //
+  // V3 전장은 SD 캐릭터만 그리기 때문에 "지금 어떤 카드가 나가 있는지" 를
+  // 화면에서 알 수 없었다(V2 스코어보드가 V3 셸에서 통째로 빠졌다).
+  //   - PVE 계열(HUNT/TOWER/SEAL/RAID/SIEGE): 하단 중앙에 내 출전 카드 한 줄
+  //   - PVP: 하단 좌(나) / 우(상대) 두 줄로 양쪽 출전 카드
+  // 여기에 더해 서버가 이미 계산해서 내려주는 판정 근거(reason)와 생존 수를
+  // 결과 화면에 띄운다. "내 카드가 살아있는데 패배가 떴다" 는 제보를 재현 없이
+  // 판별하려면 연출된 화면이 아니라 서버가 확정한 값을 보여줘야 한다.
+  // ---------------------------------------------------------------------
+  const ROSTER_MAX = 5;
+  const FALLBACK_ART = '/assets/ui/brand/reverse-call-20261016/icon-512.png';
+  const VERDICT_REASON_TEXT = {
+    ELIMINATION: '전멸 판정',
+    SURVIVOR_COUNT: '시간 종료 · 생존 수 우세',
+    HP_RATIO_TIEBREAK: '시간 종료 · 잔여 체력 우세',
+    POWER_TIEBREAK: '시간 종료 · 편성 전투력 우세',
+    TIME_LIMIT: '제한 시간 초과',
+    ACTION_LIMIT: '행동 횟수 초과'
+  };
+
+  function encodePathPart(part) {
+    if (!part) return '';
+    try { return encodeURIComponent(decodeURIComponent(part)); }
+    catch { return encodeURIComponent(part); }
+  }
+
+  // battle-v2-live.js 의 assetUrl 과 같은 규칙. 저기서 export 하지 않으므로
+  // (그리고 V3 는 V2 렌더러 없이도 단독으로 떠야 하므로) 여기에도 둔다.
+  // V1803: WebGL 전장에 올라가는 스프라이트 URL 을 경량 변형으로 바꾼다.
+  // 로스터 카드 프레임은 assetUrl() 이 처리하지만, Pixi 전장은 번들이 payload 의
+  // image 값을 직접 읽으므로 넘기기 전에 한 번 갈아끼워야 한다.
+  // 어댑터가 넣어 준 SD 원본 PNG 는 장당 1.1~1.6MB 인데 화면에서는 184px 로 그려진다.
+  const SPRITE_URL_KEYS = ['image', 'imageBattle', 'battleImage', 'imageUrl', 'image_url', 'primaryUrl', 'pngFallbackUrl', 'battleSprite', 'appearanceUrl', 'url', 'src'];
+  function rewriteSpriteCard(card) {
+    const resolve = root.cnineBattleSpriteUrl;
+    if (typeof resolve !== 'function' || !card || typeof card !== 'object') return card;
+    let changed = false;
+    const next = { ...card };
+    for (const key of SPRITE_URL_KEYS) {
+      const value = next[key];
+      if (typeof value !== 'string' || !value) continue;
+      let mapped = value;
+      try { mapped = resolve(value) } catch { mapped = value }
+      if (mapped && mapped !== value) { next[key] = mapped; changed = true }
+    }
+    return changed ? next : card;
+  }
+  function rewriteBattleSpriteUrls(payload) {
+    if (typeof root.cnineBattleSpriteUrl !== 'function' || !payload || typeof payload !== 'object') return payload;
+    const out = { ...payload };
+    const teams = out.battleV2?.teams;
+    if (teams && typeof teams === 'object') {
+      const nextTeams = { ...teams };
+      for (const side of Object.keys(nextTeams)) {
+        const team = nextTeams[side];
+        if (!team || !Array.isArray(team.cards)) continue;
+        nextTeams[side] = { ...team, cards: team.cards.map(rewriteSpriteCard) };
+      }
+      out.battleV2 = { ...out.battleV2, teams: nextTeams };
+    }
+    if (Array.isArray(out.cards)) out.cards = out.cards.map(rewriteSpriteCard);
+    if (out.monster) out.monster = rewriteSpriteCard(out.monster);
+    const rewriteEquipment = item => {
+      if (!item || typeof item !== 'object' || Array.isArray(item)) return item;
+      const next = { ...rewriteSpriteCard(item) };
+      if (next.appearance && typeof next.appearance === 'object' && !Array.isArray(next.appearance)) next.appearance = rewriteSpriteCard(next.appearance);
+      if (next.battleSprite && typeof next.battleSprite === 'object' && !Array.isArray(next.battleSprite)) next.battleSprite = rewriteSpriteCard(next.battleSprite);
+      return next;
+    };
+    if (Object.prototype.hasOwnProperty.call(out, 'equippedBattleSuit')) out.equippedBattleSuit = rewriteEquipment(out.equippedBattleSuit);
+    if (Object.prototype.hasOwnProperty.call(out, 'equippedWeapon')) out.equippedWeapon = rewriteEquipment(out.equippedWeapon);
+    if (out.characterBonus && typeof out.characterBonus === 'object') {
+      out.characterBonus = { ...out.characterBonus };
+      if (Object.prototype.hasOwnProperty.call(out.characterBonus, 'equippedBattleSuit')) out.characterBonus.equippedBattleSuit = rewriteEquipment(out.characterBonus.equippedBattleSuit);
+      if (Object.prototype.hasOwnProperty.call(out.characterBonus, 'equippedWeapon')) out.characterBonus.equippedWeapon = rewriteEquipment(out.characterBonus.equippedWeapon);
+      if (out.characterBonus.bonuses && typeof out.characterBonus.bonuses === 'object') {
+        out.characterBonus.bonuses = { ...out.characterBonus.bonuses };
+        if (Object.prototype.hasOwnProperty.call(out.characterBonus.bonuses, 'equippedBattleSuit')) out.characterBonus.bonuses.equippedBattleSuit = rewriteEquipment(out.characterBonus.bonuses.equippedBattleSuit);
+        if (Object.prototype.hasOwnProperty.call(out.characterBonus.bonuses, 'equippedWeapon')) out.characterBonus.bonuses.equippedWeapon = rewriteEquipment(out.characterBonus.bonuses.equippedWeapon);
+      }
+    }
+    if (out.bonuses && typeof out.bonuses === 'object') {
+      out.bonuses = { ...out.bonuses };
+      if (Object.prototype.hasOwnProperty.call(out.bonuses, 'equippedBattleSuit')) out.bonuses.equippedBattleSuit = rewriteEquipment(out.bonuses.equippedBattleSuit);
+      if (Object.prototype.hasOwnProperty.call(out.bonuses, 'equippedWeapon')) out.bonuses.equippedWeapon = rewriteEquipment(out.bonuses.equippedWeapon);
+    }
+    return out;
+  }
+
+  function assetUrl(value) {
+    let raw = String(value || '').trim();
+    if (!raw) return FALLBACK_ART;
+    if (/^(?:data:|blob:)/i.test(raw)) return raw;
+    // V1803: 카드 원본(평균 334KB)을 전투에서 그대로 받던 것을 도감과 같은 384px 변형(약 13KB)으로 돌린다.
+    // 전투 카드는 화면에서 58~112px 이라 화질 손실이 없고, 도감을 본 적 있으면 캐시에서 바로 나온다.
+    // 매핑이 없는 이미지(몬스터·이펙트·UI)는 그대로 통과한다.
+    try { const mapped = window.cnineBattleSpriteUrl?.(raw); if (mapped && mapped !== raw) raw = mapped; } catch (_) { /* 무시 */ }
+    raw = raw.replace(/\\/g, '/').replace(/#/g, '%23');
+    if (/^https?:\/\//i.test(raw)) {
+      try {
+        const url = new URL(raw);
+        url.pathname = url.pathname.split('/').map(encodePathPart).join('/');
+        return url.href;
+      } catch { return raw; }
+    }
+    raw=window.CNineImageDelivery?.url(raw)||raw;
+    const queryIndex = raw.indexOf('?');
+    const query = queryIndex >= 0 ? raw.slice(queryIndex) : '';
+    let path = queryIndex >= 0 ? raw.slice(0, queryIndex) : raw;
+    path = path.replace(/^(?:\.\.\/)+/, '').replace(/^\.\//, '').replace(/^\/+/, '');
+    return `/${path.split('/').map(encodePathPart).join('/')}${query}`;
+  }
+
+  const isMonsterCard = card => /^MONSTER:/i.test(String(card?.cardId || card?.id || ''))
+    || ['MONSTER', 'BOSS'].includes(String(card?.grade || '').toUpperCase());
+
+  // 최종 생존 상태(final)는 엔진 fighter 의 id 로 오고, 로스터는 서버 카드의
+  // cardId 로 그려질 수도 있다. 둘 다 키로 잡아 둬야 매칭이 어긋나지 않는다.
+  const rosterKeys = card => [card?.id, card?.cardId]
+    .map(value => String(value ?? '').trim())
+    .filter(Boolean);
+
+  const FAKER_CHAMPIONSHIP_CARD_ID = 'CN-0B48C6FF8F9B4AC5';
+  const typeKey = type => ({ ATTACK: 'attack', DEFENSE: 'defense', HP: 'hp', SPEED: 'speed' })[String(type || '').toUpperCase()] || '';
+  const typeIcon = type => ({ ATTACK: '⚔', DEFENSE: '⬡', HP: '♥', SPEED: '↯', NONE: '◇' })[String(type || '').toUpperCase()] || '◇';
+  const typeLabel = type => ({ ATTACK: '공격형', DEFENSE: '방어형', HP: '생명형', SPEED: '속도형' })[String(type || '').toUpperCase()] || '';
+
+  // V1797: 로스터에는 "도감에 보이는 카드 그림" 이 나와야 한다.
+  //
+  // 전투 아트 어댑터(project-v-*-battle-art-adapter-v1.js)가 렌더러에 넘어가기 전에
+  // battleV2.teams[*].cards[*].image 를 SD 배틀 스프라이트로 바꿔치기한다. Pixi 전장에는
+  // 그게 맞지만, 카드 프레임에 그대로 쓰면 도감 카드가 아니라 SD 캐릭터가 박힌다.
+  // 그래서 아래 순서로 원본을 되찾는다.
+  //   1) 클라이언트 카드 도감(window.cnineCardCatalog) — 도감 화면과 완전히 같은 그림
+  //   2) 어댑터가 남겨 둔 originalCardArt / imageUrl / image_url
+  //   3) 마지막에야 card.image (어댑터가 안 돈 경우엔 이게 원본이다)
+  let catalogCache = { source: null, map: null };
+  function cardCatalogMap() {
+    let list = null;
+    try { list = root.cnineCardCatalog?.(); } catch { list = null; }
+    if (!Array.isArray(list)) return null;
+    if (catalogCache.source === list && catalogCache.map) return catalogCache.map;
+    const map = new Map();
+    list.forEach(item => { const id = String(item?.id ?? '').trim(); if (id) map.set(id, item); });
+    catalogCache = { source: list, map };
+    return map;
+  }
+  function dexCardFor(card, catalog) {
+    if (!catalog) return null;
+    for (const key of rosterKeys(card)) { const found = catalog.get(key); if (found) return found; }
+    return null;
+  }
+  function rosterArt(card, dex) {
+    const source = dex?.image || card?.originalCardArt || card?.sourceArt
+      || card?.imageUrl || card?.image_url || card?.image || '';
+    return {
+      url: assetUrl(source),
+      focusX: Number(dex?.focusX ?? card?.focusX ?? 50),
+      focusY: Number(dex?.focusY ?? card?.focusY ?? 50)
+    };
+  }
+
+  function markRosterFinalState(stage, finalState) {
+    stage?.__v3Hud?.finalState(finalState);
+  }
+
+  function survivorCounts(result) {
+    const counted = side => (Array.isArray(result?.final?.[side]) ? result.final[side] : [])
+      .filter(card => Number(card?.hp || 0) > 0).length;
+    const declared = result?.survivorCount || {};
+    return {
+      A: Number.isFinite(Number(declared.A)) ? Number(declared.A) : counted('A'),
+      B: Number.isFinite(Number(declared.B)) ? Number(declared.B) : counted('B')
+    };
+  }
+
+  // 서버가 확정한 승패 근거. 연출(타임라인)이 타임아웃으로 일부 생략돼도
+  // 이 줄은 항상 서버 값을 그대로 보여준다.
+  function verdictSummary(payload, mode) {
+    const result = payload?.battleV2?.result;
+    const winner = String(result?.winner || '').toUpperCase();
+    if (winner !== 'A' && winner !== 'B') return '';
+    if(payload?.battlePhase==='BOSS'&&payload?.roleKey==='BOSS')return payload.bossDefeated
+      ?'공동 토벌 완료 · 봉인룡 처치'
+      :`본체 피해 반영 완료 · 남은 HP ${Number(payload.bossHpAfter||0).toLocaleString('ko-KR')}`;
+    const coreOutcome = payload?.coreRaid?.verifiedOutcome;
+    if (coreOutcome) {
+      const reason = coreOutcome.failureReason === 'CORE_OVERLOAD' ? '코어 공명 과부하'
+        : coreOutcome.engineSuccess === false ? '전투 패배'
+        : coreOutcome.mechanicSuccess === false ? '기믹 해제 실패' : '서버 확인 완료';
+      return (coreOutcome.success ? '공략 성공' : '공략 실패') + ' · ' + reason;
+    }
+    const { A, B } = survivorCounts(result);
+    const reason = VERDICT_REASON_TEXT[String(result.reason || '').toUpperCase()] || '판정 완료';
+    const verdict = mode === 'PVP' || mode === 'SIEGE'
+      ? (winner === 'A' ? '내 팀 승리' : '상대 팀 승리')
+      : (winner === 'A' ? '승리' : '패배');
+    return `${verdict} · ${reason} · 생존 ${A} : ${B}`;
+  }
+
+  // 결과창(.battle-message)은 bottom:34px 에 붙는 요소다. 로스터가 그 자리를
+  // 쓰게 됐으므로 도크 실제 높이를 재서 결과창·상태줄을 그만큼 위로 올린다.
+  // 해상도·모드별 매직넘버를 박지 않으려고 측정값을 CSS 변수로 넘긴다.
+  function syncDockMetrics(stage) {
+    const dock = stage?.querySelector?.('[data-v3-dock]');
+    if (!dock) return 0;
+    const height = Math.round(dock.getBoundingClientRect().height);
+    stage.style.setProperty('--v3-dock-h', `${height}px`);
+    return height;
+  }
+
+  function showVerdict(stage, payload, mode) {
+    const node = stage?.querySelector?.('[data-v3-verdict]');
+    if (!node) return '';
+    const text = verdictSummary(payload, mode);
+    node.textContent = text;
+    node.hidden = !text;
+    const winner = String(payload?.battleV2?.result?.winner || '').toUpperCase();
+    node.classList.toggle('is-win', winner === 'A');
+    node.classList.toggle('is-lose', winner === 'B');
+    syncDockMetrics(stage);
+    return text;
+  }
+
+  function battlefieldMode(mode, data = {}) {
+    const raw = String(data?.floor ? 'TOWER' : data?.battlefieldMode || data?.mode || mode || 'HUNT').toUpperCase();
+    if (/TOWER|INFINITE/.test(raw)) return 'TOWER';
+    if (/PVP|RANK|ARENA/.test(raw)) return 'PVP';
+    if (/RAID/.test(raw)) return 'RAID';
+    if (/ESCORT|CONVOY|TRANSPORT/.test(raw)) return 'ESCORT';
+    if (/SEAL/.test(raw)) return 'SEAL';
+    if (/SIEGE|TERRITORY/.test(raw)) return 'SIEGE';
+    return 'HUNT';
+  }
+
+  const ACCOUNT_UNIT_PVE_MODE = /(?:^|_)(?:PVE|HUNT|TOWER|RAID|SEAL|ESCORT|DUNGEON|APOCALYPSE|SCRAPYARD|IDLE)(?:_|$)/;
+  const ACCOUNT_UNIT_FORBIDDEN_MODE = /(?:^|_)(?:PVP|RANK|RANKED|ARENA|SIEGE|TERRITORY|CAPTAIN|CLAN)(?:_|$)/;
+  function authoritativeBattleSuitSupport(data = {}) {
+    const battle = data?.battleV2 || {};
+    const rows = [
+      ...(Array.isArray(battle?.teams?.A?.supports) ? battle.teams.A.supports : []),
+      ...(Array.isArray(battle?.result?.supports?.A) ? battle.result.supports.A : [])
+    ];
+    const support = rows.find(item => String(item?.actorKind || '').trim().toUpperCase() === 'BATTLE_SUIT') || null;
+    const serverTimeline = String(battle?.rules?.battleSuitDamageAuthority || support?.damageAuthority || '').trim().toUpperCase() === 'SERVER_TIMELINE';
+    return support && serverTimeline ? support : null;
+  }
+  function accountBattleUnitPveGate(mode, data = {}) {
+    const battle = data?.battleV2 || {};
+    const tokens = [
+      mode, data?.battlefieldMode, data?.battlefield, data?.contentType, data?.mode, data?.type,
+      battle?.battlefieldMode, battle?.contentType, battle?.mode, battle?.type
+    ].map(value => String(value || '').trim().toUpperCase().replace(/[\s-]+/g, '_')).filter(Boolean);
+    if (tokens.some(value => ACCOUNT_UNIT_FORBIDDEN_MODE.test(value))) return false;
+    if (!tokens.some(value => ACCOUNT_UNIT_PVE_MODE.test(value))) return false;
+    return Boolean(authoritativeBattleSuitSupport(data));
+  }
+
+  function accountBattleUnitNickname(data = {}, playerName = '') {
+    let signedInName = '';
+    try { signedInName = String(root.loadUser?.()?.nickname || '').trim(); } catch (_) { signedInName = ''; }
+    return String(data.accountNickname || data.user?.nickname || playerName || signedInName || '').trim();
+  }
+
+  function prepareLoading({ modal, mode = 'PVE', playerName = 'MEMBER TEAM', opponentName = 'OPPONENT', autoText = '' } = {}) {
+    if (!modal) throw new Error('V3 전투 모달을 준비하지 못했습니다.');
+    const field = battlefieldMode(mode);
+    // Show the selected battlefield immediately. The lightweight loader stays
+    // over that scene only until Pixi commits its first authoritative frame.
+    modal.onclick=null;
+    modal.className = `modal show battle-modal battle-v3-modal battle-v3-preparing ${field === 'PVP' || field === 'SIEGE' ? 'pvp-battle-modal' : ''}`;
+    modal.innerHTML = `<div class="modal-panel battle-stage battle-v3-live-shell has-tactical-hud" data-battle-v3-live="${VERSION}" data-v3-field="${field}">
+      <header class="battle-v3-header">
+        <div class="v3-hud-location"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3l12 16M17 3L5 19M4 14l6 5M20 14l-6 5"/></svg><small></small><strong>${field === 'TOWER' ? '무한의 탑' : field === 'PVP' ? 'PVP 랭크전' : field === 'SIEGE' ? '영토전 공성 교전' : field === 'RAID' ? '월드 레이드 개인전' : field === 'SEAL' ? '봉인전' : field === 'ESCORT' ? '철벽 호송작전' : '몬스터 토벌'}</strong></div>
+        <div class="v3-hud-objective"><div class="battle-v3-versus"><span>${esc(playerName)}</span><i>대</i><span>${esc(opponentName)}</span></div><div class="v3-hud-boss-health" data-hud-boss-meter role="meter" aria-label="적 체력" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><i></i></div><div class="v3-hud-objective-foot"><span data-hud-enemies></span><b data-hud-boss-percent></b></div></div>
+        <b id="battlePhase">전장 준비 중</b>
+      </header>
+      <div class="battle-v3-canvas-host pv-pixi-battle" id="pvPixiBattle">
+        <div class="battle-v3-loader"><i></i><b>전장 준비 중</b><span>${esc(autoText || '출전한 분대가 전장에 집결합니다.')}</span></div>
+      </div>
+      <div class="battle-v3-status pv-battle-status" id="pvBattleStatus" role="status" aria-live="polite">전장 준비 중</div>
+      <!-- V1796: SD 캐릭터만으로는 어떤 카드가 출전했는지 알 수 없다.
+           PVE 계열은 하단 중앙에 내 출전 카드 한 줄,
+           PVP 는 좌(나)/우(상대) 두 줄로 양쪽 출전 카드를 보여준다. -->
+      <div class="battle-v3-dock" data-v3-dock>
+        <!-- 서버가 확정한 승패 근거(전멸/생존 수/체력 비율/전투력)와 생존 수.
+             연출이 일부 생략돼도 이 줄만은 서버 값을 그대로 보여준다. -->
+        <p class="battle-v3-verdict" data-v3-verdict role="status" hidden></p>
+        <div class="battle-v3-roster${field === 'PVP' || field === 'SIEGE' ? ' is-versus' : ' is-solo'}" data-v3-roster hidden>
+          <section class="battle-v3-roster-side" data-v3-roster-side="A" hidden>
+            <header><small data-v3-roster-label>MY TEAM</small><b data-v3-roster-owner></b></header>
+            <ol data-v3-roster-list></ol>
+          </section>
+          <section class="battle-v3-roster-side" data-v3-roster-side="B" hidden>
+            <header><small data-v3-roster-label>OPPONENT</small><b data-v3-roster-owner></b></header>
+            <ol data-v3-roster-list></ol>
+          </section>
+        </div>
+      </div>
+      <span id="towerBattleCountdown" hidden></span>
+      <div id="battleMessage" class="battle-message battle-v3-result"><span>전투 준비 중...</span></div>
+      <div id="towerBattleMessage" class="battle-message battle-v3-result tower-v3-result" hidden><span>전투 준비 중...</span></div>
+    </div>`;
+    const stage = modal.querySelector('.battle-v3-live-shell');
+    return {
+      stage,
+      phase: stage.querySelector('#battlePhase'),
+      msg: stage.querySelector('#battleMessage'),
+      towerMsg: stage.querySelector('#towerBattleMessage'),
+      host: stage.querySelector('#pvPixiBattle'),
+      mode: field,
+      playerName: String(playerName || '').trim(),
+      opponentName: String(opponentName || '').trim()
+    };
+  }
+
+  function cardId(card, index, side) {
+    return String(card?.cardId || card?.id || `${side}-${index + 1}`);
+  }
+
+  function normalizeTowerCard(card, index) {
+    return {
+      ...card,
+      cardId: cardId(card, index, 'A'),
+      id: cardId(card, index, 'A'),
+      title: card?.title || card?.name || `CARD ${index + 1}`,
+      name: card?.name || card?.title || `CARD ${index + 1}`,
+      grade: String(card?.grade || card?.rarity || 'C').toUpperCase(),
+      rarity: String(card?.rarity || card?.grade || 'C').toUpperCase(),
+      image: card?.image || card?.image_url || '',
+      image_url: card?.image_url || card?.image || '',
+      hp: 100,
+      maxHp: 100
+    };
+  }
+
+  function towerPayload({ data = {}, floor = {}, cards = [] } = {}) {
+    const allies = cards.map(normalizeTowerCard);
+    const monsterId = String(floor.monsterId || floor.id || 0);
+    const monster = {
+      id: monsterId,
+      monsterId,
+      cardId: `MONSTER:${monsterId}`,
+      name: floor.monsterName || floor.name || 'TOWER MONSTER',
+      title: floor.monsterName || floor.name || 'TOWER MONSTER',
+      image: floor.monsterImage || floor.image || '',
+      grade: 'MONSTER',
+      isBoss: Boolean(floor.isBoss),
+      mode: 'TOWER',
+      hp: 100,
+      maxHp: 100
+    };
+    const win = data.result === 'WIN';
+    const enemySteps = win ? [14, 17, 19, 22, 28] : [7, 9, 11, 13, 15];
+    let enemyHp = 100;
+    const timeline = [];
+    allies.forEach((card, index) => {
+      enemyHp = Math.max(win && index < allies.length - 1 ? 4 : win ? 0 : 24, enemyHp - enemySteps[index]);
+      timeline.push({ type: index === 2 ? 'SKILL' : 'TURN', actorId: card.cardId, targetId: monster.cardId, damage: Math.max(100, Math.round(Number(data.monsterPower || 1000) * enemySteps[index] / 100)), targetHpAfter: enemyHp, critical: index === 2 });
+      if ((index === 1 || index === 3) && !win) timeline.push({ type: 'COUNTER', actorId: monster.cardId, targetId: allies[index]?.cardId, damage: Math.max(100, Math.round(Number(data.playerPower || 1000) * .16)), targetHpAfter: Math.max(1, 72 - index * 12) });
+    });
+    if (win) timeline.push({ type: 'KO', targetId: monster.cardId });
+    timeline.push({ type: 'RESULT', winner: win ? 'A' : 'B', actions: timeline.length });
+    return {
+      ...data,
+      mode: 'TOWER',
+      battlefieldMode: 'TOWER',
+      floor,
+      monster,
+      battleV2: {
+        teams: { A: { cards: allies }, B: { cards: [monster] } },
+        result: { timeline, winner: win ? 'A' : 'B', actions: timeline.length }
+      }
+    };
+  }
+
+  function sealPayload({ data = {}, roleKey = 'ATTACK', roleLabel = '파괴 봉인' } = {}) {
+    const allies = (Array.isArray(data.cards) ? data.cards : []).slice(0, 5).map(normalizeTowerCard);
+    // Use the server's saved PvE fighter, including its native motion/level/equipment.
+    // Do not infer a mercenary from the current account when replaying a receipt.
+    const mercenaries=Array.isArray(data.mercenaries)?data.mercenaries.filter(m=>m?.isMercenary===true).map(m=>({...m})):data.mercenary?.isMercenary===true?[{...data.mercenary}]:[];
+    const mercenary=mercenaries[0]||null,mercenaryPowerTotal=mercenaries.reduce((sum,m)=>sum+Math.max(0,Number(m.power)||0),0);
+    const actors = [...allies, ...mercenaries];
+    const dragon=data.battlePhase==='BOSS'&&roleKey==='BOSS';
+    const orb=sealOrbArt(roleKey);
+    const monster = {
+      id: SEAL_ORB_ID,
+      monsterId: SEAL_ORB_ID,
+      cardId: `MONSTER:${SEAL_ORB_ID}`,
+      name: orb.name,
+      title: orb.name,
+      image: orb.primaryUrl,
+      image_url: orb.primaryUrl,
+      grade: 'BOSS',
+      isBoss: true,
+      mode: 'SEAL',
+      hp: 100,
+      maxHp: 100,
+      projectVMonsterArt: orb
+    };
+    if(dragon){
+      const id='SEAL_DRAGON_NERGAON';
+      Object.assign(monster,{id,monsterId:id,cardId:'MONSTER:'+id,name:data.boss?.name||'봉인룡 네르가온',title:data.boss?.name||'봉인룡 네르가온',image:'/assets/ui/seal-battle/dragon-20261022/portrait.webp',image_url:'/assets/ui/seal-battle/dragon-20261022/portrait.webp',hp:Number(data.bossHpBefore),maxHp:Number(data.bossMaxHp),
+        projectVMonsterArt:{scope:'BATTLE_ENGINE_ONLY',kind:'SEAL_DRAGON_SD',primaryUrl:'/assets/ui/seal-battle/dragon-20261022/portrait.webp',footAnchor:{x:.5,y:.98},scaleMultiplier:1.2,technicalPass:true}});
+    }
+    const win = String(data.result || '').toUpperCase() === 'WIN';
+    const steps = win ? [16, 18, 19, 21, 26] : [8, 10, 12, 14, 16];
+    const stepTotal = allies.reduce((sum, _, index) => sum + steps[index], 0) || 1;
+    const mercenaryShare = mercenary ? Math.max(0, Math.min(1, Number(data.mercenaryBattlePower ?? data.mercenaryPower ?? mercenary.power ?? 0) / Math.max(1, Number(data.totalBattleDamage || data.playerPower || 1)))) : 0;
+    const recordedDamage = Math.max(0, Number(data.contribution ?? data.totalBattleDamage ?? data.playerPower ?? 0));
+    let enemyHp = dragon?Number(data.bossHpBefore):100;
+    let distributed=0, fraction=0;
+    const timeline = [];
+    actors.forEach((card, index) => {
+      const isMercenary = card.isMercenary===true;
+      const actorId = isMercenary ? card.id : card.cardId;
+      const damagePercent = steps[Math.min(index, steps.length - 1)];
+      const weight = mercenary ? (isMercenary ? mercenaryShare*(mercenaryPowerTotal>0?Math.max(0,Number(card.power)||0)/mercenaryPowerTotal:1/mercenaries.length) : (1 - mercenaryShare) * damagePercent / stepTotal) : 1 / Math.max(1, actors.length);
+      fraction = Math.min(1, fraction + weight);
+      const share = dragon || mercenary ? Math.max(0, (index === actors.length - 1 ? recordedDamage : Math.floor(recordedDamage * fraction)) - distributed) : 0;
+      distributed+=share;
+      enemyHp = dragon ? Math.max(0, Number(data.bossHpBefore) - distributed)
+        : mercenary ? Math.max(win && index === actors.length - 1 ? 0 : win ? 1 : 40, Math.round(100 - fraction * (win ? 100 : 60)))
+        : Math.max(win && index === allies.length - 1 ? 0 : win ? 3 : 26, enemyHp - damagePercent);
+      timeline.push({
+        type: !isMercenary && (index === 2 || index === 4) ? 'SKILL' : 'TURN',
+        actorId,
+        ...(isMercenary ? { actorKind: 'MERCENARY' } : {}),
+        targetId: monster.cardId,
+        damage: dragon || mercenary ? share : Math.max(1, Math.round(Number(data.totalBattleDamage || data.playerPower || 1000) * damagePercent / 100)),
+        targetHpAfter: enemyHp,
+        ...(dragon?{targetMaxHp:monster.maxHp}:{}),
+        critical: !isMercenary && (index === 2 || index === 4),
+        label: isMercenary ? `${card.name} 합류 공격` : `${roleLabel} 타격`
+      });
+      if (enemyHp > 0 && (win ? index === 1 || index === 3 : true)) {
+        const allyHp = win ? Math.max(24, 78 - index * 14) : 0;
+        timeline.push({
+          type: 'COUNTER',
+          actorId: monster.cardId,
+          targetId: actorId,
+          damage: Math.max(1, Math.round(Number(data.bossPower || 1000) * (win ? .13 : .24))),
+          targetHpAfter: isMercenary ? Math.round(card.maxHp * allyHp / 100) : allyHp,
+          ...(isMercenary ? { targetMaxHp: card.maxHp } : {}),
+          critical: !win,
+          label: dragon?'봉인룡의 청염':'봉인 역류'
+        });
+        if (!win) timeline.push({ type: 'KO', targetId: actorId });
+      }
+    });
+    if (dragon?data.bossDefeated:win) timeline.push({ type: 'KO', targetId: monster.cardId });
+    timeline.push({ type: 'RESULT', winner: win ? 'A' : 'B', actions: timeline.length });
+    return {
+      ...data,
+      mode: 'SEAL',
+      battlefieldMode: 'SEAL',
+      roleKey,
+      roleLabel,
+      monster,
+      playUltimateCinematics: false,
+      battleV2: {
+        teams: { A: { cards: allies, mercenaries }, B: { cards: [monster] } },
+        result: { timeline, winner: win ? 'A' : 'B', actions: timeline.length }
+      }
+    };
+  }
+
+  function raidPayload({ data = {}, participant = {}, current = {} } = {}) {
+    const allies = (Array.isArray(participant.cards) ? participant.cards : []).slice(0, 5).map(normalizeTowerCard);
+    const bossId = String(current.bossId || current.id || 'WORLD');
+    const boss = {
+      id: `WORLD_RAID:${bossId}:BOSS`,
+      monsterId: `WORLD_RAID:${bossId}:BOSS`,
+      cardId: `MONSTER:RAID:${bossId}:BOSS`,
+      name: current.bossName || 'WORLD RAID BOSS',
+      title: current.bossName || 'WORLD RAID BOSS',
+      image: current.bossImage || '',
+      image_url: current.bossImage || '',
+      battleSprite: current.bossBattleSprite || '',
+      ...(current.bossBattleSprite ? {projectVMonsterArt:{scope:'BATTLE_ENGINE_ONLY',kind:'MONSTER_SD',primaryUrl:current.bossBattleSprite,pngFallbackUrl:current.bossBattleSprite,name:current.bossName,isBoss:true,approved:true}} : {}),
+      grade: 'BOSS',
+      isBoss: true,
+      mode: 'RAID',
+      hp: 100,
+      maxHp: 100
+    };
+    const bossPct = Math.max(2, Math.min(100, Math.round(Number(current.currentHp || 0) / Math.max(1, Number(current.maxHp || 1)) * 100)));
+    const personalDamage = Math.max(1, Number(participant.shownDamage || participant.totalDamage || participant.totalPower || 1));
+    const steps = [10, 12, 14, 16, 18];
+    let enemyHp = Math.max(bossPct, 70), allyHp = 100;
+    const timeline = [];
+    allies.forEach((card, index) => {
+      const step = steps[index] || 12;
+      enemyHp = Math.max(bossPct, enemyHp - step);
+      timeline.push({
+        type: index === 2 || index === 4 ? 'SKILL' : 'TURN',
+        actorId: card.cardId,
+        targetId: boss.cardId,
+        damage: Math.max(1, Math.round(personalDamage * step / 70)),
+        targetHpAfter: enemyHp,
+        critical: index === 2 || index === 4,
+        label: '개인 공헌 타격'
+      });
+      if (index === 1 || index === 3) {
+        allyHp = Math.max(18, allyHp - 26);
+        timeline.push({
+          type: 'COUNTER', actorId: boss.cardId, targetId: card.cardId,
+          damage: Math.max(1, Math.round(Number(current.maxHp || 1000) * .0025)),
+          targetHpAfter: allyHp, label: '레이드 보스 반격'
+        });
+      }
+    });
+    return {
+      ...data,
+      // This is a contribution presentation while the shared raid is still running.
+      // Only raid/status may announce the party outcome.
+      result: 'PENDING',
+      mode: 'RAID',
+      battlefieldMode: 'RAID',
+      monster: boss,
+      raidParticipant: participant,
+      playUltimateCinematics: true,
+      battleV2: {
+        teams: { A: { cards: allies }, B: { cards: [boss] } },
+        result: { timeline, winner: null, actions: timeline.length }
+      }
+    };
+  }
+
+  async function createRenderer(options = {}) {
+    await ensureCurrentBattleRuntime();
+    if (!root.ProjectVPixiBattle) throw new Error('V3 PixiJS 번들이 로드되지 않았습니다.');
+    const stage = options.stage || options.modal?.querySelector('.battle-v3-live-shell');
+    const host = options.host || stage?.querySelector('#pvPixiBattle');
+    if (!stage || !host) throw new Error('V3 WebGL 렌더링 영역이 없습니다.');
+    const phase = options.phase || stage.querySelector('#battlePhase');
+    const status = stage.querySelector('#pvBattleStatus');
+    const sourceData = options.data && typeof options.data === 'object' ? options.data : {};
+    const accountBattleUnitPve = accountBattleUnitPveGate(options.mode, sourceData);
+    const mode = battlefieldMode(options.mode, sourceData);
+    const modal = options.modal || stage.closest?.('.modal') || null;
+    let destroyed = false;
+    const owner = {};
+    root.__V3_PIXI_OWNER = owner;
+    const interactiveResults = new Map();
+    let payload = rewriteBattleSpriteUrls({
+      ...sourceData,
+      mode,
+      battlefieldMode: mode,
+      accountNickname: accountBattleUnitNickname(sourceData, options.playerName),
+      v3RenderContext: {
+        ...(sourceData.v3RenderContext && typeof sourceData.v3RenderContext === 'object' ? sourceData.v3RenderContext : {}),
+        accountBattleUnitPve
+      }
+    });
+    if (options.monster) payload.monster = { ...options.monster, mode };
+    if (options.floor && !payload.continuousEncounter) payload = rewriteBattleSpriteUrls(towerPayload({ data: payload, floor: options.floor, cards: options.cards || payload.cards || [] }));
+
+    // V1796: payload 가 확정된 직후 로스터를 그린다. 자동전투 2판째처럼
+    // 셸을 다시 만들지 않는 경로에서도 매 판 새 카드로 덮어써야 하므로
+    // prepareLoading 이 아니라 createRenderer 에서 호출한다.
+    const {createBattleHud}=await import('/js/battle-v3-hud.mjs?v=20261102-v1');
+    const catalog=cardCatalogMap();
+    const hud=createBattleHud({stage,payload,mode,runtime:root.ProjectVPixiBattle,artFor:card=>rosterArt(card,dexCardFor(card,catalog)),isCurrent:()=>root.__V3_PIXI_OWNER===owner&&!destroyed});
+    const verdictNode = stage.querySelector('[data-v3-verdict]');
+    if (verdictNode) { verdictNode.textContent = ''; verdictNode.hidden = true; verdictNode.classList.remove('is-win', 'is-lose'); }
+    syncDockMetrics(stage);
+    // 카드 이미지 로딩·창 크기 변경으로 도크 높이가 달라지면 결과창 위치도 따라간다.
+    let dockObserver = null;
+    const dockNode = stage.querySelector('[data-v3-dock]');
+    if (dockNode && typeof ResizeObserver === 'function') {
+      dockObserver = new ResizeObserver(() => syncDockMetrics(stage));
+      dockObserver.observe(dockNode);
+    }
+
+    const firearmAudio = () => root.ProjectVFirearmAudio || root.ProjectVFirearmQcAudio || null;
+    const firearmSoundEnabled = () => {
+      try { return root.localStorage?.getItem?.('cnine_battle_sound') !== 'OFF'; }
+      catch { return true; }
+    };
+    const bindAccountBattleUnitFirearmAudio = () => {
+      if (!accountBattleUnitPve) {
+        root.ProjectVPixiBattle.setAccountPreviewFirearmHook?.(null);
+        return false;
+      }
+      return root.ProjectVPixiBattle.setAccountPreviewFirearmHook?.(event => {
+        const audio = firearmAudio();
+        if (event?.phase === 'anticipation') {
+          return audio?.armSustainedShot?.(event.weaponCode, {
+            enabled: firearmSoundEnabled(),
+            visualLeadMs: event.visualLeadMs,
+            isCancelled: event.isCancelled
+          }) || null;
+        }
+        if (event?.phase === 'fire') return event.plan?.markVisualFire?.(event.at) || null;
+        return null;
+      }) || false;
+    };
+    const startAccountBattleUnitContinuousFire = () => {
+      if (!accountBattleUnitPve || destroyed) return null;
+      firearmAudio()?.stop?.();
+      bindAccountBattleUnitFirearmAudio();
+      return root.ProjectVPixiBattle.startAccountBattleUnitSustainedFire?.() || null;
+    };
+    const stopAccountBattleUnitContinuousFire = async ({ drain = false } = {}) => {
+      // V1990: 전투 연출이 끝나는 경로(drain)에서는 큐에 남은 서버 사격을 먼저 다 쏜다.
+      const shots = await Promise.resolve(root.ProjectVPixiBattle.stopAccountBattleUnitSustainedFire?.(drain ? { drain: true } : undefined) || 0);
+      firearmAudio()?.stop?.();
+      return shots;
+    };
+
+    const releaseBlockingLayers = () => {
+      document.querySelectorAll('.battle-ultimate-overlay,.boss-ultimate-overlay').forEach(node => node.remove());
+      stage.classList.remove('ultimate-playing', 'boss-ultimate-fullscreen');
+      host.querySelector('.battle-v3-loader')?.remove();
+    };
+    const recoverPlayback = async message => {
+      releaseBlockingLayers();
+      if (status) status.textContent = `${message} · 다음 연출로 계속 진행합니다.`;
+      // A timeout only settles the wrapper Promise. Explicitly kill the
+      // underlying GSAP/SkillTimeline as well so it cannot mutate battle two
+      // or race the following authoritative event.
+      try { root.ProjectVPixiBattle.cancelActiveAnimations?.(); } catch {}
+      try { await root.ProjectVPixiBattle.setVisible(false); } catch {}
+      try { await root.ProjectVPixiBattle.setVisible(true); } catch {}
+      startAccountBattleUnitContinuousFire();
+    };
+    const interactiveApocalypse=Boolean(options.data?.apocalypseChallenge);
+    const waitForForeground=async()=>{
+      while(interactiveApocalypse&&document.hidden&&!destroyed)await sleep(100);
+      return !destroyed;
+    };
+    const playEventsChecked=async(events,playOptions)=>{
+      const result=await root.ProjectVPixiBattle.playEvents(events,playOptions);
+      if(interactiveApocalypse&&result===false)throw new Error('아포칼립스 전투 재생이 중단되었습니다.');
+      return result;
+    };
+    const eventPlaybackTimeoutMs = events => {
+      // Black Crown's 2x authored cast is 1.7s; preserve bounded loading/headroom.
+      if(events.some(event=>event.type==='MERCENARY_BLACKCROWN_CAST'||event.type==='TURN'&&/(?:^|:)MERCENARY:V-95[0-5]$/.test(String(event.actorId||''))))return 6000;
+      if (events.some(event => event.type === 'MERCENARY_HIT' && event.skillId === 'MS-977')) return 6000;
+      // Namsudaeng's fixed 2x volley/rain last 2.2/2.75s. Allow the complete
+      // authored sequence plus bounded loading, as for other arrow effects.
+      if (events.some(event => event.type === 'MERCENARY_BLOODMOON_ARROW')) return 6000;
+      // Approved Sahyeon ultimate owns its complete 4.6s sequence (2.85s hit),
+      // plus bounded texture loading. The ordinary 2s guard must not cut it off.
+      if (events.some(event => event.type === 'APOCALYPSE_SKILL' && /^SAHYEON_(?:SEAL|CURSE|ULTIMATE)$/.test(String(event.skillCode || '')))) return 9000;
+      // These authored area effects exceed 2s at their fixed live playback rates.
+      // Premature recovery cancels the cutscene and aborts interactive Apocalypse
+      // before its queued boss skills. This is a deadline, not an added delay.
+      if (events.some(event => /^MERCENARY_(?:PRIME_REQUIEM|ZERO|GENERAL_JOK|CARDGU|REVAN|JOKRO|LEONEL|JINMU|HELIOS|SHIRANUI|KAIRON)_AREA$/.test(String(event.type || '')))) return 9000;
+      // Jokro's third basic also holds the complete 3.4s dragon sequence.
+      if (events.some(event => event.type === 'TURN' && /(?:^|:)MERCENARY:V-979$/.test(String(event.actorId || '')))) return 6000;
+      return events.some(event => event.type === 'MERCENARY_JUDGMENT' && event.mechanic === 'PLATINUM_SANCTUARY' || event.type === 'MERCENARY_CRYSTAL_CROWN' && event.mechanic === 'CRYSTAL_CROWN') ? 9000 :
+      events.some(event => ['MERCENARY_AZANT_VOLLEY','MERCENARY_AZANT_AREA','MERCENARY_IMPERIAL_ARROW_VOLLEY','MERCENARY_IMPERIAL_ARROW_RAIN'].includes(event.type) || event.type === 'MERCENARY_STARFALL' && event.mechanic === 'GILDED_STARFALL' || event.type === 'MERCENARY_HIT' && event.skillId === 'MS-055' || event.type === 'MERCENARY_GROUP_HEAL' && event.mechanic === 'WHITE_OATH_GROUP_HEAL' || event.type === 'MERCENARY_COMBO' && event.mechanic === 'BLACK_MOON_TRIPLE_SEVER' || event.type === 'MERCENARY_VOLLEY' && event.mechanic === 'GOLDEN_ORCHID_VOLLEY' || event.type === 'MERCENARY_HIT' && event.mechanic === 'LAVENDER_RICOCHET') ? 6000 : 2000;
+    };
+    const safePlayEvents = (events, message) => withTimeout(
+      playEventsChecked(events).then(() => true),
+      eventPlaybackTimeoutMs(events),
+      message,
+      { fallback: false, pauseWhenHidden:interactiveApocalypse, rejectOnFailure:interactiveApocalypse,
+        onFailure: () => interactiveApocalypse?root.ProjectVPixiBattle.cancelActiveAnimations?.():recoverPlayback(message) }
+    );
+    const revealBattle = () => modal?.classList.remove('battle-v3-preparing');
+    const assertFirstFrame = async () => {
+      await nextPaint();
+      await nextPaint();
+      const canvas = host.querySelector('canvas');
+      if (!canvas || canvas.width < 2 || canvas.height < 2) throw new Error('V3 첫 프레임이 생성되지 않았습니다.');
+      const context = canvas.getContext('webgl2') || canvas.getContext('webgl');
+      if (!context || context.isContextLost?.()) throw new Error('WebGL 컨텍스트를 사용할 수 없습니다.');
+    };
+    const init = async () => {
+      const initialize = async () => {
+        const generation = Number(root.__V3_PIXI_GENERATION || 0);
+        const assertGeneration = () => {
+          if (Number(root.__V3_PIXI_GENERATION || 0) !== generation) throw new Error('V3 렌더러 초기화가 취소되었습니다.');
+        };
+        if (phase) phase.textContent = '전장 준비 중';
+        const diagnostics = root.ProjectVPixiBattle.diagnostics?.();
+        if (root.__V3_PIXI_MOUNTED && diagnostics?.mounted === false) {
+          root.__V3_PIXI_MOUNTED = false;
+          root.__V3_PIXI_CANVAS = null;
+          root.__V3_PIXI_INIT_PROMISE = null;
+        }
+        if (!root.__V3_PIXI_MOUNTED) {
+          if (!root.__V3_PIXI_INIT_PROMISE) {
+            root.__V3_PIXI_INIT_PROMISE = (async () => {
+              if (typeof root.ProjectVPixiBattle.mountForBattle === 'function') {
+                await root.ProjectVPixiBattle.mountForBattle(payload, host);
+              } else {
+                await root.ProjectVPixiBattle.mount(host);
+                await root.ProjectVPixiBattle.setBattlePayload(payload);
+              }
+              assertGeneration();
+              root.__V3_PIXI_MOUNTED = true;
+              root.__V3_PIXI_CANVAS = host.querySelector('canvas');
+            })().catch(error => {
+              if (Number(root.__V3_PIXI_GENERATION || 0) === generation) {
+                root.__V3_PIXI_MOUNTED = false;
+                root.__V3_PIXI_CANVAS = null;
+                root.__V3_PIXI_INIT_PROMISE = null;
+              }
+              throw error;
+            });
+          }
+          await root.__V3_PIXI_INIT_PROMISE;
+          assertGeneration();
+        } else {
+          const canvas = root.__V3_PIXI_CANVAS;
+          if (canvas && canvas.parentNode !== host) host.appendChild(canvas);
+          await root.ProjectVPixiBattle.setVisible(false);
+          if (phase) phase.textContent = '분대 집결 중';
+          if (typeof root.ProjectVPixiBattle.resetSession === 'function') {
+            await root.ProjectVPixiBattle.resetSession(payload, host);
+          } else {
+            await root.ProjectVPixiBattle.setBattlePayload(payload);
+          }
+          assertGeneration();
+        }
+        // V1934: 배경 전환은 연출일 뿐이다. 여기서 막히면 전투 자체가 못 들어간다.
+        //   엔진 쪽에서 이미 안 보일 때는 즉시 적용하도록 고쳤지만,
+        //   이 경로는 어떤 이유로도 init 을 멈추게 두지 않는다.
+        await withTimeout(
+          Promise.resolve(root.ProjectVPixiBattle.setBattlefield(mode)).then(() => true),
+          3000,
+          'V3 전장 배경 전환이 지연되어 건너뜁니다.'
+        );
+        assertGeneration();
+        await root.ProjectVPixiBattle.setVisible(true);
+        assertGeneration();
+        root.__V3_PIXI_CANVAS = host.querySelector('canvas') || root.__V3_PIXI_CANVAS;
+        await assertFirstFrame();
+        stage.classList.add('is-v3-ready');
+        revealBattle();
+        if (phase) phase.textContent = '전투 준비 완료';
+        if (status) status.textContent = '서버 전투 데이터 동기화 완료';
+      };
+      let lastError = null;
+      for (let attempt = 0; attempt < 2; attempt += 1) {
+        try {
+          await withRejectingTimeout(initialize(), 14000, 'V3 WebGL 전장 초기화 시간이 초과되었습니다.');
+          return;
+        } catch (error) {
+          lastError = error;
+          await hardResetPixiBattle(host);
+          if (attempt === 0) {
+            if (phase) phase.textContent = '전장 다시 연결 중';
+            if (status) status.textContent = '전장을 다시 연결하고 있습니다.';
+            await nextPaint();
+          }
+        }
+      }
+      releaseBlockingLayers();
+      stage.classList.add('is-v3-error');
+      revealBattle();
+      throw lastError || new Error('V3 전장을 구성하지 못했습니다.');
+    };
+
+    bindAccountBattleUnitFirearmAudio();
+    try { await init(); hud.start(); } catch(error) { hud.destroy(); dockObserver?.disconnect(); throw error; }
+    const expectedQtes = (payload?.battleV2?.result?.timeline || []).filter(event => /^RAID_QTE_/.test(event.type)).map(event => event.qteId || event.type.slice(9));
+    let interactiveFailure = null;
+    const qteBranchAllowed = condition => {
+      const key = String(condition || '').trim().toUpperCase();
+      if (!key) return true;
+      const rows = expectedQtes.map(id => interactiveResults.get(id));
+      const complete = rows.length > 0 && rows.every(result => result && !result.cancelled);
+      if (key === 'ALL_SUCCESS') return complete && rows.every(result => result.success === true);
+      if (key === 'ANY_FAILURE') return complete && rows.some(result => result.success !== true);
+      const match = key.match(/^(SEQUENCE|MASH|CENTER|CIRCUIT|SHELTER)_(SUCCESS|FAILURE)$/);
+      if (!match) return true;
+      const result = interactiveResults.get(match[1]);
+      return match[2] === 'SUCCESS' ? result?.success === true : result?.success !== true;
+    };
+    return {
+      async play() {
+        if (destroyed) return false;
+        if(!await waitForForeground())return false;
+        let timeline = Array.isArray(payload?.battleV2?.result?.timeline) ? payload.battleV2.result.timeline : [];
+        if (phase) phase.textContent = options.continuousPlayback?'전장 진입':'자동 전투';
+        try {
+          if (options.continuousPlayback) await root.ProjectVPixiBattle.playEvents([{ type: 'DEPLOY' }]);
+          else await safePlayEvents([{ type: 'DEPLOY' }], 'V3 배치 연출이 지연되어 생략되었습니다.');
+          const deploymentResult=await options.afterDeployment?.({stage,phase,data:payload});
+          if(deploymentResult){payload={...payload,...deploymentResult};timeline=payload.battleV2?.result?.timeline||[];}
+          if(options.data?.apocalypseChallenge)payload.apocalypseChallenge=options.data.apocalypseChallenge;
+          if(!await waitForForeground())return false;
+          // The account Battle Suit is an independent PVE support actor. Its
+          // weapon loop begins once deployment is visible and runs across every
+          // card action, skill, QTE and action-gauge wait. V1990: the loop fires
+          // only server Battle V2 damage events (several per card action), so
+          // every visible shot carries its own authoritative damage number.
+          startAccountBattleUnitContinuousFire();
+          const timedSkillChips = timeline.some(event => event.combatClock === 'V3_COMBAT_MS_V1');
+          const prepareEvent = async sourceEvent => {
+            if(!await waitForForeground())return null;
+            if(options.continuousPlayback)await options.beforeCombatEvent?.(sourceEvent);
+            if (destroyed) return null;
+            if (interactiveFailure) throw interactiveFailure;
+            const type = String(sourceEvent?.type || '').toUpperCase();
+            let event = { ...sourceEvent };
+            if (type.startsWith('RAID_QTE_')) {
+              const qteId = String(event.qteId || type.slice(9)).toUpperCase();
+              const handler = options.onInteractiveEvent || root.ProjectVRaidQteV1924?.run;
+              if (phase) phase.textContent = 'CORE OVERRIDE · ' + (event.mechanicSlot || interactiveResults.size + 1) + ' / ' + expectedQtes.length;
+              if (typeof handler !== 'function') throw new Error('입력 기믹을 불러오지 못했습니다. HP 차감 없이 같은 공략을 재개하세요.');
+              let result;
+              try { result = await handler(event, {stage, host, payload, phase, status, qteId}); }
+              catch(error) { interactiveFailure = error; throw error; }
+              if (destroyed || !result || result.cancelled) throw new Error('기믹 입력이 중단되었습니다. HP 차감 없이 같은 공략을 재개하세요.');
+              interactiveResults.set(qteId, {...result, qteId, success: result.success === true});
+              return null;
+            }
+            if (!qteBranchAllowed(event.qteCondition)) return null;
+            if (type.startsWith('RAID_') && typeof options.onRaidEvent === 'function') {
+              try {
+                await options.onRaidEvent(event, { stage, host, payload, phase, status });
+              } catch (error) {
+                console.warn('[PROJECT V V3] RAID event overlay failed', error);
+              }
+              return null;
+            }
+            if (type === 'PVE_ULTIMATE') {
+              const sourceCard = payload?.ultimateSourceCard || null;
+              event = {
+                ...event,
+                actorId: event.actorId || sourceCard?.id || sourceCard?.cardId || '',
+                label: payload?.activatedUltimate?.name || event.label || '궁극기'
+              };
+            } else if (type === 'BOSS_ULTIMATE') {
+              const monsterCard = payload?.battleV2?.teams?.B?.cards?.find?.(card => /^MONSTER:/i.test(String(card?.cardId || '')) || ['MONSTER', 'BOSS'].includes(String(card?.grade || '').toUpperCase()));
+              event = {
+                ...event,
+                actorId: event.actorId || monsterCard?.id || monsterCard?.cardId || payload?.monster?.cardId || '',
+                label: payload?.bossUltimate?.name || event.label || '보스 궁극기'
+              };
+              // V3 keeps the authoritative in-field attack, without a blocking media prelude.
+            }
+            return event;
+          };
+          if (options.continuousPlayback && !destroyed) {
+            // The skill-chip engine owns its entire ordered server timeline,
+            // including the shared skill-chip clock and drained spawn barriers.
+            // Per-event two-second guards restart that clock and cut off valid
+            // attacks/queued shots. Cancellation is owned by the live modal;
+            // actual playback failures propagate so its saved receipt can resume.
+            if (timedSkillChips) {
+              await root.ProjectVPixiBattle.playEvents(timeline, {
+                beforeEvent: prepareEvent, afterEvent: options.onCombatEvent, isPaused: options.isPlaybackPaused
+              });
+            } else {
+              // The ordinary engine plays events without invoking these hooks.
+              // Own the ordered callbacks here so pause and official HUD values
+              // also work for parties without a skill-chip combat clock.
+              for (const sourceEvent of timeline) {
+                if (destroyed) return false;
+                const event = await prepareEvent(sourceEvent);
+                if (!event || destroyed) continue;
+                await root.ProjectVPixiBattle.playEvents([event], { isPaused: options.isPlaybackPaused });
+                if (destroyed) return false;
+                options.onCombatEvent?.(event);
+              }
+            }
+            if (destroyed) return false;
+            await stopAccountBattleUnitContinuousFire({ drain: true });
+          } else if (timedSkillChips && !destroyed) {
+            // Keep QTE/raid overlays in their original event positions. Their
+            // awaited prelude pauses the shared clock without resetting it.
+            const timedEvents = timeline;
+            const durationMs = Math.max(0, ...timedEvents.map(event => Number(event.combatAtMs || 0)));
+            // Chip timestamps schedule server impacts, but do not include every
+            // mercenary animation or a slow device's dispatch waits. Renew only
+            // after completed server events; a stuck clock still times out.
+            let completedEvents=0;
+            await withTimeout(
+              playEventsChecked(timedEvents, { beforeEvent: prepareEvent, afterEvent: event => {completedEvents++;options.onCombatEvent?.(event);} }),
+              Math.max(30000, durationMs * 2 + 15000) + timeline.filter(event => /^RAID_QTE_/.test(event.type)).reduce((ms,event) => ms + Number(event.windowMs || 0) + 3500, 0),
+              interactiveApocalypse?'전투 연출의 진행이 멈췄습니다. 토벌 화면에서 다시 시작해 주세요.':'스킬칩 전투 연출을 서버 최종 상태로 복구합니다.',
+              { fallback: false, progress:()=>completedEvents, progressTimeoutMs:30000, pauseWhenHidden:interactiveApocalypse, rejectOnFailure:interactiveApocalypse, onFailure: () => {
+                if(interactiveApocalypse)return root.ProjectVPixiBattle.cancelActiveAnimations?.();
+                if(expectedQtes.length) { interactiveFailure = new Error('기믹 전장이 중단되었습니다. HP 차감 없이 같은 공략을 재개하세요.'); root.ProjectVRaidQteV1924?.cancel?.(); }
+                return recoverPlayback('스킬칩 전투 연출을 복구했습니다.');
+              } }
+            );
+            // Drain the final authoritative ordinary shot before syncFinalState
+            // cancels animations; otherwise the killing damage number is lost.
+            await stopAccountBattleUnitContinuousFire({ drain: true });
+          } else {
+            for (const sourceEvent of timeline) {
+              if (destroyed) return false;
+              const event = await prepareEvent(sourceEvent);
+              if (event) {
+                await safePlayEvents([event], `${event.label || event.type || '전투'} 연출이 지연되어 다음 행동으로 이동했습니다.`);
+                options.onCombatEvent?.(event);
+              }
+            }
+          }
+          if(!await waitForForeground())return false;
+          if (interactiveFailure) throw interactiveFailure;
+          if (expectedQtes.some(id => !interactiveResults.get(id) || interactiveResults.get(id).cancelled)) throw new Error('기믹 기록이 완료되지 않았습니다. HP 차감 없이 같은 공략을 재개하세요.');
+          const finalState = payload?.battleV2?.result?.final || {};
+          // V1787: 무한의탑 자동전투 2판째부터 몬스터·SD 캐릭터가 전부 사라지던 버그 수정.
+          //
+          // syncFinalState 는 "서버가 보낸 최종 생존 상태"를 화면에 강제로 덮어쓰는 함수다.
+          // 그런데 TOWER/SEAL/RAID 는 서버 battleV2 를 쓰지 않고 이 파일의
+          // towerPayload()/sealPayload()/raidPayload() 가 타임라인을 직접 합성하며,
+          // 이때 result 에 final 을 넣지 않는다. 그 상태로 syncFinalState({}) 를 부르면
+          // BattleEngine 이 "양 팀 생존 0명"으로 해석해서(화면 하단 '생존 0 : 0')
+          // 모든 캐릭터를 visible=false, renderable=false 로 만들어 버린다.
+          //
+          // 1판째는 전투가 끝난 직후라 결과창에 가려 티가 안 난다. 문제는 2판째다.
+          // BattleEngine.resetSession 은 root.visible 만 되돌리고 root.renderable 은
+          // 되돌리지 않기 때문에, 한 번 renderable=false 가 된 캐릭터는 다음 판에도
+          // 계속 보이지 않는다. 그래서 "첫판 정상, 2판째부터 안 보임" 이 된다.
+          //
+          // => 서버가 실제로 final 을 보낸 모드(PVE/PVP)에서만 동기화한다.
+          //    final 이 없는 모드는 타임라인 연출의 마지막 상태가 곧 최종 상태다.
+          const hasServerFinalState = Array.isArray(finalState.A) || Array.isArray(finalState.B);
+          if (!hasServerFinalState) {
+            if (status) status.textContent = '전투 연출 완료';
+          } else if (typeof root.ProjectVPixiBattle.syncFinalState === 'function') {
+            await withTimeout(
+              root.ProjectVPixiBattle.syncFinalState(finalState),
+              1200,
+              '서버 최종 생존 상태 동기화가 지연되었습니다.',
+              { fallback: false, onFailure: () => recoverPlayback('서버 최종 상태를 다시 연결했습니다.') }
+            );
+          } else {
+            const knockoutEvents = ['A', 'B'].flatMap(side => (Array.isArray(finalState?.[side]) ? finalState[side] : []))
+              .filter(card => Number(card?.hp || 0) <= 0)
+              .map(card => ({ type: 'KO', targetId: card.id || card.cardId }));
+            if (knockoutEvents.length) await safePlayEvents(knockoutEvents, '서버 최종 생존 상태를 즉시 동기화했습니다.');
+          }
+          // V1796: 연출은 타임아웃으로 생략될 수 있어도 로스터와 판정 줄은
+          // 항상 서버가 확정한 값으로 맞춘다.
+          if (hasServerFinalState) markRosterFinalState(stage, finalState);
+          const verdict = options.data?.result==='PENDING' ? null : showVerdict(stage, payload, mode);
+          if (verdict && status) status.textContent = verdict;
+        } catch (error) {
+          releaseBlockingLayers();
+          stage.classList.add('is-v3-error');
+          revealBattle();
+          throw new Error(`V3 전투 연출을 완료하지 못했습니다: ${error?.message || error}`);
+        } finally {
+          await stopAccountBattleUnitContinuousFire({ drain: !destroyed && !stage.classList?.contains?.("is-v3-error") });
+          if (!destroyed) root.ProjectVPixiBattle.completePlayback?.();
+        }
+        if (phase) phase.textContent = '전투 종료';
+        return true;
+      },
+      showResult(verifiedResult) {
+        if (destroyed) return;
+        if(options.data?.apocalypseChallenge)payload={...payload,...options.data};
+        root.ProjectVPixiBattle.completePlayback?.();
+        if(options.preserveServerTimeline && ['SUCCESS','FAILED'].includes(verifiedResult?.personalResult)) {
+          payload.battleV2.result.winner = verifiedResult.personalResult === 'SUCCESS' ? 'A' : 'B';
+          payload.coreRaid = {...payload.coreRaid, verifiedOutcome: verifiedResult.outcome};
+        }
+        releaseBlockingLayers();
+        // 연출을 건너뛰고 결과만 띄우는 경로(재시도·즉시 종료)에서도 판정 근거는 남긴다.
+        showVerdict(stage, payload, mode);
+        markRosterFinalState(stage, payload?.battleV2?.result?.final || {});
+        stage.classList.add('is-v3-ready', 'is-result-visible');
+        stage.querySelectorAll('.battle-v3-result').forEach(node => node.classList.add('is-visible'));
+        revealBattle();
+      },
+      getInteractiveResults() {
+        return Object.fromEntries([...interactiveResults.entries()].map(([key, value]) => [key, { ...value }]));
+      },
+      destroy() {
+        if (destroyed) return;
+        destroyed = true;
+        hud.destroy();
+        try { dockObserver?.disconnect?.(); } catch {}
+        dockObserver = null;
+        if (root.__V3_PIXI_OWNER !== owner) return;
+        try { root.ProjectVRaidQteV1924?.cancel?.(); } catch {}
+        void stopAccountBattleUnitContinuousFire();
+        if (root.ProjectVPixiBattle.releaseBattle) {
+          root.__V3_PIXI_GENERATION = Number(root.__V3_PIXI_GENERATION || 0) + 1;
+          root.__V3_PIXI_MOUNTED = false;
+          root.__V3_PIXI_CANVAS = null;
+          root.__V3_PIXI_INIT_PROMISE = null;
+          void root.ProjectVPixiBattle.releaseBattle().catch(error => console.warn('[V3] Battle resource release failed', error));
+        } else root.ProjectVPixiBattle.setVisible(false).catch?.(() => {});
+      }
+    };
+  }
+
+  async function playTower(options = {}) {
+    if(options.data?.continuousEncounter){
+      const {playContinuousBattle}=await import('./pve-continuous-battle-live.mjs?v=20261021-abyss-ui-v1');
+      return playContinuousBattle({modal:options.modal,data:options.data,view:options,mode:'TOWER',isActive:options.isActive});
+    }
+    const data = towerPayload(options);
+    const renderer = await createRenderer({ ...options, data, mode: 'TOWER' });
+    options.modal.__battleV2Renderer = renderer;
+    const played = await renderer.play();
+    if (!played) throw new Error('V3 무한의 탑 전투가 완료되지 않았습니다.');
+    await sleep(120);
+    return renderer;
+  }
+
+  async function playSeal(options = {}) {
+    const data = sealPayload(options);
+    const renderer = await createRenderer({ ...options, data, mode: 'SEAL', playUltimateCinematics: false });
+    if (options.modal) options.modal.__battleV2Renderer = renderer;
+    const played = await renderer.play();
+    if (!played) throw new Error('V3 봉인전 전투가 완료되지 않았습니다.');
+    renderer.showResult();
+    return renderer;
+  }
+
+  async function playRaid(options = {}) {
+    // Core mechanics may add timeline events, but the live V3 shell, Pixi
+    // character formation and roster/card-frame renderer remain authoritative.
+    const hasServerTimeline = options.preserveServerTimeline === true
+      && Array.isArray(options.data?.battleV2?.result?.timeline);
+    const data = hasServerTimeline
+      ? { ...options.data, mode: 'RAID', battlefieldMode: 'RAID' }
+      : raidPayload(options);
+    const renderer = await createRenderer({ ...options, data, mode: 'RAID' });
+    if (options.modal) options.modal.__battleV2Renderer = renderer;
+    const played = await renderer.play();
+    if (!played) throw new Error('V3 레이드 개인 전투가 완료되지 않았습니다.');
+    return renderer;
+  }
+
+
+  // A shared report for PVE and PVP. All values come from the settled response;
+  // the presentation never awards currency or derives a different winner.
+  function resultHtml({data = {}, mode = 'PVE', win = false, playerPower = 0, opponentPower = 0, battleSuit = null} = {}) {
+    const n = value => Number.isFinite(Number(value)) ? Number(value) : 0;
+    const fmt = value => n(value).toLocaleString('ko-KR');
+    const signed = value => (n(value) > 0 ? '+' : '') + fmt(value);
+    const pvp = mode === 'PVP';
+    const result = data.battleV2?.result || {};
+    const draw = String(data.result || '').toUpperCase() === 'DRAW' || (!data.result && result.winner === 'DRAW');
+    const state = draw ? 'draw' : win ? 'win' : 'loss';
+    const title = pvp ? (draw ? '무승부' : win ? '랭크전 승리' : '랭크전 패배') : win ? '토벌 성공' : '토벌 실패';
+    const reason = {
+      ELIMINATION: '상대 진영 전멸', SURVIVOR_COUNT: '생존 인원으로 승부 결정',
+      HP_RATIO_TIEBREAK: '잔여 체력으로 승부 결정', POWER_TIEBREAK: '편성 전투력으로 승부 결정',
+      ACTION_LIMIT: '제한 행동 종료', TIME_LIMIT: '전투 시간 종료', MONSTER_SURVIVED: '제한 행동 안에 적을 처치하지 못했습니다.'
+    }[result.reason] || (draw ? '양 팀의 전투가 무승부로 끝났습니다.' : win ? '전투를 완료했습니다.' : '다음 전투를 준비하세요.');
+    const coins = Math.max(0, n(pvp ? data.coinReward : data.reward));
+    const magic = Math.max(0, n(data.magicReward?.amount));
+    const bonus=data.apocalypseBonus?.rewards;
+    const finalTeam = side => [
+      ...(Array.isArray(result.final?.[side]) ? result.final[side] : []),
+      ...(Array.isArray(result.final?.mercenaries?.[side]) ? result.final.mercenaries[side] : [])
+    ];
+    const finalA = finalTeam('A'), finalB = finalTeam('B');
+    const alive = team => team.filter(c => n(c.hp) > 0).length;
+    const hp = team => {
+      const max = team.reduce((sum,c) => sum + Math.max(0,n(c.maxHp)) + Math.max(0,n(c.maxShield)),0);
+      const remaining = team.reduce((sum,c) => sum + (n(c.hp) > 0 ? n(c.hp) + Math.max(0,n(c.shield)) : 0),0);
+      return (max ? Math.min(100,remaining / max * 100) : 0).toFixed(1) + '%';
+    };
+    const stat = (label, value, tone = '') => '<div class="v3-report-stat ' + tone + '"><dt>' + esc(label) + '</dt><dd>' + esc(value) + '</dd></div>';
+    const adjustment = data.scoreAdjustment;
+    const card = data.cardReward?.card;
+    const confirmId = pvp ? 'pvpResultConfirm' : 'pveResultConfirm';
+    return '<section class="v3-battle-report is-' + state + '" aria-labelledby="v3ReportTitle">' +
+      '<header class="v3-report-header"><div class="v3-report-emblem" aria-hidden="true">' + (win ? '✓' : draw ? '＝' : '×') + '</div><div><span class="v3-report-mode">' + (pvp ? 'PVP · 랭크전' : 'PVE · 전투 결과') + '</span><h2 id="v3ReportTitle">' + title + '</h2><p>' + esc(!win && result.reason === 'ELIMINATION' ? '아군 진영 전멸' : reason) + '</p></div></header>' +
+      '<div class="v3-report-body"><dl class="v3-report-rewards">' +
+        (pvp ? stat('시즌 점수',signed(data.scoreChange),'is-score') : '') + stat('획득 코인',signed(coins),'is-coin') + (magic > 0 ? stat('마력 수정','+' + fmt(magic)) : '') +
+        (bonus?.coin>0?stat('보스 추가 코인','+'+fmt(bonus.coin),'is-coin'):'') +
+        (bonus?.masterStars>0?stat('마스터의 별','+'+fmt(bonus.masterStars)):'') +
+        (bonus?.mysticEnergy>0?stat('미스틱 에너지','+'+fmt(bonus.mysticEnergy)):'') + '</dl>' +
+        (data.apocalypseChallenge?'<p class="v3-report-adjustment">충격파 회피 · '+(data.apocalypseChallenge.success?'성공':data.apocalypseFailure==='MECHANIC_FAILED'?'실패 · 전원 전멸':'실패 · 전투 중단')+'</p>':'') +
+        (card ? '<div class="v3-report-drop"><span>카드 획득</span><strong>' + esc(card.grade) + ' · ' + esc(card.title) + '</strong><small>' + (data.cardReward.duplicate ? '중복 카드 · 조각 +' + fmt(data.cardReward.shardGained) : '새로운 카드') + '</small></div>' : '') +
+        (pvp && adjustment?.label && Number.isFinite(Number(adjustment.multiplier)) ? '<p class="v3-report-adjustment">' + esc(adjustment.label) + ' · ' + signed(adjustment.multiplier) + '%</p>' : '') +
+        '<details class="v3-report-details"><summary>전투 상세<span>' + (n(result.actions) > 0 ? fmt(result.actions) + '회 행동' : '기록 확인') + '</span></summary><dl>' + stat('아군 전투력',fmt(playerPower)) + stat('상대 전투력',fmt(opponentPower)) +
+        (finalA.length ? stat('아군 생존',alive(finalA) + ' / ' + finalA.length) + stat('아군 체력 · 보호막',hp(finalA)) : '') +
+        (finalB.length ? stat('상대 생존',alive(finalB) + ' / ' + finalB.length) + stat('상대 체력 · 보호막',hp(finalB)) : '') + '</dl>' +
+        (battleSuit ? '<div class="v3-report-suit" data-battle-suit-live-result="SERVER_TIMELINE"><b>' + esc(battleSuit.name) + '</b><span>피해 ' + fmt(battleSuit.damage) + ' · ' + fmt(battleSuit.actions) + '회 사격</span></div>' : '') + '</details></div>' +
+      '<footer class="v3-report-footer"><button type="button" id="' + confirmId + '" class="v3-report-confirm">' + (pvp ? '랭크전으로 돌아가기' : 'PVE로 돌아가기') + '<span aria-hidden="true">→</span></button></footer></section>';
+  }
+
+  root.ProjectVBattleV3Live = Object.freeze({
+    version: VERSION,
+    runtimeVersion: BATTLE_RUNTIME,
+    // Additive runtime suffixes preserve this entry API; bump for breaking changes.
+    entryContractVersion: 1,
+    resultHtml,
+    playbackSpeed: PLAYBACK_SPEED,
+    ready: () => root.ProjectVPixiBattle?.runtimeVersion === BATTLE_RUNTIME,
+    ensureRuntime: ensureCurrentBattleRuntime,
+    prepareLoading,
+    prepareSealDragon: async()=>{await ensureCurrentBattleRuntime();return root.ProjectVPixiBattle.prepareSealDragon();},
+    prepareSealOrb,
+    sealOrbArt,
+    createRenderer,
+    playTower,
+    towerPayload,
+    playSeal,
+    sealPayload,
+    playRaid,
+    raidPayload,
+    hardReset: hardResetPixiBattle
+  });
+  root.playTowerBattleV3Live = playTower;
+  root.playSealBattleV3Live = playSeal;
+  root.playRaidBattleV3Live = playRaid;
+})();

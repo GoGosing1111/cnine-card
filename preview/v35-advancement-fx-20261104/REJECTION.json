@@ -1,0 +1,11 @@
+{
+  "status": "REJECTED_BY_USER",
+  "date": "2026-11-04",
+  "scope": "Root native/, frames/, runtime/ and geometric author.mjs output",
+  "reason": "User rejected thin lines, emblems and icon-like effects; explicitly requires production like existing mercenary skills.",
+  "userFeedback": ["뭐하냐? 설마 그딴거로 스킬이펙트 쓰는거 아니지?", "용병 스킬 만들듯이 이펙트 만들어라 좆빠는소리 하지말고"],
+  "runtimeApproved": false,
+  "productionUsable": false,
+  "replacement": "painted-v2/ — ImageGen hand-painted evolving sequences, Effekseer bake, existing V3 compositing",
+  "preservation": "Retained only as rejected production history. Never load root runtime/ into the game."
+}

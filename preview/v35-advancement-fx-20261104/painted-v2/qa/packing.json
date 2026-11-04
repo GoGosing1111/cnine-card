@@ -1,0 +1,247 @@
+{
+  "clips": [
+    {
+      "id": "vanguard",
+      "bounds": [
+        64,
+        64,
+        447,
+        447
+      ],
+      "clipped": false,
+      "frames": 17,
+      "uniqueFrames": 8,
+      "transparentFinal": true,
+      "firstVisible": 0,
+      "lastVisible": 16
+    },
+    {
+      "id": "duelist",
+      "bounds": [
+        64,
+        64,
+        447,
+        447
+      ],
+      "clipped": false,
+      "frames": 17,
+      "uniqueFrames": 8,
+      "transparentFinal": true,
+      "firstVisible": 0,
+      "lastVisible": 16
+    },
+    {
+      "id": "executioner",
+      "bounds": [
+        64,
+        64,
+        447,
+        447
+      ],
+      "clipped": false,
+      "frames": 17,
+      "uniqueFrames": 8,
+      "transparentFinal": true,
+      "firstVisible": 0,
+      "lastVisible": 16
+    },
+    {
+      "id": "berserker",
+      "bounds": [
+        64,
+        64,
+        447,
+        447
+      ],
+      "clipped": false,
+      "frames": 17,
+      "uniqueFrames": 8,
+      "transparentFinal": true,
+      "firstVisible": 0,
+      "lastVisible": 16
+    },
+    {
+      "id": "combo",
+      "bounds": [
+        64,
+        64,
+        447,
+        447
+      ],
+      "clipped": false,
+      "frames": 17,
+      "uniqueFrames": 8,
+      "transparentFinal": true,
+      "firstVisible": 0,
+      "lastVisible": 16
+    },
+    {
+      "id": "vampire",
+      "bounds": [
+        64,
+        64,
+        447,
+        447
+      ],
+      "clipped": false,
+      "frames": 17,
+      "uniqueFrames": 8,
+      "transparentFinal": true,
+      "firstVisible": 0,
+      "lastVisible": 16
+    },
+    {
+      "id": "avenger",
+      "bounds": [
+        64,
+        64,
+        447,
+        447
+      ],
+      "clipped": false,
+      "frames": 17,
+      "uniqueFrames": 8,
+      "transparentFinal": true,
+      "firstVisible": 0,
+      "lastVisible": 16
+    },
+    {
+      "id": "shield-knight",
+      "bounds": [
+        64,
+        64,
+        447,
+        447
+      ],
+      "clipped": false,
+      "frames": 17,
+      "uniqueFrames": 8,
+      "transparentFinal": true,
+      "firstVisible": 0,
+      "lastVisible": 16
+    },
+    {
+      "id": "barrier",
+      "bounds": [
+        64,
+        64,
+        447,
+        447
+      ],
+      "clipped": false,
+      "frames": 17,
+      "uniqueFrames": 8,
+      "transparentFinal": true,
+      "firstVisible": 0,
+      "lastVisible": 16
+    },
+    {
+      "id": "undying",
+      "bounds": [
+        64,
+        64,
+        447,
+        447
+      ],
+      "clipped": false,
+      "frames": 17,
+      "uniqueFrames": 8,
+      "transparentFinal": true,
+      "firstVisible": 0,
+      "lastVisible": 16
+    },
+    {
+      "id": "regenerator",
+      "bounds": [
+        64,
+        64,
+        447,
+        447
+      ],
+      "clipped": false,
+      "frames": 17,
+      "uniqueFrames": 8,
+      "transparentFinal": true,
+      "firstVisible": 0,
+      "lastVisible": 16
+    },
+    {
+      "id": "healer",
+      "bounds": [
+        64,
+        64,
+        447,
+        447
+      ],
+      "clipped": false,
+      "frames": 17,
+      "uniqueFrames": 8,
+      "transparentFinal": true,
+      "firstVisible": 0,
+      "lastVisible": 16
+    },
+    {
+      "id": "guardian",
+      "bounds": [
+        64,
+        64,
+        447,
+        447
+      ],
+      "clipped": false,
+      "frames": 17,
+      "uniqueFrames": 8,
+      "transparentFinal": true,
+      "firstVisible": 0,
+      "lastVisible": 16
+    },
+    {
+      "id": "cleanser",
+      "bounds": [
+        64,
+        64,
+        447,
+        447
+      ],
+      "clipped": false,
+      "frames": 17,
+      "uniqueFrames": 8,
+      "transparentFinal": true,
+      "firstVisible": 0,
+      "lastVisible": 16
+    },
+    {
+      "id": "commander",
+      "bounds": [
+        64,
+        64,
+        447,
+        447
+      ],
+      "clipped": false,
+      "frames": 17,
+      "uniqueFrames": 8,
+      "transparentFinal": true,
+      "firstVisible": 0,
+      "lastVisible": 16
+    },
+    {
+      "id": "breaker",
+      "bounds": [
+        64,
+        64,
+        447,
+        447
+      ],
+      "clipped": false,
+      "frames": 17,
+      "uniqueFrames": 8,
+      "transparentFinal": true,
+      "firstVisible": 0,
+      "lastVisible": 16
+    }
+  ],
+  "decodedMiB": 32.25048828125,
+  "encodedBytes": 8569532,
+  "maxAtlasEdge": 1028
+}

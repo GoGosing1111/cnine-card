@@ -1,0 +1,3281 @@
+{
+  "status": "LOCAL_REVIEW_CANDIDATE",
+  "productionDeployed": false,
+  "userVisualApproval": false,
+  "builtInImageGen": true,
+  "sourceArtCount": 16,
+  "paintedPhases": 128,
+  "sourcePreserved": true,
+  "rows": [
+    {
+      "path": "preview/v35-advancement-fx-20261104/PROJECT.md",
+      "bytes": 8403,
+      "sha256": "ca19f42b3c89ce733150aa925d2aae0d956464e798d6b79811b08c17601da0b0"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/REJECTION.json",
+      "bytes": 727,
+      "sha256": "962814b2d91e89b9c460a51fbb6ab4653f62abe415c38253c5eb68270322e8dc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/AdvancementEffects.mjs",
+      "bytes": 7746,
+      "sha256": "6bc214025dd93914870fb5415c64becddc35748268eb798d8cd9fbab4d36d7f3"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/catalog.mjs",
+      "bytes": 3396,
+      "sha256": "82b97809128b7ca6b8afe10a8e002eb9d384a4247c5a120cea01b1b76c33f696"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/workbench.src.mjs",
+      "bytes": 5498,
+      "sha256": "f077ae74fe18d317e52c4e18d70109ddc855b8d32f09fae4556146f473d1df5a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/workbench.bundle.js",
+      "bytes": 3272811,
+      "sha256": "e2db96d86186d3ba580c59c66751c6522d623035e0a417f7acc78130992d5a0f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/battle-v3-live.pinned.js",
+      "bytes": 76710,
+      "sha256": "adb428d96bb295162a1fc3f63ba7150d03e9b2d2ce0473ddf1ec4d66c976d9c0"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/v3-source-ref.txt",
+      "bytes": 41,
+      "sha256": "aed7077412316d643e917fd488d97a4161cf508348d5b79291cdf26e6430803e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/index.html",
+      "bytes": 2692,
+      "sha256": "6be297c8038f051f09b722d459ec87eeccdf89c9b915b2cfdda891362e982e12"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/build.mjs",
+      "bytes": 2867,
+      "sha256": "0c8041dce18c3209357089dc852afa6c76b226085d61d69ec7945340f3ad85f1"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/serve.mjs",
+      "bytes": 3968,
+      "sha256": "24b3e34a6763a736676fa06a4797133913eed5d174d7eb2e8cf8bb4c8df0a16e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/bake.mjs",
+      "bytes": 3370,
+      "sha256": "bdf2fdbe7b480b1dd140791fffa4f90a819adf68c11bc08c7441ac3f6ffe4a61"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/bake.html",
+      "bytes": 2141,
+      "sha256": "448b270c93b905da6d2ddae4e3cf0abf2a604be293f7a7f1066a2cba24318feb"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/pack.mjs",
+      "bytes": 3883,
+      "sha256": "ba520c359f352ed99f6a54933d00e7df2aaf0ab56af60c4e4e8866dc9247d6be"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/qa/build.json",
+      "bytes": 89097,
+      "sha256": "a7cda5f1e437dc3388c85cfc71e4db90ee9d017dcf7f78d78f7c9e0705e14357"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/art/avenger-sequence-v1.png",
+      "bytes": 1565204,
+      "sha256": "6a5f91a6686ce71e80f8f680b4ed3899b55480ef05f6a9225243c0430df5ffd2"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/art/barrier-sequence-v1.png",
+      "bytes": 1556433,
+      "sha256": "321514a3d776d2f55ced7c91f70a8dc0217d6324020582806d9b930749622dfa"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/art/berserker-sequence-v1.png",
+      "bytes": 1784490,
+      "sha256": "3eef987cce0e02f79a479d6c2cd1420faefaca0d789bde596c791ef0c4dcaf0b"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/art/breaker-sequence-v1.png",
+      "bytes": 1972191,
+      "sha256": "f56bbd0b2344e6fd931ae6c8588b0bcbe5d57da805fa6ac53d2e401662d9e132"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/art/breaker-sequence-v2.png",
+      "bytes": 1541204,
+      "sha256": "0b1b61a450473263a91f1bd848808fa2192f4718c622103b0c72973ff7de678c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/art/breaker-sequence-v3.png",
+      "bytes": 1023156,
+      "sha256": "ae974cd7006a10f57002afdc4998b26e4b8acfb1b51ef1e45a3bf406fb213585"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/art/cleanser-sequence-v1.png",
+      "bytes": 1666877,
+      "sha256": "bb97303f5cc68b203202fad63970728091d08f97abf94e158ca7f7633ec98b1c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/art/combo-sequence-v1.png",
+      "bytes": 1655810,
+      "sha256": "374b97fba10b1b1a7638bfd6abf8b67930060ccec4a789b1c9511bd6c8af128b"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/art/commander-sequence-v1.png",
+      "bytes": 1653748,
+      "sha256": "30fcf305730e37236ba6a569bc2168915e5d59abdca1c4594ee90c24bc824b14"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/art/duelist-sequence-v1.png",
+      "bytes": 1613770,
+      "sha256": "09e7a9c729480cdf41d53e8ffbd1291b3acb4b31d3401783052b28a57f6a6117"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/art/executioner-sequence-v1.png",
+      "bytes": 1637889,
+      "sha256": "63cc18bf7d5e3cc5fe88d225766cfdda59b3e0eca988c1b223930ce33aac0510"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/art/guardian-sequence-v1.png",
+      "bytes": 1431922,
+      "sha256": "a150cb37ad1d4d054668c1e15e2c495ca46786fc0c33aefd845bbd76e2925800"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/art/healer-sequence-v1.png",
+      "bytes": 1695646,
+      "sha256": "d397eaab73046c640fffa75a8670aa1740cea9b7e79eb114113c6e327a47548e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/art/regenerator-sequence-v1.png",
+      "bytes": 1315745,
+      "sha256": "7c0eac8e2eea92f723d84dcdb67e375f7f49c67635c7b3c10801668de229cea7"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/art/shield-knight-sequence-v1.png",
+      "bytes": 1708826,
+      "sha256": "96861f30cb70dfbc1fa23328253acb9fe8793e4579f2430ac43cde5afc129778"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/art/undying-sequence-v1.png",
+      "bytes": 1413431,
+      "sha256": "803b80b9159f268184dacd3c0efbae992bfbd3576f9dd67d93a9aa94c929d4ac"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/art/vampire-sequence-v1.png",
+      "bytes": 2137023,
+      "sha256": "07e4359eadefacf97e8de86d7444765608708abe54b7470e3d0556ea70b9ba33"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/art/vanguard-sequence-v1.png",
+      "bytes": 1356791,
+      "sha256": "f9485a99145240e7e530a81bd0f393e003b02d0c7fafd38373a9c8cdf8d8c32b"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/author.mjs",
+      "bytes": 4316,
+      "sha256": "32f5c3ee669a972b0e4d636befc9e8940ccab7e98ba2d0c441f507408fbbd24c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/catalog.mjs",
+      "bytes": 362,
+      "sha256": "48ff77e742e981bdae0bb88c1096a5eacd00959a5d3bed60322d491afdadf0af"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/effects.json",
+      "bytes": 4352,
+      "sha256": "efcd2443b7d91c4ed362c05f1e024cb60a328314c102df05bff27eacaad4dcf2"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/avenger/frame-0000.png",
+      "bytes": 60715,
+      "sha256": "27248742339a0a80a93e598de35c34fd1869b94e1ba150f9bf5f53a3094e41d4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/avenger/frame-0001.png",
+      "bytes": 60715,
+      "sha256": "27248742339a0a80a93e598de35c34fd1869b94e1ba150f9bf5f53a3094e41d4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/avenger/frame-0002.png",
+      "bytes": 60715,
+      "sha256": "27248742339a0a80a93e598de35c34fd1869b94e1ba150f9bf5f53a3094e41d4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/avenger/frame-0003.png",
+      "bytes": 112017,
+      "sha256": "f3dda48d7d7f883688f85b4191f2a5c38d0b1185be8e4e00f6814801c59dd689"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/avenger/frame-0004.png",
+      "bytes": 112017,
+      "sha256": "f3dda48d7d7f883688f85b4191f2a5c38d0b1185be8e4e00f6814801c59dd689"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/avenger/frame-0005.png",
+      "bytes": 184813,
+      "sha256": "22a91d76059152ff3f2138bab43fcb94256b7304e632adcc77c97d8b0959bdbc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/avenger/frame-0006.png",
+      "bytes": 184813,
+      "sha256": "22a91d76059152ff3f2138bab43fcb94256b7304e632adcc77c97d8b0959bdbc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/avenger/frame-0007.png",
+      "bytes": 297561,
+      "sha256": "5cbe110cfefc007024b2b74272c2c4d3f051abc0cc5bab55a982a41349ca41ae"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/avenger/frame-0008.png",
+      "bytes": 297561,
+      "sha256": "5cbe110cfefc007024b2b74272c2c4d3f051abc0cc5bab55a982a41349ca41ae"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/avenger/frame-0009.png",
+      "bytes": 276317,
+      "sha256": "6d96e2819532d367e40124bf3a74f8db913a56808e1d10910a9813e583bbf70a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/avenger/frame-0010.png",
+      "bytes": 276317,
+      "sha256": "6d96e2819532d367e40124bf3a74f8db913a56808e1d10910a9813e583bbf70a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/avenger/frame-0011.png",
+      "bytes": 194898,
+      "sha256": "6db23c8c8834fec9a53bc5f006e64e6c039054943f8615971bcb13af74b280cb"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/avenger/frame-0012.png",
+      "bytes": 194898,
+      "sha256": "6db23c8c8834fec9a53bc5f006e64e6c039054943f8615971bcb13af74b280cb"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/avenger/frame-0013.png",
+      "bytes": 124829,
+      "sha256": "f497365f291c6d8dacd65d912c461f60524c319c9cb847adbe55274c9e1c70c4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/avenger/frame-0014.png",
+      "bytes": 124829,
+      "sha256": "f497365f291c6d8dacd65d912c461f60524c319c9cb847adbe55274c9e1c70c4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/avenger/frame-0015.png",
+      "bytes": 49072,
+      "sha256": "5f7963ae6de365149824d8d809edeb0a32a756bea0494d8af4003bb93213a5e7"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/avenger/frame-0016.png",
+      "bytes": 49072,
+      "sha256": "5f7963ae6de365149824d8d809edeb0a32a756bea0494d8af4003bb93213a5e7"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/avenger/frame-0017.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/avenger/frame-0018.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/barrier/frame-0000.png",
+      "bytes": 90692,
+      "sha256": "0ae191c202ca0d9c2425e56ec5f68e60f0ccae298d5a16ff2242aaa6c5a18353"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/barrier/frame-0001.png",
+      "bytes": 90692,
+      "sha256": "0ae191c202ca0d9c2425e56ec5f68e60f0ccae298d5a16ff2242aaa6c5a18353"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/barrier/frame-0002.png",
+      "bytes": 90692,
+      "sha256": "0ae191c202ca0d9c2425e56ec5f68e60f0ccae298d5a16ff2242aaa6c5a18353"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/barrier/frame-0003.png",
+      "bytes": 147721,
+      "sha256": "c2762f53d47123b4a5e106741deb9425e27e3588afdbed9de947008835a06b6e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/barrier/frame-0004.png",
+      "bytes": 147721,
+      "sha256": "c2762f53d47123b4a5e106741deb9425e27e3588afdbed9de947008835a06b6e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/barrier/frame-0005.png",
+      "bytes": 210609,
+      "sha256": "df212a02f81a74eb95ce087215fd8ead28902b35ada643d0fc76664220a344e2"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/barrier/frame-0006.png",
+      "bytes": 210609,
+      "sha256": "df212a02f81a74eb95ce087215fd8ead28902b35ada643d0fc76664220a344e2"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/barrier/frame-0007.png",
+      "bytes": 268005,
+      "sha256": "930470ef0d89f9e30b7d37589c0143123df28856da841fec15baf269f2ff0c30"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/barrier/frame-0008.png",
+      "bytes": 268005,
+      "sha256": "930470ef0d89f9e30b7d37589c0143123df28856da841fec15baf269f2ff0c30"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/barrier/frame-0009.png",
+      "bytes": 243848,
+      "sha256": "6cd974f7f048406e64a061a571992650c8b89d602f2336c07cd118ccca058b58"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/barrier/frame-0010.png",
+      "bytes": 243848,
+      "sha256": "6cd974f7f048406e64a061a571992650c8b89d602f2336c07cd118ccca058b58"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/barrier/frame-0011.png",
+      "bytes": 173968,
+      "sha256": "d5f976b1c01db24666f18e5d8aca5e0c6e68a0f5c06d89361b9526d7c11b1bad"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/barrier/frame-0012.png",
+      "bytes": 173968,
+      "sha256": "d5f976b1c01db24666f18e5d8aca5e0c6e68a0f5c06d89361b9526d7c11b1bad"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/barrier/frame-0013.png",
+      "bytes": 111086,
+      "sha256": "1bd87a4d159c3225f1fd2954ada78344555d4a0d3e965aa932c31709a74e0cb1"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/barrier/frame-0014.png",
+      "bytes": 111086,
+      "sha256": "1bd87a4d159c3225f1fd2954ada78344555d4a0d3e965aa932c31709a74e0cb1"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/barrier/frame-0015.png",
+      "bytes": 54996,
+      "sha256": "058b1941961990950f64dda7109000398ad4ed59934baee8e9a2a73ce8deb243"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/barrier/frame-0016.png",
+      "bytes": 54996,
+      "sha256": "058b1941961990950f64dda7109000398ad4ed59934baee8e9a2a73ce8deb243"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/barrier/frame-0017.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/barrier/frame-0018.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/berserker/frame-0000.png",
+      "bytes": 84162,
+      "sha256": "f4e3085301e584c89d93c8b868c492ebd8d68433cb9bcb19d40811c180d145db"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/berserker/frame-0001.png",
+      "bytes": 84162,
+      "sha256": "f4e3085301e584c89d93c8b868c492ebd8d68433cb9bcb19d40811c180d145db"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/berserker/frame-0002.png",
+      "bytes": 84162,
+      "sha256": "f4e3085301e584c89d93c8b868c492ebd8d68433cb9bcb19d40811c180d145db"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/berserker/frame-0003.png",
+      "bytes": 134958,
+      "sha256": "12ca92cf1ec5f1a81ccf62d99218f1b125cca438bb4ea795874f5ed7ab68977e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/berserker/frame-0004.png",
+      "bytes": 134958,
+      "sha256": "12ca92cf1ec5f1a81ccf62d99218f1b125cca438bb4ea795874f5ed7ab68977e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/berserker/frame-0005.png",
+      "bytes": 205159,
+      "sha256": "f777f10d150711bc46bd68d06bdcdc4c2e86d78e92e47bc1664990c430c80125"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/berserker/frame-0006.png",
+      "bytes": 205159,
+      "sha256": "f777f10d150711bc46bd68d06bdcdc4c2e86d78e92e47bc1664990c430c80125"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/berserker/frame-0007.png",
+      "bytes": 282575,
+      "sha256": "79d24a13a20f7e3a5a04e5c9354ae7f85406da0faaf5fe845c882286196164cf"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/berserker/frame-0008.png",
+      "bytes": 282575,
+      "sha256": "79d24a13a20f7e3a5a04e5c9354ae7f85406da0faaf5fe845c882286196164cf"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/berserker/frame-0009.png",
+      "bytes": 275205,
+      "sha256": "8fbc03f6696fbd5776cad93c531c3e97770adb5abe52d0adf4657a6492457240"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/berserker/frame-0010.png",
+      "bytes": 275205,
+      "sha256": "8fbc03f6696fbd5776cad93c531c3e97770adb5abe52d0adf4657a6492457240"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/berserker/frame-0011.png",
+      "bytes": 221892,
+      "sha256": "f26d744103715745ed289a8685dcf8feafbd608825279c4377afc86bfe791f64"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/berserker/frame-0012.png",
+      "bytes": 221892,
+      "sha256": "f26d744103715745ed289a8685dcf8feafbd608825279c4377afc86bfe791f64"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/berserker/frame-0013.png",
+      "bytes": 163053,
+      "sha256": "9605eb21647beb2a4ad820a84937284ce1a103af2ca477a2e85a61b9c99bdf36"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/berserker/frame-0014.png",
+      "bytes": 163053,
+      "sha256": "9605eb21647beb2a4ad820a84937284ce1a103af2ca477a2e85a61b9c99bdf36"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/berserker/frame-0015.png",
+      "bytes": 94787,
+      "sha256": "8b4c9ca20190cb3b9201ff8947d385c5feb502b91e196bb778a6fd436c0dcaf0"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/berserker/frame-0016.png",
+      "bytes": 94787,
+      "sha256": "8b4c9ca20190cb3b9201ff8947d385c5feb502b91e196bb778a6fd436c0dcaf0"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/berserker/frame-0017.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/berserker/frame-0018.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/breaker/frame-0000.png",
+      "bytes": 92208,
+      "sha256": "7666cbd824389532885f300706e73b656eae3c2217ed7d61cb6cb5dfb8728be7"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/breaker/frame-0001.png",
+      "bytes": 92208,
+      "sha256": "7666cbd824389532885f300706e73b656eae3c2217ed7d61cb6cb5dfb8728be7"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/breaker/frame-0002.png",
+      "bytes": 92208,
+      "sha256": "7666cbd824389532885f300706e73b656eae3c2217ed7d61cb6cb5dfb8728be7"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/breaker/frame-0003.png",
+      "bytes": 112974,
+      "sha256": "f50fc92cc84c9d951c5a20b61b81da6f2e1af84118d0cf5cab2b506077e05501"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/breaker/frame-0004.png",
+      "bytes": 112974,
+      "sha256": "f50fc92cc84c9d951c5a20b61b81da6f2e1af84118d0cf5cab2b506077e05501"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/breaker/frame-0005.png",
+      "bytes": 138980,
+      "sha256": "2fe9e41a9a47cbf68ee3a289b615c46a6081697a7c98292982fe2fca8e63de7d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/breaker/frame-0006.png",
+      "bytes": 138980,
+      "sha256": "2fe9e41a9a47cbf68ee3a289b615c46a6081697a7c98292982fe2fca8e63de7d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/breaker/frame-0007.png",
+      "bytes": 192172,
+      "sha256": "fb1b96ba55ba91aea2ea24d656e633da0e06bd09941605fcd83b6f83c0fce6ea"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/breaker/frame-0008.png",
+      "bytes": 192172,
+      "sha256": "fb1b96ba55ba91aea2ea24d656e633da0e06bd09941605fcd83b6f83c0fce6ea"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/breaker/frame-0009.png",
+      "bytes": 165538,
+      "sha256": "5ad7273141908416750eaaf385e99026efd10e1b4f4f9edd23a094cd09acc3e8"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/breaker/frame-0010.png",
+      "bytes": 165538,
+      "sha256": "5ad7273141908416750eaaf385e99026efd10e1b4f4f9edd23a094cd09acc3e8"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/breaker/frame-0011.png",
+      "bytes": 97125,
+      "sha256": "af1aceaa08eadd93dec4bb63fe182736e252a09cb8367804604c6451e16e1009"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/breaker/frame-0012.png",
+      "bytes": 97125,
+      "sha256": "af1aceaa08eadd93dec4bb63fe182736e252a09cb8367804604c6451e16e1009"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/breaker/frame-0013.png",
+      "bytes": 54916,
+      "sha256": "c6eca62cfc2fe9dc0c31d6759d7c89c14855b14bd9448dd4a3bcdadec076ec13"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/breaker/frame-0014.png",
+      "bytes": 54916,
+      "sha256": "c6eca62cfc2fe9dc0c31d6759d7c89c14855b14bd9448dd4a3bcdadec076ec13"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/breaker/frame-0015.png",
+      "bytes": 35658,
+      "sha256": "7723156df36c760c341873b86f94612ace8dfc226d2e51393a589bf948aa3e60"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/breaker/frame-0016.png",
+      "bytes": 35658,
+      "sha256": "7723156df36c760c341873b86f94612ace8dfc226d2e51393a589bf948aa3e60"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/breaker/frame-0017.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/breaker/frame-0018.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/cleanser/frame-0000.png",
+      "bytes": 126750,
+      "sha256": "9452ed64bec24f03678fe47936dddf825fe901d0535cdb212353dbcced7a33c9"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/cleanser/frame-0001.png",
+      "bytes": 126750,
+      "sha256": "9452ed64bec24f03678fe47936dddf825fe901d0535cdb212353dbcced7a33c9"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/cleanser/frame-0002.png",
+      "bytes": 126750,
+      "sha256": "9452ed64bec24f03678fe47936dddf825fe901d0535cdb212353dbcced7a33c9"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/cleanser/frame-0003.png",
+      "bytes": 144862,
+      "sha256": "18a991d39f05f9f7278911d5971361a08aa445b2445a2b22087019f0443176fb"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/cleanser/frame-0004.png",
+      "bytes": 144862,
+      "sha256": "18a991d39f05f9f7278911d5971361a08aa445b2445a2b22087019f0443176fb"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/cleanser/frame-0005.png",
+      "bytes": 240381,
+      "sha256": "6cf51056db9c24b3ffaaf3dd27c09e18d91e445e7e4f6ab2089e43c4c0a2247f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/cleanser/frame-0006.png",
+      "bytes": 240381,
+      "sha256": "6cf51056db9c24b3ffaaf3dd27c09e18d91e445e7e4f6ab2089e43c4c0a2247f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/cleanser/frame-0007.png",
+      "bytes": 285470,
+      "sha256": "d9f14625c380a00ea42da3e3f55bfbe0fa149537b0a8438b7aea77e89dc2c0b2"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/cleanser/frame-0008.png",
+      "bytes": 285470,
+      "sha256": "d9f14625c380a00ea42da3e3f55bfbe0fa149537b0a8438b7aea77e89dc2c0b2"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/cleanser/frame-0009.png",
+      "bytes": 239311,
+      "sha256": "ab2b108f3746a475730224ae577971aeafe53004eba6a3eb570202c15b526f67"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/cleanser/frame-0010.png",
+      "bytes": 239311,
+      "sha256": "ab2b108f3746a475730224ae577971aeafe53004eba6a3eb570202c15b526f67"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/cleanser/frame-0011.png",
+      "bytes": 165669,
+      "sha256": "7ff9b6fec43b5fb22b2f647fd3bc0274f2577161471818135162a34797e54ca6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/cleanser/frame-0012.png",
+      "bytes": 165669,
+      "sha256": "7ff9b6fec43b5fb22b2f647fd3bc0274f2577161471818135162a34797e54ca6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/cleanser/frame-0013.png",
+      "bytes": 101016,
+      "sha256": "237be8dadb27c378b0d58ba8dfd019938360ffc93e9a8618b251c2104b3f8795"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/cleanser/frame-0014.png",
+      "bytes": 101016,
+      "sha256": "237be8dadb27c378b0d58ba8dfd019938360ffc93e9a8618b251c2104b3f8795"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/cleanser/frame-0015.png",
+      "bytes": 38658,
+      "sha256": "263fdeb953592ecc43ee20311457fdeca4848f2964905d98a572b64db46bf59f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/cleanser/frame-0016.png",
+      "bytes": 38658,
+      "sha256": "263fdeb953592ecc43ee20311457fdeca4848f2964905d98a572b64db46bf59f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/cleanser/frame-0017.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/cleanser/frame-0018.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/combo/frame-0000.png",
+      "bytes": 92189,
+      "sha256": "84c5d4426d24bd2e772902569894c7261ea1bdf2914a5ce3513baca2cf50dbc8"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/combo/frame-0001.png",
+      "bytes": 92189,
+      "sha256": "84c5d4426d24bd2e772902569894c7261ea1bdf2914a5ce3513baca2cf50dbc8"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/combo/frame-0002.png",
+      "bytes": 92189,
+      "sha256": "84c5d4426d24bd2e772902569894c7261ea1bdf2914a5ce3513baca2cf50dbc8"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/combo/frame-0003.png",
+      "bytes": 177721,
+      "sha256": "534232b42d6c74d9bdacb969553dad605cf3307816a053d227645c92fb3e7254"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/combo/frame-0004.png",
+      "bytes": 177721,
+      "sha256": "534232b42d6c74d9bdacb969553dad605cf3307816a053d227645c92fb3e7254"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/combo/frame-0005.png",
+      "bytes": 235167,
+      "sha256": "67e3369a45a583e226d09a851b807f812576c8c5828f2633066345726dc80d2b"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/combo/frame-0006.png",
+      "bytes": 235167,
+      "sha256": "67e3369a45a583e226d09a851b807f812576c8c5828f2633066345726dc80d2b"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/combo/frame-0007.png",
+      "bytes": 270357,
+      "sha256": "d0e17ef3b4f2a6bf0a5fca46896185089a1cffd960b8d0725696b3f21a0e6aee"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/combo/frame-0008.png",
+      "bytes": 270357,
+      "sha256": "d0e17ef3b4f2a6bf0a5fca46896185089a1cffd960b8d0725696b3f21a0e6aee"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/combo/frame-0009.png",
+      "bytes": 235591,
+      "sha256": "b4590b34b6574f7c4f4ab996d403987b0ff915ea128b51793bfc3d336ade1f11"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/combo/frame-0010.png",
+      "bytes": 235591,
+      "sha256": "b4590b34b6574f7c4f4ab996d403987b0ff915ea128b51793bfc3d336ade1f11"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/combo/frame-0011.png",
+      "bytes": 194428,
+      "sha256": "423a53f903365f0de74191a078c36ef2aad70f37aaa55027d26c0ab7cb47c5a3"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/combo/frame-0012.png",
+      "bytes": 194428,
+      "sha256": "423a53f903365f0de74191a078c36ef2aad70f37aaa55027d26c0ab7cb47c5a3"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/combo/frame-0013.png",
+      "bytes": 115177,
+      "sha256": "ebe526395bd3cc7efb06ff874c4c8e823bb7325a3d3b2c220f10f0903b08e824"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/combo/frame-0014.png",
+      "bytes": 115177,
+      "sha256": "ebe526395bd3cc7efb06ff874c4c8e823bb7325a3d3b2c220f10f0903b08e824"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/combo/frame-0015.png",
+      "bytes": 82511,
+      "sha256": "8b3d2e2114d99fe04efadd52fd37efc7dd1ac1b86ee1fbf1d9c045de9d25a211"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/combo/frame-0016.png",
+      "bytes": 82511,
+      "sha256": "8b3d2e2114d99fe04efadd52fd37efc7dd1ac1b86ee1fbf1d9c045de9d25a211"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/combo/frame-0017.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/combo/frame-0018.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/commander/frame-0000.png",
+      "bytes": 82661,
+      "sha256": "9c6c4193edeae2a643b20693745504b6684ee524e9e217744925dd338e459abc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/commander/frame-0001.png",
+      "bytes": 82661,
+      "sha256": "9c6c4193edeae2a643b20693745504b6684ee524e9e217744925dd338e459abc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/commander/frame-0002.png",
+      "bytes": 82661,
+      "sha256": "9c6c4193edeae2a643b20693745504b6684ee524e9e217744925dd338e459abc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/commander/frame-0003.png",
+      "bytes": 136478,
+      "sha256": "2225ef69df8fb714a304ef6ec40fadabde44f051ae70481bfdaba4bb94c8f227"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/commander/frame-0004.png",
+      "bytes": 136478,
+      "sha256": "2225ef69df8fb714a304ef6ec40fadabde44f051ae70481bfdaba4bb94c8f227"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/commander/frame-0005.png",
+      "bytes": 203576,
+      "sha256": "f41ee73b2b3ac5fba48e113c193f8ebc5da24ec5a92593d5a9758c63e97888c0"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/commander/frame-0006.png",
+      "bytes": 203576,
+      "sha256": "f41ee73b2b3ac5fba48e113c193f8ebc5da24ec5a92593d5a9758c63e97888c0"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/commander/frame-0007.png",
+      "bytes": 299936,
+      "sha256": "d4ead47733a81c7637a00862414b62f3079a6692f9a0925199ce9165d1b97413"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/commander/frame-0008.png",
+      "bytes": 299936,
+      "sha256": "d4ead47733a81c7637a00862414b62f3079a6692f9a0925199ce9165d1b97413"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/commander/frame-0009.png",
+      "bytes": 245591,
+      "sha256": "79f4cfe82895a1880b81199838fb769c2cd4122dca3e1bec1db7efdee3d25e87"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/commander/frame-0010.png",
+      "bytes": 245591,
+      "sha256": "79f4cfe82895a1880b81199838fb769c2cd4122dca3e1bec1db7efdee3d25e87"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/commander/frame-0011.png",
+      "bytes": 232206,
+      "sha256": "034d156f7526fc5229869de7decad8dd8bd3df45601f8ac3cbb76d1b6ff5b2ef"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/commander/frame-0012.png",
+      "bytes": 232206,
+      "sha256": "034d156f7526fc5229869de7decad8dd8bd3df45601f8ac3cbb76d1b6ff5b2ef"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/commander/frame-0013.png",
+      "bytes": 131863,
+      "sha256": "26c07075e26901d962ff7ef84ff78394c0ab6d3d74c37745f8ab912ac4e4897c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/commander/frame-0014.png",
+      "bytes": 131863,
+      "sha256": "26c07075e26901d962ff7ef84ff78394c0ab6d3d74c37745f8ab912ac4e4897c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/commander/frame-0015.png",
+      "bytes": 54669,
+      "sha256": "49adeb9f5b9fd5d1656a87728ecf852709967b330a01cdc7774310e81d89a90a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/commander/frame-0016.png",
+      "bytes": 54669,
+      "sha256": "49adeb9f5b9fd5d1656a87728ecf852709967b330a01cdc7774310e81d89a90a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/commander/frame-0017.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/commander/frame-0018.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/duelist/frame-0000.png",
+      "bytes": 113020,
+      "sha256": "2b33fc1832888754e8ca74c9516b9e831977b7728f8b105cc2da267b4d339614"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/duelist/frame-0001.png",
+      "bytes": 113020,
+      "sha256": "2b33fc1832888754e8ca74c9516b9e831977b7728f8b105cc2da267b4d339614"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/duelist/frame-0002.png",
+      "bytes": 113020,
+      "sha256": "2b33fc1832888754e8ca74c9516b9e831977b7728f8b105cc2da267b4d339614"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/duelist/frame-0003.png",
+      "bytes": 162233,
+      "sha256": "d0d7cfbba9cc812685ef18e666a5c00ce6e1edf3593c46f6aac4f42943479638"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/duelist/frame-0004.png",
+      "bytes": 162233,
+      "sha256": "d0d7cfbba9cc812685ef18e666a5c00ce6e1edf3593c46f6aac4f42943479638"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/duelist/frame-0005.png",
+      "bytes": 217494,
+      "sha256": "e7f695edf45dbfdb9c6fe80dd096df615015fc0848d17fe0f47b88c143d4c66a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/duelist/frame-0006.png",
+      "bytes": 217494,
+      "sha256": "e7f695edf45dbfdb9c6fe80dd096df615015fc0848d17fe0f47b88c143d4c66a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/duelist/frame-0007.png",
+      "bytes": 271812,
+      "sha256": "710dd3aca69ff62c479e03f8531d151115f1283644250e4434d2d00b84ea2b4d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/duelist/frame-0008.png",
+      "bytes": 271812,
+      "sha256": "710dd3aca69ff62c479e03f8531d151115f1283644250e4434d2d00b84ea2b4d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/duelist/frame-0009.png",
+      "bytes": 239088,
+      "sha256": "bf856b4911747ffa95fe0867e0f7285baf9212ee9b2bc72eff8a10135aa2b667"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/duelist/frame-0010.png",
+      "bytes": 239088,
+      "sha256": "bf856b4911747ffa95fe0867e0f7285baf9212ee9b2bc72eff8a10135aa2b667"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/duelist/frame-0011.png",
+      "bytes": 181176,
+      "sha256": "e93717572c9f8b4bdd0541a505c2f62c8cf9b5ee42cfce8f1fb64a8e5bc19d65"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/duelist/frame-0012.png",
+      "bytes": 181176,
+      "sha256": "e93717572c9f8b4bdd0541a505c2f62c8cf9b5ee42cfce8f1fb64a8e5bc19d65"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/duelist/frame-0013.png",
+      "bytes": 117082,
+      "sha256": "f6635d88872e212a2b64129caf980e1c1e09e712f7cd02f1d07cd4de23d39c83"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/duelist/frame-0014.png",
+      "bytes": 117082,
+      "sha256": "f6635d88872e212a2b64129caf980e1c1e09e712f7cd02f1d07cd4de23d39c83"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/duelist/frame-0015.png",
+      "bytes": 55304,
+      "sha256": "2f7f3ba3fe5f56085af9afc945124052b0f24d6adb1a9b9dd95e09f7c427f901"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/duelist/frame-0016.png",
+      "bytes": 55304,
+      "sha256": "2f7f3ba3fe5f56085af9afc945124052b0f24d6adb1a9b9dd95e09f7c427f901"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/duelist/frame-0017.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/duelist/frame-0018.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/executioner/frame-0000.png",
+      "bytes": 96480,
+      "sha256": "80e175a6f99c2393a2c6ea82172f50397af8d137f8eddd9e33cffd46bdd0766d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/executioner/frame-0001.png",
+      "bytes": 96480,
+      "sha256": "80e175a6f99c2393a2c6ea82172f50397af8d137f8eddd9e33cffd46bdd0766d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/executioner/frame-0002.png",
+      "bytes": 96480,
+      "sha256": "80e175a6f99c2393a2c6ea82172f50397af8d137f8eddd9e33cffd46bdd0766d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/executioner/frame-0003.png",
+      "bytes": 184195,
+      "sha256": "41a6299cb39ee1446feb2e181b89f31bc984faa399ab6c742e1089ce3c222662"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/executioner/frame-0004.png",
+      "bytes": 184195,
+      "sha256": "41a6299cb39ee1446feb2e181b89f31bc984faa399ab6c742e1089ce3c222662"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/executioner/frame-0005.png",
+      "bytes": 211825,
+      "sha256": "361600fdbfea0c27c7e4123b481146d884fe1be05721667babde15aaa6780766"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/executioner/frame-0006.png",
+      "bytes": 211825,
+      "sha256": "361600fdbfea0c27c7e4123b481146d884fe1be05721667babde15aaa6780766"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/executioner/frame-0007.png",
+      "bytes": 260354,
+      "sha256": "0f0937ac3d75b1937228f755a8dce9ff72bb42fb080f7b89fd798b3a485be8a8"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/executioner/frame-0008.png",
+      "bytes": 260354,
+      "sha256": "0f0937ac3d75b1937228f755a8dce9ff72bb42fb080f7b89fd798b3a485be8a8"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/executioner/frame-0009.png",
+      "bytes": 245487,
+      "sha256": "eaf8e94441f744cb902ea1f0ea038d611f6ef6deb53deff1b3ace8e4faf05cd7"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/executioner/frame-0010.png",
+      "bytes": 245487,
+      "sha256": "eaf8e94441f744cb902ea1f0ea038d611f6ef6deb53deff1b3ace8e4faf05cd7"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/executioner/frame-0011.png",
+      "bytes": 165631,
+      "sha256": "24251cb8c0f908c1db8c1fdc7d2dce87400d7a7678cb9366e652db9375a284af"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/executioner/frame-0012.png",
+      "bytes": 165631,
+      "sha256": "24251cb8c0f908c1db8c1fdc7d2dce87400d7a7678cb9366e652db9375a284af"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/executioner/frame-0013.png",
+      "bytes": 106419,
+      "sha256": "76949f327bfec2577c18ad807e732aa761a2ebf85207650ef4efedc5660b8112"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/executioner/frame-0014.png",
+      "bytes": 106419,
+      "sha256": "76949f327bfec2577c18ad807e732aa761a2ebf85207650ef4efedc5660b8112"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/executioner/frame-0015.png",
+      "bytes": 32313,
+      "sha256": "5549b09a69550a5ca0078e59f916fe18975312c517ee297696dc35117f9e95ad"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/executioner/frame-0016.png",
+      "bytes": 32313,
+      "sha256": "5549b09a69550a5ca0078e59f916fe18975312c517ee297696dc35117f9e95ad"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/executioner/frame-0017.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/executioner/frame-0018.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/guardian/frame-0000.png",
+      "bytes": 68687,
+      "sha256": "fe7d170cf1cdd5179aa84bb195c4998ddf9fe12fd5eb1fc8edd91844d217c2f8"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/guardian/frame-0001.png",
+      "bytes": 68687,
+      "sha256": "fe7d170cf1cdd5179aa84bb195c4998ddf9fe12fd5eb1fc8edd91844d217c2f8"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/guardian/frame-0002.png",
+      "bytes": 68687,
+      "sha256": "fe7d170cf1cdd5179aa84bb195c4998ddf9fe12fd5eb1fc8edd91844d217c2f8"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/guardian/frame-0003.png",
+      "bytes": 123638,
+      "sha256": "1f682ce1f6c846fc2416a82b95821bb0fc2a3b444d0912ede14f13bc0818fd57"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/guardian/frame-0004.png",
+      "bytes": 123638,
+      "sha256": "1f682ce1f6c846fc2416a82b95821bb0fc2a3b444d0912ede14f13bc0818fd57"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/guardian/frame-0005.png",
+      "bytes": 189095,
+      "sha256": "5bc065f07a2bbff895cef9341a9830811ab6d0eeb097b751cb6d9d4d25976272"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/guardian/frame-0006.png",
+      "bytes": 189095,
+      "sha256": "5bc065f07a2bbff895cef9341a9830811ab6d0eeb097b751cb6d9d4d25976272"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/guardian/frame-0007.png",
+      "bytes": 272227,
+      "sha256": "d8a30b0973c2a894da1e1be8d2b4e4567c32d2171707927c1d4cd369bce46527"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/guardian/frame-0008.png",
+      "bytes": 272227,
+      "sha256": "d8a30b0973c2a894da1e1be8d2b4e4567c32d2171707927c1d4cd369bce46527"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/guardian/frame-0009.png",
+      "bytes": 228592,
+      "sha256": "885d1fd78f06f230040c798a29814dcb012adb1b0fbd2676ec89f0b2e0db9ddc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/guardian/frame-0010.png",
+      "bytes": 228592,
+      "sha256": "885d1fd78f06f230040c798a29814dcb012adb1b0fbd2676ec89f0b2e0db9ddc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/guardian/frame-0011.png",
+      "bytes": 184412,
+      "sha256": "b95129a8fca13f457e9721538bc389814358fc4192fe43dbc4c61df0c8401ce7"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/guardian/frame-0012.png",
+      "bytes": 184412,
+      "sha256": "b95129a8fca13f457e9721538bc389814358fc4192fe43dbc4c61df0c8401ce7"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/guardian/frame-0013.png",
+      "bytes": 125293,
+      "sha256": "10170578c9830de82e8fad971fe41b1c86a4cfc029a1e9e63b53ffcbc79822ec"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/guardian/frame-0014.png",
+      "bytes": 125293,
+      "sha256": "10170578c9830de82e8fad971fe41b1c86a4cfc029a1e9e63b53ffcbc79822ec"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/guardian/frame-0015.png",
+      "bytes": 48572,
+      "sha256": "c694d8e6578b29424e53a3975432c065825ad5d03b23d58e17871ff86bb9441f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/guardian/frame-0016.png",
+      "bytes": 48572,
+      "sha256": "c694d8e6578b29424e53a3975432c065825ad5d03b23d58e17871ff86bb9441f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/guardian/frame-0017.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/guardian/frame-0018.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/healer/frame-0000.png",
+      "bytes": 85463,
+      "sha256": "fe1307c4c05054f61aba54b05b2be3a58df351fa374e2b1e5db984d972d4d30c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/healer/frame-0001.png",
+      "bytes": 85463,
+      "sha256": "fe1307c4c05054f61aba54b05b2be3a58df351fa374e2b1e5db984d972d4d30c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/healer/frame-0002.png",
+      "bytes": 85463,
+      "sha256": "fe1307c4c05054f61aba54b05b2be3a58df351fa374e2b1e5db984d972d4d30c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/healer/frame-0003.png",
+      "bytes": 171416,
+      "sha256": "fd5af6d41e96155994fc67bbc1955b48bd75cabc440743789e21711b94a8cdaa"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/healer/frame-0004.png",
+      "bytes": 171416,
+      "sha256": "fd5af6d41e96155994fc67bbc1955b48bd75cabc440743789e21711b94a8cdaa"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/healer/frame-0005.png",
+      "bytes": 242548,
+      "sha256": "1bb3cd1074b57bf045549faf7f0ed66fa47a57b4070c0a0e1cd0a335876c2080"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/healer/frame-0006.png",
+      "bytes": 242548,
+      "sha256": "1bb3cd1074b57bf045549faf7f0ed66fa47a57b4070c0a0e1cd0a335876c2080"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/healer/frame-0007.png",
+      "bytes": 296974,
+      "sha256": "88d209cd8ca129ac648d32188790952fcea08e24ef8f2705c1f6bade2c34c882"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/healer/frame-0008.png",
+      "bytes": 296974,
+      "sha256": "88d209cd8ca129ac648d32188790952fcea08e24ef8f2705c1f6bade2c34c882"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/healer/frame-0009.png",
+      "bytes": 259010,
+      "sha256": "0e6df91ff3ba3c5784de0d8cc6a5352326d529df9c64179ddec5e2b9b76a31b8"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/healer/frame-0010.png",
+      "bytes": 259010,
+      "sha256": "0e6df91ff3ba3c5784de0d8cc6a5352326d529df9c64179ddec5e2b9b76a31b8"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/healer/frame-0011.png",
+      "bytes": 191933,
+      "sha256": "290331f1ff615d495a6af394cc8b0a3e85e8395935f71ac48e829cc17ab23ea7"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/healer/frame-0012.png",
+      "bytes": 191933,
+      "sha256": "290331f1ff615d495a6af394cc8b0a3e85e8395935f71ac48e829cc17ab23ea7"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/healer/frame-0013.png",
+      "bytes": 147450,
+      "sha256": "02c09372695b3d902220548df767009f69e0514c41fa119843e0f8f89ad9e157"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/healer/frame-0014.png",
+      "bytes": 147450,
+      "sha256": "02c09372695b3d902220548df767009f69e0514c41fa119843e0f8f89ad9e157"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/healer/frame-0015.png",
+      "bytes": 100322,
+      "sha256": "881383ab4ad488ee7550c90dd3d799838a894608286f6dd0c666db9ad97e7c7d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/healer/frame-0016.png",
+      "bytes": 100322,
+      "sha256": "881383ab4ad488ee7550c90dd3d799838a894608286f6dd0c666db9ad97e7c7d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/healer/frame-0017.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/healer/frame-0018.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/regenerator/frame-0000.png",
+      "bytes": 62653,
+      "sha256": "876504877356fe41a377982bd3ba544cbca16e99540160dcb1f37d72721264c6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/regenerator/frame-0001.png",
+      "bytes": 62653,
+      "sha256": "876504877356fe41a377982bd3ba544cbca16e99540160dcb1f37d72721264c6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/regenerator/frame-0002.png",
+      "bytes": 62653,
+      "sha256": "876504877356fe41a377982bd3ba544cbca16e99540160dcb1f37d72721264c6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/regenerator/frame-0003.png",
+      "bytes": 124501,
+      "sha256": "09956c6796d3894d8e016318e6a3ef8297aafbea3fc1c03caa8413ca67cc116d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/regenerator/frame-0004.png",
+      "bytes": 124501,
+      "sha256": "09956c6796d3894d8e016318e6a3ef8297aafbea3fc1c03caa8413ca67cc116d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/regenerator/frame-0005.png",
+      "bytes": 205209,
+      "sha256": "6e8b79d60d694cfad371628a95344d9ae37614178e6be657f3c7b628f1facb62"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/regenerator/frame-0006.png",
+      "bytes": 205209,
+      "sha256": "6e8b79d60d694cfad371628a95344d9ae37614178e6be657f3c7b628f1facb62"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/regenerator/frame-0007.png",
+      "bytes": 295699,
+      "sha256": "42456ea219c33d863858c9fcb53d3038bf5ded6e9105eb9a746d382fedfba2de"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/regenerator/frame-0008.png",
+      "bytes": 295699,
+      "sha256": "42456ea219c33d863858c9fcb53d3038bf5ded6e9105eb9a746d382fedfba2de"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/regenerator/frame-0009.png",
+      "bytes": 211464,
+      "sha256": "7af10f3eb8e21b63ae465bc65f5e5a917004084bb33007cf7e78d38db46ae878"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/regenerator/frame-0010.png",
+      "bytes": 211464,
+      "sha256": "7af10f3eb8e21b63ae465bc65f5e5a917004084bb33007cf7e78d38db46ae878"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/regenerator/frame-0011.png",
+      "bytes": 118403,
+      "sha256": "d6fba9502c39da61d23ac8af79f02deca9ca52ae93275c095585da646fdbe63c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/regenerator/frame-0012.png",
+      "bytes": 118403,
+      "sha256": "d6fba9502c39da61d23ac8af79f02deca9ca52ae93275c095585da646fdbe63c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/regenerator/frame-0013.png",
+      "bytes": 61583,
+      "sha256": "d99da01a6bfa985b870906dbc1bd814934e2e6deca9cceabbf22b105f284c2ca"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/regenerator/frame-0014.png",
+      "bytes": 61583,
+      "sha256": "d99da01a6bfa985b870906dbc1bd814934e2e6deca9cceabbf22b105f284c2ca"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/regenerator/frame-0015.png",
+      "bytes": 33845,
+      "sha256": "d324f435050ba242ec38a2995dfc241674ae2a7f76112668a3732b14dad161ef"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/regenerator/frame-0016.png",
+      "bytes": 33845,
+      "sha256": "d324f435050ba242ec38a2995dfc241674ae2a7f76112668a3732b14dad161ef"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/regenerator/frame-0017.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/regenerator/frame-0018.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/shield-knight/frame-0000.png",
+      "bytes": 96781,
+      "sha256": "fcd0ad8ccdcde3701f59f07560920e1ee64906a4e3a0df0429c1c54860ea92c4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/shield-knight/frame-0001.png",
+      "bytes": 96781,
+      "sha256": "fcd0ad8ccdcde3701f59f07560920e1ee64906a4e3a0df0429c1c54860ea92c4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/shield-knight/frame-0002.png",
+      "bytes": 96781,
+      "sha256": "fcd0ad8ccdcde3701f59f07560920e1ee64906a4e3a0df0429c1c54860ea92c4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/shield-knight/frame-0003.png",
+      "bytes": 207998,
+      "sha256": "5b108850e6eee7f17411a943e650e5b5781300e39d6f84b75df49a4b8612d1ff"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/shield-knight/frame-0004.png",
+      "bytes": 207998,
+      "sha256": "5b108850e6eee7f17411a943e650e5b5781300e39d6f84b75df49a4b8612d1ff"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/shield-knight/frame-0005.png",
+      "bytes": 261591,
+      "sha256": "73050c5ebe997694e42487f85f073f61e104b20ae037f90659df81f5c62d3a2a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/shield-knight/frame-0006.png",
+      "bytes": 261591,
+      "sha256": "73050c5ebe997694e42487f85f073f61e104b20ae037f90659df81f5c62d3a2a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/shield-knight/frame-0007.png",
+      "bytes": 279027,
+      "sha256": "d539042d3d9a031364103d1323f2de7c1917d6459927d5af5f85d6fa2b3aabe5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/shield-knight/frame-0008.png",
+      "bytes": 279027,
+      "sha256": "d539042d3d9a031364103d1323f2de7c1917d6459927d5af5f85d6fa2b3aabe5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/shield-knight/frame-0009.png",
+      "bytes": 225248,
+      "sha256": "92abbaf05e0c754f23015a0394531c567241408f1bdf3f6be87338fe197628f3"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/shield-knight/frame-0010.png",
+      "bytes": 225248,
+      "sha256": "92abbaf05e0c754f23015a0394531c567241408f1bdf3f6be87338fe197628f3"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/shield-knight/frame-0011.png",
+      "bytes": 180732,
+      "sha256": "10c9eb8691ba49417a66397d9783288c999b1e0028a2b2b7015b202ac292f89d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/shield-knight/frame-0012.png",
+      "bytes": 180732,
+      "sha256": "10c9eb8691ba49417a66397d9783288c999b1e0028a2b2b7015b202ac292f89d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/shield-knight/frame-0013.png",
+      "bytes": 98641,
+      "sha256": "b999e017dde96c94de32df570db01fa2361afcede3cd6cc07a71e404cdf7a6c8"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/shield-knight/frame-0014.png",
+      "bytes": 98641,
+      "sha256": "b999e017dde96c94de32df570db01fa2361afcede3cd6cc07a71e404cdf7a6c8"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/shield-knight/frame-0015.png",
+      "bytes": 35667,
+      "sha256": "76acda5b8f4525c3c3b6484c33cbef762c217712f92d897073f9b69b4c7790ea"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/shield-knight/frame-0016.png",
+      "bytes": 35667,
+      "sha256": "76acda5b8f4525c3c3b6484c33cbef762c217712f92d897073f9b69b4c7790ea"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/shield-knight/frame-0017.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/shield-knight/frame-0018.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/undying/frame-0000.png",
+      "bytes": 80246,
+      "sha256": "c28c3cd0c9b98e7512bc828d45fd3abe86bae5615c5f7163127e27cd3e96036a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/undying/frame-0001.png",
+      "bytes": 80246,
+      "sha256": "c28c3cd0c9b98e7512bc828d45fd3abe86bae5615c5f7163127e27cd3e96036a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/undying/frame-0002.png",
+      "bytes": 80246,
+      "sha256": "c28c3cd0c9b98e7512bc828d45fd3abe86bae5615c5f7163127e27cd3e96036a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/undying/frame-0003.png",
+      "bytes": 171105,
+      "sha256": "87082be92512be0198df20691b9f833ceded6fb70e1c3cb95abf96f42ce9459e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/undying/frame-0004.png",
+      "bytes": 171105,
+      "sha256": "87082be92512be0198df20691b9f833ceded6fb70e1c3cb95abf96f42ce9459e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/undying/frame-0005.png",
+      "bytes": 174463,
+      "sha256": "1dbbd1f7e6eb6342fa08f97b936062b37567a66b31e7c1ada767f0f7c30a0080"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/undying/frame-0006.png",
+      "bytes": 174463,
+      "sha256": "1dbbd1f7e6eb6342fa08f97b936062b37567a66b31e7c1ada767f0f7c30a0080"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/undying/frame-0007.png",
+      "bytes": 242386,
+      "sha256": "604685cb38056219254ad09f410deea4271fbcbbc920322fd9f9fcf69fc9cb3f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/undying/frame-0008.png",
+      "bytes": 242386,
+      "sha256": "604685cb38056219254ad09f410deea4271fbcbbc920322fd9f9fcf69fc9cb3f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/undying/frame-0009.png",
+      "bytes": 244573,
+      "sha256": "89d93c5f463f40615e7abc47028e0bf1ece177240fa66eff3be59a2ac16f30ef"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/undying/frame-0010.png",
+      "bytes": 244573,
+      "sha256": "89d93c5f463f40615e7abc47028e0bf1ece177240fa66eff3be59a2ac16f30ef"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/undying/frame-0011.png",
+      "bytes": 162932,
+      "sha256": "5ef070538153275d84cf9e4c14e54200df8c091df3cfe0ee0d8403d0b4031592"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/undying/frame-0012.png",
+      "bytes": 162932,
+      "sha256": "5ef070538153275d84cf9e4c14e54200df8c091df3cfe0ee0d8403d0b4031592"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/undying/frame-0013.png",
+      "bytes": 89798,
+      "sha256": "a75cb71f6fded1feb6f8a851a312320c21118c9a1b109e55443eda2b0a277881"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/undying/frame-0014.png",
+      "bytes": 89798,
+      "sha256": "a75cb71f6fded1feb6f8a851a312320c21118c9a1b109e55443eda2b0a277881"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/undying/frame-0015.png",
+      "bytes": 30517,
+      "sha256": "928fe8b155c5e1b97bf332c9310f4af0a50181470dcb42168a503894d4be69be"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/undying/frame-0016.png",
+      "bytes": 30517,
+      "sha256": "928fe8b155c5e1b97bf332c9310f4af0a50181470dcb42168a503894d4be69be"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/undying/frame-0017.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/undying/frame-0018.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vampire/frame-0000.png",
+      "bytes": 216506,
+      "sha256": "3be5241960d4f56b63a16e3bf5b2b9667c752b603de44a85c3f3bf2debcfa8c4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vampire/frame-0001.png",
+      "bytes": 216506,
+      "sha256": "3be5241960d4f56b63a16e3bf5b2b9667c752b603de44a85c3f3bf2debcfa8c4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vampire/frame-0002.png",
+      "bytes": 216506,
+      "sha256": "3be5241960d4f56b63a16e3bf5b2b9667c752b603de44a85c3f3bf2debcfa8c4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vampire/frame-0003.png",
+      "bytes": 265034,
+      "sha256": "81fd7be6ee8b56e0a1834dbba6359198ce17084d790cf9d5ba715ee755d17fa3"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vampire/frame-0004.png",
+      "bytes": 265034,
+      "sha256": "81fd7be6ee8b56e0a1834dbba6359198ce17084d790cf9d5ba715ee755d17fa3"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vampire/frame-0005.png",
+      "bytes": 297268,
+      "sha256": "c1345c077a434f4e8cad8ec5adac1f4d7dc5744874a87ced3cdca1a9332852cc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vampire/frame-0006.png",
+      "bytes": 297268,
+      "sha256": "c1345c077a434f4e8cad8ec5adac1f4d7dc5744874a87ced3cdca1a9332852cc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vampire/frame-0007.png",
+      "bytes": 299163,
+      "sha256": "1b372017ee765929ff7fe164938ca28a5c6d9b026f4e70ede4ca02c1eccc6c2f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vampire/frame-0008.png",
+      "bytes": 299163,
+      "sha256": "1b372017ee765929ff7fe164938ca28a5c6d9b026f4e70ede4ca02c1eccc6c2f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vampire/frame-0009.png",
+      "bytes": 267706,
+      "sha256": "af034e53c283f28a572bbe36ecd9baabc8864434a5e55eee26155cc0fb2ef446"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vampire/frame-0010.png",
+      "bytes": 267706,
+      "sha256": "af034e53c283f28a572bbe36ecd9baabc8864434a5e55eee26155cc0fb2ef446"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vampire/frame-0011.png",
+      "bytes": 224204,
+      "sha256": "56bae7e42e4a8dbcf7df77a356e816f92a842a83e6181a1699af80e2b25ac092"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vampire/frame-0012.png",
+      "bytes": 224204,
+      "sha256": "56bae7e42e4a8dbcf7df77a356e816f92a842a83e6181a1699af80e2b25ac092"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vampire/frame-0013.png",
+      "bytes": 156060,
+      "sha256": "4838b411bb970fe2d64609f13921c529b89ddf783b97e12acb9e38083569ca4a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vampire/frame-0014.png",
+      "bytes": 156060,
+      "sha256": "4838b411bb970fe2d64609f13921c529b89ddf783b97e12acb9e38083569ca4a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vampire/frame-0015.png",
+      "bytes": 80053,
+      "sha256": "7ef9a3adfd4f12cd0127e55821b7a7bfd808c8a8ea95d8e095735e0ffb3ddeac"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vampire/frame-0016.png",
+      "bytes": 80053,
+      "sha256": "7ef9a3adfd4f12cd0127e55821b7a7bfd808c8a8ea95d8e095735e0ffb3ddeac"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vampire/frame-0017.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vampire/frame-0018.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vanguard/frame-0000.png",
+      "bytes": 64352,
+      "sha256": "b2eae1222028c0821c364e5bb32b215abad438d8c92c1ef05d19eb83922edeac"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vanguard/frame-0001.png",
+      "bytes": 64352,
+      "sha256": "b2eae1222028c0821c364e5bb32b215abad438d8c92c1ef05d19eb83922edeac"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vanguard/frame-0002.png",
+      "bytes": 64352,
+      "sha256": "b2eae1222028c0821c364e5bb32b215abad438d8c92c1ef05d19eb83922edeac"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vanguard/frame-0003.png",
+      "bytes": 110612,
+      "sha256": "c7275bcba7c68dede4100fa252a0ed6301616a7ef5bc00e1666ccd890cc1d1e9"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vanguard/frame-0004.png",
+      "bytes": 110612,
+      "sha256": "c7275bcba7c68dede4100fa252a0ed6301616a7ef5bc00e1666ccd890cc1d1e9"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vanguard/frame-0005.png",
+      "bytes": 177518,
+      "sha256": "bf6bac9a4d1a2fd5e1184a7ae97def81c52296acf39f24b481659ab333e375d5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vanguard/frame-0006.png",
+      "bytes": 177518,
+      "sha256": "bf6bac9a4d1a2fd5e1184a7ae97def81c52296acf39f24b481659ab333e375d5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vanguard/frame-0007.png",
+      "bytes": 272303,
+      "sha256": "1972c9d649cbdf2a5a2e4c0547e9bcc572968f3236f807a2ba920a284840dc54"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vanguard/frame-0008.png",
+      "bytes": 272303,
+      "sha256": "1972c9d649cbdf2a5a2e4c0547e9bcc572968f3236f807a2ba920a284840dc54"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vanguard/frame-0009.png",
+      "bytes": 227702,
+      "sha256": "48a99bb4ceae11e6c6885ab5d1246b830c9b32ea06c630919c6e27c54f86426f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vanguard/frame-0010.png",
+      "bytes": 227702,
+      "sha256": "48a99bb4ceae11e6c6885ab5d1246b830c9b32ea06c630919c6e27c54f86426f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vanguard/frame-0011.png",
+      "bytes": 174010,
+      "sha256": "9a985cacaeaf1b6f89be2cafa02ad3dd323b9cdf84fb84978c669345e2d1ccb7"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vanguard/frame-0012.png",
+      "bytes": 174010,
+      "sha256": "9a985cacaeaf1b6f89be2cafa02ad3dd323b9cdf84fb84978c669345e2d1ccb7"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vanguard/frame-0013.png",
+      "bytes": 110174,
+      "sha256": "166c897dfe2d83c94ccbf8a488e6d11cdf3beec6bf93c763f864824f22a51e08"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vanguard/frame-0014.png",
+      "bytes": 110174,
+      "sha256": "166c897dfe2d83c94ccbf8a488e6d11cdf3beec6bf93c763f864824f22a51e08"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vanguard/frame-0015.png",
+      "bytes": 58275,
+      "sha256": "d86a19122c430971dad64d0d0393cb3ddf2a681988747ae306b1b2bc5eea9918"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vanguard/frame-0016.png",
+      "bytes": 58275,
+      "sha256": "d86a19122c430971dad64d0d0393cb3ddf2a681988747ae306b1b2bc5eea9918"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vanguard/frame-0017.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/frames/vanguard/frame-0018.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/generation.json",
+      "bytes": 10312,
+      "sha256": "7dd8ece559b01568e9ff18cf2aafc91b0b8c705e8d570d98d57d2691c68c26f6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/import-art.mjs",
+      "bytes": 1593,
+      "sha256": "0cf7ba54bf86d7b588781e6dd0748c4c18cd8451e62ce607d1638aea3b34cb70"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/avenger-import.efk",
+      "bytes": 5680,
+      "sha256": "8285c2f0624f038348af4114b1d40e6f637180e212243061c6ce900e9c5236d4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/avenger-roundtrip.efk",
+      "bytes": 5680,
+      "sha256": "8285c2f0624f038348af4114b1d40e6f637180e212243061c6ce900e9c5236d4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/avenger-roundtrip.efkefc",
+      "bytes": 6934,
+      "sha256": "7ec2633db4da863368704ae1e2aaa34c5567b36d03f984f4d321cac7bcb3faec"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/avenger-verified.efkefc",
+      "bytes": 6934,
+      "sha256": "7ec2633db4da863368704ae1e2aaa34c5567b36d03f984f4d321cac7bcb3faec"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/avenger.efk",
+      "bytes": 5680,
+      "sha256": "8285c2f0624f038348af4114b1d40e6f637180e212243061c6ce900e9c5236d4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/avenger.efkefc",
+      "bytes": 6942,
+      "sha256": "8c5a1656d7c33ecd2bcaa6797fe3d0ebf1da1b2c9bdfdc544e074344e36df8db"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/avenger.efkproj",
+      "bytes": 6296,
+      "sha256": "0342352c4b3d53a94693688699d050595aa062984659965304464630514a3774"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/barrier-import.efk",
+      "bytes": 5680,
+      "sha256": "77a0fb7154200fbb8c011447cac56194d5f6d05e0efe2b453728f97e279a5be3"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/barrier-roundtrip.efk",
+      "bytes": 5680,
+      "sha256": "77a0fb7154200fbb8c011447cac56194d5f6d05e0efe2b453728f97e279a5be3"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/barrier-roundtrip.efkefc",
+      "bytes": 6933,
+      "sha256": "4a0ef4453feaf18b8c760339e627ce3f632f9663feeac9808152c92a18e409e4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/barrier-verified.efkefc",
+      "bytes": 6933,
+      "sha256": "4a0ef4453feaf18b8c760339e627ce3f632f9663feeac9808152c92a18e409e4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/barrier.efk",
+      "bytes": 5680,
+      "sha256": "77a0fb7154200fbb8c011447cac56194d5f6d05e0efe2b453728f97e279a5be3"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/barrier.efkefc",
+      "bytes": 6941,
+      "sha256": "e6b7375509239765896f1da910a26857419a2a542fc9f5fd2f81a62354381ad1"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/barrier.efkproj",
+      "bytes": 6296,
+      "sha256": "6439380e141f5d8033a1db427ca7c9cd71ec7c16f046b07d969336449f47c940"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/berserker-import.efk",
+      "bytes": 5712,
+      "sha256": "561b149fd46cf71feb7d10fb921888aaea5e76e28f17cf24ee6ad692c46bdb76"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/berserker-roundtrip.efk",
+      "bytes": 5712,
+      "sha256": "561b149fd46cf71feb7d10fb921888aaea5e76e28f17cf24ee6ad692c46bdb76"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/berserker-roundtrip.efkefc",
+      "bytes": 7000,
+      "sha256": "1e06dbd954844612b4e9d30a71924b49c0b5e8c3be029cb76b3c4bd0d8720dc5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/berserker-verified.efkefc",
+      "bytes": 7000,
+      "sha256": "1e06dbd954844612b4e9d30a71924b49c0b5e8c3be029cb76b3c4bd0d8720dc5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/berserker.efk",
+      "bytes": 5712,
+      "sha256": "561b149fd46cf71feb7d10fb921888aaea5e76e28f17cf24ee6ad692c46bdb76"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/berserker.efkefc",
+      "bytes": 7007,
+      "sha256": "81f99c3cba0a6055cfd5d7d794d1a81c23f4a06a380b00103335cae255c64a99"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/berserker.efkproj",
+      "bytes": 6328,
+      "sha256": "a1f1e897d6844ae77b98bc32aac4785d8ee76566ed7c33c01711666a539f91dc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/breaker-import.efk",
+      "bytes": 5680,
+      "sha256": "eb6d48fc578bcfe8c5b59191c61a6da20fe6f5374e78391e17ab3ddbf7521449"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/breaker-roundtrip.efk",
+      "bytes": 5680,
+      "sha256": "eb6d48fc578bcfe8c5b59191c61a6da20fe6f5374e78391e17ab3ddbf7521449"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/breaker-roundtrip.efkefc",
+      "bytes": 6933,
+      "sha256": "85630d30dc7f4fdf3f2fc3d907cdfc31727484f135ec3d7747dd9279a0b7001a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/breaker-verified.efkefc",
+      "bytes": 6933,
+      "sha256": "85630d30dc7f4fdf3f2fc3d907cdfc31727484f135ec3d7747dd9279a0b7001a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/breaker.efk",
+      "bytes": 5680,
+      "sha256": "eb6d48fc578bcfe8c5b59191c61a6da20fe6f5374e78391e17ab3ddbf7521449"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/breaker.efkefc",
+      "bytes": 6942,
+      "sha256": "17a1d2fa8f413c4f36ef2387eaf46c7f0365a17b1463f20f8caf16bdccedc091"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/breaker.efkproj",
+      "bytes": 6296,
+      "sha256": "36cffc63309ea2ea1412aee50cc576f3935d5b38d2c3ca4b933af6f7b0275cc5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/cleanser-import.efk",
+      "bytes": 5696,
+      "sha256": "d4936ffeea4dea822aed0c1ee45d461e046dbf9facc0ab2dd624be4dd99f147a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/cleanser-roundtrip.efk",
+      "bytes": 5696,
+      "sha256": "d4936ffeea4dea822aed0c1ee45d461e046dbf9facc0ab2dd624be4dd99f147a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/cleanser-roundtrip.efkefc",
+      "bytes": 6966,
+      "sha256": "2288ee87deeba987445da6416aca24abdf1f42453292172644b803a7b8102d10"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/cleanser-verified.efkefc",
+      "bytes": 6966,
+      "sha256": "2288ee87deeba987445da6416aca24abdf1f42453292172644b803a7b8102d10"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/cleanser.efk",
+      "bytes": 5696,
+      "sha256": "d4936ffeea4dea822aed0c1ee45d461e046dbf9facc0ab2dd624be4dd99f147a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/cleanser.efkefc",
+      "bytes": 6975,
+      "sha256": "3c07b71f0f14aa97ef1deeb98f0658579af690c0c8d769d30dc93ac143417319"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/cleanser.efkproj",
+      "bytes": 6312,
+      "sha256": "925d7ad6663cb7e6b2e9f56e41cbfb7d82fe9b3b5b430fe5f89ee19681b140e1"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/combo-import.efk",
+      "bytes": 5648,
+      "sha256": "9f8bf32cdbb3ec4450445f1cb44fc581d516e7add5d98ee36f0afdf72960f3f6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/combo-roundtrip.efk",
+      "bytes": 5648,
+      "sha256": "9f8bf32cdbb3ec4450445f1cb44fc581d516e7add5d98ee36f0afdf72960f3f6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/combo-roundtrip.efkefc",
+      "bytes": 6867,
+      "sha256": "940ec3893a2ef6be2c30f31e73f5f8f4be44ddd0ebbd08a0e24df1a603908043"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/combo-verified.efkefc",
+      "bytes": 6867,
+      "sha256": "940ec3893a2ef6be2c30f31e73f5f8f4be44ddd0ebbd08a0e24df1a603908043"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/combo.efk",
+      "bytes": 5648,
+      "sha256": "9f8bf32cdbb3ec4450445f1cb44fc581d516e7add5d98ee36f0afdf72960f3f6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/combo.efkefc",
+      "bytes": 6875,
+      "sha256": "42c6acb6fd6996c3bd643c21b13dc6975c0e609d64a37b9da7669657ddfad663"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/combo.efkproj",
+      "bytes": 6264,
+      "sha256": "b3c872fdd035bd85eaa81bb1e26bf89c12c5c0d3b5cf6645133cd33dee2d03fc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/commander-import.efk",
+      "bytes": 5712,
+      "sha256": "2e81556ee2fb18beb4453c03ec3387212d20c2d08e0c61881eca99fe21d9a9a0"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/commander-roundtrip.efk",
+      "bytes": 5712,
+      "sha256": "2e81556ee2fb18beb4453c03ec3387212d20c2d08e0c61881eca99fe21d9a9a0"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/commander-roundtrip.efkefc",
+      "bytes": 6999,
+      "sha256": "95d39f6e3f3673cdc8a8c1c6bfac9ff906a9b4f77e455c40bff1da7520f3af1d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/commander-verified.efkefc",
+      "bytes": 6999,
+      "sha256": "95d39f6e3f3673cdc8a8c1c6bfac9ff906a9b4f77e455c40bff1da7520f3af1d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/commander.efk",
+      "bytes": 5712,
+      "sha256": "2e81556ee2fb18beb4453c03ec3387212d20c2d08e0c61881eca99fe21d9a9a0"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/commander.efkefc",
+      "bytes": 7007,
+      "sha256": "e12808a1f0e64070ee9143bb3c11d1e6ae8009b16c30d689917593a3206ba4d3"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/commander.efkproj",
+      "bytes": 6328,
+      "sha256": "ce40754d22ebaa61dbc758cb4485c67814534cef498bd120ea3cd6b0a85b3800"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/duelist-import.efk",
+      "bytes": 5680,
+      "sha256": "49fcf494580be8265035da3932db6699405830cd001ce342a1987370616dff2e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/duelist-roundtrip.efk",
+      "bytes": 5680,
+      "sha256": "49fcf494580be8265035da3932db6699405830cd001ce342a1987370616dff2e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/duelist-roundtrip.efkefc",
+      "bytes": 6933,
+      "sha256": "375b320f85d41853850a8bca63b0b83b83fdc3e1230b60d2b542085995ee6d4a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/duelist-verified.efkefc",
+      "bytes": 6933,
+      "sha256": "375b320f85d41853850a8bca63b0b83b83fdc3e1230b60d2b542085995ee6d4a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/duelist.efk",
+      "bytes": 5680,
+      "sha256": "49fcf494580be8265035da3932db6699405830cd001ce342a1987370616dff2e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/duelist.efkefc",
+      "bytes": 6941,
+      "sha256": "b50c8adc41dda05f19a679a45218b8fb2ef161c81abd4ffd746238801e6ea732"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/duelist.efkproj",
+      "bytes": 6296,
+      "sha256": "21dab672db7a176ada36f0fe56e330197dc17cc7c9bb6410e28096fa1bc97c5f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/executioner-import.efk",
+      "bytes": 5744,
+      "sha256": "1a98ef6ed888b8726585ffe13e0f775af1b987aa21e78432a838cb127217a4a2"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/executioner-roundtrip.efk",
+      "bytes": 5744,
+      "sha256": "1a98ef6ed888b8726585ffe13e0f775af1b987aa21e78432a838cb127217a4a2"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/executioner-roundtrip.efkefc",
+      "bytes": 7064,
+      "sha256": "f31261096da0225024b533f150f88ac1fcc507e4f2501770c58588c763f5bb25"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/executioner-verified.efkefc",
+      "bytes": 7064,
+      "sha256": "f31261096da0225024b533f150f88ac1fcc507e4f2501770c58588c763f5bb25"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/executioner.efk",
+      "bytes": 5744,
+      "sha256": "1a98ef6ed888b8726585ffe13e0f775af1b987aa21e78432a838cb127217a4a2"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/executioner.efkefc",
+      "bytes": 7074,
+      "sha256": "bca3e51e2d58bafe34decf658fc5231b67dd5c6e0c5db38d5171f2f316979fe5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/executioner.efkproj",
+      "bytes": 6360,
+      "sha256": "2d8d6cbc532f75a34bca89cc105cd0676e38bd7d208605d6e4c4120cd3fa2e7f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/guardian-import.efk",
+      "bytes": 5696,
+      "sha256": "98299bb1774a0d380ff477b5bd626ee70f8b2aaa02f30ab19c629891e46d0cb4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/guardian-roundtrip.efk",
+      "bytes": 5696,
+      "sha256": "98299bb1774a0d380ff477b5bd626ee70f8b2aaa02f30ab19c629891e46d0cb4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/guardian-roundtrip.efkefc",
+      "bytes": 6966,
+      "sha256": "2d27cbd66f6a858bda2572e46187a77fec1ead8d3030d44bcd1893375b2fa771"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/guardian-verified.efkefc",
+      "bytes": 6966,
+      "sha256": "2d27cbd66f6a858bda2572e46187a77fec1ead8d3030d44bcd1893375b2fa771"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/guardian.efk",
+      "bytes": 5696,
+      "sha256": "98299bb1774a0d380ff477b5bd626ee70f8b2aaa02f30ab19c629891e46d0cb4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/guardian.efkefc",
+      "bytes": 6975,
+      "sha256": "880d92e61aa6f2c0f1808bf524222904e3535ddc11542819141e41dc286037ef"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/guardian.efkproj",
+      "bytes": 6312,
+      "sha256": "00c6238e8ee889516eddc5264c7ac1a3d6b9d76310af5e92b0d7e2eac4241418"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/healer-import.efk",
+      "bytes": 5664,
+      "sha256": "2e35271205cc162f5b74175e9782a98d4350fdbd114e6751e152eb340ee7dfdb"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/healer-roundtrip.efk",
+      "bytes": 5664,
+      "sha256": "2e35271205cc162f5b74175e9782a98d4350fdbd114e6751e152eb340ee7dfdb"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/healer-roundtrip.efkefc",
+      "bytes": 6898,
+      "sha256": "b7debb0ba901eab1e902c0f4a3c8c59616920eedc08e57ac5a80157912eb8662"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/healer-verified.efkefc",
+      "bytes": 6898,
+      "sha256": "b7debb0ba901eab1e902c0f4a3c8c59616920eedc08e57ac5a80157912eb8662"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/healer.efk",
+      "bytes": 5664,
+      "sha256": "2e35271205cc162f5b74175e9782a98d4350fdbd114e6751e152eb340ee7dfdb"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/healer.efkefc",
+      "bytes": 6907,
+      "sha256": "3e8d07ce9bd3f837e5349ad8f2d46cedf4592bf546d8a6f778e1877efcbab593"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/healer.efkproj",
+      "bytes": 6280,
+      "sha256": "f5fbce0d79ad53c4b56df8836804282a131e338a2046bac95f01c116bfee5ff8"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/regenerator-import.efk",
+      "bytes": 5744,
+      "sha256": "47e8a9a0f7649fbb35cfa14069eb105cb3228f679b0ffd344f64dbbd34941ced"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/regenerator-roundtrip.efk",
+      "bytes": 5744,
+      "sha256": "47e8a9a0f7649fbb35cfa14069eb105cb3228f679b0ffd344f64dbbd34941ced"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/regenerator-roundtrip.efkefc",
+      "bytes": 7063,
+      "sha256": "2dda4194c784eeb0d49afd1b10cd1a368a76f54880a7303067f900feff21a8a1"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/regenerator-verified.efkefc",
+      "bytes": 7063,
+      "sha256": "2dda4194c784eeb0d49afd1b10cd1a368a76f54880a7303067f900feff21a8a1"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/regenerator.efk",
+      "bytes": 5744,
+      "sha256": "47e8a9a0f7649fbb35cfa14069eb105cb3228f679b0ffd344f64dbbd34941ced"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/regenerator.efkefc",
+      "bytes": 7073,
+      "sha256": "262dc765bd75b6c8199050b7ffde13eda2e6f6baa91998e3112c071f52edfc18"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/regenerator.efkproj",
+      "bytes": 6360,
+      "sha256": "4b24b9f0867def9a1d43dbbf7c20c14fa5d9786dce9bcc4c10eafc86555f82c6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/shield-knight-import.efk",
+      "bytes": 5776,
+      "sha256": "2b2470e33231afcaa389e3260df7732fcc9afc5ae2cb5c4cc4fee3d147adc88b"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/shield-knight-roundtrip.efk",
+      "bytes": 5776,
+      "sha256": "2b2470e33231afcaa389e3260df7732fcc9afc5ae2cb5c4cc4fee3d147adc88b"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/shield-knight-roundtrip.efkefc",
+      "bytes": 7135,
+      "sha256": "8e041cac6d5d9bf0f71b2b414a1badd1b7a4ad21427c6476c7b1f852c09f8263"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/shield-knight-verified.efkefc",
+      "bytes": 7135,
+      "sha256": "8e041cac6d5d9bf0f71b2b414a1badd1b7a4ad21427c6476c7b1f852c09f8263"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/shield-knight.efk",
+      "bytes": 5776,
+      "sha256": "2b2470e33231afcaa389e3260df7732fcc9afc5ae2cb5c4cc4fee3d147adc88b"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/shield-knight.efkefc",
+      "bytes": 7143,
+      "sha256": "bec12bce74f27f91a8a58a2d5ae65eef6f0baf12c64beba0c85dc11211642556"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/shield-knight.efkproj",
+      "bytes": 6392,
+      "sha256": "557d297381356d73157bb7b977ef5bd287dc2db28efad651de0746a8156718de"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/avenger-0.png",
+      "bytes": 52912,
+      "sha256": "960335b182b586966c3c3e353f2b6151b8c1a51a0cfcf35446ca8d805e6c1799"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/avenger-1.png",
+      "bytes": 103292,
+      "sha256": "096af2a52e3fec963cd641dc4cfe7cef1086b8a9d6a3623f846919308d7b4474"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/avenger-2.png",
+      "bytes": 179088,
+      "sha256": "a13e212b08a338c5b4987e341ec80fde2e5de8da8993eca4dce476985ed00044"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/avenger-3.png",
+      "bytes": 293862,
+      "sha256": "0b579840c2213b8ecf3028425207055d8ae5d5ef79211a12af95ee24ce372766"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/avenger-4.png",
+      "bytes": 270223,
+      "sha256": "cff909804a8ab14448057401f0b971c901e606194555ce1c2436ee39e222eebc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/avenger-5.png",
+      "bytes": 168417,
+      "sha256": "4e19b702f96608c27188f5b26b48877a65e461f10a6a9533b611d79dd1e570b0"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/avenger-6.png",
+      "bytes": 90192,
+      "sha256": "351d19286ba21f0cca6a65ad7371dec0d5281d4066c2df8c62fc15df72a69da2"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/avenger-7.png",
+      "bytes": 30693,
+      "sha256": "87ddb62034eee827efd2d3093b89e08ab8529784cb95063bfdeb7c774ce99a5c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/barrier-0.png",
+      "bytes": 66816,
+      "sha256": "f27b14f516d08a1788ab2da185dd27e76eba82b3226303b71afe865caacd7d1c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/barrier-1.png",
+      "bytes": 137946,
+      "sha256": "cdae67b4c72e3dd95e16f5cbbf4356277694e322c905fa320f97793e03a99ac4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/barrier-2.png",
+      "bytes": 212598,
+      "sha256": "f8492d9ec2317716c2e72df121212a4386781dd0464e344a3c7a9ef344b7fac0"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/barrier-3.png",
+      "bytes": 288941,
+      "sha256": "b0b28f2739f1364835ba83d230bfd42f6f4a2ce9f6ab031727e3202175e650a4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/barrier-4.png",
+      "bytes": 244614,
+      "sha256": "6102c2466042284b0fd625f9b83acc9f6dcde940b01932436b8548397a5494d9"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/barrier-5.png",
+      "bytes": 145322,
+      "sha256": "3a708d60f5248be1a035d455399f3b945389de38d5263bef7436d4ea9a0e6bfc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/barrier-6.png",
+      "bytes": 85402,
+      "sha256": "336a816b8dadd1cea5309ace79a681128ef9a6a287493243c4ba54bcf2209b41"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/barrier-7.png",
+      "bytes": 33353,
+      "sha256": "43416cca984e0e433147e060c36217ec374e5d8a575eb0934da6656cfae490fb"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/berserker-0.png",
+      "bytes": 68556,
+      "sha256": "3a80e55048c414f59c1edf9e83d9de7b015d3a1773147ac6424868b2793f57d1"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/berserker-1.png",
+      "bytes": 122757,
+      "sha256": "470cc5d1cc9a02cd9d72d87b44f2d002905e01eaebeb5be4c748391aa57d02cd"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/berserker-2.png",
+      "bytes": 205706,
+      "sha256": "0c0aef675da43f0e2616a77c6a79a4d4445ad6afbe71d35cec95983e779828b4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/berserker-3.png",
+      "bytes": 300208,
+      "sha256": "f2073abd1dc600064a024a6059586ee30c28f6eee219a57d973e76abc7f786ff"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/berserker-4.png",
+      "bytes": 278629,
+      "sha256": "214141fc16b50ba1abf284b4c59a446003b623ca41d0c0a9e13c02026809c560"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/berserker-5.png",
+      "bytes": 200284,
+      "sha256": "aa7c926486cc2a0dc1a3efd077f3db02074762557a723c6f2dd805c1ce08a0da"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/berserker-6.png",
+      "bytes": 130179,
+      "sha256": "bfbedc6f06e75e4e2e6db6ae914d10c90e949d1d5bf3ff51d76bc8c31b2c8dc9"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/berserker-7.png",
+      "bytes": 64615,
+      "sha256": "2550b74926df80d4f3b33171fd5f90656c94693d4387a39fa2e57f7cc244eb1b"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/breaker-0.png",
+      "bytes": 84509,
+      "sha256": "497d5182b7c5a3a2a62952c5a8886ecfae0666a80337b1f22af4e33cb5e3ffeb"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/breaker-1.png",
+      "bytes": 104968,
+      "sha256": "0fefe4a26d0aba5a441e350d438120160267b1cafaa11a505187a4df18f0157f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/breaker-2.png",
+      "bytes": 130075,
+      "sha256": "a7b24056bf0b1561cb656c05229827bed87c435e056645a16179d093743dff64"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/breaker-3.png",
+      "bytes": 183084,
+      "sha256": "d46dc2f4a5bc7f5b01d1e6b0b2be54bec75856ba889e7dfaef4db4460d129a81"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/breaker-4.png",
+      "bytes": 142333,
+      "sha256": "769d4fb852204731d5349776064752f8eefa6f0abc84f6d2904d5a7f4d001707"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/breaker-5.png",
+      "bytes": 65216,
+      "sha256": "aabc3f280fe2ec6f43df60bc72f20c0807dc54eea0c73aa6caebb3273d6991c3"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/breaker-6.png",
+      "bytes": 31981,
+      "sha256": "becda8fbf91bc7ea0442868e6eb2e072db998fc34ac31b0d76395761f6b18a91"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/breaker-7.png",
+      "bytes": 16432,
+      "sha256": "81aff920b01fe6388e13808c2b3d3fe57c06df9521803f2c98e4871bf63085b6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/cleanser-0.png",
+      "bytes": 110888,
+      "sha256": "c7571223421e56ce828cd4b84ac0a587b2b366f585e6d2edfad85e713886b4d9"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/cleanser-1.png",
+      "bytes": 134024,
+      "sha256": "508a3e028b64fff9c036788a841b8b5db61011788e682c0ca6e3c7834f3d035f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/cleanser-2.png",
+      "bytes": 237835,
+      "sha256": "d3949073a0abcccf34b6aca6badc6de3c5d553bec4eed67fb337b65054af5022"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/cleanser-3.png",
+      "bytes": 284241,
+      "sha256": "d1bcc6fac3b5534b670e3a843333492c8fae464da5d7d1f28def7bc8fbda1af5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/cleanser-4.png",
+      "bytes": 204353,
+      "sha256": "de5660a1590911a9be84c2a07728bc5a19663206c21a73325a80152c05cc9298"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/cleanser-5.png",
+      "bytes": 122805,
+      "sha256": "148fdcea0d3de566f2e3b82656f10a6db8f3160fd7a13bfcf56b17e96c56baa5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/cleanser-6.png",
+      "bytes": 67988,
+      "sha256": "2c67a82a07d1768f17543aac19e839c793b0a7169f78d3a1e54c58474b3c3a29"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/cleanser-7.png",
+      "bytes": 21460,
+      "sha256": "a3602a8c8bc9e5605bcda12558cf2679b98c24f85ca39712822fa18527cc9f1a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/combo-0.png",
+      "bytes": 68497,
+      "sha256": "55309b84af4ddc91694ad79697fc4cb5cb32b22dbf5d266e34e90e1519d7c179"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/combo-1.png",
+      "bytes": 160757,
+      "sha256": "c8b47f28d867a891e49e9c27adcd60a7cc40a01a542f5ec27dad9a119c1ce839"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/combo-2.png",
+      "bytes": 230578,
+      "sha256": "904f5a6bdcb7a183103230fe07d47f88466f619a5b6e5eb9f99147659f479919"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/combo-3.png",
+      "bytes": 279738,
+      "sha256": "2ec2221d7a6acf0d0c407b0314ea9c91f8e43bcdaecc97a5d845bb8b6e0762ca"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/combo-4.png",
+      "bytes": 224742,
+      "sha256": "7b271f3b8433bd80e3eb48440b4fdb9cd207a3e88eaef8c61d9f8ecb05ae0650"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/combo-5.png",
+      "bytes": 161190,
+      "sha256": "7db2975cbc641cbcbeec5592bcf1c5ea4362df36d7d94913cda17f7d0094f19c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/combo-6.png",
+      "bytes": 80247,
+      "sha256": "f91138e4712ab810e3d2b39185644875319666c12862e48c52c9f384fb0b4363"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/combo-7.png",
+      "bytes": 49759,
+      "sha256": "f4c5410685b36f6adfca52c4c4e151bb9574862d5e25c2d9581305475d9771d0"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/commander-0.png",
+      "bytes": 61498,
+      "sha256": "5cd99ce0ac20403282aee45163b19538d7285b273298e0be25e812663db32b8c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/commander-1.png",
+      "bytes": 122589,
+      "sha256": "313de334051d52556d79be8918b2c192ebe31a452dc05db5fb3c63dafd673580"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/commander-2.png",
+      "bytes": 192803,
+      "sha256": "9859dc60592ece3a88c382a6a213b24ff5ac5d367441b2f71890bbde1934049f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/commander-3.png",
+      "bytes": 311071,
+      "sha256": "621a1589ef9e1d2f70cf8e7b73df5a676a8f1a0bfd2582197b8c309797b6d6f6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/commander-4.png",
+      "bytes": 231633,
+      "sha256": "5483d677f2cb0f9acf2aed5ca92c9d63559803745edaa84610b8c9a89c725e66"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/commander-5.png",
+      "bytes": 209577,
+      "sha256": "329aa559a0051351a656c2e7c6ae4229eeac0da1eebba500d265dbc91c00e120"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/commander-6.png",
+      "bytes": 99848,
+      "sha256": "1c24059205c2e416a939a7618582657279f0f671d593bf12a15f1e97d696b4e4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/commander-7.png",
+      "bytes": 32561,
+      "sha256": "ef2d1fe50b3ff7f0198f83dd22a8f13b665e575057a421b7e3af583e0a874ed5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/duelist-0.png",
+      "bytes": 93898,
+      "sha256": "331d767337dacb4aa89a5a2c4b0a4c1407236a43ca5c637377f2557fd0d0c618"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/duelist-1.png",
+      "bytes": 144331,
+      "sha256": "0b12b5dba4cbd4059bb8227cacce288d230b3302d3d4c1c60874adab4ed2de61"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/duelist-2.png",
+      "bytes": 209361,
+      "sha256": "cf96c8d6c9ce395396ebf0d3139ff127a07ca0fe427945e2f1ed21fc7781104e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/duelist-3.png",
+      "bytes": 272362,
+      "sha256": "8bc37a0860c8d813523a819e16d15b9ee4f2a8e648edabb8ee9cd49234294774"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/duelist-4.png",
+      "bytes": 221494,
+      "sha256": "4a9699f67e87503ad93796a6762d93424da44db3a3d942a35aec2f4a11cb4e56"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/duelist-5.png",
+      "bytes": 150174,
+      "sha256": "c3e5cef88f3ae7bd1021f15670499bf865b96de50a5c6ff5725f6e6790a3ebdc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/duelist-6.png",
+      "bytes": 86291,
+      "sha256": "56c6e85b07dfed7ddb83a9d4401d62fa8ae28bd4f497abb9323b7b05f2c20aff"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/duelist-7.png",
+      "bytes": 34153,
+      "sha256": "5ac76570689881ecc34a1ce8f0a624e945cd69a7f592175fd1a9036ca48be75b"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/executioner-0.png",
+      "bytes": 87184,
+      "sha256": "1f7182710d8f145c0aff65c9b24581118253db95a4c37d5e5f927b1f1254e517"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/executioner-1.png",
+      "bytes": 184541,
+      "sha256": "b032fba22971fe963e7dcb4b4456a5dad9d7fa00719034be8012b6cd1ccf0245"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/executioner-2.png",
+      "bytes": 206789,
+      "sha256": "7499f50efa116e5bec7e02c952c325e3e6a68205c0a63ea7e14901b544a44686"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/executioner-3.png",
+      "bytes": 258763,
+      "sha256": "3d7f499bb1123a04cc495d330c7510333ee643faea1e251eedf7df2c1946ce9b"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/executioner-4.png",
+      "bytes": 231226,
+      "sha256": "013f5535922b50a5e3b05d30cdf9dcaec5a876da2c7b3d041ae9f1bc5069b51a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/executioner-5.png",
+      "bytes": 137912,
+      "sha256": "f3143fbea040b2ecd59bb1bc3d7c0b4aa36e27434f0b35674e09d005e806a497"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/executioner-6.png",
+      "bytes": 80535,
+      "sha256": "83af87951b3bf57cdb4620452e0da1c6114960b1dacb8b0c4dbc9968e1a02918"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/executioner-7.png",
+      "bytes": 18044,
+      "sha256": "374040b7f3d9a6683c8aa8069966c1109726231045d28e4a622ba72d49721707"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/guardian-0.png",
+      "bytes": 45378,
+      "sha256": "a263790ad66a14939e7d0e853dfaa7d8fc3a17ee65945a63a7d93bc39ed01b34"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/guardian-1.png",
+      "bytes": 101714,
+      "sha256": "3156f656b5df12a08e12c7e7dff5d7ccad37ff1b69ccb6743b2daf070d937c2c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/guardian-2.png",
+      "bytes": 177652,
+      "sha256": "dd441c5272c0449cede49eee2d069f3b6a7add553b12179ababd54323a17365f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/guardian-3.png",
+      "bytes": 272635,
+      "sha256": "20f78bc634a6b6f193020145502e6ced88cb2800030d77f6b9916ab546bf4c86"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/guardian-4.png",
+      "bytes": 219776,
+      "sha256": "6af7e26e3c953758392edaea7999e1325b42b2b2af231ca5ce88c12e92000a58"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/guardian-5.png",
+      "bytes": 159157,
+      "sha256": "c982559639afeaf84bf31b3c69e70c803b413882c7cac80dac8867c10000f623"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/guardian-6.png",
+      "bytes": 92921,
+      "sha256": "2e8d48a0a61950c89f3760b27b830bcc54e9cbf5e23dbdf931de75851234e4cf"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/guardian-7.png",
+      "bytes": 26703,
+      "sha256": "ee60a459a3570212abdcb2d4c31d6d778990c8352c4a659a384f2195bf7b30d0"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/healer-0.png",
+      "bytes": 57575,
+      "sha256": "26d38ee360ca0667d7151783537a2bbef547ffcb58afe0a0316e1b6028949ae9"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/healer-1.png",
+      "bytes": 140052,
+      "sha256": "81d6694d0c64f8270aa958b4bc92f6a22c43b914ca63497403b1b2226dfe342c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/healer-2.png",
+      "bytes": 227833,
+      "sha256": "83f5733a48fe2850206be18a1c43c85f794d0e1125962fbc565261d1f1aca9f8"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/healer-3.png",
+      "bytes": 303642,
+      "sha256": "218160f6d74a167a3f5badcb0244864971ee2be65e8d3b174b80596ee20cc9a3"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/healer-4.png",
+      "bytes": 235918,
+      "sha256": "337f16a1081ae619f88b707dbcf784b132e17c666b9c4b167e0a546086664ebd"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/healer-5.png",
+      "bytes": 153185,
+      "sha256": "6e9149cec7f4798adada567ea3d7341aff3e9c57f773df0afb4924484f5a0602"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/healer-6.png",
+      "bytes": 101979,
+      "sha256": "9fbf32e5d1fe3623809800142f6cc5abc86827da277a080ce23f6630aeebb04d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/healer-7.png",
+      "bytes": 60799,
+      "sha256": "2885a65af60d5ed57c98b03534c35cdbee41025926f6c363ce51e9df4d81632d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/regenerator-0.png",
+      "bytes": 45016,
+      "sha256": "a6f4e6b5f3e9a7ecfda949e21ed66c59463172e601ca397519629dc540fe431a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/regenerator-1.png",
+      "bytes": 110079,
+      "sha256": "ba58694799fea37bfb33241a1e09438f4eaa5b9454bfb66017983d9322f2853c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/regenerator-2.png",
+      "bytes": 194261,
+      "sha256": "a33e97e74c342f6058bfe81b3707dbfee6587933f369fc514909f59950918aac"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/regenerator-3.png",
+      "bytes": 312312,
+      "sha256": "5019a02ea381a849f8dc13c0cf2df2ac5b581b33e34d699310bd7c82d7799097"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/regenerator-4.png",
+      "bytes": 193464,
+      "sha256": "d607c153b1e13a0a96951fb42ad716629234ffd4f40708dab4842ae8c7beccc7"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/regenerator-5.png",
+      "bytes": 88818,
+      "sha256": "0e9f5175e3933d54538c714b623b2f7d102f1ccae32394528df14e91fcfa147a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/regenerator-6.png",
+      "bytes": 40270,
+      "sha256": "9bec369e78b3179553a01dc9437ae05a12a7e9cab55c7ad2eb06fdeb0b5b8edc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/regenerator-7.png",
+      "bytes": 16287,
+      "sha256": "b38abdd35ea35e6e0b058ba8231d2baa31514d594d11642928055b6c607f2f1c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/shield-knight-0.png",
+      "bytes": 76222,
+      "sha256": "c863effab70ea54bf173dac3dc923132c157580413848b080fcf43fc5cc57f49"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/shield-knight-1.png",
+      "bytes": 213599,
+      "sha256": "f5bb3ea33b4d0d9aca32773525981da27149de144e0b19d9caf28eaf89c8d904"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/shield-knight-2.png",
+      "bytes": 260467,
+      "sha256": "67ea87b71811b556d4c82291943a46db52c311964a1e5c9fc70dbfa32e44e86c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/shield-knight-3.png",
+      "bytes": 273895,
+      "sha256": "6003a11b6bd194365f78abe006ec37fcdca433cb76340fa952b369e45e0e9c83"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/shield-knight-4.png",
+      "bytes": 217674,
+      "sha256": "896b7624bb9ee9927ad7d25845fe3dcc035c27b68fca7e91bd9213bc37a9c29f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/shield-knight-5.png",
+      "bytes": 165146,
+      "sha256": "e8d4d08a73907861e8cd9af721c7f63e82526f3986495652321a5dfaf81a9da6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/shield-knight-6.png",
+      "bytes": 72677,
+      "sha256": "06af59b60e4237a8f21bfe8dd18123d2cdf6757c43d7e445230d63c7a3d49270"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/shield-knight-7.png",
+      "bytes": 19868,
+      "sha256": "75905fde4a955a7d399e5b90a17ba26864c97228643d99447b1a55aefd276114"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/undying-0.png",
+      "bytes": 55562,
+      "sha256": "eef60e5120d9b31e03a00babb6ed52b385e4c518866ab1d4aaa26fbc734cb293"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/undying-1.png",
+      "bytes": 152835,
+      "sha256": "c5abbc3f882b7ee2d47eab37e8a15d7b32cc6982028001f15eca55ef7ea3ebef"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/undying-2.png",
+      "bytes": 153666,
+      "sha256": "6fbdeb7836fbaa52ea6b09e719ed3479cc78dc58ee67c6f66943b8b8022a36bb"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/undying-3.png",
+      "bytes": 242368,
+      "sha256": "debb7a6bf294335304d0ae56fc73400a6ac1366add942e3b1381901cce2eceee"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/undying-4.png",
+      "bytes": 228308,
+      "sha256": "07635cbb6eca46354d4834e22048acdea7a99b38cc16f09373a5603a3170a9d4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/undying-5.png",
+      "bytes": 125959,
+      "sha256": "e321766e8cd157f8db6ffbac306ce6c3d2338df41c811b9ad77aed64cb61f064"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/undying-6.png",
+      "bytes": 58143,
+      "sha256": "3b5c6ed170c3c15209be0189603a07bb6b788342f29a5b8205152108ffc98ad9"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/undying-7.png",
+      "bytes": 15516,
+      "sha256": "eae1d0a5d752af370ea73d93a7268052ff98c0bdf126bffe6efd09c1c7800bbe"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/vampire-0.png",
+      "bytes": 190722,
+      "sha256": "1bcc3a62b8cbba04c239e06ce7ecd6f365748bf2ab462385d04e94890031c64a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/vampire-1.png",
+      "bytes": 244918,
+      "sha256": "db5c6ab86a160e2f92d2efbe088a3a108b2c9cd0c788b866ce2ef6c6ba7e4384"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/vampire-2.png",
+      "bytes": 296770,
+      "sha256": "ddad7439f0c1ae7140e2e6917910f8b3dc7a4cf87e934d59eff4c4febf042811"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/vampire-3.png",
+      "bytes": 319555,
+      "sha256": "add6b7932c371e30cd15df13542841bd2159eda5d32096d159acfc6877234bd1"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/vampire-4.png",
+      "bytes": 280658,
+      "sha256": "0246bd541bdf711a8ad001bb613a6d199d6fd2f4ee6aba69b184676590ed08df"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/vampire-5.png",
+      "bytes": 193948,
+      "sha256": "69867e14bedbb32eac506d3ad715fc746d8c556f60ef389baa40777f8c8088a9"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/vampire-6.png",
+      "bytes": 116396,
+      "sha256": "f73d5880126a7239f35534be9a92ef9c7ae11a5020c852feffcbe9b1603e3553"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/vampire-7.png",
+      "bytes": 45085,
+      "sha256": "3c894a8964075c91ba725064bc51967a5d3ab01ed2ed925de42a64b381d1ad88"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/vanguard-0.png",
+      "bytes": 49085,
+      "sha256": "ea9980833b57b08254c1641de13a873cf6ef6de5423bf753cb4c621a6c0a399d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/vanguard-1.png",
+      "bytes": 97867,
+      "sha256": "46b5cbf7ee23ee593ee674594931d9a8f0c91fe87f9384de9fa6c8a2477681b9"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/vanguard-2.png",
+      "bytes": 171932,
+      "sha256": "62f69afbeac3185e9f2db5e905873798cf274a32a489d23c9d52712188b9c93e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/vanguard-3.png",
+      "bytes": 282846,
+      "sha256": "63ab4a5ae13983650fdd3ac9e4a3e09b8bb6303ba2da2421926a62c4c5798210"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/vanguard-4.png",
+      "bytes": 220834,
+      "sha256": "46ff2b912bfb8d2611a80696f4f1515d7c61af4917d7e6205633397f53ce882f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/vanguard-5.png",
+      "bytes": 151743,
+      "sha256": "d59d68c86f70ffcac5eef55e720ea40000145df59cee4503cc57635f091c9c75"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/vanguard-6.png",
+      "bytes": 81993,
+      "sha256": "364f4a8f790750c206641216babea67828f8e9d5e6a101f966c44d0456b1d900"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/Texture/vanguard-7.png",
+      "bytes": 33101,
+      "sha256": "e66a59288c9f26e632ac9d9ab7c960370cff6e925473cc1bd18f251ced770c38"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/undying-import.efk",
+      "bytes": 5680,
+      "sha256": "5545684b5b340d9452fa456bb40fc41fac4786142638dde128b621a731e2a98f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/undying-roundtrip.efk",
+      "bytes": 5680,
+      "sha256": "5545684b5b340d9452fa456bb40fc41fac4786142638dde128b621a731e2a98f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/undying-roundtrip.efkefc",
+      "bytes": 6934,
+      "sha256": "3d28d25865843ea473416b8929c9498707d010b0afa7ce9b3235e6bd4e2edec1"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/undying-verified.efkefc",
+      "bytes": 6934,
+      "sha256": "3d28d25865843ea473416b8929c9498707d010b0afa7ce9b3235e6bd4e2edec1"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/undying.efk",
+      "bytes": 5680,
+      "sha256": "5545684b5b340d9452fa456bb40fc41fac4786142638dde128b621a731e2a98f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/undying.efkefc",
+      "bytes": 6941,
+      "sha256": "2d66d2868eddc64482902fd411e3bfe79f7b8f673465d69f8a7fd0682213414f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/undying.efkproj",
+      "bytes": 6296,
+      "sha256": "cbb08459bfcc8fdec7d42ec7e4fbb36ee3a6da148846006f431b5095ae543d71"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/vampire-import.efk",
+      "bytes": 5680,
+      "sha256": "512b780bafa317ac60db70640dd64282ed5d558c1802d615d098b2817a417b6a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/vampire-roundtrip.efk",
+      "bytes": 5680,
+      "sha256": "512b780bafa317ac60db70640dd64282ed5d558c1802d615d098b2817a417b6a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/vampire-roundtrip.efkefc",
+      "bytes": 6934,
+      "sha256": "9b97060f210068f03c8c3d97d6b1cfc70fcb2b244d87832e4dfb8ab1fbbf0013"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/vampire-verified.efkefc",
+      "bytes": 6934,
+      "sha256": "9b97060f210068f03c8c3d97d6b1cfc70fcb2b244d87832e4dfb8ab1fbbf0013"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/vampire.efk",
+      "bytes": 5680,
+      "sha256": "512b780bafa317ac60db70640dd64282ed5d558c1802d615d098b2817a417b6a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/vampire.efkefc",
+      "bytes": 6943,
+      "sha256": "7a993959a81b78902a5b144b37fb73e89356421d318323a606986464c7199bc5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/vampire.efkproj",
+      "bytes": 6296,
+      "sha256": "53becebfaaee88ed78389a3dfc17ccccdddaf0d916bca2e8c4d752a5bbe25f78"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/vanguard-import.efk",
+      "bytes": 5696,
+      "sha256": "68af398cca05b7623dd6b08c61943ee04c16e355b05b7126fd763f4bac32ee07"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/vanguard-roundtrip.efk",
+      "bytes": 5696,
+      "sha256": "68af398cca05b7623dd6b08c61943ee04c16e355b05b7126fd763f4bac32ee07"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/vanguard-roundtrip.efkefc",
+      "bytes": 6966,
+      "sha256": "19cfaedf202bed8a63c681f357c226efba969325e8d03c32629e3c094f9e7b3c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/vanguard-verified.efkefc",
+      "bytes": 6966,
+      "sha256": "19cfaedf202bed8a63c681f357c226efba969325e8d03c32629e3c094f9e7b3c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/vanguard.efk",
+      "bytes": 5696,
+      "sha256": "68af398cca05b7623dd6b08c61943ee04c16e355b05b7126fd763f4bac32ee07"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/vanguard.efkefc",
+      "bytes": 6974,
+      "sha256": "cc15269e1aadaff5977fe734f04a9450f505e9df61f2d53dcd605fae1a240ba5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/native/vanguard.efkproj",
+      "bytes": 6312,
+      "sha256": "99b1afc431f2fa2a43145a9934650569d911cd6006c5f454160997f107e81d49"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/prompts.json",
+      "bytes": 46137,
+      "sha256": "7ebbfc5aef4b625c5777096aa59c41b7c767987f842a0caf670e44b79a3425e1"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/prompts.mjs",
+      "bytes": 13400,
+      "sha256": "e54dd5b053ba4aa11126a8724313d0fc8c2ec5ab1e536d8d71c9fe3103418536"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/16-effects-battle-overview.png",
+      "bytes": 1731619,
+      "sha256": "bd484c17637b4c7986915b0dd4d620d3c992794c024b28726778467fa8dbab85"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/16-effects-half-speed-at-1.png",
+      "bytes": 1753799,
+      "sha256": "b0acd8d585cf87c1019f97c730eb051d22aa7a14c0a08e22bc01346f27a45817"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/16-effects-half-speed-at-3.png",
+      "bytes": 1898906,
+      "sha256": "9f13439cc8c6dcc31b0d118305e17976be14d376282a723def6f3a586495f221"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/16-effects-half-speed-at-6.png",
+      "bytes": 1785146,
+      "sha256": "cbff34fb7462425943aa7d153ea1974332d77e6d8f8290c67f6c692753638827"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/16-effects-half-speed-at-9.png",
+      "bytes": 1787699,
+      "sha256": "d16242ee68088161f618ccdad076fa51621266898a6491125dfa62a23b6c273d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/16-effects-half-speed.webm",
+      "bytes": 11411023,
+      "sha256": "e0403075df4aa0f7d82372f0345794026a41936034bd70735e78c3e325eb548a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/16-effects-normal-at-1.png",
+      "bytes": 1762698,
+      "sha256": "9f32b79fc66fd553ebbc2579335e1fcc5207b001c71a9cde137c0279d6816274"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/16-effects-normal-at-3.png",
+      "bytes": 1891940,
+      "sha256": "f3b9bd01769d79908b89c513937612f3d975b19fdc45f909920a805444f99262"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/16-effects-normal-at-6.png",
+      "bytes": 1759759,
+      "sha256": "414ef5cc37a99df6efdd5adbded9593e80c9dd8738b6da7ce6cb24a1fe16f1b7"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/16-effects-normal-at-9.png",
+      "bytes": 1787064,
+      "sha256": "4997393393bca01f358a77e474764f52d75681b3aa736c9f8d8635cd4f0021ff"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/16-effects-normal.webm",
+      "bytes": 6595714,
+      "sha256": "52bde38f98b93a7b6968d2cc672fbd699a0154d4771f9aa5bd73087ab0a6b5b4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/16-painted-effects-overview.png",
+      "bytes": 1928482,
+      "sha256": "fdeb1d58ee5fbd8615528a1a5df89eb6b681e55bc8a07af95ecc6623c817c407"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/agents-entry.txt",
+      "bytes": 1324,
+      "sha256": "17febdb6ffd29bfac09aa3290701225744b533008642a299c43cd89611e21503"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/battle-avenger.png",
+      "bytes": 1922990,
+      "sha256": "8129296b026c9f8ed0b12c2fc0e94083faf65f8af5d3fb03975c2a72f262ce9a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/battle-barrier.png",
+      "bytes": 1921156,
+      "sha256": "dcfa6b4a000587fbdd88cafc95593ffc951a1fbcdb43458dc13826433a36159b"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/battle-berserker.png",
+      "bytes": 1919887,
+      "sha256": "3be4ad482f842988df9e8b02b488ab172bd27f90e14b4c0892168790e59f78c9"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/battle-breaker.png",
+      "bytes": 1920533,
+      "sha256": "4c926aa1c06d1f2aa5ad7b42e4709a30f8bc062c03a1b22c9332b1f2d56b8050"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/battle-cleanser.png",
+      "bytes": 1915762,
+      "sha256": "b844059c8a1a5e87bc2d059246b764755e9a608b18e71c2e9dbf7698d0d787e0"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/battle-combo.png",
+      "bytes": 1922992,
+      "sha256": "36518d58fa8504eff2373e42109e9a7a6b1071b580a64549d956c49708827bdb"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/battle-commander.png",
+      "bytes": 1917074,
+      "sha256": "16025c6592c4ee512f878cf29237d4d523b3aa53ed8606037d48bb1c6f97d792"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/battle-duelist.png",
+      "bytes": 1928320,
+      "sha256": "9e3aeffe59b2e71f48e50b2ebf475033aa19a3bc545b5162708c0d6822771a1c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/battle-executioner.png",
+      "bytes": 1925539,
+      "sha256": "a4d718f1e1b66808db86a5fb4c186a17e3f8b9e44f8e822db90f43f70c915f56"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/battle-guardian.png",
+      "bytes": 1922636,
+      "sha256": "d6dfdebb5a825302217695039505173c199d2cb3744f84184fe985554d428b20"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/battle-healer.png",
+      "bytes": 1914080,
+      "sha256": "98a71109f21eea1dfc39380b0f390c3e0d3745223610c9cb1c25c1a10d9f1162"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/battle-regenerator.png",
+      "bytes": 1919287,
+      "sha256": "01c57e3d92d3f3c83b140c4875f9695fee884441918f27e608e2b312d5a9e76b"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/battle-shield-knight.png",
+      "bytes": 1919540,
+      "sha256": "fd37473e4b42991d07378433bc368e9ab39770c5ba0445cd167bd8b15331019d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/battle-undying.png",
+      "bytes": 1917072,
+      "sha256": "b09f52acebe1b2f1697a591c36832210bf5191503a56feff3d2cf0611898bda9"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/battle-vampire.png",
+      "bytes": 1921987,
+      "sha256": "5971f01f223eb396fc1067d50efe58546ef86463bdc6c34a12220e0eff78960a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/battle-vanguard.png",
+      "bytes": 1921423,
+      "sha256": "b3a5781e708c6378dc01c1714b842a06555f6a502c0c2bfe0b2395dde839f21f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/crop-audit.json",
+      "bytes": 20210,
+      "sha256": "59fca73bfb6ed4ecd806027fc51e195b08b59049fcbb85cd83dbf24c0598e1f3"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/effekseer-bake.json",
+      "bytes": 7712,
+      "sha256": "25df942114e1adf8b5395c3a99ca36cd4684f81e08332f69f993f5ce7ea00fd1"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/enemy-barrier.png",
+      "bytes": 1927486,
+      "sha256": "4d91d6dae5181c2798bc6ab8b31624e4a84ba90cc83f82410b4338d6abe42eb6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/enemy-commander.png",
+      "bytes": 1923065,
+      "sha256": "5e2e0c51ebbcc13692ee457c2bb63766679626b9976651045c97631bf4e62494"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/enemy-healer.png",
+      "bytes": 1927522,
+      "sha256": "29b5e80d89a12e88eec25de56fe7acef23a975876e3f1191c9a1c37de4875c84"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/enemy-vanguard.png",
+      "bytes": 1916925,
+      "sha256": "a0bc79e61fa34048b287ad6e5e202ffefcf88774457f0fa57db84066a9a0f5e9"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/final.json",
+      "bytes": 1489,
+      "sha256": "48f4dda120ff850001699334df9c936847a7ebc9461096cc448bfe3f2ad3c2bd"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/final.mjs",
+      "bytes": 5352,
+      "sha256": "eb27c92878b624dd8e80995e8f88e077cc649fc02ac518cdca07c63d2ecd4601"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/mobile-barrier.png",
+      "bytes": 460316,
+      "sha256": "d26fba12458ad2df607ff1edbe3d67c787ab0e35c6f3b74dfb3b336390f913e4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/mobile-commander.png",
+      "bytes": 459153,
+      "sha256": "5aff9c86265b962f160731ca7c4f2293bd50254d27705ee81f40a929468a239e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/mobile-healer.png",
+      "bytes": 458551,
+      "sha256": "1e6a2a0aa81cc598dfa4c7752d3c67e959af1f91a601ee8c2a945ba06d60054c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/mobile-vanguard.png",
+      "bytes": 460200,
+      "sha256": "93e4f66d07bfdd998dce664b493d7a81c58d89c18dfbeaa6da4e15df0f0e6972"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/native.json",
+      "bytes": 53350,
+      "sha256": "08d85ac62e76057736969e469b484d7dc863beee25f2ae84817cecb89cc0369d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/packing.json",
+      "bytes": 4312,
+      "sha256": "e94c77f31346f10183709a5c00d8758e2e7ba5bfca57f56ad363575e8dab816f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/pc-barrier.png",
+      "bytes": 1921279,
+      "sha256": "c95366c9e0ae2751f799dc9e61036a32e97647e77e794a1b5d8cdc9af7b0d744"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/pc-commander.png",
+      "bytes": 1916723,
+      "sha256": "779c61fb916a2e170c090d7e516aa3225d051614feaad42928c200407ade4464"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/pc-healer.png",
+      "bytes": 1914374,
+      "sha256": "6666eb86c0def02b858bbaf6c8d7af7ea927eb288c0ea01a55d7db7747b3df11"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/pc-vanguard.png",
+      "bytes": 1921519,
+      "sha256": "bb9a66d48f7ae45252e85ec924ea8b0cd9dc7eef6c8b632570426ed3726997eb"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/preserve.mjs",
+      "bytes": 3911,
+      "sha256": "8fceaaf6ad771a668d9f4f61e23de3b9f55ee435ea407e95451f32e753f0095b"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/record.mjs",
+      "bytes": 3647,
+      "sha256": "b506cccf3b5adde60f6f83d78907692d91aa9e5f43e085d28d90c4c86da173f6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/recording.json",
+      "bytes": 106528,
+      "sha256": "73e80a7d0544b8d40d116a63bad81d315c236c203d8084bc415b13d059ad1aba"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/source-audit.json",
+      "bytes": 37047,
+      "sha256": "00a469eebca83be66b9b6f1b5dc8f4d801d3067b3cd7c85c3982a902806b3e1d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/verification.json",
+      "bytes": 165044,
+      "sha256": "c2f9b0215938d0075dc1708fd4589cc0b700f441d4a12d0be1f1f3541ed5f131"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/qa/verify.mjs",
+      "bytes": 4992,
+      "sha256": "34f7581426cb1f1488a422491dec597c8614b5273ed678a2df8b3d0e82e2f4a0"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/runtime/avenger.png",
+      "bytes": 532704,
+      "sha256": "198d5b59f6c974e052bbba4d81707f931ecb3986f48ffaa69f04dab9b6442203"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/runtime/barrier.png",
+      "bytes": 537622,
+      "sha256": "31badb06aa2d2d654f40c2b617ee7047dcf1ade100154459723d3b097828c06a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/runtime/berserker.png",
+      "bytes": 606281,
+      "sha256": "a1fc471c1e6c474a2437d3b89b76247a136fc6d283cc9d461c52136a7708914c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/runtime/breaker.png",
+      "bytes": 342049,
+      "sha256": "3279a1d0d83a7bc8a548caba3d41632d2ab8119ea0878889b2d8d31e06d9750c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/runtime/cleanser.png",
+      "bytes": 536483,
+      "sha256": "03cab0f2b2ed9a550279a43b9b63df1f05d39ec3bd16f279a8ace736509a0325"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/runtime/combo.png",
+      "bytes": 565902,
+      "sha256": "d286c40b54f6ec33e4e0ee0107c57f4b28faeee8457c592f224d2797ca20ac8c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/runtime/commander.png",
+      "bytes": 563266,
+      "sha256": "581f6036f75c22facdf2e331b166140d9c69351bc2d3b1fc864614f5df71b1a7"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/runtime/duelist.png",
+      "bytes": 540561,
+      "sha256": "c854bd48e690553196484975501609184dde4740c49598c50533679bc365e68d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/runtime/executioner.png",
+      "bytes": 533925,
+      "sha256": "260ac7ac640f22729cba8087a86e2dae122457d734a2c3c9dc87950593acab0d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/runtime/fx-manifest.json",
+      "bytes": 41717,
+      "sha256": "efbd61894b9df006fedfbb8b9e73b248a138966bc35c50c5fac2cd3bc1d45040"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/runtime/guardian.png",
+      "bytes": 490480,
+      "sha256": "f19ac9e06c6cb756b3ee57ac3d51895485eb7671925a46f147c21c59db459b91"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/runtime/healer.png",
+      "bytes": 581074,
+      "sha256": "b7868fd0bd28d1bca88e14906232f1003ceb0cc46ae059b7b2c89123dfd3041a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/runtime/regenerator.png",
+      "bytes": 447627,
+      "sha256": "3ef3b9fd41e5d40f8dda4ef9131e048ec5e7e72b21aceaafc67082de8d1aceab"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/runtime/shield-knight.png",
+      "bytes": 577513,
+      "sha256": "a9d0eac568ac237ea5bb34284f7352cca4a7358aa260e3708e9bb3f634db0968"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/runtime/undying.png",
+      "bytes": 467227,
+      "sha256": "a76c3045072483f61b814f429ffb0ffd49f6df0ad367001a50465553deae3c49"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/runtime/vampire.png",
+      "bytes": 761090,
+      "sha256": "937160528b07f8737c0000f5a2719bf4742f0f3dab2825fefa412f6833c7aa6c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/painted-v2/runtime/vanguard.png",
+      "bytes": 485728,
+      "sha256": "12f3fb789804e7d4b67c9660aaca27a05a88a85d4eee30a89b72e35c4a82e887"
+    }
+  ]
+}

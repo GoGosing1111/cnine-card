@@ -1,0 +1,5657 @@
+{
+  "fixtureOnly": true,
+  "physicalDeviceTest": false,
+  "reports": [
+    {
+      "checks": {
+        "vanguard_nonempty": true,
+        "vanguard_multipleFrames": true,
+        "vanguard_pause": true,
+        "vanguard_seek": true,
+        "vanguard_cleanup": true,
+        "duelist_nonempty": true,
+        "duelist_multipleFrames": true,
+        "duelist_pause": true,
+        "duelist_seek": true,
+        "duelist_cleanup": true,
+        "executioner_nonempty": true,
+        "executioner_multipleFrames": true,
+        "executioner_pause": true,
+        "executioner_seek": true,
+        "executioner_cleanup": true,
+        "berserker_nonempty": true,
+        "berserker_multipleFrames": true,
+        "berserker_pause": true,
+        "berserker_seek": true,
+        "berserker_cleanup": true,
+        "breaker_nonempty": true,
+        "breaker_multipleFrames": true,
+        "breaker_pause": true,
+        "breaker_seek": true,
+        "breaker_cleanup": true,
+        "combo_nonempty": true,
+        "combo_multipleFrames": true,
+        "combo_pause": true,
+        "combo_seek": true,
+        "combo_cleanup": true,
+        "vampire_nonempty": true,
+        "vampire_multipleFrames": true,
+        "vampire_pause": true,
+        "vampire_seek": true,
+        "vampire_cleanup": true,
+        "avenger_nonempty": true,
+        "avenger_multipleFrames": true,
+        "avenger_pause": true,
+        "avenger_seek": true,
+        "avenger_cleanup": true,
+        "shield-knight_nonempty": true,
+        "shield-knight_multipleFrames": true,
+        "shield-knight_pause": true,
+        "shield-knight_seek": true,
+        "shield-knight_cleanup": true,
+        "barrier_nonempty": true,
+        "barrier_multipleFrames": true,
+        "barrier_pause": true,
+        "barrier_seek": true,
+        "barrier_cleanup": true,
+        "undying_nonempty": true,
+        "undying_multipleFrames": true,
+        "undying_pause": true,
+        "undying_seek": true,
+        "undying_cleanup": true,
+        "regenerator_nonempty": true,
+        "regenerator_multipleFrames": true,
+        "regenerator_pause": true,
+        "regenerator_seek": true,
+        "regenerator_cleanup": true,
+        "healer_nonempty": true,
+        "healer_multipleFrames": true,
+        "healer_pause": true,
+        "healer_seek": true,
+        "healer_cleanup": true,
+        "guardian_nonempty": true,
+        "guardian_multipleFrames": true,
+        "guardian_pause": true,
+        "guardian_seek": true,
+        "guardian_cleanup": true,
+        "cleanser_nonempty": true,
+        "cleanser_multipleFrames": true,
+        "cleanser_pause": true,
+        "cleanser_seek": true,
+        "cleanser_cleanup": true,
+        "commander_nonempty": true,
+        "commander_multipleFrames": true,
+        "commander_pause": true,
+        "commander_seek": true,
+        "commander_cleanup": true,
+        "visualEventsPreserveHealthAndShield": true,
+        "eventDeduplication": true,
+        "cancelDuringLoad": true,
+        "hideCancelsEffects": true,
+        "speed_0.25": true,
+        "speed_0.5": true,
+        "speed_2": true,
+        "effectsOff": true,
+        "effectsOn": true,
+        "concurrentFour": true,
+        "concurrentCleanup": true,
+        "singleCanvas": true,
+        "noHorizontalOverflow": true,
+        "noPageErrors": true,
+        "realNormalAttackOffOneHit": true,
+        "realNormalAttackOnOneHit": true
+      },
+      "clips": [
+        {
+          "id": "vanguard",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "vanguard",
+              "eventId": "fixture:1",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vanguard",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "vanguard",
+              "eventId": "fixture:1",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vanguard",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "vanguard",
+              "eventId": "fixture:1",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vanguard",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "vanguard",
+              "eventId": "fixture:1",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vanguard",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "vanguard",
+              "eventId": "fixture:1",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vanguard",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "duelist",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "duelist",
+              "eventId": "fixture:2",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "duelist",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "duelist",
+              "eventId": "fixture:2",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "duelist",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "duelist",
+              "eventId": "fixture:2",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "duelist",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "duelist",
+              "eventId": "fixture:2",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "duelist",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "duelist",
+              "eventId": "fixture:2",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "duelist",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "executioner",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "executioner",
+              "eventId": "fixture:3",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "executioner",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "executioner",
+              "eventId": "fixture:3",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "executioner",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "executioner",
+              "eventId": "fixture:3",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "executioner",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "executioner",
+              "eventId": "fixture:3",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "executioner",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "executioner",
+              "eventId": "fixture:3",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "executioner",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "berserker",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "berserker",
+              "eventId": "fixture:4",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "berserker",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "berserker",
+              "eventId": "fixture:4",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "berserker",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "berserker",
+              "eventId": "fixture:4",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "berserker",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "berserker",
+              "eventId": "fixture:4",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "berserker",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "berserker",
+              "eventId": "fixture:4",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "berserker",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "breaker",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "breaker",
+              "eventId": "fixture:5",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "breaker",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "breaker",
+              "eventId": "fixture:5",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "breaker",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "breaker",
+              "eventId": "fixture:5",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "breaker",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "breaker",
+              "eventId": "fixture:5",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "breaker",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "breaker",
+              "eventId": "fixture:5",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "breaker",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "combo",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "combo",
+              "eventId": "fixture:6",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "combo",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "combo",
+              "eventId": "fixture:6",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "combo",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "combo",
+              "eventId": "fixture:6",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "combo",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "combo",
+              "eventId": "fixture:6",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "combo",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "combo",
+              "eventId": "fixture:6",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "combo",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "vampire",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "vampire",
+              "eventId": "fixture:7",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vampire",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.5092020750988142
+                }
+              ]
+            },
+            {
+              "id": "vampire",
+              "eventId": "fixture:7",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vampire",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1005.2791181182106,
+                  "y": 332.68042473927443,
+                  "scaleX": 0.5092020750988142
+                }
+              ]
+            },
+            {
+              "id": "vampire",
+              "eventId": "fixture:7",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vampire",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 908.5424507861076,
+                  "y": 291.2261230924621,
+                  "scaleX": 0.5092020750988142
+                }
+              ]
+            },
+            {
+              "id": "vampire",
+              "eventId": "fixture:7",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vampire",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 703.0077077013715,
+                  "y": 225.67625279155558,
+                  "scaleX": 0.5092020750988142
+                }
+              ]
+            },
+            {
+              "id": "vampire",
+              "eventId": "fixture:7",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vampire",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 481.4575492138923,
+                  "y": 169.72978989262194,
+                  "scaleX": 0.5092020750988142
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "avenger",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "avenger",
+              "eventId": "fixture:8",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "avenger",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "avenger",
+              "eventId": "fixture:8",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "avenger",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "avenger",
+              "eventId": "fixture:8",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "avenger",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "avenger",
+              "eventId": "fixture:8",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "avenger",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "avenger",
+              "eventId": "fixture:8",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "avenger",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "shield-knight",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "shield-knight",
+              "eventId": "fixture:9",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "shield-knight",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "shield-knight",
+              "eventId": "fixture:9",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "shield-knight",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "shield-knight",
+              "eventId": "fixture:9",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "shield-knight",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "shield-knight",
+              "eventId": "fixture:9",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "shield-knight",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "shield-knight",
+              "eventId": "fixture:9",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "shield-knight",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "barrier",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "barrier",
+              "eventId": "fixture:10",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "barrier",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "barrier",
+              "eventId": "fixture:10",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "barrier",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "barrier",
+              "eventId": "fixture:10",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "barrier",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "barrier",
+              "eventId": "fixture:10",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "barrier",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "barrier",
+              "eventId": "fixture:10",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "barrier",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "undying",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "undying",
+              "eventId": "fixture:11",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "undying",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "undying",
+              "eventId": "fixture:11",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "undying",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "undying",
+              "eventId": "fixture:11",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "undying",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "undying",
+              "eventId": "fixture:11",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "undying",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "undying",
+              "eventId": "fixture:11",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "undying",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "regenerator",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "regenerator",
+              "eventId": "fixture:12",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "regenerator",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "regenerator",
+              "eventId": "fixture:12",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "regenerator",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "regenerator",
+              "eventId": "fixture:12",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "regenerator",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "regenerator",
+              "eventId": "fixture:12",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "regenerator",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "regenerator",
+              "eventId": "fixture:12",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "regenerator",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "healer",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "healer",
+              "eventId": "fixture:13",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "healer",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 170.00000000000006,
+                  "y": 517.8999999999999,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "healer",
+              "eventId": "fixture:13",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "healer",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 170.00000000000006,
+                  "y": 517.8999999999999,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "healer",
+              "eventId": "fixture:13",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "healer",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 170.00000000000006,
+                  "y": 517.8999999999999,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "healer",
+              "eventId": "fixture:13",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "healer",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 170.00000000000006,
+                  "y": 517.8999999999999,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "healer",
+              "eventId": "fixture:13",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "healer",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 170.00000000000006,
+                  "y": 517.8999999999999,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "guardian",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "guardian",
+              "eventId": "fixture:14",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "guardian",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": -0.6889204545454545
+                }
+              ]
+            },
+            {
+              "id": "guardian",
+              "eventId": "fixture:14",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "guardian",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 378.42637270607025,
+                  "y": 157.4932245082383,
+                  "scaleX": -0.6889204545454545
+                }
+              ]
+            },
+            {
+              "id": "guardian",
+              "eventId": "fixture:14",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "guardian",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 346.18081692870254,
+                  "y": 198.70155672370012,
+                  "scaleX": -0.6889204545454545
+                }
+              ]
+            },
+            {
+              "id": "guardian",
+              "eventId": "fixture:14",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "guardian",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 277.66923590045724,
+                  "y": 308.78357123088,
+                  "scaleX": -0.6889204545454545
+                }
+              ]
+            },
+            {
+              "id": "guardian",
+              "eventId": "fixture:14",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "guardian",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 203.8191830712975,
+                  "y": 442.154356261384,
+                  "scaleX": -0.6889204545454545
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "cleanser",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "cleanser",
+              "eventId": "fixture:15",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "cleanser",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 170.00000000000006,
+                  "y": 517.8999999999999,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "cleanser",
+              "eventId": "fixture:15",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "cleanser",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 170.00000000000006,
+                  "y": 517.8999999999999,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "cleanser",
+              "eventId": "fixture:15",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "cleanser",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 170.00000000000006,
+                  "y": 517.8999999999999,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "cleanser",
+              "eventId": "fixture:15",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "cleanser",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 170.00000000000006,
+                  "y": 517.8999999999999,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "cleanser",
+              "eventId": "fixture:15",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "cleanser",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 170.00000000000006,
+                  "y": 517.8999999999999,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "commander",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "commander",
+              "eventId": "fixture:16",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "commander",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8386857707509882
+                }
+              ]
+            },
+            {
+              "id": "commander",
+              "eventId": "fixture:16",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "commander",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8386857707509882
+                }
+              ]
+            },
+            {
+              "id": "commander",
+              "eventId": "fixture:16",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "commander",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8386857707509882
+                }
+              ]
+            },
+            {
+              "id": "commander",
+              "eventId": "fixture:16",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "commander",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8386857707509882
+                }
+              ]
+            },
+            {
+              "id": "commander",
+              "eventId": "fixture:16",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "commander",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8386857707509882
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        }
+      ],
+      "audit": {
+        "ready": true,
+        "errors": [],
+        "canvasCount": 1,
+        "pixi": "8.20.0",
+        "engineType": "Cu",
+        "fx": {
+          "active": 0,
+          "sprites": 0,
+          "sessions": [],
+          "cacheBytes": 31703520,
+          "loadedClips": [
+            {
+              "id": "duelist.png",
+              "refs": 0
+            },
+            {
+              "id": "executioner.png",
+              "refs": 0
+            },
+            {
+              "id": "berserker.png",
+              "refs": 0
+            },
+            {
+              "id": "combo.png",
+              "refs": 0
+            },
+            {
+              "id": "vampire.png",
+              "refs": 0
+            },
+            {
+              "id": "avenger.png",
+              "refs": 0
+            },
+            {
+              "id": "shield-knight.png",
+              "refs": 0
+            },
+            {
+              "id": "barrier.png",
+              "refs": 0
+            },
+            {
+              "id": "undying.png",
+              "refs": 0
+            },
+            {
+              "id": "regenerator.png",
+              "refs": 0
+            },
+            {
+              "id": "healer.png",
+              "refs": 0
+            },
+            {
+              "id": "guardian.png",
+              "refs": 0
+            },
+            {
+              "id": "cleanser.png",
+              "refs": 0
+            },
+            {
+              "id": "commander.png",
+              "refs": 0
+            },
+            {
+              "id": "vanguard.png",
+              "refs": 0
+            }
+          ],
+          "completed": 26
+        },
+        "impacts": [],
+        "actors": [
+          {
+            "id": "A:0:CN-02D9DC1E8A8A4209",
+            "name": "철와대 킴성태",
+            "team": "ALLY",
+            "hp": 100,
+            "shield": 0,
+            "root": {
+              "x": 170,
+              "y": 240
+            }
+          },
+          {
+            "id": "A:1:CN-0505936A0CBB4E59",
+            "name": "구수댕",
+            "team": "ALLY",
+            "hp": 100,
+            "shield": 82368,
+            "root": {
+              "x": 590,
+              "y": 240
+            }
+          },
+          {
+            "id": "A:2:CN-25F931CE393D474E",
+            "name": "딤우스",
+            "team": "ALLY",
+            "hp": 100,
+            "shield": 82368,
+            "root": {
+              "x": 170,
+              "y": 416
+            }
+          },
+          {
+            "id": "A:3:CN-23EB4B19986D4818",
+            "name": "Lionel Messi",
+            "team": "ALLY",
+            "hp": 100,
+            "shield": 0,
+            "root": {
+              "x": 590,
+              "y": 416
+            }
+          },
+          {
+            "id": "A:4:CN-519C181C18DF4B8E",
+            "name": "토마토",
+            "team": "ALLY",
+            "hp": 100,
+            "shield": 0,
+            "root": {
+              "x": 380,
+              "y": 592
+            }
+          },
+          {
+            "id": "ENEMY-01",
+            "name": "어둠 슬라임",
+            "team": "ENEMY",
+            "hp": 100,
+            "shield": 0,
+            "root": {
+              "x": 1010,
+              "y": 416
+            }
+          },
+          {
+            "id": "B:0:MONSTER:68",
+            "name": "오메가-09",
+            "team": "ENEMY",
+            "hp": 72,
+            "shield": 10018800,
+            "root": {
+              "x": 1010,
+              "y": 416
+            }
+          },
+          {
+            "id": "ENEMY-03",
+            "name": "왕관 슬라임",
+            "team": "ENEMY",
+            "hp": 100,
+            "shield": 0,
+            "root": {
+              "x": 1010,
+              "y": 416
+            }
+          },
+          {
+            "id": "ENEMY-04",
+            "name": "결투 상대 4",
+            "team": "ENEMY",
+            "hp": 100,
+            "shield": 0,
+            "root": {
+              "x": 1010,
+              "y": 416
+            }
+          },
+          {
+            "id": "ENEMY-05",
+            "name": "결투 상대 5",
+            "team": "ENEMY",
+            "hp": 100,
+            "shield": 0,
+            "root": {
+              "x": 1010,
+              "y": 416
+            }
+          }
+        ]
+      },
+      "combat": {
+        "checks": {
+          "realNormalAttackOffOneHit": true,
+          "realNormalAttackOnOneHit": true
+        },
+        "off": {
+          "ok": true,
+          "hits": 1
+        },
+        "on": {
+          "ok": true,
+          "hits": 1
+        },
+        "impacts": [
+          {
+            "actor": "QA:A:V-996",
+            "target": "B:0:MONSTER:68"
+          },
+          {
+            "actor": "QA:A:V-996",
+            "target": "B:0:MONSTER:68"
+          }
+        ]
+      },
+      "variant": "pc",
+      "pageErrors": []
+    },
+    {
+      "checks": {
+        "vanguard_nonempty": true,
+        "vanguard_multipleFrames": true,
+        "vanguard_pause": true,
+        "vanguard_seek": true,
+        "vanguard_cleanup": true,
+        "duelist_nonempty": true,
+        "duelist_multipleFrames": true,
+        "duelist_pause": true,
+        "duelist_seek": true,
+        "duelist_cleanup": true,
+        "executioner_nonempty": true,
+        "executioner_multipleFrames": true,
+        "executioner_pause": true,
+        "executioner_seek": true,
+        "executioner_cleanup": true,
+        "berserker_nonempty": true,
+        "berserker_multipleFrames": true,
+        "berserker_pause": true,
+        "berserker_seek": true,
+        "berserker_cleanup": true,
+        "breaker_nonempty": true,
+        "breaker_multipleFrames": true,
+        "breaker_pause": true,
+        "breaker_seek": true,
+        "breaker_cleanup": true,
+        "combo_nonempty": true,
+        "combo_multipleFrames": true,
+        "combo_pause": true,
+        "combo_seek": true,
+        "combo_cleanup": true,
+        "vampire_nonempty": true,
+        "vampire_multipleFrames": true,
+        "vampire_pause": true,
+        "vampire_seek": true,
+        "vampire_cleanup": true,
+        "avenger_nonempty": true,
+        "avenger_multipleFrames": true,
+        "avenger_pause": true,
+        "avenger_seek": true,
+        "avenger_cleanup": true,
+        "shield-knight_nonempty": true,
+        "shield-knight_multipleFrames": true,
+        "shield-knight_pause": true,
+        "shield-knight_seek": true,
+        "shield-knight_cleanup": true,
+        "barrier_nonempty": true,
+        "barrier_multipleFrames": true,
+        "barrier_pause": true,
+        "barrier_seek": true,
+        "barrier_cleanup": true,
+        "undying_nonempty": true,
+        "undying_multipleFrames": true,
+        "undying_pause": true,
+        "undying_seek": true,
+        "undying_cleanup": true,
+        "regenerator_nonempty": true,
+        "regenerator_multipleFrames": true,
+        "regenerator_pause": true,
+        "regenerator_seek": true,
+        "regenerator_cleanup": true,
+        "healer_nonempty": true,
+        "healer_multipleFrames": true,
+        "healer_pause": true,
+        "healer_seek": true,
+        "healer_cleanup": true,
+        "guardian_nonempty": true,
+        "guardian_multipleFrames": true,
+        "guardian_pause": true,
+        "guardian_seek": true,
+        "guardian_cleanup": true,
+        "cleanser_nonempty": true,
+        "cleanser_multipleFrames": true,
+        "cleanser_pause": true,
+        "cleanser_seek": true,
+        "cleanser_cleanup": true,
+        "commander_nonempty": true,
+        "commander_multipleFrames": true,
+        "commander_pause": true,
+        "commander_seek": true,
+        "commander_cleanup": true,
+        "visualEventsPreserveHealthAndShield": true,
+        "eventDeduplication": true,
+        "cancelDuringLoad": true,
+        "hideCancelsEffects": true,
+        "speed_0.25": true,
+        "speed_0.5": true,
+        "speed_2": true,
+        "effectsOff": true,
+        "effectsOn": true,
+        "concurrentFour": true,
+        "concurrentCleanup": true,
+        "singleCanvas": true,
+        "noHorizontalOverflow": true,
+        "noPageErrors": true
+      },
+      "clips": [
+        {
+          "id": "vanguard",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "vanguard",
+              "eventId": "fixture:1",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vanguard",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "vanguard",
+              "eventId": "fixture:1",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vanguard",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "vanguard",
+              "eventId": "fixture:1",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vanguard",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "vanguard",
+              "eventId": "fixture:1",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vanguard",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "vanguard",
+              "eventId": "fixture:1",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vanguard",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "duelist",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "duelist",
+              "eventId": "fixture:2",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "duelist",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "duelist",
+              "eventId": "fixture:2",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "duelist",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "duelist",
+              "eventId": "fixture:2",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "duelist",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "duelist",
+              "eventId": "fixture:2",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "duelist",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "duelist",
+              "eventId": "fixture:2",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "duelist",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "executioner",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "executioner",
+              "eventId": "fixture:3",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "executioner",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "executioner",
+              "eventId": "fixture:3",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "executioner",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "executioner",
+              "eventId": "fixture:3",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "executioner",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "executioner",
+              "eventId": "fixture:3",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "executioner",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "executioner",
+              "eventId": "fixture:3",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "executioner",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "berserker",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "berserker",
+              "eventId": "fixture:4",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "berserker",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "berserker",
+              "eventId": "fixture:4",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "berserker",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "berserker",
+              "eventId": "fixture:4",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "berserker",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "berserker",
+              "eventId": "fixture:4",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "berserker",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "berserker",
+              "eventId": "fixture:4",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "berserker",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "breaker",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "breaker",
+              "eventId": "fixture:5",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "breaker",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "breaker",
+              "eventId": "fixture:5",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "breaker",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "breaker",
+              "eventId": "fixture:5",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "breaker",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "breaker",
+              "eventId": "fixture:5",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "breaker",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "breaker",
+              "eventId": "fixture:5",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "breaker",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "combo",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "combo",
+              "eventId": "fixture:6",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "combo",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "combo",
+              "eventId": "fixture:6",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "combo",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "combo",
+              "eventId": "fixture:6",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "combo",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "combo",
+              "eventId": "fixture:6",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "combo",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "combo",
+              "eventId": "fixture:6",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "combo",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "vampire",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "vampire",
+              "eventId": "fixture:7",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vampire",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 0.6619626976284353
+                }
+              ]
+            },
+            {
+              "id": "vampire",
+              "eventId": "fixture:7",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vampire",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1025.6554761332848,
+                  "y": 1294.0919262508282,
+                  "scaleX": 0.6619626976284353
+                }
+              ]
+            },
+            {
+              "id": "vampire",
+              "eventId": "fixture:7",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vampire",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 959.3217613912711,
+                  "y": 1229.268555198789,
+                  "scaleX": 0.6619626976284353
+                }
+              ]
+            },
+            {
+              "id": "vampire",
+              "eventId": "fixture:7",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vampire",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 818.3836518474523,
+                  "y": 1120.825035382796,
+                  "scaleX": 0.6619626976284353
+                }
+              ]
+            },
+            {
+              "id": "vampire",
+              "eventId": "fixture:7",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vampire",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 666.4635431703236,
+                  "y": 1023.0559490359144,
+                  "scaleX": 0.6619626976284353
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "avenger",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "avenger",
+              "eventId": "fixture:8",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "avenger",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "avenger",
+              "eventId": "fixture:8",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "avenger",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "avenger",
+              "eventId": "fixture:8",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "avenger",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "avenger",
+              "eventId": "fixture:8",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "avenger",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "avenger",
+              "eventId": "fixture:8",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "avenger",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 1028.8926522807974,
+                  "y": 1301.5409086770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "shield-knight",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "shield-knight",
+              "eventId": "fixture:9",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "shield-knight",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "shield-knight",
+              "eventId": "fixture:9",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "shield-knight",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "shield-knight",
+              "eventId": "fixture:9",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "shield-knight",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "shield-knight",
+              "eventId": "fixture:9",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "shield-knight",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "shield-knight",
+              "eventId": "fixture:9",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "shield-knight",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "barrier",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "barrier",
+              "eventId": "fixture:10",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "barrier",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "barrier",
+              "eventId": "fixture:10",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "barrier",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "barrier",
+              "eventId": "fixture:10",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "barrier",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "barrier",
+              "eventId": "fixture:10",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "barrier",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "barrier",
+              "eventId": "fixture:10",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "barrier",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "undying",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "undying",
+              "eventId": "fixture:11",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "undying",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "undying",
+              "eventId": "fixture:11",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "undying",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "undying",
+              "eventId": "fixture:11",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "undying",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "undying",
+              "eventId": "fixture:11",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "undying",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "undying",
+              "eventId": "fixture:11",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "undying",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "regenerator",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "regenerator",
+              "eventId": "fixture:12",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "regenerator",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "regenerator",
+              "eventId": "fixture:12",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "regenerator",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "regenerator",
+              "eventId": "fixture:12",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "regenerator",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "regenerator",
+              "eventId": "fixture:12",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "regenerator",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "regenerator",
+              "eventId": "fixture:12",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "regenerator",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "healer",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "healer",
+              "eventId": "fixture:13",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "healer",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 1906.6109086770464,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "healer",
+              "eventId": "fixture:13",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "healer",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 1906.6109086770464,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "healer",
+              "eventId": "fixture:13",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "healer",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 1906.6109086770464,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "healer",
+              "eventId": "fixture:13",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "healer",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 1906.6109086770464,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "healer",
+              "eventId": "fixture:13",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "healer",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 1906.6109086770464,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "guardian",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "guardian",
+              "eventId": "fixture:14",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "guardian",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 0.8955965909090595
+                }
+              ]
+            },
+            {
+              "id": "guardian",
+              "eventId": "fixture:14",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "guardian",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 998.9972087036349,
+                  "scaleX": 0.8955965909090595
+                }
+              ]
+            },
+            {
+              "id": "guardian",
+              "eventId": "fixture:14",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "guardian",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 1120.4986780880572,
+                  "scaleX": 0.8955965909090595
+                }
+              ]
+            },
+            {
+              "id": "guardian",
+              "eventId": "fixture:14",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "guardian",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 1407.9363609802283,
+                  "scaleX": 0.8955965909090595
+                }
+              ]
+            },
+            {
+              "id": "guardian",
+              "eventId": "fixture:14",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "guardian",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 1736.8958261466464,
+                  "scaleX": 0.8955965909090595
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "cleanser",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "cleanser",
+              "eventId": "fixture:15",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "cleanser",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 1906.6109086770464,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "cleanser",
+              "eventId": "fixture:15",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "cleanser",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 1906.6109086770464,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "cleanser",
+              "eventId": "fixture:15",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "cleanser",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 1906.6109086770464,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "cleanser",
+              "eventId": "fixture:15",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "cleanser",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 1906.6109086770464,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            },
+            {
+              "id": "cleanser",
+              "eventId": "fixture:15",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "cleanser",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 1906.6109086770464,
+                  "scaleX": 1.1681694664031212
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "commander",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "commander",
+              "eventId": "fixture:16",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "commander",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.0902915019762465
+                }
+              ]
+            },
+            {
+              "id": "commander",
+              "eventId": "fixture:16",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "commander",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.0902915019762465
+                }
+              ]
+            },
+            {
+              "id": "commander",
+              "eventId": "fixture:16",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "commander",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.0902915019762465
+                }
+              ]
+            },
+            {
+              "id": "commander",
+              "eventId": "fixture:16",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "commander",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.0902915019762465
+                }
+              ]
+            },
+            {
+              "id": "commander",
+              "eventId": "fixture:16",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "commander",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 596.8926522807975,
+                  "y": 997.3532836770462,
+                  "scaleX": 1.0902915019762465
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        }
+      ],
+      "audit": {
+        "ready": true,
+        "errors": [],
+        "canvasCount": 1,
+        "pixi": "8.20.0",
+        "engineType": "Cu",
+        "fx": {
+          "active": 0,
+          "sprites": 0,
+          "sessions": [],
+          "cacheBytes": 31703520,
+          "loadedClips": [
+            {
+              "id": "duelist.png",
+              "refs": 0
+            },
+            {
+              "id": "executioner.png",
+              "refs": 0
+            },
+            {
+              "id": "berserker.png",
+              "refs": 0
+            },
+            {
+              "id": "combo.png",
+              "refs": 0
+            },
+            {
+              "id": "vampire.png",
+              "refs": 0
+            },
+            {
+              "id": "avenger.png",
+              "refs": 0
+            },
+            {
+              "id": "shield-knight.png",
+              "refs": 0
+            },
+            {
+              "id": "barrier.png",
+              "refs": 0
+            },
+            {
+              "id": "undying.png",
+              "refs": 0
+            },
+            {
+              "id": "regenerator.png",
+              "refs": 0
+            },
+            {
+              "id": "healer.png",
+              "refs": 0
+            },
+            {
+              "id": "guardian.png",
+              "refs": 0
+            },
+            {
+              "id": "cleanser.png",
+              "refs": 0
+            },
+            {
+              "id": "commander.png",
+              "refs": 0
+            },
+            {
+              "id": "vanguard.png",
+              "refs": 0
+            }
+          ],
+          "completed": 26
+        },
+        "impacts": [],
+        "actors": [
+          {
+            "id": "A:0:CN-02D9DC1E8A8A4209",
+            "name": "철와대 킴성태",
+            "team": "ALLY",
+            "hp": 100,
+            "shield": 0,
+            "root": {
+              "x": 380.8926522807975,
+              "y": 1102.9409086770463
+            }
+          },
+          {
+            "id": "A:1:CN-0505936A0CBB4E59",
+            "name": "구수댕",
+            "team": "ALLY",
+            "hp": 100,
+            "shield": 82368,
+            "root": {
+              "x": 380.8926522807975,
+              "y": 1402.9409086770463
+            }
+          },
+          {
+            "id": "A:2:CN-25F931CE393D474E",
+            "name": "딤우스",
+            "team": "ALLY",
+            "hp": 100,
+            "shield": 82368,
+            "root": {
+              "x": 380.8926522807975,
+              "y": 1702.9409086770463
+            }
+          },
+          {
+            "id": "A:3:CN-23EB4B19986D4818",
+            "name": "Lionel Messi",
+            "team": "ALLY",
+            "hp": 100,
+            "shield": 0,
+            "root": {
+              "x": 596.8926522807975,
+              "y": 1702.9409086770463
+            }
+          },
+          {
+            "id": "A:4:CN-519C181C18DF4B8E",
+            "name": "토마토",
+            "team": "ALLY",
+            "hp": 100,
+            "shield": 0,
+            "root": {
+              "x": 380.8926522807975,
+              "y": 2002.9409086770463
+            }
+          },
+          {
+            "id": "ENEMY-01",
+            "name": "어둠 슬라임",
+            "team": "ENEMY",
+            "hp": 100,
+            "shield": 0,
+            "root": {
+              "x": 1028.8926522807974,
+              "y": 1402.9409086770463
+            }
+          },
+          {
+            "id": "B:0:MONSTER:68",
+            "name": "오메가-09",
+            "team": "ENEMY",
+            "hp": 72,
+            "shield": 10018800,
+            "root": {
+              "x": 1028.8926522807974,
+              "y": 1402.9409086770463
+            }
+          },
+          {
+            "id": "ENEMY-03",
+            "name": "왕관 슬라임",
+            "team": "ENEMY",
+            "hp": 100,
+            "shield": 0,
+            "root": {
+              "x": 1028.8926522807974,
+              "y": 1402.9409086770463
+            }
+          },
+          {
+            "id": "ENEMY-04",
+            "name": "결투 상대 4",
+            "team": "ENEMY",
+            "hp": 100,
+            "shield": 0,
+            "root": {
+              "x": 1028.8926522807974,
+              "y": 1402.9409086770463
+            }
+          },
+          {
+            "id": "ENEMY-05",
+            "name": "결투 상대 5",
+            "team": "ENEMY",
+            "hp": 100,
+            "shield": 0,
+            "root": {
+              "x": 1028.8926522807974,
+              "y": 1402.9409086770463
+            }
+          }
+        ]
+      },
+      "variant": "mobile",
+      "pageErrors": []
+    },
+    {
+      "checks": {
+        "vanguard_nonempty": true,
+        "vanguard_multipleFrames": true,
+        "vanguard_pause": true,
+        "vanguard_seek": true,
+        "vanguard_cleanup": true,
+        "duelist_nonempty": true,
+        "duelist_multipleFrames": true,
+        "duelist_pause": true,
+        "duelist_seek": true,
+        "duelist_cleanup": true,
+        "executioner_nonempty": true,
+        "executioner_multipleFrames": true,
+        "executioner_pause": true,
+        "executioner_seek": true,
+        "executioner_cleanup": true,
+        "berserker_nonempty": true,
+        "berserker_multipleFrames": true,
+        "berserker_pause": true,
+        "berserker_seek": true,
+        "berserker_cleanup": true,
+        "breaker_nonempty": true,
+        "breaker_multipleFrames": true,
+        "breaker_pause": true,
+        "breaker_seek": true,
+        "breaker_cleanup": true,
+        "combo_nonempty": true,
+        "combo_multipleFrames": true,
+        "combo_pause": true,
+        "combo_seek": true,
+        "combo_cleanup": true,
+        "vampire_nonempty": true,
+        "vampire_multipleFrames": true,
+        "vampire_pause": true,
+        "vampire_seek": true,
+        "vampire_cleanup": true,
+        "avenger_nonempty": true,
+        "avenger_multipleFrames": true,
+        "avenger_pause": true,
+        "avenger_seek": true,
+        "avenger_cleanup": true,
+        "shield-knight_nonempty": true,
+        "shield-knight_multipleFrames": true,
+        "shield-knight_pause": true,
+        "shield-knight_seek": true,
+        "shield-knight_cleanup": true,
+        "barrier_nonempty": true,
+        "barrier_multipleFrames": true,
+        "barrier_pause": true,
+        "barrier_seek": true,
+        "barrier_cleanup": true,
+        "undying_nonempty": true,
+        "undying_multipleFrames": true,
+        "undying_pause": true,
+        "undying_seek": true,
+        "undying_cleanup": true,
+        "regenerator_nonempty": true,
+        "regenerator_multipleFrames": true,
+        "regenerator_pause": true,
+        "regenerator_seek": true,
+        "regenerator_cleanup": true,
+        "healer_nonempty": true,
+        "healer_multipleFrames": true,
+        "healer_pause": true,
+        "healer_seek": true,
+        "healer_cleanup": true,
+        "guardian_nonempty": true,
+        "guardian_multipleFrames": true,
+        "guardian_pause": true,
+        "guardian_seek": true,
+        "guardian_cleanup": true,
+        "cleanser_nonempty": true,
+        "cleanser_multipleFrames": true,
+        "cleanser_pause": true,
+        "cleanser_seek": true,
+        "cleanser_cleanup": true,
+        "commander_nonempty": true,
+        "commander_multipleFrames": true,
+        "commander_pause": true,
+        "commander_seek": true,
+        "commander_cleanup": true,
+        "visualEventsPreserveHealthAndShield": true,
+        "eventDeduplication": true,
+        "cancelDuringLoad": true,
+        "hideCancelsEffects": true,
+        "speed_0.25": true,
+        "speed_0.5": true,
+        "speed_2": true,
+        "effectsOff": true,
+        "effectsOn": true,
+        "concurrentFour": true,
+        "concurrentCleanup": true,
+        "singleCanvas": true,
+        "noHorizontalOverflow": true,
+        "noPageErrors": true
+      },
+      "clips": [
+        {
+          "id": "vanguard",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "vanguard",
+              "eventId": "fixture:1",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vanguard",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": -0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "vanguard",
+              "eventId": "fixture:1",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vanguard",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": -0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "vanguard",
+              "eventId": "fixture:1",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vanguard",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": -0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "vanguard",
+              "eventId": "fixture:1",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vanguard",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": -0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "vanguard",
+              "eventId": "fixture:1",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vanguard",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": -0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "duelist",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "duelist",
+              "eventId": "fixture:2",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "duelist",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "duelist",
+              "eventId": "fixture:2",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "duelist",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "duelist",
+              "eventId": "fixture:2",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "duelist",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "duelist",
+              "eventId": "fixture:2",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "duelist",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "duelist",
+              "eventId": "fixture:2",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "duelist",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "executioner",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "executioner",
+              "eventId": "fixture:3",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "executioner",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "executioner",
+              "eventId": "fixture:3",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "executioner",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "executioner",
+              "eventId": "fixture:3",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "executioner",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "executioner",
+              "eventId": "fixture:3",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "executioner",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "executioner",
+              "eventId": "fixture:3",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "executioner",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "berserker",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "berserker",
+              "eventId": "fixture:4",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "berserker",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "berserker",
+              "eventId": "fixture:4",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "berserker",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "berserker",
+              "eventId": "fixture:4",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "berserker",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "berserker",
+              "eventId": "fixture:4",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "berserker",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "berserker",
+              "eventId": "fixture:4",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "berserker",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "breaker",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "breaker",
+              "eventId": "fixture:5",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "breaker",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "breaker",
+              "eventId": "fixture:5",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "breaker",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "breaker",
+              "eventId": "fixture:5",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "breaker",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "breaker",
+              "eventId": "fixture:5",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "breaker",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "breaker",
+              "eventId": "fixture:5",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "breaker",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "combo",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "combo",
+              "eventId": "fixture:6",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "combo",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": -0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "combo",
+              "eventId": "fixture:6",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "combo",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": -0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "combo",
+              "eventId": "fixture:6",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "combo",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": -0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "combo",
+              "eventId": "fixture:6",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "combo",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": -0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "combo",
+              "eventId": "fixture:6",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "combo",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": -0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "vampire",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "vampire",
+              "eventId": "fixture:7",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vampire",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.5092020750988142
+                }
+              ]
+            },
+            {
+              "id": "vampire",
+              "eventId": "fixture:7",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vampire",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 384.7208818817893,
+                  "y": 156.1451504597718,
+                  "scaleX": 0.5092020750988142
+                }
+              ]
+            },
+            {
+              "id": "vampire",
+              "eventId": "fixture:7",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vampire",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 481.4575492138924,
+                  "y": 169.72978989262197,
+                  "scaleX": 0.5092020750988142
+                }
+              ]
+            },
+            {
+              "id": "vampire",
+              "eventId": "fixture:7",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vampire",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 686.9922922986284,
+                  "y": 221.12021665227164,
+                  "scaleX": 0.5092020750988142
+                }
+              ]
+            },
+            {
+              "id": "vampire",
+              "eventId": "fixture:7",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "vampire",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 908.5424507861076,
+                  "y": 291.22612309246216,
+                  "scaleX": 0.5092020750988142
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "avenger",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "avenger",
+              "eventId": "fixture:8",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "avenger",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "avenger",
+              "eventId": "fixture:8",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "avenger",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "avenger",
+              "eventId": "fixture:8",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "avenger",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "avenger",
+              "eventId": "fixture:8",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "avenger",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "avenger",
+              "eventId": "fixture:8",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "avenger",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 380,
+                  "y": 158.77875,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "shield-knight",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "shield-knight",
+              "eventId": "fixture:9",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "shield-knight",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "shield-knight",
+              "eventId": "fixture:9",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "shield-knight",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "shield-knight",
+              "eventId": "fixture:9",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "shield-knight",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "shield-knight",
+              "eventId": "fixture:9",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "shield-knight",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "shield-knight",
+              "eventId": "fixture:9",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "shield-knight",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "barrier",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "barrier",
+              "eventId": "fixture:10",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "barrier",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "barrier",
+              "eventId": "fixture:10",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "barrier",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "barrier",
+              "eventId": "fixture:10",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "barrier",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "barrier",
+              "eventId": "fixture:10",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "barrier",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "barrier",
+              "eventId": "fixture:10",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "barrier",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "undying",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "undying",
+              "eventId": "fixture:11",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "undying",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "undying",
+              "eventId": "fixture:11",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "undying",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "undying",
+              "eventId": "fixture:11",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "undying",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "undying",
+              "eventId": "fixture:11",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "undying",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "undying",
+              "eventId": "fixture:11",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "undying",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "regenerator",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "regenerator",
+              "eventId": "fixture:12",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "regenerator",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "regenerator",
+              "eventId": "fixture:12",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "regenerator",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "regenerator",
+              "eventId": "fixture:12",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "regenerator",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "regenerator",
+              "eventId": "fixture:12",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "regenerator",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "regenerator",
+              "eventId": "fixture:12",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "regenerator",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "healer",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "healer",
+              "eventId": "fixture:13",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "healer",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "healer",
+              "eventId": "fixture:13",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "healer",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "healer",
+              "eventId": "fixture:13",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "healer",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "healer",
+              "eventId": "fixture:13",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "healer",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "healer",
+              "eventId": "fixture:13",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "healer",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "guardian",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "guardian",
+              "eventId": "fixture:14",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "guardian",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": -0.6889204545454545
+                }
+              ]
+            },
+            {
+              "id": "guardian",
+              "eventId": "fixture:14",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "guardian",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 334.02341259952306,
+                  "scaleX": -0.6889204545454545
+                }
+              ]
+            },
+            {
+              "id": "guardian",
+              "eventId": "fixture:14",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "guardian",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 320.08858149254195,
+                  "scaleX": -0.6889204545454545
+                }
+              ]
+            },
+            {
+              "id": "guardian",
+              "eventId": "fixture:14",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "guardian",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 313.0088597219135,
+                  "scaleX": -0.6889204545454545
+                }
+              ]
+            },
+            {
+              "id": "guardian",
+              "eventId": "fixture:14",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "guardian",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 320.08858149254195,
+                  "scaleX": -0.6889204545454545
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "cleanser",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "cleanser",
+              "eventId": "fixture:15",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "cleanser",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "cleanser",
+              "eventId": "fixture:15",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "cleanser",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "cleanser",
+              "eventId": "fixture:15",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "cleanser",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "cleanser",
+              "eventId": "fixture:15",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "cleanser",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            },
+            {
+              "id": "cleanser",
+              "eventId": "fixture:15",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "cleanser",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8985918972332015
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        },
+        {
+          "id": "commander",
+          "duration": 0.5666666666666667,
+          "frames": [
+            {
+              "id": "commander",
+              "eventId": "fixture:16",
+              "phase": "proc",
+              "time": 0,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "commander",
+                  "frame": 0,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8386857707509882
+                }
+              ]
+            },
+            {
+              "id": "commander",
+              "eventId": "fixture:16",
+              "phase": "proc",
+              "time": 0.08,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "commander",
+                  "frame": 2,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8386857707509882
+                }
+              ]
+            },
+            {
+              "id": "commander",
+              "eventId": "fixture:16",
+              "phase": "proc",
+              "time": 0.2,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "commander",
+                  "frame": 6,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8386857707509882
+                }
+              ]
+            },
+            {
+              "id": "commander",
+              "eventId": "fixture:16",
+              "phase": "proc",
+              "time": 0.34,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "commander",
+                  "frame": 10,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8386857707509882
+                }
+              ]
+            },
+            {
+              "id": "commander",
+              "eventId": "fixture:16",
+              "phase": "proc",
+              "time": 0.49,
+              "duration": 0.5666666666666667,
+              "disposed": false,
+              "frames": [
+                {
+                  "clip": "commander",
+                  "frame": 14,
+                  "visible": true,
+                  "x": 1009.9999999999999,
+                  "y": 337.99999999999983,
+                  "scaleX": 0.8386857707509882
+                }
+              ]
+            }
+          ],
+          "paused": true,
+          "seekRepeatable": true,
+          "reverseFrame": 2
+        }
+      ],
+      "audit": {
+        "ready": true,
+        "errors": [],
+        "canvasCount": 1,
+        "pixi": "8.20.0",
+        "engineType": "Cu",
+        "fx": {
+          "active": 0,
+          "sprites": 0,
+          "sessions": [],
+          "cacheBytes": 31703520,
+          "loadedClips": [
+            {
+              "id": "duelist.png",
+              "refs": 0
+            },
+            {
+              "id": "executioner.png",
+              "refs": 0
+            },
+            {
+              "id": "berserker.png",
+              "refs": 0
+            },
+            {
+              "id": "combo.png",
+              "refs": 0
+            },
+            {
+              "id": "vampire.png",
+              "refs": 0
+            },
+            {
+              "id": "avenger.png",
+              "refs": 0
+            },
+            {
+              "id": "shield-knight.png",
+              "refs": 0
+            },
+            {
+              "id": "barrier.png",
+              "refs": 0
+            },
+            {
+              "id": "undying.png",
+              "refs": 0
+            },
+            {
+              "id": "regenerator.png",
+              "refs": 0
+            },
+            {
+              "id": "healer.png",
+              "refs": 0
+            },
+            {
+              "id": "guardian.png",
+              "refs": 0
+            },
+            {
+              "id": "cleanser.png",
+              "refs": 0
+            },
+            {
+              "id": "commander.png",
+              "refs": 0
+            },
+            {
+              "id": "vanguard.png",
+              "refs": 0
+            }
+          ],
+          "completed": 26
+        },
+        "impacts": [],
+        "actors": [
+          {
+            "id": "A:0:CN-02D9DC1E8A8A4209",
+            "name": "철와대 킴성태",
+            "team": "ALLY",
+            "hp": 100,
+            "shield": 0,
+            "root": {
+              "x": 170,
+              "y": 240
+            }
+          },
+          {
+            "id": "A:1:CN-0505936A0CBB4E59",
+            "name": "구수댕",
+            "team": "ALLY",
+            "hp": 100,
+            "shield": 82368,
+            "root": {
+              "x": 590,
+              "y": 240
+            }
+          },
+          {
+            "id": "A:2:CN-25F931CE393D474E",
+            "name": "딤우스",
+            "team": "ALLY",
+            "hp": 100,
+            "shield": 82368,
+            "root": {
+              "x": 170,
+              "y": 416
+            }
+          },
+          {
+            "id": "A:3:CN-23EB4B19986D4818",
+            "name": "Lionel Messi",
+            "team": "ALLY",
+            "hp": 100,
+            "shield": 0,
+            "root": {
+              "x": 590,
+              "y": 416
+            }
+          },
+          {
+            "id": "A:4:CN-519C181C18DF4B8E",
+            "name": "토마토",
+            "team": "ALLY",
+            "hp": 100,
+            "shield": 0,
+            "root": {
+              "x": 380,
+              "y": 592
+            }
+          },
+          {
+            "id": "ENEMY-01",
+            "name": "어둠 슬라임",
+            "team": "ENEMY",
+            "hp": 100,
+            "shield": 0,
+            "root": {
+              "x": 1010,
+              "y": 416
+            }
+          },
+          {
+            "id": "B:0:MONSTER:68",
+            "name": "오메가-09",
+            "team": "ENEMY",
+            "hp": 72,
+            "shield": 10018800,
+            "root": {
+              "x": 1010,
+              "y": 416
+            }
+          },
+          {
+            "id": "ENEMY-03",
+            "name": "왕관 슬라임",
+            "team": "ENEMY",
+            "hp": 100,
+            "shield": 0,
+            "root": {
+              "x": 1010,
+              "y": 416
+            }
+          },
+          {
+            "id": "ENEMY-04",
+            "name": "결투 상대 4",
+            "team": "ENEMY",
+            "hp": 100,
+            "shield": 0,
+            "root": {
+              "x": 1010,
+              "y": 416
+            }
+          },
+          {
+            "id": "ENEMY-05",
+            "name": "결투 상대 5",
+            "team": "ENEMY",
+            "hp": 100,
+            "shield": 0,
+            "root": {
+              "x": 1010,
+              "y": 416
+            }
+          }
+        ]
+      },
+      "variant": "enemy",
+      "pageErrors": []
+    }
+  ]
+}

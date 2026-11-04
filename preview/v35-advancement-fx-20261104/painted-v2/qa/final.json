@@ -1,0 +1,66 @@
+{
+  "checks": {
+    "vampire_arrivesBeforeDecay": true,
+    "guardian_arrivesBeforeDecay": true,
+    "berserker_attackTargetsEnemy": true,
+    "healer_attackTargetsEnemy": true,
+    "sharedTextureSurvivesOtherEffect": true,
+    "noPageErrors": true,
+    "16-effects-normal.webm_decodesAndSeeks": true,
+    "16-effects-half-speed.webm_decodesAndSeeks": true,
+    "allSixteenCaptured": true
+  },
+  "video": [
+    {
+      "file": "16-effects-normal.webm",
+      "duration": 11.69776,
+      "width": 1280,
+      "height": 833,
+      "readyState": 4,
+      "frames": [
+        {
+          "t": 1,
+          "file": "16-effects-normal-at-1.png"
+        },
+        {
+          "t": 3,
+          "file": "16-effects-normal-at-3.png"
+        },
+        {
+          "t": 6,
+          "file": "16-effects-normal-at-6.png"
+        },
+        {
+          "t": 9,
+          "file": "16-effects-normal-at-9.png"
+        }
+      ]
+    },
+    {
+      "file": "16-effects-half-speed.webm",
+      "duration": 20.761728,
+      "width": 1280,
+      "height": 833,
+      "readyState": 4,
+      "frames": [
+        {
+          "t": 1,
+          "file": "16-effects-half-speed-at-1.png"
+        },
+        {
+          "t": 3,
+          "file": "16-effects-half-speed-at-3.png"
+        },
+        {
+          "t": 6,
+          "file": "16-effects-half-speed-at-6.png"
+        },
+        {
+          "t": 9,
+          "file": "16-effects-half-speed-at-9.png"
+        }
+      ]
+    }
+  ],
+  "physicalDevice": false
+}

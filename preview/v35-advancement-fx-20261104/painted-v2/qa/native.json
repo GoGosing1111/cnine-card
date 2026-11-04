@@ -1,0 +1,706 @@
+[
+  {
+    "id": "vanguard",
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/vanguard.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/vanguard.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/vanguard-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/vanguard.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/vanguard-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/vanguard.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/vanguard-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/vanguard-roundtrip.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/vanguard-roundtrip.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "68af398cca05b7623dd6b08c61943ee04c16e355b05b7126fd763f4bac32ee07"
+  },
+  {
+    "id": "duelist",
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/duelist.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/duelist.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/duelist-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/duelist.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/duelist-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/duelist.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/duelist-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/duelist-roundtrip.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/duelist-roundtrip.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "49fcf494580be8265035da3932db6699405830cd001ce342a1987370616dff2e"
+  },
+  {
+    "id": "executioner",
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/executioner.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/executioner.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/executioner-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/executioner.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/executioner-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/executioner.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/executioner-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/executioner-roundtrip.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/executioner-roundtrip.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "1a98ef6ed888b8726585ffe13e0f775af1b987aa21e78432a838cb127217a4a2"
+  },
+  {
+    "id": "berserker",
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/berserker.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/berserker.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/berserker-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/berserker.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/berserker-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/berserker.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/berserker-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/berserker-roundtrip.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/berserker-roundtrip.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "561b149fd46cf71feb7d10fb921888aaea5e76e28f17cf24ee6ad692c46bdb76"
+  },
+  {
+    "id": "combo",
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/combo.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/combo.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/combo-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/combo.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/combo-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/combo.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/combo-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/combo-roundtrip.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/combo-roundtrip.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "9f8bf32cdbb3ec4450445f1cb44fc581d516e7add5d98ee36f0afdf72960f3f6"
+  },
+  {
+    "id": "vampire",
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/vampire.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/vampire.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/vampire-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/vampire.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/vampire-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/vampire.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/vampire-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/vampire-roundtrip.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/vampire-roundtrip.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "512b780bafa317ac60db70640dd64282ed5d558c1802d615d098b2817a417b6a"
+  },
+  {
+    "id": "avenger",
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/avenger.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/avenger.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/avenger-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/avenger.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/avenger-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/avenger.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/avenger-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/avenger-roundtrip.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/avenger-roundtrip.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "8285c2f0624f038348af4114b1d40e6f637180e212243061c6ce900e9c5236d4"
+  },
+  {
+    "id": "shield-knight",
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/shield-knight.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/shield-knight.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/shield-knight-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/shield-knight.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/shield-knight-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/shield-knight.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/shield-knight-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/shield-knight-roundtrip.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/shield-knight-roundtrip.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "2b2470e33231afcaa389e3260df7732fcc9afc5ae2cb5c4cc4fee3d147adc88b"
+  },
+  {
+    "id": "barrier",
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/barrier.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/barrier.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/barrier-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/barrier.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/barrier-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/barrier.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/barrier-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/barrier-roundtrip.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/barrier-roundtrip.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "77a0fb7154200fbb8c011447cac56194d5f6d05e0efe2b453728f97e279a5be3"
+  },
+  {
+    "id": "undying",
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/undying.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/undying.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/undying-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/undying.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/undying-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/undying.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/undying-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/undying-roundtrip.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/undying-roundtrip.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "5545684b5b340d9452fa456bb40fc41fac4786142638dde128b621a731e2a98f"
+  },
+  {
+    "id": "regenerator",
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/regenerator.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/regenerator.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/regenerator-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/regenerator.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/regenerator-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/regenerator.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/regenerator-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/regenerator-roundtrip.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/regenerator-roundtrip.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "47e8a9a0f7649fbb35cfa14069eb105cb3228f679b0ffd344f64dbbd34941ced"
+  },
+  {
+    "id": "healer",
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/healer.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/healer.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/healer-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/healer.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/healer-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/healer.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/healer-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/healer-roundtrip.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/healer-roundtrip.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "2e35271205cc162f5b74175e9782a98d4350fdbd114e6751e152eb340ee7dfdb"
+  },
+  {
+    "id": "guardian",
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/guardian.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/guardian.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/guardian-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/guardian.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/guardian-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/guardian.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/guardian-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/guardian-roundtrip.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/guardian-roundtrip.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "98299bb1774a0d380ff477b5bd626ee70f8b2aaa02f30ab19c629891e46d0cb4"
+  },
+  {
+    "id": "cleanser",
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/cleanser.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/cleanser.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/cleanser-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/cleanser.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/cleanser-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/cleanser.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/cleanser-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/cleanser-roundtrip.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/cleanser-roundtrip.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "d4936ffeea4dea822aed0c1ee45d461e046dbf9facc0ab2dd624be4dd99f147a"
+  },
+  {
+    "id": "commander",
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/commander.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/commander.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/commander-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/commander.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/commander-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/commander.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/commander-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/commander-roundtrip.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/commander-roundtrip.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "2e81556ee2fb18beb4453c03ec3387212d20c2d08e0c61881eca99fe21d9a9a0"
+  },
+  {
+    "id": "breaker",
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/breaker.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/breaker.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/breaker-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/breaker.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/breaker-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/breaker.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/breaker-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/breaker-roundtrip.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\painted-v2\\native/breaker-roundtrip.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "eb6d48fc578bcfe8c5b59191c61a6da20fe6f5374e78391e17ab3ddbf7521449"
+  }
+]
