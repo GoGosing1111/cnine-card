@@ -57,5 +57,5 @@ test('HTTP batch commits all runes and its receipt atomically, supports retries 
  const replies=await Promise.all([h.call('action',{user:2,body}),h.call('action',{user:2,body})]);assert.ok(replies.every(r=>r.status===200),JSON.stringify(replies));
  assert.equal((await read()).challenge.sealed,true);assert.equal((await read()).doom,0);
  assert.equal((await h.call('action',{user:2,body:{...body,targets:[...body.targets].reverse()}})).status,409);
- assert.equal(Number((await h.one("SELECT quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code='LICH_KING_ENTRY_TICKET'")).quantity),4);
+ assert.equal(Number((await h.one("SELECT quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code='LICH_KING_ENTRY_TICKET'")).quantity),5,'free entry and input retries preserve the existing tickets');
 });
