@@ -1,0 +1,32 @@
+{
+  "phase": "PREPARED_LOCAL_ONLY",
+  "productionDeployed": false,
+  "userVisualApproval": false,
+  "physicalDevice": false,
+  "modelTests": {
+    "count": 8,
+    "passed": 8,
+    "command": "node --test preview/v35-advancement-fx-20261104/ui/qa/model.test.mjs",
+    "observedExitCode": 0
+  },
+  "suites": [
+    {
+      "path": "ui/qa/verification.json",
+      "checks": 140,
+      "passed": 140
+    },
+    {
+      "path": "states-v3/qa/verification.json",
+      "checks": 95,
+      "passed": 95
+    },
+    {
+      "path": "ui/qa/burst-regression.json",
+      "checks": 284,
+      "passed": 284
+    }
+  ],
+  "nativeRoundTrips": 3,
+  "videoDecodes": 2,
+  "extractedVideoFrames": 14
+}

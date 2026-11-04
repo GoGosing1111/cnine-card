@@ -1,0 +1,53 @@
+{
+  "id": "mercenary-advancement-states-v3",
+  "sourceDate": "2026-11-05",
+  "tool": "Effekseer",
+  "version": "1.70e",
+  "fps": 30,
+  "nativeFps": 60,
+  "seed": 3504,
+  "effects": [
+    {
+      "id": "avenger-charge",
+      "frames": 27,
+      "nativeFrames": 52,
+      "blend": "normal",
+      "width": 512,
+      "height": 512,
+      "units": 12,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/avenger-charge.efkefc"
+    },
+    {
+      "id": "knight-ward",
+      "frames": 27,
+      "nativeFrames": 52,
+      "blend": "normal",
+      "width": 512,
+      "height": 512,
+      "units": 12,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/knight-ward.efkefc"
+    },
+    {
+      "id": "commander-mark",
+      "frames": 27,
+      "nativeFrames": 52,
+      "blend": "normal",
+      "width": 512,
+      "height": 512,
+      "units": 12,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/commander-mark.efkefc"
+    }
+  ]
+}

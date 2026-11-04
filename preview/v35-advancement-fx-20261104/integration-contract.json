@@ -1,0 +1,45 @@
+{
+  "phase": "PREPARED_LOCAL_ONLY",
+  "productionEnabled": false,
+  "productionDeployment": false,
+  "userInstruction": "나머지 용병 효과 전직창 UI 같이 준비해 라이브 반영은 아직",
+  "ui": {
+    "entryModule": "ui/entry.mjs",
+    "defaultEnabled": false,
+    "intendedHost": "mercenary-codex action area (archive-heading-actions); no production import added",
+    "requiredStyles": ["/css/command-ui-v1.css", "ui/advancement.css"],
+    "adapterRead": "Return {revision, policyRevision, wallet:{coin:string, MASTER_STAR:string}, cards:[{code,name,rank,edition,sourceArt,totalCopies,growth,equipment,advancement:{id,revision}}]}",
+    "adapterCommit": "Accept {idempotencyKey, mercenaryCode, advancementId, expectedRevision, expectedPolicyRevision}; return {requestId, receiptId, snapshot}. A definitive no-write rejection may carry definitive:true. An unknown result retains the SAME request key for retry.",
+    "previewAdapter": "ui/fixture-adapter.mjs; memory only, no account identity, network POST or persistent storage",
+    "serverWorkStillRequired": [
+      "Validate the approved policy revision, exact costs, owned mercenary rank and own level on the server",
+      "Atomically debit both currencies, save one class per mercenary and an idempotent receipt under account locks",
+      "Persist/recover request keys through full navigation and network loss; preserve all unrelated growth, equipment and inventory",
+      "Provide authoritative choice to PVE/PVP snapshots and apply it from the next battle",
+      "Finalize and implement the draft combat rules; emit resolved visual events, never trust client proc decisions",
+      "Perform real backend failure/rollback/concurrency tests before considering release"
+    ]
+  },
+  "effects": {
+    "burstModule": "AdvancementEffects.mjs",
+    "stateModule": "AdvancementStateEffects.mjs",
+    "createPerBattle": "AdvancementStateEffects.create(engine,{battleId})",
+    "commonStateFields": ["battleId", "id", "actor", "revision"],
+    "avenger": {"id":"avenger", "charged":"explicit boolean; false consumes/clears; play the independent burst at authoritative attack contact"},
+    "shieldKnight": {"id":"shield-knight", "remaining":"integer 0..3; displayed directly, never decremented by rendering"},
+    "commander": {"id":"commander", "active":"explicit boolean", "allies":"authoritatively resolved actor references; only living same-team actors are shown"},
+    "ordering": "Strictly increasing revision per role/source actor, stable battleId; stale or other-battle states are ignored",
+    "lifecycle": "Use existing engine timeline; engine cancel/hide and destroy clear state sprites. Recreate the manager for a new battle identity. Seek samples current active state; it does not reconstruct gameplay history.",
+    "memory": "Shares reference-counted atlas owner with one-shot effects. 32MiB unused-cache budget; active owners are not evicted.",
+    "gameplayMutation": false,
+    "newRealtimeEffekseerContext": false,
+    "newPixiRuntime": false
+  },
+  "quality": {
+    "sourceArt": "built-in ImageGen, original files and exact prompts preserved",
+    "offlineBake": "native Effekseer 1.70e and official WebGL 1.70e",
+    "visualApproval": "USER_REVIEW_PENDING",
+    "physicalDevicePerformance": "NOT_TESTED",
+    "sound": "NOT_PART_OF_THIS_DELIVERY"
+  }
+}

@@ -1,0 +1,3494 @@
+{
+  "capture": "Offline postrender copy of current V3 canvas; visual fixture states only",
+  "physicalDevice": false,
+  "reports": [
+    {
+      "rate": 1,
+      "file": "sustained-states-normal.webm",
+      "phases": [
+        {
+          "label": "복수자 · 피격 후 충전 유지",
+          "at": 2.0999999940395355,
+          "states": {
+            "battleId": "local-advancement-review",
+            "time": 0,
+            "pending": 0,
+            "active": 1,
+            "clock": true,
+            "rows": [
+              {
+                "id": "avenger",
+                "actor": "QA:A:V-996",
+                "revision": 8,
+                "remaining": 3,
+                "sprites": [
+                  {
+                    "actor": "QA:A:V-996",
+                    "frame": 0,
+                    "visible": true,
+                    "x": 380,
+                    "y": 169.7123798076923
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "at": 1611.5,
+          "states": {
+            "battleId": "local-advancement-review",
+            "time": 1.603,
+            "pending": 0,
+            "active": 0,
+            "clock": false,
+            "rows": []
+          }
+        },
+        {
+          "label": "방패기사 · 남은 방패 3장",
+          "at": 2424.9000000059605,
+          "states": {
+            "battleId": "local-advancement-review",
+            "time": 1.603,
+            "pending": 0,
+            "active": 1,
+            "clock": true,
+            "rows": [
+              {
+                "id": "shield-knight",
+                "actor": "QA:A:V-996",
+                "revision": 13,
+                "remaining": 3,
+                "sprites": [
+                  {
+                    "actor": "QA:A:V-996",
+                    "frame": 0,
+                    "visible": true,
+                    "x": 320,
+                    "y": 166.90264423076928
+                  },
+                  {
+                    "actor": "QA:A:V-996",
+                    "frame": 0,
+                    "visible": true,
+                    "x": 380,
+                    "y": 148.90264423076928
+                  },
+                  {
+                    "actor": "QA:A:V-996",
+                    "frame": 0,
+                    "visible": true,
+                    "x": 440,
+                    "y": 166.90264423076928
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "label": "방패기사 · 남은 방패 2장",
+          "at": 3749.5,
+          "states": {
+            "battleId": "local-advancement-review",
+            "time": 1.325,
+            "pending": 0,
+            "active": 1,
+            "clock": true,
+            "rows": [
+              {
+                "id": "shield-knight",
+                "actor": "QA:A:V-996",
+                "revision": 15,
+                "remaining": 2,
+                "sprites": [
+                  {
+                    "actor": "QA:A:V-996",
+                    "frame": 5,
+                    "visible": true,
+                    "x": 320,
+                    "y": 166.90264423076928
+                  },
+                  {
+                    "actor": "QA:A:V-996",
+                    "frame": 5,
+                    "visible": true,
+                    "x": 380,
+                    "y": 148.90264423076928
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "label": "방패기사 · 남은 방패 1장",
+          "at": 5066.4000000059605,
+          "states": {
+            "battleId": "local-advancement-review",
+            "time": 2.642,
+            "pending": 0,
+            "active": 1,
+            "clock": true,
+            "rows": [
+              {
+                "id": "shield-knight",
+                "actor": "QA:A:V-996",
+                "revision": 18,
+                "remaining": 1,
+                "sprites": [
+                  {
+                    "actor": "QA:A:V-996",
+                    "frame": 2,
+                    "visible": true,
+                    "x": 320,
+                    "y": 166.90264423076928
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "label": "방패기사 · 남은 방패 0장",
+          "at": 6382.9000000059605,
+          "states": {
+            "battleId": "local-advancement-review",
+            "time": 3.392,
+            "pending": 0,
+            "active": 0,
+            "clock": false,
+            "rows": []
+          }
+        },
+        {
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "at": 7133,
+          "states": {
+            "battleId": "local-advancement-review",
+            "time": 3.392,
+            "pending": 0,
+            "active": 1,
+            "clock": true,
+            "rows": [
+              {
+                "id": "commander",
+                "actor": "QA:A:V-996",
+                "revision": 24,
+                "remaining": 3,
+                "sprites": [
+                  {
+                    "actor": "QA:A:V-996",
+                    "frame": 1,
+                    "visible": true,
+                    "x": 380,
+                    "y": 231
+                  },
+                  {
+                    "actor": "A:0:CN-02D9DC1E8A8A4209",
+                    "frame": 1,
+                    "visible": true,
+                    "x": 170.00000000000006,
+                    "y": 231
+                  },
+                  {
+                    "actor": "A:1:CN-0505936A0CBB4E59",
+                    "frame": 1,
+                    "visible": true,
+                    "x": 590,
+                    "y": 231
+                  },
+                  {
+                    "actor": "A:2:CN-25F931CE393D474E",
+                    "frame": 1,
+                    "visible": true,
+                    "x": 170.00000000000006,
+                    "y": 406.99999999999983
+                  },
+                  {
+                    "actor": "A:3:CN-23EB4B19986D4818",
+                    "frame": 1,
+                    "visible": true,
+                    "x": 590,
+                    "y": 406.99999999999983
+                  },
+                  {
+                    "actor": "A:4:CN-519C181C18DF4B8E",
+                    "frame": 1,
+                    "visible": true,
+                    "x": 380,
+                    "y": 582.9999999999998
+                  },
+                  {
+                    "actor": "QA:A:V-979",
+                    "frame": 1,
+                    "visible": true,
+                    "x": 170.00000000000006,
+                    "y": 582.9999999999998
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "label": "지휘관 · 지휘 종료 시 아군 표식 제거",
+          "at": 8938.800000011921,
+          "states": {
+            "battleId": "local-advancement-review",
+            "time": 1.805,
+            "pending": 0,
+            "active": 0,
+            "clock": false,
+            "rows": []
+          }
+        }
+      ],
+      "samples": [
+        {
+          "time": 18,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 133.59999999403954,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 237.59999999403954,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "time": 337.7000000178814,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "time": 442,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "time": 579.4000000059605,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "time": 679.5999999940395,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                6
+              ]
+            }
+          ]
+        },
+        {
+          "time": 783.7000000178814,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "time": 916.9000000059605,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 1050,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "time": 1154.0999999940395,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "time": 1291.5999999940395,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "time": 1424.9000000059605,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                6
+              ]
+            }
+          ]
+        },
+        {
+          "time": 1525,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "time": 1629.4000000059605,
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "states": []
+        },
+        {
+          "time": 1766.800000011921,
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "states": []
+        },
+        {
+          "time": 1899.9000000059605,
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "states": []
+        },
+        {
+          "time": 2004.800000011921,
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "states": []
+        },
+        {
+          "time": 2137.7000000178814,
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "states": []
+        },
+        {
+          "time": 2241.5999999940395,
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "states": []
+        },
+        {
+          "time": 2342.2000000178814,
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "states": []
+        },
+        {
+          "time": 2445.9000000059605,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 3,
+              "frames": [
+                0,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 2579.0999999940395,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 3,
+              "frames": [
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 2683.5999999940395,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 3,
+              "frames": [
+                2,
+                2,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "time": 2783.7000000178814,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 3,
+              "frames": [
+                3,
+                3,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "time": 2887.5,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 3,
+              "frames": [
+                4,
+                4,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "time": 3025.2000000178814,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 3,
+              "frames": [
+                6,
+                6,
+                6
+              ]
+            }
+          ]
+        },
+        {
+          "time": 3125.800000011921,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 3,
+              "frames": [
+                7,
+                7,
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "time": 3229.0999999940395,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 3362.5,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 3466.5999999940395,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                2,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "time": 3604.0999999940395,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                3,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "time": 3704.2000000178814,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                4,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "time": 3808.300000011921,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                5,
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "time": 3941.5999999940395,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                7,
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "time": 4045.800000011921,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 4183.4000000059605,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 4317.700000017881,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                2,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "time": 4421.4000000059605,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                3,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "time": 4558.4000000059605,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "time": 4658.5999999940395,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                6
+              ]
+            }
+          ]
+        },
+        {
+          "time": 4763,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "time": 4896.0999999940395,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 5000.5999999940395,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 5134.200000017881,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "time": 5238.300000011921,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "time": 5371.5,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "time": 5475.4000000059605,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                6
+              ]
+            }
+          ]
+        },
+        {
+          "time": 5579.5,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "time": 5712.800000011921,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 5817.800000011921,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": []
+        },
+        {
+          "time": 5950,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": []
+        },
+        {
+          "time": 6054.5,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": []
+        },
+        {
+          "time": 6188,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": []
+        },
+        {
+          "time": 6292.200000017881,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": []
+        },
+        {
+          "time": 6392.700000017881,
+          "label": "방패기사 · 남은 방패 0장",
+          "states": []
+        },
+        {
+          "time": 6496,
+          "label": "방패기사 · 남은 방패 0장",
+          "states": []
+        },
+        {
+          "time": 6629.200000017881,
+          "label": "방패기사 · 남은 방패 0장",
+          "states": []
+        },
+        {
+          "time": 6733.5999999940395,
+          "label": "방패기사 · 남은 방패 0장",
+          "states": []
+        },
+        {
+          "time": 6866.800000011921,
+          "label": "방패기사 · 남은 방패 0장",
+          "states": []
+        },
+        {
+          "time": 6970.800000011921,
+          "label": "방패기사 · 남은 방패 0장",
+          "states": []
+        },
+        {
+          "time": 7104.200000017881,
+          "label": "방패기사 · 남은 방패 0장",
+          "states": []
+        },
+        {
+          "time": 7208.5,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 7341.700000017881,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "time": 7446,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "time": 7583.5,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "time": 7716.9000000059605,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "time": 7821,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ]
+            }
+          ]
+        },
+        {
+          "time": 7954.200000017881,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 8058.5,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 8192,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "time": 8295.90000000596,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "time": 8396.800000011921,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "time": 8500.700000017881,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "time": 8633.90000000596,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                7,
+                7,
+                7,
+                7,
+                7,
+                7,
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "time": 8738.700000017881,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 8875.90000000596,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 9009.300000011921,
+          "label": "지휘관 · 지휘 종료 시 아군 표식 제거",
+          "states": []
+        },
+        {
+          "time": 9112.800000011921,
+          "label": "지휘관 · 지휘 종료 시 아군 표식 제거",
+          "states": []
+        },
+        {
+          "time": 9246.200000017881,
+          "label": "지휘관 · 지휘 종료 시 아군 표식 제거",
+          "states": []
+        },
+        {
+          "time": 9351,
+          "label": "지휘관 · 지휘 종료 시 아군 표식 제거",
+          "states": []
+        },
+        {
+          "time": 9487.800000011921,
+          "label": "지휘관 · 지휘 종료 시 아군 표식 제거",
+          "states": []
+        }
+      ],
+      "errors": [],
+      "remaining": 0,
+      "bursts": 0,
+      "canvasCount": 1
+    },
+    {
+      "rate": 0.5,
+      "file": "sustained-states-half-speed.webm",
+      "phases": [
+        {
+          "label": "복수자 · 피격 후 충전 유지",
+          "at": 3.4000000059604645,
+          "states": {
+            "battleId": "local-advancement-review",
+            "time": 1.805,
+            "pending": 0,
+            "active": 1,
+            "clock": true,
+            "rows": [
+              {
+                "id": "avenger",
+                "actor": "QA:A:V-996",
+                "revision": 34,
+                "remaining": 3,
+                "sprites": [
+                  {
+                    "actor": "QA:A:V-996",
+                    "frame": 2,
+                    "visible": true,
+                    "x": 380,
+                    "y": 169.7123798076923
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "at": 3203.699999988079,
+          "states": {
+            "battleId": "local-advancement-review",
+            "time": 1.6015,
+            "pending": 0,
+            "active": 0,
+            "clock": false,
+            "rows": []
+          }
+        },
+        {
+          "label": "방패기사 · 남은 방패 3장",
+          "at": 4840.5999999940395,
+          "states": {
+            "battleId": "local-advancement-review",
+            "time": 1.6015,
+            "pending": 0,
+            "active": 1,
+            "clock": true,
+            "rows": [
+              {
+                "id": "shield-knight",
+                "actor": "QA:A:V-996",
+                "revision": 39,
+                "remaining": 3,
+                "sprites": [
+                  {
+                    "actor": "QA:A:V-996",
+                    "frame": 0,
+                    "visible": true,
+                    "x": 320,
+                    "y": 166.90264423076928
+                  },
+                  {
+                    "actor": "QA:A:V-996",
+                    "frame": 0,
+                    "visible": true,
+                    "x": 380,
+                    "y": 148.90264423076928
+                  },
+                  {
+                    "actor": "QA:A:V-996",
+                    "frame": 0,
+                    "visible": true,
+                    "x": 440,
+                    "y": 166.90264423076928
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "label": "방패기사 · 남은 방패 2장",
+          "at": 7477.9000000059605,
+          "states": {
+            "battleId": "local-advancement-review",
+            "time": 1.3185,
+            "pending": 0,
+            "active": 1,
+            "clock": true,
+            "rows": [
+              {
+                "id": "shield-knight",
+                "actor": "QA:A:V-996",
+                "revision": 41,
+                "remaining": 2,
+                "sprites": [
+                  {
+                    "actor": "QA:A:V-996",
+                    "frame": 5,
+                    "visible": true,
+                    "x": 320,
+                    "y": 166.90264423076928
+                  },
+                  {
+                    "actor": "QA:A:V-996",
+                    "frame": 5,
+                    "visible": true,
+                    "x": 380,
+                    "y": 148.90264423076928
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "label": "방패기사 · 남은 방패 1장",
+          "at": 10111.40000000596,
+          "states": {
+            "battleId": "local-advancement-review",
+            "time": 2.6355,
+            "pending": 0,
+            "active": 1,
+            "clock": true,
+            "rows": [
+              {
+                "id": "shield-knight",
+                "actor": "QA:A:V-996",
+                "revision": 44,
+                "remaining": 1,
+                "sprites": [
+                  {
+                    "actor": "QA:A:V-996",
+                    "frame": 2,
+                    "visible": true,
+                    "x": 320,
+                    "y": 166.90264423076928
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "label": "방패기사 · 남은 방패 0장",
+          "at": 12748.90000000596,
+          "states": {
+            "battleId": "local-advancement-review",
+            "time": 3.3855,
+            "pending": 0,
+            "active": 0,
+            "clock": false,
+            "rows": []
+          }
+        },
+        {
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "at": 14249.199999988079,
+          "states": {
+            "battleId": "local-advancement-review",
+            "time": 3.3855,
+            "pending": 0,
+            "active": 1,
+            "clock": true,
+            "rows": [
+              {
+                "id": "commander",
+                "actor": "QA:A:V-996",
+                "revision": 50,
+                "remaining": 3,
+                "sprites": [
+                  {
+                    "actor": "QA:A:V-996",
+                    "frame": 1,
+                    "visible": true,
+                    "x": 380,
+                    "y": 231
+                  },
+                  {
+                    "actor": "A:0:CN-02D9DC1E8A8A4209",
+                    "frame": 1,
+                    "visible": true,
+                    "x": 170.00000000000006,
+                    "y": 231
+                  },
+                  {
+                    "actor": "A:1:CN-0505936A0CBB4E59",
+                    "frame": 1,
+                    "visible": true,
+                    "x": 590,
+                    "y": 231
+                  },
+                  {
+                    "actor": "A:2:CN-25F931CE393D474E",
+                    "frame": 1,
+                    "visible": true,
+                    "x": 170.00000000000006,
+                    "y": 406.99999999999983
+                  },
+                  {
+                    "actor": "A:3:CN-23EB4B19986D4818",
+                    "frame": 1,
+                    "visible": true,
+                    "x": 590,
+                    "y": 406.99999999999983
+                  },
+                  {
+                    "actor": "A:4:CN-519C181C18DF4B8E",
+                    "frame": 1,
+                    "visible": true,
+                    "x": 380,
+                    "y": 582.9999999999998
+                  },
+                  {
+                    "actor": "QA:A:V-979",
+                    "frame": 1,
+                    "visible": true,
+                    "x": 170.00000000000006,
+                    "y": 582.9999999999998
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "label": "지휘관 · 지휘 종료 시 아군 표식 제거",
+          "at": 17849.19999998808,
+          "states": {
+            "battleId": "local-advancement-review",
+            "time": 1.8005,
+            "pending": 0,
+            "active": 0,
+            "clock": false,
+            "rows": []
+          }
+        }
+      ],
+      "samples": [
+        {
+          "time": 1.4000000059604645,
+          "label": "용병 전직 지속 효과",
+          "states": []
+        },
+        {
+          "time": 104.40000000596046,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 208.2999999821186,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 341.09999999403954,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 445.09999999403954,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "time": 582.9000000059605,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "time": 716.1999999880791,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "time": 853.4000000059605,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "time": 953.5,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "time": 1057.4000000059605,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "time": 1157.5,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "time": 1261.699999988079,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                6
+              ]
+            }
+          ]
+        },
+        {
+          "time": 1395.199999988079,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                6
+              ]
+            }
+          ]
+        },
+        {
+          "time": 1499.0999999940395,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "time": 1599.199999988079,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "time": 1699.2999999821186,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 1803.699999988079,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 1936.5999999940395,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 2041,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "time": 2174.2999999821186,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "time": 2278.4000000059605,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "time": 2382.699999988079,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "time": 2516.5,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "time": 2620.4000000059605,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "time": 2753.699999988079,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "time": 2857.7999999821186,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                6
+              ]
+            }
+          ]
+        },
+        {
+          "time": 2991.0999999940395,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                6
+              ]
+            }
+          ]
+        },
+        {
+          "time": 3095.2999999821186,
+          "label": "복수자 · 피격 후 충전 유지",
+          "states": [
+            {
+              "id": "avenger",
+              "visible": 1,
+              "frames": [
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "time": 3228.5,
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "states": []
+        },
+        {
+          "time": 3332.5999999940395,
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "states": []
+        },
+        {
+          "time": 3433.7999999821186,
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "states": []
+        },
+        {
+          "time": 3570.199999988079,
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "states": []
+        },
+        {
+          "time": 3670.4000000059605,
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "states": []
+        },
+        {
+          "time": 3774.5999999940395,
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "states": []
+        },
+        {
+          "time": 3912,
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "states": []
+        },
+        {
+          "time": 4045,
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "states": []
+        },
+        {
+          "time": 4149.299999982119,
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "states": []
+        },
+        {
+          "time": 4282.699999988079,
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "states": []
+        },
+        {
+          "time": 4386.9000000059605,
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "states": []
+        },
+        {
+          "time": 4491.0999999940395,
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "states": []
+        },
+        {
+          "time": 4624.199999988079,
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "states": []
+        },
+        {
+          "time": 4728.5999999940395,
+          "label": "복수자 · 다음 공격에 충전 소모",
+          "states": []
+        },
+        {
+          "time": 4862,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 3,
+              "frames": [
+                0,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 4966.0999999940395,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 3,
+              "frames": [
+                0,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 5099.299999982119,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 3,
+              "frames": [
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 5203.5,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 3,
+              "frames": [
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 5337.0999999940395,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 3,
+              "frames": [
+                2,
+                2,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "time": 5441.199999988079,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 3,
+              "frames": [
+                3,
+                3,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "time": 5545.199999988079,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 3,
+              "frames": [
+                3,
+                3,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "time": 5678.299999982119,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 3,
+              "frames": [
+                4,
+                4,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "time": 5782.4000000059605,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 3,
+              "frames": [
+                4,
+                4,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "time": 5882.5999999940395,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 3,
+              "frames": [
+                5,
+                5,
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "time": 5983.0999999940395,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 3,
+              "frames": [
+                5,
+                5,
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "time": 6086.9000000059605,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 3,
+              "frames": [
+                6,
+                6,
+                6
+              ]
+            }
+          ]
+        },
+        {
+          "time": 6191.199999988079,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 3,
+              "frames": [
+                6,
+                6,
+                6
+              ]
+            }
+          ]
+        },
+        {
+          "time": 6328.5,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 3,
+              "frames": [
+                7,
+                7,
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "time": 6461.5999999940395,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 6566,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 6699.299999982119,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 6803.5,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 6903.699999988079,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                2,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "time": 7007.5999999940395,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                2,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "time": 7107.699999988079,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                3,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "time": 7211.799999982119,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                3,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "time": 7345,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                4,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "time": 7449.299999982119,
+          "label": "방패기사 · 남은 방패 3장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                5,
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "time": 7549.5,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                5,
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "time": 7654.199999988079,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                6,
+                6
+              ]
+            }
+          ]
+        },
+        {
+          "time": 7786.699999988079,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                6,
+                6
+              ]
+            }
+          ]
+        },
+        {
+          "time": 7890.799999982119,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                7,
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "time": 7995.0999999940395,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                7,
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "time": 8095.199999988079,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 8199.40000000596,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 8333.299999982119,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 8436.699999988079,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 8541,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                2,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "time": 8674.199999988079,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                3,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "time": 8778.299999982119,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                3,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "time": 8878.40000000596,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 2,
+              "frames": [
+                4,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "time": 8983,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "time": 9115.90000000596,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "time": 9220.199999988079,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "time": 9353.40000000596,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                6
+              ]
+            }
+          ]
+        },
+        {
+          "time": 9457.5,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "time": 9557.59999999404,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "time": 9661.699999988079,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 9795.59999999404,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 9899.299999982119,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 9999.40000000596,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 10103.40000000596,
+          "label": "방패기사 · 남은 방패 2장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "time": 10238.90000000596,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "time": 10341,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "time": 10478.5,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "time": 10578.59999999404,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "time": 10682.799999982119,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "time": 10816.09999999404,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "time": 10953.5,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                6
+              ]
+            }
+          ]
+        },
+        {
+          "time": 11053.59999999404,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "time": 11157.799999982119,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "time": 11291,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 11395.59999999404,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 11499.59999999404,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": [
+            {
+              "id": "shield-knight",
+              "visible": 1,
+              "frames": [
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 11633.09999999404,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": []
+        },
+        {
+          "time": 11737.09999999404,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": []
+        },
+        {
+          "time": 11870.199999988079,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": []
+        },
+        {
+          "time": 11974.299999982119,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": []
+        },
+        {
+          "time": 12074.799999982119,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": []
+        },
+        {
+          "time": 12178.5,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": []
+        },
+        {
+          "time": 12282.699999988079,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": []
+        },
+        {
+          "time": 12416.09999999404,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": []
+        },
+        {
+          "time": 12520.59999999404,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": []
+        },
+        {
+          "time": 12653.5,
+          "label": "방패기사 · 남은 방패 1장",
+          "states": []
+        },
+        {
+          "time": 12757.90000000596,
+          "label": "방패기사 · 남은 방패 0장",
+          "states": []
+        },
+        {
+          "time": 12895.199999988079,
+          "label": "방패기사 · 남은 방패 0장",
+          "states": []
+        },
+        {
+          "time": 13028.59999999404,
+          "label": "방패기사 · 남은 방패 0장",
+          "states": []
+        },
+        {
+          "time": 13133.09999999404,
+          "label": "방패기사 · 남은 방패 0장",
+          "states": []
+        },
+        {
+          "time": 13270.199999988079,
+          "label": "방패기사 · 남은 방패 0장",
+          "states": []
+        },
+        {
+          "time": 13403.699999988079,
+          "label": "방패기사 · 남은 방패 0장",
+          "states": []
+        },
+        {
+          "time": 13507.699999988079,
+          "label": "방패기사 · 남은 방패 0장",
+          "states": []
+        },
+        {
+          "time": 13641,
+          "label": "방패기사 · 남은 방패 0장",
+          "states": []
+        },
+        {
+          "time": 13745.299999982119,
+          "label": "방패기사 · 남은 방패 0장",
+          "states": []
+        },
+        {
+          "time": 13861.90000000596,
+          "label": "방패기사 · 남은 방패 0장",
+          "states": []
+        },
+        {
+          "time": 13966,
+          "label": "방패기사 · 남은 방패 0장",
+          "states": []
+        },
+        {
+          "time": 14066.09999999404,
+          "label": "방패기사 · 남은 방패 0장",
+          "states": []
+        },
+        {
+          "time": 14199.40000000596,
+          "label": "방패기사 · 남은 방패 0장",
+          "states": []
+        },
+        {
+          "time": 14303.5,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 14441,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 14574.5,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 14678.699999988079,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "time": 14816.09999999404,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "time": 14949.5,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "time": 15049.699999988079,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "time": 15153.90000000596,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "time": 15292.299999982119,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "time": 15424.5,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "time": 15528.799999982119,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ]
+            }
+          ]
+        },
+        {
+          "time": 15661.90000000596,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                7,
+                7,
+                7,
+                7,
+                7,
+                7,
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "time": 15799.59999999404,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                7,
+                7,
+                7,
+                7,
+                7,
+                7,
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "time": 15936.90000000596,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 16070.40000000596,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 16174.299999982119,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 16274.5,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "time": 16378.59999999404,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "time": 16512.29999998212,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "time": 16616.09999999404,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "time": 16749.5,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "time": 16853.79999998212,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "time": 16991.59999999404,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "time": 17124.69999998808,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ]
+            }
+          ]
+        },
+        {
+          "time": 17228.69999998808,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ]
+            }
+          ]
+        },
+        {
+          "time": 17362.40000000596,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                7,
+                7,
+                7,
+                7,
+                7,
+                7,
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "time": 17466.19999998808,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 17566.29999998212,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "time": 17670.19999998808,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 17770.5,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "states": [
+            {
+              "id": "commander",
+              "visible": 7,
+              "frames": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "time": 17874.59999999404,
+          "label": "지휘관 · 지휘 종료 시 아군 표식 제거",
+          "states": []
+        },
+        {
+          "time": 18012.59999999404,
+          "label": "지휘관 · 지휘 종료 시 아군 표식 제거",
+          "states": []
+        },
+        {
+          "time": 18145.29999998212,
+          "label": "지휘관 · 지휘 종료 시 아군 표식 제거",
+          "states": []
+        },
+        {
+          "time": 18249.59999999404,
+          "label": "지휘관 · 지휘 종료 시 아군 표식 제거",
+          "states": []
+        },
+        {
+          "time": 18382.90000000596,
+          "label": "지휘관 · 지휘 종료 시 아군 표식 제거",
+          "states": []
+        },
+        {
+          "time": 18487.40000000596,
+          "label": "지휘관 · 지휘 종료 시 아군 표식 제거",
+          "states": []
+        },
+        {
+          "time": 18588.29999998212,
+          "label": "지휘관 · 지휘 종료 시 아군 표식 제거",
+          "states": []
+        },
+        {
+          "time": 18691.69999998808,
+          "label": "지휘관 · 지휘 종료 시 아군 표식 제거",
+          "states": []
+        },
+        {
+          "time": 18825,
+          "label": "지휘관 · 지휘 종료 시 아군 표식 제거",
+          "states": []
+        },
+        {
+          "time": 18928.79999998212,
+          "label": "지휘관 · 지휘 종료 시 아군 표식 제거",
+          "states": []
+        },
+        {
+          "time": 19029,
+          "label": "지휘관 · 지휘 종료 시 아군 표식 제거",
+          "states": []
+        }
+      ],
+      "errors": [],
+      "remaining": 0,
+      "bursts": 0,
+      "canvasCount": 1
+    }
+  ]
+}

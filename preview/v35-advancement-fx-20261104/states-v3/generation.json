@@ -1,0 +1,59 @@
+[
+  {
+    "id": "avenger-charge",
+    "prompt": "Use case: stylized-concept. Asset type: finished transparent hand-painted 2D action RPG combat VFX animation sheet for an existing Korean mercenary game. Exactly EIGHT sequential animation frames in a 4-column by 2-row regular grid, landscape canvas ratio 2:1; eight equal square cells. True transparent alpha everywhere outside the effect, including internal holes. No background, floor, characters, text, numbers, guides, labels, borders, watermark, HUD or icons. Every cell must keep the complete effect with at least 16% fully transparent safety margin on ALL sides, fixed registration pivot in the cell center and consistent object scale. Professional painterly game-skill artwork, dimensional thick material body, crisp ivory highlights, deep saturated cores, layered sparks and ragged flame detail; no simple neon line, geometric ring, flat emblem or static icon. Eight DIFFERENT organically evolving drawings constitute a seamless sustained loop; last frame naturally leads back to first, no disappearance, no explosive one-shot. Art fills around 60-65% of each cell. Subject: an avenger's charged retaliation held around the lower chest, a compact hovering blood-red claw-shaped burning wound. Two crescent-like jagged streaks of molten crimson coil toward one dense dark garnet core, leaving the center visibly open enough for the character silhouette. Ink-black smoke curls, bright red hot cracks, scarlet embers spiral upward then re-form. Eight loop phases: curled tendrils gather, stretch, twist inward, core brightens, split upward, curl outward, fold inward, rejoin initial curl. Tight controlled menace, a stored strike with turbulent internal movement, never a circular seal. Same visual language as a lavish painted action-RPG mercenary attack.",
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a1a64a-9989-7243-8a0f-cc4ea84ac706\\exec-7de29776-8382-41f3-9eb7-0987571d491e.png",
+    "output": "art/avenger-charge-v1.png",
+    "status": "CANDIDATE",
+    "sha256": "bbd298afb823675f6975a5cacd58143a1fca87fc93f0a2b8a21309d4ff4532cd",
+    "width": 1774,
+    "height": 887,
+    "hasAlpha": true
+  },
+  {
+    "id": "knight-ward",
+    "prompt": "Use case: stylized-concept. Asset type: finished transparent hand-painted 2D action RPG combat VFX animation sheet for an existing Korean mercenary game. Exactly EIGHT sequential animation frames in a 4-column by 2-row regular grid, landscape canvas ratio 2:1; eight equal square cells. True transparent alpha everywhere outside the effect, including internal holes. No background, floor, characters, text, numbers, guides, labels, borders, watermark, HUD or icons. Every cell must keep the complete effect with at least 16% fully transparent safety margin on ALL sides, fixed registration pivot in the cell center and consistent object scale. Professional painterly game-skill artwork, dimensional thick material body, crisp ivory highlights, deep saturated cores, layered sparks and ragged flame detail; no simple neon line, geometric ring, flat emblem or static icon. Eight DIFFERENT organically evolving drawings constitute a seamless sustained loop; last frame naturally leads back to first, no disappearance, no explosive one-shot. Art fills around 60-65% of each cell. Subject: one compact three-quarter-view thick silver knight's floating kite shield fragment, a tangible sculpted protective plate surrounded by cold blue energy. A faceted silver steel central ridge, dark cobalt inner facets, bright ivory rim, and two short windswept blue spectral side wings. Precisely one shield in each frame, full shape always intact; it will be instanced three times to show remaining protection. Eight loop phases show icy flame wisps flowing around the edges and glints traveling across the face with a subtle dimensional rocking motion. A defensive combat effect with painterly dimensional detail, not a UI shield icon, no letters or heraldic pictogram. Maintain the exact same shield design and overall size in all eight frames.",
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a1a64a-9989-7243-8a0f-cc4ea84ac706\\exec-1664cad1-5b86-479c-82ec-4bcbcb28a6c8.png",
+    "output": "art/knight-ward-v1.png",
+    "status": "REJECTED",
+    "sha256": "692e6c5529d41f6e07bb2f6bedd9dbe39b8352fefacc26d5e37725b8b87a1b0c",
+    "width": 1774,
+    "height": 887,
+    "hasAlpha": true,
+    "reason": "Expanded soft glow leaves inadequate cell isolation; preserve original, use corrected v2."
+  },
+  {
+    "id": "commander-mark",
+    "prompt": "Use case: stylized-concept. Asset type: finished transparent hand-painted 2D action RPG combat VFX animation sheet for an existing Korean mercenary game. Exactly EIGHT sequential animation frames in a 4-column by 2-row regular grid, landscape canvas ratio 2:1; eight equal square cells. True transparent alpha everywhere outside the effect, including internal holes. No background, floor, characters, text, numbers, guides, labels, borders, watermark, HUD or icons. Every cell must keep the complete effect with at least 16% fully transparent safety margin on ALL sides, fixed registration pivot in the cell center and consistent object scale. Professional painterly game-skill artwork, dimensional thick material body, crisp ivory highlights, deep saturated cores, layered sparks and ragged flame detail; no simple neon line, geometric ring, flat emblem or static icon. Eight DIFFERENT organically evolving drawings constitute a seamless sustained loop; last frame naturally leads back to first, no disappearance, no explosive one-shot. Art fills around 60-65% of each cell. Subject: a sustained commander blessing hovering at the feet of each ally: two low outward-flowing golden ribbon-flames sweep into an open laurel-like fan, with three short luminous spear-shaped tufts rising behind, amber sparks drifting upward. Viewed from the front with slight downward view so it sits at a combat character's feet. Wide low silhouette, center transparent and unobstructed, grounded sense without drawing a floor. Thick silky gold and amber ribbons with dark orange folds and narrow ivory edge highlights. Eight seamless looping phases show folds traveling from center outward, golden strands separating into sparks and rejoining inward. Graceful disciplined martial authority, compact and readable behind a character, no actual crown, no flags, no runes, no circular magic ring, no flat emblem.",
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a1a64a-9989-7243-8a0f-cc4ea84ac706\\exec-f59cfbfe-73ed-4b27-be3a-4f07c0995892.png",
+    "output": "art/commander-mark-v1.png",
+    "status": "REJECTED",
+    "sha256": "5ab636bee4bb8f5b1ac9b3d6fd6dffb8ced36ba7c3e325d2466ed52ffcb47e41",
+    "width": 1774,
+    "height": 887,
+    "hasAlpha": true,
+    "reason": "Expanded soft glow leaves inadequate cell isolation; preserve original, use corrected v2."
+  },
+  {
+    "id": "knight-ward",
+    "prompt": "Edit this hand-painted VFX sprite sheet. Keep exactly eight sequential animation frames, 4 columns by 2 rows, landscape 2:1, same artwork identity, materials, colors and all eight distinct loop phases. Critical correction: every individual effect INCLUDING ALL its soft glow and particles must be reduced to occupy only the central 48% of its own square cell, with a completely empty, absolutely transparent border of at least 24% of that cell width on every side. No glow may extend into this safety border. Separate every cell with very wide clear transparent gutters. Repaint/complete any clipped glowing edges inside the small isolated effect, preserve the shield/golden ribbons identity. Consistent cell-center pivot and consistent scale across eight frames. Actual transparent background, no numbers or grid lines, no new elements, no backplate. Clean tight-alpha edges, no sprawling fog or rectangular glow.",
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a1a64a-9989-7243-8a0f-cc4ea84ac706\\exec-8cbe5642-45d4-4a9e-a5f3-a2db4826f500.png",
+    "output": "art/knight-ward-v2.png",
+    "status": "CANDIDATE",
+    "sha256": "6555573fc14151e6391bb0886000ee33291a226eee8b702d48a341b3df0b65cc",
+    "width": 1774,
+    "height": 887,
+    "hasAlpha": true
+  },
+  {
+    "id": "commander-mark",
+    "prompt": "Edit this hand-painted VFX sprite sheet. Keep exactly eight sequential animation frames, 4 columns by 2 rows, landscape 2:1, same artwork identity, materials, colors and all eight distinct loop phases. Critical correction: every individual effect INCLUDING ALL its soft glow and particles must be reduced to occupy only the central 48% of its own square cell, with a completely empty, absolutely transparent border of at least 24% of that cell width on every side. No glow may extend into this safety border. Separate every cell with very wide clear transparent gutters. Repaint/complete any clipped glowing edges inside the small isolated effect, preserve the shield/golden ribbons identity. Consistent cell-center pivot and consistent scale across eight frames. Actual transparent background, no numbers or grid lines, no new elements, no backplate. Clean tight-alpha edges, no sprawling fog or rectangular glow.",
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a1a64a-9989-7243-8a0f-cc4ea84ac706\\exec-9d44e91a-4028-4e3b-80f8-062206ad77bc.png",
+    "output": "art/commander-mark-v2.png",
+    "status": "CANDIDATE",
+    "sha256": "92988425a3369d123548c1346aa66feab0412c9e2eb2ca03c9fcabeef0d8d12a",
+    "width": 1774,
+    "height": 887,
+    "hasAlpha": true
+  }
+]

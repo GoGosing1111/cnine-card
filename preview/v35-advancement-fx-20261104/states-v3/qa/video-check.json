@@ -1,0 +1,111 @@
+{
+  "method": "Actual WebM decoding and seeked frame capture; sampled visual review, not full human playback",
+  "reports": [
+    {
+      "file": "sustained-states-normal.webm",
+      "width": 1280,
+      "height": 833,
+      "ready": 4,
+      "frames": [
+        {
+          "index": 0,
+          "time": 0.25209999999403954,
+          "label": "복수자 · 피격 후 충전 유지",
+          "file": "sustained-states-normal-phase-0.png"
+        },
+        {
+          "index": 2,
+          "time": 2.6749000000059606,
+          "label": "방패기사 · 남은 방패 3장",
+          "file": "sustained-states-normal-phase-2.png"
+        },
+        {
+          "index": 3,
+          "time": 3.9995,
+          "label": "방패기사 · 남은 방패 2장",
+          "file": "sustained-states-normal-phase-3.png"
+        },
+        {
+          "index": 4,
+          "time": 5.31640000000596,
+          "label": "방패기사 · 남은 방패 1장",
+          "file": "sustained-states-normal-phase-4.png"
+        },
+        {
+          "index": 5,
+          "time": 6.632900000005961,
+          "label": "방패기사 · 남은 방패 0장",
+          "file": "sustained-states-normal-phase-5.png"
+        },
+        {
+          "index": 6,
+          "time": 7.383,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "file": "sustained-states-normal-phase-6.png"
+        },
+        {
+          "index": 7,
+          "time": 9.188800000011922,
+          "label": "지휘관 · 지휘 종료 시 아군 표식 제거",
+          "file": "sustained-states-normal-phase-7.png"
+        }
+      ],
+      "endedWithoutResidue": true,
+      "singleCanvas": true,
+      "noErrors": true
+    },
+    {
+      "file": "sustained-states-half-speed.webm",
+      "width": 1280,
+      "height": 833,
+      "ready": 4,
+      "frames": [
+        {
+          "index": 0,
+          "time": 0.5034000000059604,
+          "label": "복수자 · 피격 후 충전 유지",
+          "file": "sustained-states-half-speed-phase-0.png"
+        },
+        {
+          "index": 2,
+          "time": 5.34059999999404,
+          "label": "방패기사 · 남은 방패 3장",
+          "file": "sustained-states-half-speed-phase-2.png"
+        },
+        {
+          "index": 3,
+          "time": 7.977900000005961,
+          "label": "방패기사 · 남은 방패 2장",
+          "file": "sustained-states-half-speed-phase-3.png"
+        },
+        {
+          "index": 4,
+          "time": 10.611400000005961,
+          "label": "방패기사 · 남은 방패 1장",
+          "file": "sustained-states-half-speed-phase-4.png"
+        },
+        {
+          "index": 5,
+          "time": 13.24890000000596,
+          "label": "방패기사 · 남은 방패 0장",
+          "file": "sustained-states-half-speed-phase-5.png"
+        },
+        {
+          "index": 6,
+          "time": 14.749199999988079,
+          "label": "지휘관 · 아군 전체 강화 유지",
+          "file": "sustained-states-half-speed-phase-6.png"
+        },
+        {
+          "index": 7,
+          "time": 18.34919999998808,
+          "label": "지휘관 · 지휘 종료 시 아군 표식 제거",
+          "file": "sustained-states-half-speed-phase-7.png"
+        }
+      ],
+      "endedWithoutResidue": true,
+      "singleCanvas": true,
+      "noErrors": true
+    }
+  ]
+}

@@ -1067,6 +1067,10 @@
     "preview/v35-advancement-fx-20261104/catalog.mjs",
     "preview/v35-advancement-fx-20261104/painted-v2/catalog.mjs",
     "preview/v35-advancement-fx-20261104/AdvancementEffects.mjs",
+    "preview/v35-advancement-fx-20261104/AdvancementStateEffects.mjs",
+    "preview/v35-advancement-fx-20261104/ui/model.mjs",
+    "preview/v35-advancement-fx-20261104/ui/AdvancementWindow.mjs",
+    "preview/v35-advancement-fx-20261104/ui/fixture-adapter.mjs",
     "preview/v35-advancement-fx-20261104/workbench.src.mjs"
   ],
   "productionSourceModified": false

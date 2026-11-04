@@ -1,0 +1,134 @@
+[
+  {
+    "id": "avenger-charge",
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/avenger-charge.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/avenger-charge.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/avenger-charge-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/avenger-charge.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/avenger-charge-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/avenger-charge.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/avenger-charge-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/avenger-charge-roundtrip.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/avenger-charge-roundtrip.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "74a66bc61f087eb71c2c1c5fd343a37242d894a7710d81be791da9084bdf28d5"
+  },
+  {
+    "id": "knight-ward",
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/knight-ward.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/knight-ward.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/knight-ward-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/knight-ward.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/knight-ward-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/knight-ward.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/knight-ward-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/knight-ward-roundtrip.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/knight-ward-roundtrip.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "c7c43699a71dcb248c8f115e84470ccb29f6a74405adaf6ac3edc16d094fa043"
+  },
+  {
+    "id": "commander-mark",
+    "save": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/commander-mark.efkproj",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/commander-mark.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/commander-mark-import.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "reopen": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/commander-mark.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/commander-mark-verified.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/commander-mark.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "again": {
+      "args": [
+        "-cui",
+        "-in",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/commander-mark-verified.efkefc",
+        "-o",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/commander-mark-roundtrip.efkefc",
+        "-e",
+        "C:\\Users\\User\\Downloads\\upload\\cnine-card\\preview\\v35-advancement-fx-20261104\\states-v3\\native/commander-mark-roundtrip.efk"
+      ],
+      "code": 0,
+      "log": "System.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\nSystem.ArgumentNullException: ���� null�� �� �����ϴ�.\r\n�Ű� ���� �̸�: path\r\n   ��ġ: System.IO.File.AppendAllText(String path, String contents)\r\n   ��ġ: Effekseer.Utils.Logger.Write(String log)\r\n"
+    },
+    "roundTripBinaryEqual": true,
+    "sha256": "90801618c7edb8c9bfc5d69f2893e829ee496322197541bdf37cc2298b353d16"
+  }
+]

@@ -29,6 +29,8 @@ async function trimCache(all=false){
  }
 }
 function release(items){for(const c of items)c.refs--;return trimCache();}
+// Shared ownership for the separately authored sustained-state clips.
+export {acquire as acquireEffectAtlas,release as releaseEffectAtlases,trimCache as trimEffectCache};
 
 export class AdvancementEffects{
  static async create(engine,{base='/preview/v35-advancement-fx-20261104/painted-v2/runtime/'}={}){

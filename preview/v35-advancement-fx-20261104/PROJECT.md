@@ -1,12 +1,25 @@
-# 용병 전직 16종 전용 이펙트 · 연속 작화 제작본
+# 용병 전직 16종 효과 · 지속 상태 · 전직창 준비본
 
-2026-11-05. 현재 정본은 **painted-v2/**다. 사용자 “용병 스킬 만들듯이 이펙트 만들어라”에 따라 기존 용병 `skills-v4`와 같은 **ImageGen 연속 작화 → Effekseer 편집본 → 공식 WebGL 오프라인 출력 → 현재 V3 Pixi/GSAP 합성**으로 다시 제작했다.
+2026-11-05. 주 발동 효과 정본은 **painted-v2/**, 추가 지속 상태는 **states-v3/**, 전직창은 **ui/**다. 사용자 “용병 스킬 만들듯이 이펙트 만들어라”에 따라 기존 용병 `skills-v4`와 같은 **ImageGen 연속 작화 → Effekseer 편집본 → 공식 WebGL 오프라인 출력 → 현재 V3 Pixi/GSAP 합성**으로 제작했다. 최신 지시 **“나머지 용병 효과 전직창 UI 같이 준비해 라이브 반영은 아직”**에 따라 운영 반영 없이 준비했다.
 
 최초의 선·문양 중심 시안은 **사용자 반려**다. [REJECTION.json](REJECTION.json)에 남겼으며 루트의 native/frames/runtime는 게임용 정본이 아니다. 새 재생기는 painted-v2/runtime만 로드한다. 기존 원화/프롬프트/반려 기록은 삭제하지 않았다.
 
 검수 전장: **http://127.0.0.1:18804/**. 현재 V3 배경·진형·HUD·카드 도크·발테르/족로를 그대로 사용한다. 기본 선택·재생·배속·중단·구간 컨트롤만 제공한다. 별도 장식 프리뷰나 캐릭터/전장을 만들지 않았다.
 
-## 이번 산출물
+## 2026-11-05 추가 준비 · 지속 효과와 전직창
+
+- [복수자 충전·방패 잔여·지휘관 표식](AdvancementStateEffects.mjs): 내장 ImageGen **5회 중3시트 채택, 24장 고유 연속 작화**. 방패/지휘관의 빛 번짐 여백을 수정한 두 번째 시트를 사용하며 최초본도 보존했다. [원본·정확한 프롬프트·해시](states-v3/generation.json), [기본 프롬프트](states-v3/prompts.json), [수정 프롬프트](states-v3/corrections.json).
+- Effekseer1.70e **네이티브3종 저장/재열기/재내보내기 일치**, 81 PNG 출력. 오프라인 출력의 반복 홀드를 정리해 **각8장·0.8초 루프**, 3 atlas **1.49MiB / 디코딩6.05MiB**. 가짜 보간이나 정지 그림 확대 애니메이션은 사용하지 않았다. 방패 한 장의 연속 작화를 잔여 횟수만큼 배치한다.
+- 기존 단일 Pixi/GSAP 전투 시계를 재사용한다. 서버 또는 검수 이벤트가 명시한 `battleId`/`revision`/충전/잔여 횟수/활성 상태만 표시한다. 복수자 소모 시 제거, 방패3→2→1→0, 지휘 종료·사망 시 아군 표식 제거, 중복 지휘관 표식 겹침 방지. 효과 OFF/ON·정지·배속·역방향 탐색·로드 중 취소·전장 이탈·공유 텍스처 생존 검수. 피해/버프/잔여 횟수를 연출에서 계산하지 않는다.
+- [전직창 모듈](ui/AdvancementWindow.mjs): 승인된 공용 `panel-v3.webp`와 `action-user-approved.webp`, 기존 발테르 등 원화와 16종 주 효과 작화를 사용. 용병 선택·16종/공격/생존/지원 필터·현재 전직·효과 설명·전투 이펙트 보기·자격 표시·비용/보유/부족량·확인·완료·오류·동일 요청 결과 확인 화면을 준비했다.
+- **SS/SSS·리미티드 포함·용병16레벨 이상**, 최초/변경 각각 **10조+마스터의 별5,000만**, 확률 없이 즉시, 같은 전직 재선택 차감 금지. 금액은 문자열/BigInt로 처리한다. [로컬 메모리 전용 어댑터](ui/fixture-adapter.mjs)는 실제 계정·API·저장소에 접근하지 않는다. [도감 진입 연결 모듈](ui/entry.mjs)은 **기본 OFF**이며 운영 도감에는 import하지 않았다.
+- 사용자 첨부 **“겹치는거 올려라 텍스트”** 반영: 전직 카드의 이름/분류를 별도 grid 행으로 배치하고 분류 아래 여백을 확보했다. **PC1440·모바일390·320 모두 이름/분류 겹침0·하단 테두리 여백10px 이상** 검사. 모바일은 전직 선택 시 상세 설명이 보이도록 스크롤한다.
+- 검증: **UI140개**, **지속 상태95개**, **기존16종 회귀284개**, **자격/정확 금액/첫 비용/변경/원복/중복/응답 유실/기본 OFF 등8개 모델 검사** 통과. UI/상태 검사는 로컬 Chromium이며 실기기 성능이나 서버 거래 검수가 아니다. 전직 UI에서 네트워크 변경 요청0.
+- [PC 전직창](ui/qa/pc-selection.png), [모바일 전직창](ui/qa/mobile-selection.png), [모바일 선택 설명](ui/qa/mobile-selected-detail.png), [확인](ui/qa/pc-confirm.png), [완료](ui/qa/pc-success.png), [부족](ui/qa/mobile-insufficient.png), [응답 유실 복구](ui/qa/pc-recovery.png).
+- [지속 효과 정상 속도 영상](states-v3/qa/sustained-states-normal.webm), [0.5배속 영상](states-v3/qa/sustained-states-half-speed.webm). 실제 WebM 디코딩·14개 시점 추출, 종료 잔여 효과0/오류0/전투 canvas1. 원화·PC/모바일 정지 화면·영상에서 추출한 주요 상태를 시각 확인했으며, 연속 영상 전체의 사람 시청이나 최종 사용자 시각 승인을 주장하지 않는다.
+- 추가 확인 경로: **http://127.0.0.1:18804/?ui=1**. 기존 전장 검수 컨트롤에 전직창/지속 효과 선택만 추가했고 별도 전장이나 장식 프리뷰는 만들지 않았다.
+
+## 기존 16종 주 효과 산출물
 
 - **16종 × 8장 = 128장 고유 작화**, 내장 ImageGen 18회 중 16개 시트 채택. 파괴자 최초 시트의 가장자리 5픽셀과 두 번째 시트의 재질 변화를 반려하고 세 번째를 채택했다. [원본·해시](painted-v2/generation.json), [정확한 기본 프롬프트](painted-v2/prompts.json).
 - 네이티브 **.efkefc 16개**, 편집용 XML·상대 경로 Texture·작성 스크립트. 저장/재열기/재내보내기 16종 모두 바이너리 일치. [native 검증](painted-v2/qa/native.json).
@@ -50,7 +63,7 @@ V3 source ref는 [v3-source-ref.txt](v3-source-ref.txt)의 `f19256b96e823d132bd0
 
 ## 현재 범위
 
-**이펙트 리소스와 로컬 V3 재생 제작본**이다. 사용자 최종 시각 승인·DNF급 품질 달성·전직 서버 이벤트 등록·운영 배포·실기기 검수는 아직 없다. 자동 발동은 서버 규칙 구현 단계에서 연결한다. 복수자 충전 지속 상태, 방패 3/2/1잔여 표시, 지휘관 상시 아군 표식도 해당 상태 연동 단계에 남아 있다. 이번 16종의 주 발동 작화에 이전 반려 문양을 섞지 않는다.
+**이펙트 리소스·로컬 V3 상태 재생·전직창 UI 준비본**이다. 복수자 충전 지속 상태, 방패3/2/1잔여 표시, 지휘관 상시 아군 표식을 이번에 추가했다. 사용자 최종 시각 승인·DNF급 품질 달성·전직 서버 규칙/경제 거래/API 등록·운영 배포·실기기 검수는 아직 없다. 운영 어댑터와 실제 서버 이벤트 발행은 후속 출시 구현 범위이며 현재는 로컬 검수 이벤트를 사용한다. [연동 계약](integration-contract.json)에 남겼다. 이전 반려 문양은 사용하지 않는다.
 
 기존 전직 기획의 **SS급 이상·용병16레벨 이상·첫 전직과 변경 각각 코인10조+마스터의 별5,000만·확률 없이 즉시**는 유지한다. 이번 이펙트 작업으로 그 비용 소모나 전직 기능이 출시된 것은 아니다. 계정/운영DB/공지발송/예약/유지관리 작업은 실행하지 않았다.
 
@@ -67,6 +80,22 @@ node preview/v35-advancement-fx-20261104/serve.mjs
 node preview/v35-advancement-fx-20261104/painted-v2/qa/verify.mjs
 node preview/v35-advancement-fx-20261104/painted-v2/qa/record.mjs
 node preview/v35-advancement-fx-20261104/painted-v2/qa/final.mjs
+```
+
+추가 상태/UI의 재현 명령은 다음과 같다. `generation.json`의 원본 경로는 제작 당시 환경이며 모든 채택 원본은 저장소 `states-v3/art/`에도 보존했다. 원본을 재생성할 필요 없이 native/frames/runtime을 그대로 사용할 수 있다.
+
+```powershell
+node preview/v35-advancement-fx-20261104/states-v3/author.mjs
+node preview/v35-advancement-fx-20261104/bake.mjs preview/v35-advancement-fx-20261104/states-v3
+node preview/v35-advancement-fx-20261104/pack.mjs preview/v35-advancement-fx-20261104/states-v3
+node preview/v35-advancement-fx-20261104/states-v3/finalize-loops.mjs
+node preview/v35-advancement-fx-20261104/build.mjs
+node --test preview/v35-advancement-fx-20261104/ui/qa/model.test.mjs
+node preview/v35-advancement-fx-20261104/ui/qa/verify.mjs
+node preview/v35-advancement-fx-20261104/states-v3/qa/verify.mjs
+node preview/v35-advancement-fx-20261104/ui/qa/burst-regression.mjs
+node preview/v35-advancement-fx-20261104/states-v3/qa/record.mjs
+node preview/v35-advancement-fx-20261104/states-v3/qa/video-check.mjs
 ```
 
 사용자가 native/art를 직접 수정하면 기존 파일을 덮어쓰지 않고 다음 버전으로 진행한다. 원본은 [generation.json](painted-v2/generation.json)에 기록한 내장 ImageGen 산출물이며 제3자 게임/샘플 작화를 사용하지 않았다. Effekseer는 실제 오프라인 출력에 사용했고, 이번 범위에서 Blender·Spine 새 모션 제작이나 편집기 화면 조작은 하지 않았다.

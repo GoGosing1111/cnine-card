@@ -1,0 +1,52 @@
+{
+  "clips": [
+    {
+      "id": "avenger-charge",
+      "bounds": [
+        64,
+        64,
+        447,
+        447
+      ],
+      "clipped": false,
+      "frames": 25,
+      "uniqueFrames": 8,
+      "transparentFinal": true,
+      "firstVisible": 0,
+      "lastVisible": 24
+    },
+    {
+      "id": "knight-ward",
+      "bounds": [
+        64,
+        64,
+        447,
+        447
+      ],
+      "clipped": false,
+      "frames": 25,
+      "uniqueFrames": 8,
+      "transparentFinal": true,
+      "firstVisible": 0,
+      "lastVisible": 24
+    },
+    {
+      "id": "commander-mark",
+      "bounds": [
+        64,
+        64,
+        447,
+        447
+      ],
+      "clipped": false,
+      "frames": 25,
+      "uniqueFrames": 8,
+      "transparentFinal": true,
+      "firstVisible": 0,
+      "lastVisible": 24
+    }
+  ],
+  "decodedMiB": 6.046966552734375,
+  "encodedBytes": 1558166,
+  "maxAtlasEdge": 1028
+}

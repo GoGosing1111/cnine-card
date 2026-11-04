@@ -1,0 +1,278 @@
+{
+  "schema": 2,
+  "id": "mercenary-advancement-states-v3",
+  "sourceDate": "2026-11-05",
+  "phase": "LOCAL_REVIEW_NOT_VISUALLY_APPROVED",
+  "alpha": "straight PNG; Pixi premultiplies on upload",
+  "effects": {
+    "avenger-charge": {
+      "tool": "Effekseer 1.70e",
+      "source": "native/avenger-charge.efkefc",
+      "sourceSha256": "b4da62493e6920c6f88b9f4f9f56afe8cd809aded1f95af3d62ada690629e029",
+      "atlas": "avenger-charge.png",
+      "atlasSize": [
+        1028,
+        514
+      ],
+      "sha256": "3fa513014a8353ca19268af9f61011639f39b9064c9ffde1197ebf26eecfb66f",
+      "bytes": 714888,
+      "decodedBytes": 2113568,
+      "frames": [
+        {
+          "x": 2,
+          "y": 2,
+          "w": 253,
+          "h": 253
+        },
+        {
+          "x": 259,
+          "y": 2,
+          "w": 253,
+          "h": 253
+        },
+        {
+          "x": 516,
+          "y": 2,
+          "w": 253,
+          "h": 253
+        },
+        {
+          "x": 773,
+          "y": 2,
+          "w": 253,
+          "h": 253
+        },
+        {
+          "x": 2,
+          "y": 259,
+          "w": 253,
+          "h": 253
+        },
+        {
+          "x": 259,
+          "y": 259,
+          "w": 253,
+          "h": 253
+        },
+        {
+          "x": 516,
+          "y": 259,
+          "w": 253,
+          "h": 253
+        },
+        {
+          "x": 773,
+          "y": 259,
+          "w": 253,
+          "h": 253
+        }
+      ],
+      "uniquePackedFrames": 8,
+      "fps": 10,
+      "pivot": [
+        126.5,
+        126.5
+      ],
+      "rasterScale": [
+        0.6520618556701031,
+        0.6520618556701031
+      ],
+      "crop": {
+        "left": 62,
+        "top": 62,
+        "width": 388,
+        "height": 388
+      },
+      "sourceSize": [
+        512,
+        512
+      ],
+      "sourceStartFrame": 0,
+      "trimmedEmptyPreroll": 0,
+      "duration": 0.8,
+      "blend": "normal",
+      "loop": true,
+      "loopSource": "Eight sequential native-baked drawings; no synthesized in-betweens"
+    },
+    "knight-ward": {
+      "tool": "Effekseer 1.70e",
+      "source": "native/knight-ward.efkefc",
+      "sourceSha256": "0ed9427efd13ffdfbf7123d4a99948a8a048a59891d1871ab448f7c84f07925f",
+      "atlas": "knight-ward.png",
+      "atlasSize": [
+        1028,
+        514
+      ],
+      "sha256": "4d6d763723b7ebf0adebd4ccd72ddee89bc03381ca5f07fa42d8a7e1a6a97d21",
+      "bytes": 410316,
+      "decodedBytes": 2113568,
+      "frames": [
+        {
+          "x": 2,
+          "y": 2,
+          "w": 253,
+          "h": 253
+        },
+        {
+          "x": 259,
+          "y": 2,
+          "w": 253,
+          "h": 253
+        },
+        {
+          "x": 516,
+          "y": 2,
+          "w": 253,
+          "h": 253
+        },
+        {
+          "x": 773,
+          "y": 2,
+          "w": 253,
+          "h": 253
+        },
+        {
+          "x": 2,
+          "y": 259,
+          "w": 253,
+          "h": 253
+        },
+        {
+          "x": 259,
+          "y": 259,
+          "w": 253,
+          "h": 253
+        },
+        {
+          "x": 516,
+          "y": 259,
+          "w": 253,
+          "h": 253
+        },
+        {
+          "x": 773,
+          "y": 259,
+          "w": 253,
+          "h": 253
+        }
+      ],
+      "uniquePackedFrames": 8,
+      "fps": 10,
+      "pivot": [
+        126.5,
+        126.5
+      ],
+      "rasterScale": [
+        0.6520618556701031,
+        0.6520618556701031
+      ],
+      "crop": {
+        "left": 62,
+        "top": 62,
+        "width": 388,
+        "height": 388
+      },
+      "sourceSize": [
+        512,
+        512
+      ],
+      "sourceStartFrame": 0,
+      "trimmedEmptyPreroll": 0,
+      "duration": 0.8,
+      "blend": "normal",
+      "loop": true,
+      "loopSource": "Eight sequential native-baked drawings; no synthesized in-betweens"
+    },
+    "commander-mark": {
+      "tool": "Effekseer 1.70e",
+      "source": "native/commander-mark.efkefc",
+      "sourceSha256": "603cf972a923ba9e35c6a18c5eaeefe4bc868060e3e07a045f8693e37b8900e3",
+      "atlas": "commander-mark.png",
+      "atlasSize": [
+        1028,
+        514
+      ],
+      "sha256": "e62bc02dc4aeb4b108cd89253cf8bafde4eeeabc4638d3dc08621527bf05fb14",
+      "bytes": 432962,
+      "decodedBytes": 2113568,
+      "frames": [
+        {
+          "x": 2,
+          "y": 2,
+          "w": 253,
+          "h": 253
+        },
+        {
+          "x": 259,
+          "y": 2,
+          "w": 253,
+          "h": 253
+        },
+        {
+          "x": 516,
+          "y": 2,
+          "w": 253,
+          "h": 253
+        },
+        {
+          "x": 773,
+          "y": 2,
+          "w": 253,
+          "h": 253
+        },
+        {
+          "x": 2,
+          "y": 259,
+          "w": 253,
+          "h": 253
+        },
+        {
+          "x": 259,
+          "y": 259,
+          "w": 253,
+          "h": 253
+        },
+        {
+          "x": 516,
+          "y": 259,
+          "w": 253,
+          "h": 253
+        },
+        {
+          "x": 773,
+          "y": 259,
+          "w": 253,
+          "h": 253
+        }
+      ],
+      "uniquePackedFrames": 8,
+      "fps": 10,
+      "pivot": [
+        126.5,
+        126.5
+      ],
+      "rasterScale": [
+        0.6520618556701031,
+        0.6520618556701031
+      ],
+      "crop": {
+        "left": 62,
+        "top": 62,
+        "width": 388,
+        "height": 388
+      },
+      "sourceSize": [
+        512,
+        512
+      ],
+      "sourceStartFrame": 0,
+      "trimmedEmptyPreroll": 0,
+      "duration": 0.8,
+      "blend": "normal",
+      "loop": true,
+      "loopSource": "Eight sequential native-baked drawings; no synthesized in-betweens"
+    }
+  },
+  "decodedBytes": 6340704,
+  "encodedBytes": 1558166
+}

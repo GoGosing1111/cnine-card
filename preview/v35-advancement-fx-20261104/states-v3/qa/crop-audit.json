@@ -1,0 +1,290 @@
+[
+  {
+    "id": "avenger-charge",
+    "frame": 0,
+    "rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "avenger-charge",
+    "frame": 1,
+    "rect": [
+      444,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "avenger-charge",
+    "frame": 2,
+    "rect": [
+      887,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "avenger-charge",
+    "frame": 3,
+    "rect": [
+      1331,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "avenger-charge",
+    "frame": 4,
+    "rect": [
+      0,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "avenger-charge",
+    "frame": 5,
+    "rect": [
+      444,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "avenger-charge",
+    "frame": 6,
+    "rect": [
+      887,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "avenger-charge",
+    "frame": 7,
+    "rect": [
+      1331,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "knight-ward",
+    "frame": 0,
+    "rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "knight-ward",
+    "frame": 1,
+    "rect": [
+      444,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "knight-ward",
+    "frame": 2,
+    "rect": [
+      887,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "knight-ward",
+    "frame": 3,
+    "rect": [
+      1331,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "knight-ward",
+    "frame": 4,
+    "rect": [
+      0,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "knight-ward",
+    "frame": 5,
+    "rect": [
+      444,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "knight-ward",
+    "frame": 6,
+    "rect": [
+      887,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "knight-ward",
+    "frame": 7,
+    "rect": [
+      1331,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "commander-mark",
+    "frame": 0,
+    "rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "commander-mark",
+    "frame": 1,
+    "rect": [
+      444,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "commander-mark",
+    "frame": 2,
+    "rect": [
+      887,
+      0,
+      444,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "commander-mark",
+    "frame": 3,
+    "rect": [
+      1331,
+      0,
+      443,
+      444
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "commander-mark",
+    "frame": 4,
+    "rect": [
+      0,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "commander-mark",
+    "frame": 5,
+    "rect": [
+      444,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "commander-mark",
+    "frame": 6,
+    "rect": [
+      887,
+      444,
+      444,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  },
+  {
+    "id": "commander-mark",
+    "frame": 7,
+    "rect": [
+      1331,
+      444,
+      443,
+      443
+    ],
+    "edgePixels": 0,
+    "alphaPreserved": true
+  }
+]

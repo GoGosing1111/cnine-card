@@ -1,0 +1,1255 @@
+{
+  "status": "PREPARED_LOCAL_ONLY",
+  "parentPreparedCommit": "f001ce2a21cd66d1b2ebad8226e02368970668db",
+  "sourceArt": "built-in ImageGen; original files preserved",
+  "runtime": "Existing V3 Pixi/GSAP; native Effekseer offline only",
+  "productionDeployed": false,
+  "userVisualApproval": false,
+  "rows": [
+    {
+      "path": "preview/v35-advancement-fx-20261104/PROJECT.md",
+      "bytes": 13676,
+      "sha256": "72d54fed8449bb21d0c816c38366fa204f27df69cb30bf22ff6bbe611530c895"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/AdvancementEffects.mjs",
+      "bytes": 7918,
+      "sha256": "96148b9ac8d29c279d27a50e79b2616104d40aa6aeaaa06b8ee02495540d78ef"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/AdvancementStateEffects.mjs",
+      "bytes": 6996,
+      "sha256": "d0f20934f726efff27e64cfa52657f68f2244cb61b45d22cd72d2572783e1329"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/workbench.src.mjs",
+      "bytes": 7127,
+      "sha256": "5ad0798f437919fb7aa96e6f22a0c0537f7c4fc5806d3abcb3972428cf668225"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/workbench.bundle.js",
+      "bytes": 3301775,
+      "sha256": "c9a9242288b95728f6c347396ffbcd8d804ab1a8440523e19c8358f2b5bfec0e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/index.html",
+      "bytes": 3235,
+      "sha256": "e2d13285b737d191cd07ddbf423bade09488253132cd5246024ff3f5434546c4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/qa/build.json",
+      "bytes": 89358,
+      "sha256": "232e5d3346d2fe7c2d7ff68d8fca304004f9f6ee2627d4d5a998e95e4dc19730"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/integration-contract.json",
+      "bytes": 3344,
+      "sha256": "a67eaea22454289df82c7848a9422c91cf23360516cf9fbf764faf287cd9efb2"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/art/avenger-charge-v1.png",
+      "bytes": 2010047,
+      "sha256": "bbd298afb823675f6975a5cacd58143a1fca87fc93f0a2b8a21309d4ff4532cd"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/art/commander-mark-v1.png",
+      "bytes": 1730850,
+      "sha256": "5ab636bee4bb8f5b1ac9b3d6fd6dffb8ced36ba7c3e325d2466ed52ffcb47e41"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/art/commander-mark-v2.png",
+      "bytes": 1073653,
+      "sha256": "92988425a3369d123548c1346aa66feab0412c9e2eb2ca03c9fcabeef0d8d12a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/art/knight-ward-v1.png",
+      "bytes": 2993355,
+      "sha256": "692e6c5529d41f6e07bb2f6bedd9dbe39b8352fefacc26d5e37725b8b87a1b0c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/art/knight-ward-v2.png",
+      "bytes": 1158328,
+      "sha256": "6555573fc14151e6391bb0886000ee33291a226eee8b702d48a341b3df0b65cc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/author.mjs",
+      "bytes": 4315,
+      "sha256": "694ba49f99bcb69cea87aec8b893cc2a01d2b83677a0d7806414d66adb67df6e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/corrections.json",
+      "bytes": 2361,
+      "sha256": "7b67eaeef0cf75659aa9718414178e147dda748ab9c80264f7ec249105c276cf"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/effects.json",
+      "bytes": 997,
+      "sha256": "33bd7a7ee711c71d30498af1b458659f45ba74600bfc918d557f7b95251cc843"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/finalize-loops.mjs",
+      "bytes": 916,
+      "sha256": "2b11a7261c90f031a37b25d9ff88883c338435f09bd7db69a4bbff5744f302f9"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0000.png",
+      "bytes": 184960,
+      "sha256": "573df855b566c99d915740e8231fbfb1c3f85f58afe0ed1737c0cbe0ddb61678"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0001.png",
+      "bytes": 184960,
+      "sha256": "573df855b566c99d915740e8231fbfb1c3f85f58afe0ed1737c0cbe0ddb61678"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0002.png",
+      "bytes": 184960,
+      "sha256": "573df855b566c99d915740e8231fbfb1c3f85f58afe0ed1737c0cbe0ddb61678"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0003.png",
+      "bytes": 184960,
+      "sha256": "573df855b566c99d915740e8231fbfb1c3f85f58afe0ed1737c0cbe0ddb61678"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0004.png",
+      "bytes": 205225,
+      "sha256": "e8f5d9afac8402b2c551a53623dcae950655e46fd3b6a6b15ea1689ce30ad354"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0005.png",
+      "bytes": 205225,
+      "sha256": "e8f5d9afac8402b2c551a53623dcae950655e46fd3b6a6b15ea1689ce30ad354"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0006.png",
+      "bytes": 205225,
+      "sha256": "e8f5d9afac8402b2c551a53623dcae950655e46fd3b6a6b15ea1689ce30ad354"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0007.png",
+      "bytes": 216243,
+      "sha256": "00269202cea117131c4ae35a0d7e56d5bf1be653dda7eec774b0091b06efaa8c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0008.png",
+      "bytes": 216243,
+      "sha256": "00269202cea117131c4ae35a0d7e56d5bf1be653dda7eec774b0091b06efaa8c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0009.png",
+      "bytes": 216243,
+      "sha256": "00269202cea117131c4ae35a0d7e56d5bf1be653dda7eec774b0091b06efaa8c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0010.png",
+      "bytes": 233129,
+      "sha256": "34235e0c1d06749fcf987c4a49df5a7f019c23dc6d479e0ce70bbd9a91dea4ca"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0011.png",
+      "bytes": 233129,
+      "sha256": "34235e0c1d06749fcf987c4a49df5a7f019c23dc6d479e0ce70bbd9a91dea4ca"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0012.png",
+      "bytes": 233129,
+      "sha256": "34235e0c1d06749fcf987c4a49df5a7f019c23dc6d479e0ce70bbd9a91dea4ca"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0013.png",
+      "bytes": 238630,
+      "sha256": "e35eb7dc2b90b0ac1fe1f6580f1aa1de6bdad73d09aeeb96f15035d369268001"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0014.png",
+      "bytes": 238630,
+      "sha256": "e35eb7dc2b90b0ac1fe1f6580f1aa1de6bdad73d09aeeb96f15035d369268001"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0015.png",
+      "bytes": 238630,
+      "sha256": "e35eb7dc2b90b0ac1fe1f6580f1aa1de6bdad73d09aeeb96f15035d369268001"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0016.png",
+      "bytes": 228672,
+      "sha256": "92e15a2e91f85e68235df39d7f0cd21167d5a838037f7f724aefb8927b5a825d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0017.png",
+      "bytes": 228672,
+      "sha256": "92e15a2e91f85e68235df39d7f0cd21167d5a838037f7f724aefb8927b5a825d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0018.png",
+      "bytes": 228672,
+      "sha256": "92e15a2e91f85e68235df39d7f0cd21167d5a838037f7f724aefb8927b5a825d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0019.png",
+      "bytes": 202705,
+      "sha256": "705ea14c2704c6704f7463c66f2ca586e2613b17a71c3b8c3bf2e7e9430615c5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0020.png",
+      "bytes": 202705,
+      "sha256": "705ea14c2704c6704f7463c66f2ca586e2613b17a71c3b8c3bf2e7e9430615c5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0021.png",
+      "bytes": 202705,
+      "sha256": "705ea14c2704c6704f7463c66f2ca586e2613b17a71c3b8c3bf2e7e9430615c5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0022.png",
+      "bytes": 192651,
+      "sha256": "16fc98d4d38896c4561951da74a8b6b8b4417814eb3fabc76946d94a4f5aeb93"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0023.png",
+      "bytes": 192651,
+      "sha256": "16fc98d4d38896c4561951da74a8b6b8b4417814eb3fabc76946d94a4f5aeb93"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0024.png",
+      "bytes": 192651,
+      "sha256": "16fc98d4d38896c4561951da74a8b6b8b4417814eb3fabc76946d94a4f5aeb93"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0025.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/avenger-charge/frame-0026.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0000.png",
+      "bytes": 112619,
+      "sha256": "d13a2627d9edb915ef1601159e1c0268b321f65c6b35bbbd3ff3403b5b431e01"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0001.png",
+      "bytes": 112619,
+      "sha256": "d13a2627d9edb915ef1601159e1c0268b321f65c6b35bbbd3ff3403b5b431e01"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0002.png",
+      "bytes": 112619,
+      "sha256": "d13a2627d9edb915ef1601159e1c0268b321f65c6b35bbbd3ff3403b5b431e01"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0003.png",
+      "bytes": 112619,
+      "sha256": "d13a2627d9edb915ef1601159e1c0268b321f65c6b35bbbd3ff3403b5b431e01"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0004.png",
+      "bytes": 125266,
+      "sha256": "a5f0e51fd4680ea500d656d7b0aebf6b20e03167214a55f2172f445d3a0747f6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0005.png",
+      "bytes": 125266,
+      "sha256": "a5f0e51fd4680ea500d656d7b0aebf6b20e03167214a55f2172f445d3a0747f6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0006.png",
+      "bytes": 125266,
+      "sha256": "a5f0e51fd4680ea500d656d7b0aebf6b20e03167214a55f2172f445d3a0747f6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0007.png",
+      "bytes": 135731,
+      "sha256": "e342542eef5268a3e480692c9cae41c5ad6758ffbc0c511076b62fc82701e9ee"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0008.png",
+      "bytes": 135731,
+      "sha256": "e342542eef5268a3e480692c9cae41c5ad6758ffbc0c511076b62fc82701e9ee"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0009.png",
+      "bytes": 135731,
+      "sha256": "e342542eef5268a3e480692c9cae41c5ad6758ffbc0c511076b62fc82701e9ee"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0010.png",
+      "bytes": 141313,
+      "sha256": "9374929c71200698586eb55a15553e7905e4a21725d17dd71824cf59b90591f4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0011.png",
+      "bytes": 141313,
+      "sha256": "9374929c71200698586eb55a15553e7905e4a21725d17dd71824cf59b90591f4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0012.png",
+      "bytes": 141313,
+      "sha256": "9374929c71200698586eb55a15553e7905e4a21725d17dd71824cf59b90591f4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0013.png",
+      "bytes": 139486,
+      "sha256": "ee1c7de3a70b343685c46015f1d77bf49fb9b36c193a910594a1eab82e68d9bb"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0014.png",
+      "bytes": 139486,
+      "sha256": "ee1c7de3a70b343685c46015f1d77bf49fb9b36c193a910594a1eab82e68d9bb"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0015.png",
+      "bytes": 139486,
+      "sha256": "ee1c7de3a70b343685c46015f1d77bf49fb9b36c193a910594a1eab82e68d9bb"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0016.png",
+      "bytes": 141042,
+      "sha256": "fab374f81285c923e4a30b71ce37af440ba8dfa86adb2c13208a3f4525fd0f71"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0017.png",
+      "bytes": 141042,
+      "sha256": "fab374f81285c923e4a30b71ce37af440ba8dfa86adb2c13208a3f4525fd0f71"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0018.png",
+      "bytes": 141042,
+      "sha256": "fab374f81285c923e4a30b71ce37af440ba8dfa86adb2c13208a3f4525fd0f71"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0019.png",
+      "bytes": 126193,
+      "sha256": "0dd6f703f0edbedf65fab0f3fb02154da5ce06182ad596b00b315eaf13ac36c8"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0020.png",
+      "bytes": 126193,
+      "sha256": "0dd6f703f0edbedf65fab0f3fb02154da5ce06182ad596b00b315eaf13ac36c8"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0021.png",
+      "bytes": 126193,
+      "sha256": "0dd6f703f0edbedf65fab0f3fb02154da5ce06182ad596b00b315eaf13ac36c8"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0022.png",
+      "bytes": 115991,
+      "sha256": "8234b7f0de7800811db3b4f121b4b6cf01568b185bc5a9f614b4b7c58ed066c5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0023.png",
+      "bytes": 115991,
+      "sha256": "8234b7f0de7800811db3b4f121b4b6cf01568b185bc5a9f614b4b7c58ed066c5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0024.png",
+      "bytes": 115991,
+      "sha256": "8234b7f0de7800811db3b4f121b4b6cf01568b185bc5a9f614b4b7c58ed066c5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0025.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/commander-mark/frame-0026.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0000.png",
+      "bytes": 125414,
+      "sha256": "fb002f818324964cfa3669907dcf074c31f4f653f4b95714726f1df3abe0295d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0001.png",
+      "bytes": 125414,
+      "sha256": "fb002f818324964cfa3669907dcf074c31f4f653f4b95714726f1df3abe0295d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0002.png",
+      "bytes": 125414,
+      "sha256": "fb002f818324964cfa3669907dcf074c31f4f653f4b95714726f1df3abe0295d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0003.png",
+      "bytes": 125414,
+      "sha256": "fb002f818324964cfa3669907dcf074c31f4f653f4b95714726f1df3abe0295d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0004.png",
+      "bytes": 135028,
+      "sha256": "76958f9dde5397a250d34d5a1de69590dd2a3ad1fc23d449beffb582f9ed64a0"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0005.png",
+      "bytes": 135028,
+      "sha256": "76958f9dde5397a250d34d5a1de69590dd2a3ad1fc23d449beffb582f9ed64a0"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0006.png",
+      "bytes": 135028,
+      "sha256": "76958f9dde5397a250d34d5a1de69590dd2a3ad1fc23d449beffb582f9ed64a0"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0007.png",
+      "bytes": 138268,
+      "sha256": "1372ad5e1267527244c7f0637d6897eb7e160cc374e01966b0ff834e6b6da9e6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0008.png",
+      "bytes": 138268,
+      "sha256": "1372ad5e1267527244c7f0637d6897eb7e160cc374e01966b0ff834e6b6da9e6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0009.png",
+      "bytes": 138268,
+      "sha256": "1372ad5e1267527244c7f0637d6897eb7e160cc374e01966b0ff834e6b6da9e6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0010.png",
+      "bytes": 134846,
+      "sha256": "54cea4a3340f3619dc3eee01aaf711a22646041e0011db5a0a3b4ecf9a4ee81a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0011.png",
+      "bytes": 134846,
+      "sha256": "54cea4a3340f3619dc3eee01aaf711a22646041e0011db5a0a3b4ecf9a4ee81a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0012.png",
+      "bytes": 134846,
+      "sha256": "54cea4a3340f3619dc3eee01aaf711a22646041e0011db5a0a3b4ecf9a4ee81a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0013.png",
+      "bytes": 129076,
+      "sha256": "67e0519baf6d57a2933598297fbe01c57c520f5118026abb7445da4a823d9b4a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0014.png",
+      "bytes": 129076,
+      "sha256": "67e0519baf6d57a2933598297fbe01c57c520f5118026abb7445da4a823d9b4a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0015.png",
+      "bytes": 129076,
+      "sha256": "67e0519baf6d57a2933598297fbe01c57c520f5118026abb7445da4a823d9b4a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0016.png",
+      "bytes": 135207,
+      "sha256": "d9d3015b83116a0fe93bd39ea03ef27e94042942b359d4bba547e1f94446ecbc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0017.png",
+      "bytes": 135207,
+      "sha256": "d9d3015b83116a0fe93bd39ea03ef27e94042942b359d4bba547e1f94446ecbc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0018.png",
+      "bytes": 135207,
+      "sha256": "d9d3015b83116a0fe93bd39ea03ef27e94042942b359d4bba547e1f94446ecbc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0019.png",
+      "bytes": 130961,
+      "sha256": "741291276fa17d42ede3b6ab9e5998deaf80a24d67a25a5b2e830ee35c9c942e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0020.png",
+      "bytes": 130961,
+      "sha256": "741291276fa17d42ede3b6ab9e5998deaf80a24d67a25a5b2e830ee35c9c942e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0021.png",
+      "bytes": 130961,
+      "sha256": "741291276fa17d42ede3b6ab9e5998deaf80a24d67a25a5b2e830ee35c9c942e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0022.png",
+      "bytes": 130579,
+      "sha256": "05e2b877979f524609189de83d222b821948a0a9cb867f0daedca044e64d7cba"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0023.png",
+      "bytes": 130579,
+      "sha256": "05e2b877979f524609189de83d222b821948a0a9cb867f0daedca044e64d7cba"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0024.png",
+      "bytes": 130579,
+      "sha256": "05e2b877979f524609189de83d222b821948a0a9cb867f0daedca044e64d7cba"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0025.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/frames/knight-ward/frame-0026.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/generation.json",
+      "bytes": 9563,
+      "sha256": "eb919d703a7a9df076841cf60ae5c2cf67bf38073aa09aee15c4dae8de1479dd"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/import-art.mjs",
+      "bytes": 1593,
+      "sha256": "0cf7ba54bf86d7b588781e6dd0748c4c18cd8451e62ce607d1638aea3b34cb70"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/avenger-charge-import.efk",
+      "bytes": 5792,
+      "sha256": "74a66bc61f087eb71c2c1c5fd343a37242d894a7710d81be791da9084bdf28d5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/avenger-charge-roundtrip.efk",
+      "bytes": 5792,
+      "sha256": "74a66bc61f087eb71c2c1c5fd343a37242d894a7710d81be791da9084bdf28d5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/avenger-charge-roundtrip.efkefc",
+      "bytes": 7164,
+      "sha256": "a423005731fca3345ec0de677052711871a57208f13f1bb39c9139d46ac6a68d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/avenger-charge-verified.efkefc",
+      "bytes": 7164,
+      "sha256": "a423005731fca3345ec0de677052711871a57208f13f1bb39c9139d46ac6a68d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/avenger-charge.efk",
+      "bytes": 5792,
+      "sha256": "74a66bc61f087eb71c2c1c5fd343a37242d894a7710d81be791da9084bdf28d5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/avenger-charge.efkefc",
+      "bytes": 7174,
+      "sha256": "b4da62493e6920c6f88b9f4f9f56afe8cd809aded1f95af3d62ada690629e029"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/avenger-charge.efkproj",
+      "bytes": 6411,
+      "sha256": "aa765321fa00699ff2ec9e99fdd2ee27ddfa873dcc5e14551241c25a36560455"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/commander-mark-import.efk",
+      "bytes": 5792,
+      "sha256": "90801618c7edb8c9bfc5d69f2893e829ee496322197541bdf37cc2298b353d16"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/commander-mark-roundtrip.efk",
+      "bytes": 5792,
+      "sha256": "90801618c7edb8c9bfc5d69f2893e829ee496322197541bdf37cc2298b353d16"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/commander-mark-roundtrip.efkefc",
+      "bytes": 7163,
+      "sha256": "a9849ee713090972112c4f456f5222ebf97d08916e853c725e17360755b8928d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/commander-mark-verified.efkefc",
+      "bytes": 7163,
+      "sha256": "a9849ee713090972112c4f456f5222ebf97d08916e853c725e17360755b8928d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/commander-mark.efk",
+      "bytes": 5792,
+      "sha256": "90801618c7edb8c9bfc5d69f2893e829ee496322197541bdf37cc2298b353d16"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/commander-mark.efkefc",
+      "bytes": 7174,
+      "sha256": "603cf972a923ba9e35c6a18c5eaeefe4bc868060e3e07a045f8693e37b8900e3"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/commander-mark.efkproj",
+      "bytes": 6411,
+      "sha256": "e23aa43a18fb71928054eab6ddfa05e52114ee6a4a9c2e701462d8b076865125"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/knight-ward-import.efk",
+      "bytes": 5744,
+      "sha256": "c7c43699a71dcb248c8f115e84470ccb29f6a74405adaf6ac3edc16d094fa043"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/knight-ward-roundtrip.efk",
+      "bytes": 5744,
+      "sha256": "c7c43699a71dcb248c8f115e84470ccb29f6a74405adaf6ac3edc16d094fa043"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/knight-ward-roundtrip.efkefc",
+      "bytes": 7062,
+      "sha256": "d46782b979844dd70a51b712b813ce2bfdd0ae9934c15443f12ac31cb7010690"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/knight-ward-verified.efkefc",
+      "bytes": 7062,
+      "sha256": "d46782b979844dd70a51b712b813ce2bfdd0ae9934c15443f12ac31cb7010690"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/knight-ward.efk",
+      "bytes": 5744,
+      "sha256": "c7c43699a71dcb248c8f115e84470ccb29f6a74405adaf6ac3edc16d094fa043"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/knight-ward.efkefc",
+      "bytes": 7072,
+      "sha256": "0ed9427efd13ffdfbf7123d4a99948a8a048a59891d1871ab448f7c84f07925f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/knight-ward.efkproj",
+      "bytes": 6363,
+      "sha256": "589bef493de02e478f904c8968490ace8950117472b6b9cac2ed3b8dc753d691"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/avenger-charge-0.png",
+      "bytes": 172682,
+      "sha256": "f435bfe9263c33e19b64b70b617257f60268d8da1f081ac1ef0f247afa390547"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/avenger-charge-1.png",
+      "bytes": 195625,
+      "sha256": "5c6f2b55ad7ed031a87744c7a21b22634d97e38ad9d7bc7824de3df2f2451117"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/avenger-charge-2.png",
+      "bytes": 209365,
+      "sha256": "1fd93fbd4edac52476b4e882e855c72dc16deb079810c6e10c0439a4adcd4a62"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/avenger-charge-3.png",
+      "bytes": 228350,
+      "sha256": "1306c28f5ad502479c91008688d7137e2e4196dceb671730c0299da1b37fcaab"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/avenger-charge-4.png",
+      "bytes": 238887,
+      "sha256": "80f2b08dbe95c35a26f756894ebd7271db9b58d844a6b42b108dc4ce6ff39c5b"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/avenger-charge-5.png",
+      "bytes": 220899,
+      "sha256": "bea127f57e91d902544235be2b0801e473d5ed986edd4233be99526eebd01d3b"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/avenger-charge-6.png",
+      "bytes": 191205,
+      "sha256": "ed346cf37037cb704862aaf660c51f066a9869ebae5129cef6a1af337e5a6d16"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/avenger-charge-7.png",
+      "bytes": 179592,
+      "sha256": "8f84edd82138d772dc725f7268b4612483713ff5b8e2c50eea1bf35ff692b1b7"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/commander-mark-0.png",
+      "bytes": 103045,
+      "sha256": "4966de9518e3a0e84911b65b14e2fef3ce9107aa56dcad736e4a173eb97d44d4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/commander-mark-1.png",
+      "bytes": 114756,
+      "sha256": "0a6bd5b655a3fce5b67b69ac75df163f5133f71ababfa3d0e3d8aba9be2e09b2"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/commander-mark-2.png",
+      "bytes": 128186,
+      "sha256": "ab23e579751a5e7bfbbb8c6f20ed190e141c98fe2799dd2cafb5060f0a792a7b"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/commander-mark-3.png",
+      "bytes": 139669,
+      "sha256": "3769652f8427985714e1ad37952261fca77502c69abb62f5476da4d31a46de29"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/commander-mark-4.png",
+      "bytes": 140944,
+      "sha256": "86281dd299ad6c77a7a8b1eb4a6c6577d4e94f284ad73a4d6a976b123dc1f960"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/commander-mark-5.png",
+      "bytes": 136334,
+      "sha256": "158d9609b55513bc0fa3332e2f685c5a989f7c6cef8af6a1f42b32e113fce97a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/commander-mark-6.png",
+      "bytes": 120411,
+      "sha256": "728796c17057c30a568506109ee63658a3329bd84bbbe9ea5a9bac43d87a4fb6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/commander-mark-7.png",
+      "bytes": 107291,
+      "sha256": "d72447d46fad03c1817cdb1e9d59b148106e767db127ef88fc755e03a6218293"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/knight-ward-0.png",
+      "bytes": 110478,
+      "sha256": "878d0772092cdb577a48b209f5cf3bc547ffcc4f787d6d814d63bc26c8f31e20"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/knight-ward-1.png",
+      "bytes": 117165,
+      "sha256": "a3232cd1bf9b6c3c9a8bd9b944de61dec04cdf41c6a182bed84cc9f81d09d47e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/knight-ward-2.png",
+      "bytes": 121672,
+      "sha256": "d6be57bce3e2611589da6a42c30ee372c9806911128d13ad7a151412d6049486"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/knight-ward-3.png",
+      "bytes": 116949,
+      "sha256": "934e170d2bd3045b6133accbb2e052ece544633a1ecb96c9e61d1abf01f173fc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/knight-ward-4.png",
+      "bytes": 115482,
+      "sha256": "c2f6a72b7848c9f0e4f8208b96297647c17568e43d2e82211ef577c81369c02e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/knight-ward-5.png",
+      "bytes": 118340,
+      "sha256": "7524438a7dfed5e41b035c05f6a230884711de9a15194954abbacc89f1980543"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/knight-ward-6.png",
+      "bytes": 113901,
+      "sha256": "fa1ca7ad22c4ea9896885cae589fd79578ece0e0f6bb8f79319aae8f6dd7a302"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/native/Texture/knight-ward-7.png",
+      "bytes": 114675,
+      "sha256": "b03cb76936503c5abcb1707d08f9c017e26a1fc18b9c2a67372faf6f69de8e02"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/prepare.mjs",
+      "bytes": 974,
+      "sha256": "09ab524661e77a202a71d14838a8992407b596d5a609fd7b02c96aa6576a1899"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/prompts.json",
+      "bytes": 5645,
+      "sha256": "285603adae0e9119e96156b11f37ef9b9b5761be86de16dc38d0144434197a94"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/crop-audit.json",
+      "bytes": 3908,
+      "sha256": "7a4bbfa259f798149d9617a5c3cba4c3ef75adbddfa9a597111c89b7c638c7e6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/effekseer-bake.json",
+      "bytes": 1951,
+      "sha256": "b5ee30ea9cbb824fe7b50677980a1568b99affb1497209cfa70e4e7173ed16ff"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/enemy-avenger-charge.png",
+      "bytes": 1916922,
+      "sha256": "a6521f91144d02d994e9e72ac7fe0f0bf7f4029c924aa0fede2dc88fabf21fcb"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/enemy-commander.png",
+      "bytes": 1917052,
+      "sha256": "c2085d8cbf0cdbf32bfc3599b63ac95a14462822b15e093ec49e1c8048233431"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/enemy-shield-1.png",
+      "bytes": 1917175,
+      "sha256": "9ada99a91b53825dcc195865cc73a44f0a2a97668c6a50be06161ea994a9d591"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/enemy-shield-2.png",
+      "bytes": 1917777,
+      "sha256": "584290c2e7043d65ee8e9782e739dbb6786e2c7550e067bca856be3ce85169a4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/enemy-shield-3.png",
+      "bytes": 1919424,
+      "sha256": "990aee07f62d5191a787b6b3229c898d1cbbb758575270a672be7ec8c609cf07"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/mobile-avenger-charge.png",
+      "bytes": 436149,
+      "sha256": "de79a1cddfb102b511494067d26532addbfea7d5864f7c6af1ffa71ba61e497c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/mobile-commander.png",
+      "bytes": 437531,
+      "sha256": "aa5c6a56e960bfac5e0f3419afbd2177fd60b6817c3f199309472dcd56bc1e30"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/mobile-shield-1.png",
+      "bytes": 436583,
+      "sha256": "b96c290c1e085e248a65eba2c2910420e8d34f60af2cad3a8aa124a54dcf1228"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/mobile-shield-2.png",
+      "bytes": 436617,
+      "sha256": "bc83513befb5406efe6b44b1997071f476dcfe4e995b9bdeba63c0972ef844d0"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/mobile-shield-3.png",
+      "bytes": 436694,
+      "sha256": "f77ae0d902d8b321c26f9293e4296d9e95c1be5e9a69e65d0a83041f3671cd58"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/native.json",
+      "bytes": 10124,
+      "sha256": "81fc590bc529ad65a787bbc4e84eaf67880fa98bd64042ac30e46eb8ce768e09"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/packing.json",
+      "bytes": 909,
+      "sha256": "040cc6053e2f7cdb380daf262d61be638865eea3ce18f2c1b9e4014a90ee35f0"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/pc-avenger-charge.png",
+      "bytes": 1915853,
+      "sha256": "aa543b8b6e968220ffc847b7dd0a0e5d9dc6e4e041b63d0a979098dfcb454ce5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/pc-commander.png",
+      "bytes": 1923690,
+      "sha256": "6f7b1a4f75f6888ff43184322c65ced3b1b6ef2ea0e5d3045d2c8568e6a9b933"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/pc-shield-1.png",
+      "bytes": 1916903,
+      "sha256": "a9baedf9444d8901993aef4c736d3ad4f8d47a20f78429a839b52331c54a6459"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/pc-shield-2.png",
+      "bytes": 1917462,
+      "sha256": "feebdba682e23bca29c9d188905210f813ab6d83ee26e8451c6a38c68988f4fc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/pc-shield-3.png",
+      "bytes": 1917899,
+      "sha256": "73b4e6059c98258cbc1614c41f865fd86be31ae86fd2e5c91eae8f463c36fa46"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/record.mjs",
+      "bytes": 4354,
+      "sha256": "f1b9fbdae0018d6e67dece90d9cf4cdc5c4332506aa7004c9bc1639458c2f1f7"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/recording.json",
+      "bytes": 83981,
+      "sha256": "dd6c7cbde487b3f1a0cd06479038fb61bb19562d6d010f0475bb290b40c30692"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/source-audit.json",
+      "bytes": 10346,
+      "sha256": "38a8ba205bed2050fd82dead0ec1b75bd0abf90c1fd5a8b43d01bc9c1eff95d4"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/sustained-states-half-speed-phase-0.png",
+      "bytes": 1601549,
+      "sha256": "eedc4b880b89b9ad8fa28304a647572014f8a7bc9464134e5cf7c3e1a0241099"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/sustained-states-half-speed-phase-2.png",
+      "bytes": 1790892,
+      "sha256": "dba0b6187ce0e3b014df200ed70279feccffb77a14cb9ab04c7b619d0077c0f5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/sustained-states-half-speed-phase-3.png",
+      "bytes": 1820113,
+      "sha256": "c1ba2183752d76fd2bb6db4ebc0581315e9d2dabf88f11969a61dcfa23208b6d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/sustained-states-half-speed-phase-4.png",
+      "bytes": 1786774,
+      "sha256": "b467a38502332c7fc7ef9b116048ff750afeb8ac212454017b5427fc2cf775e8"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/sustained-states-half-speed-phase-5.png",
+      "bytes": 1787083,
+      "sha256": "565363ef0b37e7044a2ad68d22a2ea735d971bcd7ac4649aba8c7e3a94b6f41a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/sustained-states-half-speed-phase-6.png",
+      "bytes": 1804334,
+      "sha256": "50f3a30d93172b69e5b754083b07a03e1e5f0234a0c7aa9d3172392786307689"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/sustained-states-half-speed-phase-7.png",
+      "bytes": 1791737,
+      "sha256": "f1a51564f995877d3927a0e78f48aa6d2c129686fdcb54649300e5c46fa5250e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/sustained-states-half-speed.webm",
+      "bytes": 7778454,
+      "sha256": "926822ecfd6e59682ae9be5f26ca4b7e1914cfa6682984f43726081e939f4e55"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/sustained-states-normal-phase-0.png",
+      "bytes": 1372767,
+      "sha256": "4a1751d786a1213e2f47b0120dffef36dd505204c622e36e47ac6349949a15c3"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/sustained-states-normal-phase-2.png",
+      "bytes": 1897736,
+      "sha256": "c685669be9d5e590927c64f8970b56b1f7fe7a3e6862e0a3a949ea4f5743c32a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/sustained-states-normal-phase-3.png",
+      "bytes": 1789386,
+      "sha256": "7e7771f5cea5a832f3d44453bda2c1bb186604c9c0ba33ee3f3363d0f5a720e7"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/sustained-states-normal-phase-4.png",
+      "bytes": 1789379,
+      "sha256": "5631b59fb7ac32a066e6a951391e27b6ce5bb0ce1f0ab94d830b279fd4d8ca8c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/sustained-states-normal-phase-5.png",
+      "bytes": 1789127,
+      "sha256": "99b13d3cc964ebd5d134f5e07fbbc74eb6c3da097b2ebf3c9bda28dd8d4ac9d6"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/sustained-states-normal-phase-6.png",
+      "bytes": 1820651,
+      "sha256": "06208ec919f02b8193a9d661d0ea5dd53797506257e897b49f53afffc4351fa2"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/sustained-states-normal-phase-7.png",
+      "bytes": 1821192,
+      "sha256": "6acae7afaa4a798cf9243bb9614980d0e6a3253faef2ce96d35f1fd54c36c879"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/sustained-states-normal.webm",
+      "bytes": 4151270,
+      "sha256": "81faa0e6f21d1ddefd255bb313e4275fa586d502ed63c6edee5df23dc393594b"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/verification.json",
+      "bytes": 3993,
+      "sha256": "8d2ca34e78a0dd134c0745d526b379ca25cc0ec7a9da692eba04b0f8bd1bcb7a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/verify.mjs",
+      "bytes": 5394,
+      "sha256": "d9cf3c80549e7d91a64b911b6e97d294124627b4cb2fa48a08309d1c92248f35"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/video-check.json",
+      "bytes": 3359,
+      "sha256": "5adec29ab4a21a99dde6418029ffe211f1fbc67ef988f57bf97bddb4b51acaba"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/qa/video-check.mjs",
+      "bytes": 2227,
+      "sha256": "4124012698eb3c512de68d799493c5495e107adf2aa599059743e9a73b68884d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/runtime/avenger-charge.png",
+      "bytes": 714888,
+      "sha256": "3fa513014a8353ca19268af9f61011639f39b9064c9ffde1197ebf26eecfb66f"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/runtime/commander-mark.png",
+      "bytes": 432962,
+      "sha256": "e62bc02dc4aeb4b108cd89253cf8bafde4eeeabc4638d3dc08621527bf05fb14"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/runtime/fx-manifest.json",
+      "bytes": 5717,
+      "sha256": "1b8d8ff891d35217832c4de1448d76a687668acb39d4c2785f40712ba7da0113"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/states-v3/runtime/knight-ward.png",
+      "bytes": 410316,
+      "sha256": "4d6d763723b7ebf0adebd4ccd72ddee89bc03381ca5f07fa42d8a7e1a6a97d21"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/advancement.css",
+      "bytes": 10396,
+      "sha256": "3bc63d2ecae14992e66976699b37fae8f3edb32652b0e1ac567eb3217ebac898"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/AdvancementWindow.mjs",
+      "bytes": 12980,
+      "sha256": "7488b61bcc74288d6e3935e7083ca0378f7434f52d81deb5a52e943917a2aa84"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/entry.mjs",
+      "bytes": 837,
+      "sha256": "76b7576a3703faedd5766a24b84b4e942be94ec226ee542b5e74f9e99a9a38f8"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/finish-feedback.mjs",
+      "bytes": 842,
+      "sha256": "fdf9b4f6390215e851223071ae6e67d33d9833e23f8da062675423d531283a09"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/fixture-adapter.mjs",
+      "bytes": 3942,
+      "sha256": "4142b0d88cbd30cbc243f49f2d2bedeb7e585dcaab2099d34c0f2a686d857122"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/model.mjs",
+      "bytes": 5171,
+      "sha256": "b8573e516e4dc41a98941cdbe732ceb78a9092e20f9f055fe7272b0420425b7e"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/prepare-review.mjs",
+      "bytes": 911,
+      "sha256": "f7290f51f0b006249351065eb14aa242fee6ec01869ce7c9c9af3571199783be"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/agents-entry.txt",
+      "bytes": 1569,
+      "sha256": "888eee6beeff4a6c04e1f2b061db4ee10ef4e3d20923043f96e34b40cae26f8a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/burst-regression.json",
+      "bytes": 165648,
+      "sha256": "f88e5a881cd0259d17027e6e8611ef2104cc426c21045bbba0604d752191fc57"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/burst-regression.mjs",
+      "bytes": 5074,
+      "sha256": "3a0a1f4f1a4cfcd0eef46fdfa2a3e0df6668464f4c87ae03856b55f6ba260d82"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/enemy-barrier.png",
+      "bytes": 1929338,
+      "sha256": "9a4f97b458ad8bf819b42772b38c4591dc4acf44ba54d3e5072ef8c75ad4c9f0"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/enemy-commander.png",
+      "bytes": 1924883,
+      "sha256": "9a6693fa4c205ac8b930e695dbbd518e65d79106443e6f4bcb189dfcce24101c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/enemy-healer.png",
+      "bytes": 1928751,
+      "sha256": "4e24e715d6c9b84bc6e8430644481c3c8832b67c7031454c9adc0307253e0d30"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/enemy-vanguard.png",
+      "bytes": 1917858,
+      "sha256": "50a5f799b09dd53c833f75921b3967cd3fd2c4eb5a460ee460a983eb7e835450"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/mobile-avenger-charge.png",
+      "bytes": 436190,
+      "sha256": "db34c4333f8e747de5c772dff1ed9094b6ac7bd5b530bde59ff97298da38c17d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/mobile-barrier.png",
+      "bytes": 439683,
+      "sha256": "bb484275349de06ed19578ddc46980ca8df191dc789b71b0552f30e486d38717"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/mobile-commander.png",
+      "bytes": 438607,
+      "sha256": "1ef34b847a91b1bee044bdc329d16e8229938eda53f7de0e4bf732f831bb430d"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/mobile-confirm.png",
+      "bytes": 167965,
+      "sha256": "c4ce88dc43fe83fd788757e25518b66f9c409ffe122d5ebe15d742e9241f98cd"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/mobile-healer.png",
+      "bytes": 438323,
+      "sha256": "3c5642f5eae59c0ca5466eb5e38ed028fddd239bfbb9c2017f38afaae8466bad"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/mobile-insufficient.png",
+      "bytes": 212594,
+      "sha256": "9efe00bc46991ff0ac9c4408a52e3ffdacd1a438ff0e8d0bc70a18638dba8911"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/mobile-recovery.png",
+      "bytes": 167022,
+      "sha256": "816ccea59ff88143142b6516c852839c2e597ed1d9392f4577aa819f30584ffa"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/mobile-selected-detail.png",
+      "bytes": 215554,
+      "sha256": "6227ad5d82148496a5a6d12702de4b5d6b8946c3b79bd59640ddd94c93914090"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/mobile-selection.png",
+      "bytes": 221102,
+      "sha256": "d3ff777947c1ac061102b2d1f4b6a2c3d1d7891deedb247094c8dc889fb43f3a"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/mobile-shield-1.png",
+      "bytes": 436553,
+      "sha256": "3d0b1827faee228494853000853bdee3f30095ac9ebbf29c1032a30c75642977"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/mobile-shield-2.png",
+      "bytes": 436565,
+      "sha256": "885e759f64e9de60f8e66367bad64fd0d95511c8bf5697f02bdb1dc9710fcbfc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/mobile-shield-3.png",
+      "bytes": 436584,
+      "sha256": "07a9bfaa0be57f60dfe5397de7043a37cb6e0c47801d69ea91e34b580ce589db"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/mobile-success.png",
+      "bytes": 162314,
+      "sha256": "64f964d1759c78afdce5ddd611d97490bd97e7bbbcf085cb5b21ef809dbeaf49"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/mobile-vanguard.png",
+      "bytes": 439139,
+      "sha256": "9bc709cefc01883a63409ba92b78dd0d3518a2227284147d30049365a8c85de5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/model.test.mjs",
+      "bytes": 4105,
+      "sha256": "631f1ad42f2fe67fa9ecd70b5151dead2d985861b9e3deb9bfa91a5bdd1159bc"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/narrow-confirm.png",
+      "bytes": 142974,
+      "sha256": "82239813147075717b34ecbc90959797d286ddfe615a866bc24bb14aef6fe98c"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/narrow-insufficient.png",
+      "bytes": 183472,
+      "sha256": "e458fa1ada95becc44001c778b0dd338cb38b3f61d122f2d8d4dfb7971129186"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/narrow-recovery.png",
+      "bytes": 142241,
+      "sha256": "c4421eca24f370f8e83022c759b13c181d9e7e5bd7e621f1d89403d753391430"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/narrow-selected-detail.png",
+      "bytes": 180133,
+      "sha256": "87587bfbe633422db6600eea7b710696a60327a596b3937062b1dbac5b644fa1"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/narrow-selection.png",
+      "bytes": 185205,
+      "sha256": "f956f5d5635fdd45cda9b6ecc8764c32dd150a0149a3d5f4ae334669915006e3"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/narrow-success.png",
+      "bytes": 136611,
+      "sha256": "8d408d0bd486d8567571509d359da7f7dbcb1c238dc37d5dc929a359b72ded2b"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/pc-avenger-charge.png",
+      "bytes": 1915779,
+      "sha256": "a4c239aa55820ff9f80bfff529f368663266c63cdaea7e6810dcb14e47f057f1"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/pc-barrier.png",
+      "bytes": 1923040,
+      "sha256": "e7e80ae61a063c02c3ba86b67c3c2563add1e56377c8177f43f95a1f7bf97bbf"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/pc-commander.png",
+      "bytes": 1918043,
+      "sha256": "1acac1878e46190c6067a634910166ca97a55e96df898458b8599301466ead52"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/pc-confirm.png",
+      "bytes": 441483,
+      "sha256": "165cd1b4d4a9bd7961e98008a7473829ed7331f776b557fa59bcb4f737e0f439"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/pc-healer.png",
+      "bytes": 1915554,
+      "sha256": "5ec6cd22a259b900e1284a66018c87d02a7b6d9a59319be25bc8a00b276f6df1"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/pc-insufficient.png",
+      "bytes": 596016,
+      "sha256": "c271c9b8ed4405dfb1ce2411d0fd9b1c386b41d964b723b03fcb9662ae48c149"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/pc-recovery.png",
+      "bytes": 438385,
+      "sha256": "a43a10502f16a375e091a3eff5c9ccc829f18085d18dd918ae5f273c4f7b9388"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/pc-selected-detail.png",
+      "bytes": 595935,
+      "sha256": "fc5b3c1eb274260c009b9d04a1310f5c3ec91237ff092ac51aab3d80c09d8101"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/pc-selection.png",
+      "bytes": 584726,
+      "sha256": "53a0bb19489ac7c1e919df26d5520c52fccc256c40b57c091c82b877b831a9d3"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/pc-shield-1.png",
+      "bytes": 1916642,
+      "sha256": "96807f124bd998c74fa4cbd96145895577d3d384b557dc48225b3572dbccadc9"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/pc-shield-2.png",
+      "bytes": 1916623,
+      "sha256": "892414b68c2781ebb0725feb1d9d574507c377aabb61ca65baf3e2f138ec10bb"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/pc-shield-3.png",
+      "bytes": 1917538,
+      "sha256": "14728725434c19fe12b57ad3ab8bf71cadd4633da8c1a71d8f426af510c7b084"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/pc-success.png",
+      "bytes": 438019,
+      "sha256": "5aef2f506fb4b47ed80e02a8a6e0df4d0a0dfa0e0b151f54fe297e3cf24bdee5"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/pc-vanguard.png",
+      "bytes": 1923279,
+      "sha256": "624f085b3a155b70ecbde198b427ecddbd85bc5b258dc376ad091ff5ce110557"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/prepare-regression.mjs",
+      "bytes": 369,
+      "sha256": "960e879f818bdb639de52a458f05c58ca85e1cfdcc38b5a00479a9ccfbf25cac"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/preserve.mjs",
+      "bytes": 5117,
+      "sha256": "ba173baf7b3207d97480cf4c4fd44f32813a9518f471adc496bb04a1ccbe3073"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/smoke.json",
+      "bytes": 16646,
+      "sha256": "d4b41030ea90bbc0917b85a41d719e7d14954f39d12b5370361953077f446ba3"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/smoke.mjs",
+      "bytes": 2587,
+      "sha256": "584c1e6bc50c6a8980ee53960f0e849717097850471b2aa0474cdf8f3d937dba"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/summary.json",
+      "bytes": 682,
+      "sha256": "6061d92eecec6bc943d93a69f6c3b6909f72ce21458a4aaa9a9452d6938c5617"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/verification.json",
+      "bytes": 5111,
+      "sha256": "793c1a666dcd5ea5d6447f50acd597a58f3851f2c79617fc6650c80f076818bb"
+    },
+    {
+      "path": "preview/v35-advancement-fx-20261104/ui/qa/verify.mjs",
+      "bytes": 8863,
+      "sha256": "a2aeb6124acce515017cde5a014280ef83890a12b6daceb634db6780c603ffcf"
+    }
+  ]
+}

@@ -1,0 +1,598 @@
+[
+  {
+    "name": "pc",
+    "layout": {
+      "dialog": {
+        "w": 1140,
+        "client": 1140
+      },
+      "body": 1440,
+      "window": 1440,
+      "images": [
+        {
+          "src": "http://127.0.0.1:18804/assets/ui/project-v/mercenaries/limited-20261002/v-996-source-art.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/vanguard-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/duelist-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/executioner-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/berserker-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/breaker-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/combo-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/vampire-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/avenger-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/shield-knight-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/barrier-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/undying-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/regenerator-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/healer-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/guardian-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/cleanser-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/commander-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/vanguard-3.png",
+          "loaded": true
+        }
+      ],
+      "scroll": {
+        "height": 650,
+        "total": 689
+      }
+    },
+    "errors": [],
+    "failed": [],
+    "audit": {
+      "ready": true,
+      "errors": [],
+      "canvasCount": 1,
+      "pixi": "8.20.0",
+      "engineType": "Ru",
+      "fx": {
+        "active": 0,
+        "sprites": 0,
+        "sessions": [],
+        "cacheBytes": 6340704,
+        "loadedClips": [
+          {
+            "id": "avenger-charge.png",
+            "refs": 0
+          },
+          {
+            "id": "knight-ward.png",
+            "refs": 0
+          },
+          {
+            "id": "commander-mark.png",
+            "refs": 1
+          }
+        ],
+        "completed": 0
+      },
+      "stateFx": {
+        "battleId": "local-advancement-review",
+        "time": 0.3,
+        "pending": 0,
+        "active": 1,
+        "clock": true,
+        "rows": [
+          {
+            "id": "commander",
+            "actor": "QA:A:V-996",
+            "revision": 10,
+            "remaining": 3,
+            "sprites": [
+              {
+                "actor": "QA:A:V-996",
+                "frame": 3,
+                "visible": true,
+                "x": 380,
+                "y": 231
+              },
+              {
+                "actor": "A:0:CN-02D9DC1E8A8A4209",
+                "frame": 3,
+                "visible": true,
+                "x": 170.00000000000006,
+                "y": 231
+              },
+              {
+                "actor": "A:1:CN-0505936A0CBB4E59",
+                "frame": 3,
+                "visible": true,
+                "x": 590,
+                "y": 231
+              },
+              {
+                "actor": "A:2:CN-25F931CE393D474E",
+                "frame": 3,
+                "visible": true,
+                "x": 170.00000000000006,
+                "y": 406.99999999999983
+              },
+              {
+                "actor": "A:3:CN-23EB4B19986D4818",
+                "frame": 3,
+                "visible": true,
+                "x": 590,
+                "y": 406.99999999999983
+              },
+              {
+                "actor": "A:4:CN-519C181C18DF4B8E",
+                "frame": 3,
+                "visible": true,
+                "x": 380,
+                "y": 582.9999999999998
+              },
+              {
+                "actor": "QA:A:V-979",
+                "frame": 3,
+                "visible": true,
+                "x": 170.00000000000006,
+                "y": 582.9999999999998
+              }
+            ]
+          }
+        ]
+      },
+      "impacts": [],
+      "actors": [
+        {
+          "id": "A:0:CN-02D9DC1E8A8A4209",
+          "name": "철와대 킴성태",
+          "team": "ALLY",
+          "hp": 100,
+          "shield": 0,
+          "root": {
+            "x": 170,
+            "y": 240
+          }
+        },
+        {
+          "id": "A:1:CN-0505936A0CBB4E59",
+          "name": "구수댕",
+          "team": "ALLY",
+          "hp": 100,
+          "shield": 82368,
+          "root": {
+            "x": 590,
+            "y": 240
+          }
+        },
+        {
+          "id": "A:2:CN-25F931CE393D474E",
+          "name": "딤우스",
+          "team": "ALLY",
+          "hp": 100,
+          "shield": 82368,
+          "root": {
+            "x": 170,
+            "y": 416
+          }
+        },
+        {
+          "id": "A:3:CN-23EB4B19986D4818",
+          "name": "Lionel Messi",
+          "team": "ALLY",
+          "hp": 100,
+          "shield": 0,
+          "root": {
+            "x": 590,
+            "y": 416
+          }
+        },
+        {
+          "id": "A:4:CN-519C181C18DF4B8E",
+          "name": "토마토",
+          "team": "ALLY",
+          "hp": 100,
+          "shield": 0,
+          "root": {
+            "x": 380,
+            "y": 592
+          }
+        },
+        {
+          "id": "ENEMY-01",
+          "name": "어둠 슬라임",
+          "team": "ENEMY",
+          "hp": 100,
+          "shield": 0,
+          "root": {
+            "x": 1010,
+            "y": 416
+          }
+        },
+        {
+          "id": "B:0:MONSTER:68",
+          "name": "오메가-09",
+          "team": "ENEMY",
+          "hp": 72,
+          "shield": 10018800,
+          "root": {
+            "x": 1010,
+            "y": 416
+          }
+        },
+        {
+          "id": "ENEMY-03",
+          "name": "왕관 슬라임",
+          "team": "ENEMY",
+          "hp": 100,
+          "shield": 0,
+          "root": {
+            "x": 1010,
+            "y": 416
+          }
+        },
+        {
+          "id": "ENEMY-04",
+          "name": "결투 상대 4",
+          "team": "ENEMY",
+          "hp": 100,
+          "shield": 0,
+          "root": {
+            "x": 1010,
+            "y": 416
+          }
+        },
+        {
+          "id": "ENEMY-05",
+          "name": "결투 상대 5",
+          "team": "ENEMY",
+          "hp": 100,
+          "shield": 0,
+          "root": {
+            "x": 1010,
+            "y": 416
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "mobile",
+    "layout": {
+      "dialog": {
+        "w": 378,
+        "client": 378
+      },
+      "body": 390,
+      "window": 390,
+      "images": [
+        {
+          "src": "http://127.0.0.1:18804/assets/ui/project-v/mercenaries/limited-20261002/v-996-source-art.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/vanguard-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/duelist-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/executioner-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/berserker-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/breaker-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/combo-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/vampire-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/avenger-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/shield-knight-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/barrier-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/undying-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/regenerator-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/healer-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/guardian-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/cleanser-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/commander-3.png",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:18804/preview/v35-advancement-fx-20261104/painted-v2/native/Texture/vanguard-3.png",
+          "loaded": true
+        }
+      ],
+      "scroll": {
+        "height": 605,
+        "total": 768
+      }
+    },
+    "errors": [],
+    "failed": [],
+    "audit": {
+      "ready": true,
+      "errors": [],
+      "canvasCount": 1,
+      "pixi": "8.20.0",
+      "engineType": "Ru",
+      "fx": {
+        "active": 0,
+        "sprites": 0,
+        "sessions": [],
+        "cacheBytes": 6340704,
+        "loadedClips": [
+          {
+            "id": "avenger-charge.png",
+            "refs": 0
+          },
+          {
+            "id": "knight-ward.png",
+            "refs": 0
+          },
+          {
+            "id": "commander-mark.png",
+            "refs": 1
+          }
+        ],
+        "completed": 0
+      },
+      "stateFx": {
+        "battleId": "local-advancement-review",
+        "time": 0.3,
+        "pending": 0,
+        "active": 1,
+        "clock": true,
+        "rows": [
+          {
+            "id": "commander",
+            "actor": "QA:A:V-996",
+            "revision": 10,
+            "remaining": 3,
+            "sprites": [
+              {
+                "actor": "QA:A:V-996",
+                "frame": 3,
+                "visible": true,
+                "x": 701.1032357473035,
+                "y": 1196.7396507447354
+              },
+              {
+                "actor": "A:0:CN-02D9DC1E8A8A4209",
+                "frame": 3,
+                "visible": true,
+                "x": 485.10323574730353,
+                "y": 1196.7396507447354
+              },
+              {
+                "actor": "A:1:CN-0505936A0CBB4E59",
+                "frame": 3,
+                "visible": true,
+                "x": 485.10323574730353,
+                "y": 1496.7396507447356
+              },
+              {
+                "actor": "A:2:CN-25F931CE393D474E",
+                "frame": 3,
+                "visible": true,
+                "x": 485.10323574730353,
+                "y": 1796.7396507447356
+              },
+              {
+                "actor": "A:3:CN-23EB4B19986D4818",
+                "frame": 3,
+                "visible": true,
+                "x": 701.1032357473035,
+                "y": 1796.7396507447356
+              },
+              {
+                "actor": "A:4:CN-519C181C18DF4B8E",
+                "frame": 3,
+                "visible": true,
+                "x": 485.10323574730353,
+                "y": 2096.7396507447356
+              },
+              {
+                "actor": "QA:A:V-979",
+                "frame": 3,
+                "visible": true,
+                "x": 701.1032357473035,
+                "y": 2096.7396507447356
+              }
+            ]
+          }
+        ]
+      },
+      "impacts": [],
+      "actors": [
+        {
+          "id": "A:0:CN-02D9DC1E8A8A4209",
+          "name": "철와대 킴성태",
+          "team": "ALLY",
+          "hp": 100,
+          "shield": 0,
+          "root": {
+            "x": 485.10323574730353,
+            "y": 1208.4396507447354
+          }
+        },
+        {
+          "id": "A:1:CN-0505936A0CBB4E59",
+          "name": "구수댕",
+          "team": "ALLY",
+          "hp": 100,
+          "shield": 82368,
+          "root": {
+            "x": 485.10323574730353,
+            "y": 1508.4396507447354
+          }
+        },
+        {
+          "id": "A:2:CN-25F931CE393D474E",
+          "name": "딤우스",
+          "team": "ALLY",
+          "hp": 100,
+          "shield": 82368,
+          "root": {
+            "x": 485.10323574730353,
+            "y": 1808.4396507447354
+          }
+        },
+        {
+          "id": "A:3:CN-23EB4B19986D4818",
+          "name": "Lionel Messi",
+          "team": "ALLY",
+          "hp": 100,
+          "shield": 0,
+          "root": {
+            "x": 701.1032357473035,
+            "y": 1808.4396507447354
+          }
+        },
+        {
+          "id": "A:4:CN-519C181C18DF4B8E",
+          "name": "토마토",
+          "team": "ALLY",
+          "hp": 100,
+          "shield": 0,
+          "root": {
+            "x": 485.10323574730353,
+            "y": 2108.4396507447354
+          }
+        },
+        {
+          "id": "ENEMY-01",
+          "name": "어둠 슬라임",
+          "team": "ENEMY",
+          "hp": 100,
+          "shield": 0,
+          "root": {
+            "x": 1133.1032357473036,
+            "y": 1508.4396507447354
+          }
+        },
+        {
+          "id": "B:0:MONSTER:68",
+          "name": "오메가-09",
+          "team": "ENEMY",
+          "hp": 72,
+          "shield": 10018800,
+          "root": {
+            "x": 1133.1032357473036,
+            "y": 1508.4396507447354
+          }
+        },
+        {
+          "id": "ENEMY-03",
+          "name": "왕관 슬라임",
+          "team": "ENEMY",
+          "hp": 100,
+          "shield": 0,
+          "root": {
+            "x": 1133.1032357473036,
+            "y": 1508.4396507447354
+          }
+        },
+        {
+          "id": "ENEMY-04",
+          "name": "결투 상대 4",
+          "team": "ENEMY",
+          "hp": 100,
+          "shield": 0,
+          "root": {
+            "x": 1133.1032357473036,
+            "y": 1508.4396507447354
+          }
+        },
+        {
+          "id": "ENEMY-05",
+          "name": "결투 상대 5",
+          "team": "ENEMY",
+          "hp": 100,
+          "shield": 0,
+          "root": {
+            "x": 1133.1032357473036,
+            "y": 1508.4396507447354
+          }
+        }
+      ]
+    }
+  }
+]

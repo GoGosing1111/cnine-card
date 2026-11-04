@@ -1,0 +1,16 @@
+[
+  {
+    "id": "knight-ward",
+    "prompt": "Edit this hand-painted VFX sprite sheet. Keep exactly eight sequential animation frames, 4 columns by 2 rows, landscape 2:1, same artwork identity, materials, colors and all eight distinct loop phases. Critical correction: every individual effect INCLUDING ALL its soft glow and particles must be reduced to occupy only the central 48% of its own square cell, with a completely empty, absolutely transparent border of at least 24% of that cell width on every side. No glow may extend into this safety border. Separate every cell with very wide clear transparent gutters. Repaint/complete any clipped glowing edges inside the small isolated effect, preserve the shield/golden ribbons identity. Consistent cell-center pivot and consistent scale across eight frames. Actual transparent background, no numbers or grid lines, no new elements, no backplate. Clean tight-alpha edges, no sprawling fog or rectangular glow.",
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a1a64a-9989-7243-8a0f-cc4ea84ac706\\exec-8cbe5642-45d4-4a9e-a5f3-a2db4826f500.png",
+    "output": "art/knight-ward-v2.png",
+    "status": "CANDIDATE"
+  },
+  {
+    "id": "commander-mark",
+    "prompt": "Edit this hand-painted VFX sprite sheet. Keep exactly eight sequential animation frames, 4 columns by 2 rows, landscape 2:1, same artwork identity, materials, colors and all eight distinct loop phases. Critical correction: every individual effect INCLUDING ALL its soft glow and particles must be reduced to occupy only the central 48% of its own square cell, with a completely empty, absolutely transparent border of at least 24% of that cell width on every side. No glow may extend into this safety border. Separate every cell with very wide clear transparent gutters. Repaint/complete any clipped glowing edges inside the small isolated effect, preserve the shield/golden ribbons identity. Consistent cell-center pivot and consistent scale across eight frames. Actual transparent background, no numbers or grid lines, no new elements, no backplate. Clean tight-alpha edges, no sprawling fog or rectangular glow.",
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a1a64a-9989-7243-8a0f-cc4ea84ac706\\exec-9d44e91a-4028-4e3b-80f8-062206ad77bc.png",
+    "output": "art/commander-mark-v2.png",
+    "status": "CANDIDATE"
+  }
+]
