@@ -1,0 +1,280 @@
+{
+  "browserName": "webkit",
+  "baseline": false,
+  "publicBase": "",
+  "reports": [
+    {
+      "label": "warden-390x844",
+      "width": 390,
+      "height": 844,
+      "commonHeaderVisible": false,
+      "rail": {
+        "x": 5,
+        "y": 203,
+        "right": 55,
+        "bottom": 665.84375,
+        "width": 50,
+        "height": 462.84375
+      },
+      "console": {
+        "x": 63,
+        "y": 513.109375,
+        "right": 382,
+        "bottom": 795.984375,
+        "width": 319,
+        "height": 282.875
+      },
+      "header": {
+        "x": 10,
+        "y": 56,
+        "right": 380,
+        "bottom": 194.375,
+        "width": 370,
+        "height": 138.375
+      },
+      "railConsoleOverlap": false,
+      "headerConsoleOverlap": false,
+      "portraits": 7,
+      "canvasCount": 1,
+      "pageOverflow": false,
+      "consoleOverflow": false,
+      "scrollable": false
+    },
+    {
+      "label": "warden-finale-long-names-390",
+      "width": 390,
+      "height": 844,
+      "commonHeaderVisible": false,
+      "rail": {
+        "x": 5,
+        "y": 251,
+        "right": 55,
+        "bottom": 713.84375,
+        "width": 50,
+        "height": 462.84375
+      },
+      "console": {
+        "x": 63,
+        "y": 513.109375,
+        "right": 382,
+        "bottom": 795.984375,
+        "width": 319,
+        "height": 282.875
+      },
+      "header": {
+        "x": 10,
+        "y": 56,
+        "right": 380,
+        "bottom": 242.765625,
+        "width": 370,
+        "height": 186.765625
+      },
+      "railConsoleOverlap": false,
+      "headerConsoleOverlap": false,
+      "portraits": 7,
+      "canvasCount": 1,
+      "pageOverflow": false,
+      "consoleOverflow": false,
+      "scrollable": false
+    },
+    {
+      "label": "assault-prison-320",
+      "width": 320,
+      "height": 568,
+      "commonHeaderVisible": false,
+      "rail": {
+        "x": 5,
+        "y": 267,
+        "right": 55,
+        "bottom": 520,
+        "width": 50,
+        "height": 253
+      },
+      "console": {
+        "x": 63,
+        "y": 335.875,
+        "right": 312,
+        "bottom": 520,
+        "width": 249,
+        "height": 184.125
+      },
+      "header": {
+        "x": 10,
+        "y": 56,
+        "right": 310,
+        "bottom": 258.15625,
+        "width": 300,
+        "height": 202.15625
+      },
+      "railConsoleOverlap": false,
+      "headerConsoleOverlap": false,
+      "portraits": 7,
+      "canvasCount": 1,
+      "pageOverflow": false,
+      "consoleOverflow": false,
+      "scrollable": false
+    },
+    {
+      "label": "assault-exposed-320",
+      "width": 320,
+      "height": 568,
+      "commonHeaderVisible": false,
+      "rail": {
+        "x": 5,
+        "y": 203,
+        "right": 55,
+        "bottom": 520,
+        "width": 50,
+        "height": 317
+      },
+      "console": {
+        "x": 63,
+        "y": 211,
+        "right": 312,
+        "bottom": 520,
+        "width": 249,
+        "height": 309
+      },
+      "header": {
+        "x": 10,
+        "y": 56,
+        "right": 310,
+        "bottom": 194.375,
+        "width": 300,
+        "height": 138.375
+      },
+      "railConsoleOverlap": false,
+      "headerConsoleOverlap": false,
+      "portraits": 7,
+      "canvasCount": 1,
+      "pageOverflow": false,
+      "consoleOverflow": false,
+      "scrollable": true
+    },
+    {
+      "label": "rescue-wait-320",
+      "width": 320,
+      "height": 568,
+      "commonHeaderVisible": false,
+      "rail": {
+        "x": 5,
+        "y": 267,
+        "right": 55,
+        "bottom": 520,
+        "width": 50,
+        "height": 253
+      },
+      "console": {
+        "x": 63,
+        "y": 275,
+        "right": 312,
+        "bottom": 520,
+        "width": 249,
+        "height": 245
+      },
+      "header": {
+        "x": 10,
+        "y": 56,
+        "right": 310,
+        "bottom": 258.15625,
+        "width": 300,
+        "height": 202.15625
+      },
+      "railConsoleOverlap": false,
+      "headerConsoleOverlap": false,
+      "portraits": 7,
+      "canvasCount": 1,
+      "pageOverflow": false,
+      "consoleOverflow": false,
+      "scrollable": true
+    },
+    {
+      "label": "rescue-active-320",
+      "width": 320,
+      "height": 568,
+      "commonHeaderVisible": false,
+      "rail": {
+        "x": 5,
+        "y": 234,
+        "right": 55,
+        "bottom": 520,
+        "width": 50,
+        "height": 286
+      },
+      "console": {
+        "x": 63,
+        "y": 242,
+        "right": 312,
+        "bottom": 520,
+        "width": 249,
+        "height": 278
+      },
+      "header": {
+        "x": 10,
+        "y": 56,
+        "right": 310,
+        "bottom": 225.15625,
+        "width": 300,
+        "height": 169.15625
+      },
+      "railConsoleOverlap": false,
+      "headerConsoleOverlap": false,
+      "portraits": 7,
+      "canvasCount": 1,
+      "pageOverflow": false,
+      "consoleOverflow": false,
+      "scrollable": true
+    }
+  ],
+  "actions": [
+    {
+      "action": "SEAL",
+      "targets": [
+        "왕관",
+        "가시",
+        "달"
+      ]
+    },
+    {
+      "action": "INTERRUPT"
+    },
+    {
+      "action": "SEAL",
+      "targets": [
+        "달",
+        "가시",
+        "왕관"
+      ]
+    },
+    {
+      "action": "SHATTER"
+    },
+    {
+      "action": "STRIKE"
+    },
+    {
+      "action": "TRANSFER"
+    },
+    {
+      "action": "RESCUE"
+    },
+    {
+      "action": "CLEANSE"
+    },
+    {
+      "action": "HEAL"
+    }
+  ],
+  "errors": [],
+  "knownMountWarnings": [
+    {
+      "id": 2,
+      "message": "ResizeObserver loop completed with undelivered notifications."
+    },
+    {
+      "id": 3,
+      "message": "ResizeObserver loop completed with undelivered notifications."
+    }
+  ],
+  "missing": []
+}

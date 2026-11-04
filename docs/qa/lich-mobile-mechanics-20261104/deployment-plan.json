@@ -1,0 +1,50 @@
+{
+  "before": {
+    "id": "afe6bb86-9ad0-401c-bbdd-033c6453588e",
+    "url": "https://afe6bb86.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "5ac4af0501c7f8fdae3bf97829e7066eb32e1bbb"
+  },
+  "base": "5ac4af0501c7f8fdae3bf97829e7066eb32e1bbb",
+  "reason": "리치왕 협동 전투 모바일 HUD 중복과 세로 로스터의 기믹 패널 가림 수정. 전용 헤더 실측, 카드 옆 독립 스크롤 조작부, 44px 이상 입력 유지. 320~430 세로/844 가로/1440 PC 및 WebKit 실제 로컬 레이드 API 입력 검수. 게임 규칙·재화·공통 렌더러 변경 없음. 인라인 연결·봉인 원자 입력·응답 복구만 배포 게이트로 확인.",
+  "tests": [
+    "tests/lich-raid-inline-entry-20260929.test.mjs",
+    "tests/lich-seal-batch-20261004.test.mjs",
+    "tests/lich-input-recovery-20261026.test.mjs"
+  ],
+  "checks": [],
+  "qa": [
+    {
+      "browser": "chromium",
+      "views": 11,
+      "inputs": 19,
+      "knownMountWarnings": []
+    },
+    {
+      "browser": "webkit",
+      "views": 6,
+      "inputs": 9,
+      "knownMountWarnings": [
+        {
+          "id": 2,
+          "message": "ResizeObserver loop completed with undelivered notifications."
+        },
+        {
+          "id": 3,
+          "message": "ResizeObserver loop completed with undelivered notifications."
+        }
+      ]
+    }
+  ],
+  "hashes": {
+    "index.html": "60d1351c6300f89e32b16a6cfbbb5ccfcd4912aff360e57f9f797f394231a359",
+    "onestore/index.html": "4815533d8668708942f49b8647af9299b8134d57bf3ee75f80e466f61adbbc93",
+    "js/lich-king-raid-entry-v1.js": "bd78273368e1558e6052e8eabcf661ddcdd68578e47ab31745873e2255b0247b",
+    "raid/lich-king/inline.mjs": "2c46db057de82db31ba0dd35ab1b81ec4c021dd46cb1f1232166194247fc99f9",
+    "raid/lich-king/inline.css": "d16710d07def2305f38661d27dcec5b3614b6f9ed99e3cf1712d8f6abf44a348",
+    "raid/lich-king/index.html": "3dbd4316b888a802eb6d061895d33fab447fae719db33e5e58646ebfe2de490b",
+    "preview/lich-king-raid-v1/battle.bundle.js": "67fdd1b689457a9b9c85aba0d4396dc6e58b9ef0d25849027b1cf09197ee9c40",
+    "preview/lich-king-raid-v1/mechanics.css": "066d296a6fdd99654fdc16016c5334482adfa9d41b21152a753c0a81c85922a4",
+    "service-worker.js": "578c2168444d40a7a32f300f4149210128fee2067aa9dc23b61d767735c3b30b"
+  }
+}

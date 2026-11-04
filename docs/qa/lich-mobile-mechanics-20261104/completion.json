@@ -1,0 +1,66 @@
+{
+  "completedAt": "2026-11-04T14:44:10.800Z",
+  "source": "b6c1958e1c17f16bfe6cd1bac477470d91cbe11a",
+  "pages": {
+    "id": "8feefcf9-7410-4c89-a3f8-000c1869c05d",
+    "url": "https://8feefcf9.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "b6c1958e1c17f16bfe6cd1bac477470d91cbe11a"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "c97ef19d-91bc-48ec-ae5c-a14689d531f1",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "1ebfb4fa-4894-4533-bf43-a98dbb68d286",
+      "percentage": 100
+    }
+  ],
+  "tests": {
+    "passed": 13,
+    "failed": 0
+  },
+  "browserQA": {
+    "chromium": {
+      "views": 11,
+      "inputs": 19
+    },
+    "webkit": {
+      "views": 6,
+      "inputs": 9,
+      "preExistingMountWarnings": [
+        {
+          "id": 2,
+          "message": "ResizeObserver loop completed with undelivered notifications."
+        },
+        {
+          "id": 3,
+          "message": "ResizeObserver loop completed with undelivered notifications."
+        }
+      ]
+    },
+    "public": {
+      "views": 6,
+      "inputs": 9,
+      "productionAccountWrites": 0
+    }
+  },
+  "delivery": {
+    "publicFiles": 9,
+    "windowsFiles": 7,
+    "assetCount": 20000
+  },
+  "preserved": [
+    "raid rules and deadlines",
+    "server roles and rewards",
+    "shared V3 renderer and portrait artwork",
+    "production user accounts",
+    "prior verified-user 100T coin mail receipt"
+  ],
+  "accountWrites": 0,
+  "messagesSent": 0,
+  "storageMaintenance": 0
+}

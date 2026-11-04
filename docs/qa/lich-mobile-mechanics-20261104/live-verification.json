@@ -1,0 +1,127 @@
+{
+  "at": "2026-11-04T14:43:45.262Z",
+  "pages": {
+    "id": "8feefcf9-7410-4c89-a3f8-000c1869c05d",
+    "url": "https://8feefcf9.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "b6c1958e1c17f16bfe6cd1bac477470d91cbe11a"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "c97ef19d-91bc-48ec-ae5c-a14689d531f1",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "1ebfb4fa-4894-4533-bf43-a98dbb68d286",
+      "percentage": 100
+    }
+  ],
+  "assets": [
+    {
+      "file": "index.html",
+      "sha256": "60d1351c6300f89e32b16a6cfbbb5ccfcd4912aff360e57f9f797f394231a359",
+      "sourceSha256": "60d1351c6300f89e32b16a6cfbbb5ccfcd4912aff360e57f9f797f394231a359",
+      "transform": null
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "449098705e1a812f47680d553b0d97a67f71cfda54578e7b553ba5558e655419",
+      "sourceSha256": "4815533d8668708942f49b8647af9299b8134d57bf3ee75f80e466f61adbbc93",
+      "transform": "existing htmlForStore"
+    },
+    {
+      "file": "js/lich-king-raid-entry-v1.js",
+      "sha256": "bd78273368e1558e6052e8eabcf661ddcdd68578e47ab31745873e2255b0247b",
+      "sourceSha256": "bd78273368e1558e6052e8eabcf661ddcdd68578e47ab31745873e2255b0247b",
+      "transform": null
+    },
+    {
+      "file": "raid/lich-king/inline.mjs",
+      "sha256": "2c46db057de82db31ba0dd35ab1b81ec4c021dd46cb1f1232166194247fc99f9",
+      "sourceSha256": "2c46db057de82db31ba0dd35ab1b81ec4c021dd46cb1f1232166194247fc99f9",
+      "transform": null
+    },
+    {
+      "file": "raid/lich-king/inline.css",
+      "sha256": "d16710d07def2305f38661d27dcec5b3614b6f9ed99e3cf1712d8f6abf44a348",
+      "sourceSha256": "d16710d07def2305f38661d27dcec5b3614b6f9ed99e3cf1712d8f6abf44a348",
+      "transform": null
+    },
+    {
+      "file": "raid/lich-king/index.html",
+      "sha256": "3dbd4316b888a802eb6d061895d33fab447fae719db33e5e58646ebfe2de490b",
+      "sourceSha256": "3dbd4316b888a802eb6d061895d33fab447fae719db33e5e58646ebfe2de490b",
+      "transform": null
+    },
+    {
+      "file": "preview/lich-king-raid-v1/battle.bundle.js",
+      "sha256": "67fdd1b689457a9b9c85aba0d4396dc6e58b9ef0d25849027b1cf09197ee9c40",
+      "sourceSha256": "67fdd1b689457a9b9c85aba0d4396dc6e58b9ef0d25849027b1cf09197ee9c40",
+      "transform": null
+    },
+    {
+      "file": "preview/lich-king-raid-v1/mechanics.css",
+      "sha256": "066d296a6fdd99654fdc16016c5334482adfa9d41b21152a753c0a81c85922a4",
+      "sourceSha256": "066d296a6fdd99654fdc16016c5334482adfa9d41b21152a753c0a81c85922a4",
+      "transform": null
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "578c2168444d40a7a32f300f4149210128fee2067aa9dc23b61d767735c3b30b",
+      "sourceSha256": "578c2168444d40a7a32f300f4149210128fee2067aa9dc23b61d767735c3b30b",
+      "transform": null
+    }
+  ],
+  "windows": {
+    "releaseId": "3d9e8cc73546583f7f058d6bd9a6bb78bb39b8c9eb86ddb806ed98344312d6b9",
+    "files": [
+      {
+        "path": "/index.html",
+        "sha256": "60d1351c6300f89e32b16a6cfbbb5ccfcd4912aff360e57f9f797f394231a359",
+        "bytes": 49439,
+        "essential": true
+      },
+      {
+        "path": "/js/lich-king-raid-entry-v1.js",
+        "sha256": "bd78273368e1558e6052e8eabcf661ddcdd68578e47ab31745873e2255b0247b",
+        "bytes": 3882,
+        "essential": true
+      },
+      {
+        "path": "/raid/lich-king/inline.mjs",
+        "sha256": "2c46db057de82db31ba0dd35ab1b81ec4c021dd46cb1f1232166194247fc99f9",
+        "bytes": 1790,
+        "essential": true
+      },
+      {
+        "path": "/raid/lich-king/inline.css",
+        "sha256": "d16710d07def2305f38661d27dcec5b3614b6f9ed99e3cf1712d8f6abf44a348",
+        "bytes": 113017,
+        "essential": true
+      },
+      {
+        "path": "/raid/lich-king/index.html",
+        "sha256": "3dbd4316b888a802eb6d061895d33fab447fae719db33e5e58646ebfe2de490b",
+        "bytes": 17062,
+        "essential": true
+      },
+      {
+        "path": "/preview/lich-king-raid-v1/battle.bundle.js",
+        "sha256": "67fdd1b689457a9b9c85aba0d4396dc6e58b9ef0d25849027b1cf09197ee9c40",
+        "bytes": 35400,
+        "essential": true
+      },
+      {
+        "path": "/preview/lich-king-raid-v1/mechanics.css",
+        "sha256": "066d296a6fdd99654fdc16016c5334482adfa9d41b21152a753c0a81c85922a4",
+        "bytes": 25292,
+        "essential": true
+      }
+    ]
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "assetCount": 20000
+}

@@ -1,0 +1,49 @@
+{
+  "browserName": "webkit",
+  "baseline": true,
+  "publicBase": "",
+  "reports": [
+    {
+      "label": "warden-360x780",
+      "width": 360,
+      "height": 780,
+      "commonHeaderVisible": true,
+      "rail": {
+        "x": 5,
+        "y": 152,
+        "right": 55,
+        "bottom": 614.84375,
+        "width": 50,
+        "height": 462.84375
+      },
+      "console": {
+        "x": 0,
+        "y": 547,
+        "right": 360,
+        "bottom": 728,
+        "width": 360,
+        "height": 181
+      },
+      "header": {
+        "x": 12,
+        "y": 99,
+        "right": 348,
+        "bottom": 196.828125,
+        "width": 336,
+        "height": 97.828125
+      },
+      "railConsoleOverlap": true,
+      "headerConsoleOverlap": false,
+      "portraits": 7,
+      "canvasCount": 1,
+      "pageOverflow": false,
+      "consoleOverflow": false,
+      "scrollable": false
+    }
+  ],
+  "actions": [],
+  "errors": [
+    "ResizeObserver loop completed with undelivered notifications."
+  ],
+  "missing": []
+}
