@@ -1,0 +1,36 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {blackcrownFixture} from './helpers/blackcrown-pack-fixture.mjs';
+import {BLACKCROWN_LIMITED_CARDS} from '../shared/mercenary-blackcrown-pool-v3.mjs';
+import {BLOODMOON_LIMITED_CARDS} from '../shared/mercenary-bloodmoon-pool-v3.mjs';
+import {BLOODMOON_PACK_KEY,bloodmoonPackDraft} from '../shared/mercenary-bloodmoon-pack-v1.mjs';
+import {LIMITED_SHARD_CRAFTS} from '../shared/mercenary-limited-shard-craft-v1.mjs';
+import {mercenaryCraftDraft} from '../shared/mercenary-craft-v1.mjs';
+import {scheduleLimitedCraftStock,readLimitedCraftStockSchedules} from '../functions/_mercenary_craft_stock_schedule.js';
+import * as black from '../functions/_mercenary_blackcrown_stock_schedule.js';
+import * as blood from '../functions/_mercenary_stock_schedule.js';
+import {processMercenaryPackStockSchedules,runMercenaryStockSchedule} from '../workers/clan-draft/src/mercenary-stock-schedule.js';
+
+test('existing durable runner chains 20:00 packs, 21:00 four craft limits, 22:00 sold-out packs and records all queue deadlines',async t=>{
+ const f=await blackcrownFixture(t),settings=bloodmoonPackDraft(),codes=['V-979','V-989','V-996','V-999'];
+ for(const [code,limit]of Object.entries(settings.stockLimits))await f.p('INSERT INTO mercenary_limited_stock_v1(code,stock_limit) VALUES(?,?)',code,limit).run();
+ await f.setting(BLOODMOON_PACK_KEY,{revision:1,settings});
+ for(const d of LIMITED_SHARD_CRAFTS.filter(d=>codes.includes(d.code)))await f.setting(d.key,{...mercenaryCraftDraft(d),revision:1,stockLimit:15,coinCost:100,masterStarCost:1,successRate:20,materials:[{itemCode:d.requiredMaterial,quantity:2}],isPublic:true,isActive:true});
+ const at20=new Date(Math.floor(Date.now()/1000)*1000+3600000).toISOString(),at21=new Date(Date.parse(at20)+3600000).toISOString(),at22=new Date(Date.parse(at20)+7200000).toISOString();
+ for(const [mod,cards]of [[blood,BLOODMOON_LIMITED_CARDS],[black,BLACKCROWN_LIMITED_CARDS]])for(const [executeAt,condition]of [[at20,undefined],[at22,'SOLD_OUT_ONLY']])await mod.changeMercenaryStockSchedule(f.env,f.user,{action:'SCHEDULE_STOCK',requestId:crypto.randomUUID(),executeAt,changes:cards.map(c=>({code:c.code,quantity:c.rank==='SS'?20:3})),reason:'기존 두 팩 리필 일정 보존 검사',...(condition?{condition}:{})});
+ await scheduleLimitedCraftStock(f.env,f.user,{requestId:crypto.randomUUID(),executeAt:at21,changes:codes.map(code=>({code,quantity:10})),reason:'제작소 공개4종 각10개 추가'});
+ let armed,closed=false;
+ const before=await runMercenaryStockSchedule(f.env,{openDatabase:async()=>({db:f.DB,close:async()=>{closed=true;}}),process:env=>processMercenaryPackStockSchedules(env,{clock:()=>Date.parse(at20)-1}),arm:async at=>{armed=at;return {nextAlarmAt:Date.parse(at)};}});
+ assert(closed);assert.equal(armed,at20);assert.deepEqual(before.nextBySource,{bloodmoon:at20,blackcrown:at20,limitedCraft:at21});
+ const alarm=JSON.parse((await f.p("SELECT value FROM app_meta WHERE key='mercenary_stock_alarm_v1'").first()).value);assert.equal(alarm.nextBySource.limitedCraft,at21);
+ const first=await processMercenaryPackStockSchedules(f.env,{clock:()=>Date.parse(at20)});assert.equal(first.applied,2);assert.equal(first.nextAt,at21);
+ const packBefore21={blood:(await blood.readMercenaryStockSchedules(f.env)).raw,black:(await black.readMercenaryStockSchedules(f.env)).raw,stock:(await f.p('SELECT * FROM mercenary_limited_stock_v1 ORDER BY code').all()).results};
+ const second=await processMercenaryPackStockSchedules(f.env,{clock:()=>Date.parse(at21)});assert.equal(second.applied,1);assert.equal(second.nextAt,at22);
+ assert.equal((await blood.readMercenaryStockSchedules(f.env)).raw,packBefore21.blood);assert.equal((await black.readMercenaryStockSchedules(f.env)).raw,packBefore21.black);assert.deepEqual((await f.p('SELECT * FROM mercenary_limited_stock_v1 ORDER BY code').all()).results,packBefore21.stock);
+ for(const code of codes)assert.equal(JSON.parse((await f.p('SELECT value FROM app_meta WHERE key=?','mercenary_limited_shard_craft_v1:'+code).first()).value).stockLimit,25);
+ await f.p("UPDATE mercenary_limited_stock_v1 SET issued=stock_limit WHERE code IN ('V-950','V-970','V-961','V-975')").run();
+ const third=await processMercenaryPackStockSchedules(f.env,{clock:()=>Date.parse(at22)});assert.equal(third.applied,2);assert.equal(third.nextAt,null);
+ assert.equal((await processMercenaryPackStockSchedules(f.env,{clock:()=>Date.parse(at22)})).applied,0);
+ assert.equal((await readLimitedCraftStockSchedules(f.env)).document.schedules[0].status,'APPLIED');
+ assert.equal(await f.coin(),1000000);
+});

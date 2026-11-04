@@ -1,15 +1,16 @@
 import {createPostgresD1Compat} from '../../../functions/_postgres_d1_compat.js';
 import {processMercenaryStockSchedules} from '../../../functions/_mercenary_stock_schedule.js';
 import {processMercenaryStockSchedules as processBlackcrownStockSchedules} from '../../../functions/_mercenary_blackcrown_stock_schedule.js';
+import {processLimitedCraftStockSchedules} from '../../../functions/_mercenary_craft_stock_schedule.js';
 export async function processMercenaryPackStockSchedules(env,options={}){
- const bloodmoon=await processMercenaryStockSchedules(env,options),blackcrown=await processBlackcrownStockSchedules(env,options);
- const nextAt=[bloodmoon.nextAt,blackcrown.nextAt].filter(Boolean).sort()[0]??null;
- return {applied:bloodmoon.applied+blackcrown.applied,nextAt,serverNow:blackcrown.serverNow};
+ const bloodmoon=await processMercenaryStockSchedules(env,options),blackcrown=await processBlackcrownStockSchedules(env,options),craft=await processLimitedCraftStockSchedules(env,options);
+ const nextAt=[bloodmoon.nextAt,blackcrown.nextAt,craft.nextAt].filter(Boolean).sort()[0]??null;
+ return {applied:bloodmoon.applied+blackcrown.applied+craft.applied,nextAt,serverNow:craft.serverNow,nextBySource:{bloodmoon:bloodmoon.nextAt,blackcrown:blackcrown.nextAt,limitedCraft:craft.nextAt}};
 }
 export async function runMercenaryStockSchedule(env,{openDatabase=createPostgresD1Compat,process=processMercenaryPackStockSchedules,arm}={}){
  let connection;
  try{
-  connection=await openDatabase(env.HYPERDRIVE?.connectionString);const state=await process({...env,DB:connection.db}),result={applied:state.applied,nextAt:state.nextAt};
+  connection=await openDatabase(env.HYPERDRIVE?.connectionString);const state=await process({...env,DB:connection.db}),result={applied:state.applied,nextAt:state.nextAt,...(state.nextBySource?{nextBySource:state.nextBySource}:{})};
   if(arm){
    const alarm=await arm(state.nextAt);
    await connection.db.prepare('INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value').bind('mercenary_stock_alarm_v1',JSON.stringify({version:'20261026-v1',checkedAt:state.serverNow,...result,...alarm})).run();
