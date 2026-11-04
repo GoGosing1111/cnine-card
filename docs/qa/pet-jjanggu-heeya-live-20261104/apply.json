@@ -1,0 +1,85 @@
+{
+  "replayed": false,
+  "committed": true,
+  "receipt": {
+    "operationKey": "ops:pet-jjanggu-heeya-live:20261104:v1",
+    "previousRevision": 44,
+    "revision": 45,
+    "addedPets": [
+      {
+        "code": "PET-JJANGGU-HEEYA",
+        "name": "짱구희야",
+        "sourceArt": "assets/ui/pets/jjanggu-heeya-20261104/pet-jjanggu-heeya-approved.png",
+        "battleSprite": "",
+        "enabled": false,
+        "liveEnabled": true,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "ATTACK_PERCENT",
+            "percent": 50
+          }
+        ],
+        "rewardBonuses": {
+          "dropPercent": 20,
+          "accountXpPercent": 50,
+          "coinPercent": 50
+        },
+        "notes": "2026-11-04 사용자 승인 V2 원화. 흑구와 동일하게 공격력 50%, 드랍 20%, 계정 경험치 50%, 코인 50%. PVE/PVP 전체 아군 적용. 획득 경로 별도 설정."
+      }
+    ],
+    "preservedRows": 25,
+    "preservedPetsHash": "ab6f3b9521bbb59d732d385437120e298cd8f95596d9f035095163a677ac5786",
+    "beforeRawHash": "23eeb715636964dd175b999b04c0658aa1c53307354b272ebe76551b0b605f7b",
+    "afterDocumentHash": "76715954e96e18589ecbcffa47d6962f8df1ffbd61b3ee56ab8eeaf1b0ccf855",
+    "settingsHash": "84c09811cdd7907275dce9440f712ce5c202e85974ebd008d0606af617337b74",
+    "completedAt": "2026-11-04T15:07:44.164Z",
+    "accountGrants": 0,
+    "openingPoolChanged": false,
+    "potentialSettingsChanged": false,
+    "rankedShopChanged": false,
+    "liveEffectsEnabled": true,
+    "referencePet": {
+      "code": "PET-HEUKGU",
+      "cmsRevision": 44,
+      "checkedAt": "2026-11-04T14:51:20.433Z",
+      "options": {
+        "enabled": false,
+        "liveEnabled": true,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "ATTACK_PERCENT",
+            "percent": 50
+          }
+        ],
+        "rewardBonuses": {
+          "dropPercent": 20,
+          "accountXpPercent": 50,
+          "coinPercent": 50
+        }
+      }
+    },
+    "auditId": "54383"
+  },
+  "verification": {
+    "verified": true,
+    "revision": 45,
+    "petCount": 26,
+    "registeredCodes": [
+      "PET-JJANGGU-HEEYA"
+    ],
+    "auditId": "54383"
+  },
+  "sourceHash": "297283ea6761155931cf014fc294462ff3f6e930e6891ac13e669d718929df82",
+  "selectOnlyReplay": true,
+  "checkedAt": "2026-11-04T15:07:44.979Z"
+}

@@ -1,0 +1,28 @@
+{
+  "before": {
+    "id": "8feefcf9-7410-4c89-a3f8-000c1869c05d",
+    "url": "https://8feefcf9.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "b6c1958e1c17f16bfe6cd1bac477470d91cbe11a"
+  },
+  "base": "b6c1958e1c17f16bfe6cd1bac477470d91cbe11a",
+  "reason": "사용자 승인 짱구희야 V2 원화를 기존 펫 크기로 등록하고 현재 흑구의 공격력50 드랍20 계정경험치50 코인50 옵션을 동일하게 적용. 기존 펫25종, 계정, 획득·상점 설정 보존. 등록 원자성·재시도·보유 전투/보상과 도감·OWNER 화면만 검수.",
+  "tests": [
+    "tests/pet-jjanggu-heeya-registration-20261104.test.mjs",
+    "tests/pet-jjanggu-heeya-live-20261104.test.mjs"
+  ],
+  "checks": [
+    "test:release-policy"
+  ],
+  "qa": {
+    "status": "PASSED",
+    "viewports": 2
+  },
+  "hashes": {
+    "index.html": "e8635ef8e5409419fcebd0dce13d81f448dc06864a8e8d2253b3e305120f8ae0",
+    "onestore/index.html": "ab258165822bc7346447d87ce0e55b9eaa024ccc5da4fb81d7ae983fd79ccd6a",
+    "shared/pet-art-catalog-v1.mjs": "ff7629f27a2b6c8d14f3128fd7040bde18b18fb79e150123cc942e6ad7c3c35b",
+    "assets/ui/pets/jjanggu-heeya-20261104/pet-jjanggu-heeya-approved.png": "b035ee16a1db07b540510ffbef56465862d6e1c3c38106fe3125128595623773",
+    "service-worker.js": "a64e9b46c4692fe85c005a59550e49b8b6f1d4b1fa8fa224d512102e807d12b1"
+  }
+}

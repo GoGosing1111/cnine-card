@@ -1,0 +1,48 @@
+import fs from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import {pathToFileURL} from 'node:url';
+import {connect,safe} from '../rap-contest-rewards-20261027/preflight.mjs';
+const root='C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout',mode=process.argv[2];
+assert(['dry-run','apply','verify'].includes(mode));
+const source='scripts/ops/pet-jjanggu-heeya-live-20261104.mjs';
+const {OP,ACTION,hash,inspect,registerJjangguHeeya,verifyRegistration}=await import(pathToFileURL(root+'/'+source));
+const sourceHash=hash(await fs.readFile(root+'/'+source));
+const read=async name=>JSON.parse(await fs.readFile(new URL(name+'.json',import.meta.url)));
+const reviewed=await read('read'),prior=reviewed.records.pet_cms_preparation_v1;
+const options={expectedRevision:prior.state.revision,expectedRawHash:prior.sha256,commit:mode==='apply'};
+const db=connect();db.connectionParameters.application_name='ops-pet-jjanggu-heeya-'+mode;
+try{
+ await db.connect();let result;
+ if(mode==='verify'){
+  await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');await db.query("SET LOCAL statement_timeout='20s'");
+  const current=await inspect(db);assert(current.receipt);
+  const verification=await verifyRegistration(db,current.receipt,{exact:true});
+  const pet=current.state.document.pets.find(p=>p.code==='PET-JJANGGU-HEEYA'),heukgu=current.state.document.pets.find(p=>p.code==='PET-HEUKGU');
+  for(const key of ['enabled','liveEnabled','modes','target','buffs','rewardBonuses'])assert.deepEqual(pet[key],heukgu[key],key);
+  const replay=await registerJjangguHeeya({query:(sql,args)=>{assert.match(sql,/^SELECT\b/);return db.query(sql,args);}},options);assert(replay.replayed);
+  result={readOnly:true,sourceHash,verification,pet,heukgu,receipt:current.receipt,selectOnlyReplay:true,settingsUnchanged:true,preservedPets:current.receipt.preservedRows};
+  await db.query('ROLLBACK');
+ }else{
+  const before=await inspect(db);assert.equal(before.receipt,null,'Already completed: verify instead of reapplying');
+  if(mode==='apply'){
+   const dry=await read('dry-run');assert.equal(dry.sourceHash,sourceHash);assert(dry.failureRollbackVerified&&dry.rollbackVerified);assert.equal(dry.committed,false);
+   const live=JSON.parse(await fs.readFile(new URL('release/live-verification.json',import.meta.url)));assert.equal(live.pages.status,'success');assert.equal(live.assets.length,5);
+   const approval=JSON.parse(await fs.readFile(root+'/docs/qa/pet-jjanggu-heeya-live-20261104/approval-20261104.json'));
+   for(const file of [approval.assets[0].approvedAsset,'shared/pet-art-catalog-v1.mjs']){
+    const response=await fetch('https://cnine-card.pages.dev/'+file+'?pet-registration='+live.pages.commit,{signal:AbortSignal.timeout(30000)});assert.equal(response.status,200);assert.equal(hash(Buffer.from(await response.arrayBuffer())),hash(await fs.readFile(root+'/'+file)));
+   }
+  }
+  let failureRollbackVerified=false;
+  if(mode==='dry-run'){
+   const auditBefore=(await db.query('SELECT id::text FROM admin_logs WHERE action_type=$1 AND target_id=$2',[ACTION,OP])).rows;
+   const injected={query:(sql,args)=>{if(sql.startsWith('INSERT INTO app_meta(')&&args?.[0]===OP)throw Error('INJECTED_RECEIPT_FAILURE');return db.query(sql,args);}};
+   await assert.rejects(registerJjangguHeeya(injected,{...options,commit:true}),/INJECTED_RECEIPT_FAILURE/);
+   assert.deepEqual(await inspect(db),before);assert.deepEqual((await db.query('SELECT id::text FROM admin_logs WHERE action_type=$1 AND target_id=$2',[ACTION,OP])).rows,auditBefore);failureRollbackVerified=true;
+  }
+  result=await registerJjangguHeeya(db,options);result.sourceHash=sourceHash;
+  if(mode==='dry-run'){assert.deepEqual(await inspect(db),before);result.rollbackVerified=true;result.failureRollbackVerified=failureRollbackVerified;}
+  else{const replay=await registerJjangguHeeya({query:(sql,args)=>{assert.match(sql,/^SELECT\b/);return db.query(sql,args);}},options);assert(replay.replayed);assert.deepEqual(replay.receipt,result.receipt);result.selectOnlyReplay=true;}
+ }
+ result.checkedAt=new Date().toISOString();await fs.writeFile(new URL(mode+'.json',import.meta.url),JSON.stringify(result,null,2)+'\n',{flag:'wx'});
+ console.log(JSON.stringify({mode,committed:result.committed,revision:result.receipt?.revision,petCount:result.verification?.petCount,auditId:result.receipt?.auditId,verified:result.verification?.verified,rollbackVerified:result.rollbackVerified,failureRollbackVerified:result.failureRollbackVerified,selectOnlyReplay:result.selectOnlyReplay}));
+}catch(error){await db.query('ROLLBACK').catch(()=>{});console.error(safe(error));process.exitCode=1;}finally{await db.end().catch(()=>{});}

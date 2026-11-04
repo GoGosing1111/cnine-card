@@ -1,0 +1,62 @@
+{
+  "status": "LIVE_COMPLETED",
+  "completedKst": "2026-11-05 00:07:44",
+  "operationKey": "ops:pet-jjanggu-heeya-live:20261104:v1",
+  "auditId": "54383",
+  "cmsRevision": 45,
+  "preservedPets": 25,
+  "addedPet": {
+    "code": "PET-JJANGGU-HEEYA",
+    "name": "짱구희야",
+    "sourceArt": "assets/ui/pets/jjanggu-heeya-20261104/pet-jjanggu-heeya-approved.png",
+    "battleSprite": "",
+    "enabled": false,
+    "liveEnabled": true,
+    "modes": [
+      "PVE",
+      "PVP"
+    ],
+    "target": "ALL_ALLIES",
+    "buffs": [
+      {
+        "type": "ATTACK_PERCENT",
+        "percent": 50
+      }
+    ],
+    "rewardBonuses": {
+      "dropPercent": 20,
+      "accountXpPercent": 50,
+      "coinPercent": 50
+    },
+    "notes": "2026-11-04 사용자 승인 V2 원화. 흑구와 동일하게 공격력 50%, 드랍 20%, 계정 경험치 50%, 코인 50%. PVE/PVP 전체 아군 적용. 획득 경로 별도 설정."
+  },
+  "heukguOptionsEqual": true,
+  "sourceCommit": "3e9d1cb7f206c9599afe2893e120e61f7ab998da",
+  "pages": {
+    "id": "e81f95c1-cd84-49a9-bcde-0562bd0a7834",
+    "url": "https://e81f95c1.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "3e9d1cb7f206c9599afe2893e120e61f7ab998da"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "bdaf91a8-be01-4094-a29a-5541e4eed0c4",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "1563f33c-0433-42ac-8e6a-6970252f851e",
+      "percentage": 100
+    }
+  ],
+  "assetCount": 20000,
+  "regressionTests": 9,
+  "releasePolicyTests": 19,
+  "pcMobileLocalVerified": true,
+  "publicMobileVerifiedWithFixtureApi": true,
+  "realDeviceVerified": false,
+  "accountGrants": 0,
+  "messagesSent": 0,
+  "maintenancePerformed": false
+}

@@ -1,0 +1,79 @@
+{
+  "at": "2026-11-04T15:07:33.951Z",
+  "pages": {
+    "id": "e81f95c1-cd84-49a9-bcde-0562bd0a7834",
+    "url": "https://e81f95c1.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "3e9d1cb7f206c9599afe2893e120e61f7ab998da"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "bdaf91a8-be01-4094-a29a-5541e4eed0c4",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "1563f33c-0433-42ac-8e6a-6970252f851e",
+      "percentage": 100
+    }
+  ],
+  "assets": [
+    {
+      "file": "index.html",
+      "sha256": "e8635ef8e5409419fcebd0dce13d81f448dc06864a8e8d2253b3e305120f8ae0",
+      "sourceSha256": "e8635ef8e5409419fcebd0dce13d81f448dc06864a8e8d2253b3e305120f8ae0",
+      "transform": null
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "61017dc57c5d2199f98f76c5e2966fd5cdc92848a66c84573230dbbf61550553",
+      "sourceSha256": "ab258165822bc7346447d87ce0e55b9eaa024ccc5da4fb81d7ae983fd79ccd6a",
+      "transform": "existing htmlForStore"
+    },
+    {
+      "file": "shared/pet-art-catalog-v1.mjs",
+      "sha256": "ff7629f27a2b6c8d14f3128fd7040bde18b18fb79e150123cc942e6ad7c3c35b",
+      "sourceSha256": "ff7629f27a2b6c8d14f3128fd7040bde18b18fb79e150123cc942e6ad7c3c35b",
+      "transform": null
+    },
+    {
+      "file": "assets/ui/pets/jjanggu-heeya-20261104/pet-jjanggu-heeya-approved.png",
+      "sha256": "b035ee16a1db07b540510ffbef56465862d6e1c3c38106fe3125128595623773",
+      "sourceSha256": "b035ee16a1db07b540510ffbef56465862d6e1c3c38106fe3125128595623773",
+      "transform": null
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "a64e9b46c4692fe85c005a59550e49b8b6f1d4b1fa8fa224d512102e807d12b1",
+      "sourceSha256": "a64e9b46c4692fe85c005a59550e49b8b6f1d4b1fa8fa224d512102e807d12b1",
+      "transform": null
+    }
+  ],
+  "windows": {
+    "releaseId": "bbd78990997e2cbb74a9534a0e45860d96129eb6e7f631b32ed44e3c83e7b18c",
+    "files": [
+      {
+        "path": "/index.html",
+        "sha256": "e8635ef8e5409419fcebd0dce13d81f448dc06864a8e8d2253b3e305120f8ae0",
+        "bytes": 49469,
+        "essential": true
+      },
+      {
+        "path": "/shared/pet-art-catalog-v1.mjs",
+        "sha256": "ff7629f27a2b6c8d14f3128fd7040bde18b18fb79e150123cc942e6ad7c3c35b",
+        "bytes": 7154,
+        "essential": true
+      },
+      {
+        "path": "/assets/ui/pets/jjanggu-heeya-20261104/pet-jjanggu-heeya-approved.png",
+        "sha256": "b035ee16a1db07b540510ffbef56465862d6e1c3c38106fe3125128595623773",
+        "bytes": 897122,
+        "essential": false
+      }
+    ]
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "assetCount": 20000
+}

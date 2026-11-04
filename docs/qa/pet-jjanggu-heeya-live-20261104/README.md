@@ -11,3 +11,11 @@
 - 관련 등록/실제 PVE·PVP 보상 검사와 release-policy 검사만 scoped 배포에서 실행. 운영 실행·배포 결과는 후속 기록으로 추가한다.
 
 증거: 프로젝트 루트 operations/pet-jjanggu-heeya-live-20261104/. 이전 시안/원본/프롬프트는 preview/pet-jjanggu-heeya-20261104-v1/ 및 generated_images에 보존.
+
+## 운영 완료
+
+2026-11-05 00:07:44 KST · 감사 54383. CMS revision44→45, 기존25종 보존 및 짱구희야1종 추가. 실제 운영 흑구와 6개 옵션 필드 동일.
+
+소스 3e9d1cb7f206c9599afe2893e120e61f7ab998da · Pages e81f95c1-cd84-49a9-bcde-0562bd0a7834 · 두 Worker100%. 공개5파일 및 Windows manifest 일치, 자산20,000개. 관련9검사·배포도구19검사 통과. 운영 영수증 실패 주입과 정상 예행 모두 원복, 등록/감사/영수증 원자 반영, 별도 READ ONLY 조회 및 SELECT 전용 재실행 쓰기0.
+
+공개 /pet-codex/ 모바일390 화면은 실제 공개 정적 파일과 로컬 읽기 전용 계정 fixture API로 확인. 실제 사용자 로그인·계정 쓰기·실기기 검사 아님. 계정 지급·메시지·획득/상점 변경·유지관리·예약 없음.

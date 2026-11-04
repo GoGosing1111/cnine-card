@@ -1,0 +1,90 @@
+{
+  "status": "PASSED",
+  "scope": "Production /pet-codex/ and public static resources; local read-only account/CMS fixture API. No real account session or writes.",
+  "fixtureOnlyStubs": [
+    "Realtime account socket disabled",
+    "Unrelated shell endpoints return inert fixture data"
+  ],
+  "protectedStateUnchanged": true,
+  "mutationRequests": [],
+  "reports": [
+    {
+      "viewport": "mobile",
+      "size": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/pet-codex/",
+      "catalogCount": 25,
+      "pets": [
+        {
+          "code": "PET-JJANGGU-HEEYA",
+          "name": "짱구희야",
+          "image": {
+            "src": "/assets/ui/pets/jjanggu-heeya-20261104/pet-jjanggu-heeya-approved.png",
+            "width": 1254,
+            "height": 1254,
+            "fit": "contain",
+            "visible": true
+          },
+          "heukguBox": {
+            "x": 34,
+            "y": -47.734375,
+            "width": 322,
+            "height": 210
+          },
+          "pepeguBox": {
+            "x": 34,
+            "y": 152.3125,
+            "width": 322,
+            "height": 235
+          },
+          "equipDisabled": true,
+          "buffUnconfigured": false,
+          "widths": {
+            "viewport": 390,
+            "document": 390,
+            "body": 390
+          },
+          "screenshot": "mobile-pet-jjanggu-heeya.png",
+          "mobileStageViewport": {
+            "imageTop": 94.3125,
+            "imageBottom": 329.3125,
+            "footerTop": 674,
+            "viewport": 844,
+            "screenshot": "mobile-pet-jjanggu-heeya-stage-viewport.png",
+            "note": "Existing fixed footer may overlap lower content at the initial scroll position; the complete image is visible after normal scrolling."
+          }
+        }
+      ],
+      "publicResources": true,
+      "fixtureApi": true
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "httpErrors": [],
+  "unrelatedApiStubs": [
+    "server-support/info",
+    "shell/summary",
+    "me/menu-favorites"
+  ],
+  "apiRequests": [
+    {
+      "path": "pets/v1/codex",
+      "method": "GET"
+    },
+    {
+      "path": "server-support/info",
+      "method": "GET"
+    },
+    {
+      "path": "shell/summary",
+      "method": "GET"
+    },
+    {
+      "path": "me/menu-favorites",
+      "method": "GET"
+    }
+  ]
+}
