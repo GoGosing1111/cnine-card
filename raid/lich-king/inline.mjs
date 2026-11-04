@@ -1,6 +1,6 @@
-import { mountLichRaid } from './live.mjs?v=20261031-ios-memory1';
+import { mountLichRaid } from './live.mjs?v=20261104-mobile-mechanics-v1';
 
-const VERSION = '20261031-ios-memory1';
+const VERSION = '20261104-mobile-mechanics-v1';
 let styles, battle;
 function loadAsset(tag, url) {
   return new Promise((resolve, reject) => {
@@ -13,7 +13,7 @@ function loadAsset(tag, url) {
   });
 }
 function loadBattle() {
-  return battle ||= loadAsset('script', '/preview/lich-king-raid-v1/battle.bundle.js?v=20261031-ios-memory1')
+  return battle ||= loadAsset('script', '/preview/lich-king-raid-v1/battle.bundle.js?v=20261104-mobile-mechanics-v1')
     .catch(error => { battle = null; throw error; });
 }
 

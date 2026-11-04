@@ -2391,6 +2391,304 @@
 #pveLichRaidView .lk-coop-task[data-kind=SHATTER][data-waiting=false] {
   --task:#f2ce8e;
 }
+#pveLichRaidView .battle-v3-live-shell.has-tactical-hud.has-lich-mechanics {
+  --v3-hud-rail-top:var(--lk-header-space,170px) !important;
+  --v3-hud-top:var(--lk-header-space,170px) !important;
+}
+#pveLichRaidView .battle-v3-live-shell.has-tactical-hud.has-lich-mechanics > .battle-v3-header,
+#pveLichRaidView .battle-v3-live-shell.has-tactical-hud.has-lich-mechanics [data-v3-dock] {
+  display: none !important;
+}
+#pveLichRaidView .has-lich-mechanics .v3-hud-rail {
+  max-height: calc(100% - var(--lk-header-space,170px) - 8px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  pointer-events: auto;
+  touch-action: pan-y;
+}
+#pveLichRaidView .combat-view {
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  box-sizing: border-box;
+}
+#pveLichRaidView .raid-combat-toolbar {
+  height: auto;
+  min-height: 48px;
+  gap: 8px;
+  padding: 0 12px;
+  box-sizing: border-box;
+}
+#pveLichRaidView .raid-combat-toolbar .quiet-button {
+  min-height: 44px;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+#pveLichRaidView .combat-journal {
+  height: auto;
+  min-height: 40px;
+  padding: 10px 12px;
+  overflow: hidden;
+}
+#pveLichRaidView .combat-journal summary {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#pveLichRaidView .combat-journal[open] summary {
+  white-space: normal;
+}
+#pveLichRaidView .lk-encounter-header {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  right: 12px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px 18px;
+  max-width: 900px;
+  margin-inline: auto;
+  text-shadow: 0 2px 8px #000;
+}
+#pveLichRaidView .lk-encounter-header .lk-boss-hud {
+  position: static;
+  transform: none;
+  width: auto;
+  max-width: none;
+  min-width: 0;
+  align-self: center;
+}
+#pveLichRaidView .lk-encounter-header .lk-boss-hud > div:first-child {
+  font-size: 12px;
+  letter-spacing: 0;
+  align-items: baseline;
+}
+#pveLichRaidView .lk-encounter-header [data-phase] {
+  overflow-wrap: anywhere;
+}
+#pveLichRaidView .lk-encounter-header [data-health] {
+  white-space: nowrap;
+}
+#pveLichRaidView .lk-encounter-header .lk-enrage {
+  position: static;
+  min-width: 62px;
+  align-self: start;
+}
+#pveLichRaidView .lich-mechanic-screen .lk-encounter-header .lk-order {
+  position: static;
+  transform: none;
+  grid-column: 1/-1;
+  width: auto;
+  text-align: center;
+  min-width: 0;
+}
+#pveLichRaidView .lk-encounter-header .lk-order h2 {
+  font-size: 30px;
+  margin: 4px 0;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+#pveLichRaidView .lk-encounter-header .lk-role-hint {
+  margin-top: 4px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+#pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-encounter-header .lk-host-mark {
+  position: static;
+  grid-column: 1/-1;
+  transform: none;
+  width: auto;
+  padding: 5px 8px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 4px 10px;
+  box-sizing: border-box;
+  font-size: 12px;
+  background: #071b2be8;
+}
+#pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-encounter-header .lk-host-mark[hidden] {
+  display: none;
+}
+#pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-encounter-header .lk-objectives {
+  position: static;
+  grid-column: 1/-1;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px 12px;
+}
+#pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-console {
+  left: var(--lk-rail-left,64px);
+  right: var(--lk-rail-right,8px);
+  bottom: 8px;
+  transform: none;
+  width: auto;
+  max-width: 860px;
+  max-height: calc(100% - var(--lk-header-space,170px) - 16px);
+  box-sizing: border-box;
+  margin-inline: auto;
+  padding: 0;
+  gap: 6px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  pointer-events: auto;
+  touch-action: pan-y;
+  background: #06131eef;
+  scroll-padding: 8px;
+}
+#pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-console:focus-visible {
+  outline: 2px solid #eed49a;
+  outline-offset: 2px;
+}
+#pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-console > [data-seals]:empty {
+  display: none;
+}
+#pveLichRaidView .lk-coop-field {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 8px;
+}
+#pveLichRaidView .lk-coop-task {
+  padding: 10px;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+#pveLichRaidView .lk-coop-task header {
+  align-items: baseline;
+  line-height: 1.35;
+}
+#pveLichRaidView .lk-coop-task p {
+  font-size: 12px;
+  min-height: 0;
+  line-height: 1.4;
+}
+#pveLichRaidView .lk-coop-keys {
+  flex-wrap: wrap;
+}
+#pveLichRaidView .lk-coop-key.is-sigil {
+  flex-basis: 48px;
+  width: 48px;
+  height: 48px;
+  min-height: 48px;
+  font-size: 11px;
+}
+#pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-supplies {
+  flex-wrap: wrap;
+  padding-inline: 6px;
+}
+#pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-supplies:empty {
+  display: none;
+}
+#pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-party-status {
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  padding: 4px 6px 7px;
+  font-size: 11px;
+  line-height: 1.4;
+}
+@media (max-width: 760px) {
+  #pveLichRaidView .raid-combat-toolbar {
+    padding-inline: 6px;
+    gap: 5px;
+    font-size: 11px;
+    letter-spacing: 0;
+  }
+  #pveLichRaidView .raid-combat-toolbar .quiet-button {
+    padding: 5px 7px;
+  }
+  #pveLichRaidView .lk-encounter-header {
+    left: 10px;
+    right: 10px;
+    top: 8px;
+    gap: 5px 12px;
+  }
+  #pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-encounter-header .lk-order {
+    text-align: left;
+  }
+  #pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-encounter-header .lk-order h2 {
+    font-size: 23px;
+  }
+  #pveLichRaidView .lk-encounter-header .lk-order small {
+    font-size: 9px;
+    letter-spacing: .08em;
+  }
+  #pveLichRaidView .lk-encounter-header .lk-order p {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  #pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-encounter-header .lk-role-hint {
+    font-size: 11px;
+  }
+  #pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-encounter-header .lk-objectives {
+    display: none;
+  }
+  #pveLichRaidView .lk-coop-field {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 174px), 1fr));
+    gap: 6px;
+  }
+  #pveLichRaidView .lk-coop-task {
+    padding: 8px;
+  }
+  #pveLichRaidView .lk-coop-task header {
+    font-size: 13px;
+  }
+  #pveLichRaidView .lk-coop-task header strong {
+    font-size: 12px;
+  }
+  #pveLichRaidView .lk-coop-task p {
+    font-size: 12px;
+    margin: 4px 0 7px;
+  }
+  #pveLichRaidView .lk-coop-sequence {
+    font-size: 12px;
+    margin-top: 5px;
+    line-height: 1.4;
+  }
+  #pveLichRaidView .lk-coop-sequence em {
+    font-size: 11px;
+  }
+  #pveLichRaidView .lk-coop-rune {
+    font-size: 12px;
+  }
+  #pveLichRaidView .lk-coop-key {
+    font-size: 13px;
+  }
+  #pveLichRaidView .lk-coop-key.is-sigil svg {
+    width: 22px;
+    height: 22px;
+  }
+  #pveLichRaidView .has-lich-mechanics .v3-hud-rail {
+    scrollbar-width: none;
+  }
+}
+@media (max-height: 500px) {
+  #pveLichRaidView .lk-encounter-header {
+    top: 5px;
+    gap: 3px 12px;
+  }
+  #pveLichRaidView .lk-encounter-header .lk-phase-pips,
+  #pveLichRaidView .lk-encounter-header .lk-order small,
+  #pveLichRaidView .lk-encounter-header .lk-order p {
+    display: none;
+  }
+  #pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-encounter-header .lk-order h2 {
+    font-size: 18px;
+    margin: 0;
+  }
+  #pveLichRaidView .lk-encounter-header .lk-enrage b {
+    font-size: 18px;
+  }
+  #pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-encounter-header .lk-objectives {
+    display: none;
+  }
+  #pveLichRaidView .lk-encounter-header .lk-role-hint {
+    font-size: 11px;
+    margin-top: 2px;
+  }
+}
 #pveLichRaidView {
   color-scheme: dark;
 }

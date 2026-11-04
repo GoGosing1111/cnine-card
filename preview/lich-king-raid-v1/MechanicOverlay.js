@@ -19,16 +19,20 @@ export class MechanicOverlay{
     this.element.className='lich-mechanic-screen';
     this.element.setAttribute('aria-label','리치왕 전장 기믹');
     this.element.innerHTML=`<div class="lk-vignette" aria-hidden="true"></div>
+      <div class="lk-encounter-header">
       <div class="lk-boss-hud"><div><span data-phase></span><b data-health></b></div><div class="lk-hp-track"><i data-hp></i><em data-floor></em></div><div class="lk-phase-pips" aria-hidden="true">Ⅰ ━ Ⅱ ━ Ⅲ ━ Ⅳ</div></div>
       <div class="lk-enrage"><small>광폭화</small><b data-enrage>03:30</b></div>
       <div class="lk-order"><small data-order-caption></small><h2 data-order-title></h2><p data-order-help></p><span class="lk-role-hint" data-role-hint></span></div>
-      <div class="lk-cast" data-cast hidden></div>
       <div class="lk-host-mark" data-host-mark hidden></div>
       <div class="lk-objectives" data-objectives></div>
-      <div class="lk-console"><div data-targets></div><div data-seals></div><div class="lk-supplies" data-support></div><div class="lk-party-status"><span data-doom></span><span data-souls></span><span data-window></span></div></div>
+      </div>
+      <div class="lk-cast" data-cast hidden></div>
+      <div class="lk-console" role="region" aria-label="내 기믹 조작" tabindex="0"><div data-targets></div><div data-seals></div><div class="lk-supplies" data-support></div><div class="lk-party-status"><span data-doom></span><span data-souls></span><span data-window></span></div></div>
       <div class="lk-input-status" data-input-status role="status" hidden>입력 처리 중…</div>
       <div class="lk-feedback" data-feedback role="status" hidden></div>`;
     host.appendChild(this.element);
+    this.stage=host.closest('.battle-v3-live-shell');
+    this.stage?.classList.add('has-lich-mechanics');
     this.world=new Container({label:'LichMechanicTelegraph',eventMode:'none'});
     this.halo=new Graphics();this.world.addChild(this.halo);engine.effectLayer.addChild(this.world);
     const input=b=>({action:b.dataset.action,target:b.dataset.target||'',challengeId:this.state.challenge.id,...(b.dataset.stepToken?{stepToken:b.dataset.stepToken}:{})});
@@ -53,8 +57,13 @@ export class MechanicOverlay{
     this.element.addEventListener('keydown',this.clearPointer);
     this.element.addEventListener('click',this.onClick);
     this.onTick=()=>this.tick();engine.app.ticker.add(this.onTick);
-    this.observer=new ResizeObserver(()=>this.layout());this.observer.observe(host);
-    const dock=host.parentElement.querySelector('[data-v3-dock]');if(dock)this.observer.observe(dock);
+    // Writing the measured inset inside ResizeObserver itself can retrigger
+    // WebKit's observer delivery before layout settles. Coalesce on a frame.
+    this.observer=new ResizeObserver(()=>{
+      if(!this.measureFrame)this.measureFrame=requestAnimationFrame(()=>{this.measureFrame=0;this.layout();});
+    });this.observer.observe(host);
+    this.observer.observe(this.element.querySelector('.lk-encounter-header'));
+    for(const rail of this.stage?.querySelectorAll('[data-hud-side]')||[])this.observer.observe(rail);
     this.layout();
   }
   node(name){return this.element.querySelector(`[data-${name}]`);}
@@ -133,9 +142,27 @@ export class MechanicOverlay{
     this.layout();
   }
   layout(){
-    const dock=this.host.parentElement.querySelector('[data-v3-dock]'),h=this.host.getBoundingClientRect();
-    const bottom=dock?Math.max(0,h.bottom-dock.getBoundingClientRect().top):180;
-    this.element.style.setProperty('--lk-dock-space',Math.round(bottom+8)+'px');
+    const h=this.host.getBoundingClientRect();if(!h.height)return;
+    // The shared roster now lives beside the canvas, not in the old dock.
+    // Measure its actual width (including landscape columns) and leave a
+    // separate lane for every mechanic. Text wrapping determines header space.
+    const header=this.element.querySelector('.lk-encounter-header').getBoundingClientRect();
+    const top=Math.ceil(header.bottom-h.top+8);
+    let left=8,right=8;
+    for(const rail of this.stage?.querySelectorAll('[data-hud-side]')||[]){
+      const r=rail.getBoundingClientRect();if(!r.width||!r.height)continue;
+      if(rail.dataset.hudSide==='A')left=Math.max(left,Math.ceil(r.right-h.left+8));
+      else right=Math.max(right,Math.ceil(h.right-r.left+8));
+    }
+    const signature=[top,left,right,h.width,h.height].join(':');
+    if(signature===this.layoutSignature)return;
+    this.layoutSignature=signature;
+    this.element.style.setProperty('--lk-header-space',top+'px');
+    this.element.style.setProperty('--lk-rail-left',left+'px');
+    this.element.style.setProperty('--lk-rail-right',right+'px');
+    this.stage?.style.setProperty('--lk-header-space',top+'px');
+    cancelAnimationFrame(this.layoutFrame);
+    this.layoutFrame=requestAnimationFrame(()=>this.engine.resize());
   }
   tick(force=false){
     const s=this.state;if(!s?.challenge||!this.engine.app)return;
@@ -198,5 +225,5 @@ export class MechanicOverlay{
     void this.engine.timeline(tl=>{tl.fromTo(node,{opacity:0,y:8},{opacity:1,y:0,duration:.15});tl.to(node,{opacity:0,duration:.2},1.15);},()=>{if(serial===this.flashSerial)node.hidden=true;},1);
   }
   diagnostics(){return {insideV3:this.element.parentElement===this.host,worldLayer:this.world.parent?.label,challengeId:this.state?.challenge?.id,buttons:this.element.querySelectorAll('[data-action]').length};}
-  destroy(){this.observer.disconnect();this.engine.app?.ticker.remove(this.onTick);this.element.removeEventListener('click',this.onClick);this.element.removeEventListener('pointerdown',this.onPointerDown);this.element.removeEventListener('pointercancel',this.clearPointer);this.element.removeEventListener('keydown',this.clearPointer);this.element.remove();this.world.destroy({children:true});}
+  destroy(){this.observer.disconnect();cancelAnimationFrame(this.measureFrame);cancelAnimationFrame(this.layoutFrame);this.stage?.classList.remove('has-lich-mechanics');this.stage?.style.removeProperty('--lk-header-space');this.engine.app?.ticker.remove(this.onTick);this.element.removeEventListener('click',this.onClick);this.element.removeEventListener('pointerdown',this.onPointerDown);this.element.removeEventListener('pointercancel',this.clearPointer);this.element.removeEventListener('keydown',this.clearPointer);this.element.remove();this.world.destroy({children:true});}
 }

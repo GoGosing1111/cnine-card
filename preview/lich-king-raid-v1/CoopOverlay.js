@@ -32,7 +32,7 @@ function syncTasks(o,actions,mechanic){
     }
     card.querySelector('header b').textContent=a.label;card.querySelector('[data-task-clock]').dataset.taskClock=a.key;
     const draft=o.sealInputs.get(a.token)||[],entered=a.index+draft.length;
-    card.querySelector('p').textContent=draft.length?'선택 '+entered+' / 3 · '+draft.join(' → '):a.action==='SEAL'&&!a.blocked?a.note+' · 남은 '+(3-a.index)+'개 연속 입력':a.note;
+    card.querySelector('p').textContent=draft.length?'선택 '+entered+' / 3 · '+draft.join(' → '):a.action==='SEAL'&&!a.blocked?(a.reverse?'오른쪽':'왼쪽')+'부터 문양 '+(3-a.index)+'개를 순서대로 입력':a.note;
     const runes=card.querySelector('[data-task-runes]'),runeKey=JSON.stringify([a.sequence,a.reverse,a.rune]);
     if(runes.dataset.key!==runeKey){
       runes.dataset.key=runeKey;
