@@ -1,0 +1,50 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import http from 'node:http';
+import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
+import {pathToFileURL} from 'node:url';
+import {chromium} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+const root='C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout',publicCode=process.argv.includes('--public');
+const out=new URL(publicCode?'public/':'browser-v2/',import.meta.url);fs.mkdirSync(out,{recursive:true});
+const {clanResumeFixture}=await import(pathToFileURL(root+'/tests/helpers/clan-resume-fixture.mjs'));
+const {inspectResume,applyResume}=await import(pathToFileURL(root+'/scripts/ops/clan-resume-20261025.mjs'));
+const {inspectEvening,planEvening,applyEvening}=await import(pathToFileURL(root+'/scripts/ops/faction-once-evening-20261105.mjs'));
+const cleanups=[],f=await clanResumeFixture({after:fn=>cleanups.push(fn)}),old=await inspectResume(f.pg);
+await applyResume(f.pg,{now:f.clock(),expectedReviewHash:old.reviewHash,dryRun:false,random:()=>0});f.advance(Date.parse('2026-11-05T00:30:00+09:00')-f.clock());
+const db={query:(sql,args)=>sql==='SELECT EXTRACT(EPOCH FROM CURRENT_TIMESTAMP)*1000 AS now'?Promise.resolve({rows:[{now:f.clock()}]}):f.pg.query(sql,args)};
+const plan=planEvening(await inspectEvening(db),{now:f.clock(),random:()=>0});await applyEvening(db,plan,{commit:true});
+const errors=[],failed=[],api=[];
+const server=http.createServer(async(req,res)=>{try{
+ const url=new URL(req.url,'http://qa.test');
+ if(url.pathname.startsWith('/api/')){
+  assert.equal(req.method,'GET','UI verification is read-only');const p=url.pathname.slice(5);api.push(p);
+  const result=p.startsWith('organization/faction/')?await f.call(p+url.search,{user:2,method:'GET'}):await f.organizationCall(p+url.search,{user:2,method:'GET'});
+  res.writeHead(result.status,{'content-type':'application/json'}).end(JSON.stringify(result.data));return;
+ }
+ let rel=decodeURIComponent(url.pathname).replace(/^\//,'');if(!rel||rel.endsWith('/'))rel+='index.html';
+ const file=path.resolve(root,rel);assert(file.startsWith(path.resolve(root)+path.sep));
+ let data;try{data=fs.readFileSync(file);}catch(e){if(e.code!=='ENOENT')throw e;data=execFileSync('git',['show','HEAD:'+rel],{cwd:root,maxBuffer:40e6,stdio:['ignore','pipe','pipe']});}
+ const types={'.html':'text/html;charset=utf-8','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2'};
+ res.writeHead(200,{'content-type':types[path.extname(file)]||'application/octet-stream'}).end(data);
+}catch(e){failed.push({url:req.url,error:e.message});res.writeHead(500).end(e.message);}});
+await new Promise(r=>server.listen(0,'127.0.0.1',r));const fixture='http://127.0.0.1:'+server.address().port,base=publicCode?'https://cnine-card.pages.dev':fixture;
+const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio']}),reports=[];
+try{
+ for(const width of publicCode?[390]:[1440,390]){
+  const context=await browser.newContext({viewport:{width,height:width===1440?1000:844},serviceWorkers:'block'});
+  if(publicCode)await context.route('**/api/**',async route=>{assert.equal(route.request().method(),'GET');const u=new URL(route.request().url()),r=await fetch(fixture+u.pathname+u.search);await route.fulfill({status:r.status,contentType:'application/json',body:await r.text()});});
+  await context.addInitScript(()=>localStorage.setItem('cnine_card_api_token','isolated-faction-review'));
+  const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)failed.push({url:r.url(),status:r.status()});});
+  const check=async name=>{await page.evaluate(()=>document.fonts.ready);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false,name+' horizontal overflow');await page.screenshot({path:new URL(width+'-'+name+'.png',out).pathname.replace(/^\/([A-Za-z]:)/,'$1'),fullPage:true});};
+  if(!publicCode){await page.goto(base+'/organization/');await page.locator('.org-directory-card').first().waitFor();assert.match(await page.locator('.org-recruitment-time').innerText(),/2시간/);await check('headquarters');}
+  await page.goto(base+'/organization/faction/');await page.locator('.fw-seoul-map').waitFor();await page.locator('.fw-operation-info summary').click();
+  const schedule=await page.locator('.fw-operation-info').innerText();assert.match(schedule,/16:00~23:59/);assert.match(schedule,/2시간/);assert.match(schedule,/1회/);assert.match(schedule,/5조/);assert.doesNotMatch(schedule,/3시간/);await check('schedule');
+  await page.locator('.fw-operation-info summary').click();await page.locator('.fw-tabs [data-fw-tab="treasury"]').click();await page.locator('.fw-treasury').waitFor();
+  const rewards=await page.locator('.fw-treasury').innerText();assert.match(rewards,/5조/);assert.match(rewards,/50,000,000/);assert.match(rewards,/2시간 종료/);assert.match(rewards,/4개 이상/);assert.doesNotMatch(rewards,/50,300,000|3시간 종료/);await check('rewards');
+  reports.push({width,schedule,rewards,publicResources:publicCode,fixtureApi:true});await context.close();
+ }
+ assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);const result={status:'PASSED',reports,errors,failed,api,productionAccountWrites:0,scope:'Actual organization headquarters/faction pages and actual API handlers on isolated PGlite data; public mode uses deployed static resources with fixture API. No live account login or writes.'};
+ fs.writeFileSync(new URL('report.json',out),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify({status:result.status,views:reports.length,publicCode}));
+}catch(e){for(const [i,p]of browser.contexts().flatMap(c=>c.pages()).entries())await p.screenshot({path:new URL('failure-'+i+'.png',out).pathname.replace(/^\/([A-Za-z]:)/,'$1'),fullPage:true}).catch(()=>{});fs.writeFileSync(new URL('failure.json',out),JSON.stringify({error:e.stack,errors,failed},null,2));throw e;}
+finally{await browser.close();await new Promise(r=>server.close(r));for(const fn of cleanups.reverse())await fn();}

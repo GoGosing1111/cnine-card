@@ -1,0 +1,187 @@
+{
+  "at": "2026-11-04T15:44:35.988Z",
+  "pages": {
+    "id": "b44c792f-f3c4-408f-87f1-42ef3fa359b7",
+    "url": "https://b44c792f.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "ccc1eac81b80781d07f6ffbbce7e5ec3f25d2a84"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "311d3109-8f30-49fc-9c85-b3bde6554043",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "5a4525ce-7fe8-41f6-8dab-3bec93ed246c",
+      "percentage": 100
+    }
+  ],
+  "assets": [
+    {
+      "file": "index.html",
+      "sha256": "77fc2b4602c3c2e20703149f8002411b5ddd9ef3b336e3fa6bf0bc95b216d9d1",
+      "sourceSha256": "77fc2b4602c3c2e20703149f8002411b5ddd9ef3b336e3fa6bf0bc95b216d9d1",
+      "transform": null
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "9d99fe364f24ca11d8203b30762f0827727a0cfe12a771a6107e17eb879a2898",
+      "sourceSha256": "1896d921fb4872c808ab404ed29f10008274662a25aad91d08577693fcd879c3",
+      "transform": "existing htmlForStore"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "7eb18ff06cdee54cac9ca17d885857ff7e28720605852d0e99681b023805ab00",
+      "sourceSha256": "7eb18ff06cdee54cac9ca17d885857ff7e28720605852d0e99681b023805ab00",
+      "transform": null
+    },
+    {
+      "file": "shared/clan-resumption-v1.mjs",
+      "sha256": "2da95774ede2cdaa27788ab9b03a9f63e68f5867fe3bd8b934198c322adb282d",
+      "sourceSha256": "2da95774ede2cdaa27788ab9b03a9f63e68f5867fe3bd8b934198c322adb282d",
+      "transform": null
+    },
+    {
+      "file": "js/clan-faction-sessions-v1.mjs",
+      "sha256": "b9e6d0d444e2da226afad78e5b14883aedc5a94df025bdc75fe7673c9c523ef9",
+      "sourceSha256": "b9e6d0d444e2da226afad78e5b14883aedc5a94df025bdc75fe7673c9c523ef9",
+      "transform": null
+    },
+    {
+      "file": "js/clan-faction-v1.mjs",
+      "sha256": "e3e86c1a9b764fa2bb6a351dff6d99d1a9cdda9fd7eb91d5667755ed1712711c",
+      "sourceSha256": "e3e86c1a9b764fa2bb6a351dff6d99d1a9cdda9fd7eb91d5667755ed1712711c",
+      "transform": null
+    },
+    {
+      "file": "js/organization-api-v1.mjs",
+      "sha256": "c063d9fd408ca2e6be8b465365e45da6ad58c18c00ee56efb4f04caf0f875ed9",
+      "sourceSha256": "c063d9fd408ca2e6be8b465365e45da6ad58c18c00ee56efb4f04caf0f875ed9",
+      "transform": null
+    },
+    {
+      "file": "js/organization-dashboard-v1.mjs",
+      "sha256": "4526c806d4b8237577876a48ba166f0dc081b5844b7e31c620ab1a307de71349",
+      "sourceSha256": "4526c806d4b8237577876a48ba166f0dc081b5844b7e31c620ab1a307de71349",
+      "transform": null
+    },
+    {
+      "file": "js/organization-faction-entry-v1.mjs",
+      "sha256": "c0e11ab280337c4040414b60f2770f8b8178e631688e542dfbb2aa3094f69ca2",
+      "sourceSha256": "c0e11ab280337c4040414b60f2770f8b8178e631688e542dfbb2aa3094f69ca2",
+      "transform": null
+    },
+    {
+      "file": "js/organization-faction-v1.mjs",
+      "sha256": "64ff35aab1434fab2649fa721298843f39404cf92d1c1b6baac357311cb20a22",
+      "sourceSha256": "64ff35aab1434fab2649fa721298843f39404cf92d1c1b6baac357311cb20a22",
+      "transform": null
+    },
+    {
+      "file": "js/organization-public-v1.mjs",
+      "sha256": "d6a7b5b0b8c53471a6a1f0fae9d771f87ea0fc11cab4f8dfb36880e10a6b0cff",
+      "sourceSha256": "d6a7b5b0b8c53471a6a1f0fae9d771f87ea0fc11cab4f8dfb36880e10a6b0cff",
+      "transform": null
+    },
+    {
+      "file": "js/organization-system-v1.mjs",
+      "sha256": "5cdfb19e46ad19401a4ccbb07e95b7f4c5174b014cc24e73e48dc4f7c464072a",
+      "sourceSha256": "5cdfb19e46ad19401a4ccbb07e95b7f4c5174b014cc24e73e48dc4f7c464072a",
+      "transform": null
+    },
+    {
+      "file": "organization/index.html",
+      "sha256": "677cd94527159e10b6a46d401bb01efdd9050a32be6c1ce7b3599c0be9009eaa",
+      "sourceSha256": "677cd94527159e10b6a46d401bb01efdd9050a32be6c1ce7b3599c0be9009eaa",
+      "transform": null
+    },
+    {
+      "file": "organization/faction/index.html",
+      "sha256": "c8dae20bd5c63bd45fe2faece94d94db42c61a774e4f65a828c07f48311943f8",
+      "sourceSha256": "c8dae20bd5c63bd45fe2faece94d94db42c61a774e4f65a828c07f48311943f8",
+      "transform": null
+    }
+  ],
+  "windows": {
+    "releaseId": "05819a00e4912417f7665d8be51f9b622a9d0924823f4879f97c2417dc8564df",
+    "files": [
+      {
+        "path": "/index.html",
+        "sha256": "77fc2b4602c3c2e20703149f8002411b5ddd9ef3b336e3fa6bf0bc95b216d9d1",
+        "bytes": 49497,
+        "essential": true
+      },
+      {
+        "path": "/shared/clan-resumption-v1.mjs",
+        "sha256": "2da95774ede2cdaa27788ab9b03a9f63e68f5867fe3bd8b934198c322adb282d",
+        "bytes": 4153,
+        "essential": true
+      },
+      {
+        "path": "/js/clan-faction-sessions-v1.mjs",
+        "sha256": "b9e6d0d444e2da226afad78e5b14883aedc5a94df025bdc75fe7673c9c523ef9",
+        "bytes": 6061,
+        "essential": true
+      },
+      {
+        "path": "/js/clan-faction-v1.mjs",
+        "sha256": "e3e86c1a9b764fa2bb6a351dff6d99d1a9cdda9fd7eb91d5667755ed1712711c",
+        "bytes": 39391,
+        "essential": true
+      },
+      {
+        "path": "/js/organization-api-v1.mjs",
+        "sha256": "c063d9fd408ca2e6be8b465365e45da6ad58c18c00ee56efb4f04caf0f875ed9",
+        "bytes": 1382,
+        "essential": true
+      },
+      {
+        "path": "/js/organization-dashboard-v1.mjs",
+        "sha256": "4526c806d4b8237577876a48ba166f0dc081b5844b7e31c620ab1a307de71349",
+        "bytes": 6707,
+        "essential": true
+      },
+      {
+        "path": "/js/organization-faction-entry-v1.mjs",
+        "sha256": "c0e11ab280337c4040414b60f2770f8b8178e631688e542dfbb2aa3094f69ca2",
+        "bytes": 4587,
+        "essential": true
+      },
+      {
+        "path": "/js/organization-faction-v1.mjs",
+        "sha256": "64ff35aab1434fab2649fa721298843f39404cf92d1c1b6baac357311cb20a22",
+        "bytes": 57527,
+        "essential": true
+      },
+      {
+        "path": "/js/organization-public-v1.mjs",
+        "sha256": "d6a7b5b0b8c53471a6a1f0fae9d771f87ea0fc11cab4f8dfb36880e10a6b0cff",
+        "bytes": 965,
+        "essential": true
+      },
+      {
+        "path": "/js/organization-system-v1.mjs",
+        "sha256": "5cdfb19e46ad19401a4ccbb07e95b7f4c5174b014cc24e73e48dc4f7c464072a",
+        "bytes": 25655,
+        "essential": true
+      },
+      {
+        "path": "/organization/index.html",
+        "sha256": "677cd94527159e10b6a46d401bb01efdd9050a32be6c1ce7b3599c0be9009eaa",
+        "bytes": 1094,
+        "essential": true
+      },
+      {
+        "path": "/organization/faction/index.html",
+        "sha256": "c8dae20bd5c63bd45fe2faece94d94db42c61a774e4f65a828c07f48311943f8",
+        "bytes": 950,
+        "essential": true
+      }
+    ]
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "assetCount": 20000
+}

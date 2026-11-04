@@ -1,0 +1,41 @@
+import fs from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {pathToFileURL} from 'node:url';
+import {connect,safe} from '../rap-contest-rewards-20261027/preflight.mjs';
+const root='C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout',mode=process.argv[2];
+assert(['prepare','dry-run','apply','verify'].includes(mode));
+const source='scripts/ops/faction-once-evening-20261105.mjs';
+const {OP,ACTION,inspectEvening,planEvening,applyEvening,verifyEvening}=await import(pathToFileURL(root+'/'+source));
+const hash=b=>createHash('sha256').update(b).digest('hex'),sourceHash=hash(await fs.readFile(root+'/'+source));
+const read=async name=>JSON.parse(await fs.readFile(new URL(name+'.json',import.meta.url)));
+const db=connect();db.connectionParameters.application_name='ops-faction-evening-'+mode;
+try{
+ await db.connect();let result;
+ if(mode==='prepare'){
+  await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');const before=await inspectEvening(db);assert.equal(before.receipt,null);
+  const now=Number((await db.query('SELECT EXTRACT(EPOCH FROM CURRENT_TIMESTAMP)*1000 AS now')).rows[0].now);
+  const plan=planEvening(before,{now:Math.trunc(now)});await db.query('ROLLBACK');result={sourceHash,before,plan,readOnly:true};
+ }else if(mode==='verify'){
+  await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');const current=await inspectEvening(db);assert(current.receipt);const verification=await verifyEvening(db,current.receipt);
+  const replay=await applyEvening({query:(sql,args)=>{assert.match(sql,/^SELECT\b/);return db.query(sql,args);}});assert(replay.replayed);
+  result={sourceHash,readOnly:true,receipt:current.receipt,verification,resumption:JSON.parse(current.meta.value),days:current.days,selectOnlyReplay:true};await db.query('ROLLBACK');
+ }else{
+  const prepared=await read('prepare');assert.equal(prepared.sourceHash,sourceHash);const plan=prepared.plan,before=await inspectEvening(db);assert.equal(before.receipt,null);
+  if(mode==='apply'){
+   const dry=await read('dry-run');assert.equal(dry.sourceHash,sourceHash);assert(dry.failureRollbackVerified&&dry.rollbackVerified);assert(!dry.committed);
+   const live=JSON.parse(await fs.readFile(new URL('release/live-verification.json',import.meta.url)));assert.equal(live.pages.status,'success');
+   for(const file of ['shared/clan-resumption-v1.mjs','js/clan-faction-sessions-v1.mjs']){const r=await fetch('https://cnine-card.pages.dev/'+file+'?faction-apply='+live.pages.commit,{signal:AbortSignal.timeout(30000)});assert.equal(r.status,200);assert.equal(hash(Buffer.from(await r.arrayBuffer())),hash(await fs.readFile(root+'/'+file)));}
+  }
+  if(mode==='dry-run'){
+   const logs=(await db.query('SELECT id FROM admin_logs WHERE action_type=$1 AND target_id=$2',[ACTION,OP])).rows;
+   await assert.rejects(applyEvening({query:(sql,args)=>{if(sql.startsWith('INSERT INTO app_meta(')&&args?.[0]===OP)throw Error('INJECTED_RECEIPT_FAILURE');return db.query(sql,args);}},plan,{commit:true}),/INJECTED_RECEIPT_FAILURE/);
+   assert.deepEqual(await inspectEvening(db),before);assert.deepEqual((await db.query('SELECT id FROM admin_logs WHERE action_type=$1 AND target_id=$2',[ACTION,OP])).rows,logs);
+  }
+  result=await applyEvening(db,plan,{commit:mode==='apply'});result.sourceHash=sourceHash;
+  if(mode==='dry-run'){assert.deepEqual(await inspectEvening(db),before);result.rollbackVerified=true;result.failureRollbackVerified=true;}
+  else{const replay=await applyEvening({query:(sql,args)=>{assert.match(sql,/^SELECT\b/);return db.query(sql,args);}});assert(replay.replayed);result.selectOnlyReplay=true;}
+ }
+ result.checkedAt=new Date().toISOString();await fs.writeFile(new URL(mode+'.json',import.meta.url),JSON.stringify(result,null,2)+'\n',{flag:'wx'});
+ console.log(JSON.stringify({mode,committed:result.committed,rollbackVerified:result.rollbackVerified,verification:result.verification,auditId:result.receipt?.auditId,selectOnlyReplay:result.selectOnlyReplay,plan:result.plan?{rules:result.plan.rules,days:result.plan.days.map(d=>({day:d.day_key,schedule:JSON.parse(d.schedule_json).map(s=>({key:s.key,startsAt:new Date(s.startsAt).toISOString(),endsAt:new Date(s.endsAt).toISOString()}))}))}:undefined}));
+}catch(e){await db.query('ROLLBACK').catch(()=>{});console.error(safe(e));process.exitCode=1;}finally{await db.end().catch(()=>{});}

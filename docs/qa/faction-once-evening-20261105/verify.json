@@ -1,0 +1,124 @@
+{
+  "sourceHash": "0a62342d9f03db69c836c13f320cebbe1287e75cb9bee1ccf82664a4ee9e1388",
+  "readOnly": true,
+  "receipt": {
+    "operationKey": "ops:faction-once-evening:20261105:v1",
+    "authorization": [
+      "1일 1회로 변경하고 오후 4시 ~ 오후 11:59분 사이 1회 열리도록 개편함",
+      "2시간으로 단축",
+      "아니다 코인 5조 마별 5000만개로"
+    ],
+    "status": "COMPLETED",
+    "completedAt": "2026-11-04T15:44:52.868Z",
+    "rules": {
+      "version": "20261105-evening-once",
+      "dailyCount": 1,
+      "durationMs": 7200000,
+      "startMinute": 960,
+      "endMinute": 1439,
+      "coinPerRecipient": 5000000000000,
+      "masterStarsPerRecipient": 50000000
+    },
+    "release": {
+      "version": "20261025-eight-clan-resumed",
+      "enabled": true,
+      "effectiveAt": 1792913659898,
+      "seasonId": 9,
+      "roundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+      "regularSchedule": {
+        "version": "20261025-wed-sat-sun",
+        "firstStartsAt": "2026-10-28T12:00:00.000Z"
+      },
+      "factionSchedule": {
+        "version": "20261105-evening-once",
+        "effectiveAt": 1793806232234,
+        "operationKey": "ops:faction-once-evening:20261105:v1"
+      }
+    },
+    "days": [
+      {
+        "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+        "day_key": "2026-11-05",
+        "schedule_json": "[{\"key\":\"2026-11-05:resumed-1\",\"dayKey\":\"2026-11-05\",\"ordinal\":1,\"startsAt\":1793866860000,\"endsAt\":1793874060000,\"scheduleVersion\":\"20261105-evening-once\",\"hardEndsAt\":1793890740000}]"
+      },
+      {
+        "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+        "day_key": "2026-11-06",
+        "schedule_json": "[{\"key\":\"2026-11-06:resumed-1\",\"dayKey\":\"2026-11-06\",\"ordinal\":1,\"startsAt\":1793962260000,\"endsAt\":1793969460000,\"scheduleVersion\":\"20261105-evening-once\",\"hardEndsAt\":1793977140000}]"
+      }
+    ],
+    "beforeDays": [
+      {
+        "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+        "day_key": "2026-11-05",
+        "schedule_json": "[{\"key\":\"2026-11-05:resumed-1\",\"dayKey\":\"2026-11-05\",\"ordinal\":1,\"startsAt\":1793824320000,\"endsAt\":1793835120000,\"scheduleVersion\":\"20261025-eight-clan-resumed\"}]"
+      },
+      {
+        "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+        "day_key": "2026-11-06",
+        "schedule_json": "[{\"key\":\"2026-11-06:resumed-1\",\"dayKey\":\"2026-11-06\",\"ordinal\":1,\"startsAt\":1793954700000,\"endsAt\":1793965500000,\"scheduleVersion\":\"20261025-eight-clan-resumed\"}]"
+      }
+    ],
+    "previousResumption": {
+      "version": "20261025-eight-clan-resumed",
+      "enabled": true,
+      "effectiveAt": 1792913659898,
+      "seasonId": 9,
+      "roundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+      "regularSchedule": {
+        "version": "20261025-wed-sat-sun",
+        "firstStartsAt": "2026-10-28T12:00:00.000Z"
+      }
+    },
+    "previousStateRevision": 17080,
+    "revision": 17081,
+    "beforeStateHash": "2bdf99bffd6d03e3c5ab908421384355af0ab4bdf8cdcc0c709f379b8e3e37f4",
+    "afterStateHash": "df6dfe688dfa782c04f0da34288d3d8c55f523f77c1d37e3a78e22ed99d84fc5",
+    "historyHash": "0ab15362b607f5d27f7c0fcb071d7e6952ae66d438ee1490a977223a63a05aeb",
+    "policyHash": "ab41145429ddb7dc3d27327a3a0e179553d670ac95a10e05a043621a9afda0df",
+    "accountWrites": 0,
+    "messagesSent": 0,
+    "settlementsReplayed": 0,
+    "auditId": "54392"
+  },
+  "verification": {
+    "verified": true,
+    "revision": 17081,
+    "pendingDays": 2,
+    "dailyCount": 1,
+    "durationMs": 7200000,
+    "coin": 5000000000000,
+    "masterStars": 50000000,
+    "oldHistoryPreserved": true
+  },
+  "resumption": {
+    "version": "20261025-eight-clan-resumed",
+    "enabled": true,
+    "effectiveAt": 1792913659898,
+    "seasonId": 9,
+    "roundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+    "regularSchedule": {
+      "version": "20261025-wed-sat-sun",
+      "firstStartsAt": "2026-10-28T12:00:00.000Z"
+    },
+    "factionSchedule": {
+      "version": "20261105-evening-once",
+      "effectiveAt": 1793806232234,
+      "operationKey": "ops:faction-once-evening:20261105:v1"
+    }
+  },
+  "days": [
+    {
+      "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+      "day_key": "2026-11-05",
+      "schedule_json": "[{\"key\":\"2026-11-05:resumed-1\",\"dayKey\":\"2026-11-05\",\"ordinal\":1,\"startsAt\":1793866860000,\"endsAt\":1793874060000,\"scheduleVersion\":\"20261105-evening-once\",\"hardEndsAt\":1793890740000}]"
+    },
+    {
+      "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+      "day_key": "2026-11-06",
+      "schedule_json": "[{\"key\":\"2026-11-06:resumed-1\",\"dayKey\":\"2026-11-06\",\"ordinal\":1,\"startsAt\":1793962260000,\"endsAt\":1793969460000,\"scheduleVersion\":\"20261105-evening-once\",\"hardEndsAt\":1793977140000}]"
+    }
+  ],
+  "selectOnlyReplay": true,
+  "checkedAt": "2026-11-04T15:45:16.848Z"
+}

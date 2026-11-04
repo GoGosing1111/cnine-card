@@ -1,0 +1,21 @@
+{
+  "status": "PASSED",
+  "reports": [
+    {
+      "width": 390,
+      "schedule": "일정 · 보상\nDAILY OPERATIONS · KST\n다음 세력전 대기 중\n\n매일 랜덤 1회 · 16:00~23:59 · 회차당 2시간 · 영토전 중에는 시간을 멈추고 종료 후 재개합니다. 늦어도 23:59에 종료됩니다.\n\n종료 시 4개 이상 점령한 클랜에 정규 시즌 승점 +1 · 회차당 한 번\n\n1회차\n16:00 — 18:00\n예정\n\n종료 시 4개 이상 점령 · 1인당 5조 코인\n\n보상 상세 보기",
+      "rewards": "SESSION REWARD\n회차 종료 보상\n\n2시간 종료 시점의 점령지를 집계해 메시지함으로 보냅니다.\n\n영토 4개 이상 점령\n5조코인\n마스터의 별\n50,000,000개\n미스틱 에너지\n300개\n보상 대상\n해당 회차 참여 클랜원\n보상 기준\n1인당 · 회차당 1회\n우리 클랜 점령\n0 / 25개\n\n현재 점령 수는 예상 현황입니다. 4개 이상이어도 종료 전에 빼앗기면 보상 조건을 충족하지 못할 수 있습니다.\n\n영토 개수에 비례해 중복 지급되지 않습니다. 코인·마스터의 별·미스틱 에너지는 각각 메시지함에서 수령합니다.\n\n최근 회차 결과\n\n아직 종료된 회차가 없습니다.\n\n클랜자금은 공동 금고에 별도 정산됩니다. 이전 회차의 점령지와 부대 편성을 유지합니다.",
+      "publicResources": true,
+      "fixtureApi": true
+    }
+  ],
+  "errors": [],
+  "failed": [],
+  "api": [
+    "organization/faction/overview",
+    "organization/faction/overview",
+    "organization/faction/alerts"
+  ],
+  "productionAccountWrites": 0,
+  "scope": "Actual organization headquarters/faction pages and actual API handlers on isolated PGlite data; public mode uses deployed static resources with fixture API. No live account login or writes."
+}
