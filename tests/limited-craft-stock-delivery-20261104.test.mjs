@@ -13,7 +13,7 @@ import {processMercenaryPackStockSchedules,runMercenaryStockSchedule} from '../w
 
 test('existing durable runner chains 20:00 packs, 21:00 four craft limits, 22:00 sold-out packs and records all queue deadlines',async t=>{
  const f=await blackcrownFixture(t),settings=bloodmoonPackDraft(),codes=['V-979','V-989','V-996','V-999'];
- await f.p('ALTER TABLE app_meta ADD COLUMN updated_at TEXT').run();
+ await f.pg.exec('ALTER TABLE app_meta ADD COLUMN updated_at TEXT');
  for(const [code,limit]of Object.entries(settings.stockLimits))await f.p('INSERT INTO mercenary_limited_stock_v1(code,stock_limit) VALUES(?,?)',code,limit).run();
  await f.setting(BLOODMOON_PACK_KEY,{revision:1,settings});
  for(const d of LIMITED_SHARD_CRAFTS.filter(d=>codes.includes(d.code)))await f.setting(d.key,{...mercenaryCraftDraft(d),revision:1,stockLimit:15,coinCost:100,masterStarCost:1,successRate:20,materials:[{itemCode:d.requiredMaterial,quantity:2}],isPublic:true,isActive:true});
