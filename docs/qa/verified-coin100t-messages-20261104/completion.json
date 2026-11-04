@@ -1,0 +1,48 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:verified-coin100t-messages:20261104:v1",
+  "authorization": "2차인증 유저 전체 100조 메세지로 지급",
+  "delivery": "MESSAGE",
+  "recipientCount": 618,
+  "messages": 618,
+  "rewardAttachments": 618,
+  "amountPerRecipient": "100000000000000",
+  "totalCoin": "61800000000000000",
+  "title": "2차 인증 유저 100조 코인 지급",
+  "body": "2차 인증을 완료한 유저 여러분께 코인 100조를 드립니다.\n아래 수령 버튼을 눌러 보상을 받아 주세요.\n계정당 1회 지급됩니다.",
+  "completedAt": "2026-11-04T12:30:16.243Z",
+  "completedAtKst": "2026-11-04 21:30:16 KST",
+  "auditId": "54366",
+  "roleCounts": {
+    "OWNER": 2,
+    "USER": 613,
+    "ADMIN": 3
+  },
+  "providerCounts": {
+    "PLAYDK": 617,
+    "WAGO": 1
+  },
+  "excludedBanned": 1,
+  "verification": {
+    "missing": 0,
+    "duplicates": 0,
+    "claimedAtVerification": 1,
+    "claimedCoinLedgerMatched": true,
+    "pendingAtVerification": 617,
+    "verifiedAt": "2026-11-04T12:30:27.397Z",
+    "messageSyncChanged": 618,
+    "claimTestsPassed": 3,
+    "operationLockContentionRejected": true,
+    "failedRehearsalRolledBack": true,
+    "successfulRehearsalRolledBack": true,
+    "independentReadOnly": true,
+    "replayAdditionalWrites": 0,
+    "noDirectWalletOrInventoryWrites": true
+  },
+  "sourceCommit": "5ac4af0501c7f8fdae3bf97829e7066eb32e1bbb",
+  "planHash": "3dfdfdac47099d3635b7c04122f0e4a78dc37f99818618e8069aba47d77fea78",
+  "executionSourceSha256": "d65cc4aa1e5eaf4ac3f347405ea9c3e3c3834b6e4e133a0e0ff71bab88ec42f5",
+  "gameDeployment": false,
+  "storageMaintenance": false,
+  "scheduledAutomations": 0
+}
