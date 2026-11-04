@@ -1,6 +1,6 @@
 import {organizationCrest} from './organization-identity-v1.mjs?v=20261025-clan-eight';
 import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261025-clan-eight';
-import {organizationDistrictById} from '../shared/organization-faction-v1.mjs?v=20261025-clan-eight&clanResume=20261025';
+import {organizationDistrictById} from '../shared/organization-faction-v1.mjs?v=20261025-clan-eight&clanResume=20261025&factionEvening=20261105-v1';
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number=value=>value===null?'—':Number(value).toLocaleString('ko-KR');

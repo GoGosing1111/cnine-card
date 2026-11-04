@@ -37,11 +37,12 @@ export async function organizationFactionLiveOperation(env,now=Date.now()){
  const state=JSON.parse(row.state_json);if(clanRestorationActive(now)&&!activeClanResumption(state.resumption,now))return null;
  const session=state.session;
  if(!session?.key||!['ACTIVE','PAUSED'].includes(session.status)||!Number.isFinite(session.startsAt)||session.startsAt>now)return null;
- if((session.status==='ACTIVE'||session.hardEndsAt)&&(!Number.isFinite(session.endsAt)||session.endsAt<=now))return null;
- const paused=session.status==='PAUSED',required=session.rewardRules?.requiredTerritories??FACTION_SESSION_RULES.requiredTerritories;
+ const paused=session.status==='PAUSED',deadline=paused&&session.hardEndsAt?session.hardEndsAt:session.endsAt;
+ if((!paused||session.hardEndsAt)&&(!Number.isFinite(deadline)||deadline<=now))return null;
+ const required=session.rewardRules?.requiredTerritories??FACTION_SESSION_RULES.requiredTerritories;
  return {kind:'ORGANIZATION_FACTION',phase:session.status,entityId:session.key,roundId:row.id,
-   title:'서울 세력전',detail:paused?(session.hardEndsAt?'영토전으로 일시중단 · 22시 종료 유지':'영토전 진행으로 일시중단 · 종료 후 재개'):`서울 25개 구 · 종료 시 ${required}곳 이상 점령 보상`,
-   startedAt:new Date(session.startsAt).toISOString(),deadlineAt:paused&&!session.hardEndsAt?null:new Date(session.endsAt).toISOString(),
+   title:'서울 세력전',detail:paused?(session.hardEndsAt?'영토전으로 일시중단 · 일일 마감 시각 유지':'영토전 진행으로 일시중단 · 종료 후 재개'):`서울 25개 구 · 종료 시 ${required}곳 이상 점령 보상`,
+   startedAt:new Date(session.startsAt).toISOString(),deadlineAt:paused&&!session.hardEndsAt?null:new Date(deadline).toISOString(),
    requiredTerritories:required,sortOrder:0};
 }
 export async function installOrganizationFactionSchema(DB){

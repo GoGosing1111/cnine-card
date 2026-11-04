@@ -1,13 +1,13 @@
 import {mountWarChat} from './war-chat-v1.mjs?v=20261028-chat2';
 import {organizationCrest} from './organization-identity-v1.mjs?v=20261025-clan-eight';
 import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261025-clan-eight';
-import {ORGANIZATION_DISTRICTS as DISTRICTS,ORGANIZATION_SESSION_RULES as SESSION_RULES,SQUADS,FACTION_RULES as R,organizationDistrictById as districtById,historicalOrganizationDistrictById,isSelfJoinSquad,organizationSquadChangeBlocked} from '../shared/organization-faction-v1.mjs?v=20261024-weekly&clanRestore=20261025&clanResume=20261025';
-import {factionCombatOpen,factionSessionStrip,factionRewardView} from './clan-faction-sessions-v1.mjs?v=20261018-session-rules&clanResume=20261025';
+import {ORGANIZATION_DISTRICTS as DISTRICTS,ORGANIZATION_SESSION_RULES as SESSION_RULES,SQUADS,FACTION_RULES as R,organizationDistrictById as districtById,historicalOrganizationDistrictById,isSelfJoinSquad,organizationSquadChangeBlocked} from '../shared/organization-faction-v1.mjs?v=20261024-weekly&clanRestore=20261025&clanResume=20261025&factionEvening=20261105-v1';
+import {factionCombatOpen,factionSessionStrip,factionRewardView} from './clan-faction-sessions-v1.mjs?v=20261105-evening-once&clanResume=20261025&factionEvening=20261105-v1';
 import {renderOrganizationRankings} from './organization-rankings-v1.mjs?v=20261025-wed-sat-sun&clanRestore=20261025&clanResume=20261025';
 let rankingView='season';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const num=n=>Math.max(0,Number(n)||0).toLocaleString('ko-KR');
-const compact=n=>n>=1e8?(n/1e8).toLocaleString('ko-KR',{maximumFractionDigits:1})+'억':n>=1e4?(n/1e4).toLocaleString('ko-KR',{maximumFractionDigits:1})+'만':num(n);
+const compact=n=>n>=1e12?(n/1e12).toLocaleString('ko-KR',{maximumFractionDigits:1})+'조':n>=1e8?(n/1e8).toLocaleString('ko-KR',{maximumFractionDigits:1})+'억':n>=1e4?(n/1e4).toLocaleString('ko-KR',{maximumFractionDigits:1})+'만':num(n);
 const symbols={map:'M3 6 9 3l6 3 6-3v15l-6 3-6-3-6 3V6Zm6-3v15m6-12v15',sword:'m4 3 12 12m-3 3 5-5m-2 3 5 5M3 3l1 5 4-4-5-1Z',shield:'M12 3 3 6v6c0 5 9 9 9 9s9-4 9-9V6l-9-3Zm-4 9 3 3 5-6',coin:'M20 12a8 8 0 1 1-16 0 8 8 0 0 1 16 0ZM14 8h-3a2 2 0 0 0 0 4h2a2 2 0 0 1 0 4h-3m2-9v10',clock:'M20 12a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5v5l3 2',users:'M16 21v-3a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v3m20 0v-3a4 4 0 0 0-3-4M13 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm5-4a4 4 0 0 1 0 8',alert:'m12 3 10 18H2L12 3Zm0 6v5m0 3v1',arrow:'M4 12h16m-6-6 6 6-6 6'};
 const icon=(id,cls='')=>`<svg class="fw-icon ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${symbols[id]||symbols.map}"/></svg>`;
 const ART='/assets/ui/organization/faction-v3-20261019/';

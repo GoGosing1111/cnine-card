@@ -1,4 +1,4 @@
-import {CLAN_RESUMPTION_STATE_KEY,CLAN_RESUMPTION_AVAILABLE_AT,CLAN_RESUMPTION_VERSION,activeClanResumption,regularClanRules} from '../shared/clan-resumption-v1.mjs';
+import {CLAN_RESUMPTION_STATE_KEY,CLAN_RESUMPTION_AVAILABLE_AT,CLAN_RESUMPTION_VERSION,EVENING_FACTION_RULES,activeClanResumption,regularClanRules} from '../shared/clan-resumption-v1.mjs';
 import {CLAN_RANKED_TEAMS_SQL} from './_clan_ranking.js';
 export async function readClanResumption(env,now=Date.now()){
  if(now<CLAN_RESUMPTION_AVAILABLE_AT)return null;
@@ -16,7 +16,7 @@ export async function mirrorResumedClanJoin(q,round,userId,clanId,slot,now){
 // The caller owns the faction settlement receipt and the same database transaction.
 export async function settleResumedFactionPoints(q,round,snapshot,now){
  const rule=snapshot.rewardRules;
- if(round.scope!=='LIVE'||snapshot.status!=='SETTLED'||rule?.version!==CLAN_RESUMPTION_VERSION||rule?.pointsPerSession!==1||!Number.isSafeInteger(rule.regularSeasonId))return;
+ if(round.scope!=='LIVE'||snapshot.status!=='SETTLED'||![CLAN_RESUMPTION_VERSION,EVENING_FACTION_RULES.version].includes(rule?.version)||rule?.pointsPerSession!==1||!Number.isSafeInteger(rule.regularSeasonId))return;
  const [season]=await q('SELECT * FROM clan_seasons WHERE id=$1 FOR UPDATE',[rule.regularSeasonId]);
  const end=Date.parse(season?.ends_at||'');
  const eligible=season&&['ACTIVE','SETTLEMENT'].includes(season.phase)&&snapshot.startsAt>=rule.resumedAt&&snapshot.endsAt<=end;

@@ -5,7 +5,7 @@ import {reconcilePauses,closeSession,sessionView} from './_clan_faction_sessions
 import {advanceFixedOrganizationFaction} from './_organization_fixed_sessions.js';
 import {ORGANIZATION_FIXED_SCHEDULE} from '../shared/organization-schedule-v1.mjs';
 import {clanRestorationActive,CLAN_RESTORATION,lockedFactionSessions} from '../shared/clan-restoration-v1.mjs';
-import {activeClanResumption,resumedFactionRules,RESUMED_CLAN_RULES} from '../shared/clan-resumption-v1.mjs';
+import {activeClanResumption,resumedFactionRules,resumedFactionLabel} from '../shared/clan-resumption-v1.mjs';
 import {organizationSessionRewardRules,addOrganizationPigCoinRecipients} from '../shared/organization-competition-v1.mjs';
 export const ORGANIZATION_SESSION_POLICY=Object.freeze({recipients:'PARTICIPANTS',interruption:'PAUSE',overlap:'DEFER',mapPolicy:'KEEP',rewardRules:RULES});
 export function validateOrganizationFormation(formation,memberIds){
@@ -78,7 +78,7 @@ export function restrictOrganizationDistricts(state,now){
 }
 export function advanceOrganizationFaction(state,{schedule,wars=[],roster=[],now,assignedAt,policy}){
  const restored=clanRestorationActive(now);
- const resumption=activeClanResumption(state.resumption,now),rules=resumption?resumedFactionRules(RULES,resumption):RULES,version=resumption?.version||CLAN_RESTORATION.version;
+ const resumption=activeClanResumption(state.resumption,now),rules=resumption?resumedFactionRules(RULES,resumption,now):RULES,version=resumption?rules.version:CLAN_RESTORATION.version;
  if(resumption)assignedAt=Math.max(assignedAt,resumption.effectiveAt);
  if(restored&&CLAN_RESTORATION.factionScheduleLocked&&!resumption)return {state,settlements:[],view:lockedFactionSessions(organizationSessionRewardRules(RULES,policy,now))};
  if(!restored&&now>=ORGANIZATION_FIXED_SCHEDULE.effectiveAt)return advanceFixedOrganizationFaction(state,{wars,roster,now,assignedAt,policy});
@@ -89,9 +89,14 @@ export function advanceOrganizationFaction(state,{schedule,wars=[],roster=[],now
   state.session.rewardRules={...state.session.rewardRules,version:RULES.version,requiredTerritories:RULES.requiredTerritories};
  }
  const activeWars=wars.some(w=>w.status==='ACTIVE'||(w.status==='PREPARING'&&factionTime(w.starts_at)<=now));
- if(['ACTIVE','PAUSED'].includes(state.session?.status))reconcilePauses(state,wars,now,Infinity);
+ if(['ACTIVE','PAUSED'].includes(state.session?.status)){
+  const deadline=state.session.hardEndsAt??Infinity;
+  reconcilePauses(state,wars,Math.min(now,deadline),deadline);
+  state.session.endsAt=state.session.status==='PAUSED'&&now>=deadline?deadline:Math.min(state.session.endsAt,deadline);
+  const slot=state.sessionPlan?.find(s=>s.key===state.session.key);if(slot)slot.endsAt=state.session.endsAt;
+ }
  else advanceFactionState(state,now,Infinity);
- if(state.session?.status==='ACTIVE'&&state.session.endsAt<=now)
+ if((state.session?.status==='ACTIVE'&&state.session.endsAt<=now)||(['ACTIVE','PAUSED'].includes(state.session?.status)&&state.session.hardEndsAt<=now))
   settlements.push(addOrganizationPigCoinRecipients(closeSession(state,state.session,state.session.endsAt,'SESSION_END',roster,{...ORGANIZATION_SESSION_POLICY,rewardRules:state.session.rewardRules||RULES}),roster));
  const busy=()=>['ACTIVE','PAUSED'].includes(state.session?.status);
  const overlaps=slot=>busy()||state.sessionQueue.length||(state.session?.key!==slot.key&&state.session?.closedAt>slot.startsAt);
@@ -115,7 +120,8 @@ export function advanceOrganizationFaction(state,{schedule,wars=[],roster=[],now
   if(activeWars||wars.some(w=>factionTime(w.starts_at)<=now&&factionTime(w.starts_at)<slot.endsAt&&(!['FINISHED'].includes(w.status)||factionTime(w.settled_at||w.ends_at)>slot.startsAt))){slot.status='SKIPPED';slot.reason='TERRITORY_WAR';continue;}
   open(slot);
  }
- if(!busy()&&!activeWars&&state.sessionQueue.length){const slot=state.sessionQueue.shift();open({...slot,startsAt:now,endsAt:now+RULES.durationMs,deferred:true});}
+ while(state.sessionQueue.length&&state.sessionQueue[0].hardEndsAt<=now){const expired=state.sessionQueue.shift(),displayed=state.sessionPlan.find(s=>s.key===expired.key);if(displayed)Object.assign(displayed,{status:'SKIPPED',reason:'WINDOW_ENDED'});}
+ if(!busy()&&!activeWars&&state.sessionQueue.length){const slot=state.sessionQueue.shift();open({...slot,startsAt:now,endsAt:Math.min(now+rules.durationMs,slot.hardEndsAt??Infinity),deferred:true});}
  const view=sessionView(state,schedule,now,{phase:'ACTIVE'},activeWars||state.session?.status==='PAUSED');
- return {state,settlements,view:{...view,rules:busy()?state.session.rewardRules||rules:rules,recipientPolicy:'PARTICIPANTS',mapPolicy:'KEEP',...(resumption?{scheduleLocked:false,pointsIncluded:true,scheduleLabel:RESUMED_CLAN_RULES.factionLabel}:{})}};
+ return {state,settlements,view:{...view,rules:busy()?state.session.rewardRules||rules:rules,recipientPolicy:'PARTICIPANTS',mapPolicy:'KEEP',...(resumption?{scheduleLocked:false,pointsIncluded:true,scheduleLabel:resumedFactionLabel(resumption,now)}:{})}};
 }

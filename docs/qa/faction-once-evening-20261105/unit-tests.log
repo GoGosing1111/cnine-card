@@ -1,0 +1,12 @@
+✔ one two-hour slot fits 16:00–23:59 at every random boundary, preserving the historic schedule (1.8225ms)
+✔ pending schedule migration is atomic and repeatable; actual settlement grants 5T/50M once and retains 4-holding points (2395.631ms)
+✔ territory pauses cannot extend the new session past 23:59 or reopen it at midnight (0.99ms)
+✔ schedule and reward text show two hours, 5조 and exactly 50,000,000 stars (0.5799ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2976.3307
