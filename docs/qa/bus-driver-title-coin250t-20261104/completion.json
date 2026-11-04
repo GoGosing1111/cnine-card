@@ -1,0 +1,72 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:bus-driver-title-coin250t:20261104:v1",
+  "authorization": "버스기사 칭호 보유자 250조씩 지급해",
+  "title": {
+    "id": "655095",
+    "code": "RAID_BUS_DRIVER",
+    "name": "버스기사"
+  },
+  "delivery": "DIRECT_WALLET",
+  "recipientCount": 5,
+  "amountPerRecipient": "250000000000000",
+  "totalAmount": "1250000000000000",
+  "completedAt": "2026-11-04T10:04:36.054Z",
+  "completedAtKst": "2026-11-04 19:04:36 KST",
+  "auditId": "54340",
+  "sourceHash": "4c94a04fa3bdd1059ea427e09407f386a414d55e2f83f39e3989105085982012",
+  "planHash": "e5c44b8546eafe3804f7c50d8b3d6fa351218f860dab0339a25a6d7f1b4ec8f0",
+  "executionSourceSha256": "0703f91aaf6b9bf34d19d7a6d100df65366383c4315cb0b3e6d9da29e313c798",
+  "recipients": [
+    {
+      "userId": "22",
+      "nickname": "커피먹는철구",
+      "amount": "250000000000000",
+      "coinLogId": "101601362"
+    },
+    {
+      "userId": "45",
+      "nickname": "박세라-ㅂ-",
+      "amount": "250000000000000",
+      "coinLogId": "101601363"
+    },
+    {
+      "userId": "218",
+      "nickname": "현하루",
+      "amount": "250000000000000",
+      "coinLogId": "101601364"
+    },
+    {
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "amount": "250000000000000",
+      "coinLogId": "101601365"
+    },
+    {
+      "userId": "4391",
+      "nickname": "더듬이구",
+      "amount": "250000000000000",
+      "coinLogId": "101601366"
+    }
+  ],
+  "verification": {
+    "coinLogs": 5,
+    "auditRecords": 1,
+    "missing": 0,
+    "duplicates": 0,
+    "walletSyncChanged": 5,
+    "testsPassed": 5,
+    "failedDryRunRolledBack": true,
+    "successfulDryRunRolledBack": true,
+    "independentReadOnly": true,
+    "replayAdditionalWrites": 0,
+    "locksReleased": true,
+    "titleHoldingsPreserved": true,
+    "currentBalancesReconciled": true,
+    "subsequentLedgerEntries": 7
+  },
+  "messagesSent": 0,
+  "gameDeployment": false,
+  "storageMaintenance": false,
+  "scheduledAutomations": 0
+}
