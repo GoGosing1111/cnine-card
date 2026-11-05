@@ -1,0 +1,46 @@
+{
+  "checks": [
+    "120-instance first page with bounded next cursor",
+    "lobby font and approved codex panel/button assets",
+    "next page appends physical duplicate instances",
+    "real polish information retained",
+    "Enter mercenary selection retains focus after refresh",
+    "next arrow navigates the retained roster focus",
+    "transfer explicitly clears both former modes",
+    "cancel leaves server unchanged",
+    "confirmed transfer belongs only to target",
+    "PC save restores action focus",
+    "reload retains actual server save",
+    "lost response committed exactly once",
+    "ambiguous save repeats same receipt without duplicate mutation",
+    "Eunseol preserves current PVE/PVP deployment policy",
+    "tablet has no document overflow",
+    "tablet all visible assets decoded",
+    "tablet detail fits its container",
+    "mobile has no document overflow",
+    "mobile all visible assets decoded",
+    "mobile detail fits its container",
+    "mobile save restores item focus after dialog closes",
+    "mobile-320 has no document overflow",
+    "mobile-320 all visible assets decoded",
+    "mobile-320 detail fits its container",
+    "mobile-320 save restores item focus after dialog closes",
+    "401 gives actual login recovery",
+    "no uncaught browser errors"
+  ],
+  "errors": [],
+  "viewports": [
+    {
+      "width": 1024,
+      "height": 900
+    },
+    {
+      "width": 390,
+      "height": 844
+    },
+    {
+      "width": 320,
+      "height": 760
+    }
+  ]
+}

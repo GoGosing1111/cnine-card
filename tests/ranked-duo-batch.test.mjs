@@ -114,9 +114,9 @@ for(const postgres of [false,true])test(`${postgres?'Postgres':'SQLite'} duo gea
  const item=REGION_EQUIPMENT[0];await f.p('INSERT INTO character_equipment_items(id,code,name,slot,total_power,pve_power,pvp_power,is_active) VALUES(1,?,?,?,?,?,?,1)',item.code,item.name,item.slot,item.totalPower,90000,10000).run();
  await f.p('INSERT INTO user_equipment_instances VALUES(101,2,1)').run();await f.p("INSERT INTO user_equipment_loadout VALUES(2,'WEAPON',101)").run();
  const profile=async()=>(await loadDuoProfiles(f.env,[2],f.config,f.deps,{now:f.clock()}))[0];
- const save=async(mode,instanceId,revision)=>saveMercenaryEquipment(f.env,{id:2},{requestId:crypto.randomUUID(),mode,instanceId,slot:'WEAPON',revision});
+ const save=async(mode,instanceId,revision)=>saveMercenaryEquipment(f.env,{id:2},{requestId:crypto.randomUUID(),mercenaryCode:'V-001',mode,instanceId,slot:'WEAPON',revision});
  await save('PVE','101',0);const first=await profile();assert.equal(first.attack.mercenary.equipment,undefined);assert.equal(first.attack.equipmentBonus,0);assert.equal(first.breakdown.equipmentPower,0);
- await save('PVP','101',0);const equipped=await profile();assert.ok(equipped.sourceVersion>first.sourceVersion);assert.equal(equipped.attack.mercenary.equipment.power,10000);assert.equal(equipped.defense.mercenary.equipment.power,10000);assert.equal(equipped.attack.equipmentBonus,0);
- await save('PVE',null,1);assert.equal((await profile()).attack.mercenary.equipment.power,10000);
- await save('PVP',null,1);assert.equal((await profile()).attack.mercenary.equipment,undefined);
+ await save('PVP','101',1);const equipped=await profile();assert.ok(equipped.sourceVersion>first.sourceVersion);assert.equal(equipped.attack.mercenary.equipment.power,10000);assert.equal(equipped.defense.mercenary.equipment.power,10000);assert.equal(equipped.attack.equipmentBonus,0);
+ await save('PVE',null,2);assert.equal((await profile()).attack.mercenary.equipment.power,10000);
+ await save('PVP',null,3);assert.equal((await profile()).attack.mercenary.equipment,undefined);
 });

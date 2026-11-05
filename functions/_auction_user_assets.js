@@ -11,6 +11,7 @@ const parse=raw=>raw==null?null:JSON.parse(raw);
 const contains=(value,ref)=>Array.isArray(value)?value.some(v=>contains(v,ref)):value&&typeof value==='object'?Object.values(value).some(v=>contains(v,ref)):String(value)===String(ref);
 export function auctionMetaSelectionContains(kind,key,value,ref){
  if(kind==='PET')return key.startsWith('pet_loadout_v1:')&&PET_LOADOUT_MODES.some(mode=>petSlotForMode(value,mode).petCode===ref);
+ if(key.startsWith('mercenary_equipment_v2:'))return kind==='EQUIPMENT'?contains(value?.loadouts||{},ref):kind==='MERCENARY'&&Object.values(value?.loadouts?.[ref]||{}).some(slots=>Object.values(slots).some(Boolean));
  const selected=kind==='EQUIPMENT'?value?.slots:key.startsWith('ranked_series_roster_')?value?.codes:key.startsWith('mercenary_dual_')?[value?.PVE?.mercenaryCodes,value?.PVP?.mercenaryCodes]:value?.mercenaryCode;
  return selected!=null&&contains(selected,ref);
 }
@@ -49,8 +50,11 @@ async function protectedLoadouts(DB,userId,kind,ref){
     const keys=[`mercenary_pvp_loadout_v1:${userId}`,`mercenary_dual_loadout_v2:${userId}`,`ranked_series_roster_v${RANKED_SERIES_RULES.mercenariesPerRound}:${userId}`],raws=await Promise.all(keys.map(key=>meta(DB,key)));
     if(auctionMercenarySelected(old,...raws.map(parse),ref))fail('편성 중인 마지막 용병은 편성을 해제한 뒤 등록하세요.');
     const token=crypto.randomUUID();checks.push(jointGuard(DB,token,"COALESCE((SELECT mercenary_code FROM user_mercenary_loadout_v1 WHERE user_id=?),'')=?",[userId,old?.mercenary_code||'']),jointGuardEnd(DB,token));
-    keys.forEach((key,i)=>checks.push(...metaGuard(DB,key,raws[i])));return checks;
+    keys.forEach((key,i)=>checks.push(...metaGuard(DB,key,raws[i])));const equipmentKey=`mercenary_equipment_v2:${userId}`,equipmentRaw=await meta(DB,equipmentKey);if(auctionMetaSelectionContains(kind,equipmentKey,parse(equipmentRaw),ref))fail('장비를 착용한 마지막 용병은 장비를 해제한 뒤 등록하세요.');checks.push(...metaGuard(DB,equipmentKey,equipmentRaw));return checks;
   }
+  const v2key=`mercenary_equipment_v2:${userId}`,v2raw=kind==='EQUIPMENT'?await meta(DB,v2key):null;
+  if(kind==='EQUIPMENT'&&v2raw!==null){if(auctionMetaSelectionContains(kind,v2key,parse(v2raw),ref))fail('착용 중인 장비는 해제한 뒤 등록하세요.');return [...checks,...metaGuard(DB,v2key,v2raw)];}
+  if(kind==='EQUIPMENT')checks.push(...metaGuard(DB,v2key,v2raw));
   const keys=kind==='MERCENARY'?[`mercenary_pvp_loadout_v1:${userId}`,`mercenary_dual_loadout_v2:${userId}`,`ranked_series_roster_v${RANKED_SERIES_RULES.mercenariesPerRound}:${userId}`]:kind==='PET'?[`pet_loadout_v1:${userId}`]:kind==='EQUIPMENT'?[`mercenary_equipment_v1:${userId}:PVE`,`mercenary_equipment_v1:${userId}:PVP`]:[];
   for(const key of keys){const raw=await meta(DB,key);if(auctionMetaSelectionContains(kind,key,parse(raw),ref))fail('편성 중인 물품은 편성을 해제한 뒤 등록하세요.');checks.push(...metaGuard(DB,key,raw));}
   return checks;

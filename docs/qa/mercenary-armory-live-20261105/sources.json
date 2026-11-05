@@ -1,0 +1,57 @@
+[
+  {
+    "file": "mercenary-codex/equipment/index.html",
+    "bytes": 7367,
+    "sha256": "2b678c5a3c4ccb852cfd9b7e6bc8784dcb47473bb84352013aa7e5eeb9383631"
+  },
+  {
+    "file": "mercenary-codex/equipment/style.css",
+    "bytes": 20005,
+    "sha256": "cc38fae9631d37aa251f19d82c918213a59e41ec84c5adda22355201d265ff8f"
+  },
+  {
+    "file": "mercenary-codex/equipment/app.mjs",
+    "bytes": 24644,
+    "sha256": "30f90146bd6e2019bcd3691b58b21151a0bd49ba9aa134b63385a69875fe0462"
+  },
+  {
+    "file": "mercenary-codex/equipment/ui.mjs",
+    "bytes": 4954,
+    "sha256": "623c8175b2ad135da8896488baa56bec2e50df6ed79e78eb3bf192418ffd2784"
+  },
+  {
+    "file": "js/mercenary-deck-slot.mjs",
+    "bytes": 5211,
+    "sha256": "e02f555b55df8c487a1ab057feb2faac5296a31925f911e7f8bc8d36a88b22b7"
+  },
+  {
+    "file": "index.html",
+    "bytes": 49628,
+    "sha256": "a7a8d7b1722542a8f3457a0be76f560b093efacac85cc07a0725b7bc213f0a6a"
+  },
+  {
+    "file": "service-worker.js",
+    "bytes": 24122,
+    "sha256": "6cceed55651601517aa1f4ca804e16de3291402ec5047893e70016a277df3c39"
+  },
+  {
+    "file": "onestore/index.html",
+    "bytes": 49222,
+    "sha256": "dcda9e0d9575732c6fe7eec1b7cef2feb9fca4ca1afa590e017e3e23fd0b7c98"
+  },
+  {
+    "file": "assets/ui/mercenary-codex/command-20261021/panel-v3.webp",
+    "bytes": 5180,
+    "sha256": "55eb415b28c41dbf34ec74c9ff2f855b860c6aff1a8b5007a8128164af7bb892"
+  },
+  {
+    "file": "assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+    "bytes": 4454,
+    "sha256": "d7400c6be41938ced1d1d8915c9e74840af091ba1537c91b74057d2e0331b155"
+  },
+  {
+    "file": "assets/quest-command-20261103/PretendardVariable.woff2",
+    "bytes": 2057688,
+    "sha256": "9599f12fd42fc0bce1cd50b47a0c022e108d7aa64dd0d1bb0ed44f3282d900b4"
+  }
+]

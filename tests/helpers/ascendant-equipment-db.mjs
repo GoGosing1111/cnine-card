@@ -16,7 +16,7 @@ export async function ascendantEquipmentFixture(t,options={}){
   instances.set(item.code,instance);
  }
  await f.env.DB.batch(mercenaryCardAcquisitionStatements(f.env.DB,{userId:7,mercenaryCode:'V-001',acquisitionId:crypto.randomUUID()}));
- for(const mode of ['PVE','PVP'])await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCode:'V-001',revision:0});
- const revision={PVE:0,PVP:0};
- return {...f,instances,equip:async(mode,item)=>saveMercenaryEquipment(f.env,f.user,{requestId:crypto.randomUUID(),mode,slot:item.slot,instanceId:instances.get(item.code),revision:revision[mode]++})};
+ for(const mode of ['PVE','PVP'])await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCodes:['V-001'],revision:0});
+ let revision=0;
+ return {...f,instances,equip:async(mode,item)=>saveMercenaryEquipment(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:'V-001',mode,slot:item.slot,instanceId:instances.get(item.code),revision:revision++})};
 }

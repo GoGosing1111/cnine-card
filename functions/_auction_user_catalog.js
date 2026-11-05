@@ -43,7 +43,7 @@ export async function auctionAdminCatalog(env){
  ...items.map(c=>item(c.code==='MASTER_STAR'?'MASTER_STAR':'ITEM',c.code,c.name,c.image_url,{systemEligible:!AUCTION_BOUND_ITEMS[c.code],tradeable:!AUCTION_BOUND_ITEMS[c.code],blockedReason:AUCTION_BOUND_ITEMS[c.code]||''}))];
 }
 export async function auctionOwnedCatalog(env,user,{includeBlocked=false}={}){
- const DB=env.DB,p=(s,...a)=>DB.prepare(s).bind(...a),uid=Number(user.id),keys=[`pet_collection_v1:${uid}`,`pet_loadout_v1:${uid}`,`mercenary_pvp_loadout_v1:${uid}`,`mercenary_dual_loadout_v2:${uid}`,`ranked_series_roster_v${RANKED_SERIES_RULES.mercenariesPerRound}:${uid}`,`mercenary_equipment_v1:${uid}:PVE`,`mercenary_equipment_v1:${uid}:PVP`];
+ const DB=env.DB,p=(s,...a)=>DB.prepare(s).bind(...a),uid=Number(user.id),keys=[`pet_collection_v1:${uid}`,`pet_loadout_v1:${uid}`,`mercenary_pvp_loadout_v1:${uid}`,`mercenary_dual_loadout_v2:${uid}`,`ranked_series_roster_v${RANKED_SERIES_RULES.mercenariesPerRound}:${uid}`,`mercenary_equipment_v1:${uid}:PVE`,`mercenary_equipment_v1:${uid}:PVP`,`mercenary_equipment_v2:${uid}`];
  const loans=loanRules.filter(r=>r.userId===uid);for(const r of loans)keys.push(`${r.prefix}:loan:${r.date}:v1`,`${r.prefix}:revoke:${r.date}:v1`);
  const [catalog,{policy},cards,mercs,inventory,vehicles,metas,decks,legacy]=await Promise.all([
  auctionAdminCatalog(env),readAuctionPolicy(env),result(p('SELECT card_id,quantity FROM user_cards WHERE user_id=? AND quantity>0',uid).all()),
@@ -52,9 +52,10 @@ export async function auctionOwnedCatalog(env,user,{includeBlocked=false}={}){
  result(p(`SELECT key,value FROM app_meta WHERE key IN (${keys.map(()=>'?').join(',')})`,...keys).all()),
  result(p('SELECT card_ids FROM pve_decks WHERE user_id=? UNION ALL SELECT card_ids FROM pvp_decks WHERE user_id=? UNION ALL SELECT card_ids FROM pvp_deck_presets WHERE user_id=?',uid,uid,uid).all()),p('SELECT mercenary_code FROM user_mercenary_loadout_v1 WHERE user_id=?',uid).first()]);
  const defs=new Map(catalog.map(d=>[d.kind+':'+d.ref,d])),meta=new Map(metas.map(m=>[m.key,parse(m.value)])),out=[];
- const excluded=[...new Set(['PVE','PVP'].flatMap(mode=>Object.values(meta.get(`mercenary_equipment_v1:${uid}:${mode}`)?.slots||{})).filter(Boolean).map(String))];
+ const v2=meta.get(`mercenary_equipment_v2:${uid}`);
+ const excluded=[...new Set((v2?Object.values(v2.loadouts).flatMap(modes=>Object.values(modes).flatMap(slots=>Object.values(slots))):['PVE','PVP'].flatMap(mode=>Object.values(meta.get(`mercenary_equipment_v1:${uid}:${mode}`)?.slots||{}))).filter(Boolean).map(String))];
  const gear=await result(p(`SELECT e.* FROM character_equipment_items c JOIN user_equipment_instances e ON e.id=(SELECT b.id FROM user_equipment_instances b WHERE b.user_id=? AND b.equipment_id=c.id AND NOT EXISTS(SELECT 1 FROM equipment_forge_states_v1 f WHERE f.instance_id=b.id) AND NOT EXISTS(SELECT 1 FROM user_equipment_loadout l WHERE l.instance_id=b.id) AND NOT EXISTS(SELECT 1 FROM app_meta m WHERE m.key=('equipment_polish_instance_v1:' || CAST(b.user_id AS TEXT) || ':' || CAST(b.id AS TEXT))) ${excluded.length?'AND CAST(b.id AS TEXT) NOT IN ('+excluded.map(()=>'?').join(',')+')':''} ORDER BY b.id DESC LIMIT 1) WHERE c.is_active=1 AND c.is_public=1`,uid,...excluded).all());
- const inMeta=(kind,ref)=>keys.some(key=>key.includes('loadout')||key.includes('roster')||key.startsWith('mercenary_equipment')?auctionMetaSelectionContains(kind,key,meta.get(key),ref):false);
+ const inMeta=(kind,ref)=>keys.some(key=>v2&&key.startsWith('mercenary_equipment_v1:')?false:key.includes('loadout')||key.includes('roster')||key.startsWith('mercenary_equipment')?auctionMetaSelectionContains(kind,key,meta.get(key),ref):false);
  const add=(kind,ref,quantity,extra={})=>{const d=defs.get(kind+':'+ref);if(!d)return;const a={...d,quantity:safeQuantity(quantity),...extra};if(auctionAssetBlocked(policy,a)){a.tradeable=false;a.blockedReason='운영자 지정 경매 금지 품목';}if(a.quantity>0&&(includeBlocked||a.tradeable))out.push(a);};
  for(const c of cards)add('CARD',c.card_id,Number(c.quantity)-(decks.some(d=>selected(parse(d.card_ids),c.card_id))?1:0));
  const [jinmu,jokro]=await Promise.all([readJinmuPackOwners(env,mercs.some(c=>c.mercenary_code===JINMU_CODE)?[uid]:[]),readJokroPackOwners(env,mercs.some(c=>c.mercenary_code===JOKRO_CODE)?[uid]:[])]);

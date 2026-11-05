@@ -9,7 +9,7 @@ async function equipmentWearers(db,userId,items){
   const record=(await readMercenaryEquipmentRecords({DB:db},[Number(userId)])).get(Number(userId));
   return items.map(item=>{
     if(!isMercenaryEquipment(item.code))return item;
-    const mercenaryModes=['PVE','PVP'].filter(mode=>record[mode].slots[item.slot]===item.instanceId);
+    const mercenaryModes=['PVE','PVP'].filter(mode=>Object.values(record.state.loadouts).some(modes=>modes[mode][item.slot]===item.instanceId));
     return {...item,equipped:mercenaryModes.length>0,mercenaryModes};
   });
 }

@@ -5,7 +5,7 @@ let state=null,flight=null,lastRead=0,error='';
 const loadout=(mode='PVE')=>state?.loadouts?.[mode]||state?.loadout;
 const deployedCard=(mode='PVE')=>state?.available?state.cards?.find(c=>c.code===loadout(mode)?.mercenaryCode&&c.canDeploy):null;
 const deployedCards=(mode='PVE')=>state?.available?mercenaryLoadoutCodes(loadout(mode)).map(code=>state.cards?.find(c=>c.code===code&&c.canDeploy)).filter(Boolean):[];
-globalThis.MercenaryDeckSlot=Object.freeze({power:(mode='PVE')=>deployedCards(mode).reduce((sum,c)=>sum+Number(c.basePower||0)+Number(state?.equipmentPower?.[mode]||0),0)});
+globalThis.MercenaryDeckSlot=Object.freeze({power:(mode='PVE')=>deployedCards(mode).reduce((sum,c)=>sum+Number(c.basePower||0)+Number(state?.equipmentPowerByMercenary?.[c.code]?.[mode]||0),0)});
 function render(){
   for(const host of document.querySelectorAll('[data-mercenary-deck-slot]')){
     const mode=host.dataset.mercenaryDeckSlot,code=loadout(mode)?.mercenaryCode,card=state?.cards?.find(c=>c.code===code);

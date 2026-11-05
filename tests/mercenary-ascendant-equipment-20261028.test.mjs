@@ -75,7 +75,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: owne
  await f.p('UPDATE user_equipment_instances SET user_id=8 WHERE id=?',Number(weapon)).run();
  assert.equal((await mercenaryEquipmentRuntimes(f.env,[7],'PVP')).get(7).sets[0].active,4);
  assert.equal((await mercenaryEquipmentRuntimes(f.env,[7],'PVP')).get(7).effects.damageReductionPercent,undefined);
- await assert.rejects(saveMercenaryEquipment(f.env,f.user,{requestId:crypto.randomUUID(),mode:'PVP',slot:'WEAPON',instanceId:weapon,revision:10}),{code:'MERCENARY_EQUIPMENT_OWNERSHIP'});
+ await assert.rejects(saveMercenaryEquipment(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:'V-001',mode:'PVP',slot:'WEAPON',instanceId:weapon,revision:20}),{code:'MERCENARY_EQUIPMENT_OWNERSHIP'});
  assert.equal(await f.coin(),coins);
 });
 

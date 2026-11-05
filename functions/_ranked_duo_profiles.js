@@ -63,7 +63,7 @@ async function rebuild(env,versions,config,deps,hash,now,advanced,dual){
  const baseline=deps.cardBattlePower({rarity:'FUR'},13,battle),profiles=[];
  const byUser=(rows,id)=>rows.results.filter(r=>Number(r.user_id)===id);
  const mercsByUser=await attachReleasedMercenaryLevels(env,new Map(ids.map(userId=>[userId,
-  byUser(mercRows,userId).filter(r=>mercenaryModeAllowed(r.mercenary_code,'PVP')&&(r.mercenary_code!==SHIRANUI_CODE||rankEligible.has(userId))).map(r=>({...battleConfig(mercDocument.document,r.mercenary_code,1),...(mercGear.get(userId)?.items.length?{equipment:mercGear.get(userId)}:{}),combat:mercRuntime.combat,equipped:(mercLoadouts.get(userId).loadouts.PVP.mercenaryCodes||[mercLoadouts.get(userId).loadouts.PVP.mercenaryCode]).includes(r.mercenary_code),cmsRevision:mercDocument.revision}))
+  byUser(mercRows,userId).filter(r=>mercenaryModeAllowed(r.mercenary_code,'PVP')&&(r.mercenary_code!==SHIRANUI_CODE||rankEligible.has(userId))).map(r=>({...battleConfig(mercDocument.document,r.mercenary_code,1),...(mercGear.get(userId)?.byMercenary[r.mercenary_code]?.items.length?{equipment:mercGear.get(userId).byMercenary[r.mercenary_code]}:{}),combat:mercRuntime.combat,equipped:(mercLoadouts.get(userId).loadouts.PVP.mercenaryCodes||[mercLoadouts.get(userId).loadouts.PVP.mercenaryCode]).includes(r.mercenary_code),cmsRevision:mercDocument.revision}))
  ])));
  for(const version of versions){
   const userId=Number(version.user_id),user={id:userId,role:version.role,nickname:version.nickname},cards=byUser(owned,userId).map(c=>({...c,id:String(c.id),power:deps.cardBattlePower(c,Number(c.breakthrough_level||0),battle)})),cardMap=new Map(cards.map(c=>[c.id,c])),best=strongestDuoCards(cards);

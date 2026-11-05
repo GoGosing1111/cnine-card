@@ -1,0 +1,20 @@
+{
+  "mode": "dry-run",
+  "sourceHash": "8226410b5a429c38674155a9331ead598a7c4a145d26e2df17bb7c53486b7808",
+  "planHash": "e8a57067c57e0eef9bccbe60064d2f7be758201426814319227269b9908f322c",
+  "at": "2026-11-05T12:34:16.845Z",
+  "rollbackVerified": true,
+  "injectedFailureRollback": true,
+  "noWriteReplayVerified": true,
+  "verification": {
+    "accounts": 102,
+    "allV2": true,
+    "singleOwnerEveryInstance": true,
+    "legacyBytesPreserved": true,
+    "auditId": "54524",
+    "clearedPveReferences": 33,
+    "created": 102,
+    "readOnly": true
+  },
+  "leasesReleased": true
+}

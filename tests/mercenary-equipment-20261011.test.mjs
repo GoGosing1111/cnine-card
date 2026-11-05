@@ -30,18 +30,18 @@ async function fixture(t,postgres=false){
   await saveMercenaryLoadout(f.env,f.user,{requestId:rid(),mode:'PVP',mercenaryCodes:['V-001'],revision:0});
   return f;
 }
-const save=(f,mode,slot,instanceId,revision,requestId=rid())=>saveMercenaryEquipment(f.env,f.user,{mode,slot,instanceId,revision,requestId});
+const save=(f,mode,slot,instanceId,revision,requestId=rid())=>saveMercenaryEquipment(f.env,f.user,{mercenaryCode:'V-001',mode,slot,instanceId,revision,requestId});
 for(const postgres of [false,true]){
   const db=postgres?'PostgreSQL':'SQLite';
-  test(`${db}: PVE/PVP equipment survives mercenary replacement, shares real copies across modes, and unequips independently`,async t=>{
+  test(`${db}: equipment remains with its mercenary when formation changes and shares only that mercenary across modes`,async t=>{
     const f=await fixture(t,postgres),coin=await f.coin();
-    await save(f,'PVE','WEAPON','1000',0);await save(f,'PVP','WEAPON','1000',0);
+    await save(f,'PVE','WEAPON','1000',0);await save(f,'PVP','WEAPON','1000',1);
     let state=await mercenaryEquipmentState(f.env,f.user);
     assert.equal(state.loadouts.PVE.power,180000);assert.equal(state.loadouts.PVP.power,20000);
     await saveMercenaryLoadout(f.env,f.user,{requestId:rid(),mode:'PVE',mercenaryCodes:['V-002'],revision:1});
-    const snapshot=await releasedMercenarySnapshot(f.env,f.user,'PVE');assert.equal(snapshot.code,'V-002');assert.equal(snapshot.equipment.items[0].instanceId,'1000');
-    assert.equal((await releasedMercenarySnapshots(f.env,[7],'PVE')).get(7).equipment.power,180000);
-    await save(f,'PVE','WEAPON',null,1);state=await mercenaryEquipmentState(f.env,f.user);
+    const snapshot=await releasedMercenarySnapshot(f.env,f.user,'PVE');assert.equal(snapshot.code,'V-002');assert.equal(snapshot.equipment,undefined);
+    assert.equal((await releasedMercenarySnapshots(f.env,[7],'PVE')).get(7).equipment,undefined);
+    await save(f,'PVE','WEAPON',null,2);state=await mercenaryEquipmentState(f.env,f.user);
     assert.equal(state.loadouts.PVE.power,0);assert.equal(state.loadouts.PVP.power,20000);assert.equal(await f.coin(),coin);
     assert.equal(Number((await f.p('SELECT COUNT(*) AS n FROM user_equipment_instances').first()).n),7);
   });
@@ -62,18 +62,18 @@ for(const postgres of [false,true]){
     const f=await fixture(t,postgres),requestId=rid();f.fail('INSERT INTO app_meta');
     await assert.rejects(()=>save(f,'PVE','WEAPON','1000',0,requestId));
     assert.equal((await readMercenaryEquipmentRecords(f.env,[7])).get(7).PVE.revision,0);
-    f.fail('');await save(f,'PVP','TOP','1001',0);await save(f,'PVE','WEAPON','1000',0,requestId);
-    assert.equal((await save(f,'PVE','WEAPON','1000',0,requestId)).replayed,true);
-    await assert.rejects(()=>save(f,'PVP','WEAPON','1000',0,requestId),{code:'JOINT_REQUEST_CONFLICT'});
-    const pending=rid();f.fail('INSERT INTO app_meta');await assert.rejects(()=>save(f,'PVE','TOP','1001',1,pending));f.fail('');
-    await save(f,'PVE','BOTTOM','1002',1);await assert.rejects(()=>save(f,'PVE','TOP','1001',1,pending),{code:'MERCENARY_EQUIPMENT_CONFLICT'});
+    f.fail('');await save(f,'PVP','TOP','1001',0);await assert.rejects(()=>save(f,'PVE','WEAPON','1000',0,requestId),{code:'MERCENARY_EQUIPMENT_CONFLICT'});const retryId=rid();await save(f,'PVE','WEAPON','1000',1,retryId);
+    assert.equal((await save(f,'PVE','WEAPON','1000',1,retryId)).replayed,true);
+    await assert.rejects(()=>save(f,'PVP','WEAPON','1000',0,retryId),{code:'JOINT_REQUEST_CONFLICT'});
+    const pending=rid();f.fail('INSERT INTO app_meta');await assert.rejects(()=>save(f,'PVE','TOP','1001',2,pending));f.fail('');
+    await save(f,'PVE','BOTTOM','1002',2);await assert.rejects(()=>save(f,'PVE','TOP','1001',2,pending),{code:'MERCENARY_EQUIPMENT_CONFLICT'});
     const record=(await readMercenaryEquipmentRecords(f.env,[7])).get(7);assert.equal(record.PVE.slots.TOP,null);assert.equal(record.PVE.slots.BOTTOM,'1002');assert.equal(record.PVP.slots.TOP,'1001');
   });
   test(`${db}: enhancement/polish stay on the owned instance; invalid or destroyed copies give no bonus`,async t=>{
     const f=await fixture(t,postgres);
     await f.p('INSERT INTO equipment_forge_states_v1 VALUES(1000,7,3,1)').run();
     await f.setting(polishStateKey('1000',7),{schemaVersion:1,userId:7,instanceId:'1000',attempts:1,levels:[1,0,0,0,0],values:[.5,0,0,0,0]});
-    await save(f,'PVE','WEAPON','1000',0);await save(f,'PVP','WEAPON','1000',0);
+    await save(f,'PVE','WEAPON','1000',0);await save(f,'PVP','WEAPON','1000',1);
     const state=await mercenaryEquipmentState(f.env,f.user);assert.equal(state.loadouts.PVE.power,forgePower(200000,3).pve);assert.equal(state.loadouts.PVE.effects.attackPercent,.5);assert.deepEqual(state.loadouts.PVP.effects,{});
     const item=state.items.find(i=>i.instanceId==='1000');assert.equal(item.level,3);assert.equal(item.polish.attempts,1);assert.equal(item.totalPower,236000);
     const forged=(await readForgePreparationInventory(f.env.DB,7,{focusId:'1000',includeEnhancement:true})).items[0];assert.equal(forged.equipped,true);assert.deepEqual(forged.mercenaryModes,['PVE','PVP']);
@@ -81,13 +81,13 @@ for(const postgres of [false,true]){
     assert.deepEqual(await forgeEquipmentBonus(f.env,7),{pve:0,pvp:0});assert.equal((await equipmentGrowthRuntime(f.env,7)).effects.attackPercent,undefined);
     await f.p('DELETE FROM user_equipment_instances WHERE id=1000').run();
     for(const mode of ['PVE','PVP'])assert.equal((await mercenaryEquipmentRuntimes(f.env,[7],mode)).get(7).power,0);
-    await save(f,'PVE','WEAPON',null,1);
+    await save(f,'PVE','WEAPON',null,2);
   });
 }
 test('actual PVE/PVP fighter power and personal set effects follow the selected mode without buffing normal cards',async t=>{
   const f=await fixture(t);
   for(const [i,slot] of ['WEAPON','TOP','BOTTOM','SHOES'].entries())await save(f,'PVE',slot,String(1000+i),i);
-  await save(f,'PVP','WEAPON','1000',0);
+  await save(f,'PVP','WEAPON','1000',4);
   const snapshot=await releasedMercenarySnapshot(f.env,f.user,'PVE'),bare={...snapshot,equipment:undefined};
   const fighter=buildMercenaryFighter(snapshot,'A','PVE',buildFighter),base=buildMercenaryFighter(bare,'A','PVE',buildFighter);
   assert.equal(fighter.power,mercenarySnapshotPower(snapshot));assert.ok(fighter.attack>base.attack);assert.equal(fighter.equipmentEffects.hpPercent,8);assert.ok(fighter.shield>0);
@@ -107,6 +107,6 @@ test('actual PVE/PVP fighter power and personal set effects follow the selected 
 test('equipment route authenticates and uses the existing account mutation lock',async t=>{
   const f=await fixture(t);let locks=0;
   const deps={...f.deps,withUserMutationLock:async(_env,id,path,fn)=>{assert.equal(id,7);assert.equal(path,'mercenaries/v3/equipment');locks++;return fn();}};
-  const call=auth=>handleMercenaryEquipment({path:'mercenaries/v3/equipment',env:f.env,deps,request:new Request('https://game.test/api/mercenaries/v3/equipment',{method:'POST',headers:{origin:'https://game.test',authorization:auth||'','content-type':'application/json'},body:JSON.stringify({requestId:rid(),mode:'PVE',slot:'WEAPON',instanceId:'1000',revision:0})})});
+  const call=auth=>handleMercenaryEquipment({path:'mercenaries/v3/equipment',env:f.env,deps,request:new Request('https://game.test/api/mercenaries/v3/equipment',{method:'POST',headers:{origin:'https://game.test',authorization:auth||'','content-type':'application/json'},body:JSON.stringify({requestId:rid(),mercenaryCode:'V-001',mode:'PVE',slot:'WEAPON',instanceId:'1000',revision:0})})});
   assert.equal((await call()).status,401);assert.equal((await call('Bearer local-account-7')).status,200);assert.equal(locks,1);
 });
