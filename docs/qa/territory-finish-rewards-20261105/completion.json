@@ -1,0 +1,96 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:territory:94:finish-attacks50-win-shards-coins-stars:20261105:v1",
+  "authorization": {
+    "request": "승리 : 30조 + SSS조각 3개 + 마별 1억\n공격 50회이상 횟수 보상(승패상관없이) : 15조 + SSS조각 2개 + 마별 1억\n영토전 방금회차 지급해",
+    "deliveryConfirmation": "영토전 방금회차 지급해",
+    "deliveryBasis": "기존 영토전 종료 보상과 동일한 게임 보상 메시지 경로",
+    "roundBasis": "최신 실제 정산 종료 94회차 닭부위, 2026-11-05 20:00:54 KST 정산, A팀 승리; 다음 95회차 DISABLED",
+    "stackingBasis": "두 조건 독립 적용, 중복 충족은 45조+SSS조각5개+마별2억",
+    "winnerPolicy": "승리 진영 전체 참가자; 50회 조건은 공격 횟수 보상에만 적용",
+    "delivery": "MESSAGE",
+    "recurring": false
+  },
+  "round": {
+    "id": "94",
+    "status": "FINISHED",
+    "battle_name": "닭부위",
+    "winner_side": "A",
+    "starts_at": "2026-11-05T08:06:26.057Z",
+    "ends_at": "2026-11-06T04:06:26.057Z",
+    "settled_at": "2026-11-05 11:00:54",
+    "clan_season_id": null
+  },
+  "completedAt": "2026-11-05T11:11:33.555Z",
+  "completedAtKST": "2026-11-05T20:11:33.555+09:00",
+  "delivery": "MESSAGE",
+  "auditId": "54472",
+  "rules": {
+    "minimumAttacks": 50,
+    "attack": {
+      "coin": "15000000000000",
+      "shards": "2",
+      "stars": "100000000"
+    },
+    "winner": {
+      "coin": "30000000000000",
+      "shards": "3",
+      "stars": "100000000"
+    },
+    "stack": true
+  },
+  "totals": {
+    "participants": 107,
+    "attackQualified": 67,
+    "winners": 54,
+    "overlap": 30,
+    "recipients": 91,
+    "messages": 273,
+    "totalShards": "296",
+    "totalCoin": "2625000000000000",
+    "totalStars": "12100000000"
+  },
+  "planSha256": "6460ed5e979e8547f926e958f4c9cf19050dff4702eabcb81670c31cced53fc6",
+  "executionSha256": "d8b7354091d632127df8e7d5644da19bb3365807be850e07a0f00d4a0fb58ffe",
+  "claimTests": {
+    "exitCode": 0,
+    "passed": 6,
+    "failed": 0,
+    "source": {
+      "deployedCommit": "b029bf43d159a48bbf2b0ea70140dd3e638cc7d3",
+      "sourceCommit": "34fa62b0054e814ee23561167fd65a3f03186056",
+      "specsHash": "d6dd383ad052b203c51d6240cb10c35a0f4edc38bb2be35e3bf65c4cfe9a32f1",
+      "claimHash": "37b81b50ce2bd34b8a79b7f67a6c53f4ceeeeaab8fef418acf9374c4737bf2b1",
+      "compatHash": "1111070d6b1928ba84308589372c8235fdd0e06e837493af03f7cae473f135ea",
+      "latestRemoteSourceMatched": true,
+      "clientItemMetadata": true,
+      "checkedAt": "2026-11-05T11:10:41.429Z"
+    },
+    "checkedAt": "2026-11-05T11:10:54.682Z"
+  },
+  "validationChecks": {
+    "roundAndOperationLockContentionRejected": true,
+    "wrongPlanRejected": true,
+    "actualPartialAttachmentFailureRolledBack": true,
+    "successRolledBack": true,
+    "messageSyncRolledBack": true,
+    "allMessageSyncChanged": true,
+    "onlyMessageAuditReceiptAndSyncWrites": true,
+    "noWalletInventoryOrRoundWrites": true,
+    "selectOnlyReplay": true,
+    "noDeliveryAfterRollback": true,
+    "territorySettingsPreserved": true
+  },
+  "messageSyncChanged": 91,
+  "independentReadOnlyVerified": true,
+  "replayAdditionalWrites": 0,
+  "missing": 0,
+  "duplicates": 0,
+  "verifiedAt": "2026-11-05T11:12:41.245Z",
+  "claimedAtVerification": 3,
+  "pendingAtVerification": 270,
+  "territorySettingsHash": "72cf44f16081acbe1904e39a3149ee3e79a5652931e1f6aa90d9133ab5d2b4f9",
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/operations/territory-finish-rewards-20261105",
+  "gameDeployments": 0,
+  "unrelatedWeeklyQuestPreserved": true
+}
