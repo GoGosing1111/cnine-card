@@ -19,14 +19,14 @@ export function hyperPackCatalogRow(openingEnabled=false) {
     imageUrl: HYPER_PACK_IMAGE, revealMode: 'HYPER_SEQUENCE', releaseStatus: openingEnabled===true?'RELEASED':'CONNECTED_USER_OFF' };
 }
 
-export function arrangeHyperPackCatalog(rows,openingEnabled=false) {
-  // Close the old Premium slot, shift Limited/Superstar left, append Hyper.
+export function arrangeHyperPackCatalog(rows) {
+  // Hyper is hidden from the shop; its opening policy and existing receipts remain independent.
   const order = ['advanced', 'pickup', 'ultimate', 'superstar'];
-  return [...rows.filter(row => !['basic', 'premium', 'hyper'].includes(String(row.id)))
+  return rows.filter(row => !['basic', 'premium', 'hyper'].includes(String(row.id)))
     .sort((a, b) => {
       const rank = row => order.includes(String(row.id)) ? order.indexOf(String(row.id)) : order.length;
       return rank(a) - rank(b);
-    }), hyperPackCatalogRow(openingEnabled)];
+    });
 }
 
 export function hyperPackCost(count) {

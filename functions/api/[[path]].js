@@ -52,7 +52,6 @@ import {claimCityMessageReward} from '../_jokgak_city_message_reward.js';
 import {claimOmegaMercenaryMessageReward,claimShiranuiMercenaryMessageReward} from '../_mercenary_message_reward.js';
 import { handleCoup, pulseCoup } from '../_coup.js';
 import { chiefAuthorityGuard } from '../_coup_schema.js';
-import {hyperOpeningFeature} from '../_hyper_pack_opening.js';
 import {handleLimitedPack,limitedPackShopRow} from '../_mercenary_limited_pack.js';
 import {extendFurHighBreakthrough,furExtendedReady,furExtendedStepAvailable,FUR_MAX_ENHANCEMENT} from '../_fur_enhancement_v2114.js';
 import {forgeEquipmentBonuses,ensureForgeTransactionSchema} from '../_equipment_forge_transactions.js';
@@ -5345,10 +5344,10 @@ async function handleRequest(context){
       return json({cards:rows.map(({memberSortOrder,...card})=>({...card,id:String(card.id),uniqueAbility:uniqueVisible?(uniqueMap.has(String(card.id))?{...uniqueMap.get(String(card.id)),ownerTest:uniqueCfg.enabled!==true}:null):null})),uniqueAbilitySystem:{enabled:uniqueCfg.enabled===true,ownerTest:uniqueVisible&&uniqueCfg.enabled!==true,visible:uniqueVisible}});
     }
     if(path==='packs'){
-      const [rows,burning,superstarSettings,hyperOpening,limitedPack,halloweenPack,bloodmoonPack,blackcrownPack,streamerPack]=await Promise.all([activePackCatalogRows(env),burningEventSettings(env),superstarPackSettings(env),hyperOpeningFeature(env),limitedPackShopRow(env),halloweenPackShopRow(env),bloodmoonPackShopRow(env),blackcrownPackShopRow(env),streamerPackShopRow(env)]);
+      const [rows,burning,superstarSettings,limitedPack,halloweenPack,bloodmoonPack,blackcrownPack,streamerPack]=await Promise.all([activePackCatalogRows(env),burningEventSettings(env),superstarPackSettings(env),limitedPackShopRow(env),halloweenPackShopRow(env),bloodmoonPackShopRow(env),blackcrownPackShopRow(env),streamerPackShopRow(env)]);
       const packs=rows.filter(row=>String(row.id)!=='basic').map(row=>{const originalPrice=Number(row.price||0);return {...row,price:originalPrice,originalPrice,burningDiscountPercent:0,allowed:JSON.parse(row.allowed_rarities)}});
       if(superstarSettings.visible)packs.push(superstarPackCatalogRow(superstarSettings));
-      return json({packs:[...arrangeHyperPackCatalog(packs,hyperOpening.userOpeningEnabled),...(limitedPack?[limitedPack]:[]),...(halloweenPack?[halloweenPack]:[]),bloodmoonPack,blackcrownPack,streamerPack],burningEvent:burningPublicState(burning),serverNow:new Date().toISOString()});
+      return json({packs:[...arrangeHyperPackCatalog(packs),...(limitedPack?[limitedPack]:[]),...(halloweenPack?[halloweenPack]:[]),bloodmoonPack,blackcrownPack,streamerPack],burningEvent:burningPublicState(burning),serverNow:new Date().toISOString()});
     }
     if(path==='superstar-pack/draw'&&request.method==='POST'){
       return handleSuperstarPackDraw({request,env,deps:{authenticate,json,readBody}});

@@ -15,7 +15,7 @@ let cards = [];
 // V1797: 다른 스크립트(전투 로스터 등)가 "도감에 보이는 그대로의 카드"를 찾아 쓸 수 있게 노출한다.
 // 전투 페이로드의 card.image 는 전투 아트 어댑터가 SD 스프라이트로 바꿔치기하므로 그대로 쓰면 안 된다.
 window.cnineCardCatalog = () => cards;
-let selectedPackId = new URL(location.href).searchParams.get('pack')==='hyper'?'hyper':'advanced';
+let selectedPackId = 'advanced';
 let burningEventState={mode:'NONE',theme:'RED',enabled:false,generation:0,activatedAt:null,updatedAt:null,endsAt:null,title:'리버스콜 버닝이 발동 되었습니다',packDiscountPercent:0,equipmentBoxDiscountPercent:0,duplicateShardMultiplier:1,battleRewardMultiplier:1.5,pve:{maxEnergy:15,rechargeMinutes:2},pvp:{maxEnergy:15,rechargeMinutes:2}};
 // 마법카드 연구소는 상시 노출한다. 서버 상태 조회는 기능/잔액을 보정할 뿐 진입 UI를 늦추지 않는다.
 let magicSystemState={visible:true,enabled:true,ownerTest:false,magicCrystals:0,settings:{drawEnabled:false,drawCost:100},cards:[],loadouts:[]};
@@ -52,12 +52,6 @@ let PACKS = [
     description: '1회 1장 판정 · SUPERSTAR 10% · 꽝 90%', range: 'SUPERSTAR 10% · 꽝 90%', price: 300000000,
     allowed: ['SUPERSTAR'], guarantee10: null, guarantee20: null, drawMode: 'SUPERSTAR_CHANCE', drawEnabled: false,
     ownerDrawEnabled: true, maxDrawCount: 10000, bulkDrawCounts: [1000,10000], successRate: 10, missRate: 90, imageUrl: 'assets/ui/packs/reverse-call-20261016/superstar-768.webp', revealMode: 'SWIPE'
-  },
-  {
-    id: 'hyper', name: '하이퍼팩', subtitle: 'EXTREME HYPER PACK', theme: 'hyper',
-    description: '꽝 · 마스터의 별 · 미스틱 에너지 · 용병카드', range: '용병 출시 대비 · 개봉 준비 중', price: 500000000,
-    allowed: [], guarantee10: null, guarantee20: null, drawMode: 'HYPER_REWARD', drawEnabled: false,
-    ownerDrawEnabled: false, maxDrawCount: 10, imageUrl: 'assets/ui/packs/reverse-call-20261016/hyper-768.webp', revealMode: 'HYPER_SEQUENCE'
   }
 ];
 
@@ -71,7 +65,6 @@ function packRangeFromAllowed(allowed = []) {
 
 function applyServerPacks(rows = []) {
   if (!Array.isArray(rows) || !rows.length) return;
-  const hyper = PACKS.find(pack => pack.id === 'hyper');
   PACKS = rows.filter(row => row&&!['basic','premium','hyper','halloween','mercenary-halloween-ss-limited'].includes(String(row.id))).map(row => {
     let allowed = row.allowed;
     if (!Array.isArray(allowed)) {
@@ -106,7 +99,6 @@ function applyServerPacks(rows = []) {
   });
   const order = ['advanced','pickup','ultimate','superstar'];
   PACKS.sort((a,b)=>(order.includes(a.id)?order.indexOf(a.id):order.length)-(order.includes(b.id)?order.indexOf(b.id):order.length));
-  if (hyper) PACKS.push({...hyper,openingConnected:true}); // Availability is rechecked against the live feature API before every open.
   if (!PACKS.some(pack => pack.id === selectedPackId)) selectedPackId = PACKS[0].id;
 }
 

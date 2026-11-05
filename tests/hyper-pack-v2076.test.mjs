@@ -22,10 +22,10 @@ test('500 million per open, max 10; no 32-bit truncation, discount or implicit e
   assert.equal(HYPER_PACK_RELEASE_ENABLED,false);
   assert.equal(hyperPackCatalogRow(true).drawEnabled,true);assert.equal(hyperPackCatalogRow(true).range,'용병 계약 개봉 가능');assert.match(hyperPackCatalogRow(false).range,/개봉 준비 중/);
 });
-test('Premium sale removed; others shift one slot, Hyper last, caller data and unknown packs preserved',()=>{
+test('Premium retired and Hyper hidden; caller data, other pack order and unknown packs preserved',()=>{
   const original=['basic','advanced','premium','pickup','superstar','hyper'].map(id=>({id})),snapshot=structuredClone(original);
-  assert.deepEqual(arrangeHyperPackCatalog(original).map(p=>p.id),['advanced','pickup','superstar','hyper']);assert.deepEqual(original,snapshot);
-  assert.deepEqual(arrangeHyperPackCatalog([{id:'special'},{id:'ultimate'},{id:'advanced'}]).map(p=>p.id),['advanced','ultimate','special','hyper']);
+  assert.deepEqual(arrangeHyperPackCatalog(original).map(p=>p.id),['advanced','pickup','superstar']);assert.deepEqual(original,snapshot);
+  assert.deepEqual(arrangeHyperPackCatalog([{id:'special'},{id:'ultimate'},{id:'advanced'}]).map(p=>p.id),['advanced','ultimate','special']);
 });
 test('draft rates/quantities default unset and never authorize mercenary acquisition',()=>{
   const empty=cleanHyperPackDraft();assert(Object.values(empty.rates).every(v=>v===null));assert(Object.values(empty.quantities).every(v=>v===null));
