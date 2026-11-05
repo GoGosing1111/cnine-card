@@ -1,0 +1,114 @@
+{
+  "verifiedAt": "2026-11-05T01:49:34.601Z",
+  "pages": {
+    "id": "9bee1932-fc00-41d3-b643-92dc0fee9669",
+    "commit": "5f868f08ba4a2f4ab90d18856399732f19187fa9",
+    "status": "success",
+    "url": "https://9bee1932.cnine-card.pages.dev"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "7b61da83-7ce5-4f8a-be98-777e0fc71a88",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "a3f97087-0de3-4ce7-a144-a7ddbffee30d",
+      "percentage": 100
+    }
+  ],
+  "assets": [
+    {
+      "route": "/",
+      "file": "index.html",
+      "sha256": "9b049838cf5faa199d6439f00b33f6890b032b79a4db2c1bceceedcc5deaa7c7"
+    },
+    {
+      "route": "/service-worker.js",
+      "file": "service-worker.js",
+      "sha256": "66d767725c51eb84ad0a5361ba3f71fe995b61def6bcd562232dc6e803b477d3"
+    },
+    {
+      "route": "/css/pet-equipment-v1.css",
+      "file": "css/pet-equipment-v1.css",
+      "sha256": "11c6700648f1da295f0737a35ef59daf3ef10dabcbc32025e499c61c5d43bf76"
+    },
+    {
+      "route": "/pets/?mode=PVP",
+      "file": "pets/index.html",
+      "sha256": "0a74d1be5b8327ca338f24b10622d2557040785c45bd9bc7f9ab8348bfd2a174"
+    },
+    {
+      "route": "/pet-codex/",
+      "file": "pet-codex/index.html",
+      "sha256": "89b0dbe5aced28b74a60f55b950a4598290a88f8b0cc5290220124dd14641b32"
+    },
+    {
+      "route": "/pet-codex/app.mjs",
+      "file": "pet-codex/app.mjs",
+      "sha256": "42de33521f3bdd3be09b870e344211c442f5ffa891f8cf2ac426adb7e94c7dda"
+    },
+    {
+      "route": "/js/pet-deck-slot-v1.mjs",
+      "file": "js/pet-deck-slot-v1.mjs",
+      "sha256": "34b754353398bc848bc118db5fa7206d1638d8a2989eeaa5e690988d009bfe52"
+    },
+    {
+      "route": "/js/pet-equipment-window-v1.mjs",
+      "file": "js/pet-equipment-window-v1.mjs",
+      "sha256": "799cefe24c83675188e3502bcd0a4e777df11e952ea42aa9586eaf02d45e65e9"
+    },
+    {
+      "route": "/onestore/",
+      "file": "onestore/index.html",
+      "sha256": "1a21ce9660c057495223faf5005316c6deb4950c3d1e6c805df0caf374b8da1f"
+    },
+    {
+      "route": "/onestore/pets/",
+      "file": "pets/index.html",
+      "sha256": "6ecc621a6ecaea6776fe8b44d5af3a97a3c2885de2056d0dd722cd5ee0218027"
+    },
+    {
+      "route": "/onestore/pet-codex/",
+      "file": "pet-codex/index.html",
+      "sha256": "a4bef60aa2d245bd66316cf04dcedd967bbbd81024df83be5674c58185ddcfcc"
+    },
+    {
+      "route": "/onestore/js/pet-deck-slot-v1.mjs",
+      "file": "onestore/js/pet-deck-slot-v1.mjs",
+      "sha256": "69a388e5805183d5938ed5666e78ca06b7c17bda819d1191d949b15b938e5f3a"
+    },
+    {
+      "route": "/onestore/js/pet-equipment-window-v1.mjs",
+      "file": "onestore/js/pet-equipment-window-v1.mjs",
+      "sha256": "ef4890636fc9e0ac86eedc55669f4353d9e7b203c7c00c7b65965c1d0a60eb30"
+    },
+    {
+      "route": "/onestore/pet-codex/app.mjs",
+      "file": "onestore/pet-codex/app.mjs",
+      "sha256": "e249de74b2fc2db2d0aee5d225f4f11e77236b10552347b275384da04fc3fa55"
+    }
+  ],
+  "windows": {
+    "releaseId": "4fc779e43005d13f51eededd9bbd7ec96aef11b01a001fb6c8252e68468e3e0d",
+    "files": [
+      "index.html",
+      "css/pet-equipment-v1.css",
+      "pets/index.html",
+      "pet-codex/index.html",
+      "pet-codex/app.mjs",
+      "js/pet-deck-slot-v1.mjs",
+      "js/pet-equipment-window-v1.mjs"
+    ]
+  },
+  "unauthenticatedState": 401,
+  "assetCount": 20000,
+  "unitTests": 39,
+  "localBrowserWidths": [
+    1440,
+    390,
+    320
+  ],
+  "productionAccountWrites": 0
+}
