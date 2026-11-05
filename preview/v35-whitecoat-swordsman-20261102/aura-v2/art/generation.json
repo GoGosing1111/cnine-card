@@ -1,0 +1,43 @@
+{
+  "tool": "built-in image_gen",
+  "calls": 4,
+  "reference": "../../source/approved-illustration.png",
+  "selected": [
+    "rear.png",
+    "front.png"
+  ],
+  "images": [
+    {
+      "file": "rear-first.png",
+      "raw": "C:/Users/User/.codex/generated_images/01a19660-79fe-7861-8630-c01a2bd2c294/exec-d74c4e81-486b-4e25-988c-1b624d0ad714.png",
+      "prompt": "rear-first-prompt.txt",
+      "status": "rejected: source sheet edge clipping",
+      "bytes": 2693744,
+      "sha256": "5a31d3e18dbc0e1fd03170c249080df3e5eb68830cdeebb55f684e8a43b48845"
+    },
+    {
+      "file": "rear-revision.png",
+      "raw": "C:/Users/User/.codex/generated_images/01a19660-79fe-7861-8630-c01a2bd2c294/exec-6758d7f7-5eab-49cd-afb5-892a38e9f67a.png",
+      "prompt": "rear-revision-prompt.txt",
+      "status": "rejected: semi-opaque pale background",
+      "bytes": 2333207,
+      "sha256": "e4fe83e0a7e9fafa9d62416014c80225d4b1c4abdba5a914c8c659e2e1e418ce"
+    },
+    {
+      "file": "front.png",
+      "raw": "C:/Users/User/.codex/generated_images/01a19660-79fe-7861-8630-c01a2bd2c294/exec-05a35ebf-2ece-4d23-8af9-32ef063bc8b9.png",
+      "prompt": "front-prompt.txt",
+      "status": "selected foreground",
+      "bytes": 981681,
+      "sha256": "9e2ebaeaf1c533193647344859fa44a26d5410e4ae83fa0d205a72c438694186"
+    },
+    {
+      "file": "rear.png",
+      "raw": "C:/Users/User/.codex/generated_images/01a19660-79fe-7861-8630-c01a2bd2c294/exec-4dd6628a-9585-4cf0-82df-d06fa24ac578.png",
+      "prompt": "rear-alpha-prompt.txt",
+      "status": "selected rear",
+      "bytes": 1448972,
+      "sha256": "d96f8fd0b5931301b5ca4066687dbe3b8816f0818665448917257a62f22a7980"
+    }
+  ]
+}

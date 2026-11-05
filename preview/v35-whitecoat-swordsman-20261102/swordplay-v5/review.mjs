@@ -1,7 +1,7 @@
 const film=document.querySelector('#swordplay-film'), status=document.querySelector('#casting');
 const directory=film.dataset.directory||'swordplay-v5/qa/';
 const labels={
-  aura_idle:'등 뒤 태극 · 청백색 기운과 흰 형광 윤곽이 전투 동작을 따라갑니다.',
+  aura_idle:'흑백 검기 · 먹빛과 은백색 기운이 몸통을 중심으로 앞뒤를 감쌉니다.',
   skill_flash:'절광발도 · 칼을 뽑는 궤적에서 은백색 반월 검광이 열립니다.',
   skill_thrust:'삼첩관통 · 관통한 자리에 세 겹의 예리한 검흔이 차례로 벌어집니다.',
   skill_wheel:'회천검압 · 회전베기에서 풀린 검압이 적 진형을 크게 가릅니다.',

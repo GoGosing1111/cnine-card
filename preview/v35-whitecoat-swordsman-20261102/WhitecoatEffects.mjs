@@ -3,7 +3,7 @@ import {SwordTrail} from './SwordTrail.mjs';
 import {TempestEffects} from './action-v3/TempestEffects.mjs';
 import {SkillEffects} from './skills-v4/SkillEffects.mjs';
 import {SwordplayEffects} from './swordplay-v5/SwordplayEffects.mjs';
-import {HakuyaAura} from './aura-v1/HakuyaAura.mjs';
+import {HakuyaAura} from './aura-v2/HakuyaAura.mjs';
 export class WhitecoatEffects {
  static async load(){
   const base='/preview/v35-whitecoat-swordsman-20261102/effects/flourish-v2/runtime/',manifest=await(await fetch(base+'fx-manifest.json')).json(),textures={};

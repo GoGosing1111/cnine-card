@@ -1,0 +1,7 @@
+{
+  "useCase": "stylized-concept",
+  "tool": "built-in image_gen",
+  "reference": "../source/approved-illustration.png",
+  "userDirection": "중앙 정렬, 캐릭터 컨셉에 맞는 흑백 조화, 몸을 둘러싸는 새로운 이펙트",
+  "status": "production"
+}

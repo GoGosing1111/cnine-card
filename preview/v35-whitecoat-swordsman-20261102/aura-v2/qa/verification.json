@@ -1,0 +1,1917 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "Original Spine motion master remains byte-identical",
+      "pass": true,
+      "detail": "b0abcbf1bda97b8d700328b9453e0a61fbec96cf0063e21a1907bef444a57ef6"
+    },
+    {
+      "name": "Sixteen distinct cels have clean borders and native roundtrip equality",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/1440 idle rotates behind the body",
+      "pass": true,
+      "detail": {
+        "before": {
+          "time": 0.0169,
+          "visible": true,
+          "center": [
+            425.54043475958713,
+            261.7769142414503
+          ],
+          "body": {
+            "x": 27.56130782240395,
+            "y": -265.7967474396323,
+            "tilt": 0.09435618373980083,
+            "height": 595.9583749846231,
+            "width": 600.3038999535573,
+            "head": {
+              "x": 47.53318893504096,
+              "y": -476.8329999999999
+            },
+            "feet": {
+              "x": 2.5017499767786404,
+              "y": -1.0006999999999997
+            },
+            "crown": {
+              "x": 52.62086566802926,
+              "y": -530.5927948792646
+            }
+          },
+          "frames": {
+            "rear": {
+              "index": 0,
+              "mix": 0.0563333333333329
+            },
+            "front": {
+              "index": 2,
+              "mix": 0.0563333333333329
+            }
+          },
+          "outline": true,
+          "behindBody": true,
+          "inFrontOfBody": true,
+          "frontVisible": true,
+          "clock": "V3_REGISTERED_GSAP",
+          "destroyed": false
+        },
+        "after": {
+          "time": 0.3627,
+          "visible": true,
+          "center": [
+            425.54043475958713,
+            261.7769142414503
+          ],
+          "body": {
+            "x": 27.56130782240395,
+            "y": -265.7967474396323,
+            "tilt": 0.09435618373980083,
+            "height": 595.9583749846231,
+            "width": 600.3038999535573,
+            "head": {
+              "x": 47.53318893504096,
+              "y": -476.8329999999999
+            },
+            "feet": {
+              "x": 2.5017499767786404,
+              "y": -1.0006999999999997
+            },
+            "crown": {
+              "x": 52.62086566802926,
+              "y": -530.5927948792646
+            }
+          },
+          "frames": {
+            "rear": {
+              "index": 1,
+              "mix": 0.20899999999999963
+            },
+            "front": {
+              "index": 3,
+              "mix": 0.20899999999999963
+            }
+          },
+          "outline": true,
+          "behindBody": true,
+          "inFrontOfBody": true,
+          "frontVisible": true,
+          "clock": "V3_REGISTERED_GSAP",
+          "destroyed": false
+        }
+      }
+    },
+    {
+      "name": "whitecoat-squad/1440 pause freezes aura and silhouette glow",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/1440 effect switch restores same phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/1440 one canvas, no overflow, body within viewport",
+      "pass": true,
+      "detail": {
+        "canvases": 1,
+        "overflow": false,
+        "body": {
+          "minX": 334.8689892265032,
+          "minY": 198.39988920463705,
+          "maxX": 499.9544327753895,
+          "maxY": 325.3522507445711,
+          "matrix": {
+            "array": null,
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "Outline leaves opaque artwork colours intact and adds exterior light",
+      "pass": true,
+      "detail": {
+        "opaque": 1925,
+        "maxDelta": 0,
+        "added": 3314,
+        "size": [
+          777,
+          616
+        ]
+      }
+    },
+    {
+      "name": "Idle aura follows the common speed control",
+      "pass": true,
+      "detail": [
+        1.3,
+        0.65
+      ]
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_flash follows pose, root and facing without double mirroring",
+      "pass": true,
+      "detail": [
+        {
+          "phase": 0.27,
+          "error": 3.1291198474883187e-14,
+          "bodyPosition": 0.56286280089901,
+          "headTextureY": 87.56701641147623
+        },
+        {
+          "phase": 0.43,
+          "error": 8.648114543100655e-14,
+          "bodyPosition": 0.5640084635229898,
+          "headTextureY": 87.76876976217926
+        },
+        {
+          "phase": 0.58,
+          "error": 9.377136192828392e-14,
+          "bodyPosition": 0.5549450473770439,
+          "headTextureY": 83.7343619219917
+        },
+        {
+          "phase": 0.79,
+          "error": 2.0479745796127e-15,
+          "bodyPosition": 0.5576002180571229,
+          "headTextureY": 84.82443288841233
+        }
+      ]
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_flash paused attack has no independent aura clock",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_flash backward seek reproduces aura phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_flash original attack speed and single damage delivery",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "impacts": 1,
+        "expected": 1
+      }
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_flash completion retains one persistent aura",
+      "pass": true,
+      "detail": {
+        "idle": "IDLE",
+        "active": false,
+        "auras": 1,
+        "ambient": true
+      }
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_thrust follows pose, root and facing without double mirroring",
+      "pass": true,
+      "detail": [
+        {
+          "phase": 0.33,
+          "error": 1.4433265485573116e-13,
+          "bodyPosition": 0.5644352646370033,
+          "headTextureY": 87.7764530942072
+        },
+        {
+          "phase": 0.45,
+          "error": 7.4116264717833e-14,
+          "bodyPosition": 0.5694851236896035,
+          "headTextureY": 89.94625838888246
+        },
+        {
+          "phase": 0.61,
+          "error": 2.3900613045990223e-14,
+          "bodyPosition": 0.5621702317164743,
+          "headTextureY": 87.22315411418793
+        },
+        {
+          "phase": 0.78,
+          "error": 2.3900613045990223e-14,
+          "bodyPosition": 0.5621702317164743,
+          "headTextureY": 87.57279140377346
+        }
+      ]
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_thrust paused attack has no independent aura clock",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_thrust backward seek reproduces aura phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_thrust hitstop freezes aura with body",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_thrust original attack speed and single damage delivery",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "impacts": 1,
+        "expected": 1
+      }
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_thrust completion retains one persistent aura",
+      "pass": true,
+      "detail": {
+        "idle": "IDLE",
+        "active": false,
+        "auras": 1,
+        "ambient": true
+      }
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_wheel follows pose, root and facing without double mirroring",
+      "pass": true,
+      "detail": [
+        {
+          "phase": 0.57,
+          "error": 6.563518153980712e-14,
+          "bodyPosition": 0.5636558407771984,
+          "headTextureY": 89.21198651537068
+        },
+        {
+          "phase": 0.84,
+          "error": 1.6549604993949406e-13,
+          "bodyPosition": 0.5679511211732924,
+          "headTextureY": 91.20624341934192
+        },
+        {
+          "phase": 1.22,
+          "error": 4.022553965754014e-14,
+          "bodyPosition": 0.5707101017880414,
+          "headTextureY": 92.15050143786536
+        },
+        {
+          "phase": 1.43,
+          "error": 1.6242405687895054e-13,
+          "bodyPosition": 0.5593279298184449,
+          "headTextureY": 87.27012021613592
+        }
+      ]
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_wheel paused attack has no independent aura clock",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_wheel backward seek reproduces aura phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_wheel hitstop freezes aura with body",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_wheel original attack speed and single damage delivery",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "impacts": 3,
+        "expected": 3
+      }
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_wheel completion retains one persistent aura",
+      "pass": true,
+      "detail": {
+        "idle": "IDLE",
+        "active": false,
+        "auras": 1,
+        "ambient": true
+      }
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_rain follows pose, root and facing without double mirroring",
+      "pass": true,
+      "detail": [
+        {
+          "phase": 1.09,
+          "error": 1.714349531725946e-14,
+          "bodyPosition": 0.560271076992698,
+          "headTextureY": 85.97751269561564
+        },
+        {
+          "phase": 1.54,
+          "error": 1.714349531725946e-14,
+          "bodyPosition": 0.560271076992698,
+          "headTextureY": 86.56920986569551
+        },
+        {
+          "phase": 1.78,
+          "error": 1.3199808098542362e-13,
+          "bodyPosition": 0.5618751027118061,
+          "headTextureY": 87.76961351841828
+        },
+        {
+          "phase": 1.99,
+          "error": 1.3199808098542362e-13,
+          "bodyPosition": 0.5618751027118061,
+          "headTextureY": 88.22510076640503
+        }
+      ]
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_rain paused attack has no independent aura clock",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_rain backward seek reproduces aura phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_rain hitstop freezes aura with body",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_rain original attack speed and single damage delivery",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "impacts": 3,
+        "expected": 3
+      }
+    },
+    {
+      "name": "whitecoat-squad/1440/skill_rain completion retains one persistent aura",
+      "pass": true,
+      "detail": {
+        "idle": "IDLE",
+        "active": false,
+        "auras": 1,
+        "ambient": true
+      }
+    },
+    {
+      "name": "whitecoat-squad/1440 death, revive, hidden, resume",
+      "pass": true,
+      "detail": {
+        "dead": {
+          "time": 6.667300000000001,
+          "visible": false,
+          "center": [
+            429.25284369782975,
+            280.0030689783238
+          ],
+          "body": {
+            "x": 43.23530722309976,
+            "y": -188.8448967208434,
+            "tilt": 0.3334118275567703,
+            "height": 449.6786294051461,
+            "width": 420,
+            "head": {
+              "x": 88.67309278099293,
+              "y": -320.0385053710937
+            },
+            "feet": {
+              "x": -19.874997285081477,
+              "y": -6.625000003051756
+            },
+            "crown": {
+              "x": 106.345611731281,
+              "y": -371.06479343863504
+            }
+          },
+          "frames": {
+            "rear": {
+              "index": 6,
+              "mix": 0.2243333333333375
+            },
+            "front": {
+              "index": 0,
+              "mix": 0.2243333333333375
+            }
+          },
+          "outline": false,
+          "behindBody": true,
+          "inFrontOfBody": true,
+          "frontVisible": false,
+          "clock": "V3_REGISTERED_GSAP",
+          "destroyed": false
+        },
+        "alive": {
+          "time": 6.667300000000001,
+          "visible": true,
+          "center": [
+            425.54043475958713,
+            261.7769142414503
+          ],
+          "body": {
+            "x": 27.56130782240395,
+            "y": -265.7967474396323,
+            "tilt": 0.09435618373980083,
+            "height": 595.9583749846231,
+            "width": 600.3038999535573,
+            "head": {
+              "x": 47.53318893504096,
+              "y": -476.8329999999999
+            },
+            "feet": {
+              "x": 2.5017499767786404,
+              "y": -1.0006999999999997
+            },
+            "crown": {
+              "x": 52.62086566802926,
+              "y": -530.5927948792646
+            }
+          },
+          "frames": {
+            "rear": {
+              "index": 6,
+              "mix": 0.2243333333333375
+            },
+            "front": {
+              "index": 0,
+              "mix": 0.2243333333333375
+            }
+          },
+          "outline": true,
+          "behindBody": true,
+          "inFrontOfBody": true,
+          "frontVisible": true,
+          "clock": "V3_REGISTERED_GSAP",
+          "destroyed": false
+        },
+        "hiddenFrozen": true,
+        "resumed": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "whitecoat-squad/1440 disposal removes owned glow and aura, keeps shared texture",
+      "pass": true,
+      "detail": {
+        "destroyed": true,
+        "auras": 0,
+        "texturePreserved": true,
+        "noAmbient": true,
+        "removed": true
+      }
+    },
+    {
+      "name": "whitecoat-squad/390 idle rotates behind the body",
+      "pass": true,
+      "detail": {
+        "before": {
+          "time": 0.0182,
+          "visible": true,
+          "center": [
+            162.0984803605376,
+            214.22987299486311
+          ],
+          "body": {
+            "x": 27.56130782240395,
+            "y": -265.7967474396323,
+            "tilt": 0.09435618373980083,
+            "height": 595.9583749846231,
+            "width": 600.3038999535573,
+            "head": {
+              "x": 47.53318893504096,
+              "y": -476.8329999999999
+            },
+            "feet": {
+              "x": 2.5017499767786404,
+              "y": -1.0006999999999997
+            },
+            "crown": {
+              "x": 52.62086566802926,
+              "y": -530.5927948792646
+            }
+          },
+          "frames": {
+            "rear": {
+              "index": 0,
+              "mix": 0.0606666666666662
+            },
+            "front": {
+              "index": 2,
+              "mix": 0.0606666666666662
+            }
+          },
+          "outline": true,
+          "behindBody": true,
+          "inFrontOfBody": true,
+          "frontVisible": true,
+          "clock": "V3_REGISTERED_GSAP",
+          "destroyed": false
+        },
+        "after": {
+          "time": 0.26,
+          "visible": true,
+          "center": [
+            162.0984803605376,
+            214.22987299486311
+          ],
+          "body": {
+            "x": 27.56130782240395,
+            "y": -265.7967474396323,
+            "tilt": 0.09435618373980083,
+            "height": 595.9583749846231,
+            "width": 600.3038999535573,
+            "head": {
+              "x": 47.53318893504096,
+              "y": -476.8329999999999
+            },
+            "feet": {
+              "x": 2.5017499767786404,
+              "y": -1.0006999999999997
+            },
+            "crown": {
+              "x": 52.62086566802926,
+              "y": -530.5927948792646
+            }
+          },
+          "frames": {
+            "rear": {
+              "index": 0,
+              "mix": 0.8666666666666671
+            },
+            "front": {
+              "index": 2,
+              "mix": 0.8666666666666671
+            }
+          },
+          "outline": true,
+          "behindBody": true,
+          "inFrontOfBody": true,
+          "frontVisible": true,
+          "clock": "V3_REGISTERED_GSAP",
+          "destroyed": false
+        }
+      }
+    },
+    {
+      "name": "whitecoat-squad/390 pause freezes aura and silhouette glow",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/390 effect switch restores same phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/390 one canvas, no overflow, body within viewport",
+      "pass": true,
+      "detail": {
+        "canvases": 1,
+        "overflow": false,
+        "body": {
+          "minX": 119.0613325346941,
+          "minY": 184.1480056634739,
+          "maxX": 197.41904036803817,
+          "maxY": 244.40586874607473,
+          "matrix": {
+            "array": null,
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "whitecoat-squad/390/skill_flash follows pose, root and facing without double mirroring",
+      "pass": true,
+      "detail": [
+        {
+          "phase": 0.27,
+          "error": 7.063378486903422e-15,
+          "bodyPosition": 0.5628628008990096,
+          "headTextureY": 87.56701641147612
+        },
+        {
+          "phase": 0.43,
+          "error": 1.7980268050510548e-14,
+          "bodyPosition": 0.5640084635229906,
+          "headTextureY": 87.76876976217923
+        },
+        {
+          "phase": 0.58,
+          "error": 3.3441012150738305e-15,
+          "bodyPosition": 0.5549450473770444,
+          "headTextureY": 83.73436192199188
+        },
+        {
+          "phase": 0.79,
+          "error": 2.3191566681233484e-14,
+          "bodyPosition": 0.557600218057122,
+          "headTextureY": 84.82443288841228
+        }
+      ]
+    },
+    {
+      "name": "whitecoat-squad/390/skill_flash paused attack has no independent aura clock",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/390/skill_flash backward seek reproduces aura phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/390/skill_flash original attack speed and single damage delivery",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "impacts": 1,
+        "expected": 1
+      }
+    },
+    {
+      "name": "whitecoat-squad/390/skill_flash completion retains one persistent aura",
+      "pass": true,
+      "detail": {
+        "idle": "IDLE",
+        "active": false,
+        "auras": 1,
+        "ambient": true
+      }
+    },
+    {
+      "name": "whitecoat-squad/390/skill_thrust follows pose, root and facing without double mirroring",
+      "pass": true,
+      "detail": [
+        {
+          "phase": 0.33,
+          "error": 1.0860095052862234e-14,
+          "bodyPosition": 0.5644352646370034,
+          "headTextureY": 88.04762945487676
+        },
+        {
+          "phase": 0.45,
+          "error": 1.0409966271731993e-14,
+          "bodyPosition": 0.5694851236896049,
+          "headTextureY": 90.29900581096487
+        },
+        {
+          "phase": 0.61,
+          "error": 2.364903177690063e-14,
+          "bodyPosition": 0.5621702317164748,
+          "headTextureY": 87.67621007521188
+        },
+        {
+          "phase": 0.78,
+          "error": 2.364903177690063e-14,
+          "bodyPosition": 0.5621702317164748,
+          "headTextureY": 88.05938988784771
+        }
+      ]
+    },
+    {
+      "name": "whitecoat-squad/390/skill_thrust paused attack has no independent aura clock",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/390/skill_thrust backward seek reproduces aura phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/390/skill_thrust hitstop freezes aura with body",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/390/skill_thrust original attack speed and single damage delivery",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "impacts": 1,
+        "expected": 1
+      }
+    },
+    {
+      "name": "whitecoat-squad/390/skill_thrust completion retains one persistent aura",
+      "pass": true,
+      "detail": {
+        "idle": "IDLE",
+        "active": false,
+        "auras": 1,
+        "ambient": true
+      }
+    },
+    {
+      "name": "whitecoat-squad/390/skill_wheel follows pose, root and facing without double mirroring",
+      "pass": true,
+      "detail": [
+        {
+          "phase": 0.57,
+          "error": 1.3112890794698529e-14,
+          "bodyPosition": 0.5636558407771994,
+          "headTextureY": 89.20435307513566
+        },
+        {
+          "phase": 0.84,
+          "error": 1.3997704223896983e-14,
+          "bodyPosition": 0.5679511211732926,
+          "headTextureY": 91.2037939968709
+        },
+        {
+          "phase": 1.22,
+          "error": 4.1049763250665164e-14,
+          "bodyPosition": 0.5707101017880417,
+          "headTextureY": 92.15581583124043
+        },
+        {
+          "phase": 1.43,
+          "error": 7.999432742273225e-14,
+          "bodyPosition": 0.5593279298184445,
+          "headTextureY": 87.27923678525968
+        }
+      ]
+    },
+    {
+      "name": "whitecoat-squad/390/skill_wheel paused attack has no independent aura clock",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/390/skill_wheel backward seek reproduces aura phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/390/skill_wheel hitstop freezes aura with body",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/390/skill_wheel original attack speed and single damage delivery",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "impacts": 3,
+        "expected": 3
+      }
+    },
+    {
+      "name": "whitecoat-squad/390/skill_wheel completion retains one persistent aura",
+      "pass": true,
+      "detail": {
+        "idle": "IDLE",
+        "active": false,
+        "auras": 1,
+        "ambient": true
+      }
+    },
+    {
+      "name": "whitecoat-squad/390/skill_rain follows pose, root and facing without double mirroring",
+      "pass": true,
+      "detail": [
+        {
+          "phase": 1.09,
+          "error": 2.8217365339310226e-14,
+          "bodyPosition": 0.5602710769926996,
+          "headTextureY": 87.73545285535579
+        },
+        {
+          "phase": 1.54,
+          "error": 2.8217365339310226e-14,
+          "bodyPosition": 0.5602710769926996,
+          "headTextureY": 86.76365219213551
+        },
+        {
+          "phase": 1.78,
+          "error": 2.085719677388996e-14,
+          "bodyPosition": 0.5618751027118049,
+          "headTextureY": 86.96377047811987
+        },
+        {
+          "phase": 1.99,
+          "error": 2.085719677388996e-14,
+          "bodyPosition": 0.5618751027118049,
+          "headTextureY": 86.70596313734453
+        }
+      ]
+    },
+    {
+      "name": "whitecoat-squad/390/skill_rain paused attack has no independent aura clock",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/390/skill_rain backward seek reproduces aura phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/390/skill_rain hitstop freezes aura with body",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/390/skill_rain original attack speed and single damage delivery",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "impacts": 3,
+        "expected": 3
+      }
+    },
+    {
+      "name": "whitecoat-squad/390/skill_rain completion retains one persistent aura",
+      "pass": true,
+      "detail": {
+        "idle": "IDLE",
+        "active": false,
+        "auras": 1,
+        "ambient": true
+      }
+    },
+    {
+      "name": "whitecoat-squad/390 death, revive, hidden, resume",
+      "pass": true,
+      "detail": {
+        "dead": {
+          "time": 4.419,
+          "visible": false,
+          "center": [
+            163.86057306045856,
+            222.88090652692821
+          ],
+          "body": {
+            "x": 43.23530722309976,
+            "y": -188.8448967208434,
+            "tilt": 0.3334118275567703,
+            "height": 449.6786294051461,
+            "width": 420,
+            "head": {
+              "x": 88.67309278099293,
+              "y": -320.0385053710937
+            },
+            "feet": {
+              "x": -19.874997285081477,
+              "y": -6.625000003051756
+            },
+            "crown": {
+              "x": 106.345611731281,
+              "y": -371.06479343863504
+            }
+          },
+          "frames": {
+            "rear": {
+              "index": 6,
+              "mix": 0.7299999999999986
+            },
+            "front": {
+              "index": 0,
+              "mix": 0.7299999999999969
+            }
+          },
+          "outline": false,
+          "behindBody": true,
+          "inFrontOfBody": true,
+          "frontVisible": false,
+          "clock": "V3_REGISTERED_GSAP",
+          "destroyed": false
+        },
+        "alive": {
+          "time": 4.419,
+          "visible": true,
+          "center": [
+            162.0984803605376,
+            214.22987299486311
+          ],
+          "body": {
+            "x": 27.56130782240395,
+            "y": -265.7967474396323,
+            "tilt": 0.09435618373980083,
+            "height": 595.9583749846231,
+            "width": 600.3038999535573,
+            "head": {
+              "x": 47.53318893504096,
+              "y": -476.8329999999999
+            },
+            "feet": {
+              "x": 2.5017499767786404,
+              "y": -1.0006999999999997
+            },
+            "crown": {
+              "x": 52.62086566802926,
+              "y": -530.5927948792646
+            }
+          },
+          "frames": {
+            "rear": {
+              "index": 6,
+              "mix": 0.7299999999999986
+            },
+            "front": {
+              "index": 0,
+              "mix": 0.7299999999999969
+            }
+          },
+          "outline": true,
+          "behindBody": true,
+          "inFrontOfBody": true,
+          "frontVisible": true,
+          "clock": "V3_REGISTERED_GSAP",
+          "destroyed": false
+        },
+        "hiddenFrozen": true,
+        "resumed": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "whitecoat-squad/390 disposal removes owned glow and aura, keeps shared texture",
+      "pass": true,
+      "detail": {
+        "destroyed": true,
+        "auras": 0,
+        "texturePreserved": true,
+        "noAmbient": true,
+        "removed": true
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/390 idle rotates behind the body",
+      "pass": true,
+      "detail": {
+        "before": {
+          "time": 0.0195,
+          "visible": true,
+          "center": [
+            287.90151963946244,
+            214.22987299486311
+          ],
+          "body": {
+            "x": 27.56130782240395,
+            "y": -265.7967474396323,
+            "tilt": 0.09435618373980083,
+            "height": 595.9583749846231,
+            "width": 600.3038999535573,
+            "head": {
+              "x": 47.53318893504096,
+              "y": -476.8329999999999
+            },
+            "feet": {
+              "x": 2.5017499767786404,
+              "y": -1.0006999999999997
+            },
+            "crown": {
+              "x": 52.62086566802926,
+              "y": -530.5927948792646
+            }
+          },
+          "frames": {
+            "rear": {
+              "index": 0,
+              "mix": 0.0649999999999995
+            },
+            "front": {
+              "index": 2,
+              "mix": 0.0649999999999995
+            }
+          },
+          "outline": true,
+          "behindBody": true,
+          "inFrontOfBody": true,
+          "frontVisible": true,
+          "clock": "V3_REGISTERED_GSAP",
+          "destroyed": false
+        },
+        "after": {
+          "time": 0.299,
+          "visible": true,
+          "center": [
+            287.90151963946244,
+            214.22987299486311
+          ],
+          "body": {
+            "x": 27.56130782240395,
+            "y": -265.7967474396323,
+            "tilt": 0.09435618373980083,
+            "height": 595.9583749846231,
+            "width": 600.3038999535573,
+            "head": {
+              "x": 47.53318893504096,
+              "y": -476.8329999999999
+            },
+            "feet": {
+              "x": 2.5017499767786404,
+              "y": -1.0006999999999997
+            },
+            "crown": {
+              "x": 52.62086566802926,
+              "y": -530.5927948792646
+            }
+          },
+          "frames": {
+            "rear": {
+              "index": 0,
+              "mix": 0.9966666666666661
+            },
+            "front": {
+              "index": 2,
+              "mix": 0.9966666666666661
+            }
+          },
+          "outline": true,
+          "behindBody": true,
+          "inFrontOfBody": true,
+          "frontVisible": true,
+          "clock": "V3_REGISTERED_GSAP",
+          "destroyed": false
+        }
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/390 pause freezes aura and silhouette glow",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/390 effect switch restores same phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/390 one canvas, no overflow, body within viewport",
+      "pass": true,
+      "detail": {
+        "canvases": 1,
+        "overflow": false,
+        "body": {
+          "minX": 252.58095963196183,
+          "minY": 184.1480056634739,
+          "maxX": 330.9386674653059,
+          "maxY": 244.40586874607473,
+          "matrix": {
+            "array": null,
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_flash follows pose, root and facing without double mirroring",
+      "pass": true,
+      "detail": [
+        {
+          "phase": 0.27,
+          "error": 6.474763612994798e-14,
+          "bodyPosition": 0.5628628008990092,
+          "headTextureY": 87.56701641147583
+        },
+        {
+          "phase": 0.43,
+          "error": 4.435132785792604e-14,
+          "bodyPosition": 0.5640084635229894,
+          "headTextureY": 87.76876976217909
+        },
+        {
+          "phase": 0.58,
+          "error": 2.1093561510465724e-14,
+          "bodyPosition": 0.554945047377046,
+          "headTextureY": 83.7343619219921
+        },
+        {
+          "phase": 0.79,
+          "error": 3.0202970561606375e-14,
+          "bodyPosition": 0.5576002180571239,
+          "headTextureY": 84.8244328884125
+        }
+      ]
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_flash paused attack has no independent aura clock",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_flash backward seek reproduces aura phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_flash original attack speed and single damage delivery",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "impacts": 1,
+        "expected": 1
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_flash completion retains one persistent aura",
+      "pass": true,
+      "detail": {
+        "idle": "IDLE",
+        "active": false,
+        "auras": 1,
+        "ambient": true
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_thrust follows pose, root and facing without double mirroring",
+      "pass": true,
+      "detail": [
+        {
+          "phase": 0.33,
+          "error": 1.2066772280958042e-15,
+          "bodyPosition": 0.5644352646370034,
+          "headTextureY": 88.03694148839804
+        },
+        {
+          "phase": 0.45,
+          "error": 3.773612773502847e-14,
+          "bodyPosition": 0.5694851236896049,
+          "headTextureY": 90.28653214459428
+        },
+        {
+          "phase": 0.61,
+          "error": 4.220442594031499e-15,
+          "bodyPosition": 0.5621702317164761,
+          "headTextureY": 87.66164151064754
+        },
+        {
+          "phase": 0.78,
+          "error": 4.220442594031499e-15,
+          "bodyPosition": 0.5621702317164761,
+          "headTextureY": 88.044960624738
+        }
+      ]
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_thrust paused attack has no independent aura clock",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_thrust backward seek reproduces aura phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_thrust hitstop freezes aura with body",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_thrust original attack speed and single damage delivery",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "impacts": 1,
+        "expected": 1
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_thrust completion retains one persistent aura",
+      "pass": true,
+      "detail": {
+        "idle": "IDLE",
+        "active": false,
+        "auras": 1,
+        "ambient": true
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_wheel follows pose, root and facing without double mirroring",
+      "pass": true,
+      "detail": [
+        {
+          "phase": 0.57,
+          "error": 2.980202453340574e-14,
+          "bodyPosition": 0.5636558407771992,
+          "headTextureY": 89.19389716115961
+        },
+        {
+          "phase": 0.84,
+          "error": 3.563051984264689e-14,
+          "bodyPosition": 0.567951121173294,
+          "headTextureY": 91.2003179401379
+        },
+        {
+          "phase": 1.22,
+          "error": 1.853860275836493e-14,
+          "bodyPosition": 0.5707101017880422,
+          "headTextureY": 92.16287292333504
+        },
+        {
+          "phase": 1.43,
+          "error": 1.666548487973588e-14,
+          "bodyPosition": 0.5593279298184464,
+          "headTextureY": 87.2914825488117
+        }
+      ]
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_wheel paused attack has no independent aura clock",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_wheel backward seek reproduces aura phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_wheel hitstop freezes aura with body",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_wheel original attack speed and single damage delivery",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "impacts": 5,
+        "expected": 5
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_wheel completion retains one persistent aura",
+      "pass": true,
+      "detail": {
+        "idle": "IDLE",
+        "active": false,
+        "auras": 1,
+        "ambient": true
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_rain follows pose, root and facing without double mirroring",
+      "pass": true,
+      "detail": [
+        {
+          "phase": 1.09,
+          "error": 1.24156407492965e-14,
+          "bodyPosition": 0.5602710769926996,
+          "headTextureY": 87.74238880692428
+        },
+        {
+          "phase": 1.54,
+          "error": 1.24156407492965e-14,
+          "bodyPosition": 0.5602710769926996,
+          "headTextureY": 86.77230289956151
+        },
+        {
+          "phase": 1.78,
+          "error": 3.7079460931359926e-14,
+          "bodyPosition": 0.5618751027118067,
+          "headTextureY": 86.97016095687968
+        },
+        {
+          "phase": 1.99,
+          "error": 3.7079460931359926e-14,
+          "bodyPosition": 0.5618751027118067,
+          "headTextureY": 86.70904225204686
+        }
+      ]
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_rain paused attack has no independent aura clock",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_rain backward seek reproduces aura phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_rain hitstop freezes aura with body",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_rain original attack speed and single damage delivery",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "impacts": 5,
+        "expected": 5
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/390/skill_rain completion retains one persistent aura",
+      "pass": true,
+      "detail": {
+        "idle": "IDLE",
+        "active": false,
+        "auras": 1,
+        "ambient": true
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/390 death, revive, hidden, resume",
+      "pass": true,
+      "detail": {
+        "dead": {
+          "time": 4.4034,
+          "visible": false,
+          "center": [
+            286.13942693954147,
+            222.88090652692821
+          ],
+          "body": {
+            "x": 43.23530722309976,
+            "y": -188.8448967208434,
+            "tilt": 0.3334118275567703,
+            "height": 449.6786294051461,
+            "width": 420,
+            "head": {
+              "x": 88.67309278099293,
+              "y": -320.0385053710937
+            },
+            "feet": {
+              "x": -19.874997285081477,
+              "y": -6.625000003051756
+            },
+            "crown": {
+              "x": 106.345611731281,
+              "y": -371.06479343863504
+            }
+          },
+          "frames": {
+            "rear": {
+              "index": 6,
+              "mix": 0.6780000000000026
+            },
+            "front": {
+              "index": 0,
+              "mix": 0.6780000000000044
+            }
+          },
+          "outline": false,
+          "behindBody": true,
+          "inFrontOfBody": true,
+          "frontVisible": false,
+          "clock": "V3_REGISTERED_GSAP",
+          "destroyed": false
+        },
+        "alive": {
+          "time": 4.4034,
+          "visible": true,
+          "center": [
+            287.90151963946244,
+            214.22987299486311
+          ],
+          "body": {
+            "x": 27.56130782240395,
+            "y": -265.7967474396323,
+            "tilt": 0.09435618373980083,
+            "height": 595.9583749846231,
+            "width": 600.3038999535573,
+            "head": {
+              "x": 47.53318893504096,
+              "y": -476.8329999999999
+            },
+            "feet": {
+              "x": 2.5017499767786404,
+              "y": -1.0006999999999997
+            },
+            "crown": {
+              "x": 52.62086566802926,
+              "y": -530.5927948792646
+            }
+          },
+          "frames": {
+            "rear": {
+              "index": 6,
+              "mix": 0.6780000000000026
+            },
+            "front": {
+              "index": 0,
+              "mix": 0.6780000000000044
+            }
+          },
+          "outline": true,
+          "behindBody": true,
+          "inFrontOfBody": true,
+          "frontVisible": true,
+          "clock": "V3_REGISTERED_GSAP",
+          "destroyed": false
+        },
+        "hiddenFrozen": true,
+        "resumed": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/390 disposal removes owned glow and aura, keeps shared texture",
+      "pass": true,
+      "detail": {
+        "destroyed": true,
+        "auras": 0,
+        "texturePreserved": true,
+        "noAmbient": true,
+        "removed": true
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/320 idle rotates behind the body",
+      "pass": true,
+      "detail": {
+        "before": {
+          "time": 0.0195,
+          "visible": true,
+          "center": [
+            239.55877304927347,
+            214.60535448080128
+          ],
+          "body": {
+            "x": 27.56130782240395,
+            "y": -265.7967474396323,
+            "tilt": 0.09435618373980083,
+            "height": 595.9583749846231,
+            "width": 600.3038999535573,
+            "head": {
+              "x": 47.53318893504096,
+              "y": -476.8329999999999
+            },
+            "feet": {
+              "x": 2.5017499767786404,
+              "y": -1.0006999999999997
+            },
+            "crown": {
+              "x": 52.62086566802926,
+              "y": -530.5927948792646
+            }
+          },
+          "frames": {
+            "rear": {
+              "index": 0,
+              "mix": 0.0649999999999995
+            },
+            "front": {
+              "index": 2,
+              "mix": 0.0649999999999995
+            }
+          },
+          "outline": true,
+          "behindBody": true,
+          "inFrontOfBody": true,
+          "frontVisible": true,
+          "clock": "V3_REGISTERED_GSAP",
+          "destroyed": false
+        },
+        "after": {
+          "time": 0.2652,
+          "visible": true,
+          "center": [
+            239.55877304927347,
+            214.60535448080128
+          ],
+          "body": {
+            "x": 27.56130782240395,
+            "y": -265.7967474396323,
+            "tilt": 0.09435618373980083,
+            "height": 595.9583749846231,
+            "width": 600.3038999535573,
+            "head": {
+              "x": 47.53318893504096,
+              "y": -476.8329999999999
+            },
+            "feet": {
+              "x": 2.5017499767786404,
+              "y": -1.0006999999999997
+            },
+            "crown": {
+              "x": 52.62086566802926,
+              "y": -530.5927948792646
+            }
+          },
+          "frames": {
+            "rear": {
+              "index": 0,
+              "mix": 0.8840000000000003
+            },
+            "front": {
+              "index": 2,
+              "mix": 0.8840000000000003
+            }
+          },
+          "outline": true,
+          "behindBody": true,
+          "inFrontOfBody": true,
+          "frontVisible": true,
+          "clock": "V3_REGISTERED_GSAP",
+          "destroyed": false
+        }
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/320 pause freezes aura and silhouette glow",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/320 effect switch restores same phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/320 one canvas, no overflow, body within viewport",
+      "pass": true,
+      "detail": {
+        "canvases": 1,
+        "overflow": false,
+        "body": {
+          "minX": 211.7304530433639,
+          "minY": 190.90448931061584,
+          "maxX": 273.4668289120592,
+          "maxY": 238.38038143630135,
+          "matrix": {
+            "array": null,
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_flash follows pose, root and facing without double mirroring",
+      "pass": true,
+      "detail": [
+        {
+          "phase": 0.27,
+          "error": 9.712145419492211e-15,
+          "bodyPosition": 0.5628628008990081,
+          "headTextureY": 87.56701641147606
+        },
+        {
+          "phase": 0.43,
+          "error": 6.085629186326651e-15,
+          "bodyPosition": 0.5640084635229895,
+          "headTextureY": 87.76876976217909
+        },
+        {
+          "phase": 0.58,
+          "error": 8.162377226141753e-16,
+          "bodyPosition": 0.5549450473770435,
+          "headTextureY": 83.73436192199165
+        },
+        {
+          "phase": 0.79,
+          "error": 4.4495447702366536e-15,
+          "bodyPosition": 0.5576002180571216,
+          "headTextureY": 84.82443288841228
+        }
+      ]
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_flash paused attack has no independent aura clock",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_flash backward seek reproduces aura phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_flash original attack speed and single damage delivery",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "impacts": 1,
+        "expected": 1
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_flash completion retains one persistent aura",
+      "pass": true,
+      "detail": {
+        "idle": "IDLE",
+        "active": false,
+        "auras": 1,
+        "ambient": true
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_thrust follows pose, root and facing without double mirroring",
+      "pass": true,
+      "detail": [
+        {
+          "phase": 0.33,
+          "error": 4.747810785930802e-14,
+          "bodyPosition": 0.5644352646370011,
+          "headTextureY": 88.03482041169127
+        },
+        {
+          "phase": 0.45,
+          "error": 9.909487124052586e-15,
+          "bodyPosition": 0.5694851236896039,
+          "headTextureY": 90.28404850121592
+        },
+        {
+          "phase": 0.61,
+          "error": 5.772322844953552e-15,
+          "bodyPosition": 0.5621702317164755,
+          "headTextureY": 87.6587315219615
+        },
+        {
+          "phase": 0.78,
+          "error": 5.772322844953552e-15,
+          "bodyPosition": 0.5621702317164755,
+          "headTextureY": 88.04206997873462
+        }
+      ]
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_thrust paused attack has no independent aura clock",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_thrust backward seek reproduces aura phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_thrust hitstop freezes aura with body",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_thrust original attack speed and single damage delivery",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "impacts": 1,
+        "expected": 1
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_thrust completion retains one persistent aura",
+      "pass": true,
+      "detail": {
+        "idle": "IDLE",
+        "active": false,
+        "auras": 1,
+        "ambient": true
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_wheel follows pose, root and facing without double mirroring",
+      "pass": true,
+      "detail": [
+        {
+          "phase": 0.57,
+          "error": 2.7990978427144928e-14,
+          "bodyPosition": 0.563655840777199,
+          "headTextureY": 89.18330604784478
+        },
+        {
+          "phase": 0.84,
+          "error": 7.671818661174306e-15,
+          "bodyPosition": 0.5679511211732935,
+          "headTextureY": 91.19665935231501
+        },
+        {
+          "phase": 1.22,
+          "error": 1.2605231271140978e-14,
+          "bodyPosition": 0.5707101017880412,
+          "headTextureY": 92.16976844822898
+        },
+        {
+          "phase": 1.43,
+          "error": 1.4101564129007292e-15,
+          "bodyPosition": 0.5593279298184449,
+          "headTextureY": 87.30361177357395
+        }
+      ]
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_wheel paused attack has no independent aura clock",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_wheel backward seek reproduces aura phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_wheel hitstop freezes aura with body",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_wheel original attack speed and single damage delivery",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "impacts": 5,
+        "expected": 5
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_wheel completion retains one persistent aura",
+      "pass": true,
+      "detail": {
+        "idle": "IDLE",
+        "active": false,
+        "auras": 1,
+        "ambient": true
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_rain follows pose, root and facing without double mirroring",
+      "pass": true,
+      "detail": [
+        {
+          "phase": 1.09,
+          "error": 6.804726179902891e-15,
+          "bodyPosition": 0.560271076992699,
+          "headTextureY": 87.75839527885887
+        },
+        {
+          "phase": 1.54,
+          "error": 6.804726179902891e-15,
+          "bodyPosition": 0.560271076992699,
+          "headTextureY": 86.7925578150157
+        },
+        {
+          "phase": 1.78,
+          "error": 5.0003792265608e-14,
+          "bodyPosition": 0.5618751027118056,
+          "headTextureY": 86.9852693420039
+        },
+        {
+          "phase": 1.99,
+          "error": 5.0003792265608e-14,
+          "bodyPosition": 0.5618751027118056,
+          "headTextureY": 86.71649731355046
+        }
+      ]
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_rain paused attack has no independent aura clock",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_rain backward seek reproduces aura phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_rain hitstop freezes aura with body",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_rain original attack speed and single damage delivery",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "impacts": 5,
+        "expected": 5
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/320/skill_rain completion retains one persistent aura",
+      "pass": true,
+      "detail": {
+        "idle": "IDLE",
+        "active": false,
+        "auras": 1,
+        "ambient": true
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/320 death, revive, hidden, resume",
+      "pass": true,
+      "detail": {
+        "dead": {
+          "time": 4.3995,
+          "visible": false,
+          "center": [
+            238.17045758872968,
+            221.4213202939435
+          ],
+          "body": {
+            "x": 43.23530722309976,
+            "y": -188.8448967208434,
+            "tilt": 0.3334118275567703,
+            "height": 449.6786294051461,
+            "width": 420,
+            "head": {
+              "x": 88.67309278099293,
+              "y": -320.0385053710937
+            },
+            "feet": {
+              "x": -19.874997285081477,
+              "y": -6.625000003051756
+            },
+            "crown": {
+              "x": 106.345611731281,
+              "y": -371.06479343863504
+            }
+          },
+          "frames": {
+            "rear": {
+              "index": 6,
+              "mix": 0.6649999999999991
+            },
+            "front": {
+              "index": 0,
+              "mix": 0.6649999999999991
+            }
+          },
+          "outline": false,
+          "behindBody": true,
+          "inFrontOfBody": true,
+          "frontVisible": false,
+          "clock": "V3_REGISTERED_GSAP",
+          "destroyed": false
+        },
+        "alive": {
+          "time": 4.3995,
+          "visible": true,
+          "center": [
+            239.55877304927347,
+            214.60535448080128
+          ],
+          "body": {
+            "x": 27.56130782240395,
+            "y": -265.7967474396323,
+            "tilt": 0.09435618373980083,
+            "height": 595.9583749846231,
+            "width": 600.3038999535573,
+            "head": {
+              "x": 47.53318893504096,
+              "y": -476.8329999999999
+            },
+            "feet": {
+              "x": 2.5017499767786404,
+              "y": -1.0006999999999997
+            },
+            "crown": {
+              "x": 52.62086566802926,
+              "y": -530.5927948792646
+            }
+          },
+          "frames": {
+            "rear": {
+              "index": 6,
+              "mix": 0.6649999999999991
+            },
+            "front": {
+              "index": 0,
+              "mix": 0.6649999999999991
+            }
+          },
+          "outline": true,
+          "behindBody": true,
+          "inFrontOfBody": true,
+          "frontVisible": true,
+          "clock": "V3_REGISTERED_GSAP",
+          "destroyed": false
+        },
+        "hiddenFrozen": true,
+        "resumed": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/320 disposal removes owned glow and aura, keeps shared texture",
+      "pass": true,
+      "detail": {
+        "destroyed": true,
+        "auras": 0,
+        "texturePreserved": true,
+        "noAmbient": true,
+        "removed": true
+      }
+    },
+    {
+      "name": "No shader or browser console errors",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "realDevice": false
+}

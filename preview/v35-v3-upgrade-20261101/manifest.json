@@ -47,7 +47,7 @@
     {
       "path": "qa/build.json",
       "bytes": 90291,
-      "sha256": "64369d81da942dc1cedc3f5ccaa769246f3b866873daac90f0ff260a5c82cc4f"
+      "sha256": "bb9ee60a7b66e209f34b98602a23fde8a2d0f881db327bf0453017e9c6681768"
     },
     {
       "path": "qa/cardgu-after.png",
@@ -251,8 +251,8 @@
     },
     {
       "path": "workbench.bundle.js",
-      "bytes": 3335494,
-      "sha256": "804de744d699ee010627ba875d885aeb60843458a3b863cc3752a224714067e7"
+      "bytes": 3336313,
+      "sha256": "c70877a9e1406f2fd173bcde6790db02bd416e7f01d068f7587334c077ea9682"
     },
     {
       "path": "workbench.src.mjs",
@@ -312,8 +312,8 @@
   "persistentAura": {
     "character": "하쿠야 신",
     "date": "2026-11-05",
-    "type": "taegeuk with white alpha silhouette",
+    "type": "body-centred black-ink and pearl-white painted aura",
     "stage": "local V3 review",
-    "source": "../v35-whitecoat-swordsman-20261102/aura-v1/PROJECT.md"
+    "source": "../v35-whitecoat-swordsman-20261102/aura-v2/PROJECT.md"
   }
 }

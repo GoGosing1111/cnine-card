@@ -1,0 +1,121 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "1440 review contains current aura and fits viewport",
+      "pass": true
+    },
+    {
+      "name": "1440/four-skills.webm decodes and advances",
+      "pass": true,
+      "detail": {
+        "time": 0.3982,
+        "frames": 14,
+        "duration": 11.2,
+        "paused": false,
+        "src": "http://127.0.0.1:18766/preview/v35-whitecoat-swordsman-20261102/aura-v2/qa/four-skills.webm"
+      }
+    },
+    {
+      "name": "1440/four-skills-half.webm decodes and advances",
+      "pass": true,
+      "detail": {
+        "time": 0.3767,
+        "frames": 26,
+        "duration": 14.745,
+        "paused": false,
+        "src": "http://127.0.0.1:18766/preview/v35-whitecoat-swordsman-20261102/aura-v2/qa/four-skills-half.webm"
+      }
+    },
+    {
+      "name": "1440/four-skills-body.webm decodes and advances",
+      "pass": true,
+      "detail": {
+        "time": 0.3946,
+        "frames": 27,
+        "duration": 11.236,
+        "paused": false,
+        "src": "http://127.0.0.1:18766/preview/v35-whitecoat-swordsman-20261102/aura-v2/qa/four-skills-body.webm"
+      }
+    },
+    {
+      "name": "1440 skill chapter navigation",
+      "pass": true,
+      "detail": {
+        "time": 6.3288,
+        "paused": false
+      }
+    },
+    {
+      "name": "1440 returns to aura introduction",
+      "pass": true
+    },
+    {
+      "name": "1440 no page errors",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "390 review contains current aura and fits viewport",
+      "pass": true
+    },
+    {
+      "name": "390/four-skills.webm decodes and advances",
+      "pass": true,
+      "detail": {
+        "time": 0.2245,
+        "frames": 14,
+        "duration": 11.2,
+        "paused": false,
+        "src": "http://127.0.0.1:18766/preview/v35-whitecoat-swordsman-20261102/aura-v2/qa/four-skills.webm"
+      }
+    },
+    {
+      "name": "390/four-skills-half.webm decodes and advances",
+      "pass": true,
+      "detail": {
+        "time": 0.3894,
+        "frames": 27,
+        "duration": 14.745,
+        "paused": false,
+        "src": "http://127.0.0.1:18766/preview/v35-whitecoat-swordsman-20261102/aura-v2/qa/four-skills-half.webm"
+      }
+    },
+    {
+      "name": "390/four-skills-body.webm decodes and advances",
+      "pass": true,
+      "detail": {
+        "time": 0.3868,
+        "frames": 27,
+        "duration": 11.236,
+        "paused": false,
+        "src": "http://127.0.0.1:18766/preview/v35-whitecoat-swordsman-20261102/aura-v2/qa/four-skills-body.webm"
+      }
+    },
+    {
+      "name": "390 skill chapter navigation",
+      "pass": true,
+      "detail": {
+        "time": 6.3288,
+        "paused": false
+      }
+    },
+    {
+      "name": "390 returns to aura introduction",
+      "pass": true
+    },
+    {
+      "name": "390 no page errors",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "Video supports seekable HTTP range",
+      "pass": true
+    },
+    {
+      "name": "New recordings contain every skill and valid impacts",
+      "pass": true
+    }
+  ]
+}

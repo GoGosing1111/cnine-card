@@ -1,0 +1,94 @@
+{
+  "result": {
+    "eventRoute": {
+      "hp": 83,
+      "writes": [
+        {
+          "id": "B:0:MONSTER:68",
+          "value": 83
+        }
+      ],
+      "last": {
+        "code": "QA-V35-WHITECOAT",
+        "mode": "attack_basic",
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "spineAutoUpdate": false,
+        "damageApplications": 1,
+        "technique": null,
+        "motionRate": 2,
+        "contactSeconds": 0.32,
+        "durationSeconds": 1.18,
+        "wholePoseAttachments": true
+      }
+    },
+    "dodge": {
+      "hp": 83,
+      "writes": []
+    },
+    "serial": {
+      "hp": 65,
+      "writes": [
+        {
+          "id": "B:0:MONSTER:68",
+          "value": 74
+        },
+        {
+          "id": "B:0:MONSTER:68",
+          "value": 65
+        }
+      ],
+      "position": {
+        "x": 170,
+        "y": 592
+      },
+      "base": {
+        "x": 170,
+        "y": 592
+      }
+    },
+    "times": [
+      {
+        "speed": 0.25,
+        "ms": 1816.5
+      },
+      {
+        "speed": 2,
+        "ms": 228.89999999850988
+      }
+    ],
+    "hidden": {
+      "hp": 60,
+      "writes": [],
+      "x": 170,
+      "y": 592,
+      "busy": false
+    },
+    "resumed": {
+      "visible": true,
+      "time": 0.195,
+      "attachment": "guard"
+    },
+    "reset": {
+      "spineDestroyed": true,
+      "oldActorPresent": false,
+      "newCodes": [
+        "V-996",
+        "V-979"
+      ],
+      "canvasCount": 1
+    },
+    "errors": []
+  },
+  "checks": {
+    "eventHp": true,
+    "oneServerHpSync": true,
+    "dodgeDoesNotAttack": true,
+    "orderedEvents": true,
+    "speedRatio": true,
+    "hiddenBeforeContactNoDamage": true,
+    "resumeGuard": true,
+    "resetDestroysSpine": true,
+    "noErrors": true
+  },
+  "fixtureOnly": true
+}

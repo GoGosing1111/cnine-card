@@ -3,7 +3,7 @@ import {SpineBattleAdapter} from '../v35-v3-upgrade-20261101/SpineBattleAdapter.
 import {playTempest} from './action-v3/play-attack.mjs';
 import {playWhitecoatSkill,actions} from './skills-v4/play-skill.mjs';
 import {techniques, prepareStrike, whitecoatMotionRate} from './swordplay-v5/skills.mjs';
-import {HakuyaAura} from './aura-v1/HakuyaAura.mjs';
+import {HakuyaAura} from './aura-v2/HakuyaAura.mjs';
 export class WhitecoatBattleAdapter extends SpineBattleAdapter {
  constructor(engine,actor,rig,options={}){super(engine,actor,rig,{bodyPixels:530,bodyHeight:300,...options});rig.position.set(0,0);rig.label='V35_WHITECOAT';this.skill='attack_basic';this.auraOrigin=0;this.aura=new HakuyaAura(this,this.effects.assets.aura);}
  // Native keys are float32 (for example .4 is .40000000596). Resolve exact
