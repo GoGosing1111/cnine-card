@@ -1,0 +1,58 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:tmoney-general-jok-exempt:20261105:v1",
+  "authorization": "제너럴족 한장 더 지급해 카드횟수 차감없이",
+  "targetContext": "직전 코인 1경 지급 대상인 T-Money™ ID5147",
+  "userId": "5147",
+  "nickname": "T-Money™",
+  "code": "V-974",
+  "name": "제너럴 족",
+  "rank": "SSS",
+  "edition": "LIMITED",
+  "delivery": "DIRECT",
+  "quantity": 1,
+  "copiesBefore": 0,
+  "copiesAfter": 1,
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "stockCountersChanged": false,
+  "limitedIssueRecordsAdded": 0,
+  "craftCountsChanged": false,
+  "purchaseCountsChanged": false,
+  "stockPreserved": [
+    {
+      "code": "SSS_MIRACLE_CUBE:V-974",
+      "limit": "5",
+      "issued": "0"
+    },
+    {
+      "code": "V-974",
+      "limit": "9",
+      "issued": "6"
+    }
+  ],
+  "acquisitionId": "ops:tmoney-general-jok-exempt:20261105:v1:5147:V-974:1",
+  "auditId": "54536",
+  "completedAt": "2026-11-05T13:17:04.822Z",
+  "completedAtKst": "2026-11-05 22:17:04 KST",
+  "planHash": "f9cace6a26a1b1642c2846caecd4358d94ba4874422b0adb21d86d85887016cf",
+  "executionSourceSha256": "8c77dbd421f0507c6db7d5b2041ac4f5229f5c673798101ff997af58279d69f9",
+  "verification": {
+    "testsPassed": 4,
+    "failedAndSuccessfulRehearsalsRolledBack": true,
+    "liveUserAndDatabaseLocks": true,
+    "independentReadOnly": true,
+    "replayAdditionalWrites": 0,
+    "leasesReleased": true,
+    "collectionRevisionDelta": 1,
+    "rankedSourceDelta": 1,
+    "otherAssetsAndGrowthPreserved": true,
+    "previousCoinGrantPreserved": true,
+    "missing": 0,
+    "duplicates": 0
+  },
+  "automaticLoadout": false,
+  "messagesSent": 0,
+  "gameDeployment": false,
+  "storageMaintenance": false,
+  "scheduledAutomations": 0
+}
