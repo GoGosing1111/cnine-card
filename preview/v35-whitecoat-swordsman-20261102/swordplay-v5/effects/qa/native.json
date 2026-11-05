@@ -1,0 +1,50 @@
+[
+  {
+    "id": "v5-flash",
+    "drawings": 8,
+    "nodes": 8,
+    "initialImportBinaryEqual": true,
+    "roundTripBinaryEqual": true,
+    "sha256": "ee7628efd3601bb4c64dd4c35bf5d2a49c9030b591f97b53345e5db36cc6be14"
+  },
+  {
+    "id": "v5-thrust",
+    "drawings": 8,
+    "nodes": 8,
+    "initialImportBinaryEqual": true,
+    "roundTripBinaryEqual": true,
+    "sha256": "255dd2a0b09bfd3bdd9c032f5d737592875bafe0768b71520d46a5bdbcbbcf8f"
+  },
+  {
+    "id": "v5-wheel",
+    "drawings": 8,
+    "nodes": 8,
+    "initialImportBinaryEqual": true,
+    "roundTripBinaryEqual": true,
+    "sha256": "bed3ae7403968d6b4b66c1c9951d20751e7888bd6a2cbc6fbd04fd701a8aee1f"
+  },
+  {
+    "id": "v5-rain",
+    "drawings": 8,
+    "nodes": 8,
+    "initialImportBinaryEqual": true,
+    "roundTripBinaryEqual": true,
+    "sha256": "145c96918f31ec7bba6f5c112cb9f355b85459e99217152346d722ef34f5c149"
+  },
+  {
+    "id": "v5-splinters",
+    "drawings": 0,
+    "nodes": 46,
+    "initialImportBinaryEqual": false,
+    "roundTripBinaryEqual": true,
+    "sha256": "9685125b60c6aafdd5cc0606513a286bde9f68898066a650aabb90b8d5076f89"
+  },
+  {
+    "id": "v5-rimlight",
+    "drawings": 0,
+    "nodes": 6,
+    "initialImportBinaryEqual": true,
+    "roundTripBinaryEqual": true,
+    "sha256": "d710a20fd78c1407aae2cf36ef17cb9c26e92bc2944abab85366bfaf599f5c0e"
+  }
+]

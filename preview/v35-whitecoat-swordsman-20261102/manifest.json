@@ -378,8 +378,8 @@
     },
     {
       "path": "action-v3/play-attack.mjs",
-      "bytes": 3749,
-      "sha256": "eb18a3bedbb38f54a19c0b705d108492152ab95fbfb9ce703691e3430b1c1430"
+      "bytes": 3617,
+      "sha256": "93421025b19895102992716f2c0fc222adf89efa3ecb842a56c577dd9b7a4c17"
     },
     {
       "path": "action-v3/pose-inputs.json",
@@ -848,8 +848,8 @@
     },
     {
       "path": "action-v3/TempestEffects.mjs",
-      "bytes": 4039,
-      "sha256": "fcba199cda8efd93b40e1ff2a6f09cd155649aa289e02b15663443465ce19b25"
+      "bytes": 4068,
+      "sha256": "56827a31fd9197963a560f90d5345464c8242dd8a01a5a258935254fc08cc9ad"
     },
     {
       "path": "action-v3/timing.mjs",
@@ -2503,8 +2503,8 @@
     },
     {
       "path": "PROJECT.md",
-      "bytes": 21603,
-      "sha256": "e067181c066510096c21739bd12be721b88cfc80c7ab7da5c73f9b88a7d70bc5"
+      "bytes": 22104,
+      "sha256": "6d954ebc050976226ff29232b4b5e630fff804c9dcd70f647f43fb9958e9f97b"
     },
     {
       "path": "qa/art-compare.json",
@@ -3303,8 +3303,8 @@
     },
     {
       "path": "review.html",
-      "bytes": 6421,
-      "sha256": "9d080d1230a282c2efb036ce191ee0a26f088a214787deeae0d0a3b51a784c35"
+      "bytes": 8363,
+      "sha256": "1982ae3fb5cc39be49c52c59186cfaeff26e30423d460f8be2969deb21c746d6"
     },
     {
       "path": "runtime-action-v3-93718185df11/whitecoat-action-v3-93718185df11_2.png",
@@ -4663,8 +4663,8 @@
     },
     {
       "path": "skills-v4/play-skill.mjs",
-      "bytes": 3953,
-      "sha256": "d977ce283026dba9ee2daf8cec8d4d4a23a50ebc56c337aac10e155eee25bb8d"
+      "bytes": 3821,
+      "sha256": "47afd45d91d98db5e85b095d857e8beaf6a7579a58cb3f4694b72d09c0cca966"
     },
     {
       "path": "skills-v4/pose-inputs.json",
@@ -5068,8 +5068,8 @@
     },
     {
       "path": "skills-v4/SkillEffects.mjs",
-      "bytes": 7520,
-      "sha256": "d6a2db3c5909ffb5d8a8e8a4ceaa83c7c8e52644f54f0ff3215687bbe48c42cd"
+      "bytes": 7537,
+      "sha256": "4fdb9fda6e8ca80c588f44c41ed200dd03ab5792e26dd7890b4b16113773f785"
     },
     {
       "path": "skills-v4/source/cutin-prompt.txt",
@@ -5162,6 +5162,1621 @@
       "sha256": "61d677199a9bd791b97073759440f57898e9cf14b2d1e0bc9bfbd1576fa4150e"
     },
     {
+      "path": "swordplay-v5/art-prompts.json",
+      "bytes": 6911,
+      "sha256": "f0aaa1c7dac6bbf9450848929e552866afbe8f8e6c44e125d2d65733f0759cab"
+    },
+    {
+      "path": "swordplay-v5/art/flash.png",
+      "bytes": 780230,
+      "sha256": "7f0e0741dfcd37b8b0b6c6e1e8e83f0352bf2370b7f4c2dc5c3183c7f31dcb7a"
+    },
+    {
+      "path": "swordplay-v5/art/generation.json",
+      "bytes": 1580,
+      "sha256": "a30bb089d021e3a065aae6434b275bbe2cbb98f832a20fdba82608edd623da73"
+    },
+    {
+      "path": "swordplay-v5/art/rain.png",
+      "bytes": 1699775,
+      "sha256": "17aff34839f9c3b066097748a65965df9551418db368f44a94bf72b9fde82e41"
+    },
+    {
+      "path": "swordplay-v5/art/revision-prompts.json",
+      "bytes": 2661,
+      "sha256": "b9edbfaee31b1174fd8ac9f591216ed772e1c204cfd35653f9ba461f62c47b7b"
+    },
+    {
+      "path": "swordplay-v5/art/thrust-v2.png",
+      "bytes": 2042581,
+      "sha256": "48ab7d0fb517bd623e9b986822563eb35bed8255f65bfe2ef7129a800338d166"
+    },
+    {
+      "path": "swordplay-v5/art/thrust.png",
+      "bytes": 1148418,
+      "sha256": "cf8b83cdac047f1a9cf3c18ee5476ac10fda4954a3c20a02f2a8816d6b36934c"
+    },
+    {
+      "path": "swordplay-v5/art/wheel-v2.png",
+      "bytes": 1499933,
+      "sha256": "f7d48f60ceebab6a6244f310dcc30eec57e6b68791f56d7c7693c94a6c775a22"
+    },
+    {
+      "path": "swordplay-v5/art/wheel.png",
+      "bytes": 2275430,
+      "sha256": "f2e7b9e4b7292bc260b535d8c78cf3751e6a6a0f39131bef0a138c0f6c989020"
+    },
+    {
+      "path": "swordplay-v5/effects/author.mjs",
+      "bytes": 7385,
+      "sha256": "2c3c387cde208979fb20273d77649f936d4649881124f8d4bf51ebf9c27461ba"
+    },
+    {
+      "path": "swordplay-v5/effects/effects.json",
+      "bytes": 1573,
+      "sha256": "e43a162fe59f6856b9b53d9c59153dd7bd0521496327ca0eea706a74dd5959e7"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0000.png",
+      "bytes": 21686,
+      "sha256": "d0a7b661d0eb8f799c9ad9005c6fe7b77f8a3b72758d61eed265561eb147f726"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0001.png",
+      "bytes": 21686,
+      "sha256": "d0a7b661d0eb8f799c9ad9005c6fe7b77f8a3b72758d61eed265561eb147f726"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0002.png",
+      "bytes": 21686,
+      "sha256": "d0a7b661d0eb8f799c9ad9005c6fe7b77f8a3b72758d61eed265561eb147f726"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0003.png",
+      "bytes": 21686,
+      "sha256": "d0a7b661d0eb8f799c9ad9005c6fe7b77f8a3b72758d61eed265561eb147f726"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0004.png",
+      "bytes": 21686,
+      "sha256": "d0a7b661d0eb8f799c9ad9005c6fe7b77f8a3b72758d61eed265561eb147f726"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0005.png",
+      "bytes": 51917,
+      "sha256": "96144c058fc0cb7ec3c2359a83f17ae1a11a8e8a8a1f61a628e73aa638942bd5"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0006.png",
+      "bytes": 46080,
+      "sha256": "be8d2404fb0c83bef905b0b909cdb19c68ce5a2a49dc71ada76ef5e783f91728"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0007.png",
+      "bytes": 46080,
+      "sha256": "be8d2404fb0c83bef905b0b909cdb19c68ce5a2a49dc71ada76ef5e783f91728"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0008.png",
+      "bytes": 46080,
+      "sha256": "be8d2404fb0c83bef905b0b909cdb19c68ce5a2a49dc71ada76ef5e783f91728"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0009.png",
+      "bytes": 88428,
+      "sha256": "e8604be4901144d0c8893fb7a44620314009adf2b0fa62be42bb4e0cef0e7b46"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0010.png",
+      "bytes": 79579,
+      "sha256": "bca8ed1977b236d32103aeb8a79ce4c8e6c50f2316a70a0027161bda0075fdf6"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0011.png",
+      "bytes": 79579,
+      "sha256": "bca8ed1977b236d32103aeb8a79ce4c8e6c50f2316a70a0027161bda0075fdf6"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0012.png",
+      "bytes": 79579,
+      "sha256": "bca8ed1977b236d32103aeb8a79ce4c8e6c50f2316a70a0027161bda0075fdf6"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0013.png",
+      "bytes": 170194,
+      "sha256": "d636aff26f129aadde54de31f15ba04718f7b01d6b53ba7bdf33502821d587b4"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0014.png",
+      "bytes": 163657,
+      "sha256": "49a38561701ea814491afd2eef5f47b14ed6bd99b100bd731d518aa9c2272866"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0015.png",
+      "bytes": 163657,
+      "sha256": "49a38561701ea814491afd2eef5f47b14ed6bd99b100bd731d518aa9c2272866"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0016.png",
+      "bytes": 163657,
+      "sha256": "49a38561701ea814491afd2eef5f47b14ed6bd99b100bd731d518aa9c2272866"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0017.png",
+      "bytes": 210424,
+      "sha256": "e1f277aca38a635b01dd37085e10d8b762e07e8e98ebce75e1d5cf52ea12cce2"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0018.png",
+      "bytes": 193104,
+      "sha256": "401deacad17a2b155c07b99fdd2afa791f56c2037ae8afb9712719ccfb061c5f"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0019.png",
+      "bytes": 193104,
+      "sha256": "401deacad17a2b155c07b99fdd2afa791f56c2037ae8afb9712719ccfb061c5f"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0020.png",
+      "bytes": 193104,
+      "sha256": "401deacad17a2b155c07b99fdd2afa791f56c2037ae8afb9712719ccfb061c5f"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0021.png",
+      "bytes": 226358,
+      "sha256": "1263002a219c1509f8c4f87288f8f2a1426c11e936f1a724c940dbc5a9022cbf"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0022.png",
+      "bytes": 171062,
+      "sha256": "061af3b5a07d2f4d6dccb806245c750f4d76ba203ef70b3ad4bacd525fc13e72"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0023.png",
+      "bytes": 171062,
+      "sha256": "061af3b5a07d2f4d6dccb806245c750f4d76ba203ef70b3ad4bacd525fc13e72"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0024.png",
+      "bytes": 171062,
+      "sha256": "061af3b5a07d2f4d6dccb806245c750f4d76ba203ef70b3ad4bacd525fc13e72"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0025.png",
+      "bytes": 194520,
+      "sha256": "085d875fe9c2a2f4075982861fadd4baba2156f346249b5e36edf90668999796"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0026.png",
+      "bytes": 98746,
+      "sha256": "5ae77bdf2fec46a648d0554db790b16192616fe6e9785b5a216ff3d81bcaa396"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0027.png",
+      "bytes": 98746,
+      "sha256": "5ae77bdf2fec46a648d0554db790b16192616fe6e9785b5a216ff3d81bcaa396"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0028.png",
+      "bytes": 98746,
+      "sha256": "5ae77bdf2fec46a648d0554db790b16192616fe6e9785b5a216ff3d81bcaa396"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0029.png",
+      "bytes": 116400,
+      "sha256": "7acbb19d2eb576c2a40a92dc17ba0e7d67f58a1e28bcb101139bd1b21b68fe81"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0030.png",
+      "bytes": 40026,
+      "sha256": "1f019d0ce828bd63cad7a679ad205a06d7abdef982a56786a3d0e8188fb4484a"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0031.png",
+      "bytes": 40026,
+      "sha256": "1f019d0ce828bd63cad7a679ad205a06d7abdef982a56786a3d0e8188fb4484a"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0032.png",
+      "bytes": 40026,
+      "sha256": "1f019d0ce828bd63cad7a679ad205a06d7abdef982a56786a3d0e8188fb4484a"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-flash/frame-0033.png",
+      "bytes": 40026,
+      "sha256": "1f019d0ce828bd63cad7a679ad205a06d7abdef982a56786a3d0e8188fb4484a"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0000.png",
+      "bytes": 63252,
+      "sha256": "fa22caa6e71dd7db3a4e34fce8ddb009ef64efd092d42597ba8078311a960019"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0001.png",
+      "bytes": 63252,
+      "sha256": "fa22caa6e71dd7db3a4e34fce8ddb009ef64efd092d42597ba8078311a960019"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0002.png",
+      "bytes": 63252,
+      "sha256": "fa22caa6e71dd7db3a4e34fce8ddb009ef64efd092d42597ba8078311a960019"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0003.png",
+      "bytes": 63252,
+      "sha256": "fa22caa6e71dd7db3a4e34fce8ddb009ef64efd092d42597ba8078311a960019"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0004.png",
+      "bytes": 63252,
+      "sha256": "fa22caa6e71dd7db3a4e34fce8ddb009ef64efd092d42597ba8078311a960019"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0005.png",
+      "bytes": 176542,
+      "sha256": "eb9015da961665211f728abcf9deda7fccccde9097642f6c3072400bf2da4113"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0006.png",
+      "bytes": 150776,
+      "sha256": "21c4cca340dae342f823b7a11327e0258648d0e674c9a12059f93a6431781312"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0007.png",
+      "bytes": 150776,
+      "sha256": "21c4cca340dae342f823b7a11327e0258648d0e674c9a12059f93a6431781312"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0008.png",
+      "bytes": 150776,
+      "sha256": "21c4cca340dae342f823b7a11327e0258648d0e674c9a12059f93a6431781312"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0009.png",
+      "bytes": 266379,
+      "sha256": "0710f138dbd62ec8e9ca3c207277189edee656f1ee8e537703c39eda64fbdc58"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0010.png",
+      "bytes": 234344,
+      "sha256": "fdf999bb2d18c99b5b90d0886a4ce5e7ac9f57e5494378882808f5cee28c6ee4"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0011.png",
+      "bytes": 234344,
+      "sha256": "fdf999bb2d18c99b5b90d0886a4ce5e7ac9f57e5494378882808f5cee28c6ee4"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0012.png",
+      "bytes": 234344,
+      "sha256": "fdf999bb2d18c99b5b90d0886a4ce5e7ac9f57e5494378882808f5cee28c6ee4"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0013.png",
+      "bytes": 375830,
+      "sha256": "400d37cc914965db7547e516747b20cee2541d7123d7aae64f84dd0330b9874e"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0014.png",
+      "bytes": 351934,
+      "sha256": "f4ce216583c9c2a88749c6b28a207e0e6639c72f45ec3898a6c997aaf57c4f65"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0015.png",
+      "bytes": 351934,
+      "sha256": "f4ce216583c9c2a88749c6b28a207e0e6639c72f45ec3898a6c997aaf57c4f65"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0016.png",
+      "bytes": 351934,
+      "sha256": "f4ce216583c9c2a88749c6b28a207e0e6639c72f45ec3898a6c997aaf57c4f65"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0017.png",
+      "bytes": 408701,
+      "sha256": "943f13a76134f0b1d33ba00221b3382ee1c552857eca5f4f090c504c8845a3a1"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0018.png",
+      "bytes": 331486,
+      "sha256": "beb44b4f7ea686fa5ec2c61447f54f88281490d4ed0d3c9e73ca7b44f81ee122"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0019.png",
+      "bytes": 331486,
+      "sha256": "beb44b4f7ea686fa5ec2c61447f54f88281490d4ed0d3c9e73ca7b44f81ee122"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0020.png",
+      "bytes": 331486,
+      "sha256": "beb44b4f7ea686fa5ec2c61447f54f88281490d4ed0d3c9e73ca7b44f81ee122"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0021.png",
+      "bytes": 380314,
+      "sha256": "c33f64d4981c4c0b8f793d0e99e575b061668a9c371f34eff767784328af11cd"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0022.png",
+      "bytes": 239233,
+      "sha256": "ca7e4df2c623d4fafeddecb7a44270ae9209376230eab71723e893cf34fec016"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0023.png",
+      "bytes": 239233,
+      "sha256": "ca7e4df2c623d4fafeddecb7a44270ae9209376230eab71723e893cf34fec016"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0024.png",
+      "bytes": 239233,
+      "sha256": "ca7e4df2c623d4fafeddecb7a44270ae9209376230eab71723e893cf34fec016"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0025.png",
+      "bytes": 282493,
+      "sha256": "da7337329dd6b362decc05cfed945575f633ad5fc9e1329460b023b9f5df1df0"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0026.png",
+      "bytes": 154814,
+      "sha256": "5aae2997840f132d186f65df46d48a2899770c2cfda988dec1f112553260c8ac"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0027.png",
+      "bytes": 154814,
+      "sha256": "5aae2997840f132d186f65df46d48a2899770c2cfda988dec1f112553260c8ac"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0028.png",
+      "bytes": 154814,
+      "sha256": "5aae2997840f132d186f65df46d48a2899770c2cfda988dec1f112553260c8ac"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0029.png",
+      "bytes": 190345,
+      "sha256": "9c04e6c1c393224378ce85e6df50a5148e7780bdca5ae44f2bc596147055d0f2"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0030.png",
+      "bytes": 83072,
+      "sha256": "141e4ff9043dab4fc105b7636163a13ecfa49297f67b60a7e38737de58f638a3"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0031.png",
+      "bytes": 83072,
+      "sha256": "141e4ff9043dab4fc105b7636163a13ecfa49297f67b60a7e38737de58f638a3"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0032.png",
+      "bytes": 83072,
+      "sha256": "141e4ff9043dab4fc105b7636163a13ecfa49297f67b60a7e38737de58f638a3"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rain/frame-0033.png",
+      "bytes": 83072,
+      "sha256": "141e4ff9043dab4fc105b7636163a13ecfa49297f67b60a7e38737de58f638a3"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0000.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0001.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0002.png",
+      "bytes": 8024,
+      "sha256": "e7e8aef063697851864d30a56b893d7502c57a6a33b44a0346355ff4b22662c6"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0003.png",
+      "bytes": 8312,
+      "sha256": "fad72a9098d1c22a1377b2fbb01a0aa05297aa1f3be393a4e1023424a016eb25"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0004.png",
+      "bytes": 9373,
+      "sha256": "b61420a812aa3b6130e28f0eba8eea1e211c9a2b526f4bf7306deb4bfce5805a"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0005.png",
+      "bytes": 9771,
+      "sha256": "7e15cefe311bc7bb29068fac99872ff3a9e2a0116bb9a150517cd897db6a727b"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0006.png",
+      "bytes": 11136,
+      "sha256": "3e4174502f27fa56dca1223ea145827112342c98d1307474d6227584582b36ac"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0007.png",
+      "bytes": 11902,
+      "sha256": "246bc981738eb7416bed34866409bd42ce2222ac276b28e5a199977d630a848e"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0008.png",
+      "bytes": 12708,
+      "sha256": "0daa4db19a54e366e12aa9d5e4db4bb953daa706860f16c8c81f186879809daf"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0009.png",
+      "bytes": 13534,
+      "sha256": "28ddd98810d2a8e1e7a2c5f29edaf1e990ed05b6dbbc1348a3a3cf112b8fb84f"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0010.png",
+      "bytes": 14383,
+      "sha256": "df2600a99c38c1f5e3f8ba25bcec4bc50767a2123468d0e751e38f1190ca595a"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0011.png",
+      "bytes": 15154,
+      "sha256": "08ece85ff6d4143ff8be8368b114d020af7d47c474fd8e5fe73742b7e396305d"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0012.png",
+      "bytes": 16103,
+      "sha256": "fa917a27b64fd2bf2ed38540c8e271b11bf0e3764d58deee124744bf25b48d7d"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0013.png",
+      "bytes": 17140,
+      "sha256": "419849239561dff0e932f6c41ae98613eeca93952617fe3aebed2dc11197bd73"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0014.png",
+      "bytes": 17961,
+      "sha256": "9489316a1a0675444e581652e2c1e2089367b52f936ef1b7cf133d1f42ec705d"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0015.png",
+      "bytes": 19082,
+      "sha256": "fb63ccc8fe298e1ac66fa6d28e6b18c030b1abeab39366a95ae7eb254df9dd8c"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0016.png",
+      "bytes": 20126,
+      "sha256": "fb306d7e9da53bbb8e9126baebbb4826df30e0294b8c066d3cbcf65758eae3f1"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0017.png",
+      "bytes": 21206,
+      "sha256": "36221fda3cbe52eb0d2699113a52e606195e34e44d7e30df10c837a7b40ede6a"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0018.png",
+      "bytes": 22386,
+      "sha256": "0ae428114a0b40bf65408cb515b9db3d83d4b7b40a7d6a92fe3d854ec9f10b78"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0019.png",
+      "bytes": 23278,
+      "sha256": "9aa38a673480b73762325ae9f66def4165b99978158d78c05b584cf032f54945"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0020.png",
+      "bytes": 24438,
+      "sha256": "1e7e67f041f8ca35aedbef379b534db94fc9bb01acff928d5e690160d560fa38"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0021.png",
+      "bytes": 25408,
+      "sha256": "6c30e8afc1ed2b6c9c33068ec653349379d58c75cb9610ba55f80123e4d4b4b9"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0022.png",
+      "bytes": 26406,
+      "sha256": "33937b315e9667c3561246066ec6a44f2006529e33fb924507635c97a1a40688"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0023.png",
+      "bytes": 27458,
+      "sha256": "bd5c669994ee9580fa11e9f734654d7966f139db74a2d1619804132f2d46bbd2"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0024.png",
+      "bytes": 28491,
+      "sha256": "f305879608bbb33a9ea2f2f9e7b52468ab738c9c4dd31d4efb3254f6986b342f"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0025.png",
+      "bytes": 29358,
+      "sha256": "284eb23e4b7129f1e741b4d4843b2c7152c3cffa19fd922c270f5592c0a0936e"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0026.png",
+      "bytes": 30033,
+      "sha256": "8f1d509e1f561349d53179721bcd520f3ae0fee784dd984a1564a6659f3d82b2"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0027.png",
+      "bytes": 30085,
+      "sha256": "6f5beb792faa4c3f5f077c7e2ed47f7e427ef30ffd07be85c4e9c12f108842fd"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0028.png",
+      "bytes": 27256,
+      "sha256": "a9091a943440602a312f7efd7ad410ee7fb325f3630b265ad62f0e3b74400594"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0029.png",
+      "bytes": 26901,
+      "sha256": "e888f17f5f0695b1e0580785b16ae4be5f60546f34e96cfe0b3a353a46387a0b"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0030.png",
+      "bytes": 24075,
+      "sha256": "079cac1bff49117b1e7803dd077a6739d64da93968a23b5f570988c4e41a4df8"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0031.png",
+      "bytes": 23204,
+      "sha256": "ce44dff505d90180ccab95a3b3cb7722119ff7661b33dbd6ece502e47255b31c"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0032.png",
+      "bytes": 16586,
+      "sha256": "c674f80680019a0dacc2574302210db30d09bde18482ecbd2464988afbe614a6"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0033.png",
+      "bytes": 15573,
+      "sha256": "c41fa4d280dcefd969ea7b5854fc1ed5cab529f2b32743597dd22c310bae3457"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0034.png",
+      "bytes": 11813,
+      "sha256": "c0de85acbcda393c0d0df09ebffa70a6ad7792727ad74d2cc7eed91b6724f586"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0035.png",
+      "bytes": 10954,
+      "sha256": "98c84c826fd5431c1fcc0c9addd73948a3ee2e1f5c25bc21dec1e928750927ea"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0036.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-rimlight/frame-0037.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0000.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0001.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0002.png",
+      "bytes": 9510,
+      "sha256": "60b12bece1372ea9c0ae5871bef2d91e09881797b9c0d1ab7c24f13deb54aedd"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0003.png",
+      "bytes": 10632,
+      "sha256": "feb87023b1219b97c1e96f4c21eafdc39e1a8683148b31e0b134e43cca059881"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0004.png",
+      "bytes": 11846,
+      "sha256": "be3f92f4ec43cd2f520c0ec92e8966c2c2e9a4327f8e30a9a257eacfc6adedf0"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0005.png",
+      "bytes": 12767,
+      "sha256": "062c5812de54b4199f73988b0c67dc1dc841f64e2c6db4a27a8231724187aa18"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0006.png",
+      "bytes": 13659,
+      "sha256": "9aba70a58f812ee9d10a9e2a4487e5a0a2f86faab4a901b99d06aad303920ffc"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0007.png",
+      "bytes": 14041,
+      "sha256": "96fdce228dc3df51a03f8001959f318780318f64dda8fc63550e59ac76eee46b"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0008.png",
+      "bytes": 14167,
+      "sha256": "3b889a18e268ddf6f988aa21d00f25c3f78f899f9dc983bf0c167ddc1f3297ed"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0009.png",
+      "bytes": 13808,
+      "sha256": "24acc338a975bd8e3ba3e61b78d03d65900d7ee76670c6ffba2b736db09a3c79"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0010.png",
+      "bytes": 13513,
+      "sha256": "ba2bff1857f181dd3c2fa523721262e0f4d7409903a911e11ef7763e27701a6b"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0011.png",
+      "bytes": 13086,
+      "sha256": "8e7580a1a57fdbd9c34098e05a4a7bc9ad435044c75e7e0788a99525dd1db63b"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0012.png",
+      "bytes": 12627,
+      "sha256": "cc7e77d4b2f0e074876f1488c87bc95503d66bc2f72124a8476b301e1b1284f4"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0013.png",
+      "bytes": 12050,
+      "sha256": "a9640ba66a3af3fedb7b6043579ed9f3e510834744af01e06d32acde43e00a9a"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0014.png",
+      "bytes": 11446,
+      "sha256": "2246cea330346920b7cd8bb7c0659131395aebadd26dba5365e8748f9687edfd"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0015.png",
+      "bytes": 10696,
+      "sha256": "8f1cc7a6f3036c4413a2b4853d3fe7943d612b5cfc218cd34f23e340456ded7e"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0016.png",
+      "bytes": 10223,
+      "sha256": "410b3f2abcb55aad8953efce261237e77c5747ec0522f3d4d47214ae581a3efe"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0017.png",
+      "bytes": 9748,
+      "sha256": "a5c05cde2b4ec15a96ea9e6464c8a04c7239de57810165154c6c190e9b3ff365"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0018.png",
+      "bytes": 9296,
+      "sha256": "f7e55733c37e1a6c059cfdc65fb643a0022a0cd0bcc2585915d5c5b6616fd242"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0019.png",
+      "bytes": 8883,
+      "sha256": "eee6b06985e5c7c7c40707d21e9845bffc25a9df85ef415e5f193dee2c7e9d2e"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0020.png",
+      "bytes": 8493,
+      "sha256": "9f966d89f3bae01414e24bb1e317b8968d25510e67cb841071aae0a516851c78"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0021.png",
+      "bytes": 8133,
+      "sha256": "4d2e4b6d5ffa678b38142241a439b09ad4590f240d76d47aee2a9a023f32431d"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0022.png",
+      "bytes": 7848,
+      "sha256": "b9abb2e89c38f1e015b021f6f6a84134606fbb64ad1184527b076de4e48d6fa0"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0023.png",
+      "bytes": 7613,
+      "sha256": "8fee966379a6be165e65bbc7ca43900ce9a61075d0baaec20464d8191ef033fd"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0024.png",
+      "bytes": 7383,
+      "sha256": "c02093abb64d45bff2736f55a6dcc8712eeb9ba1d921bc53947edf789d357cbc"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0025.png",
+      "bytes": 7221,
+      "sha256": "8a3fca54787b3c18135c78aaaa3c5562f9612833bfc8ee16d4513a1d26921ee9"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0026.png",
+      "bytes": 7217,
+      "sha256": "0e876ec061ec99895f9821798907d042e3a345946fbd2a5ec4667d73b3144968"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0027.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0028.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-splinters/frame-0029.png",
+      "bytes": 7105,
+      "sha256": "4243b2a7981029d649c4c91ec648480bdb1007cc7b4745ed76921dbbcc4f2a4f"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0000.png",
+      "bytes": 92524,
+      "sha256": "9ad85da3bccd20f32a75188860b112300f531d57af9a0e355cb2f82ecdf2abf4"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0001.png",
+      "bytes": 92524,
+      "sha256": "9ad85da3bccd20f32a75188860b112300f531d57af9a0e355cb2f82ecdf2abf4"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0002.png",
+      "bytes": 92524,
+      "sha256": "9ad85da3bccd20f32a75188860b112300f531d57af9a0e355cb2f82ecdf2abf4"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0003.png",
+      "bytes": 92524,
+      "sha256": "9ad85da3bccd20f32a75188860b112300f531d57af9a0e355cb2f82ecdf2abf4"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0004.png",
+      "bytes": 92524,
+      "sha256": "9ad85da3bccd20f32a75188860b112300f531d57af9a0e355cb2f82ecdf2abf4"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0005.png",
+      "bytes": 206312,
+      "sha256": "f3e9f4cc6947358f0eb57d3e9962bf5139fb3c6f87e8fb94fef1dfecffafc23c"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0006.png",
+      "bytes": 178569,
+      "sha256": "77bb36ec7fd949914cf4b85b2f49b057aac688136beeb48c21b36bd97d97e25e"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0007.png",
+      "bytes": 178569,
+      "sha256": "77bb36ec7fd949914cf4b85b2f49b057aac688136beeb48c21b36bd97d97e25e"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0008.png",
+      "bytes": 178569,
+      "sha256": "77bb36ec7fd949914cf4b85b2f49b057aac688136beeb48c21b36bd97d97e25e"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0009.png",
+      "bytes": 265601,
+      "sha256": "da61085455d90f16b21806d3a14c588aa567e1aadf12a4e9f51dd543e5eb1c2e"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0010.png",
+      "bytes": 231533,
+      "sha256": "f18971f84ba10d16ea1e6f0d1b399c4298240355edfe0b55ed610b7d84da33bf"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0011.png",
+      "bytes": 231533,
+      "sha256": "f18971f84ba10d16ea1e6f0d1b399c4298240355edfe0b55ed610b7d84da33bf"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0012.png",
+      "bytes": 231533,
+      "sha256": "f18971f84ba10d16ea1e6f0d1b399c4298240355edfe0b55ed610b7d84da33bf"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0013.png",
+      "bytes": 309631,
+      "sha256": "ebf53165839c73b34ec58274e4437ce7ddaa91ba2915038b983160d95be46a76"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0014.png",
+      "bytes": 272634,
+      "sha256": "cb825dcd4e5731ca4e0f8529d86979d63ed1f73cd353dfb01491c3297654f96c"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0015.png",
+      "bytes": 272634,
+      "sha256": "cb825dcd4e5731ca4e0f8529d86979d63ed1f73cd353dfb01491c3297654f96c"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0016.png",
+      "bytes": 272634,
+      "sha256": "cb825dcd4e5731ca4e0f8529d86979d63ed1f73cd353dfb01491c3297654f96c"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0017.png",
+      "bytes": 358556,
+      "sha256": "1f10ae4220d07cdc9210750002df01922ab48dc57198d10feb941d9b6f1a9d99"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0018.png",
+      "bytes": 310281,
+      "sha256": "34fc6a17fe3f67182749aa6555bb96f93e1e8453b62aa237f986294ae9b6012f"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0019.png",
+      "bytes": 310281,
+      "sha256": "34fc6a17fe3f67182749aa6555bb96f93e1e8453b62aa237f986294ae9b6012f"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0020.png",
+      "bytes": 310281,
+      "sha256": "34fc6a17fe3f67182749aa6555bb96f93e1e8453b62aa237f986294ae9b6012f"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0021.png",
+      "bytes": 342757,
+      "sha256": "4a17e8c03d6cdc24437f4576694dff0f63ef79a65e07a09ae8c25d4c4f434f98"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0022.png",
+      "bytes": 261052,
+      "sha256": "f9ab5b063d8160bc9a8a3dcd23ee67f07fa75caddff0a4519c8f7bcdc638a778"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0023.png",
+      "bytes": 261052,
+      "sha256": "f9ab5b063d8160bc9a8a3dcd23ee67f07fa75caddff0a4519c8f7bcdc638a778"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0024.png",
+      "bytes": 261052,
+      "sha256": "f9ab5b063d8160bc9a8a3dcd23ee67f07fa75caddff0a4519c8f7bcdc638a778"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0025.png",
+      "bytes": 301664,
+      "sha256": "b57d2d74238ee5dec39c8da12fed252fabb67a91a4a78127a4c6e74211e0f957"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0026.png",
+      "bytes": 223025,
+      "sha256": "0f65a73087bf79654017c75946ded7a96ece131fe0fbe04145a60c59b05d0618"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0027.png",
+      "bytes": 223025,
+      "sha256": "0f65a73087bf79654017c75946ded7a96ece131fe0fbe04145a60c59b05d0618"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0028.png",
+      "bytes": 223025,
+      "sha256": "0f65a73087bf79654017c75946ded7a96ece131fe0fbe04145a60c59b05d0618"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0029.png",
+      "bytes": 254933,
+      "sha256": "01e5c257dd7d30461652794c9a381432d728c957f4083f01d17822e2fefa9f1f"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0030.png",
+      "bytes": 144275,
+      "sha256": "85fd4baf4eaf95cfeb5b2652cd54f1df831a65523d30dd4c2afd0b471ce6aaae"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0031.png",
+      "bytes": 144275,
+      "sha256": "85fd4baf4eaf95cfeb5b2652cd54f1df831a65523d30dd4c2afd0b471ce6aaae"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0032.png",
+      "bytes": 144275,
+      "sha256": "85fd4baf4eaf95cfeb5b2652cd54f1df831a65523d30dd4c2afd0b471ce6aaae"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-thrust/frame-0033.png",
+      "bytes": 144275,
+      "sha256": "85fd4baf4eaf95cfeb5b2652cd54f1df831a65523d30dd4c2afd0b471ce6aaae"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0000.png",
+      "bytes": 64016,
+      "sha256": "02535176a3efcf578ae7838951cfffca571cc0aca80501bcdc48f94b26adb8e0"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0001.png",
+      "bytes": 64016,
+      "sha256": "02535176a3efcf578ae7838951cfffca571cc0aca80501bcdc48f94b26adb8e0"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0002.png",
+      "bytes": 64016,
+      "sha256": "02535176a3efcf578ae7838951cfffca571cc0aca80501bcdc48f94b26adb8e0"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0003.png",
+      "bytes": 64016,
+      "sha256": "02535176a3efcf578ae7838951cfffca571cc0aca80501bcdc48f94b26adb8e0"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0004.png",
+      "bytes": 64016,
+      "sha256": "02535176a3efcf578ae7838951cfffca571cc0aca80501bcdc48f94b26adb8e0"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0005.png",
+      "bytes": 150895,
+      "sha256": "659341c065dd959d4458706ecd4a2db195572831b532b50622f57b4c7b47bab5"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0006.png",
+      "bytes": 130984,
+      "sha256": "1fa6f339b21609c7628c0611f83f85c4aa287795273486b1bf7d9a2595be32f4"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0007.png",
+      "bytes": 130984,
+      "sha256": "1fa6f339b21609c7628c0611f83f85c4aa287795273486b1bf7d9a2595be32f4"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0008.png",
+      "bytes": 130984,
+      "sha256": "1fa6f339b21609c7628c0611f83f85c4aa287795273486b1bf7d9a2595be32f4"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0009.png",
+      "bytes": 222184,
+      "sha256": "c2c24a10659c72920dab767a4bbcf9eec09eca99370b566018e08d300587c8fd"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0010.png",
+      "bytes": 197203,
+      "sha256": "de73e0d4149d19876cf2fc7798359982b926081a6f952f8f778636b3310561de"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0011.png",
+      "bytes": 197203,
+      "sha256": "de73e0d4149d19876cf2fc7798359982b926081a6f952f8f778636b3310561de"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0012.png",
+      "bytes": 197203,
+      "sha256": "de73e0d4149d19876cf2fc7798359982b926081a6f952f8f778636b3310561de"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0013.png",
+      "bytes": 256558,
+      "sha256": "306352eaead924014134f03de2704ea95f47bc386a07d6c03c1a2bab203bb248"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0014.png",
+      "bytes": 228999,
+      "sha256": "393376c7fa716b55480d973058352f8eeb60cd9abd6ff7b67773c49b4b6de348"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0015.png",
+      "bytes": 228999,
+      "sha256": "393376c7fa716b55480d973058352f8eeb60cd9abd6ff7b67773c49b4b6de348"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0016.png",
+      "bytes": 228999,
+      "sha256": "393376c7fa716b55480d973058352f8eeb60cd9abd6ff7b67773c49b4b6de348"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0017.png",
+      "bytes": 287330,
+      "sha256": "ccdf033d59685564d24c00c074a04012fe5519d0024d3eccf4c5809e03c7bef0"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0018.png",
+      "bytes": 263257,
+      "sha256": "90821f6dde1e5e9f3c413e4d9500ea1cc4ed7c2bc2857fc03110f4168fe0c1ed"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0019.png",
+      "bytes": 263257,
+      "sha256": "90821f6dde1e5e9f3c413e4d9500ea1cc4ed7c2bc2857fc03110f4168fe0c1ed"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0020.png",
+      "bytes": 263257,
+      "sha256": "90821f6dde1e5e9f3c413e4d9500ea1cc4ed7c2bc2857fc03110f4168fe0c1ed"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0021.png",
+      "bytes": 298411,
+      "sha256": "86c6775ce3da1c707472ae0f638e485484806597e304127d6a4c7d918aa38cfc"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0022.png",
+      "bytes": 255720,
+      "sha256": "8b412698439abf68289e4a0bd71477ed109de7d10e9d09ccbb1bb46dd6f6995d"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0023.png",
+      "bytes": 255720,
+      "sha256": "8b412698439abf68289e4a0bd71477ed109de7d10e9d09ccbb1bb46dd6f6995d"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0024.png",
+      "bytes": 255720,
+      "sha256": "8b412698439abf68289e4a0bd71477ed109de7d10e9d09ccbb1bb46dd6f6995d"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0025.png",
+      "bytes": 285682,
+      "sha256": "d2d12be7ff987320e87e6653861ec1272aa5b9e55730c4fa8addb0ad13ffb8cc"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0026.png",
+      "bytes": 210510,
+      "sha256": "0d9a7c8f0f1e586d3530c7abb088cbff95a1278bc910ff8403b3f3d82f2565e7"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0027.png",
+      "bytes": 210510,
+      "sha256": "0d9a7c8f0f1e586d3530c7abb088cbff95a1278bc910ff8403b3f3d82f2565e7"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0028.png",
+      "bytes": 210510,
+      "sha256": "0d9a7c8f0f1e586d3530c7abb088cbff95a1278bc910ff8403b3f3d82f2565e7"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0029.png",
+      "bytes": 237474,
+      "sha256": "0176a807fe4ba2f2f8c971c7e10cd38e7bd8033aee9276819e9ff27c5caede70"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0030.png",
+      "bytes": 126182,
+      "sha256": "de34820be5b51bc513a2545df9f142f6312c00f424b47056b67aa717ce5dab07"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0031.png",
+      "bytes": 126182,
+      "sha256": "de34820be5b51bc513a2545df9f142f6312c00f424b47056b67aa717ce5dab07"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0032.png",
+      "bytes": 126182,
+      "sha256": "de34820be5b51bc513a2545df9f142f6312c00f424b47056b67aa717ce5dab07"
+    },
+    {
+      "path": "swordplay-v5/effects/frames/v5-wheel/frame-0033.png",
+      "bytes": 126182,
+      "sha256": "de34820be5b51bc513a2545df9f142f6312c00f424b47056b67aa717ce5dab07"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/flash-0.png",
+      "bytes": 8833,
+      "sha256": "b99ee3c58545a79ca87427a91a0ef7b9e3f4efcbb7dab2c406030aa54581c482"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/flash-1.png",
+      "bytes": 24513,
+      "sha256": "41e1937858233483312d9cc82513177e9a27aaeabedbda9c7ae885e3e2019750"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/flash-2.png",
+      "bytes": 49673,
+      "sha256": "c8a4600e5f9a29af90007ed13a6d4cb751ff1e414405b9240f588f0d42b2b224"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/flash-3.png",
+      "bytes": 118327,
+      "sha256": "ebea5f25ecab8af52e7358e5d4550afa0c08e4c8c186f4b91f0f1693ce40d9ab"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/flash-4.png",
+      "bytes": 137024,
+      "sha256": "f0f34ded1efcadf5613ec9d023ebed203f2ff431916065664ad68b13433a42f4"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/flash-5.png",
+      "bytes": 105340,
+      "sha256": "0a3b83095021d0077a8804536d03aad29c4a816951197f39f7cc84ec98cbbea0"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/flash-6.png",
+      "bytes": 52413,
+      "sha256": "f18fccf1b37468939ac115080daa57ee37de844107c292c702fe9d2e10128fef"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/flash-7.png",
+      "bytes": 18124,
+      "sha256": "e4bcebea1506b66ca91cd53df2d238af15f863ca3727ce6b94d5ceb30fe6b864"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/rain-0.png",
+      "bytes": 32588,
+      "sha256": "eab481377e9d9e8ba27fc7c46b400bd536c1637d471dd9160484be30a1f8ebe5"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/rain-1.png",
+      "bytes": 97290,
+      "sha256": "f75f0eea16c375a20ec5599fdd1de8442fcef3b2605cff137c3b523ca0233afb"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/rain-2.png",
+      "bytes": 173261,
+      "sha256": "74cec277842383618798602e099eb28a9e47aec3585cda93b6afcca0e8469835"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/rain-3.png",
+      "bytes": 281060,
+      "sha256": "c2b8556a8bdaf24e6de5275791f0bcc28c30f7de4e0883af6d08c93b3f776fda"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/rain-4.png",
+      "bytes": 251921,
+      "sha256": "747949601b296f19efd6c248afe4fcfe765c22cf334564cc5b3822adb5deb4fa"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/rain-5.png",
+      "bytes": 149124,
+      "sha256": "4cf053f84f0b492ed8f8523d1dd49d6aaa576caa9dd37bfcc819ee4d9557a927"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/rain-6.png",
+      "bytes": 85511,
+      "sha256": "45c98d8727dee67e8b5c7820c36f5d014f79a1d6f87e03cf2a5033659bcd0f20"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/rain-7.png",
+      "bytes": 39592,
+      "sha256": "3bf1e9340d1fe897d9c990eb29c22506af64796e78cab28633e6e44789ce58ec"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/thrust-0.png",
+      "bytes": 51679,
+      "sha256": "e7232110fe1b2573d4a61c0a032b68a82addfc53e2effb67526fdd19ff0c3a5b"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/thrust-1.png",
+      "bytes": 115205,
+      "sha256": "58a04023aa3912ed3f3433aa4f775fbb3186612754ee8f0a7303eb1470d5d2db"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/thrust-2.png",
+      "bytes": 155201,
+      "sha256": "e6fe6392339af83f7df65facd62b88d8a983712cd28b86bab1ab3c736417cd8c"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/thrust-3.png",
+      "bytes": 188262,
+      "sha256": "5b94df70dea929aba7407c9caf8128c19f0cd721bfa3c9ea79087e6b04cf2deb"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/thrust-4.png",
+      "bytes": 220650,
+      "sha256": "39b0ae83aa07b410b0c8d617205105f22e27914bfd4af4c8cf309b6fdbc979c0"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/thrust-5.png",
+      "bytes": 171885,
+      "sha256": "21da52009c2c18fdc72d5c7cad7fc24325e5c5dbab39a3430604f725a9e35380"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/thrust-6.png",
+      "bytes": 140006,
+      "sha256": "a96c7418b5addc22f22ad7494a20574f1f7fa13dfab1485f74ce09185e8d89e9"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/thrust-7.png",
+      "bytes": 82327,
+      "sha256": "76f6d3be5afc0af57de5a56023af91d794e97f8e62b2ece6925605913311d94e"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/wheel-0.png",
+      "bytes": 32591,
+      "sha256": "0eda05b2cbb82e8f48bcd97bb7768fcea971f1126dc263c0a4af9629580770ea"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/wheel-1.png",
+      "bytes": 75166,
+      "sha256": "b2cc8095be3860189ee4baba735e1aa2e080288389a5bb122d76f87f2cc1b793"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/wheel-2.png",
+      "bytes": 128999,
+      "sha256": "d8c83c212e6d732811775f708657c9a1e4d36326fffd32cb367f99e7007d9331"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/wheel-3.png",
+      "bytes": 163091,
+      "sha256": "106b2d585b94705c857b01e10d6eee7b428519c310d3aecee29710b494a4aecd"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/wheel-4.png",
+      "bytes": 188245,
+      "sha256": "5ad51f12f6a2e0e897114c2512fa8afff6e90c8a7ae1c985a4f05f402db9ccb1"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/wheel-5.png",
+      "bytes": 175828,
+      "sha256": "0381ca9188b2438a106be446c631c18f8c681ddf61dbdb7ad57d388814bc204e"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/wheel-6.png",
+      "bytes": 132411,
+      "sha256": "6641cf3bf5961e9274cc5254595c07706ab73e9b8b3f160552d8eda0e5523e68"
+    },
+    {
+      "path": "swordplay-v5/effects/native/Texture/wheel-7.png",
+      "bytes": 62699,
+      "sha256": "fd21c410adf46d62b00693c103aae268e764a738fd97bed73c258e029929b78b"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-flash-initial.efk",
+      "bytes": 5648,
+      "sha256": "ee7628efd3601bb4c64dd4c35bf5d2a49c9030b591f97b53345e5db36cc6be14"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-flash-reopened.efkefc",
+      "bytes": 6869,
+      "sha256": "685a7147850beac3376120af2aa911758074cb0ead898313480f98286f8a9254"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-flash-verified.efk",
+      "bytes": 5648,
+      "sha256": "ee7628efd3601bb4c64dd4c35bf5d2a49c9030b591f97b53345e5db36cc6be14"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-flash-verified.efkefc",
+      "bytes": 6869,
+      "sha256": "685a7147850beac3376120af2aa911758074cb0ead898313480f98286f8a9254"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-flash.efk",
+      "bytes": 5648,
+      "sha256": "ee7628efd3601bb4c64dd4c35bf5d2a49c9030b591f97b53345e5db36cc6be14"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-flash.efkefc",
+      "bytes": 6876,
+      "sha256": "8a7d1193efbf077b7387aacca23e11244d999424ebc6256ac5244f034823faec"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-flash.efkproj",
+      "bytes": 7200,
+      "sha256": "080f41731e3676efec1632146290595d085557f8ada0fd8a1aad709849ce2409"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-rain-initial.efk",
+      "bytes": 5632,
+      "sha256": "145c96918f31ec7bba6f5c112cb9f355b85459e99217152346d722ef34f5c149"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-rain-reopened.efkefc",
+      "bytes": 6835,
+      "sha256": "34c01d37aaa1b675140afa5af0a5ebaa21fad83209b3f63260dafb95f8ebbb15"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-rain-verified.efk",
+      "bytes": 5632,
+      "sha256": "145c96918f31ec7bba6f5c112cb9f355b85459e99217152346d722ef34f5c149"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-rain-verified.efkefc",
+      "bytes": 6835,
+      "sha256": "34c01d37aaa1b675140afa5af0a5ebaa21fad83209b3f63260dafb95f8ebbb15"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-rain.efk",
+      "bytes": 5632,
+      "sha256": "145c96918f31ec7bba6f5c112cb9f355b85459e99217152346d722ef34f5c149"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-rain.efkefc",
+      "bytes": 6843,
+      "sha256": "4314c538d32857bd1cb84f6086422ddf2c761d65865f963fc2c657b36de223ae"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-rain.efkproj",
+      "bytes": 7184,
+      "sha256": "bfbeec3943e82ffc39c336932f8e46b00c75da0583fdb284e6c3558ba1755b29"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-rimlight-initial.efk",
+      "bytes": 6614,
+      "sha256": "d710a20fd78c1407aae2cf36ef17cb9c26e92bc2944abab85366bfaf599f5c0e"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-rimlight-reopened.efkefc",
+      "bytes": 8108,
+      "sha256": "7fb9385dd01ae0cb8931542ec4056635d1aad0800bceda3fe189698272e0334e"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-rimlight-verified.efk",
+      "bytes": 6614,
+      "sha256": "d710a20fd78c1407aae2cf36ef17cb9c26e92bc2944abab85366bfaf599f5c0e"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-rimlight-verified.efkefc",
+      "bytes": 8108,
+      "sha256": "7fb9385dd01ae0cb8931542ec4056635d1aad0800bceda3fe189698272e0334e"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-rimlight.efk",
+      "bytes": 6614,
+      "sha256": "d710a20fd78c1407aae2cf36ef17cb9c26e92bc2944abab85366bfaf599f5c0e"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-rimlight.efkefc",
+      "bytes": 8112,
+      "sha256": "6137ede7474c01178a6708cd8e3ffbce318d681b29dcf069c2401445d4d95f90"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-rimlight.efkproj",
+      "bytes": 16470,
+      "sha256": "d48c8fdf8bd31fac5defa992a6dac229b8db07fde44f47c202ba581ea9e16d87"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-splinters-initial.efk",
+      "bytes": 42286,
+      "sha256": "f8350630f380056106893c66c429b00336310e57f6b3d9851150616d2149d067"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-splinters-reopened.efkefc",
+      "bytes": 48249,
+      "sha256": "40b5e3f6ea97f96f70903dc63ec8ace0ce3e9e046d23c9d7c89abca8e944e972"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-splinters-verified.efk",
+      "bytes": 42286,
+      "sha256": "9685125b60c6aafdd5cc0606513a286bde9f68898066a650aabb90b8d5076f89"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-splinters-verified.efkefc",
+      "bytes": 48249,
+      "sha256": "40b5e3f6ea97f96f70903dc63ec8ace0ce3e9e046d23c9d7c89abca8e944e972"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-splinters.efk",
+      "bytes": 42286,
+      "sha256": "9685125b60c6aafdd5cc0606513a286bde9f68898066a650aabb90b8d5076f89"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-splinters.efkefc",
+      "bytes": 48249,
+      "sha256": "a2c440e49651253ca3418d3c50c59ff14d8d458e7e9f7576d238ab49c14b6f0a"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-splinters.efkproj",
+      "bytes": 109289,
+      "sha256": "67c77402413c016509845fdf185cbe211422c4eaac6019267043db42d847753b"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-thrust-initial.efk",
+      "bytes": 5664,
+      "sha256": "255dd2a0b09bfd3bdd9c032f5d737592875bafe0768b71520d46a5bdbcbbcf8f"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-thrust-reopened.efkefc",
+      "bytes": 6902,
+      "sha256": "34d263e29462b21df1c0bc4d2dd9a3c13d900531b377b744a4bdf4b9b88b2574"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-thrust-verified.efk",
+      "bytes": 5664,
+      "sha256": "255dd2a0b09bfd3bdd9c032f5d737592875bafe0768b71520d46a5bdbcbbcf8f"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-thrust-verified.efkefc",
+      "bytes": 6902,
+      "sha256": "34d263e29462b21df1c0bc4d2dd9a3c13d900531b377b744a4bdf4b9b88b2574"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-thrust.efk",
+      "bytes": 5664,
+      "sha256": "255dd2a0b09bfd3bdd9c032f5d737592875bafe0768b71520d46a5bdbcbbcf8f"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-thrust.efkefc",
+      "bytes": 6910,
+      "sha256": "427db4365798847315e6960c7e4ad1387be7e3d31143cfc5820865fbbf833766"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-thrust.efkproj",
+      "bytes": 7216,
+      "sha256": "9cdad352a990b196d1be60fd8e6659e3aeccd508b458efe175a6dbaa8463c48d"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-wheel-initial.efk",
+      "bytes": 5648,
+      "sha256": "bed3ae7403968d6b4b66c1c9951d20751e7888bd6a2cbc6fbd04fd701a8aee1f"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-wheel-reopened.efkefc",
+      "bytes": 6869,
+      "sha256": "c7a1aa17f993116e11d5d20fe9a5cad5e012837c3ec0daacbaf4b8d593fe5149"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-wheel-verified.efk",
+      "bytes": 5648,
+      "sha256": "bed3ae7403968d6b4b66c1c9951d20751e7888bd6a2cbc6fbd04fd701a8aee1f"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-wheel-verified.efkefc",
+      "bytes": 6869,
+      "sha256": "c7a1aa17f993116e11d5d20fe9a5cad5e012837c3ec0daacbaf4b8d593fe5149"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-wheel.efk",
+      "bytes": 5648,
+      "sha256": "bed3ae7403968d6b4b66c1c9951d20751e7888bd6a2cbc6fbd04fd701a8aee1f"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-wheel.efkefc",
+      "bytes": 6876,
+      "sha256": "409b9266cc4e9bca02fbdc25cdfe9b36e8cfb6d904424593ae4d55d25dd6515f"
+    },
+    {
+      "path": "swordplay-v5/effects/native/v5-wheel.efkproj",
+      "bytes": 7200,
+      "sha256": "37cd91aaa40f2d84a10485a88e311e1d8f82d8c014e5ff952aa7ac361ee6b815"
+    },
+    {
+      "path": "swordplay-v5/effects/pack.mjs",
+      "bytes": 1680,
+      "sha256": "f3d4687f9b816df95f379e6d5ae6e40b34a596a55b2a363ed45e5880a2cfb4d2"
+    },
+    {
+      "path": "swordplay-v5/effects/qa/crop-audit.json",
+      "bytes": 5712,
+      "sha256": "7ec23f16c5930bd1d75009af890b3b0458ade9bf162a9eee10bec1ecbe1c2068"
+    },
+    {
+      "path": "swordplay-v5/effects/qa/effekseer-bake.json",
+      "bytes": 4296,
+      "sha256": "a80d8e4b1e6dd7994d8dd17e457f2ade06e2833883e6e99708a2ac26a04eb369"
+    },
+    {
+      "path": "swordplay-v5/effects/qa/native.json",
+      "bytes": 1325,
+      "sha256": "31948903154a708361ddc872b5052a674dda7a36dc26ad8bddc17ac10eace14a"
+    },
+    {
+      "path": "swordplay-v5/effects/runtime/fx-manifest.json",
+      "bytes": 28655,
+      "sha256": "12365d3d85b119c4e2a795bd4e2a4d6625caeefa0e09c4bfe0343e1a6d36e39f"
+    },
+    {
+      "path": "swordplay-v5/effects/runtime/v5-flash.png",
+      "bytes": 880572,
+      "sha256": "023bbf00d0e497d70c3e54880ceb79ac76270a71a50ec730c43e28415006bbc7"
+    },
+    {
+      "path": "swordplay-v5/effects/runtime/v5-rain.png",
+      "bytes": 2102842,
+      "sha256": "0ac0afa2d9b804f780bed9d510f688cf9e8f872f75bcbd60f6f77887d0d43ed4"
+    },
+    {
+      "path": "swordplay-v5/effects/runtime/v5-rimlight.png",
+      "bytes": 230930,
+      "sha256": "86fe51d40d0b15cf7a8f8feb46b12fbdfc8ed12955893500aa44188ca98aef88"
+    },
+    {
+      "path": "swordplay-v5/effects/runtime/v5-splinters.png",
+      "bytes": 68594,
+      "sha256": "faebdb516661e286d3fb7af9d4f24bb9f7d823ba307724d1c16eec3463532211"
+    },
+    {
+      "path": "swordplay-v5/effects/runtime/v5-thrust.png",
+      "bytes": 2207721,
+      "sha256": "46609edc8f8a400916a3b9b25be5e9d8a6573e589e4880d1ee8d8f8075f3c2cd"
+    },
+    {
+      "path": "swordplay-v5/effects/runtime/v5-wheel.png",
+      "bytes": 1786035,
+      "sha256": "e98c84b3010ac89af228d1d430d580951ef35bf526d833e7e305ce17695747cf"
+    },
+    {
+      "path": "swordplay-v5/PROJECT.md",
+      "bytes": 5487,
+      "sha256": "fbf187de9353907f5a49145cffda23c4a2d04f31aecdf5bafd5c60dc35196ba2"
+    },
+    {
+      "path": "swordplay-v5/qa/delivery.json",
+      "bytes": 1108,
+      "sha256": "f1d66e90b4c2104fa76a4082dfa3b2fba4a207c333d654e55fb97223be1bdf1a"
+    },
+    {
+      "path": "swordplay-v5/qa/event-integration.json",
+      "bytes": 1755,
+      "sha256": "6316d89063c785268e996172b75305ca566ed6651d959dfc931de240fd6fd3a7"
+    },
+    {
+      "path": "swordplay-v5/qa/four-cuts.png",
+      "bytes": 1304996,
+      "sha256": "e4d6b5017cf9a289d11de359011cc1d6253e9d472341a50c061c21b93336fb2f"
+    },
+    {
+      "path": "swordplay-v5/qa/four-skills-body.webm",
+      "bytes": 4371427,
+      "sha256": "0bce62bbe164ef6b3f48e94f51efed8733f8d094983ec94e16ceb9d791aa98ac"
+    },
+    {
+      "path": "swordplay-v5/qa/four-skills-half.webm",
+      "bytes": 7424667,
+      "sha256": "1f4eb96a3a510a805653129f50d9652c984fbee2d10e592d902f8d807ab5dd15"
+    },
+    {
+      "path": "swordplay-v5/qa/four-skills.webm",
+      "bytes": 3902893,
+      "sha256": "5d3f7eb103055f26839055539a8ba5ed43355ad3a92d010f4fdc40781a97215e"
+    },
+    {
+      "path": "swordplay-v5/qa/probe.mjs",
+      "bytes": 3076,
+      "sha256": "0e33768ed549d8ba78db5c00ba750bd043afd47f0641ef65bc4e5bd50cb6b548"
+    },
+    {
+      "path": "swordplay-v5/qa/record.mjs",
+      "bytes": 3539,
+      "sha256": "81ce79f6cc940c8c2d6c16095c52216b24e673dbfc7ceb52696758a416a72181"
+    },
+    {
+      "path": "swordplay-v5/qa/recording.json",
+      "bytes": 13594,
+      "sha256": "9c407120afb0877df055970839652f40150a3d77de9bd597b1636fb84501ba72"
+    },
+    {
+      "path": "swordplay-v5/qa/review.json",
+      "bytes": 4099,
+      "sha256": "c4462fd37843815d27c7ebbff3db36f66ada503e008e05036b349f27dc653abc"
+    },
+    {
+      "path": "swordplay-v5/qa/review.mjs",
+      "bytes": 4852,
+      "sha256": "044ad02611036da3af9d6cf3b7f0722eb11cccd707adb414830f77cb7ad54f87"
+    },
+    {
+      "path": "swordplay-v5/qa/skill_flash-peak.png",
+      "bytes": 1921670,
+      "sha256": "b9207b405d80d757b3f9ae5f0ffbec89c875a49666a42446c5c281376ba327e1"
+    },
+    {
+      "path": "swordplay-v5/qa/skill_rain-mobile.png",
+      "bytes": 476126,
+      "sha256": "8d3e901223128db845b13e0ad373bfc2d96f4778cc3022e8d0d7a2d8b8359a35"
+    },
+    {
+      "path": "swordplay-v5/qa/skill_rain-peak.png",
+      "bytes": 1936541,
+      "sha256": "6159d121dfbe07dbc47d67bb6e1a534d4a71a2a32881a26f5cd83d44e376d3b8"
+    },
+    {
+      "path": "swordplay-v5/qa/skill_thrust-peak.png",
+      "bytes": 1899940,
+      "sha256": "2a5ade12eaeb2c8fc300703e51c208b985bafa58fec27ec05d7022459cf5c25a"
+    },
+    {
+      "path": "swordplay-v5/qa/skill_wheel-peak.png",
+      "bytes": 1888190,
+      "sha256": "42e39a3b6bdd116f14450a9da83d70dc09fba9cc7cede7643d79ed654f5fbf6b"
+    },
+    {
+      "path": "swordplay-v5/qa/verification.json",
+      "bytes": 20986,
+      "sha256": "ce336e69fdb7ab6e57495f38b7255deadf0fe0d549fcf1e07705c6e857e3088e"
+    },
+    {
+      "path": "swordplay-v5/qa/verify.mjs",
+      "bytes": 8592,
+      "sha256": "01628c2a0b913247d7b86df787656409328465a23b82e000807df4c228e9d943"
+    },
+    {
+      "path": "swordplay-v5/qa/video-phases.png",
+      "bytes": 2330057,
+      "sha256": "8de98b3d0020b256ff746d4b86f57ead4048767ad246f171388adb0a1ea655d1"
+    },
+    {
+      "path": "swordplay-v5/review.mjs",
+      "bytes": 2284,
+      "sha256": "b1fa5d5874df09f58486a2985ac027b8af88a7106b50748119a114d9d183dd91"
+    },
+    {
+      "path": "swordplay-v5/skills.mjs",
+      "bytes": 2206,
+      "sha256": "37f59b03adb244008d747d522dfcbaa5f66b3b913ea15c9adab7da1f269d378e"
+    },
+    {
+      "path": "swordplay-v5/SwordplayEffects.mjs",
+      "bytes": 10648,
+      "sha256": "8cb9933bf228f9b13a8552cc36f83b3b3343f4da6406afa531eef8c8f6746c9e"
+    },
+    {
       "path": "SwordTrail.mjs",
       "bytes": 7134,
       "sha256": "35616606315e6d05334d0308bfdad50985f3633d2b0a3b834060f2040ba6d1e8"
@@ -5198,16 +6813,16 @@
     },
     {
       "path": "WhitecoatBattleAdapter.mjs",
-      "bytes": 4447,
-      "sha256": "2d2ba2732d5f533978aefbdd2ccd2b5dab11bb2123e17329772dfe6223b3db23"
+      "bytes": 4589,
+      "sha256": "53be1992ff80aea7f27f848c8e04950098f170a3f4b66cf018eb2af09938d713"
     },
     {
       "path": "WhitecoatEffects.mjs",
-      "bytes": 5388,
-      "sha256": "8de84096dadcdb22f116690c1f8da4237a4891860438edf13d497caf2dce74d4"
+      "bytes": 5920,
+      "sha256": "b999f2ff2bd7cc0c90c4024504636561b4b3419478782690a558f684b88315e9"
     }
   ],
-  "totalBytes": 547752733,
+  "totalBytes": 622022266,
   "swordTrailUpdate": {
     "plugin": "Runway",
     "delivery": "qa/sword-trail/delivery.json",
@@ -5241,5 +6856,14 @@
     "referenceHalfSpeed": true,
     "priorVersionsPreserved": true,
     "productionDeployment": false
+  },
+  "swordplayEffectsUpdate": {
+    "delivery": "swordplay-v5/qa/delivery.json",
+    "reusedNative": "whitecoat-skills-v4-51fecca13bde.spine",
+    "newNativeMotions": 0,
+    "motionMultiplier": 2,
+    "normal": 2,
+    "area": 2,
+    "newEffekseerEffects": 6
   }
 }

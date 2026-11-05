@@ -1,0 +1,945 @@
+{
+  "checks": [
+    {
+      "name": "Spine authoring master matches approved existing motion source",
+      "pass": true,
+      "detail": "b0abcbf1bda97b8d700328b9453e0a61fbec96cf0063e21a1907bef444a57ef6"
+    },
+    {
+      "name": "whitecoat-squad native V3 canvas and size",
+      "pass": true,
+      "detail": {
+        "canvases": 1,
+        "overflow": false,
+        "auto": false,
+        "side": "ALLY",
+        "facing": 1
+      }
+    },
+    {
+      "name": "whitecoat-squad/skill_flash targets before and after contact",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "targets": [
+          "B:1:CN-0505936A0CBB4E59"
+        ]
+      }
+    },
+    {
+      "name": "whitecoat-squad/skill_flash seek across contact twice",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/skill_flash 2x actor clock",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "duration": 1.55,
+        "engineRate": 1.3,
+        "actorId": "QA:WHITECOAT",
+        "impacts": 0
+      }
+    },
+    {
+      "name": "whitecoat-squad/skill_flash anchored blade and visible painted frames",
+      "pass": true,
+      "detail": {
+        "anchorErrors": [
+          8.265878045137354e-7,
+          0.000004955223682819684
+        ],
+        "pixels": {
+          "width": 0.2881944444444444,
+          "height": 0.3344988344988345,
+          "coverage": 0.029104344729344728,
+          "bounds": [
+            818,
+            46,
+            1232,
+            332
+          ],
+          "canvas": [
+            1440,
+            858
+          ]
+        }
+      }
+    },
+    {
+      "name": "whitecoat-squad/skill_flash paused or toggled FX keep native phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/skill_flash cleanup and authoritative count",
+      "pass": true,
+      "detail": {
+        "idle": true,
+        "remaining": 0,
+        "handles": false,
+        "applications": 1
+      }
+    },
+    {
+      "name": "whitecoat-squad/skill_flash existing poses, travel and holds",
+      "pass": true,
+      "detail": [
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "whitecoat-squad/skill_flash cancel before impact",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/skill_thrust targets before and after contact",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "targets": [
+          "B:1:CN-0505936A0CBB4E59"
+        ]
+      }
+    },
+    {
+      "name": "whitecoat-squad/skill_thrust seek across contact twice",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/skill_thrust 2x actor clock",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "duration": 1.735,
+        "engineRate": 1.3,
+        "actorId": "QA:WHITECOAT",
+        "impacts": 2
+      }
+    },
+    {
+      "name": "whitecoat-squad/skill_thrust anchored blade and visible painted frames",
+      "pass": true,
+      "detail": {
+        "anchorErrors": [
+          0.0000019647984488498486
+        ],
+        "pixels": {
+          "width": 0.4361111111111111,
+          "height": 0.23892773892773891,
+          "coverage": 0.07302674177674177,
+          "bounds": [
+            603,
+            177,
+            1230,
+            381
+          ],
+          "canvas": [
+            1440,
+            858
+          ]
+        }
+      }
+    },
+    {
+      "name": "whitecoat-squad/skill_thrust paused or toggled FX keep native phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/skill_thrust cleanup and authoritative count",
+      "pass": true,
+      "detail": {
+        "idle": true,
+        "remaining": 0,
+        "handles": false,
+        "applications": 1
+      }
+    },
+    {
+      "name": "whitecoat-squad/skill_thrust existing poses, travel and holds",
+      "pass": true,
+      "detail": [
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "whitecoat-squad/skill_thrust cancel before impact",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/skill_wheel targets before and after contact",
+      "pass": true,
+      "detail": {
+        "expected": 3,
+        "targets": [
+          "B:0:CN-02D9DC1E8A8A4209",
+          "B:1:CN-0505936A0CBB4E59",
+          "B:2:CN-25F931CE393D474E"
+        ]
+      }
+    },
+    {
+      "name": "whitecoat-squad/skill_wheel seek across contact twice",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/skill_wheel 2x actor clock",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "duration": 2.29,
+        "engineRate": 1.3,
+        "actorId": "QA:WHITECOAT",
+        "impacts": 4
+      }
+    },
+    {
+      "name": "whitecoat-squad/skill_wheel anchored blade and visible painted frames",
+      "pass": true,
+      "detail": {
+        "anchorErrors": [
+          3.1334493158168195e-7
+        ],
+        "pixels": {
+          "width": 0.8152777777777778,
+          "height": 0.2925407925407925,
+          "coverage": 0.13396869334369335,
+          "bounds": [
+            258,
+            223,
+            1431,
+            473
+          ],
+          "canvas": [
+            1440,
+            858
+          ]
+        }
+      }
+    },
+    {
+      "name": "whitecoat-squad/skill_wheel paused or toggled FX keep native phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/skill_wheel cleanup and authoritative count",
+      "pass": true,
+      "detail": {
+        "idle": true,
+        "remaining": 0,
+        "handles": false,
+        "applications": 3
+      }
+    },
+    {
+      "name": "whitecoat-squad/skill_wheel existing poses, travel and holds",
+      "pass": true,
+      "detail": [
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "whitecoat-squad/skill_wheel cancel before impact",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/skill_rain targets before and after contact",
+      "pass": true,
+      "detail": {
+        "expected": 3,
+        "targets": [
+          "B:0:CN-02D9DC1E8A8A4209",
+          "B:1:CN-0505936A0CBB4E59",
+          "B:2:CN-25F931CE393D474E"
+        ]
+      }
+    },
+    {
+      "name": "whitecoat-squad/skill_rain seek across contact twice",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/skill_rain 2x actor clock",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "duration": 3.485,
+        "engineRate": 1.3,
+        "actorId": "QA:WHITECOAT",
+        "impacts": 8
+      }
+    },
+    {
+      "name": "whitecoat-squad/skill_rain anchored blade and visible painted frames",
+      "pass": true,
+      "detail": {
+        "anchorErrors": [
+          8.572977689314975e-7,
+          8.572977689314975e-7
+        ],
+        "pixels": {
+          "width": 0.4041666666666667,
+          "height": 0.5314685314685315,
+          "coverage": 0.06431381118881119,
+          "bounds": [
+            775,
+            39,
+            1356,
+            494
+          ],
+          "canvas": [
+            1440,
+            858
+          ]
+        }
+      }
+    },
+    {
+      "name": "whitecoat-squad/skill_rain paused or toggled FX keep native phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad/skill_rain cleanup and authoritative count",
+      "pass": true,
+      "detail": {
+        "idle": true,
+        "remaining": 0,
+        "handles": false,
+        "applications": 3
+      }
+    },
+    {
+      "name": "whitecoat-squad/skill_rain existing poses, travel and holds",
+      "pass": true,
+      "detail": [
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "whitecoat-squad/skill_rain cancel before impact",
+      "pass": true
+    },
+    {
+      "name": "measured normal vs half speed",
+      "pass": true,
+      "detail": {
+        "normalMs": 1344.699999999255,
+        "halfMs": 2687,
+        "ratio": 1.9982152152907628
+      }
+    },
+    {
+      "name": "0.25 review setting shares the same actor clock",
+      "pass": true,
+      "detail": 0.65
+    },
+    {
+      "name": "whitecoat-squad no playback errors",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy native V3 canvas and size",
+      "pass": true,
+      "detail": {
+        "canvases": 1,
+        "overflow": false,
+        "auto": false,
+        "side": "ENEMY",
+        "facing": -1
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_flash targets before and after contact",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "targets": [
+          "A:3:CN-23EB4B19986D4818"
+        ]
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_flash seek across contact twice",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_flash 2x actor clock",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "duration": 1.55,
+        "engineRate": 1.3,
+        "actorId": "QA:WHITECOAT",
+        "impacts": 0
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_flash anchored blade and visible painted frames",
+      "pass": true,
+      "detail": {
+        "anchorErrors": [
+          7.020472835360758e-7,
+          0.000006072484862105964
+        ],
+        "pixels": {
+          "width": 0.5307692307692308,
+          "height": 0.20028011204481794,
+          "coverage": 0.031282769518063636,
+          "bounds": [
+            15,
+            289,
+            221,
+            431
+          ],
+          "canvas": [
+            390,
+            714
+          ]
+        }
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_flash paused or toggled FX keep native phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_flash cleanup and authoritative count",
+      "pass": true,
+      "detail": {
+        "idle": true,
+        "remaining": 0,
+        "handles": false,
+        "applications": 1
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_flash existing poses, travel and holds",
+      "pass": true,
+      "detail": [
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_flash cancel before impact",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_thrust targets before and after contact",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "targets": [
+          "A:3:CN-23EB4B19986D4818"
+        ]
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_thrust seek across contact twice",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_thrust 2x actor clock",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "duration": 1.735,
+        "engineRate": 1.3,
+        "actorId": "QA:WHITECOAT",
+        "impacts": 2
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_thrust anchored blade and visible painted frames",
+      "pass": true,
+      "detail": {
+        "anchorErrors": [
+          0.000002554237765037511
+        ],
+        "pixels": {
+          "width": 0.5923076923076923,
+          "height": 0.10224089635854341,
+          "coverage": 0.04343891402714932,
+          "bounds": [
+            54,
+            368,
+            284,
+            440
+          ],
+          "canvas": [
+            390,
+            714
+          ]
+        }
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_thrust paused or toggled FX keep native phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_thrust cleanup and authoritative count",
+      "pass": true,
+      "detail": {
+        "idle": true,
+        "remaining": 0,
+        "handles": false,
+        "applications": 1
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_thrust existing poses, travel and holds",
+      "pass": true,
+      "detail": [
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_thrust cancel before impact",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_wheel targets before and after contact",
+      "pass": true,
+      "detail": {
+        "expected": 5,
+        "targets": [
+          "A:0:CN-02D9DC1E8A8A4209",
+          "A:1:CN-0505936A0CBB4E59",
+          "A:2:CN-25F931CE393D474E",
+          "A:3:CN-23EB4B19986D4818",
+          "A:4:CN-519C181C18DF4B8E"
+        ]
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_wheel seek across contact twice",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_wheel 2x actor clock",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "duration": 2.29,
+        "engineRate": 1.3,
+        "actorId": "QA:WHITECOAT",
+        "impacts": 4
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_wheel anchored blade and visible painted frames",
+      "pass": true,
+      "detail": {
+        "anchorErrors": [
+          4.073482815629047e-7
+        ],
+        "pixels": {
+          "width": 0.7974358974358975,
+          "height": 0.4173669467787115,
+          "coverage": 0.07226172520290167,
+          "bounds": [
+            7,
+            213,
+            317,
+            510
+          ],
+          "canvas": [
+            390,
+            714
+          ]
+        }
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_wheel paused or toggled FX keep native phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_wheel cleanup and authoritative count",
+      "pass": true,
+      "detail": {
+        "idle": true,
+        "remaining": 0,
+        "handles": false,
+        "applications": 5
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_wheel existing poses, travel and holds",
+      "pass": true,
+      "detail": [
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_wheel cancel before impact",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_rain targets before and after contact",
+      "pass": true,
+      "detail": {
+        "expected": 5,
+        "targets": [
+          "A:0:CN-02D9DC1E8A8A4209",
+          "A:1:CN-0505936A0CBB4E59",
+          "A:2:CN-25F931CE393D474E",
+          "A:3:CN-23EB4B19986D4818",
+          "A:4:CN-519C181C18DF4B8E"
+        ]
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_rain seek across contact twice",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_rain 2x actor clock",
+      "pass": true,
+      "detail": {
+        "timeScale": 2.6,
+        "duration": 3.485,
+        "engineRate": 1.3,
+        "actorId": "QA:WHITECOAT",
+        "impacts": 10
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_rain anchored blade and visible painted frames",
+      "pass": true,
+      "detail": {
+        "anchorErrors": [
+          0.000001114487101578258,
+          0.000001114487101578258
+        ],
+        "pixels": {
+          "width": 0.5025641025641026,
+          "height": 0.5714285714285714,
+          "coverage": 0.05953099188393306,
+          "bounds": [
+            44,
+            118,
+            239,
+            525
+          ],
+          "canvas": [
+            390,
+            714
+          ]
+        }
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_rain paused or toggled FX keep native phase",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_rain cleanup and authoritative count",
+      "pass": true,
+      "detail": {
+        "idle": true,
+        "remaining": 0,
+        "handles": false,
+        "applications": 5
+      }
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_rain existing poses, travel and holds",
+      "pass": true,
+      "detail": [
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "whitecoat-squad-enemy/skill_rain cancel before impact",
+      "pass": true
+    },
+    {
+      "name": "whitecoat-squad-enemy no playback errors",
+      "pass": true
+    },
+    {
+      "name": "per-target snapshots applied once",
+      "pass": true,
+      "detail": {
+        "hp": [
+          [
+            "first",
+            25
+          ],
+          [
+            "second",
+            80
+          ]
+        ],
+        "shield": [
+          [
+            "first",
+            5
+          ],
+          [
+            "second",
+            0
+          ]
+        ],
+        "callbacks": [
+          "first",
+          "second"
+        ],
+        "damage": [
+          [
+            "first",
+            375
+          ],
+          [
+            "second",
+            200
+          ]
+        ]
+      }
+    },
+    {
+      "name": "AoE needs an explicit hit row",
+      "pass": true
+    },
+    {
+      "name": "single-target ignores secondary rows",
+      "pass": true
+    }
+  ],
+  "views": [
+    {
+      "kind": "whitecoat-squad",
+      "width": 1440,
+      "skill": "skill_flash",
+      "phases": [
+        "iai_ready",
+        "iai_cut",
+        "rise",
+        "follow"
+      ],
+      "pixels": {
+        "width": 0.2881944444444444,
+        "height": 0.3344988344988345,
+        "coverage": 0.029104344729344728,
+        "bounds": [
+          818,
+          46,
+          1232,
+          332
+        ],
+        "canvas": [
+          1440,
+          858
+        ]
+      }
+    },
+    {
+      "kind": "whitecoat-squad",
+      "width": 1440,
+      "skill": "skill_thrust",
+      "phases": [
+        "v4_rift_ready",
+        "v4_rift_drive",
+        "v4_rift_brake",
+        "v4_rift_brake"
+      ],
+      "pixels": {
+        "width": 0.4361111111111111,
+        "height": 0.23892773892773891,
+        "coverage": 0.07302674177674177,
+        "bounds": [
+          603,
+          177,
+          1230,
+          381
+        ],
+        "canvas": [
+          1440,
+          858
+        ]
+      }
+    },
+    {
+      "kind": "whitecoat-squad",
+      "width": 1440,
+      "skill": "skill_wheel",
+      "phases": [
+        "v3_pivot",
+        "v3_takeoff",
+        "v3_slam",
+        "v3_recover"
+      ],
+      "pixels": {
+        "width": 0.8152777777777778,
+        "height": 0.2925407925407925,
+        "coverage": 0.13396869334369335,
+        "bounds": [
+          258,
+          223,
+          1431,
+          473
+        ],
+        "canvas": [
+          1440,
+          858
+        ]
+      }
+    },
+    {
+      "kind": "whitecoat-squad",
+      "width": 1440,
+      "skill": "skill_rain",
+      "phases": [
+        "v4_verdict_raise",
+        "v4_verdict_raise",
+        "v4_verdict_cut",
+        "v4_verdict_cut"
+      ],
+      "pixels": {
+        "width": 0.4041666666666667,
+        "height": 0.5314685314685315,
+        "coverage": 0.06431381118881119,
+        "bounds": [
+          775,
+          39,
+          1356,
+          494
+        ],
+        "canvas": [
+          1440,
+          858
+        ]
+      }
+    },
+    {
+      "kind": "whitecoat-squad-enemy",
+      "width": 390,
+      "skill": "skill_flash",
+      "phases": [
+        "iai_ready",
+        "iai_cut",
+        "rise",
+        "follow"
+      ],
+      "pixels": {
+        "width": 0.5307692307692308,
+        "height": 0.20028011204481794,
+        "coverage": 0.031282769518063636,
+        "bounds": [
+          15,
+          289,
+          221,
+          431
+        ],
+        "canvas": [
+          390,
+          714
+        ]
+      }
+    },
+    {
+      "kind": "whitecoat-squad-enemy",
+      "width": 390,
+      "skill": "skill_thrust",
+      "phases": [
+        "v4_rift_ready",
+        "v4_rift_drive",
+        "v4_rift_brake",
+        "v4_rift_brake"
+      ],
+      "pixels": {
+        "width": 0.5923076923076923,
+        "height": 0.10224089635854341,
+        "coverage": 0.04343891402714932,
+        "bounds": [
+          54,
+          368,
+          284,
+          440
+        ],
+        "canvas": [
+          390,
+          714
+        ]
+      }
+    },
+    {
+      "kind": "whitecoat-squad-enemy",
+      "width": 390,
+      "skill": "skill_wheel",
+      "phases": [
+        "v3_pivot",
+        "v3_takeoff",
+        "v3_slam",
+        "v3_recover"
+      ],
+      "pixels": {
+        "width": 0.7974358974358975,
+        "height": 0.4173669467787115,
+        "coverage": 0.07226172520290167,
+        "bounds": [
+          7,
+          213,
+          317,
+          510
+        ],
+        "canvas": [
+          390,
+          714
+        ]
+      }
+    },
+    {
+      "kind": "whitecoat-squad-enemy",
+      "width": 390,
+      "skill": "skill_rain",
+      "phases": [
+        "v4_verdict_raise",
+        "v4_verdict_raise",
+        "v4_verdict_cut",
+        "v4_verdict_cut"
+      ],
+      "pixels": {
+        "width": 0.5025641025641026,
+        "height": 0.5714285714285714,
+        "coverage": 0.05953099188393306,
+        "bounds": [
+          44,
+          118,
+          239,
+          525
+        ],
+        "canvas": [
+          390,
+          714
+        ]
+      }
+    }
+  ],
+  "realDevice": false,
+  "passed": true
+}

@@ -21,8 +21,8 @@
     },
     {
       "path": "battle-v3-live.pinned.js",
-      "bytes": 89323,
-      "sha256": "6373f3142a8b108dbff2fe7018b8c371274d998edb66a1b6c6982acde78dc328"
+      "bytes": 76710,
+      "sha256": "adb428d96bb295162a1fc3f63ba7150d03e9b2d2ce0473ddf1ec4d66c976d9c0"
     },
     {
       "path": "build.mjs",
@@ -36,18 +36,18 @@
     },
     {
       "path": "index.html",
-      "bytes": 3237,
-      "sha256": "6642835cf71796822ac60db4c7edf380240ea29e73cfa31ce7959f1bb1ad4554"
+      "bytes": 4378,
+      "sha256": "e01a0fbdc19c7b162eb56571157af632336fa9b7ab59af4c948ef250ee34f44e"
     },
     {
       "path": "PROJECT.md",
-      "bytes": 12473,
-      "sha256": "a3ff71c88325f32c6ceb4cdfdbd2f56f0a5de98661fe61248f2c5cda4b14e9cd"
+      "bytes": 12827,
+      "sha256": "6b36e32b260f9c6bf1367971e2e3d6dcc9e97a40519d5ceeb6e5e15ad6609065"
     },
     {
       "path": "qa/build.json",
-      "bytes": 89880,
-      "sha256": "62628713df2d6f161ae1a8915e766f22daae541cb6a123ab076c699b4162c1c2"
+      "bytes": 90141,
+      "sha256": "de879f9026113c8a9b5c7306a9e3c132c7ba5bb3235e28b1db250fdc1e18d6fb"
     },
     {
       "path": "qa/cardgu-after.png",
@@ -251,13 +251,13 @@
     },
     {
       "path": "workbench.bundle.js",
-      "bytes": 3317710,
-      "sha256": "3bca2cb022463a5ff77e1c1d31f12aae876087eec316f6ca94a8c57dd418d4db"
+      "bytes": 3330463,
+      "sha256": "79fad5f01cc58ac43458e62257fda73b753ae9da3b6943a95fe3568de7fdb4b8"
     },
     {
       "path": "workbench.src.mjs",
-      "bytes": 8180,
-      "sha256": "a3c9c3f564d2141ad2790d428662865ef885de664e63fc4d4eb1a10e4f5cc27f"
+      "bytes": 10182,
+      "sha256": "c2d5a68c4557357e60405a7dfd31298db0212c36a47e55cbe10ad99e037a0965"
     }
   ],
   "swordTrailUpdate": {
@@ -293,5 +293,14 @@
     "referenceHalfSpeed": true,
     "priorVersionsPreserved": true,
     "productionDeployment": false
+  },
+  "swordplayEffectsUpdate": {
+    "delivery": "../v35-whitecoat-swordsman-20261102/swordplay-v5/qa/delivery.json",
+    "reusedNative": "whitecoat-skills-v4-51fecca13bde.spine",
+    "newNativeMotions": 0,
+    "motionMultiplier": 2,
+    "normal": 2,
+    "area": 2,
+    "newEffekseerEffects": 6
   }
 }

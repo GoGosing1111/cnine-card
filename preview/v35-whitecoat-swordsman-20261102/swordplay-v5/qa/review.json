@@ -1,0 +1,191 @@
+{
+  "checks": [
+    {
+      "name": "decode four skill peaks from all three recordings",
+      "pass": true
+    },
+    {
+      "name": "1440 video plays four-skills.webm",
+      "pass": true,
+      "detail": {
+        "duration": 5.15,
+        "width": 1440,
+        "height": 858
+      }
+    },
+    {
+      "name": "1440 chapter controls four-skills.webm",
+      "pass": true
+    },
+    {
+      "name": "1440 video plays four-skills-half.webm",
+      "pass": true,
+      "detail": {
+        "duration": 8.682,
+        "width": 1440,
+        "height": 858
+      }
+    },
+    {
+      "name": "1440 chapter controls four-skills-half.webm",
+      "pass": true
+    },
+    {
+      "name": "1440 video plays four-skills-body.webm",
+      "pass": true,
+      "detail": {
+        "duration": 5.186,
+        "width": 1440,
+        "height": 858
+      }
+    },
+    {
+      "name": "1440 chapter controls four-skills-body.webm",
+      "pass": true
+    },
+    {
+      "name": "1440 review width and runtime errors",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "390 video plays four-skills.webm",
+      "pass": true,
+      "detail": {
+        "duration": 5.15,
+        "width": 1440,
+        "height": 858
+      }
+    },
+    {
+      "name": "390 chapter controls four-skills.webm",
+      "pass": true
+    },
+    {
+      "name": "390 video plays four-skills-half.webm",
+      "pass": true,
+      "detail": {
+        "duration": 8.682,
+        "width": 1440,
+        "height": 858
+      }
+    },
+    {
+      "name": "390 chapter controls four-skills-half.webm",
+      "pass": true
+    },
+    {
+      "name": "390 video plays four-skills-body.webm",
+      "pass": true,
+      "detail": {
+        "duration": 5.186,
+        "width": 1440,
+        "height": 858
+      }
+    },
+    {
+      "name": "390 chapter controls four-skills-body.webm",
+      "pass": true
+    },
+    {
+      "name": "390 review width and runtime errors",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "touch-size battlefield controls pause actor and disable FX",
+      "pass": true
+    },
+    {
+      "name": "resume and replay area skill through a visible button",
+      "pass": true
+    },
+    {
+      "name": "previous formation mixed",
+      "pass": true
+    },
+    {
+      "name": "previous formation cardgu",
+      "pass": true
+    },
+    {
+      "name": "HTTP range for video seeking",
+      "pass": true
+    }
+  ],
+  "clips": [
+    {
+      "file": "four-skills.webm",
+      "skill": "skill_flash",
+      "time": 0.44965483870893236,
+      "nonempty": true
+    },
+    {
+      "file": "four-skills.webm",
+      "skill": "skill_thrust",
+      "time": 1.4868265129694613,
+      "nonempty": true
+    },
+    {
+      "file": "four-skills.webm",
+      "skill": "skill_wheel",
+      "time": 2.850333624455118,
+      "nonempty": true
+    },
+    {
+      "file": "four-skills.webm",
+      "skill": "skill_rain",
+      "time": 4.192755236728092,
+      "nonempty": true
+    },
+    {
+      "file": "four-skills-half.webm",
+      "skill": "skill_flash",
+      "time": 0.6755741935498771,
+      "nonempty": true
+    },
+    {
+      "file": "four-skills-half.webm",
+      "skill": "skill_thrust",
+      "time": 2.388604322767492,
+      "nonempty": true
+    },
+    {
+      "file": "four-skills-half.webm",
+      "skill": "skill_wheel",
+      "time": 4.738805240176683,
+      "nonempty": true
+    },
+    {
+      "file": "four-skills-half.webm",
+      "skill": "skill_rain",
+      "time": 7.068357245337111,
+      "nonempty": true
+    },
+    {
+      "file": "four-skills-body.webm",
+      "skill": "skill_flash",
+      "time": 0.45764387096680936,
+      "nonempty": true
+    },
+    {
+      "file": "four-skills-body.webm",
+      "skill": "skill_thrust",
+      "time": 1.4907360230540099,
+      "nonempty": true
+    },
+    {
+      "file": "four-skills-body.webm",
+      "skill": "skill_wheel",
+      "time": 2.8525445414854613,
+      "nonempty": true
+    },
+    {
+      "file": "four-skills-body.webm",
+      "skill": "skill_rain",
+      "time": 4.207789096126255,
+      "nonempty": true
+    }
+  ],
+  "passed": true
+}

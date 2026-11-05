@@ -1,5 +1,9 @@
 # V3 → V3.5 실제 전장 연결·기존 동작 점검
 
+## 2026-11-05 · 검성 기술 4종 전장
+
+기존 흰 코트 검사의 공격 시계에 2배를 적용했다. `whitecoat-squad`에서 일반기 두 개와 광역기 두 개를 재생하며, `whitecoat-squad-enemy`는 반대 진영에서 실행한다. [검성 스킬 원본·재생·검수](../v35-whitecoat-swordsman-20261102/swordplay-v5/PROJECT.md).
+
 **2026-11-02 현재 기본 검수 대상은 [첨부 흰 코트 검사](../v35-whitecoat-swordsman-20261102/PROJECT.md)다.** 기본 주소는 http://127.0.0.1:18766/?case=whitecoat 이며 적 반전은 case=whitecoat-enemy다. [검토 화면/ON·OFF 영상](../v35-whitecoat-swordsman-20261102/review.html)을 함께 제공한다.
 
 **최신 세 기술:** [skills-v4 제작 기록](../v35-whitecoat-swordsman-20261102/skills-v4/PROJECT.md). 지정 영상을 실제 0.5배속으로 참고해 **흑금 단공 / 잔영 삼재 / 천형 종결**을 추가했다. 새 자세 12개를 더한 30자세/11애니메이션 native, 주 검흔 연속 작화 3종과 Effekseer 효과 총5종, 준비 컷인, 잔영 협공과 기존 Blender 파편을 연결했다. 68개 재생 검사, 정상 ON/OFF 각3회 및 실제0.5배속 합계21회 녹화. 전장의 3버튼·0.5배 검수 옵션과 영상 페이지를 제공한다. 최종 피해 1회 계약·기존 세 공격 유지. 정식 서버 스킬 등록/운영 배포/DNF급 품질 달성 표시는 하지 않는다.

@@ -2,7 +2,7 @@ import {Point,Sprite} from 'pixi.js';
 import {SwordTrail} from '../SwordTrail.mjs';
 import registration from './pose-registration.json';
 import {flightAt} from './timing.mjs';
-const strokes=[
+export const tempestStrokes=[
  {id:'draw',from:'iai_ready',to:'iai_cut',start:.22,end:.30,life:.19,draw:true},
  {id:'turn',from:'v3_pivot',to:'v3_turn',start:.54,end:.64,life:.22},
  {id:'air',from:'v3_apex',to:'v3_aircut',start:.98,end:1.10,followUntil:1.22,life:.25},
@@ -11,7 +11,7 @@ const strokes=[
 export class TempestEffects {
  constructor(owner,adapter,target,{rootAt}){
   Object.assign(this,{owner,adapter,target,rootAt,disposed:false,time:0,frames:{},layer:owner.engine.effectLayer,sprites:{}});
-  this.trail=new SwordTrail(this.layer,adapter,owner.assets.trailTexture,'skill_tempest',rootAt,{registration,strokes,poseOffsetAt:flightAt});
+  this.trail=new SwordTrail(this.layer,adapter,owner.assets.trailTexture,'skill_tempest',rootAt,{registration,strokes:tempestStrokes,poseOffsetAt:flightAt});
   for(const [id,key]of [['draw-hit','impact-burst'],['turn-hit','impact-burst'],['slam','tempest-slam'],['debris','debris']]){
    const spec=owner.assets.manifest.effects[key],s=new Sprite(owner.assets.textures[key][0]);s.label='V35_WHITECOAT_FX_TEMPEST_'+id;s.anchor.set(spec.pivot[0]/spec.frames[0].w,spec.pivot[1]/spec.frames[0].h);s.blendMode=spec.blend;s.visible=false;this.layer.addChild(s);this.sprites[id]={s,key};
   }

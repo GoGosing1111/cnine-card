@@ -1,0 +1,56 @@
+{
+  "flash": {
+    "name": "exec-374cd253-b1e1-4593-ac40-db474f404252.png",
+    "size": [
+      1774,
+      887
+    ],
+    "edge": 0,
+    "transparent": 0.9202497810666155,
+    "white": 0.009966076446835094,
+    "sha256": "7f0e0741dfcd37b8b0b6c6e1e8e83f0352bf2370b7f4c2dc5c3183c7f31dcb7a"
+  },
+  "thrust": {
+    "name": "exec-2b2cde10-6705-404c-88d1-2e9bbf99eb9a.png",
+    "size": [
+      1774,
+      887
+    ],
+    "edge": 9,
+    "transparent": 0.8915577507502203,
+    "white": 0.004833693244141546,
+    "sha256": "cf8b83cdac047f1a9cf3c18ee5476ac10fda4954a3c20a02f2a8816d6b36934c",
+    "revision": {
+      "file": "thrust-v2.png",
+      "source": "exec-e1eb3e10-ecb9-4bb7-b779-69022e718dbf.png",
+      "sha256": "48ab7d0fb517bd623e9b986822563eb35bed8255f65bfe2ef7129a800338d166"
+    }
+  },
+  "wheel": {
+    "name": "exec-1fb26904-3c71-4a57-aafb-5a1c933a2f08.png",
+    "size": [
+      1774,
+      887
+    ],
+    "edge": 5322,
+    "transparent": 0.21924478468267053,
+    "white": 0.05760839585697962,
+    "sha256": "f2e7b9e4b7292bc260b535d8c78cf3751e6a6a0f39131bef0a138c0f6c989020",
+    "revision": {
+      "file": "wheel-v2.png",
+      "source": "exec-e3f20c34-0b08-4fe0-ae73-bb3f21cfccd6.png",
+      "sha256": "f7d48f60ceebab6a6244f310dcc30eec57e6b68791f56d7c7693c94a6c775a22"
+    }
+  },
+  "rain": {
+    "name": "exec-e7ecc709-e8da-417a-923f-50272d49f16d.png",
+    "size": [
+      1774,
+      887
+    ],
+    "edge": 0,
+    "transparent": 0.8165783095165163,
+    "white": 0.006449796573072909,
+    "sha256": "17aff34839f9c3b066097748a65965df9551418db368f44a94bf72b9fde82e41"
+  }
+}

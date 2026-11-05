@@ -2,7 +2,7 @@ import {Point,Sprite,Graphics,Matrix} from 'pixi.js';
 import {SwordTrail} from '../SwordTrail.mjs';
 import registration from './pose-registration.json';
 const clamp=n=>Math.max(0,Math.min(1,n));
-const strokes={
+export const skillStrokes={
  skill_rift:[{id:'pierce',from:'v4_rift_ready',to:'v4_rift_draw',start:.31,end:.34,followUntil:.42,life:.18,draw:true},{id:'drive',from:'v4_rift_draw',to:'v4_rift_drive',start:.34,end:.42,followUntil:.61,life:.22}],
  skill_echo:[{id:'rise',from:'v4_echo_command',to:'v4_echo_rise',start:1.07,end:1.12,life:.18},{id:'finish',from:'v3_aircut',to:'v4_echo_cut',start:1.39,end:1.51,life:.25}],
  skill_verdict:[{id:'finish',from:'v4_verdict_raise',to:'v4_verdict_cut',start:1.61,end:1.78,life:.30}]
@@ -10,7 +10,7 @@ const strokes={
 export class SkillEffects{
  constructor(owner,adapter,target,mode,{rootAt}){
   Object.assign(this,{owner,adapter,target,mode,rootAt,layer:owner.engine.effectLayer,disposed:false,time:0,frames:{},sprites:{}});
-  this.trail=new SwordTrail(this.layer,adapter,owner.assets.trailTexture,mode,rootAt,{registration,strokes:strokes[mode]});
+  this.trail=new SwordTrail(this.layer,adapter,owner.assets.trailTexture,mode,rootAt,{registration,strokes:skillStrokes[mode]});
   const list=mode==='skill_rift'?[['tear','v4-rift'],['incision','v4-incision'],['hit','impact-burst']]:mode==='skill_echo'?[['left','v4-echo'],['right','v4-echo'],['high','v4-echo'],['finish','v4-incision'],['hit','impact-burst'],['pressure','v4-pressure']]:[['scar0','v4-rift'],['scar1','v4-rift'],['scar2','v4-rift'],['release','v4-verdict'],['flash','v4-incision'],['pressure','v4-pressure'],['debris','debris']];
   for(const[id,key]of list){const spec=owner.assets.manifest.effects[key],s=new Sprite(owner.assets.textures[key][0]);s.label='V35_WHITECOAT_FX_SKILLS_'+id;s.anchor.set(spec.pivot[0]/spec.frames[0].w,spec.pivot[1]/spec.frames[0].h);s.blendMode=spec.blend;s.visible=false;this.layer.addChild(s);this.sprites[id]={s,key};}
   const ghostSpecs=mode==='skill_rift'?[{start:.37,end:.65,delay:.045},{start:.40,end:.68,delay:.09}]:mode==='skill_echo'?[{start:.43,end:.83,hit:.57,x:-125,y:0,face:1,animation:'skill_rift',before:.34,after:.42},{start:.75,end:1.15,hit:.89,x:145,y:0,face:-1,animation:'skill_echo',before:.37,after:1.12},{start:1.07,end:1.47,hit:1.21,x:25,y:-200,face:1,animation:'skill_echo',before:1.34,after:1.51}]:[];

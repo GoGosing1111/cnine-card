@@ -2,6 +2,7 @@ import {Assets,Sprite,Texture,Rectangle,Point} from 'pixi.js';
 import {SwordTrail} from './SwordTrail.mjs';
 import {TempestEffects} from './action-v3/TempestEffects.mjs';
 import {SkillEffects} from './skills-v4/SkillEffects.mjs';
+import {SwordplayEffects} from './swordplay-v5/SwordplayEffects.mjs';
 export class WhitecoatEffects {
  static async load(){
   const base='/preview/v35-whitecoat-swordsman-20261102/effects/flourish-v2/runtime/',manifest=await(await fetch(base+'fx-manifest.json')).json(),textures={};
@@ -11,6 +12,9 @@ export class WhitecoatEffects {
   manifest.effects['tempest-slam']={...actionManifest.effects['tempest-slam'],externalBase:actionBase};
   const skillsBase='/preview/v35-whitecoat-swordsman-20261102/skills-v4/effects/runtime/',skillsManifest=await(await fetch(skillsBase+'fx-manifest.json')).json();
   for(const [id,s]of Object.entries(skillsManifest.effects))manifest.effects[id]={...s,externalBase:skillsBase};
+  const swordplayBase='/preview/v35-whitecoat-swordsman-20261102/swordplay-v5/effects/runtime/';
+  const swordplay=await (await fetch(swordplayBase+'fx-manifest.json')).json();
+  for(const [id,s] of Object.entries(swordplay.effects))manifest.effects[id]={...s,externalBase:swordplayBase};
   const cutinTexture=await Assets.load({src:'/preview/v35-whitecoat-swordsman-20261102/skills-v4/art/verdict-cutin-v1.png',data:{autoGenerateMipmaps:true,scaleMode:'linear'}});
   manifest.decodedBytes=Object.values(manifest.effects).reduce((sum,s)=>sum+s.atlasSize.reduce((a,v)=>a*v,4),0);
   // Battle-scale filaments need mipmaps to avoid glittering single-pixel noise.
@@ -20,12 +24,16 @@ export class WhitecoatEffects {
   await Promise.all(Object.entries(manifest.effects).map(async([id,s])=>{const tex=await Assets.load((s.externalBase||base)+s.atlas);textures[id]=s.frames.map(f=>new Texture({source:tex.source,frame:new Rectangle(f.x,f.y,f.w,f.h)}));}));return {manifest,textures,trailTexture,cutinTexture};
  }
  constructor(engine,assets){Object.assign(this,{engine,assets,enabled:true,session:null,completed:0});}
- begin(adapter,target,mode,{rootAt}){
+ begin(adapter,target,mode,{rootAt,strike}){
+  if(strike?.technique){
+   this.session?.destroy();
+   return this.session=new SwordplayEffects(this,adapter,mode,{rootAt,strike});
+  }
   if(['skill_rift','skill_echo','skill_verdict'].includes(mode)){this.session?.destroy();return this.session=new SkillEffects(this,adapter,target,mode,{rootAt});}
   if(mode==='skill_tempest'){this.session?.destroy();return this.session=new TempestEffects(this,adapter,target,{rootAt});}
   this.session?.destroy();const owner=this,layer=this.engine.effectLayer,actor=adapter.actor,specs=this.assets.manifest.effects,sprites={},frames={};
   const trail=new SwordTrail(layer,adapter,this.assets.trailTexture,mode,rootAt);
-  for(const [id,s] of Object.entries(specs)){const sprite=new Sprite(this.assets.textures[id][0]);sprite.label='V35_WHITECOAT_FX_'+id;sprite.anchor.set(s.pivot[0]/s.frames[0].w,s.pivot[1]/s.frames[0].h);sprite.blendMode=s.blend;sprite.visible=false;layer.addChild(sprite);sprites[id]=sprite;}
+  for(const id of ['debris','impact-burst','rising-release']){const s=specs[id],sprite=new Sprite(this.assets.textures[id][0]);sprite.label='V35_WHITECOAT_FX_'+id;sprite.anchor.set(s.pivot[0]/s.frames[0].w,s.pivot[1]/s.frames[0].h);sprite.blendMode=s.blend;sprite.visible=false;layer.addChild(sprite);sprites[id]=sprite;}
   const basis=()=>{const a=layer.toLocal(actor.root.toGlobal(new Point(0,0))),b=layer.toLocal(actor.root.toGlobal(new Point(1,0)));return Math.hypot(b.x-a.x,b.y-a.y);};
   let disposed=false,time=0,contact=null,contactAngle=0,floor=null;const skill=mode==='skill_iai',at=skill?.30:.32;
   const show=(id,elapsed,p,scale,rotation=0,mx=1,my=1)=>{const s=specs[id],sprite=sprites[id],i=Math.floor(elapsed*s.fps*s.playbackRate+1e-7);sprite.visible=owner.enabled&&elapsed>=0&&i>=0&&i<s.frames.length;frames[id]=sprite.visible?i:-1;if(!sprite.visible)return;sprite.texture=owner.assets.textures[id][i];sprite.position.copyFrom(p);sprite.scale.set(scale*mx/s.rasterScale[0],scale*my/s.rasterScale[1]);sprite.rotation=rotation;};

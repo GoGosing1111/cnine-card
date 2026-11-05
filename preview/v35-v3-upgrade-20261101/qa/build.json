@@ -1,6 +1,6 @@
 {
   "sourceCheckout": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout",
-  "sourceRef": "df64d5304d433dded91726a77f1857a5a84d6494",
+  "sourceRef": "50bb3ab9cf9200f8034e4bb8afb3feccd524d0ef",
   "sourceRead": "git objects, pinned commit; shared checkout unchanged",
   "sources": [
     {
@@ -15,19 +15,19 @@
     },
     {
       "path": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
-      "sha256": "140f6a441c0f6cdedf28a416d5e19e5fac3c804198577dad75ef29f1c71b9106",
+      "sha256": "8a812c3025790e5a2be71efd00eb948521961e050e2ea0275e433c7868de7605",
       "originMainNormalizedMatch": true
     },
     {
       "path": "js/battle-v3-live.js",
-      "sha256": "6373f3142a8b108dbff2fe7018b8c371274d998edb66a1b6c6982acde78dc328",
+      "sha256": "adb428d96bb295162a1fc3f63ba7150d03e9b2d2ce0473ddf1ec4d66c976d9c0",
       "originMainNormalizedMatch": true
     }
   ],
   "pixi": [
     "node_modules/pixi.js/lib/index.mjs"
   ],
-  "committedV3Modules": 325,
+  "committedV3Modules": 326,
   "inputs": [
     "node_modules/pixi.js/lib/extensions/Extensions.mjs",
     "node_modules/eventemitter3/index.js",
@@ -848,9 +848,10 @@
     "output/revan-live-20261027/release-checkout/preview/project-v-v3/source/battle/SXSuitModel.mjs",
     "output/revan-live-20261027/release-checkout/preview/project-v-v3/source/battle/SXSuitCamera.js",
     "output/revan-live-20261027/release-checkout/preview/project-v-v3/source/battle/SXSuitAnimation.js",
-    "output/revan-live-20261027/release-checkout/preview/project-v-v3/source/battle/IconTechniquePlayback.js",
     "output/revan-live-20261027/release-checkout/preview/project-v-v3/source/battle/FormationLayout.mjs",
     "output/revan-live-20261027/release-checkout/preview/project-v-v3/source/battle/ViewportLayout.mjs",
+    "output/revan-live-20261027/release-checkout/preview/project-v-v3/source/battle/TacticalHudLayout.js",
+    "output/revan-live-20261027/release-checkout/preview/project-v-v3/source/battle/IconTechniquePlayback.js",
     "output/revan-live-20261027/release-checkout/preview/project-v-v3/source/battle/OccupiedGridLayout.js",
     "output/revan-live-20261027/release-checkout/shared/mercenary-heukmu-v1.mjs",
     "output/revan-live-20261027/release-checkout/preview/project-v-v3/source/battle/heukmu/spec.json",
@@ -1070,6 +1071,7 @@
     "preview/v35-whitecoat-swordsman-20261102/action-v3/play-attack.mjs",
     "preview/v35-whitecoat-swordsman-20261102/skills-v4/actions.json",
     "preview/v35-whitecoat-swordsman-20261102/skills-v4/play-skill.mjs",
+    "preview/v35-whitecoat-swordsman-20261102/swordplay-v5/skills.mjs",
     "preview/v35-whitecoat-swordsman-20261102/WhitecoatBattleAdapter.mjs",
     "preview/v35-whitecoat-swordsman-20261102/pose-registration.json",
     "preview/v35-whitecoat-swordsman-20261102/SwordTrail.mjs",
@@ -1077,6 +1079,7 @@
     "preview/v35-whitecoat-swordsman-20261102/action-v3/TempestEffects.mjs",
     "preview/v35-whitecoat-swordsman-20261102/skills-v4/pose-registration.json",
     "preview/v35-whitecoat-swordsman-20261102/skills-v4/SkillEffects.mjs",
+    "preview/v35-whitecoat-swordsman-20261102/swordplay-v5/SwordplayEffects.mjs",
     "preview/v35-whitecoat-swordsman-20261102/WhitecoatEffects.mjs",
     "preview/v35-v3-upgrade-20261101/workbench.src.mjs"
   ],

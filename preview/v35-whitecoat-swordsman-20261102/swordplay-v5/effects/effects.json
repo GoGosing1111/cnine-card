@@ -1,0 +1,88 @@
+{
+  "id": "whitecoat-swordmaster-v5",
+  "sourceDate": "2026-11-05",
+  "tool": "Effekseer",
+  "version": "1.70e",
+  "fps": 60,
+  "seed": 3502,
+  "effects": [
+    {
+      "id": "v5-flash",
+      "frames": 34,
+      "blend": "normal",
+      "units": 12,
+      "width": 512,
+      "height": 512,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/v5-flash.efkefc"
+    },
+    {
+      "id": "v5-thrust",
+      "frames": 34,
+      "blend": "normal",
+      "units": 12,
+      "width": 512,
+      "height": 512,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/v5-thrust.efkefc"
+    },
+    {
+      "id": "v5-wheel",
+      "frames": 34,
+      "blend": "normal",
+      "units": 12,
+      "width": 512,
+      "height": 512,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/v5-wheel.efkefc"
+    },
+    {
+      "id": "v5-rain",
+      "frames": 34,
+      "blend": "normal",
+      "units": 12,
+      "width": 512,
+      "height": 512,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/v5-rain.efkefc"
+    },
+    {
+      "id": "v5-splinters",
+      "frames": 30,
+      "blend": "add",
+      "units": 12,
+      "width": 512,
+      "height": 512,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/v5-splinters.efkefc"
+    },
+    {
+      "id": "v5-rimlight",
+      "frames": 38,
+      "blend": "add",
+      "units": 12,
+      "width": 512,
+      "height": 512,
+      "pivot": [
+        256,
+        256
+      ],
+      "source": "native/v5-rimlight.efkefc"
+    }
+  ]
+}

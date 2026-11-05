@@ -1,0 +1,36 @@
+{
+  "id": "whitecoat-swordmaster-fx-20261105",
+  "sourceParent": "50bb3ab9cf9200f8034e4bb8afb3feccd524d0ef",
+  "techniques": {
+    "skill_flash": "skill_iai",
+    "skill_thrust": "skill_rift",
+    "skill_wheel": "skill_tempest",
+    "skill_rain": "skill_verdict"
+  },
+  "normalSkills": 2,
+  "areaSkills": 2,
+  "newCharacterDrawingsUsed": 0,
+  "spineNative": "whitecoat-skills-v4-51fecca13bde.spine",
+  "spineSha256": "b0abcbf1bda97b8d700328b9453e0a61fbec96cf0063e21a1907bef444a57ef6",
+  "approvedArtSha256": "2e0c6fbf95ba10dcafbddd1435c88f16590e9594206ad3f5053665b9aac627a1",
+  "motionMultiplier": 2,
+  "artCels": 32,
+  "editableEffects": 6,
+  "nativeExportFrames": 204,
+  "packedFrameReferences": 200,
+  "uniquePackedFrames": 121,
+  "effectAtlasBytes": 7276694,
+  "extraDecodedTextureBytes": 41525556,
+  "playbackChecks": 74,
+  "reviewChecks": 20,
+  "legacyEventChecks": 9,
+  "captureFiles": [
+    "four-skills.webm",
+    "four-skills-half.webm",
+    "four-skills-body.webm"
+  ],
+  "realDevice": false,
+  "liveSkillRegistration": false,
+  "productionDeployment": false,
+  "userFinalVisualApproval": false
+}
