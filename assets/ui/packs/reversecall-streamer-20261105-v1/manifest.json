@@ -1,0 +1,28 @@
+{
+  "generator": "built-in image_gen",
+  "createdAt": "2026-11-05T04:13:35.153Z",
+  "original": "C:/Users/User/.codex/generated_images/01a1a9e5-287f-74a0-8392-9bff42671119/exec-bc6a8c0d-e67d-4377-946f-3c2465d98dc9.png",
+  "metadata": {
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": true
+  },
+  "prompt": "prompt.txt",
+  "files": {
+    "pack-source.png": {
+      "sha256": "47251ea5282bad3362ba92cf64673d02d418b09b44b0949214bba560b0a9b77f",
+      "bytes": 1910500
+    },
+    "pack-320.webp": {
+      "sha256": "d06c0c36ebc98edd87d4c96fd8a1aaf6bc7b08fe997ed8f04b4521f3207aa60e",
+      "bytes": 42802
+    },
+    "pack-768.webp": {
+      "sha256": "10c35874b8685c083473382687be9f934b3bf3ae47e3f3aabbf7ebc720d30b7e",
+      "bytes": 177920
+    }
+  },
+  "status": "USER_REJECTED_DO_NOT_SHIP",
+  "reason": "기존팩 리소스 방식으로 재제작 지시",
+  "replacement": "assets/ui/packs/reversecall-streamer-20261105-v4/"
+}

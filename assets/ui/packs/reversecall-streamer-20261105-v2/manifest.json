@@ -1,0 +1,29 @@
+{
+  "generator": "built-in image_gen",
+  "original": "C:/Users/User/.codex/generated_images/01a1a9e5-287f-74a0-8392-9bff42671119/exec-f77e076d-49c6-419c-80ca-20f2099120e5.png",
+  "reference": "assets/ui/packs/black-crown-20261027-v1/pack-display-source.png",
+  "userInstruction": "기존팩 리소스대로 만들어 저렇게 만들지말고",
+  "createdAt": "2026-11-05T04:25:21.783Z",
+  "metadata": {
+    "width": 941,
+    "height": 1672,
+    "hasAlpha": true
+  },
+  "files": {
+    "pack-source.png": {
+      "sha256": "39a15c2a36b8bdee6224e1ab1eb35d943b66b51c505da9c48866cc0dd07b7c7e",
+      "bytes": 2780907
+    },
+    "pack-320.webp": {
+      "sha256": "c3fb246f40ce1dc8782b2ef627549664d2e2a777feb390de4efe9727be7f4d69",
+      "bytes": 84674
+    },
+    "pack-768.webp": {
+      "sha256": "46361f3a500f7de6d6922faa7d171f4f8a3aee256a934a3ebe730f7f84e2e46b",
+      "bytes": 345712
+    }
+  },
+  "status": "USER_REJECTED_DO_NOT_SHIP",
+  "replacement": "assets/ui/packs/reversecall-streamer-20261105-v4/",
+  "reason": "기존 블랙크라운 디자인 유사 반려; 보라색 신규 디자인·사각형 팩 형태 지시"
+}

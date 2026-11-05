@@ -5,12 +5,13 @@ export const blackcrownEscape=value=>String(value??'').replace(/[&<>"']/g,c=>({'
 const esc=blackcrownEscape;
 export const BLACKCROWN_LARGE_OPENING_MS=10000;
 export const blackcrownLargeOpening=body=>body?.budget!=null&&BigInt(body.budget)>=100000000000000n;
-export function playBlackcrownBulkOpening(dialog,body,{signal}={}){
+export function playBlackcrownBulkOpening(dialog,body,{signal,pack}={}){
  if(!blackcrownLargeOpening(body))return Promise.resolve();
  if(signal?.aborted)return Promise.reject(Object.assign(Error('개봉을 취소했습니다. 코인은 차감되지 않았습니다.'),{code:'BLACKCROWN_OPENING_CANCELLED'}));
  const overlay=document.createElement('section'),shell=dialog.querySelector('[data-bcp-shell]'),previous=document.activeElement;
  overlay.className='bcp-opening';overlay.setAttribute('role','status');overlay.setAttribute('aria-label','100조 블랙크라운팩 개봉 연출');
  overlay.innerHTML=`<div class="bcp-opening-halo" aria-hidden="true"></div><div class="bcp-opening-inner"><small>BLACK CROWN · GRAND OPENING</small><h3>검은 왕관의 봉인</h3><div class="bcp-opening-stage" aria-hidden="true"><i></i><i></i><i></i><img src="${blackcrownUiAssets}pack-768.webp" alt=""></div><p data-bcp-opening-phase aria-live="polite">계약의 문이 열립니다</p><div class="bcp-opening-progress" role="progressbar" aria-label="개봉 연출 진행" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0"><span></span></div><p class="bcp-opening-count"><b data-bcp-opening-seconds>10</b>초 후 개봉</p><p class="bcp-opening-note">연출이 끝나면 개봉합니다.<br>취소하면 코인이 사용되지 않습니다.</p><button class="bcp-button" data-bcp-opening-cancel>개봉 취소</button></div>`;
+ if(pack?.streamerOnly){overlay.querySelector('img').src='/'+pack.image;overlay.querySelector('small').textContent='REVERSE CALL · STREAMER';overlay.querySelector('h3').textContent='스트리머의 계약';overlay.setAttribute('aria-label','100조 스트리머 팩 개봉 연출');}
  shell.inert=true;dialog.append(overlay);dialog.dataset.opening='true';overlay.querySelector('button').focus();
  return new Promise((resolve,reject)=>{
   let frame,elapsed=0,last=performance.now(),done=false,phase=-1;
@@ -34,9 +35,9 @@ export function blackcrownStockText(card,stock){
  if(!stock?.prepared||!Number.isSafeInteger(stock.remaining)||stock.remaining<0)return '수량 확인 중';
  return '남은 '+stock.remaining.toLocaleString('ko-KR')+'장'+(stock.remaining===0?' · 소진':'');
 }
-export function blackcrownCollectionMarkup(cards,stock=[],percents={}){
+export function blackcrownCollectionMarkup(cards,stock=[],percents={},pack){
  const portrait=c=>{const s=stock.find(row=>row.code===c.code);return `<figure class="bcp-portrait" data-rank="${esc(c.rank)}" data-code="${esc(c.code)}"><div class="bcp-art-frame"><img src="/${esc(c.thumbnailArt||c.displayArt)}" alt="${esc(c.name)} ${esc(c.rank)} 원화" loading="lazy"><span>${esc(c.rank)}</span></div><figcaption>${c.rewardType==='ITEM'?'<em>SSS · 제작 재료</em>':c.stockPolicy==='UNLIMITED'?'<em>일반 SSS</em>':c.rank==='SSS'?'<em>SSS LIMITED</em>':''}<strong>${esc(c.name)}</strong><small data-bcp-stock-code="${esc(c.code)}">${blackcrownStockText(c,s)}</small><small data-bcp-chance-code="${esc(c.code)}">1회 확률 ${percents[c.code]==null?'미정':esc(percents[c.code])+'%'}</small></figcaption></figure>`;};
- return '<section class="bcp-seasonal-collection"><div class="bcp-section-heading"><h3>블랙크라운 SS 리미티드</h3><span>SS LIMITED · '+cards.filter(c=>c.rank==='SS').length+'</span></div><div class="bcp-roster">'+cards.filter(c=>c.rank==='SS').map(portrait).join('')+'</div></section><section class="bcp-legend-collection"><div class="bcp-section-heading"><h3>SSS 리미티드 · 카드구·레반</h3><span>팩 한도 각 5장</span></div><div class="bcp-sss-roster bcp-limited-sss">'+cards.filter(c=>c.rank==='SSS'&&c.stockPolicy!=='UNLIMITED').map(portrait).join('')+'</div></section><section class="bcp-legend-collection"><div class="bcp-section-heading"><h3>일반 SSS · 별도 획득</h3><span>발행 한도 없음</span></div><div class="bcp-sss-roster">'+cards.filter(c=>c.stockPolicy==='UNLIMITED').map(portrait).join('')+'</div></section>';
+ return '<section class="bcp-seasonal-collection"><div class="bcp-section-heading"><h3>블랙크라운 SS 리미티드</h3><span>SS LIMITED · '+cards.filter(c=>c.rank==='SS').length+'</span></div><div class="bcp-roster">'+cards.filter(c=>c.rank==='SS').map(portrait).join('')+'</div></section><section class="bcp-legend-collection"><div class="bcp-section-heading"><h3>SSS 리미티드 · 카드구·레반</h3><span>'+(pack?.streamerOnly?'독립 재고 · 종류별 한도':'팩 한도 각 5장')+'</span></div><div class="bcp-sss-roster bcp-limited-sss">'+cards.filter(c=>c.rank==='SSS'&&c.stockPolicy!=='UNLIMITED').map(portrait).join('')+'</div></section><section class="bcp-legend-collection"><div class="bcp-section-heading"><h3>일반 SSS · 별도 획득</h3><span>발행 한도 없음</span></div><div class="bcp-sss-roster">'+cards.filter(c=>c.stockPolicy==='UNLIMITED').map(portrait).join('')+'</div></section>';
 }
 export function blackcrownResultsMarkup(results,packImage){
  const fmt=n=>n.toLocaleString('ko-KR'),groups=new Map(),ranks=['C','B','A','S','SS'],rankCounts=Object.fromEntries(ranks.map(r=>[r,0]));let misses=0;
@@ -53,7 +54,7 @@ export function blackcrownResultsMarkup(results,packImage){
  return summary+`<section class="bcp-featured-results"><div class="bcp-section-heading"><h3>SS·SSS 리미티드 · 일반 SSS</h3><span>${fmt(featured.reduce((n,r)=>n+r.quantity,0))}장</span></div>${cards?`<div class="bcp-featured-grid">${cards}</div>`:'<p class="bcp-no-featured">이번 개봉에서 획득한 상위 카드가 없습니다.</p>'}</section>`;
 }
 export function blackcrownRoomMarkup(pack){
- return `<div class="bcp-shell" data-bcp-shell>
+ const markup=`<div class="bcp-shell" data-bcp-shell>
  <header class="bcp-header"><div><small>REVERSE CALL · BLACK CROWN</small><h2 id="bcp-title">${esc(pack.name)}</h2></div><button class="bcp-button bcp-close" data-bcp-close aria-label="닫기">닫기 ×</button></header>
  <main class="bcp-content"><p class="bcp-status" data-bcp-status role="status" aria-live="polite">상태를 확인하고 있습니다.</p>
  <section class="bcp-auto-panel" id="bcp-auto-panel" data-bcp-auto-panel hidden aria-labelledby="bcp-auto-title"><div class="bcp-section-heading"><h3 id="bcp-auto-title">자동뽑기</h3><span>최대 100회 반복</span></div><div class="bcp-auto-fields"><label>한 번에<select data-bcp-auto-count><option value="1">1회씩</option><option value="10" selected>10회씩</option></select></label><label>반복 횟수<input data-bcp-auto-repeats type="number" inputmode="numeric" min="1" max="100" step="1" value="10"></label></div><p class="bcp-auto-quote" data-bcp-auto-quote></p><p class="bcp-auto-note">SS 리미티드·SSS 획득 시 연출을 보고 이어서 뽑습니다.<br>중지·화면 이탈 시 현재 개봉 결과까지만 처리합니다.</p><button class="bcp-button bcp-primary" data-bcp-auto-start disabled>자동뽑기 시작</button></section>
@@ -63,4 +64,6 @@ export function blackcrownRoomMarkup(pack){
 </main>
  <footer class="bcp-actions"><div class="bcp-buy-actions"><button class="bcp-button" data-bcp-buy="1" disabled><b>1회 개봉</b><small data-bcp-price="1">가격 미정</small></button><button class="bcp-button bcp-primary" data-bcp-buy="10" disabled><b>10회 개봉</b><small data-bcp-price="10">가격 미정</small></button></div><div class="bcp-secondary-actions"><button class="bcp-button" data-bcp-auto-toggle aria-expanded="false" aria-controls="bcp-auto-panel">자동뽑기</button><button class="bcp-button bcp-recover" data-bcp-recover>이전 결과 확인</button></div><div class="bcp-auto-running" data-bcp-auto-running hidden><p data-bcp-auto-progress role="status" aria-live="polite"></p><button class="bcp-button bcp-primary" data-bcp-auto-stop>자동뽑기 중지</button></div></footer></div>
  <section class="bcp-confirm" data-bcp-confirm hidden role="alertdialog" aria-modal="true" aria-labelledby="bcp-confirm-title"><div class="bcp-confirm-inner"><img src="/${esc(pack.image)}" alt="" class="bcp-confirm-pack"><small>BLACK CROWN CONTRACT</small><h3 id="bcp-confirm-title">봉인된 계약을 열까요?</h3><p data-bcp-confirm-text></p><p class="bcp-confirm-note">개봉 후 모든 결과를 한 번에 확인합니다.</p><div><button class="bcp-button" data-bcp-confirm-cancel>돌아가기</button><button class="bcp-button bcp-primary" data-bcp-confirm-start>개봉 확인</button></div></div></section>`;
+ if(!pack.streamerOnly)return markup;
+ return markup.replaceAll('REVERSE CALL · BLACK CROWN','REVERSE CALL · STREAMER').replaceAll('BLACK CROWN LIMITED','STREAMER EXCLUSIVE').replaceAll('BLACK CROWN CONTRACT','STREAMER CONTRACT').replace('블랙크라운의 계약','스트리머의 계약').replace('SSS 리미티드 카드구·레반 · 각 5장','SSS 리미티드 카드구·레반 · 독립 한도').replace('<span data-bcp-availability>','<p>리버스랜드 등록 스트리머만 이용할 수 있습니다.<br>구성·가격·확률은 블랙크라운과 같습니다.</p><span data-bcp-availability>');
 }

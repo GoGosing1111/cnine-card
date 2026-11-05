@@ -1,16 +1,16 @@
 import {BLACKCROWN_PACK,validateBlackcrownOpeningBody,blackcrownReceiptResults} from './mercenary-blackcrown-pack-v1.mjs?v=20261027-v1';
 const fail=(message,code)=>Object.assign(Error(message),{code});
-const terminal=new Set(['MERCENARY_BLACKCROWN_CLOSED','MERCENARY_BLACKCROWN_CHANGED','MERCENARY_BLACKCROWN_NOT_READY','MERCENARY_BLACKCROWN_FUNDS','MERCENARY_BLACKCROWN_INPUT','MERCENARY_BLACKCROWN_SOLD_OUT','MERCENARY_BLACKCROWN_NORMAL_POOL','JOINT_OPERATION_SUPERSEDED']);
+const terminal=new Set(['MERCENARY_STREAMER_ACCESS','MERCENARY_BLACKCROWN_CLOSED','MERCENARY_BLACKCROWN_CHANGED','MERCENARY_BLACKCROWN_NOT_READY','MERCENARY_BLACKCROWN_FUNDS','MERCENARY_BLACKCROWN_INPUT','MERCENARY_BLACKCROWN_SOLD_OUT','MERCENARY_BLACKCROWN_NORMAL_POOL','JOINT_OPERATION_SUPERSEDED']);
 export class BlackcrownOpeningSession{
- constructor({api,accountId,getAccountId,storage,present,lock=async(_key,work)=>work(),onConfirmed=()=>{},onPending=()=>{},beforeOpen=async()=>{},makeId=()=>crypto.randomUUID()}){
-  Object.assign(this,{api,accountId,getAccountId,storage,present,lock,onConfirmed,onPending,beforeOpen,makeId});this.busy=false;
-  this.pendingKey='cnine.blackcrown-pack.pending:'+accountId;this.receiptKey='cnine.blackcrown-pack.receipt:'+accountId;
+ constructor({pack=BLACKCROWN_PACK,api,accountId,getAccountId,storage,present,lock=async(_key,work)=>work(),onConfirmed=()=>{},onPending=()=>{},beforeOpen=async()=>{},makeId=()=>crypto.randomUUID()}){
+  Object.assign(this,{pack,api,accountId,getAccountId,storage,present,lock,onConfirmed,onPending,beforeOpen,makeId});this.busy=false;
+  this.namespace=pack.storageNamespace||'blackcrown-pack';this.pendingKey='cnine.'+this.namespace+'.pending:'+accountId;this.receiptKey='cnine.'+this.namespace+'.receipt:'+accountId;
  }
  assertAccount(){if(!this.accountId||Number(this.getAccountId())!==this.accountId)throw fail('계정이 변경됐습니다. 블랙크라운팩을 다시 열어 주세요.','BLACKCROWN_ACCOUNT_CHANGED');}
  read(key){const raw=this.storage.getItem(key);if(!raw)return null;try{return JSON.parse(raw);}catch{throw fail('이전 요청 기록을 확인해야 합니다.','BLACKCROWN_STORAGE_INVALID');}}
- async exclusive(work){if(this.busy)throw fail('현재 결과를 먼저 확인해 주세요.','BLACKCROWN_BUSY');this.assertAccount();this.busy=true;try{return await this.lock('cnine-blackcrown-pack:'+this.accountId,work);}finally{this.busy=false;}}
+ async exclusive(work){if(this.busy)throw fail('현재 결과를 먼저 확인해 주세요.','BLACKCROWN_BUSY');this.assertAccount();this.busy=true;try{return await this.lock('cnine-'+this.namespace+':'+this.accountId,work);}finally{this.busy=false;}}
  async accept(receipt,onReceipt=()=>{}){
-  this.assertAccount();blackcrownReceiptResults(receipt);
+  this.assertAccount();blackcrownReceiptResults(receipt,this.pack);
   if(Number(receipt.accountId)!==this.accountId)throw fail('계정의 개봉 영수증이 일치하지 않습니다.','BLACKCROWN_RECEIPT_INVALID');
   const pending=this.read(this.pendingKey);
   if(pending&&(pending.accountId!==this.accountId||pending.body.requestId!==receipt.requestId||pending.body.count!==receipt.count||pending.body.budget!==receipt.budget))throw fail('요청과 개봉 결과가 일치하지 않습니다.','BLACKCROWN_RECEIPT_INVALID');
@@ -22,10 +22,10 @@ export class BlackcrownOpeningSession{
   this.onConfirmed(receipt);onReceipt(receipt);await this.present(receipt);return receipt;
  }
  async submit(body){
-  try{return await this.api(BLACKCROWN_PACK.openPath,{method:'POST',body});}
+  try{return await this.api(this.pack.openPath,{method:'POST',body});}
   catch(error){
    if(terminal.has(error.code)){this.storage.removeItem(this.pendingKey);throw error;}
-   try{const receipt=await this.api(BLACKCROWN_PACK.receiptPath+'?requestId='+encodeURIComponent(body.requestId));if(receipt.status==='COMPLETED')return receipt;}
+   try{const receipt=await this.api(this.pack.receiptPath+'?requestId='+encodeURIComponent(body.requestId));if(receipt.status==='COMPLETED')return receipt;}
    catch(readError){if(readError.code==='JOINT_OPERATION_SUPERSEDED'){this.storage.removeItem(this.pendingKey);throw readError;}}
    throw fail('이전 결과 확인으로 같은 개봉 요청을 복구해 주세요.','BLACKCROWN_RECOVERY_REQUIRED');
   }
@@ -68,7 +68,7 @@ export class BlackcrownOpeningSession{
   const saved=pending?null:this.lastReceipt??this.read(this.receiptKey),requestId=pending?.body.requestId??saved?.requestId;
   if(!requestId)throw fail('이 계정의 이전 개봉 기록이 없습니다.','BLACKCROWN_NO_RECEIPT');
   if(pending&&pending.accountId!==this.accountId)throw fail('저장된 요청의 계정이 다릅니다.','BLACKCROWN_ACCOUNT_CHANGED');
-  let receipt;try{receipt=await this.api(BLACKCROWN_PACK.receiptPath+'?requestId='+encodeURIComponent(requestId),options);}catch(error){
+  let receipt;try{receipt=await this.api(this.pack.receiptPath+'?requestId='+encodeURIComponent(requestId),options);}catch(error){
    assertCurrent();
    if(error.code==='JOINT_OPERATION_SUPERSEDED'&&pending){this.assertAccount();this.storage.removeItem(this.pendingKey);return {requestId,status:'CANCELLED'};}
    if(error.code!=='JOINT_NOT_FOUND'||!pending)throw error;

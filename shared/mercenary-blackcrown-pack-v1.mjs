@@ -156,7 +156,7 @@ export function pickBlackcrownBatch(state,count,random,{firstLimitedCode=null}={
  }
  return draws;
 }
-export function blackcrownReceiptResults(receipt){
+export function blackcrownReceiptResults(receipt,pack=BLACKCROWN_PACK){
  const result=(r,index)=>{
   if((r.kind==='ITEM'||r.itemCode||r.stockCode)&&!isPrimeMaterialDraw(r))throw Error('재료 카드 영수증을 확인하세요.');
   const item=isPrimeMaterialDraw(r),card=BLACKCROWN_PACK_CARDS.find(c=>c.code===bloodmoonDrawCode(r));
@@ -164,9 +164,9 @@ export function blackcrownReceiptResults(receipt){
   const art=item?PRIME_MATERIAL.image:r.mercenaryCode===PRIME_MATERIAL_STOCK_CODE?'assets/ui/packs/blood-pack-20261023/v-975-640.webp':card?.displayArt;
   return {...r,limited:isBlackcrownLimited(bloodmoonDrawCode(r)),kind:item?'ITEM':r.mercenaryCode?'MERCENARY':'MISS',receiptId:receipt.requestId+':'+index,preview:false,granted:true,artUrl:art?'/'+art:r.mercenaryCode?'/assets/ui/project-v/mercenaries/codex-v1/'+r.mercenaryCode.toLowerCase()+'-art-640.webp':null};
  };
- if(receipt?.status==='COMPLETED'&&receipt.packId===BLACKCROWN_PACK.id&&receipt.format===BLACKCROWN_BULK_FORMAT){
+ if(receipt?.status==='COMPLETED'&&receipt.packId===pack.id&&receipt.format===BLACKCROWN_BULK_FORMAT){
   return validateBlackcrownBulkReceipt(receipt).map(r=>result(r,r.drawIndex??'bulk:'+r.mercenaryCode));
  }
- if(receipt?.status!=='COMPLETED'||receipt.packId!==BLACKCROWN_PACK.id||![1,10].includes(receipt.count)||receipt.draws?.length!==receipt.count)throw Error('확정된 블랙크라운팩 결과가 필요합니다.');
+ if(receipt?.status!=='COMPLETED'||receipt.packId!==pack.id||![1,10].includes(receipt.count)||receipt.draws?.length!==receipt.count)throw Error('확정된 블랙크라운팩 결과가 필요합니다.');
  return receipt.draws.map(result);
 }

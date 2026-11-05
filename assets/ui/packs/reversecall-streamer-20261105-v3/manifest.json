@@ -1,0 +1,23 @@
+{
+  "generator": "built-in image_gen",
+  "status": "CONCEPT_SUPERSEDED_RECTANGULAR_LAYOUT",
+  "original": "C:/Users/User/.codex/generated_images/01a1a9e5-287f-74a0-8392-9bff42671119/exec-ee4dbf7b-1012-4354-93e6-9ba1ed5630ed.png",
+  "userInstruction": "팩 디자인 똑같이 하지말고 좀 새롭게 해라 응용하지말고 참고만해야지",
+  "reference": null,
+  "createdAt": "2026-11-05T04:37:26.776Z",
+  "metadata": {
+    "width": 948,
+    "height": 1659,
+    "hasAlpha": true
+  },
+  "files": {
+    "pack-source.png": {
+      "sha256": "fdb9e7fddbbf7304050e9d15824ca51c6af192f9b6bc384cae2ef1a168745992",
+      "bytes": 1952586
+    },
+    "prompt.txt": {
+      "sha256": "c0eb9f88e0bfe146b635fbcb6e78853385094d501ba1b8bbebea8f0c513cd0eb",
+      "bytes": 2181
+    }
+  }
+}

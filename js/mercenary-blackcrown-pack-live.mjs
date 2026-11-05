@@ -13,11 +13,11 @@ let active=null;
 export function blackcrownBatchCinematics(results){return ['SS','SSS'].map(rank=>results.find(r=>r.rank===rank&&(r.limited||rank==='SSS')&&mercenaryCinematicFor(r))).filter(Boolean);}
 export function blackcrownBatchCinematic(results){return blackcrownBatchCinematics(results).at(-1)??null;}
 export function openBlackcrownPack(){return mountBlackcrownPack();}
-export async function mountBlackcrownPack({api=jointAccountRequest,accountId=currentAccount(),getAccountId=currentAccount,storage=localStorage,lock=browserLock,videoFactory=host=>new MercenaryAcquisitionVideo(host)}={}){
+export async function mountBlackcrownPack({pack=BLACKCROWN_PACK,api=jointAccountRequest,accountId=currentAccount(),getAccountId=currentAccount,storage=localStorage,lock=browserLock,videoFactory=host=>new MercenaryAcquisitionVideo(host)}={}){
  if(active)return active;
  if(!document.querySelector('[data-blackcrown-pack-style]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/mercenary-blackcrown-pack.bundle.css?sss=20261027-cardgu-revan-v1&v=20261027-buttons-v4&opening=20261031-unique-v1';link.dataset.blackcrownPackStyle='';document.head.append(link);}
- const previous=document.activeElement,dialog=document.createElement('dialog');dialog.className='bcp-dialog';active=dialog;
- dialog.setAttribute('aria-labelledby','bcp-title');dialog.innerHTML=blackcrownRoomMarkup(BLACKCROWN_PACK);
+ const previous=document.activeElement,dialog=document.createElement('dialog');dialog.className='bcp-dialog'+(pack.streamerOnly?' streamer-pack-dialog':'');dialog.dataset.packId=pack.id;active=dialog;
+ dialog.setAttribute('aria-labelledby','bcp-title');dialog.innerHTML=blackcrownRoomMarkup(pack);
  const $=selector=>dialog.querySelector(selector);let stockTimer=null;let config=null,busy=false,disposed=false,quote=null,paused=false,auto=null,session=null,recovery=null;
  const lifetime=new AbortController(),closed=()=>Object.assign(Error('계약실을 닫았습니다. 이전 결과는 다시 확인할 수 있습니다.'),{code:'BLACKCROWN_ROOM_CLOSED'});
  // Retiring a stalled view cancels only its local wait. The durable request ID
@@ -52,18 +52,18 @@ export async function mountBlackcrownPack({api=jointAccountRequest,accountId=cur
    for(const label of dialog.querySelectorAll('[data-bcp-stock-code]'))label.textContent=blackcrownStockText(config.cards.find(c=>c.code===label.dataset.bcpStockCode),config.stock?.find(row=>row.code===label.dataset.bcpStockCode));
    for(const label of dialog.querySelectorAll('[data-bcp-chance-code]')){const code=label.dataset.bcpChanceCode,percent=config.effectiveCardPercents?.[code],owned=config.ownedCodes?.includes(code);label.textContent=owned?'보유 중 · 중복 획득 불가 (0%)':'1회 확률 '+(percent==null?'미정':percent+'%');}
    for(const count of [1,10]){const price=count===10?config.settings.prices.ten:config.settings.prices.single;$('[data-bcp-price="'+count+'"]').textContent=price==null?'가격 미정':fmt(price)+' 코인';}
-   $('[data-bcp-availability]').textContent=config.userOpeningEnabled?'개봉 가능 · 수량을 선택하세요':config.openingScheduled?new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date(config.openingAt))+' 개봉 예정 (한국시간)':config.settings.mode==='ON'?'현재 개봉 불가 · 운영 설정 확인 필요':'출시 준비 중 · 개봉 OFF';
+   $('[data-bcp-availability]').textContent=config.access?.allowed===false?config.access.reason:config.userOpeningEnabled?'개봉 가능 · 수량을 선택하세요':config.openingScheduled?new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date(config.openingAt))+' 개봉 예정 (한국시간)':config.settings.mode==='ON'?'현재 개봉 불가 · 운영 설정 확인 필요':'출시 준비 중 · 개봉 OFF';
   }
   updateAutoQuote();
   updateBulkQuote();
  };
- const acceptConfig=next=>{config=next;clearTimeout(stockTimer);const nextStock=[...(config.stockSchedules||[]).map(s=>Date.parse(s.executeAt)),...(config.openingScheduled?[Date.parse(config.openingAt)]:[])].sort((a,b)=>a-b)[0];if(Number.isFinite(nextStock)){const delay=Math.max(100,nextStock-Date.parse(config.serverNow||new Date().toISOString()));stockTimer=setTimeout(()=>{if(!disposed&&!busy&&!document.hidden)void refreshConfig();},Math.min(delay,2147483647));}sync();window.dispatchEvent(new CustomEvent('blackcrown-pack:stock',{detail:{stock:config.stock}}));};
+ const acceptConfig=next=>{config=next;clearTimeout(stockTimer);const nextStock=[...(config.stockSchedules||[]).map(s=>Date.parse(s.executeAt)),...(config.openingScheduled?[Date.parse(config.openingAt)]:[])].sort((a,b)=>a-b)[0];if(Number.isFinite(nextStock)){const delay=Math.max(100,nextStock-Date.parse(config.serverNow||new Date().toISOString()));stockTimer=setTimeout(()=>{if(!disposed&&!busy&&!document.hidden)void refreshConfig();},Math.min(delay,2147483647));}sync();window.dispatchEvent(new CustomEvent(pack.stockEvent||'blackcrown-pack:stock',{detail:{stock:config.stock}}));};
  const videoEnd=()=>{cinematic.cancel();$('[data-bcp-video]').hidden=true;$('[data-bcp-video-actions]').hidden=true;$('[data-bcp-film]').hidden=true;$('[data-bcp-reveal]').classList.remove('has-cinematic');};
  async function present(receipt){
-  if(disposed)return;const results=blackcrownReceiptResults(receipt);
+  if(disposed)return;const results=blackcrownReceiptResults(receipt,pack);
   $('[data-bcp-off]').hidden=true;$('[data-bcp-collection]').hidden=true;$('[data-bcp-reveal]').hidden=false;
   // All authoritative results enter the DOM together, before video loading.
-  $('[data-bcp-results]').innerHTML=blackcrownResultsMarkup(results,BLACKCROWN_PACK.image);
+  $('[data-bcp-results]').innerHTML=blackcrownResultsMarkup(results,pack.image);
   $('[data-bcp-result-total]').textContent=fmt(receipt.count)+'회 개봉 · '+blackcrownCoinText(receipt.coinCost);
   say(fmt(receipt.count)+'회 개봉 완료 · 획득 수량을 확인하세요.');dialog.dataset.resultCount=String(receipt.count);
   $('[data-bcp-reveal]').scrollIntoView({block:'start'});
@@ -79,7 +79,7 @@ export async function mountBlackcrownPack({api=jointAccountRequest,accountId=cur
    await playing;if(!disposed)videoEnd();
   }
  }
- session=new BlackcrownOpeningSession({api:request,accountId,getAccountId:()=>disposed?0:getAccountId(),storage,lock,present,beforeOpen:body=>playBlackcrownBulkOpening(dialog,body,{signal:lifetime.signal}),onPending:sync,onConfirmed:receipt=>{
+ session=new BlackcrownOpeningSession({pack,api:request,accountId,getAccountId:()=>disposed?0:getAccountId(),storage,lock,present,beforeOpen:body=>playBlackcrownBulkOpening(dialog,body,{signal:lifetime.signal,pack}),onPending:sync,onConfirmed:receipt=>{
   if(disposed)return;const user=globalThis.loadUser?.();if(Number(user?.serverUserId)===accountId&&globalThis.saveUser){
    user.coin=Number(receipt.coin);
    // A failed wallet cache must not hide the confirmed result or stop its event.
@@ -89,7 +89,7 @@ export async function mountBlackcrownPack({api=jointAccountRequest,accountId=cur
   sync();
   window.dispatchEvent(new CustomEvent('limited-pack:receipt',{detail:{coin:receipt.coin,accountId,requestId:receipt.requestId}}));
  }});
- auto=new BlackcrownAutoOpening({session,isHidden:()=>document.hidden,onUpdate:()=>sync(),readConfig:async()=>{const next=await request(BLACKCROWN_PACK.featurePath);if(!disposed){acceptConfig(next);}return next;}});
+ auto=new BlackcrownAutoOpening({session,isHidden:()=>document.hidden,onUpdate:()=>sync(),readConfig:async()=>{const next=await request(pack.featurePath);if(!disposed){acceptConfig(next);}return next;}});
  recovery=new BlackcrownReceiptRecovery({
   getPendingId:()=>{try{return session.read(session.pendingKey)?.body?.requestId||null;}catch{return null;}},
   canRead:()=>!disposed&&!document.hidden&&navigator.onLine!==false&&Number(getAccountId())===accountId,
@@ -112,15 +112,15 @@ export async function mountBlackcrownPack({api=jointAccountRequest,accountId=cur
   $('[data-bcp-budget]').disabled=busy;
   dialog.querySelectorAll('[data-bcp-budget-preset]').forEach(b=>{b.disabled=busy;const selected=b.dataset.bcpBudgetPreset===$('[data-bcp-budget]').value.replaceAll(',','');b.setAttribute('aria-pressed',String(selected));b.classList.toggle('bcp-primary',selected);});
   if(!config)return;
-  try{const q=readBulkQuote();$('[data-bcp-bulk-quote]').textContent=fmt(q.count)+'회 개봉 · '+blackcrownCoinText(q.coinCost)+' 사용'+(q.unused!=='0'?' · 미사용 '+blackcrownCoinText(q.unused):'');$('[data-bcp-bulk-reference]').textContent=q.reference?'할로윈 기준가 1회 10억 / 10회 100억으로 계산한 준비 화면입니다. 실제 판매 가격은 미정입니다.':'저장된 블랙크라운팩 가격으로 계산합니다.';button.disabled=busy||hasPending()||!config.userOpeningEnabled||q.reference;button.textContent=busy?'결과 확인 중…':config.userOpeningEnabled&&!q.reference?'일괄 개봉 확인':'일괄 개봉 · 판매 잠금';}
+  try{const q=readBulkQuote();$('[data-bcp-bulk-quote]').textContent=fmt(q.count)+'회 개봉 · '+blackcrownCoinText(q.coinCost)+' 사용'+(q.unused!=='0'?' · 미사용 '+blackcrownCoinText(q.unused):'');$('[data-bcp-bulk-reference]').textContent=q.reference?'할로윈 기준가 1회 10억 / 10회 100억으로 계산한 준비 화면입니다. 실제 판매 가격은 미정입니다.':(pack.streamerOnly?'블랙크라운과 동일한 가격으로 계산합니다.': '저장된 블랙크라운팩 가격으로 계산합니다.');button.disabled=busy||hasPending()||!config.userOpeningEnabled||q.reference;button.textContent=busy?'결과 확인 중…':config.userOpeningEnabled&&!q.reference?'일괄 개봉 확인':'일괄 개봉 · 판매 잠금';}
   catch(e){$('[data-bcp-bulk-quote]').textContent=e.message;}
  }
  async function load(){
-  const next=await request(BLACKCROWN_PACK.featurePath);if(disposed)return;config=next;
-  $('[data-bcp-roster]').innerHTML=blackcrownCollectionMarkup(config.cards,config.stock,config.effectiveCardPercents);
-  say(config.userOpeningEnabled?'개봉할 수량을 선택하세요.':config.settings.mode==='ON'?'현재 개봉 불가 · '+config.readiness.blockers.join(' '):'출시 준비 중 · 개봉 OFF');acceptConfig(next);
+  const next=await request(pack.featurePath);if(disposed)return;config=next;
+  $('[data-bcp-roster]').innerHTML=blackcrownCollectionMarkup(config.cards,config.stock,config.effectiveCardPercents,pack);
+  say(config.access?.allowed===false?config.access.reason:config.userOpeningEnabled?'개봉할 수량을 선택하세요.':config.settings.mode==='ON'?'현재 개봉 불가 · '+config.readiness.blockers.join(' '):'출시 준비 중 · 개봉 OFF');acceptConfig(next);
  }
- async function refreshConfig(){try{const next=await request(BLACKCROWN_PACK.featurePath);if(!disposed)acceptConfig(next);}catch{}}
+ async function refreshConfig(){try{const next=await request(pack.featurePath);if(!disposed)acceptConfig(next);}catch{}}
  async function run(work){if(busy||disposed)return;recovery.suspend();busy=true;sync();let error;try{await work();}catch(e){error=e;say(e.message,true);}finally{busy=false;if(!disposed){sync();if(blackcrownReceiptRetryable(error))recovery.request();else recovery.stop();await refreshConfig();}}}
  async function recover(readOnly=false,options){
   const result=await (readOnly?session.reconcilePending(options):session.recover());
@@ -163,7 +163,7 @@ export async function mountBlackcrownPack({api=jointAccountRequest,accountId=cur
   if(busy&&hasPending()){
    close();
    // Entry performs receipt GETs only, even if the original POST is still running.
-   void mountBlackcrownPack({api,accountId,getAccountId,storage,lock,videoFactory}).catch(()=>{});
+   void mountBlackcrownPack({pack,api,accountId,getAccountId,storage,lock,videoFactory}).catch(()=>{});
    return;
   }
   say('이전 개봉 결과를 확인하고 있습니다.');

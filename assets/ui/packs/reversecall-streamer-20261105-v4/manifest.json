@@ -1,0 +1,31 @@
+{
+  "generator": "built-in image_gen",
+  "status": "USER_DIRECTED_RECTANGULAR_PURPLE_FINAL",
+  "original": "C:/Users/User/.codex/generated_images/01a1a9e5-287f-74a0-8392-9bff42671119/exec-a4714749-2b0a-422e-aca5-242623af4e22.png",
+  "userInstruction": "사각형 팩 디자인은 유지하면서 만들어 보라색느낌으로 니가 만든거 넣으면 되겠네",
+  "reference": "../reversecall-streamer-20261105-v3/pack-source.png",
+  "createdAt": "2026-11-05T04:37:27.162Z",
+  "metadata": {
+    "width": 948,
+    "height": 1659,
+    "hasAlpha": true
+  },
+  "files": {
+    "pack-source.png": {
+      "sha256": "eaad01d4ffcb6f2438bcbd959e33b5b86a5f8f2eb82ce97e817f3d7c75f9fe4d",
+      "bytes": 2369360
+    },
+    "prompt.txt": {
+      "sha256": "db7b5ca1bae5f10830634715699d40889d9b83cc1ac2f69be96f806fd772921b",
+      "bytes": 2117
+    },
+    "pack-320.webp": {
+      "sha256": "8c7727630eaf52873898f091c0c64dd0462100c592bd4bb45e364582c3b5068b",
+      "bytes": 68026
+    },
+    "pack-768.webp": {
+      "sha256": "f2dad594898d7540754abe15385a306f42db029d92115e2673a4552a4fd2d06f",
+      "bytes": 250210
+    }
+  }
+}
