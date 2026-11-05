@@ -18,6 +18,7 @@ button{font:inherit;color:#f5dfab;border:1px solid #88704b;background:#1c2938;pa
 .cast-controls{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;margin:14px 0}
 .cast-controls button[aria-pressed=true]{background:#dfc996;color:#162031;border-color:#fde8b7}
 .cast-controls span{font-size:14px;color:#aebecb}.cast-controls [data-cast]{color:#e5edf7;border-color:#4c6070}
+.playback-controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:14px 0}.playback-controls label{display:flex;align-items:center;gap:7px;color:#b6c8da}.playback-controls input{width:18px;height:18px}.playback-controls small{margin-left:auto}#swordplay-film{aspect-ratio:1440/858}
 .showcase nav{margin:10px 0 14px}.archive{margin-top:14px}.archive>summary{font-size:18px}
 </style>
 <main>
@@ -25,7 +26,8 @@ button{font:inherit;color:#f5dfab;border:1px solid #88704b;background:#1c2938;pa
 <h1>하쿠야 신 · 흑백 검기</h1>
 <p>먹빛 검기와 은백색 칼바람이 몸을 앞뒤로 감쌉니다. 몸통을 중심으로 흐르며 허리와 발목을 휘감고, 네 가지 검성 스킬과 함께 움직입니다.</p>
 <nav><a href="/?case=whitecoat-squad">V3 전장에서 직접 시전</a><a href="/?case=whitecoat-squad-enemy">반대 진영에서 시전</a><a href="portrait-20261105/hakuya-shin-moonlit-courtyard-v1.png">배경 포함 일러스트</a></nav>
-<video id="swordplay-film" controls playsinline preload="metadata" poster="aura-v2/qa/idle-stage.png" src="aura-v2/qa/four-skills.webm" data-directory="aura-v2/qa/" data-first-cast="aura_idle" aria-label="몸을 감싸는 흑백 검기와 네 가지 검성 스킬"></video>
+<video id="swordplay-film" controls playsinline muted autoplay loop preload="auto" poster="aura-v2/qa/idle-stage.png" data-directory="aura-v2/qa/" data-playback-directory="aura-v2/playback/" data-first-cast="aura_idle" aria-label="몸을 감싸는 흑백 검기와 네 가지 검성 스킬"><source src="aura-v2/playback/four-skills.mp4" type="video/mp4"><source src="aura-v2/qa/four-skills.webm" type="video/webm"></video>
+<div class="playback-controls"><button id="play-toggle" type="button">재생</button><button id="play-restart" type="button">처음부터</button><label><input id="play-loop" type="checkbox" checked>반복 재생</label><small id="playback-status" role="status">영상을 불러오는 중입니다.</small></div>
 <div class="cast-controls" aria-label="영상 선택"><button data-film="four-skills.webm" aria-pressed="true">정상 재생</button><button data-film="four-skills-half.webm" aria-pressed="false">0.5배 검수</button><button data-film="four-skills-body.webm" aria-pressed="false">효과 OFF</button></div>
 <div class="cast-controls" aria-label="기술별 재생"><button data-cast="aura_idle">흑백 검기</button><span>일반</span><button data-cast="skill_flash">절광발도</button><button data-cast="skill_thrust">삼첩관통</button><span>광역</span><button data-cast="skill_wheel">회천검압</button><button data-cast="skill_rain">만검낙성</button></div>
 <p id="casting" role="status">흑백 검기 · 먹빛과 은백색 기운이 몸통을 중심으로 앞뒤를 감쌉니다.</p>
@@ -59,6 +61,6 @@ button{font:inherit;color:#f5dfab;border:1px solid #88704b;background:#1c2938;pa
 <!-- whitecoat-overview.png: retained original review-server readiness marker -->
 </details>
 </main>
-<script type="module" src="swordplay-v5/review.mjs"></script>
+<script type="module" src="swordplay-v5/review.mjs?v=playback-20261105"></script>
 <script>const videos=[...document.querySelectorAll('video')];for(const v of videos)v.addEventListener('play',()=>{for(const other of videos)if(other!==v)other.pause();});for(const button of document.querySelectorAll('[data-rate]'))button.onclick=()=>{const rate=Number(button.dataset.rate);for(const v of videos)v.playbackRate=rate;document.querySelector('#rate-status').textContent='영상 '+rate+'배속 · 한 영상씩 재생';};</script>
 </html>

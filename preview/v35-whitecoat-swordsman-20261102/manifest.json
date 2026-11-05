@@ -1883,8 +1883,8 @@
     },
     {
       "path": "aura-v2/manifest.json",
-      "bytes": 23636,
-      "sha256": "d446170579e0e06dfa8ec040369d40b5e460592290c7c0e38cc3f6df20dc9ef4"
+      "bytes": 25825,
+      "sha256": "260787ac8fcfb1a4cbc0fd00400360b01faed4eae42ba5adc94fe5d5d900e792"
     },
     {
       "path": "aura-v2/native/ink-front-initial.efk",
@@ -2042,9 +2042,29 @@
       "sha256": "a11808ad8d7f33f73de6cba60b5428c8e470e70ae60f236e5ccf4cb92d6a1613"
     },
     {
+      "path": "aura-v2/playback/four-skills-body.mp4",
+      "bytes": 5795111,
+      "sha256": "e8387f4c28599caccf147b181999c16ea904e17295a2bd6b9bdae140bb96bbd2"
+    },
+    {
+      "path": "aura-v2/playback/four-skills-half.mp4",
+      "bytes": 9372228,
+      "sha256": "3e7fbfe536de9e4bcf2037881a7bbc2cdb2fa5d81f97ed8e175d73131f26fe40"
+    },
+    {
+      "path": "aura-v2/playback/four-skills.mp4",
+      "bytes": 7275209,
+      "sha256": "cd01a7e8f25081afc7a07fc19c56d964b629855421f7e6f427ce380befa893c2"
+    },
+    {
+      "path": "aura-v2/playback/manifest.json",
+      "bytes": 3101,
+      "sha256": "c7cbedce5357dfec1625cc66e34b1685727fcc9a8ba0ec9641a573a3c4acbc12"
+    },
+    {
       "path": "aura-v2/PROJECT.md",
-      "bytes": 4134,
-      "sha256": "ce6415dbd71c4462942e5b65dbd9f1e1b3f0be7aa43afd31c78320d995163c3a"
+      "bytes": 5862,
+      "sha256": "0809f4039cd7cc7cc9a488687e84985df449f3af42fe73a52ca36a0e5e8d738b"
     },
     {
       "path": "aura-v2/qa/aura-early.png",
@@ -2110,6 +2130,46 @@
       "path": "aura-v2/qa/native.json",
       "bytes": 3677,
       "sha256": "a439cecc9a7d3657437af748c894557bb622a68793e3d0a37652ca35bf2d158b"
+    },
+    {
+      "path": "aura-v2/qa/playback-fix/before.json",
+      "bytes": 104,
+      "sha256": "1bd53d9322f96a6415b13c4565daf405d7071d0f8d96210468dbbcd646669e98"
+    },
+    {
+      "path": "aura-v2/qa/playback-fix/chrome-before.png",
+      "bytes": 866240,
+      "sha256": "78e75891b4bf9169a29fec27a4f161de74e2aee3bdab6932dfa512c73a712eac"
+    },
+    {
+      "path": "aura-v2/qa/playback-fix/convert.mjs",
+      "bytes": 2065,
+      "sha256": "7deb3b2576529f5b5f7840ad1a75d319332d2d02d6b01d9e7c442b0f6664deda"
+    },
+    {
+      "path": "aura-v2/qa/playback-fix/review-1440.png",
+      "bytes": 1004716,
+      "sha256": "927777934947c5cdacda115a3659d9d46576156224affac1755d4cdc501a6bd9"
+    },
+    {
+      "path": "aura-v2/qa/playback-fix/review-390.png",
+      "bytes": 142503,
+      "sha256": "3c52a76b4a9d3514bd8a8af9da63778b0c913dd4535919d23cfd6dc5a8accf64"
+    },
+    {
+      "path": "aura-v2/qa/playback-fix/source-at-5s.png",
+      "bytes": 1925343,
+      "sha256": "9d4458e064cb195fc241e8a226d8c4a66d0a7b8d6d022096f91ad96b96484797"
+    },
+    {
+      "path": "aura-v2/qa/playback-fix/verification.json",
+      "bytes": 8660,
+      "sha256": "e5ade19207ecbf5c887210b4950e87e34fb3e327f85286ed0d94fa701b3e594a"
+    },
+    {
+      "path": "aura-v2/qa/playback-fix/verify.mjs",
+      "bytes": 6108,
+      "sha256": "79ad4a30357f9ba62c2f516068fdf218a6817596f0baf07eefef8b336b85a5d1"
     },
     {
       "path": "aura-v2/qa/record.mjs",
@@ -3823,8 +3883,8 @@
     },
     {
       "path": "PROJECT.md",
-      "bytes": 23832,
-      "sha256": "bebdb8dbbce27c46fb05ef0975ac94de0f9535138776bf89cdadf53a7558b4af"
+      "bytes": 24197,
+      "sha256": "c19ce00585608fb28fa93b4da4afd1591d51f2327a9f77014471163004efc396"
     },
     {
       "path": "qa/art-compare.json",
@@ -4623,8 +4683,8 @@
     },
     {
       "path": "review.html",
-      "bytes": 8601,
-      "sha256": "0c8d058c61b0844722e2c5a7dffbffd8fa95d07c1dc21c066dffa5d445c2d9ad"
+      "bytes": 9381,
+      "sha256": "cecdfeccf2457a8aa50d0387c126229b182de6857a8e46fa9091bacf0cc14f26"
     },
     {
       "path": "runtime-action-v3-93718185df11/whitecoat-action-v3-93718185df11_2.png",
@@ -8083,8 +8143,8 @@
     },
     {
       "path": "swordplay-v5/review.mjs",
-      "bytes": 2441,
-      "sha256": "761521f42632e873ebad65efa37811a95a428a88827ac1e58ab37acefbdf2e62"
+      "bytes": 4630,
+      "sha256": "ad68ae94e1b0c367f8bdbbc2d78cc94a0502932c5eef47eb01e9e58d68b8e9b5"
     },
     {
       "path": "swordplay-v5/skills.mjs",
@@ -8142,7 +8202,7 @@
       "sha256": "b7bac9cd950efbdf1c511dd21c838cf49e3af0582c4e3ffdfd34f6f79d32be25"
     }
   ],
-  "totalBytes": 768017202,
+  "totalBytes": 794425841,
   "swordTrailUpdate": {
     "plugin": "Runway",
     "delivery": "qa/sword-trail/delivery.json",
@@ -8198,5 +8258,12 @@
     "type": "body-centred black-ink and pearl-white painted aura",
     "stage": "local V3 review",
     "source": "aura-v2/PROJECT.md"
+  },
+  "reviewPlayback": {
+    "date": "2026-11-05",
+    "format": "H.264 MP4 with original WebM fallback",
+    "iABVisiblePlaybackObserved": true,
+    "relatedChecks": 56,
+    "productionDeployment": false
   }
 }

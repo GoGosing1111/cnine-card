@@ -1,0 +1,335 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "1440/four-skills.webm decodes visible frames and advances",
+      "pass": true,
+      "detail": {
+        "src": "http://127.0.0.1:18766/preview/v35-whitecoat-swordsman-20261102/aura-v2/playback/four-skills.mp4",
+        "time": 0.2093,
+        "duration": 11.216667,
+        "paused": false,
+        "ended": false,
+        "frames": 37,
+        "min": 0,
+        "max": 255,
+        "std": 29.989452156906268,
+        "meanAlpha": 255
+      }
+    },
+    {
+      "name": "1440/four-skills.webm/aura_idle seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "1440/four-skills.webm/skill_flash seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "1440/four-skills.webm/skill_thrust seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "1440/four-skills.webm/skill_wheel seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "1440/four-skills.webm/skill_rain seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "1440/four-skills-half.webm decodes visible frames and advances",
+      "pass": true,
+      "detail": {
+        "src": "http://127.0.0.1:18766/preview/v35-whitecoat-swordsman-20261102/aura-v2/playback/four-skills-half.mp4",
+        "time": 0.1605,
+        "duration": 14.75,
+        "paused": false,
+        "ended": false,
+        "frames": 14,
+        "min": 0,
+        "max": 255,
+        "std": 29.48243973689997,
+        "meanAlpha": 255
+      }
+    },
+    {
+      "name": "1440/four-skills-half.webm/aura_idle seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "1440/four-skills-half.webm/skill_flash seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "1440/four-skills-half.webm/skill_thrust seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "1440/four-skills-half.webm/skill_wheel seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "1440/four-skills-half.webm/skill_rain seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "1440/four-skills-body.webm decodes visible frames and advances",
+      "pass": true,
+      "detail": {
+        "src": "http://127.0.0.1:18766/preview/v35-whitecoat-swordsman-20261102/aura-v2/playback/four-skills-body.mp4",
+        "time": 0.1601,
+        "duration": 11.233333,
+        "paused": false,
+        "ended": false,
+        "frames": 15,
+        "min": 0,
+        "max": 253.33333333333334,
+        "std": 28.13553436401313,
+        "meanAlpha": 255
+      }
+    },
+    {
+      "name": "1440/four-skills-body.webm/aura_idle seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "1440/four-skills-body.webm/skill_flash seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "1440/four-skills-body.webm/skill_thrust seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "1440/four-skills-body.webm/skill_wheel seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "1440/four-skills-body.webm/skill_rain seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "1440 pause freezes playback",
+      "pass": true,
+      "detail": {
+        "stopped": 0.0198,
+        "after": 0.0198
+      }
+    },
+    {
+      "name": "1440 resume advances",
+      "pass": true
+    },
+    {
+      "name": "1440 end keeps a visible frame",
+      "pass": true,
+      "detail": {
+        "src": "http://127.0.0.1:18766/preview/v35-whitecoat-swordsman-20261102/aura-v2/playback/four-skills.mp4",
+        "time": 11.216667,
+        "duration": 11.216667,
+        "paused": true,
+        "ended": true,
+        "frames": 186,
+        "min": 0,
+        "max": 255,
+        "std": 29.855284762756607,
+        "meanAlpha": 255
+      }
+    },
+    {
+      "name": "1440 restart after end returns to beginning",
+      "pass": true
+    },
+    {
+      "name": "1440 repeat resumes from beginning",
+      "pass": true
+    },
+    {
+      "name": "1440 page fits and has no script errors",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "390/four-skills.webm decodes visible frames and advances",
+      "pass": true,
+      "detail": {
+        "src": "http://127.0.0.1:18766/preview/v35-whitecoat-swordsman-20261102/aura-v2/playback/four-skills.mp4",
+        "time": 0.163,
+        "duration": 11.216667,
+        "paused": false,
+        "ended": false,
+        "frames": 41,
+        "min": 0,
+        "max": 255,
+        "std": 29.934340701377117,
+        "meanAlpha": 255
+      }
+    },
+    {
+      "name": "390/four-skills.webm/aura_idle seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "390/four-skills.webm/skill_flash seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "390/four-skills.webm/skill_thrust seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "390/four-skills.webm/skill_wheel seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "390/four-skills.webm/skill_rain seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "390/four-skills-half.webm decodes visible frames and advances",
+      "pass": true,
+      "detail": {
+        "src": "http://127.0.0.1:18766/preview/v35-whitecoat-swordsman-20261102/aura-v2/playback/four-skills-half.mp4",
+        "time": 0.159,
+        "duration": 14.75,
+        "paused": false,
+        "ended": false,
+        "frames": 14,
+        "min": 0,
+        "max": 255,
+        "std": 29.48243973689997,
+        "meanAlpha": 255
+      }
+    },
+    {
+      "name": "390/four-skills-half.webm/aura_idle seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "390/four-skills-half.webm/skill_flash seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "390/four-skills-half.webm/skill_thrust seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "390/four-skills-half.webm/skill_wheel seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "390/four-skills-half.webm/skill_rain seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "390/four-skills-body.webm decodes visible frames and advances",
+      "pass": true,
+      "detail": {
+        "src": "http://127.0.0.1:18766/preview/v35-whitecoat-swordsman-20261102/aura-v2/playback/four-skills-body.mp4",
+        "time": 0.1587,
+        "duration": 11.233333,
+        "paused": false,
+        "ended": false,
+        "frames": 15,
+        "min": 0,
+        "max": 253.33333333333334,
+        "std": 28.13553436401313,
+        "meanAlpha": 255
+      }
+    },
+    {
+      "name": "390/four-skills-body.webm/aura_idle seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "390/four-skills-body.webm/skill_flash seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "390/four-skills-body.webm/skill_thrust seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "390/four-skills-body.webm/skill_wheel seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "390/four-skills-body.webm/skill_rain seeks and plays",
+      "pass": true
+    },
+    {
+      "name": "390 pause freezes playback",
+      "pass": true,
+      "detail": {
+        "stopped": 0.02,
+        "after": 0.02
+      }
+    },
+    {
+      "name": "390 resume advances",
+      "pass": true
+    },
+    {
+      "name": "390 end keeps a visible frame",
+      "pass": true,
+      "detail": {
+        "src": "http://127.0.0.1:18766/preview/v35-whitecoat-swordsman-20261102/aura-v2/playback/four-skills.mp4",
+        "time": 11.216667,
+        "duration": 11.216667,
+        "paused": true,
+        "ended": true,
+        "frames": 186,
+        "min": 0,
+        "max": 255,
+        "std": 29.855284762756607,
+        "meanAlpha": 255
+      }
+    },
+    {
+      "name": "390 restart after end returns to beginning",
+      "pass": true
+    },
+    {
+      "name": "390 repeat resumes from beginning",
+      "pass": true
+    },
+    {
+      "name": "390 page fits and has no script errors",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "Playback does not depend on chapter JSON resolving",
+      "pass": true
+    },
+    {
+      "name": "Unavailable MP4 falls back to original recording",
+      "pass": true
+    },
+    {
+      "name": "four-skills.mp4 original preserved",
+      "pass": true
+    },
+    {
+      "name": "four-skills.mp4 served with video MIME and seek range",
+      "pass": true
+    },
+    {
+      "name": "four-skills-half.mp4 original preserved",
+      "pass": true
+    },
+    {
+      "name": "four-skills-half.mp4 served with video MIME and seek range",
+      "pass": true
+    },
+    {
+      "name": "four-skills-body.mp4 original preserved",
+      "pass": true
+    },
+    {
+      "name": "four-skills-body.mp4 served with video MIME and seek range",
+      "pass": true
+    }
+  ]
+}

@@ -236,8 +236,8 @@
     },
     {
       "path": "serve.mjs",
-      "bytes": 3964,
-      "sha256": "ce19758cb7ebbfaac265ff06b0b84d8cdb2131d4c281bcc4de87fa2b15e1102d"
+      "bytes": 3990,
+      "sha256": "ff1fe9d440b2ffb8d04db371cd8c54ecd75a51b1683b425a908568e903fb2500"
     },
     {
       "path": "SpineBattleAdapter.mjs",
@@ -315,5 +315,12 @@
     "type": "body-centred black-ink and pearl-white painted aura",
     "stage": "local V3 review",
     "source": "../v35-whitecoat-swordsman-20261102/aura-v2/PROJECT.md"
+  },
+  "reviewPlayback": {
+    "date": "2026-11-05",
+    "format": "H.264 MP4 with original WebM fallback",
+    "iABVisiblePlaybackObserved": true,
+    "relatedChecks": 56,
+    "productionDeployment": false
   }
 }
