@@ -1,6 +1,6 @@
-# 흰 코트 검사 · 검성 스킬 4종
+# 하쿠야 신 · 검성 스킬 4종
 
-2026-11-05 로컬 V3.5 검수본. 흰 코트 검사의 기존 공격 모션을 2배속으로 재생하고, 네 기술에 별도 이펙트를 연결했다. [영상과 기술별 재생](../review.html) · [3인 상대 전장](http://127.0.0.1:18766/?case=whitecoat-squad)
+2026-11-05 로컬 V3.5 검수본. 하쿠야 신의 기존 공격 모션을 2배속으로 재생하고, 네 기술에 별도 이펙트를 연결했다. [영상과 기술별 재생](../review.html) · [3인 상대 전장](http://127.0.0.1:18766/?case=whitecoat-squad)
 
 | 스킬 | 대상 | 사용하는 Spine 동작 | 주요 효과 | 정상 재생 길이 |
 | --- | --- | --- | --- | --- |
@@ -15,7 +15,7 @@
 - ImageGen으로 검광 연속 작화 4시트 32장을 만들었다. [최초 프롬프트](art-prompts.json), [수정 프롬프트](art/revision-prompts.json), [원본 파일과 해시](art/generation.json)를 보존했다. 삼첩관통과 회천검압은 두 번째 시트를 채택했다. 순수 검술 방향으로 확정하기 전의 작화와 기술명은 이 버전에 사용하지 않았다.
 - [절광발도](effects/native/v5-flash.efkefc) · [삼첩관통](effects/native/v5-thrust.efkefc) · [회천검압](effects/native/v5-wheel.efkefc) · [만검낙성](effects/native/v5-rain.efkefc). Effekseer 1.70e에서 각 8장과 전환 타이밍을 편집할 수 있다. 보조 효과로 [강철 파편 46개](effects/native/v5-splinters.efkefc), [회전 검륜 테두리](effects/native/v5-rimlight.efkefc)를 제작했다. 검날 궤적의 기존 재질과 이전 Blender 착지 파편도 재사용한다.
 - 네 주 효과는 흰 날과 검은 단면을 유지하는 normal 합성을, 추가 파편과 검륜 테두리는 additive 합성을 사용한다. 6개 편집본의 재열기·재출력 바이너리가 일치했다. 공식 Effekseer WebGL로 60fps PNG 204장을 출력했다. 런타임은 빈 선행 프레임을 제거한 200개 프레임 참조와 고유 패킹 프레임 121개다. [PNG 아틀라스·피벗·해시](effects/runtime/fx-manifest.json). 신규 아틀라스 합계 6.94MiB, 디코드 39.60MiB다.
-- [이전에 지정 영상의 0.5배속에서 확인한 동작](../skills-v4/reference/analysis.json) 중 짧은 발검, 진행 방향이 읽히는 검흔, 타격 직후의 정지와 잔향을 참고했다. 이번 이펙트 원화는 흰 코트 검사에 맞춰 제작했다.
+- [이전에 지정 영상의 0.5배속에서 확인한 동작](../skills-v4/reference/analysis.json) 중 짧은 발검, 진행 방향이 읽히는 검흔, 타격 직후의 정지와 잔향을 참고했다. 이번 이펙트 원화는 하쿠야 신에 맞춰 제작했다.
 
 ## V3 재생과 검수
 

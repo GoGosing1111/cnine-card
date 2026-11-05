@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "width": 1440,
+      "actor": {
+        "name": "하쿠야 신",
+        "overflow": false,
+        "errors": []
+      }
+    },
+    {
+      "width": 1440,
+      "review": {
+        "title": "하쿠야 신 · 검성 스킬 4종",
+        "heading": "하쿠야 신 · 검성 스킬 4종",
+        "overflow": false,
+        "image": "portrait-20261105/hakuya-shin-moonlit-courtyard-v1.png"
+      }
+    },
+    {
+      "width": 390,
+      "actor": {
+        "name": "하쿠야 신",
+        "overflow": false,
+        "errors": []
+      }
+    },
+    {
+      "width": 390,
+      "review": {
+        "title": "하쿠야 신 · 검성 스킬 4종",
+        "heading": "하쿠야 신 · 검성 스킬 4종",
+        "overflow": false,
+        "image": "portrait-20261105/hakuya-shin-moonlit-courtyard-v1.png"
+      }
+    }
+  ],
+  "illustrationHttp": 200,
+  "physicalDevice": false
+}

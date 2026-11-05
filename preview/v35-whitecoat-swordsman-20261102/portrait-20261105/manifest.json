@@ -1,0 +1,19 @@
+{
+  "characterName": "하쿠야 신",
+  "namedBy": "user",
+  "nameConfirmedAt": "2026-11-05",
+  "file": "hakuya-shin-moonlit-courtyard-v1.png",
+  "width": 1024,
+  "height": 1536,
+  "bytes": 2743094,
+  "sha256": "813d9d05b870848b1c9a0b00345f37720d57354c67a8da368010c72aa0aad604",
+  "source": "C:/Users/User/.codex/generated_images/01a19660-79fe-7861-8630-c01a2bd2c294/exec-ea1ab1d3-85f7-4317-b4d7-056be66decd4.png",
+  "tool": "built-in ImageGen",
+  "prompt": "prompt.txt",
+  "reference": "../source/approved-illustration.png",
+  "referenceSha256": "2e0c6fbf95ba10dcafbddd1435c88f16590e9594206ad3f5053665b9aac627a1",
+  "artDirection": "단독 전신 기준 1에 달빛 궁성 석조 뜰 배경 추가",
+  "approval": "new-background-illustration-for-review",
+  "finalVisualApproval": false,
+  "productionDeployment": false
+}

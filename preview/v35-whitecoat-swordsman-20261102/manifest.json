@@ -2332,6 +2332,11 @@
       "sha256": "054faf30c48edd66d90db507ab890e9389c9f48b5a5d2aa5a5e22a6965ed70f8"
     },
     {
+      "path": "identity.json",
+      "bytes": 417,
+      "sha256": "79eb41c3309c4b77d82a6d8764a2be4dc8bc6c19427376af5e7c9a64221e8d86"
+    },
+    {
       "path": "images/contact.png",
       "bytes": 581068,
       "sha256": "423aa1a0f01ef556cb71d5e5ff27fc42ffde8305632d4a8cc43b1648bf325de4"
@@ -2492,6 +2497,26 @@
       "sha256": "d86070d39abba57824c80c32cf59e15519dd9fe1dcaecbff52fdfc4de7d447de"
     },
     {
+      "path": "portrait-20261105/hakuya-shin-moonlit-courtyard-v1.png",
+      "bytes": 2743094,
+      "sha256": "813d9d05b870848b1c9a0b00345f37720d57354c67a8da368010c72aa0aad604"
+    },
+    {
+      "path": "portrait-20261105/manifest.json",
+      "bytes": 823,
+      "sha256": "f7ef39327d739a4cfa27cc8a19c710fb96f70fe863b152414a1fb2d802bdb6f8"
+    },
+    {
+      "path": "portrait-20261105/prompt.txt",
+      "bytes": 2441,
+      "sha256": "666afb9491c0ed37a8474e85356b04e8a7963a9f809af29325115b18712bb85e"
+    },
+    {
+      "path": "portrait-20261105/verification.json",
+      "bytes": 921,
+      "sha256": "afb72eb63112a8ef8d892033ca31230873d8ee8da31b7697c9f744bd172460e4"
+    },
+    {
       "path": "pose-registration.json",
       "bytes": 9317,
       "sha256": "57eab05dc3a99020b2f81ea4c87fafc18c4d82b48d32c149c18f78db3b52a15f"
@@ -2503,8 +2528,8 @@
     },
     {
       "path": "PROJECT.md",
-      "bytes": 22104,
-      "sha256": "6d954ebc050976226ff29232b4b5e630fff804c9dcd70f647f43fb9958e9f97b"
+      "bytes": 22519,
+      "sha256": "0c192cb9953011fab5edde13aee664f41cf9f0eefcf7b39c0215bc4defe28c94"
     },
     {
       "path": "qa/art-compare.json",
@@ -3303,8 +3328,8 @@
     },
     {
       "path": "review.html",
-      "bytes": 8363,
-      "sha256": "1982ae3fb5cc39be49c52c59186cfaeff26e30423d460f8be2969deb21c746d6"
+      "bytes": 8450,
+      "sha256": "9a85743d1ba596c3483883acb3e130f34dfbf20399e3f0353c178a9400b63ad3"
     },
     {
       "path": "runtime-action-v3-93718185df11/whitecoat-action-v3-93718185df11_2.png",
@@ -6663,8 +6688,8 @@
     },
     {
       "path": "swordplay-v5/PROJECT.md",
-      "bytes": 5487,
-      "sha256": "fbf187de9353907f5a49145cffda23c4a2d04f31aecdf5bafd5c60dc35196ba2"
+      "bytes": 5475,
+      "sha256": "fb9974fbd85f903f831f99ed4133994b371b2e079ef56faa11525409b50efa16"
     },
     {
       "path": "swordplay-v5/qa/delivery.json",
@@ -6822,7 +6847,7 @@
       "sha256": "b999f2ff2bd7cc0c90c4024504636561b4b3419478782690a558f684b88315e9"
     }
   ],
-  "totalBytes": 622022266,
+  "totalBytes": 624770452,
   "swordTrailUpdate": {
     "plugin": "Runway",
     "delivery": "qa/sword-trail/delivery.json",
@@ -6865,5 +6890,11 @@
     "normal": 2,
     "area": 2,
     "newEffekseerEffects": 6
+  },
+  "characterIdentity": {
+    "name": "하쿠야 신",
+    "namedBy": "user",
+    "date": "2026-11-05",
+    "portrait": "portrait-20261105/hakuya-shin-moonlit-courtyard-v1.png"
   }
 }

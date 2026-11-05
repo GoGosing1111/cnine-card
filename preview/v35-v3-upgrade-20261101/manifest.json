@@ -36,8 +36,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 4378,
-      "sha256": "e01a0fbdc19c7b162eb56571157af632336fa9b7ab59af4c948ef250ee34f44e"
+      "bytes": 4399,
+      "sha256": "31cad98616328541f44829410eb0ff1bca1501e0bf2613893115ce76514e9154"
     },
     {
       "path": "PROJECT.md",
@@ -251,13 +251,13 @@
     },
     {
       "path": "workbench.bundle.js",
-      "bytes": 3330463,
-      "sha256": "79fad5f01cc58ac43458e62257fda73b753ae9da3b6943a95fe3568de7fdb4b8"
+      "bytes": 3330455,
+      "sha256": "6b0042a2d68085da55840814faeff4c3c0a667feeae9b19864be643c553a6848"
     },
     {
       "path": "workbench.src.mjs",
-      "bytes": 10182,
-      "sha256": "c2d5a68c4557357e60405a7dfd31298db0212c36a47e55cbe10ad99e037a0965"
+      "bytes": 10177,
+      "sha256": "633cdb33683d00a7c8ac969fdb5089ccdaadf9f4d6ad4e415e369c6435004bfb"
     }
   ],
   "swordTrailUpdate": {
@@ -302,5 +302,11 @@
     "normal": 2,
     "area": 2,
     "newEffekseerEffects": 6
+  },
+  "characterIdentity": {
+    "name": "하쿠야 신",
+    "namedBy": "user",
+    "date": "2026-11-05",
+    "portrait": "../v35-whitecoat-swordsman-20261102/portrait-20261105/hakuya-shin-moonlit-courtyard-v1.png"
   }
 }
