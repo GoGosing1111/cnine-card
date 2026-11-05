@@ -1,3 +1,4 @@
+import {ensureCnineStreamerBoxCatalog} from '../functions/_cnine_streamer_box.js';
 import {ensurePrimeMaterialCatalog} from '../functions/_mercenary_prime_material.js';
 import {readCommittedAssetSync,statCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import {ensureSigHunterBoxCatalog} from '../functions/_sig_hunter_box.js';
@@ -27,7 +28,7 @@ const api=readCommittedAssetSync(new URL('../functions/api/[[path]].js',import.m
 const body=api.slice(api.indexOf("    if(path==='inventory'){"),api.indexOf("    if(path==='inventory/seen'"));
 assert(body.includes('ensureForgeProtectionCatalog'));
 const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
-const inventoryRoute=new AsyncFunction('deps',`const {env,request,authenticate,json,ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM,ensureForgeScrollCatalog,ensureEmperorEnergyCatalog,ensurePetOpeningItems,ensurePetPotentialItem,LICH_TICKET,MADARA_TICKET,presentMiracleInventory,ensureWormContestGiftCatalog,ensureMercenarySssShardCatalog,ensureSssRerollCatalog,presentSssRerollInventory,presentSssCubeInventory,ensureLimitedShardCatalog,ensureSigHunterBoxCatalog,ensurePrimeMaterialCatalog}=deps;
+const inventoryRoute=new AsyncFunction('deps',`const {env,request,authenticate,json,ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM,ensureForgeScrollCatalog,ensureEmperorEnergyCatalog,ensurePetOpeningItems,ensurePetPotentialItem,LICH_TICKET,MADARA_TICKET,presentMiracleInventory,ensureWormContestGiftCatalog,ensureMercenarySssShardCatalog,ensureSssRerollCatalog,presentSssRerollInventory,presentSssCubeInventory,ensureLimitedShardCatalog,ensureSigHunterBoxCatalog,ensurePrimeMaterialCatalog,ensureCnineStreamerBoxCatalog}=deps;
 const path='inventory',ensureReversecallStreamerGiftCatalog=async()=>{},ensureTournamentGiftCatalog=async()=>{},ensureFundingGiftCatalog=async()=>{},ensureRecruitmentGiftCatalog=async()=>{},ensurePingduThanksGiftCatalog=async()=>{},ensureSkillChipFoundation=async()=>{},ensureBattleSuitCoreCatalog=async()=>{},ensureUniqueAdvancementPassCatalog=async()=>{},ensureMysticEnergyCatalog=async()=>{},blackMiracleSettings=async()=>({enabled:false}),UNIQUE_ADVANCEMENT_PASS_CODE='UNIQUE_ADVANCEMENT_PASS';${body}`);
 
 for(const postgres of [false,true]){
@@ -63,7 +64,7 @@ for(const postgres of [false,true]){
     else f.DB.sql.exec('ALTER TABLE inventory_items ADD COLUMN updated_at TEXT');
     await f.p('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(7,?,3,1)',FORGE_PROTECTION_ITEM.code).run();
     await f.p('INSERT INTO cnine_user_inventory(user_id,item_code,quantity) VALUES(8,?,99)',FORGE_PROTECTION_ITEM.code).run();
-    const deps={env:f.env,request:new Request('https://qa.test/api/inventory'),authenticate:async()=>f.user,json:(body,status=200)=>({body,status}),ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM,ensureForgeScrollCatalog,ensureEmperorEnergyCatalog,ensurePetOpeningItems,ensurePetPotentialItem,LICH_TICKET,MADARA_TICKET,presentMiracleInventory,ensureWormContestGiftCatalog,ensureMercenarySssShardCatalog,ensureSssRerollCatalog,presentSssRerollInventory,presentSssCubeInventory,ensureLimitedShardCatalog,ensureSigHunterBoxCatalog,ensurePrimeMaterialCatalog};
+    const deps={env:f.env,request:new Request('https://qa.test/api/inventory'),authenticate:async()=>f.user,json:(body,status=200)=>({body,status}),ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM,ensureForgeScrollCatalog,ensureEmperorEnergyCatalog,ensurePetOpeningItems,ensurePetPotentialItem,LICH_TICKET,MADARA_TICKET,presentMiracleInventory,ensureWormContestGiftCatalog,ensureMercenarySssShardCatalog,ensureSssRerollCatalog,presentSssRerollInventory,presentSssCubeInventory,ensureLimitedShardCatalog,ensureSigHunterBoxCatalog,ensurePrimeMaterialCatalog,ensureCnineStreamerBoxCatalog};
     const response=await inventoryRoute(deps),item=response.body.items.find(item=>item.code===FORGE_PROTECTION_ITEM.code);
     assert.equal(response.status,200);assert.equal(item.quantity,3);assert.equal(item.unseenQuantity,1);assert.equal(item.image,FORGE_PROTECTION_ITEM.image);assert.equal(item.usable,false);assert.match(item.useDisabledMessage,/장비 강화/);
     assert.equal(await f.qty(FORGE_PROTECTION_ITEM.code),3);assert.equal(await f.coin(),10000000);
