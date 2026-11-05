@@ -4,12 +4,14 @@ import {AUCTION_TICKET,AUCTION_ASSET_TYPES} from '../shared/auction-user-policy-
 import {RANKED_SERIES_RULES} from '../shared/ranked-series-v1.mjs';
 import {COMPANION_RELEASE} from '../shared/companion-loadout-v2.mjs';
 import {mercenaryModeAllowed} from '../shared/mercenary-eunseol-v1.mjs';
+import {PET_LOADOUT_MODES,petSlotForMode} from '../shared/pet-equipment-v1.mjs';
 
 const fail=message=>{throw Object.assign(Error(message),{status:409})};
 const parse=raw=>raw==null?null:JSON.parse(raw);
 const contains=(value,ref)=>Array.isArray(value)?value.some(v=>contains(v,ref)):value&&typeof value==='object'?Object.values(value).some(v=>contains(v,ref)):String(value)===String(ref);
 export function auctionMetaSelectionContains(kind,key,value,ref){
- const selected=kind==='PET'?value?.petCode:kind==='EQUIPMENT'?value?.slots:key.startsWith('ranked_series_roster_')?value?.codes:key.startsWith('mercenary_dual_')?[value?.PVE?.mercenaryCodes,value?.PVP?.mercenaryCodes]:value?.mercenaryCode;
+ if(kind==='PET')return key.startsWith('pet_loadout_v1:')&&PET_LOADOUT_MODES.some(mode=>petSlotForMode(value,mode).petCode===ref);
+ const selected=kind==='EQUIPMENT'?value?.slots:key.startsWith('ranked_series_roster_')?value?.codes:key.startsWith('mercenary_dual_')?[value?.PVE?.mercenaryCodes,value?.PVP?.mercenaryCodes]:value?.mercenaryCode;
  return selected!=null&&contains(selected,ref);
 }
 export function auctionMercenarySelected(legacy,pvp,dual,ranked,ref){

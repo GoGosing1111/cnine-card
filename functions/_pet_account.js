@@ -5,6 +5,7 @@ import {petCollectionKey,petLoadoutKey,petPotentialKey,PET_MAGNET} from '../shar
 import {readPetCms} from './_pet_companion_cms.js';
 import {readSupportBenefits} from './_supporter_benefits.js';
 import {readPetRentals,petOwnershipProjection} from './_pet_rental.js';
+import {petSlotForMode,validatePetLoadoutRecord} from '../shared/pet-equipment-v1.mjs';
 
 export async function readPetRecord(env,key,fallback){
   const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first();
@@ -25,8 +26,8 @@ export async function readPetPotentials(env,userId){
   return record;
 }
 export async function readPetLoadout(env,userId){
-  const record=await readPetRecord(env,petLoadoutKey(userId),{revision:0,petCode:null,audit:[]}),s=record.state;
-  if(!Number.isSafeInteger(s.revision)||s.revision<0||!Array.isArray(s.audit)||s.audit.length>50||s.petCode!==null&&!/^PET-[A-Z0-9-]{1,28}$/.test(s.petCode))throw Error('Invalid pet loadout');
+  const record=await readPetRecord(env,petLoadoutKey(userId),{revision:0,petCode:null,audit:[]});
+  validatePetLoadoutRecord(record.state);
   return record;
 }
 export function livePetDefinition(raw,mode){
@@ -40,10 +41,11 @@ export function livePetDefinition(raw,mode){
 export async function loadPetBattleSnapshot(env,user,mode='PVE'){
   if(!COMPANION_RELEASE.pets)return null;
   const userId=Number(user?.id??user);if(!Number.isSafeInteger(userId)||userId<1)return null;
-  const loadout=await readPetLoadout(env,userId);if(!loadout.state.petCode)return null;
+  const loadout=await readPetLoadout(env,userId),slot=petSlotForMode(loadout.state,mode);
+  if(!slot.petCode)return null;
   const [owned,potentials,cms,support]=await Promise.all([readPetOwnership(env,userId),readPetPotentials(env,userId),readPetCms(env),readSupportBenefits(env,userId)]);
-  if(!(owned.pets[loadout.state.petCode]>0))return null;
-  const definition=livePetDefinition(cms.state.document.pets.find(p=>p.code===loadout.state.petCode),mode);if(!definition)return null;
+  if(!(owned.pets[slot.petCode]>0))return null;
+  const definition=livePetDefinition(cms.state.document.pets.find(p=>p.code===slot.petCode),mode);if(!definition)return null;
   const permanentMagnet=potentials.state.pets[definition.code]?.potential===PET_MAGNET;
-  return {definition,magnet:permanentMagnet||support.active&&support.magnetPetCode===definition.code,cmsRevision:cms.state.revision,loadoutRevision:loadout.state.revision,ownerId:userId,...(owned.expiries[definition.code]?{expiresAt:owned.expiries[definition.code]}:{})};
+  return {definition,magnet:permanentMagnet||support.active&&support.magnetPetCode===definition.code,cmsRevision:cms.state.revision,loadoutRevision:slot.revision,ownerId:userId,...(owned.expiries[definition.code]?{expiresAt:owned.expiries[definition.code]}:{})};
 }

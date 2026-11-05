@@ -1,4 +1,4 @@
-import {mountPetEquipment} from '/onestore/js/pet-equipment-window-v1.mjs?v=20261101-pepegu-rental-v1';
+import {mountPetEquipment} from '/onestore/js/pet-equipment-window-v1.mjs?v=20261105-pet-modes';
 mountPetEquipment(document.getElementById('pet-codex'),{codex:true});
 for(const [src,attributes] of [
  ['/onestore/js/soopketmon-v21-exact-shell-adapter.js?v=20261009-pet-codex',{enabled:'false'}],

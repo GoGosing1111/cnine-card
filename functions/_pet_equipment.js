@@ -1,7 +1,7 @@
 import {ZERO_REWARD_BONUSES,REWARD_BONUS_LABELS} from '../shared/collection-bonuses-v1.mjs';
 import {COMPANION_RELEASE} from '../shared/companion-loadout-v2.mjs';
 import {PET_ART_CATALOG} from '../shared/pet-art-catalog-v1.mjs';
-import {PET_EQUIPMENT_RULES,petReviewKey,validatePetEquipmentSave,validateOwnedPetSelection} from '../shared/pet-equipment-v1.mjs';
+import {PET_EQUIPMENT_RULES,PET_LOADOUT_MODES,petReviewKey,petSlotForMode,validatePetLoadoutRecord,validatePetEquipmentSave,validateOwnedPetSelection} from '../shared/pet-equipment-v1.mjs';
 import {PET_BUFF_TYPES,PET_BUFF_TARGETS,petReadiness} from '../shared/pet-cms-v1.mjs';
 import {readPetCms} from './_pet_companion_cms.js';
 import {readPetOwnership,readPetLoadout,livePetDefinition} from './_pet_account.js';
@@ -25,16 +25,23 @@ async function readReview(env,owner){
   const key=petReviewKey(owner.id),row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first();
   if(!row)return {key,raw:null,state:{revision:0,petCode:null,audit:[]}};
   const state=JSON.parse(row.value);
-  if(!Number.isSafeInteger(state.revision)||state.revision<1||!Array.isArray(state.audit)||state.audit.length>50||state.petCode!==null&&!/^PET-[A-Z0-9-]{1,28}$/.test(state.petCode))throw Error('Invalid pet equipment review');
+  validatePetLoadoutRecord(state);
+  if(state.revision<1)throw Error('Invalid pet equipment review');
   return {key,raw:row.value,state};
 }
-const closedState=()=>({version:1,available:false,reviewOnly:false,canEquip:false,release:COMPANION_RELEASE,rules:PET_EQUIPMENT_RULES,cards:[],ownedCount:0,loadout:{petCode:null,revision:0},message:'펫 시스템을 준비하고 있습니다. 획득·장착·실전 버프는 추후 공개됩니다.'});
+const closedState=()=>({version:1,available:false,reviewOnly:false,canEquip:false,release:COMPANION_RELEASE,rules:PET_EQUIPMENT_RULES,cards:[],ownedCount:0,
+  loadout:petSlotForMode(null,'PVE'),loadouts:{PVE:petSlotForMode(null,'PVE'),PVP:petSlotForMode(null,'PVP')},message:'펫 시스템을 준비하고 있습니다. 획득·장착·실전 버프는 추후 공개됩니다.'});
 function output(cms,record,catalog,{review=true,potential=null,userId=null}={}){
-  const present=catalog.some(row=>row.code===record.state.petCode&&row.owned);
+  const available=new Set(catalog.filter(row=>row.owned).map(row=>row.code)),loadouts={},orphanedModes={};
+  for(const mode of PET_LOADOUT_MODES){
+    const slot=petSlotForMode(record.state,mode);
+    orphanedModes[mode]=Boolean(slot.petCode&&!available.has(slot.petCode));
+    loadouts[mode]={petCode:orphanedModes[mode]?null:slot.petCode,revision:slot.revision};
+  }
   return {version:1,userId,serverNow:Date.now(),available:true,reviewOnly:review,canEquip:true,release:COMPANION_RELEASE,rules:PET_EQUIPMENT_RULES,potential,
     petCmsRevision:cms.state.revision,rewardBonusLabels:REWARD_BONUS_LABELS,buffTypes:PET_BUFF_TYPES,buffTargets:PET_BUFF_TARGETS,cards:catalog,ownedCount:catalog.filter(p=>p.owned).length,catalogCount:catalog.length,
-    loadout:{petCode:present?record.state.petCode:null,revision:record.state.revision},orphaned:Boolean(record.state.petCode&&!present),
-    message:review?'OWNER 장착 검수입니다. 검수용 선택만 저장하며 실제 보유권·계정 편성·전투에는 반영되지 않습니다.':'보유한 펫 1마리를 장착하면 다음 전투부터 시작 버프가 적용됩니다.'};
+    loadouts,orphanedModes,loadout:{petCode:loadouts.PVE.petCode,revision:record.state.revision},orphaned:orphanedModes.PVE,
+    message:review?'OWNER 장착 검수입니다. 검수용 선택만 저장합니다.':'PvE와 PvP에 각각 펫 한 마리를 장착할 수 있습니다. 다음 전투부터 적용됩니다.'};
 }
 export async function handlePetEquipment({path,request,env,deps,locked=false}){
   const review=['admin/pets/equipment/state','admin/pets/equipment/loadout'].includes(path);
@@ -49,7 +56,7 @@ export async function handlePetEquipment({path,request,env,deps,locked=false}){
     if(!review&&!COMPANION_RELEASE.pets)return request.method==='GET'?reply(closedState()):reply({error:'펫 장착을 준비 중입니다.',code:'PET_EQUIPMENT_CLOSED',...closedState()},423);
     if(!review&&request.method==='POST'&&!locked&&deps.withUserMutationLock)return deps.withUserMutationLock(env,user.id,path,()=>handlePetEquipment({path,request,env,deps,locked:true}));
     let body;
-    if(request.method==='POST')try{body=validatePetEquipmentSave(await readJointBody(request,{fields:['petCode','expectedRevision','petCmsRevision','requestId']}));}
+    if(request.method==='POST')try{body=validatePetEquipmentSave(await readJointBody(request,{fields:['mode','petCode','expectedRevision','petCmsRevision','requestId']}));}
       catch(error){return reply({error:error.message,code:'PET_EQUIPMENT_BODY'},error.status||400);}
     if(!review)await ensurePetPotentialItem(env);
     const [cms,record,owned,potential]=await Promise.all([readPetCms(env),review?readReview(env,user):readPetLoadout(env,user.id),review?null:readPetOwnership(env,user.id),review?null:petPotentialState(env,user.id)]);
@@ -60,10 +67,17 @@ export async function handlePetEquipment({path,request,env,deps,locked=false}){
       ?reply({error:'같은 요청 번호에 다른 장착 내용이 포함되었습니다.',code:'PET_REQUEST_ID_CONFLICT'},409)
       :reply({...output(cms,{...record,state},catalog,options),savedRevision:receipt.revision,replayed:true});};
     const prior=replay(record.state);if(prior)return prior;
-    if(body.expectedRevision!==record.state.revision||body.petCmsRevision!==cms.state.revision)return reply({error:'다른 창에서 설정이 바뀌었습니다. 다시 불러와 주세요.',code:'PET_REVISION_CONFLICT'},409);
+    if(!body.mode&&record.state.pvp)return reply({error:'펫 편성이 분리되었습니다. 게임을 새로고침한 뒤 PvE 또는 PvP를 선택해 주세요.',code:'PET_MODE_REQUIRED'},409);
+    const current=petSlotForMode(record.state,body.mode??'PVE');
+    if(body.expectedRevision!==current.revision||body.petCmsRevision!==cms.state.revision)return reply({error:'다른 창에서 설정이 바뀌었습니다. 다시 불러와 주세요.',code:'PET_REVISION_CONFLICT'},409);
     try{validateOwnedPetSelection(body.petCode,{catalog,ownedCodes:catalog.filter(row=>row.owned).map(row=>row.code)});}catch(error){return reply({error:error.message,code:'PET_NOT_OWNED'},403);}
     const revision=record.state.revision+1,now=new Date().toISOString(),next={revision,petCode:body.petCode,updatedAt:now,
       audit:[{actorId:user.id,requestId:body.requestId,payloadHash,revision,createdAt:now},...record.state.audit].slice(0,50)};
+    if(body.mode){
+      const slots={PVE:petSlotForMode(record.state,'PVE'),PVP:petSlotForMode(record.state,'PVP')};
+      slots[body.mode]={petCode:body.petCode,revision};
+      Object.assign(next,{petCode:slots.PVE.petCode,pveRevision:slots.PVE.revision,pvp:slots.PVP});
+    }
     const raw=JSON.stringify(next),write=record.raw===null
       ?env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING').bind(record.key,raw)
       :env.DB.prepare('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?').bind(raw,record.key,record.raw);

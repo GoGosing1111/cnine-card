@@ -268,7 +268,7 @@ export async function planUnifiedDropRoll(env,{userId,requestId,sourceType,sourc
   const uid=int(userId,1),rid=text(requestId,120),source=code(sourceType),sid=text(sourceId||'*',120)||'*',trigger=code(triggerType);
   if(!uid||!rid||!source||!trigger)throw new Error('통합 드랍 판정 식별값이 부족합니다.');
   const pools=await matchingPools(env,source,trigger,sid,role);
-  if(pools.length)context={...context,avatarDropPercent:await avatarDropIncreasePercent(env,uid),miracleDropPercent:await miracleDropIncreasePercent(env),rankDropPercent:await rankDropIncreasePercent(env,uid,source),collectionBonuses:collectionRewardSource(source)?(await readCollectionBonuses(env,uid)).totals:null};
+  if(pools.length)context={...context,avatarDropPercent:await avatarDropIncreasePercent(env,uid),miracleDropPercent:await miracleDropIncreasePercent(env),rankDropPercent:await rankDropIncreasePercent(env,uid,source),collectionBonuses:collectionRewardSource(source)?(await readCollectionBonuses(env,uid,source)).totals:null};
   let rewards=[];
   for(const pool of pools){
     const entries=await poolEntries(env,pool),fixedScrapyard=source==='SCRAPYARD'&&SCRAPYARD_POOL_CODES.has(String(pool.code||''));
@@ -320,7 +320,7 @@ export async function resolveUnifiedDrops(env,{userId,requestId,sourceType,sourc
   const prior=await env.DB.prepare(`SELECT status,result_json,error_message FROM ${RECEIPT_TABLE} WHERE request_id=? AND user_id=?`).bind(rid,uid).first();
   if(prior?.status==='COMPLETED')return {...parse(prior.result_json,{rewards:[]}),replayed:true};
   if(prior?.status==='PENDING')throw new Error('같은 드랍 요청을 처리 중입니다.');
-  context={...context,avatarDropPercent:await avatarDropIncreasePercent(env,uid),miracleDropPercent:await miracleDropIncreasePercent(env),rankDropPercent:await rankDropIncreasePercent(env,uid,source),collectionBonuses:collectionRewardSource(source)?(await readCollectionBonuses(env,uid)).totals:null};
+  context={...context,avatarDropPercent:await avatarDropIncreasePercent(env,uid),miracleDropPercent:await miracleDropIncreasePercent(env),rankDropPercent:await rankDropIncreasePercent(env,uid,source),collectionBonuses:collectionRewardSource(source)?(await readCollectionBonuses(env,uid,source)).totals:null};
   let rewards=[];
   for(const pool of pools){
     const entries=await poolEntries(env,pool),fixedScrapyard=source==='SCRAPYARD'&&SCRAPYARD_POOL_CODES.has(String(pool.code||''));
