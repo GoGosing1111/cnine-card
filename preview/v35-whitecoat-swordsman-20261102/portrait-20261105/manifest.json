@@ -13,7 +13,9 @@
   "reference": "../source/approved-illustration.png",
   "referenceSha256": "2e0c6fbf95ba10dcafbddd1435c88f16590e9594206ad3f5053665b9aac627a1",
   "artDirection": "단독 전신 기준 1에 달빛 궁성 석조 뜰 배경 추가",
-  "approval": "new-background-illustration-for-review",
-  "finalVisualApproval": false,
-  "productionDeployment": false
+  "approval": "user-approved-20261105",
+  "finalVisualApproval": true,
+  "productionDeployment": true,
+  "productionRelease": "b029bf43d159a48bbf2b0ea70140dd3e638cc7d3",
+  "productionAsset": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/source-art-approved.png"
 }

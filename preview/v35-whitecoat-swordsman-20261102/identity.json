@@ -5,7 +5,16 @@
   "previousWorkingName": "흰 코트 검사",
   "approvedCharacterSource": "source/approved-illustration.png",
   "backgroundIllustration": "portrait-20261105/hakuya-shin-moonlit-courtyard-v1.png",
-  "backgroundStatus": "created-for-review",
+  "backgroundStatus": "user-approved",
   "nativeMotionMaster": "whitecoat-skills-v4-51fecca13bde.spine",
-  "productionRegistration": false
+  "productionRegistration": "live",
+  "approvedIllustrationSha256": "813d9d05b870848b1c9a0b00345f37720d57354c67a8da368010c72aa0aad604",
+  "productionApproval": "SSS LIMITED; Revan parity; direct grant ID 1 only",
+  "productionCode": "V-967",
+  "productionRank": "SSS",
+  "productionEdition": "LIMITED",
+  "basePower": 2700000,
+  "productionRelease": "b029bf43d159a48bbf2b0ea70140dd3e638cc7d3",
+  "productionPages": "30c64f3d-215c-4d88-850d-78a92be762bb",
+  "grantOperationKey": "ops:pingdu-hakuya-shin-grant:20261105:v1"
 }
