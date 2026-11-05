@@ -1,0 +1,19 @@
+{
+  "baseline": "60f7c5bab18df249f271ef95a7c2f9218326f0c0",
+  "unchangedRuntime": true,
+  "tests": [
+    "tests/mercenary-art-release-v2116.test.mjs",
+    "tests/mercenary-four-looks-catalog-v2062.test.mjs"
+  ],
+  "before": {
+    "total": 101,
+    "playable": 82,
+    "artOnly": 19
+  },
+  "current": {
+    "total": 102,
+    "playable": 83,
+    "artOnly": 19
+  },
+  "reason": "Already deployed Hakuya Shin V-967 adds one playable codex identity; update stale assertions and assert that release explicitly."
+}

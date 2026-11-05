@@ -1,0 +1,7 @@
+{
+  "head": "4119d9f0e8db43530e55c438a98cd3826313e0e4",
+  "stage": "test:superstar-pack",
+  "reason": "Already hidden hyper pack still expected after superstar in old test",
+  "runtimeUnchangedFromBase": "60f7c5bab18df249f271ef95a7c2f9218326f0c0",
+  "targetedTestPassed": true
+}

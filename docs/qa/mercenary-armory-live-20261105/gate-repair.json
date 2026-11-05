@@ -1,0 +1,11 @@
+{
+  "baseline": "60f7c5bab18df249f271ef95a7c2f9218326f0c0",
+  "test": "tests/project-v-v3-nonblocking-fx-v2060.test.mjs",
+  "baselineTestHash": "5ddabd3aed98a668eb6b300f54f9ed671ac2f74d764ac500f4c3497d66f9c078",
+  "sourceAndBundleUnchanged": true,
+  "missingSource": "HakuyaCombatPlayback.js",
+  "missingBannerCalls": 2,
+  "expectedBefore": 72,
+  "bundleActual": 74,
+  "repair": "Include the already deployed Hakuya module in the source equality check; no runtime change"
+}

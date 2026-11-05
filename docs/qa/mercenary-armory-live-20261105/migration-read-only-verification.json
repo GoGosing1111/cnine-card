@@ -1,0 +1,19 @@
+{
+  "mode": "verify",
+  "sourceHash": "356bacf477442bc92a85e648ac9057abbbc07ace37924fcb767341db98af49f8",
+  "planHash": "96520e5d243a30b40a7d0420bc25828d1eba210c0a62f79c9766110f3bdfaf1c",
+  "at": "2026-11-05T13:33:26.402Z",
+  "verification": {
+    "accounts": 103,
+    "allV2": true,
+    "singleOwnerEveryInstance": true,
+    "legacyBytesPreserved": true,
+    "inactiveReferencesDetached": true,
+    "auditId": "54559",
+    "clearedPveReferences": 32,
+    "created": 98,
+    "repairedExistingV2": 0,
+    "detachedInactiveReferences": 8,
+    "readOnly": true
+  }
+}

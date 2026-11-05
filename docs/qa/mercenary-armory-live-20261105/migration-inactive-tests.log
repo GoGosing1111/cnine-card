@@ -1,0 +1,11 @@
+✔ migration removes only missing or foreign physical references and preserves original recovery state (2.3779ms)
+✔ a v2 save made during deployment retains every valid choice and increments revision only when repaired (0.4803ms)
+✔ PostgreSQL guarded v2 repair rolls back and refuses to overwrite a changed user save (1931.4538ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2311.9961

@@ -1,0 +1,352 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-05T12:43:23.032027+00:00",
+  "task": "Mercenary armory live integration design continuity",
+  "classification": "approved-system-extension",
+  "verdict": "design-continuity-confirmed",
+  "materialDiscrepancies": [],
+  "scope": {
+    "artifact": "C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/mercenary-codex/equipment",
+    "incumbent": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-armory-redesign-20261105",
+    "writeTarget": "C:/Users/User/Downloads/upload/cnine-card/operations/mercenary-armory-live-20261105/design-continuity.json",
+    "documentationOnly": true,
+    "newWorld": false,
+    "sourceEdits": false,
+    "browserRunByDocumenter": false,
+    "deploymentByDocumenter": false,
+    "designRefreshOrOverwrite": false
+  },
+  "authority": {
+    "userApproved": [
+      "Dark RPG mercenary equipment UI",
+      "Lobby Pretendard Variable",
+      "Exact approved mercenary codex panel and action resources",
+      "Accepted item-cell design"
+    ],
+    "skillReference": {
+      "path": "C:/Users/User/Downloads/upload/cnine-card/.agents/skills/impeccable/reference/document.md",
+      "bytes": 27942,
+      "sha256": "d09e86577e72bdfea69d006cbd926d0d565174640b9abb371631a2357355dc19"
+    },
+    "application": "Compare and record the approved system extension. Existing DESIGN.md and .impeccable/design.json are retained exactly; no refresh, overwrite, merge, new identity or qualitative workshop was performed."
+  },
+  "preservedSystemFiles": [
+    {
+      "path": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-armory-redesign-20261105/DESIGN.md",
+      "bytes": 13416,
+      "sha256": "28d07df79f5dcf64dfffc9c22482b2ecdf4649c34bed9d2d2b8e3e6132d9b6ee",
+      "sha256Before": "28d07df79f5dcf64dfffc9c22482b2ecdf4649c34bed9d2d2b8e3e6132d9b6ee",
+      "sha256After": "28d07df79f5dcf64dfffc9c22482b2ecdf4649c34bed9d2d2b8e3e6132d9b6ee",
+      "unchanged": true
+    },
+    {
+      "path": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-armory-redesign-20261105/.impeccable/design.json",
+      "bytes": 144515,
+      "sha256": "ddf7e789007fd1261603619cce6dc1433dea544196303d013859575a40b9d0b7",
+      "sha256Before": "ddf7e789007fd1261603619cce6dc1433dea544196303d013859575a40b9d0b7",
+      "sha256After": "ddf7e789007fd1261603619cce6dc1433dea544196303d013859575a40b9d0b7",
+      "unchanged": true
+    },
+    {
+      "path": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-armory-redesign-20261105/DIRECTION.md",
+      "bytes": 1656,
+      "sha256": "b8c7d497a1d2995ea84f451ab02be6870399487dcdee2ef4c3d37c498a9c2173",
+      "sha256Before": "b8c7d497a1d2995ea84f451ab02be6870399487dcdee2ef4c3d37c498a9c2173",
+      "sha256After": "b8c7d497a1d2995ea84f451ab02be6870399487dcdee2ef4c3d37c498a9c2173",
+      "unchanged": true
+    },
+    {
+      "path": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-armory-redesign-20261105/PRODUCT.md",
+      "bytes": 3041,
+      "sha256": "1774aa0df876a198aae481f83e7dc1d80a9eb13c97ab11fad3fc338de3fde117",
+      "sha256Before": "1774aa0df876a198aae481f83e7dc1d80a9eb13c97ab11fad3fc338de3fde117",
+      "sha256After": "1774aa0df876a198aae481f83e7dc1d80a9eb13c97ab11fad3fc338de3fde117",
+      "unchanged": true
+    }
+  ],
+  "artifactFiles": [
+    {
+      "path": "C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/mercenary-codex/equipment/index.html",
+      "bytes": 7367,
+      "sha256": "2b678c5a3c4ccb852cfd9b7e6bc8784dcb47473bb84352013aa7e5eeb9383631"
+    },
+    {
+      "path": "C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/mercenary-codex/equipment/style.css",
+      "bytes": 20005,
+      "sha256": "cc38fae9631d37aa251f19d82c918213a59e41ec84c5adda22355201d265ff8f"
+    },
+    {
+      "path": "C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/mercenary-codex/equipment/app.mjs",
+      "bytes": 24644,
+      "sha256": "30f90146bd6e2019bcd3691b58b21151a0bd49ba9aa134b63385a69875fe0462"
+    },
+    {
+      "path": "C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/mercenary-codex/equipment/ui.mjs",
+      "bytes": 4954,
+      "sha256": "623c8175b2ad135da8896488baa56bec2e50df6ed79e78eb3bf192418ffd2784"
+    }
+  ],
+  "comparison": [
+    {
+      "area": "Visual authority",
+      "result": "preserved",
+      "evidence": "DESIGN.md, DIRECTION.md and PRODUCT.md establish the approved dark RPG world, lobby Pretendard Variable, codex navy panel/lime action assets and accepted item cells. This is its existing equipment surface extended to account-backed integration."
+    },
+    {
+      "area": "Color, typography, spacing and shapes",
+      "result": "preserved",
+      "evidence": "The complete approved stylesheet is an unchanged prefix after replacing only the font/panel/action deployment URLs. This preserves all 17 frontmatter color primitives, font hierarchy, radii, component geometry and responsive rules."
+    },
+    {
+      "area": "Approved resources",
+      "result": "preserved",
+      "evidence": "Production font, panel and action files match approved SHA-256 values; panel and secondary controls retain 48 fill / 16px stretch and primary actions retain 38 fill / 9px stretch. No source image or metadata was modified."
+    },
+    {
+      "area": "Sidecar continuity",
+      "result": "preserved",
+      "evidence": "The existing schemaVersion 2 sidecar remains untouched. Its 10 component snippets, named rules, motion, depth and breakpoint descriptions remain applicable. Embedded preview examples and local font URL are historical documentation, not a new live deployment claim."
+    },
+    {
+      "area": "Layout and artwork",
+      "result": "preserved",
+      "evidence": "Contained original artwork, roster selection, five vertical equipment slots, accepted item cells, desktop/tablet inline comparison and mobile native-dialog sheets match the approved layout. The 761px contained-comparison override and 760px/360px responsive rules remain intact."
+    },
+    {
+      "area": "Ownership and comparison language",
+      "result": "preserved",
+      "evidence": "index.html/app.mjs/ui.mjs keep mercenary selection separate from battle deployment, show wearer and physical instance ID, retain unchanged-mode comparison, and explicitly clear both former wearer modes on transfer. Catalog-only items do not receive equip actions."
+    },
+    {
+      "area": "Focus and motion",
+      "result": "preserved-and-hardened",
+      "evidence": "app.mjs focusToken/restoreFocus retains a valid visible target after rendering and asynchronous refresh; save restores the desktop action or mobile selected item. Existing report confirms Enter/arrow roster continuity and desktop/390px/320px save focus. The approved lime focus outline and reduced-motion CSS remain intact."
+    },
+    {
+      "area": "Integration extensions",
+      "result": "compatible",
+      "evidence": "Load-more, pending-save recovery and equipment details reuse existing controls and muted text tokens. New styles add only spacing and wrapping/detail typography; no visual-world or component-system replacement occurs."
+    }
+  ],
+  "cssComparison": {
+    "approvedStylesheet": {
+      "path": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-armory-redesign-20261105/style.css",
+      "bytes": 19664,
+      "sha256": "5965907bf9fb828bad9b588bf82dadd9208387020bea0401edbaf74c00e0d569"
+    },
+    "approvedPrefixPreservedAfterDeploymentUrlMapping": true,
+    "urlMapping": {
+      "/assets/quest-command-20261103/PretendardVariable.woff2": "/preview-font/PretendardVariable.woff2",
+      "/assets/ui/mercenary-codex/command-20261021/panel-v3.webp": "./assets/panel-v3.webp",
+      "/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp": "./assets/action-user-approved.webp"
+    },
+    "appendedCss": "#loadMore{margin:8px 0}#pendingRetry{margin:0 0 20px}.migration-note{color:var(--muted);font-size:13px;line-height:1.7;margin:8px 0}\n\n.item-details{font-size:12px;line-height:1.65;color:var(--muted);overflow-wrap:anywhere}.item-details p{margin:10px 0}"
+  },
+  "assetEvidence": {
+    "approvedProvenance": {
+      "path": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-armory-redesign-20261105/asset-provenance.json",
+      "bytes": 24515,
+      "sha256": "da9eb287a12b4a3f9b186c110a18c72abcd6f25d5af3cc8720cfef0df1b6ebe0"
+    },
+    "recordsCompared": 57,
+    "approvedHashesMatched": 57,
+    "physicallyPresentInReleaseCheckout": 57,
+    "coreResourceChecks": [
+      {
+        "releasePath": "assets/ui/mercenary-codex/command-20261021/panel-v3.webp",
+        "inReleaseCheckout": true,
+        "resolvedSource": "C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/assets/ui/mercenary-codex/command-20261021/panel-v3.webp",
+        "sha256": "55eb415b28c41dbf34ec74c9ff2f855b860c6aff1a8b5007a8128164af7bb892",
+        "matchesApprovedProvenance": true
+      },
+      {
+        "releasePath": "assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+        "inReleaseCheckout": true,
+        "resolvedSource": "C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+        "sha256": "d7400c6be41938ced1d1d8915c9e74840af091ba1537c91b74057d2e0331b155",
+        "matchesApprovedProvenance": true
+      },
+      {
+        "releasePath": "assets/quest-command-20261103/PretendardVariable.woff2",
+        "inReleaseCheckout": true,
+        "resolvedSource": "C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/assets/quest-command-20261103/PretendardVariable.woff2",
+        "sha256": "9599f12fd42fc0bce1cd50b47a0c022e108d7aa64dd0d1bb0ed44f3282d900b4",
+        "matchesApprovedProvenance": true
+      }
+    ],
+    "existingSourceFallbacks": [],
+    "sourceResolver": {
+      "path": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-armory-redesign-20261105/source-assets.mjs",
+      "bytes": 1081,
+      "sha256": "3c13c75a579ecaf17d27caf722351d25d3997832616afbdcf56f31ccb931801f"
+    },
+    "fixtureServer": {
+      "path": "C:/Users/User/Downloads/upload/cnine-card/operations/mercenary-armory-live-20261105/qa-server.mjs",
+      "bytes": 5028,
+      "sha256": "c0b6f466c257f68fe58be19ac13c9724a26eb5b74d94b6b0849fe5a93663a606"
+    },
+    "interpretation": "All 57 existing provenance records are physically present in the release checkout during this final audit and match the approved bytes. The parent restored three existing sparse original portrait blobs from release HEAD without modification before this audit completed. No artwork edits or replacements occurred. Final deployment remains a separate release gate.",
+    "parentReportedMaterialization": {
+      "method": "git restore --ignore-skip-worktree-bits from release HEAD",
+      "files": [
+        "assets/ui/project-v/mercenaries/eunseol-20261023/source-art.png",
+        "assets/ui/project-v/mercenaries/jinmu-20261012/source-art.png",
+        "assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png"
+      ],
+      "unchangedApprovedHashesVerified": true
+    }
+  },
+  "finishReview": {
+    "verdict": "ship",
+    "source": "Parent handoff reports final reviewer ship verdict after the resolved focus fix.",
+    "independentDocumenterCorroboration": "Static source, approved system comparison and all nine existing captures inspected. Existing browser assertions were read, not rerun."
+  },
+  "browserEvidence": {
+    "report": {
+      "path": "C:/Users/User/Downloads/upload/cnine-card/operations/mercenary-armory-live-20261105/browser/report.json",
+      "bytes": 1496,
+      "sha256": "33b10758e78aad88a49efca2e7d5a83d4ec33aaffc247683f04f7baabe8b7217"
+    },
+    "checkCount": 27,
+    "errorCount": 0,
+    "checks": [
+      "120-instance first page with bounded next cursor",
+      "lobby font and approved codex panel/button assets",
+      "next page appends physical duplicate instances",
+      "real polish information retained",
+      "Enter mercenary selection retains focus after refresh",
+      "next arrow navigates the retained roster focus",
+      "transfer explicitly clears both former modes",
+      "cancel leaves server unchanged",
+      "confirmed transfer belongs only to target",
+      "PC save restores action focus",
+      "reload retains actual server save",
+      "lost response committed exactly once",
+      "ambiguous save repeats same receipt without duplicate mutation",
+      "Eunseol preserves current PVE/PVP deployment policy",
+      "tablet has no document overflow",
+      "tablet all visible assets decoded",
+      "tablet detail fits its container",
+      "mobile has no document overflow",
+      "mobile all visible assets decoded",
+      "mobile detail fits its container",
+      "mobile save restores item focus after dialog closes",
+      "mobile-320 has no document overflow",
+      "mobile-320 all visible assets decoded",
+      "mobile-320 detail fits its container",
+      "mobile-320 save restores item focus after dialog closes",
+      "401 gives actual login recovery",
+      "no uncaught browser errors"
+    ],
+    "captures": [
+      {
+        "path": "C:/Users/User/Downloads/upload/cnine-card/operations/mercenary-armory-live-20261105/browser/desktop.png",
+        "bytes": 865753,
+        "sha256": "80ba1f763f1b0b2c7478eeb93aa6088a692668c2d3cc7e8131d7b7791156c026",
+        "dimensions": [
+          1440,
+          1287
+        ],
+        "inspection": "pass",
+        "observation": "Three-column roster, contained full portrait with five vertical slots, accepted dark item cells, inline comparison and fully contained action. Inventory is independently scrollable."
+      },
+      {
+        "path": "C:/Users/User/Downloads/upload/cnine-card/operations/mercenary-armory-live-20261105/browser/desktop-transfer.png",
+        "bytes": 440346,
+        "sha256": "b7061a71815667daadd72fdd27ab6293e4c45f78b7a4cdd3279ca16a9a0e7b90",
+        "dimensions": [
+          1440,
+          1000
+        ],
+        "inspection": "pass",
+        "observation": "Approved navy confirmation panel and lime action retain explicit former wearer, cleared PVE/PVP modes, target wearer and selected mode."
+      },
+      {
+        "path": "C:/Users/User/Downloads/upload/cnine-card/operations/mercenary-armory-live-20261105/browser/tablet.png",
+        "bytes": 865164,
+        "sha256": "571dfdfda999abe53a3313211d2a7a1f2bc4281c27b291707a7ed7d31f13e873",
+        "dimensions": [
+          1024,
+          2122
+        ],
+        "inspection": "pass",
+        "observation": "Two-column roster/body layout; inventory follows armory; four-column item grid and load-more control retain approved panel and button resources."
+      },
+      {
+        "path": "C:/Users/User/Downloads/upload/cnine-card/operations/mercenary-armory-live-20261105/browser/tablet-detail.png",
+        "bytes": 911250,
+        "sha256": "737fa8eb43050b1631937524710fd1cea5189b8dab088fec4a32f62de88b3cfb",
+        "dimensions": [
+          1024,
+          2349
+        ],
+        "inspection": "pass",
+        "observation": "Expanded outer inventory panel contains comparison text and action while item list alone scrolls."
+      },
+      {
+        "path": "C:/Users/User/Downloads/upload/cnine-card/operations/mercenary-armory-live-20261105/browser/mobile.png",
+        "bytes": 488427,
+        "sha256": "c5e2f9c19461898af22bdc1126af200a8f5fe0d6ffa00f0e723c23c797b10c7b",
+        "dimensions": [
+          390,
+          2157
+        ],
+        "inspection": "pass",
+        "observation": "390px single-column layout, mercenary switch button, contained original art, five slots, three-column accepted item cells and readable labels."
+      },
+      {
+        "path": "C:/Users/User/Downloads/upload/cnine-card/operations/mercenary-armory-live-20261105/browser/mobile-detail.png",
+        "bytes": 114919,
+        "sha256": "13c93fa06b55c601d7e1613509298a07776a6890bd1a47d1dc0895eebc9c2de7",
+        "dimensions": [
+          390,
+          844
+        ],
+        "inspection": "pass",
+        "observation": "390px bottom comparison sheet preserves target/mode title, unchanged-mode row and fully visible primary action."
+      },
+      {
+        "path": "C:/Users/User/Downloads/upload/cnine-card/operations/mercenary-armory-live-20261105/browser/mobile-320.png",
+        "bytes": 411571,
+        "sha256": "2f42752749f88f219110f5b17c7d87e7a5ce6e8310f5fcfe47346edce683fc25",
+        "dimensions": [
+          320,
+          2375
+        ],
+        "inspection": "pass",
+        "observation": "320px layout uses two-column item grid and full-width sort filter; long set text wraps inside the panel."
+      },
+      {
+        "path": "C:/Users/User/Downloads/upload/cnine-card/operations/mercenary-armory-live-20261105/browser/mobile-320-detail.png",
+        "bytes": 93798,
+        "sha256": "3b3a5e897293dc4ad429905359ba7d51905ec9fe7c6b35f99a6c6e97c7c68315",
+        "dimensions": [
+          320,
+          760
+        ],
+        "inspection": "pass",
+        "observation": "320px bottom comparison sheet contains current wearer, PVE/PVP comparison and the removal action without horizontal overflow."
+      },
+      {
+        "path": "C:/Users/User/Downloads/upload/cnine-card/operations/mercenary-armory-live-20261105/browser/unauthorized.png",
+        "bytes": 72284,
+        "sha256": "5e2b577ab6cb7b458ffae0e7f82c45fd5eb6b25bcc6ed659bd3b356661c87504",
+        "dimensions": [
+          320,
+          760
+        ],
+        "inspection": "pass",
+        "observation": "Login recovery uses the same approved navy panel, lime primary action and lobby secondary link; Korean guidance remains readable."
+      }
+    ],
+    "captureEnvironment": "Existing isolated fixture QA using the actual equipment handler; not physical-device or live-account execution by this documenter."
+  },
+  "integrationScopeNote": "Incumbent PRODUCT.md, DIRECTION.md and DESIGN.md describe the approved local-preparation milestone. Their historical scope statements remain unchanged. The account-backed integration copy and behavior are recorded here as this later extension; the design documents are not overwritten to imply new approval.",
+  "validation": {
+    "protectedFileCount": 10,
+    "allReadSourcesUnchanged": true,
+    "writtenFiles": [
+      "C:/Users/User/Downloads/upload/cnine-card/operations/mercenary-armory-live-20261105/design-continuity.json"
+    ]
+  }
+}

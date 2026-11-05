@@ -1,11 +1,17 @@
-# Mercenary armory live release — 2026-11-05
+# 용병별 장비창 운영 반영 — 2026-11-05
 
-User authorized live replacement using the dark RPG composition, lobby Pretendard Variable font and exact mercenary codex panel/action assets. The approved item cells remain. Preview system documentation is preserved and copied here as evidence; no new visual direction.
+운영 반영 완료. 소스 4119d9f0e8db43530e55c438a98cd3826313e0e4, Pages 36427937-acbc-493b-8df9-6f8b970abc89, API/클랜 Worker 모두 100%. 공개 경로는 https://cnine-card.pages.dev/mercenary-codex/equipment/ 이다. 승인된 어두운 RPG 구성에 로비 Pretendard Variable 폰트와 용병 도감 패널·버튼 원본을 사용하고, 승인된 아이템 칸과 큰 원화를 유지했다.
 
-Five slots are stored per owned mercenary and per PVE/PVP mode in app_meta schema v2. Each physical instance has a single mercenary owner across both modes. A confirmed transfer clears that instance from both source modes, equips only the target mode, and never changes combat formation. Existing growth, polish, set/unique combat policies and copies are preserved. Gear lists paginate actual physical instances, filter before pagination, and recover ambiguous mutations with the existing request receipt.
+용병마다 PVE/PVP 5부위를 저장한다. 같은 장비 실물은 한 용병만 착용하며 같은 용병의 두 모드에서는 함께 사용할 수 있다. 다른 용병으로 이동을 확인하면 이전 용병의 두 모드에서 해제하고 선택한 대상 모드에 장착한다. 장비창 용병 선택은 전투 편성을 바꾸지 않는다. 실제 실물별 목록, 서버 필터·페이지, 현재/변경 후 비교, 강화·연마·세트·고유 효과, 응답 유실 시 동일 요청 복구를 연결했다.
 
-Legacy migration uses the current first mercenary in each actual dual formation, PVP first. It retains original v1 bytes, freezes ownership before formation edits, and never overwrites an existing v2 save. Old destroyed-instance references stay inactive recovery data; authoritative runtime joins require current physical ownership. Global equipment bonuses were replaced with each mercenary's own runtime in single/dual/cooperative/ranked/duo snapshots and deck totals. Trading protects worn items and the last equipped mercenary. No DB schema, balance, reward or acquisition policy changes.
+전투 스냅샷과 편성 전투력은 각 용병 자신의 장비를 사용한다. 단일·복수·협동·랭크·듀오 경로에 반영했고, 강화 및 경매의 장착 보호도 모든 용병을 확인한다. 기존 수치·획득·보상 정책과 DB 스키마는 유지했다.
 
-Validation before deployment: SQLite/PostgreSQL regression cases cover atomic transfer failure/retry, stale revisions, both modes, current formation migration, cursor duplicates, ownership, forged inventory and last-mercenary protection. Headless UI report has 27 checks at 1440/1024/390/320 with actual server handlers and isolated fixtures, including lost response reconciliation and keyboard focus. Browser fixtures never touch production accounts. This does not constitute real device/app review.
+2026-11-05 22:32 KST 전환 완료, 감사 54559. 완료 키는 **ops:mercenary-equipment-v2-pvp-first:20261105:v1** 이며, 같은 요청을 새 키로 반복하거나 이후 정상 선택을 덮어쓰지 않는다. 기존 착용 103계정 중 배포 중 정상 전환된 5계정은 그대로 보존하고 98계정을 일괄 전환했다. 실제 복수 편성의 첫 용병을 기준으로 PVP 우선 계승해 이번 일괄 처리에서 PVE 중복 32건을 해제했다. 실물이 없는 활성 참조 8개는 제외했으며, 기존 v1 193행 원문과 감사 복구 기록은 보존했다. 장비 실물·보유·성장·편성 불변과 랭크 캐시 갱신을 대조했다.
 
-The operating dry run tested injected failure rollback, successful rollback, SELECT-only replay, immutable original legacy data, ranked cache invalidation and release of both account lock systems. Apply remains pending until the source release is live. Operations and evidence: operations/mercenary-armory-live-20261105 in the primary checkout. Initial broad gates found outdated account-wide gear tests (updated) and a missing sparse-checkout lobby image (restored unchanged). The final production gate and actual deployment are recorded separately at completion.
+USER_LOCK과 DB 잠금, 최신 상태 비교, 저장/감사/완료 영수증 단일 거래를 사용했다. 최종 동일 소스·명단 예행에서 강제 실패 및 정상 수행 모두 원복을 확인했고, 실제 적용 뒤 별도 READ ONLY 조회와 SELECT만 허용한 재실행으로 추가 쓰기 0을 검증했다. 첫 최종 예행은 DB 쓰기 전에 일시적인 DO 잠금 소실로 중단했고 남은 잠금을 반환했다. 재예행과 실제 적용은 정상 완료했다. 기존 회복용 자료와 초기 예행은 operations 폴더에 보존했다.
+
+전체 배포 게이트는 원본 로그와 해시가 고정된 연속 재개 경로로 통과했다. 기존 하쿠야 출시 목록/번들 집계, 인벤토리 검사 의존성, 이미 숨긴 하이퍼팩 순서 검사를 최신 운영 계약에 맞게 보완했다. 부분 체크아웃에서 누락된 승인 미디어는 Git 원본 바이트로 복원했다. 해당 수정은 검사·문서에 한정되며 관련 근거와 전체 로그 해시는 gate-resume-chain.json 및 각 repair 기록에 있다.
+
+실제 장비 핸들러를 사용하는 격리 브라우저 검사 27건(1440/1024/390/320), 공개 코드 모바일 검사 6건, 추가 참조 전환 검사 3건을 통과했다. 공개 11경로와 Windows 9파일 해시를 확인했다. ONE store HTML은 기존 htmlForStore 변환 결과와 비교했으며, 서비스워커/ONE store 진입점은 기존 Windows 정책상 로컬 캐시 대상이 아니다. 공개 자산은 20,000개다. 실계정 화면 조작·실기기·설치 앱 직접 검수는 하지 않았다.
+
+Impeccable 독립 마감 검수에서 지적된 키보드 포커스를 수정했고, 디자인 연속성 검수에 유의미한 차이 0을 기록했다. 승인 DESIGN.md/DIRECTION.md/design.json은 보존했다. 브라우저 스크린샷과 실행기·전후 원본은 본체 operations/mercenary-armory-live-20261105/에 있다. 메시지·공지 게시·새 예약·유지관리 0, 기존 체크아웃/의존성 재사용.

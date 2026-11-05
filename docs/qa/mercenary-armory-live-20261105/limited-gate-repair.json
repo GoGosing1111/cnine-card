@@ -1,0 +1,7 @@
+{
+  "head": "03d79cf5f4468e2578182888fabdbdd9c193d273",
+  "stage": "test:limited-pack",
+  "reason": "Already released Hakuya V-967 omitted from exact limited codex test list",
+  "runtimeUnchangedFromBase": "60f7c5bab18df249f271ef95a7c2f9218326f0c0",
+  "targetedTestPassed": true
+}

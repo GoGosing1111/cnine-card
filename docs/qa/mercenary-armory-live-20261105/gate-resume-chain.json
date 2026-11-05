@@ -1,0 +1,79 @@
+[
+  {
+    "head": "091b4a9a271241b6e91ce4f4fae0782ec7f2d15a",
+    "exitCode": 1,
+    "logfile": "deploy-091b4a9a2.log",
+    "finishedAt": "2026-11-05T12:46:17.101Z",
+    "logSha256": "ac7f8dfb32359d549fc50dede26ea6cde8104f5080f5811f26fc6b95b3ae0e2d"
+  },
+  {
+    "head": "cbe25b59b89e79402dca618da7800c37a2c2f602",
+    "exitCode": 1,
+    "logfile": "deploy-cbe25b59b-resume.log",
+    "finishedAt": "2026-11-05T12:49:54.400Z",
+    "logSha256": "97eb3cd429ad2ab6d8a031233564fc8e20aa6e186f3bdc3e364c64d0eb6b1090"
+  },
+  {
+    "head": "cbe25b59b89e79402dca618da7800c37a2c2f602",
+    "exitCode": 1,
+    "logfile": "deploy-cbe25b59b-resume2.log",
+    "finishedAt": "2026-11-05T12:50:51.090Z",
+    "logSha256": "5472cd1b43b102df1034d1502302645845bcb5be73ff0aaf737e755f69bf8837"
+  },
+  {
+    "head": "cbe25b59b89e79402dca618da7800c37a2c2f602",
+    "exitCode": 1,
+    "logfile": "deploy-cbe25b59b-resume3.log",
+    "finishedAt": "2026-11-05T12:53:48.719Z",
+    "logSha256": "9b7f55197beda3ec70b516ef1f72b161308cfbb028627562931b9e592996e635"
+  },
+  {
+    "head": "90bf7a2d0d22cb620a55ca96385b5499461c8e42",
+    "exitCode": 1,
+    "logfile": "deploy-90bf7a2d0-resume4.log",
+    "finishedAt": "2026-11-05T12:56:27.660Z",
+    "logSha256": "ed25e11e0b42bbc90bd1b4fe61ccee7b2e3615f2db50973332184b202d1e9ce1"
+  },
+  {
+    "head": "cd790a5148d50d960fba730534e8294951e10d1a",
+    "exitCode": 1,
+    "logfile": "deploy-cd790a514-resume5.log",
+    "finishedAt": "2026-11-05T12:59:42.429Z",
+    "logSha256": "ecb83abd73a805c84f8b1abf762fee9fc6353a43c3dbc39a2aa6cdffd6f1d0b3"
+  },
+  {
+    "head": "cd790a5148d50d960fba730534e8294951e10d1a",
+    "exitCode": 1,
+    "logfile": "deploy-cd790a514-resume6.log",
+    "finishedAt": "2026-11-05T13:01:57.012Z",
+    "logSha256": "be658a9dcd9147d594bb8800d5d5834d1fd8b95e323598373006252a18c96e7c"
+  },
+  {
+    "head": "cd790a5148d50d960fba730534e8294951e10d1a",
+    "exitCode": 1,
+    "logfile": "deploy-cd790a514-resume7.log",
+    "finishedAt": "2026-11-05T13:07:59.865Z",
+    "logSha256": "d867060dae09c54ab196cff94b9d52d16ce841709b90c07df656571b2c495005"
+  },
+  {
+    "head": "03d79cf5f4468e2578182888fabdbdd9c193d273",
+    "exitCode": 1,
+    "logfile": "deploy-03d79cf5f-resume8.log",
+    "finishedAt": "2026-11-05T13:15:14.059Z",
+    "logSha256": "b6509d5b46ff0745ca21fb0d098214eaf31fffa2b5a7d93c8981ae3a96216dec"
+  },
+  {
+    "head": "03d79cf5f4468e2578182888fabdbdd9c193d273",
+    "exitCode": 1,
+    "logfile": "deploy-03d79cf5f-resume9.log",
+    "finishedAt": "2026-11-05T13:18:17.192Z",
+    "logSha256": "572e8c0500341488b59f01653840d4a50912ebaf65a3f15b1f24f9309938406d"
+  },
+  {
+    "head": "4119d9f0e8db43530e55c438a98cd3826313e0e4",
+    "exitCode": 0,
+    "logfile": "deploy-4119d9f0e-resume10.log",
+    "finishedAt": "2026-11-05T13:25:38.681Z",
+    "logSha256": "f3558d915d3ae1724265334d1eb4f7dbd2c9f2032b2ab4ebd612bccee154dc65"
+  }
+]

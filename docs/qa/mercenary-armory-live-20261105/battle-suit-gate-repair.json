@@ -1,0 +1,25 @@
+{
+  "stage": "test:battle-suit",
+  "restoredAssets": [
+    "preview/battle-suit-prestige-v1/assets/sources/helios-proxy-source.png",
+    "preview/battle-suit-prestige-v1/assets/sprites/helios-1.png",
+    "preview/battle-suit-prestige-v1/assets/atlases/helios-m4a1-m200-v1.png",
+    "preview/battle-suit-prestige-v1/assets/sprites/helios-2.png",
+    "preview/battle-suit-prestige-v1/assets/atlases/helios-ak-sks-v1.png",
+    "preview/battle-suit-prestige-v1/assets/sprites/helios-3.png",
+    "preview/battle-suit-prestige-v1/assets/sources/helios-m200-authored-v2.png",
+    "preview/battle-suit-prestige-v1/assets/sprites/helios-4.png",
+    "preview/battle-suit-prestige-v1/assets/sources/helios-sks-long-fit-proxy-v6.png",
+    "preview/battle-suit-prestige-v1/assets/sprites/helios-sks-exact-full-v6.png",
+    "preview/battle-suit-prestige-v1/assets/sprites/helios-5.png",
+    "preview/battle-suit-prestige-v1/assets/sources/helios-gilded-ar-long-fit-proxy-v7.png",
+    "preview/battle-suit-prestige-v1/assets/sprites/helios-gilded-ar-exact-full-v7.png",
+    "preview/battle-suit-prestige-v1/assets/atlases/helios-gilded-dragon-v1.png",
+    "preview/battle-suit-prestige-v1/assets/sprites/helios-6.png",
+    "preview/battle-suit-prestige-v1/assets/sources/helios-gilded-antimateriel-long-fit-proxy-v6.png",
+    "preview/battle-suit-prestige-v1/assets/sprites/helios-gilded-antimateriel-exact-full-v6.png",
+    "assets/items/gilded-dragon-ar-mythic-v1.png",
+    "assets/items/gilded-dragon-antimateriel-rifle-mythic-v1.png"
+  ],
+  "source": "Existing exact HEAD blobs; no runtime or media edits"
+}

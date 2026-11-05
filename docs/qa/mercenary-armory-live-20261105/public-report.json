@@ -1,0 +1,15 @@
+{
+  "publicCode": true,
+  "isolatedAccountFixture": true,
+  "productionAccountWrites": 0,
+  "checks": [
+    "public mobile layout fits",
+    "public lobby font decodes",
+    "public images decode",
+    "public code saves through isolated actual handler",
+    "public save restores focus",
+    "no public script or asset error"
+  ],
+  "errors": [],
+  "failedAssets": []
+}

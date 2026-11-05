@@ -1,0 +1,101 @@
+{
+  "at": "2026-11-05T13:29:14.726Z",
+  "pages": {
+    "id": "36427937-acbc-493b-8df9-6f8b970abc89",
+    "url": "https://36427937.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "4119d9f0e8db43530e55c438a98cd3826313e0e4"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "7354ea3a-aa3c-4557-adbe-e0e6093c3061",
+      "percentage": 100,
+      "sourceSha256": "fa8b1700c9a158ff1d7885014e594afafcc5b600bc6162ba409b39b92604115c",
+      "markers": [
+        "mercenary_equipment_v2:",
+        "PVP_FIRST",
+        "byMercenary",
+        "MERCENARY_EQUIPMENT_V2"
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "e032164e-eca0-48f3-be1b-8666cab02053",
+      "percentage": 100,
+      "sourceSha256": "79ea5c6c9e7a6abc152203ccb24f49f5bd524d44819a0c38b9cad226b74d9037",
+      "markers": [
+        "mercenary_equipment_v2:",
+        "PVP_FIRST",
+        "byMercenary"
+      ]
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "mercenary-codex/equipment/index.html",
+      "sha256": "2b678c5a3c4ccb852cfd9b7e6bc8784dcb47473bb84352013aa7e5eeb9383631"
+    },
+    {
+      "file": "mercenary-codex/equipment/style.css",
+      "sha256": "cc38fae9631d37aa251f19d82c918213a59e41ec84c5adda22355201d265ff8f"
+    },
+    {
+      "file": "mercenary-codex/equipment/app.mjs",
+      "sha256": "30f90146bd6e2019bcd3691b58b21151a0bd49ba9aa134b63385a69875fe0462"
+    },
+    {
+      "file": "mercenary-codex/equipment/ui.mjs",
+      "sha256": "623c8175b2ad135da8896488baa56bec2e50df6ed79e78eb3bf192418ffd2784"
+    },
+    {
+      "file": "js/mercenary-deck-slot.mjs",
+      "sha256": "e02f555b55df8c487a1ab057feb2faac5296a31925f911e7f8bc8d36a88b22b7"
+    },
+    {
+      "file": "index.html",
+      "sha256": "a7a8d7b1722542a8f3457a0be76f560b093efacac85cc07a0725b7bc213f0a6a"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "6cceed55651601517aa1f4ca804e16de3291402ec5047893e70016a277df3c39"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "ac48f76e08d2c7127017a61c173588a0dc76ff0e99fd3a626166a6dbdab7f691",
+      "sourceSha256": "dcda9e0d9575732c6fe7eec1b7cef2feb9fca4ca1afa590e017e3e23fd0b7c98",
+      "transform": "canonical htmlForStore(source, /)"
+    },
+    {
+      "file": "assets/ui/mercenary-codex/command-20261021/panel-v3.webp",
+      "sha256": "55eb415b28c41dbf34ec74c9ff2f855b860c6aff1a8b5007a8128164af7bb892"
+    },
+    {
+      "file": "assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+      "sha256": "d7400c6be41938ced1d1d8915c9e74840af091ba1537c91b74057d2e0331b155"
+    },
+    {
+      "file": "assets/quest-command-20261103/PretendardVariable.woff2",
+      "sha256": "9599f12fd42fc0bce1cd50b47a0c022e108d7aa64dd0d1bb0ed44f3282d900b4"
+    }
+  ],
+  "windows": {
+    "releaseId": "55b537f3e59a31796fc97514e2fe7a4fe2f3934423e5f7fdf6bd501ef3d51704",
+    "files": [
+      "mercenary-codex/equipment/index.html",
+      "mercenary-codex/equipment/style.css",
+      "mercenary-codex/equipment/app.mjs",
+      "mercenary-codex/equipment/ui.mjs",
+      "js/mercenary-deck-slot.mjs",
+      "index.html",
+      "assets/ui/mercenary-codex/command-20261021/panel-v3.webp",
+      "assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+      "assets/quest-command-20261103/PretendardVariable.woff2"
+    ],
+    "excludedByExistingClientPolicy": [
+      "service-worker.js",
+      "onestore/index.html"
+    ]
+  },
+  "assetCount": 20000
+}

@@ -1,0 +1,88 @@
+{
+  "completedAt": "2026-11-05T13:32:48.801Z",
+  "operation": "ops:mercenary-equipment-v2-pvp-first:20261105:v1",
+  "source": "4119d9f0e8db43530e55c438a98cd3826313e0e4",
+  "pages": {
+    "id": "36427937-acbc-493b-8df9-6f8b970abc89",
+    "url": "https://36427937.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "4119d9f0e8db43530e55c438a98cd3826313e0e4"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "7354ea3a-aa3c-4557-adbe-e0e6093c3061",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "e032164e-eca0-48f3-be1b-8666cab02053",
+      "percentage": 100
+    }
+  ],
+  "migration": {
+    "auditId": "54559",
+    "sourceHash": "356bacf477442bc92a85e648ac9057abbbc07ace37924fcb767341db98af49f8",
+    "planHash": "96520e5d243a30b40a7d0420bc25828d1eba210c0a62f79c9766110f3bdfaf1c",
+    "accounts": 103,
+    "legacyRows": 193,
+    "alreadyV2": 5,
+    "migrate": 98,
+    "clearedPveReferences": 32,
+    "legacyReferences": 496,
+    "repairedExistingV2": 0,
+    "detachedInactiveReferences": 8,
+    "legacyBytesPreserved": true,
+    "inventoryAndGrowthPreserved": true,
+    "formationsPreserved": true,
+    "leasesReleased": true,
+    "noWriteReplayVerified": true,
+    "independentReadOnlyVerification": true
+  },
+  "validation": {
+    "fullReleaseGate": true,
+    "resumeLogChain": [
+      "deploy-091b4a9a2.log",
+      "deploy-cbe25b59b-resume.log",
+      "deploy-cbe25b59b-resume2.log",
+      "deploy-cbe25b59b-resume3.log",
+      "deploy-90bf7a2d0-resume4.log",
+      "deploy-cd790a514-resume5.log",
+      "deploy-cd790a514-resume6.log",
+      "deploy-cd790a514-resume7.log",
+      "deploy-03d79cf5f-resume8.log",
+      "deploy-03d79cf5f-resume9.log",
+      "deploy-4119d9f0e-resume10.log"
+    ],
+    "uiChecks": 27,
+    "viewports": [
+      {
+        "width": 1024,
+        "height": 900
+      },
+      {
+        "width": 390,
+        "height": 844
+      },
+      {
+        "width": 320,
+        "height": 760
+      }
+    ],
+    "publicMobileChecks": 6,
+    "publicPaths": 11,
+    "windowsFiles": 9,
+    "assetCount": 20000,
+    "realDeviceTest": false
+  },
+  "design": {
+    "theme": "Dark RPG",
+    "font": "Pretendard Variable (lobby)",
+    "resources": "Approved mercenary codex panels and action buttons",
+    "acceptedItemCellsRetained": true
+  },
+  "accountTestWrites": 0,
+  "messages": 0,
+  "newSchedules": 0,
+  "storageMaintenance": 0
+}

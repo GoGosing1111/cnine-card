@@ -1,0 +1,23 @@
+{
+  "baseline": "60f7c5bab18df249f271ef95a7c2f9218326f0c0",
+  "tests": [
+    "tests/equipment-forge-inventory-v1.test.mjs",
+    "tests/pingdu-repair-coupon.test.mjs"
+  ],
+  "repair": "Inject the existing real CNINE streamer catalog function into extracted inventory route fixtures; runtime unchanged",
+  "restoredAssets": [
+    "assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-ar-v1.png",
+    "assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png",
+    "assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png",
+    "assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png",
+    "assets/ui/project-v/account-battle-suits/weapons/infinity-ak-v1.png",
+    "assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-antimateriel-v1.png",
+    "assets/sfx/v3-advancement-awakening-v1/riposte-advancement-v1.mp3",
+    "assets/sfx/v3-advancement-awakening-v1/afterimage-advancement-v1.mp3",
+    "assets/sfx/v3-advancement-awakening-v1/shatter-advancement-v1.mp3",
+    "assets/sfx/v3-advancement-awakening-v1/immortal-advancement-v1.mp3",
+    "preview/equipment-forge-v1/assets/upgrade-lab-v2.png",
+    "preview/equipment-forge-v1/assets/protection-module-v2.png",
+    "preview/equipment-forge-v1/assets/success-plasma-atlas-v2.png"
+  ]
+}
