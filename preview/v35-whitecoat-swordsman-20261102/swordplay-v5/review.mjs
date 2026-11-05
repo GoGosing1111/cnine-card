@@ -4,7 +4,7 @@ const directory=film.dataset.directory||'swordplay-v5/qa/';
 const playbackDirectory=film.dataset.playbackDirectory;
 const firstCast=film.dataset.firstCast||'skill_flash';
 const labels={
-  aura_idle:'흑백 검기 · 먹빛과 은백색 기운이 몸통을 중심으로 앞뒤를 감쌉니다.',
+  aura_idle:'흑백 검기 · 좌우의 검기가 중심을 맞춰 어깨와 몸 전체를 넓게 감쌉니다.',
   skill_flash:'절광발도 · 칼을 뽑는 궤적에서 은백색 반월 검광이 열립니다.',
   skill_thrust:'삼첩관통 · 관통한 자리에 세 겹의 예리한 검흔이 차례로 벌어집니다.',
   skill_wheel:'회천검압 · 회전베기에서 풀린 검압이 적 진형을 크게 가릅니다.',

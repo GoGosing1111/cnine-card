@@ -1,8 +1,10 @@
 import fs from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
+import path from 'node:path';
 import {spawnSync,execFileSync} from 'node:child_process';
 import {browser,open,modes} from '../../swordplay-v5/qa/probe.mjs';
-const dir=fileURLToPath(new URL('.',import.meta.url));
+const dir=process.argv[2]?path.resolve(process.argv[2])+path.sep:fileURLToPath(new URL('.',import.meta.url));
+await fs.mkdir(dir,{recursive:true});
 const ffmpeg=execFileSync('python',['-c','import imageio_ffmpeg;print(imageio_ffmpeg.get_ffmpeg_exe())'],{encoding:'utf8',windowsHide:true}).trim();
 const b=await browser(),records=[];
 try {

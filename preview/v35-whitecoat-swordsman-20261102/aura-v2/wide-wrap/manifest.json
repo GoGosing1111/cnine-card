@@ -1,0 +1,118 @@
+{
+  "character": "하쿠야 신",
+  "stage": "retained intermediate: asymmetric rear curl",
+  "date": "2026-11-05",
+  "files": [
+    {
+      "path": "PROJECT.md",
+      "bytes": 827,
+      "sha256": "092e7856aa9b4cd3bda69738c7100c42a3bc277d8be3cc4397cce2daf3020b30"
+    },
+    {
+      "path": "qa/before-closeup.png",
+      "bytes": 155591,
+      "sha256": "150db13b7fd0cee946ee178dc742c5b72d40fc46eec3def2a06e99582344b8f7"
+    },
+    {
+      "path": "qa/before-stage.png",
+      "bytes": 1911003,
+      "sha256": "23df2d41282c853e2ac156979dd0a462ca8cefd0d4ecfba4d18598321d75d3d8"
+    },
+    {
+      "path": "qa/before.json",
+      "bytes": 1844,
+      "sha256": "1c2f986420f8b72ab71562855628c72aaab0dab89bb6040136b132ce2d55cda9"
+    },
+    {
+      "path": "qa/candidate-a.png",
+      "bytes": 154303,
+      "sha256": "74254a163410076d577e3b56837562f38263bcbb7319caea6c2b9aafdfe67738"
+    },
+    {
+      "path": "qa/candidate-b.png",
+      "bytes": 153525,
+      "sha256": "15992edb529a69194c4c87789ad9ecd22bd974e8f2cdb9987b759706322c8dda"
+    },
+    {
+      "path": "qa/candidate-c.png",
+      "bytes": 169013,
+      "sha256": "670fb6786b4ff9d3ac627408204f2a211e9bcdadda54ebb969ba8a0a5005797c"
+    },
+    {
+      "path": "qa/candidate-d.png",
+      "bytes": 169034,
+      "sha256": "29205b95e73c07a83b093d566ea38aecb2462a943a144bdd82a2de49d617efce"
+    },
+    {
+      "path": "qa/four-skills-body.webm",
+      "bytes": 8992685,
+      "sha256": "051dddab5a380a290feb485b6de58a91a4d065dcf69f875e31ddf73cef76a235"
+    },
+    {
+      "path": "qa/four-skills-half.webm",
+      "bytes": 12199748,
+      "sha256": "fd2dbabdd3cabc8ad6c32404b44bc914d63666907364c8a47c7c16fb98392967"
+    },
+    {
+      "path": "qa/four-skills.webm",
+      "bytes": 9704351,
+      "sha256": "205c413a3011008afdaabcc81caf215b386a0bcfa4722efc3dcb5392c1346b13"
+    },
+    {
+      "path": "qa/idle-closeup.png",
+      "bytes": 192112,
+      "sha256": "7732d22296cc0022cd7a19d61afc526e6df7b9ed2ab18634a99864dae9a1e8b3"
+    },
+    {
+      "path": "qa/idle-stage.png",
+      "bytes": 1912383,
+      "sha256": "f0f44a5faf044c29b6d3b421bd7f1237875a96e157e973f7ba85948006670de4"
+    },
+    {
+      "path": "qa/recording.json",
+      "bytes": 13859,
+      "sha256": "78efa0e22d886633c8487e90698c88e894327906cbc5f6340d1e7ef74c58f81a"
+    },
+    {
+      "path": "qa/skill_flash-peak.png",
+      "bytes": 1924747,
+      "sha256": "ff8a40bd9f7e1b4be7f73f9cad476c13c93d90bd5fb2dd42f3a55815f5c69345"
+    },
+    {
+      "path": "qa/skill_rain-peak.png",
+      "bytes": 1939136,
+      "sha256": "8db1339a0a422ce04797a5f636029f0282b333934698a8b0494033c9be49a7b8"
+    },
+    {
+      "path": "qa/skill_thrust-peak.png",
+      "bytes": 1899331,
+      "sha256": "bc5faef01944d0e977d4505b5688d8369a24fc2cbd5108ecded8885b89a66c41"
+    },
+    {
+      "path": "qa/skill_wheel-peak.png",
+      "bytes": 1890024,
+      "sha256": "905d0824971d1f20bbedec587b8033c074cd40832eb3c4edc6d217388b06e214"
+    },
+    {
+      "path": "qa/verification.json",
+      "bytes": 64107,
+      "sha256": "7f2b0b959691a1431ce5ff5d513a1fbe2fd1b15e3c969aac7444ac11746067cc"
+    },
+    {
+      "path": "qa/whitecoat-squad-390.png",
+      "bytes": 465396,
+      "sha256": "d0344c3ff2997405ceceb4f9858d667564d330a771bd7aa87b665a7c7f1531e5"
+    },
+    {
+      "path": "qa/whitecoat-squad-enemy-320.png",
+      "bytes": 360351,
+      "sha256": "4503a0e4a2b814efaa5bd3b69331853e03fae0b1524a07af438aa1f139a41dc4"
+    },
+    {
+      "path": "qa/whitecoat-squad-enemy-390.png",
+      "bytes": 466827,
+      "sha256": "1f410f258c8053e9d4ce6bbc6dcae8ff048f0c38ed1d384e40989a8a85a5f4df"
+    }
+  ],
+  "totalBytes": 44740197
+}

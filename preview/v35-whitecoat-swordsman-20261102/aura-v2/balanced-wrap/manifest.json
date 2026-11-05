@@ -1,0 +1,158 @@
+{
+  "character": "하쿠야 신",
+  "stage": "local review: broad body coverage and balanced rear currents",
+  "date": "2026-11-05",
+  "files": [
+    {
+      "path": "playback/four-skills-body.mp4",
+      "bytes": 5602963,
+      "sha256": "bb4cadb52bb2e763f1fc3624174364ecae904f292279fe9f13707af3bc9f7ec8"
+    },
+    {
+      "path": "playback/four-skills-half.mp4",
+      "bytes": 9594261,
+      "sha256": "eeb7c3cef9774d96d77f64702ba8781b4005f3c0b4c7d3f8c1c9133c9c0220d3"
+    },
+    {
+      "path": "playback/four-skills.mp4",
+      "bytes": 7568171,
+      "sha256": "513d807a022e3eaf9c285defc5cb4ad63da222fc59fcfef44c174e285b8f1fc8"
+    },
+    {
+      "path": "playback/manifest.json",
+      "bytes": 3055,
+      "sha256": "da25a79e5bdcb83e8a5112c4cf99e642e8fbc4dcd5990786c64eae272581a907"
+    },
+    {
+      "path": "PROJECT.md",
+      "bytes": 3954,
+      "sha256": "c5c550c69a29ff4bdd1c1bee746d4a3e3b4b2d51149f82f96bbcbf9a305d2ad2"
+    },
+    {
+      "path": "qa/centering.json",
+      "bytes": 8112,
+      "sha256": "155038376cb2a61a06fe6f9e03b0c218df3fc3aa0194e54b58cdc62c30ca9a2e"
+    },
+    {
+      "path": "qa/centering.mjs",
+      "bytes": 3233,
+      "sha256": "f046bc7f112e01816f932ac959049f9b9c31ab4f2d69cddc2d623ed89e487134"
+    },
+    {
+      "path": "qa/centred-closeup.png",
+      "bytes": 192772,
+      "sha256": "1c88fa643bc6958246db2c7d96c53a6238e18c6eb3e437b9d7a20348b42afe70"
+    },
+    {
+      "path": "qa/centred-stage.png",
+      "bytes": 1913547,
+      "sha256": "8b4b02ca8c10710e9d0c1be72723d1dca5d27b74faaf22089eeb42706b50805f"
+    },
+    {
+      "path": "qa/four-skills-body.webm",
+      "bytes": 9145095,
+      "sha256": "1a076e409ce5a84fc637ebb6462e2ac0dfc458c51ccc6a9718f0067cfb186a8a"
+    },
+    {
+      "path": "qa/four-skills-half.webm",
+      "bytes": 12250609,
+      "sha256": "80c2700ea0234916514f4a99a5bdb4800b114f6b2d100ae7b0860b255b6d9e16"
+    },
+    {
+      "path": "qa/four-skills.webm",
+      "bytes": 9744814,
+      "sha256": "255b41502cfc688312f3e7abedac748e1044a4b81af3b779316e7364cfe6acf9"
+    },
+    {
+      "path": "qa/idle-closeup.png",
+      "bytes": 192816,
+      "sha256": "c16175999e159fe6c2ea9afe71a4fbcc7cf24d89b048aba8c6a4fb75af999608"
+    },
+    {
+      "path": "qa/idle-stage.png",
+      "bytes": 1913563,
+      "sha256": "7029fefc9a54ea2fb88cf9becf52f2437151af0155a9204c40cf39e64ad56ca0"
+    },
+    {
+      "path": "qa/paired-currents.png",
+      "bytes": 194184,
+      "sha256": "066a0afa5238588bd64b1358fe39dc068196eb983b85878aac2cc7aac2c67af6"
+    },
+    {
+      "path": "qa/playback-check/review-1440.png",
+      "bytes": 1290873,
+      "sha256": "17bd080538ff9eb20a5d78d89206d96e14526f6c595ea242891056e7cc2ac186"
+    },
+    {
+      "path": "qa/playback-check/review-390.png",
+      "bytes": 144252,
+      "sha256": "66a1429b2331385ab8b067f634c9963ec38dda3385649f09dac59cfd397d91b3"
+    },
+    {
+      "path": "qa/playback-check/verification.json",
+      "bytes": 8781,
+      "sha256": "cfd9bd5f29f391830e8c57b4aaf5ddbff55592198dacfe4febb14cfa87902e81"
+    },
+    {
+      "path": "qa/recording.json",
+      "bytes": 13828,
+      "sha256": "1d30a3ddb47a767305bb2da6f90a36c46d24b968403690c1ccb9b6c0ec0af639"
+    },
+    {
+      "path": "qa/skill_flash-peak.png",
+      "bytes": 1925227,
+      "sha256": "80eba3e094acef2aee38b8ed500bc5add8d15af15bd1b67efc9199dae832152b"
+    },
+    {
+      "path": "qa/skill_rain-peak.png",
+      "bytes": 1939158,
+      "sha256": "e12fcf160dadfe11d7d568e6e11322b18a4225efb8f84ebe845b6b915afc09c0"
+    },
+    {
+      "path": "qa/skill_thrust-peak.png",
+      "bytes": 1899441,
+      "sha256": "aa94e46b0d0b4e77d13e381b75f78d787cba8be20c4fc3dccbdb8238c63b44a1"
+    },
+    {
+      "path": "qa/skill_wheel-peak.png",
+      "bytes": 1890063,
+      "sha256": "2e6d82ba7284dd90d31d63da18de611d46252d41d6f8f03b5e000c76b9c0d0a7"
+    },
+    {
+      "path": "qa/verification.json",
+      "bytes": 65060,
+      "sha256": "895149059f34f7c5642b8764e05c0b668811dc178d6cb00d3188027b1b8b0504"
+    },
+    {
+      "path": "qa/whitecoat-squad-390.png",
+      "bytes": 465645,
+      "sha256": "460142833061fe81abcf52fa409e3266b40a692706b984c2378121d18e519f24"
+    },
+    {
+      "path": "qa/whitecoat-squad-enemy-320.png",
+      "bytes": 360738,
+      "sha256": "7b2d67ffafdce95d4e8a2cb82a1e57b073e98d6dbf03daf571227fd8e88d441d"
+    },
+    {
+      "path": "qa/whitecoat-squad-enemy-390.png",
+      "bytes": 467289,
+      "sha256": "2232e4e7e2bafaec81b0754a9c3e2909b36589cdb94d50f990b34721780f37d2"
+    }
+  ],
+  "totalBytes": 68801504,
+  "currentAuraCoverage": {
+    "date": "2026-11-05",
+    "rear": [
+      1.52,
+      1.3
+    ],
+    "front": [
+      1.4,
+      1.2
+    ],
+    "rearComposition": "balanced mirrored currents",
+    "artworkReused": true,
+    "sourceRef": "50bb3ab9cf9200f8034e4bb8afb3feccd524d0ef",
+    "productionDeployment": false
+  }
+}

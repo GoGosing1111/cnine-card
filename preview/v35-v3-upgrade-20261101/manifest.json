@@ -26,8 +26,8 @@
     },
     {
       "path": "build.mjs",
-      "bytes": 2886,
-      "sha256": "fca42f0d044ecf967b45a546f7f6df52ef9045e95d66e8e3962fc0a1537f56c9"
+      "bytes": 3081,
+      "sha256": "32ad44db64f29d6d0430cc55603bccae7cca91ea9262f12b0367f825b0432cf0"
     },
     {
       "path": "finalize.mjs",
@@ -46,8 +46,8 @@
     },
     {
       "path": "qa/build.json",
-      "bytes": 90291,
-      "sha256": "bb9ee60a7b66e209f34b98602a23fde8a2d0f881db327bf0453017e9c6681768"
+      "bytes": 90427,
+      "sha256": "547c140ee9aee0e024f04b1706951e8a3b5a4f684c31cbf207709fbf288a8421"
     },
     {
       "path": "qa/cardgu-after.png",
@@ -251,8 +251,8 @@
     },
     {
       "path": "workbench.bundle.js",
-      "bytes": 3336313,
-      "sha256": "c70877a9e1406f2fd173bcde6790db02bd416e7f01d068f7587334c077ea9682"
+      "bytes": 3336964,
+      "sha256": "e1bcc2a09e43b63fa0c4e3e9000d71f0c5733c7b8f6013cd3c034f7e4de1c154"
     },
     {
       "path": "workbench.src.mjs",
@@ -321,6 +321,21 @@
     "format": "H.264 MP4 with original WebM fallback",
     "iABVisiblePlaybackObserved": true,
     "relatedChecks": 56,
+    "productionDeployment": false
+  },
+  "currentAuraCoverage": {
+    "date": "2026-11-05",
+    "rear": [
+      1.52,
+      1.3
+    ],
+    "front": [
+      1.4,
+      1.2
+    ],
+    "rearComposition": "balanced mirrored currents",
+    "artworkReused": true,
+    "sourceRef": "50bb3ab9cf9200f8034e4bb8afb3feccd524d0ef",
     "productionDeployment": false
   }
 }

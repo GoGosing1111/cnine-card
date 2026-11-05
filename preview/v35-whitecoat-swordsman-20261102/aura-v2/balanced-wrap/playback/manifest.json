@@ -1,0 +1,117 @@
+{
+  "purpose": "Opaque H.264 browser review copies; original VP8 recordings preserved",
+  "video": "H.264 High 4.2, 60 fps, yuv420p, faststart, no audio",
+  "files": [
+    {
+      "source": "../qa/four-skills.webm",
+      "file": "four-skills.mp4",
+      "sourceSha256": "255b41502cfc688312f3e7abedac748e1044a4b81af3b779316e7364cfe6acf9",
+      "sha256": "513d807a022e3eaf9c285defc5cb4ad63da222fc59fcfef44c174e285b8f1fc8",
+      "bytes": 7568171,
+      "sourceUnchanged": true,
+      "rate": 1,
+      "effects": true,
+      "chapters": [
+        {
+          "id": "aura_idle",
+          "start": 0,
+          "end": 4.00680000000447
+        },
+        {
+          "id": "skill_flash",
+          "start": 4.007800000004471,
+          "end": 4.60530000000447
+        },
+        {
+          "id": "skill_thrust",
+          "start": 5.1725,
+          "end": 5.84260000000149
+        },
+        {
+          "id": "skill_wheel",
+          "start": 6.39980000000447,
+          "end": 7.28039999999851
+        },
+        {
+          "id": "skill_rain",
+          "start": 7.8456000000014905,
+          "end": 9.1845
+        }
+      ]
+    },
+    {
+      "source": "../qa/four-skills-half.webm",
+      "file": "four-skills-half.mp4",
+      "sourceSha256": "80c2700ea0234916514f4a99a5bdb4800b114f6b2d100ae7b0860b255b6d9e16",
+      "sha256": "eeb7c3cef9774d96d77f64702ba8781b4005f3c0b4c7d3f8c1c9133c9c0220d3",
+      "bytes": 9594261,
+      "sourceUnchanged": true,
+      "rate": 0.5,
+      "effects": true,
+      "chapters": [
+        {
+          "id": "aura_idle",
+          "start": 0,
+          "end": 4.016
+        },
+        {
+          "id": "skill_flash",
+          "start": 4.01689999999851,
+          "end": 5.21079999999702
+        },
+        {
+          "id": "skill_thrust",
+          "start": 5.77310000000149,
+          "end": 7.1105
+        },
+        {
+          "id": "skill_wheel",
+          "start": 7.671,
+          "end": 9.43129999999702
+        },
+        {
+          "id": "skill_rain",
+          "start": 9.99310000000149,
+          "end": 12.67329999999702
+        }
+      ]
+    },
+    {
+      "source": "../qa/four-skills-body.webm",
+      "file": "four-skills-body.mp4",
+      "sourceSha256": "1a076e409ce5a84fc637ebb6462e2ac0dfc458c51ccc6a9718f0067cfb186a8a",
+      "sha256": "bb4cadb52bb2e763f1fc3624174364ecae904f292279fe9f13707af3bc9f7ec8",
+      "bytes": 5602963,
+      "sourceUnchanged": true,
+      "rate": 1,
+      "effects": false,
+      "chapters": [
+        {
+          "id": "aura_idle",
+          "start": 0,
+          "end": 4.0142000000029805
+        },
+        {
+          "id": "skill_flash",
+          "start": 4.0149000000059605,
+          "end": 4.61340000000596
+        },
+        {
+          "id": "skill_thrust",
+          "start": 5.165,
+          "end": 5.834
+        },
+        {
+          "id": "skill_wheel",
+          "start": 6.39760000000149,
+          "end": 7.28
+        },
+        {
+          "id": "skill_rain",
+          "start": 7.8369000000059605,
+          "end": 9.176
+        }
+      ]
+    }
+  ]
+}

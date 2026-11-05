@@ -1532,6 +1532,146 @@
       "sha256": "4f90e3d32d8520a3eb4a514b9204b3d8cbd9fdec174886e8c18c92d8e35529d2"
     },
     {
+      "path": "aura-v2/balanced-wrap/manifest.json",
+      "bytes": 4830,
+      "sha256": "f592eb150e45a0dbd8afa117582b778f4d4792d638eb84b7008a83deee503674"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/playback/four-skills-body.mp4",
+      "bytes": 5602963,
+      "sha256": "bb4cadb52bb2e763f1fc3624174364ecae904f292279fe9f13707af3bc9f7ec8"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/playback/four-skills-half.mp4",
+      "bytes": 9594261,
+      "sha256": "eeb7c3cef9774d96d77f64702ba8781b4005f3c0b4c7d3f8c1c9133c9c0220d3"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/playback/four-skills.mp4",
+      "bytes": 7568171,
+      "sha256": "513d807a022e3eaf9c285defc5cb4ad63da222fc59fcfef44c174e285b8f1fc8"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/playback/manifest.json",
+      "bytes": 3055,
+      "sha256": "da25a79e5bdcb83e8a5112c4cf99e642e8fbc4dcd5990786c64eae272581a907"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/PROJECT.md",
+      "bytes": 3954,
+      "sha256": "c5c550c69a29ff4bdd1c1bee746d4a3e3b4b2d51149f82f96bbcbf9a305d2ad2"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/qa/centering.json",
+      "bytes": 8112,
+      "sha256": "155038376cb2a61a06fe6f9e03b0c218df3fc3aa0194e54b58cdc62c30ca9a2e"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/qa/centering.mjs",
+      "bytes": 3233,
+      "sha256": "f046bc7f112e01816f932ac959049f9b9c31ab4f2d69cddc2d623ed89e487134"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/qa/centred-closeup.png",
+      "bytes": 192772,
+      "sha256": "1c88fa643bc6958246db2c7d96c53a6238e18c6eb3e437b9d7a20348b42afe70"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/qa/centred-stage.png",
+      "bytes": 1913547,
+      "sha256": "8b4b02ca8c10710e9d0c1be72723d1dca5d27b74faaf22089eeb42706b50805f"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/qa/four-skills-body.webm",
+      "bytes": 9145095,
+      "sha256": "1a076e409ce5a84fc637ebb6462e2ac0dfc458c51ccc6a9718f0067cfb186a8a"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/qa/four-skills-half.webm",
+      "bytes": 12250609,
+      "sha256": "80c2700ea0234916514f4a99a5bdb4800b114f6b2d100ae7b0860b255b6d9e16"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/qa/four-skills.webm",
+      "bytes": 9744814,
+      "sha256": "255b41502cfc688312f3e7abedac748e1044a4b81af3b779316e7364cfe6acf9"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/qa/idle-closeup.png",
+      "bytes": 192816,
+      "sha256": "c16175999e159fe6c2ea9afe71a4fbcc7cf24d89b048aba8c6a4fb75af999608"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/qa/idle-stage.png",
+      "bytes": 1913563,
+      "sha256": "7029fefc9a54ea2fb88cf9becf52f2437151af0155a9204c40cf39e64ad56ca0"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/qa/paired-currents.png",
+      "bytes": 194184,
+      "sha256": "066a0afa5238588bd64b1358fe39dc068196eb983b85878aac2cc7aac2c67af6"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/qa/playback-check/review-1440.png",
+      "bytes": 1290873,
+      "sha256": "17bd080538ff9eb20a5d78d89206d96e14526f6c595ea242891056e7cc2ac186"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/qa/playback-check/review-390.png",
+      "bytes": 144252,
+      "sha256": "66a1429b2331385ab8b067f634c9963ec38dda3385649f09dac59cfd397d91b3"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/qa/playback-check/verification.json",
+      "bytes": 8781,
+      "sha256": "cfd9bd5f29f391830e8c57b4aaf5ddbff55592198dacfe4febb14cfa87902e81"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/qa/recording.json",
+      "bytes": 13828,
+      "sha256": "1d30a3ddb47a767305bb2da6f90a36c46d24b968403690c1ccb9b6c0ec0af639"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/qa/skill_flash-peak.png",
+      "bytes": 1925227,
+      "sha256": "80eba3e094acef2aee38b8ed500bc5add8d15af15bd1b67efc9199dae832152b"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/qa/skill_rain-peak.png",
+      "bytes": 1939158,
+      "sha256": "e12fcf160dadfe11d7d568e6e11322b18a4225efb8f84ebe845b6b915afc09c0"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/qa/skill_thrust-peak.png",
+      "bytes": 1899441,
+      "sha256": "aa94e46b0d0b4e77d13e381b75f78d787cba8be20c4fc3dccbdb8238c63b44a1"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/qa/skill_wheel-peak.png",
+      "bytes": 1890063,
+      "sha256": "2e6d82ba7284dd90d31d63da18de611d46252d41d6f8f03b5e000c76b9c0d0a7"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/qa/verification.json",
+      "bytes": 65060,
+      "sha256": "895149059f34f7c5642b8764e05c0b668811dc178d6cb00d3188027b1b8b0504"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/qa/whitecoat-squad-390.png",
+      "bytes": 465645,
+      "sha256": "460142833061fe81abcf52fa409e3266b40a692706b984c2378121d18e519f24"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/qa/whitecoat-squad-enemy-320.png",
+      "bytes": 360738,
+      "sha256": "7b2d67ffafdce95d4e8a2cb82a1e57b073e98d6dbf03daf571227fd8e88d441d"
+    },
+    {
+      "path": "aura-v2/balanced-wrap/qa/whitecoat-squad-enemy-390.png",
+      "bytes": 467289,
+      "sha256": "2232e4e7e2bafaec81b0754a9c3e2909b36589cdb94d50f990b34721780f37d2"
+    },
+    {
       "path": "aura-v2/effects.json",
       "bytes": 491,
       "sha256": "3159655c6209ed0bba45813fac08f24546eb19ff85df7cc06d59624f43555de6"
@@ -1878,13 +2018,13 @@
     },
     {
       "path": "aura-v2/HakuyaAura.mjs",
-      "bytes": 4771,
-      "sha256": "66426139da56d1d7d1c9541321e182c6cb5d5f9bb4b506082483c6ee199eef80"
+      "bytes": 6106,
+      "sha256": "2e8a7f85d6332b3cbeaa1908abd2050a4bc7075cc43cd4e3e97910179b704cef"
     },
     {
       "path": "aura-v2/manifest.json",
-      "bytes": 25825,
-      "sha256": "260787ac8fcfb1a4cbc0fd00400360b01faed4eae42ba5adc94fe5d5d900e792"
+      "bytes": 34872,
+      "sha256": "a0b1b47cba3ada19740057a17232053b30486acb4bab1ef8d4767393f97f59dd"
     },
     {
       "path": "aura-v2/native/ink-front-initial.efk",
@@ -2063,8 +2203,8 @@
     },
     {
       "path": "aura-v2/PROJECT.md",
-      "bytes": 5862,
-      "sha256": "0809f4039cd7cc7cc9a488687e84985df449f3af42fe73a52ca36a0e5e8d738b"
+      "bytes": 6347,
+      "sha256": "8007cbe574dcce6b5cad94922fc5aaf0d798709caf2af03ee6a26ea96a2f223c"
     },
     {
       "path": "aura-v2/qa/aura-early.png",
@@ -2143,8 +2283,8 @@
     },
     {
       "path": "aura-v2/qa/playback-fix/convert.mjs",
-      "bytes": 2065,
-      "sha256": "7deb3b2576529f5b5f7840ad1a75d319332d2d02d6b01d9e7c442b0f6664deda"
+      "bytes": 2205,
+      "sha256": "abe2523ae3d97995ecb6c758f9bd48bc31a4393529b92bdbdb9427b34d2bbddf"
     },
     {
       "path": "aura-v2/qa/playback-fix/review-1440.png",
@@ -2168,13 +2308,13 @@
     },
     {
       "path": "aura-v2/qa/playback-fix/verify.mjs",
-      "bytes": 6108,
-      "sha256": "79ad4a30357f9ba62c2f516068fdf218a6817596f0baf07eefef8b336b85a5d1"
+      "bytes": 6337,
+      "sha256": "f5117fce2e0fcec2b7928cdd5ef070b021ed9fe7dce3ac22d5897a7d86ffa039"
     },
     {
       "path": "aura-v2/qa/record.mjs",
-      "bytes": 3509,
-      "sha256": "6a797bf834a5a7cc8ce97413bce754169ded476cede615957aca0a86f494e0d5"
+      "bytes": 3632,
+      "sha256": "96c649056e846da35299e47fe1a1b6ed0c1cea367322ed3ccfb9bd8b3650bc83"
     },
     {
       "path": "aura-v2/qa/recording.json",
@@ -2218,8 +2358,8 @@
     },
     {
       "path": "aura-v2/qa/verify.mjs",
-      "bytes": 8959,
-      "sha256": "2e2c28a6a845ab2edacace221a9fac50963e0fa265875b55cf8a83236663d763"
+      "bytes": 10279,
+      "sha256": "c1abda17f667169e506a0500a2e4a34e2f0c55cf9df0eace9156d3bb63009382"
     },
     {
       "path": "aura-v2/qa/wheel-first.png",
@@ -2260,6 +2400,121 @@
       "path": "aura-v2/runtime/manifest.json",
       "bytes": 4865,
       "sha256": "e3c745aa366031087453c9413fbd2c7189c782021accb1b4ee1848c37f2910f8"
+    },
+    {
+      "path": "aura-v2/wide-wrap/manifest.json",
+      "bytes": 3635,
+      "sha256": "f18b031fef4eddad88a6291c32c4fc7416676d04978ce428e90d7701ed0b370c"
+    },
+    {
+      "path": "aura-v2/wide-wrap/PROJECT.md",
+      "bytes": 827,
+      "sha256": "092e7856aa9b4cd3bda69738c7100c42a3bc277d8be3cc4397cce2daf3020b30"
+    },
+    {
+      "path": "aura-v2/wide-wrap/qa/before-closeup.png",
+      "bytes": 155591,
+      "sha256": "150db13b7fd0cee946ee178dc742c5b72d40fc46eec3def2a06e99582344b8f7"
+    },
+    {
+      "path": "aura-v2/wide-wrap/qa/before-stage.png",
+      "bytes": 1911003,
+      "sha256": "23df2d41282c853e2ac156979dd0a462ca8cefd0d4ecfba4d18598321d75d3d8"
+    },
+    {
+      "path": "aura-v2/wide-wrap/qa/before.json",
+      "bytes": 1844,
+      "sha256": "1c2f986420f8b72ab71562855628c72aaab0dab89bb6040136b132ce2d55cda9"
+    },
+    {
+      "path": "aura-v2/wide-wrap/qa/candidate-a.png",
+      "bytes": 154303,
+      "sha256": "74254a163410076d577e3b56837562f38263bcbb7319caea6c2b9aafdfe67738"
+    },
+    {
+      "path": "aura-v2/wide-wrap/qa/candidate-b.png",
+      "bytes": 153525,
+      "sha256": "15992edb529a69194c4c87789ad9ecd22bd974e8f2cdb9987b759706322c8dda"
+    },
+    {
+      "path": "aura-v2/wide-wrap/qa/candidate-c.png",
+      "bytes": 169013,
+      "sha256": "670fb6786b4ff9d3ac627408204f2a211e9bcdadda54ebb969ba8a0a5005797c"
+    },
+    {
+      "path": "aura-v2/wide-wrap/qa/candidate-d.png",
+      "bytes": 169034,
+      "sha256": "29205b95e73c07a83b093d566ea38aecb2462a943a144bdd82a2de49d617efce"
+    },
+    {
+      "path": "aura-v2/wide-wrap/qa/four-skills-body.webm",
+      "bytes": 8992685,
+      "sha256": "051dddab5a380a290feb485b6de58a91a4d065dcf69f875e31ddf73cef76a235"
+    },
+    {
+      "path": "aura-v2/wide-wrap/qa/four-skills-half.webm",
+      "bytes": 12199748,
+      "sha256": "fd2dbabdd3cabc8ad6c32404b44bc914d63666907364c8a47c7c16fb98392967"
+    },
+    {
+      "path": "aura-v2/wide-wrap/qa/four-skills.webm",
+      "bytes": 9704351,
+      "sha256": "205c413a3011008afdaabcc81caf215b386a0bcfa4722efc3dcb5392c1346b13"
+    },
+    {
+      "path": "aura-v2/wide-wrap/qa/idle-closeup.png",
+      "bytes": 192112,
+      "sha256": "7732d22296cc0022cd7a19d61afc526e6df7b9ed2ab18634a99864dae9a1e8b3"
+    },
+    {
+      "path": "aura-v2/wide-wrap/qa/idle-stage.png",
+      "bytes": 1912383,
+      "sha256": "f0f44a5faf044c29b6d3b421bd7f1237875a96e157e973f7ba85948006670de4"
+    },
+    {
+      "path": "aura-v2/wide-wrap/qa/recording.json",
+      "bytes": 13859,
+      "sha256": "78efa0e22d886633c8487e90698c88e894327906cbc5f6340d1e7ef74c58f81a"
+    },
+    {
+      "path": "aura-v2/wide-wrap/qa/skill_flash-peak.png",
+      "bytes": 1924747,
+      "sha256": "ff8a40bd9f7e1b4be7f73f9cad476c13c93d90bd5fb2dd42f3a55815f5c69345"
+    },
+    {
+      "path": "aura-v2/wide-wrap/qa/skill_rain-peak.png",
+      "bytes": 1939136,
+      "sha256": "8db1339a0a422ce04797a5f636029f0282b333934698a8b0494033c9be49a7b8"
+    },
+    {
+      "path": "aura-v2/wide-wrap/qa/skill_thrust-peak.png",
+      "bytes": 1899331,
+      "sha256": "bc5faef01944d0e977d4505b5688d8369a24fc2cbd5108ecded8885b89a66c41"
+    },
+    {
+      "path": "aura-v2/wide-wrap/qa/skill_wheel-peak.png",
+      "bytes": 1890024,
+      "sha256": "905d0824971d1f20bbedec587b8033c074cd40832eb3c4edc6d217388b06e214"
+    },
+    {
+      "path": "aura-v2/wide-wrap/qa/verification.json",
+      "bytes": 64107,
+      "sha256": "7f2b0b959691a1431ce5ff5d513a1fbe2fd1b15e3c969aac7444ac11746067cc"
+    },
+    {
+      "path": "aura-v2/wide-wrap/qa/whitecoat-squad-390.png",
+      "bytes": 465396,
+      "sha256": "d0344c3ff2997405ceceb4f9858d667564d330a771bd7aa87b665a7c7f1531e5"
+    },
+    {
+      "path": "aura-v2/wide-wrap/qa/whitecoat-squad-enemy-320.png",
+      "bytes": 360351,
+      "sha256": "4503a0e4a2b814efaa5bd3b69331853e03fae0b1524a07af438aa1f139a41dc4"
+    },
+    {
+      "path": "aura-v2/wide-wrap/qa/whitecoat-squad-enemy-390.png",
+      "bytes": 466827,
+      "sha256": "1f410f258c8053e9d4ce6bbc6dcae8ff048f0c38ed1d384e40989a8a85a5f4df"
     },
     {
       "path": "author-spine.mjs",
@@ -3883,8 +4138,8 @@
     },
     {
       "path": "PROJECT.md",
-      "bytes": 24197,
-      "sha256": "c19ce00585608fb28fa93b4da4afd1591d51f2327a9f77014471163004efc396"
+      "bytes": 24532,
+      "sha256": "5c3a7d593536ef71fffa970c488000094f58b142bad2f66a3b304216560a39ff"
     },
     {
       "path": "qa/art-compare.json",
@@ -4683,8 +4938,8 @@
     },
     {
       "path": "review.html",
-      "bytes": 9381,
-      "sha256": "cecdfeccf2457a8aa50d0387c126229b182de6857a8e46fa9091bacf0cc14f26"
+      "bytes": 9502,
+      "sha256": "ecf97b8b247cfdf7470653793648991b226b2d86c7c26c490092c298e88958d5"
     },
     {
       "path": "runtime-action-v3-93718185df11/whitecoat-action-v3-93718185df11_2.png",
@@ -8143,8 +8398,8 @@
     },
     {
       "path": "swordplay-v5/review.mjs",
-      "bytes": 4630,
-      "sha256": "ad68ae94e1b0c367f8bdbbc2d78cc94a0502932c5eef47eb01e9e58d68b8e9b5"
+      "bytes": 4635,
+      "sha256": "a09fab2b477a74870f2dbd0a8d070bea2fd82ce446dd9fd594d791d81043f189"
     },
     {
       "path": "swordplay-v5/skills.mjs",
@@ -8202,7 +8457,7 @@
       "sha256": "b7bac9cd950efbdf1c511dd21c838cf49e3af0582c4e3ffdfd34f6f79d32be25"
     }
   ],
-  "totalBytes": 794425841,
+  "totalBytes": 907989147,
   "swordTrailUpdate": {
     "plugin": "Runway",
     "delivery": "qa/sword-trail/delivery.json",
@@ -8264,6 +8519,21 @@
     "format": "H.264 MP4 with original WebM fallback",
     "iABVisiblePlaybackObserved": true,
     "relatedChecks": 56,
+    "productionDeployment": false
+  },
+  "currentAuraCoverage": {
+    "date": "2026-11-05",
+    "rear": [
+      1.52,
+      1.3
+    ],
+    "front": [
+      1.4,
+      1.2
+    ],
+    "rearComposition": "balanced mirrored currents",
+    "artworkReused": true,
+    "sourceRef": "50bb3ab9cf9200f8034e4bb8afb3feccd524d0ef",
     "productionDeployment": false
   }
 }

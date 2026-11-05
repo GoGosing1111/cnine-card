@@ -2,10 +2,13 @@ import fs from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {browser} from '../../../swordplay-v5/qa/probe.mjs';
-const dir=fileURLToPath(new URL('.',import.meta.url));
+const media=process.argv[2]||'aura-v2';
+const mediaRoot=fileURLToPath(new URL('../../../'+media+'/',import.meta.url));
+const dir=process.argv[2]?mediaRoot+'qa/playback-check/':fileURLToPath(new URL('.',import.meta.url));
+await fs.mkdir(dir,{recursive:true});
 const url='http://127.0.0.1:18766/preview/v35-whitecoat-swordsman-20261102/review.html?v=playback-20261105';
 const checks=[],check=(name,pass,detail)=>checks.push({name,pass:!!pass,detail});
-const recording=JSON.parse(await fs.readFile(dir+'../recording.json'));
+const recording=JSON.parse(await fs.readFile(mediaRoot+'qa/recording.json'));
 const state=p=>p.locator('#swordplay-film').evaluate(v=>{
  const c=document.createElement('canvas');c.width=144;c.height=86;
  const x=c.getContext('2d');x.drawImage(v,0,0,c.width,c.height);
@@ -58,7 +61,7 @@ try{
   check(width+' repeat resumes from beginning',true);
   check(width+' page fits and has no script errors',await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)&&!errors.length,errors);
   if(width===1440){await p.locator('[data-cast="skill_wheel"]').click();await p.waitForTimeout(270);await p.locator('#play-toggle').click();}
-  await p.screenshot({path:dir+`review-${width}.png`});await p.close();
+  await p.screenshot({path:dir+`review-${width}.png`,fullPage:true});await p.close();
  }
  const slow=await b.newPage();
  await slow.route('**/recording.json',async route=>{await new Promise(r=>setTimeout(r,1800));await route.continue()});
@@ -71,11 +74,11 @@ try{
  await fallback.goto(url);await fallback.locator('[data-film="four-skills.webm"]').click();
  await fallback.waitForFunction(()=>{const v=document.querySelector('#swordplay-film');return v.currentSrc.endsWith('.webm')&&v.currentTime>.1&&!v.paused});
  check('Unavailable MP4 falls back to original recording',true);await fallback.close();
- const manifest=JSON.parse(await fs.readFile(dir+'../../playback/manifest.json'));
+ const manifest=JSON.parse(await fs.readFile(mediaRoot+'playback/manifest.json'));
  for(const f of manifest.files){
-  const data=await fs.readFile(dir+'../'+f.file.replace('.mp4','.webm'));
+  const data=await fs.readFile(mediaRoot+'qa/'+f.file.replace('.mp4','.webm'));
   check(f.file+' original preserved',createHash('sha256').update(data).digest('hex')===f.sourceSha256);
-  const response=await fetch(new URL('aura-v2/playback/'+f.file,url),{headers:{Range:'bytes=0-1023'}});
+  const response=await fetch(new URL(media+'/playback/'+f.file,url),{headers:{Range:'bytes=0-1023'}});
   check(f.file+' served with video MIME and seek range',response.status===206&&response.headers.get('content-type')==='video/mp4'&&response.headers.get('content-range')?.startsWith('bytes 0-1023/'));
   await response.arrayBuffer();
  }

@@ -6,22 +6,26 @@
     {
       "path": "preview/project-v-v3/source/battle/BattleEngine.js",
       "sha256": "4a7e153d3036b8f29ef8b0223ade1fe241ca593ee9749fe058962e9b484f76c5",
-      "originMainNormalizedMatch": true
+      "originMainNormalizedMatch": false,
+      "pinnedSourceMatch": true
     },
     {
       "path": "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
       "sha256": "5cfe8330f55f728bd1e33b69869c2fb02df399a69cd522690208ab262b225722",
-      "originMainNormalizedMatch": true
+      "originMainNormalizedMatch": false,
+      "pinnedSourceMatch": true
     },
     {
       "path": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
       "sha256": "8a812c3025790e5a2be71efd00eb948521961e050e2ea0275e433c7868de7605",
-      "originMainNormalizedMatch": true
+      "originMainNormalizedMatch": false,
+      "pinnedSourceMatch": true
     },
     {
       "path": "js/battle-v3-live.js",
       "sha256": "adb428d96bb295162a1fc3f63ba7150d03e9b2d2ce0473ddf1ec4d66c976d9c0",
-      "originMainNormalizedMatch": true
+      "originMainNormalizedMatch": false,
+      "pinnedSourceMatch": true
     }
   ],
   "pixi": [

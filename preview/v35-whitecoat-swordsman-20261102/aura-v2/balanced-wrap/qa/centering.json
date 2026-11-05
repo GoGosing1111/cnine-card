@@ -1,0 +1,304 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "All cels and crossfades balance visible light around the body axis",
+      "pass": true,
+      "detail": [
+        {
+          "time": 0,
+          "lumaDifference": 0,
+          "alphaDifference": 0,
+          "centroidPixels": 8.357663930281951e-16,
+          "maxMirrorDelta": 0,
+          "blackPixels": 4082,
+          "coveredPixels": 15472
+        },
+        {
+          "time": 0.15,
+          "lumaDifference": 2.310103266699296e-16,
+          "alphaDifference": 0,
+          "centroidPixels": 8.578570736848072e-16,
+          "maxMirrorDelta": 0,
+          "blackPixels": 4188,
+          "coveredPixels": 16118
+        },
+        {
+          "time": 0.3,
+          "lumaDifference": 5.694153178921513e-17,
+          "alphaDifference": 6.43469694348143e-17,
+          "centroidPixels": 7.222076172583106e-16,
+          "maxMirrorDelta": 0,
+          "blackPixels": 4068,
+          "coveredPixels": 16208
+        },
+        {
+          "time": 0.44999999999999996,
+          "lumaDifference": 1.0778110044488025e-16,
+          "alphaDifference": 6.127922360097185e-17,
+          "centroidPixels": 5.745770730961265e-16,
+          "maxMirrorDelta": 0,
+          "blackPixels": 3698,
+          "coveredPixels": 17194
+        },
+        {
+          "time": 0.6,
+          "lumaDifference": 3.1401845970725486e-16,
+          "alphaDifference": 5.903185111791423e-17,
+          "centroidPixels": 8.287629754667766e-16,
+          "maxMirrorDelta": 0,
+          "blackPixels": 4094,
+          "coveredPixels": 17556
+        },
+        {
+          "time": 0.75,
+          "lumaDifference": 0,
+          "alphaDifference": 0,
+          "centroidPixels": 5.709809049738082e-16,
+          "maxMirrorDelta": 0,
+          "blackPixels": 4288,
+          "coveredPixels": 18372
+        },
+        {
+          "time": 0.8999999999999999,
+          "lumaDifference": 1.0003125815043553e-16,
+          "alphaDifference": 1.6837562632496978e-16,
+          "centroidPixels": 7.293996785331542e-16,
+          "maxMirrorDelta": 0,
+          "blackPixels": 4300,
+          "coveredPixels": 18556
+        },
+        {
+          "time": 1.05,
+          "lumaDifference": 9.769099526653768e-17,
+          "alphaDifference": 6.454233314111945e-16,
+          "centroidPixels": 8.775203659512972e-16,
+          "maxMirrorDelta": 0,
+          "blackPixels": 4138,
+          "coveredPixels": 19572
+        },
+        {
+          "time": 1.2,
+          "lumaDifference": 9.689653983960857e-17,
+          "alphaDifference": 6.230617930635526e-16,
+          "centroidPixels": 7.767099835336586e-16,
+          "maxMirrorDelta": 0,
+          "blackPixels": 4562,
+          "coveredPixels": 19934
+        },
+        {
+          "time": 1.3499999999999999,
+          "lumaDifference": 9.66634936085839e-17,
+          "alphaDifference": 3.152077598533797e-16,
+          "centroidPixels": 8.446786936308184e-16,
+          "maxMirrorDelta": 0,
+          "blackPixels": 4336,
+          "coveredPixels": 19934
+        },
+        {
+          "time": 1.5,
+          "lumaDifference": 0,
+          "alphaDifference": 8.614014751022024e-16,
+          "centroidPixels": 1.0540173785254882e-15,
+          "maxMirrorDelta": 0,
+          "blackPixels": 4544,
+          "coveredPixels": 19506
+        },
+        {
+          "time": 1.65,
+          "lumaDifference": 1.0667909599488932e-16,
+          "alphaDifference": 5.802252763814589e-17,
+          "centroidPixels": 4.998751356709384e-16,
+          "maxMirrorDelta": 0,
+          "blackPixels": 4892,
+          "coveredPixels": 19364
+        },
+        {
+          "time": 1.7999999999999998,
+          "lumaDifference": 5.849511208786728e-17,
+          "alphaDifference": 1.295873301812608e-16,
+          "centroidPixels": 9.77893750052908e-16,
+          "maxMirrorDelta": 0,
+          "blackPixels": 3814,
+          "coveredPixels": 15964
+        },
+        {
+          "time": 1.95,
+          "lumaDifference": 5.897747891223364e-17,
+          "alphaDifference": 1.9571647211844595e-16,
+          "centroidPixels": 8.144248442953511e-16,
+          "maxMirrorDelta": 0,
+          "blackPixels": 3866,
+          "coveredPixels": 15980
+        },
+        {
+          "time": 2.1,
+          "lumaDifference": 0,
+          "alphaDifference": 6.566183556426378e-17,
+          "centroidPixels": 7.393340327048216e-16,
+          "maxMirrorDelta": 0,
+          "blackPixels": 3998,
+          "coveredPixels": 15864
+        },
+        {
+          "time": 2.25,
+          "lumaDifference": 1.2018877277906276e-16,
+          "alphaDifference": 2.6501791073413215e-16,
+          "centroidPixels": 7.659549282562049e-16,
+          "maxMirrorDelta": 0,
+          "blackPixels": 4028,
+          "coveredPixels": 15736
+        }
+      ]
+    },
+    {
+      "name": "Normal final compositing retains opaque dark ink",
+      "pass": true,
+      "detail": [
+        {
+          "time": 0,
+          "black": 4082
+        },
+        {
+          "time": 0.15,
+          "black": 4188
+        },
+        {
+          "time": 0.3,
+          "black": 4068
+        },
+        {
+          "time": 0.44999999999999996,
+          "black": 3698
+        },
+        {
+          "time": 0.6,
+          "black": 4094
+        },
+        {
+          "time": 0.75,
+          "black": 4288
+        },
+        {
+          "time": 0.8999999999999999,
+          "black": 4300
+        },
+        {
+          "time": 1.05,
+          "black": 4138
+        },
+        {
+          "time": 1.2,
+          "black": 4562
+        },
+        {
+          "time": 1.3499999999999999,
+          "black": 4336
+        },
+        {
+          "time": 1.5,
+          "black": 4544
+        },
+        {
+          "time": 1.65,
+          "black": 4892
+        },
+        {
+          "time": 1.7999999999999998,
+          "black": 3814
+        },
+        {
+          "time": 1.95,
+          "black": 3866
+        },
+        {
+          "time": 2.1,
+          "black": 3998
+        },
+        {
+          "time": 2.25,
+          "black": 4028
+        }
+      ]
+    },
+    {
+      "name": "Rear currents stay behind body and front ribbons remain in front",
+      "pass": true,
+      "detail": {
+        "body": {
+          "minX": 334.8689892265032,
+          "minY": 198.39988920463705,
+          "maxX": 499.9544327753895,
+          "maxY": 325.3522507445711,
+          "matrix": {
+            "array": null,
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 0
+          }
+        },
+        "aura": {
+          "time": 1.5,
+          "visible": true,
+          "center": [
+            425.54043475958713,
+            261.7769142414503
+          ],
+          "body": {
+            "x": 27.56130782240395,
+            "y": -265.7967474396323,
+            "tilt": 0.09435618373980083,
+            "height": 595.9583749846231,
+            "width": 600.3038999535573,
+            "head": {
+              "x": 47.53318893504096,
+              "y": -476.8329999999999
+            },
+            "feet": {
+              "x": 2.5017499767786404,
+              "y": -1.0006999999999997
+            },
+            "crown": {
+              "x": 52.62086566802926,
+              "y": -530.5927948792646
+            }
+          },
+          "frames": {
+            "rear": {
+              "index": 5,
+              "mix": 0
+            },
+            "front": {
+              "index": 7,
+              "mix": 0
+            }
+          },
+          "coverage": {
+            "rear": {
+              "width": 1.52,
+              "height": 1.3,
+              "lift": 0.14
+            },
+            "front": {
+              "width": 1.4,
+              "height": 1.2,
+              "lift": 0.1
+            }
+          },
+          "rearComposition": "balanced mirrored currents",
+          "outline": true,
+          "behindBody": true,
+          "inFrontOfBody": true,
+          "frontVisible": true,
+          "clock": "V3_REGISTERED_GSAP",
+          "destroyed": false
+        },
+        "rearSprites": 4,
+        "frontSprites": 2
+      }
+    }
+  ]
+}

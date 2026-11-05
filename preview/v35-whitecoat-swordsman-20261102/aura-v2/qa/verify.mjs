@@ -1,17 +1,31 @@
 import fs from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
+import path from 'node:path';
 import sharp from 'sharp';
 import {browser,start,seek,cancel,modes,elapsed} from '../../swordplay-v5/qa/probe.mjs';
-const dir=fileURLToPath(new URL('.',import.meta.url)),checks=[],consoleErrors=[];
+const source=fileURLToPath(new URL('.',import.meta.url));
+const dir=process.argv[2]?path.resolve(process.argv[2])+path.sep:source,checks=[],consoleErrors=[];
+await fs.mkdir(dir,{recursive:true});
+const frontManifest=JSON.parse(await fs.readFile(source+'../runtime/manifest.json')).layers.front;
+const frontPixels=await sharp(source+'../runtime/'+frontManifest.atlas).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+function faceCoverage(points){
+ let maxAlpha=0,covered=0;
+ for(const f of frontManifest.frames)for(const [u,v]of points){
+  const x=Math.round(u),y=Math.round(v);if(x<0||y<0||x>=f.w||y>=f.h)continue;
+  const a=frontPixels.data[((f.y+y)*frontPixels.info.width+f.x+x)*4+3];
+  maxAlpha=Math.max(maxAlpha,a);if(a>32)covered++;
+ }
+ return {maxAlpha,covered,samples:points.length*frontManifest.frames.length};
+}
 const check=(name,pass,detail)=>checks.push({name,pass:!!pass,detail});
 const snap=p=>p.evaluate(()=>v35Review.spine.aura.audit());
 const b=await browser();
 try {
- const delivery=JSON.parse(await fs.readFile(dir+'../../skills-v4/qa/native.json'));
- const hash=createHash('sha256').update(await fs.readFile(dir+'../../'+delivery.native)).digest('hex');
+ const delivery=JSON.parse(await fs.readFile(source+'../../skills-v4/qa/native.json'));
+ const hash=createHash('sha256').update(await fs.readFile(source+'../../'+delivery.native)).digest('hex');
  check('Original Spine motion master remains byte-identical',hash===delivery.nativeSha256,hash);
- const authored=JSON.parse(await fs.readFile(dir+'native.json'));
+ const authored=JSON.parse(await fs.readFile(source+'native.json'));
  check('Sixteen distinct cels have clean borders and native roundtrip equality',authored.reports.every(r=>r.drawings===8&&r.roundTripBinaryEqual)&&authored.cropAudit.every(r=>!r.border));
  for(const [kind,width] of [['whitecoat-squad',1440],['whitecoat-squad',390],['whitecoat-squad-enemy',390],['whitecoat-squad-enemy',320]]) {
   const label=kind+'/'+width,p=await b.newPage({viewport:{width,height:width>700?940:844}});
@@ -30,7 +44,7 @@ try {
   await p.locator('#pvPixiBattle canvas').screenshot({path:dir+(width===1440?'idle-stage':kind+'-'+width)+'.png'});
   if(width===1440) {
    const r=scene.body,box=await p.locator('#pvPixiBattle canvas').boundingBox();
-   await p.screenshot({path:dir+'idle-closeup.png',clip:{x:r.minX-45,y:r.minY+box.y-35,width:r.maxX-r.minX+80,height:r.maxY-r.minY+55}});
+   await p.screenshot({path:dir+'idle-closeup.png',clip:{x:Math.max(0,r.minX-100),y:Math.max(0,r.minY+box.y-85),width:r.maxX-r.minX+200,height:r.maxY-r.minY+160}});
    const pixels=await p.evaluate(()=>{
     const a=v35Review,rig=a.spine.rig,extract=a.engine.app.renderer.extract,bounds=rig.getLocalBounds();
     const frame=new PIXI.Rectangle(bounds.minX-40,bounds.minY-40,bounds.maxX-bounds.minX+80,bounds.maxY-bounds.minY+80),filters=rig.filters;
@@ -55,10 +69,17 @@ try {
     const center=s.aura.root.getGlobalPosition(),vx=head.x-feet.x,vy=head.y-feet.y,len=Math.hypot(vx,vy);
     const axisDistance=Math.abs((center.x-feet.x)*vy-(center.y-feet.y)*vx)/len;
     const position=((center.x-feet.x)*vx+(center.y-feet.y)*vy)/(len*len);
-    const localHead=s.aura.front.toLocal(head);
-    return {aura:s.aura.audit(),phase:s.clock.time,origin:s.auraOrigin,error:axisDistance,position,headTextureY:localHead.y+160};
+    const frontSprite=s.aura.pairs.front[0],localHead=frontSprite.toLocal(head),faceSamples=[];
+    // Sample a face ellipse, including the real cel translation, against all
+    // eight foreground cels instead of relying on the atlas's topmost pixel.
+    for(let y=-1;y<=1.001;y+=.25)for(let x=-1;x<=1.001;x+=.25){
+     if(x*x+y*y>1)continue;
+     const q=frontSprite.toLocal(s.rig.toGlobal(new PIXI.Point(h.worldX+x*24,h.worldY+y*32)));
+     faceSamples.push([q.x+160,q.y+160]);
+    }
+    return {aura:s.aura.audit(),phase:s.clock.time,origin:s.auraOrigin,error:axisDistance,position,headTextureY:localHead.y+160,faceSamples};
    }));}
-   check(label+'/'+m.id+' follows pose, root and facing without double mirroring',states.every(s=>s.error<1e-5&&s.position>.4&&s.position<.8&&s.headTextureY<110&&s.aura.behindBody&&s.aura.inFrontOfBody&&s.aura.outline&&Math.abs(s.aura.time-s.origin-s.phase)<1e-6),states.map(s=>({phase:s.phase,error:s.error,bodyPosition:s.position,headTextureY:s.headTextureY})));
+   check(label+'/'+m.id+' follows pose, root and facing without covering the face',states.every(s=>s.error<1e-5&&s.position>.4&&s.position<.8&&faceCoverage(s.faceSamples).maxAlpha<=32&&s.aura.behindBody&&s.aura.inFrontOfBody&&s.aura.outline&&Math.abs(s.aura.time-s.origin-s.phase)<1e-6),states.map(s=>({phase:s.phase,error:s.error,bodyPosition:s.position,headTextureY:s.headTextureY,face:faceCoverage(s.faceSamples)})));
    const held=await snap(p);await p.waitForTimeout(90);
    check(label+'/'+m.id+' paused attack has no independent aura clock',JSON.stringify(await snap(p))===JSON.stringify(held));
    const identical=await snap(p);await seek(p,.01);await seek(p,elapsed(m,m.phases.at(-1)));

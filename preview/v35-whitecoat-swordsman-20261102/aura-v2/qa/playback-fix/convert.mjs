@@ -1,9 +1,10 @@
 import fs from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
+import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {execFileSync,spawnSync} from 'node:child_process';
-const qa=fileURLToPath(new URL('../',import.meta.url));
-const out=fileURLToPath(new URL('../../playback/',import.meta.url));
+const qa=process.argv[2]?path.resolve(process.argv[2])+path.sep:fileURLToPath(new URL('../',import.meta.url));
+const out=process.argv[3]?path.resolve(process.argv[3])+path.sep:fileURLToPath(new URL('../../playback/',import.meta.url));
 const ffmpeg=execFileSync('python',['-c','import imageio_ffmpeg;print(imageio_ffmpeg.get_ffmpeg_exe())'],{encoding:'utf8',windowsHide:true}).trim();
 const hash=b=>createHash('sha256').update(b).digest('hex');
 await fs.mkdir(out,{recursive:true});
