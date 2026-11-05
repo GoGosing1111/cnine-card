@@ -1,0 +1,2222 @@
+{
+  "ok": true,
+  "reports": [
+    {
+      "width": 1440,
+      "field": "HUNT",
+      "setup": {
+        "canvas": 1,
+        "states": [
+          {
+            "id": "A:MERCENARY:V-967",
+            "team": "ALLY",
+            "facing": 1,
+            "autoUpdate": false,
+            "aura": {
+              "time": 0.1404,
+              "visible": true,
+              "center": [
+                425.54043475958713,
+                332.7769142414503
+              ],
+              "body": {
+                "x": 27.56130782240395,
+                "y": -265.7967474396323,
+                "tilt": 0.09435618373980083,
+                "height": 595.9583749846231,
+                "width": 600.3038999535573,
+                "head": {
+                  "x": 47.53318893504096,
+                  "y": -476.8329999999999
+                },
+                "feet": {
+                  "x": 2.5017499767786404,
+                  "y": -1.0006999999999997
+                },
+                "crown": {
+                  "x": 52.62086566802926,
+                  "y": -530.5927948792646
+                }
+              },
+              "frames": {
+                "rear": {
+                  "index": 0,
+                  "mix": 0.46799999999999997
+                },
+                "front": {
+                  "index": 2,
+                  "mix": 0.46799999999999997
+                }
+              },
+              "coverage": {
+                "rear": {
+                  "width": 1.52,
+                  "height": 1.3,
+                  "lift": 0.14
+                },
+                "front": {
+                  "width": 1.4,
+                  "height": 1.2,
+                  "lift": 0.1
+                }
+              },
+              "rearComposition": "balanced mirrored currents",
+              "outline": true,
+              "behindBody": true,
+              "inFrontOfBody": true,
+              "frontVisible": true,
+              "clock": "V3_REGISTERED_GSAP",
+              "destroyed": false
+            },
+            "bodyVisible": false
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "side": "ALLY",
+          "action": "skill_flash",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_iai",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "technique": "skill_flash",
+            "motionRate": 2,
+            "contactSeconds": 0.3,
+            "durationSeconds": 1.55,
+            "wholePoseAttachments": true
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL"
+          ],
+          "samples": [
+            {
+              "time": 0.052,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1092,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.1612,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2158,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2574,
+              "pose": "iai_ready",
+              "active": 1
+            },
+            {
+              "time": 0.4836,
+              "pose": "iai_cut",
+              "active": 3
+            },
+            {
+              "time": 0.5538,
+              "pose": "rise",
+              "active": 5
+            },
+            {
+              "time": 0.572,
+              "pose": "rise",
+              "active": 5
+            },
+            {
+              "time": 0.6266,
+              "pose": "rise",
+              "active": 5
+            },
+            {
+              "time": 0.6812,
+              "pose": "rise",
+              "active": 4
+            },
+            {
+              "time": 0.7358,
+              "pose": "follow",
+              "active": 4
+            },
+            {
+              "time": 0.7774,
+              "pose": "follow",
+              "active": 3
+            },
+            {
+              "time": 0.832,
+              "pose": "follow",
+              "active": 3
+            },
+            {
+              "time": 0.8866,
+              "pose": "follow",
+              "active": 2
+            },
+            {
+              "time": 0.9412,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.9854,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 1.0374,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.092,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.1466,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.2012,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.2454,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.352,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.4066,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.4612,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.5054,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 380,
+            "y": 240
+          },
+          "end": {
+            "x": 380,
+            "y": 240
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "skill_thrust",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_rift",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "technique": "skill_thrust",
+            "motionRate": 2,
+            "contactSeconds": 0.48,
+            "nativeContactSeconds": 0.48,
+            "durationSeconds": 1.7349999999999999,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "pierce"
+            ],
+            "hitstopHolds": [
+              0.065
+            ]
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL"
+          ],
+          "samples": [
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1092,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.1638,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2184,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.26,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.3146,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.3692,
+              "pose": "v4_rift_draw",
+              "active": 2
+            },
+            {
+              "time": 0.4238,
+              "pose": "v4_rift_drive",
+              "active": 3
+            },
+            {
+              "time": 0.4758,
+              "pose": "v4_rift_drive",
+              "active": 3
+            },
+            {
+              "time": 0.48,
+              "pose": "v4_rift_drive",
+              "active": 5
+            },
+            {
+              "time": 0.5096,
+              "pose": "v4_rift_drive",
+              "active": 5
+            },
+            {
+              "time": 0.5642,
+              "pose": "v4_rift_drive",
+              "active": 4
+            },
+            {
+              "time": 0.6188,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.6734,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.715,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.7696,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.8242,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.8788,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.9204,
+              "pose": "v4_verdict_sheathe",
+              "active": 4
+            },
+            {
+              "time": 0.975,
+              "pose": "v4_verdict_sheathe",
+              "active": 4
+            },
+            {
+              "time": 1.0296,
+              "pose": "v4_verdict_sheathe",
+              "active": 3
+            },
+            {
+              "time": 1.0842,
+              "pose": "v4_verdict_sheathe",
+              "active": 2
+            },
+            {
+              "time": 1.1388,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.1934,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.235,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.2896,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3442,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3988,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.4404,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.495,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.5496,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.6042,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.6588,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 380,
+            "y": 240
+          },
+          "end": {
+            "x": 380,
+            "y": 240
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "skill_wheel",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_tempest",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 12,
+            "technique": "skill_wheel",
+            "motionRate": 2,
+            "contactSeconds": 1.305,
+            "nativeContactSeconds": 1.22,
+            "durationSeconds": 2.29,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "draw",
+              "turn",
+              "slam"
+            ],
+            "hitstopHolds": [
+              0.035,
+              0.05,
+              0.085
+            ]
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL",
+            "B:1:ENCOUNTER:INITIAL",
+            "B:2:ENCOUNTER:INITIAL",
+            "B:3:ENCOUNTER:INITIAL",
+            "B:4:ENCOUNTER:INITIAL",
+            "B:5:ENCOUNTER:INITIAL",
+            "B:6:ENCOUNTER:INITIAL",
+            "B:7:ENCOUNTER:INITIAL",
+            "B:8:ENCOUNTER:INITIAL",
+            "B:9:ENCOUNTER:INITIAL",
+            "B:10:ENCOUNTER:INITIAL",
+            "B:11:ENCOUNTER:INITIAL"
+          ],
+          "samples": [
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1092,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.1612,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2158,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2704,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.3,
+              "pose": "iai_cut",
+              "active": 1
+            },
+            {
+              "time": 0.3342,
+              "pose": "iai_cut",
+              "active": 1
+            },
+            {
+              "time": 0.3862,
+              "pose": "iai_cut",
+              "active": 1
+            },
+            {
+              "time": 0.4408,
+              "pose": "follow",
+              "active": 1
+            },
+            {
+              "time": 0.485,
+              "pose": "v3_pivot",
+              "active": 1
+            },
+            {
+              "time": 0.5396,
+              "pose": "v3_pivot",
+              "active": 0
+            },
+            {
+              "time": 0.5942,
+              "pose": "v3_pivot",
+              "active": 0
+            },
+            {
+              "time": 0.64,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.6508,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.7054,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.7496,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.8042,
+              "pose": "v3_compress",
+              "active": 2
+            },
+            {
+              "time": 0.8562,
+              "pose": "v3_takeoff",
+              "active": 2
+            },
+            {
+              "time": 0.9108,
+              "pose": "v3_takeoff",
+              "active": 1
+            },
+            {
+              "time": 0.9654,
+              "pose": "v3_takeoff",
+              "active": 1
+            },
+            {
+              "time": 1.0096,
+              "pose": "v3_apex",
+              "active": 1
+            },
+            {
+              "time": 1.0642,
+              "pose": "v3_apex",
+              "active": 1
+            },
+            {
+              "time": 1.1188,
+              "pose": "v3_aircut",
+              "active": 3
+            },
+            {
+              "time": 1.1708,
+              "pose": "v3_aircut",
+              "active": 4
+            },
+            {
+              "time": 1.215,
+              "pose": "v3_aircut",
+              "active": 4
+            },
+            {
+              "time": 1.22,
+              "pose": "v3_slam",
+              "active": 18
+            },
+            {
+              "time": 1.2392,
+              "pose": "v3_slam",
+              "active": 18
+            },
+            {
+              "time": 1.2938,
+              "pose": "v3_slam",
+              "active": 18
+            },
+            {
+              "time": 1.3458,
+              "pose": "v3_slam",
+              "active": 18
+            },
+            {
+              "time": 1.39,
+              "pose": "v3_recover",
+              "active": 17
+            },
+            {
+              "time": 1.4446,
+              "pose": "v3_recover",
+              "active": 16
+            },
+            {
+              "time": 1.4992,
+              "pose": "v3_recover",
+              "active": 16
+            },
+            {
+              "time": 1.5538,
+              "pose": "v3_recover",
+              "active": 15
+            },
+            {
+              "time": 1.6058,
+              "pose": "guard",
+              "active": 15
+            },
+            {
+              "time": 1.65,
+              "pose": "guard",
+              "active": 15
+            },
+            {
+              "time": 1.7046,
+              "pose": "guard",
+              "active": 15
+            },
+            {
+              "time": 1.7592,
+              "pose": "step",
+              "active": 3
+            },
+            {
+              "time": 1.8138,
+              "pose": "step",
+              "active": 1
+            },
+            {
+              "time": 1.8658,
+              "pose": "step",
+              "active": 1
+            },
+            {
+              "time": 1.9204,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.9646,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.0192,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.0712,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 380,
+            "y": 240
+          },
+          "end": {
+            "x": 380,
+            "y": 240
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "skill_rain",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_verdict",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 12,
+            "technique": "skill_rain",
+            "motionRate": 2,
+            "contactSeconds": 1.855,
+            "nativeContactSeconds": 1.78,
+            "durationSeconds": 3.485,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "scar-one",
+              "scar-two",
+              "scar-three",
+              "verdict"
+            ],
+            "hitstopHolds": [
+              0.02,
+              0.025,
+              0.03,
+              0.11
+            ]
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL",
+            "B:1:ENCOUNTER:INITIAL",
+            "B:2:ENCOUNTER:INITIAL",
+            "B:3:ENCOUNTER:INITIAL",
+            "B:4:ENCOUNTER:INITIAL",
+            "B:5:ENCOUNTER:INITIAL",
+            "B:6:ENCOUNTER:INITIAL",
+            "B:7:ENCOUNTER:INITIAL",
+            "B:8:ENCOUNTER:INITIAL",
+            "B:9:ENCOUNTER:INITIAL",
+            "B:10:ENCOUNTER:INITIAL",
+            "B:11:ENCOUNTER:INITIAL"
+          ],
+          "samples": [
+            {
+              "time": 0.052,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1066,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1612,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.2158,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.26,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.312,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.3666,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.4212,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.4758,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.5304,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.5746,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.6266,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.6638,
+              "pose": "v4_verdict_focus",
+              "active": 1
+            },
+            {
+              "time": 0.7184,
+              "pose": "v4_verdict_focus",
+              "active": 1
+            },
+            {
+              "time": 0.7704,
+              "pose": "v4_verdict_focus",
+              "active": 1
+            },
+            {
+              "time": 0.8146,
+              "pose": "v4_echo_ready",
+              "active": 1
+            },
+            {
+              "time": 0.8666,
+              "pose": "v4_echo_ready",
+              "active": 1
+            },
+            {
+              "time": 0.9212,
+              "pose": "v4_echo_ready",
+              "active": 1
+            },
+            {
+              "time": 0.9784,
+              "pose": "v4_echo_ready",
+              "active": 2
+            },
+            {
+              "time": 1.02,
+              "pose": "v4_echo_ready",
+              "active": 2
+            },
+            {
+              "time": 1.0496,
+              "pose": "v4_verdict_raise",
+              "active": 2
+            },
+            {
+              "time": 1.1016,
+              "pose": "v4_verdict_raise",
+              "active": 2
+            },
+            {
+              "time": 1.1562,
+              "pose": "v4_verdict_raise",
+              "active": 2
+            },
+            {
+              "time": 1.2108,
+              "pose": "v4_verdict_raise",
+              "active": 12
+            },
+            {
+              "time": 1.255,
+              "pose": "v4_verdict_raise",
+              "active": 16
+            },
+            {
+              "time": 1.307,
+              "pose": "v4_verdict_raise",
+              "active": 20
+            },
+            {
+              "time": 1.36,
+              "pose": "v4_verdict_raise",
+              "active": 21
+            },
+            {
+              "time": 1.3862,
+              "pose": "v4_verdict_raise",
+              "active": 25
+            },
+            {
+              "time": 1.4408,
+              "pose": "v4_verdict_raise",
+              "active": 25
+            },
+            {
+              "time": 1.485,
+              "pose": "v4_verdict_raise",
+              "active": 25
+            },
+            {
+              "time": 1.537,
+              "pose": "v4_verdict_raise",
+              "active": 25
+            },
+            {
+              "time": 1.5916,
+              "pose": "v4_verdict_raise",
+              "active": 25
+            },
+            {
+              "time": 1.6462,
+              "pose": "v3_aircut",
+              "active": 25
+            },
+            {
+              "time": 1.7008,
+              "pose": "v3_aircut",
+              "active": 25
+            },
+            {
+              "time": 1.7554,
+              "pose": "v3_aircut",
+              "active": 25
+            },
+            {
+              "time": 1.78,
+              "pose": "v4_verdict_cut",
+              "active": 62
+            },
+            {
+              "time": 1.78,
+              "pose": "v4_verdict_cut",
+              "active": 62
+            },
+            {
+              "time": 1.7962,
+              "pose": "v4_verdict_cut",
+              "active": 62
+            },
+            {
+              "time": 1.8508,
+              "pose": "v4_verdict_cut",
+              "active": 62
+            },
+            {
+              "time": 1.9054,
+              "pose": "v4_verdict_cut",
+              "active": 62
+            },
+            {
+              "time": 1.947,
+              "pose": "v4_verdict_cut",
+              "active": 62
+            },
+            {
+              "time": 2.0016,
+              "pose": "v4_verdict_cut",
+              "active": 38
+            },
+            {
+              "time": 2.0562,
+              "pose": "v4_verdict_cut",
+              "active": 38
+            },
+            {
+              "time": 2.1108,
+              "pose": "v4_verdict_sheathe",
+              "active": 37
+            },
+            {
+              "time": 2.155,
+              "pose": "v4_verdict_sheathe",
+              "active": 37
+            },
+            {
+              "time": 2.207,
+              "pose": "v4_verdict_sheathe",
+              "active": 37
+            },
+            {
+              "time": 2.2616,
+              "pose": "v4_verdict_sheathe",
+              "active": 37
+            },
+            {
+              "time": 2.3162,
+              "pose": "v4_verdict_sheathe",
+              "active": 25
+            },
+            {
+              "time": 2.3708,
+              "pose": "v4_verdict_sheathe",
+              "active": 12
+            },
+            {
+              "time": 2.415,
+              "pose": "v4_verdict_sheathe",
+              "active": 12
+            },
+            {
+              "time": 2.467,
+              "pose": "v4_verdict_sheathe",
+              "active": 0
+            },
+            {
+              "time": 2.5216,
+              "pose": "v4_verdict_sheathe",
+              "active": 0
+            },
+            {
+              "time": 2.5762,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.6308,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.6854,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.727,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.7816,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.8362,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.8908,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.935,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.987,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 3.0416,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 3.0962,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.1508,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.2054,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.247,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 380,
+            "y": 240
+          },
+          "end": {
+            "x": 380,
+            "y": 240
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        }
+      ],
+      "lifecycle": {
+        "dead": false,
+        "revived": true,
+        "cancelled": {
+          "impacts": 0,
+          "busy": false,
+          "effect": null,
+          "aura": false
+        },
+        "resumed": true,
+        "loops": 1
+      },
+      "codex": "하쿠야 신\n\n흑백의 검성\n\nSSS\n카드 원화\n전투 SD\n\n선택한 이미지를 누르면 원본을 확대합니다.\n\n리미티드 · 돌격 · SSS\n\n기본 전투력\n2,700,000\n☆\n대표 스킬\n절광발도\n\n발도와 반전 검격으로 적 한 명에게 일반 공격의 1.5배 피해를 한 번 적용합니다.\n\n보유 상태\n미보유\n\n전체 도감 정보는 확인할 수 있지만 편성은 보유 용병만 가능합니다.\n\n스킬·전투 성능 자세히 보기\n리미티드 컬렉션\nLIMITED EDITION\n하쿠야 신\n\n흑백의 검성\n\n용병 등급\nSSS\n공개 리소스\n원화 · 전투 SD\n전투 편성\n보유 시 가능\n리미티드 전투 편성\n\n보유한 리미티드 용병을 PVE와 PVP에 각각 편성할 수 있습니다.\n획득 잠금 · 획득 방법은 추후 지정됩니다.\n\n전투 성능 · 행동 주기\n기본 전투력 2,700,000. 레반과 같은 공격·생존·행동·연계·피해 상한. 아군 카드 행동당 3.12회 추가 행동, 개인 피해 80% 경감, 상태이상·반격 보호. 절광발도와 삼첩관통은 일반 공격마다 순환하며 1.5배 피해를 한 번 적용합니다. PVE 회천검압·만검낙성은 번갈아 총 3,024% 피해를 생존한 적 전체에 나누어 적용합니다(에너지 20 · 공통 재사용 3행동). 흑백 검기 아우라·Spine 액션 2배속. 운영자 지정 지급 전용. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 4배). 고레벨 성장과 마지막 돌파도 이 배율에 반영됩니다. 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다. PVP 성장 전투는 C·B·A·S·SS·SSS·SSS 리미티드 순으로 등급 우위를 적용합니다. SS 리미티드는 기존 일반 SSS 전투 등급을 유지합니다. 상대 전원의 등급보다 높으면 같은 레벨 기준 단계당 공격·피해 상한 +100%, 체력·방벽 +500%의 추가 보정을 적용합니다. 상위 등급의 레벨이 낮으면 1레벨 차이마다 이 추가 보정과 성장 격차 보완을 10%씩 줄이며, 10레벨 이상 뒤처지면 적용하지 않습니다. 상위 등급을 향한 경감 관통·행동 대응의 등급 감쇠도 같은 비율로 줄어 10레벨 이상 높은 용병은 배운 숙련을 온전히 사용합니다. 원래 레벨 능력치·평타 성장·추가 행동 숙련은 유지합니다. 듀오는 상대 최고 등급과 가장 큰 레벨 격차를 기준으로 하며, 같은 전투 등급·PVE·기존 개별 용병 상성 정책은 유지합니다."
+    },
+    {
+      "width": 390,
+      "field": "HUNT",
+      "setup": {
+        "canvas": 1,
+        "states": [
+          {
+            "id": "A:MERCENARY:V-967",
+            "team": "ALLY",
+            "facing": 1,
+            "autoUpdate": false,
+            "aura": {
+              "time": 0.2197,
+              "visible": true,
+              "center": [
+                162.0984803605376,
+                279.2298729948631
+              ],
+              "body": {
+                "x": 27.56130782240395,
+                "y": -265.7967474396323,
+                "tilt": 0.09435618373980083,
+                "height": 595.9583749846231,
+                "width": 600.3038999535573,
+                "head": {
+                  "x": 47.53318893504096,
+                  "y": -476.8329999999999
+                },
+                "feet": {
+                  "x": 2.5017499767786404,
+                  "y": -1.0006999999999997
+                },
+                "crown": {
+                  "x": 52.62086566802926,
+                  "y": -530.5927948792646
+                }
+              },
+              "frames": {
+                "rear": {
+                  "index": 0,
+                  "mix": 0.7323333333333331
+                },
+                "front": {
+                  "index": 2,
+                  "mix": 0.7323333333333331
+                }
+              },
+              "coverage": {
+                "rear": {
+                  "width": 1.52,
+                  "height": 1.3,
+                  "lift": 0.14
+                },
+                "front": {
+                  "width": 1.4,
+                  "height": 1.2,
+                  "lift": 0.1
+                }
+              },
+              "rearComposition": "balanced mirrored currents",
+              "outline": true,
+              "behindBody": true,
+              "inFrontOfBody": true,
+              "frontVisible": true,
+              "clock": "V3_REGISTERED_GSAP",
+              "destroyed": false
+            },
+            "bodyVisible": false
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "side": "ALLY",
+          "action": "skill_flash",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_iai",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "technique": "skill_flash",
+            "motionRate": 2,
+            "contactSeconds": 0.3,
+            "durationSeconds": 1.55,
+            "wholePoseAttachments": true
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL"
+          ],
+          "samples": [
+            {
+              "time": 0.065,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1066,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.1612,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2158,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2704,
+              "pose": "iai_ready",
+              "active": 1
+            },
+            {
+              "time": 0.416,
+              "pose": "iai_cut",
+              "active": 4
+            },
+            {
+              "time": 0.4758,
+              "pose": "iai_cut",
+              "active": 3
+            },
+            {
+              "time": 0.5616,
+              "pose": "rise",
+              "active": 5
+            },
+            {
+              "time": 0.585,
+              "pose": "rise",
+              "active": 5
+            },
+            {
+              "time": 0.6396,
+              "pose": "rise",
+              "active": 5
+            },
+            {
+              "time": 0.6812,
+              "pose": "rise",
+              "active": 4
+            },
+            {
+              "time": 0.7358,
+              "pose": "follow",
+              "active": 4
+            },
+            {
+              "time": 0.7904,
+              "pose": "follow",
+              "active": 3
+            },
+            {
+              "time": 0.845,
+              "pose": "follow",
+              "active": 3
+            },
+            {
+              "time": 0.8866,
+              "pose": "follow",
+              "active": 2
+            },
+            {
+              "time": 0.9412,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.9958,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 1.0504,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.105,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.1596,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.2012,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.2558,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3104,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.365,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.4196,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.4612,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.5158,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 520.3636363636364,
+            "y": 1011.6363636363635
+          },
+          "end": {
+            "x": 520.3636363636364,
+            "y": 1011.6363636363635
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "skill_thrust",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_rift",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "technique": "skill_thrust",
+            "motionRate": 2,
+            "contactSeconds": 0.48,
+            "nativeContactSeconds": 0.48,
+            "durationSeconds": 1.7349999999999999,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "pierce"
+            ],
+            "hitstopHolds": [
+              0.065
+            ]
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL"
+          ],
+          "samples": [
+            {
+              "time": 0.052,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.104,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.1586,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2028,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2574,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.312,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.3796,
+              "pose": "v4_rift_draw",
+              "active": 2
+            },
+            {
+              "time": 0.4186,
+              "pose": "v4_rift_draw",
+              "active": 2
+            },
+            {
+              "time": 0.4628,
+              "pose": "v4_rift_drive",
+              "active": 3
+            },
+            {
+              "time": 0.48,
+              "pose": "v4_rift_drive",
+              "active": 5
+            },
+            {
+              "time": 0.507,
+              "pose": "v4_rift_drive",
+              "active": 5
+            },
+            {
+              "time": 0.5616,
+              "pose": "v4_rift_drive",
+              "active": 4
+            },
+            {
+              "time": 0.6136,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.6682,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.7124,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.767,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.819,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.8736,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.9178,
+              "pose": "v4_verdict_sheathe",
+              "active": 5
+            },
+            {
+              "time": 0.9724,
+              "pose": "v4_verdict_sheathe",
+              "active": 4
+            },
+            {
+              "time": 1.027,
+              "pose": "v4_verdict_sheathe",
+              "active": 3
+            },
+            {
+              "time": 1.079,
+              "pose": "v4_verdict_sheathe",
+              "active": 3
+            },
+            {
+              "time": 1.1336,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.1882,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.2324,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.287,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3416,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3936,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.4378,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.4924,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.547,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.5886,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.6536,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 520.3636363636364,
+            "y": 1011.6363636363635
+          },
+          "end": {
+            "x": 520.3636363636364,
+            "y": 1011.6363636363635
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "skill_wheel",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_tempest",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 12,
+            "technique": "skill_wheel",
+            "motionRate": 2,
+            "contactSeconds": 1.305,
+            "nativeContactSeconds": 1.22,
+            "durationSeconds": 2.29,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "draw",
+              "turn",
+              "slam"
+            ],
+            "hitstopHolds": [
+              0.035,
+              0.05,
+              0.085
+            ]
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL",
+            "B:1:ENCOUNTER:INITIAL",
+            "B:2:ENCOUNTER:INITIAL",
+            "B:3:ENCOUNTER:INITIAL",
+            "B:4:ENCOUNTER:INITIAL",
+            "B:5:ENCOUNTER:INITIAL",
+            "B:6:ENCOUNTER:INITIAL",
+            "B:7:ENCOUNTER:INITIAL",
+            "B:8:ENCOUNTER:INITIAL",
+            "B:9:ENCOUNTER:INITIAL",
+            "B:10:ENCOUNTER:INITIAL",
+            "B:11:ENCOUNTER:INITIAL"
+          ],
+          "samples": [
+            {
+              "time": 0.0676,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1066,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.1612,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2158,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2704,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.3,
+              "pose": "iai_cut",
+              "active": 1
+            },
+            {
+              "time": 0.3316,
+              "pose": "iai_cut",
+              "active": 1
+            },
+            {
+              "time": 0.3862,
+              "pose": "iai_cut",
+              "active": 1
+            },
+            {
+              "time": 0.4408,
+              "pose": "follow",
+              "active": 1
+            },
+            {
+              "time": 0.4954,
+              "pose": "v3_pivot",
+              "active": 0
+            },
+            {
+              "time": 0.5396,
+              "pose": "v3_pivot",
+              "active": 0
+            },
+            {
+              "time": 0.5916,
+              "pose": "v3_pivot",
+              "active": 0
+            },
+            {
+              "time": 0.64,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.6508,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.7054,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.7496,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.8016,
+              "pose": "v3_compress",
+              "active": 2
+            },
+            {
+              "time": 0.8562,
+              "pose": "v3_takeoff",
+              "active": 2
+            },
+            {
+              "time": 0.9108,
+              "pose": "v3_takeoff",
+              "active": 1
+            },
+            {
+              "time": 0.9654,
+              "pose": "v3_takeoff",
+              "active": 1
+            },
+            {
+              "time": 1.0096,
+              "pose": "v3_apex",
+              "active": 1
+            },
+            {
+              "time": 1.0616,
+              "pose": "v3_apex",
+              "active": 1
+            },
+            {
+              "time": 1.1162,
+              "pose": "v3_aircut",
+              "active": 3
+            },
+            {
+              "time": 1.1604,
+              "pose": "v3_aircut",
+              "active": 4
+            },
+            {
+              "time": 1.22,
+              "pose": "v3_slam",
+              "active": 18
+            },
+            {
+              "time": 1.2366,
+              "pose": "v3_slam",
+              "active": 18
+            },
+            {
+              "time": 1.2912,
+              "pose": "v3_slam",
+              "active": 18
+            },
+            {
+              "time": 1.3458,
+              "pose": "v3_slam",
+              "active": 18
+            },
+            {
+              "time": 1.4004,
+              "pose": "v3_recover",
+              "active": 17
+            },
+            {
+              "time": 1.4446,
+              "pose": "v3_recover",
+              "active": 16
+            },
+            {
+              "time": 1.4966,
+              "pose": "v3_recover",
+              "active": 16
+            },
+            {
+              "time": 1.5512,
+              "pose": "v3_recover",
+              "active": 15
+            },
+            {
+              "time": 1.6058,
+              "pose": "guard",
+              "active": 15
+            },
+            {
+              "time": 1.6604,
+              "pose": "guard",
+              "active": 15
+            },
+            {
+              "time": 1.7046,
+              "pose": "guard",
+              "active": 15
+            },
+            {
+              "time": 1.7592,
+              "pose": "step",
+              "active": 3
+            },
+            {
+              "time": 1.8112,
+              "pose": "step",
+              "active": 1
+            },
+            {
+              "time": 1.8684,
+              "pose": "step",
+              "active": 1
+            },
+            {
+              "time": 1.9204,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.9646,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.0166,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.0712,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 520.3636363636364,
+            "y": 1011.6363636363635
+          },
+          "end": {
+            "x": 520.3636363636364,
+            "y": 1011.6363636363635
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "skill_rain",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_verdict",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 12,
+            "technique": "skill_rain",
+            "motionRate": 2,
+            "contactSeconds": 1.855,
+            "nativeContactSeconds": 1.78,
+            "durationSeconds": 3.485,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "scar-one",
+              "scar-two",
+              "scar-three",
+              "verdict"
+            ],
+            "hitstopHolds": [
+              0.02,
+              0.025,
+              0.03,
+              0.11
+            ]
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL",
+            "B:1:ENCOUNTER:INITIAL",
+            "B:2:ENCOUNTER:INITIAL",
+            "B:3:ENCOUNTER:INITIAL",
+            "B:4:ENCOUNTER:INITIAL",
+            "B:5:ENCOUNTER:INITIAL",
+            "B:6:ENCOUNTER:INITIAL",
+            "B:7:ENCOUNTER:INITIAL",
+            "B:8:ENCOUNTER:INITIAL",
+            "B:9:ENCOUNTER:INITIAL",
+            "B:10:ENCOUNTER:INITIAL",
+            "B:11:ENCOUNTER:INITIAL"
+          ],
+          "samples": [
+            {
+              "time": 0.065,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1196,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1638,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.2184,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.2704,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.325,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.3796,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.4238,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.4784,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.5304,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.585,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.6396,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.6638,
+              "pose": "v4_verdict_focus",
+              "active": 1
+            },
+            {
+              "time": 0.7184,
+              "pose": "v4_verdict_focus",
+              "active": 1
+            },
+            {
+              "time": 0.7704,
+              "pose": "v4_verdict_focus",
+              "active": 1
+            },
+            {
+              "time": 0.825,
+              "pose": "v4_echo_ready",
+              "active": 1
+            },
+            {
+              "time": 0.8796,
+              "pose": "v4_echo_ready",
+              "active": 1
+            },
+            {
+              "time": 0.9238,
+              "pose": "v4_echo_ready",
+              "active": 1
+            },
+            {
+              "time": 0.9758,
+              "pose": "v4_echo_ready",
+              "active": 2
+            },
+            {
+              "time": 1.02,
+              "pose": "v4_echo_ready",
+              "active": 2
+            },
+            {
+              "time": 1.06,
+              "pose": "v4_verdict_raise",
+              "active": 2
+            },
+            {
+              "time": 1.1146,
+              "pose": "v4_verdict_raise",
+              "active": 2
+            },
+            {
+              "time": 1.1588,
+              "pose": "v4_verdict_raise",
+              "active": 2
+            },
+            {
+              "time": 1.2134,
+              "pose": "v4_verdict_raise",
+              "active": 12
+            },
+            {
+              "time": 1.2654,
+              "pose": "v4_verdict_raise",
+              "active": 16
+            },
+            {
+              "time": 1.32,
+              "pose": "v4_verdict_raise",
+              "active": 20
+            },
+            {
+              "time": 1.36,
+              "pose": "v4_verdict_raise",
+              "active": 21
+            },
+            {
+              "time": 1.3888,
+              "pose": "v4_verdict_raise",
+              "active": 25
+            },
+            {
+              "time": 1.4434,
+              "pose": "v4_verdict_raise",
+              "active": 25
+            },
+            {
+              "time": 1.4954,
+              "pose": "v4_verdict_raise",
+              "active": 25
+            },
+            {
+              "time": 1.55,
+              "pose": "v4_verdict_raise",
+              "active": 25
+            },
+            {
+              "time": 1.6046,
+              "pose": "v4_verdict_raise",
+              "active": 25
+            },
+            {
+              "time": 1.6488,
+              "pose": "v3_aircut",
+              "active": 25
+            },
+            {
+              "time": 1.7034,
+              "pose": "v3_aircut",
+              "active": 25
+            },
+            {
+              "time": 1.7554,
+              "pose": "v3_aircut",
+              "active": 25
+            },
+            {
+              "time": 1.78,
+              "pose": "v4_verdict_cut",
+              "active": 62
+            },
+            {
+              "time": 1.78,
+              "pose": "v4_verdict_cut",
+              "active": 62
+            },
+            {
+              "time": 1.7988,
+              "pose": "v4_verdict_cut",
+              "active": 62
+            },
+            {
+              "time": 1.8534,
+              "pose": "v4_verdict_cut",
+              "active": 62
+            },
+            {
+              "time": 1.9054,
+              "pose": "v4_verdict_cut",
+              "active": 62
+            },
+            {
+              "time": 1.96,
+              "pose": "v4_verdict_cut",
+              "active": 62
+            },
+            {
+              "time": 2.0146,
+              "pose": "v4_verdict_cut",
+              "active": 38
+            },
+            {
+              "time": 2.0588,
+              "pose": "v4_verdict_cut",
+              "active": 38
+            },
+            {
+              "time": 2.1134,
+              "pose": "v4_verdict_sheathe",
+              "active": 37
+            },
+            {
+              "time": 2.168,
+              "pose": "v4_verdict_sheathe",
+              "active": 37
+            },
+            {
+              "time": 2.22,
+              "pose": "v4_verdict_sheathe",
+              "active": 37
+            },
+            {
+              "time": 2.2746,
+              "pose": "v4_verdict_sheathe",
+              "active": 37
+            },
+            {
+              "time": 2.3188,
+              "pose": "v4_verdict_sheathe",
+              "active": 25
+            },
+            {
+              "time": 2.3734,
+              "pose": "v4_verdict_sheathe",
+              "active": 12
+            },
+            {
+              "time": 2.4254,
+              "pose": "v4_verdict_sheathe",
+              "active": 12
+            },
+            {
+              "time": 2.48,
+              "pose": "v4_verdict_sheathe",
+              "active": 0
+            },
+            {
+              "time": 2.5346,
+              "pose": "v4_verdict_sheathe",
+              "active": 0
+            },
+            {
+              "time": 2.5892,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.6334,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.6854,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.74,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.7946,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.8492,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.8934,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.9454,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 3,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 3.0546,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.1092,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.1534,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.2054,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.26,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 520.3636363636364,
+            "y": 1011.6363636363635
+          },
+          "end": {
+            "x": 520.3636363636364,
+            "y": 1011.6363636363635
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        }
+      ],
+      "lifecycle": {
+        "dead": false,
+        "revived": true,
+        "cancelled": {
+          "impacts": 0,
+          "busy": false,
+          "effect": null,
+          "aura": false
+        },
+        "resumed": true,
+        "loops": 1
+      },
+      "codex": "하쿠야 신\n\n흑백의 검성\n\nSSS\n카드 원화\n전투 SD\n\n선택한 이미지를 누르면 원본을 확대합니다.\n\n리미티드 · 돌격 · SSS\n\n기본 전투력\n2,700,000\n☆\n대표 스킬\n절광발도\n\n발도와 반전 검격으로 적 한 명에게 일반 공격의 1.5배 피해를 한 번 적용합니다.\n\n보유 상태\n미보유\n\n전체 도감 정보는 확인할 수 있지만 편성은 보유 용병만 가능합니다.\n\n스킬·전투 성능 자세히 보기\n리미티드 컬렉션\nLIMITED EDITION\n하쿠야 신\n\n흑백의 검성\n\n용병 등급\nSSS\n공개 리소스\n원화 · 전투 SD\n전투 편성\n보유 시 가능\n리미티드 전투 편성\n\n보유한 리미티드 용병을 PVE와 PVP에 각각 편성할 수 있습니다.\n획득 잠금 · 획득 방법은 추후 지정됩니다.\n\n전투 성능 · 행동 주기\n기본 전투력 2,700,000. 레반과 같은 공격·생존·행동·연계·피해 상한. 아군 카드 행동당 3.12회 추가 행동, 개인 피해 80% 경감, 상태이상·반격 보호. 절광발도와 삼첩관통은 일반 공격마다 순환하며 1.5배 피해를 한 번 적용합니다. PVE 회천검압·만검낙성은 번갈아 총 3,024% 피해를 생존한 적 전체에 나누어 적용합니다(에너지 20 · 공통 재사용 3행동). 흑백 검기 아우라·Spine 액션 2배속. 운영자 지정 지급 전용. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 4배). 고레벨 성장과 마지막 돌파도 이 배율에 반영됩니다. 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다. PVP 성장 전투는 C·B·A·S·SS·SSS·SSS 리미티드 순으로 등급 우위를 적용합니다. SS 리미티드는 기존 일반 SSS 전투 등급을 유지합니다. 상대 전원의 등급보다 높으면 같은 레벨 기준 단계당 공격·피해 상한 +100%, 체력·방벽 +500%의 추가 보정을 적용합니다. 상위 등급의 레벨이 낮으면 1레벨 차이마다 이 추가 보정과 성장 격차 보완을 10%씩 줄이며, 10레벨 이상 뒤처지면 적용하지 않습니다. 상위 등급을 향한 경감 관통·행동 대응의 등급 감쇠도 같은 비율로 줄어 10레벨 이상 높은 용병은 배운 숙련을 온전히 사용합니다. 원래 레벨 능력치·평타 성장·추가 행동 숙련은 유지합니다. 듀오는 상대 최고 등급과 가장 큰 레벨 격차를 기준으로 하며, 같은 전투 등급·PVE·기존 개별 용병 상성 정책은 유지합니다."
+    }
+  ],
+  "productionTransactions": 0
+}

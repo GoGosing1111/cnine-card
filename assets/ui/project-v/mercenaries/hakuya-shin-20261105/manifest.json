@@ -1,0 +1,141 @@
+{
+  "version": "20261105-hakuya-live-v1",
+  "code": "V-967",
+  "name": "하쿠야 신",
+  "illustrationApproved": true,
+  "visualApproved": true,
+  "nativeAuthoring": "preview/v35-whitecoat-swordsman-20261102/whitecoat-skills-v4-51fecca13bde.spine",
+  "nativeSha256": "b0abcbf1bda97b8d700328b9453e0a61fbec96cf0063e21a1907bef444a57ef6",
+  "runtimeVersion": "4.3.13",
+  "vendorOriginalSha256": "d1f9c19fff7e52ec199e915f4ecf9dcc1a0cd9f97932afd062db5b6eb26470d6",
+  "vendorAdapter": "CommonJS require and window require shim replaced by local ESM Pixi import; runtime logic retained",
+  "motionRate": 2,
+  "files": [
+    {
+      "path": "aura/ink-front.png",
+      "bytes": 355177,
+      "sha256": "93b7a4f8e5ce8d271d188e3bb5ed90299659c5f75dff5f46f27727510643ad29"
+    },
+    {
+      "path": "aura/ink-rear.png",
+      "bytes": 682324,
+      "sha256": "d2df06226f8a6bacf2c6d1f9946b9c2c8ae7f9402d67c8413ab930b18906038e"
+    },
+    {
+      "path": "aura/manifest.json",
+      "bytes": 4865,
+      "sha256": "e3c745aa366031087453c9413fbd2c7189c782021accb1b4ee1848c37f2910f8"
+    },
+    {
+      "path": "body-ready.png",
+      "bytes": 620436,
+      "sha256": "3590b08ddc7fff6ec4e3dc6e05e81f2cf29d95dea987c0ec990283e2956a1bb1"
+    },
+    {
+      "path": "effects/debris.png",
+      "bytes": 401318,
+      "sha256": "044417435ba9afdfe6585a5624f4ec2354cde486c047fffe7e7e8d8e9a010981"
+    },
+    {
+      "path": "effects/fx-manifest.json",
+      "bytes": 47922,
+      "sha256": "2fb7ddcd5d4fe1059dd7fa69261fe623cb7ea076c1a54f776bb4a360fb3f2de6"
+    },
+    {
+      "path": "effects/impact-burst.png",
+      "bytes": 110814,
+      "sha256": "d8fb8ff37b41cd1dce1d5450b3001bd8c1651eacbaf56f78fafbcbc3ba5fc25e"
+    },
+    {
+      "path": "effects/sword-ribbon-source.png",
+      "bytes": 1197394,
+      "sha256": "51e81098d98f7edf7e520668cb428635aea231879021c92f1eb593195de3138e"
+    },
+    {
+      "path": "effects/v4-incision.png",
+      "bytes": 47811,
+      "sha256": "2f84a056ff7e4e206962ba10c6295ee7dc28ed4005da797fbcd0b633cfd5a8be"
+    },
+    {
+      "path": "effects/v4-pressure.png",
+      "bytes": 276662,
+      "sha256": "c6aa78c24eb07b131e831814385db1e8e48336491d5b2715a0b0e9856737390c"
+    },
+    {
+      "path": "effects/v5-flash.png",
+      "bytes": 880572,
+      "sha256": "023bbf00d0e497d70c3e54880ceb79ac76270a71a50ec730c43e28415006bbc7"
+    },
+    {
+      "path": "effects/v5-rain.png",
+      "bytes": 2102842,
+      "sha256": "0ac0afa2d9b804f780bed9d510f688cf9e8f872f75bcbd60f6f77887d0d43ed4"
+    },
+    {
+      "path": "effects/v5-rimlight.png",
+      "bytes": 230930,
+      "sha256": "86fe51d40d0b15cf7a8f8feb46b12fbdfc8ed12955893500aa44188ca98aef88"
+    },
+    {
+      "path": "effects/v5-splinters.png",
+      "bytes": 68594,
+      "sha256": "faebdb516661e286d3fb7af9d4f24bb9f7d823ba307724d1c16eec3463532211"
+    },
+    {
+      "path": "effects/v5-thrust.png",
+      "bytes": 2207721,
+      "sha256": "46609edc8f8a400916a3b9b25be5e9d8a6573e589e4880d1ee8d8f8075f3c2cd"
+    },
+    {
+      "path": "effects/v5-wheel.png",
+      "bytes": 1786035,
+      "sha256": "e98c84b3010ac89af228d1d430d580951ef35bf526d833e7e305ce17695747cf"
+    },
+    {
+      "path": "source-art-approved.png",
+      "bytes": 2743094,
+      "sha256": "813d9d05b870848b1c9a0b00345f37720d57354c67a8da368010c72aa0aad604"
+    },
+    {
+      "path": "spine/whitecoat-skills-v4-51fecca13bde.atlas",
+      "bytes": 2099,
+      "sha256": "bd45ac1d451c5690054056614256daf6ebc1a5fab6d514ace164920b8eaf745c"
+    },
+    {
+      "path": "spine/whitecoat-skills-v4-51fecca13bde.png",
+      "bytes": 6679222,
+      "sha256": "bb12d5b1cb7b6434275c9b1a431a10f7e0092be651dbb80d4ab56907668a8f16"
+    },
+    {
+      "path": "spine/whitecoat-skills-v4-51fecca13bde_2.png",
+      "bytes": 6692265,
+      "sha256": "e1fb6c4714ec4be26c26c0c398e428ed3c13cb0e03a3e99bfe7b03502eb43078"
+    },
+    {
+      "path": "spine/whitecoat-skills-v4-51fecca13bde_3.png",
+      "bytes": 5879849,
+      "sha256": "4e90ac9b34f3b7f083dc2e7f17b1571162c03f8936f29197309503d85f4e0d01"
+    },
+    {
+      "path": "spine/whitecoat-skills-v4-51fecca13bde_4.png",
+      "bytes": 1302833,
+      "sha256": "729ee7e3e29e1c47ddcb710805b3f511f87d3ed54344dfe603889535517576e0"
+    },
+    {
+      "path": "spine/whitecoat.json",
+      "bytes": 25201,
+      "sha256": "87e42a072382941d196846d1bf6de95b086060a57e3dde3f7dab9d26292087ee"
+    },
+    {
+      "path": "SPINE-LICENSE.txt",
+      "bytes": 1469,
+      "sha256": "b9d50158f6c23a704d123fd0200cc00633a693ccf9b0aacb15e5d5b9cf6c0d58"
+    }
+  ],
+  "sourceApproval": {
+    "user": "일러스트 이거로 승인",
+    "sourceBranch": "codex/whitecoat-swordmaster-fx-20261105",
+    "sourceCommit": "17f9a1260206c291bd7b99582506827de24b634f",
+    "visualApproval": "승인 SSS리미티드 전투력 레반 동급 밸런스도 레반급으로 맞추고 라이브 반영 핑크빛유두만 지급"
+  }
+}

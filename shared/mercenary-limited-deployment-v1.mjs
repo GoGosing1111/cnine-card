@@ -1,3 +1,4 @@
+import {HAKUYA_CODE,hakuyaDeploymentSnapshot} from './mercenary-hakuya-v1.mjs';
 import {HEUKMU_CODE,heukmuDeploymentSnapshot} from './mercenary-heukmu-v1.mjs';
 import {KAMISHIRO_CODE,kamishiroDeploymentSnapshot} from './mercenary-kamishiro-v1.mjs';
 import {CARDGU_CODE,cardguDeploymentSnapshot} from './mercenary-cardgu-v1.mjs';
@@ -44,6 +45,7 @@ export function limitedDeploymentSnapshot(code){
  if(code===AWAKENED_OMEGA_CODE)return awakenedOmegaDeploymentSnapshot();
  if(code===RAZAK_CODE)return razakDeploymentSnapshot();
  if(code===NAMSUDAENG_CODE)return namsudaengDeploymentSnapshot();
+ if(code===HAKUYA_CODE)return hakuyaDeploymentSnapshot();
  if(code===REVAN_CODE)return revanDeploymentSnapshot();
  if(code===EUNSEOL_CODE)return eunseolDeploymentSnapshot();
  if(code===CARDGU_CODE)return cardguDeploymentSnapshot();

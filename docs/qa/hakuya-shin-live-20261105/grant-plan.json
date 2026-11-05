@@ -1,0 +1,23 @@
+{
+  "operationKey": "ops:pingdu-hakuya-shin-grant:20261105:v1",
+  "authorization": "핑크빛유두 하쿠야 신 1장 지급",
+  "target": {
+    "id": "1",
+    "nickname": "핑크빛유두",
+    "role": "OWNER",
+    "status": "ACTIVE",
+    "identityHash": "4e20330d91fbd5e52c5a21fa720d69468fcf0d7952b847d8787df45edf81c305"
+  },
+  "code": "V-967",
+  "name": "하쿠야 신",
+  "rank": "SSS",
+  "edition": "LIMITED",
+  "quantity": 1,
+  "expectedHolding": null,
+  "stockPolicy": "DIRECT_NO_PUBLIC_ACQUISITION",
+  "delivery": "DIRECT",
+  "levelPolicy": "PRESERVE_EXISTING_DEFAULT_ONE",
+  "cost": 0,
+  "sendMessages": false,
+  "automaticLoadout": false
+}

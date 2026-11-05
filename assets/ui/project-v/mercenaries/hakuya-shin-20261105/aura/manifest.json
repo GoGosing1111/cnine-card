@@ -1,0 +1,262 @@
+{
+  "version": 2,
+  "theme": "ink black and pearl white",
+  "seconds": 2.4,
+  "layers": {
+    "rear": {
+      "atlas": "ink-rear.png",
+      "frames": [
+        {
+          "x": 2,
+          "y": 2,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 326,
+          "y": 2,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 650,
+          "y": 2,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 974,
+          "y": 2,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 2,
+          "y": 326,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 326,
+          "y": 326,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 650,
+          "y": 326,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 974,
+          "y": 326,
+          "w": 320,
+          "h": 320
+        }
+      ],
+      "ink": [
+        {
+          "minX": 59,
+          "minY": 86,
+          "maxX": 253,
+          "maxY": 279,
+          "count": 14557,
+          "headCount": 55
+        },
+        {
+          "minX": 60,
+          "minY": 83,
+          "maxX": 260,
+          "maxY": 280,
+          "count": 15129,
+          "headCount": 127
+        },
+        {
+          "minX": 57,
+          "minY": 74,
+          "maxX": 261,
+          "maxY": 279,
+          "count": 16067,
+          "headCount": 376
+        },
+        {
+          "minX": 54,
+          "minY": 70,
+          "maxX": 260,
+          "maxY": 279,
+          "count": 16550,
+          "headCount": 618
+        },
+        {
+          "minX": 51,
+          "minY": 65,
+          "maxX": 262,
+          "maxY": 278,
+          "count": 17668,
+          "headCount": 1072
+        },
+        {
+          "minX": 56,
+          "minY": 61,
+          "maxX": 267,
+          "maxY": 280,
+          "count": 17069,
+          "headCount": 757
+        },
+        {
+          "minX": 56,
+          "minY": 84,
+          "maxX": 259,
+          "maxY": 279,
+          "count": 15027,
+          "headCount": 96
+        },
+        {
+          "minX": 58,
+          "minY": 85,
+          "maxX": 258,
+          "maxY": 280,
+          "count": 14832,
+          "headCount": 54
+        }
+      ],
+      "size": [
+        1296,
+        648
+      ],
+      "bytes": 682324,
+      "sha256": "d2df06226f8a6bacf2c6d1f9946b9c2c8ae7f9402d67c8413ab930b18906038e"
+    },
+    "front": {
+      "atlas": "ink-front.png",
+      "frames": [
+        {
+          "x": 2,
+          "y": 2,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 326,
+          "y": 2,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 650,
+          "y": 2,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 974,
+          "y": 2,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 2,
+          "y": 326,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 326,
+          "y": 326,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 650,
+          "y": 326,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 974,
+          "y": 326,
+          "w": 320,
+          "h": 320
+        }
+      ],
+      "ink": [
+        {
+          "minX": 55,
+          "minY": 166,
+          "maxX": 262,
+          "maxY": 259,
+          "count": 4679,
+          "headCount": 0
+        },
+        {
+          "minX": 46,
+          "minY": 139,
+          "maxX": 270,
+          "maxY": 260,
+          "count": 6721,
+          "headCount": 0
+        },
+        {
+          "minX": 46,
+          "minY": 135,
+          "maxX": 278,
+          "maxY": 263,
+          "count": 8512,
+          "headCount": 0
+        },
+        {
+          "minX": 40,
+          "minY": 121,
+          "maxX": 273,
+          "maxY": 261,
+          "count": 10440,
+          "headCount": 0
+        },
+        {
+          "minX": 38,
+          "minY": 113,
+          "maxX": 280,
+          "maxY": 250,
+          "count": 10485,
+          "headCount": 0
+        },
+        {
+          "minX": 47,
+          "minY": 135,
+          "maxX": 270,
+          "maxY": 246,
+          "count": 6086,
+          "headCount": 0
+        },
+        {
+          "minX": 55,
+          "minY": 150,
+          "maxX": 262,
+          "maxY": 247,
+          "count": 4743,
+          "headCount": 0
+        },
+        {
+          "minX": 55,
+          "minY": 143,
+          "maxX": 262,
+          "maxY": 247,
+          "count": 4509,
+          "headCount": 0
+        }
+      ],
+      "size": [
+        1296,
+        648
+      ],
+      "bytes": 355177,
+      "sha256": "93b7a4f8e5ce8d271d188e3bb5ed90299659c5f75dff5f46f27727510643ad29"
+    }
+  },
+  "decodedBytes": 6718464,
+  "referenceInk": [
+    217,
+    220
+  ]
+}

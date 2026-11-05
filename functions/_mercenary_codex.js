@@ -1,3 +1,4 @@
+import {HAKUYA_ART,hakuyaCodexSkills} from '../shared/mercenary-hakuya-v1.mjs';
 import {HEUKMU_ART,heukmuCodexSkills} from '../shared/mercenary-heukmu-v1.mjs';
 import {KAMISHIRO_ART,kamishiroCodexSkills} from '../shared/mercenary-kamishiro-v1.mjs';
 import {COMPANION_RELEASE} from '../shared/companion-loadout-v2.mjs';
@@ -61,6 +62,7 @@ export function mercenaryCodexDocument(row){
   projection.cards.push({...HEUKMU_ART,skills:heukmuCodexSkills()});
   projection.cards.push({...KAMISHIRO_ART,skills:kamishiroCodexSkills()});
   projection.cards.push(blackcrownSssCodexCard({...CARDGU_ART,skills:cardguCodexSkills()}));
+  projection.cards.push({...HAKUYA_ART,skills:hakuyaCodexSkills()});
   projection.cards.push(blackcrownSssCodexCard({...REVAN_ART,skills:revanCodexSkills()}));
   projection.cards.push({...AWAKENED_OMEGA_ART,skills:structuredClone(AWAKENED_OMEGA_ART.skills)});
   projection.cards.push({...RAZAK_ART,skills:structuredClone(RAZAK_ART.skills)});

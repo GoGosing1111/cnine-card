@@ -517,6 +517,94 @@
       "sha256": "608c33710e72b0e833487f99e1447a1aeab2183e6c44759a12e97637bcddf622"
     },
     {
+      "file": "shared/mercenary-hakuya-v1.mjs",
+      "sha256": "b5f81de06b2b2b5e0809d81ec615b0ef220ec60bfebba675a02144fb4f853c32"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/HakuyaCombatPlayback.js",
+      "sha256": "30f43ebbeca98ce4808239a9f103bb8e7fa1d441d3590d5c9c517924ee5f5680"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/manifest.json",
+      "sha256": "fb0ec017f3796ed6325c42b13605fd82f0583124154302b19838e72d42f8d615"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/hakuya/action-v3/action.json",
+      "sha256": "284d4f7c80b8a003a8fa0c152f983b80a0d08d0438c78e45901ab9184c7db60d"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/hakuya/action-v3/play-attack.mjs",
+      "sha256": "93421025b19895102992716f2c0fc222adf89efa3ecb842a56c577dd9b7a4c17"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/hakuya/action-v3/pose-registration.json",
+      "sha256": "1e778e2af933f17c065d1194bfbb02e16c9594addbf94a46b7afa0076caafc79"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/hakuya/action-v3/TempestEffects.mjs",
+      "sha256": "b5b5329328dd090bf4a3f0c00cfa3a3a2c9f41d41f444d888cab545e233325c0"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/hakuya/action-v3/timing.mjs",
+      "sha256": "9d73e20a7a42b28f32c7c6ba5bbb7ac47c4ed60998557a630aaed972c556490d"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/hakuya/aura-v1/WhiteOutlineFilter.mjs",
+      "sha256": "fdda0b44d27b1bfec7527b7d34222de5c6b9a3c8858fcbfeef49f941383529b9"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/hakuya/aura-v2/HakuyaAura.mjs",
+      "sha256": "75d16526c14ccccacb425d6878d9755224218b51e437efd919dc4ca3ec08c27a"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/hakuya/pose-registration.json",
+      "sha256": "57eab05dc3a99020b2f81ea4c87fafc18c4d82b48d32c149c18f78db3b52a15f"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/hakuya/skills-v4/actions.json",
+      "sha256": "5e311327854023511a4e75a57a9d011ee2f907867bde335d0ae9342f17f6e878"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/hakuya/skills-v4/play-skill.mjs",
+      "sha256": "47afd45d91d98db5e85b095d857e8beaf6a7579a58cb3f4694b72d09c0cca966"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/hakuya/skills-v4/pose-registration.json",
+      "sha256": "af7951c014bdc0bd48221bb04df2ef28173edb5662ff86412b82c1f3ef843b52"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/hakuya/skills-v4/SkillEffects.mjs",
+      "sha256": "bfae63cd0035037345ddd67bcf7c8d7f6359bc94e91026de33b9eba5a0897181"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/hakuya/SpineBattleAdapter.mjs",
+      "sha256": "c0d79c8882eb5fcd0515192eb270c348aaf59adf2d188f70a4a8576608d075dd"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/hakuya/swordplay-v5/skills.mjs",
+      "sha256": "73993a16b7493e9d81d0ff9dad7872ca8833fdbbf1bf6dd5247319f56d2360cb"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/hakuya/swordplay-v5/SwordplayEffects.mjs",
+      "sha256": "43576b69c32e378c8e4abff36cb6fa9bb4c0d5c55a2d7b7329797d7fec8dc812"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/hakuya/SwordTrail.mjs",
+      "sha256": "55affe886a4c0bfcdd9a113dadcbb5c5a4295a9e1c2cb038150f29e732238179"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/hakuya/vendor/spine-pixi-v8-4.3.13.mjs",
+      "sha256": "8245fd1aaf34e9c8e4b4f4000a807ab40dfa66ec42b19144b835d86b4c928509"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/hakuya/WhitecoatBattleAdapter.mjs",
+      "sha256": "c27cb967bb2e70a608a11d8041edd6033e43f81be8dca66dbed5a8e942d5ec34"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/hakuya/WhitecoatEffects.mjs",
+      "sha256": "529239eac551014b2690009c149b2470254d9bc3c55fd2608fbb4ca0b90db6df"
+    },
+    {
       "file": "shared/equipment-set-visual-v1.mjs",
       "sha256": "cf112a5bd7bd333f26b327a97994bc9bd34d58ebedf743d23b4af2e567372bd1"
     },
@@ -650,7 +738,7 @@
     },
     {
       "file": "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
-      "sha256": "5cfe8330f55f728bd1e33b69869c2fb02df399a69cd522690208ab262b225722"
+      "sha256": "08ce31be8d78fc27ba5e852f2913078c68591e5179b775316d2a4b88ff1a5e5a"
     },
     {
       "file": "preview/project-v-v3/source/battle/LimitedMercenaryPlayback.js",
@@ -916,65 +1004,65 @@
   "outputs": [
     {
       "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
-      "sha256": "62a8ee1457586072ad091886d9765c53a4bf168ee0cd8ea56ba5bf8919ba1627",
+      "sha256": "beb61850f74dce476713517a015f829f97c556a3f7084026edce39e0896825a5",
       "commonGrid": true
     },
     {
       "file": "preview/scrapyard-v3-v1/battle.bundle.js",
-      "sha256": "7bb87fdb3a5827351a4520dc78470c87c1835d467315a01c9b1b20394711b558",
+      "sha256": "1860fc10fbf949015b6a62879f768775bb10fb00c61125eb6b0a918d026bd3a0",
       "commonGrid": true
     },
     {
       "file": "preview/cow-room-v3-v1/battle.bundle.js",
-      "sha256": "21add1282ec1d4743a07b119f62bf8b5a1f5b4a242b45963bfb9c4e641d1b23c",
+      "sha256": "061a7caca2de1a47f5d23114f956e3600028788189fabe02e472c51652c0d0f2",
       "commonGrid": true
     },
     {
       "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
-      "sha256": "2a834a2fd50916252945b81fff88b54cc535afc1305ca9930a8f52860f42a78b",
+      "sha256": "6cc91591f3ad4a0604ce25dcb12bc650fbd4eeaff537778a0fd95e0caaeebf9a",
       "commonGrid": true
     },
     {
       "file": "pve-v3/battle.bundle.js",
-      "sha256": "112db8533c0bfff01d6343d1a9695085e41be6f79a3c9d36324c98373d9099d5",
+      "sha256": "a39b134d79fa1d8e85922dc0dabd04eeae5c893a900eb574e01d8138f88ae429",
       "commonGrid": true
     },
     {
       "file": "preview/v3-wide-grid-v1/battle.bundle.js",
-      "sha256": "fba90751f8582e839e65ef13a6a978e738121a1333b7c27536dabc7ecf5623b0",
+      "sha256": "191e772b18dd761d0f864064126082c21e27d29c4ec7b0596fc444fc29a28502",
       "commonGrid": true
     },
     {
       "file": "preview/boss-resources-v2048/lab.bundle.js",
-      "sha256": "51c9d8acbe51917bcba59d0364c035ff99e0775ef792a8cdc03728a4596354f4",
+      "sha256": "6ab2275f8f83c13cf062892a3b99fc64839abdcf723006d65accd0fd0489fc7f",
       "commonGrid": true
     },
     {
       "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
-      "sha256": "6395fc21b497a8450a9163b3591b464c03cc557d6bb7d0f863edf8c0b66ec498",
+      "sha256": "b8a0d16c228b78c4def3f794eb0d1af3252fba7d1b2ec508517f6e500536b5d1",
       "commonGrid": true
     },
     {
       "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
-      "sha256": "04c153200b56e6c82a9cab41369bb3ae76d3c0d0277dc750ed67da91765d2421",
+      "sha256": "c007677ea6563cbc681a7c9a5906a700e275a3f9abb847a9b9670d60e15e69f1",
       "commonGrid": true
     },
     {
       "file": "preview/coop-defense-v1/defense.bundle.js",
-      "sha256": "dceebbb9a4bc24f557b38cacd0a44f5854eb13946d2304a4cb351afeeafc1416",
+      "sha256": "fbdb413532b70eec181c5ec7fb2cf42837aa7893bb68230cfbbf3ffe40e3f641",
       "commonGrid": true,
       "standaloneEngine": true
     },
     {
       "file": "preview/sustained-hunt-v2/battle.bundle.js",
-      "sha256": "d4e93d2c40d315008feee2cbc09875f6303bc60a83699a5b73095d6359093ae6",
+      "sha256": "2136809cfb6cf845b2e9b589fbd7c19fad121f93fb4243cb026f6cdf08c33a55",
       "commonGrid": true
     }
   ],
   "layoutClients": [
     {
       "file": "preview/v3-wide-grid-v1/app.bundle.js",
-      "sha256": "529d0855396dfbd73aa7b1852f2fd874423a39c6aafe77ba3ffcc10d31fcf6c0"
+      "sha256": "db2d5b745be265c507cd9a826ace35f1abb9ff8760fcc2f76988f5cb01c344b2"
     }
   ]
 }

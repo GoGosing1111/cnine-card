@@ -1,0 +1,4384 @@
+{
+  "ok": true,
+  "reports": [
+    {
+      "width": 1440,
+      "field": "PVP",
+      "setup": {
+        "canvas": 1,
+        "states": [
+          {
+            "id": "A:MERCENARY:V-967",
+            "team": "ALLY",
+            "facing": 1,
+            "autoUpdate": false,
+            "aura": {
+              "time": 0.0143,
+              "visible": true,
+              "center": [
+                401.06053639459964,
+                348.2567735854484
+              ],
+              "body": {
+                "x": 27.56130782240395,
+                "y": -265.7967474396323,
+                "tilt": 0.09435618373980083,
+                "height": 595.9583749846231,
+                "width": 600.3038999535573,
+                "head": {
+                  "x": 47.53318893504096,
+                  "y": -476.8329999999999
+                },
+                "feet": {
+                  "x": 2.5017499767786404,
+                  "y": -1.0006999999999997
+                },
+                "crown": {
+                  "x": 52.62086566802926,
+                  "y": -530.5927948792646
+                }
+              },
+              "frames": {
+                "rear": {
+                  "index": 0,
+                  "mix": 0.0476666666666663
+                },
+                "front": {
+                  "index": 2,
+                  "mix": 0.0476666666666663
+                }
+              },
+              "coverage": {
+                "rear": {
+                  "width": 1.52,
+                  "height": 1.3,
+                  "lift": 0.14
+                },
+                "front": {
+                  "width": 1.4,
+                  "height": 1.2,
+                  "lift": 0.1
+                }
+              },
+              "rearComposition": "balanced mirrored currents",
+              "outline": true,
+              "behindBody": true,
+              "inFrontOfBody": true,
+              "frontVisible": true,
+              "clock": "V3_REGISTERED_GSAP",
+              "destroyed": false
+            },
+            "bodyVisible": false
+          },
+          {
+            "id": "B:MERCENARY:V-967",
+            "team": "ENEMY",
+            "facing": -1,
+            "autoUpdate": false,
+            "aura": {
+              "time": 0.0143,
+              "visible": true,
+              "center": [
+                1038.9394636054003,
+                348.2567735854484
+              ],
+              "body": {
+                "x": 27.56130782240395,
+                "y": -265.7967474396323,
+                "tilt": 0.09435618373980083,
+                "height": 595.9583749846231,
+                "width": 600.3038999535573,
+                "head": {
+                  "x": 47.53318893504096,
+                  "y": -476.8329999999999
+                },
+                "feet": {
+                  "x": 2.5017499767786404,
+                  "y": -1.0006999999999997
+                },
+                "crown": {
+                  "x": 52.62086566802926,
+                  "y": -530.5927948792646
+                }
+              },
+              "frames": {
+                "rear": {
+                  "index": 0,
+                  "mix": 0.0476666666666663
+                },
+                "front": {
+                  "index": 2,
+                  "mix": 0.0476666666666663
+                }
+              },
+              "coverage": {
+                "rear": {
+                  "width": 1.52,
+                  "height": 1.3,
+                  "lift": 0.14
+                },
+                "front": {
+                  "width": 1.4,
+                  "height": 1.2,
+                  "lift": 0.1
+                }
+              },
+              "rearComposition": "balanced mirrored currents",
+              "outline": true,
+              "behindBody": true,
+              "inFrontOfBody": true,
+              "frontVisible": true,
+              "clock": "V3_REGISTERED_GSAP",
+              "destroyed": false
+            },
+            "bodyVisible": false
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "side": "ALLY",
+          "action": "skill_flash",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_iai",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "technique": "skill_flash",
+            "motionRate": 2,
+            "contactSeconds": 0.3,
+            "durationSeconds": 1.55,
+            "wholePoseAttachments": true
+          },
+          "applied": [
+            "B:0:CN-02D9DC1E8A8A4209"
+          ],
+          "samples": [
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1196,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.1612,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2158,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2704,
+              "pose": "iai_ready",
+              "active": 1
+            },
+            {
+              "time": 0.325,
+              "pose": "iai_cut",
+              "active": 4
+            },
+            {
+              "time": 0.4836,
+              "pose": "iai_cut",
+              "active": 3
+            },
+            {
+              "time": 0.559,
+              "pose": "rise",
+              "active": 5
+            },
+            {
+              "time": 0.585,
+              "pose": "rise",
+              "active": 5
+            },
+            {
+              "time": 0.6396,
+              "pose": "rise",
+              "active": 5
+            },
+            {
+              "time": 0.6916,
+              "pose": "rise",
+              "active": 4
+            },
+            {
+              "time": 0.7358,
+              "pose": "follow",
+              "active": 4
+            },
+            {
+              "time": 0.7904,
+              "pose": "follow",
+              "active": 3
+            },
+            {
+              "time": 0.845,
+              "pose": "follow",
+              "active": 3
+            },
+            {
+              "time": 0.8996,
+              "pose": "follow",
+              "active": 2
+            },
+            {
+              "time": 0.9516,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.9958,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 1.0504,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.0946,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.1596,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.2012,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.2558,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3052,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3546,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.4092,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.4612,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.5158,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 380,
+            "y": 240
+          },
+          "end": {
+            "x": 380,
+            "y": 240
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "skill_thrust",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_rift",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "technique": "skill_thrust",
+            "motionRate": 2,
+            "contactSeconds": 0.48,
+            "nativeContactSeconds": 0.48,
+            "durationSeconds": 1.7349999999999999,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "pierce"
+            ],
+            "hitstopHolds": [
+              0.065
+            ]
+          },
+          "applied": [
+            "B:0:CN-02D9DC1E8A8A4209"
+          ],
+          "samples": [
+            {
+              "time": 0.065,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1092,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.1638,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2184,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.273,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.325,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.3692,
+              "pose": "v4_rift_draw",
+              "active": 2
+            },
+            {
+              "time": 0.4238,
+              "pose": "v4_rift_drive",
+              "active": 3
+            },
+            {
+              "time": 0.4784,
+              "pose": "v4_rift_drive",
+              "active": 3
+            },
+            {
+              "time": 0.48,
+              "pose": "v4_rift_drive",
+              "active": 5
+            },
+            {
+              "time": 0.52,
+              "pose": "v4_rift_drive",
+              "active": 4
+            },
+            {
+              "time": 0.5642,
+              "pose": "v4_rift_drive",
+              "active": 4
+            },
+            {
+              "time": 0.6188,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.6734,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.728,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.78,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.8242,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.8788,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.9334,
+              "pose": "v4_verdict_sheathe",
+              "active": 4
+            },
+            {
+              "time": 0.988,
+              "pose": "v4_verdict_sheathe",
+              "active": 4
+            },
+            {
+              "time": 1.04,
+              "pose": "v4_verdict_sheathe",
+              "active": 3
+            },
+            {
+              "time": 1.0842,
+              "pose": "v4_verdict_sheathe",
+              "active": 2
+            },
+            {
+              "time": 1.1388,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.1934,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.2454,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3442,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3988,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.4534,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.5054,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.56,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.6042,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.6588,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 380,
+            "y": 240
+          },
+          "end": {
+            "x": 380,
+            "y": 240
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "skill_wheel",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_tempest",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 5,
+            "technique": "skill_wheel",
+            "motionRate": 2,
+            "contactSeconds": 1.305,
+            "nativeContactSeconds": 1.22,
+            "durationSeconds": 2.29,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "draw",
+              "turn",
+              "slam"
+            ],
+            "hitstopHolds": [
+              0.035,
+              0.05,
+              0.085
+            ]
+          },
+          "applied": [
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:1:CN-0505936A0CBB4E59",
+            "B:2:CN-25F931CE393D474E",
+            "B:3:CN-23EB4B19986D4818",
+            "B:4:CN-519C181C18DF4B8E"
+          ],
+          "samples": [
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1092,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.1638,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2184,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2704,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.3,
+              "pose": "iai_cut",
+              "active": 1
+            },
+            {
+              "time": 0.3342,
+              "pose": "iai_cut",
+              "active": 1
+            },
+            {
+              "time": 0.3888,
+              "pose": "iai_cut",
+              "active": 1
+            },
+            {
+              "time": 0.4434,
+              "pose": "follow",
+              "active": 1
+            },
+            {
+              "time": 0.4954,
+              "pose": "v3_pivot",
+              "active": 0
+            },
+            {
+              "time": 0.5396,
+              "pose": "v3_pivot",
+              "active": 0
+            },
+            {
+              "time": 0.5942,
+              "pose": "v3_pivot",
+              "active": 0
+            },
+            {
+              "time": 0.64,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.6534,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.7054,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.7496,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.8042,
+              "pose": "v3_compress",
+              "active": 2
+            },
+            {
+              "time": 0.8588,
+              "pose": "v3_takeoff",
+              "active": 2
+            },
+            {
+              "time": 0.9134,
+              "pose": "v3_takeoff",
+              "active": 1
+            },
+            {
+              "time": 0.9654,
+              "pose": "v3_takeoff",
+              "active": 1
+            },
+            {
+              "time": 1.0096,
+              "pose": "v3_apex",
+              "active": 1
+            },
+            {
+              "time": 1.0642,
+              "pose": "v3_apex",
+              "active": 1
+            },
+            {
+              "time": 1.1188,
+              "pose": "v3_aircut",
+              "active": 3
+            },
+            {
+              "time": 1.1812,
+              "pose": "v3_aircut",
+              "active": 4
+            },
+            {
+              "time": 1.22,
+              "pose": "v3_slam",
+              "active": 11
+            },
+            {
+              "time": 1.22,
+              "pose": "v3_slam",
+              "active": 11
+            },
+            {
+              "time": 1.2392,
+              "pose": "v3_slam",
+              "active": 11
+            },
+            {
+              "time": 1.2938,
+              "pose": "v3_slam",
+              "active": 11
+            },
+            {
+              "time": 1.3484,
+              "pose": "v3_slam",
+              "active": 11
+            },
+            {
+              "time": 1.4004,
+              "pose": "v3_recover",
+              "active": 10
+            },
+            {
+              "time": 1.4446,
+              "pose": "v3_recover",
+              "active": 9
+            },
+            {
+              "time": 1.4992,
+              "pose": "v3_recover",
+              "active": 9
+            },
+            {
+              "time": 1.5538,
+              "pose": "v3_recover",
+              "active": 8
+            },
+            {
+              "time": 1.6084,
+              "pose": "guard",
+              "active": 8
+            },
+            {
+              "time": 1.6604,
+              "pose": "guard",
+              "active": 8
+            },
+            {
+              "time": 1.7046,
+              "pose": "guard",
+              "active": 8
+            },
+            {
+              "time": 1.7592,
+              "pose": "step",
+              "active": 3
+            },
+            {
+              "time": 1.8138,
+              "pose": "step",
+              "active": 1
+            },
+            {
+              "time": 1.8684,
+              "pose": "step",
+              "active": 1
+            },
+            {
+              "time": 1.9204,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.9646,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.0192,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.0738,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 380,
+            "y": 240
+          },
+          "end": {
+            "x": 380,
+            "y": 240
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "skill_rain",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_verdict",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 5,
+            "technique": "skill_rain",
+            "motionRate": 2,
+            "contactSeconds": 1.855,
+            "nativeContactSeconds": 1.78,
+            "durationSeconds": 3.485,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "scar-one",
+              "scar-two",
+              "scar-three",
+              "verdict"
+            ],
+            "hitstopHolds": [
+              0.02,
+              0.025,
+              0.03,
+              0.11
+            ]
+          },
+          "applied": [
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:1:CN-0505936A0CBB4E59",
+            "B:2:CN-25F931CE393D474E",
+            "B:3:CN-23EB4B19986D4818",
+            "B:4:CN-519C181C18DF4B8E"
+          ],
+          "samples": [
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1066,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1508,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.2002,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.26,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.3146,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.3666,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.4108,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.4654,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.52,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.5746,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.6266,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.6612,
+              "pose": "v4_verdict_focus",
+              "active": 1
+            },
+            {
+              "time": 0.7054,
+              "pose": "v4_verdict_focus",
+              "active": 1
+            },
+            {
+              "time": 0.76,
+              "pose": "v4_verdict_focus",
+              "active": 1
+            },
+            {
+              "time": 0.8146,
+              "pose": "v4_echo_ready",
+              "active": 1
+            },
+            {
+              "time": 0.8666,
+              "pose": "v4_echo_ready",
+              "active": 1
+            },
+            {
+              "time": 0.9212,
+              "pose": "v4_echo_ready",
+              "active": 1
+            },
+            {
+              "time": 0.9654,
+              "pose": "v4_echo_ready",
+              "active": 2
+            },
+            {
+              "time": 1.02,
+              "pose": "v4_echo_ready",
+              "active": 2
+            },
+            {
+              "time": 1.0496,
+              "pose": "v4_verdict_raise",
+              "active": 2
+            },
+            {
+              "time": 1.1042,
+              "pose": "v4_verdict_raise",
+              "active": 2
+            },
+            {
+              "time": 1.1458,
+              "pose": "v4_verdict_raise",
+              "active": 2
+            },
+            {
+              "time": 1.2004,
+              "pose": "v4_verdict_raise",
+              "active": 5
+            },
+            {
+              "time": 1.255,
+              "pose": "v4_verdict_raise",
+              "active": 7
+            },
+            {
+              "time": 1.3096,
+              "pose": "v4_verdict_raise",
+              "active": 9
+            },
+            {
+              "time": 1.36,
+              "pose": "v4_verdict_raise",
+              "active": 10
+            },
+            {
+              "time": 1.3862,
+              "pose": "v4_verdict_raise",
+              "active": 11
+            },
+            {
+              "time": 1.4304,
+              "pose": "v4_verdict_raise",
+              "active": 11
+            },
+            {
+              "time": 1.485,
+              "pose": "v4_verdict_raise",
+              "active": 11
+            },
+            {
+              "time": 1.5396,
+              "pose": "v4_verdict_raise",
+              "active": 11
+            },
+            {
+              "time": 1.5916,
+              "pose": "v4_verdict_raise",
+              "active": 11
+            },
+            {
+              "time": 1.6358,
+              "pose": "v3_aircut",
+              "active": 11
+            },
+            {
+              "time": 1.6904,
+              "pose": "v3_aircut",
+              "active": 11
+            },
+            {
+              "time": 1.745,
+              "pose": "v3_aircut",
+              "active": 11
+            },
+            {
+              "time": 1.78,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 1.78,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 1.7858,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 1.8404,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 1.895,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 1.9496,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 2.0016,
+              "pose": "v4_verdict_cut",
+              "active": 17
+            },
+            {
+              "time": 2.0458,
+              "pose": "v4_verdict_cut",
+              "active": 17
+            },
+            {
+              "time": 2.09,
+              "pose": "v4_verdict_sheathe",
+              "active": 16
+            },
+            {
+              "time": 2.1446,
+              "pose": "v4_verdict_sheathe",
+              "active": 16
+            },
+            {
+              "time": 2.2096,
+              "pose": "v4_verdict_sheathe",
+              "active": 16
+            },
+            {
+              "time": 2.2616,
+              "pose": "v4_verdict_sheathe",
+              "active": 16
+            },
+            {
+              "time": 2.3058,
+              "pose": "v4_verdict_sheathe",
+              "active": 16
+            },
+            {
+              "time": 2.35,
+              "pose": "v4_verdict_sheathe",
+              "active": 6
+            },
+            {
+              "time": 2.4046,
+              "pose": "v4_verdict_sheathe",
+              "active": 5
+            },
+            {
+              "time": 2.4696,
+              "pose": "v4_verdict_sheathe",
+              "active": 0
+            },
+            {
+              "time": 2.5216,
+              "pose": "v4_verdict_sheathe",
+              "active": 0
+            },
+            {
+              "time": 2.5762,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.6204,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.675,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.7296,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.7842,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.8258,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.8804,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.935,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.9896,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 3.0416,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 3.0858,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.1404,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.195,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.2496,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 380,
+            "y": 240
+          },
+          "end": {
+            "x": 380,
+            "y": 240
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ENEMY",
+          "action": "skill_flash",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_iai",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "technique": "skill_flash",
+            "motionRate": 2,
+            "contactSeconds": 0.3,
+            "durationSeconds": 1.55,
+            "wholePoseAttachments": true
+          },
+          "applied": [
+            "A:0:CN-02D9DC1E8A8A4209"
+          ],
+          "samples": [
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1066,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.1612,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2158,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2704,
+              "pose": "iai_ready",
+              "active": 1
+            },
+            {
+              "time": 0.3146,
+              "pose": "iai_cut",
+              "active": 4
+            },
+            {
+              "time": 0.3666,
+              "pose": "iai_cut",
+              "active": 4
+            },
+            {
+              "time": 0.4212,
+              "pose": "iai_cut",
+              "active": 4
+            },
+            {
+              "time": 0.4758,
+              "pose": "iai_cut",
+              "active": 3
+            },
+            {
+              "time": 0.52,
+              "pose": "rise",
+              "active": 5
+            },
+            {
+              "time": 0.572,
+              "pose": "rise",
+              "active": 5
+            },
+            {
+              "time": 0.6266,
+              "pose": "rise",
+              "active": 5
+            },
+            {
+              "time": 0.6812,
+              "pose": "rise",
+              "active": 4
+            },
+            {
+              "time": 0.7358,
+              "pose": "follow",
+              "active": 4
+            },
+            {
+              "time": 0.7904,
+              "pose": "follow",
+              "active": 3
+            },
+            {
+              "time": 0.832,
+              "pose": "follow",
+              "active": 3
+            },
+            {
+              "time": 0.8866,
+              "pose": "follow",
+              "active": 2
+            },
+            {
+              "time": 0.9412,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.9958,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 1.04,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.092,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.1466,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.2012,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.2558,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3104,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.352,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.4066,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.4612,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.5158,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 1220,
+            "y": 240
+          },
+          "end": {
+            "x": 1220,
+            "y": 240
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ENEMY",
+          "action": "skill_thrust",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_rift",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "technique": "skill_thrust",
+            "motionRate": 2,
+            "contactSeconds": 0.48,
+            "nativeContactSeconds": 0.48,
+            "durationSeconds": 1.7349999999999999,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "pierce"
+            ],
+            "hitstopHolds": [
+              0.065
+            ]
+          },
+          "applied": [
+            "A:0:CN-02D9DC1E8A8A4209"
+          ],
+          "samples": [
+            {
+              "time": 0.0624,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1066,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.1612,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2132,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2678,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.3224,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.3666,
+              "pose": "v4_rift_draw",
+              "active": 2
+            },
+            {
+              "time": 0.4212,
+              "pose": "v4_rift_drive",
+              "active": 3
+            },
+            {
+              "time": 0.4732,
+              "pose": "v4_rift_drive",
+              "active": 3
+            },
+            {
+              "time": 0.48,
+              "pose": "v4_rift_drive",
+              "active": 5
+            },
+            {
+              "time": 0.5174,
+              "pose": "v4_rift_drive",
+              "active": 5
+            },
+            {
+              "time": 0.5616,
+              "pose": "v4_rift_drive",
+              "active": 4
+            },
+            {
+              "time": 0.6162,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.6682,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.7228,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.7774,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.8216,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.8762,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.9308,
+              "pose": "v4_verdict_sheathe",
+              "active": 4
+            },
+            {
+              "time": 0.9828,
+              "pose": "v4_verdict_sheathe",
+              "active": 4
+            },
+            {
+              "time": 1.0374,
+              "pose": "v4_verdict_sheathe",
+              "active": 3
+            },
+            {
+              "time": 1.0816,
+              "pose": "v4_verdict_sheathe",
+              "active": 2
+            },
+            {
+              "time": 1.1362,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.1882,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.2428,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.2974,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3416,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3962,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.4482,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.5028,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.5574,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.6016,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.6562,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 1220,
+            "y": 240
+          },
+          "end": {
+            "x": 1220,
+            "y": 240
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ENEMY",
+          "action": "skill_wheel",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_tempest",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 5,
+            "technique": "skill_wheel",
+            "motionRate": 2,
+            "contactSeconds": 1.305,
+            "nativeContactSeconds": 1.22,
+            "durationSeconds": 2.29,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "draw",
+              "turn",
+              "slam"
+            ],
+            "hitstopHolds": [
+              0.035,
+              0.05,
+              0.085
+            ]
+          },
+          "applied": [
+            "A:0:CN-02D9DC1E8A8A4209",
+            "A:1:CN-0505936A0CBB4E59",
+            "A:2:CN-25F931CE393D474E",
+            "A:3:CN-23EB4B19986D4818",
+            "A:4:CN-519C181C18DF4B8E"
+          ],
+          "samples": [
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1092,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.1638,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2054,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.26,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.3,
+              "pose": "iai_cut",
+              "active": 1
+            },
+            {
+              "time": 0.3342,
+              "pose": "iai_cut",
+              "active": 1
+            },
+            {
+              "time": 0.3888,
+              "pose": "iai_cut",
+              "active": 1
+            },
+            {
+              "time": 0.4408,
+              "pose": "follow",
+              "active": 1
+            },
+            {
+              "time": 0.485,
+              "pose": "v3_pivot",
+              "active": 1
+            },
+            {
+              "time": 0.5396,
+              "pose": "v3_pivot",
+              "active": 0
+            },
+            {
+              "time": 0.5942,
+              "pose": "v3_pivot",
+              "active": 0
+            },
+            {
+              "time": 0.64,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.6404,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.695,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.7496,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.8042,
+              "pose": "v3_compress",
+              "active": 2
+            },
+            {
+              "time": 0.8588,
+              "pose": "v3_takeoff",
+              "active": 2
+            },
+            {
+              "time": 0.9004,
+              "pose": "v3_takeoff",
+              "active": 1
+            },
+            {
+              "time": 0.955,
+              "pose": "v3_takeoff",
+              "active": 1
+            },
+            {
+              "time": 1.0096,
+              "pose": "v3_apex",
+              "active": 1
+            },
+            {
+              "time": 1.0642,
+              "pose": "v3_apex",
+              "active": 1
+            },
+            {
+              "time": 1.1188,
+              "pose": "v3_aircut",
+              "active": 3
+            },
+            {
+              "time": 1.1708,
+              "pose": "v3_aircut",
+              "active": 4
+            },
+            {
+              "time": 1.215,
+              "pose": "v3_aircut",
+              "active": 4
+            },
+            {
+              "time": 1.22,
+              "pose": "v3_slam",
+              "active": 11
+            },
+            {
+              "time": 1.2392,
+              "pose": "v3_slam",
+              "active": 11
+            },
+            {
+              "time": 1.2938,
+              "pose": "v3_slam",
+              "active": 11
+            },
+            {
+              "time": 1.3354,
+              "pose": "v3_slam",
+              "active": 11
+            },
+            {
+              "time": 1.39,
+              "pose": "v3_recover",
+              "active": 10
+            },
+            {
+              "time": 1.4446,
+              "pose": "v3_recover",
+              "active": 9
+            },
+            {
+              "time": 1.4992,
+              "pose": "v3_recover",
+              "active": 9
+            },
+            {
+              "time": 1.5538,
+              "pose": "v3_recover",
+              "active": 8
+            },
+            {
+              "time": 1.5954,
+              "pose": "guard",
+              "active": 8
+            },
+            {
+              "time": 1.65,
+              "pose": "guard",
+              "active": 8
+            },
+            {
+              "time": 1.7046,
+              "pose": "guard",
+              "active": 8
+            },
+            {
+              "time": 1.7592,
+              "pose": "step",
+              "active": 3
+            },
+            {
+              "time": 1.8138,
+              "pose": "step",
+              "active": 1
+            },
+            {
+              "time": 1.8554,
+              "pose": "step",
+              "active": 1
+            },
+            {
+              "time": 1.91,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.9646,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.0192,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.0738,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.1154,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 1220,
+            "y": 240
+          },
+          "end": {
+            "x": 1220,
+            "y": 240
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ENEMY",
+          "action": "skill_rain",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_verdict",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 5,
+            "technique": "skill_rain",
+            "motionRate": 2,
+            "contactSeconds": 1.855,
+            "nativeContactSeconds": 1.78,
+            "durationSeconds": 3.485,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "scar-one",
+              "scar-two",
+              "scar-three",
+              "verdict"
+            ],
+            "hitstopHolds": [
+              0.02,
+              0.025,
+              0.03,
+              0.11
+            ]
+          },
+          "applied": [
+            "A:0:CN-02D9DC1E8A8A4209",
+            "A:1:CN-0505936A0CBB4E59",
+            "A:2:CN-25F931CE393D474E",
+            "A:3:CN-23EB4B19986D4818",
+            "A:4:CN-519C181C18DF4B8E"
+          ],
+          "samples": [
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1066,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1612,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.2054,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.26,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.3146,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.3666,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.4212,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.4654,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.52,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.5746,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.6266,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.6612,
+              "pose": "v4_verdict_focus",
+              "active": 1
+            },
+            {
+              "time": 0.7054,
+              "pose": "v4_verdict_focus",
+              "active": 1
+            },
+            {
+              "time": 0.76,
+              "pose": "v4_verdict_focus",
+              "active": 1
+            },
+            {
+              "time": 0.8146,
+              "pose": "v4_echo_ready",
+              "active": 1
+            },
+            {
+              "time": 0.8666,
+              "pose": "v4_echo_ready",
+              "active": 1
+            },
+            {
+              "time": 0.9212,
+              "pose": "v4_echo_ready",
+              "active": 1
+            },
+            {
+              "time": 0.9654,
+              "pose": "v4_echo_ready",
+              "active": 2
+            },
+            {
+              "time": 1.02,
+              "pose": "v4_echo_ready",
+              "active": 2
+            },
+            {
+              "time": 1.0496,
+              "pose": "v4_verdict_raise",
+              "active": 2
+            },
+            {
+              "time": 1.1016,
+              "pose": "v4_verdict_raise",
+              "active": 2
+            },
+            {
+              "time": 1.1484,
+              "pose": "v4_verdict_raise",
+              "active": 2
+            },
+            {
+              "time": 1.2004,
+              "pose": "v4_verdict_raise",
+              "active": 5
+            },
+            {
+              "time": 1.255,
+              "pose": "v4_verdict_raise",
+              "active": 7
+            },
+            {
+              "time": 1.3096,
+              "pose": "v4_verdict_raise",
+              "active": 9
+            },
+            {
+              "time": 1.36,
+              "pose": "v4_verdict_raise",
+              "active": 10
+            },
+            {
+              "time": 1.3862,
+              "pose": "v4_verdict_raise",
+              "active": 11
+            },
+            {
+              "time": 1.4304,
+              "pose": "v4_verdict_raise",
+              "active": 11
+            },
+            {
+              "time": 1.485,
+              "pose": "v4_verdict_raise",
+              "active": 11
+            },
+            {
+              "time": 1.5396,
+              "pose": "v4_verdict_raise",
+              "active": 11
+            },
+            {
+              "time": 1.5942,
+              "pose": "v4_verdict_raise",
+              "active": 11
+            },
+            {
+              "time": 1.6462,
+              "pose": "v3_aircut",
+              "active": 11
+            },
+            {
+              "time": 1.7008,
+              "pose": "v3_aircut",
+              "active": 11
+            },
+            {
+              "time": 1.745,
+              "pose": "v3_aircut",
+              "active": 11
+            },
+            {
+              "time": 1.78,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 1.78,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 1.7962,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 1.8508,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 1.895,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 1.9496,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 2.0042,
+              "pose": "v4_verdict_cut",
+              "active": 17
+            },
+            {
+              "time": 2.0562,
+              "pose": "v4_verdict_cut",
+              "active": 17
+            },
+            {
+              "time": 2.1004,
+              "pose": "v4_verdict_sheathe",
+              "active": 16
+            },
+            {
+              "time": 2.1446,
+              "pose": "v4_verdict_sheathe",
+              "active": 16
+            },
+            {
+              "time": 2.1992,
+              "pose": "v4_verdict_sheathe",
+              "active": 16
+            },
+            {
+              "time": 2.2616,
+              "pose": "v4_verdict_sheathe",
+              "active": 16
+            },
+            {
+              "time": 2.3162,
+              "pose": "v4_verdict_sheathe",
+              "active": 11
+            },
+            {
+              "time": 2.3604,
+              "pose": "v4_verdict_sheathe",
+              "active": 6
+            },
+            {
+              "time": 2.415,
+              "pose": "v4_verdict_sheathe",
+              "active": 5
+            },
+            {
+              "time": 2.4592,
+              "pose": "v4_verdict_sheathe",
+              "active": 0
+            },
+            {
+              "time": 2.5242,
+              "pose": "v4_verdict_sheathe",
+              "active": 0
+            },
+            {
+              "time": 2.5762,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.6204,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.675,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.7296,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.7842,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.8362,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.8804,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.935,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.9896,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 3.0442,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 3.0962,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.1404,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.195,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.2496,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 1220,
+            "y": 240
+          },
+          "end": {
+            "x": 1220,
+            "y": 240
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        }
+      ],
+      "lifecycle": {
+        "dead": false,
+        "revived": true,
+        "cancelled": {
+          "impacts": 0,
+          "busy": false,
+          "effect": null,
+          "aura": false
+        },
+        "resumed": true,
+        "loops": 2
+      },
+      "codex": "하쿠야 신\n\n흑백의 검성\n\nSSS\n카드 원화\n전투 SD\n\n선택한 이미지를 누르면 원본을 확대합니다.\n\n리미티드 · 돌격 · SSS\n\n기본 전투력\n2,700,000\n☆\n대표 스킬\n절광발도\n\n발도와 반전 검격으로 적 한 명에게 일반 공격의 1.5배 피해를 한 번 적용합니다.\n\n보유 상태\n미보유\n\n전체 도감 정보는 확인할 수 있지만 편성은 보유 용병만 가능합니다.\n\n스킬·전투 성능 자세히 보기\n리미티드 컬렉션\nLIMITED EDITION\n하쿠야 신\n\n흑백의 검성\n\n용병 등급\nSSS\n공개 리소스\n원화 · 전투 SD\n전투 편성\n보유 시 가능\n리미티드 전투 편성\n\n보유한 리미티드 용병을 PVE와 PVP에 각각 편성할 수 있습니다.\n획득 잠금 · 획득 방법은 추후 지정됩니다.\n\n전투 성능 · 행동 주기\n기본 전투력 2,700,000. 레반과 같은 공격·생존·행동·연계·피해 상한. 아군 카드 행동당 3.12회 추가 행동, 개인 피해 80% 경감, 상태이상·반격 보호. 절광발도와 삼첩관통은 일반 공격마다 순환하며 1.5배 피해를 한 번 적용합니다. PVE 회천검압·만검낙성은 번갈아 총 3,024% 피해를 생존한 적 전체에 나누어 적용합니다(에너지 20 · 공통 재사용 3행동). 흑백 검기 아우라·Spine 액션 2배속. 운영자 지정 지급 전용. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 4배). 고레벨 성장과 마지막 돌파도 이 배율에 반영됩니다. 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다. PVP 성장 전투는 C·B·A·S·SS·SSS·SSS 리미티드 순으로 등급 우위를 적용합니다. SS 리미티드는 기존 일반 SSS 전투 등급을 유지합니다. 상대 전원의 등급보다 높으면 같은 레벨 기준 단계당 공격·피해 상한 +100%, 체력·방벽 +500%의 추가 보정을 적용합니다. 상위 등급의 레벨이 낮으면 1레벨 차이마다 이 추가 보정과 성장 격차 보완을 10%씩 줄이며, 10레벨 이상 뒤처지면 적용하지 않습니다. 상위 등급을 향한 경감 관통·행동 대응의 등급 감쇠도 같은 비율로 줄어 10레벨 이상 높은 용병은 배운 숙련을 온전히 사용합니다. 원래 레벨 능력치·평타 성장·추가 행동 숙련은 유지합니다. 듀오는 상대 최고 등급과 가장 큰 레벨 격차를 기준으로 하며, 같은 전투 등급·PVE·기존 개별 용병 상성 정책은 유지합니다."
+    },
+    {
+      "width": 390,
+      "field": "PVP",
+      "setup": {
+        "canvas": 1,
+        "states": [
+          {
+            "id": "A:MERCENARY:V-967",
+            "team": "ALLY",
+            "facing": 1,
+            "autoUpdate": false,
+            "aura": {
+              "time": 0.0143,
+              "visible": true,
+              "center": [
+                143.53512029498526,
+                303.5517142685244
+              ],
+              "body": {
+                "x": 27.56130782240395,
+                "y": -265.7967474396323,
+                "tilt": 0.09435618373980083,
+                "height": 595.9583749846231,
+                "width": 600.3038999535573,
+                "head": {
+                  "x": 47.53318893504096,
+                  "y": -476.8329999999999
+                },
+                "feet": {
+                  "x": 2.5017499767786404,
+                  "y": -1.0006999999999997
+                },
+                "crown": {
+                  "x": 52.62086566802926,
+                  "y": -530.5927948792646
+                }
+              },
+              "frames": {
+                "rear": {
+                  "index": 0,
+                  "mix": 0.0476666666666663
+                },
+                "front": {
+                  "index": 2,
+                  "mix": 0.0476666666666663
+                }
+              },
+              "coverage": {
+                "rear": {
+                  "width": 1.52,
+                  "height": 1.3,
+                  "lift": 0.14
+                },
+                "front": {
+                  "width": 1.4,
+                  "height": 1.2,
+                  "lift": 0.1
+                }
+              },
+              "rearComposition": "balanced mirrored currents",
+              "outline": true,
+              "behindBody": true,
+              "inFrontOfBody": true,
+              "frontVisible": true,
+              "clock": "V3_REGISTERED_GSAP",
+              "destroyed": false
+            },
+            "bodyVisible": false
+          },
+          {
+            "id": "B:MERCENARY:V-967",
+            "team": "ENEMY",
+            "facing": -1,
+            "autoUpdate": false,
+            "aura": {
+              "time": 0.0143,
+              "visible": true,
+              "center": [
+                246.4648797050148,
+                303.5517142685244
+              ],
+              "body": {
+                "x": 27.56130782240395,
+                "y": -265.7967474396323,
+                "tilt": 0.09435618373980083,
+                "height": 595.9583749846231,
+                "width": 600.3038999535573,
+                "head": {
+                  "x": 47.53318893504096,
+                  "y": -476.8329999999999
+                },
+                "feet": {
+                  "x": 2.5017499767786404,
+                  "y": -1.0006999999999997
+                },
+                "crown": {
+                  "x": 52.62086566802926,
+                  "y": -530.5927948792646
+                }
+              },
+              "frames": {
+                "rear": {
+                  "index": 0,
+                  "mix": 0.0476666666666663
+                },
+                "front": {
+                  "index": 2,
+                  "mix": 0.0476666666666663
+                }
+              },
+              "coverage": {
+                "rear": {
+                  "width": 1.52,
+                  "height": 1.3,
+                  "lift": 0.14
+                },
+                "front": {
+                  "width": 1.4,
+                  "height": 1.2,
+                  "lift": 0.1
+                }
+              },
+              "rearComposition": "balanced mirrored currents",
+              "outline": true,
+              "behindBody": true,
+              "inFrontOfBody": true,
+              "frontVisible": true,
+              "clock": "V3_REGISTERED_GSAP",
+              "destroyed": false
+            },
+            "bodyVisible": false
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "side": "ALLY",
+          "action": "skill_flash",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_iai",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "technique": "skill_flash",
+            "motionRate": 2,
+            "contactSeconds": 0.3,
+            "durationSeconds": 1.55,
+            "wholePoseAttachments": true
+          },
+          "applied": [
+            "B:0:CN-02D9DC1E8A8A4209"
+          ],
+          "samples": [
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1196,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.1612,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2158,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.26,
+              "pose": "iai_ready",
+              "active": 1
+            },
+            {
+              "time": 0.3068,
+              "pose": "iai_cut",
+              "active": 4
+            },
+            {
+              "time": 0.3458,
+              "pose": "iai_cut",
+              "active": 4
+            },
+            {
+              "time": 0.5876,
+              "pose": "rise",
+              "active": 5
+            },
+            {
+              "time": 0.6448,
+              "pose": "rise",
+              "active": 5
+            },
+            {
+              "time": 0.6942,
+              "pose": "rise",
+              "active": 4
+            },
+            {
+              "time": 0.7384,
+              "pose": "follow",
+              "active": 4
+            },
+            {
+              "time": 0.78,
+              "pose": "follow",
+              "active": 3
+            },
+            {
+              "time": 0.8346,
+              "pose": "follow",
+              "active": 3
+            },
+            {
+              "time": 0.8762,
+              "pose": "follow",
+              "active": 3
+            },
+            {
+              "time": 0.9412,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.9854,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 1.0296,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.0946,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.1466,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.2012,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.2558,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3546,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.4092,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.4612,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.5054,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 564,
+            "y": 1312
+          },
+          "end": {
+            "x": 564,
+            "y": 1312
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "skill_thrust",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_rift",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "technique": "skill_thrust",
+            "motionRate": 2,
+            "contactSeconds": 0.48,
+            "nativeContactSeconds": 0.48,
+            "durationSeconds": 1.7349999999999999,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "pierce"
+            ],
+            "hitstopHolds": [
+              0.065
+            ]
+          },
+          "applied": [
+            "B:0:CN-02D9DC1E8A8A4209"
+          ],
+          "samples": [
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1092,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.1638,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2158,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.26,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.3146,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.3718,
+              "pose": "v4_rift_draw",
+              "active": 2
+            },
+            {
+              "time": 0.4212,
+              "pose": "v4_rift_drive",
+              "active": 3
+            },
+            {
+              "time": 0.4758,
+              "pose": "v4_rift_drive",
+              "active": 3
+            },
+            {
+              "time": 0.48,
+              "pose": "v4_rift_drive",
+              "active": 5
+            },
+            {
+              "time": 0.5096,
+              "pose": "v4_rift_drive",
+              "active": 5
+            },
+            {
+              "time": 0.5642,
+              "pose": "v4_rift_drive",
+              "active": 4
+            },
+            {
+              "time": 0.6162,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.6708,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.7254,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.7696,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.8242,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.8762,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.9308,
+              "pose": "v4_verdict_sheathe",
+              "active": 4
+            },
+            {
+              "time": 0.975,
+              "pose": "v4_verdict_sheathe",
+              "active": 4
+            },
+            {
+              "time": 1.0296,
+              "pose": "v4_verdict_sheathe",
+              "active": 3
+            },
+            {
+              "time": 1.0842,
+              "pose": "v4_verdict_sheathe",
+              "active": 2
+            },
+            {
+              "time": 1.1362,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.1934,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.235,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.2896,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3442,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3962,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.4508,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.495,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.5496,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.6042,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.6562,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 564,
+            "y": 1312
+          },
+          "end": {
+            "x": 564,
+            "y": 1312
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "skill_wheel",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_tempest",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 5,
+            "technique": "skill_wheel",
+            "motionRate": 2,
+            "contactSeconds": 1.305,
+            "nativeContactSeconds": 1.22,
+            "durationSeconds": 2.29,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "draw",
+              "turn",
+              "slam"
+            ],
+            "hitstopHolds": [
+              0.035,
+              0.05,
+              0.085
+            ]
+          },
+          "applied": [
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:1:CN-0505936A0CBB4E59",
+            "B:2:CN-25F931CE393D474E",
+            "B:3:CN-23EB4B19986D4818",
+            "B:4:CN-519C181C18DF4B8E"
+          ],
+          "samples": [
+            {
+              "time": 0.065,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1092,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.1612,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2158,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2704,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.3,
+              "pose": "iai_cut",
+              "active": 1
+            },
+            {
+              "time": 0.3342,
+              "pose": "iai_cut",
+              "active": 1
+            },
+            {
+              "time": 0.3862,
+              "pose": "iai_cut",
+              "active": 1
+            },
+            {
+              "time": 0.4408,
+              "pose": "follow",
+              "active": 1
+            },
+            {
+              "time": 0.4954,
+              "pose": "v3_pivot",
+              "active": 0
+            },
+            {
+              "time": 0.55,
+              "pose": "v3_pivot",
+              "active": 0
+            },
+            {
+              "time": 0.5916,
+              "pose": "v3_pivot",
+              "active": 0
+            },
+            {
+              "time": 0.64,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.6508,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.7054,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.76,
+              "pose": "v3_compress",
+              "active": 2
+            },
+            {
+              "time": 0.8016,
+              "pose": "v3_compress",
+              "active": 2
+            },
+            {
+              "time": 0.8562,
+              "pose": "v3_takeoff",
+              "active": 2
+            },
+            {
+              "time": 0.9108,
+              "pose": "v3_takeoff",
+              "active": 1
+            },
+            {
+              "time": 0.9654,
+              "pose": "v3_takeoff",
+              "active": 1
+            },
+            {
+              "time": 1.02,
+              "pose": "v3_apex",
+              "active": 1
+            },
+            {
+              "time": 1.0642,
+              "pose": "v3_apex",
+              "active": 1
+            },
+            {
+              "time": 1.1162,
+              "pose": "v3_aircut",
+              "active": 3
+            },
+            {
+              "time": 1.1708,
+              "pose": "v3_aircut",
+              "active": 4
+            },
+            {
+              "time": 1.22,
+              "pose": "v3_slam",
+              "active": 11
+            },
+            {
+              "time": 1.22,
+              "pose": "v3_slam",
+              "active": 11
+            },
+            {
+              "time": 1.2366,
+              "pose": "v3_slam",
+              "active": 11
+            },
+            {
+              "time": 1.2912,
+              "pose": "v3_slam",
+              "active": 11
+            },
+            {
+              "time": 1.3458,
+              "pose": "v3_slam",
+              "active": 11
+            },
+            {
+              "time": 1.4004,
+              "pose": "v3_recover",
+              "active": 10
+            },
+            {
+              "time": 1.455,
+              "pose": "v3_recover",
+              "active": 9
+            },
+            {
+              "time": 1.5096,
+              "pose": "v3_recover",
+              "active": 8
+            },
+            {
+              "time": 1.5512,
+              "pose": "v3_recover",
+              "active": 8
+            },
+            {
+              "time": 1.6058,
+              "pose": "guard",
+              "active": 8
+            },
+            {
+              "time": 1.6604,
+              "pose": "guard",
+              "active": 8
+            },
+            {
+              "time": 1.715,
+              "pose": "guard",
+              "active": 3
+            },
+            {
+              "time": 1.7566,
+              "pose": "step",
+              "active": 3
+            },
+            {
+              "time": 1.8112,
+              "pose": "step",
+              "active": 1
+            },
+            {
+              "time": 1.8658,
+              "pose": "step",
+              "active": 1
+            },
+            {
+              "time": 1.9204,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.975,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.0166,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.0712,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 564,
+            "y": 1312
+          },
+          "end": {
+            "x": 564,
+            "y": 1312
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "skill_rain",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_verdict",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 5,
+            "technique": "skill_rain",
+            "motionRate": 2,
+            "contactSeconds": 1.855,
+            "nativeContactSeconds": 1.78,
+            "durationSeconds": 3.485,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "scar-one",
+              "scar-two",
+              "scar-three",
+              "verdict"
+            ],
+            "hitstopHolds": [
+              0.02,
+              0.025,
+              0.03,
+              0.11
+            ]
+          },
+          "applied": [
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:1:CN-0505936A0CBB4E59",
+            "B:2:CN-25F931CE393D474E",
+            "B:3:CN-23EB4B19986D4818",
+            "B:4:CN-519C181C18DF4B8E"
+          ],
+          "samples": [
+            {
+              "time": 0.065,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1196,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1638,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.2184,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.2704,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.325,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.3692,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.4238,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.4758,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.5304,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.585,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.6292,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.6638,
+              "pose": "v4_verdict_focus",
+              "active": 1
+            },
+            {
+              "time": 0.7184,
+              "pose": "v4_verdict_focus",
+              "active": 1
+            },
+            {
+              "time": 0.7704,
+              "pose": "v4_verdict_focus",
+              "active": 1
+            },
+            {
+              "time": 0.825,
+              "pose": "v4_echo_ready",
+              "active": 1
+            },
+            {
+              "time": 0.8692,
+              "pose": "v4_echo_ready",
+              "active": 1
+            },
+            {
+              "time": 0.9238,
+              "pose": "v4_echo_ready",
+              "active": 1
+            },
+            {
+              "time": 0.9784,
+              "pose": "v4_echo_ready",
+              "active": 2
+            },
+            {
+              "time": 1.02,
+              "pose": "v4_echo_ready",
+              "active": 2
+            },
+            {
+              "time": 1.06,
+              "pose": "v4_verdict_raise",
+              "active": 2
+            },
+            {
+              "time": 1.1146,
+              "pose": "v4_verdict_raise",
+              "active": 2
+            },
+            {
+              "time": 1.1588,
+              "pose": "v4_verdict_raise",
+              "active": 2
+            },
+            {
+              "time": 1.2134,
+              "pose": "v4_verdict_raise",
+              "active": 5
+            },
+            {
+              "time": 1.2706,
+              "pose": "v4_verdict_raise",
+              "active": 7
+            },
+            {
+              "time": 1.32,
+              "pose": "v4_verdict_raise",
+              "active": 9
+            },
+            {
+              "time": 1.36,
+              "pose": "v4_verdict_raise",
+              "active": 10
+            },
+            {
+              "time": 1.3888,
+              "pose": "v4_verdict_raise",
+              "active": 11
+            },
+            {
+              "time": 1.4434,
+              "pose": "v4_verdict_raise",
+              "active": 11
+            },
+            {
+              "time": 1.4954,
+              "pose": "v4_verdict_raise",
+              "active": 11
+            },
+            {
+              "time": 1.55,
+              "pose": "v4_verdict_raise",
+              "active": 11
+            },
+            {
+              "time": 1.6046,
+              "pose": "v4_verdict_raise",
+              "active": 11
+            },
+            {
+              "time": 1.6488,
+              "pose": "v3_aircut",
+              "active": 11
+            },
+            {
+              "time": 1.6956,
+              "pose": "v3_aircut",
+              "active": 11
+            },
+            {
+              "time": 1.7554,
+              "pose": "v3_aircut",
+              "active": 11
+            },
+            {
+              "time": 1.78,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 1.78,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 1.7988,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 1.8482,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 1.908,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 1.96,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 2.0042,
+              "pose": "v4_verdict_cut",
+              "active": 17
+            },
+            {
+              "time": 2.0588,
+              "pose": "v4_verdict_cut",
+              "active": 17
+            },
+            {
+              "time": 2.1134,
+              "pose": "v4_verdict_sheathe",
+              "active": 16
+            },
+            {
+              "time": 2.1654,
+              "pose": "v4_verdict_sheathe",
+              "active": 16
+            },
+            {
+              "time": 2.22,
+              "pose": "v4_verdict_sheathe",
+              "active": 16
+            },
+            {
+              "time": 2.2642,
+              "pose": "v4_verdict_sheathe",
+              "active": 16
+            },
+            {
+              "time": 2.3188,
+              "pose": "v4_verdict_sheathe",
+              "active": 11
+            },
+            {
+              "time": 2.3734,
+              "pose": "v4_verdict_sheathe",
+              "active": 5
+            },
+            {
+              "time": 2.4254,
+              "pose": "v4_verdict_sheathe",
+              "active": 5
+            },
+            {
+              "time": 2.48,
+              "pose": "v4_verdict_sheathe",
+              "active": 0
+            },
+            {
+              "time": 2.5242,
+              "pose": "v4_verdict_sheathe",
+              "active": 0
+            },
+            {
+              "time": 2.5788,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.6308,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.6854,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.74,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.7842,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.8388,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.8934,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.9454,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 3,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 3.0442,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 3.0988,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.1534,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.2054,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.26,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 564,
+            "y": 1312
+          },
+          "end": {
+            "x": 564,
+            "y": 1312
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ENEMY",
+          "action": "skill_flash",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_iai",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "technique": "skill_flash",
+            "motionRate": 2,
+            "contactSeconds": 0.3,
+            "durationSeconds": 1.55,
+            "wholePoseAttachments": true
+          },
+          "applied": [
+            "A:0:CN-02D9DC1E8A8A4209"
+          ],
+          "samples": [
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1092,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.1638,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2054,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.26,
+              "pose": "iai_ready",
+              "active": 1
+            },
+            {
+              "time": 0.3146,
+              "pose": "iai_cut",
+              "active": 4
+            },
+            {
+              "time": 0.3692,
+              "pose": "iai_cut",
+              "active": 4
+            },
+            {
+              "time": 0.4238,
+              "pose": "iai_cut",
+              "active": 4
+            },
+            {
+              "time": 0.4654,
+              "pose": "iai_cut",
+              "active": 4
+            },
+            {
+              "time": 0.5226,
+              "pose": "rise",
+              "active": 5
+            },
+            {
+              "time": 0.5746,
+              "pose": "rise",
+              "active": 5
+            },
+            {
+              "time": 0.6292,
+              "pose": "rise",
+              "active": 5
+            },
+            {
+              "time": 0.6838,
+              "pose": "rise",
+              "active": 4
+            },
+            {
+              "time": 0.7254,
+              "pose": "follow",
+              "active": 4
+            },
+            {
+              "time": 0.78,
+              "pose": "follow",
+              "active": 3
+            },
+            {
+              "time": 0.8346,
+              "pose": "follow",
+              "active": 3
+            },
+            {
+              "time": 0.8892,
+              "pose": "follow",
+              "active": 2
+            },
+            {
+              "time": 0.9438,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.9854,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 1.04,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.0972,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.1492,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.2038,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.2454,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3546,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.4092,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.4638,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.5054,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 996,
+            "y": 1312
+          },
+          "end": {
+            "x": 996,
+            "y": 1312
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ENEMY",
+          "action": "skill_thrust",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_rift",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "technique": "skill_thrust",
+            "motionRate": 2,
+            "contactSeconds": 0.48,
+            "nativeContactSeconds": 0.48,
+            "durationSeconds": 1.7349999999999999,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "pierce"
+            ],
+            "hitstopHolds": [
+              0.065
+            ]
+          },
+          "applied": [
+            "A:0:CN-02D9DC1E8A8A4209"
+          ],
+          "samples": [
+            {
+              "time": 0.065,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1014,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.1638,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2158,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2704,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.325,
+              "pose": "v4_rift_ready",
+              "active": 0
+            },
+            {
+              "time": 0.3796,
+              "pose": "v4_rift_draw",
+              "active": 2
+            },
+            {
+              "time": 0.4238,
+              "pose": "v4_rift_drive",
+              "active": 3
+            },
+            {
+              "time": 0.4758,
+              "pose": "v4_rift_drive",
+              "active": 3
+            },
+            {
+              "time": 0.48,
+              "pose": "v4_rift_drive",
+              "active": 5
+            },
+            {
+              "time": 0.52,
+              "pose": "v4_rift_drive",
+              "active": 4
+            },
+            {
+              "time": 0.5642,
+              "pose": "v4_rift_drive",
+              "active": 4
+            },
+            {
+              "time": 0.6188,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.6708,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.7254,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.78,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.8268,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.8788,
+              "pose": "v4_rift_brake",
+              "active": 6
+            },
+            {
+              "time": 0.9334,
+              "pose": "v4_verdict_sheathe",
+              "active": 4
+            },
+            {
+              "time": 0.9854,
+              "pose": "v4_verdict_sheathe",
+              "active": 4
+            },
+            {
+              "time": 1.04,
+              "pose": "v4_verdict_sheathe",
+              "active": 3
+            },
+            {
+              "time": 1.0946,
+              "pose": "v4_verdict_sheathe",
+              "active": 1
+            },
+            {
+              "time": 1.1388,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.1908,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.248,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3338,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.3884,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.4508,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.5054,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.56,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.599,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.6588,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 996,
+            "y": 1312
+          },
+          "end": {
+            "x": 996,
+            "y": 1312
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ENEMY",
+          "action": "skill_wheel",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_tempest",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 5,
+            "technique": "skill_wheel",
+            "motionRate": 2,
+            "contactSeconds": 1.305,
+            "nativeContactSeconds": 1.22,
+            "durationSeconds": 2.29,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "draw",
+              "turn",
+              "slam"
+            ],
+            "hitstopHolds": [
+              0.035,
+              0.05,
+              0.085
+            ]
+          },
+          "applied": [
+            "A:0:CN-02D9DC1E8A8A4209",
+            "A:1:CN-0505936A0CBB4E59",
+            "A:2:CN-25F931CE393D474E",
+            "A:3:CN-23EB4B19986D4818",
+            "A:4:CN-519C181C18DF4B8E"
+          ],
+          "samples": [
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1092,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.156,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.2054,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.26,
+              "pose": "iai_ready",
+              "active": 0
+            },
+            {
+              "time": 0.3,
+              "pose": "iai_cut",
+              "active": 1
+            },
+            {
+              "time": 0.3342,
+              "pose": "iai_cut",
+              "active": 1
+            },
+            {
+              "time": 0.381,
+              "pose": "iai_cut",
+              "active": 1
+            },
+            {
+              "time": 0.4304,
+              "pose": "follow",
+              "active": 1
+            },
+            {
+              "time": 0.4954,
+              "pose": "v3_pivot",
+              "active": 0
+            },
+            {
+              "time": 0.5396,
+              "pose": "v3_pivot",
+              "active": 0
+            },
+            {
+              "time": 0.5942,
+              "pose": "v3_pivot",
+              "active": 0
+            },
+            {
+              "time": 0.64,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.6404,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.695,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.7418,
+              "pose": "v3_turn",
+              "active": 2
+            },
+            {
+              "time": 0.8042,
+              "pose": "v3_compress",
+              "active": 2
+            },
+            {
+              "time": 0.8484,
+              "pose": "v3_takeoff",
+              "active": 2
+            },
+            {
+              "time": 0.8926,
+              "pose": "v3_takeoff",
+              "active": 1
+            },
+            {
+              "time": 0.955,
+              "pose": "v3_takeoff",
+              "active": 1
+            },
+            {
+              "time": 1.0096,
+              "pose": "v3_apex",
+              "active": 1
+            },
+            {
+              "time": 1.0642,
+              "pose": "v3_apex",
+              "active": 1
+            },
+            {
+              "time": 1.1084,
+              "pose": "v3_aircut",
+              "active": 3
+            },
+            {
+              "time": 1.1604,
+              "pose": "v3_aircut",
+              "active": 4
+            },
+            {
+              "time": 1.2176,
+              "pose": "v3_aircut",
+              "active": 4
+            },
+            {
+              "time": 1.22,
+              "pose": "v3_slam",
+              "active": 11
+            },
+            {
+              "time": 1.2392,
+              "pose": "v3_slam",
+              "active": 11
+            },
+            {
+              "time": 1.299,
+              "pose": "v3_slam",
+              "active": 11
+            },
+            {
+              "time": 1.3484,
+              "pose": "v3_slam",
+              "active": 11
+            },
+            {
+              "time": 1.3926,
+              "pose": "v3_recover",
+              "active": 10
+            },
+            {
+              "time": 1.4264,
+              "pose": "v3_recover",
+              "active": 9
+            },
+            {
+              "time": 1.4992,
+              "pose": "v3_recover",
+              "active": 9
+            },
+            {
+              "time": 1.546,
+              "pose": "v3_recover",
+              "active": 8
+            },
+            {
+              "time": 1.598,
+              "pose": "guard",
+              "active": 8
+            },
+            {
+              "time": 1.65,
+              "pose": "guard",
+              "active": 8
+            },
+            {
+              "time": 1.7046,
+              "pose": "guard",
+              "active": 8
+            },
+            {
+              "time": 1.7592,
+              "pose": "step",
+              "active": 3
+            },
+            {
+              "time": 1.8138,
+              "pose": "step",
+              "active": 1
+            },
+            {
+              "time": 1.8684,
+              "pose": "step",
+              "active": 1
+            },
+            {
+              "time": 1.9126,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 1.9646,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.0192,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.0712,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.1154,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 996,
+            "y": 1312
+          },
+          "end": {
+            "x": 996,
+            "y": 1312
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ENEMY",
+          "action": "skill_rain",
+          "last": {
+            "code": "V-967",
+            "mode": "skill_verdict",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 5,
+            "technique": "skill_rain",
+            "motionRate": 2,
+            "contactSeconds": 1.855,
+            "nativeContactSeconds": 1.78,
+            "durationSeconds": 3.485,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "scar-one",
+              "scar-two",
+              "scar-three",
+              "verdict"
+            ],
+            "hitstopHolds": [
+              0.02,
+              0.025,
+              0.03,
+              0.11
+            ]
+          },
+          "applied": [
+            "A:0:CN-02D9DC1E8A8A4209",
+            "A:1:CN-0505936A0CBB4E59",
+            "A:2:CN-25F931CE393D474E",
+            "A:3:CN-23EB4B19986D4818",
+            "A:4:CN-519C181C18DF4B8E"
+          ],
+          "samples": [
+            {
+              "time": 0.0624,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1066,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.1586,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.2054,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.2678,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.3224,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.364,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.4264,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.4758,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.5278,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.572,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.6266,
+              "pose": "v4_verdict_focus",
+              "active": 0
+            },
+            {
+              "time": 0.6612,
+              "pose": "v4_verdict_focus",
+              "active": 1
+            },
+            {
+              "time": 0.7132,
+              "pose": "v4_verdict_focus",
+              "active": 1
+            },
+            {
+              "time": 0.7678,
+              "pose": "v4_verdict_focus",
+              "active": 1
+            },
+            {
+              "time": 0.8224,
+              "pose": "v4_echo_ready",
+              "active": 1
+            },
+            {
+              "time": 0.864,
+              "pose": "v4_echo_ready",
+              "active": 1
+            },
+            {
+              "time": 0.9186,
+              "pose": "v4_echo_ready",
+              "active": 1
+            },
+            {
+              "time": 0.9732,
+              "pose": "v4_echo_ready",
+              "active": 2
+            },
+            {
+              "time": 1.02,
+              "pose": "v4_echo_ready",
+              "active": 2
+            },
+            {
+              "time": 1.0574,
+              "pose": "v4_verdict_raise",
+              "active": 2
+            },
+            {
+              "time": 1.099,
+              "pose": "v4_verdict_raise",
+              "active": 2
+            },
+            {
+              "time": 1.1536,
+              "pose": "v4_verdict_raise",
+              "active": 2
+            },
+            {
+              "time": 1.2082,
+              "pose": "v4_verdict_raise",
+              "active": 5
+            },
+            {
+              "time": 1.2628,
+              "pose": "v4_verdict_raise",
+              "active": 7
+            },
+            {
+              "time": 1.2966,
+              "pose": "v4_verdict_raise",
+              "active": 9
+            },
+            {
+              "time": 1.359,
+              "pose": "v4_verdict_raise",
+              "active": 10
+            },
+            {
+              "time": 1.3862,
+              "pose": "v4_verdict_raise",
+              "active": 11
+            },
+            {
+              "time": 1.4408,
+              "pose": "v4_verdict_raise",
+              "active": 11
+            },
+            {
+              "time": 1.4928,
+              "pose": "v4_verdict_raise",
+              "active": 11
+            },
+            {
+              "time": 1.5474,
+              "pose": "v4_verdict_raise",
+              "active": 11
+            },
+            {
+              "time": 1.589,
+              "pose": "v4_verdict_raise",
+              "active": 11
+            },
+            {
+              "time": 1.6436,
+              "pose": "v3_aircut",
+              "active": 11
+            },
+            {
+              "time": 1.6982,
+              "pose": "v3_aircut",
+              "active": 11
+            },
+            {
+              "time": 1.7528,
+              "pose": "v3_aircut",
+              "active": 11
+            },
+            {
+              "time": 1.78,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 1.78,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 1.7936,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 1.8508,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 1.9028,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 1.947,
+              "pose": "v4_verdict_cut",
+              "active": 27
+            },
+            {
+              "time": 2.0016,
+              "pose": "v4_verdict_cut",
+              "active": 17
+            },
+            {
+              "time": 2.0536,
+              "pose": "v4_verdict_cut",
+              "active": 17
+            },
+            {
+              "time": 2.1108,
+              "pose": "v4_verdict_sheathe",
+              "active": 16
+            },
+            {
+              "time": 2.1628,
+              "pose": "v4_verdict_sheathe",
+              "active": 16
+            },
+            {
+              "time": 2.22,
+              "pose": "v4_verdict_sheathe",
+              "active": 16
+            },
+            {
+              "time": 2.259,
+              "pose": "v4_verdict_sheathe",
+              "active": 16
+            },
+            {
+              "time": 2.3136,
+              "pose": "v4_verdict_sheathe",
+              "active": 11
+            },
+            {
+              "time": 2.3682,
+              "pose": "v4_verdict_sheathe",
+              "active": 6
+            },
+            {
+              "time": 2.4228,
+              "pose": "v4_verdict_sheathe",
+              "active": 5
+            },
+            {
+              "time": 2.467,
+              "pose": "v4_verdict_sheathe",
+              "active": 0
+            },
+            {
+              "time": 2.519,
+              "pose": "v4_verdict_sheathe",
+              "active": 0
+            },
+            {
+              "time": 2.5736,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.6308,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.6828,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.727,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.779,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.8336,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.8882,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.9428,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 2.987,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 3.039,
+              "pose": "step",
+              "active": 0
+            },
+            {
+              "time": 3.0936,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.1482,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.2028,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.247,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.299,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 996,
+            "y": 1312
+          },
+          "end": {
+            "x": 996,
+            "y": 1312
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        }
+      ],
+      "lifecycle": {
+        "dead": false,
+        "revived": true,
+        "cancelled": {
+          "impacts": 0,
+          "busy": false,
+          "effect": null,
+          "aura": false
+        },
+        "resumed": true,
+        "loops": 2
+      },
+      "codex": "하쿠야 신\n\n흑백의 검성\n\nSSS\n카드 원화\n전투 SD\n\n선택한 이미지를 누르면 원본을 확대합니다.\n\n리미티드 · 돌격 · SSS\n\n기본 전투력\n2,700,000\n☆\n대표 스킬\n절광발도\n\n발도와 반전 검격으로 적 한 명에게 일반 공격의 1.5배 피해를 한 번 적용합니다.\n\n보유 상태\n미보유\n\n전체 도감 정보는 확인할 수 있지만 편성은 보유 용병만 가능합니다.\n\n스킬·전투 성능 자세히 보기\n리미티드 컬렉션\nLIMITED EDITION\n하쿠야 신\n\n흑백의 검성\n\n용병 등급\nSSS\n공개 리소스\n원화 · 전투 SD\n전투 편성\n보유 시 가능\n리미티드 전투 편성\n\n보유한 리미티드 용병을 PVE와 PVP에 각각 편성할 수 있습니다.\n획득 잠금 · 획득 방법은 추후 지정됩니다.\n\n전투 성능 · 행동 주기\n기본 전투력 2,700,000. 레반과 같은 공격·생존·행동·연계·피해 상한. 아군 카드 행동당 3.12회 추가 행동, 개인 피해 80% 경감, 상태이상·반격 보호. 절광발도와 삼첩관통은 일반 공격마다 순환하며 1.5배 피해를 한 번 적용합니다. PVE 회천검압·만검낙성은 번갈아 총 3,024% 피해를 생존한 적 전체에 나누어 적용합니다(에너지 20 · 공통 재사용 3행동). 흑백 검기 아우라·Spine 액션 2배속. 운영자 지정 지급 전용. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 4배). 고레벨 성장과 마지막 돌파도 이 배율에 반영됩니다. 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다. PVP 성장 전투는 C·B·A·S·SS·SSS·SSS 리미티드 순으로 등급 우위를 적용합니다. SS 리미티드는 기존 일반 SSS 전투 등급을 유지합니다. 상대 전원의 등급보다 높으면 같은 레벨 기준 단계당 공격·피해 상한 +100%, 체력·방벽 +500%의 추가 보정을 적용합니다. 상위 등급의 레벨이 낮으면 1레벨 차이마다 이 추가 보정과 성장 격차 보완을 10%씩 줄이며, 10레벨 이상 뒤처지면 적용하지 않습니다. 상위 등급을 향한 경감 관통·행동 대응의 등급 감쇠도 같은 비율로 줄어 10레벨 이상 높은 용병은 배운 숙련을 온전히 사용합니다. 원래 레벨 능력치·평타 성장·추가 행동 숙련은 유지합니다. 듀오는 상대 최고 등급과 가장 큰 레벨 격차를 기준으로 하며, 같은 전투 등급·PVE·기존 개별 용병 상성 정책은 유지합니다."
+    }
+  ],
+  "productionTransactions": 0
+}
