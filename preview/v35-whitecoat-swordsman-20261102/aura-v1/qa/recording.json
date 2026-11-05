@@ -1,0 +1,518 @@
+{
+  "passed": true,
+  "records": [
+    {
+      "file": "four-skills.webm",
+      "rate": 1,
+      "enabled": true,
+      "chapters": [
+        {
+          "id": "aura_idle",
+          "start": 0,
+          "end": 4.006699999999255
+        },
+        {
+          "id": "skill_flash",
+          "start": 4.007699999999255,
+          "end": 4.605100000001491,
+          "poses": [
+            "guard",
+            "iai_ready",
+            "iai_cut",
+            "rise",
+            "follow",
+            "step"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59"
+          ],
+          "clock": {
+            "code": "QA-V35-WHITECOAT",
+            "mode": "skill_iai",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "technique": "skill_flash",
+            "motionRate": 2,
+            "contactSeconds": 0.3,
+            "durationSeconds": 1.55,
+            "wholePoseAttachments": true
+          }
+        },
+        {
+          "id": "skill_thrust",
+          "start": 5.160800000000745,
+          "end": 5.82989999999851,
+          "poses": [
+            "guard",
+            "v4_rift_ready",
+            "v4_rift_draw",
+            "v4_rift_drive",
+            "v4_rift_brake",
+            "v4_verdict_sheathe",
+            "step"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59"
+          ],
+          "clock": {
+            "code": "QA-V35-WHITECOAT",
+            "mode": "skill_rift",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "technique": "skill_thrust",
+            "motionRate": 2,
+            "contactSeconds": 0.48,
+            "nativeContactSeconds": 0.48,
+            "durationSeconds": 1.7349999999999999,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "pierce"
+            ],
+            "hitstopHolds": [
+              0.065
+            ]
+          }
+        },
+        {
+          "id": "skill_wheel",
+          "start": 6.3885,
+          "end": 7.27189999999851,
+          "poses": [
+            "guard",
+            "iai_ready",
+            "iai_cut",
+            "follow",
+            "v3_pivot",
+            "v3_turn",
+            "v3_compress",
+            "v3_takeoff",
+            "v3_apex",
+            "v3_aircut",
+            "v3_slam",
+            "v3_recover",
+            "step"
+          ],
+          "impacts": [
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:1:CN-0505936A0CBB4E59",
+            "B:2:CN-25F931CE393D474E"
+          ],
+          "clock": {
+            "code": "QA-V35-WHITECOAT",
+            "mode": "skill_tempest",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 3,
+            "technique": "skill_wheel",
+            "motionRate": 2,
+            "contactSeconds": 1.305,
+            "nativeContactSeconds": 1.22,
+            "durationSeconds": 2.29,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "draw",
+              "turn",
+              "slam"
+            ],
+            "hitstopHolds": [
+              0.035,
+              0.05,
+              0.085
+            ]
+          }
+        },
+        {
+          "id": "skill_rain",
+          "start": 7.8355,
+          "end": 9.17589999999851,
+          "poses": [
+            "guard",
+            "v4_verdict_focus",
+            "v4_echo_ready",
+            "v4_verdict_raise",
+            "v3_aircut",
+            "v4_verdict_cut",
+            "v4_verdict_sheathe",
+            "step"
+          ],
+          "impacts": [
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:1:CN-0505936A0CBB4E59",
+            "B:2:CN-25F931CE393D474E"
+          ],
+          "clock": {
+            "code": "QA-V35-WHITECOAT",
+            "mode": "skill_verdict",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 3,
+            "technique": "skill_rain",
+            "motionRate": 2,
+            "contactSeconds": 1.855,
+            "nativeContactSeconds": 1.78,
+            "durationSeconds": 3.485,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "scar-one",
+              "scar-two",
+              "scar-three",
+              "verdict"
+            ],
+            "hitstopHolds": [
+              0.02,
+              0.025,
+              0.03,
+              0.11
+            ]
+          }
+        }
+      ],
+      "frames": 662,
+      "errors": []
+    },
+    {
+      "file": "four-skills-half.webm",
+      "rate": 0.5,
+      "enabled": true,
+      "chapters": [
+        {
+          "id": "aura_idle",
+          "start": 0,
+          "end": 4.00339999999851
+        },
+        {
+          "id": "skill_flash",
+          "start": 4.004199999999255,
+          "end": 5.199599999997765,
+          "poses": [
+            "guard",
+            "iai_ready",
+            "iai_cut",
+            "rise",
+            "follow",
+            "step"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59"
+          ],
+          "clock": {
+            "code": "QA-V35-WHITECOAT",
+            "mode": "skill_iai",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "technique": "skill_flash",
+            "motionRate": 2,
+            "contactSeconds": 0.3,
+            "durationSeconds": 1.55,
+            "wholePoseAttachments": true
+          }
+        },
+        {
+          "id": "skill_thrust",
+          "start": 5.751199999999255,
+          "end": 7.086800000000745,
+          "poses": [
+            "guard",
+            "v4_rift_ready",
+            "v4_rift_draw",
+            "v4_rift_drive",
+            "v4_rift_brake",
+            "v4_verdict_sheathe",
+            "step"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59"
+          ],
+          "clock": {
+            "code": "QA-V35-WHITECOAT",
+            "mode": "skill_rift",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "technique": "skill_thrust",
+            "motionRate": 2,
+            "contactSeconds": 0.48,
+            "nativeContactSeconds": 0.48,
+            "durationSeconds": 1.7349999999999999,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "pierce"
+            ],
+            "hitstopHolds": [
+              0.065
+            ]
+          }
+        },
+        {
+          "id": "skill_wheel",
+          "start": 7.658099999997765,
+          "end": 9.419800000000745,
+          "poses": [
+            "guard",
+            "iai_ready",
+            "iai_cut",
+            "follow",
+            "v3_pivot",
+            "v3_turn",
+            "v3_compress",
+            "v3_takeoff",
+            "v3_apex",
+            "v3_aircut",
+            "v3_slam",
+            "v3_recover",
+            "step"
+          ],
+          "impacts": [
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:1:CN-0505936A0CBB4E59",
+            "B:2:CN-25F931CE393D474E"
+          ],
+          "clock": {
+            "code": "QA-V35-WHITECOAT",
+            "mode": "skill_tempest",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 3,
+            "technique": "skill_wheel",
+            "motionRate": 2,
+            "contactSeconds": 1.305,
+            "nativeContactSeconds": 1.22,
+            "durationSeconds": 2.29,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "draw",
+              "turn",
+              "slam"
+            ],
+            "hitstopHolds": [
+              0.035,
+              0.05,
+              0.085
+            ]
+          }
+        },
+        {
+          "id": "skill_rain",
+          "start": 9.983099999997766,
+          "end": 12.66589999999851,
+          "poses": [
+            "guard",
+            "v4_verdict_focus",
+            "v4_echo_ready",
+            "v4_verdict_raise",
+            "v3_aircut",
+            "v4_verdict_cut",
+            "v4_verdict_sheathe",
+            "step"
+          ],
+          "impacts": [
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:1:CN-0505936A0CBB4E59",
+            "B:2:CN-25F931CE393D474E"
+          ],
+          "clock": {
+            "code": "QA-V35-WHITECOAT",
+            "mode": "skill_verdict",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 3,
+            "technique": "skill_rain",
+            "motionRate": 2,
+            "contactSeconds": 1.855,
+            "nativeContactSeconds": 1.78,
+            "durationSeconds": 3.485,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "scar-one",
+              "scar-two",
+              "scar-three",
+              "verdict"
+            ],
+            "hitstopHolds": [
+              0.02,
+              0.025,
+              0.03,
+              0.11
+            ]
+          }
+        }
+      ],
+      "frames": 865,
+      "errors": []
+    },
+    {
+      "file": "four-skills-body.webm",
+      "rate": 1,
+      "enabled": false,
+      "chapters": [
+        {
+          "id": "aura_idle",
+          "start": 0,
+          "end": 4.0105
+        },
+        {
+          "id": "skill_flash",
+          "start": 4.01129999999702,
+          "end": 4.6095,
+          "poses": [
+            "guard",
+            "iai_ready",
+            "iai_cut",
+            "rise",
+            "follow",
+            "step"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59"
+          ],
+          "clock": {
+            "code": "QA-V35-WHITECOAT",
+            "mode": "skill_iai",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "technique": "skill_flash",
+            "motionRate": 2,
+            "contactSeconds": 0.3,
+            "durationSeconds": 1.55,
+            "wholePoseAttachments": true
+          }
+        },
+        {
+          "id": "skill_thrust",
+          "start": 5.16639999999851,
+          "end": 5.8345,
+          "poses": [
+            "guard",
+            "v4_rift_ready",
+            "v4_rift_draw",
+            "v4_rift_drive",
+            "v4_rift_brake",
+            "v4_verdict_sheathe",
+            "step"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59"
+          ],
+          "clock": {
+            "code": "QA-V35-WHITECOAT",
+            "mode": "skill_rift",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "technique": "skill_thrust",
+            "motionRate": 2,
+            "contactSeconds": 0.48,
+            "nativeContactSeconds": 0.48,
+            "durationSeconds": 1.7349999999999999,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "pierce"
+            ],
+            "hitstopHolds": [
+              0.065
+            ]
+          }
+        },
+        {
+          "id": "skill_wheel",
+          "start": 6.3965,
+          "end": 7.276099999997765,
+          "poses": [
+            "guard",
+            "iai_ready",
+            "iai_cut",
+            "follow",
+            "v3_pivot",
+            "v3_turn",
+            "v3_compress",
+            "v3_takeoff",
+            "v3_apex",
+            "v3_aircut",
+            "v3_slam",
+            "v3_recover",
+            "step"
+          ],
+          "impacts": [
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:1:CN-0505936A0CBB4E59",
+            "B:2:CN-25F931CE393D474E"
+          ],
+          "clock": {
+            "code": "QA-V35-WHITECOAT",
+            "mode": "skill_tempest",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 3,
+            "technique": "skill_wheel",
+            "motionRate": 2,
+            "contactSeconds": 1.305,
+            "nativeContactSeconds": 1.22,
+            "durationSeconds": 2.29,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "draw",
+              "turn",
+              "slam"
+            ],
+            "hitstopHolds": [
+              0.035,
+              0.05,
+              0.085
+            ]
+          }
+        },
+        {
+          "id": "skill_rain",
+          "start": 7.831699999999255,
+          "end": 9.17229999999702,
+          "poses": [
+            "guard",
+            "v4_verdict_focus",
+            "v4_echo_ready",
+            "v4_verdict_raise",
+            "v3_aircut",
+            "v4_verdict_cut",
+            "v4_verdict_sheathe",
+            "step"
+          ],
+          "impacts": [
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:1:CN-0505936A0CBB4E59",
+            "B:2:CN-25F931CE393D474E"
+          ],
+          "clock": {
+            "code": "QA-V35-WHITECOAT",
+            "mode": "skill_verdict",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 3,
+            "technique": "skill_rain",
+            "motionRate": 2,
+            "contactSeconds": 1.855,
+            "nativeContactSeconds": 1.78,
+            "durationSeconds": 3.485,
+            "wholePoseAttachments": true,
+            "visualContacts": [
+              "scar-one",
+              "scar-two",
+              "scar-three",
+              "verdict"
+            ],
+            "hitstopHolds": [
+              0.02,
+              0.025,
+              0.03,
+              0.11
+            ]
+          }
+        }
+      ],
+      "frames": 662,
+      "errors": []
+    }
+  ]
+}

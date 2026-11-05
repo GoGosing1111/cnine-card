@@ -3,6 +3,7 @@ import {SwordTrail} from './SwordTrail.mjs';
 import {TempestEffects} from './action-v3/TempestEffects.mjs';
 import {SkillEffects} from './skills-v4/SkillEffects.mjs';
 import {SwordplayEffects} from './swordplay-v5/SwordplayEffects.mjs';
+import {HakuyaAura} from './aura-v1/HakuyaAura.mjs';
 export class WhitecoatEffects {
  static async load(){
   const base='/preview/v35-whitecoat-swordsman-20261102/effects/flourish-v2/runtime/',manifest=await(await fetch(base+'fx-manifest.json')).json(),textures={};
@@ -21,7 +22,9 @@ export class WhitecoatEffects {
   const trailTexture=await Assets.load({src:'/preview/v35-whitecoat-swordsman-20261102/effects/sword-trail/sword-ribbon-source.png',data:{autoGenerateMipmaps:true,scaleMode:'linear'}});
   let w=trailTexture.width,h=trailTexture.height;for(;;){manifest.decodedBytes+=w*h*4;if(w===1&&h===1)break;w=Math.max(1,Math.floor(w/2));h=Math.max(1,Math.floor(h/2));}
   manifest.decodedBytes+=Math.ceil(cutinTexture.width*cutinTexture.height*4*4/3);
-  await Promise.all(Object.entries(manifest.effects).map(async([id,s])=>{const tex=await Assets.load((s.externalBase||base)+s.atlas);textures[id]=s.frames.map(f=>new Texture({source:tex.source,frame:new Rectangle(f.x,f.y,f.w,f.h)}));}));return {manifest,textures,trailTexture,cutinTexture};
+  await Promise.all(Object.entries(manifest.effects).map(async([id,s])=>{const tex=await Assets.load((s.externalBase||base)+s.atlas);textures[id]=s.frames.map(f=>new Texture({source:tex.source,frame:new Rectangle(f.x,f.y,f.w,f.h)}));}));
+  const aura=await HakuyaAura.load();manifest.decodedBytes+=aura.manifest.decodedBytes;
+  return {manifest,textures,trailTexture,cutinTexture,aura};
  }
  constructor(engine,assets){Object.assign(this,{engine,assets,enabled:true,session:null,completed:0});}
  begin(adapter,target,mode,{rootAt,strike}){
@@ -48,7 +51,7 @@ export class WhitecoatEffects {
    destroy(){if(disposed)return;disposed=true;trail.destroy();for(const sprite of Object.values(sprites)){sprite.removeFromParent();sprite.destroy();}if(owner.session===session)owner.session=null;owner.completed++;}
   };this.session=session;return session;
  }
- setEnabled(v){this.enabled=Boolean(v);if(this.session)this.session.render(this.session.audit().time);}
+ setEnabled(v){this.enabled=Boolean(v);if(this.session)this.session.render(this.session.audit().time);for(const aura of this.auras||[])aura.render(aura.time);}
  audit(){return {enabled:this.enabled,active:this.session?.audit()||null,completed:this.completed,decodedBytes:this.assets.manifest.decodedBytes};}
  destroy(){this.session?.destroy();}
 }

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="768" height="768" viewBox="-384 -384 768 768">
+<defs>
+ <radialGradient id="blue" cx="33%" cy="30%" r="80%"><stop stop-color="#dbfaff" stop-opacity=".86"/><stop offset=".37" stop-color="#65caff" stop-opacity=".70"/><stop offset="1" stop-color="#194bba" stop-opacity=".30"/></radialGradient>
+ <radialGradient id="silver" cx="65%" cy="70%" r="82%"><stop stop-color="#ffffff" stop-opacity=".95"/><stop offset=".42" stop-color="#dcf4ff" stop-opacity=".76"/><stop offset="1" stop-color="#8daec7" stop-opacity=".20"/></radialGradient>
+ <filter id="bloom" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="7"/></filter>
+</defs>
+<g fill="none" stroke="#bcefff"><circle r="300" stroke-width="9" opacity=".32" filter="url(#bloom)"/><circle r="300" stroke-width="2" opacity=".7"/><circle r="313" stroke-width="1.4" opacity=".35"/></g>
+<path d="M0,-277 A277,277 0 0 1 0,277 A138.5,138.5 0 0 1 0,0 A138.5,138.5 0 0 0 0,-277" fill="url(#silver)"/>
+<path d="M0,-277 A277,277 0 0 0 0,277 A138.5,138.5 0 0 1 0,0 A138.5,138.5 0 0 0 0,-277" fill="url(#blue)"/>
+<path d="M0,-277 A138.5,138.5 0 0 1 0,0 A138.5,138.5 0 0 0 0,277" fill="none" stroke="#ecfcff" stroke-width="3.5" opacity=".90"/>
+<circle cx="0" cy="-138.5" r="27" fill="#edfaff" opacity=".82"/><circle cx="0" cy="138.5" r="27" fill="#246fbb" opacity=".88"/>
+<g fill="none" stroke="#e5f8ff" stroke-width="2" opacity=".60"><path d="M-328,0h-18 M328,0h18 M0,-328v-18 M0,328v18"/></g>
+</svg>

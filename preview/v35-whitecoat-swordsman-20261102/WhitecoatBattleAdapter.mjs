@@ -3,20 +3,32 @@ import {SpineBattleAdapter} from '../v35-v3-upgrade-20261101/SpineBattleAdapter.
 import {playTempest} from './action-v3/play-attack.mjs';
 import {playWhitecoatSkill,actions} from './skills-v4/play-skill.mjs';
 import {techniques, prepareStrike, whitecoatMotionRate} from './swordplay-v5/skills.mjs';
+import {HakuyaAura} from './aura-v1/HakuyaAura.mjs';
 export class WhitecoatBattleAdapter extends SpineBattleAdapter {
- constructor(engine,actor,rig,options={}){super(engine,actor,rig,{bodyPixels:530,bodyHeight:300,...options});rig.position.set(0,0);rig.label='V35_WHITECOAT';this.skill='attack_basic';}
+ constructor(engine,actor,rig,options={}){super(engine,actor,rig,{bodyPixels:530,bodyHeight:300,...options});rig.position.set(0,0);rig.label='V35_WHITECOAT';this.skill='attack_basic';this.auraOrigin=0;this.aura=new HakuyaAura(this,this.effects.assets.aura);}
  // Native keys are float32 (for example .4 is .40000000596). Resolve exact
  // author-time seeks to the new attachment, keeping the public clock unchanged.
- render(t){super.render(t+1e-7);this.clock.time=t;}
- idle(){if(this.destroyed||this.actor.hp<=0)return;this.begin('idle');this.rig.alpha=1;this.rig.rotation=0;this.rig.visible=true;}
+ begin(name){this.auraOrigin=this.aura?.time||0;super.begin(name);}
+ render(t){super.render(t+1e-7);this.clock.time=t;this.aura?.render(this.auraOrigin+t);}
+ idle(){
+  if(this.destroyed||this.actor.hp<=0)return;
+  this.rig.alpha=1;this.rig.rotation=0;this.rig.visible=true;this.begin('idle');
+  // The long cycle is a common multiple of the 4/5/10-second aura periods.
+  // One registered timeline owns both idle pose and aura, just as attacks do.
+  const c={t:0},instance=gsap.timeline({repeat:-1,paused:!this.engine.visible}).to(c,{t:120,duration:120,ease:'none',onUpdate:()=>this.render(c.t)});
+  this.ambient={instance,settle:()=>this.stopAmbient()};this.timeline=instance;
+  this.engine.simpleTimelines.add(this.ambient);
+  this.refreshAmbientSpeed();
+ }
+ refreshAmbientSpeed(){this.ambient?.instance.timeScale(this.engine.actionPlaybackSpeed());}
  setState(state){
   if(this.destroyed)return;
   if(state==='DEAD'){this.tempestVisualCleanup?.();this.effects?.destroy();this.stopAmbient();this.busy=false;this.begin('death');this.render(.65);this.rig.visible=true;return;}
   if(this.busy)return;
-  if(state==='HIT'){this.begin('hit');const c={t:0};const instance=gsap.timeline({paused:!this.engine.visible,onComplete:()=>{this.stopAmbient();this.idle();}}).to(c,{t:.38,duration:.38,ease:'none',onUpdate:()=>this.render(c.t)});this.ambient={instance,settle:()=>this.stopAmbient()};this.engine.simpleTimelines.add(this.ambient);return;}
+  if(state==='HIT'){this.begin('hit');const c={t:0};const instance=gsap.timeline({paused:!this.engine.visible,onComplete:()=>{this.stopAmbient();this.idle();}}).to(c,{t:.38,duration:.38,ease:'none',onUpdate:()=>this.render(c.t)});this.ambient={instance,settle:()=>this.stopAmbient()};this.engine.simpleTimelines.add(this.ambient);this.refreshAmbientSpeed();return;}
   if(state==='IDLE'||state==='MOVE')this.idle();
  }
- destroy(){this.tempestVisualCleanup?.();super.destroy();}
+ destroy(){this.tempestVisualCleanup?.();this.aura?.destroy();super.destroy();}
  motionPlaybackSpeed(){return this.engine.actionPlaybackSpeed()*whitecoatMotionRate;}
  async attack(options={}){
   const requested=options.action||'attack_basic';

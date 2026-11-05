@@ -75,6 +75,8 @@ document.addEventListener('DOMContentLoaded',async()=>{try{
  for(const [id,mode]of [['rift','skill_rift'],['echo','skill_echo'],['verdict','skill_verdict']]){document.querySelector('#'+id).hidden=!whitecoat;document.querySelector('#'+id).onclick=()=>attack(engine.mercenaries.indexOf(api.spine.actor),mode);}
  document.querySelector('#attack').textContent=whitecoat?'발테르 비교 공격':'첫 용병 공격';document.querySelector('#second').textContent=whitecoat?'하쿠야 신 기본 공격':'둘째 용병 공격';document.querySelector('#skill').hidden=!whitecoat;document.querySelector('#skill').onclick=()=>attack(engine.mercenaries.indexOf(api.spine.actor),'skill_iai');
  const rate=engine.actionPlaybackSpeed.bind(engine);engine.actionPlaybackSpeed=(options)=>rate(options)*Number(document.querySelector('#speed').value);
+ const updateAmbientRate=()=>api.spine?.refreshAmbientSpeed?.();
+ document.querySelector('#speed').onchange=updateAmbientRate;updateAmbientRate();
  document.querySelector('#case').onchange=e=>{location.search='?case='+e.target.value;};
  const techniqueBar=document.querySelector('#swordplay');
  if(kind.startsWith('whitecoat-squad')){

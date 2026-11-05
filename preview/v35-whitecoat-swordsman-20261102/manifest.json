@@ -907,6 +907,576 @@
       "sha256": "ceef6055b5d215613884da9a70391fda2f2fd91bc42d465a6c8365377cf0ad5b"
     },
     {
+      "path": "aura-v1/author.mjs",
+      "bytes": 5462,
+      "sha256": "cc9aff091882d6f6ae529461a99bcbea57fd725dbbf1824d986256745d7097a5"
+    },
+    {
+      "path": "aura-v1/effects.json",
+      "bytes": 262,
+      "sha256": "8be19d1af23b79008df7cde50b29255ecfb296d2d5b9fa1d416e6b276a7cd3a2"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0000.png",
+      "bytes": 64312,
+      "sha256": "68349419c8b23a963f45b1fdb08b020c31621f8445ae7c455998bfe51803118d"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0001.png",
+      "bytes": 64312,
+      "sha256": "68349419c8b23a963f45b1fdb08b020c31621f8445ae7c455998bfe51803118d"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0002.png",
+      "bytes": 64096,
+      "sha256": "a92376981f7c8f0c79903f0672f6d33055e643d15ccb30b0dae732e36303d32d"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0003.png",
+      "bytes": 63714,
+      "sha256": "91e70e2a99f863d21552899fc52da0d4297f02f17517a25165901cfedd0d4912"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0004.png",
+      "bytes": 64008,
+      "sha256": "93c2ff27ae995910d15b15b9c2a8a159ebed2df07fe7fbde5e298256b80b1b01"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0005.png",
+      "bytes": 64155,
+      "sha256": "4b6fb772ae9f44977819edb9fc47d9a05f4da0c7794c8f82f76650998ee3306a"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0006.png",
+      "bytes": 64356,
+      "sha256": "1ff23e8c77bc1958b08a709b951e523689319976a30529a13f97ba7b1db28e99"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0007.png",
+      "bytes": 64200,
+      "sha256": "9361df245cd20389aeffad558d8769145ccf2c129112de450a34c551390ecdc4"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0008.png",
+      "bytes": 64595,
+      "sha256": "c53ead64b71da68d41f04b536f77aa98625b1ee2b5fd3f516a192b0943d033b1"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0009.png",
+      "bytes": 64544,
+      "sha256": "2cf98751c483bb1fbf3ee0d478d1f7288d754b6f2f4aa872312e835334514f7b"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0010.png",
+      "bytes": 64995,
+      "sha256": "cbabcbdfaac0eaa33d4b51c781b83da2a3c575d0405a731e6d8696e0319925e5"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0011.png",
+      "bytes": 65089,
+      "sha256": "83158559cc7c4ddd7156df4760a4b860a9123831ddb670e5f12b7036c3ce89cb"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0012.png",
+      "bytes": 65097,
+      "sha256": "f06bfc80ebdc2048ed97dcd472d7cb7a72a7084b514d59092d696bacf7eb5dea"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0013.png",
+      "bytes": 64758,
+      "sha256": "7912295c870c2acb48cbdf93f53057ae5bb5cd9e901dc02e483e5ef09faf9d33"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0014.png",
+      "bytes": 64746,
+      "sha256": "8fdfff29e094ea58f26684e7beb0416f83d4fc30e73fd2bda337655b406df897"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0015.png",
+      "bytes": 64715,
+      "sha256": "80b28ee4e312ef2ced4e9a65d2b07dfc8b7966ff9199fac3905eaa7c3d77b330"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0016.png",
+      "bytes": 64691,
+      "sha256": "6972d614be14ee7c4d97cc26ade7b916ee7f4b89b0cd3e202eac9e96f7b694ef"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0017.png",
+      "bytes": 64641,
+      "sha256": "98ff61f9fbe1d139569daca6eb735e2ff1b727183eb9d73d9169ff2f300b08aa"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0018.png",
+      "bytes": 64053,
+      "sha256": "f2bb606f1e9aa06e833a83a029fc4ac4463b60ff2527b8d1d92239eeea77faeb"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0019.png",
+      "bytes": 64335,
+      "sha256": "e8691e7f9fb32c5feddde76a85623e504e00306bf8899b0b42270065730196be"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0020.png",
+      "bytes": 64693,
+      "sha256": "393d8cbf4c87c71d440ce25486b5283d7a93834be2c4562b35e4334cd101fb34"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0021.png",
+      "bytes": 64700,
+      "sha256": "0bc9e5ef3d6a388abbad51476198956ff412c97536b3e299cb28a55850903935"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0022.png",
+      "bytes": 64512,
+      "sha256": "c4fbc713a212d129ef77e5bb3d998f4c62716f74ccdc58ce1720fa4e23a7fc54"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0023.png",
+      "bytes": 64676,
+      "sha256": "0ea3964cf13a8df0750ce7f055a71a0a92c8f0763801afaff16631d99e17204d"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0024.png",
+      "bytes": 64700,
+      "sha256": "bc6330a54394ffc5abb1ea89137ab9ecf4b217371570c754292c453daf042d4b"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0025.png",
+      "bytes": 64771,
+      "sha256": "974a60f20108f5c02d3ab9c4ca298f5828ce669733f771814baf73cc34fc88c5"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0026.png",
+      "bytes": 64658,
+      "sha256": "c4756eef65f32dd8310e715f544f2ac4faf2e4dc1e51bce8545e21478624f712"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0027.png",
+      "bytes": 64411,
+      "sha256": "328d7fa0e5f4ff365b251f82f3e2e10125e744db8796535a89d7b3900fdfdb0f"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0028.png",
+      "bytes": 64435,
+      "sha256": "a5d483a5196e7f727454a2e1b8d5c25617d2287b15e1ebb91c4f354b662eb14f"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0029.png",
+      "bytes": 64263,
+      "sha256": "349a3e4fe0ba113708df6109106fd95b837ba165123d6829ca4779e54bf67583"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0030.png",
+      "bytes": 64412,
+      "sha256": "f55038816f412de52e21e96de4676a6bd52377138baf61bdfbb2c72ab8677c2b"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0031.png",
+      "bytes": 64315,
+      "sha256": "197b45d9214d5a13f7a9949d1758e6afdcc5c96b2ac4fc2deaacef89bb1643e4"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0032.png",
+      "bytes": 64093,
+      "sha256": "f2ad653a7450f5988130486616cba2c497285503c74ba46b97cccf3dd40889d8"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0033.png",
+      "bytes": 63753,
+      "sha256": "1f0cc97cc47c6679608b665ba799050844d70a5e361e0eb42ade96b099902ce7"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0034.png",
+      "bytes": 64051,
+      "sha256": "6c52b9c6d8bee405095e1ab0ab1f94f45c0ea0a065c937d5cd5f3202c920d403"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0035.png",
+      "bytes": 64153,
+      "sha256": "a5b3c5374c4447689187520c5d211eb5d737ccc79ab036a75335d25a179f9ae2"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0036.png",
+      "bytes": 64393,
+      "sha256": "2c8d3fd72eca8c1f7968c6ff0b3e19ddb7645cdca5b2116c7876914702c6282f"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0037.png",
+      "bytes": 64225,
+      "sha256": "17a47fcf786534ec8c0a75e38b30ae837d5c234a549068c664ee4ef19ab79672"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0038.png",
+      "bytes": 64597,
+      "sha256": "564d07f49c3e894fa2db18f8784f54d3b45d5866b9ab8f5032ec2c851cc194ff"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0039.png",
+      "bytes": 64537,
+      "sha256": "28c8801aa04d06758ba034fdc6565f1b2d526da6173d1dd8d6fe604248325f5e"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0040.png",
+      "bytes": 64997,
+      "sha256": "f415fe77d6dfc941c7db36157a76424d642fd95334b9e0e8f8b8d6ff0ba0267a"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0041.png",
+      "bytes": 65078,
+      "sha256": "f884f2b49d4040aa29d0a6059b55e682e0d9777caac53219c1c716583038b1ce"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0042.png",
+      "bytes": 65085,
+      "sha256": "08530e4dfb74173499e7f395b4fa747b25da60b8bd0eddb276498f78cb781623"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0043.png",
+      "bytes": 64758,
+      "sha256": "afa780a7c300a544db85fcdc00416a54d2f3919b2bbc77bc934272fe7e450ea2"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0044.png",
+      "bytes": 64818,
+      "sha256": "23ebd1cd09137e30a9ea06cfdb4fb357b158c469dd2c731963a6686e08dced9b"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0045.png",
+      "bytes": 64707,
+      "sha256": "1bf4cc502f700f74c458709a0eaffcbef5c9b42678a75c04d8d13bdc137be467"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0046.png",
+      "bytes": 64680,
+      "sha256": "1994e362ce79836a2460b839699dbe92f40f61670b2cbd79f7c85a976ac8d869"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0047.png",
+      "bytes": 64659,
+      "sha256": "9de5adfc0d6520ef35728dc4cbaae288f9ef03ebfaca90ac66850e395f890ac0"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0048.png",
+      "bytes": 64046,
+      "sha256": "210502e21ca079a95ac84d8afc34f0c3b275d70601ece1f88df2f2f22d56a8ad"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0049.png",
+      "bytes": 64344,
+      "sha256": "e37f439f90b34947e727a8161cccc179875b3bd943632c09d1f639ff1b4ff564"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0050.png",
+      "bytes": 64691,
+      "sha256": "e8cfc9e274f4990f2f06bd446d12547cc7b655032b8dfaaa7fc0b2d9b5a127c3"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0051.png",
+      "bytes": 64707,
+      "sha256": "3c0c0cb67571e031788aca5dfe1e8d782e68eb935aaf361c1ab9eeb8d5a8ae11"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0052.png",
+      "bytes": 64488,
+      "sha256": "3c7b987603fe994b5285f39eb8a739258f781cca6385a550ff9e7229ac6e58f7"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0053.png",
+      "bytes": 64680,
+      "sha256": "ddc1ff132347a1d1fc3cc7bf59b672a18c2fdc47ea42f7975854e73b7d081621"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0054.png",
+      "bytes": 64701,
+      "sha256": "3803e54a45d1ce729990bcc6d17f4627b220a9da40e906f97a3c84339dd1e06c"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0055.png",
+      "bytes": 64748,
+      "sha256": "2e964cbd8c51c5b6dca2d75d9fc48365454071f19e89ff6b58146092bf97176e"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0056.png",
+      "bytes": 64667,
+      "sha256": "455c109f75e54c32604b4923cfeeb8ac9103a796792c3b9a6183e0eff2346e5c"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0057.png",
+      "bytes": 64455,
+      "sha256": "e05fc7a12925a079b2de64bab08a8df8792b33e85be981ec7d6111d79e81feba"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0058.png",
+      "bytes": 64476,
+      "sha256": "7741cca967b6d334565512bf3677a90121fe325b82e4f201d0e4a8ae5187741c"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0059.png",
+      "bytes": 64263,
+      "sha256": "349a3e4fe0ba113708df6109106fd95b837ba165123d6829ca4779e54bf67583"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0060.png",
+      "bytes": 64409,
+      "sha256": "156144abc52a6b62f7dfed6816c30fcc06d07bfc653ba05f3e9532d7890e1fcd"
+    },
+    {
+      "path": "aura-v1/frames/taegeuk-orbit/frame-0061.png",
+      "bytes": 64315,
+      "sha256": "833287d747e66662d1f013e24694941751925f118dc8e308cde2ed3d4a45f6d2"
+    },
+    {
+      "path": "aura-v1/HakuyaAura.mjs",
+      "bytes": 3515,
+      "sha256": "706d9bd878ca59f64d3cab5455c3eaca662742488e336858039a42952b401a0a"
+    },
+    {
+      "path": "aura-v1/manifest.json",
+      "bytes": 18777,
+      "sha256": "64b8ab66f2e296cb1c862af53cc135f44d4d2b27bcf70c4d65d828460ee169bd"
+    },
+    {
+      "path": "aura-v1/native/taegeuk-orbit-initial.efk",
+      "bytes": 9242,
+      "sha256": "22bee29b3fb982fd82c0722facfb848f333ff2fc00966180e6f2b8e96bdc45e2"
+    },
+    {
+      "path": "aura-v1/native/taegeuk-orbit-reopened.efkefc",
+      "bytes": 10580,
+      "sha256": "6bcaf6b6f1d769c58576ecb050d48264ab1e5186ad673f3ba8c4770996f0e0f2"
+    },
+    {
+      "path": "aura-v1/native/taegeuk-orbit-verified.efk",
+      "bytes": 9242,
+      "sha256": "22bee29b3fb982fd82c0722facfb848f333ff2fc00966180e6f2b8e96bdc45e2"
+    },
+    {
+      "path": "aura-v1/native/taegeuk-orbit-verified.efkefc",
+      "bytes": 10580,
+      "sha256": "6bcaf6b6f1d769c58576ecb050d48264ab1e5186ad673f3ba8c4770996f0e0f2"
+    },
+    {
+      "path": "aura-v1/native/taegeuk-orbit.efk",
+      "bytes": 9242,
+      "sha256": "22bee29b3fb982fd82c0722facfb848f333ff2fc00966180e6f2b8e96bdc45e2"
+    },
+    {
+      "path": "aura-v1/native/taegeuk-orbit.efkefc",
+      "bytes": 10592,
+      "sha256": "babc0714619bb7a93e687585fa717cc487e6875e0ae9ddc3afb5f9dd86db94b7"
+    },
+    {
+      "path": "aura-v1/native/taegeuk-orbit.efkproj",
+      "bytes": 21513,
+      "sha256": "52b2e36f7a925ab9ce2e255a8a88a3d5a4e176260abf64575a56f8aeb75e1c7b"
+    },
+    {
+      "path": "aura-v1/pack.mjs",
+      "bytes": 1050,
+      "sha256": "760daf5eb462b94aa9d7977e16f42d430da2e6c8c959cf6d498d312e8ef50e2a"
+    },
+    {
+      "path": "aura-v1/PROJECT.md",
+      "bytes": 4835,
+      "sha256": "20c8f77c97cab28e62fec317d81eeb06f8e401c9bfdaaf8d5fc02122da413dca"
+    },
+    {
+      "path": "aura-v1/qa/aura-early.png",
+      "bytes": 1771856,
+      "sha256": "f2698bfd4c8543ba2fd3f820fdde4ebb11d30c4b797dbf32a74c3216fbafdb5d"
+    },
+    {
+      "path": "aura-v1/qa/aura-late.png",
+      "bytes": 1950748,
+      "sha256": "500b31d19895b497beee8d7cb7b9a9acfd1ef777e8673f950d65f860f732c64d"
+    },
+    {
+      "path": "aura-v1/qa/aura-mid.png",
+      "bytes": 1941515,
+      "sha256": "4cf215d3a0a0dd161e8d9c9749c1d81c48df5b2a440ac82378061b8bd3e4bd3b"
+    },
+    {
+      "path": "aura-v1/qa/before.png",
+      "bytes": 1905997,
+      "sha256": "8d8a0573e6856b1c3ebd2185e0b84fec544de9b9304ae879f076ea200fc5a1c8"
+    },
+    {
+      "path": "aura-v1/qa/effekseer-bake.json",
+      "bytes": 1239,
+      "sha256": "2fd09c256588648ae7c7dc5dfd68e335e2c1fa8d3672f4b749d081f6bb2c2bed"
+    },
+    {
+      "path": "aura-v1/qa/event-integration.json",
+      "bytes": 1775,
+      "sha256": "8c7f2927b6b88274b1e513e04a94fe69e00ae938ecdff1dd8230562eae524d11"
+    },
+    {
+      "path": "aura-v1/qa/four-skills-body.webm",
+      "bytes": 9096528,
+      "sha256": "3fd020e2325436bfdc63c8a3187a9b506bd78c3c7fe8d68f43732887871245bd"
+    },
+    {
+      "path": "aura-v1/qa/four-skills-half.webm",
+      "bytes": 12059116,
+      "sha256": "002a6b057a90b8c753c7386da05cee3557dbc8d6311473e27da208f051e1056d"
+    },
+    {
+      "path": "aura-v1/qa/four-skills.webm",
+      "bytes": 9504264,
+      "sha256": "da624a95cafa9a3330583d56d2158163aa0b9b4d1f0615f86ec27416a6aa0273"
+    },
+    {
+      "path": "aura-v1/qa/idle-closeup.png",
+      "bytes": 92485,
+      "sha256": "5f6ed361c8877e5ac578a0e7fbbf75d696b6a912ff452e49a6a34924c1a203aa"
+    },
+    {
+      "path": "aura-v1/qa/idle-detail.png",
+      "bytes": 91992,
+      "sha256": "3de1d508d02e08c89beaeefe915ea4e7d9e3ecdfbc3b3c4a70b380c3b89c7174"
+    },
+    {
+      "path": "aura-v1/qa/idle-first.png",
+      "bytes": 1896682,
+      "sha256": "87554adcb4a24ab7761f75dbfe8088069889178ed0e1b59bc331aeba0f8b83fd"
+    },
+    {
+      "path": "aura-v1/qa/idle-second.png",
+      "bytes": 1913372,
+      "sha256": "a549b7260958688b58f1b05b3698e6c8d92d3380fddacfca01bb7a0e1b823e23"
+    },
+    {
+      "path": "aura-v1/qa/idle-stage.png",
+      "bytes": 1914124,
+      "sha256": "2dd6b40f54e17b8567335b771b8d025770ee3d63b7d6d9a0e85ad21bfb41823c"
+    },
+    {
+      "path": "aura-v1/qa/native.json",
+      "bytes": 437,
+      "sha256": "7dfa62398fbdb890e2362417c8739dd1598e6a5e330640c62f9f4e6fdecc6011"
+    },
+    {
+      "path": "aura-v1/qa/no-outline-debug.png",
+      "bytes": 1896257,
+      "sha256": "9a4e9a67c0e3800815c7cb4100f0912b2a7d40945b12288f273381c6b53f44a6"
+    },
+    {
+      "path": "aura-v1/qa/record.mjs",
+      "bytes": 3509,
+      "sha256": "6a797bf834a5a7cc8ce97413bce754169ded476cede615957aca0a86f494e0d5"
+    },
+    {
+      "path": "aura-v1/qa/recording.json",
+      "bytes": 13869,
+      "sha256": "3ef5102c8c4a7b12e3c56c659fa3dceabb641b1d39995de13090b40129bd2b3c"
+    },
+    {
+      "path": "aura-v1/qa/review-video.json",
+      "bytes": 3077,
+      "sha256": "2e252b9f949c351d5e92676ea6b35a54bed2674df3fd8a75b7450c019d5496e7"
+    },
+    {
+      "path": "aura-v1/qa/review-video.mjs",
+      "bytes": 3435,
+      "sha256": "eac2441cd59eaa122f1872d7f1a7886a1654771adf87e4a0f08e359e9fb8cc27"
+    },
+    {
+      "path": "aura-v1/qa/skill_flash-peak.png",
+      "bytes": 1928455,
+      "sha256": "c7a69e224c8f30cb9d43a4f9930ef35a15f3b351c08e6b0db05f0ec31ded56a9"
+    },
+    {
+      "path": "aura-v1/qa/skill_rain-peak.png",
+      "bytes": 1940674,
+      "sha256": "4677cf76048cacec2c44cb0e41285aff3825f391877774f729a92f6cce94e2bb"
+    },
+    {
+      "path": "aura-v1/qa/skill_thrust-peak.png",
+      "bytes": 1902896,
+      "sha256": "b863581b2cec3daafa2952639b4e0403cd49627ba489368c3da3dd3b825c3555"
+    },
+    {
+      "path": "aura-v1/qa/skill_wheel-peak.png",
+      "bytes": 1895545,
+      "sha256": "d8f1eaf8565eb56c63a9126ca1ffecf60a8d2ed908e1d831bbc852a51c25e0d7"
+    },
+    {
+      "path": "aura-v1/qa/verification.json",
+      "bytes": 33648,
+      "sha256": "a15a78c5ef8ca5e8c051fce3f031a6c3ebc9caf2f303f253370b50dde487e935"
+    },
+    {
+      "path": "aura-v1/qa/verify.mjs",
+      "bytes": 8461,
+      "sha256": "b0dee0e779760d85b6a77c5d5ba6ff36ff733f9d6f080ae5dcbc5c1fafc99e3d"
+    },
+    {
+      "path": "aura-v1/qa/wheel-first.png",
+      "bytes": 1895493,
+      "sha256": "0ab39759341f72ebfa6c6c567e386708f0def3674f68f91ba6819d244dab5d90"
+    },
+    {
+      "path": "aura-v1/qa/wheel-second.png",
+      "bytes": 1909222,
+      "sha256": "ddcb06fcc266404f31b2555a4d8f2129fb582725743a1ba2fb8e50cd5852dd31"
+    },
+    {
+      "path": "aura-v1/qa/wheel-video.png",
+      "bytes": 1979307,
+      "sha256": "ff49af0a3d01b7908a37bacc699022eccd23de4b70755f9ca64f055bab9d7ad1"
+    },
+    {
+      "path": "aura-v1/qa/whitecoat-squad-390.png",
+      "bytes": 464690,
+      "sha256": "2638680c1afa3c67cd27dbe3dd5ecc727a1e85bb21f8aa45b098f40374dabe8a"
+    },
+    {
+      "path": "aura-v1/qa/whitecoat-squad-current.png",
+      "bytes": 1913292,
+      "sha256": "23e4abe1031a07ee7f8496a37d1542a8b3379e83140b1be68dbbff5449031f68"
+    },
+    {
+      "path": "aura-v1/qa/whitecoat-squad-enemy-320.png",
+      "bytes": 359601,
+      "sha256": "bc5b4d466f24dabeefb655bba269696351213a0cc408c800f4b1d6b416778fb3"
+    },
+    {
+      "path": "aura-v1/qa/whitecoat-squad-enemy-390.png",
+      "bytes": 465589,
+      "sha256": "9bacca1fe9e6125bcc545c8ed81726989ebd9ea4da1782daff8c4780587eb2e6"
+    },
+    {
+      "path": "aura-v1/qa/whitecoat-squad-enemy-current.png",
+      "bytes": 465775,
+      "sha256": "854848b7afcd196927438edbabfd1bae5f77e640943dadb11b4a34d28549ab92"
+    },
+    {
+      "path": "aura-v1/runtime/manifest.json",
+      "bytes": 303,
+      "sha256": "c7edf814fb6824033203c2ae3d096e6e6f8219120288f0194ae98ac21752cce4"
+    },
+    {
+      "path": "aura-v1/runtime/orbit.png",
+      "bytes": 512797,
+      "sha256": "8e698547d392173ea8ffb5e183aca4f914ffdf419b932c371a1e071d0eb44ffe"
+    },
+    {
+      "path": "aura-v1/runtime/taegeuk.png",
+      "bytes": 179181,
+      "sha256": "e39785361ad88f75524ac7a5165621005870660e598fd967ce3e278b61c0aa71"
+    },
+    {
+      "path": "aura-v1/taegeuk.svg",
+      "bytes": 1500,
+      "sha256": "2e58ecfe8b50972f2770f3f4d232835ac1a60fe3b38617d831e11e7fa2a53a9a"
+    },
+    {
+      "path": "aura-v1/WhiteOutlineFilter.mjs",
+      "bytes": 1810,
+      "sha256": "fdda0b44d27b1bfec7527b7d34222de5c6b9a3c8858fcbfeef49f941383529b9"
+    },
+    {
       "path": "author-spine.mjs",
       "bytes": 6271,
       "sha256": "3220b6d604b87fab90da1b9926368b6f45b9319587866e46ad6d27d38d1fd652"
@@ -2528,8 +3098,8 @@
     },
     {
       "path": "PROJECT.md",
-      "bytes": 22519,
-      "sha256": "0c192cb9953011fab5edde13aee664f41cf9f0eefcf7b39c0215bc4defe28c94"
+      "bytes": 23196,
+      "sha256": "092a498e0d1b3f83102fa3dbbe1d8b9f41bd82ba7d8bab920ad7d810635ef9fd"
     },
     {
       "path": "qa/art-compare.json",
@@ -3328,8 +3898,8 @@
     },
     {
       "path": "review.html",
-      "bytes": 8450,
-      "sha256": "9a85743d1ba596c3483883acb3e130f34dfbf20399e3f0353c178a9400b63ad3"
+      "bytes": 8636,
+      "sha256": "c47c6c5897ff78ae2f90407d69d8d8941429d7362c9268713817db57a7ac5bf1"
     },
     {
       "path": "runtime-action-v3-93718185df11/whitecoat-action-v3-93718185df11_2.png",
@@ -6788,8 +7358,8 @@
     },
     {
       "path": "swordplay-v5/review.mjs",
-      "bytes": 2284,
-      "sha256": "b1fa5d5874df09f58486a2985ac027b8af88a7106b50748119a114d9d183dd91"
+      "bytes": 2440,
+      "sha256": "d1219090878c96158a0702a36e9e9372eb41fdb1dca705ff1e638b880ab3536f"
     },
     {
       "path": "swordplay-v5/skills.mjs",
@@ -6838,16 +7408,16 @@
     },
     {
       "path": "WhitecoatBattleAdapter.mjs",
-      "bytes": 4589,
-      "sha256": "53be1992ff80aea7f27f848c8e04950098f170a3f4b66cf018eb2af09938d713"
+      "bytes": 5434,
+      "sha256": "8c98cefbdbe10a572732d5556604879c82215f47e5fb0f4d30c51e706536b105"
     },
     {
       "path": "WhitecoatEffects.mjs",
-      "bytes": 5920,
-      "sha256": "b999f2ff2bd7cc0c90c4024504636561b4b3419478782690a558f684b88315e9"
+      "bytes": 6125,
+      "sha256": "5cf0d6edc81d4fc581331ddd32a35c04bfc87096c12efce05aaa693d6b6b6571"
     }
   ],
-  "totalBytes": 624770452,
+  "totalBytes": 692807461,
   "swordTrailUpdate": {
     "plugin": "Runway",
     "delivery": "qa/sword-trail/delivery.json",
@@ -6896,5 +7466,12 @@
     "namedBy": "user",
     "date": "2026-11-05",
     "portrait": "portrait-20261105/hakuya-shin-moonlit-courtyard-v1.png"
+  },
+  "persistentAura": {
+    "character": "하쿠야 신",
+    "date": "2026-11-05",
+    "type": "taegeuk with white alpha silhouette",
+    "stage": "local V3 review",
+    "source": "aura-v1/PROJECT.md"
   }
 }

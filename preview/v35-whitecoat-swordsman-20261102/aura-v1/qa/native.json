@@ -1,0 +1,20 @@
+{
+  "tool": "Effekseer 1.70e",
+  "nodes": 10,
+  "roundtripEqual": true,
+  "sha256": "22bee29b3fb982fd82c0722facfb848f333ff2fc00966180e6f2b8e96bdc45e2",
+  "loop": {
+    "firstFrame": 1,
+    "frames": 60,
+    "nativeDegreesPerFrame": 6,
+    "runtimeSeconds": 4
+  },
+  "symbol": {
+    "source": "taegeuk.svg",
+    "method": "Exact SVG geometry rasterized with sharp; not AI-generated artwork",
+    "size": [
+      768,
+      768
+    ]
+  }
+}

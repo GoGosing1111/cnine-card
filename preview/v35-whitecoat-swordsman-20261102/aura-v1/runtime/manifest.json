@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "emblem": "taegeuk.png",
+  "emblemSize": 768,
+  "orbit": "orbit.png",
+  "cell": 192,
+  "columns": 10,
+  "frames": 60,
+  "seconds": 4,
+  "emblemSeconds": 10,
+  "blend": "add",
+  "decodedBytes": 11206656,
+  "sha256": "8e698547d392173ea8ffb5e183aca4f914ffdf419b932c371a1e071d0eb44ffe"
+}

@@ -1072,6 +1072,8 @@
     "preview/v35-whitecoat-swordsman-20261102/skills-v4/actions.json",
     "preview/v35-whitecoat-swordsman-20261102/skills-v4/play-skill.mjs",
     "preview/v35-whitecoat-swordsman-20261102/swordplay-v5/skills.mjs",
+    "preview/v35-whitecoat-swordsman-20261102/aura-v1/WhiteOutlineFilter.mjs",
+    "preview/v35-whitecoat-swordsman-20261102/aura-v1/HakuyaAura.mjs",
     "preview/v35-whitecoat-swordsman-20261102/WhitecoatBattleAdapter.mjs",
     "preview/v35-whitecoat-swordsman-20261102/pose-registration.json",
     "preview/v35-whitecoat-swordsman-20261102/SwordTrail.mjs",

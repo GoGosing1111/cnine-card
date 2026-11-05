@@ -46,8 +46,8 @@
     },
     {
       "path": "qa/build.json",
-      "bytes": 90141,
-      "sha256": "de879f9026113c8a9b5c7306a9e3c132c7ba5bb3235e28b1db250fdc1e18d6fb"
+      "bytes": 90291,
+      "sha256": "64369d81da942dc1cedc3f5ccaa769246f3b866873daac90f0ff260a5c82cc4f"
     },
     {
       "path": "qa/cardgu-after.png",
@@ -251,13 +251,13 @@
     },
     {
       "path": "workbench.bundle.js",
-      "bytes": 3330455,
-      "sha256": "6b0042a2d68085da55840814faeff4c3c0a667feeae9b19864be643c553a6848"
+      "bytes": 3335494,
+      "sha256": "804de744d699ee010627ba875d885aeb60843458a3b863cc3752a224714067e7"
     },
     {
       "path": "workbench.src.mjs",
-      "bytes": 10177,
-      "sha256": "633cdb33683d00a7c8ac969fdb5089ccdaadf9f4d6ad4e415e369c6435004bfb"
+      "bytes": 10324,
+      "sha256": "4fcbda2ca90e7bb445f859896d159ca918b8ba7da4afa101dfc63f1a94117f47"
     }
   ],
   "swordTrailUpdate": {
@@ -308,5 +308,12 @@
     "namedBy": "user",
     "date": "2026-11-05",
     "portrait": "../v35-whitecoat-swordsman-20261102/portrait-20261105/hakuya-shin-moonlit-courtyard-v1.png"
+  },
+  "persistentAura": {
+    "character": "하쿠야 신",
+    "date": "2026-11-05",
+    "type": "taegeuk with white alpha silhouette",
+    "stage": "local V3 review",
+    "source": "../v35-whitecoat-swordsman-20261102/aura-v1/PROJECT.md"
   }
 }
