@@ -1,0 +1,54 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:verified-coin250t-messages:20261105:v1",
+  "authorization": "2차인증 유저 전체 250조 지급",
+  "delivery": "MESSAGE",
+  "recipientCount": 618,
+  "messages": 618,
+  "rewardAttachments": 618,
+  "amountPerRecipient": "250000000000000",
+  "totalCoin": "154500000000000000",
+  "title": "2차 인증 유저 250조 코인 지급",
+  "body": "2차 인증을 완료한 유저 여러분께 코인 250조를 드립니다.\n아래 수령 버튼을 눌러 보상을 받아 주세요.\n계정당 1회 지급됩니다.",
+  "completedAt": "2026-11-05T12:56:19.750Z",
+  "completedAtKst": "2026-11-05 21:56:19 KST",
+  "auditId": "54527",
+  "roleCounts": {
+    "OWNER": 2,
+    "USER": 613,
+    "ADMIN": 3
+  },
+  "providerCounts": {
+    "PLAYDK": 617,
+    "WAGO": 1
+  },
+  "excludedBanned": 1,
+  "previousCampaign": {
+    "key": "ops:verified-coin100t-messages:20261104:v1",
+    "receiptHash": "9388a45c50bf38e16eeef5add8a8e11c59a6e9645a227e2da0ee4b11266a495f",
+    "auditId": "54366"
+  },
+  "verification": {
+    "missing": 0,
+    "duplicates": 0,
+    "claimedAtVerification": 1,
+    "claimedCoinLedgerMatched": true,
+    "pendingAtVerification": 617,
+    "verifiedAt": "2026-11-05T12:56:38.088Z",
+    "messageSyncChanged": 618,
+    "claimTestsPassed": 3,
+    "operationLockContentionRejected": true,
+    "failedRehearsalRolledBack": true,
+    "successfulRehearsalRolledBack": true,
+    "independentReadOnly": true,
+    "replayAdditionalWrites": 0,
+    "noDirectWalletOrInventoryWrites": true,
+    "previous100tReceiptUnchanged": true
+  },
+  "sourceCommit": "b986e6bba4eb07002d4640fbdbe282e82a845020",
+  "planHash": "e94d67511975918cc2e5cdab65974d68e791ebe231a3d776f86d009007a2494a",
+  "executionSourceSha256": "3a7d911168a1ff14434b613397cb333718fbe88a0a52be0f7c703845b7cf2e73",
+  "gameDeployment": false,
+  "storageMaintenance": false,
+  "scheduledAutomations": 0
+}
