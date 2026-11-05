@@ -1,0 +1,71 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:chanho-bus-driver-eunseol:20261105:v1",
+  "userId": "4597",
+  "nickname": "찬호",
+  "completedAt": "2026-11-05T05:44:50.800Z",
+  "completedAtKst": "2026-11-05 14:44:50 KST",
+  "auditId": "54467",
+  "title": {
+    "id": "655095",
+    "code": "RAID_BUS_DRIVER",
+    "name": "버스기사",
+    "permanent": true
+  },
+  "mercenary": {
+    "code": "V-973",
+    "name": "은설",
+    "quantityGranted": 1,
+    "currentCopies": 1,
+    "level": 1,
+    "canDeploy": true,
+    "visibleInAccount": true,
+    "rankedVisible": true
+  },
+  "quantity": 1,
+  "copiesBefore": 0,
+  "copiesAfter": 1,
+  "planHash": "07c2c2e4962a6eba9d34f78b7d6ec19762f4903da0647d5e21794605798ebe2e",
+  "sourceSha256": "c294c8bf522d339813e5e74882fdf7770440233893bf9f81a3048b2d76213667",
+  "stock": [
+    {
+      "code": "SSS_MIRACLE_CUBE:V-973",
+      "stock_limit": "5",
+      "issued": "2"
+    },
+    {
+      "code": "V-973",
+      "stock_limit": "4",
+      "issued": "3"
+    }
+  ],
+  "limitedStockConsumed": 0,
+  "limitedIssueRecordsAdded": 0,
+  "otherTitleOwnersPreserved": true,
+  "titleLoadoutPreserved": true,
+  "unitTests": {
+    "total": 4,
+    "passed": 4
+  },
+  "injectedFailureRollback": true,
+  "normalDryRunRollback": true,
+  "selectOnlyReplay": true,
+  "leasesReleased": true,
+  "independentReadOnly": true,
+  "independentQueries": 30,
+  "automaticEquip": false,
+  "messagesSent": 0,
+  "gameDeployments": 0,
+  "storageMaintenance": 0,
+  "schedulesCreated": 0,
+  "evidenceHashes": {
+    "preflight.json": "75bc7c25d8e08c890a0f95e2b7d168665600739b1b6364978adc1109d95193ce",
+    "before.json": "84dc614d85753e91e2cd8150a8bbf3abed185d05c765e7b0d6180d37257e3146",
+    "read.json": "ac13aa6820bd206322137470d5c19e49d339c8e81f7afac8242706d7cb4c003f",
+    "dry-run.json": "a6f89dfdf129db08f6919c216885ca9dbf5792a1b811db367d38171549a8507d",
+    "apply.json": "988474e5ffb36d0fdc732c23094528589de0f03eb07c3a00b553fb1953eed5cc",
+    "committed-snapshots.json": "d9dbaad84fc32c5a0e9bce901794c763a6db8d4c8221ac074b0abc2f73790a3f",
+    "independent.json": "e6c2cc144843407a9a5cbfadeae58220f6246de0f2fbfe6761377e268c270258",
+    "replay.json": "36e58fc8ca01b329a0b89d1aeadf75fd5b25c657a112df35a61434d9ea3651d7"
+  }
+}

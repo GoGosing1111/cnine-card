@@ -1,0 +1,27 @@
+{
+  "operationKey": "ops:chanho-bus-driver-eunseol:20261105:v1",
+  "authorization": "찬호 계정에 버스기사 칭호 지급하고 은설 용병까지 지급해",
+  "target": {
+    "id": "4597",
+    "nickname": "찬호",
+    "role": "USER",
+    "status": "ACTIVE",
+    "identityHash": "7fb3ed96eaff0baf400ec52b93258975ade8ed08316b87c8f4164546afe6f60d"
+  },
+  "titleId": "655095",
+  "titleCode": "RAID_BUS_DRIVER",
+  "titleName": "버스기사",
+  "titlePolicy": "ENSURE_PERMANENT_PRESERVE_EXISTING",
+  "expectedTitle": null,
+  "code": "V-973",
+  "name": "은설",
+  "rank": "SSS",
+  "edition": "LIMITED",
+  "quantity": 1,
+  "expectedHolding": null,
+  "stockPolicy": "ADMIN_DIRECT_NO_COUNTER_CHANGE",
+  "levelPolicy": "PRESERVE_EXISTING_DEFAULT_ONE",
+  "cost": 0,
+  "sendMessages": false,
+  "automaticLoadout": false
+}

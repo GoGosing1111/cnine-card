@@ -1,0 +1,30 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import {connect,safe,hash} from '../rap-contest-rewards-20261027/preflight.mjs';
+import {mercenaryAccountState,rankedOwnedMercenaries} from '../../output/revan-live-20261027/release-checkout/functions/_mercenary_account.js';
+const OP='ops:chanho-bus-driver-eunseol:20261105:v1',ID='4597',CODE='V-973',TITLE='655095',db=connect();
+try{
+ db.connectionParameters.application_name='chanho-bus-driver-eunseol-independent';await db.connect();
+ await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');await db.query("SET LOCAL statement_timeout='20s'");
+ let queries=0;const q=async(s,a=[])=>{assert.match(s.trim(),/^(SELECT|WITH)\b/i);queries++;return (await db.query(s,a)).rows;};
+ const one=r=>(assert.equal(r.length,1),r[0]),parse=v=>typeof v==='string'?JSON.parse(v):v;
+ const plan=JSON.parse(await fs.readFile(new URL('./plan.json',import.meta.url),'utf8'));
+ const receipt=parse(one(await q('SELECT value FROM app_meta WHERE key=$1',[OP])).value);
+ assert.equal(receipt.status,'COMPLETED');assert.equal(receipt.operationKey,OP);assert.equal(receipt.planHash,hash(plan));assert.deepEqual(receipt.plan,plan);
+ const user=one(await q('SELECT id::text,nickname,role,status FROM users WHERE id=$1 OR nickname=$2',[ID,'찬호']));assert.deepEqual(user,{id:ID,nickname:'찬호',role:'USER',status:'ACTIVE'});
+ const title=one(await q('SELECT t.code,t.name,t.is_active,t.is_public,o.* FROM user_character_titles o JOIN character_titles t ON t.id=o.title_id WHERE o.user_id=$1 AND o.title_id=$2',[ID,TITLE]));
+ assert.equal(title.code,'RAID_BUS_DRIVER');assert.equal(title.name,'버스기사');assert.equal(title.expires_at,null);assert.equal(title.source_type,'ADMIN');assert.equal(title.source_id,'1');assert.equal(title.unlocked_at,receipt.completedAt);assert.equal(Number(title.is_active),1);assert.equal(Number(title.is_public),1);
+ const card=one(await q('SELECT * FROM user_mercenary_cards_v1 WHERE user_id=$1 AND mercenary_code=$2',[ID,CODE]));assert.equal(Number(card.total_copies),1);assert.equal(Number(card.duplicate_count),0);
+ const acquisition=one(await q('SELECT * FROM mercenary_card_acquisitions_v1 WHERE acquisition_id LIKE $1',[OP+':%']));assert.equal(acquisition.acquisition_id,OP+':4597:V-973:1');assert.equal(String(acquisition.user_id),ID);assert.equal(acquisition.mercenary_code,CODE);assert.equal(Number(acquisition.total_copies_after),1);assert.equal(acquisition.created_at,receipt.completedAt);
+ const audit=one(await q('SELECT id::text,admin_id::text,action_type,after_data FROM admin_logs WHERE target_id=$1',[OP]));assert.equal(audit.id,receipt.auditId);assert.equal(audit.admin_id,'1');assert.equal(audit.action_type,'OPS_TITLE_MERCENARY_GRANT');const {auditId,...payload}=receipt;assert.deepEqual(parse(audit.after_data),payload);
+ assert.equal((await q('SELECT acquisition_id FROM mercenary_limited_issues_v1 WHERE acquisition_id LIKE $1 OR request_id=$2',[OP+':%',OP])).length,0);
+ assert.equal((await q('SELECT user_id FROM user_mutation_locks_v1520 WHERE user_id=$1 AND action_path=$2',[ID,OP])).length,0);
+ let queue=Promise.resolve();const query=(sql,args)=>{const p=queue.then(()=>q(sql,args));queue=p.catch(()=>{});return p;};
+ const DB={dialect:'postgres',prepare(raw){let n=0;const sql=raw.replace(/\?/g,()=>'$'+(++n));const bound=args=>({bind(...values){return bound(values);},async first(){return (await query(sql,args))[0]??null;},async all(){return {results:await query(sql,args)};},async run(){throw Error('Writes forbidden during verification');}});return bound([]);}};
+ const state=await mercenaryAccountState({DB},{id:Number(ID),role:user.role}),visible=one(state.cards.filter(c=>c.code===CODE));assert.equal(visible.name,'은설');assert.equal(visible.totalCopies,1);assert.equal(visible.canDeploy,true);
+ const ranked=await rankedOwnedMercenaries({DB},[Number(ID)]);assert(ranked.get(Number(ID)).some(c=>c.code===CODE));
+ const stock=await q('SELECT code,stock_limit::text,issued::text FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code',[[CODE,'SSS_MIRACLE_CUBE:'+CODE]]);
+ const noWrites=await q('SELECT relname FROM pg_stat_xact_user_tables WHERE n_tup_ins<>0 OR n_tup_upd<>0 OR n_tup_del<>0');assert.deepEqual(noWrites,[]);
+ const result={status:'INDEPENDENTLY_VERIFIED',checkedAt:new Date().toISOString(),operationKey:OP,user,title:{id:TITLE,code:title.code,name:title.name,permanent:true},mercenary:{code:CODE,name:visible.name,quantityGranted:1,currentCopies:visible.totalCopies,level:visible.level,canDeploy:visible.canDeploy,visibleInAccount:true,rankedVisible:true},auditId,completedAt:receipt.completedAt,stock,acquisitionRecords:1,limitedIssueRecordsAdded:0,accountLeasesReleased:true,readOnly:true,operationalWrites:0,selectQueries:queries};
+ await db.query('ROLLBACK');await fs.writeFile(new URL('./evidence/independent.json',import.meta.url),JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(result));
+}catch(e){await db.query('ROLLBACK').catch(()=>{});console.error(safe(e));console.error(String(e.stack).split('\n').filter(s=>/at /.test(s)).slice(0,4).join('\n'));process.exitCode=1;}finally{await db.end().catch(()=>{});}
