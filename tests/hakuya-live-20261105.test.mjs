@@ -1,3 +1,4 @@
+import {readCommittedAssetSync} from './helpers/committed-asset-read.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -87,9 +88,9 @@ test('Hakuya is present in the regular five-times limited growth catalog',async 
 });
 test('approved illustration, body and all shipped resources match the release manifest',()=>{
  const root='assets/ui/project-v/mercenaries/hakuya-shin-20261105/';
- const hash=p=>createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+ const hash=p=>createHash('sha256').update(readCommittedAssetSync(p)).digest('hex');
  assert.equal(hash(HAKUYA_ART.sourceArt).toUpperCase(),HAKUYA_ART.sourceArtSha256);
  assert.equal(hash(HAKUYA_ART.battleSprite).toUpperCase(),HAKUYA_ART.battleSpriteSha256);
- const m=JSON.parse(fs.readFileSync(root+'manifest.json'));for(const f of m.files)assert.equal(hash(root+f.path),f.sha256,f.path);
+ const m=JSON.parse(readCommittedAssetSync(root+'manifest.json'));for(const f of m.files)assert.equal(hash(root+f.path),f.sha256,f.path);
  assert.equal(m.illustrationApproved,true);assert.equal(m.runtimeVersion,'4.3.13');
 });
