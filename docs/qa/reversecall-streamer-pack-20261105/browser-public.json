@@ -1,0 +1,21 @@
+{
+  "status": "PASSED",
+  "at": "2026-11-05T04:46:57.726Z",
+  "reports": [
+    {
+      "width": 390,
+      "shopAdjacent": true,
+      "art": "v4-rectangular-purple-broadcast",
+      "registrationGate": true,
+      "opening10": true,
+      "recoveryNoExtraPost": true,
+      "cms8IndependentStock": true,
+      "overflow": false,
+      "errors": []
+    }
+  ],
+  "posts": 1,
+  "fixture": true,
+  "publicAssets": true,
+  "productionAccountWrites": 0
+}

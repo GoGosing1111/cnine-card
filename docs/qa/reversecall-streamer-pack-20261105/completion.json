@@ -1,0 +1,67 @@
+{
+  "status": "LIVE",
+  "at": "2026-11-05T04:49:15.226Z",
+  "source": "b777aa40f5fb10e470d17b98e39e5349ed04908c",
+  "pages": {
+    "id": "afd9f52a-b13b-4f93-8319-0eddfe21a84f",
+    "url": "https://afd9f52a.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "b777aa40f5fb10e470d17b98e39e5349ed04908c"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "4a0c2d3d-8f05-4d69-a26d-0336f73b9eaa",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "f1452608-3a75-4769-94e9-024a78fb2e69",
+      "percentage": 100
+    }
+  ],
+  "registration": {
+    "key": "ops:reversecall-streamer-pack:20261105:v1",
+    "at": "2026-11-05T04:46:28.859Z",
+    "audit": 54460,
+    "limits": {
+      "V-950": 10,
+      "V-951": 10,
+      "V-952": 10,
+      "V-953": 10,
+      "V-954": 10,
+      "V-955": 10,
+      "V-970": 3,
+      "V-971": 3
+    },
+    "registeredAccountCount": 7
+  },
+  "verification": {
+    "originalBlackcrownPreserved": true,
+    "selectOnlyReplay": true,
+    "prices": {
+      "single": 1500000000,
+      "ten": 15000000000
+    },
+    "oddsEqual": true,
+    "publicAssets": 15,
+    "windowsFiles": 8,
+    "assetCount": 20000,
+    "localViewports": [
+      1440,
+      390,
+      320
+    ],
+    "publicViewport": 390,
+    "productionAccountWrites": 0,
+    "messages": 0
+  },
+  "tests": {
+    "newBackend": 16,
+    "existingRelevant": 40,
+    "finalDelivery": 3,
+    "automaticEntry": 17,
+    "releasePolicy": 19
+  },
+  "limitations": "Browser fixtures; no real-device or installed-app interactive test."
+}

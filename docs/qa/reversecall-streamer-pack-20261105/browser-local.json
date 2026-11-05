@@ -1,0 +1,43 @@
+{
+  "status": "PASSED",
+  "at": "2026-11-05T04:38:12.455Z",
+  "reports": [
+    {
+      "width": 1440,
+      "shopAdjacent": true,
+      "art": "v4-rectangular-purple-broadcast",
+      "registrationGate": true,
+      "opening10": true,
+      "recoveryNoExtraPost": true,
+      "cms8IndependentStock": true,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "shopAdjacent": true,
+      "art": "v4-rectangular-purple-broadcast",
+      "registrationGate": true,
+      "opening10": true,
+      "recoveryNoExtraPost": true,
+      "cms8IndependentStock": true,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "shopAdjacent": true,
+      "art": "v4-rectangular-purple-broadcast",
+      "registrationGate": true,
+      "opening10": true,
+      "recoveryNoExtraPost": true,
+      "cms8IndependentStock": true,
+      "overflow": false,
+      "errors": []
+    }
+  ],
+  "posts": 3,
+  "fixture": true,
+  "publicAssets": false,
+  "productionAccountWrites": 0
+}

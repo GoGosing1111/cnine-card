@@ -1,0 +1,92 @@
+{
+  "status": "PASSED",
+  "at": "2026-11-05T04:46:46.510Z",
+  "packOrder": [
+    {
+      "id": "mercenary-blackcrown-ss-limited",
+      "name": "블랙크라운팩",
+      "imageUrl": "assets/ui/packs/black-crown-20261027-v1/pack-768.webp",
+      "drawEnabled": true
+    },
+    {
+      "id": "mercenary-reversecall-streamer",
+      "name": "리버스콜 스트리머 팩",
+      "imageUrl": "assets/ui/packs/reversecall-streamer-20261105-v4/pack-768.webp",
+      "drawEnabled": true
+    }
+  ],
+  "prices": {
+    "single": 1500000000,
+    "ten": 15000000000
+  },
+  "oddsEqual": true,
+  "anonymousOpeningBlocked": true,
+  "stock": [
+    {
+      "code": "V-950",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "REVERSECALL_STREAMER_PACK"
+    },
+    {
+      "code": "V-951",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "REVERSECALL_STREAMER_PACK"
+    },
+    {
+      "code": "V-952",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "REVERSECALL_STREAMER_PACK"
+    },
+    {
+      "code": "V-953",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "REVERSECALL_STREAMER_PACK"
+    },
+    {
+      "code": "V-954",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "REVERSECALL_STREAMER_PACK"
+    },
+    {
+      "code": "V-955",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "REVERSECALL_STREAMER_PACK"
+    },
+    {
+      "code": "V-970",
+      "limit": 3,
+      "issued": 0,
+      "remaining": 3,
+      "prepared": true,
+      "scope": "REVERSECALL_STREAMER_PACK"
+    },
+    {
+      "code": "V-971",
+      "limit": 3,
+      "issued": 0,
+      "remaining": 3,
+      "prepared": true,
+      "scope": "REVERSECALL_STREAMER_PACK"
+    }
+  ],
+  "sourceRevision": 9,
+  "revision": 10
+}

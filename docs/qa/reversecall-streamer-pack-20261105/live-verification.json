@@ -1,0 +1,169 @@
+{
+  "at": "2026-11-05T04:46:18.350Z",
+  "pages": {
+    "id": "afd9f52a-b13b-4f93-8319-0eddfe21a84f",
+    "url": "https://afd9f52a.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "b777aa40f5fb10e470d17b98e39e5349ed04908c"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "4a0c2d3d-8f05-4d69-a26d-0336f73b9eaa",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "f1452608-3a75-4769-94e9-024a78fb2e69",
+      "percentage": 100
+    }
+  ],
+  "assets": [
+    {
+      "file": "index.html",
+      "sha256": "c885d389fbf106d808c9cc927d5f7cbe3949a8fe2422b6507660200d4cdc7b41",
+      "sourceSha256": "c885d389fbf106d808c9cc927d5f7cbe3949a8fe2422b6507660200d4cdc7b41",
+      "transform": null
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "b2f4ecdd84a34594329324784d2e57f71960c6bdebfa8f06a74ad559b806551a",
+      "sourceSha256": "4a4db785a770e1ce08b2526c30f95d9181a8d38e60207fa3e5f3487e550bbdb5",
+      "transform": "existing htmlForStore"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "5ae6de189e0d82349fea7a7e0646295478d9ffe66ad291928732f10e2be50437",
+      "sourceSha256": "5ae6de189e0d82349fea7a7e0646295478d9ffe66ad291928732f10e2be50437",
+      "transform": null
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "85c9592990f56188296858be94fcad6f7f9db595208bc0b0c13fc3429a864a86",
+      "sourceSha256": "85c9592990f56188296858be94fcad6f7f9db595208bc0b0c13fc3429a864a86",
+      "transform": null
+    },
+    {
+      "file": "js/reversecall-streamer-pack-live.bundle.mjs",
+      "sha256": "7429e7a12ed17de8324ea72361e41cf8d512b7215417bc1e9314c3efed000c58",
+      "sourceSha256": "7429e7a12ed17de8324ea72361e41cf8d512b7215417bc1e9314c3efed000c58",
+      "transform": null
+    },
+    {
+      "file": "js/mercenary-blackcrown-pack-live.bundle.mjs",
+      "sha256": "89a347bdeb3fa3f5ef27d3eb4d58a4f118fe4c21ab853746f077114b40d981c6",
+      "sourceSha256": "89a347bdeb3fa3f5ef27d3eb4d58a4f118fe4c21ab853746f077114b40d981c6",
+      "transform": null
+    },
+    {
+      "file": "shared/reversecall-streamer-pack-v1.mjs",
+      "sha256": "4c1c7806940bb6f36efb9c91996b73b18cc655df78cf7539f4c98fbe77cca0b5",
+      "sourceSha256": "4c1c7806940bb6f36efb9c91996b73b18cc655df78cf7539f4c98fbe77cca0b5",
+      "transform": null
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "9d810c39436c802151bd05dc221161ab67f763e0c8dfa87dba3e588c44578b7d",
+      "sourceSha256": "9d810c39436c802151bd05dc221161ab67f763e0c8dfa87dba3e588c44578b7d",
+      "transform": null
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "470618fb37b7189a6b2e166bae9e13a65261a0310e7ba9e1a4749743f23a56c1",
+      "sourceSha256": "470618fb37b7189a6b2e166bae9e13a65261a0310e7ba9e1a4749743f23a56c1",
+      "transform": null
+    },
+    {
+      "file": "admin/mercenary-admin-v1.js",
+      "sha256": "c583eb27f29b1b7d407c481d68f3fb933c99f67b6f529c665180896b32691909",
+      "sourceSha256": "c583eb27f29b1b7d407c481d68f3fb933c99f67b6f529c665180896b32691909",
+      "transform": null
+    },
+    {
+      "file": "admin/mercenary-request-v1.mjs",
+      "sha256": "52c4a0ed1b033a028b9a08def87e9b6f337debc23c0dbbffb8a7ebcfa42fe51e",
+      "sourceSha256": "52c4a0ed1b033a028b9a08def87e9b6f337debc23c0dbbffb8a7ebcfa42fe51e",
+      "transform": null
+    },
+    {
+      "file": "admin/reversecall-streamer-pack-admin.bundle.mjs",
+      "sha256": "1f4d103cd7b1ec7aa676fea1bb8b0cd04ca56177d04aac0bcf9186ed9de96afc",
+      "sourceSha256": "1f4d103cd7b1ec7aa676fea1bb8b0cd04ca56177d04aac0bcf9186ed9de96afc",
+      "transform": null
+    },
+    {
+      "file": "assets/ui/packs/reversecall-streamer-20261105-v4/pack-320.webp",
+      "sha256": "8c7727630eaf52873898f091c0c64dd0462100c592bd4bb45e364582c3b5068b",
+      "sourceSha256": "8c7727630eaf52873898f091c0c64dd0462100c592bd4bb45e364582c3b5068b",
+      "transform": null
+    },
+    {
+      "file": "assets/ui/packs/reversecall-streamer-20261105-v4/pack-768.webp",
+      "sha256": "f2dad594898d7540754abe15385a306f42db029d92115e2673a4552a4fd2d06f",
+      "sourceSha256": "f2dad594898d7540754abe15385a306f42db029d92115e2673a4552a4fd2d06f",
+      "transform": null
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "71c1aed734238d7ea5ef84c4fdac49b3908ae413903ae33cb5082cdedad100bc",
+      "sourceSha256": "71c1aed734238d7ea5ef84c4fdac49b3908ae413903ae33cb5082cdedad100bc",
+      "transform": null
+    }
+  ],
+  "windows": {
+    "releaseId": "c5b274edeaab1d03b199bd3cadf975a60273fae191899be93fe5f163a452cdac",
+    "files": [
+      {
+        "path": "/index.html",
+        "sha256": "c885d389fbf106d808c9cc927d5f7cbe3949a8fe2422b6507660200d4cdc7b41",
+        "bytes": 49522,
+        "essential": true
+      },
+      {
+        "path": "/js/app.js",
+        "sha256": "5ae6de189e0d82349fea7a7e0646295478d9ffe66ad291928732f10e2be50437",
+        "bytes": 805250,
+        "essential": true
+      },
+      {
+        "path": "/js/reversecall-streamer-pack-live.bundle.mjs",
+        "sha256": "7429e7a12ed17de8324ea72361e41cf8d512b7215417bc1e9314c3efed000c58",
+        "bytes": 142988,
+        "essential": true
+      },
+      {
+        "path": "/js/mercenary-blackcrown-pack-live.bundle.mjs",
+        "sha256": "89a347bdeb3fa3f5ef27d3eb4d58a4f118fe4c21ab853746f077114b40d981c6",
+        "bytes": 142551,
+        "essential": true
+      },
+      {
+        "path": "/shared/reversecall-streamer-pack-v1.mjs",
+        "sha256": "4c1c7806940bb6f36efb9c91996b73b18cc655df78cf7539f4c98fbe77cca0b5",
+        "bytes": 2807,
+        "essential": true
+      },
+      {
+        "path": "/shared/onestore-web-assets-v1.mjs",
+        "sha256": "9d810c39436c802151bd05dc221161ab67f763e0c8dfa87dba3e588c44578b7d",
+        "bytes": 985,
+        "essential": true
+      },
+      {
+        "path": "/assets/ui/packs/reversecall-streamer-20261105-v4/pack-320.webp",
+        "sha256": "8c7727630eaf52873898f091c0c64dd0462100c592bd4bb45e364582c3b5068b",
+        "bytes": 68026,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/packs/reversecall-streamer-20261105-v4/pack-768.webp",
+        "sha256": "f2dad594898d7540754abe15385a306f42db029d92115e2673a4552a4fd2d06f",
+        "bytes": 250210,
+        "essential": false
+      }
+    ]
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "assetCount": 20000
+}
