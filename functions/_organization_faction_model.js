@@ -100,7 +100,9 @@ export function advanceOrganizationFaction(state,{schedule,wars=[],roster=[],now
   settlements.push(addOrganizationPigCoinRecipients(closeSession(state,state.session,state.session.endsAt,'SESSION_END',roster,{...ORGANIZATION_SESSION_POLICY,rewardRules:state.session.rewardRules||RULES}),roster));
  const busy=()=>['ACTIVE','PAUSED'].includes(state.session?.status);
  const overlaps=slot=>busy()||state.sessionQueue.length||(state.session?.key!==slot.key&&state.session?.closedAt>slot.startsAt);
- const queue=slot=>{slot.status='QUEUED';slot.reason='PREVIOUS_SESSION';if(!state.sessionQueue.some(s=>s.key===slot.key))state.sessionQueue.push({...slot,plannedStartsAt:slot.startsAt,plannedEndsAt:slot.endsAt});state.sessionQueue.sort((a,b)=>a.plannedStartsAt-b.plannedStartsAt);};
+ const queue=(slot,reason='PREVIOUS_SESSION')=>{slot.status='QUEUED';slot.reason=reason;if(!state.sessionQueue.some(s=>s.key===slot.key))state.sessionQueue.push({...slot,plannedStartsAt:slot.startsAt,plannedEndsAt:slot.endsAt});state.sessionQueue.sort((a,b)=>a.plannedStartsAt-b.plannedStartsAt);};
+ const territoryOverlaps=slot=>wars.some(w=>['ACTIVE','PREPARING','FINISHED'].includes(w.status)&&factionTime(w.starts_at)<=now&&factionTime(w.starts_at)<slot.endsAt&&(w.status!=='FINISHED'||factionTime(w.settled_at||w.ends_at)>slot.startsAt));
+ const canDeferTerritory=slot=>Boolean(resumption&&slot.dayKey===factionDayKey(now)&&slot.scheduleVersion===rules.version&&Number.isSafeInteger(slot.hardEndsAt));
  const open=slot=>{
   state.session={...slot,status:'ACTIVE',participants:[],participantClans:{},fundsPerRegion:policy.fundsPerRegion,rewardRules:organizationSessionRewardRules(rules,policy,slot.startsAt)};
   const displayed=state.sessionPlan.find(s=>s.key===slot.key);if(displayed)Object.assign(displayed,slot,{status:'ACTIVE'});
@@ -112,12 +114,18 @@ export function advanceOrganizationFaction(state,{schedule,wars=[],roster=[],now
   state.sessionDay=factionDayKey(now);state.sessionPlan=schedule.map(slot=>({...slot,status:'SCHEDULED'}));
  }
  for(const slot of state.sessionPlan){
+  // Recover only today's unopened evening slot, with the published schedule and
+  // territory history proving why it was skipped. Settled/previous days stay closed.
+  if(slot.status==='SKIPPED'&&slot.reason==='TERRITORY_WAR'&&canDeferTerritory(slot)&&slot.hardEndsAt>now&&slot.startsAt>=assignedAt&&slot.startsAt<=now
+    &&state.session?.key!==slot.key&&!state.sessionHistory?.some(s=>s.key===slot.key)&&territoryOverlaps(slot)
+    &&schedule.some(s=>s.key===slot.key&&s.dayKey===slot.dayKey&&s.startsAt===slot.startsAt&&s.endsAt===slot.endsAt&&s.hardEndsAt===slot.hardEndsAt&&s.scheduleVersion===slot.scheduleVersion))queue(slot,'TERRITORY_WAR');
   if(slot.status!=='SCHEDULED')continue;
   if(slot.startsAt<assignedAt){slot.status='SKIPPED';slot.reason='BEFORE_ASSIGNMENT';continue;}
   if(slot.startsAt>now)continue;
   if(overlaps(slot)){queue(slot);continue;}
+  if(canDeferTerritory(slot)&&(activeWars||territoryOverlaps(slot))){queue(slot,'TERRITORY_WAR');continue;}
   if(slot.endsAt<=now){slot.status='SKIPPED';slot.reason='UNAVAILABLE_WINDOW';continue;}
-  if(activeWars||wars.some(w=>factionTime(w.starts_at)<=now&&factionTime(w.starts_at)<slot.endsAt&&(!['FINISHED'].includes(w.status)||factionTime(w.settled_at||w.ends_at)>slot.startsAt))){slot.status='SKIPPED';slot.reason='TERRITORY_WAR';continue;}
+  if(activeWars||territoryOverlaps(slot)){slot.status='SKIPPED';slot.reason='TERRITORY_WAR';continue;}
   open(slot);
  }
  while(state.sessionQueue.length&&state.sessionQueue[0].hardEndsAt<=now){const expired=state.sessionQueue.shift(),displayed=state.sessionPlan.find(s=>s.key===expired.key);if(displayed)Object.assign(displayed,{status:'SKIPPED',reason:'WINDOW_ENDED'});}
