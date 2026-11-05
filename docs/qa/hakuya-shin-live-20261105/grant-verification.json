@@ -1,0 +1,81 @@
+{
+  "apply": {
+    "status": "VERIFIED",
+    "userId": "1",
+    "nickname": "핑크빛유두",
+    "code": "V-967",
+    "name": "하쿠야 신",
+    "quantityGranted": 1,
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "currentCopies": 1,
+    "auditId": "54468",
+    "completedAt": "2026-11-05T05:59:19.160Z",
+    "acquisitionRecords": 1,
+    "protectedStatePreserved": true
+  },
+  "independent": {
+    "mode": "verify",
+    "sourceSha256": "956e298841d4d870149d130d10e52864de24d491effcd6a238f8b20933d3ff4a",
+    "planHash": "5e05d2dbc9567d5287378e004e22f7a7c47a33fd945b02ada2af994b2f702648",
+    "verification": {
+      "status": "VERIFIED",
+      "userId": "1",
+      "nickname": "핑크빛유두",
+      "code": "V-967",
+      "name": "하쿠야 신",
+      "quantityGranted": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1,
+      "currentCopies": 1,
+      "auditId": "54468",
+      "completedAt": "2026-11-05T05:59:19.160Z",
+      "acquisitionRecords": 1,
+      "protectedStatePreserved": true
+    },
+    "independentConnection": true
+  },
+  "replay": {
+    "mode": "replay",
+    "sourceSha256": "956e298841d4d870149d130d10e52864de24d491effcd6a238f8b20933d3ff4a",
+    "planHash": "5e05d2dbc9567d5287378e004e22f7a7c47a33fd945b02ada2af994b2f702648",
+    "verification": {
+      "status": "VERIFIED",
+      "userId": "1",
+      "nickname": "핑크빛유두",
+      "code": "V-967",
+      "name": "하쿠야 신",
+      "quantityGranted": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1,
+      "currentCopies": 1,
+      "auditId": "54468",
+      "completedAt": "2026-11-05T05:59:19.160Z",
+      "acquisitionRecords": 1,
+      "protectedStatePreserved": true
+    },
+    "noWriteReplayVerified": true
+  },
+  "recipient": {
+    "at": "2026-11-05T06:00:29.648Z",
+    "readOnly": true,
+    "owners": [
+      {
+        "user_id": "1",
+        "nickname": "핑크빛유두",
+        "mercenary_code": "V-967",
+        "total_copies": 1,
+        "duplicate_count": 0
+      }
+    ],
+    "acquisitions": [
+      {
+        "acquisition_id": "ops:pingdu-hakuya-shin-grant:20261105:v1:1:V-967:1",
+        "user_id": "1",
+        "mercenary_code": "V-967"
+      }
+    ],
+    "liveLeases": 0,
+    "otherRecipients": 0
+  }
+}

@@ -1,0 +1,293 @@
+{
+  "at": "2026-11-05T05:58:43.996Z",
+  "releaseCommit": "b029bf43d159a48bbf2b0ea70140dd3e638cc7d3",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "ad7e1674-5b4d-482a-ba05-6105f89241c8",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "58a3ea44-7f90-43d1-bc48-ad9e489ae6ec",
+      "percentage": 100
+    }
+  ],
+  "windows": {
+    "releaseId": "9b0ee247006baebbcdf9dacdb707d599524a0fdc2ebaaa85df81f9da81742432",
+    "files": [
+      {
+        "path": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/aura/ink-front.png",
+        "sha256": "93b7a4f8e5ce8d271d188e3bb5ed90299659c5f75dff5f46f27727510643ad29",
+        "bytes": 355177,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/aura/ink-rear.png",
+        "sha256": "d2df06226f8a6bacf2c6d1f9946b9c2c8ae7f9402d67c8413ab930b18906038e",
+        "bytes": 682324,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/aura/manifest.json",
+        "sha256": "cd4280c66a6a180d41d1f1f85220ded92fa99a9270eb4ab15a71838f55b2469c",
+        "bytes": 5126,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/body-ready.png",
+        "sha256": "3590b08ddc7fff6ec4e3dc6e05e81f2cf29d95dea987c0ec990283e2956a1bb1",
+        "bytes": 620436,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/debris.png",
+        "sha256": "044417435ba9afdfe6585a5624f4ec2354cde486c047fffe7e7e8d8e9a010981",
+        "bytes": 401318,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/fx-manifest.json",
+        "sha256": "7bb634a3a4b1b8e2d049dba070a9ce6afecedc57ee7e1b88f35993bb562cc104",
+        "bytes": 50755,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/impact-burst.png",
+        "sha256": "d8fb8ff37b41cd1dce1d5450b3001bd8c1651eacbaf56f78fafbcbc3ba5fc25e",
+        "bytes": 110814,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/sword-ribbon-source.png",
+        "sha256": "51e81098d98f7edf7e520668cb428635aea231879021c92f1eb593195de3138e",
+        "bytes": 1197394,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v4-incision.png",
+        "sha256": "2f84a056ff7e4e206962ba10c6295ee7dc28ed4005da797fbcd0b633cfd5a8be",
+        "bytes": 47811,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v4-pressure.png",
+        "sha256": "c6aa78c24eb07b131e831814385db1e8e48336491d5b2715a0b0e9856737390c",
+        "bytes": 276662,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-flash.png",
+        "sha256": "023bbf00d0e497d70c3e54880ceb79ac76270a71a50ec730c43e28415006bbc7",
+        "bytes": 880572,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-rain.png",
+        "sha256": "0ac0afa2d9b804f780bed9d510f688cf9e8f872f75bcbd60f6f77887d0d43ed4",
+        "bytes": 2102842,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-rimlight.png",
+        "sha256": "86fe51d40d0b15cf7a8f8feb46b12fbdfc8ed12955893500aa44188ca98aef88",
+        "bytes": 230930,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-splinters.png",
+        "sha256": "faebdb516661e286d3fb7af9d4f24bb9f7d823ba307724d1c16eec3463532211",
+        "bytes": 68594,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-thrust.png",
+        "sha256": "46609edc8f8a400916a3b9b25be5e9d8a6573e589e4880d1ee8d8f8075f3c2cd",
+        "bytes": 2207721,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-wheel.png",
+        "sha256": "e98c84b3010ac89af228d1d430d580951ef35bf526d833e7e305ce17695747cf",
+        "bytes": 1786035,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/source-art-approved.png",
+        "sha256": "813d9d05b870848b1c9a0b00345f37720d57354c67a8da368010c72aa0aad604",
+        "bytes": 2743094,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/spine/whitecoat-skills-v4-51fecca13bde.png",
+        "sha256": "bb12d5b1cb7b6434275c9b1a431a10f7e0092be651dbb80d4ab56907668a8f16",
+        "bytes": 6679222,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/spine/whitecoat-skills-v4-51fecca13bde_2.png",
+        "sha256": "e1fb6c4714ec4be26c26c0c398e428ed3c13cb0e03a3e99bfe7b03502eb43078",
+        "bytes": 6692265,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/spine/whitecoat-skills-v4-51fecca13bde_3.png",
+        "sha256": "4e90ac9b34f3b7f083dc2e7f17b1571162c03f8936f29197309503d85f4e0d01",
+        "bytes": 5879849,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/spine/whitecoat-skills-v4-51fecca13bde_4.png",
+        "sha256": "729ee7e3e29e1c47ddcb710805b3f511f87d3ed54344dfe603889535517576e0",
+        "bytes": 1302833,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/spine/whitecoat.json",
+        "sha256": "87e42a072382941d196846d1bf6de95b086060a57e3dde3f7dab9d26292087ee",
+        "bytes": 25201,
+        "essential": false
+      },
+      {
+        "path": "/index.html",
+        "sha256": "029fc5a885444571071b60b387217fe1300e6d5ccf677d53baa8e54536263ace",
+        "bytes": 49576,
+        "essential": true
+      },
+      {
+        "path": "/js/app.js",
+        "sha256": "b6ecf19b738830d5fad315025a8f25bcb82d363fac937a9e12488b38fce859f0",
+        "bytes": 810957,
+        "essential": true
+      },
+      {
+        "path": "/js/battle-v3-live.js",
+        "sha256": "b779c13c1adf9276351a8a8683ba967b28bbf854882d5a2ef1b96dbd10660ac9",
+        "bytes": 77987,
+        "essential": true
+      },
+      {
+        "path": "/mercenary-codex/model.mjs",
+        "sha256": "b2f1df7dc86394ed2ca4c36da03444bbc19f8c46e1bb9959b585b89426f5ac32",
+        "bytes": 14137,
+        "essential": true
+      },
+      {
+        "path": "/preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+        "sha256": "23aae728fe7ec6ab2a565c5cfc3a0ff87ac8c151ccb7d5ac50c6f432323fe38d",
+        "bytes": 3556548,
+        "essential": true
+      },
+      {
+        "path": "/preview/boss-resources-v2048/lab.bundle.js",
+        "sha256": "9bb15e56e9115ed23b49e0fbdbafa9b03b0c2d59a58ff1c5512e1ac1d125c755",
+        "bytes": 3551841,
+        "essential": true
+      },
+      {
+        "path": "/preview/coop-defense-v1/defense.bundle.js",
+        "sha256": "46176fa82b8672b990c4ca6a639e29fc3af2ee960b297515c4151d8039f5efd2",
+        "bytes": 3681027,
+        "essential": true
+      },
+      {
+        "path": "/preview/cow-room-v3-v1/battle.bundle.js",
+        "sha256": "623385951e235bd0752e9c572d20ab1e5b07eb4aa08b51096e64743d64834465",
+        "bytes": 3554824,
+        "essential": true
+      },
+      {
+        "path": "/preview/infinite-tower-v3-v1/battle.bundle.js",
+        "sha256": "79cb6ec656d138b483a8df90984b88dad5929eaf4ad87fdd5b8d1f632bcd4431",
+        "bytes": 3554813,
+        "essential": true
+      },
+      {
+        "path": "/preview/project-v-mercenary-system-v1/skills.bundle.js",
+        "sha256": "b5831155ed143296238adc4987175a5f8538d74e83b47da4b4a8e5b17101c9f5",
+        "bytes": 3601659,
+        "essential": true
+      },
+      {
+        "path": "/preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "sha256": "c0b9f0f647be14d47270c16118044180396f3f36f0111e000430f9ad788fa098",
+        "bytes": 3555198,
+        "essential": true
+      },
+      {
+        "path": "/preview/scrapyard-v3-v1/battle.bundle.js",
+        "sha256": "2d91b7032c7db4138d49d8c32c1eb0a52b1f0c950016514a0f85c7fb4292299b",
+        "bytes": 3554759,
+        "essential": true
+      },
+      {
+        "path": "/preview/sustained-hunt-v2/battle.bundle.js",
+        "sha256": "a04da94b491a2da877c7c53959a63a1c34af5beb42e821b1e3ea478aecffc6bf",
+        "bytes": 3578887,
+        "essential": true
+      },
+      {
+        "path": "/preview/v3-wide-grid-v1/app.bundle.js",
+        "sha256": "43aca90469f74e3139ec8e0f782ed5277d0014796e9eac9124d1173b47b01c32",
+        "bytes": 492277,
+        "essential": true
+      },
+      {
+        "path": "/preview/v3-wide-grid-v1/battle.bundle.js",
+        "sha256": "225fcdfa4910b2a876f9dae3a871e227c71c221b0e2b99199d7d8a139adc68ee",
+        "bytes": 3558382,
+        "essential": true
+      },
+      {
+        "path": "/pve-v3/battle.bundle.js",
+        "sha256": "366525e3a681334872ef509681a98fad3e9f5ff517eb4247e2f641b6a7b3a3d7",
+        "bytes": 3555172,
+        "essential": true
+      },
+      {
+        "path": "/shared/mercenary-acquisition-release-v1.mjs",
+        "sha256": "99768efad322cb524dff4fa8993bb9058ea95512c4e44f435ab0a95bb89f53ea",
+        "bytes": 1787,
+        "essential": true
+      },
+      {
+        "path": "/shared/mercenary-combat-link-v2103.mjs",
+        "sha256": "6b5565bd9fb9293aab9cb9aff77f9fba3b9c8132c20780ba4e8d102b83a79f86",
+        "bytes": 17655,
+        "essential": true
+      },
+      {
+        "path": "/shared/mercenary-hakuya-v1.mjs",
+        "sha256": "eac992d6d1efa5de208ad7d7ab384adba6832b65091411ce6b0d60331afb6211",
+        "bytes": 5136,
+        "essential": true
+      },
+      {
+        "path": "/shared/mercenary-level-v1.mjs",
+        "sha256": "5ee37b27e251ab6595b01001395eea41987e57232d926da484e1f2941434019b",
+        "bytes": 18626,
+        "essential": true
+      },
+      {
+        "path": "/shared/mercenary-limited-deployment-v1.mjs",
+        "sha256": "f23af897bd7a903ac1e70c1536f199f60655886d6a8e5c0f923fb83d008a7eac",
+        "bytes": 5792,
+        "essential": true
+      },
+      {
+        "path": "/shared/mercenary-rank-growth-v1.mjs",
+        "sha256": "429042a88836382df8b5731c23f4740ee8c43105d4de6451c784763301d26ee3",
+        "bytes": 6369,
+        "essential": true
+      },
+      {
+        "path": "/shared/onestore-web-assets-v1.mjs",
+        "sha256": "0c2400e374faa36606a7c8a75ed13518e38b12ed52914c8cff4dbe68b7113b10",
+        "bytes": 988,
+        "essential": true
+      }
+    ]
+  },
+  "assetCount": 20000,
+  "operationalAccountWrites": 0
+}

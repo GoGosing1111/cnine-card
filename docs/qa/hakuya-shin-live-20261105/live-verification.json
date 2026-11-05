@@ -1,0 +1,397 @@
+{
+  "at": "2026-11-05T05:58:11.430Z",
+  "pages": {
+    "id": "30c64f3d-215c-4d88-850d-78a92be762bb",
+    "url": "https://30c64f3d.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "b029bf43d159a48bbf2b0ea70140dd3e638cc7d3"
+  },
+  "latest": "30c64f3d-215c-4d88-850d-78a92be762bb",
+  "releaseCommit": "b029bf43d159a48bbf2b0ea70140dd3e638cc7d3",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "hakuyaConnected": true,
+      "sha256": "daef20a7530da84c061e21171e6e55a62d514f2bb3e4a1ea769b64427e7e9543"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "hakuyaConnected": true,
+      "sha256": "283d8816d475a25f4000327f664c33c51c1da04ecbc559c6db5423d5e567d1ab"
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/SPINE-LICENSE.txt",
+      "sha256": "b9d50158f6c23a704d123fd0200cc00633a693ccf9b0aacb15e5d5b9cf6c0d58",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/aura/ink-front.png",
+      "sha256": "93b7a4f8e5ce8d271d188e3bb5ed90299659c5f75dff5f46f27727510643ad29",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/aura/ink-rear.png",
+      "sha256": "d2df06226f8a6bacf2c6d1f9946b9c2c8ae7f9402d67c8413ab930b18906038e",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/aura/manifest.json",
+      "sha256": "e3c745aa366031087453c9413fbd2c7189c782021accb1b4ee1848c37f2910f8",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/body-ready.png",
+      "sha256": "3590b08ddc7fff6ec4e3dc6e05e81f2cf29d95dea987c0ec990283e2956a1bb1",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/debris.png",
+      "sha256": "044417435ba9afdfe6585a5624f4ec2354cde486c047fffe7e7e8d8e9a010981",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/fx-manifest.json",
+      "sha256": "2fb7ddcd5d4fe1059dd7fa69261fe623cb7ea076c1a54f776bb4a360fb3f2de6",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/impact-burst.png",
+      "sha256": "d8fb8ff37b41cd1dce1d5450b3001bd8c1651eacbaf56f78fafbcbc3ba5fc25e",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/sword-ribbon-source.png",
+      "sha256": "51e81098d98f7edf7e520668cb428635aea231879021c92f1eb593195de3138e",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v4-incision.png",
+      "sha256": "2f84a056ff7e4e206962ba10c6295ee7dc28ed4005da797fbcd0b633cfd5a8be",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v4-pressure.png",
+      "sha256": "c6aa78c24eb07b131e831814385db1e8e48336491d5b2715a0b0e9856737390c",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-flash.png",
+      "sha256": "023bbf00d0e497d70c3e54880ceb79ac76270a71a50ec730c43e28415006bbc7",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-rain.png",
+      "sha256": "0ac0afa2d9b804f780bed9d510f688cf9e8f872f75bcbd60f6f77887d0d43ed4",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-rimlight.png",
+      "sha256": "86fe51d40d0b15cf7a8f8feb46b12fbdfc8ed12955893500aa44188ca98aef88",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-splinters.png",
+      "sha256": "faebdb516661e286d3fb7af9d4f24bb9f7d823ba307724d1c16eec3463532211",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-thrust.png",
+      "sha256": "46609edc8f8a400916a3b9b25be5e9d8a6573e589e4880d1ee8d8f8075f3c2cd",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-wheel.png",
+      "sha256": "e98c84b3010ac89af228d1d430d580951ef35bf526d833e7e305ce17695747cf",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/source-art-approved.png",
+      "sha256": "813d9d05b870848b1c9a0b00345f37720d57354c67a8da368010c72aa0aad604",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/spine/whitecoat-skills-v4-51fecca13bde.atlas",
+      "sha256": "bd45ac1d451c5690054056614256daf6ebc1a5fab6d514ace164920b8eaf745c",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/spine/whitecoat-skills-v4-51fecca13bde.png",
+      "sha256": "bb12d5b1cb7b6434275c9b1a431a10f7e0092be651dbb80d4ab56907668a8f16",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/spine/whitecoat-skills-v4-51fecca13bde_2.png",
+      "sha256": "e1fb6c4714ec4be26c26c0c398e428ed3c13cb0e03a3e99bfe7b03502eb43078",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/spine/whitecoat-skills-v4-51fecca13bde_3.png",
+      "sha256": "4e90ac9b34f3b7f083dc2e7f17b1571162c03f8936f29197309503d85f4e0d01",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/spine/whitecoat-skills-v4-51fecca13bde_4.png",
+      "sha256": "729ee7e3e29e1c47ddcb710805b3f511f87d3ed54344dfe603889535517576e0",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/spine/whitecoat.json",
+      "sha256": "87e42a072382941d196846d1bf6de95b086060a57e3dde3f7dab9d26292087ee",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "index.html",
+      "sha256": "61c08940679177efeafb91f31848b872604d87bda96e4a4c1244a05138c3a0fb",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "aba2d0d48516aa5a0e01cc2281a60761a411ec283b0e551f63cb35a2e46cc706",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "768f82020ba91174abf467e8be2cc2e9a42364d920f80e8b2af3c4ae46075c8b",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "sha256": "61c80963ba18238e5e327e1a95c630718543149641cb5a1de9eb5e468f89bf20",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "ea0b256bac1399b0bbbc8d5fdfd02cafb518d1f50021c0ac8a33ace2ec5006be",
+      "verification": "existing-server-html-transform"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "fa1f86c04a768043fab673e0bae5736d366b70d2b823360cd7f520a982fb0ab7",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "sha256": "b8a0d16c228b78c4def3f794eb0d1af3252fba7d1b2ec508517f6e500536b5d1",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "sha256": "6ab2275f8f83c13cf062892a3b99fc64839abdcf723006d65accd0fd0489fc7f",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "sha256": "fbdb413532b70eec181c5ec7fb2cf42837aa7893bb68230cfbbf3ffe40e3f641",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "sha256": "061a7caca2de1a47f5d23114f956e3600028788189fabe02e472c51652c0d0f2",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "6cc91591f3ad4a0604ce25dcb12bc650fbd4eeaff537778a0fd95e0caaeebf9a",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "sha256": "c007677ea6563cbc681a7c9a5906a700e275a3f9abb847a9b9670d60e15e69f1",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "beb61850f74dce476713517a015f829f97c556a3f7084026edce39e0896825a5",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
+      "sha256": "08ce31be8d78fc27ba5e852f2913078c68591e5179b775316d2a4b88ff1a5e5a",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+      "sha256": "5b8afcc39b3b98efbbc1230fe285f85d1934626ad5f9037f4a6c4ef5b7797794",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "sha256": "1860fc10fbf949015b6a62879f768775bb10fb00c61125eb6b0a918d026bd3a0",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "2136809cfb6cf845b2e9b589fbd7c19fad121f93fb4243cb026f6cdf08c33a55",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/app.bundle.js",
+      "sha256": "db2d5b745be265c507cd9a826ace35f1abb9ff8760fcc2f76988f5cb01c344b2",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "sha256": "191e772b18dd761d0f864064126082c21e27d29c4ec7b0596fc444fc29a28502",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "a39b134d79fa1d8e85922dc0dabd04eeae5c893a900eb574e01d8138f88ae429",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "fb760143abc5bad8dbf364e8373daf325d00bef248803965aca6bedc5e487cbc",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "shared/mercenary-acquisition-release-v1.mjs",
+      "sha256": "b15df5f923563b6e27bc4bdf20caa14b8bc16ab18b1425dfccd7ebcdd1f67d7b",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "shared/mercenary-combat-link-v2103.mjs",
+      "sha256": "8ecfd9905f42c9baea4ee86c1595f14fdf543f108ceebf8e01b777fb2ece50e9",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "shared/mercenary-hakuya-v1.mjs",
+      "sha256": "b5f81de06b2b2b5e0809d81ec615b0ef220ec60bfebba675a02144fb4f853c32",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "shared/mercenary-level-v1.mjs",
+      "sha256": "10cab46391e130fee2797912cd12c2c5e41062297f554e0d4327147ba3e06f1f",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "shared/mercenary-limited-deployment-v1.mjs",
+      "sha256": "05f5c0ec24ab6720f262e14fdaa6e3ef4df49800c81d33d7a3124ca65875268b",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "shared/mercenary-rank-growth-v1.mjs",
+      "sha256": "c77e9812e583f4cad8fd0a6aa3a525b85d80aa8bace5ec0169149886cb264d4c",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "1e6da4a35ca05dbf7e0a6124e8ab70a89ad738ad42f243ddee0217974284ef36",
+      "verification": "exact-deployed-content"
+    }
+  ],
+  "card": {
+    "code": "V-967",
+    "name": "하쿠야 신",
+    "title": "흑백의 검성",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "role": "VANGUARD",
+    "position": "FRONT",
+    "artOnly": false,
+    "releaseStatus": "BATTLE_RELEASED_ACQUISITION_LOCKED",
+    "acquisition": "LOCKED",
+    "sourceArt": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/source-art-approved.png",
+    "thumbnailArt": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/source-art-approved.png",
+    "sourceArtSha256": "813D9D05B870848B1C9A0B00345F37720D57354C67A8DA368010C72AA0AAD604",
+    "battleSprite": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/body-ready.png",
+    "battleSpriteSha256": "3590B08DDC7FFF6EC4E3DC6E05E81F2CF29D95DEA987C0EC990283E2956A1BB1",
+    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+    "artWindow": {
+      "left": 5.957,
+      "top": 5.794,
+      "width": 88.086,
+      "height": 88.086
+    },
+    "accent": "#e8e9ec",
+    "basePower": 2700000,
+    "skills": [
+      {
+        "id": "MS-909",
+        "name": "절광발도",
+        "visualMode": "skill_flash",
+        "mechanic": "HAKUYA_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.5,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "발도와 반전 검격으로 적 한 명에게 일반 공격의 1.5배 피해를 한 번 적용합니다.",
+        "trigger": "일반 공격 · 절광발도 → 삼첩관통 순환",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용 · 모션 2배속은 행동·피해 횟수를 늘리지 않습니다."
+      },
+      {
+        "id": "MS-910",
+        "name": "삼첩관통",
+        "visualMode": "skill_thrust",
+        "mechanic": "HAKUYA_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.5,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "세 겹의 관통 검기로 적 한 명에게 일반 공격의 1.5배 피해를 한 번 적용합니다.",
+        "trigger": "일반 공격 · 절광발도 → 삼첩관통 순환",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용 · 모션 2배속은 행동·피해 횟수를 늘리지 않습니다."
+      },
+      {
+        "id": "MS-911",
+        "name": "회천검압",
+        "visualMode": "skill_wheel",
+        "mechanic": "HAKUYA_SWORD_SOVEREIGN",
+        "target": "적 전체",
+        "pveOnly": true,
+        "sharedCooldown": "MS-911",
+        "balance": {
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "회전 검압을 넓게 방출합니다. 총 3,024% 피해를 나누어 대상당 한 번 적용하며 두 광역기를 번갈아 사용합니다.",
+        "trigger": "PVE · 에너지 20 · 회천검압/만검낙성 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용 · 모션 2배속은 행동·피해 횟수를 늘리지 않습니다."
+      },
+      {
+        "id": "MS-912",
+        "name": "만검낙성",
+        "visualMode": "skill_rain",
+        "mechanic": "HAKUYA_SWORD_SOVEREIGN",
+        "target": "적 전체",
+        "pveOnly": true,
+        "sharedCooldown": "MS-911",
+        "balance": {
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "거대한 검우를 적진에 낙하시킵니다. 총 3,024% 피해를 나누어 대상당 한 번 적용하며 두 광역기를 번갈아 사용합니다.",
+        "trigger": "PVE · 에너지 20 · 회천검압/만검낙성 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용 · 모션 2배속은 행동·피해 횟수를 늘리지 않습니다."
+      }
+    ],
+    "acquisitionEnabled": false,
+    "packAcquisitionEnabled": false,
+    "craftAcquisitionEnabled": false,
+    "deploymentEnabled": true,
+    "combatLinkDescription": "기본 전투력 2,700,000. 레반과 같은 공격·생존·행동·연계·피해 상한. 아군 카드 행동당 3.12회 추가 행동, 개인 피해 80% 경감, 상태이상·반격 보호. 절광발도와 삼첩관통은 일반 공격마다 순환하며 1.5배 피해를 한 번 적용합니다. PVE 회천검압·만검낙성은 번갈아 총 3,024% 피해를 생존한 적 전체에 나누어 적용합니다(에너지 20 · 공통 재사용 3행동). 흑백 검기 아우라·Spine 액션 2배속. 운영자 지정 지급 전용. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 4배). 고레벨 성장과 마지막 돌파도 이 배율에 반영됩니다. 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다. PVP 성장 전투는 C·B·A·S·SS·SSS·SSS 리미티드 순으로 등급 우위를 적용합니다. SS 리미티드는 기존 일반 SSS 전투 등급을 유지합니다. 상대 전원의 등급보다 높으면 같은 레벨 기준 단계당 공격·피해 상한 +100%, 체력·방벽 +500%의 추가 보정을 적용합니다. 상위 등급의 레벨이 낮으면 1레벨 차이마다 이 추가 보정과 성장 격차 보완을 10%씩 줄이며, 10레벨 이상 뒤처지면 적용하지 않습니다. 상위 등급을 향한 경감 관통·행동 대응의 등급 감쇠도 같은 비율로 줄어 10레벨 이상 높은 용병은 배운 숙련을 온전히 사용합니다. 원래 레벨 능력치·평타 성장·추가 행동 숙련은 유지합니다. 듀오는 상대 최고 등급과 가장 큰 레벨 격차를 기준으로 하며, 같은 전투 등급·PVE·기존 개별 용병 상성 정책은 유지합니다."
+  },
+  "operationalAccountWrites": 0
+}

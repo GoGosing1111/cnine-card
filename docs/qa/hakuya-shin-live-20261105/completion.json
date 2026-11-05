@@ -1,0 +1,80 @@
+{
+  "status": "COMPLETED",
+  "at": "2026-11-05T06:01:30.075Z",
+  "releaseCommit": "b029bf43d159a48bbf2b0ea70140dd3e638cc7d3",
+  "pages": {
+    "id": "30c64f3d-215c-4d88-850d-78a92be762bb",
+    "url": "https://30c64f3d.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "b029bf43d159a48bbf2b0ea70140dd3e638cc7d3"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "ad7e1674-5b4d-482a-ba05-6105f89241c8",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "58a3ea44-7f90-43d1-bc48-ad9e489ae6ec",
+      "percentage": 100
+    }
+  ],
+  "character": {
+    "code": "V-967",
+    "name": "하쿠야 신",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "basePower": 2700000,
+    "balance": "Independent snapshot of current Revan policy; 144 seeded PVE/PVP outcomes match",
+    "skills": [
+      "절광발도",
+      "삼첩관통",
+      "회천검압",
+      "만검낙성"
+    ],
+    "publicAcquisition": false
+  },
+  "illustration": {
+    "sha256": "813d9d05b870848b1c9a0b00345f37720d57354c67a8da368010c72aa0aad604",
+    "userApproved": true,
+    "unaltered": true
+  },
+  "grant": {
+    "status": "VERIFIED",
+    "userId": "1",
+    "nickname": "핑크빛유두",
+    "code": "V-967",
+    "name": "하쿠야 신",
+    "quantityGranted": 1,
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "currentCopies": 1,
+    "auditId": "54468",
+    "completedAt": "2026-11-05T05:59:19.160Z",
+    "acquisitionRecords": 1,
+    "protectedStatePreserved": true
+  },
+  "operationKey": "ops:pingdu-hakuya-shin-grant:20261105:v1",
+  "verification": {
+    "scopedTestsPassed": 45,
+    "publicFiles": 52,
+    "windowsManifestFiles": 45,
+    "assetCount": 20000,
+    "independentReadOnly": true,
+    "noWriteReplay": true,
+    "onlyIntendedRecipient": true,
+    "leasesReleased": true,
+    "localBrowserWidths": [
+      1440,
+      390
+    ],
+    "publicMobileModes": [
+      "PVE",
+      "PVP"
+    ],
+    "physicalDeviceTested": false
+  },
+  "messagesSent": 0,
+  "automaticLoadout": false
+}
