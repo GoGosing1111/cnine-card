@@ -1,0 +1,95 @@
+{
+  "at": "2026-11-05T05:02:34.203Z",
+  "pages": {
+    "id": "03286311-75bc-4cb3-b6d5-7dd4b3c3b006",
+    "url": "https://03286311.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "143f6194371d6aaaacd88391fba3cb3a224602b5"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "5db6ca0d-1506-482c-bf40-9d0f0ef56d78",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "974def85-1eac-4040-aef5-a46a04623ad3",
+      "percentage": 100
+    }
+  ],
+  "catalogIds": [
+    "pickup",
+    "ultimate",
+    "superstar",
+    "mercenary-bloodmoon-ss-limited",
+    "mercenary-blackcrown-ss-limited",
+    "mercenary-reversecall-streamer"
+  ],
+  "hyperHidden": true,
+  "hyperPolicyUnchanged": true,
+  "assets": [
+    {
+      "file": "index.html",
+      "sha256": "d33d17f7fcee29e659d4bdedcea2aae6a0c7d5ef7a05ed40d79e44f558a70c63",
+      "sourceSha256": "d33d17f7fcee29e659d4bdedcea2aae6a0c7d5ef7a05ed40d79e44f558a70c63",
+      "transform": null
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "87f144d8eacff88246a4afca5a38e5eec244ad5249bd424740bc77f195663421",
+      "sourceSha256": "5348d24f3880d8aadc0a0661bdfd0f077817754c1ce6d397bdaa644cd090c9cd",
+      "transform": "existing htmlForStore"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "e034f29d83b37fa11acb49eac1fec1bae53aec2bdee4db7fa4cf449720d99dcd",
+      "sourceSha256": "e034f29d83b37fa11acb49eac1fec1bae53aec2bdee4db7fa4cf449720d99dcd",
+      "transform": null
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "dd086be0374c930b086bc3259728e9aef9fce19d11c5e7e68bdf73245aa53f5c",
+      "sourceSha256": "dd086be0374c930b086bc3259728e9aef9fce19d11c5e7e68bdf73245aa53f5c",
+      "transform": null
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "45938b81477dc8414d511ce3cd3038df5b1711de859d3718aa4e481a7e8bbd3a",
+      "sourceSha256": "45938b81477dc8414d511ce3cd3038df5b1711de859d3718aa4e481a7e8bbd3a",
+      "transform": null
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "13e14f98737e7a1a7ffb75782f294f991e7679a0459ab57ed95ea454dce7b827",
+      "sourceSha256": "13e14f98737e7a1a7ffb75782f294f991e7679a0459ab57ed95ea454dce7b827",
+      "transform": null
+    }
+  ],
+  "windows": {
+    "releaseId": "8aa95ac2d477c58f1db2f06161fce274bac9988b6608dc7434f8e74e1e134bd2",
+    "files": [
+      {
+        "path": "/index.html",
+        "sha256": "d33d17f7fcee29e659d4bdedcea2aae6a0c7d5ef7a05ed40d79e44f558a70c63",
+        "bytes": 49552,
+        "essential": true
+      },
+      {
+        "path": "/js/app.js",
+        "sha256": "e034f29d83b37fa11acb49eac1fec1bae53aec2bdee4db7fa4cf449720d99dcd",
+        "bytes": 804499,
+        "essential": true
+      },
+      {
+        "path": "/shared/onestore-web-assets-v1.mjs",
+        "sha256": "45938b81477dc8414d511ce3cd3038df5b1711de859d3718aa4e481a7e8bbd3a",
+        "bytes": 985,
+        "essential": true
+      }
+    ]
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "assetCount": 20000
+}

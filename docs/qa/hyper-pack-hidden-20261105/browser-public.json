@@ -1,0 +1,25 @@
+{
+  "status": "PASSED",
+  "at": "2026-11-05T05:02:31.341Z",
+  "reports": [
+    {
+      "width": 390,
+      "entry": "/",
+      "initialHidden": true,
+      "directLinkFallback": true,
+      "staleCatalogHidden": true,
+      "otherPackOrder": [
+        "pickup",
+        "ultimate",
+        "superstar",
+        "mercenary-bloodmoon-ss-limited",
+        "mercenary-blackcrown-ss-limited",
+        "mercenary-reversecall-streamer"
+      ],
+      "errors": []
+    }
+  ],
+  "fixture": true,
+  "publicAssets": true,
+  "accountWrites": 0
+}

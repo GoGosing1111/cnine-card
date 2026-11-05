@@ -1,0 +1,57 @@
+{
+  "status": "PASSED",
+  "at": "2026-11-05T04:57:07.578Z",
+  "reports": [
+    {
+      "width": 1440,
+      "entry": "/",
+      "initialHidden": true,
+      "directLinkFallback": true,
+      "staleCatalogHidden": true,
+      "otherPackOrder": [
+        "pickup",
+        "ultimate",
+        "superstar",
+        "mercenary-bloodmoon-ss-limited",
+        "mercenary-blackcrown-ss-limited",
+        "mercenary-reversecall-streamer"
+      ],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "entry": "/",
+      "initialHidden": true,
+      "directLinkFallback": true,
+      "staleCatalogHidden": true,
+      "otherPackOrder": [
+        "pickup",
+        "ultimate",
+        "superstar",
+        "mercenary-bloodmoon-ss-limited",
+        "mercenary-blackcrown-ss-limited",
+        "mercenary-reversecall-streamer"
+      ],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "entry": "/onestore/",
+      "initialHidden": true,
+      "directLinkFallback": true,
+      "staleCatalogHidden": true,
+      "otherPackOrder": [
+        "pickup",
+        "ultimate",
+        "superstar",
+        "mercenary-bloodmoon-ss-limited",
+        "mercenary-blackcrown-ss-limited",
+        "mercenary-reversecall-streamer"
+      ],
+      "errors": []
+    }
+  ],
+  "fixture": true,
+  "publicAssets": false,
+  "accountWrites": 0
+}
