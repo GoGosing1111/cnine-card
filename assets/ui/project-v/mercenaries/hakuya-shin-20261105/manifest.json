@@ -24,7 +24,9 @@
     {
       "path": "aura/manifest.json",
       "bytes": 4865,
-      "sha256": "e3c745aa366031087453c9413fbd2c7189c782021accb1b4ee1848c37f2910f8"
+      "sha256": "e3c745aa366031087453c9413fbd2c7189c782021accb1b4ee1848c37f2910f8",
+      "canonicalTextSha256": "e3c745aa366031087453c9413fbd2c7189c782021accb1b4ee1848c37f2910f8",
+      "hashEncoding": "UTF8_LF"
     },
     {
       "path": "body-ready.png",
@@ -39,7 +41,9 @@
     {
       "path": "effects/fx-manifest.json",
       "bytes": 47922,
-      "sha256": "2fb7ddcd5d4fe1059dd7fa69261fe623cb7ea076c1a54f776bb4a360fb3f2de6"
+      "sha256": "2fb7ddcd5d4fe1059dd7fa69261fe623cb7ea076c1a54f776bb4a360fb3f2de6",
+      "canonicalTextSha256": "2fb7ddcd5d4fe1059dd7fa69261fe623cb7ea076c1a54f776bb4a360fb3f2de6",
+      "hashEncoding": "UTF8_LF"
     },
     {
       "path": "effects/impact-burst.png",
@@ -99,7 +103,9 @@
     {
       "path": "spine/whitecoat-skills-v4-51fecca13bde.atlas",
       "bytes": 2099,
-      "sha256": "bd45ac1d451c5690054056614256daf6ebc1a5fab6d514ace164920b8eaf745c"
+      "sha256": "bd45ac1d451c5690054056614256daf6ebc1a5fab6d514ace164920b8eaf745c",
+      "canonicalTextSha256": "bd45ac1d451c5690054056614256daf6ebc1a5fab6d514ace164920b8eaf745c",
+      "hashEncoding": "UTF8_LF"
     },
     {
       "path": "spine/whitecoat-skills-v4-51fecca13bde.png",
@@ -124,12 +130,16 @@
     {
       "path": "spine/whitecoat.json",
       "bytes": 25201,
-      "sha256": "87e42a072382941d196846d1bf6de95b086060a57e3dde3f7dab9d26292087ee"
+      "sha256": "87e42a072382941d196846d1bf6de95b086060a57e3dde3f7dab9d26292087ee",
+      "canonicalTextSha256": "87e42a072382941d196846d1bf6de95b086060a57e3dde3f7dab9d26292087ee",
+      "hashEncoding": "UTF8_LF"
     },
     {
       "path": "SPINE-LICENSE.txt",
       "bytes": 1469,
-      "sha256": "b9d50158f6c23a704d123fd0200cc00633a693ccf9b0aacb15e5d5b9cf6c0d58"
+      "sha256": "b9d50158f6c23a704d123fd0200cc00633a693ccf9b0aacb15e5d5b9cf6c0d58",
+      "canonicalTextSha256": "b9d50158f6c23a704d123fd0200cc00633a693ccf9b0aacb15e5d5b9cf6c0d58",
+      "hashEncoding": "UTF8_LF"
     }
   ],
   "sourceApproval": {

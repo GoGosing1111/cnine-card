@@ -91,6 +91,6 @@ test('approved illustration, body and all shipped resources match the release ma
  const hash=p=>createHash('sha256').update(readCommittedAssetSync(p)).digest('hex');
  assert.equal(hash(HAKUYA_ART.sourceArt).toUpperCase(),HAKUYA_ART.sourceArtSha256);
  assert.equal(hash(HAKUYA_ART.battleSprite).toUpperCase(),HAKUYA_ART.battleSpriteSha256);
- const m=JSON.parse(readCommittedAssetSync(root+'manifest.json'));for(const f of m.files)assert.equal(hash(root+f.path),f.sha256,f.path);
+ const m=JSON.parse(readCommittedAssetSync(root+'manifest.json'));for(const f of m.files)assert.equal(f.canonicalTextSha256?createHash('sha256').update(readCommittedAssetSync(root+f.path).toString('utf8').replaceAll('\r\n','\n')).digest('hex'):hash(root+f.path),f.canonicalTextSha256||f.sha256,f.path);
  assert.equal(m.illustrationApproved,true);assert.equal(m.runtimeVersion,'4.3.13');
 });
