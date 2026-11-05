@@ -1,0 +1,49 @@
+{
+  "verified": true,
+  "productionWrites": 0,
+  "modelSha256": "8ad25f3b8b971ebd517c0421e5ce969cecde339aae9e2daf51f386ab343c88a6",
+  "session": {
+    "key": "2026-11-05:resumed-1",
+    "dayKey": "2026-11-05",
+    "ordinal": 1,
+    "startsAt": 1793877445722,
+    "endsAt": 1793884645722,
+    "status": "ACTIVE",
+    "reason": "TERRITORY_WAR",
+    "pausedAt": null,
+    "remainingMs": 7200000,
+    "pausedTotalMs": 0,
+    "deferred": true
+  },
+  "schedule": [
+    {
+      "key": "2026-11-05:resumed-1",
+      "dayKey": "2026-11-05",
+      "ordinal": 1,
+      "startsAt": 1793877445722,
+      "endsAt": 1793884645722,
+      "scheduleVersion": "20261105-evening-once",
+      "hardEndsAt": 1793890740000,
+      "status": "ACTIVE",
+      "reason": "TERRITORY_WAR",
+      "plannedStartsAt": 1793866860000,
+      "plannedEndsAt": 1793874060000,
+      "deferred": true
+    }
+  ],
+  "settlements": 0,
+  "protected": [
+    "districts",
+    "formations",
+    "captains",
+    "elders",
+    "commanders",
+    "sessionHistory",
+    "resumption"
+  ],
+  "newRegressionTests": {
+    "passed": 5,
+    "failed": 0
+  },
+  "checkedAt": "2026-11-05T11:21:41.600Z"
+}

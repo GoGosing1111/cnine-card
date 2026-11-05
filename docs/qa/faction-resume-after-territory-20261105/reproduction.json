@@ -1,0 +1,43 @@
+{
+  "reproduced": true,
+  "at": "2026-11-05 20:17:25",
+  "evidenceSha256": "45616d4f11dd5946ceca6a9bd545ab70ee75299cf6d004e20fa262dfc592eb96",
+  "roundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+  "territory": {
+    "id": "94",
+    "status": "FINISHED",
+    "starts_at": "2026-11-05T08:06:26.057Z",
+    "ends_at": "2026-11-06T04:06:26.057Z",
+    "settled_at": "2026-11-05 11:00:54"
+  },
+  "session": {
+    "key": "2026-11-04:resumed-1",
+    "dayKey": "2026-11-04",
+    "ordinal": 1,
+    "startsAt": 1793731500000,
+    "endsAt": 1793742300000,
+    "status": "SETTLED",
+    "reason": "SESSION_END",
+    "pausedAt": null,
+    "remainingMs": 0,
+    "pausedTotalMs": 0,
+    "deferred": false
+  },
+  "schedule": [
+    {
+      "key": "2026-11-05:resumed-1",
+      "dayKey": "2026-11-05",
+      "ordinal": 1,
+      "startsAt": 1793866860000,
+      "endsAt": 1793874060000,
+      "scheduleVersion": "20261105-evening-once",
+      "hardEndsAt": 1793890740000,
+      "status": "SKIPPED",
+      "reason": "TERRITORY_WAR"
+    }
+  ],
+  "queue": [],
+  "active": false,
+  "state": "CLOSED",
+  "settlements": 0
+}

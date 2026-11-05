@@ -1,0 +1,27 @@
+{
+  "at": "2026-11-05T11:26:50.923Z",
+  "pages": {
+    "id": "0a4d9b99-3651-4869-9392-62de8c92eb31",
+    "url": "https://0a4d9b99.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "b986e6bba4eb07002d4640fbdbe282e82a845020"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "8afe8c1e-9abf-41eb-ba14-e11cb76d0666",
+      "percentage": 100,
+      "fixPresent": true,
+      "sourceSha256": "25a944a3e91bbdf2532c941d2d5b609207a9c984f1d91cb14cfe11dd6e95fbb0"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "bd09efc5-8abc-49ca-93d3-fe4703a9e13c",
+      "percentage": 100,
+      "fixPresent": true,
+      "sourceSha256": "3f2c0f3ba4f978c49f28cb3bcdfecd900b1736692d5b941317e974e323c80528"
+    }
+  ],
+  "assetCount": 20000,
+  "productionDatabaseChanges": "normal faction scheduler only"
+}

@@ -1,0 +1,56 @@
+{
+  "ready": true,
+  "readOnly": true,
+  "checkedAt": "2026-11-05T11:25:30.929Z",
+  "clock": {
+    "now": "2026-11-05T11:25:29.695Z",
+    "kst": "2026-11-05 20:25:29"
+  },
+  "roundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+  "revision": 17116,
+  "sessionKey": "2026-11-05:resumed-1",
+  "status": "ACTIVE",
+  "startsAt": 1793877902799,
+  "endsAt": 1793885102799,
+  "startsAtKST": "2026-11-05 20:25:02",
+  "endsAtKST": "2026-11-05 22:25:02",
+  "durationMs": 7200000,
+  "hardEndsAt": 1793890740000,
+  "rewardRules": {
+    "version": "20261105-evening-once",
+    "timeZone": "Asia/Seoul",
+    "dailyCount": 1,
+    "durationMs": 7200000,
+    "requiredTerritories": 4,
+    "coinPerRecipient": 5000000000000,
+    "masterStarsPerRecipient": 50000000,
+    "mysticEnergyPerRecipient": 300,
+    "pointsPerSession": 1,
+    "regularSeasonId": 9,
+    "resumedAt": 1792913659898,
+    "startMinute": 960,
+    "endMinute": 1439,
+    "pigCoinReward": {
+      "enabled": true,
+      "requiredTerritories": 4,
+      "amount": 200
+    }
+  },
+  "originalSchedulePreserved": true,
+  "priorHistoryPreserved": true,
+  "noPrematureRewards": true,
+  "previousTerritoryPayoutPreserved": true,
+  "publicTicker": {
+    "kind": "ORGANIZATION_FACTION",
+    "phase": "ACTIVE",
+    "entityId": "2026-11-05:resumed-1",
+    "roundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+    "title": "서울 세력전",
+    "detail": "서울 25개 구 · 종료 시 4곳 이상 점령 보상",
+    "startedAt": "2026-11-05T11:25:02.799Z",
+    "deadlineAt": "2026-11-05T13:25:02.799Z",
+    "requiredTerritories": 4,
+    "sortOrder": 0
+  },
+  "publicServerNow": "2026-11-05T11:25:30.911Z"
+}

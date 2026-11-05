@@ -1,0 +1,80 @@
+{
+  "status": "LIVE_COMPLETED",
+  "source": "b986e6bba4eb07002d4640fbdbe282e82a845020",
+  "pages": {
+    "id": "0a4d9b99-3651-4869-9392-62de8c92eb31",
+    "url": "https://0a4d9b99.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "b986e6bba4eb07002d4640fbdbe282e82a845020"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "8afe8c1e-9abf-41eb-ba14-e11cb76d0666",
+      "percentage": 100,
+      "fixPresent": true,
+      "sourceSha256": "25a944a3e91bbdf2532c941d2d5b609207a9c984f1d91cb14cfe11dd6e95fbb0"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "bd09efc5-8abc-49ca-93d3-fe4703a9e13c",
+      "percentage": 100,
+      "fixPresent": true,
+      "sourceSha256": "3f2c0f3ba4f978c49f28cb3bcdfecd900b1736692d5b941317e974e323c80528"
+    }
+  ],
+  "sessionKey": "2026-11-05:resumed-1",
+  "roundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+  "startsAtKST": "2026-11-05 20:25:02",
+  "endsAtKST": "2026-11-05 22:25:02",
+  "durationMs": 7200000,
+  "verifiedAt": "2026-11-05T11:25:30.929Z",
+  "publicTicker": {
+    "kind": "ORGANIZATION_FACTION",
+    "phase": "ACTIVE",
+    "entityId": "2026-11-05:resumed-1",
+    "roundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+    "title": "서울 세력전",
+    "detail": "서울 25개 구 · 종료 시 4곳 이상 점령 보상",
+    "startedAt": "2026-11-05T11:25:02.799Z",
+    "deadlineAt": "2026-11-05T13:25:02.799Z",
+    "requiredTerritories": 4,
+    "sortOrder": 0
+  },
+  "cause": "Evening slot incorrectly persisted as SKIPPED/TERRITORY_WAR when territory war overlapped opening; ended war could not reopen it.",
+  "fix": "Same-day unstarted evening slots defer until territory finishes. Existing wrongly skipped slot recovers only with matching published schedule, overlapping territory history, no session/history and before hard deadline.",
+  "tests": {
+    "new": 5,
+    "existing": 10,
+    "worker": true
+  },
+  "originalSchedulePreserved": true,
+  "oldHistoryPreserved": true,
+  "mapAndFormationPreservedInProductionSnapshotModel": true,
+  "rewardsUnchanged": {
+    "version": "20261105-evening-once",
+    "timeZone": "Asia/Seoul",
+    "dailyCount": 1,
+    "durationMs": 7200000,
+    "requiredTerritories": 4,
+    "coinPerRecipient": 5000000000000,
+    "masterStarsPerRecipient": 50000000,
+    "mysticEnergyPerRecipient": 300,
+    "pointsPerSession": 1,
+    "regularSeasonId": 9,
+    "resumedAt": 1792913659898,
+    "startMinute": 960,
+    "endMinute": 1439,
+    "pigCoinReward": {
+      "enabled": true,
+      "requiredTerritories": 4,
+      "amount": 200
+    }
+  },
+  "previousTerritoryPayoutPreserved": true,
+  "directDatabaseWrites": 0,
+  "manualMessages": 0,
+  "noticePublished": false,
+  "assetCount": 20000,
+  "evidenceDirectory": "/C:/Users/User/Downloads/upload/cnine-card/operations/faction-resume-after-territory-20261105/"
+}
