@@ -1,0 +1,116 @@
+{
+  "at": "2026-11-06T09:19:15.897Z",
+  "card": {
+    "code": "V-966",
+    "name": "헬리오스 킹",
+    "title": "황금 왕권",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "role": "VANGUARD",
+    "position": "FRONT",
+    "artOnly": false,
+    "releaseStatus": "BATTLE_RELEASED_ACQUISITION_LOCKED",
+    "acquisition": "LOCKED",
+    "sourceArt": "assets/ui/project-v/mercenaries/helios-king-20261106/source-art-approved.png",
+    "thumbnailArt": "assets/ui/project-v/mercenaries/helios-king-20261106/source-art-approved.png",
+    "sourceArtSha256": "401bf907f1cfb1913eab358148ec9d2847bfaf46b65c00488c57efd23058253c",
+    "battleSprite": "assets/ui/project-v/mercenaries/helios-king-20261106/body-ready.png",
+    "battleSpriteSha256": "0504137f044cf3df1d303ea8bd9c1e10dd15c0efc0783579b96e1f93a426cb91",
+    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+    "artWindow": {
+      "left": 5.957,
+      "top": 5.794,
+      "width": 88.086,
+      "height": 88.086
+    },
+    "accent": "#ffd46a",
+    "basePower": 3500000,
+    "skills": [
+      {
+        "id": "MS-905",
+        "name": "왕검 사출",
+        "visualMode": "royal_swords",
+        "mechanic": "HELIOS_KING_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.65,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "황금 보검 여섯 자루를 사출해 적 하나에 165% 일반 공격을 한 번 적용합니다.",
+        "trigger": "일반 공격 · 왕검 사출 → 천창 관통 순환",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "대상당 한 번 적용 · 소환 무기 수는 피해 횟수를 늘리지 않습니다."
+      },
+      {
+        "id": "MS-906",
+        "name": "천창 관통",
+        "visualMode": "sovereign_lance",
+        "mechanic": "HELIOS_KING_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.65,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "거대한 황금 창으로 적 하나에 165% 일반 공격을 한 번 적용합니다.",
+        "trigger": "일반 공격 · 왕검 사출 → 천창 관통 순환",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "대상당 한 번 적용 · 소환 무기 수는 피해 횟수를 늘리지 않습니다."
+      },
+      {
+        "id": "MS-907",
+        "name": "왕의 군세",
+        "visualMode": "kings_arsenal",
+        "damageCapScale": 2.5,
+        "mechanic": "HELIOS_KING_ROYAL_ARSENAL",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "version": 1,
+          "cooldownTurns": 3,
+          "cost": 20,
+          "damageRatio": 37.8
+        },
+        "ready": true,
+        "effect": "왕의 무기고를 열어 총 3,780% 피해를 적 전체에 나누어 적용합니다.",
+        "trigger": "PVE · 에너지 20 · 광역기 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "대상당 한 번 적용 · 소환 무기 수는 피해 횟수를 늘리지 않습니다."
+      },
+      {
+        "id": "MS-908",
+        "name": "천검 강림",
+        "visualMode": "heavenly_descent",
+        "damageCapScale": 3,
+        "mechanic": "HELIOS_KING_ROYAL_ARSENAL",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "version": 1,
+          "cooldownTurns": 3,
+          "cost": 20,
+          "damageRatio": 45.36
+        },
+        "ready": true,
+        "effect": "거대 심판검을 낙하시켜 총 4,536% 피해를 적 전체에 나누어 적용합니다.",
+        "trigger": "PVE · 에너지 20 · 광역기 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "대상당 한 번 적용 · 소환 무기 수는 피해 횟수를 늘리지 않습니다."
+      }
+    ],
+    "acquisitionEnabled": false,
+    "packAcquisitionEnabled": false,
+    "craftAcquisitionEnabled": false,
+    "deploymentEnabled": true,
+    "combatLinkDescription": "기본 전투력 3,500,000. 프라임 레퀴엠보다 공격·체력·방어·연계 예산이 16.67% 높습니다. 왕검 사출·천창 관통은 165% 일반 공격으로 순환합니다. 왕의 군세는 총 3,780%, 천검 강림은 총 4,536% 피해를 생존한 적에게 나누어 대상당 한 번 적용합니다. PVE 광역기 두 개가 에너지 20·재사용 3행동을 공유합니다. 개인 피해 80% 경감·상태이상·반격 보호·행동 3.12배. PVP는 일반 공격을 사용하며 프라임의 공격 30%·체력/방벽 500% 보정과 제너럴 족 상대 우위 정책을 계승합니다. 운영자 지정 지급 전용. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 4배). 고레벨 성장과 마지막 돌파도 이 배율에 반영됩니다. 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다. PVP 성장 전투는 C·B·A·S·SS·SSS·SSS 리미티드 순으로 등급 우위를 적용합니다. SS 리미티드는 기존 일반 SSS 전투 등급을 유지합니다. 상대 전원의 등급보다 높으면 같은 레벨 기준 단계당 공격·피해 상한 +100%, 체력·방벽 +500%의 추가 보정을 적용합니다. 상위 등급의 레벨이 낮으면 1레벨 차이마다 이 추가 보정과 성장 격차 보완을 10%씩 줄이며, 10레벨 이상 뒤처지면 적용하지 않습니다. 상위 등급을 향한 경감 관통·행동 대응의 등급 감쇠도 같은 비율로 줄어 10레벨 이상 높은 용병은 배운 숙련을 온전히 사용합니다. 원래 레벨 능력치·평타 성장·추가 행동 숙련은 유지합니다. 듀오는 상대 최고 등급과 가장 큰 레벨 격차를 기준으로 하며, 같은 전투 등급·PVE·기존 개별 용병 상성 정책은 유지합니다."
+  }
+}

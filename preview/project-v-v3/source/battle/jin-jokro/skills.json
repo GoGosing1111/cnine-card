@@ -1,0 +1,327 @@
+{
+  "iaido": {
+    "name": "흑뢰발도",
+    "area": false,
+    "duration": 0.86,
+    "contact": 0.29,
+    "visualContacts": [
+      0.29
+    ],
+    "keys": [
+      [
+        0,
+        "guard"
+      ],
+      [
+        0.065,
+        "iaido_ready"
+      ],
+      [
+        0.18,
+        "iaido_draw"
+      ],
+      [
+        0.27,
+        "iaido_cut"
+      ],
+      [
+        0.48,
+        "iaido_recover"
+      ],
+      [
+        0.76,
+        "guard"
+      ]
+    ],
+    "travel": {
+      "depart": 0.15,
+      "arrive": 0.28,
+      "leave": 0.58,
+      "home": 0.84
+    },
+    "standoff": 240
+  },
+  "cross": {
+    "name": "적섬연참",
+    "area": false,
+    "duration": 1.02,
+    "contact": 0.5,
+    "visualContacts": [
+      0.3,
+      0.5
+    ],
+    "keys": [
+      [
+        0,
+        "guard"
+      ],
+      [
+        0.08,
+        "cross_0"
+      ],
+      [
+        0.22,
+        "cross_1"
+      ],
+      [
+        0.38,
+        "cross_2"
+      ],
+      [
+        0.5,
+        "cross_3"
+      ],
+      [
+        0.75,
+        "iaido_recover"
+      ],
+      [
+        0.96,
+        "guard"
+      ]
+    ],
+    "travel": {
+      "depart": 0.12,
+      "arrive": 0.27,
+      "leave": 0.72,
+      "home": 1
+    },
+    "standoff": 210
+  },
+  "thrust": {
+    "name": "섬광관통",
+    "area": false,
+    "duration": 0.94,
+    "contact": 0.34,
+    "visualContacts": [
+      0.34
+    ],
+    "keys": [
+      [
+        0,
+        "guard"
+      ],
+      [
+        0.07,
+        "thrust_0"
+      ],
+      [
+        0.18,
+        "thrust_1"
+      ],
+      [
+        0.3,
+        "thrust_2"
+      ],
+      [
+        0.53,
+        "thrust_3"
+      ],
+      [
+        0.85,
+        "guard"
+      ]
+    ],
+    "travel": {
+      "depart": 0.17,
+      "arrive": 0.33,
+      "leave": 0.64,
+      "home": 0.91
+    },
+    "standoff": 300
+  },
+  "eclipse": {
+    "name": "흑천일섬",
+    "area": true,
+    "duration": 1.32,
+    "contact": 0.55,
+    "visualContacts": [
+      0.55
+    ],
+    "keys": [
+      [
+        0,
+        "guard"
+      ],
+      [
+        0.1,
+        "cross_0"
+      ],
+      [
+        0.3,
+        "eclipse_1"
+      ],
+      [
+        0.48,
+        "eclipse_2"
+      ],
+      [
+        0.76,
+        "eclipse_3"
+      ],
+      [
+        1.2,
+        "guard"
+      ]
+    ],
+    "travel": {
+      "depart": 0.2,
+      "arrive": 0.48,
+      "leave": 0.93,
+      "home": 1.29
+    },
+    "standoff": 275
+  },
+  "storm": {
+    "name": "비검오의 · 흑천단절",
+    "area": true,
+    "ultimate": true,
+    "duration": 3.2,
+    "contact": 1.08,
+    "hitstop": 0.09,
+    "visualContacts": [
+      0.88,
+      1.08
+    ],
+    "keys": [
+      [
+        0,
+        "guard"
+      ],
+      [
+        0.12,
+        "iaido_ready"
+      ],
+      [
+        0.52,
+        "iaido_draw"
+      ],
+      [
+        0.73,
+        "iaido_cut"
+      ],
+      [
+        0.95,
+        "iaido_cut"
+      ],
+      [
+        1.14,
+        "iaido_recover"
+      ],
+      [
+        2.34,
+        "iaido_recover"
+      ],
+      [
+        2.82,
+        "guard"
+      ]
+    ],
+    "travel": {
+      "depart": 0.62,
+      "arrive": 0.98,
+      "leave": 2.55,
+      "home": 3.15
+    },
+    "standoff": 180,
+    "route": "severance"
+  },
+  "descent": {
+    "name": "삼도오의 · 무간참옥",
+    "area": true,
+    "ultimate": true,
+    "duration": 4.35,
+    "contact": 2.75,
+    "hitstop": 0.12,
+    "visualContacts": [
+      0.67,
+      1.06,
+      1.52,
+      1.94,
+      2.75
+    ],
+    "keys": [
+      [
+        0,
+        "guard"
+      ],
+      [
+        0.1,
+        "storm_0"
+      ],
+      [
+        0.34,
+        "cross_0"
+      ],
+      [
+        0.57,
+        "cross_1"
+      ],
+      [
+        0.82,
+        "cross_2"
+      ],
+      [
+        1.02,
+        "cross_3"
+      ],
+      [
+        1.25,
+        "storm_1"
+      ],
+      [
+        1.46,
+        "storm_2"
+      ],
+      [
+        1.7,
+        "thrust_2"
+      ],
+      [
+        1.9,
+        "storm_3"
+      ],
+      [
+        2.12,
+        "descent_0"
+      ],
+      [
+        2.32,
+        "descent_1"
+      ],
+      [
+        2.56,
+        "descent_2"
+      ],
+      [
+        2.72,
+        "descent_3"
+      ],
+      [
+        2.96,
+        "eclipse_3"
+      ],
+      [
+        3.22,
+        "iaido_recover"
+      ],
+      [
+        4.12,
+        "guard"
+      ]
+    ],
+    "travel": {
+      "depart": 0.43,
+      "arrive": 0.67,
+      "leave": 3.8,
+      "home": 4.3
+    },
+    "jump": {
+      "start": 2.12,
+      "end": 2.75,
+      "height": 290
+    },
+    "standoff": 200,
+    "route": "trinity"
+  }
+}
