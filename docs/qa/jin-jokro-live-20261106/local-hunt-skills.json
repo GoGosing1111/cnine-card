@@ -1,0 +1,1999 @@
+{
+  "ok": true,
+  "reports": [
+    {
+      "width": 390,
+      "field": "HUNT",
+      "setup": {
+        "canvas": 1,
+        "states": [
+          {
+            "id": "A:MERCENARY:V-959",
+            "team": "ALLY",
+            "facing": 1,
+            "autoUpdate": false,
+            "aura": {
+              "time": 0.0169,
+              "visible": true,
+              "frontVisible": true,
+              "outline": true,
+              "body": {
+                "head": {
+                  "x": 19.44239362601752,
+                  "y": -274.6802
+                },
+                "feet": {
+                  "x": -5.538825120659624,
+                  "y": -5.199700000000007
+                },
+                "center": {
+                  "x": 6.951784252678948,
+                  "y": -145.93995
+                },
+                "width": 290,
+                "height": 317.4805
+              },
+              "weapons": {
+                "front": {
+                  "grip": {
+                    "x": -50.18850344142595,
+                    "y": -148.3046999999999
+                  },
+                  "tip": {
+                    "x": 36.397949234072485,
+                    "y": -33.006849999999986
+                  },
+                  "start": {
+                    "x": -45.426248544273534,
+                    "y": -141.96331824999993
+                  },
+                  "length": 144.19017997613017,
+                  "angle": 0.9266679065831355
+                },
+                "rear": {
+                  "grip": {
+                    "x": 62.622546516605325,
+                    "y": -150.11329999999998
+                  },
+                  "tip": {
+                    "x": 128.6362480432134,
+                    "y": -84.32569999999987
+                  },
+                  "start": {
+                    "x": 66.25330010056877,
+                    "y": -146.49498199999996
+                  },
+                  "length": 93.19773121167763,
+                  "angle": 0.7836826924408227
+                },
+                "mouth": {
+                  "grip": {
+                    "x": 30.746093898814365,
+                    "y": -262.9242999999999
+                  },
+                  "tip": {
+                    "x": 121.17579434997617,
+                    "y": -243.4819500000001
+                  },
+                  "start": {
+                    "x": 35.719727423628264,
+                    "y": -261.8549707499999
+                  },
+                  "length": 92.49613882324681,
+                  "angle": 0.2117757837693629
+                }
+              },
+              "coverage": {
+                "crownWidth": 1.8,
+                "crownHeight": 1.38,
+                "dischargeWidth": 2.65,
+                "dischargeHeight": 1.58,
+                "groundWidth": 1.72,
+                "wrapWidth": 1.58
+              },
+              "frames": {
+                "discharge": 4,
+                "discharge-light": 4,
+                "crown": 0,
+                "ground": 17,
+                "wrap": 8,
+                "blade-front": 0,
+                "blade-rear": 12,
+                "blade-mouth": 23
+              },
+              "layers": {
+                "discharge": {
+                  "x": 6.951784252678948,
+                  "y": -231.085978174018,
+                  "width": 769.95581415748,
+                  "height": 502.569436348036,
+                  "angle": 0,
+                  "alpha": 0.8675774321794659,
+                  "mirror": 1
+                },
+                "discharge-light": {
+                  "x": 6.951784252678948,
+                  "y": -231.085978174018,
+                  "width": 769.95581415748,
+                  "height": 502.569436348036,
+                  "angle": 0,
+                  "alpha": 0.3730582958371703,
+                  "mirror": 1
+                },
+                "crown": {
+                  "x": 6.951784252678948,
+                  "y": -199.27778600009165,
+                  "width": 522.9888548994203,
+                  "height": 438.9530520001833,
+                  "angle": 0,
+                  "alpha": 0.98,
+                  "mirror": 1
+                },
+                "ground": {
+                  "x": -5.538825120659624,
+                  "y": -8.699700000000007,
+                  "width": 498.8,
+                  "height": 80,
+                  "angle": 0,
+                  "alpha": 0.84,
+                  "mirror": -1
+                },
+                "wrap": {
+                  "x": 6.951784252678948,
+                  "y": -79.269045,
+                  "width": 458.20000000000005,
+                  "height": 87.5,
+                  "angle": -0.08,
+                  "alpha": 0.88,
+                  "mirror": 1
+                },
+                "blade-front": {
+                  "x": -4.514149655100525,
+                  "y": -87.48508412499996,
+                  "width": 136.259720077443,
+                  "height": 17.30282159713562,
+                  "angle": 0.9266679065831355,
+                  "alpha": 0.96,
+                  "mirror": 1
+                },
+                "blade-rear": {
+                  "x": 97.44477407189109,
+                  "y": -115.41034099999992,
+                  "width": 88.07185599503536,
+                  "height": 11.183727745401315,
+                  "angle": 0.7836826924408227,
+                  "alpha": 0.96,
+                  "mirror": 1
+                },
+                "blade-mouth": {
+                  "x": 78.44776088680221,
+                  "y": -252.668460375,
+                  "width": 87.40885118796822,
+                  "height": 11.099536658789617,
+                  "angle": 0.2117757837693629,
+                  "alpha": 0.96,
+                  "mirror": 1
+                }
+              },
+              "root": [
+                159.00000000000003,
+                309.1111111111111
+              ],
+              "behindBody": true,
+              "inFrontOfBody": true,
+              "clock": "V3_REGISTERED_GSAP",
+              "native": "Effekseer 1.70e",
+              "destroyed": false
+            },
+            "bodyVisible": false
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "side": "ALLY",
+          "action": "iaido",
+          "last": {
+            "code": "V-959",
+            "mode": "iaido",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "targetCount": 1,
+            "contactSeconds": 0.29,
+            "durationSeconds": 0.86,
+            "hitstopSeconds": 0.045,
+            "combatRate": 1.5,
+            "wholePoseAttachments": true,
+            "authoritative": true,
+            "effectTool": "Effekseer 1.70e",
+            "production": true
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL"
+          ],
+          "samples": [
+            {
+              "time": 0.04485,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.0819,
+              "pose": "iaido_ready",
+              "active": 2
+            },
+            {
+              "time": 0.12285,
+              "pose": "iaido_ready",
+              "active": 2
+            },
+            {
+              "time": 0.1638,
+              "pose": "iaido_ready",
+              "active": 2
+            },
+            {
+              "time": 0.22035,
+              "pose": "iaido_draw",
+              "active": 3
+            },
+            {
+              "time": 0.23595,
+              "pose": "iaido_draw",
+              "active": 3
+            },
+            {
+              "time": 0.2769,
+              "pose": "iaido_cut",
+              "active": 3
+            },
+            {
+              "time": 0.29,
+              "pose": "iaido_cut",
+              "active": 5
+            },
+            {
+              "time": 0.3138,
+              "pose": "iaido_cut",
+              "active": 5
+            },
+            {
+              "time": 0.35475,
+              "pose": "iaido_cut",
+              "active": 5
+            },
+            {
+              "time": 0.38595,
+              "pose": "iaido_cut",
+              "active": 5
+            },
+            {
+              "time": 0.4269,
+              "pose": "iaido_cut",
+              "active": 5
+            },
+            {
+              "time": 0.46785,
+              "pose": "iaido_cut",
+              "active": 3
+            },
+            {
+              "time": 0.5088,
+              "pose": "iaido_recover",
+              "active": 3
+            },
+            {
+              "time": 0.54195,
+              "pose": "iaido_recover",
+              "active": 2
+            },
+            {
+              "time": 0.5829,
+              "pose": "iaido_recover",
+              "active": 2
+            },
+            {
+              "time": 0.6219,
+              "pose": "iaido_recover",
+              "active": 2
+            },
+            {
+              "time": 0.66285,
+              "pose": "iaido_recover",
+              "active": 2
+            },
+            {
+              "time": 0.7038,
+              "pose": "iaido_recover",
+              "active": 2
+            },
+            {
+              "time": 0.74475,
+              "pose": "iaido_recover",
+              "active": 1
+            },
+            {
+              "time": 0.7779,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.8169,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.85785,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 520.3636363636364,
+            "y": 1011.6363636363635
+          },
+          "end": {
+            "x": 520.3636363636364,
+            "y": 1011.6363636363635
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "cross",
+          "last": {
+            "code": "V-959",
+            "mode": "cross",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "targetCount": 1,
+            "contactSeconds": 0.5,
+            "durationSeconds": 1.02,
+            "hitstopSeconds": 0.045,
+            "combatRate": 1.5,
+            "wholePoseAttachments": true,
+            "authoritative": true,
+            "effectTool": "Effekseer 1.70e",
+            "production": true
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL"
+          ],
+          "samples": [
+            {
+              "time": 0.04095,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.0819,
+              "pose": "cross_0",
+              "active": 2
+            },
+            {
+              "time": 0.12285,
+              "pose": "cross_0",
+              "active": 2
+            },
+            {
+              "time": 0.1638,
+              "pose": "cross_0",
+              "active": 2
+            },
+            {
+              "time": 0.19695,
+              "pose": "cross_0",
+              "active": 2
+            },
+            {
+              "time": 0.23595,
+              "pose": "cross_1",
+              "active": 3
+            },
+            {
+              "time": 0.2769,
+              "pose": "cross_1",
+              "active": 3
+            },
+            {
+              "time": 0.31785,
+              "pose": "cross_1",
+              "active": 3
+            },
+            {
+              "time": 0.3588,
+              "pose": "cross_1",
+              "active": 3
+            },
+            {
+              "time": 0.39,
+              "pose": "cross_2",
+              "active": 3
+            },
+            {
+              "time": 0.43095,
+              "pose": "cross_2",
+              "active": 3
+            },
+            {
+              "time": 0.4719,
+              "pose": "cross_2",
+              "active": 1
+            },
+            {
+              "time": 0.5,
+              "pose": "cross_3",
+              "active": 3
+            },
+            {
+              "time": 0.5088,
+              "pose": "cross_3",
+              "active": 3
+            },
+            {
+              "time": 0.54975,
+              "pose": "cross_3",
+              "active": 3
+            },
+            {
+              "time": 0.58095,
+              "pose": "cross_3",
+              "active": 3
+            },
+            {
+              "time": 0.6219,
+              "pose": "cross_3",
+              "active": 3
+            },
+            {
+              "time": 0.66285,
+              "pose": "cross_3",
+              "active": 3
+            },
+            {
+              "time": 0.7038,
+              "pose": "cross_3",
+              "active": 3
+            },
+            {
+              "time": 0.73695,
+              "pose": "cross_3",
+              "active": 2
+            },
+            {
+              "time": 0.77595,
+              "pose": "iaido_recover",
+              "active": 2
+            },
+            {
+              "time": 0.8169,
+              "pose": "iaido_recover",
+              "active": 2
+            },
+            {
+              "time": 0.85785,
+              "pose": "iaido_recover",
+              "active": 2
+            },
+            {
+              "time": 0.8988,
+              "pose": "iaido_recover",
+              "active": 2
+            },
+            {
+              "time": 0.93975,
+              "pose": "iaido_recover",
+              "active": 2
+            },
+            {
+              "time": 0.97095,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 1.0119,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 520.3636363636364,
+            "y": 1011.6363636363635
+          },
+          "end": {
+            "x": 520.3636363636364,
+            "y": 1011.6363636363635
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "thrust",
+          "last": {
+            "code": "V-959",
+            "mode": "thrust",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "targetCount": 1,
+            "contactSeconds": 0.34,
+            "durationSeconds": 0.94,
+            "hitstopSeconds": 0.045,
+            "combatRate": 1.5,
+            "wholePoseAttachments": true,
+            "authoritative": true,
+            "effectTool": "Effekseer 1.70e",
+            "production": true
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL"
+          ],
+          "samples": [
+            {
+              "time": 0.039,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.07995,
+              "pose": "thrust_0",
+              "active": 1
+            },
+            {
+              "time": 0.1209,
+              "pose": "thrust_0",
+              "active": 2
+            },
+            {
+              "time": 0.15405,
+              "pose": "thrust_0",
+              "active": 2
+            },
+            {
+              "time": 0.2028,
+              "pose": "thrust_1",
+              "active": 2
+            },
+            {
+              "time": 0.234,
+              "pose": "thrust_1",
+              "active": 3
+            },
+            {
+              "time": 0.273,
+              "pose": "thrust_1",
+              "active": 3
+            },
+            {
+              "time": 0.3159,
+              "pose": "thrust_2",
+              "active": 3
+            },
+            {
+              "time": 0.34,
+              "pose": "thrust_2",
+              "active": 5
+            },
+            {
+              "time": 0.34695,
+              "pose": "thrust_2",
+              "active": 5
+            },
+            {
+              "time": 0.37815,
+              "pose": "thrust_2",
+              "active": 5
+            },
+            {
+              "time": 0.42495,
+              "pose": "thrust_2",
+              "active": 5
+            },
+            {
+              "time": 0.4659,
+              "pose": "thrust_2",
+              "active": 3
+            },
+            {
+              "time": 0.50685,
+              "pose": "thrust_2",
+              "active": 3
+            },
+            {
+              "time": 0.5322,
+              "pose": "thrust_3",
+              "active": 3
+            },
+            {
+              "time": 0.58095,
+              "pose": "thrust_3",
+              "active": 2
+            },
+            {
+              "time": 0.61995,
+              "pose": "thrust_3",
+              "active": 2
+            },
+            {
+              "time": 0.6609,
+              "pose": "thrust_3",
+              "active": 2
+            },
+            {
+              "time": 0.69405,
+              "pose": "thrust_3",
+              "active": 2
+            },
+            {
+              "time": 0.735,
+              "pose": "thrust_3",
+              "active": 2
+            },
+            {
+              "time": 0.774,
+              "pose": "thrust_3",
+              "active": 2
+            },
+            {
+              "time": 0.81495,
+              "pose": "thrust_3",
+              "active": 1
+            },
+            {
+              "time": 0.8559,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.89685,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.93,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 520.3636363636364,
+            "y": 1011.6363636363635
+          },
+          "end": {
+            "x": 520.3636363636364,
+            "y": 1011.6363636363635
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "eclipse",
+          "last": {
+            "code": "V-959",
+            "mode": "eclipse",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 12,
+            "targetCount": 12,
+            "contactSeconds": 0.55,
+            "durationSeconds": 1.32,
+            "hitstopSeconds": 0.065,
+            "combatRate": 1.5,
+            "wholePoseAttachments": true,
+            "authoritative": true,
+            "effectTool": "Effekseer 1.70e",
+            "production": true
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL",
+            "B:1:ENCOUNTER:INITIAL",
+            "B:2:ENCOUNTER:INITIAL",
+            "B:3:ENCOUNTER:INITIAL",
+            "B:4:ENCOUNTER:INITIAL",
+            "B:5:ENCOUNTER:INITIAL",
+            "B:6:ENCOUNTER:INITIAL",
+            "B:7:ENCOUNTER:INITIAL",
+            "B:8:ENCOUNTER:INITIAL",
+            "B:9:ENCOUNTER:INITIAL",
+            "B:10:ENCOUNTER:INITIAL",
+            "B:11:ENCOUNTER:INITIAL"
+          ],
+          "samples": [
+            {
+              "time": 0.04095,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.0819,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.12285,
+              "pose": "cross_0",
+              "active": 2
+            },
+            {
+              "time": 0.1638,
+              "pose": "cross_0",
+              "active": 2
+            },
+            {
+              "time": 0.195,
+              "pose": "cross_0",
+              "active": 2
+            },
+            {
+              "time": 0.23595,
+              "pose": "cross_0",
+              "active": 2
+            },
+            {
+              "time": 0.2769,
+              "pose": "cross_0",
+              "active": 3
+            },
+            {
+              "time": 0.31785,
+              "pose": "eclipse_1",
+              "active": 3
+            },
+            {
+              "time": 0.34905,
+              "pose": "eclipse_1",
+              "active": 3
+            },
+            {
+              "time": 0.39,
+              "pose": "eclipse_1",
+              "active": 3
+            },
+            {
+              "time": 0.43095,
+              "pose": "eclipse_1",
+              "active": 3
+            },
+            {
+              "time": 0.4719,
+              "pose": "eclipse_1",
+              "active": 1
+            },
+            {
+              "time": 0.51285,
+              "pose": "eclipse_2",
+              "active": 1
+            },
+            {
+              "time": 0.54405,
+              "pose": "eclipse_2",
+              "active": 1
+            },
+            {
+              "time": 0.55,
+              "pose": "eclipse_2",
+              "active": 25
+            },
+            {
+              "time": 0.56095,
+              "pose": "eclipse_2",
+              "active": 25
+            },
+            {
+              "time": 0.5941,
+              "pose": "eclipse_2",
+              "active": 25
+            },
+            {
+              "time": 0.64285,
+              "pose": "eclipse_2",
+              "active": 25
+            },
+            {
+              "time": 0.67015,
+              "pose": "eclipse_2",
+              "active": 25
+            },
+            {
+              "time": 0.715,
+              "pose": "eclipse_2",
+              "active": 25
+            },
+            {
+              "time": 0.75595,
+              "pose": "eclipse_2",
+              "active": 25
+            },
+            {
+              "time": 0.7969,
+              "pose": "eclipse_3",
+              "active": 24
+            },
+            {
+              "time": 0.83785,
+              "pose": "eclipse_3",
+              "active": 24
+            },
+            {
+              "time": 0.86905,
+              "pose": "eclipse_3",
+              "active": 24
+            },
+            {
+              "time": 0.91,
+              "pose": "eclipse_3",
+              "active": 24
+            },
+            {
+              "time": 0.95095,
+              "pose": "eclipse_3",
+              "active": 24
+            },
+            {
+              "time": 0.9919,
+              "pose": "eclipse_3",
+              "active": 24
+            },
+            {
+              "time": 1.03285,
+              "pose": "eclipse_3",
+              "active": 12
+            },
+            {
+              "time": 1.066,
+              "pose": "eclipse_3",
+              "active": 0
+            },
+            {
+              "time": 1.105,
+              "pose": "eclipse_3",
+              "active": 0
+            },
+            {
+              "time": 1.14595,
+              "pose": "eclipse_3",
+              "active": 0
+            },
+            {
+              "time": 1.1869,
+              "pose": "eclipse_3",
+              "active": 0
+            },
+            {
+              "time": 1.22005,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.26685,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 1.3,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 520.3636363636364,
+            "y": 1011.6363636363635
+          },
+          "end": {
+            "x": 520.3636363636364,
+            "y": 1011.6363636363635
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "storm",
+          "last": {
+            "code": "V-959",
+            "mode": "storm",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 12,
+            "targetCount": 12,
+            "contactSeconds": 1.08,
+            "durationSeconds": 3.2,
+            "hitstopSeconds": 0.09,
+            "combatRate": 1.5,
+            "wholePoseAttachments": true,
+            "authoritative": true,
+            "effectTool": "Effekseer 1.70e",
+            "production": true
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL",
+            "B:1:ENCOUNTER:INITIAL",
+            "B:2:ENCOUNTER:INITIAL",
+            "B:3:ENCOUNTER:INITIAL",
+            "B:4:ENCOUNTER:INITIAL",
+            "B:5:ENCOUNTER:INITIAL",
+            "B:6:ENCOUNTER:INITIAL",
+            "B:7:ENCOUNTER:INITIAL",
+            "B:8:ENCOUNTER:INITIAL",
+            "B:9:ENCOUNTER:INITIAL",
+            "B:10:ENCOUNTER:INITIAL",
+            "B:11:ENCOUNTER:INITIAL"
+          ],
+          "samples": [
+            {
+              "time": 0.039,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.078,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.11895,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.1599,
+              "pose": "iaido_ready",
+              "active": 1
+            },
+            {
+              "time": 0.19305,
+              "pose": "iaido_ready",
+              "active": 2
+            },
+            {
+              "time": 0.234,
+              "pose": "iaido_ready",
+              "active": 2
+            },
+            {
+              "time": 0.27495,
+              "pose": "iaido_ready",
+              "active": 2
+            },
+            {
+              "time": 0.31395,
+              "pose": "iaido_ready",
+              "active": 2
+            },
+            {
+              "time": 0.3549,
+              "pose": "iaido_ready",
+              "active": 2
+            },
+            {
+              "time": 0.38805,
+              "pose": "iaido_ready",
+              "active": 2
+            },
+            {
+              "time": 0.429,
+              "pose": "iaido_ready",
+              "active": 2
+            },
+            {
+              "time": 0.468,
+              "pose": "iaido_ready",
+              "active": 2
+            },
+            {
+              "time": 0.50895,
+              "pose": "iaido_ready",
+              "active": 2
+            },
+            {
+              "time": 0.5499,
+              "pose": "iaido_draw",
+              "active": 2
+            },
+            {
+              "time": 0.58305,
+              "pose": "iaido_draw",
+              "active": 2
+            },
+            {
+              "time": 0.624,
+              "pose": "iaido_draw",
+              "active": 2
+            },
+            {
+              "time": 0.663,
+              "pose": "iaido_draw",
+              "active": 2
+            },
+            {
+              "time": 0.70005,
+              "pose": "iaido_draw",
+              "active": 2
+            },
+            {
+              "time": 0.7371,
+              "pose": "iaido_cut",
+              "active": 1
+            },
+            {
+              "time": 0.77805,
+              "pose": "iaido_cut",
+              "active": 1
+            },
+            {
+              "time": 0.819,
+              "pose": "iaido_cut",
+              "active": 1
+            },
+            {
+              "time": 0.858,
+              "pose": "iaido_cut",
+              "active": 1
+            },
+            {
+              "time": 0.89895,
+              "pose": "iaido_cut",
+              "active": 1
+            },
+            {
+              "time": 0.9399,
+              "pose": "iaido_cut",
+              "active": 1
+            },
+            {
+              "time": 0.97305,
+              "pose": "iaido_cut",
+              "active": 1
+            },
+            {
+              "time": 1.014,
+              "pose": "iaido_cut",
+              "active": 2
+            },
+            {
+              "time": 1.053,
+              "pose": "iaido_cut",
+              "active": 2
+            },
+            {
+              "time": 1.08,
+              "pose": "iaido_cut",
+              "active": 7
+            },
+            {
+              "time": 1.08,
+              "pose": "iaido_cut",
+              "active": 7
+            },
+            {
+              "time": 1.08,
+              "pose": "iaido_cut",
+              "active": 7
+            },
+            {
+              "time": 1.1268,
+              "pose": "iaido_cut",
+              "active": 11
+            },
+            {
+              "time": 1.158,
+              "pose": "iaido_recover",
+              "active": 13
+            },
+            {
+              "time": 1.19895,
+              "pose": "iaido_recover",
+              "active": 17
+            },
+            {
+              "time": 1.2321,
+              "pose": "iaido_recover",
+              "active": 20
+            },
+            {
+              "time": 1.28085,
+              "pose": "iaido_recover",
+              "active": 23
+            },
+            {
+              "time": 1.314,
+              "pose": "iaido_recover",
+              "active": 25
+            },
+            {
+              "time": 1.353,
+              "pose": "iaido_recover",
+              "active": 27
+            },
+            {
+              "time": 1.39395,
+              "pose": "iaido_recover",
+              "active": 28
+            },
+            {
+              "time": 1.4271,
+              "pose": "iaido_recover",
+              "active": 28
+            },
+            {
+              "time": 1.46805,
+              "pose": "iaido_recover",
+              "active": 30
+            },
+            {
+              "time": 1.509,
+              "pose": "iaido_recover",
+              "active": 29
+            },
+            {
+              "time": 1.5519,
+              "pose": "iaido_recover",
+              "active": 28
+            },
+            {
+              "time": 1.58895,
+              "pose": "iaido_recover",
+              "active": 27
+            },
+            {
+              "time": 1.6299,
+              "pose": "iaido_recover",
+              "active": 25
+            },
+            {
+              "time": 1.66305,
+              "pose": "iaido_recover",
+              "active": 23
+            },
+            {
+              "time": 1.7118,
+              "pose": "iaido_recover",
+              "active": 20
+            },
+            {
+              "time": 1.743,
+              "pose": "iaido_recover",
+              "active": 18
+            },
+            {
+              "time": 1.78395,
+              "pose": "iaido_recover",
+              "active": 16
+            },
+            {
+              "time": 1.8249,
+              "pose": "iaido_recover",
+              "active": 13
+            },
+            {
+              "time": 1.85805,
+              "pose": "iaido_recover",
+              "active": 12
+            },
+            {
+              "time": 1.899,
+              "pose": "iaido_recover",
+              "active": 10
+            },
+            {
+              "time": 1.938,
+              "pose": "iaido_recover",
+              "active": 9
+            },
+            {
+              "time": 1.97895,
+              "pose": "iaido_recover",
+              "active": 8
+            },
+            {
+              "time": 2.0199,
+              "pose": "iaido_recover",
+              "active": 7
+            },
+            {
+              "time": 2.05305,
+              "pose": "iaido_recover",
+              "active": 7
+            },
+            {
+              "time": 2.094,
+              "pose": "iaido_recover",
+              "active": 7
+            },
+            {
+              "time": 2.133,
+              "pose": "iaido_recover",
+              "active": 6
+            },
+            {
+              "time": 2.17395,
+              "pose": "iaido_recover",
+              "active": 5
+            },
+            {
+              "time": 2.2149,
+              "pose": "iaido_recover",
+              "active": 5
+            },
+            {
+              "time": 2.24805,
+              "pose": "iaido_recover",
+              "active": 5
+            },
+            {
+              "time": 2.289,
+              "pose": "iaido_recover",
+              "active": 5
+            },
+            {
+              "time": 2.328,
+              "pose": "iaido_recover",
+              "active": 5
+            },
+            {
+              "time": 2.36895,
+              "pose": "iaido_recover",
+              "active": 5
+            },
+            {
+              "time": 2.4099,
+              "pose": "iaido_recover",
+              "active": 4
+            },
+            {
+              "time": 2.44305,
+              "pose": "iaido_recover",
+              "active": 3
+            },
+            {
+              "time": 2.484,
+              "pose": "iaido_recover",
+              "active": 3
+            },
+            {
+              "time": 2.523,
+              "pose": "iaido_recover",
+              "active": 3
+            },
+            {
+              "time": 2.56395,
+              "pose": "iaido_recover",
+              "active": 3
+            },
+            {
+              "time": 2.6049,
+              "pose": "iaido_recover",
+              "active": 2
+            },
+            {
+              "time": 2.63805,
+              "pose": "iaido_recover",
+              "active": 2
+            },
+            {
+              "time": 2.679,
+              "pose": "iaido_recover",
+              "active": 2
+            },
+            {
+              "time": 2.71995,
+              "pose": "iaido_recover",
+              "active": 2
+            },
+            {
+              "time": 2.75895,
+              "pose": "iaido_recover",
+              "active": 2
+            },
+            {
+              "time": 2.7999,
+              "pose": "iaido_recover",
+              "active": 2
+            },
+            {
+              "time": 2.83305,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 2.874,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 2.913,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 2.95395,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 2.9871,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 3.02805,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.069,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.108,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.14895,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 3.1899,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 520.3636363636364,
+            "y": 1011.6363636363635
+          },
+          "end": {
+            "x": 520.3636363636364,
+            "y": 1011.6363636363635
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "descent",
+          "last": {
+            "code": "V-959",
+            "mode": "descent",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 12,
+            "targetCount": 12,
+            "contactSeconds": 2.75,
+            "durationSeconds": 4.35,
+            "hitstopSeconds": 0.12,
+            "combatRate": 1.5,
+            "wholePoseAttachments": true,
+            "authoritative": true,
+            "effectTool": "Effekseer 1.70e",
+            "production": true
+          },
+          "applied": [
+            "B:0:ENCOUNTER:INITIAL",
+            "B:1:ENCOUNTER:INITIAL",
+            "B:2:ENCOUNTER:INITIAL",
+            "B:3:ENCOUNTER:INITIAL",
+            "B:4:ENCOUNTER:INITIAL",
+            "B:5:ENCOUNTER:INITIAL",
+            "B:6:ENCOUNTER:INITIAL",
+            "B:7:ENCOUNTER:INITIAL",
+            "B:8:ENCOUNTER:INITIAL",
+            "B:9:ENCOUNTER:INITIAL",
+            "B:10:ENCOUNTER:INITIAL",
+            "B:11:ENCOUNTER:INITIAL"
+          ],
+          "samples": [
+            {
+              "time": 0.039,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.07995,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.1209,
+              "pose": "storm_0",
+              "active": 1
+            },
+            {
+              "time": 0.16185,
+              "pose": "storm_0",
+              "active": 1
+            },
+            {
+              "time": 0.195,
+              "pose": "storm_0",
+              "active": 2
+            },
+            {
+              "time": 0.23595,
+              "pose": "storm_0",
+              "active": 2
+            },
+            {
+              "time": 0.27495,
+              "pose": "storm_0",
+              "active": 2
+            },
+            {
+              "time": 0.3159,
+              "pose": "storm_0",
+              "active": 2
+            },
+            {
+              "time": 0.35685,
+              "pose": "cross_0",
+              "active": 2
+            },
+            {
+              "time": 0.3978,
+              "pose": "cross_0",
+              "active": 2
+            },
+            {
+              "time": 0.429,
+              "pose": "cross_0",
+              "active": 2
+            },
+            {
+              "time": 0.4719,
+              "pose": "cross_0",
+              "active": 2
+            },
+            {
+              "time": 0.5109,
+              "pose": "cross_0",
+              "active": 3
+            },
+            {
+              "time": 0.55185,
+              "pose": "cross_0",
+              "active": 4
+            },
+            {
+              "time": 0.5928,
+              "pose": "cross_1",
+              "active": 4
+            },
+            {
+              "time": 0.624,
+              "pose": "cross_1",
+              "active": 4
+            },
+            {
+              "time": 0.66495,
+              "pose": "cross_1",
+              "active": 4
+            },
+            {
+              "time": 0.7059,
+              "pose": "cross_1",
+              "active": 4
+            },
+            {
+              "time": 0.74685,
+              "pose": "cross_1",
+              "active": 3
+            },
+            {
+              "time": 0.7878,
+              "pose": "cross_1",
+              "active": 3
+            },
+            {
+              "time": 0.82095,
+              "pose": "cross_2",
+              "active": 3
+            },
+            {
+              "time": 0.85995,
+              "pose": "cross_2",
+              "active": 3
+            },
+            {
+              "time": 0.9009,
+              "pose": "cross_2",
+              "active": 3
+            },
+            {
+              "time": 0.94185,
+              "pose": "cross_2",
+              "active": 3
+            },
+            {
+              "time": 0.9828,
+              "pose": "cross_2",
+              "active": 3
+            },
+            {
+              "time": 1.014,
+              "pose": "cross_2",
+              "active": 3
+            },
+            {
+              "time": 1.05495,
+              "pose": "cross_3",
+              "active": 4
+            },
+            {
+              "time": 1.0959,
+              "pose": "cross_3",
+              "active": 4
+            },
+            {
+              "time": 1.13685,
+              "pose": "cross_3",
+              "active": 4
+            },
+            {
+              "time": 1.1778,
+              "pose": "cross_3",
+              "active": 4
+            },
+            {
+              "time": 1.21095,
+              "pose": "cross_3",
+              "active": 4
+            },
+            {
+              "time": 1.24995,
+              "pose": "cross_3",
+              "active": 3
+            },
+            {
+              "time": 1.2909,
+              "pose": "storm_1",
+              "active": 2
+            },
+            {
+              "time": 1.33185,
+              "pose": "storm_1",
+              "active": 2
+            },
+            {
+              "time": 1.3728,
+              "pose": "storm_1",
+              "active": 3
+            },
+            {
+              "time": 1.40595,
+              "pose": "storm_1",
+              "active": 3
+            },
+            {
+              "time": 1.44495,
+              "pose": "storm_1",
+              "active": 3
+            },
+            {
+              "time": 1.4859,
+              "pose": "storm_2",
+              "active": 3
+            },
+            {
+              "time": 1.52685,
+              "pose": "storm_2",
+              "active": 4
+            },
+            {
+              "time": 1.5678,
+              "pose": "storm_2",
+              "active": 4
+            },
+            {
+              "time": 1.60095,
+              "pose": "storm_2",
+              "active": 4
+            },
+            {
+              "time": 1.63995,
+              "pose": "storm_2",
+              "active": 3
+            },
+            {
+              "time": 1.6809,
+              "pose": "storm_2",
+              "active": 3
+            },
+            {
+              "time": 1.72185,
+              "pose": "thrust_2",
+              "active": 2
+            },
+            {
+              "time": 1.7628,
+              "pose": "thrust_2",
+              "active": 2
+            },
+            {
+              "time": 1.79595,
+              "pose": "thrust_2",
+              "active": 3
+            },
+            {
+              "time": 1.8369,
+              "pose": "thrust_2",
+              "active": 3
+            },
+            {
+              "time": 1.8759,
+              "pose": "thrust_2",
+              "active": 3
+            },
+            {
+              "time": 1.91685,
+              "pose": "storm_3",
+              "active": 3
+            },
+            {
+              "time": 1.9578,
+              "pose": "storm_3",
+              "active": 4
+            },
+            {
+              "time": 1.99095,
+              "pose": "storm_3",
+              "active": 4
+            },
+            {
+              "time": 2.02995,
+              "pose": "storm_3",
+              "active": 4
+            },
+            {
+              "time": 2.0709,
+              "pose": "storm_3",
+              "active": 4
+            },
+            {
+              "time": 2.11185,
+              "pose": "storm_3",
+              "active": 3
+            },
+            {
+              "time": 2.145,
+              "pose": "descent_0",
+              "active": 2
+            },
+            {
+              "time": 2.184,
+              "pose": "descent_0",
+              "active": 2
+            },
+            {
+              "time": 2.22495,
+              "pose": "descent_0",
+              "active": 2
+            },
+            {
+              "time": 2.2659,
+              "pose": "descent_0",
+              "active": 2
+            },
+            {
+              "time": 2.30685,
+              "pose": "descent_0",
+              "active": 2
+            },
+            {
+              "time": 2.3478,
+              "pose": "descent_1",
+              "active": 2
+            },
+            {
+              "time": 2.38095,
+              "pose": "descent_1",
+              "active": 2
+            },
+            {
+              "time": 2.41995,
+              "pose": "descent_1",
+              "active": 2
+            },
+            {
+              "time": 2.4609,
+              "pose": "descent_1",
+              "active": 2
+            },
+            {
+              "time": 2.50185,
+              "pose": "descent_1",
+              "active": 2
+            },
+            {
+              "time": 2.5428,
+              "pose": "descent_1",
+              "active": 2
+            },
+            {
+              "time": 2.57595,
+              "pose": "descent_2",
+              "active": 2
+            },
+            {
+              "time": 2.61495,
+              "pose": "descent_2",
+              "active": 2
+            },
+            {
+              "time": 2.6559,
+              "pose": "descent_2",
+              "active": 3
+            },
+            {
+              "time": 2.69685,
+              "pose": "descent_2",
+              "active": 3
+            },
+            {
+              "time": 2.7378,
+              "pose": "descent_3",
+              "active": 7
+            },
+            {
+              "time": 2.75,
+              "pose": "descent_3",
+              "active": 9
+            },
+            {
+              "time": 2.75,
+              "pose": "descent_3",
+              "active": 9
+            },
+            {
+              "time": 2.75,
+              "pose": "descent_3",
+              "active": 9
+            },
+            {
+              "time": 2.77185,
+              "pose": "descent_3",
+              "active": 10
+            },
+            {
+              "time": 2.8128,
+              "pose": "descent_3",
+              "active": 13
+            },
+            {
+              "time": 2.84595,
+              "pose": "descent_3",
+              "active": 15
+            },
+            {
+              "time": 2.88495,
+              "pose": "descent_3",
+              "active": 17
+            },
+            {
+              "time": 2.92785,
+              "pose": "descent_3",
+              "active": 21
+            },
+            {
+              "time": 2.96685,
+              "pose": "eclipse_3",
+              "active": 23
+            },
+            {
+              "time": 3.0078,
+              "pose": "eclipse_3",
+              "active": 25
+            },
+            {
+              "time": 3.04095,
+              "pose": "eclipse_3",
+              "active": 26
+            },
+            {
+              "time": 3.0819,
+              "pose": "eclipse_3",
+              "active": 28
+            },
+            {
+              "time": 3.1209,
+              "pose": "eclipse_3",
+              "active": 30
+            },
+            {
+              "time": 3.1638,
+              "pose": "eclipse_3",
+              "active": 29
+            },
+            {
+              "time": 3.2028,
+              "pose": "eclipse_3",
+              "active": 28
+            },
+            {
+              "time": 3.23595,
+              "pose": "iaido_recover",
+              "active": 27
+            },
+            {
+              "time": 3.27495,
+              "pose": "iaido_recover",
+              "active": 25
+            },
+            {
+              "time": 3.3159,
+              "pose": "iaido_recover",
+              "active": 22
+            },
+            {
+              "time": 3.35685,
+              "pose": "iaido_recover",
+              "active": 19
+            },
+            {
+              "time": 3.3978,
+              "pose": "iaido_recover",
+              "active": 17
+            },
+            {
+              "time": 3.43095,
+              "pose": "iaido_recover",
+              "active": 14
+            },
+            {
+              "time": 3.46995,
+              "pose": "iaido_recover",
+              "active": 12
+            },
+            {
+              "time": 3.5109,
+              "pose": "iaido_recover",
+              "active": 10
+            },
+            {
+              "time": 3.55185,
+              "pose": "iaido_recover",
+              "active": 9
+            },
+            {
+              "time": 3.585,
+              "pose": "iaido_recover",
+              "active": 8
+            },
+            {
+              "time": 3.62595,
+              "pose": "iaido_recover",
+              "active": 7
+            },
+            {
+              "time": 3.66495,
+              "pose": "iaido_recover",
+              "active": 6
+            },
+            {
+              "time": 3.7059,
+              "pose": "iaido_recover",
+              "active": 5
+            },
+            {
+              "time": 3.74685,
+              "pose": "iaido_recover",
+              "active": 4
+            },
+            {
+              "time": 3.7878,
+              "pose": "iaido_recover",
+              "active": 4
+            },
+            {
+              "time": 3.82095,
+              "pose": "iaido_recover",
+              "active": 3
+            },
+            {
+              "time": 3.85995,
+              "pose": "iaido_recover",
+              "active": 3
+            },
+            {
+              "time": 3.9009,
+              "pose": "iaido_recover",
+              "active": 3
+            },
+            {
+              "time": 3.94185,
+              "pose": "iaido_recover",
+              "active": 3
+            },
+            {
+              "time": 3.9828,
+              "pose": "iaido_recover",
+              "active": 3
+            },
+            {
+              "time": 4.01595,
+              "pose": "iaido_recover",
+              "active": 3
+            },
+            {
+              "time": 4.05495,
+              "pose": "iaido_recover",
+              "active": 2
+            },
+            {
+              "time": 4.0959,
+              "pose": "iaido_recover",
+              "active": 1
+            },
+            {
+              "time": 4.13685,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 4.1778,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 4.209,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 4.25775,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 4.2909,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 4.33185,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 520.3636363636364,
+            "y": 1011.6363636363635
+          },
+          "end": {
+            "x": 520.3636363636364,
+            "y": 1011.6363636363635
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        }
+      ],
+      "lifecycle": {
+        "dead": false,
+        "revived": true,
+        "cancelled": {
+          "impacts": 0,
+          "busy": false,
+          "effect": null,
+          "aura": false
+        },
+        "resumed": true,
+        "loops": 1
+      },
+      "codex": "진 족로\n\n흑뢰 삼도류\n\nSSS\n카드 원화\n전투 SD\n\n선택한 이미지를 누르면 원본을 확대합니다.\n\n리미티드 · 돌격 · SSS\n\n기본 전투력\n3,500,000\n☆\n대표 스킬\n흑뢰발도\n\n삼도류 검격으로 적 하나에 165% 일반 공격을 한 번 적용합니다.\n\n보유 상태\n미보유\n\n전체 도감 정보는 확인할 수 있지만 편성은 보유 용병만 가능합니다.\n\n스킬·전투 성능 자세히 보기\n리미티드 컬렉션\nLIMITED EDITION\n진 족로\n\n흑뢰 삼도류\n\n용병 등급\nSSS\n공개 리소스\n원화 · 전투 SD\n전투 편성\n보유 시 가능\n리미티드 전투 편성\n\n보유한 리미티드 용병을 PVE와 PVP에 각각 편성할 수 있습니다.\n획득 잠금 · 획득 방법은 추후 지정됩니다.\n\n전투 성능 · 행동 주기\n기본 전투력 3,500,000. 헬리오스 킹과 같은 공격·체력·방어·연계·행동 기준. 흑뢰발도·적섬연참·섬광관통은 165% 일반 공격으로 순환합니다. PVE 광역기 흑천일섬 3,780%, 비검오의 · 흑천단절 4,158%, 삼도오의 · 무간참옥 4,536% 피해를 생존한 적에게 나누어 대상당 한 번 적용합니다. 광역기 3개는 에너지 20·재사용 3행동을 공유합니다. 개인 피해 80% 경감·상태이상·반격 보호·행동 3.12배. PVP는 일반 공격과 헬리오스 킹의 보정 정책을 적용합니다. 운영자 지정 지급 전용. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 4배). 고레벨 성장과 마지막 돌파도 이 배율에 반영됩니다. 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다. PVP 성장 전투는 C·B·A·S·SS·SSS·SSS 리미티드 순으로 등급 우위를 적용합니다. SS 리미티드는 기존 일반 SSS 전투 등급을 유지합니다. 상대 전원의 등급보다 높으면 같은 레벨 기준 단계당 공격·피해 상한 +100%, 체력·방벽 +500%의 추가 보정을 적용합니다. 상위 등급의 레벨이 낮으면 1레벨 차이마다 이 추가 보정과 성장 격차 보완을 10%씩 줄이며, 10레벨 이상 뒤처지면 적용하지 않습니다. 상위 등급을 향한 경감 관통·행동 대응의 등급 감쇠도 같은 비율로 줄어 10레벨 이상 높은 용병은 배운 숙련을 온전히 사용합니다. 원래 레벨 능력치·평타 성장·추가 행동 숙련은 유지합니다. 듀오는 상대 최고 등급과 가장 큰 레벨 격차를 기준으로 하며, 같은 전투 등급·PVE·기존 개별 용병 상성 정책은 유지합니다."
+    }
+  ],
+  "productionTransactions": 0
+}

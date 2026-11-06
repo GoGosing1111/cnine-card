@@ -1,0 +1,57 @@
+{
+  "character": "진 족로",
+  "code": "V-959",
+  "rank": "SSS",
+  "edition": "LIMITED",
+  "basePower": 3500000,
+  "balanceReference": "헬리오스 킹 V-966",
+  "combatRate": 1.5,
+  "approvedRevision": "raised-iaido-v11",
+  "deliveryRevision": "approved-live-v12",
+  "skills": {
+    "normal": [
+      "흑뢰발도",
+      "적섬연참",
+      "섬광관통"
+    ],
+    "area": [
+      "흑천일섬",
+      "비검오의 · 흑천단절",
+      "삼도오의 · 무간참옥"
+    ]
+  },
+  "areaDamageRatios": [
+    37.8,
+    41.58,
+    45.36
+  ],
+  "areaCaps": [
+    2.5,
+    2.75,
+    3
+  ],
+  "sharedAreaCooldown": 3,
+  "areaCost": 20,
+  "serverPvpSeedComparisons": 36,
+  "visualChecks": {
+    "desktopAndMobileBothSides": 24,
+    "huntMobile12Targets": 6,
+    "actualStartResultReturn": [
+      "1440 PVE",
+      "1440 PVP",
+      "390 PVE",
+      "390 PVP"
+    ],
+    "recordings": [
+      "normal",
+      "half",
+      "body"
+    ]
+  },
+  "accountWrites": 0,
+  "grant": false,
+  "liveStatus": "PREPARED_NOT_YET_DEPLOYED",
+  "originalArtPreserved": true,
+  "nativeSpinePreserved": true,
+  "realDeviceTest": false
+}

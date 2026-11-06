@@ -1,3 +1,4 @@
+import {isJinJokro,JIN_JOKRO_COMBAT,JIN_JOKRO_PVP,JIN_JOKRO_GENERAL_JOK_PRIORITY} from './mercenary-jin-jokro-v1.mjs';
 import {isHeliosKing,HELIOS_KING_COMBAT,HELIOS_KING_PVP,HELIOS_KING_GENERAL_JOK_PRIORITY} from './mercenary-helios-king-v1.mjs';
 import {isHakuya,HAKUYA_COMBAT} from './mercenary-hakuya-v1.mjs';
 import {isHeukmu,HEUKMU_COMBAT} from './mercenary-heukmu-v1.mjs';
@@ -54,7 +55,7 @@ export function mercenaryCombatLinkText(rank,position,actor=null){
 // Frozen at entry, only between released upper ranks. Never rewrites a winner,
 // scales ordinary cards, changes base power, or grants extra actor actions.
 function primeZeroGeneralJokOpponents(actor,teams){
- if(!(isPrime(actor)||isZero(actor)||isHeliosKing(actor))||actor.battleMode!=='PVP'||actor.statMode!=='RANK_FIXED'||actor.hp<=0||actor.alive===false)return [];
+ if(!(isPrime(actor)||isZero(actor)||isHeliosKing(actor)||isJinJokro(actor))||actor.battleMode!=='PVP'||actor.statMode!=='RANK_FIXED'||actor.hp<=0||actor.alive===false)return [];
  const opponents=teams.flat().filter(other=>other.side!==actor.side&&other.isMercenary&&other.statMode==='RANK_FIXED'&&other.battleMode==='PVP'&&other.alive!==false&&other.hp>0);
  return opponents.length&&(opponents.length===1||actor.ownerId)&&opponents.every(isGeneralJok)?opponents:[];
 }
@@ -93,7 +94,7 @@ export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
   const averageAttack=cards.reduce((sum,c)=>sum+c.attack,0)/cards.length,averageHp=cards.reduce((sum,c)=>sum+c.maxHp,0)/cards.length;
   if(!Number.isFinite(averageAttack)||!Number.isFinite(averageHp)||averageAttack<=0||averageHp<=0)continue;
   for(const m of team.filter(c=>c.isMercenary&&c.statMode==='RANK_FIXED')){
-   const rule=isRazak(m)?RAZAK_COMBAT.link:isImperialArcher(m)?IMPERIAL_ARCHER_COMBAT.link:isAwakenedOmega(m)?AWAKENED_OMEGA_COMBAT.link:isHakuya(m)?HAKUYA_COMBAT.link:isRevan(m)?REVAN_COMBAT.link:isEunseol(m)?EUNSEOL_COMBAT.link:isCardgu(m)?CARDGU_COMBAT.link:isKamishiro(m)?KAMISHIRO_COMBAT.link:isHeliosKing(m)?HELIOS_KING_COMBAT.link:isHeukmu(m)?HEUKMU_COMBAT.link:isGeneralJok(m)?GENERAL_JOK_COMBAT.link:isPrime(m)?PRIME_COMBAT.link:isZero(m)?ZERO_COMBAT.link:isLeonel(m)?LEONEL_COMBAT.link:isJokro(m)?JOKRO_COMBAT.link:isValter(m)?VALTER_COMBAT.link:isHelios(m)?HELIOS_COMBAT.link:isJinmu(m)?JINMU_COMBAT.link:isKairon(m)?KAIRON_COMBAT.link:isShiranui(m)?SHIRANUI_COMBAT.link:ssLimitedProfile(m)?.link||MERCENARY_COMBAT_LINK.ranks[m.rank];if(!rule||m.alive===false||m.hp<=0||m.mercenaryLink?.version===MERCENARY_COMBAT_LINK.version)continue;
+   const rule=isRazak(m)?RAZAK_COMBAT.link:isImperialArcher(m)?IMPERIAL_ARCHER_COMBAT.link:isAwakenedOmega(m)?AWAKENED_OMEGA_COMBAT.link:isHakuya(m)?HAKUYA_COMBAT.link:isRevan(m)?REVAN_COMBAT.link:isEunseol(m)?EUNSEOL_COMBAT.link:isCardgu(m)?CARDGU_COMBAT.link:isKamishiro(m)?KAMISHIRO_COMBAT.link:isJinJokro(m)?JIN_JOKRO_COMBAT.link:isHeliosKing(m)?HELIOS_KING_COMBAT.link:isHeukmu(m)?HEUKMU_COMBAT.link:isGeneralJok(m)?GENERAL_JOK_COMBAT.link:isPrime(m)?PRIME_COMBAT.link:isZero(m)?ZERO_COMBAT.link:isLeonel(m)?LEONEL_COMBAT.link:isJokro(m)?JOKRO_COMBAT.link:isValter(m)?VALTER_COMBAT.link:isHelios(m)?HELIOS_COMBAT.link:isJinmu(m)?JINMU_COMBAT.link:isKairon(m)?KAIRON_COMBAT.link:isShiranui(m)?SHIRANUI_COMBAT.link:ssLimitedProfile(m)?.link||MERCENARY_COMBAT_LINK.ranks[m.rank];if(!rule||m.alive===false||m.hp<=0||m.mercenaryLink?.version===MERCENARY_COMBAT_LINK.version)continue;
    const healthRatio=Math.max(0,Math.min(1,m.hp/m.maxHp)),tierGuard=mercenaryPvpTierGuard(m,teams),tierOffense=1+(tierGuard-1)/MERCENARY_COMBAT_LINK.pvpTierGuardPerStep;
    const matchupScale=ssLimitedPvpLinkScale(m,teams);
    let attackFloor=Math.round(averageAttack*rule.attackPercent/100*tierOffense*matchupScale);
@@ -137,10 +138,10 @@ export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
  // Keep ordinary cards, other opponents and subsequent damage/healing intact.
  for(const actor of teams.flat()){
   const link=actor.mercenaryLink;
-  if(!(isPrime(actor)||isZero(actor)||isHeliosKing(actor))||actor.battleMode!=='PVP'||actor.hp<=0||actor.alive===false||!link||link.primeZeroGeneralJokPriority)continue;
+  if(!(isPrime(actor)||isZero(actor)||isHeliosKing(actor)||isJinJokro(actor))||actor.battleMode!=='PVP'||actor.hp<=0||actor.alive===false||!link||link.primeZeroGeneralJokPriority)continue;
   const opponents=primeZeroGeneralJokOpponents(actor,teams);
   if(!opponents.length||link.tierGuard!==ZERO_PRIME_GENERAL_JOK_PRIORITY.tierGuard)continue;
-  const policy=isHeliosKing(actor)?HELIOS_KING_GENERAL_JOK_PRIORITY:ZERO_PRIME_GENERAL_JOK_PRIORITY,ratio=Math.max(0,Math.min(1,actor.hp/actor.maxHp));
+  const policy=isJinJokro(actor)?JIN_JOKRO_GENERAL_JOK_PRIORITY:isHeliosKing(actor)?HELIOS_KING_GENERAL_JOK_PRIORITY:ZERO_PRIME_GENERAL_JOK_PRIORITY,ratio=Math.max(0,Math.min(1,actor.hp/actor.maxHp));
   const reference={attack:Math.max(...opponents.map(mercenaryEffectiveAttack)),hp:Math.max(...opponents.map(o=>o.maxHp)),shield:Math.max(...opponents.map(o=>o.maxShield||0)),speed:Math.max(...opponents.map(o=>o.speed))};
   // General Jok also acts after his owner's cards. Natural speed alone misses
   // that reserved action stream when the opposing deck is much faster.
@@ -162,8 +163,8 @@ export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
  // captured fight must not heal, compound stats, or upgrade an older receipt.
  for(const actor of initialized){
   const link=actor.mercenaryLink;
-  if(!(isPrime(actor)||isZero(actor)||isHeliosKing(actor))||actor.battleMode!=='PVP'||link.primeZeroGeneralJokPriority)continue;
-  const policy=isHeliosKing(actor)?HELIOS_KING_PVP:PRIME_ZERO_PVP;
+  if(!(isPrime(actor)||isZero(actor)||isHeliosKing(actor)||isJinJokro(actor))||actor.battleMode!=='PVP'||link.primeZeroGeneralJokPriority)continue;
+  const policy=isJinJokro(actor)?JIN_JOKRO_PVP:isHeliosKing(actor)?HELIOS_KING_PVP:PRIME_ZERO_PVP;
   const {attackScale,durabilityScale}=policy;
   const ratio=actor.hp/actor.maxHp;
   const attack=Math.round(actor.attack*attackScale),attackFloor=Math.round(link.attackFloor*attackScale),hpFloor=Math.round(link.hpFloor*durabilityScale);

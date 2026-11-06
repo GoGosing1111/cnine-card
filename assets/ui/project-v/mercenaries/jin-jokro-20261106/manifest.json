@@ -1,0 +1,194 @@
+{
+  "code": "V-959",
+  "illustrationApproved": true,
+  "runtimeVersion": "4.3.13",
+  "character": "진 족로",
+  "userStatements": [
+    "수정된 궁극기로 승인",
+    "라이브도 올려"
+  ],
+  "approvedVisualRevision": "raised-iaido-v11",
+  "deliveryRevision": "approved-live-v12",
+  "combatRate": 1.5,
+  "sourceArtSha256": "f2dd7d1b862e25af5f36cab4d5a59b817825aa62814d8a78c85fb4995940f471",
+  "nativePath": "preview/v35-jin-jokro-20261106/jin-jokro-92f880cb7908.spine",
+  "nativeSha256": "56caed32b145553f988ac0a2d784fcb446b7d5681457bea9d2731f662ae17883",
+  "approvedUltimateNames": [
+    "비검오의 · 흑천단절",
+    "삼도오의 · 무간참옥"
+  ],
+  "balanceReference": "V-966",
+  "basePower": 3500000,
+  "grade": "SSS LIMITED",
+  "accountGrantAuthorized": false,
+  "artworkRegenerated": false,
+  "codeHashes": {
+    "JokroBattleAdapter.mjs": "eee059ab915631b306042c6a06b6b6c1d73129e2b83dfa4fbde51af14dd9f761",
+    "JokroEffects.mjs": "1dab1deaa9ff7d831bce96d9801e35e2c25c1178d414872e016c5b387731c081",
+    "JokroAura.mjs": "8257a5be85d87ac670721fbb021a86e0593bc33dbdb6b927e96dca9f748f9b86",
+    "CrimsonOutlineFilter.mjs": "a0a18130575d19a5d32e661d3e77c34eecebce13557fe8a418b859e69ee60a24",
+    "SwordUltimates.mjs": "58e97741da2f6a154c245493b1812bf1653a4bb31375fac49987e938890289cb",
+    "SwordUltimateMotion.mjs": "b8234190a5e4d516dc4e6ca04413bb29d56f1ff77bb330a3f2f4321cd41a3912",
+    "pose-registration.json": "1322c730339198041c56c9a9a0e88be95ff387b289e3e92f041ea506d5b7672a",
+    "skills.json": "125b58b67200c377a34dfeceae0f0e655028c8faeef9f3c44dc5b6d779e60cf9",
+    "presentation.json": "5ff49186c734d6e4fd2d71cce769be01595df32c0b55951025c722763ab9f16a"
+  },
+  "files": [
+    {
+      "path": "effects/aura-v8/runtime/fx-manifest.json",
+      "bytes": 14798,
+      "sha256": "b4b6952560d698e713e83cff35ab945ab3d4295a88d194d542c2c8f421866c32",
+      "canonicalTextSha256": "b4b6952560d698e713e83cff35ab945ab3d4295a88d194d542c2c8f421866c32"
+    },
+    {
+      "path": "effects/aura-v8/runtime/katana-current.png",
+      "bytes": 421459,
+      "sha256": "d44acef1bf50b8545141111a8c8952574a46c8da551c6cebe112c399af928f80"
+    },
+    {
+      "path": "effects/aura-v8/runtime/pressure-crown.png",
+      "bytes": 1916636,
+      "sha256": "e31ea7d377a20dfe5b0773d9d6af7da2068900cf9525fe83da6a76481e297910"
+    },
+    {
+      "path": "effects/aura-v8/runtime/pressure-wrap.png",
+      "bytes": 793100,
+      "sha256": "27293ef5bead8c27400ad6f512475132bcbebb1c03c5e6b955b5d0fa41b683e1"
+    },
+    {
+      "path": "effects/aura-v9/runtime/fx-manifest.json",
+      "bytes": 5130,
+      "sha256": "f3b878c737aa194f020301a73657d6e99977e94f047581713d2a3bc88b323d81",
+      "canonicalTextSha256": "f3b878c737aa194f020301a73657d6e99977e94f047581713d2a3bc88b323d81"
+    },
+    {
+      "path": "effects/aura-v9/runtime/sovereign-discharge.png",
+      "bytes": 1466018,
+      "sha256": "13f74f2b98462f7188d1d7a4ecc37e7d173a3c6d6e3117ee6f871bac0c22c0f9"
+    },
+    {
+      "path": "effects/runtime/cross.png",
+      "bytes": 1148578,
+      "sha256": "22fbe8b7ea6e3b478eb7fa5cb27fa0ac49960fd9c018856ecc51d7fcf79d54d2"
+    },
+    {
+      "path": "effects/runtime/eclipse.png",
+      "bytes": 592421,
+      "sha256": "1280abc48c73ff7777d1dd06b69ff5de581eab18fd2ee41dea2043c680ec6da2"
+    },
+    {
+      "path": "effects/runtime/fx-manifest.json",
+      "bytes": 39022,
+      "sha256": "40343a969b0a68f6a510d851c0905a830c4eb91f39827ba78bd8f80fee5f9992",
+      "canonicalTextSha256": "40343a969b0a68f6a510d851c0905a830c4eb91f39827ba78bd8f80fee5f9992"
+    },
+    {
+      "path": "effects/runtime/iaido.png",
+      "bytes": 394130,
+      "sha256": "c7242847a208415a9400054e4c20fc303275ed1964d9a21d08919984c8ba9ed5"
+    },
+    {
+      "path": "effects/runtime/pressure.png",
+      "bytes": 148769,
+      "sha256": "e3864725e3a5f02a87a0f0386202c0c0e1489cef462c3525d98bc44cdcd883f9"
+    },
+    {
+      "path": "effects/runtime/shards.png",
+      "bytes": 71450,
+      "sha256": "1a1712a57491490d5c09e63b7be8386eb8dafe6ad8f21f0e009515a5c5a2b2b8"
+    },
+    {
+      "path": "effects/runtime/thrust.png",
+      "bytes": 649591,
+      "sha256": "27ae86b3a3816547768b56aa638496a0ba856acea325b34b78f3f2a0d78e27af"
+    },
+    {
+      "path": "effects/sword-ultimates-v10/runtime/blade-orbit.png",
+      "bytes": 1518866,
+      "sha256": "e748b14074da0db4a0440a2f0ace6406edb05a69df30754193eb699a521b67eb"
+    },
+    {
+      "path": "effects/sword-ultimates-v10/runtime/crosscut-prison.png",
+      "bytes": 926049,
+      "sha256": "3e9a3f8a8c82aadc722d9faf78b9c65aca57edfd4c33412470da4d37accdead8"
+    },
+    {
+      "path": "effects/sword-ultimates-v10/runtime/fx-manifest.json",
+      "bytes": 42620,
+      "sha256": "1fb79a2fac6de0981e27fbe3dc19d19de01627e04b1eca2c3395e423a14cbdb8",
+      "canonicalTextSha256": "1fb79a2fac6de0981e27fbe3dc19d19de01627e04b1eca2c3395e423a14cbdb8"
+    },
+    {
+      "path": "effects/sword-ultimates-v10/runtime/heaven-line.png",
+      "bytes": 674080,
+      "sha256": "b8ae5d48fbf269e7ead815e9485a622536bc6903c72149f44f1a1d759c611e7d"
+    },
+    {
+      "path": "effects/sword-ultimates-v10/runtime/razor-ground.png",
+      "bytes": 1179898,
+      "sha256": "5cd23e8fa9ec6524ae2d3547f103448c8f28cafba5c7f69afa9927fb1abef907"
+    },
+    {
+      "path": "effects/sword-ultimates-v10/runtime/severed-space.png",
+      "bytes": 573666,
+      "sha256": "c1d0ec5b13103e4c05333d8de3118ba46ea8b550defc36495c1917105f605841"
+    },
+    {
+      "path": "effects/sword-ultimates-v10/runtime/sword-flash.png",
+      "bytes": 47273,
+      "sha256": "4273c85a47931b7c97d5570f6a98fdb0b1738ea2cda0865f2dce3c7798453f8e"
+    },
+    {
+      "path": "effects/sword-ultimates-v10/runtime/sword-shock.png",
+      "bytes": 103584,
+      "sha256": "0ab85032a001eff27045090cbeec1f8b9c8db5e141d7e6e14cefb2885d853dfb"
+    },
+    {
+      "path": "effects/sword-ultimates-v10/runtime/sword-splinters.png",
+      "bytes": 68680,
+      "sha256": "c5f01db0b56f89a984d2aedc69b663fde07ec53bbf4af9a4f9f6c190634e0262"
+    },
+    {
+      "path": "effects/sword-ultimates-v10/runtime/trinity-cleave.png",
+      "bytes": 837883,
+      "sha256": "15590628ead4d3bdb97ceb33887fa6426b1a8f245db606ae63fdf96c2ee30d84"
+    },
+    {
+      "path": "images/guard.png",
+      "bytes": 344094,
+      "sha256": "7e73203a838f17972368e7735e602b14aebee090bd00d91c4394f437b3f1a513"
+    },
+    {
+      "path": "runtime-164a00db5e6a/jin-jokro-164a00db5e6a.atlas",
+      "bytes": 1952,
+      "sha256": "70a8223e80b66da52bb0a6e2031c5d23d154ff04b82af1862d3afa35b995bed9",
+      "canonicalTextSha256": "70a8223e80b66da52bb0a6e2031c5d23d154ff04b82af1862d3afa35b995bed9"
+    },
+    {
+      "path": "runtime-164a00db5e6a/jin-jokro-164a00db5e6a.png",
+      "bytes": 4822720,
+      "sha256": "d5900d017e71e89391660b1f3d62c19a38ea4470f856976daef6e18fcfa0203e"
+    },
+    {
+      "path": "runtime-164a00db5e6a/jin-jokro-164a00db5e6a_2.png",
+      "bytes": 4972651,
+      "sha256": "a860a04b667e8bc942a1ae3f1f02ac2f153338af666472aa778a778f065e817c"
+    },
+    {
+      "path": "runtime-164a00db5e6a/jin-jokro-164a00db5e6a_3.png",
+      "bytes": 2715547,
+      "sha256": "4485f02728abd3c59dea9a0e5660a74a1825d41935297aae1f5c0fb24aa2610f"
+    },
+    {
+      "path": "runtime-92f880cb7908/jin-jokro.json",
+      "bytes": 38388,
+      "sha256": "f6610ea916cd42df5fc9716f60ee088e9284342dcb0d42d07b9d613cdcfdfe44",
+      "canonicalTextSha256": "f6610ea916cd42df5fc9716f60ee088e9284342dcb0d42d07b9d613cdcfdfe44"
+    },
+    {
+      "path": "source-art-approved.png",
+      "bytes": 2333579,
+      "sha256": "f2dd7d1b862e25af5f36cab4d5a59b817825aa62814d8a78c85fb4995940f471"
+    }
+  ]
+}

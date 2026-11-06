@@ -1,3 +1,4 @@
+import {JIN_JOKRO_CODE} from './mercenary-jin-jokro-v1.mjs';
 import {HELIOS_KING_CODE} from './mercenary-helios-king-v1.mjs';
 import {HAKUYA_CODE} from './mercenary-hakuya-v1.mjs';
 import {mercenaryCombatRank} from './mercenary-ss-limited-v1.mjs';
@@ -19,7 +20,7 @@ import {HELIOS_CODE} from './mercenary-helios-v1.mjs';
 
 export const MERCENARY_RANK_GROWTH=Object.freeze({version:2,guardPerStep:5,growthExponent:.5,lowerMasteryPerStep:.25,levelGapForFullMastery:10});
 // Exact catalog identities, never the editable edition/name of an ordinary card.
-export const SSS_LIMITED_COMBAT_CODES=Object.freeze([HELIOS_KING_CODE,HAKUYA_CODE,KAMISHIRO_CODE,CARDGU_CODE,REVAN_CODE,AWAKENED_OMEGA_CODE,EUNSEOL_CODE,GENERAL_JOK_CODE,PRIME_CODE,ZERO_CODE,LEONEL_CODE,JOKRO_CODE,SHIRANUI_CODE,KAIRON_CODE,JINMU_CODE,VALTER_CODE,HELIOS_CODE]);
+export const SSS_LIMITED_COMBAT_CODES=Object.freeze([JIN_JOKRO_CODE,HELIOS_KING_CODE,HAKUYA_CODE,KAMISHIRO_CODE,CARDGU_CODE,REVAN_CODE,AWAKENED_OMEGA_CODE,EUNSEOL_CODE,GENERAL_JOK_CODE,PRIME_CODE,ZERO_CODE,LEONEL_CODE,JOKRO_CODE,SHIRANUI_CODE,KAIRON_CODE,JINMU_CODE,VALTER_CODE,HELIOS_CODE]);
 const limited=new Set(SSS_LIMITED_COMBAT_CODES),ranks=['C','B','A','S','SS','SSS'];
 export const mercenaryBattleTier=actor=>!actor?.isMercenary?-1:limited.has(actor.code||actor.cardId)?ranks.length:ranks.indexOf(mercenaryCombatRank(actor));
 const eligible=a=>a?.isMercenary===true&&a.statMode==='RANK_FIXED'&&a.battleMode==='PVP'&&mercenaryBattleTier(a)>=0;

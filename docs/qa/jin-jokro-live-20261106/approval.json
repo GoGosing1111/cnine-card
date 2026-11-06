@@ -1,0 +1,34 @@
+{
+  "character": "진 족로",
+  "code": "V-959",
+  "userStatements": [
+    "수정된 궁극기로 승인",
+    "라이브도 올려"
+  ],
+  "approvedVisualRevision": "raised-iaido-v11",
+  "deliveryRevision": "approved-live-v12",
+  "combatRate": 1.5,
+  "sourceArtSha256": "f2dd7d1b862e25af5f36cab4d5a59b817825aa62814d8a78c85fb4995940f471",
+  "nativePath": "preview/v35-jin-jokro-20261106/jin-jokro-92f880cb7908.spine",
+  "nativeSha256": "56caed32b145553f988ac0a2d784fcb446b7d5681457bea9d2731f662ae17883",
+  "approvedUltimateNames": [
+    "비검오의 · 흑천단절",
+    "삼도오의 · 무간참옥"
+  ],
+  "balanceReference": "V-966",
+  "basePower": 3500000,
+  "grade": "SSS LIMITED",
+  "accountGrantAuthorized": false,
+  "artworkRegenerated": false,
+  "codeHashes": {
+    "JokroBattleAdapter.mjs": "eee059ab915631b306042c6a06b6b6c1d73129e2b83dfa4fbde51af14dd9f761",
+    "JokroEffects.mjs": "1dab1deaa9ff7d831bce96d9801e35e2c25c1178d414872e016c5b387731c081",
+    "JokroAura.mjs": "8257a5be85d87ac670721fbb021a86e0593bc33dbdb6b927e96dca9f748f9b86",
+    "CrimsonOutlineFilter.mjs": "a0a18130575d19a5d32e661d3e77c34eecebce13557fe8a418b859e69ee60a24",
+    "SwordUltimates.mjs": "58e97741da2f6a154c245493b1812bf1653a4bb31375fac49987e938890289cb",
+    "SwordUltimateMotion.mjs": "b8234190a5e4d516dc4e6ca04413bb29d56f1ff77bb330a3f2f4321cd41a3912",
+    "pose-registration.json": "1322c730339198041c56c9a9a0e88be95ff387b289e3e92f041ea506d5b7672a",
+    "skills.json": "125b58b67200c377a34dfeceae0f0e655028c8faeef9f3c44dc5b6d779e60cf9",
+    "presentation.json": "5ff49186c734d6e4fd2d71cce769be01595df32c0b55951025c722763ab9f16a"
+  }
+}
