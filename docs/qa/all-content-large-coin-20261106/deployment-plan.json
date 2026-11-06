@@ -1,0 +1,218 @@
+{
+  "before": {
+    "at": "2026-11-06T13:11:13.390Z",
+    "id": "c27aa915-fac5-44ff-9517-0274992ec9ed",
+    "url": "https://c27aa915.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "0f8c4f39d6d5772d5fbdb9c5651d533b811a7f47"
+  },
+  "base": "0f8c4f39d6d5772d5fbdb9c5651d533b811a7f47",
+  "head": "c4982ece7666363b64c40ff1ae2cb6e24b7927be",
+  "reason": "Audit all coin-bearing content for high-wallet failures: exact integer SQL, authoritative ledger and receipt balances, message recovery comparisons, attendance and mineral settlement atomicity, and arcana lost-ack recovery. 526 distinct related checks passed across 41 broad suites plus narrow reruns; previous source reproduces six failures. One unchanged old escort UI test pins obsolete loader versions; runtime settlement, guard and PostgreSQL schema checks pass. All tested coin runtime files are byte-equivalent after merging concurrent workshop UI and Jokro access commits. Official gate covers packaging, preserved concurrent access and unchanged ordinary coupon policy plus worker compile. No schema, adapter, authentication, dependency or gameplay policy restructuring; existing transaction primitives. No production account writes or historical regrant.",
+  "tests": [
+    "tests/operation-audit-packaging-20261029.test.mjs",
+    "tests/gingdeodeum-jokro-access-20261106.test.mjs",
+    "tests/coupon-owner-limits-20261029.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "sourceFiles": [
+    "AGENTS.md",
+    "docs/qa/all-content-large-coin-20261106/README.md",
+    "docs/qa/workshop-ui-refresh-20261106/README.md",
+    "docs/qa/workshop-ui-refresh-20261106/completion.json",
+    "docs/qa/workshop-ui-refresh-20261106/deployment-plan.json",
+    "docs/qa/workshop-ui-refresh-20261106/deployment-success.json",
+    "docs/qa/workshop-ui-refresh-20261106/detector.json",
+    "docs/qa/workshop-ui-refresh-20261106/live-verification.json",
+    "docs/qa/workshop-ui-refresh-20261106/review-verdict.md",
+    "docs/qa/workshop-ui-refresh-20261106/scope-preservation.json",
+    "functions/_account_rank.js",
+    "functions/_auction.js",
+    "functions/_auction_user_service.js",
+    "functions/_avatar.js",
+    "functions/_black_miracle_pack.js",
+    "functions/_captain.js",
+    "functions/_clan.js",
+    "functions/_coin_settlement.js",
+    "functions/_coup.js",
+    "functions/_daily_quest_reward.js",
+    "functions/_equipment.js",
+    "functions/_equipment_polish_transactions.js",
+    "functions/_escort_operation.js",
+    "functions/_evolution.js",
+    "functions/_expedition_v3_runs.js",
+    "functions/_golden_axe.js",
+    "functions/_joint_transactions.js",
+    "functions/_legion_hunt_coins.js",
+    "functions/_magic.js",
+    "functions/_november_gift_coupon.js",
+    "functions/_prime_draw.js",
+    "functions/_quest_combat.js",
+    "functions/_raid_blackwing_rewards.js",
+    "functions/_raid_core_protocol.js",
+    "functions/_raid_lich_rewards.js",
+    "functions/_raid_madara_rewards.js",
+    "functions/_scrapyard.js",
+    "functions/_seal_battle.js",
+    "functions/_soopket_land.js",
+    "functions/_territory_war.js",
+    "functions/_tower_abyss.js",
+    "functions/_vehicle_draw.js",
+    "functions/_workshop.js",
+    "functions/_workshop_equipment_craft.js",
+    "functions/api/[[path]].js",
+    "tests/all-content-large-coin-20261106.test.mjs",
+    "tests/auction-user-postgres-20261103.test.mjs",
+    "tests/equipment-forge-transactions-v3.test.mjs",
+    "tests/escort-operation-v1830.test.mjs",
+    "tests/evolution-batch-v2035.test.mjs",
+    "tests/helpers/exact-wallet-fixture.mjs",
+    "tests/november-gift-coupon-20261101.test.mjs",
+    "tests/workshop-coin-postgres.test.mjs"
+  ],
+  "tested": [
+    {
+      "file": "functions/_account_rank.js",
+      "sha256": "228db8488fe2bf8ed23bb880e451f57cb407abe9a551bd55d207075c9de0133d"
+    },
+    {
+      "file": "functions/_auction.js",
+      "sha256": "686287c2f13d59baffa80146cdfeec46b31882c3a4e13a304d70b903c6724801"
+    },
+    {
+      "file": "functions/_auction_user_service.js",
+      "sha256": "6a5991cf5a76896cb54aa554f70c04c96f1550fb1a732d5b5ed964a892acc3e5"
+    },
+    {
+      "file": "functions/_avatar.js",
+      "sha256": "6d2f29b5f44b1c376d6fcc634e0102b94e01189b9bb0b14e435053ec79b74c24"
+    },
+    {
+      "file": "functions/_black_miracle_pack.js",
+      "sha256": "b007b3bd41f4c58b180c569d53fec620f667f5f2203e27079193a08e1d6f600a"
+    },
+    {
+      "file": "functions/_captain.js",
+      "sha256": "9c866462000a2b1da4198ad818b6b79eccb7ceb23a3d426fa457a6344e94280a"
+    },
+    {
+      "file": "functions/_clan.js",
+      "sha256": "d6eb658e45669e0d9201ea1ca8b37a7565a6a2ab9f89f744441148b73812dffa"
+    },
+    {
+      "file": "functions/_coin_settlement.js",
+      "sha256": "b627fbd4bf8806e80b48a131fc03af1e21b1a98d314e60b2a2b6f9abb827a873"
+    },
+    {
+      "file": "functions/_coup.js",
+      "sha256": "146e59eb2f8af81db2995238ff4c78f8a1a2596169b3e59b2e1b93ccf0f98d9b"
+    },
+    {
+      "file": "functions/_daily_quest_reward.js",
+      "sha256": "db8398653f81a7eecd745a6ccc7ffc9d01371370c77e3af932c927e40af2fa87"
+    },
+    {
+      "file": "functions/_equipment.js",
+      "sha256": "f12af27c4b9da48af7b4a1ea5bc9b6638ecd85adf00d2d86af544ab2439d5f8f"
+    },
+    {
+      "file": "functions/_equipment_polish_transactions.js",
+      "sha256": "428cb906ae83f7159f3d774857f7b7e666634910df9cb2f5911b5e3adb7dc721"
+    },
+    {
+      "file": "functions/_escort_operation.js",
+      "sha256": "322b48abcf51fde38b93fc51e0fa2b340a0d9f99ce90913cd7e4dfe6febed129"
+    },
+    {
+      "file": "functions/_evolution.js",
+      "sha256": "d46cd9a4620e4b94e5452d7b096bb8c948154b67cbd867b1948bb5de17b1e638"
+    },
+    {
+      "file": "functions/_expedition_v3_runs.js",
+      "sha256": "95aa09342f383be6d34c032e6580fad99e6d9a2e511397319a62789844d24af7"
+    },
+    {
+      "file": "functions/_golden_axe.js",
+      "sha256": "fc3044cfad36e3d8ee094b57d382c72ced80331559bf459608ded3877373a55c"
+    },
+    {
+      "file": "functions/_joint_transactions.js",
+      "sha256": "16c3f0bb9ae325b5f431b125bc42620094e03f3e47bcac0baeeca02bbafda820"
+    },
+    {
+      "file": "functions/_legion_hunt_coins.js",
+      "sha256": "870a73b1a14400ac0bf4d3527ce62d4f98a18f2b2d182100494f4b99841b9154"
+    },
+    {
+      "file": "functions/_magic.js",
+      "sha256": "1b0d9c95c0f996cc3ce36d35f4074b2130fe6349e4ff8af6bd357c41fdf709fe"
+    },
+    {
+      "file": "functions/_november_gift_coupon.js",
+      "sha256": "2ccb1d191e4c1f6dce9284c778f0d25541abcd2f359e3e3b581e5b7560f2c28d"
+    },
+    {
+      "file": "functions/_prime_draw.js",
+      "sha256": "5b178571bb6630d7b69e35ae7929e8d3e07d1a4a259b64ad43b09bff00c4e87f"
+    },
+    {
+      "file": "functions/_quest_combat.js",
+      "sha256": "307bcd9cec7036ad81cd56189a3dcb666221234e58598fa15ea077d3b462b41c"
+    },
+    {
+      "file": "functions/_raid_blackwing_rewards.js",
+      "sha256": "13d0678bc10b5fcc7f08e3971504c2b14117345f6f388017474721893ef93697"
+    },
+    {
+      "file": "functions/_raid_core_protocol.js",
+      "sha256": "d07197e84605911decb02c4158777b8f541e2ce0d1ee9239e1b5e1d754cc1c8b"
+    },
+    {
+      "file": "functions/_raid_lich_rewards.js",
+      "sha256": "34e401e693eb5a7469b5a8c1e1939053b405535c6f872187da1f5fe60e910722"
+    },
+    {
+      "file": "functions/_raid_madara_rewards.js",
+      "sha256": "27ae420488c673d59c54899e944ce713e699b7cecc8da67f083ee8d64512b57a"
+    },
+    {
+      "file": "functions/_scrapyard.js",
+      "sha256": "89d2bbf30c76e8ee7a27f87984ce76eab190613fbd02eaac21b053833ad55fc5"
+    },
+    {
+      "file": "functions/_seal_battle.js",
+      "sha256": "316e49a74751fbacb69fa57505b768af0d32c50fe59b52213a6e9b56e4bce58e"
+    },
+    {
+      "file": "functions/_soopket_land.js",
+      "sha256": "c923f2bd454d3c4370b5b915153942ca0c2fdef569313d6f9bf2eee39d647bb9"
+    },
+    {
+      "file": "functions/_territory_war.js",
+      "sha256": "786df55dace74468fb9a1c9ecd32a578b6efbd155fafe0629fcecc6fbd9c7186"
+    },
+    {
+      "file": "functions/_tower_abyss.js",
+      "sha256": "067455826c15f4a2db99436517b50016bdde85b87c630f452f94fe44042dcbe8"
+    },
+    {
+      "file": "functions/_vehicle_draw.js",
+      "sha256": "e68b7be2feef9afbac613a1d406dbe7659185f57bd17fd019ab941f063202dda"
+    },
+    {
+      "file": "functions/_workshop.js",
+      "sha256": "1822d405708105b6be56a9223a2d1a0024e1a59411fbe13de2dc52f6a8901080"
+    },
+    {
+      "file": "functions/_workshop_equipment_craft.js",
+      "sha256": "7e5e2c6590998c6d42d511f9c64358210fd8908e97bbdf562ffbcfbaa496bf59"
+    },
+    {
+      "file": "functions/api/[[path]].js",
+      "sha256": "c5ead8971ed05b87e8a38a3ad395eec4aae5a3f26666ea63d88d7b5942cb14ac"
+    }
+  ],
+  "priorChecks": 526
+}

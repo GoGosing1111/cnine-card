@@ -1,0 +1,316 @@
+{
+  "at": "2026-11-06T13:07:17.947Z",
+  "base": "dfa2cddba",
+  "mechanical": [
+    {
+      "file": "functions/_account_rank.js",
+      "expressions": 1
+    },
+    {
+      "file": "functions/_auction.js",
+      "expressions": 2
+    },
+    {
+      "file": "functions/_auction_user_service.js",
+      "expressions": 2
+    },
+    {
+      "file": "functions/_avatar.js",
+      "expressions": 1
+    },
+    {
+      "file": "functions/_black_miracle_pack.js",
+      "expressions": 1
+    },
+    {
+      "file": "functions/_clan.js",
+      "expressions": 1
+    },
+    {
+      "file": "functions/_coup.js",
+      "expressions": 1
+    },
+    {
+      "file": "functions/_daily_quest_reward.js",
+      "expressions": 1
+    },
+    {
+      "file": "functions/_equipment.js",
+      "expressions": 2
+    },
+    {
+      "file": "functions/_equipment_polish_transactions.js",
+      "expressions": 1
+    },
+    {
+      "file": "functions/_escort_operation.js",
+      "expressions": 1
+    },
+    {
+      "file": "functions/_expedition_v3_runs.js",
+      "expressions": 1
+    },
+    {
+      "file": "functions/_legion_hunt_coins.js",
+      "expressions": 1
+    },
+    {
+      "file": "functions/_prime_draw.js",
+      "expressions": 1
+    },
+    {
+      "file": "functions/_quest_combat.js",
+      "expressions": 1
+    },
+    {
+      "file": "functions/_raid_blackwing_rewards.js",
+      "expressions": 1
+    },
+    {
+      "file": "functions/_raid_core_protocol.js",
+      "expressions": 1
+    },
+    {
+      "file": "functions/_raid_lich_rewards.js",
+      "expressions": 1
+    },
+    {
+      "file": "functions/_raid_madara_rewards.js",
+      "expressions": 1
+    },
+    {
+      "file": "functions/_scrapyard.js",
+      "expressions": 1
+    },
+    {
+      "file": "functions/_seal_battle.js",
+      "expressions": 3
+    },
+    {
+      "file": "functions/_soopket_land.js",
+      "expressions": 1
+    },
+    {
+      "file": "functions/_territory_war.js",
+      "expressions": 3
+    },
+    {
+      "file": "functions/_tower_abyss.js",
+      "expressions": 1
+    },
+    {
+      "file": "functions/_vehicle_draw.js",
+      "expressions": 1
+    },
+    {
+      "file": "functions/_workshop.js",
+      "expressions": 1
+    },
+    {
+      "file": "functions/_workshop_equipment_craft.js",
+      "expressions": 1
+    }
+  ],
+  "manuallyReviewed": [
+    "functions/_coin_settlement.js",
+    "functions/_captain.js",
+    "functions/_golden_axe.js",
+    "functions/_joint_transactions.js",
+    "functions/_magic.js",
+    "functions/_november_gift_coupon.js",
+    "functions/api/[[path]].js",
+    "functions/_evolution.js"
+  ],
+  "baseline": {
+    "regressionCases": 6,
+    "failures": 6,
+    "log": "baseline-regression.log"
+  },
+  "regression": {
+    "files": 41,
+    "initialCases": 516,
+    "initialPassed": 505,
+    "initialFailed": 11,
+    "repairs": {
+      "missingSparseFilesPassed": 18,
+      "integerSqlGuardAssertionPassed": 1
+    },
+    "currentOldEscortCacheAssertion": {
+      "baselineAndWorkingAppSha256": "1cf3d6bf3232ed35091541150096a2077efb9e8da91a2ce6ba73c9500dcc2d09",
+      "expected": "106-combat-flow / 3.36.0-combat-flow",
+      "unchangedBaseline": true
+    },
+    "runtimeSchemaAdditionalPassed": 1,
+    "uniquePassed": 526,
+    "preexistingUnrelatedFailures": 1,
+    "adminAdjustmentAdditionalPassed": 1
+  },
+  "scope": "Search every tracked JS/MJS source in functions/shared/workers/js. Review wallet caps, authority reads, credits/debits, ledger/receipt round trips, retry comparisons. Execute related local transaction suites; no claim of live gameplay on every content.",
+  "retained": {
+    "postgresGlobalParser": true,
+    "dbSchema": true,
+    "gameplayRates": true,
+    "prices": true,
+    "quantities": true,
+    "retiredContent": true,
+    "historicalReceipts": true,
+    "productionAccountWrites": 0,
+    "maintenance": 0,
+    "schedules": 0
+  },
+  "releaseGate": {
+    "files": 3,
+    "passed": 12,
+    "failed": 0
+  },
+  "uniquePassedTotal": 538,
+  "production": {
+    "at": "2026-11-06T13:15:56.065Z",
+    "id": "65d9b294-bd14-4e5c-9f36-c2084c38524d",
+    "url": "https://65d9b294.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "c4982ece7666363b64c40ff1ae2cb6e24b7927be"
+  },
+  "sourceFilesAfterMergeIdenticalToTested": [
+    {
+      "file": "functions/_account_rank.js",
+      "sha256": "228db8488fe2bf8ed23bb880e451f57cb407abe9a551bd55d207075c9de0133d"
+    },
+    {
+      "file": "functions/_auction.js",
+      "sha256": "686287c2f13d59baffa80146cdfeec46b31882c3a4e13a304d70b903c6724801"
+    },
+    {
+      "file": "functions/_auction_user_service.js",
+      "sha256": "6a5991cf5a76896cb54aa554f70c04c96f1550fb1a732d5b5ed964a892acc3e5"
+    },
+    {
+      "file": "functions/_avatar.js",
+      "sha256": "6d2f29b5f44b1c376d6fcc634e0102b94e01189b9bb0b14e435053ec79b74c24"
+    },
+    {
+      "file": "functions/_black_miracle_pack.js",
+      "sha256": "b007b3bd41f4c58b180c569d53fec620f667f5f2203e27079193a08e1d6f600a"
+    },
+    {
+      "file": "functions/_captain.js",
+      "sha256": "9c866462000a2b1da4198ad818b6b79eccb7ceb23a3d426fa457a6344e94280a"
+    },
+    {
+      "file": "functions/_clan.js",
+      "sha256": "d6eb658e45669e0d9201ea1ca8b37a7565a6a2ab9f89f744441148b73812dffa"
+    },
+    {
+      "file": "functions/_coin_settlement.js",
+      "sha256": "b627fbd4bf8806e80b48a131fc03af1e21b1a98d314e60b2a2b6f9abb827a873"
+    },
+    {
+      "file": "functions/_coup.js",
+      "sha256": "146e59eb2f8af81db2995238ff4c78f8a1a2596169b3e59b2e1b93ccf0f98d9b"
+    },
+    {
+      "file": "functions/_daily_quest_reward.js",
+      "sha256": "db8398653f81a7eecd745a6ccc7ffc9d01371370c77e3af932c927e40af2fa87"
+    },
+    {
+      "file": "functions/_equipment.js",
+      "sha256": "f12af27c4b9da48af7b4a1ea5bc9b6638ecd85adf00d2d86af544ab2439d5f8f"
+    },
+    {
+      "file": "functions/_equipment_polish_transactions.js",
+      "sha256": "428cb906ae83f7159f3d774857f7b7e666634910df9cb2f5911b5e3adb7dc721"
+    },
+    {
+      "file": "functions/_escort_operation.js",
+      "sha256": "322b48abcf51fde38b93fc51e0fa2b340a0d9f99ce90913cd7e4dfe6febed129"
+    },
+    {
+      "file": "functions/_evolution.js",
+      "sha256": "d46cd9a4620e4b94e5452d7b096bb8c948154b67cbd867b1948bb5de17b1e638"
+    },
+    {
+      "file": "functions/_expedition_v3_runs.js",
+      "sha256": "95aa09342f383be6d34c032e6580fad99e6d9a2e511397319a62789844d24af7"
+    },
+    {
+      "file": "functions/_golden_axe.js",
+      "sha256": "fc3044cfad36e3d8ee094b57d382c72ced80331559bf459608ded3877373a55c"
+    },
+    {
+      "file": "functions/_joint_transactions.js",
+      "sha256": "16c3f0bb9ae325b5f431b125bc42620094e03f3e47bcac0baeeca02bbafda820"
+    },
+    {
+      "file": "functions/_legion_hunt_coins.js",
+      "sha256": "870a73b1a14400ac0bf4d3527ce62d4f98a18f2b2d182100494f4b99841b9154"
+    },
+    {
+      "file": "functions/_magic.js",
+      "sha256": "1b0d9c95c0f996cc3ce36d35f4074b2130fe6349e4ff8af6bd357c41fdf709fe"
+    },
+    {
+      "file": "functions/_november_gift_coupon.js",
+      "sha256": "2ccb1d191e4c1f6dce9284c778f0d25541abcd2f359e3e3b581e5b7560f2c28d"
+    },
+    {
+      "file": "functions/_prime_draw.js",
+      "sha256": "5b178571bb6630d7b69e35ae7929e8d3e07d1a4a259b64ad43b09bff00c4e87f"
+    },
+    {
+      "file": "functions/_quest_combat.js",
+      "sha256": "307bcd9cec7036ad81cd56189a3dcb666221234e58598fa15ea077d3b462b41c"
+    },
+    {
+      "file": "functions/_raid_blackwing_rewards.js",
+      "sha256": "13d0678bc10b5fcc7f08e3971504c2b14117345f6f388017474721893ef93697"
+    },
+    {
+      "file": "functions/_raid_core_protocol.js",
+      "sha256": "d07197e84605911decb02c4158777b8f541e2ce0d1ee9239e1b5e1d754cc1c8b"
+    },
+    {
+      "file": "functions/_raid_lich_rewards.js",
+      "sha256": "34e401e693eb5a7469b5a8c1e1939053b405535c6f872187da1f5fe60e910722"
+    },
+    {
+      "file": "functions/_raid_madara_rewards.js",
+      "sha256": "27ae420488c673d59c54899e944ce713e699b7cecc8da67f083ee8d64512b57a"
+    },
+    {
+      "file": "functions/_scrapyard.js",
+      "sha256": "89d2bbf30c76e8ee7a27f87984ce76eab190613fbd02eaac21b053833ad55fc5"
+    },
+    {
+      "file": "functions/_seal_battle.js",
+      "sha256": "316e49a74751fbacb69fa57505b768af0d32c50fe59b52213a6e9b56e4bce58e"
+    },
+    {
+      "file": "functions/_soopket_land.js",
+      "sha256": "c923f2bd454d3c4370b5b915153942ca0c2fdef569313d6f9bf2eee39d647bb9"
+    },
+    {
+      "file": "functions/_territory_war.js",
+      "sha256": "786df55dace74468fb9a1c9ecd32a578b6efbd155fafe0629fcecc6fbd9c7186"
+    },
+    {
+      "file": "functions/_tower_abyss.js",
+      "sha256": "067455826c15f4a2db99436517b50016bdde85b87c630f452f94fe44042dcbe8"
+    },
+    {
+      "file": "functions/_vehicle_draw.js",
+      "sha256": "e68b7be2feef9afbac613a1d406dbe7659185f57bd17fd019ab941f063202dda"
+    },
+    {
+      "file": "functions/_workshop.js",
+      "sha256": "1822d405708105b6be56a9223a2d1a0024e1a59411fbe13de2dc52f6a8901080"
+    },
+    {
+      "file": "functions/_workshop_equipment_craft.js",
+      "sha256": "7e5e2c6590998c6d42d511f9c64358210fd8908e97bbdf562ffbcfbaa496bf59"
+    },
+    {
+      "file": "functions/api/[[path]].js",
+      "sha256": "c5ead8971ed05b87e8a38a3ad395eec4aae5a3f26666ea63d88d7b5942cb14ac"
+    }
+  ]
+}

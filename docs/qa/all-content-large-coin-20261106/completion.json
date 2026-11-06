@@ -1,0 +1,115 @@
+{
+  "at": "2026-11-06T13:16:10.862Z",
+  "source": "c4982ece7666363b64c40ff1ae2cb6e24b7927be",
+  "implementation": "c32b885bb",
+  "pages": {
+    "at": "2026-11-06T13:15:56.065Z",
+    "id": "65d9b294-bd14-4e5c-9f36-c2084c38524d",
+    "url": "https://65d9b294.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "c4982ece7666363b64c40ff1ae2cb6e24b7927be"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "c5001e1f-67f6-423d-afca-f6151e5cd7db",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "23eaf848-fe56-4e59-ba72-d7651def059c",
+      "percentage": 100
+    }
+  ],
+  "relatedTestsPassed": 538,
+  "preexistingUnrelatedEscortLoaderAssertion": 1,
+  "sourceAudit": {
+    "files": 1015,
+    "coinFiles": 251,
+    "initialFiles": 1014,
+    "initialCoinFiles": 250,
+    "coinSqlFiles": 29,
+    "coinSqlExpressions": 45
+  },
+  "productionReadOnly": {
+    "at": "2026-11-06T12:54:52.446Z",
+    "wallets": {
+      "total": "3974",
+      "abovesafe": "5",
+      "above10g": "0",
+      "highest": "67596255435149739"
+    },
+    "receipts": [
+      {
+        "table": "draw_request_receipts_v2",
+        "rows": [
+          {
+            "status": "FAILED",
+            "error": "코인이 부족합니다.",
+            "count": "2"
+          }
+        ]
+      },
+      {
+        "table": "magic_card_draw_receipts",
+        "rows": []
+      },
+      {
+        "table": "workshop_craft_receipts_v1668",
+        "rows": []
+      },
+      {
+        "table": "captain_reward_claims",
+        "skipped": "schema differs"
+      },
+      {
+        "table": "raid_reward_receipts",
+        "rows": []
+      },
+      {
+        "table": "inventory_use_receipts",
+        "rows": []
+      }
+    ],
+    "messagePrecision": [
+      {
+        "receipts": "0",
+        "inexactbeforereceipts": "0"
+      }
+    ],
+    "readonly": true,
+    "writes": 0
+  },
+  "deployedCodeSmoke": [
+    {
+      "initial": "9007199254740992",
+      "credit": 7,
+      "debit": 7,
+      "exact": true
+    },
+    {
+      "initial": "99999999999999999",
+      "credit": 7,
+      "debit": 7,
+      "exact": true
+    },
+    {
+      "initial": "100000000000000001",
+      "credit": 7,
+      "debit": 7,
+      "exact": true
+    },
+    {
+      "initial": "67596255435149739",
+      "credit": 7,
+      "debit": 7,
+      "exact": true
+    }
+  ],
+  "deployedRecoveryDistinguishesOneCoin": true,
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "maintenance": 0,
+  "schedules": 0,
+  "limits": "Static audit of all coin-bearing source; isolated transaction tests and deployed-function smoke. Not a real-account purchase/claim or physical device test. Numeric presentation fields remain approximate."
+}

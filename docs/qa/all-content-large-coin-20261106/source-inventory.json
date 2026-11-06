@@ -1,0 +1,1762 @@
+{
+  "files": 1015,
+  "coinFiles": [
+    {
+      "file": "functions/_account_rank.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "functions/_alchemy.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_apocalypse_challenge.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_apocalypse_rewards.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 2
+    },
+    {
+      "file": "functions/_auction.js",
+      "writes": 2,
+      "logs": 2,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_auction_user_accounting.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_auction_user_service.js",
+      "writes": 2,
+      "logs": 2,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_avatar.js",
+      "writes": 1,
+      "logs": 0,
+      "caps": 5,
+      "numberReads": 4
+    },
+    {
+      "file": "functions/_avatar_iyejun.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_black_miracle_pack.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_captain.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 4
+    },
+    {
+      "file": "functions/_chicken_coupon.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_chicken_event.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_chuseok.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_chuseok_coupon.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_clan.js",
+      "writes": 1,
+      "logs": 0,
+      "caps": 3,
+      "numberReads": 1
+    },
+    {
+      "file": "functions/_clan_champions.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_clan_faction_model.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_clan_faction_sessions.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_clan_member_assignment.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_clan_member_gift.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_clan_participation.js",
+      "writes": 1,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_clan_rematch_20260920.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_clan_war_item_rewards.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 3,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_clan_war_pig_rewards.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_cnine_streamer_box.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_coin_prediction.js",
+      "writes": 2,
+      "logs": 2,
+      "caps": 2,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_coin_prediction_subsidy.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_coin_settlement.js",
+      "writes": 1,
+      "logs": 2,
+      "caps": 3,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_collection_bonuses.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_cooperative_rewards.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 4,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_core_raid_rewards.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 3,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_coup.js",
+      "writes": 1,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_coupon_issue_limits.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_daily_quest_reward.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_data/schema.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_drop_pool.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 1,
+      "numberReads": 1
+    },
+    {
+      "file": "functions/_equipment.js",
+      "writes": 2,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "functions/_equipment_forge_public.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_equipment_forge_transactions.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_equipment_polish.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_equipment_polish_transactions.js",
+      "writes": 1,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_escort_operation.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 2
+    },
+    {
+      "file": "functions/_evolution.js",
+      "writes": 2,
+      "logs": 2,
+      "caps": 0,
+      "numberReads": 4
+    },
+    {
+      "file": "functions/_evolution_batch.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "functions/_expedition_v3_runs.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "functions/_expedition_v3_settings.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 3,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_forge_protection_drop.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_funding_gift.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_golden_axe.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_golden_axe_coupon.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_hyper_pack_opening.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_icon_enhancement.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_icon_fusion.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_idle_dungeon.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 6,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_idle_v3_playback.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_joint_transactions.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_jokgak_city_message_reward.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 2
+    },
+    {
+      "file": "functions/_jokgak_city_rewards.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_jokgak_city_round_rewards.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_jokgak_city_top10_event.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_legion_hunt.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 3,
+      "numberReads": 1
+    },
+    {
+      "file": "functions/_legion_hunt_coins.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_loot_shop.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_magic.js",
+      "writes": 2,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 3
+    },
+    {
+      "file": "functions/_mercenary_account.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_mercenary_blackcrown_opening.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_mercenary_bloodmoon_opening.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_mercenary_halloween_opening.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_mercenary_limited_pack.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "functions/_miracle_cube_coupon.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_monster_defense_rewards.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 4,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_new_user_gift.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 2
+    },
+    {
+      "file": "functions/_november_gift_coupon.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_onestore_web.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_organization_faction.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_organization_faction_model.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_organization_fixed_sessions.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_package_coin_accounting.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 4,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_pig_coin_content_rewards.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_pig_coin_message_reward.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_pingdu_thanks_gift.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_prime_draw.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 1,
+      "numberReads": 1
+    },
+    {
+      "file": "functions/_prison_community.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 2
+    },
+    {
+      "file": "functions/_prison_hunger.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_pve_nightmare.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 4,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_quest_combat.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 2
+    },
+    {
+      "file": "functions/_quest_hub.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_raid_blackwing_live.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 3,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_raid_blackwing_rewards.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_raid_core_protocol.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_raid_lich_live.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_raid_lich_rewards.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_raid_madara_live.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_raid_madara_rewards.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_raid_overhaul.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 2
+    },
+    {
+      "file": "functions/_raid_pig_rewards.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_raid_weekly_bosses_v1.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_raid_weekly_cms_v2141.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_rank_exp_potion_grant.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 2,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_ranked_coin.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 2,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_ranked_duo.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 2
+    },
+    {
+      "file": "functions/_ranked_duo_economy.js",
+      "writes": 2,
+      "logs": 2,
+      "caps": 3,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_ranked_reform.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "functions/_ranked_reopen.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_ranked_shop.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_recruitment_gift.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_retired_content.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_reversecall_streamer_gift.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_scrapyard.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 2,
+      "numberReads": 1
+    },
+    {
+      "file": "functions/_scrapyard_v3_runs.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_seal_battle.js",
+      "writes": 3,
+      "logs": 3,
+      "caps": 2,
+      "numberReads": 7
+    },
+    {
+      "file": "functions/_sig_hunter_box.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_soopket_land.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_storage_cleanup.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 2,
+      "numberReads": 1
+    },
+    {
+      "file": "functions/_superstar_pack.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 5
+    },
+    {
+      "file": "functions/_support_package.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 2,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_supporter_season_pass.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 2,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_targeted_avatar_grant_redcloud_dc_hi_heeya_v1.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_targeted_reward_grant_20260921_v1.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 2
+    },
+    {
+      "file": "functions/_territory_clan_warfare.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_territory_war.js",
+      "writes": 4,
+      "logs": 4,
+      "caps": 1,
+      "numberReads": 6
+    },
+    {
+      "file": "functions/_tournament_gift.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_tower_abyss.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_tower_v3_economy.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "functions/_tower_v3_legacy.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_tower_v3_runs.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/_ultimate_pack_bulk.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 2
+    },
+    {
+      "file": "functions/_vehicle_draw.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "functions/_workshop.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 2,
+      "numberReads": 7
+    },
+    {
+      "file": "functions/_workshop_awakened_omega.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 1
+    },
+    {
+      "file": "functions/_workshop_equipment_craft.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 1,
+      "numberReads": 3
+    },
+    {
+      "file": "functions/_workshop_s_body_refund_20260930.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 0,
+      "numberReads": 3
+    },
+    {
+      "file": "functions/_worm_contest_gift.js",
+      "writes": 1,
+      "logs": 1,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "functions/api/[[path]].js",
+      "writes": 12,
+      "logs": 10,
+      "caps": 4,
+      "numberReads": 24
+    },
+    {
+      "file": "js/administration-treasury-v2030.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/app.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 3,
+      "numberReads": 33
+    },
+    {
+      "file": "js/auction-house-v1553.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 1
+    },
+    {
+      "file": "js/auction-user-bgm-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/auction-user-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "js/avatar-shop-v1.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 8
+    },
+    {
+      "file": "js/battle-v2-live.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/black-miracle-opening-v1926.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/captain.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 5
+    },
+    {
+      "file": "js/chicken-event-v1.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/chuseok-model-v1.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "js/clan-faction-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/clan-v1.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 1
+    },
+    {
+      "file": "js/cnine-streamer-box-v1.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "js/coin-prediction-model-v2033.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/coin-prediction-v1.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "js/coin-prediction-v2033.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/core-protocol-raid-v1924.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/core-raid-reward-picker-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/core-raid-reward-picker-v2.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/coup-palace-v2115.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/cow-room-live.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/cow-room-portal.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/escort-operation-v1830.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/evolution.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "js/funding-gift-v1.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "js/golden-axe-model-v1.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/golden-axe-page-v1.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/icon-enhancement-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/icon-fusion-v1.bundle.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "js/icon-fusion-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "js/idle-dungeon-v1600.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "js/image-delivery-map-20261015.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/jokgak-city-v1.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/legion-hunt-entry-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/loot-shop-presentation-v2.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/loot-shop-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "js/magic-workbench-v1.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "js/mercenary-blackcrown-pack-live.bundle.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 1
+    },
+    {
+      "file": "js/mercenary-blackcrown-pack-live.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "js/mercenary-bloodmoon-pack-live.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "js/mercenary-halloween-pack-live.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "js/mercenary-limited-pack-live.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "js/miracle-burning-v1.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/new-user-gift-v2075.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 3
+    },
+    {
+      "file": "js/organization-faction-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/pig-coin-hud-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/pingdu-thanks-gift-v1.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "js/pve-command-v2-live.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/quest-command-ui.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/ranked-duo-random-v4.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/ranked-duo-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/ranked-shop-presentation-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/ranked-shop-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "js/recruitment-gift-v1.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "js/reversecall-streamer-gift-v1.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "js/reversecall-streamer-pack-live.bundle.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 1
+    },
+    {
+      "file": "js/seal-battle.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "js/sig-hunter-box-v1.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "js/soopketland-v2039.bundle.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/soopketland-v2039.src.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/soopketmon-v21-draw-purchase-controller.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 7
+    },
+    {
+      "file": "js/soopketmon-v21-exact-shell-adapter.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "js/territory-war-v1362.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "js/territory-war-v1811.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 3
+    },
+    {
+      "file": "js/tower-abyss-ui.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/ultimate-pack-bulk.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/unified-drop-cinematic-v1750.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/wish-lamp-page-v2077.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "js/workshop-recipes-v1.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "js/workshop-v1668.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 2
+    },
+    {
+      "file": "js/workshop-v1676.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "js/workshop-v1881.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 2
+    },
+    {
+      "file": "js/worm-contest-gift-v1.js",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 1
+    },
+    {
+      "file": "shared/apocalypse-sahyeon-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/apocalypse-trio-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/auction-user-policy-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/blackwing-clear-reward-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/chicken-event-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/clan-faction-sessions-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/clan-war-item-rewards-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/cnine-streamer-box-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/coin-integer-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 8,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/cooperative-rewards-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/cooperative-settings-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/core-raid-reward-policy-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/coup-palace-v2115.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/cow-room-economy-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 2,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/jokgak-city-round-rewards-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 2,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/jokgak-city-settings-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/legion-hunt-coins-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 2,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/loot-shop-policy-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/magic-pack-seasons-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/mercenary-blackcrown-auto-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/mercenary-blackcrown-bulk-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-auto-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/mercenary-bloodmoon-bulk-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/mercenary-cms-model-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/mercenary-halloween-auto-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/monster-defense-rewards-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/organization-competition-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 2,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/organization-faction-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/pve-reform-20261008.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/quest-command-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/ranked-duo-season-v2.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/ranked-duo-weekly-v3.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 2,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/ranked-shop-policy-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/reversecall-streamer-gift-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/sig-hunter-box-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/superstar-pack-bulk-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 1,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/support-package-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 2,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/ultimate-pack-bulk-v1.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 2
+    },
+    {
+      "file": "shared/workshop-equipment-craft.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    },
+    {
+      "file": "shared/world-raid-balance-20261021.mjs",
+      "writes": 0,
+      "logs": 0,
+      "caps": 0,
+      "numberReads": 0
+    }
+  ]
+}
