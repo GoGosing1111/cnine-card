@@ -1,0 +1,94 @@
+{
+  "status": "BROWSER_VERIFIED",
+  "at": "2026-11-06T14:40:55.783Z",
+  "viewports": [
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "checks": 29,
+      "errors": [],
+      "baselineWarnings": []
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "checks": 29,
+      "errors": [],
+      "baselineWarnings": [
+        "ResizeObserver loop completed with undelivered notifications.",
+        "ResizeObserver loop completed with undelivered notifications.",
+        "ResizeObserver loop completed with undelivered notifications.",
+        "/127.0.0.1:13417/api/loot-shop/balance due to access control checks.",
+        "/127.0.0.1:13417/api/account-rank/status due to access control checks.",
+        "/127.0.0.1:13417/api/me/menu-favorites due to access control checks.",
+        "ResizeObserver loop completed with undelivered notifications."
+      ]
+    },
+    {
+      "engine": "chromium",
+      "width": 320,
+      "checks": 29,
+      "errors": [],
+      "baselineWarnings": []
+    }
+  ],
+  "browserChecks": 87,
+  "sourceHashes": [
+    {
+      "file": "js/ranked-series-ui-v1.js",
+      "sha256": "3e1d19d0279cf5dbd8ba21b230004cef2e61b586ac0af596f94830e7ae61e88d"
+    },
+    {
+      "file": "css/ranked-series-v1.css",
+      "sha256": "d70892ed3fd1bd0ee1b800a958b5c67161f6cc729e32ab785448b49a6ed80e8f"
+    },
+    {
+      "file": "index.html",
+      "sha256": "791f97ae2ce06056f979b5f652a8917fe05db8f550455a738d04a2c3c180b7d5"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "e9e8f5792b8ae56c75069c7160571cdafd872f01783f5fcb30e1d64475c4b806"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "eba8e00f096cd5ee0f2d7cbc021a177c847de39a873b3a549acc145b9f6e760a"
+    }
+  ],
+  "assets": [
+    {
+      "file": "assets/ui/mercenary-codex/command-20261021/panel-v3.webp",
+      "sha256": "55eb415b28c41dbf34ec74c9ff2f855b860c6aff1a8b5007a8128164af7bb892",
+      "unchanged": true
+    },
+    {
+      "file": "assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+      "sha256": "d7400c6be41938ced1d1d8915c9e74840af091ba1537c91b74057d2e0331b155",
+      "unchanged": true
+    },
+    {
+      "file": "assets/ui/ranked/series-20261019/frame.webp",
+      "sha256": "da6a40590d54a08b4cf6945a1a178fd830b5fd44aa9e7cac77fa3ef48aec8041",
+      "unchanged": true
+    }
+  ],
+  "baseline": {
+    "source": "e7791decabb3406cabe5ca69be95918f379e08d6",
+    "warnings": [
+      "ResizeObserver loop completed with undelivered notifications.",
+      "/127.0.0.1:13170/api/loot-shop/balance due to access control checks.",
+      "/127.0.0.1:13170/api/account-rank/status due to access control checks.",
+      "/127.0.0.1:13170/api/me/menu-favorites due to access control checks.",
+      "ResizeObserver loop completed with undelivered notifications.",
+      "/127.0.0.1:13170/api/loot-shop/balance due to access control checks.",
+      "/127.0.0.1:13170/api/account-rank/status due to access control checks.",
+      "/127.0.0.1:13170/api/me/menu-favorites due to access control checks.",
+      "ResizeObserver loop completed with undelivered notifications.",
+      "ResizeObserver loop completed with undelivered notifications."
+    ],
+    "evidence": "operations/ranked-mercenary-favorites-20261106/probe-baseline-account/"
+  },
+  "productionAccountWrites": 0,
+  "realDeviceTest": false,
+  "installedAppTest": false
+}
