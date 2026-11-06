@@ -1,0 +1,37 @@
+{
+  "before": {
+    "at": "2026-11-06T12:55:58.851Z",
+    "id": "7b946e64-804e-456b-a027-6b840db6b0fa",
+    "url": "https://7b946e64.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "ea5f29738ab31cf2761e397c7d62b5dab348d61e"
+  },
+  "base": "ea5f29738ab31cf2761e397c7d62b5dab348d61e",
+  "reason": "Refresh only the existing workshop UI for recipe selection, owned/required/shortage resources, cost and success probability. Preserve all recipe and transaction rules, source art and receipt-driven assembly. Targeted workshop regression and real Chromium/WebKit desktop/mobile checks already passed. Previous gate passed 21 material-policy, packaging and loader checks; payment test could not resolve the installed browser runtime. Supply the existing PLAYWRIGHT_MODULE and update its old English label/native selector expectations. This final gate runs that payment/retry test plus mandatory loader checks. The independently tested 2-case concurrent Jokro access change is now already live at the new base. No authentication, DB adapter, schema, dependencies or gameplay policy changes.",
+  "tests": [
+    "tests/workshop-battle-suit-payment-20260930.test.mjs"
+  ],
+  "checks": [],
+  "sourceFiles": [
+    ".impeccable/surfaces/js-workshop-v1881-js.md",
+    "PRODUCT.md",
+    "css/workshop-workbench-v1.css",
+    "docs/qa/workshop-ui-refresh-20261106/README.md",
+    "index.html",
+    "js/app.js",
+    "js/workshop-recipes-v1.js",
+    "js/workshop-v1881.js",
+    "onestore/index.html",
+    "onestore/js/app.js",
+    "packaging/onestore/web-build.json",
+    "scripts/prepare-production-assets.mjs",
+    "service-worker.js",
+    "shared/onestore-web-assets-v1.mjs",
+    "tests/battle-suit-workshop-v2004.test.mjs",
+    "tests/workshop-battle-suit-payment-20260930.test.mjs",
+    "tests/workshop-extension-v1.test.mjs",
+    "tests/workshop-mystic-energy-v1931.test.mjs",
+    "tests/workshop-split-lineage-v1881.mjs",
+    "tests/workshop-ui-refresh-20261106.browser.mjs"
+  ]
+}
