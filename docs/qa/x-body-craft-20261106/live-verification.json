@@ -1,0 +1,156 @@
+{
+  "at": "2026-11-06T09:54:21.385Z",
+  "id": "4a824fa1-1e40-4acc-8a55-fd32008f9ec6",
+  "url": "https://4a824fa1.cnine-card.pages.dev",
+  "status": "success",
+  "commit": "400a830c7f6f213a1e2a9724ebae29af393f7cc3",
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "f0d5c6218f66e46c201ec3fc3e440c41b4f377e0f6635395a273142647949f9a",
+      "bytes": 49873
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "c51c213d03878cca55b25535b8096eb33ab09f8298ef586aa8907c19de39f640",
+      "bytes": 811238
+    },
+    {
+      "file": "js/workshop-assembly-live-v2073.bundle.js",
+      "status": 200,
+      "sha256": "c54e8c746445cae423152498614fe67a0d4201801dbb79d84dacb5ea04ee21d4",
+      "bytes": 21125
+    },
+    {
+      "file": "js/workshop-assembly-fx-v2073.bundle.js",
+      "status": 200,
+      "sha256": "82c4acc70615bb5bd9584a8f26d942df650c1ed9e8451328bfdfb0c22f839165",
+      "bytes": 42480
+    },
+    {
+      "file": "preview/workshop-assembly-v1/assembly.bundle.js",
+      "status": 200,
+      "sha256": "e4f019ae535f388d5399ebdf7e105da3b49481446426656591e90b8646adce7a",
+      "bytes": 49156
+    },
+    {
+      "file": "assets/ui/project-v/account-battle-suits/x-sword-v1/x-body.png",
+      "status": 200,
+      "sha256": "91cdd399bb2e042b32b6fa7573c8491a913a97d456dcbb8a13dffbb5d49b8ddc",
+      "bytes": 1646487
+    },
+    {
+      "file": "assets/items/suit-core-7-20261006.png",
+      "status": 200,
+      "sha256": "4b1775428a1bdac452e3bfbbd91968df81ab59e9a3da5bbf9c56b0c7bfae08a4",
+      "bytes": 1791653
+    },
+    {
+      "file": "preview/workshop-assembly-v1/assets/parts/x/coat.png",
+      "status": 200,
+      "sha256": "44a16d692fcf77b371e177126bca51c2ab6f350681cb26fb902b14ca4e40f70e",
+      "bytes": 515927
+    },
+    {
+      "file": "preview/workshop-assembly-v1/assets/parts/x/helmet.png",
+      "status": 200,
+      "sha256": "5168650d0ad667358b66a299de29a0153944998d228888af25a101f1c946ccdc",
+      "bytes": 81994
+    },
+    {
+      "file": "preview/workshop-assembly-v1/assets/parts/x/shoulderL.png",
+      "status": 200,
+      "sha256": "4b6e3f353d2dcbdd3cc7a28ca6a2a4862b1b0b4c16bd0f466552c8eb9340dea6",
+      "bytes": 87131
+    },
+    {
+      "file": "preview/workshop-assembly-v1/assets/parts/x/torso.png",
+      "status": 200,
+      "sha256": "3260a114c59b7d4f8abb41cdf7e1b4e6357ecd5e1866a4f092c721a9f5a3681b",
+      "bytes": 112301
+    },
+    {
+      "file": "preview/workshop-assembly-v1/assets/parts/x/shoulderR.png",
+      "status": 200,
+      "sha256": "59587e60940ae90e98101394a89029eb30e5ab6c3d70020cc2b96ee2f2d84838",
+      "bytes": 32800
+    },
+    {
+      "file": "preview/workshop-assembly-v1/assets/parts/x/core.png",
+      "status": 200,
+      "sha256": "f9c87e3e48801afae1d53dbf178110e861808db0a1031b0853398164caa9325b",
+      "bytes": 4397
+    },
+    {
+      "file": "preview/workshop-assembly-v1/assets/parts/x/armL.png",
+      "status": 200,
+      "sha256": "c7d266b4b7e638ac4fdcd02788db7e41f98b7e4a47be0ceedec1a8117324e6ac",
+      "bytes": 94261
+    },
+    {
+      "file": "preview/workshop-assembly-v1/assets/parts/x/armR.png",
+      "status": 200,
+      "sha256": "994741420f45fcd056eb92c4d528b1d916b0279199c6fbc8a49353ff18d591b0",
+      "bytes": 72950
+    },
+    {
+      "file": "preview/workshop-assembly-v1/assets/parts/x/hips.png",
+      "status": 200,
+      "sha256": "c136badbb26d6688923714721175532677192ffc75e8160e576c742eb562609d",
+      "bytes": 68352
+    },
+    {
+      "file": "preview/workshop-assembly-v1/assets/parts/x/legL.png",
+      "status": 200,
+      "sha256": "dda3c76a37566a1150c545ea872d31ef499191ffaa775dfe8a092266d4f4fab3",
+      "bytes": 254849
+    },
+    {
+      "file": "preview/workshop-assembly-v1/assets/parts/x/legR.png",
+      "status": 200,
+      "sha256": "f97d09afd75caf0bef3df326d56c260aac3850aca8542a78f7de2dba159d22e9",
+      "bytes": 274416
+    },
+    {
+      "file": "preview/workshop-assembly-v1/assets/parts/x/sword.png",
+      "status": 200,
+      "sha256": "842528df6eed43e0f900d8dfd6c2fc83c6a610e6ce77d63190f63414eba83100",
+      "bytes": 179017
+    }
+  ],
+  "windows": [
+    "js/app.js",
+    "js/workshop-assembly-live-v2073.bundle.js",
+    "js/workshop-assembly-fx-v2073.bundle.js",
+    "preview/workshop-assembly-v1/assembly.bundle.js",
+    "assets/ui/project-v/account-battle-suits/x-sword-v1/x-body.png",
+    "assets/items/suit-core-7-20261006.png",
+    "preview/workshop-assembly-v1/assets/parts/x/coat.png",
+    "preview/workshop-assembly-v1/assets/parts/x/helmet.png",
+    "preview/workshop-assembly-v1/assets/parts/x/shoulderL.png",
+    "preview/workshop-assembly-v1/assets/parts/x/torso.png",
+    "preview/workshop-assembly-v1/assets/parts/x/shoulderR.png",
+    "preview/workshop-assembly-v1/assets/parts/x/core.png",
+    "preview/workshop-assembly-v1/assets/parts/x/armL.png",
+    "preview/workshop-assembly-v1/assets/parts/x/armR.png",
+    "preview/workshop-assembly-v1/assets/parts/x/hips.png",
+    "preview/workshop-assembly-v1/assets/parts/x/legL.png",
+    "preview/workshop-assembly-v1/assets/parts/x/legR.png",
+    "preview/workshop-assembly-v1/assets/parts/x/sword.png"
+  ],
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "cd6a258c-098f-4c33-9d56-274822a5dc10",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "a304393a-933f-40a4-95a4-697b2e2d22b9",
+      "percentage": 100
+    }
+  ],
+  "assetCount": 20000
+}

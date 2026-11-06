@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "reports": [
+    {
+      "width": 390,
+      "result": "success",
+      "model": "x",
+      "cost": 25000000000000,
+      "cleanup": true
+    },
+    {
+      "width": 390,
+      "result": "failure",
+      "model": "x",
+      "cost": 25000000000000,
+      "cleanup": true
+    }
+  ],
+  "errors": [],
+  "mutations": [],
+  "liveAccountWrites": 0
+}

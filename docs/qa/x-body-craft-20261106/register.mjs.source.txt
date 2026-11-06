@@ -1,0 +1,19 @@
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';
+import {connect,safe} from '../rap-contest-rewards-20261027/preflight.mjs';
+import {inspect,plan,hash,apply,verify,protectedHash} from '../../output/revan-live-20261027/release-checkout/scripts/ops/x-body-craft-20261106.mjs';
+const root=path.resolve('output/revan-live-20261027/release-checkout'),out=import.meta.dirname,mode=process.argv[2],db=connect();
+const save=(name,data)=>fs.writeFileSync(out+'/'+name+'.json',JSON.stringify(data,null,2)+'\n',{flag:'wx'});
+const head=()=>execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',windowsHide:true}).trim();
+try{
+ await db.connect();
+ if(mode==='rehearse'){
+  await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');const before=await inspect(db);await db.query('ROLLBACK');assert.equal(before.receipt,null);save('registration-before',before);save('plan',plan(before));const expectedHash=hash(before),failures=[];
+  for(const failAt of ['recipe','material']){await assert.rejects(apply(db,{expectedHash,releaseCommit:head(),failAt}),/INJECTED_X_CRAFT/);assert.equal(hash(await inspect(db)),expectedHash);failures.push(failAt);}
+  const normal=await apply(db,{expectedHash,releaseCommit:head(),dryRun:true});assert.equal(hash(await inspect(db)),expectedHash);save('rehearsal',{at:new Date().toISOString(),failures,normal,expectedHash,protectedHash:protectedHash(before),allRolledBack:true});console.log(JSON.stringify({passed:true,failures,allRolledBack:true,plan:plan(before)}));
+ }else if(mode==='apply'){
+  const before=JSON.parse(fs.readFileSync(out+'/registration-before.json','utf8')),delivery=JSON.parse(fs.readFileSync(out+'/live-verification.json','utf8'));assert.equal(delivery.commit,head());assert.equal(delivery.status,'success');assert(delivery.publicFiles.length>=18);
+  const result=await apply(db,{expectedHash:hash(before),releaseCommit:head(),dryRun:false});save('applied',result);console.log(JSON.stringify(result));
+ }else if(mode==='verify'){
+  await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');const result=await verify(db),before=JSON.parse(fs.readFileSync(out+'/registration-before.json','utf8'));assert.equal(protectedHash(await inspect(db)),protectedHash(before));const statements=[];const replay=await apply({query:async(...args)=>{statements.push(args[0]);return db.query(...args);}});assert(replay.replayed);assert.equal(statements.length,1);assert.match(statements[0],/^SELECT /);const readOnly=(await db.query('SHOW transaction_read_only')).rows[0];await db.query('ROLLBACK');save('verified',{at:new Date().toISOString(),...result,protectedUnchanged:true,replayStatements:statements,readOnly});console.log(JSON.stringify({verified:true,recipe:result.recipe,material:result.material,auditId:result.receipt.auditId,readOnly,protectedUnchanged:true,replayWrites:0}));
+ }else throw Error('Use rehearse|apply|verify');
+}catch(e){await db.query('ROLLBACK').catch(()=>{});console.error(safe(e));process.exitCode=1;}finally{await db.end().catch(()=>{});}

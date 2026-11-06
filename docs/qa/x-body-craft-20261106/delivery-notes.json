@@ -25,7 +25,7 @@
     "docs/dc-hi-heeya-avatar-20260917.md",
     "docs/diim-recruitment-gift-20261001.md"
   ],
-  "concurrentOverlap": 0,
+  "concurrentOverlap": 12,
   "additionalNotes": [
     "docs/coupon-300eok-20261014.md",
     "docs/cow-room-economy-approved-20260913.md",
@@ -41,5 +41,7 @@
     "docs/diim-recruitment-gift-20261001.md"
   ],
   "runtimeReferences": 0,
-  "preservedInRepository": true
+  "preservedInRepository": true,
+  "newlyExcludedCount": 12,
+  "publicAssetCount": 20000
 }

@@ -1,0 +1,64 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import {pathToFileURL} from 'node:url';
+import {createServer} from 'node:http';
+import {execFileSync} from 'node:child_process';
+import assert from 'node:assert/strict';
+const root=path.resolve('output/revan-live-20261027/release-checkout'),out=path.resolve('operations/x-body-craft-20261106/browser');
+const {chromium}=await import('file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs');
+const before=JSON.parse(fs.readFileSync(path.resolve('operations/x-body-craft-20261106/preflight.json'),'utf8'));
+const {plan}=await import(pathToFileURL(path.join(root,'scripts/ops/x-body-craft-20261106.mjs')));
+const p=plan({...before,receipt:null}),x=before.equipment.find(e=>e.code==='BATTLE_SUIT_X_BODY'),z=before.equipment.find(e=>e.code==='BATTLE_SUIT_Z_BODY');
+const makeRecipe=(p,e,core)=>({...p,id:Number(p.id||999001),output_name:e.name,output_image:e.image_url,output_rarity:e.rarity,output_pve:Number(e.pve_power),output_pvp:0,materials:[{item_code:core,item_name:core==='SUIT_CORE_7'?'슈트 코어 7':'슈트 코어 6',image_url:before.material.find(m=>m.code===core).image_url,quantity:10}]});
+const recipes=[makeRecipe(before.recipes.find(r=>r.output_ref===z.id),z,'SUIT_CORE_6'),makeRecipe(p,x,'SUIT_CORE_7')];
+const state={wallet:{coin:100000000000000,masterStars:2000000,cardShards:0},inventory:{SUIT_CORE_7:{quantity:30},SUIT_CORE_6:{quantity:30}},recipes,synthesis:[]};
+const cache=new Map(),misses=[];
+function fileBytes(relative){if(cache.has(relative))return cache.get(relative);const file=path.resolve(root,relative);if(!file.startsWith(root+path.sep))throw Error('outside root');let data;try{data=fs.readFileSync(file);}catch{data=execFileSync('git',['show','HEAD:'+relative],{cwd:root,maxBuffer:32*1024*1024,stdio:['ignore','pipe','pipe'],windowsHide:true});}cache.set(relative,data);return data;}
+const html=`<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/css/workshop-v1676.css"><link rel="stylesheet" href="/css/workshop-v1881.css"><link rel="stylesheet" href="/css/workshop-workbench-v1.css"><link rel="stylesheet" href="/css/workshop-assembly-live-v2073.css"><body style="margin:0;background:#050b12"><main id="app"></main><div id="modal"></div><script>
+const state=${JSON.stringify(state)};window.qa={requests:[],dialogs:[],state};
+window.confirm=message=>{qa.dialogs.push(message);return true};window.alert=message=>{qa.alert=message};
+window.loadUser=()=>null;window.saveUser=()=>{};
+window.ensureFeatureResources=async()=>{for(const src of ['/js/ui-fx-vendor-v2045.bundle.js','/js/workshop-assembly-fx-v2073.bundle.js']){if(document.querySelector('script[data-film="'+src+'"]'))continue;await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.dataset.film=src;s.onload=resolve;s.onerror=reject;document.head.append(s);});}};
+window.apiRequest=async(route,options={})=>{
+ if(route==='workshop')return structuredClone(state);
+ if(route!=='workshop/craft')throw Error('No production API in fixture');
+ const body=JSON.parse(options.body);qa.requests.push(body);const r=state.recipes.find(r=>Number(r.id)===body.recipeId),success=new URLSearchParams(location.search).get('result')!=='failure';
+ state.wallet.coin-=Number(r.coin_cost);state.inventory[r.materials[0].item_code].quantity-=10;
+ return {ok:true,requestId:body.requestId,recipeId:r.id,recipeName:r.name,category:r.category,success,coinSpent:Number(r.coin_cost),masterStarSpent:0,output:success?{type:'EQUIPMENT',ref:r.output_ref,name:r.output_name,image:r.output_image,quantity:1}:null,state:structuredClone(state)};
+};</script><script src="/js/workshop-thumbnails-v1.js"></script><script src="/js/workshop-recipes-v1.js"></script><script src="/js/workshop-assembly-live-v2073.bundle.js"></script><script src="/js/workshop-v1881.js"></script><script>document.getElementById('app').innerHTML=window.workshopView(null);window.bindWorkshopView();</script></body></html>`;
+const server=createServer((req,res)=>{const url=new URL(req.url,'http://localhost');if(url.pathname==='/__xcraft'){res.writeHead(200,{'content-type':'text/html;charset=utf-8'});return res.end(html);}try{const rel=decodeURIComponent(url.pathname).replace(/^\//,'')+(url.pathname.endsWith('/')?'index.html':'');const data=fileBytes(rel);res.writeHead(200,{'content-type':{'.html':'text/html;charset=utf-8','.js':'text/javascript','.mjs':'text/javascript','.json':'application/json','.css':'text/css','.png':'image/png','.webp':'image/webp','.wav':'audio/wav','.woff2':'font/woff2'}[path.extname(rel)]||'application/octet-stream'});res.end(data);}catch{misses.push(url.pathname);res.writeHead(404);res.end();}});
+await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));const origin='http://127.0.0.1:'+server.address().port;
+fs.mkdirSync(out,{recursive:true});const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio']}),reports=[];
+try{
+ for(const width of [1440,390]){
+  const context=await browser.newContext({viewport:{width,height:width===390?844:1000},isMobile:width===390,hasTouch:width===390,serviceWorkers:'block'}),page=await context.newPage(),errors=[],mutations=[];
+  page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')mutations.push(r.url());});
+  await page.goto(origin+'/preview/workshop-assembly-v1/?mode=suit&item=x');
+  await page.waitForFunction(()=>Boolean(window.WorkshopAssemblyPreview),null,{timeout:30000});
+  for(const time of [3,6.9,8.5,13.4]){await page.evaluate(t=>WorkshopAssemblyPreview.seek(t),time);await page.screenshot({path:path.join(out,width+'-preview-'+time+'.png')});}
+  const preview=await page.evaluate(()=>WorkshopAssemblyPreview.diagnostics());assert.equal(preview.model,'x');assert.equal(preview.authoredPartCount,12);assert.equal(preview.finished,true);
+  for(const success of [true,false]){
+   await page.goto(origin+'/__xcraft?result='+(success?'success':'failure'));
+   await page.locator('[data-ws-section="BATTLE_SUIT_CRAFT"]').click();await page.locator('[data-suit-recipe="999001"]').click();
+   assert.equal(await page.locator('#wsBattleSuitCraft').isEnabled(),true);
+   assert.deepEqual(await page.locator('.ws81-suit-costs article small').allTextContents(),['SUIT CORE','COIN']);
+   assert.equal(await page.locator('[data-suit-pay]').count(),0);
+   const text=await page.locator('.ws81-suit-craft').innerText();assert.match(text,/25조/);assert.match(text,/10%/);
+   if(success)await page.screenshot({path:path.join(out,width+'-craft.png'),fullPage:true});
+   await page.locator('#wsBattleSuitCraft').click();await page.waitForFunction(()=>WorkshopAssemblyLive?.diagnostics().ready===true,null,{timeout:30000});
+   assert.equal(await page.locator('.ws-assembly-overlay').getAttribute('data-model'),'x');
+   if(success){await page.waitForFunction(()=>WorkshopAssemblyLive.diagnostics().time>=6.9,null,{timeout:15000});await page.locator('[data-action="pause"]').click();assert.equal(await page.evaluate(()=>WorkshopAssemblyLive.diagnostics().playing),false);await page.screenshot({path:path.join(out,width+'-live-assembly.png')});await page.locator('[data-action="pause"]').click();}
+   await page.locator('[data-action="skip"]').click();assert.equal(await page.locator('[data-result-title]').innerText(),success?'제작 성공':'제작 실패');
+   assert.match(await page.locator('.ws-assembly-receipt').innerText(),/25조/);
+   const bounds=await page.locator('.ws-assembly-panel').boundingBox(),done=await page.locator('[data-action="done"]').boundingBox();assert(bounds.x>=0&&bounds.x+bounds.width<=width+1);assert(done.y>=0&&done.y+done.height<=(width===390?844:1000));
+   await page.screenshot({path:path.join(out,width+'-'+(success?'success':'failure')+'.png')});
+   await page.locator('[data-action="done"]').click();await page.waitForFunction(()=>!document.querySelector('.ws-assembly-overlay')&&!document.querySelector('#wsBattleSuitCraft')?.disabled);
+   const qa=await page.evaluate(()=>qa);assert.equal(qa.requests.length,1);assert.equal(qa.requests[0].paymentType,'COIN');assert.equal(qa.state.wallet.coin,75000000000000);assert.equal(qa.state.inventory.SUIT_CORE_7.quantity,20);
+   assert.equal(await page.evaluate(()=>WorkshopAssemblyLive.diagnostics().activeTimelines),0);
+   reports.push({width,success,model:'x',preview,mockRequests:1,coinSpent:25000000000000,coresSpent:10,layout:true,cleanup:true});
+  }
+  assert.deepEqual(errors,[]);assert.deepEqual(mutations,[]);await context.close();
+ }
+ assert.deepEqual(misses.filter(p=>p!=='/favicon.ico'),[]);
+ fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({passed:true,reports,realAccountWrites:0,misses},null,2));console.log(JSON.stringify({passed:true,reports}));
+}finally{await browser.close();await new Promise(resolve=>server.close(resolve));}

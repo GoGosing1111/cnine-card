@@ -1,0 +1,20 @@
+{
+  "passed": 68,
+  "failed": 0,
+  "durationMs": 31799.7474,
+  "release": "400a830c7f6f213a1e2a9724ebae29af393f7cc3",
+  "log": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\x-body-craft-20261106/deploy-400a830c7-attempt1.log",
+  "logSha256": "dabee29ce53d72fc1002c8cd698a7908e9f41d3e68218bae9a157b002ae17c31",
+  "checks": [
+    "registration atomicity and replay",
+    "exact 10 percent boundary",
+    "25 trillion coin and 10 cores atomically consumed once",
+    "insufficient funds and late SQL failure rollback",
+    "assembly original pixels and live success/failure selection",
+    "sparse production staging",
+    "PVE battlefield loader",
+    "production release integrity",
+    "Hyperdrive query cache disabled",
+    "onestore generated outputs (14)"
+  ]
+}
