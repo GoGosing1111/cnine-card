@@ -1,5 +1,6 @@
 import {readPackageCoinAccounting,packageCoinGuardStatements} from './_package_coin_accounting.js';
 import {SUPPORT_PACKAGE,LIMITED_SHARD,isSupportPackageProduct,supportPackageFulfillment,supportPackageOrderProduct,supportPackageQuantityValid,supportPackageClientAllowed,supportPackageSummary,SUPPORT_PACKAGE_EVENT_DEADLINE,supportPackageSalesOpen} from '../shared/support-package-v1.mjs';
+import {SUPPORT_PACKAGE_BONUS_CODE,supportPackageBonusKey,supportPackageBonus,supportPackageWithBonus} from '../shared/support-package-v1.mjs';
 import {supportAccountEligible,supportBenefits,canManageSupport} from '../shared/server-support-v1.mjs';
 import {PASS_KEY} from '../shared/supporter-season-pass-v1.mjs';
 import {readSupportRecord} from './_supporter_benefits.js';
@@ -16,6 +17,16 @@ const orderKey=id=>'support_package_order_v1:'+id,pendingKey=id=>'support_packag
 const requestId=id=>typeof id==='string'&&/^[A-Za-z0-9_-]{16,100}$/.test(id);
 const validOrder=id=>typeof id==='string'&&/^\d+_[A-Za-z0-9_-]{16,100}$/.test(id);
 async function raw(env,key){return (await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first())?.value??null;}
+async function readBonusProgress(env,userId){
+ const key=supportPackageBonusKey(userId),value=await raw(env,key);
+ const state=value===null?{version:1,policyCode:SUPPORT_PACKAGE_BONUS_CODE,paidPurchases:0,totalBonusCoins:'0'}:JSON.parse(value);
+ if(state.version!==1||state.policyCode!==SUPPORT_PACKAGE_BONUS_CODE||!Number.isSafeInteger(state.paidPurchases)||state.paidPurchases<0||state.totalBonusCoins!==supportPackageBonus(state.paidPurchases).totalEarnedCoins)fail('BONUS_STATE','누적 구매 보너스 기록을 확인해야 합니다.',409);
+ return {key,raw:value,state};
+}
+async function quotePackage(env,order){
+ const product=supportPackageOrderProduct(order);
+ return product?.bonusPolicy===SUPPORT_PACKAGE_BONUS_CODE?supportPackageWithBonus(product,(await readBonusProgress(env,order.userId)).state.paidPurchases):product;
+}
 async function receipt(env,key,payload){const value=await raw(env,key);if(!value)return null;const saved=JSON.parse(value);if(saved.payload!==payload)fail('REQUEST_CONFLICT','같은 요청 번호에 다른 내용을 사용할 수 없습니다.',409);return {...saved.result,replayed:true};}
 export async function ensureLimitedShardCatalog(env){
  const marker='mercenary_sss_limited_shard_catalog_20261020_v1';
@@ -49,7 +60,7 @@ export async function issuePackage(env,user,body,now=Date.now()){
  const old=await pendingOrder(env,id);
  if(old&&body.quantity!==undefined&&quantity!==(old.order.quantity??1))fail('QUANTITY_CONFLICT','접수된 신청의 횟수는 변경할 수 없습니다. 기존 신청을 확인해 주세요.',409);
  const order=old?.order||{version:1,quantity,id:id+'_'+body.requestId,userId:id,nickname:account.nickname,product:SUPPORT_PACKAGE,status:'PENDING',revision:0,createdAt:now,eligibleUntil:support.state.endsAt};
- const product=supportPackageOrderProduct(order);if(!product)fail('PRODUCT','신청 시점의 상품 구성을 확인해야 합니다.',409);
+ const product=await quotePackage(env,order);if(!product)fail('PRODUCT','신청 시점의 상품 구성을 확인해야 합니다.',409);
  // Reissuing bank instructions keeps the same pending order and never repeats its owner alert.
  const campaign='support_package_bank_v1:'+id+':'+body.requestId;
  const result={ok:true,order,campaignKey:campaign,issuedAt:now,expiresAt:now+SUPPORT_BANK_MESSAGE_TTL,replayed:false};
@@ -80,9 +91,12 @@ export async function processPackage(env,admin,body,now=Date.now()){
  // October terms remain unchanged; pending November orders get 500 trillion per paid unit.
  // Completed receipts return above and are never granted a second time.
  if(!supportPackageOrderProduct(order))fail('PRODUCT','신청 시점의 상품 구성을 확인해야 합니다.',409);
- const product=supportPackageOrderProduct(order);
+ const baseProduct=supportPackageOrderProduct(order);
+ const bonusProgress=grant&&baseProduct.bonusPolicy===SUPPORT_PACKAGE_BONUS_CODE?await readBonusProgress(env,order.userId):null;
+ const product=bonusProgress?supportPackageWithBonus(baseProduct,bonusProgress.state.paidPurchases):baseProduct;
+ const nextBonus=bonusProgress?{version:1,policyCode:SUPPORT_PACKAGE_BONUS_CODE,paidPurchases:product.purchaseBonus.paidPurchasesAfter,totalBonusCoins:product.purchaseBonus.totalEarnedCoins,lastOrderId:order.id,updatedAt:now}:null;
  const target=await env.DB.prepare('SELECT id,nickname,status FROM users WHERE id=?').bind(order.userId).first();if(!target||grant&&target.status!=='ACTIVE')fail('TARGET','현재 지급할 수 없는 계정입니다.',409);
- if(grant){await ensureLimitedShardCatalog(env);await ensureEmperorEnergyCatalog(env);if(product.items.some(item=>item.code==='WEAPON_ENHANCEMENT_SCROLL'))await ensureForgeScrollCatalog(env);}
+ if(grant){await ensureLimitedShardCatalog(env);if(product.items.some(item=>item.code==='EMPEROR_ENERGY'))await ensureEmperorEnergyCatalog(env);if(product.items.some(item=>item.code==='WEAPON_ENHANCEMENT_SCROLL'))await ensureForgeScrollCatalog(env);}
  await ensureJointAtomicSchema(env);
  const coinAccounting=grant?await readPackageCoinAccounting(env,order.userId):null;
  const next={...order,...(grant?{fulfillment:product}:{}),status:grant?'FULFILLED':'REJECTED',revision:order.revision+1,processedAt:now,processedBy:Number(admin.id),note:body.note.trim()},result={ok:true,order:next,replayed:false};
@@ -92,6 +106,10 @@ export async function processPackage(env,admin,body,now=Date.now()){
   guard('EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[orderKey(order.id),before,pendingKey(order.userId),order.id]),
   guard('NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)',[key]),
   ...(grant?[
+   ...(bonusProgress?[
+    bonusProgress.raw===null?guard('NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)',[bonusProgress.key]):guard('EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[bonusProgress.key,bonusProgress.raw]),
+    p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP',bonusProgress.key,JSON.stringify(nextBonus))
+   ]:[]),
    ...packageCoinGuardStatements(env,order.userId,coinAccounting,{grant:product.coins,orderId:order.id}),
    guard('EXISTS(SELECT 1 FROM users WHERE id=? AND status=? AND coin>=0 AND coin<=CAST(? AS BIGINT))',[order.userId,'ACTIVE',(9223372036854775807n-BigInt(product.coins)).toString()]),
    p('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?',String(product.coins),order.userId),
@@ -115,7 +133,7 @@ export async function handleSupportPackage({path,request,env,user,deps,now}){
   if(!canManageSupport(user))fail('ADMIN','패키지 관리는 핑크빛유두 전용입니다.',403);
   if(request.method!=='GET')fail('METHOD','지원하지 않는 요청입니다.',405);
   const rows=await env.DB.prepare("SELECT o.value,u.nickname FROM app_meta p JOIN app_meta o ON o.key='support_package_order_v1:'||p.value JOIN users u ON p.key='support_package_pending_v1:'||u.id WHERE p.key LIKE 'support_package_pending_v1:%' ORDER BY p.updated_at ASC").all();
-  return {product:SUPPORT_PACKAGE,pending:rows.results.map(r=>{const o=JSON.parse(r.value);return {id:o.id,userId:o.userId,nickname:r.nickname,createdAt:o.createdAt,quantity:o.quantity??1,product:supportPackageOrderProduct(o)};})};
+  return {product:SUPPORT_PACKAGE,pending:await Promise.all(rows.results.map(async r=>{const o=JSON.parse(r.value);return {id:o.id,userId:o.userId,nickname:r.nickname,createdAt:o.createdAt,quantity:o.quantity??1,product:await quotePackage(env,o)};}))};
  }
  const admin=path==='admin/server-support/package';
  if(admin){
@@ -126,7 +144,7 @@ export async function handleSupportPackage({path,request,env,user,deps,now}){
     env.DB.prepare("SELECT o.value,u.nickname FROM app_meta p JOIN app_meta o ON o.key='support_package_order_v1:'||p.value JOIN users u ON p.key='support_package_pending_v1:'||u.id WHERE p.key LIKE 'support_package_pending_v1:%' ORDER BY p.updated_at ASC").all(),
     env.DB.prepare("SELECT value FROM app_meta WHERE key LIKE 'support_package_order_v1:%' ORDER BY updated_at DESC LIMIT 50").all()
    ]);
-   return {product:SUPPORT_PACKAGE,pending:pending.results.map(r=>({...JSON.parse(r.value),nickname:r.nickname})),recent:recent.results.map(r=>JSON.parse(r.value)).filter(r=>r.status!=='PENDING')};
+   return {product:SUPPORT_PACKAGE,pending:await Promise.all(pending.results.map(async r=>{const order=JSON.parse(r.value);return {...order,nickname:r.nickname,quotedFulfillment:await quotePackage(env,order)};})),recent:recent.results.map(r=>JSON.parse(r.value)).filter(r=>r.status!=='PENDING')};
   }
   if(request.method==='POST'){
    const body=await readJointBody(request,{fields:['orderId','action','expectedRevision','requestId','note']});if(!validOrder(body.orderId))fail('INPUT','신청 번호를 확인하세요.');
@@ -138,7 +156,7 @@ export async function handleSupportPackage({path,request,env,user,deps,now}){
   if(path==='server-support/package'&&request.method==='GET'){
    await ensureLimitedShardCatalog(env);const pending=await pendingOrder(env,user.id);
    const recent=await env.DB.prepare("SELECT value FROM app_meta WHERE key LIKE ? ESCAPE '!' ORDER BY updated_at DESC LIMIT 5").bind(orderKey(Number(user.id)+'!_')+'%').all();
-   return {product:pending?supportPackageFulfillment(pending.order.product):SUPPORT_PACKAGE,pending:pending?.order??null,recent:recent.results.map(r=>JSON.parse(r.value)),salesOpen:supportPackageSalesOpen(now),serverNow:now};
+   return {product:pending?supportPackageFulfillment(pending.order.product):SUPPORT_PACKAGE,pending:pending?.order??null,bonusProgress:(await readBonusProgress(env,user.id)).state,recent:recent.results.map(r=>JSON.parse(r.value)),salesOpen:supportPackageSalesOpen(now),serverNow:now};
   }
   if(path==='server-support/package/apply'&&request.method==='POST'){
    const body=await readJointBody(request,{fields:['requestId','quantity']});await deps.ensureMessages?.(env);

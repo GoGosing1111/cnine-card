@@ -2,11 +2,11 @@
   "textNewlines": "LF",
   "sourceHashes": {
     "packaging/onestore/web/client-patch.json": "9814fcadb0b1c58c3c5ba22c05f75322a8ee18a760f23e7f2e3a3f36469f9c98",
-    "index.html": "5dcdf5ba40063fb1c64769b6e2135c536b1923e070fc1198b0258a0ae105555c",
+    "index.html": "66775e06066ad19a4e9ad2ba8b829d6d4d94d2aef352e6afad080e1dd323f5ea",
     "js/app.js": "48aed18d984fd39d9411a06e245e04a882da0d15d56b3f1690f92fce0210e157",
     "js/soopketmon-v21-exact-shell-adapter.js": "89d7d27bf3ad9b565686df92c8614d556083e5575a6023894bc103a14b269dc6",
     "js/soopketmon-v21-runtime-router.js": "08e559eabd96931575a4854ab3052bbf5e33b537dc7e12c0e750f95c7de532dd",
-    "js/adventure-lobby-v2107.js": "552c596601602b8aa6b7736114ac5c4df358dedca598fa162f52e787c0ecf743",
+    "js/adventure-lobby-v2107.js": "a9b8a53bc55b6943284e1d24cd973d42b719a8d4322f631cc0d8d0791298e089",
     "js/pet-equipment-window-v1.mjs": "ea204ec16cb51b15c111e157f525961f841eb8ec9d11eb386f710f185648a7f4",
     "js/adventure-navigation-standalone.js": "8e28fc6834c460fa50921078ed2e1dcc2265cabff1da605687e3e2e9c58086b8",
     "pet-codex/app.mjs": "42de33521f3bdd3be09b870e344211c442f5ffa891f8cf2ac426adb7e94c7dda",
@@ -33,7 +33,7 @@
     "onestore/h5-policy.js": "8f435c8ad130f13abb48f6d59d5cc7a72bc1d1a8f4fb2b6aaa9545aa276b0eef",
     "onestore/h5-sdk.js": "c9e18131d55df5ad36ec1c8bd6bc78f9f1113be8e49cf946f2ed121d58b4ee19",
     "onestore/h5.css": "7c77779b15fef492acd7647c0d091b52a8c74b44ce511aff793ad66ac25d3d27",
-    "onestore/index.html": "2a14d80b22a2fe73d72fdb3d066f1756b5f7a93582fae28b9f85412c0b1d5ee7",
+    "onestore/index.html": "37716883f6245b28a5537d01a1800129f12e824a187af911d24afa6b5a262ecb",
     "shared/onestore-web-assets-v1.mjs": "40442bfd2df758e3c83ea19be6c42cec37ba5611f2c2316b83123bfa1c232b8e"
   }
 }

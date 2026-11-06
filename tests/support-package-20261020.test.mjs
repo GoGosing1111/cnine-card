@@ -22,17 +22,17 @@ for(const postgres of [false,true]){
    assert.equal((await f.call('admin/server-support/package',{user:3})).status,403);
    const beforePass=await f.one('SELECT value FROM app_meta WHERE key=?','server_support_v1:2');
    const rid=crypto.randomUUID(),paid=await f.process(order,'FULFILL',rid);assert.equal(paid.status,200,JSON.stringify(paid.body));assert.equal(paid.body.order.status,'FULFILLED');
-   assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),500000000001234);
+   assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),700000000001234);
    for(const i of SUPPORT_PACKAGE.items){const owned=await f.one('SELECT * FROM cnine_user_inventory WHERE user_id=2 AND item_code=?',i.code);assert.equal(Number(owned.quantity),i.quantity);assert.equal(Number(owned.unseen_quantity),i.quantity);}
    assert.equal((await f.process(order,'FULFILL',rid)).body.replayed,true);assert.equal((await f.process(order)).status,409);
    assert.equal((await f.process(order,'REJECT',rid)).status,409);
    assert.equal((await f.one('SELECT value FROM app_meta WHERE key=?','server_support_v1:2')).value,beforePass.value);
    assert.equal((await f.call('admin/server-support/package/alerts')).body.pending.length,0);
    assert.equal(Number((await f.one('SELECT COUNT(*) n FROM coin_logs')).n),1);
-   assert.equal(Number((await f.one('SELECT COUNT(*) n FROM inventory_logs')).n),4);
+   assert.equal(Number((await f.one('SELECT COUNT(*) n FROM inventory_logs')).n),5);
    const next=await f.apply();assert.notEqual(next.body.order.id,order.id);
    assert.equal(Number((await f.one("SELECT COUNT(*) n FROM user_messages WHERE campaign_key LIKE 'support_package_owner_alert_v1:%'")).n),2);
-   const rejected=await f.process(next.body.order,'REJECT');assert.equal(rejected.status,200);assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),500000000001234);
+   const rejected=await f.process(next.body.order,'REJECT');assert.equal(rejected.status,200);assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),700000000001234);
   }finally{await f.close();}
  });
  test(`package eligibility, tampering and rollback (${postgres?'PostgreSQL':'SQLite'})`,async()=>{
@@ -72,6 +72,6 @@ test('competing owner confirmations and duplicate applications cannot repeat a g
   const stale=await f.apply();assert.equal(competitor.status,200);assert.equal(stale.status,409);assert.equal(Number((await f.one("SELECT COUNT(*) n FROM user_messages WHERE campaign_key LIKE 'support_package_owner_alert_v1:%'")).n),1);
   entered=false;const order=competitor.body.order;
   f.DB.batch=async statements=>{if(!entered){entered=true;competitor=await f.process(order);}return batch(statements);};
-  const staleConfirm=await f.process(order);assert.equal(competitor.status,200);assert.equal(staleConfirm.status,409);assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),500000000001234);assert.equal(Number((await f.one('SELECT COUNT(*) n FROM inventory_logs')).n),4);
+  const staleConfirm=await f.process(order);assert.equal(competitor.status,200);assert.equal(staleConfirm.status,409);assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),700000000001234);assert.equal(Number((await f.one('SELECT COUNT(*) n FROM inventory_logs')).n),5);
  }finally{await f.close();}
 });
