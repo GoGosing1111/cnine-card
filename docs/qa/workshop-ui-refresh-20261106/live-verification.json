@@ -1,0 +1,103 @@
+{
+  "pages": {
+    "at": "2026-11-06T13:02:42.369Z",
+    "id": "c27aa915-fac5-44ff-9517-0274992ec9ed",
+    "url": "https://c27aa915.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "0f8c4f39d6d5772d5fbdb9c5651d533b811a7f47"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "48243364-a9d6-403f-a965-1c653632b05b",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "fb7268bd-783a-40ab-aedf-1ebc04a5e2fd",
+      "percentage": 100
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "css/workshop-workbench-v1.css",
+      "sha256": "fe1bda746d3fd47efa182c03a1ad00367fb9685744316c064efa20db6909d36b",
+      "status": 200
+    },
+    {
+      "file": "js/workshop-recipes-v1.js",
+      "sha256": "67bb3ea92cf60d293a0a834baa89228a4d5f78b6f17bfc9f593d1d7a3e7f7331",
+      "status": 200
+    },
+    {
+      "file": "js/workshop-v1881.js",
+      "sha256": "59bd982fa493b17509d4c4b9cec6325f24d8402d1e1d829c7f93fbcb8feb4c22",
+      "status": 200
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "1e8505796f976ec244bf42726a451f334f7cab483adf6349aed9fb96e157d454",
+      "status": 200
+    },
+    {
+      "file": "index.html",
+      "sha256": "d30c2e6f41c6fae0895a2f45e41c947f408e26a11cfc77464b333b837b620fbc",
+      "status": 200
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "5480cfd2c6c8eb6aa35076e409f36979b98c0ac70a1d7ea2edf3c830b60b0f0b",
+      "status": 200
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "eccaabbcdccfff521a3ae7ba4800883e4230f49f3f31e31698beb699a57ae9b9",
+      "status": 200
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "c523a02b8c91b808bc95b9d060c089dc248c5424388452f1d7d51ad19b9124a8",
+      "status": 200
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "87b55b5ed5e9c1edb933ebac391a5d946016f6e29ada709233635a20cd19ee19",
+      "status": 200
+    }
+  ],
+  "windows": [
+    {
+      "file": "css/workshop-workbench-v1.css",
+      "sha256": "b1fbdf4ed85fb801a33452af445d3e2560e4ad32202f9081962abefb97fa3566",
+      "essential": true
+    },
+    {
+      "file": "js/workshop-recipes-v1.js",
+      "sha256": "b6656cce971da905f91a7955e98f03588c4225a2604971fda6a8e65a6259d3ce",
+      "essential": true
+    },
+    {
+      "file": "js/workshop-v1881.js",
+      "sha256": "d407979a92fa3c09544b0688ad8fb852b257a816e3a1962865826e84eade391c",
+      "essential": true
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "4a197739a126d8fe63f11dcabb8ce97c90e68d7d2dba481e9f3beaffbf628b21",
+      "essential": true
+    },
+    {
+      "file": "index.html",
+      "sha256": "8c1b3547768be3cde1939b92c4835b537379069286a999d318f3c36f479948cf",
+      "essential": true
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "e96cd27709163f402ececb88d4672ab6a05891cfe1249a9467d196cb1c940c56",
+      "essential": true
+    }
+  ],
+  "manifestReleaseId": "ff02e90fd0b8a1a830f198b198fceac21f03758dfce908bbb417243eb38beb8c",
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

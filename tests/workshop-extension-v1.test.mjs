@@ -23,7 +23,11 @@ test('extension categories preserve unspecified costs/rate instead of inventing 
 
 test('shared UI resolves every payment mode and all material shortages without mutating state',()=>{
   const context=vm.createContext({window:{}});vm.runInContext(fs.readFileSync(new URL('../js/workshop-recipes-v1.js',import.meta.url),'utf8'),context);
-  const {describe,matches,image}=context.window.WorkshopRecipes;
+  const {describe,matches,image,formatAmount}=context.window.WorkshopRecipes;
+  assert.equal(formatAmount('100000000000000000'),'10경');
+  assert.equal(formatAmount('99999999999999999'),'9.99경');
+  assert.equal(formatAmount('25000000000000'),'25조');
+  assert.equal(formatAmount('10001'),'1만');
   const state={wallet:{coin:90,masterStars:20,cardShards:30},inventory:{SUIT_CORE_1:{quantity:9}}};
   const before=JSON.stringify(state),r={name:'슈트 코어 2',coin_cost:100,master_star_cost:10,card_shard_cost:40,materials:[{item_code:'SUIT_CORE_1',item_name:'슈트 코어 1',quantity:10}]};
   for(const [mode,expected] of [['BOTH',[100,10,0]],['COIN_ONLY',[100,0,0]],['MASTER_STAR_ONLY',[0,10,0]],['COIN_AND_CARD_SHARD',[100,0,40]]]){

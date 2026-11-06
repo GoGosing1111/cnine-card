@@ -2,8 +2,18 @@
 (() => {
   'use strict';
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const amountFormat = new Intl.NumberFormat('ko-KR', {notation:'compact', maximumFractionDigits:2, roundingMode:'trunc'});
-  const fmt = value => Math.abs(Number(value || 0)) < 10000 ? Number(value || 0).toLocaleString('ko-KR') : amountFormat.format(Number(value || 0));
+  function formatAmount(value) {
+    let amount;
+    try { amount = BigInt(typeof value === 'number' ? Math.trunc(value) : String(value || 0)); }
+    catch (_) { return '0'; }
+    const sign = amount < 0n ? '-' : ''; if (amount < 0n) amount = -amount;
+    for (const [unit, label] of [[10000000000000000n,'경'],[1000000000000n,'조'],[100000000n,'억'],[10000n,'만']]) {
+      if (amount >= unit) { const fraction = String(amount % unit * 100n / unit).padStart(2,'0').replace(/0+$/,''); return sign + (amount / unit).toLocaleString('ko-KR') + (fraction ? '.' + fraction : '') + label; }
+    }
+    return sign + amount.toLocaleString('ko-KR');
+  }
+  const fmt = formatAmount;
+  const currencyIcon = code => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${code === 'COIN' ? '<circle cx="12" cy="12" r="8"/><path d="M15 8a5 5 0 1 0 0 8"/>' : code === 'MASTER_STAR' ? '<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9Z"/>' : '<path d="m8 3 11 3-4 15-11-3Z M9 8l6 2 M8 12l5 1"/>'}</svg>`;
   function image(value) {
     const raw = String(value || '').trim().replace(/\\/g, '/');
     if (!raw || /^(?!https?:)[a-z][a-z\d+.-]*:/i.test(raw) || raw.startsWith('//')) return '';
@@ -47,11 +57,11 @@
       shortage:recipe.craftLocked ? recipe.lockReason||'제작 잠금' : recipe.owned ? '이미 보유한 차량' : rows.filter(row => row.missing).map(row => `${row.name} ${fmt(row.missing)}개 부족`).join(' · ')};
   }
   function costRows(rows) {
-    return rows.map(row => `<article class="ws22-cost ${row.missing ? 'short' : 'ready'}">${row.image ? `<img src="${esc(image(row.image))}" alt="" loading="lazy" decoding="async">` : `<i class="ws22-currency" aria-hidden="true">${row.code === 'COIN' ? 'C' : row.code === 'MASTER_STAR' ? '✦' : '▤'}</i>`}<div><b>${esc(row.name)}</b><span>보유 ${fmt(row.owned)}</span></div><strong>${fmt(row.required)}<small>${row.missing ? `${fmt(row.missing)} 부족` : '충족'}</small></strong></article>`).join('');
+    return rows.map(row => `<article class="ws22-cost ${row.missing ? 'short' : 'ready'}">${row.image ? `<img src="${esc(image(row.image))}" alt="" width="40" height="40" loading="lazy" decoding="async">` : `<i class="ws22-currency" aria-hidden="true">${currencyIcon(row.code)}</i>`}<div><b>${esc(row.name)}</b><span title="${esc(row.owned)}">보유 ${fmt(row.owned)}</span></div><strong title="${esc(row.required)}"><span>필요 ${fmt(row.required)}</span><small>${row.missing ? `${fmt(row.missing)} 부족` : '충족'}</small></strong></article>`).join('');
   }
   function matches(recipe, query) {
     const normalize = value => String(value || '').normalize('NFKC').toLowerCase().replace(/\s+/g, '');
     return normalize([recipe.name, recipe.output_name, recipe.output_rarity, recipe.code, ...(recipe.materials || []).map(row => row.item_name || row.item_code)].join(' ')).includes(normalize(query));
   }
-  window.WorkshopRecipes = Object.freeze({paymentFor, requirements, describe, costRows, matches, image});
+  window.WorkshopRecipes = Object.freeze({paymentFor, requirements, describe, costRows, matches, image, formatAmount});
 })();

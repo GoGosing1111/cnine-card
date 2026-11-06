@@ -1,0 +1,58 @@
+{
+  "at": "2026-11-06T13:04:39.781Z",
+  "source": "0f8c4f39d6d5772d5fbdb9c5651d533b811a7f47",
+  "pages": {
+    "at": "2026-11-06T13:02:42.369Z",
+    "id": "c27aa915-fac5-44ff-9517-0274992ec9ed",
+    "url": "https://c27aa915.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "0f8c4f39d6d5772d5fbdb9c5651d533b811a7f47"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "48243364-a9d6-403f-a965-1c653632b05b",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "fb7268bd-783a-40ab-aedf-1ebc04a5e2fd",
+      "percentage": 100
+    }
+  ],
+  "publicHashes": 9,
+  "windowsHashes": 6,
+  "publicAssetCount": 20000,
+  "uiSkill": "Impeccable (local explicit invocation)",
+  "priority": "선택·재료·비용·성공률을 한눈에",
+  "categories": 7,
+  "standaloneViewports": [
+    1440,
+    390,
+    320
+  ],
+  "standaloneScreens": 21,
+  "mainAppDesktopChecks": 44,
+  "mainAppMobileScreens": 14,
+  "publicWebKitScreens": 7,
+  "releaseGate": {
+    "passed": 18,
+    "failed": 0
+  },
+  "concurrentPreservationChecks": 2,
+  "review": {
+    "disposition": "ship",
+    "resolvedFindings": 5,
+    "scope": "verdict on five fixes after all 21 recaptures"
+  },
+  "approvedArtChanged": 0,
+  "recipePolicyChanged": false,
+  "productionAccountWrites": 0,
+  "messages": 0,
+  "storageMaintenance": false,
+  "schedules": 0,
+  "realDeviceTested": false,
+  "installedAppTested": false,
+  "sourceFolder": "C:\\Users\\User\\Downloads\\upload\\cnine-card/operations/coin-100quadrillion-20261106/source",
+  "evidenceFolder": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\workshop-ui-refresh-20261106"
+}
