@@ -1,0 +1,6637 @@
+{
+  "ok": true,
+  "reports": [
+    {
+      "width": 1440,
+      "field": "PVP",
+      "setup": {
+        "canvas": 1,
+        "states": [
+          {
+            "id": "A:MERCENARY:V-966",
+            "team": "ALLY",
+            "facing": 1,
+            "autoUpdate": false,
+            "aura": {
+              "time": 0.0117,
+              "enabled": true,
+              "visible": true,
+              "frames": {
+                "rear": {
+                  "index": 0,
+                  "mix": 0.02340000000000053
+                },
+                "front": {
+                  "index": 2,
+                  "mix": 0.02340000000000053
+                },
+                "blade": {
+                  "index": 0,
+                  "mix": 0.13371428571428545
+                }
+              },
+              "body": {
+                "head": {
+                  "x": 8.417693661922831,
+                  "y": -273.13289999999995
+                },
+                "feet": {
+                  "x": 1.550624904903163,
+                  "y": 0
+                },
+                "h": 300.2192117983719,
+                "centerX": 4.984159283412997
+              },
+              "blade": {
+                "grip": {
+                  "x": -44.525303963226285,
+                  "y": -170.79114999999996
+                },
+                "base": {
+                  "x": -12.449353446104965,
+                  "y": -148.50633999999997
+                },
+                "tip": {
+                  "x": 115.8544486223803,
+                  "y": -59.367099999999986
+                },
+                "end": {
+                  "x": 118.2601449111644,
+                  "y": -57.69573924999999
+                }
+              },
+              "scales": [
+                {
+                  "x": 140.12694367913326,
+                  "y": -270.1531515320818,
+                  "rotation": 0.000490076192309866,
+                  "width": 106.25269800052976,
+                  "height": 96.9555869254834
+                },
+                {
+                  "x": -130.15862511230728,
+                  "y": -270.1531515320818,
+                  "rotation": -0.000490076192309866,
+                  "width": 106.25269800052976,
+                  "height": 96.9555869254834
+                },
+                {
+                  "x": 176.06497092203202,
+                  "y": -171.16908981152488,
+                  "rotation": -0.0004900761923098626,
+                  "width": 106.25269800052976,
+                  "height": 96.9555869254834
+                },
+                {
+                  "x": -166.09665235520603,
+                  "y": -171.16908981152488,
+                  "rotation": 0.0004900761923098626,
+                  "width": 106.25269800052976,
+                  "height": 96.9555869254834
+                }
+              ],
+              "neon": true,
+              "behind": true,
+              "front": true,
+              "destroyed": false,
+              "clock": "V3_REGISTERED_GSAP"
+            },
+            "bodyVisible": false
+          },
+          {
+            "id": "B:MERCENARY:V-966",
+            "team": "ENEMY",
+            "facing": -1,
+            "autoUpdate": false,
+            "aura": {
+              "time": 0.0117,
+              "enabled": true,
+              "visible": true,
+              "frames": {
+                "rear": {
+                  "index": 0,
+                  "mix": 0.02340000000000053
+                },
+                "front": {
+                  "index": 2,
+                  "mix": 0.02340000000000053
+                },
+                "blade": {
+                  "index": 0,
+                  "mix": 0.13371428571428545
+                }
+              },
+              "body": {
+                "head": {
+                  "x": 8.417693661922831,
+                  "y": -273.13289999999995
+                },
+                "feet": {
+                  "x": 1.550624904903163,
+                  "y": 0
+                },
+                "h": 300.2192117983719,
+                "centerX": 4.984159283412997
+              },
+              "blade": {
+                "grip": {
+                  "x": -44.525303963226285,
+                  "y": -170.79114999999996
+                },
+                "base": {
+                  "x": -12.449353446104965,
+                  "y": -148.50633999999997
+                },
+                "tip": {
+                  "x": 115.8544486223803,
+                  "y": -59.367099999999986
+                },
+                "end": {
+                  "x": 118.2601449111644,
+                  "y": -57.69573924999999
+                }
+              },
+              "scales": [
+                {
+                  "x": 140.12694367913326,
+                  "y": -270.1531515320818,
+                  "rotation": 0.000490076192309866,
+                  "width": 106.25269800052976,
+                  "height": 96.9555869254834
+                },
+                {
+                  "x": -130.15862511230728,
+                  "y": -270.1531515320818,
+                  "rotation": -0.000490076192309866,
+                  "width": 106.25269800052976,
+                  "height": 96.9555869254834
+                },
+                {
+                  "x": 176.06497092203202,
+                  "y": -171.16908981152488,
+                  "rotation": -0.0004900761923098626,
+                  "width": 106.25269800052976,
+                  "height": 96.9555869254834
+                },
+                {
+                  "x": -166.09665235520603,
+                  "y": -171.16908981152488,
+                  "rotation": 0.0004900761923098626,
+                  "width": 106.25269800052976,
+                  "height": 96.9555869254834
+                }
+              ],
+              "neon": true,
+              "behind": true,
+              "front": true,
+              "destroyed": false,
+              "clock": "V3_REGISTERED_GSAP"
+            },
+            "bodyVisible": false
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "side": "ALLY",
+          "action": "royal_swords",
+          "last": {
+            "code": "V-966",
+            "mode": "royal_swords",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "targetCount": 1,
+            "contactSeconds": 0.93,
+            "durationSeconds": 1.45,
+            "hitstopSeconds": 0.045,
+            "wholePoseAttachments": true,
+            "authoritative": true,
+            "effectRevision": "royal-sss-v2+golden-aura-v3",
+            "effectTool": "Effekseer 1.70e",
+            "summonedWeapons": 6,
+            "aura": true
+          },
+          "applied": [
+            "B:0:CN-02D9DC1E8A8A4209"
+          ],
+          "samples": [
+            {
+              "time": 0.0325,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.0897,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.1079,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 0.1352,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 0.1599,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.1846,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2119,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2379,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2652,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2925,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.3198,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.3419,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.3679,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.3952,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.4225,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.4446,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.4719,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.4979,
+              "pose": "command",
+              "active": 5
+            },
+            {
+              "time": 0.5252,
+              "pose": "command",
+              "active": 5
+            },
+            {
+              "time": 0.5525,
+              "pose": "command",
+              "active": 6
+            },
+            {
+              "time": 0.5746,
+              "pose": "command",
+              "active": 6
+            },
+            {
+              "time": 0.6019,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 0.6279,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 0.6552,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.6825,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.7046,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.7319,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 0.7579,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 0.7852,
+              "pose": "command",
+              "active": 10
+            },
+            {
+              "time": 0.8125,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.8346,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 0.8619,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.8879,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 0.9152,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.93,
+              "pose": "command",
+              "active": 12
+            },
+            {
+              "time": 0.93,
+              "pose": "command",
+              "active": 12
+            },
+            {
+              "time": 0.9417,
+              "pose": "command",
+              "active": 12
+            },
+            {
+              "time": 0.9729,
+              "pose": "command",
+              "active": 10
+            },
+            {
+              "time": 1.0002,
+              "pose": "command",
+              "active": 10
+            },
+            {
+              "time": 1.0275,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 1.0444,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 1.0769,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 1.1029,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 1.1302,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.1575,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 1.1796,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 1.2069,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 1.2329,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 1.2602,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 1.2875,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 1.3148,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.3369,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.3629,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.3902,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.4175,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 1.4396,
+              "pose": "guard",
+              "active": 2
+            }
+          ],
+          "home": {
+            "x": 380,
+            "y": 240
+          },
+          "end": {
+            "x": 380,
+            "y": 240
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "sovereign_lance",
+          "last": {
+            "code": "V-966",
+            "mode": "sovereign_lance",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "targetCount": 1,
+            "contactSeconds": 1.04,
+            "durationSeconds": 1.6,
+            "hitstopSeconds": 0.045,
+            "wholePoseAttachments": true,
+            "authoritative": true,
+            "effectRevision": "royal-sss-v2+golden-aura-v3",
+            "effectTool": "Effekseer 1.70e",
+            "summonedWeapons": 1,
+            "aura": true
+          },
+          "applied": [
+            "B:0:CN-02D9DC1E8A8A4209"
+          ],
+          "samples": [
+            {
+              "time": 0.0273,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.0767,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.104,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 0.13,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 0.1573,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.1846,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.2067,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.234,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.26,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.2873,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.3146,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.3367,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.364,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.39,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.4173,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.4446,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.4667,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.494,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.52,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.5473,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.5746,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.5967,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.624,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.65,
+              "pose": "open",
+              "active": 2
+            },
+            {
+              "time": 0.6773,
+              "pose": "open",
+              "active": 2
+            },
+            {
+              "time": 0.7046,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.7267,
+              "pose": "command",
+              "active": 3
+            },
+            {
+              "time": 0.754,
+              "pose": "command",
+              "active": 3
+            },
+            {
+              "time": 0.78,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.8073,
+              "pose": "command",
+              "active": 3
+            },
+            {
+              "time": 0.8346,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.8567,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.884,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.91,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.9373,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.9594,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.9867,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 1.014,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 1.04,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.04,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.0496,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.0717,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.099,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 1.125,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 1.1523,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 1.1744,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.2017,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.229,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.255,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.2823,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.3096,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.3317,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 1.359,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 1.3863,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 1.4123,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 1.4344,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.4617,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.489,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.515,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.5423,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.5644,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 1.5917,
+              "pose": "guard",
+              "active": 1
+            }
+          ],
+          "home": {
+            "x": 380,
+            "y": 240
+          },
+          "end": {
+            "x": 380,
+            "y": 240
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "kings_arsenal",
+          "last": {
+            "code": "V-966",
+            "mode": "kings_arsenal",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 5,
+            "targetCount": 5,
+            "contactSeconds": 1.35,
+            "durationSeconds": 1.95,
+            "hitstopSeconds": 0.065,
+            "wholePoseAttachments": true,
+            "authoritative": true,
+            "effectRevision": "royal-sss-v2+golden-aura-v3",
+            "effectTool": "Effekseer 1.70e",
+            "summonedWeapons": 18,
+            "aura": true
+          },
+          "applied": [
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:1:CN-0505936A0CBB4E59",
+            "B:2:CN-25F931CE393D474E",
+            "B:3:CN-23EB4B19986D4818",
+            "B:4:CN-519C181C18DF4B8E"
+          ],
+          "samples": [
+            {
+              "time": 0.0273,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.0819,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.1027,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.1352,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 0.1573,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.1846,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2119,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 0.2327,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 0.26,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 0.2873,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 0.3146,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 0.3419,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.3627,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.39,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.4173,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.4446,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.4719,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.4992,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.52,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.5473,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.5746,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.6019,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.6227,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.65,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.6773,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.7046,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.7319,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 0.7592,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 0.78,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.8073,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.8346,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 0.8619,
+              "pose": "command",
+              "active": 10
+            },
+            {
+              "time": 0.8827,
+              "pose": "command",
+              "active": 11
+            },
+            {
+              "time": 0.91,
+              "pose": "command",
+              "active": 12
+            },
+            {
+              "time": 0.9373,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 0.9646,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 0.9919,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.0127,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.04,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.0673,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.0946,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.1219,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.1492,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.17,
+              "pose": "command",
+              "active": 12
+            },
+            {
+              "time": 1.1973,
+              "pose": "command",
+              "active": 11
+            },
+            {
+              "time": 1.2246,
+              "pose": "command",
+              "active": 10
+            },
+            {
+              "time": 1.2519,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 1.2727,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.3,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.3273,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.35,
+              "pose": "command",
+              "active": 23
+            },
+            {
+              "time": 1.35,
+              "pose": "command",
+              "active": 23
+            },
+            {
+              "time": 1.35,
+              "pose": "command",
+              "active": 23
+            },
+            {
+              "time": 1.365,
+              "pose": "command",
+              "active": 22
+            },
+            {
+              "time": 1.3923,
+              "pose": "command",
+              "active": 21
+            },
+            {
+              "time": 1.4196,
+              "pose": "command",
+              "active": 21
+            },
+            {
+              "time": 1.4469,
+              "pose": "command",
+              "active": 18
+            },
+            {
+              "time": 1.4742,
+              "pose": "command",
+              "active": 18
+            },
+            {
+              "time": 1.495,
+              "pose": "command",
+              "active": 18
+            },
+            {
+              "time": 1.5223,
+              "pose": "command",
+              "active": 18
+            },
+            {
+              "time": 1.5496,
+              "pose": "open",
+              "active": 18
+            },
+            {
+              "time": 1.5769,
+              "pose": "open",
+              "active": 18
+            },
+            {
+              "time": 1.599,
+              "pose": "open",
+              "active": 17
+            },
+            {
+              "time": 1.625,
+              "pose": "open",
+              "active": 16
+            },
+            {
+              "time": 1.6523,
+              "pose": "open",
+              "active": 15
+            },
+            {
+              "time": 1.6796,
+              "pose": "open",
+              "active": 15
+            },
+            {
+              "time": 1.7069,
+              "pose": "open",
+              "active": 15
+            },
+            {
+              "time": 1.729,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 1.755,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.7823,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.8096,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.8369,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.8642,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.8863,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.9123,
+              "pose": "guard",
+              "active": 5
+            },
+            {
+              "time": 1.9396,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 380,
+            "y": 240
+          },
+          "end": {
+            "x": 380,
+            "y": 240
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "heavenly_descent",
+          "last": {
+            "code": "V-966",
+            "mode": "heavenly_descent",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 5,
+            "targetCount": 5,
+            "contactSeconds": 1.47,
+            "durationSeconds": 2.1,
+            "hitstopSeconds": 0.065,
+            "wholePoseAttachments": true,
+            "authoritative": true,
+            "effectRevision": "royal-sss-v2+golden-aura-v3",
+            "effectTool": "Effekseer 1.70e",
+            "summonedWeapons": 20,
+            "aura": true
+          },
+          "applied": [
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:1:CN-0505936A0CBB4E59",
+            "B:2:CN-25F931CE393D474E",
+            "B:3:CN-23EB4B19986D4818",
+            "B:4:CN-519C181C18DF4B8E"
+          ],
+          "samples": [
+            {
+              "time": 0.026,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.0533,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.0806,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.1027,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.13,
+              "pose": "gather",
+              "active": 1
+            },
+            {
+              "time": 0.1573,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 0.1833,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.2106,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.2379,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2652,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2925,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.3133,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.3406,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 0.3679,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 0.39,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 0.416,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 0.4433,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 0.4706,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 0.4979,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.5252,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.546,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.5733,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.6006,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.6279,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.6552,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.676,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.7033,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.7306,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.7579,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.78,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.806,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.8333,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.8606,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.8879,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.9152,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.936,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.9633,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.9906,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 1.0179,
+              "pose": "command",
+              "active": 10
+            },
+            {
+              "time": 1.0452,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.066,
+              "pose": "command",
+              "active": 15
+            },
+            {
+              "time": 1.0933,
+              "pose": "command",
+              "active": 18
+            },
+            {
+              "time": 1.1206,
+              "pose": "command",
+              "active": 20
+            },
+            {
+              "time": 1.1479,
+              "pose": "command",
+              "active": 20
+            },
+            {
+              "time": 1.17,
+              "pose": "command",
+              "active": 22
+            },
+            {
+              "time": 1.196,
+              "pose": "command",
+              "active": 24
+            },
+            {
+              "time": 1.2233,
+              "pose": "command",
+              "active": 28
+            },
+            {
+              "time": 1.2506,
+              "pose": "command",
+              "active": 34
+            },
+            {
+              "time": 1.2779,
+              "pose": "command",
+              "active": 34
+            },
+            {
+              "time": 1.3,
+              "pose": "command",
+              "active": 33
+            },
+            {
+              "time": 1.326,
+              "pose": "command",
+              "active": 33
+            },
+            {
+              "time": 1.3533,
+              "pose": "command",
+              "active": 31
+            },
+            {
+              "time": 1.3806,
+              "pose": "command",
+              "active": 30
+            },
+            {
+              "time": 1.4079,
+              "pose": "command",
+              "active": 30
+            },
+            {
+              "time": 1.4352,
+              "pose": "command",
+              "active": 30
+            },
+            {
+              "time": 1.456,
+              "pose": "command",
+              "active": 30
+            },
+            {
+              "time": 1.47,
+              "pose": "command",
+              "active": 48
+            },
+            {
+              "time": 1.47,
+              "pose": "command",
+              "active": 48
+            },
+            {
+              "time": 1.4729,
+              "pose": "command",
+              "active": 48
+            },
+            {
+              "time": 1.495,
+              "pose": "command",
+              "active": 47
+            },
+            {
+              "time": 1.521,
+              "pose": "command",
+              "active": 39
+            },
+            {
+              "time": 1.5483,
+              "pose": "command",
+              "active": 37
+            },
+            {
+              "time": 1.5756,
+              "pose": "command",
+              "active": 35
+            },
+            {
+              "time": 1.6029,
+              "pose": "command",
+              "active": 28
+            },
+            {
+              "time": 1.625,
+              "pose": "command",
+              "active": 25
+            },
+            {
+              "time": 1.651,
+              "pose": "command",
+              "active": 25
+            },
+            {
+              "time": 1.6783,
+              "pose": "open",
+              "active": 25
+            },
+            {
+              "time": 1.7056,
+              "pose": "open",
+              "active": 25
+            },
+            {
+              "time": 1.7329,
+              "pose": "open",
+              "active": 25
+            },
+            {
+              "time": 1.755,
+              "pose": "open",
+              "active": 25
+            },
+            {
+              "time": 1.7823,
+              "pose": "open",
+              "active": 20
+            },
+            {
+              "time": 1.8083,
+              "pose": "open",
+              "active": 20
+            },
+            {
+              "time": 1.8356,
+              "pose": "open",
+              "active": 20
+            },
+            {
+              "time": 1.8629,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 1.885,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 1.911,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 1.9383,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 1.9656,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 1.9929,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 2.0202,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 2.041,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 2.0683,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.0956,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 380,
+            "y": 240
+          },
+          "end": {
+            "x": 380,
+            "y": 240
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ENEMY",
+          "action": "royal_swords",
+          "last": {
+            "code": "V-966",
+            "mode": "royal_swords",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "targetCount": 1,
+            "contactSeconds": 0.93,
+            "durationSeconds": 1.45,
+            "hitstopSeconds": 0.045,
+            "wholePoseAttachments": true,
+            "authoritative": true,
+            "effectRevision": "royal-sss-v2+golden-aura-v3",
+            "effectTool": "Effekseer 1.70e",
+            "summonedWeapons": 6,
+            "aura": true
+          },
+          "applied": [
+            "A:0:CN-02D9DC1E8A8A4209"
+          ],
+          "samples": [
+            {
+              "time": 0.0273,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.0819,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.1079,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 0.13,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 0.1573,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.1846,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2106,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2379,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.26,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2873,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.3146,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.3406,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.3627,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.39,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.4173,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.4446,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.4706,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.4979,
+              "pose": "command",
+              "active": 5
+            },
+            {
+              "time": 0.52,
+              "pose": "command",
+              "active": 5
+            },
+            {
+              "time": 0.5473,
+              "pose": "command",
+              "active": 6
+            },
+            {
+              "time": 0.5746,
+              "pose": "command",
+              "active": 6
+            },
+            {
+              "time": 0.6019,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 0.6279,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 0.65,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 0.6773,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.7046,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.7319,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 0.7527,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.7852,
+              "pose": "command",
+              "active": 10
+            },
+            {
+              "time": 0.8073,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.8346,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 0.8606,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.8879,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 0.91,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 0.93,
+              "pose": "command",
+              "active": 12
+            },
+            {
+              "time": 0.93,
+              "pose": "command",
+              "active": 12
+            },
+            {
+              "time": 0.9456,
+              "pose": "command",
+              "active": 12
+            },
+            {
+              "time": 0.9729,
+              "pose": "command",
+              "active": 10
+            },
+            {
+              "time": 0.995,
+              "pose": "command",
+              "active": 10
+            },
+            {
+              "time": 1.0223,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 1.0496,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 1.0769,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 1.1029,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 1.125,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.1523,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 1.1796,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 1.2069,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 1.2277,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 1.255,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 1.2823,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 1.3096,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 1.3369,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.3642,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.385,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.4123,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 1.4396,
+              "pose": "guard",
+              "active": 2
+            }
+          ],
+          "home": {
+            "x": 1220,
+            "y": 240
+          },
+          "end": {
+            "x": 1220,
+            "y": 240
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ENEMY",
+          "action": "sovereign_lance",
+          "last": {
+            "code": "V-966",
+            "mode": "sovereign_lance",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "targetCount": 1,
+            "contactSeconds": 1.04,
+            "durationSeconds": 1.6,
+            "hitstopSeconds": 0.045,
+            "wholePoseAttachments": true,
+            "authoritative": true,
+            "effectRevision": "royal-sss-v2+golden-aura-v3",
+            "effectTool": "Effekseer 1.70e",
+            "summonedWeapons": 1,
+            "aura": true
+          },
+          "applied": [
+            "A:0:CN-02D9DC1E8A8A4209"
+          ],
+          "samples": [
+            {
+              "time": 0.0273,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.0767,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.1027,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 0.13,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 0.1573,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.1846,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.2067,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.2327,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.26,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.2873,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.3146,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.3419,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.3627,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.39,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.4173,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.4446,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.4667,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.4927,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.52,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.5473,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.5746,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.5967,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.624,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.65,
+              "pose": "open",
+              "active": 2
+            },
+            {
+              "time": 0.6773,
+              "pose": "open",
+              "active": 2
+            },
+            {
+              "time": 0.7046,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.7267,
+              "pose": "command",
+              "active": 3
+            },
+            {
+              "time": 0.7592,
+              "pose": "command",
+              "active": 3
+            },
+            {
+              "time": 0.78,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.8073,
+              "pose": "command",
+              "active": 3
+            },
+            {
+              "time": 0.8346,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.8567,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.8827,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.91,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.9373,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.9646,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.9867,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 1.0127,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 1.04,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.04,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.0496,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.0769,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.0977,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 1.125,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 1.1523,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 1.1796,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.2017,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.2264,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.255,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.2823,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.3096,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.3369,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 1.3577,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 1.385,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 1.4123,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 1.4396,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.4669,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.4877,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.515,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.5423,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.5696,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 1.5917,
+              "pose": "guard",
+              "active": 1
+            }
+          ],
+          "home": {
+            "x": 1220,
+            "y": 240
+          },
+          "end": {
+            "x": 1220,
+            "y": 240
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ENEMY",
+          "action": "kings_arsenal",
+          "last": {
+            "code": "V-966",
+            "mode": "kings_arsenal",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 5,
+            "targetCount": 5,
+            "contactSeconds": 1.35,
+            "durationSeconds": 1.95,
+            "hitstopSeconds": 0.065,
+            "wholePoseAttachments": true,
+            "authoritative": true,
+            "effectRevision": "royal-sss-v2+golden-aura-v3",
+            "effectTool": "Effekseer 1.70e",
+            "summonedWeapons": 18,
+            "aura": true
+          },
+          "applied": [
+            "A:0:CN-02D9DC1E8A8A4209",
+            "A:1:CN-0505936A0CBB4E59",
+            "A:2:CN-25F931CE393D474E",
+            "A:3:CN-23EB4B19986D4818",
+            "A:4:CN-519C181C18DF4B8E"
+          ],
+          "samples": [
+            {
+              "time": 0.0377,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.0598,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.0871,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.1144,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.1404,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.1677,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.1898,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2171,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 0.2431,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 0.2704,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 0.2977,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 0.3198,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 0.3471,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.3731,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.4004,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.4277,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.4498,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.4771,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.5031,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.5304,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.5525,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.5798,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.6071,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.6331,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.6604,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.6877,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.7098,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.7371,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 0.7644,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 0.7904,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 0.8177,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.8398,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 0.8671,
+              "pose": "command",
+              "active": 10
+            },
+            {
+              "time": 0.8931,
+              "pose": "command",
+              "active": 11
+            },
+            {
+              "time": 0.9204,
+              "pose": "command",
+              "active": 12
+            },
+            {
+              "time": 0.9477,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 0.9698,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 0.9971,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.0231,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.0465,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.0777,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.0998,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.1271,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.1531,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.1804,
+              "pose": "command",
+              "active": 12
+            },
+            {
+              "time": 1.2077,
+              "pose": "command",
+              "active": 11
+            },
+            {
+              "time": 1.2298,
+              "pose": "command",
+              "active": 10
+            },
+            {
+              "time": 1.2571,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 1.2844,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.3117,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.3377,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.35,
+              "pose": "command",
+              "active": 23
+            },
+            {
+              "time": 1.35,
+              "pose": "command",
+              "active": 23
+            },
+            {
+              "time": 1.35,
+              "pose": "command",
+              "active": 23
+            },
+            {
+              "time": 1.3754,
+              "pose": "command",
+              "active": 22
+            },
+            {
+              "time": 1.4027,
+              "pose": "command",
+              "active": 21
+            },
+            {
+              "time": 1.4248,
+              "pose": "command",
+              "active": 18
+            },
+            {
+              "time": 1.4521,
+              "pose": "command",
+              "active": 18
+            },
+            {
+              "time": 1.4794,
+              "pose": "command",
+              "active": 18
+            },
+            {
+              "time": 1.5054,
+              "pose": "command",
+              "active": 18
+            },
+            {
+              "time": 1.5327,
+              "pose": "open",
+              "active": 18
+            },
+            {
+              "time": 1.5548,
+              "pose": "open",
+              "active": 18
+            },
+            {
+              "time": 1.5821,
+              "pose": "open",
+              "active": 18
+            },
+            {
+              "time": 1.6081,
+              "pose": "open",
+              "active": 17
+            },
+            {
+              "time": 1.6354,
+              "pose": "open",
+              "active": 16
+            },
+            {
+              "time": 1.6627,
+              "pose": "open",
+              "active": 15
+            },
+            {
+              "time": 1.6848,
+              "pose": "open",
+              "active": 15
+            },
+            {
+              "time": 1.7121,
+              "pose": "open",
+              "active": 15
+            },
+            {
+              "time": 1.7381,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.7654,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.7927,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.8148,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.8421,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.8694,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.8954,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.9227,
+              "pose": "guard",
+              "active": 5
+            },
+            {
+              "time": 1.9448,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 1220,
+            "y": 240
+          },
+          "end": {
+            "x": 1220,
+            "y": 240
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ENEMY",
+          "action": "heavenly_descent",
+          "last": {
+            "code": "V-966",
+            "mode": "heavenly_descent",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 5,
+            "targetCount": 5,
+            "contactSeconds": 1.47,
+            "durationSeconds": 2.1,
+            "hitstopSeconds": 0.065,
+            "wholePoseAttachments": true,
+            "authoritative": true,
+            "effectRevision": "royal-sss-v2+golden-aura-v3",
+            "effectTool": "Effekseer 1.70e",
+            "summonedWeapons": 20,
+            "aura": true
+          },
+          "applied": [
+            "A:0:CN-02D9DC1E8A8A4209",
+            "A:1:CN-0505936A0CBB4E59",
+            "A:2:CN-25F931CE393D474E",
+            "A:3:CN-23EB4B19986D4818",
+            "A:4:CN-519C181C18DF4B8E"
+          ],
+          "samples": [
+            {
+              "time": 0.0273,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.0819,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.1079,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.1352,
+              "pose": "gather",
+              "active": 1
+            },
+            {
+              "time": 0.1573,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 0.1846,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.2119,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.2379,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2652,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2873,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.3146,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.3419,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 0.3679,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 0.3952,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 0.4225,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 0.4446,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 0.4719,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 0.4992,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.5252,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.5473,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.5746,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.6019,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.6292,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.6552,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.6825,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.7046,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.7319,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.7592,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.7852,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.8125,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.8346,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.8619,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.8892,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.9152,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.9425,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.9646,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.9919,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 1.0192,
+              "pose": "command",
+              "active": 10
+            },
+            {
+              "time": 1.0452,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.0725,
+              "pose": "command",
+              "active": 16
+            },
+            {
+              "time": 1.0946,
+              "pose": "command",
+              "active": 18
+            },
+            {
+              "time": 1.1219,
+              "pose": "command",
+              "active": 20
+            },
+            {
+              "time": 1.1492,
+              "pose": "command",
+              "active": 20
+            },
+            {
+              "time": 1.1752,
+              "pose": "command",
+              "active": 22
+            },
+            {
+              "time": 1.1973,
+              "pose": "command",
+              "active": 24
+            },
+            {
+              "time": 1.2246,
+              "pose": "command",
+              "active": 28
+            },
+            {
+              "time": 1.2519,
+              "pose": "command",
+              "active": 34
+            },
+            {
+              "time": 1.2792,
+              "pose": "command",
+              "active": 34
+            },
+            {
+              "time": 1.3052,
+              "pose": "command",
+              "active": 34
+            },
+            {
+              "time": 1.3273,
+              "pose": "command",
+              "active": 33
+            },
+            {
+              "time": 1.3546,
+              "pose": "command",
+              "active": 31
+            },
+            {
+              "time": 1.3819,
+              "pose": "command",
+              "active": 30
+            },
+            {
+              "time": 1.4079,
+              "pose": "command",
+              "active": 30
+            },
+            {
+              "time": 1.4365,
+              "pose": "command",
+              "active": 30
+            },
+            {
+              "time": 1.4625,
+              "pose": "command",
+              "active": 29
+            },
+            {
+              "time": 1.47,
+              "pose": "command",
+              "active": 48
+            },
+            {
+              "time": 1.47,
+              "pose": "command",
+              "active": 48
+            },
+            {
+              "time": 1.4742,
+              "pose": "command",
+              "active": 48
+            },
+            {
+              "time": 1.5002,
+              "pose": "command",
+              "active": 46
+            },
+            {
+              "time": 1.5223,
+              "pose": "command",
+              "active": 39
+            },
+            {
+              "time": 1.5496,
+              "pose": "command",
+              "active": 36
+            },
+            {
+              "time": 1.5769,
+              "pose": "command",
+              "active": 34
+            },
+            {
+              "time": 1.6042,
+              "pose": "command",
+              "active": 27
+            },
+            {
+              "time": 1.6302,
+              "pose": "command",
+              "active": 25
+            },
+            {
+              "time": 1.6575,
+              "pose": "command",
+              "active": 25
+            },
+            {
+              "time": 1.6744,
+              "pose": "open",
+              "active": 25
+            },
+            {
+              "time": 1.7069,
+              "pose": "open",
+              "active": 25
+            },
+            {
+              "time": 1.7342,
+              "pose": "open",
+              "active": 25
+            },
+            {
+              "time": 1.7602,
+              "pose": "open",
+              "active": 25
+            },
+            {
+              "time": 1.7823,
+              "pose": "open",
+              "active": 20
+            },
+            {
+              "time": 1.8096,
+              "pose": "open",
+              "active": 20
+            },
+            {
+              "time": 1.8369,
+              "pose": "open",
+              "active": 20
+            },
+            {
+              "time": 1.859,
+              "pose": "open",
+              "active": 15
+            },
+            {
+              "time": 1.8902,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 1.9123,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 1.9396,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 1.9669,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 1.9942,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 2.0202,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 2.0423,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 2.0696,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.0969,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 1220,
+            "y": 240
+          },
+          "end": {
+            "x": 1220,
+            "y": 240
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        }
+      ],
+      "lifecycle": {
+        "dead": false,
+        "revived": true,
+        "cancelled": {
+          "impacts": 0,
+          "busy": false,
+          "effect": null,
+          "aura": false
+        },
+        "resumed": true,
+        "loops": 2
+      },
+      "codex": "헬리오스 킹\n\n황금 왕권\n\nSSS\n카드 원화\n전투 SD\n\n선택한 이미지를 누르면 원본을 확대합니다.\n\n리미티드 · 돌격 · SSS\n\n기본 전투력\n3,500,000\n☆\n대표 스킬\n왕검 사출\n\n황금 보검 여섯 자루를 사출해 적 하나에 165% 일반 공격을 한 번 적용합니다.\n\n보유 상태\n미보유\n\n전체 도감 정보는 확인할 수 있지만 편성은 보유 용병만 가능합니다.\n\n스킬·전투 성능 자세히 보기\n리미티드 컬렉션\nLIMITED EDITION\n헬리오스 킹\n\n황금 왕권\n\n용병 등급\nSSS\n공개 리소스\n원화 · 전투 SD\n전투 편성\n보유 시 가능\n리미티드 전투 편성\n\n보유한 리미티드 용병을 PVE와 PVP에 각각 편성할 수 있습니다.\n획득 잠금 · 획득 방법은 추후 지정됩니다.\n\n전투 성능 · 행동 주기\n기본 전투력 3,500,000. 프라임 레퀴엠보다 공격·체력·방어·연계 예산이 16.67% 높습니다. 왕검 사출·천창 관통은 165% 일반 공격으로 순환합니다. 왕의 군세는 총 3,780%, 천검 강림은 총 4,536% 피해를 생존한 적에게 나누어 대상당 한 번 적용합니다. PVE 광역기 두 개가 에너지 20·재사용 3행동을 공유합니다. 개인 피해 80% 경감·상태이상·반격 보호·행동 3.12배. PVP는 일반 공격을 사용하며 프라임의 공격 30%·체력/방벽 500% 보정과 제너럴 족 상대 우위 정책을 계승합니다. 운영자 지정 지급 전용. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 4배). 고레벨 성장과 마지막 돌파도 이 배율에 반영됩니다. 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다. PVP 성장 전투는 C·B·A·S·SS·SSS·SSS 리미티드 순으로 등급 우위를 적용합니다. SS 리미티드는 기존 일반 SSS 전투 등급을 유지합니다. 상대 전원의 등급보다 높으면 같은 레벨 기준 단계당 공격·피해 상한 +100%, 체력·방벽 +500%의 추가 보정을 적용합니다. 상위 등급의 레벨이 낮으면 1레벨 차이마다 이 추가 보정과 성장 격차 보완을 10%씩 줄이며, 10레벨 이상 뒤처지면 적용하지 않습니다. 상위 등급을 향한 경감 관통·행동 대응의 등급 감쇠도 같은 비율로 줄어 10레벨 이상 높은 용병은 배운 숙련을 온전히 사용합니다. 원래 레벨 능력치·평타 성장·추가 행동 숙련은 유지합니다. 듀오는 상대 최고 등급과 가장 큰 레벨 격차를 기준으로 하며, 같은 전투 등급·PVE·기존 개별 용병 상성 정책은 유지합니다."
+    },
+    {
+      "width": 390,
+      "field": "PVP",
+      "setup": {
+        "canvas": 1,
+        "states": [
+          {
+            "id": "A:MERCENARY:V-966",
+            "team": "ALLY",
+            "facing": 1,
+            "autoUpdate": false,
+            "aura": {
+              "time": 0.0156,
+              "enabled": true,
+              "visible": true,
+              "frames": {
+                "rear": {
+                  "index": 0,
+                  "mix": 0.031200000000000117
+                },
+                "front": {
+                  "index": 2,
+                  "mix": 0.031200000000000117
+                },
+                "blade": {
+                  "index": 0,
+                  "mix": 0.17828571428571394
+                }
+              },
+              "body": {
+                "head": {
+                  "x": 8.417693661922831,
+                  "y": -273.13289999999995
+                },
+                "feet": {
+                  "x": 1.550624904903163,
+                  "y": 0
+                },
+                "h": 300.2192117983719,
+                "centerX": 4.984159283412997
+              },
+              "blade": {
+                "grip": {
+                  "x": -44.525303963226285,
+                  "y": -170.79114999999996
+                },
+                "base": {
+                  "x": -12.449353446104965,
+                  "y": -148.50633999999997
+                },
+                "tip": {
+                  "x": 115.8544486223803,
+                  "y": -59.367099999999986
+                },
+                "end": {
+                  "x": 118.2601449111644,
+                  "y": -57.69573924999999
+                }
+              },
+              "scales": [
+                {
+                  "x": 140.14165556270927,
+                  "y": -270.13843964850577,
+                  "rotation": 0.0006534222074641644,
+                  "width": 106.25269800052976,
+                  "height": 96.9555869254834
+                },
+                {
+                  "x": -130.1733369958833,
+                  "y": -270.13843964850577,
+                  "rotation": -0.0006534222074641644,
+                  "width": 106.25269800052976,
+                  "height": 96.9555869254834
+                },
+                {
+                  "x": 176.050259038456,
+                  "y": -171.1838016951009,
+                  "rotation": -0.0006534222074641616,
+                  "width": 106.25269800052976,
+                  "height": 96.9555869254834
+                },
+                {
+                  "x": -166.08194047163002,
+                  "y": -171.1838016951009,
+                  "rotation": 0.0006534222074641616,
+                  "width": 106.25269800052976,
+                  "height": 96.9555869254834
+                }
+              ],
+              "neon": true,
+              "behind": true,
+              "front": true,
+              "destroyed": false,
+              "clock": "V3_REGISTERED_GSAP"
+            },
+            "bodyVisible": false
+          },
+          {
+            "id": "B:MERCENARY:V-966",
+            "team": "ENEMY",
+            "facing": -1,
+            "autoUpdate": false,
+            "aura": {
+              "time": 0.0156,
+              "enabled": true,
+              "visible": true,
+              "frames": {
+                "rear": {
+                  "index": 0,
+                  "mix": 0.031200000000000117
+                },
+                "front": {
+                  "index": 2,
+                  "mix": 0.031200000000000117
+                },
+                "blade": {
+                  "index": 0,
+                  "mix": 0.17828571428571394
+                }
+              },
+              "body": {
+                "head": {
+                  "x": 8.417693661922831,
+                  "y": -273.13289999999995
+                },
+                "feet": {
+                  "x": 1.550624904903163,
+                  "y": 0
+                },
+                "h": 300.2192117983719,
+                "centerX": 4.984159283412997
+              },
+              "blade": {
+                "grip": {
+                  "x": -44.525303963226285,
+                  "y": -170.79114999999996
+                },
+                "base": {
+                  "x": -12.449353446104965,
+                  "y": -148.50633999999997
+                },
+                "tip": {
+                  "x": 115.8544486223803,
+                  "y": -59.367099999999986
+                },
+                "end": {
+                  "x": 118.2601449111644,
+                  "y": -57.69573924999999
+                }
+              },
+              "scales": [
+                {
+                  "x": 140.14165556270927,
+                  "y": -270.13843964850577,
+                  "rotation": 0.0006534222074641644,
+                  "width": 106.25269800052976,
+                  "height": 96.9555869254834
+                },
+                {
+                  "x": -130.1733369958833,
+                  "y": -270.13843964850577,
+                  "rotation": -0.0006534222074641644,
+                  "width": 106.25269800052976,
+                  "height": 96.9555869254834
+                },
+                {
+                  "x": 176.050259038456,
+                  "y": -171.1838016951009,
+                  "rotation": -0.0006534222074641616,
+                  "width": 106.25269800052976,
+                  "height": 96.9555869254834
+                },
+                {
+                  "x": -166.08194047163002,
+                  "y": -171.1838016951009,
+                  "rotation": 0.0006534222074641616,
+                  "width": 106.25269800052976,
+                  "height": 96.9555869254834
+                }
+              ],
+              "neon": true,
+              "behind": true,
+              "front": true,
+              "destroyed": false,
+              "clock": "V3_REGISTERED_GSAP"
+            },
+            "bodyVisible": false
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "side": "ALLY",
+          "action": "royal_swords",
+          "last": {
+            "code": "V-966",
+            "mode": "royal_swords",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "targetCount": 1,
+            "contactSeconds": 0.93,
+            "durationSeconds": 1.45,
+            "hitstopSeconds": 0.045,
+            "wholePoseAttachments": true,
+            "authoritative": true,
+            "effectRevision": "royal-sss-v2+golden-aura-v3",
+            "effectTool": "Effekseer 1.70e",
+            "summonedWeapons": 6,
+            "aura": true
+          },
+          "applied": [
+            "B:0:CN-02D9DC1E8A8A4209"
+          ],
+          "samples": [
+            {
+              "time": 0.0273,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.0819,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.1079,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 0.13,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 0.1625,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.1846,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2106,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2379,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.26,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2873,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.3146,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.3406,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.3679,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.39,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.4173,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.4446,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.4706,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.4979,
+              "pose": "command",
+              "active": 5
+            },
+            {
+              "time": 0.52,
+              "pose": "command",
+              "active": 5
+            },
+            {
+              "time": 0.5473,
+              "pose": "command",
+              "active": 6
+            },
+            {
+              "time": 0.5746,
+              "pose": "command",
+              "active": 6
+            },
+            {
+              "time": 0.6019,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 0.6279,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 0.65,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 0.6773,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.7046,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.7319,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 0.7579,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 0.78,
+              "pose": "command",
+              "active": 10
+            },
+            {
+              "time": 0.8073,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.8346,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 0.8606,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.8827,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 0.91,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 0.93,
+              "pose": "command",
+              "active": 12
+            },
+            {
+              "time": 0.93,
+              "pose": "command",
+              "active": 12
+            },
+            {
+              "time": 0.9469,
+              "pose": "command",
+              "active": 12
+            },
+            {
+              "time": 0.9729,
+              "pose": "command",
+              "active": 10
+            },
+            {
+              "time": 0.995,
+              "pose": "command",
+              "active": 10
+            },
+            {
+              "time": 1.0223,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 1.0496,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 1.0769,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 1.1029,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 1.125,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.1471,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 1.1744,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 1.2069,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 1.2342,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 1.255,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 1.2823,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 1.3096,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 1.3369,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.3629,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.385,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.4123,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 1.4396,
+              "pose": "guard",
+              "active": 2
+            }
+          ],
+          "home": {
+            "x": 564,
+            "y": 1312
+          },
+          "end": {
+            "x": 564,
+            "y": 1312
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "sovereign_lance",
+          "last": {
+            "code": "V-966",
+            "mode": "sovereign_lance",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "targetCount": 1,
+            "contactSeconds": 1.04,
+            "durationSeconds": 1.6,
+            "hitstopSeconds": 0.045,
+            "wholePoseAttachments": true,
+            "authoritative": true,
+            "effectRevision": "royal-sss-v2+golden-aura-v3",
+            "effectTool": "Effekseer 1.70e",
+            "summonedWeapons": 1,
+            "aura": true
+          },
+          "applied": [
+            "B:0:CN-02D9DC1E8A8A4209"
+          ],
+          "samples": [
+            {
+              "time": 0.0273,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.0819,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.1027,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 0.13,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 0.1573,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.1846,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.2119,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.2392,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.26,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.2873,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.3146,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.3419,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.3627,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.39,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.4173,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.4446,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.4667,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.4927,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.52,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.5473,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.5746,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.6019,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.6188,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.65,
+              "pose": "open",
+              "active": 2
+            },
+            {
+              "time": 0.6773,
+              "pose": "open",
+              "active": 2
+            },
+            {
+              "time": 0.7046,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.7319,
+              "pose": "command",
+              "active": 3
+            },
+            {
+              "time": 0.7527,
+              "pose": "command",
+              "active": 3
+            },
+            {
+              "time": 0.78,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.8073,
+              "pose": "command",
+              "active": 3
+            },
+            {
+              "time": 0.8346,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.8619,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.8827,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.91,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.9373,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.9646,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.9919,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 1.0192,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 1.04,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.04,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.0496,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.0769,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.0925,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 1.125,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 1.1523,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 1.1796,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.2017,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.2277,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.255,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.2823,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.3096,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.3317,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 1.3642,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 1.385,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 1.4123,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 1.4396,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.4669,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.4877,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.515,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.5423,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.5696,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 1.5917,
+              "pose": "guard",
+              "active": 1
+            }
+          ],
+          "home": {
+            "x": 564,
+            "y": 1312
+          },
+          "end": {
+            "x": 564,
+            "y": 1312
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "kings_arsenal",
+          "last": {
+            "code": "V-966",
+            "mode": "kings_arsenal",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 5,
+            "targetCount": 5,
+            "contactSeconds": 1.35,
+            "durationSeconds": 1.95,
+            "hitstopSeconds": 0.065,
+            "wholePoseAttachments": true,
+            "authoritative": true,
+            "effectRevision": "royal-sss-v2+golden-aura-v3",
+            "effectTool": "Effekseer 1.70e",
+            "summonedWeapons": 18,
+            "aura": true
+          },
+          "applied": [
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:1:CN-0505936A0CBB4E59",
+            "B:2:CN-25F931CE393D474E",
+            "B:3:CN-23EB4B19986D4818",
+            "B:4:CN-519C181C18DF4B8E"
+          ],
+          "samples": [
+            {
+              "time": 0.0299,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.0572,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.0845,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.1105,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.1378,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.1599,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.1872,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2145,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 0.2405,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 0.2626,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 0.2899,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 0.3172,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 0.3445,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.3718,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.3926,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.4199,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.4472,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.4745,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.5005,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.5278,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.5499,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.5772,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.6045,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.6305,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.6526,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.6799,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.7072,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.7345,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 0.7553,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 0.7878,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.8099,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.8372,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 0.8645,
+              "pose": "command",
+              "active": 10
+            },
+            {
+              "time": 0.8905,
+              "pose": "command",
+              "active": 11
+            },
+            {
+              "time": 0.9178,
+              "pose": "command",
+              "active": 12
+            },
+            {
+              "time": 0.9399,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 0.9672,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 0.9945,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.0205,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.0478,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.0699,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.092,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.1245,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.1518,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.1778,
+              "pose": "command",
+              "active": 12
+            },
+            {
+              "time": 1.1999,
+              "pose": "command",
+              "active": 11
+            },
+            {
+              "time": 1.2272,
+              "pose": "command",
+              "active": 10
+            },
+            {
+              "time": 1.2545,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 1.2818,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.2974,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 1.3299,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.35,
+              "pose": "command",
+              "active": 23
+            },
+            {
+              "time": 1.35,
+              "pose": "command",
+              "active": 23
+            },
+            {
+              "time": 1.35,
+              "pose": "command",
+              "active": 23
+            },
+            {
+              "time": 1.3676,
+              "pose": "command",
+              "active": 22
+            },
+            {
+              "time": 1.3949,
+              "pose": "command",
+              "active": 21
+            },
+            {
+              "time": 1.4222,
+              "pose": "command",
+              "active": 18
+            },
+            {
+              "time": 1.4495,
+              "pose": "command",
+              "active": 18
+            },
+            {
+              "time": 1.4768,
+              "pose": "command",
+              "active": 18
+            },
+            {
+              "time": 1.4924,
+              "pose": "command",
+              "active": 18
+            },
+            {
+              "time": 1.5249,
+              "pose": "command",
+              "active": 18
+            },
+            {
+              "time": 1.5522,
+              "pose": "open",
+              "active": 18
+            },
+            {
+              "time": 1.5795,
+              "pose": "open",
+              "active": 18
+            },
+            {
+              "time": 1.6055,
+              "pose": "open",
+              "active": 17
+            },
+            {
+              "time": 1.6276,
+              "pose": "open",
+              "active": 16
+            },
+            {
+              "time": 1.6549,
+              "pose": "open",
+              "active": 15
+            },
+            {
+              "time": 1.6822,
+              "pose": "open",
+              "active": 15
+            },
+            {
+              "time": 1.7095,
+              "pose": "open",
+              "active": 15
+            },
+            {
+              "time": 1.7355,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.7576,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.7849,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.8122,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.8395,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.8655,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.8876,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.9149,
+              "pose": "guard",
+              "active": 5
+            },
+            {
+              "time": 1.9422,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 564,
+            "y": 1312
+          },
+          "end": {
+            "x": 564,
+            "y": 1312
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ALLY",
+          "action": "heavenly_descent",
+          "last": {
+            "code": "V-966",
+            "mode": "heavenly_descent",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 5,
+            "targetCount": 5,
+            "contactSeconds": 1.47,
+            "durationSeconds": 2.1,
+            "hitstopSeconds": 0.065,
+            "wholePoseAttachments": true,
+            "authoritative": true,
+            "effectRevision": "royal-sss-v2+golden-aura-v3",
+            "effectTool": "Effekseer 1.70e",
+            "summonedWeapons": 20,
+            "aura": true
+          },
+          "applied": [
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:1:CN-0505936A0CBB4E59",
+            "B:2:CN-25F931CE393D474E",
+            "B:3:CN-23EB4B19986D4818",
+            "B:4:CN-519C181C18DF4B8E"
+          ],
+          "samples": [
+            {
+              "time": 0.0273,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.0819,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.1027,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.13,
+              "pose": "gather",
+              "active": 1
+            },
+            {
+              "time": 0.1573,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 0.1846,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.2119,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.2327,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.26,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2873,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.3146,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.3419,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 0.3627,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 0.39,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 0.4173,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 0.4446,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 0.4719,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 0.4927,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.52,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.5473,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.5694,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.5967,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.6227,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.65,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.6773,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.7046,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.7319,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.7527,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.78,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.8073,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.8346,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.8619,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.8827,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.91,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.9373,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.9646,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.9919,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 1.0127,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 1.04,
+              "pose": "command",
+              "active": 12
+            },
+            {
+              "time": 1.0673,
+              "pose": "command",
+              "active": 15
+            },
+            {
+              "time": 1.0946,
+              "pose": "command",
+              "active": 18
+            },
+            {
+              "time": 1.1167,
+              "pose": "command",
+              "active": 20
+            },
+            {
+              "time": 1.1427,
+              "pose": "command",
+              "active": 20
+            },
+            {
+              "time": 1.17,
+              "pose": "command",
+              "active": 22
+            },
+            {
+              "time": 1.1973,
+              "pose": "command",
+              "active": 24
+            },
+            {
+              "time": 1.2246,
+              "pose": "command",
+              "active": 28
+            },
+            {
+              "time": 1.2519,
+              "pose": "command",
+              "active": 34
+            },
+            {
+              "time": 1.2727,
+              "pose": "command",
+              "active": 33
+            },
+            {
+              "time": 1.3,
+              "pose": "command",
+              "active": 33
+            },
+            {
+              "time": 1.3273,
+              "pose": "command",
+              "active": 33
+            },
+            {
+              "time": 1.3546,
+              "pose": "command",
+              "active": 31
+            },
+            {
+              "time": 1.3767,
+              "pose": "command",
+              "active": 30
+            },
+            {
+              "time": 1.4027,
+              "pose": "command",
+              "active": 30
+            },
+            {
+              "time": 1.43,
+              "pose": "command",
+              "active": 30
+            },
+            {
+              "time": 1.4573,
+              "pose": "command",
+              "active": 30
+            },
+            {
+              "time": 1.47,
+              "pose": "command",
+              "active": 48
+            },
+            {
+              "time": 1.47,
+              "pose": "command",
+              "active": 48
+            },
+            {
+              "time": 1.47,
+              "pose": "command",
+              "active": 48
+            },
+            {
+              "time": 1.495,
+              "pose": "command",
+              "active": 47
+            },
+            {
+              "time": 1.5223,
+              "pose": "command",
+              "active": 39
+            },
+            {
+              "time": 1.5496,
+              "pose": "command",
+              "active": 36
+            },
+            {
+              "time": 1.5769,
+              "pose": "command",
+              "active": 34
+            },
+            {
+              "time": 1.5977,
+              "pose": "command",
+              "active": 28
+            },
+            {
+              "time": 1.625,
+              "pose": "command",
+              "active": 25
+            },
+            {
+              "time": 1.6523,
+              "pose": "command",
+              "active": 25
+            },
+            {
+              "time": 1.6796,
+              "pose": "open",
+              "active": 25
+            },
+            {
+              "time": 1.7017,
+              "pose": "open",
+              "active": 25
+            },
+            {
+              "time": 1.7277,
+              "pose": "open",
+              "active": 25
+            },
+            {
+              "time": 1.755,
+              "pose": "open",
+              "active": 25
+            },
+            {
+              "time": 1.7823,
+              "pose": "open",
+              "active": 20
+            },
+            {
+              "time": 1.8096,
+              "pose": "open",
+              "active": 20
+            },
+            {
+              "time": 1.8369,
+              "pose": "open",
+              "active": 20
+            },
+            {
+              "time": 1.8577,
+              "pose": "open",
+              "active": 15
+            },
+            {
+              "time": 1.885,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 1.9123,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 1.9396,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 1.9669,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 1.9877,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 2.015,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 2.0423,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 2.0657,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.0917,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 564,
+            "y": 1312
+          },
+          "end": {
+            "x": 564,
+            "y": 1312
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ENEMY",
+          "action": "royal_swords",
+          "last": {
+            "code": "V-966",
+            "mode": "royal_swords",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "targetCount": 1,
+            "contactSeconds": 0.93,
+            "durationSeconds": 1.45,
+            "hitstopSeconds": 0.045,
+            "wholePoseAttachments": true,
+            "authoritative": true,
+            "effectRevision": "royal-sss-v2+golden-aura-v3",
+            "effectTool": "Effekseer 1.70e",
+            "summonedWeapons": 6,
+            "aura": true
+          },
+          "applied": [
+            "A:0:CN-02D9DC1E8A8A4209"
+          ],
+          "samples": [
+            {
+              "time": 0.0273,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.0819,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.1092,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 0.1352,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 0.1573,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.1846,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2119,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2392,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2652,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2873,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.3146,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.3419,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.3692,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.3952,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.4173,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.4446,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.4719,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.4979,
+              "pose": "command",
+              "active": 5
+            },
+            {
+              "time": 0.5252,
+              "pose": "command",
+              "active": 5
+            },
+            {
+              "time": 0.5473,
+              "pose": "command",
+              "active": 6
+            },
+            {
+              "time": 0.5746,
+              "pose": "command",
+              "active": 6
+            },
+            {
+              "time": 0.6019,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 0.6292,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 0.6513,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 0.6825,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.7046,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.7319,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 0.7592,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 0.78,
+              "pose": "command",
+              "active": 10
+            },
+            {
+              "time": 0.8073,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.8346,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 0.8619,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.8879,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 0.9152,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.93,
+              "pose": "command",
+              "active": 12
+            },
+            {
+              "time": 0.93,
+              "pose": "command",
+              "active": 12
+            },
+            {
+              "time": 0.9469,
+              "pose": "command",
+              "active": 12
+            },
+            {
+              "time": 0.9742,
+              "pose": "command",
+              "active": 10
+            },
+            {
+              "time": 1.0002,
+              "pose": "command",
+              "active": 10
+            },
+            {
+              "time": 1.0223,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 1.0496,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 1.0769,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 1.1042,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 1.1302,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.1523,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 1.1796,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 1.2069,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 1.2342,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 1.255,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 1.2823,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 1.3096,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 1.3369,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.3642,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.3902,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.4123,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 1.4396,
+              "pose": "guard",
+              "active": 2
+            }
+          ],
+          "home": {
+            "x": 996,
+            "y": 1312
+          },
+          "end": {
+            "x": 996,
+            "y": 1312
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ENEMY",
+          "action": "sovereign_lance",
+          "last": {
+            "code": "V-966",
+            "mode": "sovereign_lance",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 1,
+            "targetCount": 1,
+            "contactSeconds": 1.04,
+            "durationSeconds": 1.6,
+            "hitstopSeconds": 0.045,
+            "wholePoseAttachments": true,
+            "authoritative": true,
+            "effectRevision": "royal-sss-v2+golden-aura-v3",
+            "effectTool": "Effekseer 1.70e",
+            "summonedWeapons": 1,
+            "aura": true
+          },
+          "applied": [
+            "A:0:CN-02D9DC1E8A8A4209"
+          ],
+          "samples": [
+            {
+              "time": 0.0442,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.0715,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.0975,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.1196,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 0.1417,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 0.169,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.2015,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.2275,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.2548,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.2743,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.299,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.3315,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.3575,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.3848,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.4043,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.429,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.4615,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.4875,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.5096,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.5317,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.559,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.5915,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.6175,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.6396,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.6682,
+              "pose": "open",
+              "active": 2
+            },
+            {
+              "time": 0.6942,
+              "pose": "open",
+              "active": 3
+            },
+            {
+              "time": 0.7215,
+              "pose": "command",
+              "active": 3
+            },
+            {
+              "time": 0.7475,
+              "pose": "command",
+              "active": 3
+            },
+            {
+              "time": 0.7748,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.7956,
+              "pose": "command",
+              "active": 3
+            },
+            {
+              "time": 0.8242,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.8515,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.8775,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.8996,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.9269,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.9542,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 0.9815,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 1.0075,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 1.0348,
+              "pose": "command",
+              "active": 4
+            },
+            {
+              "time": 1.04,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.04,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.0665,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.0925,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 1.1146,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 1.1419,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 1.1692,
+              "pose": "command",
+              "active": 6
+            },
+            {
+              "time": 1.1965,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.2225,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.2446,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.2719,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.2992,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.3252,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 1.3525,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 1.3746,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 1.4019,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 1.4292,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 1.4565,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.4825,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.5046,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.5319,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 1.5592,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 1.5865,
+              "pose": "guard",
+              "active": 2
+            }
+          ],
+          "home": {
+            "x": 996,
+            "y": 1312
+          },
+          "end": {
+            "x": 996,
+            "y": 1312
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ENEMY",
+          "action": "kings_arsenal",
+          "last": {
+            "code": "V-966",
+            "mode": "kings_arsenal",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 5,
+            "targetCount": 5,
+            "contactSeconds": 1.35,
+            "durationSeconds": 1.95,
+            "hitstopSeconds": 0.065,
+            "wholePoseAttachments": true,
+            "authoritative": true,
+            "effectRevision": "royal-sss-v2+golden-aura-v3",
+            "effectTool": "Effekseer 1.70e",
+            "summonedWeapons": 18,
+            "aura": true
+          },
+          "applied": [
+            "A:0:CN-02D9DC1E8A8A4209",
+            "A:1:CN-0505936A0CBB4E59",
+            "A:2:CN-25F931CE393D474E",
+            "A:3:CN-23EB4B19986D4818",
+            "A:4:CN-519C181C18DF4B8E"
+          ],
+          "samples": [
+            {
+              "time": 0.0273,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.0546,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.0819,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.1027,
+              "pose": "guard",
+              "active": 2
+            },
+            {
+              "time": 0.13,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 0.1573,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.1846,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2119,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 0.2392,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 0.26,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 0.2873,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 0.3146,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 0.3419,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.3627,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.39,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.4173,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.4446,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.4719,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.4992,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.52,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.5473,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.5746,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.6019,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.624,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.65,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.6773,
+              "pose": "open",
+              "active": 4
+            },
+            {
+              "time": 0.7046,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.7319,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 0.7527,
+              "pose": "command",
+              "active": 7
+            },
+            {
+              "time": 0.78,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.8073,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 0.8346,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 0.8619,
+              "pose": "command",
+              "active": 10
+            },
+            {
+              "time": 0.8827,
+              "pose": "command",
+              "active": 11
+            },
+            {
+              "time": 0.91,
+              "pose": "command",
+              "active": 12
+            },
+            {
+              "time": 0.9373,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 0.9646,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 0.9919,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.0127,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.04,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.0673,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.0946,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.1167,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.1453,
+              "pose": "command",
+              "active": 13
+            },
+            {
+              "time": 1.17,
+              "pose": "command",
+              "active": 12
+            },
+            {
+              "time": 1.1973,
+              "pose": "command",
+              "active": 11
+            },
+            {
+              "time": 1.2246,
+              "pose": "command",
+              "active": 10
+            },
+            {
+              "time": 1.2519,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 1.2727,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.3,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.3273,
+              "pose": "command",
+              "active": 8
+            },
+            {
+              "time": 1.35,
+              "pose": "command",
+              "active": 23
+            },
+            {
+              "time": 1.35,
+              "pose": "command",
+              "active": 23
+            },
+            {
+              "time": 1.35,
+              "pose": "command",
+              "active": 23
+            },
+            {
+              "time": 1.365,
+              "pose": "command",
+              "active": 22
+            },
+            {
+              "time": 1.3923,
+              "pose": "command",
+              "active": 21
+            },
+            {
+              "time": 1.4196,
+              "pose": "command",
+              "active": 21
+            },
+            {
+              "time": 1.4469,
+              "pose": "command",
+              "active": 18
+            },
+            {
+              "time": 1.4677,
+              "pose": "command",
+              "active": 18
+            },
+            {
+              "time": 1.495,
+              "pose": "command",
+              "active": 18
+            },
+            {
+              "time": 1.5223,
+              "pose": "command",
+              "active": 18
+            },
+            {
+              "time": 1.5496,
+              "pose": "open",
+              "active": 18
+            },
+            {
+              "time": 1.5769,
+              "pose": "open",
+              "active": 18
+            },
+            {
+              "time": 1.5977,
+              "pose": "open",
+              "active": 18
+            },
+            {
+              "time": 1.625,
+              "pose": "open",
+              "active": 16
+            },
+            {
+              "time": 1.6523,
+              "pose": "open",
+              "active": 15
+            },
+            {
+              "time": 1.6796,
+              "pose": "open",
+              "active": 15
+            },
+            {
+              "time": 1.7069,
+              "pose": "open",
+              "active": 15
+            },
+            {
+              "time": 1.7277,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 1.755,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.7823,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.8096,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.8369,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.8577,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.885,
+              "pose": "gather",
+              "active": 10
+            },
+            {
+              "time": 1.9123,
+              "pose": "guard",
+              "active": 5
+            },
+            {
+              "time": 1.9396,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 996,
+            "y": 1312
+          },
+          "end": {
+            "x": 996,
+            "y": 1312
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        },
+        {
+          "side": "ENEMY",
+          "action": "heavenly_descent",
+          "last": {
+            "code": "V-966",
+            "mode": "heavenly_descent",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "spineAutoUpdate": false,
+            "damageApplications": 5,
+            "targetCount": 5,
+            "contactSeconds": 1.47,
+            "durationSeconds": 2.1,
+            "hitstopSeconds": 0.065,
+            "wholePoseAttachments": true,
+            "authoritative": true,
+            "effectRevision": "royal-sss-v2+golden-aura-v3",
+            "effectTool": "Effekseer 1.70e",
+            "summonedWeapons": 20,
+            "aura": true
+          },
+          "applied": [
+            "A:0:CN-02D9DC1E8A8A4209",
+            "A:1:CN-0505936A0CBB4E59",
+            "A:2:CN-25F931CE393D474E",
+            "A:3:CN-23EB4B19986D4818",
+            "A:4:CN-519C181C18DF4B8E"
+          ],
+          "samples": [
+            {
+              "time": 0.026,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 0.0533,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.0754,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.1027,
+              "pose": "guard",
+              "active": 1
+            },
+            {
+              "time": 0.13,
+              "pose": "gather",
+              "active": 1
+            },
+            {
+              "time": 0.1573,
+              "pose": "gather",
+              "active": 2
+            },
+            {
+              "time": 0.1833,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.2054,
+              "pose": "gather",
+              "active": 3
+            },
+            {
+              "time": 0.2327,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.26,
+              "pose": "gather",
+              "active": 4
+            },
+            {
+              "time": 0.2873,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.3133,
+              "pose": "open",
+              "active": 5
+            },
+            {
+              "time": 0.3354,
+              "pose": "open",
+              "active": 6
+            },
+            {
+              "time": 0.3627,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 0.39,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 0.416,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 0.4433,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 0.4654,
+              "pose": "open",
+              "active": 7
+            },
+            {
+              "time": 0.4927,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.52,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.546,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.5733,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.5954,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.6318,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.6461,
+              "pose": "sky",
+              "active": 7
+            },
+            {
+              "time": 0.6773,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.7033,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.7254,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.7527,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.78,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 0.806,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.8333,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.8554,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.8827,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.91,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.936,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.9633,
+              "pose": "sky",
+              "active": 5
+            },
+            {
+              "time": 0.9854,
+              "pose": "sky",
+              "active": 6
+            },
+            {
+              "time": 1.0127,
+              "pose": "command",
+              "active": 9
+            },
+            {
+              "time": 1.04,
+              "pose": "command",
+              "active": 12
+            },
+            {
+              "time": 1.066,
+              "pose": "command",
+              "active": 15
+            },
+            {
+              "time": 1.0933,
+              "pose": "command",
+              "active": 18
+            },
+            {
+              "time": 1.1154,
+              "pose": "command",
+              "active": 20
+            },
+            {
+              "time": 1.1427,
+              "pose": "command",
+              "active": 20
+            },
+            {
+              "time": 1.17,
+              "pose": "command",
+              "active": 22
+            },
+            {
+              "time": 1.196,
+              "pose": "command",
+              "active": 24
+            },
+            {
+              "time": 1.2233,
+              "pose": "command",
+              "active": 28
+            },
+            {
+              "time": 1.2454,
+              "pose": "command",
+              "active": 28
+            },
+            {
+              "time": 1.2675,
+              "pose": "command",
+              "active": 34
+            },
+            {
+              "time": 1.3,
+              "pose": "command",
+              "active": 33
+            },
+            {
+              "time": 1.326,
+              "pose": "command",
+              "active": 33
+            },
+            {
+              "time": 1.3533,
+              "pose": "command",
+              "active": 31
+            },
+            {
+              "time": 1.3754,
+              "pose": "command",
+              "active": 30
+            },
+            {
+              "time": 1.4027,
+              "pose": "command",
+              "active": 30
+            },
+            {
+              "time": 1.43,
+              "pose": "command",
+              "active": 30
+            },
+            {
+              "time": 1.456,
+              "pose": "command",
+              "active": 30
+            },
+            {
+              "time": 1.47,
+              "pose": "command",
+              "active": 48
+            },
+            {
+              "time": 1.47,
+              "pose": "command",
+              "active": 48
+            },
+            {
+              "time": 1.47,
+              "pose": "command",
+              "active": 48
+            },
+            {
+              "time": 1.495,
+              "pose": "command",
+              "active": 47
+            },
+            {
+              "time": 1.5223,
+              "pose": "command",
+              "active": 39
+            },
+            {
+              "time": 1.5483,
+              "pose": "command",
+              "active": 37
+            },
+            {
+              "time": 1.5704,
+              "pose": "command",
+              "active": 35
+            },
+            {
+              "time": 1.5925,
+              "pose": "command",
+              "active": 28
+            },
+            {
+              "time": 1.625,
+              "pose": "command",
+              "active": 25
+            },
+            {
+              "time": 1.651,
+              "pose": "command",
+              "active": 25
+            },
+            {
+              "time": 1.6783,
+              "pose": "open",
+              "active": 25
+            },
+            {
+              "time": 1.7004,
+              "pose": "open",
+              "active": 25
+            },
+            {
+              "time": 1.7277,
+              "pose": "open",
+              "active": 25
+            },
+            {
+              "time": 1.755,
+              "pose": "open",
+              "active": 25
+            },
+            {
+              "time": 1.781,
+              "pose": "open",
+              "active": 20
+            },
+            {
+              "time": 1.8083,
+              "pose": "open",
+              "active": 20
+            },
+            {
+              "time": 1.8304,
+              "pose": "open",
+              "active": 20
+            },
+            {
+              "time": 1.8577,
+              "pose": "open",
+              "active": 15
+            },
+            {
+              "time": 1.885,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 1.911,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 1.9331,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 1.9604,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 1.9825,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 2.015,
+              "pose": "gather",
+              "active": 15
+            },
+            {
+              "time": 2.0423,
+              "pose": "gather",
+              "active": 5
+            },
+            {
+              "time": 2.0683,
+              "pose": "guard",
+              "active": 0
+            },
+            {
+              "time": 2.0904,
+              "pose": "guard",
+              "active": 0
+            }
+          ],
+          "home": {
+            "x": 996,
+            "y": 1312
+          },
+          "end": {
+            "x": 996,
+            "y": 1312
+          },
+          "busy": false,
+          "effect": null,
+          "pose": "idle"
+        }
+      ],
+      "lifecycle": {
+        "dead": false,
+        "revived": true,
+        "cancelled": {
+          "impacts": 0,
+          "busy": false,
+          "effect": null,
+          "aura": false
+        },
+        "resumed": true,
+        "loops": 2
+      },
+      "codex": "헬리오스 킹\n\n황금 왕권\n\nSSS\n카드 원화\n전투 SD\n\n선택한 이미지를 누르면 원본을 확대합니다.\n\n리미티드 · 돌격 · SSS\n\n기본 전투력\n3,500,000\n☆\n대표 스킬\n왕검 사출\n\n황금 보검 여섯 자루를 사출해 적 하나에 165% 일반 공격을 한 번 적용합니다.\n\n보유 상태\n미보유\n\n전체 도감 정보는 확인할 수 있지만 편성은 보유 용병만 가능합니다.\n\n스킬·전투 성능 자세히 보기\n리미티드 컬렉션\nLIMITED EDITION\n헬리오스 킹\n\n황금 왕권\n\n용병 등급\nSSS\n공개 리소스\n원화 · 전투 SD\n전투 편성\n보유 시 가능\n리미티드 전투 편성\n\n보유한 리미티드 용병을 PVE와 PVP에 각각 편성할 수 있습니다.\n획득 잠금 · 획득 방법은 추후 지정됩니다.\n\n전투 성능 · 행동 주기\n기본 전투력 3,500,000. 프라임 레퀴엠보다 공격·체력·방어·연계 예산이 16.67% 높습니다. 왕검 사출·천창 관통은 165% 일반 공격으로 순환합니다. 왕의 군세는 총 3,780%, 천검 강림은 총 4,536% 피해를 생존한 적에게 나누어 대상당 한 번 적용합니다. PVE 광역기 두 개가 에너지 20·재사용 3행동을 공유합니다. 개인 피해 80% 경감·상태이상·반격 보호·행동 3.12배. PVP는 일반 공격을 사용하며 프라임의 공격 30%·체력/방벽 500% 보정과 제너럴 족 상대 우위 정책을 계승합니다. 운영자 지정 지급 전용. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 4배). 고레벨 성장과 마지막 돌파도 이 배율에 반영됩니다. 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다. PVP 성장 전투는 C·B·A·S·SS·SSS·SSS 리미티드 순으로 등급 우위를 적용합니다. SS 리미티드는 기존 일반 SSS 전투 등급을 유지합니다. 상대 전원의 등급보다 높으면 같은 레벨 기준 단계당 공격·피해 상한 +100%, 체력·방벽 +500%의 추가 보정을 적용합니다. 상위 등급의 레벨이 낮으면 1레벨 차이마다 이 추가 보정과 성장 격차 보완을 10%씩 줄이며, 10레벨 이상 뒤처지면 적용하지 않습니다. 상위 등급을 향한 경감 관통·행동 대응의 등급 감쇠도 같은 비율로 줄어 10레벨 이상 높은 용병은 배운 숙련을 온전히 사용합니다. 원래 레벨 능력치·평타 성장·추가 행동 숙련은 유지합니다. 듀오는 상대 최고 등급과 가장 큰 레벨 격차를 기준으로 하며, 같은 전투 등급·PVE·기존 개별 용병 상성 정책은 유지합니다."
+    }
+  ],
+  "productionTransactions": 0
+}

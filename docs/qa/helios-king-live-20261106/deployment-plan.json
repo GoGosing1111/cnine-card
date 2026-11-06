@@ -1,0 +1,16 @@
+{
+  "base": "4119d9f0e8db43530e55c438a98cd3826313e0e4",
+  "reason": "헬리오스 킹 SSS LIMITED 신규 등록·V3 Spine/소환무기/천칭·황금 FX 연결 및 핑크빛유두 지정 1장 지급. 헬리오스 킹·흑무 기본 전투력 350만, 프라임 상위 공격 및 광역 예산. 기존 인증/DB 스키마/의존성 변경 없음. 관련 서버·편성·성장·자산·실제 로더 검증 및 별도 원자 지급 절차.",
+  "tests": [
+    "tests/helios-king-live-20261106.test.mjs",
+    "tests/helios-heukmu-balance-20261106.test.mjs",
+    "tests/heukmu-live-20261029.test.mjs",
+    "tests/hakuya-live-20261105.test.mjs",
+    "tests/prime-zero-top-tier-20261102.test.mjs",
+    "tests/mercenary-turn-cadence-v2099.test.mjs",
+    "tests/production-sparse-staging-20261023.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

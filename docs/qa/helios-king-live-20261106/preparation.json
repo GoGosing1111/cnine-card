@@ -1,0 +1,28 @@
+{
+  "preparedAt": "2026-11-06T02:30:41.715Z",
+  "status": "READY_FOR_AUTHORIZED_DEPLOYMENT",
+  "target": {
+    "code": "V-966",
+    "name": "헬리오스 킹",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "basePower": 3500000,
+    "grant": {
+      "userId": 1,
+      "nickname": "핑크빛유두",
+      "quantity": 1
+    }
+  },
+  "heukmuBasePower": 3500000,
+  "skillCases": 16,
+  "entryCases": 4,
+  "grantDryRun": {
+    "sourceSha256": "a9d6e25ba5f10f89537cef6e2d3247b2b2146743f40aa55af086c608b99e3013",
+    "planHash": "b4b7c05dff73b9aa6305229489e6bc2a982416b7b450c34b411df5fae8d5cff7",
+    "rollbackVerified": true,
+    "injectedFailureRollback": true,
+    "noWriteReplayVerified": true,
+    "leasesReleased": true
+  },
+  "realDeviceTested": false
+}

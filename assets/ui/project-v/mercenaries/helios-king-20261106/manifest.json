@@ -1,0 +1,133 @@
+{
+  "code": "V-966",
+  "illustrationApproved": true,
+  "runtimeVersion": "4.3.13",
+  "nativePath": "preview/v35-helios-king-20261106/summoning/helios-king-affb467a3e47.spine",
+  "nativeSha256": "579dfd111edb6cf43320dd26a641028e98680e57bfbb993d255aac45b5f52b10",
+  "files": [
+    {
+      "path": "aura-v3/runtime/blade.png",
+      "bytes": 247239,
+      "sha256": "66c197ae660530a7fc907ff4e033e2e95f9ebf8117f2a7dd9bb1840d5336d60d"
+    },
+    {
+      "path": "aura-v3/runtime/front.png",
+      "bytes": 237114,
+      "sha256": "f542b3b8f94c74542bfb86f7b8cd6ec95757a8a58756a72eb6bcff4b79592598"
+    },
+    {
+      "path": "aura-v3/runtime/manifest.json",
+      "bytes": 9230,
+      "sha256": "936c8e7bace04d91fa94c4f8a8b9c04f3c059d579e624758fa5457721766e577",
+      "canonicalTextSha256": "936c8e7bace04d91fa94c4f8a8b9c04f3c059d579e624758fa5457721766e577"
+    },
+    {
+      "path": "aura-v3/runtime/rear.png",
+      "bytes": 1076304,
+      "sha256": "8192b2bed668f9c7689dcce513ce891a27079d5741c362b3da4b01746e0dc1a9"
+    },
+    {
+      "path": "aura-v3/runtime/scale.png",
+      "bytes": 52920,
+      "sha256": "4e098bbd8ce6e523113124ad4669d9cf6e315d381c6d4937d33a09ace02801e4"
+    },
+    {
+      "path": "body-ready.png",
+      "bytes": 1759477,
+      "sha256": "0504137f044cf3df1d303ea8bd9c1e10dd15c0efc0783579b96e1f93a426cb91"
+    },
+    {
+      "path": "props/estoc.png",
+      "bytes": 76529,
+      "sha256": "ac2b000bcad0939d665896a96826757feda77513212ba13b6c8458be53665961"
+    },
+    {
+      "path": "props/glaive.png",
+      "bytes": 91678,
+      "sha256": "e4ad29fc16f0a17d09d17bd552bff6b7f0484a876dc4f6ee60076a9dfc85e226"
+    },
+    {
+      "path": "props/greatsword.png",
+      "bytes": 166243,
+      "sha256": "6eaf6d916f14c8098622eeabdea63fdba850610a503b4ce72337f30d99dbe94b"
+    },
+    {
+      "path": "props/halberd.png",
+      "bytes": 120067,
+      "sha256": "dc9c5e55c57678a6845c8e8d5cafca146191d5b5d0be4753fa5d440550fd9366"
+    },
+    {
+      "path": "props/spear.png",
+      "bytes": 95601,
+      "sha256": "6f1e795543007164ba1f61880ac94f46035b29500a0403be749cdae6d7ff7445"
+    },
+    {
+      "path": "props/sword.png",
+      "bytes": 108969,
+      "sha256": "16956d0cd2bd9deaf254f5846134c6a355d25ca3a5af8b209cde2f1ccf797c2f"
+    },
+    {
+      "path": "source-art-approved.png",
+      "bytes": 3071132,
+      "sha256": "401bf907f1cfb1913eab358148ec9d2847bfaf46b65c00488c57efd23058253c"
+    },
+    {
+      "path": "spine/helios-king-affb467a3e47.atlas",
+      "bytes": 343,
+      "sha256": "3e6bab40bfc6825ebfdce264f3b97a89c5783452bd42302761802efad1c44ffd",
+      "canonicalTextSha256": "3e6bab40bfc6825ebfdce264f3b97a89c5783452bd42302761802efad1c44ffd"
+    },
+    {
+      "path": "spine/helios-king-affb467a3e47.png",
+      "bytes": 2796426,
+      "sha256": "77a15375f06e0261c2df637b3e0b7487e57c9c5a7a89dfd3ae65e049bec829da"
+    },
+    {
+      "path": "spine/helios-king.json",
+      "bytes": 11726,
+      "sha256": "75866dd3333406142385c33d1777b6f98de75fa6477a746db41b3f90bb9d5f35",
+      "canonicalTextSha256": "75866dd3333406142385c33d1777b6f98de75fa6477a746db41b3f90bb9d5f35"
+    },
+    {
+      "path": "sss-v2/effects/runtime/fx-manifest.json",
+      "bytes": 34208,
+      "sha256": "3d9b5329e5c8ffa9db19b504382ec3a49ce4282d549b6912fc418c87200f4e90",
+      "canonicalTextSha256": "3d9b5329e5c8ffa9db19b504382ec3a49ce4282d549b6912fc418c87200f4e90"
+    },
+    {
+      "path": "sss-v2/effects/runtime/gate.png",
+      "bytes": 1748755,
+      "sha256": "e394a4496784d76f116f1a5e9268f63f9aab65c991d19eb762e9e9dcf7beae7a"
+    },
+    {
+      "path": "sss-v2/effects/runtime/impact.png",
+      "bytes": 1748953,
+      "sha256": "fcfc12e1219deb502ee678f8235145564e3d980c2192885854b5bc5352393aa9"
+    },
+    {
+      "path": "sss-v2/effects/runtime/judgment.png",
+      "bytes": 1008809,
+      "sha256": "9ba23726ef653e4b80ec1a572408b8c322362b17610076b8e1d9ade8f573967f"
+    },
+    {
+      "path": "sss-v2/effects/runtime/lance.png",
+      "bytes": 970744,
+      "sha256": "5a253d2a1221ffadfc60a219b36ce011266785d5d974287eae261bd18551c825"
+    },
+    {
+      "path": "sss-v2/effects/runtime/pressure.png",
+      "bytes": 249705,
+      "sha256": "19d4ac6957f33de2d4624cd97d8da33571e959aedb4bafad335f8c8ebd03f0d9"
+    },
+    {
+      "path": "sss-v2/effects/runtime/shards.png",
+      "bytes": 73439,
+      "sha256": "ee8a9744934d0cec0b006b8f785e51acf64012b985e4488738a0cef3ce6745b6"
+    },
+    {
+      "path": "sss-v2/effects/runtime/trail.png",
+      "bytes": 711447,
+      "sha256": "c597d6ddeb571e74c06f8742b088bee6e989d84a0eb6d7a9c4a9cab3a3d3093f"
+    }
+  ]
+}

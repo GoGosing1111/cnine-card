@@ -605,6 +605,46 @@
       "sha256": "529239eac551014b2690009c149b2470254d9bc3c55fd2608fbb4ca0b90db6df"
     },
     {
+      "file": "shared/mercenary-helios-king-v1.mjs",
+      "sha256": "40f1694b3ee52538426b657fc7422c2fb588be7ceeff40d336ebd477cfbeedef"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/HeliosKingCombatPlayback.js",
+      "sha256": "a74f199b4b0e642e87a41f5552cadb8a8bb151fed3c37d0bb22eeac69221984b"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/helios-king-20261106/manifest.json",
+      "sha256": "a78976d296c4c55cdb1c47ac108f51ffaac6f47b928ec6274f3206526299db68"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/helios-king/HeliosBattleAdapter.mjs",
+      "sha256": "19b5e466834dade83778de7a33126a52ea8355b9f2b24d7dd8654450befc6826"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/helios-king/SummonedWeapons.mjs",
+      "sha256": "f5a703cef48ba75399264babdb198dd9ca4cbbd0a138b46d57ff6db6ef40e9a8"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/helios-king/skills.json",
+      "sha256": "685f9bd71d76eff0425f4813e825bd20c1d9944fa29f2f63fcaf845e8184f3fb"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/helios-king/props.json",
+      "sha256": "4e5ab2f70b34edeee9014b373837337fb45068cc95e59ec762730b69dfde24a5"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/helios-king/sss-v2/RoyalEffects.mjs",
+      "sha256": "bca2bb05133184405d3ec9d4528245e28461726a87a297705d2e731f6149e885"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/helios-king/aura-v3/RoyalAura.mjs",
+      "sha256": "7ad4c8f97ff7792293d017b03034d6801294c8841f2e1ff9cc459bfe2194937d"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/helios-king/aura-v3/GoldNeonFilter.mjs",
+      "sha256": "67ee555d79d794c6f6a6127d2df49a713385e62584e944f6846518e653ef3d82"
+    },
+    {
       "file": "shared/equipment-set-visual-v1.mjs",
       "sha256": "cf112a5bd7bd333f26b327a97994bc9bd34d58ebedf743d23b4af2e567372bd1"
     },
@@ -738,7 +778,7 @@
     },
     {
       "file": "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
-      "sha256": "08ce31be8d78fc27ba5e852f2913078c68591e5179b775316d2a4b88ff1a5e5a"
+      "sha256": "249909d2d09ea4662b65970bffc00a238c4752e508f83379292c5d83f047715c"
     },
     {
       "file": "preview/project-v-v3/source/battle/LimitedMercenaryPlayback.js",
@@ -970,7 +1010,7 @@
     },
     {
       "file": "shared/mercenary-heukmu-v1.mjs",
-      "sha256": "b967f9d5bacba84022ec9a95e953b6f5a65b9642800a92485ffeaac4d651b3bf"
+      "sha256": "0eb2916cee03e836197d27bba6c51648052d5cc47fa4ce42a6ba4eef354550cd"
     },
     {
       "file": "preview/project-v-v3/source/battle/HeukmuCombatPlayback.js",
@@ -1004,65 +1044,65 @@
   "outputs": [
     {
       "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
-      "sha256": "beb61850f74dce476713517a015f829f97c556a3f7084026edce39e0896825a5",
+      "sha256": "59735ef53a2149110f9cbede27746fc1f4ae8e51601d9b26aea796fd7bbea6e5",
       "commonGrid": true
     },
     {
       "file": "preview/scrapyard-v3-v1/battle.bundle.js",
-      "sha256": "1860fc10fbf949015b6a62879f768775bb10fb00c61125eb6b0a918d026bd3a0",
+      "sha256": "3bf3855b612dae797bed3aeb1f3dd909d88db4e07eca1c7f7fa309f99b097095",
       "commonGrid": true
     },
     {
       "file": "preview/cow-room-v3-v1/battle.bundle.js",
-      "sha256": "061a7caca2de1a47f5d23114f956e3600028788189fabe02e472c51652c0d0f2",
+      "sha256": "6af3e5594f3300cd8495fff02377a642143cc5b433c3c8d8cc565f40e5083bb8",
       "commonGrid": true
     },
     {
       "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
-      "sha256": "6cc91591f3ad4a0604ce25dcb12bc650fbd4eeaff537778a0fd95e0caaeebf9a",
+      "sha256": "d53597072b5c740e2129e02bb6bd33a0ff3d9f1aaea846fef66cde76bd71300c",
       "commonGrid": true
     },
     {
       "file": "pve-v3/battle.bundle.js",
-      "sha256": "a39b134d79fa1d8e85922dc0dabd04eeae5c893a900eb574e01d8138f88ae429",
+      "sha256": "49f36d81095e6bea26ec0325f82005838f3d2384106b3d457d337e4c3804cab3",
       "commonGrid": true
     },
     {
       "file": "preview/v3-wide-grid-v1/battle.bundle.js",
-      "sha256": "191e772b18dd761d0f864064126082c21e27d29c4ec7b0596fc444fc29a28502",
+      "sha256": "29002627902d255d26d8da7257e1d9b4e03c1bc428d9c89f60802b85ad17863b",
       "commonGrid": true
     },
     {
       "file": "preview/boss-resources-v2048/lab.bundle.js",
-      "sha256": "6ab2275f8f83c13cf062892a3b99fc64839abdcf723006d65accd0fd0489fc7f",
+      "sha256": "4c574e23e0c47f38f318c41ced56aba5f98b6e2bb62825a06fbcb2684e3bb7c2",
       "commonGrid": true
     },
     {
       "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
-      "sha256": "b8a0d16c228b78c4def3f794eb0d1af3252fba7d1b2ec508517f6e500536b5d1",
+      "sha256": "dab500b1273e46b7e8d2eea1f5b7dd1629fbb6ec8fbcfaa208c37809951a2c8f",
       "commonGrid": true
     },
     {
       "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
-      "sha256": "c007677ea6563cbc681a7c9a5906a700e275a3f9abb847a9b9670d60e15e69f1",
+      "sha256": "1af4bd555c8a53a76582912ffbe1f39e9bb06c6ff6565b835a89f155f901cc8b",
       "commonGrid": true
     },
     {
       "file": "preview/coop-defense-v1/defense.bundle.js",
-      "sha256": "fbdb413532b70eec181c5ec7fb2cf42837aa7893bb68230cfbbf3ffe40e3f641",
+      "sha256": "e7233e1074101131192064bdc70b13dc344f86743c2efb230f74d781fa3c002e",
       "commonGrid": true,
       "standaloneEngine": true
     },
     {
       "file": "preview/sustained-hunt-v2/battle.bundle.js",
-      "sha256": "2136809cfb6cf845b2e9b589fbd7c19fad121f93fb4243cb026f6cdf08c33a55",
+      "sha256": "51044e4cf5a8ad58aa7c1eb8a5e1643f6379ddbd7f86fe8c711e3048da4d02d4",
       "commonGrid": true
     }
   ],
   "layoutClients": [
     {
       "file": "preview/v3-wide-grid-v1/app.bundle.js",
-      "sha256": "db2d5b745be265c507cd9a826ace35f1abb9ff8760fcc2f76988f5cb01c344b2"
+      "sha256": "e46eb520295ea6b12685f92c736518d7093f4a1eb680f92cb0ccffcfcecc62e4"
     }
   ]
 }

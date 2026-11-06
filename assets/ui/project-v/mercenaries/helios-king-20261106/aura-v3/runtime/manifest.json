@@ -1,0 +1,477 @@
+{
+  "id": "helios-golden-aura-v3",
+  "layers": {
+    "rear": {
+      "atlas": "rear.png",
+      "frames": [
+        {
+          "x": 2,
+          "y": 2,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 326,
+          "y": 2,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 650,
+          "y": 2,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 974,
+          "y": 2,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 2,
+          "y": 326,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 326,
+          "y": 326,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 650,
+          "y": 326,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 974,
+          "y": 326,
+          "w": 320,
+          "h": 320
+        }
+      ],
+      "ink": [
+        {
+          "left": 67,
+          "top": 34,
+          "right": 256,
+          "bottom": 275,
+          "width": 190,
+          "height": 242,
+          "count": 19967,
+          "edges": 0
+        },
+        {
+          "left": 63,
+          "top": 33,
+          "right": 259,
+          "bottom": 276,
+          "width": 197,
+          "height": 244,
+          "count": 22456,
+          "edges": 0
+        },
+        {
+          "left": 60,
+          "top": 31,
+          "right": 262,
+          "bottom": 276,
+          "width": 203,
+          "height": 246,
+          "count": 25031,
+          "edges": 0
+        },
+        {
+          "left": 58,
+          "top": 31,
+          "right": 263,
+          "bottom": 277,
+          "width": 206,
+          "height": 247,
+          "count": 25757,
+          "edges": 0
+        },
+        {
+          "left": 56,
+          "top": 31,
+          "right": 264,
+          "bottom": 277,
+          "width": 209,
+          "height": 247,
+          "count": 25431,
+          "edges": 0
+        },
+        {
+          "left": 55,
+          "top": 34,
+          "right": 261,
+          "bottom": 276,
+          "width": 207,
+          "height": 243,
+          "count": 23443,
+          "edges": 0
+        },
+        {
+          "left": 65,
+          "top": 35,
+          "right": 257,
+          "bottom": 275,
+          "width": 193,
+          "height": 241,
+          "count": 20593,
+          "edges": 0
+        },
+        {
+          "left": 67,
+          "top": 36,
+          "right": 256,
+          "bottom": 275,
+          "width": 190,
+          "height": 240,
+          "count": 19878,
+          "edges": 0
+        }
+      ],
+      "union": {
+        "left": 55,
+        "top": 31,
+        "right": 264,
+        "bottom": 277,
+        "width": 210,
+        "height": 247
+      },
+      "period": 4,
+      "size": [
+        1296,
+        648
+      ],
+      "bytes": 1076304,
+      "sha256": "8192b2bed668f9c7689dcce513ce891a27079d5741c362b3da4b01746e0dc1a9"
+    },
+    "front": {
+      "atlas": "front.png",
+      "frames": [
+        {
+          "x": 2,
+          "y": 2,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 326,
+          "y": 2,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 650,
+          "y": 2,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 974,
+          "y": 2,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 2,
+          "y": 326,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 326,
+          "y": 326,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 650,
+          "y": 326,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 974,
+          "y": 326,
+          "w": 320,
+          "h": 320
+        }
+      ],
+      "ink": [
+        {
+          "left": 67,
+          "top": 221,
+          "right": 253,
+          "bottom": 285,
+          "width": 187,
+          "height": 65,
+          "count": 2711,
+          "edges": 0
+        },
+        {
+          "left": 72,
+          "top": 229,
+          "right": 250,
+          "bottom": 286,
+          "width": 179,
+          "height": 58,
+          "count": 3444,
+          "edges": 0
+        },
+        {
+          "left": 71,
+          "top": 229,
+          "right": 250,
+          "bottom": 289,
+          "width": 180,
+          "height": 61,
+          "count": 3957,
+          "edges": 0
+        },
+        {
+          "left": 70,
+          "top": 213,
+          "right": 250,
+          "bottom": 288,
+          "width": 181,
+          "height": 76,
+          "count": 4278,
+          "edges": 0
+        },
+        {
+          "left": 76,
+          "top": 209,
+          "right": 255,
+          "bottom": 287,
+          "width": 180,
+          "height": 79,
+          "count": 4001,
+          "edges": 0
+        },
+        {
+          "left": 75,
+          "top": 211,
+          "right": 252,
+          "bottom": 286,
+          "width": 178,
+          "height": 76,
+          "count": 3346,
+          "edges": 0
+        },
+        {
+          "left": 69,
+          "top": 217,
+          "right": 251,
+          "bottom": 285,
+          "width": 183,
+          "height": 69,
+          "count": 2908,
+          "edges": 0
+        },
+        {
+          "left": 66,
+          "top": 220,
+          "right": 249,
+          "bottom": 285,
+          "width": 184,
+          "height": 66,
+          "count": 2686,
+          "edges": 0
+        }
+      ],
+      "union": {
+        "left": 66,
+        "top": 209,
+        "right": 255,
+        "bottom": 289,
+        "width": 190,
+        "height": 81
+      },
+      "period": 4,
+      "size": [
+        1296,
+        648
+      ],
+      "bytes": 237114,
+      "sha256": "f542b3b8f94c74542bfb86f7b8cd6ec95757a8a58756a72eb6bcff4b79592598"
+    },
+    "blade": {
+      "atlas": "blade.png",
+      "frames": [
+        {
+          "x": 2,
+          "y": 2,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 326,
+          "y": 2,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 650,
+          "y": 2,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 974,
+          "y": 2,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 2,
+          "y": 326,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 326,
+          "y": 326,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 650,
+          "y": 326,
+          "w": 320,
+          "h": 320
+        },
+        {
+          "x": 974,
+          "y": 326,
+          "w": 320,
+          "h": 320
+        }
+      ],
+      "ink": [
+        {
+          "left": 67,
+          "top": 142,
+          "right": 255,
+          "bottom": 182,
+          "width": 189,
+          "height": 41,
+          "count": 4427,
+          "edges": 0
+        },
+        {
+          "left": 67,
+          "top": 131,
+          "right": 256,
+          "bottom": 189,
+          "width": 190,
+          "height": 59,
+          "count": 5251,
+          "edges": 0
+        },
+        {
+          "left": 67,
+          "top": 127,
+          "right": 255,
+          "bottom": 189,
+          "width": 189,
+          "height": 63,
+          "count": 5530,
+          "edges": 0
+        },
+        {
+          "left": 66,
+          "top": 122,
+          "right": 255,
+          "bottom": 192,
+          "width": 190,
+          "height": 71,
+          "count": 5823,
+          "edges": 0
+        },
+        {
+          "left": 68,
+          "top": 122,
+          "right": 255,
+          "bottom": 191,
+          "width": 188,
+          "height": 70,
+          "count": 5478,
+          "edges": 0
+        },
+        {
+          "left": 66,
+          "top": 135,
+          "right": 256,
+          "bottom": 185,
+          "width": 191,
+          "height": 51,
+          "count": 4935,
+          "edges": 0
+        },
+        {
+          "left": 68,
+          "top": 140,
+          "right": 255,
+          "bottom": 184,
+          "width": 188,
+          "height": 45,
+          "count": 4539,
+          "edges": 0
+        },
+        {
+          "left": 67,
+          "top": 142,
+          "right": 255,
+          "bottom": 181,
+          "width": 189,
+          "height": 40,
+          "count": 4339,
+          "edges": 0
+        }
+      ],
+      "union": {
+        "left": 66,
+        "top": 122,
+        "right": 256,
+        "bottom": 192,
+        "width": 191,
+        "height": 71
+      },
+      "period": 0.7,
+      "size": [
+        1296,
+        648
+      ],
+      "bytes": 247239,
+      "sha256": "66c197ae660530a7fc907ff4e033e2e95f9ebf8117f2a7dd9bb1840d5336d60d"
+    }
+  },
+  "scale": {
+    "file": "scale.png",
+    "size": [
+      320,
+      292
+    ],
+    "ink": {
+      "left": 66,
+      "top": 33,
+      "right": 246,
+      "bottom": 249,
+      "width": 181,
+      "height": 217,
+      "count": 13228,
+      "edges": 0
+    },
+    "source": "../../layers/art/scale-v1.png",
+    "sourceSha256": "a331db73e1f74d44c7712cf3422ca7c022cd6d8ff03376348fcd6971107e845f",
+    "sha256": "4e098bbd8ce6e523113124ad4669d9cf6e315d381c6d4937d33a09ace02801e4",
+    "bytes": 52920
+  },
+  "decodedBytes": 10451456
+}

@@ -1,3 +1,4 @@
+import {HELIOS_KING_CODE,heliosKingDeploymentSnapshot} from './mercenary-helios-king-v1.mjs';
 import {HAKUYA_CODE,hakuyaDeploymentSnapshot} from './mercenary-hakuya-v1.mjs';
 import {HEUKMU_CODE,heukmuDeploymentSnapshot} from './mercenary-heukmu-v1.mjs';
 import {KAMISHIRO_CODE,kamishiroDeploymentSnapshot} from './mercenary-kamishiro-v1.mjs';
@@ -45,6 +46,7 @@ export function limitedDeploymentSnapshot(code){
  if(code===AWAKENED_OMEGA_CODE)return awakenedOmegaDeploymentSnapshot();
  if(code===RAZAK_CODE)return razakDeploymentSnapshot();
  if(code===NAMSUDAENG_CODE)return namsudaengDeploymentSnapshot();
+ if(code===HELIOS_KING_CODE)return heliosKingDeploymentSnapshot();
  if(code===HAKUYA_CODE)return hakuyaDeploymentSnapshot();
  if(code===REVAN_CODE)return revanDeploymentSnapshot();
  if(code===EUNSEOL_CODE)return eunseolDeploymentSnapshot();

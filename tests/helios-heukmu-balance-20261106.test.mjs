@@ -115,9 +115,9 @@ test('General Jok priority and ordinary PVP boost never stack for Helios King',(
  const once=structuredClone(teams);applyMercenaryCombatLink(teams);assert.deepEqual(teams,once);
 });
 
-test('new King remains unregistered and cannot replace Helios V-999 or change Prime policy',()=>{
- assert.equal(limitedDeploymentSnapshot(HELIOS_KING_CODE),null);
- assert.equal(HELIOS_KING_ART.deploymentEnabled,false);assert.equal(HELIOS_KING_ART.acquisitionEnabled,false);
+test('new King is registered separately and cannot replace Helios V-999 or change Prime policy',()=>{
+ assert.equal(limitedDeploymentSnapshot(HELIOS_KING_CODE).code,HELIOS_KING_CODE);
+ assert.equal(HELIOS_KING_ART.deploymentEnabled,true);assert.equal(HELIOS_KING_ART.acquisitionEnabled,false);
  assert.equal(limitedDeploymentSnapshot('V-999').name,'헬리오스');
  assert.equal(PRIME_COMBAT.basePower,3000000);assert.equal(PRIME_PVE_BALANCE.damageRatio,30.24);
  assert.equal(HELIOS_KING_COMBAT.basePower,3500000);

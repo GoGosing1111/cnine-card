@@ -68,9 +68,9 @@ test('PVP uses normal server attacks and preserves the four-skill codex without 
 });
 test('ownership gates both PVE/PVP and an isolated grant uses the same server snapshot',async t=>{
  const f=await mercenaryFixture(t,{postgres:true});
- for(const mode of ['PVE','PVP'])await assert.rejects(saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCode:HEUKMU_CODE,revision:0}),{code:'MERCENARY_NOT_OWNED'});
+ for(const mode of ['PVE','PVP'])await assert.rejects(saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCodes:[HEUKMU_CODE],revision:0}),{code:'MERCENARY_NOT_OWNED'});
  await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(?,?,1,0,?,?)',f.user.id,HEUKMU_CODE,'2026-10-27','2026-10-27').run();
- for(const mode of ['PVE','PVP']){await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCode:HEUKMU_CODE,revision:0});assert.equal((await loadMercenaryBattleSnapshot(f.env,f.user,mode)).basePower,3500000);}
+ for(const mode of ['PVE','PVP']){await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCodes:[HEUKMU_CODE],revision:0});assert.equal((await loadMercenaryBattleSnapshot(f.env,f.user,mode)).basePower,3500000);}
  assert((await mercenaryAccountState(f.env,f.user)).cards.find(c=>c.code===HEUKMU_CODE).canDeploy);
 });
 test('Heukmu appears in real growth catalog and trains once with LIMITED XP and original preserved',async t=>{

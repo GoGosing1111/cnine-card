@@ -1,0 +1,110 @@
+{
+  "sword": {
+    "file": "props/sword.png",
+    "size": [
+      642,
+      161
+    ],
+    "anchor": [
+      0,
+      0.4968944099378882
+    ],
+    "sourceRect": [
+      44,
+      125,
+      642,
+      161
+    ],
+    "sha256": "16956d0cd2bd9deaf254f5846134c6a355d25ca3a5af8b209cde2f1ccf797c2f"
+  },
+  "spear": {
+    "file": "props/spear.png",
+    "size": [
+      677,
+      106
+    ],
+    "anchor": [
+      0,
+      0.5094339622641509
+    ],
+    "sourceRect": [
+      739,
+      151,
+      677,
+      106
+    ],
+    "sha256": "6f1e795543007164ba1f61880ac94f46035b29500a0403be749cdae6d7ff7445"
+  },
+  "greatsword": {
+    "file": "props/greatsword.png",
+    "size": [
+      652,
+      194
+    ],
+    "anchor": [
+      0,
+      0.5
+    ],
+    "sourceRect": [
+      34,
+      436,
+      652,
+      194
+    ],
+    "sha256": "6eaf6d916f14c8098622eeabdea63fdba850610a503b4ce72337f30d99dbe94b"
+  },
+  "glaive": {
+    "file": "props/glaive.png",
+    "size": [
+      678,
+      123
+    ],
+    "anchor": [
+      0,
+      0.5934959349593496
+    ],
+    "sourceRect": [
+      739,
+      460,
+      678,
+      123
+    ],
+    "sha256": "e4ad29fc16f0a17d09d17bd552bff6b7f0484a876dc4f6ee60076a9dfc85e226"
+  },
+  "halberd": {
+    "file": "props/halberd.png",
+    "size": [
+      652,
+      205
+    ],
+    "anchor": [
+      0,
+      0.43902439024390244
+    ],
+    "sourceRect": [
+      34,
+      772,
+      652,
+      205
+    ],
+    "sha256": "dc9c5e55c57678a6845c8e8d5cafca146191d5b5d0be4753fa5d440550fd9366"
+  },
+  "estoc": {
+    "file": "props/estoc.png",
+    "size": [
+      674,
+      156
+    ],
+    "anchor": [
+      0,
+      0.5256410256410257
+    ],
+    "sourceRect": [
+      740,
+      780,
+      674,
+      156
+    ],
+    "sha256": "ac2b000bcad0939d665896a96826757feda77513212ba13b6c8458be53665961"
+  }
+}
