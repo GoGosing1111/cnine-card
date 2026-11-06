@@ -111,7 +111,7 @@ try{
    await page.evaluate(()=>{__restorePlaybackQa();renderShell('pvp');});await page.locator('#rankedMatchStart').waitFor({timeout:20000});await page.locator('#rankedMatchStart').click();
    await page.locator('#pvpResultConfirm').waitFor({timeout:90000});await page.screenshot({path:path.join(out,boss.key+'-'+width+'-pvp.png')});await page.locator('#pvpResultConfirm').click();await page.locator('#rankedMatchStart').waitFor();assert.deepEqual(errors,[]);const reuse=await page.evaluate(()=>__trioEngine.enemies.every(a=>!a.trioBossKey&&a.artFacing!==-1));assert(reuse,'PVP must reset trio facing');
   }
-  reports.push({boss:boss.key,width,production,result,settlement:saved.status,battleResult:saved.settlement.result,pvp:production?'local check already passed':'match, battle, result, return passed',errors});
+  reports.push({boss:boss.key,width,production,result,settlement:saved.status,battleResult:saved.settlement.result,pvp:production?'local check already passed':boss===BOSSES[0]?'match, battle, result, return passed':'Verified after soldier battle at the same viewport; not repeated here.',errors});
   fs.writeFileSync(path.join(out,production?'production-browser.json':'browser.json'),JSON.stringify(reports,null,2));console.log(JSON.stringify({boss:boss.key,width,production,elapsed:Math.round(result.elapsed),settlement:saved.status,casts:result.casts}));await page.close();
  }
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve));await f.close();}

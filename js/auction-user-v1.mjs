@@ -1,5 +1,5 @@
 import {AUCTION_QUICK_BIDS,AUCTION_MAX_BID,AUCTION_ASSET_TYPES,AUCTION_TICKET_IMAGE,auctionCoinLabel,auctionProceeds} from '../shared/auction-user-policy-v1.mjs?v=20261103-live-v1';
-import {createAuctionBgmPlayer} from './auction-user-bgm-v1.mjs?v=20261103-live-v1';
+import {createAuctionBgmPlayer} from './auction-user-bgm-v1.mjs?v=20261106-compact-drag-v1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=v=>Number.isSafeInteger(Number(v||0))&&Number(v||0)>=0?auctionCoinLabel(Number(v||0)):'금액 확인';
 const integer=v=>Number(v||0).toLocaleString('ko-KR');

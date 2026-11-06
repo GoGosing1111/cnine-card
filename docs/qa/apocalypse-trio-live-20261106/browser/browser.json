@@ -21746,7 +21746,7 @@
     },
     "settlement": "CLAIMED",
     "battleResult": "WIN",
-    "pvp": "match, battle, result, return passed",
+    "pvp": "Verified after soldier battle at the same viewport; not repeated here.",
     "errors": []
   },
   {
@@ -32621,7 +32621,7 @@
     },
     "settlement": "CLAIMED",
     "battleResult": "LOSE",
-    "pvp": "match, battle, result, return passed",
+    "pvp": "Verified after soldier battle at the same viewport; not repeated here.",
     "errors": []
   },
   {
@@ -54371,7 +54371,7 @@
     },
     "settlement": "CLAIMED",
     "battleResult": "WIN",
-    "pvp": "match, battle, result, return passed",
+    "pvp": "Verified after soldier battle at the same viewport; not repeated here.",
     "errors": []
   },
   {
@@ -65246,7 +65246,7 @@
     },
     "settlement": "CLAIMED",
     "battleResult": "LOSE",
-    "pvp": "match, battle, result, return passed",
+    "pvp": "Verified after soldier battle at the same viewport; not repeated here.",
     "errors": []
   }
 ]
