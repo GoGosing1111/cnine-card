@@ -1,0 +1,31 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import {connect,safe,hash} from '../rap-contest-rewards-20261027/preflight.mjs';
+import {HELIOS_KING_ART} from '../../output/helios-heukmu-balance-20261106/source/shared/mercenary-helios-king-v1.mjs';
+const OP='ops:pingdu-helios-king-grant:20261106:v1',ID='1',CODE='V-966',db=connect();
+try {
+ db.connectionParameters.application_name='pingdu-helios-king-grant-preflight';
+ await db.connect();await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');await db.query("SET LOCAL statement_timeout='20s'");
+ const q=async(s,a=[])=>(await db.query(s,a)).rows,one=r=>(assert.equal(r.length,1),r[0]);
+ const {provider,provider_user_id,...target}=one(await q('SELECT u.id::text,u.nickname,u.role,u.status,v.provider,v.provider_user_id FROM users u LEFT JOIN user_second_verifications v ON v.user_id=u.id WHERE u.id=$1 OR u.nickname=$2',[ID,'핑크빛유두']));
+ assert.deepEqual(target,{id:ID,nickname:'핑크빛유두',role:'OWNER',status:'ACTIVE'});
+ target.identityHash=hash({provider,providerUserId:provider_user_id});
+ assert.equal(target.identityHash,'4e20330d91fbd5e52c5a21fa720d69468fcf0d7952b847d8787df45edf81c305');
+ assert.equal((await q('SELECT user_id FROM user_mercenary_cards_v1 WHERE mercenary_code=$1',[CODE])).length,0,'New mercenary already owned: inspect before grant');
+ const holding=await q('SELECT * FROM user_mercenary_cards_v1 WHERE user_id=$1 AND mercenary_code=$2',[ID,CODE]);
+ const levels=await q('SELECT * FROM user_mercenary_levels_v1 WHERE user_id=$1 AND mercenary_code=$2',[ID,CODE]);
+ const acquisitions=await q('SELECT acquisition_id,total_copies_after,created_at FROM mercenary_card_acquisitions_v1 WHERE user_id=$1 AND mercenary_code=$2 ORDER BY created_at DESC LIMIT 10',[ID,CODE]);
+ const prior=await q("SELECT key,value FROM app_meta WHERE key=$1 OR key LIKE 'ops:%helios-king%' ORDER BY key",[OP]);
+ assert.equal(prior.length,0,'Existing grant: inspect receipt instead of issuing another');
+ const stock=await q('SELECT * FROM mercenary_limited_stock_v1 WHERE code=$1',[CODE]);assert.equal(stock.length,0);
+ const cms=one(await q("SELECT revision,payload_json FROM mercenary_cms_documents_v1 WHERE doc_key='config'"));
+ assert(!JSON.parse(cms.payload_json).mercenaries.some(c=>c.code===CODE),'Code collision');const card=HELIOS_KING_ART;
+ assert.deepEqual([card.code,card.name,card.rank,card.edition],['V-966','헬리오스 킹','SSS','LIMITED']);
+ const tables=['user_mercenary_cards_v1','mercenary_card_acquisitions_v1','account_sync_versions_v1','ranked_duo_accounts_v1'];
+ const triggers=await q('SELECT c.relname,t.tgname,pg_get_triggerdef(t.oid) definition,pg_get_functiondef(t.tgfoid) function FROM pg_trigger t JOIN pg_class c ON c.oid=t.tgrelid WHERE NOT t.tgisinternal AND c.relname=ANY($1::text[]) ORDER BY c.relname,t.tgname',[tables]);
+ const plan={operationKey:OP,authorization:'핑크빛유두 헬리오스 킹 1장 지급',target,code:CODE,name:'헬리오스 킹',rank:'SSS',edition:'LIMITED',quantity:1,expectedHolding:holding[0]||null,stockPolicy:'DIRECT_NO_PUBLIC_ACQUISITION',delivery:'DIRECT',levelPolicy:'PRESERVE_EXISTING_DEFAULT_ONE',cost:0,sendMessages:false,automaticLoadout:false};
+ await db.query('ROLLBACK');
+ await fs.writeFile(new URL('./preflight.json',import.meta.url),JSON.stringify({checkedAt:new Date().toISOString(),readOnly:true,target,holding,levels,acquisitions,prior,stock,card,cmsRevision:cms.revision,triggers,planHash:hash(plan)},null,2)+'\n',{flag:'wx'});
+ await fs.writeFile(new URL('./plan.json',import.meta.url),JSON.stringify(plan,null,2)+'\n',{flag:'wx'});
+ console.log(JSON.stringify({target,holding,levels,previousAcquisitions:acquisitions,priorOperations:prior.length,card:{code:card.code,name:card.name,rank:card.rank,edition:card.edition},planHash:hash(plan),triggers:triggers.map(t=>({table:t.relname,name:t.tgname,definition:t.definition}))}));
+}catch(e){await db.query('ROLLBACK').catch(()=>{});console.error(safe(e));process.exitCode=1;}finally{await db.end();}

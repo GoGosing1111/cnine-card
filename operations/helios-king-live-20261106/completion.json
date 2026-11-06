@@ -1,0 +1,83 @@
+{
+  "status": "LIVE_AND_GRANTED",
+  "completedAt": "2026-11-06T02:39:31.049Z",
+  "sourceCommit": "3a3d6ea78622556926cd3e2684b066ff3ec40af9",
+  "pages": {
+    "id": "54298df5-a870-4358-adaf-98233933ae29",
+    "url": "https://54298df5.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "3a3d6ea78622556926cd3e2684b066ff3ec40af9"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "f4a0da10-51f9-46f4-a3dc-cd445a03a9b6",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "ba8b5d9b-dcfb-4a41-8685-e545e74d20e5",
+      "percentage": 100
+    }
+  ],
+  "character": {
+    "code": "V-966",
+    "name": "헬리오스 킹",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "basePower": 3500000,
+    "skills": [
+      "왕검 사출",
+      "천창 관통",
+      "왕의 군세",
+      "천검 강림"
+    ],
+    "acquisitionEnabled": false
+  },
+  "heukmu": {
+    "code": "V-968",
+    "basePower": 3500000
+  },
+  "grant": {
+    "status": "VERIFIED",
+    "userId": "1",
+    "nickname": "핑크빛유두",
+    "code": "V-966",
+    "name": "헬리오스 킹",
+    "quantityGranted": 1,
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "currentCopies": 1,
+    "auditId": "55052",
+    "completedAt": "2026-11-06T02:38:13.300Z",
+    "acquisitionRecords": 1,
+    "protectedStatePreserved": true
+  },
+  "operationKey": "ops:pingdu-helios-king-grant:20261106:v1",
+  "planHash": "b4b7c05dff73b9aa6305229489e6bc2a982416b7b450c34b411df5fae8d5cff7",
+  "sourceSha256": "a9d6e25ba5f10f89537cef6e2d3247b2b2146743f40aa55af086c608b99e3013",
+  "receiptSha256": "3795da3637a75b025b9690f17528ee00a22a910ab244926fc541da56cfad0b06",
+  "verification": {
+    "relatedTests": 62,
+    "workerCheck": true,
+    "skillCases": 16,
+    "localEntryCases": 4,
+    "publicEntryCases": 2,
+    "publicFiles": 52,
+    "windowsFiles": 46,
+    "assetCount": 20000,
+    "injectedFailureRolledBack": true,
+    "normalDryRunRolledBack": true,
+    "independentReadOnly": true,
+    "selectOnlyReplay": true,
+    "globalOwners": 1,
+    "globalCopies": 1,
+    "leasesReleased": true
+  },
+  "limits": {
+    "realDevice": false,
+    "installedClient": false
+  },
+  "automaticLoadout": false,
+  "messagesSent": 0
+}

@@ -1,0 +1,21 @@
+{
+  "mode": "verify",
+  "sourceSha256": "a9d6e25ba5f10f89537cef6e2d3247b2b2146743f40aa55af086c608b99e3013",
+  "planHash": "b4b7c05dff73b9aa6305229489e6bc2a982416b7b450c34b411df5fae8d5cff7",
+  "verification": {
+    "status": "VERIFIED",
+    "userId": "1",
+    "nickname": "핑크빛유두",
+    "code": "V-966",
+    "name": "헬리오스 킹",
+    "quantityGranted": 1,
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "currentCopies": 1,
+    "auditId": "55052",
+    "completedAt": "2026-11-06T02:38:13.300Z",
+    "acquisitionRecords": 1,
+    "protectedStatePreserved": true
+  },
+  "independentConnection": true
+}

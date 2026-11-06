@@ -1,0 +1,299 @@
+{
+  "at": "2026-11-06T02:37:48.325Z",
+  "releaseCommit": "3a3d6ea78622556926cd3e2684b066ff3ec40af9",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "f4a0da10-51f9-46f4-a3dc-cd445a03a9b6",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "ba8b5d9b-dcfb-4a41-8685-e545e74d20e5",
+      "percentage": 100
+    }
+  ],
+  "windows": {
+    "releaseId": "8308197d1edc8ab60c84737cf0d541b5f657e256807f074bb326e76b70654b28",
+    "files": [
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/aura-v3/runtime/blade.png",
+        "sha256": "66c197ae660530a7fc907ff4e033e2e95f9ebf8117f2a7dd9bb1840d5336d60d",
+        "bytes": 247239,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/aura-v3/runtime/front.png",
+        "sha256": "f542b3b8f94c74542bfb86f7b8cd6ec95757a8a58756a72eb6bcff4b79592598",
+        "bytes": 237114,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/aura-v3/runtime/manifest.json",
+        "sha256": "936c8e7bace04d91fa94c4f8a8b9c04f3c059d579e624758fa5457721766e577",
+        "bytes": 9230,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/aura-v3/runtime/rear.png",
+        "sha256": "8192b2bed668f9c7689dcce513ce891a27079d5741c362b3da4b01746e0dc1a9",
+        "bytes": 1076304,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/aura-v3/runtime/scale.png",
+        "sha256": "4e098bbd8ce6e523113124ad4669d9cf6e315d381c6d4937d33a09ace02801e4",
+        "bytes": 52920,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/body-ready.png",
+        "sha256": "0504137f044cf3df1d303ea8bd9c1e10dd15c0efc0783579b96e1f93a426cb91",
+        "bytes": 1759477,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/props/estoc.png",
+        "sha256": "ac2b000bcad0939d665896a96826757feda77513212ba13b6c8458be53665961",
+        "bytes": 76529,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/props/glaive.png",
+        "sha256": "e4ad29fc16f0a17d09d17bd552bff6b7f0484a876dc4f6ee60076a9dfc85e226",
+        "bytes": 91678,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/props/greatsword.png",
+        "sha256": "6eaf6d916f14c8098622eeabdea63fdba850610a503b4ce72337f30d99dbe94b",
+        "bytes": 166243,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/props/halberd.png",
+        "sha256": "dc9c5e55c57678a6845c8e8d5cafca146191d5b5d0be4753fa5d440550fd9366",
+        "bytes": 120067,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/props/spear.png",
+        "sha256": "6f1e795543007164ba1f61880ac94f46035b29500a0403be749cdae6d7ff7445",
+        "bytes": 95601,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/props/sword.png",
+        "sha256": "16956d0cd2bd9deaf254f5846134c6a355d25ca3a5af8b209cde2f1ccf797c2f",
+        "bytes": 108969,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/source-art-approved.png",
+        "sha256": "401bf907f1cfb1913eab358148ec9d2847bfaf46b65c00488c57efd23058253c",
+        "bytes": 3071132,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/spine/helios-king-affb467a3e47.png",
+        "sha256": "77a15375f06e0261c2df637b3e0b7487e57c9c5a7a89dfd3ae65e049bec829da",
+        "bytes": 2796426,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/spine/helios-king.json",
+        "sha256": "75866dd3333406142385c33d1777b6f98de75fa6477a746db41b3f90bb9d5f35",
+        "bytes": 11726,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/sss-v2/effects/runtime/fx-manifest.json",
+        "sha256": "3d9b5329e5c8ffa9db19b504382ec3a49ce4282d549b6912fc418c87200f4e90",
+        "bytes": 34208,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/sss-v2/effects/runtime/gate.png",
+        "sha256": "e394a4496784d76f116f1a5e9268f63f9aab65c991d19eb762e9e9dcf7beae7a",
+        "bytes": 1748755,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/sss-v2/effects/runtime/impact.png",
+        "sha256": "fcfc12e1219deb502ee678f8235145564e3d980c2192885854b5bc5352393aa9",
+        "bytes": 1748953,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/sss-v2/effects/runtime/judgment.png",
+        "sha256": "9ba23726ef653e4b80ec1a572408b8c322362b17610076b8e1d9ade8f573967f",
+        "bytes": 1008809,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/sss-v2/effects/runtime/lance.png",
+        "sha256": "5a253d2a1221ffadfc60a219b36ce011266785d5d974287eae261bd18551c825",
+        "bytes": 970744,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/sss-v2/effects/runtime/pressure.png",
+        "sha256": "19d4ac6957f33de2d4624cd97d8da33571e959aedb4bafad335f8c8ebd03f0d9",
+        "bytes": 249705,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/sss-v2/effects/runtime/shards.png",
+        "sha256": "ee8a9744934d0cec0b006b8f785e51acf64012b985e4488738a0cef3ce6745b6",
+        "bytes": 73439,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/sss-v2/effects/runtime/trail.png",
+        "sha256": "c597d6ddeb571e74c06f8742b088bee6e989d84a0eb6d7a9c4a9cab3a3d3093f",
+        "bytes": 711447,
+        "essential": false
+      },
+      {
+        "path": "/index.html",
+        "sha256": "298ec66d3c929e5137f1a7039d81fbd1e1f2b964ab0f412ca7d5ce3019dcbdfd",
+        "bytes": 49379,
+        "essential": true
+      },
+      {
+        "path": "/js/app.js",
+        "sha256": "331f538f0255dd290ab29ff3ba086358d65074d071589a33762de40f90f53e06",
+        "bytes": 804628,
+        "essential": true
+      },
+      {
+        "path": "/js/battle-v3-live.js",
+        "sha256": "a5b8e0fec676c2741299d237e61b3a9fa1001ba2175219af11128b66cea78664",
+        "bytes": 76782,
+        "essential": true
+      },
+      {
+        "path": "/mercenary-codex/model.mjs",
+        "sha256": "365358ab4c838ed1be04b6ddf086393a1edb30e1e7bd89b0d8305c069e81cffd",
+        "bytes": 14903,
+        "essential": true
+      },
+      {
+        "path": "/preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+        "sha256": "dab500b1273e46b7e8d2eea1f5b7dd1629fbb6ec8fbcfaa208c37809951a2c8f",
+        "bytes": 3580999,
+        "essential": true
+      },
+      {
+        "path": "/preview/boss-resources-v2048/lab.bundle.js",
+        "sha256": "4c574e23e0c47f38f318c41ced56aba5f98b6e2bb62825a06fbcb2684e3bb7c2",
+        "bytes": 3576295,
+        "essential": true
+      },
+      {
+        "path": "/preview/coop-defense-v1/defense.bundle.js",
+        "sha256": "e7233e1074101131192064bdc70b13dc344f86743c2efb230f74d781fa3c002e",
+        "bytes": 3705491,
+        "essential": true
+      },
+      {
+        "path": "/preview/cow-room-v3-v1/battle.bundle.js",
+        "sha256": "6af3e5594f3300cd8495fff02377a642143cc5b433c3c8d8cc565f40e5083bb8",
+        "bytes": 3579275,
+        "essential": true
+      },
+      {
+        "path": "/preview/infinite-tower-v3-v1/battle.bundle.js",
+        "sha256": "d53597072b5c740e2129e02bb6bd33a0ff3d9f1aaea846fef66cde76bd71300c",
+        "bytes": 3579264,
+        "essential": true
+      },
+      {
+        "path": "/preview/project-v-mercenary-system-v1/skills.bundle.js",
+        "sha256": "1af4bd555c8a53a76582912ffbe1f39e9bb06c6ff6565b835a89f155f901cc8b",
+        "bytes": 3626112,
+        "essential": true
+      },
+      {
+        "path": "/preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "sha256": "59735ef53a2149110f9cbede27746fc1f4ae8e51601d9b26aea796fd7bbea6e5",
+        "bytes": 3579649,
+        "essential": true
+      },
+      {
+        "path": "/preview/scrapyard-v3-v1/battle.bundle.js",
+        "sha256": "3bf3855b612dae797bed3aeb1f3dd909d88db4e07eca1c7f7fa309f99b097095",
+        "bytes": 3579208,
+        "essential": true
+      },
+      {
+        "path": "/preview/sustained-hunt-v2/battle.bundle.js",
+        "sha256": "51044e4cf5a8ad58aa7c1eb8a5e1643f6379ddbd7f86fe8c711e3048da4d02d4",
+        "bytes": 3603446,
+        "essential": true
+      },
+      {
+        "path": "/preview/v3-wide-grid-v1/app.bundle.js",
+        "sha256": "e46eb520295ea6b12685f92c736518d7093f4a1eb680f92cb0ccffcfcecc62e4",
+        "bytes": 497820,
+        "essential": true
+      },
+      {
+        "path": "/preview/v3-wide-grid-v1/battle.bundle.js",
+        "sha256": "29002627902d255d26d8da7257e1d9b4e03c1bc428d9c89f60802b85ad17863b",
+        "bytes": 3582834,
+        "essential": true
+      },
+      {
+        "path": "/pve-v3/battle.bundle.js",
+        "sha256": "49f36d81095e6bea26ec0325f82005838f3d2384106b3d457d337e4c3804cab3",
+        "bytes": 3579623,
+        "essential": true
+      },
+      {
+        "path": "/shared/mercenary-acquisition-release-v1.mjs",
+        "sha256": "c0627a713057106afe63651622711f0964022a71f8441abad3a32ec5796cafdf",
+        "bytes": 1855,
+        "essential": true
+      },
+      {
+        "path": "/shared/mercenary-combat-link-v2103.mjs",
+        "sha256": "938d7d7f687ed11cacb32cfa8f8fcf3af9d85d08a5f889d25ac1075cbd017ce0",
+        "bytes": 17830,
+        "essential": true
+      },
+      {
+        "path": "/shared/mercenary-helios-king-v1.mjs",
+        "sha256": "40f1694b3ee52538426b657fc7422c2fb588be7ceeff40d336ebd477cfbeedef",
+        "bytes": 5729,
+        "essential": true
+      },
+      {
+        "path": "/shared/mercenary-heukmu-v1.mjs",
+        "sha256": "0eb2916cee03e836197d27bba6c51648052d5cc47fa4ce42a6ba4eef354550cd",
+        "bytes": 4388,
+        "essential": true
+      },
+      {
+        "path": "/shared/mercenary-level-v1.mjs",
+        "sha256": "847c8b17473bff78a33914c227ab8294ed7b481a40bb8f950950e96dfe69e372",
+        "bytes": 18548,
+        "essential": true
+      },
+      {
+        "path": "/shared/mercenary-limited-deployment-v1.mjs",
+        "sha256": "f3cd9fa68f0bd094411d9e40bcf7a7cf19a2cd209f245db2542196337681ed42",
+        "bytes": 5879,
+        "essential": true
+      },
+      {
+        "path": "/shared/mercenary-rank-growth-v1.mjs",
+        "sha256": "88400902328168813f34b0d8cc52d552323a7e18a4bd3a0b97d9fc53475a8a51",
+        "bytes": 6381,
+        "essential": true
+      }
+    ]
+  },
+  "assetCount": 20000,
+  "operationalAccountWrites": 0
+}
