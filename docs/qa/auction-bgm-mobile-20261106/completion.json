@@ -1,0 +1,64 @@
+{
+  "status": "LIVE_DEPLOYED",
+  "completedAtKST": "2026-11-06T16:45:23.467236+09:00",
+  "sourceCommit": "93f39b19e57dc5fc27aee49e49ce8c3e794c4cdb",
+  "pages": {
+    "id": "2a871c6f-4190-4c37-8628-0c82d63b8686",
+    "url": "https://2a871c6f.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "93f39b19e57dc5fc27aee49e49ce8c3e794c4cdb"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "ee46785b-8574-4066-94b4-9c4f59682b08",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "ee979a9f-2c7c-4e05-abb6-379792db2224",
+      "percentage": 100
+    }
+  ],
+  "delivery": {
+    "publicFiles": 10,
+    "windowsFiles": 7,
+    "assetCount": 20000
+  },
+  "checks": {
+    "unitTests": 55,
+    "mainScreenProfiles": [
+      "WebKit390",
+      "WebKit430",
+      "ChromiumTouch320",
+      "Chromium1440"
+    ],
+    "audioProfiles": [
+      "Chromium1440",
+      "Chromium320",
+      "WebKit390"
+    ],
+    "publicWebKit390": "PASS"
+  },
+  "mobileSize": {
+    "before": {
+      "width": 358,
+      "height": 210
+    },
+    "after": {
+      "width": 300,
+      "height": 119.53125
+    }
+  },
+  "reportImageSha256": "6cd15ad81ce999d81ff8444bca9c916cb165f1cc959b8143b4b6bd801147c760",
+  "limitations": {
+    "physicalIphone": false,
+    "realAudioListening": false,
+    "installedApp": false,
+    "iosKeyboard": "viewport reduction emulation"
+  },
+  "operationalAccountWrites": 0,
+  "messagesSent": 0,
+  "newSchedules": 0,
+  "maintenance": 0
+}

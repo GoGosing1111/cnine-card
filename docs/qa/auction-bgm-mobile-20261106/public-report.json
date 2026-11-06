@@ -1,0 +1,156 @@
+{
+  "reports": [
+    {
+      "profile": "public-webkit-390",
+      "initial": {
+        "x": 45,
+        "y": 272.234375,
+        "width": 300,
+        "height": 119.53125,
+        "viewportWidth": 390,
+        "viewportHeight": 664,
+        "offsetTop": 0,
+        "scrollX": 0,
+        "bodyOverflow": false,
+        "position": null
+      },
+      "up": {
+        "x": 45,
+        "y": 192.234375,
+        "width": 300,
+        "height": 119.53125,
+        "viewportWidth": 390,
+        "viewportHeight": 664,
+        "offsetTop": 0,
+        "scrollX": 0,
+        "bodyOverflow": false,
+        "position": "0.3462924046832783"
+      },
+      "down": {
+        "x": 45,
+        "y": 322.234375,
+        "width": 300,
+        "height": 119.53125,
+        "viewportWidth": 390,
+        "viewportHeight": 664,
+        "offsetTop": 0,
+        "scrollX": 0,
+        "bodyOverflow": false,
+        "position": "0.5960672470729511"
+      },
+      "top": {
+        "x": 45,
+        "y": 12,
+        "width": 300,
+        "height": 119.53125,
+        "viewportWidth": 390,
+        "viewportHeight": 664,
+        "offsetTop": 0,
+        "scrollX": 0,
+        "bodyOverflow": false,
+        "position": "0"
+      },
+      "bottom": {
+        "x": 45,
+        "y": 532.46875,
+        "width": 300,
+        "height": 119.53125,
+        "viewportWidth": 390,
+        "viewportHeight": 664,
+        "offsetTop": 0,
+        "scrollX": 0,
+        "bodyOverflow": false,
+        "position": "1"
+      },
+      "moved": {
+        "x": 45,
+        "y": 112,
+        "width": 300,
+        "height": 119.53125,
+        "viewportWidth": 390,
+        "viewportHeight": 664,
+        "offsetTop": 0,
+        "scrollX": 0,
+        "bodyOverflow": false,
+        "position": "0.19213449414590214"
+      },
+      "next": {
+        "x": 45,
+        "y": 100.15625,
+        "width": 300,
+        "height": 181.125,
+        "viewportWidth": 390,
+        "viewportHeight": 664,
+        "offsetTop": 0,
+        "scrollX": 0,
+        "bodyOverflow": false,
+        "position": "0.19213449414590214"
+      },
+      "landscape": {
+        "x": 212,
+        "y": 39.390625,
+        "width": 420,
+        "height": 223.421875,
+        "viewportWidth": 844,
+        "viewportHeight": 390,
+        "offsetTop": 0,
+        "scrollX": 0,
+        "bodyOverflow": false,
+        "position": "0.19213449414590214"
+      },
+      "keyboardViewport": {
+        "x": 45,
+        "y": 41.75,
+        "width": 300,
+        "height": 181.125,
+        "viewportWidth": 390,
+        "viewportHeight": 360,
+        "offsetTop": 0,
+        "scrollX": 0,
+        "bodyOverflow": false,
+        "position": "0.19213449414590214"
+      },
+      "reload": {
+        "x": 45,
+        "y": 140.15625,
+        "width": 300,
+        "height": 181.125,
+        "viewportWidth": 390,
+        "viewportHeight": 664,
+        "offsetTop": 0,
+        "scrollX": 0,
+        "bodyOverflow": false,
+        "position": "0.2792835739580496"
+      },
+      "blocked": {
+        "x": 45,
+        "y": 127.859375,
+        "width": 300,
+        "height": 225.125,
+        "viewportWidth": 390,
+        "viewportHeight": 664,
+        "offsetTop": 0,
+        "scrollX": 0,
+        "bodyOverflow": false,
+        "position": "0.2792835739580496"
+      },
+      "realTouch": false,
+      "webkitTouch": "synthetic touch pointer plus real mouse pointer capture",
+      "audioUninterrupted": true,
+      "positionRemembered": true,
+      "playButtonWorks": true,
+      "keyboardMovement": true,
+      "destroyedOnExit": true,
+      "errors": [],
+      "failed": [],
+      "externalOrigins": [
+        "https://fonts.googleapis.com",
+        "https://cdn.jsdelivr.net"
+      ],
+      "apiRequestsIntercepted": true,
+      "liveAccountWrites": 0,
+      "physicalIphone": false
+    }
+  ],
+  "missing": []
+}

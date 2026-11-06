@@ -1,0 +1,72 @@
+{
+  "at": "2026-11-06T07:43:55.264Z",
+  "id": "2a871c6f-4190-4c37-8628-0c82d63b8686",
+  "url": "https://2a871c6f.cnine-card.pages.dev",
+  "status": "success",
+  "commit": "93f39b19e57dc5fc27aee49e49ce8c3e794c4cdb",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "ee46785b-8574-4066-94b4-9c4f59682b08",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "ee979a9f-2c7c-4e05-abb6-379792db2224",
+      "percentage": 100
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "css/auction-user-v1.css",
+      "sha256": "02b49663fa940e4087d559557905dce1cc90429a16a4f399c530f3618fb01710"
+    },
+    {
+      "file": "index.html",
+      "sha256": "aaded29662588c99865a2ae5898a77ba5271bdd4390420fe9380ec6b63102901"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "ebf13ec07155acd570c77ba7ffeda54e6aa50b7a2e9466716eebeae260e94a22"
+    },
+    {
+      "file": "js/auction-user-bgm-v1.mjs",
+      "sha256": "8aeab5cbb17ec54105c8c2cba1444741dc33b0520e453f31e99ddb9432161832"
+    },
+    {
+      "file": "js/auction-user-entry.js",
+      "sha256": "b0969d17c7e6eb0118ae2871978f7f1656a1ba0335129fe6ac911e21f76e799b"
+    },
+    {
+      "file": "js/auction-user-live.mjs",
+      "sha256": "32a376b1b3994da1e05fc16964e01d2b6dd3ce124da2e1849212afc7d3492b86"
+    },
+    {
+      "file": "js/auction-user-v1.mjs",
+      "sha256": "218c727424924c7aa5ec166c5c46dd3d055ad7bc66c1ae8d0e8d22bb71b96850"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "922322b45274834b13cfb4dcd81d9de89f8ca579fcae02dd01187ff4059a3937"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "ef11650eae6d0d15751ac7ef063ba83afdacd51a8a7d3306e52848d79d0add11"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "15a2cec0b9a23aeb063160ad9719750f7424f0a3fb8236ed9a23e406a0625dd4"
+    }
+  ],
+  "windows": [
+    "css/auction-user-v1.css",
+    "index.html",
+    "js/app.js",
+    "js/auction-user-bgm-v1.mjs",
+    "js/auction-user-entry.js",
+    "js/auction-user-live.mjs",
+    "js/auction-user-v1.mjs"
+  ],
+  "assetCount": 20000,
+  "operationalAccountWrites": 0
+}
