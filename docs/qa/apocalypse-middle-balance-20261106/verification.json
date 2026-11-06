@@ -1,0 +1,39 @@
+{
+  "at": "2026-11-06T10:07:56.606Z",
+  "completedAt": "2026-11-06T10:07:44.074Z",
+  "readOnly": true,
+  "adminLogId": "55347",
+  "changes": [
+    {
+      "id": 81,
+      "name": "카르겐",
+      "before": 2200000000,
+      "after": 4400000000,
+      "coin": 1500000000,
+      "masterStars": 1000000
+    },
+    {
+      "id": 82,
+      "name": "발카르",
+      "before": 3300000000,
+      "after": 5500000000,
+      "coin": 2500000000,
+      "masterStars": 2000000
+    },
+    {
+      "id": 83,
+      "name": "모르가스",
+      "before": 4400000000,
+      "after": 6600000000,
+      "coin": 4000000000,
+      "masterStars": 3000000
+    }
+  ],
+  "preservedRewards": true,
+  "preservedOtherSettings": true,
+  "preservedOtherColumns": true,
+  "preservedPreviousReceipts": true,
+  "replaySelects": 1,
+  "replayWrites": 0,
+  "accountWrites": 0
+}

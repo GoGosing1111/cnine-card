@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "at": "2026-11-06T10:04:57.716Z",
+  "sourceCommit": "3779e3269e304f983ddfbcc4c50588bb948d1684",
+  "calibrationSha256": "dcdc657de237ce02612d1d6b788c9023907597e9f2474b06ac39736af6a8abb4",
+  "powers": [
+    4400000000,
+    5500000000,
+    6600000000
+  ],
+  "scenarios": 36,
+  "battles": 4608,
+  "rewardsPreserved": true,
+  "rebuildAggregatesMatch": true,
+  "runtime": [
+    {
+      "id": 81,
+      "name": "카르겐",
+      "power": 4400000000,
+      "coin": 1500000000,
+      "masterStars": 1000000,
+      "previousPower": 2200000000
+    },
+    {
+      "id": 82,
+      "name": "발카르",
+      "power": 5500000000,
+      "coin": 2500000000,
+      "masterStars": 2000000,
+      "previousPower": 3300000000
+    },
+    {
+      "id": 83,
+      "name": "모르가스",
+      "power": 6600000000,
+      "coin": 4000000000,
+      "masterStars": 3000000,
+      "previousPower": 4400000000
+    }
+  ],
+  "operationUnitTests": 4,
+  "gameRedeployRequired": false,
+  "reason": "Existing live CMS is the battle-power authority; only stored monster/profile powers change. Existing facing, art, static cuts, combat algorithms and rewards stay intact."
+}

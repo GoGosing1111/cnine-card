@@ -1,0 +1,13 @@
+{
+  "at": "2026-11-06T10:07:39.631Z",
+  "passed": true,
+  "simulationSource": "3779e3269e304f983ddfbcc4c50588bb948d1684",
+  "liveSource": "89694612aca7e1db9dc098e67895f95b880e10cf",
+  "pages": "767825e6-693f-4fc9-aca9-a677525f7b3b",
+  "changedServerFiles": [
+    "functions/_support_package.js",
+    "shared/onestore-web-assets-v1.mjs",
+    "shared/support-package-v1.mjs"
+  ],
+  "combatEngineAndPoliciesUnchanged": true
+}
