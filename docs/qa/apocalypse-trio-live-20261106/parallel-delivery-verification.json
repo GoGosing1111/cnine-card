@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "verifiedAt": "2026-11-06T08:19:15.966Z",
+  "originalApocalypseDeployment": "b0d793d7-0ef2-4539-968c-36ae7fd3fcc4",
+  "currentDeployment": {
+    "at": "2026-11-06T08:19:15.930Z",
+    "id": "05c00fec-a705-480d-bc06-317b6bab2738",
+    "url": "https://05c00fec.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "0bdf33c95cc0428ed902e5fc8134ff7bd9b60665"
+  },
+  "apocalypseSourceAncestor": true,
+  "publicFiles": 43,
+  "windowsFiles": 34,
+  "allApocalypseAssetsAndRuntimePreserved": true,
+  "scope": "Concurrent auction audio delivery followed the apocalypse release; all 43 released files and 34 Windows files still match."
+}
