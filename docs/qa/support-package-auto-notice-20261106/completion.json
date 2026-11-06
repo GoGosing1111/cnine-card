@@ -1,0 +1,80 @@
+{
+  "status": "COMPLETED",
+  "authorization": "패키지 구매자 는 자동 메세지 발송되게 해놔",
+  "deployedCommit": "e0dcca2856349e9e661afc5397411b311756dbd8",
+  "pages": {
+    "at": "2026-11-06T12:14:44.128Z",
+    "id": "cc6e1cc9-55a8-43a3-b8e7-49c2e0e2d3e5",
+    "url": "https://cc6e1cc9.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "e0dcca2856349e9e661afc5397411b311756dbd8"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "c574cf22-cc35-4906-8a12-3a81a2bdf85e",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "6a1c17a7-829f-488d-b154-94c74a526893",
+      "percentage": 100
+    }
+  ],
+  "productCode": "SEASON_PASS_PACKAGE_20261106",
+  "minimumPaidWon": 200000,
+  "firstQualifyingPurchaseCount": 5,
+  "firstQualifyingPaidWon": 249000,
+  "delivery": "IN_GAME_SYSTEM_MESSAGE",
+  "trigger": "CONFIRMED_PAYMENT_ATOMIC_BATCH",
+  "frequency": "ONCE_PER_ACCOUNT",
+  "campaignKey": "ops:support-package-xbody-guarantee-notice:20261106:v1",
+  "durableReceiptPrefix": "support_package_xbody_notice_20261106_v1:",
+  "existingManualRecipientsPreserved": 4,
+  "finalEligible": 5,
+  "finalMessages": 5,
+  "missing": 0,
+  "duplicates": 0,
+  "rewardAttachments": 0,
+  "backfill": {
+    "operationKey": "ops:support-package-auto-notice-backfill:20261106:v1",
+    "auditId": "55421",
+    "createdMessages": 1,
+    "recipientIds": [
+      "5996"
+    ],
+    "completedAtKst": "2026-11-06 20:58:36",
+    "verification": {
+      "recipients": 1,
+      "messages": 1,
+      "rewardAttachments": 0,
+      "missing": 0,
+      "duplicates": 0,
+      "manualReceiptPreserved": true
+    }
+  },
+  "tests": {
+    "passed": 46,
+    "failed": 0,
+    "newNoticeTests": 7,
+    "cmsViewportWidths": [
+      1440,
+      390
+    ]
+  },
+  "manualReceiptHash": "9dbabff10057bd760f6a1c17a9b0aa3816cec5eedd65c6a0a99514f72078dc05",
+  "noticePolicyActivated": true,
+  "xBodyGuaranteeGrantActivated": false,
+  "purchaseRewardsChanged": false,
+  "scheduledTasksCreated": 0,
+  "storageMaintenance": false,
+  "sourceHashes": {
+    "functions/_support_package.js": "21cbb7567833eb86a9a5032c70437c2a3e23b78ddf9281bb77f776567fe8c920",
+    "functions/_support_package_guarantee_notice.js": "6db2925d67a70bcbd51866bc0f21a231c6b7fda5d19b5619466bfbef4eb6d39f",
+    "tests/support-package-guarantee-notice-20261106.test.mjs": "588994bb9882ca71b9c042d95c3629be0a8c0180fc384c35f4b750b5e787f3ae"
+  },
+  "verifiedAt": "2026-11-06T12:14:45.602Z",
+  "finalCheckedKst": "2026-11-06 21:11:42",
+  "deploymentGateTests": 25,
+  "deploymentReused": true
+}
