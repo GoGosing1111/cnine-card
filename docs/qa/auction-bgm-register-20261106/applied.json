@@ -1,0 +1,221 @@
+{
+  "dryRun": false,
+  "replayed": false,
+  "receipt": {
+    "operationKey": "ops:auction-bgm-register:20261106:v1",
+    "status": "COMPLETED",
+    "sourceCommit": "0bdf33c95cc0428ed902e5fc8134ff7bd9b60665",
+    "existingShared": 42,
+    "addedCount": 18,
+    "sharedCount": 60,
+    "skipped": [
+      {
+        "fileName": "시아나_28888.mp3",
+        "amount": 288880,
+        "existingRuleId": "1162"
+      },
+      {
+        "fileName": "애기뽀스_10044.mp3",
+        "amount": 100440,
+        "existingRuleId": "1175"
+      },
+      {
+        "fileName": "위장_11223.mp3",
+        "amount": 112230,
+        "existingRuleId": "1145"
+      }
+    ],
+    "added": [
+      {
+        "id": "1233",
+        "auction_id": "0",
+        "min_bid": "57850",
+        "max_bid": "57850",
+        "bgm_url": "assets/effects/auction-20261106/%EB%82%98%EB%AC%B4%EB%8A%98%EB%B4%89%EC%88%9C_5785.mp3#av=25",
+        "bgm_duration": "50",
+        "sort_order": "42",
+        "created_at": "2026-11-06 08:17:26"
+      },
+      {
+        "id": "1234",
+        "auction_id": "0",
+        "min_bid": "133330",
+        "max_bid": "133330",
+        "bgm_url": "assets/effects/auction-20261106/%EB%8B%88%EC%97%98%ED%98%952%E2%86%91_13333.mp3#av=25",
+        "bgm_duration": "58",
+        "sort_order": "43",
+        "created_at": "2026-11-06 08:17:26"
+      },
+      {
+        "id": "1235",
+        "auction_id": "0",
+        "min_bid": "111740",
+        "max_bid": "111740",
+        "bgm_url": "assets/effects/auction-20261106/%EB%B2%A8%EB%9D%BC74_11174.mp3#av=25",
+        "bgm_duration": "56",
+        "sort_order": "44",
+        "created_at": "2026-11-06 08:17:26"
+      },
+      {
+        "id": "1236",
+        "auction_id": "0",
+        "min_bid": "103690",
+        "max_bid": "103690",
+        "bgm_url": "assets/effects/auction-20261106/%EC%82%BC%EA%B2%B9%EA%B5%AC_10369.mp3#av=25",
+        "bgm_duration": "47",
+        "sort_order": "45",
+        "created_at": "2026-11-06 08:17:26"
+      },
+      {
+        "id": "1237",
+        "auction_id": "0",
+        "min_bid": "105790",
+        "max_bid": "105790",
+        "bgm_url": "assets/effects/auction-20261106/%EC%95%84%EA%B8%B0%EB%AD%89%EB%A9%98_10579.mp3#av=25",
+        "bgm_duration": "53",
+        "sort_order": "46",
+        "created_at": "2026-11-06 08:17:26"
+      },
+      {
+        "id": "1238",
+        "auction_id": "0",
+        "min_bid": "200090",
+        "max_bid": "200090",
+        "bgm_url": "assets/effects/auction-20261106/%EC%95%BD%EC%86%8D%ED%95%B4_20009.mp3#av=25",
+        "bgm_duration": "49",
+        "sort_order": "47",
+        "created_at": "2026-11-06 08:17:26"
+      },
+      {
+        "id": "1239",
+        "auction_id": "0",
+        "min_bid": "100580",
+        "max_bid": "100580",
+        "bgm_url": "assets/effects/auction-20261106/%EC%98%A4%EB%B2%A0R_10058.mp3#av=25",
+        "bgm_duration": "47",
+        "sort_order": "48",
+        "created_at": "2026-11-06 08:17:26"
+      },
+      {
+        "id": "1240",
+        "auction_id": "0",
+        "min_bid": "199990",
+        "max_bid": "199990",
+        "bgm_url": "assets/effects/auction-20261106/%EC%A1%B0%EB%A1%9C_19999.mp3#av=25",
+        "bgm_duration": "37",
+        "sort_order": "49",
+        "created_at": "2026-11-06 08:17:26"
+      },
+      {
+        "id": "1241",
+        "auction_id": "0",
+        "min_bid": "130880",
+        "max_bid": "130880",
+        "bgm_url": "assets/effects/auction-20261106/%EC%AB%84%EB%B3%91_13088.mp3#av=25",
+        "bgm_duration": "47",
+        "sort_order": "50",
+        "created_at": "2026-11-06 08:17:26"
+      },
+      {
+        "id": "1242",
+        "auction_id": "0",
+        "min_bid": "100700",
+        "max_bid": "100700",
+        "bgm_url": "assets/effects/auction-20261106/%EC%B4%88%EC%9B%94_10070.mp3#av=25",
+        "bgm_duration": "47",
+        "sort_order": "51",
+        "created_at": "2026-11-06 08:17:26"
+      },
+      {
+        "id": "1243",
+        "auction_id": "0",
+        "min_bid": "102280",
+        "max_bid": "102280",
+        "bgm_url": "assets/effects/auction-20261106/%EC%B9%B4%EB%A6%AC%23_10228.mp3#av=25",
+        "bgm_duration": "49",
+        "sort_order": "52",
+        "created_at": "2026-11-06 08:17:26"
+      },
+      {
+        "id": "1244",
+        "auction_id": "0",
+        "min_bid": "204420",
+        "max_bid": "204420",
+        "bgm_url": "assets/effects/auction-20261106/%ED%81%B0%EB%9D%BC%EB%84%A4%ED%8A%B8_20442.mp3#av=25",
+        "bgm_duration": "60",
+        "sort_order": "53",
+        "created_at": "2026-11-06 08:17:26"
+      },
+      {
+        "id": "1245",
+        "auction_id": "0",
+        "min_bid": "202520",
+        "max_bid": "202520",
+        "bgm_url": "assets/effects/auction-20261106/%ED%81%B0%EC%98%A4%EC%8A%B9%ED%99%98_20252.mp3#av=25",
+        "bgm_duration": "54",
+        "sort_order": "54",
+        "created_at": "2026-11-06 08:17:26"
+      },
+      {
+        "id": "1246",
+        "auction_id": "0",
+        "min_bid": "228920",
+        "max_bid": "228920",
+        "bgm_url": "assets/effects/auction-20261106/%ED%81%B0%ED%8F%B4%EB%A1%9C_22892.mp3#av=25",
+        "bgm_duration": "60",
+        "sort_order": "55",
+        "created_at": "2026-11-06 08:17:26"
+      },
+      {
+        "id": "1247",
+        "auction_id": "0",
+        "min_bid": "220000",
+        "max_bid": "220000",
+        "bgm_url": "assets/effects/auction-20261106/%ED%8B%B0%EB%A8%B8%EB%8B%88_22000.mp3#av=25",
+        "bgm_duration": "42",
+        "sort_order": "56",
+        "created_at": "2026-11-06 08:17:26"
+      },
+      {
+        "id": "1248",
+        "auction_id": "0",
+        "min_bid": "108120",
+        "max_bid": "108120",
+        "bgm_url": "assets/effects/auction-20261106/%ED%8E%98%EB%9D%BC%EB%A6%ACv12_10812.mp3#av=25",
+        "bgm_duration": "56",
+        "sort_order": "57",
+        "created_at": "2026-11-06 08:17:26"
+      },
+      {
+        "id": "1249",
+        "auction_id": "0",
+        "min_bid": "100270",
+        "max_bid": "100270",
+        "bgm_url": "assets/effects/auction-20261106/%ED%97%A4%EC%9D%B4%EC%A6%90_10027.mp3#av=25",
+        "bgm_duration": "57",
+        "sort_order": "58",
+        "created_at": "2026-11-06 08:17:26"
+      },
+      {
+        "id": "1250",
+        "auction_id": "0",
+        "min_bid": "103900",
+        "max_bid": "103900",
+        "bgm_url": "assets/effects/auction-20261106/%ED%98%B8%EB%9E%91%EC%88%98%EC%9B%94%EA%B0%80_10390.mp3#av=25",
+        "bgm_duration": "58",
+        "sort_order": "59",
+        "created_at": "2026-11-06 08:17:26"
+      }
+    ],
+    "previousSharedHash": "9b64d87e29f6ad020601c7b3facbcb660cde3df41867751f8880a5a5948b87bd",
+    "afterSharedHash": "b2574b3c978579db65febd0fc5b3354a09fe5e980c91e23009e03cd64c1eaa7b",
+    "otherHash": "79076a046475b9cb3601a93f0f6e8c1d61fb2a38498b5cb50c8bc34fc9d8037b",
+    "revision": 1,
+    "accountWrites": 0,
+    "messagesSent": 0,
+    "noticePublished": false,
+    "originalBytesPreserved": true,
+    "auditId": "55332",
+    "appliedAt": "2026-11-06 08:17:26"
+  }
+}

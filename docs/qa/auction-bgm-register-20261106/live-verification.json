@@ -1,0 +1,170 @@
+{
+  "at": "2026-11-06T08:16:42.465Z",
+  "id": "05c00fec-a705-480d-bc06-317b6bab2738",
+  "url": "https://05c00fec.cnine-card.pages.dev",
+  "status": "success",
+  "commit": "0bdf33c95cc0428ed902e5fc8134ff7bd9b60665",
+  "publicFiles": [
+    {
+      "file": "assets/effects/auction-20261106/나무늘봉순_5785.mp3",
+      "sha256": "a0fa7c0c6199f2751343944f8064e6c7f7c3394e787337fd47496511fd92eba4",
+      "bytes": 1127390,
+      "status": 200,
+      "contentType": "audio/mpeg"
+    },
+    {
+      "file": "assets/effects/auction-20261106/니엘형2↑_13333.mp3",
+      "sha256": "fda9d3540bd9ff6a9d5a26996b407bdeb679c4ddf06eefa31672b4f592e2e1c0",
+      "bytes": 1359230,
+      "status": 200,
+      "contentType": "audio/mpeg"
+    },
+    {
+      "file": "assets/effects/auction-20261106/벨라74_11174.mp3",
+      "sha256": "f41832beffb38368448dff5a81999bb18466e40ecbf736bef103fde2427929af",
+      "bytes": 1312406,
+      "status": 200,
+      "contentType": "audio/mpeg"
+    },
+    {
+      "file": "assets/effects/auction-20261106/삼겹구_10369.mp3",
+      "sha256": "82c5a657cfbc0937df8eec075a87cbbdb5c229c24ebdc0bd140a88698610c5ac",
+      "bytes": 1098830,
+      "status": 200,
+      "contentType": "audio/mpeg"
+    },
+    {
+      "file": "assets/effects/auction-20261106/아기뭉멘_10579.mp3",
+      "sha256": "1dbbb6fdc0876c302f75417d17dfe8d20c6aa4a66604b275ceb53a1726c8d096",
+      "bytes": 1212590,
+      "status": 200,
+      "contentType": "audio/mpeg"
+    },
+    {
+      "file": "assets/effects/auction-20261106/약속해_20009.mp3",
+      "sha256": "df77145bfe4c1236513b01fb37aff6a36f895f0a3cde46aeb689cede91a96225",
+      "bytes": 1123670,
+      "status": 200,
+      "contentType": "audio/mpeg"
+    },
+    {
+      "file": "assets/effects/auction-20261106/오베R_10058.mp3",
+      "sha256": "79707bf6e0a1bf812b146bf2ab2c61f54c07d786f1e3dc998896a0cc8f98178d",
+      "bytes": 1078718,
+      "status": 200,
+      "contentType": "audio/mpeg"
+    },
+    {
+      "file": "assets/effects/auction-20261106/조로_19999.mp3",
+      "sha256": "960f104bd94a612191fa375b280c998cc7872c225607857078684adf64d229ee",
+      "bytes": 852646,
+      "status": 200,
+      "contentType": "audio/mpeg"
+    },
+    {
+      "file": "assets/effects/auction-20261106/쫄병_13088.mp3",
+      "sha256": "3ad2ae47644b0fac7bceaafb1f4a6e00170bf8ad193bd40587e94a2c33cb1e0f",
+      "bytes": 1076270,
+      "status": 200,
+      "contentType": "audio/mpeg"
+    },
+    {
+      "file": "assets/effects/auction-20261106/초월_10070.mp3",
+      "sha256": "cf1e8eb7ab512f4cdc8822e9499c4f949373a3269d7910bd93b57be7ffa9bf0a",
+      "bytes": 1102094,
+      "status": 200,
+      "contentType": "audio/mpeg"
+    },
+    {
+      "file": "assets/effects/auction-20261106/카리#_10228.mp3",
+      "sha256": "a49dc0fa836c8115702c4ab1c5f071f2182c11a2639b92d4782bb7573df138ab",
+      "bytes": 939278,
+      "status": 200,
+      "contentType": "audio/mpeg"
+    },
+    {
+      "file": "assets/effects/auction-20261106/큰라네트_20442.mp3",
+      "sha256": "33c9df5574ea8aa52f8ceaf42756155d56eb3d60e2896df900826e8c2be527a8",
+      "bytes": 1552286,
+      "status": 200,
+      "contentType": "audio/mpeg"
+    },
+    {
+      "file": "assets/effects/auction-20261106/큰오승환_20252.mp3",
+      "sha256": "e4f5e79b4ff04abf4aa1fd6f2744e39686f0aa58a6718625e1e5a15db13c4d98",
+      "bytes": 1233865,
+      "status": 200,
+      "contentType": "audio/mpeg"
+    },
+    {
+      "file": "assets/effects/auction-20261106/큰폴로_22892.mp3",
+      "sha256": "b75085d30280abe7ca7925c06d78e276b91ba89d78ad1cd9ffde0aa8091b98da",
+      "bytes": 2635200,
+      "status": 200,
+      "contentType": "audio/mpeg"
+    },
+    {
+      "file": "assets/effects/auction-20261106/티머니_22000.mp3",
+      "sha256": "9a9e463c0e255e01fe5123cae693b8a14216a77861672db17e7d4c9b6c47f769",
+      "bytes": 965726,
+      "status": 200,
+      "contentType": "audio/mpeg"
+    },
+    {
+      "file": "assets/effects/auction-20261106/페라리v12_10812.mp3",
+      "sha256": "37ff62da8b7f4d82a26d6c89298d950a1d9370712527b7ba5f39501f03060d45",
+      "bytes": 1275734,
+      "status": 200,
+      "contentType": "audio/mpeg"
+    },
+    {
+      "file": "assets/effects/auction-20261106/헤이즐_10027.mp3",
+      "sha256": "3a742d207d27c5c47b9c4bfebbe4bbe4afd9c2ac279578e9d57a8ea84a965d11",
+      "bytes": 1283966,
+      "status": 200,
+      "contentType": "audio/mpeg"
+    },
+    {
+      "file": "assets/effects/auction-20261106/호랑수월가_10390.mp3",
+      "sha256": "82e53ee7e20bd75f1e48ded6938c870cea2638f266f32caf608098aa522aeebf",
+      "bytes": 1317278,
+      "status": 200,
+      "contentType": "audio/mpeg"
+    }
+  ],
+  "windows": [
+    "assets/effects/auction-20261106/나무늘봉순_5785.mp3",
+    "assets/effects/auction-20261106/니엘형2↑_13333.mp3",
+    "assets/effects/auction-20261106/벨라74_11174.mp3",
+    "assets/effects/auction-20261106/삼겹구_10369.mp3",
+    "assets/effects/auction-20261106/아기뭉멘_10579.mp3",
+    "assets/effects/auction-20261106/약속해_20009.mp3",
+    "assets/effects/auction-20261106/오베R_10058.mp3",
+    "assets/effects/auction-20261106/조로_19999.mp3",
+    "assets/effects/auction-20261106/쫄병_13088.mp3",
+    "assets/effects/auction-20261106/초월_10070.mp3",
+    "assets/effects/auction-20261106/큰라네트_20442.mp3",
+    "assets/effects/auction-20261106/큰오승환_20252.mp3",
+    "assets/effects/auction-20261106/큰폴로_22892.mp3",
+    "assets/effects/auction-20261106/티머니_22000.mp3",
+    "assets/effects/auction-20261106/페라리v12_10812.mp3",
+    "assets/effects/auction-20261106/헤이즐_10027.mp3",
+    "assets/effects/auction-20261106/호랑수월가_10390.mp3"
+  ],
+  "networkOnly": [
+    "assets/effects/auction-20261106/카리#_10228.mp3"
+  ],
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "a9d6abb7-53bc-4c21-830e-a3f435d16187",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "7ed4b6c5-8926-4084-a973-3459765d64ce",
+      "percentage": 100
+    }
+  ],
+  "assetCount": 20000
+}
