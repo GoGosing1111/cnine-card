@@ -1,3 +1,4 @@
+import {addCoins} from '../shared/coin-integer-v1.mjs';
 import {accountRankAward,accountRankBenefits,rankCoin} from './_account_rank.js';
 import {planForgeProtectionDrop} from './_forge_protection_drop.js';
 import {loadScrapyardV3Snapshot, buildScrapyardV3Battle, validateScrapyardV3Config} from './_scrapyard_v3.js';
@@ -117,10 +118,10 @@ async function settle(env, user, op, token) {
     ...await accountRankAward(env,uid,'SCRAPYARD',rid),
     p(env, `UPDATE ${OPS} SET integrity=CASE WHEN ${proofs} THEN 1 ELSE NULL END WHERE request_id=? AND user_id=? AND lease_token=?`,...proofValues,rid,uid,token),
     ...(clearCoin > 0 ? [
-      p(env,'UPDATE users SET coin=coin+? WHERE id=?',clearCoin,uid),
+      p(env,'UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?',clearCoin,uid),
       p(env,"INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'SCRAPYARD_CLEAR' FROM users WHERE id=?",clearCoin,uid)
     ] : []),
-    p(env, `UPDATE ${OPS} SET integrity=CASE WHEN EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?) THEN 1 ELSE NULL END WHERE request_id=? AND user_id=? AND lease_token=?`,uid,grants.balances.coin+clearCoin,rid,uid,token),
+    p(env, `UPDATE ${OPS} SET integrity=CASE WHEN EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?) THEN 1 ELSE NULL END WHERE request_id=? AND user_id=? AND lease_token=?`,uid,addCoins(grants.balances.coin,clearCoin),rid,uid,token),
     // Empty/no-binding rolls are deliberately persisted for an expedition:
     // a CMS edit must not turn a retried empty result into a new prize roll.
     p(env, `INSERT INTO ${DROPS}(request_id,user_id,source_type,source_id,trigger_type,status,result_json)

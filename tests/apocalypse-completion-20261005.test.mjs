@@ -2,6 +2,20 @@ import test from 'node:test';import assert from 'node:assert/strict';import fs f
 import {apocalypseFixture} from './helpers/apocalypse-fixture.mjs';
 import {reserveApocalypseBattle,registerApocalypseChallenge,apocalypseChallengeAction} from '../functions/_apocalypse_challenge.js';
 
+test('Apocalypse full victory settlement at 10경 plus one completes and replays once',async t=>{
+ const f=await apocalypseFixture({postgres:true});t.after(()=>f.close());
+ await f.p('ALTER TABLE users ALTER COLUMN coin TYPE BIGINT').run();
+ await f.p('UPDATE users SET coin=100000000000000001 WHERE id=1').run();
+ const now=Date.now(),runToken=crypto.randomUUID(),requestId='qa-ten-gyeong';
+ const act=(action,extra={},offset=0)=>apocalypseChallengeAction(f.env,f.user,action,{requestId,runToken,...extra},now+offset);
+ await reserveApocalypseBattle(f.env,{userId:1,requestId,runToken,monsterId:75},now);
+ await registerApocalypseChallenge(f.env,{userId:1,requestId,runToken,monsterId:75,won:true,battleV2:f.battle,plan:f.plan,log:{ids:['1','2','3','4','5'],playerPower:500,monsterPower:200}},now);
+ const opened=await act('open');await act('answer',{zone:opened.safeZone},200);
+ await act('claim',{played:true},10000);
+ assert.equal((await f.p('SELECT CAST(coin AS TEXT) AS coin FROM users WHERE id=1').first()).coin,'100000000000000501');
+ await act('claim',{played:true},10001);assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coin_logs').first()).n),1);
+});
+
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: Apocalypse cannot clear on failure, refresh, exit or stale page; grants and clear commit once`,async t=>{
  const f=await apocalypseFixture({postgres});t.after(()=>f.close());const now=Date.now(),runToken=crypto.randomUUID();
  const act=(action,id,extra={},at=now)=>apocalypseChallengeAction(f.env,f.user,action,{requestId:id,runToken,...extra},at);

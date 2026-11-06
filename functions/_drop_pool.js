@@ -1,3 +1,4 @@
+import {coinValue,addCoins} from '../shared/coin-integer-v1.mjs';
 import {readCollectionBonuses,collectionRewardSource} from './_collection_bonuses.js';
 import {rewardDropWithBonus,rewardAmountWithBonus} from '../shared/collection-bonuses-v1.mjs';
 import {ensurePetPotentialItem} from './_pet_potential.js';
@@ -190,11 +191,11 @@ async function poolEntries(env,pool){
 }
 
 async function grantRewards(env,{userId,requestId,sourceType,sourceId,rewards},writePoolLedger=true){
-  const user=await env.DB.prepare('SELECT coin,card_shards,magic_crystals FROM users WHERE id=?').bind(userId).first();
+  const user=await env.DB.prepare('SELECT CAST(coin AS TEXT) AS coin,card_shards,magic_crystals FROM users WHERE id=?').bind(userId).first();
   if(!user)throw new Error('드랍 보상을 지급할 유저를 찾을 수 없습니다.');
   const aggregates=new Map();
   for(const reward of rewards){const type=normalizedRewardType(reward),ref=normalizedRewardRef(reward),key=`${type}:${ref}`;aggregates.set(key,{type,ref,quantity:Number(aggregates.get(key)?.quantity||0)+Number(reward.quantity||0)})}
-  let coin=Number(user.coin||0),shards=Number(user.card_shards||0),crystals=Number(user.magic_crystals||0);
+  let coin=coinValue(user.coin??0),shards=Number(user.card_shards||0),crystals=Number(user.magic_crystals||0);
   const inventoryRefs=[...new Set([...aggregates.values()].filter(x=>x.type==='INVENTORY_ITEM').map(x=>x.ref))];
   const cardRefs=[...new Set([...aggregates.values()].filter(x=>x.type==='CARD').map(x=>String(x.ref)).filter(Boolean))];
   const equipmentRefs=[...new Set([...aggregates.values()].filter(x=>x.type==='EQUIPMENT').map(x=>Number(x.ref)).filter(Boolean))];
@@ -206,7 +207,7 @@ async function grantRewards(env,{userId,requestId,sourceType,sourceId,rewards},w
   if(vehicleRefs.length){const marks=vehicleRefs.map(()=>'?').join(','),rows=await env.DB.prepare(`SELECT id FROM character_garage_items WHERE id IN (${marks}) AND is_active=1 AND is_public=1`).bind(...vehicleRefs).all(),valid=new Set((rows.results||[]).map(row=>Number(row.id)));for(const ref of vehicleRefs)if(!valid.has(Number(ref)))throw new Error(`지급 가능한 이동수단이 아닙니다: ${ref}`)}
   const statements=[];
   for(const item of aggregates.values()){
-    if(item.type==='COIN'){coin+=item.quantity;statements.push(env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(item.quantity,userId),env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'UNIFIED_DROP_POOL')").bind(userId,item.quantity,coin));continue}
+    if(item.type==='COIN'){coin=addCoins(coin,item.quantity);statements.push(env.DB.prepare('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?').bind(item.quantity,userId),env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'UNIFIED_DROP_POOL' FROM users WHERE id=?").bind(item.quantity,userId));continue}
     if(item.type==='CARD_SHARDS'){shards+=item.quantity;statements.push(env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(item.quantity,userId),env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'UNIFIED_DROP_POOL')").bind(userId,item.quantity,shards));continue}
     if(item.type==='MAGIC_CRYSTAL'){crystals+=item.quantity;statements.push(env.DB.prepare('UPDATE users SET magic_crystals=magic_crystals+? WHERE id=?').bind(item.quantity,userId),env.DB.prepare("INSERT INTO magic_crystal_logs(user_id,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,'통합 드랍풀','UNIFIED_DROP',?)").bind(userId,item.quantity,crystals,requestId));continue}
     if(item.type==='INVENTORY_ITEM'){const after=Number(inventoryBalances.get(item.ref)||0)+item.quantity;inventoryBalances.set(item.ref,after);statements.push(env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(userId,item.ref,item.quantity,item.quantity),env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,?,?,'UNIFIED_DROP',?)").bind(userId,item.ref,item.quantity,after,`통합 드랍풀 · ${sourceType}`,requestId))}

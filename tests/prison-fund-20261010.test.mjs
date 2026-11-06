@@ -73,6 +73,13 @@ test('PostgreSQL: 영치금 본인 차단·5조 한도·원자 납부·재시도
     assert.equal((await read('SELECT * FROM user_runtime_commands')).length,1);
     assert.equal((await read('SELECT * FROM coin_logs')).length,2);
   });
+  await t.test('10경 plus one donation preserves exact wallet, ledger and one replay',async()=>{
+    await seed();await sql.exec('UPDATE users SET coin=100000000000000001 WHERE id=3');
+    const r=await fund(3,1,'large-wallet-fund');assert.equal(r.status,200,JSON.stringify(r));
+    const exact=async()=>String((await read('SELECT CAST(coin AS TEXT) AS coin FROM users WHERE id=3'))[0].coin);
+    assert.equal(await exact(),'100000000000000000');assert.equal(String((await read('SELECT CAST(balance_after AS TEXT) AS coin FROM coin_logs'))[0].coin),'100000000000000000');
+    assert.equal((await fund(3,1,'large-wallet-fund')).data.replayed,true);assert.equal(await exact(),'100000000000000000');assert.equal((await read('SELECT * FROM coin_logs')).length,1);
+  });
   await t.test('다른 수감자에게는 기존대로 모금할 수 있다',async()=>{
     await seed();assert.equal((await fund(2,MAX,'other-inmate')).status,200);
     assert.equal(Number((await read('SELECT coin FROM users WHERE id=2'))[0].coin),1e12);

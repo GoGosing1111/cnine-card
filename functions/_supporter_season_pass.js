@@ -1,3 +1,4 @@
+import {addCoins} from '../shared/coin-integer-v1.mjs';
 import {PASS_KEY,PASS_DAYS,DAY_MS,kstDay,dayDate,claimKey,dailyKey,salesDailyKey,salesReceiptDay,emptyPass,passCycle,passWindow,passEntitlement} from '../shared/supporter-season-pass-v1.mjs';
 import {canManageSupport,supportBenefits} from '../shared/server-support-v1.mjs';
 import {readSupportRecord} from './_supporter_benefits.js';
@@ -129,8 +130,8 @@ async function commitPassDays(env,user,{days,support,config,now,requestId,batch=
   for(const r of rewards){
     const col={COIN:'coin',CARD_SHARDS:'card_shards',MAGIC_CRYSTAL:'magic_crystals'}[r.type];
     const balance=col?grants.balances[{COIN:'coin',CARD_SHARDS:'cardShards',MAGIC_CRYSTAL:'magicCrystals'}[r.type]]:r.type==='INVENTORY_ITEM'?grants.balances.inventory[r.ref]:r.type==='CARD'?grants.balances.cards[r.ref]:null;
-    if(balance!==null&&!safe(balance))fail('LIMIT','보유 수량 한도를 초과하여 수령할 수 없습니다.',409);
-    if(col)guards.push({sql:'EXISTS(SELECT 1 FROM users WHERE id=? AND '+col+'=?)',values:[user.id,balance-r.quantity]});
+    if(r.type!=='COIN'&&balance!==null&&!safe(balance))fail('LIMIT','보유 수량 한도를 초과하여 수령할 수 없습니다.',409);
+    if(col)guards.push({sql:'EXISTS(SELECT 1 FROM users WHERE id=? AND '+col+'=?)',values:[user.id,r.type==='COIN'?addCoins(balance,-r.quantity):balance-r.quantity]});
     if(r.type==='INVENTORY_ITEM')guards.push({sql:'COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0)=? AND COALESCE((SELECT unseen_quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0)<=?',values:[user.id,r.ref,balance-r.quantity,user.id,r.ref,Number.MAX_SAFE_INTEGER-r.quantity]});
     if(r.type==='CARD')guards.push({sql:'COALESCE((SELECT quantity FROM user_cards WHERE user_id=? AND card_id=?),0)=?',values:[user.id,r.ref,balance-r.quantity]});
   }

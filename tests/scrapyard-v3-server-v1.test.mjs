@@ -327,3 +327,12 @@ test('a missing or stolen operation at the grant boundary cannot bypass the tran
     assert.equal(await f.parts(),0);assert.equal(await f.coin(),10);assert.equal(await f.count('unified_drop_receipts_v1667'),0);
   }
 });
+
+test('PostgreSQL actual scrapyard completes at 10경 plus one and replays without a second ticket',async t=>{
+ const f=await fixture(t,true);await f.p('UPDATE users SET coin=100000000000000001 WHERE id=7').run();
+ const result=await f.run('qa-10g');assert.equal(result.status,'COMPLETED');assert.equal(result.success,true);
+ const exact=(await f.p('SELECT CAST(coin AS TEXT) AS coin FROM users WHERE id=7').first()).coin;
+ const rewarded=result.rewards.filter(r=>r.rewardType==='COIN').reduce((n,r)=>n+BigInt(r.quantity),0n);
+ assert.equal(exact,(100000000000000001n+rewarded).toString());assert.equal(await f.ticket(),4);
+ await f.run('qa-10g');assert.equal(await f.ticket(),4);assert.equal((await f.p('SELECT CAST(coin AS TEXT) AS coin FROM users WHERE id=7').first()).coin,exact);
+});

@@ -1,3 +1,4 @@
+import {addCoins} from '../shared/coin-integer-v1.mjs';
 import {prepareUnifiedDropGrant} from './_drop_pool.js';
 import {cityGuard,cityGuardEnd} from './_jokgak_city_rewards.js';
 import {EQUIPMENT_FORGE_RELEASE_PROTECTION_CODE} from '../shared/equipment-forge-release-v1.mjs';
@@ -58,8 +59,8 @@ export async function claimCityMessageReward(env,user,reward,messageId){
  if(stored.claimed_at)fail();
  const rewards=[...(bundle.coin?[{rewardType:'COIN',quantity:bundle.coin}]:[]),...bundle.items.map(item=>({rewardType:'INVENTORY_ITEM',rewardRef:item.code,quantity:item.quantity}))];
  const grant=await prepareUnifiedDropGrant(env,{userId,requestId:'CITY_MESSAGE:'+rewardId,sourceType:'JOKGAK_CITY_MESSAGE',sourceId:String(messageId),rewards},{writePoolLedger:false});
- if(!Number.isSafeInteger(grant.balances.coin)||Object.values(grant.balances.inventory).some(n=>!Number.isSafeInteger(n)))fail();
- const token=crypto.randomUUID(),tag='city-message-claim:'+token,beforeCoin=grant.balances.coin-bundle.coin;
+ if(Object.values(grant.balances.inventory).some(n=>!Number.isSafeInteger(n)))fail();
+ const token=crypto.randomUUID(),tag='city-message-claim:'+token,beforeCoin=addCoins(grant.balances.coin,-bundle.coin);
  const statements=env.DB.dialect==='postgres'?[p(env,'SELECT id FROM users WHERE id=? FOR UPDATE',userId),p(env,'SELECT id FROM user_message_rewards WHERE id=? FOR UPDATE',rewardId)]:[];
  statements.push(
   p(env,`INSERT INTO user_message_reward_claim_receipts_v1222(reward_id,message_id,user_id,reward_type,reward_amount,claim_token,balance_before,balance_after,source) SELECT id,message_id,user_id,reward_type,1,?,?,?,'MESSAGE_CLAIM' FROM user_message_rewards WHERE id=? AND message_id=? AND user_id=? AND reward_type=? AND reward_amount=1 AND (claimed_at IS NULL OR TRIM(claimed_at)='') ON CONFLICT(reward_id) DO NOTHING`,token,beforeCoin,beforeCoin,rewardId,messageId,userId,CITY_MESSAGE_REWARD_TYPE),

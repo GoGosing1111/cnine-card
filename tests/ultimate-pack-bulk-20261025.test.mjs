@@ -102,3 +102,20 @@ test('authenticated route blocks cross-origin, wrong browser and other paths bef
  assert.equal(await handleUltimateBulk({path:'draw',request,env:{},deps}),null);
  const source=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');assert.match(source,/startsWith\('ult-'\).*ULTIMATE_BULK_ROUTE_REQUIRED/);
 });
+
+test('10경 plus one opens ultimate bulk once with exact debit and browser receipt',async t=>{
+ const f=await ultimateFixture(t),b=body(1000);await f.p('UPDATE users SET coin=100000000000000001 WHERE id=1').run();
+ const r=await f.service.open(f.env,f.user,b);validateUltimateBulkReceipt(r,b);
+ const expected=(100000000000000001n-BigInt(b.expectedCost)).toString();assert.equal(String(r.coinAfter),expected);
+ assert.equal((await f.p('SELECT CAST(coin AS TEXT) AS coin FROM users WHERE id=1').first()).coin,expected);
+ await f.service.open(f.env,f.user,b);assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coin_logs').first()).n),1);
+});
+
+test('historical large numeric ultimate receipt replays without a second debit',async t=>{
+ const f=await ultimateFixture(t),b=body(1000);await f.p('UPDATE users SET coin=100000000000000000 WHERE id=1').run();
+ const r=await f.service.open(f.env,f.user,b),legacy={...r,coinBefore:Number(r.coinBefore),coinAfter:Number(r.coinAfter)};delete legacy.coinEncoding;
+ assert.throws(()=>validateUltimateBulkReceipt({...legacy,coinEncoding:'INT64_V1'}));
+ await f.p('UPDATE draw_request_receipts_v2 SET response_json=? WHERE request_id=?',JSON.stringify(legacy),b.requestId).run();
+ assert.equal((await f.service.open(f.env,f.user,b)).replayed,true);assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coin_logs').first()).n),1);
+ assert.equal((await f.p('SELECT CAST(coin AS TEXT) AS coin FROM users WHERE id=1').first()).coin,String(r.coinAfter));
+});

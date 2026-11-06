@@ -64,7 +64,7 @@ export async function prepareApocalypseRewards(env,user,state,now=Date.now()){
   }
   statements.push(...await accountRankAward(env,user.id,'APOCALYPSE',requestId));
   const coin=Number(plan.reward)+Number(plan.bonuses.coin);
-  if(coin)statements.push(p(env,'UPDATE users SET coin=coin+? WHERE id=?',coin,user.id),p(env,"INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'아포칼립스 전투 완료 보상' FROM users WHERE id=?",coin,user.id));
+  if(coin)statements.push(p(env,'UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?',coin,user.id),p(env,"INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'아포칼립스 전투 완료 보상' FROM users WHERE id=?",coin,user.id));
   const items=[...plan.items];
   if(plan.bonuses.masterStars)items.push({code:'MASTER_STAR',quantity:plan.bonuses.masterStars});
   if(plan.bonuses.mysticEnergy)items.push({code:'STARLIGHT_ARMOR_CORE',quantity:plan.bonuses.mysticEnergy});

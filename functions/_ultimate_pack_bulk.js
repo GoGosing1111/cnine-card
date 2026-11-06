@@ -1,3 +1,4 @@
+import {coinValue,addCoins} from '../shared/coin-integer-v1.mjs';
 import {ULTIMATE_BULK,ultimateBulkCount,ultimateBulkCost,validateUltimateBulkReceipt} from '../shared/ultimate-pack-bulk-v1.mjs';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
@@ -49,7 +50,7 @@ export function createUltimateBulkService(deps){
   async function hydrate(env,user,receipt,replayed=false){
     const ids=JSON.stringify(receipt.results.map(r=>r.card.id)),DB=env.DB;
     const rows=await DB.batch([
-      DB.prepare('SELECT coin,card_shards FROM users WHERE id=?').bind(user.id),
+      DB.prepare('SELECT CAST(coin AS TEXT) AS coin,card_shards FROM users WHERE id=?').bind(user.id),
       DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id),
       DB.prepare('SELECT card_id,quantity,breakthrough_level FROM user_cards WHERE user_id=? AND card_id IN (SELECT value FROM json_each(?))').bind(user.id,ids),
       DB.prepare('SELECT id,image_url AS image,focus_x AS focusX,focus_y AS focusY FROM cards_effective_v1210 WHERE id IN (SELECT value FROM json_each(?))').bind(ids)
@@ -67,7 +68,7 @@ export function createUltimateBulkService(deps){
     for(let attempt=0;attempt<3;attempt++){
       const base=await DB.batch([
         p("SELECT * FROM card_packs WHERE id='ultimate' AND is_active=1"),
-        p('SELECT coin,card_shards FROM users WHERE id=?',user.id),
+        p('SELECT CAST(coin AS TEXT) AS coin,card_shards FROM users WHERE id=?',user.id),
         p("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'",user.id),
         p("SELECT id,limited_total,issued_count FROM cards WHERE limited_total IS NOT NULL"),
         p('SELECT request_id FROM draw_active_lock_v1480 WHERE user_id=? AND lease_until_ms>?',user.id,Date.now())
@@ -87,10 +88,10 @@ export function createUltimateBulkService(deps){
         return {card:compact(row.card),count:row.count,quantityBefore:before,quantityAfter:before+row.count,duplicateCount,shardGained:duplicateCount*int(shardRewards[row.card.grade]),masterStarGained:['MA','LIMITED'].includes(row.card.grade)?duplicateCount:0};
       }).sort((a,b)=>order[b.card.grade]-order[a.card.grade]||a.card.id.localeCompare(b.card.id));
       const shardTotal=results.reduce((n,r)=>n+r.shardGained,0),masterStarTotal=results.reduce((n,r)=>n+r.masterStarGained,0);
-      const receipt=validateUltimateBulkReceipt({format:ULTIMATE_BULK.format,status:'COMPLETED',packId:'ultimate',requestId,userId:Number(user.id),count:body.count,unitPrice:Number(pack.price),cost,coinBefore:Number(account.coin),coinAfter:Number(account.coin)-cost,shardTotal,masterStarTotal,criticalBlocks:plan.criticalBlocks,blocks:body.count/100,results});
+      const receipt=validateUltimateBulkReceipt({format:ULTIMATE_BULK.format,status:'COMPLETED',packId:'ultimate',requestId,userId:Number(user.id),count:body.count,unitPrice:Number(pack.price),cost,coinEncoding:'INT64_V1',coinBefore:coinValue(account.coin),coinAfter:addCoins(account.coin,-cost),shardTotal,masterStarTotal,criticalBlocks:plan.criticalBlocks,blocks:body.count/100,results});
       const token=crypto.randomUUID(),list=[];
       if(DB.dialect==='postgres')list.push(p('SELECT id FROM users WHERE id=? FOR UPDATE',user.id));
-      list.push(jointGuard(DB,token,"NOT EXISTS(SELECT 1 FROM draw_request_receipts_v2 WHERE request_id=?) AND EXISTS(SELECT 1 FROM card_packs WHERE id='ultimate' AND is_active=1 AND price=?) AND EXISTS(SELECT 1 FROM users WHERE id=? AND coin=? AND card_shards=?) AND COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'),0)=?",[requestId,pack.price,user.id,Number(account.coin),Number(account.card_shards),user.id,stars]));
+      list.push(jointGuard(DB,token,"NOT EXISTS(SELECT 1 FROM draw_request_receipts_v2 WHERE request_id=?) AND EXISTS(SELECT 1 FROM card_packs WHERE id='ultimate' AND is_active=1 AND price=?) AND EXISTS(SELECT 1 FROM users WHERE id=? AND coin=? AND card_shards=?) AND COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'),0)=?",[requestId,pack.price,user.id,coinValue(account.coin),Number(account.card_shards),user.id,stars]));
       // Verify every selected card and its prior ownership within the same commit.
       for(let offset=0;offset<results.length;offset+=30){
         const chunk=results.slice(offset,offset+30),conditions=chunk.map(()=>"EXISTS(SELECT 1 FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.id=? AND c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1) AND COALESCE((SELECT quantity FROM user_cards WHERE user_id=? AND card_id=?),0)=?").join(' AND '),args=chunk.flatMap(r=>[r.card.id,user.id,r.card.id,r.quantityBefore]);
@@ -103,7 +104,7 @@ export function createUltimateBulkService(deps){
         if(DB.dialect==='postgres')list.push(p(`WITH changed AS (${update} RETURNING id) UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN (SELECT COUNT(*) FROM changed)=1 THEN 1 ELSE 0 END WHERE token=?`,row.count,row.card.id,Number(before.issued_count),after,token));
         else list.push(p(update,row.count,row.card.id,Number(before.issued_count),after),p('UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN changes()=1 THEN 1 ELSE 0 END WHERE token=?',token));
       }
-      list.push(p('UPDATE users SET coin=coin-?,card_shards=card_shards+? WHERE id=?',cost,shardTotal,user.id));
+      list.push(p('UPDATE users SET coin=coin-CAST(? AS BIGINT),card_shards=card_shards+? WHERE id=?',cost,shardTotal,user.id));
       for(let offset=0;offset<results.length;offset+=30){const chunk=results.slice(offset,offset+30);list.push(p(`INSERT INTO user_cards(user_id,card_id,quantity) VALUES ${chunk.map(()=>'(?,?,?)').join(',')} ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+excluded.quantity,last_obtained_at=CURRENT_TIMESTAMP`,...chunk.flatMap(r=>[user.id,r.card.id,r.count])));}
       if(masterStarTotal){
         list.push(p("INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(?,'MASTER_STAR',?,?) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP",user.id,masterStarTotal,masterStarTotal));

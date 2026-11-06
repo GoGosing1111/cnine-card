@@ -1,3 +1,4 @@
+import {coinInteger} from './coin-integer-v1.mjs';
 export const ULTIMATE_BULK = Object.freeze({min:1000,max:100000,step:100,block:100,format:'ULTIMATE_BULK_V1',receiptPack:'ultimate-bulk',maxAgeMs:86400000});
 export function ultimateBulkCount(value){
   if(!Number.isSafeInteger(value)||value<ULTIMATE_BULK.min||value>ULTIMATE_BULK.max||value%ULTIMATE_BULK.step)throw Error('1,000~100,000장을 100장 단위로 입력하세요.');
@@ -19,6 +20,12 @@ export function validateUltimateBulkReceipt(receipt,{requestId,userId,count}={})
     if(!row?.card?.id||ids.has(String(row.card.id))||!Number.isSafeInteger(row.count)||row.count<1||!Number.isSafeInteger(row.quantityBefore)||row.quantityBefore<0||row.quantityAfter!==row.quantityBefore+row.count||row.duplicateCount!==row.count-(row.quantityBefore===0?1:0)||!Number.isSafeInteger(row.shardGained)||row.shardGained<0||!Number.isSafeInteger(row.masterStarGained)||row.masterStarGained<0)throw Error('지급 수량을 확인하지 못했습니다.');
     ids.add(String(row.card.id));total+=row.count;shards+=row.shardGained;stars+=row.masterStarGained;
   }
-  if(total!==receipt.count||shards!==receipt.shardTotal||stars!==receipt.masterStarTotal||receipt.cost!==ultimateBulkCost(receipt.unitPrice,receipt.count)||receipt.coinAfter!==receipt.coinBefore-receipt.cost||receipt.coinAfter<0)throw Error('결제·지급 합계가 일치하지 않습니다.');
+  // Older completed receipts contain rounded numeric totals; replay validates
+  // their original arithmetic only. New receipts always require exact integers.
+  const legacy=receipt.coinEncoding===undefined&&typeof receipt.coinBefore==='number'&&typeof receipt.coinAfter==='number'
+    &&Number.isInteger(receipt.coinBefore)&&Number.isInteger(receipt.coinAfter)&&receipt.coinBefore>=0&&receipt.coinBefore<9223372036854775808&&receipt.coinAfter>=0
+    &&receipt.coinAfter===receipt.coinBefore-receipt.cost;
+  const balanced=legacy||coinInteger(receipt.coinAfter)===coinInteger(receipt.coinBefore)-BigInt(receipt.cost);
+  if(total!==receipt.count||shards!==receipt.shardTotal||stars!==receipt.masterStarTotal||receipt.cost!==ultimateBulkCost(receipt.unitPrice,receipt.count)||!balanced)throw Error('결제·지급 합계가 일치하지 않습니다.');
   return receipt;
 }

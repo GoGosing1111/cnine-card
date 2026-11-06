@@ -9,8 +9,8 @@ import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 class Statement{
   constructor(owner,sql,args=[]){Object.assign(this,{owner,sql,args})}
   bind(...args){return new Statement(this.owner,this.sql,args)}
-  first(){return this.owner.db.prepare(this.sql).get(...this.args)||null}
-  all(){return {results:this.owner.db.prepare(this.sql).all(...this.args)}}
+  first(){const q=this.owner.db.prepare(this.sql);q.setReadBigInts(true);const row=q.get(...this.args);return row?Object.fromEntries(Object.entries(row).map(([k,v])=>[k,typeof v==='bigint'?Number(v):v])):null}
+  all(){const q=this.owner.db.prepare(this.sql);q.setReadBigInts(true);return {results:q.all(...this.args).map(row=>Object.fromEntries(Object.entries(row).map(([k,v])=>[k,typeof v==='bigint'?Number(v):v])))}}
   run(){const q=this.owner.db.prepare(this.sql);if(q.columns().length)return this.all();return {meta:{changes:Number(q.run(...this.args).changes)}}}
 }
 class DB{
@@ -168,4 +168,13 @@ test('UI uses actual batch endpoint, scoped styles, persistent request ID and si
   assert.match(client,/apiRequest\('evolution\/batch'/);assert.match(client,/localStorage\.setItem\(storageKey\(\)/);
   assert.match(client,/중복 보유분 전체/);assert.match(client,/MA 진화/);assert.match(client,/프레스티지 진화/);assert.match(client,/제니스 진화/);
   assert.doesNotMatch(client,/evolution-process-grid/);assert.match(client,/aria-modal="true"/);assert.match(client,/aria-pressed/);
+});
+
+test('evolution batch at 10경 plus one preserves exact snapshot, debit and replay',async()=>{
+ const f=fixture();try{
+ f.db.exec('UPDATE users SET coin=100000000000000001');const plan=f.plan(),r=await f.call(plan);assert.equal(r.status,200,JSON.stringify(r.body));
+ const expected=(100000000000000001n-BigInt(r.body.spent.coin)).toString(),read=()=>f.db.prepare('SELECT CAST(coin AS TEXT) AS coin FROM users').get().coin;
+ assert.equal(read(),expected);assert.equal(f.db.prepare('SELECT CAST(balance_after AS TEXT) AS coin FROM coin_logs').get().coin,expected);
+ assert.equal((await f.call(plan)).body.replayed,true);assert.equal(read(),expected);assert.equal(f.db.prepare('SELECT COUNT(*) n FROM coin_logs').get().n,1);
+ }finally{f.db.close()}
 });

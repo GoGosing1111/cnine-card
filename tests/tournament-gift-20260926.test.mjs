@@ -90,7 +90,7 @@ test('PostgreSQL: missing stock, malformed requests, disabled currency and overf
   await f.stock(1);
   for(const count of [0,2,100,1.5])await assert.rejects(f.open(crypto.randomUUID(),count),/1개씩/);
   await assert.rejects(f.open('bad'),/요청 번호/);
-  await f.pg.query('UPDATE users SET coin=$1 WHERE id=1',[Number.MAX_SAFE_INTEGER]);
+  await f.pg.query('UPDATE users SET coin=$1 WHERE id=1',['9223372036854775807']);
   await assert.rejects(f.open());
   await f.pg.query('UPDATE users SET coin=123 WHERE id=1');
   await f.pg.query("UPDATE inventory_items SET is_active=0 WHERE code='MASTER_STAR'");

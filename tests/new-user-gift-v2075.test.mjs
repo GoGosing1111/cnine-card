@@ -532,3 +532,11 @@ test('client/CMS integrations load versioned assets and generic inventory grant 
   assert.match(read('admin/new-user-gift-v2075.js'),/USER|userDialog/);
   assert.match(read('js/new-user-gift-v2075.js'),/new-user-gift\/open/);
 });
+
+test('new-user gift opens at 10경 plus one with exact balance and no duplicate',async()=>{
+ const f=await fixture();try{
+  await f.issue();await f.pg.exec('UPDATE users SET coin=100000000000000001 WHERE id=1');
+  const first=await f.open();assert.equal(String(first.coinAfter),(100000000000000001n+BigInt(NEW_USER_GIFT_COIN)).toString());
+  await f.open();assert.equal(Number((await f.row('SELECT COUNT(*) n FROM coin_logs')).n),1);
+ }finally{await f.close();}
+});

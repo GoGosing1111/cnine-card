@@ -5765,7 +5765,7 @@ async function openSuperstarBulk(initialCount=1000){
       api:(path,options={})=>apiRequest(path,{...options,headers:{...options.headers,'x-cnine-draw-client':drawBrowserId()}},{ttl:0,timeoutMs:45000}),
       accept:receipt=>{
         if(Number(loadUser()?.serverUserId)!==accountId)throw Error('계정이 변경되었습니다.');
-        if(!Number.isSafeInteger(receipt.coin)||receipt.coin<0||!Number.isSafeInteger(receipt.cardShards)||receipt.cardShards<0||!receipt.currentQuantities)throw Error('최신 잔액과 보유 정보를 확인하지 못했습니다.');
+        if(!Number.isInteger(receipt.coin)||receipt.coin<0||!Number.isSafeInteger(receipt.cardShards)||receipt.cardShards<0||!receipt.currentQuantities)throw Error('최신 잔액과 보유 정보를 확인하지 못했습니다.');
         applySuperstarPackResultToUser(receipt);
       }});
   }catch(error){done();showSupplyNotice(error.message||'일괄 개봉 화면을 불러오지 못했습니다.',true);}

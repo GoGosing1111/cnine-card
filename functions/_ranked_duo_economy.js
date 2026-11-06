@@ -1,3 +1,4 @@
+import {coinCreditLimit,MAX_COIN_SQL} from '../shared/coin-integer-v1.mjs';
 import {rankedCoinCreditStatements} from './_ranked_coin.js';
 import {rankedTierReward,RANKED_REWARD_VERSION} from '../shared/ranked-shop-policy-v1.mjs';
 import {DUO_WEEKLY_POLICY_KEY,DUO_REWARD_BATCH,validateDuoPolicy} from '../shared/ranked-duo-weekly-v3.mjs';
@@ -30,11 +31,11 @@ export function duoVictoryWrites(env,userId,amount,matchId){
  // Match the season-reward policy for wallets already above the JS integer
  // range. Keep the balance and ledger entirely in PostgreSQL BIGINT arithmetic.
  const postgres=env.DB.dialect==='postgres';
- const coinGuard=postgres?'(coin<=? OR (coin>? AND coin<=CAST(? AS BIGINT)-?))':'coin<=?';
- const limits=postgres?[Number.MAX_SAFE_INTEGER-amount,Number.MAX_SAFE_INTEGER,'9223372036854775807',amount]:[Number.MAX_SAFE_INTEGER-amount];
+ const coinGuard='coin<=CAST(? AS BIGINT)';
+ const limits=[coinCreditLimit(amount)];
  return [...(postgres?[q('SELECT id FROM users WHERE id=? FOR UPDATE',userId)]:[]),
   jointGuard(env.DB,token,'EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=0 AND '+coinGuard+')',[userId,...limits]),
-  q('UPDATE users SET coin=coin+? WHERE id=?',amount,userId),
+  q('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?',amount,userId),
   q('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?',amount,'RANKED_DUO_WIN '+matchId,userId),
   jointGuardEnd(env.DB,token)];
 }
@@ -49,13 +50,9 @@ export async function deliverDuoTierRewards(env,s,core,progress,now){
   return (random?[row.user_id]:[row.user_a,row.user_b]).map(id=>({userId:Number(id),row:{...row,id:random?'random-player:'+row.user_id:row.id},tier,coin:enabled?tier.rewardCoin||0:0,shards:enabled?tier.rewardShards||0:0}));
  }).sort((a,b)=>a.userId-b.userId);
  const ids=members.map(m=>m.userId),marks=ids.map(()=>'?').join(','),has="r.season_id=? AND r.final_rank>? AND r.final_rank<=?";
- // Existing PostgreSQL wallets can already exceed JavaScript's exact integer
- // range. Credit those entirely in BIGINT SQL, including the balance ledger;
- // never round-trip the wallet through Number or raise the normal safe cap.
- const coinGuard=env.DB.dialect==='postgres'
-  ? '(u.coin<=?-r.reward_coin OR (u.coin>? AND u.coin<=CAST(? AS BIGINT)-r.reward_coin))'
-  : 'u.coin<=?-r.reward_coin';
- const coinLimits=env.DB.dialect==='postgres'?[Number.MAX_SAFE_INTEGER,Number.MAX_SAFE_INTEGER,'9223372036854775807']:[Number.MAX_SAFE_INTEGER];
+ // Preserve exact SQL credits both across the JS boundary and above it.
+ const coinGuard='u.coin<=CAST(? AS BIGINT)-r.reward_coin';
+ const coinLimits=[MAX_COIN_SQL];
  // Locks cover at most 40 recipients, never the full population.
  const body=[
   ...(env.DB.dialect==='postgres'?[q('SELECT id FROM users WHERE id IN('+marks+') ORDER BY id FOR UPDATE',...ids)]:[]),

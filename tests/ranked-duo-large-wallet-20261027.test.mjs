@@ -22,9 +22,9 @@ for(const postgres of [true,'pipeline'])test(`${postgres} an already-large Postg
  assert.equal(await wallet(f),expected);assert.equal(await count(f),4);
 });
 
-test('normal safe-integer crossing, BIGINT overflow and negative wallets still roll back the whole batch',async t=>{
+test('BIGINT overflow and negative wallets still roll back the whole batch',async t=>{
  const f=await fixture(t,'pipeline');
- for(const value of [String(BigInt(Number.MAX_SAFE_INTEGER)-3008n),'9223372036854772799','-1']){
+ for(const value of ['9223372036854772799','-1']){
   await f.pg.query('UPDATE users SET coin=$1::bigint WHERE id=2',[value]);
   await assert.rejects(f.tick());assert.equal(await wallet(f),value);assert.equal(await count(f),0);
   assert.equal(Number((await f.p('SELECT last_rank FROM ranked_duo_settlement_v3').first()).last_rank),0);

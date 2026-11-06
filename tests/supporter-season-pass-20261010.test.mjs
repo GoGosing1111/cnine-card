@@ -5,6 +5,17 @@ import {PASS_KEY,claimKey,dailyKey,passCycle} from '../shared/supporter-season-p
 import {supportBenefits} from '../shared/server-support-v1.mjs';
 const DAY=86400000;
 
+test('season pass claim at 10경 plus one retains exact coin and replay receipt',async t=>{
+ const f=await passFixture({postgres:true});t.after(()=>f.close());
+ await f.grant();await f.save(f.document([{code:'COIN:',quantity:7}]));
+ await f.run('UPDATE users SET coin=100000000000000001 WHERE id=2');
+ const p=await f.pass(),body={cycle:p.cycle,day:p.currentDay,expectedRevision:p.revision};
+ const claimed=await f.claim(body);assert.equal(claimed.status,200,JSON.stringify(claimed.body));
+ assert.equal((await f.one('SELECT CAST(coin AS TEXT) AS coin FROM users WHERE id=2')).coin,'100000000000000008');
+ assert.equal((await f.claim(body)).body.replayed,true);
+ assert.equal(Number((await f.one('SELECT COUNT(*) n FROM coin_logs')).n),1);
+});
+
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: 시즌패스 실제 API · 보상 거래`,async t=>{
   const f=await passFixture({postgres});t.after(()=>f.close());
   await t.test('30일 초기 달력과 전용 CMS 권한, 원본 카탈로그·제한·수량 검증',async()=>{

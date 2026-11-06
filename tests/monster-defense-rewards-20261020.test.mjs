@@ -47,7 +47,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} faile
   assert.equal(Number((await f.first('SELECT coin FROM users WHERE id=1')).coin),1000);assert.equal(Number((await f.first('SELECT COUNT(*) n FROM inventory_logs')).n),0);assert.equal(await f.first("SELECT value FROM app_meta WHERE key='monster_defense_reward_receipt_v1:00000000001E'"),null);
   await f.run('INSERT INTO users VALUES(3,1000)');assert.equal((await settleDefenseRewards(f.env,room(30)))[3].granted,true);
   await f.run("UPDATE inventory_items SET is_active=0 WHERE code='PET_ESSENCE'");await assert.rejects(settleDefenseRewards(f.env,room(31)));await f.run("UPDATE inventory_items SET is_active=1 WHERE code='PET_ESSENCE'");
-  await f.run('UPDATE users SET coin=9007199254740991 WHERE id=3');await assert.rejects(settleDefenseRewards(f.env,room(32)));
+  await f.run('UPDATE users SET coin=9223372036854775807 WHERE id=3');await assert.rejects(settleDefenseRewards(f.env,room(32)));
   assert.equal(Number((await f.first('SELECT coin FROM users WHERE id=1')).coin),1200);assert.equal(Number((await f.first('SELECT COUNT(*) n FROM coin_logs')).n),3);
   assert.equal(await f.first("SELECT value FROM app_meta WHERE key='monster_defense_reward_receipt_v1:000000000020'"),null);
  }finally{await f.close();}
@@ -57,5 +57,18 @@ test('concurrent terminal deliveries and independent clear rooms never duplicate
   await f.writeSettings(settings());const a=room(40),b=room(41);
   const results=await Promise.all([settleDefenseRewards(f.env,a),settleDefenseRewards(f.env,a),settleDefenseRewards(f.env,b)]);
   assert.deepEqual(results[0],results[1]);assert.equal(Number((await f.first('SELECT coin FROM users WHERE id=1')).coin),1400);assert.equal(Number((await f.first('SELECT COUNT(*) n FROM coin_logs')).n),6);
+ }finally{await f.close();}
+});
+
+for(const postgres of [false,true])test('10경 plus one exact coin, once-only settlement '+postgres,async()=>{
+ const f=await defenseRewardFixture(postgres);await f.writeSettings(settings());
+ try {
+  await f.run('UPDATE users SET coin=100000000000000001');
+  await settleDefenseRewards(f.env,room(901));
+  const expected='100000000000000201';
+  assert.equal((await f.first('SELECT CAST(coin AS TEXT) AS coin FROM users WHERE id=1')).coin,expected);
+  assert.equal((await f.first('SELECT CAST(balance_after AS TEXT) AS coin FROM coin_logs WHERE user_id=1')).coin,expected);
+  await settleDefenseRewards(f.env,room(901));
+  assert.equal(Number((await f.first('SELECT COUNT(*) n FROM coin_logs')).n),3);
  }finally{await f.close();}
 });

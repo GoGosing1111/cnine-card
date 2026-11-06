@@ -64,7 +64,7 @@ test('missing stock, invalid requests, inactive rewards and integer overflow nev
   await f.pg.query('UPDATE inventory_items SET is_active=0 WHERE code=$1',[code]);await assert.rejects(f.open());
   await f.pg.query('UPDATE inventory_items SET is_active=1 WHERE code=$1',[code]);
  }
- await f.pg.query('UPDATE users SET coin=$1 WHERE id=1',[Number.MAX_SAFE_INTEGER]);await assert.rejects(f.open());await f.pg.query('UPDATE users SET coin=123 WHERE id=1');
+ await f.pg.query('UPDATE users SET coin=$1 WHERE id=1',['9223372036854775807']);await assert.rejects(f.open());await f.pg.query('UPDATE users SET coin=123 WHERE id=1');
  for(const code of ['MASTER_STAR',REPAIR,'STARLIGHT_ARMOR_CORE']){
   await f.pg.query('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(1,$1,$2,$2) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=excluded.quantity,unseen_quantity=excluded.unseen_quantity',[code,Number.MAX_SAFE_INTEGER]);
   await assert.rejects(f.open());await f.pg.query('UPDATE cnine_user_inventory SET quantity=0,unseen_quantity=0 WHERE user_id=1 AND item_code=$1',[code]);

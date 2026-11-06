@@ -1,3 +1,4 @@
+import {addCoins,coinInteger} from '../../shared/coin-integer-v1.mjs';
 import {handleStreamerPack,streamerPackShopRow} from '../_reversecall_streamer_pack.js';
 import {handleWarChat,warChatStream} from '../_war_chat.js';
 import {handleBlackcrownPack,blackcrownPackShopRow} from '../_mercenary_blackcrown_pack.js';
@@ -5861,7 +5862,7 @@ async function handleRequest(context){
           statements.push(env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'MASTER_STAR',?,?,'HIGH_GRADE_DUPLICATE','PACK_DRAW',?)").bind(user.id,masterStarTotal,expectedMasterStars,groupId));
         }
         if(shardTotal>0)statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'DUPLICATE',NULL)").bind(user.id,shardTotal,expectedShards));
-        statements.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'PACK_DRAW')").bind(user.id,-cost,expectedCoin));
+        statements.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'PACK_DRAW' FROM users WHERE id=?").bind(-cost,user.id));
 
         const response=finalizeDrawPayload(draftResponse);
         // 자동 뽑기에서 이미 화면 표시가 끝난 이전 영수증 10개는 결과 JSON만 비워 장기 용량 증가를 제한한다.
@@ -6407,9 +6408,9 @@ async function handleRequest(context){
       const fixedRewardMagicCrystals=Math.max(0,Number(lockedReceipt.rewardMagicCrystals||0));
       try{
         const inventoryGrant=await raidInventoryGrantStatementsV1293(env,{userId:user.id,instanceId:row.instance_id,inventoryRewards:rewardDisplay.inventoryRewards});
-        const before=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
+        const before=await env.DB.prepare('SELECT *,CAST(coin AS TEXT) AS exact_coin FROM users WHERE id=?').bind(user.id).first();
         if(!before)throw new Error('유저 정보를 찾을 수 없습니다.');
-        const balanceAfter=Number(before.coin||0)+fixedRewardCoin;
+        const balanceAfter=addCoins(before.exact_coin,fixedRewardCoin);
         const shardsAfter=Number(before.card_shards||0)+fixedRewardShards;
         const magicCrystalsAfter=Number(before.magic_crystals||0)+fixedRewardMagicCrystals;
         const response={ok:true,instanceId:Number(row.instance_id),rewardClaimed:true,rewardCoin:fixedRewardCoin,rewardShards:fixedRewardShards,rewardMagicCrystals:fixedRewardMagicCrystals,participationMagicCrystals:Number(rewardCfg.participationMagicCrystals||0),rankMagicCrystals,finalRank,finalDamage,inventoryRewards:inventoryGrant.balances,rewardEntries:rewardDisplay.entries,rareDrops:rewardDisplay.rareDrops,balanceAfter,shardsAfter,magicCrystalsAfter,rewardSource:'SERVER_CONFIRMED'};
@@ -6425,8 +6426,8 @@ async function handleRequest(context){
         if(fixedRewardMagicCrystals>0)rewardStatements.splice(4,0,env.DB.prepare("INSERT INTO magic_crystal_logs(user_id,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,'월드레이드 보상','RAID',?)").bind(user.id,fixedRewardMagicCrystals,magicCrystalsAfter,String(row.instance_id)));
         await env.DB.batch(rewardStatements);
 
-        const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-        if(Number(updated?.coin)!==balanceAfter||Number(updated?.card_shards)!==shardsAfter||Number(updated?.magic_crystals||0)!==magicCrystalsAfter)throw new Error('레이드 보상 지급 후 잔액 검증에 실패했습니다.');
+        const updated=await env.DB.prepare('SELECT *,CAST(coin AS TEXT) AS exact_coin FROM users WHERE id=?').bind(user.id).first();
+        if(coinInteger(updated?.exact_coin)!==coinInteger(balanceAfter)||Number(updated?.card_shards)!==shardsAfter||Number(updated?.magic_crystals||0)!==magicCrystalsAfter)throw new Error('레이드 보상 지급 후 잔액 검증에 실패했습니다.');
         response.user=await profile(env,updated);
         if(cleared){try{response.equipmentReward=await grantEquipmentDrop(env,{userId:user.id,sourceType:'RAID',sourceId:String(row.boss_id||'*'),requestId:`RAID:${row.instance_id}:${user.id}`});response.blackMiracleReward=await rollBlackMiracleDrop(env,{userId:user.id,source:'RAID',referenceId:`RAID:${row.instance_id}:${user.id}`})}catch(equipmentError){console.error('raid equipment drop failed',equipmentError)}}
         response.rerollTicketDrop=await grantHighGradeRerollDrop(env,{userId:user.id,content:'RAID',referenceId:String(row.instance_id)});

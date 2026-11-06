@@ -148,12 +148,12 @@ for(const postgres of [false,true]){
  test(label+': coin-only rewards remain payable with item quantities zero and reject unsafe balances atomically',async t=>{
   const f=await coinFixture(t,postgres),settings={...f.settings,roundParticipationMysticEnergy:0,roundVictoryMasterStars:0};
   await f.setting('clan_settings_v1',settings);
-  await f.p('UPDATE users SET coin=? WHERE id=2',Number.MAX_SAFE_INTEGER-100000000000+1).run();
-  await assert.rejects(()=>settleClanWarItems(f.env,64,settings));assert.equal((await f.coins())[0],300);
-  await f.p('UPDATE users SET coin=? WHERE id=2',Number.MAX_SAFE_INTEGER-100000000000).run();
+  await f.p('UPDATE users SET coin=? WHERE id=2','9223371936854775808').run();
+  await assert.rejects(()=>settleClanWarItems(f.env,64,settings));assert.equal(Number((await f.p('SELECT coin FROM users WHERE id=1').first()).coin),300);
+  await f.p('UPDATE users SET coin=? WHERE id=2','99999900000000001').run();
   const r=await settleClanWarItems(f.env,64,settings);
   assert.equal(r.grants.length,0);assert.equal(r.coinGrants.length,3);
-  assert.equal((await f.coins())[1],Number.MAX_SAFE_INTEGER);
+  assert.equal((await f.p('SELECT CAST(coin AS TEXT) AS coin FROM users WHERE id=2').first()).coin,'100000000000000001');
  });
 }
 for(const postgres of [false,true]){

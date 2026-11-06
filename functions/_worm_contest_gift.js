@@ -1,3 +1,4 @@
+import {coinCreditLimit} from '../shared/coin-integer-v1.mjs';
 import {ensureEmperorEnergyCatalog} from './_emperor_energy.js';
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 import {runJointOperation,jointInventoryChange} from './_joint_transactions.js';
@@ -46,7 +47,7 @@ export async function openWormContestGift(env,user,{requestId,count=1}){
           AND NOT EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND
             ((item_code='MASTER_STAR' AND (quantity<0 OR unseen_quantity<0 OR quantity>? OR unseen_quantity>?))
             OR (item_code=? AND (quantity<0 OR unseen_quantity<0 OR quantity>? OR unseen_quantity>?))))`,
-          [user.id,MAX-plan.coin,user.id,MAX-plan.masterStar,MAX-plan.masterStar,FORGE_REPAIR_ITEM.code,MAX-plan.repairCoupon,MAX-plan.repairCoupon]),
+          [user.id,coinCreditLimit(plan.coin),user.id,MAX-plan.masterStar,MAX-plan.masterStar,FORGE_REPAIR_ITEM.code,MAX-plan.repairCoupon,MAX-plan.repairCoupon]),
         ...jointInventoryChange(DB,user.id,gift.code,-1,'WORM_CONTEST_GIFT_OPEN',requestId),
         ...jointInventoryChange(DB,user.id,'MASTER_STAR',plan.masterStar,'WORM_CONTEST_GIFT_REWARD',requestId),
         ...jointInventoryChange(DB,user.id,FORGE_REPAIR_ITEM.code,plan.repairCoupon,'WORM_CONTEST_GIFT_REWARD',requestId),
@@ -56,7 +57,7 @@ export async function openWormContestGift(env,user,{requestId,count=1}){
           ...jointInventoryChange(DB,user.id,'EMPEROR_ENERGY',emperorEnergy,'WORM_CONTEST_GIFT_REWARD',requestId),
           jointGuardEnd(DB,token+'-energy')
         ]:[]),
-        p('UPDATE users SET coin=coin+? WHERE id=?',plan.coin,user.id),
+        p('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?',plan.coin,user.id),
         p(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason)
           SELECT id,?,coin,? FROM users WHERE id=?`,plan.coin,`WORM_CONTEST_GIFT:${requestId}`,user.id),
         jointGuardEnd(DB,token)

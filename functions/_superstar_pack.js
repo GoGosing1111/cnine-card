@@ -1,3 +1,4 @@
+import {coinValue,addCoins} from '../shared/coin-integer-v1.mjs';
 import { readRuntimeData,cacheRuntimeData } from './_runtime_data_cache.js';
 import {SUPERSTAR_BULK,superstarBulkCost,validateSuperstarBulkReceipt} from '../shared/superstar-pack-bulk-v1.mjs';
 
@@ -339,7 +340,7 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
   let committed = false;
   try {
     const [fresh, candidateRows] = await Promise.all([
-      env.DB.prepare("SELECT id,coin,card_shards FROM users WHERE id=? AND status='ACTIVE'").bind(user.id).first(),
+      env.DB.prepare("SELECT id,CAST(coin AS TEXT) AS coin,card_shards FROM users WHERE id=? AND status='ACTIVE'").bind(user.id).first(),
       env.DB.prepare(`SELECT c.id,c.title,m.name,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,
           c.power_type AS powerType,c.base_power AS basePower
         FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
@@ -365,7 +366,7 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
     const beforeQuantities=new Map(ids.map(id=>[id,0]));
     for(const row of ownedRows.results||[])beforeQuantities.set(String(row.card_id),Math.max(0,Number(row.quantity||0)));
     const afterQuantities=new Map(beforeQuantities);
-    const coinBefore=Number(fresh.coin||0),shardsBefore=Number(fresh.card_shards||0);
+    const coinBefore=coinValue(fresh.coin??0),shardsBefore=Number(fresh.card_shards||0);
     let shardGained=0;
     const results=bulk?bulkWins.map(row=>{
       const quantityBefore=beforeQuantities.get(row.card.id),quantityAfter=quantityBefore+row.count,duplicateCount=row.count-(quantityBefore===0?1:0),gained=duplicateCount*600;
@@ -378,8 +379,8 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
       shardGained+=gained;
       return {slot,outcome:roll.outcome,hit:roll.hit,card:roll.card,duplicate,shardGained:gained,quantityBefore,quantityAfter,cost:settings.price};
     });
-    const coinAfter=coinBefore-cost,shardsAfter=shardsBefore+shardGained,hitCount=bulk?results.reduce((n,row)=>n+row.count,0):results.filter(result=>result.hit).length;
-    if(![coinBefore,shardsBefore,coinAfter,shardsAfter,...afterQuantities.values()].every(Number.isSafeInteger))throw new Error('개봉 재화 범위를 확인해주세요.');
+    const coinAfter=addCoins(coinBefore,-cost),shardsAfter=shardsBefore+shardGained,hitCount=bulk?results.reduce((n,row)=>n+row.count,0):results.filter(result=>result.hit).length;
+    if(![shardsBefore,shardsAfter,...afterQuantities.values()].every(Number.isSafeInteger))throw new Error('개봉 재화 범위를 확인해주세요.');
     const response = {
       requestId,
       packId: SUPERSTAR_PACK_ID,
@@ -417,7 +418,7 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
       env.DB.prepare(`INSERT OR IGNORE INTO superstar_pack_debits_v1(request_id,user_id,cost)
         SELECT ?,?,? WHERE EXISTS(SELECT 1 FROM users WHERE id=? AND status='ACTIVE' AND coin>=?)`)
         .bind(requestId, user.id, cost, user.id, cost),
-      env.DB.prepare(`UPDATE users SET coin=coin-?,card_shards=card_shards+? WHERE id=? AND ${guarded}`)
+      env.DB.prepare(`UPDATE users SET coin=coin-CAST(? AS BIGINT),card_shards=card_shards+? WHERE id=? AND ${guarded}`)
         .bind(cost, shardGained, user.id, requestId, user.id),
     );
     // Bind the same UTC value to every log and its atomic count guard. The
