@@ -1,0 +1,91 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:x-body-craft:20261106:v1",
+  "completedAt": "2026-11-06T09:54:51.816Z",
+  "completedAtKST": "2026-11-06 18:54:51 KST",
+  "sourceCommit": "400a830c7f6f213a1e2a9724ebae29af393f7cc3",
+  "pages": {
+    "id": "4a824fa1-1e40-4acc-8a55-fd32008f9ec6",
+    "url": "https://4a824fa1.cnine-card.pages.dev"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "cd6a258c-098f-4c33-9d56-274822a5dc10",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "a304393a-933f-40a4-95a4-697b2e2d22b9",
+      "percentage": 100
+    }
+  ],
+  "recipeId": "570",
+  "auditId": "55342",
+  "recipe": {
+    "code": "WORKSHOP_BATTLE_SUIT_X_BODY",
+    "name": "X-BODY 제작",
+    "category": "BATTLE_SUIT_CRAFT",
+    "description": "슈트 코어 7 10개와 코인 25조로 X-BODY 제작을 시도합니다. 성공 확률 10%. 실패 시 투입 재료와 코인이 소모됩니다.",
+    "output_type": "EQUIPMENT",
+    "output_ref": "49",
+    "output_quantity": 1,
+    "payment_mode": "COIN_ONLY",
+    "coin_cost": 25000000000000,
+    "master_star_cost": 0,
+    "success_rate": 10,
+    "is_featured": 0,
+    "is_active": 1,
+    "is_public": 1,
+    "owner_test_only": 0,
+    "sort_order": 102,
+    "material": {
+      "item_code": "SUIT_CORE_7",
+      "quantity": 10,
+      "sort_order": 10
+    },
+    "referenceRecipeId": "527"
+  },
+  "assembly": {
+    "reference": "Z-BODY",
+    "model": "x",
+    "parts": 12,
+    "durationSeconds": 13.4,
+    "originalSha256": "91cdd399bb2e042b32b6fa7573c8491a913a97d456dcbb8a13dffbb5d49b8ddc",
+    "allVisibleRgbaPixelsPreserved": true,
+    "serverReceiptDeterminesOutcome": true
+  },
+  "verification": {
+    "testsPassed": 68,
+    "testsFailed": 0,
+    "localUi": {
+      "viewportWidths": [
+        1440,
+        390
+      ],
+      "successAndFailure": true,
+      "isolatedFixture": true
+    },
+    "publicUi": {
+      "viewportWidth": 390,
+      "successAndFailure": true,
+      "isolatedFixture": true
+    },
+    "publicFiles": 19,
+    "windowsManifestFiles": 18,
+    "assetCount": 20000,
+    "independentReadOnly": "on",
+    "protectedCatalogsUnchanged": true,
+    "replayWrites": 0
+  },
+  "limits": [
+    "No production account crafted during UI verification",
+    "No physical mobile device or installed app verification",
+    "No direct listening verification"
+  ],
+  "accountWrites": 0,
+  "messages": 0,
+  "newSchedules": 0,
+  "maintenance": 0,
+  "evidenceDirectory": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\x-body-craft-20261106"
+}

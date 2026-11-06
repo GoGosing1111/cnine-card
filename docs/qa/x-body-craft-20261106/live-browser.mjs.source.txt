@@ -1,0 +1,22 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';
+const {chromium}=await import('file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs');
+const out=import.meta.dirname,browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio']}),reports=[];
+try{
+ const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,serviceWorkers:'block'}),page=await context.newPage(),errors=[],mutations=[];
+ await page.route('**/api/**',route=>route.abort());page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')mutations.push(r.url());});
+ for(const result of ['success','failure']){
+  await page.goto('https://cnine-card.pages.dev/preview/workshop-assembly-v1/live.html?item=x&autoConfirm=1&result='+result+'&verify=x-body-20261106');
+  await page.waitForFunction(()=>window.WorkshopAssemblyLive&&window.workshopView);
+  // Explicit fixture receipts use the newly registered production values;
+  // no production account or crafting API participates in this playback.
+  const verified=JSON.parse(fs.readFileSync(out+'/verified.json','utf8')),recipe={...verified.recipe,id:Number(verified.recipe.id),output_name:'X-BODY',output_image:'/assets/ui/project-v/account-battle-suits/x-sword-v1/x-body.png'};
+  await page.evaluate(({recipe,result})=>{const success=result==='success',data={ok:true,requestId:'PUBLIC-X-FIXTURE-'+result,recipeId:recipe.id,recipeName:recipe.name,category:recipe.category,success,coinSpent:Number(recipe.coin_cost),masterStarSpent:0,output:success?{type:'EQUIPMENT',ref:recipe.output_ref,name:'X-BODY',image:recipe.output_image,quantity:1}:null};window.WorkshopAssemblyLive.play({data,recipe,isActive:()=>true});},{recipe,result});
+  await page.waitForFunction(()=>WorkshopAssemblyLive.diagnostics().ready===true,null,{timeout:30000});
+  assert.equal(await page.locator('.ws-assembly-overlay').getAttribute('data-model'),'x');
+  await page.locator('[data-action="skip"]').click();assert.equal(await page.locator('[data-result-title]').innerText(),result==='success'?'제작 성공':'제작 실패');assert.match(await page.locator('.ws-assembly-receipt').innerText(),/25조/);
+  const b=await page.locator('.ws-assembly-panel').boundingBox();assert(b.x>=0&&b.x+b.width<=391&&b.y>=0&&b.y+b.height<=844);
+  await page.screenshot({path:out+'/public-390-'+result+'.png'});await page.locator('[data-action="done"]').click();assert.equal(await page.evaluate(()=>WorkshopAssemblyLive.diagnostics().activeTimelines),0);
+  reports.push({width:390,result,model:'x',cost:25000000000000,cleanup:true});
+ }
+ assert.deepEqual(errors,[]);assert.deepEqual(mutations,[]);fs.writeFileSync(out+'/public-browser.json',JSON.stringify({passed:true,reports,errors,mutations,liveAccountWrites:0},null,2));console.log(JSON.stringify({passed:true,reports}));await context.close();
+}finally{await browser.close();}
