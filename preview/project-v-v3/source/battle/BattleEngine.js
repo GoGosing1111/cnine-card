@@ -8,6 +8,7 @@ import {drawBattleGroundStations} from './BattleGroundSigil.js';
 import {preloadBattleHud} from './BattleHud.js';
 import {apocalypseLegionBoss} from '../../../../shared/apocalypse-legion-v1.mjs';
 import {ApocalypseLegionFX} from './ApocalypseLegionFX.js';
+import {configureTrioActors} from './trio/TrioActorMotion.mjs';
 import {playApocalypseLegionSkill,showApocalypseStatus} from './ApocalypseLegionPlayback.js';
 import {Application, Assets, BlurFilter, Container, Graphics, Sprite, Text, Texture} from 'pixi.js';
 import {gsap} from 'gsap';
@@ -1980,6 +1981,7 @@ export class BaseBattleEngine{
       if(String(art.kind||'').startsWith('UNASSIGNED_'))this.activeFallbackArt.push(art);
     }
 
+    configureTrioActors(this);
     if((legion||!monster)&&enemyCards.length){
       this.currentEnemyTarget=this.enemies.find(character=>this.isAlive(character))||this.enemies[0]||null;
       this.boss=legion?this.enemies.find(c=>c.isBoss)||this.currentEnemyTarget:this.currentEnemyTarget;

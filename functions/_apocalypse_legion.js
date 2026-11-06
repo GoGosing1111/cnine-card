@@ -16,7 +16,7 @@ export function buildApocalypseLegion(monster,build){
  leader.apocalypseUltimate=apocalypseLegionUltimate(boss.monsterId,monster.pve_apocalypse_skill?.ultimate);
  const suitDefense=apocalypseLegionSuitDefense(boss.monsterId,monster.pve_battle_suit_skill_defense_percent);
  if(suitDefense>0)leader.battleSuitSkillDefensePercent=suitDefense;
- leader.sourceArt=boss.sourceArt;leader.battleSprite=boss.battleSprite;leader.projectVMonsterArt={scope:'BATTLE_ENGINE_ONLY',kind:'MONSTER_SD',name:boss.name,primaryUrl:boss.battleSprite,pngFallbackUrl:boss.battleSprite,isBoss:true,approved:true};
+ leader.sourceArt=boss.sourceArt;leader.battleSprite=boss.battleSprite;leader.projectVMonsterArt={scope:'BATTLE_ENGINE_ONLY',kind:'MONSTER_SD',name:boss.name,primaryUrl:boss.battleSprite,pngFallbackUrl:boss.battleSprite,isBoss:true,approved:true,...(boss.battleScale?{scaleMultiplier:boss.battleScale}:{})};
  const minions=Array.from({length:6},(_,index)=>{
   const source=APOCALYPSE_MINIONS[Math.floor(index/2)],slot=index+1;
   const fighter=build({id:source.monsterId,name:source.name,image_url:source.sourceArt||'',battle_power:Math.max(1,Math.round(Number(monster.battle_power)*.08)),is_boss:0,pve_difficulty:'APOCALYPSE',pve_hp_percent:100,pve_attack_percent:100,pve_defense_percent:100,pve_speed_percent:100,pve_shield_percent:0,pve_attack_count:1,pve_forced_action_every:0});

@@ -1,0 +1,101 @@
+{
+  "authorization": "3개 이름짓고 라이브반영하자",
+  "rewardAuthorization": "군인 기본 15억 > 장군 > 25억 > 대악마 40억 맞춰 / 마별 100만 > 200만 > 300만",
+  "visualApproval": true,
+  "staticImageCut": true,
+  "actorMotion": "EXISTING_BATTLE_CHARACTER",
+  "soldierFacing": -1,
+  "ids": [
+    81,
+    82,
+    83
+  ],
+  "names": [
+    "카르겐",
+    "발카르",
+    "모르가스"
+  ],
+  "originalBytesPreserved": true,
+  "assets": [
+    {
+      "path": "/assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/infected-soldier-battle-ready-v1.png",
+      "sha256": "3cb4fe0f4dc78a69a974eedac47c597ed8de7d8a7136c4d886f2c46d90046131",
+      "bytes": 2286407
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/hell-general-battle-ready-v1.png",
+      "sha256": "3211d91bb540cd4f12f740e1ca646242133b6a4d3a402ef3881ca694770919a9",
+      "bytes": 2311094
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/archdemon-battle-ready-v1.png",
+      "sha256": "bf15f2668dbb96445199f8d7af7dacd1652bb13303031de43581e856feed1b01",
+      "bytes": 2397964
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/infected-soldier-cutin-v1.png",
+      "sha256": "3ebc79117168f4e623264ca37b4edcde5084a792d85005ac45dbf74f7f86ec73",
+      "bytes": 2362686
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/hell-general-cutin-v1.png",
+      "sha256": "4863da3f36717afdf24f08ea5a422938a8fdf0d74ef23dceecfb93e871362cfb",
+      "bytes": 3010348
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/archdemon-cutin-v1.png",
+      "sha256": "3932839607fbeda3bf052df3fa5546ecbec4e4c70940eeca7acf1ec316a26ffb",
+      "bytes": 2778281
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/infected-soldier-ultimate-sheet-v2.png",
+      "sha256": "fa2c7f9f4a649d4fa3d9a3ca3748a62cb245beeb7930ecafe6033c678b61833f",
+      "bytes": 1839507
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/hell-general-ultimate-sheet-v2.png",
+      "sha256": "44606ea197dbce1049cf6e209312e21d1227b6679ac3823c478c0e1581b3b045",
+      "bytes": 2097140
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/archdemon-ultimate-sheet-v2.png",
+      "sha256": "62efdf4940149eec598892a518a2969017731d3a53b209bf36b230a1ec342935",
+      "bytes": 1874676
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/infected-soldier-action-poses-v1.png",
+      "sha256": "af56eeb386c240f95947a135427d9f8838960501cda15618fd9a5b7e7ccd58c2",
+      "bytes": 2604471
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/hell-general-action-poses-v1.png",
+      "sha256": "85b1b56e90fea4b0da2d746a8431fc0756ad31c4f209724a0bbf90b485cbc33c",
+      "bytes": 2909842
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/archdemon-action-poses-v1.png",
+      "sha256": "96069ad87428c522cfba20441e34ddc29d2036aeb7472ed4a21ee1d70f52bd17",
+      "bytes": 2656958
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/status-effects-sheet-v1.png",
+      "sha256": "8bd4e09df09e7474dc276b7f35831351d864d5a288649eb1d1eff81a3cf37930",
+      "bytes": 2326939
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/approved-20261106/apocalypse-trio/archdemon-source-art-approved-v3.png",
+      "sha256": "da3408b4f9c8a1181158c3c86766223ae04c8f6847a8276b726c02d175ed5245",
+      "bytes": 3291670
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/approved-20261106/apocalypse-trio/hell-general-source-art-approved-v3.png",
+      "sha256": "ade9f67f17e7f9cfb5b0a70ade060c92197534e254e264a23d71c6678ecf5d7e",
+      "bytes": 3301613
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/approved-20261106/apocalypse-trio/infected-soldier-source-art-approved-v3.png",
+      "sha256": "f399d9db90c35a9c5f47fb383f6f2f5df1580d382fa00006545a109b2bc5359f",
+      "bytes": 2801597
+    }
+  ]
+}
