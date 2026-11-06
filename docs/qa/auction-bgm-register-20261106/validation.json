@@ -1,0 +1,318 @@
+{
+  "at": "2026-11-06T07:59:53.928Z",
+  "assets": 18,
+  "sourceHashesMatch": true,
+  "assetCount": 20000,
+  "profiles": [
+    {
+      "name": "Chromium1440",
+      "guideNames": true,
+      "overflow": false,
+      "audioContextSupported": true,
+      "decoded": [
+        {
+          "fileName": "나무늘봉순_5785.mp3",
+          "seconds": 48.97297916666667,
+          "channels": 2,
+          "sampleRate": 48000
+        },
+        {
+          "fileName": "니엘형2↑_13333.mp3",
+          "seconds": 57.94897916666667,
+          "channels": 2,
+          "sampleRate": 48000
+        },
+        {
+          "fileName": "벨라74_11174.mp3",
+          "seconds": 55.476979166666666,
+          "channels": 2,
+          "sampleRate": 48000
+        },
+        {
+          "fileName": "삼겹구_10369.mp3",
+          "seconds": 46.86097916666667,
+          "channels": 2,
+          "sampleRate": 48000
+        },
+        {
+          "fileName": "아기뭉멘_10579.mp3",
+          "seconds": 52.788979166666664,
+          "channels": 2,
+          "sampleRate": 48000
+        },
+        {
+          "fileName": "약속해_20009.mp3",
+          "seconds": 48.94897916666667,
+          "channels": 2,
+          "sampleRate": 48000
+        },
+        {
+          "fileName": "오베R_10058.mp3",
+          "seconds": 46.644979166666666,
+          "channels": 2,
+          "sampleRate": 48000
+        },
+        {
+          "fileName": "조로_19999.mp3",
+          "seconds": 36.19370833333333,
+          "channels": 2,
+          "sampleRate": 48000
+        },
+        {
+          "fileName": "쫄병_13088.mp3",
+          "seconds": 46.30897916666667,
+          "channels": 2,
+          "sampleRate": 48000
+        },
+        {
+          "fileName": "초월_10070.mp3",
+          "seconds": 46.74097916666667,
+          "channels": 2,
+          "sampleRate": 48000
+        },
+        {
+          "fileName": "카리#_10228.mp3",
+          "seconds": 48.03697916666667,
+          "channels": 2,
+          "sampleRate": 48000
+        },
+        {
+          "fileName": "큰라네트_20442.mp3",
+          "seconds": 67.45297916666667,
+          "channels": 2,
+          "sampleRate": 48000
+        },
+        {
+          "fileName": "큰오승환_20252.mp3",
+          "seconds": 53.48495833333333,
+          "channels": 2,
+          "sampleRate": 48000
+        },
+        {
+          "fileName": "큰폴로_22892.mp3",
+          "seconds": 65.88,
+          "channels": 2,
+          "sampleRate": 48000
+        },
+        {
+          "fileName": "티머니_22000.mp3",
+          "seconds": 41.70097916666667,
+          "channels": 2,
+          "sampleRate": 48000
+        },
+        {
+          "fileName": "페라리v12_10812.mp3",
+          "seconds": 55.452979166666665,
+          "channels": 2,
+          "sampleRate": 48000
+        },
+        {
+          "fileName": "헤이즐_10027.mp3",
+          "seconds": 56.10097916666667,
+          "channels": 2,
+          "sampleRate": 48000
+        },
+        {
+          "fileName": "호랑수월가_10390.mp3",
+          "seconds": 57.492979166666665,
+          "channels": 2,
+          "sampleRate": 48000
+        }
+      ],
+      "fetched": [
+        {
+          "fileName": "나무늘봉순_5785.mp3",
+          "status": 200,
+          "bytes": 1127390
+        },
+        {
+          "fileName": "니엘형2↑_13333.mp3",
+          "status": 200,
+          "bytes": 1359230
+        },
+        {
+          "fileName": "벨라74_11174.mp3",
+          "status": 200,
+          "bytes": 1312406
+        },
+        {
+          "fileName": "삼겹구_10369.mp3",
+          "status": 200,
+          "bytes": 1098830
+        },
+        {
+          "fileName": "아기뭉멘_10579.mp3",
+          "status": 200,
+          "bytes": 1212590
+        },
+        {
+          "fileName": "약속해_20009.mp3",
+          "status": 200,
+          "bytes": 1123670
+        },
+        {
+          "fileName": "오베R_10058.mp3",
+          "status": 200,
+          "bytes": 1078718
+        },
+        {
+          "fileName": "조로_19999.mp3",
+          "status": 200,
+          "bytes": 852646
+        },
+        {
+          "fileName": "쫄병_13088.mp3",
+          "status": 200,
+          "bytes": 1076270
+        },
+        {
+          "fileName": "초월_10070.mp3",
+          "status": 200,
+          "bytes": 1102094
+        },
+        {
+          "fileName": "카리#_10228.mp3",
+          "status": 200,
+          "bytes": 939278
+        },
+        {
+          "fileName": "큰라네트_20442.mp3",
+          "status": 200,
+          "bytes": 1552286
+        },
+        {
+          "fileName": "큰오승환_20252.mp3",
+          "status": 200,
+          "bytes": 1233865
+        },
+        {
+          "fileName": "큰폴로_22892.mp3",
+          "status": 200,
+          "bytes": 2635200
+        },
+        {
+          "fileName": "티머니_22000.mp3",
+          "status": 200,
+          "bytes": 965726
+        },
+        {
+          "fileName": "페라리v12_10812.mp3",
+          "status": 200,
+          "bytes": 1275734
+        },
+        {
+          "fileName": "헤이즐_10027.mp3",
+          "status": 200,
+          "bytes": 1283966
+        },
+        {
+          "fileName": "호랑수월가_10390.mp3",
+          "status": 200,
+          "bytes": 1317278
+        }
+      ]
+    },
+    {
+      "name": "WebKit390",
+      "guideNames": true,
+      "overflow": false,
+      "audioContextSupported": false,
+      "decoded": [],
+      "fetched": [
+        {
+          "fileName": "나무늘봉순_5785.mp3",
+          "status": 200,
+          "bytes": 1127390
+        },
+        {
+          "fileName": "니엘형2↑_13333.mp3",
+          "status": 200,
+          "bytes": 1359230
+        },
+        {
+          "fileName": "벨라74_11174.mp3",
+          "status": 200,
+          "bytes": 1312406
+        },
+        {
+          "fileName": "삼겹구_10369.mp3",
+          "status": 200,
+          "bytes": 1098830
+        },
+        {
+          "fileName": "아기뭉멘_10579.mp3",
+          "status": 200,
+          "bytes": 1212590
+        },
+        {
+          "fileName": "약속해_20009.mp3",
+          "status": 200,
+          "bytes": 1123670
+        },
+        {
+          "fileName": "오베R_10058.mp3",
+          "status": 200,
+          "bytes": 1078718
+        },
+        {
+          "fileName": "조로_19999.mp3",
+          "status": 200,
+          "bytes": 852646
+        },
+        {
+          "fileName": "쫄병_13088.mp3",
+          "status": 200,
+          "bytes": 1076270
+        },
+        {
+          "fileName": "초월_10070.mp3",
+          "status": 200,
+          "bytes": 1102094
+        },
+        {
+          "fileName": "카리#_10228.mp3",
+          "status": 200,
+          "bytes": 939278
+        },
+        {
+          "fileName": "큰라네트_20442.mp3",
+          "status": 200,
+          "bytes": 1552286
+        },
+        {
+          "fileName": "큰오승환_20252.mp3",
+          "status": 200,
+          "bytes": 1233865
+        },
+        {
+          "fileName": "큰폴로_22892.mp3",
+          "status": 200,
+          "bytes": 2635200
+        },
+        {
+          "fileName": "티머니_22000.mp3",
+          "status": 200,
+          "bytes": 965726
+        },
+        {
+          "fileName": "페라리v12_10812.mp3",
+          "status": 200,
+          "bytes": 1275734
+        },
+        {
+          "fileName": "헤이즐_10027.mp3",
+          "status": 200,
+          "bytes": 1283966
+        },
+        {
+          "fileName": "호랑수월가_10390.mp3",
+          "status": 200,
+          "bytes": 1317278
+        }
+      ]
+    }
+  ],
+  "actualServiceBids": 18,
+  "queuedInOrder": true,
+  "guideRows": 60
+}
