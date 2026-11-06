@@ -37,7 +37,7 @@ export async function redeemNovemberGiftCoupon({env,user,coupon,body,deps}){
      if(Number(current.reward_amount)!==1||String(current.reward_coin)!==String(gift.coin)||Number(current.max_uses)!==gift.maxUses||Number(current.used_count)<0||current.starts_at||current.ends_at)fail('선물 쿠폰 설정을 확인하세요.',409);
      const catalog=await q('SELECT code,is_active FROM inventory_items WHERE code=ANY($1::text[]) ORDER BY code FOR SHARE',[gift.items.map(item=>item.code)]);
      if(catalog.length!==gift.items.length||catalog.some(item=>Number(item.is_active)!==1))fail('보상 아이템 지급이 중지되어 있습니다. 쿠폰은 사용되지 않았습니다.');
-     const balance=changed(await q('UPDATE users SET coin=coin+$1::bigint WHERE id=$2 AND coin BETWEEN 0 AND $3::bigint RETURNING coin',[String(gift.coin),user.id,(9223372036854775807n-BigInt(gift.coin)).toString()]),'코인 보유량을 확인하세요. 쿠폰은 사용되지 않았습니다.');
+     const balance=changed(await q('UPDATE users SET coin=coin+$1::bigint WHERE id=$2 AND coin BETWEEN 0 AND $3::bigint RETURNING CAST(coin AS TEXT) AS coin',[String(gift.coin),user.id,(9223372036854775807n-BigInt(gift.coin)).toString()]),'코인 보유량을 확인하세요. 쿠폰은 사용되지 않았습니다.');
      changed(await q("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES($1,$2,$3,'COUPON') RETURNING user_id",[user.id,String(gift.coin),String(balance.coin)]),'코인 지급 기록 저장에 실패했습니다.');
      for(const item of gift.items){
       const inventory=changed(await q(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at)

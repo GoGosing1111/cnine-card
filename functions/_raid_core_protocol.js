@@ -2118,7 +2118,7 @@ async function claimCoreReward(env, user, cfg, body = {}, profile = null) {
       .bind(user.id, week.weekKey, ...weekArgs, requestId, ...pendingBind, user.id,
         ...weekArgs, CORE_RAID_WEEKLY_REWARD_LIMIT, CORE_RAID_WEEKLY_REWARD_LIMIT),
     env.DB.prepare(
-      'UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=? AND ' + guard
+      'UPDATE users SET coin=coin+CAST(? AS BIGINT),card_shards=card_shards+? WHERE id=? AND ' + guard
     ).bind(rewardCoin, rewardShards, user.id, ...guardBind)
   );
   if (rewardCoin > 0) {

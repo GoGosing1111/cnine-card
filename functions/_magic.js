@@ -786,7 +786,7 @@ export async function handleMagic({path,request,env,deps}){
     let deducted=false,rewardCommitted=false;
     try{
       const pool=(await env.DB.prepare(`SELECT * FROM magic_cards WHERE is_active=1 AND draw_weight>0 ORDER BY sort_order,id`).all()).results;if(!pool.length)throw new Error('활성화된 마법카드가 없습니다.');
-      const spend=await env.DB.prepare('UPDATE users SET magic_crystals=magic_crystals-?,coin=coin-? WHERE id=? AND magic_crystals>=? AND coin>=?').bind(totalCost,totalCoinCost,user.id,totalCost,totalCoinCost).run();
+      const spend=await env.DB.prepare('UPDATE users SET magic_crystals=magic_crystals-?,coin=coin-CAST(? AS BIGINT) WHERE id=? AND magic_crystals>=? AND coin>=?').bind(totalCost,totalCoinCost,user.id,totalCost,totalCoinCost).run();
       if(Number(spend.meta?.changes||0)!==1){const fresh=await env.DB.prepare('SELECT coin,magic_crystals FROM users WHERE id=?').bind(user.id).first(),missing=[];if(Number(fresh?.coin||0)<totalCoinCost)missing.push(`코인 ${totalCoinCost.toLocaleString()}`);if(Number(fresh?.magic_crystals||0)<totalCost)missing.push(`마법 결정 ${totalCost.toLocaleString()}`);const e=new Error(`${missing.join('과 ')}이 부족합니다.`);e.status=400;throw e}deducted=true;
       const ownedRows=(await env.DB.prepare('SELECT magic_card_id,quantity,enhancement_level FROM user_magic_cards WHERE user_id=? AND quantity>0').bind(user.id).all()).results||[],owned=new Map(ownedRows.map(row=>[Number(row.magic_card_id),{quantity:Number(row.quantity||0),enhancementLevel:Number(row.enhancement_level||0)}])),results=[],pickedCards=[];let totalRefund=0,totalMagicCrystalReward=0,totalShardReward=0;
       for(let index=0;index<count;index++){
@@ -801,7 +801,7 @@ export async function handleMagic({path,request,env,deps}){
           const amount=randomInteger(cfg.packRewards.cardShardMin,cfg.packRewards.cardShardMax);totalShardReward+=amount;results.push({type:'CARD_SHARD',label:'카드 조각 획득',amount,index});
         }
       }
-      const spentUser=await env.DB.prepare('SELECT coin,magic_crystals,card_shards FROM users WHERE id=?').bind(user.id).first();if(!spentUser)throw new Error('유저 정보를 찾을 수 없습니다.');
+      const spentUser=await env.DB.prepare('SELECT CAST(coin AS TEXT) AS coin,magic_crystals,card_shards FROM users WHERE id=?').bind(user.id).first();if(!spentUser)throw new Error('유저 정보를 찾을 수 없습니다.');
       const magicCrystalCredit=totalRefund+totalMagicCrystalReward,finalBalance=Number(spentUser.magic_crystals||0)+magicCrystalCredit,finalShards=Number(spentUser.card_shards||0)+totalShardReward,cardResults=results.filter(row=>row.type==='MAGIC_CARD'),duplicateCount=cardResults.filter(row=>row.duplicate).length,newCount=cardResults.length-duplicateCount;
       const result={ok:true,count,results,totalCost,totalCoinCost,totalRefund,totalMagicCrystalReward,totalShardReward,newCount,duplicateCount,magicCardCount:cardResults.length,magicCrystalCount:results.filter(row=>row.type==='MAGIC_CRYSTAL').length,cardShardCount:results.filter(row=>row.type==='CARD_SHARD').length,magicCrystals:finalBalance,cardShards:finalShards,coin:Number(spentUser.coin||0),...(count===1?{reward:results[0],card:results[0].card||null,duplicate:Boolean(results[0].duplicate),refund:Number(results[0].refund||0)}:{})};
       const statements=[];
@@ -809,12 +809,18 @@ export async function handleMagic({path,request,env,deps}){
       if(magicCrystalCredit>0||totalShardReward>0)statements.push(env.DB.prepare('UPDATE users SET magic_crystals=magic_crystals+?,card_shards=card_shards+? WHERE id=?').bind(magicCrystalCredit,totalShardReward,user.id));
       statements.push(env.DB.prepare(`INSERT INTO magic_crystal_logs(user_id,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,?,?,?)`).bind(user.id,-totalCost+magicCrystalCredit,finalBalance,`아르카나 ${count}회 개방 · 카드 ${cardResults.length} · 결정 ${results.filter(row=>row.type==='MAGIC_CRYSTAL').length} · 조각 ${results.filter(row=>row.type==='CARD_SHARD').length}`,'MAGIC_DRAW',requestId));
       if(totalShardReward>0)statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'아르카나 혼합 보상',NULL)").bind(user.id,totalShardReward,finalShards));
-      if(totalCoinCost>0)statements.push(env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'마법카드 뽑기')`).bind(user.id,-totalCoinCost,Number(spentUser.coin||0)));
+      if(totalCoinCost>0)statements.push(env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'마법카드 뽑기' FROM users WHERE id=?`).bind(-totalCoinCost,user.id));
       statements.push(env.DB.prepare(`UPDATE magic_card_draw_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(JSON.stringify(result),requestId,user.id));
       await env.DB.batch(statements);rewardCommitted=true;
       return json(result);
     }catch(error){
-      if(deducted&&!rewardCommitted)await env.DB.prepare('UPDATE users SET magic_crystals=magic_crystals+?,coin=coin+? WHERE id=?').bind(totalCost,totalCoinCost,user.id).run();
+      // The reward batch can commit even if its acknowledgement is lost. The
+      // durable receipt decides whether a refund is still permitted.
+      if(deducted&&!rewardCommitted){
+        const completed=await env.DB.prepare("SELECT response_json FROM magic_card_draw_receipts WHERE request_id=? AND user_id=? AND status='COMPLETED'").bind(requestId,user.id).first();
+        if(completed?.response_json)return json(JSON.parse(completed.response_json));
+      }
+      if(deducted&&!rewardCommitted)await env.DB.prepare('UPDATE users SET magic_crystals=magic_crystals+?,coin=coin+CAST(? AS BIGINT) WHERE id=?').bind(totalCost,totalCoinCost,user.id).run();
       if(!rewardCommitted)await env.DB.prepare(`UPDATE magic_card_draw_receipts SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(String(error.message||error).slice(0,300),requestId,user.id).run();
       return json({error:String(error.message||error)},Number(error.status||500));
     }

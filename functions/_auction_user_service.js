@@ -49,7 +49,7 @@ export function createUserAuctionService(env,{catalog,operatorCatalog=async()=>[
   // A notification failure must never turn a committed trade into a retry debit.
   try{await afterCommit([...new Set(users)]);}catch{/* durable account-sync triggers remain authoritative */}
  }
- const creditCoin=(uid,amount,reason)=>amount?[p('UPDATE users SET coin=coin+? WHERE id=?',amount,uid),p('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?',amount,reason,uid)]:[];
+ const creditCoin=(uid,amount,reason)=>amount?[p('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?',amount,uid),p('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?',amount,reason,uid)]:[];
  async function tick(){
   const expected=await version(),active=await p("SELECT * FROM auction_user_lots_v1 WHERE status='ACTIVE'").first(),at=now();
   if(active&&Number(active.ends_ms)>at)return;
@@ -106,7 +106,7 @@ export function createUserAuctionService(env,{catalog,operatorCatalog=async()=>[
   const mine=await p('SELECT total FROM auction_user_bidders_v1 WHERE lot_id=? AND user_id=?',id,user.id).first();
   if(!Number.isSafeInteger(Number(mine?.total||0)+amount))fail('정확하게 처리할 수 있는 누적 입찰 범위를 초과했습니다.');
   const token=crypto.randomUUID(),bgm=await auctionBgmBidStatements(env,{lotId:id,user,amount,requestId,message:body.message,at,sequence:expected+1});
-  await commit(expected,[jointGuard(DB,token,'EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?)',[user.id,amount]),p('UPDATE users SET coin=coin-? WHERE id=? AND coin>=?',amount,user.id,amount),p('INSERT INTO auction_user_bidders_v1(lot_id,user_id,nickname,total,last_ms) VALUES(?,?,?,?,?) ON CONFLICT(lot_id,user_id) DO UPDATE SET total=auction_user_bidders_v1.total+excluded.total,last_ms=excluded.last_ms,nickname=excluded.nickname',id,user.id,user.nickname,amount,at),p('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?',-amount,`경매 U${id} 누적 입찰`,user.id),p('INSERT INTO auction_user_bid_receipts_v1(request_id,lot_id,user_id,amount,created_ms) VALUES(?,?,?,?,?)',requestId,id,user.id,amount,at),...bgm,jointGuardEnd(DB,token)],[Number(user.id)]);
+  await commit(expected,[jointGuard(DB,token,'EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?)',[user.id,amount]),p('UPDATE users SET coin=coin-CAST(? AS BIGINT) WHERE id=? AND coin>=?',amount,user.id,amount),p('INSERT INTO auction_user_bidders_v1(lot_id,user_id,nickname,total,last_ms) VALUES(?,?,?,?,?) ON CONFLICT(lot_id,user_id) DO UPDATE SET total=auction_user_bidders_v1.total+excluded.total,last_ms=excluded.last_ms,nickname=excluded.nickname',id,user.id,user.nickname,amount,at),p('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?',-amount,`경매 U${id} 누적 입찰`,user.id),p('INSERT INTO auction_user_bid_receipts_v1(request_id,lot_id,user_id,amount,created_ms) VALUES(?,?,?,?,?)',requestId,id,user.id,amount,at),...bgm,jointGuardEnd(DB,token)],[Number(user.id)]);
   return {ok:true,replayed:false};
  }
  async function cancel(user,id,{operator=false}={}){

@@ -6,6 +6,17 @@ import { __workshopCraftTest, __workshopBattleSuitTest, __workshopReadTest } fro
 
 // Execute the production craft handler and SQL adapter against PostgreSQL WASM.
 // The live money columns are already bigint; parameter inference caused the error.
+test('10경+1 X-BODY craft charges the exact cost, restores failed batch and replays once',async t=>{
+ const f=await xBodyFixture();t.after(()=>f.close());t.mock.method(Math,'random',()=>0);
+ await f.pg.exec('UPDATE users SET coin=100000000000000001 WHERE id=1');
+ const result=await f.craft('x-body-high-wallet',{paymentType:'COIN'});assert.equal(result.success,true);
+ const expected=(100000000000000001n-25000000000000n).toString();
+ assert.equal((await f.row('SELECT CAST(coin AS TEXT) coin FROM users WHERE id=1')).coin,expected);
+ assert.equal((await f.row('SELECT CAST(balance_after AS TEXT) coin FROM coin_logs')).coin,expected);
+ assert.equal((await f.craft('x-body-high-wallet',{paymentType:'COIN'})).replayed,true);assert.equal(Number((await f.row('SELECT COUNT(*) n FROM coin_logs')).n),1);
+ f.failCoinLog();await assert.rejects(f.craft('x-body-high-wallet-failure',{paymentType:'COIN'}));assert.equal((await f.row('SELECT CAST(coin AS TEXT) coin FROM users WHERE id=1')).coin,expected);
+ assert.equal(Number((await f.row("SELECT quantity FROM cnine_user_inventory WHERE item_code='SUIT_CORE_7'")).quantity),10);
+});
 async function fixture({ cost = 5000000000, output = 'VEHICLE' } = {}) {
   const pg = new PGlite();
   await pg.exec(`

@@ -323,7 +323,7 @@ async function craft(env,user,body){
   if(craftPolicy&&env.DB.dialect==='postgres')statements.push(env.DB.prepare('SELECT key FROM app_meta WHERE key=? FOR UPDATE').bind(craftPolicy.definition.key));
   statements.push(guard);
   if(craftPolicy)statements.push(mercenaryCraftStockGuard(env.DB,guardId,craftPolicy.definition));
-  if(payment.coin>0||payment.shards>0)statements.push(env.DB.prepare(`UPDATE users SET coin=coin-?,card_shards=card_shards-? WHERE id=? AND coin>=? AND card_shards>=? AND ${verified}`).bind(payment.coin,payment.shards,user.id,payment.coin,payment.shards,guardId));
+  if(payment.coin>0||payment.shards>0)statements.push(env.DB.prepare(`UPDATE users SET coin=coin-CAST(? AS BIGINT),card_shards=card_shards-? WHERE id=? AND coin>=? AND card_shards>=? AND ${verified}`).bind(payment.coin,payment.shards,user.id,payment.coin,payment.shards,guardId));
   if(payment.stars>0)statements.push(env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code='MASTER_STAR' AND ${verified}`).bind(payment.stars,payment.stars,user.id,guardId));
   for(const material of materials)statements.push(env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND ${verified}`).bind(material.quantity,material.quantity,user.id,material.item_code,guardId));
   if(success&&craftPolicy)statements.push(...mercenaryCraftGrantStatements(env.DB,{userId:user.id,requestId,guardId},craftPolicy.definition));

@@ -52,7 +52,7 @@ export async function prepareBlackwingRewards(env,row,room){
         env.DB.prepare('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,updated_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP').bind(uid,code,amount,amount),
         env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT user_id,item_code,?,quantity,'흑익의 맹약 레이드 클리어','BLACKWING_RAID_CLEAR',? FROM cnine_user_inventory WHERE user_id=? AND item_code=?").bind(amount,room.id,uid,code),jointGuardEnd(env.DB,guard));
     }
-    if(p.coin)plan.statements.push(env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(coin,uid),
+    if(p.coin)plan.statements.push(env.DB.prepare('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?').bind(coin,uid),
       env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(coin,`흑익의 맹약 레이드 클리어 [${room.id}]`,uid));
     plan.statements.push(...raidPigCoinRewardStatements(env,{userId:uid,source:'BLACKWING_RAID',roomId:room.id,amount:p.pigCoins||0,guardSql:'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',guardBindings:[before.key,raw],at:room.finishedAt}));
     plan.statements.push(...await accountRankAward(env,uid,'BLACKWING_RAID_WEEKLY',room.id,{

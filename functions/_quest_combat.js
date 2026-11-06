@@ -86,7 +86,7 @@ export async function claimDailyCombatQuest(env,user,questId,deps){
     AND NOT EXISTS(SELECT 1 FROM quest_daily_combat_claims_v1 WHERE user_id=? AND quest_date=? AND quest_id=?)
     AND CURRENT_TIMESTAMP>=? AND CURRENT_TIMESTAMP<? AND EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=0 AND coin<=9223372036854775807-?)`,[QUEST_COMBAT_POLICY_KEY,policy.raw,user.id,identity.provider_user_id,user.id,period.key,q.id,period.start,period.end,user.id,q.coin]),
    p("INSERT INTO quest_daily_combat_claims_v1(user_id,quest_date,quest_id,claim_token,status,progress,coin,master_stars,policy_version,created_at) VALUES(?,?,?,?,'PENDING',?,?,?,1,?)",user.id,period.key,q.id,token,progress.count,q.coin,q.masterStars,now),
-   p('UPDATE users SET coin=coin+? WHERE id=?',q.coin,user.id),
+   p('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?',q.coin,user.id),
    p('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?',q.coin,reference,user.id),
    ...jointInventoryChange(DB,user.id,'MASTER_STAR',q.masterStars,'일일 전투 퀘스트 · '+q.title,reference),
    p("UPDATE quest_daily_combat_claims_v1 SET status='COMPLETED' WHERE claim_token=?",token),jointGuardEnd(DB,token)

@@ -97,7 +97,7 @@ export async function towerAbyssFinish(env,user,body,deps,{now=Date.now}={}){
   if(win){
    const forge=await prepareTowerForgeProtectionClear(env,{userId:uid,seasonId:plan.seasonId,floorNo:floor}),reroll=await towerRerollPlan(env,uid,rid);
    plan.response.forgeProtectionReward=forge.reward;plan.response.highGradeRerollReward=reroll.reward;
-   writes.push(p(env,'UPDATE users SET coin=coin+? WHERE id=?',plan.rewardCoin,uid),
+   writes.push(p(env,'UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?',plan.rewardCoin,uid),
     p(env,'INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?',plan.rewardCoin,`무한의탑 ${floor}층 최초 클리어`,uid),
     p(env,'UPDATE tower_user_progress SET current_floor=?,highest_floor=?,highest_reached_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND user_id=?',floor+1,floor,plan.seasonId,uid),
     ...await accountRankAward(env,uid,'TOWER',`${plan.seasonId}:${floor}`),...forge.statements,...reroll.statements);

@@ -49,7 +49,7 @@ export function jointCoinDebit(DB,userId,amount,reason){
   if(!Number.isSafeInteger(amount)||amount<0||amount>1e14)throw jointError('JOINT_COST','코인 비용 설정을 확인하세요.');
   const p=(sql,...v)=>DB.prepare(sql).bind(...v),token=crypto.randomUUID();
   return [jointGuard(DB,token,'EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?)',[userId,amount]),
-    p('UPDATE users SET coin=coin-? WHERE id=? AND coin>=?',amount,userId,amount),
+    p('UPDATE users SET coin=coin-CAST(? AS BIGINT) WHERE id=? AND coin>=?',amount,userId,amount),
     ...(amount?[p('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?',-amount,reason,userId)]:[]),jointGuardEnd(DB,token)];
 }
 export function jointInventoryChange(DB,userId,itemCode,change,reason,referenceId){

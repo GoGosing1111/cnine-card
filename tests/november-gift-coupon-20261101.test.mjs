@@ -59,3 +59,19 @@ test('regular CMS limits still reject the special bundle and 3X issuance',()=>{
  const spec=Function(specs+';return couponRewardSpec')();
  assert.equal(spec(gift.type),null);assert.equal(spec('RANK_EXP_POTION_3X_60M'),null);assert.equal(spec('COIN').max,1000000000000);assert.equal(spec('MASTER_STAR').max,1000000);
 });
+
+test('large-wallet coupon records every coin and retains one redemption after response loss',async t=>{
+ const f=await fixture(t);await f.pg.exec('UPDATE users SET coin=100000000000000001 WHERE id=1');
+ f.fault({ack:true});await assert.rejects(f.redeem(),/lost commit response/);
+ assert.equal((await (await f.redeem()).json()).replayed,true);
+ const expected=(100000000000000001n+BigInt(gift.coin)).toString();
+ assert.equal((await f.one('SELECT CAST(coin AS TEXT) coin FROM users WHERE id=1')).coin,expected);
+ assert.equal((await f.one('SELECT CAST(balance_after AS TEXT) coin FROM coin_logs')).coin,expected);
+ assert.equal(await f.count('coupon_redemptions'),1);assert.equal(await f.count('coin_logs'),1);
+});
+
+test('large-wallet coupon rollback and signed BIGINT ceiling preserve unused coupon',async t=>{
+ const f=await fixture(t);await f.pg.exec('UPDATE users SET coin=100000000000000001 WHERE id=1');
+ const before=await f.snapshot();f.fault({pattern:'INSERT INTO coin_logs'});await assert.rejects(f.redeem(),/QA injected/);assert.deepEqual(await f.snapshot(),before);
+ await f.pg.exec('UPDATE users SET coin=9223372036854775807 WHERE id=1');const ceiling=await f.snapshot();assert.equal((await f.redeem()).status,409);assert.deepEqual(await f.snapshot(),ceiling);
+});

@@ -14,7 +14,7 @@ export async function payDailyQuestReward(DB,{userId,date,reward,postCount,snaps
    ...(DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',userId),p('SELECT key FROM app_meta WHERE key IN (?,?) ORDER BY key FOR SHARE',...keys)]:[]),
    jointGuard(DB,token,`(${same}) AND NOT EXISTS(SELECT 1 FROM wago_daily_quest_claims WHERE user_id=? AND quest_date=?)`,[...args,userId,date]),
    p('INSERT INTO wago_daily_quest_claims(user_id,quest_date,reward_coin,post_count) VALUES(?,?,?,?)',userId,date,reward,postCount),
-   p('UPDATE users SET coin=coin+? WHERE id=?',reward,userId),
+   p('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?',reward,userId),
    p("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'PLAYDK_DAILY_QUEST' FROM users WHERE id=?",reward,userId),
    jointGuardEnd(DB,token)
   ]);

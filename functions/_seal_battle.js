@@ -1019,7 +1019,7 @@ async function participateDragon(env, deps, user, settings, event, body) {
     opened=CASE WHEN ?='SEALS' AND (SELECT phase FROM ${DRAGON_TABLE} WHERE event_id=?)='BOSS' THEN 1 ELSE 0 END,
     defeated=CASE WHEN ?='BOSS' AND (SELECT status FROM seal_battle_events WHERE id=?)='CLEARED' THEN 1 ELSE 0 END
     WHERE request_id=? AND ${gate}`).bind(event.id,phase,event.id,phase,event.id,requestId,requestId));
-  statements.push(env.DB.prepare(`UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=? AND ${gate}`).bind(attemptCoin,attemptShards,user.id,requestId));
+  statements.push(env.DB.prepare(`UPDATE users SET coin=coin+CAST(? AS BIGINT),card_shards=card_shards+? WHERE id=? AND ${gate}`).bind(attemptCoin,attemptShards,user.id,requestId));
   if(attemptCoin>0) statements.push(env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'SEAL_BATTLE_ATTEMPT' FROM users WHERE id=? AND ${gate}`).bind(attemptCoin,user.id,requestId));
   if(attemptShards>0) statements.push(env.DB.prepare(`INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) SELECT id,?,card_shards,'SEAL_BATTLE_ATTEMPT' FROM users WHERE id=? AND ${gate}`).bind(attemptShards,user.id,requestId));
   statements.push(...await accountRankAward(env,user.id,'SEAL',requestId,{guard:gate,values:[requestId]}));
@@ -1118,7 +1118,7 @@ async function participate(env, deps, user, settings, event, body) {
       )`).bind(combat.playerPower, bossPower, contribution, bonusPercent, result, 0, requestId, user.id, event.id),
     env.DB.prepare(eventProgressSql(role)).bind(...eventProgressBindings(role, contribution, event.id, requestId)),
     env.DB.prepare(roleContributionUpdateSql(role)).bind(contribution, contribution, role, contribution, event.id, user.id, requestId),
-    env.DB.prepare(`UPDATE users SET coin=coin+?,card_shards=card_shards+?
+    env.DB.prepare(`UPDATE users SET coin=coin+CAST(? AS BIGINT),card_shards=card_shards+?
       WHERE id=? AND EXISTS(SELECT 1 FROM seal_battle_action_receipts WHERE request_id=? AND status='AUTHORIZED')`)
       .bind(attemptCoin, attemptShards, user.id, requestId)
   ];
@@ -1222,7 +1222,7 @@ async function claimClearReward(env, deps, user, event) {
   const coin = Number(savedClaim.reward_coin);
   const shards = Number(event.clearReward.shards || 0);
   const masterStar = Number(event.clearReward.masterStar || 0);
-  const statements = [env.DB.prepare(`UPDATE users SET coin=coin+?,card_shards=card_shards+?
+  const statements = [env.DB.prepare(`UPDATE users SET coin=coin+CAST(? AS BIGINT),card_shards=card_shards+?
     WHERE id=? AND EXISTS(
       SELECT 1 FROM seal_battle_clear_claims WHERE event_id=? AND user_id=? AND status='CLAIMING'
     )`).bind(coin, shards, user.id, event.id, user.id)];

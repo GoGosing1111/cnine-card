@@ -475,7 +475,7 @@ export async function handleEscortOperation({path,request,env,deps}){
         env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,?,COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0),'PVE 호송작전 구간 보상','ESCORT_OPERATION',? WHERE EXISTS(SELECT 1 FROM ${RUN_TABLE} WHERE run_id=? AND user_id=? AND status='CLAIMING')`).bind(user.id,ENTRY_TICKET_CODE,tickets,user.id,ENTRY_TICKET_CODE,row.run_id,row.run_id,user.id)
       ]:[];
       await env.DB.batch([
-        env.DB.prepare(`UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=? AND ${claimGuard}`).bind(coin,shards,user.id,row.run_id,user.id),
+        env.DB.prepare(`UPDATE users SET coin=coin+CAST(? AS BIGINT),card_shards=card_shards+? WHERE id=? AND ${claimGuard}`).bind(coin,shards,user.id,row.run_id,user.id),
         ...ticketStatements,
         ...await accountRankAward(env,user.id,'ESCORT',row.run_id,{guard:claimGuard,values:[row.run_id,user.id]}),
         env.DB.prepare(`INSERT INTO ${WEEKLY_TABLE}(user_id,week_key,reward_count,best_vehicle_hp_percent,updated_at) SELECT ?,?,1,?,CURRENT_TIMESTAMP WHERE ${claimGuard} ON CONFLICT(user_id,week_key) DO UPDATE SET reward_count=${WEEKLY_TABLE}.reward_count+1,best_vehicle_hp_percent=CASE WHEN ${WEEKLY_TABLE}.best_vehicle_hp_percent>=excluded.best_vehicle_hp_percent THEN ${WEEKLY_TABLE}.best_vehicle_hp_percent ELSE excluded.best_vehicle_hp_percent END,updated_at=CURRENT_TIMESTAMP`).bind(user.id,row.week_key,vehiclePercent,row.run_id,user.id),

@@ -116,7 +116,7 @@ async function repairWaterBuffaloSettlementV1443(env){
   statements.push(env.DB.prepare("UPDATE territory_war_v3_rounds SET winner_side='B',version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(round.id));
   statements.push(env.DB.prepare("UPDATE territory_war_v3_rewards SET result='WIN',coin=500000 WHERE round_id=? AND side='B' AND result<>'INELIGIBLE' AND claimed_at IS NULL").bind(round.id));
   statements.push(env.DB.prepare("UPDATE territory_war_v3_rewards SET result='LOSE',coin=100000 WHERE round_id=? AND side<>'B' AND result<>'INELIGIBLE' AND claimed_at IS NULL").bind(round.id));
-  for(const row of claimedB){const difference=Math.max(0,500000-Number(row.coin||0));if(difference>0){statements.push(env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(difference,row.user_id));statements.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'영토전 정산 정정 · 물소파 승리 차액' FROM users WHERE id=?").bind(difference,row.user_id))}}
+  for(const row of claimedB){const difference=Math.max(0,500000-Number(row.coin||0));if(difference>0){statements.push(env.DB.prepare('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?').bind(difference,row.user_id));statements.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'영토전 정산 정정 · 물소파 승리 차액' FROM users WHERE id=?").bind(difference,row.user_id))}}
   statements.push(env.DB.prepare("UPDATE territory_war_v3_rewards SET result='WIN',coin=500000 WHERE round_id=? AND side='B' AND result<>'INELIGIBLE' AND claimed_at IS NOT NULL").bind(round.id));
   statements.push(env.DB.prepare("UPDATE territory_war_v3_rewards SET result='LOSE' WHERE round_id=? AND side<>'B' AND result<>'INELIGIBLE' AND claimed_at IS NOT NULL").bind(round.id));
   statements.push(env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)").bind(markerKey,JSON.stringify({roundId:Number(round.id),winnerSide:'B',winnerCoin:500000,loserCoin:100000,claimedBRecipients:claimedB.length,correctedAt:iso()})));
@@ -1539,7 +1539,7 @@ async function handleAttack(env,deps,user,cfg,body){
       env.DB.prepare(attackerSql).bind(...attackerBinds),
       env.DB.prepare(defenderSql).bind(...defenderBinds),
       env.DB.prepare(roundSql).bind(...roundBinds),
-      env.DB.prepare(`UPDATE users SET coin=coin+? WHERE id=? AND ?>0 AND ${activeExpr}`).bind(personalWinCoin,user.id,personalWinCoin,front.id,requestId),
+      env.DB.prepare(`UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=? AND ?>0 AND ${activeExpr}`).bind(personalWinCoin,user.id,personalWinCoin,front.id,requestId),
       env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT ?,?,coin,'영토전 개인 교전 승리' FROM users WHERE id=? AND ?>0 AND ${activeExpr}`).bind(user.id,personalWinCoin,user.id,personalWinCoin,front.id,requestId),
       env.DB.prepare(actionSql).bind(...actionBinds),
       ...battlefieldContributionStatements(env,{round,front,mine,requestId,context:battlefieldContext,won:attackerWon}),
@@ -1598,7 +1598,7 @@ async function claimV3(env,deps,user,nodeIndex=4){
   try{
     const reward=await rewardForUser(env,user.id);if(!reward)return deps.json({error:'수령 가능한 보상이 없습니다.'},404);
     const participationItems=reward.version==='V3'?participationInventoryReward(reward.attacks):{scrapyardTickets:0,mysticEnergy:0},coin=Number(reward.coin||0),shards=Number(reward.shards||0),scrapyardTickets=participationItems.scrapyardTickets,mysticEnergy=participationItems.mysticEnergy,bonusEquipment=reward.version==='V3'&&reward.result==='WIN'?(reward.bonusEquipment||[]):[],table=reward.version==='V3'?'territory_war_v3_rewards':'territory_war_rewards',statements=[
-      env.DB.prepare(`UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=? AND EXISTS(SELECT 1 FROM ${table} WHERE round_id=? AND user_id=? AND claimed_at IS NULL)`).bind(coin,shards,user.id,reward.round_id,user.id),
+      env.DB.prepare(`UPDATE users SET coin=coin+CAST(? AS BIGINT),card_shards=card_shards+? WHERE id=? AND EXISTS(SELECT 1 FROM ${table} WHERE round_id=? AND user_id=? AND claimed_at IS NULL)`).bind(coin,shards,user.id,reward.round_id,user.id),
       env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT ?,?,coin,'영토전 보상' FROM users WHERE id=? AND EXISTS(SELECT 1 FROM ${table} WHERE round_id=? AND user_id=? AND claimed_at IS NULL)`).bind(user.id,coin,user.id,reward.round_id,user.id),
       env.DB.prepare(`INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) SELECT ?,?,card_shards,'영토전 보상',NULL FROM users WHERE id=? AND EXISTS(SELECT 1 FROM ${table} WHERE round_id=? AND user_id=? AND claimed_at IS NULL)`).bind(user.id,shards,user.id,reward.round_id,user.id)
     ];

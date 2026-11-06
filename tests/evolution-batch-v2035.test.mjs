@@ -178,3 +178,13 @@ test('evolution batch at 10경 plus one preserves exact snapshot, debit and repl
  assert.equal((await f.call(plan)).body.replayed,true);assert.equal(read(),expected);assert.equal(f.db.prepare('SELECT COUNT(*) n FROM coin_logs').get().n,1);
  }finally{f.db.close()}
 });
+
+test('single SSR evolution records an exact large wallet debit',async()=>{
+ const f=fixture();try{
+ f.deps.profile=async(_env,user)=>user;
+ f.db.exec('UPDATE users SET coin=100000000000000001');
+ const r=await handleEvolution({path:'evolution/attempt',request:{method:'POST',body:{cardId:'ssr-a',evolutionType:'SSR_TO_MA'}},env:f.env,deps:f.deps});assert.equal(r.status,200,JSON.stringify(r.body));
+ const log=f.db.prepare('SELECT CAST(balance_after AS TEXT) coin,change_amount amount FROM coin_logs').get();
+ assert.equal(log.coin,(100000000000000001n+BigInt(log.amount)).toString());assert.equal(f.db.prepare('SELECT CAST(coin AS TEXT) coin FROM users').get().coin,log.coin);
+ }finally{f.db.close();}
+});

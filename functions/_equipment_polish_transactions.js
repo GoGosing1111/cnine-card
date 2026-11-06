@@ -43,7 +43,7 @@ export async function executePolish(env,user,current,body,{unit}={}){
   if(c.masterStars){conditions.push('EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=?)');params.push(user.id,'MASTER_STAR',c.masterStars);}
   const statements=[
     jointGuard(db,token,conditions.join(' AND '),params),
-    db.prepare('UPDATE users SET coin=coin-? WHERE id=?').bind(c.coins,user.id),
+    db.prepare('UPDATE users SET coin=coin-CAST(? AS BIGINT) WHERE id=?').bind(c.coins,user.id),
     db.prepare('UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=?').bind(c.stones,c.stones,user.id,POLISH_ITEM_CODE),
     ...(c.masterStars?[db.prepare('UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=?').bind(c.masterStars,c.masterStars,user.id,'MASTER_STAR')]:[]),
     ...[[POLISH_ITEM_CODE,c.stones],...(c.masterStars?[['MASTER_STAR',c.masterStars]]:[])].map(([code,quantity])=>db.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT user_id,item_code,?,quantity,'장비 연마','EQUIPMENT_POLISH',? FROM cnine_user_inventory WHERE user_id=? AND item_code=?").bind(-quantity,body.requestId,user.id,code)),

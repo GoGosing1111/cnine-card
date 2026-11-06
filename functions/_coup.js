@@ -269,7 +269,7 @@ export async function attackCoup(env, deps, user, body, now = Date.now()) {
     nextAttackAt: committedAt + cfg.attackCooldownSeconds * 1000, matchPowerGapPercent: Math.round(Math.abs(opponent.deck_power - mine.deck_power) / Math.max(1, mine.deck_power) * 10000) / 100, matchPoolSize: opponent.match_pool_size,
     mode: 'SIEGE', battlefieldMode: 'SIEGE', sceneAssetKey: 'COUP_PALACE' };
   await atomic(env, [...operatingGate(env, token), ...roundClaim(env, round, token, "AND status='ACTIVE' AND ends_at>?", [committedAt]),
-    p(env, 'UPDATE users SET coin=coin+? WHERE id=?', response.coinReward, user.id),
+    p(env, 'UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?', response.coinReward, user.id),
     ...[mine, opponent].map(row => p(env, 'UPDATE coup_participants_v2115 SET deck_snapshot=?,deck_power=?,loadout_bonus_json=? WHERE round_id=? AND user_id=?', row.deck_snapshot, row.deck_power, row.loadout_bonus_json, id, row.user_id)),
     p(env, 'UPDATE coup_participants_v2115 SET attacks=attacks+1,damage=damage+?,next_attack_at=? WHERE round_id=? AND user_id=? AND next_attack_at<=?', damage, response.nextAttackAt, id, user.id, committedAt),
     guard(env, token + ':player', 'SELECT 1 FROM coup_participants_v2115 WHERE round_id=? AND user_id=? AND attacks=?', id, user.id, Number(mine.attacks) + 1),

@@ -1,4 +1,6 @@
-import {addCoins,coinInteger} from '../../shared/coin-integer-v1.mjs';
+import {addCoins,coinInteger,coinValue} from '../../shared/coin-integer-v1.mjs';
+import {coinChangeStatements} from '../_coin_settlement.js';
+import {jointGuard,jointGuardEnd} from '../_joint_atomic.js';
 import {handleStreamerPack,streamerPackShopRow} from '../_reversecall_streamer_pack.js';
 import {handleWarChat,warChatStream} from '../_war_chat.js';
 import {handleBlackcrownPack,blackcrownPackShopRow} from '../_mercenary_blackcrown_pack.js';
@@ -676,7 +678,7 @@ async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowCla
   if(rewardType==='PINGDU_THANKS_GIFT_BOX')await ensurePingduThanksGiftCatalog(env);
   if(rewardType==='MERCENARY_SSS_CARD_SHARD')await ensureMercenarySssShardCatalog(env);
   if(rewardType==='EMPEROR_ENERGY')await ensureEmperorEnergyCatalog(env);
-  const current=await env.DB.prepare('SELECT id,coin,card_shards FROM users WHERE id=?').bind(user.id).first();
+  const current=await env.DB.prepare('SELECT id,CAST(coin AS TEXT) AS coin,card_shards FROM users WHERE id=?').bind(user.id).first();
   if(!current)throw new Error('보상을 받을 계정을 찾을 수 없습니다.');
   let balanceBefore=0;
   if(spec.inventory){
@@ -702,10 +704,10 @@ async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowCla
   const claimCondition=alreadyClaimed?"claimed_at IS NOT NULL AND TRIM(claimed_at)<>''":"(claimed_at IS NULL OR TRIM(claimed_at)='')";
   const insertReceipt=env.DB.prepare(`INSERT OR IGNORE INTO user_message_reward_claim_receipts_v1222
     (reward_id,message_id,user_id,reward_type,reward_amount,claim_token,balance_before,balance_after,source)
-    SELECT id,message_id,user_id,UPPER(reward_type),reward_amount,?,?,?,?
+    SELECT id,message_id,user_id,UPPER(reward_type),reward_amount,?,${rewardType==='COIN'?'(SELECT coin FROM users WHERE id=user_message_rewards.user_id),(SELECT coin FROM users WHERE id=user_message_rewards.user_id)':'?,?'},?
     FROM user_message_rewards
     WHERE id=? AND user_id=? AND ${claimCondition}`)
-    .bind(token,balanceBefore,balanceBefore,source,reward.id,user.id);
+    .bind(token,...(rewardType==='COIN'?[]:[balanceBefore,balanceBefore]),source,reward.id,user.id);
   const tokenExists=`EXISTS(SELECT 1 FROM user_message_reward_claim_receipts_v1222 WHERE reward_id=? AND user_id=? AND claim_token=?)`;
   let balanceUpdate,logInsert,receiptBalanceUpdate;
   if(spec.inventory){
@@ -721,7 +723,7 @@ async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowCla
       .bind(user.id,rewardType,reward.id,user.id,token);
   }else{
     balanceUpdate=rewardType==='COIN'
-      ?env.DB.prepare(`UPDATE users SET coin=coin+? WHERE id=? AND ${tokenExists}`).bind(rewardAmount,user.id,reward.id,user.id,token)
+      ?env.DB.prepare(`UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=? AND ${tokenExists}`).bind(rewardAmount,user.id,reward.id,user.id,token)
       :env.DB.prepare(`UPDATE users SET card_shards=card_shards+? WHERE id=? AND ${tokenExists}`).bind(rewardAmount,user.id,reward.id,user.id,token);
     const logReason=`MESSAGE_REWARD#${Number(reward.id)}`;
     logInsert=rewardType==='COIN'
@@ -759,10 +761,11 @@ async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowCla
 async function canSafelyRecoverFailedMessageRewardV1222(env,user,reward,messageId){
   if(String(reward?.reward_type||'').toUpperCase()!=='COIN')return false;
   try{
-    const row=await env.DB.prepare('SELECT balance_before,balance_after,amount FROM wago_extension_reward_receipts WHERE message_id=? AND user_id=? LIMIT 1').bind(messageId,user.id).first();
+    const row=await env.DB.prepare('SELECT CAST(balance_before AS TEXT) AS balance_before,CAST(balance_after AS TEXT) AS balance_after,CAST(amount AS TEXT) AS amount FROM wago_extension_reward_receipts WHERE message_id=? AND user_id=? LIMIT 1').bind(messageId,user.id).first();
     if(!row)return false;
-    const current=await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first();
-    return Number(row.amount||0)===Number(reward.reward_amount||0)&&Number(row.balance_after||0)===Number(row.balance_before||0)&&Number(current?.coin||0)===Number(row.balance_before||0);
+    const current=await env.DB.prepare('SELECT CAST(coin AS TEXT) AS coin FROM users WHERE id=?').bind(user.id).first();
+    if(!current||[row.amount,row.balance_before,row.balance_after,current.coin,reward.reward_amount].some(value=>value===null||value===undefined||!/^\d+$/.test(String(value))))return false;
+    return BigInt(row.amount)===BigInt(reward.reward_amount)&&BigInt(row.balance_after)===BigInt(row.balance_before)&&BigInt(current.coin)===BigInt(row.balance_before);
   }catch{return false}
 }
 
@@ -891,7 +894,7 @@ async function burningEventPair(env,{fresh=false}={}){
 //   컬럼을 NULL 로 만들어 batch 전체를 되돌린다(프라임 개봉 checkedOpenMutationStatements 와 같은 방식).
 const DRAW_COIN_GUARD_ERROR='DRAW_COIN_DEBIT_NOT_APPLIED';
 function drawCoinDebitStatements(env,{cost,userId,requestId,receiptTable}){
-  const debit='UPDATE users SET coin=coin-? WHERE id=? AND coin>=?';
+  const debit='UPDATE users SET coin=coin-CAST(? AS BIGINT) WHERE id=? AND coin>=?';
   const guard=proof=>`UPDATE ${receiptTable} SET draw_count=CASE WHEN ${proof} THEN draw_count ELSE NULL END WHERE request_id=? AND user_id=? AND status='PENDING'`;
   if(env.DB?.dialect==='postgres')return [env.DB.prepare(`WITH changed AS (${debit} RETURNING id) ${guard('(SELECT COUNT(*) FROM changed)=1')}`).bind(cost,userId,cost,requestId,userId)];
   return [env.DB.prepare(debit).bind(cost,userId,cost),env.DB.prepare(guard('changes()=1')).bind(requestId,userId)];
@@ -1408,7 +1411,7 @@ async function cancelRaidForInsufficientPlayers(env,instance,participants){
   }
   const refund=Math.max(0,Number(opener?.cost||0));
   if(opener?.userId&&refund>0){
-    statements.push(env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(refund,opener.userId));
+    statements.push(env.DB.prepare('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?').bind(refund,opener.userId));
     statements.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'RAID_OPEN_REFUND' FROM users WHERE id=?").bind(refund,opener.userId));
   }
   statements.push(env.DB.prepare("UPDATE raid_room_cancellations SET status='COMPLETED',refund_user_id=?,refund_coin=?,restored_entries=?,updated_at=CURRENT_TIMESTAMP WHERE instance_id=?").bind(opener?.userId||null,refund,participants.length,instance.id));
@@ -5488,11 +5491,15 @@ async function handleRequest(context){
       const cfg=await attendanceSettings(env);if(!cfg.enabled)return json({error:'현재 출석체크가 중지되어 있습니다.'},503);
       const date=kstDate(),last=await env.DB.prepare('SELECT attendance_date,COALESCE(streak_day,1) AS streak_day FROM attendance_logs WHERE user_id=? ORDER BY attendance_date DESC LIMIT 1').bind(user.id).first();
       const streak=last?.attendance_date===previousKstDate(date)?(Number(last.streak_day||1)%7)+1:1,reward=Number(cfg.rewards[streak-1]||0);
-      try{await env.DB.prepare('INSERT INTO attendance_logs(user_id,attendance_date,reward_coin,streak_day) VALUES(?,?,?,?)').bind(user.id,date,reward,streak).run()}
-      catch{return json({error:'오늘 접속 보상을 이미 받았습니다.'},409)}
-      await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id).run();
+      try{await env.DB.batch([
+        env.DB.prepare('INSERT INTO attendance_logs(user_id,attendance_date,reward_coin,streak_day) VALUES(?,?,?,?)').bind(user.id,date,reward,streak),
+        ...coinChangeStatements(env.DB,user.id,reward,'ATTENDANCE')
+      ])}catch(error){
+        const claimed=await env.DB.prepare('SELECT attendance_date FROM attendance_logs WHERE user_id=? AND attendance_date=?').bind(user.id,date).first();
+        if(claimed)return json({error:'오늘 접속 보상을 이미 받았습니다.'},409);
+        throw error;
+      }
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-      await env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'ATTENDANCE')").bind(user.id,reward,updated.coin).run();
       await grantHighGradeRerollDrop(env,{userId:user.id,content:'ATTENDANCE',referenceId:date});
       return json({reward,streak,user:await profile(env,updated)});
     }
@@ -5681,7 +5688,7 @@ async function handleRequest(context){
           criticalSettings(env),
           env.DB.batch([
             env.DB.prepare('SELECT * FROM card_packs WHERE id=? AND is_active=1').bind(payload.packId),
-            env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id),
+            env.DB.prepare('SELECT *,CAST(coin AS TEXT) AS exact_coin FROM users WHERE id=?').bind(user.id),
             env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id)
           ])
         ]);
@@ -5822,11 +5829,11 @@ async function handleRequest(context){
           throw new Error('MA·LIMITED 중복 마스터의 별 지급 계산이 일치하지 않아 개봉을 중단했습니다.');
         }
 
-        const expectedCoin=Number(fresh.coin||0)-cost;
+        const expectedCoin=addCoins(fresh.exact_coin,-cost);
         const expectedShards=Number(fresh.card_shards||0)+shardTotal;
         const expectedMasterStars=masterStarBefore+masterStarTotal;
         const nextProfile=JSON.parse(JSON.stringify(beforeProfile));
-        nextProfile.coin=expectedCoin;
+        nextProfile.coin=Number(expectedCoin);
         nextProfile.cardShards=expectedShards;
         nextProfile.owned=[...new Set([...(nextProfile.owned||[]).map(String),...uniqueIds])];
         nextProfile.quantities={...(nextProfile.quantities||{})};
@@ -5837,7 +5844,7 @@ async function handleRequest(context){
 
         const grantProof={
           version:1,requestId,userId:Number(user.id),packId:String(pack.id),count:Number(count),
-          coinBefore:Number(fresh.coin||0),coinAfter:expectedCoin,
+          coinBefore:coinValue(fresh.exact_coin),coinAfter:expectedCoin,
           shardsBefore:Number(fresh.card_shards||0),shardsAfter:expectedShards,
           masterStarBefore,masterStarAfter:expectedMasterStars,
           cards:[...expectedAfterByCard.entries()].map(([cardId,quantityAfter])=>({cardId,quantityAfter:Number(quantityAfter)}))
@@ -6285,7 +6292,7 @@ async function handleRequest(context){
       const instanceId=Number(created.meta.last_row_id),roomCfg=weeklyRaidBossSettings(cfg,weekly.boss);await snapshotRaidInstanceV1293(env,instanceId,slotId,roomCfg);await raidRewardSnapshot(env,instanceId,roomCfg,true);
       try{
         const openStatements=[
-          env.DB.prepare('UPDATE users SET coin=coin-? WHERE id=? AND coin>=?').bind(cost,user.id,cost),
+          env.DB.prepare('UPDATE users SET coin=coin-CAST(? AS BIGINT) WHERE id=? AND coin>=?').bind(cost,user.id,cost),
           env.DB.prepare('INSERT INTO raid_participants(instance_id,user_id,deck_cards,total_power,total_damage,updated_at) VALUES(?,?,?,?,0,CURRENT_TIMESTAMP)').bind(instanceId,user.id,JSON.stringify(deck.ids),deck.power),
           env.DB.prepare('UPDATE raid_instances SET participant_count=1,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(instanceId),
           env.DB.prepare("UPDATE raid_open_requests SET instance_id=?,status='COMPLETED',updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(instanceId,requestId),
@@ -6415,7 +6422,7 @@ async function handleRequest(context){
         const magicCrystalsAfter=Number(before.magic_crystals||0)+fixedRewardMagicCrystals;
         const response={ok:true,instanceId:Number(row.instance_id),rewardClaimed:true,rewardCoin:fixedRewardCoin,rewardShards:fixedRewardShards,rewardMagicCrystals:fixedRewardMagicCrystals,participationMagicCrystals:Number(rewardCfg.participationMagicCrystals||0),rankMagicCrystals,finalRank,finalDamage,inventoryRewards:inventoryGrant.balances,rewardEntries:rewardDisplay.entries,rareDrops:rewardDisplay.rareDrops,balanceAfter,shardsAfter,magicCrystalsAfter,rewardSource:'SERVER_CONFIRMED'};
         const rewardStatements=[
-          env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+?,magic_crystals=magic_crystals+? WHERE id=?').bind(fixedRewardCoin,fixedRewardShards,fixedRewardMagicCrystals,user.id),
+          env.DB.prepare('UPDATE users SET coin=coin+CAST(? AS BIGINT),card_shards=card_shards+?,magic_crystals=magic_crystals+? WHERE id=?').bind(fixedRewardCoin,fixedRewardShards,fixedRewardMagicCrystals,user.id),
           env.DB.prepare('UPDATE raid_participants SET reward_claimed=1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND reward_claimed=0').bind(row.id),
           env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'RAID_REWARD')").bind(user.id,fixedRewardCoin,balanceAfter),
           env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'RAID_REWARD')").bind(user.id,fixedRewardShards,shardsAfter),
@@ -6477,7 +6484,7 @@ async function handleRequest(context){
     }
     if(path==='rift/claim'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const body=await readBody(request),runId=String(body.runId||''),requestId=String(body.requestId||''),receipt=await riftReceiptStart(env,requestId,user.id,runId,'CLAIM');if(receipt.response)return json(receipt.response);if(receipt.error)return json({error:receipt.error},409);
-      try{const reserved=await env.DB.prepare("UPDATE pve_rift_runs SET status='CLAIMING',updated_at=CURRENT_TIMESTAMP WHERE run_id=? AND user_id=? AND status='COMPLETED_PENDING'").bind(runId,user.id).run();if(!reserved.meta.changes){await riftReceiptFail(env,requestId,'수령 가능한 원정 보상이 없습니다.');return json({error:'수령 가능한 원정 보상이 없습니다.'},409)}const row=await env.DB.prepare("SELECT * FROM pve_rift_runs WHERE run_id=? AND user_id=? AND status='CLAIMING'").bind(runId,user.id).first(),run=riftStateFromRow(row),settings=await riftSettings(env),weekly=await riftWeeklyRow(env,user.id,settings),eligible=run.rewardEligible&&weekly.rewardCount<settings.weeklyRewardLimit,rewardBonusPercent=Math.max(0,Number(run.battleRewardBonusPercent||0)),rewardMultiplier=1+rewardBonusPercent/100,coin=eligible?rankCoin(Math.max(0,Math.floor(Number(run.stash.coin||0)*rewardMultiplier)),await accountRankBenefits(env,user.id,'RIFT')):0,shards=eligible?Math.max(0,Math.floor(Number(run.stash.shards||0)*rewardMultiplier)):0,magicCrystals=eligible?Math.max(0,Math.floor(Number(run.stash.crystals||0)*rewardMultiplier)):0,before=await env.DB.prepare('SELECT coin,card_shards,magic_crystals FROM users WHERE id=?').bind(user.id).first(),coinAfter=Number(before?.coin||0)+coin,shardsAfter=Number(before?.card_shards||0)+shards,magicCrystalsAfter=Number(before?.magic_crystals||0)+magicCrystals,response={ok:true,rewarded:eligible,reward:{coin,shards,crystals:magicCrystals,magicCrystals,baseCoin:Math.max(0,Math.floor(Number(run.stash.coin||0))),baseShards:Math.max(0,Math.floor(Number(run.stash.shards||0))),baseMagicCrystals:Math.max(0,Math.floor(Number(run.stash.crystals||0))),battleRewardBonusPercent:rewardBonusPercent},message:eligible?(rewardBonusPercent>0?`전투 승리 보너스 +${rewardBonusPercent}%가 적용된 원정 보상을 수령했습니다.`:'원정 보상을 수령했습니다.'):'이번 주 보상 횟수를 모두 사용해 기록만 반영되었습니다.'};const statements=[env.DB.prepare("UPDATE pve_rift_runs SET status='CLAIMED',updated_at=CURRENT_TIMESTAMP WHERE run_id=? AND user_id=? AND status='CLAIMING'").bind(runId,user.id)];if(eligible){statements.unshift(env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+?,magic_crystals=magic_crystals+? WHERE id=?').bind(coin,shards,magicCrystals,user.id),env.DB.prepare("UPDATE pve_rift_weekly SET reward_count=reward_count+1,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND week_key=? AND reward_count<?").bind(user.id,run.weekKey,settings.weeklyRewardLimit));if(coin>0)statements.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'차원의 균열 원정 보상')").bind(user.id,coin,coinAfter));if(shards>0)statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'차원의 균열 원정 보상')").bind(user.id,shards,shardsAfter));if(magicCrystals>0)statements.push(env.DB.prepare("INSERT INTO magic_crystal_logs(user_id,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,'차원의 균열 원정 보상','RIFT',?)").bind(user.id,magicCrystals,magicCrystalsAfter,runId));}statements.push(env.DB.prepare("UPDATE pve_rift_action_receipts SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(JSON.stringify(response),requestId));statements.unshift(...await accountRankAward(env,user.id,'RIFT',runId,{guard:"EXISTS(SELECT 1 FROM pve_rift_runs WHERE run_id=? AND user_id=? AND status='CLAIMING')",values:[runId,user.id]}));await env.DB.batch(statements);const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();response.user=await profile(env,updated);response.weekly=await riftWeeklyRow(env,user.id,settings);response.magicCrystals=Number(updated?.magic_crystals||0);await env.DB.prepare("UPDATE pve_rift_action_receipts SET response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(JSON.stringify(response),requestId).run();return json(response);
+      try{const reserved=await env.DB.prepare("UPDATE pve_rift_runs SET status='CLAIMING',updated_at=CURRENT_TIMESTAMP WHERE run_id=? AND user_id=? AND status='COMPLETED_PENDING'").bind(runId,user.id).run();if(!reserved.meta.changes){await riftReceiptFail(env,requestId,'수령 가능한 원정 보상이 없습니다.');return json({error:'수령 가능한 원정 보상이 없습니다.'},409)}const row=await env.DB.prepare("SELECT * FROM pve_rift_runs WHERE run_id=? AND user_id=? AND status='CLAIMING'").bind(runId,user.id).first(),run=riftStateFromRow(row),settings=await riftSettings(env),weekly=await riftWeeklyRow(env,user.id,settings),eligible=run.rewardEligible&&weekly.rewardCount<settings.weeklyRewardLimit,rewardBonusPercent=Math.max(0,Number(run.battleRewardBonusPercent||0)),rewardMultiplier=1+rewardBonusPercent/100,coin=eligible?rankCoin(Math.max(0,Math.floor(Number(run.stash.coin||0)*rewardMultiplier)),await accountRankBenefits(env,user.id,'RIFT')):0,shards=eligible?Math.max(0,Math.floor(Number(run.stash.shards||0)*rewardMultiplier)):0,magicCrystals=eligible?Math.max(0,Math.floor(Number(run.stash.crystals||0)*rewardMultiplier)):0,before=await env.DB.prepare('SELECT coin,card_shards,magic_crystals FROM users WHERE id=?').bind(user.id).first(),shardsAfter=Number(before?.card_shards||0)+shards,magicCrystalsAfter=Number(before?.magic_crystals||0)+magicCrystals,response={ok:true,rewarded:eligible,reward:{coin,shards,crystals:magicCrystals,magicCrystals,baseCoin:Math.max(0,Math.floor(Number(run.stash.coin||0))),baseShards:Math.max(0,Math.floor(Number(run.stash.shards||0))),baseMagicCrystals:Math.max(0,Math.floor(Number(run.stash.crystals||0))),battleRewardBonusPercent:rewardBonusPercent},message:eligible?(rewardBonusPercent>0?`전투 승리 보너스 +${rewardBonusPercent}%가 적용된 원정 보상을 수령했습니다.`:'원정 보상을 수령했습니다.'):'이번 주 보상 횟수를 모두 사용해 기록만 반영되었습니다.'};const statements=[env.DB.prepare("UPDATE pve_rift_runs SET status='CLAIMED',updated_at=CURRENT_TIMESTAMP WHERE run_id=? AND user_id=? AND status='CLAIMING'").bind(runId,user.id)];if(eligible){statements.unshift(env.DB.prepare('UPDATE users SET coin=coin+CAST(? AS BIGINT),card_shards=card_shards+?,magic_crystals=magic_crystals+? WHERE id=?').bind(coin,shards,magicCrystals,user.id),env.DB.prepare("UPDATE pve_rift_weekly SET reward_count=reward_count+1,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND week_key=? AND reward_count<?").bind(user.id,run.weekKey,settings.weeklyRewardLimit));if(coin>0)statements.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'차원의 균열 원정 보상' FROM users WHERE id=?").bind(coin,user.id));if(shards>0)statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'차원의 균열 원정 보상')").bind(user.id,shards,shardsAfter));if(magicCrystals>0)statements.push(env.DB.prepare("INSERT INTO magic_crystal_logs(user_id,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,'차원의 균열 원정 보상','RIFT',?)").bind(user.id,magicCrystals,magicCrystalsAfter,runId));}statements.push(env.DB.prepare("UPDATE pve_rift_action_receipts SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(JSON.stringify(response),requestId));statements.unshift(...await accountRankAward(env,user.id,'RIFT',runId,{guard:"EXISTS(SELECT 1 FROM pve_rift_runs WHERE run_id=? AND user_id=? AND status='CLAIMING')",values:[runId,user.id]}));await env.DB.batch(statements);const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();response.user=await profile(env,updated);response.weekly=await riftWeeklyRow(env,user.id,settings);response.magicCrystals=Number(updated?.magic_crystals||0);await env.DB.prepare("UPDATE pve_rift_action_receipts SET response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(JSON.stringify(response),requestId).run();return json(response);
       }catch(error){await env.DB.prepare("UPDATE pve_rift_runs SET status='COMPLETED_PENDING',updated_at=CURRENT_TIMESTAMP WHERE run_id=? AND user_id=? AND status='CLAIMING'").bind(runId,user.id).run();await riftReceiptFail(env,requestId,error.message);throw error}
     }
     if(path==='rift/abandon'&&request.method==='POST'){
@@ -7089,7 +7096,7 @@ async function handleRequest(context){
         ...rankedOwnershipGuard(env,new Map([[Number(user.id),seriesTicket.A],[defenderId,seriesTicket.B]])),
         env.DB.prepare('UPDATE pvp_profiles SET season_score=?,highest_score=MAX(highest_score,?),wins=wins+?,losses=losses+?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?').bind(aAfter,aAfter,attackerWin?1:0,attackerWin?0:1,user.id),
         env.DB.prepare('INSERT INTO pvp_match_history(attacker_id,defender_id,attacker_name,defender_name,attacker_deck,defender_deck,attacker_card_score,defender_card_score,attacker_power,defender_power,winner_id,attacker_score_before,attacker_score_after,defender_score_before,defender_score_after,score_change) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(user.id,defenderId,user.nickname,defUser.nickname,JSON.stringify(aIds),JSON.stringify(dIds),aCard,dCard,aPower,dPower,winnerId,aBefore,aAfter,dBefore,dAfter,change),
-        env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(attackerCoinReward,user.id)
+        env.DB.prepare('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?').bind(attackerCoinReward,user.id)
       ];
       if(engineState.active)matchWrites.push(env.DB.prepare(`INSERT OR REPLACE INTO pvp_battle_audits_v1781(
         attacker_id,request_id,defender_id,winner_id,winner_side,result_reason,original_reason,battle_seed,
@@ -7136,10 +7143,10 @@ async function handleRequest(context){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);await publicEquippedTitleMap(env,[]);const lifecycle=await advancePvpSeasonLifecycle(env),settings=lifecycle.settings;if(lifecycle.settling)return json({error:'현재 랭크전 시즌 정산 중입니다. 새 시즌이 자동으로 시작되면 랭킹이 열립니다.',code:'PVP_SEASON_SETTLING',retryable:true,retryAfterMs:1500},409);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 랭크전이 중지되어 있습니다.'},503);const rows=await env.DB.prepare(`SELECT u.id,u.nickname,p.season_score,p.highest_score,p.wins,p.losses,t.id AS titleId,t.name AS titleName,t.badge_text AS titleBadgeText,t.style_preset AS titleStylePreset,t.unlock_config_json AS titleUnlockConfig FROM pvp_profiles p JOIN users u ON u.id=p.user_id LEFT JOIN user_title_loadout tl ON tl.user_id=u.id LEFT JOIN user_character_titles ut ON ut.user_id=u.id AND ut.title_id=tl.title_id AND (ut.expires_at IS NULL OR ut.expires_at>CURRENT_TIMESTAMP) LEFT JOIN character_titles t ON t.id=tl.title_id AND ut.title_id IS NOT NULL AND t.is_active=1 AND t.is_public=1 WHERE u.status='ACTIVE' AND ${PVP_RANKED_ROLE_SQL} AND (u.banned_until IS NULL OR u.banned_until<=datetime('now')) ORDER BY p.season_score DESC,p.wins DESC,u.nickname,u.id LIMIT 100`).all();const ranking=rows.results.map((x,i)=>{const {titleUnlockConfig,...publicRow}=x;return {...publicRow,title:x.titleId?{id:Number(x.titleId),name:x.titleName,badgeText:x.titleBadgeText||x.titleName,stylePreset:String(x.titleStylePreset||'DEFAULT').toUpperCase(),fontPreset:(()=>{try{const value=String(JSON.parse(titleUnlockConfig||'{}')?.fontPreset||'DEFAULT').toUpperCase();return ['DEFAULT','SERIF','DISPLAY','ARCADE','ROUNDED','SCIFI','BRUSH','HANDWRITING','MONO','CLASSIC'].includes(value)?value:'DEFAULT'}catch{return 'DEFAULT'}})()}:null,rank:i+1,tier:resolvePvpTier(Number(x.season_score),settings,i+1)}});return json({settings,ranking,me:ranking.find(x=>Number(x.id)===Number(user.id))||null});
     }
     if(path==='pvp/reward/claim'&&request.method==='POST'){
-      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await pvpSettings(env);if(settings.automaticSeasons!==false)return json({error:'랭크전 시즌 보상은 정산 후 메시지함으로 자동 지급됩니다.'},409);const settled=await completedPvpSettlement(env,settings);if(settled)return json({error:'시즌 정산 보상은 메시지함에서 수령하세요.'},409);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 랭크전이 중지되어 있습니다.'},503);if(!settings.tierRewardsEnabled)return json({error:'티어 달성 보상이 중지되어 있습니다.'},503);if(settings.rewardClaimMode==='SEASON_END'&&settings.endsAt&&utcMs(settings.endsAt)>Date.now()&&!isAdminRole(user))return json({error:'시즌 종료 후 보상을 받을 수 있습니다.'},409);const p=await ensurePvpProfile(env,user,settings),challengerRank=await pvpChallengerRank(env,user.id,{fresh:true});if(challengerRank&&(!settings.endsAt||utcMs(settings.endsAt)>Date.now()))return json({error:'챌린저 보상은 시즌 최종 1~20위 확정 후에 받을 수 있습니다.'},409);const tier=resolvePvpTier(Number(p.highest_score),settings,challengerRank),rewardCoin=Number(tier.rewardCoin||0),rewardShards=Number(tier.rewardShards||0),exists=await env.DB.prepare('SELECT 1 FROM pvp_reward_claims WHERE user_id=? AND season_name=? AND tier_id=?').bind(user.id,settings.seasonName,tier.id).first();if(exists)return json({error:'이미 수령한 시즌 티어 보상입니다.'},409);await env.DB.batch([env.DB.prepare('INSERT INTO pvp_reward_claims(user_id,season_name,tier_id,reward_coin,reward_shards) VALUES(?,?,?,?,?)').bind(user.id,settings.seasonName,tier.id,rewardCoin,rewardShards),env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?').bind(rewardCoin,rewardShards,user.id),env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?").bind(rewardCoin,`PVP ${settings.seasonName} ${tier.name} 티어 보상`,user.id),env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) SELECT id,?,card_shards,? FROM users WHERE id=?").bind(rewardShards,`PVP ${settings.seasonName} ${tier.name} 티어 보상`,user.id)]);const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();return json({ok:true,tier,reward:rewardCoin,rewardCoin,rewardShards,user:await profile(env,updated)});
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await pvpSettings(env);if(settings.automaticSeasons!==false)return json({error:'랭크전 시즌 보상은 정산 후 메시지함으로 자동 지급됩니다.'},409);const settled=await completedPvpSettlement(env,settings);if(settled)return json({error:'시즌 정산 보상은 메시지함에서 수령하세요.'},409);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 랭크전이 중지되어 있습니다.'},503);if(!settings.tierRewardsEnabled)return json({error:'티어 달성 보상이 중지되어 있습니다.'},503);if(settings.rewardClaimMode==='SEASON_END'&&settings.endsAt&&utcMs(settings.endsAt)>Date.now()&&!isAdminRole(user))return json({error:'시즌 종료 후 보상을 받을 수 있습니다.'},409);const p=await ensurePvpProfile(env,user,settings),challengerRank=await pvpChallengerRank(env,user.id,{fresh:true});if(challengerRank&&(!settings.endsAt||utcMs(settings.endsAt)>Date.now()))return json({error:'챌린저 보상은 시즌 최종 1~20위 확정 후에 받을 수 있습니다.'},409);const tier=resolvePvpTier(Number(p.highest_score),settings,challengerRank),rewardCoin=Number(tier.rewardCoin||0),rewardShards=Number(tier.rewardShards||0),exists=await env.DB.prepare('SELECT 1 FROM pvp_reward_claims WHERE user_id=? AND season_name=? AND tier_id=?').bind(user.id,settings.seasonName,tier.id).first();if(exists)return json({error:'이미 수령한 시즌 티어 보상입니다.'},409);await env.DB.batch([env.DB.prepare('INSERT INTO pvp_reward_claims(user_id,season_name,tier_id,reward_coin,reward_shards) VALUES(?,?,?,?,?)').bind(user.id,settings.seasonName,tier.id,rewardCoin,rewardShards),env.DB.prepare('UPDATE users SET coin=coin+CAST(? AS BIGINT),card_shards=card_shards+? WHERE id=?').bind(rewardCoin,rewardShards,user.id),env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?").bind(rewardCoin,`PVP ${settings.seasonName} ${tier.name} 티어 보상`,user.id),env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) SELECT id,?,card_shards,? FROM users WHERE id=?").bind(rewardShards,`PVP ${settings.seasonName} ${tier.name} 티어 보상`,user.id)]);const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();return json({ok:true,tier,reward:rewardCoin,rewardCoin,rewardShards,user:await profile(env,updated)});
     }
     if(path==='pvp/rank-reward/claim'&&request.method==='POST'){
-      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);if(isAdminRole(user))return json({error:'OWNER 계정은 시즌 랭킹 및 랭킹 보상 대상에서 제외됩니다.'},403);const settings=await pvpSettings(env);if(settings.automaticSeasons!==false)return json({error:'랭크전 시즌 보상은 정산 후 메시지함으로 자동 지급됩니다.'},409);const settled=await completedPvpSettlement(env,settings);if(settled)return json({error:'시즌 정산 보상은 메시지함에서 수령하세요.'},409);if(!settings.rankRewardsEnabled)return json({error:'시즌 랭킹 보상이 중지되어 있습니다.'},503);const seasonEndMs=settings.endsAt?utcMs(settings.endsAt):0;if(!seasonEndMs||seasonEndMs>Date.now())return json({error:'최종 랭킹 보상은 시즌 종료 후에만 받을 수 있습니다.'},409);const rows=await env.DB.prepare(`SELECT u.id,u.nickname,p.season_score,p.wins FROM pvp_profiles p JOIN users u ON u.id=p.user_id WHERE u.status='ACTIVE' AND ${PVP_RANKED_ROLE_SQL} AND (u.banned_until IS NULL OR u.banned_until<=datetime('now')) ORDER BY p.season_score DESC,p.wins DESC,u.nickname,u.id`).all(),rank=rows.results.findIndex(x=>Number(x.id)===Number(user.id))+1;if(!rank)return json({error:'시즌 랭킹 기록이 없습니다.'},404);const reward=(settings.rankRewards||[]).find(x=>rank>=Number(x.from)&&rank<=Number(x.to));if(!reward)return json({error:'현재 순위에 해당하는 랭킹 보상이 없습니다.'},404);const exists=await env.DB.prepare('SELECT 1 FROM pvp_rank_reward_claims WHERE user_id=? AND season_name=?').bind(user.id,settings.seasonName).first();if(exists)return json({error:'이미 수령한 시즌 랭킹 보상입니다.'},409);const rewardCoin=Number(reward.rewardCoin||0),rewardShards=Number(reward.rewardShards||0);await env.DB.batch([env.DB.prepare('INSERT INTO pvp_rank_reward_claims(user_id,season_name,final_rank,reward_coin,reward_shards) VALUES(?,?,?,?,?)').bind(user.id,settings.seasonName,rank,rewardCoin,rewardShards),env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?').bind(rewardCoin,rewardShards,user.id)]);const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();return json({ok:true,rank,rewardCoin,rewardShards,user:await profile(env,updated)});
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);if(isAdminRole(user))return json({error:'OWNER 계정은 시즌 랭킹 및 랭킹 보상 대상에서 제외됩니다.'},403);const settings=await pvpSettings(env);if(settings.automaticSeasons!==false)return json({error:'랭크전 시즌 보상은 정산 후 메시지함으로 자동 지급됩니다.'},409);const settled=await completedPvpSettlement(env,settings);if(settled)return json({error:'시즌 정산 보상은 메시지함에서 수령하세요.'},409);if(!settings.rankRewardsEnabled)return json({error:'시즌 랭킹 보상이 중지되어 있습니다.'},503);const seasonEndMs=settings.endsAt?utcMs(settings.endsAt):0;if(!seasonEndMs||seasonEndMs>Date.now())return json({error:'최종 랭킹 보상은 시즌 종료 후에만 받을 수 있습니다.'},409);const rows=await env.DB.prepare(`SELECT u.id,u.nickname,p.season_score,p.wins FROM pvp_profiles p JOIN users u ON u.id=p.user_id WHERE u.status='ACTIVE' AND ${PVP_RANKED_ROLE_SQL} AND (u.banned_until IS NULL OR u.banned_until<=datetime('now')) ORDER BY p.season_score DESC,p.wins DESC,u.nickname,u.id`).all(),rank=rows.results.findIndex(x=>Number(x.id)===Number(user.id))+1;if(!rank)return json({error:'시즌 랭킹 기록이 없습니다.'},404);const reward=(settings.rankRewards||[]).find(x=>rank>=Number(x.from)&&rank<=Number(x.to));if(!reward)return json({error:'현재 순위에 해당하는 랭킹 보상이 없습니다.'},404);const exists=await env.DB.prepare('SELECT 1 FROM pvp_rank_reward_claims WHERE user_id=? AND season_name=?').bind(user.id,settings.seasonName).first();if(exists)return json({error:'이미 수령한 시즌 랭킹 보상입니다.'},409);const rewardCoin=Number(reward.rewardCoin||0),rewardShards=Number(reward.rewardShards||0);await env.DB.batch([env.DB.prepare('INSERT INTO pvp_rank_reward_claims(user_id,season_name,final_rank,reward_coin,reward_shards) VALUES(?,?,?,?,?)').bind(user.id,settings.seasonName,rank,rewardCoin,rewardShards),env.DB.prepare('UPDATE users SET coin=coin+CAST(? AS BIGINT),card_shards=card_shards+? WHERE id=?').bind(rewardCoin,rewardShards,user.id)]);const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();return json({ok:true,rank,rewardCoin,rewardShards,user:await profile(env,updated)});
     }
 
     if(path==='mineral-exchange/config'){
@@ -7685,7 +7692,7 @@ async function handleRequest(context){
       ];
       if(rewardType==='COIN'){
         statements.push(
-          env.DB.prepare(`UPDATE users SET coin=coin+? WHERE id=? AND ${receiptExists}`).bind(rewardAmount,user.id,coupon.id,user.id,operationKey),
+          env.DB.prepare(`UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=? AND ${receiptExists}`).bind(rewardAmount,user.id,coupon.id,user.id,operationKey),
           env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT ?,?,coin,'COUPON' FROM users WHERE id=? AND ${receiptExists}`).bind(user.id,rewardAmount,user.id,coupon.id,user.id,operationKey)
         );
       }else{
@@ -8040,8 +8047,16 @@ async function handleRequest(context){
         if(action==='REJECT'){const reason=String(body.reason||'관리자 거절').trim().slice(0,200);await env.DB.prepare("UPDATE mineral_exchange_requests SET status='REJECTED',reviewed_by=?,reviewed_at=CURRENT_TIMESTAMP,reject_reason=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='PENDING'").bind(admin.id,reason,id).run();await writeAdminLog(env,admin,'MINERAL_EXCHANGE_REJECT','MINERAL_EXCHANGE',id,req,{...req,status:'REJECTED',reason});return json({ok:true})}
         const todayLimit=await mineralExchangeSettings(env),approved=await env.DB.prepare("SELECT COALESCE(SUM(coin_amount),0) total FROM mineral_exchange_requests WHERE user_id=? AND requested_kst_date=? AND status='APPROVED'").bind(req.user_id,req.requested_kst_date).first();
         if(Number(approved?.total||0)+Number(req.coin_amount)>Number(todayLimit.dailyLimitCoin))return json({error:'해당 날짜의 하루 최대 교환 한도를 초과하여 승인할 수 없습니다.'},409);
-        const target=await env.DB.prepare('SELECT coin,nickname FROM users WHERE id=?').bind(req.user_id).first();if(!target)return json({error:'신청 유저를 찾을 수 없습니다.'},404);const nextCoin=Number(target.coin||0)+Number(req.coin_amount);
-        await env.DB.batch([env.DB.prepare("UPDATE mineral_exchange_requests SET status='APPROVED',reviewed_by=?,reviewed_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='PENDING'").bind(admin.id,id),env.DB.prepare('UPDATE users SET coin=? WHERE id=?').bind(nextCoin,req.user_id),env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'MINERAL_EXCHANGE')").bind(req.user_id,req.coin_amount,nextCoin)]);
+        const target=await env.DB.prepare('SELECT id FROM users WHERE id=?').bind(req.user_id).first();if(!target)return json({error:'신청 유저를 찾을 수 없습니다.'},404);
+        const token=crypto.randomUUID();
+        await env.DB.batch([
+          ...(env.DB.dialect==='postgres'?[env.DB.prepare('SELECT id FROM users WHERE id=? FOR UPDATE').bind(req.user_id)]:[]),
+          ...(env.DB.dialect==='postgres'?[env.DB.prepare('SELECT id FROM mineral_exchange_requests WHERE id=? FOR UPDATE').bind(id)]:[]),
+          jointGuard(env.DB,token,"EXISTS(SELECT 1 FROM mineral_exchange_requests WHERE id=? AND user_id=? AND status='PENDING' AND coin_amount=?) AND (SELECT COALESCE(SUM(coin_amount),0) FROM mineral_exchange_requests WHERE user_id=? AND requested_kst_date=? AND status='APPROVED')+CAST(? AS BIGINT)<=CAST(? AS BIGINT)",[id,req.user_id,req.coin_amount,req.user_id,req.requested_kst_date,req.coin_amount,todayLimit.dailyLimitCoin]),
+          env.DB.prepare("UPDATE mineral_exchange_requests SET status='APPROVED',reviewed_by=?,reviewed_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='PENDING'").bind(admin.id,id),
+          ...coinChangeStatements(env.DB,req.user_id,req.coin_amount,'MINERAL_EXCHANGE'),
+          jointGuardEnd(env.DB,token)
+        ]);
         await writeAdminLog(env,admin,'MINERAL_EXCHANGE_APPROVE','MINERAL_EXCHANGE',id,req,{...req,status:'APPROVED',coinGranted:req.coin_amount});return json({ok:true,coinAmount:req.coin_amount});
       }
     }
@@ -8339,7 +8354,7 @@ async function handleRequest(context){
         const after=await env.DB.prepare('SELECT id,nickname,coin,card_shards,role,status,banned_until,ban_reason FROM users WHERE id=?').bind(userId).first();
         return json({ok:true,user:after,previousNickname:before.nickname,reason});
       }
-      else if(action==='COIN'){const amount=Number(p.amount);if(!Number.isInteger(amount)||amount===0)return json({error:'변경 코인을 입력하세요.'},400);if(before.coin+amount<0)return json({error:'보유 코인보다 많이 회수할 수 없습니다.'},400);await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(amount,userId).run();const afterCoin=before.coin+amount;await env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,admin_id) VALUES(?,?,?,?,?)').bind(userId,amount,afterCoin,String(p.reason||'관리자 조정').slice(0,100),admin.id).run();}
+      else if(action==='COIN'){const amount=Number(p.amount);if(!Number.isSafeInteger(amount)||amount===0)return json({error:'변경 코인을 입력하세요.'},400);const wallet=await env.DB.prepare('SELECT CAST(coin AS TEXT) AS coin FROM users WHERE id=?').bind(userId).first();if(BigInt(wallet.coin)+BigInt(amount)<0n)return json({error:'보유 코인보다 많이 회수할 수 없습니다.'},400);await env.DB.batch(coinChangeStatements(env.DB,userId,amount,String(p.reason||'관리자 조정').slice(0,100),admin.id));}
       else if(action==='SHARDS'){const amount=Number(p.amount);if(!Number.isInteger(amount)||amount===0)return json({error:'변경할 카드 조각 수량을 입력하세요.'},400);const current=Number(before.card_shards||0);if(current+amount<0)return json({error:'보유 카드 조각보다 많이 회수할 수 없습니다.'},400);await env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(amount,userId).run();const balance=current+amount;await env.DB.prepare('INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,?)').bind(userId,amount,balance,String(p.reason||'관리자 조정').slice(0,100)).run();}
       else if(action==='INVENTORY'){
         const itemCode=String(p.itemCode||'').trim().toUpperCase(),amount=Number(p.amount);
@@ -8526,13 +8541,10 @@ async function handleRequest(context){
       const reason=String(payload.reason||'관리자 수동 지급').trim().slice(0,100);
       if(!Number.isInteger(userId)||userId<1) return json({error:'지급할 유저를 선택하세요.'},400);
       if(!Number.isInteger(amount)||amount<1||amount>1000000) return json({error:'지급 코인은 1~1,000,000 사이의 정수로 입력하세요.'},400);
-      const before=await env.DB.prepare('SELECT id,nickname,coin,status FROM users WHERE id=?').bind(userId).first();
+      const before=await env.DB.prepare('SELECT id,nickname,CAST(coin AS TEXT) AS coin,status FROM users WHERE id=?').bind(userId).first();
       if(!before) return json({error:'유저를 찾을 수 없습니다.'},404);
-      const result=await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(amount,userId).run();
-      if(!result.meta.changes) return json({error:'코인 지급에 실패했습니다.'},500);
-      const after=await env.DB.prepare('SELECT id,nickname,coin,status FROM users WHERE id=?').bind(userId).first();
-      await env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,admin_id) VALUES(?,?,?,?,?)')
-        .bind(userId,amount,after.coin,reason||'관리자 수동 지급',admin.id).run();
+      await env.DB.batch(coinChangeStatements(env.DB,userId,amount,reason||'관리자 수동 지급',admin.id));
+      const after=await env.DB.prepare('SELECT id,nickname,CAST(coin AS TEXT) AS coin,status FROM users WHERE id=?').bind(userId).first();
       await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)')
         .bind(admin.id,'COIN_GRANT','USER',String(userId),JSON.stringify(before),JSON.stringify({...after,amount,reason})).run();
       return json({ok:true,user:after,amount,reason});

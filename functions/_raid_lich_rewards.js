@@ -76,7 +76,7 @@ export async function prepareLichClearRewards(env,row,room){
     if(policy.coin){
       const coin=await collectionRewardCoin(env,uid,policy.coin,'LICH_RAID');
       (reward.coinByUser||={})[userId]=coin;
-      plan.statements.push(env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(coin,uid),
+      plan.statements.push(env.DB.prepare('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?').bind(coin,uid),
         env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(coin,'리치왕 정벌 클리어 ['+room.id+']',uid));
     }
     plan.statements.push(...raidPigCoinRewardStatements(env,{userId:uid,source:'LICH_RAID',roomId:room.id,amount:policy.pigCoins||0,guardSql:'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',guardBindings:[before.key,raw],at:room.finishedAt}));

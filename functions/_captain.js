@@ -1,4 +1,5 @@
 import { magicSettings,ensureMagicRewardFoundation,magicRewardForRank } from './_magic.js';
+import {addCoins,coinValue} from '../shared/coin-integer-v1.mjs';
 
 function weekKey() {
   const date = new Date(Date.now() + 32400000);
@@ -994,10 +995,10 @@ function cleanName(value) {
 }
 
 async function rewardBalances(env, userId) {
-  const row = await env.DB.prepare('SELECT coin,card_shards,magic_crystals FROM users WHERE id=?').bind(userId).first();
+  const row = await env.DB.prepare('SELECT CAST(coin AS TEXT) AS coin,card_shards,magic_crystals FROM users WHERE id=?').bind(userId).first();
   if (!row) throw new Error('유저 정보를 찾을 수 없습니다.');
   return {
-    coinBalance: Number(row.coin || 0),
+    coinBalance: coinValue(row.coin),
     shardBalance: Number(row.card_shards || 0),
     magicBalance: Number(row.magic_crystals || 0)
   };
@@ -1041,15 +1042,15 @@ async function grantReward(env, userId, reward, reason, claimId, referenceId) {
   const shards = Math.max(0, Math.floor(Number(reward?.shards || 0)));
   const magicCrystals = Math.max(0, Math.floor(Number(reward?.magicCrystals || 0)));
   const before = await rewardBalances(env, userId);
-  const coinBalance = before.coinBalance + coin;
+  const coinBalance = addCoins(before.coinBalance, coin);
   const shardBalance = before.shardBalance + shards;
   const magicBalance = before.magicBalance + magicCrystals;
   const label = reason === 'CAPTAIN_SETTLEMENT' ? '대장전 주간 정산 보상' : '대장전 승리 보상';
   const ref = String(referenceId || claimId || Date.now());
   const statements = [
-    env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+?,magic_crystals=magic_crystals+? WHERE id=?').bind(coin, shards, magicCrystals, userId)
+    env.DB.prepare('UPDATE users SET coin=coin+CAST(? AS BIGINT),card_shards=card_shards+?,magic_crystals=magic_crystals+? WHERE id=?').bind(coin, shards, magicCrystals, userId)
   ];
-  if (coin > 0) statements.push(env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,?)').bind(userId, coin, coinBalance, reason));
+  if (coin > 0) statements.push(env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(coin, reason, userId));
   if (shards > 0) statements.push(env.DB.prepare('INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,?,NULL)').bind(userId, shards, shardBalance, reason));
   if (magicCrystals > 0) statements.push(env.DB.prepare('INSERT INTO magic_crystal_logs(user_id,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,?,?,?)').bind(userId, magicCrystals, magicBalance, label, reason, ref));
   if (claimId) statements.push(env.DB.prepare("UPDATE captain_reward_claims SET status='COMPLETED',error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='PENDING'").bind(claimId));

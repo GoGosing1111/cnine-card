@@ -887,7 +887,7 @@ export async function handleEquipment({path,request,env,deps}){
           SELECT ?,?,?,'PENDING'
           WHERE EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?)
             AND COALESCE((SELECT CASE WHEN json_valid(value) THEN CAST(json_extract(value,'$.shopPrice') AS INTEGER) END FROM app_meta WHERE key='equipment_supply_box_settings_v1247'),?)=?`).bind(requestId,user.id,`${SUPPLY_BOX_CODE}_PURCHASE`,user.id,totalCost,DEFAULT_SUPPLY_BOX_SETTINGS.shopPrice,pricing.originalShopPrice),
-        env.DB.prepare(`UPDATE users SET coin=coin-? WHERE id=? AND coin>=?
+        env.DB.prepare(`UPDATE users SET coin=coin-CAST(? AS BIGINT) WHERE id=? AND coin>=?
           AND EXISTS(SELECT 1 FROM inventory_use_receipts WHERE request_id=? AND user_id=? AND status='PENDING')`).bind(totalCost,user.id,totalCost,requestId,user.id),
         env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at)
           SELECT ?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP
@@ -958,7 +958,7 @@ export async function handleEquipment({path,request,env,deps}){
         env.DB.prepare(`INSERT OR IGNORE INTO inventory_use_receipts(request_id,user_id,item_code,status)
           SELECT ?,?,?,'PENDING' WHERE EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=?)`).bind(requestId,user.id,SUPPLY_BOX_CODE,user.id,SUPPLY_BOX_CODE,count),
         ...supplyBoxDebitStatements(env,{count,userId:user.id,requestId}),
-        env.DB.prepare(`UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?
+        env.DB.prepare(`UPDATE users SET coin=coin+CAST(? AS BIGINT),card_shards=card_shards+? WHERE id=?
           AND EXISTS(SELECT 1 FROM inventory_use_receipts WHERE request_id=? AND user_id=? AND status='PENDING')`).bind(coinGained,shardGained,user.id,requestId,user.id)
       ];
       if(equipmentRewards.length){

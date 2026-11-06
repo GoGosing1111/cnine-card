@@ -450,7 +450,7 @@ async function purchaseAvatar(env,user,body){
       SELECT ?,?,?,?,'PENDING' WHERE EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?)
       AND NOT EXISTS(SELECT 1 FROM avatar_user_ownership_v1 WHERE user_id=? AND avatar_code=? AND (expires_at IS NULL OR expires_at>CURRENT_TIMESTAMP))
       ON CONFLICT(request_id,user_id) DO NOTHING`).bind(requestId,user.id,avatarCode,price,user.id,price,user.id,avatarCode),
-    env.DB.prepare(`UPDATE users SET coin=coin-? WHERE id=? AND coin>=? AND EXISTS(
+    env.DB.prepare(`UPDATE users SET coin=coin-CAST(? AS BIGINT) WHERE id=? AND coin>=? AND EXISTS(
       SELECT 1 FROM avatar_purchase_receipts_v1 WHERE request_id=? AND user_id=? AND status='PENDING')`).bind(price,user.id,price,requestId,user.id),
     env.DB.prepare(`INSERT INTO avatar_user_ownership_v1(user_id,avatar_code,source_type,source_ref,expires_at)
       SELECT ?,?,'COIN_SHOP',?,NULL WHERE EXISTS(SELECT 1 FROM avatar_purchase_receipts_v1 WHERE request_id=? AND user_id=? AND status='PENDING')

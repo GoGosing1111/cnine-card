@@ -3,6 +3,17 @@ import {forgeQuote,executeForge,forgeReceipt,forgeEquipmentBonus,forgeEquipmentB
 import {forgePower,FORGE_RUNTIME_KEY,validateForgePolicy} from '../shared/equipment-forge-policy-v1.mjs';
 import {handleForgeRuntime,handleForgeRuntimeReady} from './helpers/forge-held-runtime.mjs';
 const rid=()=>crypto.randomUUID(),quote=async(f,extra={})=>forgeQuote(f.env,f.user,{requestId:rid(),kind:'ENHANCE',instanceId:f.instanceId,...extra});
+
+test('10경+1 forge enhancement and restoration retain exact coin with rollback and replay',async t=>{
+ const f=await forgeFixture(t,{postgres:true});await f.p('UPDATE users SET coin=CAST(? AS BIGINT) WHERE id=7','100000000000000001').run();
+ const exact=async()=> (await f.p('SELECT CAST(coin AS TEXT) coin FROM users WHERE id=7').first()).coin;
+ const q=await quote(f),body={requestId:rid(),quoteId:q.quoteId};f.fail('INSERT INTO coin_logs');await assert.rejects(executeForge(f.env,f.user,body,'ENHANCE',{randomInt:()=>999999}));f.fail('');assert.equal(await exact(),'100000000000000001');
+ const d=await executeForge(f.env,f.user,body,'ENHANCE',{randomInt:()=>999999});assert.equal(d.outcome,'DESTROY');assert.equal(await exact(),'99999999999999901');
+ await executeForge(f.env,f.user,body,'ENHANCE');assert.equal(await exact(),'99999999999999901');
+ const rq=await forgeQuote(f.env,f.user,{requestId:rid(),kind:'RESTORE',recordId:d.recordId}),restore={requestId:rid(),quoteId:rq.quoteId};
+ await executeForge(f.env,f.user,restore,'RESTORE');await executeForge(f.env,f.user,restore,'RESTORE');assert.equal(await exact(),'99999999999999401');
+ const logs=(await f.p('SELECT CAST(balance_after AS TEXT) balance FROM coin_logs ORDER BY balance_after DESC').all()).results;assert.deepEqual(logs.map(r=>r.balance),['99999999999999901','99999999999999401']);
+});
 test('approved +10 power and 10% minimum cannot drift',()=>{assert.deepEqual(forgePower(580000,10),{total:1276000,pve:1148400,pvp:127600});});
 test('joint hold falls through to the existing read-only forge without DB access',async()=>{assert.equal(await handleForgeRuntime({path:'character/equipment/forge/enhance',request:new Request('https://game.test'),env:new Proxy({},{get(){throw Error('DB touched');}}),deps:{}}),null);});
 for(const postgres of [false,true]){const label=postgres?'PostgreSQL':'SQLite';

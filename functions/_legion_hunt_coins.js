@@ -30,7 +30,7 @@ export async function saveLegionCoinProgress(env,user,{key,before,run,policyRaw,
     ...(DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',user.id)]:[]),
     p('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?',raw,key,before),
     jointGuard(DB,token,predicates.join(' AND '),values),
-    p('UPDATE users SET coin=coin+? WHERE id=?',award.delta,user.id),
+    p('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?',award.delta,user.id),
     p('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?',award.delta,reason,user.id),
     jointGuardEnd(DB,token)
   ];

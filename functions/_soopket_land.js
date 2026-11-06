@@ -375,7 +375,7 @@ export async function redeemLandCoupon({env,user,body,deps}){
     guard(db,list,`EXISTS(SELECT 1 FROM soopketland_coupons WHERE code=? AND is_active=1 AND used_count<max_uses AND ${couponLiveSql(db)})`,[code]);
     let card=null,cards=[];
     if(prize.key==='COIN'){
-      list.push(stmt(db,'UPDATE users SET coin=coin+? WHERE id=?',prize.amount,user.id),stmt(db,"INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT ?,?,coin,'SOOPKETLAND_COUPON' FROM users WHERE id=?",user.id,prize.amount,user.id));
+      list.push(stmt(db,'UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?',prize.amount,user.id),stmt(db,"INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT ?,?,coin,'SOOPKETLAND_COUPON' FROM users WHERE id=?",user.id,prize.amount,user.id));
     }else if(prize.key.endsWith('_CARD')){
       const fixed=prize.key===LAND_IYEJUN_PRIZE;
       const grade=prize.key==='ZENITH_RANDOM_CARD'?'ZENITH':'FUR';

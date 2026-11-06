@@ -120,7 +120,7 @@ export const __accountRankTest={PAYOUT,PROGRESS,LEDGER,PERSONAL};
 export async function settleRankedHunt(env,userId,source,eventId,coin,reason){
   const writes=await accountRankAward(env,userId,source,eventId);
   const guard=`EXISTS(SELECT 1 FROM account_rank_receipts_v1 WHERE token=?)`;
-  writes.push(env.DB.prepare(`UPDATE users SET coin=coin+? WHERE id=? AND ${guard}`).bind(coin,userId,writes.token),
+  writes.push(env.DB.prepare(`UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=? AND ${guard}`).bind(coin,userId,writes.token),
     env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=? AND ${guard}`).bind(coin,reason,userId,writes.token));
   return env.DB.batch(writes);
 }

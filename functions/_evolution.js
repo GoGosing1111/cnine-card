@@ -138,7 +138,7 @@ async function legacyAttempt({env,deps,user,cardId,settings}){
   if(!pool.length)return deps.json({error:'획득 가능한 공개 MA 카드가 없습니다.'},503);
   const fresh=await env.DB.prepare('SELECT coin,card_shards FROM users WHERE id=?').bind(user.id).first();
   if(Number(fresh.coin)<settings.coinCost||Number(fresh.card_shards)<settings.shardCost)return deps.json({error:`진화 재료가 부족합니다. (${settings.coinCost.toLocaleString()}코인 / 카드조각 ${settings.shardCost.toLocaleString()}개)`},400);
-  const spent=await env.DB.prepare('UPDATE users SET coin=coin-?,card_shards=card_shards-? WHERE id=? AND coin>=? AND card_shards>=?').bind(settings.coinCost,settings.shardCost,user.id,settings.coinCost,settings.shardCost).run();
+  const spent=await env.DB.prepare('UPDATE users SET coin=coin-CAST(? AS BIGINT),card_shards=card_shards-? WHERE id=? AND coin>=? AND card_shards>=?').bind(settings.coinCost,settings.shardCost,user.id,settings.coinCost,settings.shardCost).run();
   if(!spent.meta.changes)return deps.json({error:'진화 재료가 부족합니다.'},409);
   const attemptNo=Number(progress.total_attempts)+1,isPity=Number(progress.failed_attempts)+1>=settings.pityAttempts,success=isPity||Math.random()*100<settings.successRate;let reward=null,duplicate=false,rewardShards=0,masterStarGained=0;
   if(success){
@@ -161,7 +161,7 @@ async function legacyAttempt({env,deps,user,cardId,settings}){
   const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
   await env.DB.batch([
     ...(failureProgressStatement?[failureProgressStatement]:[]),
-    env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'CARD_EVOLUTION')").bind(user.id,-settings.coinCost,updated.coin),
+    env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'CARD_EVOLUTION' FROM users WHERE id=?").bind(-settings.coinCost,user.id),
     env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'CARD_EVOLUTION',?)").bind(user.id,-settings.shardCost,updated.card_shards,cardId),
     env.DB.prepare('INSERT INTO card_evolution_logs(user_id,source_card_id,attempt_no,coin_cost,shard_cost,success_rate,is_pity,is_success,reward_card_id,reward_duplicate,reward_shards,evolution_type,master_star_cost,source_consumed,source_quantity_before,source_quantity_after) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,0,?,?,?)').bind(user.id,cardId,attemptNo,settings.coinCost,settings.shardCost,settings.successRate,isPity?1:0,success?1:0,reward?.id||null,duplicate?1:0,rewardShards,'SSR_TO_MA',success?1:0,Number(owned.quantity||0),success?0:Number(owned.quantity||0))
   ]);
@@ -242,7 +242,7 @@ async function zenithAttempt({env,deps,user,cardId,requestId,settings}){
     :env.DB.prepare(`INSERT INTO card_evolution_atomic_guard(guard_id,verified) SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0 AND c.rarity='LIMITED' AND COALESCE(uc.breakthrough_level,0)>=13) AND EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?) AND EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND quantity>=?) THEN 1 ELSE 0 END`).bind(guardId,user.id,cardId,user.id,coinCost,user.id,masterStarCost);
   const statements=[
     guardStatement,
-    env.DB.prepare('UPDATE users SET coin=coin-? WHERE id=? AND coin>=?').bind(coinCost,user.id,coinCost),
+    env.DB.prepare('UPDATE users SET coin=coin-CAST(? AS BIGINT) WHERE id=? AND coin>=?').bind(coinCost,user.id,coinCost),
     env.DB.prepare("UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code='MASTER_STAR' AND quantity>=?").bind(masterStarCost,masterStarCost,user.id,masterStarCost)
   ];
   if(success){

@@ -120,7 +120,7 @@ test('보상 지급 CLAIMING 고착은 자동 복구되고 모든 지급 쓰기�
   assert.match(handler,/async function recoverStaleClaim/);
   assert.match(handler,/statusPayload[\s\S]*await recoverStaleClaim\(env,user\.id\)/);
   assert.match(handler,/async function releaseClaim/);
-  assert.match(handler,/UPDATE users SET coin=coin\+\?,card_shards=card_shards\+\? WHERE id=\? AND \$\{claimGuard\}/);
+  assert.match(handler,/UPDATE users SET coin=coin\+CAST\(\? AS BIGINT\),card_shards=card_shards\+\? WHERE id=\? AND \$\{claimGuard\}/);
   assert.match(handler,/INSERT INTO coin_logs[\s\S]*\$\{claimGuard\}/);
   assert.match(handler,/INSERT INTO shard_logs[\s\S]*\$\{claimGuard\}/);
   assert.match(handler,/claimed\?\.status!==['"]CLAIMED['"]/);
