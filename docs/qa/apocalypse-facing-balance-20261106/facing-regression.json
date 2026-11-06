@@ -1,0 +1,29 @@
+{
+  "beforeFix": {
+    "badSamples": 63,
+    "totalSamples": 3775,
+    "skills": [
+      "seal"
+    ],
+    "firstBad": {
+      "state": "ATTACK",
+      "view": 1,
+      "body": -0.4564453125,
+      "muzzleX": 1185.0613042187501,
+      "shoulderX": 1107.3191734375002,
+      "skill": "seal",
+      "visible": true,
+      "renderable": true,
+      "bodyRotation": 0,
+      "viewRotation": 0,
+      "rootRotation": 0,
+      "texture": [
+        768,
+        512
+      ],
+      "rootScale": 0.5
+    }
+  },
+  "sourceArtChanged": false,
+  "serverDamageChanged": false
+}

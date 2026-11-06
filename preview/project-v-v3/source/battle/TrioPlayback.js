@@ -23,7 +23,9 @@ export async function playTrioSkill(engine,event,showApocalypseStatus){
  engine.lastTrioPlayback=record;(engine.trioRecords??=[]).push(record);
  engine.queueBanner(skill.name,bossByKey(skill.boss).color,bossByKey(skill.boss).name);
  if(!textures||!actor?.fullBodySprite){apply();return true;}
- configureTrioActors(engine);engine.settlePendingTails?.([actor]);
+ // A preceding mercenary dash can still be returning beyond the boss. Finish
+ // those owned tails before taking target positions for this new action.
+ engine.settlePendingTails?.([actor,...targets]);configureTrioActors(engine);
  const points=targets.map(t=>({x:t.root.x,y:t.root.y})),motion=new TrioActorMotion(engine,actor,skill,textures[3],points);
  const fx=new TrioFX(skill,textures,points,{viewport:engine.scene,reducedMotion:engine.reducedMotion,actorMotion:motion}).attach(engine.effectLayer);
  const release=()=>{fx.release();if(engine.activeTrioFX===fx)engine.activeTrioFX=null;};fx.onCancel=release;

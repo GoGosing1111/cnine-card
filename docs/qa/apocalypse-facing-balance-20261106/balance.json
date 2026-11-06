@@ -1,0 +1,41 @@
+{
+  "method": "Same saved five cards and two mercenaries, same equipment/pet opening stats, 64 identical seeds per boss. Controlled simulation, not population win rates.",
+  "rows": [
+    {
+      "name": "사현",
+      "power": 220000000,
+      "wins": 64,
+      "seeds": 64,
+      "averageActions": 8.015625,
+      "averageAllyHp": 91.29218750000003,
+      "enemyHp": 0
+    },
+    {
+      "name": "카르겐",
+      "power": 2200000000,
+      "wins": 64,
+      "seeds": 64,
+      "averageActions": 18.953125,
+      "averageAllyHp": 45.403124999999996,
+      "enemyHp": 0
+    },
+    {
+      "name": "발카르",
+      "power": 3300000000,
+      "wins": 64,
+      "seeds": 64,
+      "averageActions": 21.6875,
+      "averageAllyHp": 27.290625000000023,
+      "enemyHp": 0
+    },
+    {
+      "name": "모르가스",
+      "power": 4400000000,
+      "wins": 61,
+      "seeds": 64,
+      "averageActions": 28.296875,
+      "averageAllyHp": 11.4546875,
+      "enemyHp": 0.196875
+    }
+  ]
+}

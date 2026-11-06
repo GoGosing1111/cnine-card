@@ -1,13 +1,13 @@
 {
   "date": "2026-09-26",
   "engineBase": "0d67ae862a1f9763605ad7323e889acf5d51ad41",
-  "sourceRevision": "c407490213514bb51a0b153b21084991ec01cc4b",
+  "sourceRevision": "3260e5a9f6bdd87ae519a785e48c3d75e76ac985",
   "pixi": "8.20.0",
   "gsap": "3.13.0",
   "serverHash": "2a0d4c2d15bb5040834af3d44d7944df2d99ec59bbd6fdbf0c34d9d3de1e2ecc",
   "engineHash": "01a5cf5dbea514736a7065c10e4be4db1ca94df424d4f37778ead80a3b727cd7",
   "playbackHash": "459b7773a7ee9408a4291827856607493be1bb147607a3c7be33af93945fdf3e",
-  "bundleHash": "bba7fa5949b2322276e1f8d70c3ed3fee0cc1365bb9901088678459cfd7138ea",
+  "bundleHash": "bca09a43ca9b64bfb101337a29e97eb1d0271aadf431b54ce89e4a3c5afeefaf",
   "commonInputs": [
     "preview/project-v-v3/source/battle/IconExpansionPlayback.js",
     "preview/project-v-v3/source/battle/BattleDevicePolicy.mjs",

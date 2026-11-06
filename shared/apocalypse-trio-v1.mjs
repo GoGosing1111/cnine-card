@@ -2,9 +2,9 @@ export const ROOT='/assets/ui/project-v/monsters/apocalypse-trio-20261106';
 export const ART_ROOT='/assets/ui/project-v/monsters/approved-20261106/apocalypse-trio';
 export const REFERENCE_POWER=220_000_000;
 const definitions=[
- {key:'infected-soldier',prefix:'INFECTED_SOLDIER',monsterId:81,name:'카르겐',subtitle:'종말의 저격수',color:0x9cf548,battlePower:66_000_000_000,names:['감염 표식 · 신경 구속','역병 포자 · 회복 고갈','종말 사격 · 사멸탄'],ultimateLine:'명령은 끝나지 않았다.',role:'폐허에서 표적을 고정한 뒤, 감염탄으로 전선을 꿰뚫습니다.'},
- {key:'hell-general',prefix:'HELL_GENERAL',monsterId:82,name:'발카르',subtitle:'지옥군단의 대장군',color:0xeac17d,battlePower:220_000_000_000,names:['군령 · 철쇄 봉인','낙인 · 불멸의 군율','최후의 군령 · 왕검 처형'],ultimateLine:'무릎 꿇어라. 이것이 마지막 군령이다.',role:'방패로 퇴로를 봉쇄하고, 전장을 가르는 왕검으로 처형합니다.'},
- {key:'archdemon',prefix:'ARCHDEMON',monsterId:83,name:'모르가스',subtitle:'세계를 찢는 자',color:0xc58bff,battlePower:660_000_000_000,names:['골옥 · 영혼 구속','공허 침식 · 생명 소거','세계 붕괴 · 종언의 균열'],ultimateLine:'너희의 세계는, 여기까지다.',role:'네 팔로 공간을 벌리고, 거대한 균열 속으로 전장을 무너뜨립니다.'}
+ {key:'infected-soldier',prefix:'INFECTED_SOLDIER',monsterId:81,name:'카르겐',subtitle:'종말의 저격수',color:0x9cf548,battlePower:2_200_000_000,names:['감염 표식 · 신경 구속','역병 포자 · 회복 고갈','종말 사격 · 사멸탄'],ultimateLine:'명령은 끝나지 않았다.',role:'폐허에서 표적을 고정한 뒤, 감염탄으로 전선을 꿰뚫습니다.'},
+ {key:'hell-general',prefix:'HELL_GENERAL',monsterId:82,name:'발카르',subtitle:'지옥군단의 대장군',color:0xeac17d,battlePower:3_300_000_000,names:['군령 · 철쇄 봉인','낙인 · 불멸의 군율','최후의 군령 · 왕검 처형'],ultimateLine:'무릎 꿇어라. 이것이 마지막 군령이다.',role:'방패로 퇴로를 봉쇄하고, 전장을 가르는 왕검으로 처형합니다.'},
+ {key:'archdemon',prefix:'ARCHDEMON',monsterId:83,name:'모르가스',subtitle:'세계를 찢는 자',color:0xc58bff,battlePower:4_400_000_000,names:['골옥 · 영혼 구속','공허 침식 · 생명 소거','세계 붕괴 · 종언의 균열'],ultimateLine:'너희의 세계는, 여기까지다.',role:'네 팔로 공간을 벌리고, 거대한 균열 속으로 전장을 무너뜨립니다.'}
 ];
 const clearRewards=Object.freeze({
  'infected-soldier':Object.freeze({coin:1_500_000_000,masterStars:1_000_000,mysticEnergy:null}),

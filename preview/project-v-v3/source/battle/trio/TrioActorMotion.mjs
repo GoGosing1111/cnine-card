@@ -21,6 +21,10 @@ export function configureTrioActors(engine){
   }
   if(!actor.trioBossKey)actor.trioPreviousCalmIdle=actor.art?.calmIdle;
   actor.animationAdapter?.kill?.();
+  // A reused actor may retain a mirrored action sprite. Facing belongs to the
+  // view; normalize the body as well before freezing the next idle/rest pose.
+  // Testing view.scale alone misses this second, inherited mirror.
+  if(actor.fullBodySprite)actor.fullBodySprite.scale.x=Math.abs(actor.fullBodySprite.scale.x);
   actor.artFacing=boss.key==='infected-soldier'?-1:1;actor.applyFacing();
   actor.art={...actor.art,calmIdle:true};actor.captureNeutralAvatarPose();
   actor.trioBossKey=boss.key;
@@ -37,8 +41,10 @@ export class TrioActorMotion{
   this.home={x:actor.root.x,y:actor.root.y,zIndex:actor.root.zIndex,rootScaleX:actor.root.scale.x,rootScaleY:actor.root.scale.y,state:actor.state,owned:actor.cooperativeActionActive};
   this.rest={texture:body.texture,scaleX:body.scale.x,scaleY:body.scale.y,x:body.x,y:body.y,rotation:body.rotation,alpha:body.alpha,visible:body.visible,anchorX:body.anchor.x,anchorY:body.anchor.y};
   this.height=body.height;this.width=body.width;
-  this.target=[...points].sort((a,b)=>Math.hypot(a.x-this.home.x,a.y-this.home.y)-Math.hypot(b.x-this.home.x,b.y-this.home.y))[0]||{x:this.home.x-100,y:this.home.y};
-  this.direction=Math.sign(this.target.x-this.home.x)||-1;
+  // A mercenary can briefly cross behind the boss during its dash/recovery.
+  // Keep the boss facing the opposing formation, never that transient point.
+  this.direction=actor.team==='ENEMY'?-1:1;
+  this.target=points.filter(p=>(p.x-this.home.x)*this.direction>0).sort((a,b)=>Math.hypot(a.x-this.home.x,a.y-this.home.y)-Math.hypot(b.x-this.home.x,b.y-this.home.y))[0]||{x:this.home.x+this.direction*100,y:this.home.y};
   const clearance=this.width*Math.abs(actor.root.scale.x)*.5+80;
   this.travel=this.direction*Math.min(engine.scene.width*.45,Math.max(0,Math.abs(this.target.x-this.home.x)-clearance));
   actor.cooperativeActionActive=true;actor.trioMotion=this;this.render(0);

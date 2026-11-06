@@ -19,12 +19,12 @@ const verifiedAssets=[...approval.assets.map(a=>({...a,verified:true})),...['/pr
 
 for(const [index,boss] of BOSSES.entries())test(boss.name+': actual dual-mercenary battle, seven enemies, unchanged mechanics and exact basic rewards',()=>{
  const profile=apocalypseTrioLiveProfile(boss,reference),r=runtime(boss.monsterId,profile);
- const cards=['HP','DEFENSE','DEFENSE','ATTACK','SPEED'].map((power_type,i)=>({id:'QA-'+i,power:2e8,power_type,rarity:i<2?'FUR':'ZENITH'})),mercenaries=['V-966','V-953'].map(c=>snapshot(c,21,'PVE',1e8));
+ const cards=['HP','DEFENSE','DEFENSE','ATTACK','SPEED'].map((power_type,i)=>({id:'QA-'+i,power:2e6,power_type,rarity:i<2?'FUR':'ZENITH'})),mercenaries=['V-966','V-953'].map(c=>snapshot(c,21,'PVE',1e6));
  const old=createPveBattleV2({cards,mercenaries,monster:runtime(80,reference).engineMonster,seed:17});
  const battle=createPveBattleV2({cards,mercenaries,monster:r.engineMonster,seed:17});
  assert.equal(r.effectiveRewardCoin,[1500000000,2500000000,4000000000][index]);assert.deepEqual(normalizeApocalypseSettings({monsterProfiles:{[boss.monsterId]:profile}}).monsterProfiles[boss.monsterId].clearBonus,{coinPercent:null,masterStars:(index+1)*1000000,mysticEnergy:null});
  assert.equal(battle.teams.B.cards.length,7);assert.equal(battle.teams.A.mercenaries.length,2);assert.equal(battle.rules.victoryCondition,'ALL_ENEMIES_DEFEATED');
- for(let i=0;i<7;i++)for(const k of ['basePower','maxHp','attack','defense'])assert.equal(battle.teams.B.cards[i][k],old.teams.B.cards[i][k]*[300,1000,3000][index],k);
+ for(let i=0;i<7;i++)for(const k of ['basePower','maxHp','attack','defense'])assert.equal(battle.teams.B.cards[i][k],old.teams.B.cards[i][k]*[10,15,20][index],k);
  const leader=battle.teams.B.cards[0];assert.equal(leader.projectVMonsterArt.approved,true);assert.equal(leader.projectVMonsterArt.scaleMultiplier,boss.battleScale);
  const casts=battle.result.timeline.filter(e=>e.type==='APOCALYPSE_SKILL');assert.deepEqual(casts.map(e=>e.skillCode),boss.skills.map(s=>s.code));assert.equal(casts[0].hits.length,4);assert.equal(casts[1].hits.length,7);assert.equal(casts[2].hits.length,7);assert(casts[2].hits.every(h=>h.damage>0));
  for(const event of casts)assert.equal(new Set(event.hits.map(h=>h.targetId)).size,event.hits.length);

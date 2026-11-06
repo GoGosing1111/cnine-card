@@ -5,6 +5,8 @@ import http from 'node:http';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {pathToFileURL} from 'node:url';
+import savedParty from '../docs/qa/apocalypse-facing-balance-20261106/saved-parties.json' with {type:'json'};
+import {replaySavedBattle} from './helpers/apocalypse-saved-party-20261106.mjs';
 import reference from '../docs/qa/apocalypse-trio-live-20261106/reference.json' with {type:'json'};
 import zenith from '../assets/ui/project-v/characters/zenith/manifest-v1.json' with {type:'json'};
 import fur from '../assets/ui/project-v/characters/fur/manifest-v2.json' with {type:'json'};
@@ -20,10 +22,12 @@ import {reserveApocalypseBattle,registerApocalypseChallenge,apocalypseChallengeA
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs');
 const root=path.resolve(import.meta.dirname,'..'),out=process.env.TRIO_QA_OUTPUT||path.join(root,'docs/qa/apocalypse-trio-live-20261106/browser'),production=process.argv.includes('--production'),captureOnly=process.argv.includes('--capture-only');
 fs.mkdirSync(out,{recursive:true});
-const cards=[...fur.characters.slice(0,2),...zenith.characters.slice(0,2),superstar.characters[0]].map((c,i)=>({id:c.cardId,cardId:c.cardId,title:c.member,name:c.member,image:'/'+c.sourceArt,rarity:i<2?'FUR':i<4?'ZENITH':'SUPERSTAR',power:2e8,basePower:2e8,power_type:['HP','DEFENSE','DEFENSE','ATTACK','SPEED'][i]})),deck=cards.map(c=>c.id);
+const useSaved=process.env.TRIO_SAVED_PARTY==='1';
+const cards=useSaved?savedParty.samples[0].teams.A.cards.map(c=>({...c,id:c.cardId,name:c.title,rarity:c.grade,power_type:c.type})):[...fur.characters.slice(0,2),...zenith.characters.slice(0,2),superstar.characters[0]].map((c,i)=>({id:c.cardId,cardId:c.cardId,title:c.member,name:c.member,image:'/'+c.sourceArt,rarity:i<2?'FUR':i<4?'ZENITH':'SUPERSTAR',power:2e8,basePower:2e8,power_type:['HP','DEFENSE','DEFENSE','ATTACK','SPEED'][i]})),deck=cards.map(c=>c.id);
 const scenarios=BOSSES.map(boss=>{
  const profile=apocalypseTrioLiveProfile(boss,reference.profile),runtime=pveDifficultyRuntime({apocalypse:{enabled:true,monsterProfiles:{[boss.monsterId]:profile}}},{id:boss.monsterId,name:boss.name,pve_tab:'APOCALYPSE',is_boss:1,image_url:boss.sourceArt});
- const battle=createPveBattleV2({cards,mercenaries:['V-966','V-953'].map(c=>snapshot(c,21,'PVE',1e8)),monster:runtime.engineMonster,seed:17});
+ let battle=createPveBattleV2({cards,mercenaries:['V-966','V-953'].map(c=>snapshot(c,21,'PVE',1e8)),monster:runtime.engineMonster,seed:17});
+ if(useSaved){const sample=savedParty.samples[0],r=replaySavedBattle(sample,{boss,profile,seed:17});r.supports={A:r.final.A.filter(c=>c.isBattleSuit),B:[]};r.final.mercenaries={A:r.final.A.filter(c=>c.isMercenary),B:[]};r.final.A=r.final.A.filter(c=>!c.isBattleSuit&&!c.isMercenary);battle={...battle,seed:17,rules:sample.rules,teams:{...battle.teams,A:structuredClone(sample.teams.A)},result:r};}
  const monster={id:boss.monsterId,name:boss.name,image:boss.sourceArt,battlePower:profile.battlePower,rewardCoin:runtime.effectiveRewardCoin,isBoss:true,pveTab:'APOCALYPSE',pve_difficulty:'APOCALYPSE'};
  return {boss,profile,runtime,battle,monster};
 });
@@ -58,7 +62,7 @@ const server=http.createServer(async(req,res)=>{try{
    latestAttempt=body.requestId;traffic.push(key);
    await reserveApocalypseBattle(f.env,{userId:2,requestId:body.requestId,runToken:body.apocalypseRunToken,monsterId:boss.monsterId});
    const challenge=await registerApocalypseChallenge(f.env,{userId:2,requestId:body.requestId,runToken:body.apocalypseRunToken,monsterId:boss.monsterId,won:battle.result.winner==='A',battleV2:battle,plan:{reward:boss.clearRewards.coin,card:null,items:[],magic:null,unified:null,bonuses:{coin:0,masterStars:boss.clearRewards.masterStars,mysticEnergy:0}},log:{ids:deck,playerPower:10000000,monsterPower:profile.battlePower}});
-   data={result:'PENDING',reward:0,battleV2:structuredClone(battle),apocalypseChallenge:challenge,monster,difficulty:{isApocalypse:true,difficulty:'APOCALYPSE'},equippedBattleSuit:{code:'BATTLE_SUIT_03',name:'G-BODY',pvePower:3500000},equippedWeapon:{code:'EQ_1786966923833',name:'DMR'},characterBonus:{battleSuitPve:3500000},user,energy,energyKind:'APOCALYPSE',serverNow:new Date().toISOString()};
+   data={result:'PENDING',reward:0,battleV2:structuredClone(battle),apocalypseChallenge:challenge,monster,difficulty:{isApocalypse:true,difficulty:'APOCALYPSE'},equippedBattleSuit:useSaved?{code:'BATTLE_SUIT_Z_BODY',name:'Z-BODY',pvePower:26125000}:{code:'BATTLE_SUIT_03',name:'G-BODY',pvePower:3500000},equippedWeapon:{code:'EQ_1786966923833',name:'DMR'},characterBonus:{battleSuitPve:3500000},user,energy,energyKind:'APOCALYPSE',serverNow:new Date().toISOString()};
   }else if(key.startsWith('battle/apocalypse-challenge/')){
    traffic.push(key);data={...await apocalypseChallengeAction(f.env,user,key.split('/').at(-1),body),serverNow:Date.now(),user};
   }else data={'service/status':{maintenance:{active:false}},packs:{packs:[]},messages:{messages:[],unread:0},'shell/summary':{inventory:{},messages:{unread:0}},'live-operations':{serverNow:new Date().toISOString(),items:[]},'burning-event/status':{enabled:false},'magic/status':{visible:false,enabled:false,cards:[],loadouts:[]}}[key]||{visible:false,enabled:false,items:[],profiles:[],cards:[],loadouts:[],settings:{}};
@@ -72,10 +76,10 @@ const server=http.createServer(async(req,res)=>{try{
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
 const origin='http://127.0.0.1:'+server.address().port,browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio','--enable-unsafe-swiftshader']}),reports=[];
 try{
- for(const width of production?[390]:[1440,390])for(const scenario of scenarios){
+ for(const width of process.env.TRIO_QA_ONE?[1440]:(production||process.env.TRIO_QA_MOBILE)?[390]:[1440,390])for(const scenario of process.env.TRIO_QA_ONE?scenarios.slice(0,1):scenarios){
   active=scenario;const {boss,profile,battle,monster}=scenario;
   const page=await browser.newPage({viewport:{width,height:width===390?844:1000},isMobile:width===390,hasTouch:width===390,serviceWorkers:'block'}),errors=[];
-  page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>{console.log('DIALOG',d.message());void d.accept();});
+  page.on('console',m=>{if(m.type()==='error'&&!m.text().includes('WebSocket connection'))console.log('CONSOLE',m.text().slice(0,1200));});page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>{console.log('DIALOG',d.message());void d.accept();});
   await page.addInitScript(user=>{localStorage.setItem('cnine_card_user_v10',JSON.stringify(user));localStorage.setItem('cnine_card_api_token','apocalypse-local-review');localStorage.setItem('cnine_battle_sound','OFF');localStorage.setItem('cnine_pve_view_mode','deck');},user);
   if(production)await page.route('**/api/**',async route=>{const req=route.request();const response=await fetch(origin+new URL(req.url()).pathname,{method:req.method(),headers:{'content-type':'application/json'},body:['GET','HEAD'].includes(req.method())?undefined:req.postData()});await route.fulfill({status:response.status,contentType:'application/json',body:await response.text()});});
   await page.goto((production?'https://cnine-card.pages.dev':origin)+'/?screen=battle');await page.locator('#battleStart, #pveV2GoHunt').first().waitFor({timeout:30000});
@@ -84,20 +88,23 @@ try{
   await page.locator('.apocalypse-dodge').waitFor({timeout:60000});
   await page.evaluate(async()=>{
    const engine=await ProjectVPixiBattle.mount(),play=engine.playEvents.bind(engine);window.__trioEngine=engine;window.__playbackQa={casts:[],visuals:{},startedAt:performance.now()};
+   window.__facingSamples=[];window.__facingProbe=setInterval(()=>{const a=engine.enemies.find(a=>a.battleCard?.cardId==='MONSTER:81');if(!a?.fullBodySprite||a.hp<=0)return;const b=a.fullBodySprite,p=b.toGlobal({x:-b.texture.width*.43,y:-b.texture.height*.6}),q=b.toGlobal({x:b.texture.width*.1,y:-b.texture.height*.6});__facingSamples.push({state:a.state,view:a.view.scale.x,body:b.scale.x,muzzleX:p.x,shoulderX:q.x,skill:engine.activeTrioFX?.skill?.kind||null,visible:a.root.visible&&b.visible,renderable:a.root.renderable,bodyRotation:b.rotation,viewRotation:a.view.rotation,rootRotation:a.root.rotation,texture:[b.texture.width,b.texture.height],worldAlpha:b.worldAlpha,rootScale:a.root.scale.x});},20);
    window.__trioProbe=setInterval(()=>{const fx=engine.activeTrioFX;if(!fx)return;const m=fx.actorMotion,a=m.actor,b=a.fullBodySprite,key=fx.skill.code,v=__playbackQa.visuals[key]??={samples:[],initialFacing:a.view.scale.x};const snap={time:engine.trioPlaybackTime,cutVisible:fx.cut.visible,cut:[fx.cut.x,fx.cut.y,fx.cut.width,fx.cut.height,fx.cut.alpha],actor:[a.root.x,a.root.y],bodyUid:b.uid,bodyParent:b.parent===a.view,texture:b.texture.uid,pose:m.pose,clone:!!fx.actor,scale:[a.root.scale.x,a.root.scale.y]};if(v.samples.length<400)v.samples.push(snap);},20);
    engine.playEvents=async(events,options)=>{const result=await play(events,options);for(const event of events||[])if(event.type==='APOCALYPSE_SKILL'&&engine.lastTrioPlayback?.code===event.skillCode&&!__playbackQa.casts.some(c=>c.code===event.skillCode))__playbackQa.casts.push({...engine.lastTrioPlayback});return result;};window.__restorePlaybackQa=()=>engine.playEvents=play;
   });
+  if(boss.key==='infected-soldier'){await page.screenshot({path:path.join(out,(production?'production-':'')+'kargen-'+width+'-idle.png')});}
   await page.locator('.apocalypse-dodge .is-safe').click();
-  await page.waitForFunction(()=>{const e=window.__trioEngine;return e?.lastTrioPlayback?.kind==='ultimate'&&!!e.activeTrioFX&&e.trioPlaybackTime>1.7&&e.trioPlaybackTime<2.8;},null,{timeout:120000});
-  const capture=await page.evaluate(()=>({kind:__trioEngine.lastTrioPlayback.kind,time:__trioEngine.trioPlaybackTime,active:!!__trioEngine.activeTrioFX,phase:document.querySelector('#battlePhase')?.textContent}));console.log(JSON.stringify({capture,width}));
+  await page.waitForFunction(()=>{const e=window.__trioEngine;return (e?.lastTrioPlayback?.kind==='ultimate'&&!!e.activeTrioFX&&e.trioPlaybackTime>1.7&&e.trioPlaybackTime<2.8)||!!document.querySelector('#pveResultConfirm')||document.querySelector('#battlePhase')?.textContent==='연결 실패';},null,{timeout:120000});
+  const capture=await page.evaluate(()=>({kind:__trioEngine.lastTrioPlayback?.kind,time:__trioEngine.trioPlaybackTime,active:!!__trioEngine.activeTrioFX,phase:document.querySelector('#battlePhase')?.textContent}));console.log(JSON.stringify({capture,width,errors}));if(!capture.active){const debug=await page.evaluate(()=>({phase:document.querySelector('#battlePhase')?.textContent,text:document.body.innerText.slice(-2500),last:__trioEngine.lastTrioPlayback,casts:__playbackQa.casts,destroyed:__trioEngine.disposed}));fs.writeFileSync(path.join(out,'failure-debug.json'),JSON.stringify(debug,null,2));await page.screenshot({path:path.join(out,'failure.png')});throw Error('Ultimate did not play: '+JSON.stringify({phase:debug.phase,last:debug.last,errors}));}
   await page.screenshot({path:path.join(out,(production?'production-':'')+boss.key+'-'+width+'-ultimate.png')});
   if(captureOnly){await page.close();continue;}
   await page.waitForFunction(()=>!!document.querySelector('#pveResultConfirm')||document.querySelector('#battlePhase')?.textContent==='연결 실패',null,{timeout:180000});
-  const result=await page.evaluate(async()=>{const engine=await ProjectVPixiBattle.mount();clearInterval(window.__trioProbe);return {...__playbackQa,elapsed:performance.now()-__playbackQa.startedAt,failed:document.querySelector('#battlePhase')?.textContent==='연결 실패',runtime:ProjectVPixiBattle.runtimeVersion,activeFx:!!engine.activeTrioFX,overflow:document.documentElement.scrollWidth>innerWidth};});
+  const result=await page.evaluate(async()=>{const engine=await ProjectVPixiBattle.mount();clearInterval(window.__trioProbe);clearInterval(window.__facingProbe);return {facing:window.__facingSamples,...__playbackQa,elapsed:performance.now()-__playbackQa.startedAt,failed:document.querySelector('#battlePhase')?.textContent==='연결 실패',runtime:ProjectVPixiBattle.runtimeVersion,activeFx:!!engine.activeTrioFX,overflow:document.documentElement.scrollWidth>innerWidth};});
+  if(boss.key==='infected-soldier'){fs.writeFileSync(path.join(out,'kargen-facing.json'),JSON.stringify(result.facing,null,2));console.log(JSON.stringify({badFacing:result.facing.filter(s=>s.muzzleX>=s.shoulderX).slice(0,12),count:result.facing.filter(s=>s.muzzleX>=s.shoulderX).length}));assert(result.facing.length>10);assert(result.facing.every(s=>s.muzzleX<s.shoulderX),'Kargen muzzle must face allies throughout idle, attacks and recovery');}
   const saved=await apocalypseChallengeAction(f.env,user,'status',{requestId:latestAttempt});
   await page.screenshot({path:path.join(out,(production?'production-':'')+boss.key+'-'+width+'-result.png')});
   assert.equal(result.failed,false);assert.equal(saved.status,'CLAIMED');assert.deepEqual(errors,[]);assert.equal(result.activeFx,false);assert.equal(result.overflow,false);
-  assert.deepEqual(result.casts.map(c=>c.kind),['seal','curse','ultimate']);assert(result.casts.every(c=>c.impacts===1));assert.equal(result.casts[2].targets,7);assert.equal(result.casts[2].damage,battle.result.timeline.find(e=>e.skillCode===boss.skills[2].code).hits.reduce((sum,h)=>sum+h.damage,0));
+  assert.deepEqual(result.casts.map(c=>c.kind),['seal','curse','ultimate']);assert(result.casts.every(c=>c.impacts===1));assert.equal(result.casts[2].targets,battle.result.timeline.find(e=>e.skillCode===boss.skills[2].code).hits.length);assert.equal(result.casts[2].damage,battle.result.timeline.find(e=>e.skillCode===boss.skills[2].code).hits.reduce((sum,h)=>sum+h.damage,0));
   for(const visual of Object.values(result.visuals)){
    const cut=visual.samples.filter(s=>s.time>.15&&s.time<.75);assert(cut.length>2,'static cut samples');
    for(const sample of cut){assert.equal(sample.cutVisible,true);assert.deepEqual(sample.cut,cut[0].cut);assert.deepEqual(sample.actor,cut[0].actor);assert.equal(sample.texture,cut[0].texture);}
