@@ -1,0 +1,473 @@
+{
+  "status": "LIVE_VERIFIED",
+  "verifiedAtKst": "2026-11-06 22:23:42",
+  "sourceCommit": "46b36b91b6047162e3a0364262e65dd9fa3939e9",
+  "implementationCommit": "2af01b77e04fbe145a7345ed5a023d2a120bad55",
+  "pages": {
+    "at": "2026-11-06T13:23:40.447Z",
+    "id": "9d5ef510-4555-4a90-a841-f6f6770feec5",
+    "url": "https://9d5ef510.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "46b36b91b6047162e3a0364262e65dd9fa3939e9"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "b97c1ae1-2ee5-4c4b-84c3-4a79132677e0",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "7396661d-c118-44a4-88a6-8e25fd63dbd2",
+      "percentage": 100
+    }
+  ],
+  "request": "X-BODY damage should have a meaningful impact compared with Z-BODY; reporter 더듬이구.",
+  "diagnosis": {
+    "account": {
+      "id": "4391",
+      "nickname": "더듬이구"
+    },
+    "productionRecords": 12,
+    "damageApplied": true,
+    "priorSharePercent": [
+      0.17035637296002992,
+      0.23899780653664143
+    ],
+    "priorXToZ": [
+      {
+        "monsterId": 81,
+        "seed": 2386077716,
+        "xToZ": 1.9779549748223695
+      },
+      {
+        "monsterId": 82,
+        "seed": 2303071932,
+        "xToZ": 2.0000022748856874
+      },
+      {
+        "monsterId": 82,
+        "seed": 320792961,
+        "xToZ": 2.0000015681073737
+      },
+      {
+        "monsterId": 82,
+        "seed": 2118037473,
+        "xToZ": 2.0000019227829706
+      }
+    ],
+    "method": "Approximate replay of read-only saved public opening snapshots, aura reversal via existing helper, same seed and party; X 52.25m versus Z 26.125m and no suit. Public snapshots omit internal combat state; baseline differences are recorded explicitly and are NOT claimed as exact original replay. Replacement skill timing differs by approved animation. Actual saved production totals remain the authoritative evidence. No production battle started."
+  },
+  "change": {
+    "actor": "BATTLE_SUIT:BATTLE_SUIT_X_BODY",
+    "mode": "PVE",
+    "outgoingDamageMultiplier": 32,
+    "paths": [
+      "ordinary attack",
+      "piercing component",
+      "intrinsic and equipped skill chip bases"
+    ],
+    "appliedExactlyOnce": true,
+    "startsWith": "new server-generated battles",
+    "preserved": [
+      "catalog PVE power 50,000,000",
+      "weapon cadence",
+      "40-second intrinsic cadence",
+      "skill chip coefficients and cadence",
+      "enemy skill defense",
+      "other suits",
+      "PVP",
+      "past saved battle receipts",
+      "crafting costs and odds",
+      "boss stats and rewards",
+      "artwork and animation"
+    ]
+  },
+  "verification": {
+    "uniqueTests": 20,
+    "groups": [
+      {
+        "log": "final-regression.log",
+        "passed": 12
+      },
+      {
+        "log": "adjacent.log",
+        "passed": 4
+      },
+      {
+        "test": "tests/x-body-area-skill-20260927.test.mjs",
+        "passed": 4
+      }
+    ],
+    "officialScopedGatePassed": true,
+    "workerSyntaxPassed": true,
+    "candidateFights": 384,
+    "candidateResults": {
+      "sourceRef": "dfa2cddba525266b27c4ee2700b080a7b009c25e",
+      "at": "2026-11-06T12:59:07.370Z",
+      "method": "Approximate public saved-party inputs, unchanged party/boss and 32 fixed seeds per case; candidate X-only final outgoing damage scale. Same 50m catalog power. These are one-account controlled comparisons, not population win rates.",
+      "rows": [
+        {
+          "monsterId": 81,
+          "scale": 1,
+          "runs": 32,
+          "wins": 32,
+          "averageDamage": 161704368,
+          "averageBossDamage": 51188037,
+          "averageSharePercent": 0.20801290877709722,
+          "averageActions": 14.0625
+        },
+        {
+          "monsterId": 81,
+          "scale": 4,
+          "runs": 32,
+          "wins": 32,
+          "averageDamage": 648493530,
+          "averageBossDamage": 205790495,
+          "averageSharePercent": 0.8342076798748507,
+          "averageActions": 14
+        },
+        {
+          "monsterId": 81,
+          "scale": 8,
+          "runs": 32,
+          "wins": 32,
+          "averageDamage": 1288008062,
+          "averageBossDamage": 403764118,
+          "averageSharePercent": 1.656864976423589,
+          "averageActions": 13.875
+        },
+        {
+          "monsterId": 81,
+          "scale": 16,
+          "runs": 32,
+          "wins": 32,
+          "averageDamage": 2320501987,
+          "averageBossDamage": 790567115,
+          "averageSharePercent": 2.985042238858232,
+          "averageActions": 13.25
+        },
+        {
+          "monsterId": 81,
+          "scale": 24,
+          "runs": 32,
+          "wins": 32,
+          "averageDamage": 3488844622,
+          "averageBossDamage": 1276034991,
+          "averageSharePercent": 4.48797226772069,
+          "averageActions": 13.6875
+        },
+        {
+          "monsterId": 81,
+          "scale": 32,
+          "runs": 32,
+          "wins": 32,
+          "averageDamage": 4265178530,
+          "averageBossDamage": 1581157270,
+          "averageSharePercent": 5.48663097111651,
+          "averageActions": 13.0625
+        },
+        {
+          "monsterId": 82,
+          "scale": 1,
+          "runs": 32,
+          "wins": 12,
+          "averageDamage": 168763547,
+          "averageBossDamage": 54258315,
+          "averageSharePercent": 0.18817628930652416,
+          "averageActions": 16.5625
+        },
+        {
+          "monsterId": 82,
+          "scale": 4,
+          "runs": 32,
+          "wins": 12,
+          "averageDamage": 675407049,
+          "averageBossDamage": 221617500,
+          "averageSharePercent": 0.7440507146520137,
+          "averageActions": 16.5
+        },
+        {
+          "monsterId": 82,
+          "scale": 8,
+          "runs": 32,
+          "wins": 20,
+          "averageDamage": 1357806800,
+          "averageBossDamage": 486323165,
+          "averageSharePercent": 1.4334228232173034,
+          "averageActions": 15.8125
+        },
+        {
+          "monsterId": 82,
+          "scale": 16,
+          "runs": 32,
+          "wins": 22,
+          "averageDamage": 2638918203,
+          "averageBossDamage": 995003600,
+          "averageSharePercent": 2.768324375311499,
+          "averageActions": 15.625
+        },
+        {
+          "monsterId": 82,
+          "scale": 24,
+          "runs": 32,
+          "wins": 25,
+          "averageDamage": 3783615605,
+          "averageBossDamage": 1503939390,
+          "averageSharePercent": 3.9384042778084702,
+          "averageActions": 15.375
+        },
+        {
+          "monsterId": 82,
+          "scale": 32,
+          "runs": 32,
+          "wins": 24,
+          "averageDamage": 4954351301,
+          "averageBossDamage": 2058577017,
+          "averageSharePercent": 5.177373444238904,
+          "averageActions": 15.625
+        }
+      ]
+    },
+    "exactLocalComparisons": [
+      {
+        "monsterId": 81,
+        "seed": 2386077716,
+        "before": {
+          "winner": "A",
+          "actions": 13,
+          "normal": 8671920,
+          "intrinsic": 79844690,
+          "chips": 70125516,
+          "total": 158642126,
+          "hp": 146607951,
+          "shield": 12034175
+        },
+        "after": {
+          "winner": "A",
+          "actions": 13,
+          "normal": 277501440,
+          "intrinsic": 2167929920,
+          "chips": 1960297920,
+          "total": 4405729280,
+          "hp": 3926652800,
+          "shield": 479076480
+        }
+      },
+      {
+        "monsterId": 82,
+        "seed": 2303071932,
+        "before": {
+          "winner": "B",
+          "actions": 17,
+          "normal": 13704752,
+          "intrinsic": 85080870,
+          "chips": 77926755,
+          "total": 176712377,
+          "hp": 154434880,
+          "shield": 22277497
+        },
+        "after": {
+          "winner": "B",
+          "actions": 17,
+          "normal": 438552064,
+          "intrinsic": 2388444672,
+          "chips": 2664378560,
+          "total": 5491375296,
+          "hp": 4263668352,
+          "shield": 1227706944
+        }
+      },
+      {
+        "monsterId": 82,
+        "seed": 320792961,
+        "before": {
+          "winner": "A",
+          "actions": 17,
+          "normal": 9885868,
+          "intrinsic": 86951820,
+          "chips": 74069110,
+          "total": 170906798,
+          "hp": 150314463,
+          "shield": 20592335
+        },
+        "after": {
+          "winner": "A",
+          "actions": 15,
+          "normal": 316347776,
+          "intrinsic": 2310173056,
+          "chips": 2631206080,
+          "total": 5257726912,
+          "hp": 4769307072,
+          "shield": 488419840
+        }
+      },
+      {
+        "monsterId": 82,
+        "seed": 2118037473,
+        "before": {
+          "winner": "B",
+          "actions": 17,
+          "normal": 9744204,
+          "intrinsic": 80895450,
+          "chips": 74745785,
+          "total": 165385439,
+          "hp": 143875400,
+          "shield": 21510039
+        },
+        "after": {
+          "winner": "A",
+          "actions": 15,
+          "normal": 311814528,
+          "intrinsic": 2270283584,
+          "chips": 2503014080,
+          "total": 5085112192,
+          "hp": 4102248704,
+          "shield": 982863488
+        }
+      }
+    ],
+    "weakPartyHoldouts": [
+      {
+        "monsterId": 81,
+        "scenario": "same five saved cards and X, mercenaries removed",
+        "wins": 0,
+        "seeds": 16
+      },
+      {
+        "monsterId": 82,
+        "scenario": "same five saved cards and X, mercenaries removed",
+        "wins": 0,
+        "seeds": 16
+      }
+    ],
+    "browser": [
+      {
+        "width": 1440,
+        "expected": {
+          "normalHits": 3,
+          "normalDamage": 277501440,
+          "skillHits": 57,
+          "skillDamage": 4128227840
+        },
+        "actual": {
+          "normalHits": 3,
+          "normalDamage": 277501440,
+          "skillHits": 57,
+          "skillDamage": 4128227840
+        },
+        "queue": 0,
+        "errors": 0
+      },
+      {
+        "width": 390,
+        "expected": {
+          "normalHits": 3,
+          "normalDamage": 277501440,
+          "skillHits": 57,
+          "skillDamage": 4128227840
+        },
+        "actual": {
+          "normalHits": 3,
+          "normalDamage": 277501440,
+          "skillHits": 57,
+          "skillDamage": 4128227840
+        },
+        "queue": 0,
+        "errors": 0
+      }
+    ],
+    "live": {
+      "pages": {
+        "at": "2026-11-06T13:23:40.447Z",
+        "id": "9d5ef510-4555-4a90-a841-f6f6770feec5",
+        "url": "https://9d5ef510.cnine-card.pages.dev",
+        "status": "success",
+        "commit": "46b36b91b6047162e3a0364262e65dd9fa3939e9"
+      },
+      "workers": [
+        {
+          "name": "cnine-card-api-runtime",
+          "version": "b97c1ae1-2ee5-4c4b-84c3-4a79132677e0",
+          "percentage": 100
+        },
+        {
+          "name": "cnine-card-clan-draft",
+          "version": "7396661d-c118-44a4-88a6-8e25fd63dbd2",
+          "percentage": 100
+        }
+      ],
+      "deployedRuntime": {
+        "sha256": "004a34e1cb8be260adbc2e49ca2aaab91dd0025be65fde1aa3e7ef1e52fc646a",
+        "bytes": 9449779,
+        "scale": 32,
+        "actualActorGuardEvaluated": true,
+        "helperCases": [
+          {
+            "name": "X PVE",
+            "result": 32,
+            "expected": 32
+          },
+          {
+            "name": "X PVP",
+            "result": 1,
+            "expected": 1
+          },
+          {
+            "name": "Z PVE",
+            "result": 1,
+            "expected": 1
+          },
+          {
+            "name": "fake X",
+            "result": 1,
+            "expected": 1
+          },
+          {
+            "name": "SX",
+            "result": 1,
+            "expected": 1
+          }
+        ],
+        "allThreeDamagePathsVerified": true
+      },
+      "publicFiles": [
+        {
+          "file": "js/battle-v3-live.js",
+          "sha256": "3f2925a377e4e4f2a8fb966c0a51c859fde24b02d52382cec3cf0fb225980d40",
+          "status": 200
+        },
+        {
+          "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+          "sha256": "08aaa0624790bb3f2a07e82513a3caeb85ba8f9b64304ff17de440cbb0a0dea7",
+          "status": 200
+        }
+      ],
+      "assetCount": 20000,
+      "unauthenticatedStatus": 401,
+      "accountWrites": 0,
+      "verifiedAt": "2026-11-06T13:23:42.452Z"
+    }
+  },
+  "limitations": [
+    "Comparisons use reconstructed saved public opening snapshots, not exact historical combat replays.",
+    "Win rates and damage shares describe one saved party and the tested seeds, not all users.",
+    "Browser playback was isolated with the publicly shipped renderer; no live account battle or physical device was operated.",
+    "Whole-fight damage is limited by target HP/shields and changes in kill timing, so the aggregate is not always exactly 32 times."
+  ],
+  "operations": {
+    "accountWrites": 0,
+    "messages": 0,
+    "schedules": 0,
+    "storageMaintenance": 0,
+    "dependencyCopies": 0,
+    "gitAutoMaintenance": false,
+    "evidenceDirectory": "operations/x-body-impact-20261106",
+    "sourceDirectory": "tmp/cardgu-live-20261027",
+    "concurrentChangesPreserved": [
+      "workshop UI",
+      "Jokro access",
+      "all-content large-coin settlement fixes and verification records"
+    ]
+  }
+}

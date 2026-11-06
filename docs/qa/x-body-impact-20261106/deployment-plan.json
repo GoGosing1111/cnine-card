@@ -1,0 +1,51 @@
+{
+  "before": {
+    "at": "2026-11-06T13:18:59.829Z",
+    "id": "65d9b294-bd14-4e5c-9f36-c2084c38524d",
+    "url": "https://65d9b294.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "c4982ece7666363b64c40ff1ae2cb6e24b7927be"
+  },
+  "base": "c4982ece7666363b64c40ff1ae2cb6e24b7927be",
+  "head": "46b36b91b6047162e3a0364262e65dd9fa3939e9",
+  "sourceFiles": [
+    "AGENTS.md",
+    "docs/qa/all-content-large-coin-20261106/README.md",
+    "docs/qa/all-content-large-coin-20261106/completion.json",
+    "docs/qa/all-content-large-coin-20261106/deployment-plan.json",
+    "docs/qa/all-content-large-coin-20261106/deployment-success.json",
+    "docs/qa/all-content-large-coin-20261106/live-verification.json",
+    "docs/qa/all-content-large-coin-20261106/review.json",
+    "docs/qa/all-content-large-coin-20261106/source-inventory.json",
+    "docs/qa/x-body-impact-20261106/README.md",
+    "docs/qa/x-body-impact-20261106/browser-report.json",
+    "docs/qa/x-body-impact-20261106/comparison.json",
+    "docs/qa/x-body-impact-20261106/probe.mjs",
+    "docs/qa/x-body-impact-20261106/unchanged-baseline.json",
+    "docs/qa/x-body-impact-20261106/validation.json",
+    "functions/_battle_v2_preview.js",
+    "tests/battle-suit-damage-v2063.test.mjs",
+    "tests/overlord-suit-live-20261005.test.mjs",
+    "tests/sx-suit-live-20261007.test.mjs",
+    "tests/x-body-area-skill-20260927.test.mjs",
+    "tests/x-body-impact-20261106.test.mjs"
+  ],
+  "engineSha256": "268530d046c3eff54a49f97fcbae6f44dc5809b8c4255341465a06e020020ca8",
+  "tests": [
+    "tests/x-body-area-skill-20260927.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "reason": "User requested meaningful X-BODY damage after live account diagnosis. X-only PVE outgoing damage scales once by 32 for ordinary, piercing and skill bases. All other suits, PVP, catalog power, cadence, boss defense and account state are unchanged. Final 12 runtime regressions and 4 adjacent SX/Overlord checks already passed; 384 candidate fights, 4 exact local before/after comparisons, 32 weak-party holdouts and public-renderer PC/mobile receipt replay passed. Official scoped gate repeats only the four focused X area contracts plus worker compile and standard release safeguards. Only engine runtime changed; remaining diff is tests and audit docs.",
+  "passed": {
+    "finalRegression": "final-regression.log",
+    "tests": 12,
+    "adjacent": "adjacent.log",
+    "adjacentTests": 4,
+    "browser": [
+      1440,
+      390
+    ]
+  }
+}

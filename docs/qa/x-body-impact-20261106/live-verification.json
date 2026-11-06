@@ -1,0 +1,71 @@
+{
+  "pages": {
+    "at": "2026-11-06T13:23:40.447Z",
+    "id": "9d5ef510-4555-4a90-a841-f6f6770feec5",
+    "url": "https://9d5ef510.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "46b36b91b6047162e3a0364262e65dd9fa3939e9"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "b97c1ae1-2ee5-4c4b-84c3-4a79132677e0",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "7396661d-c118-44a4-88a6-8e25fd63dbd2",
+      "percentage": 100
+    }
+  ],
+  "deployedRuntime": {
+    "sha256": "004a34e1cb8be260adbc2e49ca2aaab91dd0025be65fde1aa3e7ef1e52fc646a",
+    "bytes": 9449779,
+    "scale": 32,
+    "actualActorGuardEvaluated": true,
+    "helperCases": [
+      {
+        "name": "X PVE",
+        "result": 32,
+        "expected": 32
+      },
+      {
+        "name": "X PVP",
+        "result": 1,
+        "expected": 1
+      },
+      {
+        "name": "Z PVE",
+        "result": 1,
+        "expected": 1
+      },
+      {
+        "name": "fake X",
+        "result": 1,
+        "expected": 1
+      },
+      {
+        "name": "SX",
+        "result": 1,
+        "expected": 1
+      }
+    ],
+    "allThreeDamagePathsVerified": true
+  },
+  "publicFiles": [
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "3f2925a377e4e4f2a8fb966c0a51c859fde24b02d52382cec3cf0fb225980d40",
+      "status": 200
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "08aaa0624790bb3f2a07e82513a3caeb85ba8f9b64304ff17de440cbb0a0dea7",
+      "status": 200
+    }
+  ],
+  "assetCount": 20000,
+  "unauthenticatedStatus": 401,
+  "accountWrites": 0,
+  "verifiedAt": "2026-11-06T13:23:42.452Z"
+}
