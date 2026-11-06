@@ -1,0 +1,57 @@
+{
+  "status": "LIVE_REGISTERED",
+  "completedAt": "2026-11-06T15:51:12.793Z",
+  "appliedAtKST": "2026-11-07 00:50:56",
+  "auditId": "55654",
+  "operationKey": "ops:auction-bgm-ojikjoeun-golta69:20261107:v1",
+  "sourceCommit": "1c9dfe1a8fe8b5d942f4cd53549caf167e3bc05d",
+  "pagesId": "aa7a94eb-93a4-4545-8a04-7e0e60b322f8",
+  "added": [
+    {
+      "fileName": "오직조은_5759.mp3",
+      "amount": 57590,
+      "duration": 57
+    },
+    {
+      "fileName": "골타69_16969.mp3",
+      "amount": 169690,
+      "duration": 55
+    }
+  ],
+  "existingSharedPreserved": 60,
+  "sharedTotal": 62,
+  "historyRowsPreserved": 19,
+  "publicFiles": 2,
+  "windowsManifestFiles": 2,
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "63fe197e-9df9-4333-aca7-ac0c697e85cd",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "faa65a7e-2d74-48b9-a590-f3055b95b0ef",
+      "percentage": 100
+    }
+  ],
+  "tests": {
+    "bgmRegression": 8,
+    "deliveryRegression": 4,
+    "actualServiceBids": 2,
+    "profiles": [
+      "Chromium1440",
+      "WebKit390"
+    ],
+    "originalDecode": 2,
+    "rollbackRehearsals": 3,
+    "replayWrites": 0
+  },
+  "noticeTracks": 20,
+  "noticePath": "C:/Users/User/Downloads/경매장/경매장_신규_BGM_공지.txt",
+  "accountWrites": 0,
+  "messagesSent": 0,
+  "noticePublished": false,
+  "newSchedules": 0,
+  "maintenance": 0
+}

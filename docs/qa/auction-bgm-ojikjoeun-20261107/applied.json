@@ -1,0 +1,41 @@
+{
+  "dryRun": false,
+  "replayed": false,
+  "receipt": {
+    "operationKey": "ops:auction-bgm-ojikjoeun-golta69:20261107:v1",
+    "status": "COMPLETED",
+    "sourceCommit": "1c9dfe1a8fe8b5d942f4cd53549caf167e3bc05d",
+    "added": [
+      {
+        "id": "1256",
+        "auction_id": "0",
+        "min_bid": "57590",
+        "max_bid": "57590",
+        "bgm_url": "assets/effects/auction-20261107/%EC%98%A4%EC%A7%81%EC%A1%B0%EC%9D%80_5759.mp3#av=25",
+        "bgm_duration": "57",
+        "sort_order": "60",
+        "created_at": "2026-11-06 15:50:56"
+      },
+      {
+        "id": "1257",
+        "auction_id": "0",
+        "min_bid": "169690",
+        "max_bid": "169690",
+        "bgm_url": "assets/effects/auction-20261107/%EA%B3%A8%ED%83%8069_16969.mp3#av=25",
+        "bgm_duration": "55",
+        "sort_order": "61",
+        "created_at": "2026-11-06 15:50:56"
+      }
+    ],
+    "sharedCount": 62,
+    "existingRowsPreserved": 79,
+    "afterHash": "4ab43cab356593321ae99bee98310aa429675c7fa04619eed74e501453e7ec77",
+    "beforeHash": "babc5d0b097294ed592de4755256d6911d848646bf8a2053fbdf42623589c143",
+    "revision": 2,
+    "accountWrites": 0,
+    "messagesSent": 0,
+    "noticePublished": false,
+    "auditId": "55654",
+    "appliedAt": "2026-11-06 15:50:56"
+  }
+}

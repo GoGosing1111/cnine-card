@@ -16,3 +16,9 @@
 배포는 직전 운영 커밋 `e534f2dd6b757ae306b7a977c316f6386038b7e9` 기준 `npm run deploy:production -- --scoped`로 진행한다. 두 내부 이력 문서는 Git과 원본에 보존하고 정적 배송에서만 제외해 20,000개 자산 한도를 유지한다. 배송 제외 경로는 manifest.json에 기록했다. 기존 체크아웃과 의존성을 재사용하며 저장공간 유지관리·삭제·예약은 하지 않는다.
 
 실행 및 검증 원본: `operations/auction-bgm-ojikjoeun-20261107/`. 공지문은 기존 18곡과 이번 2곡을 합친 20곡 목록으로 갱신한다. 외부 공지 게시나 메시지 발송은 하지 않는다.
+
+운영 완료: 소스 1c9dfe1a8, Pages aa7a94eb, 두 Worker 100%. 2026-11-07 00:50:56 KST · 감사 55654. 두 곡 등록, 기존 공통 60행/과거 19행 무변경, 총 62곡. 공개 MP3 2개와 Windows manifest 2개 원본 해시·길이 일치, Content-Type audio/mpeg, 배송 자산 20,000개 확인. 독립 READ ONLY 검증과 완료키 SELECT 재실행 추가쓰기 0.
+
+관련 검사 12개 통과. 기존 sparse 체크아웃에서 빠진 프리뷰 HTML/JS와 CSS를 복원한 후 PC1440·WebKit390 발동표를 확인했다. 응용 코드 수정은 없으며 초기 검수 환경 오류도 기록했다. Chromium은 실제 두 음원 AudioContext 디코딩을 확인했고 Windows WebKit은 AudioContext 미제공으로 표시·파일 응답을 확인했다.
+
+공지문은 원래 18곡과 이번 2곡을 합친 20곡 목록으로 C:/Users/User/Downloads/경매장/경매장_신규_BGM_공지.txt에 갱신했다. 공지 게시·메시지 발송 없음. 원본 두 파일을 최종 해시 대조하고 그대로 보존했다.
