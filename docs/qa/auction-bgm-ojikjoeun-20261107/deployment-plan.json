@@ -1,0 +1,9 @@
+{
+  "base": "e534f2dd6b757ae306b7a977c316f6386038b7e9",
+  "reason": "User-requested auction BGM additions: preserve all 60 shared entries and 19 historical entries; ship original Ojikjoeun and Golta69 MP3 files for exact additional bids 57590 and 169690. Preserve personal volume controls. Two internal historical audit notes stay in Git to fit the existing Pages asset limit. No runtime behavior changes.",
+  "tests": [
+    "tests/auction-user-bgm-20261103.test.mjs",
+    "tests/production-sparse-staging-20261023.test.mjs"
+  ],
+  "checks": []
+}

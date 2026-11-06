@@ -1,0 +1,7 @@
+{
+  "stage": "isolated browser preview",
+  "error": "BGM guide button missing: the reused sparse checkout had not materialized preview/auction-user-20261103/index.html",
+  "resolution": "Materialize the two existing tracked preview files and css/auction-user-v1.css with explicit sparse-checkout patterns. The absent stylesheet caused the next initial layout check to fail; after restoring it both browser profiles passed. No application code change.",
+  "completedBeforeFailure": ["Original asset hashes", "20000 delivery assets", "62 BGM guide rows", "Two isolated service bids and queued audio events"],
+  "productionWrites": 0
+}

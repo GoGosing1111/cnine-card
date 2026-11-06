@@ -1,0 +1,41 @@
+{
+  "operationKey": "ops:auction-bgm-ojikjoeun-golta69:20261107:v1",
+  "authorization": "오직조은_5759.mp3 추가해 — 기존 규칙대로 끝 숫자에 0 추가, 중복 제외; 후속 골타69_16969.mp3 추가",
+  "source": "C:/Users/User/Downloads/경매장/오직조은_5759.mp3",
+  "sourceFolder": "C:/Users/User/Downloads/경매장",
+  "existingSharedCount": 60,
+  "expectedSharedCount": 62,
+  "previousSharedHash": "b2574b3c978579db65febd0fc5b3354a09fe5e980c91e23009e03cd64c1eaa7b",
+  "included": [
+    {
+      "fileName": "오직조은_5759.mp3",
+      "title": "오직조은",
+      "fileNumber": 5759,
+      "amount": 57590,
+      "bytes": 2279966,
+      "sha256": "8d163b05e33a275dbc3fc07d598bd316d5e851a520c6568cf3b0d99ceae5bcad",
+      "durationSeconds": 57,
+      "duration": 57,
+      "path": "assets/effects/auction-20261107/오직조은_5759.mp3",
+      "url": "assets/effects/auction-20261107/%EC%98%A4%EC%A7%81%EC%A1%B0%EC%9D%80_5759.mp3#av=25",
+      "sortOrder": 60
+    },
+    {
+      "fileName": "골타69_16969.mp3",
+      "title": "골타69",
+      "fileNumber": 16969,
+      "amount": 169690,
+      "bytes": 1272950,
+      "sha256": "6485f21a893ac4c330f8690744c22108265d72d82b426e590e89d79a3f51f25d",
+      "durationSeconds": 54.12,
+      "duration": 55,
+      "path": "assets/effects/auction-20261107/골타69_16969.mp3",
+      "url": "assets/effects/auction-20261107/%EA%B3%A8%ED%83%8069_16969.mp3#av=25",
+      "sortOrder": 61
+    }
+  ],
+  "deliveryExcludedNotes": [
+    "docs/diim-rescue-verified-star-20261003.md",
+    "docs/diim-sx-revoke-20261008.md"
+  ]
+}

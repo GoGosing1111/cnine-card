@@ -263,6 +263,9 @@ const auctionHistoricalNotesOnly=new Set(["docs/auction-bgm-bids-20260926.md", "
 // Eighteen new auction MP3s use these historical audit-note delivery slots.
 // Exact notes remain in Git and local review; no runtime source references them.
 for(const note of ["clan-faction-sessions-preparation-20260921","clan-faction-tax-20260920","clan-faction-war-20260917","clan-final-organization-20261012","clan-hanwha-diim-avatar-20261003","clan-hanwha-samsung-avatars-20261001","clan-master-kick-20260919","clan-participation-positive-v2040","clan-pig-round-rewards-20260918","clan-prison-camp-v2083","clan-redraft-20260916","clan-regular-schedule-20260922","clan-round6-delay-20260926","clan-season-end-gift-20260928","clan-three-admissions-20260930","clan-war-item-rewards-20260929","companion-preparation-v2-20261002","completionist-icon-exclusion-20260930"])auctionHistoricalNotesOnly.add('docs/'+note+'.md');
+// Two original auction MP3s use internal historical audit-note delivery slots.
+auctionHistoricalNotesOnly.add('docs/diim-rescue-verified-star-20261003.md');
+auctionHistoricalNotesOnly.add('docs/diim-sx-revoke-20261008.md');
 const auctionRepositoryOnly=file=>auctionHistoricalNotesOnly.has(file)||file.startsWith('preview/auction-user-20261103/')||file==='docs/project-user-auction-standard-20261103.md'||file==='assets/items/auction-host-ticket-20261103-v1.manifest.json';
 // Exact PNGs/provenance and four historical gift implementation notes stay in Git.
 // CNINE ships its two WebPs, opening module and shared contents within the Pages cap.

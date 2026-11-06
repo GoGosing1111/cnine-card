@@ -1,0 +1,62 @@
+{
+  "at": "2026-11-06T15:46:09.504Z",
+  "assets": 2,
+  "sourceHashesMatch": true,
+  "assetCount": 20000,
+  "profiles": [
+    {
+      "name": "Chromium1440",
+      "guideNames": true,
+      "overflow": false,
+      "audioContextSupported": true,
+      "decoded": [
+        {
+          "fileName": "오직조은_5759.mp3",
+          "seconds": 56.99916666666667,
+          "channels": 2,
+          "sampleRate": 48000
+        },
+        {
+          "fileName": "골타69_16969.mp3",
+          "seconds": 54.08497916666666,
+          "channels": 2,
+          "sampleRate": 48000
+        }
+      ],
+      "fetched": [
+        {
+          "fileName": "오직조은_5759.mp3",
+          "status": 200,
+          "bytes": 2279966
+        },
+        {
+          "fileName": "골타69_16969.mp3",
+          "status": 200,
+          "bytes": 1272950
+        }
+      ]
+    },
+    {
+      "name": "WebKit390",
+      "guideNames": true,
+      "overflow": false,
+      "audioContextSupported": false,
+      "decoded": [],
+      "fetched": [
+        {
+          "fileName": "오직조은_5759.mp3",
+          "status": 200,
+          "bytes": 2279966
+        },
+        {
+          "fileName": "골타69_16969.mp3",
+          "status": 200,
+          "bytes": 1272950
+        }
+      ]
+    }
+  ],
+  "actualServiceBids": 2,
+  "queuedInOrder": true,
+  "guideRows": 62
+}
