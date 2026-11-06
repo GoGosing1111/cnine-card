@@ -1,0 +1,179 @@
+{
+  "at": "2026-11-06T09:33:44.902Z",
+  "source": "8a2781582adc7bcc6fb316468a70a5b680d74667",
+  "publicPages": "8182a971-6228-4f00-b054-1d5c77903500",
+  "operationalAccountWrites": 0,
+  "api": "isolated local fixture, public production static assets",
+  "reports": [
+    {
+      "boss": "infected-soldier",
+      "width": 390,
+      "result": "WIN",
+      "settlement": "CLAIMED",
+      "errors": [],
+      "facingSamples": 3786,
+      "wrongFacing": 0,
+      "states": [
+        "IDLE",
+        "HIT",
+        "ATTACK",
+        "MOVE"
+      ],
+      "casts": [
+        {
+          "boss": "infected-soldier",
+          "code": "INFECTED_SOLDIER_SEAL",
+          "kind": "seal",
+          "impacts": 1,
+          "targets": 4,
+          "damage": 0,
+          "duration": 2.2,
+          "authority": "SERVER_TIMELINE",
+          "motionActorId": "B:0:MONSTER:81",
+          "motionOwner": "EXISTING_BATTLE_CHARACTER",
+          "cut": "STATIC_IMAGE_ONLY"
+        },
+        {
+          "boss": "infected-soldier",
+          "code": "INFECTED_SOLDIER_CURSE",
+          "kind": "curse",
+          "impacts": 1,
+          "targets": 7,
+          "damage": 0,
+          "duration": 2.2,
+          "authority": "SERVER_TIMELINE",
+          "motionActorId": "B:0:MONSTER:81",
+          "motionOwner": "EXISTING_BATTLE_CHARACTER",
+          "cut": "STATIC_IMAGE_ONLY"
+        },
+        {
+          "boss": "infected-soldier",
+          "code": "INFECTED_SOLDIER_ULTIMATE",
+          "kind": "ultimate",
+          "impacts": 1,
+          "targets": 7,
+          "damage": 244989644,
+          "duration": 4.6,
+          "authority": "SERVER_TIMELINE",
+          "motionActorId": "B:0:MONSTER:81",
+          "motionOwner": "EXISTING_BATTLE_CHARACTER",
+          "cut": "STATIC_IMAGE_ONLY"
+        }
+      ],
+      "pvp": "local check already passed",
+      "staticCutsVerified": true,
+      "existingActorOnly": true,
+      "overflow": false
+    },
+    {
+      "boss": "hell-general",
+      "width": 390,
+      "result": "WIN",
+      "settlement": "CLAIMED",
+      "errors": [],
+      "facingSamples": 0,
+      "wrongFacing": 0,
+      "states": [],
+      "casts": [
+        {
+          "boss": "hell-general",
+          "code": "HELL_GENERAL_SEAL",
+          "kind": "seal",
+          "impacts": 1,
+          "targets": 4,
+          "damage": 0,
+          "duration": 2.2,
+          "authority": "SERVER_TIMELINE",
+          "motionActorId": "B:0:MONSTER:82",
+          "motionOwner": "EXISTING_BATTLE_CHARACTER",
+          "cut": "STATIC_IMAGE_ONLY"
+        },
+        {
+          "boss": "hell-general",
+          "code": "HELL_GENERAL_CURSE",
+          "kind": "curse",
+          "impacts": 1,
+          "targets": 7,
+          "damage": 0,
+          "duration": 2.2,
+          "authority": "SERVER_TIMELINE",
+          "motionActorId": "B:0:MONSTER:82",
+          "motionOwner": "EXISTING_BATTLE_CHARACTER",
+          "cut": "STATIC_IMAGE_ONLY"
+        },
+        {
+          "boss": "hell-general",
+          "code": "HELL_GENERAL_ULTIMATE",
+          "kind": "ultimate",
+          "impacts": 1,
+          "targets": 7,
+          "damage": 356250794,
+          "duration": 4.6,
+          "authority": "SERVER_TIMELINE",
+          "motionActorId": "B:0:MONSTER:82",
+          "motionOwner": "EXISTING_BATTLE_CHARACTER",
+          "cut": "STATIC_IMAGE_ONLY"
+        }
+      ],
+      "pvp": "local check already passed",
+      "staticCutsVerified": true,
+      "existingActorOnly": true,
+      "overflow": false
+    },
+    {
+      "boss": "archdemon",
+      "width": 390,
+      "result": "WIN",
+      "settlement": "CLAIMED",
+      "errors": [],
+      "facingSamples": 0,
+      "wrongFacing": 0,
+      "states": [],
+      "casts": [
+        {
+          "boss": "archdemon",
+          "code": "ARCHDEMON_SEAL",
+          "kind": "seal",
+          "impacts": 1,
+          "targets": 4,
+          "damage": 0,
+          "duration": 2.2,
+          "authority": "SERVER_TIMELINE",
+          "motionActorId": "B:0:MONSTER:83",
+          "motionOwner": "EXISTING_BATTLE_CHARACTER",
+          "cut": "STATIC_IMAGE_ONLY"
+        },
+        {
+          "boss": "archdemon",
+          "code": "ARCHDEMON_CURSE",
+          "kind": "curse",
+          "impacts": 1,
+          "targets": 7,
+          "damage": 0,
+          "duration": 2.2,
+          "authority": "SERVER_TIMELINE",
+          "motionActorId": "B:0:MONSTER:83",
+          "motionOwner": "EXISTING_BATTLE_CHARACTER",
+          "cut": "STATIC_IMAGE_ONLY"
+        },
+        {
+          "boss": "archdemon",
+          "code": "ARCHDEMON_ULTIMATE",
+          "kind": "ultimate",
+          "impacts": 1,
+          "targets": 7,
+          "damage": 401118894,
+          "duration": 4.6,
+          "authority": "SERVER_TIMELINE",
+          "motionActorId": "B:0:MONSTER:83",
+          "motionOwner": "EXISTING_BATTLE_CHARACTER",
+          "cut": "STATIC_IMAGE_ONLY"
+        }
+      ],
+      "pvp": "local check already passed",
+      "staticCutsVerified": true,
+      "existingActorOnly": true,
+      "overflow": false
+    }
+  ]
+}
