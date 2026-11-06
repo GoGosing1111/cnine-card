@@ -300,23 +300,24 @@
     }
   ],
   "deliveryExcludedNotes": [
-    "docs/chuseok-repair-message-20260924.md",
-    "docs/chuseok-story-winners-20260925.md",
-    "docs/chuseok-verified-gift-20260924.md",
-    "docs/chuseok-verified-gift-20260925.md",
-    "docs/clan-avatar-hanbok-20260927.md",
-    "docs/clan-balanced-draft-20260929.md",
-    "docs/clan-champions-followup-20260928.md",
-    "docs/clan-champions-schedule-20260928.md",
-    "docs/clan-champions-v2071.md",
-    "docs/clan-dk-master-transfer-20261001.md",
-    "docs/clan-draft-30s-20260915.md",
-    "docs/clan-faction-captains-20260918.md",
-    "docs/clan-faction-cooldowns-20260922.md",
-    "docs/clan-faction-extra-rewards-20261001.md",
-    "docs/clan-faction-pause-recovery-20260925.md",
-    "docs/clan-faction-sessions-live-20260922.md",
     "docs/clan-faction-sessions-preparation-20260921.md",
-    "docs/clan-faction-tax-20260920.md"
-  ]
+    "docs/clan-faction-tax-20260920.md",
+    "docs/clan-faction-war-20260917.md",
+    "docs/clan-final-organization-20261012.md",
+    "docs/clan-hanwha-diim-avatar-20261003.md",
+    "docs/clan-hanwha-samsung-avatars-20261001.md",
+    "docs/clan-master-kick-20260919.md",
+    "docs/clan-participation-positive-v2040.md",
+    "docs/clan-pig-round-rewards-20260918.md",
+    "docs/clan-prison-camp-v2083.md",
+    "docs/clan-redraft-20260916.md",
+    "docs/clan-regular-schedule-20260922.md",
+    "docs/clan-round6-delay-20260926.md",
+    "docs/clan-season-end-gift-20260928.md",
+    "docs/clan-three-admissions-20260930.md",
+    "docs/clan-war-item-rewards-20260929.md",
+    "docs/companion-preparation-v2-20261002.md",
+    "docs/completionist-icon-exclusion-20260930.md"
+  ],
+  "deliveryReconciliation": "Concurrent Apocalypse release already excludes sixteen originally selected historical notes; select eighteen distinct note slots relative to that approved release."
 }
