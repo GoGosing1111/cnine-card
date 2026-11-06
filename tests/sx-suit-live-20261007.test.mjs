@@ -25,14 +25,14 @@ test('only SX doubles independent attack cadence; X per-shot stats and divisor s
     assert.equal(buildBattleSuitFighter({...input,code:'BATTLE_SUIT_OVERLORD'}).independentFireInterval,x.independentFireInterval);
   }
 });
-test('SX ground strike keeps X damage and 40s cooldown, and every server target receives exactly five impacts',()=>{
+test('SX keeps its original damage and 40s cooldown independently of the X-only outgoing budget',()=>{
   assert.equal(SKILL.damageMultiplier,X_BODY_AREA_SKILL.damageMultiplier);assert.equal(SKILL.intervalMs,40000);
   const result=simulate(),list=casts(result);assert.deepEqual(list.map(e=>e.combatAtMs),[0,40000]);
   // A sub-millisecond support shot must not move the next card gauge deadline
   // forever. Both teams still act while the suit fires at twice X's cadence.
   for(const team of ['A','B'])assert.ok(result.timeline.some(e=>e.type==='TURN'&&e.actorKind!=='BATTLE_SUIT'&&String(e.actorId).startsWith(team+':')),'card gauge starvation: '+team);
   const reference=simulate({code:'BATTLE_SUIT_X_BODY'}).timeline.find(e=>e.type==='SKILL_CHIP_CAST'&&e.chipCode===X_BODY_AREA_SKILL.code);
-  assert.equal(list[0].calculatedDamage,reference.calculatedDamage);
+  assert.equal(list[0].calculatedDamage*32,reference.calculatedDamage);
   for(const cast of list.filter(c=>c.combatAtMs<40000))for(const target of cast.targets){
     const hits=result.timeline.filter(e=>e.type==='SKILL_CHIP_HIT'&&e.castId===cast.castId&&e.targetId===target.targetId);
     assert.equal(hits.length,5);assert.equal(hits.reduce((sum,e)=>sum+e.damage+e.absorbed,0),target.calculatedDamage);

@@ -55,13 +55,13 @@ test('12 hunt slots, dead targets, PVP and zero-power exclusions use existing au
  for(const opts of [{pvp:true},{power:0},{code:'BATTLE_SUIT_X_BODY'},{code:'BATTLE_SUIT_Z_BODY'}])assert.equal(casts(simulate(opts)).length,0);
  assert.deepEqual(normalizeSkillChipCodes([SKILL.code]),[]);
 });
-test('recommended suit has 25% more power and stronger intrinsic per cast and per minute than current X',()=>{
+test('Overlord retains its original power and damage independently of the later X-only budget',()=>{
  const x=simulate({code:'BATTLE_SUIT_X_BODY',power:50000000}),o=simulate();
  const first=(r,code)=>r.timeline.find(e=>e.type==='SKILL_CHIP_CAST'&&e.chipCode===code),a=first(x,X_BODY_AREA_SKILL.code),b=first(o,SKILL.code);
- assert.equal(OVERLORD_INITIAL_POWER/50000000,1.25);assert.ok(b.calculatedDamage>a.calculatedDamage);
- assert.ok(b.calculatedDamage/SKILL.intervalMs>a.calculatedDamage/X_BODY_AREA_SKILL.intervalMs);
+ assert.equal(OVERLORD_INITIAL_POWER/50000000,1.25);assert.ok(b.calculatedDamage>a.calculatedDamage/32);
+ assert.ok(b.calculatedDamage/SKILL.intervalMs>a.calculatedDamage/32/X_BODY_AREA_SKILL.intervalMs);
  const shots=r=>r.timeline.filter(e=>e.type==='TURN'&&e.actorKind==='BATTLE_SUIT').slice(0,10).reduce((n,e)=>n+e.damage+e.absorbed,0);
- assert.ok(shots(o)>shots(x));
+ assert.ok(shots(o)>shots(x)/32);
 });
 for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' atomic catalog registration, retries and CMS preservation',async()=>{
  let DB,close,exec;

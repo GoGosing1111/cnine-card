@@ -1,0 +1,170 @@
+{
+  "publicBase": "https://cnine-card.pages.dev",
+  "hashes": [
+    {
+      "file": "/js/battle-v3-live.js",
+      "sha256": "3f2925a377e4e4f2a8fb966c0a51c859fde24b02d52382cec3cf0fb225980d40"
+    },
+    {
+      "file": "/preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "08aaa0624790bb3f2a07e82513a3caeb85ba8f9b64304ff17de440cbb0a0dea7"
+    }
+  ],
+  "reports": [
+    {
+      "width": 1440,
+      "expected": {
+        "normalHits": 3,
+        "normalDamage": 277501440,
+        "skillHits": 57,
+        "skillDamage": 4128227840
+      },
+      "result": {
+        "done": true,
+        "events": 0,
+        "skillHits": 57,
+        "skillDamage": 4128227840,
+        "started": 549.3999999761581,
+        "played": true,
+        "elapsed": 76358.60000002384,
+        "normalHits": 3,
+        "normalDamage": 277501440,
+        "queue": 0,
+        "sword": {
+          "version": "X_BODY_LIVE_20260927",
+          "mode": "ready",
+          "timeMs": 0,
+          "completed": 3,
+          "flurries": 2,
+          "nextFlurryAtMs": 69832,
+          "intrinsicArea": true,
+          "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+          "bodyFrames": 40,
+          "effectFrames": 108,
+          "damageAuthority": "SERVER_TIMELINE",
+          "areaReleaseEnabled": true,
+          "effectsVisible": false,
+          "externalCast": null
+        },
+        "enemies": [
+          {
+            "id": "B:0:MONSTER:81",
+            "hp": 0,
+            "shield": 0
+          },
+          {
+            "id": "B:1:ESCORT:81:0",
+            "hp": 0,
+            "shield": 0
+          },
+          {
+            "id": "B:2:ESCORT:81:1",
+            "hp": 0,
+            "shield": 0
+          },
+          {
+            "id": "B:3:ESCORT:81:2",
+            "hp": 0,
+            "shield": 0
+          },
+          {
+            "id": "B:4:ESCORT:81:3",
+            "hp": 0,
+            "shield": 0
+          },
+          {
+            "id": "B:5:ESCORT:81:4",
+            "hp": 0,
+            "shield": 0
+          },
+          {
+            "id": "B:6:ESCORT:81:5",
+            "hp": 0,
+            "shield": 0
+          }
+        ],
+        "sound": "OFF"
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "expected": {
+        "normalHits": 3,
+        "normalDamage": 277501440,
+        "skillHits": 57,
+        "skillDamage": 4128227840
+      },
+      "result": {
+        "done": true,
+        "events": 0,
+        "skillHits": 57,
+        "skillDamage": 4128227840,
+        "started": 478,
+        "played": true,
+        "elapsed": 66649.69999998808,
+        "normalHits": 3,
+        "normalDamage": 277501440,
+        "queue": 0,
+        "sword": {
+          "version": "X_BODY_LIVE_20260927",
+          "mode": "ready",
+          "timeMs": 0,
+          "completed": 3,
+          "flurries": 2,
+          "nextFlurryAtMs": 69876,
+          "intrinsicArea": true,
+          "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+          "bodyFrames": 40,
+          "effectFrames": 108,
+          "damageAuthority": "SERVER_TIMELINE",
+          "areaReleaseEnabled": true,
+          "effectsVisible": false,
+          "externalCast": null
+        },
+        "enemies": [
+          {
+            "id": "B:0:MONSTER:81",
+            "hp": 0,
+            "shield": 0
+          },
+          {
+            "id": "B:1:ESCORT:81:0",
+            "hp": 0,
+            "shield": 0
+          },
+          {
+            "id": "B:2:ESCORT:81:1",
+            "hp": 0,
+            "shield": 0
+          },
+          {
+            "id": "B:3:ESCORT:81:2",
+            "hp": 0,
+            "shield": 0
+          },
+          {
+            "id": "B:4:ESCORT:81:3",
+            "hp": 0,
+            "shield": 0
+          },
+          {
+            "id": "B:5:ESCORT:81:4",
+            "hp": 0,
+            "shield": 0
+          },
+          {
+            "id": "B:6:ESCORT:81:5",
+            "hp": 0,
+            "shield": 0
+          }
+        ],
+        "sound": "OFF"
+      },
+      "errors": []
+    }
+  ],
+  "missing": [],
+  "accountWrites": 0,
+  "fixture": "Approximate saved-party replay with actual public renderer; not a live account battle or physical device."
+}

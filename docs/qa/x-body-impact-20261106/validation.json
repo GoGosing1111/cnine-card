@@ -1,0 +1,117 @@
+{
+  "at": "2026-11-06T13:06:13.919Z",
+  "method": "Current production engine before/after using identical reconstructed saved input; comparison is exact between these local runs, not exact historical reproduction.",
+  "rows": [
+    {
+      "monsterId": 81,
+      "seed": 2386077716,
+      "before": {
+        "winner": "A",
+        "actions": 13,
+        "normal": 8671920,
+        "intrinsic": 79844690,
+        "chips": 70125516,
+        "total": 158642126,
+        "hp": 146607951,
+        "shield": 12034175
+      },
+      "after": {
+        "winner": "A",
+        "actions": 13,
+        "normal": 277501440,
+        "intrinsic": 2167929920,
+        "chips": 1960297920,
+        "total": 4405729280,
+        "hp": 3926652800,
+        "shield": 479076480
+      }
+    },
+    {
+      "monsterId": 82,
+      "seed": 2303071932,
+      "before": {
+        "winner": "B",
+        "actions": 17,
+        "normal": 13704752,
+        "intrinsic": 85080870,
+        "chips": 77926755,
+        "total": 176712377,
+        "hp": 154434880,
+        "shield": 22277497
+      },
+      "after": {
+        "winner": "B",
+        "actions": 17,
+        "normal": 438552064,
+        "intrinsic": 2388444672,
+        "chips": 2664378560,
+        "total": 5491375296,
+        "hp": 4263668352,
+        "shield": 1227706944
+      }
+    },
+    {
+      "monsterId": 82,
+      "seed": 320792961,
+      "before": {
+        "winner": "A",
+        "actions": 17,
+        "normal": 9885868,
+        "intrinsic": 86951820,
+        "chips": 74069110,
+        "total": 170906798,
+        "hp": 150314463,
+        "shield": 20592335
+      },
+      "after": {
+        "winner": "A",
+        "actions": 15,
+        "normal": 316347776,
+        "intrinsic": 2310173056,
+        "chips": 2631206080,
+        "total": 5257726912,
+        "hp": 4769307072,
+        "shield": 488419840
+      }
+    },
+    {
+      "monsterId": 82,
+      "seed": 2118037473,
+      "before": {
+        "winner": "B",
+        "actions": 17,
+        "normal": 9744204,
+        "intrinsic": 80895450,
+        "chips": 74745785,
+        "total": 165385439,
+        "hp": 143875400,
+        "shield": 21510039
+      },
+      "after": {
+        "winner": "A",
+        "actions": 15,
+        "normal": 311814528,
+        "intrinsic": 2270283584,
+        "chips": 2503014080,
+        "total": 5085112192,
+        "hp": 4102248704,
+        "shield": 982863488
+      }
+    }
+  ],
+  "weak": [
+    {
+      "monsterId": 81,
+      "scenario": "same five saved cards and X, mercenaries removed",
+      "wins": 0,
+      "seeds": 16
+    },
+    {
+      "monsterId": 82,
+      "scenario": "same five saved cards and X, mercenaries removed",
+      "wins": 0,
+      "seeds": 16
+    }
+  ],
+  "accountWrites": 0
+}

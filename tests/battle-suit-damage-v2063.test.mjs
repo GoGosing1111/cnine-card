@@ -13,7 +13,9 @@ const beforeSource=execFileSync('git',['show','56b11c3ddc5b3d6b893abf2dd341c6f32
 const resolvable=beforeSource.replace(/from\s+(['"])(\.\.?\/[^'"]+)\1/g,(_,q,p)=>'from '+JSON.stringify(new URL(p,engineUrl).href));
 const before=await import('data:text/javascript;base64,'+Buffer.from(resolvable).toString('base64'));
 const chips=SKILL_CHIP_CATALOG.map(c=>c.code);
-const suits=['BATTLE_SUIT_01','BATTLE_SUIT_02','BATTLE_SUIT_03','BATTLE_SUIT_H_BODY','BATTLE_SUIT_S_BODY','BATTLE_SUIT_Z_BODY','BATTLE_SUIT_X_BODY'];
+// X's later 2026-11-06 outgoing budget is verified against the immediately
+// preceding runtime by x-body-impact-20261106.test.mjs, not this older reform.
+const suits=['BATTLE_SUIT_01','BATTLE_SUIT_02','BATTLE_SUIT_03','BATTLE_SUIT_H_BODY','BATTLE_SUIT_S_BODY','BATTLE_SUIT_Z_BODY'];
 const weapons=['','EQ_1785427638137','EQ_1785961232958','EQ_1785961300455','EQ_1786966923833','EQ_1788486929132','EQ_1788486888336'];
 const types=['HP','DEFENSE','DEFENSE','ATTACK','SPEED'];
 const deck=power=>types.map((power_type,i)=>({id:'REFORM-'+i,title:'Controlled '+i,rarity:'FUR',power_type,power}));
@@ -54,7 +56,7 @@ test('all live suits and weapon cadences remove only the separate skill x3 when 
       checked++;if(b.damageSource==='BATTLE_SUIT_INTRINSIC_SKILL')intrinsic++;
     }
   }
-  assert.equal(checked,161);assert.equal(intrinsic,14);
+  assert.equal(checked,133);assert.equal(intrinsic,7);
 });
 
 test('ordinary and chip damage grow with suit power instead of inheriting monster-max-HP minimum damage',()=>{

@@ -1,0 +1,127 @@
+{
+  "sourceRef": "dfa2cddba525266b27c4ee2700b080a7b009c25e",
+  "at": "2026-11-06T12:59:07.370Z",
+  "method": "Approximate public saved-party inputs, unchanged party/boss and 32 fixed seeds per case; candidate X-only final outgoing damage scale. Same 50m catalog power. These are one-account controlled comparisons, not population win rates.",
+  "rows": [
+    {
+      "monsterId": 81,
+      "scale": 1,
+      "runs": 32,
+      "wins": 32,
+      "averageDamage": 161704368,
+      "averageBossDamage": 51188037,
+      "averageSharePercent": 0.20801290877709722,
+      "averageActions": 14.0625
+    },
+    {
+      "monsterId": 81,
+      "scale": 4,
+      "runs": 32,
+      "wins": 32,
+      "averageDamage": 648493530,
+      "averageBossDamage": 205790495,
+      "averageSharePercent": 0.8342076798748507,
+      "averageActions": 14
+    },
+    {
+      "monsterId": 81,
+      "scale": 8,
+      "runs": 32,
+      "wins": 32,
+      "averageDamage": 1288008062,
+      "averageBossDamage": 403764118,
+      "averageSharePercent": 1.656864976423589,
+      "averageActions": 13.875
+    },
+    {
+      "monsterId": 81,
+      "scale": 16,
+      "runs": 32,
+      "wins": 32,
+      "averageDamage": 2320501987,
+      "averageBossDamage": 790567115,
+      "averageSharePercent": 2.985042238858232,
+      "averageActions": 13.25
+    },
+    {
+      "monsterId": 81,
+      "scale": 24,
+      "runs": 32,
+      "wins": 32,
+      "averageDamage": 3488844622,
+      "averageBossDamage": 1276034991,
+      "averageSharePercent": 4.48797226772069,
+      "averageActions": 13.6875
+    },
+    {
+      "monsterId": 81,
+      "scale": 32,
+      "runs": 32,
+      "wins": 32,
+      "averageDamage": 4265178530,
+      "averageBossDamage": 1581157270,
+      "averageSharePercent": 5.48663097111651,
+      "averageActions": 13.0625
+    },
+    {
+      "monsterId": 82,
+      "scale": 1,
+      "runs": 32,
+      "wins": 12,
+      "averageDamage": 168763547,
+      "averageBossDamage": 54258315,
+      "averageSharePercent": 0.18817628930652416,
+      "averageActions": 16.5625
+    },
+    {
+      "monsterId": 82,
+      "scale": 4,
+      "runs": 32,
+      "wins": 12,
+      "averageDamage": 675407049,
+      "averageBossDamage": 221617500,
+      "averageSharePercent": 0.7440507146520137,
+      "averageActions": 16.5
+    },
+    {
+      "monsterId": 82,
+      "scale": 8,
+      "runs": 32,
+      "wins": 20,
+      "averageDamage": 1357806800,
+      "averageBossDamage": 486323165,
+      "averageSharePercent": 1.4334228232173034,
+      "averageActions": 15.8125
+    },
+    {
+      "monsterId": 82,
+      "scale": 16,
+      "runs": 32,
+      "wins": 22,
+      "averageDamage": 2638918203,
+      "averageBossDamage": 995003600,
+      "averageSharePercent": 2.768324375311499,
+      "averageActions": 15.625
+    },
+    {
+      "monsterId": 82,
+      "scale": 24,
+      "runs": 32,
+      "wins": 25,
+      "averageDamage": 3783615605,
+      "averageBossDamage": 1503939390,
+      "averageSharePercent": 3.9384042778084702,
+      "averageActions": 15.375
+    },
+    {
+      "monsterId": 82,
+      "scale": 32,
+      "runs": 32,
+      "wins": 24,
+      "averageDamage": 4954351301,
+      "averageBossDamage": 2058577017,
+      "averageSharePercent": 5.177373444238904,
+      "averageActions": 15.625
+    }
+  ]
+}

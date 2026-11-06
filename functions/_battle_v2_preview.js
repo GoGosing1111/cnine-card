@@ -508,6 +508,12 @@ const MONSTER_MIN_DAMAGE_PERCENT = 0.016;
 const BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER = 2;
 const BATTLE_SUIT_DAMAGE_MULTIPLIER = 4;
 const BATTLE_SUIT_SKILL_CHIP_DAMAGE_MULTIPLIER = 4;
+// 2026-11-06: X-BODY alone gains a 32x outgoing PVE damage budget.
+// Its 50m catalog power, weapon cadence, chip coefficients and authored hits
+// stay intact. Apply once to each ordinary/piercing base before skill splitting
+// and enemy skill defense; never infer this policy from a client-supplied stat.
+const X_BODY_PVE_DAMAGE_MULTIPLIER = 32;
+const battleSuitOutgoingDamageScale = actor => actor?.battleMode === 'PVE' && isXBodyAreaActor(actor) ? X_BODY_PVE_DAMAGE_MULTIPLIER : 1;
 const BATTLE_SUIT_PVE_FIREPOWER = BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER * BATTLE_SUIT_DAMAGE_MULTIPLIER;
 const BATTLE_SUIT_APOCALYPSE_GATE_EXPONENT = 3;
 const APOCALYPSE_FLOOR_GAIN = 1.7;
@@ -1293,7 +1299,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     const referenceCycle=Math.max(BATTLE_SUIT_REFERENCE_CYCLE,100/referenceSpeed);
     const interval=Math.max(.0002,Number(actor.independentFireInterval||BATTLE_SUIT_REFERENCE_CYCLE/10));
     const previousPierce=Math.max(0,Math.round(target.maxHp*APOCALYPSE_SUIT_PIERCE_CYCLE_PERCENT*ratioScale*deckGate*(interval/referenceCycle)));
-    return previousPierce*damageMultiplier;
+    return previousPierce*damageMultiplier*battleSuitOutgoingDamageScale(actor);
   };
   const durationLimit = Math.max(0, Number(maxDuration || 0));
   let durationStopped = false;
@@ -1344,7 +1350,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       const count=chip.impactOffsetsMs.length,castId=`${chip.code}:${cast.activation}`,calculations=[];
       for(const target of targets){
         const hit=hitResult(chipActor,target,rng,Math.max(.1,Number(chipActor.independentAttackMultiplier||1)),false,hitOptions);
-        const basePrimary=hit.dodge?0:Math.max(1,Math.round(Number(hit.damage||0)/Math.max(1,chipActor.independentShotsPerCycle)*battleSuitFirepowerBeforeV2011(chipActor,target)))*BATTLE_SUIT_SKILL_CHIP_DAMAGE_MULTIPLIER;
+        const basePrimary=hit.dodge?0:Math.max(1,Math.round(Number(hit.damage||0)/Math.max(1,chipActor.independentShotsPerCycle)*battleSuitFirepowerBeforeV2011(chipActor,target)))*BATTLE_SUIT_SKILL_CHIP_DAMAGE_MULTIPLIER*battleSuitOutgoingDamageScale(chipActor);
         const basePierce=hit.dodge?0:apocalypseSuitPierce(chipActor,target,BATTLE_SUIT_SKILL_CHIP_DAMAGE_MULTIPLIER);
         // Each enemy gets the full per-target skill total, divided over its
         // authored contacts. Never divide that total by the enemy count.
@@ -1657,7 +1663,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       // 화력 배율은 하한(MONSTER_MIN_DAMAGE_PERCENT) 적용 뒤에 곱한다. 앞에 곱하면 고전투력
       // 몬스터에서 하한에 묶여 배율이 전혀 먹지 않는다. PVE 전용이라 PVP 밸런스와 무관.
       const previousDamage=Math.max(1,Math.round(Number(hit.damage||0)/shotsPerCycle*battleSuitFirepowerBeforeV2011(actor,target)));
-      hit.damage=previousDamage*BATTLE_SUIT_DAMAGE_MULTIPLIER;
+      hit.damage=previousDamage*BATTLE_SUIT_DAMAGE_MULTIPLIER*battleSuitOutgoingDamageScale(actor);
     }
     if(suddenDeath&&!actor.isMercenary){
       hit.dodge=false;
