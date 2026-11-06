@@ -1,6 +1,6 @@
-import {mountUserAuction,createAuctionOpeningNotice} from './auction-user-v1.mjs?v=20261106-compact-drag-v1';
+import {mountUserAuction,createAuctionOpeningNotice} from './auction-user-v1.mjs?v=20261106-volume-v1';
 import {jointAccountRequest} from './joint-account-transport.mjs';
-const STYLE='/css/auction-user-v1.css?v=20261106-compact-drag-v1';
+const STYLE='/css/auction-user-v1.css?v=20261106-volume-v1';
 export const auctionLiveApi=(action,body)=>{
  const read=['state','catalog','lobby','bgm-events'].includes(action);
  const query=read&&body?'?'+new URLSearchParams(body):'';

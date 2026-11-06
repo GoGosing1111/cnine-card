@@ -1,0 +1,123 @@
+{
+  "pages": {
+    "at": "2026-11-06T11:44:24.495Z",
+    "id": "30581abc-4cd2-4c63-894e-8f7e715fcdde",
+    "url": "https://30581abc.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "209fc23b461dd42a13e506878bf932c241addb6b"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "f946a7a0-04fb-4b63-9e0e-0f12dc8eb5f4",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "b40caa84-2214-433f-8451-d76bd1c0d126",
+      "percentage": 100
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "css/auction-user-v1.css",
+      "sha256": "641afaede1fa25664f5dcb869c1f565b54df298bc05fbfc9d5b1a94bc5b0b254",
+      "status": 200
+    },
+    {
+      "file": "js/auction-user-bgm-v1.mjs",
+      "sha256": "06d3b1711a5edea4eddc853379ac82b4db6c760c5660626b433de5a65e23b40b",
+      "status": 200
+    },
+    {
+      "file": "js/auction-user-v1.mjs",
+      "sha256": "dfdc29c63d4ac6ded88f1c799035e0250ca7af1a31835f0e2c822299e0eca8a9",
+      "status": 200
+    },
+    {
+      "file": "js/auction-user-live.mjs",
+      "sha256": "23da1c6652995aec51c083546d2b83938c7808a24a03654f65d539b134530d70",
+      "status": 200
+    },
+    {
+      "file": "js/auction-user-entry.js",
+      "sha256": "98d17f0ace4ccc2aa06939f53b488a7582161e591420cd2578b6e329d59599e0",
+      "status": 200
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "f3d73f9980ff2abfbc1942dea303d2faa83f78c0aa30185b609f8008f1c8e038",
+      "status": 200
+    },
+    {
+      "file": "index.html",
+      "sha256": "84b1800ed4acb2c9cee0fb4744ad61c45c700327fdf4872d41ac0639a4a9df77",
+      "status": 200
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "e4dc9c061fd3ea09507b9433c5100b9a9a125fc12d22538baf5a022d2caa1604",
+      "status": 200
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "30e2b3cfb2b912ae79108aaede33cdfb25f57ff23ee0721b24f5e595b4d8221b",
+      "status": 200
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "2b114f4fc5a320b92b6bd299e0ca2525214316c8b61898e4df387746ff2d103c",
+      "status": 200
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "220ac73261ef28b887a958e862019cfee56e6ff4c53c3e072bd3bc2526758219",
+      "status": 200
+    }
+  ],
+  "windows": [
+    {
+      "file": "css/auction-user-v1.css",
+      "sha256": "031f40a03068ce75321a44948ba52b6456db2c6957bc068da6287f6458e1f864",
+      "essential": true
+    },
+    {
+      "file": "js/auction-user-bgm-v1.mjs",
+      "sha256": "cefb154be99ad9a15a776c7972062b63f81cf98d01acbac750d64e7eb2ef6bf0",
+      "essential": true
+    },
+    {
+      "file": "js/auction-user-v1.mjs",
+      "sha256": "fc939983c25eadcc32ca43ab1a500e881f48ee2bbe1347d98dccd7c56f45cf3c",
+      "essential": true
+    },
+    {
+      "file": "js/auction-user-live.mjs",
+      "sha256": "75b419bee8f431f58c9fbdb8c928fbb8eb1de3f80d10af187735484aed795a3a",
+      "essential": true
+    },
+    {
+      "file": "js/auction-user-entry.js",
+      "sha256": "ff9ec1ea5f79a57fe140abd8b1511852f31f3444ea294e8310734e6084706f93",
+      "essential": true
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "612ddb555836f7cba913e4419bb0aafbcc1e569b782a7c738dcb550ade18578d",
+      "essential": true
+    },
+    {
+      "file": "index.html",
+      "sha256": "f7b4c98ee6ce051f3ac711e864b98deabea73afb1da4cce169d3146a3708fd59",
+      "essential": true
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "b4ee0ecb48867ece0e22a1a277a38e1b820739dd1cf4a01773307184083bec0e",
+      "essential": true
+    }
+  ],
+  "manifestReleaseId": "4d4f65cc2ccb02713602acfec9eba165fc1d93625a632844d3430bee292a5ead",
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

@@ -1,4 +1,5 @@
 import {readPackageCoinAccounting,packageCoinGuardStatements} from './_package_coin_accounting.js';
+import {planPackageGuaranteeNotice,packageGuaranteeNoticeStatements} from './_support_package_guarantee_notice.js';
 import {SUPPORT_PACKAGE,LIMITED_SHARD,isSupportPackageProduct,supportPackageFulfillment,supportPackageOrderProduct,supportPackageQuantityValid,supportPackageClientAllowed,supportPackageSummary,SUPPORT_PACKAGE_EVENT_DEADLINE,supportPackageSalesOpen} from '../shared/support-package-v1.mjs';
 import {SUPPORT_PACKAGE_BONUS_CODE,supportPackageBonusKey,supportPackageBonus,supportPackageWithBonus} from '../shared/support-package-v1.mjs';
 import {supportAccountEligible,supportBenefits,canManageSupport} from '../shared/server-support-v1.mjs';
@@ -99,6 +100,7 @@ export async function processPackage(env,admin,body,now=Date.now()){
  if(grant){await ensureLimitedShardCatalog(env);if(product.items.some(item=>item.code==='EMPEROR_ENERGY'))await ensureEmperorEnergyCatalog(env);if(product.items.some(item=>item.code==='WEAPON_ENHANCEMENT_SCROLL'))await ensureForgeScrollCatalog(env);}
  await ensureJointAtomicSchema(env);
  const coinAccounting=grant?await readPackageCoinAccounting(env,order.userId):null;
+ const guaranteeNotice=nextBonus?await planPackageGuaranteeNotice(env,{userId:order.userId,productCode:product.code,paidPurchases:nextBonus.paidPurchases,orderId:order.id,now}):null;
  const next={...order,...(grant?{fulfillment:product}:{}),status:grant?'FULFILLED':'REJECTED',revision:order.revision+1,processedAt:now,processedBy:Number(admin.id),note:body.note.trim()},result={ok:true,order:next,replayed:false};
  const DB=env.DB,token=crypto.randomUUID(),tokens=[],p=(sql,...a)=>DB.prepare(sql).bind(...a),guard=(test,args)=>{const t=token+tokens.length;tokens.push(t);return jointGuard(DB,t,test,args);};
  try{await DB.batch([
@@ -118,7 +120,8 @@ export async function processPackage(env,admin,body,now=Date.now()){
     guard('EXISTS(SELECT 1 FROM inventory_items WHERE code=? AND is_active=1) AND NOT EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND (quantity<0 OR quantity>? OR unseen_quantity>?))',[item.code,order.userId,item.code,Number.MAX_SAFE_INTEGER-item.quantity,Number.MAX_SAFE_INTEGER-item.quantity]),
     p('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=COALESCE(cnine_user_inventory.unseen_quantity,0)+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP',order.userId,item.code,item.quantity,item.quantity),
     p('INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT user_id,item_code,?,quantity,?,?,? FROM cnine_user_inventory WHERE user_id=? AND item_code=?',item.quantity,'시즌패스 패키지 구매','SUPPORT_PACKAGE',order.id,order.userId,item.code)
-   ])
+   ]),
+   ...packageGuaranteeNoticeStatements(DB,guaranteeNotice,guard)
   ]:[]),
   p('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?',JSON.stringify(next),orderKey(order.id),before),
   guard('EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[orderKey(order.id),JSON.stringify(next)]),

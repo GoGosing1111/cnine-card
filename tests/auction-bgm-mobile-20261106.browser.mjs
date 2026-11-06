@@ -76,8 +76,33 @@ try{for(const profile of profiles){
   await page.locator('.auc-bgm-event:not([hidden])').waitFor();await page.waitForFunction(()=>window.__audioCalls.some(c=>c.track&&c.action==='play'));
   const initial=await rect(page);await page.screenshot({path:path.join(out,profile.name+'-compact.png')});
   if(baseline){reports.push({profile:profile.name,initial});continue;}
-  visible(initial);assert.equal(initial.width,Math.min(profile.width<560?300:420,profile.width-24));assert(initial.height<=(profile.width<560?140:160));assert(Math.abs(initial.y+initial.height/2-initial.viewportHeight/2)<2);
-  const playing=await calls(page),up=await gesture(page,profile.engine,-80),down=await gesture(page,profile.engine,130);assert(up.y<initial.y-60);assert(down.y>up.y+110);assert.equal(up.x,initial.x);assert.equal(down.x,initial.x);assert.deepEqual(await calls(page),playing);
+  visible(initial);assert.equal(initial.width,Math.min(profile.width<560?300:420,profile.width-24));assert(initial.height<=(profile.width<560?190:210));assert(Math.abs(initial.y+initial.height/2-initial.viewportHeight/2)<2);
+  const playing=await calls(page);
+  assert.equal(playing.at(-1).volume,.65,'Unconfigured users retain the catalog volume');
+  const volume=page.locator('.auc-bgm-event [data-bgm-volume]');
+  assert.equal(await volume.inputValue(),'65');
+  await volume.focus();await volume.press('Home');
+  assert.equal(await page.evaluate(()=>window.__audioInstances.find(a=>a.src.includes('qa-auction-song')).muted),true);
+  assert.equal(await page.locator('[data-bgm-volume-value]').innerText(),'0%');
+  await volume.press('End');assert.equal(await volume.inputValue(),'100');
+  await volume.press('ArrowLeft');assert.equal(await volume.inputValue(),'99');
+  assert.equal(await page.evaluate(()=>window.__audioInstances.find(a=>a.src.includes('qa-auction-song')).volume),.99);
+  await page.locator('[data-bgm-mute]').click();assert.equal(await volume.inputValue(),'0');
+  await page.locator('[data-bgm-mute]').click();assert.equal(await volume.inputValue(),'99');
+  const sliderBox=await volume.boundingBox();
+  await page.mouse.click(sliderBox.x+sliderBox.width*.4,sliderBox.y+sliderBox.height/2);
+  const selected=Number(await volume.inputValue());assert(selected>0&&selected<99);
+  assert(Math.abs((await rect(page)).y-initial.y)<1,'Volume input must not drag the banner');
+  assert.deepEqual(await calls(page),playing,'Volume changes must not restart the song');
+  await page.getByRole('button',{name:'♪ BGM 발동표'}).click();
+  const guideVolume=page.locator('.auc-dialog [data-bgm-volume]');assert.equal(Number(await guideVolume.inputValue()),selected);
+  await guideVolume.press('ArrowRight');const savedVolume=Number(await guideVolume.inputValue());
+  assert.equal(Number(await volume.inputValue()),savedVolume);
+  assert.equal(await page.evaluate(()=>window.__audioInstances.find(a=>a.src.includes('qa-auction-song')).volume),savedVolume/100);
+  await page.screenshot({path:path.join(out,profile.name+'-volume-settings.png')});
+  await page.locator('.auc-close').click();assert.deepEqual(await calls(page),playing);
+  await page.screenshot({path:path.join(out,profile.name+'-volume.png')});
+  const up=await gesture(page,profile.engine,-80),down=await gesture(page,profile.engine,130);assert(up.y<initial.y-60);assert(down.y>up.y+110);assert.equal(up.x,initial.x);assert.equal(down.x,initial.x);assert.deepEqual(await calls(page),playing);
   const bottom=await gesture(page,profile.engine,2000),top=await gesture(page,profile.engine,-2000);visible(bottom);visible(top);assert.equal(Math.round(top.y),12);assert(Math.abs(bottom.y+bottom.height-bottom.viewportHeight+12)<2);
   const moved=await gesture(page,profile.engine,100);assert(moved.y>90);await page.screenshot({path:path.join(out,profile.name+'-moved.png')});
   const preferred=await page.evaluate(()=>localStorage.getItem('cnine_auction_bgm_position_v1'));assert(preferred!==null);
@@ -86,6 +111,7 @@ try{for(const profile of profiles){
   await f.service.bid(f.user(2),{lotId:first.lot.id,amount:200700,message:'함께하는 경매! '.repeat(4),requestId:f.requestId()});f.advance(61000);
   await page.waitForFunction(()=>document.querySelector('[data-bgm-message]')?.textContent.includes('함께하는'),{},{timeout:15000});
   const next=await rect(page);visible(next);assert.equal(next.position,preferred);assert.equal(await page.locator('[data-bgm-message]').isVisible(),true);
+  assert.equal(Number(await volume.inputValue()),savedVolume);assert.equal((await calls(page)).filter(c=>c.action==='play').at(-1).volume,savedVolume/100);
   await page.setViewportSize({width:844,height:390});await page.waitForTimeout(180);const landscape=await rect(page);visible(landscape);assert.equal(landscape.position,preferred);
   await page.setViewportSize({width:profile.width<560?profile.width:390,height:360});await page.waitForTimeout(180);const keyboardViewport=await rect(page);visible(keyboardViewport);assert.equal(keyboardViewport.position,preferred);
   await page.setViewportSize({width:profile.width,height});await page.waitForTimeout(180);
@@ -97,6 +123,7 @@ try{for(const profile of profiles){
   }
   const saved=await page.evaluate(()=>localStorage.getItem('cnine_auction_bgm_position_v1'));
   await open(page);await page.locator('.auc-bgm-event:not([hidden])').waitFor();const reload=await rect(page);visible(reload);assert.equal(reload.position,saved);
+  assert.equal(Number(await volume.inputValue()),savedVolume);assert.equal((await calls(page)).find(c=>c.action==='play').volume,savedVolume/100);
   const viewer=await context.newPage();monitor(viewer);await viewer.addInitScript(()=>{window.__rejectTrack=true;});await open(viewer);await viewer.locator('[data-bgm-play]:not([hidden])').waitFor();
   const blocked=await rect(viewer);visible(blocked);assert.equal(blocked.position,saved);assert(await viewer.locator('[data-bgm-play]').evaluate(el=>el.getBoundingClientRect().height>=44));
   await viewer.evaluate(()=>window.__rejectTrack=false);await viewer.locator('[data-bgm-play]').click();await viewer.locator('[data-bgm-play]').waitFor({state:'hidden'});assert.equal(await viewer.evaluate(()=>window.__audioInstances.some(a=>a.src.includes('qa-auction-song')&&!a.paused)),true);
@@ -104,7 +131,7 @@ try{for(const profile of profiles){
   await viewer.screenshot({path:path.join(out,profile.name+'-long-message.png')});
   await page.evaluate(()=>{window.__auctionMedia=window.__audioInstances.find(a=>a.src.includes('qa-auction-song'));window.renderShell('home');});await page.locator('.auc-bgm-event').waitFor({state:'detached'});assert.equal(await page.evaluate(()=>window.__auctionMedia.paused),true);
   assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);
-  reports.push({profile:profile.name,initial,up,down,top,bottom,moved,next,landscape,keyboardViewport,reload,blocked,realTouch:profile.engine===chromium&&profile.width<560,webkitTouch:'synthetic touch pointer plus real mouse pointer capture',audioUninterrupted:true,positionRemembered:true,playButtonWorks:true,keyboardMovement:true,destroyedOnExit:true,errors,failed,externalOrigins:[...new Set(external)],apiRequestsIntercepted:true,liveAccountWrites:0,physicalIphone:false});
+  reports.push({profile:profile.name,initial,up,down,top,bottom,moved,next,landscape,keyboardViewport,reload,blocked,volume:{savedVolume,mute:true,restore:true,liveSync:true,queue:true,reload:true,catalogDefault:true},realTouch:profile.engine===chromium&&profile.width<560,webkitTouch:'synthetic touch pointer plus real mouse pointer capture',audioUninterrupted:true,positionRemembered:true,playButtonWorks:true,keyboardMovement:true,destroyedOnExit:true,errors,failed,externalOrigins:[...new Set(external)],apiRequestsIntercepted:true,liveAccountWrites:0,physicalIphone:false});
  }catch(e){if(page)await page.screenshot({path:path.join(out,profile.name+'-failure.png')}).catch(()=>{});fs.writeFileSync(path.join(out,profile.name+'-failure.json'),JSON.stringify({error:e.stack,errors,failed,external,missing},null,2));throw e;}finally{await browser.close();f.close();}
  fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(reports,null,2));console.log(JSON.stringify({profile:profile.name,status:'passed',initial:reports.at(-1).initial}));
 }}finally{server.closeAllConnections();if(!publicRun)await new Promise(r=>server.close(r));fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({reports,missing},null,2));}
