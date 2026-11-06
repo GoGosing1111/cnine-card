@@ -1,0 +1,180 @@
+{
+  "pages": {
+    "at": "2026-11-06T13:45:27.848Z",
+    "id": "7df344aa-fa72-4a7d-8cd8-f0d5156e35ad",
+    "url": "https://7df344aa.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "e7791decabb3406cabe5ca69be95918f379e08d6"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "16237ed7-6817-45a8-a3b0-91d0058e0f04",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "ed0fc882-c317-4b3e-b31a-d1469fcef97d",
+      "percentage": 100
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "css/workshop-workbench-v1.css",
+      "sha256": "cec9a829fa76f0ffa58815475b1848d932f99c51139afeb59037aff14b5348e8",
+      "status": 200
+    },
+    {
+      "file": "js/workshop-recipes-v1.js",
+      "sha256": "c1ee8e6f56ef56af58f87daaab1eb36cbfa689380a7844337374eafda22a2a34",
+      "status": 200
+    },
+    {
+      "file": "js/workshop-v1881.js",
+      "sha256": "6e0806a8778d057b97d9eb80396ade3db3ce31f0eabd2e4005b41b0ea50638df",
+      "status": 200
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "495f759059af285549d993d80c6f2940f0697a4c5f734367b3e5838ec5272621",
+      "status": 200
+    },
+    {
+      "file": "index.html",
+      "sha256": "f26162584c3b0e72b668f1f077a2d5edea0b0c7c470b9df2b238a07d72b44d57",
+      "status": 200
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "4d7b283328cd0b2ba90957d902b5027172db11722076f495cefcd791bb5edbab",
+      "status": 200
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "ce426e63f140ee461eccba6cb76644ac8f0edb97d6d41b9a1db0fabbeec17785",
+      "status": 200
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "ad499e1e787244114bc619da87d5ca6b05ac9c8ae9c207918e6be0205eaf3836",
+      "status": 200
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "4c558c1fde3e2d0cae813177b4e772b3487f516b9219205bce7d9315e8caccd7",
+      "status": 200
+    }
+  ],
+  "windows": [
+    {
+      "file": "css/workshop-workbench-v1.css",
+      "sha256": "ae1f452efcfcbb12862c0a0a0dace70e5bd459958bcd5f69111e153f1b7598c5",
+      "essential": true
+    },
+    {
+      "file": "js/workshop-recipes-v1.js",
+      "sha256": "4a19aeb34447692e3a422a5b8ab52844cf97f5d09ad6aa56b4e8de3dae7b2d87",
+      "essential": true
+    },
+    {
+      "file": "js/workshop-v1881.js",
+      "sha256": "2218f7ab9d644e3b69e89e3ab8a1b3893d75851ac0160abd7da9212f7d1e04c8",
+      "essential": true
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "e7ffa426e9bd44190d5f0dd857055f89cb311bf4bb290517a3d7dc61f602d868",
+      "essential": true
+    },
+    {
+      "file": "index.html",
+      "sha256": "ffb1ee1fd82197e5164f3e6d72aae5e74bf002a19aea3615435824c9fdb7db3f",
+      "essential": true
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "8acfba2fa3d3a5f8a9aba8e796caa681f1b0744276dc9abbc16c2d033721fc00",
+      "essential": true
+    }
+  ],
+  "assets": [
+    {
+      "file": "assets/ui/workshop/vehicle-part-tire-v1668.png",
+      "sha256": "d08b149c364d6cb81a1b8335b849382b5301949d5a7b93850f3cd1f832323c71",
+      "status": 200
+    },
+    {
+      "file": "assets/ui/workshop/vehicle-part-frame-v1668.png",
+      "sha256": "9dce272813851017f289db8ac67cf561eb1d80f80a01a769567a48a7dd616dbf",
+      "status": 200
+    },
+    {
+      "file": "assets/ui/workshop/vehicle-part-engine-v1668.png",
+      "sha256": "6da02032e9ef85f88c4e2afe94e52b88497e24c6cf3edba03c7f9dca97b351cc",
+      "status": 200
+    },
+    {
+      "file": "assets/items/starlight-armor-core-v1749.png",
+      "sha256": "8e127379f681a6cc62239dad52ab608b5e0614171ce99131db5249f647725922",
+      "status": 200
+    },
+    {
+      "file": "assets/ui/icon-fusion-20261004/coin.webp",
+      "sha256": "d9f89b969bcb6aebe890016bb1f2e0cbcc9caff241959aae4dd1dd6b9d3244ea",
+      "status": 200
+    },
+    {
+      "file": "assets/items/mercenary-sss-card-shard-v1.png",
+      "sha256": "352dbcabea111c3c761d23fd9489d83af167be9a8bb5170545ee57c3075cdb97",
+      "status": 200
+    },
+    {
+      "file": "assets/ui/icon-fusion-20261004/master-star.webp",
+      "sha256": "ae551542256d9b0056a9f0046b638cd9eaa5bb8ad4ea5be51b1feeeee07a6044",
+      "status": 200
+    },
+    {
+      "file": "assets/ui/project-v/account-battle-suits/weapons/infinity-ak-v1.png",
+      "sha256": "82ef345faecf7a00cded0aeee6bdd9f8bd40c2237ba868b1301d5b12238d6329",
+      "status": 200
+    },
+    {
+      "file": "assets/ui/project-v/account-battle-suits/suits/z-body-v2124.png",
+      "sha256": "71e36ce1b8e2be6e0957e53c0bdb333824211b046e78d0a8cc4eabf6b9e637e8",
+      "status": 200
+    },
+    {
+      "file": "assets/items/suit-core-7-20261006.png",
+      "sha256": "4b1775428a1bdac452e3bfbbd91968df81ab59e9a3da5bbf9c56b0c7bfae08a4",
+      "status": 200
+    },
+    {
+      "file": "assets/items/weapon-enhancement-scroll-v1.webp",
+      "sha256": "b508f2d24fb67a0f391a4743ff6ac0f94f17a5ec798b4a4131ed0fd3c77d0f1c",
+      "status": 200
+    },
+    {
+      "file": "assets/items/sss-limited-shard-20261020/item.webp",
+      "sha256": "039fe271970db624790cfb83b059dfb25cc032a59244ab1bfa16d7a9b2c271b3",
+      "status": 200
+    },
+    {
+      "file": "assets/ui/mercenary-codex/command-20261021/panel-v3.webp",
+      "sha256": "55eb415b28c41dbf34ec74c9ff2f855b860c6aff1a8b5007a8128164af7bb892",
+      "status": 200
+    },
+    {
+      "file": "assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+      "sha256": "d7400c6be41938ced1d1d8915c9e74840af091ba1537c91b74057d2e0331b155",
+      "status": 200
+    },
+    {
+      "file": "assets/ui/workshop/equipment-fusion-chamber-v1677.png",
+      "sha256": "869b8bcbbb343174a0ea8e144c132d264065516c6b4330a1c353fd7415e3e910",
+      "status": 200
+    }
+  ],
+  "manifestReleaseId": "90535d8c9aa0e38f5852caa0019641e7c117bb061adf56818a01b5b5a21b8cce",
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

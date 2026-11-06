@@ -1,0 +1,44 @@
+{
+  "before": {
+    "at": "2026-11-06T13:40:31.657Z",
+    "id": "9d5ef510-4555-4a90-a841-f6f6770feec5",
+    "url": "https://9d5ef510.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "46b36b91b6047162e3a0364262e65dd9fa3939e9"
+  },
+  "base": "46b36b91b6047162e3a0364262e65dd9fa3939e9",
+  "reason": "Rebuild only the existing workshop presentation using approved navy metal frames, lime actions, actual item and currency images. Seven illustrated categories and image catalogue with one cost table, receipt and payment rules unchanged. Full desktop, WebKit and 320px rendering, real main app integration, payment retry and workshop regression verified. Preserve already live broad coin and X-BODY changes. No authentication, schema, DB adapter, dependencies or gameplay policy changes.",
+  "tests": [
+    "tests/workshop-battle-suit-payment-20260930.test.mjs"
+  ],
+  "checks": [],
+  "sourceFiles": [
+    ".impeccable/surfaces/js-workshop-v1881-js.md",
+    "AGENTS.md",
+    "css/workshop-workbench-v1.css",
+    "docs/qa/tmoney-package-explanation-20261106/README.md",
+    "docs/qa/tmoney-package-explanation-20261106/completion.json",
+    "docs/qa/workshop-visual-rebuild-20261106/README.md",
+    "docs/qa/workshop-visual-rebuild-20261106/asset-provenance.json",
+    "docs/qa/workshop-visual-rebuild-20261106/detector.json",
+    "docs/qa/workshop-visual-rebuild-20261106/full-review.md",
+    "docs/qa/workshop-visual-rebuild-20261106/review-verdict.md",
+    "docs/qa/workshop-visual-rebuild-20261106/validation.json",
+    "docs/qa/x-body-impact-20261106/completion.json",
+    "docs/qa/x-body-impact-20261106/deployment-plan.json",
+    "docs/qa/x-body-impact-20261106/deployment-success.json",
+    "docs/qa/x-body-impact-20261106/live-verification.json",
+    "index.html",
+    "js/app.js",
+    "js/workshop-recipes-v1.js",
+    "js/workshop-v1881.js",
+    "onestore/index.html",
+    "onestore/js/app.js",
+    "packaging/onestore/web-build.json",
+    "service-worker.js",
+    "shared/onestore-web-assets-v1.mjs",
+    "tests/workshop-battle-suit-payment-20260930.test.mjs",
+    "tests/workshop-mystic-energy-v1931.test.mjs",
+    "tests/workshop-ui-refresh-20261106.browser.mjs"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "at": "2026-11-06T13:46:14.219Z",
+  "source": "e7791decabb3406cabe5ca69be95918f379e08d6",
+  "pages": {
+    "at": "2026-11-06T13:45:27.848Z",
+    "id": "7df344aa-fa72-4a7d-8cd8-f0d5156e35ad",
+    "url": "https://7df344aa.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "e7791decabb3406cabe5ca69be95918f379e08d6"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "16237ed7-6817-45a8-a3b0-91d0058e0f04",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "ed0fc882-c317-4b3e-b31a-d1469fcef97d",
+      "percentage": 100
+    }
+  ],
+  "publicFiles": 9,
+  "windowsFiles": 6,
+  "publicArtFiles": 15,
+  "categories": 7,
+  "unitRegressionUniquePassed": 108,
+  "mainAppDesktopChecks": 44,
+  "standaloneScreens": 21,
+  "mainAppMobileScreens": 14,
+  "publicWebKitScreens": 7,
+  "releaseGatePassed": 18,
+  "review": {
+    "full": "five requested rebuild requirements met; one WebKit select readability fix",
+    "verdict": "ship",
+    "resolvedMaterialFixes": 1,
+    "verdictScope": "one finding from full review"
+  },
+  "newRasterFiles": 0,
+  "approvedArtBytesChanged": 0,
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "storageMaintenance": false,
+  "schedules": 0,
+  "realDeviceTested": false,
+  "installedAppTested": false
+}
