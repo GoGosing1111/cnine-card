@@ -1,0 +1,17 @@
+{
+  "releaseCommit": "3779e3269e304f983ddfbcc4c50588bb948d1684",
+  "gateTests": 62,
+  "jinJokroTests": 10,
+  "totalDistinctTests": 72,
+  "passed": true,
+  "commands": [
+    "node --test tests/jin-jokro-live-20261106.test.mjs tests/jin-jokro-balance-20261106.test.mjs",
+    "npm run deploy:production -- --scoped"
+  ],
+  "notes": [
+    "Attempt 1 stopped before deployment because sparse checkout omitted the V3 bundle; restored the committed file and gate passed on attempt 2.",
+    "Node file patterns skipped two sparse Jin Jokro test files in the deployment gate. Both were materialized and all 10 Jin Jokro tests explicitly passed against the exact deployed commit. The same 10 had also passed before release.",
+    "The operation deployment runner now rejects missing selected test files before starting a future deployment."
+  ],
+  "operationalAccountWrites": 0
+}

@@ -9,6 +9,6 @@
 - PC1440/모바일390 양방향 24기술, 모바일 사냥 12적 6기술, 실제 시작/결과/복귀 4경로 검수. 정지/취소·회수·재진입 텍스처 재로딩·붉은 외곽광/검 전류를 확인했다. 로컬 격리 계정 fixture이며 실기기/설치앱 직접 검수는 아니다.
 - 36시드 PVP 결과 및 동일 레벨/장비별 실서버 수치 동등성, 광역 분배/회피/보호막/중복/쿨타임을 검사했다. 전체 검사는 배포 로그에 보존한다.
 
-현재 단계: 배포 전 검수 완료. 배포/공개 해시/두 Worker/Windows 전달 결과는 후속 live-verification.json과 delivery-verification.json에 기록한다.
+운영 완료: 소스 3779e3269 · Pages a7a14551 · 두 Worker 100%. 공개 58파일/Windows 52파일 해시 일치, 자산 20000개. 공개 모바일390 사냥 6기술과 PVE/PVP 실제 시작·결과·복귀 통과. 관련 72검사(배포 게이트62·진 족로 전용10) 통과. live-verification.json·delivery-verification.json·checks.json에 결과와 초기 검사 경로 보완 이력을 기록했다.
 
 원본 작업: operations/jin-jokro-live-20261106/. 저작 정본: preview/v35-jin-jokro-20261106/. 기존 체크아웃과 의존성 재사용. 유지관리·예약·사용자 화면 조작 없음.

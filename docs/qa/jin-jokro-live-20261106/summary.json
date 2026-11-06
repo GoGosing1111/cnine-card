@@ -50,8 +50,31 @@
   },
   "accountWrites": 0,
   "grant": false,
-  "liveStatus": "PREPARED_NOT_YET_DEPLOYED",
+  "liveStatus": "DEPLOYED_VERIFIED",
   "originalArtPreserved": true,
   "nativeSpinePreserved": true,
-  "realDeviceTest": false
+  "realDeviceTest": false,
+  "releaseCommit": "3779e3269e304f983ddfbcc4c50588bb948d1684",
+  "pages": {
+    "id": "a7a14551-a3c3-4be8-9e48-51c0bd8306d7",
+    "url": "https://a7a14551.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "3779e3269e304f983ddfbcc4c50588bb948d1684"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "83a209c5-3d02-40cb-a197-9120d038d1ac",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "53f35b50-caf2-4d04-b2b8-9b73ff2804a5",
+      "percentage": 100
+    }
+  ],
+  "publicFileHashes": 58,
+  "windowsFileHashes": 52,
+  "tests": 72,
+  "publicMobileVerified": true
 }

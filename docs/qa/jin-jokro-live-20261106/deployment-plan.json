@@ -1,0 +1,18 @@
+{
+  "base": "8a2781582adc7bcc6fb316468a70a5b680d74667",
+  "reason": "Jin Jokro SSS LIMITED V-959 release authorized by the user: approved two sword ultimates, six techniques, 1.5x synchronized Spine and FX playback, and Helios King 3.5m combat/stat/growth/PVP parity. No account grants, schema/auth/dependency changes. Related server, ownership, V3 lifecycle and isolated actual-entry tests.",
+  "tests": [
+    "tests/jin-jokro-live-20261106.test.mjs",
+    "tests/jin-jokro-balance-20261106.test.mjs",
+    "tests/helios-king-live-20261106.test.mjs",
+    "tests/helios-heukmu-balance-20261106.test.mjs",
+    "tests/heukmu-live-20261029.test.mjs",
+    "tests/hakuya-live-20261105.test.mjs",
+    "tests/prime-zero-top-tier-20261102.test.mjs",
+    "tests/mercenary-turn-cadence-v2099.test.mjs",
+    "tests/production-sparse-staging-20261023.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}
