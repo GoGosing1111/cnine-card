@@ -1,0 +1,12 @@
+{
+  "base": "3779e3269e304f983ddfbcc4c50588bb948d1684",
+  "reason": "X-BODY crafting registration and original-preserving Z-style assembly only. Validate 25T coin/10 core atomic spending, 10% boundary, replay/rollback, recipe registration and Pixi/GSAP success/failure with sparse asset delivery. No authentication, schema, economy framework or dependencies changed.",
+  "tests": [
+    "tests/x-body-craft-register-20261106.test.mjs",
+    "tests/workshop-coin-postgres.test.mjs",
+    "tests/workshop-assembly-preview-v1.test.mjs",
+    "tests/workshop-assembly-live-v2073.test.mjs",
+    "tests/production-sparse-staging-20261023.test.mjs"
+  ],
+  "checks": []
+}

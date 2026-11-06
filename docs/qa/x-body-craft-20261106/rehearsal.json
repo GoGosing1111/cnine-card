@@ -1,0 +1,50 @@
+{
+  "at": "2026-11-06T09:42:55.767Z",
+  "failures": [
+    "recipe",
+    "material"
+  ],
+  "normal": {
+    "committed": false,
+    "rolledBack": true,
+    "receipt": {
+      "status": "COMPLETED",
+      "operationKey": "ops:x-body-craft:20261106:v1",
+      "completedAt": "2026-11-06T09:42:54.176Z",
+      "releaseCommit": "17eb26d67578dbddb9333647a0ca8bf305da6c1c",
+      "authorization": "제작 연출까지 Z바디 확인해서 등록해. 슈트코어 7 10개, 코인 25조, 확률 10%",
+      "recipe": {
+        "code": "WORKSHOP_BATTLE_SUIT_X_BODY",
+        "name": "X-BODY 제작",
+        "category": "BATTLE_SUIT_CRAFT",
+        "description": "슈트 코어 7 10개와 코인 25조로 X-BODY 제작을 시도합니다. 성공 확률 10%. 실패 시 투입 재료와 코인이 소모됩니다.",
+        "output_type": "EQUIPMENT",
+        "output_ref": "49",
+        "output_quantity": 1,
+        "payment_mode": "COIN_ONLY",
+        "coin_cost": 25000000000000,
+        "master_star_cost": 0,
+        "success_rate": 10,
+        "is_featured": 0,
+        "is_active": 1,
+        "is_public": 1,
+        "owner_test_only": 0,
+        "sort_order": 102,
+        "material": {
+          "item_code": "SUIT_CORE_7",
+          "quantity": 10,
+          "sort_order": 10
+        },
+        "referenceRecipeId": "527"
+      },
+      "recipeId": "569",
+      "protectedHash": "394e4021d9faeb44827ec7388a0eb3cffe3c8ce6a1a522f02a311d1aea04ac06",
+      "accountWrites": 0,
+      "messages": 0,
+      "auditId": "55337"
+    }
+  },
+  "expectedHash": "394e4021d9faeb44827ec7388a0eb3cffe3c8ce6a1a522f02a311d1aea04ac06",
+  "protectedHash": "394e4021d9faeb44827ec7388a0eb3cffe3c8ce6a1a522f02a311d1aea04ac06",
+  "allRolledBack": true
+}

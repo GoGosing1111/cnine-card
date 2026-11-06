@@ -179,13 +179,27 @@ test('Z-BODY uses the current sword artwork for both saved outcomes while CMS la
     assert.deepEqual(recipe,before,'presentation cannot enable or save a recipe');
     recipe.output_image=MODELS.z.catalogSource.slice(1);
     assert.equal(liveAssemblyReceipt(data,recipe).model,'z');
-    for(const image of ['/assets/items/z-body-v2124.png','/assets/ui/project-v/account-battle-suits/x-sword-v1/x-body.png']){
+    for(const image of ['/assets/items/z-body-v2124.png','/assets/unprepared-suit.png']){
       recipe.output_image=image;recipe.output_name='Z-BODY';
       assert.equal(liveAssemblyReceipt(data,recipe).model,null);
     }
   }
   const app=read('js/app.js'),index=read('index.html');
-  assert.match(app,/workshop-assembly-live-v2073\.bundle\.js\?v=20261018-vehicle-assembly-v1/);
-  assert.match(app,/workshop-assembly-fx-v2073\.bundle\.js\?v=20261018-vehicle-assembly-v1/);
+  assert.match(app,/workshop-assembly-live-v2073\.bundle\.js\?v=20261106-x-body-assembly-v1/);
+  assert.match(app,/workshop-assembly-fx-v2073\.bundle\.js\?v=20261106-x-body-assembly-v1/);
   assert.match(index,/zBodyAssembly=20261006/);
+});
+
+test('X-BODY binds approved art to success and output-less failure, preserving the 25T receipt',()=>{
+  for(const success of [true,false]){
+    const {data,recipe}=fixture('x',success);
+    recipe.output_ref='49';recipe.output_name='운영 표시 이름';
+    data.coinSpent=25000000000000;data.masterStarSpent=0;
+    if(data.output)data.output.ref='49';
+    const receipt=liveAssemblyReceipt(data,recipe);
+    assert.equal(receipt.model,'x');assert.equal(receipt.coinSpent,25000000000000);assert.equal(receipt.masterStarSpent,0);
+    recipe.output_image=MODELS.z.catalogSource;assert.equal(liveAssemblyReceipt(data,recipe).model,'z');
+    recipe.output_image='/assets/unprepared-suit.png';recipe.output_name='X-BODY';
+    assert.equal(liveAssemblyReceipt(data,recipe).model,null);
+  }
 });

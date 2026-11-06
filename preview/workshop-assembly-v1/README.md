@@ -147,3 +147,9 @@ E/F/G는 CMS에 연결된 실제 RGBA 아이템 원본을 사용한다. 이미�
 - 검수 링크: `/preview/workshop-assembly-v1/?mode=suit&item=s&play=1`, 실제 클라이언트 검수는 `live.html?item=s`. 검수 페이지도 현재 제작소의 레시피·썸네일 도우미를 로드한다.
 - CUA에서 PC 헬멧 결합/성공/건너뛰기/닫기와 모바일 실제 제작 버튼→S-BODY 실패/일시정지/건너뛰기/닫기를 확인했다. 모바일 DOM 너비 391px, 팝업 경계 x=7~384px로 가로 넘침이 없었다. 모의 제작 1회, 실제 제작 API 호출 0회.
 - 이번 국소 변경은 최상단 AGENTS 규칙에 따라 두 제작 연출 회귀만 선택해 `npm run deploy:production -- --scoped`로 배포한다. 과거 위의 전체 검사 지시는 이번 작은 수정에 적용하지 않는다.
+
+## 2026-11-06 X-BODY 제작 연출
+
+Z-BODY와 같은 13.4초 조립 시퀀스에 X-BODY 원본을 12부품으로 분리해 연결했다. 원본 바이트와 모든 가시 RGBA 픽셀을 보존하며, 장검 전체를 하나의 강체로 결합한다. 백금 헬멧 6~7.1초, 청광 장검 6.5~7.9초, 코어 7.5~8.2초, 스캔 및 코어 점화/실패를 기존 단일 PixiJS/GSAP 시계로 재생한다.
+
+X 아이템의 정확한 원화 경로로 성공/실패 영수증을 연결한다. 코인25조·코어7 10개·성공10% 제작 등록은 scripts/ops/x-body-craft-20261106.mjs의 일회성 감사 거래이며 연출은 제작을 재실행하지 않는다. 상세 검수와 운영 상태는 docs/qa/x-body-craft-20261106/README.md 및 completion.json을 따른다. 재현: node preview/workshop-assembly-v1/build.mjs --model=x.
