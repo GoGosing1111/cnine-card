@@ -1,0 +1,126 @@
+{
+  "at": "2026-11-06T09:35:17.222Z",
+  "id": "8182a971-6228-4f00-b054-1d5c77903500",
+  "url": "https://8182a971.cnine-card.pages.dev",
+  "status": "success",
+  "commit": "8a2781582adc7bcc6fb316468a70a5b680d74667",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "9b29582e-58f6-41a1-bc61-b3af10927bcd",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "acdcb365-6f6b-40ee-8396-124fe5995e86",
+      "percentage": 100
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "5dcdf5ba40063fb1c64769b6e2135c536b1923e070fc1198b0258a0ae105555c"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "48aed18d984fd39d9411a06e245e04a882da0d15d56b3f1690f92fce0210e157"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "f6148ce90fe6a128786612b0bb576000f9fa782f91942555d6a039f82b63cdb5"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "02ed157145e37bdef14291a15d7387387024b2946dd8b12d8eb9f81abe0f2506"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "0a23dd0b361812b6a16e98254450801c798035fa5b5b4f821bcc0df73034e66b"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "sha256": "3ce8a29878a029c87f634d182ec3d59cc9fd567d4c813faff30d7ad671b9ea14"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "sha256": "2b8a9beeedbda3bf60ac45b95c63073c3ad937c1a2e5696eab019cdd3b0cbe3a"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "sha256": "ebd785858058141e3fb1342e3d27d60bba71cab6cec2673b36b64565cbf252f8"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "sha256": "5d83e138fe867f20286de2cb57bcf93373800aba1cf6df10c987038fc9a61fe0"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "c02863a213b323ee6dcb24d84164ad73e87bd0dd6bf058ee23baeaceb1e2c122"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "sha256": "353b99c8a0bb7e88411013a252f9eac7321b2136c11fab1d4619cf25b0aaf41b"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "3f24b3304bfd0604d0298a907842bd296ff91a422f9c7730a53b606fc469cc4f"
+    },
+    {
+      "file": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+      "sha256": "2cae49acc0c4a22f301606718e2fe7bf0ba10cf2c4b46272d3dec0ead8af9c44"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "sha256": "c9ad940a77d8ac73555f16645c284beb4a147414e8b03639741e61d4001053c5"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "bca09a43ca9b64bfb101337a29e97eb1d0271aadf431b54ce89e4a3c5afeefaf"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/app.bundle.js",
+      "sha256": "dfa97fe2634a1248bbcf029bd07f15ade2f32d43dfcdaea4c72d23ecfd31af5f"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "sha256": "d1f2607b10cbaf2a5c5bda90d549d5cff146f3825ed385c21293af27bbc8496b"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "9e3b4b7d5df10786e0f250a4eaa963f40319abc80a0c02e540373985b7891eb5"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "6554afad2fd7935a711b8313636d8609785afde272574b4711b27d4b58f32130"
+    },
+    {
+      "file": "shared/apocalypse-trio-v1.mjs",
+      "sha256": "a8b9c20ee3db59f4469183277207729e780fb987b64cefee076e68c587f0af9c"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "40442bfd2df758e3c83ea19be6c42cec37ba5611f2c2316b83123bfa1c232b8e"
+    }
+  ],
+  "windows": [
+    "index.html",
+    "js/app.js",
+    "js/battle-v3-live.js",
+    "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+    "preview/boss-resources-v2048/lab.bundle.js",
+    "preview/coop-defense-v1/defense.bundle.js",
+    "preview/cow-room-v3-v1/battle.bundle.js",
+    "preview/infinite-tower-v3-v1/battle.bundle.js",
+    "preview/project-v-mercenary-system-v1/skills.bundle.js",
+    "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+    "preview/scrapyard-v3-v1/battle.bundle.js",
+    "preview/sustained-hunt-v2/battle.bundle.js",
+    "preview/v3-wide-grid-v1/app.bundle.js",
+    "preview/v3-wide-grid-v1/battle.bundle.js",
+    "pve-v3/battle.bundle.js",
+    "shared/apocalypse-trio-v1.mjs",
+    "shared/onestore-web-assets-v1.mjs"
+  ],
+  "assetCount": 20000,
+  "operationalAccountWrites": 0
+}
