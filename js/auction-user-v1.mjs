@@ -1,5 +1,5 @@
 import {AUCTION_QUICK_BIDS,AUCTION_MAX_BID,AUCTION_ASSET_TYPES,AUCTION_TICKET_IMAGE,auctionCoinLabel,auctionProceeds} from '../shared/auction-user-policy-v1.mjs?v=20261103-live-v1';
-import {createAuctionBgmPlayer} from './auction-user-bgm-v1.mjs?v=20261106-compact-drag-v1';
+import {createAuctionBgmPlayer} from './auction-user-bgm-v1.mjs?v=20261106-volume-v1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=v=>Number.isSafeInteger(Number(v||0))&&Number(v||0)>=0?auctionCoinLabel(Number(v||0)):'금액 확인';
 const integer=v=>Number(v||0).toLocaleString('ko-KR');
@@ -71,7 +71,9 @@ export function mountUserAuction({root,api,onLobby=()=>{},pollMs=10000}){
  }
  function showBgmGuide(){
   const rules=data?.bgmGuide||[];
-  makeDialog('BGM 발동표',`<p class="auc-muted">해당 금액을 한 번에 추가 입찰하면 기존 지정 음악과 입찰 메시지가 재생됩니다.</p><div class="auc-bgm-guide-list">${rules.map(r=>`<article><b>${String(r.order).padStart(2,'0')}</b><div><strong>${esc(r.name)}</strong><p>${money(r.minBid)}${r.maxBid?' ~ '+money(r.maxBid):' 이상'} 코인 · ${integer(r.duration)}초</p></div></article>`).join('')||'<p class="auc-empty">등록된 BGM 발동 구간이 없습니다.</p>'}</div>`);
+  const node=makeDialog('BGM 발동표',`<p class="auc-muted">해당 금액을 한 번에 추가 입찰하면 기존 지정 음악과 입찰 메시지가 재생됩니다.</p><section class="auc-bgm-volume-settings"><strong>경매 BGM 음량</strong><div data-bgm-settings></div><p class="auc-muted">내 기기에 저장되며, 다음 BGM에도 적용됩니다.</p></section><div class="auc-bgm-guide-list">${rules.map(r=>`<article><b>${String(r.order).padStart(2,'0')}</b><div><strong>${esc(r.name)}</strong><p>${money(r.minBid)}${r.maxBid?' ~ '+money(r.maxBid):' 이상'} 코인 · ${integer(r.duration)}초</p></div></article>`).join('')||'<p class="auc-empty">등록된 BGM 발동 구간이 없습니다.</p>'}</div>`);
+  const dispose=bgm?.mountVolumeControl(node.querySelector('[data-bgm-settings]'));
+  if(dispose)node.addEventListener('close',dispose,{once:true});
  }
  async function confirmBid(lotId,amount){
   if(!Number.isSafeInteger(amount)||amount<1||amount>AUCTION_MAX_BID)return error('추가 입찰액은 1~100조 코인 사이로 입력하세요.');

@@ -1,0 +1,165 @@
+{
+  "reports": [
+    {
+      "profile": "public-webkit-390",
+      "initial": {
+        "x": 45,
+        "y": 248.234375,
+        "width": 300,
+        "height": 167.53125,
+        "viewportWidth": 390,
+        "viewportHeight": 664,
+        "offsetTop": 0,
+        "scrollX": 0,
+        "bodyOverflow": false,
+        "position": null
+      },
+      "up": {
+        "x": 45,
+        "y": 168.234375,
+        "width": 300,
+        "height": 167.53125,
+        "viewportWidth": 390,
+        "viewportHeight": 664,
+        "offsetTop": 0,
+        "scrollX": 0,
+        "bodyOverflow": false,
+        "position": "0.3306766320523844"
+      },
+      "down": {
+        "x": 45,
+        "y": 298.234375,
+        "width": 300,
+        "height": 167.53125,
+        "viewportWidth": 390,
+        "viewportHeight": 664,
+        "offsetTop": 0,
+        "scrollX": 0,
+        "bodyOverflow": false,
+        "position": "0.6058271049672598"
+      },
+      "top": {
+        "x": 45,
+        "y": 12,
+        "width": 300,
+        "height": 167.53125,
+        "viewportWidth": 390,
+        "viewportHeight": 664,
+        "offsetTop": 0,
+        "scrollX": 0,
+        "bodyOverflow": false,
+        "position": "0"
+      },
+      "bottom": {
+        "x": 45,
+        "y": 484.46875,
+        "width": 300,
+        "height": 167.53125,
+        "viewportWidth": 390,
+        "viewportHeight": 664,
+        "offsetTop": 0,
+        "scrollX": 0,
+        "bodyOverflow": false,
+        "position": "1"
+      },
+      "moved": {
+        "x": 45,
+        "y": 112,
+        "width": 300,
+        "height": 167.53125,
+        "viewportWidth": 390,
+        "viewportHeight": 664,
+        "offsetTop": 0,
+        "scrollX": 0,
+        "bodyOverflow": false,
+        "position": "0.21165420993451947"
+      },
+      "next": {
+        "x": 45,
+        "y": 98.953125,
+        "width": 300,
+        "height": 229.125,
+        "viewportWidth": 390,
+        "viewportHeight": 664,
+        "offsetTop": 0,
+        "scrollX": 0,
+        "bodyOverflow": false,
+        "position": "0.21165420993451947"
+      },
+      "landscape": {
+        "x": 212,
+        "y": 32.015625,
+        "width": 420,
+        "height": 271.421875,
+        "viewportWidth": 844,
+        "viewportHeight": 390,
+        "offsetTop": 0,
+        "scrollX": 0,
+        "bodyOverflow": false,
+        "position": "0.21165420993451947"
+      },
+      "keyboardViewport": {
+        "x": 45,
+        "y": 34.609375,
+        "width": 300,
+        "height": 229.125,
+        "viewportWidth": 390,
+        "viewportHeight": 360,
+        "offsetTop": 0,
+        "scrollX": 0,
+        "bodyOverflow": false,
+        "position": "0.21165420993451947"
+      },
+      "reload": {
+        "x": 45,
+        "y": 138.953125,
+        "width": 300,
+        "height": 229.125,
+        "viewportWidth": 390,
+        "viewportHeight": 664,
+        "offsetTop": 0,
+        "scrollX": 0,
+        "bodyOverflow": false,
+        "position": "0.3089823547307575"
+      },
+      "blocked": {
+        "x": 45,
+        "y": 125.34375,
+        "width": 300,
+        "height": 273.125,
+        "viewportWidth": 390,
+        "viewportHeight": 664,
+        "offsetTop": 0,
+        "scrollX": 0,
+        "bodyOverflow": false,
+        "position": "0.3089823547307575"
+      },
+      "volume": {
+        "savedVolume": 37,
+        "mute": true,
+        "restore": true,
+        "liveSync": true,
+        "queue": true,
+        "reload": true,
+        "catalogDefault": true
+      },
+      "realTouch": false,
+      "webkitTouch": "synthetic touch pointer plus real mouse pointer capture",
+      "audioUninterrupted": true,
+      "positionRemembered": true,
+      "playButtonWorks": true,
+      "keyboardMovement": true,
+      "destroyedOnExit": true,
+      "errors": [],
+      "failed": [],
+      "externalOrigins": [
+        "https://fonts.googleapis.com",
+        "https://cdn.jsdelivr.net"
+      ],
+      "apiRequestsIntercepted": true,
+      "liveAccountWrites": 0,
+      "physicalIphone": false
+    }
+  ],
+  "missing": []
+}

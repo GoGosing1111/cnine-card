@@ -1,0 +1,27 @@
+[
+  {
+    "engine": "chromium",
+    "quarter": 0.04403064664634721,
+    "full": 0.17613374847672675,
+    "ratio": 4.000253502780178,
+    "muted": 0,
+    "before": 0.272834,
+    "after": {
+      "time": 0.582114,
+      "contexts": 1,
+      "gain": 1,
+      "paused": false
+    },
+    "mutedReloadAndRestore": true,
+    "invalidPreferences": true,
+    "storageDenied": true,
+    "contextClosed": true,
+    "physicalDevice": false
+  },
+  {
+    "engine": "webkit",
+    "status": "unavailable",
+    "reason": "This Windows WebKit build does not expose AudioContext; WebKit UI is covered by the main browser regression.",
+    "physicalDevice": false
+  }
+]
