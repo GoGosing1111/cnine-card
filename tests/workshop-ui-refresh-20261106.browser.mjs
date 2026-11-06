@@ -47,32 +47,44 @@ try{for(const [engine,width] of (baseline?[[chromium,1440],[chromium,390]]:publi
   await page.addInitScript(()=>{localStorage.setItem('cnine_card_api_token','local-account-7');localStorage.setItem('cnine_battle_sound','OFF');});
   await page.route('**/api/workshop**',route=>route.request().method()==='GET'?route.fulfill({json:state}):route.fulfill({status:403,json:{error:'No mutation in this UI tour'}}));
   await page.route('**/api/packs',route=>route.fulfill({json:{packs:[]}}));await page.route('**/api/sync/**',route=>route.fulfill({status:403,json:{error:'Isolated UI fixture'}}));
-  await page.route('**/assets/**',async route=>{const pathname=decodeURIComponent(new URL(route.request().url()).pathname),file=path.join(process.env.WORKSHOP_ASSET_ROOT||root,pathname);try{if(!fs.existsSync(file)){const response=await route.fetch({url:'https://cnine-card.pages.dev'+new URL(route.request().url()).pathname});return route.fulfill({response});}return route.fulfill({body:fs.readFileSync(file),contentType:pathname.endsWith('.svg')?'image/svg+xml':pathname.endsWith('.webp')?'image/webp':pathname.endsWith('.png')?'image/png':undefined});}catch{return route.continue();}});
+  await page.route('**/assets/**',async route=>{const pathname=decodeURIComponent(new URL(route.request().url()).pathname),file=fs.existsSync(path.join(root,pathname))?path.join(root,pathname):path.join(process.env.WORKSHOP_ASSET_ROOT||root,pathname);try{if(!fs.existsSync(file)){const response=await route.fetch({url:'https://cnine-card.pages.dev'+new URL(route.request().url()).pathname});return route.fulfill({response});}return route.fulfill({body:fs.readFileSync(file),contentType:pathname.endsWith('.svg')?'image/svg+xml':pathname.endsWith('.webp')?'image/webp':pathname.endsWith('.png')?'image/png':undefined});}catch{return route.continue();}});
  }
  await page.goto(shellOrigin?shellOrigin+'/?screen=fusion':base+'/test');const rootElement=page.locator('#workshopRootV1881');await rootElement.locator('.ws81-nav').waitFor({state:'attached'});
- const chooseCategory=category=>!baseline&&width<=800?page.locator('#wsCategoryPicker').selectOption(category):rootElement.locator(`[data-ws-section="${category}"]`).click();
+ const chooseCategory=category=>rootElement.locator(`[data-ws-section="${category}"]`).click();
+ const openCatalog=async()=>{if(!await page.locator('#wsRecipeCatalog').evaluate(e=>e.open))await page.locator('#wsRecipeCatalog>summary').click();};
  for(const category of ['VEHICLE','SYNTHESIS','MATERIAL_CRAFT','BATTLE_SUIT_CRAFT','SUIT_CORE_SYNTHESIS','ITEM_SYNTHESIS','MERCENARY_CRAFT']){
   await chooseCategory(category);await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(120);
   await page.evaluate(()=>window.scrollTo(0,document.body.scrollHeight));await page.waitForTimeout(100);await page.evaluate(()=>window.scrollTo(0,0));
   if(!baseline){assert.ok(await rootElement.evaluate(e=>e.scrollWidth<=e.clientWidth+1),width+' '+category+' root overflow');assert.equal(await rootElement.locator(`[data-ws-section="${category}"]`).getAttribute('aria-pressed'),'true');
-   if(width<800){assert.ok(await page.locator('#wsRecipePicker').isVisible());assert.ok((await page.locator('#wsRecipePicker').boundingBox()).height>=44);}
+   if(width<800){assert.ok(await page.locator('#wsRecipeCatalog>summary').isVisible());assert.ok((await page.locator('#wsRecipeCatalog>summary').boundingBox()).height>=44);assert.equal(await page.locator('.ws81-nav button:visible img').count(),7);}
    const broken=await rootElement.locator('img').evaluateAll(nodes=>nodes.filter(i=>i.getBoundingClientRect().height>0&&i.complete&&!i.naturalWidth).map(i=>i.src));assert.deepEqual(broken,[],category+' resources');
   }
   await page.screenshot({path:path.join(out,`${width}-${category}.png`),fullPage:true});
   results.push({width,engine:engine.name(),category,bodyHeight:await rootElement.evaluate(e=>Math.round(e.getBoundingClientRect().height))});
  }
  if(!baseline){
-  await page.locator('#wsRecipeSearch').fill('없는용병');assert.ok(await page.locator('.ws22-empty').isVisible());assert.equal(await page.locator('#wsMaterialCraft').count(),0);await page.locator('[data-ws-reset]').click();
-  await page.locator('[data-ws-ready]').click();assert.ok(await page.locator('.ws22-empty').isVisible());await page.locator('[data-ws-reset]').click();
+  await openCatalog();await page.locator('#wsRecipeSearch').fill('없는용병');assert.ok(await page.locator('.ws22-empty').isVisible());assert.equal(await page.locator('#wsMaterialCraft').count(),0);await page.locator('[data-ws-reset]').click();
+  await openCatalog();await page.locator('[data-ws-ready]').click();assert.ok(await page.locator('.ws22-empty').isVisible());await page.locator('[data-ws-reset]').click();
   await chooseCategory('BATTLE_SUIT_CRAFT');
-  if(width<800)await page.locator('#wsRecipePicker').selectOption('570');else await page.locator('[data-suit-recipe="570"]').click();
-  if(width<800){assert.equal(await page.locator('#wsSelectedRecipe').evaluate(e=>e===document.activeElement),true);await page.waitForTimeout(180);const position=await page.locator('#wsSelectedRecipe').evaluate(e=>({top:e.getBoundingClientRect().top,remaining:document.documentElement.scrollHeight-innerHeight-scrollY}));if(!shellOrigin)assert.ok(position.top<50||position.remaining<2,JSON.stringify(position));assert.match(await page.locator('.ws26-decision').innerText(),/10%/);assert.match(await page.locator('.ws26-decision').innerText(),/25조/);}
+  await openCatalog();await page.locator('[data-suit-recipe="570"]').click();
+  if(width<800){assert.equal(await page.locator('#wsSelectedRecipe').evaluate(e=>e===document.activeElement),true);await page.waitForTimeout(180);const position=await page.locator('#wsSelectedRecipe').evaluate(e=>({top:e.getBoundingClientRect().top,remaining:document.documentElement.scrollHeight-innerHeight-scrollY}));if(!shellOrigin)assert.ok(position.top<50||position.remaining<2,JSON.stringify(position));assert.match(await page.locator('.ws27-order').innerText(),/10%/);assert.match(await page.locator('.ws27-order').innerText(),/25조/);}
+  await page.screenshot({path:path.join(out,`${width}-X-BODY-shortage.png`),fullPage:true});await openCatalog();await page.screenshot({path:path.join(out,`${width}-image-selection.png`),fullPage:true});if(width<800)await page.locator('#wsRecipeCatalog>summary').click();
   assert.ok(await page.locator('#wsBattleSuitCraft').isDisabled());assert.match(await page.locator('.ws81-suit-costs').innerText(),/1\s*부족/);assert.match(await page.locator('.ws81-suit-costs').innerText(),/25조/);assert.match(await page.locator('.ws81-header aside').innerText(),/10경/);
-  await page.locator('#wsRecipeSearch').fill('없는슈트');assert.ok(await page.locator('.ws22-empty').isVisible());assert.equal(await page.locator('#wsBattleSuitCraft').count(),0);await page.locator('[data-ws-reset]').click();
+  await openCatalog();await page.locator('#wsRecipeSearch').fill('없는슈트');assert.ok(await page.locator('.ws22-empty').isVisible());assert.equal(await page.locator('#wsBattleSuitCraft').count(),0);await page.locator('[data-ws-reset]').click();
   await chooseCategory('SUIT_CORE_SYNTHESIS');await page.locator('#wsMaterialAttempts').fill('3');assert.match(await page.locator('.ws22-requirements').innerText(),/3회 제작 총 소모량/);assert.match(await page.locator('.ws22-requirements').innerText(),/30억/);
-  assert.match(await page.locator('.ws26-decision').innerText(),/3회 제작 소모량/);assert.match(await page.locator('.ws26-decision').innerText(),/30억/);
+  assert.match(await page.locator('.ws27-order').innerText(),/3회 제작 총 소모량/);assert.match(await page.locator('.ws27-order').innerText(),/30억/);
   await page.locator('#wsMaterialAttempts').fill('101');assert.ok(await page.locator('#wsMaterialCraft').isDisabled());await page.locator('#wsMaterialAttempts').fill('1');
-  await page.locator('#wsRecipeSearch').fill('없는결과');await page.locator('[data-ws-reset]').click();await page.locator('#wsRecipeSearch').fill('코어');assert.equal(await page.locator('#wsRecipeSearch').evaluate(e=>e===document.activeElement),true);
+  await openCatalog();await page.locator('#wsRecipeSearch').fill('없는결과');await page.locator('[data-ws-reset]').click();await openCatalog();await page.locator('#wsRecipeSearch').fill('코어');assert.equal(await page.locator('#wsRecipeSearch').evaluate(e=>e===document.activeElement),true);
+  await chooseCategory('ITEM_SYNTHESIS');const equipmentSelect=page.locator('#wsCraftEquipment');await equipmentSelect.scrollIntoViewIfNeeded();await equipmentSelect.focus();
+  const selectStyle=await equipmentSelect.evaluate(e=>({appearance:getComputedStyle(e).appearance,bg:getComputedStyle(e).backgroundColor,color:getComputedStyle(e).color,selected:e.selectedOptions[0].textContent}));
+  assert.equal(selectStyle.appearance,'none');assert.equal(selectStyle.bg,'rgb(16, 37, 58)');assert.equal(selectStyle.color,'rgb(255, 255, 255)');assert.match(selectStyle.selected,/금룡/);
+  await page.keyboard.press('ArrowDown');await page.keyboard.press('Escape');await page.screenshot({path:path.join(out,`${width}-equipment-select-focus.png`),fullPage:!shellOrigin});
+  await equipmentSelect.evaluate(e=>e.disabled=true);await page.screenshot({path:path.join(out,`${width}-equipment-select-disabled.png`),fullPage:!shellOrigin});await equipmentSelect.evaluate(e=>e.disabled=false);
+  await page.setViewportSize({width:390,height:844});await chooseCategory('BATTLE_SUIT_CRAFT');if(await page.locator('#wsRecipeCatalog').evaluate(e=>e.open))await page.locator('#wsRecipeCatalog>summary').click();
+  assert.equal(await page.locator('#wsRecipeCatalog').evaluate(e=>e.open),false);await page.setViewportSize({width:1440,height:1000});await page.waitForFunction(()=>document.querySelector('#wsRecipeCatalog')?.open);
+  await page.locator('[data-suit-recipe="570"]').click();assert.equal(await page.locator('#wsRecipeCatalog').evaluate(e=>e.open),true);
+  const firstRecipe=page.locator('[data-suit-recipe]').first();await firstRecipe.focus();await page.keyboard.press('Enter');assert.equal(await firstRecipe.getAttribute('aria-pressed'),'true');assert.equal(await page.locator('#wsRecipeCatalog').evaluate(e=>e.open),true);
+  await page.screenshot({path:path.join(out,`${width}-resized-desktop.png`),fullPage:true});await page.setViewportSize({width,height:width===1440?1000:844});
   assert.deepEqual(writes,[]);assert.deepEqual(errors,[]);
  }
  }finally{await browser.close();}}

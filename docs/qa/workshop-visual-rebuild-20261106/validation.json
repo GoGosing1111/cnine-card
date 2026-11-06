@@ -1,0 +1,295 @@
+{
+  "at": "2026-11-06T13:39:46.033978+00:00",
+  "standalone": {
+    "baseline": false,
+    "publicOrigin": null,
+    "shellOrigin": null,
+    "productionWrites": 0,
+    "results": [
+      {
+        "width": 1440,
+        "engine": "chromium",
+        "category": "VEHICLE",
+        "bodyHeight": 1130
+      },
+      {
+        "width": 1440,
+        "engine": "chromium",
+        "category": "SYNTHESIS",
+        "bodyHeight": 1142
+      },
+      {
+        "width": 1440,
+        "engine": "chromium",
+        "category": "MATERIAL_CRAFT",
+        "bodyHeight": 818
+      },
+      {
+        "width": 1440,
+        "engine": "chromium",
+        "category": "BATTLE_SUIT_CRAFT",
+        "bodyHeight": 772
+      },
+      {
+        "width": 1440,
+        "engine": "chromium",
+        "category": "SUIT_CORE_SYNTHESIS",
+        "bodyHeight": 888
+      },
+      {
+        "width": 1440,
+        "engine": "chromium",
+        "category": "ITEM_SYNTHESIS",
+        "bodyHeight": 983
+      },
+      {
+        "width": 1440,
+        "engine": "chromium",
+        "category": "MERCENARY_CRAFT",
+        "bodyHeight": 860
+      },
+      {
+        "width": 390,
+        "engine": "webkit",
+        "category": "VEHICLE",
+        "bodyHeight": 1062
+      },
+      {
+        "width": 390,
+        "engine": "webkit",
+        "category": "SYNTHESIS",
+        "bodyHeight": 1238
+      },
+      {
+        "width": 390,
+        "engine": "webkit",
+        "category": "MATERIAL_CRAFT",
+        "bodyHeight": 1187
+      },
+      {
+        "width": 390,
+        "engine": "webkit",
+        "category": "BATTLE_SUIT_CRAFT",
+        "bodyHeight": 1139
+      },
+      {
+        "width": 390,
+        "engine": "webkit",
+        "category": "SUIT_CORE_SYNTHESIS",
+        "bodyHeight": 1251
+      },
+      {
+        "width": 390,
+        "engine": "webkit",
+        "category": "ITEM_SYNTHESIS",
+        "bodyHeight": 1470
+      },
+      {
+        "width": 390,
+        "engine": "webkit",
+        "category": "MERCENARY_CRAFT",
+        "bodyHeight": 1226
+      },
+      {
+        "width": 320,
+        "engine": "chromium",
+        "category": "VEHICLE",
+        "bodyHeight": 1083
+      },
+      {
+        "width": 320,
+        "engine": "chromium",
+        "category": "SYNTHESIS",
+        "bodyHeight": 1259
+      },
+      {
+        "width": 320,
+        "engine": "chromium",
+        "category": "MATERIAL_CRAFT",
+        "bodyHeight": 1227
+      },
+      {
+        "width": 320,
+        "engine": "chromium",
+        "category": "BATTLE_SUIT_CRAFT",
+        "bodyHeight": 1139
+      },
+      {
+        "width": 320,
+        "engine": "chromium",
+        "category": "SUIT_CORE_SYNTHESIS",
+        "bodyHeight": 1291
+      },
+      {
+        "width": 320,
+        "engine": "chromium",
+        "category": "ITEM_SYNTHESIS",
+        "bodyHeight": 1489
+      },
+      {
+        "width": 320,
+        "engine": "chromium",
+        "category": "MERCENARY_CRAFT",
+        "bodyHeight": 1247
+      }
+    ]
+  },
+  "shellMobile": {
+    "baseline": false,
+    "publicOrigin": null,
+    "shellOrigin": "http://127.0.0.1:8984",
+    "productionWrites": 0,
+    "results": [
+      {
+        "width": 390,
+        "engine": "webkit",
+        "category": "VEHICLE",
+        "bodyHeight": 1054
+      },
+      {
+        "width": 390,
+        "engine": "webkit",
+        "category": "SYNTHESIS",
+        "bodyHeight": 1220
+      },
+      {
+        "width": 390,
+        "engine": "webkit",
+        "category": "MATERIAL_CRAFT",
+        "bodyHeight": 1175
+      },
+      {
+        "width": 390,
+        "engine": "webkit",
+        "category": "BATTLE_SUIT_CRAFT",
+        "bodyHeight": 1131
+      },
+      {
+        "width": 390,
+        "engine": "webkit",
+        "category": "SUIT_CORE_SYNTHESIS",
+        "bodyHeight": 1239
+      },
+      {
+        "width": 390,
+        "engine": "webkit",
+        "category": "ITEM_SYNTHESIS",
+        "bodyHeight": 1449
+      },
+      {
+        "width": 390,
+        "engine": "webkit",
+        "category": "MERCENARY_CRAFT",
+        "bodyHeight": 1213
+      },
+      {
+        "width": 320,
+        "engine": "chromium",
+        "category": "VEHICLE",
+        "bodyHeight": 1095
+      },
+      {
+        "width": 320,
+        "engine": "chromium",
+        "category": "SYNTHESIS",
+        "bodyHeight": 1261
+      },
+      {
+        "width": 320,
+        "engine": "chromium",
+        "category": "MATERIAL_CRAFT",
+        "bodyHeight": 1235
+      },
+      {
+        "width": 320,
+        "engine": "chromium",
+        "category": "BATTLE_SUIT_CRAFT",
+        "bodyHeight": 1151
+      },
+      {
+        "width": 320,
+        "engine": "chromium",
+        "category": "SUIT_CORE_SYNTHESIS",
+        "bodyHeight": 1299
+      },
+      {
+        "width": 320,
+        "engine": "chromium",
+        "category": "ITEM_SYNTHESIS",
+        "bodyHeight": 1488
+      },
+      {
+        "width": 320,
+        "engine": "chromium",
+        "category": "MERCENARY_CRAFT",
+        "bodyHeight": 1254
+      }
+    ]
+  },
+  "shellDesktop": {
+    "checks": [
+      "1440x1000 selected SYNTHESIS",
+      "1440x1000 SYNTHESIS no content overflow",
+      "1440x1000 SYNTHESIS no broken loaded images ",
+      "1440x1000 SYNTHESIS action reachable and unobscured",
+      "1440x1000 selected VEHICLE",
+      "1440x1000 VEHICLE no content overflow",
+      "1440x1000 VEHICLE no broken loaded images ",
+      "1440x1000 VEHICLE action reachable and unobscured",
+      "1440x1000 selected MATERIAL_CRAFT",
+      "1440x1000 MATERIAL_CRAFT no content overflow",
+      "1440x1000 MATERIAL_CRAFT no broken loaded images ",
+      "1440x1000 MATERIAL_CRAFT action reachable and unobscured",
+      "1440x1000 selected BATTLE_SUIT_CRAFT",
+      "1440x1000 BATTLE_SUIT_CRAFT no content overflow",
+      "1440x1000 BATTLE_SUIT_CRAFT no broken loaded images ",
+      "1440x1000 BATTLE_SUIT_CRAFT action reachable and unobscured",
+      "1440x1000 selected SUIT_CORE_SYNTHESIS",
+      "1440x1000 SUIT_CORE_SYNTHESIS no content overflow",
+      "1440x1000 SUIT_CORE_SYNTHESIS no broken loaded images ",
+      "1440x1000 selected ITEM_SYNTHESIS",
+      "1440x1000 ITEM_SYNTHESIS no content overflow",
+      "1440x1000 ITEM_SYNTHESIS no broken loaded images ",
+      "1440x1000 shared navigation retained",
+      "1440x1000 browsing and extension placeholders never spend",
+      "1440x1000 recipe search",
+      "1440x1000 typing retains focus",
+      "1440x1000 search empty state",
+      "1440x1000 recipe selection retains inner scroll",
+      "1440x1000 ready filter excludes already owned vehicle",
+      "1440x1000 core example has no invented probability",
+      "1440x1000 core + coin + master star requirements",
+      "1440x1000 10 core input",
+      "transport failure reuses the same request id",
+      "core synthesis posts correct recipe and combined payment",
+      "confirmation names all resources",
+      "read failure has working retry",
+      "workshopRecipeCoinV1668 draft stays unspecified",
+      "workshopRecipeStarV1668 draft stays unspecified",
+      "workshopRecipeRateV1668 draft stays unspecified",
+      "CMS new synthesis starts OFF and hidden",
+      "blank policy never reaches save API",
+      "CMS preserves example inputs",
+      "CMS retains selected output, combined cost and release flags",
+      "zero browser errors: "
+    ],
+    "errors": []
+  },
+  "unitRegression": {
+    "totalUnique": 108,
+    "initialPassed": 105,
+    "initialFailures": 3,
+    "failureReasons": [
+      "Two missing sparse authoring JSON files restored from HEAD",
+      "Existing source test required SVG navigation instead of real image icons"
+    ],
+    "affectedRerunPassed": 31,
+    "unresolved": 0
+  },
+  "paymentBrowser": "passed; combined currencies and identical request recovery",
+  "fixRound": {
+    "webkitSelect": "explicit appearance, foreground/background, chevron, disabled/focus captures",
+    "responsive": "closed mobile to open desktop and pointer/Enter selection checked"
+  },
+  "productionAccountWrites": 0
+}

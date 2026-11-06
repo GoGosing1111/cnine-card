@@ -13,7 +13,7 @@
     return sign + amount.toLocaleString('ko-KR');
   }
   const fmt = formatAmount;
-  const currencyIcon = code => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${code === 'COIN' ? '<circle cx="12" cy="12" r="8"/><path d="M15 8a5 5 0 1 0 0 8"/>' : code === 'MASTER_STAR' ? '<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9Z"/>' : '<path d="m8 3 11 3-4 15-11-3Z M9 8l6 2 M8 12l5 1"/>'}</svg>`;
+  const currencyIcon = code => `<img src="/${({COIN:'assets/ui/icon-fusion-20261004/coin.webp',MASTER_STAR:'assets/ui/icon-fusion-20261004/master-star.webp',CARD_SHARD:'assets/items/mercenary-sss-card-shard-v1.png'})[code] || 'assets/items/weapon-enhancement-scroll-v1.webp'}" alt="" width="40" height="40" decoding="async">`;
   function image(value) {
     const raw = String(value || '').trim().replace(/\\/g, '/');
     if (!raw || /^(?!https?:)[a-z][a-z\d+.-]*:/i.test(raw) || raw.startsWith('//')) return '';

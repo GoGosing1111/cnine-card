@@ -5,22 +5,20 @@ primary_target: "js/workshop-v1881.js"
 related_targets: ["css/workshop-workbench-v1.css","js/workshop-recipes-v1.js"]
 ---
 
-# Workshop usability refresh
+# Workshop visual rebuild after user rejection
 
-Mode: Operate. Existing web game, existing navy/lime workshop identity. User requests full workshop UI audit and resource improvements using the UI skill; confirmed priority is selecting a recipe and understanding materials, cost and probability together. Code-led, narrowly specified workflow revision within the existing game. Preserve transactions, approved art, assembly/reveal and recipe policy.
+Mode: Operate. Code-led extension of the approved game UI, not a replacement global visual system.
 
-## Direction contract
+User rejected the preceding information-only refresh: "ui도 바꾸고 아이콘 사용할거 있으면 하라고 한건데 뭐한거임". Priority remains "제작 편의: 선택·재료·비용·성공률을 한눈에".
 
-THESIS: One selected recipe, one legible decision area: identify the output, read what will be consumed, see the chance and act. Remove decorative facility numbering and competing headings.
+THESIS: An illustrated catalogue and a real crafting workbench. Identify a result from its art, read one set of required/owned/shortage figures and its probability, then craft.
 
-OWN-WORLD: Retain the game's midnight navy workbench, pale blue text and lime selection/action color. Reuse actual approved item art; use a consistent small stroke icon family for categories and currencies. Strong alignment and readable figures carry the interface.
+OWN-WORLD: Project AGENTS 2026-10-24 pins the approved codex navy metal panel and lime action raster as the common UI. Use panel-v3.webp (48/16 nine-slice) and action-user-approved.webp (38/9), real item/category/currency artwork and existing workshop chamber. Preserve all approved source bytes. Pretendard and the incumbent game font stack. Navy #091321, text #eff5ff, secondary #b6c9dd, lime #c8ff6b, shortage #ffb3a9. No new decorative images or global design-system replacement.
 
-STORY: Choose a category and recipe, distinguish owned stock from required cost and shortage, check probability and failure policy, then craft. Search, readiness, pending recovery and limited stock stay truthful.
+STORY: Seven illustrated categories stay visible. Desktop catalogue and workbench sit side by side. Mobile catalogue is a native disclosure with current art/name; expanded content contains image buttons and secondary search/filter controls. Selecting an image opens the current workbench and moves focus there. All seven categories follow output > probability > exact requirements > failure policy > action. Equipment sacrifice/pity and limited stock remain visible in their relevant flow.
 
-FIRST VIEWPORT: Desktop has category navigation, a searchable 260px recipe list and a larger selected recipe workspace. On phones, a native recipe selector replaces the tall scrolling list. Compact output art sits next to the title and probability; requirements and the actual action follow in the same column. A mobile “제작 조건 보기” shortcut moves focus to the selected work area without spending resources.
+FORM: User-pinned game resource system and task structure. No concept lottery needed. Replace previous plain panels, line-icon category bar, native recipe dropdown and duplicate mobile summary. Existing transaction/receipt handlers, recipe rules, assembly/reveal and retry keys stay unchanged.
 
-FORM: Existing master/detail workbench, fixed by the confirmed task and incumbent world; no concept lottery. Seed: not applicable (specified existing workflow). Signature interaction: changing the recipe keeps search and selection focus while updating the same requirement view; mobile selection moves directly to the chosen recipe. Respect reduced motion; existing receipt-driven reveal is the sole major animation.
+FIRST VIEWPORT: Framed illustrated category buttons and a compact illustrated catalogue summary on phones; a large output illustration and one cost table occupy the workbench. Desktop has a 254px catalogue and split product/order stage. The actual action uses the approved lime button resource, with a navy disabled state.
 
-FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
-
-Documentation scope: retain incumbent design; record this surface's implementation in QA notes without replacing the game's global visual system. No new shipping raster artwork is planned; approved originals remain untouched.
+FINISH: Fresh full review of all seven categories at 1440 Chromium, 390 WebKit and 320 Chromium; expanded image selector, missing resource state and payment/retry checks. Keep raster provenance in a source-hash inventory, without altering approved bytes. Existing global design files remain untouched; document this local extension and verification in QA.

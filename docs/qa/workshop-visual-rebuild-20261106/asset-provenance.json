@@ -1,0 +1,111 @@
+{
+  "newRasterFiles": 0,
+  "approvedBytesChanged": 0,
+  "resources": [
+    {
+      "file": "assets/ui/workshop/vehicle-part-tire-v1668.png",
+      "bytes": 621003,
+      "sha256": "d08b149c364d6cb81a1b8335b849382b5301949d5a7b93850f3cd1f832323c71",
+      "origin": "Existing committed game resource, unmodified",
+      "productionIncluded": true
+    },
+    {
+      "file": "assets/ui/workshop/vehicle-part-frame-v1668.png",
+      "bytes": 441649,
+      "sha256": "9dce272813851017f289db8ac67cf561eb1d80f80a01a769567a48a7dd616dbf",
+      "origin": "Existing committed game resource, unmodified",
+      "productionIncluded": true
+    },
+    {
+      "file": "assets/ui/workshop/vehicle-part-engine-v1668.png",
+      "bytes": 657122,
+      "sha256": "6da02032e9ef85f88c4e2afe94e52b88497e24c6cf3edba03c7f9dca97b351cc",
+      "origin": "Existing committed game resource, unmodified",
+      "productionIncluded": true
+    },
+    {
+      "file": "assets/items/starlight-armor-core-v1749.png",
+      "bytes": 1538242,
+      "sha256": "8e127379f681a6cc62239dad52ab608b5e0614171ce99131db5249f647725922",
+      "origin": "Existing committed game resource, unmodified",
+      "productionIncluded": true
+    },
+    {
+      "file": "assets/ui/icon-fusion-20261004/coin.webp",
+      "bytes": 27412,
+      "sha256": "d9f89b969bcb6aebe890016bb1f2e0cbcc9caff241959aae4dd1dd6b9d3244ea",
+      "origin": "Existing committed game resource, unmodified",
+      "productionIncluded": true
+    },
+    {
+      "file": "assets/items/mercenary-sss-card-shard-v1.png",
+      "bytes": 2012949,
+      "sha256": "352dbcabea111c3c761d23fd9489d83af167be9a8bb5170545ee57c3075cdb97",
+      "origin": "Existing committed game resource, unmodified",
+      "productionIncluded": true
+    },
+    {
+      "file": "assets/ui/icon-fusion-20261004/master-star.webp",
+      "bytes": 20252,
+      "sha256": "ae551542256d9b0056a9f0046b638cd9eaa5bb8ad4ea5be51b1feeeee07a6044",
+      "origin": "Existing committed game resource, unmodified",
+      "productionIncluded": true
+    },
+    {
+      "file": "assets/ui/project-v/account-battle-suits/weapons/infinity-ak-v1.png",
+      "bytes": 319564,
+      "sha256": "82ef345faecf7a00cded0aeee6bdd9f8bd40c2237ba868b1301d5b12238d6329",
+      "origin": "Existing committed game resource, unmodified",
+      "productionIncluded": true
+    },
+    {
+      "file": "assets/ui/project-v/account-battle-suits/suits/z-body-v2124.png",
+      "bytes": 156225,
+      "sha256": "71e36ce1b8e2be6e0957e53c0bdb333824211b046e78d0a8cc4eabf6b9e637e8",
+      "origin": "Existing committed game resource, unmodified",
+      "productionIncluded": true
+    },
+    {
+      "file": "assets/items/suit-core-7-20261006.png",
+      "bytes": 1791653,
+      "sha256": "4b1775428a1bdac452e3bfbbd91968df81ab59e9a3da5bbf9c56b0c7bfae08a4",
+      "origin": "Existing committed game resource, unmodified",
+      "productionIncluded": true
+    },
+    {
+      "file": "assets/items/weapon-enhancement-scroll-v1.webp",
+      "bytes": 68772,
+      "sha256": "b508f2d24fb67a0f391a4743ff6ac0f94f17a5ec798b4a4131ed0fd3c77d0f1c",
+      "origin": "Existing committed game resource, unmodified",
+      "productionIncluded": true
+    },
+    {
+      "file": "assets/items/sss-limited-shard-20261020/item.webp",
+      "bytes": 94910,
+      "sha256": "039fe271970db624790cfb83b059dfb25cc032a59244ab1bfa16d7a9b2c271b3",
+      "origin": "Existing committed game resource, unmodified",
+      "productionIncluded": true
+    },
+    {
+      "file": "assets/ui/mercenary-codex/command-20261021/panel-v3.webp",
+      "bytes": 5180,
+      "sha256": "55eb415b28c41dbf34ec74c9ff2f855b860c6aff1a8b5007a8128164af7bb892",
+      "origin": "Existing committed game resource, unmodified",
+      "productionIncluded": true
+    },
+    {
+      "file": "assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+      "bytes": 4454,
+      "sha256": "d7400c6be41938ced1d1d8915c9e74840af091ba1537c91b74057d2e0331b155",
+      "origin": "Existing committed game resource, unmodified",
+      "productionIncluded": true
+    },
+    {
+      "file": "assets/ui/workshop/equipment-fusion-chamber-v1677.png",
+      "bytes": 2496950,
+      "sha256": "869b8bcbbb343174a0ea8e144c132d264065516c6b4330a1c353fd7415e3e910",
+      "origin": "Existing committed game resource, unmodified",
+      "productionIncluded": true
+    }
+  ]
+}

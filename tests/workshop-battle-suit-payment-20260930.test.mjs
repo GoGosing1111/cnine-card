@@ -54,13 +54,13 @@ test('S-BODY shows and submits both coin and star costs on desktop and mobile; r
    page.on('pageerror',error=>errors.push(error.message));
    try{
     await page.goto(origin,{waitUntil:'domcontentloaded'});
-    if(scenario.width<800){await page.locator('#wsCategoryPicker').selectOption('BATTLE_SUIT_CRAFT');await page.locator('#wsRecipePicker').selectOption(String(scenario.recipe));}
+    if(scenario.width<800){await page.locator('[data-ws-section="BATTLE_SUIT_CRAFT"]').click();await page.locator('#wsRecipeCatalog>summary').click();await page.locator(`[data-suit-recipe="${scenario.recipe}"]`).click();}
     else{await page.locator('[data-ws-section="BATTLE_SUIT_CRAFT"]').click();await page.locator(`[data-suit-recipe="${scenario.recipe}"]`).click();}
     const labels=await page.locator('.ws81-suit-costs article>div>b').allTextContents();
     assert.deepEqual(labels,scenario.shown);
     assert.equal(await page.locator('#wsBattleSuitCraft').isEnabled(),true);
     assert.equal(await page.locator('[data-suit-pay]').count(),0);
-    const overflow=await page.locator('.ws81-suit-craft').evaluate(el=>el.scrollWidth-el.clientWidth);
+    const overflow=await page.locator('#wsSelectedRecipe').evaluate(el=>el.scrollWidth-el.clientWidth);
     assert.ok(overflow<=1,`${scenario.width}px suit panel must not overflow`);
     if(process.env.WORKSHOP_PAYMENT_QA_DIR){mkdirSync(process.env.WORKSHOP_PAYMENT_QA_DIR,{recursive:true});await page.screenshot({path:join(process.env.WORKSHOP_PAYMENT_QA_DIR,`${scenario.width}-${scenario.recipe}-${scenario.payment}.png`),fullPage:true})}
     const before=posts.length;
