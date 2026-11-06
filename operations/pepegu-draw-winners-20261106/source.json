@@ -1,0 +1,100 @@
+{
+  "operationKey": "ops:pepegu-draw-winners:20261106:v1",
+  "dateKst": "2026-11-06",
+  "authorization": "지급해",
+  "context": "Immediately preceding ten Pepegu raffle winners in this chat; one pet per winning account.",
+  "quantityPerAccount": 1,
+  "recipientCount": 10,
+  "ownership": "PERMANENT",
+  "delivery": "DIRECT_PET_COLLECTION",
+  "autoEquip": false,
+  "sendMessages": false,
+  "draw": {
+    "operationKey": "draw:pepegu:roster32:100to1:20261106:v1",
+    "resultSha256": "f94be8c50731146ea6a59f3c367f08033455af63ea6bdc4bb76e3062f80f85de",
+    "participants": 32,
+    "tickets": 113,
+    "winners": [
+      {
+        "rank": 1,
+        "order": 27,
+        "userId": "4582",
+        "nickname": "족단",
+        "sourceQuantity": 509,
+        "tickets": 5
+      },
+      {
+        "rank": 2,
+        "order": 5,
+        "userId": "88",
+        "nickname": "0수표",
+        "sourceQuantity": 509,
+        "tickets": 5
+      },
+      {
+        "rank": 3,
+        "order": 4,
+        "userId": "4651",
+        "nickname": "세라네꼬라지",
+        "sourceQuantity": 509,
+        "tickets": 5
+      },
+      {
+        "rank": 4,
+        "order": 8,
+        "userId": "289",
+        "nickname": "베베킹",
+        "sourceQuantity": 509,
+        "tickets": 5
+      },
+      {
+        "rank": 5,
+        "order": 9,
+        "userId": "2420",
+        "nickname": "블랙캐슬",
+        "sourceQuantity": 209,
+        "tickets": 2
+      },
+      {
+        "rank": 6,
+        "order": 19,
+        "userId": "5362",
+        "nickname": "점빡이",
+        "sourceQuantity": 509,
+        "tickets": 5
+      },
+      {
+        "rank": 7,
+        "order": 7,
+        "userId": "4627",
+        "nickname": "학벌",
+        "sourceQuantity": 509,
+        "tickets": 5
+      },
+      {
+        "rank": 8,
+        "order": 24,
+        "userId": "1768",
+        "nickname": "핫시",
+        "sourceQuantity": 509,
+        "tickets": 5
+      },
+      {
+        "rank": 9,
+        "order": 13,
+        "userId": "76",
+        "nickname": "랄네미탱탱",
+        "sourceQuantity": 109,
+        "tickets": 1
+      },
+      {
+        "rank": 10,
+        "order": 25,
+        "userId": "62",
+        "nickname": "숭구릭",
+        "sourceQuantity": 100,
+        "tickets": 1
+      }
+    ]
+  }
+}
