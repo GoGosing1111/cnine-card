@@ -525,6 +525,90 @@
       "width": 201,
       "height": 311,
       "channels": 4
+    },
+    {
+      "path": "assets/parts/x/coat.png",
+      "sha256": "44a16d692fcf77b371e177126bca51c2ab6f350681cb26fb902b14ca4e40f70e",
+      "width": 1145,
+      "height": 1374,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/x/helmet.png",
+      "sha256": "5168650d0ad667358b66a299de29a0153944998d228888af25a101f1c946ccdc",
+      "width": 234,
+      "height": 221,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/x/shoulderL.png",
+      "sha256": "4b6e3f353d2dcbdd3cc7a28ca6a2a4862b1b0b4c16bd0f466552c8eb9340dea6",
+      "width": 179,
+      "height": 254,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/x/torso.png",
+      "sha256": "3260a114c59b7d4f8abb41cdf7e1b4e6357ecd5e1866a4f092c721a9f5a3681b",
+      "width": 259,
+      "height": 235,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/x/shoulderR.png",
+      "sha256": "59587e60940ae90e98101394a89029eb30e5ab6c3d70020cc2b96ee2f2d84838",
+      "width": 111,
+      "height": 150,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/x/core.png",
+      "sha256": "f9c87e3e48801afae1d53dbf178110e861808db0a1031b0853398164caa9325b",
+      "width": 43,
+      "height": 42,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/x/armL.png",
+      "sha256": "c7d266b4b7e638ac4fdcd02788db7e41f98b7e4a47be0ceedec1a8117324e6ac",
+      "width": 151,
+      "height": 336,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/x/armR.png",
+      "sha256": "994741420f45fcd056eb92c4d528b1d916b0279199c6fbc8a49353ff18d591b0",
+      "width": 182,
+      "height": 369,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/x/hips.png",
+      "sha256": "c136badbb26d6688923714721175532677192ffc75e8160e576c742eb562609d",
+      "width": 270,
+      "height": 120,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/x/legL.png",
+      "sha256": "dda3c76a37566a1150c545ea872d31ef499191ffaa775dfe8a092266d4f4fab3",
+      "width": 277,
+      "height": 851,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/x/legR.png",
+      "sha256": "f97d09afd75caf0bef3df326d56c260aac3850aca8542a78f7de2dba159d22e9",
+      "width": 295,
+      "height": 793,
+      "channels": 4
+    },
+    {
+      "path": "assets/parts/x/sword.png",
+      "sha256": "842528df6eed43e0f900d8dfd6c2fc83c6a610e6ce77d63190f63414eba83100",
+      "width": 849,
+      "height": 690,
+      "channels": 4
     }
   ]
 }

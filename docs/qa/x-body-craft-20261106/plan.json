@@ -1,0 +1,24 @@
+{
+  "code": "WORKSHOP_BATTLE_SUIT_X_BODY",
+  "name": "X-BODY 제작",
+  "category": "BATTLE_SUIT_CRAFT",
+  "description": "슈트 코어 7 10개와 코인 25조로 X-BODY 제작을 시도합니다. 성공 확률 10%. 실패 시 투입 재료와 코인이 소모됩니다.",
+  "output_type": "EQUIPMENT",
+  "output_ref": "49",
+  "output_quantity": 1,
+  "payment_mode": "COIN_ONLY",
+  "coin_cost": 25000000000000,
+  "master_star_cost": 0,
+  "success_rate": 10,
+  "is_featured": 0,
+  "is_active": 1,
+  "is_public": 1,
+  "owner_test_only": 0,
+  "sort_order": 102,
+  "material": {
+    "item_code": "SUIT_CORE_7",
+    "quantity": 10,
+    "sort_order": 10
+  },
+  "referenceRecipeId": "527"
+}

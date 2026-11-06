@@ -30,6 +30,7 @@ export function liveAssemblyReceipt(data,recipe){
   // Current sword-form Z identity, including CMS-authored recipes and
   // output-less failure receipts. Names or old/unprepared art are not enough.
   if(mode==='suit'&&!model&&image===MODELS.z.catalogSource.slice(1))model='z';
+  if(mode==='suit'&&!model&&image===MODELS.x.catalogSource.slice(1))model='x';
   const name=String(result.output?.name||recipe.output_name||data.recipeName||'제작 아이템');
   return Object.freeze({mode,model,name,result,image:result.output?.image||recipe.output_image||'',
     coinSpent:Number(data.coinSpent||0),masterStarSpent:Number(data.masterStarSpent||0),

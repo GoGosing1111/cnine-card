@@ -1,0 +1,18 @@
+{
+  "notes": [
+    "docs/combat-lobby-ui-v2110.md",
+    "docs/coop-defense-v1-20261016.md",
+    "docs/cooperative-battleground-20261001.md",
+    "docs/cooperative-cms-20261002.md",
+    "docs/cooperative-energy-entry-20261020.md",
+    "docs/cooperative-inventory-fix-20261012.md",
+    "docs/cooperative-loading-formation-20261014.md",
+    "docs/cooperative-player-ranks-20261014.md",
+    "docs/cooperative-rewards-camera-20261013.md",
+    "docs/cooperative-roster-20261012.md",
+    "docs/cooperative-sidebar-20261013.md",
+    "docs/cooperative-stages-20261002.md"
+  ],
+  "runtimeReferences": 0,
+  "preservedInRepository": true
+}
