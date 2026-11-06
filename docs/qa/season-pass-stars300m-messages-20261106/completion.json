@@ -1,0 +1,72 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:season-pass-stars300m-messages:20261106:v1",
+  "authorization": "패스유저 전체 마스터의별 3억 지급 / 메세지로",
+  "delivery": "MESSAGE",
+  "rewardType": "MASTER_STAR",
+  "recipientCount": 112,
+  "messages": 112,
+  "rewardAttachments": 112,
+  "amountPerRecipient": "300000000",
+  "totalStars": "33600000000",
+  "title": "시즌패스 활성 유저 마스터의 별 3억 지급",
+  "body": "시즌패스가 활성화된 유저 여러분께 마스터의 별 3억 개를 드립니다.\n아래 수령 버튼을 눌러 보상을 받아 주세요.\n지급 시점의 시즌패스 활성 계정에 계정당 1회 지급됩니다.",
+  "completedAt": "2026-11-06T10:43:51.318Z",
+  "completedAtKst": "2026-11-06 19:43:51 KST",
+  "auditId": "55376",
+  "roleCounts": {
+    "OWNER": 1,
+    "USER": 110,
+    "ADMIN": 1
+  },
+  "providerCounts": {
+    "NONE": 1,
+    "PLAYDK": 111
+  },
+  "excluded": {},
+  "previousCampaigns": [
+    {
+      "key": "ops:season-pass-coin500t-messages:20261106:v1",
+      "receiptHash": "3ffd8bef6e418903efcd7a579b3f966d6408d46b38997e805abb424bf2699402",
+      "auditId": "55063"
+    },
+    {
+      "key": "ops:support-package-pass-notice:20261101:v1",
+      "receiptHash": "2b00cbf63f855a0ab8bff3f46617894dea3d94d07c8e3200a77c127a924e9922",
+      "auditId": "53546"
+    },
+    {
+      "key": "ops:verified-coin100t-messages:20261104:v1",
+      "receiptHash": "9388a45c50bf38e16eeef5add8a8e11c59a6e9645a227e2da0ee4b11266a495f",
+      "auditId": "54366"
+    },
+    {
+      "key": "ops:verified-coin250t-messages:20261105:v1",
+      "receiptHash": "e2df797bae42cf8081ffa231e2077c8b0972f39c73339b82151c7b2a252157e9",
+      "auditId": "54527"
+    }
+  ],
+  "verification": {
+    "missing": 0,
+    "duplicates": 0,
+    "claimedAtVerification": 0,
+    "pendingAtVerification": 112,
+    "verifiedAt": "2026-11-06T10:44:03.477Z",
+    "messageSyncChanged": 112,
+    "claimTestsPassed": 3,
+    "eligibilityTestsPassed": 2,
+    "operationLockContentionRejected": true,
+    "failedRehearsalRolledBack": true,
+    "successfulRehearsalRolledBack": true,
+    "independentReadOnly": true,
+    "replayAdditionalWrites": 0,
+    "noDirectWalletOrInventoryWrites": true,
+    "previousCampaignReceiptsUnchanged": true
+  },
+  "sourceCommit": "89694612aca7e1db9dc098e67895f95b880e10cf",
+  "planHash": "392cb0eb91d9c7cf3ace11c1b586d6e749ae55a7ed015532ef86731604271d54",
+  "executionSourceSha256": "28c7404103768e722ad102388a57446969cfbc7f24f4773d274af2b1812be8cd",
+  "gameDeployment": false,
+  "storageMaintenance": false,
+  "scheduledAutomations": 0
+}
