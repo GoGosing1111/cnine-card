@@ -1,0 +1,44 @@
+{
+  "at": "2026-11-06T12:15:47.448Z",
+  "status": "COMPLETE",
+  "requestedCoin": "100000000000000000",
+  "implementation": "61d956b1c",
+  "source": "e0dcca2856349e9e661afc5397411b311756dbd8",
+  "pages": {
+    "at": "2026-11-06T12:14:09.636Z",
+    "id": "cc6e1cc9-55a8-43a3-b8e7-49c2e0e2d3e5",
+    "url": "https://cc6e1cc9.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "e0dcca2856349e9e661afc5397411b311756dbd8"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "c574cf22-cc35-4906-8a12-3a81a2bdf85e",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "6a1c17a7-829f-488d-b154-94c74a526893",
+      "percentage": 100
+    }
+  ],
+  "validation": {
+    "targetedInitialPass": 394,
+    "relatedCorrectionsPass": 3,
+    "finalWalletDeliveryPass": 60,
+    "concurrentMergePass": 25,
+    "preexistingUIFailuresReproduced": 5,
+    "localViewports": [
+      1440,
+      390,
+      320
+    ],
+    "publicViewport": 390,
+    "publicFiles": 10,
+    "windowsEssential": 7,
+    "productionAccountWrites": 0,
+    "physicalDevice": false
+  },
+  "evidence": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\coin-100quadrillion-20261106"
+}

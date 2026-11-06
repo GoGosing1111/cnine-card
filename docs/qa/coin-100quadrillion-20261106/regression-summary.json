@@ -1,0 +1,35 @@
+{
+  "initial": {
+    "tests": 405,
+    "pass": 394,
+    "fail": 11,
+    "log": "deploy-859f3bf79-1.log"
+  },
+  "resolvedRelated": {
+    "tests": 3,
+    "pass": 3,
+    "log": "remaining.log",
+    "details": [
+      "sig and worm overflow tests now assert the real signed64 storage limit",
+      "public exact-coin module replaces one historical audit document in the Pages artifact; all files remain in Git"
+    ]
+  },
+  "unchangedBaselineUI": {
+    "tests": 5,
+    "fail": 5,
+    "base": "209fc23b461dd42a13e506878bf932c241addb6b",
+    "log": "baseline-ui.log",
+    "details": [
+      "three old CMS VM harnesses lack document",
+      "sig inventory regex predates current SQL",
+      "tournament inline UI regex predates extracted client"
+    ]
+  },
+  "sparseAuthoringOnly": [
+    "CNINE source-art bytes absent in code-only worktree",
+    "cow preview model not materialized; use real server cow economy test instead",
+    "sig authoring manifest absent in code-only worktree"
+  ],
+  "coreImplementation": "61d956b1c",
+  "browser": "browser.json"
+}

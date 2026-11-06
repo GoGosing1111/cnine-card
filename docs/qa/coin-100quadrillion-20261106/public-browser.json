@@ -1,0 +1,23 @@
+{
+  "at": "2026-11-06T12:14:14.635Z",
+  "realModules": true,
+  "productionWrites": 0,
+  "reports": [
+    {
+      "width": 390,
+      "count": 1000,
+      "ms": 363,
+      "posts": 1,
+      "images": 7,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "recovery": "lost POST + reload + same-ID replay",
+      "extraCharges": 0
+    },
+    {
+      "accountSwitch": "original account request retained, result not applied"
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "pages": {
+    "at": "2026-11-06T12:14:09.636Z",
+    "id": "cc6e1cc9-55a8-43a3-b8e7-49c2e0e2d3e5",
+    "url": "https://cc6e1cc9.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "e0dcca2856349e9e661afc5397411b311756dbd8"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "c574cf22-cc35-4906-8a12-3a81a2bdf85e",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "6a1c17a7-829f-488d-b154-94c74a526893",
+      "percentage": 100
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "shared/coin-integer-v1.mjs",
+      "sha256": "a566ea7392a2e64dd03943b53451c9a47dd89f28f8d02d51742ba5cb083ee2fa",
+      "status": 200
+    },
+    {
+      "file": "shared/superstar-pack-bulk-v1.mjs",
+      "sha256": "a1209b6cfcc30bafeeec3ed41a04b09cba7262ef1506359da31952fa41c4651d",
+      "status": 200
+    },
+    {
+      "file": "shared/ultimate-pack-bulk-v1.mjs",
+      "sha256": "21f39aec6e0fddf66707e6646151358d3fa142294e590697ce6166da54b21207",
+      "status": 200
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "1cf3d6bf3232ed35091541150096a2077efb9e8da91a2ce6ba73c9500dcc2d09",
+      "status": 200
+    },
+    {
+      "file": "js/clan-v1.js",
+      "sha256": "2063d0b164923804c39be3d9dcff924cd762e910f825946e2a57f52bf2fd19da",
+      "status": 200
+    },
+    {
+      "file": "index.html",
+      "sha256": "537d47b45fb49e6893664875d019c7bbfe8b8ce251cee42fcbef52fcbb01ecfa",
+      "status": 200
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "246e70cb02a8cd87774ddebd7bf6bf9ad4b89a9f069ea213ff8e9bba285a6b26",
+      "status": 200
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "f989278315edab07fe3ccfb045d3fbef303023be02d48a4066928d958488c1ee",
+      "status": 200
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "87845832a718432643a4c623f82f43143402cb85775f58bf96e57d767fb73229",
+      "status": 200
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "32645bec4635e636e3256e65fee2d8d6dbfe94e8a4c17022ee0415c59d1a1227",
+      "status": 200
+    }
+  ],
+  "windows": [
+    {
+      "file": "shared/coin-integer-v1.mjs",
+      "sha256": "f59bb0f6ff40ceabc05d8ed0e2ec04a0a82316934f49f2647b9d97758b254f96",
+      "essential": true
+    },
+    {
+      "file": "shared/superstar-pack-bulk-v1.mjs",
+      "sha256": "66ca7b61a6fa8a5b27457781f12b2bc0118ad46eeae691ba8bde1617509db96a",
+      "essential": true
+    },
+    {
+      "file": "shared/ultimate-pack-bulk-v1.mjs",
+      "sha256": "f0178dc34b6b63ef37cd94b3603259a415ad15549cedd6fa027f1b9ddbd7c889",
+      "essential": true
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "9846bd9f4d084173deb6ca6537ad7cac40284044db0e5e263eea76243cfa75ae",
+      "essential": true
+    },
+    {
+      "file": "js/clan-v1.js",
+      "sha256": "ef3a6c15a717bd0bdf40786c3235dc5d8537a6fb0343720dae4fe58c83927926",
+      "essential": true
+    },
+    {
+      "file": "index.html",
+      "sha256": "070c61e571547039aaf968dbb340e3c22f635d544d84928a8c7327b4458d01b5",
+      "essential": true
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "87dc67ae0b6de985a6d3b8fa56bc1c283e0b46307101a49c557d0b8470c03bc1",
+      "essential": true
+    }
+  ],
+  "manifestReleaseId": "f8bc8a81514044176bb6a138674bbdf9d0fc1920679f26911e52f0ea555a531e",
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}
