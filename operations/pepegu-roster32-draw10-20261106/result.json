@@ -1,0 +1,477 @@
+{
+  "status": "DRAW_COMPLETED_NOT_GRANTED",
+  "operationKey": "draw:pepegu:roster32:100to1:20261106:v1",
+  "dateKst": "2026-11-06",
+  "authorization": "100개당 추첨권 1개로 해서 페페구 10명 추첨해",
+  "prize": {
+    "code": "PET-PEPEGU",
+    "name": "페페구"
+  },
+  "scope": "DRAW_ONLY",
+  "sourceOperationKey": "ops:reversecall-streamer-box-100to5:20261105:v1",
+  "sourceSha256": "b165202b649f9078b63829ef5750bbc5cb7cbb9009b0a60b3e0999baf4f15108",
+  "previousPlanHash": "9081ff1dbd097d5ad7885036504915488ed468b3bfd2da4526398fa36d51841b",
+  "policy": {
+    "ticketFormula": "floor(sourceQuantity / 100)",
+    "ignoreRemainder": true,
+    "winnerCount": 10,
+    "uniqueAccounts": true,
+    "removeAllWinnerTickets": true,
+    "algorithm": "HMAC-SHA256 counter stream; uint32 rejection sampling; sequential weighted sampling without replacement"
+  },
+  "participantCount": 32,
+  "totalTickets": 113,
+  "participants": [
+    {
+      "order": 1,
+      "userId": "4391",
+      "nickname": "더듬이구",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "order": 2,
+      "userId": "3011",
+      "nickname": "오일바른가지",
+      "sourceQuantity": 209,
+      "tickets": 2
+    },
+    {
+      "order": 3,
+      "userId": "290",
+      "nickname": "Mild7",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "order": 4,
+      "userId": "4651",
+      "nickname": "세라네꼬라지",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "order": 5,
+      "userId": "88",
+      "nickname": "0수표",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "order": 6,
+      "userId": "4570",
+      "nickname": "혜정",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "order": 7,
+      "userId": "4627",
+      "nickname": "학벌",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "order": 8,
+      "userId": "289",
+      "nickname": "베베킹",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "order": 9,
+      "userId": "2420",
+      "nickname": "블랙캐슬",
+      "sourceQuantity": 209,
+      "tickets": 2
+    },
+    {
+      "order": 10,
+      "userId": "4981",
+      "nickname": "간장왕대게찜",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "order": 11,
+      "userId": "4866",
+      "nickname": "[C9]가시",
+      "sourceQuantity": 109,
+      "tickets": 1
+    },
+    {
+      "order": 12,
+      "userId": "164",
+      "nickname": "박사",
+      "sourceQuantity": 100,
+      "tickets": 1
+    },
+    {
+      "order": 13,
+      "userId": "76",
+      "nickname": "랄네미탱탱",
+      "sourceQuantity": 109,
+      "tickets": 1
+    },
+    {
+      "order": 14,
+      "userId": "4644",
+      "nickname": "김폭군",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "order": 15,
+      "userId": "360",
+      "nickname": "라피e",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "order": 16,
+      "userId": "4610",
+      "nickname": "고라니ㅇ",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "order": 17,
+      "userId": "5008",
+      "nickname": "단정한밤",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "order": 18,
+      "userId": "1255",
+      "nickname": "전게씹선미아웃",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "order": 19,
+      "userId": "5362",
+      "nickname": "점빡이",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "order": 20,
+      "userId": "295",
+      "nickname": "모래",
+      "sourceQuantity": 100,
+      "tickets": 1
+    },
+    {
+      "order": 21,
+      "userId": "4415",
+      "nickname": "Moo날두",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "order": 22,
+      "userId": "525",
+      "nickname": "족구조아",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "order": 23,
+      "userId": "4597",
+      "nickname": "찬호",
+      "sourceQuantity": 400,
+      "tickets": 4
+    },
+    {
+      "order": 24,
+      "userId": "1768",
+      "nickname": "핫시",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "order": 25,
+      "userId": "62",
+      "nickname": "숭구릭",
+      "sourceQuantity": 100,
+      "tickets": 1
+    },
+    {
+      "order": 26,
+      "userId": "4595",
+      "nickname": "비니",
+      "sourceQuantity": 100,
+      "tickets": 1
+    },
+    {
+      "order": 27,
+      "userId": "4582",
+      "nickname": "족단",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "order": 28,
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "sourceQuantity": 109,
+      "tickets": 1
+    },
+    {
+      "order": 29,
+      "userId": "4643",
+      "nickname": "깡총",
+      "sourceQuantity": 109,
+      "tickets": 1
+    },
+    {
+      "order": 30,
+      "userId": "22",
+      "nickname": "커피먹는철구",
+      "sourceQuantity": 109,
+      "tickets": 1
+    },
+    {
+      "order": 31,
+      "userId": "4572",
+      "nickname": "응맨",
+      "sourceQuantity": 109,
+      "tickets": 1
+    },
+    {
+      "order": 32,
+      "userId": "81",
+      "nickname": "비쥬얼깡패",
+      "sourceQuantity": 509,
+      "tickets": 5
+    }
+  ],
+  "requestHash": "d9cdb9dd28fab94c591f2d4746b624a3f2ad608605908769bb142baee502ca37",
+  "seedCommitment": "a2731fbd3040de9946f21be2c6fb1a1534ae595a156af15e82f6b15dfac26e8a",
+  "seedHex": "f91ab98daf2ff8c156a5c4b4648f7f24d734ebb88348b3ec393eedd3b1c4b567",
+  "seedSavedAt": "2026-11-06T08:04:30.034Z",
+  "completedAt": "2026-11-06T08:04:30.038Z",
+  "winners": [
+    {
+      "rank": 1,
+      "order": 27,
+      "userId": "4582",
+      "nickname": "족단",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "rank": 2,
+      "order": 5,
+      "userId": "88",
+      "nickname": "0수표",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "rank": 3,
+      "order": 4,
+      "userId": "4651",
+      "nickname": "세라네꼬라지",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "rank": 4,
+      "order": 8,
+      "userId": "289",
+      "nickname": "베베킹",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "rank": 5,
+      "order": 9,
+      "userId": "2420",
+      "nickname": "블랙캐슬",
+      "sourceQuantity": 209,
+      "tickets": 2
+    },
+    {
+      "rank": 6,
+      "order": 19,
+      "userId": "5362",
+      "nickname": "점빡이",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "rank": 7,
+      "order": 7,
+      "userId": "4627",
+      "nickname": "학벌",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "rank": 8,
+      "order": 24,
+      "userId": "1768",
+      "nickname": "핫시",
+      "sourceQuantity": 509,
+      "tickets": 5
+    },
+    {
+      "rank": 9,
+      "order": 13,
+      "userId": "76",
+      "nickname": "랄네미탱탱",
+      "sourceQuantity": 109,
+      "tickets": 1
+    },
+    {
+      "rank": 10,
+      "order": 25,
+      "userId": "62",
+      "nickname": "숭구릭",
+      "sourceQuantity": 100,
+      "tickets": 1
+    }
+  ],
+  "trace": [
+    {
+      "rank": 1,
+      "poolTickets": 113,
+      "ticketIndexZeroBased": 99,
+      "counter": 0,
+      "randomUint32": 1932479543,
+      "digestHex": "732f4c37e5c079b4764194324b990499f3f22b5e93a0d3617079d837c590209a",
+      "winnerUserId": "4582",
+      "winnerTicketRangeZeroBased": [
+        99,
+        103
+      ]
+    },
+    {
+      "rank": 2,
+      "poolTickets": 108,
+      "ticketIndexZeroBased": 18,
+      "counter": 1,
+      "randomUint32": 2721711798,
+      "digestHex": "a23a06b66a847d91097c11b837576afaabb3e520720dfad6a2fe67f965c25ca9",
+      "winnerUserId": "88",
+      "winnerTicketRangeZeroBased": [
+        17,
+        21
+      ]
+    },
+    {
+      "rank": 3,
+      "poolTickets": 103,
+      "ticketIndexZeroBased": 16,
+      "counter": 2,
+      "randomUint32": 2907353412,
+      "digestHex": "ad4ab14433af1583d7d7d3e0882a221665f7e2d04f417409293eb26a43fbf609",
+      "winnerUserId": "4651",
+      "winnerTicketRangeZeroBased": [
+        12,
+        16
+      ]
+    },
+    {
+      "rank": 4,
+      "poolTickets": 98,
+      "ticketIndexZeroBased": 25,
+      "counter": 3,
+      "randomUint32": 18137179,
+      "digestHex": "0114c05b6451e56ed9eaeee8f1d9f9bfa5b0d59102c7cabc8222a384ce13ec22",
+      "winnerUserId": "289",
+      "winnerTicketRangeZeroBased": [
+        22,
+        26
+      ]
+    },
+    {
+      "rank": 5,
+      "poolTickets": 93,
+      "ticketIndexZeroBased": 22,
+      "counter": 4,
+      "randomUint32": 4177482646,
+      "digestHex": "f8ff53961ad873d79f2232a2af66e5a463fae2ac79e042ba7921b768d8db99a3",
+      "winnerUserId": "2420",
+      "winnerTicketRangeZeroBased": [
+        22,
+        23
+      ]
+    },
+    {
+      "rank": 6,
+      "poolTickets": 91,
+      "ticketIndexZeroBased": 55,
+      "counter": 5,
+      "randomUint32": 134999738,
+      "digestHex": "080beeba6147f62f23105a0b9d718b49c5ee093a48a027f06b17200e2b10f044",
+      "winnerUserId": "5362",
+      "winnerTicketRangeZeroBased": [
+        55,
+        59
+      ]
+    },
+    {
+      "rank": 7,
+      "poolTickets": 86,
+      "ticketIndexZeroBased": 17,
+      "counter": 6,
+      "randomUint32": 3024319361,
+      "digestHex": "b4437381c68248bbb1b299f8dc017e57c89f10f6362df746cb3d2aec7390009f",
+      "winnerUserId": "4627",
+      "winnerTicketRangeZeroBased": [
+        17,
+        21
+      ]
+    },
+    {
+      "rank": 8,
+      "poolTickets": 81,
+      "ticketIndexZeroBased": 66,
+      "counter": 7,
+      "randomUint32": 2668644372,
+      "digestHex": "9f10481482a2986ec87700c969881cdc572c1d13aed1ee6d29b149ba36889a36",
+      "winnerUserId": "1768",
+      "winnerTicketRangeZeroBased": [
+        65,
+        69
+      ]
+    },
+    {
+      "rank": 9,
+      "poolTickets": 76,
+      "ticketIndexZeroBased": 24,
+      "counter": 8,
+      "randomUint32": 285335184,
+      "digestHex": "1101de90536cd18be3707491651d4856ec9fb1f4deecd2ea9eb2495123b8c80b",
+      "winnerUserId": "76",
+      "winnerTicketRangeZeroBased": [
+        24,
+        24
+      ]
+    },
+    {
+      "rank": 10,
+      "poolTickets": 75,
+      "ticketIndexZeroBased": 64,
+      "counter": 9,
+      "randomUint32": 3346786339,
+      "digestHex": "c77be823c6c2476098fe79814216305e780a3e20692d9db86eb9ed944ec1aa85",
+      "winnerUserId": "62",
+      "winnerTicketRangeZeroBased": [
+        64,
+        64
+      ]
+    }
+  ],
+  "remainingParticipants": 22,
+  "remainingTickets": 74,
+  "duplicateWinners": 0,
+  "grantWrites": 0,
+  "messagesSent": 0,
+  "gameDeployment": false,
+  "storageMaintenance": false,
+  "scheduledAutomations": 0
+}
