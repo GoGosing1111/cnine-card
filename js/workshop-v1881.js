@@ -5,7 +5,7 @@
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   }[char]));
   const amountFormat = new Intl.NumberFormat('ko-KR', {notation:'compact', maximumFractionDigits:2, roundingMode:'trunc'});
-  const fmt = value => Math.abs(Number(value || 0)) < 10000 ? Number(value || 0).toLocaleString('ko-KR') : amountFormat.format(Number(value || 0));
+  const fmt = value => window.WorkshopRecipes?.formatAmount ? window.WorkshopRecipes.formatAmount(value) : Math.abs(Number(value || 0)) < 10000 ? Number(value || 0).toLocaleString('ko-KR') : amountFormat.format(Number(value || 0));
   const asset = value => {
     const raw = String(value || '').trim().replace(/\\/g, '/');
     if (!raw) return '';
@@ -199,7 +199,7 @@
       workshopSection = section;
       recipeQuery = ''; readyOnly = false;
     }
-    return `<section class="ws76 ws81-workshop"><div id="workshopRootV1881" class="ws76-root ws81-root"><div class="ws76-loading"><i></i><b>MASTER WORKS</b><span>차량·장비·재료·배틀슈트 제작 설비를 가동하고 있습니다.</span></div></div></section>`;
+    return `<section class="ws76 ws81-workshop"><div id="workshopRootV1881" class="ws76-root ws81-root"><div class="ws76-loading" role="status"><i></i><b>제작소를 불러오는 중</b><span>제작품과 보유 재료를 확인하고 있습니다.</span></div></div></section>`;
   }
 
   function scrapyardView() {
@@ -209,7 +209,7 @@
   function workshopHeader() {
     return `<header class="ws76-header ws81-header">
       <div class="ws81-header-code" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18l-4 5H6ZM8 11v4l-4 6h16l-4-6v-4M11 3h7"/></svg></div>
-      <div><h1>제작소</h1><p>장비부터 슈트 코어까지, 제작과 합성을 한곳에서.</p></div>
+      <div><h1>제작소</h1><p>제작품을 고르고, 재료와 성공 확률을 확인하세요.</p></div>
       <aside>
         <span><small>보유 코인</small><b>${fmt(workshopState?.wallet?.coin)}</b></span>
         <span><small>카드 조각</small><b>${fmt(workshopState?.wallet?.cardShards)}</b></span>
@@ -233,15 +233,16 @@
   }
 
   function workshopNav() {
-    return `<nav class="ws76-nav ws81-nav" aria-label="제작소 설비 선택">
-      <button type="button" data-ws-section="VEHICLE" class="${workshopSection === 'VEHICLE' ? 'active' : ''}"><i>01</i><span><b>차량 제작</b><small>타이어 · 프레임 · 엔진 조립</small></span></button>
-      <button type="button" data-ws-section="SYNTHESIS" class="${workshopSection === 'SYNTHESIS' ? 'active' : ''}"><i>02</i><span><b>장비 합성</b><small>활성 계보 · 전체 합성 계보</small></span></button>
-      <button type="button" data-ws-section="MATERIAL_CRAFT" class="${workshopSection === 'MATERIAL_CRAFT' ? 'active' : ''}"><i>03</i><span><b>재료 제작</b><small>고급 제작 에너지 변환</small></span></button>
-      <button type="button" data-ws-section="BATTLE_SUIT_CRAFT" class="${workshopSection === 'BATTLE_SUIT_CRAFT' ? 'active' : ''}"><i>04</i><span><b>배틀슈트 제작</b><small>슈트 코어 · 코인 · 마스터의 별</small></span></button>
-      <button type="button" data-ws-section="SUIT_CORE_SYNTHESIS" class="${workshopSection === 'SUIT_CORE_SYNTHESIS' ? 'active' : ''}"><i>05</i><span><b>슈트코어 합성</b><small>코어 승급 레시피</small></span></button>
-      <button type="button" data-ws-section="ITEM_SYNTHESIS" class="${workshopSection === 'ITEM_SYNTHESIS' ? 'active' : ''}"><i>06</i><span><b>장비제작</b><small>강화 장비 · 누적 천장</small></span></button>
-      <button type="button" data-ws-section="MERCENARY_CRAFT" class="${workshopSection === 'MERCENARY_CRAFT' ? 'active' : ''}"><i>07</i><span><b>용병 제작</b><small>SSS 리미티드 한정 제작</small></span></button>
-    </nav>`;
+    const sections = [
+      ['VEHICLE','차량 제작','M4 15V9l3-5h10l3 5v6M4 10h16M7 15h10M6 15v4M18 15v4'],
+      ['SYNTHESIS','장비 합성','M3 7h13m-4-4 4 4-4 4M21 17H8m4-4-4 4 4 4'],
+      ['MATERIAL_CRAFT','재료 제작','M9 3h6M10 3v6l-6 10v2h16v-2L14 9V3M7 15h10'],
+      ['BATTLE_SUIT_CRAFT','배틀슈트 제작','m8 3 4 3 4-3 5 6-4 3-1 9H8l-1-9-4-3Z M9 11h6'],
+      ['SUIT_CORE_SYNTHESIS','슈트코어 합성','m12 2 9 5v10l-9 5-9-5V7Z m0 5 4 2v6l-4 2-4-2V9Z'],
+      ['ITEM_SYNTHESIS','장비 제작','m5 3 4 4-2 3-4-4a6 6 0 0 0 7 7l7 7 3-3-7-7a6 6 0 0 0-8-7Z'],
+      ['MERCENARY_CRAFT','용병 제작','M8 3h8l2 7-6 5-6-5Z M4 21v-4l4-2m8 0 4 2v4M9 8h6']
+    ];
+    return `<nav class="ws76-nav ws81-nav" aria-label="제작소 설비 선택">${sections.map(([key,label,shape]) => `<button type="button" data-ws-section="${key}" class="${workshopSection === key ? 'active' : ''}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${shape}"/></svg><span><b>${label}</b></span></button>`).join('')}</nav>`;
   }
 
   function workshopToolbar() {
@@ -255,7 +256,7 @@
   }
 
   function noRecipeMatch() {
-    return '<div class="ws22-empty"><h2>조건에 맞는 레시피가 없습니다</h2><p>검색어를 바꾸거나 필터를 초기화해 전체 레시피를 확인하세요.</p></div>';
+    return '<div class="ws22-empty" role="status"><h2>조건에 맞는 레시피가 없습니다</h2><p>검색어를 바꾸거나 필터를 초기화해 전체 레시피를 확인하세요.</p><button type="button" data-ws-clear>전체 레시피 보기</button></div>';
   }
 
   function vehiclePartsBank() {
@@ -283,13 +284,13 @@
     return `${vehiclePartsBank()}<div class="ws76-craft-layout ws81-craft-layout">
       <aside class="ws76-blueprints">
         <small>VEHICLE BLUEPRINTS</small><h2>차량 설계도</h2>
-        ${recipes.map(row => `<button type="button" data-recipe="${row.id}" class="${Number(row.id) === Number(recipe.id) ? 'active' : ''}"><img loading="lazy" decoding="async" src="${esc(asset(row.output_image))}" alt=""><span><b>${esc(row.name)}</b><small>${esc(row.output_rarity)}</small></span></button>`).join('')}
+        ${recipes.map(row => `<button type="button" data-recipe="${row.id}" class="${Number(row.id) === Number(recipe.id) ? 'active' : ''}"><img loading="lazy" decoding="async" src="${esc(asset(row.output_image))}" alt=""><span><b>${esc(row.name)}</b><small>${Number(row.success_rate)}% · ${row.owned ? '보유 중' : window.WorkshopRecipes.describe(row, workshopState, payment).ready ? '제작 가능' : '재료 부족'}</small></span></button>`).join('')}
       </aside>
       <section class="ws76-vehicle-stage">
         <header><div><small>선택한 제작 설계도</small><h2>${esc(recipe.name)}</h2><p>${esc(recipe.description)}</p></div><em>성공 확률 ${Number(recipe.success_rate)}%</em></header>
         <div class="ws76-vehicle-preview"><i></i><img decoding="async" src="${esc(asset(recipe.output_image))}" alt=""><span>${esc(recipe.output_name)} · PVE +${fmt(recipe.output_pve)}</span></div>
-        <div class="ws76-material-grid">${(recipe.materials || []).map(material => `<article class="${owned(material.item_code) >= Number(material.quantity) ? 'ok' : 'short'}"><img decoding="async" src="${esc(asset(material.image_url || workshopState?.inventory?.[material.item_code]?.image_url))}" alt=""><span><b>${esc(material.item_name)}</b><small>${fmt(owned(material.item_code))} / ${fmt(material.quantity)}</small></span></article>`).join('')}</div>
-        ${recipe.payment_mode === 'COIN_OR_MASTER_STAR' ? `<div class="ws76-pay"><button type="button" data-pay="COIN" class="${payment === 'COIN' ? 'active' : ''}">코인 ${fmt(recipe.coin_cost)}</button><button type="button" data-pay="MASTER_STAR" class="${payment === 'MASTER_STAR' ? 'active' : ''}">마스터의 별 ${fmt(recipe.master_star_cost)}</button></div>` : `<div class="ws22-vehicle-costs">${window.WorkshopRecipes.costRows(info.rows.filter(row => ['COIN','MASTER_STAR','CARD_SHARD'].includes(row.code)))}</div>`}
+        <h3 class="ws26-cost-heading">1회 제작 소모량</h3><div class="ws76-material-grid">${window.WorkshopRecipes.costRows(info.rows.filter(row => !['COIN','MASTER_STAR','CARD_SHARD'].includes(row.code)))}</div>
+        ${recipe.payment_mode === 'COIN_OR_MASTER_STAR' ? `<div class="ws76-pay" role="group" aria-label="결제 재화 선택"><button type="button" data-pay="COIN" class="${payment === 'COIN' ? 'active' : ''}">코인 ${fmt(recipe.coin_cost)}</button><button type="button" data-pay="MASTER_STAR" class="${payment === 'MASTER_STAR' ? 'active' : ''}">마스터의 별 ${fmt(recipe.master_star_cost)}</button></div>` : ''}<div class="ws22-vehicle-costs">${window.WorkshopRecipes.costRows(info.rows.filter(row => ['COIN','MASTER_STAR','CARD_SHARD'].includes(row.code)))}</div>
         <p class="ws22-risk">실패 시에도 선택한 재화와 투입 재료는 소모됩니다.</p>
         ${!ready && !recipe.owned ? `<p class="ws22-status">${esc(info.shortage)}</p>` : ''}
         <button type="button" id="wsVehicleCraft" class="ws76-primary" ${ready && !workshopBusy ? '' : 'disabled'}>${workshopBusy ? '조립 공정 진행 중' : recovering ? '이전 차량 제작 결과 확인' : recipe.owned ? '이미 보유한 차량' : '차량 조립 시작'}</button>
@@ -412,11 +413,11 @@
     const failureDescription=policy.failureInputPolicy==='CONSUME'?(policy.failureRepairable?`실패 시 +${level} 장비가 소모되며 리페어권으로 복구할 수 있습니다.`:`실패 시 +${level} 장비가 소모됩니다.`):`실패 시 +${level} 장비는 보존됩니다.`;
     const progress = Math.min(100, Math.max(0, pity.failures / policy.pityAfter * 100));
     return `<div class="ws22-item-layout"><aside class="ws22-recipe-list" aria-label="장비제작 조합식 목록">${recipes.map(row=>`<button type="button" data-material-recipe="${row.id}" class="${row.id===recipe.id?'active':''}" aria-pressed="${row.id===recipe.id}"><img src="${esc(asset(row.output_image))}" alt="" loading="lazy"><span><b>${esc(row.output_name||row.name)}</b><small>${workshopState.equipmentCraft?.pity?.[row.id]?.guaranteed?'이번 제작 100%':'기본 성공률 '+Number(row.success_rate)+'%'}</small></span></button>`).join('')}</aside><section class="ws22-item-stage ws28-equipment-stage ${pity.guaranteed ? 'is-guaranteed' : ''}">
-      <header class="ws22-item-head"><div><small>+${level} EQUIPMENT FORGE</small><h2>${esc(name)}</h2><p>+${level} 장비와 ${costNames}을 사용합니다. ${failureDescription}</p></div><div class="ws22-rate"><small>${pity.guaranteed ? '천장 도달 · 이번 제작' : '기본 성공 확률'}</small><b>${pity.guaranteed ? 100 : 10}%</b></div></header>
+      <header class="ws22-item-head"><div><small>+${level} EQUIPMENT FORGE</small><h2>${esc(name)}</h2><p>+${level} 장비와 ${costNames}을 사용합니다. ${failureDescription}</p></div><div class="ws22-rate"><small>${pity.guaranteed ? '천장 도달 · 이번 제작' : '기본 성공 확률'}</small><b>${pity.guaranteed ? 100 : Number(recipe.success_rate)}%</b></div></header>
       <div class="ws28-forge-chain"><figure><span class="ws28-forge-tag">투입 장비 · ${policy.failureInputPolicy==='CONSUME'?`+${level} 소모 주의`:`+${level} 보존`}</span><img src="${esc(asset(policy.inputImage))}" alt="${esc(policy.inputName)}"><figcaption><b>+${level} ${esc(policy.inputName)}</b><small>${policy.failureInputPolicy==='CONSUME'?(policy.failureRepairable?'실패 시 소모 · 리페어 복구 가능':`실패 시 투입 +${level} 장비 소모`):'실패 시 장비·강화 단계 보존'}</small></figcaption></figure><span class="ws28-forge-arrow" aria-hidden="true">→</span><figure><span class="ws28-forge-tag">제작 결과</span><img src="${esc(asset(recipe.output_image))}" alt="${esc(name)}"><figcaption><b>${esc(name)}</b><small>성공 시 투입 장비 소모 · 결과 +0</small></figcaption></figure></div>
       <section class="ws28-forge-pity" aria-live="polite"><div><span>${pity.guaranteed ? '확정 제작 준비 완료' : '실패 누적 천장'} · 최대 ${fmt(policy.pityAfter+1)}회</span><strong>${fmt(pity.failures)}<small> / ${fmt(policy.pityAfter)}회</small></strong></div><div class="ws28-pity-track" role="progressbar" aria-label="실패 누적" aria-valuemin="0" aria-valuemax="${policy.pityAfter}" aria-valuenow="${Math.min(policy.pityAfter,pity.failures)}"><i style="width:${progress}%"></i></div><p>${pity.guaranteed ? '<b>이번 제작은 100% 성공합니다.</b>' : `실패 ${fmt(Math.max(0,policy.pityAfter-pity.failures))}회 추가 누적 후, 다음 제작이 100% 성공합니다.`} 재접속·장비 교체 후에도 유지되며 성공 시 초기화됩니다.</p></section>
       <div class="ws28-forge-config"><label for="wsCraftEquipment">투입할 +${level} 장비 선택</label><select id="wsCraftEquipment" ${workshopBusy || recovering ? 'disabled' : ''}>${info.candidates.length ? info.candidates.map(row=>`<option value="${esc(row.id)}" ${row.id===info.instanceId?'selected':''}>+${level} ${esc(policy.inputName)} · #${esc(row.id)}</option>`).join('') : `<option value="">사용 가능한 +${level} 장비 없음</option>`}</select><small>장착한 장비는 표시하지 않습니다.${workshopState.equipmentCraft?.capped ? ' 사용 가능한 장비 중 앞 1,000개를 표시합니다.' : ''}</small><h3>1회 제작 비용</h3><div class="ws28-forge-costs">${window.WorkshopRecipes.costRows(info.rows.filter(row=>row.code!=='EQUIPMENT'))}</div><p class="ws22-status">${recovering ? '이전 제작 결과를 확인합니다. 같은 요청으로 중복 차감되지 않습니다.' : info.ready ? '장비와 제작 재료가 준비되었습니다.' : esc(info.shortage || `대상 +${level} 장비를 선택하세요.`)}</p></div>
-      <footer class="ws22-item-footer"><p class="ws22-risk"><b class="${policy.failureInputPolicy==='CONSUME'?'ws28-forge-policy-danger':''}">실패 시 +${level} 장비 ${policy.failureInputPolicy==='CONSUME'?'소모':'보존'}</b>${policy.failureInputPolicy==='CONSUME'&&policy.failureRepairable?`<br>소모된 +${level} 장비는 강화 센터의 파괴 기록에서 리페어권으로 복구할 수 있습니다.`:''}<br>${costNames}은 결과와 관계없이 소모됩니다. 천장 제작에도 동일한 비용이 필요합니다.</p><button type="button" id="wsMaterialCraft" class="ws76-primary" ${workshopBusy || (!info.ready && !recovering) ? 'disabled' : ''}>${workshopBusy ? '제작 결과 확인 중' : recovering ? '이전 제작 결과 확인' : pity.guaranteed ? '100% 확정 제작' : '장비 제작 · 성공률 10%'}</button></footer>
+      <footer class="ws22-item-footer"><p class="ws22-risk"><b class="${policy.failureInputPolicy==='CONSUME'?'ws28-forge-policy-danger':''}">실패 시 +${level} 장비 ${policy.failureInputPolicy==='CONSUME'?'소모':'보존'}</b>${policy.failureInputPolicy==='CONSUME'&&policy.failureRepairable?`<br>소모된 +${level} 장비는 강화 센터의 파괴 기록에서 리페어권으로 복구할 수 있습니다.`:''}<br>${costNames}은 결과와 관계없이 소모됩니다. 천장 제작에도 동일한 비용이 필요합니다.</p><button type="button" id="wsMaterialCraft" class="ws76-primary" ${workshopBusy || (!info.ready && !recovering) ? 'disabled' : ''}>${workshopBusy ? '제작 결과 확인 중' : recovering ? '이전 제작 결과 확인' : pity.guaranteed ? '100% 확정 제작' : '장비 제작 · 성공률 ' + Number(recipe.success_rate) + '%'}</button></footer>
     </section></div>`;
   }
 
@@ -451,7 +452,7 @@
   }
 
   function mercenaryCraftSelector(recipes,selectedId) {
-    if(recipes.length<2)return '';
+    if(!recipes.length)return '';
     return `<nav class="ws-mercenary-select cn-command-ui" aria-label="제작할 용병 선택">${recipes.map(r=>`<button type="button" class="cn-ui-button${Number(r.id)===selectedId?' primary':''}" data-material-recipe="${r.id}" aria-pressed="${Number(r.id)===selectedId}"><img src="/${esc(r.output_image)}" alt="" loading="lazy" decoding="async"><span><b>${esc(r.output_name)}</b><small>${r.craftScope==='AWAKENED_OMEGA'?'오메가-X 카드':r.craftScope==='PRIME_MATERIAL'?'기운잃은 프라임 카드':r.craftScope==='SSS_LIMITED_SHARD'?'리미티드 조각':r.craftScope==='PRIME_MATERIAL'?'프라임 재료':'일반 조각'}</small><small>${r.craftStock?.soldOut?'한정 수량 소진':r.craftLocked?'제작 OFF':['AWAKENED_OMEGA','PRIME_MATERIAL'].includes(r.craftScope)?'제작 가능':`남은 ${fmt(r.craftStock?.remaining)} / ${fmt(r.craftStock?.limit)}장`}</small></span></button>`).join('')}</nav>`;
   }
 
@@ -470,6 +471,7 @@
     const [pendingId, pendingPayment] = String(pending?.target || '').split(':');
     if (pending && ['COIN', 'MASTER_STAR'].includes(pendingPayment)) payment = pendingPayment;
     const recipe = recipes.find(row => String(row.id) === pendingId) || recipes.find(row => Number(row.id) === selectedMaterialRecipe) || recipes[0];
+    if (category === 'MERCENARY_CRAFT' && !recipe) return all.length ? noRecipeMatch() : '<section class="ws22-empty"><h2>용병 제작 준비 중</h2><p>공개된 용병 제작 레시피가 없습니다.</p></section>';
     if (category === 'MERCENARY_CRAFT') { if(recipe)selectedMaterialRecipe=Number(recipe.id);return mercenaryCraftSelector(recipes,selectedMaterialRecipe)+(recipe?.code==='WORKSHOP_AWAKENED_OMEGA'?awakenedOmegaCraftPanel(recipe):recipe?.code==='WORKSHOP_PRIME_REQUIEM'?primeCraftPanel(recipe):recipe?.craftScope==='SSS_LIMITED_SHARD'?limitedShardCraftPanel(recipe):recipe?.code==='WORKSHOP_JOKRO'?jokroCraftPanel(recipe):kaironCraftPanel(recipe)); }
     if (!recipe) {
       if (all.length) return noRecipeMatch();
@@ -499,6 +501,7 @@
       || recipes.find(row => Number(row.id) === Number(selectedBattleSuitRecipe))
       || recipes[0];
     if (!recipe) {
+      if ((workshopState?.recipes || []).some(row => row.category === 'BATTLE_SUIT_CRAFT')) return noRecipeMatch();
       return `<section class="ws81-material-empty ws81-suit-empty"><span>BATTLE SUIT FORGE · 04</span><h2>배틀슈트 제작 설비 준비 중</h2><p>현재 공개된 배틀슈트 제작 레시피가 없습니다.</p></section>`;
     }
     selectedBattleSuitRecipe = Number(recipe.id);
@@ -519,19 +522,16 @@
       <div class="ws81-suit-layout">
         <aside class="ws81-suit-blueprints"><small>SUIT BLUEPRINTS</small><h3>제작 설계도</h3>${recipes.map(row => {
           const material = (row.materials || [])[0] || {};
-          return `<button type="button" data-suit-recipe="${row.id}" class="${Number(row.id) === Number(recipe.id) ? 'active' : ''}"><img loading="lazy" decoding="async" src="${esc(asset(material.image_url || row.output_image))}" alt=""><span><b>${esc(row.output_name || row.name)}</b><small>${esc(material.item_name || '전용 슈트 코어')}</small></span><em>${Number(row.success_rate ?? 100)}%</em></button>`;
+          return `<button type="button" data-suit-recipe="${row.id}" class="${Number(row.id) === Number(recipe.id) ? 'active' : ''}"><img loading="lazy" decoding="async" src="${esc(asset(row.output_image || material.image_url))}" alt=""><span><b>${esc(row.output_name || row.name)}</b><small>${Number(row.success_rate ?? 100)}% · ${window.WorkshopRecipes.describe(row, workshopState, battleSuitPayment).ready ? '제작 가능' : '재료 부족'}</small></span><em>${Number(row.success_rate ?? 100)}%</em></button>`;
         }).join('')}</aside>
         <section class="ws81-suit-stage">
-          <div class="ws81-suit-visual"><span>CRAFT OUTPUT · ${esc(recipe.output_rarity || 'MYTHIC')}</span><div aria-hidden="true"><i></i><i></i><i></i></div><img decoding="async" src="${esc(asset(recipe.output_image))}" alt="${esc(recipe.output_name || recipe.name)}"><b>${esc(recipe.output_name || recipe.name)}</b><small>PVE +${fmt(recipe.output_pve)} · PVP +${fmt(recipe.output_pvp)}</small></div>
+          <div class="ws81-suit-visual"><span>성공 시 획득 · ${esc(recipe.output_rarity || 'MYTHIC')}</span><div aria-hidden="true"><i></i><i></i><i></i></div><img decoding="async" src="${esc(asset(recipe.output_image))}" alt="${esc(recipe.output_name || recipe.name)}"><b>${esc(recipe.output_name || recipe.name)}</b><small>PVE +${fmt(recipe.output_pve)} · PVP +${fmt(recipe.output_pvp)}</small></div>
           <div class="ws81-suit-requirements">
-            <header><div><small>FORGE REQUIREMENTS</small><h3>${esc(recipe.name)}</h3><p>${esc(recipe.description)}</p></div><em class="${ready ? 'ready' : 'short'}">${recovering ? '결과 재확인' : ready ? '제작 준비 완료' : '재료 부족'}</em></header>
+            <header><div><small>FORGE REQUIREMENTS</small><h3>${esc(recipe.name)}</h3><p>${esc(recipe.description)}</p></div><div class="ws22-rate"><small>1회 성공 확률</small><b>${Number(recipe.success_rate ?? 100)}%</b></div></header>
             ${choiceRequired ? `<div class="ws76-pay ws81-suit-pay" role="group" aria-label="배틀슈트 결제 방식"><button type="button" data-suit-pay="COIN" aria-pressed="${battleSuitPayment === 'COIN'}" class="${battleSuitPayment === 'COIN' ? 'active' : ''}" ${recovering ? 'disabled' : ''}>코인 ${fmt(recipe.coin_cost)}</button><button type="button" data-suit-pay="MASTER_STAR" aria-pressed="${battleSuitPayment === 'MASTER_STAR'}" class="${battleSuitPayment === 'MASTER_STAR' ? 'active' : ''}" ${recovering ? 'disabled' : ''}>마스터의 별 ${fmt(recipe.master_star_cost)}</button></div>` : ''}
-            <div class="ws81-suit-costs ${choiceRequired ? 'choice' : ''}">
-              ${(recipe.materials || []).map(material => `<article class="${owned(material.item_code) >= Number(material.quantity || 0) ? 'ready' : 'short'}"><img decoding="async" src="${esc(asset(material.image_url || workshopState?.inventory?.[material.item_code]?.image_url))}" alt=""><span><small>SUIT CORE</small><b>${esc(material.item_name || material.item_code)}</b><em>보유 ${fmt(owned(material.item_code))} / 필요 ${fmt(material.quantity)}</em></span></article>`).join('')}
-              ${coinCost > 0 ? `<article class="${coinReady ? 'ready' : 'short'}"><span><small>COIN</small><b>${fmt(coinCost)}</b><em>보유 ${fmt(coinOwned)}</em></span></article>` : ''}
-              ${starCost > 0 ? `<article class="${starReady ? 'ready' : 'short'}"><span><small>MASTER STAR</small><b>${fmt(starCost)}</b><em>보유 ${fmt(starOwned)}</em></span></article>` : ''}
-            </div>
-            <div class="ws81-suit-notice"><b>성공 확률 ${Number(recipe.success_rate ?? 100)}%</b><span>성공하면 배틀슈트가 장비창에 즉시 지급됩니다. 실패해도 투입한 슈트 코어와 재화는 반환되지 않습니다.</span></div>
+            <h3 class="ws26-cost-heading">1회 제작 소모량</h3><div class="ws81-suit-costs ${choiceRequired ? 'choice' : ''}">${window.WorkshopRecipes.costRows(info.rows)}</div>
+            <p class="ws22-status" aria-live="polite">${recovering ? '이전 제작 결과를 재확인합니다.' : info.ready ? '필요한 재료와 재화가 준비되었습니다.' : esc(info.shortage)}</p>
+            <div class="ws81-suit-notice"><span>성공하면 배틀슈트가 장비창에 즉시 지급됩니다. 실패해도 투입한 슈트 코어와 재화는 반환되지 않습니다.</span></div>
             <button type="button" id="wsBattleSuitCraft" class="ws76-primary" ${ready && !workshopBusy ? '' : 'disabled'}>${workshopBusy ? '배틀슈트 제작 공정 진행 중' : recovering ? '이전 배틀슈트 제작 결과 확인' : ready ? `${esc(recipe.output_name || '배틀슈트')} 제작` : `${esc(core.item_name || '슈트 코어')} 또는 재화 부족`}</button>
           </div>
         </section>
@@ -561,6 +561,67 @@
     </section>`;
   }
 
+  // Build both selectors from the same rendered recipes; no second selection state.
+  function mobileDecisionSummary() {
+    let recipe, info, rows, attempts = 1, guaranteed = false;
+    if (workshopSection === 'SYNTHESIS') {
+      recipe = workshopState.synthesis?.find(row => Number(row.recipe_id) === selectedSynthesisRecipe);
+      if (!recipe) return '';
+      rows = [{name:recipe.name,owned:Number(recipe.quantity || 0),required:synthRequired(recipe)}];
+      if (synthMaterialRequired(recipe)) rows.push({name:recipe.material_name || recipe.material_code,owned:synthMaterialOwned(recipe),required:synthMaterialRequired(recipe)});
+      rows = rows.map(row => ({...row,missing:Math.max(0,row.required-row.owned)}));
+    } else {
+      const id = workshopSection === 'VEHICLE' ? selectedVehicleRecipe : workshopSection === 'BATTLE_SUIT_CRAFT' ? selectedBattleSuitRecipe : selectedMaterialRecipe;
+      recipe = workshopState.recipes?.find(row => Number(row.id) === id && row.category === workshopSection);
+      if (!recipe) return '';
+      info = ['VEHICLE','BATTLE_SUIT_CRAFT'].includes(workshopSection) ? window.WorkshopRecipes.describe(recipe,workshopState,workshopSection === 'VEHICLE' ? payment : battleSuitPayment) : materialCraftInfo(recipe);
+      rows = info.rows; attempts = info.attempts || 1; guaranteed = info.pity?.guaranteed === true;
+    }
+    const rate = guaranteed ? 100 : recipe.success_rate;
+    return `<section class="ws26-decision" aria-label="제작 조건 요약"><header><img src="${esc(asset(recipe.output_image))}" alt="" width="64" height="76" decoding="async"><div><h2>${esc(recipe.output_name || recipe.name)}</h2><p>${guaranteed ? '천장 도달 · 이번 제작' : '1회 성공 확률'} <b>${rate == null ? '미설정' : esc(rate)+'%'}</b></p></div></header><h3>${fmt(attempts)}회 ${workshopSection === 'SYNTHESIS' ? '합성' : '제작'} 소모량</h3><dl>${rows.map(row => `<div><dt>${esc(row.name)}</dt><dd><b>필요 ${fmt(row.required)}</b><small class="${row.missing ? 'short' : ''}">보유 ${fmt(row.owned)} · ${row.missing ? fmt(row.missing)+' 부족' : '충족'}</small></dd></div>`).join('')}</dl>${workshopSection === 'SYNTHESIS' ? '<p>일괄 합성 횟수와 총 소모량은 아래에서 확인하세요.</p>' : info?.recovering ? '<p>이전 제작 결과를 확인합니다.</p>' : recipe.craftLocked ? `<p>${esc(recipe.lockReason || '제작 잠금')}</p>` : ''}</section>`;
+  }
+
+  function prepareWorkshopLayout(root) {
+    const buttons = [...root.querySelectorAll('[data-recipe],[data-synth],[data-suit-recipe],[data-material-recipe]')];
+    const attribute = ['data-recipe','data-synth','data-suit-recipe','data-material-recipe'].find(key => buttons[0]?.hasAttribute(key));
+    const selected = buttons.find(button => button.classList.contains('active') || button.getAttribute('aria-pressed') === 'true');
+    const detail = root.querySelector('.ws76-vehicle-stage,.ws81-synth-detail,.ws22-item-stage,.ws81-suit-stage,.ws-shard-craft,.ws-kairon-forge');
+    if (detail) { detail.id = 'wsSelectedRecipe'; detail.tabIndex = -1; detail.setAttribute('aria-label','선택한 제작품과 제작 조건'); detail.insertAdjacentHTML('afterbegin',mobileDecisionSummary()); }
+    const categories = [...root.querySelectorAll('[data-ws-section]')];
+    root.querySelector('.ws22-toolbar').insertAdjacentHTML('beforebegin','<div class="ws26-mobile-picker"><label for="wsCategoryPicker">제작 분류</label><select id="wsCategoryPicker">' + categories.map(button => '<option value="' + button.dataset.wsSection + '" ' + (button.dataset.wsSection === workshopSection ? 'selected' : '') + '>' + esc(button.textContent.trim()) + '</option>').join('') + '</select></div>');
+    root.querySelector('#wsCategoryPicker').addEventListener('change',event => {
+      if (!workshopBusy) categories.find(button => button.dataset.wsSection === event.target.value)?.click();
+    });
+    if (buttons.length) {
+      const name = button => {
+        const id = Number(button.getAttribute(attribute));
+        const recipe = attribute === 'data-synth' ? workshopState.synthesis?.find(row => Number(row.recipe_id) === id) : workshopState.recipes?.find(row => Number(row.id) === id);
+        return recipe?.output_name || recipe?.name || button.textContent.trim();
+      };
+      root.querySelector('.ws26-mobile-picker').insertAdjacentHTML('beforeend', '<label for="wsRecipePicker">제작품 선택 <span>' + buttons.length + '종</span></label><select id="wsRecipePicker" aria-controls="wsSelectedRecipe">' + buttons.map(button => '<option value="' + esc(button.getAttribute(attribute)) + '" ' + (button === selected ? 'selected' : '') + '>' + esc(name(button)) + '</option>').join('') + '</select><a href="#wsSelectedRecipe" data-ws-jump>제작 조건 보기</a>');
+      root.querySelector('#wsRecipePicker').addEventListener('change', event => {
+        if (workshopBusy) return;
+        buttons.find(button => button.getAttribute(attribute) === event.target.value)?.click();
+        if (window.matchMedia('(max-width:800px)').matches) {
+          const nextDetail = root.querySelector('#wsSelectedRecipe');
+          nextDetail?.focus({preventScroll:true}); nextDetail?.scrollIntoView({block:'start'});
+        }
+      });
+      root.querySelector('[data-ws-jump]').addEventListener('click', event => {
+        event.preventDefault(); detail?.focus({preventScroll:true}); detail?.scrollIntoView({block:'start'});
+      });
+    }
+    buttons.forEach(button => button.setAttribute('aria-pressed', String(button === selected)));
+    root.querySelectorAll('[data-pay]').forEach(button => button.setAttribute('aria-pressed',String(button.dataset.pay === payment)));
+    root.querySelectorAll('.ws76-blueprints,.ws81-suit-blueprints,.ws22-recipe-list').forEach(list => {
+      list.setAttribute('aria-label','제작품 목록');
+      list.insertAdjacentHTML('afterbegin','<div class="ws26-list-caption"><b>제작품 선택</b><span>' + buttons.length + '종</span></div>');
+    });
+    root.querySelectorAll('.ws81-synth-modes [role="tab"]').forEach(button => button.removeAttribute('role'));
+    const modes = root.querySelector('.ws81-synth-modes'); if (modes) modes.setAttribute('role','group');
+    root.querySelectorAll('[data-synth-mode]').forEach(button => { button.setAttribute('aria-pressed',button.getAttribute('aria-selected')); button.removeAttribute('aria-selected'); });
+  }
+
   function renderWorkshop() {
     const root = document.getElementById('workshopRootV1881');
     if (!root || !workshopState) return;
@@ -577,11 +638,12 @@
           ? battleSuitCraftPanel()
           : vehiclePanel();
     root.innerHTML = workshopHeader() + workshopNav() + workshopToolbar() + panel;
+    prepareWorkshopLayout(root);
     normalizeImages(root);
     bindWorkshopControls(root);
     root.querySelectorAll('[data-ws-section]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.wsSection === workshopSection)));
     root.setAttribute('aria-busy', String(workshopBusy));
-    if (workshopBusy) root.querySelectorAll('button,input').forEach(control => { control.disabled = true; });
+    if (workshopBusy) root.querySelectorAll('button,input,select').forEach(control => { control.disabled = true; });
     for (const [selector, top, left] of scrolls) { const node = root.querySelector(selector); if (node) { node.scrollTop = top; node.scrollLeft = left; } }
     const nextFocus = focusId ? document.getElementById(focusId) : focusAttribute ? [...root.querySelectorAll('[' + focusAttribute + ']')].find(node => node.getAttribute(focusAttribute) === focusValue) : null;
     nextFocus?.focus({preventScroll:true});
@@ -600,7 +662,7 @@
     root.querySelector('#wsCraftEquipment')?.addEventListener('change', event => { if (!workshopBusy) { selectedCraftInstance = event.target.value; renderWorkshop(); } });
     root.querySelector('#wsRecipeSearch')?.addEventListener('input', event => { recipeQuery = event.target.value; renderWorkshop(); });
     root.querySelector('[data-ws-ready]')?.addEventListener('click', () => { readyOnly = !readyOnly; if (workshopSection === 'SYNTHESIS') synthesisMode = readyOnly ? 'READY' : 'ALL'; renderWorkshop(); });
-    root.querySelector('[data-ws-reset]')?.addEventListener('click', () => { recipeQuery = ''; readyOnly = false; synthesisMode = 'ALL'; renderWorkshop(); });
+    root.querySelectorAll('[data-ws-reset],[data-ws-clear]').forEach(button => button.addEventListener('click', () => { recipeQuery = ''; readyOnly = false; synthesisMode = 'ALL'; renderWorkshop(); }));
     root.querySelector('[data-ws-refresh]')?.addEventListener('click', () => { if (!workshopBusy) void bindWorkshopView({fresh:true}); });
     root.querySelectorAll('[data-material-recipe]').forEach(button => button.onclick = () => { if (workshopBusy) return; selectedMaterialRecipe = Number(button.dataset.materialRecipe); requestedMaterialAttempts = 1; renderWorkshop(); });
     root.querySelectorAll('[data-ws-section]').forEach(button => button.onclick = () => {

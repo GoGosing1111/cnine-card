@@ -235,15 +235,15 @@ test('CMS locks the canonical recipe and reports shard spend without schema DDL'
 });
 
 test('client keeps all four existing facilities and preserves synthesis extensions and appends mercenary crafting', () => {
-  const nav = section(client, 'function workshopNav()', 'function vehiclePartsBank()');
+  const nav = new Function('workshopSection', section(client, 'function workshopNav()', 'function workshopToolbar()') + ';return workshopNav();')('MATERIAL_CRAFT');
   const render = section(client, 'function renderWorkshop()', 'function renderScrapyard()');
 
   assert.deepEqual(
     [...nav.matchAll(/data-ws-section="([^"]+)"/g)].map(match => match[1]),
     ['VEHICLE', 'SYNTHESIS', 'MATERIAL_CRAFT', 'BATTLE_SUIT_CRAFT', 'SUIT_CORE_SYNTHESIS', 'ITEM_SYNTHESIS', 'MERCENARY_CRAFT'],
   );
-  assert.match(nav, /data-ws-section="MATERIAL_CRAFT"[\s\S]*?<i>03<\/i>/);
-  assert.match(nav, /data-ws-section="BATTLE_SUIT_CRAFT"[\s\S]*?<i>04<\/i>/);
+  assert.match(nav, /data-ws-section="MATERIAL_CRAFT"[\s\S]*?<svg[^>]*aria-hidden="true"/);
+  assert.match(nav, /data-ws-section="BATTLE_SUIT_CRAFT"[\s\S]*?<svg[^>]*aria-hidden="true"/);
   assert.match(client, /pendingMaterial(?:Craft)?Request/);
   assert.match(client, /prepareMutationRequest\('material(?:Craft)?'/i);
   assert.match(client, /function material(?:Craft)?Panel\s*\(/i);

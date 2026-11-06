@@ -25,7 +25,7 @@ assert.doesNotMatch(bindScrapyard, /api\('workshop'\)|Promise\.all/);
 assert.match(bindWorkshop, /loadVersion\s*!==\s*workshopLoadVersion[\s\S]*?epoch\s*!==\s*routeEpoch/);
 assert.match(bindScrapyard, /loadVersion\s*!==\s*scrapyardLoadVersion[\s\S]*?syncVersion\s*!==\s*scrapyardSyncVersion/);
 
-const workshopNav = between(client, 'function workshopNav()', 'function vehiclePartsBank()');
+const workshopNav = new Function('workshopSection', between(client, 'function workshopNav()', 'function workshopToolbar()') + ';return workshopNav();')('VEHICLE');
 assert.match(workshopNav, /data-ws-section="VEHICLE"/);
 assert.match(workshopNav, /data-ws-section="SYNTHESIS"/);
 assert.match(workshopNav, /data-ws-section="MATERIAL_CRAFT"/);

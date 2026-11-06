@@ -219,5 +219,260 @@
 .ws81-workshop .ws76-error span{max-width:460px;color:var(--ws-muted);line-height:1.65;word-break:keep-all;overflow-wrap:anywhere}
 .ws81-workshop .ws76-error .ws76-primary{max-width:220px;margin:4px 0 0}
 
+/* Workshop decision surface: one selection, comparable requirements, one action. */
+.ws81-workshop{--ws-muted:#b0bed3;--ws-short:#ffc0ad;--ws-panel:#111c2d;color-scheme:dark;caret-color:var(--ws-accent)}
+.ws81-workshop ::selection{background:#c8ff6b;color:#142009}
+.ws81-workshop :is(button,input,select,a):focus-visible{outline:2px solid var(--ws-accent);outline-offset:3px}
+.ws81-workshop :is(input,select){accent-color:var(--ws-accent)}
+.ws81-workshop :is(.ws76-blueprints,.ws81-lineage-list,.ws81-suit-blueprints,.ws22-recipe-list,.ws-mercenary-select){scrollbar-width:thin;scrollbar-color:#60754b #0b1422}
+.ws81-workshop .ws81-header{padding-bottom:18px}
+.ws81-workshop .ws81-header p{font-size:13px;color:var(--ws-muted)}
+.ws81-workshop .ws81-header aside small{font-size:12px;color:var(--ws-muted)}
+.ws81-workshop .ws81-header aside b{font-size:18px;font-variant-numeric:tabular-nums}
+.ws81-workshop .ws81-nav{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));overflow:visible;gap:4px;padding:8px 0;margin-bottom:0}
+.ws81-workshop .ws81-nav button{min-width:0;min-height:64px;justify-content:center;gap:9px;border-radius:8px;background:transparent;border:1px solid transparent;box-shadow:none}
+.ws81-workshop .ws81-nav button.active{background:#23331d;border-color:#63794a;color:var(--ws-accent);box-shadow:none}
+.ws81-workshop .ws81-nav button:hover{background:#18263a}
+.ws81-workshop .ws81-nav button.active:hover{background:#2c4023}
+.ws81-workshop .ws81-nav svg{width:23px;height:23px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.ws81-workshop .ws81-nav b{font-size:13px;letter-spacing:-.02em;white-space:normal}
+.ws81-workshop .ws22-toolbar{margin:16px 0;gap:8px}
+.ws81-workshop .ws22-toolbar input{font-size:14px;min-height:46px}
+.ws81-workshop .ws22-toolbar input::placeholder{color:#9eafc7;opacity:1}
+.ws81-workshop .ws22-toolbar>button{min-height:46px;font-size:13px;padding:8px 14px}
+.ws26-mobile-picker{display:none}
+.ws81-workshop :is(.ws81-craft-layout,.ws81-suit-layout,.ws22-item-layout){grid-template-columns:260px minmax(0,1fr);gap:18px;align-items:start}
+.ws81-workshop .ws81-synth{grid-template-columns:300px minmax(0,1fr);gap:18px}
+.ws81-workshop :is(.ws76-blueprints,.ws81-suit-blueprints,.ws22-recipe-list){padding:8px;background:#0d1726;border:1px solid var(--ws-line);border-radius:12px;max-height:640px}
+.ws26-list-caption{display:flex;justify-content:space-between;align-items:center;padding:8px 6px 14px;color:var(--ws-muted);font-size:13px}
+.ws26-list-caption b{color:var(--ws-text);font-size:14px}
+.ws81-workshop :is(.ws76-blueprints,.ws81-suit-blueprints,.ws22-recipe-list)>button{grid-template-columns:54px minmax(0,1fr);gap:10px;min-height:84px;padding:10px;border:1px solid transparent;border-radius:8px;box-shadow:none;background:transparent}
+.ws81-workshop :is(.ws76-blueprints,.ws81-suit-blueprints,.ws22-recipe-list)>button.active{border:1px solid #718d4d;background:#1e3024;box-shadow:none}
+.ws81-workshop :is(.ws76-blueprints,.ws81-suit-blueprints,.ws22-recipe-list)>button:hover{background:#1b293b}
+.ws81-workshop :is(.ws76-blueprints,.ws81-suit-blueprints,.ws22-recipe-list)>button img{width:54px;height:64px;object-fit:contain}
+.ws81-workshop :is(.ws76-blueprints,.ws81-suit-blueprints,.ws22-recipe-list)>button b{font-size:14px;line-height:1.5}
+.ws81-workshop :is(.ws76-blueprints,.ws81-suit-blueprints,.ws22-recipe-list)>button small{font-size:12px;color:var(--ws-muted);line-height:1.5}
+.ws81-workshop :is(.ws76-blueprints,.ws81-suit-blueprints,.ws22-recipe-list)>button em{display:none}
+.ws81-workshop :is(.ws76-vehicle-stage,.ws81-suit-stage,.ws81-synth-detail,.ws22-item-stage){position:static;padding:24px;border-radius:12px;background:var(--ws-panel);box-shadow:none;min-width:0}
+.ws81-workshop #wsSelectedRecipe{scroll-margin-block:20px}
+.ws81-workshop :is(.ws76-vehicle-stage,.ws81-synth-detail,.ws28-equipment-stage)>header>div>small,
+.ws81-workshop :is(.ws-shard-contract,.ws-kairon-contract)>small:first-child{display:none}
+.ws81-workshop :is(.ws22-item-head,.ws76-vehicle-stage>header,.ws81-suit-requirements>header){display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:20px}
+.ws81-workshop :is(.ws22-item-head,.ws76-vehicle-stage>header,.ws81-suit-requirements>header) :is(h2,h3){font-size:24px;line-height:1.35;letter-spacing:-.03em;margin:0}
+.ws81-workshop :is(.ws22-item-head,.ws76-vehicle-stage>header,.ws81-suit-requirements>header) p{font-size:13px;line-height:1.7;color:var(--ws-muted);margin:9px 0 0}
+.ws81-workshop .ws22-rate{border:0;background:#24371e;border-radius:10px;padding:12px 16px;flex-shrink:0;min-width:98px}
+.ws81-workshop .ws22-rate small{font-size:12px}
+.ws81-workshop .ws22-rate b{font-size:28px}
+.ws81-workshop .ws26-cost-heading,.ws81-workshop .ws22-requirements h3{font-size:14px;line-height:1.5;margin:18px 0 10px;color:var(--ws-text)}
+.ws81-workshop :is(.ws76-material-grid,.ws81-suit-costs){display:grid;grid-template-columns:1fr;gap:0;margin:0}
+.ws81-workshop .ws22-cost{display:flex;align-items:center;gap:12px;padding:13px 0;margin:0;min-height:72px;background:none;border:0;border-bottom:1px solid #344258;border-radius:0;box-shadow:none}
+.ws81-workshop .ws22-cost img,.ws81-workshop .ws22-currency{width:40px;height:40px;object-fit:contain;flex-shrink:0}
+.ws81-workshop .ws22-currency{border:0;border-radius:0;background:transparent;color:#e9ce8a}
+.ws81-workshop .ws22-currency svg{width:30px;height:30px}
+.ws81-workshop .ws22-cost>div{min-width:0;flex:1;display:grid;gap:5px}
+.ws81-workshop .ws22-cost b{font-size:14px;line-height:1.5;color:var(--ws-text)}
+.ws81-workshop .ws22-cost div>span{font-size:12px;color:var(--ws-muted)}
+.ws81-workshop .ws22-cost strong{font-size:16px;line-height:1.45;max-width:47%;font-variant-numeric:tabular-nums;flex-shrink:0}
+.ws81-workshop .ws22-cost strong>span{font-size:inherit;color:var(--ws-text)}
+.ws81-workshop .ws22-cost strong>small{font-size:12px;color:var(--ws-accent);margin-top:4px}
+.ws81-workshop .ws22-cost.short strong>small{color:var(--ws-short)}
+.ws81-workshop .ws22-status{font-size:13px;line-height:1.7;margin:12px 0;color:var(--ws-muted)}
+.ws81-workshop :is(.ws22-risk,.ws78-risk,.ws81-suit-notice){border:0;border-radius:0;background:none;padding:10px 0;margin:8px 0;color:var(--ws-short);font-size:12px;line-height:1.75}
+.ws81-workshop .ws81-suit-notice span{font-size:12px;color:var(--ws-short)}
+.ws81-workshop .ws76-primary{border-radius:8px;min-height:50px;font-size:15px;letter-spacing:-.01em;margin-top:10px}
+.ws81-workshop .ws76-primary:disabled{opacity:1;color:#bdc8d9;background:#29384b;border:1px solid #45546b}
+.ws81-workshop .ws22-item-footer{margin-top:16px;padding-top:4px}
+.ws81-workshop .ws22-item-body{grid-template-columns:minmax(160px,.7fr) minmax(0,1fr);align-items:start;gap:28px}
+.ws81-workshop .ws22-item-output{padding:12px 0;background:none}
+.ws81-workshop .ws22-item-output img{height:210px;max-width:260px}
+.ws81-workshop .ws22-item-output :is(small,span){font-size:12px}
+.ws81-workshop .ws81-suit-stage{grid-template-columns:minmax(160px,.65fr) minmax(0,1fr);gap:28px}
+.ws81-workshop .ws81-suit-visual{border:0;min-height:0;padding:20px 0;background:none;align-self:center}
+.ws81-workshop .ws81-suit-visual>img{height:300px}
+.ws81-workshop .ws81-suit-visual>span{font-size:12px;letter-spacing:0}
+.ws81-workshop .ws81-suit-visual>small{font-size:12px;line-height:1.7}
+.ws81-workshop .ws76-vehicle-preview{height:170px;background:none}
+.ws81-workshop .ws76-vehicle-preview>img{height:135px;max-width:90%}
+.ws81-workshop .ws76-vehicle-preview>span{font-size:12px}
+.ws81-workshop .ws76-pay{margin:14px 0 6px;gap:8px}
+.ws81-workshop .ws76-pay button{font-size:13px;min-height:46px;border-radius:8px}
+.ws81-workshop .ws81-parts-bank{border:0;border-radius:0;background:transparent;padding:0 0 14px;margin:0}
+.ws81-workshop .ws81-parts-bank article{padding:0 10px 0 0}
+.ws81-workshop .ws81-parts-bank span b{font-size:12px}
+.ws81-workshop .ws81-parts-bank strong{font-size:16px}
+.ws81-workshop .ws81-synth-command{padding-bottom:8px}
+.ws81-workshop .ws81-synth-command p{font-size:12px;line-height:1.7}
+.ws81-workshop .ws81-synth-modes button{min-height:48px;font-size:13px}
+.ws81-workshop .ws81-lineage-list{max-height:620px}
+.ws81-workshop .ws81-lineage-item{border-width:1px;border-radius:8px;box-shadow:none;grid-template-columns:1fr 24px 1fr}
+.ws81-workshop .ws81-lineage-item.active{border:1px solid #718d4d;box-shadow:none}
+.ws81-workshop .ws81-lineage-gear b{font-size:12px}
+.ws81-workshop .ws81-lineage-gear small{font-size:11px}
+.ws81-workshop .ws81-synth-detail>header span{font-size:12px}
+.ws81-workshop .ws81-fusion-board{padding:12px 0}
+.ws81-workshop .ws78-fusion-core>b{display:none}
+.ws81-workshop .ws78-fusion-core>em{font-size:20px}
+.ws81-workshop .ws81-synth-bulk-info small,.ws81-workshop .ws78-synth-summary small{font-size:11px}
+.ws81-workshop .ws28-material-quantity{background:#14251c;border-radius:8px;border:1px solid #465e40;padding:14px}
+.ws81-workshop .ws28-material-quantity label{font-size:14px}
+.ws81-workshop .ws28-material-quantity :is(label small,p){font-size:12px}
+.ws81-workshop .ws28-material-quantity input{font-size:16px}
+.ws81-workshop .ws28-material-quantity button{min-width:44px;min-height:44px}
+.ws81-workshop .ws22-empty button{margin-top:20px;background:#263d20;color:var(--ws-accent);border:1px solid #6d8752;border-radius:8px;min-height:46px;padding:10px 18px;font-size:14px}
+.ws81-workshop .ws22-empty p{font-size:14px;line-height:1.8}
+.ws81-workshop .ws-mercenary-select{display:flex;gap:8px;overflow:auto;padding:0 0 14px}
+.ws81-workshop .ws-mercenary-select .cn-ui-button{min-width:190px;border:1px solid var(--ws-line);border-radius:8px;background:#122034;box-shadow:none;padding:10px;clip-path:none}
+.ws81-workshop .ws-mercenary-select .cn-ui-button.primary{background:#24371e;color:var(--ws-text);border-color:#718d4d}
+.ws81-workshop .ws-mercenary-select .cn-ui-button::before,.ws81-workshop .ws-mercenary-select .cn-ui-button::after{display:none}
+.ws81-workshop .ws-mercenary-select small{font-size:12px;color:var(--ws-muted)}
+.ws81-workshop :is(.ws-shard-craft,.ws-kairon-forge){display:grid;grid-template-columns:minmax(190px,.65fr) minmax(0,1fr);gap:28px;background:var(--ws-panel);border:1px solid var(--ws-line);border-radius:12px;padding:24px;overflow:hidden}
+.ws81-workshop :is(.ws-shard-art,.ws-kairon-art){border:0;background:none;padding:0;box-shadow:none;align-self:start;min-height:0;border-radius:0;aspect-ratio:auto}
+.ws81-workshop :is(.ws-shard-art,.ws-kairon-art)>img{width:100%;height:430px;max-height:430px;object-fit:contain;object-position:center;position:static}
+.ws81-workshop :is(.ws-shard-art,.ws-shard-contract,.ws-kairon-contract)::before,.ws81-workshop :is(.ws-shard-art,.ws-shard-contract,.ws-kairon-contract)::after{display:none}
+.ws81-workshop :is(.ws-shard-contract,.ws-kairon-contract){padding:0;background:none;border:0;box-shadow:none;min-width:0}
+.ws81-workshop :is(.ws-shard-contract,.ws-kairon-contract) h2{font-size:26px;line-height:1.4;margin:0 0 10px;letter-spacing:-.03em}
+.ws81-workshop :is(.ws-shard-contract,.ws-kairon-contract)>p{font-size:13px;line-height:1.75;color:var(--ws-muted);margin:10px 0}
+.ws81-workshop .shard-craft-stock{border:0;border-radius:0;background:none;padding:10px 0;margin:10px 0;border-block:1px solid var(--ws-line)}
+.ws81-workshop .shard-craft-stock h3{font-size:14px;margin:0}
+.ws81-workshop .shard-craft-stock p{font-size:12px;margin:6px 0}
+.ws81-workshop .shard-craft-stock strong{font-size:23px;line-height:1.6}
+.ws81-workshop .shard-craft-stock small{font-size:12px;color:var(--ws-muted)}
+.ws81-workshop :is(.ws-shard-contract,.ws-kairon-contract)>.cn-ui-button{width:100%;min-height:50px;background:var(--ws-accent);color:#142009;border:0;border-radius:8px;box-shadow:none;font-size:15px;margin-top:16px}
+.ws81-workshop :is(.ws-shard-contract,.ws-kairon-contract)>.cn-ui-button:disabled{background:#29384b;color:#bdc8d9;opacity:1}
+.ws81-workshop :is(.ws-shard-contract,.ws-kairon-contract)>.cn-ui-button::before,.ws81-workshop :is(.ws-shard-contract,.ws-kairon-contract)>.cn-ui-button::after{display:none}
+.ws81-workshop :is(.ws-kairon-note,.ws-shard-note){font-size:12px!important;line-height:1.75;color:var(--ws-short)!important}
+@media(max-width:1100px){
+  .ws81-workshop .ws81-nav button{flex-direction:column;gap:6px;padding:8px 3px}
+  .ws81-workshop :is(.ws81-craft-layout,.ws81-suit-layout,.ws22-item-layout){grid-template-columns:220px minmax(0,1fr)}
+  .ws81-workshop .ws81-suit-stage{grid-template-columns:1fr}.ws81-workshop .ws81-suit-visual{padding:0}.ws81-workshop .ws81-suit-visual>img{height:180px}
+}
+@media(max-width:800px){
+  .ws81-workshop .ws81-root{padding:16px 12px 28px}
+  .ws81-workshop .ws81-header{gap:12px;padding:0 0 16px}
+  .ws81-workshop .ws81-header p{font-size:12px}
+  .ws81-workshop .ws81-header aside{padding-top:4px;gap:10px}
+  .ws81-workshop .ws81-header aside b{font-size:16px}
+  .ws81-workshop .ws81-header aside small{font-size:11px}
+  .ws81-workshop .ws81-nav{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;border:0;padding:14px 0 0}
+  .ws81-workshop .ws81-nav button{min-height:62px;gap:6px;border:1px solid #2d3a50;border-radius:8px;padding:7px 2px}
+  .ws81-workshop .ws81-nav svg{width:21px;height:21px}
+  .ws81-workshop .ws81-nav button b{font-size:12px;line-height:1.4;word-break:keep-all}
+  .ws81-workshop .ws22-toolbar{flex-wrap:wrap;margin:16px 0 12px}
+  .ws81-workshop .ws22-search{max-width:none;flex-basis:100%}
+  .ws81-workshop .ws22-toolbar>button{font-size:12px;padding:8px 10px;min-height:44px}
+  .ws26-mobile-picker{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px 12px;padding:14px 0 18px}
+  .ws26-mobile-picker label{font-size:14px;font-weight:700;grid-column:1}
+  .ws26-mobile-picker label span{font-size:12px;font-weight:400;margin-left:8px;color:var(--ws-muted)}
+  .ws26-mobile-picker select{grid-row:2;grid-column:1/-1;background:#17243a;border:1px solid #60718c;border-radius:8px;color:var(--ws-text);padding:12px;min-height:48px;min-width:0;width:100%;font-size:16px}
+  .ws26-mobile-picker a{grid-row:1;grid-column:2;color:var(--ws-accent);font-size:12px;min-height:44px;display:flex;align-items:center;text-underline-offset:4px}
+  .ws81-workshop :is(.ws76-blueprints,.ws81-suit-blueprints,.ws22-recipe-list,.ws81-lineage-browser,.ws-mercenary-select){display:none}
+  .ws81-workshop :is(.ws81-craft-layout,.ws81-suit-layout,.ws22-item-layout,.ws81-synth){grid-template-columns:minmax(0,1fr);gap:0}
+  .ws81-workshop :is(.ws76-vehicle-stage,.ws81-suit-stage,.ws81-synth-detail,.ws22-item-stage){padding:18px 16px;border-radius:12px}
+  .ws81-workshop :is(.ws22-item-head,.ws76-vehicle-stage>header,.ws81-suit-requirements>header){gap:12px;margin-bottom:16px;flex-wrap:nowrap}
+  .ws81-workshop :is(.ws22-item-head,.ws76-vehicle-stage>header,.ws81-suit-requirements>header) :is(h2,h3){font-size:22px;overflow-wrap:anywhere}
+  .ws81-workshop .ws22-rate{min-width:82px;padding:10px}
+  .ws81-workshop .ws22-rate b{font-size:25px}
+  .ws81-workshop .ws22-rate small{font-size:11px}
+  .ws81-workshop .ws22-item-body{grid-template-columns:1fr;gap:14px}
+  .ws81-workshop .ws22-item-output{display:grid;grid-template-columns:90px minmax(0,1fr);gap:16px;padding:0 0 16px;border-bottom:1px solid var(--ws-line);text-align:left}
+  .ws81-workshop .ws22-item-output img{width:90px;height:100px;filter:none}
+  .ws81-workshop .ws22-item-output b{font-size:16px;line-height:1.5}
+  .ws81-workshop .ws22-item-output figcaption{gap:6px}
+  .ws81-workshop .ws22-cost{min-height:72px;gap:10px}
+  .ws81-workshop .ws22-cost strong{font-size:14px;max-width:44%}
+  .ws81-workshop .ws22-cost b{font-size:13px}
+  .ws81-workshop .ws22-cost img,.ws81-workshop .ws22-currency{width:34px;height:38px}
+  .ws81-workshop .ws81-suit-stage{grid-template-columns:1fr;gap:14px}
+  .ws81-workshop .ws81-suit-visual{display:grid;grid-template-columns:100px minmax(0,1fr);gap:6px 14px;text-align:left;border-bottom:1px solid var(--ws-line);padding:0 0 14px}
+  .ws81-workshop .ws81-suit-visual>img{grid-row:1/4;grid-column:1;height:128px;width:100px;filter:none}
+  .ws81-workshop .ws81-suit-visual>span{grid-column:2;align-self:end;font-size:11px;line-height:1.5}
+  .ws81-workshop .ws81-suit-visual>b{grid-column:2;font-size:18px;align-self:center}
+  .ws81-workshop .ws81-suit-visual>small{grid-column:2;align-self:start;font-size:11px}
+  .ws81-workshop .ws81-suit-requirements>header p{font-size:12px}
+  .ws81-workshop .ws76-vehicle-preview{height:140px}
+  .ws81-workshop .ws76-vehicle-preview>img{height:108px}
+  .ws81-workshop .ws81-parts-bank{display:none}
+  .ws81-workshop .ws81-synth-command{gap:12px;padding:0 0 16px}
+  .ws81-workshop .ws81-synth-command h2{font-size:18px}
+  .ws81-workshop .ws81-synth-command p{margin-top:6px}
+  .ws81-workshop .ws81-synth-modes{width:100%}
+  .ws81-workshop .ws81-synth-modes button{flex:1}
+  .ws81-workshop .ws81-synth-detail>header{gap:12px}
+  .ws81-workshop .ws81-synth-detail>header h3{font-size:20px}
+  .ws81-workshop .ws78-synth-summary{grid-template-columns:1fr}
+  .ws81-workshop .ws78-synth-summary b{font-size:13px}
+  .ws81-workshop .ws81-synth-actions{grid-template-columns:1fr}
+  .ws81-workshop :is(.ws-shard-craft,.ws-kairon-forge){grid-template-columns:1fr;gap:16px;padding:18px 16px}
+  .ws81-workshop :is(.ws-shard-art,.ws-kairon-art){width:100%;height:170px;border-bottom:1px solid var(--ws-line);padding-bottom:14px}
+  .ws81-workshop :is(.ws-shard-art,.ws-kairon-art)>img{width:100%;height:156px;max-height:156px;object-fit:contain}
+  .ws81-workshop :is(.ws-shard-contract,.ws-kairon-contract) h2{font-size:24px}
+  .ws81-workshop .ws-kairon-art>span{display:none}
+}
+
 /* +10 equipment crafting: shared workbench, explicit sacrifice and saved pity. */
 .ws28-equipment-stage .ws22-item-head>div>small{font-size:10px;letter-spacing:.16em;color:#e4b879}.ws28-equipment-stage .ws22-rate b{color:#efbe79}.ws28-equipment-stage.is-guaranteed{border-color:#c89c57}.ws28-equipment-stage.is-guaranteed .ws22-rate{background:#392d1a;border-color:#b9944e}.ws28-forge-chain{display:grid;grid-template-columns:minmax(0,1fr) 40px minmax(0,1fr);align-items:center;gap:12px;padding:26px 24px;background:radial-gradient(ellipse at 50% 100%,#57382555,transparent 70%),#09121d;border-bottom:1px solid #30414e}.ws28-forge-chain figure{position:relative;display:grid;justify-items:center;margin:0;min-width:0;text-align:center}.ws28-forge-chain img{width:100%;height:168px;object-fit:contain;padding:16px;filter:drop-shadow(0 12px 16px #0008)}.ws28-forge-chain figcaption{display:grid;gap:7px;overflow-wrap:anywhere}.ws28-forge-chain small,.ws28-forge-config>small{font-size:11px;color:#9eabb8;line-height:1.7}.ws28-forge-tag{font-size:10px;letter-spacing:.08em;color:#efbe79;border:1px solid #765734;padding:5px 10px;border-radius:20px}.ws28-forge-arrow{font-size:28px;color:#c39866;text-align:center}.ws28-forge-pity{margin:22px 24px 0;padding:18px 20px;border:1px solid #665337;background:linear-gradient(110deg,#302615,#19232d);border-radius:12px}.ws28-forge-pity>div:first-child{display:flex;align-items:center;justify-content:space-between;gap:12px}.ws28-forge-pity strong{font-size:25px;color:#f8d198;font-variant-numeric:tabular-nums}.ws28-forge-pity strong small{font-size:13px;font-weight:500;color:#c1b59f}.ws28-forge-pity p{font-size:12px;line-height:1.8;color:#c3bba9;margin:12px 0 0}.ws28-forge-pity p b{color:#ffe2a8;font-size:inherit}.ws28-pity-track{height:6px;background:#090c11;margin-top:13px;border-radius:3px;overflow:hidden}.ws28-pity-track i{display:block;height:100%;background:linear-gradient(90deg,#987046,#ffe4ad);box-shadow:0 0 15px #e6b765}.ws28-forge-config{padding:22px 24px}.ws28-forge-config>label{display:block;font-size:12px;font-weight:700;margin-bottom:8px}.ws28-forge-config select{width:100%;min-width:0;background:#0a1522;color:#e1edf8;border:1px solid #435a6e;border-radius:8px;padding:12px;font-size:13px}.ws28-forge-config>small{display:block;margin-top:6px}.ws28-forge-config h3{font-size:14px;margin:24px 0 8px}.ws28-forge-costs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.ws28-forge-costs .ws22-cost{margin:0}.ws28-equipment-stage .ws22-item-footer .ws22-risk b{color:#f0cd94}.ws28-equipment-stage .ws22-item-footer button{min-width:180px}@media(max-width:600px){.ws28-forge-chain{gap:4px;padding:20px 12px;grid-template-columns:minmax(0,1fr) 22px minmax(0,1fr)}.ws28-forge-chain img{height:122px;padding:10px}.ws28-forge-chain figcaption b{font-size:13px;line-height:1.6}.ws28-forge-chain small{font-size:10px}.ws28-forge-tag{padding:4px 7px;font-size:9px}.ws28-forge-arrow{font-size:21px}.ws28-forge-pity{margin:14px 14px 0;padding:14px}.ws28-forge-pity>div:first-child>span{font-size:12px}.ws28-forge-pity strong{font-size:23px}.ws28-forge-config{padding:18px 14px}.ws28-forge-costs{grid-template-columns:1fr}}
+
+/* Finish the compact mobile selector and remove legacy frame fills locally. */
+.ws81-workshop .ws81-suit-requirements>header .ws22-rate small{display:block}
+.ws81-workshop .ws81-suit-costs .ws22-cost{background:none;border:0;border-bottom:1px solid #344258;border-radius:0;padding:13px 0;box-shadow:none}
+.ws81-workshop :is(.ws-shard-craft,.ws-kairon-forge) .cn-ui-panel,
+.ws81-workshop .ws-mercenary-select .cn-ui-button,
+.ws81-workshop :is(.ws-shard-contract,.ws-kairon-contract)>.cn-ui-button{border-image:none}
+.ws81-workshop .ws28-forge-pity{margin:16px 0 0;padding:16px;background:#28251c;border:1px solid #6c5a3d;border-radius:8px}
+.ws81-workshop .ws28-forge-pity p{font-size:12px;color:#d5cbb7}
+.ws81-workshop .ws28-forge-config{padding:18px 0 0}
+.ws81-workshop .ws28-forge-chain{padding:16px 0;background:none}
+.ws81-workshop .ws28-forge-chain img{height:140px;padding:12px}
+.ws81-workshop .ws28-forge-chain small,.ws81-workshop .ws28-forge-config>small{font-size:12px;color:var(--ws-muted)}
+.ws81-workshop .ws28-forge-config select{font-size:16px;min-height:48px}
+@media(max-width:800px){
+ .ws81-workshop .ws81-nav{display:none}
+ .ws81-workshop .ws26-mobile-picker{grid-template-columns:minmax(115px,.8fr) minmax(0,1fr);gap:8px 12px;padding:16px 0 0}
+ .ws26-mobile-picker label[for=wsCategoryPicker]{grid-column:1;grid-row:1}
+ .ws26-mobile-picker label[for=wsRecipePicker]{grid-column:2;grid-row:1}
+ .ws26-mobile-picker #wsCategoryPicker{grid-column:1;grid-row:2;appearance:none;background-color:#17243a;padding:12px 8px}
+ .ws26-mobile-picker #wsRecipePicker{grid-column:2;grid-row:2;appearance:none;background-color:#17243a;padding:12px 8px}
+ .ws26-mobile-picker :is(#wsCategoryPicker,#wsRecipePicker){padding-right:26px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='m1 1 5 5 5-5' fill='none' stroke='%23c8ff6b' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center}
+ .ws26-mobile-picker a{grid-column:1/-1;grid-row:3;justify-self:end;min-height:36px}
+ .ws81-workshop .ws22-toolbar{margin:4px 0 16px}
+ .ws81-workshop .ws28-forge-chain{padding:10px 0}
+ .ws81-workshop .ws28-forge-chain img{height:110px;padding:6px}
+ .ws81-workshop .ws28-forge-chain figcaption b{font-size:13px}
+}
+
+/* Finish review: probability labels, mobile decision summary and inherited frames. */
+.ws26-decision{display:none}
+.ws81-workshop .ws22-item-head .ws22-rate small{display:block;letter-spacing:0;font-size:12px;line-height:1.5}
+.ws81-workshop .ws81-suit-requirements>header{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:14px}
+.ws81-workshop .ws-mercenary-select.cn-command-ui .cn-ui-button.primary,
+.ws81-workshop .ws-shard-craft.cn-command-ui .ws-shard-contract>.cn-ui-button.primary,
+.ws81-workshop .ws-kairon-forge.cn-command-ui .ws-kairon-contract>.cn-ui-button.primary{border-image:none;border:1px solid #718d4d;border-radius:8px;background:#24371e;color:var(--ws-text);-webkit-text-fill-color:currentColor;box-shadow:none}
+.ws81-workshop .ws-shard-craft.cn-command-ui .ws-shard-contract>.cn-ui-button.primary,
+.ws81-workshop .ws-kairon-forge.cn-command-ui .ws-kairon-contract>.cn-ui-button.primary{background:var(--ws-accent);color:#142009}
+.ws81-workshop .ws-shard-craft.cn-command-ui .ws-shard-contract>.cn-ui-button.primary:disabled,
+.ws81-workshop .ws-kairon-forge.cn-command-ui .ws-kairon-contract>.cn-ui-button.primary:disabled{background:#29384b;border-color:#45546b;color:#bdc8d9;filter:none;opacity:1}
+@media(max-width:800px){
+ .ws81-workshop .ws81-suit-visual>:is(span,b,small){position:static;inset:auto;transform:none;width:auto;margin:0}
+ .ws81-workshop .ws81-suit-visual>span{grid-row:1}.ws81-workshop .ws81-suit-visual>b{grid-row:2}.ws81-workshop .ws81-suit-visual>small{grid-row:3}
+ .ws81-workshop .ws26-decision{display:block;grid-column:1/-1;margin:0 0 18px;padding:0 0 16px;border-bottom:1px solid #40506a}
+ .ws26-decision>header{display:flex;gap:14px;align-items:center}
+ .ws26-decision>header img{width:64px;height:76px;object-fit:contain;flex-shrink:0}
+ .ws26-decision h2{font-size:22px;line-height:1.4;letter-spacing:-.03em;margin:0;overflow-wrap:anywhere}
+ .ws26-decision>header p{font-size:13px;line-height:1.7;color:var(--ws-muted);margin:6px 0 0}
+ .ws26-decision>header b{font-size:20px;color:var(--ws-accent);margin-left:6px}
+ .ws26-decision h3{font-size:14px;margin:20px 0 6px}
+ .ws26-decision dl{margin:0}
+ .ws26-decision dl>div{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--ws-line)}
+ .ws26-decision dt{font-size:13px;line-height:1.7;overflow-wrap:anywhere;align-self:center}
+ .ws26-decision dd{margin:0;text-align:right;flex-shrink:0;max-width:60%;font-variant-numeric:tabular-nums}
+ .ws26-decision dd b{font-size:14px;line-height:1.6}
+ .ws26-decision dd small{display:block;font-size:12px;line-height:1.7;color:var(--ws-muted)}
+ .ws26-decision dd small.short{color:var(--ws-short)}
+ .ws26-decision>p{font-size:12px;line-height:1.7;color:var(--ws-muted);margin:12px 0 0}
+ .ws81-workshop :is(.ws76-vehicle-stage,.ws81-synth-detail,.ws22-item-stage)>.ws26-decision~header,
+ .ws81-workshop .ws76-vehicle-preview,.ws81-workshop .ws81-suit-visual,.ws81-workshop .ws22-item-output,
+ .ws81-workshop :is(.ws-shard-craft,.ws-kairon-forge)>.ws26-decision~:is(.ws-shard-art,.ws-kairon-art){display:none}
+ .ws81-workshop :is(.ws-shard-contract,.ws-kairon-contract)>h2{display:none}
+ .ws81-workshop .ws81-suit-requirements>header{display:none}
+ .ws81-workshop .ws81-suit-stage{gap:0}
+}
