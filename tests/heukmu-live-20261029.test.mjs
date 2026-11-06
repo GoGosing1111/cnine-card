@@ -24,11 +24,11 @@ import {validateCatalog} from '../mercenary-codex/model.mjs';
 const snapshot=code=>({...limitedDeploymentSnapshot(code),combat:fixture.combat});
 const fighter=(code,side='A',mode='PVE',power=0)=>buildMercenaryFighter({...snapshot(code),equipment:{schemaVersion:1,mode,power}},side,mode,buildFighter);
 
-test('4m is reflected in actual PVE/PVP stats, links and growth budget',()=>{
- assert.equal(HEUKMU_COMBAT.basePower,4000000);assert.equal(HEUKMU_COMBAT.statScale,4000000/1123200);
+test('3.5m is reflected in actual PVE/PVP stats, links and growth budget',()=>{
+ assert.equal(HEUKMU_COMBAT.basePower,3500000);assert.equal(HEUKMU_COMBAT.statScale,3500000/1123200);
  for(const mode of ['PVE','PVP'])for(const gear of [0,1e8]){
   const c=fighter(HEUKMU_CODE,'A',mode,gear),g=fighter(JOKRO_CODE,'B',mode,gear);
-  assert.equal(c.basePower,4000000+gear);for(const k of ['attack','maxHp','defense'])assert(c[k]>g[k],k);
+  assert.equal(c.basePower,3500000+gear);for(const k of ['attack','maxHp','defense'])assert(c[k]>g[k],k);
   assert.equal(c.speed,g.speed);assert.equal(c.skills.length,mode==='PVE'?2:0);assert.equal(c.attackStyle,'MELEE');
   for(const k of ['counterImmune','controlImmune','poisonImmune'])assert.equal(c[k],true);
   applyMercenaryCombatLink(['A','B'].map((side,i)=>[...tierCards(2e7).map((card,n)=>buildFighter(card,n,side,null,mode)),[c,g][i]]));
@@ -63,14 +63,14 @@ test('PVP uses normal server attacks and preserves the four-skill codex without 
  const cards=tierCards(2e7),r=createPvpBattleV2({attackerCards:cards,defenderCards:cards,attackerMercenary:snapshot(HEUKMU_CODE),defenderMercenary:snapshot(PRIME_CODE),seed:77}).result;
  assert(!r.timeline.some(e=>e.type===HEUKMU_AREA_EVENT));assert(r.timeline.some(e=>e.type==='TURN'&&e.actorId?.includes(HEUKMU_CODE)));
  const data=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1})),card=data.cards.find(c=>c.code===HEUKMU_CODE);
- assert.equal(card.basePower,4000000);assert.equal(card.skills.length,4);assert.equal(card.rank,'SSS');assert.equal(card.edition,'LIMITED');assert.equal(card.deploymentEnabled,true);assert.equal(card.acquisitionEnabled,false);
+ assert.equal(card.basePower,3500000);assert.equal(card.skills.length,4);assert.equal(card.rank,'SSS');assert.equal(card.edition,'LIMITED');assert.equal(card.deploymentEnabled,true);assert.equal(card.acquisitionEnabled,false);
  assert.equal(mercenaryAcquisitionEnabled(HEUKMU_CODE,{cardWeights:{[HEUKMU_CODE]:1e6}}),false);assert.equal(mercenaryLevelXpMultiplier(card),5);
 });
 test('ownership gates both PVE/PVP and an isolated grant uses the same server snapshot',async t=>{
  const f=await mercenaryFixture(t,{postgres:true});
  for(const mode of ['PVE','PVP'])await assert.rejects(saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCode:HEUKMU_CODE,revision:0}),{code:'MERCENARY_NOT_OWNED'});
  await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(?,?,1,0,?,?)',f.user.id,HEUKMU_CODE,'2026-10-27','2026-10-27').run();
- for(const mode of ['PVE','PVP']){await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCode:HEUKMU_CODE,revision:0});assert.equal((await loadMercenaryBattleSnapshot(f.env,f.user,mode)).basePower,4000000);}
+ for(const mode of ['PVE','PVP']){await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCode:HEUKMU_CODE,revision:0});assert.equal((await loadMercenaryBattleSnapshot(f.env,f.user,mode)).basePower,3500000);}
  assert((await mercenaryAccountState(f.env,f.user)).cards.find(c=>c.code===HEUKMU_CODE).canDeploy);
 });
 test('Heukmu appears in real growth catalog and trains once with LIMITED XP and original preserved',async t=>{

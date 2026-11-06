@@ -1,0 +1,294 @@
+{
+  "scope": "HEADLESS_CHROMIUM_NOT_PHYSICAL_DEVICE",
+  "rows": [
+    {
+      "name": "desktop",
+      "id": "royal_swords",
+      "ok": true,
+      "impacts": 1,
+      "hits": [
+        {
+          "damage": 395814825,
+          "id": "B:1:CN-0505936A0CBB4E59",
+          "expectedHp": 99.1472662505,
+          "actualHp": 99.1472662505
+        }
+      ],
+      "errors": [],
+      "status": "왕검 사출 · 일반 165% · 350만"
+    },
+    {
+      "name": "desktop",
+      "id": "sovereign_lance",
+      "ok": true,
+      "impacts": 1,
+      "hits": [
+        {
+          "damage": 382431726,
+          "id": "B:0:CN-02D9DC1E8A8A4209",
+          "expectedHp": 99.21190365,
+          "actualHp": 99.21190365
+        }
+      ],
+      "errors": [],
+      "status": "천창 관통 · 일반 165% · 350만"
+    },
+    {
+      "name": "desktop",
+      "id": "kings_arsenal",
+      "ok": true,
+      "impacts": 3,
+      "hits": [
+        {
+          "damage": 2769953674,
+          "id": "B:0:CN-02D9DC1E8A8A4209",
+          "expectedHp": 99.3075115815,
+          "actualHp": 99.3075115815
+        },
+        {
+          "damage": 3012261414,
+          "id": "B:1:CN-0505936A0CBB4E59",
+          "expectedHp": 99.24621995675,
+          "actualHp": 99.24621995675
+        },
+        {
+          "damage": 2775302639,
+          "id": "B:2:CN-25F931CE393D474E",
+          "expectedHp": 99.30617434025,
+          "actualHp": 99.30617434025
+        }
+      ],
+      "errors": [],
+      "status": "왕의 군세 · 광역 총 3,780% · 350만"
+    },
+    {
+      "name": "desktop",
+      "id": "heavenly_descent",
+      "ok": true,
+      "impacts": 3,
+      "hits": [
+        {
+          "damage": 5401965399,
+          "id": "B:0:CN-02D9DC1E8A8A4209",
+          "expectedHp": 97.86141230025,
+          "actualHp": 97.86141230025
+        },
+        {
+          "damage": 3357552647,
+          "id": "B:1:CN-0505936A0CBB4E59",
+          "expectedHp": 98.30605106525,
+          "actualHp": 98.30605106525
+        },
+        {
+          "damage": 3446088156,
+          "id": "B:2:CN-25F931CE393D474E",
+          "expectedHp": 98.44465230125,
+          "actualHp": 98.44465230125
+        }
+      ],
+      "errors": [],
+      "status": "천검 강림 · 광역 총 4,536% · 350만"
+    },
+    {
+      "name": "mobile",
+      "id": "royal_swords",
+      "ok": true,
+      "impacts": 1,
+      "hits": [
+        {
+          "damage": 395814825,
+          "id": "B:1:CN-0505936A0CBB4E59",
+          "expectedHp": 99.1472662505,
+          "actualHp": 99.1472662505
+        }
+      ],
+      "errors": [],
+      "status": "왕검 사출 · 일반 165% · 350만"
+    },
+    {
+      "name": "mobile",
+      "id": "sovereign_lance",
+      "ok": true,
+      "impacts": 1,
+      "hits": [
+        {
+          "damage": 382431726,
+          "id": "B:0:CN-02D9DC1E8A8A4209",
+          "expectedHp": 99.21190365,
+          "actualHp": 99.21190365
+        }
+      ],
+      "errors": [],
+      "status": "천창 관통 · 일반 165% · 350만"
+    },
+    {
+      "name": "mobile",
+      "id": "kings_arsenal",
+      "ok": true,
+      "impacts": 3,
+      "hits": [
+        {
+          "damage": 2769953674,
+          "id": "B:0:CN-02D9DC1E8A8A4209",
+          "expectedHp": 99.3075115815,
+          "actualHp": 99.3075115815
+        },
+        {
+          "damage": 3012261414,
+          "id": "B:1:CN-0505936A0CBB4E59",
+          "expectedHp": 99.24621995675,
+          "actualHp": 99.24621995675
+        },
+        {
+          "damage": 2775302639,
+          "id": "B:2:CN-25F931CE393D474E",
+          "expectedHp": 99.30617434025,
+          "actualHp": 99.30617434025
+        }
+      ],
+      "errors": [],
+      "status": "왕의 군세 · 광역 총 3,780% · 350만"
+    },
+    {
+      "name": "mobile",
+      "id": "heavenly_descent",
+      "ok": true,
+      "impacts": 3,
+      "hits": [
+        {
+          "damage": 5401965399,
+          "id": "B:0:CN-02D9DC1E8A8A4209",
+          "expectedHp": 97.86141230025,
+          "actualHp": 97.86141230025
+        },
+        {
+          "damage": 3357552647,
+          "id": "B:1:CN-0505936A0CBB4E59",
+          "expectedHp": 98.30605106525,
+          "actualHp": 98.30605106525
+        },
+        {
+          "damage": 3446088156,
+          "id": "B:2:CN-25F931CE393D474E",
+          "expectedHp": 98.44465230125,
+          "actualHp": 98.44465230125
+        }
+      ],
+      "errors": [],
+      "status": "천검 강림 · 광역 총 4,536% · 350만"
+    },
+    {
+      "name": "enemy",
+      "id": "royal_swords",
+      "ok": true,
+      "impacts": 1,
+      "hits": [
+        {
+          "damage": 362420000,
+          "id": "A:1:CN-0505936A0CBB4E59",
+          "expectedHp": 99.457555788,
+          "actualHp": 99.457555788
+        }
+      ],
+      "errors": [],
+      "status": "왕검 사출 · 일반 165% · 350만"
+    },
+    {
+      "name": "enemy",
+      "id": "sovereign_lance",
+      "ok": true,
+      "impacts": 1,
+      "hits": [
+        {
+          "damage": 366399594,
+          "id": "A:1:CN-0505936A0CBB4E59",
+          "expectedHp": 99.3659558895,
+          "actualHp": 99.3659558895
+        }
+      ],
+      "errors": [],
+      "status": "천창 관통 · 일반 165% · 350만"
+    },
+    {
+      "name": "enemy",
+      "id": "kings_arsenal",
+      "ok": true,
+      "impacts": 5,
+      "hits": [
+        {
+          "damage": 1661972204,
+          "id": "A:0:CN-02D9DC1E8A8A4209",
+          "expectedHp": 99.58378478575,
+          "actualHp": 99.58378478575
+        },
+        {
+          "damage": 1807356848,
+          "id": "A:1:CN-0505936A0CBB4E59",
+          "expectedHp": 99.54816078799999,
+          "actualHp": 99.54816078799999
+        },
+        {
+          "damage": 1665181583,
+          "id": "A:2:CN-25F931CE393D474E",
+          "expectedHp": 99.58370460425,
+          "actualHp": 99.58370460425
+        },
+        {
+          "damage": 1779184957,
+          "id": "A:3:CN-23EB4B19986D4818",
+          "expectedHp": 99.55520376075,
+          "actualHp": 99.55520376075
+        },
+        {
+          "damage": 2620154177,
+          "id": "A:4:CN-519C181C18DF4B8E",
+          "expectedHp": 99.34496145575,
+          "actualHp": 99.34496145575
+        }
+      ],
+      "errors": [],
+      "status": "왕의 군세 · 광역 총 3,780% · 350만"
+    },
+    {
+      "name": "enemy",
+      "id": "heavenly_descent",
+      "ok": true,
+      "impacts": 5,
+      "hits": [
+        {
+          "damage": 2067652893,
+          "id": "A:0:CN-02D9DC1E8A8A4209",
+          "expectedHp": 99.06496215375,
+          "actualHp": 99.06496215375
+        },
+        {
+          "damage": 2124949865,
+          "id": "A:1:CN-0505936A0CBB4E59",
+          "expectedHp": 98.83471842325,
+          "actualHp": 98.83471842325
+        },
+        {
+          "damage": 2012687008,
+          "id": "A:2:CN-25F931CE393D474E",
+          "expectedHp": 99.08053285225,
+          "actualHp": 99.08053285225
+        },
+        {
+          "damage": 2054668088,
+          "id": "A:3:CN-23EB4B19986D4818",
+          "expectedHp": 99.04153673875,
+          "actualHp": 99.04153673875
+        },
+        {
+          "damage": 2089496997,
+          "id": "A:4:CN-519C181C18DF4B8E",
+          "expectedHp": 98.8225872065,
+          "actualHp": 98.8225872065
+        }
+      ],
+      "errors": [],
+      "status": "천검 강림 · 광역 총 4,536% · 350만"
+    }
+  ],
+  "passes": 12
+}

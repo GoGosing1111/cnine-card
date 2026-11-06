@@ -1,0 +1,190 @@
+{
+  "scope": "LOCAL_CANONICAL_SERVER_SIMULATION_NOT_LIVE_PLAYER_WIN_RATE",
+  "baseline": "125ab6d1238a2f47133a4231644eb090ce8c15b6",
+  "conditions": "Same five-card deck, level, breakthrough and equipment; 12 deterministic seeds mirrored A/B for each of four scenarios; no pets or magic.",
+  "pvp": [
+    {
+      "name": "weak-deck-lv1",
+      "power": 10000,
+      "level": 1,
+      "gear": 0,
+      "total": 24,
+      "wins": 24,
+      "losses": 0,
+      "draws": 0,
+      "sides": {
+        "A": {
+          "wins": 12,
+          "total": 12
+        },
+        "B": {
+          "wins": 12,
+          "total": 12
+        }
+      }
+    },
+    {
+      "name": "standard-lv1",
+      "power": 20000000,
+      "level": 1,
+      "gear": 0,
+      "total": 24,
+      "wins": 24,
+      "losses": 0,
+      "draws": 0,
+      "sides": {
+        "A": {
+          "wins": 12,
+          "total": 12
+        },
+        "B": {
+          "wins": 12,
+          "total": 12
+        }
+      }
+    },
+    {
+      "name": "grown-lv11",
+      "power": 20000000,
+      "level": 11,
+      "gear": 1000000,
+      "total": 24,
+      "wins": 24,
+      "losses": 0,
+      "draws": 0,
+      "sides": {
+        "A": {
+          "wins": 12,
+          "total": 12
+        },
+        "B": {
+          "wins": 12,
+          "total": 12
+        }
+      }
+    },
+    {
+      "name": "high-power-lv21",
+      "power": 2000000000,
+      "level": 21,
+      "gear": 100000000,
+      "total": 24,
+      "wins": 23,
+      "losses": 1,
+      "draws": 0,
+      "sides": {
+        "A": {
+          "wins": 11,
+          "total": 12
+        },
+        "B": {
+          "wins": 12,
+          "total": 12
+        }
+      }
+    }
+  ],
+  "pve": [
+    {
+      "level": 1,
+      "results": {
+        "V-966": [
+          {
+            "skill": "왕의 군세",
+            "damage": 8192262990,
+            "absorbed": 0,
+            "targets": 1
+          },
+          {
+            "skill": "천검 강림",
+            "damage": 10524039601,
+            "absorbed": 0,
+            "targets": 1
+          }
+        ],
+        "V-975": [
+          {
+            "skill": "혈호 강림",
+            "damage": 5617551772,
+            "absorbed": 0,
+            "targets": 1
+          },
+          {
+            "skill": "혈영섬 · 참형",
+            "damage": 6013736923,
+            "absorbed": 0,
+            "targets": 1
+          }
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "results": {
+        "V-966": [
+          {
+            "skill": "왕의 군세",
+            "damage": 54068935731,
+            "absorbed": 0,
+            "targets": 1
+          },
+          {
+            "skill": "천검 강림",
+            "damage": 69458661366,
+            "absorbed": 0,
+            "targets": 1
+          }
+        ],
+        "V-975": [
+          {
+            "skill": "혈호 강림",
+            "damage": 37075841694,
+            "absorbed": 0,
+            "targets": 1
+          },
+          {
+            "skill": "혈영섬 · 참형",
+            "damage": 39690663691,
+            "absorbed": 0,
+            "targets": 1
+          }
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "results": {
+        "V-966": [
+          {
+            "skill": "왕의 군세",
+            "damage": 108137871463,
+            "absorbed": 0,
+            "targets": 1
+          },
+          {
+            "skill": "천검 강림",
+            "damage": 138917322732,
+            "absorbed": 0,
+            "targets": 1
+          }
+        ],
+        "V-975": [
+          {
+            "skill": "혈호 강림",
+            "damage": 74151683387,
+            "absorbed": 0,
+            "targets": 1
+          },
+          {
+            "skill": "혈영섬 · 참형",
+            "damage": 79381327381,
+            "absorbed": 0,
+            "targets": 1
+          }
+        ]
+      }
+    }
+  ],
+  "total": 96,
+  "wins": 95
+}

@@ -1,0 +1,149 @@
+{
+  "version": "20261106-helios-heukmu-350-v1",
+  "status": "SOURCE_AND_LOCAL_PREVIEW_READY_NOT_DEPLOYED",
+  "heliosKing": {
+    "code": "V-966",
+    "name": "헬리오스 킹",
+    "title": "황금 왕권",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "role": "VANGUARD",
+    "position": "FRONT",
+    "artOnly": true,
+    "releaseStatus": "BALANCE_PREPARED_NOT_RELEASED",
+    "acquisition": "LOCKED",
+    "sourceArt": "assets/ui/project-v/mercenaries/approved-20261103/helios-king-source-art-approved-v1.png",
+    "sourceArtSha256": "401bf907f1cfb1913eab358148ec9d2847bfaf46b65c00488c57efd23058253c",
+    "battleSprite": "preview/v35-helios-king-20261106/layers/art/body-v1.png",
+    "basePower": 3500000,
+    "skills": [
+      {
+        "id": "MS-905",
+        "name": "왕검 사출",
+        "visualMode": "royal_swords",
+        "mechanic": "HELIOS_KING_BASIC_FORM",
+        "target": "ENEMY",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.65,
+          "cooldownTurns": 0,
+          "cost": 0
+        }
+      },
+      {
+        "id": "MS-906",
+        "name": "천창 관통",
+        "visualMode": "sovereign_lance",
+        "mechanic": "HELIOS_KING_BASIC_FORM",
+        "target": "ENEMY",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.65,
+          "cooldownTurns": 0,
+          "cost": 0
+        }
+      },
+      {
+        "id": "MS-907",
+        "name": "왕의 군세",
+        "visualMode": "kings_arsenal",
+        "damageCapScale": 2.5,
+        "mechanic": "HELIOS_KING_ROYAL_ARSENAL",
+        "target": "ALL_ENEMIES",
+        "pveOnly": true,
+        "balance": {
+          "version": 1,
+          "cooldownTurns": 3,
+          "cost": 20,
+          "damageRatio": 37.8
+        }
+      },
+      {
+        "id": "MS-908",
+        "name": "천검 강림",
+        "visualMode": "heavenly_descent",
+        "damageCapScale": 3,
+        "mechanic": "HELIOS_KING_ROYAL_ARSENAL",
+        "target": "ALL_ENEMIES",
+        "pveOnly": true,
+        "balance": {
+          "version": 1,
+          "cooldownTurns": 3,
+          "cost": 20,
+          "damageRatio": 45.36
+        }
+      }
+    ],
+    "acquisitionEnabled": false,
+    "packAcquisitionEnabled": false,
+    "craftAcquisitionEnabled": false,
+    "deploymentEnabled": false,
+    "combatLinkDescription": "기본 전투력 3,500,000. 프라임 레퀴엠보다 공격·체력·방어·연계 예산이 16.67% 높습니다. 왕검 사출·천창 관통은 165% 일반 공격으로 순환합니다. 왕의 군세는 총 3,780%, 천검 강림은 총 4,536% 피해를 생존한 적에게 나누어 대상당 한 번 적용합니다. PVE 광역기 두 개가 에너지 20·재사용 3행동을 공유합니다. 개인 피해 80% 경감·상태이상·반격 보호·행동 3.12배. PVP는 일반 공격을 사용하며 프라임의 공격 30%·체력/방벽 500% 보정과 제너럴 족 상대 우위 정책을 계승합니다. 제작본 밸런스이며 운영 미등록.",
+    "combat": {
+      "version": 1,
+      "basePower": 3500000,
+      "statsReferencePower": 1123200,
+      "statScale": 3.1160962238972845,
+      "speedReferencePower": 1080000,
+      "speedScale": 3.12,
+      "actionCredit": 3.12,
+      "motionPlaybackRate": 1,
+      "effectPlaybackRate": 1,
+      "link": {
+        "attackPercent": 5703.70252822159,
+        "hpPercent": 3629.628881595557,
+        "shieldPercent": 2078.888448083096
+      },
+      "basicCapScale": 6.232192447794569,
+      "damageTakenScale": 0.2,
+      "basicDamageScale": 1.65,
+      "areaDamageCapScale": 2
+    }
+  },
+  "heukmu": {
+    "code": "V-968",
+    "basePower": 3500000,
+    "previousPower": 4000000,
+    "combat": {
+      "version": 2,
+      "basePower": 3500000,
+      "statsReferencePower": 1123200,
+      "statScale": 3.116096866096866,
+      "speedReferencePower": 1080000,
+      "speedScale": 3.12,
+      "actionCredit": 3.12,
+      "motionPlaybackRate": 1,
+      "effectPlaybackRate": 1,
+      "link": {
+        "attackPercent": 5703.7037037037035,
+        "hpPercent": 3629.6296296296296,
+        "shieldPercent": 2078.8888888888887
+      },
+      "basicCapScale": 6.232193732193732,
+      "damageTakenScale": 0.2,
+      "basicDamageScale": 1,
+      "areaDamageCapScale": 1
+    },
+    "pve": {
+      "version": 2,
+      "damageRatio": 15.12,
+      "cooldownTurns": 5,
+      "cost": 35
+    }
+  },
+  "primeReference": {
+    "code": "V-975",
+    "basePower": 3000000,
+    "pve": {
+      "version": 3,
+      "damageRatio": 30.24,
+      "cooldownTurns": 3,
+      "cost": 20
+    }
+  },
+  "simulations": {
+    "battles": 96,
+    "wins": 95
+  },
+  "liveWrites": 0
+}

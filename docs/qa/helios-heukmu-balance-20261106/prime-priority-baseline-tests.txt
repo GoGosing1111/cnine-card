@@ -1,0 +1,36 @@
+✔ only canonical Prime/Zero against all-General-Jok PVP lineups receive priority (4.6674ms)
+✔ post-growth floors cover stronger gear/decks once, preserve injury and never alter cards or General Jok (6.9267ms)
+✖ PVE and other opponents keep normal stats, while existing Razak SS priority remains intact (4.2255ms)
+✔ duo retains owner isolation, supports two General Joks, and disables priority for mixed opponents (26.6677ms)
+✔ both sides win team battles and duels even at level 1 against level 21 and 100x opposing cards (97.2276ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 369.5491
+
+✖ failing tests:
+
+test at tests\prime-zero-general-jok-priority-20261026.test.mjs:36:1
+✖ PVE and other opponents keep normal stats, while existing Razak SS priority remains intact (4.2255ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  6 !== 1
+
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/output/revan-live-20261027/release-checkout/tests/prime-zero-general-jok-priority-20261026.test.mjs:38:149)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 6,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
