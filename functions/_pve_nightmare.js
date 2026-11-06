@@ -1,4 +1,5 @@
 import {apocalypseLegionBoss,apocalypseLegionUltimate,apocalypseLegionSuitDefense,configuredApocalypseLegionSkills} from '../shared/apocalypse-legion-v1.mjs';
+import {apocalypseTrioLimits} from '../shared/apocalypse-trio-v1.mjs';
 import {normalizeApocalypseBonus} from './_apocalypse_challenge.js';
 import {apocalypseSignatureSkill} from '../shared/apocalypse-boss-skills-v2048.mjs';
 
@@ -41,9 +42,9 @@ function normalizeApocalypseMonsterProfiles(raw={}){
     const id=Math.floor(Number(rawId));
     if(!Number.isInteger(id)||id<1||!value||typeof value!=='object')continue;
     profiles[String(id)]={
-      battlePower:clamp(value.battlePower,1,1000000000,1),
+      battlePower:clamp(value.battlePower,1,apocalypseTrioLimits(id).battlePower,1),
       rewardCoin:clamp(value.rewardCoin,0,1000000000,0),
-      clearBonus:normalizeApocalypseBonus(value.clearBonus),
+      clearBonus:normalizeApocalypseBonus(value.clearBonus,id),
       hpPercent:clamp(value.hpPercent,240,1200,260),
       attackPercent:clamp(value.attackPercent,190,1200,220),
       defensePercent:clamp(value.defensePercent,175,1200,190),

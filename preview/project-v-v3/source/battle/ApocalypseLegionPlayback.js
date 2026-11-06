@@ -1,4 +1,5 @@
 import {Text} from 'pixi.js';
+import {playTrioSkill} from './TrioPlayback.js';
 import {apocalypseLegionSkill} from '../../../../shared/apocalypse-legion-v1.mjs';
 import {ApocalypseLegionFX} from './ApocalypseLegionFX.js';
 import {SahyeonFX} from '../../../apocalypse-sahyeon-20261019-v1/SahyeonFX.mjs';
@@ -10,6 +11,7 @@ export function showApocalypseStatus(engine,event){
 }
 export async function playApocalypseLegionSkill(engine,event){
  const skill=apocalypseLegionSkill(event.skillCode);if(!skill)return false;
+ if(skill.visual==='APOCALYPSE_TRIO')return playTrioSkill(engine,event,showApocalypseStatus);
  const session=engine.battleData,epoch=engine.playbackEpoch,hits=event.hits||[],targets=hits.map(hit=>engine.combatantById(hit.targetId)).filter(Boolean);
  if(!targets.length)return false;
  const hollowLens=skill.visual==='HOLLOW_LENS';

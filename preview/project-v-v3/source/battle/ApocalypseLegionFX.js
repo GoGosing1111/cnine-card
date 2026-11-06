@@ -1,4 +1,5 @@
 import {AnimatedSprite,Assets,Container} from 'pixi.js';
+import {TrioFX} from './trio/TrioFX.mjs';
 import {SahyeonFX} from '../../../apocalypse-sahyeon-20261019-v1/SahyeonFX.mjs';
 // Owns no application, ticker or clock. The existing BattleEngine timeline owns playback.
 export class ApocalypseLegionFX{
@@ -7,6 +8,7 @@ export class ApocalypseLegionFX{
  static skills=new Map();
  static async preload(skill){
   if(skill.visual==='HOLLOW_LENS')return SahyeonFX.preload();
+  if(skill.visual==='APOCALYPSE_TRIO')return TrioFX.preload(skill.boss);
   if(this.cache.has(skill.code))return this.cache.get(skill.code);
   this.skills.set(skill.code,skill);
   const pending=Promise.resolve(this.unloading.get(skill.code)).then(()=>Assets.load(skill.atlas)).then(sheet=>{
