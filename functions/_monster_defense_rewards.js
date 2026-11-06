@@ -1,3 +1,4 @@
+import {coinCreditLimit,MAX_COIN_SQL} from '../shared/coin-integer-v1.mjs';
 import {DEFENSE_KEY,validateDefenseSettings,validDefenseRoom} from '../shared/monster-defense-v1.mjs';
 import {hasDefenseReward,validateDefenseReward,defenseRewardItemRule} from '../shared/monster-defense-rewards-v1.mjs';
 import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.js';
@@ -66,11 +67,11 @@ export async function settleDefenseRewards(env,room){
   for(const uid of ids.sort((a,b)=>a-b)){
    if(!enabled){rewards[uid]=empty('DISABLED');continue;}
    const selected=resolved.get(uid),items=[...(reward.masterStars?[{code:'MASTER_STAR',quantity:reward.masterStars}]:[]),...selected.items];
-   statements.push(jointGuard(env.DB,token+':user:'+uid,'EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=0 AND coin<=?)',[uid,Number.MAX_SAFE_INTEGER-reward.coin]),jointGuardEnd(env.DB,token+':user:'+uid));
+   statements.push(jointGuard(env.DB,token+':user:'+uid,'EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=0 AND coin<=?)',[uid,coinCreditLimit(reward.coin)]),jointGuardEnd(env.DB,token+':user:'+uid));
    if(reward.coin)statements.push(
-    p(env,'UPDATE users SET coin=coin+? WHERE id=?',reward.coin,uid),
+    p(env,'UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?',reward.coin,uid),
     p(env,'INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?',reward.coin,`몬스터 디펜스 ${room.encounter.name} 클리어 [${room.id}]`,uid),
-    jointGuard(env.DB,token+':coin:'+uid,'EXISTS(SELECT 1 FROM users WHERE id=? AND coin<=?)',[uid,Number.MAX_SAFE_INTEGER]),jointGuardEnd(env.DB,token+':coin:'+uid));
+    jointGuard(env.DB,token+':coin:'+uid,'EXISTS(SELECT 1 FROM users WHERE id=? AND coin<=?)',[uid,MAX_COIN_SQL]),jointGuardEnd(env.DB,token+':coin:'+uid));
    for(const item of items){
     const guard=token+':item:'+uid+':'+item.code;
     statements.push(jointGuard(env.DB,guard,'EXISTS(SELECT 1 FROM inventory_items WHERE code=? AND is_active=1) AND NOT EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND (quantity<0 OR unseen_quantity<0 OR quantity>? OR unseen_quantity>?))',[item.code,uid,item.code,Number.MAX_SAFE_INTEGER-item.quantity,Number.MAX_SAFE_INTEGER-item.quantity]),

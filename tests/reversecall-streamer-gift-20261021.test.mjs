@@ -44,7 +44,7 @@ test('inactive contents, insufficient stock and balances exceeding safe integers
   await f.pg.query('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(1,$1,$2,$2)',[code,Number.MAX_SAFE_INTEGER]);
   await assert.rejects(f.open());await f.pg.query('DELETE FROM cnine_user_inventory WHERE user_id=1 AND item_code=$1',[code]);
  }
- await f.pg.query('UPDATE users SET coin=$1 WHERE id=1',[Number.MAX_SAFE_INTEGER-rewards.coin+1]);await assert.rejects(f.open());
+ await f.pg.query('UPDATE users SET coin=$1 WHERE id=1',[(9223372036854775807n-BigInt(rewards.coin)+1n).toString()]);await assert.rejects(f.open());
  assert.equal(await f.quantity(),1);assert.equal(await f.quantity('SUIT_CORE_6'),0);
 });
 test('admin grant receipts survive retries and lost acknowledgements, isolate users, and reject payload reuse',async t=>{

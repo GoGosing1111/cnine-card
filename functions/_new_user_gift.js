@@ -1,3 +1,4 @@
+import {coinInteger,coinValue,addCoins} from '../shared/coin-integer-v1.mjs';
 // A once-only verified-account entitlement, delivered automatically through messages.
 export const NEW_USER_GIFT_CODE = 'NEW_USER_GIFT_BOX';
 export const NEW_USER_GIFT_DAYS = 14;
@@ -312,7 +313,7 @@ export async function issueNewUserGift(env, { userId, requestId, reason }, admin
 export async function openNewUserGift(env, userId) {
   const id = safeId(userId);
   return transaction(env, async q => {
-    const [user] = await q('SELECT id,status,coin FROM users WHERE id=$1 FOR UPDATE', [id]);
+    const [user] = await q('SELECT id,status,CAST(coin AS TEXT) AS coin FROM users WHERE id=$1 FOR UPDATE', [id]);
     if (!user || user.status !== 'ACTIVE') fail('INACTIVE_USER', '활성 계정에서만 개봉할 수 있습니다.');
     const [receipt] = await q(`SELECT * FROM ${TABLE} WHERE user_id=$1 FOR UPDATE`, [id]);
     if (!receipt) fail('NOT_ISSUED', '정식 지급받은 기프트 박스가 없습니다. 첫 인증 보상 메시지를 확인해 주세요.');
@@ -333,8 +334,8 @@ export async function openNewUserGift(env, userId) {
       || !rewards.magic.every(c => current.magic.some(r => r.id === c.id && r.code === c.code))
       || new Set(rewards.equipment.map(e => e.id)).size !== NEW_USER_GIFT_EQUIPMENT.length
       || !rewards.equipment.every(e => current.equipment.some(r => r.id === e.id && r.code === e.code))) fail('REWARD_CHANGED', '지급받은 보상 중 삭제·비공개된 항목이 있습니다. 박스는 차감하지 않았습니다. 관리자에게 문의하세요.');
-    const coinBefore = Number(user.coin);
-    if (!Number.isSafeInteger(coinBefore) || coinBefore < 0 || !Number.isSafeInteger(coinBefore + rewards.coin)) fail('COIN_OVERFLOW', '코인 잔액을 안전하게 지급할 수 없습니다. 관리자에게 문의하세요.');
+    const coinBefore = coinValue(user.coin);
+    const coinAfter = addCoins(coinBefore, rewards.coin);
     const used = await q(`UPDATE cnine_user_inventory SET quantity=0,unseen_quantity=0,updated_at=${STAMP}
       WHERE user_id=$1 AND item_code=$2 AND quantity=1 RETURNING quantity`, [id, NEW_USER_GIFT_CODE]);
     if (used.length !== 1) fail('BOX_MISSING', '박스 수량과 지급 기록이 일치하지 않습니다. 개봉하지 않았습니다.');
@@ -367,12 +368,12 @@ export async function openNewUserGift(env, userId) {
       SELECT $1,id,'NEW_USER_GIFT',$2,$2||':'||id::text FROM character_equipment_items
       WHERE id=ANY($3::bigint[]) AND is_active=1 AND is_public=1 RETURNING id,equipment_id`, [id, `newgift:${id}`, rewards.equipment.map(e => e.id)]);
     if (cards.length !== cardIds.length || magic.length !== rewards.magic.length || equipment.length !== NEW_USER_GIFT_EQUIPMENT.length) fail('PARTIAL_GRANT', '보상 수량 검증에 실패해 박스 차감과 지급을 모두 취소했습니다.');
-    const balances = await q('UPDATE users SET coin=coin+$2 WHERE id=$1 RETURNING coin', [id, rewards.coin]);
-    if (balances.length !== 1 || Number(balances[0].coin) !== coinBefore + rewards.coin) fail('COIN_MISMATCH', '코인 검증에 실패해 모든 지급을 취소했습니다.');
+    const balances = await q('UPDATE users SET coin=coin+$2 WHERE id=$1 RETURNING CAST(coin AS TEXT) AS coin', [id, rewards.coin]);
+    if (balances.length !== 1 || coinInteger(balances[0].coin) !== coinInteger(coinAfter)) fail('COIN_MISMATCH', '코인 검증에 실패해 모든 지급을 취소했습니다.');
     await q("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,admin_id) VALUES($1,$2,$3,'신규유저 기프트 박스',$4)", [id, rewards.coin, balances[0].coin, receipt.issued_by]);
     await q(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id)
       VALUES($1,$2,-1,0,'신규유저 기프트 박스 개봉','NEW_USER_GIFT',$3)`, [id, NEW_USER_GIFT_CODE, `newgift:${id}`]);
-    const result = { ok: true, replayed: false, coin: rewards.coin, coinAfter: Number(balances[0].coin),
+    const result = { ok: true, replayed: false, coin: rewards.coin, coinAfter: coinValue(balances[0].coin),
       summary: { superstar: rewards.cards.filter(c => c.grade === 'SUPERSTAR').length, fur: rewards.cards.filter(c => c.grade === 'FUR').length, zenith: rewards.cards.filter(c => c.grade === 'ZENITH').length, magic: magic.length, equipment: equipment.length }, cards, magic, equipment, rewards };
     const saved = await q(`UPDATE ${TABLE} SET status='OPENED',opened_at=${STAMP},result_json=$2 WHERE user_id=$1 AND status='ISSUED' RETURNING user_id`, [id, JSON.stringify(result)]);
     if (saved.length !== 1) fail('RECEIPT_FAILED', '수령 기록 저장에 실패해 모든 지급을 취소했습니다.');

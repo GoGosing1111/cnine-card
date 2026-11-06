@@ -162,7 +162,7 @@ if(d.season?.phase==='CHAMPIONS'&&!d.war)return `<section class="clan-panel clan
   function finishRequest(scope){state.pending.delete(scope);try{global.sessionStorage.removeItem(scope)}catch{}}
   function syncBattleWallet(wallet){
     const user=global.loadUser?.();if(!wallet||!user)return;
-    if(Number.isSafeInteger(Number(wallet.coin)))user.coin=Number(wallet.coin);
+    if(Number.isInteger(Number(wallet.coin))&&Number(wallet.coin)>=0)user.coin=Number(wallet.coin);
     if(Number.isSafeInteger(Number(wallet.cardShards)))user.cardShards=Number(wallet.cardShards);
     global.saveUser?.(user);state.ctx.clearApiCache?.('shell/summary');
   }

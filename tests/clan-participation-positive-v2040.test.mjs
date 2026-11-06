@@ -58,7 +58,7 @@ test('배치 중간 장애는 점수·지갑·전적·영수증 전체 롤백 �
 for(const [label,mutation] of [
   ['종료 대진',"UPDATE clan_wars SET status='COMPLETED'"],['실패 예약',"UPDATE clan_war_battles SET status='FAILED'"],
   ['공격자 탈퇴','DELETE FROM clan_members WHERE user_id=1'],['방어자 이적','UPDATE clan_members SET clan_id=10 WHERE user_id=2'],
-  ['지갑 없음','DELETE FROM users WHERE id=1'],['잔액 안전 정수 초과','UPDATE users SET coin=9007199254740991 WHERE id=1']
+  ['지갑 없음','DELETE FROM users WHERE id=1'],['잔액 BIGINT 초과','UPDATE users SET coin=9223372036854775807 WHERE id=1']
 ])test(`${label}: 0행 지급 대상은 점수·정산 완료 없이 차단`,async t=>{
   const f=fixture(t),input=f.battle(1);f.sql.exec(mutation);await assert.rejects(settleClanParticipationBattle(f.env,input),/정산 대상/);assert.equal(f.sql.prepare('SELECT score_a FROM clan_wars').get().score_a,0);assert.equal(f.sql.prepare('SELECT COUNT(*) n FROM clan_participation_receipts').get().n,0);
 });

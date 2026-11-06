@@ -70,3 +70,10 @@ for(const pg of [false,true]){const dialect=pg?'Postgres':'SQLite';
   current.mode='ON';await saveCitySettings(f.env,{id:1,role:'OWNER'},current,CLOSE_AT+2000);assert.equal((await closeCityAtNoon(f.env,CLOSE_AT+3000)).replayed,true);assert.equal((await readCitySettings(f.env)).policy.mode,'ON');
  });
 }
+
+test('city message can be claimed with 10경 plus one, exactly once',async t=>{
+ const f=await cityFixture(t,true),reward=await deliver(f);await f.p('UPDATE users SET coin=100000000000000001 WHERE id=1').run();
+ const first=await claimCityMessageReward(f.env,{id:1},reward,Number(reward.message_id));assert.equal(first.credited,true);
+ const expected=(100000000000000001n+BigInt(packet.coin)).toString();assert.equal((await f.p('SELECT CAST(coin AS TEXT) AS coin FROM users WHERE id=1').first()).coin,expected);
+ const again=await claimCityMessageReward(f.env,{id:1},reward,Number(reward.message_id));assert.equal(again.duplicate,true);assert.equal(await count(f,'coin_logs'),1);
+});

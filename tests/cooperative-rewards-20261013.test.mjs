@@ -82,3 +82,16 @@ test('concurrent legacy terminal rooms cannot duplicate a reward receipt',async(
 
  }finally{await f.close();}
 });
+
+for(const postgres of [false,true])test('10경 plus one exact coin, once-only settlement '+postgres,async()=>{
+ const f=await fixture(postgres);
+ try {
+  await f.run('UPDATE users SET coin=100000000000000001');
+  await settleCoopRewards(f.env,room(901));
+  const expected='100000000000000101';
+  assert.equal((await f.first('SELECT CAST(coin AS TEXT) AS coin FROM users WHERE id=1')).coin,expected);
+  assert.equal((await f.first('SELECT CAST(balance_after AS TEXT) AS coin FROM coin_logs WHERE user_id=1')).coin,expected);
+  await settleCoopRewards(f.env,room(901));
+  assert.equal(Number((await f.first('SELECT COUNT(*) n FROM coin_logs')).n),3);
+ }finally{await f.close();}
+});

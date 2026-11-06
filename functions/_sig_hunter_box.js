@@ -1,3 +1,4 @@
+import {coinCreditLimit} from '../shared/coin-integer-v1.mjs';
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 import {runJointOperation,jointInventoryChange} from './_joint_transactions.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
@@ -50,13 +51,13 @@ export async function openSigHunterBox(env,user,{requestId,count=1}){
             OR (item_code='SUIT_CORE_6' AND (quantity<0 OR unseen_quantity<0 OR quantity>? OR unseen_quantity>?))
             OR (item_code='MASTER_STAR' AND (quantity<0 OR unseen_quantity<0 OR quantity>? OR unseen_quantity>?))
             OR (item_code=? AND (quantity<0 OR unseen_quantity<0 OR quantity>? OR unseen_quantity>?))))`,
-          [user.id,MAX-plan.coin,user.id,FORGE_REPAIR_ITEM.code,MAX-plan.repairCoupon,MAX-plan.repairCoupon,MAX-plan.suitCore6,MAX-plan.suitCore6,MAX-plan.masterStar,MAX-plan.masterStar,LIMITED_SHARD.code,MAX-plan.limitedShard,MAX-plan.limitedShard]),
+          [user.id,coinCreditLimit(plan.coin),user.id,FORGE_REPAIR_ITEM.code,MAX-plan.repairCoupon,MAX-plan.repairCoupon,MAX-plan.suitCore6,MAX-plan.suitCore6,MAX-plan.masterStar,MAX-plan.masterStar,LIMITED_SHARD.code,MAX-plan.limitedShard,MAX-plan.limitedShard]),
         ...jointInventoryChange(DB,user.id,gift.code,-1,'SIG_HUNTER_BOX_OPEN',requestId),
         ...jointInventoryChange(DB,user.id,FORGE_REPAIR_ITEM.code,plan.repairCoupon,'SIG_HUNTER_BOX_REWARD',requestId),
         ...jointInventoryChange(DB,user.id,'SUIT_CORE_6',plan.suitCore6,'SIG_HUNTER_BOX_REWARD',requestId),
         ...jointInventoryChange(DB,user.id,'MASTER_STAR',plan.masterStar,'SIG_HUNTER_BOX_REWARD',requestId),
         ...jointInventoryChange(DB,user.id,LIMITED_SHARD.code,plan.limitedShard,'SIG_HUNTER_BOX_REWARD',requestId),
-        p('UPDATE users SET coin=coin+? WHERE id=?',plan.coin,user.id),
+        p('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?',plan.coin,user.id),
         p(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason)
           SELECT id,?,coin,? FROM users WHERE id=?`,plan.coin,`SIG_HUNTER_BOX:${requestId}`,user.id),
         jointGuardEnd(DB,token)

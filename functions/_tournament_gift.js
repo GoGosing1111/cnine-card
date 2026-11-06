@@ -1,3 +1,4 @@
+import {coinCreditLimit} from '../shared/coin-integer-v1.mjs';
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 import {runJointOperation,jointInventoryChange} from './_joint_transactions.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
@@ -41,10 +42,10 @@ export async function openTournamentGift(env,user,{requestId,count=1}){
       return [
         jointGuard(DB,token,`EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=0 AND coin<=?)
           AND NOT EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND (quantity>? OR unseen_quantity>?))`,
-          [user.id,MAX-plan.coin,user.id,MAX-plan.masterStar,MAX-plan.masterStar]),
+          [user.id,coinCreditLimit(plan.coin),user.id,MAX-plan.masterStar,MAX-plan.masterStar]),
         ...jointInventoryChange(DB,user.id,gift.code,-1,'TOURNAMENT_GIFT_OPEN',requestId),
         ...jointInventoryChange(DB,user.id,'MASTER_STAR',plan.masterStar,'TOURNAMENT_GIFT_REWARD',requestId),
-        p('UPDATE users SET coin=coin+? WHERE id=?',plan.coin,user.id),
+        p('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?',plan.coin,user.id),
         p(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason)
           SELECT id,?,coin,? FROM users WHERE id=?`,plan.coin,`TOURNAMENT_GIFT:${requestId}`,user.id),
         jointGuardEnd(DB,token)

@@ -1,3 +1,4 @@
+import {coinCreditLimit} from '../shared/coin-integer-v1.mjs';
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 import {runJointOperation,jointInventoryChange} from './_joint_transactions.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
@@ -45,11 +46,11 @@ export async function openReversecallStreamerGift(env,user,{requestId,count=1}){
           AND NOT EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND
             ((item_code=? AND (quantity<0 OR unseen_quantity<0 OR quantity>? OR unseen_quantity>?))
             OR (item_code='SUIT_CORE_6' AND (quantity<0 OR unseen_quantity<0 OR quantity>? OR unseen_quantity>?))))`,
-          [user.id,MAX-plan.coin,user.id,FORGE_REPAIR_ITEM.code,MAX-plan.repairCoupon,MAX-plan.repairCoupon,MAX-plan.suitCore6,MAX-plan.suitCore6]),
+          [user.id,coinCreditLimit(plan.coin),user.id,FORGE_REPAIR_ITEM.code,MAX-plan.repairCoupon,MAX-plan.repairCoupon,MAX-plan.suitCore6,MAX-plan.suitCore6]),
         ...jointInventoryChange(DB,user.id,gift.code,-1,'REVERSECALL_STREAMER_GIFT_OPEN',requestId),
         ...jointInventoryChange(DB,user.id,FORGE_REPAIR_ITEM.code,plan.repairCoupon,'REVERSECALL_STREAMER_GIFT_REWARD',requestId),
         ...jointInventoryChange(DB,user.id,'SUIT_CORE_6',plan.suitCore6,'REVERSECALL_STREAMER_GIFT_REWARD',requestId),
-        p('UPDATE users SET coin=coin+? WHERE id=?',plan.coin,user.id),
+        p('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?',plan.coin,user.id),
         p(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason)
           SELECT id,?,coin,? FROM users WHERE id=?`,plan.coin,`REVERSECALL_STREAMER_GIFT:${requestId}`,user.id),
         jointGuardEnd(DB,token)

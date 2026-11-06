@@ -1,3 +1,4 @@
+import {coinInteger} from './coin-integer-v1.mjs';
 export const SUPERSTAR_BULK=Object.freeze({counts:Object.freeze([1000,10000]),format:'SUPERSTAR_BULK_V1',maxAgeMs:86400000});
 export function superstarBulkCost(price,count){
   const cost=Number(price)*count;
@@ -15,7 +16,7 @@ export function validateSuperstarBulkReceipt(receipt,{requestId,userId,count}={}
     if(!row?.hit||row.card?.grade!=='SUPERSTAR'||!row.card.id||ids.has(String(row.card.id))||!Number.isSafeInteger(row.count)||row.count<1||!Number.isSafeInteger(row.quantityBefore)||row.quantityBefore<0||row.quantityAfter!==row.quantityBefore+row.count||row.duplicateCount!==row.count-(row.quantityBefore===0?1:0)||row.shardGained!==row.duplicateCount*600)throw Error('슈퍼스타 지급 수량을 확인하지 못했습니다.');
     ids.add(String(row.card.id));hits+=row.count;shards+=row.shardGained;
   }
-  if(hits!==receipt.hitCount||!Number.isSafeInteger(receipt.missCount)||receipt.missCount<0||hits+receipt.missCount!==receipt.count||shards!==receipt.shardGained||receipt.cost!==cost||!Number.isSafeInteger(receipt.coinBefore)||receipt.coinAfter!==receipt.coinBefore-cost||receipt.coinAfter<0)throw Error('결제·당첨·꽝 합계가 일치하지 않습니다.');
+  if(hits!==receipt.hitCount||!Number.isSafeInteger(receipt.missCount)||receipt.missCount<0||hits+receipt.missCount!==receipt.count||shards!==receipt.shardGained||receipt.cost!==cost||coinInteger(receipt.coinAfter)!==coinInteger(receipt.coinBefore)-BigInt(cost))throw Error('결제·당첨·꽝 합계가 일치하지 않습니다.');
   if(receipt.currentQuantities!==undefined&&(!receipt.currentQuantities||Array.isArray(receipt.currentQuantities)||[...ids].some(id=>!Number.isSafeInteger(receipt.currentQuantities[id])||receipt.currentQuantities[id]<0)))throw Error('현재 보유 수량을 확인하지 못했습니다.');
   return receipt;
 }

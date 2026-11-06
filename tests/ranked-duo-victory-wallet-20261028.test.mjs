@@ -47,24 +47,24 @@ test('a previously interrupted paid victory recovers by its existing match ID af
  assert.equal((await ledger(f)).length,1);assert.equal(Number((await f.p('SELECT COUNT(*) n FROM ranked_duo_matches_v1').first()).n),1);
 });
 
-test('normal safe cap, negative balances and BIGINT overflow still reject the whole credit',async t=>{
+test('negative balances and BIGINT overflow still reject the whole credit',async t=>{
  const f=await fixture(t,'pipeline');
- for(const value of [(BigInt(Number.MAX_SAFE_INTEGER)-BigInt(reward)+1n).toString(),'9223372036854775807','-1']){
+ for(const value of ['9223372036854775807','-1']){
   await f.pg.query('UPDATE users SET coin=$1::bigint WHERE id=2',[value]);
   await assert.rejects(f.DB.batch(duoVictoryWrites(f.env,2,reward,'boundary')));
   assert.equal(await balance(f),value);assert.deepEqual(await ledger(f),[]);
  }
- for(const [value,amount] of [[String(Number.MAX_SAFE_INTEGER-reward),reward],['9223372036854775806',1]]){
+ for(const [value,amount] of [[String(Number.MAX_SAFE_INTEGER-reward),reward],['9007199254740991',reward],['100000000000000001',reward],['9223372036854775806',1]]){
   await f.pg.query('UPDATE users SET coin=$1::bigint WHERE id=2',[value]);
   await f.DB.batch(duoVictoryWrites(f.env,2,amount,'valid-boundary'));
   assert.equal(await balance(f),(BigInt(value)+BigInt(amount)).toString());
  }
 });
 
-test('SQLite retains the safe-integer wallet boundary and zero rewards do not write',async t=>{
+test('SQLite retains the BIGINT wallet boundary and zero rewards do not write',async t=>{
  const f=await fixture(t,false);
  assert.deepEqual(duoVictoryWrites(f.env,2,0,'no-reward'),[]);
- await f.p('UPDATE users SET coin=? WHERE id=2',Number.MAX_SAFE_INTEGER-reward+1).run();
+ await f.p('UPDATE users SET coin=? WHERE id=2','9223372036854775807').run();
  await assert.rejects(f.DB.batch(duoVictoryWrites(f.env,2,reward,'sqlite-boundary')));
  assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coin_logs').first()).n),0);
 });

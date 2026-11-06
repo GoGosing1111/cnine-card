@@ -1,3 +1,4 @@
+import {coinValue,addCoins} from '../shared/coin-integer-v1.mjs';
 // V2035: a bounded, atomic evolution batch. The receipt and every debit/grant
 // commit together; retrying a lost response reads the receipt, never rolls again.
 export const EVOLUTION_BATCH_LIMITS = {maxCards:20,maxAttemptsPerCard:10};
@@ -41,7 +42,8 @@ export async function handleEvolutionBatch({request,env,deps,user,settings,overv
   if(!rule.resultPool.length)return deps.json({error:'획득 가능한 결과 카드가 없습니다. 재료는 소모되지 않았습니다.',code:'EVOLUTION_POOL_EMPTY'},409);
   const cost={coin:Number(rule.coinCost||0),shards:Number(rule.shardCost||0),stars:Number(rule.masterStarCost||0)};
   const maximumAttempts=cardIds.length*attemptsPerCard;
-  const before={coin:data.userResources.coin,shards:data.userResources.cardShards,stars:data.masterStars};
+  const exactWallet=await env.DB.prepare('SELECT CAST(coin AS TEXT) AS coin FROM users WHERE id=?').bind(user.id).first();
+  const before={coin:coinValue(exactWallet.coin),shards:data.userResources.cardShards,stars:data.masterStars};
   if(Object.keys(cost).some(key=>cost[key]>0&&before[key]<cost[key]*maximumAttempts))return deps.json({error:'설정한 최대 시도 횟수만큼의 재료가 부족합니다. 카드 수나 시도 횟수를 줄여 주세요.',code:'EVOLUTION_MATERIAL_SHORTAGE'},400);
   const ownedRows=(await env.DB.prepare('SELECT card_id,quantity FROM user_cards WHERE user_id=?').bind(user.id).all()).results||[];
   const ownedBefore=new Map(ownedRows.map(row=>[String(row.card_id),Number(row.quantity)])),owned=new Map(ownedBefore);
@@ -54,7 +56,7 @@ export async function handleEvolutionBatch({request,env,deps,user,settings,overv
       if(!pool.length){row.stoppedReason='획득 가능한 프레스티지 카드를 모두 획득했습니다.';break}
       const isPity=failed+1>=rule.pityAttempts,success=isPity||randomPercent()<rule.successRate;
       total++;
-      for(const key of Object.keys(cost)){wallet[key]-=cost[key];spent[key]+=cost[key]}
+      for(const key of Object.keys(cost)){wallet[key]=key==='coin'?addCoins(wallet.coin,-cost.coin):wallet[key]-cost[key];spent[key]+=cost[key]}
       const reward=success?pickRandom(pool):null,duplicate=reward?Number(owned.get(String(reward.id))||0)>0:false;
       const rewardShards=success&&duplicate&&type==='SSR_TO_MA'?Number(deps.shardReward?.MA||120):0;
       const masterStarGained=success&&duplicate&&type==='SSR_TO_MA'?1:0;
@@ -116,7 +118,7 @@ export async function handleEvolutionBatch({request,env,deps,user,settings,overv
     chunk.push(guard);chunkArgs.push(...guardArgs.slice(offset,offset+count));offset+=count;
   }
   flushGuard();
-  statements.push(env.DB.prepare('UPDATE users SET coin=coin-?,card_shards=card_shards-?+? WHERE id=?').bind(spent.coin,spent.shards,bonus.shards,user.id));
+  statements.push(env.DB.prepare('UPDATE users SET coin=coin-CAST(? AS BIGINT),card_shards=card_shards-?+? WHERE id=?').bind(spent.coin,spent.shards,bonus.shards,user.id));
   if(spent.stars)statements.push(env.DB.prepare("UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code='MASTER_STAR'").bind(spent.stars,spent.stars,user.id));
   if(bonus.stars)statements.push(env.DB.prepare("INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,'MASTER_STAR',?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP").bind(user.id,bonus.stars,bonus.stars));
   for(const row of results){

@@ -1,3 +1,4 @@
+import {coinValue,addCoins} from '../shared/coin-integer-v1.mjs';
 import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 const CASE_TABLE='prison_release_cases_v2031';
 const CONTRIBUTION_TABLE='prison_release_contributions_v2031';
@@ -183,7 +184,7 @@ async function contributeReleaseFund(env,user,body,deps){
   if(progress.releasePrice<1)throw Object.assign(new Error('OWNER가 아직 석방금을 설정하지 않았습니다.'),{status:409});
   if(progress.funded)throw Object.assign(new Error('이미 영치금 모금이 완료되었습니다.'),{status:409});
   if(amount>progress.remainingCoin)throw Object.assign(new Error(`남은 석방금 ${progress.remainingCoin.toLocaleString()}코인을 초과할 수 없습니다.`),{status:400});
-  const donor=await env.DB.prepare('SELECT id,coin FROM users WHERE id=?').bind(user.id).first(),beforeCoin=Number(donor?.coin||0),afterCoin=beforeCoin-amount;
+  const donor=await env.DB.prepare('SELECT id,CAST(coin AS TEXT) AS coin FROM users WHERE id=?').bind(user.id).first(),beforeCoin=coinValue(donor?.coin??0),afterCoin=beforeCoin<amount?beforeCoin:addCoins(beforeCoin,-amount);
   if(beforeCoin<amount)throw Object.assign(new Error('보유 코인이 부족합니다.'),{status:409});
   await env.DB.batch([
     env.DB.prepare(`INSERT OR IGNORE INTO ${CONTRIBUTION_TABLE}(request_id,case_id,inmate_user_id,contributor_user_id,amount,status)

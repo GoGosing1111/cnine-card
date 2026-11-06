@@ -1,3 +1,4 @@
+import {MAX_COIN_SQL} from '../shared/coin-integer-v1.mjs';
 import {CLAN_WAR_ITEM_REWARDS_START,CLAN_WAR_COIN_REWARDS_START,clanWarItemRewardRule,validateClanWarItemRewards} from '../shared/clan-war-item-rewards-v1.mjs';
 import {clanWarParticipationSettings} from './_clan_participation.js';
 import {readLootShopPolicy,LOOT_SHOP_KEY} from './_loot_shop.js';
@@ -49,7 +50,7 @@ export async function settleClanWarItems(env,warId,settings){
  if(coinGrants.length){
   const payload=coinGrants.map(()=> 'SELECT CAST(? AS BIGINT) user_id,CAST(? AS BIGINT) amount').join(' UNION ALL '),values=coinGrants.flatMap(g=>[g.userId,g.amount]);
   const coinIds=coinGrants.map(g=>g.userId),marks=coinIds.map(()=>'?').join(','),reason=`클랜전 회차 승리·참가 코인 보상 ${reference}`,safe=crypto.randomUUID(),paid=crypto.randomUUID();
-  statements.push(jointGuard(DB,safe,`NOT (${owned}) OR NOT EXISTS(SELECT 1 FROM (${payload}) a LEFT JOIN users u ON u.id=a.user_id WHERE u.id IS NULL OR u.coin IS NULL OR u.coin<0 OR u.coin>?-a.amount)`,[key,packed,...values,Number.MAX_SAFE_INTEGER]));
+  statements.push(jointGuard(DB,safe,`NOT (${owned}) OR NOT EXISTS(SELECT 1 FROM (${payload}) a LEFT JOIN users u ON u.id=a.user_id WHERE u.id IS NULL OR u.coin IS NULL OR u.coin<0 OR u.coin>CAST(? AS BIGINT)-a.amount)`,[key,packed,...values,MAX_COIN_SQL]));
   // Record the expected balance under the user locks, then verify every credit.
   // Both the coins and the existing items share this settlement receipt/batch.
   statements.push(p(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,created_at)

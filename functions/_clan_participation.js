@@ -1,3 +1,4 @@
+import {coinCreditLimit} from '../shared/coin-integer-v1.mjs';
 import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 import {CLAN_WAR_ITEM_REWARD_ZERO,clanWarItemRewardRule} from '../shared/clan-war-item-rewards-v1.mjs';
 // Clan participation: round-frozen rules and exactly-once attacker-only settlement.
@@ -170,7 +171,7 @@ export async function settleClanParticipationBattle(env, { war, receipt, userId,
       AND ((w.clan_a_id=b.attacker_clan_id AND w.clan_b_id=b.defender_clan_id) OR (w.clan_b_id=b.attacker_clan_id AND w.clan_a_id=b.defender_clan_id))`,
     winnerClanId, won ? 'WIN' : 'LOSE', amount.points, amount.baseCoin, amount.winBonusCoin, token,
     receipt.id, receipt.request_id, war.id, war.season_id, userId, clanId, defenderId,
-    Number.MAX_SAFE_INTEGER - amount.baseCoin - amount.winBonusCoin - amount.milestoneCoin));
+    coinCreditLimit(amount.baseCoin + amount.winBonusCoin + amount.milestoneCoin)));
   writes.push(prepare(`INSERT OR IGNORE INTO clan_participation_progress(season_id,war_id,user_id) SELECT ?,?,? WHERE ${guard}`,
     war.season_id, war.id, userId, receipt.id, token));
   writes.push(prepare(`UPDATE clan_participation_receipts SET
