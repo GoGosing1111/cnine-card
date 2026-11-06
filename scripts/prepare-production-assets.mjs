@@ -76,6 +76,8 @@ for(const file of ['docs/organization-faction-20261015.md','docs/organization-fa
 // Prime authoring notes and the Superstar contention audit have no browser
 // consumers. Preserve both in Git; reserve delivery slots for the new material.
 for(const file of ['docs/prime-requiem-blood-skills-20261021.md','docs/superstar-pack-contention-20261006.json'])operationAuditOnly.add(file);
+// Preserve the historical contention notes in Git; the live exact-coin helper uses this asset slot.
+operationAuditOnly.add('docs/superstar-pack-contention-20261006.md');
 // Helpers are Node-only database/simulation fixtures. Browser previews consume
 // their generated JSON payloads, never the test helper modules themselves.
 // Dragon Slayer uses the 512px WebP. Keep the exact PNG and prompt/hash record in Git.
