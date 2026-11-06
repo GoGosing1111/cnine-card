@@ -1,0 +1,141 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:simsimi-three-mercenaries:20261106:v1",
+  "authorization": "심심이 계정에 레오넬 족로 진무 1장씩 지급해 한도 상관없이",
+  "userId": "4933",
+  "nickname": "심심이",
+  "delivery": "DIRECT",
+  "totalQuantity": 3,
+  "grants": [
+    {
+      "code": "V-978",
+      "name": "레오넬",
+      "quantity": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1
+    },
+    {
+      "code": "V-979",
+      "name": "족로",
+      "quantity": 1,
+      "copiesBefore": 1,
+      "copiesAfter": 2
+    },
+    {
+      "code": "V-989",
+      "name": "천룡검황 진무",
+      "quantity": 1,
+      "copiesBefore": 1,
+      "copiesAfter": 2
+    }
+  ],
+  "accountCards": [
+    {
+      "code": "V-978",
+      "name": "레오넬",
+      "totalCopies": 1,
+      "level": 1,
+      "canDeploy": true,
+      "rankedVisible": true,
+      "growthVisible": true,
+      "selectable": [
+        "PVE",
+        "PVP"
+      ]
+    },
+    {
+      "code": "V-979",
+      "name": "족로",
+      "totalCopies": 2,
+      "level": 10,
+      "canDeploy": true,
+      "rankedVisible": true,
+      "growthVisible": true,
+      "selectable": [
+        "PVE",
+        "PVP"
+      ]
+    },
+    {
+      "code": "V-989",
+      "name": "천룡검황 진무",
+      "totalCopies": 2,
+      "level": 10,
+      "canDeploy": true,
+      "rankedVisible": true,
+      "growthVisible": true,
+      "selectable": [
+        "PVE",
+        "PVP"
+      ]
+    }
+  ],
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "stockCountersChanged": false,
+  "limitedIssueRecordsAdded": 0,
+  "craftCountsChanged": false,
+  "purchaseCountsChanged": false,
+  "stockPreserved": [
+    {
+      "code": "SSS_MIRACLE_CUBE:V-978",
+      "limit": "10",
+      "issued": "9"
+    },
+    {
+      "code": "SSS_MIRACLE_CUBE:V-979",
+      "limit": "10",
+      "issued": "7"
+    },
+    {
+      "code": "SSS_MIRACLE_CUBE:V-989",
+      "limit": "10",
+      "issued": "7"
+    },
+    {
+      "code": "V-978",
+      "limit": "18",
+      "issued": "18"
+    },
+    {
+      "code": "V-979",
+      "limit": "3",
+      "issued": "3"
+    },
+    {
+      "code": "V-989",
+      "limit": "5",
+      "issued": "5"
+    }
+  ],
+  "acquisitionIds": [
+    "ops:simsimi-three-mercenaries:20261106:v1:4933:V-978:1",
+    "ops:simsimi-three-mercenaries:20261106:v1:4933:V-979:1",
+    "ops:simsimi-three-mercenaries:20261106:v1:4933:V-989:1"
+  ],
+  "auditId": "55579",
+  "completedAt": "2026-11-06T14:01:59.953Z",
+  "completedAtKst": "2026-11-06 23:01:59 KST",
+  "planHash": "c20e7338878658383b6a78f6255b527389bdde143cd0eb25617a98d71a1b1bdf",
+  "executionSourceSha256": "04cd1e0d11b97ed222bd269f46dcfeb399fabfe0015c4091e81eefada9d03393",
+  "validatedLiveSource": "e7791decabb3406cabe5ca69be95918f379e08d6",
+  "gameRedeployed": false,
+  "verification": {
+    "grantTestsPassed": 4,
+    "failedAndSuccessfulRehearsalsRolledBack": true,
+    "liveUserAndDatabaseLocks": true,
+    "independentReadOnly": true,
+    "replayAdditionalWrites": 0,
+    "leasesReleased": true,
+    "collectionRevisionDelta": 3,
+    "rankedSourceDelta": 3,
+    "otherAssetsAndGrowthPreserved": true,
+    "previousBlackcrownGrantPreserved": true,
+    "actualAccountCodexGrowthRankedAndBothModes": true,
+    "missing": 0,
+    "duplicates": 0
+  },
+  "automaticLoadout": false,
+  "messagesSent": 0,
+  "storageMaintenance": false,
+  "scheduledAutomations": 0
+}
