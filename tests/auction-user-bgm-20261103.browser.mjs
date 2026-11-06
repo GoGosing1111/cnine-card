@@ -25,7 +25,7 @@ for(const profile of [{name:'desktop',width:1440,engine:chromium},{name:'small',
   const f=server.fixture;
   f.sql.prepare('INSERT INTO auction_bgm_rules_v1554 VALUES(?,?,?,?,?,?,?)').run(1,0,123,123,'/existing/first_song.mp3#av=65',60,0);
   f.sql.prepare('INSERT INTO auction_bgm_rules_v1554 VALUES(?,?,?,?,?,?,?)').run(2,0,456,456,'/existing/second_song.mp3#av=20',40,1);
-  const context=await browser.newContext({viewport:{width:profile.width,height:1000},serviceWorkers:'block'}),page=await context.newPage(),errors=[],failed=[];
+  const context=await browser.newContext({viewport:{width:profile.width,height:1000},isMobile:profile.width<560,hasTouch:profile.width<560,serviceWorkers:'block'}),page=await context.newPage(),errors=[],failed=[];
   const monitor=p=>{p.on('pageerror',e=>errors.push(e.message));p.on('response',r=>{if(r.status()>=400)failed.push({status:r.status(),url:r.url()});});};monitor(page);
   await page.addInitScript(instrumentAudio);await page.goto(server.origin+'/preview/auction-user-20261103/index.html');await page.locator('#auc-amount').waitFor();
   await page.getByRole('button',{name:'♪ BGM 발동표'}).click();assert.equal(await page.locator('.auc-bgm-guide-list article').count(),2);assert.match(await page.locator('.auc-bgm-guide-list').innerText(),/first song/);
@@ -34,7 +34,9 @@ for(const profile of [{name:'desktop',width:1440,engine:chromium},{name:'small',
   const playing=await trackCalls(page);assert.equal(playing.length,1);assert.equal(playing[0].volume,.65);assert.match(playing[0].src,/\/existing\/first_song\.mp3\?auctionAudio=\d+$/);
   assert.equal(await page.locator('[data-bgm-message]').innerText(),'<b>음악 그대로</b>');assert.equal(await page.locator('[data-bgm-message] b').count(),0);
   const centered=await page.locator('.auc-bgm-event').evaluate(el=>{const b=el.getBoundingClientRect();return {x:b.x,y:b.y,width:b.width,height:b.height,centerX:b.x+b.width/2,centerY:b.y+b.height/2,viewportWidth:innerWidth,viewportHeight:innerHeight};});
-  assert.ok(Math.abs(centered.centerX-centered.viewportWidth/2)<1);assert.ok(Math.abs(centered.centerY-centered.viewportHeight/2)<1);assert.equal(centered.width,Math.min(560,profile.width-32));assert.ok(centered.height>=210);assert.ok(centered.x>=0&&centered.y>=0);
+  assert.ok(Math.abs(centered.centerX-centered.viewportWidth/2)<1);assert.ok(Math.abs(centered.centerY-centered.viewportHeight/2)<1);assert.equal(centered.width,Math.min(profile.width<560?300:420,profile.width-24));assert.ok(centered.height<210);assert.ok(centered.x>=0&&centered.y>=0);
+  // Move the now-interactive banner clear of the form before normal bidding.
+  await page.locator('.auc-bgm-event').focus();await page.keyboard.press('Home');
   await bid(page,1e7,'일반 입찰');await page.locator('[data-tab="QUEUE"]').click();await page.locator('[data-tab="LIVE"]').click();
   assert.deepEqual(await trackCalls(page),playing);assert.equal(await page.evaluate(()=>window.__audioInstances.length),1);
   assert.equal(await page.locator('[data-bgm-message]').innerText(),'<b>음악 그대로</b>');
@@ -52,8 +54,10 @@ for(const profile of [{name:'desktop',width:1440,engine:chromium},{name:'small',
    const calls=await trackCalls(p),next=calls.find(x=>x.action==='play'&&x.src.includes('second_song'));assert.equal(next.volume,.2);assert.ok(next.currentTime>=0&&next.currentTime<40);
    assert.ok(calls.some(x=>x.action==='pause'&&x.src.includes('first_song')));assert.equal(await p.locator('[data-bgm-message]').innerText(),'입찰했습니다!');
   }
-  await page.screenshot({path:path.join(out,profile.name+'-centered-preview.png'),fullPage:false});
+  await page.screenshot({path:path.join(out,profile.name+'-compact-preview.png'),fullPage:false});
+  await page.locator('.auc-bgm-event').focus();await page.keyboard.press('End');
   await page.locator('[data-lobby]').click();assert.equal(await page.locator('.auc-bgm-event').count(),0);assert.equal(await page.evaluate(()=>window.__audioInstances[0].paused),true);
+  await viewer.locator('.auc-bgm-event').focus();await viewer.keyboard.press('End');
   await viewer.locator('[data-lobby]').click();assert.equal(await viewer.evaluate(()=>window.__audioInstances[0].paused),true);
   assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);
   report.push({profile:profile.name,width:profile.width,centered,guide:true,volumePreserved:true,normalBidDoesNotInterrupt:true,singleAudioElement:true,messageEscaped:true,lateJoinSeeks:true,autoplayFallback:true,sharedQueueOrder:true,stopsOnExit:true,overflow:false,pageErrors:errors,failedResponses:failed,audio:'instrumented; no real audible track or physical device tested'});

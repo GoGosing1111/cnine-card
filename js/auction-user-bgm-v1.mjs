@@ -1,5 +1,40 @@
 import {auctionCoinLabel} from '../shared/auction-user-policy-v1.mjs?v=20261103-live-v1';
 const SILENT='data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQQAAACAgICA';
+const POSITION_KEY='cnine_auction_bgm_position_v1';
+
+// Keep the preferred position relative to the usable viewport so Safari's
+// keyboard/address bar and rotation cannot strand the notification offscreen.
+function makeBannerMovable(banner){
+ let position=.5,drag=null;
+ try{const saved=localStorage.getItem(POSITION_KEY);if(saved!==null&&saved.trim()!==''&&Number.isFinite(Number(saved)))position=Math.max(0,Math.min(1,Number(saved)));}catch{}
+ const viewport=window.visualViewport;
+ function bounds(){
+  const style=getComputedStyle(banner),top=(viewport?.offsetTop||0)+12+(parseFloat(style.getPropertyValue('--auc-bgm-safe-top'))||0);
+  const bottom=(viewport?.offsetTop||0)+(viewport?.height||window.innerHeight)-12-(parseFloat(style.getPropertyValue('--auc-bgm-safe-bottom'))||0);
+  return {top,bottom:Math.max(top,bottom-banner.getBoundingClientRect().height)};
+ }
+ function place(){if(banner.hidden)return;const {top,bottom}=bounds();banner.style.top=`${top+(bottom-top)*position}px`;}
+ function move(top){const range=bounds(),height=range.bottom-range.top;const value=Math.max(range.top,Math.min(range.bottom,top));if(height>0)position=(value-range.top)/height;banner.style.top=`${value}px`;}
+ function save(){try{localStorage.setItem(POSITION_KEY,String(position));}catch{}}
+ function end(e){if(!drag||(e&&e.pointerId!==drag.id))return;const id=drag.id;drag=null;banner.classList.remove('is-dragging');try{if(banner.hasPointerCapture(id))banner.releasePointerCapture(id);}catch{}save();}
+ function down(e){
+  if(e.isPrimary===false||e.button!==0||e.target.closest('button,a,input'))return;
+  drag={id:e.pointerId,y:e.clientY,top:banner.getBoundingClientRect().top};
+  try{banner.setPointerCapture(e.pointerId);}catch{}
+  banner.classList.add('is-dragging');e.preventDefault();
+ }
+ function pointerMove(e){if(!drag||e.pointerId!==drag.id)return;e.preventDefault();move(drag.top+e.clientY-drag.y);}
+ function key(e){
+  if(e.target!==banner||!['ArrowUp','ArrowDown','Home','End'].includes(e.key))return;
+  e.preventDefault();const range=bounds(),step=e.shiftKey?64:24;
+  move(e.key==='Home'?range.top:e.key==='End'?range.bottom:banner.getBoundingClientRect().top+(e.key==='ArrowUp'?-step:step));save();
+ }
+ const resize=()=>{end();place();};
+ const observer=typeof ResizeObserver==='function'?new ResizeObserver(place):null;observer?.observe(banner);
+ banner.addEventListener('pointerdown',down);banner.addEventListener('pointermove',pointerMove);banner.addEventListener('pointerup',end);banner.addEventListener('pointercancel',end);banner.addEventListener('lostpointercapture',end);banner.addEventListener('keydown',key);
+ window.addEventListener('resize',resize);viewport?.addEventListener('resize',resize);viewport?.addEventListener('scroll',place);
+ return {place,cancel:end,destroy(){end();observer?.disconnect();window.removeEventListener('resize',resize);viewport?.removeEventListener('resize',resize);viewport?.removeEventListener('scroll',place);banner.removeEventListener('pointerdown',down);banner.removeEventListener('pointermove',pointerMove);banner.removeEventListener('pointerup',end);banner.removeEventListener('pointercancel',end);banner.removeEventListener('lostpointercapture',end);banner.removeEventListener('keydown',key);}};
+}
 export function auctionAudioSource(raw,sequence,base=location.href){
  const text=String(raw||''),volume=Math.max(0,Math.min(1,Number(text.match(/#av=(\d{1,3})$/)?.[1]??25)/100));
  const clean=text.replace(/#av=\d{1,3}$/,'').replace(/\\/g,'/');
@@ -12,14 +47,15 @@ export function auctionAudioSource(raw,sequence,base=location.href){
 // ranking refreshes must not reload, pause or restart the current track.
 export function createAuctionBgmPlayer({root,api,AudioClass=Audio,now=Date.now,pollMs=2000}){
  const events=new Map(),finished=new Set();let lotId=null,lastSequence=0,offset=0,current=null,media=null,destroyed=false,polling=false,generation=0,unlocked=false,blocked=false;
- const banner=document.createElement('section');banner.className='auc-bgm-event auc-skin';banner.hidden=true;banner.setAttribute('role','status');banner.setAttribute('aria-live','polite');
- banner.innerHTML='<img src="/assets/ui/tactical-20261030/auction.webp" alt=""><div><small>BGM 입찰</small><strong data-bgm-bidder></strong><span data-bgm-amount></span><q data-bgm-message hidden></q><small data-bgm-status></small><button type="button" class="auc-text-button" data-bgm-play hidden>음악 듣기</button></div>';
+ const banner=document.createElement('section');banner.className='auc-bgm-event auc-skin';banner.hidden=true;banner.tabIndex=0;banner.setAttribute('role','status');banner.setAttribute('aria-live','polite');banner.setAttribute('aria-label','BGM 입찰 알림. 위아래로 끌거나 방향키로 이동');
+ banner.innerHTML='<img src="/assets/ui/tactical-20261030/auction.webp" alt="" draggable="false"><div><div class="auc-bgm-heading"><small>BGM 입찰</small><small class="auc-bgm-drag-hint" aria-hidden="true">↕ 이동</small></div><strong data-bgm-bidder></strong><span data-bgm-amount></span><q data-bgm-message hidden></q><small data-bgm-status></small><button type="button" class="auc-text-button" data-bgm-play hidden>음악 듣기</button></div>';
  document.body.append(banner);
+ const placement=makeBannerMovable(banner);
  const clockNow=()=>now()+offset;
  function audio(){if(!media){media=new AudioClass();media.preload='auto';media.playsInline=true;media.setAttribute('playsinline','');media.setAttribute('webkit-playsinline','');media.addEventListener('ended',()=>{if(current)finish();});}return media;}
  function stopAudio(){generation++;if(media){media.pause();media.removeAttribute('src');media.load();}blocked=false;}
- function finish(){if(current)finished.add(current.id);current=null;stopAudio();banner.hidden=true;}
- function show(event){banner.hidden=false;banner.querySelector('[data-bgm-bidder]').textContent=event.nickname;banner.querySelector('[data-bgm-amount]').textContent=`+${auctionCoinLabel(event.amount)} 코인`;const message=banner.querySelector('[data-bgm-message]');message.textContent=event.message||'';message.hidden=!event.message;}
+ function finish(){if(current)finished.add(current.id);current=null;stopAudio();placement.cancel();banner.hidden=true;}
+ function show(event){banner.hidden=false;banner.querySelector('[data-bgm-bidder]').textContent=event.nickname;banner.querySelector('[data-bgm-amount]').textContent=`+${auctionCoinLabel(event.amount)} 코인`;const message=banner.querySelector('[data-bgm-message]');message.textContent=event.message||'';message.hidden=!event.message;placement.place();}
  function seek(event){if(!media||current?.id!==event.id)return;const elapsed=Math.max(0,(clockNow()-event.startsMs)/1000);try{media.currentTime=Number.isFinite(media.duration)?Math.min(elapsed,Math.max(0,media.duration-.05)):elapsed;}catch{}}
  function play(event){
   if(destroyed||clockNow()>=event.endsMs)return;const player=audio(),stamp=++generation;
@@ -61,6 +97,6 @@ export function createAuctionBgmPlayer({root,api,AudioClass=Audio,now=Date.now,p
  return {
   update(state){const next=state?.active?.id||null;if(next!==lotId){finish();events.clear();finished.clear();lastSequence=0;lotId=next;void poll();}},
   poll,ingest,
-  destroy(){destroyed=true;clearInterval(pollTimer);clearInterval(tickTimer);root.removeEventListener('pointerdown',unlock);root.removeEventListener('keydown',unlock);finish();banner.remove();}
+  destroy(){destroyed=true;clearInterval(pollTimer);clearInterval(tickTimer);root.removeEventListener('pointerdown',unlock);root.removeEventListener('keydown',unlock);finish();placement.destroy();banner.remove();}
  };
 }

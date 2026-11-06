@@ -1,0 +1,83 @@
+[
+  {
+    "profile": "desktop",
+    "width": 1440,
+    "centered": {
+      "x": 510,
+      "y": 411.53125,
+      "width": 420,
+      "height": 176.921875,
+      "centerX": 720,
+      "centerY": 499.9921875,
+      "viewportWidth": 1440,
+      "viewportHeight": 1000
+    },
+    "guide": true,
+    "volumePreserved": true,
+    "normalBidDoesNotInterrupt": true,
+    "singleAudioElement": true,
+    "messageEscaped": true,
+    "lateJoinSeeks": true,
+    "autoplayFallback": true,
+    "sharedQueueOrder": true,
+    "stopsOnExit": true,
+    "overflow": false,
+    "pageErrors": [],
+    "failedResponses": [],
+    "audio": "instrumented; no real audible track or physical device tested"
+  },
+  {
+    "profile": "small",
+    "width": 320,
+    "centered": {
+      "x": 12,
+      "y": 429.234375,
+      "width": 296,
+      "height": 141.53125,
+      "centerX": 160,
+      "centerY": 500,
+      "viewportWidth": 320,
+      "viewportHeight": 1000
+    },
+    "guide": true,
+    "volumePreserved": true,
+    "normalBidDoesNotInterrupt": true,
+    "singleAudioElement": true,
+    "messageEscaped": true,
+    "lateJoinSeeks": true,
+    "autoplayFallback": true,
+    "sharedQueueOrder": true,
+    "stopsOnExit": true,
+    "overflow": false,
+    "pageErrors": [],
+    "failedResponses": [],
+    "audio": "instrumented; no real audible track or physical device tested"
+  },
+  {
+    "profile": "webkit",
+    "width": 390,
+    "centered": {
+      "x": 45,
+      "y": 429.234375,
+      "width": 300,
+      "height": 141.53125,
+      "centerX": 195,
+      "centerY": 500,
+      "viewportWidth": 390,
+      "viewportHeight": 1000
+    },
+    "guide": true,
+    "volumePreserved": true,
+    "normalBidDoesNotInterrupt": true,
+    "singleAudioElement": true,
+    "messageEscaped": true,
+    "lateJoinSeeks": true,
+    "autoplayFallback": true,
+    "sharedQueueOrder": true,
+    "stopsOnExit": true,
+    "overflow": false,
+    "pageErrors": [],
+    "failedResponses": [],
+    "audio": "instrumented; no real audible track or physical device tested"
+  }
+]
