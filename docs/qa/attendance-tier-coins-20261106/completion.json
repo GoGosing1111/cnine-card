@@ -1,0 +1,135 @@
+{
+  "operationKey": "ops:attendance-tier-coins:20261106:v1",
+  "status": "COMPLETED",
+  "completedAt": "2026-11-06T10:47:56.326Z",
+  "completedAtKST": "2026-11-06 19:47:56",
+  "auditId": "55380",
+  "cutoff": "2026-11-06 10:43:58.723597+00",
+  "cutoffKST": "2026-11-06 19:43:58",
+  "delivery": "MESSAGE",
+  "secondaryVerificationRequired": true,
+  "highestTierOnly": true,
+  "oneTime": true,
+  "tiers": [
+    {
+      "days": "100+",
+      "recipients": 80,
+      "amountEach": "500000000000000",
+      "totalCoin": "40000000000000000"
+    },
+    {
+      "days": "50-99",
+      "recipients": 134,
+      "amountEach": "300000000000000",
+      "totalCoin": "40200000000000000"
+    },
+    {
+      "days": "15-49",
+      "recipients": 103,
+      "amountEach": "150000000000000",
+      "totalCoin": "15450000000000000"
+    }
+  ],
+  "verification": {
+    "recipients": 317,
+    "tier15": 103,
+    "tier50": 134,
+    "tier100": 80,
+    "totalCoin": "95650000000000000",
+    "messages": 317,
+    "rewardAttachments": 317,
+    "claimed": 3,
+    "pending": 314,
+    "excluded": {
+      "UNVERIFIED": 99,
+      "ACCOUNT_INACTIVE": 3
+    },
+    "missing": 0,
+    "duplicates": 0
+  },
+  "roleCounts": {
+    "USER": 315,
+    "ADMIN": 2
+  },
+  "providerCounts": {
+    "PLAYDK": 317
+  },
+  "planHash": "fe8f0b439571ec7388fde9b127ed8ed78afdf2822b5f4023fff116162d62c668",
+  "executionHash": "7e8ff4da2f81b0b22b1dd33c759e45e9b3fbd49822aa477f1d6c8855700abb54",
+  "messageSyncChanged": 317,
+  "tests": {
+    "passed": 5,
+    "failed": 0,
+    "source": {
+      "deployedCommit": "89694612aca7e1db9dc098e67895f95b880e10cf",
+      "specsHash": "d6dd383ad052b203c51d6240cb10c35a0f4edc38bb2be35e3bf65c4cfe9a32f1",
+      "claimHash": "37b81b50ce2bd34b8a79b7f67a6c53f4ceeeeaab8fef418acf9374c4737bf2b1",
+      "compatAndBatchMatched": true,
+      "checkedAt": "2026-11-06T10:45:35.410Z"
+    }
+  },
+  "transactionChecks": {
+    "operationLockContentionRejected": true,
+    "wrongPlanRejected": true,
+    "actualSqlFailureRolledBack": true,
+    "successRolledBack": true,
+    "messageSyncRolledBack": true,
+    "onlyMessageAuditReceiptAndSyncWrites": true,
+    "noWalletInventoryWrites": true,
+    "selectOnlyReplay": true,
+    "noDeliveryAfterRollback": true,
+    "allMessageSyncChanged": true
+  },
+  "replay": {
+    "readOnlyTransaction": true,
+    "selectOnly": true,
+    "additionalWrites": 0
+  },
+  "previousCampaigns": [
+    {
+      "key": "ops:attendance-verified-coins:20261027:v1",
+      "receiptHash": "88eb73f202d93f8250550b1b4318e3741aa65913c72e1c013b4e3e026784c30f",
+      "auditId": "52110"
+    },
+    {
+      "key": "ops:season-pass-coin500t-messages:20261106:v1",
+      "receiptHash": "3ffd8bef6e418903efcd7a579b3f966d6408d46b38997e805abb424bf2699402",
+      "auditId": "55063"
+    },
+    {
+      "key": "ops:verified-coin100t-messages:20261104:v1",
+      "receiptHash": "9388a45c50bf38e16eeef5add8a8e11c59a6e9645a227e2da0ee4b11266a495f",
+      "auditId": "54366"
+    },
+    {
+      "key": "ops:verified-coin250t-messages:20261105:v1",
+      "receiptHash": "e2df797bae42cf8081ffa231e2077c8b0972f39c73339b82151c7b2a252157e9",
+      "auditId": "54527"
+    }
+  ],
+  "deployedCommit": "89694612aca7e1db9dc098e67895f95b880e10cf",
+  "pagesId": "767825e6-693f-4fc9-aca9-a677525f7b3b",
+  "gameRedeployments": 0,
+  "directWalletCredit": 0,
+  "scheduledTasksCreated": 0,
+  "storageMaintenance": false,
+  "artifactHashes": {
+    "common.mjs": "dc583564ba1dab1664c1f95a9a360f8622bc673f29bbe119906e544659fc623d",
+    "inspect.mjs": "4089ac6bd9a2771066c104dc53a85213cc106a3ca3c38fbfca10af1baa2bd1b0",
+    "grant.mjs": "ea8a98b8e017bb5f72ca842bbfb0add8a744079fa293aba810ce930d86d3599f",
+    "run.mjs": "45c0a2d0b5abf0bbc35539ad88a1931a1c700ca1eec043d66b7b4beca362e853",
+    "claim.test.mjs": "491594010c126a549dc3447edd9cc995d98f6b90f130b4e6cf4b773e1971994a",
+    "test.mjs": "2e24fef75a47631e59bfae9d675bda68385a04ab6d6ef81998220902e29bc7ff",
+    "source.mjs": "baa12e2832006906884f194e8f99f7d55e479217cd02634e314f5cfe1f730da8",
+    "plan.json": "befe10a907576d6a3ea59566a9824c5e74890d285d5359080a0127c03d54cf3b",
+    "plan-hash.json": "01dbe06288bc049ad02277c1a1bf1415d97f84d58c913c12d993b1ccf90df10f",
+    "dry-run.json": "cbdc7245f35dae95c308f5155ce953068a42c1f6360a690b9c00ce095768cffe",
+    "apply.json": "62f05c7e6763ed094165e7120617617ed270e861438e3541f1c0cd9de3001070",
+    "verify.json": "e22bf1a21b11fde600165d611b438cfdd450ff73cffec5e818875c8773075c94",
+    "replay.json": "fa4481048305a06dfdfeb2a51c43a0cacad807c27aa7080055123e6a953caff2",
+    "receipt.json": "5bfcfe3da6d0e807214533537afff2a45731914e7fca6c4b598595dee96f2c25",
+    "claim-test-result.json": "efc7ffc6861a96d87fc98d892e65a1cb92728cbd0c113ec1405fdaeb12e039b3",
+    "claim-source-verification.json": "254823c7eafd85bf28f70c2739c3ae0708e6aaa2ab5b59af4f4ccdc0f0c87a44"
+  },
+  "verifiedAt": "2026-11-06T10:48:08.536Z"
+}
