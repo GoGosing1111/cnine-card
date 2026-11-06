@@ -1,0 +1,58 @@
+{
+  "sourceImageSha256": "c4f4ea6d93f72f35d847b6c45e2564338116c543a86bb20a04e602cd08e070bc",
+  "account": {
+    "id": 5362,
+    "nickname": "점빡이",
+    "currentFloor": 90,
+    "highestCleared": 89,
+    "pending": false
+  },
+  "before": {
+    "events": 584,
+    "officialElapsedMs": 10260,
+    "remaining": "02:49.74",
+    "failure": "배틀슈트 탄착 대기열이 남아 증원을 중단했습니다."
+  },
+  "after": [
+    {
+      "width": 390,
+      "events": 714,
+      "finalType": "RESULT",
+      "finalWinner": "B",
+      "queue": [],
+      "errors": [],
+      "maxDrainMs": 8299.10000000894
+    },
+    {
+      "width": 1440,
+      "events": 714,
+      "finalType": "RESULT",
+      "finalWinner": "B",
+      "queue": [],
+      "errors": [],
+      "maxDrainMs": 8282.60000000894
+    }
+  ],
+  "pvp": [
+    {
+      "width": 390,
+      "mode": "PVP",
+      "entry": "actual start button; no preloading bypass",
+      "staleRendererRecovery": false,
+      "result": true,
+      "return": true,
+      "actors": [
+        {
+          "id": "A:MERCENARY:V-966",
+          "visible": true,
+          "alpha": 1
+        }
+      ],
+      "levels": [
+        21
+      ]
+    }
+  ],
+  "productionWrites": 0,
+  "realDevice": false
+}

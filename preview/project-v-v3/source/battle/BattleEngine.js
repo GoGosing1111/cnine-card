@@ -1681,13 +1681,24 @@ export class BaseBattleEngine{
     // A directly played shot can still be in flight without a sustained loop.
     // Yield to its animation instead of repeatedly resolving the drain early.
     const run=this.accountBattleUnitFireRun,epoch=this.playbackEpoch;
-    const deadline=performance.now()+Math.max(0,Number(timeoutMs)||0);
+    const timeout=Math.max(0,Number(timeoutMs)||0);
+    let lastProgress=performance.now(),head=this.accountBattleUnitDamageQueue?.[0];
+    let shots=this.accountBattleUnitSustainedShotCount;
     return new Promise(resolve=>{
       const poll=()=>{
         const queued=this.accountBattleUnitDamageQueue?.length||0;
         const firing=Boolean(this.accountBattleUnit?.fireTimeline);
         if(epoch!==this.playbackEpoch||(run&&(!run.active||this.accountBattleUnitFireRun!==run))||(!queued&&!firing))return resolve(true);
-        if(performance.now()>=deadline)return resolve(false);
+        const now=performance.now(),nextHead=this.accountBattleUnitDamageQueue?.[0];
+        const nextShots=this.accountBattleUnitSustainedShotCount;
+        // Sixteen alternating sword targets require separate authored attacks
+        // and can take over six seconds even while every receipt is landing.
+        // Bound a STALL, not the whole moving queue. Appending more receipts
+        // cannot renew this budget, and a real stall still leaves them intact.
+        const paused=this.skillChipPlayback?.userPaused||this.skillChipPlayback?.holds||this.accountBattleUnitIsPaused?.();
+        if(paused||nextHead!==head||nextShots!==shots)lastProgress=now;
+        head=nextHead;shots=nextShots;
+        if(now-lastProgress>=timeout)return resolve(false);
         setTimeout(poll,40);
       };
       poll();
@@ -1696,7 +1707,7 @@ export class BaseBattleEngine{
 
   async stopAccountBattleUnitSustainedFire({drain=false,drainTimeoutMs=null}={}){
     // V1990: 전투 끝에 아직 큐에 남은 서버 사격을 먼저 다 쏘고(데미지 숫자 포함) 멈춘다.
-    //   대기 한도는 밀린 발수에 비례(발당 ~120ms, 최대 6초).
+    //   진행 정지 한도는 밀린 발수에 비례하며, 정상 진행 중인 공격은 끝까지 기다린다.
     if(drain){
       const backlog=this.accountBattleUnitDamageQueue?.length||0;
       const timeout=hasFiniteNumber(drainTimeoutMs)?Number(drainTimeoutMs):this.accountBattleUnit?.swordAnimation?Math.max(6000,3000*Math.ceil(backlog/48)+3000):clamp(400+backlog*120,400,6000);
