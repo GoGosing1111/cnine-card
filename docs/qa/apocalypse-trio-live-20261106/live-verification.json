@@ -1,0 +1,231 @@
+{
+  "at": "2026-11-06T08:10:19.838Z",
+  "id": "b0d793d7-0ef2-4539-968c-36ae7fd3fcc4",
+  "url": "https://b0d793d7.cnine-card.pages.dev",
+  "status": "success",
+  "commit": "6f1b154f014cc2859234101bc9de97051032c5cd",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "746dd399-cf46-4960-b1fd-a5c649aa8d18",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "b759b1e2-d08f-45b7-afdf-4b6440d0403b",
+      "percentage": 100
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "admin/apocalypse-admin-v1952.js",
+      "sha256": "c5a8fccc907ff938c11cfe98bb417b032fe4cb925afbe9aaf676e650f8294819"
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "5a7919b0aa0a2448f5be7b43ccb40fa9e53aefb4e75ee99f89b1a106db0ca074"
+    },
+    {
+      "file": "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/archdemon-action-poses-v1.png",
+      "sha256": "96069ad87428c522cfba20441e34ddc29d2036aeb7472ed4a21ee1d70f52bd17"
+    },
+    {
+      "file": "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/archdemon-battle-ready-v1.png",
+      "sha256": "bf15f2668dbb96445199f8d7af7dacd1652bb13303031de43581e856feed1b01"
+    },
+    {
+      "file": "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/archdemon-cutin-v1.png",
+      "sha256": "3932839607fbeda3bf052df3fa5546ecbec4e4c70940eeca7acf1ec316a26ffb"
+    },
+    {
+      "file": "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/archdemon-ultimate-sheet-v2.png",
+      "sha256": "62efdf4940149eec598892a518a2969017731d3a53b209bf36b230a1ec342935"
+    },
+    {
+      "file": "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/hell-general-action-poses-v1.png",
+      "sha256": "85b1b56e90fea4b0da2d746a8431fc0756ad31c4f209724a0bbf90b485cbc33c"
+    },
+    {
+      "file": "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/hell-general-battle-ready-v1.png",
+      "sha256": "3211d91bb540cd4f12f740e1ca646242133b6a4d3a402ef3881ca694770919a9"
+    },
+    {
+      "file": "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/hell-general-cutin-v1.png",
+      "sha256": "4863da3f36717afdf24f08ea5a422938a8fdf0d74ef23dceecfb93e871362cfb"
+    },
+    {
+      "file": "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/hell-general-ultimate-sheet-v2.png",
+      "sha256": "44606ea197dbce1049cf6e209312e21d1227b6679ac3823c478c0e1581b3b045"
+    },
+    {
+      "file": "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/infected-soldier-action-poses-v1.png",
+      "sha256": "af56eeb386c240f95947a135427d9f8838960501cda15618fd9a5b7e7ccd58c2"
+    },
+    {
+      "file": "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/infected-soldier-battle-ready-v1.png",
+      "sha256": "3cb4fe0f4dc78a69a974eedac47c597ed8de7d8a7136c4d886f2c46d90046131"
+    },
+    {
+      "file": "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/infected-soldier-cutin-v1.png",
+      "sha256": "3ebc79117168f4e623264ca37b4edcde5084a792d85005ac45dbf74f7f86ec73"
+    },
+    {
+      "file": "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/infected-soldier-ultimate-sheet-v2.png",
+      "sha256": "fa2c7f9f4a649d4fa3d9a3ca3748a62cb245beeb7930ecafe6033c678b61833f"
+    },
+    {
+      "file": "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/status-effects-sheet-v1.png",
+      "sha256": "8bd4e09df09e7474dc276b7f35831351d864d5a288649eb1d1eff81a3cf37930"
+    },
+    {
+      "file": "assets/ui/project-v/monsters/approved-20261106/apocalypse-trio/archdemon-source-art-approved-v3.png",
+      "sha256": "da3408b4f9c8a1181158c3c86766223ae04c8f6847a8276b726c02d175ed5245"
+    },
+    {
+      "file": "assets/ui/project-v/monsters/approved-20261106/apocalypse-trio/hell-general-source-art-approved-v3.png",
+      "sha256": "ade9f67f17e7f9cfb5b0a70ade060c92197534e254e264a23d71c6678ecf5d7e"
+    },
+    {
+      "file": "assets/ui/project-v/monsters/approved-20261106/apocalypse-trio/infected-soldier-source-art-approved-v3.png",
+      "sha256": "f399d9db90c35a9c5f47fb383f6f2f5df1580d382fa00006545a109b2bc5359f"
+    },
+    {
+      "file": "index.html",
+      "sha256": "0c2715205d1a392d9ea24dd24416d55b1b478b2a927a48553a1e3bae07363212"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "36b9aa60916c2b744331635a94e1c3cdc8fb007c492dff1c346dccc4c5874983"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "dca35fbb864989b605248686bcfd0f1127b3bdbc0d48d55e5660b8c2a22438af"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "70849be88852db3d8a9153c55c34ff632345f965f3b179a4098d55f0b757ef32"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "73988bad96cedb586ecfe060077383f3de751862b240e5f6182b494548f6e2b3"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "sha256": "7ffd7aa9b3dc83bbfaa32ada0a4116b2a3b23feb605c1065b3e01274d9a75bce"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "sha256": "9ecb9f642e1d4d273bb325bfa6b29063a19b3914c37a7a0b089a58dd26e1249a"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "sha256": "e96122953e7ff3aaf6aaf679fd752ecdbb02136795d096f3c2a85c7f5d79ee85"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "sha256": "acd745a915823ce5a1ad8514cd596f704d3118149d15dd6e969338fb78fd87b0"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "215b457a059ccee363c80b00d8c7980aeeaee54451d2c746d368c4752877143f"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "sha256": "b131b2d6032d9b66516fafb9e976cb4da9b50bc0be7cd4f158b6a64079a3ae0b"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "f9a64cc7bf3adaa253bf08c866067ac3a66085f413d643487182b4dba5e14eca"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/ApocalypseLegionFX.js",
+      "sha256": "05559d43a6081cd18db66c805bb9ac268589e06f54fb343c9a7bb20e4e3079f5"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js",
+      "sha256": "147d672347762a4faeaec861f6ddae7a46f6399389354ea77d3d2012a709742e"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/BattleEngine.js",
+      "sha256": "01a5cf5dbea514736a7065c10e4be4db1ca94df424d4f37778ead80a3b727cd7"
+    },
+    {
+      "file": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+      "sha256": "2d3506cfc440a1f1ef16f1097af4a792d954f7cd00368cadefb447c55f46c4c6"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "sha256": "58733a00fe9cba716db4f1aa2335783f431af50222da81fc770be5073af92b72"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "bba7fa5949b2322276e1f8d70c3ed3fee0cc1365bb9901088678459cfd7138ea"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/app.bundle.js",
+      "sha256": "a5f14034e050947670d3a48dde05e36c6e2c0ed0f0e577ca5008662b579aa6be"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "sha256": "3e5beb62aa01a89b576df2af4f653b87383ab0cc38c3909e77e738bbed98c93b"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "bf5c559d5da1ad2811dc6d4609fa601acf1e41c883aab3d9ce9e9f37de86e28b"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "20bc333a6ca89083512b801f2fba8f9c4014fdd88d2597a3090ce560b7cc1167"
+    },
+    {
+      "file": "shared/apocalypse-legion-v1.mjs",
+      "sha256": "6a07785bc91a689f17744564728949127f9604d9e9a1b906d8e89999f18718f5"
+    },
+    {
+      "file": "shared/apocalypse-trio-v1.mjs",
+      "sha256": "91606712a8198844208d7758e18c8e03662f8f9e2d1d40a940889323e4a450dd"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "d26750aed9481e20dc98875f5fbb78c1812268a405f1b80a9545ed57999f7632"
+    }
+  ],
+  "windows": [
+    "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/archdemon-action-poses-v1.png",
+    "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/archdemon-battle-ready-v1.png",
+    "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/archdemon-cutin-v1.png",
+    "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/archdemon-ultimate-sheet-v2.png",
+    "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/hell-general-action-poses-v1.png",
+    "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/hell-general-battle-ready-v1.png",
+    "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/hell-general-cutin-v1.png",
+    "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/hell-general-ultimate-sheet-v2.png",
+    "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/infected-soldier-action-poses-v1.png",
+    "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/infected-soldier-battle-ready-v1.png",
+    "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/infected-soldier-cutin-v1.png",
+    "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/infected-soldier-ultimate-sheet-v2.png",
+    "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/status-effects-sheet-v1.png",
+    "assets/ui/project-v/monsters/approved-20261106/apocalypse-trio/archdemon-source-art-approved-v3.png",
+    "assets/ui/project-v/monsters/approved-20261106/apocalypse-trio/hell-general-source-art-approved-v3.png",
+    "assets/ui/project-v/monsters/approved-20261106/apocalypse-trio/infected-soldier-source-art-approved-v3.png",
+    "index.html",
+    "js/app.js",
+    "js/battle-v3-live.js",
+    "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+    "preview/boss-resources-v2048/lab.bundle.js",
+    "preview/coop-defense-v1/defense.bundle.js",
+    "preview/cow-room-v3-v1/battle.bundle.js",
+    "preview/infinite-tower-v3-v1/battle.bundle.js",
+    "preview/project-v-mercenary-system-v1/skills.bundle.js",
+    "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+    "preview/scrapyard-v3-v1/battle.bundle.js",
+    "preview/sustained-hunt-v2/battle.bundle.js",
+    "preview/v3-wide-grid-v1/app.bundle.js",
+    "preview/v3-wide-grid-v1/battle.bundle.js",
+    "pve-v3/battle.bundle.js",
+    "shared/apocalypse-legion-v1.mjs",
+    "shared/apocalypse-trio-v1.mjs",
+    "shared/onestore-web-assets-v1.mjs"
+  ],
+  "assetCount": 20000,
+  "operationalAccountWrites": 0
+}

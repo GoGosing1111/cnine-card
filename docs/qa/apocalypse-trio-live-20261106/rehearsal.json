@@ -1,0 +1,119 @@
+{
+  "at": "2026-11-06T07:50:54.517Z",
+  "status": "PASS",
+  "failureRolledBack": true,
+  "normalRolledBack": true,
+  "beforeHash": "666aa919890b333a08ce69a69f38365fb10e3d87159a349efad05b2570df6200",
+  "afterHash": "666aa919890b333a08ce69a69f38365fb10e3d87159a349efad05b2570df6200",
+  "registeredPlan": [
+    {
+      "id": 81,
+      "name": "카르겐",
+      "subtitle": "종말의 저격수",
+      "battlePower": 66000000000,
+      "displayOrder": 44,
+      "profile": {
+        "battlePower": 66000000000,
+        "rewardCoin": 150000000,
+        "clearBonus": {
+          "coinPercent": null,
+          "masterStars": 1000000,
+          "mysticEnergy": null
+        },
+        "hpPercent": 350,
+        "attackPercent": 475,
+        "defensePercent": 375,
+        "speedPercent": 375,
+        "rewardPercent": 1000,
+        "shieldPercent": 70,
+        "attackCount": 2,
+        "forcedActionEvery": 4,
+        "skillEnabled": true,
+        "skillName": "감염 표식 · 신경 구속 · 역병 포자 · 회복 고갈 · 종말 사격 · 사멸탄",
+        "skillDescription": "폐허에서 표적을 고정한 뒤, 감염탄으로 전선을 꿰뚫습니다.",
+        "skillDamagePercent": 95,
+        "legionUltimate": {
+          "enabled": true,
+          "attackPercent": 30,
+          "shieldPiercePercent": 65
+        },
+        "battleSuitSkillDefensePercent": 50
+      },
+      "effectiveRewardCoin": 1500000000,
+      "minions": 6
+    },
+    {
+      "id": 82,
+      "name": "발카르",
+      "subtitle": "지옥군단의 대장군",
+      "battlePower": 220000000000,
+      "displayOrder": 45,
+      "profile": {
+        "battlePower": 220000000000,
+        "rewardCoin": 250000000,
+        "clearBonus": {
+          "coinPercent": null,
+          "masterStars": 2000000,
+          "mysticEnergy": null
+        },
+        "hpPercent": 350,
+        "attackPercent": 475,
+        "defensePercent": 375,
+        "speedPercent": 375,
+        "rewardPercent": 1000,
+        "shieldPercent": 70,
+        "attackCount": 2,
+        "forcedActionEvery": 4,
+        "skillEnabled": true,
+        "skillName": "군령 · 철쇄 봉인 · 낙인 · 불멸의 군율 · 최후의 군령 · 왕검 처형",
+        "skillDescription": "방패로 퇴로를 봉쇄하고, 전장을 가르는 왕검으로 처형합니다.",
+        "skillDamagePercent": 95,
+        "legionUltimate": {
+          "enabled": true,
+          "attackPercent": 30,
+          "shieldPiercePercent": 65
+        },
+        "battleSuitSkillDefensePercent": 50
+      },
+      "effectiveRewardCoin": 2500000000,
+      "minions": 6
+    },
+    {
+      "id": 83,
+      "name": "모르가스",
+      "subtitle": "세계를 찢는 자",
+      "battlePower": 660000000000,
+      "displayOrder": 46,
+      "profile": {
+        "battlePower": 660000000000,
+        "rewardCoin": 400000000,
+        "clearBonus": {
+          "coinPercent": null,
+          "masterStars": 3000000,
+          "mysticEnergy": null
+        },
+        "hpPercent": 350,
+        "attackPercent": 475,
+        "defensePercent": 375,
+        "speedPercent": 375,
+        "rewardPercent": 1000,
+        "shieldPercent": 70,
+        "attackCount": 2,
+        "forcedActionEvery": 4,
+        "skillEnabled": true,
+        "skillName": "골옥 · 영혼 구속 · 공허 침식 · 생명 소거 · 세계 붕괴 · 종언의 균열",
+        "skillDescription": "네 팔로 공간을 벌리고, 거대한 균열 속으로 전장을 무너뜨립니다.",
+        "skillDamagePercent": 95,
+        "legionUltimate": {
+          "enabled": true,
+          "attackPercent": 30,
+          "shieldPiercePercent": 65
+        },
+        "battleSuitSkillDefensePercent": 50
+      },
+      "effectiveRewardCoin": 4000000000,
+      "minions": 6
+    }
+  ],
+  "operationalAccountWrites": 0
+}

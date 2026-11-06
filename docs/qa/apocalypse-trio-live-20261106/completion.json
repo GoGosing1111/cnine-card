@@ -1,0 +1,63 @@
+{
+  "status": "LIVE_COMPLETE",
+  "completedAt": "2026-11-06T08:14:32.332Z",
+  "source": "6f1b154f014cc2859234101bc9de97051032c5cd",
+  "pages": "b0d793d7-0ef2-4539-968c-36ae7fd3fcc4",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "746dd399-cf46-4960-b1fd-a5c649aa8d18",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "b759b1e2-d08f-45b7-afdf-4b6440d0403b",
+      "percentage": 100
+    }
+  ],
+  "operationKey": "ops:apocalypse-trio-live:20261106:v1",
+  "auditId": "55297",
+  "registeredAt": "2026-11-06T08:11:37.170Z",
+  "bosses": [
+    {
+      "id": 81,
+      "name": "카르겐",
+      "power": 66000000000,
+      "basicCoin": 1500000000,
+      "masterStars": 1000000,
+      "displayOrder": 44
+    },
+    {
+      "id": 82,
+      "name": "발카르",
+      "power": 220000000000,
+      "basicCoin": 2500000000,
+      "masterStars": 2000000,
+      "displayOrder": 45
+    },
+    {
+      "id": 83,
+      "name": "모르가스",
+      "power": 660000000000,
+      "basicCoin": 4000000000,
+      "masterStars": 3000000,
+      "displayOrder": 46
+    }
+  ],
+  "publicFiles": 43,
+  "windowsFiles": 34,
+  "assetCount": 20000,
+  "automatedChecks": 51,
+  "localBattles": 6,
+  "localSkills": 18,
+  "localPvpLifecycles": 2,
+  "publicMobileBattles": 3,
+  "publicMobileSkills": 9,
+  "staticImageCut": true,
+  "existingActorMotion": true,
+  "soldierReversed": true,
+  "settingsPreserved": true,
+  "replayWrites": 0,
+  "operationalAccountWrites": 0,
+  "realDeviceTest": false
+}

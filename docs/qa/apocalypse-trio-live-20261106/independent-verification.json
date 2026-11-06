@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "at": "2026-11-06T08:11:50.498Z",
+  "transaction": {
+    "checked_at": "2026-11-06T08:11:48.233Z",
+    "read_only": "on"
+  },
+  "bosses": [
+    {
+      "id": 81,
+      "name": "카르겐",
+      "power": 66000000000,
+      "basicCoin": 1500000000,
+      "masterStars": 1000000,
+      "displayOrder": 44
+    },
+    {
+      "id": 82,
+      "name": "발카르",
+      "power": 220000000000,
+      "basicCoin": 2500000000,
+      "masterStars": 2000000,
+      "displayOrder": 45
+    },
+    {
+      "id": 83,
+      "name": "모르가스",
+      "power": 660000000000,
+      "basicCoin": 4000000000,
+      "masterStars": 3000000,
+      "displayOrder": 46
+    }
+  ],
+  "audit": {
+    "id": "55297",
+    "action_type": "APOCALYPSE_BOSSES_REGISTER",
+    "target_id": "81,82,83"
+  },
+  "settingsPreserved": true,
+  "replaySelects": 2,
+  "replayWrites": 0,
+  "operationalAccountWrites": 0,
+  "receiptSha256": "adf1018e25b5615d69cf8e9b2d1d541b5fc6bde648f135121cef74bafff45b4f"
+}
