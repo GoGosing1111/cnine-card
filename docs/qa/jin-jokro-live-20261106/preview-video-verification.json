@@ -1,0 +1,131 @@
+{
+  "passed": true,
+  "rows": [
+    {
+      "width": 1440,
+      "file": "ultimate-duo-normal.webm",
+      "time": 0.2575,
+      "error": null,
+      "src": "http://127.0.0.1:18916/preview/v35-jin-jokro-20261106/qa/approved-live-v12/ultimate-duo-normal.webm",
+      "rate": 1,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "file": "ultimate-duo-half.webm",
+      "time": 0.2597,
+      "error": null,
+      "src": "http://127.0.0.1:18916/preview/v35-jin-jokro-20261106/qa/approved-live-v12/ultimate-duo-half.webm",
+      "rate": 1,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "file": "ultimate-storm.webm",
+      "time": 0.2601,
+      "error": null,
+      "src": "http://127.0.0.1:18916/preview/v35-jin-jokro-20261106/qa/approved-live-v12/ultimate-storm.webm",
+      "rate": 1,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "file": "ultimate-descent.webm",
+      "time": 0.2543,
+      "error": null,
+      "src": "http://127.0.0.1:18916/preview/v35-jin-jokro-20261106/qa/approved-live-v12/ultimate-descent.webm",
+      "rate": 1,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "file": "jin-jokro-normal.webm",
+      "time": 0.256,
+      "error": null,
+      "src": "http://127.0.0.1:18916/preview/v35-jin-jokro-20261106/qa/approved-live-v12/jin-jokro-normal.webm",
+      "rate": 1,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "file": "jin-jokro-half.webm",
+      "time": 0.2576,
+      "error": null,
+      "src": "http://127.0.0.1:18916/preview/v35-jin-jokro-20261106/qa/approved-live-v12/jin-jokro-half.webm",
+      "rate": 1,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "file": "jin-jokro-body.webm",
+      "time": 0.2567,
+      "error": null,
+      "src": "http://127.0.0.1:18916/preview/v35-jin-jokro-20261106/qa/approved-live-v12/jin-jokro-body.webm",
+      "rate": 1,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "file": "ultimate-duo-normal.webm",
+      "time": 0.2568,
+      "error": null,
+      "src": "http://127.0.0.1:18916/preview/v35-jin-jokro-20261106/qa/approved-live-v12/ultimate-duo-normal.webm",
+      "rate": 1,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "file": "ultimate-duo-half.webm",
+      "time": 0.257,
+      "error": null,
+      "src": "http://127.0.0.1:18916/preview/v35-jin-jokro-20261106/qa/approved-live-v12/ultimate-duo-half.webm",
+      "rate": 1,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "file": "ultimate-storm.webm",
+      "time": 0.2569,
+      "error": null,
+      "src": "http://127.0.0.1:18916/preview/v35-jin-jokro-20261106/qa/approved-live-v12/ultimate-storm.webm",
+      "rate": 1,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "file": "ultimate-descent.webm",
+      "time": 0.2583,
+      "error": null,
+      "src": "http://127.0.0.1:18916/preview/v35-jin-jokro-20261106/qa/approved-live-v12/ultimate-descent.webm",
+      "rate": 1,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "file": "jin-jokro-normal.webm",
+      "time": 0.2576,
+      "error": null,
+      "src": "http://127.0.0.1:18916/preview/v35-jin-jokro-20261106/qa/approved-live-v12/jin-jokro-normal.webm",
+      "rate": 1,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "file": "jin-jokro-half.webm",
+      "time": 0.2574,
+      "error": null,
+      "src": "http://127.0.0.1:18916/preview/v35-jin-jokro-20261106/qa/approved-live-v12/jin-jokro-half.webm",
+      "rate": 1,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "file": "jin-jokro-body.webm",
+      "time": 0.2554,
+      "error": null,
+      "src": "http://127.0.0.1:18916/preview/v35-jin-jokro-20261106/qa/approved-live-v12/jin-jokro-body.webm",
+      "rate": 1,
+      "overflow": false
+    }
+  ]
+}

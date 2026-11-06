@@ -60,6 +60,51 @@ async function fixture({ cost = 5000000000, output = 'VEHICLE' } = {}) {
   };
 }
 
+async function xBodyFixture(){
+  const f=await fixture({cost:25000000000000,output:'EQUIPMENT'});
+  await f.pg.exec(`
+    INSERT INTO character_equipment_items(id,name,slot) VALUES(49,'X-BODY','BATTLE_SUIT');
+    INSERT INTO inventory_items(code,name,category,is_active) VALUES('SUIT_CORE_7','슈트 코어 7','MATERIAL',1);
+    INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(1,'SUIT_CORE_7',20,20);
+    UPDATE workshop_recipes_v1668 SET code='WORKSHOP_BATTLE_SUIT_X_BODY',output_ref='49',payment_mode='COIN_ONLY',master_star_cost=0,success_rate=10 WHERE id=1;
+    DELETE FROM workshop_recipe_materials_v1668 WHERE recipe_id=1;
+    INSERT INTO workshop_recipe_materials_v1668(recipe_id,item_code,quantity) VALUES(1,'SUIT_CORE_7',10);
+  `);return f;
+}
+
+for(const [roll,success]of [[0.099999,true],[0.1,false]])test(`X-BODY 10% boundary ${roll}: 10 cores and 25T once, success=${success}`,async t=>{
+  const f=await xBodyFixture();let rolls=0;t.mock.method(Math,'random',()=>{rolls++;return roll;});
+  try{
+    const r=await f.craft('x-body-once',{paymentType:'COIN'});
+    assert.equal(r.success,success);assert.equal(r.coinSpent,25000000000000);assert.equal(r.masterStarSpent,0);
+    assert.equal(r.state.wallet.coin,25000000000000);assert.equal(r.state.wallet.masterStars,500000);
+    assert.equal(r.state.inventory.SUIT_CORE_7.quantity,10);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM user_equipment_instances WHERE equipment_id=49')).n),success?1:0);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM user_equipment_loadout')).n),0);
+    assert.equal(Number((await f.row('SELECT change_amount FROM coin_logs')).change_amount),-25000000000000);
+    assert.equal(Number((await f.row("SELECT change_amount FROM inventory_logs WHERE item_code='SUIT_CORE_7'")).change_amount),-10);
+    const replay=await f.craft('x-body-once',{paymentType:'COIN'});assert.equal(replay.replayed,true);assert.equal(rolls,1);
+    assert.deepEqual(replay.state.wallet,r.state.wallet);assert.deepEqual(replay.state.inventory,r.state.inventory);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM coin_logs')).n),1);
+  }finally{await f.close();}
+});
+
+test('X-BODY rejects insufficient cores/coin; transaction failure restores both and grants nothing',async t=>{
+  const f=await xBodyFixture();t.mock.method(Math,'random',()=>0);
+  try{
+    await f.pg.exec("UPDATE cnine_user_inventory SET quantity=9 WHERE item_code='SUIT_CORE_7'");
+    await assert.rejects(f.craft('x-short-core',{paymentType:'COIN'}),/재료가 부족/);
+    await f.pg.exec("UPDATE cnine_user_inventory SET quantity=20 WHERE item_code='SUIT_CORE_7'; UPDATE users SET coin=24999999999999");
+    await assert.rejects(f.craft('x-short-coin',{paymentType:'COIN'}),/코인이 부족/);
+    await f.pg.exec('UPDATE users SET coin=50000000000000');f.failCoinLog();
+    await assert.rejects(f.craft('x-rollback',{paymentType:'COIN'}),/QA coin log failure/);
+    assert.equal(Number((await f.row('SELECT coin FROM users')).coin),50000000000000);
+    assert.equal(Number((await f.row("SELECT quantity FROM cnine_user_inventory WHERE item_code='SUIT_CORE_7'")).quantity),20);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM user_equipment_instances')).n),0);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM coin_logs')).n),0);
+  }finally{await f.close();}
+});
+
 test('unary parameters retain large integer, fractional and null values in PostgreSQL', async () => {
   const pg = new PGlite();
   try {

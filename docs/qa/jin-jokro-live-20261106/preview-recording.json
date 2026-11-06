@@ -1,0 +1,785 @@
+{
+  "passed": true,
+  "records": [
+    {
+      "file": "jin-jokro-normal.webm",
+      "rate": 1,
+      "fx": true,
+      "chapters": [
+        {
+          "id": "iaido",
+          "name": "흑뢰발도",
+          "start": 0.31140000000596046,
+          "end": 0.7743000000119209,
+          "poses": [
+            "guard",
+            "iaido_ready",
+            "iaido_draw",
+            "iaido_cut",
+            "iaido_recover"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59"
+          ],
+          "nativeDuration": 0.86,
+          "contact": 0.29,
+          "hitstop": 0.045,
+          "area": false
+        },
+        {
+          "id": "cross",
+          "name": "적섬연참",
+          "start": 1.1784000000059605,
+          "end": 1.7283000000119209,
+          "poses": [
+            "guard",
+            "cross_0",
+            "cross_1",
+            "cross_2",
+            "cross_3",
+            "iaido_recover"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59"
+          ],
+          "nativeDuration": 1.02,
+          "contact": 0.5,
+          "hitstop": 0.045,
+          "area": false
+        },
+        {
+          "id": "thrust",
+          "name": "섬광관통",
+          "start": 2.137,
+          "end": 2.6452000000178812,
+          "poses": [
+            "guard",
+            "thrust_0",
+            "thrust_1",
+            "thrust_2",
+            "thrust_3"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59"
+          ],
+          "nativeDuration": 0.94,
+          "contact": 0.34,
+          "hitstop": 0.045,
+          "area": false
+        },
+        {
+          "id": "eclipse",
+          "name": "흑천일섬",
+          "start": 3.05,
+          "end": 3.7620999999940397,
+          "poses": [
+            "guard",
+            "cross_0",
+            "eclipse_1",
+            "eclipse_2",
+            "eclipse_3"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59",
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:2:CN-25F931CE393D474E"
+          ],
+          "nativeDuration": 1.32,
+          "contact": 0.55,
+          "hitstop": 0.065,
+          "area": true
+        },
+        {
+          "id": "storm",
+          "name": "비검오의 · 흑천단절",
+          "start": 4.175,
+          "end": 5.861800000011921,
+          "poses": [
+            "guard",
+            "iaido_ready",
+            "iaido_draw",
+            "iaido_cut",
+            "iaido_recover"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59",
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:2:CN-25F931CE393D474E"
+          ],
+          "nativeDuration": 3.2,
+          "contact": 1.08,
+          "hitstop": 0.09,
+          "area": true
+        },
+        {
+          "id": "descent",
+          "name": "삼도오의 · 무간참옥",
+          "start": 6.275400000005961,
+          "end": 8.57040000000596,
+          "poses": [
+            "guard",
+            "storm_0",
+            "cross_0",
+            "cross_1",
+            "cross_2",
+            "cross_3",
+            "storm_1",
+            "storm_2",
+            "thrust_2",
+            "storm_3",
+            "descent_0",
+            "descent_1",
+            "descent_2",
+            "descent_3",
+            "eclipse_3",
+            "iaido_recover"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59",
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:2:CN-25F931CE393D474E"
+          ],
+          "nativeDuration": 4.35,
+          "contact": 2.75,
+          "hitstop": 0.12,
+          "area": true
+        }
+      ],
+      "frames": 526,
+      "errors": [],
+      "width": 1440,
+      "height": 860
+    },
+    {
+      "file": "jin-jokro-half.webm",
+      "rate": 0.5,
+      "fx": true,
+      "chapters": [
+        {
+          "id": "iaido",
+          "name": "흑뢰발도",
+          "start": 0.313,
+          "end": 1.2414000000059604,
+          "poses": [
+            "guard",
+            "iaido_ready",
+            "iaido_draw",
+            "iaido_cut",
+            "iaido_recover"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59"
+          ],
+          "nativeDuration": 0.86,
+          "contact": 0.29,
+          "hitstop": 0.045,
+          "area": false
+        },
+        {
+          "id": "cross",
+          "name": "적섬연참",
+          "start": 1.6589000000059604,
+          "end": 2.7538000000119207,
+          "poses": [
+            "guard",
+            "cross_0",
+            "cross_1",
+            "cross_2",
+            "cross_3",
+            "iaido_recover"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59"
+          ],
+          "nativeDuration": 1.02,
+          "contact": 0.5,
+          "hitstop": 0.045,
+          "area": false
+        },
+        {
+          "id": "thrust",
+          "name": "섬광관통",
+          "start": 3.1639000000059605,
+          "end": 4.174600000023842,
+          "poses": [
+            "guard",
+            "thrust_0",
+            "thrust_1",
+            "thrust_2",
+            "thrust_3"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59"
+          ],
+          "nativeDuration": 0.94,
+          "contact": 0.34,
+          "hitstop": 0.045,
+          "area": false
+        },
+        {
+          "id": "eclipse",
+          "name": "흑천일섬",
+          "start": 4.586700000017881,
+          "end": 6.004,
+          "poses": [
+            "guard",
+            "cross_0",
+            "eclipse_1",
+            "eclipse_2",
+            "eclipse_3"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59",
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:2:CN-25F931CE393D474E"
+          ],
+          "nativeDuration": 1.32,
+          "contact": 0.55,
+          "hitstop": 0.065,
+          "area": true
+        },
+        {
+          "id": "storm",
+          "name": "비검오의 · 흑천단절",
+          "start": 6.416600000023842,
+          "end": 9.791400000005961,
+          "poses": [
+            "guard",
+            "iaido_ready",
+            "iaido_draw",
+            "iaido_cut",
+            "iaido_recover"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59",
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:2:CN-25F931CE393D474E"
+          ],
+          "nativeDuration": 3.2,
+          "contact": 1.08,
+          "hitstop": 0.09,
+          "area": true
+        },
+        {
+          "id": "descent",
+          "name": "삼도오의 · 무간참옥",
+          "start": 10.201300000011921,
+          "end": 14.78780000001192,
+          "poses": [
+            "guard",
+            "storm_0",
+            "cross_0",
+            "cross_1",
+            "cross_2",
+            "cross_3",
+            "storm_1",
+            "storm_2",
+            "thrust_2",
+            "storm_3",
+            "descent_0",
+            "descent_1",
+            "descent_2",
+            "descent_3",
+            "eclipse_3",
+            "iaido_recover"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59",
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:2:CN-25F931CE393D474E"
+          ],
+          "nativeDuration": 4.35,
+          "contact": 2.75,
+          "hitstop": 0.12,
+          "area": true
+        }
+      ],
+      "frames": 886,
+      "errors": [],
+      "width": 1440,
+      "height": 860
+    },
+    {
+      "file": "jin-jokro-body.webm",
+      "rate": 1,
+      "fx": false,
+      "chapters": [
+        {
+          "id": "iaido",
+          "name": "흑뢰발도",
+          "start": 0.31030000001192093,
+          "end": 0.7761999999880791,
+          "poses": [
+            "guard",
+            "iaido_ready",
+            "iaido_draw",
+            "iaido_cut",
+            "iaido_recover"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59"
+          ],
+          "nativeDuration": 0.86,
+          "contact": 0.29,
+          "hitstop": 0.045,
+          "area": false
+        },
+        {
+          "id": "cross",
+          "name": "적섬연참",
+          "start": 1.180300000011921,
+          "end": 1.7303000000119209,
+          "poses": [
+            "guard",
+            "cross_0",
+            "cross_1",
+            "cross_2",
+            "cross_3",
+            "iaido_recover"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59"
+          ],
+          "nativeDuration": 1.02,
+          "contact": 0.5,
+          "hitstop": 0.045,
+          "area": false
+        },
+        {
+          "id": "thrust",
+          "name": "섬광관통",
+          "start": 2.135,
+          "end": 2.642800000011921,
+          "poses": [
+            "guard",
+            "thrust_0",
+            "thrust_1",
+            "thrust_2",
+            "thrust_3"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59"
+          ],
+          "nativeDuration": 0.94,
+          "contact": 0.34,
+          "hitstop": 0.045,
+          "area": false
+        },
+        {
+          "id": "eclipse",
+          "name": "흑천일섬",
+          "start": 3.0580999999940395,
+          "end": 3.767800000011921,
+          "poses": [
+            "guard",
+            "cross_0",
+            "eclipse_1",
+            "eclipse_2",
+            "eclipse_3"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59",
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:2:CN-25F931CE393D474E"
+          ],
+          "nativeDuration": 1.32,
+          "contact": 0.55,
+          "hitstop": 0.065,
+          "area": true
+        },
+        {
+          "id": "storm",
+          "name": "비검오의 · 흑천단절",
+          "start": 4.18490000000596,
+          "end": 5.876199999988079,
+          "poses": [
+            "guard",
+            "iaido_ready",
+            "iaido_draw",
+            "iaido_cut",
+            "iaido_recover"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59",
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:2:CN-25F931CE393D474E"
+          ],
+          "nativeDuration": 3.2,
+          "contact": 1.08,
+          "hitstop": 0.09,
+          "area": true
+        },
+        {
+          "id": "descent",
+          "name": "삼도오의 · 무간참옥",
+          "start": 6.2795,
+          "end": 8.57180000001192,
+          "poses": [
+            "guard",
+            "storm_0",
+            "cross_0",
+            "cross_1",
+            "cross_2",
+            "cross_3",
+            "storm_1",
+            "storm_2",
+            "thrust_2",
+            "storm_3",
+            "descent_0",
+            "descent_1",
+            "descent_2",
+            "descent_3",
+            "eclipse_3",
+            "iaido_recover"
+          ],
+          "impacts": [
+            "B:1:CN-0505936A0CBB4E59",
+            "B:0:CN-02D9DC1E8A8A4209",
+            "B:2:CN-25F931CE393D474E"
+          ],
+          "nativeDuration": 4.35,
+          "contact": 2.75,
+          "hitstop": 0.12,
+          "area": true
+        }
+      ],
+      "frames": 527,
+      "errors": [],
+      "width": 1440,
+      "height": 860
+    }
+  ],
+  "samples": [
+    {
+      "file": "jin-jokro-normal-0-0.png",
+      "at": 0.37814966851510723,
+      "skill": "iaido",
+      "nativeTime": 0.1305
+    },
+    {
+      "file": "jin-jokro-normal-0-1.png",
+      "at": 0.49553701658291704,
+      "skill": "iaido",
+      "nativeTime": 0.315
+    },
+    {
+      "file": "jin-jokro-normal-0-2.png",
+      "at": 0.6055077348163773,
+      "skill": "iaido",
+      "nativeTime": 0.53
+    },
+    {
+      "file": "jin-jokro-normal-1-0.png",
+      "at": 1.294576056345248,
+      "skill": "cross",
+      "nativeTime": 0.225
+    },
+    {
+      "file": "jin-jokro-normal-1-1.png",
+      "at": 1.4727126760654885,
+      "skill": "cross",
+      "nativeTime": 0.525
+    },
+    {
+      "file": "jin-jokro-normal-1-2.png",
+      "at": 1.58372535212303,
+      "skill": "cross",
+      "nativeTime": 0.74
+    },
+    {
+      "file": "jin-jokro-normal-2-0.png",
+      "at": 2.215938680205823,
+      "skill": "thrust",
+      "nativeTime": 0.15300000000000002
+    },
+    {
+      "file": "jin-jokro-normal-2-1.png",
+      "at": 2.348535025388154,
+      "skill": "thrust",
+      "nativeTime": 0.36500000000000005
+    },
+    {
+      "file": "jin-jokro-normal-2-2.png",
+      "at": 2.4594619289453563,
+      "skill": "thrust",
+      "nativeTime": 0.5800000000000001
+    },
+    {
+      "file": "jin-jokro-normal-3-0.png",
+      "at": 3.177252527074747,
+      "skill": "eclipse",
+      "nativeTime": 0.24750000000000003
+    },
+    {
+      "file": "jin-jokro-normal-3-1.png",
+      "at": 3.379057039708437,
+      "skill": "eclipse",
+      "nativeTime": 0.5750000000000001
+    },
+    {
+      "file": "jin-jokro-normal-3-2.png",
+      "at": 3.48959963898549,
+      "skill": "eclipse",
+      "nativeTime": 0.79
+    },
+    {
+      "file": "jin-jokro-normal-4-0.png",
+      "at": 4.424174711247962,
+      "skill": "storm",
+      "nativeTime": 0.48600000000000004
+    },
+    {
+      "file": "jin-jokro-normal-4-1.png",
+      "at": 4.7876826747763666,
+      "skill": "storm",
+      "nativeTime": 1.105
+    },
+    {
+      "file": "jin-jokro-normal-4-2.png",
+      "at": 4.897914285719395,
+      "skill": "storm",
+      "nativeTime": 1.32
+    },
+    {
+      "file": "jin-jokro-normal-5-0.png",
+      "at": 6.910760738260994,
+      "skill": "descent",
+      "nativeTime": 1.2375
+    },
+    {
+      "file": "jin-jokro-normal-5-1.png",
+      "at": 7.761759060408646,
+      "skill": "descent",
+      "nativeTime": 2.775
+    },
+    {
+      "file": "jin-jokro-normal-5-2.png",
+      "at": 7.872144966448914,
+      "skill": "descent",
+      "nativeTime": 2.99
+    },
+    {
+      "file": "jin-jokro-half-0-0.png",
+      "at": 0.4468742541445059,
+      "skill": "iaido",
+      "nativeTime": 0.1305
+    },
+    {
+      "file": "jin-jokro-half-0-1.png",
+      "at": 0.6823082872951887,
+      "skill": "iaido",
+      "nativeTime": 0.315
+    },
+    {
+      "file": "jin-jokro-half-0-2.png",
+      "at": 0.9028674033187041,
+      "skill": "iaido",
+      "nativeTime": 0.53
+    },
+    {
+      "file": "jin-jokro-half-1-0.png",
+      "at": 1.8902169014156702,
+      "skill": "cross",
+      "nativeTime": 0.225
+    },
+    {
+      "file": "jin-jokro-half-1-1.png",
+      "at": 2.244902816910559,
+      "skill": "cross",
+      "nativeTime": 0.525
+    },
+    {
+      "file": "jin-jokro-half-1-2.png",
+      "at": 2.4659389671465037,
+      "skill": "cross",
+      "nativeTime": 0.74
+    },
+    {
+      "file": "jin-jokro-half-2-0.png",
+      "at": 3.3208919797041694,
+      "skill": "thrust",
+      "nativeTime": 0.15300000000000002
+    },
+    {
+      "file": "jin-jokro-half-2-1.png",
+      "at": 3.5845974619423377,
+      "skill": "thrust",
+      "nativeTime": 0.36500000000000005
+    },
+    {
+      "file": "jin-jokro-half-2-2.png",
+      "at": 3.8052071066162916,
+      "skill": "thrust",
+      "nativeTime": 0.5800000000000001
+    },
+    {
+      "file": "jin-jokro-half-3-0.png",
+      "at": 4.839972021675336,
+      "skill": "eclipse",
+      "nativeTime": 0.24750000000000003
+    },
+    {
+      "file": "jin-jokro-half-3-1.png",
+      "at": 5.241625631778572,
+      "skill": "eclipse",
+      "nativeTime": 0.5750000000000001
+    },
+    {
+      "file": "jin-jokro-half-3-2.png",
+      "at": 5.461639711198178,
+      "skill": "eclipse",
+      "nativeTime": 0.79
+    },
+    {
+      "file": "jin-jokro-half-4-0.png",
+      "at": 6.915126686951292,
+      "skill": "storm",
+      "nativeTime": 0.48600000000000004
+    },
+    {
+      "file": "jin-jokro-half-4-1.png",
+      "at": 7.642401215822819,
+      "skill": "storm",
+      "nativeTime": 1.105
+    },
+    {
+      "file": "jin-jokro-half-4-2.png",
+      "at": 7.862942857159036,
+      "skill": "storm",
+      "nativeTime": 1.32
+    },
+    {
+      "file": "jin-jokro-half-5-0.png",
+      "at": 11.471052516790444,
+      "skill": "descent",
+      "nativeTime": 1.2375
+    },
+    {
+      "file": "jin-jokro-half-5-1.png",
+      "at": 13.171751342293799,
+      "skill": "descent",
+      "nativeTime": 2.775
+    },
+    {
+      "file": "jin-jokro-half-5-2.png",
+      "at": 13.392354809855322,
+      "skill": "descent",
+      "nativeTime": 2.99
+    },
+    {
+      "file": "jin-jokro-body-0-0.png",
+      "at": 0.37748226520185313,
+      "skill": "iaido",
+      "nativeTime": 0.1305
+    },
+    {
+      "file": "jin-jokro-body-0-1.png",
+      "at": 0.4956303867427684,
+      "skill": "iaido",
+      "nativeTime": 0.315
+    },
+    {
+      "file": "jin-jokro-body-0-2.png",
+      "at": 0.6063138121514691,
+      "skill": "iaido",
+      "nativeTime": 0.53
+    },
+    {
+      "file": "jin-jokro-body-1-0.png",
+      "at": 1.2964971831105125,
+      "skill": "cross",
+      "nativeTime": 0.225
+    },
+    {
+      "file": "jin-jokro-body-1-1.png",
+      "at": 1.4746661971950195,
+      "skill": "cross",
+      "nativeTime": 0.525
+    },
+    {
+      "file": "jin-jokro-body-1-2.png",
+      "at": 1.5856990610447848,
+      "skill": "cross",
+      "nativeTime": 0.74
+    },
+    {
+      "file": "jin-jokro-body-2-0.png",
+      "at": 2.2138765482252016,
+      "skill": "thrust",
+      "nativeTime": 0.15300000000000002
+    },
+    {
+      "file": "jin-jokro-body-2-1.png",
+      "at": 2.346368527923744,
+      "skill": "thrust",
+      "nativeTime": 0.36500000000000005
+    },
+    {
+      "file": "jin-jokro-body-2-2.png",
+      "at": 2.457208121834975,
+      "skill": "thrust",
+      "nativeTime": 0.5800000000000001
+    },
+    {
+      "file": "jin-jokro-body-3-0.png",
+      "at": 3.184923646206621,
+      "skill": "eclipse",
+      "nativeTime": 0.24750000000000003
+    },
+    {
+      "file": "jin-jokro-body-3-1.png",
+      "at": 3.3860480144427356,
+      "skill": "eclipse",
+      "nativeTime": 0.5750000000000001
+    },
+    {
+      "file": "jin-jokro-body-3-2.png",
+      "at": 3.4962180505465943,
+      "skill": "eclipse",
+      "nativeTime": 0.79
+    },
+    {
+      "file": "jin-jokro-body-4-0.png",
+      "at": 4.434739452890857,
+      "skill": "storm",
+      "nativeTime": 0.48600000000000004
+    },
+    {
+      "file": "jin-jokro-body-4-1.png",
+      "at": 4.799217173251745,
+      "skill": "storm",
+      "nativeTime": 1.105
+    },
+    {
+      "file": "jin-jokro-body-4-2.png",
+      "at": 4.909742857141154,
+      "skill": "storm",
+      "nativeTime": 1.32
+    },
+    {
+      "file": "jin-jokro-body-5-0.png",
+      "at": 6.914113255036857,
+      "skill": "descent",
+      "nativeTime": 1.2375
+    },
+    {
+      "file": "jin-jokro-body-5-1.png",
+      "at": 7.7641104026922845,
+      "skill": "descent",
+      "nativeTime": 2.775
+    },
+    {
+      "file": "jin-jokro-body-5-2.png",
+      "at": 7.874366442961314,
+      "skill": "descent",
+      "nativeTime": 2.99
+    }
+  ],
+  "presentation": {
+    "revision": "approved-live-v12",
+    "combatRate": 1.5,
+    "effectScale": 1.3,
+    "eclipseDirection": -1
+  },
+  "source": "Actual V3 canvas MediaRecorder; existing V3 GSAP clock; 1x = host actionPlaybackSpeed * presentation.combatRate"
+}

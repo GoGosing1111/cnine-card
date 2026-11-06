@@ -538,5 +538,122 @@
         "pixels": 19608
       }
     ]
+  },
+  "x": {
+    "source": "/assets/ui/project-v/account-battle-suits/x-sword-v1/x-body.png",
+    "sourceSha256": "91cdd399bb2e042b32b6fa7573c8491a913a97d456dcbb8a13dffbb5d49b8ddc",
+    "width": 1145,
+    "height": 1374,
+    "visibleRgbaExact": true,
+    "parts": [
+      {
+        "name": "coat",
+        "path": "assets/parts/x/coat.png",
+        "x": 0,
+        "y": 0,
+        "width": 1145,
+        "height": 1374,
+        "pixels": 234022
+      },
+      {
+        "name": "helmet",
+        "path": "assets/parts/x/helmet.png",
+        "x": 441,
+        "y": 0,
+        "width": 234,
+        "height": 221,
+        "pixels": 25818
+      },
+      {
+        "name": "shoulderL",
+        "path": "assets/parts/x/shoulderL.png",
+        "x": 309,
+        "y": 86,
+        "width": 179,
+        "height": 254,
+        "pixels": 27350
+      },
+      {
+        "name": "torso",
+        "path": "assets/parts/x/torso.png",
+        "x": 441,
+        "y": 210,
+        "width": 259,
+        "height": 235,
+        "pixels": 36376
+      },
+      {
+        "name": "shoulderR",
+        "path": "assets/parts/x/shoulderR.png",
+        "x": 665,
+        "y": 226,
+        "width": 111,
+        "height": 150,
+        "pixels": 9844
+      },
+      {
+        "name": "core",
+        "path": "assets/parts/x/core.png",
+        "x": 590,
+        "y": 247,
+        "width": 43,
+        "height": 42,
+        "pixels": 1313
+      },
+      {
+        "name": "armL",
+        "path": "assets/parts/x/armL.png",
+        "x": 305,
+        "y": 330,
+        "width": 151,
+        "height": 336,
+        "pixels": 30544
+      },
+      {
+        "name": "armR",
+        "path": "assets/parts/x/armR.png",
+        "x": 665,
+        "y": 375,
+        "width": 182,
+        "height": 369,
+        "pixels": 22581
+      },
+      {
+        "name": "hips",
+        "path": "assets/parts/x/hips.png",
+        "x": 443,
+        "y": 445,
+        "width": 270,
+        "height": 120,
+        "pixels": 21800
+      },
+      {
+        "name": "legL",
+        "path": "assets/parts/x/legL.png",
+        "x": 306,
+        "y": 506,
+        "width": 277,
+        "height": 851,
+        "pixels": 82147
+      },
+      {
+        "name": "legR",
+        "path": "assets/parts/x/legR.png",
+        "x": 597,
+        "y": 520,
+        "width": 295,
+        "height": 793,
+        "pixels": 92797
+      },
+      {
+        "name": "sword",
+        "path": "assets/parts/x/sword.png",
+        "x": 296,
+        "y": 521,
+        "width": 849,
+        "height": 690,
+        "pixels": 63121
+      }
+    ]
   }
 }

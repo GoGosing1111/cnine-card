@@ -83,7 +83,7 @@ export class AssemblyFilm {
       if(this.disposed)return;
       // Preserve source artwork while filtering detailed new parts cleanly
       // at mobile scale. Configure before the first GPU texture upload.
-      if(MODELS[key]?.art||/^[efgsz](?::|$)/.test(key)){
+      if(MODELS[key]?.art||/^[efgszx](?::|$)/.test(key)){
         texture.source.autoGenerateMipmaps=true;texture.source.scaleMode='linear';
       }
       this.buffers[key]=texture;

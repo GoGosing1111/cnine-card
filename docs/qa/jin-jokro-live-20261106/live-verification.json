@@ -1,0 +1,469 @@
+{
+  "at": "2026-11-06T09:49:36.776Z",
+  "pages": {
+    "id": "a7a14551-a3c3-4be8-9e48-51c0bd8306d7",
+    "url": "https://a7a14551.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "3779e3269e304f983ddfbcc4c50588bb948d1684"
+  },
+  "latest": "a7a14551-a3c3-4be8-9e48-51c0bd8306d7",
+  "releaseCommit": "3779e3269e304f983ddfbcc4c50588bb948d1684",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "jinJokroConnected": true,
+      "sha256": "137853fb3ac8cecb3cefafe2cd70edd9f76894e55d294e32e041ed742f378488"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "jinJokroConnected": true,
+      "sha256": "1f1694e3714341a8d5f5a652300b65b5a15043f423f1ffb715e3f2fee9d8368c"
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/aura-v8/runtime/fx-manifest.json",
+      "sha256": "b4b6952560d698e713e83cff35ab945ab3d4295a88d194d542c2c8f421866c32",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/aura-v8/runtime/katana-current.png",
+      "sha256": "d44acef1bf50b8545141111a8c8952574a46c8da551c6cebe112c399af928f80",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/aura-v8/runtime/pressure-crown.png",
+      "sha256": "e31ea7d377a20dfe5b0773d9d6af7da2068900cf9525fe83da6a76481e297910",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/aura-v8/runtime/pressure-wrap.png",
+      "sha256": "27293ef5bead8c27400ad6f512475132bcbebb1c03c5e6b955b5d0fa41b683e1",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/aura-v9/runtime/fx-manifest.json",
+      "sha256": "f3b878c737aa194f020301a73657d6e99977e94f047581713d2a3bc88b323d81",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/aura-v9/runtime/sovereign-discharge.png",
+      "sha256": "13f74f2b98462f7188d1d7a4ecc37e7d173a3c6d6e3117ee6f871bac0c22c0f9",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/cross.png",
+      "sha256": "22fbe8b7ea6e3b478eb7fa5cb27fa0ac49960fd9c018856ecc51d7fcf79d54d2",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/eclipse.png",
+      "sha256": "1280abc48c73ff7777d1dd06b69ff5de581eab18fd2ee41dea2043c680ec6da2",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/fx-manifest.json",
+      "sha256": "40343a969b0a68f6a510d851c0905a830c4eb91f39827ba78bd8f80fee5f9992",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/iaido.png",
+      "sha256": "c7242847a208415a9400054e4c20fc303275ed1964d9a21d08919984c8ba9ed5",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/pressure.png",
+      "sha256": "e3864725e3a5f02a87a0f0386202c0c0e1489cef462c3525d98bc44cdcd883f9",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/shards.png",
+      "sha256": "1a1712a57491490d5c09e63b7be8386eb8dafe6ad8f21f0e009515a5c5a2b2b8",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/thrust.png",
+      "sha256": "27ae86b3a3816547768b56aa638496a0ba856acea325b34b78f3f2a0d78e27af",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/sword-ultimates-v10/runtime/blade-orbit.png",
+      "sha256": "e748b14074da0db4a0440a2f0ace6406edb05a69df30754193eb699a521b67eb",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/sword-ultimates-v10/runtime/crosscut-prison.png",
+      "sha256": "3e9a3f8a8c82aadc722d9faf78b9c65aca57edfd4c33412470da4d37accdead8",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/sword-ultimates-v10/runtime/fx-manifest.json",
+      "sha256": "1fb79a2fac6de0981e27fbe3dc19d19de01627e04b1eca2c3395e423a14cbdb8",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/sword-ultimates-v10/runtime/heaven-line.png",
+      "sha256": "b8ae5d48fbf269e7ead815e9485a622536bc6903c72149f44f1a1d759c611e7d",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/sword-ultimates-v10/runtime/razor-ground.png",
+      "sha256": "5cd23e8fa9ec6524ae2d3547f103448c8f28cafba5c7f69afa9927fb1abef907",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/sword-ultimates-v10/runtime/severed-space.png",
+      "sha256": "c1d0ec5b13103e4c05333d8de3118ba46ea8b550defc36495c1917105f605841",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/sword-ultimates-v10/runtime/sword-flash.png",
+      "sha256": "4273c85a47931b7c97d5570f6a98fdb0b1738ea2cda0865f2dce3c7798453f8e",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/sword-ultimates-v10/runtime/sword-shock.png",
+      "sha256": "0ab85032a001eff27045090cbeec1f8b9c8db5e141d7e6e14cefb2885d853dfb",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/sword-ultimates-v10/runtime/sword-splinters.png",
+      "sha256": "c5f01db0b56f89a984d2aedc69b663fde07ec53bbf4af9a4f9f6c190634e0262",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/sword-ultimates-v10/runtime/trinity-cleave.png",
+      "sha256": "15590628ead4d3bdb97ceb33887fa6426b1a8f245db606ae63fdf96c2ee30d84",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/images/guard.png",
+      "sha256": "7e73203a838f17972368e7735e602b14aebee090bd00d91c4394f437b3f1a513",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/runtime-164a00db5e6a/jin-jokro-164a00db5e6a.atlas",
+      "sha256": "70a8223e80b66da52bb0a6e2031c5d23d154ff04b82af1862d3afa35b995bed9",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/runtime-164a00db5e6a/jin-jokro-164a00db5e6a.png",
+      "sha256": "d5900d017e71e89391660b1f3d62c19a38ea4470f856976daef6e18fcfa0203e",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/runtime-164a00db5e6a/jin-jokro-164a00db5e6a_2.png",
+      "sha256": "a860a04b667e8bc942a1ae3f1f02ac2f153338af666472aa778a778f065e817c",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/runtime-164a00db5e6a/jin-jokro-164a00db5e6a_3.png",
+      "sha256": "4485f02728abd3c59dea9a0e5660a74a1825d41935297aae1f5c0fb24aa2610f",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/runtime-92f880cb7908/jin-jokro.json",
+      "sha256": "f6610ea916cd42df5fc9716f60ee088e9284342dcb0d42d07b9d613cdcfdfe44",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jin-jokro-20261106/source-art-approved.png",
+      "sha256": "f2dd7d1b862e25af5f36cab4d5a59b817825aa62814d8a78c85fb4995940f471",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "index.html",
+      "sha256": "3d4e0fac59ef9b8ebbbaf00563799061344f9843f42b334e26d79a12aac657b5",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "89c1929daaaafe6c57f3820bff16953235e0a46ec969ce18d964c9ed70cad291",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "4a9cc5e3ae0f4fde4694026da474044bba98cada636e179ad47c2a6986d41584",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "sha256": "277c0fc9fddfbc683a9fad34051493991c2b23e876d5362d50f6c30a29afe352",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "4ae526167787d4bf17709a22236d5c437baed42a53b83ccdb6281ffa5e4a6f0a",
+      "verification": "existing-server-html-transform"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "5c2805a30e788cb787bdd9e79af07055211a45ad36148450fb10aa456ed50e0a",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "sha256": "df178cec5ccd6dce0390933b9dccd0c5dd859025a205ab652f5b2a0a1fde5e87",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "sha256": "24a23229da9eeed7ba0bdf0dd5409db814fa3b5aa054d5bc0c9d6502a8b7c6de",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "sha256": "3a5dfa3ad059ca82bc32f0a4f5770bcfc24e17be4be98bb12b933594a44a4bd1",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "sha256": "ba068efc43f9b54cbe85bb09e01ec31e7141dba7be3f37ff63e57649c7dae740",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "sha256": "9473f9e78385c1db50736412bb3dfad81e7ebb0238de82252a7fdd38dcb4c044",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "sha256": "17e08db5fa26b03da5c815f357db79d62274f98b618a73a7e7f48f294b431025",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "25717c7e49911575714185f469c81303dd1dc125bdba635b251557d40ab8b592",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
+      "sha256": "756741410d5579898f326ebee5a50cd77896f76ce185033e5365ed887218ebbd",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+      "sha256": "1dbf57f2e393713cadf506eb6ee51f4e05c49ac7a3c5bf0d11aafd0e3c23417a",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "sha256": "a2dbf6c0c9929cd076f3dd811246c331419c447a34362dbab95b500d5ec8ca81",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "a4a411328200c373e2b04dc600ef4ccb81a00371756b9276ef5413123a9732a1",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/app.bundle.js",
+      "sha256": "e9aded5c401450a759857023914c51c5232bcd8bfbe195b5e8a60c2f9cc48e1c",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "sha256": "594a7d29f209e66439e8876edf5f27602b7b9eac7eac310a7d9dd8254eb128d2",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "sha256": "e222864c38a36817aa7d9355475dd6649ff89a5cb3534a0ade06cbf04173c15c",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "ed15d82d436b17bdb3ce6f60b4c76bd76b7f3da3d03da00a3e953b7316a21ad0",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "shared/mercenary-acquisition-release-v1.mjs",
+      "sha256": "0fcef3732febbb96491d9edc696aa98b73663eac9ff8c0c3a98ef24a05911ea8",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "shared/mercenary-combat-link-v2103.mjs",
+      "sha256": "b41c0e323349d75075c63c54b6a5ac86cc9c2bdc53f1c7139d93fe2b1f6d3c1f",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "shared/mercenary-jin-jokro-v1.mjs",
+      "sha256": "a01200a93f66fbd0f8409e115e8b6a570eb1a787889a52b1d5b93888d26bdb43",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "shared/mercenary-level-v1.mjs",
+      "sha256": "7db1e20bdc2e1594cb48630c29d203d0240fbfa5afc75c0d8096dc1d579e8385",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "shared/mercenary-limited-deployment-v1.mjs",
+      "sha256": "181145a0bb9b4fa3eb12b4cd3fa58be16a51eecc8a52cf436cc10068907c999b",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "shared/mercenary-rank-growth-v1.mjs",
+      "sha256": "727db52a0ef6cbc64ccd53a1fe78024034e70dd734e921418eb7e3288607439e",
+      "verification": "exact-deployed-content"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "e41c3d50e6b4f79e16f81d86717bdbc5cbe4da24d1a25c03d533cf74ea2e00fb",
+      "verification": "exact-deployed-content"
+    }
+  ],
+  "card": {
+    "code": "V-959",
+    "name": "진 족로",
+    "title": "흑뢰 삼도류",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "role": "VANGUARD",
+    "position": "FRONT",
+    "artOnly": false,
+    "releaseStatus": "BATTLE_RELEASED_ACQUISITION_LOCKED",
+    "acquisition": "LOCKED",
+    "sourceArt": "assets/ui/project-v/mercenaries/jin-jokro-20261106/source-art-approved.png",
+    "thumbnailArt": "assets/ui/project-v/mercenaries/jin-jokro-20261106/source-art-approved.png",
+    "sourceArtSha256": "f2dd7d1b862e25af5f36cab4d5a59b817825aa62814d8a78c85fb4995940f471",
+    "battleSprite": "assets/ui/project-v/mercenaries/jin-jokro-20261106/images/guard.png",
+    "battleSpriteSha256": "7e73203a838f17972368e7735e602b14aebee090bd00d91c4394f437b3f1a513",
+    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+    "artWindow": {
+      "left": 5.957,
+      "top": 5.794,
+      "width": 88.086,
+      "height": 88.086
+    },
+    "accent": "#ff2020",
+    "basePower": 3500000,
+    "skills": [
+      {
+        "id": "MS-891",
+        "name": "흑뢰발도",
+        "visualMode": "iaido",
+        "mechanic": "JIN_JOKRO_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.65,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "삼도류 검격으로 적 하나에 165% 일반 공격을 한 번 적용합니다.",
+        "trigger": "일반 공격 · 발도 → 연참 → 관통 순환",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "대상당 한 번 적용 · 연출 타수는 피해 횟수를 늘리지 않습니다."
+      },
+      {
+        "id": "MS-892",
+        "name": "적섬연참",
+        "visualMode": "cross",
+        "mechanic": "JIN_JOKRO_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.65,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "삼도류 검격으로 적 하나에 165% 일반 공격을 한 번 적용합니다.",
+        "trigger": "일반 공격 · 발도 → 연참 → 관통 순환",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "대상당 한 번 적용 · 연출 타수는 피해 횟수를 늘리지 않습니다."
+      },
+      {
+        "id": "MS-893",
+        "name": "섬광관통",
+        "visualMode": "thrust",
+        "mechanic": "JIN_JOKRO_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.65,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "삼도류 검격으로 적 하나에 165% 일반 공격을 한 번 적용합니다.",
+        "trigger": "일반 공격 · 발도 → 연참 → 관통 순환",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "대상당 한 번 적용 · 연출 타수는 피해 횟수를 늘리지 않습니다."
+      },
+      {
+        "id": "MS-894",
+        "name": "흑천일섬",
+        "visualMode": "eclipse",
+        "damageCapScale": 2.5,
+        "mechanic": "JIN_JOKRO_SWORD_ULTIMATES",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "version": 1,
+          "cooldownTurns": 3,
+          "cost": 20,
+          "damageRatio": 37.8
+        },
+        "ready": true,
+        "effect": "검격과 흑뢰로 총 3,780% 피해를 적 전체에 나누어 적용합니다.",
+        "trigger": "PVE · 에너지 20 · 광역기 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "대상당 한 번 적용 · 연출 타수는 피해 횟수를 늘리지 않습니다."
+      },
+      {
+        "id": "MS-895",
+        "name": "비검오의 · 흑천단절",
+        "visualMode": "storm",
+        "damageCapScale": 2.75,
+        "mechanic": "JIN_JOKRO_SWORD_ULTIMATES",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "version": 1,
+          "cooldownTurns": 3,
+          "cost": 20,
+          "damageRatio": 41.58
+        },
+        "ready": true,
+        "effect": "검격과 흑뢰로 총 4,158% 피해를 적 전체에 나누어 적용합니다.",
+        "trigger": "PVE · 에너지 20 · 광역기 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "대상당 한 번 적용 · 연출 타수는 피해 횟수를 늘리지 않습니다."
+      },
+      {
+        "id": "MS-896",
+        "name": "삼도오의 · 무간참옥",
+        "visualMode": "descent",
+        "damageCapScale": 3,
+        "mechanic": "JIN_JOKRO_SWORD_ULTIMATES",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "version": 1,
+          "cooldownTurns": 3,
+          "cost": 20,
+          "damageRatio": 45.36
+        },
+        "ready": true,
+        "effect": "검격과 흑뢰로 총 4,536% 피해를 적 전체에 나누어 적용합니다.",
+        "trigger": "PVE · 에너지 20 · 광역기 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "대상당 한 번 적용 · 연출 타수는 피해 횟수를 늘리지 않습니다."
+      }
+    ],
+    "acquisitionEnabled": false,
+    "packAcquisitionEnabled": false,
+    "craftAcquisitionEnabled": false,
+    "deploymentEnabled": true,
+    "combatLinkDescription": "기본 전투력 3,500,000. 헬리오스 킹과 같은 공격·체력·방어·연계·행동 기준. 흑뢰발도·적섬연참·섬광관통은 165% 일반 공격으로 순환합니다. PVE 광역기 흑천일섬 3,780%, 비검오의 · 흑천단절 4,158%, 삼도오의 · 무간참옥 4,536% 피해를 생존한 적에게 나누어 대상당 한 번 적용합니다. 광역기 3개는 에너지 20·재사용 3행동을 공유합니다. 개인 피해 80% 경감·상태이상·반격 보호·행동 3.12배. PVP는 일반 공격과 헬리오스 킹의 보정 정책을 적용합니다. 운영자 지정 지급 전용. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 4배). 고레벨 성장과 마지막 돌파도 이 배율에 반영됩니다. 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다. PVP 성장 전투는 C·B·A·S·SS·SSS·SSS 리미티드 순으로 등급 우위를 적용합니다. SS 리미티드는 기존 일반 SSS 전투 등급을 유지합니다. 상대 전원의 등급보다 높으면 같은 레벨 기준 단계당 공격·피해 상한 +100%, 체력·방벽 +500%의 추가 보정을 적용합니다. 상위 등급의 레벨이 낮으면 1레벨 차이마다 이 추가 보정과 성장 격차 보완을 10%씩 줄이며, 10레벨 이상 뒤처지면 적용하지 않습니다. 상위 등급을 향한 경감 관통·행동 대응의 등급 감쇠도 같은 비율로 줄어 10레벨 이상 높은 용병은 배운 숙련을 온전히 사용합니다. 원래 레벨 능력치·평타 성장·추가 행동 숙련은 유지합니다. 듀오는 상대 최고 등급과 가장 큰 레벨 격차를 기준으로 하며, 같은 전투 등급·PVE·기존 개별 용병 상성 정책은 유지합니다."
+  },
+  "operationalAccountWrites": 0
+}

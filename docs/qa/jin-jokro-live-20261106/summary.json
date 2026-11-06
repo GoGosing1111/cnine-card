@@ -1,0 +1,80 @@
+{
+  "character": "진 족로",
+  "code": "V-959",
+  "rank": "SSS",
+  "edition": "LIMITED",
+  "basePower": 3500000,
+  "balanceReference": "헬리오스 킹 V-966",
+  "combatRate": 1.5,
+  "approvedRevision": "raised-iaido-v11",
+  "deliveryRevision": "approved-live-v12",
+  "skills": {
+    "normal": [
+      "흑뢰발도",
+      "적섬연참",
+      "섬광관통"
+    ],
+    "area": [
+      "흑천일섬",
+      "비검오의 · 흑천단절",
+      "삼도오의 · 무간참옥"
+    ]
+  },
+  "areaDamageRatios": [
+    37.8,
+    41.58,
+    45.36
+  ],
+  "areaCaps": [
+    2.5,
+    2.75,
+    3
+  ],
+  "sharedAreaCooldown": 3,
+  "areaCost": 20,
+  "serverPvpSeedComparisons": 36,
+  "visualChecks": {
+    "desktopAndMobileBothSides": 24,
+    "huntMobile12Targets": 6,
+    "actualStartResultReturn": [
+      "1440 PVE",
+      "1440 PVP",
+      "390 PVE",
+      "390 PVP"
+    ],
+    "recordings": [
+      "normal",
+      "half",
+      "body"
+    ]
+  },
+  "accountWrites": 0,
+  "grant": false,
+  "liveStatus": "DEPLOYED_VERIFIED",
+  "originalArtPreserved": true,
+  "nativeSpinePreserved": true,
+  "realDeviceTest": false,
+  "releaseCommit": "3779e3269e304f983ddfbcc4c50588bb948d1684",
+  "pages": {
+    "id": "a7a14551-a3c3-4be8-9e48-51c0bd8306d7",
+    "url": "https://a7a14551.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "3779e3269e304f983ddfbcc4c50588bb948d1684"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "83a209c5-3d02-40cb-a197-9120d038d1ac",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "53f35b50-caf2-4d04-b2b8-9b73ff2804a5",
+      "percentage": 100
+    }
+  ],
+  "publicFileHashes": 58,
+  "windowsFileHashes": 52,
+  "tests": 72,
+  "publicMobileVerified": true
+}
