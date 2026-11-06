@@ -1,0 +1,121 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:support-package-xbody-guarantee-notice:20261106:v1",
+  "completedAtKst": "2026-11-06 20:32:02",
+  "cutoffKst": "2026-11-06 20:27:17",
+  "auditId": "55409",
+  "productCode": "SEASON_PASS_PACKAGE_20261106",
+  "minimumPaidWon": 200000,
+  "delivery": "IN_GAME_SYSTEM_MESSAGE",
+  "recipients": [
+    {
+      "userId": "290",
+      "nickname": "Mild7",
+      "quantity": 5,
+      "paidWon": 249000
+    },
+    {
+      "userId": "4391",
+      "nickname": "더듬이구",
+      "quantity": 5,
+      "paidWon": 249000
+    },
+    {
+      "userId": "4705",
+      "nickname": "˚쟁이。",
+      "quantity": 5,
+      "paidWon": 249000
+    },
+    {
+      "userId": "5877",
+      "nickname": "깅더듬",
+      "quantity": 10,
+      "paidWon": 498000
+    }
+  ],
+  "title": "[패키지 구매자 안내] X슈트 미획득 보장 이벤트 예정",
+  "body": "이번 패키지를 누적 20만 원 이상 구매하신 분들을 대상으로, X슈트(X-BODY) 제작에 실패하여 획득하지 못한 경우 보장하는 이벤트를 진행할 예정입니다.\n\n이용에 참고해 주세요.",
+  "messageIds": [
+    "286498",
+    "286499",
+    "286500",
+    "286501"
+  ],
+  "verification": {
+    "recipients": 4,
+    "messages": 4,
+    "rewardAttachments": 0,
+    "missing": 0,
+    "duplicates": 0,
+    "read": 0
+  },
+  "messageSyncChanged": 4,
+  "planHash": "aaa62d6370eb35a05abe6e406767fe47f5badc6128a4841f42700a84e015bfa0",
+  "executionHash": "2dbd9ef524e6f966cabe1ef3dfe3a9dbc2bb68c9e2d6ceab58356a9ed9f22125",
+  "eligibilityTests": {
+    "passed": 4,
+    "failed": 0
+  },
+  "transactionChecks": {
+    "wrongPlanRejected": true,
+    "sqlFailureRolledBack": true,
+    "selectOnlyReplay": true,
+    "noWalletInventoryWrites": true,
+    "protectedReceiptsPreserved": true,
+    "successRolledBack": true,
+    "syncRolledBack": true,
+    "eligibilityTestsPassed": true
+  },
+  "independentVerification": {
+    "readOnly": true,
+    "selectOnly": true,
+    "additionalWrites": 0
+  },
+  "replay": {
+    "readOnly": true,
+    "selectOnly": true,
+    "additionalWrites": 0
+  },
+  "protectedReceipts": [
+    {
+      "key": "ops:attendance-tier-coins:20261106:v1",
+      "hash": "4fb8236e9c310171dfbc625c2f2b9d4c88d2f165e54528e4d9525804abb25312"
+    },
+    {
+      "key": "ops:attendance101-cube2-coin500t:20261106:v1",
+      "hash": "146dd8fd5d95c5b5a0264713ecf090e247f1020bfe84c11ce6c1cc61a4ce20dd"
+    },
+    {
+      "key": "ops:season-pass-coin500t-messages:20261106:v1",
+      "hash": "3ffd8bef6e418903efcd7a579b3f966d6408d46b38997e805abb424bf2699402"
+    },
+    {
+      "key": "ops:season-pass-stars300m-messages:20261106:v1",
+      "hash": "00f91a5aa694c62434e805367041a2df05f1d507bcb9e202deef6cbcd43d30c9"
+    }
+  ],
+  "rewardsGranted": 0,
+  "eventActivated": false,
+  "futureRecipientsAutomatic": false,
+  "gameRedeployments": 0,
+  "scheduledTasksCreated": 0,
+  "storageMaintenance": false,
+  "artifactHashes": {
+    "common.mjs": "1411ab1257497b8d07564be9ddde7cc30f26b3bc29dbcca6d68749f42e3661e2",
+    "inspect.mjs": "a0d610d560198586a4855341ee0cb30d8dce471872401c5cf739ea997e7d9bb4",
+    "send.mjs": "444ecaa5c405d4f08f8d435109931b4b595202fe7e2fc892ad31f3fe8bd23faf",
+    "run.mjs": "7e864bc9041993aae4d4f1944b1d68e30ef6e074624e651070600ea5befdf4b6",
+    "eligibility.test.mjs": "608177ae97da33dc080f715715a88cdd0bc8fa235f568a150a9c592a27977285",
+    "plan.json": "5b5dc9ed4275484291dc84c85fea905cce69cbd14e13fe2315fa05439a9c11d7",
+    "plan-hash.json": "ac4efac3260b535ea9ab5e551e9c7c1c8900a5454c3a71cee3b631361af98178",
+    "inspection.json": "22a7a316e412babcca8601406c8c10e8eefe53b6079ab025844dce4d4c3db073",
+    "prior.json": "741f62eea7a1ed6cb4fb67b2803720da777beb8612a64f9b8e7d4cbd61ce4370",
+    "tests.json": "999b4773dec61a2479d6f3c555b264c685b17ed0c6459fabd8e112f8c816c7c9",
+    "dry-run.json": "0ef7b078671248ffa5b12253d7cf09ff6826d0dc13dca24f9857c96f4a62c861",
+    "apply.json": "15fbad286671448ebeb1a6c8f90c6280277d8f647f74592ec6a542c4262cc0a5",
+    "verify.json": "f5147a174332a196fdd4d79681a9c1fb70dfc898806db5536092c282f3171d82",
+    "replay.json": "e210a7b88644279123a94c9c45898234afb4fa11fe8837020b7a9e9b2327e945",
+    "receipt.json": "2142bcc00ffb3016382db44a74ae8eb84d5d6b6d3ae5592a8823ae4199f7f28b"
+  },
+  "verifiedAt": "2026-11-06T11:32:20.271Z"
+}
