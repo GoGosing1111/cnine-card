@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import {packageFixture} from './helpers/support-package-fixture.mjs';
 import {SUPPORT_PACKAGE,SUPPORT_PACKAGE_SALES_ENDS_AT,supportPackageSalesOpen} from '../shared/support-package-v1.mjs';
 
-test('package sales close at 2026-11-04 00:00 KST after exactly one day extension',()=>{
- assert.equal(new Date(SUPPORT_PACKAGE_SALES_ENDS_AT).toISOString(),'2026-11-03T15:00:00.000Z');
- assert.equal(SUPPORT_PACKAGE_SALES_ENDS_AT-Date.parse('2026-11-03T00:00:00+09:00'),86400000);
+test('package sales close at 2026-11-09 00:00 KST for the refreshed offer',()=>{
+ assert.equal(new Date(SUPPORT_PACKAGE_SALES_ENDS_AT).toISOString(),'2026-11-08T15:00:00.000Z');
+ assert.equal(SUPPORT_PACKAGE_SALES_ENDS_AT-Date.parse('2026-11-04T00:00:00+09:00'),5*86400000);
  assert.equal(supportPackageSalesOpen(Date.parse('2026-11-03T00:00:00+09:00')),true);
  assert.equal(supportPackageSalesOpen(SUPPORT_PACKAGE_SALES_ENDS_AT-1),true);
  assert.equal(supportPackageSalesOpen(SUPPORT_PACKAGE_SALES_ENDS_AT),false);
@@ -31,9 +31,9 @@ for(const postgres of [false,true])test(`midnight hides only the package, reject
   assert.equal(f.queries.filter(q=>/^\s*(?:INSERT|UPDATE|DELETE)\b/i.test(q)).length,writes);
   assert.equal((await f.call('admin/server-support/package/alerts')).body.pending.length,1);
   const processId=crypto.randomUUID(),paid=await f.process(applied.body.order,'FULFILL',processId);
-  assert.equal(paid.status,200);assert.deepEqual(paid.body.order.fulfillment,SUPPORT_PACKAGE);
+  assert.equal(paid.status,200);assert.deepEqual(paid.body.order.fulfillment.items,SUPPORT_PACKAGE.items);assert.equal(paid.body.order.fulfillment.coins,700000000000000);
   assert.equal((await f.process(applied.body.order,'FULFILL',processId)).body.replayed,true);
-  assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),500000000001234);
+  assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),700000000001234);
   assert.equal((await f.one('SELECT value FROM app_meta WHERE key=?','server_support_v1:2')).value,beforeSupport.value);
  }finally{await f.close();}
 });
