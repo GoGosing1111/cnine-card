@@ -1,4 +1,5 @@
 import {collectionRewardCoin} from './_collection_bonuses.js';
+import {coinCreditLimit} from '../shared/coin-integer-v1.mjs';
 import {CORE_REWARD_DEFAULT,CORE_REWARD_TYPES,validateCoreRewardPolicy,drawCoreRewards,minimumCoreReward} from '../shared/core-raid-reward-policy-v1.mjs';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
 import {readMercenaryDocument} from './_mercenary_account.js';
@@ -112,8 +113,9 @@ export async function prepareCoreChoiceGrant(env,user,offer,{sourceType='CORE_RA
   statements.push(jointGuard(DB,guard+':owner','EXISTS(SELECT 1 FROM users WHERE id=?)',[uid]));
   if(['COIN','CARD_SHARDS','MAGIC_CRYSTAL'].includes(reward.rewardType)){
     const column={COIN:'coin',CARD_SHARDS:'card_shards',MAGIC_CRYSTAL:'magic_crystals'}[reward.rewardType],table={COIN:'coin_logs',CARD_SHARDS:'shard_logs',MAGIC_CRYSTAL:'magic_crystal_logs'}[reward.rewardType];
-    statements.push(jointGuard(DB,guard,`EXISTS(SELECT 1 FROM users WHERE id=? AND ${column}>=0 AND ${column}<=?)`,[uid,Number.MAX_SAFE_INTEGER-qty]));
-    statements.push(stmt(`UPDATE users SET ${column}=${column}+? WHERE id=?`,qty,uid));
+    const isCoin=reward.rewardType==='COIN';
+    statements.push(jointGuard(DB,guard,`EXISTS(SELECT 1 FROM users WHERE id=? AND ${column}>=0 AND ${column}<=?)`,[uid,isCoin?coinCreditLimit(qty):Number.MAX_SAFE_INTEGER-qty]));
+    statements.push(stmt(`UPDATE users SET ${column}=${column}+${isCoin?'CAST(? AS BIGINT)':'?'} WHERE id=?`,qty,uid));
     statements.push(reward.rewardType==='MAGIC_CRYSTAL'?stmt(`INSERT INTO ${table}(user_id,change_amount,balance_after,reason,reference_type,reference_id) SELECT id,?,${column},?,?,? FROM users WHERE id=?`,qty,reason,referenceType,source,uid):stmt(`INSERT INTO ${table}(user_id,change_amount,balance_after,reason) SELECT id,?,${column},? FROM users WHERE id=?`,qty,reason,uid),jointGuardEnd(DB,guard));
   }else if(['MASTER_STAR','INVENTORY_ITEM'].includes(reward.rewardType)){
     statements.push(jointGuard(DB,guard,'EXISTS(SELECT 1 FROM inventory_items WHERE code=? AND is_active=1) AND EXISTS(SELECT 1 FROM users WHERE id=?) AND NOT EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND (quantity<0 OR unseen_quantity<0 OR CAST(quantity AS BIGINT)>? OR CAST(unseen_quantity AS BIGINT)>?))',[ref,uid,uid,ref,Number.MAX_SAFE_INTEGER-qty,Number.MAX_SAFE_INTEGER-qty]),stmt('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP',uid,ref,qty,qty),stmt('INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT user_id,item_code,?,quantity,?,?,? FROM cnine_user_inventory WHERE user_id=? AND item_code=?',qty,reason,referenceType,source,uid,ref),jointGuardEnd(DB,guard));
