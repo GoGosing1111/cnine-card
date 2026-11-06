@@ -1,0 +1,71 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:gingdeodeum-jokro-exempt:20261106:v1",
+  "authorization": "깅더듬 계정에 족로 한장 지급해 한도차감없이",
+  "userId": "5877",
+  "nickname": "깅더듬",
+  "code": "V-979",
+  "name": "족로",
+  "rank": "SSS",
+  "edition": "LIMITED",
+  "delivery": "DIRECT",
+  "quantity": 1,
+  "copiesBefore": 0,
+  "copiesAfter": 1,
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "stockCountersChanged": false,
+  "limitedIssueRecordsAdded": 0,
+  "craftCountsChanged": false,
+  "purchaseCountsChanged": false,
+  "stockPreserved": [
+    {
+      "code": "SSS_MIRACLE_CUBE:V-979",
+      "limit": "10",
+      "issued": "6"
+    },
+    {
+      "code": "V-979",
+      "limit": "3",
+      "issued": "3"
+    }
+  ],
+  "acquisitionId": "ops:gingdeodeum-jokro-exempt:20261106:v1:5877:V-979:1",
+  "auditId": "55482",
+  "completedAt": "2026-11-06T12:55:00.240Z",
+  "completedAtKst": "2026-11-06 21:55:00 KST",
+  "planHash": "560e98c76ddfdb8e3fa4ab17cef7b432e5bae59ffd52a34ee9f27b6f6c59340f",
+  "executionSourceSha256": "5bf65c9b2a7a3046891c6953416bbb383508124c56fcd5fb222f500d0fb58d21",
+  "sourceCommit": "ea5f29738ab31cf2761e397c7d62b5dab348d61e",
+  "pages": "7b946e64-804e-456b-a027-6b840db6b0fa",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version_id": "3be6eb93-cc96-4235-acb0-464ceb258d21",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version_id": "6e466bc6-f4f8-4763-992e-1867017ec0ca",
+      "percentage": 100
+    }
+  ],
+  "verification": {
+    "grantTestsPassed": 4,
+    "accessTestsPassed": 2,
+    "failedAndSuccessfulRehearsalsRolledBack": true,
+    "liveUserAndDatabaseLocks": true,
+    "independentReadOnly": true,
+    "replayAdditionalWrites": 0,
+    "leasesReleased": true,
+    "collectionRevisionDelta": 1,
+    "rankedSourceDelta": 1,
+    "otherAssetsAndGrowthPreserved": true,
+    "actualAccountCodexGrowthRankedAndBothModes": true,
+    "missing": 0,
+    "duplicates": 0
+  },
+  "automaticLoadout": false,
+  "messagesSent": 0,
+  "storageMaintenance": false,
+  "scheduledAutomations": 0
+}
