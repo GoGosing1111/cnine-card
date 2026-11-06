@@ -1,0 +1,206 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:pepegu-draw-winners:20261106:v1",
+  "authorization": "지급해",
+  "drawOperationKey": "draw:pepegu:roster32:100to1:20261106:v1",
+  "drawResultSha256": "f94be8c50731146ea6a59f3c367f08033455af63ea6bdc4bb76e3062f80f85de",
+  "completedAt": "2026-11-06T08:12:37.857Z",
+  "completedAtKst": "2026-11-06 17:12:37 KST",
+  "auditId": "55330",
+  "recipientCount": 10,
+  "petCode": "PET-PEPEGU",
+  "petName": "페페구",
+  "totalPets": 10,
+  "quantityEach": 1,
+  "ownership": "PERMANENT",
+  "petAudits": 10,
+  "summaryAudits": 1,
+  "missing": 0,
+  "duplicates": 0,
+  "planHash": "ce1bf229b2163a3cc24761ab86412a5bfff8b0847b3159df10d6209f49620469",
+  "sourceSha256": "c81e24b3e9b3eb50bf06a6547bdac7d95f52fd2dc118792847d690ca0a2757f0",
+  "targetedTests": 4,
+  "actualPetReadersChecked": 10,
+  "collectionSyncVerified": 10,
+  "failedAndSuccessfulRehearsalsRolledBack": true,
+  "noWriteReplayVerified": true,
+  "independentReadOnly": true,
+  "leasesReleased": true,
+  "existingRentalsPreserved": 4,
+  "previousBoxReceiptPreserved": true,
+  "redraw": false,
+  "autoEquip": false,
+  "petPolicyChanges": false,
+  "messagesSent": 0,
+  "gameDeployment": false,
+  "storageMaintenance": false,
+  "scheduledAutomations": 0,
+  "recipients": [
+    {
+      "order": 1,
+      "userId": "4582",
+      "nickname": "족단",
+      "quantityAdded": 1,
+      "permanentBefore": 0,
+      "permanentAfter": 1,
+      "owned": true,
+      "ownership": "PERMANENT",
+      "petAuditId": "55326",
+      "existingRentalPreserved": true
+    },
+    {
+      "order": 2,
+      "userId": "88",
+      "nickname": "0수표",
+      "quantityAdded": 1,
+      "permanentBefore": 0,
+      "permanentAfter": 1,
+      "owned": true,
+      "ownership": "PERMANENT",
+      "petAuditId": "55322",
+      "existingRentalPreserved": true
+    },
+    {
+      "order": 3,
+      "userId": "4651",
+      "nickname": "세라네꼬라지",
+      "quantityAdded": 1,
+      "permanentBefore": 0,
+      "permanentAfter": 1,
+      "owned": true,
+      "ownership": "PERMANENT",
+      "petAuditId": "55328",
+      "existingRentalPreserved": false
+    },
+    {
+      "order": 4,
+      "userId": "289",
+      "nickname": "베베킹",
+      "quantityAdded": 1,
+      "permanentBefore": 0,
+      "permanentAfter": 1,
+      "owned": true,
+      "ownership": "PERMANENT",
+      "petAuditId": "55323",
+      "existingRentalPreserved": true
+    },
+    {
+      "order": 5,
+      "userId": "2420",
+      "nickname": "블랙캐슬",
+      "quantityAdded": 1,
+      "permanentBefore": 0,
+      "permanentAfter": 1,
+      "owned": true,
+      "ownership": "PERMANENT",
+      "petAuditId": "55325",
+      "existingRentalPreserved": false
+    },
+    {
+      "order": 6,
+      "userId": "5362",
+      "nickname": "점빡이",
+      "quantityAdded": 1,
+      "permanentBefore": 0,
+      "permanentAfter": 1,
+      "owned": true,
+      "ownership": "PERMANENT",
+      "petAuditId": "55329",
+      "existingRentalPreserved": false
+    },
+    {
+      "order": 7,
+      "userId": "4627",
+      "nickname": "학벌",
+      "quantityAdded": 1,
+      "permanentBefore": 0,
+      "permanentAfter": 1,
+      "owned": true,
+      "ownership": "PERMANENT",
+      "petAuditId": "55327",
+      "existingRentalPreserved": true
+    },
+    {
+      "order": 8,
+      "userId": "1768",
+      "nickname": "핫시",
+      "quantityAdded": 1,
+      "permanentBefore": 0,
+      "permanentAfter": 1,
+      "owned": true,
+      "ownership": "PERMANENT",
+      "petAuditId": "55324",
+      "existingRentalPreserved": false
+    },
+    {
+      "order": 9,
+      "userId": "76",
+      "nickname": "랄네미탱탱",
+      "quantityAdded": 1,
+      "permanentBefore": 0,
+      "permanentAfter": 1,
+      "owned": true,
+      "ownership": "PERMANENT",
+      "petAuditId": "55321",
+      "existingRentalPreserved": false
+    },
+    {
+      "order": 10,
+      "userId": "62",
+      "nickname": "숭구릭",
+      "quantityAdded": 1,
+      "permanentBefore": 0,
+      "permanentAfter": 1,
+      "owned": true,
+      "ownership": "PERMANENT",
+      "petAuditId": "55320",
+      "existingRentalPreserved": false
+    }
+  ],
+  "evidence": [
+    {
+      "file": "source.json",
+      "sha256": "f06719b1b118fa2d35f7e2e1aed72bbdd08c3c946cf8b5d4e5416cd3a5a1f79e"
+    },
+    {
+      "file": "plan.json",
+      "sha256": "7cc307121a64c2dde2a38223aec2503be6a4322c2fd1260ad621daa1e6f34800"
+    },
+    {
+      "file": "preflight.json",
+      "sha256": "55d50ad1dd6c12bd24644c2d290f6ad727739e1a70360955dc7a771faa39578c"
+    },
+    {
+      "file": "evidence/tests.json",
+      "sha256": "6cb59abd1d9cadc63fa5c45ade402d22a9085f81d36c8e38c31286be2c33aae6"
+    },
+    {
+      "file": "evidence/tests.log",
+      "sha256": "1cfbc4a4f1c2e3ea8eb4b62c88e48904a9a212f2d9ea4aafd62131bff57b2c5f"
+    },
+    {
+      "file": "evidence/dry-run.json",
+      "sha256": "c5e41d3d29845959314fdc2759afaa8b8b205ade043f2ec03374e35c71966e9b"
+    },
+    {
+      "file": "evidence/commit-candidate-snapshots.json",
+      "sha256": "f8a8ddeee30157e107e0f66f2a0f7598686b8dba5186fcad58992b1e74960936"
+    },
+    {
+      "file": "evidence/commit-confirmed.json",
+      "sha256": "d2bf9e46f9f88975ddc1d666d44234795a3cff397abb4d6f9156c1e5fe1a861c"
+    },
+    {
+      "file": "evidence/apply.json",
+      "sha256": "fbf293245e47b0ad16a7dced4618f42bb64be62692a43ea2c5c5d275079cd943"
+    },
+    {
+      "file": "evidence/verify.json",
+      "sha256": "8c9583b52c43255bab71aca5bb7239782b4357e1b9cffb72c94f4dcecf49c9c0"
+    },
+    {
+      "file": "evidence/independent.json",
+      "sha256": "6e881e490cb1da32896e00d5feb80768fb944d4533b896db958c5120e179bc52"
+    }
+  ]
+}

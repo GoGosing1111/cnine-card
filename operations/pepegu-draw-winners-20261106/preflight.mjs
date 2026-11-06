@@ -1,0 +1,30 @@
+import fs from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {connect,safe,hash} from '../rap-contest-rewards-20261027/preflight.mjs';
+const OP='ops:pepegu-draw-winners:20261106:v1',PET='PET-PEPEGU';
+const drawBytes=await fs.readFile(new URL('../pepegu-roster32-draw10-20261106/result.json',import.meta.url));
+const drawHash=createHash('sha256').update(drawBytes).digest('hex');assert.equal(drawHash,'f94be8c50731146ea6a59f3c367f08033455af63ea6bdc4bb76e3062f80f85de');
+const draw=JSON.parse(drawBytes);assert.equal(draw.operationKey,'draw:pepegu:roster32:100to1:20261106:v1');assert.equal(draw.winners.length,10);assert.equal(draw.totalTickets,113);
+const expected=[['4582','족단'],['88','0수표'],['4651','세라네꼬라지'],['289','베베킹'],['2420','블랙캐슬'],['5362','점빡이'],['4627','학벌'],['1768','핫시'],['76','랄네미탱탱'],['62','숭구릭']];assert.deepEqual(draw.winners.map(t=>[t.userId,t.nickname]),expected);
+const source={operationKey:OP,dateKst:'2026-11-06',authorization:'지급해',context:'Immediately preceding ten Pepegu raffle winners in this chat; one pet per winning account.',quantityPerAccount:1,recipientCount:10,ownership:'PERMANENT',delivery:'DIRECT_PET_COLLECTION',autoEquip:false,sendMessages:false,draw:{operationKey:draw.operationKey,resultSha256:drawHash,participants:32,tickets:113,winners:draw.winners}};
+const db=connect();
+try{
+ db.connectionParameters.application_name='pepegu-draw-winners-preflight';await db.connect();await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');await db.query("SET LOCAL statement_timeout='20s'");
+ const q=async(sql,args=[])=>(await db.query(sql,args)).rows;
+ const names=draw.winners.map(t=>t.nickname),ids=draw.winners.map(t=>t.userId);
+ const users=await q('SELECT u.id::text,u.nickname,u.status,u.role,v.provider,v.provider_user_id FROM users u LEFT JOIN user_second_verifications v ON v.user_id=u.id WHERE u.nickname=ANY($1::text[]) OR u.id=ANY($2::bigint[]) ORDER BY u.id',[names,ids]);
+ assert.equal(users.length,10);assert.deepEqual([...users.map(u=>[u.id,u.nickname])].sort(),[...expected].sort());
+ const targets=users.map(u=>{assert.equal(u.status,'ACTIVE');assert(u.provider&&u.provider_user_id);return{order:names.indexOf(u.nickname)+1,nickname:u.nickname,userId:u.id,role:u.role,identityHash:hash({provider:u.provider,providerId:u.provider_user_id}),amount:1};});assert.equal(new Set(targets.map(t=>t.identityHash)).size,10);
+ const settings=await q("SELECT key,value FROM app_meta WHERE key IN ('pet_cms_preparation_v1','pet_opening_settings_v1','pet_potential_settings_v1') ORDER BY key");
+ const cms=JSON.parse(settings.find(r=>r.key==='pet_cms_preparation_v1').value),pets=cms.document.pets.filter(p=>p.code===PET);assert.equal(pets.length,1);assert.equal(pets[0].name,'페페구');assert.equal(pets[0].liveEnabled,true);
+ const collections=await q('SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key',[ids.map(id=>'pet_collection_v1:'+id)]);
+ const rentals=await q('SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key',[ids.map(id=>'pet_rental_v1:'+id)]);
+ const previous=await q("SELECT key,value FROM app_meta WHERE key=$1 OR key LIKE 'pet_grant_receipt_v1:ops-pepegu-draw-20261106-%'",[OP]);assert.equal(previous.length,0,'Already processed; use read-only verification');
+ const recent=await q("SELECT id::text,target_id,created_at,after_data FROM admin_logs WHERE action_type='PET_GRANT' AND target_id=ANY($1::text[]) AND after_data LIKE '%PET-PEPEGU%' ORDER BY id DESC LIMIT 40",[ids]);
+ const priorBox=await q('SELECT key,value FROM app_meta WHERE key=$1',[draw.sourceOperationKey]);assert.equal(priorBox.length,1);assert.equal(JSON.parse(priorBox[0].value).auditId,'54585');
+ const plan={operationKey:OP,authorization:source.authorization,sourceHash:hash(source),drawResultSha256:drawHash,ownership:'PERMANENT',petCode:PET,petName:'페페구',petDefinition:pets[0],petCmsRevision:cms.revision,settingsHash:hash(settings),priorBoxOperationKey:draw.sourceOperationKey,priorBoxReceiptHash:hash(priorBox),delivery:'DIRECT_PET_COLLECTION',recipientCount:10,totalPets:10,targets,pending:[],checkedAt:new Date().toISOString()};
+ await db.query('ROLLBACK');
+ for(const[name,data]of[['source.json',source],['plan.json',plan],['preflight.json',{checkedAt:plan.checkedAt,readOnly:true,plan,settings,collections,rentals,recentPetGrants:recent,previous,priorBoxReceiptHash:plan.priorBoxReceiptHash}]])await fs.writeFile(new URL(name,import.meta.url),JSON.stringify(data,null,2)+'\n',{flag:'wx'});
+ console.log(JSON.stringify({targets:targets.map(t=>({id:t.userId,nickname:t.nickname,amount:t.amount})),petCode:PET,petName:pets[0].name,cmsRevision:cms.revision,ownership:plan.ownership,current:targets.map(t=>({id:t.userId,nickname:t.nickname,permanentQuantity:JSON.parse(collections.find(r=>r.key==='pet_collection_v1:'+t.userId)?.value||'{"pets":{}}').pets[PET]??0,rental:JSON.parse(rentals.find(r=>r.key==='pet_rental_v1:'+t.userId)?.value||'{"pets":{}}').pets[PET]??null})),previousOperation:previous.length,recentPetGrants:recent.map(r=>({id:r.id,targetId:r.target_id,createdAt:r.created_at})),planHash:hash(plan)}));
+}catch(e){await db.query('ROLLBACK').catch(()=>{});console.error(safe(e));process.exitCode=1;}finally{await db.end().catch(()=>{});}
