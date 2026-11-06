@@ -13,7 +13,7 @@ const recipes=[
  {id:81,name:'배틀슈트 01 제작',category:'BATTLE_SUIT_CRAFT',payment_mode:'BOTH',output_name:'E-BODY',output_image:'assets/items/e-body-v2004.png',output_rarity:'NORMAL',output_pve:200000,output_pvp:0,success_rate:50,coin_cost:500000000,master_star_cost:10000,materials:[{...core,item_code:'SUIT_CORE_1',item_name:'슈트 코어 1',image_url:'assets/items/suit-core-1-v2004.png',quantity:1}]}
 ];
 const state={wallet:{coin:150000000000,cardShards:0,masterStars:1500000},inventory:{SUIT_CORE_5:{quantity:10},SUIT_CORE_1:{quantity:1}},recipes,synthesis:[]};
-const html=`<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/css/workshop-v1676.css"><link rel="stylesheet" href="/css/workshop-v1881.css"><body style="margin:0;background:#050b12"><div id="app"></div><div id="modal"></div><script>
+const html=`<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/css/workshop-v1676.css"><link rel="stylesheet" href="/css/workshop-v1881.css"><link rel="stylesheet" href="/css/workshop-workbench-v1.css"><body style="margin:0;background:#050b12"><div id="app"></div><div id="modal"></div><script>
 window.apiRequest=async(path,options={})=>{const response=await fetch('/api/'+path,{method:options.method||'GET',body:options.body,headers:options.body?{'content-type':'application/json'}:{}}),data=await response.json();if(!response.ok)throw Object.assign(new Error(data.error),{status:response.status});return data};
 window.loadUser=()=>null;window.saveUser=()=>{};
 </script><script src="/js/workshop-recipes-v1.js"></script><script src="/js/workshop-v1881.js"></script><script>document.getElementById('app').innerHTML=window.workshopView(null);window.bindWorkshopView();</script></body></html>`;
@@ -42,21 +42,21 @@ test('S-BODY shows and submits both coin and star costs on desktop and mobile; r
  });
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
  const origin=`http://127.0.0.1:${server.address().port}`;
- const browser=await chromium.launch({channel:'chrome',headless:true});
+ const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio']});
  try{
   for(const scenario of [
-   {width:1440,height:1000,recipe:521,payment:'BOTH',shown:['SUIT CORE','COIN','MASTER STAR']},
-   {width:390,height:844,recipe:521,payment:'BOTH',shown:['SUIT CORE','COIN','MASTER STAR']},
-   {width:1440,height:1000,recipe:81,payment:'BOTH',shown:['SUIT CORE','COIN','MASTER STAR']}
+   {width:1440,height:1000,recipe:521,payment:'BOTH',shown:['슈트 코어 5','코인','마스터의 별']},
+   {width:390,height:844,recipe:521,payment:'BOTH',shown:['슈트 코어 5','코인','마스터의 별']},
+   {width:1440,height:1000,recipe:81,payment:'BOTH',shown:['슈트 코어 1','코인','마스터의 별']}
   ]){
    const page=await browser.newPage({viewport:{width:scenario.width,height:scenario.height},serviceWorkers:'block'}),dialogs=[],errors=[];
    page.on('dialog',async dialog=>{dialogs.push({type:dialog.type(),message:dialog.message()});await dialog.accept()});
    page.on('pageerror',error=>errors.push(error.message));
    try{
     await page.goto(origin,{waitUntil:'domcontentloaded'});
-    await page.locator('[data-ws-section="BATTLE_SUIT_CRAFT"]').click();
-    await page.locator(`[data-suit-recipe="${scenario.recipe}"]`).click();
-    const labels=await page.locator('.ws81-suit-costs article small').allTextContents();
+    if(scenario.width<800){await page.locator('#wsCategoryPicker').selectOption('BATTLE_SUIT_CRAFT');await page.locator('#wsRecipePicker').selectOption(String(scenario.recipe));}
+    else{await page.locator('[data-ws-section="BATTLE_SUIT_CRAFT"]').click();await page.locator(`[data-suit-recipe="${scenario.recipe}"]`).click();}
+    const labels=await page.locator('.ws81-suit-costs article>div>b').allTextContents();
     assert.deepEqual(labels,scenario.shown);
     assert.equal(await page.locator('#wsBattleSuitCraft').isEnabled(),true);
     assert.equal(await page.locator('[data-suit-pay]').count(),0);
