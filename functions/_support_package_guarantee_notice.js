@@ -42,7 +42,10 @@ export function packageGuaranteeNoticeStatements(DB,plan,guard){
   guard('NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)',[plan.key]),
   plan.manualRaw===null?guard('NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)',[n.campaignKey]):guard('EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[n.campaignKey,plan.manualRaw]),
   ...(plan.existingId?[guard('EXISTS(SELECT 1 FROM user_messages WHERE id=? AND user_id=? AND campaign_key=?)',[plan.existingId,plan.userId,n.campaignKey])]:[
-   p("INSERT INTO user_messages(user_id,sender_type,title,body,message_type,campaign_key,created_at) VALUES(?,'SYSTEM',?,?,'SYSTEM',?,?) ON CONFLICT(user_id,campaign_key) DO NOTHING",plan.userId,n.title,n.body,n.campaignKey,new Date(plan.state.recordedAt).toISOString())
+   // Production uses a partial unique campaign index (nonempty keys only).
+   // Untargeted DO NOTHING respects that index on both PostgreSQL and SQLite;
+   // the following content guard still rejects an unrelated conflict.
+   p("INSERT INTO user_messages(user_id,sender_type,title,body,message_type,campaign_key,created_at) VALUES(?,'SYSTEM',?,?,'SYSTEM',?,?) ON CONFLICT DO NOTHING",plan.userId,n.title,n.body,n.campaignKey,new Date(plan.state.recordedAt).toISOString())
   ]),
   guard("EXISTS(SELECT 1 FROM user_messages WHERE user_id=? AND campaign_key=? AND title=? AND body=? AND message_type='SYSTEM')",[plan.userId,n.campaignKey,n.title,n.body]),
   p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',plan.key,value)
