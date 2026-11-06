@@ -1,0 +1,59 @@
+{
+  "baseline": "0f8c4f39d6d5772d5fbdb9c5651d533b811a7f47",
+  "rows": [
+    {
+      "code": "BATTLE_SUIT_H_BODY",
+      "apocalypse": false,
+      "sha256": "56af05fd84e587e7fdbdaae5319989e897e0f0bdd0e2da080a51482b8df6bb18"
+    },
+    {
+      "code": "BATTLE_SUIT_H_BODY",
+      "apocalypse": true,
+      "sha256": "8036d45ae03652bd529e945c3ba8feedcca1e602ef4e68f132a6cda77cc3d7ed"
+    },
+    {
+      "code": "BATTLE_SUIT_S_BODY",
+      "apocalypse": false,
+      "sha256": "00cd1e1f3a1eaa81e3dc775e738d5f023e5cf91c446b08d69edbb18e25bd26a3"
+    },
+    {
+      "code": "BATTLE_SUIT_S_BODY",
+      "apocalypse": true,
+      "sha256": "996a71e2ca288363d5092649062b3ce366a012b3356467d6de090862fef82356"
+    },
+    {
+      "code": "BATTLE_SUIT_Z_BODY",
+      "apocalypse": false,
+      "sha256": "9ffc9f25ff782aa94f24a63ee262f89d5ef481160137686650183466722faae8"
+    },
+    {
+      "code": "BATTLE_SUIT_Z_BODY",
+      "apocalypse": true,
+      "sha256": "93f47ab9267731f08e7381f399eac99d88b529dd1695f46df7de593d3be5ee55"
+    },
+    {
+      "code": "BATTLE_SUIT_OVERLORD",
+      "apocalypse": false,
+      "sha256": "95fc9d67d3d3fe0b10285e3faa913ddbdf647b41348c120e81872ee1df8ce491"
+    },
+    {
+      "code": "BATTLE_SUIT_OVERLORD",
+      "apocalypse": true,
+      "sha256": "c76195e9fc39093405a0d3e3457c7ce1960971bd17261e7d2e8df0390f26459b"
+    },
+    {
+      "code": "BATTLE_SUIT_SX",
+      "apocalypse": false,
+      "sha256": "ecfc5b0cde73e96f2c1582b282f4032899f4f2073f5bfb3a2ff7bdacdb78c6db"
+    },
+    {
+      "code": "BATTLE_SUIT_SX",
+      "apocalypse": true,
+      "sha256": "e44c3d8d28f878136d36ec831e8fd6a32fc2e8e5aa02dd6283a29f6eb6c9c146"
+    },
+    {
+      "pvp": true,
+      "sha256": "615e632f73dc584ec5a99a68ab83ab98fb7096643fea105dc916b6b48a2cf4c5"
+    }
+  ]
+}

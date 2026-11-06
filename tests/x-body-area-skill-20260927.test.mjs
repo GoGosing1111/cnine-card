@@ -16,11 +16,11 @@ test('only the exact X support can cast; JSON cannot enable a review or inject a
  for(const code of['BATTLE_SUIT_H_BODY','BATTLE_SUIT_S_BODY','BATTLE_SUIT_Z_BODY'])assert.equal(cast(run({battleSuit:{...suit,code}}).result),undefined);
  for(const battleSuit of[null,{...suit,pvePower:0}])assert.equal(cast(run({battleSuit}).result),undefined);
 });
-test('the candidate uses the existing helicopter damage formula and approved dragon collision times',()=>{
+test('X uses its approved outgoing budget with the helicopter coefficient and dragon collision times',()=>{
  const x=run(),a=cast(x.result),heli=run({battleSuit:{...suit,code:'BATTLE_SUIT_H_BODY',skillChips:[SKILL.damageReference]}});
  const b=heli.result.timeline.find(e=>e.type==='SKILL_CHIP_CAST');
  assert.equal(a.intervalMs,40000);assert.equal(b.intervalMs,15000);
- assert.equal(a.baseDamage,b.baseDamage);assert.equal(a.calculatedDamage,b.calculatedDamage);assert.equal(a.damageMultiplier,5);
+ assert.equal(a.baseDamage,b.baseDamage*32);assert.equal(a.calculatedDamage,b.calculatedDamage*32);assert.equal(a.damageMultiplier,5);
  const hits=x.result.timeline.filter(e=>e.castId===a.castId&&e.type==='SKILL_CHIP_HIT');
  assert.equal(hits.length,5);assert.equal(hits.reduce((n,e)=>n+e.damage+e.absorbed,0),a.calculatedDamage);
  for(const hit of hits)assert.equal(hit.combatAtMs,a.combatAtMs+SKILL.impactOffsetsMs[hit.hitIndex]);
