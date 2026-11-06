@@ -1,0 +1,123 @@
+{
+  "pages": {
+    "at": "2026-11-06T10:04:35.034Z",
+    "id": "767825e6-693f-4fc9-aca9-a677525f7b3b",
+    "url": "https://767825e6.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "89694612aca7e1db9dc098e67895f95b880e10cf"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "6d5513f0-2d2b-4090-bfa0-4616f8ebb384",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "9007b28c-5c23-4250-a4a4-324faf6a1f42",
+      "percentage": 100
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "shared/support-package-v1.mjs",
+      "sha256": "bbae34387c65072225c32a6a302552cdc2e87906de828abfdafeb3fc97c03167",
+      "status": 200
+    },
+    {
+      "file": "js/support-package-v1.mjs",
+      "sha256": "f8245409bcc56864c0f6fccf9d9f8bf3334e7e5e3854a1ea30734fa81c31bb01",
+      "status": 200
+    },
+    {
+      "file": "js/server-support-v1.mjs",
+      "sha256": "62d11a5f653cb79c24209abc597d1af4683295633b66c0f4166fe783bff2ccd0",
+      "status": 200
+    },
+    {
+      "file": "js/support-package-alerts-v1.mjs",
+      "sha256": "5534896cbea579943c9c837c103fcf32da9e2f7581d25b258c27af01be82fa65",
+      "status": 200
+    },
+    {
+      "file": "admin/support-package-admin-v1.mjs",
+      "sha256": "ce259f8cff4329b0bf60f2d0dd5fe5ae25a34ee6a378369785419ab0d1a73278",
+      "status": 200
+    },
+    {
+      "file": "admin/server-support-admin-v1.mjs",
+      "sha256": "14027ae5a6a77b43117454c00536764b57edec1bed3bf321d939af949235b4fa",
+      "status": 200
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "3be4da4f6ada23a394e01f6cc88ab90e4519e71af1b49a8dbce343061d780b11",
+      "status": 200
+    },
+    {
+      "file": "css/support-package-v1.css",
+      "sha256": "3ba39ff8dde9449dc6f41f895494309d6c9b17c3f2a6585ebc8bc632fd38515b",
+      "status": 200
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "sha256": "5786ecbfc82dc187019c2ef544d0b51dc9dc2dc11c31a820022015e8319f6d1f",
+      "status": 200
+    },
+    {
+      "file": "index.html",
+      "sha256": "1e21c86a80c08c7c81ddfb5f85c034f65c5554e3387f52185dca3c9039072eb9",
+      "status": 200
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "897afe9593bd1c83183f37873990b69a840cdf89de7394a19bea3a999a6a8728",
+      "status": 200
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "961ee60602efd19fdb2d471a8d2564cc890debbe5e17d6f5c79533f37abdeef7",
+      "status": 200
+    }
+  ],
+  "windows": [
+    {
+      "file": "shared/support-package-v1.mjs",
+      "sha256": "be64e4fc2a31c745a65697edca07ba6ebcc9993457257eecf15909cc35411b62",
+      "essential": true
+    },
+    {
+      "file": "js/support-package-v1.mjs",
+      "sha256": "db07ea49c863970a796a33ebc23406ca67e1eb16597770fbf2b4252128517615",
+      "essential": true
+    },
+    {
+      "file": "js/server-support-v1.mjs",
+      "sha256": "3c83e66cff7ad24a3fda095f042d61f6a1d7e8762e843203aaa4f6aa4e66c6d3",
+      "essential": true
+    },
+    {
+      "file": "js/support-package-alerts-v1.mjs",
+      "sha256": "92cea97323b555e74a74a1780a3c9daa87bef6718377881da3cd2290a2cd4dfa",
+      "essential": true
+    },
+    {
+      "file": "css/support-package-v1.css",
+      "sha256": "831a2e040df1e6bcd370a059d6755de740be807a7fdeb760471ae6feb953913c",
+      "essential": true
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "sha256": "11f0b5fc8819ae68ad1bfa485a55876e829ce854e4d5a839c009abfd59ded34e",
+      "essential": true
+    },
+    {
+      "file": "index.html",
+      "sha256": "5b05413e08ecae9d545581889e0b76b37bf3d419de78e0606ebf64475c58d336",
+      "essential": true
+    }
+  ],
+  "manifestReleaseId": "425ca685fa2dad4abc110bea6be688ff821b08dbd44f81929c74b2470de42616",
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}

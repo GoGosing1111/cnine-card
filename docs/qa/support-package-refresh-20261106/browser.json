@@ -1,0 +1,100 @@
+{
+  "status": "PASS",
+  "reports": [
+    {
+      "name": "Chromium1440",
+      "width": 1440,
+      "engine": "chromium",
+      "liveAssets": false,
+      "offerTotals": true,
+      "tiers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        10
+      ],
+      "bulkQuantities": [
+        1,
+        5,
+        10,
+        100
+      ],
+      "lostResponseReplay": true,
+      "cmsFulfillment": true,
+      "paidCount": 5,
+      "nextFiveBonus": "8000000000000000",
+      "deadlineClosed": true,
+      "noOverflow": true,
+      "imagesDecoded": 6,
+      "errors": [],
+      "failed": [],
+      "productionWrites": 0
+    },
+    {
+      "name": "WebKit390",
+      "width": 390,
+      "engine": "webkit",
+      "liveAssets": false,
+      "offerTotals": true,
+      "tiers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        10
+      ],
+      "bulkQuantities": [
+        1,
+        5,
+        10,
+        100
+      ],
+      "lostResponseReplay": true,
+      "cmsFulfillment": true,
+      "paidCount": 5,
+      "nextFiveBonus": "8000000000000000",
+      "deadlineClosed": true,
+      "noOverflow": true,
+      "imagesDecoded": 6,
+      "errors": [],
+      "failed": [],
+      "productionWrites": 0
+    },
+    {
+      "name": "Chromium320",
+      "width": 320,
+      "engine": "chromium",
+      "liveAssets": false,
+      "offerTotals": true,
+      "tiers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        10
+      ],
+      "bulkQuantities": [
+        1,
+        5,
+        10,
+        100
+      ],
+      "lostResponseReplay": true,
+      "cmsFulfillment": true,
+      "paidCount": 5,
+      "nextFiveBonus": "8000000000000000",
+      "deadlineClosed": true,
+      "noOverflow": true,
+      "imagesDecoded": 6,
+      "errors": [],
+      "failed": [],
+      "productionWrites": 0
+    }
+  ],
+  "productionWrites": 0,
+  "messagesSent": 0
+}

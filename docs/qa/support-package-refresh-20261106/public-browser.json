@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "reports": [
+    {
+      "name": "public-WebKit390",
+      "width": 390,
+      "engine": "webkit",
+      "liveAssets": true,
+      "offerTotals": true,
+      "tiers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        10
+      ],
+      "bulkQuantities": [
+        1,
+        5,
+        10,
+        100
+      ],
+      "deadlineDisplayed": "2026-11-09T00:00:00+09:00",
+      "noOverflow": true,
+      "imagesDecoded": 6,
+      "errors": [],
+      "failed": [],
+      "productionWrites": 0
+    }
+  ],
+  "productionWrites": 0,
+  "messagesSent": 0
+}

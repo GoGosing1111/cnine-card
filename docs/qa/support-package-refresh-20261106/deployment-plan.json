@@ -1,0 +1,62 @@
+{
+  "before": {
+    "at": "2026-11-06T09:57:26.993Z",
+    "id": "4a824fa1-1e40-4acc-8a55-fd32008f9ec6",
+    "url": "https://4a824fa1.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "400a830c7f6f213a1e2a9724ebae29af393f7cc3"
+  },
+  "base": "400a830c7f6f213a1e2a9724ebae29af393f7cc3",
+  "reason": "User-approved 49,800-won 1+1 TOTAL rewards: 500T coins, 1B master stars, ten core-7, five of each enhancement scroll and ten SSS-limited shards. New offer only: cumulative paid-purchase milestones 1/2/3/4/5/10 grant 200/400/500/1000/2000/8000T once each, atomically with inventory, accounting and receipt. Sales close November 9 00:00 KST. Preserve older orders and concurrent live releases. Focused SQLite/PostgreSQL payment, retries, rollback, huge-integer, UI and delivery regressions; legacy prediction tests fail identically at baseline because prediction was retired.",
+  "tests": [
+    "tests/support-package-refresh-20261106.test.mjs",
+    "tests/support-package-20261020.test.mjs",
+    "tests/support-package-bogo-20261025.test.mjs",
+    "tests/support-package-hide-20261026.test.mjs",
+    "tests/support-package-web-20261101.test.mjs",
+    "tests/support-package-500t-20261101.test.mjs",
+    "tests/onestore-web-20261026.test.mjs",
+    "tests/onestore-distribution-20261026.test.mjs",
+    "tests/operation-audit-packaging-20261029.test.mjs",
+    "tests/production-sparse-staging-20261023.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "sourceFiles": [
+    "AGENTS.md",
+    "admin/index.html",
+    "admin/server-support-admin-v1.mjs",
+    "admin/support-package-admin-v1.mjs",
+    "css/support-package-v1.css",
+    "docs/qa/jin-jokro-live-20261106/REPORT.md",
+    "docs/qa/jin-jokro-live-20261106/checks.json",
+    "docs/qa/jin-jokro-live-20261106/delivery-verification.json",
+    "docs/qa/jin-jokro-live-20261106/deployment-plan.json",
+    "docs/qa/jin-jokro-live-20261106/deployment-result.json",
+    "docs/qa/jin-jokro-live-20261106/live-verification.json",
+    "docs/qa/jin-jokro-live-20261106/preview-video-verification.json",
+    "docs/qa/jin-jokro-live-20261106/public-entry.json",
+    "docs/qa/jin-jokro-live-20261106/public-skills.json",
+    "docs/qa/jin-jokro-live-20261106/summary.json",
+    "docs/qa/support-package-refresh-20261106/README.md",
+    "functions/_support_package.js",
+    "index.html",
+    "js/adventure-lobby-v2107.js",
+    "js/server-support-v1.mjs",
+    "js/support-package-alerts-v1.mjs",
+    "js/support-package-v1.mjs",
+    "onestore/index.html",
+    "packaging/onestore/web-build.json",
+    "scripts/onestore/web-overrides.mjs",
+    "service-worker.js",
+    "shared/support-package-v1.mjs",
+    "tests/helpers/support-package-fixture.mjs",
+    "tests/support-package-20261020.test.mjs",
+    "tests/support-package-bogo-20261025.test.mjs",
+    "tests/support-package-hide-20261026.test.mjs",
+    "tests/support-package-refresh-20261106.test.mjs",
+    "tests/support-package-web-20261101.test.mjs",
+    "ui/adventure-lobby/component.js"
+  ]
+}

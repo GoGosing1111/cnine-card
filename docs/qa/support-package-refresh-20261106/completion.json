@@ -1,0 +1,64 @@
+{
+  "status": "LIVE",
+  "completedAt": "2026-11-06T10:05:00.621Z",
+  "sourceCommit": "89694612aca7e1db9dc098e67895f95b880e10cf",
+  "pagesId": "767825e6-693f-4fc9-aca9-a677525f7b3b",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "6d5513f0-2d2b-4090-bfa0-4616f8ebb384",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "9007b28c-5c23-4250-a4a4-324faf6a1f42",
+      "percentage": 100
+    }
+  ],
+  "priceWon": 49800,
+  "promotionLabel": "1+1 이벤트",
+  "totalsIncludePromotion": true,
+  "baseCoins": "500000000000000",
+  "items": {
+    "MASTER_STAR": 1000000000,
+    "SUIT_CORE_7": 10,
+    "WEAPON_ENHANCEMENT_SCROLL": 5,
+    "ARMOR_ENHANCEMENT_SCROLL": 5,
+    "MERCENARY_SSS_LIMITED_SHARD": 10
+  },
+  "endsAt": "2026-11-09T00:00:00+09:00",
+  "productCode": "SEASON_PASS_PACKAGE_20261106",
+  "bonusPolicyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261106_V1",
+  "bonusMode": "NEW_PRODUCT_ACCOUNT_CUMULATIVE_PAID_MILESTONES_ONCE",
+  "bonusTrillions": {
+    "1": 200,
+    "2": 400,
+    "3": 500,
+    "4": 1000,
+    "5": 2000,
+    "10": 8000
+  },
+  "totalBonusAtFive": "4100000000000000",
+  "totalBonusAtTen": "12100000000000000",
+  "oldOrderSnapshotsPreserved": true,
+  "tests": {
+    "related": 50,
+    "localProfiles": [
+      "Chromium1440",
+      "WebKit390",
+      "Chromium320"
+    ],
+    "publicProfiles": [
+      "public-WebKit390"
+    ],
+    "baselinePredictionRetiredFailures": 4
+  },
+  "publicFiles": 12,
+  "windowsEssentialFiles": 7,
+  "assetCount": 20000,
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "maintenance": 0,
+  "newSchedules": 0,
+  "actualDeviceTesting": false
+}

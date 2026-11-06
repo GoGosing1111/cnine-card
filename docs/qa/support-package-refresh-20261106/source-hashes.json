@@ -1,0 +1,22 @@
+[
+  {
+    "file": "shared/support-package-v1.mjs",
+    "sha256": "be64e4fc2a31c745a65697edca07ba6ebcc9993457257eecf15909cc35411b62"
+  },
+  {
+    "file": "functions/_support_package.js",
+    "sha256": "58ac2da2c9ca17bcbf123aa21c6efeb69441e5efcbdc6f42d450cc8c07b94fb9"
+  },
+  {
+    "file": "js/support-package-v1.mjs",
+    "sha256": "db07ea49c863970a796a33ebc23406ca67e1eb16597770fbf2b4252128517615"
+  },
+  {
+    "file": "admin/support-package-admin-v1.mjs",
+    "sha256": "64e32487baa35f93c39d7cd2c16c6cfc71b05dd6de466242ec2ff82df2a6c37c"
+  },
+  {
+    "file": "tests/support-package-refresh-20261106.test.mjs",
+    "sha256": "3b2608c0611a9c15c35a047553685db4d132254f85f3be0c6170980b0be56466"
+  }
+]

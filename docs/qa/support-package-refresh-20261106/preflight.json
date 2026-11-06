@@ -1,0 +1,41 @@
+{
+  "checkedAt": "2026-11-06T09:50:58.678Z",
+  "transaction": "REPEATABLE READ READ ONLY",
+  "items": [
+    {
+      "code": "ARMOR_ENHANCEMENT_SCROLL",
+      "name": "방어구 강화주문서",
+      "is_active": "1",
+      "image_url": "assets/items/armor-enhancement-scroll-v1.webp"
+    },
+    {
+      "code": "MASTER_STAR",
+      "name": "마스터의 별",
+      "is_active": "1",
+      "image_url": ""
+    },
+    {
+      "code": "MERCENARY_SSS_LIMITED_SHARD",
+      "name": "SSS 리미티드 조각",
+      "is_active": "1",
+      "image_url": "assets/items/sss-limited-shard-20261020/item.webp"
+    },
+    {
+      "code": "SUIT_CORE_7",
+      "name": "슈트 코어 7",
+      "is_active": "1",
+      "image_url": "assets/items/suit-core-7-20261006.png"
+    },
+    {
+      "code": "WEAPON_ENHANCEMENT_SCROLL",
+      "name": "무기 강화주문서",
+      "is_active": "1",
+      "image_url": "assets/items/weapon-enhancement-scroll-v1.webp"
+    }
+  ],
+  "priorCounters": "0",
+  "pendingOrders": 0,
+  "pendingProducts": {},
+  "accountWrites": 0,
+  "messagesSent": 0
+}
