@@ -1,0 +1,84 @@
+{
+  "status": "PRODUCTION_VERIFIED",
+  "at": "2026-11-06T14:56:04.523Z",
+  "verifiedAtKst": "2026-11-06 23:56:04",
+  "source": "e534f2dd6b757ae306b7a977c316f6386038b7e9",
+  "base": "e7791decabb3406cabe5ca69be95918f379e08d6",
+  "pages": {
+    "at": "2026-11-06T14:55:25.759Z",
+    "id": "b7cd5027-5610-488f-b633-7f1b848515c9",
+    "url": "https://b7cd5027.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "e534f2dd6b757ae306b7a977c316f6386038b7e9"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "f2299f9c-fc4b-4798-9be8-2397a5fb4af9",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "023f62dd-351d-4767-9cd0-9534209b110a",
+      "percentage": 100
+    }
+  ],
+  "features": {
+    "rankOrder": [
+      "SSS",
+      "SS",
+      "S",
+      "A",
+      "B",
+      "C"
+    ],
+    "withinRankOrder": "Korean name order",
+    "gradeFilter": true,
+    "favoriteToggle": true,
+    "favoriteOnlyFilter": true,
+    "storage": "Per-account browser-local storage on the current device; no cross-device sync"
+  },
+  "tests": {
+    "unitAndRegression": 12,
+    "deploymentGate": 10,
+    "localBrowserChecks": 87,
+    "publicBrowserChecks": 14,
+    "publicViewport": [
+      {
+        "engine": "webkit",
+        "width": 390,
+        "errors": [],
+        "baselineWarnings": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ]
+      }
+    ]
+  },
+  "verification": {
+    "publicFileHashes": 6,
+    "windowsEssentialHashes": 4,
+    "manifestReleaseId": "f92ae7030dcecffff342ecfe1cde17a15269fe2e676297b376e7c35d805c58f1",
+    "approvedArt": [
+      {
+        "file": "assets/ui/mercenary-codex/command-20261021/panel-v3.webp",
+        "sha256": "55eb415b28c41dbf34ec74c9ff2f855b860c6aff1a8b5007a8128164af7bb892",
+        "unchanged": true
+      },
+      {
+        "file": "assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+        "sha256": "d7400c6be41938ced1d1d8915c9e74840af091ba1537c91b74057d2e0331b155",
+        "unchanged": true
+      },
+      {
+        "file": "assets/ui/ranked/series-20261019/frame.webp",
+        "sha256": "da6a40590d54a08b4cf6945a1a178fd830b5fd44aa9e7cac77fa3ef48aec8041",
+        "unchanged": true
+      }
+    ]
+  },
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "realDeviceTest": false,
+  "installedAppTest": false,
+  "evidence": "operations/ranked-mercenary-favorites-20261106/"
+}

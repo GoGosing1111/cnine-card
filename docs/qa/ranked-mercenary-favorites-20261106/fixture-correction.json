@@ -1,0 +1,59 @@
+{
+  "cause": "Existing ranked preview fixture omitted canonical user_mercenary_loadout_v1 table. Runtime and existing label regression test were unchanged from the previous deployed source.",
+  "baseline": "e7791decabb3406cabe5ca69be95918f379e08d6",
+  "originalRelease": "e5b6a7d3be07d64eb040db33dc7a37e366819c02",
+  "unchanged": [
+    {
+      "file": "functions/_mercenary_loadout_modes.js",
+      "baseBlob": "2e123a19bada5f6d957c36be04354fe56ab441c3",
+      "originalReleaseBlob": "2e123a19bada5f6d957c36be04354fe56ab441c3"
+    },
+    {
+      "file": "functions/_mercenary_equipment_v2.js",
+      "baseBlob": "0812bd34959e523b86cf8f43c55269432dee7ed5",
+      "originalReleaseBlob": "0812bd34959e523b86cf8f43c55269432dee7ed5"
+    },
+    {
+      "file": "functions/_mercenary_account.js",
+      "baseBlob": "4cb9b64d27020842462a97e662b0cf9a81460218",
+      "originalReleaseBlob": "4cb9b64d27020842462a97e662b0cf9a81460218"
+    },
+    {
+      "file": "functions/_ranked_series.js",
+      "baseBlob": "5944381a35c85bb2189620c6017d063e32ea40fc",
+      "originalReleaseBlob": "5944381a35c85bb2189620c6017d063e32ea40fc"
+    },
+    {
+      "file": "tests/ranked-mercenary-labels-20261102.test.mjs",
+      "baseBlob": "6e46070398f914f5a15fc61d01a2dd87f35b8969",
+      "originalReleaseBlob": "6e46070398f914f5a15fc61d01a2dd87f35b8969"
+    },
+    {
+      "file": "tests/helpers/ranked-series-fixture.mjs",
+      "baseBlob": "d495985b0c0f30e43c4ba288db51b25a77658164",
+      "originalReleaseBlob": "d495985b0c0f30e43c4ba288db51b25a77658164"
+    }
+  ],
+  "fix": "Added only the canonical initially empty loadout table to the in-memory SQLite/PostgreSQL test fixture; no runtime schema or account writes.",
+  "failedAttempt": {
+    "head": "e5b6a7d3be07d64eb040db33dc7a37e366819c02",
+    "base": "e7791decabb3406cabe5ca69be95918f379e08d6",
+    "logfile": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\ranked-mercenary-favorites-20261106/deploy-e5b6a7d3b-1.log",
+    "exitCode": 1,
+    "attempt": 1,
+    "at": "2026-11-06T14:43:26.733Z"
+  },
+  "gate": {
+    "tests": 10,
+    "pass": 10,
+    "fail": 0,
+    "log": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\ranked-mercenary-favorites-20261106/deploy-e534f2dd6-1.log"
+  },
+  "additional": {
+    "command": "node --test --test-name-pattern='dual roster, ticket privacy' tests/dual-mercenary-ranked-20261028.test.mjs",
+    "tests": 2,
+    "pass": 2,
+    "fail": 0,
+    "source": "Observed tool result from fixture repair validation"
+  }
+}

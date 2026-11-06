@@ -1,0 +1,40 @@
+{
+  "before": {
+    "at": "2026-11-06T14:43:06.588Z",
+    "id": "7df344aa-fa72-4a7d-8cd8-f0d5156e35ad",
+    "url": "https://7df344aa.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "e7791decabb3406cabe5ca69be95918f379e08d6"
+  },
+  "base": "e7791decabb3406cabe5ca69be95918f379e08d6",
+  "reason": "Ranked mercenary selection only: canonical rank groups descending with Korean name sorting, grade and favorite filters, device-local account-scoped favorites. Existing selected draft, duplicate and same-rank restrictions, explicit roster save and hidden opponent order preserved. Desktop 1440, WebKit 390 and touch 320 real game shell checked using isolated API fixtures. No backend, schema, payment, balance or reward changes.",
+  "tests": [
+    "tests/ranked-mercenary-favorites-20261106.test.mjs",
+    "tests/ranked-mercenary-labels-20261102.test.mjs"
+  ],
+  "checks": [],
+  "sourceFiles": [
+    "AGENTS.md",
+    "css/ranked-series-v1.css",
+    "docs/qa/gingdeodeum-bonus12100t-20261106/README.md",
+    "docs/qa/gingdeodeum-bonus12100t-20261106/completion.json",
+    "docs/qa/ranked-mercenary-favorites-20261106/README.md",
+    "docs/qa/ranked-mercenary-favorites-20261106/validation.json",
+    "docs/qa/simsimi-three-mercenaries-20261106/README.md",
+    "docs/qa/simsimi-three-mercenaries-20261106/completion.json",
+    "docs/qa/tmoney-bonus12100t-20261106/README.md",
+    "docs/qa/tmoney-bonus12100t-20261106/completion.json",
+    "docs/qa/workshop-visual-rebuild-20261106/README.md",
+    "docs/qa/workshop-visual-rebuild-20261106/completion.json",
+    "docs/qa/workshop-visual-rebuild-20261106/deployment-plan.json",
+    "docs/qa/workshop-visual-rebuild-20261106/deployment-success.json",
+    "docs/qa/workshop-visual-rebuild-20261106/live-verification.json",
+    "index.html",
+    "js/ranked-series-ui-v1.js",
+    "onestore/index.html",
+    "packaging/onestore/web-build.json",
+    "service-worker.js",
+    "tests/ranked-mercenary-favorites-20261106.browser.mjs",
+    "tests/ranked-mercenary-favorites-20261106.test.mjs"
+  ]
+}

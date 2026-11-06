@@ -1,0 +1,78 @@
+{
+  "pages": {
+    "at": "2026-11-06T14:55:25.759Z",
+    "id": "b7cd5027-5610-488f-b633-7f1b848515c9",
+    "url": "https://b7cd5027.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "e534f2dd6b757ae306b7a977c316f6386038b7e9"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "f2299f9c-fc4b-4798-9be8-2397a5fb4af9",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "023f62dd-351d-4767-9cd0-9534209b110a",
+      "percentage": 100
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "css/ranked-series-v1.css",
+      "sha256": "c037db0bb1fedf69b0f5ad9e0f951ec299c85f6aca5a9803be0a56e5c5cfe675",
+      "status": 200
+    },
+    {
+      "file": "js/ranked-series-ui-v1.js",
+      "sha256": "f893365578925822152a1308c40e158ac3923ecf58d566642173482ada0551e3",
+      "status": 200
+    },
+    {
+      "file": "index.html",
+      "sha256": "bf5a3bef0a17e4290eeb05710506b04ce1b5fb8dcc5b4c59d09d6b155b52e207",
+      "status": 200
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "4d9894e0c95e91c4247798b4becb4597d31448ed76e559236de6ee0008ecb1ee",
+      "status": 200
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "103ad7080989224e821e3cf48903ea12d789ce35bfa2fb69be01929712c47b7e",
+      "status": 200
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "4c558c1fde3e2d0cae813177b4e772b3487f516b9219205bce7d9315e8caccd7",
+      "status": 200
+    }
+  ],
+  "windows": [
+    {
+      "file": "css/ranked-series-v1.css",
+      "sha256": "d70892ed3fd1bd0ee1b800a958b5c67161f6cc729e32ab785448b49a6ed80e8f",
+      "essential": true
+    },
+    {
+      "file": "js/ranked-series-ui-v1.js",
+      "sha256": "3e1d19d0279cf5dbd8ba21b230004cef2e61b586ac0af596f94830e7ae61e88d",
+      "essential": true
+    },
+    {
+      "file": "index.html",
+      "sha256": "791f97ae2ce06056f979b5f652a8917fe05db8f550455a738d04a2c3c180b7d5",
+      "essential": true
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "8acfba2fa3d3a5f8a9aba8e796caa681f1b0744276dc9abbc16c2d033721fc00",
+      "essential": true
+    }
+  ],
+  "manifestReleaseId": "f92ae7030dcecffff342ecfe1cde17a15269fe2e676297b376e7c35d805c58f1",
+  "productionAccountWrites": 0,
+  "messagesSent": 0
+}
