@@ -1,0 +1,43 @@
+{
+  "status": "LIVE",
+  "completedAt": "2026-11-06T11:44:39.190Z",
+  "sourceCommit": "209fc23b461dd42a13e506878bf932c241addb6b",
+  "pagesId": "30581abc-4cd2-4c63-894e-8f7e715fcdde",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "f946a7a0-04fb-4b63-9e0e-0f12dc8eb5f4",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "b40caa84-2214-433f-8451-d76bd1c0d126",
+      "percentage": 100
+    }
+  ],
+  "controls": [
+    "0-100% slider",
+    "mute/restore"
+  ],
+  "surfaces": [
+    "BGM event banner",
+    "BGM trigger guide"
+  ],
+  "perDevicePersistence": true,
+  "defaultsPreserved": true,
+  "queueUninterrupted": true,
+  "regressions": 37,
+  "browserProfiles": [
+    "WebKit390",
+    "WebKit430",
+    "ChromiumTouch320",
+    "Chromium1440"
+  ],
+  "publicProfile": "WebKit390",
+  "realAudio": "Chromium with ignored element.volume and actual WAV/GainNode/Analyser; quarter-to-full amplitude ratio approximately 4 and muted RMS 0",
+  "webKitAudioLimitation": "Windows WebKit build has no AudioContext; UI verified with instrumented audio",
+  "physicalDevice": false,
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "maintenance": false
+}
