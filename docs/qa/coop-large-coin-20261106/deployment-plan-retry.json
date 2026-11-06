@@ -1,0 +1,45 @@
+{
+  "before": {
+    "at": "2026-11-06T12:32:04.436Z",
+    "id": "cc6e1cc9-55a8-43a3-b8e7-49c2e0e2d3e5",
+    "url": "https://cc6e1cc9.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "e0dcca2856349e9e661afc5397411b311756dbd8"
+  },
+  "base": "e0dcca2856349e9e661afc5397411b311756dbd8",
+  "head": "bb05cf80466049c297db66c5c8f79e164d469eb5",
+  "reason": "Fix cooperative selected coin rewards rejected by the stale JavaScript safe-integer wallet cap. Only the shared choice-coin guard and SQL integer credit change; exact signed-64-bit helper preserves stored balances and ledgers. New twelve SQLite/PostgreSQL API tests already passed for boundaries, base plus selected rewards, rollback, preserved selections, response-loss replay, vehicle conversion and unchanged other-currency limits. Run adjacent existing reveal/core/cooperative settlement regression suites and worker compile in this official scoped release, without repeating the unchanged twelve tests. Preserve concurrent package/workshop changes, policy and all existing entitlements. First official gate passed 38 of 39 tests, stopping before any deployment because the existing sparse checkout did not materialize admin/index.html for the final core-loader test. Materialized its three exact tracked UI dependencies without modifying them; recheck only that failed core test file, preserving the prior passing reveal/cooperative results.",
+  "tests": [
+    "tests/core-raid-rewards-20260925.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "sourceFiles": [
+    "AGENTS.md",
+    "docs/qa/coin-100quadrillion-20261106/README.md",
+    "docs/qa/coin-100quadrillion-20261106/browser.json",
+    "docs/qa/coin-100quadrillion-20261106/completion.json",
+    "docs/qa/coin-100quadrillion-20261106/deployment-plan-reconciled.json",
+    "docs/qa/coin-100quadrillion-20261106/deployment-success.json",
+    "docs/qa/coin-100quadrillion-20261106/live-verification.json",
+    "docs/qa/coin-100quadrillion-20261106/public-browser.json",
+    "docs/qa/coin-100quadrillion-20261106/regression-summary.json",
+    "docs/qa/coop-large-coin-20261106/README.md",
+    "docs/qa/support-package-auto-notice-20261106/README.md",
+    "docs/qa/support-package-auto-notice-20261106/completion.json",
+    "functions/_core_raid_rewards.js",
+    "tests/cooperative-choice-large-coin-20261106.test.mjs"
+  ],
+  "previouslyPassed": {
+    "tests": 12,
+    "log": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\coop-large-coin-20261106/targeted.log",
+    "sha256": "410e986bed554ffaa9f94ff001b757823f2d23d910a6c4e9e2973057317442e8"
+  },
+  "previousGate": {
+    "passed": 38,
+    "failed": 1,
+    "cause": "Sparse checkout omitted tracked loader test inputs",
+    "log": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\coop-large-coin-20261106/deploy-bb05cf804.log"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "status": "LIVE_VERIFIED",
+  "sourceCommit": "bb05cf80466049c297db66c5c8f79e164d469eb5",
+  "pages": "92d9728a-16d4-4819-8f76-888035bd932f",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "75931e5f-8753-4126-af21-666fbc48ffbd",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "fc8246cb-3048-403f-b4b2-af4c3d333217",
+      "percentage": 100
+    }
+  ],
+  "tests": {
+    "new": 12,
+    "existingUnique": 39,
+    "totalUnique": 51
+  },
+  "deployedFunctionIncidentSmoke": [
+    {
+      "content": "COOP_EXTREME",
+      "initial": "17321431705668947",
+      "reward": 30000000000,
+      "balance": "17321461705668947",
+      "deployedFunction": true,
+      "isolatedPostgres": true
+    }
+  ],
+  "initialCooperativeAffected": 1,
+  "selectedCooperativeClaimsStillPending": 1,
+  "claimRecovery": "Existing selection preserved; claim the same reward through the normal pending inbox. No manual award or reroll.",
+  "readonlyInspectionBefore": "2026-11-06 21:27:21",
+  "readonlyInspectionAfter": "2026-11-06 21:35:46",
+  "productionAccountWrites": 0,
+  "messages": 0,
+  "storageMaintenance": false,
+  "at": "2026-11-06T12:36:29.362Z"
+}
