@@ -12,6 +12,8 @@ const schema=[...RANKED_REFORM_SCHEMA,
  'CREATE TABLE pvp_profiles(user_id INTEGER PRIMARY KEY,season_score INTEGER,highest_score INTEGER,wins INTEGER,losses INTEGER,updated_at TEXT)',
  'CREATE TABLE user_pvp_energy(user_id INTEGER PRIMARY KEY,energy INTEGER,last_recharged_at TEXT,updated_at TEXT)',
  'CREATE TABLE user_mercenary_cards_v1(user_id INTEGER,mercenary_code TEXT,total_copies INTEGER,PRIMARY KEY(user_id,mercenary_code))',
+ // Ranked previews also read the canonical, initially empty PVE/PVP equipment selection.
+ 'CREATE TABLE user_mercenary_loadout_v1(user_id BIGINT PRIMARY KEY,mercenary_code TEXT,revision INTEGER NOT NULL DEFAULT 0,updated_at TEXT NOT NULL)',
  'CREATE TABLE mercenary_cms_documents_v1(doc_key TEXT PRIMARY KEY,payload_json TEXT,revision INTEGER)',
  'CREATE TABLE pvp_ranked_match_tickets_v1671(token TEXT PRIMARY KEY,attacker_id INTEGER,defender_id INTEGER,used_at TEXT,expires_at TEXT)',
  'CREATE UNIQUE INDEX live_ticket ON pvp_ranked_match_tickets_v1671(attacker_id) WHERE used_at IS NULL',
