@@ -1,0 +1,79 @@
+{
+  "status": "LIVE_FIXED",
+  "completedAt": "2026-11-06T03:17:37.535643+00:00",
+  "sourceCommit": "699b6a64b6505c4afd53e2f839c56bf10376a9c3",
+  "pages": {
+    "id": "43fb9cb1-3b37-42cb-a4f3-681b0eacd83c",
+    "url": "https://43fb9cb1.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "699b6a64b6505c4afd53e2f839c56bf10376a9c3"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "773b753f-3644-4147-8a19-8e553d4ce987",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "c374bcd1-85c3-48c1-ab07-42338fe6bb31",
+      "percentage": 100
+    }
+  ],
+  "regressions": {
+    "tests": 62,
+    "passed": 62,
+    "failed": 0
+  },
+  "savedBattleReplay": {
+    "beforeEvents": 584,
+    "afterEvents": 714,
+    "officialErrorTimeMs": 10260,
+    "viewports": [
+      390,
+      1440
+    ],
+    "serverResultPreserved": "LOSE"
+  },
+  "publicSmoke": {
+    "width": 390,
+    "alternatingTargetReceipts": 16,
+    "allResolved": true,
+    "drainMs": 10349.29999999702,
+    "remainingQueue": 0
+  },
+  "account": {
+    "at": "2026-11-06T03:14:29.451Z",
+    "readOnly": true,
+    "user": {
+      "id": "5362",
+      "nickname": "점빡이",
+      "status": "ACTIVE"
+    },
+    "progress": [
+      {
+        "season_id": "1",
+        "current_floor": "90",
+        "highest_floor": "89"
+      }
+    ],
+    "active": [],
+    "reportedEncounterUnchanged": true,
+    "reportedEncounterStatus": "COMPLETED",
+    "reportedEncounterResult": "LOSE",
+    "reportedEncounterCompletedAt": "2026-11-06T02:52:37.497Z",
+    "operationalWrites": 0
+  },
+  "delivery": {
+    "publicFiles": 20,
+    "windowsFiles": 15,
+    "assetCount": 20000
+  },
+  "limits": {
+    "realDevice": false,
+    "installedApp": false
+  },
+  "operationalAccountWrites": 0,
+  "messagesSent": 0,
+  "maintenance": 0
+}

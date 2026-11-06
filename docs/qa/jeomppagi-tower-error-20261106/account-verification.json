@@ -1,0 +1,22 @@
+{
+  "at": "2026-11-06T03:14:29.451Z",
+  "readOnly": true,
+  "user": {
+    "id": "5362",
+    "nickname": "점빡이",
+    "status": "ACTIVE"
+  },
+  "progress": [
+    {
+      "season_id": "1",
+      "current_floor": "90",
+      "highest_floor": "89"
+    }
+  ],
+  "active": [],
+  "reportedEncounterUnchanged": true,
+  "reportedEncounterStatus": "COMPLETED",
+  "reportedEncounterResult": "LOSE",
+  "reportedEncounterCompletedAt": "2026-11-06T02:52:37.497Z",
+  "operationalWrites": 0
+}
