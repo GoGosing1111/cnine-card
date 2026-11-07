@@ -60,6 +60,17 @@
 .forge-public .equipment-equipped-badge svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:1.6}
 .forge-public .equipment-row[data-equipped="true"] .equipment-copy em{color:#9ae2c5;font-weight:600}
 .forge-public #stage-item-sub[data-equipped="true"]{color:#9ae2c5;font-weight:600}
+.guarantee-card{box-sizing:border-box;display:flex;align-items:center;gap:12px;min-height:60px;margin:12px 0 8px;padding:7px 12px;border:1px solid #546b67;border-radius:8px;background:#142126;color:#eef6ee;cursor:pointer}
+.guarantee-card:has(input:checked){border-color:#95d8aa;background:#193028}
+.guarantee-card:focus-within{outline:2px solid #b0f6ba;outline-offset:2px}
+.guarantee-card img{flex:none;width:46px;height:46px;object-fit:contain}
+.guarantee-card .guarantee-copy{flex:1;min-width:0;display:grid;gap:4px;text-align:left}
+.guarantee-copy b{font-size:14px;color:#f9e2a2}.guarantee-copy small{font-size:11px;line-height:1.45;color:#c0d6cd}
+.guarantee-card input{width:20px;height:20px;flex:none;accent-color:#a9eb9c}
+.forge-public .forge-scroll-cost:not([hidden]){display:grid;gap:8px}
+.forge-public .forge-scroll-cost .forge-scroll-line{display:flex;align-items:center;gap:10px}
+.forge-scroll-line img{width:34px;height:34px;object-fit:contain;flex:none}
+.forge-scroll-line b,.forge-scroll-line small{display:block;line-height:1.5}.forge-scroll-line b{font-size:12px;color:#e6dbba}.forge-scroll-line small{font-size:11px;color:#a0b6c4}
 @media(max-width:980px){
   .forge-public .inventory-scroll{grid-column:1/-1;contain:none;height:clamp(170px,26dvh,250px)}
   .forge-public .inventory-footer{grid-column:1/-1;display:flex;gap:8px;padding:10px 3px 0}

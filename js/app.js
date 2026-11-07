@@ -4418,8 +4418,8 @@ function inventoryItemGroup(item){
 }
 function inventoryItemMeta(item){
   const code=String(item.code||'').toUpperCase(),group=inventoryItemGroup(item),quantity=Math.max(0,Number(item.quantity)||0),owned=quantity>0,isMaterial=group==='MATERIAL',isWorkshopOnly=WORKSHOP_ONLY_ITEM_CODES.has(code),rarity=String(item.rarity||'NORMAL').toUpperCase();
-  const usable=item.usable!==false&&item.usable!==0&&(!isMaterial||code==='SIG_HUNTER_BOX')&&!isWorkshopOnly&&group!=='SKILL_CHIP';
-  const action=code==='SIG_HUNTER_BOX'?'상자 열기':code==='SOOPKETLAND_TICKET'?'리버스랜드 입장':code==='SOOPKETLAND_HYPER_BURNING_TICKET'?'버닝 발동':code==='SCRAPYARD_ENTRY_TICKET'?'폐차장 입장':code==='HIGH_GRADE_REROLL_TICKET'?'재뽑기 화면 열기':group==='REROLL'?'재뽑기':code==='SUIT_CORE_SUPPLY_BOX'?'슈트코어 일괄 개봉':code.startsWith('PRIME_')?'프라임 일괄 개봉':code==='VEHICLE_DRAW_TICKET'?'이동수단 뽑기':String(item.category||'').toUpperCase()==='CUBE'?'큐브 개봉':group==='PACK'?'아이템 개봉':'아이템 사용';
+  const usable=item.usable!==false&&item.usable!==0&&(!isMaterial||['SIG_HUNTER_BOX','GUARANTEED_ENHANCEMENT_SCROLL'].includes(code))&&!isWorkshopOnly&&group!=='SKILL_CHIP';
+  const action=code==='GUARANTEED_ENHANCEMENT_SCROLL'?'확정 강화할 장비 선택':code==='SIG_HUNTER_BOX'?'상자 열기':code==='SOOPKETLAND_TICKET'?'리버스랜드 입장':code==='SOOPKETLAND_HYPER_BURNING_TICKET'?'버닝 발동':code==='SCRAPYARD_ENTRY_TICKET'?'폐차장 입장':code==='HIGH_GRADE_REROLL_TICKET'?'재뽑기 화면 열기':group==='REROLL'?'재뽑기':code==='SUIT_CORE_SUPPLY_BOX'?'슈트코어 일괄 개봉':code.startsWith('PRIME_')?'프라임 일괄 개봉':code==='VEHICLE_DRAW_TICKET'?'이동수단 뽑기':String(item.category||'').toUpperCase()==='CUBE'?'큐브 개봉':group==='PACK'?'아이템 개봉':'아이템 사용';
   const reason=!owned?'보유하고 있지 않은 아이템입니다.':isWorkshopOnly?'제작소 전용':item.useDisabledMessage||(isMaterial?'제작에 사용하는 재료입니다. 인벤토리에서 직접 사용하지 않습니다.':group==='SKILL_CHIP'?'장비 → 스킬칩 탭에서 장착':'현재 사용이 중지된 아이템입니다.');
   return {code,group,quantity,owned,usable,action,reason,rarity,grade:INVENTORY_RARITIES[rarity]?.[0]||rarity,rank:INVENTORY_RARITIES[rarity]?.[1]||0,kind:rarity.toLowerCase().replace(/[^a-z0-9_-]/g,''),categoryLabel:INVENTORY_GROUPS.find(x=>x[0]===group)?.[1]||'기타'};
 }
@@ -4539,6 +4539,7 @@ async function activateLandHyperTicket(){
   }catch(error){if([400,403,409].includes(Number(error.status)))localStorage.removeItem(key);alert(error.message)}finally{landHyperBusy=false}
 }
 async function openInventoryPack(itemCode,ownedQuantity=0){
+  if(itemCode==='GUARANTEED_ENHANCEMENT_SCROLL'){location.assign('/equipment-forge/?guaranteed=1');return;}
   if(itemCode==='MERCENARY_XP_TRANSFER_POTION'){location.href='/mercenary-codex/leveling/transfer.html';return;}
   if(['RANK_EXP_POTION_2X_60M','RANK_EXP_POTION_3X_60M'].includes(itemCode)){
     const dialog=document.getElementById('inventoryDetailDialog'),body=document.getElementById('inventoryDialogContent');

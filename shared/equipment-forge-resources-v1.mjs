@@ -13,6 +13,7 @@ export function forgeQuoteShortages(quote,wallet){
   forgeResourceShortage('코인',cost.coinCost,wallet.coins,'코인'),
   cost.itemCode==='MASTER_STAR'?forgeResourceShortage('마스터의 별',cost.itemQuantity,wallet.masterStars):'',
   cost.scroll?forgeResourceShortage(cost.scroll.name,cost.scroll.quantity,wallet.scrolls?.[cost.scroll.code]??0,'장'):'',
+  cost.guaranteedScroll?forgeResourceShortage(cost.guaranteedScroll.name,1,wallet.scrolls?.[cost.guaranteedScroll.code]??0,'장'):'',
   quote.protectedAttempt?forgeResourceShortage('장비 보호권',cost.protectionQuantity,wallet.protection,'장'):''
  ].filter(Boolean);
 }

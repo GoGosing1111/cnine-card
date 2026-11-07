@@ -1,0 +1,32 @@
+[
+  {
+    "profile": "pc",
+    "width": 1440,
+    "target": 15,
+    "guaranteed": 100,
+    "ordinary": 10,
+    "ticket": 1,
+    "stars": 3,
+    "coins": 200,
+    "weaponScrolls": 2,
+    "writes": 1,
+    "emptyTicketBlocksOrdinaryUntilDeselected": true,
+    "cmsSelectable": true,
+    "passEdits": 0
+  },
+  {
+    "profile": "mobile",
+    "width": 390,
+    "target": 15,
+    "guaranteed": 100,
+    "ordinary": 10,
+    "ticket": 1,
+    "stars": 3,
+    "coins": 200,
+    "weaponScrolls": 2,
+    "writes": 1,
+    "emptyTicketBlocksOrdinaryUntilDeselected": true,
+    "cmsSelectable": true,
+    "passEdits": 0
+  }
+]

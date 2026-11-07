@@ -30,7 +30,7 @@ export async function handleForgeRuntimeReady({path,request,env,deps}){
   }
   if(request.method!==(admin?'PATCH':'POST'))throw jointError('FORGE_METHOD','지원하지 않는 요청입니다.',405);
   if(!admin&&!['quote','enhance','restore'].includes(action))throw jointError('FORGE_PATH','강화 경로를 찾을 수 없습니다.',404);
-  const fields=admin?['policy']:action==='quote'?['requestId','kind','instanceId','recordId','useProtection']:['requestId','quoteId'],body=await readJointBody(request,{fields,maxBytes:24000});
+  const fields=admin?['policy']:action==='quote'?['requestId','kind','instanceId','recordId','useProtection','useGuaranteedScroll']:['requestId','quoteId'],body=await readJointBody(request,{fields,maxBytes:24000});
   // A quote is only an expiring snapshot. It never charges or changes equipment.
   // Do not contend with enhancement / other game actions for the account lock.
   // Execution still owns the shared mutation lock and revalidates the snapshot.

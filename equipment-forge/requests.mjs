@@ -57,7 +57,7 @@ export function createForgeQuoteQueue(request,{debounceMs=180,now=Date.now}={}){
   invalidate(){epoch++;cache.clear();pending?.resolve(null);pending=null;clearTimeout(timer);timer=null;}
  };
 }
-export const terminalForgeErrors=new Set(['JOINT_OPERATION_SUPERSEDED','FORGE_RECORD','FORGE_QUOTE_EXPIRED','FORGE_STALE','FORGE_FUNDS','FORGE_MATERIAL','FORGE_QUOTE','FORGE_NOT_OWNED','FORGE_MAX_LEVEL','FORGE_QUOTE_CONFLICT']);
+export const terminalForgeErrors=new Set(['FORGE_GUARANTEE_UNAVAILABLE','JOINT_OPERATION_SUPERSEDED','FORGE_RECORD','FORGE_QUOTE_EXPIRED','FORGE_STALE','FORGE_FUNDS','FORGE_MATERIAL','FORGE_QUOTE','FORGE_NOT_OWNED','FORGE_MAX_LEVEL','FORGE_QUOTE_CONFLICT']);
 export function readForgePending(storage,key){
  const raw=storage.getItem(key);if(!raw)return null;
  try{const p=JSON.parse(raw);if(p&&/^[A-Za-z0-9_-]{16,100}$/.test(p.requestId)&&/^[A-Za-z0-9_-]{16,100}$/.test(p.quoteId)&&['ENHANCE','RESTORE'].includes(p.kind))return p;}catch{}

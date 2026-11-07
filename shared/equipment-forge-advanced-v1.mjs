@@ -1,6 +1,11 @@
 import {EQUIPMENT_POWER_STANDARD} from './equipment-mercenary-power-v1.mjs';
 export const FORGE_ADVANCED_KEY='equipment_forge_advanced_policy_v1';
 export const FORGE_MAX_LEVEL=15;
+export const GUARANTEED_SCROLL=Object.freeze({
+ code:'GUARANTEED_ENHANCEMENT_SCROLL',name:'+1 확정 강화권',subtitle:'GUARANTEED ENHANCEMENT +1',
+ image:'assets/items/guaranteed-enhancement-scroll-v1.webp',
+ description:'장비 강화 센터에서 +0~+14 장비를 한 단계 확정 강화합니다. 강화권 1장과 해당 단계의 코인·마스터의 별을 소모하며, +11~+15 도전에는 무기 또는 방어구 강화주문서도 필요합니다. 최대 +15.'
+});
 export const FORGE_SCROLL_ITEMS=Object.freeze([
  Object.freeze({code:'WEAPON_ENHANCEMENT_SCROLL',name:'무기 강화주문서',subtitle:'WEAPON ENHANCEMENT',image:'assets/items/weapon-enhancement-scroll-v1.webp',slot:'WEAPON'}),
  Object.freeze({code:'ARMOR_ENHANCEMENT_SCROLL',name:'방어구 강화주문서',subtitle:'ARMOR ENHANCEMENT',image:'assets/items/armor-enhancement-scroll-v1.webp',slot:'ARMOR'})

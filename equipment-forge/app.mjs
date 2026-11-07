@@ -1,8 +1,10 @@
 import {ForgeFX} from '/preview/equipment-forge-v1/source/fx.mjs';
 import {forgePower} from '/shared/equipment-forge-policy-v1.mjs?v=20261012-scrolls';
-import {forgeQuoteShortages} from '/shared/equipment-forge-resources-v1.mjs?v=20261012-scrolls';
-import {createForgeTransport,createForgeQuoteQueue,readForgePending,terminalForgeErrors} from './requests.mjs?v=20260923-recovery';
+import {forgeQuoteShortages} from '/shared/equipment-forge-resources-v1.mjs?v=20261107-guarantee';
+import {createForgeTransport,createForgeQuoteQueue,readForgePending,terminalForgeErrors} from './requests.mjs?v=20261107-guarantee';
 const $=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const guarantee=$('guarantee-toggle'),guaranteeCode='GUARANTEED_ENHANCEMENT_SCROLL';
+guarantee.checked=new URLSearchParams(location.search).get('guaranteed')==='1';
 const slots={WEAPON:'무기',TOP:'상의',BOTTOM:'하의',SHOES:'신발',ACCESSORY:'장신구'};
 const token=()=>localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 function imageUrl(raw){try{const u=new URL(raw,location.origin+'/');return ((u.origin===location.origin&&u.pathname.startsWith('/assets/'))||u.protocol==='https:')&&!u.username&&!u.password?u.href:'';}catch{return '';}}
@@ -60,6 +62,7 @@ function protectionHint(item,{pending=false}={}){
  else if(!activeToken)text='로그인 후 장비를 선택하면 보호권 사용 조건을 확인할 수 있습니다.';
  else if(!item||mode!=='enhance')text='강화할 장비를 선택하면 보호권 사용 조건을 확인할 수 있습니다.';
  else if(!data?.canEnhance)text='현재 강화가 중지되어 보호권을 사용할 수 없습니다.';
+ else if(guarantee.checked&&level<(data.policy.maxLevel||15))text='확정 강화는 파괴되지 않아 보호권이 필요하지 않습니다.';
  else if(level>=(data.policy.maxLevel||15))text='최대 강화 단계입니다. 추가 강화와 보호권 사용이 불가능합니다.';
  else if(!data.policy.protection?.itemCode||quantity==null)text=`+${level+1} 도전의 보호권 설정을 준비 중입니다.`;
  else if(quantity===0){
@@ -114,7 +117,7 @@ async function load(more=false){
     document.querySelector('.history-list').innerHTML=(result.history||[]).map(r=>`<p>${esc(outcomeNames[r.outcome]||'결과 확인 중')} · ${esc(new Date(r.createdAt).toLocaleString('ko-KR'))}</p>`).join('')||'<p class="empty-history">아직 강화 기록이 없습니다.</p>';
     $('protection-toggle').disabled=!result.canEnhance||!result.policy.protection?.itemCode||executing;$('protection-toggle').setAttribute('aria-label','장비보호권 사용');
     document.querySelector('.protection-card small').textContent=result.wallet.protection===null?'출시 예정':`보유 ${number(result.wallet.protection)}장`;
-    reconcileCompletedPending();const rows=visibleItems();void select(rows.some(r=>r.selectionId===selected)?selected:mode==='enhance'?items.find(r=>r.equipped)?.instanceId||items[0]?.instanceId||null:rows[0]?.selectionId||null);lastLoad=Date.now();
+    reconcileCompletedPending();const rows=visibleItems(),candidates=guarantee.checked?items.filter(r=>r.enhancement?.level<(data.policy.maxLevel||15)):items;void select(rows.some(r=>r.selectionId===selected)?selected:mode==='enhance'?candidates.find(r=>r.equipped)?.instanceId||candidates[0]?.instanceId||items[0]?.instanceId||null:rows[0]?.selectionId||null);lastLoad=Date.now();
     const pending=safePending();recover.hidden=!pending;if(pending&&!pending.invalid&&checkedPending!==pending.requestId){checkedPending=pending.requestId;void recoverPending(false);}
   }catch(e){if(current!==generation)return;if(e.status===401){data=null;items=[];activeToken='';$('wallet-coins').textContent='—';void select(null);}if(e.name!=='AbortError'){$('inventory-note').textContent=e.message;connectionNotice(e.message,()=>void load(),'목록 다시 불러오기');toast(e.message);}}
   finally{if(current===generation){loading=false;renderList();}}
@@ -127,6 +130,7 @@ $('inventory-more').onclick=()=>void load(true);$('archive-button').onclick=()=>
 $('rules-button').onclick=()=>$('rules-dialog').showModal();document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>$('rules-dialog').close());
 async function updateQuote(){
  scrollCost.hidden=true;
+ guarantee.disabled=true;
  const stamp=++quoteGeneration;quote=null;for(const id of ['enhance-button','restore-button'])$(id).disabled=true;
  const pending=safePending();if(pending){$('protection-toggle').disabled=true;protectionHint(null,{pending:true});if(!pending.invalid)pendingNotice();pendingButtons(pending);return;}
  if(mode==='enhance'){
@@ -135,28 +139,32 @@ async function updateQuote(){
   document.querySelector('.material-list').textContent='장비를 선택하면 확정 비용을 확인합니다.';
  }else{document.querySelector('.restore-snapshot').textContent='복구할 파괴 기록을 선택하세요.';document.querySelector('.restore-policy').textContent='선택 후 복구 비용을 확인합니다.';}
  const item=visibleItems().find(r=>r.selectionId===selected),protection=$('protection-toggle');
+ const level=item?.enhancement?.level,stock=data?.wallet?.scrolls?.[guaranteeCode]??0,canUse=mode==='enhance'&&data?.canEnhance&&Number.isInteger(level)&&level<(data.policy.maxLevel||15);
+ guarantee.disabled=executing||recovering||!canUse||(!stock&&!guarantee.checked);
+ $('guarantee-status').textContent=!item?'장비를 선택하세요':!canUse?'이 장비에는 사용할 수 없습니다':`보유 ${number(stock)}장 · ${guarantee.checked?'1장 + 단계별 비용 소모':'기존 강화 비용과 함께 1장 사용'}`;
  const protectionQuantity=data?.policy?.steps?.[item?.enhancement?.level]?.protectionQuantity;
- protection.disabled=executing||recovering||mode!=='enhance'||!data?.canEnhance||!data?.policy?.protection?.itemCode||!(protectionQuantity>0);
+ protection.disabled=guarantee.checked||executing||recovering||mode!=='enhance'||!data?.canEnhance||!data?.policy?.protection?.itemCode||!(protectionQuantity>0);
  if(protection.disabled&&!executing)protection.checked=false;
  protectionHint(item);
  if(executing||recovering)return;
  if(!item||!(mode==='enhance'?data?.canEnhance:data?.canRestore)){connectionNotice();$(mode+'-button').querySelector('span').textContent=!activeToken?'로그인 필요':!item?'장비를 선택하세요':'현재 이용 불가';return;}
  const button=$(mode+'-button');button.querySelector('span').textContent='확률·비용 확인 중';
- const body={requestId:crypto.randomUUID(),kind:mode.toUpperCase(),...(mode==='enhance'?{instanceId:item.instanceId,useProtection:$('protection-toggle').checked}:{recordId:item.recordId})};
- const key=JSON.stringify([activeToken,body.kind,item.selectionId,item.enhancement?.revision,data.policy?.revision,body.useProtection]);
+ const body={requestId:crypto.randomUUID(),kind:mode.toUpperCase(),...(mode==='enhance'?{instanceId:item.instanceId,useProtection:protection.checked,...(guarantee.checked?{useGuaranteedScroll:true}:{})}:{recordId:item.recordId})};
+ const key=JSON.stringify([activeToken,body.kind,item.selectionId,item.enhancement?.revision,data.policy?.revision,body.useProtection,body.useGuaranteedScroll]);
  connectionNotice('확률과 비용을 확인하고 있습니다.');
- try{const q=await quoteQueue.select(key,body,{token:activeToken,signal:lifetime.signal,onRetry:()=>{if(stamp===quoteGeneration)connectionNotice('연결을 다시 확인 중입니다. 재료는 소모되지 않았습니다.');}});if(!q||stamp!==quoteGeneration||activeToken!==token())return;quote=q;quoteRetry=null;connectionNotice();
+ try{const q=await quoteQueue.select(key,body,{token:activeToken,signal:lifetime.signal,onRetry:()=>{if(stamp===quoteGeneration)connectionNotice('연결을 다시 확인 중입니다. 재료는 소모되지 않았습니다.');}});if(!q||stamp!==quoteGeneration||activeToken!==token())return;if(Boolean(q.cost.guaranteedScroll)!==Boolean(body.useGuaranteedScroll))throw Error('강화 방식을 다시 확인하세요.');quote=q;quoteRetry=null;connectionNotice();
   if(mode==='enhance'){$('success-rate').textContent=`${q.cost.successPpm/10000}%`;$('rate-level').textContent=`+${q.item.level} → +${q.item.level+1}`;$('power-after').textContent=number((q.powerAfter||forgePower(q.item.basePower.total,q.item.level+1,data?.policy?.advanced)).total);
    const success=q.cost.successPpm/10000,maintain=(q.cost.successPpm+q.cost.maintainPpm)/10000;document.querySelector('.probability-bar').style.background=`linear-gradient(to right,#cbff66 0 ${success}%,#8499b4 ${success}% ${maintain}%,#fc7382 ${maintain}% 100%)`;
    for(const [key,label]of[['success','successPpm'],['maintain','maintainPpm'],['destroy','destroyPpm']])document.querySelector(`.rate-legend .${key} b`).textContent=`${q.cost[label]/10000}%`;
-   document.querySelector('.material-heading span').textContent=`마스터의 별 보유 ${number(data.wallet.masterStars)}개`;document.querySelector('.success-label p').textContent='현재 장비 단계의 확정된 견적입니다.';document.querySelector('.material-list').textContent=`${coin(q.cost.coinCost)} 코인${q.cost.itemCode?` · ${q.cost.itemCode==='MASTER_STAR'?'마스터의 별':q.cost.itemName||q.cost.itemCode} ${number(q.cost.itemQuantity)}개`:''}`;
-   document.querySelector('.consumption-note').textContent=q.protectedAttempt?`+${q.item.level+1} 도전 · 보호권 ${q.cost.protectionQuantity}장 필요 · ${q.protection.consume==='ON_DESTROY'?'파괴 결과일 때만 소모':'강화 시도 시 소모'}`:'보호권 미사용';
-   document.querySelector('.risk-note p').textContent=q.protectedAttempt?'파괴 결과가 나오면 보호권으로 장비를 보존합니다.':'파괴 시 장착이 해제되며 장비는 파괴 기록에 보관됩니다.';
+   document.querySelector('.material-heading span').textContent=`마스터의 별 보유 ${number(data.wallet.masterStars)}개`;document.querySelector('.success-label p').textContent=q.cost.guaranteedScroll?'확정 강화권 사용 · 유지와 파괴 없음':'현재 장비 단계의 확정된 견적입니다.';document.querySelector('.material-list').textContent=`${coin(q.cost.coinCost)} 코인${q.cost.itemCode?` · ${q.cost.itemCode==='MASTER_STAR'?'마스터의 별':q.cost.itemName||q.cost.itemCode} ${number(q.cost.itemQuantity)}개`:''}`;
+   document.querySelector('.consumption-note').textContent=q.cost.guaranteedScroll?'+1 확정 강화권 1장 소모':q.protectedAttempt?`+${q.item.level+1} 도전 · 보호권 ${q.cost.protectionQuantity}장 필요 · ${q.protection.consume==='ON_DESTROY'?'파괴 결과일 때만 소모':'강화 시도 시 소모'}`:'보호권 미사용';
+   document.querySelector('.risk-note p').textContent=q.cost.guaranteedScroll?`강화권 1장과 표시된 재료를 소모해 +${q.item.level+1} 강화에 100% 성공합니다.`:q.protectedAttempt?'파괴 결과가 나오면 보호권으로 장비를 보존합니다.':'파괴 시 장착이 해제되며 장비는 파괴 기록에 보관됩니다.';
   }else{document.querySelector('.restore-coupon').hidden=!q.cost.itemCode;const couponImage=document.querySelector('.restore-coupon img'),source=q.cost.itemImage?imageUrl(q.cost.itemImage):'';couponImage.hidden=!source;if(source)couponImage.src=source;document.querySelector('.restore-coupon b').textContent=q.cost.itemName||'복구 재료';document.querySelector('.restore-coupon div span').textContent=`${q.cost.itemQuantity||0}개 사용`;document.querySelector('.restore-snapshot').textContent=`${q.item.name} · +${q.cost.levelMode==='PREVIOUS'?q.item.level:0} 복구`;document.querySelector('.restore-policy').textContent=`${coin(q.cost.coinCost)} 코인${q.cost.itemCode?` · ${q.cost.itemCode==='MASTER_STAR'?'마스터의 별':q.cost.itemName||q.cost.itemCode} ${q.cost.itemQuantity}개`:''} · ${q.cost.expiresHours?`${q.cost.expiresHours}시간 이내`:'기간 제한 없음'}`;}
-  if(q.cost.scroll){const s=q.cost.scroll;scrollCost.hidden=false;scrollCost.innerHTML='<img src="'+esc(imageUrl(s.image))+'" alt=""><div><b>'+esc(s.name)+' '+number(s.quantity)+'장</b><small>보유 '+number(data.wallet.scrolls?.[s.code]??0)+'장</small><em>성공·유지·파괴 모두 시도 시 소모</em></div>';}
+  const scrollMaterials=[q.cost.guaranteedScroll,q.cost.scroll].filter(Boolean);
+  if(scrollMaterials.length){scrollCost.hidden=false;scrollCost.innerHTML=scrollMaterials.map(s=>`<div class="forge-scroll-line"><img src="${esc(imageUrl(s.image))}" alt=""><div><b>${esc(s.name)} ${number(s.quantity)}장</b><small>보유 ${number(data.wallet.scrolls?.[s.code]??0)}장 · 강화 시 소모</small></div></div>`).join('');}
   const shortages=forgeQuoteShortages(q,data.wallet);
   if(shortages.length)connectionNotice(shortages.join('\n'),()=>void load(),'보유 수량 새로고침');
-  button.querySelector('span').textContent=shortages.length?'재료 수량 확인 필요':mode==='enhance'?`+${q.item.level+1} 강화 시도`:'선택 장비 복구';button.disabled=executing||shortages.length>0;
+  button.querySelector('span').textContent=shortages.length?'재료 수량 확인 필요':q.cost.guaranteedScroll?`강화권 1장 사용 · +${q.item.level+1} 확정`:mode==='enhance'?`+${q.item.level+1} 강화 시도`:'선택 장비 복구';button.disabled=executing||shortages.length>0;
  }catch(e){if(stamp===quoteGeneration&&e.name!=='AbortError'){const locked=['FORGE_ADVANCED_PENDING','FORGE_MAX_LEVEL'].includes(e.code);quoteRetry=locked?null:()=>void updateQuote();button.querySelector('span').textContent=locked?(e.code==='FORGE_MAX_LEVEL'?'최대 강화 달성':'강화 준비 중'):'견적 다시 확인';button.disabled=locked;connectionNotice(e.message,quoteRetry,'견적 다시 확인');toast(e.message);}}
 }
 async function showReceipt(receipt,{animate=true}={}){
@@ -164,11 +172,11 @@ async function showReceipt(receipt,{animate=true}={}){
  if(animate&&renderer&&!document.hidden){let timer;try{
   await Promise.race([(async()=>{if(receipt.item)await renderer.setItem({...receipt.item,image:imageUrl(receipt.item.image)});if(stamp!==fxGeneration)return;await renderer.sound.enable(localStorage.getItem('cnine_battle_sound')!=='OFF');if(stamp!==fxGeneration)return;await renderer.play(receipt.outcome==='RESTORED'?'restore':receipt.outcome.toLowerCase());})(),new Promise(resolve=>{timer=setTimeout(()=>{fxGeneration++;renderer.loadGeneration++;renderer.cancel();resolve();},8500);})]);
  }catch{toast('확정된 결과를 갱신합니다.');}finally{clearTimeout(timer);}}
- toast(`${outcomeNames[receipt.outcome]}${receipt.outcome==='DESTROY'?'':` · +${receipt.level}`}`);$('stage-status').textContent=outcomeNames[receipt.outcome];
+ toast(`${receipt.guaranteedScroll?'확정 강화 성공 · 강화권 1장 사용':outcomeNames[receipt.outcome]}${receipt.outcome==='DESTROY'?'':` · +${receipt.level}`}`);$('stage-status').textContent=outcomeNames[receipt.outcome];
 }
 async function recoverPending(submit=false){
  if(executing||recovering)return;const pending=safePending();if(!pending||pending.invalid)return;
- const key=pendingKey(),auth=activeToken;recovering=true;pendingSubmit=false;quoteGeneration++;quoteQueue.invalidate();quote=null;recover.disabled=true;pendingButtons(pending);renderList();
+ const key=pendingKey(),auth=activeToken;recovering=true;guarantee.disabled=true;pendingSubmit=false;quoteGeneration++;quoteQueue.invalidate();quote=null;recover.disabled=true;pendingButtons(pending);renderList();
  connectionNotice('이전 요청의 서버 영수증을 확인하고 있습니다.');let refreshNeeded=false;
  try{
   let receipt;try{receipt=await api('receipt?requestId='+encodeURIComponent(pending.requestId)+'&kind='+pending.kind,undefined,undefined,{token:auth});}catch(error){if(error.code!=='JOINT_NOT_FOUND')throw error;}
@@ -179,7 +187,7 @@ async function recoverPending(submit=false){
  finally{recovering=false;recover.disabled=false;$('forge-retry').disabled=false;const remaining=safePending();recover.hidden=!remaining;if(remaining)pendingButtons(remaining);renderList();if(refreshNeeded||auth!==token())await load();}
 }
 async function submitPending(pending,key,auth){
- executing=true;pendingSubmit=false;quoteGeneration++;quoteQueue.invalidate();quote=null;renderList();for(const id of ['enhance-button','restore-button'])$(id).disabled=true;$('protection-toggle').disabled=true;protectionHint(null);recover.disabled=true;
+ executing=true;pendingSubmit=false;quoteGeneration++;quoteQueue.invalidate();quote=null;renderList();for(const id of ['enhance-button','restore-button'])$(id).disabled=true;$('protection-toggle').disabled=true;guarantee.disabled=true;protectionHint(null);recover.disabled=true;
  connectionNotice('강화 요청을 처리하고 있습니다. 결과가 확정될 때까지 중복 요청을 막습니다.');let refreshNeeded=false;
  try{
   const receipt=await api(pending.kind==='ENHANCE'?'enhance':'restore',undefined,{requestId:pending.requestId,quoteId:pending.quoteId},{token:auth,retries:2,lockOnly:true,onRetry:()=>connectionNotice('같은 계정의 작업이 끝나기를 잠시 기다린 뒤 재확인합니다. 새 요청은 만들지 않습니다.')});
@@ -196,6 +204,7 @@ async function execute(){
  try{localStorage.setItem(key,JSON.stringify(pending));}catch{return connectionNotice('요청 기록을 저장할 수 없어 강화를 시작하지 않았습니다. 브라우저 저장 공간을 확인하세요.');}
  return submitPending(pending,key,activeToken);
 }
+guarantee.onchange=()=>{if(guarantee.checked)$('protection-toggle').checked=false;void updateQuote();};
 $('enhance-button').onclick=execute;$('restore-button').onclick=execute;$('protection-toggle').onchange=()=>void updateQuote();
 document.querySelector('.protection-card').onclick=event=>{if($('protection-toggle').disabled){event.preventDefault();toast($('protection-status').textContent);}};
 const recover=document.createElement('button');recover.className='text-button';recover.textContent='결과 다시 확인';recover.hidden=true;recover.onclick=()=>void recoverPending(false);document.querySelector('.inventory-footer').append(recover);

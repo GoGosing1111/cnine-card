@@ -1,0 +1,22 @@
+{
+  "generator": "imagegen",
+  "prompt": "Use case: stylized-concept. Create ONE polished, transparent square inventory icon for the Korean fantasy RPG Reverse Call, a universal scroll that guarantees exactly one equipment enhancement level. Match a collectible, hand-painted premium RPG scroll with red or blue sibling scrolls: one upright ivory vellum sheet unfurled between two cream parchment rollers, each with sculpted warm gold finials, in a gentle three-quarter clockwise tilt, the upper roller near the top and the lower roller near the bottom. This edition has deep emerald silk sides with fine gold filigree, emerald gemstones on the roller caps, a luminous centered minted gold-and-jade seal embossed with a very large, unmistakable '+1' in thick ivory-gold relief; the plus sign and single numeral 1 are the ONLY lettering. A restrained pair of gilded laurel leaves at the lower seal. Single strong silhouette and a high-contrast focal mark legible at 48px. Painterly game illustration, directional highlights on real-feeling metal, rich shadows in rolled parchment, fine finishing at full resolution. The scroll fills about 88% of the square with every edge and tip inside a clear margin. Fully transparent surrounding pixels, no opaque background, no environment, no square frame, no card, no caption or watermark, no detached particles. Do not depict additional items, weapons or people.",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "webpSize": [
+    512,
+    512
+  ],
+  "artifacts": [
+    {
+      "path": "docs/qa/guaranteed-enhancement-scroll-20261107/art/scroll-source.png",
+      "sha256": "0e2dfc0040f76a5f25d393545c394b318e621ae728d7e8b5027299892f17d727"
+    },
+    {
+      "path": "assets/items/guaranteed-enhancement-scroll-v1.webp",
+      "sha256": "9d86b3a19358ff21c1abcc64bd868f3d60c895714643a73d44b110c55f390b91"
+    }
+  ]
+}

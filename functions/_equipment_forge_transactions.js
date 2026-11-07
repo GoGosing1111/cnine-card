@@ -11,7 +11,7 @@ import {readForgePreparationInventory} from './_equipment_forge_preparation.js';
 import {assertForgeMaterials} from './_equipment_forge_cms.js';
 import {forgeResourceShortage} from '../shared/equipment-forge-resources-v1.mjs';
 import {restoredPolishStatements} from './_equipment_growth.js';
-import {FORGE_MAX_LEVEL,FORGE_SCROLL_ITEMS,forgeScrollForSlot,forgeAdvancedReadiness} from '../shared/equipment-forge-advanced-v1.mjs';
+import {FORGE_MAX_LEVEL,FORGE_SCROLL_ITEMS,GUARANTEED_SCROLL,forgeScrollForSlot,forgeAdvancedReadiness} from '../shared/equipment-forge-advanced-v1.mjs';
 import {readForgeAdvancedPolicy,readForgeAdvancedForLevels} from './_equipment_forge_advanced.js';
 export const FORGE_TRANSACTION_SCHEMA=[
  `CREATE TABLE IF NOT EXISTS equipment_forge_states_v1(instance_id BIGINT PRIMARY KEY,user_id BIGINT NOT NULL,level INTEGER NOT NULL CHECK(level BETWEEN 0 AND 15),revision INTEGER NOT NULL)`,
@@ -47,7 +47,9 @@ async function owned(env,user,instanceId){
 async function destroyed(env,user,recordId){const row=await env.DB.prepare('SELECT * FROM equipment_forge_destroyed_v1 WHERE record_id=? AND user_id=?').bind(jointRequestId(recordId),user.id).first();if(!row||row.restored_instance_id)throw jointError('FORGE_RECORD','복구할 수 있는 내 파괴 기록을 선택하세요.',404);return {...row,item:JSON.parse(row.item_json)};}
 export async function forgeQuote(env,user,body,{now=Date.now()}={}){
  const quoteId=jointRequestId(body.requestId),kind=body.kind,protectedAttempt=body.useProtection??false;if(!['ENHANCE','RESTORE'].includes(kind)||typeof protectedAttempt!=='boolean')throw jointError('FORGE_QUOTE','강화 또는 복구를 선택하세요.');
- const key=kind==='ENHANCE'?id(body.instanceId):jointRequestId(body.recordId),input={kind,key,protectedAttempt},hash=await jointHash(input),DB=env.DB;
+ const guaranteed=body.useGuaranteedScroll===undefined?false:body.useGuaranteedScroll;
+ if(typeof guaranteed!=='boolean'||guaranteed&&(kind!=='ENHANCE'||protectedAttempt))throw jointError('FORGE_QUOTE','확정 강화권은 강화할 때만 사용하며 보호권과 함께 쓸 수 없습니다.');
+ const key=kind==='ENHANCE'?id(body.instanceId):jointRequestId(body.recordId),input={kind,key,protectedAttempt,...(guaranteed?{useGuaranteedScroll:true}:{})},hash=await jointHash(input),DB=env.DB;
  const prior=await DB.prepare('SELECT * FROM equipment_forge_quotes_v1 WHERE quote_id=?').bind(quoteId).first();
  if(prior){if(Number(prior.user_id)!==Number(user.id)||prior.input_hash!==hash)throw jointError('FORGE_QUOTE_CONFLICT','같은 견적 번호에 다른 내용이 있습니다.',409);return {...JSON.parse(prior.plan_json),quoteId,expiresAt:prior.expires_at,consumed:Boolean(prior.consumed_by)};}
  const policy=await readForgeRuntime(env);allow(policy,user);let item,cost,recordId=null,restoreDeadline=null,advanced=null;
@@ -64,6 +66,11 @@ export async function forgeQuote(env,user,body,{now=Date.now()}={}){
   requireEnhancementCost(cost);
   if(advanced){const scroll=forgeScrollForSlot(item.slot);cost.scroll={code:scroll.code,name:scroll.name,image:scroll.image,quantity:cost.scrollQuantity};if(!await DB.prepare('SELECT code FROM inventory_items WHERE code=? AND is_active=1').bind(scroll.code).first())throw jointError('FORGE_MATERIAL_CONFIG','강화주문서가 미등록 또는 비활성 상태입니다.',409);}
   if([cost.successPpm,cost.maintainPpm,cost.destroyPpm,cost.coinCost].some(v=>v===null))throw jointError('FORGE_POLICY_PENDING','해당 단계의 확률·비용이 미설정입니다.',409);
+  if(guaranteed){
+   const {code,name,image}=GUARANTEED_SCROLL;
+   if(!await DB.prepare('SELECT code FROM inventory_items WHERE code=? AND is_active=1').bind(code).first())throw jointError('FORGE_GUARANTEE_UNAVAILABLE','현재 확정 강화권을 사용할 수 없습니다.',409);
+   cost={...cost,successPpm:1000000,maintainPpm:0,destroyPpm:0,guaranteedScroll:{code,name,image,quantity:1}};
+  }
   if(protectedAttempt&&(!policy.protection.itemCode||policy.protection.consume==='UNSET'||cost.protectionQuantity===null))throw jointError('FORGE_PROTECTION_PENDING','보호권 소모 정책이 미설정입니다.',409);
  }
  else{const record=await destroyed(env,user,key);recordId=key;item=record.item;cost=policy.restoration;if(!cost.enabled)throw jointError('FORGE_RESTORE_OFF','복구 정책을 준비 중입니다.',423);if(cost.expiresHours>0){restoreDeadline=Date.parse(record.destroyed_at)+cost.expiresHours*3600000;if(now>restoreDeadline)throw jointError('FORGE_RESTORE_EXPIRED','복구 가능 기간이 지났습니다.',409);}if(protectedAttempt)throw jointError('FORGE_QUOTE','복구에는 강화 보호권을 사용하지 않습니다.');}
@@ -98,22 +105,26 @@ export async function executeForge(env,user,body,kind,{randomInt=mercenaryRandom
    for(const [code,quantity,name,unit]of[
     [plan.cost.itemCode,plan.cost.itemQuantity,plan.cost.itemCode===FORGE_ENHANCEMENT_MATERIAL?'마스터의 별':plan.cost.itemName||'복구 재료','개'],
     ...(kind==='ENHANCE'&&plan.cost.scroll?[[plan.cost.scroll.code,plan.cost.scroll.quantity,plan.cost.scroll.name,'장']]:[]),
+    ...(plan.cost.guaranteedScroll?[[GUARANTEED_SCROLL.code,1,GUARANTEED_SCROLL.name,'장']]:[]),
     ...(plan.protectedAttempt?[[plan.protection.itemCode,plan.cost.protectionQuantity,'장비 보호권','장']]:[])
    ])if(code){const row=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,code).first(),owned=Number(row?.quantity||0);if(owned<quantity)throw jointError('FORGE_MATERIAL',forgeResourceShortage(name,quantity,owned,unit),409);}
    let rolled='RESTORED',outcome=rolled;if(kind==='ENHANCE'){const current=await owned(env,user,plan.item.instanceId);if(current.revision!==plan.item.revision||current.level!==plan.item.level)throw jointError('FORGE_STALE','장비가 변경됐습니다. 견적을 다시 받으세요.',409);
-     const n=randomInt(1000000);if(!Number.isSafeInteger(n)||n<0||n>=1000000)throw Error('INVALID_FORGE_RANDOM');rolled=n<plan.cost.successPpm?'SUCCESS':n<plan.cost.successPpm+plan.cost.maintainPpm?'MAINTAIN':'DESTROY';outcome=rolled==='DESTROY'&&plan.protectedAttempt?'PROTECTED':rolled;
+     if(plan.cost.guaranteedScroll){rolled=outcome='SUCCESS';}
+     else{const n=randomInt(1000000);if(!Number.isSafeInteger(n)||n<0||n>=1000000)throw Error('INVALID_FORGE_RANDOM');rolled=n<plan.cost.successPpm?'SUCCESS':n<plan.cost.successPpm+plan.cost.maintainPpm?'MAINTAIN':'DESTROY';outcome=rolled==='DESTROY'&&plan.protectedAttempt?'PROTECTED':rolled;}
    }else await destroyed(env,user,plan.recordId);
    const nextLevel=kind==='RESTORE'?(plan.cost.levelMode==='PREVIOUS'?plan.item.level:0):outcome==='SUCCESS'?plan.item.level+1:plan.item.level;
    return {...plan,quoteId,rolled,outcome,nextLevel};
  },statements:async plan=>{
    if(kind==='ENHANCE'){requireEnhancementCost(plan.cost);requireScrollCost(plan);}
    allow(await readForgeRuntime(env),user);const DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v),token=crypto.randomUUID();
+   if(plan.cost.guaranteedScroll&&!await p('SELECT code FROM inventory_items WHERE code=? AND is_active=1',GUARANTEED_SCROLL.code).first())throw Object.assign(jointError('FORGE_GUARANTEE_UNAVAILABLE','확정 강화권 사용이 중지되었습니다. 재료는 소모되지 않았습니다.',409),{terminal:true});
    if(kind==='ENHANCE'){let current;try{current=await owned(env,user,plan.item.instanceId);}catch(error){if(error.code==='FORGE_NOT_OWNED')throw Object.assign(jointError('FORGE_STALE','장비가 변경됐습니다. 최신 목록에서 다시 선택하세요.',409),{terminal:true});throw error;}if(current.revision!==plan.item.revision||current.level!==plan.item.level)throw Object.assign(jointError('FORGE_STALE','장비 단계가 변경됐습니다. 견적을 다시 받으세요.',409),{terminal:true});}
    else{try{await destroyed(env,user,plan.recordId);}catch(error){if(error.code==='FORGE_RECORD')error.terminal=true;throw error;}}
    const list=[jointGuard(DB,token,'EXISTS(SELECT 1 FROM equipment_forge_quotes_v1 WHERE quote_id=? AND user_id=? AND consumed_by IS NULL)',[quoteId,user.id])];
    list.push(...jointCoinDebit(DB,user.id,plan.cost.coinCost,`장비 ${kind==='RESTORE'?'복구':'강화'} ${requestId}`));if(plan.cost.itemCode)list.push(...jointInventoryChange(DB,user.id,plan.cost.itemCode,-plan.cost.itemQuantity,'장비 강화·복구',requestId));
    if(kind==='ENHANCE'){
      if(plan.cost.scroll)list.push(...jointInventoryChange(DB,user.id,plan.cost.scroll.code,-plan.cost.scroll.quantity,'고급 장비 강화주문서',requestId));
+     if(plan.cost.guaranteedScroll)list.push(...jointInventoryChange(DB,user.id,GUARANTEED_SCROLL.code,-1,'장비 +1 확정 강화',requestId));
      list.push(p(`UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN EXISTS(SELECT 1 FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id WHERE x.id=? AND x.user_id=? AND x.equipment_id=? AND i.is_active=1 AND i.is_public=1 AND COALESCE(s.level,0)=? AND COALESCE(s.revision,0)=?) THEN 1 ELSE 0 END WHERE token=?`,plan.item.instanceId,user.id,plan.item.equipmentId,plan.item.level,plan.item.revision,token));
      if(plan.protectedAttempt){list.push(p('UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=?) THEN 1 ELSE 0 END WHERE token=?',user.id,plan.protection.itemCode,plan.cost.protectionQuantity,token));if(plan.protection.consume==='ON_ATTEMPT'||plan.rolled==='DESTROY')list.push(...jointInventoryChange(DB,user.id,plan.protection.itemCode,-plan.cost.protectionQuantity,'장비 보호',requestId));}
      if(plan.outcome==='DESTROY'){
@@ -147,7 +158,7 @@ export async function forgeReceipt(env,user,requestId,kind,replayed=true){
  if(!['ENHANCE','RESTORE'].includes(kind))throw jointError('FORGE_KIND','기록 종류를 확인하세요.');const op=await readJointOperation(env,user.id,requestId,`FORGE_${kind}`);if(op.status!=='COMPLETED')return {requestId,status:'PENDING',retryable:true};
  let instanceId=op.plan.item.instanceId;if(kind==='RESTORE')instanceId=(await env.DB.prepare('SELECT restored_instance_id FROM equipment_forge_destroyed_v1 WHERE record_id=? AND user_id=?').bind(op.plan.recordId,user.id).first()).restored_instance_id;
  const power=(kind==='RESTORE'||op.plan.outcome==='SUCCESS'?op.plan.powerAfter:op.plan.powerBefore)??forgePower(op.plan.item.basePower.total,op.plan.nextLevel);
- return {requestId,status:'COMPLETED',kind,replayed,instanceId,item:op.plan.item,recordId:op.plan.outcome==='DESTROY'?requestId:op.plan.recordId,outcome:op.plan.outcome,rolled:op.plan.rolled,level:op.plan.nextLevel,coinCost:op.plan.cost.coinCost,itemCode:op.plan.cost.itemCode,itemQuantity:op.plan.cost.itemQuantity,...(op.plan.cost.scroll?{scroll:op.plan.cost.scroll}:{}),policyVersion:op.plan.policyVersion,power};
+ return {requestId,status:'COMPLETED',kind,replayed,instanceId,item:op.plan.item,recordId:op.plan.outcome==='DESTROY'?requestId:op.plan.recordId,outcome:op.plan.outcome,rolled:op.plan.rolled,level:op.plan.nextLevel,coinCost:op.plan.cost.coinCost,itemCode:op.plan.cost.itemCode,itemQuantity:op.plan.cost.itemQuantity,...(op.plan.cost.scroll?{scroll:op.plan.cost.scroll}:{}),...(op.plan.cost.guaranteedScroll?{guaranteedScroll:op.plan.cost.guaranteedScroll}:{}),policyVersion:op.plan.policyVersion,power};
 }
 export async function forgeAccountState(env,user,options){
  const advanced=await readForgeAdvancedPolicy(env.DB);
@@ -155,8 +166,9 @@ export async function forgeAccountState(env,user,options){
  const available=policy.mode==='ON'||policy.mode==='TEST'&&user.role==='OWNER',items=inventory.items;
  const stars=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,FORGE_ENHANCEMENT_MATERIAL).first();
  const protection=policy.protection.itemCode?await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,policy.protection.itemCode).first():null;
- const scrollRows=(await env.DB.prepare('SELECT item_code,quantity FROM cnine_user_inventory WHERE user_id=? AND item_code IN (?,?)').bind(user.id,...FORGE_SCROLL_ITEMS.map(item=>item.code)).all()).results;
- const scrolls=Object.fromEntries(FORGE_SCROLL_ITEMS.map(item=>[item.code,Number(scrollRows.find(row=>row.item_code===item.code)?.quantity||0)]));
+ const scrollCodes=[...FORGE_SCROLL_ITEMS.map(item=>item.code),GUARANTEED_SCROLL.code];
+ const scrollRows=(await env.DB.prepare('SELECT inv.item_code,inv.quantity FROM cnine_user_inventory inv JOIN inventory_items i ON i.code=inv.item_code AND i.is_active=1 WHERE inv.user_id=? AND inv.item_code IN (?,?,?)').bind(user.id,...scrollCodes).all()).results;
+ const scrolls=Object.fromEntries(scrollCodes.map(code=>[code,Number(scrollRows.find(row=>row.item_code===code)?.quantity||0)]));
  return {...inventory,items,mode:'ACCOUNT',publicVisible:true,executionMode:policy.mode,canEnhance:available,canRestore:available&&policy.restoration.enabled,notice:available?'장비를 선택하고 확률·비용을 확인하세요.':'강화 공동 업데이트를 준비 중입니다.',policy:{...policy,steps:[...policy.steps,...advanced.steps],maxLevel:FORGE_MAX_LEVEL,advanced},wallet:{coins:String(wallet.coin),masterStars:Number(stars?.quantity||0),protection:policy.protection.itemCode?Number(protection?.quantity||0):null,scrolls},records:records.results.map(r=>({...JSON.parse(r.item_json),recordId:r.record_id,destroyedAt:r.destroyed_at,restoredInstanceId:r.restored_instance_id})),history:history.results.map(r=>({requestId:r.request_id,kind:r.kind,status:r.status,createdAt:r.created_at,...(r.status==='COMPLETED'?{outcome:JSON.parse(r.plan_json).outcome}:{} )}))};
 }
 export async function forgeEquipmentBonus(env,userId){
