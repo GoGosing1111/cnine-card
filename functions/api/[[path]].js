@@ -7669,7 +7669,7 @@ async function handleRequest(context){
       const landCoupon=await redeemLandCoupon({env,user,body:payload,deps:{json,profile,isRandomDrawExcluded}});if(landCoupon)return landCoupon;
       const coupon=await env.DB.prepare(`SELECT * FROM coupons WHERE code=?`).bind(code).first();
       if(!coupon) return json({error:'존재하지 않거나 삭제된 쿠폰입니다.'},404);
-      if(String(coupon.reward_type||'').toUpperCase()==='NOVEMBER_GIFT_20261101')return redeemNovemberGiftCoupon({env,user,coupon,body:payload,deps:{json,profile}});
+      if(code==='CNINE1101GIFT100'||code==='CNINE7LUCK'||String(coupon.reward_type||'').startsWith('NOVEMBER_GIFT_'))return redeemNovemberGiftCoupon({env,user,coupon,body:payload,deps:{json,profile}});
       if(String(coupon.reward_type||'').toUpperCase()==='RANK_EXP_POTION_2X_60M')return redeemRankExpPotionCoupon({env,user,coupon,body:payload,deps:{json,profile}});
       if(String(coupon.reward_type||'').toUpperCase()==='MIRACLE_CUBE')return redeemMiracleCubeCoupon({env,user,coupon,body:payload,deps:{json,profile}});
       if(String(coupon.reward_type||'').toUpperCase()==='PINGDU_BAEMIN_TICKET')return redeemChickenTicketCoupon({env,user,coupon,body:payload,deps:{json,profile}});

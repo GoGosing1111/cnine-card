@@ -1,18 +1,28 @@
-// One operator-authorized bundle. Regular coupon issuance limits stay unchanged.
+// Fixed event bundles. CMS issuance limits do not apply to these definitions and are unchanged.
 export const NOVEMBER_GIFT_COUPON=Object.freeze({
  code:'CNINE1101GIFT100',type:'NOVEMBER_GIFT_20261101',maxUses:100,coin:30000000000000,
+ label:'11월 선물 묶음',message:'계급 경험치 3배 물약 (60분) 2개, 코인 30조, 마스터의 별 2,000만 개를 받았습니다. 물약은 인벤토리에서 사용하세요.',
  items:Object.freeze([
   Object.freeze({code:'RANK_EXP_POTION_3X_60M',name:'계급 경험치 3배 물약 (60분)',amount:2}),
   Object.freeze({code:'MASTER_STAR',name:'마스터의 별',amount:20000000})
  ])
 });
-const gift=NOVEMBER_GIFT_COUPON;
+export const LUCKY_SEVEN_COUPON=Object.freeze({
+ code:'CNINE7LUCK',type:'NOVEMBER_GIFT_20261107',maxUses:100,coin:250_000_000_000_000,
+ label:'7일의 행운',message:'코인 250조, 마스터의 별 1억 개, 계급 경험치 3배 물약 (60분) 1개를 받았습니다. 물약은 인벤토리에서 사용하세요.',
+ items:Object.freeze([
+  Object.freeze({code:'MASTER_STAR',name:'마스터의 별',amount:100_000_000}),
+  Object.freeze({code:'RANK_EXP_POTION_3X_60M',name:'계급 경험치 3배 물약 (60분)',amount:1})
+ ])
+});
+const gifts=[NOVEMBER_GIFT_COUPON,LUCKY_SEVEN_COUPON];
 class GiftCouponError extends Error{constructor(message,status=409){super(message);this.status=status;}}
 const fail=(message,status)=>{throw new GiftCouponError(message,status);};
 const changed=(rows,message)=>{if(rows.length!==1)fail(message);return rows[0];};
 
 export async function redeemNovemberGiftCoupon({env,user,coupon,body,deps}){
- if(String(coupon?.reward_type||'').toUpperCase()!==gift.type)return null;
+ const gift=gifts.find(g=>g.code===coupon?.code && g.type===coupon?.reward_type);
+ if(!gift)return deps.json({error:'선물 쿠폰 설정을 확인하세요.'},409);
  try{
   const requestedKey=String(body.operationKey||'').trim();
   const operationKey=/^[A-Za-z0-9:_-]{8,120}$/.test(requestedKey)?requestedKey:`COUPON:${coupon.id}:${user.id}:${crypto.randomUUID()}`;
@@ -51,9 +61,9 @@ export async function redeemNovemberGiftCoupon({env,user,coupon,body,deps}){
      changed(await q('INSERT INTO coupon_redemptions(coupon_id,user_id,reward_coin,reward_type,reward_amount,operation_key) VALUES($1,$2,$3,$4,1,$5) RETURNING user_id',[current.id,user.id,String(gift.coin),gift.type,operationKey]),'쿠폰 사용 기록 저장에 실패했습니다.');
     }
     await q('COMMIT');
-    return {ok:true,replayed,rewardType:gift.type,rewardAmount:1,rewardCoin:gift.coin,rewardLabel:'11월 선물 묶음',
+    return {ok:true,replayed,rewardType:gift.type,rewardAmount:1,rewardCoin:gift.coin,rewardLabel:gift.label,
      rewards:[{type:'COIN',amount:gift.coin},...gift.items.map(item=>({type:item.code,amount:item.amount}))],
-     message:'계급 경험치 3배 물약 (60분) 2개, 코인 30조, 마스터의 별 2,000만 개를 받았습니다. 물약은 인벤토리에서 사용하세요.'};
+     message:gift.message};
    }catch(error){try{await q('ROLLBACK');}catch{}throw error;}
   });
   const fresh=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();

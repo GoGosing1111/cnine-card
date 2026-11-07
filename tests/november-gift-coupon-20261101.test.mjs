@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {forgeTicketFixture} from './helpers/admin-forge-ticket-fixture.mjs';
-import {NOVEMBER_GIFT_COUPON as gift,redeemNovemberGiftCoupon} from '../functions/_november_gift_coupon.js';
+import {NOVEMBER_GIFT_COUPON as gift,LUCKY_SEVEN_COUPON as lucky,redeemNovemberGiftCoupon} from '../functions/_november_gift_coupon.js';
 const source=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const redeemSource=source.slice(source.indexOf("    if(path==='coupon/redeem'"),source.indexOf("    if(path==='admin/daily-quests')"));
 const route=new (Object.getPrototypeOf(async()=>{}).constructor)('deps',`const {env,request,authenticate,readBody,redeemLandCoupon,json,profile,redeemNovemberGiftCoupon,isRandomDrawExcluded}=deps;const path='coupon/redeem';${redeemSource}`);
@@ -57,7 +57,7 @@ test('inactive items/accounts, malformed bundle, duplicate code and overflowing 
 test('regular CMS limits still reject the special bundle and 3X issuance',()=>{
  const specs=source.slice(source.indexOf('const VERIFIED_MESSAGE_REWARD_TYPES='),source.indexOf('let verifiedRewardMessageV1276ReadyPromise'));
  const spec=Function(specs+';return couponRewardSpec')();
- assert.equal(spec(gift.type),null);assert.equal(spec('RANK_EXP_POTION_3X_60M'),null);assert.equal(spec('COIN').max,1000000000000);assert.equal(spec('MASTER_STAR').max,1000000);
+ assert.equal(spec(gift.type),null);assert.equal(spec(lucky.type),null);assert.equal(spec('RANK_EXP_POTION_3X_60M'),null);assert.equal(spec('COIN').max,1000000000000);assert.equal(spec('MASTER_STAR').max,1000000);
 });
 
 test('large-wallet coupon records every coin and retains one redemption after response loss',async t=>{
@@ -74,4 +74,44 @@ test('large-wallet coupon rollback and signed BIGINT ceiling preserve unused cou
  const f=await fixture(t);await f.pg.exec('UPDATE users SET coin=100000000000000001 WHERE id=1');
  const before=await f.snapshot();f.fault({pattern:'INSERT INTO coin_logs'});await assert.rejects(f.redeem(),/QA injected/);assert.deepEqual(await f.snapshot(),before);
  await f.pg.exec('UPDATE users SET coin=9223372036854775807 WHERE id=1');const ceiling=await f.snapshot();assert.equal((await f.redeem()).status,409);assert.deepEqual(await f.snapshot(),ceiling);
+});
+
+async function luckyFixture(t){
+ const f=await fixture(t);
+ await f.pg.query('INSERT INTO coupons(code,reward_coin,reward_type,reward_amount,max_uses) VALUES($1,$2,$3,1,100)',['CNINE7LUCK','250000000000000','NOVEMBER_GIFT_20261107']);
+ return f;
+}
+test('7일의 행운 pays 250조, 1억 stars and one 60 min potion once, including after a lost response',async t=>{
+ const f=await luckyFixture(t);
+ await f.pg.exec("UPDATE users SET coin=100000000000000001 WHERE id=1; INSERT INTO cnine_user_inventory VALUES(1,'MASTER_STAR',21,0,NULL,NULL),(1,'RANK_EXP_POTION_3X_60M',3,0,NULL,NULL)");
+ f.fault({ack:true});await assert.rejects(f.redeem(1,'LUCKY_SEVEN_1',' cnine7luck '),/lost commit response/);
+ const r=await f.redeem(1,'LUCKY_SEVEN_1',lucky.code);assert.equal(r.status,200);const body=await r.json();
+ assert(body.replayed);assert.equal(body.rewardLabel,'7일의 행운');
+ assert.deepEqual(body.rewards,[{type:'COIN',amount:250000000000000},{type:'MASTER_STAR',amount:100000000},{type:'RANK_EXP_POTION_3X_60M',amount:1}]);
+ assert.match(body.message,/코인 250조, 마스터의 별 1억 개, 계급 경험치 3배 물약 \(60분\) 1개/);
+ assert.equal((await f.one('SELECT coin::text FROM users WHERE id=1')).coin,'100250000000000001');
+ assert.equal((await f.one('SELECT balance_after::text FROM coin_logs')).balance_after,'100250000000000001');
+ assert.equal(await f.quantity('MASTER_STAR'),100000021);assert.equal(await f.quantity('RANK_EXP_POTION_3X_60M'),4);
+ assert.equal(await f.count('inventory_logs'),2);assert.equal(await f.count('coin_logs'),1);assert.equal(await f.count('coupon_redemptions'),1);
+ assert.equal((await f.one("SELECT value FROM app_meta WHERE key='account_rank_potion_v1:1'")).value,'existing-buff-preserved');
+ assert.equal((await f.redeem(1,'LUCKY_SEVEN_DIFFERENT',lucky.code)).status,409);
+ assert.equal((await f.one('SELECT used_count FROM coupons WHERE code=$1',[lucky.code])).used_count,1);
+ assert.equal((await f.one('SELECT used_count FROM coupons WHERE code=$1',[gift.code])).used_count,0);
+ assert.equal((await f.redeem(1,'OLD_CAMPAIGN_1',gift.code)).status,200);assert.equal(await f.quantity('RANK_EXP_POTION_3X_60M'),6);
+});
+test('a single spot at 99/100 belongs to just one account; exhaustion does not consume the old coupon',async t=>{
+ const f=await luckyFixture(t);await f.pg.query('UPDATE coupons SET used_count=99 WHERE code=$1',[lucky.code]);
+ const pair=await Promise.all([f.redeem(1,'LUCKY_LAST_001',lucky.code),f.redeem(2,'LUCKY_LAST_002',lucky.code)]);
+ assert.deepEqual(pair.map(x=>x.status).sort(),[200,409]);const loser=pair[0].ok?2:1;
+ assert.equal(await f.quantity('MASTER_STAR',loser),0);assert.equal(await f.quantity('RANK_EXP_POTION_3X_60M',loser),0);
+ assert.equal((await f.one('SELECT used_count FROM coupons WHERE code=$1',[lucky.code])).used_count,100);
+ assert.equal(await f.count('coupon_redemptions'),1);assert.equal(await f.count('coin_logs'),1);assert.equal(await f.count('inventory_logs'),2);
+ assert.equal((await f.redeem(loser,'OLD_LAST_003',gift.code)).status,200);
+});
+test('a blocked final potion or a mismatched reward definition rolls back the entire lucky coupon',async t=>{
+ const f=await luckyFixture(t);
+ await f.pg.exec("INSERT INTO cnine_user_inventory VALUES(1,'RANK_EXP_POTION_3X_60M',9007199254740991,0,NULL,NULL)");
+ let before=await f.snapshot();assert.equal((await f.redeem(1,'LUCKY_ATOMIC_1',lucky.code)).status,409);assert.deepEqual(await f.snapshot(),before);
+ await f.pg.query("UPDATE coupons SET reward_type='COIN' WHERE code=$1",[lucky.code]);
+ before=await f.snapshot();assert.equal((await f.redeem(1,'LUCKY_ATOMIC_1',lucky.code)).status,409);assert.deepEqual(await f.snapshot(),before);
 });
