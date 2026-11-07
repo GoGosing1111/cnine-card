@@ -1,0 +1,70 @@
+{
+  "status": "ISSUED_AND_VERIFIED",
+  "operationKey": "ops:lucky-seven-coupon:20261107:v1",
+  "title": "7일의 행운",
+  "couponCode": "CNINE7LUCK",
+  "couponId": "5581",
+  "rewardType": "NOVEMBER_GIFT_20261107",
+  "coin": "250000000000000",
+  "items": [
+    {
+      "code": "MASTER_STAR",
+      "name": "마스터의 별",
+      "amount": 100000000
+    },
+    {
+      "code": "RANK_EXP_POTION_3X_60M",
+      "name": "계급 경험치 3배 물약 (60분)",
+      "amount": 1
+    }
+  ],
+  "maxUses": 100,
+  "perAccount": 1,
+  "expiresAt": null,
+  "completedAt": "2026-11-07T07:56:34.284Z",
+  "auditId": "56053",
+  "statusAtRegistration": "COMPLETED",
+  "issuedAtKST": "2026-11-07 16:56:34 KST",
+  "verifiedAt": "2026-11-07T07:56:39.238Z",
+  "usedAtVerification": 0,
+  "remainingAtVerification": 100,
+  "sourceCommit": "411bdf8b9e87b0054c55ac53a50ffc1980f32e61",
+  "pages": {
+    "id": "39848e4b-c787-4932-a94b-90a4a7fbd4db",
+    "commit": "411bdf8b9e87b0054c55ac53a50ffc1980f32e61",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "c6bb49c8-c694-41b3-8569-2b6e9a115ea6",
+      "percentage": 100,
+      "bundleSupported": true,
+      "sourceSHA256": "6bc6b35e4823ffd441ad85d19979c87c37fcb1888950825f7691c7c8bee9a2c9"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "162267eb-a8e2-485a-8acf-fad6eda18e8f",
+      "percentage": 100,
+      "bundleSupported": true,
+      "sourceSHA256": "d230c2afd7a2d3b31f4fd46821c3c6564d2d1aa7206d88f15dfd83f3c31f23aa"
+    }
+  ],
+  "checks": {
+    "transactionTests": 10,
+    "releaseTests": 15,
+    "workerSyntax": true,
+    "issueFailureAndSuccessRolledBack": true,
+    "independentReadOnly": true,
+    "noWriteReissue": true,
+    "previousCouponReceiptUnchanged": true,
+    "liveAccountRedemption": false
+  },
+  "poster": {
+    "path": "output/announcements/lucky-seven-coupon-20261107/lucky-seven-coupon.png",
+    "width": 2172,
+    "height": 724,
+    "sha256": "d7400b5273b1288c5dcd6f8af2ab4a7aa287b5218674f94a1358d010f3164184",
+    "posted": false
+  }
+}

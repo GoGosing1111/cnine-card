@@ -1,0 +1,50 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {createHash} from 'node:crypto';
+import {createRequire} from 'node:module';
+import {execFileSync,spawn} from 'node:child_process';
+const out=new URL('./',import.meta.url),source=fileURLToPath(new URL('../../output/revan-live-20261027/release-checkout/',import.meta.url));
+process.chdir(source);
+const mode=process.argv[2],file=(name)=>new URL(name,out);
+const save=(name,x)=>fs.writeFileSync(file(name+'.json'),JSON.stringify(x,null,2)+'\n',{flag:'wx'}),read=(name)=>JSON.parse(fs.readFileSync(file(name+'.json'),'utf8'));
+const git=(...args)=>execFileSync('git',['-c','gc.auto=0','-c','maintenance.auto=false',...args],{encoding:'utf8',windowsHide:true}).trim();
+const wr=path.join(path.dirname(createRequire(path.join(source,'package.json')).resolve('wrangler/package.json')),'bin/wrangler.js');
+const auth=JSON.parse(execFileSync(process.execPath,[wr,'auth','token','--json'],{encoding:'utf8',stdio:['ignore','pipe','pipe'],windowsHide:true}));
+const token=auth.token||auth.apiToken||auth.oauthToken;assert(token);
+const api=async p=>{const res=await fetch('https://api.cloudflare.com/client/v4/accounts/1e7c59450a8b6e34a9d87f92ca02aeaa'+p,{headers:{Authorization:'Bearer '+token},signal:AbortSignal.timeout(30000)});assert(res.ok,'Cloudflare '+res.status);return res;};
+const pages=async()=>{const d=(await (await api('/pages/projects/cnine-card')).json()).result.canonical_deployment;return {id:d.id,commit:d.deployment_trigger.metadata.commit_hash,status:d.latest_stage.status};};
+const tests=['tests/coupon-owner-limits-20261029.test.mjs','tests/coupon-reward-cap-v1997.test.mjs'];
+const checks=['check:worker'];
+if(mode==='prepare'){
+ const before=await pages();assert.equal(before.status,'success');git('merge-base','--is-ancestor',before.commit,'HEAD');
+ const plan={base:before.commit,before,reason:'Register one November 7 event coupon on the existing locked bundle redemption path. Ten bundle transaction tests are run separately; cover normal CMS limits, standard coupon redemption and the API Worker in the release gate.',tests,checks};
+ save('deployment-plan',plan);console.log(JSON.stringify(plan));
+}else if(mode==='deploy'){
+ const plan=read('deployment-plan'),head=git('rev-parse','HEAD');assert.equal((await pages()).commit,plan.base);assert.equal(git('rev-parse','origin/main'),head);assert.equal(git('status','--porcelain'),'');
+ const p=fs.readFileSync(file('transactions.tap'));const tap=p[0]===0xff?p.toString('utf16le'):p.toString('utf8');assert.match(tap,/# pass 10\b/);assert.match(tap,/# fail 0\b/);
+ const name='release-'+head.slice(0,9)+'-'+Date.now()+'.log',fd=fs.openSync(file(name),'wx');
+ const env={...process.env,GIT_CONFIG_COUNT:'2',GIT_CONFIG_KEY_0:'gc.auto',GIT_CONFIG_VALUE_0:'0',GIT_CONFIG_KEY_1:'maintenance.auto',GIT_CONFIG_VALUE_1:'false',SCOPED_DEPLOY_BASE:plan.base,SCOPED_DEPLOY_REASON:plan.reason,SCOPED_DEPLOY_TESTS:JSON.stringify(plan.tests),SCOPED_DEPLOY_CHECKS:JSON.stringify(plan.checks)};
+ const child=spawn(process.env.ComSpec||'cmd.exe',['/d','/s','/c','npm run deploy:production -- --scoped'],{env,windowsHide:true,stdio:['ignore',fd,fd]});
+ console.log(JSON.stringify({head,log:name}));
+ const exitCode=await new Promise((resolve,reject)=>{child.once('exit',resolve);child.once('error',reject);});fs.closeSync(fd);
+ if(exitCode!==0)throw Error('Scoped release exited '+exitCode+'; inspect '+name);
+ save('deployment-result',{head,base:plan.base,exitCode,log:name,finishedAt:new Date().toISOString()});
+}else if(mode==='verify'){
+ const result=read('deployment-result'),live=await pages();assert.equal(live.commit,result.head);assert.equal(live.status,'success');
+ const log=fs.readFileSync(file(result.log),'utf8'),versions=[...log.matchAll(/Current Version ID:\s*([\da-f-]+)/g)].map(m=>m[1]);
+ assert.equal(versions.length,2);assert.match(log,/fail 0\b/);assert.match(log,/\[PRODUCTION RELEASE OK\]/);
+ const workers=await Promise.all(['cnine-card-api-runtime','cnine-card-clan-draft'].map(async(name,i)=>{
+  const d=(await(await api('/workers/scripts/'+name+'/deployments')).json()).result.deployments[0];assert.deepEqual(d.versions,[{version_id:versions[i],percentage:100}]);
+  const sourceText=await (await api('/workers/scripts/'+name)).text();assert(sourceText.includes('CNINE1101GIFT100'));
+  const reward=sourceText.match(/code\s*:\s*["']CNINE7LUCK["'][\s\S]{1,1800}?code\s*:\s*["']RANK_EXP_POTION_3X_60M["'][\s\S]{1,160}?amount\s*:\s*1\b/)?.[0];
+  assert(reward,'Lucky Seven definition missing from '+name);
+  const numeric=(key,text)=>Number(text.match(new RegExp(key+'\\s*:\\s*([+0-9.eE_-]+)'))?.[1]?.replaceAll('_',''));
+  assert(reward.includes('NOVEMBER_GIFT_20261107'));assert.equal(numeric('coin',reward),250000000000000);assert.equal(numeric('maxUses',reward),100);
+  assert.equal(numeric('amount',reward.split('MASTER_STAR')[1]),100000000);
+  return {name,version:versions[i],percentage:100,bundleSupported:true,sourceSHA256:createHash('sha256').update(sourceText).digest('hex')};
+ }));
+ const probe=await fetch('https://cnine-card.pages.dev/api/coupon/redeem',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:'CNINE7LUCK'}),signal:AbortSignal.timeout(20000)});assert.equal(probe.status,401);
+ const report={checkedAt:new Date().toISOString(),sourceCommit:result.head,pages:live,workers,unauthenticatedStatus:probe.status,releaseTests:Number(log.match(/\bpass (\d+)/)?.[1]),liveAccountRedemption:false};save('live-verification',report);console.log(JSON.stringify(report));
+}else throw Error('prepare|deploy|verify');

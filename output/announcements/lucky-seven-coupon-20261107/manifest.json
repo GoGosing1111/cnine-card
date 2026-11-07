@@ -1,0 +1,17 @@
+{
+  "title": "7일의 행운",
+  "file": "lucky-seven-coupon.png",
+  "width": 2172,
+  "height": 724,
+  "sha256": "d7400b5273b1288c5dcd6f8af2ab4a7aa287b5218674f94a1358d010f3164184",
+  "generator": "built-in image_gen",
+  "promptFile": "prompt.txt",
+  "reference": "../november-gift-coupon-20261101/november-gift-banknote-v1.png",
+  "generatedOriginal": "C:/Users/User/.codex/generated_images/01a1b4f4-6f52-7650-8e68-592fb37ff94f/exec-9e7e0935-c4cf-4928-bf4e-0312a50a588d.png",
+  "couponCode": "CNINE7LUCK",
+  "rewards": {"coin": "250000000000000", "MASTER_STAR": 100000000, "RANK_EXP_POTION_3X_60M": 1},
+  "maxClaims": 100,
+  "perAccount": 1,
+  "visualReview": "제목, 영문 코드 열 글자, 세 보상 수량, 60분, 선착순 100명과 계정당 1회를 이미지에서 직접 확인.",
+  "announcementPosted": false
+}
