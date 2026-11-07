@@ -31,7 +31,9 @@ export const JOKRO_LOAN=Object.freeze({userId:5950,expiresAt:Date.parse('2026-10
 // 2026-10-29: ε연두з (3), existing stock-exempt gift (audit 52534); ownership is required.
 // 2026-10-29: Jokdan (4582), one authorized stock-exempt gift; ownership is required.
 // 2026-11-06: Gingdeodeum (5877), one authorized stock-exempt gift; ownership is required.
-export const jokroAccountAllowed=(userId,code,now=Date.now(),hasPackIssue=false)=>code!==JOKRO_CODE||Number(userId)===JOKRO_OWNER_ID||Number(userId)===2||Number(userId)===3||Number(userId)===5663||Number(userId)===303||Number(userId)===4817||Number(userId)===1768||Number(userId)===5008||Number(userId)===5147||Number(userId)===525||Number(userId)===4866||Number(userId)===4582||Number(userId)===5877||hasPackIssue===true||
+// 2026-11-07: gallery draw winner 좋은하루 (1545) and message recipient 대지 (4479).
+// The account service still requires a positive holding, including after message claim.
+export const jokroAccountAllowed=(userId,code,now=Date.now(),hasPackIssue=false)=>code!==JOKRO_CODE||Number(userId)===JOKRO_OWNER_ID||Number(userId)===2||Number(userId)===3||Number(userId)===5663||Number(userId)===303||Number(userId)===4817||Number(userId)===1768||Number(userId)===5008||Number(userId)===5147||Number(userId)===525||Number(userId)===4866||Number(userId)===4582||Number(userId)===5877||Number(userId)===1545||Number(userId)===4479||hasPackIssue===true||
  (Number(userId)===JOKRO_LOAN.userId&&now<JOKRO_LOAN.expiresAt);
 export const jokroActionCredit=actors=>actors.some(a=>isJokro(a)&&a.alive!==false&&a.hp>0)?JOKRO_COMBAT.actionCredit:1;
 export function jokroIncomingDamage(target,incoming,source){

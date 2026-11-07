@@ -52,7 +52,7 @@ import {deliverRankedPvpCoins} from '../_ranked_coin.js';
 import {handleLegionHunt} from '../_legion_hunt.js';
 import {claimPigCoinMessageReward} from '../_pig_coin_message_reward.js';
 import {claimCityMessageReward} from '../_jokgak_city_message_reward.js';
-import {claimOmegaMercenaryMessageReward,claimShiranuiMercenaryMessageReward} from '../_mercenary_message_reward.js';
+import {claimOmegaMercenaryMessageReward,claimShiranuiMercenaryMessageReward,claimJokroMercenaryMessageReward} from '../_mercenary_message_reward.js';
 import { handleCoup, pulseCoup } from '../_coup.js';
 import { chiefAuthorityGuard } from '../_coup_schema.js';
 import {handleLimitedPack,limitedPackShopRow} from '../_mercenary_limited_pack.js';
@@ -603,6 +603,7 @@ const VERIFIED_MESSAGE_REWARD_TYPES={
   MADARA_RAID_ENTRY_TICKET:{label:'바르센 레이드 입장권',icon:'🎟️',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   LICH_KING_ENTRY_TICKET:{label:'리치왕 정벌 입장권',icon:'🎟️',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   MERCENARY_SHIRANUI:{label:'시라누이 SSS 리미티드',icon:'🃏',inventory:false,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
+  MERCENARY_JOKRO:{label:'족로 SSS 리미티드',icon:'🃏',inventory:false,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   MERCENARY_OMEGA_X:{label:'오메가-X SSS',icon:'🃏',inventory:false,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   PIG_COIN:{label:'피그코인',icon:'🐷',inventory:false,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   COIN:{label:'코인',icon:'🪙',inventory:false,max:5000000000,messageType:'COIN_REWARD'},
@@ -661,6 +662,7 @@ async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowCla
   if(rewardType==='PIG_COIN')return claimPigCoinMessageReward(env,user,reward,messageId);
   if(rewardType==='JOKGAK_CITY_REWARD')return claimCityMessageReward(env,user,reward,messageId);
   if(rewardType==='MERCENARY_SHIRANUI')return claimShiranuiMercenaryMessageReward(env,user,reward,messageId);
+  if(rewardType==='MERCENARY_JOKRO')return claimJokroMercenaryMessageReward(env,user,reward,messageId);
   if(rewardType==='MERCENARY_OMEGA_X')return claimOmegaMercenaryMessageReward(env,user,reward,messageId);
   const spec=verifiedMessageRewardSpec(rewardType);
   const rewardAmount=Math.max(0,Math.floor(Number(reward?.reward_amount||0)));

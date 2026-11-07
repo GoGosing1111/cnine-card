@@ -4,18 +4,18 @@ import {SHIRANUI_RANK_CAMPAIGN,SHIRANUI_MESSAGE_REWARD,shiranuiRankRewardKey} fr
 // A fixed, administrator-delivered card attachment. No draw, coupon or equip side effects.
 export const claimOmegaMercenaryMessageReward=(env,user,reward,messageId)=>claimFixedMercenaryMessageReward(env,user,reward,messageId,{type:'MERCENARY_OMEGA_X',code:'V-021',label:'오메가-X SSS'});
 export const claimShiranuiMercenaryMessageReward=(env,user,reward,messageId)=>claimFixedMercenaryMessageReward(env,user,reward,messageId,{type:SHIRANUI_MESSAGE_REWARD,code:'V-987',label:'시라누이 SSS 리미티드',campaign:SHIRANUI_RANK_CAMPAIGN});
-// Rank rewards deliberately bypass draw-policy weights and limited pack stock.
-// The enclosing claim locks the account, reserves its receipt and verifies the
-// official rank campaign before these two ledger writes can execute.
-function shiranuiMessageAcquisitionStatements(DB,{userId,acquisitionId,createdAt}){
+const DAEJI_JOKRO_CAMPAIGN='ops:daeji-jokro-message:20261107:v1';
+export const claimJokroMercenaryMessageReward=(env,user,reward,messageId)=>claimFixedMercenaryMessageReward(env,user,reward,messageId,{type:'MERCENARY_JOKRO',code:'V-979',label:'족로 SSS 리미티드',campaign:DAEJI_JOKRO_CAMPAIGN});
+// A campaign grants its fixed card from the reserved receipt, independently of pack stock.
+function limitedMessageAcquisitionStatements(DB,{userId,mercenaryCode,acquisitionId,createdAt}){
  const p=(s,...v)=>DB.prepare(s).bind(...v);
  return [
   p(`INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last_obtained_at)
-    SELECT ?,'V-987',1,0,?,? WHERE NOT EXISTS(SELECT 1 FROM mercenary_card_acquisitions_v1 WHERE acquisition_id=?)
-    ON CONFLICT(user_id,mercenary_code) DO UPDATE SET total_copies=user_mercenary_cards_v1.total_copies+1,duplicate_count=user_mercenary_cards_v1.duplicate_count+1,last_obtained_at=excluded.last_obtained_at`,userId,createdAt,createdAt,acquisitionId),
+    SELECT ?,?,1,0,?,? WHERE NOT EXISTS(SELECT 1 FROM mercenary_card_acquisitions_v1 WHERE acquisition_id=?)
+    ON CONFLICT(user_id,mercenary_code) DO UPDATE SET total_copies=user_mercenary_cards_v1.total_copies+1,duplicate_count=user_mercenary_cards_v1.total_copies,last_obtained_at=excluded.last_obtained_at`,userId,mercenaryCode,createdAt,createdAt,acquisitionId),
   p(`INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplicate,total_copies_after,duplicate_count_after,created_at)
     SELECT ?,user_id,mercenary_code,CASE WHEN total_copies>1 THEN 1 ELSE 0 END,total_copies,duplicate_count,?
-    FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code='V-987' AND NOT EXISTS(SELECT 1 FROM mercenary_card_acquisitions_v1 WHERE acquisition_id=?) ON CONFLICT(acquisition_id) DO NOTHING`,acquisitionId,createdAt,userId,acquisitionId)
+    FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=? AND NOT EXISTS(SELECT 1 FROM mercenary_card_acquisitions_v1 WHERE acquisition_id=?) ON CONFLICT(acquisition_id) DO NOTHING`,acquisitionId,createdAt,userId,mercenaryCode,acquisitionId)
  ];
 }
 async function claimFixedMercenaryMessageReward(env,user,reward,messageId,{type,code,label,campaign}){
@@ -26,7 +26,17 @@ async function claimFixedMercenaryMessageReward(env,user,reward,messageId,{type,
   const stored=await p(`SELECT r.*${campaign?',m.campaign_key':''} FROM user_message_rewards r JOIN user_messages m ON m.id=r.message_id AND m.user_id=r.user_id
     WHERE r.id=? AND r.message_id=? AND r.user_id=? AND r.reward_type=?`,rewardId,messageId,userId,type).first();
   if(!stored||Number(stored.reward_amount)!==1)throw Error(`수령할 ${label} 보상이 없습니다.`);
-  if(campaign){
+  let deliveryGuard='',deliveryArgs=[];
+  if(campaign===DAEJI_JOKRO_CAMPAIGN){
+    const grant=await p('SELECT value FROM app_meta WHERE key=?',campaign).first();
+    const delivery=JSON.parse(grant?.value||'null');
+    if(userId!==4479||stored.campaign_key!==campaign||delivery?.operationKey!==campaign||delivery.status!=='SENT'||
+      String(delivery.userId)!==String(userId)||String(delivery.messageId)!==String(messageId)||
+      String(delivery.rewardId)!==String(rewardId)||delivery.code!==code||delivery.quantity!==1)
+      throw Error('족로 메시지의 지급 기록을 확인하세요.');
+    deliveryGuard='AND m.campaign_key=? AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)';
+    deliveryArgs=[campaign,campaign,grant.value];
+  }else if(campaign){
     const grant=await p('SELECT value FROM app_meta WHERE key=?',shiranuiRankRewardKey(userId)).first();
     if(stored.campaign_key!==campaign||!grant||grant.value==='PREVIOUSLY_OWNED')throw Error('중장 달성 보상의 지급 기록을 확인하세요.');
   }
@@ -56,14 +66,14 @@ async function claimFixedMercenaryMessageReward(env,user,reward,messageId,{type,
       FROM user_message_rewards r JOIN user_messages m ON m.id=r.message_id AND m.user_id=r.user_id JOIN users u ON u.id=r.user_id
       LEFT JOIN user_mercenary_cards_v1 c ON c.user_id=r.user_id AND c.mercenary_code=?
       WHERE r.id=? AND r.message_id=? AND r.user_id=? AND r.reward_type=? AND r.reward_amount=1 AND (r.claimed_at IS NULL OR TRIM(r.claimed_at)='')
-      AND NOT EXISTS(SELECT 1 FROM mercenary_card_acquisitions_v1 WHERE acquisition_id=?) ON CONFLICT(reward_id) DO NOTHING`,token,code,...match,acquisitionId),
+      ${deliveryGuard} AND NOT EXISTS(SELECT 1 FROM mercenary_card_acquisitions_v1 WHERE acquisition_id=?) ON CONFLICT(reward_id) DO NOTHING`,token,code,...match,...deliveryArgs,acquisitionId),
     // Reject missing/conflicting reservations before composing the shared acquisition.
     // A concurrent completed claim is allowed only with its matching durable acquisition.
     p(`INSERT INTO mercenary_card_atomic_guard_v1(id,verified) SELECT ?,CASE WHEN EXISTS(
       SELECT 1 FROM user_message_reward_claim_receipts_v1222 r WHERE ${receiptMatch} AND (claim_token=? OR EXISTS(
         SELECT 1 FROM mercenary_card_acquisitions_v1 a WHERE a.acquisition_id=? AND a.user_id=r.user_id AND a.mercenary_code=?
         AND a.total_copies_after=r.balance_after AND r.balance_after=r.balance_before+1))) THEN 1 ELSE 0 END`,guardId,...match,token,acquisitionId,code),
-    ...(campaign?shiranuiMessageAcquisitionStatements:mercenaryCardAcquisitionStatements)(DB,{userId,mercenaryCode:code,acquisitionId,createdAt:now}),
+    ...(campaign?limitedMessageAcquisitionStatements:mercenaryCardAcquisitionStatements)(DB,{userId,mercenaryCode:code,acquisitionId,createdAt:now}),
     p(`UPDATE user_message_reward_claim_receipts_v1222 SET balance_after=(SELECT total_copies_after FROM mercenary_card_acquisitions_v1 WHERE acquisition_id=?),credited_at=CURRENT_TIMESTAMP WHERE ${receiptMatch} AND claim_token=?`,acquisitionId,...match,token),
     p(`UPDATE user_message_rewards SET claimed_at=CURRENT_TIMESTAMP WHERE id=? AND user_id=? AND ${tokenExists}`,rewardId,userId,...match,token),
     p(`UPDATE user_messages SET is_read=1,read_at=COALESCE(read_at,CURRENT_TIMESTAMP),hidden_at=CURRENT_TIMESTAMP WHERE id=? AND user_id=? AND ${tokenExists}`,messageId,userId,...match,token),

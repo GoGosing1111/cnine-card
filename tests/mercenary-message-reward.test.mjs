@@ -7,7 +7,8 @@ import {PGlite} from '@electric-sql/pglite';
 import {DatabaseSync} from 'node:sqlite';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 import {MERCENARY_ACCOUNTING_SCHEMA} from '../functions/_mercenary_draw_accounting.js';
-import {claimOmegaMercenaryMessageReward} from '../functions/_mercenary_message_reward.js';
+import {claimOmegaMercenaryMessageReward,claimJokroMercenaryMessageReward} from '../functions/_mercenary_message_reward.js';
+import {jokroAccountAllowed} from '../shared/mercenary-jokro-v1.mjs';
 import {claimMessageRewardBatch} from '../functions/_message_reward_batch.js';
 const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8'),api=read('functions/api/[[path]].js'),app=read('js/app.js');
 const specs=api.slice(api.indexOf('const VERIFIED_MESSAGE_REWARD_TYPES='),api.indexOf('let verifiedRewardMessageV1276ReadyPromise='));
@@ -16,7 +17,8 @@ async function fixture(t,postgres){
  const sql=[
   'CREATE TABLE users(id BIGINT PRIMARY KEY,coin BIGINT,card_shards BIGINT)',
   'INSERT INTO users VALUES(1,9000000000,150),(2,500,200)',
-  'CREATE TABLE user_messages(id BIGINT PRIMARY KEY,user_id BIGINT,title TEXT,is_read INTEGER DEFAULT 0,read_at TEXT,hidden_at TEXT)',
+  'CREATE TABLE user_messages(id BIGINT PRIMARY KEY,user_id BIGINT,title TEXT,is_read INTEGER DEFAULT 0,read_at TEXT,hidden_at TEXT,campaign_key TEXT)',
+  'CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT)',
   'CREATE TABLE user_message_rewards(id BIGINT PRIMARY KEY,message_id BIGINT UNIQUE,user_id BIGINT,reward_type TEXT,reward_amount BIGINT,claimed_at TEXT)',
   'CREATE TABLE user_message_reward_claim_receipts_v1222(reward_id BIGINT PRIMARY KEY,message_id BIGINT UNIQUE,user_id BIGINT,reward_type TEXT,reward_amount BIGINT,claim_token TEXT UNIQUE,balance_before BIGINT,balance_after BIGINT,source TEXT,credited_at TEXT)',
   'CREATE TABLE coin_logs(user_id BIGINT,change_amount BIGINT,balance_after BIGINT,reason TEXT)',
@@ -34,13 +36,35 @@ async function fixture(t,postgres){
   DB={prepare,async batch(list){db.exec('BEGIN');try{const results=list.map(execute);db.exec('COMMIT');return results;}catch(e){db.exec('ROLLBACK');throw e;}}};
  }
  const p=(sql,...v)=>DB.prepare(sql).bind(...v),env={DB};
- const context=vm.createContext({crypto:webcrypto,ensureVerifiedRewardMessageV1276:async()=>{},messageRewardClaimToken:()=>webcrypto.randomUUID(),claimOmegaMercenaryMessageReward});
+ const context=vm.createContext({crypto:webcrypto,ensureVerifiedRewardMessageV1276:async()=>{},messageRewardClaimToken:()=>webcrypto.randomUUID(),claimOmegaMercenaryMessageReward,claimJokroMercenaryMessageReward});
  vm.runInContext(specs+'\n'+common+'\nthis.claim=claimMessageRewardDirectV1222;this.spec=verifiedMessageRewardSpec;this.coupon=couponRewardSpec;',context);
  const reward=async(id=1,type='MERCENARY_OMEGA_X',amount=1)=>{await p("INSERT INTO user_messages(id,user_id,title) VALUES(?,1,'충신선물')",id).run();await p('INSERT INTO user_message_rewards(id,message_id,user_id,reward_type,reward_amount) VALUES(?,?,1,?,?)',id,id,type,amount).run();return p('SELECT * FROM user_message_rewards WHERE id=?',id).first();};
  return {DB,p,env,context,reward,fail:v=>{fail=v;},claim:r=>context.claim(env,{id:1},r,Number(r.message_id)),copies:async()=>Number((await p("SELECT total_copies FROM user_mercenary_cards_v1 WHERE user_id=1 AND mercenary_code='V-021'").first())?.total_copies||0)};
 }
 for(const postgres of [false,true]){
  const dialect=postgres?'PostgreSQL':'SQLite';
+ test(`${dialect}: Daeji's exact Jokro attachment delivers one usable card on claim and survives retries`,async t=>{
+  const f=await fixture(t,postgres),campaign='ops:daeji-jokro-message:20261107:v1',user={id:4479};
+  await f.p('INSERT INTO users VALUES(4479,1000,0)').run();
+  await f.p('INSERT INTO user_messages(id,user_id,title,campaign_key) VALUES(10,4479,?,?)','족로 지급',campaign).run();
+  await f.p("INSERT INTO user_message_rewards(id,message_id,user_id,reward_type,reward_amount) VALUES(20,10,4479,'MERCENARY_JOKRO',1)").run();
+  const reward=await f.p('SELECT * FROM user_message_rewards WHERE id=20').first();
+  const delivery={operationKey:campaign,status:'SENT',userId:'4479',code:'V-979',quantity:1,messageId:'10',rewardId:'20'};
+  const copies=async()=>Number((await f.p("SELECT total_copies FROM user_mercenary_cards_v1 WHERE user_id=4479 AND mercenary_code='V-979'").first())?.total_copies||0);
+  const claim=()=>f.context.claim(f.env,user,reward,10);
+  await assert.rejects(claim,/지급 기록/);
+  await f.p('INSERT INTO app_meta VALUES(?,?)',campaign,JSON.stringify({...delivery,rewardId:'21'})).run();
+  await assert.rejects(claim,/지급 기록/);
+  await f.p('UPDATE app_meta SET value=? WHERE key=?',JSON.stringify(delivery),campaign).run();
+  await assert.rejects(()=>f.context.claim(f.env,{id:1545},reward,10),/보상/);
+  f.fail('UPDATE user_messages SET');await assert.rejects(claim,/INJECTED/);f.fail('');
+  assert.equal(await copies(),0);assert.equal((await f.p('SELECT * FROM user_message_reward_claim_receipts_v1222').all()).results.length,0);
+  const batch=()=>claimMessageRewardBatch(f.env,user,[10],{specFor:f.context.spec,claim:f.context.claim,canRecover:async()=>false});
+  assert((await batch())[0].ok);assert((await claim()).duplicate);assert((await batch())[0].alreadyClaimed);
+  assert.equal(await copies(),1);assert.equal((await f.p('SELECT * FROM mercenary_card_acquisitions_v1').all()).results.length,1);
+  assert.equal(f.context.coupon('MERCENARY_JOKRO'),null);
+  assert(jokroAccountAllowed(4479,'V-979'));assert(jokroAccountAllowed(1545,'V-979'));assert(!jokroAccountAllowed(4478,'V-979'));
+ });
  test(`${dialect}: only the message owner receives one permanent Omega, with durable replay protection`,async t=>{
   const f=await fixture(t,postgres),r=await f.reward();assert.equal(await f.copies(),0);
   await assert.rejects(()=>f.context.claim(f.env,{id:2},r,1),/보상/);
