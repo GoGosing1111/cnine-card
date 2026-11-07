@@ -1,0 +1,278 @@
+{
+  "status": "LIVE",
+  "code": "GUARANTEED_ENHANCEMENT_SCROLL",
+  "name": "+1 확정 강화권",
+  "entry": "/equipment-forge/?guaranteed=1",
+  "currentLevels": [
+    0,
+    14
+  ],
+  "targetLevels": [
+    1,
+    15
+  ],
+  "successPercent": 100,
+  "cost": "한 장 + 원래 단계별 코인·마스터의 별 + 목표 +11~+15의 슬롯별 일반 강화주문서",
+  "protectionAllowed": false,
+  "distribution": "CMS 보상 선택 목록만. 일차 배정·판매 개방·계정 지급 없음.",
+  "before": {
+    "catalog": null,
+    "receipt": null,
+    "audit": [],
+    "configs": {
+      "supporter_season_pass_v1": {
+        "hash": "41d309741cd86d7989f926b461284999a184bf77cd6c39cca36140f6da7a296b",
+        "enabled": true,
+        "registeredDays": 30,
+        "scrollDays": 0
+      },
+      "supporter_season_pass_month2_v1": {
+        "hash": null,
+        "enabled": false,
+        "registeredDays": 0,
+        "scrollDays": 0
+      }
+    },
+    "holders": 0,
+    "advanced": [
+      {
+        "level": 11,
+        "ready": true
+      },
+      {
+        "level": 12,
+        "ready": true
+      },
+      {
+        "level": 13,
+        "ready": true
+      },
+      {
+        "level": 14,
+        "ready": true
+      },
+      {
+        "level": 15,
+        "ready": true
+      }
+    ],
+    "at": "2026-11-07T12:20:50.475Z"
+  },
+  "after": {
+    "catalog": {
+      "code": "INVENTORY_ITEM:GUARANTEED_ENHANCEMENT_SCROLL",
+      "type": "INVENTORY_ITEM",
+      "ref": "GUARANTEED_ENHANCEMENT_SCROLL",
+      "name": "+1 확정 강화권",
+      "image": "/assets/items/guaranteed-enhancement-scroll-v1.webp",
+      "rarity": "SPECIAL",
+      "tier": "normal",
+      "maxQuantity": 1000000,
+      "available": true,
+      "unavailableReason": ""
+    },
+    "receipt": {
+      "operation": "ops:guaranteed-enhancement-scroll:20261107:v1",
+      "code": "GUARANTEED_ENHANCEMENT_SCROLL",
+      "at": "2026-11-07 12:35:51.21888+00",
+      "auditId": "56128",
+      "catalogOnly": true
+    },
+    "audit": [
+      "56128"
+    ],
+    "configs": {
+      "supporter_season_pass_v1": {
+        "hash": "41d309741cd86d7989f926b461284999a184bf77cd6c39cca36140f6da7a296b",
+        "enabled": true,
+        "registeredDays": 30,
+        "scrollDays": 0
+      },
+      "supporter_season_pass_month2_v1": {
+        "hash": null,
+        "enabled": false,
+        "registeredDays": 0,
+        "scrollDays": 0
+      }
+    },
+    "holders": 0,
+    "advanced": [
+      {
+        "level": 11,
+        "ready": true
+      },
+      {
+        "level": 12,
+        "ready": true
+      },
+      {
+        "level": 13,
+        "ready": true
+      },
+      {
+        "level": 14,
+        "ready": true
+      },
+      {
+        "level": 15,
+        "ready": true
+      }
+    ],
+    "at": "2026-11-07T12:36:01.434Z"
+  },
+  "replay": {
+    "operation": "ops:guaranteed-enhancement-scroll:20261107:v1",
+    "code": "GUARANTEED_ENHANCEMENT_SCROLL",
+    "at": "2026-11-07 12:35:51.21888+00",
+    "auditId": "56128",
+    "catalogOnly": true,
+    "replayed": true
+  },
+  "local": [
+    {
+      "profile": "pc",
+      "width": 1440,
+      "target": 15,
+      "guaranteed": 100,
+      "ordinary": 10,
+      "ticket": 1,
+      "stars": 3,
+      "coins": 200,
+      "weaponScrolls": 2,
+      "writes": 1,
+      "emptyTicketBlocksOrdinaryUntilDeselected": true,
+      "cmsSelectable": true,
+      "passEdits": 0
+    },
+    {
+      "profile": "mobile",
+      "width": 390,
+      "target": 15,
+      "guaranteed": 100,
+      "ordinary": 10,
+      "ticket": 1,
+      "stars": 3,
+      "coins": 200,
+      "weaponScrolls": 2,
+      "writes": 1,
+      "emptyTicketBlocksOrdinaryUntilDeselected": true,
+      "cmsSelectable": true,
+      "passEdits": 0
+    }
+  ],
+  "publicBrowser": [
+    {
+      "profile": "public-mobile",
+      "width": 390,
+      "target": 15,
+      "guaranteed": 100,
+      "ordinary": 10,
+      "ticket": 1,
+      "stars": 3,
+      "coins": 200,
+      "weaponScrolls": 2,
+      "writes": 1,
+      "emptyTicketBlocksOrdinaryUntilDeselected": true,
+      "cmsSelectable": true,
+      "passEdits": 0
+    }
+  ],
+  "at": "2026-11-07T12:35:36.704Z",
+  "pages": {
+    "id": "32426cfa-d68c-42e4-aa6e-bf4091537c68",
+    "url": "https://32426cfa.cnine-card.pages.dev",
+    "commit": "932c3a8f8f35f7913efb2bf807d7b47110f74818",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "985911e6-2e28-44fa-9646-212497f07b0a",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "edbaf315-20f7-4cfb-ba1e-a6e223d42974",
+      "percentage": 100
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "equipment-forge/index.html",
+      "sha": "5defe49605c96c987fcbeeba3c32e64d5679ad36fc48b9d1388093d0461a590c",
+      "bytes": 14522
+    },
+    {
+      "file": "equipment-forge/app.mjs",
+      "sha": "0f7588dd9c0999024399da861feaeb211d6fbe517e23cd2de4088eb7fc4303b3",
+      "bytes": 33575
+    },
+    {
+      "file": "equipment-forge/requests.mjs",
+      "sha": "01a21dee3a53bb404969761efe86d22b7eb4809bc7b584f94bba7e4282b93ec7",
+      "bytes": 4969
+    },
+    {
+      "file": "equipment-forge/live.css",
+      "sha": "b3c5e12ee2ebf3388f97e9fb8e2d1f5b3658a8c271f9883168b6ae3d7cd6d1b4",
+      "bytes": 9540
+    },
+    {
+      "file": "assets/items/guaranteed-enhancement-scroll-v1.webp",
+      "sha": "9d86b3a19358ff21c1abcc64bd868f3d60c895714643a73d44b110c55f390b91",
+      "bytes": 93590
+    },
+    {
+      "file": "shared/equipment-forge-resources-v1.mjs",
+      "sha": "fed7c6013ed11f5459592ace941219544e2e8ca9e6ecd7302b0704629e524108",
+      "bytes": 1261
+    },
+    {
+      "file": "shared/equipment-forge-advanced-v1.mjs",
+      "sha": "04854c11fa53c0b423603421868c73c2d48a4e1bcbbf96cda034a4d2ea53b3bb",
+      "bytes": 3837
+    },
+    {
+      "file": "index.html",
+      "sha": "90ed21f02b944b117bad9ab49686ac2a46e94de64b837b97d98e1d4eb9c0b759",
+      "bytes": 50149
+    },
+    {
+      "file": "js/app.js",
+      "sha": "14bd75e8b7a552b2e5bf63eff408d88a0eb4cd75b0082c37cd3a3b1d30995377",
+      "bytes": 811566
+    },
+    {
+      "file": "service-worker.js",
+      "sha": "e40894b527b30fc2cc7c409f7af1db3cc639a817642ba1a505e8262424e46dcf",
+      "bytes": 24590
+    },
+    {
+      "file": "onestore/index.html",
+      "sha": "7b95937e6707a686905dffe446cc977ac880ed1c6af55a0a4d93267404c9b241",
+      "bytes": 49992
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha": "bb2da6712ce9e34d03ed41dc47dc895be4110b6ab04d7a8c5aae6a6295895709",
+      "bytes": 806115
+    }
+  ],
+  "windows": [
+    "equipment-forge/index.html",
+    "equipment-forge/app.mjs",
+    "equipment-forge/requests.mjs",
+    "equipment-forge/live.css",
+    "assets/items/guaranteed-enhancement-scroll-v1.webp",
+    "shared/equipment-forge-resources-v1.mjs",
+    "shared/equipment-forge-advanced-v1.mjs",
+    "index.html",
+    "js/app.js"
+  ],
+  "guards": {
+    "character/equipment/forge/state": 401,
+    "admin/server-support/pass": 401
+  },
+  "releaseTests": 80,
+  "deliveredAssets": 20000
+}
