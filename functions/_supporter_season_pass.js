@@ -32,7 +32,7 @@ export async function passCatalog(env){
   const items=(await legionHuntCatalog(env)).map(x=>({...x,maxQuantity:x.type==='VEHICLE'?1:x.type==='EQUIPMENT'?50:1000000,
     available:!restricted.has(x.ref),unavailableReason:restricted.has(x.ref)?x.ref==='PREMIUM_CUBE'?'종료된 아이템':'승인된 게임 드롭 전용':''}));
   return [
-    {code:'COIN:',type:'COIN',ref:'',name:'코인',image:'assets/ui/icon-fusion-20261004/coin.webp',rarity:'SPECIAL',maxQuantity:1000000000000,available:true},
+    {code:'COIN:',type:'COIN',ref:'',name:'코인',image:'assets/ui/icon-fusion-20261004/coin.webp',rarity:'SPECIAL',maxQuantity:100_000_000_000_000,available:true},
     {code:'CARD_SHARDS:',type:'CARD_SHARDS',ref:'',name:'카드 조각',image:'',rarity:'SPECIAL',maxQuantity:1000000,available:true},
     {code:'MAGIC_CRYSTAL:',type:'MAGIC_CRYSTAL',ref:'',name:'마법 결정',image:'',rarity:'EPIC',maxQuantity:1000000,available:true},...items];
 }

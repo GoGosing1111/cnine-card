@@ -5,6 +5,47 @@ import {PASS_KEY,claimKey,dailyKey,passCycle} from '../shared/supporter-season-p
 import {supportBenefits} from '../shared/server-support-v1.mjs';
 const DAY=86400000;
 
+test('both months accept up to 100조 per day and pay a 30-day 3,000조 catch-up exactly once',async t=>{
+  const f=await passFixture({postgres:true});
+  t.after(()=>f.close());
+  const cap=100_000_000_000_000;
+  const save=(month,amount)=>f.call('admin/server-support/pass',{body:{
+    month,document:f.document([{code:'COIN:',quantity:amount}]),
+    expectedRevision:0,requestId:crypto.randomUUID()
+  }});
+  const {catalog}=(await f.call('admin/server-support/pass')).body;
+  assert.equal(catalog.find(item=>item.code==='COIN:').maxQuantity,cap);
+  for(const month of [1,2]){
+    const over=await save(month,cap+1);
+    assert.equal(over.body.code,'SUPPORT_PASS_QUANTITY');
+    const accepted=await save(month,cap);
+    assert.equal(accepted.status,200,JSON.stringify(accepted.body));
+    assert.equal(accepted.body.config.days[29].rewards[0].quantity,cap);
+  }
+  // Use separate purchases so the single-day and full-month grants have distinct receipts.
+  assert.equal((await f.grant(2)).status,200);
+  assert.equal((await f.claim()).body.rewards[0].quantity,cap);
+  const userId=3;
+  const grant=await f.call('admin/server-support',{body:{
+    userId,month:2,action:'GRANT',note:'격리 2개월차 결제 확인',expectedRevision:0,requestId:crypto.randomUUID()
+  }});
+  assert.equal(grant.status,200,JSON.stringify(grant.body));
+  const initial=100_000_000_000_000_001n;
+  await f.run('UPDATE users SET coin=CAST(? AS BIGINT) WHERE id=?',initial.toString(),userId);
+  f.clock.now+=29*DAY;
+  const pass=(await f.call('server-support/info',{user:userId})).body.secondSeasonPass;
+  const body={...pass.claimAll,month:2,requestId:crypto.randomUUID()};
+  const claimAll=()=>f.call('server-support/pass/claim-all',{user:userId,body});
+  const result=await claimAll();
+  assert.equal(result.status,200,JSON.stringify(result.body));
+  assert.equal(result.body.dayCount,30);
+  assert.equal(result.body.rewards[0].quantity,30*cap);
+  assert.equal((await claimAll()).body.replayed,true);
+  const expected=(initial+30n*BigInt(cap)).toString();
+  assert.equal((await f.one('SELECT CAST(coin AS TEXT) balance FROM users WHERE id=?',userId)).balance,expected);
+  assert.deepEqual(await f.all('SELECT CAST(change_amount AS TEXT) amount,CAST(balance_after AS TEXT) balance FROM coin_logs WHERE user_id=?',userId),[{amount:String(30*cap),balance:expected}]);
+});
+
 test('season pass claim at 10경 plus one retains exact coin and replay receipt',async t=>{
  const f=await passFixture({postgres:true});t.after(()=>f.close());
  await f.grant();await f.save(f.document([{code:'COIN:',quantity:7}]));
