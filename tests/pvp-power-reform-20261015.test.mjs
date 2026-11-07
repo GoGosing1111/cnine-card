@@ -28,8 +28,8 @@ test('joint release uses the approved bonus; forged card and mercenary effects c
   attackerMercenary:{...snapshot('V-996'),pvpBalanceVersion:PVP_POWER_BALANCE.version,pvpPowerBalance:{version:PVP_POWER_BALANCE.version,damageMultiplier:100}},
   attackerCards:tierCards(2e7).map(c=>({...c,pvpPowerBalance:{version:PVP_POWER_BALANCE.version,damageMultiplier:100}}))});
  assert.deepEqual(forged,baseline);assert.equal(baseline.result.pvpPowerBalance.version,PVP_POWER_BALANCE.version);
- assert.equal(baseline.teams.A.mercenaries[0].power,1080000);
- assert.equal(pvp(reviewOptions).teams.A.mercenaries[0].power,1080000);
+ assert.equal(baseline.teams.A.mercenaries[0].power,1950000);
+ assert.equal(pvp(reviewOptions).teams.A.mercenaries[0].power,1950000);
 });
 
 test('saved battles retain their own version through release/rollback; ordinary JSON cannot select the review policy',async()=>{
@@ -155,12 +155,12 @@ test('tempo improves real action opportunities with equal stats and does not gra
 
 test('formation power is frozen, excludes derived combat link, and includes each piece of equipment once',()=>{
  const battle=pvp({...reviewOptions,attackerEquipmentBonus:300000,attackerMercenary:{...snapshot('V-996'),equipment:{schemaVersion:1,mode:'PVP',power:700000}}});
- assert.equal(battle.result.pvpPowerBalance.A[0].formationPower,5*2e7+300000+1080000+700000);
- assert.equal(battle.teams.A.mercenaries[0].power,1780000);
+ assert.equal(battle.result.pvpPowerBalance.A[0].formationPower,5*2e7+300000+1950000+700000);
+ assert.equal(battle.teams.A.mercenaries[0].power,1950000+700000);
  const first=battle.result.pvpPowerBalance.A[0];
  assert.ok([...battle.result.final.A,...battle.result.final.B].some(c=>c.hp<c.maxHp));
  for(const side of ['A','B'])assert.ok(battle.result.final[side].every(c=>c.pvpPowerBalance.formationPower===battle.result.pvpPowerBalance[side][0].formationPower));
- assert.ok(battle.teams.A.mercenaries[0].mercenaryLink.hpFloor>1780000,'derived link is not added to displayed power a second time');
+ assert.ok(battle.teams.A.mercenaries[0].mercenaryLink.hpFloor>1950000+700000,'derived link is not added to displayed power a second time');
  const armed=merc('V-996',reviewOptions,700000),bare=merc();
  for(const actor of [armed,bare])applyMercenaryCombatLink([rawTeam('A',2e7,2e7,1e8).concat(actor),rawTeam('B',2e7,2e7,1e8)]);
  assert.equal(armed.mercenaryLink.hpFloor-bare.mercenaryLink.hpFloor,armed.equipmentStats.hp);
@@ -171,8 +171,8 @@ test('duo power and linked stats are owner scoped; a stronger teammate cannot le
  const squad=(ownerId,power)=>({ownerId,cards:tierCards(power),equipmentBonus:12345,mercenary:snapshot('V-996')});
  const battle=createDuoBattleV2({attackerSquads:[squad(1,4e7),squad(2,1e7)],defenderSquads:[squad(3,2e7),squad(4,2e7)],seed:7919,...reviewOptions});
  const [strong,weak]=battle.result.pvpPowerBalance.A;
- assert.equal(strong.formationPower,5*4e7+12345+1080000);assert.equal(weak.formationPower,5*1e7+12345+1080000);
- assert.equal(strong.opponentPower,5*2e7+12345+1080000);
+ assert.equal(strong.formationPower,5*4e7+12345+1950000);assert.equal(weak.formationPower,5*1e7+12345+1950000);
+ assert.equal(strong.opponentPower,5*2e7+12345+1950000);
  assert.ok(strong.damageMultiplier>1);assert.equal(weak.damageMultiplier,1);assert.equal(weak.tempoMultiplier,1);
  for(const actor of [...battle.teams.A.cards,...battle.teams.A.mercenaries])assert.equal(actor.pvpPowerBalance.formationPower,actor.ownerId===1?strong.formationPower:weak.formationPower);
  assert.ok(battle.teams.A.mercenaries[0].mercenaryLink.attackFloor>battle.teams.A.mercenaries[1].mercenaryLink.attackFloor*3.9);
@@ -191,10 +191,18 @@ test('derived power rejects malformed/duplicate application and never applies to
 });
 
 const stripBonus=value=>Array.isArray(value)?value.map(stripBonus):value&&typeof value==='object'?Object.fromEntries(Object.entries(value).filter(([k])=>k!=='pvpPowerBalance').map(([k,v])=>[k,stripBonus(v)])):value;
+// The October capture stays in the dated QA record. Newly generated fights
+// for these four use the November balance even when formation bonuses are off.
+const updatedLimitedPvpHashes={
+ 'V-996':'ecf6516e0c7bf3da5d13cb33719c60349af00304a328c6d9e1a251b94832696b',
+ 'V-999':'75da178e0be3cfd639374ba5e10eb331d53b9008edb08e208162c5b30d5aa1e0',
+ 'V-988':'0cd60edded7cdc2ca1e1a76d1d5bee502c4c53d2fe97e21d942b56d54113a349',
+ 'V-989':'28d351ca139eded1f6b5157d599a078fa46354df7743a682885144512489082b'
+};
 for(const [code,expected] of Object.entries(legacyHashes.hashes))test(code+': legacy replay payload and equal-power combat preserve existing mercenary policy',()=>{
  const input={attackerCards:tierCards(2e7),defenderCards:tierCards(2e7),attackerMercenary:snapshot(code),defenderMercenary:snapshot(code),seed:7919};
  const legacy=createPvpBattleV2({...input,...legacyOptions}),bonus=createPvpBattleV2({...input,...reviewOptions});
- assert.equal(digest(legacy),expected);
+ assert.equal(digest(legacy),updatedLimitedPvpHashes[code]??expected);
  assert.deepEqual(stripBonus(bonus.result.timeline),legacy.result.timeline);
  assert.deepEqual(stripBonus(bonus.result.final),legacy.result.final);
  assert.deepEqual(stripBonus(bonus.result.openingMercenaries),legacy.result.openingMercenaries);
@@ -202,7 +210,7 @@ for(const [code,expected] of Object.entries(legacyHashes.hashes))test(code+': le
 });
 
 test('base power, blanket immunity and existing prepared XP rules are retained',()=>{
- for(const [code,power]of [['V-996',1080000],['V-999',1123200],['V-989',1347840],['V-988',1347840],['V-987',1347840]]){
+ for(const [code,power]of [['V-996',1950000],['V-999',1950000],['V-989',1950000],['V-988',1950000],['V-987',1347840]]){
   const actor=merc(code);assert.equal(actor.power,power);assert.equal(actor.controlImmune,true);assert.equal(actor.counterImmune,true);assert.equal(actor.poisonImmune,true);
  }
  assert.equal(MERCENARY_LEVEL_RELEASE_ENABLED,true);assert.equal(MERCENARY_LEVEL_RULES.sameCardMultiplier,3);assert.equal(MERCENARY_LEVEL_RULES.limitedRequiredXpMultiplier,5);
@@ -220,15 +228,16 @@ test('prepared level growth is applied once before the independent bounded power
  assert.equal(bonus.pvpPowerBalance.formationPower,5*4e7+180000,'level stat bonuses are not counted as an invented extra power value');
 });
 
-// Captured from the unmodified HEAD before implementing the gated reform.
+// Baseline for each fighter's current policy, with the four 1.95m entries
+// refreshed after independent opening-stat and matched-seed comparisons.
 const pveHashes={
  'V-049':'207e3138edada7cd798a685dda579727cf2d2b8393926b844272627c06aa500f',
  'V-055':'25abf89b6645c00f6f9afa45db584a2212a6796e37be47b1269d055846fe9db0',
  'V-990':'edbd2b6baf4a369f21d531625811f675b5bd2f14e6eb42ac0cb55d831da1bb1c',
- 'V-996':'4489ab12374e526db6cf1df5bef2608d6d51ef7de794b9f4c786601cac9e49de',
- 'V-999':'c56413cb9a1e413242764d0b3aa957cc5fbf1da3a504c0d5d1e8ebb35f3708a4',
- 'V-989':'7ef9fb0f06aa45f714ee991c655325528fa82eac8dfcca5c0b12ec432265696f',
- 'V-988':'c2559c6e2bdbf6e1729d07cc3016d8969e7d77156eaa187babb45f1ecb782480',
+ 'V-996':'e4951e907c7d7c9a9e41fc14fc8114c89623ba42586a148ab1d2091f5f454096',
+ 'V-999':'9fcd57695912e30dae9d235de10bbf52a19441292f7629d4b817731e083dc6aa',
+ 'V-989':'1c5fba540b3f49873967bebf10d2a3ae09fba6d4e5181312f63b285c10e7714e',
+ 'V-988':'bca60d3649350071a0fc4a88791c9ed7d2a8e9174d5401e30a1b7a21662edfc1',
  'V-987':'809d5f1ee29bd9925c1712a428f23c288e20e98b8ac3998946a143b7d370e8d5',
 };
 for(const [code,hash] of Object.entries(pveHashes))test(`${code}: PVE full result/timeline is byte-for-byte unchanged`,()=>{

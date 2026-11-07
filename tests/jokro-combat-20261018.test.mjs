@@ -15,11 +15,11 @@ import {buildFighter,createPveBattleV2,createPvpBattleV2} from '../functions/_ba
 import {tierCards} from './helpers/mercenary-operating-roster-v2144.mjs';
 const snapshot=code=>({...limitedDeploymentSnapshot(code),combat:fixture.combat});
 const fighter=(code=JOKRO_CODE,side='A',mode='PVE',power=0)=>buildMercenaryFighter({...snapshot(code),equipment:{schemaVersion:1,mode,power}},side,mode,buildFighter);
-const ratio=1.2*(2200000/1940890);
+const ratio=JOKRO_COMBAT.statScale/(1950000/1123200);
 const higher=(a,b)=>assert(Math.abs(a-b*ratio)<=Math.max(3,a*1e-8),`${a} vs ${b} at ${ratio}`);
 test('Jokro scales actual PVE/PVP stats, equipment and linked floors to 2.2m, including the full shield; actions stay equal',()=>{
  assert.equal(JOKRO_COMBAT.basePower,2200000);
- higher(JOKRO_COMBAT.basePower,JINMU_COMBAT.basePower);
+ assert.equal(JINMU_COMBAT.basePower,1950000);
  for(const mode of ['PVE','PVP'])for(const gear of [0,1e8])for(const power of [1e5,2e7,1e9]){
   const k=fighter(JOKRO_CODE,'A',mode,gear),j=fighter('V-989','B',mode,gear);
   for(const field of ['attack','maxHp','defense'])higher(k[field],j[field]);
@@ -50,7 +50,7 @@ test('청룡단천 distributes 1512% once across every living target; repeated v
 test('actual battle simulator emits stronger area receipts and keeps PVP basics only',()=>{
  const cards=tierCards(2e7),pve=code=>createPveBattleV2({cards,mercenary:snapshot(code),monster:{id:1,battle_power:1.6e10},seed:77}).result;
  const timeline=pve(JOKRO_CODE).timeline,jokro=timeline.filter(e=>e.type===JOKRO_AREA_EVENT),jinmu=pve('V-989').timeline.filter(e=>e.type==='MERCENARY_JINMU_AREA');
- assert(jokro.length&&jinmu.length);assert(jokro[0].damage>jinmu[0].damage*2);
+ assert(jokro.length&&jinmu.length);assert(jokro[0].damage>jinmu[0].damage*1.30);
  assert.equal(timeline.filter(e=>e.type==='MERCENARY_WINDUP'&&e.skillId==='MS-979').length,jokro.length,'Every cast pays its cost and starts exactly once');
  assert.equal(timeline.filter(e=>e.type==='MERCENARY_END'&&e.skillId==='MS-979').length,jokro.length,'Every cast clears its pending state so cooldown applies');
  for(const event of jokro)assert.equal(new Set(event.hits.map(h=>h.targetId)).size,event.hits.length);

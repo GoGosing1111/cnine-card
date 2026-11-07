@@ -73,6 +73,15 @@ export function mercenaryCodexDocument(row){
   projection.cards=projection.cards.map(blackcrownCodexCard);
   projection.blackcrownCodexVersion=BLACKCROWN_CODEX_VERSION;
   for(const card of projection.cards)if(card.deploymentEnabled||document.mercenaries.some(c=>c.code===card.code)){
+    // These original limited catalog entries have locked preview fields on older clients.
+    if(card.code===VALTER_CODE||card.code===HELIOS_CODE||card.code===KAIRON_ART.code){
+      const deployed=limitedDeploymentSnapshot(card.code);
+      card.deployedCombat={basePower:deployed.basePower,skills:deployed.skills.map(skill=>({
+        ...skill,ready:true,target:'적 전체',effect:`생존한 적 전체에 총 ${(skill.balance.damageRatio*100).toLocaleString('ko-KR')}% 피해를 나눠 적용합니다.`,
+        trigger:`PVE · 에너지 ${skill.balance.cost} · 재사용 ${skill.balance.cooldownTurns}행동`,
+        counterplay:'방어·보호막에 대응됩니다.',bossRule:'서버 전투 규칙 적용',procRule:'한 시전당 한 번 적용'
+      }))};
+    }
     card.combatLinkDescription=[card.combatLinkDescription,MERCENARY_PVP_GROWTH_DESCRIPTION,MERCENARY_RANK_GROWTH_DESCRIPTION].filter(Boolean).join(' ');
   }
   return projection;

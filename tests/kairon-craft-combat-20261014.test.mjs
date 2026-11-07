@@ -27,17 +27,17 @@ const snapshot=code=>({...limitedDeploymentSnapshot(code),combat:fixture.combat}
 const fighter=(code=KAIRON_CODE,side='A',mode='PVP',power=0)=>buildMercenaryFighter({...snapshot(code),equipment:{schemaVersion:1,mode,power}},side,mode,buildFighter);
 const draft=()=>({code:'WORKSHOP_KAIRON',category:'MERCENARY_CRAFT',outputType:'MERCENARY',outputRef:KAIRON_CODE,outputQuantity:1,paymentMode:'BOTH',craftRevision:0,coinCost:null,masterStarCost:null,successRate:null,materials:[],isActive:false,isPublic:false});
 const configured=()=>({...draft(),coinCost:1000,masterStarCost:2,successRate:100,materials:[{itemCode:'QA_MATERIAL',quantity:3}],isActive:true,isPublic:true});
-test('Kairon keeps its original baseline while Jinmu is 20% stronger with the same equipment and cadence',()=>{
+test('Kairon and Jinmu use the same 1.95m stats with equal equipment and cadence',()=>{
  assert.notEqual(KAIRON_COMBAT,JINMU_COMBAT);
- assert.deepEqual(KAIRON_COMBAT,{version:1,basePower:1347840,statsReferencePower:1123200,statScale:1.2,speedReferencePower:1080000,speedScale:3.12,actionCredit:3.12,motionPlaybackRate:2.6,link:{attackPercent:2196.48,hpPercent:1397.76,shieldPercent:763.68},basicCapScale:2.4,damageTakenScale:.25,hardCounter:'V-055'});
- const higher=(a,b)=>assert(Math.abs(a-b*1.2)<=3,`${a} must be 20% above ${b}`);
+ assert.equal(KAIRON_COMBAT.basePower,1950000);assert.equal(KAIRON_COMBAT.version,2);
+ assert.deepEqual({...KAIRON_COMBAT,version:JINMU_COMBAT.version},JINMU_COMBAT);
  for(const mode of ['PVE','PVP'])for(const gear of [0,1e8])for(const power of [1e5,2e7,1e9]){
   const k=fighter(KAIRON_CODE,'A',mode,gear),j=fighter('V-989','B',mode,gear);
-  for(const field of ['attack','maxHp','defense'])higher(j[field],k[field]);
+  for(const field of ['attack','maxHp','defense'])assert.equal(j[field],k[field]);
   for(const field of ['speed','counterImmune','controlImmune','poisonImmune'])assert.equal(k[field],j[field],field);
-  assert.equal(k.basePower-gear,1347840);
+  assert.equal(k.basePower-gear,1950000);
   applyMercenaryCombatLink(['A','B'].map((side,i)=>[...tierCards(power).map((c,n)=>buildFighter(c,n,side,null,mode)),[k,j][i]]));
-  higher(mercenaryEffectiveAttack(j),mercenaryEffectiveAttack(k));higher(j.maxHp,k.maxHp);higher(j.shield,k.shield);
+  assert.equal(mercenaryEffectiveAttack(j),mercenaryEffectiveAttack(k));assert.equal(j.maxHp,k.maxHp);assert.equal(j.shield,k.shield);
   assert.deepEqual(k.skills.map(s=>s.id),mode==='PVE'?['MS-988']:[]);assert.equal(k.attackStyle,'RANGED');
  }
  const k=fighter(),a={id:'card',side:'A',hp:1},enemy={id:'enemy',side:'B',hp:1},cadence=mercenaryTurnCadence({A:[a,k],B:[enemy]});let count=0;
@@ -52,10 +52,10 @@ test('Kairon packs remain impossible even with a contaminated catalog and maximu
  assert.deepEqual(limitedNormalCards(cards,cards,rules).map(c=>c.code),['V-001']);
  assert(!LIMITED_MERCENARIES.some(c=>c.code===KAIRON_CODE));
 });
-test('one quantum cast keeps the original 560% budget and applies one receipt per living target; PVP only fires basics',()=>{
+test('one quantum cast keeps one 1260% budget and applies one receipt per living target; PVP only fires basics',()=>{
  const actor=fighter(KAIRON_CODE,'A','PVE'),targets=Array.from({length:5},(_,i)=>({id:'t'+i,hp:10000,maxHp:10000,alive:true})),ratios=[],events=[];
  const args={actor,skill:KAIRON_AREA_SKILL,targets:[...targets,targets[0],{id:'dead',hp:0}],hit:(a,t,r)=>{ratios.push(r);return {damage:100};},damage:(t,n)=>{t.hp-=n;return {hpDamage:n,absorbed:0};},knockout(){},emit:(type,row)=>events.push({type,...row})};
- assert.equal(resolveKaironArea(args).length,5);assert(Math.abs(ratios.reduce((a,b)=>a+b)-5.6)<1e-9);assert.equal(events[0].type,KAIRON_AREA_EVENT);assert(targets.every(t=>t.hp===9900));
+ assert.equal(resolveKaironArea(args).length,5);assert(Math.abs(ratios.reduce((a,b)=>a+b)-12.6)<1e-9);assert.equal(events[0].type,KAIRON_AREA_EVENT);assert(targets.every(t=>t.hp===9900));
  assert.deepEqual(resolveKaironArea({...args,actor:{...actor,battleMode:'PVP'}}),[]);
  const cards=tierCards(2e7),k=snapshot(KAIRON_CODE);
  assert(createPveBattleV2({cards,mercenary:k,monster:{id:1,battle_power:1.6e10},seed:77}).result.timeline.some(e=>e.type===KAIRON_AREA_EVENT));

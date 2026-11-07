@@ -12,16 +12,19 @@ const fighter=(side='A',mode='PVP')=>buildMercenaryFighter(snapshot(),side,mode,
 const card=(side,ownerId)=>({id:side+':card:'+ownerId,side,ownerId,hp:1,alive:true});
 const drain=c=>{const actors=[];while(c.pending()){const actor=c.pending();actors.push(actor);c.acted(actor);assert.ok(actors.length<=4,'Extra actions must terminate');}return actors;};
 
-test('Valter V3 keeps innate power and PVE skill while applying the approved speed and innate armor',()=>{
+test('Valter V4 keeps separate speed and stat references and PVE skill while applying the approved speed and innate armor',()=>{
  for(const mode of ['PVE','PVP'])for(const side of ['A','B']){
   const stale={...snapshot(),valterPolicyVersion:1,stats:{speed:1}},before=structuredClone(stale),actor=buildMercenaryFighter(stale,side,mode,buildFighter);
   const base=buildFighter({id:'V-996',power:1080000,type:'NONE'},5,side,null,mode);
   assert.deepEqual(stale,before);assert.equal(actor.speed,Math.round(base.speed*3.12));
-  assert.equal(actor.stats.speed,actor.speed);assert.equal(actor.valterPolicyVersion,3);assert.equal(actor.basePower,1080000);
-  assert.equal(actor.stats.hp,base.maxHp);assert.equal(actor.stats.attack,base.attack);assert.equal(actor.stats.defense,base.defense+Math.round(base.defense*.12));
+  assert.equal(actor.stats.speed,actor.speed);assert.equal(actor.valterPolicyVersion,4);assert.equal(actor.basePower,1950000);
+  const native=buildFighter({id:'V-996',power:1123200,type:'NONE'},5,side,null,mode);
+  const stat=n=>Math.round(n*VALTER_COMBAT.statScale);
+  assert.equal(actor.stats.hp,stat(native.maxHp));assert.equal(actor.stats.attack,stat(native.attack));
+  assert.equal(actor.stats.defense,stat(native.defense)+Math.round(stat(native.defense)*.12));
   assert.deepEqual(actor.skills.map(s=>s.id),mode==='PVE'?['MS-996']:[]);
  }
- assert.equal(VALTER_COMBAT.damageTakenScale,.25);assert.equal(VALTER_COMBAT.basicCapScale,2);
+ assert.equal(VALTER_COMBAT.damageTakenScale,.25);assert.equal(VALTER_COMBAT.basicCapScale,2*(1950000/1123200));
 });
 
 test('both sides earn exactly 78 finite extra turns per 25 allied actions with no invalid source credit',()=>{
@@ -65,7 +68,7 @@ test('real PVE and PVP payloads publish the faster server fighter and preserve o
  const cards=tierCards(2e7),mercenary=snapshot();
  for(const mode of ['PVE','PVP']){
   const battle=mode==='PVE'?createPveBattleV2({cards,mercenary,monster:{id:1,battle_power:6e8},seed:7919}):createPvpBattleV2({attackerCards:cards,defenderCards:cards,attackerMercenary:mercenary,seed:7919});
-  const v=battle.teams.A.mercenaries[0];assert.equal(v.valterPolicyVersion,3);assert.equal(v.stats.speed,Math.round(fighter('A',mode).speed*(v.pvpPowerBalance?.tempoMultiplier??1)));assert.equal(v.stats.speed,v.speed);
+  const v=battle.teams.A.mercenaries[0];assert.equal(v.valterPolicyVersion,4);assert.equal(v.stats.speed,Math.round(fighter('A',mode).speed*(v.pvpPowerBalance?.tempoMultiplier??1)));assert.equal(v.stats.speed,v.speed);
   assert.ok(battle.result.timeline.some(event=>event.actorId===v.id&&(event.damage>0||event.absorbed>0)));
   const without=mode==='PVE'?createPveBattleV2({cards,monster:{id:1,battle_power:6e8},seed:7919}):createPvpBattleV2({attackerCards:cards,defenderCards:cards,seed:7919});
   if(mode==='PVE')assert.deepEqual(battle.teams.A.cards,without.teams.A.cards);

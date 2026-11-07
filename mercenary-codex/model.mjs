@@ -22,7 +22,7 @@ export const FRAME='/assets/ui/card-frames/mercenary-contract-frame-premium-v2.p
 export const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function asset(path){if(typeof path!=='string'||!/^assets\/ui\/(?:project-v\/[A-Za-z0-9_./-]+\.(?:png|webp|jpg|jpeg)|packs\/black-crown-20261027-v1\/v-95[0-5]-(?:320|640)\.webp)$/.test(path)||path.split('/').includes('..'))throw Error('용병 리소스 경로를 확인하세요.');return '/'+path;}
 export const thumb=code=>`/assets/ui/project-v/mercenaries/codex-v1/${code.toLowerCase()}-art-320.webp`;
-export function validateCatalog(data){
+export function validateCatalog(data,{forDisplay=false}={}){
   if(data?.version!=='mercenary-codex-2098'||!Number.isSafeInteger(data.revision)||!Array.isArray(data.cards)||!data.cards.length||new Set(data.cards.map(c=>c.code)).size!==data.cards.length)throw Error('용병 정보 형식을 확인하세요.');
   for(const c of data.cards){const titleDeferred=c.edition==='LIMITED'&&c.titleStatus==='DEFERRED_BY_USER';if(!/^V-\d{3}$/.test(c.code)||!c.name||((c.code===CRYVERN_CODE||titleDeferred)?c.title!=='':c.code===AZANT_CODE?typeof c.title!=='string':!c.title)||(!POSITIONS[c.position]&&!(c.artOnly===true&&c.position===null))||!data.roles?.[c.role]||(c.rank!==null&&!RANKS.includes(c.rank))||!Array.isArray(c.skills))throw Error('용병 설정을 확인하세요.');asset(c.sourceArt);if(c.thumbnailArt)asset(c.thumbnailArt);if(c.displayArt)asset(c.displayArt);if(c.battleSprite)asset(c.battleSprite);
     if(c.code===RAZAK_CODE&&(c.name!=='라자크'||c.rank!=='SSS'||c.edition!=='STANDARD'||c.basePower!==RAZAK_COMBAT.basePower||c.acquisition!=='BLOODMOON_PACK'||c.acquisitionEnabled!==false||c.packAcquisitionEnabled!==true||c.skills.length!==3||c.skills.some((s,i)=>s.id!==RAZAK_SKILLS[i].id)))throw Error('라자크의 승인 등급·전투력·블러드문팩 전용 획득을 확인하세요.');
@@ -61,8 +61,11 @@ export function validateCatalog(data){
       if(c.acquisitionEnabled!==false&&!blackcrownReady&&!shiranuiReady&&!awakenedOmegaReady)throw Error('리미티드 획득은 잠금 상태입니다.');
       asset(c.frame);if(!c.artWindow||['left','top','width','height'].some(k=>!Number.isFinite(c.artWindow[k])||c.artWindow[k]<0||c.artWindow[k]>100))throw Error('리미티드 프레임 배치를 확인하세요.');
     }else if(c.artOnly===true&&(c.basePower!==null||c.battleSprite!==null||c.skills.length||c.releaseStatus!=='ART_RELEASED'))throw Error('원화 공개 용병의 전투 정보는 아직 제공되지 않습니다.');
-    for(const s of c.skills)if(!/^MS-\d{3}$/.test(s.id)||!s.name||!s.balance||typeof s.ready!=='boolean')throw Error('스킬 설정을 확인하세요.');
-  }return data;
+    const deployed=c.deployedCombat;
+    if(deployed&&(!['V-996','V-999','V-988'].includes(c.code)||c.deploymentEnabled!==true||!Number.isSafeInteger(deployed.basePower)||deployed.basePower<=0||deployed.skills?.length!==1||deployed.skills[0]?.id!=='MS-'+c.code.slice(2)))throw Error('편성 전투 정보를 확인하세요.');
+    for(const s of [...c.skills,...(deployed?.skills||[])])if(!/^MS-\d{3}$/.test(s.id)||!s.name||!s.balance||typeof s.ready!=='boolean')throw Error('스킬 설정을 확인하세요.');
+  }
+  return forDisplay?{...data,cards:data.cards.map(c=>c.deployedCombat?{...c,basePower:c.deployedCombat.basePower,skills:c.deployedCombat.skills}:c)}:data;
 }
 const normalize=value=>String(value||'').normalize('NFC').toLocaleLowerCase('ko').replace(/[\s_-]/g,'');
 const initials=value=>[...value].map(c=>{const n=c.charCodeAt(0)-0xac00;return n>=0&&n<11172?'ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ'[Math.floor(n/588)]:c;}).join('');

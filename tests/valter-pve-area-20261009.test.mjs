@@ -23,14 +23,14 @@ test('an empty legacy Valter snapshot receives the PVE-only server skill; other 
  const stale={...snapshot(),rank:'C',skills:[]},before=structuredClone(stale);
  const pve=buildMercenaryFighter(stale,'A','PVE',buildFighter),pvp=buildMercenaryFighter(snapshot(),'A','PVP',buildFighter);
  assert.deepEqual(stale,before);assert.deepEqual(pve.skills,[VALTER_AREA_SKILL]);assert.deepEqual(pvp.skills,[]);
- assert.equal(pve.rank,'SSS');assert.equal(pve.basePower,1080000);assert.ok(pve.controlImmune&&pve.counterImmune&&pve.poisonImmune);
+ assert.equal(pve.rank,'SSS');assert.equal(pve.basePower,1950000);assert.ok(pve.controlImmune&&pve.counterImmune&&pve.poisonImmune);
  const fake=harness();fake.actor.code='V-055';fake.actor.cardId='V-055';fake.turn();assert.equal(fake.rolls.length,0);assert.equal(fake.runtime.state(fake.actor).energy,100);
 });
 
-test('PVE area shares one 560% budget across all distinct enemies, honors dodge/shield and charges once',()=>{
+test('PVE area shares one 1260% budget across all distinct enemies, honors dodge/shield and charges once',()=>{
  const h=harness();h.turn();const event=h.events.find(e=>e.type===VALTER_AREA_EVENT);
  assert.equal(event.hits.length,12);assert.equal(new Set(event.targetIds).size,12);assert.equal(event.skillId,VALTER_AREA_SKILL.id);
- assert.ok(Math.abs(h.rolls.reduce((n,r)=>n+r.ratio,0)-5.6)<1e-10);assert.ok(h.rolls.every(r=>!r.rangedSkill));
+ assert.ok(Math.abs(h.rolls.reduce((n,r)=>n+r.ratio,0)-12.6)<1e-10);assert.ok(h.rolls.every(r=>!r.rangedSkill));
  assert.equal(event.hits[0].damage,0);assert.equal(event.hits[0].dodge,true);assert.equal(event.hits[1].damage,0);assert.ok(event.hits[1].absorbed>0);
  assert.equal(event.damage,event.hits.reduce((n,r)=>n+r.damage,0));assert.equal(event.absorbed,event.hits.reduce((n,r)=>n+r.absorbed,0));
  assert.equal(h.actor.damageDealt,event.damage+event.absorbed);
@@ -38,7 +38,7 @@ test('PVE area shares one 560% budget across all distinct enemies, honors dodge/
  assert.ok(h.knockouts.every(k=>k.rolls===12&&k.events>=2),'settle knockouts after all contacts and the receipt');
  h.turn();assert.equal(h.rolls.length,12);assert.equal(h.runtime.state(h.actor).energy,65);
  h.actor.actions=5;h.turn();assert.equal(h.rolls.length,24);assert.equal(h.runtime.state(h.actor).energy,30);
- const one=harness({count:1});one.turn();assert.equal(one.rolls.length,1);assert.equal(one.rolls[0].ratio,5.6);
+ const one=harness({count:1});one.turn();assert.equal(one.rolls.length,1);assert.equal(one.rolls[0].ratio,12.6);
 });
 
 test('PVP, control, no enemies and dead actors do not spend energy; hidden/dead targets are excluded',()=>{

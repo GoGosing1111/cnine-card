@@ -27,7 +27,7 @@ test('all three share Jokro stat and link growth at 1/11/21 with and without equ
    assert.equal(mercenaryEffectiveAttack(a),mercenaryEffectiveAttack(actors[3]));
   }
  }
- assert.equal(JINMU_COMBAT.basePower,1617408);assert.equal(PRIME_COMBAT.basePower,3000000);assert.equal(JOKRO_COMBAT.basePower,2200000);
+ assert.equal(JINMU_COMBAT.basePower,1950000);assert.equal(PRIME_COMBAT.basePower,3000000);assert.equal(JOKRO_COMBAT.basePower,2200000);
  assert.notEqual(SHIRANUI_COMBAT,JINMU_COMBAT);assert.notEqual(KAMISHIRO_COMBAT,PRIME_COMBAT);
  assert.equal(shiranuiDeploymentAllowed('V-987',234),false);assert.equal(shiranuiDeploymentAllowed('V-987',235),true);
 });

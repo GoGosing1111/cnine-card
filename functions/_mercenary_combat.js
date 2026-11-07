@@ -205,7 +205,7 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
  const jinmu=snapshot.code===JINMU_CODE;
  if(jinmu)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',skills:mode==='PVE'?[structuredClone(JINMU_AREA_SKILL)]:[],counterImmune:true,controlImmune:true,poisonImmune:true,jinmuPolicyVersion:JINMU_COMBAT.version};
  const kairon=snapshot.code===KAIRON_CODE;
- if(kairon)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'RANGED',skills:mode==='PVE'?[structuredClone(KAIRON_AREA_SKILL)]:[],counterImmune:true,controlImmune:true,poisonImmune:true,kaironPolicyVersion:1};
+ if(kairon)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'RANGED',skills:mode==='PVE'?[structuredClone(KAIRON_AREA_SKILL)]:[],counterImmune:true,controlImmune:true,poisonImmune:true,kaironPolicyVersion:KAIRON_COMBAT.version};
  const hakuya=snapshot.code===HAKUYA_CODE;
  if(hakuya)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',skills:mode==='PVE'?[structuredClone(HAKUYA_AREA_SKILL)]:[],counterImmune:true,controlImmune:true,poisonImmune:true,hakuyaPolicyVersion:HAKUYA_COMBAT.version};
  const revan=snapshot.code===REVAN_CODE;
@@ -239,24 +239,24 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
  if(limited)snapshot={...snapshot,rank:'SS',statMode:'RANK_FIXED',position:limited.position,role:limited.role,attackStyle:limited.attackStyle,skills:structuredClone(limited.skills||[limited.skill]),ssLimitedPolicyVersion:SS_LIMITED_BALANCE_VERSION};
  if(snapshot.statMode==='RANK_FIXED'){
   const rankPower=razak?RAZAK_COMBAT.basePower:isImperialArcher(snapshot)?IMPERIAL_ARCHER_COMBAT.basePower:supreme?supreme.basePower:limited?limited.basePower:MERCENARY_POWER_STANDARD.basePowerByRank[snapshot.rank];
-  const power=rankPower?rankPower+mercenaryEquipmentPower(snapshot,mode):0;
+  const equipmentPower=mercenaryEquipmentPower(snapshot,mode);
+  const power=rankPower?rankPower+equipmentPower:0;
   if(!power||typeof buildCardFighter!=='function')throw Error('INVALID_MERCENARY_RANK_POWER');
-  const statsPower=hakuya||revan||awakenedOmega||jinmu||kairon||shiranui||jokro||leonel||zero||prime||cardgu||kamishiro||jinJokro||heliosKing||heukmu||generalJok||eunseol?supreme.statsReferencePower+mercenaryEquipmentPower(snapshot,mode):power;
-  const base=buildCardFighter({id:snapshot.code,power:statsPower,type:'NONE'},5,side,null,mode);
-  // Use the same innate speed reference and equipment for the sovereigns.
-  // Helios's higher nominal power must not compound the approved speed scale.
-  const speedBase=helios||hakuya||revan||awakenedOmega||jinmu||kairon||shiranui||jokro||leonel||zero||prime||cardgu||kamishiro||jinJokro||heliosKing||heukmu||generalJok||eunseol?buildCardFighter({id:snapshot.code,power:supreme.speedReferencePower+mercenaryEquipmentPower(snapshot,mode),type:'NONE'},5,side,null,mode):base;
+  const statsReference=supreme?.statsReferencePower??rankPower;
+  const base=buildCardFighter({id:snapshot.code,power:statsReference+equipmentPower,type:'NONE'},5,side,null,mode);
+  const speedBase=supreme?buildCardFighter({id:snapshot.code,power:supreme.speedReferencePower+equipmentPower,type:'NONE'},5,side,null,mode):base;
   snapshot={...snapshot,basePower:power,level:1,stats:{hp:base.maxHp,attack:base.attack,defense:base.defense,speed:Math.round(speedBase.speed*(razak?RAZAK_COMBAT.speedScale:isImperialArcher(snapshot)?IMPERIAL_ARCHER_COMBAT.speedScale:supreme?supreme.speedScale:snapshot.code===AZANT_CODE?AZANT_COMBAT.speedScale:snapshot.code===BERKAN_CODE?BERKAN_TEMPO.speedScale:limited?(limited.speedScale??SS_LIMITED_TEMPO.speedScale):1))}};
-  if(hakuya||revan||awakenedOmega||jinmu||kairon||shiranui||jokro||leonel||zero||prime||cardgu||kamishiro||jinJokro||heliosKing||heukmu||generalJok||eunseol)for(const key of ['hp','attack','defense'])snapshot.stats[key]=Math.max(1,Math.round(snapshot.stats[key]*supreme.statScale));
+  if(supreme)for(const key of ['hp','attack','defense'])snapshot.stats[key]=Math.max(1,Math.round(snapshot.stats[key]*supreme.statScale));
   if(razak)for(const key of ['hp','attack','defense'])snapshot.stats[key]=Math.max(1,Math.round(snapshot.stats[key]*RAZAK_COMBAT.statScale));
   if(limited)for(const key of ['hp','attack','defense'])snapshot.stats[key]=Math.max(1,Math.round(snapshot.stats[key]*limited.scale));
   if(isImperialArcher(snapshot))for(const key of ['hp','attack','defense'])snapshot.stats[key]=Math.max(1,Math.round(snapshot.stats[key]*IMPERIAL_ARCHER_COMBAT.statScale));
+  const unarmed=equipmentPower?buildCardFighter({id:snapshot.code,power:statsReference,type:'NONE'},5,side,null,mode):base;
   if(valter){
-   const innate=buildCardFighter({id:snapshot.code,power:rankPower,type:'NONE'},5,side,null,mode);
-   snapshot.stats.defense+=Math.round(innate.defense*VALTER_COMBAT.innateDefensePercent/100);
+   const innateDefense=Math.round(unarmed.defense*VALTER_COMBAT.statScale);
+   snapshot.stats.defense+=Math.round(innateDefense*VALTER_COMBAT.innateDefensePercent/100);
   }
-  if(mercenaryEquipmentPower(snapshot,mode)){
-   const unarmed=buildCardFighter({id:snapshot.code,power:hakuya||revan||awakenedOmega||jinmu||kairon||shiranui||jokro||leonel||zero||prime||cardgu||kamishiro||jinJokro||heliosKing||heukmu||generalJok||eunseol?supreme.statsReferencePower:rankPower,type:'NONE'},5,side,null,mode),scale=razak?RAZAK_COMBAT.statScale:isImperialArcher(snapshot)?IMPERIAL_ARCHER_COMBAT.statScale:hakuya||revan||awakenedOmega||jinmu||kairon||shiranui||jokro||leonel||zero||prime||cardgu||kamishiro||jinJokro||heliosKing||heukmu||generalJok||eunseol?supreme.statScale:limited?.scale||1;
+  if(equipmentPower){
+   const scale=razak?RAZAK_COMBAT.statScale:isImperialArcher(snapshot)?IMPERIAL_ARCHER_COMBAT.statScale:supreme?.statScale??limited?.scale??1;
    snapshot.equipmentStats={version:1,attack:Math.max(0,snapshot.stats.attack-Math.max(1,Math.round(unarmed.attack*scale))),hp:Math.max(0,snapshot.stats.hp-Math.max(1,Math.round(unarmed.maxHp*scale)))};
   }
  }

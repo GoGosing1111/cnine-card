@@ -4,7 +4,7 @@ import fixture from './fixtures/mercenary-valter-roster-20261008.json' with {typ
 import {buildFighter,createPvpBattleV2,createPveBattleV2,createDuoBattleV2,simulateBattleV2Preview} from '../functions/_battle_v2_preview.js';
 import {buildMercenaryFighter,mercenaryCombat,mercenaryTurnCadence} from '../functions/_mercenary_combat.js';
 import {applyMercenaryCombatLink} from '../shared/mercenary-combat-link-v2103.mjs';
-import {VALTER_CODE,valterIncomingDamage} from '../shared/mercenary-valter-v1.mjs';
+import {VALTER_CODE,VALTER_COMBAT,valterIncomingDamage} from '../shared/mercenary-valter-v1.mjs';
 import {LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
 import {mercenaryAcquisitionEnabled} from '../shared/mercenary-acquisition-release-v1.mjs';
 import {tierCards,tierDecks} from './helpers/mercenary-operating-roster-v2144.mjs';
@@ -20,15 +20,15 @@ const berkan=()=>structuredClone(roster.find(c=>c.code==='V-055'));
 
 test('prepared Valter uses a server-owned superior profile while limited release stays locked',()=>{
  const input=valter(),before=structuredClone(input),m=fighter({...input,rank:'C',position:'BACK',basePower:1,stats:{hp:1,attack:1,defense:1,speed:1}});
- assert.deepEqual(input,before);assert.equal(m.rank,'SSS');assert.equal(m.basePower,1080000);assert.equal(m.row,'FRONT');assert.equal(m.attackStyle,'MELEE');
+ assert.deepEqual(input,before);assert.equal(m.rank,'SSS');assert.equal(m.basePower,1950000);assert.equal(m.row,'FRONT');assert.equal(m.attackStyle,'MELEE');
  assert.equal(m.controlImmune,true);assert.equal(m.counterImmune,true);assert.equal(m.poisonImmune,true);
  for(const mode of ['PVE','PVP']){
   const teams=[linked(valter(),'A',2e7,tierDecks.balanced,mode),linked(berkan(),'B',2e7,tierDecks.balanced,mode)];
   const ordinary=structuredClone(teams.map(t=>t.slice(0,5)));applyMercenaryCombatLink(teams);
   const v=teams[0].at(-1),b=teams[1].at(-1);
   const cards=teams[0].slice(0,5);
-  assert.equal(v.mercenaryLink.attackFloor,Math.round(cards.reduce((n,c)=>n+c.attack,0)/5*18.304));
-  assert.equal(v.mercenaryLink.hpFloor,Math.round(cards.reduce((n,c)=>n+c.maxHp,0)/5*11.648));
+  assert.equal(v.mercenaryLink.attackFloor,Math.round(cards.reduce((n,c)=>n+c.attack,0)/5*VALTER_COMBAT.link.attackPercent/100));
+  assert.equal(v.mercenaryLink.hpFloor,Math.round(cards.reduce((n,c)=>n+c.maxHp,0)/5*VALTER_COMBAT.link.hpPercent/100));
   assert.ok(v.speed>b.speed);assert.deepEqual(teams.map(t=>t.slice(0,5)),ordinary);
   const once=structuredClone(teams);applyMercenaryCombatLink(teams);assert.deepEqual(teams,once);
  }
@@ -118,6 +118,6 @@ test('canonical PVE and duo keep Valter personal strength and deterministic resu
  const duo=createDuoBattleV2(input);assert.equal(duo.result.winner,'A');assert.deepEqual(duo,createDuoBattleV2(input));
  const v=duo.teams.A.mercenaries.find(c=>c.cardId===VALTER_CODE),other=duo.teams.A.mercenaries.find(c=>c.cardId==='V-055');
  const ownerCards=duo.teams.A.cards.filter(c=>c.ownerId===1);
- assert.equal(v.mercenaryLink.attackFloor,Math.round(ownerCards.reduce((sum,c)=>sum+c.attack,0)/ownerCards.length*18.304));
+ assert.equal(v.mercenaryLink.attackFloor,Math.round(ownerCards.reduce((sum,c)=>sum+c.attack,0)/ownerCards.length*VALTER_COMBAT.link.attackPercent/100));
  for(const e of duo.result.timeline.filter(e=>e.actorId?.includes('V-055')))for(const hit of e.impacts||[e])if(hit.targetId===v.id&&typeof hit.damage==='number')assert.equal(hit.damage,0);
 });

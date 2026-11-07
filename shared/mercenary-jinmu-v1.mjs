@@ -1,4 +1,4 @@
-import {BERKAN_CODE} from './mercenary-berkan-v1.mjs';
+import {LIMITED_1950K_COMBAT,LIMITED_1950K_AREA_BALANCE,limited1950kCombatText} from './mercenary-valter-v1.mjs';
 
 // Direct grants: original owner, Inception, Bichon, Seranekkoraji (4651) and
 // Eumju (4817). The last two are authorized stock-exempt gifts on 2026-10-22.
@@ -17,14 +17,10 @@ export const JINMU_AREA_EVENT='MERCENARY_JINMU_AREA';
 export const JINMU_AREA_MECHANIC='HEAVENLY_DRAGON_DESCENT';
 export const JINMU_AREA_SKILL=Object.freeze({
  id:'MS-989',name:'천룡강림',mechanic:JINMU_AREA_MECHANIC,target:'ALL_ENEMIES',pveOnly:true,
- balance:Object.freeze({damageRatio:6.72,cooldownTurns:5,cost:35})
+ balance:LIMITED_1950K_AREA_BALANCE
 });
 export const JINMU_COMBAT=Object.freeze({
- version:2,basePower:1617408,statsReferencePower:1123200,statScale:1.44,speedReferencePower:1080000,speedScale:3.12,actionCredit:3.12,motionPlaybackRate:2.6,
- // +20% linked attack/HP and complete opening shield versus unchanged Kairon.
- // The shared 60% front-row shield is included before applying the increase.
- link:Object.freeze({attackPercent:2635.776,hpPercent:1677.312,shieldPercent:928.416}),
- basicCapScale:2.88,damageTakenScale:.25,hardCounter:BERKAN_CODE
+ ...LIMITED_1950K_COMBAT,version:3,motionPlaybackRate:2.6
 });
 export const isJinmu=actor=>actor?.isMercenary===true&&(actor.code||actor.cardId)===JINMU_CODE;
 export const jinmuAccountAllowed=(userId,code,hasPackIssue=false)=>code!==JINMU_CODE||Number(userId)===JINMU_OWNER_ID||Number(userId)===2||Number(userId)===5663||Number(userId)===4651||Number(userId)===4817||Number(userId)===1195||Number(userId)===1768||Number(userId)===4391||Number(userId)===5008||Number(userId)===5147||Number(userId)===4908||Number(userId)===4933||Number(userId)===45||hasPackIssue===true;
@@ -34,7 +30,7 @@ export function jinmuIncomingDamage(target,incoming,source){
  if(source?.isMercenary===true&&(source.code||source.cardId)===JINMU_COMBAT.hardCounter)return 0;
  return Math.floor(Math.max(0,Number(incoming)||0)*JINMU_COMBAT.damageTakenScale);
 }
-export const JINMU_COMBAT_DESCRIPTION='천룡검황 진무 · 기본 전투력 1,617,408. 같은 편성·장비 기준 카이론보다 기본·연계 공격력·체력·전체 방벽과 기본 피해 상한이 20% 높으며 공격속도·추가 행동·모션 속도는 동일합니다. 개인 피해 75% 경감과 상태이상·반격 대응, 베르칸 피해 면역을 지닙니다. PVE 천룡강림은 적 전체에 총 672% 피해를 나눠 한 번씩 적용합니다(에너지 35 · 재사용 5행동). 할로윈팩 서버 5장 한정입니다. 기존 지정 계정 전용 지급분은 팩 발행 수량에서 제외됩니다.';
+export const JINMU_COMBAT_DESCRIPTION='천룡검황 진무 · '+limited1950kCombatText(JINMU_AREA_SKILL)+' 할로윈팩 서버 5장 한정입니다. 기존 지정 계정 전용 지급분은 팩 발행 수량에서 제외됩니다.';
 export const JINMU_ART=Object.freeze({
  code:JINMU_CODE,name:'천룡검황 진무',title:'SSS 리미티드 · 천룡의 주인',rank:'SSS',edition:'LIMITED',
  role:'LIMITED',position:null,artOnly:true,releaseStatus:'EXCLUSIVE_RELEASED',exclusiveGrant:true,excludedFromLimitedCount:true,
@@ -50,5 +46,5 @@ export const JINMU_ART=Object.freeze({
 export function jinmuDeploymentSnapshot(){
  return {...JINMU_ART,actorKind:'MERCENARY',level:1,statMode:'RANK_FIXED',basePower:JINMU_COMBAT.basePower,
   position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',skills:[structuredClone(JINMU_AREA_SKILL)],pendingSkillIds:[],
-  jinmuPolicyVersion:JINMU_COMBAT.version,deploymentVersion:'20261018-jinmu-balance-v2'};
+  jinmuPolicyVersion:JINMU_COMBAT.version,deploymentVersion:'20261108-jinmu-1950k-v3'};
 }

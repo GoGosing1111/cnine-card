@@ -20,13 +20,13 @@ test('canonical Helios policy overrides stale stats and now shares Valter natura
  for(const mode of ['PVE','PVP'])for(const side of ['A','B'])for(const power of [0,100000000]){
   const equipment={schemaVersion:1,mode,power},h=fighter('V-999',side,mode,equipment),v=fighter('V-996',side,mode,equipment);
   assert.equal(h.speed,v.speed);assert.equal(h.stats.speed,h.speed);
-  assert.equal(h.basePower-power,1123200);assert.equal(h.heliosPolicyVersion,2);
+  assert.equal(h.basePower-power,1950000);assert.equal(h.heliosPolicyVersion,3);
   assert.deepEqual(h.skills.map(s=>s.id),mode==='PVE'?['MS-999']:[]);
   for(const key of ['controlImmune','counterImmune','poisonImmune'])assert.equal(h[key],true);
   const stale={...snapshot(),rank:'C',basePower:1,stats:{hp:1,attack:1,defense:1,speed:1},skills:[],heliosPolicyVersion:0},before=structuredClone(stale);
   assert.equal(buildMercenaryFighter(stale,side,mode,buildFighter).speed,fighter('V-999',side,mode).speed);assert.deepEqual(stale,before);
  }
- assert.equal(HELIOS_COMBAT.basePower/VALTER_COMBAT.basePower,1.04);
+ assert.equal(HELIOS_COMBAT.basePower,VALTER_COMBAT.basePower);
  assert.equal(heliosMotionRate('attack')/2.5,1.04);assert.equal(heliosMotionRate('ultimate'),2.6);assert.equal(heliosMotionRate('aura'),1);
 });
 
@@ -42,16 +42,16 @@ test('equal decks share Valter and Helios link floors in both modes and sides af
  }
 });
 
-test('the extra linked attack leaves personal equipment additive and existing durability unchanged',()=>{
+test('the extra linked attack leaves personal equipment additive and checks the complete starting barrier',()=>{
  for(const mode of ['PVE','PVP']){
   const h=fighter('V-999','A',mode,{schemaVersion:1,mode,power:1e8});
   const teams=[[...tierCards(2e7).map((c,j)=>buildFighter(c,j,'A',null,mode)),h]],averageAttack=teams[0].slice(0,5).reduce((n,c)=>n+c.attack,0)/5;
   const gear=structuredClone(h.equipmentStats),native=structuredClone(h.stats);
   applyMercenaryCombatLink(teams);
-  assert.equal(h.mercenaryLink.attackFloor,Math.round(averageAttack*18.304)+gear.attack);
+  assert.equal(h.mercenaryLink.attackFloor,Math.round(averageAttack*HELIOS_COMBAT.link.attackPercent/100)+gear.attack);
   assert.deepEqual(h.equipmentStats,gear);assert.deepEqual(h.stats,native);
  }
- assert.equal(HELIOS_COMBAT.actionCredit,3.12);assert.equal(HELIOS_COMBAT.link.hpPercent,1164.8);assert.equal(HELIOS_COMBAT.link.shieldPercent,626.4);
+ assert.equal(HELIOS_COMBAT.actionCredit,3.12);assert.equal(HELIOS_COMBAT.link.hpPercent,1164.8*(1950000/1123200));assert.equal(HELIOS_COMBAT.link.shieldPercent,686.4*(1950000/1123200)-60);
 });
 
 test('fractional cadence funds exactly 312 turns per 100 allied actions, including long runs and both sides',()=>{
@@ -102,7 +102,7 @@ test('PVE collapse uses one budget per cast and rejects duplicate, dead, immune-
   hit:(a,t,ratio)=>{calls.push({id:t.id,ratio});return {damage:ratio*100,dodge:t.id==='t2'};},
   damage:(t,n)=>{t.hp-=n;return {hpDamage:n,absorbed:0};},knockout:t=>kos.push(t.id),emit:(type,event)=>events.push({type,...event})};
  const hits=resolveHeliosArea(input);assert.equal(hits.length,5);assert.equal(calls.length,5);
- assert.ok(Math.abs(calls.reduce((n,h)=>n+h.ratio,0)-5.6)<1e-9);assert.equal(events.length,1);assert.equal(events[0].type,HELIOS_AREA_EVENT);
+ assert.ok(Math.abs(calls.reduce((n,h)=>n+h.ratio,0)-12.6)<1e-9);assert.equal(events.length,1);assert.equal(events[0].type,HELIOS_AREA_EVENT);
  assert.equal(hits[2].damage,0);assert.equal(foes[2].hp,10000);assert.equal(new Set(kos).size,5);
  assert.deepEqual(resolveHeliosArea({...input,actor:{...h,battleMode:'PVP'}}),[]);
  assert.deepEqual(resolveHeliosArea({...input,actor:{...h,stunned:true}}),[]);
@@ -137,7 +137,7 @@ test('real server payloads publish Helios actions and PVE skill without changing
    assert.deepEqual(card,{...baseline,speed:Math.round(baseline.speed*effect.tempoMultiplier),pvpPowerBalance:effect},
     'ordinary cards retain the separately released formation-power bonus');
   }
-  assert.equal(battle.teams.A.mercenaries[0].heliosPolicyVersion,2);
+  assert.equal(battle.teams.A.mercenaries[0].heliosPolicyVersion,3);
   assert.equal(battle.result.timeline.some(e=>e.type===HELIOS_AREA_EVENT),mode==='PVE');
  }
  assert.equal(limitedDeploymentSnapshot('V-999').deploymentEnabled,true);assert.equal(heliosPreparedSnapshot().deploymentEnabled,false);
