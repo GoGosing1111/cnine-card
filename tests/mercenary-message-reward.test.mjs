@@ -114,11 +114,15 @@ for(const postgres of [false,true]){
   await assert.rejects(()=>f.claim(r));assert.equal(await f.copies(),0);assert.equal((await f.p('SELECT * FROM user_message_reward_claim_receipts_v1222').all()).results.length,0);
  });
 }
-test('older inboxes render server reward metadata and include Omega in claim-all',async()=>{
+test('older inboxes render Omega and Jokro from server metadata with single and bulk claim controls',async()=>{
  const server=vm.createContext({});vm.runInContext(specs+';this.present=presentMessageReward;',server);
  const message=server.present({id:7,title:'충신선물',body:'충신선물',message_type:'ITEM_REWARD',reward_type:'MERCENARY_OMEGA_X',reward_amount:1});
  assert.equal(message.reward_supported,true);assert.equal(message.reward_label,'오메가-X SSS');
- const box={innerHTML:'',isConnected:true,querySelectorAll:()=>[]},all={},ctx=vm.createContext({document:{getElementById:id=>id==='messageList'?box:all},apiRequest:async()=>({messages:[message],unread:1}),mountSupportMessageExpiry:()=>({dispose(){}}),updateMessageNewBadges:()=>{},escapeHtml:v=>String(v??'')});
+ const jokro=server.present({id:8,title:'족로 지급',body:'족로 지급',message_type:'ITEM_REWARD',reward_type:'MERCENARY_JOKRO',reward_amount:1});
+ const box={innerHTML:'',isConnected:true,querySelectorAll:()=>[]},all={};
+ const controls={messageList:box,claimAllMessages:all,deleteCompletedMessages:{dataset:{}}};
+ const ctx=vm.createContext({document:{getElementById:id=>controls[id]??null},apiRequest:async()=>({messages:[message,jokro],unread:2}),mountSupportMessageExpiry:()=>({dispose(){}}),updateMessageNewBadges:()=>{},escapeHtml:v=>String(v??'')});
  const start=app.indexOf('const MESSAGE_REWARD_META='),end=app.indexOf('// V1799: 2차 인증',start);vm.runInContext(app.slice(start,end).replace("const {mountSupportMessageExpiry}=await import('/js/supporter-message-expiry-v1.mjs?v=20261011-apply1');",'')+';delete MESSAGE_REWARD_META.MERCENARY_OMEGA_X;this.load=loadMessages;this.queue=claimableMessageRewards;',ctx);
- await ctx.load();assert.equal(all.disabled,false);assert.equal(ctx.queue([message]).length,1);assert.match(box.innerHTML,/오메가-X SSS/);assert.match(box.innerHTML,/data-claim-message="7"[^>]*>보상 받기/);
+ await ctx.load();assert.equal(all.disabled,false);assert.equal(ctx.queue([message,jokro]).length,2);assert.match(box.innerHTML,/오메가-X SSS/);assert.match(box.innerHTML,/data-claim-message="7"[^>]*>보상 받기/);
+ assert.match(box.innerHTML,/족로 SSS 리미티드/);assert.match(box.innerHTML,/data-claim-message="8"[^>]*>보상 받기/);
 });
