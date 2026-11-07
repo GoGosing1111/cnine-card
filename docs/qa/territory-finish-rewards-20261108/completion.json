@@ -1,0 +1,95 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:territory:96:finish-attacks30-win-shards-coins-stars:20261108:v1",
+  "auditId": "56220",
+  "roundId": "96",
+  "battleName": "씨나인",
+  "winnerSide": "A",
+  "settledAtKST": "2026-11-07T22:29:20.000+09:00",
+  "completedAtKST": "2026-11-08T00:14:13.830+09:00",
+  "delivery": "MESSAGE",
+  "rules": {
+    "minimumAttacks": 30,
+    "winner": {
+      "coin": "50000000000000",
+      "shards": "3",
+      "stars": "100000000"
+    },
+    "attack": {
+      "coin": "15000000000000",
+      "shards": "2",
+      "stars": "100000000"
+    },
+    "stack": true
+  },
+  "authorization": {
+    "request": "영토전 종료회차 보상 추가 지급해\n50조 SSS용병조각 3개 마별 1억\n승패상관없이 공격 30회이상 15조 SSS 조각 2개 마별 1억",
+    "deliveryConfirmation": "영토전 종료회차 보상 추가 지급해",
+    "deliveryBasis": "이전 영토전 종료 보상과 동일하게 게임 메시지함에서 재화별로 수령",
+    "winnerPolicy": "앞선 94회차와 동일하게 첫 번째 묶음은 승리 진영 전체 참가자에게 지급",
+    "stackingBasis": "승리와 개인 공격 30회 이상을 독립 적용. 두 조건을 충족하면 65조·조각 5개·마스터의 별 2억",
+    "delivery": "MESSAGE",
+    "recurring": false
+  },
+  "totals": {
+    "participants": 98,
+    "attackQualified": 69,
+    "winners": 49,
+    "overlap": 35,
+    "recipients": 83,
+    "messages": 249,
+    "totalShards": "285",
+    "totalCoin": "3485000000000000",
+    "totalStars": "11800000000"
+  },
+  "payoutGroups": {
+    "winnerOnly": 14,
+    "attacksOnly": 34,
+    "both": 35,
+    "exactlyThirty": 2
+  },
+  "items": {
+    "shards": "MERCENARY_SSS_CARD_SHARD",
+    "masterStars": "MASTER_STAR"
+  },
+  "planSha256": "77576041fdb78d9dbed66dacfba0ea21aaf97f75f65377551d913cb5a5a4b5f2",
+  "executionSha256": "1144363149073a902dd6a030c5eda626b91da0ca9d85062c3a9deaf73e2ce6cb",
+  "syncUpdated": 83,
+  "independentReadOnlyVerified": true,
+  "verifiedAtKST": "2026-11-08T00:16:44.566+09:00",
+  "claimedAtVerification": 10,
+  "pendingAtVerification": 239,
+  "missing": 0,
+  "duplicates": 0,
+  "replayAdditionalWrites": 0,
+  "rehearsals": {
+    "roundAndOperationLockContentionRejected": true,
+    "wrongPlanRejected": true,
+    "actualPartialAttachmentFailureRolledBack": true,
+    "successRolledBack": true,
+    "messageSyncRolledBack": true,
+    "allMessageSyncChanged": true,
+    "onlyMessageAuditReceiptAndSyncWrites": true,
+    "noWalletInventoryOrRoundWrites": true,
+    "selectOnlyReplay": true,
+    "noDeliveryAfterRollback": true,
+    "territorySettingsPreserved": true
+  },
+  "claimTests": {
+    "exitCode": 0,
+    "passed": 6,
+    "failed": 0,
+    "source": {
+      "deployedCommit": "3eb63624305c0cb1f645fb7c314ac8779d4f862e",
+      "sourceCommit": "3eb63624305c0cb1f645fb7c314ac8779d4f862e",
+      "specsHash": "be9b8376c196895e7a36f7f15976973149f9b11b675068c6bfc7c9d8c9d1ff70",
+      "claimHash": "553798fec607b8a4d71e812a0e634d338e90e5cc1f50281222d3a639c0cc8060",
+      "compatHash": "1111070d6b1928ba84308589372c8235fdd0e06e837493af03f7cae473f135ea",
+      "latestRemoteSourceMatched": true,
+      "clientItemMetadata": true,
+      "checkedAt": "2026-11-07T15:09:41.117Z"
+    },
+    "checkedAt": "2026-11-07T15:09:54.928Z"
+  },
+  "evidenceDirectory": "operations/territory-finish-rewards-20261108"
+}
