@@ -1,0 +1,230 @@
+{
+  "status": "LIVE_VERIFIED",
+  "at": "2026-11-07T15:18:30.126Z",
+  "source": "e28e7985646deb3b70e897e17bea74580c738507",
+  "previousProduction": "3eb63624305c0cb1f645fb7c314ac8779d4f862e",
+  "pages": {
+    "id": "7dc34aa6-15c5-48ef-bf30-61c8e5fba672",
+    "url": "https://7dc34aa6.cnine-card.pages.dev",
+    "commit": "e28e7985646deb3b70e897e17bea74580c738507",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version_id": "06528c6f-3064-4de8-9029-4d2e2de007ee",
+      "percentage": 100,
+      "sourceSha256": "256d724dd285fef6ec9e87d9535472b61a35fbf6146e00a80ec0498031ae1cf9"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version_id": "0e9e627e-4110-45e4-bf1f-ffb212dc65d2",
+      "percentage": 100,
+      "sourceSha256": "9b73c1a37bf22ba061cf79b0647e99b2b6a7d9e521c0c6dd16183647e3191058"
+    }
+  ],
+  "delivery": [
+    {
+      "file": "shared/mercenary-hakuya-v1.mjs",
+      "sha256": "b6678317c59b5ab98d368f91c147a808fc54f005519b3c57f8ab3b1dbcaca062",
+      "windows": true
+    },
+    {
+      "file": "shared/mercenary-helios-king-v1.mjs",
+      "sha256": "832b70b67b367c318f070b716832bd4979698d49676fa84b263df8ea9e1afd9c",
+      "windows": true
+    },
+    {
+      "file": "shared/mercenary-jin-jokro-v1.mjs",
+      "sha256": "a6d0f65eaf5cbacc2720a81f3649761b5dd046fe817071af856dd4a5805ff689",
+      "windows": true
+    }
+  ],
+  "tests": 49,
+  "assets": 20000,
+  "canonicalBattlesPerVersion": 256,
+  "unchangedControlBattles": 128,
+  "accountWrites": 0,
+  "actionRate": {
+    "naturalSpeedScale": [
+      3.12,
+      4.5
+    ],
+    "extraTurnsPerAllyCard": [
+      3.12,
+      4.5
+    ],
+    "pveSharedCooldownTurns": [
+      3,
+      2
+    ],
+    "pveAreaEnergyCost": [
+      20,
+      10
+    ]
+  },
+  "mercenaries": [
+    {
+      "code": "V-959",
+      "name": "진 족로",
+      "basePower": 3500000,
+      "pveAreas": [
+        "흑천일섬",
+        "비검오의 · 흑천단절",
+        "삼도오의 · 무간참옥"
+      ]
+    },
+    {
+      "code": "V-967",
+      "name": "하쿠야 신",
+      "basePower": 2700000,
+      "pveAreas": [
+        "회천검압",
+        "만검낙성"
+      ]
+    }
+  ],
+  "fixedWindow": [
+    {
+      "code": "V-959",
+      "alliedCardActions": 10,
+      "previous": [
+        {
+          "mode": "PVE",
+          "side": "A",
+          "actions": 31,
+          "basics": 20,
+          "area": 11
+        },
+        {
+          "mode": "PVP",
+          "side": "A",
+          "actions": 31,
+          "basics": 31,
+          "area": 0
+        },
+        {
+          "mode": "PVP",
+          "side": "B",
+          "actions": 31,
+          "basics": 31,
+          "area": 0
+        }
+      ],
+      "updated": [
+        {
+          "mode": "PVE",
+          "side": "A",
+          "actions": 45,
+          "basics": 22,
+          "area": 23
+        },
+        {
+          "mode": "PVP",
+          "side": "A",
+          "actions": 45,
+          "basics": 45,
+          "area": 0
+        },
+        {
+          "mode": "PVP",
+          "side": "B",
+          "actions": 45,
+          "basics": 45,
+          "area": 0
+        }
+      ]
+    },
+    {
+      "code": "V-967",
+      "alliedCardActions": 10,
+      "previous": [
+        {
+          "mode": "PVE",
+          "side": "A",
+          "actions": 31,
+          "basics": 20,
+          "area": 11
+        },
+        {
+          "mode": "PVP",
+          "side": "A",
+          "actions": 31,
+          "basics": 31,
+          "area": 0
+        },
+        {
+          "mode": "PVP",
+          "side": "B",
+          "actions": 31,
+          "basics": 31,
+          "area": 0
+        }
+      ],
+      "updated": [
+        {
+          "mode": "PVE",
+          "side": "A",
+          "actions": 45,
+          "basics": 22,
+          "area": 23
+        },
+        {
+          "mode": "PVP",
+          "side": "A",
+          "actions": 45,
+          "basics": 45,
+          "area": 0
+        },
+        {
+          "mode": "PVP",
+          "side": "B",
+          "actions": 45,
+          "basics": 45,
+          "area": 0
+        }
+      ]
+    }
+  ],
+  "sustained": [
+    {
+      "code": "V-959",
+      "ownTurns": 60,
+      "previousCasts": 20,
+      "updatedCasts": 30,
+      "formOrder": [
+        "MS-894",
+        "MS-895",
+        "MS-896"
+      ]
+    },
+    {
+      "code": "V-967",
+      "ownTurns": 60,
+      "previousCasts": 20,
+      "updatedCasts": 30,
+      "formOrder": [
+        "MS-911",
+        "MS-912"
+      ]
+    }
+  ],
+  "publicCodex": [
+    {
+      "code": "V-959",
+      "width": 1440
+    },
+    {
+      "code": "V-967",
+      "width": 1440
+    },
+    {
+      "code": "V-959",
+      "width": 390
+    },
+    {
+      "code": "V-967",
+      "width": 390
+    }
+  ]
+}
