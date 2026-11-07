@@ -31,6 +31,47 @@
 .sp-hero-crest{align-self:center;min-width:0;padding:0;filter:drop-shadow(0 5px 14px #020a13)}
 .sp-hero-crest img{width:96px;height:110px;object-fit:contain}.sp-hero-crest>span{font-size:10px;letter-spacing:.1em;margin-top:9px;color:#efd9a0}
 .sp-hero-copy{position:relative;z-index:2;max-width:550px;text-shadow:0 2px 12px #000,0 1px 3px #000}
+.sp-editions {
+  display: flex;
+  gap: 6px;
+  margin: 0 0 12px;
+}
+.sp-editions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  min-height: 46px;
+  border: 1px solid #425165;
+  border-radius: 5px;
+  background: #112035;
+  color: #cdd8e6;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.sp-editions button[aria-pressed="true"] {
+  border-color: #d8b77b;
+  box-shadow: inset 0 -3px #dfba74;
+  background: #253344;
+  color: #ffedc5;
+}
+.sp-editions small { font-size: 0.76em; font-weight: 500; }
+.sp-editions button:focus-visible, .sp-pass-buy:focus-visible { outline: 2px solid #f2e4ac; outline-offset: 2px; }
+.sp-pass .sp-pass-buy {
+  min-height: 42px;
+  margin-top: 5px;
+  padding: 8px 16px;
+  border: 1px solid #ffdf93;
+  border-radius: 4px;
+  background: #ebca86;
+  color: #202619;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
 .sp-pass .sp-hero h2{font-size:39px;line-height:1.35;letter-spacing:-1.2px;color:#fff3d4;margin:13px 0 14px;text-wrap:balance}.sp-eyebrow{color:#ecd092;font-size:12px}.sp-hero-copy p{font-size:13px;color:#d5deec}.sp-period{color:#f3e0b5;font-size:12px}.sp-period>span{color:#b3c6d9}
 .sp-hero-treasure{position:absolute;right:24px;bottom:17px;width:280px;z-index:1;pointer-events:none;filter:drop-shadow(0 7px 22px #000b)}.sp-hero-treasure img{width:100%;height:auto;display:block}
 .sp-progress{position:absolute;bottom:25px;left:152px;width:345px;display:flex;align-items:center;gap:14px;flex:none;margin:0;padding:12px 17px;border:1px solid #bda46566;background:#061321ba;border-radius:3px;backdrop-filter:blur(7px);z-index:3}.sp-progress>span{font-size:11px;color:#d6c496;white-space:nowrap}.sp-progress>strong{font-size:30px;line-height:1.1;white-space:nowrap}.sp-progress small{font-size:17px}.sp-progress [role=progressbar]{width:auto;flex:1;min-width:60px}

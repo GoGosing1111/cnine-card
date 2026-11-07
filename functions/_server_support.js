@@ -3,8 +3,9 @@ import {readSupportRecord} from './_supporter_benefits.js';
 import {handleSupportPackage} from './_support_package.js';
 import {supportPackageSalesOpen,supportPackageClientAllowed} from '../shared/support-package-v1.mjs';
 import {prepareSupporterPetReward} from './_supporter_pet_reward.js';
-import {readSeasonPass,handleSeasonPass} from './_supporter_season_pass.js';
-import {readSupportApplication,issueSupportApplication,readSupportApplicationConfig,saveSupportApplicationConfig} from './_supporter_application.js';
+import {readSeasonPass,handleSeasonPass,passMonth,secondPassSale,readPassConfig} from './_supporter_season_pass.js';
+import {purchasedPasses} from '../shared/supporter-season-pass-v1.mjs';
+import {readSupportApplication,issueSupportApplication,readSupportApplicationConfig,saveSupportApplicationConfig,lastPassApplication} from './_supporter_application.js';
 import {readPetOwnership,readPetPotentials} from './_pet_account.js';
 import {petOwnershipPredicate} from './_pet_rental.js';
 import {readPetCms} from './_pet_companion_cms.js';
@@ -21,11 +22,12 @@ async function priorReceipt(env,key,payload){
   const saved=JSON.parse(row.value);if(saved.payload!==payload)fail('REQUEST_CONFLICT','같은 요청 번호에 다른 내용이 포함되었습니다.',409);
   return {...saved.result,replayed:true};
 }
-async function commit(env,{record,next,key,payload,result,admin,guard=[],reward=null}){
+async function commit(env,{record,next,key,payload,result,admin,guard=[],reward=null,sale=null}){
   const DB=env.DB,token=crypto.randomUUID(),raw=JSON.stringify(next),p=(sql,...args)=>DB.prepare(sql).bind(...args);
   await ensureJointAtomicSchema(env);
   try{await DB.batch([
     ...(reward&&DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',result.target.id)]:[]),
+    ...(sale&&DB.dialect==='postgres'?[p('SELECT key FROM app_meta WHERE key=? FOR UPDATE',sale.key)]:[]),
     jointGuard(DB,token,record.raw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',record.raw===null?[record.key]:[record.key,record.raw]),
     jointGuard(DB,token+'r','NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)',[key]),
     ...guard.map((g,i)=>jointGuard(DB,token+'g'+i,g[0],g[1])),
@@ -49,21 +51,33 @@ export async function changeSupport(env,admin,body,now=Date.now()){
   if(!canManageSupport(admin))fail('ADMIN','후원 관리는 핑크빛유두 전용입니다.',403);
   mutationBody(body);
   if(!validId(body.userId)||!['GRANT','REVOKE'].includes(body.action)||typeof body.note!=='string'||!body.note.trim()||body.note.trim().length>200)fail('INPUT','대상 계정, 처리 종류와 확인 메모를 입력하세요.');
-  const key='server_support_receipt_v1:'+body.requestId,payload=JSON.stringify([Number(admin.id),body.userId,body.action,body.expectedRevision,body.note.trim()]);
+  const month=passMonth(body.month);
+  if(body.action==='REVOKE'&&body.month!==undefined)fail('INPUT','후원 중지는 계정 전체 혜택에 적용됩니다.');
+  const key='server_support_receipt_v1:'+body.requestId,payload=JSON.stringify([Number(admin.id),body.userId,body.action,body.expectedRevision,body.note.trim(),...(month===2?[month]:[])]);
   const prior=await priorReceipt(env,key,payload);if(prior)return prior;
   const [row,record]=await Promise.all([account(env,body.userId),readSupportRecord(env,body.userId)]);
   if(!row)fail('TARGET','계정을 찾지 못했습니다.',404);
   if(record.state.revision!==body.expectedRevision)fail('REVISION','후원 정보가 변경됐습니다. 대상을 다시 확인하세요.',409);
   const active=supportBenefits(record.state,now).active,grant=body.action==='GRANT';
   if(grant&&!supportAccountEligible(row,now))fail('ELIGIBILITY','가입 3일 경과와 2차 인증 완료가 필요합니다.',403);
+  if(grant&&body.month===undefined&&(await lastPassApplication(env,body.userId))?.month===2)fail('MONTH','2개월차 신청 내역이 있습니다. CMS를 새로고침하고 입금 확인할 달을 선택하세요.',409);
   if(!grant&&!active)fail('INACTIVE','현재 이용 중인 후원 혜택이 없습니다.',409);
+  const sale=grant&&month===2?await secondPassSale(env,record.state,now):null;
   const next={...record.state,revision:record.state.revision+1,...(grant?{startsAt:active?record.state.startsAt:now,endsAt:Math.max(active?record.state.endsAt:0,now)+SUPPORT_DURATION_MS,revokedAt:null,magnetPetCode:active?record.state.magnetPetCode:null}:{revokedAt:now})};
+  const terms=purchasedPasses(record.state);
+  if(grant){
+    const old=terms[month],extend=old&&old.revokedAt===null&&old.endsAt>now;
+    next.passTerms={...terms,[month]:{calendarStartsAt:old?.calendarStartsAt??old?.startsAt??now,startsAt:extend?old.startsAt:now,endsAt:(extend?old.endsAt:now)+SUPPORT_DURATION_MS,revokedAt:null}};
+  }else{
+    next.passTerms=Object.fromEntries(Object.entries(terms).map(([id,term])=>[id,{...term,revokedAt:term.revokedAt??now}]));
+  }
   if(!Number.isSafeInteger(next.revision)||!Number.isSafeInteger(next.endsAt))fail('LIMIT','이용 기간 한도를 초과했습니다.',409);
-  const target=targetOf(row),result={ok:true,requestId:body.requestId,action:body.action,target,amountWon:grant?SUPPORT_PLAN.priceWon:0,note:body.note.trim(),processedAt:now,subscription:supportBenefits(next,now),replayed:false};
+  const target=targetOf(row),result={ok:true,requestId:body.requestId,action:body.action,...(grant?{month}:{}),target,amountWon:grant?SUPPORT_PLAN.priceWon:0,note:body.note.trim(),processedAt:now,subscription:supportBenefits(next,now),replayed:false};
   const reward=grant?await prepareSupporterPetReward(env,{admin,target,requestId:'supporter_pet_'+body.requestId,now}):null;
   if(reward)result.petReward=reward.result;
   const guard=grant?[['EXISTS(SELECT 1 FROM users u JOIN user_second_verifications s ON s.user_id=u.id WHERE u.id=? AND u.status=? AND u.created_at=? AND s.verified_at=?)',[target.id,'ACTIVE',row.created_at,row.verified_at]]]:[];
-  return commit(env,{record,next,key,payload,result,admin,guard,reward});
+  if(sale)guard.push(['EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[sale.key,sale.raw]]);
+  return commit(env,{record,next,key,payload,result,admin,guard,reward,sale});
 }
 export async function selectSupportPet(env,user,body,now=Date.now()){
   mutationBody(body);if(typeof body.petCode!=='string'||!/^PET-[A-Z0-9-]{1,28}$/.test(body.petCode))fail('PET','보유한 펫을 선택하세요.');
@@ -80,8 +94,9 @@ export async function selectSupportPet(env,user,body,now=Date.now()){
 }
 async function supporterPage(env,user,now){
   const [record,owned,potentials,cms]=await Promise.all([readSupportRecord(env,user.id),readPetOwnership(env,user.id,{now}),readPetPotentials(env,user.id),readPetCms(env)]);
-  const subscription=supportBenefits(record.state,now),seasonPass=await readSeasonPass(env,user.id,subscription,now);
-  return {plan:SUPPORT_PLAN,notice:SUPPORT_NOTICE,serverNow:now,subscription,seasonPass,application:await readSupportApplication(env,user.id,now),pets:cms.state.document.pets.filter(p=>owned.pets[p.code]>0).map(p=>({code:p.code,name:p.name,sourceArt:p.sourceArt,permanentMagnet:potentials.state.pets[p.code]?.potential==='MAGNET'}))};
+  const subscription=supportBenefits(record.state,now);
+  const [seasonPass,secondSeasonPass,application]=await Promise.all([readSeasonPass(env,user.id,record.state,now),readSeasonPass(env,user.id,record.state,now,2),readSupportApplication(env,user.id,now)]);
+  return {plan:SUPPORT_PLAN,notice:SUPPORT_NOTICE,serverNow:now,subscription,seasonPass,secondSeasonPass,application,pets:cms.state.document.pets.filter(p=>owned.pets[p.code]>0).map(p=>({code:p.code,name:p.name,sourceArt:p.sourceArt,permanentMagnet:potentials.state.pets[p.code]?.potential==='MAGNET'}))};
 }
 export async function handleServerSupport({path,request,env,deps}){
   const admin=path.startsWith('admin/server-support');
@@ -116,10 +131,10 @@ export async function handleServerSupport({path,request,env,deps}){
         const rows=await env.DB.prepare(body.recipientType==='ID'?'SELECT id FROM users WHERE id=?':'SELECT id FROM users WHERE nickname=? LIMIT 2').bind(body.recipientType==='ID'?Number(body.recipient):body.recipient.trim()).all();
         if(rows.results.length!==1)fail('TARGET',rows.results.length?'계정 ID로 다시 확인하세요.':'계정을 찾지 못했습니다.',404);
         const row=await account(env,rows.results[0].id),record=await readSupportRecord(env,row.id);
-        return reply({target:targetOf(row),eligible:supportAccountEligible(row,now),subscription:supportBenefits(record.state,now),plan:SUPPORT_PLAN});
+        return reply({target:targetOf(row),eligible:supportAccountEligible(row,now),subscription:supportBenefits(record.state,now),lastPassApplication:await lastPassApplication(env,row.id),secondPassEnabled:(await readPassConfig(env,2)).state.enabled,plan:SUPPORT_PLAN});
       }
       if(path==='admin/server-support'&&request.method==='POST'){
-        const body=await readJointBody(request,{fields:['userId','action','note','expectedRevision','requestId']});
+        const body=await readJointBody(request,{fields:['userId','action','month','note','expectedRevision','requestId']});
         if(!validId(body.userId))fail('TARGET','계정 ID를 확인하세요.');
         return reply(await deps.withUserMutationLock(env,body.userId,path,()=>changeSupport(env,user,body,(deps.now||Date.now)())));
       }
@@ -133,12 +148,12 @@ export async function handleServerSupport({path,request,env,deps}){
       if(['server-support/pass/claim','server-support/pass/claim-all'].includes(path))return reply(await handleSeasonPass({path,request,env,user,deps,now,eligible}));
       if(path==='server-support/info'&&request.method==='GET'){
         const info=await supporterPage(env,user,now);
-        return reply({...info,application:{...info.application,enabled:paidEligible&&info.application.enabled},previewOnly,seasonPassVisible:eligible,packageVisible:supportPackageClientAllowed(request)&&paidEligible&&info.subscription.active&&info.seasonPass.enabled&&supportPackageSalesOpen(now)});
+        return reply({...info,application:{...info.application,enabled:paidEligible&&info.application.enabled},previewOnly,seasonPassVisible:eligible,packageVisible:supportPackageClientAllowed(request)&&paidEligible&&[info.seasonPass,info.secondSeasonPass].some(pass=>pass.enabled&&pass.active)&&supportPackageSalesOpen(now)});
       }
       if(['server-support/package','server-support/package/apply'].includes(path))return reply(await handleSupportPackage({path,request,env,user,deps,now}));
       if(path==='server-support/apply'&&request.method==='POST'){
         if(!eligible)fail('ELIGIBILITY','가입 3일 경과와 2차 인증 완료 후 신청할 수 있습니다.',403);
-        const body=await readJointBody(request,{fields:['requestId']});
+        const body=await readJointBody(request,{fields:['requestId','month']});
         await deps.ensureMessages?.(env);
         return reply(await deps.withUserMutationLock(env,user.id,path,()=>issueSupportApplication(env,user,body,(deps.now||Date.now)())));
       }

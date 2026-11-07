@@ -65,18 +65,18 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: 후�
   });
   await t.test('연장 후에도 이전 30일 미수령 유지, 미래 유료 날짜 미지급',async()=>{
     const f=await make();await f.save();await f.grant();await f.grant();at(f,'2026-11-12');
-    const state=await f.pass();assert.equal(state.currentDay,4);assert.equal(state.claimableCount,34);
-    const first=await batch(f,await body(f));assert.equal(first.status,200);assert.equal(first.body.dayCount,30);assert.equal(first.body.remainingCount,4);
-    const second=await batch(f,await body(f));assert.equal(second.body.dayCount,4);assert.equal(second.body.remainingCount,0);
-    assert.equal(await quantity(f,'VEHICLE_PART_FRAME'),102);assert.equal((await f.pass()).claimedCount,4);
+    const state=await f.pass();assert.equal(state.currentDay,30);assert.equal(state.claimableCount,30);
+    const first=await batch(f,await body(f));assert.equal(first.status,200);assert.equal(first.body.dayCount,30);assert.equal(first.body.remainingCount,0);
+    assert.equal((await batch(f,await body(f))).status,409);
+    assert.equal(await quantity(f,'VEHICLE_PART_FRAME'),90);assert.equal((await f.pass()).claimedCount,30);
     at(f,'2026-12-10');assert.equal((await batch(f,await body(f))).status,403);
   });
   await t.test('정확한 30일 한도·재등록 날짜 중복 방지·장비가 많은 일괄 분할',async()=>{
     const f=await make();await f.save();await f.grant();f.clock.now=Date.parse('2026-11-09T00:00:00+09:00');
-    assert.equal((await f.pass()).currentDay,31);assert.equal((await f.pass()).claimableCount,30);
+    assert.equal((await f.pass()).currentDay,30);assert.equal((await f.pass()).claimableCount,30);
     assert.equal((await batch(f,await body(f))).body.dayCount,30);assert.equal(await quantity(f,'VEHICLE_PART_FRAME'),90);
     const g=await make();await g.save();await g.grant();await batch(g,await body(g));await g.grant(2,'REVOKE');g.clock.now+=1000;await g.grant();
-    assert.equal((await g.pass()).claimableCount,0);assert.equal((await g.pass()).days[0].status,'DAILY_LIMIT');
+    assert.equal((await g.pass()).claimableCount,0);assert.equal((await g.pass()).days[0].status,'CLAIMED');
     const h=await make();await h.save(h.document([{code:'EQUIPMENT:1',quantity:20}]));await h.grant();at(h,'2026-10-13');
     const one=await batch(h,await body(h));assert.equal(one.body.dayCount,2);assert.equal(one.body.remainingCount,2);
     const two=await batch(h,await body(h));assert.equal(two.body.dayCount,2);assert.equal(two.body.remainingCount,0);

@@ -3,7 +3,7 @@ import {planPackageGuaranteeNotice,packageGuaranteeNoticeStatements} from './_su
 import {SUPPORT_PACKAGE,LIMITED_SHARD,isSupportPackageProduct,supportPackageFulfillment,supportPackageOrderProduct,supportPackageQuantityValid,supportPackageClientAllowed,supportPackageSummary,SUPPORT_PACKAGE_EVENT_DEADLINE,supportPackageSalesOpen} from '../shared/support-package-v1.mjs';
 import {SUPPORT_PACKAGE_BONUS_CODE,supportPackageBonusKey,supportPackageBonus,supportPackageWithBonus} from '../shared/support-package-v1.mjs';
 import {supportAccountEligible,supportBenefits,canManageSupport} from '../shared/server-support-v1.mjs';
-import {PASS_KEY} from '../shared/supporter-season-pass-v1.mjs';
+import {passSubscription} from '../shared/supporter-season-pass-v1.mjs';
 import {readSupportRecord} from './_supporter_benefits.js';
 import {readPassConfig} from './_supporter_season_pass.js';
 import {ensureEmperorEnergyCatalog} from './_emperor_energy.js';
@@ -37,9 +37,14 @@ export async function ensureLimitedShardCatalog(env){
  ]);});
 }
 async function eligibility(env,userId,now){
- const [account,support,config]=await Promise.all([
+ const [account,support,first]=await Promise.all([
   env.DB.prepare('SELECT u.id,u.nickname,u.status,u.created_at,s.verified_at FROM users u LEFT JOIN user_second_verifications s ON s.user_id=u.id WHERE u.id=?').bind(userId).first(),readSupportRecord(env,userId),readPassConfig(env)
  ]);
+ let config=first;
+ if(!first.state.enabled||!passSubscription(support.state,1,now).active){
+   if(!passSubscription(support.state,2,now).active)fail('INACTIVE','시즌패스 활성화 유저만 구매 신청할 수 있습니다.',403);
+   config=await readPassConfig(env,2);
+ }
  if(!supportAccountEligible(account,now)||!supportBenefits(support.state,now).active||!config.state.enabled)fail('INACTIVE','시즌패스 활성화 유저만 구매 신청할 수 있습니다.',403);
  return {account,support,config};
 }
@@ -68,8 +73,8 @@ export async function issuePackage(env,user,body,now=Date.now()){
  const message=`패키지 구매 계좌 안내\n\n신한은행 110-290-621512\n예금주: 전병은\n결제 금액: ${product.priceWon.toLocaleString('ko-KR')}원\n신청 횟수: ${order.quantity??1}회\n\n${product.eventLabel} · 패키지 총 ${product.packageQuantity}개\n${supportPackageSummary(product)}\n${SUPPORT_PACKAGE_EVENT_DEADLINE.notice}\n신청 번호: ${order.id}\n\n반드시 게임 닉네임으로 입금해 주세요.\n같은 신청에 중복 입금하지 마세요. 운영자의 입금 확인 후 패키지가 지급됩니다. 시즌패스 기간은 연장되지 않습니다. 패키지 코인은 승부예측에 사용할 수 없습니다.\n계좌 안내 메시지는 발급 시점부터 5분 뒤 자동 삭제됩니다. 신청 기록은 유지됩니다.`;
  const DB=env.DB,token=crypto.randomUUID(),tokens=[],p=(sql,...a)=>DB.prepare(sql).bind(...a),guard=(test,args)=>{const t=token+tokens.length;tokens.push(t);return jointGuard(DB,t,test,args);};
  try{await DB.batch([
-  ...(DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',id),p('SELECT key FROM app_meta WHERE key IN (?,?) ORDER BY key FOR UPDATE',support.key,PASS_KEY)]:[]),
-  guard('EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[support.key,support.raw,PASS_KEY,config.raw]),
+  ...(DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',id),p('SELECT key FROM app_meta WHERE key IN (?,?) ORDER BY key FOR UPDATE',support.key,config.key)]:[]),
+  guard('EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[support.key,support.raw,config.key,config.raw]),
   guard('EXISTS(SELECT 1 FROM users u JOIN user_second_verifications s ON s.user_id=u.id WHERE u.id=? AND u.status=? AND u.created_at=? AND s.verified_at=?)',[id,'ACTIVE',account.created_at,account.verified_at]),
   guard('NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)',[key]),
   ...(old?[guard('EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[pendingKey(id),order.id,orderKey(order.id),old.raw])]:[

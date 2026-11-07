@@ -2,6 +2,8 @@ import {supportAccountEligible,SUPPORT_PLAN,canManageSupport} from '../shared/se
 import {jointError} from './_joint_request.js';
 import {ensureJointAtomicSchema,jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {SUPPORT_BANK_MESSAGE_TYPE,SUPPORT_BANK_MESSAGE_TTL,deleteExpiredSupportMessages} from './_supporter_message_expiry.js';
+import {readSupportRecord} from './_supporter_benefits.js';
+import {passMonth,secondPassSale} from './_supporter_season_pass.js';
 
 const LIMIT=3,KST=9*60*60*1000;
 export const SUPPORT_APPLICATION_CONFIG_KEY='server_support_application_config_v1';
@@ -10,6 +12,13 @@ const dayKey=(userId,now)=>`support_application_day_v1:${userId}:${dayOf(now)}`;
 const receiptKey=(userId,requestId)=>`support_application_receipt_v1:${userId}:${requestId}`;
 const campaignKey=(userId,requestId)=>`support_application_v1:${userId}:${requestId}`;
 const fail=(code,message,status=400)=>{throw jointError('SUPPORT_APPLICATION_'+code,message,status);};
+export async function lastPassApplication(env,userId){
+  const prefix='support_application_day_v1:'+Number(userId)+':';
+  const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key>=? AND key<? ORDER BY key DESC LIMIT 1').bind(prefix,prefix+'~').first();
+  if(!row)return null;
+  const saved=JSON.parse(row.value);
+  return saved.issuedAt?{month:saved.month,issuedAt:saved.issuedAt}:null;
+}
 async function ledger(env,userId,now){
   const key=dayKey(userId,now),row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first();
   const used=row?JSON.parse(row.value).used:0;
@@ -51,7 +60,7 @@ async function resultFor(env,userId,saved,now,replayed){
   return {ok:true,...saved,replayed,serverNow:now,expired:now>=saved.expiresAt,messageId:now<saved.expiresAt?Number(row?.id)||null:null,application:await readSupportApplication(env,userId,now)};
 }
 export async function issueSupportApplication(env,user,body,now=Date.now()){
-  const id=Number(user.id);
+  const id=Number(user.id),month=passMonth(body.month);
   if(typeof body.requestId!=='string'||!/^[A-Za-z0-9_-]{16,100}$/.test(body.requestId))fail('INPUT','신청 요청을 다시 확인하세요.');
   const row=await env.DB.prepare('SELECT u.id,u.status,u.created_at,s.verified_at FROM users u LEFT JOIN user_second_verifications s ON s.user_id=u.id WHERE u.id=?').bind(id).first();
   if(!supportAccountEligible(row,now))fail('ELIGIBILITY','가입 3일 경과와 2차 인증 완료 후 신청할 수 있습니다.',403);
@@ -60,30 +69,39 @@ export async function issueSupportApplication(env,user,body,now=Date.now()){
   await deleteExpiredSupportMessages(env,now,id);
   const key=receiptKey(id,body.requestId),previous=await receipt(env,key);
   // Replaying an old request never recreates an expired or manually deleted message.
-  if(previous)return resultFor(env,id,previous,now,true);
+  const replay=saved=>{
+    if((saved.month??1)!==month)fail('REQUEST_CONFLICT','같은 신청 번호의 시즌패스가 다릅니다.',409);
+    return resultFor(env,id,saved,now,true);
+  };
+  if(previous)return replay(previous);
+  const support=month===2?await readSupportRecord(env,id):null;
+  const sale=support?await secondPassSale(env,support.state,now):null;
   await ensureJointAtomicSchema(env);
   for(let attempt=0;attempt<4;attempt++){
     const record=await ledger(env,id,now);
     if(record.used>=LIMIT)fail('LIMIT','오늘 계좌 안내를 3회 모두 발급했습니다. 한국시간 자정 이후 다시 신청해 주세요.',429);
-    const saved={requestId:body.requestId,issuedAt:now,expiresAt:now+SUPPORT_BANK_MESSAGE_TTL},next=JSON.stringify({used:record.used+1,lastRequestId:body.requestId});
-    const message=`서버 운영 후원 계좌 안내\n\n신한은행 110-290-621512\n예금주: 전병은\n30일 후원: ${SUPPORT_PLAN.priceWon.toLocaleString('ko-KR')}원\n\n반드시 게임 닉네임으로 입금해 주세요.\n\n이 메시지는 발급 시점부터 5분 뒤 자동 삭제됩니다. 계좌 안내는 하루 3회까지 발급할 수 있습니다.\n운영자의 후원 확인 후 30일 혜택이 적용됩니다.`;
+    const saved={requestId:body.requestId,month,issuedAt:now,expiresAt:now+SUPPORT_BANK_MESSAGE_TTL},next=JSON.stringify({used:record.used+1,lastRequestId:body.requestId,issuedAt:now,month});
+    const message=`서버 운영 후원 계좌 안내\n\n신한은행 110-290-621512\n예금주: 전병은\n${month}개월차 시즌패스 · 30일 후원: ${SUPPORT_PLAN.priceWon.toLocaleString('ko-KR')}원\n\n반드시 게임 닉네임으로 입금해 주세요.\n\n이 메시지는 발급 시점부터 5분 뒤 자동 삭제됩니다. 계좌 안내는 하루 3회까지 발급할 수 있습니다.\n운영자의 후원 확인 후 30일 혜택이 적용됩니다.`;
     const DB=env.DB,token=crypto.randomUUID(),tokens=['d','r','a','w','m','c'].map(s=>token+s),p=(sql,...args)=>DB.prepare(sql).bind(...args);
     try{
       await DB.batch([
+        ...(sale&&DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',id),p('SELECT key FROM app_meta WHERE key=? FOR UPDATE',sale.key)]:[]),
+        ...(sale?[jointGuard(DB,token+'sale','EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[sale.key,sale.raw]),
+          jointGuard(DB,token+'term',support.raw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',support.raw===null?[support.key]:[support.key,support.raw])]:[]),
         jointGuard(DB,tokens[0],record.raw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',record.raw===null?[record.key]:[record.key,record.raw]),
         jointGuard(DB,tokens[1],'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)',[key]),
         jointGuard(DB,tokens[2],'EXISTS(SELECT 1 FROM users u JOIN user_second_verifications s ON s.user_id=u.id WHERE u.id=? AND u.status=? AND u.created_at=? AND s.verified_at=?)',[id,'ACTIVE',row.created_at,row.verified_at]),
         record.raw===null?p('INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO NOTHING',record.key,next):p('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?',next,record.key,record.raw),
         jointGuard(DB,tokens[3],'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[record.key,next]),
-        p("INSERT INTO user_messages(user_id,sender_type,title,body,message_type,campaign_key,created_at) VALUES(?,'SYSTEM',?,?,?,?,?)",id,'[후원 신청] 계좌 안내 · 5분 후 삭제',message,SUPPORT_BANK_MESSAGE_TYPE,campaignKey(id,body.requestId),new Date(now).toISOString()),
+        p("INSERT INTO user_messages(user_id,sender_type,title,body,message_type,campaign_key,created_at) VALUES(?,'SYSTEM',?,?,?,?,?)",id,`[후원 신청] ${month}개월차 시즌패스 계좌 안내 · 5분 후 삭제`,message,SUPPORT_BANK_MESSAGE_TYPE,campaignKey(id,body.requestId),new Date(now).toISOString()),
         jointGuard(DB,tokens[4],'EXISTS(SELECT 1 FROM user_messages WHERE user_id=? AND campaign_key=?)',[id,campaignKey(id,body.requestId)]),
         jointGuard(DB,tokens[5],'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[SUPPORT_APPLICATION_CONFIG_KEY,applicationConfig.raw]),
         p('INSERT INTO app_meta(key,value) VALUES(?,?)',key,JSON.stringify(saved)),
-        ...tokens.map(t=>jointGuardEnd(DB,t))
+        ...[...tokens,...(sale?[token+'sale',token+'term']:[])].map(t=>jointGuardEnd(DB,t))
       ]);
       return resultFor(env,id,saved,now,false);
     }catch(error){
-      const replay=await receipt(env,key);if(replay)return resultFor(env,id,replay,now,true);
+      const prior=await receipt(env,key);if(prior)return replay(prior);
       if((await ledger(env,id,now)).raw!==record.raw&&attempt<3)continue;
       throw error;
     }

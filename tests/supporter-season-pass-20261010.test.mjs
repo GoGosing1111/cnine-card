@@ -80,18 +80,18 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: 시�
   });
   await t.test('연장·펫 변경은 수령 초기화 없음, 31일 오지급 없음, 다음 유료 기간·중지·재등록',async()=>{
     f.clock.now=Date.parse('2026-11-08T23:59:59+09:00');assert.equal((await f.pass()).currentDay,30);assert.equal((await f.claim()).status,200);
-    f.clock.now+=1000;assert.equal((await f.pass()).currentDay,31);assert.equal((await f.claim()).status,400);
-    assert.equal((await f.grant()).status,200);const extended=await f.pass();assert.equal(extended.currentDay,1);assert.notEqual(extended.cycle,f.receiptBody.cycle);assert.equal((await f.claim()).status,200);
-    assert.equal((await f.grant(2,'REVOKE')).status,200);const inactive=await f.pass();assert.ok(inactive.days.slice(1).every(d=>d.status==='INACTIVE'));
+    f.clock.now+=1000;assert.equal((await f.pass()).currentDay,30);assert.equal((await f.claim()).body.replayed,true);
+    assert.equal((await f.grant()).status,200);const extended=await f.pass();assert.equal(extended.currentDay,30);assert.equal(extended.cycle,f.receiptBody.cycle);assert.equal((await f.claim()).body.replayed,true);
+    assert.equal((await f.grant(2,'REVOKE')).status,200);const inactive=await f.pass();assert.ok(inactive.days.every(d=>['INACTIVE','CLAIMED'].includes(d.status)));
     assert.equal((await f.claim(f.receiptBody)).body.replayed,true);
-    f.clock.now+=1000;assert.equal((await f.grant()).status,200);assert.equal((await f.claim()).status,409);assert.equal((await f.pass()).days[0].status,'DAILY_LIMIT');
-    f.clock.now+=31*DAY;assert.equal((await f.claim({cycle:(await f.pass()).cycle,day:2,expectedRevision:(await f.pass()).revision})).status,403);
+    f.clock.now+=1000;assert.equal((await f.grant()).status,200);assert.equal((await f.claim()).body.replayed,true);assert.equal((await f.pass()).days[0].status,'CLAIMED');
+    f.clock.now+=31*DAY;assert.equal((await f.claim({cycle:(await f.pass()).cycle,day:4,expectedRevision:(await f.pass()).revision})).status,403);
   });
 });
 
-test('30일 달력은 적용 KST 날짜부터 계산하고 한 번 연장으로만 두 번째 달력이 열린다',()=>{
+test('달력은 KST 30일이며 동일 월의 후원 연장은 새 보상 회차를 열지 않는다',()=>{
   const startsAt=Date.parse('2026-10-10T23:59:59+09:00'),record={startsAt,endsAt:startsAt+30*DAY,revokedAt:null};
   const at=ms=>passCycle(supportBenefits(record,ms),ms);
   assert.equal(at(startsAt).currentDay,1);assert.equal(at(startsAt+1000).currentDay,2);assert.equal(at(Date.parse('2026-11-09T00:00:00+09:00')).valid,false);
-  record.endsAt+=30*DAY;assert.equal(at(Date.parse('2026-11-09T00:00:00+09:00')).currentDay,1);
+  record.endsAt+=30*DAY;assert.equal(at(Date.parse('2026-11-09T00:00:00+09:00')).cycle,at(startsAt).cycle);assert.equal(at(Date.parse('2026-11-09T00:00:00+09:00')).valid,false);
 });

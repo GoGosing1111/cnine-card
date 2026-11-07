@@ -1,6 +1,6 @@
 import {addCoins} from '../shared/coin-integer-v1.mjs';
-import {PASS_KEY,PASS_DAYS,DAY_MS,kstDay,dayDate,claimKey,dailyKey,salesDailyKey,salesReceiptDay,emptyPass,passCycle,passWindow,passEntitlement} from '../shared/supporter-season-pass-v1.mjs';
-import {canManageSupport,supportBenefits} from '../shared/server-support-v1.mjs';
+import {PASS_DAYS,DAY_MS,kstDay,dayDate,passConfigKey,passKeyPrefix,passSubscription,claimKey,dailyKey,salesDailyKey,salesReceiptDay,emptyPass,passCycle,passWindow,passEntitlement} from '../shared/supporter-season-pass-v1.mjs';
+import {canManageSupport} from '../shared/server-support-v1.mjs';
 import {readSupportRecord} from './_supporter_benefits.js';
 import {legionHuntCatalog} from './_legion_hunt_settings.js';
 import {prepareUnifiedDropGrant} from './_drop_pool.js';
@@ -11,12 +11,22 @@ const fail=(code,message,status=400)=>{throw jointError('SUPPORT_PASS_'+code,mes
 const safe=(n,min=0,max=Number.MAX_SAFE_INTEGER)=>Number.isSafeInteger(n)&&n>=min&&n<=max;
 const fields=(x,keys)=>x&&typeof x==='object'&&!Array.isArray(x)&&Object.keys(x).every(k=>keys.includes(k));
 const restricted=new Set(['PREMIUM_CUBE','EQUIPMENT_PROTECTION_TICKET']);
-export async function readPassConfig(env){
-  const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(PASS_KEY).first();
-  const state=row?JSON.parse(row.value):emptyPass();
+export function passMonth(value=1){
+  if(value!==1&&value!==2)fail('MONTH','시즌패스 1개월차 또는 2개월차를 선택하세요.');
+  return value;
+}
+export async function readPassConfig(env,month=1){
+  const key=passConfigKey(passMonth(month)),row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first();
+  const state=row?JSON.parse(row.value):emptyPass(month);
   if(state.version!==1||!safe(state.revision)||!Array.isArray(state.days)||state.days.length!==30)throw Error('Invalid season pass configuration');
   if(state.salesStartsAt!==undefined&&!safe(state.salesStartsAt,1))throw Error('Invalid season pass sales start');
-  return {raw:row?.value??null,state};
+  return {key,raw:row?.value??null,state};
+}
+export async function secondPassSale(env,record,now){
+  const config=await readPassConfig(env,2);
+  if(!config.state.enabled||!config.state.salesStartsAt||now<config.state.salesStartsAt)fail('CLOSED','2개월차 보상 등록과 판매 개방 후 구매할 수 있습니다.',409);
+  if(passSubscription(record,2,now).purchased)fail('PURCHASED','이미 2개월차 시즌패스를 구매했습니다.',409);
+  return config;
 }
 export async function passCatalog(env){
   const items=(await legionHuntCatalog(env)).map(x=>({...x,maxQuantity:x.type==='VEHICLE'?1:x.type==='EQUIPMENT'?50:1000000,
@@ -47,67 +57,72 @@ export function normalizePass(document,catalog){
 }
 export async function savePassConfig(env,admin,body,now=Date.now()){
   if(!canManageSupport(admin))fail('ADMIN','후원 관리는 핑크빛유두 전용입니다.',403);
+  const month=passMonth(body.month);
   if(!safe(body.expectedRevision)||typeof body.requestId!=='string'||!/^[A-Za-z0-9_-]{16,100}$/.test(body.requestId))fail('INPUT','저장 요청 정보를 확인하세요.');
-  const receiptKey='supporter_pass_config_receipt_v1:'+body.requestId,payload=JSON.stringify([admin.id,body.expectedRevision,body.document]);
+  const receiptKey=passKeyPrefix('config_receipt',month)+body.requestId,payload=JSON.stringify([admin.id,body.expectedRevision,body.document]);
   const prior=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(receiptKey).first();
   if(prior){const saved=JSON.parse(prior.value);if(saved.payload!==payload)fail('REQUEST','같은 요청 번호의 내용이 다릅니다.',409);return {...saved.result,replayed:true};}
-  const [record,catalog]=await Promise.all([readPassConfig(env),passCatalog(env)]);
+  const [record,catalog]=await Promise.all([readPassConfig(env,month),passCatalog(env)]);
   if(record.state.revision!==body.expectedRevision)fail('REVISION','다른 창에서 보상을 변경했습니다. 새로 불러와 주세요.',409);
-  const state={version:1,revision:record.state.revision+1,writeToken:body.requestId,...normalizePass(body.document,catalog),...(record.state.salesStartsAt?{salesStartsAt:record.state.salesStartsAt}:{})},raw=JSON.stringify(state);
+  const normalized=normalizePass(body.document,catalog);
+  const salesStartsAt=record.state.salesStartsAt||(month===2&&normalized.enabled?now:0);
+  const state={version:1,revision:record.state.revision+1,writeToken:body.requestId,...normalized,...(salesStartsAt?{salesStartsAt}:{})},raw=JSON.stringify(state);
   if(!safe(state.revision))fail('LIMIT','설정 변경 한도를 초과했습니다.',409);
   const token=crypto.randomUUID(),DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v),result={ok:true,config:state,serverNow:now,replayed:false};
   await ensureJointAtomicSchema(env);
   try{await DB.batch([
-    jointGuard(DB,token,record.raw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',record.raw===null?[PASS_KEY]:[PASS_KEY,record.raw]),
-    record.raw===null?p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',PASS_KEY,raw):p('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?',raw,PASS_KEY,record.raw),
-    jointGuard(DB,token+'w','EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[PASS_KEY,raw]),
-    p("INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,'SUPPORTER_PASS_CONFIG','SETTINGS',?,?,?)",admin.id,PASS_KEY,record.raw,raw),
+    jointGuard(DB,token,record.raw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',record.raw===null?[record.key]:[record.key,record.raw]),
+    record.raw===null?p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',record.key,raw):p('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?',raw,record.key,record.raw),
+    jointGuard(DB,token+'w','EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[record.key,raw]),
+    p("INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,'SUPPORTER_PASS_CONFIG','SETTINGS',?,?,?)",admin.id,record.key,record.raw,raw),
     p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',receiptKey,JSON.stringify({payload,result})),jointGuardEnd(DB,token),jointGuardEnd(DB,token+'w')
   ]);}catch(error){
     const saved=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(receiptKey).first();
     if(saved&&JSON.parse(saved.value).payload===payload)return {...JSON.parse(saved.value).result,replayed:true};
-    if((await readPassConfig(env)).raw!==record.raw)fail('REVISION','다른 창에서 보상을 변경했습니다. 새로 불러와 주세요.',409);throw error;
+    if((await readPassConfig(env,month)).raw!==record.raw)fail('REVISION','다른 창에서 보상을 변경했습니다. 새로 불러와 주세요.',409);throw error;
   }
   return result;
 }
-const calendarDailyKey=(userId,date,salesStartsAt)=>salesStartsAt?salesDailyKey(userId,salesStartsAt,date):dailyKey(userId,date);
-async function passLedger(env,userId,subscription,now,salesStartsAt=0){
+const calendarDailyKey=(userId,date,salesStartsAt,month)=>salesStartsAt?salesDailyKey(userId,salesStartsAt,date,month):dailyKey(userId,date,month);
+async function passLedger(env,userId,subscription,now,salesStartsAt,month){
   const window=passWindow(subscription,now,salesStartsAt);
   if(!window||window.endDay<window.startDay)return {window,saved:new Map(),due:[]};
   let saved;
   if(salesStartsAt){
-    const prefix='supporter_pass_claim_v1:'+Number(userId)+':';
+    const prefix=passKeyPrefix('claim',month)+Number(userId)+':';
     const rows=(await env.DB.prepare('SELECT key,value FROM app_meta WHERE key>=? AND key<? ORDER BY key').bind(prefix,prefix+'~').all()).results;
     saved=new Map();
     for(const row of rows){
       const receipt=JSON.parse(row.value),day=salesReceiptDay(window,receipt);
-      if(day){const key=claimKey(userId,day.cycle,day.day);if(!saved.has(key)||row.key===key)saved.set(key,receipt);}
+      if(day){const key=claimKey(userId,day.cycle,day.day,month);if(!saved.has(key)||row.key===key)saved.set(key,receipt);}
     }
   }else{
     const rows=(await env.DB.prepare('SELECT key,value FROM app_meta WHERE key LIKE ? OR (key>=? AND key<=?)')
-      .bind('supporter_pass_claim_v1:'+Number(userId)+':'+subscription.startsAt+'-%',dailyKey(userId,dayDate(window.startDay)),dailyKey(userId,dayDate(window.endDay))).all()).results;
+      .bind(passKeyPrefix('claim',month)+Number(userId)+':'+window.startsAt+'-%',dailyKey(userId,dayDate(window.startDay),month),dailyKey(userId,dayDate(window.endDay),month)).all()).results;
     saved=new Map(rows.map(r=>[r.key,JSON.parse(r.value)]));
   }
   const due=[];
   for(let calendarDay=window.startDay;calendarDay<=window.endDay;calendarDay++){
     const day=passEntitlement(window,calendarDay);
-    if(!saved.has(claimKey(userId,day.cycle,day.day))&&!saved.has(calendarDailyKey(userId,day.date,salesStartsAt)))due.push(day);
+    if(!saved.has(claimKey(userId,day.cycle,day.day,month))&&!saved.has(calendarDailyKey(userId,day.date,salesStartsAt,month)))due.push(day);
   }
   return {window,saved,due};
 }
-export async function readSeasonPass(env,userId,subscription,now){
-  const {state:config}=await readPassConfig(env),cycle=passCycle(subscription,now,config.salesStartsAt),today=dayDate(kstDay(now));
-  const {window,saved,due}=await passLedger(env,userId,subscription,now,config.salesStartsAt);
+export async function readSeasonPass(env,userId,record,now,month=1){
+  const subscription=passSubscription(record,month,now);
+  const {state:config}=await readPassConfig(env,month),cycle=passCycle(subscription,now,config.salesStartsAt),today=dayDate(kstDay(now));
+  const startDay=config.salesStartsAt?kstDay(config.salesStartsAt):cycle.startDay;
+  const {window,saved,due}=await passLedger(env,userId,subscription,now,config.salesStartsAt,month);
   const days=config.days.map(d=>{
-    const receipt=saved.get(claimKey(userId,cycle.cycle,d.day)),calendarDay=cycle.startDay===null?null:cycle.startDay+d.day-1,date=calendarDay===null?null:dayDate(calendarDay);
-    const status=receipt?'CLAIMED':!config.enabled?'CLOSED':!subscription.active?'INACTIVE':!window||calendarDay>window.endDay?'UPCOMING':saved.has(calendarDailyKey(userId,date,config.salesStartsAt))?'DAILY_LIMIT':d.rewards.length?'AVAILABLE':'EMPTY';
+    const receipt=saved.get(claimKey(userId,cycle.cycle,d.day,month)),calendarDay=startDay===null?null:startDay+d.day-1,date=calendarDay===null?null:dayDate(calendarDay);
+    const status=receipt?'CLAIMED':!config.enabled?'CLOSED':!subscription.active?'INACTIVE':!window||calendarDay>window.endDay?'UPCOMING':saved.has(calendarDailyKey(userId,date,config.salesStartsAt,month))?'DAILY_LIMIT':d.rewards.length?'AVAILABLE':'EMPTY';
     return {...d,rewards:receipt?.rewards??d.rewards,date,status,claimedAt:receipt?.claimedAt??null};
   });
   const claimable=config.enabled&&subscription.active?due.filter(d=>config.days[d.day-1].rewards.length):[];
-  return {title:config.title,enabled:config.enabled,revision:config.revision,cycle:cycle.cycle,currentDay:cycle.currentDay,startDate:cycle.startDay===null?null:dayDate(cycle.startDay),endDate:cycle.startDay===null?null:dayDate(cycle.startDay+29),today,serverNow:now,nextResetAt:(kstDay(now)+1)*DAY_MS-9*3600000,claimedCount:days.filter(d=>d.status==='CLAIMED').length,days,
+  return {month,purchased:subscription.purchased,active:subscription.active,expiresAt:subscription.endsAt,title:config.title,enabled:config.enabled,revision:config.revision,cycle:cycle.cycle,currentDay:Math.min(cycle.currentDay,PASS_DAYS),startDate:startDay===null?null:dayDate(startDay),endDate:startDay===null?null:dayDate(startDay+29),today,serverNow:now,nextResetAt:(kstDay(now)+1)*DAY_MS-9*3600000,claimedCount:days.filter(d=>d.status==='CLAIMED').length,days,
     claimableCount:claimable.length,claimableFrom:claimable[0]?.date??null,claimableTo:claimable.at(-1)?.date??null,accrualStartDate:window?dayDate(window.startDay):null,
     ...(config.salesStartsAt?{salesStartsAt:config.salesStartsAt,salesStartDate:dayDate(kstDay(config.salesStartsAt)),calendarBasis:'FIRST_SALE'}:{}),
-    claimAll:window?{startsAt:window.startsAt,throughDay:window.endDay,expectedRevision:config.revision}:null};
+    claimAll:window?{month,startsAt:window.startsAt,throughDay:window.endDay,expectedRevision:config.revision}:null};
 }
 const availability=item=>{
   const definitions={INVENTORY_ITEM:['inventory_items','code=? AND is_active=1'],EQUIPMENT:['character_equipment_items','CAST(id AS TEXT)=? AND is_active=1 AND is_public=1'],VEHICLE:['character_garage_items','CAST(id AS TEXT)=? AND is_active=1 AND is_public=1'],CARD:['cards_effective_v1210 c JOIN members m ON m.id=c.member_id',"CAST(c.id AS TEXT)=? AND c.is_active=1 AND m.is_active=1 AND UPPER(c.rarity) IN ('SUPERSTAR','ZENITH','FUR') AND COALESCE(c.card_status,'PUBLIC')='PUBLIC'"]};
@@ -124,8 +139,9 @@ function combineRewards(days,config){
   }
   return [...combined.values()];
 }
-async function commitPassDays(env,user,{days,support,config,now,requestId,batch=null,remainingCount=0}){
-  const rewards=combineRewards(days,config.state),grants=await prepareUnifiedDropGrant(env,{userId:Number(user.id),requestId,sourceType:'SUPPORTER_SEASON_PASS',sourceId:batch?String(batch.startsAt):days[0].cycle,rewards:rewards.map(r=>({rewardType:r.type,rewardRef:r.ref,rewardName:r.name,quantity:r.quantity}))},{writePoolLedger:false});
+async function commitPassDays(env,user,{days,support,config,month,now,requestId,batch=null,remainingCount=0}){
+  const period=batch?String(batch.startsAt):days[0].cycle;
+  const rewards=combineRewards(days,config.state),grants=await prepareUnifiedDropGrant(env,{userId:Number(user.id),requestId,sourceType:'SUPPORTER_SEASON_PASS',sourceId:month===2?'M2:'+period:period,rewards:rewards.map(r=>({rewardType:r.type,rewardRef:r.ref,rewardName:r.name,quantity:r.quantity}))},{writePoolLedger:false});
   const guards=rewards.map(availability).filter(Boolean);
   for(const r of rewards){
     const col={COIN:'coin',CARD_SHARDS:'card_shards',MAGIC_CRYSTAL:'magic_crystals'}[r.type];
@@ -135,23 +151,23 @@ async function commitPassDays(env,user,{days,support,config,now,requestId,batch=
     if(r.type==='INVENTORY_ITEM')guards.push({sql:'COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0)=? AND COALESCE((SELECT unseen_quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0)<=?',values:[user.id,r.ref,balance-r.quantity,user.id,r.ref,Number.MAX_SAFE_INTEGER-r.quantity]});
     if(r.type==='CARD')guards.push({sql:'COALESCE((SELECT quantity FROM user_cards WHERE user_id=? AND card_id=?),0)=?',values:[user.id,r.ref,balance-r.quantity]});
   }
-  const receipts=days.map(d=>({ok:true,cycle:d.cycle,day:d.day,date:d.date,claimedAt:now,rewards:config.state.days[d.day-1].rewards,refreshAccount:true,replayed:false,...(batch?{batchRequestId:batch.requestId}:{})}));
-  const result=batch?{ok:true,requestId:batch.requestId,startsAt:batch.startsAt,throughDay:batch.throughDay,days:receipts,dayCount:days.length,rewards,remainingCount,claimedAt:now,refreshAccount:true,replayed:false}:receipts[0];
+  const receipts=days.map(d=>({ok:true,month,cycle:d.cycle,day:d.day,date:d.date,claimedAt:now,rewards:config.state.days[d.day-1].rewards,refreshAccount:true,replayed:false,...(batch?{batchRequestId:batch.requestId}:{})}));
+  const result=batch?{ok:true,month,requestId:batch.requestId,startsAt:batch.startsAt,throughDay:batch.throughDay,days:receipts,dayCount:days.length,rewards,remainingCount,claimedAt:now,refreshAccount:true,replayed:false}:receipts[0];
   const DB=env.DB,token=crypto.randomUUID(),p=(sql,...v)=>DB.prepare(sql).bind(...v);
-  const receiptKeys=days.flatMap(d=>[claimKey(user.id,d.cycle,d.day),calendarDailyKey(user.id,d.date,config.state.salesStartsAt)]);
+  const receiptKeys=days.flatMap(d=>[claimKey(user.id,d.cycle,d.day,month),calendarDailyKey(user.id,d.date,config.state.salesStartsAt,month)]);
   const absent=[...receiptKeys,...(batch?[batch.key]:[])];
   await ensureJointAtomicSchema(env);
   try{await DB.batch([
-    ...(DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',user.id),p('SELECT key FROM app_meta WHERE key IN (?,?) ORDER BY key FOR UPDATE',support.key,PASS_KEY)]:[]),
-    jointGuard(DB,token,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND '+absent.map(()=> 'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)').join(' AND '),[support.key,support.raw,PASS_KEY,config.raw,...absent]),
+    ...(DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',user.id),p('SELECT key FROM app_meta WHERE key IN (?,?) ORDER BY key FOR UPDATE',support.key,config.key)]:[]),
+    jointGuard(DB,token,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND '+absent.map(()=> 'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)').join(' AND '),[support.key,support.raw,config.key,config.raw,...absent]),
     ...guards.map((g,i)=>jointGuard(DB,token+'g'+i,g.sql,g.values)),
-    ...receipts.flatMap(r=>[p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',claimKey(user.id,r.cycle,r.day),JSON.stringify(r)),p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',calendarDailyKey(user.id,r.date,config.state.salesStartsAt),JSON.stringify({cycle:r.cycle,day:r.day,date:r.date,claimedAt:now}))]),
+    ...receipts.flatMap(r=>[p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',claimKey(user.id,r.cycle,r.day,month),JSON.stringify(r)),p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',calendarDailyKey(user.id,r.date,config.state.salesStartsAt,month),JSON.stringify({cycle:r.cycle,day:r.day,date:r.date,claimedAt:now}))]),
     ...grants.statements,
     jointGuard(DB,token+'p',grants.proofs.map(x=>'('+x.sql+')').join(' AND ')||'1=0',grants.proofs.flatMap(x=>x.values)),
     ...(batch?[p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',batch.key,JSON.stringify({payload:batch.payload,result}))]:[]),
     ...[token,token+'p',...guards.map((_,i)=>token+'g'+i)].map(t=>jointGuardEnd(DB,t))
   ]);}catch(error){
-    const key=batch?.key??claimKey(user.id,days[0].cycle,days[0].day),row=await DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first();
+    const key=batch?.key??claimKey(user.id,days[0].cycle,days[0].day,month),row=await DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first();
     if(row){const saved=JSON.parse(row.value);if(batch&&saved.payload!==batch.payload)fail('REQUEST','같은 요청 번호의 내용이 다릅니다.',409);return {...(batch?saved.result:saved),replayed:true};}
     const raced=await DB.prepare('SELECT key FROM app_meta WHERE key IN ('+receiptKeys.map(()=>'?').join(',')+')').bind(...receiptKeys).all();
     if(raced.results.length)fail('CHANGED','다른 창에서 일부 보상을 받았습니다. 남은 보상을 다시 확인하세요.',409);
@@ -161,45 +177,45 @@ async function commitPassDays(env,user,{days,support,config,now,requestId,batch=
 }
 export async function claimSeasonPass(env,user,body,now=Date.now()){
   if(typeof body.cycle!=='string'||!/^\d{1,16}-\d{1,6}$/.test(body.cycle)||!safe(body.day,1,30)||!safe(body.expectedRevision))fail('INPUT','수령할 날짜를 다시 선택하세요.');
-  const key=claimKey(user.id,body.cycle,body.day),prior=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first();
+  const month=passMonth(body.month),key=claimKey(user.id,body.cycle,body.day,month),prior=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first();
   if(prior)return {...JSON.parse(prior.value),replayed:true};
-  const [support,config]=await Promise.all([readSupportRecord(env,user.id),readPassConfig(env)]),subscription=supportBenefits(support.state,now),ledger=await passLedger(env,user.id,subscription,now,config.state.salesStartsAt),window=ledger.window;
-  if(!subscription.active)fail('INACTIVE','후원 혜택 적용 기간에 수령할 수 있습니다.',403);
+  const [support,config]=await Promise.all([readSupportRecord(env,user.id),readPassConfig(env,month)]),subscription=passSubscription(support.state,month,now),ledger=await passLedger(env,user.id,subscription,now,config.state.salesStartsAt,month),window=ledger.window;
+  if(!subscription.active)fail('INACTIVE',`${month}개월차 시즌패스 구매 후 이용 기간에 수령할 수 있습니다.`,403);
   if(!config.state.enabled)fail('CLOSED','시즌패스 보상을 준비하고 있습니다.',409);
   const [startsAt,index]=body.cycle.split('-').map(Number),calendarDay=(window?.startDay??0)+index*PASS_DAYS+body.day-1;
   const day=window?passEntitlement(window,calendarDay):null;
   if(startsAt!==window?.startsAt||!day||day.cycle!==body.cycle||calendarDay>window.endDay)fail('DAY','현재 패스 기준일부터 오늘까지 열린 보상만 수령할 수 있습니다.',409);
   if(body.expectedRevision!==config.state.revision)fail('REVISION','보상표가 변경됐습니다. 다시 확인하고 수령하세요.',409);
   if(ledger.saved.has(key))return {...ledger.saved.get(key),replayed:true};
-  if(await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(calendarDailyKey(user.id,day.date,config.state.salesStartsAt)).first())fail('DAILY','해당 날짜 보상은 이미 수령했습니다.',409);
-  return commitPassDays(env,user,{days:[day],support,config,now,requestId:'SUPPORT_PASS:'+user.id+':'+body.cycle+':'+body.day});
+  if(await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(calendarDailyKey(user.id,day.date,config.state.salesStartsAt,month)).first())fail('DAILY','해당 날짜 보상은 이미 수령했습니다.',409);
+  return commitPassDays(env,user,{days:[day],support,config,month,now,requestId:(month===2?'SUPPORT_PASS_M2:':'SUPPORT_PASS:')+user.id+':'+body.cycle+':'+body.day});
 }
 export async function claimSeasonPassBatch(env,user,body,now=Date.now()){
   if(typeof body.requestId!=='string'||!/^[A-Za-z0-9_-]{16,100}$/.test(body.requestId)||!safe(body.startsAt,1)||!safe(body.throughDay)||!safe(body.expectedRevision))fail('INPUT','일괄 수령 요청을 다시 확인하세요.');
-  const key='supporter_pass_batch_v1:'+Number(user.id)+':'+body.requestId,payload=JSON.stringify([body.startsAt,body.throughDay,body.expectedRevision]);
+  const month=passMonth(body.month),key=passKeyPrefix('batch',month)+Number(user.id)+':'+body.requestId,payload=JSON.stringify([body.startsAt,body.throughDay,body.expectedRevision]);
   const prior=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first();
   if(prior){const saved=JSON.parse(prior.value);if(saved.payload!==payload)fail('REQUEST','같은 요청 번호의 내용이 다릅니다.',409);return {...saved.result,replayed:true};}
-  const [support,config]=await Promise.all([readSupportRecord(env,user.id),readPassConfig(env)]),subscription=supportBenefits(support.state,now);
-  if(!subscription.active)fail('INACTIVE','후원 혜택 적용 기간에 수령할 수 있습니다.',403);
+  const [support,config]=await Promise.all([readSupportRecord(env,user.id),readPassConfig(env,month)]),subscription=passSubscription(support.state,month,now);
+  if(!subscription.active)fail('INACTIVE',`${month}개월차 시즌패스 구매 후 이용 기간에 수령할 수 있습니다.`,403);
   if(!config.state.enabled)fail('CLOSED','시즌패스 보상을 준비하고 있습니다.',409);
   if(body.expectedRevision!==config.state.revision)fail('REVISION','보상표가 변경됐습니다. 다시 확인하고 수령하세요.',409);
-  const {window,due}=await passLedger(env,user.id,subscription,now,config.state.salesStartsAt);
+  const {window,due}=await passLedger(env,user.id,subscription,now,config.state.salesStartsAt,month);
   if(body.startsAt!==window?.startsAt||!window||body.throughDay<window.startDay||body.throughDay>window.endDay)fail('DAY','현재 패스 기준일부터 오늘까지 열린 보상만 수령할 수 있습니다.',409);
   const available=due.filter(d=>d.calendarDay<=body.throughDay),days=[];let equipment=0,entries=0;
   for(const day of available){const rewards=config.state.days[day.day-1].rewards,extra=rewards.filter(r=>r.type==='EQUIPMENT').reduce((n,r)=>n+r.quantity,0);
     if(days.length&&(days.length>=30||equipment+extra>50||entries+rewards.length>60))break;
     days.push(day);equipment+=extra;entries+=rewards.length;}
   if(!days.length)fail('EMPTY','현재 받을 수 있는 미수령 보상이 없습니다.',409);
-  return commitPassDays(env,user,{days,support,config,now,requestId:'SUPPORT_PASS_BATCH:'+user.id+':'+body.requestId,batch:{...body,key,payload},remainingCount:available.length-days.length});
+  return commitPassDays(env,user,{days,support,config,month,now,requestId:(month===2?'SUPPORT_PASS_BATCH_M2:':'SUPPORT_PASS_BATCH:')+user.id+':'+body.requestId,batch:{...body,key,payload},remainingCount:available.length-days.length});
 }
 export async function handleSeasonPass({path,request,env,user,deps,now,eligible}){
   if(path==='admin/server-support/pass'){
-    if(request.method==='GET'){const [config,catalog]=await Promise.all([readPassConfig(env),passCatalog(env)]);return {adminId:Number(user.id),config:config.state,catalog,serverNow:now};}
-    if(request.method==='POST'){const body=await readJointBody(request,{maxBytes:65536,fields:['document','expectedRevision','requestId']});return deps.withUserMutationLock(env,user.id,path,()=>savePassConfig(env,user,body,(deps.now||Date.now)()));}
+    if(request.method==='GET'){const [config,second,catalog]=await Promise.all([readPassConfig(env),readPassConfig(env,2),passCatalog(env)]);return {adminId:Number(user.id),config:config.state,secondConfig:second.state,catalog,serverNow:now};}
+    if(request.method==='POST'){const body=await readJointBody(request,{maxBytes:65536,fields:['month','document','expectedRevision','requestId']});return deps.withUserMutationLock(env,user.id,path,()=>savePassConfig(env,user,body,(deps.now||Date.now)()));}
   }
   if(['server-support/pass/claim','server-support/pass/claim-all'].includes(path)&&request.method==='POST'){
     if(!eligible)fail('ELIGIBILITY','가입 3일 경과와 2차 인증 완료가 필요합니다.',403);
-    const batch=path.endsWith('/claim-all'),body=await readJointBody(request,{fields:batch?['startsAt','throughDay','expectedRevision','requestId']:['cycle','day','expectedRevision']});
+    const batch=path.endsWith('/claim-all'),body=await readJointBody(request,{fields:batch?['month','startsAt','throughDay','expectedRevision','requestId']:['month','cycle','day','expectedRevision']});
     return deps.withUserMutationLock(env,user.id,path,()=>(batch?claimSeasonPassBatch:claimSeasonPass)(env,user,body,(deps.now||Date.now)()));
   }
   fail('ROUTE','지원하지 않는 시즌패스 요청입니다.',405);

@@ -52,11 +52,11 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: 판�
     assert.equal((await f.claim({cycle:personal.cycle,day:1,expectedRevision:(await f.pass()).revision})).status,409);
     assert.equal(await coins(f),1234);
   });
-  await t.test('구매 후 유료 기간은 줄이지 않고 30일 표를 이어가며 마지막 부분 날짜는 추가 지급하지 않는다',async()=>{
+  await t.test('후발 구매자의 유료 기간에도 해당 월의 30일까지만 수령한다',async()=>{
     const f=await make();await f.save(f.document([{code:'COIN:',quantity:1}]));await anchor(f);at(f,'2026-10-17');await f.grant();
-    at(f,'2026-11-15');const state=await f.pass();assert.equal(state.currentDay,7);assert.equal(state.claimableCount,37);
-    const first=await batch(f,await body(f));assert.equal(first.body.dayCount,30);assert.equal(first.body.remainingCount,7);
-    const second=await batch(f,await body(f));assert.equal(second.body.dayCount,7);assert.equal(await coins(f),1271);
+    at(f,'2026-11-15');const state=await f.pass();assert.equal(state.currentDay,30);assert.equal(state.claimableCount,30);
+    const first=await batch(f,await body(f));assert.equal(first.body.dayCount,30);assert.equal(first.body.remainingCount,0);
+    assert.equal((await batch(f,await body(f))).status,409);assert.equal(await coins(f),1264);
     f.clock.now=Date.parse('2026-11-16T12:59:59+09:00');assert.equal((await f.pass()).claimableCount,0);
     f.clock.now+=1000;assert.equal((await batch(f,{...state.claimAll,requestId:crypto.randomUUID()})).status,403);
   });
