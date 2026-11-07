@@ -1,4 +1,3 @@
-import {auctionCoinLabel} from '../shared/auction-user-policy-v1.mjs?v=20261103-live-v1';
 const SILENT='data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQQAAACAgICA';
 const POSITION_KEY='cnine_auction_bgm_position_v1';
 const VOLUME_KEY='cnine_auction_bgm_volume_v1';
@@ -118,7 +117,7 @@ export function createAuctionBgmPlayer({root,api,AudioClass=Audio,now=Date.now,p
  }
  function stopAudio(){generation++;if(media){media.pause();media.removeAttribute('src');media.load();}blocked=false;}
  function finish(){if(current)finished.add(current.id);current=null;stopAudio();placement.cancel();banner.hidden=true;}
- function show(event){banner.hidden=false;banner.querySelector('[data-bgm-bidder]').textContent=event.nickname;banner.querySelector('[data-bgm-amount]').textContent=`+${auctionCoinLabel(event.amount)} 코인`;const message=banner.querySelector('[data-bgm-message]');message.textContent=event.message||'';message.hidden=!event.message;placement.place();}
+ function show(event){banner.hidden=false;banner.querySelector('[data-bgm-bidder]').textContent=event.nickname;banner.querySelector('[data-bgm-amount]').textContent=`+${event.amount.toLocaleString('ko-KR')} 코인`;const message=banner.querySelector('[data-bgm-message]');message.textContent=event.message||'';message.hidden=!event.message;placement.place();}
  function seek(event){if(!media||current?.id!==event.id)return;const elapsed=Math.max(0,(clockNow()-event.startsMs)/1000);try{media.currentTime=Number.isFinite(media.duration)?Math.min(elapsed,Math.max(0,media.duration-.05)):elapsed;}catch{}}
  function play(event){
   if(destroyed||clockNow()>=event.endsMs)return;const player=audio(),stamp=++generation;

@@ -18,3 +18,10 @@
 .auc-bgm-volume :is(input,button):focus-visible{outline:2px solid #46dcff;outline-offset:2px}
 .auc-bgm-volume-settings{margin:16px 0;padding:12px 14px;border:1px solid #49647a66;background:#0b1d2d}
 .auc-bgm-volume-settings>strong{font-size:14px}.auc-bgm-volume-settings>p{margin:6px 0 0;font-size:12px}
+.auc-bgm-lookup{margin:14px 0;display:grid;gap:6px;min-width:0}
+.auc-bgm-lookup label{font-size:14px;font-weight:700}
+.auc-bgm-lookup input{width:100%;min-width:0;min-height:44px;padding:9px 12px;border:1px solid #49647a;border-radius:4px;background:#081522;color:#f4f8fb;font:inherit}
+.auc-bgm-lookup input:focus-visible{outline:2px solid #46dcff;outline-offset:2px}
+.auc-bgm-lookup [role=status],.auc-bid-receipt{overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.auc-bgm-lookup [role=status]{margin:0;color:#c1deeb;font-size:13px}
+.auc-bid-receipt{padding:12px 15px;border-left:3px solid #46dcff;background:#132e40;color:#f4f8fb}

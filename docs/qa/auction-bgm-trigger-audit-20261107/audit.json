@@ -1,0 +1,76 @@
+{
+  "at": "2026-11-07 09:32:15.720601+00",
+  "readOnly": true,
+  "rows": 62,
+  "focus": [
+    {
+      "amount": 188880,
+      "match": null
+    },
+    {
+      "amount": 188888,
+      "match": "assets/effects/18888.mp4#av=25"
+    },
+    {
+      "amount": 188900,
+      "match": null
+    }
+  ],
+  "scopedSinceKst": "2026-11-07 00:50:56",
+  "telemetry": {
+    "paidBids": 949,
+    "matchingBids": 319,
+    "events": 319,
+    "queued": 277,
+    "afterLot": 1,
+    "maxQueueMs": 3296529
+  },
+  "serverMismatches": 0,
+  "previouslyMisleadingMinimums": 51,
+  "publicAudioPlayable": 62,
+  "missingMedia": [],
+  "filenameExceptions": [
+    {
+      "file": "18888.mp4",
+      "min": 188888,
+      "max": 188888,
+      "displayedMin": 188900,
+      "displayedMax": 188900,
+      "displayMatchesOwn": false,
+      "filenameAmount": 188880,
+      "filenameMatchesOwn": false
+    }
+  ],
+  "local": {
+    "at": "2026-11-07T09:43:40.853Z",
+    "mode": "local",
+    "profiles": [
+      {
+        "profile": "pc",
+        "exactDisplayed": 62,
+        "lookups": 8,
+        "lookupWrites": 0,
+        "lookupCost": 0,
+        "noTrigger188880": true,
+        "scheduled188888": true,
+        "receipt": "188,888코인 입찰 접수 · 18888 대기 중 · 17:00:58(한국시간) 재생 예정",
+        "liveBids": 0,
+        "overflow": false
+      },
+      {
+        "profile": "mobile",
+        "exactDisplayed": 62,
+        "lookups": 8,
+        "lookupWrites": 0,
+        "lookupCost": 0,
+        "noTrigger188880": true,
+        "scheduled188888": true,
+        "receipt": "188,888코인 입찰 접수 · 18888 대기 중 · 17:00:59(한국시간) 재생 예정",
+        "liveBids": 0,
+        "overflow": false
+      }
+    ],
+    "matchedConditions": 62,
+    "focusNonMatch": true
+  }
+}

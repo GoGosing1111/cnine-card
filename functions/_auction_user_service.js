@@ -3,7 +3,7 @@ import {jointInventoryChange} from './_joint_transactions.js';
 import {auctionAssetDebit,auctionAssetCredit,auctionCanReceive,auctionRowLock} from './_auction_user_assets.js';
 import {AUCTION_USER_POLICY_KEY,AUCTION_TICKET,AUCTION_DURATION_MS,AUCTION_MAX_BID,AUCTION_USER_DRAFT,auctionProceeds} from '../shared/auction-user-policy-v1.mjs';
 import {readAuctionPolicy,auctionAssetBlocked} from './_auction_user_policy.js';
-import {readAuctionBgmGuide,auctionBgmBidStatements,readAuctionBgmEvents} from './_auction_user_bgm.js';
+import {readAuctionBgmGuide,prepareAuctionBgmBid,readCommittedAuctionBgm,readAuctionBgmEvents} from './_auction_user_bgm.js';
 
 export const AUCTION_USER_SCHEMA=[
  `CREATE TABLE IF NOT EXISTS auction_user_card_growth_v1(user_id BIGINT NOT NULL,card_id TEXT NOT NULL,PRIMARY KEY(user_id,card_id))`,
@@ -98,16 +98,16 @@ export function createUserAuctionService(env,{catalog,operatorCatalog=async()=>[
   const requestId=validRequest(body.requestId),amount=Number(body.amount),id=String(body.lotId);
   if(!Number.isSafeInteger(amount)||amount<1||amount>AUCTION_MAX_BID)fail('추가 입찰액은 1~100조 사이의 정수로 입력하세요.',400);
   const prior=await p('SELECT * FROM auction_user_bid_receipts_v1 WHERE request_id=?',requestId).first();
-  if(prior){if(prior.lot_id!==id||Number(prior.user_id)!==Number(user.id)||Number(prior.amount)!==amount)fail('이미 다른 내용으로 사용된 요청 번호입니다.');return {ok:true,replayed:true};}
+  if(prior){if(prior.lot_id!==id||Number(prior.user_id)!==Number(user.id)||Number(prior.amount)!==amount)fail('이미 다른 내용으로 사용된 요청 번호입니다.');return {ok:true,replayed:true,bgm:await readCommittedAuctionBgm(env,requestId),serverNow:now()};}
   await tick();const expected=await version(),a=await lot(id),at=now();
   if(!a||a.status!=='ACTIVE'||Number(a.ends_ms)<=at)fail('현재 입찰 가능한 경매가 아닙니다.');
   if(Number(a.seller_id)===Number(user.id))fail('본인이 판매하는 물품에는 입찰할 수 없습니다.');
   if(!await auctionCanReceive(env,user.id,JSON.parse(a.asset_json)))fail('이미 보유한 이동수단에는 입찰할 수 없습니다.');
   const mine=await p('SELECT total FROM auction_user_bidders_v1 WHERE lot_id=? AND user_id=?',id,user.id).first();
   if(!Number.isSafeInteger(Number(mine?.total||0)+amount))fail('정확하게 처리할 수 있는 누적 입찰 범위를 초과했습니다.');
-  const token=crypto.randomUUID(),bgm=await auctionBgmBidStatements(env,{lotId:id,user,amount,requestId,message:body.message,at,sequence:expected+1});
+  const token=crypto.randomUUID(),{statements:bgm,slot}=await prepareAuctionBgmBid(env,{lotId:id,lotEndsMs:a.ends_ms,user,amount,requestId,message:body.message,at,sequence:expected+1});
   await commit(expected,[jointGuard(DB,token,'EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?)',[user.id,amount]),p('UPDATE users SET coin=coin-CAST(? AS BIGINT) WHERE id=? AND coin>=?',amount,user.id,amount),p('INSERT INTO auction_user_bidders_v1(lot_id,user_id,nickname,total,last_ms) VALUES(?,?,?,?,?) ON CONFLICT(lot_id,user_id) DO UPDATE SET total=auction_user_bidders_v1.total+excluded.total,last_ms=excluded.last_ms,nickname=excluded.nickname',id,user.id,user.nickname,amount,at),p('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?',-amount,`경매 U${id} 누적 입찰`,user.id),p('INSERT INTO auction_user_bid_receipts_v1(request_id,lot_id,user_id,amount,created_ms) VALUES(?,?,?,?,?)',requestId,id,user.id,amount,at),...bgm,jointGuardEnd(DB,token)],[Number(user.id)]);
-  return {ok:true,replayed:false};
+  return {ok:true,replayed:false,bgm:slot,serverNow:now()};
  }
  async function cancel(user,id,{operator=false}={}){
   if(operator&&user.role!=='OWNER')fail('운영자 권한이 필요합니다.',403);

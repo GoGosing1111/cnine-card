@@ -1,8 +1,41 @@
 import {AUCTION_QUICK_BIDS,AUCTION_MAX_BID,AUCTION_ASSET_TYPES,AUCTION_TICKET_IMAGE,auctionCoinLabel,auctionProceeds} from '../shared/auction-user-policy-v1.mjs?v=20261103-live-v1';
-import {createAuctionBgmPlayer} from './auction-user-bgm-v1.mjs?v=20261106-volume-v1';
+import {createAuctionBgmPlayer} from './auction-user-bgm-v1.mjs?v=20261107-exact-bgm-v1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=v=>Number.isSafeInteger(Number(v||0))&&Number(v||0)>=0?auctionCoinLabel(Number(v||0)):'금액 확인';
 const integer=v=>Number(v||0).toLocaleString('ko-KR');
+export function exactBgmRange(r){
+ if(!r.maxBid)return integer(r.minBid)+'코인 이상';
+ return (r.minBid===r.maxBid?integer(r.minBid):integer(r.minBid)+' ~ '+integer(r.maxBid))+'코인';
+}
+export function findBgmRule(rules,amount){
+ if(!Number.isSafeInteger(amount)||amount<1||amount>AUCTION_MAX_BID)return null;
+ const ordered=rules.filter(r=>amount>=r.minBid&&(!r.maxBid||amount<=r.maxBid)).sort((a,b)=>(a.sortOrder??a.order)-(b.sortOrder??b.order)||b.minBid-a.minBid||a.order-b.order);
+ return ordered[0]?.playable!==false?ordered[0]||null:null;
+}
+const triggerLabel=(rules,amount)=>{const match=findBgmRule(rules,amount);return match?'발동 BGM: '+match.name:'발동 BGM 없음';};
+const bidBgmHint=(rules,amount)=>integer(amount)+'코인 · '+triggerLabel(rules,amount);
+const inputHint=(rules,value)=>{const n=Number(value);return !value?'퀵 버튼으로 금액을 더할 수 있습니다.':Number.isSafeInteger(n)&&n>0&&n<=AUCTION_MAX_BID?bidBgmHint(rules,n):'1~100조 사이의 정확한 코인 수량을 입력하세요.';};
+export function inspectBgmGuide(rules,text){
+ const query=String(text??'').trim(),names=key=>rules.filter(r=>r.name.toLocaleLowerCase().includes(key.toLocaleLowerCase()));
+ if(!query)return {rows:rules,message:'전체 '+rules.length+'개 발동 조건'};
+ if(!/^[\d,]+$/.test(query)){const rows=names(query);return {rows,message:rows.length?'곡명 검색 결과 '+rows.length+'개':'일치하는 곡명이 없습니다.'};}
+ if(!/^(?:\d+|\d{1,3}(?:,\d{3})+)$/.test(query))return {rows:[],message:'쉼표 없이 숫자로 입력하거나 188,888처럼 입력하세요.'};
+ const amount=Number(query.replaceAll(',',''));if(!Number.isSafeInteger(amount)||amount<1||amount>AUCTION_MAX_BID)return {rows:[],message:'1~100조 사이의 정수 코인 금액을 입력하세요.'};
+ const match=findBgmRule(rules,amount);if(match)return {rows:[match],message:bidBgmHint(rules,amount)};
+ const related=names(String(amount));if(related.length)return {rows:related,message:integer(amount)+'코인 · 발동 없음. 아래는 번호가 일치하는 곡의 등록 금액입니다.'};
+ const nearest=rules.map(r=>Math.min(Math.max(amount,r.minBid,1),r.maxBid||AUCTION_MAX_BID)).sort((a,b)=>Math.abs(a-amount)-Math.abs(b-amount)||a-b).find(n=>findBgmRule(rules,n));
+ return {rows:nearest===undefined?[]:[findBgmRule(rules,nearest)],message:integer(amount)+'코인 · 발동 없음.'+(nearest===undefined?'':' 가장 가까운 등록 금액: '+integer(nearest)+'코인')};
+}
+function receiptText(amount,result){
+ const prefix=integer(amount)+'코인 입찰 접수';
+ if(!result||!Object.hasOwn(result,'bgm'))return prefix;
+ const e=result.bgm;if(!e)return prefix+' · 발동 BGM 없음';
+ if(e.startsMs>=e.lotEndsMs)return prefix+' · '+e.name+': 앞 곡의 대기 시간으로 경매 종료 전에는 재생되지 않습니다.';
+ if(result.serverNow>=Math.min(e.endsMs,e.lotEndsMs))return prefix+' · '+e.name+': 재생 시간이 지났습니다.';
+ if(e.startsMs<=result.serverNow)return prefix+' · '+e.name+' 재생 차례입니다.';
+ const time=new Intl.DateTimeFormat('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,timeZone:'Asia/Seoul'}).format(e.startsMs);
+ return prefix+' · '+e.name+' 대기 중 · '+time+'(한국시간) 재생 예정';
+}
 const requestId=()=>`AUC_${crypto.randomUUID()}`;
 const art=a=>`<img src="${esc(a.image||'/assets/ui/tactical-20261030/auction.webp')}" alt="${esc(a.name)}" loading="lazy">`;
 const countdown=ms=>{const s=Math.max(0,Math.ceil(ms/1000));return [Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(n=>String(n).padStart(2,'0')).join(':');};
@@ -43,6 +76,7 @@ export function mountUserAuction({root,api,onLobby=()=>{},pollMs=10000}){
  function row(a,index,{cancel=false}={}){return `<article class="auc-queue-row"><span class="auc-queue-number">${String(index+1).padStart(2,'0')}</span>${art(a.asset)}<div><small>${esc(AUCTION_ASSET_TYPES[a.asset.kind])} · ${esc(a.sellerName)}</small><h3>${esc(a.asset.name)}</h3><p>${integer(a.asset.quantity)}개 · 시작가 ${money(a.startPrice)}</p></div><span class="auc-queue-status">${a.status==='QUEUED'?'예약 대기':a.status==='SOLD'?`낙찰 ${money(a.winningBid)}`:a.status==='ACTIVE'?'진행 중':a.status==='UNSOLD'?'유찰 · 물품 반환':'예약 취소'}${cancel?`<button class="auc-text-button" data-cancel="${esc(a.id)}">예약 취소</button>`:''}</span></article>`;}
  function render(){
   if(!data||destroyed)return;const content=root.querySelector('[data-content]'),a=data.active;
+  const previousReceipt=root.querySelector('[data-bid-receipt]');if(previousReceipt&&previousReceipt.dataset.lot!==a?.id)previousReceipt.remove();
   root.querySelector('[data-tickets]').textContent=`보유 ${integer(data.tickets)}장`;root.querySelector('[data-queue-count]').textContent=data.queue.length;
   root.querySelector('[data-host]').disabled=!data.enabled||data.tickets<1;root.querySelector('[data-host]').innerHTML=data.enabled?'경매 개최 <span>＋</span>':'유저 개최 OFF';root.querySelector('.auc-ticket-strip strong').textContent=data.enabled?'나의 경매를 열어 보세요':'유저 경매 개최는 현재 OFF입니다';root.querySelector('.auc-ticket-strip p').textContent=data.enabled?'개최 티켓 1장 · 2시간 진행 · 판매 수수료 20%':'운영자가 개최한 경매에는 입찰할 수 있습니다.';
   root.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===tab)));
@@ -55,12 +89,13 @@ export function mountUserAuction({root,api,onLobby=()=>{},pollMs=10000}){
   }
   if(!a){content.innerHTML=`<section class="auc-empty auc-skin"><img src="${AUCTION_TICKET_IMAGE}" alt="경매 개최 티켓"><h2>${data.legacyActive?'기존 경매 종료를 기다리고 있습니다':data.enabled?'첫 경매의 주인공이 되어 보세요':'현재 진행 중인 경매가 없습니다'}</h2><p>${data.legacyActive?'예약된 경매는 기존 경매가 종료된 뒤 시작됩니다.':data.enabled?'개최 티켓으로 내 물품을 경매에 등록할 수 있습니다.':'운영자가 경매를 열면 여기에서 입찰할 수 있습니다.'}</p></section>`;return;}
   const mine=data.bidders.find(b=>b.user_id===data.userId)?.total||0,top=data.bidders[0]?.total||0,own=a.sellerId===data.userId;
-  content.innerHTML=`<div class="auc-layout"><section class="auc-live auc-skin"><div class="auc-live-heading"><span class="auc-live-label">● 진행 중</span><span>2시간 경매</span><time data-clock></time></div><div class="auc-lot"><div class="auc-art">${art(a.asset)}<span class="auc-art-type">${esc(AUCTION_ASSET_TYPES[a.asset.kind])} / ${integer(a.asset.quantity)}개</span></div><div class="auc-bid-panel"><p class="auc-eyebrow">PLAYER AUCTION</p><h2>${esc(a.asset.name)}</h2><p class="auc-seller">판매자 <b>${esc(a.sellerName)}</b></p><p class="auc-growth">기본 개체 거래 · 성장 정보는 각 계정에 유지</p><div class="auc-current"><span>${top?'현재 최고 누적 입찰':'낙찰 시작가'}</span><strong title="${integer(top||a.startPrice)}">${money(top||a.startPrice)} <small>코인</small></strong></div><div class="auc-mine"><span>나의 누적 입찰</span><b>${money(mine)} 코인</b></div><form data-bid-form><label for="auc-amount">추가 입찰 금액</label><div class="auc-input-wrap"><input id="auc-amount" type="text" inputmode="numeric" autocomplete="off" aria-describedby="auc-amount-label" placeholder="코인 수량 입력" value="${esc(draft)}" ${own?'disabled':''}><span>코인</span></div><p id="auc-amount-label" class="auc-amount-label">${draft?money(draft)+' 코인':'퀵 버튼으로 금액을 더할 수 있습니다.'}</p><div class="auc-quick">${AUCTION_QUICK_BIDS.map(x=>`<button type="button" data-add="${x.amount}" ${own?'disabled':''}>+${x.label}</button>`).join('')}</div><button class="auc-button auc-primary auc-bid" ${own?'disabled':''}>${own?'내가 개최한 경매입니다':'누적 입찰하기'} <span>→</span></button></form><p class="auc-note">최고 누적 입찰자에게 낙찰됩니다.<br>낙찰되지 않은 입찰금은 전액 반환됩니다.</p></div></div><section class="auc-leaderboard"><div class="auc-section-title"><h3>입찰 현황</h3><span>${data.bidders.length}명 참여</span></div>${data.bidders.slice(0,5).map((b,i)=>`<div class="auc-rank"><i>${String(i+1).padStart(2,'0')}</i><span>${esc(b.nickname)} ${b.user_id===data.userId?'<small>나</small>':''}</span><b>${money(b.total)} 코인</b></div>`).join('')||'<p class="auc-muted">첫 입찰자를 기다리고 있습니다.</p>'}</section></section>
+  content.innerHTML=`<div class="auc-layout"><section class="auc-live auc-skin"><div class="auc-live-heading"><span class="auc-live-label">● 진행 중</span><span>2시간 경매</span><time data-clock></time></div><div class="auc-lot"><div class="auc-art">${art(a.asset)}<span class="auc-art-type">${esc(AUCTION_ASSET_TYPES[a.asset.kind])} / ${integer(a.asset.quantity)}개</span></div><div class="auc-bid-panel"><p class="auc-eyebrow">PLAYER AUCTION</p><h2>${esc(a.asset.name)}</h2><p class="auc-seller">판매자 <b>${esc(a.sellerName)}</b></p><p class="auc-growth">기본 개체 거래 · 성장 정보는 각 계정에 유지</p><div class="auc-current"><span>${top?'현재 최고 누적 입찰':'낙찰 시작가'}</span><strong title="${integer(top||a.startPrice)}">${money(top||a.startPrice)} <small>코인</small></strong></div><div class="auc-mine"><span>나의 누적 입찰</span><b>${money(mine)} 코인</b></div><form data-bid-form><label for="auc-amount">추가 입찰 금액</label><div class="auc-input-wrap"><input id="auc-amount" type="text" inputmode="numeric" autocomplete="off" aria-describedby="auc-amount-label" placeholder="코인 수량 입력" value="${esc(draft)}" ${own?'disabled':''}><span>코인</span></div><p id="auc-amount-label" class="auc-amount-label"></p><div class="auc-quick">${AUCTION_QUICK_BIDS.map(x=>`<button type="button" data-add="${x.amount}" ${own?'disabled':''}>+${x.label}</button>`).join('')}</div><button class="auc-button auc-primary auc-bid" ${own?'disabled':''}>${own?'내가 개최한 경매입니다':'누적 입찰하기'} <span>→</span></button></form><p class="auc-note">최고 누적 입찰자에게 낙찰됩니다.<br>낙찰되지 않은 입찰금은 전액 반환됩니다.</p></div></div><section class="auc-leaderboard"><div class="auc-section-title"><h3>입찰 현황</h3><span>${data.bidders.length}명 참여</span></div>${data.bidders.slice(0,5).map((b,i)=>`<div class="auc-rank"><i>${String(i+1).padStart(2,'0')}</i><span>${esc(b.nickname)} ${b.user_id===data.userId?'<small>나</small>':''}</span><b>${money(b.total)} 코인</b></div>`).join('')||'<p class="auc-muted">첫 입찰자를 기다리고 있습니다.</p>'}</section></section>
   <aside class="auc-side"><section class="auc-queue auc-skin"><div class="auc-section-title"><h2>다음 경매</h2><span>${data.queue.length}건 예약</span></div>${data.queue.slice(0,3).map((x,i)=>row(x,i)).join('')||'<p class="auc-muted auc-side-empty">다음 경매를 예약해 보세요.</p>'}<button class="auc-text-button" data-all-queue>예약 순서 모두 보기 →</button></section><section class="auc-guide auc-skin"><p class="auc-eyebrow">AUCTION GUIDE</p><h3>경매 이용 안내</h3><dl><div><dt>개최 비용</dt><dd>개최 티켓 1장</dd></div><div><dt>진행 시간</dt><dd>2시간</dd></div><div><dt>판매 수수료</dt><dd>낙찰가의 20%</dd></div></dl><p>카드 · 용병 · 펫 · 장비 · 이동수단<br>아이템 · 마스터의 별</p><p class="auc-note">고급 전리품 상점 500피그코인<br>랭크전 상점 300랭크코인</p></section></aside></div>`;
   const input=content.querySelector('#auc-amount');
   content.querySelector('.auc-bid').insertAdjacentHTML('beforebegin',`<label class="auc-message-label" for="auc-bid-message">입찰 메시지 <small>BGM 발동 시 표시 · 40자</small></label><input id="auc-bid-message" class="auc-message-input" maxlength="40" placeholder="한마디를 남겨보세요" value="${esc(messageDraft)}" ${own?'disabled':''}>`);
   content.querySelector('#auc-bid-message').oninput=e=>{messageDraft=e.target.value;bidPending=null;};
-  input.oninput=()=>{draft=input.value.replace(/[^0-9]/g,'');input.value=draft;content.querySelector('#auc-amount-label').textContent=draft&&Number.isSafeInteger(Number(draft))?`${money(draft)} 코인`:'정확한 코인 수량을 입력하세요.';bidPending=null;};
+  const hint=content.querySelector('#auc-amount-label');hint.textContent=inputHint(data.bgmGuide||[],draft);hint.setAttribute('aria-live','polite');
+  input.oninput=()=>{draft=input.value.replace(/[^0-9]/g,'');input.value=draft;hint.textContent=inputHint(data.bgmGuide||[],draft);bidPending=null;};
   content.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>{const value=Number(draft||0)+Number(b.dataset.add);if(!Number.isSafeInteger(value)||value>AUCTION_MAX_BID)return error('1회 추가 입찰은 최대 100조 코인입니다.');input.value=String(value);input.dispatchEvent(new Event('input'));error('');});
   content.querySelector('[data-bid-form]').onsubmit=e=>{e.preventDefault();void confirmBid(a.id,Number(draft));};content.querySelector('[data-all-queue]').onclick=()=>{tab='QUEUE';render();};tickClock();
  }
@@ -71,16 +106,23 @@ export function mountUserAuction({root,api,onLobby=()=>{},pollMs=10000}){
  }
  function showBgmGuide(){
   const rules=data?.bgmGuide||[];
-  const node=makeDialog('BGM 발동표',`<p class="auc-muted">해당 금액을 한 번에 추가 입찰하면 기존 지정 음악과 입찰 메시지가 재생됩니다.</p><section class="auc-bgm-volume-settings"><strong>경매 BGM 음량</strong><div data-bgm-settings></div><p class="auc-muted">내 기기에 저장되며, 다음 BGM에도 적용됩니다.</p></section><div class="auc-bgm-guide-list">${rules.map(r=>`<article><b>${String(r.order).padStart(2,'0')}</b><div><strong>${esc(r.name)}</strong><p>${money(r.minBid)}${r.maxBid?' ~ '+money(r.maxBid):' 이상'} 코인 · ${integer(r.duration)}초</p></div></article>`).join('')||'<p class="auc-empty">등록된 BGM 발동 구간이 없습니다.</p>'}</div>`);
+  const node=makeDialog('BGM 발동표','<p class="auc-muted">한 번에 추가 입찰하는 금액이 아래 조건과 맞으면 음악이 순서대로 재생됩니다.</p><div class="auc-bgm-lookup"><label for="auc-bgm-lookup">추가 입찰 금액 또는 곡명 확인</label><input id="auc-bgm-lookup" type="search" placeholder="예: 188,888 또는 골타69" autocomplete="off" maxlength="90"><p data-bgm-lookup-status role="status"></p></div><section class="auc-bgm-volume-settings"><strong>경매 BGM 음량</strong><div data-bgm-settings></div><p class="auc-muted">내 기기에 저장되며, 다음 BGM에도 적용됩니다.</p></section><div class="auc-bgm-guide-list"></div>');
+  const input=node.querySelector('#auc-bgm-lookup'),list=node.querySelector('.auc-bgm-guide-list'),status=node.querySelector('[data-bgm-lookup-status]');
+  function lookup(){const result=inspectBgmGuide(rules,input.value);status.textContent=result.message;
+   list.innerHTML=result.rows.map(r=>'<article><b>'+String(r.order).padStart(2,'0')+'</b><div><strong>'+esc(r.name)+'</strong><p>'+exactBgmRange(r)+' · '+integer(r.duration)+'초'+(r.playable===false?' · 음원 미등록':'')+'</p></div></article>').join('');}
+  input.addEventListener('input',lookup);input.addEventListener('search',lookup);lookup();
   const dispose=bgm?.mountVolumeControl(node.querySelector('[data-bgm-settings]'));
   if(dispose)node.addEventListener('close',dispose,{once:true});
  }
  async function confirmBid(lotId,amount){
   if(!Number.isSafeInteger(amount)||amount<1||amount>AUCTION_MAX_BID)return error('추가 입찰액은 1~100조 코인 사이로 입력하세요.');
-  const node=makeDialog('입찰 금액 확인',`<div class="auc-confirm"><p>이 경매에 추가 입찰합니다.</p><strong>${money(amount)} 코인</strong><small>${integer(amount)} 코인</small><p class="auc-muted">기존 누적 입찰액에 더해집니다.</p><button class="auc-button auc-primary" data-submit>입찰 확정</button></div>`);
+  const node=makeDialog('입찰 금액 확인',`<div class="auc-confirm"><p>이 경매에 추가 입찰합니다.</p><strong>${integer(amount)} 코인</strong><small>${esc(triggerLabel(data?.bgmGuide||[],amount))}</small><p class="auc-muted">기존 누적 입찰액에 더해집니다. 지정곡은 앞선 곡이 끝난 뒤 재생됩니다.</p><button class="auc-button auc-primary" data-submit>입찰 확정</button></div>`);
   node.querySelector('[data-submit]').onclick=async()=>{
    if(busy)return;busy=true;node.querySelector('[data-submit]').disabled=true;bidPending??={lotId,amount,message:messageDraft,requestId:requestId()};
-   try{await api('bid',bidPending);bidPending=null;draft='';closeDialog();await refresh();void bgm?.poll();}catch(e){dialogError(node,e.message);}finally{busy=false;if(node.isConnected)node.querySelector('[data-submit]').disabled=false;}
+   try{const result=await api('bid',bidPending);bidPending=null;draft='';closeDialog();if(destroyed)return;
+    let receipt=root.querySelector('[data-bid-receipt]');if(!receipt){receipt=document.createElement('p');receipt.dataset.bidReceipt='';receipt.className='auc-bid-receipt';receipt.setAttribute('role','status');root.querySelector('[data-content]').before(receipt);}
+    receipt.textContent=receiptText(amount,result);receipt.dataset.lot=lotId;receipt.scrollIntoView({block:'nearest'});void bgm?.poll();await refresh();
+   }catch(e){dialogError(node,e.message);}finally{busy=false;if(node.isConnected)node.querySelector('[data-submit]').disabled=false;}
   };
  }
  function dialogError(node,message){const e=node.querySelector('[data-dialog-error]');e.textContent=message;e.hidden=false;}

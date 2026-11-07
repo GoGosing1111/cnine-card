@@ -996,8 +996,8 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>typeof window.HighGradeReroll?.injectButton==='function'
   },
   auction:{
-    styles:['css/auction-user-v1.css?v=20261106-volume-v1'],
-    scripts:['js/auction-user-entry.js?v=20261106-volume-v1'],
+    styles:['css/auction-user-v1.css?v=20261107-exact-bgm-v1'],
+    scripts:['js/auction-user-entry.js?v=20261107-exact-bgm-v1'],
     initialize:()=>window.auctionUserReady,
     ready:()=>typeof window.auctionHouseView==='function'&&typeof window.bindAuctionHouseView==='function'
   },
