@@ -1,0 +1,149 @@
+{
+  "release": "helios-king-tempo-20261107",
+  "status": "LIVE_VERIFIED",
+  "verifiedAt": "2026-11-07T12:39:55.873Z",
+  "sourceCommit": "26f32d7e021170230eecbd3e03ad19e8378865db",
+  "previousProductionCommit": "932c3a8f8f35f7913efb2bf807d7b47110f74818",
+  "pages": {
+    "id": "a8e60b05-a21f-439c-b828-aa585ffac982",
+    "url": "https://a8e60b05.cnine-card.pages.dev",
+    "commit": "26f32d7e021170230eecbd3e03ad19e8378865db",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version_id": "ff0cdb51-c8e6-4a6d-968d-575d93ffc0fb",
+      "percentage": 100,
+      "sha256": "8e7545da438e0179689fe543582ad6b6d699094ec0b991f0404ef8222eb3fa23"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version_id": "c9bcfe6b-4310-4004-97b9-75f255d2cfaa",
+      "percentage": 100,
+      "sha256": "a913152801f3414982f7ebbd40afb5b04d6d7e78fefbe7366a583d9580a27eea"
+    }
+  ],
+  "mercenary": {
+    "code": "V-966",
+    "name": "헬리오스 킹",
+    "naturalSpeedScale": [
+      3.12,
+      4.5
+    ],
+    "actionCreditPerAllyCard": [
+      3.12,
+      4.5
+    ],
+    "sharedPveCooldownOwnActions": [
+      3,
+      2
+    ],
+    "energyPerAreaSkill": [
+      20,
+      10
+    ],
+    "areaSkillIds": [
+      "MS-907",
+      "MS-908"
+    ],
+    "areaDamageRatios": [
+      37.8,
+      45.36
+    ],
+    "pvpSkills": "basic attacks",
+    "nominalPower": 3500000
+  },
+  "simulation": {
+    "normalEntryBattlesPerVersion": 256,
+    "identicalControlTimelines": 192,
+    "controls": [
+      "V-959",
+      "V-999",
+      "V-975"
+    ],
+    "realEngineFixedWindow": {
+      "before": [
+        {
+          "mode": "PVE",
+          "side": "A",
+          "alliedCardTurns": 10,
+          "kingBasics": 20,
+          "kingAreas": 11,
+          "kingActions": 31
+        },
+        {
+          "mode": "PVP",
+          "side": "A",
+          "alliedCardTurns": 10,
+          "kingBasics": 31,
+          "kingAreas": 0,
+          "kingActions": 31
+        },
+        {
+          "mode": "PVP",
+          "side": "B",
+          "alliedCardTurns": 10,
+          "kingBasics": 31,
+          "kingAreas": 0,
+          "kingActions": 31
+        }
+      ],
+      "after": [
+        {
+          "mode": "PVE",
+          "side": "A",
+          "alliedCardTurns": 10,
+          "kingBasics": 22,
+          "kingAreas": 23,
+          "kingActions": 45
+        },
+        {
+          "mode": "PVP",
+          "side": "A",
+          "alliedCardTurns": 10,
+          "kingBasics": 45,
+          "kingAreas": 0,
+          "kingActions": 45
+        },
+        {
+          "mode": "PVP",
+          "side": "B",
+          "alliedCardTurns": 10,
+          "kingBasics": 45,
+          "kingAreas": 0,
+          "kingActions": 45
+        }
+      ]
+    },
+    "reservedTurnsPer50AllyCards": [
+      156,
+      225
+    ],
+    "areaCastsPer60OwnTurnsWithLandedBasics": [
+      20,
+      30
+    ]
+  },
+  "verification": {
+    "releaseTests": 37,
+    "deliveredAssets": 20000,
+    "publicModules": [
+      {
+        "file": "shared/mercenary-helios-king-v1.mjs",
+        "sha256": "7bc7098e70321b86debcc84a83d3952eb22132320b82c381823988beeb0a786e",
+        "inWindowsManifest": true
+      },
+      {
+        "file": "shared/mercenary-jin-jokro-v1.mjs",
+        "sha256": "0bb635fb96142c6c403118d89b504e818c7d379e30990e06bd4eefc6d65414ba",
+        "inWindowsManifest": true
+      }
+    ],
+    "liveCodexChromiumViewportWidths": [
+      1440,
+      390
+    ],
+    "accountWrites": 0
+  }
+}
