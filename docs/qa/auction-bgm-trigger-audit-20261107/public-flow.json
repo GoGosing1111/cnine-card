@@ -1,0 +1,18 @@
+{
+  "at": "2026-11-07T09:50:45.366Z",
+  "mode": "public",
+  "profiles": [
+    {
+      "profile": "public-mobile",
+      "exactDisplayed": 62,
+      "lookups": 8,
+      "lookupWrites": 0,
+      "lookupCost": 0,
+      "noTrigger188880": true,
+      "scheduled188888": true,
+      "receipt": "188,888코인 입찰 접수 · 18888 대기 중 · 17:00:58(한국시간) 재생 예정",
+      "liveBids": 0,
+      "overflow": false
+    }
+  ]
+}

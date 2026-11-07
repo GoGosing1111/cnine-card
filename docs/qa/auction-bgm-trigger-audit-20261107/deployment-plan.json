@@ -1,0 +1,47 @@
+{
+  "before": {
+    "at": "2026-11-07T09:47:04.425Z",
+    "id": "39848e4b-c787-4932-a94b-90a4a7fbd4db",
+    "url": "https://39848e4b.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "411bdf8b9e87b0054c55ac53a50ffc1980f32e61"
+  },
+  "base": "411bdf8b9e87b0054c55ac53a50ffc1980f32e61",
+  "reason": "Exact auction BGM coin amounts, free amount and title lookup, immediate committed bid schedule feedback. Preserve all 62 catalog rules, receipt atomicity and FIFO. Focus on BGM scheduling and PostgreSQL bid/replay; the shell loader and Worker checks are included.",
+  "tests": [
+    "tests/auction-user-bgm-20261103.test.mjs",
+    "tests/auction-user-postgres-20261103.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "sourceFiles": [
+    "AGENTS.md",
+    "css/auction-user-v1.css",
+    "docs/qa/auction-bgm-trigger-audit-20261107/README.md",
+    "docs/qa/auction-bgm-trigger-audit-20261107/audit.json",
+    "docs/qa/auction-bgm-trigger-audit-20261107/guide.txt",
+    "docs/qa/lucky-seven-coupon-20261107/README.md",
+    "docs/qa/lucky-seven-coupon-20261107/completion.json",
+    "docs/qa/lucky-seven-coupon-20261107/issue.mjs.source.txt",
+    "docs/qa/lucky-seven-coupon-20261107/release.mjs.source.txt",
+    "functions/_auction_user_bgm.js",
+    "functions/_auction_user_service.js",
+    "index.html",
+    "js/app.js",
+    "js/auction-user-bgm-v1.mjs",
+    "js/auction-user-entry.js",
+    "js/auction-user-live.mjs",
+    "js/auction-user-v1.mjs",
+    "onestore/index.html",
+    "onestore/js/app.js",
+    "output/announcements/lucky-seven-coupon-20261107/coupon-notice.txt",
+    "output/announcements/lucky-seven-coupon-20261107/lucky-seven-coupon.png",
+    "output/announcements/lucky-seven-coupon-20261107/manifest.json",
+    "output/announcements/lucky-seven-coupon-20261107/prompt.txt",
+    "packaging/onestore/web-build.json",
+    "service-worker.js",
+    "shared/onestore-web-assets-v1.mjs",
+    "tests/auction-bgm-trigger-guide-20261107.test.mjs"
+  ]
+}

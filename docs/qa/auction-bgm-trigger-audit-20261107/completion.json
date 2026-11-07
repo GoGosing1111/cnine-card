@@ -1,0 +1,50 @@
+{
+  "status": "LIVE_VERIFIED",
+  "completedKST": "2026-11-07 18:51:13",
+  "sourceCommit": "120177786a22d5d46f43a1a210f78671447a965f",
+  "pagesId": "0ce19737-b328-4655-b190-351e594be792",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "f075bd04-d881-4dd8-9e9f-db8ac4bd73c1",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "4d0f2efc-722d-48d5-95e5-2d768faf129e",
+      "percentage": 100
+    }
+  ],
+  "configurationPreserved": 62,
+  "checkedPublicAudio": 62,
+  "actualServiceBidsInIsolation": 62,
+  "guideLookupsCost": 0,
+  "previouslyMisleadingMinimums": 51,
+  "focus": {
+    "amount": 188880,
+    "matches": false,
+    "correctAmount": 188888,
+    "file": "18888.mp4"
+  },
+  "relatedNewTests": 3,
+  "releaseTests": 27,
+  "publicCodeHashes": 11,
+  "windowsManifestHashes": 8,
+  "publicMobile": {
+    "profile": "public-mobile",
+    "exactDisplayed": 62,
+    "lookups": 8,
+    "lookupWrites": 0,
+    "lookupCost": 0,
+    "noTrigger188880": true,
+    "scheduled188888": true,
+    "receipt": "188,888코인 입찰 접수 · 18888 대기 중 · 17:00:58(한국시간) 재생 예정",
+    "liveBids": 0,
+    "overflow": false
+  },
+  "protectedCatalogVerifiedReadOnly": true,
+  "productionAccountBids": 0,
+  "productionDatabaseWrites": 0,
+  "messagesSent": 0,
+  "guide": "C:/Users/User/Downloads/경매장/경매장_BGM_전체_발동표_2026-11-07.txt"
+}
