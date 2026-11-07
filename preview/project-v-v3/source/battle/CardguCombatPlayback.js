@@ -41,6 +41,7 @@ class CardguLiveFX extends CardguFX{
  diagnostics(){return {...super.diagnostics(),code:CARDGU_CODE,liveEnabled:true,visualOnly:false,
   clockOwner:'V3_REGISTERED_GSAP',damageAuthority:'SERVER_ONLY',playbackRate:CARDGU_PLAYBACK_RATE,cameraZoom:false};}
 }
+export async function preloadCardguTextures(){disposeAssets(await loadAssets(spec,runtime));}
 export async function setupCardguActor(engine,actor){
  engine.cardguStates||=new Map();engine.cardguLoads||=new Map();
  if(actor.cardId!==CARDGU_CODE)return null;

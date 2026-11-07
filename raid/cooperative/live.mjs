@@ -29,6 +29,7 @@ export async function mountCooperative(root){
  let disposed=false,state=null,roomId='',you=0,options=null,feature=null,ws=null,reconnectTimer,heartbeatTimer,battle=null,portal=null,mounting=null,battlePayload=null,lastMessage=0;
  let rooms=[],roomFilter='',listLoading=false,listLoaded=false,listError='',listTimer,listEpoch=0,listSignature='',hasMore=false;
  let optionsRequest=null,scoutRoom='';
+ let preparation=null,preparingRoom='',cancelPreparationIdle=null;
  let busy=false,selected={cardIds:[],mercenaryCode:''},picker='mercenary',query='',grade='',difficulty='NORMAL',serverOffset=0,guideChapter=0,bodyOverflow='',selectionRoom='',squadSignature='',battleEpoch=0,patternSignature='',pendingPattern=null,configSignature='',favoritesOnly=false,pendingFavorite=false;
  const mercenarySlots=()=>state?.mercenariesPerOwner??feature?.rules?.mercenariesPerPlayer??1;
  const favoriteIds=()=>options?.favorites?.[picker==='mercenary'?'mercenaries':'cards']||[];
@@ -125,7 +126,29 @@ export async function mountCooperative(root){
   const body={roomId,clientId,requestId:crypto.randomUUID(),...extra};
   return api(kind,{method:'POST',body});
  }
+ function closePreparation(){
+  preparingRoom='';cancelPreparationIdle?.();cancelPreparationIdle=null;
+  preparation?.close();preparation=null;
+ }
+ function prepareRoom(){
+  if(preparingRoom===state.id){preparation?.update(state.members);return;}
+  if(navigator.connection?.saveData||!matchMedia('(min-width:861px) and (pointer:fine)').matches)return;
+  closePreparation();const id=preparingRoom=state.id;
+  const current=()=>!disposed&&preparingRoom===id&&state?.id===id&&state.status==='LOBBY';
+  const start=async()=>{
+   cancelPreparationIdle=null;if(!current())return;
+   try{
+    await window.CNineCoreRaidBridge.ensureFeatureResources('battleV2');
+    if(!current())return;
+    preparation=window.ProjectVPixiBattle?.prepareCooperativeRoom?.(COOP_ENCOUNTER.background);
+    preparation?.update(state.members);
+   }catch{if(current())preparingRoom='';}
+  };
+  if(window.requestIdleCallback){const handle=requestIdleCallback(start,{timeout:1200});cancelPreparationIdle=()=>cancelIdleCallback(handle);}
+  else{const handle=setTimeout(start,100);cancelPreparationIdle=()=>clearTimeout(handle);}
+ }
  function drawSquads(){
+  prepareRoom();
   if(scoutRoom!==state.id){scoutRoom=state.id;const scout=$('[data-roster]');scout.hidden=!state.encounter;scout.innerHTML=rosterMarkup(state.encounter);}
   setValue($('[data-party-size]'),'textContent',state.members.length+'인 · 1인당 '+(2+mercenarySlots())+'캐릭터');
   setValue($('[data-formation-title]'),'textContent','용병 '+mercenarySlots()+'명, 카드 2장'+(mercenarySlots()===2?' · SSS·SS 각 1명':''));
@@ -296,7 +319,7 @@ export async function mountCooperative(root){
   else if(state.status==='CANCELLED'){alert(state.reason||'대기방이 종료되었습니다.');resetRoom();}
   else showBattle(value);
  }
- function resetRoom(){connectionGeneration++;lastAcceptedServerNow=0;ws?.close();ws=null;clearTimeout(reconnectTimer);closeBattle();state=null;roomId='';releaseInventory();scoutRoom='';squadSignature='';selected={cardIds:[],mercenaryCode:''};$('[data-entry]').hidden=false;$('[data-room]').hidden=true;drawConfiguration();void refreshRooms();}
+ function resetRoom(){closePreparation();connectionGeneration++;lastAcceptedServerNow=0;ws?.close();ws=null;clearTimeout(reconnectTimer);closeBattle();state=null;roomId='';releaseInventory();scoutRoom='';squadSignature='';selected={cardIds:[],mercenaryCode:''};$('[data-entry]').hidden=false;$('[data-room]').hidden=true;drawConfiguration();void refreshRooms();}
  async function leave(){if(!roomId){resetRoom();return;}try{await command('leave');resetRoom();feature=await api('feature');serverOffset=feature.energy.serverNow-Date.now();drawRewardSummary();void rewardInbox?.refresh();}catch(e){alert(e.message);}}
  function abandon(){
   if(disposed)return;send('leave');
@@ -363,5 +386,5 @@ export async function mountCooperative(root){
  try{
   if(await availability()){const current=await api('current');if(current.state){roomId=current.state.id;apply(current);if(!current.state.myResult)await connect();}}
  }catch(e){alert(e.message);}finally{entry.inert=false;}
- return {destroy(){abandon();disposed=true;listEpoch++;clearTimeout(listTimer);clearInterval(clock);clearInterval(heartbeatTimer);clearTimeout(reconnectTimer);lifecycle.abort();ws?.close();ws=null;closeBattle();for(const d of root.querySelectorAll('dialog'))d.close();},diagnostics:()=>({state,clock:serverClock.diagnostics(),battle:battle?.diagnostics()})};
+ return {destroy(){abandon();disposed=true;closePreparation();listEpoch++;clearTimeout(listTimer);clearInterval(clock);clearInterval(heartbeatTimer);clearTimeout(reconnectTimer);lifecycle.abort();ws?.close();ws=null;closeBattle();for(const d of root.querySelectorAll('dialog'))d.close();},diagnostics:()=>({state,clock:serverClock.diagnostics(),battle:battle?.diagnostics()})};
 }

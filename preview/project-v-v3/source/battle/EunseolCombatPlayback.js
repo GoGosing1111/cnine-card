@@ -94,6 +94,7 @@ function startAmbient(s){
  const entry={instance,settle:()=>stopAmbient(s)};s.ambient=entry;s.engine.simpleTimelines.add(entry);
  if(!s.engine.visible){entry.resumeOnVisible=true;instance.pause();}
 }
+export async function preloadEunseolTextures(){disposeAssets(await loadSeolhwiAssets(await manifest(),runtime));}
 export async function setupEunseolActor(engine,actor){
  engine.eunseolStates||=new Map();engine.eunseolLoads||=new Map();
  if(engine.eunseolStates.has(actor))return engine.eunseolStates.get(actor);

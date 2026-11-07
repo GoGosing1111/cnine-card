@@ -2,13 +2,23 @@ import {Assets,Graphics,Rectangle,Sprite,Texture} from 'pixi.js';
 import {configureDamageText} from './ObjectPool.js';
 import {projectilePixelScale,projectileTrailGeometry,drawProjectileTrail} from './ProjectileTrail.mjs';
 const BASE='/assets/ui/cooperative-arke-v1/';
-let resources;
-export async function preloadCooperativeArke(){
- if(!resources)resources=Promise.all(['arke-slam-atlas-v1.png','core-rupture-atlas-v1.png','focus-beam-atlas-v1.png'].map(file=>Assets.load(BASE+file))).then(textures=>textures.map(texture=>{
-  const w=texture.width/4,h=texture.height/2;
-  return Array.from({length:8},(_,i)=>new Texture({source:texture.source,frame:new Rectangle(i%4*w,Math.floor(i/4)*h,w,h)}));
- })).catch(error=>{resources=null;throw error;});
- return resources;
+const atlases={slam:'arke-slam-atlas-v1.png',rupture:'core-rupture-atlas-v1.png',focus:'focus-beam-atlas-v1.png'};
+const resources=new Map();
+function arkeFrames(kind){
+ if(!resources.has(kind)){
+  const frames=Assets.load(BASE+atlases[kind]).then(texture=>{
+   const w=texture.width/4,h=texture.height/2;
+   return Array.from({length:8},(_,i)=>new Texture({source:texture.source,frame:new Rectangle(i%4*w,Math.floor(i/4)*h,w,h)}));
+  }).catch(error=>{resources.delete(kind);throw error;});
+  resources.set(kind,frames);
+ }
+ return resources.get(kind);
+}
+export function preloadCooperativeArke(encounter){
+ if(encounter?.schemaVersion!==3)return Promise.all(Object.keys(atlases).map(arkeFrames));
+ const actors=encounter.instances,hasArke=actors.some(a=>a.coopSpeciesId==='ARKE');
+ const kinds=hasArke?['slam','rupture']:actors.some(a=>a.attackStyle==='RANGED')?['rupture']:[];
+ return Promise.all(kinds.map(arkeFrames));
 }
 function damageLabel(engine,target,hit){
  const label=engine.pools.damage.acquire();configureDamageText(label,{kind:'ATTACK',damage:Number(hit.damage||0)+Number(hit.absorbed||0),critical:false,healing:0,hitCount:1,compact:engine.mobile});
@@ -19,7 +29,7 @@ function applyHit(engine,target,hit){
  if(Number.isFinite(hit.targetShieldAfter))engine.syncTargetShield(target,hit.targetShieldAfter);
 }
 export async function playCooperativeWatcherAttack(engine,actor,target,{damage,targetHp,targetShield,onImpact}){
- const epoch=engine.playbackEpoch,[,frames]=await preloadCooperativeArke();if(epoch!==engine.playbackEpoch||!engine.visible)return false;
+ const epoch=engine.playbackEpoch,frames=await arkeFrames('rupture');if(epoch!==engine.playbackEpoch||!engine.visible)return false;
  engine.settlePendingTails([actor,target]);
  const trail=new Graphics(),effect=new Sprite(frames[0]),clock={time:0},impact=.44,duration=.86;
  const from={x:actor.root.x-25,y:actor.root.y-actor.fullBodyHeight*actor.restScale*.55},to={x:target.root.x,y:target.root.y-90};
@@ -36,7 +46,7 @@ export async function playCooperativeWatcherAttack(engine,actor,target,{damage,t
  },()=>{trail.destroy();effect.destroy();engine.pools.damage.release(label);},1,{owners:[actor,target]});
 }
 export async function playCooperativeArkeAttack(engine,actor,target,{damage,targetHp,targetShield,critical,onImpact}){
- const epoch=engine.playbackEpoch,[motion,rupture]=await preloadCooperativeArke();
+ const epoch=engine.playbackEpoch,[motion,rupture]=await Promise.all([arkeFrames('slam'),arkeFrames('rupture')]);
  if(epoch!==engine.playbackEpoch||!engine.visible)return false;
  engine.settlePendingTails([actor,target]);
  const body=actor.fullBodySprite,original={texture:body.texture,scale:{x:body.scale.x,y:body.scale.y},anchor:{x:body.anchor.x,y:body.anchor.y}},clock={time:0};
@@ -60,8 +70,8 @@ export async function playCooperativeArkeAttack(engine,actor,target,{damage,targ
  },cleanup,1,{owners:[actor,target]});
 }
 export async function playCooperativeArkeMechanic(engine,event){
- const epoch=engine.playbackEpoch,assets=await preloadCooperativeArke();if(epoch!==engine.playbackEpoch||!engine.visible)return false;
- const frames=assets[event.kind==='FOCUS'?2:1],clock={time:0},duration=1.0;
+ const epoch=engine.playbackEpoch,frames=await arkeFrames(event.kind==='FOCUS'?'focus':'rupture');if(epoch!==engine.playbackEpoch||!engine.visible)return false;
+ const clock={time:0},duration=1.0;
  const entries=(event.hits||[]).map(hit=>({hit,target:engine.combatantById(hit.targetId)})).filter(e=>e.target?.root&&!e.target.root.destroyed).map(({hit,target})=>{
   applyHit(engine,target,hit);const effect=new Sprite(frames[0]);effect.anchor.set(.5,event.kind==='FOCUS'?.8:.5);
   effect.position.set(target.root.x,target.root.y-(event.kind==='RUPTURE'?target.fullBodyHeight*target.restScale*.5:20));effect.width=effect.height=event.kind==='RUPTURE'?300:event.kind==='FOCUS'?225:160;engine.effectLayer.addChild(effect);

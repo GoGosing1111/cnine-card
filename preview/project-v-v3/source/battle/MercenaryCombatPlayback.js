@@ -10,21 +10,21 @@ import {KAMISHIRO_CODE,KAMISHIRO_AREA_EVENT} from '../../../../shared/mercenary-
 import {kamishiroBattleArt,setupKamishiroActor,warmKamishiroActor,clearKamishiroActors,cancelKamishiroPlayback,resumeKamishiroPlayback,playKamishiroBasic,playKamishiroArea} from './KamishiroCombatPlayback.js';
 import {prepareMercenaryAreaPresentation,cancelMercenaryAreaPresentation,clearMercenaryAreaPresentation,withMercenaryAreaPresentation} from './MercenaryAreaCutinPlayback.js';
 import {CARDGU_CODE,CARDGU_AREA_EVENT} from '../../../../shared/mercenary-cardgu-v1.mjs';
-import {cardguBattleArt,setupCardguActor,warmCardguActor,clearCardguActors,cancelCardguPlayback,resumeCardguPlayback,playCardguBasic,playCardguArea} from './CardguCombatPlayback.js';
+import {preloadCardguTextures,cardguBattleArt,setupCardguActor,warmCardguActor,clearCardguActors,cancelCardguPlayback,resumeCardguPlayback,playCardguBasic,playCardguArea} from './CardguCombatPlayback.js';
 import {REVAN_CODE,REVAN_AREA_EVENT} from '../../../../shared/mercenary-revan-v1.mjs';
 import {revanBattleArt,setupRevanActor,warmRevanActor,clearRevanActors,cancelRevanPlayback,resumeRevanPlayback,playRevanBasic,playRevanArea} from './RevanCombatPlayback.js';
 import {BLACKCROWN_EVENT} from '../../../../shared/mercenary-blackcrown-combat-v1.mjs';
 import {blackcrownBattleArt,setupBlackCrownActor,warmBlackCrownActor,clearBlackCrownActors,cancelBlackCrownPlayback,resumeBlackCrownPlayback,playBlackCrownBasic,playBlackCrownSkill} from './BlackCrownCombatPlayback.js';
 import {bloodmoonBattleArt,setupBloodmoonActor,warmBloodmoonActor,clearBloodmoonActors,cancelBloodmoonPlayback,resumeBloodmoonPlayback,playBloodmoonBasic,playBloodmoonSkill,playBloodmoonStatus} from './BloodmoonCombatPlayback.js';
 import {AWAKENED_OMEGA_CODE,AWAKENED_OMEGA_EVENT} from '../../../../shared/mercenary-awakened-omega-v1.mjs';
-import {awakenedOmegaBattleArt,setupAwakenedOmegaActor,warmAwakenedOmegaActor,clearAwakenedOmegaActors,cancelAwakenedOmegaPlayback,resumeAwakenedOmegaPlayback,playAwakenedOmegaBasic,playAwakenedOmegaSkill} from './AwakenedOmegaCombatPlayback.js';
+import {preloadAwakenedOmegaTextures,awakenedOmegaBattleArt,setupAwakenedOmegaActor,warmAwakenedOmegaActor,clearAwakenedOmegaActors,cancelAwakenedOmegaPlayback,resumeAwakenedOmegaPlayback,playAwakenedOmegaBasic,playAwakenedOmegaSkill} from './AwakenedOmegaCombatPlayback.js';
 import {RAZAK_CODE,RAZAK_EVENT} from '../../../../shared/mercenary-razak-v1.mjs';
 import {razakBattleArt,setupRazakActor,warmRazakActor,clearRazakActors,cancelRazakPlayback,resumeRazakPlayback,playRazakBasic,playRazakSkill} from './RazakCombatPlayback.js';
 import {NAMSUDAENG_CODE,NAMSUDAENG_EVENT} from '../../../../shared/mercenary-bloodmoon-namsudaeng-v1.mjs';
 import {namsudaengBattleArt,setupNamsudaengActor,warmNamsudaengActor,clearNamsudaengActors,cancelNamsudaengPlayback,resumeNamsudaengPlayback,playNamsudaengBasic,playNamsudaengSkill} from './BloodmoonNamsudaengPlayback.js';
 import {EUNSEOL_CODE,EUNSEOL_AREA_EVENT} from '../../../../shared/mercenary-eunseol-v1.mjs';
-import {battleImageUrl} from './BattleAssetMemory.mjs';
-import {eunseolBattleArt,warmEunseolActor,clearEunseolActors,cancelEunseolPlayback,resumeEunseolPlayback,playEunseolBasic,playEunseolArea} from './EunseolCombatPlayback.js';
+import {battleAssetMemory,battleImageUrl} from './BattleAssetMemory.mjs';
+import {preloadEunseolTextures,eunseolBattleArt,warmEunseolActor,clearEunseolActors,cancelEunseolPlayback,resumeEunseolPlayback,playEunseolBasic,playEunseolArea} from './EunseolCombatPlayback.js';
 import {GENERAL_JOK_CODE,GENERAL_JOK_AREA_EVENT} from '../../../../shared/mercenary-general-jok-v1.mjs';
 import {generalJokBattleArt,warmGeneralJokActor,clearGeneralJokActors,cancelGeneralJokPlayback,resumeGeneralJokPlayback,playGeneralJokBasic,playGeneralJokArea} from './GeneralJokCombatPlayback.js';
 import {PRIME_CODE,PRIME_AREA_EVENT} from '../../../../shared/mercenary-prime-requiem-v1.mjs';
@@ -77,11 +77,53 @@ import {setupLimitedActor,clearLimitedActors,cancelLimitedPlayback,resumeLimited
 const json=async url=>{const r=await fetch(url);if(!r.ok)throw Error(`MERCENARY_ASSET:${r.status}`);return r.json();};
 import {BATTLE_DEVICE} from './BattleDevicePolicy.mjs';
 let rosterPromise,atlasPromise;
+function mercenaryRoster(){
+ return rosterPromise||=json('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?kangyun=20261018-live-v1&azant=20261014-live-v1&nurseHealers=20260927&berkan=20260927').catch(error=>{rosterPromise=null;throw error;});
+}
 // Shared construction contract: alternate battlefields must not size a transparent
 // canvas as if it were the character's body, or omit the approved idle adapters.
 export async function resolveV3MercenaryArt(code){
- const roster=await (rosterPromise||=json('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?kangyun=20261018-live-v1&azant=20261014-live-v1&nurseHealers=20260927&berkan=20260927'));
+ const roster=await mercenaryRoster();
  return jinJokroBattleArt(code)||heliosKingBattleArt(code)||hakuyaBattleArt(code)||revanBattleArt(code)||blackcrownBattleArt(code)||bloodmoonBattleArt(code)||awakenedOmegaBattleArt(code)||razakBattleArt(code)||namsudaengBattleArt(code)||eunseolBattleArt(code)||cardguBattleArt(code)||kamishiroBattleArt(code)||heukmuBattleArt(code)||generalJokBattleArt(code)||primeBattleArt(code)||zeroBattleArt(code)||bathoryBattleArt(code)||leonelBattleArt(code)||jokroBattleArt(code)||shiranuiBattleArt(code)||kaironBattleArt(code)||kangyunBattleArt(code)||azantBattleArt(code)||jinmuBattleArt(code)||heliosBattleArt(code)||limitedDuoBattleArt(code)||limitedBattleArt(code)||createMercenaryBattleArtAdapter(roster).resolveForConsumer('BATTLE_FIELD',code);
+}
+async function loadCooperativePortrait(url){
+ const delivery=globalThis.CNineImageDelivery?.url(url);
+ if(delivery&&delivery!==url){
+  // The delivery map contains same-size lossless versions. Keep the original as fallback.
+  battleAssetMemory.remember(delivery);
+  try{return await Assets.load(delivery);}catch{}
+ }
+ return Assets.load(url);
+}
+export async function prepareMercenaryTextures(card,cooperative=false){
+ const art=await resolveV3MercenaryArt(card.code||card.cardId);
+ if(!art)throw Error('MERCENARY_SD_NOT_READY');
+ const load=cooperative?loadCooperativePortrait:url=>Assets.load(url);
+ const [sd,original]=await Promise.all([
+  load(battleImageUrl(art.spriteUrl)),
+  load(battleImageUrl('/'+art.sourceArt.replace(/^\//,''),{cutIn:true})),
+  !BATTLE_DEVICE.lowMemory&&MERCENARY_ROLE_ATTACKS[card.role]?preloadMercenaryRole(card.role):null
+ ]);
+ return {art,sd,original};
+}
+async function prepareMercenaryEffects(entries,parallel){
+ const jobs=[];
+ if(entries.some(({card})=>card.cardId===BERKAN_CODE||card.code===BERKAN_CODE||card.skills?.some(s=>[BERKAN_SKILL_ID,BERKAN_AREA_SKILL_ID].includes(s.id))))jobs.push(preloadBerkan);
+ if(entries.some(({card})=>card.cardId==='V-050'||card.code==='V-050'||card.skills?.some(s=>s.mechanic==='EMERALD_ANTIMATERIEL')))jobs.push(preloadSniperOrikkung);
+ if(entries.some(({card})=>card.cardId===CRYVERN_CODE||card.code===CRYVERN_CODE||card.skills?.some(s=>s.mechanic==='CRYSTAL_CROWN')))jobs.push(preloadCryvern);
+ if(entries.some(({card})=>card.cardId==='V-048'||card.code==='V-048'||card.skills?.some(s=>s.mechanic==='BLACK_MOON_TRIPLE_SEVER')))jobs.push(preloadHeukwol);
+ if(entries.some(({card})=>card.cardId==='V-047'||card.code==='V-047'||card.skills?.some(s=>s.mechanic==='LAVENDER_RICOCHET')))jobs.push(preloadBikiniJoeun);
+ if(entries.some(({card})=>card.skills?.some(s=>s.mechanic==='GOLDEN_ORCHID_VOLLEY')))jobs.push(preloadMangisaVolley);
+ if(entries.some(({card})=>card.cardId==='V-046'||card.code==='V-046'||card.skills?.some(s=>s.mechanic==='PLATINUM_SANCTUARY')))jobs.push(preloadRagniel);
+ if(parallel)await Promise.all(jobs.map(load=>load()));
+ else for(const load of jobs)await load();
+}
+// Reuse the authored loaders for a confirmed lobby selection. Their framing
+// textures are disposable views; Pixi retains the decoded source for the battle.
+export function prepareCooperativeMercenary(card){
+ const code=card.code||card.cardId;
+ const authored=code===CARDGU_CODE?preloadCardguTextures:code===AWAKENED_OMEGA_CODE?preloadAwakenedOmegaTextures:code===EUNSEOL_CODE?preloadEunseolTextures:null;
+ return Promise.allSettled([prepareMercenaryTextures(card,true),prepareMercenaryEffects([{card}],true),authored?.()]);
 }
 export function v3MercenaryHeight(code,art){return art.fullBodyHeight??(code==='V-048'?300:['V-046',CRYVERN_CODE].includes(code)?380:code==='V-047'?320:260);}
 export async function setupV3MercenaryActor(engine,a){
@@ -167,20 +209,21 @@ export const withMercenaryBattle=Base=>class extends Base{
  }
  clearMercenaryActors(){clearMercenaryAreaPresentation(this);this.mercenaryEpoch=(this.mercenaryEpoch||0)+1;this.cancelTimelines?.();clearCryvernActors(this);clearBerkanActors(this);clearLimitedActors(this);clearHeliosActors(this);clearJinmuActors(this);clearKaironActors(this);clearJokroActors(this);clearCardguActors(this);clearKamishiroActors(this);clearHeukmuActors(this);clearGeneralJokActors(this);clearAwakenedOmegaActors(this);clearRazakActors(this);clearNamsudaengActors(this);clearBlackCrownActors(this);clearBloodmoonActors(this);clearJinJokroActors(this);clearHeliosKingActors(this);clearHakuyaActors(this);clearRevanActors(this);clearEunseolActors(this);clearPrimeActors(this);clearZeroActors(this);clearLeonelActors(this);clearBathoryActors(this);clearShiranuiActors(this);clearAzantActors(this);clearKangyunActors(this);this.mercenaryFx?.destroy();this.mercenaryFx=null;for(const a of this.mercenaries||[]){this.characters=this.characters.filter(c=>c!==a);a.destroy();}this.mercenaries=[];this.setFormationMercenaries([]);}
  async applyBattlePayload(payload){
-  this.clearMercenaryActors();const epoch=this.mercenaryEpoch,result=await super.applyBattlePayload(payload);const entries=['A','B'].flatMap(side=>(payload?.battleV2?.teams?.[side]?.mercenaries||[]).map(card=>({side,card})));
+  this.clearMercenaryActors();
+  const epoch=this.mercenaryEpoch,entries=['A','B'].flatMap(side=>(payload?.battleV2?.teams?.[side]?.mercenaries||[]).map(card=>({side,card})));
   const rules=payload?.battleV2?.rules||{},perOwner=rules.mercenariesPerOwner===2?2:1,limit=rules.formation==='COOP_THREE_SQUADS'?3*perOwner:rules.formation==='DUO_TWO_SQUADS'?2*perOwner:2;
-  if(!entries.length)return result;if(entries.filter(e=>e.side==='A').length>limit||entries.filter(e=>e.side==='B').length>limit)throw Error('MAX_MERCENARIES_PER_SIDE');
-  if(entries.some(({card})=>card.cardId===BERKAN_CODE||card.code===BERKAN_CODE||card.skills?.some(s=>[BERKAN_SKILL_ID,BERKAN_AREA_SKILL_ID].includes(s.id))))await preloadBerkan();
-  if(entries.some(({card})=>card.cardId==='V-050'||card.code==='V-050'||card.skills?.some(s=>s.mechanic==='EMERALD_ANTIMATERIEL')))await preloadSniperOrikkung();
-  if(entries.some(({card})=>card.cardId===CRYVERN_CODE||card.code===CRYVERN_CODE||card.skills?.some(s=>s.mechanic==='CRYSTAL_CROWN')))await preloadCryvern();
-  if(entries.some(({card})=>card.cardId==='V-048'||card.code==='V-048'||card.skills?.some(s=>s.mechanic==='BLACK_MOON_TRIPLE_SEVER')))await preloadHeukwol();
-  if(entries.some(({card})=>card.cardId==='V-047'||card.code==='V-047'||card.skills?.some(s=>s.mechanic==='LAVENDER_RICOCHET')))await preloadBikiniJoeun();
-  if(entries.some(({card})=>card.skills?.some(s=>s.mechanic==='GOLDEN_ORCHID_VOLLEY')))await preloadMangisaVolley();
-  if(entries.some(({card})=>card.cardId==='V-046'||card.code==='V-046'||card.skills?.some(s=>s.mechanic==='PLATINUM_SANCTUARY')))await preloadRagniel();
+  if(entries.filter(e=>e.side==='A').length>limit||entries.filter(e=>e.side==='B').length>limit)throw Error('MAX_MERCENARIES_PER_SIDE');
+  if(!entries.length)return super.applyBattlePayload(payload);
+  const parallel=rules.formation==='COOP_THREE_SQUADS'&&!BATTLE_DEVICE.lowMemory;
+  const [result,prepared]=parallel?await Promise.all([
+   super.applyBattlePayload(payload),
+   Promise.all(entries.map(({card})=>prepareMercenaryTextures(card,true))),
+   prepareMercenaryEffects(entries,true)
+  ]):[await super.applyBattlePayload(payload),null];
+  if(!parallel)await prepareMercenaryEffects(entries,false);
   if(epoch!==this.mercenaryEpoch||this.mercenaryDisposed)return false;
-  const roster=await (rosterPromise||=json('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?kangyun=20261018-live-v1&azant=20261014-live-v1&nurseHealers=20260927&berkan=20260927')),adapter=createMercenaryBattleArtAdapter(roster);
-  for(const {side,card}of entries){const art=jinJokroBattleArt(card.code||card.cardId)||heliosKingBattleArt(card.code||card.cardId)||hakuyaBattleArt(card.code||card.cardId)||revanBattleArt(card.code||card.cardId)||blackcrownBattleArt(card.code||card.cardId)||bloodmoonBattleArt(card.code||card.cardId)||awakenedOmegaBattleArt(card.code||card.cardId)||razakBattleArt(card.code||card.cardId)||namsudaengBattleArt(card.code||card.cardId)||eunseolBattleArt(card.code||card.cardId)||cardguBattleArt(card.code||card.cardId)||kamishiroBattleArt(card.code||card.cardId)||heukmuBattleArt(card.code||card.cardId)||generalJokBattleArt(card.code||card.cardId)||primeBattleArt(card.code||card.cardId)||zeroBattleArt(card.code||card.cardId)||bathoryBattleArt(card.code||card.cardId)||leonelBattleArt(card.code||card.cardId)||jokroBattleArt(card.code||card.cardId)||shiranuiBattleArt(card.code||card.cardId)||kaironBattleArt(card.code||card.cardId)||kangyunBattleArt(card.code||card.cardId)||azantBattleArt(card.code||card.cardId)||jinmuBattleArt(card.code||card.cardId)||heliosBattleArt(card.code||card.cardId)||limitedDuoBattleArt(card.code||card.cardId)||limitedBattleArt(card.code||card.cardId)||adapter.resolveForConsumer('BATTLE_FIELD',card.code||card.cardId);if(!art)throw Error('MERCENARY_SD_NOT_READY');
-   const [sd,original]=await Promise.all([Assets.load(battleImageUrl(art.spriteUrl)),Assets.load(battleImageUrl('/'+art.sourceArt.replace(/^\//,''),{cutIn:true})),!BATTLE_DEVICE.lowMemory&&MERCENARY_ROLE_ATTACKS[card.role]?preloadMercenaryRole(card.role):null]);
+  for(const [index,{side,card}] of entries.entries()){
+   const {art,sd,original}=prepared?prepared[index]:await prepareMercenaryTextures(card);
    if(epoch!==this.mercenaryEpoch||this.mercenaryDisposed)return false;
    const a=new BattleCharacter({id:card.id,name:card.name||card.title,team:side==='A'?TEAM.ALLY:TEAM.ENEMY,fullBodyTexture:sd,texture:original,cutInTexture:original,fullBodyHeight:art.fullBodyHeight??(card.cardId==='V-048'?300:['V-046',CRYVERN_CODE].includes(card.cardId)?380:card.cardId==='V-047'?320:260),x:0,y:0,scale:.5,hp:card.hp/card.maxHp*100});
    Object.assign(a,{cardId:card.cardId||card.code,ownerId:card.ownerId,ownerName:card.ownerName,squadIndex:card.squadIndex,localSlot:card.localSlot,art,actorKind:'MERCENARY',isMercenary:true,battleActive:true,enabled:true,serverMaxHp:card.maxHp,serverMaxShield:card.maxShield||0,startingShield:card.shield||0,startingMaxShield:card.maxShield||0,mercenaryRow:card,role:card.role});
