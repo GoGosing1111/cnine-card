@@ -1,0 +1,209 @@
+{
+  "status": "LIVE_VERIFIED",
+  "verifiedAtKst": "2026-11-08T00:52:20+09:00",
+  "source": "e65063c4d7085c08173a80e93ba91ab4c43fe1e0",
+  "pages": {
+    "id": "aa92dc3a-8521-4921-bb27-a2343b9fe451",
+    "url": "https://aa92dc3a.cnine-card.pages.dev",
+    "commit": "e65063c4d7085c08173a80e93ba91ab4c43fe1e0",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "7704bc00-4fe5-4a04-be26-3b6ecb2649c5",
+      "trafficPercent": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "1bbe62a4-9ed7-4546-aec2-8a9b562e730c",
+      "trafficPercent": 100
+    }
+  ],
+  "targetPolicy": {
+    "basePower": 1950000,
+    "nativeStatScale": 1.7361111111111112,
+    "attackFloorPercent": 3177.777777777778,
+    "hpFloorPercent": 2022.2222222222222,
+    "pveFrontShieldPercent": 1191.6666666666667,
+    "basicDamageCapScale": 3.4722222222222223,
+    "pveAreaDamageRatio": 12.6,
+    "pveAreaCooldownOwnTurns": 5,
+    "pveAreaEnergy": 35,
+    "incomingDamageScale": 0.25,
+    "valterInnateDefenseBonusPercent": 12,
+    "naturalSpeedScale": 3.12,
+    "additionalActionCredit": 3.12
+  },
+  "reference": {
+    "code": "V-979",
+    "name": "족로",
+    "basePower": 2200000,
+    "pveAreaDamageRatio": 15.12,
+    "incomingDamageScale": 0.2
+  },
+  "standardComparison": {
+    "level": 1,
+    "gearPower": 0,
+    "powerPerRegularCard": 20000000,
+    "bossPower": 160000000000,
+    "matchedSeeds": 16,
+    "fighters": [
+      {
+        "code": "V-996",
+        "name": "발테르",
+        "basePowerBefore": 1080000,
+        "basePower": 1950000,
+        "pveStatsBefore": {
+          "power": 1080000,
+          "attack": 120712720,
+          "baseAttack": 365148,
+          "hp": 268772610,
+          "defense": 185069,
+          "shield": 158383859,
+          "speed": 87828
+        },
+        "pveStats": {
+          "power": 1950000,
+          "attack": 209570695,
+          "baseAttack": 659295,
+          "hp": 466619115,
+          "defense": 334153,
+          "shield": 274971978,
+          "speed": 87828
+        },
+        "meanFirstAreaDamageBefore": 431718991,
+        "meanFirstAreaDamage": 1686402312
+      },
+      {
+        "code": "V-999",
+        "name": "헬리오스",
+        "basePowerBefore": 1123200,
+        "basePower": 1950000,
+        "pveStatsBefore": {
+          "power": 1123200,
+          "attack": 120712720,
+          "baseAttack": 379754,
+          "hp": 268772610,
+          "defense": 171850,
+          "shield": 158383859,
+          "speed": 87828
+        },
+        "pveStats": {
+          "power": 1950000,
+          "attack": 209570695,
+          "baseAttack": 659295,
+          "hp": 466619115,
+          "defense": 298351,
+          "shield": 274971978,
+          "speed": 87828
+        },
+        "meanFirstAreaDamageBefore": 431718991,
+        "meanFirstAreaDamage": 1686402312
+      },
+      {
+        "code": "V-988",
+        "name": "카이론",
+        "basePowerBefore": 1347840,
+        "basePower": 1950000,
+        "pveStatsBefore": {
+          "power": 1347840,
+          "attack": 144855264,
+          "baseAttack": 455705,
+          "hp": 322527132,
+          "defense": 206220,
+          "shield": 190060631,
+          "speed": 87828
+        },
+        "pveStats": {
+          "power": 1950000,
+          "attack": 209570695,
+          "baseAttack": 659295,
+          "hp": 466619115,
+          "defense": 298351,
+          "shield": 274971978,
+          "speed": 87828
+        },
+        "meanFirstAreaDamageBefore": 518062789,
+        "meanFirstAreaDamage": 1686402312
+      },
+      {
+        "code": "V-989",
+        "name": "천룡검황 진무",
+        "basePowerBefore": 1617408,
+        "basePower": 1950000,
+        "pveStatsBefore": {
+          "power": 1617408,
+          "attack": 173826317,
+          "baseAttack": 546846,
+          "hp": 387032558,
+          "defense": 247464,
+          "shield": 228072758,
+          "speed": 87828
+        },
+        "pveStats": {
+          "power": 1950000,
+          "attack": 209570695,
+          "baseAttack": 659295,
+          "hp": 466619115,
+          "defense": 298351,
+          "shield": 274971978,
+          "speed": 87828
+        },
+        "meanFirstAreaDamageBefore": 746010417,
+        "meanFirstAreaDamage": 1686402312
+      },
+      {
+        "code": "V-979",
+        "name": "족로",
+        "basePowerBefore": 2200000,
+        "basePower": 2200000,
+        "pveStatsBefore": {
+          "power": 2200000,
+          "attack": 236438684,
+          "baseAttack": 743820,
+          "hp": 526441969,
+          "defense": 336601,
+          "shield": 310224732,
+          "speed": 87828
+        },
+        "pveStats": {
+          "power": 2200000,
+          "attack": 236438684,
+          "baseAttack": 743820,
+          "hp": 526441969,
+          "defense": 336601,
+          "shield": 310224732,
+          "speed": 87828
+        },
+        "meanFirstAreaDamageBefore": 2283128813,
+        "meanFirstAreaDamage": 2283128813
+      }
+    ]
+  },
+  "validation": {
+    "deploymentTestsPassed": 67,
+    "extendedTests": {
+      "tests": 118,
+      "beforeFailures": 28,
+      "afterFailures": 22,
+      "newFailures": 0
+    },
+    "canonicalSimulationsPerRevision": 1536,
+    "controlTimelinesIdentical": 768,
+    "pvpJokroDuels": 512,
+    "pvpJokroWins": 472,
+    "pvpConditions": "Four identical-deck comparisons per character. Levels 1/11/21, two level-1 decks, same gear on both sides, 16 seeds and both attack/defend sides for each matchup.",
+    "highPowerPveDamageCap": "At level 21 with 100m equipment and 2b power per regular card, the 160b boss clamps the opening area damage equally. Intrinsic attack, HP, defense and shield remain lower at equal growth and gear.",
+    "publicCodexWidths": [
+      1440,
+      390
+    ],
+    "uiRows": 10,
+    "pagesFiles": 14,
+    "windowsManifestMatches": 11,
+    "releaseAssets": 20000,
+    "accountWrites": 0
+  },
+  "evidence": "operations/mercenary-four-1950k-20261108/"
+}
