@@ -6,7 +6,7 @@ export const HELIOS_KING_CODE='V-966';
 export const HELIOS_KING_AREA_EVENT='MERCENARY_HELIOS_KING_AREA';
 export const HELIOS_KING_AREA_MECHANIC='HELIOS_KING_ROYAL_ARSENAL';
 const powerScale=3500000/PRIME_COMBAT.basePower;
-export const HELIOS_KING_COMBAT=Object.freeze({
+export const HELIOS_KING_BASE_COMBAT=Object.freeze({
  ...PRIME_COMBAT,version:1,basePower:3500000,basicDamageScale:1.65,
  statScale:PRIME_COMBAT.statScale*powerScale,
  basicCapScale:PRIME_COMBAT.basicCapScale*powerScale,
@@ -16,13 +16,18 @@ export const HELIOS_KING_COMBAT=Object.freeze({
   shieldPercent:(PRIME_COMBAT.link.shieldPercent+60)*powerScale-60
  }),motionPlaybackRate:1,effectPlaybackRate:1
 });
+// Jin Jokro also uses the original profile; the faster tempo belongs to V-966.
+export const HELIOS_KING_COMBAT=Object.freeze({
+ ...HELIOS_KING_BASE_COMBAT,version:2,speedScale:4.5,actionCredit:4.5
+});
 export const HELIOS_KING_PVP=Object.freeze({...PRIME_ZERO_PVP,version:'20261106-helios-king-pvp-v1'});
 export const HELIOS_KING_GENERAL_JOK_PRIORITY=Object.freeze({
  ...ZERO_PRIME_GENERAL_JOK_PRIORITY,
  attackFloorScale:ZERO_PRIME_GENERAL_JOK_PRIORITY.attackFloorScale*powerScale,
  durabilityFloorScale:ZERO_PRIME_GENERAL_JOK_PRIORITY.durabilityFloorScale*powerScale
 });
-export const HELIOS_KING_PVE_BALANCE=Object.freeze({version:1,cooldownTurns:3,cost:20});
+// One landed basic attack replenishes the energy for the next two-action cycle.
+export const HELIOS_KING_PVE_BALANCE=Object.freeze({version:2,cooldownTurns:2,cost:10});
 export const HELIOS_KING_BASIC_FORMS=Object.freeze([
  {id:'MS-905',name:'왕검 사출',visualMode:'royal_swords'},
  {id:'MS-906',name:'천창 관통',visualMode:'sovereign_lance'}
@@ -45,16 +50,16 @@ export const HELIOS_KING_ART=Object.freeze({
  frame:'assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png',artWindow:Object.freeze({left:5.957,top:5.794,width:88.086,height:88.086}),accent:'#ffd46a',
  basePower:HELIOS_KING_COMBAT.basePower,skills:Object.freeze([...HELIOS_KING_BASIC_FORMS,...HELIOS_KING_AREA_SKILLS]),
  acquisitionEnabled:false,packAcquisitionEnabled:false,craftAcquisitionEnabled:false,deploymentEnabled:true,
- combatLinkDescription:'기본 전투력 3,500,000. 프라임 레퀴엠보다 공격·체력·방어·연계 예산이 16.67% 높습니다. 왕검 사출·천창 관통은 165% 일반 공격으로 순환합니다. 왕의 군세는 총 3,780%, 천검 강림은 총 4,536% 피해를 생존한 적에게 나누어 대상당 한 번 적용합니다. PVE 광역기 두 개가 에너지 20·재사용 3행동을 공유합니다. 개인 피해 80% 경감·상태이상·반격 보호·행동 3.12배. PVP는 일반 공격을 사용하며 프라임의 공격 30%·체력/방벽 500% 보정과 제너럴 족 상대 우위 정책을 계승합니다. 운영자 지정 지급 전용.'
+ combatLinkDescription:`기본 전투력 3,500,000. 프라임 레퀴엠보다 공격·체력·방어·연계 예산이 16.67% 높습니다. 왕검 사출·천창 관통은 165% 일반 공격으로 순환합니다. 왕의 군세는 총 3,780%, 천검 강림은 총 4,536% 피해를 생존한 적에게 나누어 대상당 한 번 적용합니다. PVE 광역기는 각각 에너지 ${HELIOS_KING_PVE_BALANCE.cost}을 소모하며 재사용 대기시간 ${HELIOS_KING_PVE_BALANCE.cooldownTurns}행동을 공유합니다. 자연 행동 속도는 ${HELIOS_KING_COMBAT.speedScale}배이며, 아군 카드 행동당 추가 행동 ${HELIOS_KING_COMBAT.actionCredit}회분을 얻습니다. 개인 피해 80% 경감·상태이상·반격 보호. PVP는 일반 공격을 사용하며 프라임의 공격 30%·체력/방벽 500% 보정과 제너럴 족 상대 우위 정책을 계승합니다. 운영자 지정 지급 전용.`
 });
 export function heliosKingDeploymentSnapshot(){
  return {...HELIOS_KING_ART,actorKind:'MERCENARY',level:1,statMode:'RANK_FIXED',attackStyle:'MELEE',
   skills:structuredClone(HELIOS_KING_AREA_SKILLS),pendingSkillIds:[],heliosKingPolicyVersion:HELIOS_KING_COMBAT.version,
-  deploymentVersion:'20261106-helios-king-live-v1'};
+  deploymentVersion:'20261107-helios-king-tempo-v2'};
 }
 
 export const heliosKingPreviewSnapshot=heliosKingDeploymentSnapshot;
 export const heliosKingCodexSkills=()=>HELIOS_KING_ART.skills.map(s=>({...s,ready:true,target:s.basicForm?'적 1명':'적 전체',
  effect:s.basicForm?(s.visualMode==='royal_swords'?'황금 보검 여섯 자루를 사출해 적 하나에 165% 일반 공격을 한 번 적용합니다.':'거대한 황금 창으로 적 하나에 165% 일반 공격을 한 번 적용합니다.'):(s.visualMode==='kings_arsenal'?'왕의 무기고를 열어 총 3,780% 피해를 적 전체에 나누어 적용합니다.':'거대 심판검을 낙하시켜 총 4,536% 피해를 적 전체에 나누어 적용합니다.'),
- trigger:s.basicForm?'일반 공격 · 왕검 사출 → 천창 관통 순환':'PVE · 에너지 20 · 광역기 공통 재사용 3행동',
+ trigger:s.basicForm?'일반 공격 · 왕검 사출 → 천창 관통 순환':`PVE · 에너지 ${s.balance.cost} · 광역기 공통 재사용 ${s.balance.cooldownTurns}행동`,
  counterplay:'방어·보호막에 대응됩니다.',bossRule:'서버 전투 규칙 적용',procRule:'대상당 한 번 적용 · 소환 무기 수는 피해 횟수를 늘리지 않습니다.'}));

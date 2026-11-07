@@ -6,7 +6,7 @@ import {HELIOS_KING_CODE,HELIOS_KING_COMBAT,HELIOS_KING_BASIC_FORMS,HELIOS_KING_
 import {HEUKMU_CODE,HEUKMU_COMBAT,HEUKMU_PVE_BALANCE,HEUKMU_ART,HEUKMU_AREA_EVENT} from '../shared/mercenary-heukmu-v1.mjs';
 import {PRIME_CODE,PRIME_COMBAT,PRIME_PVE_BALANCE} from '../shared/mercenary-prime-requiem-v1.mjs';
 import {buildFighter,createPveBattleV2,createPvpBattleV2} from '../functions/_battle_v2_preview.js';
-import {mercenaryCombat,mercenaryBaseActionCredit} from '../functions/_mercenary_combat.js';
+import {buildMercenaryFighter,mercenaryCombat,mercenaryBaseActionCredit,mercenaryTurnCadence,independentMercenaryTurnCadence} from '../functions/_mercenary_combat.js';
 import {resolveHeliosKingArea} from '../functions/_mercenary_helios_king.js';
 import {applyMercenaryCombatLink,mercenaryEffectiveAttack,mercenaryDamageCapHp} from '../shared/mercenary-combat-link-v2103.mjs';
 import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-v1.mjs';
@@ -40,10 +40,10 @@ test('Helios King is stronger than Prime at equal growth and gear in actual PVE 
   assert.equal(mercenaryBattleTier(h),mercenaryBattleTier(p));
   assert.equal(mercenaryLevelXpMultiplier(h),5);
   for(const key of ['attack','maxHp','defense'])assert(h[key]>p[key],`${mode} ${s.name} ${key}`);
-  assert.equal(h.speed,p.speed);applyMercenaryCombatLink(teams);
+  assert(h.speed>p.speed);applyMercenaryCombatLink(teams);
   assert(mercenaryEffectiveAttack(h)>mercenaryEffectiveAttack(p));
   for(const key of ['maxHp','shield'])assert(h[key]>p[key],`${mode} linked ${key}`);
-  assert.equal(mercenaryBaseActionCredit([h]),3.12);
+  assert.equal(mercenaryBaseActionCredit([h]),4.5);
   assert.equal(h.skills.length,mode==='PVE'?2:0);
   for(const key of ['counterImmune','controlImmune','poisonImmune'])assert.equal(h[key],true);
   assert.equal(!!h.mercenaryLink.primeZeroPvp,mode==='PVP');
@@ -80,18 +80,62 @@ test('area ratios and real hit caps exceed Prime by 25% and 50%, preserving a si
  }
 });
 
-test('shared three-action cooldown alternates both skills and charges energy only once',()=>{
+test('the two-action King cooldown alternates both skills and stays funded by landed basics',()=>{
  const run=code=>{const actor=fighter(code),enemy={...buildFighter(cards()[0],0,'B',null,'PVE'),hp:1e15,maxHp:1e15},events=[];
   const combat=mercenaryCombat({teams:{A:[actor],B:[enemy]},clock:()=>actor.actions,hit:()=>({hit:true,damage:1}),damage:()=>({hpDamage:1,absorbed:0}),knockout(){},emit:(type,row)=>{if(type===HELIOS_KING_AREA_EVENT||type===HEUKMU_AREA_EVENT)events.push({action:actor.actions,type,...row});}});
-  for(actor.actions=1;actor.actions<=19;actor.actions++){
+  for(actor.actions=1;actor.actions<=60;actor.actions++){
    const before=combat.state(actor).energy,cast=combat.beforeAction(actor);
-   if(cast)assert.equal(before-combat.state(actor).energy,code===HELIOS_KING_CODE?20:35);
+   if(cast)assert.equal(before-combat.state(actor).energy,code===HELIOS_KING_CODE?10:35);
    else combat.afterBasic(actor,enemy,true);
    assert.equal(combat.state(actor).pending,null);assert(combat.state(actor).energy>=0);
   }return events;};
- const h=run(HELIOS_KING_CODE);assert.deepEqual(h.map(e=>e.action),[1,4,7,10,13,16,19]);
+ const h=run(HELIOS_KING_CODE);assert.deepEqual(h.map(e=>e.action),Array.from({length:30},(_,i)=>1+2*i));
  h.forEach((e,i)=>assert.equal(e.skillId,HELIOS_KING_AREA_SKILLS[i%2].id));
- assert.deepEqual(run(HEUKMU_CODE).map(e=>e.action),[1,6,11,16]);
+ assert.deepEqual(run(HEUKMU_CODE).map(e=>e.action),Array.from({length:12},(_,i)=>1+5*i));
+});
+
+test('an existing King loadout uses the current speed and skills on the next battle',()=>{
+ const saved=snapshot(HELIOS_KING_CODE);
+ saved.heliosKingPolicyVersion=1;
+ saved.deploymentVersion='20261106-helios-king-live-v1';
+ for(const skill of saved.skills)Object.assign(skill.balance,{cooldownTurns:3,cost:20});
+ for(const mode of ['PVE','PVP']){
+  const king=buildMercenaryFighter(saved,'A',mode,buildFighter);
+  assert.equal(king.heliosKingPolicyVersion,2);
+  const base=buildFighter({id:HELIOS_KING_CODE,power:HELIOS_KING_COMBAT.speedReferencePower,type:'NONE'},5,'A',null,mode);
+  assert.equal(king.speed,Math.round(base.speed*4.5));
+  assert.deepEqual(king.skills.map(s=>[s.balance.cooldownTurns,s.balance.cost]),mode==='PVE'?[[2,10],[2,10]]:[]);
+ }
+ assert.equal(saved.skills[0].balance.cooldownTurns,3);
+});
+
+test('King retains fractional action credit in solo, duo and two-companion formations',()=>{
+ for(const mode of ['PVE','PVP'])for(const formation of ['solo','duo','two-companion']){
+  const king=fighter(HELIOS_KING_CODE,'A',mode);
+  const ally=buildFighter(cards()[0],0,'A',null,mode);
+  const formationTeam=[ally,king];
+  const other=fighter('V-959','A',mode);
+  if(formation==='duo'){
+   ally.ownerId=king.ownerId='one';
+   other.ownerId='two';
+  }
+  if(formation!=='solo')formationTeam.push(other);
+  const teams={A:formationTeam,B:[]};
+  const cadence=formation==='two-companion'?independentMercenaryTurnCadence(teams):mercenaryTurnCadence(teams);
+  let kingTurns=0,otherTurns=0;
+  for(let i=0;i<50;i++){
+   cadence.acted(ally);
+   for(let actor; (actor=cadence.pending()); ){
+    assert(kingTurns+otherTurns<400);
+    if(actor===king)kingTurns++;else {assert.equal(actor,other);otherTurns++;}
+    cadence.acted(actor);
+   }
+  }
+  assert.equal(kingTurns,225);
+  assert.equal(otherTurns,formation==='two-companion'?156:0);
+  king.hp=0;cadence.acted(ally);
+  assert.notEqual(cadence.pending(),king);
+ }
 });
 
 test('real PVE battle emits both authoritative skills; real PVP remains normal attacks only',()=>{

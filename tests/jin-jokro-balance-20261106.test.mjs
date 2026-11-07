@@ -2,25 +2,27 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {cards,snapshot,fighter,team,scenarios} from './helpers/helios-king-balance-20261106.mjs';
 import {JIN_JOKRO_CODE as J,JIN_JOKRO_COMBAT,JIN_JOKRO_AREA_SKILLS as SKILLS,JIN_JOKRO_BASIC_FORMS,JIN_JOKRO_AREA_EVENT as EVENT,jinJokroIncomingDamage} from '../shared/mercenary-jin-jokro-v1.mjs';
-import {HELIOS_KING_CODE as H,HELIOS_KING_COMBAT,HELIOS_KING_AREA_SKILLS,heliosKingIncomingDamage} from '../shared/mercenary-helios-king-v1.mjs';
+import {HELIOS_KING_CODE as H,HELIOS_KING_BASE_COMBAT,HELIOS_KING_AREA_SKILLS,heliosKingIncomingDamage} from '../shared/mercenary-helios-king-v1.mjs';
 import {applyMercenaryCombatLink,mercenaryEffectiveAttack,mercenaryDamageCapHp} from '../shared/mercenary-combat-link-v2103.mjs';
 import {mercenaryCombat,mercenaryBaseActionCredit} from '../functions/_mercenary_combat.js';
 import {buildFighter,createPveBattleV2,createPvpBattleV2} from '../functions/_battle_v2_preview.js';
 import {resolveJinJokroArea} from '../functions/_mercenary_jin_jokro.js';
 import {mercenaryLevelXpMultiplier} from '../shared/mercenary-level-v1.mjs';
 
-test('Jin Jokro exactly matches Helios King combat stats at all tested growth/gear and modes',()=>{
+test('Jin Jokro retains the common base stats and its original speed across growth, gear and modes',()=>{
  for(const mode of ['PVE','PVP'])for(const s of scenarios){
   const pairs=[J,H].map(code=>team(code,'A',mode,s.level,s.gear,s.power));
   pairs.forEach(t=>applyMercenaryCombatLink([t,cards().map((c,i)=>buildFighter(c,i,'B',null,mode))]));
   const [j,h]=pairs.map(t=>t.at(-1));
-  for(const key of ['basePower','attack','defense','maxHp','shield','speed','counterImmune','controlImmune','poisonImmune'])assert.equal(j[key],h[key],`${mode}/${s.name}/${key}`);
+  for(const key of ['basePower','attack','defense','maxHp','shield','counterImmune','controlImmune','poisonImmune'])assert.equal(j[key],h[key],`${mode}/${s.name}/${key}`);
+  assert(j.speed<h.speed);
   assert.equal(mercenaryEffectiveAttack(j),mercenaryEffectiveAttack(h));assert.equal(mercenaryDamageCapHp(j),mercenaryDamageCapHp(h));
   assert.equal(mercenaryBaseActionCredit([j]),3.12);assert.equal(jinJokroIncomingDamage(j,123456),heliosKingIncomingDamage(h,123456));
   assert.equal(mercenaryLevelXpMultiplier(j),5);assert.equal(j.skills.length,mode==='PVE'?3:0);
   assert.deepEqual(pairs[0].slice(0,-1).map(a=>[a.attack,a.maxHp,a.shield]),pairs[1].slice(0,-1).map(a=>[a.attack,a.maxHp,a.shield]));
  }
- for(const k of Object.keys(HELIOS_KING_COMBAT))if(!['motionPlaybackRate','effectPlaybackRate'].includes(k))assert.deepEqual(JIN_JOKRO_COMBAT[k],HELIOS_KING_COMBAT[k],k);
+ for(const k of Object.keys(HELIOS_KING_BASE_COMBAT))if(!['motionPlaybackRate','effectPlaybackRate'].includes(k))assert.deepEqual(JIN_JOKRO_COMBAT[k],HELIOS_KING_BASE_COMBAT[k],k);
+ assert.equal(JIN_JOKRO_COMBAT.speedScale,3.12);
  assert.equal(JIN_JOKRO_COMBAT.motionPlaybackRate,1.5);assert.equal(JIN_JOKRO_COMBAT.effectPlaybackRate,1.5);
 });
 
@@ -53,13 +55,14 @@ test('three skills rotate with the same three-action cooldown and one energy cha
  assert.deepEqual(events.map(e=>e.action),[1,4,7,10,13,16,19]);events.forEach((e,i)=>assert.equal(e.skillId,SKILLS[i%3].id));
 });
 
-test('real PVE emits all three skills and PVP runs normal attacks with matching Helios outcomes',()=>{
+test('real PVE emits all three skills and PVP runs normal attacks',()=>{
  for(const level of [1,11,21]){
   const pve=createPveBattleV2({cards:cards(),monster:{id:1,battle_power:160e9},seed:77,mercenary:snapshot(J,level)});
   const events=pve.result.timeline.filter(e=>e.type===EVENT);assert.equal(new Set(events.map(e=>e.skillId)).size,3);assert(events.every(e=>e.hits.every(h=>Number.isFinite(h.targetHpAfter))));
   for(let seed=1;seed<=12;seed++){
-   const run=code=>createPvpBattleV2({attackerCards:cards(),defenderCards:cards(),attackerMercenary:snapshot(code,level,'PVP'),defenderMercenary:snapshot('V-971',level,'PVP'),seed});
-   const j=run(J),h=run(H);assert(!j.result.timeline.some(e=>e.type===EVENT));assert.equal(j.result.winner,h.result.winner);assert.equal(j.result.timeline.length,h.result.timeline.length);
+   const j=createPvpBattleV2({attackerCards:cards(),defenderCards:cards(),attackerMercenary:snapshot(J,level,'PVP'),defenderMercenary:snapshot('V-971',level,'PVP'),seed});
+   const actions=j.result.timeline.filter(e=>e.actorId==='A:MERCENARY:'+J);
+   assert(actions.some(e=>e.type==='TURN'));assert(!actions.some(e=>e.type===EVENT||e.type==='MERCENARY_WINDUP'));
   }
  }
 });
