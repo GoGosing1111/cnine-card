@@ -27,11 +27,12 @@ import {MERCENARY_CMS_SEED} from '../functions/_mercenary_cms_seed.js';
 import {validateCatalog} from '../mercenary-codex/model.mjs';
 const snapshot=code=>({...limitedDeploymentSnapshot(code),combat:fixture.combat});
 const fighter=(code,side='A',mode='PVE',power=0)=>buildMercenaryFighter({...snapshot(code),equipment:{schemaVersion:1,mode,power}},side,mode,buildFighter);
-test('Hakuya independently matches current Revan stats, equipment, link, caps, defenses and 3.12 cadence',()=>{
+test('Hakuya has 4.5 action credit with Revan damage, equipment, links and defenses',()=>{
  assert.notEqual(HAKUYA_COMBAT,REVAN_COMBAT);assert.equal(HAKUYA_COMBAT.basePower,2700000);assert.equal(HAKUYA_PLAYBACK_RATE,2);assert.equal(mercenaryLevelXpMultiplier({code:HAKUYA_CODE}),5);
  for(const mode of ['PVE','PVP'])for(const gear of [0,1e8]){
   const r=fighter(HAKUYA_CODE,'A',mode,gear),j=fighter(REVAN_CODE,'B',mode,gear);
-  for(const key of ['attack','maxHp','defense','speed','counterImmune','controlImmune','poisonImmune'])assert.equal(r[key],j[key],key);
+  for(const key of ['attack','maxHp','defense','counterImmune','controlImmune','poisonImmune'])assert.equal(r[key],j[key],key);
+  assert(r.speed>j.speed);
   applyMercenaryCombatLink(['A','B'].map((side,i)=>[...tierCards(2e7).map((c,n)=>buildFighter(c,n,side,null,mode)),[r,j][i]]));
   assert.equal(mercenaryEffectiveAttack(r),mercenaryEffectiveAttack(j));assert.equal(r.maxHp,j.maxHp);assert.equal(r.shield,j.shield);
   const runtime=mercenaryCombat({teams:{A:[r],B:[j]},hit(){},damage(){},knockout(){},emit(){},clock:()=>0});assert.equal(runtime.basicDamageCapScale(r),runtime.basicDamageCapScale(j));assert.equal(runtime.beforeBasicDamage(r,j,100),runtime.beforeBasicDamage(j,r,100));
@@ -39,7 +40,7 @@ test('Hakuya independently matches current Revan stats, equipment, link, caps, d
   assert.deepEqual(r.skills.map(s=>s.id),mode==='PVE'?[HAKUYA_AREA_SKILL.id]:[]);
  }
  const r=fighter(HAKUYA_CODE),card={id:'card',side:'A',hp:1},enemy={id:'enemy',side:'B',hp:1},cadence=mercenaryTurnCadence({A:[card,r],B:[enemy]});let actions=0;
- for(let i=0;i<25;i++){cadence.acted(card);while(cadence.pending()){cadence.acted(r);actions++;assert(actions<100);}}assert.equal(actions,78);
+ for(let i=0;i<50;i++){cadence.acted(card);while(cadence.pending()){cadence.acted(r);actions++;assert(actions<=225);}}assert.equal(actions,225);
 });
 test('two basic forms do not add actions or damage; area divides exactly 3024% once across unique living targets',()=>{
  assert.equal(HAKUYA_BASIC_FORMS.length,2);assert(HAKUYA_BASIC_FORMS.every(s=>s.basicForm&&s.balance.damageRatio===1.5));
@@ -49,23 +50,38 @@ test('two basic forms do not add actions or damage; area divides exactly 3024% o
  for(const change of [{battleMode:'PVP'},{hp:0},{stunned:true},{silenced:true},{code:REVAN_CODE}])assert.deepEqual(resolveHakuyaArea({...args,actor:{...actor,...change}}),[]);
  assert.deepEqual(resolveHakuyaArea({...args,skill:{...HAKUYA_AREA_SKILL,id:'MS-000'}}),[]);
 });
-test('area energy and cooldown match Revan, with no area cast in PVP',()=>{
+test('Hakuya alternates both area forms on a two-action cycle and uses normal attacks in PVP',()=>{
  const run=(code,mode='PVE')=>{
   const a=fighter(code,'A',mode),enemy={...buildFighter(tierCards(2e7)[0],0,'B',null,mode),hp:1e15,maxHp:1e15},events=[];
   const c=mercenaryCombat({teams:{A:[a],B:[enemy]},clock:()=>a.actions,hit:()=>({hit:true,damage:1}),damage:()=>({hpDamage:1,absorbed:0}),knockout(){},emit:(type,data)=>{if(type.endsWith('_AREA'))events.push({action:a.actions,...data});}});
-  for(a.actions=1;a.actions<=30;a.actions++){if(!c.beforeAction(a))c.afterBasic(a,enemy,true);assert(c.state(a).energy>=0);}return {events,energy:c.state(a).energy};
+  for(a.actions=1;a.actions<=60;a.actions++){
+   const before=c.state(a).energy;
+   if(c.beforeAction(a))assert.equal(before-c.state(a).energy,code===HAKUYA_CODE?10:20);
+   else c.afterBasic(a,enemy,true);
+   assert(c.state(a).energy>=0);
+  }
+  return events;
  };
- const r=run(HAKUYA_CODE),j=run(REVAN_CODE);assert.deepEqual(r.events.map(e=>e.action),[1,4,7,10,13,16,19,22,25,28]);assert.deepEqual(r.events.map(e=>e.action),j.events.map(e=>e.action));assert.equal(r.energy,j.energy);assert.deepEqual(r.events.map(e=>e.visualMode),Array.from({length:10},(_,i)=>i%2?'skill_rain':'skill_wheel'));assert.deepEqual(HAKUYA_AREA_FORMS.map(s=>s.id),['MS-911','MS-912']);for(const key of ['damageRatio','cost','cooldownTurns'])assert.equal(HAKUYA_AREA_SKILL.balance[key],REVAN_PVE_BALANCE[key]);assert.deepEqual(run(HAKUYA_CODE,'PVP').events,[]);
+ const casts=run(HAKUYA_CODE);
+ assert.deepEqual(casts.map(e=>e.action),Array.from({length:30},(_,i)=>2*i+1));
+ assert.deepEqual(casts.map(e=>e.presentationSkillId),Array.from({length:30},(_,i)=>HAKUYA_AREA_FORMS[i%2].id));
+ assert.deepEqual(casts.map(e=>e.visualMode),Array.from({length:30},(_,i)=>i%2?'skill_rain':'skill_wheel'));
+ assert.deepEqual(HAKUYA_AREA_FORMS.map(s=>s.id),['MS-911','MS-912']);
+ assert.equal(HAKUYA_AREA_SKILL.balance.damageRatio,REVAN_PVE_BALANCE.damageRatio);
+ assert.deepEqual(run(REVAN_CODE).map(e=>e.action),Array.from({length:20},(_,i)=>3*i+1));
+ assert.deepEqual(run(HAKUYA_CODE,'PVP'),[]);
 });
-test('actual seeded PVE and PVP outcomes match Revan at three power tiers on both sides',()=>{
- const state=a=>Object.fromEntries(['hp','maxHp','shield','maxShield','attack','defense','speed','gauge','openingAttack'].map(k=>[k,a[k]]));
- const outcome=b=>({winner:b.result.winner,turns:b.result.timeline.filter(e=>e.type==='TURN').map(e=>({side:e.side,damage:e.damage,absorbed:e.absorbed,dodge:e.dodge,critical:e.critical})),final:Object.fromEntries(['A','B'].map(side=>[side,[...b.result.final[side],...(b.result.final.mercenaries?.[side]||[])].map(state)]))});
+test('normal battle entry rotates Hakuya area forms in PVE and delivers basic hits on both sides of PVP',()=>{
  for(const power of [1e6,2e7,1e8])for(let seed=1;seed<=16;seed++){
   const cards=tierCards(power),options={cards,monster:{id:1,battle_power:power*800},seed};
-  assert.deepEqual(outcome(createPveBattleV2({...options,mercenary:snapshot(HAKUYA_CODE)})),outcome(createPveBattleV2({...options,mercenary:snapshot(REVAN_CODE)})));
-  for(const side of ['attackerMercenary','defenderMercenary']){
-   const options={attackerCards:cards,defenderCards:cards,seed};const r=createPvpBattleV2({...options,[side]:snapshot(HAKUYA_CODE)}),j=createPvpBattleV2({...options,[side]:snapshot(REVAN_CODE)});
-   assert.deepEqual(outcome(r),outcome(j));assert(!r.result.timeline.some(e=>e.type===HAKUYA_AREA_EVENT));
+  const pve=createPveBattleV2({...options,mercenary:snapshot(HAKUYA_CODE)});
+  const casts=pve.result.timeline.filter(e=>e.type===HAKUYA_AREA_EVENT);
+  assert(casts.length>=2);casts.forEach((e,i)=>assert.equal(e.presentationSkillId,HAKUYA_AREA_FORMS[i%2].id));
+  for(const [slot,side] of [['attackerMercenary','A'],['defenderMercenary','B']]){
+   const pvp=createPvpBattleV2({attackerCards:cards,defenderCards:cards,[slot]:snapshot(HAKUYA_CODE),seed});
+   const own=pvp.result.timeline.filter(e=>e.actorId===side+':MERCENARY:'+HAKUYA_CODE);
+   assert(own.some(e=>e.type==='TURN'&&e.damage+e.absorbed>0));
+   assert(!own.some(e=>e.type===HAKUYA_AREA_EVENT||e.type==='MERCENARY_WINDUP'));
   }
  }
 });

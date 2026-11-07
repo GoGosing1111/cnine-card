@@ -94,47 +94,59 @@ test('the two-action King cooldown alternates both skills and stays funded by la
  assert.deepEqual(run(HEUKMU_CODE).map(e=>e.action),Array.from({length:12},(_,i)=>1+5*i));
 });
 
-test('an existing King loadout uses the current speed and skills on the next battle',()=>{
- const saved=snapshot(HELIOS_KING_CODE);
- saved.heliosKingPolicyVersion=1;
- saved.deploymentVersion='20261106-helios-king-live-v1';
- for(const skill of saved.skills)Object.assign(skill.balance,{cooldownTurns:3,cost:20});
+const oldLoadouts=[
+ {code:HELIOS_KING_CODE,policy:'heliosKingPolicyVersion',version:1,deployment:'20261106-helios-king-live-v1',skillCount:2},
+ {code:'V-959',policy:'jinJokroPolicyVersion',version:1,deployment:'20261106-jin-jokro-live-v1',skillCount:3},
+ {code:'V-967',policy:'hakuyaPolicyVersion',version:2,deployment:'20261105-hakuya-revan-parity-v1',skillCount:1}
+];
+for(const {code,policy,version,deployment,skillCount} of oldLoadouts)test(code+' uses its current tempo on a new battle from an old loadout',()=>{
+ const saved=snapshot(code);
+ saved[policy]=version;
+ saved.deploymentVersion=deployment;
+ for(const skill of saved.skills){
+  Object.assign(skill.balance,{cooldownTurns:3,cost:20});
+  for(const form of skill.presentationVariants||[])Object.assign(form.balance,{cooldownTurns:3,cost:20});
+ }
  for(const mode of ['PVE','PVP']){
-  const king=buildMercenaryFighter(saved,'A',mode,buildFighter);
-  assert.equal(king.heliosKingPolicyVersion,2);
-  const base=buildFighter({id:HELIOS_KING_CODE,power:HELIOS_KING_COMBAT.speedReferencePower,type:'NONE'},5,'A',null,mode);
-  assert.equal(king.speed,Math.round(base.speed*4.5));
-  assert.deepEqual(king.skills.map(s=>[s.balance.cooldownTurns,s.balance.cost]),mode==='PVE'?[[2,10],[2,10]]:[]);
+  const actor=buildMercenaryFighter(saved,'A',mode,buildFighter);
+  assert.equal(actor[policy],version+1);
+  const base=buildFighter({id:code,power:HELIOS_KING_COMBAT.speedReferencePower,type:'NONE'},5,'A',null,mode);
+  assert.equal(actor.speed,Math.round(base.speed*4.5));
+  assert.equal(actor.skills.length,mode==='PVE'?skillCount:0);
+  for(const skill of actor.skills)for(const form of [skill,...(skill.presentationVariants||[])])
+   assert.deepEqual([form.balance.cooldownTurns,form.balance.cost],[2,10]);
  }
  assert.equal(saved.skills[0].balance.cooldownTurns,3);
 });
 
-test('King retains fractional action credit in solo, duo and two-companion formations',()=>{
+for(const [code,otherCode,expectedOtherTurns] of [
+ [HELIOS_KING_CODE,'V-959',225],['V-959','V-971',156],['V-967','V-959',225]
+])test(code+' retains fractional action credit in solo, duo and two-companion formations',()=>{
  for(const mode of ['PVE','PVP'])for(const formation of ['solo','duo','two-companion']){
-  const king=fighter(HELIOS_KING_CODE,'A',mode);
+  const main=fighter(code,'A',mode);
   const ally=buildFighter(cards()[0],0,'A',null,mode);
-  const formationTeam=[ally,king];
-  const other=fighter('V-959','A',mode);
+  const formationTeam=[ally,main];
+  const other=fighter(otherCode,'A',mode);
   if(formation==='duo'){
-   ally.ownerId=king.ownerId='one';
+   ally.ownerId=main.ownerId='one';
    other.ownerId='two';
   }
   if(formation!=='solo')formationTeam.push(other);
   const teams={A:formationTeam,B:[]};
   const cadence=formation==='two-companion'?independentMercenaryTurnCadence(teams):mercenaryTurnCadence(teams);
-  let kingTurns=0,otherTurns=0;
+  let mainTurns=0,otherTurns=0;
   for(let i=0;i<50;i++){
    cadence.acted(ally);
    for(let actor; (actor=cadence.pending()); ){
-    assert(kingTurns+otherTurns<400);
-    if(actor===king)kingTurns++;else {assert.equal(actor,other);otherTurns++;}
+    assert(mainTurns+otherTurns<450);
+    if(actor===main)mainTurns++;else {assert.equal(actor,other);otherTurns++;}
     cadence.acted(actor);
    }
   }
-  assert.equal(kingTurns,225);
-  assert.equal(otherTurns,formation==='two-companion'?156:0);
-  king.hp=0;cadence.acted(ally);
-  assert.notEqual(cadence.pending(),king);
+  assert.equal(mainTurns,225);
+  assert.equal(otherTurns,formation==='two-companion'?expectedOtherTurns:0);
+  main.hp=0;cadence.acted(ally);
+  assert.notEqual(cadence.pending(),main);
  }
 });
 

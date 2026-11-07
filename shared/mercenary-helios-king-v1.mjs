@@ -16,7 +16,7 @@ export const HELIOS_KING_BASE_COMBAT=Object.freeze({
   shieldPercent:(PRIME_COMBAT.link.shieldPercent+60)*powerScale-60
  }),motionPlaybackRate:1,effectPlaybackRate:1
 });
-// Jin Jokro also uses the original profile; the faster tempo belongs to V-966.
+// Jin Jokro shares the base stats and defines its own action rate.
 export const HELIOS_KING_COMBAT=Object.freeze({
  ...HELIOS_KING_BASE_COMBAT,version:2,speedScale:4.5,actionCredit:4.5
 });

@@ -2,27 +2,26 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {cards,snapshot,fighter,team,scenarios} from './helpers/helios-king-balance-20261106.mjs';
 import {JIN_JOKRO_CODE as J,JIN_JOKRO_COMBAT,JIN_JOKRO_AREA_SKILLS as SKILLS,JIN_JOKRO_BASIC_FORMS,JIN_JOKRO_AREA_EVENT as EVENT,jinJokroIncomingDamage} from '../shared/mercenary-jin-jokro-v1.mjs';
-import {HELIOS_KING_CODE as H,HELIOS_KING_BASE_COMBAT,HELIOS_KING_AREA_SKILLS,heliosKingIncomingDamage} from '../shared/mercenary-helios-king-v1.mjs';
+import {HELIOS_KING_CODE as H,HELIOS_KING_COMBAT,HELIOS_KING_AREA_SKILLS,heliosKingIncomingDamage} from '../shared/mercenary-helios-king-v1.mjs';
 import {applyMercenaryCombatLink,mercenaryEffectiveAttack,mercenaryDamageCapHp} from '../shared/mercenary-combat-link-v2103.mjs';
 import {mercenaryCombat,mercenaryBaseActionCredit} from '../functions/_mercenary_combat.js';
 import {buildFighter,createPveBattleV2,createPvpBattleV2} from '../functions/_battle_v2_preview.js';
 import {resolveJinJokroArea} from '../functions/_mercenary_jin_jokro.js';
 import {mercenaryLevelXpMultiplier} from '../shared/mercenary-level-v1.mjs';
 
-test('Jin Jokro retains the common base stats and its original speed across growth, gear and modes',()=>{
+test('Jin Jokro matches Helios King stats and tempo across growth, gear and modes',()=>{
  for(const mode of ['PVE','PVP'])for(const s of scenarios){
   const pairs=[J,H].map(code=>team(code,'A',mode,s.level,s.gear,s.power));
   pairs.forEach(t=>applyMercenaryCombatLink([t,cards().map((c,i)=>buildFighter(c,i,'B',null,mode))]));
   const [j,h]=pairs.map(t=>t.at(-1));
   for(const key of ['basePower','attack','defense','maxHp','shield','counterImmune','controlImmune','poisonImmune'])assert.equal(j[key],h[key],`${mode}/${s.name}/${key}`);
-  assert(j.speed<h.speed);
+  assert.equal(j.speed,h.speed);
   assert.equal(mercenaryEffectiveAttack(j),mercenaryEffectiveAttack(h));assert.equal(mercenaryDamageCapHp(j),mercenaryDamageCapHp(h));
-  assert.equal(mercenaryBaseActionCredit([j]),3.12);assert.equal(jinJokroIncomingDamage(j,123456),heliosKingIncomingDamage(h,123456));
+  assert.equal(mercenaryBaseActionCredit([j]),4.5);assert.equal(jinJokroIncomingDamage(j,123456),heliosKingIncomingDamage(h,123456));
   assert.equal(mercenaryLevelXpMultiplier(j),5);assert.equal(j.skills.length,mode==='PVE'?3:0);
   assert.deepEqual(pairs[0].slice(0,-1).map(a=>[a.attack,a.maxHp,a.shield]),pairs[1].slice(0,-1).map(a=>[a.attack,a.maxHp,a.shield]));
  }
- for(const k of Object.keys(HELIOS_KING_BASE_COMBAT))if(!['motionPlaybackRate','effectPlaybackRate'].includes(k))assert.deepEqual(JIN_JOKRO_COMBAT[k],HELIOS_KING_BASE_COMBAT[k],k);
- assert.equal(JIN_JOKRO_COMBAT.speedScale,3.12);
+ for(const k of Object.keys(HELIOS_KING_COMBAT))if(!['version','motionPlaybackRate','effectPlaybackRate'].includes(k))assert.deepEqual(JIN_JOKRO_COMBAT[k],HELIOS_KING_COMBAT[k],k);
  assert.equal(JIN_JOKRO_COMBAT.motionPlaybackRate,1.5);assert.equal(JIN_JOKRO_COMBAT.effectPlaybackRate,1.5);
 });
 
@@ -48,11 +47,11 @@ test('each area resolver divides one budget among unique living enemies and pres
  }
 });
 
-test('three skills rotate with the same three-action cooldown and one energy charge',()=>{
+test('three skills rotate every two actions at one ten-energy charge per cast',()=>{
  const actor=fighter(J),enemy={...buildFighter(cards()[0],0,'B',null,'PVE'),hp:1e15,maxHp:1e15},events=[];
  const c=mercenaryCombat({teams:{A:[actor],B:[enemy]},clock:()=>actor.actions,hit:()=>({hit:true,damage:1}),damage:()=>({hpDamage:1,absorbed:0}),knockout(){},emit:(type,row)=>{if(type===EVENT)events.push({action:actor.actions,...row});}});
- for(actor.actions=1;actor.actions<=19;actor.actions++){const before=c.state(actor).energy,cast=c.beforeAction(actor);if(cast)assert.equal(before-c.state(actor).energy,20);else c.afterBasic(actor,enemy,true);assert.equal(c.state(actor).pending,null);}
- assert.deepEqual(events.map(e=>e.action),[1,4,7,10,13,16,19]);events.forEach((e,i)=>assert.equal(e.skillId,SKILLS[i%3].id));
+ for(actor.actions=1;actor.actions<=60;actor.actions++){const before=c.state(actor).energy,cast=c.beforeAction(actor);if(cast)assert.equal(before-c.state(actor).energy,10);else c.afterBasic(actor,enemy,true);assert.equal(c.state(actor).pending,null);}
+ assert.deepEqual(events.map(e=>e.action),Array.from({length:30},(_,i)=>2*i+1));events.forEach((e,i)=>assert.equal(e.skillId,SKILLS[i%3].id));
 });
 
 test('real PVE emits all three skills and PVP runs normal attacks',()=>{

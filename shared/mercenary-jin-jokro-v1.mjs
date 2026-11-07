@@ -2,10 +2,12 @@ import {HELIOS_KING_BASE_COMBAT,HELIOS_KING_PVP,HELIOS_KING_GENERAL_JOK_PRIORITY
 export const JIN_JOKRO_CODE='V-959';
 export const JIN_JOKRO_AREA_EVENT='MERCENARY_JIN_JOKRO_AREA';
 export const JIN_JOKRO_AREA_MECHANIC='JIN_JOKRO_SWORD_ULTIMATES';
-export const JIN_JOKRO_COMBAT=Object.freeze({...HELIOS_KING_BASE_COMBAT,motionPlaybackRate:1.5,effectPlaybackRate:1.5});
+export const JIN_JOKRO_COMBAT=Object.freeze({
+ ...HELIOS_KING_BASE_COMBAT,version:2,speedScale:4.5,actionCredit:4.5,motionPlaybackRate:1.5,effectPlaybackRate:1.5
+});
 export const JIN_JOKRO_PVP=Object.freeze({...HELIOS_KING_PVP,version:'20261106-jin-jokro-pvp-v1'});
 export const JIN_JOKRO_GENERAL_JOK_PRIORITY=HELIOS_KING_GENERAL_JOK_PRIORITY;
-export const JIN_JOKRO_PVE_BALANCE=Object.freeze({version:1,cooldownTurns:3,cost:20});
+export const JIN_JOKRO_PVE_BALANCE=Object.freeze({version:2,cooldownTurns:2,cost:10});
 export const JIN_JOKRO_BASIC_FORMS=Object.freeze([
  {id:'MS-891',name:'흑뢰발도',visualMode:'iaido'},
  {id:'MS-892',name:'적섬연참',visualMode:'cross'},
@@ -28,7 +30,7 @@ export const JIN_JOKRO_ART=Object.freeze({
  frame:'assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png',artWindow:Object.freeze({left:5.957,top:5.794,width:88.086,height:88.086}),accent:'#ff2020',
  basePower:JIN_JOKRO_COMBAT.basePower,skills:Object.freeze([...JIN_JOKRO_BASIC_FORMS,...JIN_JOKRO_AREA_SKILLS]),
  acquisitionEnabled:false,packAcquisitionEnabled:false,craftAcquisitionEnabled:false,deploymentEnabled:true,
- combatLinkDescription:'기본 전투력 3,500,000. 헬리오스 킹과 같은 공격·체력·방어·연계 기준. 흑뢰발도·적섬연참·섬광관통은 165% 일반 공격으로 순환합니다. PVE 광역기 흑천일섬 3,780%, 비검오의 · 흑천단절 4,158%, 삼도오의 · 무간참옥 4,536% 피해를 생존한 적에게 나누어 대상당 한 번 적용합니다. 광역기 3개는 에너지 20·재사용 3행동을 공유합니다. 개인 피해 80% 경감·상태이상·반격 보호·행동 3.12배. PVP는 일반 공격과 헬리오스 킹의 보정 정책을 적용합니다. 운영자 지정 지급 전용.'
+ combatLinkDescription:`기본 전투력 3,500,000. 헬리오스 킹과 같은 공격·체력·방어·연계 기준. 자연 행동 속도는 ${JIN_JOKRO_COMBAT.speedScale}배이며, 아군 카드 행동당 추가 행동 ${JIN_JOKRO_COMBAT.actionCredit}회분을 얻습니다. 흑뢰발도·적섬연참·섬광관통은 165% 일반 공격으로 순환합니다. PVE 광역기 흑천일섬 3,780%, 비검오의 · 흑천단절 4,158%, 삼도오의 · 무간참옥 4,536% 피해를 생존한 적에게 나누어 대상당 한 번 적용합니다. 광역기 3개는 각각 에너지 ${JIN_JOKRO_PVE_BALANCE.cost}을 소모하며 재사용 대기시간 ${JIN_JOKRO_PVE_BALANCE.cooldownTurns}행동을 공유합니다. 개인 피해 80% 경감·상태이상·반격 보호. PVP는 일반 공격과 헬리오스 킹의 보정 정책을 적용합니다. 운영자 지정 지급 전용.`
 });
-export function jinJokroDeploymentSnapshot(){return {...JIN_JOKRO_ART,actorKind:'MERCENARY',level:1,statMode:'RANK_FIXED',attackStyle:'MELEE',skills:structuredClone(JIN_JOKRO_AREA_SKILLS),pendingSkillIds:[],jinJokroPolicyVersion:JIN_JOKRO_COMBAT.version,deploymentVersion:'20261106-jin-jokro-live-v1'};}
-export const jinJokroCodexSkills=()=>JIN_JOKRO_ART.skills.map(s=>({...s,ready:true,target:s.basicForm?'적 1명':'적 전체',effect:s.basicForm?'삼도류 검격으로 적 하나에 165% 일반 공격을 한 번 적용합니다.':`검격과 흑뢰로 총 ${(s.balance.damageRatio*100).toLocaleString('ko-KR')}% 피해를 적 전체에 나누어 적용합니다.`,trigger:s.basicForm?'일반 공격 · 발도 → 연참 → 관통 순환':'PVE · 에너지 20 · 광역기 공통 재사용 3행동',counterplay:'방어·보호막에 대응됩니다.',bossRule:'서버 전투 규칙 적용',procRule:'대상당 한 번 적용 · 연출 타수는 피해 횟수를 늘리지 않습니다.'}));
+export function jinJokroDeploymentSnapshot(){return {...JIN_JOKRO_ART,actorKind:'MERCENARY',level:1,statMode:'RANK_FIXED',attackStyle:'MELEE',skills:structuredClone(JIN_JOKRO_AREA_SKILLS),pendingSkillIds:[],jinJokroPolicyVersion:JIN_JOKRO_COMBAT.version,deploymentVersion:'20261108-jin-jokro-tempo-v2'};}
+export const jinJokroCodexSkills=()=>JIN_JOKRO_ART.skills.map(s=>({...s,ready:true,target:s.basicForm?'적 1명':'적 전체',effect:s.basicForm?'삼도류 검격으로 적 하나에 165% 일반 공격을 한 번 적용합니다.':`검격과 흑뢰로 총 ${(s.balance.damageRatio*100).toLocaleString('ko-KR')}% 피해를 적 전체에 나누어 적용합니다.`,trigger:s.basicForm?'일반 공격 · 발도 → 연참 → 관통 순환':`PVE · 에너지 ${s.balance.cost} · 광역기 공통 재사용 ${s.balance.cooldownTurns}행동`,counterplay:'방어·보호막에 대응됩니다.',bossRule:'서버 전투 규칙 적용',procRule:'대상당 한 번 적용 · 연출 타수는 피해 횟수를 늘리지 않습니다.'}));
