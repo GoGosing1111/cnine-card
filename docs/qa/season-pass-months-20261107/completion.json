@@ -1,0 +1,134 @@
+{
+  "status": "LIVE",
+  "priceWon": 29800,
+  "claimTermDays": 30,
+  "secondSale": "CLOSED_UNTIL_OWNER_REGISTERS_30_DAYS_AND_OPENS",
+  "acceptedPolicy": "CMS에서 2개월차 보상을 따로 등록한 뒤 판매",
+  "before": {
+    "at": "2026-11-07 10:52:49.340046+00",
+    "readOnly": true,
+    "firstRevision": 17,
+    "firstEnabled": true,
+    "firstConfiguredDays": 30,
+    "firstSalesStartsAt": 1791647946414,
+    "firstConfigSha256": "41d309741cd86d7989f926b461284999a184bf77cd6c39cca36140f6da7a296b",
+    "secondEnabled": false,
+    "secondConfiguredDays": 0,
+    "applicationEnabled": true,
+    "legacyRecords": 113,
+    "legacyActiveFirst": 113,
+    "legacySecond": 0
+  },
+  "after": {
+    "at": "2026-11-07 11:02:00.88662+00",
+    "readOnly": true,
+    "firstRevision": 17,
+    "firstEnabled": true,
+    "firstConfiguredDays": 30,
+    "firstSalesStartsAt": 1791647946414,
+    "firstConfigSha256": "41d309741cd86d7989f926b461284999a184bf77cd6c39cca36140f6da7a296b",
+    "secondEnabled": false,
+    "secondConfiguredDays": 0,
+    "applicationEnabled": true,
+    "legacyRecords": 113,
+    "legacyActiveFirst": 113,
+    "legacySecond": 0
+  },
+  "localBrowser": [
+    {
+      "profile": "pc",
+      "width": 1440,
+      "days": 30,
+      "cmsReward": 211,
+      "oldPassLockedOnMonth2": true,
+      "bankApplicationGrantedNothing": true,
+      "approvalMonth": 2,
+      "recoveredDays": 1,
+      "extraCoins": 211,
+      "errors": [],
+      "badResources": []
+    },
+    {
+      "profile": "mobile",
+      "width": 390,
+      "days": 30,
+      "cmsReward": 211,
+      "oldPassLockedOnMonth2": true,
+      "bankApplicationGrantedNothing": true,
+      "approvalMonth": 2,
+      "recoveredDays": 1,
+      "extraCoins": 211,
+      "errors": [],
+      "badResources": []
+    }
+  ],
+  "at": "2026-11-07T11:02:21.547Z",
+  "pages": {
+    "id": "04f922f0-e26a-44da-9841-3377f6a7d6a7",
+    "url": "https://04f922f0.cnine-card.pages.dev",
+    "commit": "6ebbc42adf6bf34960b551dd5386c218e70fcc7b",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "617a89ad-7a79-4543-8e46-64d8fad4014d",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "f1265c71-8e1b-42fd-affa-4171c9ee82a1",
+      "percentage": 100
+    }
+  ],
+  "publicFiles": [
+    "js/server-support-v1.mjs",
+    "js/supporter-season-pass-v1.mjs",
+    "js/supporter-application-v1.mjs",
+    "js/adventure-lobby-v2107.js",
+    "css/supporter-season-pass-v1.css",
+    "shared/supporter-season-pass-v1.mjs",
+    "admin/index.html",
+    "admin/supporter-season-pass-admin-v1.mjs",
+    "admin/server-support-admin-v1.mjs",
+    "index.html",
+    "service-worker.js",
+    "onestore/index.html"
+  ],
+  "windows": [
+    "js/server-support-v1.mjs",
+    "js/supporter-season-pass-v1.mjs",
+    "js/supporter-application-v1.mjs",
+    "js/adventure-lobby-v2107.js",
+    "css/supporter-season-pass-v1.css",
+    "shared/supporter-season-pass-v1.mjs",
+    "index.html"
+  ],
+  "guards": {
+    "server-support/info": 401,
+    "admin/server-support/pass": 401
+  },
+  "workerContainsMonthlyPass": true,
+  "publicBrowser": [
+    {
+      "profile": "public-mobile",
+      "width": 390,
+      "days": 30,
+      "cmsReward": 211,
+      "oldPassLockedOnMonth2": true,
+      "bankApplicationGrantedNothing": true,
+      "approvalMonth": 2,
+      "recoveredDays": 1,
+      "extraCoins": 211,
+      "errors": [],
+      "badResources": []
+    }
+  ],
+  "legacyActiveFirst": 113,
+  "legacySecond": 0,
+  "secondEnabled": false,
+  "secondConfiguredDays": 0,
+  "firstConfigSha256": "41d309741cd86d7989f926b461284999a184bf77cd6c39cca36140f6da7a296b",
+  "releaseTests": 24,
+  "deliveredAssets": 20000
+}
