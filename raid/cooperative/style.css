@@ -109,7 +109,7 @@
 .coop-squad-pair{display:flex;height:100%}.coop-squad-pair figure{position:relative;width:50%;margin:0;overflow:hidden}.coop-squad-pair img{width:100%;height:100%;object-fit:cover;object-position:50% 20%}.coop-squad-pair figcaption{position:absolute;bottom:0;left:0;right:0;padding:24px 8px 8px;background:linear-gradient(transparent,#07111fee);display:grid;font-size:12px}
 
 /* Account favorites and optional two-player departure. */
-.coop-choice-shell{position:relative;min-width:0}.coop-choice-shell>.coop-choice{width:100%;height:100%}
+.coop-choice-shell{position:relative;min-width:0;content-visibility:auto;contain-intrinsic-block-size:auto 220px;overflow-clip-margin:4px}.coop-choice-shell>.coop-choice{width:100%;height:100%}
 .coop-favorite{position:absolute;right:5px;top:5px;z-index:1;width:36px;height:36px;padding:0!important;border:1px solid #baa56c!important;border-radius:50%!important;background:#101a2bea!important;color:#b6bac7;font-size:24px;line-height:1}
 .coop-favorite[aria-pressed=true]{color:#ffda73;border-color:#ffda73!important}.coop-favorite:focus-visible{outline:3px solid #c1f290;outline-offset:2px}
 .coop-filter{flex-wrap:wrap}.coop-filter [data-favorites-only]{white-space:nowrap;min-height:40px}.coop-filter [data-favorites-only][aria-pressed=true]{color:#ffda73;border-color:#ffda73}
