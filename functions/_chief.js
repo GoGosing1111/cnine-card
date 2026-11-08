@@ -34,20 +34,22 @@ async function ensure(env){
 async function rowValue(env,key){return (await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first())?.value||null}
 async function appointment(env,viewerId=null){
   await ensure(env);await ensureAvatarFoundation(env);const raw=parse(await rowValue(env,CHIEF_META_KEY),{}),startsAt=iso(raw.startsAt),endsAt=iso(raw.endsAt);
-  if(!raw.id||!raw.userId||!startsAt||!endsAt)return {active:false};
+  const appointed=Boolean(raw.id&&raw.userId&&startsAt&&endsAt);
+  if(!appointed&&!viewerId)return {active:false};
   const now=Date.now(),user=await env.DB.prepare(`SELECT u.id,u.nickname,u.status,a.code avatar_code,a.name avatar_name,a.call_sign avatar_call_sign,
     a.lobby_image avatar_lobby_image,a.lobby_mobile_image avatar_lobby_mobile_image,
     va.code viewer_avatar_code,va.name viewer_avatar_name,va.call_sign viewer_avatar_call_sign,
-    va.lobby_image viewer_avatar_lobby_image,va.lobby_mobile_image viewer_avatar_lobby_mobile_image
-    FROM users u LEFT JOIN avatar_user_loadout_v1 l ON l.user_id=u.id
+    va.lobby_image viewer_avatar_lobby_image,va.lobby_mobile_image viewer_avatar_lobby_mobile_image,vo.expires_at viewer_avatar_expires_at
+    FROM (SELECT 1 AS anchor) ctx LEFT JOIN users u ON u.id=?
+    LEFT JOIN avatar_user_loadout_v1 l ON l.user_id=u.id
     LEFT JOIN avatar_user_ownership_v1 o ON o.user_id=u.id AND o.avatar_code=l.avatar_code AND (o.expires_at IS NULL OR o.expires_at>CURRENT_TIMESTAMP)
     LEFT JOIN avatar_catalog_v1 a ON a.code=l.avatar_code AND o.avatar_code IS NOT NULL AND a.is_active=1 AND a.is_public=1
     LEFT JOIN avatar_user_loadout_v1 vl ON vl.user_id=?
     LEFT JOIN avatar_user_ownership_v1 vo ON vo.user_id=vl.user_id AND vo.avatar_code=vl.avatar_code AND (vo.expires_at IS NULL OR vo.expires_at>CURRENT_TIMESTAMP)
-    LEFT JOIN avatar_catalog_v1 va ON va.code=vl.avatar_code AND vo.avatar_code IS NOT NULL AND va.is_active=1 AND va.is_public=1
-    WHERE u.id=?`).bind(Number(viewerId)||0,Number(raw.userId)).first();
+    LEFT JOIN avatar_catalog_v1 va ON va.code=vl.avatar_code AND vo.avatar_code IS NOT NULL AND va.is_active=1 AND va.is_public=1`).bind(Number(raw.userId)||0,Number(viewerId)||0).first();
   const avatar=user?.avatar_code?{code:String(user.avatar_code),name:String(user.avatar_name||''),callSign:String(user.avatar_call_sign||''),lobbyImage:String(user.avatar_lobby_image||''),lobbyMobileImage:String(user.avatar_lobby_mobile_image||'')}:null;
-  const viewerAvatar=user?.viewer_avatar_code?{code:String(user.viewer_avatar_code),name:String(user.viewer_avatar_name||''),callSign:String(user.viewer_avatar_call_sign||''),lobbyImage:String(user.viewer_avatar_lobby_image||''),lobbyMobileImage:String(user.viewer_avatar_lobby_mobile_image||'')}:null;
+  const viewerAvatar=user?.viewer_avatar_code?{code:String(user.viewer_avatar_code),name:String(user.viewer_avatar_name||''),callSign:String(user.viewer_avatar_call_sign||''),lobbyImage:String(user.viewer_avatar_lobby_image||''),lobbyMobileImage:String(user.viewer_avatar_lobby_mobile_image||''),expiresAt:iso(user.viewer_avatar_expires_at)}:null;
+  if(!appointed)return {active:false,viewerAvatar};
   const duty=await chiefDuty(env,raw.id);
   return {...raw,dutyStatus:duty?.status||null,trialId:duty?.trial_id||null,userId:Number(raw.userId),nickname:user?.nickname||raw.nickname||'',avatar,viewerAvatar,startsAt,endsAt,active:Boolean(!['OPEN','REMOVED'].includes(duty?.status)&&user&&user.status==='ACTIVE'&&now>=Date.parse(startsAt)&&now<Date.parse(endsAt))};
 }
