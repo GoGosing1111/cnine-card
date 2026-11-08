@@ -11,6 +11,7 @@ const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
 // Renderer contracts can change while an installed client keeps old versioned URLs.
 const FRESH_BATTLE_SCRIPTS=new Set(['/js/app.js','/js/battle-v3-live.js','/preview/project-v-v3/project-v-pixi-battle.bundle.js','/pve-v3/battle.bundle.js','/preview/sustained-hunt-v2/battle.bundle.js','/preview/sustained-hunt-v2/app.js','/js/legion-hunt-entry-v1.mjs']);
+const UPDATED_SPINE_BUNDLES=new Set(['/preview/scrapyard-v3-v1/battle.bundle.js','/preview/cow-room-v3-v1/battle.bundle.js','/preview/infinite-tower-v3-v1/battle.bundle.js','/preview/v3-wide-grid-v1/battle.bundle.js','/preview/boss-resources-v2048/lab.bundle.js','/preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js','/preview/project-v-mercenary-system-v1/skills.bundle.js','/preview/coop-defense-v1/defense.bundle.js']);
 for(const path of ['/js/battle-v3-hud.mjs','/css/battle-v3-live.css','/css/pve-apocalypse-v1952.css','/js/apocalypse-challenge-v1.mjs'])FRESH_BATTLE_SCRIPTS.add(path);
 for(const path of ['/preview/lich-king-raid-v1/battle.bundle.js','/preview/lich-king-raid-v1/mechanics.css','/raid/lich-king/inline.css'])FRESH_BATTLE_SCRIPTS.add(path);
 const FRESH_ACCOUNT_SCRIPTS=new Set(['/js/martial-law-v1.js','/css/martial-law-v1.css','/shared/martial-law-v1.mjs','/shared/ranked-reform-v1.mjs','/admin/martial-law-admin.js','/js/character-loadout-v2.js','/js/character-loadout-v2-live.js','/js/equipment-thumbnails-v1.js','/js/adventure-lobby-v2107.js','/js/adventure-navigation-standalone.js','/js/soopketmon-v21-exact-shell-adapter.js','/js/player-card-v2052.js','/js/account-rank-v1.mjs','/js/joint-account-transport.mjs','/js/soopketmon-v21-runtime-router.js','/js/clan-v1.js','/js/clan-faction-v1.mjs']);
@@ -90,7 +91,10 @@ self.addEventListener('activate',event=>{
     // A transparent replacement keeps the public URLs; discard only old brand pixels.
     const media=await caches.open(CONTENT_CACHE);
     await Promise.all((await media.keys()).filter(request=>new URL(request.url).pathname.startsWith('/assets/ui/brand/reverse-call-20261016/')).map(request=>media.delete(request)));
-    await Promise.all((await shell.keys()).filter(request=>FRESH_BATTLE_SCRIPTS.has(new URL(request.url).pathname)||FRESH_ACCOUNT_SCRIPTS.has(new URL(request.url).pathname)).map(request=>shell.delete(request)));
+    await Promise.all((await shell.keys()).filter(request=>{
+      const path=new URL(request.url).pathname;
+      return FRESH_BATTLE_SCRIPTS.has(path)||FRESH_ACCOUNT_SCRIPTS.has(path)||UPDATED_SPINE_BUNDLES.has(path);
+    }).map(request=>shell.delete(request)));
     await self.clients.claim();
   })());
 });

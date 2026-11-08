@@ -8,6 +8,36 @@ const read=p=>fs.readFileSync(new URL('../'+p,import.meta.url),'utf8');
 const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve=a;reject=b;});return {promise,resolve,reject};};
 const tick=()=>new Promise(r=>setImmediate(r));
 
+function spineFixture(){
+ const loads=[],unloads=[],sources=[],values=new Map(),gate=deferred();let pause=false,fail=false;
+ const assets={
+  cache:{has:key=>values.has(key),remove:key=>values.delete(key)},
+  async load(key){loads.push(key);if(fail&&key.endsWith('.atlas'))throw Error('atlas');values.set(key,{});},
+  async unload(key){unloads.push(key);values.delete(key);},
+  loader:{async unload(page){if(pause)await gate.promise;sources.push(page);}}
+ };
+ const context={Assets:assets,BATTLE_DEVICE:{ios:true},URL};
+ vm.runInNewContext(read('preview/project-v-v3/source/battle/BattleAssetMemory.mjs').replace(/^import .*;\r?$/gm,'').replace(/^export /gm,'')+'\nthis.acquire=createBattleSpineLease("hero.json","hero.atlas",2,"parsed");this.memory=battleAssetMemory;',context);
+ return {context,loads,unloads,sources,values,gate,pause:()=>{pause=true;},fail:v=>{fail=v;}};
+}
+
+test('Spine pages survive a shared owner and retire before rapid reentry',async()=>{
+ const f=spineFixture(),a=f.context.acquire(),b=f.context.acquire();await Promise.all([a.ready,b.ready]);
+ f.values.set('parsed',{});assert.equal(f.loads.length,2);a.release();a.release();
+ assert(f.values.has('parsed'));assert.equal(f.unloads.length,0);
+ f.pause();const retired=b.release(),next=f.context.acquire();let idle=false;
+ const globalRetirement=f.context.memory.release().then(()=>{idle=true;});await tick();
+ assert.equal(idle,false);assert.equal(f.values.has('parsed'),false);assert.equal(f.loads.length,2);
+ f.gate.resolve();await Promise.all([retired,next.ready,globalRetirement]);assert.equal(f.loads.length,4);
+ assert.deepEqual(f.sources,['hero.png','hero_2.png']);await next.release();assert.equal(f.sources.length,4);
+});
+
+test('partial Spine loads release parser-owned pages and allow the same actor to retry',async()=>{
+ const f=spineFixture();f.fail(true);const attempt=f.context.acquire();await assert.rejects(attempt.ready,/atlas/);
+ await attempt.release();assert.deepEqual(f.unloads,['hero.json']);assert.deepEqual(f.sources,['hero.png','hero_2.png']);
+ f.fail(false);const retry=f.context.acquire();await retry.ready;assert(f.values.has('hero.atlas'));await retry.release();
+});
+
 test('iPhone and desktop-mode iPad are bounded without relying on deviceMemory or viewport',()=>{
  for(const device of [{userAgent:'Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X)'},{platform:'MacIntel',maxTouchPoints:5}]){
   const p=battleDevicePolicy({...device,pixelRatio:3});assert.equal(p.ios,true);assert.equal(p.resolution,1.25);assert.equal(p.imageConcurrency,2);assert.equal(p.maxFPS,45);

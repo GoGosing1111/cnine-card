@@ -1,6 +1,8 @@
 import {Assets} from 'pixi.js';
 import {BATTLE_DEVICE} from './BattleDevicePolicy.mjs';
 
+const spineRetirements=new Set();
+
 // These are per-battle bodies, cut-ins and authored motion banks. Shared role,
 // HUD and ballistic atlases keep their own persistent frame caches; do not
 // invalidate them, or another consumer's territory/raid effects, here.
@@ -48,7 +50,7 @@ export function createBattleAssetMemory(assets,{ios=false}={}){
       if(releasing)return releasing;
       releasing=(async()=>{
         await Promise.allSettled(work);
-        while(pending.size)await Promise.allSettled([...pending]);
+        while(pending.size||spineRetirements.size)await Promise.allSettled([...pending,...spineRetirements]);
         const retired=[...paths];paths.clear();
         await Promise.allSettled(retired.filter(url=>!assets.cache||assets.cache.has(url)).map(url=>assets.unload(url)));
         return retired.length;
@@ -59,6 +61,41 @@ export function createBattleAssetMemory(assets,{ios=false}={}){
   };
 }
 export const battleAssetMemory=createBattleAssetMemory(Assets,BATTLE_DEVICE);
+
+// The Spine parser loads atlas pages through Assets.loader, outside Assets.cache.
+// Each shipped atlas owns its numbered PNGs. Include them even if parsing failed
+// halfway through, when the atlas object cannot tell us which pages finished.
+export function createBattleSpineLease(skeleton,atlas,pageCount,parsedKey,{assets=Assets,ios=BATTLE_DEVICE.ios}={}){
+  const pages=Array.from({length:pageCount},(_,i)=>atlas.replace(/\.atlas$/,i?'_'+(i+1)+'.png':'.png'));
+  let owners=0,loading=null,retiring=Promise.resolve();
+  async function loadPair(){
+    const results=await Promise.allSettled([assets.load(skeleton),assets.load(atlas)]);
+    const failure=results.find(result=>result.status==='rejected');
+    if(failure)throw failure.reason;
+  }
+  async function unloadPair(){
+    if(assets.cache.has(parsedKey))assets.cache.remove(parsedKey);
+    const loaded=[atlas,skeleton].filter(url=>assets.cache.has(url));
+    await Promise.allSettled(loaded.map(url=>assets.unload(url)));
+    await Promise.allSettled(pages.map(url=>assets.loader.unload(url)));
+  }
+  return function acquire(){
+    if(!ios)return {ready:assets.load([skeleton,atlas]),release(){}};
+    owners++;
+    loading||=retiring.then(loadPair);
+    let released=false;
+    return {ready:loading,release(){
+      if(released)return;
+      released=true;
+      if(--owners)return;
+      const work=loading.then(unloadPair,unloadPair);
+      spineRetirements.add(work);
+      retiring=work.finally(()=>spineRetirements.delete(work));
+      loading=null;
+      return retiring;
+    }};
+  };
+}
 
 export function battleWarmupWork(engine){
   const work=[];

@@ -5,7 +5,7 @@
     "pixi.js": "8.20.0",
     "gsap": "3.13.0"
   },
-  "bundleBytes": 3776460,
+  "bundleBytes": 3777706,
   "commonV3": [
     "preview/project-v-v3/source/battle/IconExpansionPlayback.js",
     "preview/project-v-v3/source/battle/EquipmentSetFX.js",

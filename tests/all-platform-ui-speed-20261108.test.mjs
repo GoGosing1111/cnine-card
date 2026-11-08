@@ -5,6 +5,27 @@ import vm from 'node:vm';
 
 for(const app of ['js/app.js','onestore/js/app.js']){
   const source=fs.readFileSync(new URL('../'+app,import.meta.url),'utf8');
+  test(app+' mounts the lobby once, preserves deep links and builds the store on explicit navigation',async()=>{
+    const adapter=fs.readFileSync(new URL('../'+app.replace('app.js','soopketmon-v21-exact-shell-adapter.js'),import.meta.url),'utf8');
+    const wrap=adapter.slice(adapter.indexOf('function wrapRenderShell()'),adapter.indexOf('function start()',adapter.indexOf('function wrapRenderShell()')));
+    function shell(boot){
+      const frames=[],routes=[];
+      const ctx={global:{renderShell:(route,options)=>{frames.push([route,options?.lobbyFrameOnly===true]);}},
+        WRAPPED:Symbol(),ROUTES:{season:true,buy:true},currentRoute:'buy',bootHomePending:!boot,bootRequestedPending:boot,
+        explicitNavigation:false,homeRouteGuard:false,nativeRenderShell:null,document:{querySelector:()=>true},
+        scheduleEnhance:route=>routes.push(route),navigate:async route=>routes.push(route),queueMicrotask,console};
+      vm.runInNewContext(wrap+'\nwrapRenderShell();',ctx);return {ctx,frames,routes};
+    }
+    for(const boot of ['','home']){
+      const {ctx,frames,routes}=shell(boot);ctx.global.renderShell('buy');await Promise.resolve();
+      assert.deepEqual(frames,[['buy',true]]);assert.deepEqual(routes,['home']);
+      ctx.global.renderShell('home');ctx.global.renderShell('buy');assert.equal(frames.length,2);
+      ctx.explicitNavigation=true;ctx.global.renderShell('buy');assert.deepEqual(frames.at(-1),['buy',false]);
+    }
+    const deep=shell('season');deep.ctx.global.renderShell('buy');await Promise.resolve();
+    assert.deepEqual(deep.frames,[['buy',true]]);assert.deepEqual(deep.routes,['home','season']);
+    const shop=shell('buy');shop.ctx.global.renderShell('buy');assert.deepEqual(shop.frames,[['buy',false]]);
+  });
   function fromFile(start,end,bindings={}){
     const offset=source.indexOf(start),limit=source.indexOf(end,offset);
     assert(offset>=0&&limit>offset);

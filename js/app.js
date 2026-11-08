@@ -1470,7 +1470,8 @@ function renderShell(tab,routeOptions={}) {
       <div class="main-nav-dropdown" role="menu"><button type="button" data-tab="coup"><span>황궁 영토전·족장 국민 재판</span><b>쿠데타</b></button><button type="button" data-tab="soopketland"><span>스트리머 전용 방송 이벤트</span><b>리버스랜드</b></button><button type="button" data-tab="prison"><span>행정부 제재 현황</span><b>감옥</b></button></div>
     </div>
   </nav>`;
-  const routeHtml=`${mobileNavigationHtml(tab)}${tab==='workshop'&&routeFeatureReady?window.workshopView(user,{workshopSection:workshopEntrySection}):(views[tab]||buyView)(user)}`;
+  const lobbyFrameOnly=tab==='buy'&&routeOptions?.lobbyFrameOnly===true;
+  const routeHtml=lobbyFrameOnly?'':`${mobileNavigationHtml(tab)}${tab==='workshop'&&routeFeatureReady?window.workshopView(user,{workshopSection:workshopEntrySection}):(views[tab]||buyView)(user)}`;
   if(tab==='workshop'&&routeFeatureReady)workshopEntrySection=null;
   const existingShell=locateShellRouteMarkers();
   if(existingShell){
@@ -1494,7 +1495,7 @@ function renderShell(tab,routeOptions={}) {
       replaceShellRoute(`${mobileNavigationHtml(tab)}${featureRouteErrorHtml(tab,error.message)}`);bindMobileNavigation();
       const retry=document.querySelector(`[data-feature-retry="${tab}"]`);if(retry)retry.onclick=()=>{featureResourcePromises.delete(routeFeatureKey);renderShell(tab,routeOptions)};
     });
-  }else bindView(tab);
+  }else if(!lobbyFrameOnly)bindView(tab);
   if(['battle','pvp','clan','dex','inventory'].includes(tab))warmFeatureForTab(tab==='clan'?'pvp':tab);
   try{performance.measure('cnine-route-render',{start:renderStarted,end:performance.now(),detail:{tab,partial:existingShell}})}catch(_){}
   const deferShellLoad=(delay,task)=>setTimeout(()=>{if(renderSeq!==shellRenderSeq)return;try{const result=task();if(result&&typeof result.catch==='function')result.catch(()=>{})}catch(_){}},delay);

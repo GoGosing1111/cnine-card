@@ -734,19 +734,20 @@
         ? bootRequestedPending
         : '';
       bootRequestedPending = '';
-      if (bootRoute && bootRoute !== 'buy') {
+      if (bootRoute && bootRoute !== 'buy' && bootRoute !== 'home') {
         bootHomePending = false;
-        const result = nativeRenderShell.call(this, 'buy');
+        const result = nativeRenderShell.call(this, 'buy', {lobbyFrameOnly:true});
         if(result===false){homeRouteGuard=currentRoute==='home';return false;}
-        currentRoute = 'buy';
-        scheduleEnhance('buy');
+        currentRoute = 'home';
+        homeRouteGuard = true;
+        scheduleEnhance('home');
         queueMicrotask(() => navigate(bootRoute).catch(error => console.error('[Approved V21 deep link]', error)));
         return result;
       }
-      if (requested === 'home') {
+      if (requested === 'home' || bootRoute === 'home') {
         homeRouteGuard = true;
         bootHomePending = false;
-        const result = nativeRenderShell.call(this, 'buy');
+        const result = nativeRenderShell.call(this, 'buy', {lobbyFrameOnly:true});
         if(result===false){homeRouteGuard=currentRoute==='home';return false;}
         currentRoute = 'home'; scheduleEnhance('home'); return result;
       }
@@ -759,7 +760,9 @@
       }
       const useBootHome = requested === 'buy' && (bootHomePending || guardedHomeRefresh);
       bootHomePending = false;
-      const result = nativeRenderShell.apply(this, arguments);
+      const result = useBootHome
+        ? nativeRenderShell.call(this, 'buy', {lobbyFrameOnly:true})
+        : nativeRenderShell.apply(this, arguments);
       if(result===false){homeRouteGuard=currentRoute==='home';return false;}
       currentRoute = useBootHome ? 'home' : requested;
       scheduleEnhance(currentRoute);
