@@ -2,8 +2,8 @@
   "textNewlines": "LF",
   "sourceHashes": {
     "packaging/onestore/web/client-patch.json": "65ca45d075a82eb263bd2977240f44cec933aadc3d084ebf325242072f18a387",
-    "index.html": "a7c61281370c9afba4a1d3215089ea23c151bc0fa9f0f0c66bc214bdbdaf115a",
-    "js/app.js": "03fd28aa4137f99f73c748c07faf0b859ddec7c256cbe63289280cffa95f729c",
+    "index.html": "d8f319f05448dbbae64cdce0721d1c4b39f41e141d79f822995a350c3099c23b",
+    "js/app.js": "ed26318db171334bf468b87e84a0ca0eacfaacdd0f78f78c1503265b68d4a979",
     "js/soopketmon-v21-exact-shell-adapter.js": "3a8168e845b98d77c7d3bf884dde5d8101f6ed063ec2819ce5b61481d687d1c5",
     "js/soopketmon-v21-runtime-router.js": "4015851cb738bb9b1ffdab44be89e4e09d48dafdf17e670e23262377adace657",
     "js/adventure-lobby-v2107.js": "ad1310fa278e109bb6841afee2fabd5388479df3a701bf1567de17975354bccb",
@@ -21,7 +21,7 @@
     "packaging/onestore/web/h5.css": "7c77779b15fef492acd7647c0d091b52a8c74b44ce511aff793ad66ac25d3d27"
   },
   "outputs": {
-    "onestore/js/app.js": "94d8ae8a2aa89c08750a16d8d2caa413cfa7451426a997577673f1070a60c6f2",
+    "onestore/js/app.js": "09c4cb82b5cfb3c0fe6a6532faf93f232c75f92fdcf8bac3c0abfa13e4f7b9c2",
     "onestore/js/soopketmon-v21-exact-shell-adapter.js": "62dd4f02243e395ca487dd6a6a618eef35b97bc1d01d3f788f12ea1bb7e69cd3",
     "onestore/js/soopketmon-v21-runtime-router.js": "38263b6f6072356f3fcf4a3912dde9060eb026029012ec0400dc74baceceb79c",
     "onestore/js/adventure-lobby-v2107.js": "0f578a5879202b5157f5601ab69f02f949eaa1023857e52b33df812bd618e812",
@@ -33,7 +33,7 @@
     "onestore/h5-policy.js": "8f435c8ad130f13abb48f6d59d5cc7a72bc1d1a8f4fb2b6aaa9545aa276b0eef",
     "onestore/h5-sdk.js": "c9e18131d55df5ad36ec1c8bd6bc78f9f1113be8e49cf946f2ed121d58b4ee19",
     "onestore/h5.css": "7c77779b15fef492acd7647c0d091b52a8c74b44ce511aff793ad66ac25d3d27",
-    "onestore/index.html": "d6bf025b3c39f7d88a867f3526e12536ada0f5231b3f9ab52219bdded480105a",
-    "shared/onestore-web-assets-v1.mjs": "af4d72b00fb7e72e61d09fdf717bb01e822d6a9988366449a3ba9712202c032f"
+    "onestore/index.html": "9d1b49e42e37f35d7097255a5b195718f4cf0970724425b6b430ff939920e328",
+    "shared/onestore-web-assets-v1.mjs": "4f2c4a72b4e28c7e7c00acea98c62947e50bd98eec5b9539bd00e66636df6fae"
   }
 }

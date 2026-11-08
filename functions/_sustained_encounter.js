@@ -3,6 +3,8 @@
 export function sustainedEncounterPlan(config, initial, capacity) {
   if (!config) return null;
   const {durationMs, templates, finalBoss} = config;
+  // The two-player citadel keeps filling vacated slots after its commander arrives.
+  const end=config.regionId==='CITADEL'&&config.continuousUntilMs===420000?420000:0;
   const finalAdds=config.regionId?(config.finalAdds||[]):[];
   if(finalAdds.length>2||finalAdds.some(c=>!c.isMonster||c.isBoss||c.side!=='B'||c.hp<=0))throw Error('INVALID_SUSTAINED_ADDS');
   // Seven-minute hunts reserve the existing boss window. Preserve the older
@@ -20,10 +22,10 @@ export function sustainedEncounterPlan(config, initial, capacity) {
   return {
     instances,
     get nextAt() { return nextAt; },
-    get bossSpawned() { return bossSpawned; },
+    get bossSpawned() { return end?nextAt===Infinity:bossSpawned; },
     get defeated() { return defeated; },
     advance(at, enemies, emit) {
-      if (at !== nextAt || bossSpawned) throw Error('INVALID_SUSTAINED_STEP');
+      if (at !== nextAt || (!end&&bossSpawned)) throw Error('INVALID_SUSTAINED_STEP');
       // Retire dead generations so targeting/AI never scans a growing history.
       for (let i = enemies.length - 1; i >= 0; i--) {
         if (!enemies[i].alive || enemies[i].hp <= 0) { enemies.splice(i, 1); defeated++; }
@@ -33,7 +35,13 @@ export function sustainedEncounterPlan(config, initial, capacity) {
         emit('ENEMY_SPAWN', {targetId:card.id,slot:card.slot,boss:!!card.isBoss,
           targetHpAfter:card.hp,targetMaxHp:card.maxHp,targetShieldAfter:card.shield,name:card.title||card.name});
       };
-      if (at === durationMs) {
+      if(end&&at===end){nextAt=Infinity;return;}
+      if(end&&at===durationMs&&!bossSpawned){
+        const previous=enemies.findIndex(card=>card.slot===4);
+        if(previous>=0){const [old]=enemies.splice(previous,1);emit('ENEMY_DESPAWN',{targetId:old.id,slot:4,label:'성주 출현'});}
+        spawn({...finalBoss,slot:4});bossSpawned=true;
+      }
+      if (!end&&at === durationMs) {
         // Surviving minions retreat; this is not a kill and cannot roll loot.
         for (const card of enemies) {
           card.alive = false; card.hp = 0;
@@ -50,7 +58,7 @@ export function sustainedEncounterPlan(config, initial, capacity) {
           const elite=eliteDue;eliteDue=false;
           spawn({...template,id:initial[slot].id+':R'+(wave+1),slot,...(elite?{huntElite:true,title:'정예 '+template.title,maxHp:Math.round(template.maxHp*2),hp:Math.round(template.maxHp*2),attack:Math.round(template.attack*1.25)}:{})});
         }
-        wave++; nextAt = Math.min(durationMs, at + intervalMs);
+        wave++; nextAt = Math.min(end||durationMs, at + intervalMs);
       }
     }
   };

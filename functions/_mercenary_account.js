@@ -169,12 +169,12 @@ export async function loadMercenaryBattleSnapshot(env,user,mode='PVE'){
   const runtime=await readMercenaryRuntime(env),snapshot={...battleConfig(document,row.mercenary_code,Number(growth.level)),combat:runtime.combat,cmsRevision:revision,policyVersion:runtime.version};return (await attachMercenaryEquipment(env,await attachReleasedMercenaryLevels(env,new Map([[Number(user.id),snapshot]])),mode)).get(Number(user.id));
 }
 // Explicit owned selections for prepared cooperative slots. No loadout write.
-export async function selectedMercenaryBattleSnapshots(env,user,codes,mode='PVE'){
+export async function selectedMercenaryBattleSnapshots(env,user,codes,mode='PVE',{freeRanks=false}={}){
  mode=mercenaryMode(mode);
  if(!Array.isArray(codes)||codes.length>2||new Set(codes).size!==codes.length||codes.some(c=>!/^V-\d{3}$/.test(c)||!mercenaryModeAllowed(c,mode)))throw jointError('MERCENARY_FORMATION','용병 편성을 확인하세요.');
  for(const code of codes){await requireOwned(env,user,code);await requireShiranuiRank(env,user.id,code);}
  const [{document,revision},runtime,equipment]=await Promise.all([readMercenaryDocument(env),readMercenaryRuntime(env),mercenaryEquipmentRuntimes(env,[Number(user.id)],mode,{selections:new Map([[Number(user.id),codes]])})]);
- const rows=codes.map(code=>({...battleConfig(document,code,1),combat:runtime.combat,cmsRevision:revision,policyVersion:runtime.version}));try{validatePreparedMercenaries(rows);}catch(error){throw jointError('MERCENARY_FORMATION',error.message);}
+ const rows=codes.map(code=>({...battleConfig(document,code,1),combat:runtime.combat,cmsRevision:revision,policyVersion:runtime.version}));try{validatePreparedMercenaries(rows,{freeRanks});}catch(error){throw jointError('MERCENARY_FORMATION',error.message);}
  const leveled=(await attachReleasedMercenaryLevels(env,new Map([[Number(user.id),rows]]))).get(Number(user.id)),gear=equipment.get(Number(user.id));
  return leveled.map(m=>gear?.byMercenary[m.code]?.items.length?{...m,equipment:gear.byMercenary[m.code]}:m);
 }

@@ -34,10 +34,10 @@ test('simultaneous client deaths become one request and stale sessions cannot pu
  const source=fs.readFileSync('preview/sustained-hunt-v2/app.js','utf8'),calls=[],added=[];
  const context={epoch:1,session:'run',playing:true,finishing:false,pendingReveals:[],reveals:Promise.resolve(),
   setTimeout:fn=>queueMicrotask(fn),request:async(action,body)=>{calls.push({action,body});return {drops:body.seqs.map(seq=>({id:String(seq)})),serverNow:1};},
-  engine:{groundDrops:{add:async drop=>added.push(drop.id)}},message(){},errorText:e=>e.message};
+  engine:{groundDrops:{add:async drop=>added.push(drop.id)}},message(){},showCoins(){},errorText:e=>e.message};
  vm.createContext(context);vm.runInContext(source.slice(source.indexOf('  function queueDropReveal('),source.indexOf('  function buttons(')),context);
- for(let seq=1;seq<=12;seq++)context.queueDropReveal(seq);
+ for(let seq=1;seq<=12;seq++)context.queueDropReveal({seq});
  await vm.runInContext('reveals',context);
  assert.equal(calls.length,1);assert.deepEqual(Array.from(calls[0].body.seqs),Array.from({length:12},(_,i)=>i+1));assert.equal(added.length,12);
- context.queueDropReveal(13);context.epoch++;await vm.runInContext('reveals',context);assert.equal(calls.length,1);
+ context.queueDropReveal({seq:13});context.epoch++;await vm.runInContext('reveals',context);assert.equal(calls.length,1);
 });

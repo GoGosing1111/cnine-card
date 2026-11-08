@@ -734,7 +734,7 @@
     },
     {
       "file": "preview/project-v-v3/source/battle/CooperativeEncounter.js",
-      "sha256": "ff3b70b0fb9d532ae14fd272cf2f683a200e33c8f2d1c9a4877a3f7289f48cea"
+      "sha256": "67b280bd130ead982075a1e4afcbdaf2de5fc98652bb1daf66d89e1b71a9fb28"
     },
     {
       "file": "preview/project-v-v3/source/battle/CooperativeArkePlayback.js",
@@ -750,7 +750,7 @@
     },
     {
       "file": "preview/project-v-v3/source/battle/BattleEngine.js",
-      "sha256": "b526f2a144bfd87af4d1bc0997689272e8ee30356d854b68e139d63dc25674e3"
+      "sha256": "ee8488235159d608f22d87cd4fe7068cdee52e21dbb10bc4fbbe09631624d4bb"
     },
     {
       "file": "preview/project-v-v3/source/battle/BattleCharacter.js",
@@ -810,7 +810,7 @@
     },
     {
       "file": "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
-      "sha256": "56e017a02dcc5c6bdaf353c00bc92d7d8ffaa72a0cc01896352fbbe1d3604d3a"
+      "sha256": "086924e60a8fb509aaeb5f3da94219aee48f8c20c00deb2e904d5cd6820fa75d"
     },
     {
       "file": "preview/project-v-v3/source/battle/FormationLayout.mjs",
@@ -1108,7 +1108,7 @@
   "outputs": [
     {
       "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
-      "sha256": "34e2d691f46ebd5b33c8095e103c9aa8fd0289643b57fdbc48b00d48c8dc7f40",
+      "sha256": "4d06eb7a61015f826d1171e19952b880570b753272ed851bce770958fbd6400c",
       "commonGrid": true
     },
     {

@@ -7,14 +7,14 @@ export const COMPANION_FORMATION_RULES = Object.freeze({version:3,regularCardSlo
 const mercenaryCode = value => typeof value === 'string' && /^V-\d{3}$/.test(value.trim().toUpperCase()) ? value.trim().toUpperCase() : null;
 export const isPetCode = value => typeof value === 'string' && /^PET-[A-Z0-9-]{1,28}$/.test(value);
 
-export function validatePreparedMercenaries(rows) {
+export function validatePreparedMercenaries(rows,{freeRanks=false}={}) {
   if(!Array.isArray(rows)||rows.length>2)throw Error('용병은 최대 2명까지 편성할 수 있습니다.');
   const codes=new Set(),ranks=new Set();
   for(const row of rows){
     if(!row||mercenaryCode(row.code)!==row.code||!isMercenaryRank(row.rank))throw Error('용병 코드와 확정된 등급을 확인해 주세요.');
     if(codes.has(row.code))throw Error('같은 용병을 중복 배치할 수 없습니다.');
     // LIMITED is an acquisition label. Its canonical rank shares the same cap.
-    if(MERCENARY_FORMATION_RANK_LIMITS[row.rank]===1&&ranks.has(row.rank))throw Error(`${row.rank} 용병은 리미티드를 포함해 1명만 배치할 수 있습니다.`);
+    if(!freeRanks&&MERCENARY_FORMATION_RANK_LIMITS[row.rank]===1&&ranks.has(row.rank))throw Error(`${row.rank} 용병은 리미티드를 포함해 1명만 배치할 수 있습니다.`);
     codes.add(row.code);ranks.add(row.rank);
   }
   return rows;

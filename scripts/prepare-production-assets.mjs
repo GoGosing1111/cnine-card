@@ -228,6 +228,9 @@ const sssCutinAuthoringOnly=file=>file.startsWith('preview/sss-area-cutscenes-20
 const tacticalHudRepositoryOnly=new Set(['preview/project-v-v3/source/battle/TacticalHudLayout.js','scripts/internal/account-rank-growth-v1.mjs']);
 // Keep the historical admin-limit audit in Git; its delivery slot holds Bloodmoon personal odds.
 operationAuditOnly.add('docs/admin-master-star-limit-20261006.json');
+// Retain these one-off operations in Git; the two citadel textures, lobby module
+// and stylesheet take their Pages slots. None are client runtime dependencies.
+for(const p of ['docs/aizen-eight-plus15-20261006.json','docs/aizen-extra-plus15-20261006.json','docs/aizen-six-plus15-20261006.json','docs/aizen-three-plus15-20261007.json'])operationAuditOnly.add(p);
 // Preserve Kamishiro runtime sources and historical QA reports in Git; ship their compiled code and approved PNGs.
 export const kamishiroAuditOnly=new Set(JSON.parse(readFileSync(new URL('./kamishiro-audit-only-20261028.json',import.meta.url),'utf8')));
 const kamishiroBundledOnly=file=>file==='preview/project-v-v3/source/battle/KamishiroCombatPlayback.js'||file.startsWith('preview/project-v-v3/source/battle/kamishiro/');

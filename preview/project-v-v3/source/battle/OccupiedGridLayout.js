@@ -47,6 +47,10 @@ export const withOccupiedGrid = Base => class extends Base {
   }
   depthForY(y) {return this.gridMode === 'wide' ? .5 : super.depthForY(y);}
   station(kind, index = 0, team = 'ALLY') {
+    if(kind==='cards'&&team==='ENEMY'&&this.battleData?.sceneAssetKey==='LEGION_BURNING_CITADEL'){
+      const col=index%3,row=Math.floor(index/3),compact=this.mobile;
+      return {x:(compact?595:880)+(col+(row%2)*.16)*(compact?130:176)+(this.viewportFit?.offsetX||0),y:(compact?325:227)+row*(compact?146:104)+(this.viewportFit?.offsetY||0)};
+    }
     if(this.formationCoop&&['cards','mercenaries'].includes(kind)){const p=coopStation(kind,index,team,this.mobile,this.formationMercenariesPerOwner);return {x:p.x+(this.viewportFit?.offsetX||0),y:p.y+(this.viewportFit?.offsetY||0)};}
     if(this.formationDuo&&['cards','mercenaries'].includes(kind)){const p=duoStation(kind,index,team,this.mobile,this.formationMercenariesPerOwner);return {x:p.x+(this.viewportFit?.offsetX||0),y:p.y+(this.viewportFit?.offsetY||0)};}
     const scenario = this.formationScenario || 'PVP';
