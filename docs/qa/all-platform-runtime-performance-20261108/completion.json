@@ -1,0 +1,1409 @@
+{
+  "verifiedAt": "2026-11-08T01:27:51.249Z",
+  "status": "LIVE_VERIFIED",
+  "source": "8d14a98630a167cfd4d1e610acf4525cc26a1da8",
+  "previousSource": "92af99679afeea67c379cfd3354f97875c223cc8",
+  "pages": {
+    "id": "648372b4-78d0-4e50-b37c-faf390a7202e",
+    "url": "https://648372b4.cnine-card.pages.dev",
+    "canonical": "https://cnine-card.pages.dev",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "id": "63784886-fe23-4f61-85b7-b783c0800011",
+      "trafficPercent": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "id": "9725f0db-de62-45fe-94b2-fdadca072e96",
+      "trafficPercent": 100
+    }
+  ],
+  "assetCount": 20000,
+  "checks": {
+    "passed": 123,
+    "failed": 0
+  },
+  "workerHeartbeatAndTimeoutPersistenceVerified": true,
+  "unauthenticatedCurrentStatus": 401,
+  "windows": {
+    "previous": "82613a061c112d09e1349c3e3ea5b7b970deb7241f6704100875cb0d7078bbcb",
+    "current": "bf2bc627467d707507d7a9558dcc80d608faa50e9cd5b6049ef7769f1d401ff6",
+    "listed": 14579,
+    "changed": [
+      {
+        "path": "/index.html",
+        "bytes": 50201,
+        "essential": true
+      },
+      {
+        "path": "/js/adventure-lobby-v2107.js",
+        "bytes": 1207135,
+        "essential": true
+      },
+      {
+        "path": "/js/app.js",
+        "bytes": 812408,
+        "essential": true
+      },
+      {
+        "path": "/js/pve-command-v2-live.js",
+        "bytes": 36245,
+        "essential": true
+      },
+      {
+        "path": "/shared/onestore-web-assets-v1.mjs",
+        "bytes": 985,
+        "essential": true
+      }
+    ],
+    "removed": [],
+    "essentialChanged": 5
+  },
+  "assets": [
+    {
+      "path": "js/cooperative-battleground-entry.js",
+      "actualRequest": "js/cooperative-battleground-entry.js",
+      "sha256": "ea82e5d50fb9d4a28a6f2367c4dc1eeb5f0718964ebc077484e24aaf9a9baf87",
+      "bytes": 2515,
+      "windowsEssential": true
+    },
+    {
+      "path": "raid/cooperative/live.mjs",
+      "actualRequest": "raid/cooperative/live.mjs?v=coop-transcend-favorites-two-player-20261102-v1",
+      "sha256": "b2e7a9ba48acd64f747efef038e8edc238b201f1dfea694bd6062648e34bfb67",
+      "bytes": 56561,
+      "windowsEssential": true
+    },
+    {
+      "path": "raid/cooperative/battle.mjs",
+      "actualRequest": "raid/cooperative/battle.mjs",
+      "sha256": "3bbe306d08e6c0a3e7857f981eb5afdd0f4cb0caed5b40e6dc3811d9640fa91b",
+      "bytes": 5906,
+      "windowsEssential": true
+    },
+    {
+      "path": "raid/cooperative/style.css",
+      "actualRequest": "raid/cooperative/style.css?v=20261102-transcend-v1",
+      "sha256": "329444dbce5b3bd527844db74ea5b0c2d66ba92a68897c78604d89dae9c70421",
+      "bytes": 32793,
+      "windowsEssential": true
+    },
+    {
+      "path": "js/battle-v3-hud.mjs",
+      "actualRequest": "js/battle-v3-hud.mjs?v=20261102-v1",
+      "sha256": "8ec4eb56ee0a39be6893e316f4e6264cd0351ffc2b6ffd0cbd4821824682e04f",
+      "bytes": 12199,
+      "windowsEssential": true
+    },
+    {
+      "path": "js/battle-v3-live.js",
+      "actualRequest": "js/battle-v3-live.js",
+      "sha256": "3f2925a377e4e4f2a8fb966c0a51c859fde24b02d52382cec3cf0fb225980d40",
+      "bytes": 78190,
+      "windowsEssential": true
+    },
+    {
+      "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "actualRequest": "preview/project-v-v3/project-v-pixi-battle.bundle.js?blackcrownBalance=20261031-v1&heukmu=20261029-swing-fx-v2&omegaCraft=20261029-v1&balance220=20261029-v1&diimFront=20261029-v1&iconFour=20261029-v1&hpSync=20261029-v1&kamishiro=20261028-live-v1&classicColosseum=20261027-v1&sssCutin=sss-area-cutin-once-20261028-v1&blackcrown=20261027-live-v1&revan=20261027-general-jok-v2&cardgu=20261027-live-v1&heukgu=20261025-large-head-v3&bloodmoonBattle=20261025-status-v2&namsudaeng=20261024-v1&mobileMemory=20261024-v1&primePve=20261022-v1&sealDragon=seal-dragon-20261022-v1&valterParity=20261021-v1&prime=20261021-v2&zero=20261020-wings-live-v1&leonel=20261018-live-v1-forward-guard-20261019&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&jokroCoop=20261018-v1&v=20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-jinmu-jokro-v2&groundRunes=20261017-v1&kairon=20261014-craft-v1&mercenaryFx=20261017-halloween-ready-v1&azant=20261014-live-v1&originalIp=20261013-original-ip-v1&petFx=20261018-icons-v1&jokgakCity=20261009-v1&petLayout=20261009&limitedVisuals=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&coop=20261005-coop-readable-v4-backdrop&territory=20261003-v5&lichFx=20261001&speedReform=20260930&v=106-combat-flow&joint=2090&mercenary=2100&projectiles=2106&coup=2115&pveEntry=2119&heeya=2118&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20260924&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&backgroundRecovery=20261006&apocalypseFocus=20261006&iconActions=20261017-cheolgu-balance&icon=20260930&petLive=20261006-v1&iconCadence=20261006-v1&damageFont=20261007-russo-v1&hudB=20261017-v1&shiranuiSilver=20261018-v2&coopView=20261018-v1&sahyeon=20261019-live-v1&towerAbyss=20261021-v1&generalJok=20261025-grip-v16&tacticalHud=20261102-v1&hakuya=20261105-v1&jinJokro=20261106-v1",
+      "sha256": "34e2d691f46ebd5b33c8095e103c9aa8fd0289643b57fdbc48b00d48c8dc7f40",
+      "bytes": 3644933,
+      "windowsEssential": true
+    },
+    {
+      "path": "index.html",
+      "actualRequest": "index.html",
+      "sha256": "abc567154c4c25b3a20d09bdf2f321686034e621e9f076357d436616f0df2c1d",
+      "bytes": 50201,
+      "windowsEssential": true
+    },
+    {
+      "path": "service-worker.js",
+      "actualRequest": "service-worker.js",
+      "sha256": "8d5a7482069cdb076c4679af8650813928cbfea30ca5bfd0a2f898997175ba03",
+      "bytes": 24620,
+      "windowsEssential": false
+    }
+  ],
+  "runtimeAssets": [
+    {
+      "path": "js/app.js",
+      "bytes": 812408,
+      "sha256": "2bee3589b12aea19b4b7e62974cc11eef53ba6e81d368561ac498e34f7a1dca0"
+    },
+    {
+      "path": "js/pve-command-v2-live.js",
+      "bytes": 36245,
+      "sha256": "f98c2b4fc764017c5b6f785d83c8098e2a7931411480a63f1acb554ccde9311a"
+    },
+    {
+      "path": "js/adventure-lobby-v2107.js",
+      "bytes": 1207135,
+      "sha256": "82f4173c0c80e801edf48fbaca8a9bff2f12ba84afacf50eb855f19f5527a50e"
+    },
+    {
+      "path": "onestore/js/app.js",
+      "bytes": 806912,
+      "sha256": "2a6c2b1f2b78d003eb079cb38df50b3e227d4f3c3966e2a428e9e3d932b70d57"
+    },
+    {
+      "path": "onestore/js/adventure-lobby-v2107.js",
+      "bytes": 1206333,
+      "sha256": "2d0dec93d9199b441750eb79e2ef7fa11a8aca5631cfbc39188a9d43c194a9be"
+    }
+  ],
+  "storeDocumentVerified": true,
+  "platforms": [
+    {
+      "platform": "windows",
+      "normal": {
+        "before": {
+          "trials": 1,
+          "coldVisibleMs": [
+            703
+          ],
+          "warmVisibleMs": [
+            288
+          ],
+          "medianColdMs": 703,
+          "pvePowerCallCounts": [
+            2234,
+            2252
+          ]
+        },
+        "after": {
+          "trials": 1,
+          "coldVisibleMs": [
+            604
+          ],
+          "warmVisibleMs": [
+            319
+          ],
+          "medianColdMs": 604,
+          "pvePowerCallCounts": [
+            357,
+            375
+          ]
+        }
+      },
+      "delayedStaticCatalog": {
+        "before": {
+          "trials": 3,
+          "coldVisibleMs": [
+            3139,
+            3287,
+            3189
+          ],
+          "warmVisibleMs": [
+            394,
+            471,
+            389
+          ],
+          "medianColdMs": 3189,
+          "pvePowerCallCounts": [
+            2234,
+            2252,
+            2234,
+            2252,
+            2234,
+            2252
+          ]
+        },
+        "after": {
+          "trials": 3,
+          "coldVisibleMs": [
+            599,
+            593,
+            482
+          ],
+          "warmVisibleMs": [
+            328,
+            384,
+            410
+          ],
+          "medianColdMs": 593,
+          "pvePowerCallCounts": [
+            357,
+            375,
+            375,
+            375,
+            357,
+            375
+          ]
+        }
+      },
+      "publishedResources": {
+        "trace": "public-windows-normal-1.json",
+        "routes": [
+          "dex",
+          "battle",
+          "workshop",
+          "buy",
+          "battle",
+          "dex",
+          "buy"
+        ],
+        "albumSearchGradeEmptyAndClear": {
+          "search": true,
+          "grade": true,
+          "empty": true,
+          "cleared": true
+        },
+        "warnings": [],
+        "localServiceWorker": false,
+        "standalone": false,
+        "staleShellUpgradeVerified": false
+      }
+    },
+    {
+      "platform": "desktop",
+      "normal": {
+        "before": {
+          "trials": 1,
+          "coldVisibleMs": [
+            1560
+          ],
+          "warmVisibleMs": [
+            686
+          ],
+          "medianColdMs": 1560,
+          "pvePowerCallCounts": [
+            2252,
+            2234
+          ]
+        },
+        "after": {
+          "trials": 1,
+          "coldVisibleMs": [
+            1135
+          ],
+          "warmVisibleMs": [
+            492
+          ],
+          "medianColdMs": 1135,
+          "pvePowerCallCounts": [
+            357,
+            375
+          ]
+        }
+      },
+      "delayedStaticCatalog": {
+        "before": {
+          "trials": 3,
+          "coldVisibleMs": [
+            3939,
+            3699,
+            3730
+          ],
+          "warmVisibleMs": [
+            844,
+            730,
+            517
+          ],
+          "medianColdMs": 3730,
+          "pvePowerCallCounts": [
+            2234,
+            2234,
+            2234,
+            2252,
+            2234,
+            2252
+          ]
+        },
+        "after": {
+          "trials": 3,
+          "coldVisibleMs": [
+            993,
+            1153,
+            1103
+          ],
+          "warmVisibleMs": [
+            504,
+            533,
+            525
+          ],
+          "medianColdMs": 1103,
+          "pvePowerCallCounts": [
+            357,
+            375,
+            357,
+            375,
+            357,
+            375
+          ]
+        }
+      },
+      "publishedResources": {
+        "trace": "public-desktop-normal-1.json",
+        "routes": [
+          "dex",
+          "battle",
+          "workshop",
+          "buy",
+          "battle",
+          "dex",
+          "buy"
+        ],
+        "albumSearchGradeEmptyAndClear": {
+          "search": true,
+          "grade": true,
+          "empty": true,
+          "cleared": true
+        },
+        "warnings": [],
+        "localServiceWorker": true,
+        "standalone": false,
+        "staleShellUpgradeVerified": false
+      }
+    },
+    {
+      "platform": "edge",
+      "normal": {
+        "before": null,
+        "after": null
+      },
+      "delayedStaticCatalog": {
+        "before": {
+          "trials": 1,
+          "coldVisibleMs": [
+            3684
+          ],
+          "warmVisibleMs": [
+            579
+          ],
+          "medianColdMs": 3684,
+          "pvePowerCallCounts": [
+            2234,
+            2252
+          ]
+        },
+        "after": {
+          "trials": 1,
+          "coldVisibleMs": [
+            1199
+          ],
+          "warmVisibleMs": [
+            1066
+          ],
+          "medianColdMs": 1199,
+          "pvePowerCallCounts": [
+            375,
+            357
+          ]
+        }
+      },
+      "publishedResources": {
+        "trace": "public-edge-normal-1.json",
+        "routes": [
+          "dex",
+          "battle",
+          "workshop",
+          "buy",
+          "battle",
+          "dex",
+          "buy"
+        ],
+        "albumSearchGradeEmptyAndClear": {
+          "search": true,
+          "grade": true,
+          "empty": true,
+          "cleared": true
+        },
+        "warnings": [],
+        "localServiceWorker": true,
+        "standalone": false,
+        "staleShellUpgradeVerified": false
+      }
+    },
+    {
+      "platform": "firefox",
+      "normal": {
+        "before": null,
+        "after": null
+      },
+      "delayedStaticCatalog": {
+        "before": {
+          "trials": 1,
+          "coldVisibleMs": [
+            4384
+          ],
+          "warmVisibleMs": [
+            2117
+          ],
+          "medianColdMs": 4384,
+          "pvePowerCallCounts": [
+            2684
+          ]
+        },
+        "after": {
+          "trials": 1,
+          "coldVisibleMs": [
+            1055
+          ],
+          "warmVisibleMs": [
+            1943
+          ],
+          "medianColdMs": 1055,
+          "pvePowerCallCounts": [
+            357,
+            375
+          ]
+        }
+      },
+      "publishedResources": {
+        "trace": "public-firefox-normal-1.json",
+        "routes": [
+          "dex",
+          "battle",
+          "workshop",
+          "buy",
+          "battle",
+          "dex",
+          "buy"
+        ],
+        "albumSearchGradeEmptyAndClear": {
+          "search": true,
+          "grade": true,
+          "empty": true,
+          "cleared": true
+        },
+        "warnings": [],
+        "localServiceWorker": true,
+        "standalone": false,
+        "staleShellUpgradeVerified": false
+      }
+    },
+    {
+      "platform": "desktop-pwa",
+      "normal": {
+        "before": {
+          "trials": 1,
+          "coldVisibleMs": [
+            972
+          ],
+          "warmVisibleMs": [
+            452
+          ],
+          "medianColdMs": 972,
+          "pvePowerCallCounts": [
+            2234,
+            2252
+          ]
+        },
+        "after": {
+          "trials": 1,
+          "coldVisibleMs": [
+            628
+          ],
+          "warmVisibleMs": [
+            403
+          ],
+          "medianColdMs": 628,
+          "pvePowerCallCounts": [
+            357
+          ]
+        }
+      },
+      "delayedStaticCatalog": {
+        "before": {
+          "trials": 1,
+          "coldVisibleMs": [
+            3397
+          ],
+          "warmVisibleMs": [
+            435
+          ],
+          "medianColdMs": 3397,
+          "pvePowerCallCounts": [
+            2252,
+            2234
+          ]
+        },
+        "after": {
+          "trials": 1,
+          "coldVisibleMs": [
+            696
+          ],
+          "warmVisibleMs": [
+            457
+          ],
+          "medianColdMs": 696,
+          "pvePowerCallCounts": [
+            357
+          ]
+        }
+      },
+      "publishedResources": {
+        "trace": "public-desktop-pwa-normal-1.json",
+        "routes": [
+          "dex",
+          "battle",
+          "workshop",
+          "buy",
+          "battle",
+          "dex",
+          "buy"
+        ],
+        "albumSearchGradeEmptyAndClear": {
+          "search": true,
+          "grade": true,
+          "empty": true,
+          "cleared": true
+        },
+        "warnings": [],
+        "localServiceWorker": true,
+        "standalone": true,
+        "staleShellUpgradeVerified": true
+      }
+    },
+    {
+      "platform": "android",
+      "normal": {
+        "before": {
+          "trials": 1,
+          "coldVisibleMs": [
+            1073
+          ],
+          "warmVisibleMs": [
+            432
+          ],
+          "medianColdMs": 1073,
+          "pvePowerCallCounts": [
+            2234,
+            2252
+          ]
+        },
+        "after": {
+          "trials": 1,
+          "coldVisibleMs": [
+            1144
+          ],
+          "warmVisibleMs": [
+            497
+          ],
+          "medianColdMs": 1144,
+          "pvePowerCallCounts": [
+            357,
+            375
+          ]
+        }
+      },
+      "delayedStaticCatalog": {
+        "before": {
+          "trials": 1,
+          "coldVisibleMs": [
+            3764
+          ],
+          "warmVisibleMs": [
+            470
+          ],
+          "medianColdMs": 3764,
+          "pvePowerCallCounts": [
+            2252,
+            2252
+          ]
+        },
+        "after": {
+          "trials": 1,
+          "coldVisibleMs": [
+            1164
+          ],
+          "warmVisibleMs": [
+            453
+          ],
+          "medianColdMs": 1164,
+          "pvePowerCallCounts": [
+            357,
+            375
+          ]
+        }
+      },
+      "publishedResources": {
+        "trace": "public-android-normal-1.json",
+        "routes": [
+          "dex",
+          "battle",
+          "workshop",
+          "buy",
+          "battle",
+          "dex",
+          "buy"
+        ],
+        "albumSearchGradeEmptyAndClear": {
+          "search": true,
+          "grade": true,
+          "empty": true,
+          "cleared": true
+        },
+        "warnings": [],
+        "localServiceWorker": true,
+        "standalone": false,
+        "staleShellUpgradeVerified": false
+      }
+    },
+    {
+      "platform": "android-pwa",
+      "normal": {
+        "before": {
+          "trials": 1,
+          "coldVisibleMs": [
+            696
+          ],
+          "warmVisibleMs": [
+            733
+          ],
+          "medianColdMs": 696,
+          "pvePowerCallCounts": [
+            2234,
+            2234
+          ]
+        },
+        "after": {
+          "trials": 1,
+          "coldVisibleMs": [
+            548
+          ],
+          "warmVisibleMs": [
+            411
+          ],
+          "medianColdMs": 548,
+          "pvePowerCallCounts": [
+            357,
+            375
+          ]
+        }
+      },
+      "delayedStaticCatalog": {
+        "before": {
+          "trials": 1,
+          "coldVisibleMs": [
+            3563
+          ],
+          "warmVisibleMs": [
+            461
+          ],
+          "medianColdMs": 3563,
+          "pvePowerCallCounts": [
+            2234,
+            2252
+          ]
+        },
+        "after": {
+          "trials": 1,
+          "coldVisibleMs": [
+            521
+          ],
+          "warmVisibleMs": [
+            393
+          ],
+          "medianColdMs": 521,
+          "pvePowerCallCounts": [
+            375
+          ]
+        }
+      },
+      "publishedResources": {
+        "trace": "public-android-pwa-normal-1.json",
+        "routes": [
+          "dex",
+          "battle",
+          "workshop",
+          "buy",
+          "battle",
+          "dex",
+          "buy"
+        ],
+        "albumSearchGradeEmptyAndClear": {
+          "search": true,
+          "grade": true,
+          "empty": true,
+          "cleared": true
+        },
+        "warnings": [],
+        "localServiceWorker": true,
+        "standalone": true,
+        "staleShellUpgradeVerified": true
+      }
+    },
+    {
+      "platform": "ios",
+      "normal": {
+        "before": {
+          "trials": 1,
+          "coldVisibleMs": [
+            2129
+          ],
+          "warmVisibleMs": [
+            2344
+          ],
+          "medianColdMs": 2129,
+          "pvePowerCallCounts": [
+            2318,
+            2318
+          ]
+        },
+        "after": {
+          "trials": 3,
+          "coldVisibleMs": [
+            1566,
+            1694,
+            1753
+          ],
+          "warmVisibleMs": [
+            2102,
+            1920,
+            1924
+          ],
+          "medianColdMs": 1694,
+          "pvePowerCallCounts": [
+            375,
+            375,
+            375,
+            375,
+            375,
+            375
+          ]
+        }
+      },
+      "delayedStaticCatalog": {
+        "before": {
+          "trials": 3,
+          "coldVisibleMs": [
+            4155,
+            4360,
+            4334
+          ],
+          "warmVisibleMs": [
+            2182,
+            1930,
+            1825
+          ],
+          "medianColdMs": 4334,
+          "pvePowerCallCounts": [
+            2318,
+            2318,
+            2318,
+            2318,
+            2318,
+            2318
+          ]
+        },
+        "after": {
+          "trials": 3,
+          "coldVisibleMs": [
+            1576,
+            1534,
+            1400
+          ],
+          "warmVisibleMs": [
+            1863,
+            1947,
+            2013
+          ],
+          "medianColdMs": 1534,
+          "pvePowerCallCounts": [
+            375,
+            375,
+            375,
+            375,
+            375,
+            375
+          ]
+        }
+      },
+      "publishedResources": {
+        "trace": "public-ios-normal-1.json",
+        "routes": [
+          "dex",
+          "battle",
+          "workshop",
+          "buy",
+          "battle",
+          "dex",
+          "buy"
+        ],
+        "albumSearchGradeEmptyAndClear": {
+          "search": true,
+          "grade": true,
+          "empty": true,
+          "cleared": true
+        },
+        "warnings": [],
+        "localServiceWorker": true,
+        "standalone": false,
+        "staleShellUpgradeVerified": false
+      }
+    },
+    {
+      "platform": "ios-home",
+      "normal": {
+        "before": {
+          "trials": 1,
+          "coldVisibleMs": [
+            1776
+          ],
+          "warmVisibleMs": [
+            2109
+          ],
+          "medianColdMs": 1776,
+          "pvePowerCallCounts": [
+            2318,
+            2318
+          ]
+        },
+        "after": {
+          "trials": 1,
+          "coldVisibleMs": [
+            1664
+          ],
+          "warmVisibleMs": [
+            1806
+          ],
+          "medianColdMs": 1664,
+          "pvePowerCallCounts": [
+            375,
+            375
+          ]
+        }
+      },
+      "delayedStaticCatalog": {
+        "before": {
+          "trials": 1,
+          "coldVisibleMs": [
+            4194
+          ],
+          "warmVisibleMs": [
+            2077
+          ],
+          "medianColdMs": 4194,
+          "pvePowerCallCounts": [
+            2318,
+            2318
+          ]
+        },
+        "after": {
+          "trials": 1,
+          "coldVisibleMs": [
+            1395
+          ],
+          "warmVisibleMs": [
+            2150
+          ],
+          "medianColdMs": 1395,
+          "pvePowerCallCounts": [
+            375,
+            375
+          ]
+        }
+      },
+      "publishedResources": {
+        "trace": "public-ios-home-normal-1.json",
+        "routes": [
+          "dex",
+          "battle",
+          "workshop",
+          "buy",
+          "battle",
+          "dex",
+          "buy"
+        ],
+        "albumSearchGradeEmptyAndClear": {
+          "search": true,
+          "grade": true,
+          "empty": true,
+          "cleared": true
+        },
+        "warnings": [],
+        "localServiceWorker": true,
+        "standalone": false,
+        "staleShellUpgradeVerified": false
+      }
+    },
+    {
+      "platform": "android-direct",
+      "normal": {
+        "before": {
+          "trials": 1,
+          "coldVisibleMs": [
+            1274
+          ],
+          "warmVisibleMs": [
+            520
+          ],
+          "medianColdMs": 1274,
+          "pvePowerCallCounts": [
+            2234,
+            2234
+          ]
+        },
+        "after": {
+          "trials": 1,
+          "coldVisibleMs": [
+            1120
+          ],
+          "warmVisibleMs": [
+            468
+          ],
+          "medianColdMs": 1120,
+          "pvePowerCallCounts": [
+            357,
+            375
+          ]
+        }
+      },
+      "delayedStaticCatalog": {
+        "before": null,
+        "after": null
+      },
+      "publishedResources": {
+        "trace": "public-android-direct-normal-1.json",
+        "routes": [
+          "dex",
+          "battle",
+          "workshop",
+          "buy",
+          "battle",
+          "dex",
+          "buy"
+        ],
+        "albumSearchGradeEmptyAndClear": {
+          "search": true,
+          "grade": true,
+          "empty": true,
+          "cleared": true
+        },
+        "warnings": [],
+        "localServiceWorker": true,
+        "standalone": false,
+        "staleShellUpgradeVerified": false
+      }
+    },
+    {
+      "platform": "play-twa",
+      "normal": {
+        "before": {
+          "trials": 1,
+          "coldVisibleMs": [
+            827
+          ],
+          "warmVisibleMs": [
+            455
+          ],
+          "medianColdMs": 827,
+          "pvePowerCallCounts": [
+            2234,
+            2252
+          ]
+        },
+        "after": {
+          "trials": 1,
+          "coldVisibleMs": [
+            530
+          ],
+          "warmVisibleMs": [
+            471
+          ],
+          "medianColdMs": 530,
+          "pvePowerCallCounts": [
+            375
+          ]
+        }
+      },
+      "delayedStaticCatalog": {
+        "before": null,
+        "after": null
+      },
+      "publishedResources": {
+        "trace": "public-play-twa-normal-1.json",
+        "routes": [
+          "dex",
+          "battle",
+          "workshop",
+          "buy",
+          "battle",
+          "dex",
+          "buy"
+        ],
+        "albumSearchGradeEmptyAndClear": {
+          "search": true,
+          "grade": true,
+          "empty": true,
+          "cleared": true
+        },
+        "warnings": [],
+        "localServiceWorker": true,
+        "standalone": true,
+        "staleShellUpgradeVerified": false
+      }
+    },
+    {
+      "platform": "onestore-h5",
+      "normal": {
+        "before": null,
+        "after": null
+      },
+      "delayedStaticCatalog": {
+        "before": {
+          "trials": 1,
+          "coldVisibleMs": [
+            3428
+          ],
+          "warmVisibleMs": [
+            868
+          ],
+          "medianColdMs": 3428,
+          "pvePowerCallCounts": [
+            2252,
+            2252
+          ]
+        },
+        "after": {
+          "trials": 1,
+          "coldVisibleMs": [
+            815
+          ],
+          "warmVisibleMs": [
+            838
+          ],
+          "medianColdMs": 815,
+          "pvePowerCallCounts": [
+            375,
+            375
+          ]
+        }
+      },
+      "publishedResources": {
+        "trace": "public-onestore-h5-normal-1.json",
+        "routes": [
+          "dex",
+          "battle",
+          "workshop",
+          "buy",
+          "battle",
+          "dex",
+          "buy"
+        ],
+        "albumSearchGradeEmptyAndClear": {
+          "search": true,
+          "grade": true,
+          "empty": true,
+          "cleared": true
+        },
+        "warnings": [],
+        "localServiceWorker": false,
+        "standalone": false,
+        "staleShellUpgradeVerified": false,
+        "h5Events": [
+          "core.getConfig",
+          "core.loadingProgress",
+          "core.loadingProgress",
+          "core.loadingProgress",
+          "core.ready",
+          "analytics.report",
+          "core.getConfig",
+          "core.loadingProgress",
+          "core.loadingProgress",
+          "core.loadingProgress",
+          "core.ready",
+          "analytics.report",
+          "analytics.report"
+        ]
+      }
+    },
+    {
+      "platform": "onestore-android",
+      "normal": {
+        "before": null,
+        "after": null
+      },
+      "delayedStaticCatalog": {
+        "before": {
+          "trials": 1,
+          "coldVisibleMs": [
+            3625
+          ],
+          "warmVisibleMs": [
+            495
+          ],
+          "medianColdMs": 3625,
+          "pvePowerCallCounts": [
+            2234,
+            2252
+          ]
+        },
+        "after": {
+          "trials": 1,
+          "coldVisibleMs": [
+            1044
+          ],
+          "warmVisibleMs": [
+            438
+          ],
+          "medianColdMs": 1044,
+          "pvePowerCallCounts": [
+            357,
+            375
+          ]
+        }
+      },
+      "publishedResources": {
+        "trace": "public-onestore-android-normal-1.json",
+        "routes": [
+          "dex",
+          "battle",
+          "workshop",
+          "buy",
+          "battle",
+          "dex",
+          "buy"
+        ],
+        "albumSearchGradeEmptyAndClear": {
+          "search": true,
+          "grade": true,
+          "empty": true,
+          "cleared": true
+        },
+        "warnings": [],
+        "localServiceWorker": false,
+        "standalone": false,
+        "staleShellUpgradeVerified": false
+      }
+    },
+    {
+      "platform": "onestore-windows",
+      "normal": {
+        "before": null,
+        "after": null
+      },
+      "delayedStaticCatalog": {
+        "before": {
+          "trials": 1,
+          "coldVisibleMs": [
+            3213
+          ],
+          "warmVisibleMs": [
+            341
+          ],
+          "medianColdMs": 3213,
+          "pvePowerCallCounts": [
+            2234,
+            2252
+          ]
+        },
+        "after": {
+          "trials": 1,
+          "coldVisibleMs": [
+            528
+          ],
+          "warmVisibleMs": [
+            335
+          ],
+          "medianColdMs": 528,
+          "pvePowerCallCounts": [
+            357,
+            375
+          ]
+        }
+      },
+      "publishedResources": {
+        "trace": "public-onestore-windows-normal-1.json",
+        "routes": [
+          "dex",
+          "battle",
+          "workshop",
+          "buy",
+          "battle",
+          "dex",
+          "buy"
+        ],
+        "albumSearchGradeEmptyAndClear": {
+          "search": true,
+          "grade": true,
+          "empty": true,
+          "cleared": true
+        },
+        "warnings": [],
+        "localServiceWorker": false,
+        "standalone": false,
+        "staleShellUpgradeVerified": false
+      }
+    }
+  ],
+  "artifactVerification": {
+    "android": {
+      "version": "1.0.3",
+      "packageId": "kr.yakcode.reversecall.onestore",
+      "versionCode": 4,
+      "file": "ReverseCall-ONEstore-1.0.3.apk",
+      "bytes": 4311183,
+      "sha256": "cf5bf7494b6e73c8d0555ab59fc98b28b6a8bb75b9d70a012718fda5e6ac0a8e",
+      "certificateSha256": "1a164dea3a2be5f9fa53ae107ed0b75e5ea56586237bddf273e476286c241e15",
+      "signedV2": true,
+      "overridesVerified": 7,
+      "buildAndLint": "passed"
+    },
+    "windows": {
+      "version": "1.0.1",
+      "file": "ReverseCall-ONEstore-Windows-Setup-1.0.1-x64.exe",
+      "bytes": 118359040,
+      "sha256": "67c694f57fe687a9f90f680759c0dd8ee56418566ba5fd512e255f30dfa01094",
+      "authenticode": "NotSigned",
+      "packagedFilesVerified": 40,
+      "overridesVerified": 7,
+      "nativeChecks": 28,
+      "nativeErrors": []
+    },
+    "storeStatus": "Submission artifacts verified locally. The existing store-native apps pin seven restricted files. Store review and publication for these binary updates have not been performed. Browser/H5 deployment is separate."
+  },
+  "postReleaseCooperativeWebKit": {
+    "wonAndReturned": true,
+    "errors": []
+  },
+  "navigationResize": {
+    "before": [
+      "ResizeObserver loop completed with undelivered notifications.",
+      "ResizeObserver loop completed with undelivered notifications."
+    ],
+    "after": []
+  },
+  "publicNetworkBefore": {
+    "at": "2026-11-08T00:52:57.170Z",
+    "results": [
+      {
+        "path": "/",
+        "status": 200,
+        "ttfbMs": 165,
+        "totalMs": 171,
+        "bytes": 50179,
+        "cache": null,
+        "encoding": "br"
+      },
+      {
+        "path": "/api/service/status",
+        "status": 200,
+        "ttfbMs": 141,
+        "totalMs": 141,
+        "bytes": 153,
+        "cache": null,
+        "encoding": "br"
+      },
+      {
+        "path": "/api/cards",
+        "status": 200,
+        "ttfbMs": 162,
+        "totalMs": 266,
+        "bytes": 134289,
+        "cache": null,
+        "encoding": "br"
+      },
+      {
+        "path": "/api/packs",
+        "status": 200,
+        "ttfbMs": 227,
+        "totalMs": 228,
+        "bytes": 11154,
+        "cache": null,
+        "encoding": "br"
+      },
+      {
+        "path": "/data/cards.json",
+        "status": 200,
+        "ttfbMs": 18,
+        "totalMs": 19,
+        "bytes": 93051,
+        "cache": null,
+        "encoding": "br"
+      },
+      {
+        "path": "/js/app.js",
+        "status": 200,
+        "ttfbMs": 52,
+        "totalMs": 66,
+        "bytes": 811614,
+        "cache": null,
+        "encoding": "br"
+      },
+      {
+        "path": "/service-worker.js",
+        "status": 200,
+        "ttfbMs": 24,
+        "totalMs": 25,
+        "bytes": 24620,
+        "cache": null,
+        "encoding": "br"
+      }
+    ]
+  },
+  "publicNetworkAfter": {
+    "at": "2026-11-08T01:28:04.496Z",
+    "results": [
+      {
+        "path": "/",
+        "status": 200,
+        "ttfbMs": 146,
+        "totalMs": 153,
+        "bytes": 50201,
+        "cache": null,
+        "encoding": "br"
+      },
+      {
+        "path": "/api/service/status",
+        "status": 200,
+        "ttfbMs": 136,
+        "totalMs": 137,
+        "bytes": 153,
+        "cache": null,
+        "encoding": "br"
+      },
+      {
+        "path": "/api/cards",
+        "status": 200,
+        "ttfbMs": 249,
+        "totalMs": 378,
+        "bytes": 134289,
+        "cache": null,
+        "encoding": "br"
+      },
+      {
+        "path": "/api/packs",
+        "status": 200,
+        "ttfbMs": 202,
+        "totalMs": 207,
+        "bytes": 11154,
+        "cache": null,
+        "encoding": "br"
+      },
+      {
+        "path": "/data/cards.json",
+        "status": 200,
+        "ttfbMs": 42,
+        "totalMs": 44,
+        "bytes": 93051,
+        "cache": null,
+        "encoding": "br"
+      },
+      {
+        "path": "/js/app.js",
+        "status": 200,
+        "ttfbMs": 35,
+        "totalMs": 50,
+        "bytes": 812408,
+        "cache": null,
+        "encoding": "br"
+      },
+      {
+        "path": "/service-worker.js",
+        "status": 200,
+        "ttfbMs": 40,
+        "totalMs": 44,
+        "bytes": 24620,
+        "cache": null,
+        "encoding": "br"
+      }
+    ]
+  },
+  "conditions": "Same PC, real public 309-card catalog, clean/new profiles, local account APIs, two animation frames from navigation to lobby visible. Slow case adds 2500 ms only to the static catalog response. Chrome mobile, WebKit mobile, Android WebView/TWA and iOS home screen are desktop approximations. Store binaries use their own vendor release channel. Official H5 SDK under test parent. No production player mutations.",
+  "playerAnnouncement": "output/announcements/all-platform-runtime-performance-20261108/notice-ko.txt"
+}

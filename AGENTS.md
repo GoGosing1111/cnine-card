@@ -1,3 +1,9 @@
+## 전체 플랫폼 첫 접속·도감·편성·메뉴 속도 개선 — 2026-11-08
+
+- 운영 소스 8d14a9863 · Pages 648372b4 · 두 Worker 100%. 첫 접속 시 서버·기본 카드 목록 중 먼저 쓸 수 있는 응답으로 시작한다. PvE·PvP 편성 정렬의 전투력 계산 및 도감 검색의 목록 순회를 줄이고, 공통 메뉴 크기 갱신을 다음 프레임으로 모아 WebKit 반복 배치 경고를 해결했다.
+- 공개 카드 309장과 격리 API, 14개 실행 환경으로 로비·도감 검색과 등급 필터·PvE·제작소·복귀를 확인했다. 서버 기본 카드 파일만 2.5초 늦춘 첫 로비 3회 중앙값은 Windows 3.189→0.593초, PC Chrome 3.730→1.103초, iPhone WebKit 4.334→1.534초다. 일반 연결·캐시 재입장 자료와 공개 응답 시간은 검수에 있다. 휴대폰은 에뮬레이션. 운영 검사 123개 통과, Windows 목록 14,579개 중 5개 변경.
+- 원스토어 H5 운영 반영. 원스토어 전용 Android 1.0.3(코드 4, 기존 키 v2 서명)·Windows 1.0.1(전용 런처 28검사, Authenticode 미서명)은 별도 제출용. 스토어 제출·심사·공개 전. 설치 파일은 C:/Users/User/Downloads/ReverseCall-ONEstore-optimization-20261108/. 검수 docs/qa/all-platform-runtime-performance-20261108/completion.json, 공지용 문안 output/announcements/all-platform-runtime-performance-20261108/notice-ko.txt.
+
 ## 격전지 웹·PWA·모바일 첫 전투 개선 — 2026-11-08
 
 - 운영 소스 92af99679 · Pages 643d4115 · 두 Worker 100%. 작은 화면과 터치 기기도 대기방에서 본인 용병 두 명을 준비한다. iOS 동시 이미지 디코드 2개, 저메모리·Android 터치 3개. 데이터 절약 모드에서 사전 로드 0건. 결과 갱신 중 복귀·봉인 보상 버튼을 유지한다.
