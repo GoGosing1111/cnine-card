@@ -5,6 +5,12 @@ const art=v=>{const s=String(v||'').replace(/^\/+/, '');return /^(assets|preview
 const terminal=s=>['VICTORY','DEFEAT'].includes(s);
 function style(href){if(!document.querySelector('link[href="'+href+'"]')){const l=document.createElement('link');l.rel='stylesheet';l.href=href;document.head.append(l);}}
 let active=null,bundleUpgrade,liteOnly=false,hasGL;
+const qualityKey='cnine_citadel_display_v1';
+function readQuality(){try{return localStorage.getItem(qualityKey)||'auto';}catch{return 'auto';}}
+function lightweight(){const quality=readQuality();if(liteOnly||quality==='light')return true;if(quality==='detail')return false;
+ // Twenty simultaneous combatants: on touch WebKit avoid creating a GPU battlefield before the fast scene.
+ return /iP(?:hone|ad|od)/.test(navigator.userAgent)||(/Mac/.test(navigator.platform)&&navigator.maxTouchPoints>1);
+}
 function webglAvailable(){
  if(hasGL!==undefined)return hasGL;
  try{const c=document.createElement('canvas'),gl=c.getContext('webgl2');hasGL=!!gl;gl?.getExtension('WEBGL_lose_context')?.loseContext();}catch{hasGL=false;}return hasGL;
@@ -18,13 +24,23 @@ function mountLite(host,payload,units){
   function queue(){if(!dead&&!frame)frame=requestAnimationFrame(paint);}
   function bitmap(url){if(!url)return null;if(cache.has(url))return cache.get(url);cache.set(url,null);const img=new Image();img.decoding='async';
    img.onload=()=>{if(dead||!img.naturalWidth)return;const proxy=document.createElement('canvas'),r=Math.min(1,104/img.naturalWidth,100/img.naturalHeight);proxy.width=Math.max(1,Math.round(img.naturalWidth*r));proxy.height=Math.max(1,Math.round(img.naturalHeight*r));const c=proxy.getContext('2d');if(c){c.drawImage(img,0,0,proxy.width,proxy.height);cache.set(url,proxy);queue();}};img.src=url;return null;}
-  function paint(){frame=0;if(dead||!fighters||!w||!h||document.hidden)return;ctx.clearRect(0,0,w,h);const mobile=w<650,cols=mobile?3:4,gap=mobile?2:6,half=(w-12)/2,tw=(half-cols*gap)/cols,th=Math.min(mobile?63:95,Math.max(23,(h-4*gap)/4));
-   for(const [j,side] of ['A','B'].entries()){const rows=Math.ceil((j?12:8)/cols),top=(h-rows*(th+gap))/2;for(const f of fighters[side]){const v=(j?enemies:allies).get(f.id);if(!v||f.hp<=0)continue;const x=(j?half+12:0)+(v.index%cols)*(tw+gap),y=top+Math.floor(v.index/cols)*(th+gap),img=bitmap(v.src);
-    ctx.fillStyle=f.isBoss?'#66331f':'#14202dd9';ctx.fillRect(x,y,tw,th);if(img){const r=Math.min(tw/img.width,(th-15)/img.height),iw=img.width*r,ih=img.height*r;ctx.drawImage(img,x+(tw-iw)/2,y+(th-15-ih)/2,iw,ih);}
-    ctx.fillStyle='#fff';ctx.textAlign='center';ctx.font=(mobile?'10':'12')+'px sans-serif';ctx.fillText(v.name||'',x+tw/2,y+th-4,tw-2);ctx.fillStyle=j?'#f78664':'#9ddd89';ctx.fillRect(x,y+th-2,tw*Math.max(0,Math.min(1,f.hp/Math.max(1,f.maxHp))),2);}}
+  const tiles=new Map(),previous=new Map();let nextBitmap=0;
+  function tile(v,boss,tw,th){const key=v.src+'|'+v.name+'|'+boss+'|'+tw+'x'+th,photo=bitmap(v.src),saved=tiles.get(key);if(saved&&saved.photo===photo)return saved;
+   const cv=document.createElement('canvas');cv.width=tw;cv.height=th;const c=cv.getContext('2d');c.fillStyle=boss?'#66331f':'#14202de6';c.fillRect(0,0,tw,th);
+   if(photo){const r=Math.min(tw/photo.width,(th-15)/photo.height),iw=Math.round(photo.width*r),ih=Math.round(photo.height*r);c.drawImage(photo,Math.round((tw-iw)/2),Math.round((th-15-ih)/2),iw,ih);}
+   c.fillStyle='#fff';c.textAlign='center';c.font=(w<650?'10':'12')+'px sans-serif';c.fillText(v.name||'',tw/2,th-4,tw-2);
+   const row={cv,photo,version:++nextBitmap};tiles.set(key,row);return row;}
+  function paint(){frame=0;if(dead||!fighters||!w||!h||document.hidden)return;const mobile=w<650,cols=mobile?3:4,gap=mobile?2:6,half=(w-12)/2,tw=Math.max(4,Math.floor((half-cols*gap)/cols)),th=Math.floor(Math.min(mobile?63:95,Math.max(23,(h-4*gap)/4))),present=new Set();
+   for(const [j,side] of ['A','B'].entries()){const rows=Math.ceil((j?12:8)/cols),top=(h-rows*(th+gap))/2;for(const f of fighters[side]){const v=(j?enemies:allies).get(f.id);if(!v||f.hp<=0)continue;
+    const i=j*12+v.index,x=Math.round((j?half+12:0)+(v.index%cols)*(tw+gap)),y=Math.round(top+Math.floor(v.index/cols)*(th+gap)),t=tile(v,!!f.isBoss,tw,th),bar=Math.round(tw*Math.max(0,Math.min(1,f.hp/Math.max(1,f.maxHp)))),old=previous.get(i);present.add(i);
+    if(old?.v===t.version&&old.bar===bar)continue;
+    if(old?.v!==t.version){ctx.clearRect(x,y,tw,th);ctx.drawImage(t.cv,x,y);}else ctx.clearRect(x,y+th-2,tw,2);
+    ctx.fillStyle=j?'#f78664':'#9ddd89';if(bar)ctx.fillRect(x,y+th-2,bar,2);previous.set(i,{v:t.version,bar,x,y,tw,th});
+   }}
+   for(const [i,old] of previous)if(!present.has(i)){ctx.clearRect(old.x,old.y,old.tw,old.th);previous.delete(i);}
   }
-  const resize=()=>{const a=surface.getBoundingClientRect(),width=Math.round(a.width),height=Math.round(a.height);if(width>0&&height>0&&(width!==w||height!==h)){surface.width=w=width;surface.height=h=height;queue();}};const observer=new ResizeObserver(resize);observer.observe(surface);resize();
-  return {append(){},update({state}){if(state?.fighters){fighters=state.fighters;const summary='성채 전투 · 아군 '+fighters.A.filter(f=>f.hp>0).length+'명 · 적 '+fighters.B.filter(f=>f.hp>0).length+'명';if(surface.getAttribute('aria-label')!==summary)surface.setAttribute('aria-label',summary);queue();}},destroy(){dead=true;observer.disconnect();cancelAnimationFrame(frame);cache.clear();surface.width=surface.height=0;arena.remove();}};
+  const resize=()=>{const a=surface.getBoundingClientRect(),width=Math.round(a.width),height=Math.round(a.height);if(width>0&&height>0&&(width!==w||height!==h)){surface.width=w=width;surface.height=h=height;previous.clear();tiles.clear();queue();}};const observer=new ResizeObserver(resize);observer.observe(surface);resize();
+  return {append(){},update({state}){if(state?.fighters){fighters=state.fighters;const summary='성채 전투 · 아군 '+fighters.A.filter(f=>f.hp>0).length+'명 · 적 '+fighters.B.filter(f=>f.hp>0).length+'명';if(surface.getAttribute('aria-label')!==summary)surface.setAttribute('aria-label',summary);queue();}},destroy(){dead=true;observer.disconnect();cancelAnimationFrame(frame);cache.clear();tiles.clear();previous.clear();surface.width=surface.height=0;arena.remove();}};
  }
  const slots=[8,12].map((n,j)=>{const side=document.createElement('div');side.className=j?'ct-enemy':'ct-ally';arena.append(side);return Array.from({length:n},()=>{const node=document.createElement('figure'),img=document.createElement('img'),name=document.createElement('figcaption'),hp=document.createElement('i');node.hidden=true;img.alt='';img.decoding='async';node.append(img,name,hp);side.append(node);return {node,img,name,hp};});});
  return {append(){},update({state}){if(!state?.fighters)return;for(const [j,side] of ['A','B'].entries()){const found=new Set();for(const f of state.fighters[side]){const info=(j?enemies:allies).get(f.id);if(!info||f.hp<=0)continue;const v=slots[j][info.index];found.add(info.index);v.node.hidden=false;
@@ -70,7 +86,7 @@ export function openCitadel(trigger){
  }
  function warm(){
   if(prewarm)return prewarm;
-  prewarm=(async()=>{if(liteOnly||!webglAvailable())return;await (window.ensureFeatureResources||window.CNineCoreRaidBridge?.ensureFeatureResources)('battleV2');
+  prewarm=(async()=>{if(lightweight()||!webglAvailable())return;await (window.ensureFeatureResources||window.CNineCoreRaidBridge?.ensureFeatureResources)('battleV2');
    if(closed||!state||terminal(state.status))return;await ensureCitadelRenderer();if(closed||!state||terminal(state.status))return;
    if(!document.hidden&&!navigator.connection?.saveData){
     const compact=matchMedia('(pointer:coarse), (max-width:860px)').matches||navigator.deviceMemory<=4;
@@ -92,12 +108,12 @@ export function openCitadel(trigger){
  }
  function draw(force=false){
   if(closed||['ACTIVE','LOADING'].includes(state?.status))return;
-  const key=JSON.stringify([state?.id,state?.status,state?.members,state?.claimed,state?.drops,rooms,picker,selected,!!options,busy,displayTest]);
+  const key=JSON.stringify([readQuality(),state?.id,state?.status,state?.members,state?.claimed,state?.drops,rooms,picker,selected,!!options,busy,displayTest]);
   if(key===displayKey&&!force)return;displayKey=key;
   const focus=document.activeElement?.dataset,restore=main.contains(document.activeElement)?[focus?.act,focus?.id]:null;
   const oldScroll=main.querySelector('.ct-grid')?.scrollTop||0;
   if(!state){main.innerHTML='<div class="ct-head"><div><small>PARTY FINDER</small><h2>모집 중인 파티</h2></div><button data-act="refresh">새로고침</button></div>'+(displayTest?'<p>테스트 모드 · 행동력 사용 및 실제 보상 지급 없음</p>':'')+
-   (rooms.length?'<ul class="ct-rooms">'+rooms.map(r=>'<li><div><b>'+esc(r.host)+'</b><small>외성문 집결 · 1 / 2명</small></div><button data-act="join" data-id="'+esc(r.id)+'">참가</button></li>').join('')+'</ul>':'<p class="ct-empty">모집 중인 파티가 없습니다. 파티를 만들면 다른 대원이 참가할 수 있습니다.</p>')+'<button class="ct-primary" data-act="create">파티 만들기</button>';}
+   '<label class="ct-quality">전투 화면 <select data-quality aria-label="전투 화면">'+[['auto','기기에 맞춤'],['detail','상세 연출'],['light','경량 연출']].map(([v,n])=>'<option value="'+v+'" '+(readQuality()===v?'selected':'')+'>'+n+'</option>').join('')+'</select></label>'+(rooms.length?'<ul class="ct-rooms">'+rooms.map(r=>'<li><div><b>'+esc(r.host)+'</b><small>외성문 집결 · 1 / 2명</small></div><button data-act="join" data-id="'+esc(r.id)+'">참가</button></li>').join('')+'</ul>':'<p class="ct-empty">모집 중인 파티가 없습니다. 파티를 만들면 다른 대원이 참가할 수 있습니다.</p>')+'<button class="ct-primary" data-act="create">파티 만들기</button>';}
   else if(terminal(state.status)){main.innerHTML='<small>EXPEDITION REPORT</small><h2>'+(state.status==='VICTORY'?'7분 사냥 완료':'토벌대 전멸')+'</h2><p>처치 '+state.kills+' · 성주 '+state.bosses+' · 내 습득 '+state.picked+'회</p><h3>내 전리품</h3>'+items(state.drops)+'<p>'+(state.test?'테스트 모드 · 실제 보상 미지급':state.claimed?'내 계정에 지급되었습니다.':'사냥 중 내 가방에 담은 전리품입니다.')+'</p>'+(state.canClaim?'<button class="ct-primary" data-act="claim">내 전리품 수령</button>':'<button class="ct-primary" data-act="leave">파티 목록으로</button>');}
   else{const mine=state.members.find(m=>m.id===state.you),group=picker==='mercenaries'?'mercenaryCodes':'cardIds',other=group==='mercenaryCodes'?'cardIds':'mercenaryCodes',eligible=selected[group],opts=options?.[picker]||[];
    main.innerHTML='<div class="ct-head"><div><small>EXPEDITION SQUAD</small><h2>성채 파티　'+state.members.length+' / 2</h2></div><button data-act="leave">파티 나가기</button></div><div class="ct-members">'+state.members.map(m=>'<div><b>'+esc(m.name)+(m.id===state.you?' · 나':'')+'</b><small>'+(m.ready?'준비 완료':'편성 중')+'</small></div>').join('')+(state.members.length===1?'<div><b>빈 자리</b><small>대원 모집 중</small></div>':'')+'</div>'+
@@ -143,7 +159,7 @@ export function openCitadel(trigger){
   const gen=++battleEpoch,id=state.id,valid=()=>!closed&&gen===battleEpoch&&state?.id===id;
   mounting=(async()=>{
    try{const [v,{mountCoopBattle}]=await Promise.all([request('battle?id='+id+'&part='+Math.min(Math.ceil(state.duration/30000)-1,Math.max(0,Math.floor((clock.now()-(state.startsAt||clock.now()))/30000)))),import('/raid/cooperative/battle.mjs?citadel=1'),warm().catch(()=>{liteOnly=true;})]);if(!valid())return;
-    replay=v.replay;replay.frames=v.chunk.frames;loadedPart=v.part;replay.payload.battleV2.result.timeline=v.chunk.events;const {manifest,forms}=replay.payload.cooperativeEncounter.citadel;for(const [slot,n,t,elite] of manifest){const f=forms[t];replay.units.push({id:n===-1?'B:4:CITADEL:BOSS':'B:'+slot+':CITADEL'+(n?':R'+n:''),side:'B',slot,maxHp:f.maxHp*(elite?2:1),maxShield:f.maxShield,isBoss:f.isBoss});}const host=box.querySelector('.coop-battle-mount');let mounted;if(!liteOnly&&webglAvailable()){try{mounted=await mountCoopBattle(host,replay.payload,{title:'군단토벌 · 불타는 성채',playerName:'성채 토벌대',clock});}catch{if(!valid())return;liteOnly=true;}}if(!mounted)mounted=mountLite(host,replay.payload,replay.units);
+    replay=v.replay;replay.frames=v.chunk.frames;loadedPart=v.part;replay.payload.battleV2.result.timeline=v.chunk.events;const {manifest,forms}=replay.payload.cooperativeEncounter.citadel;for(const [slot,n,t,elite] of manifest){const f=forms[t];replay.units.push({id:n===-1?'B:4:CITADEL:BOSS':'B:'+slot+':CITADEL'+(n?':R'+n:''),side:'B',slot,maxHp:f.maxHp*(elite?2:1),maxShield:f.maxShield,isBoss:f.isBoss});}const host=box.querySelector('.coop-battle-mount');let mounted;if(!lightweight()&&webglAvailable()){try{mounted=await mountCoopBattle(host,replay.payload,{title:'군단토벌 · 불타는 성채',playerName:'성채 토벌대',clock});}catch{if(!valid())return;liteOnly=true;preparation?.close?.();preparation=null;void window.ProjectVPixiBattle?.releaseBattle?.({onlyIfIdle:true})?.catch?.(()=>{});}}if(!mounted)mounted=mountLite(host,replay.payload,replay.units);
     if(!valid()){mounted.destroy();return;}battle=mounted;battle.update({state,serverNow:clock.now(),payload:replay.payload});frameIndex=-1;prKey='';clockHud();
     const notice=box.querySelector('.coop-battle-notice');notice.hidden=true;uiTimer=setInterval(clockHud,250);
     if(state.status==='LOADING'){const response=await request('loaded',{method:'POST',body:{id}});if(valid()){apply(response.state);schedule();}}
@@ -166,6 +182,7 @@ export function openCitadel(trigger){
   }catch(err){if(!closed){say(err.message);if(kind==='create'&&err.code==='CITADEL_OLD')createId=crypto.randomUUID();}}
   finally{if(!closed){busy=false;draw();schedule();}}
  }
+ d.addEventListener('change',e=>{if(!state&&e.target.matches('[data-quality]')){const quality=e.target.value;if(['auto','detail','light'].includes(quality)){try{localStorage.setItem(qualityKey,quality);}catch{}liteOnly=false;}}});
  d.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(b&&!b.disabled)void act(b.dataset.act,b.dataset.id);});
  main.innerHTML='<p>모집 중인 파티를 확인하고 있습니다.</p>';void refresh();return {close};
 }

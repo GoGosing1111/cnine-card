@@ -1,0 +1,422 @@
+{
+  "measuredAt": "2026-11-08T04:35:57.727Z",
+  "mode": "2P / continuous spawns / 420 seconds / boss at 300 seconds",
+  "environment": "Windows host; real Windows QA executable and locally installed Chromium PWA; emulated Android Chrome and iOS WebKit/home screen. ONE store H5 uses the SDK in a test host; Play TWA and Android native wrappers use their real entry URLs and profile (not mobile hardware). Browser motion sampled through requestAnimationFrame, not a GPU presentation counter.",
+  "timing": "Isolated accounts and locally served distribution assets; cold = first PVE button press to usable lobby, repeat = second press, start = host start to active and usable after both clients load. Individual runs, not live percentiles. Long-frame counts are for a fixed 4.5s sample.",
+  "platforms": [
+    {
+      "platform": "desktop",
+      "emulated": false,
+      "standalone": false,
+      "renderer": "pixi-v3",
+      "coldLobbyMs": 263,
+      "repeatLobbyMs": 86,
+      "firstStartMs": 3241,
+      "visibleFormation": null,
+      "frameSampleSeconds": 4.5,
+      "frameMedianMs": 4.2,
+      "frameP95Ms": 4.3,
+      "framesOver50ms": 1,
+      "requestsAfterExit": 0,
+      "picked": true,
+      "settled": true,
+      "late": [
+        303000,
+        410000
+      ],
+      "browserWarnings": []
+    },
+    {
+      "platform": "desktop-pwa",
+      "emulated": false,
+      "standalone": true,
+      "renderer": "pixi-v3",
+      "coldLobbyMs": 1523,
+      "repeatLobbyMs": 110,
+      "firstStartMs": 8684,
+      "visibleFormation": null,
+      "frameSampleSeconds": 4.5,
+      "frameMedianMs": 4.2,
+      "frameP95Ms": 8,
+      "framesOver50ms": 1,
+      "requestsAfterExit": 0,
+      "picked": true,
+      "settled": true,
+      "late": [],
+      "browserWarnings": []
+    },
+    {
+      "platform": "windows",
+      "emulated": false,
+      "standalone": false,
+      "renderer": "pixi-v3",
+      "coldLobbyMs": 199,
+      "repeatLobbyMs": 179,
+      "firstStartMs": 4333,
+      "visibleFormation": null,
+      "frameSampleSeconds": 4.5,
+      "frameMedianMs": 16.7,
+      "frameP95Ms": 16.8,
+      "framesOver50ms": 1,
+      "requestsAfterExit": 0,
+      "picked": true,
+      "settled": true,
+      "late": [],
+      "browserWarnings": []
+    },
+    {
+      "platform": "edge",
+      "emulated": false,
+      "standalone": false,
+      "renderer": "pixi-v3",
+      "coldLobbyMs": 315,
+      "repeatLobbyMs": 112,
+      "firstStartMs": 23261,
+      "visibleFormation": null,
+      "frameSampleSeconds": 4.5,
+      "frameMedianMs": 4.2,
+      "frameP95Ms": 4.5,
+      "framesOver50ms": 1,
+      "requestsAfterExit": 0,
+      "picked": true,
+      "settled": true,
+      "late": [],
+      "browserWarnings": []
+    },
+    {
+      "platform": "firefox",
+      "emulated": false,
+      "standalone": false,
+      "renderer": "pixi-v3",
+      "coldLobbyMs": 812,
+      "repeatLobbyMs": 816,
+      "firstStartMs": 8003,
+      "visibleFormation": null,
+      "frameSampleSeconds": 4.5,
+      "frameMedianMs": 62.7,
+      "frameP95Ms": 95.6,
+      "framesOver50ms": 55,
+      "requestsAfterExit": 0,
+      "picked": true,
+      "settled": true,
+      "late": [],
+      "browserWarnings": []
+    },
+    {
+      "platform": "android",
+      "emulated": true,
+      "standalone": false,
+      "renderer": "pixi-v3",
+      "coldLobbyMs": 504,
+      "repeatLobbyMs": 237,
+      "firstStartMs": 7063,
+      "visibleFormation": null,
+      "frameSampleSeconds": 4.5,
+      "frameMedianMs": 4.2,
+      "frameP95Ms": 8.4,
+      "framesOver50ms": 1,
+      "requestsAfterExit": 0,
+      "picked": true,
+      "settled": true,
+      "late": [],
+      "browserWarnings": []
+    },
+    {
+      "platform": "android-direct",
+      "emulated": true,
+      "standalone": false,
+      "renderer": "pixi-v3",
+      "coldLobbyMs": 545,
+      "repeatLobbyMs": 206,
+      "firstStartMs": 4828,
+      "visibleFormation": null,
+      "frameSampleSeconds": 4.5,
+      "frameMedianMs": 4.2,
+      "frameP95Ms": 8.3,
+      "framesOver50ms": 1,
+      "requestsAfterExit": 0,
+      "picked": true,
+      "settled": true,
+      "late": [],
+      "browserWarnings": []
+    },
+    {
+      "platform": "play-twa",
+      "emulated": true,
+      "standalone": true,
+      "renderer": "pixi-v3",
+      "coldLobbyMs": 446,
+      "repeatLobbyMs": 132,
+      "firstStartMs": 4058,
+      "visibleFormation": null,
+      "frameSampleSeconds": 4.5,
+      "frameMedianMs": 4.2,
+      "frameP95Ms": 8.2,
+      "framesOver50ms": 1,
+      "requestsAfterExit": 0,
+      "picked": true,
+      "settled": true,
+      "late": [],
+      "browserWarnings": []
+    },
+    {
+      "platform": "android-pwa",
+      "emulated": true,
+      "standalone": true,
+      "renderer": "pixi-v3",
+      "coldLobbyMs": 468,
+      "repeatLobbyMs": 133,
+      "firstStartMs": 4643,
+      "visibleFormation": null,
+      "frameSampleSeconds": 4.5,
+      "frameMedianMs": 4.2,
+      "frameP95Ms": 8.3,
+      "framesOver50ms": 1,
+      "requestsAfterExit": 0,
+      "picked": true,
+      "settled": true,
+      "late": [],
+      "browserWarnings": []
+    },
+    {
+      "platform": "ios",
+      "emulated": true,
+      "standalone": false,
+      "renderer": "snapshot-2d",
+      "coldLobbyMs": 1001,
+      "repeatLobbyMs": 634,
+      "firstStartMs": 1944,
+      "visibleFormation": "성채 전투 · 아군 8명 · 적 12명",
+      "frameSampleSeconds": 4.5,
+      "frameMedianMs": 16,
+      "frameP95Ms": 185,
+      "framesOver50ms": 13,
+      "requestsAfterExit": 0,
+      "picked": true,
+      "settled": true,
+      "late": [
+        303000,
+        410000
+      ],
+      "control": {
+        "count": 275,
+        "p95": 18,
+        "long50": 0
+      },
+      "browserWarnings": []
+    },
+    {
+      "platform": "ios-home",
+      "emulated": true,
+      "standalone": false,
+      "renderer": "snapshot-2d",
+      "coldLobbyMs": 790,
+      "repeatLobbyMs": 514,
+      "firstStartMs": 2527,
+      "visibleFormation": "성채 전투 · 아군 8명 · 적 12명",
+      "frameSampleSeconds": 4.5,
+      "frameMedianMs": 15,
+      "frameP95Ms": 174,
+      "framesOver50ms": 10,
+      "requestsAfterExit": 0,
+      "picked": true,
+      "settled": true,
+      "late": [
+        303000,
+        410000
+      ],
+      "control": {
+        "count": 262,
+        "p95": 21,
+        "long50": 1
+      },
+      "browserWarnings": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ]
+    },
+    {
+      "platform": "onestore-android",
+      "emulated": true,
+      "standalone": false,
+      "renderer": "pixi-v3",
+      "coldLobbyMs": 444,
+      "repeatLobbyMs": 237,
+      "firstStartMs": 4721,
+      "visibleFormation": null,
+      "frameSampleSeconds": 4.5,
+      "frameMedianMs": 4.2,
+      "frameP95Ms": 4.5,
+      "framesOver50ms": 1,
+      "requestsAfterExit": 0,
+      "picked": true,
+      "settled": true,
+      "late": [],
+      "browserWarnings": []
+    },
+    {
+      "platform": "onestore-windows",
+      "emulated": false,
+      "standalone": false,
+      "renderer": "pixi-v3",
+      "coldLobbyMs": 223,
+      "repeatLobbyMs": 135,
+      "firstStartMs": 3736,
+      "visibleFormation": null,
+      "frameSampleSeconds": 4.5,
+      "frameMedianMs": 16.7,
+      "frameP95Ms": 16.8,
+      "framesOver50ms": 0,
+      "requestsAfterExit": 0,
+      "picked": true,
+      "settled": true,
+      "late": [],
+      "browserWarnings": []
+    },
+    {
+      "platform": "onestore-h5",
+      "emulated": true,
+      "standalone": false,
+      "renderer": "pixi-v3",
+      "coldLobbyMs": 225,
+      "repeatLobbyMs": 158,
+      "firstStartMs": 7536,
+      "visibleFormation": null,
+      "frameSampleSeconds": 4.5,
+      "frameMedianMs": 4.2,
+      "frameP95Ms": 8.2,
+      "framesOver50ms": 1,
+      "requestsAfterExit": 0,
+      "picked": true,
+      "settled": true,
+      "late": [],
+      "browserWarnings": []
+    }
+  ],
+  "payload": {
+    "whole": {
+      "raw": 1662595,
+      "gzip": 112306
+    },
+    "first": {
+      "raw": 229727,
+      "gzip": 23936
+    }
+  },
+  "balance": {
+    "perGroup": 5,
+    "groups": [
+      {
+        "group": "mixed level 1",
+        "killsMedian": 454,
+        "bossClears": 0,
+        "survivals": 5,
+        "simMsMedian": 305
+      },
+      {
+        "group": "SS Limited 16",
+        "killsMedian": 523,
+        "bossClears": 5,
+        "survivals": 5,
+        "simMsMedian": 243
+      },
+      {
+        "group": "SSS Limited 10",
+        "killsMedian": 844,
+        "bossClears": 5,
+        "survivals": 5,
+        "simMsMedian": 304
+      },
+      {
+        "group": "mixed recommended",
+        "killsMedian": 697,
+        "bossClears": 5,
+        "survivals": 5,
+        "simMsMedian": 270
+      },
+      {
+        "group": "mixed level 21",
+        "killsMedian": 714,
+        "bossClears": 5,
+        "survivals": 5,
+        "simMsMedian": 191
+      }
+    ],
+    "method": "Node on Windows, identical equipment, cards and seeds; local simulation, not a live combat log. Payload comparison is same replay with full seven minutes vs header plus first 30 seconds."
+  },
+  "dbSample": {
+    "at": "2026-11-08T04:24:43.679Z",
+    "readOnly": true,
+    "verifiedExistingSchemaObjects": 4,
+    "mode": "ON",
+    "squads": [
+      {
+        "ownedOptions": {
+          "mercenaries": 90,
+          "icons": 5
+        },
+        "selectedRanks": [
+          "S",
+          "A"
+        ]
+      },
+      {
+        "ownedOptions": {
+          "mercenaries": 61,
+          "icons": 9
+        },
+        "selectedRanks": [
+          "S",
+          "A"
+        ]
+      }
+    ],
+    "combatants": 8,
+    "initialEnemies": 12,
+    "duration": 170000,
+    "kills": 12,
+    "pools": [
+      {
+        "materialTypes": 2,
+        "possibleEquipmentTypes": 13
+      },
+      {
+        "materialTypes": 2,
+        "possibleEquipmentTypes": 12
+      }
+    ],
+    "wrote": 0
+  },
+  "runeQueryComparison": {
+    "at": "2026-11-08T04:24:53.483Z",
+    "readOnly": true,
+    "sameAccount": true,
+    "match": true,
+    "runs": [
+      {
+        "name": "old",
+        "ms": 160,
+        "resultRows": 1584,
+        "equippedCount": 5
+      },
+      {
+        "name": "new",
+        "ms": 78,
+        "resultRows": 5,
+        "equippedCount": 5
+      },
+      {
+        "name": "new",
+        "ms": 77,
+        "resultRows": 5,
+        "equippedCount": 5
+      },
+      {
+        "name": "old",
+        "ms": 82,
+        "resultRows": 1584,
+        "equippedCount": 5
+      }
+    ]
+  },
+  "regressions": "52 Legion, combat, rewards and loader tests + 17 season and group combat tests. SQLite and PostgreSQL; no production battles, claims or account writes."
+}

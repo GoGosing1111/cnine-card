@@ -8,3 +8,5 @@
 
 .ct-lite{contain:layout paint style}.ct-lite .ct-hit{border-color:#d29563}.ct-lite figure{contain:layout paint style}.citadel.in-battle{box-shadow:none;background:#14151c}
 .ct-lite>canvas{width:100%;height:100%;display:block;grid-column:1/-1;min-height:0;align-self:stretch}.ct-lite:has(>canvas){grid-template-rows:minmax(0,1fr);align-content:stretch}body:has(>.citadel.in-battle)>#app{visibility:hidden;content-visibility:hidden;contain-intrinsic-size:auto 100vh}
+
+.ct-quality{display:flex;align-items:center;justify-content:flex-end;gap:8px;font-size:13px}.ct-quality select{color:#eee;border:1px solid #66738a;border-radius:5px;padding:6px;background:#172537}
