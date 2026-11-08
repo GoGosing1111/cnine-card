@@ -131,17 +131,20 @@ export async function mountCooperative(root){
   preparation?.close();preparation=null;
  }
  function prepareRoom(){
-  if(preparingRoom===state.id){preparation?.update(state.members);return;}
-  if(navigator.connection?.saveData||!matchMedia('(min-width:861px) and (pointer:fine)').matches)return;
+  if(document.hidden||navigator.connection?.saveData)return;
+  if(preparingRoom===state.id){preparation?.update(state.members,you);return;}
   closePreparation();const id=preparingRoom=state.id;
   const current=()=>!disposed&&preparingRoom===id&&state?.id===id&&state.status==='LOBBY';
   const start=async()=>{
    cancelPreparationIdle=null;if(!current())return;
    try{
+    if(document.hidden||navigator.connection?.saveData){preparingRoom='';return;}
     await window.CNineCoreRaidBridge.ensureFeatureResources('battleV2');
     if(!current())return;
+    if(document.hidden||navigator.connection?.saveData){preparingRoom='';return;}
     preparation=window.ProjectVPixiBattle?.prepareCooperativeRoom?.(COOP_ENCOUNTER.background);
-    preparation?.update(state.members);
+    if(preparation)preparation.update(state.members,you);
+    else preparingRoom='';
    }catch{if(current())preparingRoom='';}
   };
   if(window.requestIdleCallback){const handle=requestIdleCallback(start,{timeout:1200});cancelPreparationIdle=()=>cancelIdleCallback(handle);}
@@ -248,8 +251,16 @@ export async function mountCooperative(root){
   }else battle?.update(value);
   if(state.myResult||['VICTORY','DEFEAT'].includes(state.status)){
    const result=portal.querySelector('.coop-result');result.hidden=false;const won=(state.myResult||state.status)==='VICTORY';
-   result.innerHTML=`<div><span>${won?'VICTORY':'DEFEAT'}</span><h2>${won?'격전지 돌파 성공':'격전지 돌파 실패'}</h2><p>${esc(state.members.find(m=>m.id===you)?.reason||(won?'분대의 힘으로 모든 적을 격파했습니다.':'미격파 적 생존 또는 아군 전멸'))}</p>${state.encounter?'<p>'+esc(state.encounter.boss.name)+' · 최종 보스</p>':'<p>협동 대응 '+(state.patternHistory?.filter(p=>p.status==='SUCCESS').length||0)+' / '+(state.patternHistory?.length||0)+'회 성공</p>'}${rewardMarkup(state.clearReward,won)}<button class="coop-primary" data-return>대기방 목록으로</button></div>`;
-   result.querySelector('[data-return]').onclick=()=>void leave();
+   if(!result.firstElementChild){
+    result.innerHTML='<div><span data-outcome></span><h2></h2><p data-reason></p><p data-encounter></p><div data-receipt></div><button class="coop-primary" data-return>대기방 목록으로</button></div>';
+    result.querySelector('[data-return]').onclick=()=>void leave();
+   }
+   setValue(result.querySelector('[data-outcome]'),'textContent',won?'VICTORY':'DEFEAT');
+   setValue(result.querySelector('h2'),'textContent',won?'격전지 돌파 성공':'격전지 돌파 실패');
+   setValue(result.querySelector('[data-reason]'),'textContent',state.members.find(m=>m.id===you)?.reason||(won?'분대의 힘으로 모든 적을 격파했습니다.':'미격파 적 생존 또는 아군 전멸'));
+   const history=state.patternHistory||[];
+   setValue(result.querySelector('[data-encounter]'),'textContent',state.encounter?state.encounter.boss.name+' · 최종 보스':'협동 대응 '+history.filter(p=>p.status==='SUCCESS').length+' / '+history.length+'회 성공');
+   setValue(result.querySelector('[data-receipt]'),'innerHTML',rewardMarkup(state.clearReward,won));
    mountRewardRevealButton(result.firstElementChild,state.clearReward?.choiceOffer,{signal:lifecycle.signal,auto:true});
   }
   battleHud();
@@ -352,7 +363,7 @@ export async function mountCooperative(root){
  on($('[data-create]'),'click',async()=>{if(busy)return;lock(true);try{await loadOptions();if(disposed)return;const result=await command('create',{difficulty});roomId=result.roomId;await connect();}catch(e){alert(e.message);}finally{lock(false);}});
  on($('[data-refresh-rooms]'),'click',()=>void refreshRooms());
  on($('[data-room-filter]'),'change',event=>{roomFilter=event.target.value;listEpoch++;rooms=[];listLoaded=false;listSignature='';void refreshRooms();});
- on(document,'visibilitychange',()=>{if(!document.hidden&&!state)void refreshRooms();});
+ on(document,'visibilitychange',()=>{if(document.hidden)return;if(state?.status==='LOBBY')prepareRoom();else if(!state)void refreshRooms();});
  on($('[data-ready]'),'click',async()=>{if(busy)return;lock(true);try{
   const mine=state.members.find(m=>m.id===you);if(!mine.ready)await window.CNineCoreRaidBridge.ensureFeatureResources('battleV2');
   apply(await command(mine.ready?'unready':'ready',selected));

@@ -23,7 +23,7 @@ import {razakBattleArt,setupRazakActor,warmRazakActor,clearRazakActors,cancelRaz
 import {NAMSUDAENG_CODE,NAMSUDAENG_EVENT} from '../../../../shared/mercenary-bloodmoon-namsudaeng-v1.mjs';
 import {namsudaengBattleArt,setupNamsudaengActor,warmNamsudaengActor,clearNamsudaengActors,cancelNamsudaengPlayback,resumeNamsudaengPlayback,playNamsudaengBasic,playNamsudaengSkill} from './BloodmoonNamsudaengPlayback.js';
 import {EUNSEOL_CODE,EUNSEOL_AREA_EVENT} from '../../../../shared/mercenary-eunseol-v1.mjs';
-import {battleAssetMemory,battleImageUrl} from './BattleAssetMemory.mjs';
+import {battleAssetMemory,battleImageUrl,isBattleOwnedImage} from './BattleAssetMemory.mjs';
 import {preloadEunseolTextures,eunseolBattleArt,warmEunseolActor,clearEunseolActors,cancelEunseolPlayback,resumeEunseolPlayback,playEunseolBasic,playEunseolArea} from './EunseolCombatPlayback.js';
 import {GENERAL_JOK_CODE,GENERAL_JOK_AREA_EVENT} from '../../../../shared/mercenary-general-jok-v1.mjs';
 import {generalJokBattleArt,warmGeneralJokActor,clearGeneralJokActors,cancelGeneralJokPlayback,resumeGeneralJokPlayback,playGeneralJokBasic,playGeneralJokArea} from './GeneralJokCombatPlayback.js';
@@ -91,7 +91,10 @@ async function loadCooperativePortrait(url){
  if(delivery&&delivery!==url){
   // The delivery map contains same-size lossless versions. Keep the original as fallback.
   battleAssetMemory.remember(delivery);
-  try{return await Assets.load(delivery);}catch{}
+  // The delivery path does not retain the original atlas directory. Preserve
+  // logical pixels when the iOS loader downsizes this same-resolution image.
+  const asset=BATTLE_DEVICE.ios&&isBattleOwnedImage(url)?{src:delivery,data:{battleLogicalPixels:true}}:delivery;
+  try{return await Assets.load(asset);}catch{}
  }
  return Assets.load(url);
 }
@@ -121,6 +124,8 @@ async function prepareMercenaryEffects(entries,parallel){
 // Reuse the authored loaders for a confirmed lobby selection. Their framing
 // textures are disposable views; Pixi retains the decoded source for the battle.
 export function prepareCooperativeMercenary(card){
+ // On touch and low-memory devices, leave authored FX and role atlases for combat.
+ if(BATTLE_DEVICE.lowMemory)return prepareMercenaryTextures(card,true);
  const code=card.code||card.cardId;
  const authored=code===CARDGU_CODE?preloadCardguTextures:code===AWAKENED_OMEGA_CODE?preloadAwakenedOmegaTextures:code===EUNSEOL_CODE?preloadEunseolTextures:null;
  return Promise.allSettled([prepareMercenaryTextures(card,true),prepareMercenaryEffects([{card}],true),authored?.()]);
@@ -214,11 +219,12 @@ export const withMercenaryBattle=Base=>class extends Base{
   const rules=payload?.battleV2?.rules||{},perOwner=rules.mercenariesPerOwner===2?2:1,limit=rules.formation==='COOP_THREE_SQUADS'?3*perOwner:rules.formation==='DUO_TWO_SQUADS'?2*perOwner:2;
   if(entries.filter(e=>e.side==='A').length>limit||entries.filter(e=>e.side==='B').length>limit)throw Error('MAX_MERCENARIES_PER_SIDE');
   if(!entries.length)return super.applyBattlePayload(payload);
-  const parallel=rules.formation==='COOP_THREE_SQUADS'&&!BATTLE_DEVICE.lowMemory;
+  // The shared image loader bounds actual decoding (two on iOS, three on touch).
+  const parallel=rules.formation==='COOP_THREE_SQUADS';
   const [result,prepared]=parallel?await Promise.all([
    super.applyBattlePayload(payload),
    Promise.all(entries.map(({card})=>prepareMercenaryTextures(card,true))),
-   prepareMercenaryEffects(entries,true)
+   prepareMercenaryEffects(entries,!BATTLE_DEVICE.lowMemory)
   ]):[await super.applyBattlePayload(payload),null];
   if(!parallel)await prepareMercenaryEffects(entries,false);
   if(epoch!==this.mercenaryEpoch||this.mercenaryDisposed)return false;

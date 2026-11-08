@@ -121,34 +121,41 @@ async function mountEffectScene(target){
 function releaseEffectScene(scene){if(engine===scene&&engine?.effectScene)destroy();}
 
 function prepareCooperativeRoom(background){
-  if(BATTLE_DEVICE.lowMemory||globalThis.navigator?.connection?.saveData||engine)return null;
+  if(globalThis.navigator?.connection?.saveData||engine)return null;
+  const compact=BATTLE_DEVICE.lowMemory;
+  const limit=compact?2:6;
   const seen=new Set();
   let wanted=[],signature='',timer=null,working=false;
+  const available=()=>roomPreparation===session&&!engine&&!document.hidden&&!globalThis.navigator?.connection?.saveData;
   const warm=work=>{
     const barrier=whenReleased();
-    return trackOperation(barrier.then(()=>roomPreparation===session&&!engine?work():undefined));
+    return trackOperation(barrier.then(()=>available()?work():undefined));
   };
   const drain=async()=>{
     if(working)return;
     working=true;
     try{
-      while(roomPreparation===session&&!engine&&seen.size<6){
+      while(available()&&seen.size<limit){
         const merc=wanted.find(m=>!seen.has(m.code));
         if(!merc)break;
-        seen.add(merc.code);
-        await warm(()=>prepareCooperativeMercenary(merc));
+        await warm(()=>{
+          seen.add(merc.code);
+          return prepareCooperativeMercenary(merc);
+        }).catch(()=>{});
       }
     }finally{working=false;}
   };
   const session={
-    update(members){
-      wanted=members.flatMap(m=>m.selection?.mercenaries||[m.selection?.mercenary]).filter(m=>m?.code);
+    update(members,playerId){
+      // Keep speculative mobile textures bounded to this player's two selected units.
+      const squads=compact?members.filter(m=>m.id===playerId):members;
+      wanted=squads.flatMap(m=>m.selection?.mercenaries||[m.selection?.mercenary]).filter(m=>m?.code);
       const key=wanted.map(m=>m.code).join(',');
-      if(key===signature)return;
-      signature=key;clearTimeout(timer);
+      if(key!==signature){signature=key;clearTimeout(timer);timer=null;}
+      if(timer!==null||working||!available()||seen.size>=limit||!wanted.some(m=>!seen.has(m.code)))return;
       // Selection is server-confirmed only when the player's cards and mercenaries
       // form a full squad. Let rapid edits settle and warm one selected unit at a time.
-      timer=setTimeout(()=>void drain().catch(()=>{}),450);
+      timer=setTimeout(()=>{timer=null;void drain().catch(()=>{});},450);
     },
     close(){
       clearTimeout(timer);
@@ -161,7 +168,7 @@ function prepareCooperativeRoom(background){
   roomPreparation=session;
   void warm(()=>{
     battleAssetMemory.remember(background);
-    return Promise.allSettled([Assets.load(background),preloadBattleHud(),SkillEffectFX.preloadAll()]);
+    return Promise.allSettled([Assets.load(background),preloadBattleHud(),compact?null:SkillEffectFX.preloadAll()]);
   }).catch(()=>{});
   return session;
 }

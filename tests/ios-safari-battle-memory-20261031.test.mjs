@@ -85,3 +85,45 @@ test('a failed raid atlas batch retires its successful siblings and remains retr
   fail=false;const asset=await context.preload();assert.equal(cache.size,2);await (kind==='blackwing'?asset.release():context.MadaraPresentation.release());assert.equal(cache.size,0);
  }
 });
+
+test('mobile coop warms only my confirmed pair, pauses when hidden and survives one failed portrait',async()=>{
+ const source=read('preview/project-v-v3/source/project-v-pixi-battle.src.js');
+ const block=source.slice(source.indexOf('function prepareCooperativeRoom('),source.indexOf('async function playEvents('));
+ const loaded=[],timers=new Map();let nextTimer=0,releases=0;
+ const context={BATTLE_DEVICE:{lowMemory:true},navigator:{connection:{saveData:false}},document:{hidden:false},
+  engine:null,roomPreparation:null,whenReleased:()=>Promise.resolve(),trackOperation:promise=>promise,
+  releaseBattle:async()=>{releases++;},battleAssetMemory:{remember(){}},
+  Assets:{load:async url=>loaded.push(url)},preloadBattleHud:async()=>loaded.push('hud'),
+  SkillEffectFX:{preloadAll:async()=>loaded.push('all-effects')},
+  prepareCooperativeMercenary:async card=>{loaded.push(card.code);if(card.code==='A')throw Error('optional warm-up failed');},
+  setTimeout:work=>{timers.set(++nextTimer,work);return nextTimer;},clearTimeout:id=>timers.delete(id)};
+ vm.runInNewContext(block,context);
+ const runTimers=async()=>{for(const [id,work] of timers){timers.delete(id);work();}await tick();};
+ const squad=(id,...codes)=>({id,selection:{mercenaries:codes.map(code=>({code}))}});
+ const members=[squad(8,'foreign'),squad(3,'A','B')];
+ const room=context.prepareCooperativeRoom('arena');await tick();assert.deepEqual(loaded,['arena','hud']);
+ room.update(members,3);context.document.hidden=true;await runTimers();assert.deepEqual(loaded,['arena','hud']);
+ context.document.hidden=false;context.navigator.connection.saveData=true;room.update(members,3);await runTimers();
+ assert.deepEqual(loaded,['arena','hud']);context.navigator.connection.saveData=false;
+ room.update(members,3);await runTimers();assert.deepEqual(loaded,['arena','hud','A','B']);
+ room.update([squad(3,'C','D')],3);await runTimers();assert.equal(loaded.length,4);
+ room.close();assert.equal(releases,1);
+ const abandoned=context.prepareCooperativeRoom('next');abandoned.update(members,3);abandoned.close();await runTimers();
+ assert.equal(loaded.length,4);assert.equal(releases,2);
+ context.navigator.connection.saveData=true;assert.equal(context.prepareCooperativeRoom('hidden'),null);
+});
+
+test('optimized iOS coop sprites keep logical pixels and fall back to the original on delivery failure',async()=>{
+ const source=read('preview/project-v-v3/source/battle/MercenaryCombatPlayback.js');
+ const block=source.slice(source.indexOf('async function loadCooperativePortrait('),source.indexOf('export async function prepareMercenaryTextures('));
+ const loads=[],remembered=[];let fail=false;
+ const context={CNineImageDelivery:{url:()=>'/optimized.webp'},BATTLE_DEVICE:{ios:true},
+  isBattleOwnedImage:url=>url==='/battle.png',battleAssetMemory:{remember:url=>remembered.push(url)},
+  Assets:{load:async asset=>{loads.push(asset);if(fail&&asset.src)throw Error('decode');return asset;}}};
+ vm.runInNewContext(block,context);
+ const descriptor=await context.loadCooperativePortrait('/battle.png');assert.equal(descriptor.src,'/optimized.webp');assert.equal(descriptor.data.battleLogicalPixels,true);
+ assert.equal(await context.loadCooperativePortrait('/collection.png'),'/optimized.webp');
+ fail=true;assert.equal(await context.loadCooperativePortrait('/battle.png'),'/battle.png');
+ context.BATTLE_DEVICE.ios=false;assert.equal(await context.loadCooperativePortrait('/battle.png'),'/optimized.webp');
+ assert.equal(loads.length,5);assert.equal(remembered.length,4);
+});

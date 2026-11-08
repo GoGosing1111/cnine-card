@@ -826,7 +826,7 @@
     },
     {
       "file": "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
-      "sha256": "60007a63f0204943b5534c23b3ea55ecbec80fb872c2ec328bcbeaea50b3ba3d"
+      "sha256": "312129b3db9ab962e116864ae216b4b43ee0367df0d08efd951b959e35012f22"
     },
     {
       "file": "preview/project-v-v3/source/battle/LimitedMercenaryPlayback.js",
@@ -1108,7 +1108,7 @@
   "outputs": [
     {
       "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
-      "sha256": "292da7cb66bd282f69370f1a7bcb91bfb4241e466b16579092ae75133e4a1839",
+      "sha256": "34e2d691f46ebd5b33c8095e103c9aa8fd0289643b57fdbc48b00d48c8dc7f40",
       "commonGrid": true
     },
     {
