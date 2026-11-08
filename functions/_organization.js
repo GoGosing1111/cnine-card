@@ -134,7 +134,9 @@ export async function handleOrganization({path,request,env,deps}){
       'admin/organization/apply':['requestId','roundId','proposalId']
     }[path];orgAssert(fields,'ROUTE','요청 경로를 확인하세요.',404);
     const body=await readJointBody(request,{fields,maxBytes:32000});
-    return json(displayResponse(await organizationCommand(env,user,path,body,deps,now)));
+    const result=await organizationCommand(env,user,path,body,deps,now);
+    if(path==='organization/join/review' && result.application?.status==='APPROVED')await deps.afterClanJoin?.(env,result.application.userId);
+    return json(displayResponse(result));
   }catch(error){const known=/^(ORG_|JOINT_|DUO_)/.test(error.code||'');if(!known)deps.onError?.(error);return json({ok:false,code:known?error.code:'ORG_UNAVAILABLE',error:known?error.message:'클랜 요청을 처리하지 못했습니다. 잠시 후 같은 요청으로 다시 확인하세요.'},known?(error.status||409):503);}
 }
 

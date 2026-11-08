@@ -1,3 +1,4 @@
+import {PLAYABLE_MERCENARIES} from './_comeback_loans.js';
 import {COMPANION_RELEASE,validatePreparedMercenaries} from '../shared/companion-loadout-v2.mjs';
 import {PVE_ONLY_MERCENARY_CODES,mercenaryModeAllowed} from '../shared/mercenary-eunseol-v1.mjs';
 import {DUO_LIMITS} from '../shared/ranked-duo-v1.mjs';
@@ -13,7 +14,7 @@ const source=(dual=COMPANION_RELEASE.dualMercenaries)=>`FROM pvp_decks d JOIN us
  LEFT JOIN user_mercenary_loadout_v1 ml ON ml.user_id=d.user_id
  ${dual?"LEFT JOIN app_meta md ON md.key='mercenary_dual_loadout_v2:' || CAST(d.user_id AS TEXT)":''}
  LEFT JOIN app_meta mp ON mp.key='mercenary_pvp_loadout_v1:' || CAST(d.user_id AS TEXT)
- JOIN user_mercenary_cards_v1 mc ON mc.user_id=d.user_id AND mc.total_copies>0
+ JOIN ${PLAYABLE_MERCENARIES} mc ON mc.user_id=d.user_id AND mc.total_copies>0
   ${PVE_ONLY_MERCENARY_CODES.length?`AND mc.mercenary_code NOT IN (${PVE_ONLY_MERCENARY_CODES.map(code=>`'${code}'`).join(',')})`:''}
   AND mc.mercenary_code=${dual?"CASE WHEN json_valid(md.value) THEN json_extract(json_extract(json_extract(md.value,'$.PVP'),'$.mercenaryCodes'),'$[0]') END":"CASE WHEN mp.value IS NULL THEN ml.mercenary_code WHEN json_valid(mp.value) THEN json_extract(mp.value,'$.mercenaryCode') END"}`;
 const attack=`CASE WHEN COALESCE(a.preset_no,1)=1 THEN COALESCE(pr.card_ids,d.card_ids) ELSE pr.card_ids END`;
@@ -21,7 +22,7 @@ const valid=column=>`CASE WHEN json_valid(${column}) THEN json_array_length(${co
 const eligible=(dual=COMPANION_RELEASE.dualMercenaries)=>`u.status='ACTIVE' AND u.role<>'OWNER'
  AND (u.banned_until IS NULL OR SUBSTR(REPLACE(u.banned_until,'T',' '),1,19)<=?)
  AND ${valid('d.card_ids')} AND ${valid(attack)}
- ${dual?"AND CASE WHEN json_valid(md.value) THEN json_array_length(json_extract(json_extract(md.value,'$.PVP'),'$.mercenaryCodes')) ELSE 0 END=2 AND EXISTS(SELECT 1 FROM user_mercenary_cards_v1 mc2 WHERE mc2.user_id=d.user_id AND mc2.total_copies>0 AND mc2.mercenary_code<>mc.mercenary_code AND mc2.mercenary_code=json_extract(json_extract(json_extract(md.value,'$.PVP'),'$.mercenaryCodes'),'$[1]'))":''}`;
+ ${dual?`AND CASE WHEN json_valid(md.value) THEN json_array_length(json_extract(json_extract(md.value,'$.PVP'),'$.mercenaryCodes')) ELSE 0 END=2 AND EXISTS(SELECT 1 FROM ${PLAYABLE_MERCENARIES} mc2 WHERE mc2.user_id=d.user_id AND mc2.total_copies>0 AND mc2.mercenary_code<>mc.mercenary_code AND mc2.mercenary_code=json_extract(json_extract(json_extract(md.value,'$.PVP'),'$.mercenaryCodes'),'$[1]'))`:''}`;
 
 // An explicit empty PVP slot never falls back to the PVE selection. Legacy
 // accounts without a PVP override still inherit their established shared slot.

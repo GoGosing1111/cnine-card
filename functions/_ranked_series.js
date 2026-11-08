@@ -1,3 +1,4 @@
+import {PLAYABLE_MERCENARIES} from './_comeback_loans.js';
 import {mercenaryModeAllowed,MERCENARY_PVE_ONLY_REASON} from '../shared/mercenary-eunseol-v1.mjs';
 import {rankedOwnedMercenaries,rankedSelectedMercenaries} from './_mercenary_account.js';
 import {rankedSeriesCodes,rankedSeriesRoster,rankedPublicMercenary,rankedPublicRoster,RANKED_SERIES_RULES} from '../shared/ranked-series-v1.mjs';
@@ -25,7 +26,7 @@ export function rankedOwnershipGuard(env,selections,rules=RANKED_SERIES_RULES){
   const predicate=pairs.map(([id,raw])=>{
     const codes=rankedSeriesCodes(raw,rules),marks=codes.map(()=>'?').join(',');if(codes.some(code=>!mercenaryModeAllowed(code,'PVP')))throw fail(MERCENARY_PVE_ONLY_REASON);values.push(id,...codes);
     if(env.DB.dialect==='postgres')locks.push(env.DB.prepare(`SELECT mercenary_code FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code IN (${marks}) ORDER BY mercenary_code FOR SHARE`).bind(id,...codes));
-    let predicate=`(SELECT COUNT(*) FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code IN (${marks}) AND total_copies>0)=${rules.rosterSize}`;
+    let predicate=`(SELECT COUNT(*) FROM ${PLAYABLE_MERCENARIES} WHERE user_id=? AND mercenary_code IN (${marks}) AND total_copies>0)=${rules.rosterSize}`;
     if(codes.includes(SHIRANUI_CODE)){
       const access=shiranuiDeploymentGuard(env.DB,id);
       values.push(...access.values);locks.push(...access.locks);predicate+=' AND '+access.predicate;

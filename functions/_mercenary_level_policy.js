@@ -1,3 +1,4 @@
+import {PLAYABLE_LEVELS} from './_comeback_loans.js';
 import {MERCENARY_LEVEL_RELEASE_ENABLED as RELEASE,MERCENARY_LEVEL_KEY as KEY,MERCENARY_LEVEL_RULES,mercenaryLevelDraft,validateMercenaryLevelPolicy,mercenaryLevelReadiness,mercenaryLevelStateFromStorage,attachMercenaryLevel,levelError} from '../shared/mercenary-level-v1.mjs';
 import {saveJointPolicyDraft} from './_joint_transactions.js';
 
@@ -26,14 +27,14 @@ export async function readMercenaryLevelState(env,userId,code){return mercenaryL
 export async function releasedMercenaryLevelSummary(env,userId){
  if(!RELEASE)return {enabled:false,rows:[]};
  const {policy}=await readMercenaryLevelPolicy(env);if(policy.mode!=='ON'||!mercenaryLevelReadiness(policy,{requireGrowth:true}).ready)return {enabled:false,rows:[]};
- return {enabled:true,rows:(await env.DB.prepare('SELECT * FROM user_mercenary_levels_v1 WHERE user_id=?').bind(userId).all()).results.map(r=>({code:r.mercenary_code,...mercenaryLevelStateFromStorage(r)}))};
+ return {enabled:true,rows:(await env.DB.prepare(`SELECT * FROM ${PLAYABLE_LEVELS} WHERE user_id=?`).bind(userId).all()).results.map(r=>({code:r.mercenary_code,...mercenaryLevelStateFromStorage(r)}))};
 }
 // Both switches must open. OFF performs no new table reads and preserves all old snapshots.
 // A value may contain multiple owned candidates for one user's duo rating.
 export async function attachReleasedMercenaryLevels(env,snapshots){
  if(!RELEASE||!snapshots.size)return snapshots;
  const {policy}=await readMercenaryLevelPolicy(env);if(policy.mode!=='ON'||!mercenaryLevelReadiness(policy,{requireGrowth:true}).ready)return snapshots;
- const ids=[...snapshots.keys()],rows=(await env.DB.prepare(`SELECT * FROM user_mercenary_levels_v1 WHERE user_id IN (${ids.map(()=>'?').join(',')})`).bind(...ids).all()).results;
+ const ids=[...snapshots.keys()],rows=(await env.DB.prepare(`SELECT * FROM ${PLAYABLE_LEVELS} WHERE user_id IN (${ids.map(()=>'?').join(',')})`).bind(...ids).all()).results;
  return new Map([...snapshots].map(([id,value])=>{
   const attach=snapshot=>attachMercenaryLevel(snapshot,policy,rows.find(r=>Number(r.user_id)===id&&r.mercenary_code===snapshot.code));
   return [id,Array.isArray(value)?value.map(attach):attach(value)];

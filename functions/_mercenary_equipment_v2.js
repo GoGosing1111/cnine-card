@@ -1,3 +1,4 @@
+import {LOAN_CODES, PLAYABLE_MERCENARIES} from './_comeback_loans.js';
 import {MERCENARY_EQUIPMENT_SLOTS as SLOTS,MERCENARY_EQUIPMENT_SQL_CODES as SQL_CODES,MERCENARY_EQUIPMENT_CATALOG,mercenaryEquipmentImage,mercenaryEquipmentDefinition,ASCENDANT_EQUIPMENT_SETS,ascendantEquipmentEffects} from '../shared/mercenary-equipment-v1.mjs';
 import {LEGION_REGIONS} from '../shared/legion-regions-v1.mjs';
 import {equipmentEffectText} from '../shared/equipment-growth-text-v1.mjs';
@@ -90,13 +91,14 @@ export async function saveMercenaryEquipment(env,user,body){
  const input={mercenaryCode,mode,slot,instanceId,revision:body.revision,transferConfirmed:body.transferConfirmed===true};
  const result=await runJointOperation(env,user,{requestId:body.requestId,kind:'MERCENARY_EQUIPMENT_V2',input,prepare:async()=>{
   const record=(await readMercenaryEquipmentRecords(env,[user.id])).get(Number(user.id));if(record.state.revision!==body.revision)throw jointError('MERCENARY_EQUIPMENT_CONFLICT','다른 창에서 장비를 변경했습니다. 다시 불러와 비교하세요.',409);
-  if(!await env.DB.prepare('SELECT mercenary_code FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=? AND total_copies>0').bind(user.id,mercenaryCode).first())throw jointError('MERCENARY_EQUIPMENT_MERCENARY','보유한 용병만 선택할 수 있습니다.',403);
+  const releaseExpired=!instanceId&&LOAN_CODES.includes(mercenaryCode);
+  if(!releaseExpired&&!await env.DB.prepare(`SELECT mercenary_code FROM ${PLAYABLE_MERCENARIES} WHERE user_id=? AND mercenary_code=? AND total_copies>0`).bind(user.id,mercenaryCode).first())throw jointError('MERCENARY_EQUIPMENT_MERCENARY','보유한 용병만 선택할 수 있습니다.',403);
   if(instanceId&&!await env.DB.prepare(`SELECT x.id FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id WHERE x.id=? AND x.user_id=? AND i.slot=? AND i.code IN (${SQL_CODES}) AND i.is_active=1 AND i.is_public=1`).bind(instanceId,user.id,slot).first())throw jointError('MERCENARY_EQUIPMENT_OWNERSHIP','사용 가능한 보유 용병 장비만 장착할 수 있습니다.',403);
-  const {next,transfer}=changeEquipment(record.state,input);return {record,next,transfer,input};
+  const {next,transfer}=changeEquipment(record.state,input);return {record,next,transfer,input,releaseExpired};
  },statements:async plan=>{
   const DB=env.DB,token=crypto.randomUUID(),record=(await readMercenaryEquipmentRecords(env,[user.id])).get(Number(user.id));
   if(record.raw!==plan.record.raw||JSON.stringify(record.state)!==JSON.stringify(plan.record.state))throw Object.assign(jointError('MERCENARY_EQUIPMENT_CONFLICT','장비 구성이 변경됐습니다. 다시 비교해 주세요.',409),{terminal:true});
-  const list=[...mercenaryEquipmentRecordGuards(DB,user.id,plan.record),jointGuard(DB,token,'EXISTS(SELECT 1 FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=? AND total_copies>0)',[user.id,plan.input.mercenaryCode])];
+  const list=[...mercenaryEquipmentRecordGuards(DB,user.id,plan.record),jointGuard(DB,token,plan.releaseExpired?'1=1':`EXISTS(SELECT 1 FROM ${PLAYABLE_MERCENARIES} WHERE user_id=? AND mercenary_code=? AND total_copies>0)`,plan.releaseExpired?[]:[user.id,plan.input.mercenaryCode])];
   if(plan.input.instanceId)list.push(DB.prepare(`UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN EXISTS(SELECT 1 FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id WHERE x.id=? AND x.user_id=? AND i.slot=? AND i.code IN (${SQL_CODES}) AND i.is_active=1 AND i.is_public=1) THEN 1 ELSE 0 END WHERE token=?`).bind(plan.input.instanceId,user.id,plan.input.slot,token));
   list.push(DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at').bind(plan.record.key,JSON.stringify(plan.next)),DB.prepare('INSERT INTO user_mercenary_loadout_v1(user_id,mercenary_code,revision,updated_at) VALUES(?,NULL,0,?) ON CONFLICT(user_id) DO UPDATE SET updated_at=excluded.updated_at').bind(user.id,new Date().toISOString()),DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)').bind(user.id,'MERCENARY_EQUIPMENT_V2','USER',String(user.id),JSON.stringify(plan.record.state),JSON.stringify(plan.next)),jointGuardEnd(DB,token));return list;
  }});

@@ -774,7 +774,7 @@ window.alchemyFeatureVisible=alchemyFeatureVisible;
 window.applyAlchemyFeatureState=applyAlchemyFeatureState;
 function navGroupForTab(tab){
   if(['battle','scrapyard','pvp','duo','rank','clan','jokgakCity'].includes(tab))return 'battle';
-  if(['attendance','dailyquest','messages','mineral'].includes(tab))return 'rewards';
+  if(['attendance','dailyquest','comeback','messages','mineral'].includes(tab))return 'rewards';
   if(['magic','upgrade'].includes(tab))return 'dex';
   if(['character','workshop','alchemy','avatar'].includes(tab))return 'character';
   if(['auction'].includes(tab))return 'market';
@@ -799,7 +799,7 @@ function renderMainNavigation(tab){
   if(group==='battle')return `${primaryHtml}<nav class="sub-tabs" aria-label="전투 메뉴"><button class="tab ${tab==='duo'?'active':''}" data-tab="duo">랭크 듀오</button><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE 전투</button><button class="tab ${tab==='scrapyard'?'active':''}" data-tab="scrapyard">폐차장 원정</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">PVP·경쟁</button><button class="tab ${tab==='rank'?'active':''}" data-tab="rank">시즌 랭킹</button>`:''}${clanFeatureVisible()?`<button class="tab ${tab==='clan'?'active':''}" data-tab="clan">클랜</button>`:''}</nav>`;
   if(group==='character')return `${primaryHtml}<nav class="sub-tabs" aria-label="장비와 제작 메뉴"><button class="tab ${tab==='character'?'active':''}" data-tab="character">장비·칭호·차고</button><button class="tab ${tab==='workshop'?'active':''}" data-tab="workshop">제작소</button>${alchemyFeatureVisible()?`<button class="tab ${tab==='alchemy'?'active':''}" data-tab="alchemy">연금술</button>`:''}${avatarFeatureVisible()?`<button class="tab ${tab==='avatar'?'active':''}" data-tab="avatar">아바타</button>`:''}</nav>`;
   if(group==='market')return `${primaryHtml}<nav class="sub-tabs" aria-label="경매장 메뉴"><button class="tab ${tab==='auction'?'active':''}" data-tab="auction">경매장</button></nav>`;
-  if(group==='rewards')return `${primaryHtml}<nav class="sub-tabs" aria-label="보상 메뉴"><button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='dailyquest'?'active':''}" data-tab="dailyquest">일일·주간 퀘스트</button><button class="tab ${tab==='messages'?'active':''}" data-tab="messages">메시지함</button><button class="tab ${tab==='mineral'?'active':''}" data-tab="mineral">교환소</button></nav>`;
+  if(group==='rewards')return `${primaryHtml}<nav class="sub-tabs" aria-label="보상 메뉴"><button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='dailyquest'?'active':''}" data-tab="dailyquest">일일·주간 퀘스트</button><button class="tab ${tab==='comeback'?'active':''}" data-tab="comeback">컴백 유저</button><button class="tab ${tab==='messages'?'active':''}" data-tab="messages">메시지함</button><button class="tab ${tab==='mineral'?'active':''}" data-tab="mineral">교환소</button></nav>`;
   if(group==='administration')return `${primaryHtml}<nav class="sub-tabs" aria-label="행정부 메뉴"><button class="tab ${tab==='soopketland'?'active':''}" data-tab="soopketland">리버스랜드</button><button class="tab ${tab==='prison'?'active':''}" data-tab="prison">감옥</button></nav>`;
   return `${primaryHtml}<div class="sub-tabs sub-tabs-placeholder" aria-hidden="true"></div>`;
 }
@@ -811,7 +811,7 @@ function updateMessageNewBadges(count){messageUnreadCount=Math.max(0,Number(coun
 
 function mobileNavigationHtml(tab){
   const group=navGroupForTab(tab);
-  const moreActive=['attendance','dailyquest','messages','auction','mineral','inventory','character','workshop','alchemy','avatar','prison'].includes(tab);
+  const moreActive=['attendance','dailyquest','comeback','messages','auction','mineral','inventory','character','workshop','alchemy','avatar','prison'].includes(tab);
   return `<nav class="mobile-bottom-nav" aria-label="모바일 주요 메뉴">
     <button class="mobile-bottom-item ${tab==='buy'?'active':''}" type="button" data-mobile-tab="buy"><span>▣</span><b>카드·상점</b></button>
     <button class="mobile-bottom-item ${group==='dex'?'active':''}" type="button" data-mobile-open-sheet="collection"><span>▤</span><b>도감·강화</b></button>
@@ -874,6 +874,7 @@ function mobileNavigationHtml(tab){
       <header><div><small>REWARD HUB</small><h2>보상 허브</h2><p>받을 수 있는 보상을 확인하세요.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
       <div class="mobile-sheet-action-list">
         <button type="button" data-mobile-tab="attendance"><i>✓</i><span><b>접속 보상</b><small>매일 접속하고 보상 받기</small></span><em>확인</em></button>
+        <button type="button" data-mobile-tab="comeback"><i>↩</i><span><b>컴백 유저</b><small>복귀 보급품과 카미시로 합류 임무</small></span><em>입장</em></button>
         <button type="button" data-mobile-tab="dailyquest"><i>✓</i><span><b>일일·주간 퀘스트</b><small>매일·매주 달성하는 목표</small></span><em>확인</em></button>
         <button type="button" data-mobile-tab="messages"><i>✉</i><span><b>메시지함</b><small>운영 메시지와 지급 내역</small></span><em>확인</em>${messageBadgeMarkup()}</button>
         <button type="button" data-mobile-tab="mineral"><i>E</i><span><b>교환소</b><small>미네랄 기부 교환 신청</small></span><em>열기</em></button>
@@ -1412,8 +1413,8 @@ function renderShell(tab,routeOptions={}) {
   else if(previousTab!=='workshop')prepareWorkshopEntryRead();
   if(tab!=='workshop')workshopEntrySection=null;
   else if(['VEHICLE','SYNTHESIS'].includes(routeOptions.workshopSection))workshopEntrySection=routeOptions.workshopSection;
-  const views = { season:(...args)=>(routeFeatureReady&&window.SeasonS1?window.SeasonS1.view(...args):featureRouteLoadingHtml('season')), jokgakCity:()=>window.JokgakCity.view(), iconfusion:()=>window.IconFusion.view(), buy: buyView, dex: dexView, upgrade:(typeof window.bulkEnhancementView==='function'?window.bulkEnhancementView:(user)=>`${summaryBar(user)}${featureRouteLoadingHtml('upgrade')}`), evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, scrapyard:(...args)=>(routeFeatureReady&&typeof window.scrapyardView==='function'?window.scrapyardView(...args):featureRouteLoadingHtml('scrapyard')), pvp: pvpView, duo:()=>'<div id="rankedDuoRoot" aria-live="polite">듀오 시즌을 불러오는 중...</div>', clan:(user)=>`${summaryBar(user)}${typeof window.ClanV1?.view==='function'?window.ClanV1.view(user):'<section class="clan-shell"><div class="clan-error"><h2>클랜 모듈을 불러오지 못했습니다</h2></div></section>'}`, magic: magicView, character:(...args)=>(routeFeatureReady&&typeof window.characterView==='function'?window.characterView(...args):featureRouteLoadingHtml('character')), avatar:(...args)=>(routeFeatureReady&&typeof window.avatarShopView==='function'?window.avatarShopView(...args):featureRouteLoadingHtml('avatar')), workshop:(...args)=>(routeFeatureReady&&typeof window.workshopView==='function'?window.workshopView(...args):featureRouteLoadingHtml('workshop')), alchemy:(...args)=>(routeFeatureReady&&typeof window.alchemyView==='function'?window.alchemyView(...args):featureRouteLoadingHtml('alchemy')), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, auction:(...args)=>(routeFeatureReady&&typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):featureRouteLoadingHtml('auction')), soopketland:(...args)=>(routeFeatureReady&&typeof window.soopketLandView==='function'?window.soopketLandView(...args):featureRouteLoadingHtml('soopketland')), mineral: mineralExchangeView, inventory: inventoryView, prison: prisonView, coup:()=>window.CoupPalace.view() };
-  const battleActive=['battle','scrapyard','pvp','duo','rank','clan','jokgakCity'].includes(tab),rewardActive=['season','attendance','dailyquest','messages','mineral'].includes(tab),collectionActive=['dex','upgrade','evolution','iconfusion','magic'].includes(tab),characterActive=['character','workshop','alchemy','avatar'].includes(tab),marketActive=['auction'].includes(tab),administrationActive=['prison','soopketland','coup'].includes(tab);
+  const views = { season:(...args)=>(routeFeatureReady&&window.SeasonS1?window.SeasonS1.view(...args):featureRouteLoadingHtml('season')), jokgakCity:()=>window.JokgakCity.view(), iconfusion:()=>window.IconFusion.view(), buy: buyView, dex: dexView, upgrade:(typeof window.bulkEnhancementView==='function'?window.bulkEnhancementView:(user)=>`${summaryBar(user)}${featureRouteLoadingHtml('upgrade')}`), evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, scrapyard:(...args)=>(routeFeatureReady&&typeof window.scrapyardView==='function'?window.scrapyardView(...args):featureRouteLoadingHtml('scrapyard')), pvp: pvpView, duo:()=>'<div id="rankedDuoRoot" aria-live="polite">듀오 시즌을 불러오는 중...</div>', clan:(user)=>`${summaryBar(user)}${typeof window.ClanV1?.view==='function'?window.ClanV1.view(user):'<section class="clan-shell"><div class="clan-error"><h2>클랜 모듈을 불러오지 못했습니다</h2></div></section>'}`, magic: magicView, character:(...args)=>(routeFeatureReady&&typeof window.characterView==='function'?window.characterView(...args):featureRouteLoadingHtml('character')), avatar:(...args)=>(routeFeatureReady&&typeof window.avatarShopView==='function'?window.avatarShopView(...args):featureRouteLoadingHtml('avatar')), workshop:(...args)=>(routeFeatureReady&&typeof window.workshopView==='function'?window.workshopView(...args):featureRouteLoadingHtml('workshop')), alchemy:(...args)=>(routeFeatureReady&&typeof window.alchemyView==='function'?window.alchemyView(...args):featureRouteLoadingHtml('alchemy')), attendance: attendanceView, dailyquest: dailyQuestView, comeback: comebackView, messages: messagesView, rank: rankView, auction:(...args)=>(routeFeatureReady&&typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):featureRouteLoadingHtml('auction')), soopketland:(...args)=>(routeFeatureReady&&typeof window.soopketLandView==='function'?window.soopketLandView(...args):featureRouteLoadingHtml('soopketland')), mineral: mineralExchangeView, inventory: inventoryView, prison: prisonView, coup:()=>window.CoupPalace.view() };
+  const battleActive=['battle','scrapyard','pvp','duo','rank','clan','jokgakCity'].includes(tab),rewardActive=['season','attendance','dailyquest','comeback','messages','mineral'].includes(tab),collectionActive=['dex','upgrade','evolution','iconfusion','magic'].includes(tab),characterActive=['character','workshop','alchemy','avatar'].includes(tab),marketActive=['auction'].includes(tab),administrationActive=['prison','soopketland','coup'].includes(tab);
   views.classicColosseum=()=>'<div id="classicColosseumRoot" aria-live="polite">클래식 멸망전을 불러오는 중...</div>';
   const navHtml=`<nav class="main-nav" aria-label="주요 메뉴">
     <button class="main-nav-item ${tab==='buy'?'active':''}" type="button" data-tab="buy"><span class="main-nav-icon">▣</span><b>카드·상점</b></button>
@@ -1452,7 +1453,7 @@ function renderShell(tab,routeOptions={}) {
       <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">R</span><b>보상</b><i>⌄</i>${messageBadgeMarkup()}</button>
       <div class="main-nav-dropdown" role="menu">
         <button type="button" data-tab="attendance"><span>접속 보상·쿠폰 입력</span><b>접속 보상</b></button>
-        <button type="button" data-tab="season"><span>PVE · PVP 성장과 제작</span><b>S1 불멸의 왕</b></button><button type="button" data-tab="dailyquest"><span>매일·매주 달성하는 목표</span><b>일일·주간 퀘스트</b></button>
+        <button type="button" data-tab="season"><span>PVE · PVP 성장과 제작</span><b>S1 불멸의 왕</b></button><button type="button" data-tab="comeback"><span>복귀 보급품과 후속 임무</span><b>컴백 유저</b></button><button type="button" data-tab="dailyquest"><span>매일·매주 달성하는 목표</span><b>일일·주간 퀘스트</b></button>
         <button type="button" data-tab="messages"><span>운영 메시지</span><b>메시지함</b>${messageBadgeMarkup()}</button>
         <button type="button" data-tab="mineral"><span>미네랄 기부 교환 신청</span><b>교환소</b></button>
       </div>
@@ -3054,6 +3055,55 @@ function tierEmblem(tier,size='normal'){
 function pvpTierGuideHtml(tiers=[],currentTier=null,challenger=null){const road=[...tiers,...(challenger?[challenger]:[])];return `<section class="pvp-tier-guide"><div class="pvp-tier-guide-head"><p class="eyebrow">RANKED TIER ROAD</p><h3>시즌 티어 구간</h3><span>챌린저는 점수와 관계없이 현재 랭킹 1~20위 전용입니다.</span></div><div class="pvp-tier-road">${road.map(t=>`<div class="pvp-tier-road-item ${currentTier&&String(currentTier.id)===String(t.id)?'current':''}">${tierEmblem(t,'small')}<b>${t.id==='challenger'?'랭킹 1~20위':`${Number(t.min||0).toLocaleString()}점+`}</b></div>`).join('')}</div></section>`}
 let rankHubMode='pvp';
 
+let comebackLobbySession='',comebackLobbyChecked=0,comebackRequest=null;
+function readComebackEvent(){
+  const session=API_TOKEN;
+  if(comebackRequest?.session===session)return comebackRequest.promise;
+  const promise=(async()=>{
+    let state=await apiRequest('comeback/status',{}, {ttl:0,microcache:false});
+    if(API_TOKEN!==session)throw Error('계정이 변경되었습니다.');
+    if(state.phase==='ELIGIBLE'||(state.phase==='MISSIONS'&&state.clan&&state.weeks?.length===2)){
+      state=await apiRequest('comeback/enter',{method:'POST',body:'{}'},{timeoutMs:18000});
+      if(API_TOKEN!==session)throw Error('계정이 변경되었습니다.');
+      if(state.awarded){
+        showSupplyNotice('컴백 보급품이 지급되었습니다. 사이드 메뉴의 컴백 유저에서 확인하세요.');
+        window.dispatchEvent(new CustomEvent('cnine:account-sync',{detail:{domains:['wallet','inventory']}}));
+      }
+    }
+    return state;
+  })().finally(()=>{if(comebackRequest?.promise===promise)comebackRequest=null;});
+  comebackRequest={session,promise};
+  return promise;
+}
+function syncComebackLobby(force=false){
+  if(!API_MODE||!API_TOKEN||!loadUser()?.serverUserId)return;
+  const session=API_TOKEN;
+  if(!force&&comebackLobbySession===session&&Date.now()-comebackLobbyChecked<60000)return;
+  comebackLobbySession=session;comebackLobbyChecked=Date.now();
+  void readComebackEvent().catch(()=>{if(comebackLobbySession===session)comebackLobbySession='';});
+}
+window.syncComebackLobby=syncComebackLobby;
+function comebackView(user){
+  return summaryBar(user)+'<div id="comebackRoot" role="status">복귀 기록을 확인하는 중…</div>';
+}
+async function loadComeback(){
+  const root=document.getElementById('comebackRoot');if(!root)return;
+  try{
+    const {mountComeback}=await import('./quest-hub-live.mjs?v=comeback-20261108-v1');
+    if(!root.isConnected)return;
+    await mountComeback({root,readEvent:readComebackEvent,navigate:async route=>{
+      const shell=window.SoopketmonV21ExactShell;
+      if(route==='verification'){
+        if(shell)await shell.navigate('messages');else renderShell('messages');
+        await openWagoVerification();return;
+      }
+      if(shell)return shell.navigate(route);
+      if(route==='mercenaryDex'){window.location.assign('/mercenary-codex/');return;}
+      return renderShell(route==='home'?'buy':route);
+    }});
+  }catch(error){if(root.isConnected)root.textContent=error.message||'컴백 유저 메뉴를 다시 열어 주세요.';}
+}
+
 function dailyQuestView(user){
   return `${summaryBar(user)}<div id="questHubRoot" aria-live="polite"></div>`;
 }
@@ -3725,6 +3775,8 @@ function bindView(tab) {
   if(tab==='magic')loadMagicView();
   if(tab==='messages'){document.getElementById('openWagoVerify')?.addEventListener('click',openWagoVerification);document.getElementById('openSoopWatchConsent')?.addEventListener('click',()=>openSoopWatchConsent());loadMessages();}
   if(tab==='dailyquest')loadDailyQuest();
+  if(tab==='comeback')loadComeback();
+  if(tab==='buy')syncComebackLobby();
   const accountBtn=document.getElementById('playerAccountBtn'); if(accountBtn) accountBtn.onclick=showAccountPanel;
   document.querySelectorAll('.pack-choice').forEach(button => button.onclick = () => { selectedPackId = button.dataset.packId; renderShell('buy'); });
   document.querySelectorAll('.draw').forEach(b => b.onclick = () => openPack(b.dataset.packId, Number(b.dataset.count), Number(b.dataset.cost)));
@@ -5013,6 +5065,7 @@ async function completePendingPlaydkVerification(){
   try{
     const result=await apiRequest('secondary-verification/playdk',{method:'POST',body:JSON.stringify({token})},{timeoutMs:12000});if(API_TOKEN!==verificationSession||Number(loadUser()?.serverUserId)!==verificationAccount)return false;
     clearApiCache('messages');clearApiCache('secondary-verification/status');clearApiCache('new-user-gift');clearApiCache('shell/summary');
+    syncComebackLobby(true);
     if(result?.newlyVerified===false||result?.duplicate===true||result?.status==='ALREADY_VERIFIED'){void openSoopWatchConsent({automatic:true,verificationResult:result});return true;}
     alert(`${result.verification?.providerName?`${result.verification.providerName} · `:''}PLAY DK 2차 인증이 완료되었습니다.${result.giftMessage?.sent?'\n기프트 박스 1개가 메시지함에 도착했습니다. 메시지에서 수령해 주세요.':''}`);
     renderShell('messages');requestAnimationFrame(()=>openWagoVerification());void openSoopWatchConsent({automatic:true,verificationResult:result});
@@ -5131,7 +5184,7 @@ async function refreshAccountSync(){
   }catch(error){if(token===API_TOKEN&&error.status!==401&&error.status!==403){for(const domain of domains)ACCOUNT_SYNC_PENDING.add(domain);scheduleAccountSync(5000);}}
   finally{accountSyncBusy=false;if(ACCOUNT_SYNC_PENDING.size&&!accountSyncTimer)scheduleAccountSync();}
 }
-window.addEventListener('cnine:account-sync',event=>{PLAYER_STATE_MUTATION_EPOCH++;API_GET_CACHE.clear();API_INFLIGHT.clear();for(const domain of event.detail?.domains||[])ACCOUNT_SYNC_PENDING.add(domain);scheduleAccountSync();});
+window.addEventListener('cnine:account-sync',event=>{PLAYER_STATE_MUTATION_EPOCH++;API_GET_CACHE.clear();API_INFLIGHT.clear();for(const domain of event.detail?.domains||[]){ACCOUNT_SYNC_PENDING.add(domain);if(domain==='inventory'||domain==='collection')comebackLobbySession='';}scheduleAccountSync();});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&ACCOUNT_SYNC_PENDING.size)scheduleAccountSync();});
 const RUNTIME_COMMAND_TAB_KEY='cnine_runtime_command_last_id_v1091';
 function runtimeCommandStorageKey(){const user=loadUser();return `${RUNTIME_COMMAND_TAB_KEY}:${Number(user?.serverUserId||0)||String(user?.nickname||'guest')}`}
@@ -5354,7 +5407,7 @@ async function init(){
   if(authenticated)void loadStartupOptionalFeatures(runId);
 }
 function renderLogin(){window.SoopWatchConsent?.close();resetUniqueAdvancementFeatureState();stopPrisonWatch();document.body.classList.remove('prison-locked');if(window.lobbyBgm){try{window.lobbyBgm.stop()}catch(_){}}app.innerHTML=`<div class="login-wrap"><div class="login-box game-panel player-login-box"><img src="assets/ui/brand/reverse-call-20261016/icon-512.png" class="login-logo" alt="리버스콜"><p class="eyebrow">REVERSE CALL COLLECTION GAME</p><h1>리버스콜 로그인</h1><div class="logged-out-notice"><span>로그아웃 상태</span><p>기존 계정은 아래에 개인키를 입력하면 다시 접속할 수 있습니다.</p></div><div class="field key-login-field"><label for="key">기존 계정으로 로그인</label><input id="key" autocomplete="off" autocapitalize="characters" placeholder="CN-XXXX-XXXX-XXXX"></div><button class="btn" id="login">개인키로 로그인</button><p class="login-help">개인키를 분실했다면 운영팀에 재발급을 요청하세요.</p><div class="login-divider"><span>처음 이용하시나요?</span></div><div class="field"><label for="nickname">신규 닉네임</label><input id="nickname" maxlength="20" placeholder="PLAY DK 닉네임 등록"></div><button class="btn secondary" id="start">새 계정 만들기</button></div></div>`;document.getElementById('start').onclick=async()=>{const nickname=document.getElementById('nickname').value.trim();if(!nickname)return alert('닉네임을 입력해주세요.');if(!API_MODE){alert('서버 연결이 없어 계정을 생성할 수 없습니다. 새로고침 후 다시 시도해주세요.');return renderStartupRecovery('서버 연결이 확인되지 않아 계정 생성을 중단했습니다.')}try{const d=await apiRequest('auth/register',{method:'POST',body:JSON.stringify({nickname})});persistPlayerToken(d.token);const user=apiUserToLocal(d.user,d.privateKey);saveUser(user);applyPrisonStatus({incarcerated:false});await refreshCardCatalogForCurrentViewer();await syncUniqueAdvancementFeatureState();renderCreated(user)}catch(e){alert(e.message)}};document.getElementById('login').onclick=async()=>{const key=document.getElementById('key').value.trim();if(!API_MODE){alert('서버 연결이 없어 로그인할 수 없습니다. 새로고침 후 다시 시도해주세요.');return renderStartupRecovery('서버 연결이 확인되지 않아 로그인을 중단했습니다.')}try{const normalizedKey=key.trim().toUpperCase();const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey:normalizedKey})});persistPlayerToken(d.token);saveUser(apiUserToLocal(d.user,normalizedKey));applyPrisonStatus(d.prison||{incarcerated:false});if(isPrisonLocked())return renderLockedPrison();await refreshCardCatalogForCurrentViewer();await syncUniqueAdvancementFeatureState();if(d.maintenance&&!d.bypass)renderMaintenance(d.maintenance,{user:d.user});else{renderShell('buy');void completePendingPlaydkVerification()}}catch(e){alert(e.message)}};document.getElementById('key').onkeydown=e=>{if(e.key==='Enter')document.getElementById('login').click()};document.getElementById('nickname').onkeydown=e=>{if(e.key==='Enter')document.getElementById('start').click()}}
-async function claimAttendance(){if(!API_MODE){const user=loadUser();if(!canClaimAttendance(user))return alert('오늘 접속 보상은 이미 받았습니다.');const cfg=user.attendance?.settings||{rewards:[1000,1200,1400,1600,1800,2000,3000]};user.attendance.streak=(Number(user.attendance.streak||0)%7)+1;const reward=Number(cfg.rewards[user.attendance.streak-1]||1000);user.coin+=reward;user.attendance.lastClaimDate=kstDateKey();user.attendance.totalDays=(user.attendance.totalDays||0)+1;saveUser(user);alert(`오늘의 접속 보상 ${reward.toLocaleString()}코인을 받았습니다.`);return renderShell('attendance')}try{const d=await apiRequest('attendance/claim',{method:'POST'});const u=apiUserToLocal(d.user);u.attendance=d.user.attendance||{lastClaimDate:kstDateKey(),totalDays:(loadUser()?.attendance?.totalDays||0)+1,streak:d.streak||1};saveUser(u);alert(`오늘의 접속 보상 ${d.reward}코인을 받았습니다.`);renderShell('attendance')}catch(e){alert(e.message)}}
+async function claimAttendance(){if(!API_MODE){const user=loadUser();if(!canClaimAttendance(user))return alert('오늘 접속 보상은 이미 받았습니다.');const cfg=user.attendance?.settings||{rewards:[1000,1200,1400,1600,1800,2000,3000]};user.attendance.streak=(Number(user.attendance.streak||0)%7)+1;const reward=Number(cfg.rewards[user.attendance.streak-1]||1000);user.coin+=reward;user.attendance.lastClaimDate=kstDateKey();user.attendance.totalDays=(user.attendance.totalDays||0)+1;saveUser(user);alert(`오늘의 접속 보상 ${reward.toLocaleString()}코인을 받았습니다.`);return renderShell('attendance')}try{const d=await apiRequest('attendance/claim',{method:'POST'});const u=apiUserToLocal(d.user);u.attendance=d.user.attendance||{lastClaimDate:kstDateKey(),totalDays:(loadUser()?.attendance?.totalDays||0)+1,streak:d.streak||1};saveUser(u);if(Number(u.attendance.totalDays)>=30)syncComebackLobby(true);alert(`오늘의 접속 보상 ${d.reward}코인을 받았습니다.`);renderShell('attendance')}catch(e){alert(e.message)}}
 
 const couponRedeemKeys=new Map();
 let couponRedeemInFlight=false;

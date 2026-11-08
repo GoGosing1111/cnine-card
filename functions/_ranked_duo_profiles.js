@@ -1,3 +1,4 @@
+import {PLAYABLE_MERCENARIES} from './_comeback_loans.js';
 import {mercenaryModeAllowed,MERCENARY_DEPLOYMENT_MODE_VERSION} from '../shared/mercenary-eunseol-v1.mjs';
 import {equipmentSetVisualFromRows} from '../shared/equipment-set-visual-v1.mjs';
 import {SHIRANUI_CODE} from '../shared/mercenary-shiranui-v1.mjs';
@@ -54,7 +55,7 @@ async function rebuild(env,versions,config,deps,hash,now,advanced,dual){
   readDuoEquipment(env,ids),
   p(`SELECT v.user_id,g.id,g.pvp_power,l.garage_id AS equipped FROM user_garage_vehicles v JOIN character_garage_items g ON g.id=v.garage_id LEFT JOIN user_garage_loadout l ON l.user_id=v.user_id AND l.garage_id=v.garage_id WHERE v.user_id IN (${m}) AND g.is_active=1 LIMIT 65537`),
   p(`SELECT u.user_id,t.id,t.pve_power AS pvp_power,u.expires_at,l.title_id AS equipped FROM user_character_titles u JOIN character_titles t ON t.id=u.title_id LEFT JOIN user_title_loadout l ON l.user_id=u.user_id AND l.title_id=u.title_id WHERE u.user_id IN (${m}) AND t.is_active=1 AND (u.expires_at IS NULL OR u.expires_at>CURRENT_TIMESTAMP) LIMIT 65537`),
-  p(`SELECT c.user_id,c.mercenary_code FROM user_mercenary_cards_v1 c WHERE c.user_id IN (${m}) AND c.total_copies>0 LIMIT 2001`),
+  p(`SELECT c.user_id,c.mercenary_code,c.loan_until FROM ${PLAYABLE_MERCENARIES} c WHERE c.user_id IN (${m}) AND c.total_copies>0 LIMIT 2001`),
   deps.readBattleSettings(env),readMercenaryDocument(env),readMercenaryRuntime(env),readMercenaryModes(env,ids,{dual}),mercenaryEquipmentRuntimes(env,ids,'PVP')
  ]);
  for(const rows of [owned,gear,vehicles,titles])if(rows.results.length>65536)throw duoError('PROFILE_SIZE','전력 평가 자료가 처리 한도를 초과했습니다. 운영자에게 문의하세요.');
@@ -72,6 +73,7 @@ async function rebuild(env,versions,config,deps,hash,now,advanced,dual){
   for(const item of byUser(gear,userId)){const power=FORGE_RUNTIME_RELEASE_ENABLED&&Number(item.level)>0?forgePower(Number(item.total_power),Number(item.level),advanced).pvp:Number(item.pvp_power);slotBest.set(item.slot,Math.max(slotBest.get(item.slot)||0,power));equipment+=power*Number(item.equipped_count||0);}
   let potentialEquipment=[...slotBest.values()].reduce((s,n)=>s+n,0),expires=now+300000;
   for(const source of [vehicles,titles]){const list=byUser(source,userId);potentialEquipment+=Math.max(0,...list.map(r=>Number(r.pvp_power)));equipment+=list.filter(r=>r.equipped).reduce((s,r)=>s+Number(r.pvp_power),0);for(const r of list)if(r.expires_at)expires=Math.min(expires,Date.parse(String(r.expires_at).includes('T')?r.expires_at:r.expires_at.replace(' ','T')+'Z'));}
+  for(const row of byUser(mercRows,userId))if(row.loan_until)expires=Math.min(expires,Date.parse(row.loan_until.replace(' ','T')+'Z'));
   const mercs=mercsByUser.get(userId);
   const codes=mercLoadouts.get(userId).loadouts.PVP.mercenaryCodes||[],mercenaries=codes.map(code=>mercs.find(m=>m.code===code)).filter(Boolean),mercenary=mercs.find(m=>m.equipped)||null,formation=dual?{mercenary:mercenaries[0]||null,mercenaries}:{mercenary};
   if(dual)validatePreparedMercenaries(mercenaries);
