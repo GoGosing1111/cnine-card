@@ -1,0 +1,92 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {DatabaseSync} from 'node:sqlite';
+import {PGlite} from '@electric-sql/pglite';
+import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
+import {COMEBACK,comebackState,handleComeback,grantComebackFinalIfReady} from '../functions/_comeback_event.js';
+import {LOAN_PREFIX,LOAN_CODES,PLAYABLE_MERCENARY_COUNTS,PLAYABLE_LEVELS} from '../functions/_comeback_loans.js';
+import {mercenaryLevelStateFromStorage} from '../shared/mercenary-level-v1.mjs';
+import {questPeriod} from '../functions/_quest_hub.js';
+
+async function fixture(t,pg){
+ const auto=pg?'BIGSERIAL PRIMARY KEY':'INTEGER PRIMARY KEY AUTOINCREMENT';
+ const schema=`
+ CREATE TABLE users(id BIGINT PRIMARY KEY,role TEXT,status TEXT,banned_until TEXT,coin BIGINT);
+ CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT);
+ CREATE TABLE user_second_verifications(user_id BIGINT,provider TEXT,provider_user_id TEXT);
+ CREATE TABLE quest_weekly_claims_v1(user_id BIGINT,quest_id TEXT,week_key TEXT,status TEXT,created_at TEXT,PRIMARY KEY(user_id,quest_id,week_key));
+ CREATE TABLE organization_rounds_v1(id TEXT PRIMARY KEY,scope TEXT,phase TEXT,created_at BIGINT);
+ CREATE TABLE organization_members_v1(user_id BIGINT,round_id TEXT);
+ CREATE TABLE joint_atomic_guards_v1(token TEXT PRIMARY KEY,verified INTEGER CHECK(verified=1));
+ CREATE TABLE character_equipment_items(id BIGINT PRIMARY KEY,code TEXT UNIQUE,is_active BIGINT,is_public BIGINT);
+ CREATE TABLE character_garage_items(id BIGINT PRIMARY KEY,code TEXT UNIQUE,is_active BIGINT,is_public BIGINT);
+ CREATE TABLE user_equipment_instances(id ${auto},user_id BIGINT,equipment_id BIGINT,source_type TEXT,source_id TEXT,request_id TEXT,acquired_at TEXT);
+ CREATE TABLE user_garage_vehicles(user_id BIGINT,garage_id BIGINT,source_type TEXT,source_id TEXT,acquired_at TEXT,PRIMARY KEY(user_id,garage_id));
+ CREATE TABLE equipment_forge_states_v1(instance_id BIGINT PRIMARY KEY,user_id BIGINT,level BIGINT,revision BIGINT);
+ CREATE TABLE ranked_duo_accounts_v1(user_id BIGINT PRIMARY KEY,source_version BIGINT);
+ CREATE TABLE coin_logs(id ${auto},user_id BIGINT,change_amount BIGINT,balance_after BIGINT,reason TEXT);
+ CREATE TABLE user_mercenary_cards_v1(user_id BIGINT,mercenary_code TEXT,total_copies BIGINT,duplicate_count BIGINT,first_obtained_at TEXT,last_obtained_at TEXT,PRIMARY KEY(user_id,mercenary_code));
+ CREATE TABLE mercenary_card_acquisitions_v1(acquisition_id TEXT PRIMARY KEY,user_id BIGINT,mercenary_code TEXT,is_duplicate BIGINT,total_copies_after BIGINT,duplicate_count_after BIGINT,created_at TEXT);
+ CREATE TABLE user_mercenary_levels_v1(user_id BIGINT,mercenary_code TEXT,level BIGINT,experience BIGINT,breakthrough_mask BIGINT,revision BIGINT);
+ INSERT INTO users VALUES(1,'USER','ACTIVE',NULL,100000000000000001),(2,'USER','ACTIVE',NULL,0);
+ INSERT INTO character_garage_items VALUES(1,'BOREAS_OMEGA',1,1);`;
+ let DB;
+ if(pg){
+  const engine=new PGlite();t.after(()=>engine.close());
+  await engine.exec("CREATE FUNCTION sqlite_now() RETURNS TEXT LANGUAGE SQL STABLE AS $$ SELECT to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS') $$;"+schema);
+  DB=new __postgresCompatTest.PostgresD1Database({async query(arg){const r=await engine.query(typeof arg==='string'?arg:arg.text,typeof arg==='string'?[]:arg.values);return {...r,rowCount:r.affectedRows??r.rows.length};}});
+ }else{
+  const engine=new DatabaseSync(':memory:');engine.exec(schema);t.after(()=>engine.close());
+  const execute=s=>{const q=engine.prepare(s.sql);if(q.columns().length)return {results:q.all(...s.params)};return {meta:{changes:Number(q.run(...s.params).changes)}};};
+  DB={prepare(sql){return {sql,params:[],bind(...params){return {...this,params};},async first(){return execute(this).results[0]||null;},async all(){return execute(this);},async run(){return execute(this);}};},async batch(stmts){engine.exec('BEGIN');try{const result=stmts.map(execute);engine.exec('COMMIT');return result;}catch(e){engine.exec('ROLLBACK');throw e;}}};
+ }
+ const env={DB},p=(q,...args)=>DB.prepare(q).bind(...args),run=(q,...args)=>p(q,...args).run();
+ const deps={authenticate:async()=>({id:1}),json:(body,status)=>({body,status}),withUserMutationLock:async(_env,_id,_path,work)=>work()};
+ const enter=()=>handleComeback({env,deps,request:{method:'POST'},path:'comeback/enter'});
+ for(const [i,c] of COMEBACK.equipment.entries())await run('INSERT INTO character_equipment_items VALUES(?,?,1,1)',i+1,c);
+ return {env,p,run,enter};
+}
+for(const pg of [false,true])test((pg?'PostgreSQL':'SQLite')+' 복귀 자격, 보급 원복·중복 방지, 대여 만료 및 2주 후속 지급',async t=>{
+ const {env,p,run,enter}=await fixture(t,pg),candidate=COMEBACK.id+':candidate:1';
+ const stamp='2020-01-01 00:00:00',week=questPeriod().weekKey;
+ const count=async(table,where='')=>Number((await p('SELECT COUNT(*) n FROM '+table+' '+where).first()).n);
+ const balance=async()=>(await p('SELECT CAST(coin AS TEXT) value FROM users WHERE id=1').first()).value;
+ const levels=async()=>Object.fromEntries((await p(`SELECT * FROM ${PLAYABLE_LEVELS} WHERE user_id=1`).all()).results.map(row=>[row.mercenary_code,mercenaryLevelStateFromStorage(row).level]));
+ const playable=async()=>(await p(`SELECT * FROM ${PLAYABLE_MERCENARY_COUNTS} WHERE user_id=1 ORDER BY mercenary_code`).all()).results;
+ assert.equal((await enter()).body.phase,'INELIGIBLE');
+ await run('INSERT INTO app_meta VALUES(?,?,?)',candidate,'{}',stamp);
+ assert.equal((await enter()).body.phase,'VERIFY');
+ await run("INSERT INTO user_second_verifications VALUES(1,'PLAYDK','account-one')");
+ await run("INSERT INTO user_garage_vehicles VALUES(1,1,'EXISTING','keep',?)",stamp);
+ await run("INSERT INTO user_mercenary_cards_v1 VALUES(1,?,2,1,?,?)",LOAN_CODES[0],stamp,stamp);
+ await run("INSERT INTO user_mercenary_levels_v1 VALUES(1,?,3,0,0,1)",LOAN_CODES[0]);
+ await run("INSERT INTO quest_weekly_claims_v1 VALUES(1,'POST',?,'COMPLETED',?)",week,stamp);
+ await run('UPDATE character_equipment_items SET is_public=0 WHERE id=3');
+ assert.equal((await enter()).status,503);assert.equal(await count('coin_logs'),0);assert.equal(await balance(),'100000000000000001');
+ await run('UPDATE character_equipment_items SET is_public=1 WHERE id=3');
+ const responses=await Promise.all([enter(),enter()]);
+ assert(responses.every(r=>r.body.phase==='MISSIONS'));assert.equal(responses.filter(r=>r.body.awarded).length,1);
+ const state=await comebackState(env,1),grant=state.grant;assert.equal(grant.alreadyCompletedWeek,week);
+ assert.equal(Date.parse(grant.expiresAt.replace(' ','T')+'Z')-Date.parse(grant.startedAt.replace(' ','T')+'Z'),30*86400000);
+ assert.equal(await balance(),'103000000000000001');assert.equal(await count('coin_logs'),1);
+ assert.equal(await count('equipment_forge_states_v1','WHERE level=10'),4);assert.equal(await count('user_equipment_instances'),4);
+ assert.equal(await count('user_garage_vehicles'),1);assert.equal((await p('SELECT source_type FROM user_garage_vehicles').first()).source_type,'EXISTING');
+ assert.equal(await count('user_mercenary_cards_v1'),1);assert.equal((await playable()).length,2);assert.deepEqual(await levels(),Object.fromEntries(LOAN_CODES.map(c=>[c,21])));
+ await run("UPDATE app_meta SET value=CURRENT_TIMESTAMP WHERE key=?",LOAN_PREFIX+'1');
+ assert.deepEqual(await levels(),{[LOAN_CODES[0]]:3});assert.equal((await playable()).length,1);
+ assert.equal(Number((await playable())[0].total_copies),2);
+ const later=i=>new Date(Date.parse(week+'T00:00:00Z')+i*7*86400000).toISOString().slice(0,10);
+ for(const i of [1,2])await run("INSERT INTO quest_weekly_claims_v1 VALUES(1,'POST',?,'COMPLETED',?)",later(i),later(i)+' 04:01:00');
+ await run("INSERT INTO organization_rounds_v1 VALUES('test','TEST','ASSIGNED',1),('live','LIVE','ASSIGNED',2),('old','LIVE','ASSIGNED',0)");
+ await run("INSERT INTO organization_members_v1 VALUES(1,'old'),(1,'test')");
+ assert.equal(await grantComebackFinalIfReady(env,1),false);
+ await run("INSERT INTO organization_members_v1 VALUES(1,'live')");
+ await run("UPDATE quest_weekly_claims_v1 SET status='PENDING' WHERE week_key=?",later(2));
+ assert.equal(await grantComebackFinalIfReady(env,1),false);
+ await run("UPDATE quest_weekly_claims_v1 SET status='COMPLETED' WHERE week_key=?",later(2));
+ assert.deepEqual((await Promise.all([grantComebackFinalIfReady(env,1),grantComebackFinalIfReady(env,1)])).sort(),[false,true]);
+ const final=await comebackState(env,1);assert.equal(final.phase,'COMPLETE');assert.deepEqual(final.final.weeks,[later(1),later(2)]);
+ assert.equal(await count('mercenary_card_acquisitions_v1'),1);
+ assert.equal(Number((await p('SELECT total_copies FROM user_mercenary_cards_v1 WHERE mercenary_code=?',COMEBACK.followup).first()).total_copies),1);
+ assert.equal((await enter()).body.phase,'COMPLETE');assert.equal(await count('joint_atomic_guards_v1'),0);
+});

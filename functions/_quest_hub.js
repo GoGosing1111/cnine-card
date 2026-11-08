@@ -179,7 +179,7 @@ export async function handleQuestHub({path,request,env,deps}){
   }
   if(path==='quests/status'&&request.method==='GET')return deps.json(await questHubStatus(env,user,deps));
   if(path==='quests/weekly/check'&&request.method==='POST')return deps.json({ok:true,...await checkWeeklyPosts(env,user,deps)});
-  if(path==='quests/weekly/claim'&&request.method==='POST'){const body=await deps.readBody(request);return deps.json(await claimWeeklyQuest(env,user,String(body.questId||''),deps))}
+  if(path==='quests/weekly/claim'&&request.method==='POST'){const body=await deps.readBody(request);const result=await claimWeeklyQuest(env,user,String(body.questId||''),deps);if(body.questId==='POST')await deps.afterWeeklyPost?.(env,user.id);return deps.json(result)}
   if(path==='quests/daily/claim'&&request.method==='POST'){const body=await deps.readBody(request);return deps.json(await claimDailyCombatQuest(env,user,String(body.questId||''),deps))}
   return deps.json({error:'지원하지 않는 퀘스트 요청입니다.'},404);
  }catch(error){return deps.json({error:error?.status===400||error?.status===403||error?.status===409?error.message:'퀘스트 집계를 확인하지 못했습니다. 잠시 후 다시 확인해 주세요.',code:'QUEST_HUB_ERROR'},[400,401,403,409,429].includes(error.status)?error.status:502)}

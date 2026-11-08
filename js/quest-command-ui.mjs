@@ -4,13 +4,17 @@ const number=value=>Number(value||0).toLocaleString('ko-KR');
 export const questAmount=value=>{const n=Number(value||0);for(const [unit,size]of [['조',1e12],['억',1e8],['만',1e4]])if(n>=size)return Number((n/size).toFixed(2)).toLocaleString('ko-KR')+unit;return number(n);};
 const state=q=>q.claimed?'수령 완료':q.blocked?'인증 필요':q.enabled===false?'지급 대기':q.available===false&&q.id!=='POST'?'집계 확인':q.count>=q.target?'보상 수령':'진행 중';
 let fontReady;
+export function loadQuestFonts(assets){
+ if(!fontReady&&typeof FontFace==='function')fontReady=Promise.all([new FontFace('Quest Pretendard',`url("${assets}PretendardVariable.woff2")`,{weight:'45 920'}),new FontFace('Quest Black Han',`url("${assets}BlackHanSans-Regular.ttf")`)].map(async font=>{document.fonts.add(font);await font.load();})).catch(()=>{});
+ return fontReady;
+}
 export async function mountQuestHub({root,api,onUser=()=>{},navigate=()=>{},assets='/assets/quest-command-20261103/',style='/css/quest-command-20261103.css?v=20261103-v1',preview=false}){
  let data=null,tab='weekly',selected=null,busy=false,notice='',error=false,phase='inspect',disposed=false;
  const acknowledged=new Set();
  root.innerHTML='<section class="quest-command-mount" aria-label="최고사령부 퀘스트"></section>';
  const host=root.firstElementChild,shadow=host.attachShadow({mode:'open'});document.body.append(host);
  const observer=new MutationObserver(()=>{if(!root.isConnected){disposed=true;host.remove();observer.disconnect();}});observer.observe(document.body,{childList:true,subtree:true});
- if(!fontReady&&typeof FontFace==='function')fontReady=Promise.all([new FontFace('Quest Pretendard',`url("${assets}PretendardVariable.woff2")`,{weight:'45 920'}),new FontFace('Quest Black Han',`url("${assets}BlackHanSans-Regular.ttf")`)].map(async font=>{document.fonts.add(font);await font.load();})).catch(()=>{});
+ void loadQuestFonts(assets);
  const connected=()=>!disposed&&host.isConnected;
  const icon=(name,cls='')=>globalThis.SoopTacticalIcons?.html(name,cls)||`<img class="${cls}" src="${assets}${name}.webp" alt="">`;
  const all=()=>tab==='weekly'?[...data.weekly.filter(q=>q.id!=='POST'),...data.weekly.filter(q=>q.id==='POST')]:[...(data.dailyCombat||[]),{...data.daily,id:'POST',available:!!data.daily.checkedAt}];

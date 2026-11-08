@@ -85,7 +85,7 @@
     pvp: Object.freeze({ title: '대전 · PVP', routes: Object.freeze(['pvp', 'classicColosseum', 'jokgakCity', 'duo', 'rank', 'clanWar', 'clanFaction', 'clan', 'territory']) }),
     equipment: Object.freeze({ title: '장비·칭호·차고', routes: Object.freeze(['character', 'avatar']) }),
     crafting: Object.freeze({ title: '제작소', routes: Object.freeze(['vehicle', 'fusion', 'alchemy']) }),
-    rewards: Object.freeze({ title: '보상', routes: Object.freeze(['season', 'attendance', 'dailyquest', 'messages', 'mineral']) }),
+    rewards: Object.freeze({ title: '보상', routes: Object.freeze(['season', 'attendance', 'dailyquest', 'comeback', 'messages', 'mineral']) }),
     market: Object.freeze({ title: '경매장', routes: Object.freeze(['auction']) }),
     administration: Object.freeze({ title: '행정부', routes: Object.freeze(['coup', 'soopketland', 'prison']) })
   });
@@ -139,6 +139,7 @@
     fusion: Object.freeze({ title: '제작소', group: 'crafting', icon: 'forge' }),
     alchemy: Object.freeze({ title: '연금술', group: 'crafting', icon: 'alchemy' }),
     attendance: Object.freeze({ title: '접속 보상', group: 'rewards', icon: 'gift', home: Object.freeze({ title: '보상', meta: '출석 · 퀘스트 · 메시지' }) }),
+    comeback: Object.freeze({ title: '컴백 유저', group: 'rewards', icon: 'gift' }),
     dailyquest: Object.freeze({ title: '일일·주간 퀘스트', group: 'rewards', icon: 'gift' }),
     messages: Object.freeze({ title: '메시지함', group: 'rewards', icon: 'mail' }),
     mineral: Object.freeze({ title: '교환소', group: 'rewards', icon: 'inventory' }),
@@ -402,7 +403,7 @@
       ['dex', '#dexSections, .dex-cover'], ['upgrade', '#bulkEnhancementRoot, .bulk-enhancement-root'], ['evolution', '#evolutionRoot, .evolution-system'],
       ['magic', '#magicSystemRoot, .magic-lab-hero'], ['character', '#characterSystemRoot, .character-system-root-v1249'], ['avatar', '#avatarShopV1, .avatar-shop-v1-root'], ['alchemy', '#alchemyLiveV1, .alchemy-v1-root'],
       ['scrapyard', '#scrapyardRootV1881, .ws81-scrapyard'], ['workshop', '#workshopRootV1881, .ws81-workshop, #workshopRootV1676, #workshopRootV1668, .workshop-v1668'], ['attendance', '#attendanceClaim, .attendance-board'],
-      ['dailyquest', '#questHubRoot, #dailyQuestRoot, .daily-quest-grid'], ['messages', '#messageList, .message-center'],
+      ['comeback', '#comebackRoot'], ['dailyquest', '#questHubRoot, #dailyQuestRoot, .daily-quest-grid'], ['messages', '#messageList, .message-center'],
       ['rank', '#rankHubRoot, #serverRanking'],
       ['auction', '#auctionHouseRoot, .auction-house-v1553'], ['mineral', '#mineralMyRequests, .mineral-exchange'],
       ['inventory', '#inventoryGrid, .inventory-vault'], ['buy', '.pack-selector, .game-hero']
@@ -463,6 +464,7 @@
       const template = document.createElement('template'); template.innerHTML = homeMarkup();
       frame.end.parentNode.insertBefore(template.content, frame.end);
     }
+    global.syncComebackLobby?.();
     frame.screen.dataset.kind = 'home';
     frame.page.dataset.route = 'home';
     syncDock(frame.page, 'home');

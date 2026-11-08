@@ -1,3 +1,4 @@
+import {PLAYABLE_MERCENARY_COUNTS, PLAYABLE_LEVELS} from './_comeback_loans.js';
 import {JIN_JOKRO_CODE} from '../shared/mercenary-jin-jokro-v1.mjs';
 import {HELIOS_KING_CODE} from '../shared/mercenary-helios-king-v1.mjs';
 import {HAKUYA_CODE} from '../shared/mercenary-hakuya-v1.mjs';
@@ -178,14 +179,14 @@ export async function handleMercenaryLevel({path,request,env,deps}){
    if(admin){const {policy}=await readMercenaryLevelPolicy(env);return reply({revision:policy.revision,policy,releaseEnabled:RELEASE,rules:RULES,readiness:mercenaryLevelReadiness(policy,{requireGrowth:true}),bonusTypes:LEVEL_BONUS_TYPES});}
    if(action==='receipt')return reply(await mercenaryLevelReceipt(env,user,new URL(request.url).searchParams.get('requestId')));
    if(action==='state'){
-    const [{policy},{document},owned]=await Promise.all([readMercenaryLevelPolicy(env),readMercenaryDocument(env),env.DB.prepare('SELECT mercenary_code,total_copies,duplicate_count FROM user_mercenary_cards_v1 WHERE user_id=?').bind(user.id).all()]);
+    const [{policy},{document},owned]=await Promise.all([readMercenaryLevelPolicy(env),readMercenaryDocument(env),env.DB.prepare(`SELECT mercenary_code,total_copies,duplicate_count,loan_until FROM ${PLAYABLE_MERCENARY_COUNTS} WHERE user_id=?`).bind(user.id).all()]);
     const configured=RELEASE&&mercenaryLevelReadiness(policy,{requireGrowth:true}).ready,enabled=configured&&policy.mode==='ON';
-    const rows=configured?(await env.DB.prepare('SELECT * FROM user_mercenary_levels_v1 WHERE user_id=?').bind(user.id).all()).results:[];
+    const rows=configured?(await env.DB.prepare(`SELECT * FROM ${PLAYABLE_LEVELS} WHERE user_id=?`).bind(user.id).all()).results:[];
     const history=configured&&rows.length?await readMercenaryBreakthroughHistory(env,user.id):[];
     const [packOwners,jokroPackOwners]=await Promise.all([readJinmuPackOwners(env,owned.results.some(r=>r.mercenary_code===JINMU_CODE)?[user.id]:[]),readJokroPackOwners(env,owned.results.some(r=>r.mercenary_code===JOKRO_CODE)?[user.id]:[])]);
     const catalog=levelCatalog(document,user.id,packOwners.has(Number(user.id)),jokroPackOwners.has(Number(user.id)));
     const transfer=await readExperienceTransfer(env,user.id),quantity=await readTransferItemQuantity(env,user.id);
-    return reply({userId:Number(user.id),enabled,policy,rules:RULES,transfer:{enabled:TRANSFER_RELEASE_ENABLED,message:TRANSFER_REPAIR_MESSAGE,revision:transfer.state.revision,quantity,potions:[],item:TRANSFER_ITEM},cards:owned.results.filter(r=>catalog.some(c=>c.code===r.mercenary_code)).map(r=>{const state=mercenaryLevelStateFromStorage(rows.find(s=>s.mercenary_code===r.mercenary_code)),card=catalog.find(c=>c.code===r.mercenary_code),memory=transferCardView(transfer,card);return {code:r.mercenary_code,totalCopies:Number(r.total_copies),duplicates:Number(r.duplicate_count),...card,growth:state,transfer:memory,breakthroughPity:mercenaryPityFromHistory(history,r.mercenary_code,state,memory.resetRevision)};})});
+    return reply({userId:Number(user.id),enabled,policy,rules:RULES,transfer:{enabled:TRANSFER_RELEASE_ENABLED,message:TRANSFER_REPAIR_MESSAGE,revision:transfer.state.revision,quantity,potions:[],item:TRANSFER_ITEM},cards:owned.results.filter(r=>catalog.some(c=>c.code===r.mercenary_code)).map(r=>{const state=mercenaryLevelStateFromStorage(rows.find(s=>s.mercenary_code===r.mercenary_code)),card=catalog.find(c=>c.code===r.mercenary_code),memory=transferCardView(transfer,card);return {code:r.mercenary_code,totalCopies:Number(r.total_copies),duplicates:Number(r.duplicate_count),...card,growth:state,loanUntil:r.loan_until||null,transfer:memory,breakthroughPity:mercenaryPityFromHistory(history,r.mercenary_code,state,memory.resetRevision)};})});
    }
   }
   if(request.method!==(admin?'PATCH':'POST'))throw levelError('MERCENARY_LEVEL_METHOD','지원하지 않는 요청입니다.',405);
