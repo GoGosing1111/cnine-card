@@ -940,7 +940,7 @@ function bindFullscreenPlayLink(header){
 }
 
 const FEATURE_RESOURCE_MANIFEST={
-  season:{styles:['css/season-s1.css?v=20261107-v3-materials1&s1=shared-five-v1&heir=20261107-paced-v3&screen=20261108-1'],scripts:['js/season-s1.bundle.js?v=20261107-royal-v4&s1=shared-five-v1&heir=20261107-paced-v3&screen=20261108-1'],ready:()=>typeof window.SeasonS1?.view==='function'},
+  season:{parallelStyles:true,styles:['css/season-s1.css?v=20261107-v3-materials1&s1=shared-five-v1&heir=20261107-paced-v3&screen=20261108-1'],scripts:['js/season-s1.bundle.js?v=20261107-royal-v4&s1=shared-five-v1&heir=20261107-paced-v3&screen=20261108-2'],ready:()=>typeof window.SeasonS1?.view==='function'},
   sigHunterBox:{
     styles:['css/sig-hunter-box-v1.css?v=20261022-v1'],
     scripts:['js/sig-hunter-box-v1.js?v=20261022-v1'],
@@ -975,7 +975,7 @@ const FEATURE_RESOURCE_MANIFEST={
     parallelStyles:true,
     prepare:()=>{if(runtimeCommandContext==='workshop'&&!workshopEntryRead)prepareWorkshopEntryRead()},
     styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?kairon=20261014-craft-v1&v=2009-material-label&sBodyPayment=20260930&kaironStock=20261018&jokroCraft=20261021&primeMaterial=20261026-craft-open-v1&selectorUI=20261026-v1','css/workshop-workbench-v1.css?v=20260922&loading=20260927&batch=20260928&equipmentCraft=20260928&workshopUI=20261106-v2&seasonS1=20261107-v2','css/workshop-assembly-live-v2073.css?v=20261018-vehicle-compact-v2','css/equipment-craft-reveal-v1.css?v=20261004-repair','css/mercenary-craft-reveal-v1.css?v=20261025-v6','css/mercenary-shard-craft-v1.css?v=20261025'],
-    scripts:['js/workshop-thumbnails-v1.js?v=20260926','js/workshop-recipes-v1.js?kairon=20261014-craft-v1&v=20260926&batch=20260928&equipmentCraft=20260928&amounts=20261007&ardenCraft=20261029-v1&workshopUI=20261106-v2','js/workshop-assembly-live-v2073.bundle.js?v=20261106-x-body-assembly-v1&amounts=20261007','js/equipment-craft-reveal-v1.js?v=20261004-repair&ardenCraft=20261029-v1','js/mercenary-craft-reveal-v1.js?omegaCraft=20261029-v1&v=20261025-v6','js/workshop-v1881.js?mercenaryPower=20261108&omegaCraft=20261029-v1&deployment=20261025-eunseol-bloodmoon&kairon=20261014-craft-v1&v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260927&batch=20260928&equipmentCraft=20261004-repair&sBodyPayment=20260930&amounts=20261007&pveReform=20261008&suitCoreBatch=20261013&kaironStock=20261018&jokroCraft=20261021&primeMaterial=20261026-craft-open-v1&mercenaryReveal=20261025-v6&limitedShardCraft=20261025-v1&selectorUI=20261026-v1&ardenCraft=20261029-v1&workshopUI=20261106-v2&seasonS1=20261107-v2'],
+    scripts:['js/workshop-thumbnails-v1.js?v=20260926','js/workshop-recipes-v1.js?kairon=20261014-craft-v1&v=20260926&batch=20260928&equipmentCraft=20260928&amounts=20261007&ardenCraft=20261029-v1&workshopUI=20261106-v2','js/workshop-assembly-live-v2073.bundle.js?v=20261106-x-body-assembly-v1&amounts=20261007','js/equipment-craft-reveal-v1.js?v=20261004-repair&ardenCraft=20261029-v1','js/mercenary-craft-reveal-v1.js?omegaCraft=20261029-v1&v=20261025-v6','js/workshop-v1881.js?busDriver=20261108&mercenaryPower=20261108&omegaCraft=20261029-v1&deployment=20261025-eunseol-bloodmoon&kairon=20261014-craft-v1&v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260927&batch=20260928&equipmentCraft=20261004-repair&sBodyPayment=20260930&amounts=20261007&pveReform=20261008&suitCoreBatch=20261013&kaironStock=20261018&jokroCraft=20261021&primeMaterial=20261026-craft-open-v1&mercenaryReveal=20261025-v6&limitedShardCraft=20261025-v1&selectorUI=20261026-v1&ardenCraft=20261029-v1&workshopUI=20261106-v2&seasonS1=20261107-v2'],
     ready:()=>Boolean(window.SoopketmonWorkshopThumbnails)&&Boolean(window.WorkshopRecipes)&&Boolean(window.WorkshopAssemblyLive)&&Boolean(window.EquipmentCraftReveal)&&Boolean(window.MercenaryCraftReveal)&&typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'
   },
   workshopAssemblyFx:{
@@ -989,7 +989,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   scrapyard:{
     styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?kairon=20261014-craft-v1&v=2009-material-label&sBodyPayment=20260930&kaironStock=20261018&jokroCraft=20261021&primeMaterial=20261026-craft-open-v1&selectorUI=20261026-v1','css/scrapyard-battle-v1698.css?v=1881-workshop-split-lineage'],
-    scripts:['js/workshop-recipes-v1.js?kairon=20261014-craft-v1&v=20260926&batch=20260928&equipmentCraft=20260928&amounts=20261007&ardenCraft=20261029-v1&workshopUI=20261106-v2','js/workshop-v1881.js?mercenaryPower=20261108&omegaCraft=20261029-v1&kairon=20261014-craft-v1&v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260927&batch=20260928&pveEntry=2119&heeya=2118&equipmentCraft=20261004-repair&sBodyPayment=20260930&amounts=20261007&pveReform=20261008&suitCoreBatch=20261013&kaironStock=20261018&jokroCraft=20261021&primeMaterial=20261026-craft-open-v1&mercenaryReveal=20261025-v6&limitedShardCraft=20261025-v1&selectorUI=20261026-v1&ardenCraft=20261029-v1&workshopUI=20261106-v2&seasonS1=20261107-v2','js/scrapyard-battle-v1698.js?v=2098-hyper-codex&pveEntry=2119&heeya=2118'],
+    scripts:['js/workshop-recipes-v1.js?kairon=20261014-craft-v1&v=20260926&batch=20260928&equipmentCraft=20260928&amounts=20261007&ardenCraft=20261029-v1&workshopUI=20261106-v2','js/workshop-v1881.js?busDriver=20261108&mercenaryPower=20261108&omegaCraft=20261029-v1&kairon=20261014-craft-v1&v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260927&batch=20260928&pveEntry=2119&heeya=2118&equipmentCraft=20261004-repair&sBodyPayment=20260930&amounts=20261007&pveReform=20261008&suitCoreBatch=20261013&kaironStock=20261018&jokroCraft=20261021&primeMaterial=20261026-craft-open-v1&mercenaryReveal=20261025-v6&limitedShardCraft=20261025-v1&selectorUI=20261026-v1&ardenCraft=20261029-v1&workshopUI=20261106-v2&seasonS1=20261107-v2','js/scrapyard-battle-v1698.js?v=2098-hyper-codex&pveEntry=2119&heeya=2118'],
     ready:()=>typeof window.scrapyardView==='function'&&typeof window.bindScrapyardView==='function'&&typeof window.playScrapyardBattleV1698==='function'
   },
   dexTools:{
@@ -1053,6 +1053,19 @@ const featureStylesReady=new Set();
 function featureResourcesReady(key){
   const manifest=FEATURE_RESOURCE_MANIFEST[key];
   return Boolean(manifest?.ready()&&(!manifest.parallelStyles||featureStylesReady.has(key)));
+}
+let pendingSeasonRead=null;
+function discardSeasonEntryRead(){
+  pendingSeasonRead?.controller.abort();
+  pendingSeasonRead=null;
+}
+function prepareSeasonEntryRead(){
+  if(!API_TOKEN||pendingSeasonRead)return;
+  const token=API_TOKEN,epoch=PLAYER_STATE_MUTATION_EPOCH,controller=new AbortController();
+  const current=()=>token===API_TOKEN&&epoch===PLAYER_STATE_MUTATION_EPOCH;
+  const result=apiRequest('season/status',{signal:controller.signal},{ttl:0,microcache:false,replaceInflight:true})
+    .then(data=>({data}),error=>({error}));
+  pendingSeasonRead={controller,current,result};
 }
 // Share one read across asset loading and immediate shell remounts. No persisted balances.
 const WORKSHOP_ENTRY_MAX_AGE_MS=1000;
@@ -1132,8 +1145,7 @@ function ensureFeatureResources(key){
   // together, removing the old seven-file V3 download waterfall.
   const styles=Promise.all((manifest.styles||[]).map(loadFeatureStyle)).then(()=>{featureStylesReady.add(key)});
   const scripts=()=>Promise.all((manifest.scripts||[]).map(loadFeatureScript));
-  // Workshop scripts only define views; mounting still waits for both asset groups.
-  // Keep the existing CSS-first contract for every other feature.
+  // Independent view scripts can download alongside CSS. Mount after both finish.
   const assets=manifest.parallelStyles?Promise.all([styles,scripts()]):styles.then(scripts);
   const initialize=async()=>{await manifest.initialize?.();if(!manifest.ready())throw new Error(`${key} 기능 초기화에 실패했습니다.`)};
   const request=assets.then(async()=>{
@@ -1395,6 +1407,8 @@ function renderShell(tab,routeOptions={}) {
   // BGM 쪽이 실제 화면을 보고 스스로 판단하게 한다.
   if(window.lobbyBgm)requestAnimationFrame(()=>{try{window.lobbyBgm.syncRoute()}catch(_){}});
   const routeFeatureKey=featureKeyForTab(tab),routeFeatureReady=routeFeatureKey?featureResourcesReady(routeFeatureKey):true;
+  if(tab!=='season'||(pendingSeasonRead&&!pendingSeasonRead.current()))discardSeasonEntryRead();
+  if(tab==='season'&&!routeFeatureReady)prepareSeasonEntryRead();
   if(tab!=='workshop')workshopEntryRead=null;
   else if(previousTab!=='workshop')prepareWorkshopEntryRead();
   if(tab!=='workshop')workshopEntrySection=null;
@@ -1476,6 +1490,7 @@ function renderShell(tab,routeOptions={}) {
   if(routeWaitsForFeature){
     ensureFeatureResources(routeFeatureKey).then(()=>{if(renderSeq===shellRenderSeq&&runtimeCommandContext===tab)renderShell(tab,routeOptions)}).catch(error=>{
       if(renderSeq!==shellRenderSeq||runtimeCommandContext!==tab)return;
+      if(tab==='season')discardSeasonEntryRead();
       replaceShellRoute(`${mobileNavigationHtml(tab)}${featureRouteErrorHtml(tab,error.message)}`);bindMobileNavigation();
       const retry=document.querySelector(`[data-feature-retry="${tab}"]`);if(retry)retry.onclick=()=>{featureResourcePromises.delete(routeFeatureKey);renderShell(tab,routeOptions)};
     });
@@ -3738,7 +3753,11 @@ async function runOfficialAutoDrawNext(){
 }
 
 function bindView(tab) {
-  if(tab==='season')window.SeasonS1?.bind();
+  if(tab==='season'){
+    const entry=pendingSeasonRead;
+    pendingSeasonRead=null;
+    window.SeasonS1?.bind(entry);
+  }
   if(tab==='prison')bindPrisonView();
   if(tab==='coup')window.CoupPalace?.bind();
   if(tab==='jokgakCity')void window.JokgakCity?.bind();

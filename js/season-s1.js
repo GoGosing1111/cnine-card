@@ -81,7 +81,22 @@ function costRow(code,amount){
  if(!amount)return '';const m=data.materials.find(x=>x.code===code),have=data.common.balances[code];
  return '<div class="'+(have<amount?'s1-short':'')+'">'+icon(m.art)+'<span>'+label(m.name)+'</span><b>'+n(have)+' / '+n(amount)+'</b></div>';
 }
-async function refresh(){const turn=epoch;try{const next=await request('season/status');if(turn!==epoch||!root?.isConnected)return;data=next;render();}catch(e){if(turn===epoch&&root?.isConnected&&e.name!=='AbortError'){if(!data)root.innerHTML='<div class="s1-empty"><h2>시즌 정보를 불러오지 못했습니다</h2><p>'+esc(e.message)+'</p><button class="s1-button" data-s1-refresh>다시 시도</button></div>';bindActions();notice(e.message,true);}}}
+async function refresh(entry){
+ const turn=epoch;
+ try{
+  const early=entry?await entry.result:null;
+  if(turn!==epoch||!root?.isConnected)return;
+  const usable=early&&entry.current();
+  if(usable&&early.error)throw early.error;
+  const next=usable?early.data:await request('season/status');
+  if(turn!==epoch||!root?.isConnected)return;
+  data=next;render();
+ }catch(e){
+  if(turn!==epoch||!root?.isConnected||e.name==='AbortError')return;
+  if(!data)root.innerHTML='<div class="s1-empty"><h2>시즌 정보를 불러오지 못했습니다</h2><p>'+esc(e.message)+'</p><button class="s1-button" data-s1-refresh>다시 시도</button></div>';
+  bindActions();notice(e.message,true);
+ }
+}
 async function mutate(action,payload={},retry=false){
  if(busy)return;
  let record=pending();
@@ -108,7 +123,7 @@ function bindActions(){
 function dispose(){epoch++;controller?.abort();controller=null;root=null;data=null;busy=false;document.querySelectorAll('.s1-reveal').forEach(d=>{d.close();d.remove();});}
 window.SeasonS1=Object.freeze({
  view(user){uid=Number(user?.serverUserId||user?.id||0);return '<section id="seasonS1Root" class="s1" aria-label="불멸의 왕 시즌"><div class="s1-empty">왕좌의 기록을 불러오는 중…</div></section>';},
- bind(){dispose();root=document.getElementById('seasonS1Root');controller=new AbortController();void refresh();},
+ bind(entry){dispose();root=document.getElementById('seasonS1Root');controller=entry?.controller||new AbortController();void refresh(entry);},
  refresh,dispose
 });
 window.addEventListener('cnine:route-will-change',dispose);

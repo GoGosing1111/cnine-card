@@ -104,20 +104,31 @@ export async function seasonBonus(env,uid,mode){
  if(!seasonEnabled(env))return {attackBp:0,hpBp:0};
  const account=await seasonAccount(env,uid);
  if(!Object.keys(account.state.itemRunes||{}).length)return {attackBp:0,hpBp:0};
- // Combat reads only worn gear. The rune-management screen still lists owned items.
- const rows=await p(env,'SELECT l.instance_id AS id FROM user_equipment_loadout l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.slot=l.slot AND '+eligibleGear+' WHERE l.user_id=?',uid).all();
- return itemRuneBonus(account.state,mode,rows.results.map(r=>Number(r.id)));
+ return itemRuneBonus(account.state,mode,await equippedRuneItems(env,uid));
 }
 const slotSql=SOCKET_SLOTS.map(s=>"'"+s+"'").join(',');
 const eligibleGear='i.is_active=1 AND i.slot IN ('+slotSql+')';
-async function runeEquipment(env,uid){
- const rows=await p(env,'SELECT x.id,l.instance_id AS worn FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id AND '+eligibleGear+' LEFT JOIN user_equipment_loadout l ON l.user_id=x.user_id AND l.instance_id=x.id AND l.slot=i.slot WHERE x.user_id=?',uid).all();
- return {owned:rows.results.map(r=>Number(r.id)),equipped:rows.results.filter(r=>r.worn!=null).map(r=>Number(r.id))};
+async function equippedRuneItems(env,uid){
+ const rows=await p(env,`SELECT l.instance_id AS id FROM user_equipment_loadout l
+  JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id
+  JOIN character_equipment_items i ON i.id=x.equipment_id AND i.slot=l.slot AND ${eligibleGear}
+  WHERE l.user_id=? AND l.slot IN (${slotSql})`,uid).all();
+ return rows.results.map(row=>Number(row.id));
 }
 export async function seasonStatus(env,uid){
  if(!seasonEnabled(env))return {enabled:false,season:S1};
- const [account,gear,settings]=await Promise.all([seasonAccount(env,uid),runeEquipment(env,uid),seasonSchedule(env)]),result=publicSeason(account.state,settings,seasonNow(env),gear);
- return result;
+ const [account,equipped,settings]=await Promise.all([seasonAccount(env,uid),equippedRuneItems(env,uid),seasonSchedule(env)]);
+ // An unequipped item matters here only if it holds a rune. Recheck its ownership by instance ID.
+ const stored=Object.keys(account.state.itemRunes).map(Number).filter(id=>Number.isSafeInteger(id)&&id>0&&!equipped.includes(id));
+ const owned=[...equipped];
+ if(stored.length){
+  const placeholders=stored.map(()=>'?').join(',');
+  const rows=await p(env,`SELECT x.id FROM user_equipment_instances x
+   JOIN character_equipment_items i ON i.id=x.equipment_id AND ${eligibleGear}
+   WHERE x.user_id=? AND x.id IN (${placeholders})`,uid,...stored).all();
+  owned.push(...rows.results.map(row=>Number(row.id)));
+ }
+ return publicSeason(account.state,settings,seasonNow(env),{owned,equipped});
 }
 export async function seasonMutation(env,user,action,body){
  if(!seasonEnabled(env))fail('시즌 개막을 준비하고 있습니다.',503,'SEASON_DISABLED');

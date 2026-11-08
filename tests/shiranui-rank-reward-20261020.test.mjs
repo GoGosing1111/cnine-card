@@ -6,7 +6,8 @@ import {accountRankAward,ensureAccountRank,ensureShiranuiRankReward,readAccountR
 import {SHIRANUI_RANK_CAMPAIGN,shiranuiRankRewardKey} from '../functions/_account_rank_shiranui.js';
 import {claimShiranuiMercenaryMessageReward} from '../functions/_mercenary_message_reward.js';
 import {mercenaryAccountState,saveMercenaryLoadout,loadMercenaryBattleSnapshot,releasedMercenarySnapshots,rankedOwnedMercenaries,rankedSelectedMercenaries} from '../functions/_mercenary_account.js';
-import {rankedOwnershipGuard} from '../functions/_ranked_series.js';
+import {rankedOwnershipGuard,saveRankedRoster,readRankedRosters} from '../functions/_ranked_series.js';
+import {readShiranuiEligibleUsers} from '../functions/_mercenary_shiranui_access.js';
 import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
 import {SHIRANUI_CODE,SHIRANUI_ART,SHIRANUI_MIN_ACCOUNT_LEVEL} from '../shared/mercenary-shiranui-v1.mjs';
 import {MERCENARY_CMS_SEED} from '../functions/_mercenary_cms_seed.js';
@@ -14,8 +15,10 @@ import {validateCatalog} from '../mercenary-codex/model.mjs';
 import {duoFixture} from './helpers/ranked-duo-db.mjs';
 import {loadDuoProfiles} from '../functions/_ranked_duo_profiles.js';
 const rid=()=>crypto.randomUUID(),read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
+const schema=(f,sql)=>f.pg?f.pg.exec(sql):f.DB.sql.exec(sql);
 async function fixture(t,postgres){
  const f=await mercenaryFixture(t,{postgres});await ensureAccountRank(f.env);
+ await schema(f,'CREATE TABLE character_titles(id BIGINT PRIMARY KEY,code TEXT UNIQUE,is_active INTEGER);CREATE TABLE user_character_titles(user_id BIGINT,title_id BIGINT,expires_at TEXT,PRIMARY KEY(user_id,title_id))');
  const receiptSchema='CREATE TABLE user_message_reward_claim_receipts_v1222(reward_id BIGINT PRIMARY KEY,message_id BIGINT UNIQUE,user_id BIGINT,reward_type TEXT,reward_amount BIGINT,claim_token TEXT UNIQUE,balance_before BIGINT,balance_after BIGINT,source TEXT,credited_at TEXT)';
  if(f.pg)await f.pg.exec(receiptSchema);else f.DB.sql.exec(receiptSchema);
  const rank=async ticks=>f.p('INSERT INTO account_rank_progress_v1(user_id,total_ticks) VALUES(7,?) ON CONFLICT(user_id) DO UPDATE SET total_ticks=excluded.total_ticks',ticks).run();
@@ -61,21 +64,63 @@ for(const postgres of [false,true]){
   await f.rank(SHIRANUI_MIN_RANK_TICKS);await f.DB.batch(rankedOwnershipGuard(f.env,new Map([[7,[SHIRANUI_CODE,'V-001','V-002','V-003','V-004','V-005']]])));
   assert.equal((await mercenaryAccountState(f.env,f.user)).cards.find(c=>c.code===SHIRANUI_CODE).canDeploy,true);
  });
+ test(`${label}: a Bus Driver holding Shiranui can save both modes and ranked at level one without equipping the title`,async t=>{
+  const f=await fixture(t,postgres),id=f.user.id;
+  await f.p("INSERT INTO character_titles VALUES(14,'RAID_BUS_DRIVER',1),(18,'ANOTHER_DRIVER',1)").run();
+  await f.p("INSERT INTO user_character_titles VALUES(7,14,NULL),(8,18,NULL)").run();
+  const eligible=async()=>[...await readShiranuiEligibleUsers(f.env,[7,8])].sort();
+  assert.deepEqual(await eligible(),[7]);assert.equal((await readAccountRank(f.env,id)).level,1);
+  const codes=[SHIRANUI_CODE,'V-001','V-002','V-003','V-004','V-005'];
+  const save=(mode,revision)=>saveMercenaryLoadout(f.env,f.user,{requestId:rid(),mode,mercenaryCodes:[SHIRANUI_CODE],revision});
+  await assert.rejects(()=>save('PVE',0),{code:'MERCENARY_NOT_OWNED'});
+  for(const code of codes)await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(7,?,1,0,?,?)',code,'QA','QA').run();
+  for(const mode of ['PVE','PVP']){
+   assert.deepEqual((await save(mode,0)).mercenaryCodes,[SHIRANUI_CODE]);
+   assert.equal((await loadMercenaryBattleSnapshot(f.env,f.user,mode)).code,SHIRANUI_CODE);
+  }
+  await schema(f,'CREATE TABLE pvp_ranked_match_tickets_v1671(attacker_id BIGINT,used_at TEXT,expires_at TEXT)');
+  assert.equal((await saveRankedRoster(f.env,f.user,{codes,revision:0})).ready,true);
+  const roster=async()=>(await readRankedRosters(f.env,[id])).get(id);
+  assert.equal((await roster()).ready,true);
+  const canDeploy=async()=>(await mercenaryAccountState(f.env,f.user)).cards.find(c=>c.code===SHIRANUI_CODE)?.canDeploy;
+  assert.equal(await canDeploy(),true);
+  await f.p('UPDATE user_character_titles SET expires_at=? WHERE user_id=7',new Date(Date.now()-1000).toISOString()).run();
+  assert.deepEqual(await eligible(),[]);assert.equal(await canDeploy(),false);assert.equal((await roster()).ready,false);
+  assert.equal(await loadMercenaryBattleSnapshot(f.env,f.user,'PVP'),null);
+  await assert.rejects(()=>save('PVE',1),{code:'MERCENARY_ACCOUNT_RANK'});
+  await assert.rejects(()=>f.DB.batch(rankedOwnershipGuard(f.env,new Map([[id,codes]]))));
+  await f.p('UPDATE user_character_titles SET expires_at=? WHERE user_id=7',new Date(Date.now()+3600000).toISOString()).run();
+  assert.equal(await canDeploy(),true);
+  await f.p('UPDATE character_titles SET is_active=0 WHERE id=14').run();assert.deepEqual(await eligible(),[]);
+  await f.p('UPDATE character_titles SET is_active=1 WHERE id=14').run();
+  await f.p('DELETE FROM user_character_titles WHERE user_id=7').run();assert.deepEqual(await eligible(),[]);
+  await ensureShiranuiRankReward(f.env,id);assert.equal((await f.rewards()).length,0);assert.equal(await f.copies(),1);
+  await f.rank(SHIRANUI_MIN_RANK_TICKS);assert.deepEqual(await eligible(),[7]);assert.equal((await roster()).ready,true);
+ });
 }
 test('ranked duo rejects cached Shiranui after a rank decrease',async t=>{
  const f=await duoFixture(t,{postgres:true});await f.ready();await ensureAccountRank(f.env);
+ await f.pg.exec('ALTER TABLE character_titles ADD COLUMN code TEXT UNIQUE');
  await f.p("INSERT INTO user_mercenary_cards_v1 VALUES(2,'V-987',1)").run();await f.p("INSERT INTO user_mercenary_loadout_v1 VALUES(2,'V-987')").run();
  await f.p('INSERT INTO account_rank_progress_v1(user_id,total_ticks) VALUES(2,?)',SHIRANUI_MIN_RANK_TICKS).run();
  await f.p('DELETE FROM ranked_duo_profiles_v1 WHERE user_id=2').run();
  const [ready]=await loadDuoProfiles(f.env,[2],f.config,f.deps,{now:f.clock()});assert.equal(ready.attack.mercenary.code,SHIRANUI_CODE);
  await f.p('UPDATE account_rank_progress_v1 SET total_ticks=? WHERE user_id=2',SHIRANUI_MIN_RANK_TICKS-1).run();
  const [blocked]=await loadDuoProfiles(f.env,[2],f.config,f.deps,{now:f.clock()});assert.equal(blocked.attack.mercenary,null);assert.equal(blocked.defense.mercenary,null);assert(!blocked.breakdown.mercenaryRanks.some(m=>m.code===SHIRANUI_CODE));
+ await f.p("INSERT INTO character_titles(id,code,pve_power,is_active) VALUES(282,'RAID_BUS_DRIVER',0,1)").run();
+ await f.p('INSERT INTO user_character_titles VALUES(2,282,NULL)').run();
+ const [holder]=await loadDuoProfiles(f.env,[2],f.config,f.deps,{now:f.clock()});
+ assert.equal(holder.attack.mercenary.code,SHIRANUI_CODE);assert.equal(holder.defense.mercenary.code,SHIRANUI_CODE);
+ await f.p('DELETE FROM user_character_titles WHERE user_id=2 AND title_id=282').run();
+ const [revoked]=await loadDuoProfiles(f.env,[2],f.config,f.deps,{now:f.clock()});
+ assert.equal(revoked.attack.mercenary,null);assert.equal(revoked.defense.mercenary,null);
 });
 test('public catalog exposes approved Shiranui art and rank requirement without adding random acquisition',()=>{
  assert.equal(SHIRANUI_MIN_ACCOUNT_LEVEL,235);
  const card=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1})).cards.find(c=>c.code===SHIRANUI_CODE);
  assert(card);assert.equal(card.exclusiveGrant,false);assert.equal(card.sourceArt,SHIRANUI_ART.sourceArt);assert.equal(card.acquisition,'ACCOUNT_RANK_REWARD');assert.equal(card.minimumAccountLevel,235);assert.equal(card.packAcquisitionEnabled,false);assert.equal(card.skills[0].ready,true);
  assert.equal(card.basePower,2600000);
+ assert.match(card.deploymentRequirement,/중장\(Lv\.235\) 이상 또는 버스기사 칭호 보유/);
  assert.deepEqual(card.skills[0].balance,{damageRatio:25.2,cooldownTurns:4,cost:25});
  assert.match(card.skills[0].effect,/2,520%/);
  assert.equal(card.skills[0].trigger,'PVE · 에너지 25 · 재사용 4행동');

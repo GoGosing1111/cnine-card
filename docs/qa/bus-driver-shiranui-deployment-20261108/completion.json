@@ -1,0 +1,405 @@
+{
+  "completedAt": "2026-11-08T05:03:35.257Z",
+  "source": "0d639fba2236e8cab2fc918214c56cc96ab16643",
+  "pages": {
+    "id": "aab0a213-1609-4d95-9b68-b16e382f1982",
+    "url": "https://aab0a213.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "0d639fba2236e8cab2fc918214c56cc96ab16643"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "97dcbf52-acc6-49ce-b89b-79b96350f920",
+      "trafficPercent": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "00c2850c-65c7-4a7e-9c2d-b8a0f07b3332",
+      "trafficPercent": 100
+    }
+  ],
+  "rule": "시라누이 1장 이상을 보유하고 중장(Lv.235) 이상이거나 유효한 버스기사 칭호를 보유하면 편성 가능. 칭호 착용과 용병 레벨에 관계없이 적용.",
+  "modes": [
+    "PvE",
+    "PvP",
+    "랭크전",
+    "랭크 듀오"
+  ],
+  "eligibleNow": 5,
+  "heldTitleAccounts": 6,
+  "roster": [
+    {
+      "id": 22,
+      "nickname": "커피먹는철구",
+      "titleEquipped": true,
+      "rankLevel": 145,
+      "copies": 1,
+      "mercenaryLevel": 1,
+      "experience": 0,
+      "modes": {
+        "PVE": true,
+        "PVP": true
+      },
+      "rankedSelectable": true
+    },
+    {
+      "id": 45,
+      "nickname": "박세라-ㅂ-",
+      "titleEquipped": false,
+      "rankLevel": 182,
+      "copies": 1,
+      "mercenaryLevel": 1,
+      "experience": 0,
+      "modes": {
+        "PVE": true,
+        "PVP": true
+      },
+      "rankedSelectable": true
+    },
+    {
+      "id": 218,
+      "nickname": "현하루",
+      "titleEquipped": true,
+      "rankLevel": 125,
+      "copies": 1,
+      "mercenaryLevel": 5,
+      "experience": 0,
+      "modes": {
+        "PVE": true,
+        "PVP": true
+      },
+      "rankedSelectable": true
+    },
+    {
+      "id": 1195,
+      "nickname": "씨나인택갓",
+      "titleEquipped": false,
+      "rankLevel": 194,
+      "copies": 0,
+      "mercenaryLevel": null,
+      "experience": null,
+      "modes": {
+        "PVE": false,
+        "PVP": false
+      },
+      "rankedSelectable": false
+    },
+    {
+      "id": 4391,
+      "nickname": "더듬이구",
+      "titleEquipped": false,
+      "rankLevel": 197,
+      "copies": 1,
+      "mercenaryLevel": 1,
+      "experience": 0,
+      "modes": {
+        "PVE": true,
+        "PVP": true
+      },
+      "rankedSelectable": true
+    },
+    {
+      "id": 4597,
+      "nickname": "찬호",
+      "titleEquipped": true,
+      "rankLevel": 150,
+      "copies": 1,
+      "mercenaryLevel": 5,
+      "experience": 500,
+      "modes": {
+        "PVE": true,
+        "PVP": true
+      },
+      "rankedSelectable": true
+    }
+  ],
+  "realAccountVerification": {
+    "transaction": "READ ONLY",
+    "controlCardOwners": 1,
+    "productionRosterWrites": 0,
+    "additionalGrants": 0,
+    "duoTitleCacheTriggers": [
+      {
+        "source": "character_titles",
+        "trigger": "ranked_duo_catalog_delete_v1"
+      },
+      {
+        "source": "character_titles",
+        "trigger": "ranked_duo_catalog_insert_v1"
+      },
+      {
+        "source": "character_titles",
+        "trigger": "ranked_duo_catalog_update_v1"
+      },
+      {
+        "source": "user_character_titles",
+        "trigger": "ranked_duo_touch_v1"
+      }
+    ]
+  },
+  "validation": {
+    "unitAndIntegrationPassed": 64,
+    "databases": [
+      "SQLite",
+      "PostgreSQL (PGlite)"
+    ],
+    "publicCatalog": {
+      "code": "V-987",
+      "requirement": "중장(Lv.235) 이상 또는 버스기사 칭호 보유",
+      "minimumAccountLevel": 235,
+      "acquisition": "ACCOUNT_RANK_REWARD",
+      "basePower": 2600000
+    },
+    "publicBrowsers": [
+      {
+        "name": "Windows Edge",
+        "rankRequirementAndBusDriverTitleVisible": true
+      },
+      {
+        "name": "iPhone 13 WebKit emulation",
+        "rankRequirementAndBusDriverTitleVisible": true
+      }
+    ],
+    "assets": 20000,
+    "publicFiles": [
+      {
+        "file": "index.html",
+        "sha256": "e9b821382e54993756291dad31686b6aa60548d5352632e6d6e9bb8fb83f9cae",
+        "windowsManifest": true
+      },
+      {
+        "file": "js/app.js",
+        "sha256": "6161be577be3da4554974712d88bc1766864ca2f7222f597a5422f531dc21058",
+        "windowsManifest": true
+      },
+      {
+        "file": "js/workshop-v1881.js",
+        "sha256": "8d12c3b9db847f3a08d5b774fcaaccc31c3f2c7a5cf7bc18513855c3f192259c",
+        "windowsManifest": true
+      },
+      {
+        "file": "service-worker.js",
+        "sha256": "4a2f0fdf9997100fbc3ea70e4cfee84d64682c213c22ec2979a4e34c76ebee0a",
+        "windowsManifest": false
+      },
+      {
+        "file": "shared/mercenary-shiranui-v1.mjs",
+        "sha256": "e7f8cf66a99f62776253ea79ad01f4b7ac7998617f1e33c8df1badd590e00893",
+        "windowsManifest": true
+      },
+      {
+        "file": "onestore/index.html",
+        "sha256": "3f7435b1bd75ed09e399422d195460c636523f4b96547150584bd1571ef3bd61",
+        "windowsManifest": false
+      },
+      {
+        "file": "onestore/js/app.js",
+        "sha256": "b443f2d78a1a0d390814e3b20ef871127c964da9e30c8168200fce0e7632e186",
+        "windowsManifest": false
+      }
+    ],
+    "legacyComparisons": {
+      "preExistingFailures": 17,
+      "newFailures": 0,
+      "areas": [
+        "이전 1인 용병 편성",
+        "이전 랭크 3인 로스터",
+        "이전 듀오 팀 편성 시점 기대값"
+      ]
+    }
+  },
+  "performance": {
+    "conditions": "같은 Windows 호스트, 개발자용 데스크톱 Edge 및 Pixel 7 Chromium·iPhone 13 WebKit 에뮬레이션. 같은 도감 URL과 로컬 격리 PostgreSQL. 각 플랫폼마다 계급 1·235로 각각 2회 새 브라우저 세션, 세션별 첫 진입·재진입. 랭크·칭호 외 게임 데이터 고정. 같은 카드 상세·성능·편성 패널 열기 중 rAF 측정, 별도 클릭으로 가능 계정의 두 모드 저장 및 해제 검증. 실기기 및 설치 앱 측정 대상 외.",
+    "database": {
+      "description": "운영 DB 읽기 전용, 동일 6계정의 실제 계정 상태 조회 함수를 같은 순서로 실행. 원격 DB 왕복 포함, SQL 실행 시간은 별도 EXPLAIN ANALYZE 측정.",
+      "accountStateBeforeMsMedian": 955.1,
+      "accountStateAfterMsMedian": 643.7,
+      "readStatementsBefore": [
+        15,
+        20,
+        16,
+        24,
+        23,
+        19
+      ],
+      "readStatementsAfter": [
+        12,
+        17,
+        13,
+        21,
+        20,
+        16
+      ],
+      "avoidedQueriesPerAccount": 3,
+      "eligibilitySqlMs": 0.938,
+      "queryIndexes": [
+        "users_pkey",
+        "character_titles_code_key"
+      ]
+    },
+    "browser": [
+      {
+        "platform": "Windows Edge 1440",
+        "entry": "first",
+        "before": {
+          "samples": 4,
+          "entryToReadyMs": 657.4,
+          "p95FrameMsMedian": 6.3,
+          "longFramesOver50ms": 3,
+          "framesObserved": 657,
+          "accountApiMsMedian": 26.5,
+          "catalogApiMsMedian": 7.8,
+          "renderAfterApiMsMedian": 208.5
+        },
+        "after": {
+          "samples": 4,
+          "entryToReadyMs": 647.8,
+          "p95FrameMsMedian": 4.3,
+          "longFramesOver50ms": 1,
+          "framesObserved": 563,
+          "accountApiMsMedian": 17.1,
+          "catalogApiMsMedian": 5.4,
+          "renderAfterApiMsMedian": 258.5
+        }
+      },
+      {
+        "platform": "Windows Edge 1440",
+        "entry": "return",
+        "before": {
+          "samples": 4,
+          "entryToReadyMs": 274.3,
+          "p95FrameMsMedian": 4.3,
+          "longFramesOver50ms": 0,
+          "framesObserved": 561,
+          "accountApiMsMedian": 22.1,
+          "catalogApiMsMedian": 7.4,
+          "renderAfterApiMsMedian": 70.1
+        },
+        "after": {
+          "samples": 4,
+          "entryToReadyMs": 219.6,
+          "p95FrameMsMedian": 4.3,
+          "longFramesOver50ms": 0,
+          "framesObserved": 545,
+          "accountApiMsMedian": 14.9,
+          "catalogApiMsMedian": 13.4,
+          "renderAfterApiMsMedian": 55.1
+        }
+      },
+      {
+        "platform": "Android Pixel 7 emulated",
+        "entry": "first",
+        "before": {
+          "samples": 4,
+          "entryToReadyMs": 523.3,
+          "p95FrameMsMedian": 6.4,
+          "longFramesOver50ms": 1,
+          "framesObserved": 595,
+          "accountApiMsMedian": 21.7,
+          "catalogApiMsMedian": 5.8,
+          "renderAfterApiMsMedian": 163.4
+        },
+        "after": {
+          "samples": 4,
+          "entryToReadyMs": 536.1,
+          "p95FrameMsMedian": 6.3,
+          "longFramesOver50ms": 1,
+          "framesObserved": 584,
+          "accountApiMsMedian": 19.2,
+          "catalogApiMsMedian": 13.6,
+          "renderAfterApiMsMedian": 161
+        }
+      },
+      {
+        "platform": "Android Pixel 7 emulated",
+        "entry": "return",
+        "before": {
+          "samples": 4,
+          "entryToReadyMs": 207.1,
+          "p95FrameMsMedian": 4.3,
+          "longFramesOver50ms": 0,
+          "framesObserved": 534,
+          "accountApiMsMedian": 15.3,
+          "catalogApiMsMedian": 4.2,
+          "renderAfterApiMsMedian": 39.1
+        },
+        "after": {
+          "samples": 4,
+          "entryToReadyMs": 202.1,
+          "p95FrameMsMedian": 4.3,
+          "longFramesOver50ms": 0,
+          "framesObserved": 535,
+          "accountApiMsMedian": 15.2,
+          "catalogApiMsMedian": 4.2,
+          "renderAfterApiMsMedian": 42
+        }
+      },
+      {
+        "platform": "iOS iPhone 13 emulated",
+        "entry": "first",
+        "before": {
+          "samples": 4,
+          "entryToReadyMs": 662,
+          "p95FrameMsMedian": 104,
+          "longFramesOver50ms": 28,
+          "framesObserved": 208,
+          "accountApiMsMedian": 15,
+          "catalogApiMsMedian": 13,
+          "renderAfterApiMsMedian": 99
+        },
+        "after": {
+          "samples": 4,
+          "entryToReadyMs": 1082,
+          "p95FrameMsMedian": 137,
+          "longFramesOver50ms": 34,
+          "framesObserved": 200,
+          "accountApiMsMedian": 13.5,
+          "catalogApiMsMedian": 4,
+          "renderAfterApiMsMedian": 44
+        }
+      },
+      {
+        "platform": "iOS iPhone 13 emulated",
+        "entry": "return",
+        "before": {
+          "samples": 4,
+          "entryToReadyMs": 372,
+          "p95FrameMsMedian": 81,
+          "longFramesOver50ms": 18,
+          "framesObserved": 210,
+          "accountApiMsMedian": 15,
+          "catalogApiMsMedian": 4,
+          "renderAfterApiMsMedian": 16
+        },
+        "after": {
+          "samples": 4,
+          "entryToReadyMs": 624,
+          "p95FrameMsMedian": 113,
+          "longFramesOver50ms": 23,
+          "framesObserved": 210,
+          "accountApiMsMedian": 18,
+          "catalogApiMsMedian": 16,
+          "renderAfterApiMsMedian": 30
+        }
+      }
+    ],
+    "oldPageRequestsAfterExit": 0,
+    "openSyncSocketsAfterExit": 0,
+    "notes": "첫 진입은 정적 자산 수신과 도감 렌더링, 운영 상태 조회는 DB 왕복에 시간이 걸린다. 장비 조회에서 얻은 편성을 재사용해 계정당 DB 조회 3회를 줄이고 독립 조회를 동시에 시작했다. WebKit 에뮬레이션의 긴 프레임은 원시 측정표에 포함했다."
+  },
+  "records": {
+    "operation": "operations/bus-driver-shiranui-deployment-20261108/",
+    "raw": [
+      "before-accounts.json",
+      "live-accounts.json",
+      "before-interface-matched.json",
+      "after-interface-matched.json",
+      "release-verification.json"
+    ],
+    "priorExchanges": [
+      56473,
+      56475
+    ]
+  }
+}

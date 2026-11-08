@@ -4,7 +4,7 @@ import {rankedOwnedMercenaries,rankedSelectedMercenaries} from './_mercenary_acc
 import {rankedSeriesCodes,rankedSeriesRoster,rankedPublicMercenary,rankedPublicRoster,RANKED_SERIES_RULES} from '../shared/ranked-series-v1.mjs';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {SHIRANUI_CODE} from '../shared/mercenary-shiranui-v1.mjs';
-import {SHIRANUI_MIN_RANK_TICKS} from './_account_rank.js';
+import {shiranuiDeploymentGuard} from './_mercenary_shiranui_access.js';
 const rosterKey=(id,rules)=>`ranked_series_roster_v${rules.mercenariesPerRound}:${Number(id)}`;
 const ticketKey=(id,rules)=>`ranked_series_ticket_v${rules.mercenariesPerRound}:${Number(id)}`;
 const fail=(message='서로 다른 용병 3종을 편성하고 저장하세요.',status=409)=>Object.assign(Error(message),{status,code:'PVP_SERIES_ROSTER'});
@@ -27,7 +27,10 @@ export function rankedOwnershipGuard(env,selections,rules=RANKED_SERIES_RULES){
     const codes=rankedSeriesCodes(raw,rules),marks=codes.map(()=>'?').join(',');if(codes.some(code=>!mercenaryModeAllowed(code,'PVP')))throw fail(MERCENARY_PVE_ONLY_REASON);values.push(id,...codes);
     if(env.DB.dialect==='postgres')locks.push(env.DB.prepare(`SELECT mercenary_code FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code IN (${marks}) ORDER BY mercenary_code FOR SHARE`).bind(id,...codes));
     let predicate=`(SELECT COUNT(*) FROM ${PLAYABLE_MERCENARIES} WHERE user_id=? AND mercenary_code IN (${marks}) AND total_copies>0)=${rules.rosterSize}`;
-    if(codes.includes(SHIRANUI_CODE)){values.push(id,SHIRANUI_MIN_RANK_TICKS);predicate+=' AND EXISTS(SELECT 1 FROM account_rank_progress_v1 WHERE user_id=? AND total_ticks>=?)';if(env.DB.dialect==='postgres')locks.push(env.DB.prepare('SELECT user_id FROM account_rank_progress_v1 WHERE user_id=? FOR SHARE').bind(id));}
+    if(codes.includes(SHIRANUI_CODE)){
+      const access=shiranuiDeploymentGuard(env.DB,id);
+      values.push(...access.values);locks.push(...access.locks);predicate+=' AND '+access.predicate;
+    }
     return '('+predicate+')';
   }).join(' AND ');
   return [...locks,jointGuard(env.DB,token,predicate,values),jointGuardEnd(env.DB,token)];

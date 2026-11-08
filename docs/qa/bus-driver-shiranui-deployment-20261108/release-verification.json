@@ -1,0 +1,97 @@
+{
+  "verifiedAt": "2026-11-08T05:04:34.904Z",
+  "source": "0d639fba2236e8cab2fc918214c56cc96ab16643",
+  "pages": {
+    "id": "aab0a213-1609-4d95-9b68-b16e382f1982",
+    "url": "https://aab0a213.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "0d639fba2236e8cab2fc918214c56cc96ab16643"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version_id": "97dcbf52-acc6-49ce-b89b-79b96350f920",
+      "percentage": 100,
+      "sha256": "cad743d719e67170634af964fc87cc65c07289241377c0e3ecacace7a9933f0d",
+      "checks": [
+        "CAST(h.expires_at AS TIMESTAMPTZ)>statement_timestamp()",
+        "t.code=? AND t.is_active=1",
+        "RAID_BUS_DRIVER",
+        "SELECT u.id AS user_id FROM users u",
+        "20261108-bus-driver",
+        "FOR SHARE OF h,t",
+        "shiranuiDeploymentGuard"
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version_id": "00c2850c-65c7-4a7e-9c2d-b8a0f07b3332",
+      "percentage": 100,
+      "sha256": "1248992fdd46ae9958353bdc42e9fba8a761e961062de96b67a0794c526b5c04",
+      "checks": [
+        "CAST(h.expires_at AS TIMESTAMPTZ)>statement_timestamp()",
+        "t.code=? AND t.is_active=1",
+        "RAID_BUS_DRIVER",
+        "SELECT u.id AS user_id FROM users u",
+        "20261108-bus-driver"
+      ]
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "sha256": "e9b821382e54993756291dad31686b6aa60548d5352632e6d6e9bb8fb83f9cae",
+      "windowsManifest": true
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "6161be577be3da4554974712d88bc1766864ca2f7222f597a5422f531dc21058",
+      "windowsManifest": true
+    },
+    {
+      "file": "js/workshop-v1881.js",
+      "sha256": "8d12c3b9db847f3a08d5b774fcaaccc31c3f2c7a5cf7bc18513855c3f192259c",
+      "windowsManifest": true
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "4a2f0fdf9997100fbc3ea70e4cfee84d64682c213c22ec2979a4e34c76ebee0a",
+      "windowsManifest": false
+    },
+    {
+      "file": "shared/mercenary-shiranui-v1.mjs",
+      "sha256": "e7f8cf66a99f62776253ea79ad01f4b7ac7998617f1e33c8df1badd590e00893",
+      "windowsManifest": true
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "3f7435b1bd75ed09e399422d195460c636523f4b96547150584bd1571ef3bd61",
+      "windowsManifest": false
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "b443f2d78a1a0d390814e3b20ef871127c964da9e30c8168200fce0e7632e186",
+      "windowsManifest": false
+    }
+  ],
+  "assets": 20000,
+  "publicBrowsers": [
+    {
+      "name": "Windows Edge",
+      "rankRequirementAndBusDriverTitleVisible": true
+    },
+    {
+      "name": "iPhone 13 WebKit emulation",
+      "rankRequirementAndBusDriverTitleVisible": true
+    }
+  ],
+  "regressions": 64,
+  "unauthStatus": 401,
+  "publicCatalog": {
+    "code": "V-987",
+    "requirement": "중장(Lv.235) 이상 또는 버스기사 칭호 보유",
+    "minimumAccountLevel": 235,
+    "acquisition": "ACCOUNT_RANK_REWARD",
+    "basePower": 2600000
+  }
+}
