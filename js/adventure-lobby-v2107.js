@@ -323,22 +323,17 @@ delete window.__TACTICAL_OPERATIONS_CSS__;
       this.update({user});
       global.dispatchEvent(new CustomEvent('cnine:pig-wallet-mounted'));
       this.setRoute(this.dataset.route||'home');
-      this.layoutFrame=null;
-      this.layoutObserver=new ResizeObserver(()=>{
-        if(this.layoutFrame!==null)return;
-        this.layoutFrame=requestAnimationFrame(()=>{this.layoutFrame=null;this.measureChrome();});
-      });
+      this.layoutObserver=new ResizeObserver(()=>this.measureChrome());
       for(const el of root.querySelectorAll('.topbar,.sidebar,.mobile-dock'))this.layoutObserver.observe(el);
       this.measureChrome();
       global.SoopLobbyOperations?.refresh();
     }
     measureChrome(){
       const frame=this.parentElement;if(!frame)return;
-      const metrics=[['.topbar','header-height','height'],['.sidebar','rail-width','width'],['.mobile-dock','dock-height','height']].map(([selector,key,axis])=>{
-        const box=this.shadowRoot.querySelector(selector).getBoundingClientRect();
-        return ['--adventure-'+key,Math.ceil(box[axis])+'px'];
-      });
-      for(const [key,value] of metrics)if(frame.style.getPropertyValue(key)!==value)frame.style.setProperty(key,value);
+      for(const [selector,key] of [['.topbar','header-height'],['.sidebar','rail-width'],['.mobile-dock','dock-height']]){
+        const box=this.shadowRoot.querySelector(selector).getBoundingClientRect(),value=Math.ceil(key==='rail-width'?box.width:box.height)+'px';
+        if(frame.style.getPropertyValue('--adventure-'+key)!==value)frame.style.setProperty('--adventure-'+key,value);
+      }
     }
     setRoute(route){this.dataset.route=route;this.dataset.view=route==='home'?'home':'route';this.controls?.setRoute(route);}
     openMenu(category='all'){this.controls?.openMenu(category);}
@@ -393,7 +388,7 @@ delete window.__TACTICAL_OPERATIONS_CSS__;
     }
     updateUnread(value){const count=Math.max(0,Number(value)||0),badge=this.shadowRoot.getElementById('inbox-count');badge.textContent='';badge.title=count+'개 새 메시지';badge.hidden=!count;badge.parentElement.setAttribute('aria-label',count?`메시지함 · 새 메시지 ${count}개`:'메시지함');}
     refreshMenus(){this.controls?.refreshMenus();}
-    disconnectedCallback(){this.lifecycle?.abort();this.layoutObserver?.disconnect();if(this.layoutFrame!=null)cancelAnimationFrame(this.layoutFrame);this.layoutFrame=null;this.controls?.destroy();this.controls=null;}
+    disconnectedCallback(){this.lifecycle?.abort();this.layoutObserver?.disconnect();this.controls?.destroy();this.controls=null;}
   }
   customElements.define('soop-adventure-lobby',AdventureLobby);
   global.SoopAdventureLobby=Object.freeze({create(options={}){const element=global.document.createElement('soop-adventure-lobby');element.navigationOptions=options;return element;}});

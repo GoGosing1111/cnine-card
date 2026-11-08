@@ -10,8 +10,21 @@ export const SEASON_S1_SCHEMA=[
 const p=(env,sql,...v)=>env.DB.prepare(sql).bind(...v);
 export const seasonEnabled=env=>env.SEASON_S1_ENABLED===true||env.SEASON_S1_ENABLED==='1';
 export const seasonNow=env=>typeof env.SEASON_S1_NOW==='function'?env.SEASON_S1_NOW():Date.now();
-export function seasonSchedule(env){
- try{const raw=typeof env.SEASON_S1_SCHEDULE==='string'?JSON.parse(env.SEASON_S1_SCHEDULE):env.SEASON_S1_SCHEDULE;return raw||{};}catch{return {};}
+export const S1_OPENING_KEY='season_s1_immortal_king_opening_v1';
+const liveSchedules=new WeakMap();
+export async function seasonSchedule(env){
+ let raw=env.SEASON_S1_SCHEDULE;
+ if(raw==='live'){
+  const scope=env.HYPERDRIVE||env.DB,cached=liveSchedules.get(scope);
+  if(cached&&Date.now()<cached.until)return cached.schedule;
+  const row=await p(env,'SELECT value FROM app_meta WHERE key=?',S1_OPENING_KEY).first();
+  if(!row)return {};
+  const schedule=JSON.parse(row.value);
+  if(!['PVE','PVP'].every(mode=>Number.isSafeInteger(schedule?.[mode]?.start)&&schedule[mode].start>0))throw Error('Invalid S1 opening schedule');
+  liveSchedules.set(scope,{until:Date.now()+60000,schedule});
+  return schedule;
+ }
+ try{return (typeof raw==='string'?JSON.parse(raw):raw)||{};}catch{return {};}
 }
 // Explicit migration only; never create tables in game HTTP/read paths.
 export async function prepareSeasonSchema(env){
@@ -33,7 +46,7 @@ export async function prepareSeasonSchema(env){
 }
 export async function seasonTowerFloors(env,highest,uid){
  const now=seasonNow(env);
- if(!seasonEnabled(env)||Number(highest)<1||schedule(seasonSchedule(env),'PVE',now).phase!=='ACTIVE')return [];
+ if(!seasonEnabled(env)||Number(highest)<1||schedule(await seasonSchedule(env),'PVE',now).phase!=='ACTIVE')return [];
  const {state}=await seasonAccount(env,uid),track=state.tracks.PVE;
  return track.counts.TOWER||track.days[kstDay(now)]?.events>=S1.dailyBattles?[]:[1];
 }
@@ -76,7 +89,7 @@ export async function seasonAwardStatements(env,event,options={}){
  const uid=Number(event.userId);if(!Number.isSafeInteger(uid)||uid<=0||typeof event.eventId!=='string'||!event.eventId||event.eventId.length>220)throw Error('Invalid server season event');
  const key='award:'+S1.id+':'+event.source+':'+event.eventId;
  if(await receipt(env,uid,key))return [];
- const before=await seasonAccount(env,uid),now=seasonNow(env),result=applyEvent(before.state,event,seasonSchedule(env),now);
+ const before=await seasonAccount(env,uid),now=seasonNow(env),result=applyEvent(before.state,event,await seasonSchedule(env),now);
  if(result.dailyLimit){
   // A settled over-limit battle cannot become a new award on a next-day retry.
   const {guard='1=1',values=[]}=options;
@@ -100,7 +113,7 @@ async function runeEquipment(env,uid){
 }
 export async function seasonStatus(env,uid){
  if(!seasonEnabled(env))return {enabled:false,season:S1};
- const [account,gear]=await Promise.all([seasonAccount(env,uid),runeEquipment(env,uid)]),result=publicSeason(account.state,seasonSchedule(env),seasonNow(env),gear);
+ const [account,gear,settings]=await Promise.all([seasonAccount(env,uid),runeEquipment(env,uid),seasonSchedule(env)]),result=publicSeason(account.state,settings,seasonNow(env),gear);
  return result;
 }
 export async function seasonMutation(env,user,action,body){
@@ -111,7 +124,7 @@ export async function seasonMutation(env,user,action,body){
  const clean=action==='craft'?{recipeId:body.recipeId,choice:body.choice||null,...(body.copyId?{copyId:body.copyId}:{})}:action==='socket'?{instanceId:Number(body.instanceId),code:body.code??null}:action==='exchange'?{code:body.code}:{};
  const key='mutation:'+body.requestId,hash=await jointHash({action,...clean}),old=await receipt(env,user.id,key);
  if(old){if(old.input_hash!==hash)fail('같은 요청 번호로 다른 작업을 할 수 없습니다.',409,'SEASON_REQUEST_CONFLICT');return {...JSON.parse(old.response_json),replayed:true};}
- const before=await seasonAccount(env,user.id),settings=seasonSchedule(env),now=seasonNow(env);
+ const before=await seasonAccount(env,user.id),settings=await seasonSchedule(env),now=seasonNow(env);
  if(action==='socket'){
   if(!Number.isSafeInteger(clean.instanceId)||clean.instanceId<=0)fail('장비를 선택하세요.',400);
   const owned=await p(env,'SELECT x.id FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id AND '+eligibleGear+' WHERE x.user_id=? AND x.id=?',user.id,clean.instanceId).first();

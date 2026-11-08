@@ -2,11 +2,24 @@ import test from 'node:test';import assert from 'node:assert/strict';
 import {emptyAccount,seasonState,applyEvent,craftItem,convertExpired,levelOf,schedule,publicSeason,exchangeMaterial} from '../shared/season-s1.mjs';
 import {RUNE_TYPE,runeCopies,socketRune,itemRuneBonus} from '../shared/character-runes.mjs';
 import {seasonFixture} from './helpers/season-s1-db.mjs';
-import {seasonAwardStatements,seasonAccount,seasonMutation,seasonStatus,handleSeasonS1} from '../functions/_season_s1.js';
+import {seasonAwardStatements,seasonAccount,seasonMutation,seasonStatus,handleSeasonS1,S1_OPENING_KEY} from '../functions/_season_s1.js';
 import {applySeasonFighterBonus} from '../shared/season-s1-combat.mjs';
 const user={id:4242},req=(recipeId,extra={})=>({requestId:crypto.randomUUID(),recipeId,...extra});
 const D=86400000,start=Date.parse('2026-11-01T00:00:00+09:00'),settings={PVE:{start},PVP:{start:start+2*D}},now=start+25*D;
 const play=(s,source,extra={},at=now)=>applyEvent(s,{source,won:false,...extra},settings,at);
+for(const postgres of [false,true])test('live opening starts both tracks on the recorded server instant and observes the crafting grace period ('+(postgres?'PostgreSQL':'SQLite')+')',async t=>{
+ const {env}=await seasonFixture(t,{postgres});
+ const metaSchema='CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT NOT NULL)';
+ if(env.DB.execSchema)await env.DB.execSchema([metaSchema]);else await env.DB.prepare(metaSchema).run();
+ env.SEASON_S1_SCHEDULE='live';let current=start;env.SEASON_S1_NOW=()=>current;
+ assert.equal((await seasonStatus(env,user.id)).tracks.PVE.phase,'UNSCHEDULED');
+ assert.deepEqual(await seasonAwardStatements(env,{userId:user.id,eventId:'before-start',source:'HUNT'}),[]);
+ await env.DB.prepare('INSERT INTO app_meta(key,value) VALUES(?,?)').bind(S1_OPENING_KEY,JSON.stringify({PVE:{start},PVP:{start}})).run();
+ for(const [days,phase]of [[0,'ACTIVE'],[30,'CRAFTING'],[37,'CLOSED']]){
+  current=start+days*D;const status=await seasonStatus(env,user.id);
+  for(const track of Object.values(status.tracks)){assert.equal(track.phase,phase);assert.equal(track.start,start);assert.equal(track.craftEnd,start+37*D);}
+ }
+});
 test('separate schedules and cumulative limits; each single mode reaches Lv.50 and five runes without a win/tier',()=>{
  assert.equal(schedule(settings,'PVP',start+D).phase,'UPCOMING');assert.equal(schedule(settings,'PVE',start+30*D).phase,'CRAFTING');assert.equal(schedule(settings,'PVE',start+37*D).phase,'CLOSED');
  for(const source of ['PVP','HUNT']){
