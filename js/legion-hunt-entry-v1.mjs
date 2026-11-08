@@ -170,18 +170,30 @@ export function openLegionHunt(button){
   dialog.addEventListener('cancel',event=>{event.preventDefault();if(event.target===find('.legion-poster-view'))find('.legion-poster-view').close();else controller.close();});
   window.addEventListener('message',onMessage);active=controller;document.body.append(dialog);dialog.showModal();void controller.refresh();
 }
-let openingCitadel=null;
+const citadelSheet='/css/legion-citadel-v1.css?v=3';
+let openingCitadel=null,citadelModule=null;
+function loadCitadelShell(priority){
+  if(!document.querySelector('link[href="'+citadelSheet+'"]')){
+    const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href=citadelSheet;sheet.fetchPriority=priority;document.head.append(sheet);
+  }
+  if(!citadelModule)citadelModule=import('./legion-citadel-v1.mjs?v=3').catch(error=>{citadelModule=null;throw error;});
+  return citadelModule;
+}
+function prepareCitadelFinder(){
+  if(citadelModule||document.hidden||navigator.connection?.saveData||/^(slow-)?2g$/.test(navigator.connection?.effectiveType||''))return;
+  void loadCitadelShell('low').catch(()=>{});
+}
+window.prepareCitadelFinder=prepareCitadelFinder;
 async function openLegionCitadel(trigger=document.activeElement?.shadowRoot?.activeElement||document.activeElement){
   if(openingCitadel||document.querySelector('dialog.citadel[open]'))return openingCitadel;
-  const href='/css/legion-citadel-v1.css?v=3';
-  if(!document.querySelector('link[href="'+href+'"]')){
-    const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href=href;document.head.append(sheet);
-  }
+  const shell=loadCitadelShell('high');
+  // Start the selected viewport artwork on explicit entry while the live roster is in flight.
+  const art=new Image();art.decoding='async';art.src='/assets/ui/legion-citadel/gate-'+(matchMedia('(max-width:700px)').matches?'720':'1440')+'.webp';
   const controller=new AbortController(),sentAt=performance.now();
   const lobby=jointAccountRequest('legion-party/lobby',{signal:controller.signal});
   // A failed response can arrive before the lazy module installs its error UI.
   void lobby.catch(()=>{});
-  openingCitadel=import('./legion-citadel-v1.mjs?v=3')
+  openingCitadel=shell
     .then(({openCitadel})=>openCitadel(trigger,{lobby,sentAt,controller}))
     .catch(error=>{controller.abort();throw error;})
     .finally(()=>{openingCitadel=null;});
@@ -205,7 +217,7 @@ export function syncLegionHuntNavigation(root=document,request=jointAccountReque
     void request('legion-hunt/status').then(data=>{
       if(!button.isConnected)return;
       button.hidden=data.canEnter!==true;
-      const party=button.parentElement?.querySelector('[data-legion-citadel]');if(party)party.hidden=button.hidden;
+      const party=button.parentElement?.querySelector('[data-legion-citadel]');if(party){party.hidden=button.hidden;if(!party.hidden)prepareCitadelFinder();}
       const detail=button.querySelector('small');if(detail)detail.textContent=data.access?.mode==='TEST'?'잊혀진 섬 · TEST':'잊혀진 섬';
     }).catch(()=>{button.hidden=true;checkedNavigation.delete(button);});
   }
