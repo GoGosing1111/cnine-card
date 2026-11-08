@@ -6,7 +6,7 @@ import {PGlite} from '@electric-sql/pglite';
 import {mercenaryFixture} from './helpers/mercenary-db.mjs';
 import {mercenaryAccountState,saveMercenaryLoadout,loadMercenaryBattleSnapshot,releasedMercenarySnapshots} from '../functions/_mercenary_account.js';
 import {LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
-import {SHIRANUI_CODE,SHIRANUI_ART,SHIRANUI_COMBAT,SHIRANUI_AREA_SKILL} from '../shared/mercenary-shiranui-v1.mjs';
+import {SHIRANUI_CODE,SHIRANUI_ART,SHIRANUI_AREA_SKILL} from '../shared/mercenary-shiranui-v1.mjs';
 import {MERCENARY_CMS_SEED} from '../functions/_mercenary_cms_seed.js';
 import {ensureAccountRank,SHIRANUI_MIN_RANK_TICKS} from '../functions/_account_rank.js';
 const rid=()=>crypto.randomUUID();
@@ -31,17 +31,18 @@ test('Shiranui deployment requires lieutenant general for every account; random 
  assert(!LIMITED_MERCENARIES.some(c=>c.code===SHIRANUI_CODE));
  assert(!MERCENARY_CMS_SEED.catalog.cards.some(c=>c.code===SHIRANUI_CODE));
  assert(!MERCENARY_CMS_SEED.document.mercenaries.some(c=>c.code===SHIRANUI_CODE));
- for(const u of [...allowed,...blocked])await assert.rejects(saveMercenaryLoadout(f.env,u,{requestId:rid(),mode:'PVE',mercenaryCode:SHIRANUI_CODE,revision:0}),{code:'MERCENARY_NOT_OWNED'});
+ for(const u of [...allowed,...blocked])await assert.rejects(saveMercenaryLoadout(f.env,u,{requestId:rid(),mode:'PVE',mercenaryCodes:[SHIRANUI_CODE],revision:0}),{code:'MERCENARY_NOT_OWNED'});
  for(const id of [1,4977,7,4824])await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(?,?,1,0,?,?)',id,SHIRANUI_CODE,'2026-10-12','2026-10-12').run();
  await ensureAccountRank(f.env);await f.p('INSERT INTO account_rank_progress_v1(user_id,total_ticks) VALUES(1,?)',SHIRANUI_MIN_RANK_TICKS).run();
+ await f.p('INSERT INTO account_rank_progress_v1(user_id,total_ticks) VALUES(7,?)',SHIRANUI_MIN_RANK_TICKS-1).run();
  for(const mode of ['PVE','PVP']){
-  for(const user of blocked)await assert.rejects(saveMercenaryLoadout(f.env,user,{requestId:rid(),mode,mercenaryCode:SHIRANUI_CODE,revision:0}),{code:'MERCENARY_ACCOUNT_RANK'});
+  for(const user of blocked)await assert.rejects(saveMercenaryLoadout(f.env,user,{requestId:rid(),mode,mercenaryCodes:[SHIRANUI_CODE],revision:0}),{code:'MERCENARY_ACCOUNT_RANK'});
   for(const user of allowed){
-   const body={requestId:rid(),mode,mercenaryCode:SHIRANUI_CODE,revision:0};
+   const body={requestId:rid(),mode,mercenaryCodes:[SHIRANUI_CODE],revision:0};
    await saveMercenaryLoadout(f.env,user,body);
    assert.equal((await saveMercenaryLoadout(f.env,user,body)).replayed,true);
    const one=await loadMercenaryBattleSnapshot(f.env,user,mode),batch=await releasedMercenarySnapshots(f.env,[1,4977,7,4824],mode);
-   assert.equal(one.code,SHIRANUI_CODE);assert.equal(one.basePower,SHIRANUI_COMBAT.basePower);assert.deepEqual(one.skills,[SHIRANUI_AREA_SKILL]);
+   assert.equal(one.code,SHIRANUI_CODE);assert.equal(one.basePower,2600000);assert.deepEqual(one.skills,[SHIRANUI_AREA_SKILL]);
    assert.deepEqual(batch.get(user.id),one);for(const rejected of blocked)assert.equal(batch.has(rejected.id),false);
   }
  }
@@ -49,7 +50,7 @@ test('Shiranui deployment requires lieutenant general for every account; random 
  for(const user of allowed){
   const state=await mercenaryAccountState(f.env,user);
   assert.equal(state.cards[0].canDeploy,true);assert.equal(state.cards[0].exclusiveGrant,false);assert.equal(state.cards[0].excludedFromLimitedCount,false);
-  await saveMercenaryLoadout(f.env,user,{requestId:rid(),mode:'PVE',mercenaryCode:null,revision:1});
+  await saveMercenaryLoadout(f.env,user,{requestId:rid(),mode:'PVE',mercenaryCodes:[],revision:1});
   assert.equal(await loadMercenaryBattleSnapshot(f.env,user,'PVE'),null);assert.equal((await loadMercenaryBattleSnapshot(f.env,user,'PVP')).code,SHIRANUI_CODE);
  }
 });

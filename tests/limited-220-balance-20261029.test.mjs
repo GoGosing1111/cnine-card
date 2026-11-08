@@ -18,13 +18,13 @@ const codes=['V-972','V-987','V-969'],cards=tierCards(2e7);
 const snapshot=(code,level=1)=>({...limitedDeploymentSnapshot(code),combat:fixture.combat,mercenaryLevel:{version:2,level,policyRevision:growth.policyRevision,breakthroughMask:[5,10,15,20].reduce((m,t,i)=>m|(t<level?1<<i:0),0),growth:growth.growth}});
 const fighter=(code,level,mode,gear)=>buildMercenaryFighter({...snapshot(code,level),equipment:{schemaVersion:1,mode,power:gear}},'A',mode,buildFighter);
 
-test('all three share Jokro stat and link growth at 1/11/21 with and without equipment in PVE/PVP',()=>{
+test('Omega and Kamishiro share Jokro stat and link growth at 1/11/21 with and without equipment in PVE/PVP',()=>{
  for(const mode of ['PVE','PVP'])for(const level of [1,11,21])for(const gear of [0,1e8]){
-  const actors=[...codes,'V-979'].map(code=>fighter(code,level,mode,gear));
+  const actors=['V-972','V-969','V-979'].map(code=>fighter(code,level,mode,gear));
   for(const a of actors)applyMercenaryCombatLink([[...cards.map((c,i)=>buildFighter(c,i,'A',null,mode)),a]]);
-  for(const a of actors.slice(0,3)){
-   for(const key of ['basePower','attack','maxHp','defense','shield','speed','counterImmune','controlImmune','poisonImmune'])assert.equal(a[key],actors[3][key],`${a.code} ${mode} L${level} gear${gear} ${key}`);
-   assert.equal(mercenaryEffectiveAttack(a),mercenaryEffectiveAttack(actors[3]));
+  for(const a of actors.slice(0,2)){
+   for(const key of ['basePower','attack','maxHp','defense','shield','speed','counterImmune','controlImmune','poisonImmune'])assert.equal(a[key],actors[2][key],`${a.code} ${mode} L${level} gear${gear} ${key}`);
+   assert.equal(mercenaryEffectiveAttack(a),mercenaryEffectiveAttack(actors[2]));
   }
  }
  assert.equal(JINMU_COMBAT.basePower,1950000);assert.equal(PRIME_COMBAT.basePower,3000000);assert.equal(JOKRO_COMBAT.basePower,2200000);
@@ -36,7 +36,7 @@ test('stale supplied base power and skills cannot override current battle policy
  for(const code of codes){
   const input={...snapshot(code,21),basePower:99e9,skills:[],stats:{attack:1,hp:1,defense:1}},before=structuredClone(input);
   const actual=buildMercenaryFighter(input,'A','PVP',buildFighter),expected=fighter(code,21,'PVP',0);
-  assert.equal(actual.basePower,2200000);assert.equal(actual.attack,expected.attack);assert.deepEqual(input,before);
+  assert.equal(actual.basePower,code==='V-987'?2600000:2200000);assert.equal(actual.attack,expected.attack);assert.deepEqual(input,before);
  }
 });
 
@@ -57,10 +57,10 @@ test('Omega consumes grown PVE budget exactly once per target and its PVP forms 
 test('mirrored PVP matches retain ordinary outcomes and mixed duo applies the revised policy per owner',()=>{
  for(const code of codes)for(const level of [1,21]){
   const left=createPvpBattleV2({attackerCards:cards,defenderCards:cards,attackerMercenary:snapshot(code,level),defenderMercenary:snapshot('V-979',level),seed:77});
-  assert(['A','B'].includes(left.result.winner));assert.equal(left.teams.A.mercenaries[0].basePower,2200000);
+  assert(['A','B'].includes(left.result.winner));assert.equal(left.teams.A.mercenaries[0].basePower,code==='V-987'?2600000:2200000);
  }
  const squad=(code,ownerId,level)=>({ownerId,ownerName:'검수',cards,mercenary:snapshot(code,level)});
  const args={attackerSquads:[squad('V-972',7,21),squad('V-987',8,11)],defenderSquads:[squad('V-969',9,21),squad('V-979',10,11)],seed:7719},before=structuredClone(args),r=createDuoBattleV2(args);
  assert.deepEqual(args,before);
- assert.deepEqual([...r.teams.A.mercenaries,...r.teams.B.mercenaries].map(a=>[a.code,a.ownerId,a.level,a.basePower]),[['V-972',7,21,2200000],['V-987',8,11,2200000],['V-969',9,21,2200000],['V-979',10,11,2200000]]);
+ assert.deepEqual([...r.teams.A.mercenaries,...r.teams.B.mercenaries].map(a=>[a.code,a.ownerId,a.level,a.basePower]),[['V-972',7,21,2200000],['V-987',8,11,2600000],['V-969',9,21,2200000],['V-979',10,11,2200000]]);
 });
