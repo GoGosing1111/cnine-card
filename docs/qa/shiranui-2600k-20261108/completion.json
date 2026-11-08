@@ -1,0 +1,995 @@
+{
+  "status": "LIVE_VERIFIED",
+  "verifiedAt": "2026-11-08T04:37:51.988Z",
+  "source": "8fa2ffe2fcfe6d2252505ddfedd31c3e5a067531",
+  "pages": {
+    "id": "88118eb6-2f85-4450-869b-719638399b61",
+    "url": "https://88118eb6.cnine-card.pages.dev",
+    "commit": "8fa2ffe2fcfe6d2252505ddfedd31c3e5a067531",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version_id": "ca2559fe-04c6-4559-b534-21126d4a16b8",
+      "percentage": 100,
+      "sha256": "338ebed614b846f8b1417f654b4e3c47a3b1c2a68797b5540762fbb5e2480f11",
+      "policyCopies": 1
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version_id": "57141a6c-2e12-4414-9da9-5e481baa41c8",
+      "percentage": 100,
+      "sha256": "af092ee406b5b001f26ef924ce31ba5db26dfdba88636549301a95037de4fb18",
+      "policyCopies": 1
+    }
+  ],
+  "releaseTests": 102,
+  "assetCount": 20000,
+  "bundles": [
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "public": true,
+      "sha256": "603f9346861c33a00dfeadbce0c82cf8ab5df1be9de197caed2160df5fc2d07b",
+      "windows": true
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "public": true,
+      "sha256": "9177de854aa4ba97a04395e543e0d9b4cfaba1ef72344001a129510d07f5f37b",
+      "windows": true
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "public": true,
+      "sha256": "19f6b5f5ee7a08419a52a6568165056c7800fedd278556c239e23dabfba29aca",
+      "windows": true
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "public": true,
+      "sha256": "d9bb9f732c24e7cc038348c0ca23f49aad612b82242000a9f8e9edcc5c5cc157",
+      "windows": true
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "public": true,
+      "sha256": "88dcab99a3376093f32ca7429f83f82e66e244ab313464b18d6f3c49dc7cb225",
+      "windows": true
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "public": true,
+      "sha256": "13c1a4f4a5b3ce76442b00a3e6ff1bd0eab4c2425a009cd0a3f57802b0d0c1a1",
+      "windows": true
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "public": true,
+      "sha256": "9751ddd25603e86f0806882d945db791c7165fc2513af35e43ca3fe559361717",
+      "windows": true
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "public": true,
+      "sha256": "8caa7ec5c99e105af267a139dafc7cc02033d5c5068bb8270a479feec48d6827",
+      "windows": true
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "public": true,
+      "sha256": "6c97171d77588b9c9ed589c41cd06ad9ae4b9eaf882d71d06c453d574e653a27",
+      "windows": true
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "public": true,
+      "sha256": "4f81fdaed6dc40f5aa0e9c781599d3683b5f76355fcbd44410d70b95f2f82812",
+      "windows": true
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "public": true,
+      "sha256": "56ec46bd0f89640fc1f357ac64ca21e9dc546ec1679c7cf65f6443440d21277c",
+      "windows": true
+    }
+  ],
+  "delivery": {
+    "file": "shared/mercenary-shiranui-v1.mjs",
+    "sha256": "9d47d003d7758c955ee8cf223656baa5661e9938127cefad7d9612c786bd4e15",
+    "windowsManifest": true
+  },
+  "live": {
+    "code": "V-987",
+    "name": "시라누이",
+    "previous": 2200000,
+    "power": 2600000,
+    "minimumAccountLevel": 235,
+    "basicScale": 1.25,
+    "skill": {
+      "id": "MS-987",
+      "name": "망령 포대",
+      "mechanic": "SPECTRAL_ARTILLERY_BARRAGE",
+      "target": "적 전체",
+      "pveOnly": true,
+      "balance": {
+        "damageRatio": 25.2,
+        "cooldownTurns": 4,
+        "cost": 25
+      },
+      "ready": true,
+      "effect": "망령 포대가 생존한 적 전체에 총 2,520% 피해를 나눠 한 번씩 적용합니다.",
+      "trigger": "PVE · 에너지 25 · 재사용 4행동",
+      "counterplay": "방어·보호막에 대응됩니다.",
+      "bossRule": "서버 전투 규칙 적용",
+      "procRule": "한 시전당 한 번 적용"
+    }
+  },
+  "battlesPerRevision": 1536,
+  "unchangedControlBattles": 1152,
+  "headToHead": {
+    "pvpMatches": 256,
+    "generalWins": 198,
+    "shiranuiWins": 58
+  },
+  "details": [
+    {
+      "scenario": "weak-deck-lv1",
+      "oldPve": {
+        "power": 2200000,
+        "attack": 743820,
+        "hp": 2500691,
+        "defense": 336601,
+        "shield": 155114,
+        "speed": 87828
+      },
+      "shiranuiPve": {
+        "power": 2600000,
+        "attack": 879060,
+        "hp": 2955363,
+        "defense": 397801,
+        "shield": 183316,
+        "speed": 87828
+      },
+      "generalPve": {
+        "power": 2700000,
+        "attack": 912870,
+        "hp": 3069031,
+        "defense": 413101,
+        "shield": 190367,
+        "speed": 87828
+      },
+      "oldArea": 7078247,
+      "shiranuiArea": 13942002,
+      "generalArea": 17373880,
+      "oldSix": 23298634295,
+      "shiranuiSix": 29133057718,
+      "generalSix": 34685273042,
+      "generalWins": 64,
+      "pvpMatches": 64
+    },
+    {
+      "scenario": "standard-lv1",
+      "oldPve": {
+        "power": 2200000,
+        "attack": 236438684,
+        "hp": 526441969,
+        "defense": 336601,
+        "shield": 310224732,
+        "speed": 87828
+      },
+      "shiranuiPve": {
+        "power": 2600000,
+        "attack": 279427535,
+        "hp": 622158691,
+        "defense": 397801,
+        "shield": 366629229,
+        "speed": 87828
+      },
+      "generalPve": {
+        "power": 2700000,
+        "attack": 290174748,
+        "hp": 646087872,
+        "defense": 413101,
+        "shield": 380730353,
+        "speed": 87828
+      },
+      "oldArea": 2249968351,
+      "shiranuiArea": 4431755833,
+      "generalArea": 5522649578,
+      "oldSix": 27682318955,
+      "shiranuiSix": 37706859412,
+      "generalSix": 45862271109,
+      "generalWins": 45,
+      "pvpMatches": 64
+    },
+    {
+      "scenario": "grown-lv11",
+      "oldPve": {
+        "power": 3200000,
+        "attack": 1422087234,
+        "hp": 2905514161,
+        "defense": 1208932,
+        "shield": 310224732,
+        "speed": 192600
+      },
+      "shiranuiPve": {
+        "power": 3600000,
+        "attack": 1680648546,
+        "hp": 3433789463,
+        "defense": 1428737,
+        "shield": 366629229,
+        "speed": 192600
+      },
+      "generalPve": {
+        "power": 3700000,
+        "attack": 1745288874,
+        "hp": 3565858296,
+        "defense": 1483689,
+        "shield": 380730353,
+        "speed": 192600
+      },
+      "oldArea": 14885958321,
+      "shiranuiArea": 29320826939,
+      "generalArea": 36538261248,
+      "oldSix": 52379113193,
+      "shiranuiSix": 86009926996,
+      "generalSix": 108831221384,
+      "generalWins": 36,
+      "pvpMatches": 64
+    },
+    {
+      "scenario": "high-power-lv21",
+      "oldPve": {
+        "power": 102200000,
+        "attack": 260715992130,
+        "hp": 528275300630,
+        "defense": 84852720,
+        "shield": 31022473095,
+        "speed": 10495779
+      },
+      "shiranuiPve": {
+        "power": 102600000,
+        "attack": 308118899792,
+        "hp": 624325355280,
+        "defense": 100280488,
+        "shield": 36662922748,
+        "speed": 10495779
+      },
+      "generalPve": {
+        "power": 102700000,
+        "attack": 319969626713,
+        "hp": 648337868950,
+        "defense": 104137429,
+        "shield": 38073035161,
+        "speed": 10495779
+      },
+      "oldArea": 170016000000,
+      "shiranuiArea": 255024000000,
+      "generalArea": 340032000000,
+      "oldSix": 363871200000,
+      "shiranuiSix": 364056000000,
+      "generalSix": 364056000000,
+      "generalWins": 53,
+      "pvpMatches": 64
+    }
+  ],
+  "serverPveCpuMs": {
+    "before": {
+      "count": 80,
+      "p50": 5.464400000000751,
+      "p95": 11.51890000000094
+    },
+    "after": {
+      "count": 80,
+      "p50": 2.2750999999998385,
+      "p95": 3.44380000000001
+    }
+  },
+  "broaderRegression": {
+    "beforeFailures": [
+      "General Jok uses 2.7 million power independently of Prime while preserving gear, mitigation and cadence",
+      "public codex exposes eight skills and acquisition lock while deployment requires ownership",
+      "historical V15 images stay intact and corrected grip reaches every production V3 entry",
+      "PVE and other opponents keep normal stats, while existing Razak SS priority remains intact",
+      "V-987: legacy replay payload and equal-power combat preserve existing mercenary policy",
+      "base power, blanket immunity and existing prepared XP rules are retained",
+      "V-987: PVE full result/timeline is byte-for-byte unchanged",
+      "approved art, thumbnail, shipped bundles and live cache tags are connected",
+      "Shiranui deployment requires lieutenant general for every account; random acquisition pools stay closed"
+    ],
+    "afterFailures": [
+      "General Jok uses 2.7 million power independently of Prime while preserving gear, mitigation and cadence",
+      "public codex exposes eight skills and acquisition lock while deployment requires ownership",
+      "historical V15 images stay intact and corrected grip reaches every production V3 entry",
+      "PVE and other opponents keep normal stats, while existing Razak SS priority remains intact"
+    ],
+    "newFailures": 0
+  },
+  "productionAccountWrites": 0,
+  "expandedHeadToHead": {
+    "matches": 1024,
+    "generalWins": 799,
+    "shiranuiWins": 225,
+    "byScenario": [
+      {
+        "name": "weak-deck-lv1",
+        "seeds": 128,
+        "pvpMatches": 256,
+        "shiranuiWins": {
+          "A": 0,
+          "B": 0
+        },
+        "generalWins": 256,
+        "highHpBossBattlePower": 16000000000000,
+        "pveFirstSix": [
+          2887527641267,
+          3465034589452
+        ],
+        "sampledActions": [
+          768,
+          768
+        ],
+        "samplesWithoutActions": [
+          0,
+          0
+        ]
+      },
+      {
+        "name": "standard-lv1",
+        "seeds": 128,
+        "pvpMatches": 256,
+        "shiranuiWins": {
+          "A": 28,
+          "B": 42
+        },
+        "generalWins": 186,
+        "highHpBossBattlePower": 16000000000000,
+        "pveFirstSix": [
+          2896286352481,
+          3475994977987
+        ],
+        "sampledActions": [
+          768,
+          768
+        ],
+        "samplesWithoutActions": [
+          0,
+          0
+        ]
+      },
+      {
+        "name": "grown-lv11",
+        "seeds": 128,
+        "pvpMatches": 256,
+        "shiranuiWins": {
+          "A": 51,
+          "B": 68
+        },
+        "generalWins": 137,
+        "highHpBossBattlePower": 16000000000000,
+        "pveFirstSix": [
+          2945631162964,
+          3537743593893
+        ],
+        "sampledActions": [
+          768,
+          768
+        ],
+        "samplesWithoutActions": [
+          0,
+          0
+        ]
+      },
+      {
+        "name": "high-power-lv21",
+        "seeds": 128,
+        "pvpMatches": 256,
+        "shiranuiWins": {
+          "A": 14,
+          "B": 22
+        },
+        "generalWins": 220,
+        "highHpBossBattlePower": 16000000000000,
+        "pveFirstSix": [
+          14513732581198,
+          18013718770075
+        ],
+        "sampledActions": [
+          768,
+          768
+        ],
+        "samplesWithoutActions": [
+          0,
+          0
+        ]
+      }
+    ],
+    "note": "128 identical seeds with both sides per scenario; includes the first 32 seeds. High-HP PVE has a 16 trillion power boss with exactly 6 own actions sampled in all 1,024 fights."
+  },
+  "performance": {
+    "conditions": "Windows host; headless Edge desktop and mobile Chromium Pixel 7 emulation, and Windows Playwright WebKit iPhone 13 emulation. No physical phone. Codex measurements use the actual logged-out public URL twice per class on each revision; cold means a fresh browser context, return means reentering from the home page. The 12-target battle uses isolated real V2 HUNT receipts, the same immutable public sustained-hunt renderer and live V3 entry/release API. The Android battle viewport followed the Pixel 7 descriptor. WebKit effect samples ran in both before→after and after→before order. The public catalog before/after interval also spans the S1 deployment, service traffic and CDN variation. The operating host also ran release verification. Times are samples, not device FPS guarantees.",
+    "timings": {
+      "rollout": {
+        "platform": "ios",
+        "entry": "return",
+        "readyMs": 7271,
+        "catalogRequestMs": 6809,
+        "renderAfterApiMs": 11
+      },
+      "interpretation": "Public catalog timings separate the HTML first byte, catalog request (network, service and transfer), and render after the response. In the slowest rollout visit almost all of the extra delay fell inside the catalog request. Browser timings cannot separate service and transport inside that request. In Windows WebKit emulation, sustained-hunt mount and rendering dominate cold and warm battle entry and long frames are present on both policies. The simulation CPU timer is a warmed local Node entry, 80 samples per revision."
+    },
+    "publicCodex": [
+      {
+        "phase": "before",
+        "platform": "pc",
+        "entry": "cold",
+        "samples": 2,
+        "medianReadyMs": 1015.3,
+        "medianDocumentTtfbMs": 87.1,
+        "medianApiMs": 370.9,
+        "medianApiWaitMs": 165.2,
+        "medianRenderAfterApiMs": 14.8,
+        "medianP95FrameMs": 4.4,
+        "framesOver50": 0,
+        "longMainTasks": 3
+      },
+      {
+        "phase": "before",
+        "platform": "pc",
+        "entry": "return",
+        "samples": 2,
+        "medianReadyMs": 711.5,
+        "medianDocumentTtfbMs": 26,
+        "medianApiMs": 432.1,
+        "medianApiWaitMs": 175,
+        "medianRenderAfterApiMs": 8.1,
+        "medianP95FrameMs": 4.3,
+        "framesOver50": 0,
+        "longMainTasks": 2
+      },
+      {
+        "phase": "before",
+        "platform": "android",
+        "entry": "cold",
+        "samples": 2,
+        "medianReadyMs": 1153.4,
+        "medianDocumentTtfbMs": 97.4,
+        "medianApiMs": 481.3,
+        "medianApiWaitMs": 171.1,
+        "medianRenderAfterApiMs": 12.8,
+        "medianP95FrameMs": 8.5,
+        "framesOver50": 1,
+        "longMainTasks": 2
+      },
+      {
+        "phase": "before",
+        "platform": "android",
+        "entry": "return",
+        "samples": 2,
+        "medianReadyMs": 894.5,
+        "medianDocumentTtfbMs": 41.1,
+        "medianApiMs": 430.4,
+        "medianApiWaitMs": 146.3,
+        "medianRenderAfterApiMs": 7.3,
+        "medianP95FrameMs": 4.3,
+        "framesOver50": 0,
+        "longMainTasks": 2
+      },
+      {
+        "phase": "before",
+        "platform": "ios",
+        "entry": "cold",
+        "samples": 2,
+        "medianReadyMs": 1324,
+        "medianDocumentTtfbMs": 120,
+        "medianApiMs": 389.5,
+        "medianApiWaitMs": 143,
+        "medianRenderAfterApiMs": 26,
+        "medianP95FrameMs": 106.5,
+        "framesOver50": 12,
+        "longMainTasks": 0
+      },
+      {
+        "phase": "before",
+        "platform": "ios",
+        "entry": "return",
+        "samples": 2,
+        "medianReadyMs": 1147.5,
+        "medianDocumentTtfbMs": 23.5,
+        "medianApiMs": 689,
+        "medianApiWaitMs": 174,
+        "medianRenderAfterApiMs": 12.5,
+        "medianP95FrameMs": 57,
+        "framesOver50": 6,
+        "longMainTasks": 0
+      },
+      {
+        "phase": "after",
+        "platform": "pc",
+        "entry": "cold",
+        "samples": 2,
+        "medianReadyMs": 4227,
+        "medianDocumentTtfbMs": 84.5,
+        "medianApiMs": 3638.1,
+        "medianApiWaitMs": 3372.8,
+        "medianRenderAfterApiMs": 12.3,
+        "medianP95FrameMs": 4.3,
+        "framesOver50": 0,
+        "longMainTasks": 3
+      },
+      {
+        "phase": "after",
+        "platform": "pc",
+        "entry": "return",
+        "samples": 2,
+        "medianReadyMs": 1852.3,
+        "medianDocumentTtfbMs": 176.8,
+        "medianApiMs": 444.2,
+        "medianApiWaitMs": 174.4,
+        "medianRenderAfterApiMs": 7.3,
+        "medianP95FrameMs": 4.3,
+        "framesOver50": 0,
+        "longMainTasks": 2
+      },
+      {
+        "phase": "after",
+        "platform": "android",
+        "entry": "cold",
+        "samples": 2,
+        "medianReadyMs": 1151.2,
+        "medianDocumentTtfbMs": 78.6,
+        "medianApiMs": 475.8,
+        "medianApiWaitMs": 172.8,
+        "medianRenderAfterApiMs": 14.2,
+        "medianP95FrameMs": 4.3,
+        "framesOver50": 1,
+        "longMainTasks": 2
+      },
+      {
+        "phase": "after",
+        "platform": "android",
+        "entry": "return",
+        "samples": 2,
+        "medianReadyMs": 834.1,
+        "medianDocumentTtfbMs": 23.1,
+        "medianApiMs": 560.3,
+        "medianApiWaitMs": 176.3,
+        "medianRenderAfterApiMs": 9.1,
+        "medianP95FrameMs": 4.3,
+        "framesOver50": 0,
+        "longMainTasks": 1
+      },
+      {
+        "phase": "after",
+        "platform": "ios",
+        "entry": "cold",
+        "samples": 2,
+        "medianReadyMs": 1249,
+        "medianDocumentTtfbMs": 54.5,
+        "medianApiMs": 721,
+        "medianApiWaitMs": 299.5,
+        "medianRenderAfterApiMs": 13,
+        "medianP95FrameMs": 89.5,
+        "framesOver50": 10,
+        "longMainTasks": 0
+      },
+      {
+        "phase": "after",
+        "platform": "ios",
+        "entry": "return",
+        "samples": 2,
+        "medianReadyMs": 948.5,
+        "medianDocumentTtfbMs": 27.5,
+        "medianApiMs": 597.5,
+        "medianApiWaitMs": 200,
+        "medianRenderAfterApiMs": 11,
+        "medianP95FrameMs": 76.5,
+        "framesOver50": 6,
+        "longMainTasks": 0
+      }
+    ],
+    "artillery": [
+      {
+        "platform": "pc",
+        "phase": "before",
+        "entry": "cold",
+        "samples": 1,
+        "medianReadyMs": 9012.2,
+        "medianLibraryMs": 810.5,
+        "medianMountMs": 8201.4,
+        "medianDeployMs": 0.3,
+        "medianP95FrameMs": 4.3,
+        "framesOver50": 0,
+        "totalSampledFrames": 564,
+        "receiptsPerCast": 12,
+        "rendererMountedAfterExit": false
+      },
+      {
+        "platform": "pc",
+        "phase": "before",
+        "entry": "return",
+        "samples": 1,
+        "medianReadyMs": 1175,
+        "medianLibraryMs": 0.1,
+        "medianMountMs": 1174.6,
+        "medianDeployMs": 0.3,
+        "medianP95FrameMs": 4.3,
+        "framesOver50": 0,
+        "totalSampledFrames": 582,
+        "receiptsPerCast": 12,
+        "rendererMountedAfterExit": false
+      },
+      {
+        "platform": "pc",
+        "phase": "after",
+        "entry": "cold",
+        "samples": 1,
+        "medianReadyMs": 3832.3,
+        "medianLibraryMs": 666.1,
+        "medianMountMs": 3165.7,
+        "medianDeployMs": 0.5,
+        "medianP95FrameMs": 4.3,
+        "framesOver50": 0,
+        "totalSampledFrames": 578,
+        "receiptsPerCast": 12,
+        "rendererMountedAfterExit": false
+      },
+      {
+        "platform": "pc",
+        "phase": "after",
+        "entry": "return",
+        "samples": 1,
+        "medianReadyMs": 807.1,
+        "medianLibraryMs": 0,
+        "medianMountMs": 807,
+        "medianDeployMs": 0.1,
+        "medianP95FrameMs": 4.3,
+        "framesOver50": 0,
+        "totalSampledFrames": 576,
+        "receiptsPerCast": 12,
+        "rendererMountedAfterExit": false
+      },
+      {
+        "platform": "android",
+        "phase": "before",
+        "entry": "cold",
+        "samples": 1,
+        "medianReadyMs": 4511.3,
+        "medianLibraryMs": 583.1,
+        "medianMountMs": 3927.8,
+        "medianDeployMs": 0.4,
+        "medianP95FrameMs": 4.3,
+        "framesOver50": 0,
+        "totalSampledFrames": 569,
+        "receiptsPerCast": 12,
+        "rendererMountedAfterExit": false
+      },
+      {
+        "platform": "android",
+        "phase": "before",
+        "entry": "return",
+        "samples": 1,
+        "medianReadyMs": 1030.3,
+        "medianLibraryMs": 0,
+        "medianMountMs": 1030.1,
+        "medianDeployMs": 0.2,
+        "medianP95FrameMs": 4.3,
+        "framesOver50": 0,
+        "totalSampledFrames": 574,
+        "receiptsPerCast": 12,
+        "rendererMountedAfterExit": false
+      },
+      {
+        "platform": "android",
+        "phase": "after",
+        "entry": "cold",
+        "samples": 1,
+        "medianReadyMs": 5653,
+        "medianLibraryMs": 652.9,
+        "medianMountMs": 4999,
+        "medianDeployMs": 1.1,
+        "medianP95FrameMs": 4.3,
+        "framesOver50": 0,
+        "totalSampledFrames": 573,
+        "receiptsPerCast": 12,
+        "rendererMountedAfterExit": false
+      },
+      {
+        "platform": "android",
+        "phase": "after",
+        "entry": "return",
+        "samples": 1,
+        "medianReadyMs": 725.5,
+        "medianLibraryMs": 0,
+        "medianMountMs": 725.3,
+        "medianDeployMs": 0.2,
+        "medianP95FrameMs": 4.3,
+        "framesOver50": 0,
+        "totalSampledFrames": 577,
+        "receiptsPerCast": 12,
+        "rendererMountedAfterExit": false
+      },
+      {
+        "platform": "ios",
+        "phase": "before",
+        "entry": "cold",
+        "samples": 2,
+        "medianReadyMs": 19653,
+        "medianLibraryMs": 684,
+        "medianMountMs": 18967.5,
+        "medianDeployMs": 1.5,
+        "medianP95FrameMs": 489,
+        "framesOver50": 19,
+        "totalSampledFrames": 19,
+        "receiptsPerCast": 12,
+        "rendererMountedAfterExit": false
+      },
+      {
+        "platform": "ios",
+        "phase": "before",
+        "entry": "return",
+        "samples": 2,
+        "medianReadyMs": 13813,
+        "medianLibraryMs": 0,
+        "medianMountMs": 13812.5,
+        "medianDeployMs": 0.5,
+        "medianP95FrameMs": 433.5,
+        "framesOver50": 17,
+        "totalSampledFrames": 18,
+        "receiptsPerCast": 12,
+        "rendererMountedAfterExit": false
+      },
+      {
+        "platform": "ios",
+        "phase": "after",
+        "entry": "cold",
+        "samples": 2,
+        "medianReadyMs": 19437.5,
+        "medianLibraryMs": 717.5,
+        "medianMountMs": 18720,
+        "medianDeployMs": 0,
+        "medianP95FrameMs": 598,
+        "framesOver50": 18,
+        "totalSampledFrames": 18,
+        "receiptsPerCast": 12,
+        "rendererMountedAfterExit": false
+      },
+      {
+        "platform": "ios",
+        "phase": "after",
+        "entry": "return",
+        "samples": 2,
+        "medianReadyMs": 20036,
+        "medianLibraryMs": 0,
+        "medianMountMs": 20035,
+        "medianDeployMs": 1,
+        "medianP95FrameMs": 645,
+        "framesOver50": 14,
+        "totalSampledFrames": 14,
+        "receiptsPerCast": 12,
+        "rendererMountedAfterExit": false
+      }
+    ],
+    "shippedRenderer": [
+      {
+        "readyMs": 2922,
+        "libraryMs": 577.8999999761581,
+        "mountMs": 2343.800000011921,
+        "deployMs": 0.30000001192092896,
+        "slowResources": [
+          {
+            "file": "/favicon.ico",
+            "ms": 159.89999997615814
+          },
+          {
+            "file": "/preview/sustained-hunt-v2/battle.bundle.js",
+            "ms": 124.39999997615814
+          },
+          {
+            "file": "/assets/ui/project-v/mercenaries/shiranui-20261015/source-art.png",
+            "ms": 105.89999997615814
+          }
+        ],
+        "resourceRequests": 42,
+        "frameCount": 570,
+        "p95FrameMs": 4.299999999999727,
+        "maxFrameMs": 45.90000000000009,
+        "framesOver50": 0,
+        "receipts": 12,
+        "uniqueTargets": 12,
+        "damage": 612656,
+        "releaseMs": 40.39999997615814,
+        "rendererMountedAfterExit": false,
+        "shiranuiStatesAfterExit": 0,
+        "additionalReceiptsAfterExit": 0,
+        "phase": "after",
+        "entry": "cold",
+        "width": 1440,
+        "basePower": 2600000
+      },
+      {
+        "readyMs": 738.8000000119209,
+        "libraryMs": 0,
+        "mountMs": 738.6999999880791,
+        "deployMs": 0.10000002384185791,
+        "slowResources": [
+          {
+            "file": "/preview/mercenary-role-attacks-v2100/assets/vanguard/atlas.json",
+            "ms": 17.600000023841858
+          },
+          {
+            "file": "/assets/sfx/v3-role-impact-v2/heal.mp3",
+            "ms": 1.800000011920929
+          },
+          {
+            "file": "/assets/ui/project-v/fx/role-impact-v2/speed-impact-atlas-v2.json",
+            "ms": 1.699999988079071
+          }
+        ],
+        "resourceRequests": 9,
+        "frameCount": 580,
+        "p95FrameMs": 4.300000000000182,
+        "maxFrameMs": 24.899999999999636,
+        "framesOver50": 0,
+        "receipts": 12,
+        "uniqueTargets": 12,
+        "damage": 612656,
+        "releaseMs": 24.899999976158142,
+        "rendererMountedAfterExit": false,
+        "shiranuiStatesAfterExit": 0,
+        "additionalReceiptsAfterExit": 0,
+        "phase": "after",
+        "entry": "return",
+        "width": 1440,
+        "basePower": 2600000
+      },
+      {
+        "readyMs": 2570.5,
+        "libraryMs": 425.0999999642372,
+        "mountMs": 2145.100000023842,
+        "deployMs": 0.30000001192092896,
+        "slowResources": [
+          {
+            "file": "/assets/ui/project-v/mercenaries/shiranui-20261015/source-art.png",
+            "ms": 143.5999999642372
+          },
+          {
+            "file": "/preview/sustained-hunt-v2/battle.bundle.js",
+            "ms": 98.60000002384186
+          },
+          {
+            "file": "/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+            "ms": 95.59999996423721
+          }
+        ],
+        "resourceRequests": 36,
+        "frameCount": 572,
+        "p95FrameMs": 4.299999999999272,
+        "maxFrameMs": 41.70000000000027,
+        "framesOver50": 0,
+        "receipts": 12,
+        "uniqueTargets": 12,
+        "damage": 612656,
+        "releaseMs": 41.19999998807907,
+        "rendererMountedAfterExit": false,
+        "shiranuiStatesAfterExit": 0,
+        "additionalReceiptsAfterExit": 0,
+        "phase": "after",
+        "entry": "cold",
+        "width": 390,
+        "basePower": 2600000
+      },
+      {
+        "readyMs": 573,
+        "libraryMs": 0.10000002384185791,
+        "mountMs": 572.7999999523163,
+        "deployMs": 0.10000002384185791,
+        "slowResources": [
+          {
+            "file": "/assets/sfx/v3-role-impact-v2/heal.mp3",
+            "ms": 1.199999988079071
+          },
+          {
+            "file": "/assets/sfx/v3-role-impact-v2/defense.mp3",
+            "ms": 1
+          },
+          {
+            "file": "/assets/sfx/v3-role-impact-v2/speed.mp3",
+            "ms": 1
+          }
+        ],
+        "resourceRequests": 4,
+        "frameCount": 576,
+        "p95FrameMs": 4.299999999999272,
+        "maxFrameMs": 33.30000000000018,
+        "framesOver50": 0,
+        "receipts": 12,
+        "uniqueTargets": 12,
+        "damage": 612656,
+        "releaseMs": 28.399999976158142,
+        "rendererMountedAfterExit": false,
+        "shiranuiStatesAfterExit": 0,
+        "additionalReceiptsAfterExit": 0,
+        "phase": "after",
+        "entry": "return",
+        "width": 390,
+        "basePower": 2600000
+      },
+      {
+        "readyMs": 18931,
+        "libraryMs": 885,
+        "mountMs": 18045,
+        "deployMs": 1,
+        "slowResources": [
+          {
+            "file": "/preview/sustained-hunt-v2/battle.bundle.js",
+            "ms": 327
+          },
+          {
+            "file": "/css/style.css",
+            "ms": 219
+          },
+          {
+            "file": "/assets/ui/project-v/mercenaries/shiranui-20261015/source-art.png",
+            "ms": 181
+          }
+        ],
+        "resourceRequests": 41,
+        "frameCount": 10,
+        "p95FrameMs": 324,
+        "maxFrameMs": 324,
+        "framesOver50": 9,
+        "receipts": 12,
+        "uniqueTargets": 12,
+        "damage": 612656,
+        "releaseMs": 53,
+        "rendererMountedAfterExit": false,
+        "shiranuiStatesAfterExit": 0,
+        "additionalReceiptsAfterExit": 0,
+        "phase": "after",
+        "entry": "cold",
+        "width": 390,
+        "basePower": 2600000
+      },
+      {
+        "readyMs": 9507,
+        "libraryMs": 0,
+        "mountMs": 9507,
+        "deployMs": 0,
+        "slowResources": [
+          {
+            "file": "/assets/ui/project-v/mercenaries/shiranui-20261015/source-art.png",
+            "ms": 125
+          },
+          {
+            "file": "/assets/sfx/v3-role-impact-v2/heal.mp3",
+            "ms": 105
+          },
+          {
+            "file": "/assets/sfx/v3-role-impact-v2/defense.mp3",
+            "ms": 101
+          }
+        ],
+        "resourceRequests": 10,
+        "frameCount": 11,
+        "p95FrameMs": 292,
+        "maxFrameMs": 292,
+        "framesOver50": 11,
+        "receipts": 12,
+        "uniqueTargets": 12,
+        "damage": 612656,
+        "releaseMs": 29,
+        "rendererMountedAfterExit": false,
+        "shiranuiStatesAfterExit": 0,
+        "additionalReceiptsAfterExit": 0,
+        "phase": "after",
+        "entry": "return",
+        "width": 390,
+        "basePower": 2600000
+      }
+    ],
+    "cleanup": "All effect rows applied exactly one server HP receipt per target, released the renderer and left zero Shiranui states and zero extra HP calls after 400 ms. All codex samples recorded pagehide and no old catalog requests after exit.",
+    "raw": "operations/shiranui-2600k-20261108/{before,after}-ui-perf.json, battle-perf.json, ios-battle-perf.json and ios-battle-perf-reverse.json"
+  }
+}
