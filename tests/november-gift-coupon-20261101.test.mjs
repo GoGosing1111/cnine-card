@@ -115,3 +115,34 @@ test('a blocked final potion or a mismatched reward definition rolls back the en
  await f.pg.query("UPDATE coupons SET reward_type='COIN' WHERE code=$1",[lucky.code]);
  before=await f.snapshot();assert.equal((await f.redeem(1,'LUCKY_ATOMIC_1',lucky.code)).status,409);assert.deepEqual(await f.snapshot(),before);
 });
+
+async function suwonFixture(t){
+ const f=await luckyFixture(t);
+ await f.pg.query('INSERT INTO coupons(code,reward_coin,reward_type,reward_amount,max_uses) VALUES($1,$2,$3,1,100)',['SUWONK1UP','250000000000000','NOVEMBER_GIFT_SUWON_K1_20261108']);
+ return f;
+}
+test('Suwon fans can claim after Lucky Seven with an independent limit, exact rewards and safe replay',async t=>{
+ const f=await suwonFixture(t);await f.pg.exec('UPDATE users SET coin=100000000000000001 WHERE id=1');
+ assert.equal((await f.redeem(1,'LASTLUCK_ALREADY_USED',lucky.code)).status,200);
+ await f.pg.query('UPDATE coupons SET used_count=99 WHERE code=$1',['SUWONK1UP']);
+ f.fault({ack:true});await assert.rejects(f.redeem(1,'SUWON_TEST_LAST',' suwonk1up '),/lost commit response/);
+ const r=await f.redeem(1,'SUWON_TEST_LAST','SUWONK1UP');assert.equal(r.status,200);const data=await r.json();
+ assert.equal(data.rewardLabel,'수원삼성 K1 승격 기념');assert.equal(data.replayed,true);
+ assert.deepEqual(data.rewards,[{type:'COIN',amount:250000000000000},{type:'MASTER_STAR',amount:100000000},{type:'RANK_EXP_POTION_3X_60M',amount:1}]);
+ assert.equal((await f.one('SELECT coin::text FROM users WHERE id=1')).coin,'100500000000000001');
+ assert.equal(await f.quantity('MASTER_STAR'),200000000);assert.equal(await f.quantity('RANK_EXP_POTION_3X_60M'),2);
+ const before=await f.snapshot();
+ assert.equal((await f.redeem(1,'SUWON_DIFF_KEY','SUWONK1UP')).status,409);
+ assert.equal((await f.redeem(2,'SUWON_ACCOUNT_101','SUWONK1UP')).status,409);
+ assert.deepEqual(await f.snapshot(),before);
+ assert.equal((await f.one('SELECT used_count FROM coupons WHERE code=$1',[lucky.code])).used_count,1);
+ assert.equal((await f.one('SELECT used_count FROM coupons WHERE code=$1',['SUWONK1UP'])).used_count,100);
+ assert.equal(await f.count('coupon_redemptions'),2);assert.equal(await f.count('coin_logs'),2);assert.equal(await f.count('inventory_logs'),4);
+});
+test('Suwon coupon cannot pay a partial bundle or fall back to an ordinary coupon if its type changes',async t=>{
+ const f=await suwonFixture(t);
+ const before=await f.snapshot();f.fault({pattern:'INSERT INTO coupon_redemptions'});
+ await assert.rejects(f.redeem(1,'SUWON_ROLLBACK','SUWONK1UP'),/QA injected/);assert.deepEqual(await f.snapshot(),before);
+ await f.pg.query('UPDATE coupons SET reward_type=$1 WHERE code=$2',['COIN','SUWONK1UP']);
+ const mismatched=await f.snapshot();assert.equal((await f.redeem(1,'SUWON_INVALID','SUWONK1UP')).status,409);assert.deepEqual(await f.snapshot(),mismatched);
+});

@@ -15,14 +15,18 @@ export const LUCKY_SEVEN_COUPON=Object.freeze({
   Object.freeze({code:'RANK_EXP_POTION_3X_60M',name:'계급 경험치 3배 물약 (60분)',amount:1})
  ])
 });
-const gifts=[NOVEMBER_GIFT_COUPON,LUCKY_SEVEN_COUPON];
+export const SUWON_K1_COUPON=Object.freeze({
+ ...LUCKY_SEVEN_COUPON,
+ code:'SUWONK1UP',type:'NOVEMBER_GIFT_SUWON_K1_20261108',label:'수원삼성 K1 승격 기념'
+});
+const gifts=new Map([NOVEMBER_GIFT_COUPON,LUCKY_SEVEN_COUPON,SUWON_K1_COUPON].map(gift=>[gift.code,gift]));
 class GiftCouponError extends Error{constructor(message,status=409){super(message);this.status=status;}}
 const fail=(message,status)=>{throw new GiftCouponError(message,status);};
 const changed=(rows,message)=>{if(rows.length!==1)fail(message);return rows[0];};
 
 export async function redeemNovemberGiftCoupon({env,user,coupon,body,deps}){
- const gift=gifts.find(g=>g.code===coupon?.code && g.type===coupon?.reward_type);
- if(!gift)return deps.json({error:'선물 쿠폰 설정을 확인하세요.'},409);
+ const gift=gifts.get(coupon?.code);
+ if(!gift||gift.type!==coupon.reward_type)return deps.json({error:'선물 쿠폰 설정을 확인하세요.'},409);
  try{
   const requestedKey=String(body.operationKey||'').trim();
   const operationKey=/^[A-Za-z0-9:_-]{8,120}$/.test(requestedKey)?requestedKey:`COUPON:${coupon.id}:${user.id}:${crypto.randomUUID()}`;
@@ -30,7 +34,7 @@ export async function redeemNovemberGiftCoupon({env,user,coupon,body,deps}){
    const q=async(text,values=[])=>(await env.DB.client.query({text,values})).rows;
    await q('BEGIN');
    try{
-    await q("SET LOCAL lock_timeout='4s'");await q("SET LOCAL statement_timeout='15s'");
+    await q("SELECT set_config('lock_timeout','4s',true),set_config('statement_timeout','15s',true)");
     const [account]=await q("SELECT id FROM users WHERE id=$1 AND status='ACTIVE' AND (banned_until IS NULL OR banned_until<=sqlite_now()) FOR UPDATE",[user.id]);
     if(!account)fail('사용 가능한 계정이 아닙니다.',403);
     const [current]=await q('SELECT * FROM coupons WHERE id=$1 AND code=$2 FOR UPDATE',[coupon.id,gift.code]);
