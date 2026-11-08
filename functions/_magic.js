@@ -321,6 +321,23 @@ function buildCardUniqueDeckState(user,cards,cfg,effectMap,boostTable=null,advan
   const power=Math.max(0,Math.floor(Math.sqrt(Math.max(0,attackPower)*Math.max(0,durabilityPower))*(1+speedPercent/200)));
   return {enabled:visible||hasAdvancement,ownerTest,settings:cfg,basePower,power,attackPower:Math.round(attackPower),durabilityPower:Math.round(durabilityPower),speedPercent:Number(speedPercent.toFixed(3)),cards:appliedCards,effects:appliedEffects};
 }
+function uniqueEffectFromRow(row){return withDominantUniqueStat({cardId:String(row.card_id),attackPercent:uniqueStat(row.attack_percent),defensePercent:uniqueStat(row.defense_percent),hpPercent:uniqueStat(row.hp_percent),speedPercent:uniqueStat(row.speed_percent,300),effectName:String(row.effect_name||''),effectDescription:String(row.effect_description||''),effectType:String(row.effect_type||'NONE'),triggerType:String(row.trigger_type||'PASSIVE'),effectValue:Number(row.effect_value||0),triggerChance:Math.max(0,Math.min(100,Number(row.trigger_chance??100)||0)),maxActivations:Math.max(1,Math.floor(Number(row.max_activations||1)))});}
+
+// Inventory power uses the same per-card calculation as a one-card combat deck.
+// Load each owned type's effect in one indexed join; role/advancement combat actions
+// change simulated actions but do not add to the published PVE power value.
+export async function ownedCardCollectionPower(env,user,cards){
+  const cfg=await cardUniqueSettings(env);
+  if(!cardUniqueVisibleTo(user,cfg))return cards.reduce((sum,card)=>sum+card.power,0);
+  const [owned,boosts]=await Promise.all([
+    env.DB.prepare(`SELECT e.* FROM card_unique_effects e JOIN user_cards o ON o.card_id=e.card_id
+       WHERE o.user_id=? AND o.quantity>0 AND e.is_active=1 AND e.scope_pve=1`).bind(user.id).all(),
+    hasHighTierCard([{cards}])?highUniqueBoostTable(env):null
+  ]);
+  const effects=new Map(owned.results.map(row=>[String(row.card_id),uniqueEffectFromRow(row)]));
+  return cards.reduce((sum,card)=>sum+buildCardUniqueDeckState(user,[card],cfg,effects,boosts).power,0);
+}
+
 export async function cardUniqueDeckStates(env,entries=[],scope='PVE',{fresh=false,batched=false}={}){
   const list=(Array.isArray(entries)?entries:[]).map(entry=>({user:entry?.user||null,cards:Array.isArray(entry?.cards)?entry.cards:[]}));
   for(const entry of list){const count=entry.cards.filter(c=>String(c.rarity??c.grade??'').toUpperCase()==='ICON').length;if(count>ICON_SUPREMACY.deckLimit)throw Object.assign(new Error('ICON 카드는 덱에 최대 2장까지만 편성할 수 있습니다. 덱을 다시 저장해주세요.'),{status:400,code:'ICON_DECK_LIMIT',grade:'ICON',count,limit:ICON_SUPREMACY.deckLimit});}
@@ -333,7 +350,7 @@ export async function cardUniqueDeckStates(env,entries=[],scope='PVE',{fresh=fal
     for(let offset=0;offset<ids.length;offset+=75){
       const chunk=ids.slice(offset,offset+75),marks=chunk.map(()=>'?').join(','),rows=(await env.DB.prepare(`SELECT card_id,attack_percent,defense_percent,hp_percent,speed_percent,effect_name,effect_description,effect_type,trigger_type,effect_value,trigger_chance,max_activations FROM card_unique_effects WHERE is_active=1 AND ${scopeColumn}=1 AND card_id IN (${marks})`).bind(...chunk).all()).results||[];
       for(const row of rows){
-        const effect=withDominantUniqueStat({cardId:String(row.card_id),attackPercent:uniqueStat(row.attack_percent),defensePercent:uniqueStat(row.defense_percent),hpPercent:uniqueStat(row.hp_percent),speedPercent:uniqueStat(row.speed_percent,300),effectName:String(row.effect_name||''),effectDescription:String(row.effect_description||''),effectType:String(row.effect_type||'NONE'),triggerType:String(row.trigger_type||'PASSIVE'),effectValue:Number(row.effect_value||0),triggerChance:Math.max(0,Math.min(100,Number(row.trigger_chance??100)||0)),maxActivations:Math.max(1,Math.floor(Number(row.max_activations||1)))});
+        const effect=uniqueEffectFromRow(row);
         effectMap.set(effect.cardId,effect);
       }
     }

@@ -1,16 +1,17 @@
 import {jointGuard, jointGuardEnd} from './_joint_atomic.js';
+import {attendanceSql,comebackOwnedPower,COMEBACK_POWER_LIMIT} from './_comeback_power.js';
 import {LOAN_PREFIX} from './_comeback_loans.js';
 import {questPeriod} from './_quest_hub.js';
 
 export const COMEBACK = Object.freeze({
-  id: 'comeback-20261108-v1', days: 30, power: 8500000, coin: '3000000000000000',
+  id: 'comeback-20261108-v1', days: 30, power: COMEBACK_POWER_LIMIT, coin: '3000000000000000',
   equipment: ['EMPEROR_TOP','EMPEROR_BOTTOM','EMPEROR_SHOES','EMPEROR_DUAL_DISK'],
   vehicle: 'BOREAS_OMEGA', followup: 'V-969'
 });
 const key = (kind,id) => COMEBACK.id + ':' + kind + ':' + id;
 const utc = time => new Date(time).toISOString().slice(0,19).replace('T',' ');
 const verifiedSql = `EXISTS(SELECT 1 FROM user_second_verifications v WHERE v.user_id=? AND v.provider IN ('PLAYDK','WAGO') AND TRIM(COALESCE(v.provider_user_id,''))<>'')`;
-const normalSql = `EXISTS(SELECT 1 FROM users WHERE id=? AND role='USER' AND status='ACTIVE' AND (banned_until IS NULL OR SUBSTR(REPLACE(banned_until,'T',' '),1,19)<=CURRENT_TIMESTAMP))`;
+const normalSql = `EXISTS(SELECT 1 FROM users WHERE id=? AND role='USER' AND status='ACTIVE' AND (NULLIF(banned_until,'') IS NULL OR SUBSTR(REPLACE(banned_until,'T',' '),1,19)<=CURRENT_TIMESTAMP))`;
 const clanSql = `EXISTS(SELECT 1 FROM organization_members_v1 m JOIN organization_rounds_v1 r ON r.id=m.round_id
   WHERE m.user_id=? AND r.scope='LIVE' AND r.phase='ASSIGNED' AND r.id=(SELECT id FROM organization_rounds_v1 WHERE scope='LIVE' ORDER BY created_at DESC,id DESC LIMIT 1))`;
 const weeksSql = `SELECT DISTINCT week_key FROM quest_weekly_claims_v1 WHERE user_id=? AND status='COMPLETED' AND quest_id='POST'
@@ -19,16 +20,26 @@ const weekArgs=(id,g)=>[id,g.startWeek,g.alreadyCompletedWeek||'',g.startedAt];
 const getReceipt=(env,type,id)=>env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key(type,id)).first();
 const parseReceipt = row => row ? JSON.parse(row.value) : null;
 
-export async function comebackState(env,id) {
+const syncVersion='COALESCE((SELECT revision FROM account_sync_versions_v1 WHERE user_id=?),0)';
+const duoVersion='COALESCE((SELECT source_version FROM ranked_duo_accounts_v1 WHERE user_id=?),0)';
+const policyVersion='COALESCE((SELECT revision FROM ranked_duo_policy_version_v1 WHERE id=1),0)';
+
+export async function comebackState(env,id,deps={},probe=false){
   const DB=env.DB;
-  const row=await DB.prepare(`SELECT c.value AS candidate,
-    (SELECT value FROM app_meta WHERE key=?) AS initial,
-    (SELECT value FROM app_meta WHERE key=?) AS final,
-    ${verifiedSql} AS verified, ${normalSql} AS normal
-    FROM app_meta c WHERE c.key=?`).bind(key('initial',id),key('final',id),id,id,key('candidate',id)).first();
-  if(!row || !Number(row.normal))return {phase:'INELIGIBLE'};
-  if(!Number(row.verified))return {phase:'VERIFY'};
-  if(!row.initial)return {phase:'ELIGIBLE'};
+  const row=await DB.prepare(`SELECT
+    (SELECT value FROM app_meta WHERE key=?) initial,(SELECT value FROM app_meta WHERE key=?) final,
+    ${verifiedSql} verified,${normalSql} normal,${attendanceSql} days,
+    ${syncVersion} sync_rev,${duoVersion} duo_rev,${policyVersion} policy_rev`).bind(key('initial',id),key('final',id),id,id,id,id,id).first();
+  if(!row||!Number(row.normal))return {phase:'INELIGIBLE'};
+  const days=Number(row.days);
+  if(!row.initial&&days<COMEBACK.days)return {phase:'INELIGIBLE',attendance:days,reason:'ATTENDANCE'};
+  if(!Number(row.verified))return {phase:'VERIFY',attendance:days};
+  if(!row.initial){
+    if(probe)return {phase:'CHECK_POWER'};
+    const power=await (deps.ownedPower||comebackOwnedPower)(env,id,deps);
+    const phase=power.total<=COMEBACK.power?'ELIGIBLE':'INELIGIBLE';
+    return {phase,attendance:days,power,...(phase==='INELIGIBLE'?{reason:'POWER'}:{}),stamp:[row.sync_rev,row.duo_rev,row.policy_rev]};
+  }
   const grant=JSON.parse(row.initial);
   if(row.final)return {phase:'COMPLETE',grant,final:JSON.parse(row.final)};
   const [weeks,clan]=await Promise.all([
@@ -38,19 +49,21 @@ export async function comebackState(env,id) {
   return {phase:'MISSIONS',grant,weeks:weeks.results.map(r=>r.week_key),clan:!!Number(clan.member)};
 }
 
-async function grantInitial(env,id,now) {
+async function grantInitial(env,id,now,qualifying) {
   const DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v);
   const token=crypto.randomUUID(),startedAt=utc(now),expiresAt=utc(now+30*86400000),startWeek=questPeriod(now).weekKey;
   const prior=await p("SELECT week_key FROM quest_weekly_claims_v1 WHERE user_id=? AND week_key=? AND quest_id='POST' AND status='COMPLETED'",id,startWeek).first();
-  const grant={startedAt,expiresAt,startWeek,alreadyCompletedWeek:prior?.week_key||null};
+  const grant={attendance:qualifying.attendance,power:qualifying.power,startedAt,expiresAt,startWeek,alreadyCompletedWeek:prior?.week_key||null};
   const vehicle=COMEBACK.vehicle,items=COMEBACK.equipment,amount=COMEBACK.coin;
-  const predicate=`EXISTS(SELECT 1 FROM app_meta WHERE key=?) AND ${verifiedSql} AND ${normalSql}
+  const predicate=`${verifiedSql} AND ${normalSql} AND ${attendanceSql}>=30
+    AND ${syncVersion}=? AND ${duoVersion}=? AND ${policyVersion}=?
+    AND (SELECT COUNT(*) FROM quest_weekly_claims_v1 WHERE user_id=? AND week_key=? AND quest_id='POST' AND status='COMPLETED')=?
     AND (SELECT COUNT(*) FROM character_equipment_items WHERE code IN (?,?,?,?) AND is_active=1 AND is_public=1)=4
     AND EXISTS(SELECT 1 FROM character_garage_items WHERE code=? AND is_active=1 AND is_public=1)
     AND EXISTS(SELECT 1 FROM users WHERE id=? AND coin<=9223372036854775807-CAST(? AS BIGINT))`;
   const writes=[
-    ...(DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',id)]:[]),
-    jointGuard(DB,token,predicate,[key('candidate',id),id,id,...items,vehicle,id,amount]),
+    ...(DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',id),p('SELECT user_id FROM account_sync_versions_v1 WHERE user_id=? FOR UPDATE',id)]:[]),
+    jointGuard(DB,token,predicate,[id,id,id,id,qualifying.stamp[0],id,qualifying.stamp[1],qualifying.stamp[2],id,startWeek,prior?1:0,...items,vehicle,id,amount]),
     p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,?)',key('initial',id),JSON.stringify(grant),startedAt),
     p('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?',amount,id),
     p('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,CAST(? AS BIGINT),coin,? FROM users WHERE id=?',amount,'컴백 유저 복귀 지원',id),
@@ -60,10 +73,16 @@ async function grantInitial(env,id,now) {
   ];
   for(const code of items){
     const requestId=key('gear',id)+':'+code;
-    writes.push(p(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id,acquired_at)
-      SELECT ?,id,'COMEBACK',?,?,? FROM character_equipment_items WHERE code=?`,id,COMEBACK.id,requestId,startedAt,code));
-    writes.push(p(`INSERT INTO equipment_forge_states_v1(instance_id,user_id,level,revision)
-      SELECT id,user_id,10,1 FROM user_equipment_instances WHERE user_id=? AND request_id=? AND source_type='COMEBACK' AND source_id=?`,id,requestId,COMEBACK.id));
+    const insert=`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id,acquired_at)
+      SELECT ?,id,'COMEBACK',?,?,? FROM character_equipment_items WHERE code=?`;
+    const inputs=[id,COMEBACK.id,requestId,startedAt,code];
+    if(DB.dialect==='postgres'){
+      writes.push(p(`WITH gear AS (${insert} RETURNING id,user_id)
+        INSERT INTO equipment_forge_states_v1(instance_id,user_id,level,revision) SELECT id,user_id,10,1 FROM gear`,...inputs));
+    }else{
+      writes.push(p(insert,...inputs),p(`INSERT INTO equipment_forge_states_v1(instance_id,user_id,level,revision)
+        SELECT id,user_id,10,1 FROM user_equipment_instances WHERE id=last_insert_rowid() AND user_id=? AND request_id=?`,id,requestId));
+    }
   }
   writes.push(p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,?)',LOAN_PREFIX+id,expiresAt,startedAt),
     p('UPDATE ranked_duo_accounts_v1 SET source_version=source_version+1 WHERE user_id=?',id),
@@ -110,15 +129,18 @@ export async function handleComeback({path,request,env,deps}){
   if(request.method!==(enter?'POST':'GET'))return json({error:'요청 방식을 확인해 주세요.'},405);
   try{
     const id=Number(user.id);
-    let state=await comebackState(env,id);
-    if(!enter)return json(state);
-    if(state.phase==='ELIGIBLE'){
-      const awarded=await deps.withUserMutationLock(env,id,'comeback/enter',()=>grantInitial(env,id,Date.now()));
-      state={...await comebackState(env,id),awarded};
-    }else if(state.phase==='MISSIONS' && state.weeks.length===2 && state.clan){
+    let state=await comebackState(env,id,deps,enter);
+    if(enter&&state.phase==='CHECK_POWER'){
+      state=await deps.withUserMutationLock(env,id,'comeback/enter',async()=>{
+        const fresh=await comebackState(env,id,deps);
+        if(fresh.phase!=='ELIGIBLE')return fresh;
+        const awarded=await grantInitial(env,id,Date.now(),fresh);
+        return {...await comebackState(env,id,deps),awarded};
+      });
+    }else if(enter&&state.phase==='MISSIONS' && state.weeks.length===2 && state.clan){
       await deps.withUserMutationLock(env,id,'comeback/final',()=>grantComebackFinalIfReady(env,id));
       state=await comebackState(env,id);
     }
-    return json(state);
+    const {stamp,...visible}=state;return json(visible);
   }catch(error){if(error.code==='JOINT_LOCK_BUSY')return json({error:'다른 계정 작업을 마치는 중입니다. 다시 확인해 주세요.'},409);console.error('comeback event',String(error.code||error.name));return json({error:'복귀 기록을 확인하지 못했습니다. 다시 시도해 주세요.'},503);}
 }

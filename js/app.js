@@ -3040,7 +3040,7 @@ function tierEmblem(tier,size='normal'){
 function pvpTierGuideHtml(tiers=[],currentTier=null,challenger=null){const road=[...tiers,...(challenger?[challenger]:[])];return `<section class="pvp-tier-guide"><div class="pvp-tier-guide-head"><p class="eyebrow">RANKED TIER ROAD</p><h3>시즌 티어 구간</h3><span>챌린저는 점수와 관계없이 현재 랭킹 1~20위 전용입니다.</span></div><div class="pvp-tier-road">${road.map(t=>`<div class="pvp-tier-road-item ${currentTier&&String(currentTier.id)===String(t.id)?'current':''}">${tierEmblem(t,'small')}<b>${t.id==='challenger'?'랭킹 1~20위':`${Number(t.min||0).toLocaleString()}점+`}</b></div>`).join('')}</div></section>`}
 let rankHubMode='pvp';
 
-let comebackLobbySession='',comebackRequest=null;
+let comebackLobbySession='',comebackLobbyChecked=0,comebackRequest=null;
 function readComebackEvent(){
   const session=API_TOKEN;
   if(comebackRequest?.session===session)return comebackRequest.promise;
@@ -3063,8 +3063,8 @@ function readComebackEvent(){
 function syncComebackLobby(force=false){
   if(!API_MODE||!API_TOKEN||!loadUser()?.serverUserId)return;
   const session=API_TOKEN;
-  if(!force&&comebackLobbySession===session)return;
-  comebackLobbySession=session;
+  if(!force&&comebackLobbySession===session&&Date.now()-comebackLobbyChecked<60000)return;
+  comebackLobbySession=session;comebackLobbyChecked=Date.now();
   void readComebackEvent().catch(()=>{if(comebackLobbySession===session)comebackLobbySession='';});
 }
 window.syncComebackLobby=syncComebackLobby;
@@ -5165,7 +5165,7 @@ async function refreshAccountSync(){
   }catch(error){if(token===API_TOKEN&&error.status!==401&&error.status!==403){for(const domain of domains)ACCOUNT_SYNC_PENDING.add(domain);scheduleAccountSync(5000);}}
   finally{accountSyncBusy=false;if(ACCOUNT_SYNC_PENDING.size&&!accountSyncTimer)scheduleAccountSync();}
 }
-window.addEventListener('cnine:account-sync',event=>{PLAYER_STATE_MUTATION_EPOCH++;API_GET_CACHE.clear();API_INFLIGHT.clear();for(const domain of event.detail?.domains||[])ACCOUNT_SYNC_PENDING.add(domain);scheduleAccountSync();});
+window.addEventListener('cnine:account-sync',event=>{PLAYER_STATE_MUTATION_EPOCH++;API_GET_CACHE.clear();API_INFLIGHT.clear();for(const domain of event.detail?.domains||[]){ACCOUNT_SYNC_PENDING.add(domain);if(domain==='inventory'||domain==='collection')comebackLobbySession='';}scheduleAccountSync();});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&ACCOUNT_SYNC_PENDING.size)scheduleAccountSync();});
 const RUNTIME_COMMAND_TAB_KEY='cnine_runtime_command_last_id_v1091';
 function runtimeCommandStorageKey(){const user=loadUser();return `${RUNTIME_COMMAND_TAB_KEY}:${Number(user?.serverUserId||0)||String(user?.nickname||'guest')}`}
@@ -5388,7 +5388,7 @@ async function init(){
   if(authenticated)void loadStartupOptionalFeatures(runId);
 }
 function renderLogin(){window.SoopWatchConsent?.close();resetUniqueAdvancementFeatureState();stopPrisonWatch();document.body.classList.remove('prison-locked');if(window.lobbyBgm){try{window.lobbyBgm.stop()}catch(_){}}app.innerHTML=`<div class="login-wrap"><div class="login-box game-panel player-login-box"><img src="assets/ui/brand/reverse-call-20261016/icon-512.png" class="login-logo" alt="리버스콜"><p class="eyebrow">REVERSE CALL COLLECTION GAME</p><h1>리버스콜 로그인</h1><div class="logged-out-notice"><span>로그아웃 상태</span><p>기존 계정은 아래에 개인키를 입력하면 다시 접속할 수 있습니다.</p></div><div class="field key-login-field"><label for="key">기존 계정으로 로그인</label><input id="key" autocomplete="off" autocapitalize="characters" placeholder="CN-XXXX-XXXX-XXXX"></div><button class="btn" id="login">개인키로 로그인</button><p class="login-help">개인키를 분실했다면 운영팀에 재발급을 요청하세요.</p><div class="login-divider"><span>처음 이용하시나요?</span></div><div class="field"><label for="nickname">신규 닉네임</label><input id="nickname" maxlength="20" placeholder="PLAY DK 닉네임 등록"></div><button class="btn secondary" id="start">새 계정 만들기</button></div></div>`;document.getElementById('start').onclick=async()=>{const nickname=document.getElementById('nickname').value.trim();if(!nickname)return alert('닉네임을 입력해주세요.');if(!API_MODE){alert('서버 연결이 없어 계정을 생성할 수 없습니다. 새로고침 후 다시 시도해주세요.');return renderStartupRecovery('서버 연결이 확인되지 않아 계정 생성을 중단했습니다.')}try{const d=await apiRequest('auth/register',{method:'POST',body:JSON.stringify({nickname})});persistPlayerToken(d.token);const user=apiUserToLocal(d.user,d.privateKey);saveUser(user);applyPrisonStatus({incarcerated:false});await refreshCardCatalogForCurrentViewer();await syncUniqueAdvancementFeatureState();renderCreated(user)}catch(e){alert(e.message)}};document.getElementById('login').onclick=async()=>{const key=document.getElementById('key').value.trim();if(!API_MODE){alert('서버 연결이 없어 로그인할 수 없습니다. 새로고침 후 다시 시도해주세요.');return renderStartupRecovery('서버 연결이 확인되지 않아 로그인을 중단했습니다.')}try{const normalizedKey=key.trim().toUpperCase();const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey:normalizedKey})});persistPlayerToken(d.token);saveUser(apiUserToLocal(d.user,normalizedKey));applyPrisonStatus(d.prison||{incarcerated:false});if(isPrisonLocked())return renderLockedPrison();await refreshCardCatalogForCurrentViewer();await syncUniqueAdvancementFeatureState();if(d.maintenance&&!d.bypass)renderMaintenance(d.maintenance,{user:d.user});else{renderShell('buy');void completePendingPlaydkVerification()}}catch(e){alert(e.message)}};document.getElementById('key').onkeydown=e=>{if(e.key==='Enter')document.getElementById('login').click()};document.getElementById('nickname').onkeydown=e=>{if(e.key==='Enter')document.getElementById('start').click()}}
-async function claimAttendance(){if(!API_MODE){const user=loadUser();if(!canClaimAttendance(user))return alert('오늘 접속 보상은 이미 받았습니다.');const cfg=user.attendance?.settings||{rewards:[1000,1200,1400,1600,1800,2000,3000]};user.attendance.streak=(Number(user.attendance.streak||0)%7)+1;const reward=Number(cfg.rewards[user.attendance.streak-1]||1000);user.coin+=reward;user.attendance.lastClaimDate=kstDateKey();user.attendance.totalDays=(user.attendance.totalDays||0)+1;saveUser(user);alert(`오늘의 접속 보상 ${reward.toLocaleString()}코인을 받았습니다.`);return renderShell('attendance')}try{const d=await apiRequest('attendance/claim',{method:'POST'});const u=apiUserToLocal(d.user);u.attendance=d.user.attendance||{lastClaimDate:kstDateKey(),totalDays:(loadUser()?.attendance?.totalDays||0)+1,streak:d.streak||1};saveUser(u);alert(`오늘의 접속 보상 ${d.reward}코인을 받았습니다.`);renderShell('attendance')}catch(e){alert(e.message)}}
+async function claimAttendance(){if(!API_MODE){const user=loadUser();if(!canClaimAttendance(user))return alert('오늘 접속 보상은 이미 받았습니다.');const cfg=user.attendance?.settings||{rewards:[1000,1200,1400,1600,1800,2000,3000]};user.attendance.streak=(Number(user.attendance.streak||0)%7)+1;const reward=Number(cfg.rewards[user.attendance.streak-1]||1000);user.coin+=reward;user.attendance.lastClaimDate=kstDateKey();user.attendance.totalDays=(user.attendance.totalDays||0)+1;saveUser(user);alert(`오늘의 접속 보상 ${reward.toLocaleString()}코인을 받았습니다.`);return renderShell('attendance')}try{const d=await apiRequest('attendance/claim',{method:'POST'});const u=apiUserToLocal(d.user);u.attendance=d.user.attendance||{lastClaimDate:kstDateKey(),totalDays:(loadUser()?.attendance?.totalDays||0)+1,streak:d.streak||1};saveUser(u);if(Number(u.attendance.totalDays)>=30)syncComebackLobby(true);alert(`오늘의 접속 보상 ${d.reward}코인을 받았습니다.`);renderShell('attendance')}catch(e){alert(e.message)}}
 
 const couponRedeemKeys=new Map();
 let couponRedeemInFlight=false;

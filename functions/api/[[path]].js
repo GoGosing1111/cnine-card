@@ -5116,7 +5116,7 @@ async function handleRequest(context){
       },serverNow:new Date().toISOString()});
     }
     const supportResponse=await handleServerSupport({path,request,env,deps:{authenticate,requirePermission,json,withUserMutationLock:withJointUserMutationLock,ensureMessages:ensureVerifiedRewardMessageV1276}});if(supportResponse)return supportResponse;
-    if(path.startsWith('comeback/'))return await handleComeback({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}}) || json({error:'요청 경로를 확인하세요.'},404);
+    if(path.startsWith('comeback/'))return await handleComeback({path,request,env,deps:{authenticate,json,readBattleSettings:battleSettings,cardBattlePower,withUserMutationLock:withJointUserMutationLock}}) || json({error:'요청 경로를 확인하세요.'},404);
     const questHubResponse=await handleQuestHub({path,request,env,deps:{afterWeeklyPost:settleComebackMissions,authenticate,requirePermission,readBody,json,dailySettings:playdkDailyQuestSettings,playdkClient:playdkIdentityClient,excluded:dailyQuestAdminExcluded,ensureDaily:async env=>{await ensureWagoDailyPostProgressTable(env);await ensureSecondVerificationFoundation(env)},ensureMessages:ensureVerifiedRewardMessageV1276}});if(questHubResponse)return questHubResponse;
     const playerCardResponse=await handlePlayerCard({path,request,env,deps:{authenticate,json,pvpSettings,resolvePvpTier,pvpSeasonKey,readAccountRank,readDuoHonors}});if(playerCardResponse)return playerCardResponse;
     const streamerResponse=await handleStreamerLounge({path,request,env,deps:{json,requirePermission,writeAdminLog}});if(streamerResponse)return streamerResponse;

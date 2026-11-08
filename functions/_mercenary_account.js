@@ -84,9 +84,7 @@ export async function releasedMercenaryFormations(env,userIds,mode='PVE',{dual=C
  return new Map(ids.map(id=>{const mercenaries=leveled.get(id).map(m=>equipmentForMercenary(equipment,id,m.code)?.items.length?{...m,equipment:equipmentForMercenary(equipment,id,m.code)}:m);return [id,{mercenaries}];}));
 }
 // Ranked-only selection. Does not read or write the ordinary PVE/PVP single slot.
-export async function rankedOwnedMercenaries(env,userIds){return ownedMercenarySnapshots(env,userIds,'PVP');}
-export async function ownedMercenarySnapshots(env,userIds,mode){
-  mode=mercenaryMode(mode);
+export async function rankedOwnedMercenaries(env,userIds){
   const ids=[...new Set(userIds.map(Number))];
   if(ids.some(id=>!Number.isSafeInteger(id)||id<1)||ids.length>200)throw jointError('MERCENARY_USERS','계정 범위를 확인하세요.');
   const result=new Map(ids.map(id=>[id,[]]));if(!ids.length||!MERCENARY_DEPLOYMENT_RELEASE_ENABLED)return result;
@@ -94,7 +92,7 @@ export async function ownedMercenarySnapshots(env,userIds,mode){
   const [packOwners,jokroPackOwners]=await Promise.all([readJinmuPackOwners(env,owned.results.filter(r=>r.mercenary_code===JINMU_CODE).map(r=>Number(r.user_id))),readJokroPackOwners(env,owned.results.filter(r=>r.mercenary_code===JOKRO_CODE).map(r=>Number(r.user_id)))]);
   const rankEligible=await readShiranuiEligibleUsers(env,owned.results.filter(r=>r.mercenary_code===SHIRANUI_CODE).map(r=>r.user_id));
   for(const row of owned.results){
-    if(!mercenaryModeAllowed(row.mercenary_code,mode))continue;
+    if(!mercenaryModeAllowed(row.mercenary_code,'PVP'))continue;
     if(row.mercenary_code===SHIRANUI_CODE&&!rankEligible.has(Number(row.user_id)))continue;
     if(!exclusiveAccountAllowed(row.user_id,row.mercenary_code,packOwners,jokroPackOwners))continue;
     try{result.get(Number(row.user_id)).push(battleConfig(document,row.mercenary_code,1));}catch(error){if(error.code!=='MERCENARY_STATS_PENDING')throw error;}
