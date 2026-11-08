@@ -1,4 +1,4 @@
-import {runTowerWeeklySchedule} from './tower-schedule.js';
+import {runTowerWeeklySchedule} from '../../../functions/_tower_weekly.js';
 import {onRequest,runUserAuctionSchedule} from '../../../functions/api/[[path]].js';
 import {openApiRuntimeRequest} from '../../../functions/_api_runtime_transport.js';
 export {CooperativeRoom,CooperativePlayer} from './cooperative.js';

@@ -2,9 +2,8 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {jointFixture} from './helpers/joint-db.mjs';
 import {operatingTowerFixture} from './helpers/tower-live-route.mjs';
-import {ensureTowerWeek, towerWeek, towerFloorRewardRef, towerWeeklyTickDue} from '../functions/_tower_weekly.js';
+import {ensureTowerWeek, towerWeek, towerFloorRewardRef, towerWeeklyTickDue, runTowerWeeklySchedule} from '../functions/_tower_weekly.js';
 import {TOWER_ABYSS_PROTOCOL, towerAbyssFinish} from '../functions/_tower_abyss.js';
-import {runTowerWeeklySchedule} from '../workers/api-runtime/src/tower-schedule.js';
 
 const monday = Date.parse('2026-11-09T00:00:00+09:00');
 const week = 7 * 86400000;

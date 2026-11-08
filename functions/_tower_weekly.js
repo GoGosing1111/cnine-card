@@ -1,3 +1,5 @@
+import {createPostgresD1Compat} from './_postgres_d1_compat.js';
+
 // The live CMS season owns the floor definitions. Only its player progression
 // rolls over. The original season/floor receipt keys predate the first Monday.
 const FIRST_MONDAY = Date.parse('2026-11-09T00:00:00+09:00');
@@ -75,4 +77,11 @@ export function towerWeeklyTickDue(at) {
   if (!Number.isFinite(at) || at < FIRST_MONDAY) return false;
   const minute = Math.floor((at - FIRST_MONDAY) / 60000);
   return minute % (WEEK / 60000) < 5 || minute % 60 === 0;
+}
+
+export async function runTowerWeeklySchedule(env, at = Date.now(), open = createPostgresD1Compat) {
+  if (!towerWeeklyTickDue(at)) return;
+  const runtime = await open(env.HYPERDRIVE?.connectionString);
+  try { return await ensureTowerWeek({DB:runtime.db}, at); }
+  finally { await runtime.close(); }
 }
