@@ -23,6 +23,28 @@ test('completed level costs use the receipt policy and exclude failures/overflow
  const xp=retainedMercenaryXp({policy,target:{code:'V-049',rank:'SSS'},state:{level:3,experience:51,breakthroughMask:0,revision:3},transfer:{bankedXp:0,resetRevision:0},history:[{plan:{action:'TRAIN',mercenaryCode:'V-049',policyRaw:JSON.stringify(old),result:{before:{level:1,revision:0},after:{level:3,revision:1},xp:2000,overflowXp:1800}}}]});assert.equal(xp.totalXp,251);assert.equal(xp.xp,125);assert.equal(xp.fallbackLevels,0);
 });
 
+for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' active event loans block both sides even with a permanent copy and a previous quote',async t=>{
+ const f=await transferFixture(t,postgres);await f.givePotion(2);
+ const code='V-058',other='V-049',key='comeback26:loan:7';
+ await f.p("INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last_obtained_at) VALUES(7,?,1,0,'2026-11-01','2026-11-01')",code).run();
+ await f.setState(code,{level:4,experience:200,breakthroughMask:0,revision:2});
+ const ordinary=await f.transferBody(code,other),quote=await previewItemExperienceTransfer(f.env,f.user,ordinary);
+ const before=await readMercenaryLevelState(f.env,7,code),blocked={code:'MERCENARY_TRANSFER_TEMPORARY_MERCENARY'};
+ await f.p("INSERT INTO app_meta(key,value) VALUES(?,'2099-12-31 00:00:00')",key).run();
+ for(const c of [code,'V-977'])for(const [from,to] of [[c,other],[other,c]]){
+   const body=await f.transferBody(from,to);await assert.rejects(previewItemExperienceTransfer(f.env,f.user,body),blocked);
+   await assert.rejects(runPreparedMercenaryLevel(f.env,f.user,{...body,expectedXp:1},'TRANSFER'),blocked);
+ }
+ await assert.rejects(runPreparedMercenaryLevel(f.env,f.user,{...ordinary,expectedXp:quote.expectedXp},'TRANSFER'),blocked);
+ assert.deepEqual(await readMercenaryLevelState(f.env,7,code),before);assert.equal(await readTransferItemQuantity(f.env,7),2);
+ await f.p('UPDATE app_meta SET value=CURRENT_TIMESTAMP WHERE key=?',key).run();
+ const finished=await f.transfer(code,other);assert.equal(finished.status,'COMPLETED');
+ assert.equal(await readTransferItemQuantity(f.env,7),1);
+ await f.p("UPDATE app_meta SET value='2099-12-31 00:00:00' WHERE key=?",key).run();
+ const replay=await runPreparedMercenaryLevel(f.env,f.user,{...ordinary,requestId:finished.requestId,expectedXp:quote.expectedXp},'TRANSFER');
+ assert.equal(replay.status,'COMPLETED');assert.equal(await readTransferItemQuantity(f.env,7),1);
+});
+
 for(const postgres of [false,true]){
  const db=postgres?'PostgreSQL':'SQLite';
  test(`${db}: missing or inactive real potion cannot preview, reset, transfer or mint`,async t=>{

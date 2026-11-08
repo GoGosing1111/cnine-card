@@ -1,4 +1,4 @@
-import {PLAYABLE_MERCENARY_COUNTS, PLAYABLE_LEVELS} from './_comeback_loans.js';
+import {LOAN_PREFIX, LOAN_CODES, PLAYABLE_MERCENARY_COUNTS, PLAYABLE_LEVELS} from './_comeback_loans.js';
 import {JIN_JOKRO_CODE} from '../shared/mercenary-jin-jokro-v1.mjs';
 import {HELIOS_KING_CODE} from '../shared/mercenary-helios-king-v1.mjs';
 import {HAKUYA_CODE} from '../shared/mercenary-hakuya-v1.mjs';
@@ -56,8 +56,11 @@ function normalize(body,action,{preview=false}={}){
  }
  return {action,mercenaryCode:body.mercenaryCode,revision:body.revision,...(action==='TRAIN'?{materials:normalizeLevelMaterials(body.materials),allowOverflow:body.allowOverflow===true}:{})};
 }
+const loanLookup='SELECT 1 AS active FROM app_meta WHERE key=? AND value>CURRENT_TIMESTAMP';
+const usesLoanCode=input=>input.action==='TRANSFER'&&(LOAN_CODES.includes(input.mercenaryCode)||LOAN_CODES.includes(input.sourceCode));
 async function context(env,user,input){
- const [{policy,raw},{document,revision:cmsRevision},state,owned]=await Promise.all([readMercenaryLevelPolicy(env),readMercenaryDocument(env),readMercenaryLevelState(env,user.id,input.mercenaryCode),env.DB.prepare('SELECT mercenary_code,total_copies,duplicate_count FROM user_mercenary_cards_v1 WHERE user_id=?').bind(user.id).all()]);
+ const [{policy,raw},{document,revision:cmsRevision},state,owned,loan]=await Promise.all([readMercenaryLevelPolicy(env),readMercenaryDocument(env),readMercenaryLevelState(env,user.id,input.mercenaryCode),env.DB.prepare('SELECT mercenary_code,total_copies,duplicate_count FROM user_mercenary_cards_v1 WHERE user_id=?').bind(user.id).all(),usesLoanCode(input)?env.DB.prepare(loanLookup).bind(LOAN_PREFIX+user.id).first():null]);
+ if(loan)throw Object.assign(transferError('TEMPORARY_MERCENARY','기간제 라자크와 바토리는 경험치 물약을 보내거나 받을 수 없습니다.',409),{terminal:true});
  if(policy.mode!=='ON')throw levelError('MERCENARY_LEVEL_CLOSED','용병 성장이 현재 OFF입니다.',423);
  if(!mercenaryLevelReadiness(policy).ready)throw levelError('MERCENARY_LEVEL_UNCONFIGURED','용병 성장 수치가 미정입니다.',409);
  if(state.revision!==input.revision)throw terminal('성장 상태가 변경되었습니다. 다시 불러오세요.');
@@ -141,6 +144,7 @@ export async function runPreparedMercenaryLevel(env,user,body,action,{randomInt=
   predicates.push('(EXISTS(SELECT 1 FROM user_mercenary_levels_v1 WHERE user_id=? AND mercenary_code=? AND level=? AND experience=? AND breakthrough_mask=? AND revision=?) OR (?=0 AND NOT EXISTS(SELECT 1 FROM user_mercenary_levels_v1 WHERE user_id=? AND mercenary_code=?)))');
   values.push(user.id,input.mercenaryCode,mercenaryLevelStorageLevel(before),before.experience,before.breakthroughMask,before.revision,before.revision,user.id,input.mercenaryCode);
   if(action==='TRANSFER'){
+   if(usesLoanCode(input)){predicates.push('NOT EXISTS('+loanLookup+')');values.push(LOAN_PREFIX+user.id);}
    const s=plan.result.source.before;
    predicates.push('EXISTS(SELECT 1 FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=? AND total_copies>=1)');values.push(user.id,input.sourceCode);
    predicates.push('(EXISTS(SELECT 1 FROM user_mercenary_levels_v1 WHERE user_id=? AND mercenary_code=? AND level=? AND experience=? AND breakthrough_mask=? AND revision=?) OR (?=0 AND NOT EXISTS(SELECT 1 FROM user_mercenary_levels_v1 WHERE user_id=? AND mercenary_code=?)))');

@@ -72,6 +72,37 @@ async function fixture(t,pg){
  for(const [i,c] of COMEBACK.equipment.entries())await run('INSERT INTO character_equipment_items(id,code,is_active,is_public) VALUES(?,?,1,1)',i+1,c);
  return {env,p,run,request,claim,deps,setPower:value=>{power=value;}};
 }
+for(const pg of [false,true])test((pg?'PostgreSQL':'SQLite')+' 기존 유저 카미시로 임무, 복귀 자격 전환과 대여 기간 고정',async t=>{
+ const {env,p,run,request,claim,setPower}=await fixture(t,pg),prefix=COMEBACK.id;
+ assert.equal((await request('enroll')).body.grant,undefined);
+ await run("INSERT INTO user_second_verifications VALUES(1,'PLAYDK','verified-1')");
+ assert.equal((await request('status')).body.canEnroll,true);
+ const period=questPeriod(),week=period.weekKey,old='2020-01-01 00:00:00';
+ await run("INSERT INTO quest_weekly_claims_v1 VALUES(1,'POST',?,'COMPLETED',?)",week,old);
+ const enrolled=(await request('enroll')).body.grant;
+ assert.equal(enrolled.kind,'MISSION');assert.equal(enrolled.alreadyCompletedWeek,week);
+ assert.deepEqual((await request('enroll')).body.grant,enrolled);
+ assert.equal((await p('SELECT value FROM app_meta WHERE key=?',LOAN_PREFIX+'1').first()),null);
+ assert.equal((await request('supplies','GET')).body.reason,'ATTENDANCE');
+ const expiry='2001-02-01 00:00:00',priorLoan={...enrolled,kind:'VETERAN',loanStartedAt:'2001-01-02 00:00:00',expiresAt:expiry};
+ await run('UPDATE app_meta SET value=? WHERE key=?',JSON.stringify(priorLoan),prefix+':mission:1');
+ await run('INSERT INTO app_meta VALUES(?,?,?)',LOAN_PREFIX+'1',expiry,old);
+ const addWeek=async n=>{const key=new Date(Date.parse(week+'T00:00:00Z')+n*7*86400000).toISOString().slice(0,10);await run("INSERT INTO quest_weekly_claims_v1 VALUES(1,'POST',?,'COMPLETED',?)",key,key+' 12:00:00');};
+ await addWeek(1);assert.equal((await request('status')).body.weeks.length,1);
+ await addWeek(2);assert.equal(await grantComebackFinalIfReady(env,1),false);
+ await run("INSERT INTO organization_rounds_v1 VALUES('live','LIVE','ASSIGNED',1)");await run("INSERT INTO organization_members_v1 VALUES(1,'live')");
+ const outcomes=await Promise.all([grantComebackFinalIfReady(env,1),grantComebackFinalIfReady(env,1)]);assert.equal(outcomes.filter(Boolean).length,1);
+ assert.equal((await claim()).body.phase,'COMPLETE');assert.equal((await claim()).body.grant.kind,'VETERAN');
+ // Later return eligibility opens the regular supplies without extending this loan or repeating the shared reward.
+ await run("INSERT INTO user_attendance_summary_v1401 VALUES(1,30,'2026-01-30')");setPower(8500000);
+ assert.equal((await request('supplies','GET')).body.phase,'ELIGIBLE');assert.equal((await request('receive')).body.phase,'DIALOGUE_REQUIRED');
+ await request('talk');const supplies=await request('receive');assert.equal(supplies.body.awarded,true);assert.equal(supplies.body.phase,'COMPLETE');
+ assert.equal(supplies.body.grant.expiresAt,expiry);assert.equal((await p('SELECT value FROM app_meta WHERE key=?',LOAN_PREFIX+'1').first()).value,expiry);
+ await request('receive');assert.equal(Number((await p("SELECT COUNT(*) n FROM coin_logs").first()).n),1);
+ assert.equal(Number((await p('SELECT total_copies FROM user_mercenary_cards_v1 WHERE user_id=1 AND mercenary_code=?',COMEBACK.followup).first()).total_copies),1);
+ assert.equal(Number((await p('SELECT COUNT(*) n FROM mercenary_card_acquisitions_v1').first()).n),1);
+});
+
 for(const pg of [false,true])test((pg?'PostgreSQL':'SQLite')+' 복귀 자격, 보급 원복·중복 방지, 대여 만료 및 2주 후속 지급',async t=>{
  const {env,p,run,request,claim,setPower}=await fixture(t,pg);
  const stamp='2020-01-01 00:00:00',week=questPeriod().weekKey;

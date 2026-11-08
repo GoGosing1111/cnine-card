@@ -24,26 +24,32 @@ const syncVersion='COALESCE((SELECT revision FROM account_sync_versions_v1 WHERE
 const duoVersion='COALESCE((SELECT source_version FROM ranked_duo_accounts_v1 WHERE user_id=?),0)';
 const policyVersion='COALESCE((SELECT revision FROM ranked_duo_policy_version_v1 WHERE id=1),0)';
 
-export async function comebackState(env,id,deps={}){
+export async function comebackState(env,id,deps={},checkSupplies=false){
   const DB=env.DB;
   const row=await DB.prepare(`SELECT
     (SELECT value FROM app_meta WHERE key=?) initial,(SELECT value FROM app_meta WHERE key=?) final,
-    (SELECT value FROM app_meta WHERE key=?) dialogue_at,
+    (SELECT value FROM app_meta WHERE key=?) dialogue_at,(SELECT value FROM app_meta WHERE key=?) mission,
     ${verifiedSql} verified,${normalSql} normal,${attendanceSql} days,
-    ${syncVersion} sync_rev,${duoVersion} duo_rev,${policyVersion} policy_rev`).bind(key('initial',id),key('final',id),key('dialogue',id),id,id,id,id,id).first();
+    ${syncVersion} sync_rev,${duoVersion} duo_rev,${policyVersion} policy_rev`).bind(key('initial',id),key('final',id),key('dialogue',id),key('mission',id),id,id,id,id,id).first();
   if(!row||!Number(row.normal))return {phase:'INELIGIBLE'};
   const days=Number(row.days);
-  if(!row.initial&&days<COMEBACK.days)return {phase:'INELIGIBLE',attendance:days,reason:'ATTENDANCE'};
-  if(!Number(row.verified))return {phase:'VERIFY',attendance:days};
-  if(!row.initial){
-    const power=await (deps.ownedPower||comebackOwnedPower)(env,id,deps);
-    const phase=power.total<=COMEBACK.power?'ELIGIBLE':'INELIGIBLE';
-    return {phase,attendance:days,power,dialogueAt:row.dialogue_at,...(phase==='INELIGIBLE'?{reason:'POWER'}:{}),stamp:[row.sync_rev,row.duo_rev,row.policy_rev]};
+  const verified=!!Number(row.verified),mission=row.mission?JSON.parse(row.mission):null;
+  const initial=row.initial?JSON.parse(row.initial):null;
+  if(!initial&&(!mission||checkSupplies)&&days<COMEBACK.days){
+    return {phase:'INELIGIBLE',attendance:days,reason:'ATTENDANCE',canEnroll:verified&&!mission,needsVerification:!verified,returnToMissions:!!mission};
   }
-  const grant=JSON.parse(row.initial);
+  if(!verified)return {phase:'VERIFY',attendance:days};
+  if(!initial&&(!mission||checkSupplies)){
+    const power=await (deps.ownedPower||comebackOwnedPower)(env,id,deps);
+    const eligible=power.total<=COMEBACK.power;
+    return {phase:eligible?'ELIGIBLE':'INELIGIBLE',attendance:days,power,dialogueAt:row.dialogue_at,
+      ...(!eligible?{reason:'POWER',canEnroll:!mission}:{}),returnToMissions:!!mission,previousLoan:mission?.expiresAt?mission:null,
+      stamp:[row.sync_rev,row.duo_rev,row.policy_rev]};
+  }
+  const grant=initial||mission;
   if(row.final)return {phase:'COMPLETE',grant,final:JSON.parse(row.final)};
   const [weeks,clan]=await Promise.all([
-    DB.prepare(weeksSql).bind(...weekArgs(id,grant)).all(),
+    DB.prepare(weeksSql).bind(...weekArgs(id,mission||grant)).all(),
     DB.prepare('SELECT '+clanSql+' AS member').bind(id).first()
   ]);
   return {phase:'MISSIONS',grant,weeks:weeks.results.map(r=>r.week_key),clan:!!Number(clan.member)};
@@ -51,9 +57,10 @@ export async function comebackState(env,id,deps={}){
 
 async function grantInitial(env,id,now,qualifying) {
   const DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v);
-  const token=crypto.randomUUID(),startedAt=utc(now),expiresAt=utc(now+30*86400000),startWeek=questPeriod(now).weekKey;
+  const token=crypto.randomUUID(),startedAt=utc(now),startWeek=questPeriod(now).weekKey;
+  const expiresAt=qualifying.previousLoan?.expiresAt||utc(now+COMEBACK.days*86400000);
   const prior=await p("SELECT week_key FROM quest_weekly_claims_v1 WHERE user_id=? AND week_key=? AND quest_id='POST' AND status='COMPLETED'",id,startWeek).first();
-  const grant={dialogueStartedAt:qualifying.dialogueAt,attendance:qualifying.attendance,power:qualifying.power,startedAt,expiresAt,startWeek,alreadyCompletedWeek:prior?.week_key||null};
+  const grant={dialogueStartedAt:qualifying.dialogueAt,attendance:qualifying.attendance,power:qualifying.power,startedAt,expiresAt,startWeek,alreadyCompletedWeek:prior?.week_key||null,...(qualifying.previousLoan?{loanStartedAt:qualifying.previousLoan.loanStartedAt}:{})};
   const vehicle=COMEBACK.vehicle,items=COMEBACK.equipment,amount=COMEBACK.coin;
   const predicate=`${verifiedSql} AND ${normalSql} AND ${attendanceSql}>=30
     AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)
@@ -86,16 +93,18 @@ async function grantInitial(env,id,now,qualifying) {
     }
   }
   writes.push(p('DELETE FROM app_meta WHERE key=?',key('dialogue',id)),
-    p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,?)',LOAN_PREFIX+id,expiresAt,startedAt),
+    p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,?) ON CONFLICT(key) DO NOTHING',LOAN_PREFIX+id,expiresAt,startedAt),
     p('UPDATE ranked_duo_accounts_v1 SET source_version=source_version+1 WHERE user_id=?',id),
     jointGuardEnd(DB,token));
   try{await DB.batch(writes);return true;}catch(error){if(await getReceipt(env,'initial',id))return false;throw error;}
 }
 
 export async function grantComebackFinalIfReady(env,id){
-  const initial=parseReceipt(await getReceipt(env,'initial',id));
-  if(!initial || await getReceipt(env,'final',id))return false;
-  const DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v),args=weekArgs(id,initial);
+  const DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v);
+  const enrollment=await p(`SELECT COALESCE((SELECT value FROM app_meta WHERE key=?),(SELECT value FROM app_meta WHERE key=?)) value
+    WHERE NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)`,key('mission',id),key('initial',id),key('final',id)).first();
+  if(!enrollment?.value)return false;
+  const args=weekArgs(id,parseReceipt(enrollment));
   const [weeks,clan]=await Promise.all([p(weeksSql,...args).all(),p('SELECT '+clanSql+' AS member',id).first()]);
   if(weeks.results.length!==2 || !Number(clan.member))return false;
   const token=crypto.randomUUID(),code=COMEBACK.followup,now=utc(Date.now()),receipt=key('final',id);
@@ -123,6 +132,17 @@ export async function settleComebackMissions(env,id){
   catch(error){console.warn('COMEBACK_SETTLEMENT_DEFERRED',String(error.code||error.name));return false;}
 }
 
+async function enrollMission(env,id){
+  const now=Date.now(),startedAt=utc(now),startWeek=questPeriod(now).weekKey;
+  const DB=env.DB,p=(sql,...args)=>DB.prepare(sql).bind(...args);
+  const prior=await p("SELECT week_key FROM quest_weekly_claims_v1 WHERE user_id=? AND week_key=? AND quest_id='POST' AND status='COMPLETED'",id,startWeek).first();
+  const mission={kind:'MISSION',startedAt,startWeek,alreadyCompletedWeek:prior?.week_key||null};
+  await p(`INSERT INTO app_meta(key,value,updated_at) SELECT ?,?,? WHERE ${verifiedSql} AND ${normalSql}
+    AND NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)
+    AND (SELECT COUNT(*) FROM quest_weekly_claims_v1 WHERE user_id=? AND week_key=? AND quest_id='POST' AND status='COMPLETED')=?
+    ON CONFLICT(key) DO NOTHING`,key('mission',id),JSON.stringify(mission),startedAt,id,id,key('initial',id),id,startWeek,prior?1:0).run();
+}
+
 async function beginDialogue(env,id){
   const now=utc(Date.now());
   await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at)
@@ -133,17 +153,22 @@ async function beginDialogue(env,id){
 }
 
 export async function handleComeback({path,request,env,deps}){
-  if(!['comeback/status','comeback/talk','comeback/claim','comeback/enter'].includes(path))return null;
+  if(!['comeback/status','comeback/supplies','comeback/enroll','comeback/talk','comeback/claim','comeback/receive','comeback/enter'].includes(path))return null;
   const json=(body,status=200)=>deps.json(body,status,{'Cache-Control':'no-store'});
   const user=await deps.authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-  if(request.method!==(path==='comeback/status'?'GET':'POST'))return json({error:'요청 방식을 확인해 주세요.'},405);
+  if(request.method!==(['comeback/status','comeback/supplies'].includes(path)?'GET':'POST'))return json({error:'요청 방식을 확인해 주세요.'},405);
   // Cached lobby clients used this endpoint to award supplies on sight.
   if(path==='comeback/enter')return json({error:'게임을 새로고침하고 컴백 유저 메뉴에서 서린과 대화해 주세요.'},409);
   try{
     const id=Number(user.id);
     if(path==='comeback/talk' && await deps.withUserMutationLock(env,id,path,()=>beginDialogue(env,id)))return json({phase:'DIALOGUE'});
-    const state=path==='comeback/claim' ? await deps.withUserMutationLock(env,id,path,async()=>{
-      const fresh=await comebackState(env,id,deps);
+    const state=['comeback/claim','comeback/receive','comeback/enroll'].includes(path) ? await deps.withUserMutationLock(env,id,path,async()=>{
+      const fresh=await comebackState(env,id,deps,path==='comeback/receive');
+      if(path==='comeback/enroll'){
+        if(!fresh.canEnroll)return fresh;
+        await enrollMission(env,id);
+        return comebackState(env,id,deps);
+      }
       if(fresh.phase==='ELIGIBLE'){
         if(!fresh.dialogueAt)return {phase:'DIALOGUE_REQUIRED'};
         const awarded=await grantInitial(env,id,Date.now(),fresh);
@@ -154,8 +179,8 @@ export async function handleComeback({path,request,env,deps}){
         return comebackState(env,id,deps);
       }
       return fresh;
-    }) : await comebackState(env,id,deps);
-    const {stamp,dialogueAt,...visible}=state;
+    }) : await comebackState(env,id,deps,path==='comeback/supplies');
+    const {stamp,dialogueAt,previousLoan,...visible}=state;
     return json(visible);
   }catch(error){if(error.code==='JOINT_LOCK_BUSY')return json({error:'다른 계정 작업을 마치는 중입니다. 다시 확인해 주세요.'},409);console.error('comeback event',String(error.code||error.name));return json({error:'복귀 기록을 확인하지 못했습니다. 다시 시도해 주세요.'},503);}
 }

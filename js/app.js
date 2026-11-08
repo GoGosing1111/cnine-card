@@ -3057,11 +3057,11 @@ let rankHubMode='pvp';
 
 async function readComebackEvent(action='status'){
   const session=API_TOKEN;
-  const state=action==='status'
-    ?await apiRequest('comeback/status',{}, {ttl:0,microcache:false})
+  const state=['status','supplies'].includes(action)
+    ?await apiRequest('comeback/'+action,{}, {ttl:0,microcache:false})
     :await apiRequest('comeback/'+action,{method:'POST',body:'{}'},{timeoutMs:18000});
   if(API_TOKEN!==session)throw Error('계정이 변경되었습니다.');
-  if(action==='claim'&&state.grant){
+  if(['receive','claim'].includes(action)&&state.grant){
     window.dispatchEvent(new CustomEvent('cnine:account-sync',{detail:{domains:['wallet','inventory','collection']}}));
   }
   return state;
@@ -3072,7 +3072,7 @@ function comebackView(user){
 async function loadComeback(){
   const root=document.getElementById('comebackRoot');if(!root)return;
   try{
-    const {mountComeback}=await import('./quest-hub-live.mjs?v=comeback-dialogue-20261108-v2');
+    const {mountComeback}=await import('./quest-hub-live.mjs?v=comeback-veterans-20261108-v3');
     if(!root.isConnected)return;
     await mountComeback({root,readEvent:readComebackEvent,navigate:async route=>{
       const shell=window.SoopketmonV21ExactShell;
