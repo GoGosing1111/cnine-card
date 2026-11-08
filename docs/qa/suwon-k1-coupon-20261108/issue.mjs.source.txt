@@ -1,0 +1,76 @@
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {readFile,writeFile} from 'node:fs/promises';
+import {connect,safe} from '../rap-contest-rewards-20261027/preflight.mjs';
+import {SUWON_K1_COUPON as gift,LUCKY_SEVEN_COUPON as old} from '../../output/revan-live-20261027/release-checkout/functions/_november_gift_coupon.js';
+
+const key='ops:suwon-k1-coupon:20261108:v1', oldKey='ops:lucky-seven-coupon:20261107:v1';
+assert.deepEqual(gift.items,old.items);assert.equal(gift.coin,old.coin);assert.equal(gift.maxUses,old.maxUses);
+const mode=process.argv[2]; assert(['preflight','dry-run','apply','verify'].includes(mode));
+const file=name=>new URL('./'+name+'.json',import.meta.url);
+const load=async name=>JSON.parse(await readFile(file(name),'utf8'));
+const db=connect(), q=async(sql,args=[])=>(await db.query(sql,args)).rows;
+const definitions=async()=>q('SELECT id::text,code,reward_type,reward_coin::text,reward_amount::text,max_uses::int,used_count::int,starts_at,ends_at,is_active::int,deleted_at FROM coupons WHERE upper(code)=$1 OR reward_type=$2 ORDER BY id',[gift.code,gift.type]);
+const receipt=async()=>{const rows=await q('SELECT value FROM app_meta WHERE key=$1',[key]);return rows.length?JSON.parse(rows[0].value):null;};
+const audits=async()=>q("SELECT id::text,after_data FROM admin_logs WHERE action_type='OPS_GIFT_COUPON_CREATE' AND target_type='COUPON' AND target_id=$1 ORDER BY id",[gift.code]);
+async function previous(){
+ const [row]=await q('SELECT id::text,code,reward_type,reward_coin::text,reward_amount::text,max_uses::int FROM coupons WHERE code=$1',[old.code]);
+ const [r]=await q('SELECT value FROM app_meta WHERE key=$1',[oldKey]);
+ assert.equal(row?.id,'5581');assert.equal(row.reward_type,old.type);assert.equal(row.reward_coin,String(old.coin));assert.equal(JSON.parse(r.value).auditId,'56053');
+ return {definition:row,receiptSHA256:createHash('sha256').update(r.value).digest('hex')};
+}
+async function catalog(lock=false){
+ const suffix=lock?' FOR SHARE':'';
+ const [owner]=await q('SELECT id::text,role,status FROM users WHERE id=1'+suffix);assert.deepEqual(owner,{id:'1',role:'OWNER',status:'ACTIVE'});
+ const items=await q('SELECT code,name,is_active::int FROM inventory_items WHERE code=ANY($1::text[]) ORDER BY code'+suffix,[gift.items.map(x=>x.code)]);
+ assert.deepEqual(items.map(i=>i.code),gift.items.map(i=>i.code).sort());assert(items.every(i=>i.is_active===1));
+ return {owner,items};
+}
+function checkReceipt(r){
+ assert(r&&r.status==='COMPLETED'&&r.operationKey===key&&r.couponCode===gift.code&&r.rewardType===gift.type&&r.title===gift.label);
+ assert.equal(r.coin,String(gift.coin));assert.deepEqual(r.items,gift.items);assert.equal(r.maxUses,100);assert.equal(r.perAccount,1);assert.equal(r.expiresAt,null);assert(r.auditId&&r.couponId);
+}
+async function issue({rollback=false,inject=false}={}){
+ const done=await receipt();if(done){checkReceipt(done);return {replayed:true,receipt:done};}
+ await q('BEGIN');
+ try{
+  await q("SET LOCAL lock_timeout='4s'");await q("SET LOCAL statement_timeout='15s'");await q('SELECT pg_advisory_xact_lock(hashtextextended($1,0))',[key]);
+  const concurrent=await receipt();if(concurrent){checkReceipt(concurrent);await q('ROLLBACK');return {replayed:true,receipt:concurrent};}
+  assert.deepEqual(await definitions(),[],'A coupon already uses this code or type');assert.deepEqual(await audits(),[],'Existing audit without matching receipt');
+  await catalog(true);
+  const [c]=await q('INSERT INTO coupons(code,reward_coin,reward_type,reward_amount,starts_at,ends_at,max_uses,used_count,is_active,created_by) VALUES($1,$2::bigint,$3,1,NULL,NULL,$4,0,1,1) RETURNING id::text,code',[gift.code,String(gift.coin),gift.type,gift.maxUses]);assert.equal(c.code,gift.code);
+  const r={status:'COMPLETED',operationKey:key,title:gift.label,couponCode:c.code,couponId:c.id,rewardType:gift.type,coin:String(gift.coin),items:gift.items,maxUses:gift.maxUses,perAccount:1,expiresAt:null,completedAt:new Date().toISOString()};
+  const [a]=await q("INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(1,'OPS_GIFT_COUPON_CREATE','COUPON',$1,NULL,$2) RETURNING id::text",[c.code,JSON.stringify(r)]);r.auditId=a.id;
+  await q('INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,CURRENT_TIMESTAMP)',[key,JSON.stringify(r)]);
+  if(inject)throw Error('QA_INJECTED_ISSUANCE_FAILURE');
+  await q(rollback?'ROLLBACK':'COMMIT');return {replayed:false,rolledBack:rollback,receipt:r};
+ }catch(e){await q('ROLLBACK').catch(()=>{});throw e;}
+}
+const state=async()=>({definitions:await definitions(),receipt:await receipt(),audits:await audits()});
+const readOnly=()=>q('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');
+try{
+ await db.connect();let report;
+ if(mode==='preflight'){
+  await readOnly();const s=await state(),oldCoupon=await previous();const items=await catalog();
+  assert.deepEqual(s,{definitions:[],receipt:null,audits:[]});report={readOnly:true,...items,priorCoupon:oldCoupon,code:gift.code,existing:0};await q('ROLLBACK');
+ }else if(mode==='dry-run'){
+  const before=await state(),pre=await load('preflight');assert.deepEqual(await previous(),pre.priorCoupon);assert.deepEqual(before,{definitions:[],receipt:null,audits:[]});
+  await assert.rejects(issue({inject:true}),/QA_INJECTED_ISSUANCE_FAILURE/);assert.deepEqual(await state(),before);
+  const trial=await issue({rollback:true});checkReceipt(trial.receipt);assert.equal(trial.rolledBack,true);assert.deepEqual(await state(),before);
+  report={failureRollback:true,successRollback:true,code:gift.code,accountsCredited:0,oldCouponUnchanged:true};
+ }else if(mode==='apply'){
+  const live=await load('live-verification'),dry=await load('dry-run');assert(dry.failureRollback&&dry.successRollback);
+  assert.equal(live.pages.status,'success');assert.equal(live.workers.length,2);assert(live.workers.every(w=>w.bundleSupported&&w.percentage===100));
+  assert.deepEqual(await previous(),(await load('preflight')).priorCoupon);report=await issue();checkReceipt(report.receipt);
+ }else{
+  await readOnly();const before=await state(),replay=await issue();assert(replay.replayed);assert.deepEqual(await state(),before);
+  assert.deepEqual(await previous(),(await load('preflight')).priorCoupon);const r=replay.receipt,c=before.definitions[0];checkReceipt(r);
+  assert.equal(before.definitions.length,1);assert.equal(before.audits.length,1);assert.equal(before.audits[0].id,r.auditId);
+  const logged={...r};delete logged.auditId;assert.deepEqual(JSON.parse(before.audits[0].after_data),logged);
+  assert.deepEqual({...c,used_count:0},{id:r.couponId,code:gift.code,reward_type:gift.type,reward_coin:r.coin,reward_amount:'1',max_uses:100,used_count:0,starts_at:null,ends_at:null,is_active:1,deleted_at:null});
+  const [counts]=await q('SELECT count(*)::int AS n,count(DISTINCT user_id)::int AS accounts FROM coupon_redemptions WHERE coupon_id=$1',[c.id]);
+  assert(c.used_count>=0&&c.used_count<=c.max_uses);assert.equal(counts.n,c.used_count);assert.equal(counts.accounts,c.used_count);
+  report={status:'VERIFIED',receipt:r,used:c.used_count,remaining:c.max_uses-c.used_count,readOnly:true,noWriteReplay:true,priorReceiptUnchanged:true};await q('ROLLBACK');
+ }
+ report.checkedAt=new Date().toISOString();await writeFile(file(mode),JSON.stringify(report,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(report));
+}catch(e){await q('ROLLBACK').catch(()=>{});console.error(safe(e));process.exitCode=1;}finally{await db.end();}

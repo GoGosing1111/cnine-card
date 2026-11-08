@@ -1,0 +1,44 @@
+import assert from 'node:assert/strict';
+import {readFile,writeFile} from 'node:fs/promises';
+import {chromium,webkit} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import {dbFor} from './timing.mjs';
+const [mode,device]=process.argv.slice(2);assert(['before','after'].includes(mode));assert(['pc','ios','android','windows','h5'].includes(device));
+const pre=JSON.parse(await readFile(new URL('./deployment-plan.json',import.meta.url))),pub=mode==='before'?pre.before:JSON.parse(await readFile(new URL('./live-verification.json',import.meta.url))).pages;
+const origin='https://'+pub.id.slice(0,8)+'.cnine-card.pages.dev',mobile=!['pc','windows'].includes(device),ios=device==='ios',db=await dbFor(mode);
+const cards=JSON.parse(await readFile(new URL('../all-platform-runtime-performance-20261108/public-cards.json',import.meta.url))).cards.slice(0,2),packs=JSON.parse(await readFile(new URL('../all-platform-runtime-performance-20261108/public-packs.json',import.meta.url))).packs.slice(0,2);
+const user={id:20,serverUserId:20,nickname:'응원쿠폰 검수',role:'USER',coin:1234,masterStars:0,cardShards:0,owned:cards.map(c=>String(c.id)),quantities:Object.fromEntries(cards.map(c=>[c.id,1])),breakthroughs:{},history:[],attendance:{totalDays:0},testCoinGrantedV13:true,collectionRepairR6:true};
+const browser=ios?await webkit.launch({headless:true,executablePath:'C:/Users/User/AppData/Local/ms-playwright/webkit-2336/Playwright.exe'}):await chromium.launch({channel:'chrome',headless:true});
+const report={mode,device,staticOrigin:origin,conditions:'Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.',rounds:[],api:[],errors:[]},reqs=[];
+try{
+ const ctx=await browser.newContext({viewport:{width:mobile?390:1440,height:mobile?844:900},hasTouch:mobile,isMobile:mobile,serviceWorkers:'block',locale:'ko-KR'});
+ const page=await ctx.newPage();page.setDefaultTimeout(18000);
+ page.on('pageerror',e=>report.errors.push(e.message.slice(0,180)));page.on('dialog',d=>d.accept());
+ await ctx.addInitScript(u=>{localStorage.setItem('cnine_card_user_v10',JSON.stringify(u));localStorage.setItem('cnine_card_api_token','only-local-suwon-fixture');localStorage.setItem('cnine_battle_sound','OFF');localStorage.setItem('soop-lobby-bgm-muted-v1','1');localStorage.setItem('cnine_soop_watch_notice:20261026-v1:'+u.id,'shown');},user);
+ await ctx.route('**/api/**',async route=>{
+  const req=route.request(),p=new URL(req.url()).pathname.replace(/^.*?\/api\//,'');reqs.push(p);
+  if(p==='coupon/redeem'){
+   const b=req.postDataJSON();assert.equal(b.code,db.code);const r=await db.redeem(b,user.id);report.api.push({status:r.status,ms:r.ms,queries:r.queries,label:r.data.rewardLabel,rewards:r.data.rewards});
+   return route.fulfill({status:r.status,json:r.status===200?{...r.data,user:{...user,coin:250000000001234,masterStars:100000000}}:r.data});
+  }
+  const lookup={'me':{user},'me/summary':{user,prison:{incarcerated:false}},'service/status':{maintenance:{active:false}},cards:{cards},packs:{packs},messages:{messages:[],unread:0},'shell/summary':{inventory:{},messages:{unread:0},avatarFeature:{visible:false}},'sync/ticket':{error:'isolated fixture'}};
+  return route.fulfill({status:p==='sync/ticket'?423:200,json:lookup[p]||{ok:true,visible:false,enabled:false,items:[],serverNow:new Date().toISOString()}});
+ });
+ const url=origin+(device==='h5'?'/onestore/':'/')+'?screen=home'+(device==='windows'?'&source=windows-client':'');
+ await page.goto(url,{waitUntil:'domcontentloaded',timeout:45000});
+ const lobby=page.locator('soop-adventure-lobby'),all=lobby.locator('[data-category="all"]:visible').first();
+ await all.waitFor();report.coldStartToLobbyMs=Math.round(await page.evaluate(()=>performance.now()));
+ await page.evaluate(()=>{document.addEventListener('click',e=>{if(e.composedPath().some(n=>n?.dataset?.route==='attendance')){const start=performance.now();function observe(t){const i=document.querySelector('#couponCode'),b=document.querySelector('#redeemCoupon');if(i?.offsetWidth&&b&&!b.disabled){window.__couponEntry=t-start;return;}if(t-start<16000)requestAnimationFrame(observe);}requestAnimationFrame(observe);}},true);});
+ for(const n of [0,1]){
+  await all.click();const search=lobby.locator('#menu-search');if(await search.isVisible())await search.fill('접속 보상');
+  const attendance=lobby.locator('[data-route="attendance"]:visible').first();await attendance.waitFor();
+  await page.evaluate(()=>{window.__couponEntry=null;});await attendance.click();
+  const input=page.locator('#couponCode');await input.waitFor();await page.waitForFunction(()=>typeof window.__couponEntry==='number');
+  const enterMs=await page.evaluate(()=>Math.max(0,Math.round(window.__couponEntry)));
+  const frames=page.evaluate(()=>new Promise(res=>{const start=performance.now(),a=[];let last=start;function tick(t){if(t>last)a.push(t-last);last=t;if(t-start<650){requestAnimationFrame(tick);return;}a.sort((x,y)=>x-y);res({count:a.length,p95Ms:+a[Math.floor(a.length*.95)].toFixed(1),over50:a.filter(x=>x>50).length,maxMs:+Math.max(...a).toFixed(1)});}requestAnimationFrame(tick);}));
+  await input.fill(db.code);const button=page.locator('#redeemCoupon');const response=page.waitForResponse(r=>new URL(r.url()).pathname.endsWith('/api/coupon/redeem'));await button.click();const resp=await response;
+  assert.equal(resp.status(),n?409:200);const sampled=await frames;await page.locator('[data-v21-home]:visible').first().click();await all.waitFor();const off=reqs.filter(s=>s==='coupon/redeem').length;
+  await page.waitForTimeout(300);const exit=await page.evaluate(()=>({forms:document.querySelectorAll('#couponForm').length,animations:document.getAnimations().filter(a=>a.effect?.target?.closest?.('#couponForm')).length}));exit.newCouponRequests=reqs.filter(s=>s==='coupon/redeem').length-off;assert.deepEqual(exit,{forms:0,animations:0,newCouponRequests:0});
+  report.rounds.push({pass:n?'re-entry':'first',clickToEditableMs:enterMs,frames:sampled,exit});
+ }
+ assert.equal(report.api.length,2);await writeFile(new URL('./entry-'+mode+'-'+device+'.json',import.meta.url),JSON.stringify(report,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(report));
+}catch(e){console.error(e.message,JSON.stringify({errors:report.errors.slice(0,6),api:report.api,requests:[...new Set(reqs)].slice(0,30)}));process.exitCode=1;}finally{await db.close();await browser.close();}

@@ -1,0 +1,533 @@
+{
+  "status": "ISSUED_AND_VERIFIED",
+  "operationKey": "ops:suwon-k1-coupon:20261108:v1",
+  "title": "수원삼성 K1 승격 기념",
+  "couponCode": "SUWONK1UP",
+  "couponId": "5594",
+  "rewardType": "NOVEMBER_GIFT_SUWON_K1_20261108",
+  "coin": "250000000000000",
+  "items": [
+    {
+      "code": "MASTER_STAR",
+      "name": "마스터의 별",
+      "amount": 100000000
+    },
+    {
+      "code": "RANK_EXP_POTION_3X_60M",
+      "name": "계급 경험치 3배 물약 (60분)",
+      "amount": 1
+    }
+  ],
+  "maxUses": 100,
+  "perAccount": 1,
+  "expiresAt": null,
+  "completedAt": "2026-11-08T07:30:31.063Z",
+  "auditId": "56595",
+  "issuedAtKST": "2026-11-08 16:30:31 KST",
+  "verifiedAt": "2026-11-08T07:30:35.191Z",
+  "usedAtVerification": 0,
+  "remainingAtVerification": 100,
+  "priorCoupon": {
+    "code": "CNINE7LUCK",
+    "id": "5581",
+    "issuanceReceiptUnchanged": true,
+    "independentClaims": true
+  },
+  "source": "5d48fcbb942d774074829a3cc80a6dc5a3cf0f79",
+  "pages": {
+    "id": "866f7fe4-195e-4779-8261-8cc8944ee29d",
+    "commit": "5d48fcbb942d774074829a3cc80a6dc5a3cf0f79",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "5dd92342-28d4-4c1a-8ce4-50d347ed7dab",
+      "percentage": 100,
+      "bundleSupported": true,
+      "sourceSHA256": "2e8d262ac3e3400998c43edd45687c59a9f63a626b0ae407b145953e91789bc7"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "20f2bc1f-b1bc-4eba-81b6-8253afd89f78",
+      "percentage": 100,
+      "bundleSupported": true,
+      "sourceSHA256": "335f51ab5aa4687d3acd14117a75c5f7576a51e0a9b2e7226abcf2552685c100"
+    }
+  ],
+  "checks": {
+    "transactionTests": 12,
+    "regularCouponTests": 15,
+    "issuanceRollbacks": true,
+    "readOnlyVerification": true,
+    "liveTrialClaims": 0
+  },
+  "art": {
+    "png": "output/announcements/suwon-k1-coupon-20261108/suwon-k1-coupon.png",
+    "jpg": "output/announcements/suwon-k1-coupon-20261108/suwon-k1-coupon.jpg",
+    "width": 1122,
+    "height": 1402,
+    "pngBytes": 3096206,
+    "jpgBytes": 891300,
+    "posted": false
+  },
+  "performance": {
+    "transaction": {
+      "setup": "Isolated PGlite, actual coupon route, fixed 6 ms transport per SQL. First run is warm-up; eight matched different accounts follow. Not production network latency.",
+      "roundTripMs": 6,
+      "before": {
+        "results": [
+          {
+            "ms": 272.5,
+            "queries": 18
+          },
+          {
+            "ms": 276.9,
+            "queries": 18
+          },
+          {
+            "ms": 275.7,
+            "queries": 18
+          },
+          {
+            "ms": 281.9,
+            "queries": 18
+          },
+          {
+            "ms": 269.2,
+            "queries": 18
+          },
+          {
+            "ms": 274.7,
+            "queries": 18
+          },
+          {
+            "ms": 275.3,
+            "queries": 18
+          },
+          {
+            "ms": 274.4,
+            "queries": 18
+          }
+        ],
+        "medianMs": 275.3,
+        "queries": 18
+      },
+      "after": {
+        "results": [
+          {
+            "ms": 263.4,
+            "queries": 17
+          },
+          {
+            "ms": 260.7,
+            "queries": 17
+          },
+          {
+            "ms": 263.9,
+            "queries": 17
+          },
+          {
+            "ms": 263.4,
+            "queries": 17
+          },
+          {
+            "ms": 261.2,
+            "queries": 17
+          },
+          {
+            "ms": 261.9,
+            "queries": 17
+          },
+          {
+            "ms": 261.2,
+            "queries": 17
+          },
+          {
+            "ms": 260.4,
+            "queries": 17
+          }
+        ],
+        "medianMs": 261.9,
+        "queries": 17
+      }
+    },
+    "entry": {
+      "pc": {
+        "before": {
+          "bootMs": 2120,
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 62,
+              "frames": {
+                "count": 100,
+                "p95Ms": 13.2,
+                "over50": 2,
+                "maxMs": 82.6
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 41,
+              "frames": {
+                "count": 145,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 41.7
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "errors": []
+        },
+        "after": {
+          "bootMs": 3193,
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 90,
+              "frames": {
+                "count": 107,
+                "p95Ms": 8.4,
+                "over50": 2,
+                "maxMs": 83.2
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 24,
+              "frames": {
+                "count": 154,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 8.4
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "errors": []
+        }
+      },
+      "ios": {
+        "before": {
+          "bootMs": 2605,
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 254,
+              "frames": {
+                "count": 19,
+                "p95Ms": 110,
+                "over50": 3,
+                "maxMs": 110
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 115,
+              "frames": {
+                "count": 12,
+                "p95Ms": 367,
+                "over50": 4,
+                "maxMs": 367
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        },
+        "after": {
+          "bootMs": 3190,
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 111,
+              "frames": {
+                "count": 16,
+                "p95Ms": 91,
+                "over50": 5,
+                "maxMs": 91
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 122,
+              "frames": {
+                "count": 22,
+                "p95Ms": 66,
+                "over50": 3,
+                "maxMs": 91
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        }
+      },
+      "android": {
+        "before": {
+          "bootMs": 4290,
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 68,
+              "frames": {
+                "count": 85,
+                "p95Ms": 12.6,
+                "over50": 3,
+                "maxMs": 140.2
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 24,
+              "frames": {
+                "count": 149,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 25.1
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "errors": []
+        },
+        "after": {
+          "bootMs": 3890,
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 72,
+              "frames": {
+                "count": 96,
+                "p95Ms": 19.6,
+                "over50": 3,
+                "maxMs": 79.2
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 25,
+              "frames": {
+                "count": 154,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 12.5
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "errors": []
+        }
+      },
+      "windows": {
+        "before": {
+          "bootMs": 7293,
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 78,
+              "frames": {
+                "count": 119,
+                "p95Ms": 8.3,
+                "over50": 2,
+                "maxMs": 66.6
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 30,
+              "frames": {
+                "count": 156,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 8.4
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "errors": []
+        },
+        "after": {
+          "bootMs": 1411,
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 61,
+              "frames": {
+                "count": 85,
+                "p95Ms": 12.6,
+                "over50": 2,
+                "maxMs": 140.6
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 17,
+              "frames": {
+                "count": 155,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 8.4
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "errors": []
+        }
+      },
+      "h5": {
+        "before": {
+          "bootMs": 1976,
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 58,
+              "frames": {
+                "count": 78,
+                "p95Ms": 41.6,
+                "over50": 3,
+                "maxMs": 146.1
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 25,
+              "frames": {
+                "count": 137,
+                "p95Ms": 8.2,
+                "over50": 0,
+                "maxMs": 37.5
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "errors": []
+        },
+        "after": {
+          "bootMs": 2038,
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 86,
+              "frames": {
+                "count": 155,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 12.5
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 25,
+              "frames": {
+                "count": 141,
+                "p95Ms": 4.4,
+                "over50": 0,
+                "maxMs": 37.5
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "errors": []
+        }
+      }
+    },
+    "conditions": "Published before/after frontends; isolated coupon API on Windows. PC Chromium, mobile Chromium/WebKit, Windows client URL and ONE store H5 URL in browsers; not installed apps or physical mobile devices. WebKit ResizeObserver warning was present at baseline. Parallel viewport samples are functional timings, not comparative device benchmarks."
+  }
+}

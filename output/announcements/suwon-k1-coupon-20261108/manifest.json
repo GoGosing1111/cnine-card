@@ -1,0 +1,20 @@
+{
+  "title": "수원삼성 K1 승격 기념",
+  "issuer": "리버스콜",
+  "couponCode": "SUWONK1UP",
+  "rewards": {"coin": "250000000000000", "MASTER_STAR": 100000000, "RANK_EXP_POTION_3X_60M": 1},
+  "maxClaims": 100,
+  "perAccount": 1,
+  "width": 1122,
+  "height": 1402,
+  "file": "suwon-k1-coupon.png",
+  "sha256": "3543f17a3ac0ddf2655f393708f5022a89f3d2de12849ffa70fe1fcece222afc",
+  "shareFile": "suwon-k1-coupon.jpg",
+  "shareSha256": "1b7edc3bab7e9b60518b45f9f9dfbb788053882cb9ecb5a71c19320e39a2bf61",
+  "generator": "built-in image_gen",
+  "prompt": "prompt.txt",
+  "generatedOriginal": "C:/Users/User/.codex/generated_images/01a1b4f4-6f52-7650-8e68-592fb37ff94f/exec-0e13123f-10f6-402c-b0e6-584b62288155.png",
+  "artDirection": "수원삼성 청백적 응원석, 홈 유니폼, 축구공, SUWON 머플러와 떼어 쓰는 입장권 형태의 코드 영역",
+  "visualReview": "제목·코드 SUWONK1UP·보상 3종·물약 수량 및 60분·선착순 100명·계정당 1회 직접 확인",
+  "announcementPosted": false
+}

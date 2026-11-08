@@ -1,0 +1,31 @@
+import {execFileSync} from 'node:child_process';
+import {readFile,writeFile} from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {forgeTicketFixture} from '../../output/revan-live-20261027/release-checkout/tests/helpers/admin-forge-ticket-fixture.mjs';
+const root=fileURLToPath(new URL('../../output/revan-live-20261027/release-checkout/',import.meta.url));
+const base=JSON.parse(await readFile(new URL('./deployment-plan.json',import.meta.url))).base;
+const source=(ref,file)=>execFileSync('git',['-c','gc.auto=0','-C',root,'show',ref+':'+file],{encoding:'utf8',maxBuffer:10e6,windowsHide:true});
+export async function dbFor(mode,latencyMs=0){
+ const ref=mode==='before'?base:'HEAD',f=await forgeTicketFixture(),g=await import('data:text/javascript;base64,'+Buffer.from(source(ref,'functions/_november_gift_coupon.js')).toString('base64'));
+ const raw=source(ref,'functions/api/[[path]].js'),frag=raw.slice(raw.indexOf("    if(path==='coupon/redeem'"),raw.indexOf("    if(path==='admin/daily-quests')"));
+ const route=new (Object.getPrototypeOf(async()=>{}).constructor)('d',"const {env,request,authenticate,readBody,redeemLandCoupon,json,profile,redeemNovemberGiftCoupon,isRandomDrawExcluded}=d;const path='coupon/redeem';"+frag);
+ const gift=mode==='before'?g.LUCKY_SEVEN_COUPON:g.SUWON_K1_COUPON;
+ await f.pg.exec("CREATE TABLE coupons(id bigserial PRIMARY KEY,code text UNIQUE,reward_coin bigint,reward_type text,reward_amount bigint,starts_at text,ends_at text,max_uses bigint,used_count bigint DEFAULT 0,is_active bigint DEFAULT 1,deleted_at text,updated_at text);CREATE TABLE coupon_redemptions(coupon_id bigint,user_id bigint,reward_coin bigint,reward_type text,reward_amount bigint,operation_key text,PRIMARY KEY(coupon_id,user_id));CREATE TABLE coin_logs(user_id bigint,change_amount bigint,balance_after bigint,reason text);INSERT INTO inventory_items(code,name,is_active) VALUES('RANK_EXP_POTION_3X_60M','3배',1),('MASTER_STAR','별',1);INSERT INTO users(id,nickname,status,coin) SELECT n,'QA-'||n,'ACTIVE',1234 FROM generate_series(20,39) n;");
+ await f.pg.query('INSERT INTO coupons(code,reward_coin,reward_type,reward_amount,max_uses) VALUES($1,$2,$3,1,100)',[gift.code,String(gift.coin),gift.type]);
+ if(latencyMs){const original=f.env.DB.client.query.bind(f.env.DB.client);f.env.DB.client.query=async args=>{await new Promise(r=>setTimeout(r,latencyMs));return original(args);};}
+ return {code:gift.code,close:()=>f.pg.close(),async redeem(body,id){
+  const start=performance.now(),q=f.queries();const response=await route({env:f.env,request:new Request('http://fixture.test/api/coupon/redeem',{method:'POST',body:JSON.stringify(body)}),authenticate:async()=>({id}),readBody:r=>r.json(),redeemLandCoupon:async()=>null,json:(o,status=200)=>Response.json(o,{status}),profile:async(_e,u)=>({id:Number(u.id),coin:String(u.coin)}),redeemNovemberGiftCoupon:g.redeemNovemberGiftCoupon,isRandomDrawExcluded:()=>false});
+  return {status:response.status,data:await response.json(),ms:+(performance.now()-start).toFixed(1),queries:f.queries()-q};
+ }};
+}
+if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
+ const report={setup:'Isolated PGlite, actual coupon route, fixed 6 ms transport per SQL. First run is warm-up; eight matched different accounts follow. Not production network latency.',roundTripMs:6};
+ for(const mode of ['before','after']){
+  const db=await dbFor(mode,6),results=[];try{for(let n=20;n<29;n++){
+   const r=await db.redeem({code:db.code,operationKey:'PERF_SUWON_TEST_'+n},n);assert.equal(r.status,200);assert.equal(r.data.rewardCoin,250000000000000);if(n>20)results.push({ms:r.ms,queries:r.queries});
+  }}finally{await db.close();}report[mode]={results,medianMs:results.map(x=>x.ms).sort((a,b)=>a-b)[4],queries:results[0].queries};
+ }
+ assert.equal(report.before.queries-report.after.queries,1);await writeFile(new URL('./timing.json',import.meta.url),JSON.stringify(report,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(report));
+}
