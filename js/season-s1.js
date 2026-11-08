@@ -45,9 +45,10 @@ function missionPanel(t){
  const missions=data.achievements[mode],completed=missions.filter(([id,,,counter,goal])=>t.achievements.includes(id)||(t.counts[counter]||0)>=goal).length;
  const rules=mode==='PVP'?'랭크전은 승패·티어와 관계없이 정산한 경기마다 집계합니다.':'정상 정산한 출정은 모두 집계합니다. 무한의탑 전용 미션은 시즌 1회입니다.';
  const rows=missions.map(([id,name,reward,counter,goal,art])=>{
-  const paid=t.achievements.includes(id),progress=Math.min(goal,t.counts[counter]||0),done=paid||progress>=goal;
+  const actual=t.counts[counter]||0,progress=Math.min(goal,actual),paid=t.achievements.includes(id),done=paid||progress>=goal;
+  const extra=counter!=='ALL'&&actual>goal?' · 누적 '+n(actual)+'회':'';
   const detail=done&&!paid?'달성 · 보상 대기':reward+' XP';
-  return `<div class="s1-achievement ${done?'is-done':''}" data-mission="${id}">${challengeIcon(art,done)}<b>${label(name)}</b><small><strong>${progress} / ${goal}</strong>${detail}</small></div>`;
+  return `<div class="s1-achievement ${done?'is-done':''}" data-mission="${id}">${challengeIcon(art,done)}<b>${label(name)}</b><small><strong>${progress} / ${goal}${extra}</strong>${detail}</small></div>`;
  }).join('');
  const pending=missions.some(([id,,,counter,goal])=>!t.achievements.includes(id)&&(t.counts[counter]||0)>=goal);
  return `<section class="s1-panel s1-achievements"><div class="s1-section-heading"><h2>${lettering('challenges','왕좌를 향한 도전')}</h2><span>${completed} / ${missions.length}</span></div><p class="s1-mission-note">${rules} 하루 ${data.season.dailyBattles}회 이후에도 횟수가 오릅니다.${pending?' 달성한 미션 보상은 이 모드의 다음 보상 대상 전투에서 한 번 지급합니다.':''}</p>${rows}</section>`;
