@@ -1,0 +1,252 @@
+{
+  "verifiedAt": "2026-11-08T00:14:17.070Z",
+  "status": "LIVE_VERIFIED",
+  "source": "acd030b5f6b5e0599993f2db1b1cdd2a43cb8153",
+  "previousSource": "e65063c4d7085c08173a80e93ba91ab4c43fe1e0",
+  "pages": {
+    "id": "3c4d1379-a163-45c7-a2d2-5e2c2a9fae58",
+    "url": "https://3c4d1379.cnine-card.pages.dev",
+    "canonical": "https://cnine-card.pages.dev",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "id": "8529eb6b-5b67-4973-a904-2c011517d67e",
+      "trafficPercent": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "id": "470283ef-85ea-4f94-9974-6c65877f4f8b",
+      "trafficPercent": 100
+    }
+  ],
+  "assetCount": 20000,
+  "checks": {
+    "passed": 72,
+    "failed": 0
+  },
+  "workerHeartbeatAndTimeoutPersistenceVerified": true,
+  "unauthenticatedCurrentStatus": 401,
+  "windows": {
+    "previous": "afe6e7a17ce2d1f425cfd7d6c70a13119ecfaf7682bce4509516d2e4add88423",
+    "current": "811828eb981d833b72b2636b1dc8b13b120fa963efc704b90bd20cb09f187e70",
+    "listed": 14579,
+    "changed": [
+      {
+        "path": "/js/battle-v3-hud.mjs",
+        "bytes": 12199,
+        "essential": true
+      },
+      {
+        "path": "/preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "bytes": 3644643,
+        "essential": true
+      },
+      {
+        "path": "/raid/cooperative/live.mjs",
+        "bytes": 55925,
+        "essential": true
+      },
+      {
+        "path": "/raid/cooperative/style.css",
+        "bytes": 32793,
+        "essential": true
+      }
+    ],
+    "removed": [],
+    "essentialChanged": 4
+  },
+  "assets": [
+    {
+      "path": "js/cooperative-battleground-entry.js",
+      "actualRequest": "js/cooperative-battleground-entry.js",
+      "sha256": "ea82e5d50fb9d4a28a6f2367c4dc1eeb5f0718964ebc077484e24aaf9a9baf87",
+      "bytes": 2515,
+      "windowsEssential": true
+    },
+    {
+      "path": "raid/cooperative/live.mjs",
+      "actualRequest": "raid/cooperative/live.mjs?v=coop-transcend-favorites-two-player-20261102-v1",
+      "sha256": "0a07d5786e8b32398c8027292e4735336e72cfbad68b9573aee95117baacaa22",
+      "bytes": 55925,
+      "windowsEssential": true
+    },
+    {
+      "path": "raid/cooperative/battle.mjs",
+      "actualRequest": "raid/cooperative/battle.mjs",
+      "sha256": "3bbe306d08e6c0a3e7857f981eb5afdd0f4cb0caed5b40e6dc3811d9640fa91b",
+      "bytes": 5906,
+      "windowsEssential": true
+    },
+    {
+      "path": "raid/cooperative/style.css",
+      "actualRequest": "raid/cooperative/style.css?v=20261102-transcend-v1",
+      "sha256": "329444dbce5b3bd527844db74ea5b0c2d66ba92a68897c78604d89dae9c70421",
+      "bytes": 32793,
+      "windowsEssential": true
+    },
+    {
+      "path": "js/battle-v3-hud.mjs",
+      "actualRequest": "js/battle-v3-hud.mjs?v=20261102-v1",
+      "sha256": "8ec4eb56ee0a39be6893e316f4e6264cd0351ffc2b6ffd0cbd4821824682e04f",
+      "bytes": 12199,
+      "windowsEssential": true
+    },
+    {
+      "path": "js/battle-v3-live.js",
+      "actualRequest": "js/battle-v3-live.js",
+      "sha256": "3f2925a377e4e4f2a8fb966c0a51c859fde24b02d52382cec3cf0fb225980d40",
+      "bytes": 78190,
+      "windowsEssential": true
+    },
+    {
+      "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "actualRequest": "preview/project-v-v3/project-v-pixi-battle.bundle.js?blackcrownBalance=20261031-v1&heukmu=20261029-swing-fx-v2&omegaCraft=20261029-v1&balance220=20261029-v1&diimFront=20261029-v1&iconFour=20261029-v1&hpSync=20261029-v1&kamishiro=20261028-live-v1&classicColosseum=20261027-v1&sssCutin=sss-area-cutin-once-20261028-v1&blackcrown=20261027-live-v1&revan=20261027-general-jok-v2&cardgu=20261027-live-v1&heukgu=20261025-large-head-v3&bloodmoonBattle=20261025-status-v2&namsudaeng=20261024-v1&mobileMemory=20261024-v1&primePve=20261022-v1&sealDragon=seal-dragon-20261022-v1&valterParity=20261021-v1&prime=20261021-v2&zero=20261020-wings-live-v1&leonel=20261018-live-v1-forward-guard-20261019&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&jokroCoop=20261018-v1&v=20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-jinmu-jokro-v2&groundRunes=20261017-v1&kairon=20261014-craft-v1&mercenaryFx=20261017-halloween-ready-v1&azant=20261014-live-v1&originalIp=20261013-original-ip-v1&petFx=20261018-icons-v1&jokgakCity=20261009-v1&petLayout=20261009&limitedVisuals=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&coop=20261005-coop-readable-v4-backdrop&territory=20261003-v5&lichFx=20261001&speedReform=20260930&v=106-combat-flow&joint=2090&mercenary=2100&projectiles=2106&coup=2115&pveEntry=2119&heeya=2118&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20260924&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&backgroundRecovery=20261006&apocalypseFocus=20261006&iconActions=20261017-cheolgu-balance&icon=20260930&petLive=20261006-v1&iconCadence=20261006-v1&damageFont=20261007-russo-v1&hudB=20261017-v1&shiranuiSilver=20261018-v2&coopView=20261018-v1&sahyeon=20261019-live-v1&towerAbyss=20261021-v1&generalJok=20261025-grip-v16&tacticalHud=20261102-v1&hakuya=20261105-v1&jinJokro=20261106-v1",
+      "sha256": "292da7cb66bd282f69370f1a7bcb91bfb4241e466b16579092ae75133e4a1839",
+      "bytes": 3644643,
+      "windowsEssential": true
+    },
+    {
+      "path": "index.html",
+      "actualRequest": "index.html",
+      "sha256": "32f9e83443520c31a1c6c05ee72a0c5bbcc6eb6615b599c807c338910a3fe654",
+      "bytes": 50179,
+      "windowsEssential": true
+    },
+    {
+      "path": "service-worker.js",
+      "actualRequest": "service-worker.js",
+      "sha256": "8d5a7482069cdb076c4679af8650813928cbfea30ca5bfd0a2f898997175ba03",
+      "bytes": 24620,
+      "windowsEssential": false
+    }
+  ],
+  "preRelease": {
+    "method": "Three fresh-profile runs per build and roster in interleaved order. Three users, 12 allies, fixed seed 28. Peers confirm squads before a 4.5 second lobby wait.",
+    "pc": "Windows / RTX 3070 / isolated fixture / each build and roster three fresh profiles",
+    "median": {
+      "normal": {
+        "before": {
+          "readyToFormationMs": 5037,
+          "readyToFirstAttackMs": 8693,
+          "readyToFirstMercenarySkillMs": 9010,
+          "battleEntryStaticResponses": 84,
+          "battleEntryStaticMiB": 62.2,
+          "shellThroughCombatSampleStaticMiB": 156.2,
+          "roomWaitingFrameP95Ms": 16.8,
+          "combatFrameP95Ms": 16.7
+        },
+        "after": {
+          "readyToFormationMs": 1340,
+          "readyToFirstAttackMs": 4839,
+          "readyToFirstMercenarySkillMs": 5175,
+          "battleEntryStaticResponses": 42,
+          "battleEntryStaticMiB": 12.4,
+          "shellThroughCombatSampleStaticMiB": 147.8,
+          "roomWaitingFrameP95Ms": 16.7,
+          "combatFrameP95Ms": 16.7
+        },
+        "formationWaitReductionPercent": 73.4
+      },
+      "limited": {
+        "before": {
+          "readyToFormationMs": 5105,
+          "readyToFirstAttackMs": 8690,
+          "readyToFirstMercenarySkillMs": 9041,
+          "battleEntryStaticResponses": 103,
+          "battleEntryStaticMiB": 108.2,
+          "shellThroughCombatSampleStaticMiB": 224.8,
+          "roomWaitingFrameP95Ms": 16.8,
+          "combatFrameP95Ms": 16.7
+        },
+        "after": {
+          "readyToFormationMs": 1282,
+          "readyToFirstAttackMs": 4875,
+          "readyToFirstMercenarySkillMs": 5209,
+          "battleEntryStaticResponses": 44,
+          "battleEntryStaticMiB": 12.8,
+          "shellThroughCombatSampleStaticMiB": 217.6,
+          "roomWaitingFrameP95Ms": 16.7,
+          "combatFrameP95Ms": 16.7
+        },
+        "formationWaitReductionPercent": 74.9
+      }
+    },
+    "selectionWorstFrameMs": [
+      166.6,
+      33.3
+    ],
+    "testRun": "operations/coop-pc-performance-20261108/cold-start-report.json"
+  },
+  "smoke": [
+    {
+      "trace": "release-pc-limited.json",
+      "served": "release candidate + local authenticated fixtures",
+      "window": [
+        1442,
+        962
+      ],
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3070 (0x00002484) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "checkedExecutedScripts": 3,
+      "members": 3,
+      "allies": 12,
+      "loadToFormationMs": 1296,
+      "loadToFirstAttackMs": 4889,
+      "observedMercenaryActions": [
+        "MERCENARY_EUNSEOL_AREA",
+        "MERCENARY_CARDGU_AREA",
+        "MERCENARY_AWAKENED_OMEGA_COSMIC_SWORD"
+      ],
+      "result": "VICTORY",
+      "returnedToLobby": true
+    },
+    {
+      "trace": "public-release-pc.json",
+      "served": "public client code + local authenticated fixtures",
+      "window": [
+        1442,
+        962
+      ],
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3070 (0x00002484) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "checkedExecutedScripts": 3,
+      "members": 3,
+      "allies": 12,
+      "loadToFormationMs": 1582,
+      "loadToFirstAttackMs": 5023,
+      "observedMercenaryActions": [
+        "MERCENARY_EUNSEOL_AREA",
+        "MERCENARY_CARDGU_AREA",
+        "MERCENARY_AWAKENED_OMEGA_COSMIC_SWORD"
+      ],
+      "result": "VICTORY",
+      "returnedToLobby": true
+    },
+    {
+      "trace": "public-release-touch.json",
+      "served": "public client code + local authenticated fixtures",
+      "window": [
+        390,
+        844
+      ],
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3070 (0x00002484) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "checkedExecutedScripts": 3,
+      "members": 3,
+      "allies": 12,
+      "loadToFormationMs": 6900,
+      "loadToFirstAttackMs": 10504,
+      "observedMercenaryActions": [
+        "MERCENARY_EUNSEOL_AREA",
+        "MERCENARY_CARDGU_AREA",
+        "MERCENARY_AWAKENED_OMEGA_COSMIC_SWORD"
+      ],
+      "result": "VICTORY",
+      "returnedToLobby": true
+    }
+  ],
+  "notice": {
+    "path": "output/announcements/coop-pc-performance-20261108/notice-ko.txt",
+    "published": false
+  },
+  "limits": "Player accounts and production battles were not used. Public checks loaded the released client scripts and routed gameplay to a local Worker with test accounts. Timings are lab measurements; actual party and network conditions vary."
+}
