@@ -10,13 +10,26 @@ function webglAvailable(){
  try{const c=document.createElement('canvas'),gl=c.getContext('webgl2');hasGL=!!gl;gl?.getExtension('WEBGL_lose_context')?.loseContext();}catch{hasGL=false;}return hasGL;
 }
 function mountLite(host,payload,units){
- const team=payload.battleV2.teams.A,cards=[...team.cards,...team.mercenaries],allies=new Map(cards.map((c,i)=>[c.id,{index:i,name:c.title||c.name,src:art(c.battleSprite||c.image||c.sourceArt)}]));
- const {manifest,forms}=payload.cooperativeEncounter.citadel,enemies=new Map(units.filter(u=>u.side==='B').map((u,i)=>[u.id,{index:manifest[i][0],name:(manifest[i][3]?'정예 ':'')+forms[manifest[i][2]].title,src:art(forms[manifest[i][2]].battleSprite)}]));
+ const sprite=v=>art(window.cnineBattleSpriteUrl?.(v)||v),team=payload.battleV2.teams.A,cards=[...team.cards,...team.mercenaries],allies=new Map(cards.map((c,i)=>[c.id,{index:i,name:c.title||c.name,src:sprite(c.battleSprite||c.image||c.sourceArt)}]));
+ const {manifest,forms}=payload.cooperativeEncounter.citadel,enemies=new Map(units.filter(u=>u.side==='B').map((u,i)=>[u.id,{index:manifest[i][0],name:(manifest[i][3]?'정예 ':'')+forms[manifest[i][2]].title,src:sprite(forms[manifest[i][2]].battleSprite)}]));
  const arena=document.createElement('div');arena.className='ct-lite';arena.setAttribute('aria-label','성채 전투 · 경량 화면');host.replaceChildren(arena);
+ const surface=document.createElement('canvas'),ctx=surface.getContext('2d');if(ctx){
+  arena.append(surface);const cache=new Map();let fighters,frame=0,dead=false,w=0,h=0;
+  function queue(){if(!dead&&!frame)frame=requestAnimationFrame(paint);}
+  function bitmap(url){if(!url)return null;if(cache.has(url))return cache.get(url);cache.set(url,null);const img=new Image();img.decoding='async';
+   img.onload=()=>{if(dead||!img.naturalWidth)return;const proxy=document.createElement('canvas'),r=Math.min(1,104/img.naturalWidth,100/img.naturalHeight);proxy.width=Math.max(1,Math.round(img.naturalWidth*r));proxy.height=Math.max(1,Math.round(img.naturalHeight*r));const c=proxy.getContext('2d');if(c){c.drawImage(img,0,0,proxy.width,proxy.height);cache.set(url,proxy);queue();}};img.src=url;return null;}
+  function paint(){frame=0;if(dead||!fighters||!w||!h||document.hidden)return;ctx.clearRect(0,0,w,h);const mobile=w<650,cols=mobile?3:4,gap=mobile?2:6,half=(w-12)/2,tw=(half-cols*gap)/cols,th=Math.min(mobile?63:95,Math.max(23,(h-4*gap)/4));
+   for(const [j,side] of ['A','B'].entries()){const rows=Math.ceil((j?12:8)/cols),top=(h-rows*(th+gap))/2;for(const f of fighters[side]){const v=(j?enemies:allies).get(f.id);if(!v||f.hp<=0)continue;const x=(j?half+12:0)+(v.index%cols)*(tw+gap),y=top+Math.floor(v.index/cols)*(th+gap),img=bitmap(v.src);
+    ctx.fillStyle=f.isBoss?'#66331f':'#14202dd9';ctx.fillRect(x,y,tw,th);if(img){const r=Math.min(tw/img.width,(th-15)/img.height),iw=img.width*r,ih=img.height*r;ctx.drawImage(img,x+(tw-iw)/2,y+(th-15-ih)/2,iw,ih);}
+    ctx.fillStyle='#fff';ctx.textAlign='center';ctx.font=(mobile?'10':'12')+'px sans-serif';ctx.fillText(v.name||'',x+tw/2,y+th-4,tw-2);ctx.fillStyle=j?'#f78664':'#9ddd89';ctx.fillRect(x,y+th-2,tw*Math.max(0,Math.min(1,f.hp/Math.max(1,f.maxHp))),2);}}
+  }
+  const resize=()=>{const a=surface.getBoundingClientRect(),width=Math.round(a.width),height=Math.round(a.height);if(width>0&&height>0&&(width!==w||height!==h)){surface.width=w=width;surface.height=h=height;queue();}};const observer=new ResizeObserver(resize);observer.observe(surface);resize();
+  return {append(){},update({state}){if(state?.fighters){fighters=state.fighters;const summary='성채 전투 · 아군 '+fighters.A.filter(f=>f.hp>0).length+'명 · 적 '+fighters.B.filter(f=>f.hp>0).length+'명';if(surface.getAttribute('aria-label')!==summary)surface.setAttribute('aria-label',summary);queue();}},destroy(){dead=true;observer.disconnect();cancelAnimationFrame(frame);cache.clear();surface.width=surface.height=0;arena.remove();}};
+ }
  const slots=[8,12].map((n,j)=>{const side=document.createElement('div');side.className=j?'ct-enemy':'ct-ally';arena.append(side);return Array.from({length:n},()=>{const node=document.createElement('figure'),img=document.createElement('img'),name=document.createElement('figcaption'),hp=document.createElement('i');node.hidden=true;img.alt='';img.decoding='async';node.append(img,name,hp);side.append(node);return {node,img,name,hp};});});
  return {append(){},update({state}){if(!state?.fighters)return;for(const [j,side] of ['A','B'].entries()){const found=new Set();for(const f of state.fighters[side]){const info=(j?enemies:allies).get(f.id);if(!info||f.hp<=0)continue;const v=slots[j][info.index];found.add(info.index);v.node.hidden=false;
  if(v.id!==f.id){v.id=f.id;if(v.img.getAttribute('src')!==info.src&&info.src)v.img.src=info.src;v.name.textContent=info.name;v.node.classList.toggle('ct-boss',!!f.isBoss);v.last=null;}
- if(v.last!==f.hp){const hit=v.last!==null&&v.last>f.hp;v.last=f.hp;v.hp.style.transform='scaleX('+Math.max(0,Math.min(1,f.hp/Math.max(1,f.maxHp)))+')';if(hit&&!document.hidden&&v.img.animate&&!matchMedia('(prefers-reduced-motion:reduce)').matches)v.img.animate([{transform:'translateX(3%)',opacity:.65},{transform:'none',opacity:1}],{duration:180});}}
+ if(v.last!==f.hp){const hit=v.last!==null&&v.last>f.hp;v.last=f.hp;v.hp.style.transform='scaleX('+Math.max(0,Math.min(1,f.hp/Math.max(1,f.maxHp)))+')';if(hit&&!document.hidden)v.node.classList.toggle('ct-hit',!v.node.classList.contains('ct-hit'));}}
  slots[j].forEach((v,i)=>{if(!found.has(i))v.node.hidden=true;});}},destroy(){arena.remove();}};
 }
 async function ensureCitadelRenderer(){
