@@ -1,3 +1,4 @@
+import {rankedDuoSeasonEvent,seasonAwardStatements} from './_season_s1.js';
 import {rankedTierReward,RANKED_REWARD_VERSION} from '../shared/ranked-shop-policy-v1.mjs';
 import {pvpPolicySnapshot,pvpReplayInput} from '../shared/pvp-power-balance-v1.mjs';
 import {collectionRewardCoin} from './_collection_bonuses.js';
@@ -263,10 +264,26 @@ async function settle(env,row,lease,deps,now){
   ...duoVictoryWrites(env,Number(row.user_id),rewardCoin,row.id),
   random?p("UPDATE ranked_duo_matches_v1 SET status='COMPLETED',response_json=?,winner=?,attacker_score_after=(SELECT score FROM ranked_duo_players_v4 WHERE season_id=? AND user_id=?),defender_score_after=NULL,completed_at=? WHERE id=?",encoded,battleV2.result.winner,row.season_id,row.user_id,iso(now),row.id):p("UPDATE ranked_duo_matches_v1 SET status='COMPLETED',response_json=?,winner=?,attacker_score_after=(SELECT score FROM ranked_duo_teams_v1 WHERE id=?),defender_score_after=(SELECT score FROM ranked_duo_teams_v1 WHERE id=?),completed_at=? WHERE id=?",encoded,battleV2.result.winner,row.attacker_id,row.defender_id,iso(now),row.id)
  ])];
- try{await env.DB.batch(writes);}catch(error){const latest=await p('SELECT status FROM ranked_duo_matches_v1 WHERE id=?',row.id).first();if(latest?.status!=='COMPLETED')throw error;}
- return readResult(env,row.id);
+ const event=rankedDuoSeasonEvent(row,win,now);
+ const scores=p('SELECT attacker_score_after,defender_score_after FROM ranked_duo_matches_v1 WHERE id=?',row.id);
+ for(let attempt=0;;attempt++){
+  const seasonWrites=await seasonAwardStatements(env,event);
+  try{
+   const committed=await env.DB.batch([...writes,...seasonWrites,scores]);
+   return completedResult(result,committed.at(-1).results[0]);
+  }catch(error){
+   const latest=await p('SELECT status,lease_token FROM ranked_duo_matches_v1 WHERE id=?',row.id).first();
+   if(latest?.status==='COMPLETED')return readResult(env,row.id);
+   // A solo match or a craft may have advanced the same season account revision.
+   const staleSeason=seasonWrites.award&&latest?.status==='PENDING'&&latest.lease_token===lease&&/joint_atomic_guards_v1|constraint failed: verified\s*=\s*1/i.test(error.message);
+   if(!staleSeason||attempt>=1)throw error;
+  }
+ }
 }
-async function readResult(env,id){const row=await statement(env)('SELECT id,status,response_json,attacker_score_after,defender_score_after FROM ranked_duo_matches_v1 WHERE id=?',id).first();if(!row)throw duoError('MATCH_NOT_FOUND','전투 기록을 찾을 수 없습니다.',404);return row.status==='COMPLETED'?{...JSON.parse(row.response_json),scoreAfter:Number(row.attacker_score_after),opponentScoreAfter:row.defender_score_after===null?null:Number(row.defender_score_after),status:'COMPLETED'}:{matchId:row.id,status:row.status};}
+function completedResult(result,row){
+ return {...result,scoreAfter:Number(row.attacker_score_after),opponentScoreAfter:row.defender_score_after===null?null:Number(row.defender_score_after),status:'COMPLETED'};
+}
+async function readResult(env,id){const row=await statement(env)('SELECT id,status,response_json,attacker_score_after,defender_score_after FROM ranked_duo_matches_v1 WHERE id=?',id).first();if(!row)throw duoError('MATCH_NOT_FOUND','전투 기록을 찾을 수 없습니다.',404);return row.status==='COMPLETED'?completedResult(JSON.parse(row.response_json),row):{matchId:row.id,status:row.status};}
 async function history(env,s,user){
  if(isRandomDuo(s.config))return randomDuoHistory(env,s,user);
  const mine=await entry(env,s,user.id);if(!mine?.team_id)return {history:[]};

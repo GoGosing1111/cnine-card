@@ -109,6 +109,9 @@ function countOnlyPlan(env,event,key,hash,result,{guard='1=1',values=[]},at){
  // SQLite's changes() belongs to the same connection and batch as the INSERT.
  return [p(env,insert,...receiptParams),p(env,update+' AND changes()=1',uid)];
 }
+export function rankedDuoSeasonEvent(match,won,settledAt){
+ return {source:'PVP',eventId:'DUO:'+match.id,userId:Number(match.user_id),startedAt:match.created_at,won,settledAt};
+}
 // Call only with server-confirmed combat metadata; returned statements join the
 // ORIGINAL content settlement transaction. No public award endpoint exists.
 export async function seasonAwardStatements(env,event,options={}){
