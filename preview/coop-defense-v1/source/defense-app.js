@@ -1,4 +1,4 @@
-import { DefenseBattleEngine } from './DefenseBattleEngine.js';
+import { DefenseBattleEngine, DefenseTacticalField } from './DefenseBattleEngine.js';
 import { DefenseWorkshop } from './DefenseWorkshop.js';
 import { DefenseFormation } from './DefenseFormation.js';
 import { DefenseRoomBrowser } from './DefenseRoomBrowser.js';
@@ -13,7 +13,7 @@ const LIVE=document.documentElement.dataset.defenseLive==='true';
 const SESSION_KEY = LIVE?'cnine_monster_defense_test_session_v1':'cnine_coop_defense_review_session_v1';
 const FOCUS_QUERY = '(max-width:760px), (max-height:540px) and (pointer:coarse)';
 const state = { capacity: 3, difficulty:'NORMAL',access:!LIVE,options:null,loadout: LIVE?emptyDefenseLoadout():defaultLoadout(), session: null, snapshot: null, catalog: null,
-  engine: null, mount: null, selected: null, focus: null, poll: null, pollAbort: null, stopped: false, failures: 0, screen: 'lobby', pending: false, epoch: 0 };
+  engine: null, detail: null, selected: null, focus: null, poll: null, pollAbort: null, stopped: false, failures: 0, screen: 'lobby', pending: false, epoch: 0 };
 let toastTimer, bannerTimer, refreshingSession, entryResetTimer, refreshingEntry;
 let workshop;
 let formation;
@@ -197,11 +197,15 @@ function receive(snapshot) {
     const mine = snapshot.players.find(p => p.id === state.session.playerId);
     state.focus = matchMedia(FOCUS_QUERY).matches ? mine?.lane ?? 0 : null;
     state.selected = snapshot.units.find(u => u.ownerId === state.session.playerId)?.id;
-    buildControls(snapshot); void ensureEngine();
+    buildControls(snapshot); showTacticalField(); void ensureEngine();
   }
   renderBattle(snapshot);
   if(snapshot.version>=3){workshop??=new DefenseWorkshop(sendCommand,toast);workshop.receive(snapshot,state.session.playerId);}
-  state.engine?.applySnapshot(snapshot, state.session.playerId);
+  try { state.engine?.applySnapshot(snapshot, state.session.playerId); }
+  catch (error) {
+    if (!state.detail || state.engine !== state.detail.engine) throw error;
+    recoverField(state.detail, error);
+  }
   const beforeMine = previous?.players.find(p => p.id === state.session.playerId);
   const nowMine = snapshot.players.find(p => p.id === state.session.playerId);
   if (beforeMine?.reviveAt && !nowMine.reviveAt && ['PREP', 'WAVE'].includes(snapshot.phase))
@@ -298,6 +302,7 @@ function buildControls(snapshot) {
 }
 function setFocus(lane) {
   state.focus = lane;
+  $('battle-canvas').dataset.pannable = String(lane !== null);
   state.engine?.setView(lane); updateViewButtons();
 }
 function updateViewButtons() {
@@ -307,24 +312,79 @@ function updateViewButtons() {
   $('field-pan').hidden = state.focus === null;
   $('minimap').hidden = state.focus === null;
 }
+function syncField(engine) {
+  engine.applySnapshot(state.snapshot, state.session.playerId);
+  engine.setView(state.focus);
+  engine.selectUnit(state.selected);
+}
+function showTacticalField() {
+  const host = $('battle-canvas');
+  host.tabIndex = 0;
+  state.engine = new DefenseTacticalField(host, state.catalog);
+  syncField(state.engine);
+  $('loading').hidden = true;
+}
+function releaseDetail() {
+  const detail = state.detail;
+  if (!detail) return;
+  state.detail = null;
+  clearTimeout(detail.slow);
+  detail.events.abort();
+  detail.layer.remove();
+  if (state.engine === detail.engine) state.engine = null;
+  detail.engine.destroy();
+}
+function recoverField(detail, error) {
+  if (state.detail !== detail) return;
+  console.warn('[Cooperative defense] 상세 전장 연결 실패', error);
+  try { releaseDetail(); }
+  finally {
+    if (!state.engine) showTacticalField();
+    state.engine.showSprites();
+    $('field-render-retry').hidden = false;
+  }
+}
 async function ensureEngine() {
-  if (state.engine || state.mount) return;
-  const epoch = state.epoch; $('loading').hidden = false;
-  const units=Object.fromEntries([...new Set(state.snapshot.units.map(u=>u.code))].map(code=>[code,state.catalog.units[code]]));
-  const engine = new DefenseBattleEngine({ host: $('battle-canvas'), catalog: {...state.catalog,units} });
-  state.mount = engine.mount();
+  if (state.detail || state.screen !== 'battle' || state.stopped) return;
+  $('field-render-retry').hidden = true;
+  const snapshot = state.snapshot, catalog = state.catalog;
+  const units = Object.fromEntries(snapshot.units.map(u => [u.code, catalog.units[u.code]]));
+  // Existing rooms may still use the original encounter catalog.
+  const enemies = snapshot.version >= 3 ? Object.fromEntries(
+    [...DEFENSE_ENEMIES.map(e => e.id), ...snapshot.enemies.map(e => e.archetype || e.type)]
+      .filter(id => catalog.enemies[id]).map(id => [id, catalog.enemies[id]])) : catalog.enemies;
+  const layer = document.createElement('div');
+  layer.className = 'defense-detail-layer';
+  layer.style.visibility = 'hidden';
+  $('battle-canvas').append(layer);
+  const engine = new DefenseBattleEngine({ host: layer, catalog: { ...catalog, units, enemies } });
+  const detail = state.detail = { engine, layer, events: new AbortController() };
+  detail.slow = setTimeout(() => {
+    if (state.detail !== detail || state.engine === engine) return;
+    state.engine.showSprites();
+    $('field-render-retry').hidden = false;
+  }, 20000);
+  layer.addEventListener('webglcontextlost', event => {
+    event.preventDefault();
+    setTimeout(() => recoverField(detail, Error('WEBGL_CONTEXT_LOST')), 0);
+  }, { capture: true, signal: detail.events.signal });
   try {
-    await state.mount;
-    if (epoch !== state.epoch) { engine.destroy(); return; }
+    await engine.mount();
+    if (state.detail !== detail) return;
+    syncField(engine);
+    clearTimeout(detail.slow);
+    state.engine.destroy();
     state.engine = engine;
-    engine.applySnapshot(state.snapshot, state.session.playerId); engine.setView(state.focus); engine.selectUnit(state.selected);
-    await engine.prepareActors();
-    if(epoch!==state.epoch)return;
-    $('loading').hidden = true;
-  } catch (error) {
-    engine.destroy();if(state.engine===engine)state.engine=null; $('loading').querySelector('b').textContent = '전장 로딩 실패 · 새로고침하면 같은 방으로 복구합니다';
-    console.error('[Cooperative defense]', error); toast('전장 리소스를 불러오지 못했습니다. 새로고침해 다시 연결하세요.');
-  } finally { state.mount = null; }
+    layer.style.visibility = '';
+    layer.tabIndex = 0;
+    $('battle-canvas').tabIndex = -1;
+    $('field-render-retry').hidden = true;
+  } catch (error) { recoverField(detail, error); }
+}
+function closeField() {
+  releaseDetail();
+  state.engine?.destroy(); state.engine = null;
+  $('field-render-retry').hidden = true;
 }
 function renderBattle(snapshot) {
   const boss=snapshot.enemies.find(e=>e.type==='BOSS'),warning=snapshot.enemies.find(e=>e.cast?.endsAt>snapshot.time);
@@ -458,9 +518,7 @@ async function teardown(forget) {
   workshop?.dispose();workshop=null;
   state.stopped = true; state.epoch++; clearTimeout(state.poll); clearTimeout(bannerTimer);
   state.pollAbort?.abort(); state.pollAbort = null;
-  const pending = state.mount;
-  state.engine?.destroy(); state.engine = null;
-  if (pending) await pending.catch(() => {});
+  closeField();
   state.snapshot = null; $('battle-canvas').replaceChildren(); $('result').hidden = true;
   if (forget) { state.session = null; rememberSession(); }
 }
@@ -482,6 +540,10 @@ async function resumeBattle() {
   } finally { state.pending = false; $('resume-battle').disabled = false; }
 }
 function bind() {
+  const retry = document.createElement('button');
+  retry.type = 'button'; retry.id = 'field-render-retry'; retry.hidden = true;
+  retry.textContent = '상세 전장 다시 연결';
+  $('loading').after(retry);
   $('party-list').addEventListener('scroll',updatePartyViewport,{passive:true});
   for(const detail of document.querySelectorAll('.mission-tools details'))detail.addEventListener('toggle',()=>{if(detail.open)for(const other of document.querySelectorAll('.mission-tools details'))if(other!==detail)other.open=false;});
   document.querySelectorAll('[data-capacity]').forEach(button => button.addEventListener('click', () => {
@@ -491,6 +553,10 @@ function bind() {
   $('create-room').addEventListener('click', () => void joinOrCreate('create'));
   $('practice').addEventListener('click', () => void joinOrCreate('practice'));
   $('resume-battle').addEventListener('click', () => void resumeBattle());
+  retry.addEventListener('click', () => {
+    if (state.detail && state.engine !== state.detail.engine) releaseDetail();
+    void ensureEngine();
+  });
   $('find-rooms').addEventListener('click',()=>roomBrowser?.open());
   $('ready').addEventListener('click', () => void setReady());
   $('edit-formation').addEventListener('click',()=>openFormation());
@@ -509,7 +575,7 @@ function bind() {
     // Retain the reconnect token; navigation does not delete an active member.
     await teardown(false); showScreen('lobby');if(LIVE)void refreshEntry().catch(()=>{});toast('진행 중인 전투로 돌아가기를 누르면 추가 차감 없이 이어서 조작할 수 있습니다.');
   });
-  addEventListener('pagehide', () => { state.stopped = true; clearTimeout(state.poll);clearTimeout(entryResetTimer); state.pollAbort?.abort(); state.engine?.destroy(); });
+  addEventListener('pagehide', () => { state.stopped = true; state.epoch++; clearTimeout(state.poll);clearTimeout(entryResetTimer); state.pollAbort?.abort(); closeField(); });
   addEventListener('online',()=>{if(state.session&&!state.stopped)schedulePoll(0);if(LIVE)void refreshEntry().catch(()=>{});});
   addEventListener('pageshow', event => { if (event.persisted) location.reload(); });
   const media = matchMedia(FOCUS_QUERY);

@@ -55,7 +55,13 @@ export function defenseMercenaryPresentation(engine,actor){
   for(const entry of ctx.simpleTimelines)paused?entry.instance.pause():entry.instance.resume();
   for(const state of states()){const timeline=state.fx?.timeline||state.knight?.timeline;if(timeline)(paused?timeline.pause():timeline.resume());}
  };
- ctx.ready=setupV3MercenaryActor(ctx,actor).then(()=>{ctx.prepared=true;timelinePause(!ctx.visible);}).catch(error=>{ctx.error=error.message;throw error;});
+ ctx.ready=setupV3MercenaryActor(ctx,actor).then(()=>{
+  if(!ctx.stopped){ctx.prepared=true;timelinePause(!ctx.visible);}
+ }).catch(error=>{
+  if(ctx.stopped)return;
+  ctx.error=error.message;
+  engine.presentationErrors.push({code:actor.cardId,message:error.message});
+ });
  // A multi-impact server skill may arrive in one poll. Preserve those impacts;
  // ordinary basics never queue behind a cinematic and cannot build a backlog.
  ctx.play=async(event,basic=false)=>{

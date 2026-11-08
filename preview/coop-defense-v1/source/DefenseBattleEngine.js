@@ -13,6 +13,134 @@ import {defenseMercenaryPresentation} from './DefenseMercenaryPresentation.js';
 const OWNER_COLORS = [0x70e4cf, 0xe7bb76, 0xbda5f5];
 const DIGIT_FONT = 'CoopDefenseDigitsV1';
 const textStyle = { fontFamily: 'Defense SUIT, Malgun Gothic, sans-serif', fontSize: 25, fontWeight: '700', fill: 0xc4d6d3 };
+
+// The tactical view has no renderer, texture or animation-loop prerequisite.
+export class DefenseTacticalField {
+  constructor(host, catalog) {
+    this.host = host;
+    this.catalog = catalog;
+    this.markers = new Map();
+    this.controls = new AbortController();
+    this.svg = this.node('svg', { class: 'defense-tactical-field', 'aria-hidden': true });
+    this.routes = this.node('g');
+    this.squads = this.node('g');
+    this.core = this.node('g', { transform: 'translate(' + WORLD.coreX + ' ' + WORLD.coreY + ')' });
+    this.core.append(this.node('path', { d: 'M0 -60 L34 -8 L0 35 L-34 -8Z', fill: '#67d8d5', stroke: '#d4fff6', 'stroke-width': 5 }),
+      this.node('image', { href: catalog.environment.core, x: -82, y: -131, width: 164, height: 177 }));
+    this.svg.append(this.routes, this.core, this.squads);
+    host.append(this.svg);
+    this.focusLane = null;
+    this.centerSquad();
+    const options = { signal: this.controls.signal };
+    this.svg.addEventListener('pointerdown', e => {
+      if (this.focusLane === null || e.button !== 0) return;
+      this.drag = { id: e.pointerId, x: e.clientX, center: this.focusX };
+      this.svg.setPointerCapture(e.pointerId);
+    }, options);
+    this.svg.addEventListener('pointermove', e => {
+      if (this.drag?.id !== e.pointerId) return;
+      const scale = this.svg.getScreenCTM()?.a;
+      if (scale) this.moveCamera(this.drag.center + (this.drag.x - e.clientX) / scale);
+    }, options);
+    this.svg.addEventListener('lostpointercapture', () => { this.drag = null; }, options);
+    host.addEventListener('keydown', e => {
+      if (this.focusLane === null || !['ArrowLeft', 'ArrowRight', 'Home'].includes(e.key)) return;
+      e.preventDefault();
+      if (e.key === 'Home') this.centerSquad();
+      else this.panBy(e.key === 'ArrowLeft' ? -1 : 1);
+    }, options);
+  }
+  node(tag, attrs = {}) {
+    const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (const [name, value] of Object.entries(attrs)) el.setAttribute(name, value);
+    return el;
+  }
+  setView(lane) {
+    this.focusLane = lane;
+    this.svg.classList.toggle('lane-focus', lane !== null);
+    this.host.dataset.pannable = String(lane !== null);
+    this.centerSquad();
+  }
+  panBy(direction) { this.moveCamera(this.focusX + direction * this.viewWidth * .55); }
+  centerSquad() { this.moveCamera(WORLD.frontX - 170); }
+  moveCamera(x) {
+    this.viewWidth = this.focusLane === null ? WORLD.width : 1200;
+    this.focusX = Math.max(this.viewWidth / 2, Math.min(WORLD.width - this.viewWidth / 2, x));
+    const y = this.focusLane === null ? 0 : laneY(this.focusLane, this.capacity || 3) - 250;
+    this.svg.setAttribute('viewBox', [this.focusX - this.viewWidth / 2, y, this.viewWidth, this.focusLane === null ? WORLD.height : 500].join(' '));
+  }
+  selectUnit(id) {
+    this.markers.get(this.selectedUnit)?.group.classList.remove('selected');
+    this.selectedUnit = id;
+    this.markers.get(id)?.group.classList.add('selected');
+  }
+  showSprites() {
+    this.withSprites = true;
+    this.svg.classList.add('with-sprites');
+    for (const marker of this.markers.values()) this.addSprite(marker);
+  }
+  addSprite(marker) {
+    if (!marker.url || marker.image) return;
+    const image = this.node('image', { href: marker.url, x: -46, y: -91, width: 92, height: 92 });
+    marker.image = image;
+    image.addEventListener('error', () => image.remove(), { once: true });
+    marker.group.insertBefore(image, marker.label);
+  }
+  drawRoutes(capacity) {
+    this.capacity = capacity;
+    this.routes.replaceChildren();
+    for (let lane = 0; lane < capacity; lane++) {
+      const y = laneY(lane, capacity), color = '#' + OWNER_COLORS[lane].toString(16);
+      const d = 'M' + WORLD.coreX + ' ' + WORLD.coreY + ' L' + WORLD.mergeX + ' ' + y + ' H' + WORLD.spawnX;
+      this.routes.append(this.node('path', { d, fill: 'none', stroke: color, opacity: .13, 'stroke-width': 105 }),
+        this.node('path', { d, fill: 'none', stroke: color, opacity: .55, 'stroke-width': 4, 'stroke-dasharray': '18 20' }));
+      const label = this.node('text', { x: WORLD.spawnX - 38, y: y - 68, fill: color, 'text-anchor': 'end' });
+      label.textContent = LANES[lane] + ' 방어선';
+      this.routes.append(label);
+    }
+    this.moveCamera(this.focusX);
+  }
+  applySnapshot(snapshot) {
+    this.snapshot = snapshot;
+    if (this.capacity !== snapshot.capacity) this.drawRoutes(snapshot.capacity);
+    const seen = new Set();
+    for (const [rows, enemy] of [[snapshot.units, false], [snapshot.enemies, true]]) for (const row of rows) {
+      seen.add(row.id);
+      let marker = this.markers.get(row.id);
+      if (!marker) {
+        const color = enemy ? '#ff978a' : '#' + OWNER_COLORS[row.ownerLane].toString(16);
+        const group = this.node('g', { class: 'tactical-unit' });
+        const label = this.node('text', { y: -42, 'text-anchor': 'middle' });
+        label.textContent = row.name;
+        const hp = this.node('rect', { x: -22, y: 30, height: 6, fill: color });
+        const boss = enemy && row.type === 'BOSS';
+        const shape = enemy ? this.node('path', { d: boss ? 'M0 -33 34 0 0 33 -34 0Z' : 'M-18 0 17 -15 17 15Z', fill: color })
+          : this.node('circle', { r: 21, fill: '#142733', stroke: color, 'stroke-width': 7 });
+        group.append(this.node('title'), shape, label, this.node('rect', { x: -22, y: 30, width: 44, height: 6, fill: '#17242d' }), hp);
+        group.firstChild.textContent = row.name;
+        group.classList.toggle('selected', row.id === this.selectedUnit);
+        group.classList.toggle('boss', boss);
+        this.squads.append(group);
+        const art = enemy ? this.catalog.enemies[row.archetype || row.type] : this.catalog.units[row.code];
+        group.classList.toggle('ally', !enemy);
+        marker = { group, hp, label, url: art?.battleSprite };
+        this.markers.set(row.id, marker);
+        if (this.withSprites) this.addSprite(marker);
+      }
+      marker.group.setAttribute('transform', 'translate(' + Math.round(row.x) + ' ' + Math.round(row.y) + ')');
+      marker.group.setAttribute('opacity', row.hp > 0 ? 1 : .35);
+      marker.hp.setAttribute('width', 44 * Math.max(0, Math.min(1, row.hp / row.maxHp)));
+    }
+    for (const [id, marker] of this.markers) if (!seen.has(id)) { marker.group.remove(); this.markers.delete(id); }
+  }
+  diagnostics() {
+    return { engine: 'Tactical field', rendererCount: 0, actors: this.markers.size, capacity: this.capacity, focusLane: this.focusLane,
+      allies: this.snapshot?.units.length || 0, enemies: this.snapshot?.enemies.length || 0, phase: this.snapshot?.phase,
+      mercenaries: (this.snapshot?.units || []).filter(u => /^V-\d+$/.test(u.code)).map(u => ({ id: u.id, code: u.code, prepared: false })),
+      serverDeterminesDamage: true };
+  }
+  destroy() { this.controls.abort(); this.svg.remove(); this.markers.clear(); }
+}
 export class DefenseBattleEngine extends BattleEngine {
   constructor({ host, catalog }) {
     super({ host, battleData: { mode: 'PVE', battleV2: {} } });
@@ -48,12 +176,23 @@ export class DefenseBattleEngine extends BattleEngine {
   }
   createCard() { const card = new Container(); card.visible = false; return card; }
   async createCharacters() {
-    await Promise.all(Object.values(this.catalog.units).filter(u=>/^V-\d+$/.test(u.code)).map(async u=>{
-      const art=await resolveV3MercenaryArt(u.code);if(!art)throw Error('MERCENARY_SD_NOT_READY:'+u.code);
-      this.v3Art.set(u.code,art);await Assets.load(art.spriteUrl);
-    }));
-    const paths = [...Object.values(this.catalog.units).map(x => x.battleSprite), ...Object.values(this.catalog.enemies).map(x => x.battleSprite)];
-    await Promise.all([...new Set(paths)].map(p => Assets.load(p)));
+    const loadUnit = async unit => {
+      if (/^V-\d+$/.test(unit.code)) {
+        try {
+          const art = await resolveV3MercenaryArt(unit.code);
+          if (art) {
+            await Assets.load(art.spriteUrl);
+            this.v3Art.set(unit.code, art);
+            return;
+          }
+        } catch (error) {
+          this.presentationErrors.push({ code: unit.code, message: error.message });
+        }
+      }
+      await Assets.load(unit.battleSprite);
+    };
+    const enemies = new Set(Object.values(this.catalog.enemies).map(enemy => enemy.battleSprite));
+    await Promise.all([...Object.values(this.catalog.units).map(loadUnit), ...Array.from(enemies, url => Assets.load(url))]);
     this.characters = []; this.allies = []; this.enemies = [];
   }
   async prepareActors(){await Promise.all(this.actorSetups);}
@@ -93,6 +232,7 @@ export class DefenseBattleEngine extends BattleEngine {
   configureIsometricScene() { return {}; }
   async mount() {
     await super.mount();
+    if (this.disposed) return this;
     if (!Cache.has(`${DIGIT_FONT}-bitmap`)) BitmapFont.install({ name: DIGIT_FONT,
       style: { fontFamily: 'Arial Black, Arial', fontSize: 76, fill: 0xffffff, stroke: { color: 0x08120d, width: 8, join: 'round' } },
       chars: [['0', '9'], '+', ','], resolution: 1, padding: 5 });
@@ -337,7 +477,7 @@ export class DefenseBattleEngine extends BattleEngine {
     }
     if (actor?.root.visible && ['HIT', 'ENEMY_HIT', 'SKILL'].includes(event.type)) {
       actor.actionUntil = performance.now() + 280;
-      if (!actor.presentation && !this.reducedMotion && actor.unitData.hp > 0) actor.setState('ATTACK');
+      if (!actor.presentation?.prepared && !this.reducedMotion && actor.unitData.hp > 0) actor.setState('ATTACK');
     }
     if (target?.root.visible && ['HIT', 'ENEMY_HIT', 'HEAL'].includes(event.type)) {
       this.showDefenseAmount(target,event.amount,event.type==='HEAL');
@@ -394,6 +534,9 @@ export class DefenseBattleEngine extends BattleEngine {
     for(const actor of this.actors.values())actor.presentation?.dispose();
     if (this.renderTick) this.app?.ticker.remove(this.renderTick);
     for (const actor of this.actors.values()) actor.animationController?.kill();
-    this.actors.clear(); super.destroy(); this.routeJoinTexture?.destroy(false);for(const frame of this.portalFrames)frame.destroy(false);this.portalFrames=[];
+    this.actors.clear();
+    // Pixi cannot destroy an Application whose renderer failed to initialize.
+    if (this.app && !this.app.renderer) this.app = null;
+    super.destroy(); this.routeJoinTexture?.destroy(false);for(const frame of this.portalFrames)frame.destroy(false);this.portalFrames=[];
   }
 }

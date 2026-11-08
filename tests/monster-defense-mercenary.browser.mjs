@@ -44,6 +44,17 @@ try{
    await p.locator('[data-view="1"]').click();await p.waitForFunction(()=>!CoopDefenseReview.diagnostics().engine.mercenaries.find(a=>a.id==='1:0').paused);
    await p.reload();await p.waitForFunction(()=>window.CoopDefenseReview?.diagnostics().engine?.mercenaries.every(a=>a.prepared),null,{timeout:60000});await p.locator('#loading').waitFor({state:'hidden'});
    assert.equal((await p.evaluate(()=>CoopDefenseReview.diagnostics().engine)).rendererCount,1);
+   const crystal='**/guardian-crystal-v2.png*';
+   await context.route(crystal,route=>route.abort('failed'));
+   await p.reload();
+   await p.locator('#field-render-retry').waitFor();
+   assert.equal(await p.locator('#loading').isHidden(),true);
+   assert.equal(await p.evaluate(()=>CoopDefenseReview.diagnostics().engine.rendererCount),0);
+   assert.ok(await p.locator('.defense-tactical-field .tactical-unit').count()>0);
+   await context.unroute(crystal);
+   await p.locator('#field-render-retry').click();
+   await p.waitForFunction(()=>CoopDefenseReview.diagnostics().engine?.rendererCount===1,null,{timeout:60000});
+   assert.equal(await p.evaluate(()=>CoopDefenseReview.diagnostics().roomId),roomId);
    persisted=await h.room(roomId);
   }
   persisted.phase='DEFEAT';persisted.completedAt=persisted.time;persisted.serverAt=Date.now();await h.room(roomId,persisted);
