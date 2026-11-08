@@ -1,9 +1,9 @@
-import {openSupportApplication} from './supporter-application-v1.mjs?v=20261107-pass-months';
+import {openSupportApplication} from './supporter-application-v1.mjs?v=20261108-pass-purchases';
 import {mountSupportPackage} from './support-package-v1.mjs?v=20261106-package-refresh-v1';
-import {mountPackageAlerts} from './support-package-alerts-v1.mjs?v=20261106-package-refresh-v1';
+import {mountPackageAlerts} from './support-package-alerts-v1.mjs?v=20261108-pass-purchases';
 import {SUPPORT_PACKAGE_EVENT_DEADLINE,supportPackageSalesOpen} from '../shared/support-package-v1.mjs?v=20261106-package-refresh-v1';
 import {jointAccountRequest} from './joint-account-transport.mjs';
-import {mountSeasonPass} from './supporter-season-pass-v1.mjs?v=20261107-pass-months';
+import {mountSeasonPass} from './supporter-season-pass-v1.mjs?v=20261108-pass-purchases';
 import {mountSupportScreenGuard} from './supporter-screen-guard-v1.mjs?v=20261011-guard1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date=v=>v?new Date(v).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
@@ -27,7 +27,8 @@ export function mountServerSupportNavigation({root,getUser,signal,request=jointA
   const doc=menu.ownerDocument,link=doc.createElement('link');link.rel='stylesheet';link.href='/css/server-support-v1.css?v=20261011-apply1';root.append(link);
   const passStyle=doc.createElement('link');passStyle.rel='stylesheet';passStyle.href='/css/supporter-season-pass-v1.css?v=20261107-pass-months';root.append(passStyle);
   const packageStyle=doc.createElement('link');packageStyle.rel='stylesheet';packageStyle.href='/css/support-package-v1.css?v=20261106-package-refresh-v1';root.append(packageStyle);
-  const packageAlerts=mountPackageAlerts({root,request,canReceive:()=>Number(getUser()?.serverUserId||getUser()?.id)===1,onOpen:()=>window.open('/admin/?supportPackage=1','_blank','noopener')});
+  const packageAlerts=mountPackageAlerts({root,request,canReceive:()=>Number(getUser()?.serverUserId||getUser()?.id)===1,onOpen:()=>window.open('/admin/?supportPackage=1','_blank','noopener'),
+    onPassOpen:(id,orderId)=>window.open('/admin/?'+new URLSearchParams({supportPassMonth:'2',userId:id,supportPassOrder:orderId}),'_blank','noopener')});
   let selectedMonth=1,passView=null,passVisible=false,screenGuard=null,applicationView=null;
   const setPassVisible=value=>{const visible=value===true;if(visible!==passVisible){passVisible=visible;onSeasonPassVisibilityChange(visible);}};
   const footer=doc.createElement('div');footer.className='ss-menu-footer';footer.hidden=true;menu.append(footer);
@@ -79,10 +80,13 @@ export function mountServerSupportNavigation({root,getUser,signal,request=jointA
     }catch(error){if(who!==identity()||disposed)return;if([401,403,404].includes(error.status)){clearEntry();close();}else{status(error.message);if(!dialog){footer.textContent='서버 안내를 불러오지 못했습니다. 메뉴를 다시 열어 주세요.';}}}finally{busy=false;}
   }
   function openApplication(month){
-    if(applicationView||disposed||!data?.application?.enabled||data.previewOnly)return;
+    const purchaseOnly=month===2&&!data?.application?.enabled;
+    if(applicationView||disposed||!data||data.previewOnly||(purchaseOnly?!data.secondSeasonPass?.canRequestPurchase:!data.application?.enabled))return;
     screenGuard?.dispose();screenGuard=null;
-    applicationView=openSupportApplication({root,getUser,request,signal,month,now:()=>Date.now()+serverOffset,
-      onIssued:value=>{if(disposed||!data)return;data.application=value.application;render();window.dispatchEvent(new Event('cnine:account-mutation'));},
+    applicationView=openSupportApplication({root,getUser,request,signal,month,purchaseOnly,priceWon:data.plan.priceWon,now:()=>Date.now()+serverOffset,
+      onIssued:value=>{if(disposed||!data)return;if(value.application)data.application=value.application;
+        if(month===2){if(value.purchased){void loadPage('pass');return;}data.secondSeasonPass.purchasePending=value.pending!=null||Boolean(value.application);}
+        render();window.dispatchEvent(new Event('cnine:account-mutation'));},
       onClose:()=>{applicationView=null;if(dialog&& !disposed){screenGuard=mountSupportScreenGuard(dialog,{getUser,now:()=>Date.now()+serverOffset});screenGuard.refresh();dialog.querySelector('[data-ss-pass-buy],[data-ss-apply]')?.focus({preventScroll:true});}},
       onMessages:()=>{close();menu.close();void onOpenMessages();}});
   }

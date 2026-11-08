@@ -4,6 +4,7 @@ import {ensureJointAtomicSchema,jointGuard,jointGuardEnd} from './_joint_atomic.
 import {SUPPORT_BANK_MESSAGE_TYPE,SUPPORT_BANK_MESSAGE_TTL,deleteExpiredSupportMessages} from './_supporter_message_expiry.js';
 import {readSupportRecord} from './_supporter_benefits.js';
 import {passMonth,secondPassSale} from './_supporter_season_pass.js';
+import {passSubscription} from '../shared/supporter-season-pass-v1.mjs';
 
 const LIMIT=3,KST=9*60*60*1000;
 export const SUPPORT_APPLICATION_CONFIG_KEY='server_support_application_config_v1';
@@ -12,6 +13,46 @@ const dayKey=(userId,now)=>`support_application_day_v1:${userId}:${dayOf(now)}`;
 const receiptKey=(userId,requestId)=>`support_application_receipt_v1:${userId}:${requestId}`;
 const campaignKey=(userId,requestId)=>`support_application_v1:${userId}:${requestId}`;
 const fail=(code,message,status=400)=>{throw jointError('SUPPORT_APPLICATION_'+code,message,status);};
+const passOrderPrefix='support_pass_month2_pending_v1:';
+export const secondPassOrderKey=id=>passOrderPrefix+Number(id);
+const passOrderStatement=(db,id,requestId,now)=>db.prepare(
+  'INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING'
+).bind(secondPassOrderKey(id),JSON.stringify({id:id+'_'+requestId,userId:id,createdAt:now}));
+export async function secondPassOrder(env,id){
+  return receipt(env,secondPassOrderKey(id));
+}
+export async function secondPassOrders(env){
+  const rows=await env.DB.prepare(`SELECT p.value,u.nickname FROM app_meta p
+    JOIN users u ON u.id=CAST(substr(p.key,?) AS BIGINT)
+    WHERE p.key>=? AND p.key<? ORDER BY p.updated_at,p.key`).bind(passOrderPrefix.length+1,passOrderPrefix,passOrderPrefix+'~').all();
+  return rows.results.map(r=>({...JSON.parse(r.value),nickname:r.nickname,month:2,priceWon:SUPPORT_PLAN.priceWon}));
+}
+// A purchase confirmation request contains no bank details and grants no benefits.
+// Users can still request the existing, separately controlled bank notice when available.
+export async function requestSecondPassPurchase(env,userRow,requestId,now){
+  const id=Number(userRow.id),DB=env.DB;
+  if(typeof requestId!=='string'||!/^[A-Za-z0-9_-]{16,100}$/.test(requestId))fail('INPUT','신청 번호를 확인하세요.');
+  if(!supportAccountEligible(userRow,now))fail('ELIGIBILITY','가입 3일 경과와 2차 인증 완료 후 신청할 수 있습니다.',403);
+  const receiptKey='support_pass_month2_request_v1:'+id+':'+requestId;
+  const [support,pending,previous]=await Promise.all([readSupportRecord(env,id),secondPassOrder(env,id),receipt(env,receiptKey)]);
+  if(passSubscription(support.state,2,now).purchased)return {purchased:true,pending:null,serverNow:now};
+  if(pending||previous)return {pending,serverNow:now};
+  const sale=await secondPassSale(env,support.state,now),token=crypto.randomUUID(),p=(sql,...args)=>DB.prepare(sql).bind(...args);
+  await ensureJointAtomicSchema(env);
+  try{await DB.batch([
+    ...(DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',id),p('SELECT key FROM app_meta WHERE key=? FOR UPDATE',sale.key)]:[]),
+    jointGuard(DB,token,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[sale.key,sale.raw]),
+    jointGuard(DB,token+'t',support.raw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',support.raw===null?[support.key]:[support.key,support.raw]),
+    jointGuard(DB,token+'u','EXISTS(SELECT 1 FROM users u JOIN user_second_verifications s ON s.user_id=u.id WHERE u.id=? AND u.status=? AND u.created_at=? AND s.verified_at=?)',[id,'ACTIVE',userRow.created_at,userRow.verified_at]),
+    passOrderStatement(DB,id,requestId,now),
+    p('INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO NOTHING',receiptKey,JSON.stringify({issuedAt:now})),
+    ...[token,token+'t',token+'u'].map(t=>jointGuardEnd(DB,t))
+  ]);}catch(error){
+    if(passSubscription((await readSupportRecord(env,id)).state,2,now).purchased)return {purchased:true,pending:null,serverNow:now};
+    if(!(await receipt(env,receiptKey)))throw error;
+  }
+  return {pending:await secondPassOrder(env,id),serverNow:now};
+}
 export async function lastPassApplication(env,userId){
   const prefix='support_application_day_v1:'+Number(userId)+':';
   const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key>=? AND key<? ORDER BY key DESC LIMIT 1').bind(prefix,prefix+'~').first();
@@ -97,6 +138,7 @@ export async function issueSupportApplication(env,user,body,now=Date.now()){
         jointGuard(DB,tokens[4],'EXISTS(SELECT 1 FROM user_messages WHERE user_id=? AND campaign_key=?)',[id,campaignKey(id,body.requestId)]),
         jointGuard(DB,tokens[5],'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[SUPPORT_APPLICATION_CONFIG_KEY,applicationConfig.raw]),
         p('INSERT INTO app_meta(key,value) VALUES(?,?)',key,JSON.stringify(saved)),
+        ...(month===2?[passOrderStatement(DB,id,body.requestId,now)]:[]),
         ...[...tokens,...(sale?[token+'sale',token+'term']:[])].map(t=>jointGuardEnd(DB,t))
       ]);
       return resultFor(env,id,saved,now,false);
