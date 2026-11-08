@@ -1,0 +1,644 @@
+{
+  "phase": "before",
+  "rows": [
+    {
+      "platform": "Windows Edge 1440",
+      "rep": 1,
+      "rank": "level1",
+      "entry": "first",
+      "inputToReadyMs": 3144,
+      "catalog": {
+        "ms": 439.5,
+        "handlerMs": 0.02410000000054424,
+        "endMs": 2657.699999988079
+      },
+      "account": {
+        "ms": 208.10000002384186,
+        "handlerMs": 25.22099999999955,
+        "endMs": 2426.800000011921
+      },
+      "renderAfterApisMs": 485.10000002384186,
+      "p95FrameMs": 4.300000000000182,
+      "framesOver50": 0,
+      "frames": 190,
+      "longTasks": [
+        151
+      ],
+      "overflow": false,
+      "deployable": false,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "Windows Edge 1440",
+      "rep": 1,
+      "rank": "level1",
+      "entry": "return",
+      "inputToReadyMs": 277.699951171875,
+      "catalog": {
+        "ms": 9.100000023841858,
+        "handlerMs": 0.01269999999931315,
+        "endMs": 187.80000001192093
+      },
+      "account": {
+        "ms": 26.399999976158142,
+        "handlerMs": 16.95550000000003,
+        "endMs": 205.39999997615814
+      },
+      "renderAfterApisMs": 71.80000001192093,
+      "p95FrameMs": 4.300000000000011,
+      "framesOver50": 0,
+      "frames": 148,
+      "longTasks": [],
+      "overflow": false,
+      "deployable": false,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "Windows Edge 1440",
+      "rep": 1,
+      "rank": "level235",
+      "entry": "first",
+      "inputToReadyMs": 710.900146484375,
+      "catalog": {
+        "ms": 7.5,
+        "handlerMs": 0.006600000000617001,
+        "endMs": 404.19999998807907
+      },
+      "account": {
+        "ms": 30.5,
+        "handlerMs": 23.260599999999613,
+        "endMs": 427.69999998807907
+      },
+      "renderAfterApisMs": 281.10000002384186,
+      "p95FrameMs": 8.299999999999955,
+      "framesOver50": 0,
+      "frames": 157,
+      "longTasks": [
+        118,
+        119,
+        66
+      ],
+      "overflow": false,
+      "deployable": true,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "Windows Edge 1440",
+      "rep": 1,
+      "rank": "level235",
+      "entry": "return",
+      "inputToReadyMs": 357.10009765625,
+      "catalog": {
+        "ms": 6.5,
+        "handlerMs": 0.0054000000018277206,
+        "endMs": 225.29999995231628
+      },
+      "account": {
+        "ms": 110.5,
+        "handlerMs": 103.45530000000144,
+        "endMs": 329.5
+      },
+      "renderAfterApisMs": 27.19999998807907,
+      "p95FrameMs": 4.300000000000011,
+      "framesOver50": 0,
+      "frames": 141,
+      "longTasks": [
+        155
+      ],
+      "overflow": false,
+      "deployable": true,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "Windows Edge 1440",
+      "rep": 2,
+      "rank": "level1",
+      "entry": "first",
+      "inputToReadyMs": 603.999755859375,
+      "catalog": {
+        "ms": 8.199999988079071,
+        "handlerMs": 0.007499999999708962,
+        "endMs": 452.19999998807907
+      },
+      "account": {
+        "ms": 22.5,
+        "handlerMs": 14.314399999999296,
+        "endMs": 467
+      },
+      "renderAfterApisMs": 135.89999997615814,
+      "p95FrameMs": 4.300000000000182,
+      "framesOver50": 1,
+      "frames": 145,
+      "longTasks": [
+        238,
+        87
+      ],
+      "overflow": false,
+      "deployable": false,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "Windows Edge 1440",
+      "rep": 2,
+      "rank": "level1",
+      "entry": "return",
+      "inputToReadyMs": 270.89990234375,
+      "catalog": {
+        "ms": 4.799999952316284,
+        "handlerMs": 0.0067000000017287675,
+        "endMs": 187.69999998807907
+      },
+      "account": {
+        "ms": 17.80000001192093,
+        "handlerMs": 12.980100000000675,
+        "endMs": 200.9000000357628
+      },
+      "renderAfterApisMs": 69.69999998807907,
+      "p95FrameMs": 4.300000000000011,
+      "framesOver50": 0,
+      "frames": 138,
+      "longTasks": [
+        114
+      ],
+      "overflow": false,
+      "deployable": false,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "Windows Edge 1440",
+      "rep": 2,
+      "rank": "level235",
+      "entry": "first",
+      "inputToReadyMs": 488.599853515625,
+      "catalog": {
+        "ms": 5.699999988079071,
+        "handlerMs": 0.008300000001327135,
+        "endMs": 394.2999999523163
+      },
+      "account": {
+        "ms": 15.300000011920929,
+        "handlerMs": 10.24319999999716,
+        "endMs": 404.5
+      },
+      "renderAfterApisMs": 83.19999998807907,
+      "p95FrameMs": 12.5,
+      "framesOver50": 2,
+      "frames": 165,
+      "longTasks": [
+        232,
+        96,
+        71
+      ],
+      "overflow": false,
+      "deployable": true,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "Windows Edge 1440",
+      "rep": 2,
+      "rank": "level235",
+      "entry": "return",
+      "inputToReadyMs": 247.800048828125,
+      "catalog": {
+        "ms": 8.399999976158142,
+        "handlerMs": 0.0076999999982945155,
+        "endMs": 169.80000001192093
+      },
+      "account": {
+        "ms": 15.099999964237213,
+        "handlerMs": 10.631199999999808,
+        "endMs": 176.69999998807907
+      },
+      "renderAfterApisMs": 70.40000003576279,
+      "p95FrameMs": 4.300000000000011,
+      "framesOver50": 0,
+      "frames": 134,
+      "longTasks": [
+        98
+      ],
+      "overflow": false,
+      "deployable": true,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "Android Pixel 7 emulated",
+      "rep": 1,
+      "rank": "level1",
+      "entry": "first",
+      "inputToReadyMs": 557.699951171875,
+      "catalog": {
+        "ms": 4.800000011920929,
+        "handlerMs": 0.007099999998899875,
+        "endMs": 355
+      },
+      "account": {
+        "ms": 18.400000035762787,
+        "handlerMs": 13.717599999999948,
+        "endMs": 369.30000001192093
+      },
+      "renderAfterApisMs": 187.69999998807907,
+      "p95FrameMs": 8.5,
+      "framesOver50": 0,
+      "frames": 147,
+      "longTasks": [
+        101,
+        113,
+        56
+      ],
+      "overflow": false,
+      "deployable": false,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "Android Pixel 7 emulated",
+      "rep": 1,
+      "rank": "level1",
+      "entry": "return",
+      "inputToReadyMs": 227.300048828125,
+      "catalog": {
+        "ms": 4.199999988079071,
+        "handlerMs": 0.008499999999912689,
+        "endMs": 177
+      },
+      "account": {
+        "ms": 15.600000023841858,
+        "handlerMs": 11.068500000001222,
+        "endMs": 188.60000002384186
+      },
+      "renderAfterApisMs": 38.19999998807907,
+      "p95FrameMs": 4.300000000000011,
+      "framesOver50": 0,
+      "frames": 139,
+      "longTasks": [
+        102
+      ],
+      "overflow": false,
+      "deployable": false,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "Android Pixel 7 emulated",
+      "rep": 1,
+      "rank": "level235",
+      "entry": "first",
+      "inputToReadyMs": 544.60009765625,
+      "catalog": {
+        "ms": 12.600000023841858,
+        "handlerMs": 0.007299999997485429,
+        "endMs": 341.69999998807907
+      },
+      "account": {
+        "ms": 21.19999998807907,
+        "handlerMs": 15.163799999998446,
+        "endMs": 350.89999997615814
+      },
+      "renderAfterApisMs": 191.80000001192093,
+      "p95FrameMs": 4.2999999999999545,
+      "framesOver50": 0,
+      "frames": 141,
+      "longTasks": [
+        191
+      ],
+      "overflow": false,
+      "deployable": true,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "Android Pixel 7 emulated",
+      "rep": 1,
+      "rank": "level235",
+      "entry": "return",
+      "inputToReadyMs": 196.699951171875,
+      "catalog": {
+        "ms": 3.399999976158142,
+        "handlerMs": 0.008200000003853347,
+        "endMs": 134.89999997615814
+      },
+      "account": {
+        "ms": 14.300000011920929,
+        "handlerMs": 10.374599999995553,
+        "endMs": 146
+      },
+      "renderAfterApisMs": 50.39999997615814,
+      "p95FrameMs": 4.300000000000011,
+      "framesOver50": 0,
+      "frames": 129,
+      "longTasks": [
+        72
+      ],
+      "overflow": false,
+      "deployable": true,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "Android Pixel 7 emulated",
+      "rep": 2,
+      "rank": "level1",
+      "entry": "first",
+      "inputToReadyMs": 501.900146484375,
+      "catalog": {
+        "ms": 5,
+        "handlerMs": 0.008099999999103602,
+        "endMs": 343.2000000476837
+      },
+      "account": {
+        "ms": 23.5,
+        "handlerMs": 16.280899999997928,
+        "endMs": 362.2000000476837
+      },
+      "renderAfterApisMs": 139.0999999642372,
+      "p95FrameMs": 4.399999999999977,
+      "framesOver50": 0,
+      "frames": 138,
+      "longTasks": [
+        190,
+        54
+      ],
+      "overflow": false,
+      "deployable": false,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "Android Pixel 7 emulated",
+      "rep": 2,
+      "rank": "level1",
+      "entry": "return",
+      "inputToReadyMs": 205.10009765625,
+      "catalog": {
+        "ms": 13.899999976158142,
+        "handlerMs": 0.007600000004458707,
+        "endMs": 163.19999998807907
+      },
+      "account": {
+        "ms": 15,
+        "handlerMs": 10.98120000000199,
+        "endMs": 164.60000002384186
+      },
+      "renderAfterApisMs": 40.09999996423721,
+      "p95FrameMs": 4.300000000000011,
+      "framesOver50": 0,
+      "frames": 133,
+      "longTasks": [
+        90
+      ],
+      "overflow": false,
+      "deployable": false,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "Android Pixel 7 emulated",
+      "rep": 2,
+      "rank": "level235",
+      "entry": "first",
+      "inputToReadyMs": 470.19970703125,
+      "catalog": {
+        "ms": 6.5,
+        "handlerMs": 0.008699999998498242,
+        "endMs": 400.5999999642372
+      },
+      "account": {
+        "ms": 22.100000023841858,
+        "handlerMs": 16.067000000002736,
+        "endMs": 416.89999997615814
+      },
+      "renderAfterApisMs": 52.80000001192093,
+      "p95FrameMs": 8.400000000000034,
+      "framesOver50": 1,
+      "frames": 169,
+      "longTasks": [
+        189,
+        113,
+        51
+      ],
+      "overflow": false,
+      "deployable": true,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "Android Pixel 7 emulated",
+      "rep": 2,
+      "rank": "level235",
+      "entry": "return",
+      "inputToReadyMs": 209,
+      "catalog": {
+        "ms": 4.199999988079071,
+        "handlerMs": 0.007900000004156027,
+        "endMs": 157.5
+      },
+      "account": {
+        "ms": 17.30000001192093,
+        "handlerMs": 12.765700000003562,
+        "endMs": 170.80000001192093
+      },
+      "renderAfterApisMs": 37.69999998807907,
+      "p95FrameMs": 4.299999999999983,
+      "framesOver50": 0,
+      "frames": 133,
+      "longTasks": [],
+      "overflow": false,
+      "deployable": true,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "iOS iPhone 13 emulated",
+      "rep": 1,
+      "rank": "level1",
+      "entry": "first",
+      "inputToReadyMs": 782,
+      "catalog": {
+        "ms": 20,
+        "handlerMs": 0.010300000001734588,
+        "endMs": 748
+      },
+      "account": {
+        "ms": 14,
+        "handlerMs": 10.637900000001537,
+        "endMs": 743
+      },
+      "renderAfterApisMs": 30,
+      "p95FrameMs": 86,
+      "framesOver50": 7,
+      "frames": 57,
+      "longTasks": [],
+      "overflow": false,
+      "deployable": false,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "iOS iPhone 13 emulated",
+      "rep": 1,
+      "rank": "level1",
+      "entry": "return",
+      "inputToReadyMs": 387,
+      "catalog": {
+        "ms": 4,
+        "handlerMs": 0.01029999999445863,
+        "endMs": 358
+      },
+      "account": {
+        "ms": 15,
+        "handlerMs": 11.272799999998824,
+        "endMs": 369
+      },
+      "renderAfterApisMs": 16,
+      "p95FrameMs": 73,
+      "framesOver50": 6,
+      "frames": 51,
+      "longTasks": [],
+      "overflow": false,
+      "deployable": false,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "iOS iPhone 13 emulated",
+      "rep": 1,
+      "rank": "level235",
+      "entry": "first",
+      "inputToReadyMs": 1219,
+      "catalog": {
+        "ms": 6,
+        "handlerMs": 0.019099999997706618,
+        "endMs": 1109
+      },
+      "account": {
+        "ms": 36,
+        "handlerMs": 31.157700000003388,
+        "endMs": 1139
+      },
+      "renderAfterApisMs": 79,
+      "p95FrameMs": 231,
+      "framesOver50": 8,
+      "frames": 46,
+      "longTasks": [],
+      "overflow": false,
+      "deployable": true,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "iOS iPhone 13 emulated",
+      "rep": 1,
+      "rank": "level235",
+      "entry": "return",
+      "inputToReadyMs": 555,
+      "catalog": {
+        "ms": 4,
+        "handlerMs": 0.010800000003655441,
+        "endMs": 488
+      },
+      "account": {
+        "ms": 15,
+        "handlerMs": 10.839599999999336,
+        "endMs": 499
+      },
+      "renderAfterApisMs": 53,
+      "p95FrameMs": 89,
+      "framesOver50": 4,
+      "frames": 55,
+      "longTasks": [],
+      "overflow": false,
+      "deployable": true,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "iOS iPhone 13 emulated",
+      "rep": 2,
+      "rank": "level1",
+      "entry": "first",
+      "inputToReadyMs": 494,
+      "catalog": {
+        "ms": 21,
+        "handlerMs": 0.0253999999986263,
+        "endMs": 374
+      },
+      "account": {
+        "ms": 15,
+        "handlerMs": 10.906800000004296,
+        "endMs": 370
+      },
+      "renderAfterApisMs": 119,
+      "p95FrameMs": 108,
+      "framesOver50": 6,
+      "frames": 53,
+      "longTasks": [],
+      "overflow": false,
+      "deployable": false,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "iOS iPhone 13 emulated",
+      "rep": 2,
+      "rank": "level1",
+      "entry": "return",
+      "inputToReadyMs": 343,
+      "catalog": {
+        "ms": 5,
+        "handlerMs": 0.008300000001327135,
+        "endMs": 316
+      },
+      "account": {
+        "ms": 15,
+        "handlerMs": 10.684000000001106,
+        "endMs": 326
+      },
+      "renderAfterApisMs": 15,
+      "p95FrameMs": 89,
+      "framesOver50": 4,
+      "frames": 49,
+      "longTasks": [],
+      "overflow": false,
+      "deployable": false,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "iOS iPhone 13 emulated",
+      "rep": 2,
+      "rank": "level235",
+      "entry": "first",
+      "inputToReadyMs": 542,
+      "catalog": {
+        "ms": 6,
+        "handlerMs": 0.010000000002037268,
+        "endMs": 325
+      },
+      "account": {
+        "ms": 15,
+        "handlerMs": 10.211100000000442,
+        "endMs": 334
+      },
+      "renderAfterApisMs": 207,
+      "p95FrameMs": 100,
+      "framesOver50": 7,
+      "frames": 52,
+      "longTasks": [],
+      "overflow": false,
+      "deployable": true,
+      "oldPageRequestsAfterExit": 0
+    },
+    {
+      "platform": "iOS iPhone 13 emulated",
+      "rep": 2,
+      "rank": "level235",
+      "entry": "return",
+      "inputToReadyMs": 357,
+      "catalog": {
+        "ms": 4,
+        "handlerMs": 0.008300000001327135,
+        "endMs": 328
+      },
+      "account": {
+        "ms": 16,
+        "handlerMs": 12.086899999994785,
+        "endMs": 340
+      },
+      "renderAfterApisMs": 16,
+      "p95FrameMs": 70,
+      "framesOver50": 4,
+      "frames": 55,
+      "longTasks": [],
+      "overflow": false,
+      "deployable": true,
+      "oldPageRequestsAfterExit": 0
+    }
+  ],
+  "errors": []
+}
