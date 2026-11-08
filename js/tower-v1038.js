@@ -4,6 +4,17 @@
   const ui=()=>window.TowerAbyssUI,user=()=>typeof loadUser==='function'?loadUser():null;
   function currentUserId(){const account=user(),id=Number(account?.serverUserId??account?.id);return Number.isSafeInteger(id)&&id>0?id:null;}
   const S={data:null,busy:false,enabled:true,ensureBusy:false,ensureTimer:null,lastConfigAt:0,autoNext:false,autoAccount:null,autoTimer:null,autoGeneration:0,autoResult:null,tab:'challenge',filter:'all',request:0,battleGeneration:0,releaseFocus:null};
+  let weeklyTimer=null,weeklyDeadline=0;
+  function stopWeeklyRefresh(){clearTimeout(weeklyTimer);weeklyTimer=null;}
+  function scheduleWeeklyRefresh(){
+    stopWeeklyRefresh();
+    const box=document.getElementById('pveTowerView');
+    if(!weeklyDeadline||!box?.isConnected||box.hidden||document.hidden||S.busy)return;
+    const remaining=weeklyDeadline-Date.now();
+    if(remaining<=0){weeklyDeadline=0;setAutoNext(false);void openTower(true,true);return;}
+    weeklyTimer=setTimeout(scheduleWeeklyRefresh,Math.min(remaining+50,2147483647));
+  }
+  function leaveWeeklyView(){stopWeeklyRefresh();weeklyDeadline=0;}
   let requestedTower=new URL(location.href).searchParams.get('pve')==='tower';
   const pendingKey=()=>`cnine:tower:battle:v2094:${currentUserId()||0}`;
   function pendingBattle(){if(!currentUserId())return null;try{const p=JSON.parse(sessionStorage.getItem(pendingKey())||'null');return p&&typeof p.requestId==='string'&&Number.isSafeInteger(p.floorNo)&&p.floorNo>0?p:null;}catch{return null;}}
@@ -46,7 +57,7 @@
       const target=event.target.closest('[data-abyss-action]');if(!target||!box.contains(target)||target.disabled)return;
       const action=target.dataset.abyssAction;
       if(action==='exit')exitTower();
-      else if(action==='refresh')void openTower();
+      else if(action==='refresh')void openTower(true,true);
       else if(action==='tab'){S.tab=target.dataset.tab;render();box.querySelector(`[data-tab="${S.tab}"][data-abyss-action]`)?.focus({preventScroll:true});}
       else if(action==='auto-next')setAutoNext(!autoNextEnabled());
       else if(action==='fight')void startFight();
@@ -76,24 +87,32 @@
       bindView(box);
       if(tabs.dataset.towerBound!=='1'){
         tabs.dataset.towerBound='1';
-        tabs.addEventListener('click',event=>{const btn=event.target.closest('[data-pve-mode]');if(!btn)return;if(btn.dataset.pveMode==='tower'){event.preventDefault();void openTower();}else{setAutoNext(false);S.request++;box.hidden=true;}});
+        tabs.addEventListener('click',event=>{const btn=event.target.closest('[data-pve-mode]');if(!btn)return;if(btn.dataset.pveMode==='tower'){event.preventDefault();void openTower();}else{setAutoNext(false);leaveWeeklyView();S.request++;box.hidden=true;}});
       }
       tabs.dataset.towerReady='1';
       if(requestedTower){requestedTower=false;const url=new URL(location.href);url.searchParams.delete('pve');history.replaceState(history.state,'',url);void openTower();}
     }finally{S.ensureBusy=false;}
   }
-  async function openTower(restoreBattle=true){
+  async function openTower(restoreBattle=true,fresh=false){
     if(S.busy)return false;
+    leaveWeeklyView();
     const token=++S.request;
     document.querySelectorAll('.pve-mode-btn').forEach(x=>x.classList.toggle('active',x.dataset.pveMode==='tower'));
     ['pveRaidHubView','pveRaidView','pveHuntView','pveRiftView','pveEscortView','pveSealBattleView','pveIdleDungeonView'].forEach(id=>{const el=document.getElementById(id);if(el)el.hidden=true;});
     const box=document.getElementById('pveTowerView');if(!box)return false;
     bindView(box);box.hidden=false;ui().state(box);
     try{
-      const [data,recovery]=await Promise.all([apiRequest('tower/status',{}, {ttl:0}),apiRequest('tower/pending',{}, {ttl:0})]);
+      const readOptions=fresh?{ttl:0,microcache:false,replaceInflight:true}:{ttl:0};
+      const [data,recovery]=await Promise.all([apiRequest('tower/status',{},readOptions),apiRequest('tower/pending',{},readOptions)]);
       if(token!==S.request||!box.isConnected||box.hidden)return false;
       if(recovery.pending){const old=pendingBattle();rememberBattle({requestId:recovery.pending.requestId,floorNo:recovery.pending.floorNo,result:recovery.pending,playbackComplete:old?.requestId===recovery.pending.requestId&&old?.playbackComplete===true});}
+      const previous=pendingBattle();
+      if(!recovery.pending&&previous&&data.weekly?.weekKey){
+        const started=previous.result?.settlement?.startedAt;
+        if(previous.weekKey!==undefined?previous.weekKey!==data.weekly.weekKey:!started||started<Date.parse(data.weekly.startsAt))acknowledgeBattle();
+      }
       S.data=data;render();
+      if(data.weekly){weeklyDeadline=Date.now()+Date.parse(data.weekly.resetsAt)-data.weekly.serverNow;scheduleWeeklyRefresh();}
       if(restoreBattle&&pendingBattle()?.result&&!S.busy)void startFight();
       return true;
     }catch(error){if(token===S.request&&box.isConnected&&!box.hidden)ui().state(box,{title:'도전 정보를 불러오지 못했습니다',description:error.message,error:true});return false;}
@@ -164,7 +183,7 @@
     const f=saved?{floorNo,monsterName:saved.monster?.name}:S.data.floor||{floorNo};
     const modal=document.getElementById('modal');if(!modal)return;
     clearAutoTimer();S.autoResult=null;if(saved)setAutoNext(false);
-    S.busy=true;let view=null;
+    stopWeeklyRefresh();S.busy=true;let view=null;
     const generation=++S.battleGeneration,recordKey=pendingKey(),isCurrent=()=>generation===S.battleGeneration&&currentUserId()===accountId;
     try{
       ui().starting?.(document.getElementById('pveTowerView'));
@@ -175,9 +194,9 @@
       view=window.prepareBattleV2LiveLoading({modal,mode:'TOWER',playerName:user()?.nickname||'원정대',opponentName:f.monsterName||'탑의 수호자',autoText:'나락의 시련 · 원정대 준비'});
       ui().prepareBattle(view,{floorNo});ui().battleAutoControl?.(view,autoNextEnabled(),()=>setAutoNext(!autoNextEnabled()));lockBattleFocus(view.stage);
       window.ensureBattleSoundButton?.(view.stage);
-      const ticket=pending||{requestId:crypto.randomUUID(),floorNo,seasonReplay:Boolean(replayFloor)};
+      const ticket=pending||{requestId:crypto.randomUUID(),floorNo,weekKey:S.data?.weekly?.weekKey,seasonReplay:Boolean(replayFloor)};
       if(!saved)rememberBattle(ticket,recordKey);
-      let data=saved||await apiRequest('tower/start',{method:'POST',body:JSON.stringify({requestId:ticket.requestId,floorNo:ticket.floorNo,seasonReplay:ticket.seasonReplay===true,protocol:PROTOCOL})});
+      let data=saved||await apiRequest('tower/start',{method:'POST',body:JSON.stringify({requestId:ticket.requestId,floorNo:ticket.floorNo,seasonReplay:ticket.seasonReplay===true,weekKey:ticket.weekKey,protocol:PROTOCOL})});
       data.requestId||=ticket.requestId;rememberBattle({...ticket,requestId:data.requestId,floorNo:data.floorNo,result:data},recordKey);
       if(!isCurrent())return;
       const playbackComplete=Boolean(saved?.settlement?.protocol===PROTOCOL&&ticket.playbackComplete);
@@ -223,8 +242,9 @@
     }
   }
   window.addEventListener('cnine:character-power-changed',event=>{const bonuses=event.detail?.bonuses;if(!bonuses)return;if(S.data)S.data.characterBonus=bonuses;const view=document.getElementById('pveTowerView');if(view&&!view.hidden&&S.data)render();});
-  window.addEventListener('cnine:route-will-change',()=>{setAutoNext(false);S.autoResult=null;S.request++;S.battleGeneration++;S.releaseFocus?.();S.busy=false;});
-  document.addEventListener?.('visibilitychange',()=>{if(document.hidden)setAutoNext(false);});
-  window.addEventListener('pagehide',()=>setAutoNext(false));
+  window.addEventListener('cnine:route-will-change',()=>{leaveWeeklyView();setAutoNext(false);S.autoResult=null;S.request++;S.battleGeneration++;S.releaseFocus?.();S.busy=false;});
+  document.addEventListener?.('visibilitychange',()=>{if(document.hidden)setAutoNext(false);scheduleWeeklyRefresh();});
+  window.addEventListener('pagehide',()=>{stopWeeklyRefresh();setAutoNext(false);});
+  window.addEventListener('pageshow',scheduleWeeklyRefresh);
   const observer=new MutationObserver(scheduleEnsure);observer.observe(document.documentElement,{childList:true,subtree:true});void ensure();
 })();

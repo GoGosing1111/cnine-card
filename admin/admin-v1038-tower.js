@@ -130,7 +130,7 @@
   function renderRanking(mount,d,season){
     const ranking=d.ranking||[];
     mount.innerHTML=`<div class="towerManageLayout">
-      <section class="panel"><div class="maintenanceHead"><div><small>PERMANENT RANKING</small><h2>최고층 랭킹</h2><p>시즌 없이 계속 누적됩니다. 초기화는 운영자가 직접 실행합니다.</p></div></div><div class="towerRankingList">${ranking.map((r,i)=>`<div><b>${i+1}</b><span>${e(r.nickname)}</span><strong>${n(r.highest_floor)}F</strong><small>${r.highest_reached_at?(typeof fmt==='function'?fmt(r.highest_reached_at):e(r.highest_reached_at)):'-'}</small></div>`).join('')||'<div class="towerEmpty"><b>아직 기록이 없습니다.</b></div>'}</div></section>
+      <section class="panel"><div class="maintenanceHead"><div><small>WEEKLY RANKING</small><h2>최고층 랭킹</h2><p>매주 월요일 0시(한국시간)에 전체 도전층과 최고층 순위가 초기화됩니다.</p></div></div><div class="towerRankingList">${ranking.map((r,i)=>`<div><b>${i+1}</b><span>${e(r.nickname)}</span><strong>${n(r.highest_floor)}F</strong><small>${r.highest_reached_at?(typeof fmt==='function'?fmt(r.highest_reached_at):e(r.highest_reached_at)):'-'}</small></div>`).join('')||'<div class="towerEmpty"><b>아직 기록이 없습니다.</b></div>'}</div></section>
       <section class="panel"><div class="maintenanceHead"><div><small>MANUAL RESET</small><h2>운영자 초기화</h2><p>랭킹 초기화와 진행도 초기화는 서로 다른 작업입니다.</p></div></div><div class="towerResetCards"><article><b>랭킹만 초기화</b><p>최고층과 달성 시간만 0으로 초기화합니다. 현재 도전층은 유지됩니다.</p><button id="towerResetRanking" class="danger">전체 랭킹 초기화</button></article><article><b>진행도까지 초기화</b><p>모든 유저를 1층으로 되돌립니다. 최고층 완료 유저의 재등반이 필요할 때만 사용하세요.</p><button id="towerResetProgress" class="danger">전체 진행도 초기화</button></article></div></section>
     </div>`;
     q('#towerResetRanking').onclick=()=>manualReset('RESET_RANKING','무한의탑 랭킹 초기화','랭킹 기록만 초기화됩니다. 현재 층은 유지됩니다.');

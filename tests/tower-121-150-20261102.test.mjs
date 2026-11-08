@@ -111,5 +111,6 @@ test('level and composition affect combat while every new encounter has 28 uniqu
   assert.equal(battle.continuousEncounter.total,28);assert.equal(new Set(battle.continuousEncounter.instances.map(m=>m.id)).size,28);
   assert.equal(battle.unlockStep,battle.success?1:0);
  }
- const single=reviewBattle({floor:121,count:1}),dual=reviewBattle({floor:121});assert.equal(single.success,false);assert.equal(dual.success,true);
+ // At the current mercenary balance the last floor distinguishes these two parties.
+ const single=reviewBattle({floor:150,count:1}),dual=reviewBattle({floor:150});assert.equal(single.success,false);assert.equal(dual.success,true);
 });

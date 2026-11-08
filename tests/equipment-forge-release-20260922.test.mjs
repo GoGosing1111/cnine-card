@@ -97,6 +97,10 @@ for(const postgres of [false,true]){
   assert.equal(await f.qty('EQUIPMENT_PROTECTION_TICKET'),1);assert.equal(Number((await f.p('SELECT highest_floor FROM tower_user_progress WHERE user_id=7').first()).highest_floor),1);
   const replay=await prepareTowerForgeProtectionClearReady(f.env,policy,input,{randomInt:()=>{throw Error('reroll');}});assert.equal(replay.replayed,true);assert.deepEqual(replay.statements,[]);
   const miss=await prepareTowerForgeProtectionClearReady(f.env,policy,{...input,floorNo:2},{randomInt:()=>10000});assert.equal(miss.reward,null);await f.DB.batch(miss.statements);assert.equal(await f.qty('EQUIPMENT_PROTECTION_TICKET'),1);
+  const monday={...input,weekKey:'2026-11-09'};
+  const weekly=await prepareTowerForgeProtectionClearReady(f.env,policy,monday,{randomInt:()=>0});await batch(weekly.statements);
+  const sameWeek=await prepareTowerForgeProtectionClearReady(f.env,policy,monday,{randomInt:()=>{throw Error('duplicate weekly roll');}});
+  assert.equal(sameWeek.replayed,true);assert.equal(await f.qty('EQUIPMENT_PROTECTION_TICKET'),2);
  });
 }
 test('offline release SQL checks the exact CMS snapshot, stays OFF and is repeat-safe in PostgreSQL',async t=>{

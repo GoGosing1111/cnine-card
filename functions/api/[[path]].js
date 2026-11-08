@@ -165,6 +165,7 @@ import { handleScrapyard } from '../_scrapyard.js';
 import {handlePveV3,isPveV3Path} from '../_pve_v3_routes.js';
 import {loadScrapyardV3Snapshot} from '../_scrapyard_v3.js';
 import {buildTowerV3Battle,TOWER_V3_DRAFT} from '../_tower_v3.js';
+import {ensureTowerWeek,towerFloorRewardRef} from '../_tower_weekly.js';
 import {towerAbyssStart,towerAbyssFinish,towerAbyssPending,TOWER_ABYSS_PROTOCOL} from '../_tower_abyss.js';
 import {discoverCowPortal} from '../_cow_room_portal.js';
 import {V3_JOINT_RELEASE_ENABLED} from '../../shared/v3-joint-release-v1.mjs';
@@ -6780,7 +6781,7 @@ async function handleRequest(context){
       const towerSeasonPromise=env.DB.prepare("SELECT * FROM tower_seasons WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1").first();
       for(const pending of [towerConfigPromise,towerSeasonPromise])pending.catch(()=>{});
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-      const [towerConfig,season]=await Promise.all([towerConfigPromise,towerSeasonPromise]);
+      const [towerConfig,season,weekly]=await Promise.all([towerConfigPromise,towerSeasonPromise,ensureTowerWeek(env)]);
       if(!towerConfig.enabled&&!isAdminRole(user))return json({error:'현재 무한의탑이 운영 중지 상태입니다.',code:'TOWER_DISABLED'},503);
       if(!season)return json({active:false});
       const [towerProgressBatch,characterBonus,deck,towerRankingResult]=await Promise.all([
@@ -6791,24 +6792,33 @@ async function handleRequest(context){
         ]),
         userEquipmentBonuses(env,user.id),
         pveDeckCards(env,user.id),
-        env.DB.prepare('SELECT p.user_id,u.nickname,p.highest_floor,p.highest_reached_at FROM tower_user_progress p JOIN users u ON u.id=p.user_id WHERE p.season_id=? ORDER BY p.highest_floor DESC,p.highest_reached_at ASC LIMIT 50').bind(season.id).all()
+        env.DB.prepare('SELECT p.user_id,u.nickname,p.highest_floor,p.highest_reached_at FROM tower_user_progress p JOIN users u ON u.id=p.user_id WHERE p.season_id=? AND p.highest_floor>0 ORDER BY p.highest_floor DESC,p.highest_reached_at ASC NULLS LAST LIMIT 50').bind(season.id).all()
       ]);
       const progress=towerProgressBatch[1]?.results?.[0]||{current_floor:1,highest_floor:0,highest_reached_at:null};
       const configuredMax=towerProgressBatch[2]?.results?.[0]||null;
       const ranking=towerRankingResult.results;
       const maxFloor=Math.max(0,Number(configuredMax?.max_floor||0));
-      if(maxFloor<1)return json({active:true,seasonReplayFloors:await seasonTowerFloors(env,progress.highest_floor,user.id),configured:false,completed:false,maxFloor:0,tower:{id:season.id,name:'무한의탑',maxFloor:0},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor:0},progress:{currentFloor:1,highestFloor:Number(progress.highest_floor||0),rank:0,completed:false},floor:null,deck,characterBonus,ranking:[],message:'운영자가 무한의탑 층을 아직 설정하지 않았습니다.'});
+      if(maxFloor<1)return json({active:true,weekly,seasonReplayFloors:await seasonTowerFloors(env,progress.highest_floor,user.id),configured:false,completed:false,maxFloor:0,tower:{id:season.id,name:'무한의탑',maxFloor:0},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor:0},progress:{currentFloor:1,highestFloor:Number(progress.highest_floor||0),rank:0,completed:false},floor:null,deck,characterBonus,ranking:[],message:'운영자가 무한의탑 층을 아직 설정하지 않았습니다.'});
       const completed=Number(progress.current_floor||1)>maxFloor||Number(progress.highest_floor||0)>=maxFloor;
       const floorNo=completed?maxFloor:Math.max(1,Math.min(maxFloor,Number(progress.current_floor||1)));
-      if(completed)return json({active:true,seasonReplayFloors:await seasonTowerFloors(env,progress.highest_floor,user.id),configured:true,completed:true,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:Number(progress.current_floor||maxFloor+1),highestFloor:Number(progress.highest_floor||0),rank:Math.max(1,ranking.findIndex(row=>Number(row.user_id)===Number(user.id))+1),completed:true},floor:null,deck,characterBonus,ranking});
-      const towerRankPromise=env.DB.prepare('SELECT COUNT(*)+1 rank FROM tower_user_progress WHERE season_id=? AND (highest_floor>? OR (highest_floor=? AND COALESCE(highest_reached_at,\'9999\')<COALESCE(?,\'9999\')))').bind(season.id,Number(progress.highest_floor||0),Number(progress.highest_floor||0),progress.highest_reached_at).first();
-      towerRankPromise.catch(()=>{});
+      const best=Number(progress.highest_floor||0);
+      // The leaderboard already contains every player ahead of a listed player.
+      // Unranked players need no additional aggregate on an empty Monday board.
+      let rankResult;
+      if(!best)rankResult=0;
+      else if(ranking.some(row=>Number(row.user_id)===Number(user.id)&&Number(row.highest_floor)===best&&row.highest_reached_at===progress.highest_reached_at)){
+        rankResult=1+ranking.filter(row=>Number(row.highest_floor)>best||(Number(row.highest_floor)===best&&(row.highest_reached_at||'9999')<(progress.highest_reached_at||'9999'))).length;
+      }else{
+        rankResult=env.DB.prepare("SELECT COUNT(*)+1 AS rank FROM tower_user_progress WHERE season_id=? AND (highest_floor>? OR (highest_floor=? AND COALESCE(highest_reached_at,'9999')<COALESCE(?,'9999')))")
+          .bind(season.id,best,best,progress.highest_reached_at).first().then(row=>Number(row.rank));
+        rankResult.catch(()=>{});
+      }
+      if(completed)return json({active:true,weekly,seasonReplayFloors:await seasonTowerFloors(env,progress.highest_floor,user.id),configured:true,completed:true,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:Number(progress.current_floor||maxFloor+1),highestFloor:Number(progress.highest_floor||0),rank:await rankResult,completed:true},floor:null,deck,characterBonus,ranking});
       let floor=completed?null:await env.DB.prepare(`SELECT r.*,bm.id monster_id,bm.name monster_name,bm.image_url monster_image,bm.battle_power base_power,bm.is_boss monster_is_boss FROM tower_floor_ranges r JOIN battle_monsters bm ON bm.id=r.monster_id WHERE r.season_id=? AND r.is_active=1 AND bm.is_active=1 AND COALESCE(bm.tower_enabled,0)=1 AND ?>=r.start_floor AND ?<=r.end_floor ORDER BY (r.end_floor-r.start_floor) ASC,r.id DESC LIMIT 1`).bind(season.id,floorNo,floorNo).first();if(!floor)floor=await env.DB.prepare('SELECT tf.*,tm.name monster_name,tm.image_url monster_image,tm.base_power,tm.is_boss monster_is_boss FROM tower_floors tf JOIN tower_monsters tm ON tm.id=tf.monster_id WHERE tf.season_id=? AND tf.floor_no=? AND tf.is_active=1').bind(season.id,floorNo).first();
-      if(!floor)return json({active:true,seasonReplayFloors:await seasonTowerFloors(env,progress.highest_floor,user.id),configured:true,completed:false,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:0,completed:false},floor:null,deck,characterBonus,ranking:[],blocked:true,code:'TOWER_FLOOR_UNCONFIGURED',message:`${floorNo}층이 설정되지 않아 더 이상 진행할 수 없습니다.`});
+      if(!floor)return json({active:true,weekly,seasonReplayFloors:await seasonTowerFloors(env,progress.highest_floor,user.id),configured:true,completed:false,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:0,completed:false},floor:null,deck,characterBonus,ranking:[],blocked:true,code:'TOWER_FLOOR_UNCONFIGURED',message:`${floorNo}층이 설정되지 않아 더 이상 진행할 수 없습니다.`});
       if(floor){floor.monster_image=String(floor.monster_image||'').trim().replace(/\\/g,'/');floor.monster_power=Number(floor.power_override||Math.floor(Number(floor.base_power||1000)*(1+Math.max(0,floorNo-1)*0.07)*(floorNo%10===0?1.35:1)));}
       const floorIsBoss=Boolean(floor)&&(Number(floor.is_boss||0)===1||Number(floor.monster_is_boss||0)===1||floorNo%10===0);
-      const rankRow=await towerRankPromise;
-      return json({active:true,seasonReplayFloors:await seasonTowerFloors(env,progress.highest_floor,user.id),completed,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:Number(rankRow?.rank||1),completed},floor:floor?{floorNo,monsterId:floor.monster_id,monsterName:floor.monster_name,monsterImage:floor.monster_image,monsterPower:floor.monster_power,rewardCoin:Number(floor.reward_coin||0),isBoss:floorIsBoss}:null,deck,characterBonus,ranking});
+      return json({active:true,weekly,seasonReplayFloors:await seasonTowerFloors(env,progress.highest_floor,user.id),completed,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:await rankResult,completed},floor:floor?{floorNo,monsterId:floor.monster_id,monsterName:floor.monster_name,monsterImage:floor.monster_image,monsterPower:floor.monster_power,rewardCoin:Number(floor.reward_coin||0),isBoss:floorIsBoss}:null,deck,characterBonus,ranking});
     }
     if(path==='tower/fight'&&request.method==='POST')return json({error:'무한의탑 전투가 개편됐습니다. 새로고침 후 다시 도전하세요.',code:'TOWER_CLIENT_UPDATE'},409);
     if(path==='tower/pending'&&request.method==='GET'){
@@ -6821,7 +6831,7 @@ async function handleRequest(context){
       try{return json(await withJointUserMutationLock(env,user.id,path,async()=>{
         const config=await towerSettings(env);if(!config.enabled&&!isAdminRole(user))throw Object.assign(new Error('현재 무한의탑이 운영 중지 상태입니다.'),{code:'TOWER_DISABLED',status:503});
         return towerAbyssFinish(env,user,body,{
-          magicReward:plan=>resolveMagicCrystalReward(env,{userId:user.id,source:'TOWER_FIRST_CLEAR',referenceId:plan.seasonId+':'+plan.response.floorNo,enabled:plan.magic.enabled,chance:100,amount:plan.magic.amount,dailyLimit:0,reason:'무한의탑 '+plan.response.floorNo+'층 최초 클리어'}),
+          magicReward:plan=>resolveMagicCrystalReward(env,{userId:user.id,source:'TOWER_FIRST_CLEAR',referenceId:towerFloorRewardRef(plan),enabled:plan.magic.enabled,chance:100,amount:plan.magic.amount,dailyLimit:0,reason:'무한의탑 '+plan.response.floorNo+'층 최초 클리어'}),
           equipmentReward:(plan,rid)=>grantEquipmentDrop(env,{userId:user.id,sourceType:'TOWER',sourceId:String(plan.response.floorNo),requestId:rid}),
           blackMiracleReward:(_plan,rid)=>rollBlackMiracleDrop(env,{userId:user.id,source:'TOWER',referenceId:rid})
         });
@@ -6839,7 +6849,7 @@ async function handleRequest(context){
       if(maxFloor<1)return json({error:'운영자가 무한의탑 층을 아직 설정하지 않았습니다.',code:'TOWER_NOT_CONFIGURED'},409);
       const seasonReplay=towerBody.seasonReplay===true;
       if(seasonReplay&&!(await seasonTowerFloors(env,progress.highest_floor,user.id)).includes(Number(towerBody.floorNo)))return json({error:'현재 시즌에 재도전 가능한 클리어 층을 선택하세요.',code:'SEASON_TOWER_REPLAY'},409);
-      if(!seasonReplay&&(Number(progress.current_floor||1)>maxFloor||Number(progress.highest_floor||0)>=maxFloor))return json({error:'무한의탑 최고층 등반을 완료했습니다. 운영자가 진행도를 초기화하기 전까지 다시 1층부터 시작하지 않습니다.',code:'TOWER_COMPLETED',completed:true,maxFloor},409);
+      if(!seasonReplay&&(Number(progress.current_floor||1)>maxFloor||Number(progress.highest_floor||0)>=maxFloor))return json({error:'이번 주 무한의탑 최고층을 돌파했습니다. 월요일 0시(한국시간)에 다시 1층부터 도전할 수 있습니다.',code:'TOWER_COMPLETED',completed:true,maxFloor},409);
       const floorNo=seasonReplay?Number(towerBody.floorNo):Math.max(1,Math.min(maxFloor,Number(progress.current_floor||1)));
       if(towerBody.floorNo!==undefined&&Number(towerBody.floorNo)!==floorNo)return json({error:'현재 도전층이 변경되었습니다. 진행도를 다시 확인하세요.',code:'TOWER_FLOOR_CHANGED',floorNo,maxFloor},409);
       const deckInfo=await raidDeckPower(env,user.id,null,'TOWER');const settings=await battleSettings(env);const ids=deckInfo.ids,marks=ids.map(()=>'?').join(',');
@@ -6939,13 +6949,14 @@ async function handleRequest(context){
       if(request.method==='GET'){
         const safeResults=async(sql,bind=[])=>{try{const stmt=env.DB.prepare(sql);return (await (bind.length?stmt.bind(...bind):stmt).all()).results||[]}catch(e){warnings.push(String(e.message||e));return []}};
         let settings={enabled:true};try{settings=await towerSettings(env)}catch(e){warnings.push('운영 설정 조회 실패: '+String(e.message||e))}
+        await ensureTowerWeek(env);
         const seasons=await safeResults("SELECT * FROM tower_seasons WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1");
         let monsters=await safeResults(`SELECT id,name,image_url AS image,battle_power AS battlePower,reward_coin AS rewardCoin,is_boss AS isBoss,is_active AS isActive,COALESCE(pve_enabled,1) AS pveEnabled,COALESCE(tower_enabled,0) AS towerEnabled,COALESCE(tower_only,0) AS towerOnly,COALESCE(ultimate_enabled,0) AS ultimateEnabled,COALESCE(ultimate_name,'') AS ultimateName FROM battle_monsters ORDER BY sort_order,id`);
         if(!monsters.length) monsters=await safeResults(`SELECT id,name,image_url AS image,battle_power AS battlePower,reward_coin AS rewardCoin,is_boss AS isBoss,is_active AS isActive,1 AS pveEnabled,0 AS towerEnabled,0 AS towerOnly,0 AS ultimateEnabled,'' AS ultimateName FROM battle_monsters ORDER BY sort_order,id`);
         const floors=await safeResults('SELECT tf.*,tm.name monster_name FROM tower_floors tf LEFT JOIN tower_monsters tm ON tm.id=tf.monster_id ORDER BY tf.season_id DESC,tf.floor_no');
         let ranges=await safeResults(`SELECT r.*,bm.name monster_name,bm.image_url monster_image,bm.battle_power base_power,bm.is_boss monster_is_boss,COALESCE(bm.ultimate_enabled,0) ultimate_enabled,COALESCE(bm.ultimate_name,'') ultimate_name FROM tower_floor_ranges r JOIN battle_monsters bm ON bm.id=r.monster_id WHERE r.is_active=1 ORDER BY r.season_id DESC,r.start_floor,r.id`);
         if(!ranges.length) ranges=await safeResults(`SELECT r.*,bm.name monster_name,bm.image_url monster_image,bm.battle_power base_power,bm.is_boss monster_is_boss,0 ultimate_enabled,'' ultimate_name FROM tower_floor_ranges r JOIN battle_monsters bm ON bm.id=r.monster_id WHERE r.is_active=1 ORDER BY r.season_id DESC,r.start_floor,r.id`);
-        const ranking=await safeResults("SELECT p.user_id,u.nickname,p.current_floor,p.highest_floor,p.highest_reached_at FROM tower_user_progress p JOIN tower_seasons s ON s.id=p.season_id JOIN users u ON u.id=p.user_id WHERE s.status='ACTIVE' ORDER BY p.highest_floor DESC,p.highest_reached_at ASC LIMIT 100");
+        const ranking=await safeResults("SELECT p.user_id,u.nickname,p.current_floor,p.highest_floor,p.highest_reached_at FROM tower_user_progress p JOIN tower_seasons s ON s.id=p.season_id JOIN users u ON u.id=p.user_id WHERE s.status='ACTIVE' AND p.highest_floor>0 ORDER BY p.highest_floor DESC,p.highest_reached_at ASC LIMIT 100");
         return json({settings,seasons,monsters,floors,ranges,ranking,warnings:[...new Set(warnings)].slice(0,6)});
       }
       if(request.method==='POST'){

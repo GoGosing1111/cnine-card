@@ -10,10 +10,10 @@ export async function prepareTowerForgeProtectionClear(env,input){
  if(!policy)return {statements:[],reward:null};
  return prepareTowerForgeProtectionClearReady(env,policy,input);
 }
-export async function prepareTowerForgeProtectionClearReady(env,policy,{userId,seasonId,floorNo},{randomInt}={}){
+export async function prepareTowerForgeProtectionClearReady(env,policy,{userId,seasonId,floorNo,weekKey},{randomInt}={}){
  if([userId,seasonId,floorNo].some(n=>!Number.isSafeInteger(n)||n<1))throw jointError('FORGE_TOWER_SOURCE','탑 최초 클리어 정보를 확인하세요.');
- const requestId=`forge-tower-${userId}-${seasonId}-${floorNo}`,kind='FORGE_TOWER_DROP',DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v);
- const inputHash=await jointHash({kind,userId,seasonId,floorNo});
+ const requestId=`forge-tower-${userId}-${seasonId}-${floorNo}${weekKey?'-'+weekKey:''}`,kind='FORGE_TOWER_DROP',DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v);
+ const inputHash=await jointHash({kind,userId,seasonId,floorNo,...(weekKey?{weekKey}:{})});
  let row=await p('SELECT * FROM joint_operations_v1 WHERE request_id=?',requestId).first();
  if(!row){
   const rewards=protectionDrop(policy,'TOWER',{cleared:true,randomInt}),plan={rewards,policyVersion:policy.version,policyRevision:policy.revision};
