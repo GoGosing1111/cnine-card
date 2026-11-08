@@ -1,0 +1,454 @@
+{
+  "completed": "2026-11-08T12:49:10.476Z",
+  "published": {
+    "head": "5a7585915958af524474b0a580909e50f8c79b50",
+    "pages": {
+      "id": "fe985eba-a96c-458c-a551-ffe15dfe135d",
+      "url": "https://fe985eba.cnine-card.pages.dev"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "b1a09fca-375c-4cee-8a05-efd95c4ce88a",
+        "percentageAtRelease": 100
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "19916171-6bc2-4352-9778-7dbfa6ed9f84",
+        "percentageAtRelease": 100
+      }
+    ],
+    "publicFiles": 48,
+    "publicArt": 35,
+    "windowsReleaseId": "bf630f21d4053c6a10acd256da09cf4b448aae2c60e10d0795c1dd97750bb5b7",
+    "windowsChanged": 45,
+    "totalFiles": 19999
+  },
+  "configuration": {
+    "at": "2026-11-08T12:48:33.788Z",
+    "readOnly": true,
+    "mode": "OFF",
+    "autoOpen": {
+      "kind": "MANUAL",
+      "battleAt": null
+    },
+    "rounds": [
+      {
+        "id": "97",
+        "status": "DISABLED",
+        "winner_side": null
+      },
+      {
+        "id": "96",
+        "status": "FINISHED",
+        "winner_side": "A"
+      }
+    ],
+    "buffs": 0,
+    "issued": 0
+  },
+  "regression": 122,
+  "scopeKorean": "도심 전선 9개 거점, 본부·전방 막사·보급창·차량 검문소·철교 통제소. 현장 교전, 시설, 작전·지휘와 아군 채팅, 개인 부대와 전황, 교전 결과와 정산.",
+  "hotFront": {
+    "seconds": 120,
+    "minimumCompletedFights": 4
+  },
+  "reward": {
+    "eligible": "회차 정산 당시 승리한 진영에 실제 편성된 참가자",
+    "accountRankXpPercent": 20,
+    "earnedCoinPercent": 50,
+    "hours": 168,
+    "onRepeatWin": "정산 시점부터 7일로 갱신"
+  },
+  "scheduling": {
+    "supported": [
+      "CMS 지정 일시 1회",
+      "매주 같은 요일·시각"
+    ],
+    "timezone": "Asia/Seoul",
+    "status": "OFF",
+    "firstOpening": null
+  },
+  "uiReview": {
+    "tool": "Impeccable",
+    "disposition": "ship",
+    "resolutions": [
+      {
+        "area": "거점 접근 상태",
+        "verified": "지도와 상세에서 진입·방어·경로 대기, 선택한 막사의 이유 확인"
+      },
+      {
+        "area": "출전 부대",
+        "verified": "390px에 실제 카드 5장의 그림·이름 표시, 좌우 13px, 구형 스냅숏 안내"
+      },
+      {
+        "area": "현장 위치·행동",
+        "verified": "진입 후 현재 위치와 주 행동을 구분"
+      },
+      {
+        "area": "점령 막대",
+        "verified": "0 대 9에서 패배팀 폭 0, 구형 8명·12명에서 40% 대 60%"
+      },
+      {
+        "area": "표제",
+        "verified": "시설·전황 기록·전투단 중복 표제 제거"
+      }
+    ],
+    "reviewer": "Independent visual review of running Windows Chromium and mobile WebKit screenshots"
+  },
+  "operationalReadPlan": {
+    "before": {
+      "readOnly": true,
+      "round": 96,
+      "installed": null,
+      "windowSeconds": 120,
+      "executionMs": 1.498,
+      "planningMs": 12.02,
+      "hotSectors": 0,
+      "indexes": [
+        "idx_twv3_actions_cleanup_v1402",
+        "territory_war_v3_fronts_pkey"
+      ]
+    },
+    "after": {
+      "readOnly": true,
+      "round": 96,
+      "marker": "1",
+      "index": {
+        "valid": true,
+        "ready": true
+      },
+      "windowSeconds": 120,
+      "executionMs": 0.176,
+      "planningMs": 2.864,
+      "hotSectors": 0,
+      "indexes": [
+        "idx_twv3_front_activity",
+        "territory_war_v3_fronts_pkey"
+      ]
+    },
+    "index": {
+      "schemaMarker": "territory_network_v6_frontline_20261108",
+      "at": "2026-11-08T12:47:47.143Z",
+      "initiallyInstalled": false,
+      "ms": 7996,
+      "concurrent": true,
+      "live": {
+        "valid": true,
+        "ready": true,
+        "ddl": "CREATE INDEX idx_twv3_front_activity ON public.territory_war_v3_actions USING btree (round_id, updated_at, front_id) WHERE (status = 'COMPLETED'::text)"
+      },
+      "playerOrRoundWrites": 0
+    }
+  },
+  "measurements": [
+    {
+      "pair": 1,
+      "phase": "before",
+      "width": 1440,
+      "first": 440,
+      "repeat": 74,
+      "frameP95": 4.300000000000182,
+      "framesOver50": 0,
+      "nodeSelect": 25.69999998807907,
+      "afterExit": 0,
+      "entryButton": 343
+    },
+    {
+      "pair": 1,
+      "phase": "after",
+      "width": 1440,
+      "first": 309,
+      "repeat": 50,
+      "frameP95": 4.299999999999272,
+      "framesOver50": 0,
+      "nodeSelect": 23.5,
+      "afterExit": 0,
+      "entryButton": 266
+    },
+    {
+      "pair": 1,
+      "phase": "before",
+      "width": 390,
+      "first": 392,
+      "repeat": 83,
+      "frameP95": 54,
+      "framesOver50": 4,
+      "nodeSelect": 67,
+      "afterExit": 0,
+      "entryButton": 347
+    },
+    {
+      "pair": 1,
+      "phase": "after",
+      "width": 390,
+      "first": 181,
+      "repeat": 209,
+      "frameP95": 36,
+      "framesOver50": 0,
+      "nodeSelect": 63,
+      "afterExit": 0,
+      "entryButton": 113
+    },
+    {
+      "pair": 2,
+      "phase": "after",
+      "width": 1440,
+      "first": 285,
+      "repeat": 61,
+      "frameP95": 4.200000000000728,
+      "framesOver50": 0,
+      "nodeSelect": 29.799999952316284,
+      "afterExit": 0,
+      "entryButton": 242
+    },
+    {
+      "pair": 2,
+      "phase": "before",
+      "width": 1440,
+      "first": 391,
+      "repeat": 81,
+      "frameP95": 4.300000000000182,
+      "framesOver50": 1,
+      "nodeSelect": 29.80000001192093,
+      "afterExit": 0,
+      "entryButton": 298
+    },
+    {
+      "pair": 2,
+      "phase": "after",
+      "width": 390,
+      "first": 278,
+      "repeat": 216,
+      "frameP95": 41,
+      "framesOver50": 0,
+      "nodeSelect": 47,
+      "afterExit": 0,
+      "entryButton": 210
+    },
+    {
+      "pair": 2,
+      "phase": "before",
+      "width": 390,
+      "first": 421,
+      "repeat": 79,
+      "frameP95": 55,
+      "framesOver50": 5,
+      "nodeSelect": 64,
+      "afterExit": 0,
+      "entryButton": 391
+    }
+  ],
+  "entryTrace": {
+    "before": {
+      "input": [
+        {
+          "controls": 309,
+          "paint": 333,
+          "actual": {
+            "shell": 4,
+            "dom": 28,
+            "frame": 109
+          },
+          "api": [
+            {
+              "path": "/api/territory-war/state",
+              "durationMs": 3,
+              "endAfterInput": 8
+            }
+          ],
+          "mapAssets": [
+            {
+              "path": "/assets/ui/territory-war/network-v2/guardian-citadel.webp",
+              "durationMs": 2,
+              "endAfterInput": 35
+            },
+            {
+              "path": "/assets/ui/territory-war/network-v2/purifier-citadel.webp",
+              "durationMs": 2,
+              "endAfterInput": 35
+            },
+            {
+              "path": "/assets/ui/territory-war/battlefield-v5/battlefield-panorama-960.webp",
+              "durationMs": 3,
+              "endAfterInput": 36
+            },
+            {
+              "path": "/assets/ui/territory-war/battlefield-v5/relay-320.webp",
+              "durationMs": 3,
+              "endAfterInput": 36
+            },
+            {
+              "path": "/assets/ui/territory-war/network-v2/three-fronts-map.webp",
+              "durationMs": 6,
+              "endAfterInput": 39
+            },
+            {
+              "path": "/assets/ui/territory-war/network-v2/crossroads-sanctuary.webp",
+              "durationMs": 5,
+              "endAfterInput": 39
+            },
+            {
+              "path": "/assets/ui/territory-war/formation-v1/button-secondary-v2.webp",
+              "durationMs": 243,
+              "endAfterInput": 306
+            }
+          ]
+        },
+        {
+          "controls": 60,
+          "paint": 78,
+          "actual": {
+            "shell": 2,
+            "dom": 27,
+            "frame": 38
+          },
+          "api": [
+            {
+              "path": "/api/territory-war/state",
+              "durationMs": 9,
+              "endAfterInput": 12
+            }
+          ],
+          "mapAssets": []
+        }
+      ],
+      "first": 333,
+      "repeat": 78
+    },
+    "after": {
+      "input": [
+        {
+          "controls": 250,
+          "paint": 395,
+          "actual": {
+            "shell": 8,
+            "dom": 55,
+            "frame": 70
+          },
+          "api": [
+            {
+              "path": "/api/territory-war/state",
+              "durationMs": 17,
+              "endAfterInput": 25
+            }
+          ],
+          "mapAssets": [
+            {
+              "path": "/assets/ui/territory-war/frontline-20261108/relay-320.webp",
+              "durationMs": 2,
+              "endAfterInput": 211
+            },
+            {
+              "path": "/assets/ui/territory-war/frontline-20261108/map-960.webp",
+              "durationMs": 3,
+              "endAfterInput": 212
+            },
+            {
+              "path": "/assets/ui/territory-war/frontline-20261108/site-hq-160.webp",
+              "durationMs": 4,
+              "endAfterInput": 213
+            },
+            {
+              "path": "/assets/ui/territory-war/frontline-20261108/site-outpost-160.webp",
+              "durationMs": 8,
+              "endAfterInput": 217
+            },
+            {
+              "path": "/assets/ui/territory-war/frontline-20261108/site-gate-160.webp",
+              "durationMs": 9,
+              "endAfterInput": 218
+            },
+            {
+              "path": "/assets/ui/territory-war/frontline-20261108/site-relay-160.webp",
+              "durationMs": 5,
+              "endAfterInput": 215
+            },
+            {
+              "path": "/assets/ui/territory-war/frontline-20261108/site-depot-160.webp",
+              "durationMs": 6,
+              "endAfterInput": 216
+            },
+            {
+              "path": "/assets/ui/territory-war/frontline-20261108/site-relay-scene.webp",
+              "durationMs": 10,
+              "endAfterInput": 220
+            }
+          ]
+        },
+        {
+          "controls": 68,
+          "paint": 92,
+          "actual": {
+            "shell": 3,
+            "dom": 25,
+            "frame": 51
+          },
+          "api": [
+            {
+              "path": "/api/territory-war/state",
+              "durationMs": 3,
+              "endAfterInput": 7
+            }
+          ],
+          "mapAssets": []
+        }
+      ],
+      "first": 395,
+      "repeat": 92
+    }
+  },
+  "otherPlatforms": {
+    "after-1440-windows": {
+      "platform": "Windows packaged Electron QA launcher",
+      "first": 2973,
+      "repeat": 259,
+      "territoryRequestsAfterExit": 0,
+      "errors": []
+    },
+    "after-390-h5": {
+      "platform": "ONE store H5 official SDK, locally emulated store parent, Chromium touch",
+      "first": 4218,
+      "repeat": 163,
+      "territoryRequestsAfterExit": 0,
+      "errors": []
+    }
+  },
+  "sharedRenderer": {
+    "desktop": [
+      {
+        "mode": "pve",
+        "canvasMounted": true,
+        "resultReturned": true
+      },
+      {
+        "mode": "pvp",
+        "canvasMounted": true,
+        "resultReturned": true
+      }
+    ],
+    "mobile": [
+      {
+        "mode": "pve",
+        "canvasMounted": true,
+        "resultReturned": true
+      },
+      {
+        "mode": "pvp",
+        "canvasMounted": true,
+        "resultReturned": true
+      }
+    ]
+  },
+  "conditions": "Main lobby > PVP > Territory button, active-round simulated API in the actual browser app. Map measurements start at pointerdown; an actionable selected node and decoded terrain+buildings are observed separately in input[]. Fresh document vs warmed same document. Frame gaps sampled in rAF on the full map for 1.8s and 14.5s checked after exiting. Warm and cold static server response timings are also recorded. Public check uses the deployed game with an isolated API. Mobile WebKit/ONE store host are emulated on Windows; desktop wrapper is an actual packaged Electron QA launcher. Occasional pre-existing nonfatal ResizeObserver warning appeared in full WebKit navigation both before and after. No live-player actions were triggered.",
+  "sourceEvidence": "operations/territory-frontline-20261108/",
+  "screenCaptures": [
+    "review/after-1440/outpost.png",
+    "review/after-1440/field.png",
+    "review/after-1440/command.png",
+    "review/after-390/loadout.png",
+    "review/after-390/personal-combat.png",
+    "review/public-390/result.png",
+    "review/admin/weekly.png"
+  ]
+}
