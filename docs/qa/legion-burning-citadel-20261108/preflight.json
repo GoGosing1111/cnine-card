@@ -1,5 +1,5 @@
 {
-  "measuredAt": "2026-11-08T04:35:57.727Z",
+  "measuredAt": "2026-11-08T04:38:59.512Z",
   "mode": "2P / continuous spawns / 420 seconds / boss at 300 seconds",
   "environment": "Windows host; real Windows QA executable and locally installed Chromium PWA; emulated Android Chrome and iOS WebKit/home screen. ONE store H5 uses the SDK in a test host; Play TWA and Android native wrappers use their real entry URLs and profile (not mobile hardware). Browser motion sampled through requestAnimationFrame, not a GPU presentation counter.",
   "timing": "Isolated accounts and locally served distribution assets; cold = first PVE button press to usable lobby, repeat = second press, start = host start to active and usable after both clients load. Individual runs, not live percentiles. Long-frame counts are for a fixed 4.5s sample.",
