@@ -318,7 +318,7 @@
     },
     {
       "file": "shared/mercenary-jokro-v1.mjs",
-      "sha256": "f697026412111c90e265f6f21f393feb0ac4eec4a508e972b03c76e94ce0c12a"
+      "sha256": "39b36823fbb60cdc26eed543739b377e9963a4ddb2676d3b68e722d54f705ed6"
     },
     {
       "file": "preview/project-v-v3/source/battle/JokroCombatPlayback.js",
@@ -518,7 +518,7 @@
     },
     {
       "file": "shared/mercenary-hakuya-v1.mjs",
-      "sha256": "b5f81de06b2b2b5e0809d81ec615b0ef220ec60bfebba675a02144fb4f853c32"
+      "sha256": "6227b8298d73a3656e7ee0e6be3a753c051ad95a179613ee55f986c896dc5550"
     },
     {
       "file": "preview/project-v-v3/source/battle/HakuyaCombatPlayback.js",
@@ -606,7 +606,7 @@
     },
     {
       "file": "shared/mercenary-helios-king-v1.mjs",
-      "sha256": "40f1694b3ee52538426b657fc7422c2fb588be7ceeff40d336ebd477cfbeedef"
+      "sha256": "d17a96da8866319d6898153e49e5fd003e29736c4cf126b5cf203714573ab43b"
     },
     {
       "file": "preview/project-v-v3/source/battle/HeliosKingCombatPlayback.js",
@@ -646,7 +646,7 @@
     },
     {
       "file": "shared/mercenary-jin-jokro-v1.mjs",
-      "sha256": "a01200a93f66fbd0f8409e115e8b6a570eb1a787889a52b1d5b93888d26bdb43"
+      "sha256": "39a0cd4f1128ece8c91ccab0f78d03e799802201a9acb78d7f4a947be0ab3588"
     },
     {
       "file": "preview/project-v-v3/source/battle/JinJokroCombatPlayback.js",
@@ -1153,7 +1153,7 @@
     },
     {
       "file": "preview/coop-defense-v1/defense.bundle.js",
-      "sha256": "3a5dfa3ad059ca82bc32f0a4f5770bcfc24e17be4be98bb12b933594a44a4bd1",
+      "sha256": "33b73140e7d6a3a6082e8eb4c406d686cb88114f2b00910d8f41ee0ae6f83879",
       "commonGrid": true,
       "standaloneEngine": true
     },

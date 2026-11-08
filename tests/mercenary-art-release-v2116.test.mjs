@@ -12,7 +12,8 @@ test('approved Hi Heeya artwork is promoted once into the SS gameplay catalog wi
   const saved=structuredClone(seed.document);saved.mercenaries[0].name='운영 저장 이름';saved.mercenaries[0].rank='SS';
   const before=structuredClone(saved),row={payload_json:JSON.stringify(saved),revision:54,updated_at:'2026-09-13'};
   const result=validateCatalog(mercenaryCodexDocument(row)),heeya=result.cards.find(c=>c.code==='V-044');
-  assert.equal(result.cards.length,102);assert.equal(result.cards.filter(card=>!card.artOnly).length,83);assert.equal(result.cards.filter(card=>card.artOnly).length,19);assert.equal(result.revision,54);assert.equal(result.artReleaseVersion,'20260919-ragniel-live-v1');
+  assert.equal(result.cards.length,104);assert.equal(result.cards.filter(card=>!card.artOnly).length,85);assert.equal(result.cards.filter(card=>card.artOnly).length,19);assert.equal(result.revision,54);assert.equal(result.artReleaseVersion,'20260919-ragniel-live-v1');
+  for(const code of ['V-959','V-966'])assert.ok(result.cards.some(card=>card.code===code&&!card.artOnly),'Jin Jokro and Helios King are playable catalog releases');
   assert.ok(result.cards.some(card=>card.code==='V-967'&&!card.artOnly),'approved Hakuya Shin remains a gameplay release');
   assert.ok(result.cards.some(card=>card.code==='V-974'&&!card.artOnly),'approved General Jok remains a gameplay release');
   for(const code of ['V-960','V-961','V-962','V-963','V-964'])assert.ok(result.cards.some(card=>card.code===code&&!card.artOnly),'released Bloodmoon identities remain playable catalog entries');

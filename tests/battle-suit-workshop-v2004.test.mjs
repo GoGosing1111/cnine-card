@@ -55,7 +55,7 @@ test('배틀슈트 제작은 기존 원자 제작 영수증을 재사용하고 �
   assert.match(server,/'BATTLE_SUIT_CRAFT'/);
   assert.match(server,/'BOTH'/);
   assert.match(server,/INSERT INTO user_equipment_instances/);
-  assert.match(server,/UPDATE users SET coin=coin-\?/);
+  assert.match(server,/UPDATE users SET coin=coin-CAST\(\? AS BIGINT\)/);
   assert.match(server,/item_code='MASTER_STAR'/);
   assert.match(server,/quantity=quantity-\?/);
   const nav=new Function('workshopSection',client.slice(client.indexOf('function workshopNav()'),client.indexOf('function workshopToolbar()'))+';return workshopNav();')('BATTLE_SUIT_CRAFT');

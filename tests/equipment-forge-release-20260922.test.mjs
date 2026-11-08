@@ -34,7 +34,7 @@ test('actual live hooks use equipment-only readiness, not a global tower/re-asce
  const tower=api.slice(api.indexOf("if(path==='tower/fight'"),api.indexOf("if(path==='deck-synergy/status'"));
  assert.match(tower,/towerAbyssFinish/);
  const settlement=readFileSync(new URL('../functions/_tower_abyss.js',import.meta.url),'utf8');
- assert.match(settlement,/if\(win\)[\s\S]*prepareTowerForgeProtectionClear[\s\S]*\.\.\.forge.statements[\s\S]*await DB.batch\(writes\)/);
+ assert.match(settlement,/if\(win&&!plan\.seasonReplay\)[\s\S]*prepareTowerForgeProtectionClear[\s\S]*\.\.\.forge.statements[\s\S]*await DB.batch\(writes\)/);
  assert.match(settlement,/forgeProtectionReward/);
  assert.match(readFileSync(new URL('../js/tower-v1038.js',import.meta.url),'utf8'),/ui\(\)\.result\(view,data,/);
  assert.match(readFileSync(new URL('../js/tower-abyss-ui.js',import.meta.url),'utf8'),/data\.forgeProtectionReward\.quantity/);

@@ -77,8 +77,8 @@ test('catalog release uses current CMS data and preserves all 82 separate art an
   assert.ok(codexCache.getAll('limited').includes('20261004-approved'));
   assert.equal(codexCache.get('v'),'2133');
   const published = mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1}).cards;
-  assert.equal(published.filter(card=>!card.artOnly).length,83);
-  assert.equal(published.filter(card=>!card.artOnly && card.sourceArt && card.battleSprite && card.sourceArt!==card.battleSprite).length,83);
+  assert.equal(published.filter(card=>!card.artOnly).length,85);
+  assert.equal(published.filter(card=>!card.artOnly && card.sourceArt && card.battleSprite && card.sourceArt!==card.battleSprite).length,85);
   assert.doesNotMatch(html, /신규 6종의 SD는 제작 대기/);
   assert.match(read('preview/mercenary-codex-v1/codex.js').toString(), /의상 콘셉트/);
   const generation = json('preview/mercenary-four-looks-v1/generation.json');

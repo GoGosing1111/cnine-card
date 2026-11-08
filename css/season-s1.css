@@ -94,3 +94,6 @@
 
 .s1-daily-progress{display:flex;flex-wrap:wrap;align-items:baseline;gap:3px 12px;margin-top:8px;color:var(--s1-light);font-size:12px;font-variant-numeric:tabular-nums}.s1-daily-progress b,.s1-pace-line b{color:var(--s1-gold)}.s1-daily-progress small{color:var(--s1-dim)}
 .s1 .s1-pace-line{min-height:0;margin:5px 0;color:#e3c89b}.s1-rune-dates{margin-top:9px;font-size:12px}.s1-rune-dates summary{cursor:pointer;color:var(--s1-gold)}.s1-rune-dates table{width:100%;margin:5px 0;border-collapse:collapse}.s1-rune-dates th,.s1-rune-dates td{padding:3px 5px;text-align:left;border-bottom:1px solid #69503566}.s1 .s1-rune-dates p{font-size:12px;margin:4px 0}
+
+/* Keep the large blurred forge glow still on touch screens; the rune and its sparks still animate. */
+@media (max-width: 720px){.s1 .s1-art-large::before{animation:none;filter:none}.s1 .s1-art-large .s1-orbit{will-change:transform}.s1 .s1-art-large img{will-change:transform}}

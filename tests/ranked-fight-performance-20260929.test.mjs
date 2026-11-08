@@ -1,3 +1,4 @@
+import {seasonBonus,seasonAwardStatements} from '../functions/_season_s1.js';
 import {simulateRankedSeries,rankedSeriesReceipt} from '../shared/ranked-series-v1.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -24,7 +25,7 @@ function fixture({win=true,deckLength=5,stale=false,recent=[],invalidTicket=fals
   }};
   const reward=name=>async()=>{effects.push(name);return null;};
   const selectedCodes=['V-001','V-002','V-003','V-004','V-005','V-006'];
-  const deps={simulateRankedSeries,rankedSeriesReceipt,rankedOwnershipGuard:()=>[],
+  const deps={seasonBonus,seasonAwardStatements,simulateRankedSeries,rankedSeriesReceipt,rankedOwnershipGuard:()=>[],
     readRankedSeriesTicket:async()=>missingSeries?null:{A:selectedCodes,B:[...selectedCodes].reverse()},
     rankedSelectedMercenaries:async(_,selections)=>{if(invalidRoster)throw Object.assign(Error('ownership changed'),{status:409});return new Map([...selections].map(([id,codes])=>[id,codes.map(code=>({code,rank:Number(code.slice(2))%2?'SSS':'SS',basePower:mercenaryPowers[id]||100}))]));},
     ensureRankedPvpFoundation:async()=>{},rankedFightReceipt:async()=>receipt?{...receipt,replayed:true}:null,utcMs:()=>0,authenticate:async()=>users[1],readBody:async()=>({requestId:'ranked-performance-request',matchToken:'ticket'}),

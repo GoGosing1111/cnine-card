@@ -6,7 +6,7 @@ import {readFileSync} from 'node:fs';
 const source=readFileSync(new URL('../js/workshop-v1881.js',import.meta.url),'utf8');
 function client(handler){
   const calls=[],storage=new Map(),listeners={};let now=1_000_000;
-  const window={addEventListener:(name,fn)=>listeners[name]=fn,apiRequest:async(path,options)=>{
+  const window={matchMedia:()=>({matches:false,addEventListener(){}}),addEventListener:(name,fn)=>listeners[name]=fn,apiRequest:async(path,options)=>{
     calls.push({path,body:options.body?JSON.parse(options.body):null});return handler(path,options,calls.length);
   }};
   const context={window,console,crypto,Date:class extends Date{static now(){return now;}},
