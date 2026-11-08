@@ -4077,3 +4077,5 @@ body.burning-notice-open .fullscreen-play-link{
  .account-panel .account-continue{min-width:0;flex:1;max-width:210px;padding-inline:12px}
  .account-panel .account-logout{padding-inline:8px}
 }
+/* Clear the shared lobby’s 66px navigation dock on handheld screens. */
+@media(max-width:760px){body:has(soop-adventure-lobby[data-shared-navigation])>.pwa-install-button{bottom:calc(76px + env(safe-area-inset-bottom))}}

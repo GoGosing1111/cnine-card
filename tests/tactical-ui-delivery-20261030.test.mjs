@@ -15,7 +15,10 @@ const images=JSON.parse(bundle.match(/window\.__TACTICAL_UI_IMAGES__=(\{[^\n]+\}
 test('all 64 shipped icons preserve the original WebP bytes and remain available through the public renderer',()=>{
  const context=vm.createContext({__TACTICAL_UI_IMAGES__:images});
  vm.runInContext(read('js/tactical-icons-20261030.js').toString(),context);
- assert.equal(manifest.icons.length,64);assert.equal(Object.keys(images).length,64);
+ assert.equal(manifest.icons.length,64);assert.deepEqual(Object.keys(images).sort(),[...manifest.icons.map(i=>i.id),'citadel'].sort());
+ const crest=read('assets/ui/tactical-20261030/citadel.webp');
+ assert.deepEqual(Buffer.from(images.citadel.split(',')[1],'base64'),crest);
+ assert.ok(context.SoopTacticalIcons.html('citadel').includes('data-tactical-icon="citadel"'));
  for(const icon of manifest.icons){
   const bytes=read(icon.file.slice(1));assert.equal(hash(bytes),icon.sha256,icon.id+' changed');
   assert.deepEqual(Buffer.from(images[icon.id].split(',')[1],'base64'),bytes,icon.id+' delivery changed');
@@ -32,7 +35,8 @@ test('Pages ships the shadow-root menu frame while keeping preserved source art 
  assert.ok(!bundle.includes('/css/tactical-ui-20261030.css'));
  assert.ok(isProductionFile('assets/ui/tactical-20261030/panel-flat.webp'));
  assert.ok(isProductionFile('js/adventure-lobby-v2107.js'));
- for(const icon of manifest.icons)assert.equal(isProductionFile(icon.file.slice(1)),false);
+ for(const icon of manifest.icons)assert.equal(isProductionFile(icon.file.slice(1)),icon.id==='auction');
+ assert.equal(isProductionFile('assets/ui/tactical-20261030/citadel.webp'),false);
  for(const source of ['output/imagegen/tactical-ui-20261030/navigation-atlas-v2.png','ui/adventure-lobby/component.js','ui/adventure-lobby/tactical.css','ui/adventure-lobby/operations.js','ui/adventure-lobby/operations.css','js/tactical-icons-20261030.js','scripts/prepare-tactical-ui-20261030.mjs'])assert.equal(isProductionFile(source),false);
  const tracked=execFileSync('git',['ls-files','-z'],{cwd:root,encoding:'utf8',maxBuffer:40e6}).split('\0').filter(Boolean);
  const publicCount=tracked.filter(isProductionFile).filter(file=>!file.startsWith('functions/')&&!['_headers','_redirects','_routes.json','_worker.js'].includes(file)).length+1;

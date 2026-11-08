@@ -25,6 +25,8 @@ for(const postgres of [false,true]){
    const {policy,catalog,tiers}=ok(await admin(f));assert.equal(tiers.length,3);assert.equal(policy.mode,'OFF');assert.equal(policy.revision,0);
    assert.ok(catalog.supplies.length>=4);assert.ok(catalog.supplies.every(v=>v.code!=='OFF_ITEM'));
    const lobby=ok(await f.action(1,'lobby'));assert.deepEqual(lobby.rooms,[]);assert.equal(lobby.open,false);
+   assert.deepEqual(lobby.tiers.map(t=>t.id),['gate','keep','throne']);
+   assert.deepEqual(Object.keys(lobby.tiers[0]).sort(),['guide','id','name','stage']);
    assert.equal((await f.action(1,'options')).status,423);assert.equal((await f.action(1,'create',{requestId:'citadel-growth-cms-party'})).status,423);
    const d={...policy.drops,normalPercent:100,elitePercent:0,bossSetPercent:0,bossMultiplier:4,equipmentCodes:[],supplies:policy.drops.supplies.slice(0,2).map(v=>({...v,quantity:17,weight:4}))};
    for(const bad of [{...d,normalPercent:101},{...d,supplies:d.supplies.slice(0,1)},{...d,supplies:[d.supplies[0],d.supplies[0]]},{...d,supplies:[d.supplies[0],{code:'OFF_ITEM',quantity:1,weight:1}]},{...d,equipmentCodes:['NO_SUCH_GEAR']}]){

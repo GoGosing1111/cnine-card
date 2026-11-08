@@ -170,8 +170,27 @@ export function openLegionHunt(button){
   dialog.addEventListener('cancel',event=>{event.preventDefault();if(event.target===find('.legion-poster-view'))find('.legion-poster-view').close();else controller.close();});
   window.addEventListener('message',onMessage);active=controller;document.body.append(dialog);dialog.showModal();void controller.refresh();
 }
+let openingCitadel=null;
+async function openLegionCitadel(trigger=document.activeElement?.shadowRoot?.activeElement||document.activeElement){
+  if(openingCitadel||document.querySelector('dialog.citadel[open]'))return openingCitadel;
+  const href='/css/legion-citadel-v1.css?v=3';
+  if(!document.querySelector('link[href="'+href+'"]')){
+    const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href=href;document.head.append(sheet);
+  }
+  const controller=new AbortController(),sentAt=performance.now();
+  const lobby=jointAccountRequest('legion-party/lobby',{signal:controller.signal});
+  // A failed response can arrive before the lazy module installs its error UI.
+  void lobby.catch(()=>{});
+  openingCitadel=import('./legion-citadel-v1.mjs?v=3')
+    .then(({openCitadel})=>openCitadel(trigger,{lobby,sentAt,controller}))
+    .catch(error=>{controller.abort();throw error;})
+    .finally(()=>{openingCitadel=null;});
+  return openingCitadel;
+}
+window.openLegionCitadel=openLegionCitadel;
 document.addEventListener('click',event=>{
-  const party=event.target.closest('[data-legion-citadel]');if(party&&!party.hidden){event.preventDefault();void import('./legion-citadel-v1.mjs?v=2').then(m=>m.openCitadel(party)).catch(()=>{party.textContent='불타는 성채 · 다시 열기';});return;}
+  const party=event.target.closest('[data-legion-citadel]');
+  if(party&&!party.hidden){event.preventDefault();void openLegionCitadel(party).catch(()=>{const detail=party.querySelector('small');if(detail)detail.textContent='연결 실패 · 다시 열기';});return;}
   const button=event.target.closest('[data-legion-hunt-entry]');if(!button||button.hidden)return;event.preventDefault();openLegionHunt(button);
 });
 

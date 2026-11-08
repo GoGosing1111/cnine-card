@@ -84,7 +84,7 @@
     inventory: Object.freeze({ title: '인벤토리', routes: Object.freeze(['inventory']) }),
     store: Object.freeze({ title: '카드·상점', routes: Object.freeze(['buy', 'lootShop', 'rankedShop']) }),
     collection: Object.freeze({ title: '카드·용병·펫', routes: Object.freeze(['dex', 'mercenaryDex', 'petDex', 'upgrade', 'evolution', 'iconfusion', 'magic']) }),
-    pve: Object.freeze({ title: '모험 · PVE', routes: Object.freeze(['battle', 'deck', 'hunt', 'defense', 'coop', 'legion', 'raid', 'escort', 'seal', 'tower', 'scrapyard', 'masterStarMine']) }),
+    pve: Object.freeze({ title: '모험 · PVE', routes: Object.freeze(['battle', 'deck', 'hunt', 'defense', 'coop', 'legion', 'citadel', 'raid', 'escort', 'seal', 'tower', 'scrapyard', 'masterStarMine']) }),
     pvp: Object.freeze({ title: '대전 · PVP', routes: Object.freeze(['pvp', 'classicColosseum', 'jokgakCity', 'duo', 'rank', 'clanWar', 'clanFaction', 'clan', 'territory']) }),
     equipment: Object.freeze({ title: '장비·칭호·차고', routes: Object.freeze(['character', 'avatar']) }),
     crafting: Object.freeze({ title: '제작소', routes: Object.freeze(['vehicle', 'fusion', 'alchemy']) }),
@@ -119,6 +119,7 @@
     escort: Object.freeze({ title: '호송작전', group: 'pve', icon: 'swords' }),
     seal: Object.freeze({ title: '봉인전', group: 'pve', icon: 'magic' }),
     legion: Object.freeze({ title: '군단토벌', group: 'pve', icon: 'swords' }),
+    citadel: Object.freeze({ title: '군단토벌 파티', group: 'pve', icon: 'citadel' }),
     tower: Object.freeze({ title: '무한의탑', group: 'pve', icon: 'rank' }),
     scrapyard: Object.freeze({ title: '폐차장 원정', group: 'pve', icon: 'forge' }),
     masterStarMine: Object.freeze({ title: '마스터의 별 광산', group: 'pve', icon: 'forge' }),
@@ -579,7 +580,7 @@
     if(route==='avatar'&&global.avatarFeatureVisible?.()!==true)return '';
     if(route==='alchemy'&&global.alchemyFeatureVisible?.()!==true)return '';
     const item = ROUTES[route]; if (!item) return '';
-    return `<button type="button" data-v21-route="${route}"><span>${svg(item[2])}</span><b>${esc(item[0])}</b><small>${esc(item[1])}</small></button>`;
+    return `<button type="button" data-v21-route="${route}"><span>${route==='citadel' && global.SoopTacticalIcons ? global.SoopTacticalIcons.html(route) : svg(item[2])}</span><b>${esc(item[0])}</b><small>${esc(item[1])}</small></button>`;
   }
 
   function openRouteOverlay(title, routes) {
@@ -610,12 +611,12 @@
   function navigate(route) {
     // On a cached deep-link startup this adapter can run before the next
     // deferred router script. A coop alias must never fall back to the store.
-    if (route === 'coop' && !global.SoopketmonV21RuntimeRouter) {
+    if ((route === 'coop' || route === 'citadel') && !global.SoopketmonV21RuntimeRouter) {
       return new Promise((resolve, reject) => {
         const deadline = Date.now() + 5000;
         const ready = () => {
           if (global.SoopketmonV21RuntimeRouter) navigate(route).then(resolve, reject);
-          else if (Date.now() >= deadline) reject(new Error('격전지 메뉴를 불러오지 못했습니다. 새로고침해 주세요.'));
+          else if (Date.now() >= deadline) reject(new Error((route === 'citadel' ? '성채' : '격전지') + ' 메뉴를 불러오지 못했습니다. 새로고침해 주세요.'));
           else global.setTimeout(ready, 40);
         };
         ready();

@@ -55,13 +55,65 @@ async function ensureCitadelRenderer(){
  script.onload=()=>window.ProjectVPixiBattle?.legionCitadelVersion===1?resolve():reject(Error('성채 전투 화면을 다시 불러오세요.'));script.onerror=()=>reject(Error('성채 전투 화면을 내려받지 못했습니다.'));document.head.append(script);}).finally(()=>{bundleUpgrade=null;});
  return bundleUpgrade;
 }
-export function openCitadel(trigger){
- if(active)return;
- style('/css/legion-citadel-v1.css?v=2');const d=document.createElement('dialog');active=d;d.className='citadel';d.setAttribute('aria-label','군단토벌 파티 · 불타는 성채');
- d.innerHTML='<header class="ct-bar"><div><small>군단토벌 / 파티 원정</small><h1>불타는 성채</h1></div><button data-act="close">화면 닫기</button></header><div class="ct-scroll"><div class="ct-hero"><div><small>LEGION HUNT · DUO</small><h2>불타는 성채</h2><p>잿불 성주 몰록이 내성문을 닫았다.<br>7분 동안 쏟아지는 군단을 사냥하라.</p><b>2인 협동　·　재앙급 이상</b></div></div><div class="ct-content"><p class="ct-guide">각자 용병 2명과 아이콘 2장 편성. 1단계 권장 전력은 SS 리미티드 Lv.16 또는 SSS 리미티드 Lv.10 이상입니다. 등급·레벨에 따른 편성 제한은 없습니다. 두 사람 모두 전장을 불러오면 각자 군단토벌 행동력 1회를 사용합니다. 몬스터는 빈자리에 계속 충원되며, 5분에 성주가 합류합니다. 성주를 처치한 뒤에도 사냥은 계속됩니다. 내 화면에 떨어진 아이템을 12초 안에 주우세요. 획득한 가방은 종료 후 각자 수령합니다.</p><section data-region></section><p class="ct-message" role="status" aria-live="polite"></p></div></div><div data-arena hidden></div>';
- const hero=d.querySelector('.ct-hero'),guide=d.querySelector('.ct-guide');hero.style.display='none';guide.hidden=true;
+const glyphPaths = {
+  people: '<circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2m1-15a3 3 0 0 1 0 6m2 3a5 5 0 0 1 3 5"/>',
+  clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 6.5V12l3.5 2"/>',
+  bag: '<path d="M8 6h8l-2 4c4 3 6 5 6 8 0 2-3 3-8 3s-8-1-8-3c0-3 2-5 6-8L8 6Zm2 4h4"/>',
+  gate: '<path d="M3 20V7h2V4h3v3h2v3h4V7h2V4h3v3h2v13h-6v-4a3 3 0 0 0-6 0v4H3Z"/>',
+  keep: '<path d="M3 20V9h4v3h2V6l3-3 3 3v6h2V9h4v11H3Zm7 0v-4a2 2 0 0 1 4 0v4"/>',
+  throne: '<path d="m3 8 4 3 5-6 5 6 4-3-3 9H6L3 8Zm4 12h10"/><path d="m12 10 1.5 2-1.5 2-1.5-2 1.5-2Z"/>',
+  refresh: '<path d="M20 6v5h-5"/><path d="M19.3 10a7.5 7.5 0 1 0-.8 6"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  arrow: '<path d="M4 12h15m-6-6 6 6-6 6"/>',
+  chevron: '<path d="m7 9 5 5 5-5"/>',
+  close: '<path d="m6 6 12 12M18 6 6 18"/>',
+  lock: '<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3m-4 5v2"/>',
+  banner: '<path d="M5 21V4m0 1c4-4 9 3 15-1v10c-6 4-11-3-15 1"/>'
+};
+function glyph(name) {
+  return '<svg class="ct-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(glyphPaths[name]||'')+'</svg>';
+}
+function citadelCrest() {
+  const icons=window.SoopTacticalIcons;
+  return icons?.resolve('citadel')==='citadel'?icons.html('citadel','ct-crest'):glyph('gate');
+}
+function expeditionGuide() {
+  const quality=[['auto','기기에 맞춤'],['detail','상세 연출'],['light','경량 연출']];
+  const choices=quality.map(([v,n])=>'<option value="'+v+'" '+(readQuality()===v?'selected':'')+'>'+n+'</option>').join('');
+  return '<details class="ct-details"><summary>원정 규칙과 화면 설정'+glyph('chevron')+'</summary><div class="ct-rules">'+
+    '<div><b>편성 및 입장</b><p>각자 용병 2명과 아이콘 2장을 자유롭게 편성합니다. 두 사람의 전장 로딩이 끝나면 각자 행동력 1을 사용합니다.</p></div>'+
+    '<div><b>성주와 전리품</b><p>5분에 성주가 합류하고, 성주를 처치한 뒤에도 7분까지 사냥이 이어집니다. 내 필드의 아이템을 12초 안에 주우면 종료 후 내 가방에서 수령할 수 있습니다.</p></div>'+
+    '<label class="ct-quality">전투 화면 <select data-quality aria-label="전투 화면">'+choices+'</select></label></div></details>';
+}
+function finder({open,tiers,selectedTier,rooms,tierLabel,waiting,test}) {
+  const tier=tiers.find(t=>t.id===selectedTier)||tiers[0];
+  const cards=tiers.map(t=>'<label class="ct-tier"><input type="radio" name="ct-tier" data-tier value="'+esc(t.id)+'" '+(tier?.id===t.id?'checked':'')+'>'+
+    '<span class="ct-tier-face">'+glyph(t.id)+'<span><small>'+esc(t.stage)+'단계</small><b>'+esc(t.name)+'</b></span></span></label>').join('');
+  const refresh='<button type="button" class="ct-refresh" data-act="refresh" aria-label="모집 상태 새로고침">'+glyph('refresh')+'<span>새로고침</span></button>';
+  const create=open?'<button type="button" class="ct-primary ct-create" data-act="create">'+glyph('plus')+'파티 만들기'+glyph('arrow')+'</button>':
+    '<div class="ct-locked" data-paused>'+glyph('lock')+'파티 입장 일시 중지</div>';
+  const roomList=rooms.map(r=>'<li><span class="ct-party-flag">'+glyph('banner')+'</span><div><b>'+esc(r.host)+'</b><small>'+esc(tierLabel(r.tier))+' · 1/2명</small></div><button class="ct-join" data-act="join" data-id="'+esc(r.id)+'">참가'+glyph('arrow')+'</button></li>').join('');
+  const empty='<div class="ct-quiet">'+glyph(open?'banner':'lock')+'<b>'+(open?'모집 중인 파티가 없습니다':'현재 모집이 닫혀 있습니다')+'</b><p>'+(open?'먼저 파티를 만들고 함께할 대원을 기다려 보세요.':'모집이 열리면 이곳에서 파티를 찾을 수 있습니다.')+'</p></div>';
+  return (test&&open?'<p class="ct-test">테스트 모드 · 행동력과 실제 보상을 사용하지 않습니다.</p>':'')+
+    '<div class="ct-finder"><section class="ct-panel ct-departure"><h2>원정 난이도</h2>'+
+    (cards?'<fieldset class="ct-tiers" aria-label="파티 개설 난이도">'+cards+'</fieldset><p class="ct-recommend"><b>권장</b><span>'+esc((tier.guide||'').replace(/^권장\s+|\s*권장$/g,''))+'</span></p>':'')+create+'</section>'+
+    '<section class="ct-panel ct-board"><div class="ct-panel-head"><h2>모집 중인 파티'+(open?'<span class="ct-count">'+rooms.length+'</span>':'')+'</h2>'+refresh+'</div>'+
+    (open&&rooms.length?'<ul class="ct-rooms">'+roomList+'</ul>':empty)+(waiting?'<button data-act="leave">대기 파티 나가기</button>':'')+'</section></div>'+expeditionGuide();
+}
+
+export function openCitadel(trigger,firstRead=null){
+ if(active){firstRead?.controller.abort();return;}
+
+ style('/css/legion-citadel-v1.css?v=3');
+ const d=document.createElement('dialog');
+ active=d;d.className='citadel';d.setAttribute('aria-labelledby','ct-title');
+ d.innerHTML='<header class="ct-bar"><div class="ct-brand">'+citadelCrest()+'<b>군단토벌 파티</b></div><button type="button" class="ct-close" data-act="close" aria-label="화면 닫기">'+glyph('close')+'</button></header>'+
+   '<div class="ct-scroll"><div class="ct-hero"><picture aria-hidden="true"><source media="(max-width:700px)" srcset="'+root+'720.webp"><img alt="" src="'+root+'1440.webp" decoding="async" width="1440" height="810"></picture>'+
+   '<div class="ct-hero-copy"><div class="ct-status" data-ct-status>모집 확인 중</div><h1 id="ct-title">불타는 성채</h1><p>밀려드는 군단을 사냥하고, 잿불 성주 몰록을 처치하세요.</p></div></div>'+
+   '<ul class="ct-facts"><li>'+glyph('people')+'<span>원정 인원 <b>2인 협동</b></span></li><li>'+glyph('clock')+'<span>사냥 시간 <b>7분</b></span></li><li>'+glyph('bag')+'<span>전리품 <b>개인 획득</b></span></li></ul>'+
+   '<div class="ct-content"><section data-region></section><p class="ct-message" role="status" aria-live="polite"></p></div></div><div data-arena hidden></div>';
  document.body.append(d);d.showModal();const $=q=>d.querySelector(q),main=$('[data-region]'),box=$('[data-arena]'),msg=$('.ct-message'),scope=new AbortController(),sig=scope.signal,clock=createServerClock();
- let entryOpen=true,tiers=[],selectedTier='gate';
+ let readingEpoch=null,entryOpen=true,resolved=false,tiers=[],selectedTier='gate';
  const tierLabel=id=>{const t=tiers.find(v=>v.id===(id??'gate'));return t?t.stage+'단계 · '+t.name:state?.tierName||'재앙의 성문';};
  const paused=()=>!entryOpen&&(!state||state.status==='LOBBY'||state.status==='LOADING');
  let state=null,rooms=[],options=null,fetchOptions=null,closed=false,busy=false,epoch=0,timer,uiTimer,picker='mercenaries',selected={cardIds:[],mercenaryCodes:[]},pinnedId=null,displayKey='',createId=crypto.randomUUID(),battle=null,replay=null,mounting=null,prewarm=null,battleEpoch=0,frameIndex=-1,prKey='',preparation=null,loadingError=false,displayTest=false,loadedPart=-1,pendingPart=null,groundKey='',lastPartAttempt=0;
@@ -69,21 +121,21 @@ export function openCitadel(trigger){
  const say=m=>{if(!closed&&msg.textContent!==m)msg.textContent=m;};
  const txt=(el,v)=>{if(el&&el.textContent!==v)el.textContent=v;};
  function release(){battleEpoch++;clearInterval(uiTimer);uiTimer=null;battle?.destroy();battle=null;preparation?.close?.();preparation=null;prewarm=null;prKey='';replay=null;mounting=null;frameIndex=-1;loadedPart=-1;pendingPart=null;groundKey='';lastPartAttempt=0;loadingError=false;box.hidden=true;box.replaceChildren();d.classList.remove('in-battle','ct-light-field');void window.ProjectVPixiBattle?.releaseBattle?.({onlyIfIdle:true})?.catch?.(()=>{});}
- function close(){if(closed)return;closed=true;scope.abort();clearTimeout(timer);release();d.close();d.remove();active=null;if(trigger?.isConnected)trigger.focus();}
+ function close(){if(closed)return;closed=true;scope.abort();firstRead?.controller.abort();clearTimeout(timer);release();d.close();d.remove();active=null;if(trigger?.isConnected)trigger.focus?.({preventScroll:true});}
  d.addEventListener('cancel',e=>{e.preventDefault();close();});
  window.addEventListener('pagehide',close,{signal:sig});
  const pauseNet=()=>{clearTimeout(timer);};
- function schedule(){pauseNet();if(closed||document.hidden||busy||paused())return;
+ function schedule(){pauseNet();if(closed||document.hidden||busy||!resolved||paused())return;
   const status=state?.status;if(terminal(status))return;
   let ms=!state?8000:status==='ACTIVE'?Math.max(120,Math.min(9000,state.startsAt+(state.next??state.duration)-clock.now()+100,state.startsAt+state.duration-clock.now()+80)):status==='LOADING'?1000:2000;
   timer=setTimeout(refresh,ms);
  }
  document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseNet();else if(!busy)void refresh();},{signal:sig});
- async function refresh(){
-  if(closed||busy||document.hidden)return;const e=++epoch,at=performance.now();pauseNet();
-  try{const v=await request(state?'state?id='+state.id:'lobby');if(closed||e!==epoch)return;if(v.rooms)rooms=v.rooms;if(v.tiers)tiers=v.tiers;if('test'in v)displayTest=v.test;if('open'in v)entryOpen=v.open;apply(v.state,at);if(!loadingError)say('');}
-  catch(err){if(closed||e!==epoch)return;if(err.status===404&&state){apply(null);rooms=[];}say(err.message);if(!main.firstChild)main.innerHTML='<button data-act="refresh">다시 불러오기</button>';}
-  finally{if(!closed&&e===epoch)schedule();}
+ async function refresh(initial=null){
+  if(closed||busy||document.hidden||readingEpoch===epoch)return;const e=++epoch,at=initial?.sentAt??performance.now();readingEpoch=e;pauseNet();
+  try{const v=await (initial?.lobby||request(state?'state?id='+state.id:'lobby'));if(closed||e!==epoch)return;if(v.rooms)rooms=v.rooms;if(v.tiers)tiers=v.tiers;if('test'in v)displayTest=v.test;if('open'in v)entryOpen=v.open;resolved=true;apply(v.state,at);if(!loadingError)say('');}
+  catch(err){if(closed||e!==epoch)return;if(err.status===404&&state){apply(null);rooms=[];}say(err.message);if(!resolved){txt($('[data-ct-status]'),'연결 확인 필요');txt(main.querySelector('[role="status"]'),'모집 정보를 불러오지 못했습니다.');}if(!main.firstChild)main.innerHTML='<button data-act="refresh">다시 불러오기</button>';}
+  finally{if(readingEpoch===e)readingEpoch=null;if(!closed&&e===epoch)schedule();}
  }
  function ensureOptions(){
   if(!entryOpen||options||fetchOptions)return;fetchOptions=request('options').then(v=>{if(closed||!entryOpen)return;options=v;draw(true);}).catch(e=>{if(entryOpen)say(e.message);}).finally(()=>{fetchOptions=null;});
@@ -105,7 +157,10 @@ export function openCitadel(trigger){
   if(next?.id!==pinnedId){if(pinnedId)release();pinnedId=next?.id||null;selected=next?.selection?structuredClone(next.selection):{cardIds:[],mercenaryCodes:[]};picker='mercenaries';}
   if(!next&&old){createId=crypto.randomUUID();options=null;rooms=[];}
   state=next;
-  hero.style.display=paused()?'none':'';guide.hidden=paused();
+  d.classList.toggle('ct-in-room',!!next&&!paused());
+  const notice=$('[data-ct-status]');
+  const label=paused()?'입장 일시 중지':terminal(next?.status)?'원정 종료':next?'대원 집결':displayTest?'테스트 모집':'파티 모집 중';
+  txt(notice,label);notice.dataset.status=paused()?'paused':next?'party':'open';
   if(paused()){if(prewarm||!box.hidden)release();draw();return;}
   if(next?.status==='LOBBY'){ensureOptions();if(me?.ready&&!navigator.connection?.saveData&&!document.hidden)void warm().catch(()=>{});}
   if(next&&['LOADING','ACTIVE'].includes(next.status)){showBattle();ground();return;}
@@ -118,17 +173,26 @@ export function openCitadel(trigger){
   if(key===displayKey&&!force)return;displayKey=key;
   const focus=document.activeElement?.dataset,restore=main.contains(document.activeElement)?[focus?.act,focus?.id]:null;
   const oldScroll=main.querySelector('.ct-grid')?.scrollTop||0;
-  if(paused()){main.innerHTML='<h2 data-paused>성채 파티 입장 일시 중지</h2><p>현재 불타는 성채는 신규 파티를 모집하지 않습니다. 개인 군단토벌은 이용할 수 있습니다.</p><button data-act="refresh">운영 상태 새로고침</button>'+(state?' <button data-act="leave">대기 파티 나가기</button>':'');}
-  else if(!state){main.innerHTML='<div class="ct-head"><div><small>PARTY FINDER</small><h2>모집 중인 파티</h2></div><button data-act="refresh">새로고침</button></div>'+(displayTest?'<p>테스트 모드 · 행동력 사용 및 실제 보상 지급 없음</p>':'')+
-   (tiers.length?'<label class="ct-quality">개설 난이도 <select data-tier aria-label="파티 개설 난이도">'+tiers.map(t=>'<option value="'+esc(t.id)+'" '+(selectedTier===t.id?'selected':'')+'>'+esc(t.stage+'단계 · '+t.name)+'</option>').join('')+'</select></label><p>'+esc(tiers.find(t=>t.id===selectedTier)?.guide)+'</p>':'')+'<label class="ct-quality">전투 화면 <select data-quality aria-label="전투 화면">'+[['auto','기기에 맞춤'],['detail','상세 연출'],['light','경량 연출']].map(([v,n])=>'<option value="'+v+'" '+(readQuality()===v?'selected':'')+'>'+n+'</option>').join('')+'</select></label>'+(rooms.length?'<ul class="ct-rooms">'+rooms.map(r=>'<li><div><b>'+esc(r.host)+'</b><small>'+esc(tierLabel(r.tier))+' · 1 / 2명</small></div><button data-act="join" data-id="'+esc(r.id)+'">참가</button></li>').join('')+'</ul>':'<p class="ct-empty">모집 중인 파티가 없습니다. 파티를 만들면 다른 대원이 참가할 수 있습니다.</p>')+'<button class="ct-primary" data-act="create">파티 만들기</button>';}
+  const openGuide=!!main.querySelector('.ct-details[open]');
+  const control=main.contains(document.activeElement)?document.activeElement:null;
+  const choice=control?.matches('[data-tier]')?control.value:null;
+  const inGuide=control?.matches('summary')?'summary':control?.matches('[data-quality]')?'[data-quality]':null;
+  if(!state||paused()){
+   main.innerHTML=finder({open:entryOpen&&resolved,tiers,selectedTier,rooms,tierLabel,waiting:!!state,test:displayTest});
+  }
   else if(terminal(state.status)){main.innerHTML='<small>'+esc(state.tierName||tierLabel(state.tier))+'</small><h2>'+(state.status==='VICTORY'?'7분 사냥 완료':'토벌대 전멸')+'</h2><p>처치 '+state.kills+' · 성주 '+(state.bosses?'처치':'미처치')+' · 내 습득 '+state.picked+'회</p><h3>내 전리품</h3>'+items(state.drops)+'<p>'+(state.test?'테스트 모드 · 실제 보상 미지급':state.claimed?'내 계정에 지급되었습니다.':'사냥 중 내 가방에 담은 전리품입니다.')+'</p>'+(state.canClaim?'<button class="ct-primary" data-act="claim">내 전리품 수령</button>':'<button class="ct-primary" data-act="leave">파티 목록으로</button>');}
   else{const mine=state.members.find(m=>m.id===state.you),group=picker==='mercenaries'?'mercenaryCodes':'cardIds',other=group==='mercenaryCodes'?'cardIds':'mercenaryCodes',eligible=selected[group],opts=options?.[picker]||[];
-   main.innerHTML='<div class="ct-head"><div><small>EXPEDITION SQUAD</small><h2>'+esc(state.tierName||tierLabel(state.tier))+'　'+state.members.length+' / 2</h2></div><button data-act="leave">파티 나가기</button></div><div class="ct-members">'+state.members.map(m=>'<div><b>'+esc(m.name)+(m.id===state.you?' · 나':'')+'</b><small>'+(m.ready?'준비 완료':'편성 중')+'</small></div>').join('')+(state.members.length===1?'<div><b>빈 자리</b><small>대원 모집 중</small></div>':'')+'</div>'+
+   const seats=state.members.map(m=>'<div class="ct-seat"><span class="ct-seat-icon">'+glyph('people')+'</span><div><small>'+(m.id===state.hostId?'방장':'대원')+(m.id===state.you?' · 나':'')+'</small><b>'+esc(m.name)+'</b></div><span class="ct-seat-state" data-ready="'+!!m.ready+'">'+(m.ready?'준비 완료':'편성 중')+'</span></div>').join('');
+   const emptySeat='<div class="ct-seat ct-seat-empty"><span class="ct-seat-icon">'+glyph('plus')+'</span><div><small>두 번째 자리</small><b>대원 모집 중</b></div></div>';
+   main.innerHTML='<div class="ct-head"><div><small>'+esc(tierLabel(state.tier))+'</small><h2>파티 대기실 <span class="ct-count">'+state.members.length+'/2</span></h2></div><button class="ct-leave" data-act="leave">파티 나가기</button></div><div class="ct-members">'+seats+(state.members.length===1?emptySeat:'')+'</div>'+
     '<div class="ct-tabs" aria-label="내 편성"><button data-act="mercenaries" aria-pressed="'+(picker==='mercenaries')+'">용병 '+selected.mercenaryCodes.length+' / 2</button><button data-act="icons" aria-pressed="'+(picker==='icons')+'">아이콘 '+selected.cardIds.length+' / 2</button></div>'+
-    (!options?'<p>보유 목록을 불러오는 중입니다. <button data-act="options">다시 불러오기</button></p>':!opts.length?'<p>편성할 수 있는 '+(picker==='mercenaries'?'용병':'아이콘')+'이 없습니다.</p>':'<div class="ct-grid">'+opts.map(o=>'<button class="ct-card" data-act="pick" data-id="'+esc(o.id)+'" aria-pressed="'+eligible.includes(o.id)+'" '+(mine.ready?'disabled':'')+'>'+(art(o.image)?'<img loading="lazy" decoding="async" alt="" src="'+esc(art(o.image))+'">':'')+'<span><small>'+esc(o.rank||'ICON')+' '+(o.rank?'Lv.':'+')+esc(o.level)+'</small><b>'+esc(o.name)+'</b></span></button>').join('')+'</div>')+
+    (!options?'<p>보유 목록을 불러오는 중입니다. <button data-act="options">다시 불러오기</button></p>':!opts.length?'<p>편성할 수 있는 '+(picker==='mercenaries'?'용병':'아이콘')+'이 없습니다.</p>':'<div class="ct-grid">'+opts.map(o=>'<button class="ct-card" data-act="pick" data-id="'+esc(o.id)+'" aria-pressed="'+eligible.includes(o.id)+'" '+(mine.ready?'disabled':'')+'>'+(art(o.image)?'<img loading="lazy" decoding="async" alt="" src="'+esc(art(o.image))+'">':'<span class="ct-card-mark">'+glyph(picker==='icons'?'banner':'people')+'</span>')+'<span><small>'+esc(o.rank||'ICON')+' '+(o.rank?'Lv.':'+')+esc(o.level)+'</small><b>'+esc(o.name)+'</b></span></button>').join('')+'</div>')+
     '<div class="ct-controls">'+(mine.ready?'<button data-act="unready">준비 취소</button>':'<button class="ct-primary" data-act="ready" '+(eligible.length===2&&selected[other].length===2?'':'disabled')+'>준비 완료</button>')+(state.hostId===state.you?'<button class="ct-primary" data-act="start" '+(state.members.length===2&&state.members.every(m=>m.ready)?'':'disabled')+'>두 분대 출전</button>':'<small>두 명 모두 준비하면 방장이 출전할 수 있습니다.</small>')+'</div>';
   }
-  if(busy)main.querySelectorAll('button').forEach(b=>b.disabled=true);
+  if(openGuide&&main.querySelector('.ct-details'))main.querySelector('.ct-details').open=true;
+  if(choice)main.querySelector('[data-tier][value="'+CSS.escape(choice)+'"]')?.focus({preventScroll:true});
+  if(inGuide)main.querySelector(inGuide)?.focus({preventScroll:true});
+  if(busy)main.querySelectorAll('input,button').forEach(b=>b.disabled=true);
   const grid=main.querySelector('.ct-grid');if(grid)grid.scrollTop=oldScroll;
   if(restore&&restore[0])main.querySelector('[data-act="'+CSS.escape(restore[0])+'"]'+(restore[1]?'[data-id="'+CSS.escape(restore[1])+'"]':''))?.focus({preventScroll:true});
  }
@@ -189,8 +253,8 @@ export function openCitadel(trigger){
   }catch(err){if(!closed){if(err.code==='CITADEL_PAUSED'&&(!state||['LOBBY','LOADING'].includes(state.status))){entryOpen=false;apply(state);}say(err.message);if(kind==='create'&&err.code==='CITADEL_OLD')createId=crypto.randomUUID();}}
   finally{if(!closed){busy=false;draw();schedule();}}
  }
- d.addEventListener('change',e=>{if(!state&&e.target.matches('[data-tier]')&&tiers.some(t=>t.id===e.target.value)){selectedTier=e.target.value;createId=crypto.randomUUID();draw();return;}if(!state&&e.target.matches('[data-quality]')){const quality=e.target.value;if(['auto','detail','light'].includes(quality)){try{localStorage.setItem(qualityKey,quality);}catch{}liteOnly=false;}}});
+ d.addEventListener('change',e=>{if((!state||paused())&&e.target.matches('[data-tier]')&&tiers.some(t=>t.id===e.target.value)){selectedTier=e.target.value;createId=crypto.randomUUID();draw();return;}if(!state&&e.target.matches('[data-quality]')){const quality=e.target.value;if(['auto','detail','light'].includes(quality)){try{localStorage.setItem(qualityKey,quality);}catch{}liteOnly=false;}}});
  d.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(b&&!b.disabled)void act(b.dataset.act,b.dataset.id);});
- main.innerHTML='<p>모집 중인 파티를 확인하고 있습니다.</p>';void refresh();return {close};
+ main.innerHTML='<div class="ct-initial"><p role="status">원정 모집 현황을 확인하고 있습니다.</p><button data-act="refresh">다시 불러오기</button></div>';void refresh(firstRead);return {close};
 }
 

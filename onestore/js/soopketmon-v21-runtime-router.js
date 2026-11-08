@@ -105,6 +105,7 @@
     coop: { shell: 'battle', actions: [{ selector: '.v21-route-body #pveCoopTab' }] },
     escort: { shell: 'battle', actions: [{ selector: '[data-pve-mode="escort"]' }] },
     seal: { shell: 'battle', actions: [{ selector: '[data-seal-battle-mode]' }] },
+    citadel: { global: 'openLegionCitadel' },
     legion: { shell: 'battle', global: 'openLegionHunt', fallbackSelector: '[data-legion-hunt-entry]' },
     tower: { shell: 'battle', actions: [{ selector: '[data-pve-mode="tower"]' }] },
 

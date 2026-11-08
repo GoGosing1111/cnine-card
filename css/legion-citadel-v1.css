@@ -12,3 +12,137 @@
 .ct-quality{display:flex;align-items:center;justify-content:flex-end;gap:8px;font-size:13px}.ct-quality select{color:#eee;border:1px solid #66738a;border-radius:5px;padding:6px;background:#172537}
 /* The lightweight battlefield lives in a body-level dialog. Large hidden PVE trees still cost layout time on WebKit. */
 body:has(>.citadel.in-battle.ct-light-field)>#app{display:none}
+
+/* The expedition hall is a static scene. The combat canvas is mounted only after departure. */
+.citadel:not(.in-battle) {
+  --ct-brass:#d8ac75; --ct-muted:#a7a8ae; --ct-edge:#413e40;
+  width:min(calc(100% - 48px),1016px); height:fit-content; max-height:min(93dvh,940px);
+  border:1px solid #756350; border-radius:8px; color:#f4eee7;
+  background:#16171c; box-shadow:0 26px 100px #060609bd;
+}
+.citadel:not(.in-battle)::backdrop {background:#070a11cf}
+.citadel .ct-bar {height:56px; padding:0 24px; border-bottom:1px solid #584838; background:linear-gradient(100deg,#242326,#171a20)}
+.citadel:not(.in-battle) .ct-scroll {flex:0 1 auto}
+.ct-brand {display:flex; align-items:center; gap:10px; font-size:15px; letter-spacing:-.025em}
+.ct-brand .ct-crest {width:34px;height:34px;object-fit:contain}
+.ct-glyph {width:19px;height:19px;display:inline-block;flex:none;vertical-align:middle}
+.citadel .ct-close {display:grid;place-items:center;width:36px;height:36px;min-width:0;padding:0;border-color:#565052;background:#2a292d;border-radius:5px;color:#d5d1cf}
+.citadel .ct-hero {position:relative;isolation:isolate;min-height:0;height:clamp(180px,23vw,245px);display:flex;align-items:flex-end;background:#271d20;overflow:hidden;border-bottom:1px solid #82603d}
+.ct-hero picture,.ct-hero picture img {position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;object-position:50% 38%}
+.citadel .ct-hero::after {content:"";position:absolute;inset:0;background:linear-gradient(90deg,#0d1018f0 0%,#12121bd4 19%,#1b14224d 50%,transparent 72%),linear-gradient(0deg,#17151be3,transparent 58%);pointer-events:none}
+.citadel .ct-hero-copy {position:relative;z-index:1;padding:20px clamp(20px,4vw,44px) 27px;max-width:75%;text-align:left}
+.ct-status {display:inline-flex;align-items:center;gap:7px;padding:3px 9px;border:1px solid #b0a39477;background:#19151bd9;color:#e0d5ca;font-size:11px;font-weight:700;letter-spacing:.04em;border-radius:3px}
+.ct-status::before {content:"";width:6px;height:6px;border-radius:50%;background:#b7aaa0}
+.ct-status[data-status="open"]::before,.ct-status[data-status="party"]::before {background:#aed28a}
+.ct-status[data-status="paused"]::before {background:#e2af75}
+.citadel .ct-hero h1 {color:#fff4d7;font-family:"Batang","바탕","Noto Serif KR",serif;font-size:clamp(38px,5vw,62px);font-weight:800;line-height:1.12;letter-spacing:-.08em;margin:8px 0 6px;text-shadow:0 2px 8px #170d0c}
+.citadel .ct-hero p {color:#f0e5d7;font-size:14px;line-height:1.5;margin:0;word-break:keep-all}
+.ct-facts {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:0 27px;margin:0;list-style:none;background:linear-gradient(90deg,#28252a,#232226 50%,#28252a);border-bottom:1px solid var(--ct-edge)}
+.ct-facts li {display:flex;align-items:center;justify-content:center;gap:10px;margin:11px 0;color:var(--ct-brass);min-width:0}
+.ct-facts li+li {border-left:1px solid #4c4340}
+.ct-facts li span {display:flex;gap:8px;align-items:baseline;color:#b9b0aa;font-size:12px}
+.ct-facts b {color:#f3e9dc;font-size:14px}
+.citadel .ct-content {padding:22px clamp(16px,3vw,30px) 16px;background:linear-gradient(150deg,#202024,#15171d 85%);text-align:left}
+.ct-finder {display:grid;grid-template-columns:minmax(0,1.21fr) minmax(0,1fr);gap:16px;align-items:stretch}
+.ct-panel {min-width:0;border:1px solid var(--ct-edge);border-top-color:#74604b;border-radius:5px;background:linear-gradient(125deg,#29262a,#1d1e24 85%);padding:17px 18px}
+.citadel .ct-panel h2,.citadel .ct-head h2 {display:inline-flex;align-items:center;gap:8px;margin:0;color:#f4ede1;font-size:20px;letter-spacing:-.05em;line-height:1.4}
+.ct-panel-head {display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ct-count {display:inline-grid;place-items:center;min-width:21px;height:20px;padding:0 5px;border:1px solid #5a5049;border-radius:3px;background:#39332f;color:#e5c49d;font:700 11px/1 sans-serif;letter-spacing:.02em}
+.ct-tiers {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:13px 0 0;padding:0;min-width:0;border:0}
+.ct-tier {position:relative;display:block;min-width:0;cursor:pointer}
+.ct-tier input {position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.ct-tier-face {position:relative;pointer-events:none;display:flex;flex-direction:column;gap:7px;align-items:flex-start;justify-content:center;min-height:82px;padding:8px 12px;border:1px solid #52484b;border-radius:4px;background:linear-gradient(135deg,#353035,#29282e);color:#aea5a2}
+.ct-tier-face .ct-glyph {width:21px;height:21px}
+.ct-tier-face small {color:#b4aaa7;font-size:10px;font-weight:650;line-height:1.3}
+.ct-tier-face b {display:block;color:#ded8d0;font-size:14px;line-height:1.5;letter-spacing:-.05em;word-break:keep-all}
+.ct-tier input:checked+.ct-tier-face {color:#ffce85;border-color:#d79950;background:linear-gradient(130deg,#533d2b,#372c27);box-shadow:inset 0 2px #ce914a}
+.ct-tier input:checked+.ct-tier-face::after {content:"✓";position:absolute;top:6px;right:8px;color:#f2c98c;font:bold 12px/1.1 sans-serif}
+.ct-tier input:checked+.ct-tier-face b,.ct-tier input:checked+.ct-tier-face small {color:#ffe1b0}
+.ct-tier input:focus-visible+.ct-tier-face,.citadel summary:focus-visible,.citadel button:focus-visible {outline:2px solid #ffedb5;outline-offset:2px}
+.citadel .ct-recommend {display:flex;align-items:baseline;gap:7px;min-height:32px;padding:8px 0 9px;color:#c6beb5;font-size:12px;line-height:1.45;word-break:keep-all}
+.ct-recommend b {flex:none;color:#e2bb82}
+.citadel button.ct-primary {border:1px solid #e7ac64;border-radius:4px;background:linear-gradient(#e6b378,#c68a4f);color:#291c19}
+.citadel .ct-create,.ct-locked {width:100%;min-height:42px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px;font-weight:800;letter-spacing:-.03em}
+.citadel .ct-create {position:relative;padding:8px 40px;box-shadow:inset 0 1px #f7d9ad}
+.ct-create .ct-glyph:last-child {position:absolute;right:15px;width:16px}
+.ct-locked {border:1px solid #5c514a;border-radius:4px;color:#e6c9a9;background:#342e2c}
+.ct-locked .ct-glyph {width:16px}
+.citadel .ct-refresh {display:inline-flex;align-items:center;gap:4px;background:transparent;border:0;border-radius:3px;padding:5px 1px;font-size:12px;color:#c9c2bb;min-height:32px}
+.ct-refresh .ct-glyph {width:15px;height:15px}
+.ct-panel.ct-board {display:flex;flex-direction:column}
+.ct-quiet {display:grid;flex:1;align-content:center;justify-items:center;gap:5px;text-align:center;padding:14px 6px}
+.ct-quiet>.ct-glyph {width:32px;height:32px;color:#b49978;margin-bottom:2px}
+.ct-quiet b {font-size:15px;color:#ded6cd;letter-spacing:-.04em}
+.ct-quiet p {font-size:12px;color:#aba6a7;line-height:1.5;word-break:keep-all}
+.citadel .ct-rooms {display:grid;gap:5px;max-height:164px;overflow:auto;margin:10px 0 0}
+.citadel .ct-rooms li {display:flex;align-items:center;justify-content:flex-start;gap:9px;padding:9px;background:#2b282b;border:1px solid #534843;border-radius:4px}
+.ct-rooms li>div {min-width:0;flex:1}
+.ct-rooms li b,.ct-seat b {display:block;overflow-wrap:anywhere;font-size:14px}
+.ct-rooms li small,.ct-seat small {color:#bdb3a8;font-size:11px}
+.ct-party-flag,.ct-seat-icon {display:grid;place-items:center;flex:none;width:33px;height:34px;color:#dbb581;background:#3c332c;border:1px solid #63503c;border-radius:4px}
+.citadel .ct-join,.citadel .ct-leave {display:inline-flex;align-items:center;gap:4px;border:1px solid #675547;background:#37302b;color:#efd3af;font-size:12px;padding:6px 9px}
+.ct-join .ct-glyph {width:13px}
+.ct-details {margin-top:12px;border-top:1px solid #454043;font-size:13px}
+.ct-details summary {display:flex;justify-content:space-between;align-items:center;cursor:pointer;padding:12px 2px 2px;list-style:none;color:#cdc7c2;font-weight:600}
+.ct-details summary::-webkit-details-marker {display:none}
+.ct-details summary .ct-glyph {width:17px}
+.ct-details[open] summary .ct-glyph {transform:rotate(180deg)}
+.ct-rules {display:grid;grid-template-columns:1fr 1fr;gap:12px 18px;padding:12px 2px 0;color:#c2b9b2}
+.ct-rules b {color:#edcf9f}
+.ct-rules p {margin-top:3px;line-height:1.6}
+.ct-rules .ct-quality {grid-column:1/-1;justify-content:flex-start}
+.ct-message:empty {display:none}
+.citadel .ct-test {font-size:12px;color:#f1c386;margin:0 0 8px}
+.ct-initial {display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:68px}
+.ct-initial p {font-size:14px}.citadel .ct-initial button {font-size:12px}
+.citadel.ct-in-room .ct-hero {height:130px}
+.citadel.ct-in-room .ct-hero-copy {padding:12px 30px}
+.citadel.ct-in-room .ct-hero h1 {font-size:36px;margin:5px 0 2px}
+.ct-in-room .ct-facts {display:none}
+.ct-head small {color:#dbb57f;letter-spacing:.02em}
+.ct-members>.ct-seat {display:flex;align-items:center;gap:9px;min-width:0;background:#28262a;border:1px solid #554b46}
+.ct-members>.ct-seat-empty {border-style:dashed;background:#212126;color:#b9b1aa}
+.ct-seat-state {margin-left:auto;color:#c8b6a6;font-size:11px;white-space:nowrap}
+.ct-seat-state[data-ready="true"] {color:#b8da98}
+.citadel .ct-tabs button {font-size:13px}
+@media (hover:hover) {
+  .ct-tier:hover .ct-tier-face {border-color:#ba986c}
+  .citadel button.ct-create:hover {background:linear-gradient(#f2c78d,#daa163)}
+  .citadel .ct-refresh:hover,.citadel .ct-details summary:hover {color:#ffdcaa}
+}
+@media (max-width:700px) {
+  .citadel:not(.in-battle) {width:100%;max-width:100%;height:100dvh;max-height:100dvh;margin:0;border:0;border-radius:0}
+  body:has(>.citadel[open]:not(.in-battle))>#app {display:none}
+  .citadel:not(.in-battle) .ct-scroll {flex:1 1 auto}
+  .citadel .ct-bar {height:calc(46px + env(safe-area-inset-top));padding:env(safe-area-inset-top) 14px 0}
+  .ct-brand {font-size:14px;gap:8px}.ct-brand .ct-crest {width:29px;height:29px}
+  .citadel .ct-close {width:40px;height:40px;border:0;background:transparent}
+  .citadel .ct-hero {height:clamp(156px,46vw,205px)}
+  .citadel .ct-hero::after {background:linear-gradient(90deg,#15131c9e,transparent 80%),linear-gradient(0deg,#15131aee,transparent 85%)}
+  .citadel .ct-hero-copy {padding:13px 16px;max-width:93%}
+  .citadel .ct-hero h1 {font-size:39px;margin:5px 0}
+  .citadel .ct-hero p {font-size:12px}
+  .ct-facts {padding:0 8px}.ct-facts li {margin:7px 0;gap:6px}.ct-facts .ct-glyph {width:15px;height:15px}
+  .ct-facts li span {display:block;font-size:10px;line-height:1.3}.ct-facts b {display:block;font-size:12px}
+  .citadel .ct-content {padding:12px 12px max(16px,env(safe-area-inset-bottom))}
+  .ct-finder {grid-template-columns:minmax(0,1fr);gap:10px}
+  .ct-panel {padding:12px 13px}.citadel .ct-panel h2,.citadel .ct-head h2 {font-size:17px}
+  .ct-tiers {margin-top:9px;gap:5px}.ct-tier-face {padding:7px 8px;gap:4px;min-height:68px}
+  .ct-tier-face .ct-glyph {width:17px;height:17px}.ct-tier-face b {font-size:13px}
+  .citadel .ct-recommend {min-height:26px;padding:6px 0;font-size:11px}
+  .citadel .ct-create,.ct-locked {min-height:42px}
+  .ct-quiet {padding:10px 0 8px;gap:3px}.ct-quiet>.ct-glyph {width:23px;height:23px}
+  .ct-quiet p {font-size:11px}.ct-quiet b {font-size:14px}.citadel .ct-refresh {min-height:36px;margin:-5px 0}
+  .ct-rules {grid-template-columns:1fr}.ct-details {margin-top:10px}.ct-details summary {min-height:42px;padding:6px 2px}
+  .citadel.ct-in-room .ct-hero {height:92px}.citadel.ct-in-room .ct-hero p {display:none}
+  .citadel.ct-in-room .ct-hero-copy {padding:10px 16px}.citadel.ct-in-room .ct-hero h1 {font-size:29px}
+  .ct-members {gap:5px}.ct-members>.ct-seat {padding:7px;gap:5px;flex-wrap:wrap}.ct-seat-icon {width:27px;height:29px}
+  .ct-seat-state {font-size:10px}.ct-controls {flex-wrap:wrap}.citadel .ct-join {min-height:40px}
+}
+@media (max-height:550px) and (min-width:701px) {
+  .citadel .ct-hero {height:140px}.citadel .ct-hero-copy {padding-block:12px}.citadel .ct-hero h1 {font-size:40px}
+}
+.citadel .ct-tabs button,.citadel button.ct-card {background:#2a292f;border-color:#514a49;color:#e2dbd5}
+.citadel .ct-tabs button[aria-pressed="true"],.citadel button.ct-card[aria-pressed="true"] {background:#44382d;border-color:#d4a16b;box-shadow:inset 0 0 0 1px #b6844d;color:#ffe2ae}
+.ct-card-mark {display:grid;place-items:center;flex:none;width:30px;height:36px;background:#393331;border:1px solid #52453e;border-radius:3px;color:#c0a37e}
+.ct-card[aria-pressed="true"] b::before {color:#f4c485}

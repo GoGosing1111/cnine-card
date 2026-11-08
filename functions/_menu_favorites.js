@@ -2,9 +2,11 @@
 // device's edits. This reuses app_meta; no account or economy schema changes.
 export const FAVORITE_MENU_ROUTES = Object.freeze([
   'inventory','buy','lootShop','dex','mercenaryDex','petDex','upgrade','evolution','iconfusion','magic',
-  'battle','deck','hunt','coop','legion','raid','escort','siege','seal','tower','scrapyard','masterStarMine',
-  'pvp','jokgakCity','duo','rank','clanWar','clanFaction','clan','territory','character','avatar',
-  'vehicle','fusion','alchemy','attendance','dailyquest','messages','mineral','chicken','goldenAxe',
+  'battle','deck','hunt','defense','coop','legion','citadel','raid','escort','seal','tower','scrapyard','masterStarMine',
+  'pvp','jokgakCity','duo','classicColosseum','rank','rankedShop','clanWar','clanFaction','clan','territory','character','avatar',
+  'vehicle','fusion','alchemy','season','attendance','dailyquest','comeback','messages','mineral',
+  // Accounts may still have bookmarks for these former menu entries.
+  'siege','chicken','goldenAxe',
   'auction','coup','soopketland','prison','mercenaryEquipment','equipmentForge','seasonPass'
 ]);
 const allowed = new Set(FAVORITE_MENU_ROUTES);

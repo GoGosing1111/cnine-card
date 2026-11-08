@@ -207,7 +207,7 @@ export async function handleLegionCitadel({path,request,env,deps}){
   if(!canAccessLegionHunt(policy,user))fail('ACCESS','현재 군단토벌을 이용할 수 없습니다.',403);
   const open=citadel.policy.mode==='ON',at=(deps.now||Date.now)(),DB=env.DB;
   if(request.method==='GET'){
-   if(action==='lobby'){const [here,list]=await Promise.all([current(DB,user.id),open?rooms(DB,at):[]]);return reply({ok:true,open,tiers:open?citadelTierMenu:[],state:here.r&&here.r.members.some(m=>m.id===Number(user.id))&&phase(here.r,at)!=='CANCELLED'?await present(DB,here.r,user,at):null,rooms:list,test:policy.mode!=='ON'});}
+   if(action==='lobby'){const [here,list]=await Promise.all([current(DB,user.id),open?rooms(DB,at):[]]);return reply({ok:true,open,tiers:citadelTierMenu,state:here.r&&here.r.members.some(m=>m.id===Number(user.id))&&phase(here.r,at)!=='CANCELLED'?await present(DB,here.r,user,at):null,rooms:list,test:policy.mode!=='ON'});}
    if(action==='options'){requireOpen(citadel.policy);return reply({ok:true,...await (deps.citadelOptions||options)(env,user)});}
    if(!['state','battle','chunk'].includes(action))fail('PATH','존재하지 않는 메뉴입니다.',404);
    const id=new URL(request.url).searchParams.get('id');if(!idOK(id))fail('INPUT','파티 번호를 확인하세요.',400);

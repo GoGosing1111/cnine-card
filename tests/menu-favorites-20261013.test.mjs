@@ -29,6 +29,9 @@ test('authenticated favorites persist independently and retries never duplicate 
     assert.deepEqual((await call(10)).body.routes,['petDex']);
     await call(1,{route:'hunt',favorite:false});await call(1,{route:'hunt',favorite:false});
     assert.deepEqual((await call(1)).body.routes,['pvp']);
+    assert.equal((await call(1,{route:'citadel',favorite:true})).status,200);
+    assert.deepEqual(new Set((await call(1)).body.routes),new Set(['pvp','citadel']));
+    assert.equal((await call(1,{route:'citadel',favorite:false})).status,200);
     assert.deepEqual((await call(10)).body.routes,['petDex']);
     assert.equal((await db.query('SELECT COUNT(*)::int AS count FROM app_meta')).rows[0].count,2);
   }finally{await db.close();}
@@ -39,7 +42,9 @@ test('server accepts every shared public menu and standalone destination',()=>{
   vm.createContext(context);vm.runInContext(fs.readFileSync(new URL('../js/soopketmon-v21-exact-shell-adapter.js',import.meta.url),'utf8'),context);
   const nav=context.SoopketmonV21NavigationContract;
   const routes=nav.menuGroupOrder.flatMap(id=>Array.from(nav.groups[id].routes));
-  assert.deepEqual(new Set(FAVORITE_MENU_ROUTES),new Set([...routes,'mercenaryEquipment','equipmentForge','seasonPass']));
+  const archived=['siege','chicken','goldenAxe'];
+  assert.ok(nav.groups.pve.routes.includes('citadel'));
+  assert.deepEqual(new Set(FAVORITE_MENU_ROUTES),new Set([...routes,'mercenaryEquipment','equipmentForge','seasonPass',...archived]));
 });
 
 test('failed writes keep confirmed state, and retry adds once',async()=>{
