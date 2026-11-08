@@ -1,0 +1,15 @@
+{
+  "kind": "native animated game VFX",
+  "renderer": "js/item-rune-vfx.js",
+  "palette": [
+    "red",
+    "gold"
+  ],
+  "periodSeconds": 4,
+  "runtimeFPS": 30,
+  "staticFallback": {
+    "file": "sovereign-fire-still.webp",
+    "sha256": "3fc712ef2fd9a80a5a4830e2aec48ef5101e0f22b93b0ce10f14b155fabf2026"
+  },
+  "source": "Time-based flame ribbons, branching lightning, molten trails and ember particles. No new ImageGen source; original item artwork preserved."
+}

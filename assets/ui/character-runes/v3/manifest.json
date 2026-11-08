@@ -1,0 +1,30 @@
+{
+  "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-163f6014-2323-4496-90d0-0e65e8bea777.png",
+  "sourceHash": "f1c6b7245b2ca65e218d7059ed205927c22126daca70d62eff17aa351b5c4874",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "asset": "crimson-gold-flipbook.webp",
+  "assetHash": "cb6a10830b5d1e7ea0af998516d3bb143270a1052e47097a5ad4d2a43d6bbf68",
+  "grid": [
+    4,
+    4
+  ],
+  "frameSize": 256,
+  "method": "Built-in ImageGen; crop and encode for runtime flipbook; runtime interpolation and soft masks",
+  "originalPreserved": true,
+  "kind": "authored flipbook with native animated VFX",
+  "renderer": "js/item-rune-vfx.js",
+  "palette": [
+    "red",
+    "gold"
+  ],
+  "periodSeconds": 4,
+  "runtimeFPS": 30,
+  "staticFallback": {
+    "file": "sovereign-fire-still.webp",
+    "sha256": "df67fbfe95676017067f1dea869350cc5d7ef6f61702c602a3b1122cf32f1ccf"
+  },
+  "runtime": "16 authored flames with interpolation, soft center mask, gold travelling gleam and 34 cinders. Original item artwork preserved."
+}

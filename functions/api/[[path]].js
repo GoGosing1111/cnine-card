@@ -1,3 +1,4 @@
+import {handleSeasonS1,seasonAwardStatements,seasonBonus,seasonEnabled,seasonTowerFloors} from '../_season_s1.js';
 import {addCoins,coinInteger,coinValue} from '../../shared/coin-integer-v1.mjs';
 import {coinChangeStatements} from '../_coin_settlement.js';
 import {jointGuard,jointGuardEnd} from '../_joint_atomic.js';
@@ -1558,6 +1559,7 @@ async function raidDeckPower(env,userId,cardIds,mode='RAID'){
   if(superstarDeckCount(owned.results)>SUPERSTAR_DECK_LIMIT){const e=new Error(`PvE 덱에는 SUPERSTAR 카드를 최대 ${SUPERSTAR_DECK_LIMIT}장까지만 편성할 수 있습니다. 덱을 다시 저장해주세요.`);e.status=400;e.code='SUPERSTAR_DECK_LIMIT';throw e}
   if(iconDeckCount(owned.results)>ICON_DECK_LIMIT){const e=new Error(`PvE 덱에는 ICON 카드를 최대 ${ICON_DECK_LIMIT}장까지만 편성할 수 있습니다.`);e.status=400;e.code='ICON_DECK_LIMIT';throw e}
   const [battleCfg,deckUser,characterBonus]=await Promise.all([battleSettings(env),env.DB.prepare('SELECT id,role FROM users WHERE id=?').bind(userId).first(),userEquipmentBonuses(env,userId)]);
+  if(seasonEnabled(env))characterBonus.pveEquipmentRuntime={...characterBonus.pveEquipmentRuntime,seasonS1:await seasonBonus(env,userId,'PVE')};
   const cards=owned.results.map(card=>({...card,grade:String(card.rarity||'C').toUpperCase(),breakthroughLevel:Number(card.breakthrough_level||0),power:cardBattlePower(card,card.breakthrough_level,battleCfg)}));
   const synergyMode=String(mode||'RAID').toUpperCase()==='PVE'?'PVE':'RAID';
   const [unique,synergy]=await Promise.all([cardUniqueDeckState(env,deckUser,cards,'PVE'),evaluateDeckSynergies(env,deckUser,ids,synergyMode,{forceOwnerTest:String(deckUser?.role||'').toUpperCase()==='OWNER'})]);
@@ -1839,7 +1841,7 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattl
     const seed=parseInt(drawIntegrityHash(`${user.id}:${monster.id}:${requestId}`),16)>>>0;
     const engineCards=cards.map(card=>{const uniqueCard=uniqueCardsById.get(String(card.id));return {...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*synergyMultiplier)),uniqueAbility:uniqueCard?.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null, iconRole:uniqueCard?.iconRole||null,iconExpansion:uniqueCard?.iconExpansion||null}});
     const battleSuit=battleSuitDamage>0&&characterBonus.equippedBattleSuit?{...characterBonus.equippedBattleSuit,pvePower:battleSuitDamage,weapon:characterBonus.equippedWeapon||null,accountNickname:user.nickname}:null;
-    battleV2=createPveBattleV2({pveEquipmentRuntime:characterBonus.pveEquipmentRuntime,pet:await loadPetBattleSnapshot(env,user,'PVE'),...await releasedMercenaryFormation(env,user,'PVE'),cards:rankCards(engineCards,await accountRankBenefits(env,user.id,difficulty.isApocalypse?'APOCALYPSE':'HUNT')),magicCards:magicLoadout.cards||[],characterBonus:nonBattleSuitSupport,battleSuit,monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
+    battleV2=createPveBattleV2({seasonEquipment:await seasonBonus(env,user.id,'PVE'),pveEquipmentRuntime:characterBonus.pveEquipmentRuntime,pet:await loadPetBattleSnapshot(env,user,'PVE'),...await releasedMercenaryFormation(env,user,'PVE'),cards:rankCards(engineCards,await accountRankBenefits(env,user.id,difficulty.isApocalypse?'APOCALYPSE':'HUNT')),magicCards:magicLoadout.cards||[],characterBonus:nonBattleSuitSupport,battleSuit,monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
     result=battleV2.result.winner==='A'?'WIN':'LOSE';
   }else result=Math.max(0,uniquePlayerPower+ultimateDamage-bossUltimatePenalty)>=monsterPower?'WIN':'LOSE';
   const damageBreakdown=battleV2?.result?.damageBreakdown||{cards:cardPower,support:nonBattleSuitSupport,battleSuit:battleSuitDamage,ultimate:ultimateDamage,total:uniquePlayerPower+ultimateDamage,authority:'SERVER_SWEEP_FALLBACK'};
@@ -1851,13 +1853,14 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattl
   const cardRate=(await resolveAvatarDropRate(env,user.id,result==='WIN'&&settings.cardDrop?.enabled!==false?settings.cardDrop?.defaultRate??0:0,'PVE')).total;
   const cardDropHit=cardRate>0&&Math.random()*100<cardRate;
   const [,cardReward,equipmentReward,blackMiracleReward,magicReward]=await Promise.all([
-    result==='WIN'?settleRankedHunt(env,user.id,difficulty.isApocalypse?'APOCALYPSE':'HUNT',dropRequestId,reward,`PVE 소탕 승리 보상: ${monster.name}`):Promise.resolve(null),
+    result==='WIN'?settleRankedHunt(env,user.id,difficulty.isApocalypse?'APOCALYPSE':'HUNT',dropRequestId,reward,`PVE 소탕 승리 보상: ${monster.name}`,{source:difficulty.isNightmare?'NIGHTMARE':'HUNT',monsterId:monster.id}):Promise.resolve(null),
     cardDropHit?grantBattleCard(env,user.id,settings):Promise.resolve(null),
     result==='WIN'?safeEquipmentDrop(env,{userId:user.id,sourceType:'PVE_AUTO',sourceId:String(monster.id),requestId:dropRequestId}):Promise.resolve(null),
     result==='WIN'?rollBlackMiracleDrop(env,{userId:user.id,source:'PVE_AUTO',referenceId:dropRequestId}):Promise.resolve(null),
     result==='WIN'?resolveMagicCrystalReward(env,{userId:user.id,source:'PVE_DROP',referenceId:dropRequestId,enabled:pveMagic.enabled===true,chance:pveMagic.chance,amount:pveMagic.amount,dailyLimit:pveMagic.dailyLimit,reason:'일반 PVE 승리 확률 드랍'}):Promise.resolve(null)
   ]);
   const unifiedDrop=result==='WIN'?await safePveUnifiedDrop(env,{userId:user.id,requestId:`UNIFIED:${dropRequestId}`,sourceType:'PVE_AUTO',sourceId:String(monster.id),triggerType:'WIN',context:{boss:Boolean(monster.is_boss),difficulty:difficulty.difficulty},role:user.role,isNightmare:difficulty.isNightmare,isApocalypse:difficulty.isApocalypse}):null;
+  if(result!=='WIN'){const seasonWrites=await seasonAwardStatements(env,{userId:user.id,eventId:dropRequestId,source:difficulty.isNightmare?'NIGHTMARE':'HUNT',won:false});if(seasonWrites.length)await env.DB.batch(seasonWrites);}
   const autoBattleLogStatement=env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),uniquePlayerPower,monsterPower,result,reward);
   const cowPortal=await discoverCowPortal(env,user,{battleMode:difficulty.isApocalypse?'APOCALYPSE':'PVE',sourceType:'SWEEP',sourceRef:dropRequestId,isApocalypse:difficulty.isApocalypse,result});
   if(typeof options.collectBattleLog==='function')options.collectBattleLog(autoBattleLogStatement);
@@ -5136,6 +5139,7 @@ async function handleRequest(context){
       ]);
       return json({inventory:{totalQuantity:Number(inventory?.totalQuantity||0),ownedTypes:Number(inventory?.ownedTypes||0),unseenTotal:Number(inventory?.unseenTotal||0)},messages:{unread:Number(messages?.unread||0)},avatarFeature,alchemyFeature,serverNow:new Date().toISOString()});
     }
+    const seasonResponse=await handleSeasonS1({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(seasonResponse)return seasonResponse;
     const legionHuntResponse=await handleLegionHunt({path,request,env,deps:{authenticate,json,raidDeckPower,cardBattlePower,magicBattleLoadout,selectActivatedUltimate,loadMercenaryBattleSnapshot:releasedMercenarySnapshot,withUserMutationLock:withJointUserMutationLock}});if(legionHuntResponse)return legionHuntResponse;
     const rankedShopResponse=await handleRankedShop({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(rankedShopResponse)return rankedShopResponse;
     const lootShopResponse=await handleLootShop({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(lootShopResponse)return lootShopResponse;
@@ -6434,6 +6438,7 @@ async function handleRequest(context){
           env.DB.prepare("UPDATE raid_reward_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE instance_id=? AND user_id=?").bind(JSON.stringify(response),row.instance_id,user.id)
         ];
         if(fixedRewardMagicCrystals>0)rewardStatements.splice(4,0,env.DB.prepare("INSERT INTO magic_crystal_logs(user_id,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,'월드레이드 보상','RAID',?)").bind(user.id,fixedRewardMagicCrystals,magicCrystalsAfter,String(row.instance_id)));
+        rewardStatements.push(...await seasonAwardStatements(env,{userId:user.id,eventId:'WORLD:'+row.instance_id,source:'RAID',won:cleared,eligible:finalDamage>0,startedAt:(await env.DB.prepare('SELECT starts_at FROM raid_instances WHERE id=?').bind(row.instance_id).first())?.starts_at}));
         await env.DB.batch(rewardStatements);
 
         const updated=await env.DB.prepare('SELECT *,CAST(coin AS TEXT) AS exact_coin FROM users WHERE id=?').bind(user.id).first();
@@ -6707,7 +6712,7 @@ async function handleRequest(context){
         const battleSuitPve=Math.max(0,Number(characterBonus.battleSuitPve||0));
         const cardSupportBonus=Math.max(0,Number(characterBonus.pve||0)-battleSuitPve);
         const battleSuit=battleSuitPve>0&&characterBonus.equippedBattleSuit?{...characterBonus.equippedBattleSuit,pvePower:battleSuitPve,weapon:characterBonus.equippedWeapon||null,accountNickname:user.nickname}:null;
-        battleV2=createPveBattleV2({pveEquipmentRuntime:characterBonus.pveEquipmentRuntime,pet:await loadPetBattleSnapshot(env,user,'PVE'),...mercenarySnapshot,cards:rankCards(engineCards,rankBenefits),magicCards:magicLoadout.cards,characterBonus:cardSupportBonus,battleSuit,monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
+        battleV2=createPveBattleV2({seasonEquipment:await seasonBonus(env,user.id,'PVE'),pveEquipmentRuntime:characterBonus.pveEquipmentRuntime,pet:await loadPetBattleSnapshot(env,user,'PVE'),...mercenarySnapshot,cards:rankCards(engineCards,rankBenefits),magicCards:magicLoadout.cards,characterBonus:cardSupportBonus,battleSuit,monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
         result=battleV2.result.winner==='A'?'WIN':'LOSE';
       }else result=effectiveBattleDamage>=monsterPower?'WIN':'LOSE';
       const deferred=difficulty.isApocalypse;
@@ -6729,7 +6734,7 @@ async function handleRequest(context){
       const pendingCard=deferred&&cardDropHit?await pickBattleCard(env,settings):null;
       const apocalypsePlan=deferred?await planApocalypseRewards(env,{user,requestId,monster,reward,won:result==='WIN',card:pendingCard,duplicateShards:SHARD_REWARD[pendingCard?.grade]||0,pveMagic,bonus:settings.apocalypse?.monsterProfiles?.[String(monster.id)]?.clearBonus}):null;
       const [,cardReward,equipmentReward,blackMiracleReward,magicReward]=await Promise.all([
-        !deferred&&result==='WIN'?settleRankedHunt(env,user.id,difficulty.isApocalypse?'APOCALYPSE':'HUNT',requestId,reward,`PVE 승리 보상: ${monster.name}`):Promise.resolve(null),
+        !deferred&&result==='WIN'?settleRankedHunt(env,user.id,difficulty.isApocalypse?'APOCALYPSE':'HUNT',requestId,reward,`PVE 승리 보상: ${monster.name}`,{source:difficulty.isNightmare?'NIGHTMARE':'HUNT',monsterId:monster.id}):Promise.resolve(null),
         !deferred&&cardDropHit?grantBattleCard(env,user.id,settings):Promise.resolve(null),
         !deferred&&result==='WIN'?safeEquipmentDrop(env,{userId:user.id,sourceType:rewardSource,sourceId:String(monster.id),requestId}):Promise.resolve(null),
         !deferred&&result==='WIN'?rollBlackMiracleDrop(env,{userId:user.id,source:rewardSource,referenceId:requestId}):Promise.resolve(null),
@@ -6741,6 +6746,7 @@ async function handleRequest(context){
       // 마법 수정 보상은 위 Promise.all에서 이미 받았다.
       // V1785: 고등급 리롤 티켓 지급 결과는 응답에 포함되지 않는다(기존에도 변수만 만들고 쓰지 않았다).
       // 지급 자체는 그대로 수행하되 응답을 기다리게 하지 않는다.
+      if(!deferred&&result!=='WIN'){const seasonWrites=await seasonAwardStatements(env,{userId:user.id,eventId:requestId,source:difficulty.isNightmare?'NIGHTMARE':'HUNT',won:false});if(seasonWrites.length)await env.DB.batch(seasonWrites);}
       if(!deferred&&result==='WIN')deferWrite('highGradeRerollDrop',()=>grantHighGradeRerollDrop(env,{userId:user.id,content:'PVE',referenceId:requestId}));
 
       // V1791: 전투가 바꾼 것만 배치 1회로 읽어 경량 프로필로 응답한다.
@@ -6787,18 +6793,18 @@ async function handleRequest(context){
       const configuredMax=towerProgressBatch[2]?.results?.[0]||null;
       const ranking=towerRankingResult.results;
       const maxFloor=Math.max(0,Number(configuredMax?.max_floor||0));
-      if(maxFloor<1)return json({active:true,configured:false,completed:false,maxFloor:0,tower:{id:season.id,name:'무한의탑',maxFloor:0},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor:0},progress:{currentFloor:1,highestFloor:Number(progress.highest_floor||0),rank:0,completed:false},floor:null,deck,characterBonus,ranking:[],message:'운영자가 무한의탑 층을 아직 설정하지 않았습니다.'});
+      if(maxFloor<1)return json({active:true,seasonReplayFloors:await seasonTowerFloors(env,progress.highest_floor,user.id),configured:false,completed:false,maxFloor:0,tower:{id:season.id,name:'무한의탑',maxFloor:0},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor:0},progress:{currentFloor:1,highestFloor:Number(progress.highest_floor||0),rank:0,completed:false},floor:null,deck,characterBonus,ranking:[],message:'운영자가 무한의탑 층을 아직 설정하지 않았습니다.'});
       const completed=Number(progress.current_floor||1)>maxFloor||Number(progress.highest_floor||0)>=maxFloor;
       const floorNo=completed?maxFloor:Math.max(1,Math.min(maxFloor,Number(progress.current_floor||1)));
-      if(completed)return json({active:true,configured:true,completed:true,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:Number(progress.current_floor||maxFloor+1),highestFloor:Number(progress.highest_floor||0),rank:Math.max(1,ranking.findIndex(row=>Number(row.user_id)===Number(user.id))+1),completed:true},floor:null,deck,characterBonus,ranking});
+      if(completed)return json({active:true,seasonReplayFloors:await seasonTowerFloors(env,progress.highest_floor,user.id),configured:true,completed:true,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:Number(progress.current_floor||maxFloor+1),highestFloor:Number(progress.highest_floor||0),rank:Math.max(1,ranking.findIndex(row=>Number(row.user_id)===Number(user.id))+1),completed:true},floor:null,deck,characterBonus,ranking});
       const towerRankPromise=env.DB.prepare('SELECT COUNT(*)+1 rank FROM tower_user_progress WHERE season_id=? AND (highest_floor>? OR (highest_floor=? AND COALESCE(highest_reached_at,\'9999\')<COALESCE(?,\'9999\')))').bind(season.id,Number(progress.highest_floor||0),Number(progress.highest_floor||0),progress.highest_reached_at).first();
       towerRankPromise.catch(()=>{});
       let floor=completed?null:await env.DB.prepare(`SELECT r.*,bm.id monster_id,bm.name monster_name,bm.image_url monster_image,bm.battle_power base_power,bm.is_boss monster_is_boss FROM tower_floor_ranges r JOIN battle_monsters bm ON bm.id=r.monster_id WHERE r.season_id=? AND r.is_active=1 AND bm.is_active=1 AND COALESCE(bm.tower_enabled,0)=1 AND ?>=r.start_floor AND ?<=r.end_floor ORDER BY (r.end_floor-r.start_floor) ASC,r.id DESC LIMIT 1`).bind(season.id,floorNo,floorNo).first();if(!floor)floor=await env.DB.prepare('SELECT tf.*,tm.name monster_name,tm.image_url monster_image,tm.base_power,tm.is_boss monster_is_boss FROM tower_floors tf JOIN tower_monsters tm ON tm.id=tf.monster_id WHERE tf.season_id=? AND tf.floor_no=? AND tf.is_active=1').bind(season.id,floorNo).first();
-      if(!floor)return json({active:true,configured:true,completed:false,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:0,completed:false},floor:null,deck,characterBonus,ranking:[],blocked:true,code:'TOWER_FLOOR_UNCONFIGURED',message:`${floorNo}층이 설정되지 않아 더 이상 진행할 수 없습니다.`});
+      if(!floor)return json({active:true,seasonReplayFloors:await seasonTowerFloors(env,progress.highest_floor,user.id),configured:true,completed:false,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:0,completed:false},floor:null,deck,characterBonus,ranking:[],blocked:true,code:'TOWER_FLOOR_UNCONFIGURED',message:`${floorNo}층이 설정되지 않아 더 이상 진행할 수 없습니다.`});
       if(floor){floor.monster_image=String(floor.monster_image||'').trim().replace(/\\/g,'/');floor.monster_power=Number(floor.power_override||Math.floor(Number(floor.base_power||1000)*(1+Math.max(0,floorNo-1)*0.07)*(floorNo%10===0?1.35:1)));}
       const floorIsBoss=Boolean(floor)&&(Number(floor.is_boss||0)===1||Number(floor.monster_is_boss||0)===1||floorNo%10===0);
       const rankRow=await towerRankPromise;
-      return json({active:true,completed,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:Number(rankRow?.rank||1),completed},floor:floor?{floorNo,monsterId:floor.monster_id,monsterName:floor.monster_name,monsterImage:floor.monster_image,monsterPower:floor.monster_power,rewardCoin:Number(floor.reward_coin||0),isBoss:floorIsBoss}:null,deck,characterBonus,ranking});
+      return json({active:true,seasonReplayFloors:await seasonTowerFloors(env,progress.highest_floor,user.id),completed,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:Number(rankRow?.rank||1),completed},floor:floor?{floorNo,monsterId:floor.monster_id,monsterName:floor.monster_name,monsterImage:floor.monster_image,monsterPower:floor.monster_power,rewardCoin:Number(floor.reward_coin||0),isBoss:floorIsBoss}:null,deck,characterBonus,ranking});
     }
     if(path==='tower/fight'&&request.method==='POST')return json({error:'무한의탑 전투가 개편됐습니다. 새로고침 후 다시 도전하세요.',code:'TOWER_CLIENT_UPDATE'},409);
     if(path==='tower/pending'&&request.method==='GET'){
@@ -6827,8 +6833,10 @@ async function handleRequest(context){
       const configuredMax=await env.DB.prepare('SELECT MAX(v) max_floor FROM (SELECT MAX(end_floor) v FROM tower_floor_ranges WHERE season_id=? AND is_active=1 UNION ALL SELECT MAX(floor_no) v FROM tower_floors WHERE season_id=? AND is_active=1)').bind(season.id,season.id).first();
       const maxFloor=Math.max(0,Number(configuredMax?.max_floor||0));
       if(maxFloor<1)return json({error:'운영자가 무한의탑 층을 아직 설정하지 않았습니다.',code:'TOWER_NOT_CONFIGURED'},409);
-      if(Number(progress.current_floor||1)>maxFloor||Number(progress.highest_floor||0)>=maxFloor)return json({error:'무한의탑 최고층 등반을 완료했습니다. 운영자가 진행도를 초기화하기 전까지 다시 1층부터 시작하지 않습니다.',code:'TOWER_COMPLETED',completed:true,maxFloor},409);
-      const floorNo=Math.max(1,Math.min(maxFloor,Number(progress.current_floor||1)));
+      const seasonReplay=towerBody.seasonReplay===true;
+      if(seasonReplay&&!(await seasonTowerFloors(env,progress.highest_floor,user.id)).includes(Number(towerBody.floorNo)))return json({error:'현재 시즌에 재도전 가능한 클리어 층을 선택하세요.',code:'SEASON_TOWER_REPLAY'},409);
+      if(!seasonReplay&&(Number(progress.current_floor||1)>maxFloor||Number(progress.highest_floor||0)>=maxFloor))return json({error:'무한의탑 최고층 등반을 완료했습니다. 운영자가 진행도를 초기화하기 전까지 다시 1층부터 시작하지 않습니다.',code:'TOWER_COMPLETED',completed:true,maxFloor},409);
+      const floorNo=seasonReplay?Number(towerBody.floorNo):Math.max(1,Math.min(maxFloor,Number(progress.current_floor||1)));
       if(towerBody.floorNo!==undefined&&Number(towerBody.floorNo)!==floorNo)return json({error:'현재 도전층이 변경되었습니다. 진행도를 다시 확인하세요.',code:'TOWER_FLOOR_CHANGED',floorNo,maxFloor},409);
       const deckInfo=await raidDeckPower(env,user.id,null,'TOWER');const settings=await battleSettings(env);const ids=deckInfo.ids,marks=ids.map(()=>'?').join(',');
       const owned=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.image_url AS image,c.focus_x,c.focus_y,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND c.id IN (${marks})`).bind(user.id,...ids).all();
@@ -6885,12 +6893,12 @@ async function handleRequest(context){
         config:{...TOWER_V3_DRAFT,mode:'ON',rulesVersion:TOWER_ABYSS_PROTOCOL,maxTier:maxFloor,powerGrowth:1.001},
         operatingFloor:{id:floor.linked_battle_monster_id||floor.monster_id,name:floor.monster_name,image:floor.monster_image,power:monsterPower},
         bossUltimatePercent:Number(towerBossUltimate?.damagePercent||0)});
-      const result=towerBattle.success?'WIN':'LOSE',completed=result==='WIN'&&floorNo>=maxFloor,nextFloor=result==='WIN'?floorNo+1:floorNo;
-      const rewardCoin=result==='WIN'?await collectionRewardCoin(env,user.id,Number(floor.reward_coin||Math.max(100,floorNo*100)),'TOWER'):0;
+      const result=towerBattle.success?'WIN':'LOSE',completed=!seasonReplay&&result==='WIN'&&floorNo>=maxFloor,nextFloor=seasonReplay?Number(progress.current_floor):result==='WIN'?floorNo+1:floorNo;
+      const rewardCoin=result==='WIN'&&!seasonReplay?await collectionRewardCoin(env,user.id,Number(floor.reward_coin||Math.max(100,floorNo*100)),'TOWER'):0;
       const magicCfg=await magicSettings(env),magic={enabled:magicCfg.acquisition?.tower?.enabled===true,amount:magicRewardForTowerFloor(magicCfg,floorNo)};
       const towerUniqueCardMap=new Map((deckInfo.unique?.cards||[]).map(card=>[String(card.id),card]));
       const towerBattleCards=owned.results.map(c=>{const uniqueCard=towerUniqueCardMap.get(String(c.id))||{};return {...c,...uniqueCard,id:String(c.id),title:c.title,image:c.image,grade:c.rarity,rarity:c.rarity,focusX:Number(c.focus_x||50),focusY:Number(c.focus_y||50),breakthroughLevel:Number(c.breakthrough_level||0)};});
-      return {seasonId:Number(season.id),rewardCoin,magic,response:{...towerBattle,requestId:towerRequestId,result,completed,maxFloor,deckSynergy:towerSynergy,uniqueAbility:uniqueBattleResponsePayload(deckInfo.unique,towerUniqueRuntime),bossUltimate:towerBossUltimate,effectivePlayerPower:effectiveTowerPower,floorNo,nextFloor,characterBonus:deckInfo.characterBonus,towerCardPower,playerPower,monsterPower,isBoss:floorIsBoss,monster:{id:floor.monster_id,name:floor.monster_name,image:floor.monster_image},cards:towerBattleCards}};
+      return {seasonId:Number(season.id),seasonReplay,rewardCoin,magic,response:{...towerBattle,seasonReplay,requestId:towerRequestId,result,completed,maxFloor,deckSynergy:towerSynergy,uniqueAbility:uniqueBattleResponsePayload(deckInfo.unique,towerUniqueRuntime),bossUltimate:towerBossUltimate,effectivePlayerPower:effectiveTowerPower,floorNo,nextFloor,characterBonus:deckInfo.characterBonus,towerCardPower,playerPower,monsterPower,isBoss:floorIsBoss,monster:{id:floor.monster_id,name:floor.monster_name,image:floor.monster_image},cards:towerBattleCards}};
       })));}catch(error){return json({error:error.status?error.message:'전투를 준비하지 못했습니다. 같은 요청으로 다시 확인하세요.',code:error.code||'TOWER_START_RETRY'},error.status||503);}
     }
     if(path==='deck-synergy/status'&&request.method==='GET'){
@@ -7082,7 +7090,8 @@ async function handleRequest(context){
         const seed=parseInt(drawIntegrityHash(`${user.id}:${defenderId}:${requestId}:PVP_V2`),16)>>>0;battleSeed=seed;
         const attackerEngineCards=aCards.map(card=>{const uniqueCard=aUniqueById.get(String(card.id));return {...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*aSynergyMultiplier)),uniqueAbility:uniqueCard?.uniqueAbility||card.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null, iconRole:uniqueCard?.iconRole||null,iconExpansion:uniqueCard?.iconExpansion||null}});
         const defenderEngineCards=dCards.map(card=>{const uniqueCard=dUniqueById.get(String(card.id));return {...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*dSynergyMultiplier)),uniqueAbility:uniqueCard?.uniqueAbility||card.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null, iconRole:uniqueCard?.iconRole||null,iconExpansion:uniqueCard?.iconExpansion||null}});
-        rankedSeries=simulateRankedSeries({createBattle:createPvpBattleV2,attackerMercenaries:seriesMercenaries.get(Number(user.id)),defenderMercenaries:seriesMercenaries.get(defenderId),seed,options:{attackerPet:aPet,defenderPet:dPet,attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerMagicCards:aMagic.cards,defenderMagicCards:dMagic.cards,attackerEquipmentSetVisual:aCharacterBonus?.pveEquipmentRuntime?.equipmentSetVisual,defenderEquipmentSetVisual:dCharacterBonus?.pveEquipmentRuntime?.equipmentSetVisual,attackerEquipmentBonus:Number(aCharacterBonus.pvp||0),defenderEquipmentBonus:Number(dCharacterBonus.pvp||0),attackerAvatarPowerPercent:aCharacterBonus.avatarPowerPercent,defenderAvatarPowerPercent:dCharacterBonus.avatarPowerPercent,seed,singleHealerBonus:engineState.singleHealerBonus}});
+        const [attackerSeasonEquipment,defenderSeasonEquipment]=await Promise.all([seasonBonus(env,user.id,'PVP'),seasonBonus(env,defenderId,'PVP')]);
+        rankedSeries=simulateRankedSeries({createBattle:createPvpBattleV2,attackerMercenaries:seriesMercenaries.get(Number(user.id)),defenderMercenaries:seriesMercenaries.get(defenderId),seed,options:{attackerSeasonEquipment,defenderSeasonEquipment,attackerPet:aPet,defenderPet:dPet,attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerMagicCards:aMagic.cards,defenderMagicCards:dMagic.cards,attackerEquipmentSetVisual:aCharacterBonus?.pveEquipmentRuntime?.equipmentSetVisual,defenderEquipmentSetVisual:dCharacterBonus?.pveEquipmentRuntime?.equipmentSetVisual,attackerEquipmentBonus:Number(aCharacterBonus.pvp||0),defenderEquipmentBonus:Number(dCharacterBonus.pvp||0),attackerAvatarPowerPercent:aCharacterBonus.avatarPowerPercent,defenderAvatarPowerPercent:dCharacterBonus.avatarPowerPercent,seed,singleHealerBonus:engineState.singleHealerBonus}});
         battleV2=rankedSeries.rounds.at(-1).battleV2;
       }
       const attackerWin=rankedSeries.winner==='A';
@@ -7101,6 +7110,7 @@ async function handleRequest(context){
         env.DB.prepare('INSERT INTO pvp_match_history(attacker_id,defender_id,attacker_name,defender_name,attacker_deck,defender_deck,attacker_card_score,defender_card_score,attacker_power,defender_power,winner_id,attacker_score_before,attacker_score_after,defender_score_before,defender_score_after,score_change) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(user.id,defenderId,user.nickname,defUser.nickname,JSON.stringify(aIds),JSON.stringify(dIds),aCard,dCard,aPower,dPower,winnerId,aBefore,aAfter,dBefore,dAfter,change),
         env.DB.prepare('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?').bind(attackerCoinReward,user.id)
       ];
+      matchWrites.push(...await seasonAwardStatements(env,{userId:user.id,eventId:rankedTicket.token,source:'PVP',won:attackerWin,score:aAfter}));
       if(engineState.active)matchWrites.push(env.DB.prepare(`INSERT OR REPLACE INTO pvp_battle_audits_v1781(
         attacker_id,request_id,defender_id,winner_id,winner_side,result_reason,original_reason,battle_seed,
         attacker_survivors,defender_survivors,attacker_hp_percent,defender_hp_percent,action_count,final_state_json,created_at

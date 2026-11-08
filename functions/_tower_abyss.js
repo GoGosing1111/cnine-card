@@ -1,3 +1,4 @@
+import {seasonAwardStatements} from './_season_s1.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {jointHash,jointInventoryChange} from './_joint_transactions.js';
 import {accountRankAward} from './_account_rank.js';
@@ -42,7 +43,7 @@ export async function towerAbyssStart(env,user,body,prepare,{now=Date.now}={}){
  const {uid,requestId,rid}=identity(user,body);
  if(body.protocol!==TOWER_ABYSS_PROTOCOL)fail('TOWER_CLIENT_UPDATE','무한의탑이 개편됐습니다. 새로고침 후 다시 도전하세요.');
  const floor=Number(body.floorNo);if(!Number.isSafeInteger(floor)||floor<1||floor>1000)fail('TOWER_FLOOR','도전층을 확인하세요.',400);
- const inputHash=await jointHash({protocol:TOWER_ABYSS_PROTOCOL,uid,floor});
+ const inputHash=await jointHash({protocol:TOWER_ABYSS_PROTOCOL,uid,floor,...(body.seasonReplay===true?{seasonReplay:true}:{})});
  const prior=await read(env,uid,rid);
  if(prior){if(prior.input_hash!==inputHash)fail('TOWER_REQUEST_CONFLICT','같은 전투 요청 번호의 층이 다릅니다.');if(prior.status==='CANCELLED')fail('TOWER_FLOOR_CHANGED','취소된 전투입니다. 현재 도전층을 다시 확인하세요.');return present(prior,now());}
  const active=await towerAbyssPending(env,user,{now});if(active.pending)return active.pending;
@@ -84,17 +85,17 @@ export async function towerAbyssFinish(env,user,body,deps,{now=Date.now}={}){
  if(now()<plan.notBefore)fail('TOWER_PLAYBACK_PENDING','전투 완료 시간이 지나야 보상과 다음 층을 확정할 수 있습니다.',409,{retryAfterMs:plan.notBefore-now()});
  if(row.status!=='COMPLETED'){
   const progress=await p(env,"SELECT current_floor,highest_floor FROM tower_user_progress WHERE season_id=? AND user_id=? AND season_id=(SELECT id FROM tower_seasons WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1)",plan.seasonId,uid).first();
-  if(Number(progress?.current_floor)!==plan.response.floorNo||Number(progress?.highest_floor)>=plan.response.floorNo){
+  if(plan.seasonReplay?(!progress||Number(progress.highest_floor)<plan.response.floorNo):(Number(progress?.current_floor)!==plan.response.floorNo||Number(progress?.highest_floor)>=plan.response.floorNo)){
    await DB.batch([
-    p(env,"UPDATE joint_operations_v1 SET status='CANCELLED',completed_at=? WHERE request_id=? AND user_id=? AND status='PENDING' AND NOT EXISTS(SELECT 1 FROM tower_user_progress WHERE season_id=? AND user_id=? AND current_floor=? AND highest_floor<? AND season_id=(SELECT id FROM tower_seasons WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1))",new Date(now()).toISOString(),rid,uid,plan.seasonId,uid,plan.response.floorNo,plan.response.floorNo),
+    p(env,"UPDATE joint_operations_v1 SET status='CANCELLED',completed_at=? WHERE request_id=? AND user_id=? AND status='PENDING' AND NOT EXISTS(SELECT 1 FROM tower_user_progress WHERE season_id=? AND user_id=? AND "+(plan.seasonReplay?'highest_floor>=?':'current_floor=? AND highest_floor<?')+" AND season_id=(SELECT id FROM tower_seasons WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1))",new Date(now()).toISOString(),rid,uid,plan.seasonId,uid,...(plan.seasonReplay?[plan.response.floorNo]:[plan.response.floorNo,plan.response.floorNo])),
     p(env,"DELETE FROM app_meta WHERE key=? AND value=? AND EXISTS(SELECT 1 FROM joint_operations_v1 WHERE request_id=? AND status='CANCELLED')",pointer(uid),rid,rid)
    ]);
    fail('TOWER_FLOOR_CHANGED','운영자가 도전층을 변경했습니다. 현재 진행도를 확인하세요.');
   }
   const token=crypto.randomUUID(),floor=plan.response.floorNo,win=plan.response.result==='WIN';
   const writes=DB.dialect==='postgres'?[p(env,'SELECT id FROM users WHERE id=? FOR UPDATE',uid)]:[];
-  writes.push(jointGuard(DB,token,"EXISTS(SELECT 1 FROM joint_operations_v1 WHERE request_id=? AND user_id=? AND status='PENDING') AND EXISTS(SELECT 1 FROM tower_user_progress WHERE season_id=? AND user_id=? AND current_floor=? AND highest_floor<? AND season_id=(SELECT id FROM tower_seasons WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1)) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)",[rid,uid,plan.seasonId,uid,floor,floor,pointer(uid),rid]));
-  if(win){
+  writes.push(jointGuard(DB,token,"EXISTS(SELECT 1 FROM joint_operations_v1 WHERE request_id=? AND user_id=? AND status='PENDING') AND EXISTS(SELECT 1 FROM tower_user_progress WHERE season_id=? AND user_id=? AND "+(plan.seasonReplay?'highest_floor>=?':'current_floor=? AND highest_floor<?')+" AND season_id=(SELECT id FROM tower_seasons WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1)) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)",[rid,uid,plan.seasonId,uid,...(plan.seasonReplay?[floor]:[floor,floor]),pointer(uid),rid]));
+  if(win&&!plan.seasonReplay){
    const forge=await prepareTowerForgeProtectionClear(env,{userId:uid,seasonId:plan.seasonId,floorNo:floor}),reroll=await towerRerollPlan(env,uid,rid);
    plan.response.forgeProtectionReward=forge.reward;plan.response.highGradeRerollReward=reroll.reward;
    writes.push(p(env,'UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?',plan.rewardCoin,uid),
@@ -102,14 +103,15 @@ export async function towerAbyssFinish(env,user,body,deps,{now=Date.now}={}){
     p(env,'UPDATE tower_user_progress SET current_floor=?,highest_floor=?,highest_reached_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND user_id=?',floor+1,floor,plan.seasonId,uid),
     ...await accountRankAward(env,uid,'TOWER',`${plan.seasonId}:${floor}`),...forge.statements,...reroll.statements);
   }
-  writes.push(p(env,'INSERT INTO tower_clear_history(season_id,user_id,floor_no,player_power,monster_power,result) VALUES(?,?,?,?,?,?)',plan.seasonId,uid,floor,plan.response.playerPower,plan.response.monsterPower,plan.response.result),
-   p(env,"UPDATE joint_operations_v1 SET status='COMPLETED',plan_json=?,completed_at=? WHERE request_id=? AND user_id=? AND status='PENDING'",await encodePlan(plan),new Date(now()).toISOString(),rid,uid),jointGuardEnd(DB,token));
+  const seasonWrites=await seasonAwardStatements(env,{userId:uid,eventId:rid,source:'TOWER',won:win,floor,startedAt:plan.startedAt});writes.push(...seasonWrites);plan.response.seasonReward=seasonWrites.award||null;
+  if(!plan.seasonReplay)writes.push(p(env,'INSERT INTO tower_clear_history(season_id,user_id,floor_no,player_power,monster_power,result) VALUES(?,?,?,?,?,?)',plan.seasonId,uid,floor,plan.response.playerPower,plan.response.monsterPower,plan.response.result));
+  writes.push(p(env,"UPDATE joint_operations_v1 SET status='COMPLETED',plan_json=?,completed_at=? WHERE request_id=? AND user_id=? AND status='PENDING'",await encodePlan(plan),new Date(now()).toISOString(),rid,uid),jointGuardEnd(DB,token));
   try{await DB.batch(writes);}catch(error){row=await read(env,uid,rid);if(row?.status!=='COMPLETED')throw error;plan=await decodePlan(row.plan_json);}
  }
  if(!plan.extrasComplete){
   // Existing secondary drops use their own stable receipt keys. Persist each
   // completed response so disconnects resume without repeating the core grant.
-  if(plan.response.result==='WIN')for(const key of ['magicReward','equipmentReward','blackMiracleReward']){
+  if(plan.response.result==='WIN'&&!plan.seasonReplay)for(const key of ['magicReward','equipmentReward','blackMiracleReward']){
    if(Object.hasOwn(plan.response,key))continue;
    const value=await deps[key](plan,rid);
    if(value?.pending)fail('TOWER_REWARD_PENDING','추가 보상을 확인 중입니다. 같은 전투 결과를 다시 확인하세요.',503,{retryAfterMs:1500});

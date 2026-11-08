@@ -20,7 +20,7 @@
     const isLoadout = String(path) === 'character/loadout' && String(init.method || 'GET').toUpperCase() === 'GET';
     const pending = window.apiRequest(isLoadout ? 'character/loadout?quantities=deferred' : path, init, isLoadout
       ? { ttl: 0, timeoutMs: 12000 }
-      : { timeoutMs: 20000 });
+      : { timeoutMs: 20000, ...(String(path) === 'season/status' ? { ttl: 0, microcache: false, replaceInflight: true } : {}) });
     return isLoadout ? pending.then(data => { window.applyAvatarFeatureState?.(data?.avatarFeature); return data; }) : pending;
   }
 
@@ -41,6 +41,7 @@
       forgePublicEntry: true,
       profile: profile() || { nickname: '플레이어' },
       request,
+      createRuneSockets: window.SeasonS1RuneSource?.create,
       onLoad() {
         // Collection scans start after the equipment is usable, once per mount.
         if (titleSyncTimer) return;

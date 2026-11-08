@@ -1,3 +1,4 @@
+import {seasonAttackValue} from '../../../shared/season-s1-combat.mjs';
 // Defense role stats with server-validated skill snapshots; no wallet or reward writes.
 import {defenseDifficulty,defenseEnemy,LEGACY_DEFENSE_DIFFICULTIES} from '../../../shared/monster-defense-v1.mjs';
 import {DEFENSE_PROFILES as PROFILES} from '../../../shared/monster-defense-loadout-v1.mjs';
@@ -116,7 +117,7 @@ function createUnits(room) {
     return { id: `${player.id}:${slot}`, ownerId: player.id, ownerLane: player.lane, slot, code: entry.code, name: entry.name,
       role: entry.role, kind:entry.kind||(slot<2?'MERCENARY':'CARD'),mercenary:room.mercenarySkillRevision===1&&entry.mercenary?structuredClone(entry.mercenary):null,
       ...unitPosition(slot, player.lane, room.capacity), lane: player.lane, maxHp: profile.hp, hp: profile.hp,
-      attack: profile.attack, range: profile.range, interval: profile.interval, skillName: profile.skill, skillCooldown: profile.cooldown,
+      attack: room.accountRoster&&!player.bot&&entry.seasonAttackBp?seasonAttackValue(profile.attack,entry.seasonAttackBp):profile.attack, range: profile.range, interval: profile.interval, skillName: profile.skill, skillCooldown: profile.cooldown,
       nextAttack: slot * 180, skillReadyAt: 0, moveReadyAt: 0, move: null, shieldUntil: 0, buffUntil: 0, kills: 0 };
   }));
 }

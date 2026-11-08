@@ -1,3 +1,4 @@
+import {applySeasonFighterBonus} from '../shared/season-s1-combat.mjs';
 import {COMPANION_RELEASE,COMPANION_PREPARATION_REVIEW as REVIEW} from '../shared/companion-loadout-v2.mjs';
 import {companionSnapshotRows} from '../shared/companion-battle-snapshot-v1.mjs';
 import {COOP_DUAL_BALANCE,validateCoopDualBalance} from '../shared/cooperative-dual-preparation-v1.mjs';
@@ -19,9 +20,10 @@ export function createCooperativeBattle({squads,difficulty='NORMAL',seed=1,withd
    ownerId,ownerName,squadIndex,localSlot,slot:squadIndex*2+localSlot,
    row:c.uniqueAbility?.dominantType==='DEFENSE'||c.power_type==='DEFENSE'?'FRONT':'BACK'
   }));
+  const runeBonus={attackBp:squad.seasonAttackBp||0};applySeasonFighterBonus(own,runeBonus,'PVE');
   cards.push(...own);
   rows.forEach((row,index)=>{const merc=buildAvatarMercenaryFighter(row,'A','PVE',squad.avatarPowerPercent);
-  mercenaries.push({...merc,id:`A:OWNER:${ownerId}:MERCENARY:${merc.cardId}`,ownerId,ownerName,squadIndex,localSlot:2+index,slot:6+squadIndex*mercenariesPerOwner+index});});
+  applySeasonFighterBonus([merc],runeBonus,'PVE');mercenaries.push({...merc,id:`A:OWNER:${ownerId}:MERCENARY:${merc.cardId}`,ownerId,ownerName,squadIndex,localSlot:2+index,slot:6+squadIndex*mercenariesPerOwner+index});});
   members.push({ownerId,ownerName,squadIndex,...(squad.equipmentSetVisual?{equipmentSetVisual:squad.equipmentSetVisual}:{}),ownerRankLevel:squad.ownerRankLevel??null});
  });
  const saved=combat?.difficulties.find(d=>d.id===config.id),maxBattleMs=combat?combat.maxBattleSeconds*1000:COOP_RULES.maxBattleMs;

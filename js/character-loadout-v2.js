@@ -14,7 +14,7 @@
   const RARITY_ORDER = ['MYTHIC', 'LEGENDARY', 'EPIC', 'RARE', 'MAGIC', 'NORMAL'];
   const RARITY_LABELS = { NORMAL: '일반', MAGIC: '고급', RARE: '희귀', EPIC: '영웅', LEGENDARY: '전설', MYTHIC: '신화' };
   const TAB_LABELS = { equipment: '장비', title: '칭호', garage: '이동수단', skillChips: '스킬칩' };
-  const TITLE_STYLE_LABELS = { DEFAULT: '기본', FOREST: '숲', FLAME: '화염', FROST: '서리', STORM: '폭풍', SHADOW: '그림자', GOLD: '황금', RAINBOW: '무지개', VOID: '심연', CRIMSON: '진홍', CHALLENGER: '챌린저', COMPLETIONIST: '도감의 정점', TROPHY_HUNTER: '승리의 증명', GAMBLING_KING: '천 번의 적중', ASURA_BALBALTA: '만 번의 적중', SUPPORTER_VIP: '운영에 도움을 주신', BLUE_BEAST: '챌린저 누적 10회 달성', BUS_DRIVER: '행정부 정직원', CHAT_SQUAD:'채팅부대 · 함께 만드는 함성', SECRET_POLICE: '핑두의 비밀경찰', ADMINISTRATION: '헌신의 증표', FLAG_BRIGADE: '끝까지 깃발을 지켜낸 자' };
+  const TITLE_STYLE_LABELS = { DEFAULT: '기본', FOREST: '숲', FLAME: '화염', FROST: '서리', STORM: '폭풍', SHADOW: '그림자', GOLD: '황금', RAINBOW: '무지개', VOID: '심연', CRIMSON: '진홍', CHALLENGER: '챌린저', COMPLETIONIST: '도감의 정점', TROPHY_HUNTER: '승리의 증명', GAMBLING_KING: '천 번의 적중', ASURA_BALBALTA: '만 번의 적중', SUPPORTER_VIP: '운영에 도움을 주신', BLUE_BEAST: '챌린저 누적 10회 달성', BUS_DRIVER: '행정부 정직원', CHAT_SQUAD:'채팅부대 · 함께 만드는 함성', SECRET_POLICE: '핑두의 비밀경찰', ADMINISTRATION: '헌신의 증표', FLAG_BRIGADE: '끝까지 깃발을 지켜낸 자', IMMORTAL_HEIR: '불멸의 왕 · 시즌 1' };
   const UNLOCK_LABELS = { MANUAL: '운영 지급', COLLECTION_COUNT: '도감 달성', GRADE_COUNT: '등급 도감', MEMBER_COMPLETE: '멤버 도감', CARD_SET: '카드 세트', CONTENT_CLEAR: '콘텐츠 클리어', COLLECTION_MASTERY: '카드 도감 100% · 대상 차량 90% 이상 (신규 4종 제외)', TROPHY_KINDS: '서로 다른 트로피 4종', PREDICTION_HITS: '승부예측 누적 적중 1,000회', CHALLENGER_TOTAL: '챌린저 누적 10회 달성', TERRITORY_VICTORIES: '영토전 30승 · 개인 교전 8,000승' };
 
   const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[char]));
@@ -71,6 +71,13 @@
       if (typeof window.apiRequest !== 'function') return Promise.reject(new Error('API 연결을 찾을 수 없습니다.'));
       return window.apiRequest(path, init);
     });
+    const runes = options.createRuneSockets?.({
+      request, profile,
+      getInstance(id) { return state.data?.instances?.find(row => Number(row.instanceId) === Number(id)); },
+      onRender() { if (!destroyed && state.data) render(); },
+      onFocusSocket(id) { if (!destroyed) root.querySelector(`[data-rune-instance="${Number(id)}"]`)?.focus({ preventScroll: true }); },
+      onChange(runeState, response) { options.onChange?.(state.data, { ...response, runes: runeState }); }
+    }) || null;
     const assetBase = String(options.assetBase || '');
     const resolveAsset = (path) => {
       const value = String(path || '').replace(/\\/g, '/');
@@ -84,6 +91,7 @@
     };
     const equippedTitle = () => {
       const id = Number(state.data?.equippedTitleId || 0);
+      if (state.data?.equippedTitleId === null) return null;
       return state.data?.titles?.find((row) => Number(row.id) === id) || state.data?.bonuses?.title || null;
     };
     const equippedVehicle = () => {
@@ -141,14 +149,15 @@
     }
 
     const itemImage = item => window.SoopketmonEquipmentThumbnails?.[String(item?.image || '').replace(/\\/g,'/').replace(/^\.?\//,'').split(/[?#]/)[0]] || item?.image;
-    const art = (item, eager = false) => item?.image
-      ? `<img class="clv2-art-image" src="${escapeHtml(resolveAsset(itemImage(item)))}" alt="${escapeHtml(item.name || '')}" loading="${eager ? 'eager' : 'lazy'}" decoding="async">`
+    const art = (item, eager = false, row = null) => item?.image
+      ? `<img class="clv2-art-image" src="${escapeHtml(resolveAsset(runes?.artSource(row)||itemImage(item)))}" alt="${escapeHtml(item.name || '')}" loading="${eager ? 'eager' : 'lazy'}" decoding="async">`
       : '<span class="clv2-art-empty" aria-hidden="true"></span>';
 
     const equipmentName = row => `${row?.item?.name || '미장착'}${row?.enhancement ? ` +${Number(row.enhancement.level || 0)}` : ''}`;
     // Decoration belongs only to this equipment view, never rarity/card frames.
     const glowLevel = row => STANDARD_SLOT_ORDER.includes(row?.item?.slot) && [8, 9, 10, 11, 12, 13, 14, 15].includes(Number(row?.enhancement?.level)) ? Number(row.enhancement.level) : 0;
     const glowAttribute = row => glowLevel(row) ? `data-enhancement-glow="${glowLevel(row)}"${glowLevel(row) >= 11 ? ' data-enhancement-tier="advanced"' : ''}` : '';
+    const equipmentArtAttributes = row => [glowAttribute(row), runes?.artAttributes(row)].filter(Boolean).join(' ');
     const glowArt = row => glowLevel(row) ? `<span class="clv2-enhancement-light" aria-hidden="true">${glowLevel(row) >= 13 ? '<i class="clv2-enhancement-tracer"></i>' : ''}${glowLevel(row) >= 14 ? '<i class="clv2-enhancement-sparks"></i>' : ''}</span><b class="clv2-enhancement-level" aria-hidden="true">+${glowLevel(row)}</b>` : '';
     function slotCard(slot) {
       const row = equippedInstance(slot);
@@ -158,8 +167,8 @@
         <span class="clv2-slot-index">${SLOT_CODES[slot]}</span>
         <span class="clv2-slot-label">${SLOT_LABELS[slot]}</span>
         <button class="clv2-slot-hit" type="button" data-slot-filter="${slot}" aria-label="${SLOT_LABELS[slot]} 장비 보기"></button>
-        <div class="clv2-item-art clv2-slot-art" ${glowAttribute(row)}>${item ? art(item, true) : `<span class="clv2-slot-ghost">${icon(slot === 'ACCESSORY' || isBattleSuit ? 'shield' : 'equipment')}</span>`}${glowArt(row)}</div>
-        <div class="clv2-slot-caption"><strong>${escapeHtml(equipmentName(row))}</strong><small>${item ? `${RARITY_LABELS[normalizeRarity(item.rarity)]} · ${isBattleSuit ? 'PVE 전용' : 'PVE'} +${formatNumber(item.pvePower)}` : isBattleSuit ? 'PVE 전용 외형 슬롯' : '슬롯을 선택해 장착'}</small></div>
+        <div class="clv2-item-art clv2-slot-art" ${equipmentArtAttributes(row)}>${runes?.layers(row)||''}${item ? art(item, true, row) : `<span class="clv2-slot-ghost">${icon(slot === 'ACCESSORY' || isBattleSuit ? 'shield' : 'equipment')}</span>`}${glowArt(row)}${runes?.fx(row)||''}${runes?.socket(row,slot)||''}</div>
+        <div class="clv2-slot-caption"><strong>${escapeHtml(equipmentName(row))}</strong><small>${item ? `${RARITY_LABELS[normalizeRarity(item.rarity)]} · ${isBattleSuit ? 'PVE 전용' : 'PVE'} +${formatNumber(item.pvePower)}` : isBattleSuit ? 'PVE 전용 외형 슬롯' : '슬롯을 선택해 장착'}</small>${runes?.caption(row)||''}</div>
         ${item ? `<button class="clv2-slot-remove" type="button" data-unequip="${slot}" aria-label="${SLOT_LABELS[slot]} 장착 해제">${icon('close')}</button>` : ''}
       </article>`;
     }
@@ -187,12 +196,14 @@
       const isBattleSuit = item.slot === BATTLE_SUIT_SLOT;
       const quantityKnown = Number.isFinite(row.quantity) || !state.data.equipmentQuantitiesPending;
       const quantity = quantityKnown ? Math.max(0, Number(row.quantity ?? 1)) : null;
-      return `<button type="button" class="clv2-inventory-item ${rarityClass(item.rarity)}${row.equipped ? ' is-equipped' : ''}${isBattleSuit ? ' is-battle-suit' : ''}" data-equip="${row.instanceId}" ${row.equipped ? 'disabled' : ''}>
+      return `<article class="clv2-inventory-item ${rarityClass(item.rarity)}${row.equipped ? ' is-equipped' : ''}${isBattleSuit ? ' is-battle-suit' : ''}">
+        <button type="button" class="clv2-inventory-hit" data-equip="${row.instanceId}" ${row.equipped ? 'disabled' : ''} aria-label="${escapeHtml(item.name)} 장비 장착"></button>
         <span class="clv2-item-grade">${RARITY_LABELS[normalizeRarity(item.rarity)]}</span>
-        <div class="clv2-item-art clv2-inventory-art" ${glowAttribute(row)}>${art(item)}${glowArt(row)}<span data-equipment-quantity="${item.id}" data-equipment-instance="${row.instanceId}" class="clv2-item-quantity" aria-label="${quantityKnown ? `보유 수량 ${formatNumber(quantity)}개` : '보유 수량 확인 중'}">${quantityKnown ? `×${formatNumber(quantity)}` : '…'}</span></div>
+        <div class="clv2-item-art clv2-inventory-art" ${equipmentArtAttributes(row)}>${runes?.layers(row)||''}${art(item, false, row)}${glowArt(row)}${runes?.fx(row)||''}${runes?.socket(row)||''}<span data-equipment-quantity="${item.id}" data-equipment-instance="${row.instanceId}" class="clv2-item-quantity" aria-label="${quantityKnown ? `보유 수량 ${formatNumber(quantity)}개` : '보유 수량 확인 중'}">${quantityKnown ? `×${formatNumber(quantity)}` : '…'}</span></div>
         <span class="clv2-equipped-mark">${icon('check')} 장착</span>
         <span class="clv2-item-copy"><strong>${escapeHtml(equipmentName(row))}</strong><small>${SLOT_LABELS[item.slot] || item.slot || ''} · ${isBattleSuit ? 'PVE 전용' : 'PVE'} +${formatNumber(item.pvePower)}</small>${Number(row.enhancement?.level)>0||row.polish?.attempts?`<small>개별 장비 · #${escapeHtml(row.instanceId)}</small>`:''}${row.polish?.attempts?`<small class="clv2-growth">연마 ${row.polish.attempts}회 · ${escapeHtml(row.polishSummary)}</small>`:''}${row.regionEquipment?`<small class="clv2-growth">${escapeHtml(row.regionEquipment.description)}</small>${row.regionEquipment.kind==='SET'?`<small>2세트 · ${escapeHtml(row.regionEquipment.two)}<br>4세트 · ${escapeHtml(row.regionEquipment.four)}</small>`:''}`:''}</span>
-      </button>`;
+        ${runes?.caption(row)||''}
+      </article>`;
     }
 
     function profilePanel() {
@@ -211,6 +222,7 @@
           <div><dt>이동수단</dt><dd>+${formatNumber(bonuses.garagePve)}</dd></div>
         </dl>
         ${bonuses.pveEquipmentRuntime?.summary?`<div class="clv2-active-growth"><b>PVE 장비 효과</b><p>${escapeHtml(bonuses.pveEquipmentRuntime.summary)}</p><small>${escapeHtml((bonuses.pveEquipmentRuntime.sets||[]).map(s=>s.name+' '+s.count+'부위').join(' · '))}</small></div>`:''}
+        ${runes?.optionPanel()||''}
         <div class="clv2-profile-foot"><i></i><span>LIVE LOADOUT</span><b>${SLOT_ORDER.filter((slot) => equippedInstance(slot)).length} / ${SLOT_ORDER.length}</b></div>
       </aside>`;
     }
@@ -254,11 +266,20 @@
 
     function titleBadge(row) {
       const style = String(row?.stylePreset || 'DEFAULT').toLowerCase().replace(/[^a-z0-9_-]/g, '');
+      if(row?.code==='COMMON_S1_TITLE'||style==='immortal_heir'){
+        if(typeof window.publicTitleBadgeHtml==='function')return window.publicTitleBadgeHtml(row,{compact:false});
+        return '<span class="public-title-badge title-style-immortal_heir"><img src="/assets/ui/titles/immortal-heir-nameplate-v2.webp" alt="불멸의 계승자" width="1040" height="308"></span>';
+      }
       const appearance = ['completionist','trophy_hunter','gambling_king','asura_balbalta','challenger','supporter_vip','blue_beast','bus_driver','chat_squad','secret_police','administration','flag_brigade'].includes(style) ? 'public-title-badge title-style-' + style : titleStyleClass(row?.stylePreset);
       return '<span class="' + appearance + ' ' + titleFontClass(row?.fontPreset) + '">[' + escapeHtml(row?.badgeText || row?.name || '칭호 없음') + ']</span>';
     }
 
-    const titleBonusLabel = row => ['RAID_BUS_DRIVER','ADMINISTRATION'].includes(row?.code) && !row.pvePower ? '명예 칭호 · 전투력 보너스 없음' : ['COLLECTION_MASTERY','TROPHY_KINDS'].includes(row?.unlockType) && !row.pvePower ? '업적 칭호' : '전체 전투 +' + formatNumber(row?.pvePower);
+    function titleBonusLabel(row) {
+      if (row?.code === 'COMMON_S1_TITLE') return 'PVE·PVP 전투력 +' + formatNumber(row.pvePower);
+      if (['RAID_BUS_DRIVER','ADMINISTRATION'].includes(row?.code) && !row.pvePower) return '명예 칭호 · 전투력 보너스 없음';
+      if (['COLLECTION_MASTERY','TROPHY_KINDS'].includes(row?.unlockType) && !row.pvePower) return '업적 칭호';
+      return '전체 전투 +' + formatNumber(row?.pvePower);
+    }
 
     function titleProgress(row) {
       const progress = state.titleProgress[row.code];
@@ -278,6 +299,7 @@
     }
 
     function titleRequirement(row) {
+      if(row.code==='COMMON_S1_TITLE')return 'S1 PVE 또는 PVP Lv.50 · 같은 모드 20일 참여 · 해당 시즌 24일차부터 왕좌의 가루 100개로 제작';
       const cfg = row.unlockConfig || {};
       if (row.unlockType === 'TERRITORY_VICTORIES') return `영토전 ${formatNumber(cfg.roundWins || 30)}승 + 영토전 내 개인 교전 ${formatNumber(cfg.battleWins || 8000)}승 모두 달성`;
       if (row.unlockType === 'CHALLENGER_TOTAL') return `챌린저 누적 ${formatNumber(cfg.count || 10)}회 달성`;
@@ -293,8 +315,8 @@
       const owned = rows.filter((row) => row.owned).length;
       return `<section class="clv2-view clv2-title-view">
         <article class="clv2-title-showcase ${titleStyleClass(active?.stylePreset)}">
-          <div class="clv2-title-sigil${active?.image ? ' has-emblem' : ''}" aria-hidden="true">${active?.image ? '<img src="' + escapeHtml(resolveAsset(active.image)) + '" alt="" width="256" height="256">' : icon('title')}</div>
-          <p>ACTIVE TITLE SIGNATURE</p>
+          ${active?.code === 'COMMON_S1_TITLE' ? '' : `<div class="clv2-title-sigil${active?.image ? ' has-emblem' : ''}" aria-hidden="true">${active?.image ? '<img src="' + escapeHtml(resolveAsset(active.image)) + '" alt="" width="256" height="256">' : icon('title')}</div>
+          <p>ACTIVE TITLE SIGNATURE</p>`}
           <h2 class="${titleFontClass(active?.fontPreset)}">${titleBadge(active)}</h2>
           <span>${active ? escapeHtml(active.description || '장착 중인 칭호가 계정과 전투 화면에 적용됩니다.') : '보유 칭호에서 하나를 선택해 장착하세요.'}</span>
           <strong>${active ? titleBonusLabel(active) : '칭호 미장착'}</strong>
@@ -400,6 +422,7 @@
     function render() {
       root.innerHTML = shell();
       renderNotice();
+      runes?.mount(root);
     }
 
     async function mutate(action, optimistic, rollback, successMessage) {
@@ -415,6 +438,7 @@
         render();
         showNotice(successMessage);
         options.onChange?.(state.data, response);
+        void runes?.load();
       } catch (error) {
         rollback();
         recalculate();
@@ -497,6 +521,7 @@
     function onClick(event) {
       const target = event.target.closest('button');
       if (!target || !root.contains(target)) return;
+      if (runes?.handleClick(target)) return;
       if (target.hasAttribute('data-open-avatar-shop')) {
         options.onOpenAvatarShop?.();
       } else if (target.hasAttribute('data-quantities-retry')) {
@@ -558,6 +583,7 @@
         recalculate();
         render();
         options.onLoad?.(state.data);
+        void runes?.load();
         if (state.data.equipmentQuantitiesPending) void loadQuantities(generation);
       } catch (error) {
         if (destroyed || generation !== loadGeneration) return;
@@ -625,6 +651,7 @@
       destroy() {
         destroyed = true;
         loadGeneration++;
+        runes?.destroy();
         window.clearTimeout(state.noticeTimer);
         root.removeEventListener('click', onClick);
         root.removeEventListener('change', onChange);

@@ -297,3 +297,108 @@
 .clv2-title-progress-territory b {font-family:'Barlow Condensed','Noto Sans KR',sans-serif;font-size:15px;color:#f3f5ff;letter-spacing:0;}
 .clv2-title-progress-territory>.clv2-title-progress-track:nth-of-type(2) i {background:linear-gradient(90deg,#aa5363,#ead4b0);}
 .clv2-title-progress-territory>small {font-size:10px;color:#8b97b0;line-height:1.65;word-break:keep-all;}
+
+/* S1 coronation title: the light layer follows the jewels and the gilded lettering. */
+.public-title-badge.title-style-immortal_heir,
+.title-preview-badge.title-style-immortal_heir,
+span.title-style-immortal_heir {
+  --heir-width: 178px;
+  --heir-aspect: 1040 / 308;
+  --heir-plate: url('../assets/ui/titles/immortal-heir-nameplate-v2.webp');
+  --heir-light: url('../assets/ui/titles/immortal-heir-nameplate-light-v2.webp');
+  position: relative;
+  isolation: isolate;
+  display: inline-block !important;
+  vertical-align: middle;
+  flex: 0 1 auto;
+  box-sizing: border-box;
+  width: var(--heir-width) !important;
+  max-width: 100%;
+  height: auto !important;
+  min-height: 0 !important;
+  aspect-ratio: var(--heir-aspect);
+  padding: 0 !important;
+  margin: 0;
+  border: 0 !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
+  background: transparent var(--heir-plate) center / contain no-repeat !important;
+  box-shadow: none !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  text-shadow: none !important;
+  animation: none !important;
+}
+.public-title-badge.title-style-immortal_heir.compact,
+.title-preview-badge.title-style-immortal_heir.compact {
+  --heir-width: 126px;
+  --heir-aspect: 640 / 153;
+  --heir-plate: url('../assets/ui/titles/immortal-heir-compact-v2.webp');
+  --heir-light: url('../assets/ui/titles/immortal-heir-compact-light-v2.webp');
+}
+.public-title-badge.title-style-immortal_heir:has(> img) { background: transparent !important; }
+.public-title-badge.title-style-immortal_heir > img {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100%;
+  object-fit: contain;
+  opacity: 1;
+  filter: none !important;
+  transform: none !important;
+}
+.title-style-immortal_heir::before,
+.title-style-immortal_heir::after { content: none !important; }
+
+@media (prefers-reduced-motion: no-preference) {
+  span.title-style-immortal_heir::after,
+  .s1-heir-insignia::after {
+    content: '' !important;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: var(--heir-light, url('../assets/ui/titles/immortal-heir-nameplate-light-v2.webp')) center / 100% 100% no-repeat;
+  }
+}
+
+.clv2-title-showcase.is-title-immortal_heir {
+  align-self: start;
+  justify-content: flex-end;
+  min-height: clamp(352px, 38vw, 520px);
+  padding-block: clamp(24px, 3.2vw, 48px);
+  padding-inline: clamp(10px, 2vw, 24px);
+  border-color: #8e6238;
+  background:
+    linear-gradient(180deg, #100b1424 0%, #21101856 30%, #180e15cd 66%, #100b10f5 100%),
+    url('../assets/ui/season-s1-immortal-king/v3/throne-panorama.webp') 82% center / auto 100% no-repeat,
+    #180d14;
+}
+.clv2-title-showcase.is-title-immortal_heir::before,
+.clv2-title-showcase.is-title-immortal_heir::after { content: none; }
+.clv2-title-showcase.is-title-immortal_heir > h2 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  width: 100%;
+  min-width: 0;
+  margin: 0 0 clamp(18px, 3vw, 36px);
+  line-height: 0;
+}
+.clv2-title-showcase.is-title-immortal_heir h2 .title-style-immortal_heir {
+  --heir-width: min(100%, 454px);
+  min-width: 0;
+}
+.clv2-title-card.is-title-immortal_heir {
+  background: linear-gradient(145deg, #301a21, #141016 63%, #2b1a15);
+  border-color: #775333;
+}
+.is-title-immortal_heir .clv2-title-emblem { object-fit: contain; width: 92px; height: 92px; }
+.clv2-title-showcase.is-title-immortal_heir > strong,
+.clv2-title-card.is-title-immortal_heir > em { color: #f3d399; }
+.clv2-title-card.is-title-immortal_heir > strong { max-width: 100%; }
+.clv2-title-card.is-title-immortal_heir .title-style-immortal_heir { --heir-width: 172px; }
+.clv2-live-status .public-title-badge.title-style-immortal_heir,
+.clv2-profile-name .public-title-badge.title-style-immortal_heir { --heir-width: 146px; }

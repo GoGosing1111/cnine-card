@@ -197,3 +197,4 @@
  #workshopRootV1881 .ws76-primary{font-size:14px;margin-top:12px;min-height:54px}
 }
 @media(prefers-reduced-motion:reduce){#workshopRootV1881 *{transition:none;scroll-behavior:auto}}
+#workshopRootV1881 .ws81-season-entry{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin:10px 0 16px;color:#f3d59b;font:700 15px inherit;border:15px solid transparent;border-image:url('/assets/ui/mercenary-codex/command-20261021/panel-v3.webp') 48 fill stretch;background:none;cursor:pointer}#workshopRootV1881 .ws81-season-entry img{object-fit:contain}#workshopRootV1881 .ws81-season-entry:focus-visible{outline:3px solid #f3d59b;outline-offset:3px}

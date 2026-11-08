@@ -24,7 +24,7 @@
     clearAutoTimer();
     const result=S.autoResult;if(!result||!autoNextEnabled())return;
     const {data,view,isCurrent}=result,token=S.autoGeneration;
-    if(data.result!=='WIN'||data.completed||data.settlement?.protocol!==PROTOCOL||data.settlement?.status!=='COMPLETED'){setAutoNext(false);return;}
+    if(data.seasonReplay||data.result!=='WIN'||data.completed||data.settlement?.protocol!==PROTOCOL||data.settlement?.status!=='COMPLETED'){setAutoNext(false);return;}
     const until=performance.now()+3000;
     const tick=()=>{
       S.autoTimer=null;
@@ -50,6 +50,7 @@
       else if(action==='tab'){S.tab=target.dataset.tab;render();box.querySelector(`[data-tab="${S.tab}"][data-abyss-action]`)?.focus({preventScroll:true});}
       else if(action==='auto-next')setAutoNext(!autoNextEnabled());
       else if(action==='fight')void startFight();
+      else if(action==='season-replay'){setAutoNext(false);void startFight({replayFloor:Number(target.dataset.floor)});}
       else if(action==='deck')editDeck();
       else if(action==='guide')ui().guide(box);
     });
@@ -104,6 +105,7 @@
     if(d.configured===false||Number(d.maxFloor||0)<1){ui().state(box,{title:'첫 번째 봉인을 준비하고 있습니다',description:d.message||'아직 개방된 층이 없습니다. 운영 준비가 끝나면 이곳에서 도전할 수 있습니다.',error:true});return;}
     const deckCards=currentDeckCards();
     ui().render(box,{data:d,tab:S.tab,filter:S.filter,cards:deckCards,power:currentPower(deckCards),records:ui().readRecords(currentUserId()),userId:currentUserId(),autoNext:autoNextEnabled()});
+    if(d.seasonReplayFloors?.length){const panel=document.createElement('section');panel.className='tower-abyss tower-season-replay';panel.innerHTML='<h3>S1 불멸의 왕 · 시즌 재도전</h3><p>층수 무관 · 시즌 참여 1회 인정 · 기존 진행도 유지</p>'+d.seasonReplayFloors.map(f=>'<button type="button" class="abyss-button" data-abyss-action="season-replay" data-floor="'+Number(f)+'">'+Number(f)+'층 재도전</button>').join('');box.append(panel);}
     if(S.busy)ui().starting?.(box);
   }
   async function settleBattle(data,view,isCurrent){
@@ -151,14 +153,14 @@
     }else if(opened&&retry&&accountId===currentUserId())await startFight();
     else if(opened)document.querySelector('#pveTowerView [data-abyss-action="fight"],#pveTowerView .abyss-nav .is-active')?.focus({preventScroll:true});
   }
-  async function startFight({automatic=false,autoToken=null}={}){
+  async function startFight({automatic=false,autoToken=null,replayFloor=null}={}){
     if(S.busy)return;
     const accountId=currentUserId();
     if(!accountId){const box=document.getElementById('pveTowerView');if(box)ui().state(box,{title:'로그인 정보를 확인해 주세요',description:'새로고침 후 다시 도전해 주세요.',error:true});return;}
     const pending=pendingBattle(),saved=pending?.result,deckCards=currentDeckCards();
     if(!saved&&deckCards.length!==5){setAutoNext(false);S.tab='formation';render();return;}
-    if(!pending&&(S.data?.completed||S.data?.blocked||!S.data?.floor)){setAutoNext(false);return;}
-    const floorNo=pending?.floorNo||Number(S.data.floor.floorNo);
+    if(!pending&&!replayFloor&&(S.data?.completed||S.data?.blocked||!S.data?.floor)){setAutoNext(false);return;}
+    const floorNo=pending?.floorNo||replayFloor||Number(S.data.floor.floorNo);
     const f=saved?{floorNo,monsterName:saved.monster?.name}:S.data.floor||{floorNo};
     const modal=document.getElementById('modal');if(!modal)return;
     clearAutoTimer();S.autoResult=null;if(saved)setAutoNext(false);
@@ -173,9 +175,9 @@
       view=window.prepareBattleV2LiveLoading({modal,mode:'TOWER',playerName:user()?.nickname||'원정대',opponentName:f.monsterName||'탑의 수호자',autoText:'나락의 시련 · 원정대 준비'});
       ui().prepareBattle(view,{floorNo});ui().battleAutoControl?.(view,autoNextEnabled(),()=>setAutoNext(!autoNextEnabled()));lockBattleFocus(view.stage);
       window.ensureBattleSoundButton?.(view.stage);
-      const ticket=pending||{requestId:crypto.randomUUID(),floorNo};
+      const ticket=pending||{requestId:crypto.randomUUID(),floorNo,seasonReplay:Boolean(replayFloor)};
       if(!saved)rememberBattle(ticket,recordKey);
-      let data=saved||await apiRequest('tower/start',{method:'POST',body:JSON.stringify({requestId:ticket.requestId,floorNo:ticket.floorNo,protocol:PROTOCOL})});
+      let data=saved||await apiRequest('tower/start',{method:'POST',body:JSON.stringify({requestId:ticket.requestId,floorNo:ticket.floorNo,seasonReplay:ticket.seasonReplay===true,protocol:PROTOCOL})});
       data.requestId||=ticket.requestId;rememberBattle({...ticket,requestId:data.requestId,floorNo:data.floorNo,result:data},recordKey);
       if(!isCurrent())return;
       const playbackComplete=Boolean(saved?.settlement?.protocol===PROTOCOL&&ticket.playbackComplete);
@@ -197,7 +199,7 @@
       ui().remember(accountId,data);
       renderer.showResult?.();view.phase.textContent=data.result==='WIN'?'한계 돌파':'도전 기록';ui().result(view,data,ui().readRecords(accountId),{autoNext:autoNextEnabled()});
       S.autoResult={data,view,isCurrent};
-      if(data.result!=='WIN'||data.completed)setAutoNext(false);
+      if(data.seasonReplay||data.result!=='WIN'||data.completed)setAutoNext(false);
       ui().syncAutoNext?.(document,autoNextEnabled());
       if(autoNextEnabled())scheduleAutoNext();
       view.towerMsg.onclick=event=>{

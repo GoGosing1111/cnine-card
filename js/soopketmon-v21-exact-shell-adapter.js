@@ -85,7 +85,7 @@
     pvp: Object.freeze({ title: '대전 · PVP', routes: Object.freeze(['pvp', 'classicColosseum', 'jokgakCity', 'duo', 'rank', 'clanWar', 'clanFaction', 'clan', 'territory']) }),
     equipment: Object.freeze({ title: '장비·칭호·차고', routes: Object.freeze(['character', 'avatar']) }),
     crafting: Object.freeze({ title: '제작소', routes: Object.freeze(['vehicle', 'fusion', 'alchemy']) }),
-    rewards: Object.freeze({ title: '보상', routes: Object.freeze(['attendance', 'dailyquest', 'messages', 'mineral']) }),
+    rewards: Object.freeze({ title: '보상', routes: Object.freeze(['season', 'attendance', 'dailyquest', 'messages', 'mineral']) }),
     market: Object.freeze({ title: '경매장', routes: Object.freeze(['auction']) }),
     administration: Object.freeze({ title: '행정부', routes: Object.freeze(['coup', 'soopketland', 'prison']) })
   });
@@ -96,6 +96,7 @@
     growth: Object.freeze({ title: '성장', routes: Object.freeze([...MENU_GROUPS.equipment.routes, ...MENU_GROUPS.crafting.routes]) })
   });
   const ROUTE_META = Object.freeze({
+    season: Object.freeze({ title: 'S1 불멸의 왕', group: 'rewards', icon: 'rank' }),
     buy: Object.freeze({ title: '카드 상점', group: 'store', icon: 'pack', home: Object.freeze({ title: '카드·상점', meta: '카드팩 · 장비 보급 · 이동수단' }) }),
     rankedShop: Object.freeze({ title: '랭크전 상점', group: 'store', icon: 'rankedShop' }),
     lootShop: Object.freeze({ title: '고급 전리품 상점', group: 'store', icon: 'gift' }),

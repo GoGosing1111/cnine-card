@@ -1,0 +1,114 @@
+{
+  "generator": "built-in image_gen",
+  "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-94e9904f-1520-433b-8fc0-7f45e1de7625.png",
+  "sourceSha256": "c56138ca9c2a0008411ff3f32f74f1f67138c994247e78f3428e2a46cbe03088",
+  "references": [
+    {
+      "path": "output/announcements/season-s1-immortal-king-20261106/s1-immortal-king-main-v1.png",
+      "purpose": "Approved Immortal King crown and throne theme"
+    }
+  ],
+  "files": [
+    {
+      "name": "exploration-dust",
+      "bytes": 66872,
+      "sha256": "13d1bdd0011c42bd16e4af9e10b7a89d1fc6034165e08d6e45c99ddb61933000",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 418,
+        "height": 418
+      }
+    },
+    {
+      "name": "tower-sigil",
+      "bytes": 51518,
+      "sha256": "66949937a1523359166369d57ccb0002e3431dc5e6e1e753c69f51f35193ce9f",
+      "crop": {
+        "left": 418,
+        "top": 0,
+        "width": 418,
+        "height": 418
+      }
+    },
+    {
+      "name": "resonance-core",
+      "bytes": 62936,
+      "sha256": "62f9e2acf0ee4574aab9589a4b8421d4b0dd4f990d9732a9af467aadc55e5c8b",
+      "crop": {
+        "left": 836,
+        "top": 0,
+        "width": 418,
+        "height": 418
+      }
+    },
+    {
+      "name": "abyss-crystal",
+      "bytes": 55752,
+      "sha256": "13a2dbfae4fc333621eda5d2f1978e3e8962394cf02e366bb062b3b55f556793",
+      "crop": {
+        "left": 0,
+        "top": 418,
+        "width": 418,
+        "height": 418
+      }
+    },
+    {
+      "name": "battle-dust",
+      "bytes": 72394,
+      "sha256": "6e835a918f01dc74a3d644f005301b194c22eba32c008c698166a124b08795ed",
+      "crop": {
+        "left": 418,
+        "top": 418,
+        "width": 418,
+        "height": 418
+      }
+    },
+    {
+      "name": "duel-sigil",
+      "bytes": 75744,
+      "sha256": "ce7b8428f09833c1b121463b57ff648107102cb8d89164033a43fb916fc570b2",
+      "crop": {
+        "left": 836,
+        "top": 418,
+        "width": 418,
+        "height": 418
+      }
+    },
+    {
+      "name": "honor-crystal",
+      "bytes": 51098,
+      "sha256": "91b02be958eed0f062f757a0a8693786fbd8abd82c471a228dac530ad6e0df21",
+      "crop": {
+        "left": 0,
+        "top": 836,
+        "width": 418,
+        "height": 418
+      }
+    },
+    {
+      "name": "immortal-seal",
+      "bytes": 71736,
+      "sha256": "38d3001ce05004d63e28f6c0c88a40cb6f4949dd56369cb997719bea892d064b",
+      "crop": {
+        "left": 418,
+        "top": 836,
+        "width": 418,
+        "height": 418
+      }
+    },
+    {
+      "name": "immortal-crest",
+      "bytes": 77964,
+      "sha256": "61e6ab17d33fe386b1031648ed685330983f820b7034ef495196eca33a819194",
+      "crop": {
+        "left": 836,
+        "top": 836,
+        "width": 418,
+        "height": 418
+      }
+    }
+  ],
+  "animation": "Production CSS energy orbit, shimmer and particles; reduced motion static fallback. Source artwork unchanged.",
+  "revision": "v2: black and gold royal artifacts; v1 rejected. Arden artwork is neither reused nor supplied to v2 generation."
+}

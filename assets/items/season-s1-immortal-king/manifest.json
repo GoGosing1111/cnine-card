@@ -1,0 +1,117 @@
+{
+  "generator": "built-in image_gen",
+  "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-6455f829-b2ec-46d0-86f3-8af04793faa9.png",
+  "sourceSha256": "73d5b5212cca53af2394ec673f9712882235479243f9a2a4029fb71c0a520677",
+  "references": [
+    {
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\items\\arden-energy-v1.png",
+      "sha256": "406e959495ada5973f751ab73b2117cb829984799dbaf595df69beec30608af4"
+    },
+    {
+      "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\assets\\items\\arden-armor-blueprint-v1.png",
+      "sha256": "b5ccecbac4ef9ea2ac91e00a73ed3ed4ebf40b7bb43db30a15b964e6c8aca22c"
+    }
+  ],
+  "files": [
+    {
+      "name": "exploration-dust",
+      "bytes": 45310,
+      "sha256": "be9b5c226a974778ea0b67d28a5819bd335ac9d29b53dee31ec1a2b7b6617b58",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 418,
+        "height": 418
+      }
+    },
+    {
+      "name": "tower-sigil",
+      "bytes": 47544,
+      "sha256": "d912985000a9c477815e9110f36baf8566e5b241e1c9784efc80861fba7fc8d3",
+      "crop": {
+        "left": 418,
+        "top": 0,
+        "width": 418,
+        "height": 418
+      }
+    },
+    {
+      "name": "resonance-core",
+      "bytes": 68442,
+      "sha256": "aec44e24bec95e6879188037a4d6742262fef7902621f9fb6b1ad522b7cdbb50",
+      "crop": {
+        "left": 836,
+        "top": 0,
+        "width": 418,
+        "height": 418
+      }
+    },
+    {
+      "name": "abyss-crystal",
+      "bytes": 52140,
+      "sha256": "d96618bc94ef7cd2e2d66083ae374a02727f71820ecf567ae81f00dc4d929a55",
+      "crop": {
+        "left": 0,
+        "top": 418,
+        "width": 418,
+        "height": 418
+      }
+    },
+    {
+      "name": "battle-dust",
+      "bytes": 64086,
+      "sha256": "fd72a3f57e2ff29a5ecd0741186b606a429ef1edb081d2fd05864f37051b444c",
+      "crop": {
+        "left": 418,
+        "top": 418,
+        "width": 418,
+        "height": 418
+      }
+    },
+    {
+      "name": "duel-sigil",
+      "bytes": 92788,
+      "sha256": "1fedc04d1f5d58039ecc668a1683cc241b26b3df8735de1c2c449af784a8deb5",
+      "crop": {
+        "left": 836,
+        "top": 418,
+        "width": 418,
+        "height": 418
+      }
+    },
+    {
+      "name": "honor-crystal",
+      "bytes": 55802,
+      "sha256": "896f11fa5c13a29dfa86d8d7373e89d85127a24e5bde6ba780bf7d1fef097651",
+      "crop": {
+        "left": 0,
+        "top": 836,
+        "width": 418,
+        "height": 418
+      }
+    },
+    {
+      "name": "immortal-seal",
+      "bytes": 88572,
+      "sha256": "bec7bd96985876bd611312d9e3ed34e41db542cac1bcddfeb4184e130ff45b3c",
+      "crop": {
+        "left": 418,
+        "top": 836,
+        "width": 418,
+        "height": 418
+      }
+    },
+    {
+      "name": "immortal-crest",
+      "bytes": 85634,
+      "sha256": "d208b1b08fd95301c2b5189f068c1792142dad2fe1120cfe93266208d910551d",
+      "crop": {
+        "left": 836,
+        "top": 836,
+        "width": 418,
+        "height": 418
+      }
+    }
+  ],
+  "animation": "Production CSS energy orbit, shimmer and particles; reduced motion static fallback. Source artwork unchanged."
+}

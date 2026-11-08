@@ -1,3 +1,4 @@
+import {applySeasonFighterBonus} from '../shared/season-s1-combat.mjs';
 import {jinJokroIncomingDamage,jinJokroActionCredit} from '../shared/mercenary-jin-jokro-v1.mjs';
 import {heliosKingIncomingDamage,heliosKingActionCredit} from '../shared/mercenary-helios-king-v1.mjs';
 import {hakuyaIncomingDamage,hakuyaActionCredit} from '../shared/mercenary-hakuya-v1.mjs';
@@ -2125,7 +2126,7 @@ function battleMercenaryFighters({cards,single,rows,side,mode,avatarPowerPercent
   return selections.map((row,index)=>{const fighter=buildAvatarMercenaryFighter(row,side,mode,avatarPowerPercent);return fighter?{...fighter,slot:5+index}:null;}).filter(Boolean);
 }
 
-export function buildPvePlayerTeam({cards=[],characterBonus=0,battleSuit=null,mercenary=null,mercenaries,pveEquipmentRuntime=null,[COMPANION_PREPARATION_REVIEW]:companionReview=false}={}) {
+export function buildPvePlayerTeam({seasonEquipment=null,cards=[],characterBonus=0,battleSuit=null,mercenary=null,mercenaries,pveEquipmentRuntime=null,[COMPANION_PREPARATION_REVIEW]:companionReview=false}={}) {
   const avatarPowerPercent=pveEquipmentRuntime?.avatarPowerPercent||0;
   const withBonus = distributePveEquipment(applyTypeStacking(cards), Math.max(0, Number(characterBonus || 0)));
   const teamA = withBonus.map((card, index) => buildFighter(avatarPoweredCard(card,avatarPowerPercent), index, 'A', card.uniqueAbility || null, 'PVE'));
@@ -2135,13 +2136,14 @@ export function buildPvePlayerTeam({cards=[],characterBonus=0,battleSuit=null,me
   if(battleSuitFighter&&mercenaryFighters.length>1)battleSuitFighter.slot=7;
   const simulationTeamA = [...teamA,...(battleSuitFighter?[battleSuitFighter]:[]),...mercenaryFighters];
   applyPveEquipmentGrowth(simulationTeamA,pveEquipmentRuntime);
+  applySeasonFighterBonus(simulationTeamA,seasonEquipment||pveEquipmentRuntime?.seasonS1,'PVE');
   return {teamA,battleSuitFighter,mercenaryFighter,mercenaryFighters,simulationTeamA};
 }
 
-export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, battleSuit = null, mercenary = null, mercenaries, [COMPANION_PREPARATION_REVIEW]: companionReview = false, pet = null, pveEquipmentRuntime = null, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, bossUltimateCapPercent = 100, singleHealerBonus = {}, escortObjective = null, encounter = null, [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false, [MAGIC_SEASON2_REVIEW]: season2Review = false } = {}) {
+export function createPveBattleV2({ seasonEquipment = null, cards = [], magicCards = [], characterBonus = 0, battleSuit = null, mercenary = null, mercenaries, [COMPANION_PREPARATION_REVIEW]: companionReview = false, pet = null, pveEquipmentRuntime = null, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, bossUltimateCapPercent = 100, singleHealerBonus = {}, escortObjective = null, encounter = null, [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false, [MAGIC_SEASON2_REVIEW]: season2Review = false } = {}) {
   const encounterPlan = encounter === null ? null : preparePveEncounter(encounter);
   if (encounterPlan && (cards.length !== 5 || new Set(cards.map(card => String(card.id))).size !== 5 || escortObjective)) throw new Error('INVALID_PVE_ENCOUNTER_PARTY');
-  const {teamA,battleSuitFighter,mercenaryFighter,mercenaryFighters,simulationTeamA}=buildPvePlayerTeam({cards,characterBonus,battleSuit,mercenary,mercenaries,pveEquipmentRuntime,[COMPANION_PREPARATION_REVIEW]:companionReview});
+  const {teamA,battleSuitFighter,mercenaryFighter,mercenaryFighters,simulationTeamA}=buildPvePlayerTeam({seasonEquipment,cards,characterBonus,battleSuit,mercenary,mercenaries,pveEquipmentRuntime,[COMPANION_PREPARATION_REVIEW]:companionReview});
   const mercenaryIds=new Set(mercenaryFighters.map(actor=>actor.id));
   const legion=encounterPlan?null:buildApocalypseLegion(monster,buildMonsterFighter);
   const teamB = encounterPlan ? encounterPlan.initial : legion || [buildMonsterFighter(monster)];
@@ -2302,7 +2304,7 @@ export function resolvePvpOutcome(result, teamA, teamB) {
   return { ...result, winner, reason, originalReason, survivorCount: { A: aliveA, B: aliveB }, timeline: patchedTimeline };
 }
 
-export function createPvpBattleV2({ attackerEquipmentSetVisual = null, defenderEquipmentSetVisual = null, attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerMercenary = null, defenderMercenary = null, attackerMercenaries, defenderMercenaries, [COMPANION_PREPARATION_REVIEW]: companionReview = false, attackerPet = null, defenderPet = null, attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, attackerAvatarPowerPercent = 0, defenderAvatarPowerPercent = 0, seed = 1, singleHealerBonus = {}, [MAGIC_SEASON2_REVIEW]: season2Review = false, pvpBalanceVersion, [PVP_POWER_BALANCE_REVIEW]: powerReview } = {}) {
+export function createPvpBattleV2({ attackerSeasonEquipment = null, defenderSeasonEquipment = null, attackerEquipmentSetVisual = null, defenderEquipmentSetVisual = null, attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerMercenary = null, defenderMercenary = null, attackerMercenaries, defenderMercenaries, [COMPANION_PREPARATION_REVIEW]: companionReview = false, attackerPet = null, defenderPet = null, attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, attackerAvatarPowerPercent = 0, defenderAvatarPowerPercent = 0, seed = 1, singleHealerBonus = {}, [MAGIC_SEASON2_REVIEW]: season2Review = false, pvpBalanceVersion, [PVP_POWER_BALANCE_REVIEW]: powerReview } = {}) {
   const powerEnabled=pvpPowerEnabled({pvpBalanceVersion,[PVP_POWER_BALANCE_REVIEW]:powerReview});
   const attackerWithEquipment = distributeEquipment(applyTypeStacking(attackerCards), Math.max(0, Number(attackerEquipmentBonus || 0)));
   const defenderWithEquipment = distributeEquipment(applyTypeStacking(defenderCards), Math.max(0, Number(defenderEquipmentBonus || 0)));
@@ -2312,6 +2314,7 @@ export function createPvpBattleV2({ attackerEquipmentSetVisual = null, defenderE
   const mercenariesA=battleMercenaryFighters({cards:attackerCards,single:attackerMercenary,rows:attackerMercenaries,side:'A',mode:'PVP',avatarPowerPercent:attackerAvatarPowerPercent,review:companionReview});
   const mercenariesB=battleMercenaryFighters({cards:defenderCards,single:defenderMercenary,rows:defenderMercenaries,side:'B',mode:'PVP',avatarPowerPercent:defenderAvatarPowerPercent,review:companionReview});
   const mercA=mercenariesA.length>0,mercB=mercenariesB.length>0,simulationA=[...teamA,...mercenariesA],simulationB=[...teamB,...mercenariesB];
+  applySeasonFighterBonus(simulationA,attackerSeasonEquipment,'PVP');applySeasonFighterBonus(simulationB,defenderSeasonEquipment,'PVP');
   // Normal combat keeps the established 100-action balance. If both teams
   // still have survivors, a short no-heal, escalating-damage overtime runs
   // instead of ending on a visually ambiguous 2:2 HP-ratio judgment.

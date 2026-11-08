@@ -1,3 +1,4 @@
+import {seasonAwardStatements} from './_season_s1.js';
 import {prepareUnifiedDropGrant} from './_drop_pool.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {jointError} from './_joint_request.js';
@@ -43,6 +44,9 @@ async function commitHuntRewards(env,user,{key,before,run,policyRaw,regionPolicy
     jointGuardEnd(DB,guard),jointGuardEnd(DB,proof)
   ];
   if(run.state.policy.regionId){const regionGuard=`hunt-region:${token}`;statements.splice(2,0,jointGuard(DB,regionGuard,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[LEGION_REGIONS_KEY,regionPolicyRaw]));statements.push(jointGuardEnd(DB,regionGuard));}
+  if(run.rewardStatus==='SETTLED'&&run.liveRewards===true&&run.entry?.status==='CONSUMED'&&['CLEAR','DEFEAT','TIME_LIMIT'].includes(result.reason)&&Number.isFinite(run.state.startedAt)){
+    statements.push(...await seasonAwardStatements(env,{userId:user.id,eventId:run.state.id,source:'LEGION',startedAt:run.state.startedAt,won:result.reason==='CLEAR'}));
+  }
   if(DB.dialect==='postgres')statements.unshift(DB.prepare('SELECT id FROM users WHERE id=? FOR UPDATE').bind(user.id));
   try{await DB.batch(statements);}
   catch{throw jointError('HUNT_REWARD_RETRY','보상 저장을 완료하지 못했습니다. 정산을 다시 시도해 주세요. 획득 기록은 보관됩니다.',503);}

@@ -1,3 +1,4 @@
+import {seasonAwardStatements} from './_season_s1.js';
 import {companionBattleOptions} from '../shared/companion-battle-snapshot-v1.mjs';
 import {collectionRewardCoin} from './_collection_bonuses.js';
 import {accountRankAward} from './_account_rank.js';
@@ -2021,7 +2022,7 @@ async function claimCoreReward(env, user, cfg, body = {}, profile = null) {
   if (!roomId || !requestId) return { error: '공대 ID와 요청 ID가 필요합니다.', status: 400 };
   const [member, room, collision, existing] = await Promise.all([
     env.DB.prepare('SELECT status FROM ' + MEMBER_TABLE + ' WHERE room_id=? AND user_id=?').bind(roomId, user.id).first(),
-    env.DB.prepare('SELECT status FROM ' + ROOM_TABLE + ' WHERE room_id=?').bind(roomId).first(),
+    env.DB.prepare('SELECT status,starts_at FROM ' + ROOM_TABLE + ' WHERE room_id=?').bind(roomId).first(),
     env.DB.prepare('SELECT user_id,room_id FROM ' + REWARD_RECEIPT_TABLE + ' WHERE request_id=?').bind(requestId).first(),
     env.DB.prepare('SELECT * FROM ' + REWARD_RECEIPT_TABLE + ' WHERE room_id=? AND user_id=?').bind(roomId, user.id).first()
   ]);
@@ -2141,6 +2142,7 @@ async function claimCoreReward(env, user, cfg, body = {}, profile = null) {
     " reset_receipt WHERE reset_receipt.user_id=pig_coin_ledger_v1.user_id AND reset_receipt.room_id=pig_coin_ledger_v1.reference_id AND " +
     "json_extract(reset_receipt.response_json,'$.weeklyRewardReset') IS NOT NULL)";
   statements.push(...await pigCoinRewardStatements(env,{userId:Number(user.id),source:'CORE_RAID',referenceId:String(roomId),guardSql:guard,guardBindings:guardBind,weeklyLedgerFilter,at:rewardAt}));
+  if(cfg.mode==='ON')statements.push(...await seasonAwardStatements(env,{userId:user.id,eventId:'CORE:'+roomId,source:'RAID',won:true,startedAt:room.starts_at||0},{guard,values:guardBind}));
   if(cfg.mode==='ON')statements.push(...await accountRankAward(env,user.id,'CORE_RAID_WEEKLY',roomId,{guard,values:guardBind}));
   if (choice) {
     const choiceGuard=crypto.randomUUID();

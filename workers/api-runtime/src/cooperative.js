@@ -1,3 +1,4 @@
+import {seasonRoomMembers} from '../../../functions/_season_s1_rooms.js';
 import {WarChatRoom} from './war-chat.js';
 import {DurableObject} from 'cloudflare:workers';
 import {MonsterDefenseHost} from './monster-defense.js';
@@ -83,7 +84,7 @@ export class CooperativeRoom extends DurableObject{
  async settleRewards(room){
   if(room.clearRewards)return true;
   const unpaid=coopUnpaidRewards(room);
-  if(unpaid){room.clearRewards=unpaid;this.save(room);return true;}
+  if(unpaid&&!seasonRoomMembers(this.env,'COOP',room).length){room.clearRewards=unpaid;this.save(room);return true;}
   if(Date.now()<(this.rewardRetryAt||0))return false;
   this.rewardSettlement??=(async()=>{
    let connection;

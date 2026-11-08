@@ -1,3 +1,4 @@
+import {seasonAwardStatements} from './_season_s1.js';
 import {raidPigCoinRewardStatements} from './_raid_pig_rewards.js';
 import {collectionRewardCoin} from './_collection_bonuses.js';
 import {accountRankAward} from './_account_rank.js';
@@ -80,6 +81,7 @@ export async function prepareLichClearRewards(env,row,room){
         env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(coin,'리치왕 정벌 클리어 ['+room.id+']',uid));
     }
     plan.statements.push(...raidPigCoinRewardStatements(env,{userId:uid,source:'LICH_RAID',roomId:room.id,amount:policy.pigCoins||0,guardSql:'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',guardBindings:[before.key,raw],at:room.finishedAt}));
+    plan.statements.push(...await seasonAwardStatements(env,{userId:uid,eventId:'LICH:'+room.id,source:'RAID',won:true,startedAt:room.startedAt||room.finishedAt},{guard:'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',values:[before.key,raw]}));
     plan.statements.push(...await accountRankAward(env,uid,'LICH_RAID_WEEKLY',room.id,{
       guard:'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',values:[before.key,raw]
     }),jointGuardEnd(env.DB,token));

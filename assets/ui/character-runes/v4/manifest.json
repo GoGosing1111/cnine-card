@@ -1,0 +1,39 @@
+{
+  "theme": "S1 Immortal King common PVE/PVP rune",
+  "method": "Built-in ImageGen: original background/frame + derived transparent equipment layers. Native layer compositing and animation.",
+  "equipmentOriginalsPreserved": true,
+  "records": [
+    {
+      "file": "immortal-king-backplate.webp",
+      "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-190f7943-ebf4-4a4c-9c67-88430f97448e.png",
+      "sourceHash": "8b22450a807e1068aca8ccb6805322eb0f54643776ef56f8db553b839bbabf49",
+      "hash": "5b4d806a37522dd774a929f57ad34520b5fbc13218ba128a5bed3c3f21dd1f65",
+      "bytes": 80462,
+      "alpha": false
+    },
+    {
+      "file": "immortal-king-frame.webp",
+      "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-04f32cf3-3caf-4194-b4d1-027c8ec6260d.png",
+      "sourceHash": "fec4c47971d83e2ab218f12355f58f5a845293233b4d595e770556021f3af792",
+      "hash": "de67368c0dedb214f250181d950c84aa01a66481f0983a6f822e6a65a3792a0e",
+      "bytes": 56758,
+      "alpha": true
+    },
+    {
+      "file": "equipment/sovereign-weapon-layer.webp",
+      "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-f5e7797b-c105-4dad-9679-f025c00906da.png",
+      "sourceHash": "1c5b20e2368b033c6ebe3a16017880f44a104696410f9d9527f5558a8e119847",
+      "hash": "f961b0cc299a686ef393ac14afaeb59029de1040622ba730692ca2784b460181",
+      "bytes": 85108,
+      "alpha": true
+    },
+    {
+      "file": "equipment/sovereign-top-layer.webp",
+      "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-0d3424bc-5da3-47d9-9d6d-193214fadbcb.png",
+      "sourceHash": "949cfae09b476517acefa6af67eaadf138bfe488a6c2e2269b34b85ce57f9f27",
+      "hash": "33ac289fccde5b49d75ca7a05a813931f675b7f832e98021f04d55c2cb010370",
+      "bytes": 137302,
+      "alpha": true
+    }
+  ]
+}

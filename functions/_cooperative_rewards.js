@@ -1,3 +1,4 @@
+import {seasonRoomStatements} from './_season_s1_rooms.js';
 import {coinCreditLimit,MAX_COIN_SQL} from '../shared/coin-integer-v1.mjs';
 import {COOP_SETTINGS_KEY,hasCoopReward,validateCoopRewards} from '../shared/cooperative-rewards-v1.mjs';
 import {EQUIPMENT_FORGE_RELEASE_PROTECTION_CODE} from '../shared/equipment-forge-release-v1.mjs';
@@ -25,7 +26,7 @@ export function coopUnpaidRewards(room){
 // together. The DO may lose its acknowledgement and safely retry after restart.
 export async function settleCoopRewards(env,room){
  if(!['VICTORY','DEFEAT','CANCELLED'].includes(room.status))throw Error('Cooperative room is not terminal');
- const unpaid=coopUnpaidRewards(room);if(unpaid)return unpaid;
+ const unpaid=coopUnpaidRewards(room);if(unpaid){const season=await seasonRoomStatements(env,'COOP',room);if(season.length)await env.DB.batch(season);return unpaid;}
  const key='coop_reward_receipt_v1:'+room.id,frozen=room.rewardPolicy;
  const entry=frozen.entryEnergy?await readCoopEntry(env,room):null;
  if(frozen.entryEnergy&&!entry?.charged)throw Error('Missing cooperative energy entry proof');
@@ -67,6 +68,7 @@ export async function settleCoopRewards(env,room){
    const choice=prepareRewardRevealOffer(env,reveal,{userId:uid,roomId:room.id,baseReward:{coin:policy.coin,masterStars:policy.masterStars,items:rewards[uid].items},quota:{period:'energy',cost:entry?.charged?1:0,maximum:3},finishedAt:room.finishedAt});
    if(choice.offer){statements.push(...choice.statements);rewards[uid].choiceOffer=choice.offer;}
   }
+  statements.push(...await seasonRoomStatements(env,'COOP',room));
   const receipt=JSON.stringify({version:1,roomId:room.id,creationRequest:room.creationRequest,difficulty:room.difficulty,finishedAt:room.finishedAt,settingsRevision:policy.settingsRevision,rewards});
   try{
    await env.DB.batch([

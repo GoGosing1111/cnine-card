@@ -1,3 +1,4 @@
+import {seasonRoomStatements} from './_season_s1_rooms.js';
 import {coinCreditLimit,MAX_COIN_SQL} from '../shared/coin-integer-v1.mjs';
 import {DEFENSE_KEY,validateDefenseSettings,validDefenseRoom} from '../shared/monster-defense-v1.mjs';
 import {hasDefenseReward,validateDefenseReward,defenseRewardItemRule} from '../shared/monster-defense-rewards-v1.mjs';
@@ -40,7 +41,7 @@ export function defenseUnpaidRewards(room){
 // database transaction records every participant's receipt, balances and logs.
 export async function settleDefenseRewards(env,room){
  if(!['VICTORY','DEFEAT'].includes(room.phase))throw Error('Defense room is not terminal');
- const unpaid=defenseUnpaidRewards(room);if(unpaid)return unpaid;
+ const unpaid=defenseUnpaidRewards(room);if(unpaid){const season=await seasonRoomStatements(env,'DEFENSE',room);if(season.length)await env.DB.batch(season);return unpaid;}
  const policy=room.rewardPolicy,reward=validateDefenseReward(policy),players=humans(room),ids=players.map(p=>Number(p.id));
  if(!validDefenseRoom(room.id)||!room.creationRequest||room.accountRoster!==true||policy.difficulty!==room.difficulty||
   !Number.isSafeInteger(room.startedAt)||room.startedAt<room.createdAt||!Number.isSafeInteger(room.finishedAt)||room.finishedAt<room.startedAt||
@@ -81,6 +82,7 @@ export async function settleDefenseRewards(env,room){
    }
    rewards[uid]={status:'GRANTED',granted:true,coin:reward.coin,masterStars:reward.masterStars,items:selected.items.map(i=>({...i,name:catalog.get(i.code).name,image:catalog.get(i.code).image_url||''})),...(selected.rolls.length?{itemRolls:selected.rolls.map(i=>({...i,name:catalog.get(i.code).name}))}:{})};
   }
+  statements.push(...await seasonRoomStatements(env,'DEFENSE',room));
   const receipt=JSON.stringify({version:2,roomId:room.id,creationRequest:room.creationRequest,createdAt:room.createdAt,startedAt:room.startedAt,finishedAt:room.finishedAt,difficulty:room.difficulty,settingsRevision:policy.settingsRevision,rewardPolicy:policy,rewards});
   try{
    await env.DB.batch([

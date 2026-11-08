@@ -635,7 +635,7 @@
         : workshopSection === 'BATTLE_SUIT_CRAFT'
           ? battleSuitCraftPanel()
           : vehiclePanel();
-    root.innerHTML = workshopHeader() + workshopNav() + workshopToolbar() + panel;
+    root.innerHTML = workshopHeader() + '<button type="button" class="ws81-season-entry" data-ws-season><img src="/assets/items/season-s1-immortal-king/immortal-seal-v3.webp" alt="" width="44" height="44"><span>S1 불멸의 왕 · 시즌 제작소</span></button>' + workshopNav() + workshopToolbar() + panel;
     prepareWorkshopLayout(root);
     if (window.matchMedia('(max-width:800px)').matches && catalogOpen != null && !focus?.hasAttribute('data-ws-section')) root.querySelector('#wsRecipeCatalog').open = catalogOpen;
     normalizeImages(root);
@@ -658,6 +658,7 @@
   }
 
   function bindWorkshopControls(root) {
+    root.querySelector('[data-ws-season]')?.addEventListener('click',()=>{if(!workshopBusy&&typeof renderShell==='function')renderShell('season');});
     root.querySelector('#wsCraftEquipment')?.addEventListener('change', event => { if (!workshopBusy) { selectedCraftInstance = event.target.value; renderWorkshop(); } });
     root.querySelector('#wsRecipeSearch')?.addEventListener('input', event => { recipeQuery = event.target.value; renderWorkshop(); });
     root.querySelector('[data-ws-ready]')?.addEventListener('click', () => { readyOnly = !readyOnly; if (workshopSection === 'SYNTHESIS') synthesisMode = readyOnly ? 'READY' : 'ALL'; renderWorkshop(); });

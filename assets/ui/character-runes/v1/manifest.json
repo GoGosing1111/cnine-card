@@ -1,0 +1,67 @@
+{
+  "purpose": "Common rune socket; rune-specific visuals are separate assets",
+  "method": "built-in image_gen and native bitmap lettering",
+  "records": [
+    {
+      "file": "socket-empty.webp",
+      "sha256": "e4d8e8a2010fb5347ab290b90bd94ecabd81433a0e83be14acc036a1be21d9de",
+      "bytes": 33868,
+      "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-5af886b3-97c4-450f-ae59-2e52d1b1404f.png",
+      "sourceSha256": "28376d53b55fbf2683ec11eaae94d3ffdd19ef2d16dea2ecc092005052050701",
+      "safePadding": 24
+    },
+    {
+      "file": "immortal-soul-fire.webp",
+      "sha256": "c17eb0018e1389f94c656d5ee5769965507f329566d20dd06e4b9d579a288050",
+      "bytes": 104370,
+      "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-d892e6c0-a6b8-4b45-8fc6-be463f12b467.png",
+      "sourceSha256": "9f65b04deb3339495c547201db925f6c78f7b96e212c0647b9842c995cbb761e",
+      "safePadding": 32
+    },
+    {
+      "file": "label-socket.webp",
+      "sha256": "d62e8983d32dfef0acaefb5864a80bc0f6c9f638a70b98dc0a17ed5666aed629",
+      "bytes": 6024,
+      "text": "룬 소켓",
+      "font": "Existing HANBatangB; rendered glyphs only",
+      "width": 250,
+      "height": 112
+    },
+    {
+      "file": "label-options.webp",
+      "sha256": "8ab5a7de0b3fc9d87ee95ed189bb3c0ebb01d155877b4e8fbc71a2e5c70c6c07",
+      "bytes": 9728,
+      "text": "룬 공명 옵션",
+      "font": "Existing HANBatangB; rendered glyphs only",
+      "width": 393,
+      "height": 112
+    },
+    {
+      "file": "label-selection.webp",
+      "sha256": "9c9cc46378f735af4df2e995430337d6aaa6e70647d7a5d5c99271f1f9e8afc7",
+      "bytes": 5814,
+      "text": "룬 선택",
+      "font": "Existing HANBatangB; rendered glyphs only",
+      "width": 250,
+      "height": 112
+    },
+    {
+      "file": "label-equip.webp",
+      "sha256": "8920b093d70d4efe69cefb7939e6edf86802054f82a9ed74f9b7c04616f98749",
+      "bytes": 8298,
+      "text": "장착하기",
+      "font": "Existing HANBatangB; rendered glyphs only",
+      "width": 293,
+      "height": 112
+    },
+    {
+      "file": "label-unequip.webp",
+      "sha256": "1d87a3f875175d522a99aaf5f88fc2751d50bc477256e95816d215b2a339916c",
+      "bytes": 8734,
+      "text": "장착 해제",
+      "font": "Existing HANBatangB; rendered glyphs only",
+      "width": 312,
+      "height": 112
+    }
+  ]
+}

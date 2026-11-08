@@ -1,3 +1,4 @@
+import {seasonBonus} from './_season_s1.js';
 import {loadCoopOwnedCards} from './_cooperative_live.js';
 import {mercenaryAccountState,readMercenaryDocument,battleConfig} from './_mercenary_account.js';
 import {mercenaryAttackStyle} from '../shared/mercenary-attack-style-v1.mjs';
@@ -35,5 +36,6 @@ export async function loadDefenseSelection(env,user,value,deps){
  const options=await readDefenseRoster(env,user,deps,{cardIds:[loadout.card.slice(5)]});
  const roster=[...loadout.mercenaries.map(code=>options.mercenaries.find(c=>c.code===code)),options.cards.find(c=>c.code===loadout.card)];
  if(roster.some(c=>!c))throw Object.assign(Error('현재 보유하고 출전 가능한 용병 2명과 카드 1장만 선택할 수 있습니다. 목록을 새로 불러와 주세요.'),{code:'DEFENSE_OWNERSHIP',status:403});
- return {loadout,roster};
+ const {attackBp}=await seasonBonus(env,user.id,'PVE');
+ return {loadout,roster:attackBp?roster.map(entry=>({...entry,seasonAttackBp:attackBp})):roster};
 }

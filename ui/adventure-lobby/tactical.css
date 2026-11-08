@@ -178,6 +178,48 @@
 .depart small{font:700 8px 'Barlow Condensed',sans-serif;letter-spacing:2px;color:#f4f8fb}
 .depart em{font-size:8px;line-height:1.4;color:#c5d2db}
 .depart-watermark{display:none}
+.season-entry {
+  position: relative;
+  display: block;
+  width: min(100%, 360px);
+  min-height: 44px;
+  margin: 9px auto 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #9c927c;
+  background: #101824;
+  box-shadow: 0 2px 6px #07121d66;
+}
+.season-entry .season-number {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 2px 6px 3px;
+  border: solid #8e815c;
+  border-width: 0 1px 1px 0;
+  color: #f5dbab;
+  background: #15212ceb;
+  font: 700 12px/1 'Barlow Condensed', var(--lobby-font);
+  letter-spacing: .06em;
+}
+.season-entry img { display: block; width: 100%; height: auto; }
+.season-entry::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border: solid #f5ddab;
+  border-width: 1.5px 1.5px 0 0;
+  transform: translateY(-50%) rotate(45deg);
+}
+.season-entry:hover { border-color: #efd59d; filter: brightness(1.12); }
+.season-entry:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
+@media (max-width: 760px) {
+  .season-entry, .operations-board { scroll-margin-bottom: calc(76px + env(safe-area-inset-bottom)); }
+}
+
 .command-heading{margin:9px 0 0;opacity:.42;justify-content:space-between}
 .command-heading .eyebrow{font-size:6px;letter-spacing:1.7px}
 .menu-category-tabs button,.menu-quick-access button,.category-action{border:0;border-image:none;box-shadow:none;background:none}
@@ -204,5 +246,5 @@
 }
 @media(max-width:360px){.command{margin:0 9px;padding:8px 12px 10px}.command-navigation{gap:4px}.metal-button b{font-size:9px}.quick-actions{gap:5px}.command-section-label>small{font-size:5px}}
 /* The operation board wraps below the command window; it never scrolls sideways. */
-.operations-board{padding:0;backdrop-filter:blur(12px)}
+.operations-board{padding:0;border-width:3px;border-image-width:7px;backdrop-filter:blur(12px)}
 @media(min-width:761px){.avatar-caption{top:330px;bottom:auto}.scene-controls{top:415px;bottom:auto}}

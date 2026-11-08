@@ -345,7 +345,7 @@ test('live activation is scoped to an equipped positive-power PVE Battle Suit',(
   });
 });
 
-test('loadout reports render-ready suit/weapon metadata and isolates suit power from PVP',async()=>{
+test('loadout reports render-ready suit/weapon metadata and isolates suit power from PVP',async t=>{
   const DB=new SqliteD1();
   createEquipmentSchema(DB.db);
   await ensureForgeTransactionSchema({DB});
@@ -497,4 +497,29 @@ test('loadout reports render-ready suit/weapon metadata and isolates suit power 
   assert.equal(final.payload.instances.find(row=>row.instanceId===sameLevel).equipped,true);
   assert.equal(final.payload.instances.find(row=>row.instanceId===stronger).equipped,false);
   assert.equal(final.payload.bonuses.equipmentPve,210);
+
+  // Exercise the new season title through the same equip and battle-stat endpoints as regular titles.
+  await t.test('S1 Heir adds precisely 700,000 to both equipped totals, including on retry and reload',async()=>{
+    DB.db.exec(await readFile(new URL('../database/migrations/20261107-season-s1-common-title.sql',import.meta.url),'utf8'));
+    const heirId=DB.db.prepare("SELECT id FROM character_titles WHERE code='COMMON_S1_TITLE'").get().id;
+    const callTitle=(action,body={})=>handleEquipment({
+      path:'character/title/'+action,
+      request:new Request('https://example.test/api/character/title/'+action,{method:'POST',body:JSON.stringify(body)}),
+      env:{DB},deps:{authenticate:async()=>({id:7,role:'USER'}),readBody:req=>req.json(),json:(payload,status=200)=>({payload,status})}
+    });
+    const unequipped=await callTitle('unequip');
+    assert.equal(unequipped.status,200);
+    const base=unequipped.payload.bonuses;
+    assert.equal((await callTitle('equip',{titleId:heirId})).status,404);
+    DB.db.prepare("INSERT INTO user_character_titles(user_id,title_id,source_type,source_id) VALUES(7,?,'SEASON_CRAFT','heir-qa')").run(heirId);
+    assert.equal((await userEquipmentBonuses({DB},7)).titlePve,0);
+    const first=await callTitle('equip',{titleId:heirId}),again=await callTitle('equip',{titleId:heirId});
+    assert.equal(first.status,200);assert.equal(again.status,200);
+    const refreshed=await loadoutCall('character/loadout','https://example.test/api/character/loadout?quantities=deferred');
+    assert.equal(refreshed.payload.equippedTitleId,heirId);
+    for(const stats of [first.payload.bonuses,again.payload.bonuses,refreshed.payload.bonuses]){
+      assert.deepEqual([stats.titlePve,stats.titlePvp,stats.pve-base.pve,stats.pvp-base.pvp],[700000,700000,700000,700000]);
+    }
+    assert.deepEqual((await callTitle('unequip')).payload.bonuses,base);
+  });
 });

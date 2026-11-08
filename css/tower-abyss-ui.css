@@ -106,3 +106,5 @@ html:has(.modal.show .tower-abyss-battle),body:has(.modal.show .tower-abyss-batt
 .abyss-auto-result{margin-top:12px;text-align:center}.abyss-auto-result .abyss-auto-toggle{width:100%}
 .abyss-combat-clock strong{font-size:23px}
 @media(max-width:760px){.tower-abyss-battle .battle-v3-header{padding-right:95px}.abyss-combat-clock strong{font-size:18px}.abyss-battle-auto{top:156px;right:10px}.abyss-battle-auto .abyss-auto-toggle{font-size:10px}}
+
+.tower-season-replay{margin-top:16px;padding:18px;border:16px solid transparent;border-image:var(--abyss-frame) 80 fill stretch}.tower-season-replay h3{color:#f1c391;margin:0 0 8px}.tower-season-replay p{margin:0 0 12px;font-size:12px}.tower-season-replay .abyss-button{margin:4px}

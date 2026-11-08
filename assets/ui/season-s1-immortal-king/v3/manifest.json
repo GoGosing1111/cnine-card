@@ -1,0 +1,943 @@
+{
+  "version": 3,
+  "theme": "Immortal King — full silhouettes and image typography",
+  "generator": "built-in image_gen + proportional sprite extraction + native bitmap glyph rendering",
+  "records": [
+    {
+      "path": "assets/items/season-s1-immortal-king/exploration-dust-v3.webp",
+      "sha256": "a3704897102fbd3fd5b5ab3e8438c1269c281ffe838f4d52d685edabf89be7cb",
+      "bytes": 53404,
+      "source": "source-atlas-v2.png",
+      "sourceSha256": "c56138ca9c2a0008411ff3f32f74f1f67138c994247e78f3428e2a46cbe03088",
+      "region": {
+        "left": 0,
+        "top": 0,
+        "width": 445,
+        "height": 378
+      },
+      "safePadding": 28
+    },
+    {
+      "path": "assets/items/season-s1-immortal-king/tower-sigil-v3.webp",
+      "sha256": "87812bb32ca8638a8efb27af3a7a11ed50a4b42182184a9989b2a1e8f3afac76",
+      "bytes": 52440,
+      "source": "source-atlas-v2.png",
+      "sourceSha256": "c56138ca9c2a0008411ff3f32f74f1f67138c994247e78f3428e2a46cbe03088",
+      "region": {
+        "left": 470,
+        "top": 0,
+        "width": 350,
+        "height": 378
+      },
+      "safePadding": 28
+    },
+    {
+      "path": "assets/items/season-s1-immortal-king/resonance-core-v3.webp",
+      "sha256": "335a7358a4607edb24c46b680db1406d7bb11a2546d82d00a7488c5dfea1e141",
+      "bytes": 58048,
+      "source": "source-atlas-v2.png",
+      "sourceSha256": "c56138ca9c2a0008411ff3f32f74f1f67138c994247e78f3428e2a46cbe03088",
+      "region": {
+        "left": 842,
+        "top": 0,
+        "width": 412,
+        "height": 390
+      },
+      "safePadding": 28
+    },
+    {
+      "path": "assets/items/season-s1-immortal-king/abyss-crystal-v3.webp",
+      "sha256": "128048cb2c425b51a6fa9f79ed8b17f26e5e8eff59ad8b26deaaa238eecf8582",
+      "bytes": 51884,
+      "source": "source-atlas-v2.png",
+      "sourceSha256": "c56138ca9c2a0008411ff3f32f74f1f67138c994247e78f3428e2a46cbe03088",
+      "region": {
+        "left": 0,
+        "top": 378,
+        "width": 405,
+        "height": 425
+      },
+      "safePadding": 28
+    },
+    {
+      "path": "assets/items/season-s1-immortal-king/battle-dust-v3.webp",
+      "sha256": "11356cd17fb56971f94cd141bb7aeb69a737a0c112daa28f49c15565904c69f2",
+      "bytes": 56490,
+      "source": "source-atlas-v2.png",
+      "sourceSha256": "c56138ca9c2a0008411ff3f32f74f1f67138c994247e78f3428e2a46cbe03088",
+      "region": {
+        "left": 410,
+        "top": 400,
+        "width": 440,
+        "height": 386
+      },
+      "safePadding": 28
+    },
+    {
+      "path": "assets/items/season-s1-immortal-king/duel-sigil-v3.webp",
+      "sha256": "5a5a813d218907568131003f0061d2b24d680d95555b129933149dedf3a6a5e4",
+      "bytes": 65776,
+      "source": "source-atlas-v2.png",
+      "sourceSha256": "c56138ca9c2a0008411ff3f32f74f1f67138c994247e78f3428e2a46cbe03088",
+      "region": {
+        "left": 846,
+        "top": 390,
+        "width": 408,
+        "height": 400
+      },
+      "safePadding": 28
+    },
+    {
+      "path": "assets/items/season-s1-immortal-king/honor-crystal-v3.webp",
+      "sha256": "3c9c1ab321df7463bf7348b07ac8ae7a67538317395033482c3b3866c7e69e92",
+      "bytes": 54646,
+      "source": "source-atlas-v2.png",
+      "sourceSha256": "c56138ca9c2a0008411ff3f32f74f1f67138c994247e78f3428e2a46cbe03088",
+      "region": {
+        "left": 0,
+        "top": 810,
+        "width": 399,
+        "height": 444
+      },
+      "safePadding": 28
+    },
+    {
+      "path": "assets/items/season-s1-immortal-king/immortal-seal-v3.webp",
+      "sha256": "f0fb16aa2c593d783b52410c445fce6aeb8d2376fdf8d943a2e6f8b59cedeab4",
+      "bytes": 57556,
+      "source": "source-atlas-v2.png",
+      "sourceSha256": "c56138ca9c2a0008411ff3f32f74f1f67138c994247e78f3428e2a46cbe03088",
+      "region": {
+        "left": 398,
+        "top": 786,
+        "width": 448,
+        "height": 468
+      },
+      "safePadding": 28
+    },
+    {
+      "path": "assets/items/season-s1-immortal-king/immortal-crest-v3.webp",
+      "sha256": "6107a9b7f97d8dd20531d7cbd17b2afd0861cb52c84d91af2237a54fcd431b67",
+      "bytes": 61344,
+      "source": "source-atlas-v2.png",
+      "sourceSha256": "c56138ca9c2a0008411ff3f32f74f1f67138c994247e78f3428e2a46cbe03088",
+      "region": {
+        "left": 846,
+        "top": 780,
+        "width": 408,
+        "height": 474
+      },
+      "safePadding": 28
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/season-logo.webp",
+      "sha256": "1b8b28d00adf2167cd46c70305aba25ad41f4a9293991d646efcb3e284ba1ff8",
+      "bytes": 263794,
+      "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-0096df36-9148-4057-ac2a-6af0df08a21b.png"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/throne-panorama.webp",
+      "sha256": "a2b34f00c0d8682f9470205302ab2fcc1cbf6275bd246d6da0abfd869bc27b1f",
+      "bytes": 247132,
+      "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-d38f0a61-545c-4b74-aa1b-e7a5e89e0d19.png"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/royal-panel.webp",
+      "sha256": "1fa30ea74c7066250395e3f57703f8098ad250a05fd2b9e890aefd354841f477",
+      "bytes": 153070,
+      "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-08472bcb-9052-4d58-b763-070455d50b7b.png",
+      "crop": {
+        "left": 48,
+        "top": 36,
+        "width": 1158,
+        "height": 790
+      }
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/royal-button.webp",
+      "sha256": "0d74ad660b36b33ac6845fc44c77acf2769ef3166f80a5d02e10d4929374a346",
+      "bytes": 122876,
+      "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-08472bcb-9052-4d58-b763-070455d50b7b.png",
+      "crop": {
+        "left": 185,
+        "top": 850,
+        "width": 885,
+        "height": 355
+      }
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/type-forge.webp",
+      "sha256": "a12611b10efdf9941b3ff9270c862e2647211bc4db70b29519f99000c0511ac8",
+      "bytes": 97060,
+      "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-d68ae9a5-5d05-449d-8e59-52dc24a9b776.png",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 887,
+        "height": 222
+      }
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/type-legacy.webp",
+      "sha256": "44cbfa885bf93bbff229c9bff58b4eb4a321b8b1e5d48a012145eb6fe5fcf1de",
+      "bytes": 88042,
+      "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-d68ae9a5-5d05-449d-8e59-52dc24a9b776.png",
+      "crop": {
+        "left": 0,
+        "top": 222,
+        "width": 887,
+        "height": 222
+      }
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/type-challenges.webp",
+      "sha256": "ca3b9758234019efe33ad274bff47ee312832823cf4d1be5236d6d5dad141806",
+      "bytes": 98442,
+      "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-d68ae9a5-5d05-449d-8e59-52dc24a9b776.png",
+      "crop": {
+        "left": 0,
+        "top": 444,
+        "width": 887,
+        "height": 221
+      }
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/type-materials.webp",
+      "sha256": "bfbaabb6461b3a0cd582e3f5e51ecb3e2573fefdb44c3afd70c105e0e83d99f8",
+      "bytes": 77556,
+      "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-d68ae9a5-5d05-449d-8e59-52dc24a9b776.png",
+      "crop": {
+        "left": 0,
+        "top": 665,
+        "width": 887,
+        "height": 222
+      }
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/type-pve.webp",
+      "sha256": "4bddb1fc6858dc226841a07851e518861f2d2c98c03c7ee54fee664b0970b791",
+      "bytes": 42672,
+      "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-d68ae9a5-5d05-449d-8e59-52dc24a9b776.png",
+      "crop": {
+        "left": 0,
+        "top": 887,
+        "width": 444,
+        "height": 222
+      }
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/type-pvp.webp",
+      "sha256": "afd29c866fc7ed17d7bfb8b0e59405777cd67c6a848d9ce4380be824be670a17",
+      "bytes": 43112,
+      "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-d68ae9a5-5d05-449d-8e59-52dc24a9b776.png",
+      "crop": {
+        "left": 444,
+        "top": 887,
+        "width": 443,
+        "height": 222
+      }
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/type-craft.webp",
+      "sha256": "c7e8234cb9686d68e104afe67ca0b02b1a90d13efd6c6dc8fb1a726c7e4e6fe2",
+      "bytes": 46052,
+      "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-d68ae9a5-5d05-449d-8e59-52dc24a9b776.png",
+      "crop": {
+        "left": 0,
+        "top": 1109,
+        "width": 444,
+        "height": 222
+      }
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/type-complete.webp",
+      "sha256": "c6a4f7b43aba84d2d4a5cd0336f9bb158448737d78afb8cda36cff199371e169",
+      "bytes": 42892,
+      "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-d68ae9a5-5d05-449d-8e59-52dc24a9b776.png",
+      "crop": {
+        "left": 444,
+        "top": 1109,
+        "width": 443,
+        "height": 222
+      }
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/type-equip.webp",
+      "sha256": "86e61bf021c86bdde7090611e1faf11ad3832419fe75977375726d71c4b9ae5c",
+      "bytes": 40552,
+      "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-d68ae9a5-5d05-449d-8e59-52dc24a9b776.png",
+      "crop": {
+        "left": 0,
+        "top": 1331,
+        "width": 444,
+        "height": 221
+      }
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/type-unequip.webp",
+      "sha256": "1a03d3da19ce81bc9015851bfaf5e6d887226dab341eedbc82678641577683a8",
+      "bytes": 44842,
+      "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-d68ae9a5-5d05-449d-8e59-52dc24a9b776.png",
+      "crop": {
+        "left": 444,
+        "top": 1331,
+        "width": 443,
+        "height": 221
+      }
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/type-refresh.webp",
+      "sha256": "495ea146b45522c1107c3fa20c653400b9cf645f7387370aab38aeeaff3d29c4",
+      "bytes": 46658,
+      "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-d68ae9a5-5d05-449d-8e59-52dc24a9b776.png",
+      "crop": {
+        "left": 0,
+        "top": 1552,
+        "width": 444,
+        "height": 222
+      }
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/type-confirm.webp",
+      "sha256": "1489bcba8d1df151b39d98fc5ce578a044410b1a759d6d9c0c330b255beffaa4",
+      "bytes": 37386,
+      "source": "C:/Users/User/.codex/generated_images/01a1b0a0-0884-7230-afbe-8ef5ad9dda24/exec-d68ae9a5-5d05-449d-8e59-52dc24a9b776.png",
+      "crop": {
+        "left": 444,
+        "top": 1552,
+        "width": 443,
+        "height": 222
+      }
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/challenge-nightmare.webp",
+      "sha256": "6e1f902721c74a11cc34ab6b4e66906b36dd6e94fc5aab139e666b62ac098387",
+      "bytes": 13422,
+      "source": "assets/ui/project-v/monsters/nightmare-slime-sd-v1.png",
+      "sourceSha256": "92ea1b32adff00052a1aef915646d7cf8b6d3406169487d4ee4c3e0e8b910302"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/challenge-raid.webp",
+      "sha256": "8a8bf1491b2228af0c419042d441cbca19af95a66b1a80b6005a042d906809ed",
+      "bytes": 11584,
+      "source": "preview/lich-king-raid-v1/assets/lich-king-battle-sd-v1.png",
+      "sourceSha256": "bbde814c9f42e66167ef9990acdee8eb2e02a9e4e4c4029f96af4a4a2a8f6ce1"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/challenge-apoc81.webp",
+      "sha256": "01ff0871d022b19b402581b1f3eb4c700f9b34a85385155b0d8f3dfd0c5a1a9d",
+      "bytes": 11004,
+      "source": "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/infected-soldier-battle-ready-v1.png",
+      "sourceSha256": "3cb4fe0f4dc78a69a974eedac47c597ed8de7d8a7136c4d886f2c46d90046131"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/challenge-apoc82.webp",
+      "sha256": "21b2b4698c371e9d1ac672a018ad700cce6f8f7b5d898818f6f1ac3228fce888",
+      "bytes": 11666,
+      "source": "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/hell-general-battle-ready-v1.png",
+      "sourceSha256": "3211d91bb540cd4f12f740e1ca646242133b6a4d3a402ef3881ca694770919a9"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/challenge-apoc83.webp",
+      "sha256": "2a5d93a8fd932d74b59122a79f0125e0264d439ba338b22e43813532f97a1d9e",
+      "bytes": 16338,
+      "source": "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/archdemon-battle-ready-v1.png",
+      "sourceSha256": "bf15f2668dbb96445199f8d7af7dacd1652bb13303031de43581e856feed1b01"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/challenge-tower.webp",
+      "sha256": "6ba810d7e46a61b0634bee7bfd488f076bdd29404d1a1da42ede2dbe6fe18906",
+      "bytes": 14342,
+      "source": "assets/items/season-s1-immortal-king/tower-sigil-v3.webp",
+      "sourceSha256": "87812bb32ca8638a8efb27af3a7a11ed50a4b42182184a9989b2a1e8f3afac76"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/challenge-tier1100.webp",
+      "sha256": "fa1e25313a1e548c555c5c79020ba659c8258d3f4758100f5c50b304db0ba742",
+      "bytes": 21026,
+      "source": "assets/ui/tiers/silver.png",
+      "sourceSha256": "40bc874e35592c0d955f274a9a3dc7e92d0dfb1d2c14ab9c60e223b609cf3aac"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/challenge-tier1250.webp",
+      "sha256": "a1c02a2f1010342592d8969b5f8a747c4537dd547f73fd7b89513a20dcd158e5",
+      "bytes": 18148,
+      "source": "assets/ui/tiers/gold.png",
+      "sourceSha256": "518a5abf5b3b2464df4248aec4bce2c4778f1acca438862ec8a6cc53e53370cd"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/challenge-tier1450.webp",
+      "sha256": "e40338e6a4e40e431b98e6d6ec07ea3598eef567e5e477ae3ca427169daac1ae",
+      "bytes": 21514,
+      "source": "assets/ui/tiers/platinum.png",
+      "sourceSha256": "ba6e45a201676bce7c47dacf44465c66f05fe47fa4628b73858dc7eeae526df8"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/challenge-tier1700.webp",
+      "sha256": "d934a0a05213b8c557e04eda656f7eb1f4db8bb84a7de8ce2890d2353e3dcbbd",
+      "bytes": 16880,
+      "source": "assets/ui/tiers/diamond.png",
+      "sourceSha256": "76950c4edf3d70324b99743483e60db7f812d474047327d19f1b31c1c1120111"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/challenge-tier2050.webp",
+      "sha256": "7143b6b02db8eaea63af2381a6164748000e344ce618c669ca119321dcc199a1",
+      "bytes": 19794,
+      "source": "assets/ui/tiers/master.png",
+      "sourceSha256": "34190859f2c26f2fdf15bb45bded31faab1d5620643b08b1ee7b132529b50d97"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/challenge-tier2500.webp",
+      "sha256": "6bbe4f2cc2e63b5213862062cd2308faf1c1b2463cb051d9e9c5b15ec7ea6651",
+      "bytes": 20256,
+      "source": "assets/ui/tiers/grandmaster.png",
+      "sourceSha256": "41cd0ba616a72335e4d2bae735afbd8a3fbe2240c0138fe29bf4bf1d86615c64"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/achieved.svg",
+      "sha256": "bfd358f3471dec33f0b6a3a3e8d87a4ef191d778ae263e6c88b180362ecd883d",
+      "bytes": 401,
+      "type": "native vector completion overlay"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-69b502f1f217.webp",
+      "sha256": "2bbbbbe119fb2bd2538a28d5033461fef5ead7be8ba8966d80c2de621c506dbd",
+      "bytes": 12214,
+      "text": "성장 재료 묶음",
+      "lines": [
+        "성장 재료 묶음"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-0c1d0840e78b.webp",
+      "sha256": "9f3e42c1544326764348fe8f33ced0d9bf08be6fb6644e265838284515afea6d",
+      "bytes": 18248,
+      "text": "강화주문서 선택 제작",
+      "lines": [
+        "강화주문서 선택 제작"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-36152db1ae8b.webp",
+      "sha256": "eddfe2aaa499ad36ee83b8b5913474ae7718e024671ee6d63c4d163c35de4fba",
+      "bytes": 13234,
+      "text": "불멸왕의 인장",
+      "lines": [
+        "불멸왕의 인장"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-ced33a2edda5.webp",
+      "sha256": "c70957a34ab3ea46282843bae4bdb28b49284702476b3acee49105ab7ede4786",
+      "bytes": 17888,
+      "text": "불멸왕의 인장 강화",
+      "lines": [
+        "불멸왕의 인장 강화"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-fe15826cb2e0.webp",
+      "sha256": "f43f2253e6a7a7e8bebac8f0d550b88c06f6f7113985026bb2f112b4dc90db04",
+      "bytes": 13100,
+      "text": "왕관의 영혼불",
+      "lines": [
+        "왕관의 영혼불"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-495726e4a930.webp",
+      "sha256": "91f0b7e495616b1acfe3e0a1c77567854c8a97edc65e719ea4ea78d20dff9da7",
+      "bytes": 11830,
+      "text": "불멸의 정복자",
+      "lines": [
+        "불멸의 정복자"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-3cf580737eea.webp",
+      "sha256": "390276af25e636d238f40318d514d295c6de090024f1eef714139eadebb704a9",
+      "bytes": 12650,
+      "text": "불멸왕의 문장",
+      "lines": [
+        "불멸왕의 문장"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-a113f9c082b9.webp",
+      "sha256": "bcb827ae4320c9e7117ee9d445617295ae7fde903c0cec1f91116c76f50eca59",
+      "bytes": 17064,
+      "text": "불멸왕의 문장 강화",
+      "lines": [
+        "불멸왕의 문장 강화"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-711978a2dfc5.webp",
+      "sha256": "06f35f5adf253b8e5082ae362e812a4b9ff91e2134ba7dd6f4040307ae6e809b",
+      "bytes": 12722,
+      "text": "불멸왕의 잔불",
+      "lines": [
+        "불멸왕의 잔불"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-6735fdb3405a.webp",
+      "sha256": "52757463536f90bccf53f64430f34d35030388b50f774f45947b6d848d5c39ed",
+      "bytes": 11908,
+      "text": "불멸의 승리자",
+      "lines": [
+        "불멸의 승리자"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-587dfa96143d.webp",
+      "sha256": "0866d4cd7029123ac7e6677fd57a6dda562150de2841296675cf954db5d17d02",
+      "bytes": 9600,
+      "text": "탐험의 가루",
+      "lines": [
+        "탐험의 가루"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-cce2130f7cab.webp",
+      "sha256": "303889624580bd95c8cd995f2059b7185a587f0f5eb3ca2562b665a535215161",
+      "bytes": 8356,
+      "text": "탑의 각인",
+      "lines": [
+        "탑의 각인"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-dc53f46b2478.webp",
+      "sha256": "023c4cdf8e0d5fb570cdd14069cbc1c70531613694ccbd6e29c1c10924b76d38",
+      "bytes": 8548,
+      "text": "공명의 핵",
+      "lines": [
+        "공명의 핵"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-d5932c0f4356.webp",
+      "sha256": "2acff927d05bd43524b2cd60e8cf24ed684f46abc7fc89828f98d3aa7775a036",
+      "bytes": 8762,
+      "text": "심연 결정",
+      "lines": [
+        "심연 결정"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-2b0146cb4ec8.webp",
+      "sha256": "5d4f0861e769563ade128a8fb12c63c7f7dcc325df287a32998c06ed5fa881f2",
+      "bytes": 9510,
+      "text": "투쟁의 가루",
+      "lines": [
+        "투쟁의 가루"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-b7b3956ae2ab.webp",
+      "sha256": "a87790f800993fb4ca4b0d277dfd5a92664dc4d64730a3e281d9197a5b445d7e",
+      "bytes": 10418,
+      "text": "결투의 인장",
+      "lines": [
+        "결투의 인장"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-78043aeda23d.webp",
+      "sha256": "f82118b7f1cce26302ca10a90c4a66e4b0ca200e2c0b475d859a2b0f728ca2ec",
+      "bytes": 8738,
+      "text": "명예 결정",
+      "lines": [
+        "명예 결정"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-7da9b269fdc5.webp",
+      "sha256": "055bb4b201bcf04d08fc46216c4835743883a3b127c8b09ef4e8a8d326a21583",
+      "bytes": 12432,
+      "text": "탐험 제작 증표",
+      "lines": [
+        "탐험 제작 증표"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-5775c0b6f421.webp",
+      "sha256": "8a27c5bb9fe0943ae72f916202c86f0974880619880218204483ced4f31fb619",
+      "bytes": 10708,
+      "text": "악몽 첫 격파",
+      "lines": [
+        "악몽 첫 격파"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-4d21379d7f01.webp",
+      "sha256": "22250b668d4414d7b6f4ff55b903779f9485db46b1c7dfb68ae4bf2f1b356ad4",
+      "bytes": 11642,
+      "text": "탑 50층 공략",
+      "lines": [
+        "탑 50층 공략"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-b12113738060.webp",
+      "sha256": "b17671ccdfa0ed23b9e9c7acfff9cb7e76590c8d2e0364189173294b66d7b328",
+      "bytes": 11404,
+      "text": "탑 70층 공략",
+      "lines": [
+        "탑 70층 공략"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-55a17a9f814d.webp",
+      "sha256": "b3828a359fef4b1bb4c5c4a9e970b1b66591a964e247c542ee4bff6091499a4d",
+      "bytes": 11786,
+      "text": "탑 90층 공략",
+      "lines": [
+        "탑 90층 공략"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-8c4c68fe13d2.webp",
+      "sha256": "4c991679b74f19534d9304bfb33e4068938ef2b228803ae0e47a074262df1192",
+      "bytes": 10378,
+      "text": "레이드 클리어",
+      "lines": [
+        "레이드 클리어"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-b0eff80dd4a4.webp",
+      "sha256": "31409079e3ab15d4af5d3da243c05fd0ea69dfd960c2a8cf2c0741aab0e04f71",
+      "bytes": 9578,
+      "text": "카르겐 격파",
+      "lines": [
+        "카르겐 격파"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-9a23624a16a9.webp",
+      "sha256": "db7fbd9dc98a3851c4f227810b0e2d825404fee6cb6ab33043cdd657d0be3c30",
+      "bytes": 9504,
+      "text": "발카르 격파",
+      "lines": [
+        "발카르 격파"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-d716dea33eb9.webp",
+      "sha256": "bb50b5661b1e0a3788583e23ca9b586d00624f897227504fc059a231ba5ce5f9",
+      "bytes": 9606,
+      "text": "모르가스 격파",
+      "lines": [
+        "모르가스 격파"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-0fa6d540266a.webp",
+      "sha256": "ce508077e9992fadfd2dff4ca90527e01e6e659da9110af585315b4baf02cf27",
+      "bytes": 8320,
+      "text": "실버 달성",
+      "lines": [
+        "실버 달성"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-0f6f6dee7bbf.webp",
+      "sha256": "560315d71453e2e29b80ad9f5ee92b3e89bb894ddb1ead528e7cddb93b06c598",
+      "bytes": 7430,
+      "text": "골드 달성",
+      "lines": [
+        "골드 달성"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-2c27515087e8.webp",
+      "sha256": "37346742f9bf36f6e3f671dfddf7b89b974ae96b23bfbc6433cef2965d2bf546",
+      "bytes": 11714,
+      "text": "플래티넘 달성",
+      "lines": [
+        "플래티넘 달성"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-eb3bb3835c55.webp",
+      "sha256": "ad03673ff714a0cc0aaf1e8461bd31cf361ed5267116630de3a424869b7fd73f",
+      "bytes": 10178,
+      "text": "다이아 달성",
+      "lines": [
+        "다이아 달성"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-6b90e9df2228.webp",
+      "sha256": "c6125075a4ef5cf0f4b3609d19312db4765f33034572f0f982abb3af48942a44",
+      "bytes": 9566,
+      "text": "마스터 달성",
+      "lines": [
+        "마스터 달성"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-1464877ec09d.webp",
+      "sha256": "71000b8d33e7aa5a9c84e4e0e5c40b765cb6c87145c38ed353edc258f0d1b74e",
+      "bytes": 13308,
+      "text": "그랜드마스터 달성",
+      "lines": [
+        "그랜드마스터 달성"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-c7a4b11b5561.webp",
+      "sha256": "2d7ec6de0b9f173a4ce5cddfaf7af0738d8b58b298023533ab44ba8e7685822a",
+      "bytes": 9658,
+      "text": "공략과 돌파",
+      "lines": [
+        "공략과 돌파"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-843db4ac1d6a.webp",
+      "sha256": "6d376e5a5e10c45466f31c208aaee829ee053ad0345b6e3f9eb19b78070890c3",
+      "bytes": 11238,
+      "text": "참여와 경쟁",
+      "lines": [
+        "참여와 경쟁"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-9842ccb47867.webp",
+      "sha256": "1736b6cf7b392113244e622bcc254f7b48ea8050d2bb27642bb397f946d31c6a",
+      "bytes": 8154,
+      "text": "시즌 레벨",
+      "lines": [
+        "시즌 레벨"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-a3036269f573.webp",
+      "sha256": "d2caaf2821e66f5e5f419663f2a02d892299c30e36a941ab47934282b4bd648e",
+      "bytes": 14776,
+      "text": "왕좌를 향한 기록",
+      "lines": [
+        "왕좌를 향한 기록"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-e30b31180b36.webp",
+      "sha256": "d93da42c2ba6ceea2e639a6f3c931e52b2ee94c00c93571987e5fe24e5248f49",
+      "bytes": 12646,
+      "text": "성장 재료 묶음|compact",
+      "lines": [
+        "성장 재료",
+        "묶음"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-843e603a66ca.webp",
+      "sha256": "55b69ea2dde880e999951d5fb9506e2f56674c51e31ede676761fbc4e20c3fb3",
+      "bytes": 18464,
+      "text": "강화주문서 선택 제작|compact",
+      "lines": [
+        "강화주문서 선택",
+        "제작"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-c342db099469.webp",
+      "sha256": "11cb00997c2e07d4356147fbf49aca9ccfc7aa3d899b845a70022f815209abf2",
+      "bytes": 13384,
+      "text": "불멸왕의 인장|compact",
+      "lines": [
+        "불멸왕의",
+        "인장"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-e215df18517a.webp",
+      "sha256": "fe892b65f174e1e84d9e6d30a63c8e9d447c7e1f51ed53747108d92a62f2cb47",
+      "bytes": 18080,
+      "text": "불멸왕의 인장 강화|compact",
+      "lines": [
+        "불멸왕의 인장",
+        "강화"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-8a9115dc01e2.webp",
+      "sha256": "384acd6e3fed93aa16732f81555f555b25f7010f3223f64d522d49c8b0b32077",
+      "bytes": 13066,
+      "text": "왕관의 영혼불|compact",
+      "lines": [
+        "왕관의",
+        "영혼불"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-45e5b3753150.webp",
+      "sha256": "3f2d6e9fa9e308dd19c2457413b780e3610f051e58847780f04802da3a34ac8c",
+      "bytes": 11856,
+      "text": "불멸의 정복자|compact",
+      "lines": [
+        "불멸의",
+        "정복자"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-e30b31180b36.webp",
+      "sha256": "d93da42c2ba6ceea2e639a6f3c931e52b2ee94c00c93571987e5fe24e5248f49",
+      "bytes": 12646,
+      "text": "성장 재료 묶음|compact",
+      "lines": [
+        "성장 재료",
+        "묶음"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-843e603a66ca.webp",
+      "sha256": "55b69ea2dde880e999951d5fb9506e2f56674c51e31ede676761fbc4e20c3fb3",
+      "bytes": 18464,
+      "text": "강화주문서 선택 제작|compact",
+      "lines": [
+        "강화주문서 선택",
+        "제작"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-bf374d7b004e.webp",
+      "sha256": "5a045ad5620129e934c05a4e362029d94f5e3bd54271017f4dc6183b5394a979",
+      "bytes": 12840,
+      "text": "불멸왕의 문장|compact",
+      "lines": [
+        "불멸왕의",
+        "문장"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-62a896a65d89.webp",
+      "sha256": "6837c7d6ed04e5551d3960cb5228994f95c4a134f62ed85a8be39c3742458959",
+      "bytes": 17430,
+      "text": "불멸왕의 문장 강화|compact",
+      "lines": [
+        "불멸왕의 문장",
+        "강화"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-54d74bbd4a12.webp",
+      "sha256": "65f6814e2f33b5bb53333fcf2cc9ffb2dcb9fe417509097f94fbbbe7fe8375ec",
+      "bytes": 12894,
+      "text": "불멸왕의 잔불|compact",
+      "lines": [
+        "불멸왕의",
+        "잔불"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    },
+    {
+      "path": "assets/ui/season-s1-immortal-king/v3/label-99a612562abe.webp",
+      "sha256": "b290f0fad6f4d625896ef36018aff4b9174acf055077bc6b66cd619b2c75aeb0",
+      "bytes": 11556,
+      "text": "불멸의 승리자|compact",
+      "lines": [
+        "불멸의",
+        "승리자"
+      ],
+      "font": "HANBatangB (existing local font, rendered glyphs only)",
+      "fontSha256": "91da0dde2995484b69fed48b01c27206dbce952a2b4820d70d0264d385b585b5"
+    }
+  ]
+}

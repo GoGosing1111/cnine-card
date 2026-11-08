@@ -1,3 +1,4 @@
+import {seasonBonus} from './_season_s1.js';
 import {readCoopFavorites,saveCoopFavorite} from './_cooperative_favorites.js';
 import {COMPANION_RELEASE,COMPANION_PREPARATION_REVIEW as REVIEW} from '../shared/companion-loadout-v2.mjs';
 import {readAccountRank} from './_account_rank.js';
@@ -48,11 +49,12 @@ export async function loadCoopOwnedCards(env,user,deps,ids=null){
 }
 export async function loadCoopSelection(env,user,body,deps,{rules=COMPANION_RELEASE.dualMercenaries?COOP_DUAL_RULES:COOP_RULES,review=false}={}){
  const selected=validateCoopSelection(body,rules);
+ const {attackBp}=await seasonBonus(env,user.id,'PVE'),runeOption=attackBp?{seasonAttackBp:attackBp}:{};
  if(rules.mercenariesPerPlayer===2){
   const [cards,mercenaries,bonus,settings,accountRank,pet]=await Promise.all([loadCoopOwnedCards(env,user,deps,selected.cardIds),selectedMercenaryBattleSnapshots(env,user,selected.mercenaryCodes,'PVE'),deps.userEquipmentBonuses(env,user.id),deps.battleSettings(env),readAccountRank(env,user.id),loadPetBattleSnapshot(env,user,'PVE')]);
   if(cards.length!==2||cards.filter(c=>c.grade==='SUPERSTAR').length>1)fail('OWNERSHIP','보유 카드 2장과 슈퍼스타 제한을 확인하세요.',403);
   const equipmentBonus=Math.max(0,Number(bonus.pve||0)-Number(bonus.battleSuitPve||0));
-  return {ownerId:Number(user.id),ownerName:user.nickname,ownerRankLevel:accountRank.level,cards:selected.cardIds.map(id=>cards.find(c=>c.id===id)),mercenaries,...(review?{[REVIEW]:true}:{}),pet,equipmentSetVisual:bonus.pveEquipmentRuntime?.equipmentSetVisual||null,equipmentBonus,avatarPowerPercent:bonus.avatarPowerPercent||0,singleHealerBonus:settings.engine?.singleHealerBonus||{},power:Math.round((cards.reduce((sum,c)=>sum+c.power,0)+equipmentBonus+mercenaries.reduce((sum,m)=>sum+mercenarySnapshotPower(m),0))*(1+(bonus.avatarPowerPercent||0)/100))};
+  return {...runeOption,ownerId:Number(user.id),ownerName:user.nickname,ownerRankLevel:accountRank.level,cards:selected.cardIds.map(id=>cards.find(c=>c.id===id)),mercenaries,...(review?{[REVIEW]:true}:{}),pet,equipmentSetVisual:bonus.pveEquipmentRuntime?.equipmentSetVisual||null,equipmentBonus,avatarPowerPercent:bonus.avatarPowerPercent||0,singleHealerBonus:settings.engine?.singleHealerBonus||{},power:Math.round((cards.reduce((sum,c)=>sum+c.power,0)+equipmentBonus+mercenaries.reduce((sum,m)=>sum+mercenarySnapshotPower(m),0))*(1+(bonus.avatarPowerPercent||0)/100))};
  }
  const [cards,owned,document,runtime,bonus,battleSettings,accountRank]=await Promise.all([
   loadCoopOwnedCards(env,user,deps,selected.cardIds),
@@ -62,7 +64,7 @@ export async function loadCoopSelection(env,user,body,deps,{rules=COMPANION_RELE
  if(cards.filter(c=>c.grade==='SUPERSTAR').length>1)fail('SUPERSTAR_LIMIT','한 사람은 슈퍼스타를 1장까지 선택할 수 있습니다.',400);
  const mercenary={...battleConfig(document.document,selected.mercenaryCode,1),combat:runtime.combat,cmsRevision:document.revision,policyVersion:runtime.version};
  const equipmentBonus=Math.max(0,Number(bonus.pve||0)-Number(bonus.battleSuitPve||0));
- return {pet:await loadPetBattleSnapshot(env,user,'PVE'),ownerId:Number(user.id),ownerName:user.nickname,ownerRankLevel:accountRank.level,cards:selected.cardIds.map(id=>cards.find(c=>c.id===id)),mercenary,
+ return {...runeOption,pet:await loadPetBattleSnapshot(env,user,'PVE'),ownerId:Number(user.id),ownerName:user.nickname,ownerRankLevel:accountRank.level,cards:selected.cardIds.map(id=>cards.find(c=>c.id===id)),mercenary,
   equipmentSetVisual:bonus.pveEquipmentRuntime?.equipmentSetVisual||null,equipmentBonus,avatarPowerPercent:bonus.avatarPowerPercent||0,singleHealerBonus:battleSettings.engine?.singleHealerBonus||{},
   power:Math.round((cards.reduce((sum,c)=>sum+c.power,0)+equipmentBonus+mercenarySnapshotPower(mercenary))*(1+(bonus.avatarPowerPercent||0)/100))};
 }

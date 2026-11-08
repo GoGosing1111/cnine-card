@@ -1,3 +1,4 @@
+import {seasonRoomMembers} from '../../../functions/_season_s1_rooms.js';
 import {createRoom,joinRoom,leaveRoom,commandRoom,advanceRoom,publicSnapshot,defaultLoadout,selectDefenseLoadout} from '../../../preview/coop-defense-v1/source/defense-model.mjs';
 import {DEFENSE_RULES} from '../../../shared/monster-defense-v1.mjs';
 import {readJointBody} from '../../../functions/_joint_request.js';
@@ -71,7 +72,7 @@ export class MonsterDefenseHost{
  async settleRewards(room){
   if(room.clearRewards)return true;
   const unpaid=defenseUnpaidRewards(room);
-  if(unpaid){room.clearRewards=unpaid;this.save(room);return true;}
+  if(unpaid&&!seasonRoomMembers(this.env,'DEFENSE',room).length){room.clearRewards=unpaid;this.save(room);return true;}
   if(Date.now()<(this.rewardRetryAt||0))return false;
   this.rewardSettlement??=(async()=>{
    let connection;
@@ -182,6 +183,7 @@ export class MonsterDefenseHost{
   const room=this.read();if(!room)return {ok:true};this.advance(room);
   if(room.entryPending)return {ok:false,status:503,error:'참여 횟수를 확인 중입니다. 잠시 후 다시 연결해 주세요.'};
   if(!terminal(room)&&room.phase!=='LOBBY')return {ok:false,status:409,error:'진행 중에는 화면 나가기를 사용하세요. 전투 종료 후 새 방을 만들 수 있습니다.'};
+  if(terminal(room)&&!room.clearRewards&&seasonRoomMembers(this.env,'DEFENSE',room).length&&!await this.settleRewards(room))return {ok:false,status:503,error:'전투 참여 정산 중입니다. 잠시 후 다시 시도하세요.'};
   leaveRoom(room,String(user.id));this.ctx.storage.sql.exec('DELETE FROM tickets WHERE user_id=?',Number(user.id));
   if(!room.players.some(p=>!p.bot)){this.save(room);if(await this.publishListing(room)){await this.ctx.storage.deleteAll();await this.ctx.storage.deleteAlarm();}else await this.ctx.storage.setAlarm(Date.now()+5000);}
   else{this.save(room);await this.schedule(room);}return {ok:true};

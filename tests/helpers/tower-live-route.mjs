@@ -1,4 +1,5 @@
 import {accountRankAward} from '../../functions/_account_rank.js';
+import {seasonTowerFloors} from '../../functions/_season_s1.js';
 import {collectionRewardCoin} from '../../functions/_collection_bonuses.js';
 import {prepareTowerForgeProtectionClear} from '../../functions/_forge_tower_protection.js';
 import fs from 'node:fs';
@@ -13,7 +14,7 @@ const source=fs.readFileSync(new URL('../../functions/api/[[path]].js',import.me
 const block=source.slice(source.indexOf("    if(path==='tower/config'"),source.indexOf("    if(path==='deck-synergy/status'"));
 const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
 const names=['accountRankAward','collectionRewardCoin','prepareTowerForgeProtectionClear','authenticate','json','readBody','towerSettings','isAdminRole','raidDeckPower','battleSettings','evaluateDeckSynergies','resolveUniqueBattleRuntime','loadScrapyardV3Snapshot','cardBattlePower','magicBattleLoadout','selectActivatedUltimate','releasedMercenarySnapshot','buildTowerV3Battle','TOWER_V3_DRAFT','magicSettings','magicRewardForTowerFloor','resolveMagicCrystalReward','safeEquipmentDrop','rollBlackMiracleDrop','deferWrite','grantWeeklyPremiumCube','uniqueBattleResponsePayload','grantHighGradeRerollDrop','userEquipmentBonuses','pveDeckCards'];
-names.push('towerAbyssStart','towerAbyssFinish','towerAbyssPending','TOWER_ABYSS_PROTOCOL','withJointUserMutationLock','grantEquipmentDrop');
+names.push('towerAbyssStart','towerAbyssFinish','towerAbyssPending','TOWER_ABYSS_PROTOCOL','withJointUserMutationLock','grantEquipmentDrop','seasonTowerFloors');
 const execute=new AsyncFunction('path','request','env','deps',`const {${names.join(',')}}=deps;\n${block}`);
 export async function operatingTowerFixture(f,{floorNo=1,maxFloor=70,monsterPower=1000000,rewardCoin=1000000,mercenary=null}={}){
   await ensureJointTransactionSchema(f.env);
@@ -35,7 +36,7 @@ export async function operatingTowerFixture(f,{floorNo=1,maxFloor=70,monsterPowe
   await f.p('INSERT INTO battle_monsters(id,name,image_url,battle_power,is_boss) VALUES(28,?,?,?,1)','아이젠 소스케','assets/ui/project-v/monsters/hunt-tower/tower-028-violet-magus-boss-sd-v1.png',monsterPower).run();
   await f.p('INSERT INTO tower_floor_ranges(id,season_id,start_floor,end_floor,reward_coin,monster_id,is_active,power_override,is_boss) VALUES(2094,1,1,?,?,28,1,?,1)',maxFloor,rewardCoin,monsterPower).run();
   const baseDeck=f.deps.raidDeckPower;
-  const deps={accountRankAward,collectionRewardCoin,prepareTowerForgeProtectionClear,...f.deps,readBody:r=>r.json(),towerSettings:async()=>({enabled:true}),isAdminRole:u=>u.role==='OWNER',
+  const deps={accountRankAward,collectionRewardCoin,prepareTowerForgeProtectionClear,seasonTowerFloors,...f.deps,readBody:r=>r.json(),towerSettings:async()=>({enabled:true}),isAdminRole:u=>u.role==='OWNER',
     raidDeckPower:async(...args)=>{const d=await baseDeck(...args);return {...d,basePower:d.cards.reduce((n,c)=>n+Number(c.base_power),0)};},
     battleSettings:async()=>({engine:{}}),evaluateDeckSynergies:async()=>({totals:{attackPercent:0,bossDamagePercent:0}}),resolveUniqueBattleRuntime:()=>null,
     loadScrapyardV3Snapshot,buildTowerV3Battle,TOWER_V3_DRAFT,releasedMercenarySnapshot:async()=>mercenary,
