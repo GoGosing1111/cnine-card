@@ -110,7 +110,7 @@ export async function towerAbyssFinish(env,user,body,deps,{now=Date.now}={}){
     p(env,'UPDATE tower_user_progress SET current_floor=?,highest_floor=?,highest_reached_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND user_id=?',floor+1,floor,plan.seasonId,uid),
     ...await accountRankAward(env,uid,'TOWER',towerFloorRewardRef(plan)),...forge.statements,...reroll.statements);
   }
-  const seasonWrites=await seasonAwardStatements(env,{userId:uid,eventId:rid,source:'TOWER',won:win,floor,startedAt:plan.startedAt});writes.push(...seasonWrites);plan.response.seasonReward=seasonWrites.award||null;
+  const seasonWrites=await seasonAwardStatements(env,{userId:uid,eventId:rid,source:'TOWER',won:win,floor,startedAt:plan.startedAt,seasonReplay:!!plan.seasonReplay});writes.push(...seasonWrites);plan.response.seasonReward=seasonWrites.award||null;
   if(!plan.seasonReplay)writes.push(p(env,'INSERT INTO tower_clear_history(season_id,user_id,floor_no,player_power,monster_power,result) VALUES(?,?,?,?,?,?)',plan.seasonId,uid,floor,plan.response.playerPower,plan.response.monsterPower,plan.response.result));
   writes.push(p(env,"UPDATE joint_operations_v1 SET status='COMPLETED',plan_json=?,completed_at=? WHERE request_id=? AND user_id=? AND status='PENDING'",await encodePlan(plan),new Date(now()).toISOString(),rid,uid),jointGuardEnd(DB,token));
   try{await DB.batch(writes);}catch(error){row=await read(env,uid,rid);if(row?.status==='CANCELLED'||(row?.status!=='COMPLETED'&&towerWeek(now()).weekKey!==week.weekKey))fail('TOWER_FLOOR_CHANGED','새 주차가 시작되었습니다. 현재 도전층을 확인하세요.');if(row?.status!=='COMPLETED')throw error;plan=await decodePlan(row.plan_json);}

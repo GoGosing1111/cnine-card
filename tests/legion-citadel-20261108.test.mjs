@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {citadelFixture,citadelSquads} from './helpers/legion-citadel-fixture.mjs';
+import {SEASON_S1_SCHEMA,seasonAccount} from '../functions/_season_s1.js';
 import {buildCitadelBattle} from '../functions/_legion_citadel_battle.js';
 import {distributeCitadelLoot,personalFarm,farmView} from '../functions/_legion_citadel_loot.js';
 import {validatePreparedMercenaries} from '../shared/companion-loadout-v2.mjs';
@@ -22,6 +23,10 @@ test('no player can draw any of the other player’s item types even with an odd
 });
 for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' party flow, barriers, private grants, retries and recovery',async()=>{
  const f=await citadelFixture({postgres});try{
+  if(postgres)await f.db.execSchema(SEASON_S1_SCHEMA.map(sql=>sql.replaceAll('INTEGER','BIGINT')));
+  else for(const sql of SEASON_S1_SCHEMA)await f.exec(sql);
+  f.env.SEASON_S1_ENABLED='1';f.env.SEASON_S1_NOW=()=>f.clock.now;f.env.SEASON_S1_SCHEDULE={PVE:{start:f.clock.now-86400000}};
+  const counts=async()=>Promise.all([1,2,3].map(async u=>(await seasonAccount(f.env,u)).state.tracks.PVE.counts.LEGION||0));
   const {state:{id}}=await states(f,1,'create',{requestId:'citadel-party-fixture-01'});
   assert.equal((await states(f,1,'create',{requestId:'citadel-party-fixture-01'})).state.id,id);assert.equal((await states(f,3,'lobby')).rooms.length,1);
   assert.equal((await f.action(1,'start',{id})).status,409);await states(f,2,'join',{id});assert.equal((await states(f,3,'lobby')).rooms.length,0);
@@ -39,7 +44,9 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' party
   const first=farms[0].events[0],next=farms[1].events[0];
   assert.equal((await f.action(1,'pickup',{id,token:first[4]})).status,409);assert.equal((await f.action(2,'pickup',{id,token:first[4]})).status,403);
   for(const [event,u] of [[first,1],[next,2]].sort((a,b)=>a[0][0]-b[0][0])){f.clock.now=active.startsAt+event[0]+10;const g=await states(f,u,'pickup',{id,token:event[4]});assert.equal(g.state.picked,1);assert.equal((await states(f,u,'pickup',{id,token:event[4]})).state.picked,1);}
+  assert.deepEqual(await counts(),[0,0,0]);
   f.clock.now=active.startsAt+active.duration+100;assert.equal((await f.action(1,'pickup',{id,token:farms[0].events[1][4]})).status,409);const a=(await states(f,1,'state?id='+id)).state,b=(await states(f,2,'state?id='+id)).state;
+  assert.deepEqual(await counts(),[1,1,0]);
   assert.equal(a.status,'VICTORY');assert.equal(a.drops.length,1);assert.ok(a.kills>100);assert.ok(b.drops.every(j=>a.drops.every(i=>i.type!==j.type||i.ref!==j.ref)));
   const inventory=async uid=>(await f.db.prepare('SELECT item_code,quantity FROM cnine_user_inventory WHERE user_id=? ORDER BY item_code').bind(uid).all()).results;
   assert.deepEqual(await inventory(2),[]);assert.equal((await f.action(1,'leave',{id})).status,409);
@@ -49,6 +56,7 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' party
   assert.equal((await states(f,2,'lobby')).state.id,id);await states(f,2,'claim',{id});const other=await inventory(2);assert.ok(other.every(j=>own.every(i=>i.item_code!==j.item_code)));await states(f,2,'leave',{id});
   assert.equal((await states(f,2,'lobby')).state,null);assert.deepEqual(await inventory(3),[]);
   assert.deepEqual((await states(f,1,'claim',{id})).state.drops,a.drops);assert.deepEqual(await inventory(1),own);
+  assert.deepEqual(await counts(),[1,1,0]);
   assert.equal(await read('legion_citadel_v1:farm:'+id+':1'),null);assert.equal((await f.action(3,'claim',{id})).status,404);
  }finally{await f.close();}
 });

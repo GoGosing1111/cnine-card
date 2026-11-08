@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {applyEvent,craftItem,emptyAccount,exchangeMaterial,kstDay,publicSeason} from '../shared/season-s1.mjs';
-import {seasonAwardStatements,seasonAccount,seasonStatus} from '../functions/_season_s1.js';
+import {seasonAwardStatements,seasonAccount,seasonStatus,seasonTowerFloors} from '../functions/_season_s1.js';
 import {seasonFixture} from './helpers/season-s1-db.mjs';
 
 const D=86400000,start=Date.parse('2026-11-01T00:00:00+09:00'),at=day=>start+(day-1)*D+12*3600000;
@@ -82,13 +82,45 @@ for(const postgres of [false,true]){
   const e={userId:4242,eventId:'capped-ID',source:'RAID',won:true,startedAt:before-1000};
   const account=await seasonAccount(f.env,4242);
   const held=await seasonAwardStatements(f.env,e,{guard:'1=0'});await f.DB.batch(held);
+  assert.deepEqual(await seasonAccount(f.env,4242),account);
   const writes=await seasonAwardStatements(f.env,e);assert.equal(writes.award,undefined);
   await f.DB.batch([f.DB.prepare('INSERT INTO content_rewards(id) VALUES(?)').bind(e.eventId),...writes]);
+  await f.DB.batch(writes); // Retrying even the exact prepared plan contributes only once.
   f.setClock(after);assert.equal((await seasonAwardStatements(f.env,e)).length,0);
-  assert.deepEqual(await seasonAccount(f.env,4242),account);
+  const expected=structuredClone(account);expected.revision++;
+  const track=expected.state.tracks.PVE;track.events++;track.counts.ALL++;track.counts.RAID++;track.wins++;
+  assert.deepEqual(await seasonAccount(f.env,4242),expected);
   assert.equal(Number((await f.DB.prepare('SELECT paid FROM content_rewards WHERE id=?').bind(e.eventId).first()).paid),1);
   const next=await f.award('RAID',{startedAt:before-10});assert.equal(next.award.xp,75);
   const status=await seasonStatus(f.env,4242);assert.equal(status.common.activities,5);assert.equal(status.tracks.PVE.playDays,2);
+ });
+ test(label+': every confirmed run advances its missions after ten, preserves balances, and settles each reached milestone once',async t=>{
+  const f=await seasonFixture(t,{postgres}),day=f.start+2*D+10000;f.setClock(day);
+  for(let i=0;i<10;i++){await f.award('NIGHTMARE');await f.award('PVP');}
+  const before=await seasonStatus(f.env,4242);
+  for(const source of ['LEGION','COOP','DEFENSE'])for(let i=0;i<5;i++)await f.award(source,{won:false});
+  assert.deepEqual(await seasonTowerFloors(f.env,25,4242),[1]);
+  for(const source of ['TOWER','TOWER','HUNT','RAID','APOCALYPSE'])await f.award(source);
+  assert.deepEqual(await seasonTowerFloors(f.env,25,4242),[]);
+  const replay=await seasonAwardStatements(f.env,{source:'TOWER',eventId:'second-season-replay',seasonReplay:true,userId:4242});
+  assert.equal(replay.length,0);
+  for(let i=0;i<10;i++)await f.award('PVP',{won:false});
+  const s=await seasonStatus(f.env,4242),pve=s.tracks.PVE;
+  assert.deepEqual([pve.events,pve.counts.ALL,pve.counts.LEGION,pve.counts.COOP,pve.counts.DEFENSE,pve.counts.TOWER,s.tracks.PVP.events],[30,30,5,5,5,1,20]);
+  for(const mode of ['PVE','PVP'])for(const key of ['today','participation','achievementXp','achievements','materials','earned','playDays'])assert.deepEqual(s.tracks[mode][key],before.tracks[mode][key],key);
+  assert.deepEqual(s.common,before.common);
+  const a={source:'LEGION',userId:4242,eventId:'parallel-A'},b={...a,eventId:'parallel-B'};
+  const [one,two,again]=await Promise.all([a,b,a].map(event=>seasonAwardStatements(f.env,event)));
+  await f.DB.batch([...one,...two,...again]);
+  assert.equal((await seasonAccount(f.env,4242)).state.tracks.PVE.counts.LEGION,7);
+  const rollback=await seasonAwardStatements(f.env,{...a,eventId:'rolled-back'});
+  await assert.rejects(f.DB.batch([...rollback,f.DB.prepare('INSERT INTO content_rewards(id) VALUES(NULL),(?), (?)').bind('duplicate','duplicate')]));
+  assert.equal((await seasonAccount(f.env,4242)).state.tracks.PVE.counts.LEGION,7);
+  f.setClock(day+D);
+  const first=await f.award('HUNT');assert.deepEqual(first.award.achievements,['tower1','legion5','coop5','defense5']);
+  assert.deepEqual((await f.award('HUNT')).award.achievements,[]);
+  assert.deepEqual((await f.award('PVP')).award.achievements,['match20']);
+  assert.deepEqual((await f.award('PVP')).award.achievements,[]);
  });
  test(label+': dated legacy receipts reconstruct true KST activity without inventing dates or writing on read',async t=>{
   const f=await seasonFixture(t,{postgres}),uid=4242,clock=f.start+4*D;

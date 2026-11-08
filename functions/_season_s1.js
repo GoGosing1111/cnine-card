@@ -1,5 +1,5 @@
 import {HEIR_TITLE} from '../shared/season-s1-title.mjs';
-import {S1,ART,emptyAccount,seasonState,applyEvent,craftItem,exchangeMaterial,convertExpired,publicSeason,schedule,kstDay,fail} from '../shared/season-s1.mjs';
+import {S1,ART,emptyAccount,seasonState,applyEvent,craftItem,exchangeMaterial,convertExpired,publicSeason,schedule,modeOf,fail} from '../shared/season-s1.mjs';
 import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.js';
 import {jointHash,jointInventoryChange} from './_joint_transactions.js';
 import {socketRune,itemRuneBonus,SOCKET_SLOTS} from '../shared/character-runes.mjs';
@@ -48,7 +48,7 @@ export async function seasonTowerFloors(env,highest,uid){
  const now=seasonNow(env);
  if(!seasonEnabled(env)||Number(highest)<1||schedule(await seasonSchedule(env),'PVE',now).phase!=='ACTIVE')return [];
  const {state}=await seasonAccount(env,uid),track=state.tracks.PVE;
- return track.counts.TOWER||track.days[kstDay(now)]?.events>=S1.dailyBattles?[]:[1];
+ return track.counts.TOWER?[]:[1];
 }
 async function legacyPlayHours(env,uid){
  const pg=env.DB.dialect==='postgres';
@@ -82,22 +82,47 @@ function writePlan(env,uid,before,next,key,hash,response,{guard='1=1',values=[]}
  );
  return writes;
 }
+// Apply the counter delta to the latest row. A concurrent craft, reward or other
+// settlement may have updated it since the daily limit was read.
+function countOnlyPlan(env,event,key,hash,result,{guard='1=1',values=[]},at){
+ const uid=Number(event.userId),source=event.source,mode=modeOf(source),token=crypto.randomUUID();
+ const won=event.won===true?1:0;
+ // applyEvent has already checked source against the fixed list of season modes.
+ const track=['tracks',mode];
+ let stateUpdate;
+ if(env.DB.dialect==='postgres'){
+  const json='CAST(state_json AS JSONB)',current="("+json+" #> '{"+track.join(',')+"}')";
+  const read=n=>"COALESCE(CAST("+current+" #>> '{"+n+"}' AS BIGINT),0)";
+  const total=read('events')+'+1',sourceTotal=source==='TOWER'?'1':read('counts,'+source)+'+1';
+  const counts="("+current+"->'counts') || jsonb_build_object('ALL',"+total+",'"+source+"',"+sourceTotal+")";
+  const merged=current+" || jsonb_build_object('events',"+total+",'wins',"+read('wins')+"+"+won+",'counts',"+counts+")";
+  stateUpdate="CAST(jsonb_set("+json+",'{"+track.join(',')+"}',"+merged+") AS TEXT)";
+ }else{
+  const prefix='$.'+track.join('.')+'.',path=n=>"'"+prefix+n+"'",read=n=>'COALESCE(json_extract(state_json,'+path(n)+'),0)';
+  const total=read('events')+'+1',sourceCount='counts.'+source,sourceTotal=source==='TOWER'?'1':read(sourceCount)+'+1';
+  stateUpdate='json_set(state_json,'+[path('events'),total,path('counts.ALL'),total,path(sourceCount),sourceTotal,path('wins'),read('wins')+'+'+won].join(',')+')';
+ }
+ const receiptParams=[uid,key,hash,token,JSON.stringify({missionCounted:true,dailyLimit:result.dailyLimit,won:!!won}),new Date(at).toISOString(),...values];
+ const insert='INSERT INTO season_s1_receipts(user_id,receipt_key,input_hash,token,response_json,created_at) SELECT ?,?,?,?,?,? WHERE '+guard+' ON CONFLICT(user_id,receipt_key) DO NOTHING';
+ const update='UPDATE season_s1_accounts SET state_json='+stateUpdate+',revision=revision+1 WHERE user_id=?';
+ if(env.DB.dialect==='postgres')return [p(env,'WITH inserted AS ('+insert+' RETURNING user_id) '+update+' AND EXISTS(SELECT 1 FROM inserted)',...receiptParams,uid)];
+ // SQLite's changes() belongs to the same connection and batch as the INSERT.
+ return [p(env,insert,...receiptParams),p(env,update+' AND changes()=1',uid)];
+}
 // Call only with server-confirmed combat metadata; returned statements join the
 // ORIGINAL content settlement transaction. No public award endpoint exists.
 export async function seasonAwardStatements(env,event,options={}){
  if(!seasonEnabled(env))return [];
  const uid=Number(event.userId);if(!Number.isSafeInteger(uid)||uid<=0||typeof event.eventId!=='string'||!event.eventId||event.eventId.length>220)throw Error('Invalid server season event');
  const key='award:'+S1.id+':'+event.source+':'+event.eventId;
- if(await receipt(env,uid,key))return [];
- const before=await seasonAccount(env,uid),now=seasonNow(env),result=applyEvent(before.state,event,await seasonSchedule(env),now);
- if(result.dailyLimit){
-  // A settled over-limit battle cannot become a new award on a next-day retry.
-  const {guard='1=1',values=[]}=options;
-  return [p(env,'INSERT INTO season_s1_receipts(user_id,receipt_key,input_hash,token,response_json,created_at) SELECT ?,?,?,?,?,? WHERE '+guard+' ON CONFLICT(user_id,receipt_key) DO NOTHING',
-   uid,key,await jointHash(event),crypto.randomUUID(),JSON.stringify({dailyLimit:true}),new Date(now).toISOString(),...values)];
- }
+ const now=seasonNow(env),at=event.settledAt??now;
+ if(!Number.isSafeInteger(at)||at>now)return [];
+ const [old,before,settings]=await Promise.all([receipt(env,uid,key),seasonAccount(env,uid),seasonSchedule(env)]);
+ if(old)return [];
+ const result=applyEvent(before.state,event,settings,at);
+ if(result.countOnly)return countOnlyPlan(env,event,key,await jointHash(event),result,options,at);
  if(!result.award)return [];
- const writes=writePlan(env,uid,before,result.state,key,await jointHash(event),result.award,options,now);
+ const writes=writePlan(env,uid,before,result.state,key,await jointHash(event),result.award,options,at);
  writes.award=result.award;return writes;
 }
 export async function seasonBonus(env,uid,mode){

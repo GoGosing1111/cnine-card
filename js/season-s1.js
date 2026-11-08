@@ -38,10 +38,20 @@ function todayProgress(track){
  if(!track.today)return '';
  const s=data.season,d=track.today;
  if(track.phase!=='ACTIVE'){const text=track.phase==='CRAFTING'?'제작 유예 · 전투 집계 종료':track.phase==='CLOSED'?'시즌 종료':'개막 전 · 전투 집계 전';return '<div class="s1-daily-progress" data-s1-track-today><b>'+mode+' · '+text+'</b><span>이 모드 참여 '+track.playDays+'일</span></div>';}
- return `<div class="s1-daily-progress" data-s1-track-today><b>${mode} · 시즌 ${track.day}일차</b><span>오늘 인정 ${d.events}/${s.dailyBattles}회</span><span>참여 XP ${d.xp}/${s.dailyXp}</span><span>가루 ${d.dust}/${s.dailyDust}</span><small>한국 자정 초기화 · 이 모드 참여 ${track.playDays}일</small></div>`;
+ return `<div class="s1-daily-progress" data-s1-track-today><b>${mode} · 시즌 ${track.day}일차</b><span>오늘 보상 ${d.events}/${s.dailyBattles}회</span><span>참여 XP ${d.xp}/${s.dailyXp}</span><span>가루 ${d.dust}/${s.dailyDust}</span><small>시즌 누적 ${n(track.events)}회 · 참여 ${track.playDays}일 · 보상은 한국 자정 초기화</small></div>`;
 }
 function progressPanel(t){const xp=t.level===50?100:t.xpInLevel,available=Math.max(0,t.xpCap-t.participation);return `<div class="s1-progress-panel s1-panel"><div class="s1-level"><small>${label('시즌 레벨')}</small><strong>${t.level}</strong><span>/ 50</span></div><div class="s1-progress-body"><div class="s1-progress-top"><b>${t.level===50?'불멸의 경지':'다음 레벨까지 '+(100-xp)+' XP'}</b><span>${n(t.xp)} / 4,900 XP</span></div><div class="s1-progress" role="progressbar" aria-label="현재 레벨 경험치" aria-valuenow="${xp}" aria-valuemin="0" aria-valuemax="100"><i style="width:${xp}%"></i></div><div class="s1-progress-details"><span>참여 ${n(t.participation)} / 3,500</span><span>미션 ${n(t.achievementXp)} / 1,400</span><span>주차 한도 잔여 ${n(available)} XP</span></div>${todayProgress(t)}</div><button class="s1-button s1-small" data-s1-refresh>${lettering('refresh','새로고침')}</button></div>`;}
-function missionPanel(t){const missions=data.achievements[mode];return `<section class="s1-panel s1-achievements"><div class="s1-section-heading"><h2>${lettering('challenges','왕좌를 향한 도전')}</h2><span>${missions.filter(a=>t.achievements.includes(a[0])).length} / ${missions.length}</span></div><p class="s1-mission-note">${mode==='PVP'?'하루 첫 10경기까지 인정합니다. 승패·티어와 관계없이 정상 정산 1회로 집계합니다.':'난이도 무관 · 무한의탑은 한 번만 집계합니다. 출정 횟수만으로도 미션 XP 1,400을 채울 수 있습니다.'}</p>${missions.map(([id,name,reward,count,goal,art])=>{const done=t.achievements.includes(id);return `<div class="s1-achievement ${done?'is-done':''}" data-mission="${id}">${challengeIcon(art,done)}<b>${label(name)}</b><small><strong>${Math.min(goal,t.counts[count]||0)} / ${goal}</strong>${reward} XP</small></div>`;}).join('')}</section>`;}
+function missionPanel(t){
+ const missions=data.achievements[mode],completed=missions.filter(([id,,,counter,goal])=>t.achievements.includes(id)||(t.counts[counter]||0)>=goal).length;
+ const rules=mode==='PVP'?'랭크전은 승패·티어와 관계없이 정산한 경기마다 집계합니다.':'정상 정산한 출정은 모두 집계합니다. 무한의탑 전용 미션은 시즌 1회입니다.';
+ const rows=missions.map(([id,name,reward,counter,goal,art])=>{
+  const paid=t.achievements.includes(id),progress=Math.min(goal,t.counts[counter]||0),done=paid||progress>=goal;
+  const detail=done&&!paid?'달성 · 보상 대기':reward+' XP';
+  return `<div class="s1-achievement ${done?'is-done':''}" data-mission="${id}">${challengeIcon(art,done)}<b>${label(name)}</b><small><strong>${progress} / ${goal}</strong>${detail}</small></div>`;
+ }).join('');
+ const pending=missions.some(([id,,,counter,goal])=>!t.achievements.includes(id)&&(t.counts[counter]||0)>=goal);
+ return `<section class="s1-panel s1-achievements"><div class="s1-section-heading"><h2>${lettering('challenges','왕좌를 향한 도전')}</h2><span>${completed} / ${missions.length}</span></div><p class="s1-mission-note">${rules} 하루 ${data.season.dailyBattles}회 이후에도 횟수가 오릅니다.${pending?' 달성한 미션 보상은 이 모드의 다음 보상 대상 전투에서 한 번 지급합니다.':''}</p>${rows}</section>`;
+}
 function selectMode(next){
  if(next===mode||!data?.tracks[next]||!root?.isConnected)return;
  mode=next;const t=data.tracks[mode];root.dataset.mode=mode;

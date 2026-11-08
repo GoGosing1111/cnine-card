@@ -76,20 +76,30 @@ export function seasonState(input,history=[]){
  }
  state.schemaVersion=3;return state;
 }
+export function countSeasonMissions(track,source,amount=1){
+ track.events+=amount;
+ track.counts.ALL=track.events;
+ track.counts[source]=source==='TOWER'?1:(track.counts[source]||0)+amount;
+}
 export function applyEvent(input,event,settings,now){
  const state=seasonState(input),mode=modeOf(event.source),t=state.tracks[mode],clock=schedule(settings,mode,now);
  if(!Object.hasOwn(eventXp,event.source))fail('지원하지 않는 시즌 콘텐츠입니다.',400);
  const raw=event.startedAt??now;
  const began=typeof raw==='number'?raw:Date.parse(/^\d{4}-\d\d-\d\d \d\d:\d\d:\d\d$/.test(raw)?raw.replace(' ','T')+'Z':raw);
- if(clock.phase!=='ACTIVE'||event.eligible===false||!Number.isFinite(began)||began<clock.start||began>now||began>=clock.end||(event.source==='TOWER'&&t.counts.TOWER>=1))return {state,award:null};
- const day=kstDay(now),today=t.days[day]??=emptyDay();
- if(today.events>=S1.dailyBattles)return {state,award:null,dailyLimit:true};
+ if(clock.phase!=='ACTIVE'||event.eligible===false||!Number.isFinite(began)||began<clock.start||began>now||began>=clock.end)return {state,award:null};
+ const repeatedTower=event.source==='TOWER'&&t.counts.TOWER>=1;
+ if(repeatedTower&&event.seasonReplay)return {state,award:null};
+ countSeasonMissions(t,event.source);
+ if(event.won===true)t.wins++;
+ const day=kstDay(now),dailyLimit=(t.days[day]?.events||0)>=S1.dailyBattles;
+ if(dailyLimit||repeatedTower)return {state,award:null,countOnly:true,dailyLimit};
+ const today=t.days[day]??=emptyDay();
  const runeCredit=sharedToday(state,day)<S1.dailyRuneBattles;
  const base=eventXp[event.source],xp=Math.max(0,Math.min(base,clock.xpCap-t.participation,S1.dailyXp-today.xp)),dustCode=mode+'_DUST';
  const dust=Math.max(0,Math.min(Math.ceil(base*.4),clock.dustCap-(t.earned[dustCode]||0),S1.dailyDust-today.dust));
  today.events++;today.xp+=xp;today.dust+=dust;
  const gains={},give=(code,n)=>{if(n>0){t.materials[code]=(t.materials[code]||0)+n;t.earned[code]=(t.earned[code]||0)+n;gains[code]=(gains[code]||0)+n;}};
- t.participation+=xp;t.events++;t.counts.ALL=t.events;t.counts[event.source]=(t.counts[event.source]||0)+1;if(event.won===true)t.wins++;
+ t.participation+=xp;
  give(dustCode,dust);
  const tokenGoal=Math.min(5,Math.floor(t.participation/700));give(tokenFor(mode),Math.max(0,tokenGoal-t.grantedTokens));t.grantedTokens=Math.max(t.grantedTokens,tokenGoal);
  const special={TOWER:'TOWER_SIGIL',RAID:'RAID_CORE',APOCALYPSE:'ABYSS_CRYSTAL'}[event.source];
