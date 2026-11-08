@@ -2,11 +2,18 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {monsterDefenseFixture} from './helpers/monster-defense-fixture.mjs';
+import {RAID_BUS_DRIVER_TITLE} from '../functions/_raid_bus_driver_title.js';
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'playwright');
 const h=await monsterDefenseFixture(),out=path.resolve(process.env.DEFENSE_MERCENARY_QA_OUTPUT||'../defense-mercenary-qa');await fs.mkdir(out,{recursive:true});
 const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio','--enable-unsafe-swiftshader']});
 const errors=[],failed=[],cases=[];
 try{
+ // The Shiranui case uses the same title entitlement as the live roster query.
+ await h.db.exec('CREATE TABLE IF NOT EXISTS character_titles(id INTEGER PRIMARY KEY,code TEXT,is_active INTEGER); CREATE TABLE IF NOT EXISTS user_character_titles(user_id INTEGER,title_id INTEGER,expires_at TEXT)');
+ await h.db.batch([
+  {sql:'INSERT INTO character_titles(id,code,is_active) VALUES(1,?,1)',args:[RAID_BUS_DRIVER_TITLE.code]},
+  {sql:'INSERT INTO user_character_titles(user_id,title_id,expires_at) VALUES(1,1,NULL)',args:[]}
+ ]);
  for(const code of ['V-996','V-987','V-999','V-989'])await h.db.batch([{sql:'INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count) VALUES(1,?,1,0)',args:[code]}]);
  const options=await h.api(1,'defense/options');assert.equal(options.status,200);
  for(const codes of (process.env.DEFENSE_MERCENARY_QA_CASES?JSON.parse(process.env.DEFENSE_MERCENARY_QA_CASES):[['V-996','V-987'],['V-055','V-049'],['V-989','V-999'],['V-004','V-051']])){
