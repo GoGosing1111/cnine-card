@@ -939,7 +939,7 @@ function bindFullscreenPlayLink(header){
 }
 
 const FEATURE_RESOURCE_MANIFEST={
-  season:{styles:['css/season-s1.css?v=20261107-v3-materials1&s1=shared-five-v1&heir=20261107-paced-v3&screen=20261108-1'],scripts:['js/season-s1.bundle.js?v=20261107-royal-v4&s1=shared-five-v1&heir=20261107-paced-v3&screen=20261108-1'],ready:()=>typeof window.SeasonS1?.view==='function'},
+  season:{parallelStyles:true,styles:['css/season-s1.css?v=20261107-v3-materials1&s1=shared-five-v1&heir=20261107-paced-v3&screen=20261108-1'],scripts:['js/season-s1.bundle.js?v=20261107-royal-v4&s1=shared-five-v1&heir=20261107-paced-v3&screen=20261108-2'],ready:()=>typeof window.SeasonS1?.view==='function'},
   sigHunterBox:{
     styles:['css/sig-hunter-box-v1.css?v=20261022-v1'],
     scripts:['js/sig-hunter-box-v1.js?v=20261022-v1'],
@@ -1053,6 +1053,19 @@ function featureResourcesReady(key){
   const manifest=FEATURE_RESOURCE_MANIFEST[key];
   return Boolean(manifest?.ready()&&(!manifest.parallelStyles||featureStylesReady.has(key)));
 }
+let pendingSeasonRead=null;
+function discardSeasonEntryRead(){
+  pendingSeasonRead?.controller.abort();
+  pendingSeasonRead=null;
+}
+function prepareSeasonEntryRead(){
+  if(!API_TOKEN||pendingSeasonRead)return;
+  const token=API_TOKEN,epoch=PLAYER_STATE_MUTATION_EPOCH,controller=new AbortController();
+  const current=()=>token===API_TOKEN&&epoch===PLAYER_STATE_MUTATION_EPOCH;
+  const result=apiRequest('season/status',{signal:controller.signal},{ttl:0,microcache:false,replaceInflight:true})
+    .then(data=>({data}),error=>({error}));
+  pendingSeasonRead={controller,current,result};
+}
 // Share one read across asset loading and immediate shell remounts. No persisted balances.
 const WORKSHOP_ENTRY_MAX_AGE_MS=1000;
 const WORKSHOP_ENTRY_TIMEOUT_MS=30000;
@@ -1131,8 +1144,7 @@ function ensureFeatureResources(key){
   // together, removing the old seven-file V3 download waterfall.
   const styles=Promise.all((manifest.styles||[]).map(loadFeatureStyle)).then(()=>{featureStylesReady.add(key)});
   const scripts=()=>Promise.all((manifest.scripts||[]).map(loadFeatureScript));
-  // Workshop scripts only define views; mounting still waits for both asset groups.
-  // Keep the existing CSS-first contract for every other feature.
+  // Independent view scripts can download alongside CSS. Mount after both finish.
   const assets=manifest.parallelStyles?Promise.all([styles,scripts()]):styles.then(scripts);
   const initialize=async()=>{await manifest.initialize?.();if(!manifest.ready())throw new Error(`${key} 기능 초기화에 실패했습니다.`)};
   const request=assets.then(async()=>{
@@ -1394,6 +1406,8 @@ function renderShell(tab,routeOptions={}) {
   // BGM 쪽이 실제 화면을 보고 스스로 판단하게 한다.
   if(window.lobbyBgm)requestAnimationFrame(()=>{try{window.lobbyBgm.syncRoute()}catch(_){}});
   const routeFeatureKey=featureKeyForTab(tab),routeFeatureReady=routeFeatureKey?featureResourcesReady(routeFeatureKey):true;
+  if(tab!=='season'||(pendingSeasonRead&&!pendingSeasonRead.current()))discardSeasonEntryRead();
+  if(tab==='season'&&!routeFeatureReady)prepareSeasonEntryRead();
   if(tab!=='workshop')workshopEntryRead=null;
   else if(previousTab!=='workshop')prepareWorkshopEntryRead();
   if(tab!=='workshop')workshopEntrySection=null;
@@ -1475,6 +1489,7 @@ function renderShell(tab,routeOptions={}) {
   if(routeWaitsForFeature){
     ensureFeatureResources(routeFeatureKey).then(()=>{if(renderSeq===shellRenderSeq&&runtimeCommandContext===tab)renderShell(tab,routeOptions)}).catch(error=>{
       if(renderSeq!==shellRenderSeq||runtimeCommandContext!==tab)return;
+      if(tab==='season')discardSeasonEntryRead();
       replaceShellRoute(`${mobileNavigationHtml(tab)}${featureRouteErrorHtml(tab,error.message)}`);bindMobileNavigation();
       const retry=document.querySelector(`[data-feature-retry="${tab}"]`);if(retry)retry.onclick=()=>{featureResourcePromises.delete(routeFeatureKey);renderShell(tab,routeOptions)};
     });
@@ -3688,7 +3703,11 @@ async function runOfficialAutoDrawNext(){
 }
 
 function bindView(tab) {
-  if(tab==='season')window.SeasonS1?.bind();
+  if(tab==='season'){
+    const entry=pendingSeasonRead;
+    pendingSeasonRead=null;
+    window.SeasonS1?.bind(entry);
+  }
   if(tab==='prison')bindPrisonView();
   if(tab==='coup')window.CoupPalace?.bind();
   if(tab==='jokgakCity')void window.JokgakCity?.bind();
