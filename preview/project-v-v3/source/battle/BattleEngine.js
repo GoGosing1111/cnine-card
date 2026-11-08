@@ -1896,15 +1896,17 @@ export class BaseBattleEngine{
     });
     queueCardAssets(allyCards,allyArt);
     queueCardAssets(enemyCards,enemyArt);
-    if(monsterArt?.primaryUrl)preloadUrls.push(monsterArt.primaryUrl);
+    if(monsterArt?.primaryUrl&&!this.cooperativeInstances)preloadUrls.push(monsterArt.primaryUrl);
     if(this.cooperativeInstances)preloadUrls.push(...[...this.cooperativeInstances.values()].map(row=>row.battleSprite));
     if(accountSuitUrl)preloadUrls.push(accountSuitUrl);
     if(accountSword)preloadUrls.push(...Z_SWORD.assets.map(asset=>asset.url));
     if(accountWeaponUrl)preloadUrls.push(accountWeaponUrl);
     // Pixi Assets de-duplicates identical URLs. Starting every live texture
     // request together removes the previous card-by-card network waterfall.
-    await this.trackLiveAssetPreload(preloadUrls,[...allyArt,...enemyArt,monsterArt]);
-    if(this.coopArkeBattlefield)await preloadCooperativeArke();
+    await Promise.all([
+      this.trackLiveAssetPreload(preloadUrls,[...allyArt,...enemyArt,monsterArt]),
+      this.coopArkeBattlefield?preloadCooperativeArke(payload.cooperativeEncounter):null
+    ]);
     await this.configureAccountBattleUnit(payload);
     this.allies.forEach((character,index)=>{
       character.battleActive=allyCards.length?index<Math.min(allyCards.length,this.allies.length):true;

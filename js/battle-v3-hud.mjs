@@ -65,6 +65,10 @@ export function createBattleHud({stage,payload,mode,runtime,artFor,isCurrent=()=
   node.querySelector('img').addEventListener('error',function(){this.hidden=true;},{once:true});
  }
  for(const rail of roster.querySelectorAll('[data-hud-side]'))rails.push(rail);
+ const squads=[...roster.querySelectorAll('[data-hud-squad]')].map(section=>({
+  count:section.querySelector('[data-hud-count]'),entries:nodes.filter(entry=>section.contains(entry.node))
+ }));
+ function setText(node,text){if(node&&node.textContent!==text)node.textContent=text;}
  const bossMeter=stage.querySelector('[data-hud-boss-meter]'),bossFill=bossMeter?.querySelector('i');
  const enemyCount=stage.querySelector('[data-hud-enemies]'),bossPercent=stage.querySelector('[data-hud-boss-percent]');
  let destroyed=false,timer=null,frame=0,lastLayout='',frozen=null,started=false;
@@ -82,17 +86,15 @@ export function createBattleHud({stage,payload,mode,runtime,artFor,isCurrent=()=
    entry.meter.setAttribute('aria-valuenow',String(Math.round(hp)));
    entry.node.setAttribute('aria-label',`${entry.source.name||entry.source.title||'카드'} · ${hp<=0?'전투불능':'체력 '+Math.round(hp)+'%'}${shield>0?' · 보호막 '+Math.round(shield*100)+'%':''}`);
   }
-  for(const section of roster.querySelectorAll('[data-hud-squad]')){
-   const entries=nodes.filter(n=>n.node.closest('section')===section);
-   section.querySelector('[data-hud-count]').textContent=entries.filter(n=>(actors.get(n.key)?.hp??100)>0).length+'/'+entries.length;
-  }
+  for(const {count,entries} of squads)setText(count,entries.filter(n=>(actors.get(n.key)?.hp??100)>0).length+'/'+entries.length);
   const enemies=snapshot.filter(a=>a.side==='B'&&a.active!==false),selected=selectHudBoss(snapshot,payload);
   const boss=selected&&(actors.get(actorKey('B',selected.id))||selected),hp=clamp(boss?.hp??100);
   if(payload.continuousEncounter&&selected?.isBoss&&selected.name){const title=stage.querySelector('.battle-v3-versus span:last-child');if(title&&title.textContent!==selected.name)title.textContent=selected.name;}
   if(bossFill)bossFill.style.transform=`scaleX(${hp/100})`;
-  bossMeter?.setAttribute('aria-valuenow',String(Math.round(hp)));
-  if(enemyCount)enemyCount.textContent='적 생존 '+enemies.filter(a=>(actors.get(actorKey('B',a.id))?.hp??a.hp)>0).length+' / '+enemies.length;
-  if(bossPercent)bossPercent.textContent=versus?'아군 '+nodes.filter(n=>n.node.dataset.side==='A'&&(actors.get(n.key)?.hp??100)>0).length+' / '+nodes.filter(n=>n.node.dataset.side==='A').length:Math.round(hp)+'%';
+  const percent=String(Math.round(hp));
+  if(bossMeter&&bossMeter.getAttribute('aria-valuenow')!==percent)bossMeter.setAttribute('aria-valuenow',percent);
+  if(enemyCount)setText(enemyCount,'적 생존 '+enemies.filter(a=>(actors.get(actorKey('B',a.id))?.hp??a.hp)>0).length+' / '+enemies.length);
+  if(bossPercent)setText(bossPercent,versus?'아군 '+nodes.filter(n=>n.node.dataset.side==='A'&&(actors.get(n.key)?.hp??100)>0).length+' / '+nodes.filter(n=>n.node.dataset.side==='A').length:percent+'%');
  }
  function measure(){
   frame=0;if(destroyed||!stage.isConnected)return;

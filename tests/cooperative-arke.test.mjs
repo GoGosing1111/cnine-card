@@ -93,3 +93,26 @@ test('server simulation rejects unbounded or fabricated outcomes',()=>{
  for(const effects of [[{atMs:1,kind:'FOCUS',ownerId:999,percent:40}],[{atMs:1,kind:'RUPTURE',percent:100}],Array(7).fill({atMs:1,kind:'RUPTURE',percent:8})])
   assert.throws(()=>createCooperativeBattle({squads:coopSquads(),effects}),/INVALID_COOPERATIVE_EFFECTS/);
 });
+test('staged enemies share only their required atlases and retry a failed load',async t=>{
+ const {Assets,Texture,TextureSource}=await import('pixi.js');
+ const {preloadCooperativeArke}=await import('../preview/project-v-v3/source/battle/CooperativeArkePlayback.js?atlas-test');
+ const texture=new Texture({source:new TextureSource({width:256,height:128})});
+ const requests=[];let fail=true;
+ t.mock.method(Assets,'load',async url=>{
+  requests.push(url.split('/').at(-1));
+  if(fail){fail=false;throw Error('short interruption');}
+  return texture;
+ });
+ const roster=instances=>({schemaVersion:3,instances});
+ assert.deepEqual(await preloadCooperativeArke(roster([{coopSpeciesId:'TEMPEST',attackStyle:'MELEE'}])),[]);
+ const ranged=roster([{coopSpeciesId:'WATCHER',attackStyle:'RANGED'}]);
+ await assert.rejects(preloadCooperativeArke(ranged),/short interruption/);
+ const [a,b]=await Promise.all([preloadCooperativeArke(ranged),preloadCooperativeArke(ranged)]);
+ assert.equal(a[0],b[0]);assert.equal(a[0].length,8);
+ const arke=await preloadCooperativeArke(roster([{coopSpeciesId:'ARKE',attackStyle:'MELEE'}]));
+ assert.equal(arke[1],a[0]);
+ const legacy=await preloadCooperativeArke({schemaVersion:1});
+ assert.equal(legacy.length,3);
+ assert.deepEqual(requests,['core-rupture-atlas-v1.png','core-rupture-atlas-v1.png','arke-slam-atlas-v1.png','focus-beam-atlas-v1.png']);
+ legacy.flat().forEach(frame=>frame.destroy(false));texture.destroy(true);
+});

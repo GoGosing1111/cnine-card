@@ -153,14 +153,20 @@ export class CooperativeRoom extends DurableObject{
   await this.completeEntry(room);
   // Persist timeouts even if the submitted command is rejected.
   const beforeSignal=JSON.stringify([room.status,room.battleRevision,room.pattern?.id,room.pattern?.status,room.members.map(m=>m.result)]);
-  advanceCoopRoom(room,Date.now());this.save(room);
+  advanceCoopRoom(room,Date.now());
+  // A WebSocket heartbeat has no receipt. Its only command mutation is lastSeen,
+  // so persist the advanced room and successful heartbeat together below.
+  const heartbeat=kind==='ping'&&!input.requestId;
+  if(!heartbeat)this.save(room);
   const signature=JSON.stringify([Number(user.id),kind,input.clientId,input.cardIds,input.mercenaryCode,input.patternId,input.action,...(input.mercenaryCodes?[input.mercenaryCodes]:[])]);
   const prior=input.requestId&&room.receipts.find(r=>r.id===user.id+':'+input.requestId);
   if(prior&&prior.signature!==signature)return {ok:false,status:409,code:'COOP_REQUEST_CONFLICT',error:'같은 요청으로 다른 작업을 할 수 없습니다.'};
   try{
    if(!prior){
     const wasLobby=room.status==='LOBBY';
-    coopCommand(room,user,kind,input,Date.now());room.version++;
+    try{coopCommand(room,user,kind,input,Date.now());}
+    catch(error){if(heartbeat)this.save(room);throw error;}
+    room.version++;
     if(input.requestId){room.receipts.push({id:user.id+':'+input.requestId,signature});room.receipts=room.receipts.slice(-100);}
     if(wasLobby&&room.status==='LOADING'&&room.rewardPolicy?.entryEnergy){
      room.entryPending={requestKey:user.id+':'+input.requestId};this.save(room);

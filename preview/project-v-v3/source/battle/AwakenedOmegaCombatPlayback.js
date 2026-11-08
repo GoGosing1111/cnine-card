@@ -32,6 +32,7 @@ class AwakenedOmegaLiveFX extends OmegaEvolvedFX{
  }
  diagnostics(){return {...super.diagnostics(),name:AWAKENED_OMEGA_ART.name,code:AWAKENED_OMEGA_CODE,liveEnabled:true,visualOnly:false,clockOwner:'V3_REGISTERED_GSAP',clockSource:'LIVE_BATTLE_ENGINE',damageAuthority:'SERVER_ONLY',playbackRate:AWAKENED_OMEGA_PLAYBACK_RATE,cameraZoom:false};}
 }
+export async function preloadAwakenedOmegaTextures(){disposeAssets(await loadOmegaEvolvedAssets(await manifest(),runtime));}
 export async function setupAwakenedOmegaActor(engine,actor){
  engine.awakenedOmegaStates||=new Map();engine.awakenedOmegaLoads||=new Map();
  if(engine.awakenedOmegaStates.has(actor))return engine.awakenedOmegaStates.get(actor);
