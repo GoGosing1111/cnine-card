@@ -59,11 +59,11 @@ async function rebuild(env,versions,config,deps,hash,now,advanced,dual){
  ]);
  for(const rows of [owned,gear,vehicles,titles])if(rows.results.length>65536)throw duoError('PROFILE_SIZE','전력 평가 자료가 처리 한도를 초과했습니다. 운영자에게 문의하세요.');
  if(mercRows.results.length>2000)throw duoError('PROFILE_SIZE','용병 평가 자료를 확인하세요.');
- const rankEligible=await readShiranuiEligibleUsers(env,mercRows.results.filter(r=>r.mercenary_code===SHIRANUI_CODE).map(r=>r.user_id));
+ const shiranuiEligible=await readShiranuiEligibleUsers(env,mercRows.results.filter(r=>r.mercenary_code===SHIRANUI_CODE).map(r=>r.user_id));
  const baseline=deps.cardBattlePower({rarity:'FUR'},13,battle),profiles=[];
  const byUser=(rows,id)=>rows.results.filter(r=>Number(r.user_id)===id);
  const mercsByUser=await attachReleasedMercenaryLevels(env,new Map(ids.map(userId=>[userId,
-  byUser(mercRows,userId).filter(r=>mercenaryModeAllowed(r.mercenary_code,'PVP')&&(r.mercenary_code!==SHIRANUI_CODE||rankEligible.has(userId))).map(r=>({...battleConfig(mercDocument.document,r.mercenary_code,1),...(mercGear.get(userId)?.byMercenary[r.mercenary_code]?.items.length?{equipment:mercGear.get(userId).byMercenary[r.mercenary_code]}:{}),combat:mercRuntime.combat,equipped:(mercLoadouts.get(userId).loadouts.PVP.mercenaryCodes||[mercLoadouts.get(userId).loadouts.PVP.mercenaryCode]).includes(r.mercenary_code),cmsRevision:mercDocument.revision}))
+  byUser(mercRows,userId).filter(r=>mercenaryModeAllowed(r.mercenary_code,'PVP')&&(r.mercenary_code!==SHIRANUI_CODE||shiranuiEligible.has(userId))).map(r=>({...battleConfig(mercDocument.document,r.mercenary_code,1),...(mercGear.get(userId)?.byMercenary[r.mercenary_code]?.items.length?{equipment:mercGear.get(userId).byMercenary[r.mercenary_code]}:{}),combat:mercRuntime.combat,equipped:(mercLoadouts.get(userId).loadouts.PVP.mercenaryCodes||[mercLoadouts.get(userId).loadouts.PVP.mercenaryCode]).includes(r.mercenary_code),cmsRevision:mercDocument.revision}))
  ])));
  for(const version of versions){
   const userId=Number(version.user_id),user={id:userId,role:version.role,nickname:version.nickname},cards=byUser(owned,userId).map(c=>({...c,id:String(c.id),power:deps.cardBattlePower(c,Number(c.breakthrough_level||0),battle)})),cardMap=new Map(cards.map(c=>[c.id,c])),best=strongestDuoCards(cards);
@@ -103,13 +103,13 @@ const validateAccounts=(versions,count,now,allowOwner=false)=>{
 export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now(),wait=profileWait,allowOwner=false,minimumValidityMs=0,dual=COMPANION_RELEASE.dualMercenaries}={}){
  const ids=[...new Set(userIds.map(numeric))];if(!ids.length)return [];if(ids.length>DUO_LIMITS.refreshBatch||ids.some(id=>!Number.isSafeInteger(id)||id<=0))throw duoError('PROFILE_USERS','전력 평가 범위를 확인하세요.');
  const advanced=await readForgeAdvancedPolicy(env.DB);
- const hash=await jointHash({weights:config.mercenaryWeights,mercenaryLoadoutMode:MERCENARY_DEPLOYMENT_MODE_VERSION,mercenaryEquipment:'20261011',mercenaryGrowth:'20261020-v1',dualMercenaries:dual,equipmentSetVisualVersion:1,advancedForgeRevision:advanced.revision}),started=Date.now();
+ const hash=await jointHash({weights:config.mercenaryWeights,mercenaryLoadoutMode:MERCENARY_DEPLOYMENT_MODE_VERSION,mercenaryEquipment:'20261011',mercenaryGrowth:'20261020-v1',shiranuiDeployment:'20261108-bus-driver',dualMercenaries:dual,equipmentSetVisualVersion:1,advancedForgeRevision:advanced.revision}),started=Date.now();
  for(let attempt=0;attempt<=profileRetryDelays.length;attempt++){
   const at=now+Math.max(0,Date.now()-started),versions=await duoVersions(env,ids),profiles=new Map();
   validateAccounts(versions,ids.length,at,allowOwner);
-  const shiranuiCached=versions.filter(v=>{const p=parsed(v.payload_json,{})||{};return [...(p.breakdown?.mercenaryRanks||[]),p.attack?.mercenary,p.defense?.mercenary,...(p.attack?.mercenaries||[]),...(p.defense?.mercenaries||[])].some(m=>m?.code===SHIRANUI_CODE);}),shiranuiCachedIds=new Set(shiranuiCached.map(v=>Number(v.user_id))),rankEligible=await readShiranuiEligibleUsers(env,shiranuiCached.map(v=>v.user_id));
+  const shiranuiCached=versions.filter(v=>{const p=parsed(v.payload_json,{})||{};return [...(p.breakdown?.mercenaryRanks||[]),p.attack?.mercenary,p.defense?.mercenary,...(p.attack?.mercenaries||[]),...(p.defense?.mercenaries||[])].some(m=>m?.code===SHIRANUI_CODE);}),shiranuiCachedIds=new Set(shiranuiCached.map(v=>Number(v.user_id))),shiranuiEligible=await readShiranuiEligibleUsers(env,shiranuiCached.map(v=>v.user_id));
   const collect=rows=>rows.filter(v=>{
-   if(!currentProfile(v,hash,at+minimumValidityMs)||shiranuiCachedIds.has(Number(v.user_id))&&!rankEligible.has(Number(v.user_id)))return true;
+   if(!currentProfile(v,hash,at+minimumValidityMs)||shiranuiCachedIds.has(Number(v.user_id))&&!shiranuiEligible.has(Number(v.user_id)))return true;
    const cached=parsed(v.payload_json,{});profiles.set(Number(v.user_id),{...cached,nickname:v.nickname,attack:{...cached.attack,ownerName:v.nickname},defense:{...cached.defense,ownerName:v.nickname}});return false;
   });
   const miss=collect(versions);

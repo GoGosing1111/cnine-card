@@ -3,7 +3,7 @@ import {RANKS} from './account-ranks-v1.mjs';
 
 export const SHIRANUI_CODE='V-987';
 export const SHIRANUI_MIN_ACCOUNT_LEVEL=RANKS.find(r=>r.code==='LIEUTENANT_GENERAL').min;
-export const SHIRANUI_REQUIREMENT=`중장(Lv.${SHIRANUI_MIN_ACCOUNT_LEVEL}) 이상`;
+export const SHIRANUI_REQUIREMENT=`중장(Lv.${SHIRANUI_MIN_ACCOUNT_LEVEL}) 이상 또는 버스기사 칭호 보유`;
 const basePower=2600000;
 const powerScale=basePower/1940890;
 export const SHIRANUI_COMBAT=Object.freeze({version:4,basePower,
@@ -16,7 +16,7 @@ export const SHIRANUI_AREA_SKILL=Object.freeze({id:'MS-987',name:'망령 포대'
 const area=SHIRANUI_AREA_SKILL.balance;
 export const SHIRANUI_AREA_DESCRIPTION=`망령 포대가 생존한 적 전체에 총 ${(area.damageRatio*100).toLocaleString('ko-KR')}% 피해를 나눠 한 번씩 적용합니다.`;
 export const isShiranui=actor=>actor?.isMercenary===true&&(actor.code||actor.cardId)===SHIRANUI_CODE;
-export const shiranuiDeploymentAllowed=(code,accountLevel)=>code!==SHIRANUI_CODE||Number(accountLevel)>=SHIRANUI_MIN_ACCOUNT_LEVEL;
+export const shiranuiDeploymentAllowed=(code,accountLevel,hasBusDriverTitle=false)=>code!==SHIRANUI_CODE||Number(accountLevel)>=SHIRANUI_MIN_ACCOUNT_LEVEL||hasBusDriverTitle===true;
 export const shiranuiActionCredit=actors=>actors.some(a=>isShiranui(a)&&a.alive!==false&&a.hp>0)?SHIRANUI_COMBAT.actionCredit:1;
 export function shiranuiIncomingDamage(target,incoming,source){
  if(!isShiranui(target))return incoming;
