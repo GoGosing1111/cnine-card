@@ -1,0 +1,551 @@
+{
+  "completedAt": "2026-11-08T08:00:15.614Z",
+  "season": "S1 불멸의 왕",
+  "source": "fa8b2b039808e2e5d2d3ee78702f8b2544881fd9",
+  "pages": {
+    "id": "06dc46cc-c759-4813-a4c4-c79ae7d88bb1",
+    "commit": "fa8b2b039808e2e5d2d3ee78702f8b2544881fd9",
+    "url": "https://06dc46cc.cnine-card.pages.dev",
+    "status": "success",
+    "at": "2026-11-08T07:58:40.588Z"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "active": {
+        "version_id": "d5e6e69a-da50-4336-8879-1606f76bb1d2",
+        "percentage": 100
+      },
+      "deployed": "d5e6e69a-da50-4336-8879-1606f76bb1d2"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "active": {
+        "version_id": "90b19cf4-145a-4a0a-aab3-823f4484b971",
+        "percentage": 100
+      },
+      "deployed": "90b19cf4-145a-4a0a-aab3-823f4484b971"
+    }
+  ],
+  "windowsRelease": "2be877a4503758065aa8c84edc6212c0b080e9ff793cbf4f9fa939847143d213",
+  "files": [
+    {
+      "file": "js/app.js",
+      "sha256": "d3b8b426ba118181a8664af0f35dfa0a39019a5f343a8bdc6af444cb63717cbc",
+      "windows": true
+    },
+    {
+      "file": "js/season-s1.bundle.js",
+      "sha256": "542333f1127e447baf4500561941127a2368bb0ec2720fe0788d093a5479d7b0",
+      "windows": true
+    },
+    {
+      "file": "css/season-s1.css",
+      "sha256": "a79d455ecad57b91f5c0ef5b0e7d7392f220032100e7b32d422dc191f45d9426",
+      "windows": true
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "243dfa8bb7d3536f6add1bd9f75bdd4c907342ea25fd0975bf6de3a16f27c868",
+      "windows": false
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "715e79593e421c422ff80fa7801694452f538d17c1c643a89f0a535d20d2fd78",
+      "windows": false
+    }
+  ],
+  "api": [
+    {
+      "p": "/api/season/status",
+      "method": "GET",
+      "status": 401,
+      "code": null,
+      "at": "2026-11-08T07:58:42.931Z",
+      "worker": "regional-v1"
+    },
+    {
+      "p": "/api/legion-party/lobby",
+      "method": "GET",
+      "status": 401,
+      "code": "CITADEL_LOGIN",
+      "at": "2026-11-08T07:58:43.073Z",
+      "worker": "regional-v1"
+    }
+  ],
+  "rules": {
+    "missions": "정상 정산한 전투마다 해당 모드 전체와 콘텐츠 미션에 집계",
+    "dailyRewardSlotsPerMode": 10,
+    "dailyParticipationXpPerMode": 175,
+    "dailyDustPerMode": 70,
+    "dailySharedRuneCredit": 4,
+    "tower": "일반 층 정산은 총 출정에 매번 포함, 탑 전용 미션과 클리어 층 시즌 재도전은 각 시즌 1회",
+    "milestones": "한도 이후 달성 표기, 해당 모드 다음 보상 대상 정산 때 일회 지급",
+    "party": "불타는 성채는 서버 확정 종료 시 실전 참가자 두 명을 각각 1회 집계"
+  },
+  "restoration": {
+    "campaign": "ops:season-s1-mission-counts:20261108:v1",
+    "auditId": 56625,
+    "asOf": "2026-11-08T07:58:46.310Z",
+    "accounts": 91,
+    "participations": 10361,
+    "bySource": {
+      "NIGHTMARE": 7010,
+      "APOCALYPSE": 1429,
+      "COOP": 68,
+      "LEGION": 175,
+      "PVP": 1385,
+      "RAID": 8,
+      "TOWER": 275,
+      "DEFENSE": 11
+    },
+    "legacyCappedRows": {
+      "NIGHTMARE": 7010,
+      "APOCALYPSE": 1429,
+      "COOP": 68,
+      "LEGION": 171,
+      "PVP": 1385,
+      "RAID": 8,
+      "TOWER": 275,
+      "DEFENSE": 11
+    },
+    "additionalConfirmedSettlements": {
+      "CITADEL": 4
+    },
+    "eligibleHistoricalAwards": [],
+    "eligibleHistoricalAwardUsers": 0,
+    "initialDryRun": {
+      "at": "2026-11-08T07:42:59.272Z",
+      "accounts": 85,
+      "participations": 9410,
+      "rolledBack": true
+    },
+    "allSeasonAccountsChecked": 107,
+    "canonicalReceiptsVerified": 12063,
+    "remainingProvenUnrecorded": 0,
+    "secondDryRunUpdates": 0
+  },
+  "verification": {
+    "gameTests": 51,
+    "releaseGate": 45,
+    "scope": "SQLite 및 PostgreSQL(PGlite), 실제 콘텐츠 정산 경로·롤백·중복 재시도·한도·자정·업적·룬 날짜·공개 클라이언트",
+    "productionReadOnly": {
+      "checkedAt": "2026-11-08T07:59:35.978Z",
+      "samples": [
+        {
+          "ms": 94.2,
+          "pve": 134,
+          "pvp": 66,
+          "legion": 10,
+          "defense": 1,
+          "battleground": 1,
+          "dailyPvePaid": 10,
+          "dailyPvpPaid": 10
+        },
+        {
+          "ms": 468.8,
+          "pve": 101,
+          "pvp": 28,
+          "legion": 3,
+          "defense": 3,
+          "battleground": 0,
+          "dailyPvePaid": 10,
+          "dailyPvpPaid": 10
+        },
+        {
+          "ms": 78.3,
+          "pve": 177,
+          "pvp": 14,
+          "legion": 4,
+          "defense": 0,
+          "battleground": 3,
+          "dailyPvePaid": 10,
+          "dailyPvpPaid": 10
+        },
+        {
+          "ms": 79.6,
+          "pve": 257,
+          "pvp": 0,
+          "legion": 1,
+          "defense": 3,
+          "battleground": 1,
+          "dailyPvePaid": 10,
+          "dailyPvpPaid": 0
+        }
+      ]
+    }
+  },
+  "performance": {
+    "conditions": "같은 격리 계정과 로비 버튼. 비교용 지연 API 180ms 및 첫 시즌 에셋 90ms. WebKit 모바일·ONE store 브라우저·Windows 클라이언트 UA 모사. 설치 앱·실물 단말 미측정. 공개 클라이언트 검수는 격리 데이터 사용.",
+    "entryBefore": [
+      {
+        "layout": "pc",
+        "width": 1440,
+        "lobbyMs": 1726,
+        "firstEntryMs": 280,
+        "reentryMs": 220,
+        "p95FrameMs": 4.3,
+        "framesOver50ms": 0,
+        "cleanup": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "mobile",
+        "width": 390,
+        "lobbyMs": 1873,
+        "firstEntryMs": 296,
+        "reentryMs": 236,
+        "p95FrameMs": 47,
+        "framesOver50ms": 0,
+        "cleanup": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "store",
+        "width": 390,
+        "lobbyMs": 1411,
+        "firstEntryMs": 259,
+        "reentryMs": 228,
+        "p95FrameMs": 4.3,
+        "framesOver50ms": 0,
+        "cleanup": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "windows",
+        "width": 1440,
+        "lobbyMs": 1524,
+        "firstEntryMs": 253,
+        "reentryMs": 206,
+        "p95FrameMs": 4.3,
+        "framesOver50ms": 0,
+        "cleanup": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      }
+    ],
+    "entryAfter": [
+      {
+        "layout": "pc",
+        "width": 1440,
+        "lobbyMs": 1234,
+        "firstEntryMs": 252,
+        "reentryMs": 207,
+        "p95FrameMs": 4.3,
+        "framesOver50ms": 0,
+        "cleanup": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "mobile",
+        "width": 390,
+        "lobbyMs": 1690,
+        "firstEntryMs": 250,
+        "reentryMs": 241,
+        "p95FrameMs": 54,
+        "framesOver50ms": 3,
+        "cleanup": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "store",
+        "width": 390,
+        "lobbyMs": 1169,
+        "firstEntryMs": 249,
+        "reentryMs": 213,
+        "p95FrameMs": 4.3,
+        "framesOver50ms": 0,
+        "cleanup": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "windows",
+        "width": 1440,
+        "lobbyMs": 1463,
+        "firstEntryMs": 242,
+        "reentryMs": 207,
+        "p95FrameMs": 4.3,
+        "framesOver50ms": 0,
+        "cleanup": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      }
+    ],
+    "sameOverLimitAccountBefore": [
+      {
+        "layout": "pc",
+        "width": 1440,
+        "lobbyMs": 1434,
+        "firstEntryMs": 294,
+        "reentryMs": 215,
+        "p95FrameMs": 4.4,
+        "framesOver50ms": 0,
+        "cleanup": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "mobile",
+        "width": 390,
+        "lobbyMs": 1636,
+        "firstEntryMs": 330,
+        "reentryMs": 236,
+        "p95FrameMs": 46,
+        "framesOver50ms": 1,
+        "cleanup": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "store",
+        "width": 390,
+        "lobbyMs": 1738,
+        "firstEntryMs": 281,
+        "reentryMs": 223,
+        "p95FrameMs": 4.3,
+        "framesOver50ms": 0,
+        "cleanup": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "windows",
+        "width": 1440,
+        "lobbyMs": 1355,
+        "firstEntryMs": 266,
+        "reentryMs": 215,
+        "p95FrameMs": 4.3,
+        "framesOver50ms": 0,
+        "cleanup": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      }
+    ],
+    "finalOverLimitDisplay": [
+      {
+        "layout": "pc",
+        "width": 1440,
+        "lobbyMs": 1453,
+        "firstEntryMs": 274,
+        "reentryMs": 258,
+        "p95FrameMs": 4.4,
+        "framesOver50ms": 0,
+        "cleanup": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "mobile",
+        "width": 390,
+        "lobbyMs": 3295,
+        "firstEntryMs": 366,
+        "reentryMs": 236,
+        "p95FrameMs": 54,
+        "framesOver50ms": 3,
+        "cleanup": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "store",
+        "width": 390,
+        "lobbyMs": 1268,
+        "firstEntryMs": 254,
+        "reentryMs": 222,
+        "p95FrameMs": 4.3,
+        "framesOver50ms": 0,
+        "cleanup": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "windows",
+        "width": 1440,
+        "lobbyMs": 1324,
+        "firstEntryMs": 250,
+        "reentryMs": 220,
+        "p95FrameMs": 4.3,
+        "framesOver50ms": 0,
+        "cleanup": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      }
+    ],
+    "publicDisplay": [
+      {
+        "layout": "pc",
+        "width": 1440,
+        "lobbyMs": 1862,
+        "firstEntryMs": 531,
+        "reentryMs": 39,
+        "p95FrameMs": 4.3,
+        "framesOver50ms": 0,
+        "cleanup": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "mobile",
+        "width": 390,
+        "lobbyMs": 1464,
+        "firstEntryMs": 165,
+        "reentryMs": 78,
+        "p95FrameMs": 44,
+        "framesOver50ms": 1,
+        "cleanup": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "store",
+        "width": 390,
+        "lobbyMs": 1852,
+        "firstEntryMs": 90,
+        "reentryMs": 34,
+        "p95FrameMs": 4.3,
+        "framesOver50ms": 0,
+        "cleanup": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "windows",
+        "width": 1440,
+        "lobbyMs": 1510,
+        "firstEntryMs": 83,
+        "reentryMs": 36,
+        "p95FrameMs": 4.3,
+        "framesOver50ms": 1,
+        "cleanup": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      }
+    ],
+    "remotePostgresBefore": {
+      "scope": "PostgreSQL remote session TEMP tables, same game adapter and batched transport",
+      "n": 10,
+      "medianMs": 238.6,
+      "p95Ms": 242,
+      "planningMedianMs": 159,
+      "events": 10
+    },
+    "remotePostgresAfter": {
+      "scope": "PostgreSQL remote session TEMP tables, same game adapter and batched transport",
+      "n": 10,
+      "medianMs": 149.8,
+      "p95Ms": 151.7,
+      "planningMedianMs": 74.6,
+      "events": 22
+    },
+    "localDbBefore": [
+      {
+        "engine": "SQLite",
+        "sample": 110,
+        "settlement": {
+          "medianMs": 0.181,
+          "p95Ms": 0.264
+        },
+        "status": {
+          "medianMs": 0.166,
+          "p95Ms": 0.231
+        },
+        "batchStatements": [
+          1
+        ]
+      },
+      {
+        "engine": "PostgreSQL (PGlite)",
+        "sample": 110,
+        "settlement": {
+          "medianMs": 1.436,
+          "p95Ms": 2.35
+        },
+        "status": {
+          "medianMs": 1.215,
+          "p95Ms": 1.734
+        },
+        "batchStatements": [
+          1
+        ]
+      }
+    ],
+    "localDbAfter": [
+      {
+        "engine": "SQLite",
+        "sample": 110,
+        "settlement": {
+          "medianMs": 0.22,
+          "p95Ms": 0.361
+        },
+        "status": {
+          "medianMs": 0.157,
+          "p95Ms": 0.215
+        },
+        "batchStatements": [
+          2
+        ]
+      },
+      {
+        "engine": "PostgreSQL (PGlite)",
+        "sample": 110,
+        "settlement": {
+          "medianMs": 2.034,
+          "p95Ms": 3.135
+        },
+        "status": {
+          "medianMs": 1.191,
+          "p95Ms": 1.8
+        },
+        "batchStatements": [
+          1
+        ]
+      }
+    ]
+  }
+}
