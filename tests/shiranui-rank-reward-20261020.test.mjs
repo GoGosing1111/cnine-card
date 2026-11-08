@@ -75,5 +75,9 @@ test('public catalog exposes approved Shiranui art and rank requirement without 
  assert.equal(SHIRANUI_MIN_ACCOUNT_LEVEL,235);
  const card=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1})).cards.find(c=>c.code===SHIRANUI_CODE);
  assert(card);assert.equal(card.exclusiveGrant,false);assert.equal(card.sourceArt,SHIRANUI_ART.sourceArt);assert.equal(card.acquisition,'ACCOUNT_RANK_REWARD');assert.equal(card.minimumAccountLevel,235);assert.equal(card.packAcquisitionEnabled,false);assert.equal(card.skills[0].ready,true);
+ assert.equal(card.basePower,2600000);
+ assert.deepEqual(card.skills[0].balance,{damageRatio:25.2,cooldownTurns:4,cost:25});
+ assert.match(card.skills[0].effect,/2,520%/);
+ assert.equal(card.skills[0].trigger,'PVE · 에너지 25 · 재사용 4행동');
  assert(!MERCENARY_CMS_SEED.catalog.cards.some(c=>c.code===SHIRANUI_CODE));assert(read('mercenary-codex/app.mjs').includes('c.acquisitionDescription'));assert(read('js/app.js').includes("MERCENARY_SHIRANUI:{label:'시라누이 SSS 리미티드'"));
 });
