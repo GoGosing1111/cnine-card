@@ -47,7 +47,10 @@
   let wrapTimer = 0;
   let appObserver = null;
   let chiefState = null;
-  let chiefPromise = null;
+  let chiefRequest = null;
+  let chiefOwner = null;
+  let lobbyAvatar = null;
+  const avatarSessionKey='cnine:lobby-avatar:v1';
   let showChiefConsole = false;
 
   const ICONS = Object.freeze({
@@ -252,15 +255,38 @@
       <button class="dock-item ui-press" type="button" data-v21-all><span>${svg('menu')}</span><b>메뉴</b></button>`;
   }
 
+  function syncChiefOwner() {
+    const user=userModel(),owner=Number(user.serverUserId||user.id)||0;
+    if(owner!==chiefOwner){
+      chiefRequest?.controller.abort();chiefRequest=null;
+      chiefState=null;chiefOwner=owner;lobbyAvatar=null;
+      try{
+        const saved=JSON.parse(sessionStorage.getItem(avatarSessionKey));
+        if(owner&&saved?.owner===owner)lobbyAvatar=saved.avatar;
+      }catch(_){}
+    }
+    return owner;
+  }
+  function rememberLobbyAvatar(avatar) {
+    const expiry=avatar?.expiresAt;
+    const expiresAt=typeof expiry==='string'&&/^\d{4}-\d\d-\d\d \d\d:\d\d:\d\d(?:\.\d+)?$/.test(expiry)?expiry.replace(' ','T')+'Z':expiry||null;
+    lobbyAvatar=avatar?.lobbyImage?{name:avatar.name,code:avatar.code,lobbyImage:avatar.lobbyImage,lobbyMobileImage:avatar.lobbyMobileImage,expiresAt}:null;
+    try{
+      if(lobbyAvatar&&chiefOwner)sessionStorage.setItem(avatarSessionKey,JSON.stringify({owner:chiefOwner,avatar:lobbyAvatar}));
+      else sessionStorage.removeItem(avatarSessionKey);
+    }catch(_){}
+  }
   function chiefView() {
+    syncChiefOwner();
+    if(lobbyAvatar?.expiresAt&&Date.parse(lobbyAvatar.expiresAt)<=Date.now())rememberLobbyAvatar(null);
     const chief = chiefState?.chief;
     const general=chief?.reignStyle==='GENERAL',label=general?'장군':'여왕';
-    const presentation={reignStyle:general?'GENERAL':'QUEEN',label,term:general?'집권':'재위',ceremony:general?'집권식':'즉위식'};
+    const presentation={reignStyle:general?'GENERAL':'QUEEN',label,term:general?'집권':'재위',ceremony:general?'집권식':'즉위식',viewerAvatar:lobbyAvatar};
     if (!chiefState) return { ...presentation,state: 'loading', ordinal: '—', title: '집권 정보 불러오는 중', nickname: '서버 연결 중', remaining: '잠시만 기다려 주세요' };
     if (chiefState.unavailable) return { ...presentation,state: 'unavailable', ordinal: '—', title: '집권 정보 확인 불가', nickname: '연결 상태 확인 필요', remaining: '자동으로 다시 시도합니다' };
-    if (chief?.status==='SUSPENDED') return { ...presentation,state:'suspended',nickname:chief.nickname,title:`${label} 직무정지`,remaining:'국민 재판 진행 중',avatar:chief.avatar,viewerAvatar:chief.viewerAvatar };
-    if (chief?.status==='REMOVED') return { ...presentation,state:'removed',nickname:chief.nickname,title:`${label} 파면`,remaining:'해당 임기가 종료되었습니다',avatar:chief.avatar,viewerAvatar:chief.viewerAvatar };
-    if (!chief?.active) return { ...presentation,state: 'vacant', ordinal: '—', title: `${label} 선출 대기`, nickname: '공석', remaining: '차기 집권자 선출을 기다립니다', viewerAvatar: chief?.viewerAvatar || null };
+    if (chief?.status==='SUSPENDED') return { ...presentation,state:'suspended',nickname:chief.nickname,title:`${label} 직무정지`,remaining:'국민 재판 진행 중',avatar:chief.avatar };
+    if (chief?.status==='REMOVED') return { ...presentation,state:'removed',nickname:chief.nickname,title:`${label} 파면`,remaining:'해당 임기가 종료되었습니다',avatar:chief.avatar };
+    if (!chief?.active) return { ...presentation,state: 'vacant', ordinal: '—', title: `${label} 선출 대기`, nickname: '공석', remaining: '차기 집권자 선출을 기다립니다' };
     const ordinal = Number.isInteger(Number(chief.ordinal)) && Number(chief.ordinal) > 0 ? Number(chief.ordinal) : '—';
     let remainingMs = Math.max(0, Number(chief.remainingMs || 0));
     if (chief.endsAt) remainingMs = Math.max(0, Date.parse(chief.endsAt) - Date.now());
@@ -274,12 +300,12 @@
       remaining: days ? `${days}일 ${hours}시간 남음` : `${hours}시간 ${minutes}분 남음`,
       startsAt: chief.startsAt || null,
       endsAt: chief.endsAt || null,
-      avatar: chief.avatar || null,
-      viewerAvatar: chief.viewerAvatar || null
+      avatar: chief.avatar || null
     };
   }
 
   function chiefPictureMarkup(chief, eager = true, preferViewer = false) {
+    if(preferViewer&&!chief?.viewerAvatar&&['loading','unavailable'].includes(chief?.state))return '';
     const path = value => { const clean = String(value || '').replace(/\\/g, '/'); return clean && !clean.startsWith('/') ? `/${clean}` : clean; };
     const avatar = preferViewer && chief?.viewerAvatar ? chief.viewerAvatar : chief?.reignStyle==='GENERAL'?{name:'최고사령부 여성 장군',lobbyImage:'/assets/ui/chief/general-command-v1.png'}:chief?.avatar;
     const desktop = path(avatar?.lobbyImage), mobile = path(avatar?.lobbyMobileImage || desktop);
@@ -519,17 +545,26 @@
   }
 
   async function hydrateChief(force = false) {
-    if (chiefPromise) return chiefPromise;
+    const owner=syncChiefOwner();
+    if (chiefRequest) return chiefRequest.result;
     if (chiefState && !force) return chiefState;
-    chiefPromise = (async () => {
-      if (typeof global.apiRequest === 'function') {
-        try { chiefState = await global.apiRequest('chief/status', {}, { ttl: 0, timeoutMs: 7000 }); }
-        catch (_) { chiefState = { unavailable: true }; }
-      } else chiefState = { unavailable: true };
-      if (currentRoute === 'home') scheduleEnhance('home');
+    const read={controller:new AbortController()};
+    chiefRequest=read;
+    read.result=(async () => {
+      try {
+        const next=await global.apiRequest('chief/status',{signal:read.controller.signal},{ttl:0,microcache:false,replaceInflight:true,timeoutMs:7000});
+        if(!next?.chief)throw Error('Invalid chief status');
+        if(syncChiefOwner()!==owner||chiefRequest!==read)return;
+        chiefState=next;
+        if(Object.hasOwn(next.chief,'viewerAvatar'))rememberLobbyAvatar(next.chief.viewerAvatar);
+      }catch(_){
+        if(syncChiefOwner()!==owner||chiefRequest!==read)return;
+        chiefState={unavailable:true};
+      }
+      if(currentRoute==='home')scheduleEnhance('home');
       return chiefState;
-    })().finally(() => { chiefPromise = null; });
-    return chiefPromise;
+    })().finally(()=>{if(chiefRequest===read)chiefRequest=null;});
+    return read.result;
   }
 
   function modalRoot() {
@@ -677,7 +712,13 @@
     });
     document.addEventListener('fullscreenchange', syncFullscreenControls);
     document.addEventListener('webkitfullscreenchange', syncFullscreenControls);
-    global.addEventListener('cnine:avatar-equipped', () => { void hydrateChief(true); });
+    global.addEventListener('cnine:avatar-equipped', event => {
+      syncChiefOwner();
+      chiefRequest?.controller.abort();chiefRequest=null;
+      if(event.detail?.avatar)rememberLobbyAvatar(event.detail.avatar);
+      if(currentRoute==='home')scheduleEnhance('home');
+      void hydrateChief(true);
+    });
   }
 
   function wrapRenderShell() {

@@ -116,8 +116,12 @@
       shortcut.title=chief.state==='active'?`${hasOrdinal?`제 ${ordinal}대 · `:''}현 ${label} ${chief.nickname} · ${term} ${chief.remaining} · ${ceremony} 및 ${term} 정보`:`${label} ${term} 정보 · ${name.textContent} · ${termText.textContent}`;
       shortcut.setAttribute('aria-label',shortcut.title);
       const avatar=chief.viewerAvatar||(general?{name:'최고사령부 여성 장군',lobbyImage:'/assets/ui/chief/general-command-v1.png'}:chief.avatar),art=root.querySelector('.stage-character');
-      const src=safeArt(innerWidth<=759?(avatar?.lobbyMobileImage||avatar?.lobbyImage):avatar?.lobbyImage);
-      if(art.src!==new URL(src,location.origin).href)art.src=src;
+      art.hidden=!avatar&&(!chief.state||chief.state==='loading'||chief.state==='unavailable');
+      if(art.hidden)art.removeAttribute('src');
+      else{
+        const src=safeArt(innerWidth<=759?(avatar?.lobbyMobileImage||avatar?.lobbyImage):avatar?.lobbyImage);
+        if(art.src!==new URL(src,location.origin).href)art.src=src;
+      }
       root.getElementById('hero-name').textContent=avatar?.name||'로비 아바타';
       art.alt=avatar?.name?`${avatar.name} · 로비 아바타`:'공용 로비 일러스트';
       this.controls?.refreshMenus();
