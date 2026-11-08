@@ -4,6 +4,7 @@ import {canAccessLegionHunt,readLegionHuntPolicy,LEGION_HUNT_SETTINGS_KEY} from 
 import {legionHuntEntries} from './_legion_hunt.js';
 import {readSupportBenefits} from './_supporter_benefits.js';
 import {loadCoopOwnedCards} from './_cooperative_live.js';
+import {PLAYABLE_MERCENARIES} from './_comeback_loans.js';
 import {selectedMercenaryBattleSnapshots,mercenaryAccountState} from './_mercenary_account.js';
 import {validateCoopSelection,COOP_DUAL_RULES} from '../shared/cooperative-battleground-v1.mjs';
 import {loadPetBattleSnapshot} from './_pet_account.js';
@@ -57,7 +58,7 @@ async function loadSquad(env,user,selection,deps){
 async function verifySelection(env,user,b){
  const selection=validateCoopSelection(b,COOP_DUAL_RULES),[ics,ms]=await Promise.all([
   stmt(env.DB,"SELECT c.id,c.title FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.quantity>0 AND c.rarity='ICON' AND c.is_active=1 AND c.id IN (?,?)",user.id,...selection.cardIds).all(),
-  stmt(env.DB,'SELECT mercenary_code FROM user_mercenary_cards_v1 WHERE user_id=? AND total_copies>0 AND mercenary_code IN (?,?)',user.id,...selection.mercenaryCodes).all()]);
+  stmt(env.DB,'SELECT mercenary_code FROM '+PLAYABLE_MERCENARIES+' m WHERE user_id=? AND total_copies>0 AND mercenary_code IN (?,?)',user.id,...selection.mercenaryCodes).all()]);
  if(ics.results.length!==2||ms.results.length!==2)fail('OWNED','보유 중인 서로 다른 용병 2명과 아이콘 2장을 선택하세요.',403);
  return {selection,summary:{icons:selection.cardIds.map(id=>ics.results.find(c=>String(c.id)===id).title),mercenaries:selection.mercenaryCodes}};
 }

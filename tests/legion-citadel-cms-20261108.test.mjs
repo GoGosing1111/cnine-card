@@ -41,6 +41,12 @@ for(const postgres of [false,true]){
    await setMode(f,'ON');assert.equal((await f.action(1,'create',{requestId:'cms-invalid-difficulty',tier:'wrong'})).status,400);
    const legacy=ok(await f.action(1,'create',{requestId:'citadel-old-client-key'})).state;
    assert.equal(legacy.tier,FIRST_TIER);assert.equal((await f.action(1,'create',{requestId:'citadel-old-client-key',tier:'keep'})).status,409);
+   const loan={id:legacy.id,...f.selection(0),mercenaryCodes:['V-058','V-977']};
+   assert.equal((await f.action(1,'ready',loan)).status,403);
+   await f.exec('INSERT INTO app_meta(key,value) VALUES(?,?)','comeback26:loan:1','2099-01-01 00:00:00');
+   assert.deepEqual(ok(await f.action(1,'ready',loan)).state.selection.mercenaryCodes,loan.mercenaryCodes);
+   await f.exec('UPDATE app_meta SET value=? WHERE key=?','2000-01-01 00:00:00','comeback26:loan:1');
+   assert.equal((await f.action(1,'ready',loan)).status,403);
    const raw=await read(f,'legion_citadel_v1:room:'+legacy.id);delete raw.tier;await f.exec('UPDATE app_meta SET value=? WHERE key=?',JSON.stringify(raw),'legion_citadel_v1:room:'+legacy.id);
    assert.equal(ok(await f.action(1,'state?id='+legacy.id)).state.tierName,'재앙의 성문');
   }finally{await f.close();}
