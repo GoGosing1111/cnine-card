@@ -1,0 +1,442 @@
+{
+  "title": "S1 불멸의 왕 듀오랭크 참여 집계",
+  "source": "abff2163d8dad89957cca1af752c2b693476e27f",
+  "validatedAt": "2026-11-08T14:52:46.853Z",
+  "participation": {
+    "credited": "The account that starts the match and spends the energy",
+    "modes": "Fixed and random duo. Completed wins and losses join solo PvP in the same seasonal counter.",
+    "settlement": "The unique award receipt includes the match ID. Match, rating, normal duel payout, and season update commit atomically. Opening the replay does not count again.",
+    "limits": {
+      "combinedDailyRewardBattles": 10,
+      "pvpDailyXp": 175,
+      "pvpDailyDust": 70,
+      "sharedDailyRuneActivities": 4
+    },
+    "overLimit": "Season total and win/loss participation continue. Participation XP, materials and rune activity credit stop at their daily limits. A one-time mission that becomes eligible after the cap can be paid at a later eligible settlement."
+  },
+  "deployment": {
+    "started": "2026-11-08T14:46:39.431Z",
+    "completed": "2026-11-08T14:51:22.538Z",
+    "previous": {
+      "at": "2026-11-08T14:46:39.367Z",
+      "id": "fe985eba-a96c-458c-a551-ffe15dfe135d",
+      "url": "https://fe985eba.cnine-card.pages.dev",
+      "status": "success",
+      "commit": "5a7585915958af524474b0a580909e50f8c79b50"
+    },
+    "proof": {
+      "source": "abff2163d8dad89957cca1af752c2b693476e27f",
+      "pages": {
+        "id": "cabf269f-cd48-4700-a704-e17895ed6827",
+        "commit": "abff2163d8dad89957cca1af752c2b693476e27f",
+        "url": "https://cabf269f.cnine-card.pages.dev",
+        "status": "success",
+        "at": "2026-11-08T14:51:43.003Z"
+      },
+      "workers": [
+        {
+          "name": "cnine-card-api-runtime",
+          "active": {
+            "version_id": "2fa7141a-cc8d-4976-a336-47d7150b6e59",
+            "percentage": 100
+          },
+          "deployed": "2fa7141a-cc8d-4976-a336-47d7150b6e59"
+        },
+        {
+          "name": "cnine-card-clan-draft",
+          "active": {
+            "version_id": "117c2237-b779-4fd3-be50-4923062b2179",
+            "percentage": 100
+          },
+          "deployed": "117c2237-b779-4fd3-be50-4923062b2179"
+        }
+      ],
+      "api": [
+        {
+          "p": "/api/season/status",
+          "method": "GET",
+          "status": 401,
+          "code": null,
+          "at": "2026-11-08T14:51:48.147Z",
+          "worker": "regional-v1"
+        },
+        {
+          "p": "/api/ranked-duo/status",
+          "method": "GET",
+          "status": 401,
+          "code": null,
+          "at": "2026-11-08T14:51:48.617Z",
+          "worker": "regional-v1"
+        }
+      ],
+      "maintenance": [],
+      "backendChecks": [
+        "DUO:",
+        "missionCounted",
+        "ranked_duo_matches_v1",
+        "season_s1_receipts",
+        "SELECT attacker_score_after,defender_score_after FROM ranked_duo_matches_v1"
+      ],
+      "windowsRelease": "ce642e3cc26838d41fa85ea80109bd8d0f319b83fd56b30d94506168f8a0df56",
+      "assets": [
+        {
+          "file": "js/app.js",
+          "sha256": "4fe775597b6742b389b9a30df94a4ec1a75316a904ef2af66da09a25327ee631",
+          "windows": true
+        },
+        {
+          "file": "js/season-s1.bundle.js",
+          "sha256": "8ff46943bf5273cdc7dde17f168ab47fdee48724b00d722c2ee54807dce7e2b4",
+          "windows": true
+        },
+        {
+          "file": "css/season-s1.css",
+          "sha256": "a79d455ecad57b91f5c0ef5b0e7d7392f220032100e7b32d422dc191f45d9426",
+          "windows": true
+        },
+        {
+          "file": "onestore/js/app.js",
+          "sha256": "73b4b61365232dc97470d39aab90e1bfa9131e206fc1138cf9dd056cd37d76ba",
+          "windows": false
+        },
+        {
+          "file": "service-worker.js",
+          "sha256": "50761b52118d28c14d36e5ea4a33cfeee1fdb6b65f81462d9e371eb919e09c8e",
+          "windows": false
+        }
+      ]
+    }
+  },
+  "historical": {
+    "opening": "2026-11-08T04:31:29.687Z",
+    "cutoff": "2026-11-08T14:52:07.930Z",
+    "campaign": "ops:season-s1-duo-ranked:20261108:v1",
+    "audit": 56906,
+    "restored": {
+      "accounts": 68,
+      "matches": 2693,
+      "wins": 1785,
+      "losses": 908,
+      "rewardSlots": 63,
+      "countOnly": 2630,
+      "participationXp": 1125,
+      "missionXp": 1500,
+      "dust": 450,
+      "runeCredits": 0,
+      "runes": 0
+    },
+    "initialRollback": {
+      "cutoff": "2026-11-08T14:42:51.966Z",
+      "accounts": 68,
+      "matches": 2654,
+      "wins": 1757,
+      "losses": 897,
+      "rewardSlots": 65,
+      "countOnly": 2589,
+      "participationXp": 1125,
+      "missionXp": 1650,
+      "dust": 450,
+      "runeCredits": 0,
+      "runes": 0
+    },
+    "independentReceiptTotals": {
+      "matches": 2693,
+      "accounts": 68,
+      "reward_slots": 63,
+      "count_only": 2630,
+      "xp": 1125,
+      "mission_xp": 1500,
+      "dust": 450,
+      "rune_credits": 0,
+      "runes": 0
+    }
+  },
+  "reconciliation": {
+    "asOf": "2026-11-08T14:52:46.853Z",
+    "completed": 2698,
+    "users": 68,
+    "missing": 0,
+    "invalidReceipts": 0,
+    "seasonAccountsCompared": 138,
+    "rankedSoloAndDuoTotal": 7467,
+    "settledAndCreditedByNewGameCode": 5,
+    "extraWritesOnRerun": 0,
+    "seasonStatus": {
+      "asOf": "2026-11-08T14:52:47.242Z",
+      "source": "Production seasonStatus handler against a repeatable read, read-only production database snapshot",
+      "samples": [
+        {
+          "solo": 6,
+          "duo": 1,
+          "seasonStatusMatches": 7,
+          "dailyRewardSlots": 7,
+          "ms": 99
+        },
+        {
+          "solo": 24,
+          "duo": 10,
+          "seasonStatusMatches": 34,
+          "dailyRewardSlots": 10,
+          "ms": 83
+        },
+        {
+          "solo": 179,
+          "duo": 47,
+          "seasonStatusMatches": 226,
+          "dailyRewardSlots": 10,
+          "ms": 82
+        },
+        {
+          "solo": 415,
+          "duo": 124,
+          "seasonStatusMatches": 539,
+          "dailyRewardSlots": 10,
+          "ms": 78
+        }
+      ]
+    }
+  },
+  "verification": {
+    "regression": {
+      "passed": 72,
+      "failed": 0
+    },
+    "releaseGate": {
+      "passed": 60,
+      "failed": 0
+    },
+    "environments": "SQLite, PostgreSQL-compatible PGlite pipeline. Fixed and random asynchronous matches, loss and win, accounting and payout boundary, repeated request, cancelled and pending combat, and rollback under concurrent solo play.",
+    "legacyClock": "The regression suite fixed the test clock for the archived September duo-win campaign fixture.",
+    "publicDuoToSeason": {
+      "at": "2026-11-08T14:54:04.220Z",
+      "conditions": "Public shipped application with all API requests isolated, authentic ranked duo and season handlers using SQLite",
+      "results": [
+        {
+          "viewport": "desktop",
+          "width": 1440,
+          "matchMs": 240,
+          "actions": [
+            "ranked-duo/match",
+            "ranked-duo/fight"
+          ],
+          "before": 10,
+          "after": 11,
+          "dailyRewardSlots": 10,
+          "matchResult": "WIN",
+          "label": "PVP · 시즌 1일차\n오늘 보상 10/10회\n참여 XP 175/175\n가루 70/70\n시즌 누적 11회 · 참여 1일 · 보상은 한국 자정 초기화"
+        },
+        {
+          "viewport": "mobile",
+          "width": 390,
+          "matchMs": 402,
+          "actions": [
+            "ranked-duo/match",
+            "ranked-duo/fight"
+          ],
+          "before": 10,
+          "after": 11,
+          "dailyRewardSlots": 10,
+          "matchResult": "WIN",
+          "label": "PVP · 시즌 1일차\n오늘 보상 10/10회\n참여 XP 175/175\n가루 70/70\n시즌 누적 11회 · 참여 1일 · 보상은 한국 자정 초기화"
+        }
+      ]
+    }
+  },
+  "performance": {
+    "fightBefore": {
+      "phase": "before",
+      "conditions": "Authenticated ranked-duo/fight handler, random asynchronous duo, PostgreSQL (PGlite) with fixed 8 ms per database round trip, identical seeded battles; same request retried",
+      "n": 10,
+      "medianMs": 232,
+      "p95Ms": 247,
+      "medianRoundTrips": 14,
+      "medianResultBytes": 91286,
+      "fullReplayReads": 10
+    },
+    "fightAfter": {
+      "phase": "after",
+      "conditions": "Authenticated ranked-duo/fight handler, random asynchronous duo, PostgreSQL (PGlite) with fixed 8 ms per database round trip, identical seeded battles; same request retried",
+      "n": 10,
+      "medianMs": 238,
+      "p95Ms": 251,
+      "medianRoundTrips": 14,
+      "medianResultBytes": 91286,
+      "fullReplayReads": 0
+    },
+    "entryConditions": "Lobby button to usable season. Local comparison uses identical isolated data with 180 ms season API latency and 90 ms initial asset latency. Public run uses an isolated API fixture and deployed assets without these delays. Headless desktop Chromium, 390px WebKit mobile, simulated ONE store browser and Windows client user agent. Physical handsets and installed clients were not measured.",
+    "entryBefore": [
+      {
+        "layout": "pc",
+        "width": 1440,
+        "launchToLobbyMs": 1669,
+        "firstSeasonEntryMs": 270,
+        "repeatSeasonEntryMs": 221,
+        "frameP95Ms": 4.3,
+        "framesOver50ms": 0,
+        "exit": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "mobile",
+        "width": 390,
+        "launchToLobbyMs": 2287,
+        "firstSeasonEntryMs": 401,
+        "repeatSeasonEntryMs": 256,
+        "frameP95Ms": 61,
+        "framesOver50ms": 4,
+        "exit": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "store",
+        "width": 390,
+        "launchToLobbyMs": 1371,
+        "firstSeasonEntryMs": 288,
+        "repeatSeasonEntryMs": 219,
+        "frameP95Ms": 4.3,
+        "framesOver50ms": 0,
+        "exit": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "windows",
+        "width": 1440,
+        "launchToLobbyMs": 1435,
+        "firstSeasonEntryMs": 254,
+        "repeatSeasonEntryMs": 219,
+        "frameP95Ms": 4.5,
+        "framesOver50ms": 0,
+        "exit": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      }
+    ],
+    "entryAfter": [
+      {
+        "layout": "pc",
+        "width": 1440,
+        "launchToLobbyMs": 1346,
+        "firstSeasonEntryMs": 271,
+        "repeatSeasonEntryMs": 224,
+        "frameP95Ms": 4.5,
+        "framesOver50ms": 0,
+        "exit": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "mobile",
+        "width": 390,
+        "launchToLobbyMs": 1760,
+        "firstSeasonEntryMs": 350,
+        "repeatSeasonEntryMs": 234,
+        "frameP95Ms": 48,
+        "framesOver50ms": 1,
+        "exit": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "store",
+        "width": 390,
+        "launchToLobbyMs": 1073,
+        "firstSeasonEntryMs": 253,
+        "repeatSeasonEntryMs": 204,
+        "frameP95Ms": 4.3,
+        "framesOver50ms": 0,
+        "exit": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "windows",
+        "width": 1440,
+        "launchToLobbyMs": 1076,
+        "firstSeasonEntryMs": 251,
+        "repeatSeasonEntryMs": 215,
+        "frameP95Ms": 4.3,
+        "framesOver50ms": 0,
+        "exit": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      }
+    ],
+    "publicEntry": [
+      {
+        "layout": "pc",
+        "width": 1440,
+        "launchToLobbyMs": 1485,
+        "firstSeasonEntryMs": 515,
+        "repeatSeasonEntryMs": 49,
+        "frameP95Ms": 4.3,
+        "framesOver50ms": 0,
+        "exit": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "mobile",
+        "width": 390,
+        "launchToLobbyMs": 1863,
+        "firstSeasonEntryMs": 205,
+        "repeatSeasonEntryMs": 91,
+        "frameP95Ms": 57,
+        "framesOver50ms": 3,
+        "exit": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "store",
+        "width": 390,
+        "launchToLobbyMs": 1326,
+        "firstSeasonEntryMs": 97,
+        "repeatSeasonEntryMs": 31,
+        "frameP95Ms": 4.3,
+        "framesOver50ms": 0,
+        "exit": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      },
+      {
+        "layout": "windows",
+        "width": 1440,
+        "launchToLobbyMs": 1307,
+        "firstSeasonEntryMs": 88,
+        "repeatSeasonEntryMs": 33,
+        "frameP95Ms": 4.3,
+        "framesOver50ms": 1,
+        "exit": {
+          "seasonRoots": 0,
+          "seasonAnimations": 0,
+          "newSeasonCalls": 0
+        }
+      }
+    ]
+  }
+}
