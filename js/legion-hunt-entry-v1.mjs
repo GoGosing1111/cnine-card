@@ -171,7 +171,7 @@ export function openLegionHunt(button){
   window.addEventListener('message',onMessage);active=controller;document.body.append(dialog);dialog.showModal();void controller.refresh();
 }
 document.addEventListener('click',event=>{
-  const party=event.target.closest('[data-legion-citadel]');if(party&&!party.hidden){event.preventDefault();void import('./legion-citadel-v1.mjs?v=1').then(m=>m.openCitadel(party)).catch(()=>{party.textContent='불타는 성채 · 다시 열기';});return;}
+  const party=event.target.closest('[data-legion-citadel]');if(party&&!party.hidden){event.preventDefault();void import('./legion-citadel-v1.mjs?v=2').then(m=>m.openCitadel(party)).catch(()=>{party.textContent='불타는 성채 · 다시 열기';});return;}
   const button=event.target.closest('[data-legion-hunt-entry]');if(!button||button.hidden)return;event.preventDefault();openLegionHunt(button);
 });
 

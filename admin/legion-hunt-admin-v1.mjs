@@ -3,10 +3,84 @@ import {mountLegionRegionsCms} from './legion-regions-admin-v1.mjs?v=20261029-le
 import {legionItemTypeLabel} from './legion-region-drops-v1.mjs?v=20261018-coins-paced-v2';
 const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const names={normal:'보통',hard:'어려움',nightmare:'악몽',inferno:'지옥'};
+function mountCitadelEditor(panel){
+ const path='admin/legion-hunt/citadel',body=panel.querySelector('[data-editor]'),note=panel.querySelector('[role=status]');
+ let policy,catalog,tiers=[],tier='gate',busy=false;
+ const drafts=new Map();
+ const field=(key,label,value,min,max,step)=>'<label>'+label+'<input name="'+key+'" type="number" required min="'+min+'" max="'+max+'" step="'+step+'" value="'+esc(value)+'"></label>';
+ function available(){
+  const select=body.querySelector('[data-supply-options]'),term=body.querySelector('[data-supply-search]').value.trim().toLowerCase();
+  const used=new Set([...body.querySelectorAll('[data-supply]')].map(row=>row.dataset.supply));
+  const rows=catalog.supplies.filter(v=>!used.has(v.code)&&(v.name+' '+v.code).toLowerCase().includes(term));
+  select.innerHTML=rows.length?rows.map(v=>'<option value="'+esc(v.code)+'">'+esc(v.name)+'</option>').join(''):'<option value="">추가할 재료가 없습니다</option>';
+  body.querySelector('[data-add-supply]').disabled=!rows.length||used.size>=100;
+ }
+ function supplyRow(item){
+  const name=catalog.supplies.find(v=>v.code===item.code)?.name||item.code;
+  return '<div data-supply="'+esc(item.code)+'"><strong>'+esc(name)+'</strong>'+field('quantity','드롭 수량',item.quantity,1,1000000,1)+field('weight','가중치',item.weight,1,1000000,1)+'<button type="button" data-remove-supply aria-label="'+esc(name)+' 제외">제외</button></div>';
+ }
+ function dependencies(){
+  const f=body.querySelector('[data-drops]');f.elements.bossSetPercent.disabled=f.elements.inheritChance.checked;
+  body.querySelector('[data-tier-fields]').disabled=f.elements.shareDrops?.checked===true;
+  body.querySelector('[data-gear-options]').disabled=f.elements.allSets.checked;
+ }
+ function edited(f){
+  const get=key=>f.elements[key].valueAsNumber;
+  return {normalPercent:get('normalPercent'),elitePercent:get('elitePercent'),bossPercent:get('bossPercent'),bossMultiplier:get('bossMultiplier'),
+   bossSetPercent:f.elements.inheritChance.checked?null:get('bossSetPercent'),equipmentCodes:f.elements.allSets.checked?null:[...f.querySelectorAll('[name=equipment]:checked')].map(el=>el.value),
+   supplies:[...f.querySelectorAll('[data-supply]')].map(row=>({code:row.dataset.supply,quantity:row.querySelector('[name=quantity]').valueAsNumber,weight:row.querySelector('[name=weight]').valueAsNumber}))};
+ }
+ function draw(){
+  const draft=drafts.get(tier),own=policy.tierDrops?.[tier],shared=tier!=='gate'&&(draft?.shared??!own),d=shared?policy.drops:draft?.drops??own??policy.drops;
+  body.innerHTML='<form data-mode-form><fieldset><legend>파티 신규 입장</legend><label>입장 상태<select name="mode"><option value="OFF">OFF · 입장 중지</option><option value="ON">ON · 입장 허용</option></select></label><button type="submit">입장 상태 저장</button></fieldset></form>'+
+  '<form data-drops><label>드롭 설정 난이도<select name="tier">'+tiers.map(t=>'<option value="'+esc(t.id)+'" '+(tier===t.id?'selected':'')+'>'+esc(t.stage+'단계 · '+t.name)+'</option>').join('')+'</select></label>'+
+  (tier==='gate'?'':'<label class="legion-cms-check"><input type="checkbox" name="shareDrops" '+(shared?'checked':'')+'>1단계 드롭 설정 사용</label>')+
+  '<fieldset data-tier-fields><legend>개인 드롭 설정</legend><fieldset><legend>몬스터별 개인 드롭</legend><div class="legion-cms-region-fields">'+
+  field('normalPercent','일반 몬스터 드롭 확률 (%)',d.normalPercent,0,100,'any')+field('elitePercent','정예 몬스터 드롭 확률 (%)',d.elitePercent,0,100,'any')+
+  field('bossPercent','성주 드롭 확률 (%)',d.bossPercent,0,100,'any')+field('bossMultiplier','성주 재료 수량 배수',d.bossMultiplier,1,100,1)+'</div></fieldset>'+
+  '<fieldset><legend>개인 재료 후보</legend><p>서로 다른 재료를 2종 이상 등록하세요. 출전 시 두 사람에게 후보를 나눈 뒤, 각자 배정된 후보 안에서 가중치에 따라 추첨합니다.</p><div data-supplies>'+d.supplies.map(supplyRow).join('')+'</div>'+
+  '<div class="legion-cms-add"><label>재료 검색<input type="search" data-supply-search></label><label>추가할 재료<select data-supply-options></select></label><button type="button" data-add-supply>재료 추가</button></div></fieldset>'+
+  '<fieldset><legend>성주 세트 장비</legend><label class="legion-cms-check"><input type="checkbox" name="inheritChance" '+(d.bossSetPercent===null?'checked':'')+'>지역 재앙 확률 연동 ('+esc(catalog.regionalBossSetPercent)+'%)</label>'+
+  field('bossSetPercent','성주 드롭 중 장비 확률 (%)',d.bossSetPercent??catalog.regionalBossSetPercent,0,100,'any')+
+  '<label class="legion-cms-check"><input type="checkbox" name="allSets" '+(d.equipmentCodes===null?'checked':'')+'>운영 중인 지역의 공개 세트 장비 전체 사용</label>'+
+  '<fieldset data-gear-options><legend>개별 장비 선택</legend>'+catalog.equipment.map(v=>'<label class="legion-cms-check"><input type="checkbox" name="equipment" value="'+esc(v.code)+'" '+(d.equipmentCodes?.includes(v.code)?'checked':'')+'>'+esc(v.name)+(v.available?'':' · 지역 운영 중지')+'</label>').join('')+'</fieldset><p>개인에게 배정된 장비 후보가 없거나 장비 추첨에 들지 않으면 개인 재료를 드롭합니다.</p></fieldset>'+
+  '</fieldset><footer><span>다음 출전부터 적용됩니다.</span><button type="submit">성채 드롭 저장</button></footer></form>';
+  body.querySelector('[name=mode]').value=policy.mode;available();dependencies();
+ }
+ async function load(){
+  if(busy)return;busy=true;body.inert=true;note.textContent='성채 설정을 불러오는 중입니다.';
+  try{const data=await api(path);policy=data.policy;catalog=data.catalog;tiers=data.tiers;drafts.clear();draw();note.textContent='신규 입장 '+policy.mode+' · 설정 r'+policy.revision;}
+  catch(err){note.textContent=err.message;}finally{busy=false;body.inert=false;}
+ }
+ panel.addEventListener('toggle',()=>{if(panel.open&&!policy)void load();});
+ panel.querySelector('[data-citadel-reload]').addEventListener('click',load);
+ body.addEventListener('input',e=>{if(e.target.matches('[data-supply-search]'))available();});
+ body.addEventListener('change',e=>{
+  if(e.target.name==='tier'){const f=e.target.form;drafts.set(tier,{shared:!!f.elements.shareDrops?.checked,drops:edited(f)});tier=e.target.value;draw();return;}
+  if(e.target.name==='shareDrops'){
+   const saved=drafts.get(tier)?.drops??policy.tierDrops?.[tier]??policy.drops;
+   drafts.set(tier,{shared:e.target.checked,drops:e.target.checked?edited(e.target.form):saved});draw();return;
+  }
+  if(['inheritChance','allSets'].includes(e.target.name))dependencies();
+ });
+ body.addEventListener('click',e=>{
+  const remove=e.target.closest('[data-remove-supply]');if(remove){remove.closest('[data-supply]').remove();available();return;}
+  if(e.target.closest('[data-add-supply]')){const code=body.querySelector('[data-supply-options]').value;if(!code)return;body.querySelector('[data-supplies]').insertAdjacentHTML('beforeend',supplyRow({code,quantity:1,weight:1}));available();}
+ });
+ body.addEventListener('submit',async e=>{
+  e.preventDefault();if(busy)return;const f=e.target,mode=f.hasAttribute('data-mode-form'),data={revision:policy.revision};
+  if(mode)data.mode=f.elements.mode.value;
+  else{data.tier=tier;data.drops=f.elements.shareDrops?.checked?null:edited(f);}
+  busy=true;body.inert=true;
+  try{policy=(await api(path,{method:'PATCH',body:data})).policy;if(!mode){drafts.delete(tier);draw();}note.textContent=(mode?'입장 상태 저장 완료':'성채 드롭 저장 완료')+' · 신규 입장 '+policy.mode+' · 설정 r'+policy.revision;}
+  catch(err){note.textContent=err.message;}finally{busy=false;body.inert=false;}
+ });
+}
 export async function mountLegionHuntCms(root){
   let policy,coinCaps=null,catalog=[],busy=false,testUsers=new Map(),searchResults=[];
-  root.innerHTML='<p class="legion-cms-status" role="status"></p><form></form><section class="legion-regions-cms"></section>';
-  const status=root.querySelector('[role=status]'),form=root.querySelector('form');
+  root.innerHTML='<details class="legion-citadel-cms"><summary>불타는 성채 파티 · 입장 및 드롭 설정</summary><p role="status" aria-live="polite"></p><button type="button" data-citadel-reload>성채 설정 다시 불러오기</button><div data-editor></div></details><p class="legion-cms-status" role="status"></p><form></form><section class="legion-regions-cms"></section>';
+  const status=root.querySelector('.legion-cms-status'),form=root.querySelector('form');
+  mountCitadelEditor(root.querySelector('.legion-citadel-cms'));
   const number=(name,label,value,min,max,step=1)=>`<label>${label}<input type="number" name="${name}" aria-label="${label}" value="${value}" min="${min}" max="${max}" step="${step}" required></label>`;
   function coinTable(){
     if(!coinCaps)return '';
