@@ -8,7 +8,11 @@ import {LOAN_PREFIX,LOAN_CODES,PLAYABLE_MERCENARY_COUNTS,PLAYABLE_LEVELS} from '
 import {mercenaryLevelStateFromStorage} from '../shared/mercenary-level-v1.mjs';
 import {comebackOwnedPower} from '../functions/_comeback_power.js';
 import {MERCENARY_CMS_SEED} from '../functions/_mercenary_cms_seed.js';
-import {battleConfig,mercenarySnapshotPower} from '../functions/_mercenary_account.js';
+import {ascendantEquipmentFixture} from './helpers/ascendant-equipment-db.mjs';
+import {ensureMercenaryLevelSchema} from '../functions/_mercenary_level_policy.js';
+import {mercenaryGrowthLaunchPolicy} from '../shared/mercenary-growth-launch-20261016.mjs';
+import {MERCENARY_LEVEL_KEY} from '../shared/mercenary-level-v1.mjs';
+import {battleConfig,mercenarySnapshotPower,saveMercenaryLoadout,releasedMercenaryFormations,mercenaryAccountState,rankedOwnedMercenaries} from '../functions/_mercenary_account.js';
 import {forgePower} from '../shared/equipment-forge-policy-v1.mjs';
 import {questPeriod} from '../functions/_quest_hub.js';
 
@@ -159,4 +163,29 @@ for(const pg of [false,true])test((pg?'PostgreSQL':'SQLite')+' 미장착 보유�
  assert.deepEqual(await read(),power);
  await run('DELETE FROM user_equipment_loadout');await run('DELETE FROM user_mercenary_loadout_v1');
  assert.deepEqual(await read(),power);
+});
+
+for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' 대여 용병의 실제 도감·진형·전투 레벨과 만료',async t=>{
+ const f=await ascendantEquipmentFixture(t,{postgres}),id=f.user.id,loan=LOAN_PREFIX+id;
+ await ensureMercenaryLevelSchema(f.env);await f.setting(MERCENARY_LEVEL_KEY,mercenaryGrowthLaunchPolicy());
+ await f.p('INSERT INTO app_meta(key,value) VALUES(?,?)',loan,'2099-01-01 00:00:00').run();
+ const modes=['PVE','PVP'];
+ for(const [i,mode] of modes.entries()){
+   const code=LOAN_CODES[i];
+   await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCodes:[code],revision:1});
+   const active=(await releasedMercenaryFormations(f.env,[id],mode)).get(id).mercenaries;
+   assert.deepEqual(active.map(m=>[m.code,m.level]),[[code,21]]);
+ }
+ const codex=await mercenaryAccountState(f.env,f.user);
+ assert.deepEqual(codex.cards.filter(c=>LOAN_CODES.includes(c.code)).map(c=>[c.code,c.level,Boolean(c.loanUntil)]),LOAN_CODES.map(c=>[c,21,true]));
+ const ranked=async()=>(await rankedOwnedMercenaries(f.env,[id])).get(id).map(m=>m.code);
+ assert(LOAN_CODES.every(c=>codex.cards.some(row=>row.code===c)));
+ assert(LOAN_CODES.every(c=>(codex.cards.find(row=>row.code===c)).canDeploy));assert((await ranked()).includes(LOAN_CODES[0]));
+ await f.p('UPDATE app_meta SET value=? WHERE key=?','2000-01-01 00:00:00',loan).run();
+ const expired=await mercenaryAccountState(f.env,f.user);
+ for(const mode of modes){
+   assert.equal((await releasedMercenaryFormations(f.env,[id],mode)).get(id).mercenaries.length,0);
+   assert.equal(expired.loadouts[mode].mercenaryCode,null);
+ }
+ assert(!expired.cards.some(c=>LOAN_CODES.includes(c.code)));assert(!(await ranked()).some(c=>LOAN_CODES.includes(c)));
 });
