@@ -23,7 +23,10 @@ assert.match(app,/ensureFeatureResources\('battleV2'\)/);
 assert.doesNotMatch(app,/preloadBattleEntryAssets/,'original card images must not block battle API startup');
 assert.match(app,/routeWaitsForFeature/);
 assert.match(runtimeCss,/\.route-feature-loader/);
-assert.ok(Number(worker.match(/soop-card-shell-v(\d+)/)?.[1])>=1941,'shell cache must not regress below the lazy-loader release');
+const shell=worker.match(/SHELL_CACHE\s*=\s*['"]soop-card-shell-v([A-Za-z0-9-]+)['"]/);
+assert.ok(shell,'the lazy loader requires a named shell cache');
+assert.equal(index.match(/js\/app\.js\?v=([^&"'\s]+)/)?.[1],shell[1],'the document must request the active shell version');
+if(/^\d{4}(?:-|$)/.test(shell[1]))assert.ok(parseInt(shell[1],10)>=1941,'numeric releases must include the lazy loader');
 
 const deferredBytes=[
   'css/battle-v2-live.css','js/battle-v2-live.js',

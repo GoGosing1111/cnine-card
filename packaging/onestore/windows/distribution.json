@@ -1,6 +1,6 @@
 {
   "channel": "onestore",
-  "appVersion": "1.0.0",
+  "appVersion": "1.0.1",
   "appId": "kr.yakcode.reversecall.onestore.windows",
   "packageName": "reversecall-onestore-windows",
   "productName": "리버스콜 ONE store",
@@ -8,7 +8,7 @@
   "profileDirectory": "ReverseCall-ONEstore",
   "sessionPartition": "persist:reversecall-onestore-v1",
   "startUrl": "/?source=windows-client&distribution=onestore",
-  "filename": "ReverseCall-ONEstore-Windows-Setup-1.0.0-x64.exe",
+  "filename": "ReverseCall-ONEstore-Windows-Setup-1.0.1-x64.exe",
   "updates": "ONE_STORE_ONLY",
   "excluded": ["prediction", "prisoncamp", "server-support", "seasonPass", "support-package"],
   "liveDataMutation": false

@@ -1,3 +1,8 @@
+## 격전지 웹·PWA·모바일 첫 전투 개선 — 2026-11-08
+
+- 운영 소스 92af99679 · Pages 643d4115 · 두 Worker 100%. 작은 화면과 터치 기기도 대기방에서 본인 용병 두 명을 준비한다. iOS 동시 이미지 디코드 2개, 저메모리·Android 터치 3개. 데이터 절약 모드에서 사전 로드 0건. 결과 갱신 중 복귀·봉인 보상 버튼을 유지한다.
+- 3인 첫 집결 3회 중앙값은 390px Android Chrome 1.234→0.884초, iPhone WebKit 9.141→7.299초. 공개 리소스와 격리 API로 웹·Chrome 설치형 PWA·모바일 전투 후 복귀, 94개 검사 통과. 모바일은 Windows 에뮬레이션. 검수 docs/qa/coop-platform-performance-20261108/completion.json, 공지용 문안 output/announcements/coop-platform-performance-20261108/notice-ko.txt.
+
 ## 격전지 PC 로비·전투 끊김 및 첫 전투 로딩 개선 — 2026-11-08
 
 - 09:13 KST 운영 배포. 소스 `acd030b5f`, Pages `3c4d1379`, 두 Worker 100%. 로비 편성 목록과 전투 HUD의 반복 갱신, 방 상태 중복 저장을 줄였다. PC 대기방에서 확정한 용병 리소스를 미리 읽고 첫 전투에 필요한 파일을 병렬로 불러온다.

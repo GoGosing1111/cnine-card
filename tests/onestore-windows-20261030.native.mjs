@@ -68,7 +68,7 @@ try{
  await app.evaluate(({BrowserWindow})=>{for(const win of BrowserWindow.getAllWindows())win.webContents.setBackgroundThrottling(false);});
  await game.waitForFunction(()=>document.querySelector('#app main.page')?.dataset.route==='home');
  check(game.url().endsWith(configuration.startUrl),'game opens permanent store start URL');
- check(await game.evaluate(()=>navigator.userAgent.includes('ReverseCallStore/onestore/1.0.0')&&/^[\x20-\x7e]+$/.test(navigator.userAgent)),'native User-Agent identifies store with ASCII text');
+ check(await game.evaluate(version=>navigator.userAgent.includes('ReverseCallStore/onestore/'+version)&&/^[\x20-\x7e]+$/.test(navigator.userAgent),configuration.appVersion),'native User-Agent identifies store with ASCII text');
  check(await game.evaluate(()=>typeof require==='undefined'&&typeof process==='undefined'),'game keeps Node isolation');
  for(const [width,height] of [[1440,960],[1120,760]]){
   await app.evaluate(({BrowserWindow},{width,height})=>BrowserWindow.getAllWindows().find(w=>w.webContents.getURL().startsWith('https://cnine-card.pages.dev')).setSize(width,height),{width,height});

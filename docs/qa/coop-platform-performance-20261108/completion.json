@@ -1,0 +1,265 @@
+{
+  "verifiedAt": "2026-11-08T00:55:36.747Z",
+  "status": "LIVE_VERIFIED",
+  "source": "92af99679afeea67c379cfd3354f97875c223cc8",
+  "previousSource": "acd030b5f6b5e0599993f2db1b1cdd2a43cb8153",
+  "pages": {
+    "id": "643d4115-52a7-413e-8ff0-1e517a427d88",
+    "url": "https://643d4115.cnine-card.pages.dev",
+    "canonical": "https://cnine-card.pages.dev",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "id": "ab28d2b9-3db6-4426-918e-7d5a3acfa9b2",
+      "trafficPercent": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "id": "77f6ab3a-0a3a-4c7d-928d-6d89bca44b23",
+      "trafficPercent": 100
+    }
+  ],
+  "assetCount": 20000,
+  "checks": {
+    "passed": 94,
+    "failed": 0
+  },
+  "workerHeartbeatAndTimeoutPersistenceVerified": true,
+  "unauthenticatedCurrentStatus": 401,
+  "windows": {
+    "previous": "811828eb981d833b72b2636b1dc8b13b120fa963efc704b90bd20cb09f187e70",
+    "current": "82613a061c112d09e1349c3e3ea5b7b970deb7241f6704100875cb0d7078bbcb",
+    "listed": 14579,
+    "changed": [
+      {
+        "path": "/preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "bytes": 3644933,
+        "essential": true
+      },
+      {
+        "path": "/raid/cooperative/live.mjs",
+        "bytes": 56561,
+        "essential": true
+      }
+    ],
+    "removed": [],
+    "essentialChanged": 2
+  },
+  "assets": [
+    {
+      "path": "js/cooperative-battleground-entry.js",
+      "actualRequest": "js/cooperative-battleground-entry.js",
+      "sha256": "ea82e5d50fb9d4a28a6f2367c4dc1eeb5f0718964ebc077484e24aaf9a9baf87",
+      "bytes": 2515,
+      "windowsEssential": true
+    },
+    {
+      "path": "raid/cooperative/live.mjs",
+      "actualRequest": "raid/cooperative/live.mjs?v=coop-transcend-favorites-two-player-20261102-v1",
+      "sha256": "b2e7a9ba48acd64f747efef038e8edc238b201f1dfea694bd6062648e34bfb67",
+      "bytes": 56561,
+      "windowsEssential": true
+    },
+    {
+      "path": "raid/cooperative/battle.mjs",
+      "actualRequest": "raid/cooperative/battle.mjs",
+      "sha256": "3bbe306d08e6c0a3e7857f981eb5afdd0f4cb0caed5b40e6dc3811d9640fa91b",
+      "bytes": 5906,
+      "windowsEssential": true
+    },
+    {
+      "path": "raid/cooperative/style.css",
+      "actualRequest": "raid/cooperative/style.css?v=20261102-transcend-v1",
+      "sha256": "329444dbce5b3bd527844db74ea5b0c2d66ba92a68897c78604d89dae9c70421",
+      "bytes": 32793,
+      "windowsEssential": true
+    },
+    {
+      "path": "js/battle-v3-hud.mjs",
+      "actualRequest": "js/battle-v3-hud.mjs?v=20261102-v1",
+      "sha256": "8ec4eb56ee0a39be6893e316f4e6264cd0351ffc2b6ffd0cbd4821824682e04f",
+      "bytes": 12199,
+      "windowsEssential": true
+    },
+    {
+      "path": "js/battle-v3-live.js",
+      "actualRequest": "js/battle-v3-live.js",
+      "sha256": "3f2925a377e4e4f2a8fb966c0a51c859fde24b02d52382cec3cf0fb225980d40",
+      "bytes": 78190,
+      "windowsEssential": true
+    },
+    {
+      "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "actualRequest": "preview/project-v-v3/project-v-pixi-battle.bundle.js?blackcrownBalance=20261031-v1&heukmu=20261029-swing-fx-v2&omegaCraft=20261029-v1&balance220=20261029-v1&diimFront=20261029-v1&iconFour=20261029-v1&hpSync=20261029-v1&kamishiro=20261028-live-v1&classicColosseum=20261027-v1&sssCutin=sss-area-cutin-once-20261028-v1&blackcrown=20261027-live-v1&revan=20261027-general-jok-v2&cardgu=20261027-live-v1&heukgu=20261025-large-head-v3&bloodmoonBattle=20261025-status-v2&namsudaeng=20261024-v1&mobileMemory=20261024-v1&primePve=20261022-v1&sealDragon=seal-dragon-20261022-v1&valterParity=20261021-v1&prime=20261021-v2&zero=20261020-wings-live-v1&leonel=20261018-live-v1-forward-guard-20261019&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&jokroCoop=20261018-v1&v=20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-jinmu-jokro-v2&groundRunes=20261017-v1&kairon=20261014-craft-v1&mercenaryFx=20261017-halloween-ready-v1&azant=20261014-live-v1&originalIp=20261013-original-ip-v1&petFx=20261018-icons-v1&jokgakCity=20261009-v1&petLayout=20261009&limitedVisuals=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&coop=20261005-coop-readable-v4-backdrop&territory=20261003-v5&lichFx=20261001&speedReform=20260930&v=106-combat-flow&joint=2090&mercenary=2100&projectiles=2106&coup=2115&pveEntry=2119&heeya=2118&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20260924&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&backgroundRecovery=20261006&apocalypseFocus=20261006&iconActions=20261017-cheolgu-balance&icon=20260930&petLive=20261006-v1&iconCadence=20261006-v1&damageFont=20261007-russo-v1&hudB=20261017-v1&shiranuiSilver=20261018-v2&coopView=20261018-v1&sahyeon=20261019-live-v1&towerAbyss=20261021-v1&generalJok=20261025-grip-v16&tacticalHud=20261102-v1&hakuya=20261105-v1&jinJokro=20261106-v1",
+      "sha256": "34e2d691f46ebd5b33c8095e103c9aa8fd0289643b57fdbc48b00d48c8dc7f40",
+      "bytes": 3644933,
+      "windowsEssential": true
+    },
+    {
+      "path": "index.html",
+      "actualRequest": "index.html",
+      "sha256": "32f9e83443520c31a1c6c05ee72a0c5bbcc6eb6615b599c807c338910a3fe654",
+      "bytes": 50179,
+      "windowsEssential": true
+    },
+    {
+      "path": "service-worker.js",
+      "actualRequest": "service-worker.js",
+      "sha256": "8d5a7482069cdb076c4679af8650813928cbfea30ca5bfd0a2f898997175ba03",
+      "bytes": 24620,
+      "windowsEssential": false
+    }
+  ],
+  "lab": {
+    "platforms": [
+      {
+        "platform": "desktop",
+        "worker": "/service-worker.js",
+        "standalone": false,
+        "simulatedIosHome": false,
+        "actualPwaInstallation": false,
+        "readyMs": 653,
+        "firstTurnMs": 4248,
+        "peakDecodes": 8,
+        "limit": 8,
+        "resizeObserverWarnings": 0,
+        "wonAndReturned": true
+      },
+      {
+        "platform": "desktop-pwa",
+        "worker": "/service-worker.js",
+        "standalone": true,
+        "simulatedIosHome": false,
+        "actualPwaInstallation": true,
+        "cachedModuleReplaced": true,
+        "readyMs": 1255,
+        "firstTurnMs": 4850,
+        "peakDecodes": 8,
+        "limit": 8,
+        "resizeObserverWarnings": 0,
+        "wonAndReturned": true
+      },
+      {
+        "platform": "android",
+        "worker": "/service-worker.js",
+        "standalone": false,
+        "simulatedIosHome": false,
+        "actualPwaInstallation": false,
+        "readyMs": 851,
+        "firstTurnMs": 4442,
+        "peakDecodes": 3,
+        "limit": 3,
+        "resizeObserverWarnings": 0,
+        "wonAndReturned": true
+      },
+      {
+        "platform": "android-pwa",
+        "worker": "/service-worker.js",
+        "standalone": true,
+        "simulatedIosHome": false,
+        "actualPwaInstallation": true,
+        "cachedModuleReplaced": true,
+        "readyMs": 1512,
+        "firstTurnMs": 5105,
+        "peakDecodes": 3,
+        "limit": 3,
+        "resizeObserverWarnings": 0,
+        "wonAndReturned": true
+      },
+      {
+        "platform": "ios",
+        "worker": "/service-worker.js",
+        "standalone": false,
+        "simulatedIosHome": false,
+        "actualPwaInstallation": false,
+        "readyMs": 8025,
+        "firstTurnMs": 11335,
+        "peakDecodes": 2,
+        "limit": 2,
+        "resizeObserverWarnings": 1,
+        "wonAndReturned": true
+      },
+      {
+        "platform": "ios-home",
+        "worker": "/service-worker.js",
+        "standalone": false,
+        "simulatedIosHome": true,
+        "actualPwaInstallation": false,
+        "cachedModuleReplaced": true,
+        "readyMs": 6228,
+        "firstTurnMs": 9649,
+        "peakDecodes": 2,
+        "limit": 2,
+        "resizeObserverWarnings": 1,
+        "wonAndReturned": true
+      }
+    ],
+    "measurements": {
+      "android": {
+        "before": {
+          "formationMs": [
+            1097,
+            1326,
+            1234
+          ],
+          "firstTurnMs": [
+            4682,
+            4910,
+            4805
+          ],
+          "medianFormationMs": 1234,
+          "medianFirstTurnMs": 4805
+        },
+        "after": {
+          "formationMs": [
+            884,
+            1018,
+            816
+          ],
+          "firstTurnMs": [
+            4472,
+            4555,
+            4402
+          ],
+          "medianFormationMs": 884,
+          "medianFirstTurnMs": 4472
+        }
+      },
+      "ios": {
+        "before": {
+          "formationMs": [
+            9750,
+            7913,
+            9141
+          ],
+          "firstTurnMs": [
+            13379,
+            11467,
+            12653
+          ],
+          "medianFormationMs": 9141,
+          "medianFirstTurnMs": 12653
+        },
+        "after": {
+          "formationMs": [
+            6487,
+            7299,
+            7617
+          ],
+          "firstTurnMs": [
+            9978,
+            10541,
+            10865
+          ],
+          "medianFormationMs": 7299,
+          "medianFirstTurnMs": 10541
+        }
+      }
+    },
+    "saveDataSpeculativeLoads": 0,
+    "notes": "Windows Chrome/WebKit with 390px touch profiles, fixed three-player seed and isolated real coop API. Chrome standalone was actually installed locally. iOS home-screen mode was emulated. The baseline WebKit return tap failed during repeated result updates. Desktop and mobile shared the subsequent navigation resize fix."
+  },
+  "playerAnnouncement": "output/announcements/coop-platform-performance-20261108/notice-ko.txt"
+}

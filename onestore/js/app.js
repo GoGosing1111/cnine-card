@@ -1917,7 +1917,16 @@ function packArt(pack) {
 const DEX_PREF_KEY='cnine:dexPreferences:v1';
 function loadDexPrefs(){try{return {...{search:'',grade:'',sort:'default',favoriteOnly:false,favoriteMembers:[]},...JSON.parse(localStorage.getItem(DEX_PREF_KEY)||'{}')}}catch(_){return {search:'',grade:'',sort:'default',favoriteOnly:false,favoriteMembers:[]}}}
 function saveDexPrefs(prefs){try{localStorage.setItem(DEX_PREF_KEY,JSON.stringify(prefs))}catch(_){}}
-function dexMemberStats(name,owned,visibleCards=cards){const list=visibleCards.filter(c=>c.name===name);return {name,list,got:list.filter(c=>owned.has(c.id)).length}}
+function groupDexMembers(visibleCards,owned){
+  const members=new Map();
+  for(const card of visibleCards){
+    let member=members.get(card.name);
+    if(!member){member={name:card.name,list:[],got:0};members.set(card.name,member);}
+    member.list.push(card);
+    if(owned.has(card.id))member.got++;
+  }
+  return members;
+}
 function sortDexMembers(items,prefs){const favorites=new Set(prefs.favoriteMembers||[]);return [...items].sort((a,b)=>{
   const favoriteDiff=Number(favorites.has(b.name))-Number(favorites.has(a.name));
   if(favoriteDiff)return favoriteDiff;
@@ -1929,7 +1938,7 @@ function sortDexMembers(items,prefs){const favorites=new Set(prefs.favoriteMembe
 })}
 function dexView(user) {
   const owned=ownedIds(user),prefs=loadDexPrefs(),visibleCards=collectionSurfaceCards(cards,user),visibleIds=new Set(visibleCards.map(card=>String(card.id))),visibleOwnedCount=[...owned].filter(id=>visibleIds.has(String(id))).length,uniqueCount=visibleCards.filter(card=>card.uniqueAbility).length;
-  const members=sortDexMembers([...new Set(visibleCards.map(c=>c.name))].map(name=>dexMemberStats(name,owned,visibleCards)),prefs);
+  const members=sortDexMembers([...groupDexMembers(visibleCards,owned).values()],prefs);
   return `${summaryBar(user)}<section class="dex-cover"><div><p class="eyebrow">MY COLLECTION ALBUM</p><h2>리버스콜 도감</h2><p>멤버별 앨범을 펼쳐 수집한 카드와 고유 능력을 확인하세요.</p>${uniqueCount?`<button type="button" class="dex-unique-legend" data-scroll-unique="1"><i>◇</i><span><b>고유 능력 카드 ${uniqueCount}장</b><small>카드 이름 오른쪽의 유형 배지를 누르면 능력치 프로필이 바로 열립니다.</small></span></button>`:''}</div><div class="dex-cover-actions-v1359"><div class="dex-total"><b>${visibleOwnedCount}</b><span>/ ${visibleCards.length} CARDS</span></div><button type="button" id="dexBulkEnhancementBtn" class="dex-bulk-enhancement-entry-v1899"><span>⇧</span><b>일괄 강화</b><small>다중 선택 · 자동 진행</small></button><button type="button" id="highGradeRerollBtn" class="high-grade-reroll-btn-v1354" hidden><span>♻</span><b>고등급 재뽑기</b><small>등급별 계정 1회</small></button></div></section><div class="dex-toolbar"><div class="dex-search"><input id="dexSearch" value="${escapeHtml(prefs.search||'')}" placeholder="카드명 또는 멤버 검색"><select id="gradeFilter"><option value="">전체 등급</option>${['ICON','SUPERSTAR','ZENITH','FUR','PRESTIGE','LIMITED','MA','SSR','UR','HR','SR','R','U','C'].map(g=>`<option ${prefs.grade===g?'selected':''}>${g}</option>`).join('')}</select><select id="dexSort"><option value="default" ${prefs.sort==='default'?'selected':''}>기본 순서</option><option value="name" ${prefs.sort==='name'?'selected':''}>멤버 이름순</option><option value="owned" ${prefs.sort==='owned'?'selected':''}>보유 카드 많은순</option><option value="rate" ${prefs.sort==='rate'?'selected':''}>수집률 높은순</option><option value="count" ${prefs.sort==='count'?'selected':''}>전체 카드 많은순</option></select></div><div class="dex-toolbar-actions-v1356"><button type="button" id="favoriteMemberOnly" class="dex-favorite-filter ${prefs.favoriteOnly?'active':''}" aria-pressed="${prefs.favoriteOnly?'true':'false'}">★ 즐겨찾기 멤버만</button></div></div><div class="dex-guide"><span>멤버 이름 옆 별을 눌러 즐겨찾기</span><span>${uniqueCount?'유형 배지 선택 시 카드 능력치 확인':'즐겨찾기 멤버는 항상 위에 표시'}</span></div><div id="dexSections">${members.map((item,index)=>dexSection(item,owned,index,prefs,user)).join('')}</div>`;
 }
 function dexSection(item,owned,index=0,prefs=loadDexPrefs(),user=loadUser()) {
@@ -1937,10 +1946,11 @@ function dexSection(item,owned,index=0,prefs=loadDexPrefs(),user=loadUser()) {
   const lazy=index>1;
   return `<section class="dex-section ${lazy?'collapsed':''} ${favorite?'favorite-member':''}" data-member="${escapeHtml(name)}" data-total="${list.length}" data-owned="${got}" data-dex-materialized="${lazy?'0':'1'}"><div class="dex-section-head"><button type="button" class="dex-fold-button"><span><i class="fold-icon">⌄</i><strong>${escapeHtml(name)}</strong><small>COLLECTION ALBUM</small></span><b>${got} / ${list.length}</b></button><button type="button" class="dex-member-favorite ${favorite?'active':''}" data-favorite-member="${escapeHtml(name)}" aria-label="${escapeHtml(name)} 즐겨찾기" aria-pressed="${favorite?'true':'false'}">★</button></div><div class="album-grid">${lazy?'':list.map(c=>cardHtml(c,owned.has(c.id),'small dex-card-display',user)).join('')}</div></section>`;
 }
-function materializeDexSection(section,user=loadUser()){
+function materializeDexSection(section,user=loadUser(),memberCards,owned=ownedIds(user)){
   if(!section||section.dataset.dexMaterialized==='1')return;
-  const owned=ownedIds(user),member=section.dataset.member||'',grid=section.querySelector('.album-grid');if(!grid)return;
-  grid.innerHTML=collectionSurfaceCards(cards,user).filter(card=>card.name===member).map(card=>cardHtml(card,owned.has(card.id),'small dex-card-display',user)).join('');
+  const grid=section.querySelector('.album-grid');if(!grid)return;
+  const list=memberCards??collectionSurfaceCards(cards,user).filter(card=>card.name===section.dataset.member);
+  grid.innerHTML=list.map(card=>cardHtml(card,owned.has(card.id),'small dex-card-display',user)).join('');
   section.dataset.dexMaterialized='1';window.CNineRuntime?.observe?.(section);
 }
 
@@ -2113,7 +2123,7 @@ const PVE_DECK_FILTER_KEY='cnine_pve_deck_filter_v1';
 function loadPveDeckFilter(){try{return {query:'',grade:'ALL',type:'ALL',sort:'POWER_DESC',...JSON.parse(localStorage.getItem(PVE_DECK_FILTER_KEY)||'{}')}}catch{return {query:'',grade:'ALL',type:'ALL',sort:'POWER_DESC'}}}
 function savePveDeckFilter(filter){try{localStorage.setItem(PVE_DECK_FILTER_KEY,JSON.stringify(filter))}catch(_){}}
 function cardDeckType(card){return String(uniqueAbilityDominant(card)?.key||'NONE').toUpperCase()}
-function filterDeckCards(list=[],filter={},user=loadUser(),settings=battleState.config){
+function filterDeckCards(list=[],filter={},user=loadUser(),settings=battleState.config,pveNameTies=false){
   const query=String(filter.query||'').trim().toLowerCase(),grade=String(filter.grade||'ALL').toUpperCase(),type=String(filter.type||'ALL').toUpperCase(),sort=String(filter.sort||'POWER_DESC').toUpperCase();
   const rows=list.filter(card=>{
     if(grade!=='ALL'&&String(card.grade||card.rarity||'').toUpperCase()!==grade)return false;
@@ -2121,10 +2131,18 @@ function filterDeckCards(list=[],filter={},user=loadUser(),settings=battleState.
     if(query&&!`${card.title||''} ${card.name||''} ${card.grade||''}`.toLowerCase().includes(query))return false;
     return true;
   });
+  const powers=new Map(),power=card=>{
+    if(!powers.has(card))powers.set(card,battleCardPower(card,user,settings));
+    return powers.get(card);
+  };
   rows.sort((a,b)=>{
-    if(sort==='NAME_ASC')return String(a.name||a.title||'').localeCompare(String(b.name||b.title||''),'ko')||String(a.title||'').localeCompare(String(b.title||''),'ko');
-    if(sort==='GRADE_DESC')return (gradeOrder[b.grade]||0)-(gradeOrder[a.grade]||0)||battleCardPower(b,user,settings)-battleCardPower(a,user,settings);
-    return battleCardPower(b,user,settings)-battleCardPower(a,user,settings)||(gradeOrder[b.grade]||0)-(gradeOrder[a.grade]||0);
+    if(sort==='NAME_ASC'){
+      const byName=String(a.name||a.title||'').localeCompare(String(b.name||b.title||''),'ko')||String(a.title||'').localeCompare(String(b.title||''),'ko');
+      if(byName||!pveNameTies)return byName;
+    }
+    const byGrade=(gradeOrder[b.grade]||0)-(gradeOrder[a.grade]||0);
+    if(sort==='GRADE_DESC'||sort==='NAME_ASC')return byGrade||power(b)-power(a);
+    return power(b)-power(a)||byGrade;
   });
   return rows;
 }
@@ -2135,7 +2153,7 @@ function fillDeckSlot(state,id){let index=Number.isInteger(state.deckEditSlot)&&
 function selectEmptyDeckSlot(state,index){if(Number.isInteger(index)&&index>=0&&index<5&&!state.deck[index])state.deckEditSlot=index;}
 function renderPveDeckCardList(owned,user=loadUser()){
   const root=document.getElementById('battleCards');if(!root)return;
-  const filter=loadPveDeckFilter(),deckSet=new Set(battleState.deck),rows=filterDeckCards(owned,filter,user,battleState.config),groups=pveDeckGradeGroups(rows);
+  const filter=loadPveDeckFilter(),deckSet=new Set(battleState.deck),rows=filterDeckCards(owned,filter,user,battleState.config,true),groups=pveDeckGradeGroups(rows);
   mountVirtualCardGroups(root,groups,{kind:'pve',renderCard:card=>`<button type="button" class="pve-frame-pick pvp-pick ${deckSet.has(card.id)?'selected':''}" data-pick="${card.id}" ${deckSet.has(card.id)?'disabled':''}>${pveDeckCardMini(card,user)}${deckSet.has(card.id)?'<span class="pve-selected-cover"><b>편성됨</b></span>':''}</button>`,onPick:button=>{if(deckCardCount(battleState.deck)>=5)return alert('PVE 덱은 5장까지 편성할 수 있습니다.');const card=cards.find(item=>String(item.id)===String(button.dataset.pick)),rules=normalizeDeckRules(battleState.deckRules),grade=String(card?.grade||card?.rarity||'').toUpperCase(),hasLimit=Object.prototype.hasOwnProperty.call(rules.gradeLimits,grade),limit=Number(rules.gradeLimits?.[grade]);if(hasLimit&&deckGradeCount(battleState.deck,grade)>=limit)return alert(`${deckGradeRuleLabel(grade)} 카드는 PVE 덱에 최대 ${limit}장까지만 편성할 수 있습니다.`);const scrollTop=root.scrollTop;fillDeckSlot(battleState,button.dataset.pick);renderBattleBuilder();requestAnimationFrame(()=>{const next=document.getElementById('battleCards');if(next)next.scrollTop=scrollTop})}});
   const count=document.getElementById('pveDeckResultCount');if(count)count.textContent=`${rows.length}장`;
 }
@@ -2268,7 +2286,6 @@ function renderPveMonsterBrowser(){
 function renderBattleBuilder(){
   void warmBattleArtAssets().catch(error=>console.warn('전투 스프라이트 사전 로딩 실패:',error));
   const viewMode=getPveViewMode(),activeMobileTab=getMobilePveTab()||((deckCardCount(battleState.deck)===5)?'monsters':'deck'),user=loadUser();
-  const owned=collectionSurfaceCards(cards,user).filter(card=>ownedIds(user).has(card.id)).sort((a,b)=>(gradeOrder[b.grade]||0)-(gradeOrder[a.grade]||0)||battleCardPower(b,user,battleState.config)-battleCardPower(a,user,battleState.config));
   const deckSet=new Set(battleState.deck.map(String)),cardPower=battleState.deck.reduce((sum,id)=>{const card=cards.find(item=>String(item.id)===String(id));return sum+(card?battleCardPower(card,user,battleState.config):0)},0),bonus=battleState.characterBonus||{},power=cardPower+Number(bonus.pve||0),isReady=deckCardCount(battleState.deck)===5;
   const powerEl=document.getElementById('battleDeckPower');if(powerEl)powerEl.textContent=power.toLocaleString();
   const deckCountEl=document.getElementById('battleDeckCount');if(deckCountEl)deckCountEl.textContent=`${deckCardCount(battleState.deck)} / 5`;
@@ -2276,6 +2293,7 @@ function renderBattleBuilder(){
   const deckStatusText=document.getElementById('battleDeckStatusText');if(deckStatusText){const garageText=Number(bonus.garagePve||0)>0?` <i>+</i> 이동수단 ${Number(bonus.garagePve||0).toLocaleString()}`:'';const titleText=Number(bonus.titlePve||0)>0?` <i>+</i> 칭호 ${Number(bonus.titlePve||0).toLocaleString()}`:'';deckStatusText.innerHTML=`카드 ${cardPower.toLocaleString()} <i>+</i> 장비 ${Number(bonus.equipmentPve||0).toLocaleString()}${garageText}${titleText}<em>${isReady?' · 출전 준비 완료':' · 5장 편성 필요'}</em>`;}
   const deckRoot=document.getElementById('battleDeck'),cardRoot=document.getElementById('battleCards'),monsterRoot=document.getElementById('battleMonsters');
   if(viewMode==='deck'){
+    const ownedSet=ownedIds(user),owned=collectionSurfaceCards(cards,user).filter(card=>ownedSet.has(card.id));
     if(deckRoot)deckRoot.innerHTML=Array.from({length:5},(_,index)=>{const card=cards.find(item=>item.id===battleState.deck[index]);return card?`<button type="button" class="pve-frame-slot pvp-deck-slot filled" data-remove="${card.id}" title="클릭해서 덱에서 제외">${pveDeckCardMini(card,user)}<span class="pve-remove-hint">덱에서 빼기</span></button>`:`<div class="pve-frame-slot pvp-deck-slot empty"><div class="pve-frame-empty pvp-empty-slot"><span>${index+1}</span><b>빈 슬롯</b><small>카드를 선택하세요</small></div></div>`}).join('');
     renderPveDeckCardList(owned,user);
     bindPveDeckFilters(owned,user);
@@ -3717,7 +3735,22 @@ function bindView(tab) {
     document.querySelectorAll('.dex-fold-button').forEach(h=>h.onclick=()=>{const section=h.closest('.dex-section'),opening=section?.classList.contains('collapsed');if(opening)materializeDexSection(section);section?.classList.toggle('collapsed')});
     const dexSections=document.getElementById('dexSections');if(dexSections)dexSections.onclick=event=>{const card=event.target.closest('.card-frame');if(card)showDetail(card.dataset.id)};
     const search=document.getElementById('dexSearch'),filter=document.getElementById('gradeFilter'),sort=document.getElementById('dexSort'),favoriteOnly=document.getElementById('favoriteMemberOnly');
-    const apply=()=>{const prefs=loadDexPrefs(),q=search.value.trim().toLowerCase(),g=filter.value,visibleCards=collectionSurfaceCards(cards,loadUser());document.querySelectorAll('.dex-section').forEach(section=>{const member=section.dataset.member||'',matches=visibleCards.filter(c=>c.name===member&&(!q||c.title.toLowerCase().includes(q)||c.name.toLowerCase().includes(q))&&(!g||c.grade===g));if((q||g)&&matches.length)materializeDexSection(section);if(section.dataset.dexMaterialized==='1')section.querySelectorAll('.card-frame').forEach(el=>{const c=visibleCards.find(x=>x.id===el.dataset.id),show=Boolean(c&&(!q||c.title.toLowerCase().includes(q)||c.name.toLowerCase().includes(q))&&(!g||c.grade===g));el.style.display=show?'':'none'});const favoriteMatch=!prefs.favoriteOnly||section.classList.contains('favorite-member');section.style.display=matches.length&&favoriteMatch?'':'none';if(q||g)section.classList.remove('collapsed')});prefs.search=search.value;prefs.grade=g;saveDexPrefs(prefs)};
+    const apply=()=>{
+      const prefs=loadDexPrefs(),q=search.value.trim().toLowerCase(),g=filter.value,user=loadUser(),owned=ownedIds(user);
+      const visible=collectionSurfaceCards(cards,user),members=groupDexMembers(visible,owned),matchedIds=new Set(),matchedMembers=new Set();
+      for(const card of visible){
+        if((g&&card.grade!==g)||(q&&!card.title.toLowerCase().includes(q)&&!card.name.toLowerCase().includes(q)))continue;
+        matchedIds.add(card.id);matchedMembers.add(card.name);
+      }
+      for(const section of document.querySelectorAll('.dex-section')){
+        const member=section.dataset.member,matched=matchedMembers.has(member);
+        if((q||g)&&matched)materializeDexSection(section,user,members.get(member).list,owned);
+        if(section.dataset.dexMaterialized==='1')for(const el of section.querySelectorAll('.card-frame'))el.style.display=matchedIds.has(el.dataset.id)?'':'none';
+        section.style.display=matched&&(!prefs.favoriteOnly||section.classList.contains('favorite-member'))?'':'none';
+        if(q||g)section.classList.remove('collapsed');
+      }
+      if(prefs.search!==search.value||prefs.grade!==g){prefs.search=search.value;prefs.grade=g;saveDexPrefs(prefs);}
+    };
     document.querySelectorAll('.dex-member-favorite').forEach(button=>button.onclick=e=>{e.stopPropagation();const prefs=loadDexPrefs(),name=button.dataset.favoriteMember,list=new Set(prefs.favoriteMembers||[]);list.has(name)?list.delete(name):list.add(name);prefs.favoriteMembers=[...list];saveDexPrefs(prefs);renderShell('dex')});
     search.oninput=apply;filter.onchange=apply;sort.onchange=()=>{const prefs=loadDexPrefs();prefs.sort=sort.value;saveDexPrefs(prefs);renderShell('dex')};favoriteOnly.onclick=()=>{const prefs=loadDexPrefs();prefs.favoriteOnly=!prefs.favoriteOnly;saveDexPrefs(prefs);renderShell('dex')};const uniqueLegend=document.querySelector('[data-scroll-unique]');if(uniqueLegend)uniqueLegend.onclick=()=>{let first=document.querySelector('.dex-card-display .deck-ability-icon, .card-unique-badge');if(!first){const uniqueCard=collectionSurfaceCards(cards,loadUser()).find(card=>card.uniqueAbility),section=[...document.querySelectorAll('.dex-section')].find(node=>node.dataset.member===uniqueCard?.name);materializeDexSection(section);first=[...section?.querySelectorAll('.card-frame')||[]].find(node=>node.dataset.id===uniqueCard?.id)?.querySelector('.deck-ability-icon, .card-unique-badge')}if(first){first.closest('.dex-section')?.classList.remove('collapsed');first.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>first.classList.add('pulse'),300);setTimeout(()=>first.classList.remove('pulse'),1700)}};apply();
   }
@@ -4350,6 +4383,16 @@ async function fetchWithTimeout(input,options={},timeoutMs=15000,label='서버 �
 async function loadStaticCardsFallback(){
   try{const response=await fetchWithTimeout('data/cards.json',{cache:'default'},7000,'기본 카드 데이터 확인');if(!response.ok)throw new Error('기본 카드 데이터를 불러오지 못했습니다.');const data=await response.json();return Array.isArray(data)?data:[]}
   catch(error){console.error('기본 카드 데이터 로드 실패:',error);return []}
+}
+async function firstStartupCatalog(cardTask,staticCardTask){
+  const server=cardTask.then(result=>({rows:result.ok?result.value?.cards:null,error:result.error,server:true}));
+  const fallback=staticCardTask.then(rows=>({rows,server:false}));
+  const first=await Promise.race([server,fallback]);
+  if(Array.isArray(first.rows)&&(first.server||first.rows.length))return first;
+  const other=await (first.server?fallback:server);
+  if(Array.isArray(other.rows)&&(other.server||other.rows.length))return other;
+  const authoritative=first.server?first:other;
+  throw authoritative.error||new Error('카드 데이터를 불러오지 못했습니다.');
 }
 function renderStartupRecovery(message='서버 연결이 지연되고 있습니다.'){
   if(startupWatchdogTimer){clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null}
@@ -5247,21 +5290,23 @@ async function init(){
     }
 
     if(!hasCatalogSnapshot){
-      const staticCards=await staticCardTask;
-      let cachePatch={};
-      if(Array.isArray(staticCards)&&staticCards.length&&!viewerCatalogWasRefreshed){cards=staticCards.map(normalizeClientCard);cachePatch.cards=staticCards;packPending=true;}
-      else{
-        const cardResult=await cardTask;if(runId!==startupRunId)return;
-        if(!cardResult.ok||!Array.isArray(cardResult.value?.cards))throw cardResult.error||new Error('카드 데이터를 불러오지 못했습니다.');
-        if(!viewerCatalogWasRefreshed)cards=cardResult.value.cards.map(normalizeClientCard);cachePatch=viewerCatalogWasRefreshed?{}:{cards:cardResult.value.cards};
+      const [catalog,packResult]=await Promise.all([
+        firstStartupCatalog(cardTask,staticCardTask),
+        Promise.race([packTask,new Promise(resolve=>setTimeout(()=>resolve({pending:true}),350))])
+      ]);
+      if(runId!==startupRunId)return;
+      const cachePatch={};
+      if(!viewerCatalogWasRefreshed){
+        cards=catalog.rows.map(normalizeClientCard);cachePatch.cards=catalog.rows;
+        if(!catalog.server)packPending=true;
       }
-      const packResult=await Promise.race([packTask,new Promise(resolve=>setTimeout(()=>resolve({pending:true}),350))]);
       if(packResult?.pending)packPending=true;
       else if(packResult.ok&&Array.isArray(packResult.value?.packs)){applyServerPacks(packResult.value.packs);syncBurningServerClock(packResult.value.serverNow);applyBurningEventState(packResult.value.burningEvent||{});cachePatch.packs=packResult.value.packs;cachePatch.burningEvent=packResult.value.burningEvent||{}}
       else console.warn('카드팩 설정 조회 실패 - 기본 설정으로 계속합니다:',packResult.error);
       writeStartupSnapshot(cachePatch);
     }
   }catch(error){
+    if(runId!==startupRunId)return;
     if(isPrisonLocked()){
       completed=true;if(startupWatchdogTimer){clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null}renderLockedPrison();return;
     }
