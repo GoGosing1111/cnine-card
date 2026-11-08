@@ -1,10 +1,11 @@
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 import {NETWORK_NODES,NETWORK_EDGES,isNetworkWar,networkControl,networkTimeWinner} from '../shared/territory-network-v6.mjs';
 
-export const NETWORK_SCHEMA='territory_network_v6_20261011';
+export const NETWORK_SCHEMA='territory_network_v6_frontline_20261108';
 export const networkSchemaStatements=postgres=>{
   const int=postgres?'BIGINT':'INTEGER';
   return [
+    "CREATE INDEX IF NOT EXISTS idx_twv3_front_activity ON territory_war_v3_actions(round_id,updated_at,front_id) WHERE status='COMPLETED'",
     `CREATE TABLE IF NOT EXISTS territory_network_rounds(round_id ${int} PRIMARY KEY,revision INTEGER NOT NULL DEFAULT 1,winner_side TEXT NOT NULL DEFAULT '' CHECK(winner_side IN ('','A','B','DRAW')),created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
     `CREATE TABLE IF NOT EXISTS territory_network_nodes(round_id ${int} NOT NULL,node_index INTEGER NOT NULL CHECK(node_index BETWEEN 0 AND 8),owner TEXT NOT NULL CHECK(owner IN ('','A','B')),front_id ${int},a_access INTEGER NOT NULL DEFAULT 0,b_access INTEGER NOT NULL DEFAULT 0,captured_at TEXT,PRIMARY KEY(round_id,node_index),UNIQUE(front_id))`
   ];

@@ -124,7 +124,7 @@ import { handleAvatar,avatarFeatureAccess,equippedAvatarEffect,applyAvatarCoinGa
 import { handleVehicleDraw,ensureVehicleDrawFoundation } from '../_vehicle_draw.js';
 import { handlePrimeDraw } from '../_prime_draw.js';
 import { handleHighGradeReroll,grantHighGradeRerollDrop,ensureHighGradeRerollFoundation } from '../_high_grade_reroll.js';
-import { handleTerritoryWar } from '../_territory_war.js';
+import { handleTerritoryWar,tickTerritorySchedule } from '../_territory_war.js';
 import { handleClan } from '../_clan.js';
 import {handleOrganization,reconcileOrganizationRecruitment,organizationLiveOperation,runOrganizationAllocation} from '../_organization.js';
 import {handleOrganizationFaction,tickOrganizationFaction,organizationFactionLiveOperation} from '../_organization_faction.js';
@@ -9549,4 +9549,10 @@ export async function runUserAuctionSchedule(env){
  const runtime=await createPostgresD1Compat(env.HYPERDRIVE?.connectionString);
  try{const live={...env,DB:runtime.db};const marker=await live.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind('auction_user_policy_v1').first();if(!marker)return {skipped:true};await createLiveAuctionService(live,{withUserMutationLock:withJointUserMutationLock}).tick();return {ok:true};}
  finally{await runtime.close();}
+}
+
+export async function runTerritoryWarSchedule(env){
+  const runtime=await createPostgresD1Compat(env.HYPERDRIVE?.connectionString);
+  try{return await tickTerritorySchedule({...env,DB:runtime.db},{battleSettings,cardBattlePower,pvpDeckSnapshot,pvpDeckSnapshotByIds,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,evaluateDeckSynergiesBatch,magicBattleLoadout,magicBattleLoadouts});}
+  finally{await runtime.close();}
 }

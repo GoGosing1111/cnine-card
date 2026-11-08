@@ -1,48 +1,54 @@
 (() => {
   'use strict';
-  const root='/assets/ui/territory-war/network-v2/';
-  const art={A:root+'guardian-citadel.webp',B:root+'purifier-citadel.webp'};
-  function factionArtHtml(side,className=''){
-    return art[side]?`<img class="tw7-citadel ${className}" src="${art[side]}" alt="" aria-hidden="true" decoding="async" draggable="false">`:'';
+  const art='/assets/ui/territory-war/frontline-20261108/';
+  const coords=[[9,50],[27,20],[73,20],[29,50],[50,50],[71,50],[27,80],[73,80],[91,50]];
+  const legacyCoords=[[9,25],[29,25],[50,25],[71,25],[71,50],[50,50],[29,50],[29,76],[59,76]];
+  const sites={HOME:['hq','야전 지휘본부'],OUTPOST:['outpost','전방 막사'],MID:['depot','군수 보급창'],GATE:['gate','차량 검문소'],CENTER:['relay','철교 통제소']};
+  const siteFor=(node,index)=>{const [key,name]=sites[node?.type]||sites[['HOME','OUTPOST','MID','GATE','CENTER','GATE','MID','OUTPOST','HOME'][index]]||sites.CENTER;return {key,name,scene:art+'site-'+key+'-scene.webp'};};
+  const shape={hot:'M12 2c2 5-2 6 1 10 2-1 3-3 3-5 5 5 5 10 1 13-3 3-9 2-12-2-2-5 1-8 4-11 0 3 0 4 2 5-1-4 3-6 1-10z',arrow:'M4 12h15 M13 5l7 7-7 7'};
+  function icon(key){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="'+shape[key]+'"/></svg>';}
+  function factionArtHtml(side){return side==='A'||side==='B'?'<span class="fl-side-symbol fl-'+side+'" aria-hidden="true">'+side+'</span>':'';}
+  function heat(state){
+    const data=state.frontlineActivity;
+    if(state.round?.status!=='ACTIVE'||state.truce?.active||!Array.isArray(data?.nodes))return [];
+    return data.nodes.filter(n=>Number(n.attacks)>=Number(data.minimum||4)).sort((a,b)=>b.attacks-a.attacks);
   }
-  function nodeVisual(node){
-    const neutral='<img class="tw7-citadel" src="'+root+'crossroads-sanctuary.webp" alt="" aria-hidden="true" decoding="async" draggable="false">';
-    return `<span class="tw7-node-figure" aria-hidden="true"><i class="tw7-node-ground"></i>${factionArtHtml(node.owner)||neutral}<em>${node.type==='HOME'?'본진':String(node.index+1).padStart(2,'0')}</em></span>`;
+  function accessFor(state,n){
+    if(state.round?.status!=='ACTIVE')return {kind:'wait',mark:'–',label:'교전 종료',why:'정산된 전장을 둘러볼 수 있습니다.'};
+    if(!state.mine?.side)return {kind:'wait',mark:'–',label:'관전',why:'참가한 전투단이 진입할 수 있습니다.'};
+    if(state.truce?.active)return {kind:'wait',mark:'–',label:'휴전',why:'휴전이 끝나면 교전할 수 있습니다.'};
+    if(!n.canEnter)return {kind:'wait',mark:'–',label:'경로 대기',why:n.owner===state.mine.side?'현재 교전이 가능한 방어선 밖입니다.':'본진과 이어진 인접 거점을 먼저 확보하세요.'};
+    return n.owner===state.mine.side?{kind:'defend',mark:'◇',label:'방어 지원',why:'상대가 접근할 수 있는 아군 거점입니다.'}:{kind:'advance',mark:'▸',label:'진입 가능',why:'아군 전선과 연결된 진격로가 열려 있습니다.'};
   }
   function mapHtml(state,{esc,sideName,selectedIndex,stage,actions}){
-    const map=state.network,nodes=map.nodes,mine=state.mine?.side;
-    const routes=map.edges.map(([a,b])=>{
-      const from=nodes.find(n=>n.index===a),to=nodes.find(n=>n.index===b),owner=from.owner&&from.owner===to.owner?from.owner:'';
-      return `<line class="tw7-route ${owner?'side-'+owner.toLowerCase():''}" x1="${from.x}%" y1="${from.y}%" x2="${to.x}%" y2="${to.y}%"/>`;
+    const network=state.network,mine=state.mine?.side,current=Number(state.round?.current_front_index??4);
+    const nodes=network?.nodes||state.nodes.map((n,i)=>({...n,owner:i<current?'A':i>current?'B':'',canEnter:i===current}));
+    const edges=network?.edges||nodes.slice(1).map((n,i)=>[i,i+1]),hot=heat(state);
+    const pos=i=>(network?coords:legacyCoords)[i]||[50,50];
+    const sideCode=s=>s==='A'?'a':s==='B'?'b':'neutral';
+    const lines=edges.map(([n,m])=>{const [x,y]=pos(n),[xx,yy]=pos(m),o=nodes.find(v=>v.index===n)?.owner;
+      return `<line class="fl-route fl-route-${o&&o===nodes.find(v=>v.index===m)?.owner?sideCode(o):'neutral'}" x1="${x}%" y1="${y}%" x2="${xx}%" y2="${yy}%"/>`;}).join('');
+    const marks=nodes.map(n=>{
+      const [x,y]=pos(n.index),h=hot.find(v=>v.nodeIndex===n.index),site=siteFor(n,n.index),selected=n.index===Number(selectedIndex);
+      const owner=n.owner?sideName(n.owner)+' 점령':'중립',name=esc(n.name),access=accessFor(state,n);
+      return `<button type="button" class="fl-node fl-${access.kind} fl-site-${site.key} fl-node-${sideCode(n.owner)} ${selected?'is-selected':''} ${h?'fl-node-hot':''}" style="left:${x}%;top:${y}%" data-tw4-node="${n.index}" aria-pressed="${selected}" aria-label="${name} · ${site.name} · ${esc(owner)} · ${access.label}${h?' · 격전, 최근 2분 '+Number(h.attacks)+'회':''}">
+        <span class="fl-base-ground" aria-hidden="true"></span><picture class="fl-site-model"><source media="(max-width:820px)" srcset="${art}site-${site.key}-160.webp"><img src="${art}site-${site.key}-320.webp" width="96" height="96" alt="" decoding="async"></picture>
+        <span class="fl-node-label"><i aria-hidden="true"></i>${name}<em aria-hidden="true">${access.mark}</em></span>${h?'<span class="fl-heat-label">'+icon('hot')+'격전 '+Number(h.attacks)+'</span>':''}</button>`;
     }).join('');
-    return `<section class="tw4-map-shell tw7-map" aria-label="세 갈래 영토전 지도">
-      ${stage}
-      <picture class="tw4-map-art" aria-hidden="true"><img src="${root}three-fronts-map.webp" alt="" decoding="async" fetchpriority="high"></picture>
-      <div class="tw4-map-shade" aria-hidden="true"></div>
-      <div class="tw4-map-toolbar tw7-map-toolbar"><div><span><i class="side-a"></i>${esc(sideName('A'))}</span><span><i class="side-b"></i>${esc(sideName('B'))}</span><span><i class="contested"></i>중립</span></div><b>THREE FRONTS <span>세 갈래 전선</span></b></div>
-      <div class="tw7-lane-labels" aria-hidden="true"><span><small>NORTHERN RIDGE</small>북부 고지</span><span><small>CENTRAL CROSSING</small>중앙 교차로</span><span><small>SOUTHERN RIVER</small>남부 보급로</span></div>
-      <svg class="tw4-territory-layer tw7-routes" aria-hidden="true">${routes}</svg>
-      <div class="tw4-map-nodes tw7-nodes" role="group" aria-label="점령 거점">
-        ${nodes.map(node=>{
-          const selected=node.index===Number(selectedIndex),own=node.owner===mine,access=node.canEnter,label=node.owner?sideName(node.owner)+' 점령':'중립 거점',hint=access?(own?'방어 지원':'공략 가능'):node.owner&&!node.connected?'고립됨':own?'아군 점령지':'경로 확보 필요';
-          return `<button type="button" class="tw7-node ${node.owner?'side-'+node.owner.toLowerCase():'contested'} ${selected?'selected':''} ${access?'is-accessible':''} ${node.type==='HOME'?'is-home':''}" style="--x:${node.x}%;--y:${node.y}%" data-tw4-node="${node.index}" aria-label="${esc(node.name)} · ${esc(label)} · ${hint}" aria-pressed="${selected}">
-            ${nodeVisual(node)}<span class="tw7-node-caption"><b>${esc(node.name)}</b><small>${hint}</small></span>
-            ${node.front_id?`<span class="tw7-node-hp"><i class="side-a" style="--hp:${Math.max(0,Math.min(100,Number(node.a_hp)/Math.max(1,Number(node.a_max_hp))*100))}%"></i><i class="side-b" style="--hp:${Math.max(0,Math.min(100,Number(node.b_hp)/Math.max(1,Number(node.b_max_hp))*100))}%"></i></span>`:''}
-          </button>`;
-        }).join('')}
-      </div>
-      <div class="tw7-map-instruction"><b>${map.canEnter?'선택한 거점에서 교전할 수 있습니다':'연결된 거점을 선택하세요'}</b><span>연결된 점령지를 따라 진격 · 적 본진 점령 시 승리</span></div>
-      ${actions}
-    </section>`;
+    return `<section class="tw4-map-shell tw7-map fl-map" aria-label="영토전 전선 지도">${stage}
+      <div class="fl-map-projection"><picture class="tw4-map-art fl-map-photo"><source media="(max-width:820px)" srcset="${art}map-960.webp"><img src="${art}map-1600.webp" alt="" fetchpriority="high" decoding="async"></picture>
+      <div class="fl-map-grid" aria-hidden="true"></div><svg class="fl-links" aria-hidden="true">${lines}</svg><div class="fl-map-pins" role="group" aria-label="전선 거점">${marks}</div></div>
+      ${actions}</section>`;
   }
   function occupationHtml(state,{esc,sideName}){
-    const c=state.network.counts,mine=state.mine?.side;
-    const banner=side=>`<button type="button" class="tw7-faction side-${side.toLowerCase()} ${mine===side?'is-mine':''}" data-tw4-node="${side==='A'?0:8}" aria-label="${esc(sideName(side))} 본진 확인">
-      ${factionArtHtml(side)}<span class="tw7-faction-name"><small>${side==='A'?'WESTERN GUARD':'EASTERN FLAME'}</small><strong>${esc(sideName(side))}</strong><span>${mine===side?'내 진영 · ':''}${Number(state.counts?.[side]||0)}명</span></span><span class="tw7-faction-count"><b>${c[side]}</b><small>점령 거점</small></span>
-    </button>`;
-    return `<section class="tw7-occupation" aria-label="전체 영토 점령 현황">${banner('A')}
-      <div class="tw7-occupation-center"><small>TERRITORY WAR</small><strong>영토 점령전</strong><span>개인 균형 편성 · ${c.neutral?`중립 ${c.neutral}곳`:'전 거점 점령 중'}</span><div class="tw7-control-track"><i class="side-a" style="flex:${c.A}"></i>${c.neutral?`<i class="neutral" style="flex:${c.neutral}"></i>`:''}<i class="side-b" style="flex:${c.B}"></i></div></div>
-      ${banner('B')}</section>`;
+    const counts=state.network?.counts,values=counts||state.counts||{};
+    const team=side=>`<span class="fl-team fl-team-${side}">${factionArtHtml(side)}<strong>${esc(sideName(side))}</strong><b>${Number(counts?counts[side]:state.counts?.[side])||0}<small>${counts?'거점':'명'}</small></b>${state.mine?.side===side?'<i>내 진영</i>':''}</span>`;
+    return `<div class="fl-control" aria-label="진영별 점령 현황">${team('A')}<span class="fl-control-bar" aria-hidden="true"><i style="flex:${Number(values.A)||0}"></i><i style="flex:${Number(counts?.neutral)||0}"></i><i style="flex:${Number(values.B)||0}"></i></span>${team('B')}</div>`;
   }
-  globalThis.CNineTerritoryNetwork={mapHtml,occupationHtml,factionArtHtml};
+  function hotList(state,{esc}){
+    const wars=heat(state),nodes=state.network?.nodes||state.nodes||[];
+    return `<section class="fl-signal" aria-label="격전지"><div>${icon('hot')}<h2>격전지</h2><small>최근 2분</small></div>
+      ${wars.length?wars.map(w=>{const n=nodes.find(p=>p.index===w.nodeIndex);return n?`<button type="button" data-tw4-node="${n.index}">${esc(n.name)} <b>${Number(w.attacks)}회</b> ${icon('arrow')}</button>`:'';}).join(''):'<span class="fl-quiet">집중 교전 없음</span>'}</section>`;
+  }
+  globalThis.CNineTerritoryNetwork={mapHtml,occupationHtml,factionArtHtml,hotList,siteFor,accessFor};
 })();

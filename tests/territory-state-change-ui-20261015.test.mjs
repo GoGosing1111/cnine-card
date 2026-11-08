@@ -180,5 +180,8 @@ test('shared apiRequest forwards the server state-change contract intact',async(
 });
 
 test('only the territory client cache receives the new state-recovery key',()=>{
-  assert.match(read('index.html'),/js\/territory-war-v1811\.js\?v=2062-my-team-emphasis[^"]*&amp;stateRecovery=20261015-v1/);
+  for(const page of ['index.html','onestore/index.html']){
+    const script=read(page).match(/<script[^>]+src="(js\/territory-war-v1811\.js\?[^"]+)"/)[1];
+    assert.equal(new URL(script.replaceAll('&amp;','&'),'https://game.invalid').searchParams.get('stateRecovery'),'20261015-v1');
+  }
 });

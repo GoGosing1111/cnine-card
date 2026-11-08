@@ -750,7 +750,7 @@
     },
     {
       "file": "preview/project-v-v3/source/battle/BattleEngine.js",
-      "sha256": "ee8488235159d608f22d87cd4fe7068cdee52e21dbb10bc4fbbe09631624d4bb"
+      "sha256": "d892be6bd460796f0c00257739037acdde5291d139d099e1a0fa50dda2b9faf1"
     },
     {
       "file": "preview/project-v-v3/source/battle/BattleCharacter.js",
@@ -1108,7 +1108,7 @@
   "outputs": [
     {
       "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
-      "sha256": "d91cb6d0a599ad4f7f31616e46c8dc747fd978109d10d23bda614400081bbc7e",
+      "sha256": "0d53874178b4023bf1abd83e6772e69bb5ca77e368b6e74ed3b9de9c15e8cee7",
       "commonGrid": true
     },
     {

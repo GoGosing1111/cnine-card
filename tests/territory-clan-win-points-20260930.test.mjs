@@ -12,7 +12,7 @@ CREATE TABLE territory_war_v3_rounds(id INTEGER PRIMARY KEY,status TEXT,version 
 CREATE TABLE territory_war_clans(round_id INTEGER,clan_id INTEGER,side TEXT,position INTEGER,PRIMARY KEY(round_id,clan_id));
 CREATE TABLE clan_season_teams(season_id INTEGER,clan_id INTEGER,score INTEGER,wins INTEGER,losses INTEGER,updated_at TEXT,PRIMARY KEY(season_id,clan_id));
 CREATE TABLE territory_war_mutation_guards(token TEXT PRIMARY KEY,ok INTEGER CHECK(ok=1));
-CREATE TABLE territory_war_v3_users(round_id INTEGER,user_id INTEGER,side TEXT,damage INTEGER,counter_contribution INTEGER,ace_defeats INTEGER,last_defense_successes INTEGER,comeback_participations INTEGER,attacks INTEGER);
+CREATE TABLE territory_war_v3_users(round_id INTEGER,user_id INTEGER,side TEXT,damage INTEGER,counter_contribution INTEGER,ace_defeats INTEGER,last_defense_successes INTEGER,comeback_participations INTEGER,attacks INTEGER,status TEXT DEFAULT 'ACTIVE');
 CREATE TABLE territory_war_v3_actions(round_id INTEGER,user_id INTEGER,status TEXT);
 CREATE TABLE territory_war_v3_rewards(round_id INTEGER,user_id INTEGER,side TEXT,result TEXT,coin INTEGER,shards INTEGER,damage INTEGER,attacks INTEGER,required_attacks INTEGER,base_result_coin INTEGER,attack_reward_percent INTEGER,attack_adjusted_coin INTEGER,counter_bonus_coin INTEGER,ace_bonus_coin INTEGER,last_defense_bonus_coin INTEGER,comeback_bonus_coin INTEGER,siege_snapshot_bonus_coin INTEGER,premium_cube_quantity INTEGER,claimed_at TEXT,PRIMARY KEY(round_id,user_id));
 `;
@@ -67,7 +67,7 @@ for(const postgres of [false,true]){
   });
   test(`${dialect}: CMS judgment finishes during combat updates and replaces unclaimed reward previews only once`,async t=>{
     const f=await fixture(t,postgres),before=await f.teams(),stale=await f.round(),batch=f.env.DB.batch.bind(f.env.DB);
-    await f.p("INSERT INTO territory_war_v3_users VALUES(77,101,'A',5000,0,0,0,0,60),(77,102,'B',6000,0,0,0,0,60)").run();
+    await f.p("INSERT INTO territory_war_v3_users(round_id,user_id,side,damage,counter_contribution,ace_defeats,last_defense_successes,comeback_participations,attacks) VALUES(77,101,'A',5000,0,0,0,0,60),(77,102,'B',6000,0,0,0,0,60)").run();
     await f.p("INSERT INTO territory_war_v3_rewards(round_id,user_id,side,result,coin) VALUES(77,101,'A','WIN',999),(77,102,'B','LOSE',999)").run();
     let combatUpdates=0;
     f.env.DB.batch=async statements=>{

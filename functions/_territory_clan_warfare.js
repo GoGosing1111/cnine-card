@@ -1,3 +1,4 @@
+import {victoryBuffStatement} from './_territory_frontline.js';
 import {networkActionGuards,networkActionCleanup} from './_territory_network_v6.js';
 import {isNetworkWar,hasTerritorySkills} from '../shared/territory-network-v6.mjs';
 import {readRuntimeData,cacheRuntimeData,invalidateRuntimeData} from './_runtime_data_cache.js';
@@ -15,7 +16,12 @@ export const isClanWarfare=round=>Number(round?.warfare_version||0)===4;
 // The round close, four league-score increments and the round receipt commit
 // together. Automatic victories and admin judgments both use this boundary.
 export async function finishTerritoryClanRound(env,round,winner,{adminJudgment=false}={}){
-  if(!isClanWarfare(round)||!['A','B'].includes(winner))return env.DB.prepare("UPDATE territory_war_v3_rounds SET status='FINISHED',winner_side=?,settled_at=CURRENT_TIMESTAMP,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND settled_at IS NULL").bind(winner,round.id).run();
+  const at=Date.now(),settledAt=new Date(at).toISOString();
+  if(!isClanWarfare(round)||!['A','B'].includes(winner)){
+    const update=env.DB.prepare("UPDATE territory_war_v3_rounds SET status='FINISHED',winner_side=?,settled_at=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND settled_at IS NULL").bind(winner,settledAt,round.id);
+    if(!['A','B'].includes(winner))return update.run();
+    return (await env.DB.batch([update,victoryBuffStatement(env.DB,round.id,winner,at,settledAt)]))[0];
+  }
   const roundId=Number(round.id),seasonId=Number(round.clan_season_id),version=Number(round.version);
   if(!Number.isSafeInteger(roundId)||roundId<=0||!Number.isSafeInteger(seasonId)||seasonId<=0||!Number.isSafeInteger(version))fail('승리 클랜의 시즌 정보를 확인하지 못했습니다.');
   const teams=rows(await env.DB.prepare(`SELECT c.clan_id,t.score FROM territory_war_clans c
@@ -28,10 +34,10 @@ export async function finishTerritoryClanRound(env,round,winner,{adminJudgment=f
   // the active-round/season/receipt guards; automatic outcomes still require the
   // combat version used to calculate their winner.
   const statements=[
-    env.DB.prepare(`UPDATE territory_war_v3_rounds SET status='FINISHED',winner_side=?,settled_at=CURRENT_TIMESTAMP,
+    env.DB.prepare(`UPDATE territory_war_v3_rounds SET status='FINISHED',winner_side=?,settled_at=?,
       skill_action_token=?,version=version+1,updated_at=CURRENT_TIMESTAMP
       WHERE id=? AND (?=1 OR version=?) AND status IN ('PREPARING','ACTIVE') AND settled_at IS NULL
-      AND warfare_version=4 AND clan_season_id=?`).bind(winner,token,roundId,adminJudgment===true?1:0,version,seasonId),
+      AND warfare_version=4 AND clan_season_id=?`).bind(winner,settledAt,token,roundId,adminJudgment===true?1:0,version,seasonId),
     env.DB.prepare(`INSERT INTO territory_war_mutation_guards(token,ok) SELECT ?,CASE WHEN
       EXISTS(SELECT 1 FROM territory_war_v3_rounds WHERE id=? AND status='FINISHED' AND winner_side=?
         AND skill_action_token=? AND settled_at IS NOT NULL AND clan_season_id=?)
@@ -49,6 +55,7 @@ export async function finishTerritoryClanRound(env,round,winner,{adminJudgment=f
       .bind(verified,...teams.flatMap(team=>[seasonId,team.clan_id,Number(team.score)+TERRITORY_CLAN_WIN_POINTS])),
     env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) SELECT ?,?,CURRENT_TIMESTAMP
       WHERE EXISTS(SELECT 1 FROM territory_war_mutation_guards WHERE token=? AND ok=1)`).bind(receiptKey,JSON.stringify(receipt),verified),
+    victoryBuffStatement(env.DB,roundId,winner,at,settledAt),
     env.DB.prepare('DELETE FROM territory_war_mutation_guards WHERE token IN (?,?)').bind(token,verified)
   );
   const result=await env.DB.batch(statements);
