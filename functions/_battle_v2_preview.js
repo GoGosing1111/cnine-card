@@ -1418,7 +1418,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       }
       stampCombatGroup(from,departed.atMs,false);
     }
-    if(!targetableAlive(a).length||cooperative&&!targetableAlive(b).length&&!pendingMonsters.length)break;
+    if(!targetableAlive(a).length||cooperative&&!targetableAlive(b).length&&!pendingMonsters.length&&(!sustained||sustained.bossSpawned))break;
     if(sustained&&!targetableAlive(b).length&&!sustained.bossSpawned){
       if(maxCombatDurationMs<sustained.nextAt){combatMs=nextCombatMs=maxCombatDurationMs;durationStopped=true;break;}
       if(chipActor&&nextChipMs()<sustained.nextAt){resolveChipStep();continue;}

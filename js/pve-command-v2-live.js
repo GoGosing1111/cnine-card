@@ -87,7 +87,7 @@
   function liveBattleView(user) {
     return `${summaryBar(user)}<div id="pveCommandV2" class="pvev2-root pvev2-live-root" data-screen="deck">
       ${battleToolbar()}
-      <nav class="pve-mode-tabs pvev2-mode-nav" aria-label="PVE 콘텐츠">${modeButton('deck', true)}${modeButton('hunt')}${modeButton('coop')}${modeButton('raid')}${modeButton('escort')}${modeButton('scrapyard')}${modeButton('legion')}</nav>
+      <nav class="pve-mode-tabs pvev2-mode-nav" aria-label="PVE 콘텐츠">${modeButton('deck', true)}${modeButton('hunt')}${modeButton('coop')}${modeButton('raid')}${modeButton('escort')}${modeButton('scrapyard')}${modeButton('legion')}<button type="button" class="pve-mode-btn" data-legion-citadel hidden><span><b>군단토벌 파티</b><small>불타는 성채 · 2인</small></span></button></nav>
       <main class="pvev2-viewport" id="pveV2LiveViewport">
         <div id="pveHuntView" class="pve-hunt-redesign pve-hunt-v1179"><div class="pvev2-loading"><i></i><b>라이브 PVE 데이터 연결 중</b><span>REVERSE CALL DATABASE</span></div></div>
         <div id="pveRiftView" class="pve-rift-view" hidden><div class="rift-loading"><i></i><b>차원의 균열을 확인하는 중...</b></div></div>

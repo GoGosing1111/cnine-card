@@ -48,7 +48,7 @@ export function openLegionHunt(button){
   if(active)return;
   const dialog=document.createElement('dialog');dialog.className='legion-hunt-portal';dialog.setAttribute('aria-label','군단토벌 입장');
   dialog.innerHTML=`<header class="legion-portal-bar"><div class="legion-brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8V3h5m8 0h5v5M3 16v5h5m8 0h5v-5M8 6v12l8-6Z"/></svg><span>리버스콜<small>REVERSE CALL</small></span></div><nav class="legion-breadcrumb" aria-label="현재 위치"><span>모험</span><i aria-hidden="true">/</i><b>군단토벌</b></nav><button type="button" data-hunt-close><span aria-hidden="true">←</span> PVE로 돌아가기</button></header>
-    <div class="legion-lobby"><div class="legion-lobby-layout">
+    <div class="legion-lobby"><button type="button" class="legion-party-gate" data-legion-citadel>2인 파티 원정 · 불타는 성채　→</button><div class="legion-lobby-layout">
       <nav class="legion-regions" aria-label="토벌 지역 선택" hidden></nav>
       <section class="legion-intro" aria-labelledby="legion-island-title">
         <div class="legion-hero-halo" aria-hidden="true"></div><img class="legion-guardian" src="${art}monsters/ancient-forge-warden-boss-sd-v2.png" alt="섬의 최종 보스 태고의 수호자">
@@ -171,6 +171,7 @@ export function openLegionHunt(button){
   window.addEventListener('message',onMessage);active=controller;document.body.append(dialog);dialog.showModal();void controller.refresh();
 }
 document.addEventListener('click',event=>{
+  const party=event.target.closest('[data-legion-citadel]');if(party&&!party.hidden){event.preventDefault();void import('./legion-citadel-v1.mjs?v=1').then(m=>m.openCitadel(party)).catch(()=>{party.textContent='불타는 성채 · 다시 열기';});return;}
   const button=event.target.closest('[data-legion-hunt-entry]');if(!button||button.hidden)return;event.preventDefault();openLegionHunt(button);
 });
 
@@ -185,6 +186,7 @@ export function syncLegionHuntNavigation(root=document,request=jointAccountReque
     void request('legion-hunt/status').then(data=>{
       if(!button.isConnected)return;
       button.hidden=data.canEnter!==true;
+      const party=button.parentElement?.querySelector('[data-legion-citadel]');if(party)party.hidden=button.hidden;
       const detail=button.querySelector('small');if(detail)detail.textContent=data.access?.mode==='TEST'?'잊혀진 섬 · TEST':'잊혀진 섬';
     }).catch(()=>{button.hidden=true;checkedNavigation.delete(button);});
   }

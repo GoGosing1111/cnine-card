@@ -102,8 +102,11 @@ export async function seasonAwardStatements(env,event,options={}){
 }
 export async function seasonBonus(env,uid,mode){
  if(!seasonEnabled(env))return {attackBp:0,hpBp:0};
- const [account,gear]=await Promise.all([seasonAccount(env,uid),runeEquipment(env,uid)]);
- return itemRuneBonus(account.state,mode,gear.equipped);
+ const account=await seasonAccount(env,uid);
+ if(!Object.keys(account.state.itemRunes||{}).length)return {attackBp:0,hpBp:0};
+ // Combat reads only worn gear. The rune-management screen still lists owned items.
+ const rows=await p(env,'SELECT l.instance_id AS id FROM user_equipment_loadout l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.slot=l.slot AND '+eligibleGear+' WHERE l.user_id=?',uid).all();
+ return itemRuneBonus(account.state,mode,rows.results.map(r=>Number(r.id)));
 }
 const slotSql=SOCKET_SLOTS.map(s=>"'"+s+"'").join(',');
 const eligibleGear='i.is_active=1 AND i.slot IN ('+slotSql+')';

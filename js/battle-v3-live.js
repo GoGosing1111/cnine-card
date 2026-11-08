@@ -14,7 +14,7 @@
       root.__V3_PIXI_GENERATION = Number(root.__V3_PIXI_GENERATION || 0) + 1;
       root.__V3_PIXI_MOUNTED = false; root.__V3_PIXI_CANVAS = null; root.__V3_PIXI_INIT_PROMISE = null;
       const script = document.createElement('script');
-      script.src = '/preview/project-v-v3/project-v-pixi-battle.bundle.js?iosBitmap=20261102-v1&primeZeroTop=20261102-v1&blackcrownBalance=20261031-v1&heukmu=20261029-swing-fx-v2&omegaCraft=20261029-v1&balance220=20261029-v1&diimFront=20261029-v1&iconFour=20261029-v1&hpSync=20261029-v1&kamishiro=20261028-live-v1&heukgu=20261025-large-head-v3&bloodmoonBattle=20261025-status-v2&deployment=20261025-bloodmoon&namsudaeng=20261024-v1&eunseol=20261023-v1&generalJok=20261023-v15&valterParity=20261021-v1&prime=20261021-v2&towerAbyss=20261021-v1&zero=20261020-wings-live-v1&leonel=20261018-live-v1&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&v=20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-jinmu-jokro-v2&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&tacticalHud=20261102-v1&hakuya=20261105-v1&battleRuntime=' + BATTLE_RUNTIME + (effects?'&lichFx=20261001':'');
+      script.src = '/preview/project-v-v3/project-v-pixi-battle.bundle.js?citadel=1&iosBitmap=20261102-v1&primeZeroTop=20261102-v1&blackcrownBalance=20261031-v1&heukmu=20261029-swing-fx-v2&omegaCraft=20261029-v1&balance220=20261029-v1&diimFront=20261029-v1&iconFour=20261029-v1&hpSync=20261029-v1&kamishiro=20261028-live-v1&heukgu=20261025-large-head-v3&bloodmoonBattle=20261025-status-v2&deployment=20261025-bloodmoon&namsudaeng=20261024-v1&eunseol=20261023-v1&generalJok=20261023-v15&valterParity=20261021-v1&prime=20261021-v2&towerAbyss=20261021-v1&zero=20261020-wings-live-v1&leonel=20261018-live-v1&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&v=20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-jinmu-jokro-v2&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&tacticalHud=20261102-v1&hakuya=20261105-v1&battleRuntime=' + BATTLE_RUNTIME + (effects?'&lichFx=20261001':'');
       script.async = false;
       const timer = setTimeout(() => { script.remove(); reject(new Error('전투 엔진을 새로 불러오지 못했습니다. 다시 입장해 주세요.')); }, 20000);
       script.onload = () => { clearTimeout(timer); ready() ? resolve() : reject(new Error('전투 엔진 버전 확인에 실패했습니다.')); };
@@ -864,9 +864,10 @@
         if (status) status.textContent = '서버 전투 데이터 동기화 완료';
       };
       let lastError = null;
-      for (let attempt = 0; attempt < 2; attempt += 1) {
+      const hasLightweightScene=sourceData.sceneAssetKey==='LEGION_BURNING_CITADEL';
+      for (let attempt = 0; attempt < (hasLightweightScene?1:2); attempt += 1) {
         try {
-          await withRejectingTimeout(initialize(), 14000, 'V3 WebGL 전장 초기화 시간이 초과되었습니다.');
+          await withRejectingTimeout(initialize(), hasLightweightScene?6500:14000, 'V3 WebGL 전장 초기화 시간이 초과되었습니다.');
           return;
         } catch (error) {
           lastError = error;

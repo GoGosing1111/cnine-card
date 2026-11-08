@@ -783,7 +783,7 @@ export class BaseBattleEngine{
     this.app.ticker.add(this.parallaxTicker);
   }
 
-  battlefieldAsset(mode){if(this.battleData?.sceneAssetKey==='CLASSIC_COLOSSEUM'&&mode==='PVP')return '/assets/ui/classic-colosseum/20261027/arena-v1.png';if(this.jokgakCityBattlefield&&mode==='PVP')return '/assets/ui/jokgak-city/city-street-battle-v1.webp';if(this.territoryBattlefieldV5&&mode==='SIEGE')return '/assets/ui/territory-war/battlefield-v5/battlefield-panorama-1600.webp';return this.coopArkeBattlefield&&mode==='RAID'?COOP_ARKE_BATTLEFIELD:this.coupPalaceBattlefield&&mode==='SIEGE'?COUP_PALACE_BATTLEFIELD:(BATTLEFIELD_ASSETS[mode]||BATTLEFIELD_ASSETS[DEFAULT_BATTLEFIELD_MODE])}
+  battlefieldAsset(mode){if(this.battleData?.sceneAssetKey==='LEGION_BURNING_CITADEL'&&mode==='RAID')return '/assets/ui/legion-citadel/gate-'+(LOW_MEMORY_DEVICE?'720':'1440')+'.webp';if(this.battleData?.sceneAssetKey==='CLASSIC_COLOSSEUM'&&mode==='PVP')return '/assets/ui/classic-colosseum/20261027/arena-v1.png';if(this.jokgakCityBattlefield&&mode==='PVP')return '/assets/ui/jokgak-city/city-street-battle-v1.webp';if(this.territoryBattlefieldV5&&mode==='SIEGE')return '/assets/ui/territory-war/battlefield-v5/battlefield-panorama-1600.webp';return this.coopArkeBattlefield&&mode==='RAID'?COOP_ARKE_BATTLEFIELD:this.coupPalaceBattlefield&&mode==='SIEGE'?COUP_PALACE_BATTLEFIELD:(BATTLEFIELD_ASSETS[mode]||BATTLEFIELD_ASSETS[DEFAULT_BATTLEFIELD_MODE])}
 
   resolveBattlefieldAsset(mode){
     // Older content extensions exposed a string getter under this name.
@@ -1838,6 +1838,13 @@ export class BaseBattleEngine{
     this.coopArkeBattlefield=payload?.sceneAssetKey==='COOP_ARKE_FORGE';
     this.territoryBattlefieldV5=payload?.sceneAssetKey==='TERRITORY_BATTLEFIELD_V5';
     this.cooperativeInstances=payload?.cooperativeEncounter?new Map(payload.cooperativeEncounter.instances.map(row=>[row.id,row])):null;
+    const citadel=payload?.cooperativeEncounter?.citadel;
+    if(citadel&&payload.sceneAssetKey==='LEGION_BURNING_CITADEL'){
+      for(const [slot,n,type,elite] of citadel.manifest){
+        const form=citadel.forms[type],id=n===-1?'B:4:CITADEL:BOSS':'B:'+slot+':CITADEL'+(n?':R'+n:'');
+        this.cooperativeInstances.set(id,Object.assign(Object.create(form),{id,slot,title:(elite?'정예 ':'')+form.title,maxHp:form.maxHp*(elite?2:1),shield:form.maxShield,finalBoss:n===-1}));
+      }
+    }
     this.lastCoopPlayback=null;
     this.activeBattlefieldMode=battlefieldModeFromPayload(payload);
     this.activeBattlefieldAsset=this.resolveBattlefieldAsset(this.activeBattlefieldMode);
@@ -1857,7 +1864,7 @@ export class BaseBattleEngine{
 
     const legion=payload?.battleV2?.rules?.enemyFormation==='BOSS_WITH_SIX_MINIONS';
     const duo=payload?.battleV2?.rules?.formation==='DUO_TWO_SQUADS';
-    this.ensureAllyCapacity(duo?10:payload?.battleV2?.rules?.formation==='COOP_THREE_SQUADS'?6:5);this.ensureEnemyCapacity(duo?10:legion?7:5);
+    this.ensureAllyCapacity(duo?10:payload?.battleV2?.rules?.formation==='COOP_THREE_SQUADS'?6:5);this.ensureEnemyCapacity(payload?.sceneAssetKey==='LEGION_BURNING_CITADEL'?12:duo?10:legion?7:5);
     for(const actor of this.characters)if(actor.apocalypseStatusLabel){actor.apocalypseStatusLabel.text='';actor.apocalypseStatusLabel.visible=false;}
     const allyCards=Array.isArray(payload?.battleV2?.teams?.A?.cards)?payload.battleV2.teams.A.cards:[];
     const enemyCards=Array.isArray(payload?.battleV2?.teams?.B?.cards)
@@ -1897,7 +1904,7 @@ export class BaseBattleEngine{
     queueCardAssets(allyCards,allyArt);
     queueCardAssets(enemyCards,enemyArt);
     if(monsterArt?.primaryUrl&&!this.cooperativeInstances)preloadUrls.push(monsterArt.primaryUrl);
-    if(this.cooperativeInstances)preloadUrls.push(...[...this.cooperativeInstances.values()].map(row=>row.battleSprite));
+    if(this.cooperativeInstances)preloadUrls.push(...new Set([...this.cooperativeInstances.values()].map(row=>row.battleSprite)));
     if(accountSuitUrl)preloadUrls.push(accountSuitUrl);
     if(accountSword)preloadUrls.push(...Z_SWORD.assets.map(asset=>asset.url));
     if(accountWeaponUrl)preloadUrls.push(accountWeaponUrl);
@@ -2378,6 +2385,7 @@ export class BaseBattleEngine{
 
   syncCooperativeState(frame){
     if(!this.formationCoop||!frame)return;
+    if(this.battleData?.sceneAssetKey==='LEGION_BURNING_CITADEL'&&this.cooperativeInstances)cooperativeSnapshot(this,frame.B||[]);
     this.cooperativeFrame=new Map([...(frame.A||[]),...(frame.B||[])].map(row=>[row.id,row]));
     for(const actor of this.characters){
       const row=this.cooperativeFrame.get(actor.id);if(!row)continue;

@@ -4,16 +4,17 @@ import {companionSnapshotRows} from '../shared/companion-battle-snapshot-v1.mjs'
 import {COOP_DUAL_BALANCE,validateCoopDualBalance} from '../shared/cooperative-dual-preparation-v1.mjs';
 import {applyTypeStacking,distributeEquipment,buildFighter,buildAvatarMercenaryFighter,buildMonsterFighter,publicFighter,simulateBattleV2Preview,teamSummary} from './_battle_v2_preview.js';
 import {avatarPoweredCard} from '../shared/avatar-power-v1.mjs';
+import {validatePreparedMercenaries} from '../shared/companion-loadout-v2.mjs';
 import {cooperativeEnemies} from './_cooperative_enemies.js';
 import {COOP_RULES,COOP_ENCOUNTER,coopDifficulty} from '../shared/cooperative-battleground-v1.mjs';
 
-export function createCooperativeBattle({squads,difficulty='NORMAL',seed=1,withdrawals=[],effects=[],monsterSnapshot,combat,turnClockVersion=4,encounter=null,[REVIEW]:review=false,dualBalance=COOP_DUAL_BALANCE}){
+export function createCooperativeBattle({squads,difficulty='NORMAL',seed=1,withdrawals=[],effects=[],monsterSnapshot,combat,turnClockVersion=4,encounter=null,[REVIEW]:review=false,dualBalance=COOP_DUAL_BALANCE,citadelEnemies=null}){
  const config=typeof difficulty==='string'?coopDifficulty(difficulty):difficulty;
  if(!config||!Array.isArray(squads)||squads.length<COOP_RULES.minPlayers||squads.length>COOP_RULES.players||new Set(squads.map(s=>s.ownerId)).size!==squads.length)throw Error('INVALID_COOPERATIVE_PARTY');
  const dual=review===true||COMPANION_RELEASE.dualMercenaries&&squads.some(s=>Array.isArray(s.mercenaries)),mercenariesPerOwner=dual?2:1;
  const cards=[],mercenaries=[],members=[];
  squads.forEach((squad,squadIndex)=>{
-  const {ownerId,ownerName}=squad,deck=squad.cards,rows=companionSnapshotRows(squad,review);
+  const {ownerId,ownerName}=squad,deck=squad.cards,rows=citadelEnemies?validatePreparedMercenaries(squad.mercenaries,{freeRanks:true}):companionSnapshotRows(squad,review);
   if(!Number.isSafeInteger(ownerId)||ownerId<=0||!Array.isArray(deck)||deck.length!==2||new Set(deck.map(c=>c.id)).size!==2||deck.some(c=>!c.id||c.isMercenary)||deck.filter(c=>(c.rarity||c.grade)==='SUPERSTAR').length>1||!rows.length)throw Error('INVALID_COOPERATIVE_SQUAD');
   const own=distributeEquipment(applyTypeStacking(deck),Math.max(0,Number(squad.equipmentBonus)||0)).map((c,localSlot)=>({
    ...buildFighter(avatarPoweredCard(c,squad.avatarPowerPercent),localSlot,'A',c.uniqueAbility||null,'PVE'),id:`A:OWNER:${ownerId}:CARD:${c.id}`,
@@ -28,16 +29,17 @@ export function createCooperativeBattle({squads,difficulty='NORMAL',seed=1,withd
  });
  const saved=combat?.difficulties.find(d=>d.id===config.id),maxBattleMs=combat?combat.maxBattleSeconds*1000:COOP_RULES.maxBattleMs;
  const tuned={...config,forcedEvery:saved?.forcedEvery??config.forcedEvery};
- const staged=monsterSnapshot?null:cooperativeEnemies(tuned,saved?.monsters,combat?.stages,encounter);
+ const staged=citadelEnemies||(monsterSnapshot?null:cooperativeEnemies(tuned,saved?.monsters,combat?.stages,encounter));
  const monster=monsterSnapshot?structuredClone(monsterSnapshot):staged.monster;
  monster.projectVMonsterArt??={scope:'BATTLE_ENGINE_ONLY',kind:'COOP_ARKE',primaryUrl:monster.battleSprite,pngFallbackUrl:monster.battleSprite,footAnchor:{x:.5,y:.94},objectFit:'contain',objectPosition:'50% 100%',scaleMultiplier:1.5,technicalPass:true,reviewOnly:false};
  const enemy={...buildMonsterFighter(monster),battleSprite:monster.battleSprite};
  const enemies=staged?.initial||[enemy];
- const balance=dual?validateCoopDualBalance(dualBalance):null;
+ const balance=dual&&!citadelEnemies?validateCoopDualBalance(dualBalance):null;
  if(balance)for(const fighter of [...enemies,...(staged?.pending||[])]){fighter.hp=Math.round(fighter.hp*balance.hp);fighter.maxHp=Math.round(fighter.maxHp*balance.hp);fighter.shield=Math.round(fighter.shield*balance.hp);fighter.maxShield=Math.round(fighter.maxShield*balance.hp);fighter.attack=Math.round(fighter.attack*balance.attack);}
  if(balance&&staged)staged.encounter.instances=[...enemies,...staged.pending].map(publicFighter);
  const pets=squads.filter(s=>s.pet).map(s=>({...s.pet,ownerId:s.ownerId}));
- const result=simulateBattleV2Preview({[REVIEW]:review,pets:{A:pets},petMode:'PVE',teamA:[...cards,...mercenaries],teamB:enemies,reinforcements:staged?.pending||[],seed,maxActions:600,maxCombatDurationMs:maxBattleMs,
+ const result=simulateBattleV2Preview({[REVIEW]:review,pets:{A:pets},petMode:'PVE',teamA:[...cards,...mercenaries],teamB:enemies,reinforcements:staged?.pending||[],seed,maxActions:citadelEnemies?6000:600,maxCombatDurationMs:maxBattleMs,
+  ...(citadelEnemies?{encounterCapacity:12,sustainedEncounter:citadelEnemies.sustained}:{}),
   forcedMonsterEvery:tuned.forcedEvery,healerPenalty:true,singleHealerBonus:squads[0].singleHealerBonus||{},cooperative:{withdrawals,effects,turnClockVersion,encounter}});
  // PVE survival is always a loss, regardless of HP-ratio tiebreaking.
  result.winner=!result.encounter?.remaining&&result.final.B.every(f=>f.hp<=0)&&result.final.A.some(f=>f.hp>0)?'A':'B';

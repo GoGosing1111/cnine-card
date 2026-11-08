@@ -51,6 +51,7 @@ import {handleLootShop} from '../_loot_shop.js';
 import {handleRankedShop} from '../_ranked_shop.js';
 import {deliverRankedPvpCoins} from '../_ranked_coin.js';
 import {handleLegionHunt} from '../_legion_hunt.js';
+import {handleLegionCitadel} from '../_legion_citadel.js';
 import {claimPigCoinMessageReward} from '../_pig_coin_message_reward.js';
 import {claimCityMessageReward} from '../_jokgak_city_message_reward.js';
 import {claimOmegaMercenaryMessageReward,claimShiranuiMercenaryMessageReward,claimJokroMercenaryMessageReward} from '../_mercenary_message_reward.js';
@@ -5140,6 +5141,7 @@ async function handleRequest(context){
       return json({inventory:{totalQuantity:Number(inventory?.totalQuantity||0),ownedTypes:Number(inventory?.ownedTypes||0),unseenTotal:Number(inventory?.unseenTotal||0)},messages:{unread:Number(messages?.unread||0)},avatarFeature,alchemyFeature,serverNow:new Date().toISOString()});
     }
     const seasonResponse=await handleSeasonS1({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(seasonResponse)return seasonResponse;
+    const citadelResponse=await handleLegionCitadel({path,request,env,deps:{authenticate,json,battleSettings,cardBattlePower,cardUniqueDeckState,cardUniqueDeckStates,userEquipmentBonuses,withUserMutationLock:withJointUserMutationLock}});if(citadelResponse)return citadelResponse;
     const legionHuntResponse=await handleLegionHunt({path,request,env,deps:{authenticate,json,raidDeckPower,cardBattlePower,magicBattleLoadout,selectActivatedUltimate,loadMercenaryBattleSnapshot:releasedMercenarySnapshot,withUserMutationLock:withJointUserMutationLock}});if(legionHuntResponse)return legionHuntResponse;
     const rankedShopResponse=await handleRankedShop({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(rankedShopResponse)return rankedShopResponse;
     const lootShopResponse=await handleLootShop({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(lootShopResponse)return lootShopResponse;
