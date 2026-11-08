@@ -1,0 +1,121 @@
+{
+  "phase": "before",
+  "observedAt": "2026-11-08T04:58:19.898Z",
+  "transaction": "READ ONLY",
+  "title": "RAID_BUS_DRIVER",
+  "controls": 1,
+  "eligibleUsers": [],
+  "checked": [
+    {
+      "id": 22,
+      "nickname": "커피먹는철구",
+      "titleEquipped": true,
+      "rankLevel": 145,
+      "copies": 1,
+      "mercenaryLevel": 1,
+      "experience": 0,
+      "modes": {
+        "PVE": false,
+        "PVP": false
+      },
+      "rankedSelectable": false,
+      "stateReadMs": 613.9846000000016,
+      "stateReadQueries": 15
+    },
+    {
+      "id": 45,
+      "nickname": "박세라-ㅂ-",
+      "titleEquipped": false,
+      "rankLevel": 182,
+      "copies": 1,
+      "mercenaryLevel": 1,
+      "experience": 0,
+      "modes": {
+        "PVE": false,
+        "PVP": false
+      },
+      "rankedSelectable": false,
+      "stateReadMs": 980.1819000000014,
+      "stateReadQueries": 20
+    },
+    {
+      "id": 218,
+      "nickname": "현하루",
+      "titleEquipped": true,
+      "rankLevel": 125,
+      "copies": 1,
+      "mercenaryLevel": 5,
+      "experience": 0,
+      "modes": {
+        "PVE": false,
+        "PVP": false
+      },
+      "rankedSelectable": false,
+      "stateReadMs": 723.8968000000004,
+      "stateReadQueries": 16
+    },
+    {
+      "id": 1195,
+      "nickname": "씨나인택갓",
+      "titleEquipped": false,
+      "rankLevel": 194,
+      "copies": 0,
+      "mercenaryLevel": null,
+      "experience": null,
+      "modes": {
+        "PVE": false,
+        "PVP": false
+      },
+      "rankedSelectable": false,
+      "stateReadMs": 1069.1625000000004,
+      "stateReadQueries": 24
+    },
+    {
+      "id": 4391,
+      "nickname": "더듬이구",
+      "titleEquipped": false,
+      "rankLevel": 197,
+      "copies": 1,
+      "mercenaryLevel": 1,
+      "experience": 0,
+      "modes": {
+        "PVE": false,
+        "PVP": false
+      },
+      "rankedSelectable": false,
+      "stateReadMs": 1052.8760000000002,
+      "stateReadQueries": 23
+    },
+    {
+      "id": 4597,
+      "nickname": "찬호",
+      "titleEquipped": true,
+      "rankLevel": 150,
+      "copies": 1,
+      "mercenaryLevel": 5,
+      "experience": 500,
+      "modes": {
+        "PVE": false,
+        "PVP": false
+      },
+      "rankedSelectable": false,
+      "stateReadMs": 930.1088999999993,
+      "stateReadQueries": 19
+    }
+  ],
+  "eligibilityRoundtripMs": [
+    406.2503000000006,
+    75.91070000000036,
+    73.13140000000021,
+    76.45880000000034,
+    72.9997000000003,
+    72.97359999999935
+  ],
+  "titleQueryExplain": {
+    "executionMs": 1.137,
+    "indexes": [
+      "users_pkey",
+      "character_titles_code_key"
+    ]
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "phase": "live",
+  "observedAt": "2026-11-08T05:03:35.257Z",
+  "transaction": "READ ONLY",
+  "title": "RAID_BUS_DRIVER",
+  "controls": 1,
+  "eligibleUsers": [
+    22,
+    45,
+    218,
+    1195,
+    4391,
+    4597
+  ],
+  "checked": [
+    {
+      "id": 22,
+      "nickname": "커피먹는철구",
+      "titleEquipped": true,
+      "rankLevel": 145,
+      "copies": 1,
+      "mercenaryLevel": 1,
+      "experience": 0,
+      "modes": {
+        "PVE": true,
+        "PVP": true
+      },
+      "rankedSelectable": true,
+      "stateReadMs": 388.1408000000001,
+      "stateReadQueries": 12
+    },
+    {
+      "id": 45,
+      "nickname": "박세라-ㅂ-",
+      "titleEquipped": false,
+      "rankLevel": 182,
+      "copies": 1,
+      "mercenaryLevel": 1,
+      "experience": 0,
+      "modes": {
+        "PVE": true,
+        "PVP": true
+      },
+      "rankedSelectable": true,
+      "stateReadMs": 673.8072999999986,
+      "stateReadQueries": 17
+    },
+    {
+      "id": 218,
+      "nickname": "현하루",
+      "titleEquipped": true,
+      "rankLevel": 125,
+      "copies": 1,
+      "mercenaryLevel": 5,
+      "experience": 0,
+      "modes": {
+        "PVE": true,
+        "PVP": true
+      },
+      "rankedSelectable": true,
+      "stateReadMs": 448.15349999999853,
+      "stateReadQueries": 13
+    },
+    {
+      "id": 1195,
+      "nickname": "씨나인택갓",
+      "titleEquipped": false,
+      "rankLevel": 194,
+      "copies": 0,
+      "mercenaryLevel": null,
+      "experience": null,
+      "modes": {
+        "PVE": false,
+        "PVP": false
+      },
+      "rankedSelectable": false,
+      "stateReadMs": 810.0164999999997,
+      "stateReadQueries": 21
+    },
+    {
+      "id": 4391,
+      "nickname": "더듬이구",
+      "titleEquipped": false,
+      "rankLevel": 197,
+      "copies": 1,
+      "mercenaryLevel": 1,
+      "experience": 0,
+      "modes": {
+        "PVE": true,
+        "PVP": true
+      },
+      "rankedSelectable": true,
+      "stateReadMs": 737.8187999999991,
+      "stateReadQueries": 20
+    },
+    {
+      "id": 4597,
+      "nickname": "찬호",
+      "titleEquipped": true,
+      "rankLevel": 150,
+      "copies": 1,
+      "mercenaryLevel": 5,
+      "experience": 500,
+      "modes": {
+        "PVE": true,
+        "PVP": true
+      },
+      "rankedSelectable": true,
+      "stateReadMs": 613.6226000000006,
+      "stateReadQueries": 16
+    }
+  ],
+  "eligibilityRoundtripMs": [
+    369.8073000000004,
+    73.97959999999966,
+    76.47689999999966,
+    80.3119000000006,
+    86.1228000000001,
+    73.70439999999962
+  ],
+  "titleQueryExplain": {
+    "executionMs": 0.938,
+    "indexes": [
+      "users_pkey",
+      "character_titles_code_key"
+    ]
+  },
+  "duoTitleTriggers": [
+    {
+      "source": "character_titles",
+      "trigger": "ranked_duo_catalog_delete_v1"
+    },
+    {
+      "source": "character_titles",
+      "trigger": "ranked_duo_catalog_insert_v1"
+    },
+    {
+      "source": "character_titles",
+      "trigger": "ranked_duo_catalog_update_v1"
+    },
+    {
+      "source": "user_character_titles",
+      "trigger": "ranked_duo_touch_v1"
+    }
+  ]
+}
