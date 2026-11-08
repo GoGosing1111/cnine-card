@@ -1,10 +1,10 @@
 {
   "textNewlines": "LF",
   "sourceHashes": {
-    "packaging/onestore/web/client-patch.json": "027ef761f090a6496f857fb3c158a79c83491f03e7b7ad23ca77860b02332151",
-    "index.html": "c627374aaf7f1803c46753817eff577709cb06513d8beb11e7630c64d70532ad",
-    "js/app.js": "4aea8552ac9d1107a624f2e33dd64d0232d325d3f214676eafe9ffff0df62edb",
-    "js/soopketmon-v21-exact-shell-adapter.js": "82d5015ee4ee36924c038f9f47db42f1f0f1847f5562654ad3dd0fdc94bd5e17",
+    "packaging/onestore/web/client-patch.json": "2038dabfccf694c63c0685411239f26fe4b489643e52e837ac5a970aa21a042b",
+    "index.html": "dc6464594c6b9d8f053e94745d56ae2bbffb3866f524e9e57a479c13259f9bf0",
+    "js/app.js": "f7f25f04febd5f43fd13ec6a31d515b06fa44b46b6d9012d3f702f14be988e0e",
+    "js/soopketmon-v21-exact-shell-adapter.js": "5377d36b9f2cdbcb22d47c6018794f68a566b3dab76fe0a7a7d4300e39d5d433",
     "js/soopketmon-v21-runtime-router.js": "4830918df2ccd2c230a047a4f187a1a16c8cd24fdb918a52f02ca618c8653e34",
     "js/adventure-lobby-v2107.js": "cb7cc3dd9f73c7595fde6fc3755680984ac57104cfa217253dd2f50bec858be1",
     "js/pet-equipment-window-v1.mjs": "ea204ec16cb51b15c111e157f525961f841eb8ec9d11eb386f710f185648a7f4",
@@ -21,8 +21,8 @@
     "packaging/onestore/web/h5.css": "7c77779b15fef492acd7647c0d091b52a8c74b44ce511aff793ad66ac25d3d27"
   },
   "outputs": {
-    "onestore/js/app.js": "a13ada831833fe354effd8cf464825b230631f43ec5f8a3d3d9f93bd029cac34",
-    "onestore/js/soopketmon-v21-exact-shell-adapter.js": "005de4920b6aef48aa97f4aef8109d8e5c429792e187c7d449dde7065694474e",
+    "onestore/js/app.js": "707d504e9629e02988a0bff867c3603e7063ca034d79a3f02ef137d5996325ea",
+    "onestore/js/soopketmon-v21-exact-shell-adapter.js": "05b5a6d52f056a2d5b2776c7652d48a2304ab47e499cc0c3dfc08fd570412099",
     "onestore/js/soopketmon-v21-runtime-router.js": "40124fbfeb187e27c395be7d21975f2a59ed631efee9ef3f3493109c0e329f27",
     "onestore/js/adventure-lobby-v2107.js": "dc5c39125207288a50cc0b64343662decd3892136504eb7b5fcc62af5e4a2c48",
     "onestore/js/pet-equipment-window-v1.mjs": "ef4890636fc9e0ac86eedc55669f4353d9e7b203c7c00c7b65965c1d0a60eb30",
@@ -33,7 +33,7 @@
     "onestore/h5-policy.js": "8f435c8ad130f13abb48f6d59d5cc7a72bc1d1a8f4fb2b6aaa9545aa276b0eef",
     "onestore/h5-sdk.js": "c9e18131d55df5ad36ec1c8bd6bc78f9f1113be8e49cf946f2ed121d58b4ee19",
     "onestore/h5.css": "7c77779b15fef492acd7647c0d091b52a8c74b44ce511aff793ad66ac25d3d27",
-    "onestore/index.html": "899d4573f8dc28dfdbd024fa052ff7a3e800287f003df0d1859fd236477f33e3",
-    "shared/onestore-web-assets-v1.mjs": "a2290dbae03ffb4813830dbb948f3b2e5e9b167fdf59eefb1da97866888d6726"
+    "onestore/index.html": "3711514eb8410f5b0314e7779f1f57b8c5759b053e9c6e2336b20e35ee29b3c3",
+    "shared/onestore-web-assets-v1.mjs": "413d7f244bc0eb7a0a4df3a84ec8252c56f09692b19eb312c384023c20c2dde7"
   }
 }

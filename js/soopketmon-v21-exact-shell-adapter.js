@@ -490,7 +490,6 @@
       const template = document.createElement('template'); template.innerHTML = homeMarkup();
       frame.end.parentNode.insertBefore(template.content, frame.end);
     }
-    global.syncComebackLobby?.();
     frame.screen.dataset.kind = 'home';
     frame.page.dataset.route = 'home';
     syncDock(frame.page, 'home');

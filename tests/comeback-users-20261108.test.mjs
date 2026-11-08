@@ -67,35 +67,48 @@ async function fixture(t,pg){
  const env={DB},p=(q,...args)=>DB.prepare(q).bind(...args),run=(q,...args)=>p(q,...args).run();
  let power=8500001;
  const deps={ownedPower:async()=>({total:power}),authenticate:async()=>({id:1}),json:(body,status)=>({body,status}),withUserMutationLock:async(_env,_id,_path,work)=>work()};
- const enter=()=>handleComeback({env,deps,request:{method:'POST'},path:'comeback/enter'});
+ const request=(action,method=action==='status'?'GET':'POST')=>handleComeback({env,deps,request:{method},path:'comeback/'+action});
+ const claim=()=>request('claim');
  for(const [i,c] of COMEBACK.equipment.entries())await run('INSERT INTO character_equipment_items(id,code,is_active,is_public) VALUES(?,?,1,1)',i+1,c);
- return {env,p,run,enter,deps,setPower:value=>{power=value;}};
+ return {env,p,run,request,claim,deps,setPower:value=>{power=value;}};
 }
 for(const pg of [false,true])test((pg?'PostgreSQL':'SQLite')+' 복귀 자격, 보급 원복·중복 방지, 대여 만료 및 2주 후속 지급',async t=>{
- const {env,p,run,enter,setPower}=await fixture(t,pg);
+ const {env,p,run,request,claim,setPower}=await fixture(t,pg);
  const stamp='2020-01-01 00:00:00',week=questPeriod().weekKey;
  const count=async(table,where='')=>Number((await p('SELECT COUNT(*) n FROM '+table+' '+where).first()).n);
  const balance=async()=>(await p('SELECT CAST(coin AS TEXT) value FROM users WHERE id=1').first()).value;
  const levels=async()=>Object.fromEntries((await p(`SELECT * FROM ${PLAYABLE_LEVELS} WHERE user_id=1`).all()).results.map(row=>[row.mercenary_code,mercenaryLevelStateFromStorage(row).level]));
  const playable=async()=>(await p(`SELECT * FROM ${PLAYABLE_MERCENARY_COUNTS} WHERE user_id=1 ORDER BY mercenary_code`).all()).results;
- assert.equal((await enter()).body.phase,'INELIGIBLE');
+ assert.equal((await request('status')).body.phase,'INELIGIBLE');
  await run("INSERT INTO user_attendance_summary_v1401 VALUES(1,29,'2026-01-29')");
- assert.equal((await enter()).body.attendance,29);
+ assert.equal((await request('status')).body.attendance,29);
  await run("INSERT INTO attendance_logs VALUES(1,'2026-01-29'),(1,'2026-01-30')");
- assert.equal((await enter()).body.phase,'VERIFY');
+ assert.equal((await request('status')).body.phase,'VERIFY');
  await run("INSERT INTO user_second_verifications VALUES(1,'PLAYDK','account-one')");
- assert.equal((await enter()).body.reason,'POWER');
+ assert.equal((await request('status')).body.reason,'POWER');
  setPower(8500000);
+ assert.equal((await request('status')).body.phase,'ELIGIBLE');
+ assert.equal((await request('enter')).status,409);
+ assert.equal((await request('claim','GET')).status,405);
+ await run('INSERT INTO app_meta VALUES(?,?,?)',COMEBACK.id+':dialogue:2',stamp,stamp);
+ assert.equal((await claim()).body.phase,'DIALOGUE_REQUIRED'); // Another account spoke.
+ for(let i=0;i<2;i++)assert.equal((await request('talk')).body.phase,'DIALOGUE');
+ assert.equal((await request('enter')).status,409); // Cached lobby even after a valid conversation.
+ assert.equal(await count('coin_logs'),0);assert.equal(await count('user_equipment_instances'),0);
+ assert.equal(await count('user_garage_vehicles'),0);assert.equal(await count('app_meta',"WHERE key LIKE 'comeback26:loan:%'"),0);
+ assert.equal(await balance(),'100000000000000001');
+ setPower(8500001);assert.equal((await claim()).body.reason,'POWER');setPower(8500000);
  await run("INSERT INTO user_garage_vehicles VALUES(1,1,'EXISTING','keep',?)",stamp);
  await run("INSERT INTO user_mercenary_cards_v1 VALUES(1,?,2,1,?,?)",LOAN_CODES[0],stamp,stamp);
  await run("INSERT INTO user_mercenary_levels_v1 VALUES(1,?,3,0,0,1)",LOAN_CODES[0]);
  await run("INSERT INTO quest_weekly_claims_v1 VALUES(1,'POST',?,'COMPLETED',?)",week,stamp);
  await run('UPDATE character_equipment_items SET is_public=0 WHERE id=3');
- assert.equal((await enter()).status,503);assert.equal(await count('coin_logs'),0);assert.equal(await balance(),'100000000000000001');
+ assert.equal((await claim()).status,503);assert.equal(await count('coin_logs'),0);assert.equal(await balance(),'100000000000000001');
  await run('UPDATE character_equipment_items SET is_public=1 WHERE id=3');
- const responses=await Promise.all([enter(),enter()]);
+ const responses=await Promise.all([claim(),claim()]);
  assert(responses.every(r=>r.body.phase==='MISSIONS'));assert.equal(responses.filter(r=>r.body.awarded).length,1);
- const state=await comebackState(env,1),grant=state.grant;assert.equal(grant.alreadyCompletedWeek,week);assert.equal(grant.attendance,30);assert.equal(grant.power.total,8500000);
+ const state=await comebackState(env,1),grant=state.grant;assert.ok(grant.dialogueStartedAt<=grant.startedAt);assert.equal((await p('SELECT value FROM app_meta WHERE key=?',COMEBACK.id+':dialogue:1').first()),null);
+ assert.equal(grant.alreadyCompletedWeek,week);assert.equal(grant.attendance,30);assert.equal(grant.power.total,8500000);
  setPower(90000000); // Receiving the supplies never cancels the follow-up mission.
  assert.equal(Date.parse(grant.expiresAt.replace(' ','T')+'Z')-Date.parse(grant.startedAt.replace(' ','T')+'Z'),30*86400000);
  assert.equal(await balance(),'103000000000000001');assert.equal(await count('coin_logs'),1);
@@ -118,7 +131,7 @@ for(const pg of [false,true])test((pg?'PostgreSQL':'SQLite')+' 복귀 자격, �
  const final=await comebackState(env,1);assert.equal(final.phase,'COMPLETE');assert.deepEqual(final.final.weeks,[later(1),later(2)]);
  assert.equal(await count('mercenary_card_acquisitions_v1'),1);
  assert.equal(Number((await p('SELECT total_copies FROM user_mercenary_cards_v1 WHERE mercenary_code=?',COMEBACK.followup).first()).total_copies),1);
- assert.equal((await enter()).body.phase,'COMPLETE');assert.equal(await count('joint_atomic_guards_v1'),0);
+ assert.equal((await claim()).body.phase,'COMPLETE');assert.equal(await count('joint_atomic_guards_v1'),0);
 });
 
 // Change the worn setup, stack sizes and an oversized suit independently from the sources of owned power.
