@@ -1,0 +1,553 @@
+{
+  "status": "ISSUED_AND_VERIFIED",
+  "operationKey": "ops:bongsoon-icon-coupon:20261109:v1",
+  "title": "나무늘봉순 · 귀환 서약",
+  "couponCode": "BONGSOON1000",
+  "couponId": "5614",
+  "rewardType": "NOVEMBER_GIFT_BONGSOON_20261109",
+  "coin": "1000000000000000",
+  "items": [
+    {
+      "code": "MASTER_STAR",
+      "name": "마스터의 별",
+      "amount": 400000000
+    },
+    {
+      "code": "RANK_EXP_POTION_3X_60M",
+      "name": "계급 경험치 3배 물약 (60분)",
+      "amount": 4
+    }
+  ],
+  "maxUses": 150,
+  "perAccount": 1,
+  "expiresAt": null,
+  "completedAt": "2026-11-09T13:58:39.982Z",
+  "auditId": "57351",
+  "verifiedAt": "2026-11-09T13:58:45.422Z",
+  "usedAtVerification": 0,
+  "remainingAtVerification": 150,
+  "release": {
+    "commit": "faf730d6ab43130089fe49a51a574974e6364278",
+    "pages": {
+      "id": "09a4972b-1159-423c-b5b2-90e34a837065",
+      "commit": "faf730d6ab43130089fe49a51a574974e6364278",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "a4f6b11b-df9b-461a-b259-d39edb6a001d",
+        "percentage": 100,
+        "bundleSupported": true,
+        "sourceSHA256": "2746de9e60102766fd34b9ef3be9dfc619256448d00db59defcac640d756beee"
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "30de9cb7-7a35-4f07-8331-ad30fd20e4f0",
+        "percentage": 100,
+        "bundleSupported": true,
+        "sourceSHA256": "779f2e8ece02998528e12a2d74cf86ea8be42b94d4c8331af0b964957798e792"
+      }
+    ]
+  },
+  "checks": {
+    "releaseTests": 28,
+    "fixedBundleTestsIncluded": 13,
+    "rollbackBeforeIssue": true,
+    "readOnlyReplay": true,
+    "priorReceiptUnchanged": true,
+    "liveAccountTrialRedemptions": 0
+  },
+  "art": {
+    "portrait": {
+      "cardId": "CN-1C000013",
+      "skill": "귀환 서약",
+      "basePower": 360000,
+      "source": "preview/icon-bongsoon-battle-20261016-v1/sources/bongsoon-photo-original.png",
+      "sha256": "06f470732be2f36d62da074f23287619572f3e0e1b5ee2964a20e86fa62bf53e",
+      "frame": false
+    },
+    "size": [
+      1080,
+      1350
+    ],
+    "files": {
+      "png": {
+        "file": "output/announcements/bongsoon-icon-coupon-20261109/bongsoon-icon-coupon.png",
+        "sha256": "18dd0a28a267be58123ba137d0512c472590a76db17b80751b45e1023e1a12db",
+        "bytes": 1714208
+      },
+      "jpg": {
+        "file": "output/announcements/bongsoon-icon-coupon-20261109/bongsoon-icon-coupon.jpg",
+        "sha256": "3dbaf995c805ea4207b85c8e066a084099dde1a49325fae66f3509a4db4ee077",
+        "bytes": 349526
+      }
+    },
+    "background": {
+      "model": "built-in ImageGen",
+      "prompt": "output/announcements/bongsoon-icon-coupon-20261109/prompt.txt",
+      "sha256": "443c06b75c609bbed456127db64ddc3904d854bf6bfe925d3e1fcf8e83e5c327"
+    },
+    "posted": false
+  },
+  "performance": {
+    "transaction": {
+      "setup": "Isolated PGlite, actual coupon route, fixed 6 ms transport per SQL. First run is warm-up; eight matched different accounts follow. Not production network latency.",
+      "roundTripMs": 6,
+      "before": {
+        "results": [
+          {
+            "ms": 259.2,
+            "queries": 17
+          },
+          {
+            "ms": 259,
+            "queries": 17
+          },
+          {
+            "ms": 258.4,
+            "queries": 17
+          },
+          {
+            "ms": 257.8,
+            "queries": 17
+          },
+          {
+            "ms": 260.5,
+            "queries": 17
+          },
+          {
+            "ms": 260.7,
+            "queries": 17
+          },
+          {
+            "ms": 259.2,
+            "queries": 17
+          },
+          {
+            "ms": 259.6,
+            "queries": 17
+          }
+        ],
+        "medianMs": 259.2,
+        "queries": 17
+      },
+      "after": {
+        "results": [
+          {
+            "ms": 256.6,
+            "queries": 17
+          },
+          {
+            "ms": 260.9,
+            "queries": 17
+          },
+          {
+            "ms": 256.2,
+            "queries": 17
+          },
+          {
+            "ms": 259,
+            "queries": 17
+          },
+          {
+            "ms": 258.9,
+            "queries": 17
+          },
+          {
+            "ms": 257.9,
+            "queries": 17
+          },
+          {
+            "ms": 257.3,
+            "queries": 17
+          },
+          {
+            "ms": 258.9,
+            "queries": 17
+          }
+        ],
+        "medianMs": 258.9,
+        "queries": 17
+      }
+    },
+    "conditions": "Windows에서 공개 배포별 게임 로비 → 출석·쿠폰을 열어 첫 진입·재진입 및 수령 동작을 측정. 계정과 PostgreSQL 수령 API는 격리했다. Android는 모바일 Chrome, iOS는 WebKit 에뮬레이션이다. Windows 클라이언트 및 H5는 공개 진입 URL을 브라우저로 열었다.",
+    "ui": {
+      "pc": {
+        "before": {
+          "coldStartToLobbyMs": 1204,
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 53,
+              "frames": {
+                "count": 122,
+                "p95Ms": 4.3,
+                "over50": 2,
+                "maxMs": 75
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 11,
+              "frames": {
+                "count": 157,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 4.3
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "console": []
+        },
+        "after": {
+          "coldStartToLobbyMs": 1395,
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 65,
+              "frames": {
+                "count": 115,
+                "p95Ms": 8.3,
+                "over50": 2,
+                "maxMs": 85.7
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 16,
+              "frames": {
+                "count": 155,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 8.4
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "console": []
+        }
+      },
+      "ios": {
+        "before": {
+          "coldStartToLobbyMs": 992,
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 94,
+              "frames": {
+                "count": 27,
+                "p95Ms": 47,
+                "over50": 0,
+                "maxMs": 50
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 75,
+              "frames": {
+                "count": 31,
+                "p95Ms": 33,
+                "over50": 0,
+                "maxMs": 44
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "console": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        },
+        "after": {
+          "coldStartToLobbyMs": 1427,
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 83,
+              "frames": {
+                "count": 27,
+                "p95Ms": 49,
+                "over50": 1,
+                "maxMs": 53
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 64,
+              "frames": {
+                "count": 30,
+                "p95Ms": 44,
+                "over50": 0,
+                "maxMs": 45
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "console": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        }
+      },
+      "android": {
+        "before": {
+          "coldStartToLobbyMs": 1323,
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 84,
+              "frames": {
+                "count": 97,
+                "p95Ms": 8.4,
+                "over50": 2,
+                "maxMs": 120
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 17,
+              "frames": {
+                "count": 146,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 41.6
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "console": []
+        },
+        "after": {
+          "coldStartToLobbyMs": 1047,
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 69,
+              "frames": {
+                "count": 104,
+                "p95Ms": 4.3,
+                "over50": 2,
+                "maxMs": 122
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 13,
+              "frames": {
+                "count": 155,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 8.4
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "console": []
+        }
+      },
+      "windows": {
+        "before": {
+          "coldStartToLobbyMs": 1318,
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 55,
+              "frames": {
+                "count": 110,
+                "p95Ms": 4.3,
+                "over50": 2,
+                "maxMs": 101.2
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 12,
+              "frames": {
+                "count": 156,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 8.4
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "console": []
+        },
+        "after": {
+          "coldStartToLobbyMs": 1226,
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 63,
+              "frames": {
+                "count": 94,
+                "p95Ms": 8.3,
+                "over50": 2,
+                "maxMs": 126.1
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 16,
+              "frames": {
+                "count": 156,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 8.3
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "console": []
+        }
+      },
+      "h5": {
+        "before": {
+          "coldStartToLobbyMs": 1064,
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 51,
+              "frames": {
+                "count": 112,
+                "p95Ms": 20.7,
+                "over50": 1,
+                "maxMs": 58.3
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 13,
+              "frames": {
+                "count": 156,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 8.3
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "console": []
+        },
+        "after": {
+          "coldStartToLobbyMs": 1208,
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 59,
+              "frames": {
+                "count": 114,
+                "p95Ms": 4.3,
+                "over50": 2,
+                "maxMs": 96.7
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 13,
+              "frames": {
+                "count": 154,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 11.1
+              },
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "console": []
+        }
+      }
+    }
+  },
+  "sourceRecords": "operations/bongsoon-icon-coupon-20261109"
+}
