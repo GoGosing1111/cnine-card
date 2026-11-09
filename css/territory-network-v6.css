@@ -258,3 +258,188 @@
   .fl-squad>header{margin:9px 0 6px;}.fl-squad>header h3{font-size:16px;}
   .fl-lineup li>b{font-size:12px;}.fl-access {padding-top:7px;}
 }
+
+/* Frontline map, radio receiver and field controls. */
+.fl-shell .fl-glyph { display:inline-block; width:18px; height:18px; flex:none; vertical-align:middle; }
+.fl-shell .fl-art-icon {
+  display:inline-block; flex:none; width:40px; height:40px; pointer-events:none;
+  background:url('/assets/ui/territory-war/frontline-20261109/hud.webp') no-repeat 0 0 / 300% 200%;
+}
+.fl-art-icon.fl-art-wolf { background-position:50% 0; }
+.fl-art-icon.fl-art-contact { background-position:100% 0; }
+.fl-art-icon.fl-art-tactics { background-position:0 100%; }
+.fl-art-icon.fl-art-armor { background-position:50% 100%; }
+.fl-art-icon.fl-art-squad { background-position:100% 100%; }
+
+#territoryWarModalV3 .fl-shell .fl-head {
+  background:linear-gradient(110deg,#17282d,#101a1f 60%,#222e30);
+  border-bottom:1px solid #536863; box-shadow:inset 0 1px #60746b44;
+}
+.fl-control {
+  position:relative; display:grid; grid-template-columns:minmax(0,1fr) minmax(130px,2fr) minmax(0,1fr);
+  gap:clamp(12px,2.5vw,40px); padding:5px clamp(12px,2vw,30px); min-height:66px;
+  background:linear-gradient(112deg,#17464e 0%,#17292e 23%,#101b20 44%,#192328 64%,#3e2c28 85%,#61372c);
+  border-block:1px solid #61746a; box-shadow:inset 0 2px #9db9a329,inset 0 -3px #05111766;
+}
+.fl-team { position:relative;display:flex;gap:9px;min-width:0; }
+.fl-team .fl-art-icon { width:51px;height:51px; }
+.fl-team-copy { display:grid;min-width:0;align-content:center;gap:2px; }
+.fl-team .fl-team-copy>strong { font-weight:850;line-height:1.18;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+.fl-team .fl-team-copy>small { margin:0;color:#d9ecae;font-weight:700; }
+.fl-team> b { line-height:1;display:flex;align-items:baseline;gap:3px;font:750 clamp(20px,2vw,32px)/1 "Barlow",sans-serif; }
+.fl-team> b small { margin:0;font-size:11px;font-weight:650;color:#d1d3c7; }
+.fl-team-B { justify-self:stretch;flex-direction:row-reverse;text-align:right; }
+.fl-meter { display:grid;gap:5px;align-content:center;justify-items:stretch;min-width:0; }
+.fl-meter-caption { color:#b8c9c9;text-align:center;font-size:11px;font-weight:700; }
+.fl-meter .fl-control-bar { position:relative;display:flex;gap:0;min-width:0;height:10px;overflow:hidden;
+  border:1px solid #112024;background:#33403f;transform:skew(-15deg);box-shadow:0 1px 0 #c0d0ba48; }
+.fl-meter .fl-control-bar::after { content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(90deg,transparent 0 calc(11.111% - 2px),#15232bb3 calc(11.111% - 2px) 11.111%); }
+.fl-meter .fl-control-bar i:first-child { background:linear-gradient(#abede3,#48a6ac); }
+.fl-meter .fl-control-bar i:last-child { background:linear-gradient(#ffc2a0,#d56c4d); }
+.fl-tabs button { display:inline-flex;align-items:center;gap:6px; }
+.fl-tabs .fl-glyph { width:17px;height:17px;color:#9ed4c9; }
+.fl-tabs { background:linear-gradient(#1b292e,#121d21); }
+.fl-map-heading { gap:9px; }
+.fl-map-heading h2 { margin-right:auto; }
+.fl-map-heading .fl-map-key,.fl-map-key>span { display:inline-flex;align-items:center;gap:4px;white-space:nowrap; }
+.fl-map-heading .fl-map-key { gap:10px; }
+.fl-map-key .fl-glyph { width:13px;height:13px;color:#c2d8c8; }
+.fl-fx-toggle { display:inline-flex;align-items:center;gap:4px;min-height:30px;padding:3px 7px;border:1px solid #4f6863;
+  border-radius:4px;color:#cbd0c7;background:#1a262a;cursor:pointer;font:inherit; }
+.fl-fx-toggle .fl-glyph { width:14px;height:14px; }
+.fl-fx-toggle[aria-pressed=true] { color:#cfe69a;border-color:#718257; }
+.fl-fx-toggle[aria-pressed=true]>span { color:inherit; }
+.in-field .fl-fx-toggle,.in-field .fl-radio { display:none; }
+
+.fl-radio {
+  display:flex;align-items:stretch;min-height:44px;gap:12px;position:relative;
+  padding-right:6px;border:1px solid #52615c;border-bottom:0;background:linear-gradient(94deg,#192c31,#18272c 70%,#223332);
+  box-shadow:inset 0 1px #dde5cb18;color:#e4e9df;
+}
+.fl-radio-ident { display:flex;align-items:center;gap:7px;flex:none;padding:5px 14px 5px 10px;
+  border-left:3px solid #ffc767;color:#ffda94;background:linear-gradient(110deg,#473d29,#3d38282a); }
+.fl-radio-ident>.fl-glyph { width:20px;height:20px; }
+.fl-radio-ident>b { font-size:12px;white-space:nowrap; }
+.fl-wave { width:24px;height:16px;background:repeating-linear-gradient(90deg,#c6a667 0 2px,transparent 2px 4px);
+  clip-path:polygon(0 42%,14% 42%,16% 20%,32% 20%,34% 36%,49% 36%,50% 0,64% 0,66% 14%,80% 14%,82% 35%,100% 35%,100% 64%,82% 64%,80% 86%,66% 86%,64% 100%,50% 100%,49% 67%,34% 67%,32% 80%,16% 80%,14% 59%,0 59%); }
+.fl-radio-copy { display:flex;align-items:center;flex-wrap:wrap;align-content:center;gap:2px 10px;flex:1;min-width:0;padding:5px 0;
+  font-size:13px;line-height:1.32;overflow-wrap:anywhere;word-break:keep-all; }
+.fl-radio-copy strong { color:#ffda91; }
+.fl-radio-controls { display:flex;align-items:center;flex:none;gap:3px; }
+.fl-radio-controls>button { display:grid;place-items:center;width:32px;height:34px;padding:0;border:1px solid #4c615d;border-radius:3px;background:#1e3033;color:#d6e3d8;cursor:pointer; }
+.fl-radio-controls>button[hidden] { display:none; }
+.fl-radio-controls>button:hover,.fl-radio-controls>button[aria-pressed=true] { background:#354644;color:#ffe2a0; }
+.fl-radio-controls .fl-glyph { width:14px;height:14px; }
+
+#territoryWarModalV3 .fl-map .fl-map-projection { height:clamp(318px,49vh,660px);background:#263737; }
+.fl-terrain { position:absolute;inset:0;isolation:isolate; }
+#territoryWarModalV3 .fl-map .fl-map-photo img { object-fit:fill;filter:none; }
+.fl-map-grid { background:linear-gradient(0deg,#10202840,transparent 21%,transparent 78%,#b7cbd51a);
+  box-shadow:inset 0 0 0 1px #dde2d233,inset 0 -12px 16px -18px #0b191b; }
+.fl-links .fl-route { stroke:#eee4c9;stroke-dasharray:4 6;stroke-width:1.7;opacity:.95; }
+.fl-links .fl-route-a,.fl-links .fl-route-b { stroke-dasharray:none;stroke-width:2.6; }
+.fl-links .fl-route-a { stroke:#86e5dc; }.fl-links .fl-route-b { stroke:#ffab8e; }
+.fl-map .fl-node::before { content:"";position:absolute;pointer-events:none;z-index:0;inset:62% -7% 8% 17%;
+  transform:rotate(13deg);background:radial-gradient(ellipse,#102329bb 12%,#13232171 48%,transparent 72%); }
+.fl-map .fl-base-ground { inset:58% 4% 9%;border:1px solid var(--pin);border-radius:50%;outline:0;
+  background:radial-gradient(ellipse,transparent 46%,#25403f70 72%,var(--pin) 98%);
+  box-shadow:0 3px #203337b3,0 5px 4px #1120248c; }
+.fl-map .fl-site-model { transform:scale(var(--site-scale,1));transform-origin:50% 78%;filter:drop-shadow(2px 4px 1px #18252980); }
+.fl-map .fl-node.is-selected .fl-base-ground,.fl-map .fl-node:focus-visible .fl-base-ground {
+  border-color:#f9e4a2;outline:2px solid #ffe7aa;outline-offset:3px;
+  box-shadow:0 0 0 5px #1c252a88,0 6px 7px #1325279c; }
+.fl-map .fl-node-hot .fl-base-ground { border:1px solid #efab53;background:radial-gradient(ellipse,#ffbb4433,#b76c2830 62%,#ffcb7780 95%); }
+.fl-map .fl-node-hot .fl-base-ground::before { content:none;animation:none; }
+.fl-map .fl-node-label { top:87%;gap:4px;border-color:#9ea09a;border-bottom:2px solid var(--pin);
+  color:#fffcf0;background:linear-gradient(#26383bed,#10191def);box-shadow:0 2px 5px #10191d80; }
+.fl-map .fl-node.is-selected .fl-node-label { border-color:#ffe299;color:#fff5ce; }
+.fl-node-label .fl-glyph { width:14px;height:14px;color:var(--pin); }
+.fl-map .fl-heat-label { top:3%;z-index:5;gap:3px;padding:1px 7px 2px 4px;border:1px solid #f1b762;
+  border-left:3px solid #ffc264;border-radius:3px;background:linear-gradient(100deg,#3e2317,#713919);
+  color:#ffe2a6;box-shadow:0 2px 3px #16201c99; }
+.fl-heat-label .fl-art-icon { width:20px;height:20px; }
+.fl-impact { position:absolute;inset:0;z-index:2;pointer-events:none;contain:layout paint; }
+.fl-impact i { position:absolute;display:block;left:73%;top:75%;opacity:0;pointer-events:none; }
+.fl-tracer { width:51%;height:2px;transform-origin:right;background:linear-gradient(90deg,transparent,#ffb95c 68%,#fff8cc); }
+.fl-burst { width:43%;aspect-ratio:1;background:url('/assets/ui/territory-war/frontline-20261109/hud.webp') no-repeat 100% 0 / 300% 200%; }
+.fl-smoke { width:33%;height:34%;background:radial-gradient(ellipse at 34% 60%,#514d48b5,transparent 62%),radial-gradient(ellipse at 58% 36%,#c7b69d9e,transparent 59%); }
+@keyframes fl-tracer-pass { 0%,15%,100%{opacity:0;transform:translate(-165%,-1450%) rotate(22deg) scaleX(.2)} 18%{opacity:.97} 24%{opacity:1;transform:translate(-93%,-50%) rotate(22deg) scaleX(.88)} 25%,99%{opacity:0} }
+@keyframes fl-impact-flash { 0%,23%,100%{opacity:0;transform:translate(-50%,-50%) scale(.32)} 26%{opacity:.96;transform:translate(-50%,-50%) scale(1.24)} 34%,99%{opacity:0;transform:translate(-50%,-50%) scale(.7)} }
+@keyframes fl-impact-smoke { 0%,24%,100%{opacity:0;transform:translate(-50%,-40%) scale(.35)} 34%{opacity:.8} 66%{opacity:0;transform:translate(-10%,-145%) scale(1.38)} }
+@media(prefers-reduced-motion:no-preference){
+  .fl-map[data-scene-fx=on] .fl-tracer,.fl-map[data-scene-fx=on] .fl-burst,.fl-map[data-scene-fx=on] .fl-smoke {
+    animation-duration:5.6s;animation-delay:var(--shot-delay);animation-iteration-count:infinite;animation-timing-function:linear; }
+  .fl-map[data-scene-fx=on] .fl-tracer {animation-name:fl-tracer-pass;}
+  .fl-map[data-scene-fx=on] .fl-burst {animation-name:fl-impact-flash;}
+  .fl-map[data-scene-fx=on] .fl-smoke {animation-name:fl-impact-smoke;}
+}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  #territoryWarModalV3 .fl-map .fl-map-projection {perspective:1050px;}
+  .fl-map[data-scene-fx=on] .fl-terrain { transform:scale(1.025) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg)); }
+  .fl-map[data-scene-fx=on] .fl-site-model { transition:transform .16s ease; }
+  .fl-map[data-scene-fx=on] .fl-node:hover .fl-site-model,.fl-map[data-scene-fx=on] .fl-node:focus-visible .fl-site-model {
+    transform:translateY(-4px) scale(calc(var(--site-scale,1) + .035)); }
+}
+.fl-shell .fl-signal { min-height:37px;background:#162226; }
+.fl-signal .fl-art-icon { width:23px;height:23px; }
+.fl-signal button .fl-glyph { width:12px;height:12px;color:#c6b284; }
+
+#territoryWarModalV3 .fl-shell .fl-map .tw4-action-dock {padding:7px;gap:7px;border-top:1px solid #658079;background:linear-gradient(#293b3d,#182429);}
+#territoryWarModalV3 .fl-shell .tw4-action-dock .tw4-dock-button {
+  display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;align-content:center;justify-items:start;
+  gap:0 10px;min-height:59px;padding:5px 13px;color:#f0f1e5;border:1px solid #526a66;border-left:3px solid #7fbeb5;
+  border-radius:4px;background:linear-gradient(108deg,#314849,#202d33 78%)!important;box-shadow:inset 0 1px #cadac224,0 2px #101b1e; }
+#territoryWarModalV3 .fl-shell .tw4-dock-button .fl-art-icon { grid-row:1/3;width:43px;height:43px;align-self:center; }
+#territoryWarModalV3 .fl-shell .tw4-dock-button>span { display:block;align-self:end; }
+#territoryWarModalV3 .fl-shell .tw4-dock-button b { margin:0; }
+#territoryWarModalV3 .fl-shell .tw4-dock-button em { display:block;grid-column:2;align-self:start;color:#c3d3c8; }
+#territoryWarModalV3 .fl-shell .tw4-action-dock .tw4-attack-button {
+  display:grid;grid-template-columns:auto minmax(0,max-content);grid-template-rows:auto auto;align-items:center;align-content:center;justify-content:center;
+  gap:0 10px;text-align:left;min-height:59px;border:1px solid #e4f198!important;border-bottom:3px solid #899a50!important;
+  background:linear-gradient(110deg,#b9d16d,#e2efad 52%,#cadc84)!important;box-shadow:inset 0 1px #fbffcb,0 2px #15232a; }
+#territoryWarModalV3 .fl-shell .tw4-attack-button .fl-art-icon { grid-row:1/3;width:46px;height:46px; }
+#territoryWarModalV3 .fl-shell .tw4-attack-button>b {grid-column:2;align-self:end;margin:0;}
+#territoryWarModalV3 .fl-shell .tw4-attack-button>small {grid-column:2;align-self:start;margin:1px 0 0;}
+#territoryWarModalV3 .fl-shell .tw4-action-dock .tw4-attack-button:disabled {
+  background:linear-gradient(110deg,#334448,#283637)!important;border-color:#5b6b64!important;box-shadow:none; }
+#territoryWarModalV3 .fl-shell .tw4-action-dock button:enabled:hover {filter:brightness(1.08);}
+.fl-access b {display:inline-flex;align-items:center;gap:4px;}.fl-access .fl-glyph,.fl-enter .fl-glyph {width:16px;height:16px;}
+.fl-enter b {flex:1;text-align:left;}
+@media(max-width:820px),(max-width:1040px) and (max-height:500px) and (pointer:coarse){
+  .fl-control { grid-template-columns:minmax(0,1fr) minmax(36px,.48fr) minmax(0,1fr);gap:5px;min-height:48px;padding:3px 7px; }
+  .fl-team {gap:4px;}.fl-team .fl-art-icon {width:30px;height:30px;}
+  .fl-team .fl-team-copy strong {font-size:12px;}.fl-team .fl-team-copy>small {font-size:9px;}
+  .fl-team>b {font-size:16px;gap:1px;}.fl-team>b small {font-size:9px;}
+  .fl-meter {gap:3px;}.fl-meter-caption {font-size:9px;}.fl-meter .fl-control-bar {display:flex;height:6px;}
+  .fl-tabs button {gap:4px;}.fl-tabs .fl-glyph {width:14px;height:14px;}
+  .fl-map-heading {gap:5px;}.fl-map-heading .fl-map-key {gap:5px;}.fl-map-key .fl-glyph {width:10px;height:10px;}
+  .fl-fx-toggle {font-size:10px;padding:2px 4px;gap:3px;}.fl-fx-toggle .fl-glyph {width:11px;height:11px;}
+  .fl-radio {gap:7px;padding-right:3px;min-height:49px;}
+  .fl-radio-ident {gap:3px;flex-direction:column;justify-content:center;padding:4px 6px;}
+  .fl-radio-ident b {font-size:9px;}.fl-radio-ident>.fl-glyph {width:16px;height:16px;}.fl-wave {display:none;}
+  .fl-radio-copy {display:grid;gap:1px;padding:3px 0;font-size:11px;}
+  .fl-map .fl-site-model {filter:none;}
+  .fl-map .fl-impact:not(.fl-main-impact) {display:none;}
+  .fl-map .fl-main-impact {transform:translateZ(0);}
+  .fl-radio-controls {gap:0;}.fl-radio-controls>button {width:29px;height:38px;border:0;background:transparent;}
+  #territoryWarModalV3 .fl-map .fl-map-projection {height:clamp(285px,41dvh,408px);}
+  .fl-map .fl-node-label {top:86%;font-size:10px;gap:2px;padding:2px 3px;}
+  .fl-node-label .fl-glyph {width:10px;height:10px;}
+  .fl-map .fl-heat-label {top:-1%;padding:0 4px 1px 2px;font-size:10px;gap:1px;}
+  .fl-heat-label .fl-art-icon {width:15px;height:15px;}
+  .fl-shell .fl-signal {min-height:33px;gap:1px 7px;padding:2px 5px;}.fl-signal .fl-art-icon {width:18px;height:18px;}
+  #territoryWarModalV3 .fl-shell .fl-map .tw4-action-dock {grid-template-columns:minmax(0,1fr) minmax(0,1.6fr) minmax(0,1fr);gap:4px;padding:4px;}
+  #territoryWarModalV3 .fl-shell .tw4-action-dock .tw4-dock-button,
+  #territoryWarModalV3 .fl-shell .tw4-action-dock .tw4-attack-button {min-height:52px;padding:4px;gap:0 4px;}
+  #territoryWarModalV3 .fl-shell .tw4-dock-button .fl-art-icon {width:24px;height:24px;}
+  #territoryWarModalV3 .fl-shell .tw4-attack-button .fl-art-icon {width:28px;height:28px;}
+  #territoryWarModalV3 .fl-shell .tw4-action-dock button b {font-size:12px!important;white-space:normal;line-height:1.18;}
+  #territoryWarModalV3 .fl-shell .tw4-action-dock button em,#territoryWarModalV3 .fl-shell .tw4-action-dock button small {font-size:9px;line-height:1.2;}
+}
+@media(max-width:355px){
+  .fl-team .fl-art-icon {width:24px;height:24px;}
+  .fl-map-heading .fl-map-key {gap:3px;}.fl-map-key>span {gap:2px;}
+  #territoryWarModalV3 .fl-shell .tw4-dock-button .fl-art-icon {width:20px;height:20px;}
+  #territoryWarModalV3 .fl-shell .tw4-attack-button .fl-art-icon {width:23px;height:23px;}
+}

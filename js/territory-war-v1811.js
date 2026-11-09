@@ -79,7 +79,7 @@
     const button=document.createElement('button');button.type='button';button.dataset.territoryWarEntry='1';button.className='territory-war-entry';button.innerHTML='<span>영토전</span><b>SIEGE</b>';button.onclick=open;target.appendChild(button);
   }
   function ensureModal(){if(modal)return modal;modal=document.createElement('div');modal.id='territoryWarModalV3';modal.className='tw3-overlay';warSurface=document.createElement('div');warSurface.innerHTML='<div class="tw3-loading">영토전 정보를 불러오는 중...</div>';modal.append(warSurface);document.body.appendChild(modal);void mountChat();return modal}
-  function close(){fullRequest++;pinnedRound=0;drawerTrigger=null;document.querySelector('.tw3-truce-overlay')?._twClose?.();document.querySelectorAll('.tw3-mass-assault-overlay,.tw3-operation-briefing').forEach(n=>n.remove());chatModule?.unmountWarChat('territory');globalThis.CNineTerritoryVoteAlert?.dispose();globalThis.CNineTerritoryBattlefield?.dispose();stopPolling();pollController?.abort();pollController=null;closeBattleModal(false);resetWarDispatches();modal?.remove();modal=null;warSurface=null;state=null;busy=false;selectedNodeIndex=null;document.body.classList.remove('territory-war-open','territory-war-drawer-open')}
+  function close(){fullRequest++;pinnedRound=0;drawerTrigger=null;document.querySelector('.tw3-truce-overlay')?._twClose?.();document.querySelectorAll('.tw3-mass-assault-overlay,.tw3-operation-briefing').forEach(n=>n.remove());chatModule?.unmountWarChat('territory');globalThis.CNineTerritoryVoteAlert?.dispose();globalThis.CNineTerritoryNetwork?.dispose?.();globalThis.CNineTerritoryBattlefield?.dispose();stopPolling();pollController?.abort();pollController=null;closeBattleModal(false);resetWarDispatches();modal?.remove();modal=null;warSurface=null;state=null;busy=false;selectedNodeIndex=null;document.body.classList.remove('territory-war-open','territory-war-drawer-open')}
   function bindClose(){modal?.querySelectorAll('[data-tw3-close]').forEach(button=>button.onclick=close)}
   function setBusy(flag){busy=Boolean(flag);modal?.classList.toggle('is-busy',busy);modal?.querySelectorAll('[data-tw3-register],[data-tw3-unregister],[data-tw3-attack],[data-tw3-claim],[data-tw3-refresh],[data-tw3-operation],[data-tw3-loadout-refresh],[data-tw3-command-send],[data-tw6-objective],[data-tw6-select],[data-tw6-supply-claim]').forEach(button=>{if(busy){if(!('twBusyDisabled' in button.dataset))button.dataset.twBusyDisabled=button.disabled?'1':'0';button.disabled=true}else if('twBusyDisabled' in button.dataset){button.disabled=button.dataset.twBusyDisabled==='1';delete button.dataset.twBusyDisabled}});if(!busy)tickSkills()}
 
@@ -92,7 +92,7 @@
   function renderDisabled(){if(renderFormation())return;const reward=state?.reward,equipmentSummary=rewardEquipmentSummary(reward),participationSummary=rewardParticipationSummary(reward);(warSurface||modal).innerHTML=`<section class="tw3-shell tw3-disabled"><header><div><small>REVERSE CALL FRONTLINE</small><h1>영토전</h1></div><button data-tw3-close>닫기</button></header><div class="tw3-empty"><b>현재 영토전 운영이 중지되어 있습니다.</b><span>운영이 시작되면 중앙 교전지에서 새로운 회차가 열립니다.</span>${reward?`<div class="tw3-off-reward"><strong>${reward.result==='WIN'?'승리 보상':reward.result==='LOSE'?'참가 보상':'회차 보상'}</strong><span>${Number(reward.pigCoins||0)>0?`피그 코인 ${fmt(reward.pigCoins)}개 · `:''}코인 ${fmt(reward.coin)} · 카드 조각 ${fmt(reward.shards)}${participationSummary?` · ${participationSummary}`:''}${equipmentSummary?` · ${equipmentSummary}`:''}</span><button data-tw3-claim>보상 수령</button></div>`:''}</div></section>`;bindClose();modal.querySelector('[data-tw3-claim]')?.addEventListener('click',claim)}
   function renderFormation(){
     if(!globalThis.CNineTerritoryFormation)return false;
-    globalThis.CNineTerritoryBattlefield?.dispose();modal.classList.remove('tw4-mode');document.body.classList.remove('territory-war-drawer-open');
+    globalThis.CNineTerritoryNetwork?.dispose?.();globalThis.CNineTerritoryBattlefield?.dispose();modal.classList.remove('tw4-mode');document.body.classList.remove('territory-war-drawer-open');
     const canRefresh=Boolean(state.mine&&state.mode!=='OFF'&&['RECRUITING','PREPARING','ACTIVE'].includes(state.round?.status));
     (warSurface||modal).innerHTML=globalThis.CNineTerritoryFormation.lobby(state,{rewardHtml:rewardHtml(),canRefresh});
     bindClose();modal.querySelectorAll('[data-tw3-refresh]').forEach(b=>b.addEventListener('click',()=>loadFull(true)));
@@ -180,16 +180,18 @@
     return{tag:'FRONTLINE STATUS',title:'전선 작전 대기',value:statusText(state.round),icon:'•'};
   }
   function tw4EventHtml(){const event=tw4EventState();if(event.tag==='SKILL COMMAND')return'';return`<button type="button" class="tw4-map-event" data-tw4-drawer="report"><i>${esc(event.icon)}</i><div><small>${esc(event.tag)}</small><b>${esc(event.title)}</b></div><span>${esc(event.value)}</span></button>`}
+  const hudIcon=key=>globalThis.CNineTerritoryNetwork.icon(key);
+  const hudArt=key=>globalThis.CNineTerritoryNetwork.artIcon(key);
   function tw4AttackControl(){
     const round=state.round,mine=state.mine,active=round.status==='ACTIVE',preparing=round.status==='PREPARING',enemy=mine?.side==='A'?'B':mine?.side==='B'?'A':'';
-    if(state.network&&active&&!state.network.canEnter)return '<button type="button" class="tw4-attack-button" disabled><span>진입 경로 확인</span><b>공략 가능한 거점을 선택하세요</b><small>본진과 연결된 점령지에서 진격합니다</small></button>';
-    if(mine&&active&&clanDeckIncomplete(mine))return`<button type="button" class="tw4-attack-button is-loadout" data-tw4-drawer="loadout"><span>전투 준비</span><b>출전 덱 준비</b><small>PVP 덱 5장을 저장한 후 최신화하세요</small></button>`;
-    if(mine&&active&&state.truce?.active)return`<button type="button" class="tw4-attack-button is-loadout" data-tw3-loadout-refresh><span>CEASEFIRE LOADOUT</span><b>전투 준비 최신화</b><small>덱·장비·칭호를 다음 교전에 반영</small></button>`;
-    if(mine&&active)return`<button type="button" class="tw4-attack-button" data-tw3-attack><span>PROJECT V V3</span><b>거점 교전 시작</b><small>행동력 ${fmt(state.settings?.attackEnergyCost||1)} · ${esc(sideName(enemy))} 매칭</small></button>`;
+    if(state.network&&active&&!state.network.canEnter)return '<button type="button" class="tw4-attack-button" disabled><i class="fl-art-icon fl-art-armor" aria-hidden="true"></i><span>진입 경로 확인</span><b>공략 가능한 거점을 선택하세요</b><small>본진과 연결된 점령지에서 진격합니다</small></button>';
+    if(mine&&active&&clanDeckIncomplete(mine))return`<button type="button" class="tw4-attack-button is-loadout" data-tw4-drawer="loadout">${hudArt('squad')}<span>전투 준비</span><b>출전 덱 준비</b><small>PVP 덱 5장을 저장한 후 최신화하세요</small></button>`;
+    if(mine&&active&&state.truce?.active)return`<button type="button" class="tw4-attack-button is-loadout" data-tw3-loadout-refresh>${hudArt('squad')}<span>CEASEFIRE LOADOUT</span><b>전투 준비 최신화</b><small>덱·장비·칭호를 다음 교전에 반영</small></button>`;
+    if(mine&&active)return`<button type="button" class="tw4-attack-button" data-tw3-attack>${hudArt('armor')}<span>PROJECT V V3</span><b>거점 교전 시작</b><small>행동력 ${fmt(state.settings?.attackEnergyCost||1)} · ${esc(sideName(enemy))} 매칭</small></button>`;
     const label=mine&&preparing?'전투 준비 중':mine?'현재 공격 불가':'모집 종료 · 입장 불가';
-    return`<button type="button" class="tw4-attack-button" disabled><span>PROJECT V V3</span><b>${esc(label)}</b><small>${esc(statusText(round))}</small></button>`;
+    return`<button type="button" class="tw4-attack-button" disabled>${hudArt('armor')}<span>PROJECT V V3</span><b>${esc(label)}</b><small>${esc(statusText(round))}</small></button>`;
   }
-  function tw4ActionDockHtml(){const mine=state.mine;return`<nav class="tw4-action-dock" aria-label="영토전 주요 행동"><button type="button" class="tw4-dock-button" data-tw4-drawer="operations"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 3 6 7 .8-5 4.7 1.4 6.8L12 17l-6.4 3.3L7 13.5 2 8.8 9 8z"/></svg><span><small>TACTICS</small><b>전술 작전</b></span><em>${mine?.side?(state.counter?.model==='SKILL_COOLDOWN'?`${state.counter[mine.side].readyCount}개 준비`:fmt(state.counter?.[mine.side]?.gauge||0)):'-'}</em></button>${tw4AttackControl()}<button type="button" class="tw4-dock-button" data-tw4-drawer="loadout"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v4H5zm2 6h10v10H7z"/></svg><span><small>BATTLE GROUP</small><b>내 전투단</b></span><em>${fmt(mine?.energy||0)} / ${fmt(state.settings?.energyMax||0)}</em></button></nav>`}
+  function tw4ActionDockHtml(){const mine=state.mine;return`<nav class="tw4-action-dock" aria-label="영토전 주요 행동"><button type="button" class="tw4-dock-button" data-tw4-drawer="operations">${hudArt('tactics')}<span><small>TACTICS</small><b>전술 작전</b></span><em>${mine?.side?(state.counter?.model==='SKILL_COOLDOWN'?`${state.counter[mine.side].readyCount}개 준비`:fmt(state.counter?.[mine.side]?.gauge||0)):'-'}</em></button>${tw4AttackControl()}<button type="button" class="tw4-dock-button" data-tw4-drawer="loadout">${hudArt('squad')}<span><small>BATTLE GROUP</small><b>내 전투단</b></span><em>${fmt(mine?.energy||0)} / ${fmt(state.settings?.energyMax||0)}</em></button></nav>`}
   function tw4ScoreboardHtml(finished){
     const a=tw4SideHp('A'),b=tw4SideHp('B'),current=Number(state.round?.current_front_index??4),meta=tw4NodeMeta(current);
     return`<section class="tw4-scoreboard" aria-label="진영 공성 체력"><article class="side-a"><div><small>${esc(sideName('A'))} · ${fmt(state.counts?.A)}명</small><strong>${fmt(a.hp)}</strong></div><em><i style="width:${a.pct}%"></i></em>${clanAlliance('A')}</article><div class="tw4-front-status"><span>CURRENT FRONT</span><b>${esc(meta.name)}</b><small>${finished?'정산 완료':`${state.network?'선택 거점 교전':fmt(state.front?.sequence||0)+'번째 전선'} · HP 차이 ${tw4FrontGap()}%P`}</small></div><article class="side-b"><div><small>${esc(sideName('B'))} · ${fmt(state.counts?.B)}명</small><strong>${fmt(b.hp)}</strong></div><em><i style="width:${b.pct}%"></i></em>${clanAlliance('B')}</article><div class="tw4-mobile-my-team">${tw4MyTeamHtml()}</div></section>`
@@ -206,8 +208,8 @@
     const hp=(side,data)=>'<div class="fl-hp fl-'+side+'"><span>'+esc(sideName(side))+'</span><b>'+fmt(data.hp)+'</b><meter min="0" max="100" value="'+data.pct+'">'+data.pct+'%</meter></div>';
     const buff=state.victoryBuff,site=globalThis.CNineTerritoryNetwork.siteFor(meta,index),access=globalThis.CNineTerritoryNetwork.accessFor(state,{owner,canEnter:enter});
     return '<aside class="tw4-rail tw4-detail-rail fl-detail" aria-label="선택한 거점"><header class="fl-site-photo"><img src="'+site.scene+'" alt="'+esc(site.name)+' 현장" decoding="async"><span class="fl-site-name">'+esc(site.name)+'</span><div><h2>'+esc(meta.name)+'</h2><span>'+esc(validSide?sideName(owner)+' 점령':'중립 거점')+'</span></div><button type="button" class="fl-zone-close" data-tw4-zone-close aria-label="구역 정보 닫기">×</button></header>'+
-      '<p class="fl-access"><b>'+access.mark+' '+access.label+'</b> '+esc(access.why)+'</p><div class="fl-hp-block"><h3>거점 내구도</h3>'+hp('A',a)+hp('B',b)+'</div>'+
-      (state.front?'<button class="tw6-map-entry fl-enter" data-tw6-enter><b>'+(enter?'거점 전장 진입':'거점 전장 관전')+'</b><span aria-hidden="true">→</span></button><p class="fl-field-location" hidden>현재 위치 · '+esc(meta.name)+'</p>':'')+
+      '<p class="fl-access"><b>'+hudIcon(access.kind)+' '+access.label+'</b> '+esc(access.why)+'</p><div class="fl-hp-block"><h3>거점 내구도</h3>'+hp('A',a)+hp('B',b)+'</div>'+
+      (state.front?'<button class="tw6-map-entry fl-enter" data-tw6-enter>'+hudIcon(enter?'advance':'map')+'<b>'+(enter?'거점 전장 진입':'거점 전장 관전')+'</b>'+hudIcon('arrow')+'</button><p class="fl-field-location" hidden>현재 위치 · '+esc(meta.name)+'</p>':'')+
       '<div class="fl-unit"><h3>내 전투단</h3><dl><div><dt>소속</dt><dd>'+esc(mine?.side?sideName(mine.side):'관전')+'</dd></div><div><dt>행동력</dt><dd>'+fmt(mine?.energy)+' / '+fmt(state.settings?.energyMax)+'</dd></div><div><dt>교전</dt><dd>'+fmt(mine?.attacks)+'회</dd></div><div><dt>누적 피해</dt><dd>'+fmt(mine?.damage)+'</dd></div></dl></div>'+
       (buff?'<div class="fl-buff"><b>영토전 승리 버프</b><span>계급 경험치 +20% · 코인 습득 +50%</span><time>'+esc(buffTime(buff.expiresAt))+'까지</time></div>':'')+'</aside>';
   }
@@ -304,18 +306,19 @@
     modal?.querySelectorAll('[data-tw4-zone-close]').forEach(button=>button.addEventListener('click',()=>modal?.querySelector('.tw4-shell')?.classList.remove('zone-open')));
   }
   function renderBattle(){
+    globalThis.CNineTerritoryNetwork.warmMapImages();
     const round=state.round,active=round.status==='ACTIVE',preparing=round.status==='PREPARING',finished=round.status==='FINISHED',end=preparing?round.starts_at:round.ends_at,current=Number(round.current_front_index??4);
     if(selectedNodeIndex===null||selectedNodeIndex<0||selectedNodeIndex>8)selectedNodeIndex=current;
     document.body.classList.remove('territory-war-drawer-open');
     modal.classList.add('tw4-mode');
     const oldShell=modal.querySelector('.fl-shell'),zoneOpen=oldShell?.classList.contains('zone-open'),commandOpen=oldShell?.classList.contains('command-open');
     const tabs=[['command','지휘 통신'],['operations','전술 작전'],...(state.battlefield?[['facilities','전장 시설']]:[]),['loadout','내 전투단'],['ranking','기여도'],['report','전황 기록']];
-    const nav=tabs.map(([code,name])=>'<button type="button" aria-expanded="false" data-tw4-drawer="'+code+'">'+name+'</button>').join('');
+    const nav=tabs.map(([code,name])=>'<button type="button" aria-expanded="false" data-tw4-drawer="'+code+'">'+hudIcon(code)+name+'</button>').join('');
     (warSurface||modal).innerHTML=`<section class="tw3-shell tw4-shell fl-shell ${state.network?'tw7-network-mode':state.clans?.enabled?'tw5-clan-mode':''} ${zoneOpen?'zone-open':''} ${commandOpen?'command-open':''}">
       <header class="tw4-topbar fl-head"><div class="fl-heading"><span class="fl-status-dot" aria-hidden="true"></span><h1>영토전</h1><span class="fl-round">${fmt(round.id)}회차 · ${esc(battleName(round))}</span></div><div class="fl-clock"><span>${finished?'작전 종료':'남은 시간'}</span><time ${finished?'':'data-tw3-countdown="'+esc(end||'')+'"'}>${finished?'정산 완료':remaining(end)}</time></div><button type="button" class="fl-refresh" aria-label="전황 새로고침" data-tw3-refresh><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10a7 7 0 1 0 0 5M19 4v6h-6"/></svg></button><button type="button" class="tw4-close fl-close" aria-label="영토전 닫기" data-tw3-close>×</button></header>
       ${finished?resultBar():''}${globalThis.CNineTerritoryNetwork.occupationHtml(state,{esc,sideName})}
-      <nav class="fl-tabs" aria-label="영토전 전장 메뉴">${nav}<button type="button" class="fl-chat-link" data-fl-chat>아군 채팅</button></nav>
-      <div class="tw4-workspace fl-workspace"><section class="fl-primary"><div class="fl-map-heading"><h2>전선 지도</h2><span class="fl-map-key" aria-label="거점 접근 범례">▸ 진입　◇ 방어　– 대기</span></div>${tw4MapHtml()}${globalThis.CNineTerritoryNetwork.hotList(state,{esc})}</section>${tw4DetailRailHtml()}${tw4CommanderHtml()}</div>
+      <nav class="fl-tabs" aria-label="영토전 전장 메뉴">${nav}<button type="button" class="fl-chat-link" data-fl-chat>${hudIcon('chat')}아군 채팅</button></nav>
+      <div class="tw4-workspace fl-workspace"><section class="fl-primary"><div class="fl-map-heading"><h2>전선 지도</h2><span class="fl-map-key" aria-label="거점 접근 범례">${globalThis.CNineTerritoryNetwork.legend()}</span><button type="button" class="fl-fx-toggle" data-fl-map-fx aria-label="지도 연출" aria-pressed="true">${hudIcon('map')}<span>연출</span></button></div>${globalThis.CNineTerritoryNetwork.radioHtml(state,{esc,sideName})}${tw4MapHtml()}${globalThis.CNineTerritoryNetwork.hotList(state,{esc})}</section>${tw4DetailRailHtml()}${tw4CommanderHtml()}</div>
       ${tw4DrawerHtml()}
     </section>`;
     if(commandOpen){document.body.classList.add('territory-war-drawer-open');markPanel('command');}
@@ -327,10 +330,10 @@
     modal.querySelectorAll('[data-tw3-operation]').forEach(button=>button.addEventListener('click',()=>activateTacticalOperation(button.dataset.tw3Operation)));
     modal.querySelector('[data-tw3-command-form]')?.addEventListener('submit',sendCommanderMessage);
     modal.querySelector('[data-fl-chat]')?.addEventListener('click',()=>{void mountChat().then(m=>{if(m)modal?.querySelector('.war-chat-launch')?.click();else showToast('아군 채팅 연결을 다시 시도해 주세요.')})});
-    bindTw4();globalThis.CNineTerritoryBattlefield?.attach(modal,state,{closeDrawer:tw4CloseDrawer,openDrawer:tw4OpenDrawer,claimSupply});startCountdowns();if(busy)setBusy(true);
+    bindTw4();globalThis.CNineTerritoryNetwork.bind(modal);globalThis.CNineTerritoryBattlefield?.attach(modal,state,{closeDrawer:tw4CloseDrawer,openDrawer:tw4OpenDrawer,claimSupply});startCountdowns();if(busy)setBusy(true);
   }
   function render(){if(!modal||!state)return;if((state.mode==='OFF'&&!pinnedRound)||!state.round||state.round.status==='DISABLED'){modal.classList.remove('tw4-mode');return renderDisabled()}if(state.round.status==='RECRUITING'){modal.classList.remove('tw4-mode');return renderRecruit()}if(state.round.status==='PREPARING'&&renderFormation())return;renderBattle();showMassAssaultBriefing();showOperationBriefing();showTruceBriefing();syncWarDispatches()}
-  function startCountdowns(){const tick=()=>{tickSkills();globalThis.CNineTerritoryBattlefield?.tick();modal?.querySelectorAll('[data-tw3-countdown]').forEach(node=>{const text=remaining(node.dataset.tw3Countdown);if(text!==node.textContent)node.textContent=text});if(state?.truce?.active&&Date.parse(state.truce.endsAt||'')<=Date.now()+serverOffsetMs&&!truceExpiryRefresh){truceExpiryRefresh=true;setTimeout(()=>loadFull(true),50)}};tick();clearInterval(modal?._countdownTimer);if(modal)modal._countdownTimer=setInterval(tick,1000)}
+  function startCountdowns(){const tick=()=>{tickSkills();globalThis.CNineTerritoryNetwork?.tick?.();globalThis.CNineTerritoryBattlefield?.tick();modal?.querySelectorAll('[data-tw3-countdown]').forEach(node=>{const text=remaining(node.dataset.tw3Countdown);if(text!==node.textContent)node.textContent=text});if(state?.truce?.active&&Date.parse(state.truce.endsAt||'')<=Date.now()+serverOffsetMs&&!truceExpiryRefresh){truceExpiryRefresh=true;setTimeout(()=>loadFull(true),50)}};tick();clearInterval(modal?._countdownTimer);if(modal)modal._countdownTimer=setInterval(tick,1000)}
 
   async function loadFull(force=false,errorMessage=''){
     if(!modal)return false;
@@ -387,6 +390,6 @@
   function showToast(text,type='hit'){document.querySelectorAll('.tw3-toast').forEach(node=>node.remove());const toast=document.createElement('div');toast.className=`tw3-toast ${type}`;toast.textContent=text;document.body.appendChild(toast);requestAnimationFrame(()=>toast.classList.add('show'));setTimeout(()=>{toast.classList.remove('show');setTimeout(()=>toast.remove(),250)},2300)}
 
   // PERF-0919: 숨겨진 탭은 폴링하지 않는다(예전: 60초마다 state-lite + state). 다시 보이면 전체 상태를 즉시 새로 읽는다.
-  document.addEventListener('visibilitychange',()=>{if(modal){if(!document.hidden)loadFull(true);else stopPolling()}});
+  document.addEventListener('visibilitychange',()=>{if(modal){globalThis.CNineTerritoryBattlefield?.tick();if(!document.hidden)loadFull(true);else stopPolling()}});
   new MutationObserver(()=>{if(!modal)injectEntry()}).observe(document.documentElement,{childList:true,subtree:true});addEventListener('load',injectEntry);injectEntry();globalThis.openTerritoryWar=open;
 })();

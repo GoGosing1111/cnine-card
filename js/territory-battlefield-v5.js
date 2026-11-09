@@ -60,7 +60,19 @@
   function attach(root,state,options={}){
     mount=root;current=state;callbacks=options;if(state.serverNow)clockOffset=Date.parse(state.serverNow)-Date.now();
     const map=root.querySelector('.tw4-map-shell');if(!map)return;map.classList.add('tw6-equipped');if(lastFieldId&&lastFieldId!==Number(state.front?.id))fieldOpen=false;lastFieldId=Number(state.front?.id||0);map.dataset.tw6View=fieldOpen?'FIELD':'MAP';document.body.classList.toggle('territory-battlefield-entered',fieldOpen);root.querySelectorAll('[data-tw6-enter]').forEach(button=>button.onclick=()=>showField(true));root.querySelector('[data-tw6-return-map]')?.addEventListener('click',()=>showField(false));
-    root.querySelector('[data-tw6-fx]')?.addEventListener('click',event=>{fxOn=!fxOn;try{localStorage.setItem('cnine-territory-fx',fxOn?'ON':'OFF')}catch{}event.currentTarget.textContent='연출 '+(fxOn?'ON':'OFF');event.currentTarget.setAttribute('aria-pressed',fxOn);engine?.setEnabled(fxOn)});
+    const fxButtons=root.querySelectorAll('[data-tw6-fx],[data-fl-map-fx]');
+    function showFxSetting(){
+      for(const button of fxButtons){
+        button.setAttribute('aria-pressed',String(fxOn));
+        (button.querySelector('span')||button).textContent='연출 '+(fxOn?'ON':'OFF');
+      }
+    }
+    showFxSetting();
+    for(const button of fxButtons)button.onclick=()=>{
+      fxOn=!fxOn;
+      try{localStorage.setItem('cnine-territory-fx',fxOn?'ON':'OFF')}catch{}
+      showFxSetting();engine?.setEnabled(fxOn);tick();
+    };
     root.querySelectorAll('[data-tw6-objective],[data-tw6-select]').forEach(button=>button.onclick=()=>{
       objective=button.dataset.tw6Objective||button.dataset.tw6Select;
       root.querySelectorAll('[data-tw6-objective]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.tw6Objective===objective));
@@ -73,10 +85,22 @@
     engine.attach(root.querySelector('.tw6-canvas-mount'),root.querySelector('.tw6-cut-in'));engine.setEnabled(fxOn);engine.sync(state);setViewHeading();tick();
   }
   function showField(open){fieldOpen=Boolean(open);document.body.classList.toggle('territory-battlefield-entered',fieldOpen);const map=mount?.querySelector('.tw4-map-shell');if(map)map.dataset.tw6View=fieldOpen?'FIELD':'MAP';setViewHeading();mount?.querySelector('.tw4-shell')?.classList.remove('zone-open');tick()}
-  function setViewHeading(){const h=mount?.querySelector('.fl-map-heading h2'),caption=mount?.querySelector('.fl-map-heading>span');if(h)h.textContent=fieldOpen?'거점 전장':'전선 지도';if(caption)caption.textContent=fieldOpen?'교전 목표 선택':'▸ 진입　◇ 방어　– 대기';mount?.querySelector('.fl-shell')?.classList.toggle('in-field',fieldOpen);const location=mount?.querySelector('.fl-field-location');if(location)location.hidden=!fieldOpen;}
+  function setViewHeading(){
+    const h=mount?.querySelector('.fl-map-heading h2'),caption=mount?.querySelector('.fl-map-key');
+    if(h)h.textContent=fieldOpen?'거점 전장':'전선 지도';
+    if(caption){if(fieldOpen)caption.textContent='교전 목표 선택';else if(!caption.querySelector('svg'))caption.innerHTML=globalThis.CNineTerritoryNetwork.legend();}
+    mount?.querySelector('.fl-shell')?.classList.toggle('in-field',fieldOpen);
+    const location=mount?.querySelector('.fl-field-location');if(location)location.hidden=!fieldOpen;
+  }
   function tick(){
     mount?.querySelectorAll('[data-tw6-due]').forEach(node=>{const text=untilText(Number(node.dataset.tw6Due));if(node.textContent!==text)node.textContent=text});
-    const map=mount?.querySelector('.tw4-map-shell');engine?.setPaused(document.hidden||Boolean(current?.truce?.active)||current?.round?.status!=='ACTIVE'||map?.dataset.tw6View!=='FIELD'||Boolean(document.querySelector('.tw6-personal-battle')));
+    const map=mount?.querySelector('.tw4-map-shell');
+    if(!map)return;
+    const stopped=document.hidden||Boolean(current?.truce?.active)||current?.round?.status!=='ACTIVE'||Boolean(document.querySelector('.tw6-personal-battle'));
+    const active=fxOn&&!stopped&&map.dataset.tw6View==='MAP'&&!document.body.classList.contains('territory-war-drawer-open');
+    const fx=active?'on':'off';
+    if(map.dataset.sceneFx!==fx)map.dataset.sceneFx=fx;
+    engine?.setPaused(stopped||map.dataset.tw6View!=='FIELD');
   }
   class BattlefieldFx{
     constructor(){this.renderer=new globalThis.CNineTerritoryArtilleryFx();this.seen=new Set();this.baseline=null;this.enabled=true;this.paused=true;}
