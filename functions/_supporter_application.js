@@ -5,6 +5,8 @@ import {SUPPORT_BANK_MESSAGE_TYPE,SUPPORT_BANK_MESSAGE_TTL,deleteExpiredSupportM
 import {readSupportRecord} from './_supporter_benefits.js';
 import {passMonth,secondPassSale} from './_supporter_season_pass.js';
 import {passSubscription} from '../shared/supporter-season-pass-v1.mjs';
+import {PASS_ORDER_PREFIX as passOrderPrefix,secondPassOrderKey,unpaidKey,supportAccount,requirePassPurchase,purchaseHoldGuard} from './_support_pass_review.js';
+export {secondPassOrderKey};
 
 const LIMIT=3,KST=9*60*60*1000;
 export const SUPPORT_APPLICATION_CONFIG_KEY='server_support_application_config_v1';
@@ -13,8 +15,6 @@ const dayKey=(userId,now)=>`support_application_day_v1:${userId}:${dayOf(now)}`;
 const receiptKey=(userId,requestId)=>`support_application_receipt_v1:${userId}:${requestId}`;
 const campaignKey=(userId,requestId)=>`support_application_v1:${userId}:${requestId}`;
 const fail=(code,message,status=400)=>{throw jointError('SUPPORT_APPLICATION_'+code,message,status);};
-const passOrderPrefix='support_pass_month2_pending_v1:';
-export const secondPassOrderKey=id=>passOrderPrefix+Number(id);
 const passOrderStatement=(db,id,requestId,now)=>db.prepare(
   'INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING'
 ).bind(secondPassOrderKey(id),JSON.stringify({id:id+'_'+requestId,userId:id,createdAt:now}));
@@ -33,10 +33,14 @@ export async function requestSecondPassPurchase(env,userRow,requestId,now){
   const id=Number(userRow.id),DB=env.DB;
   if(typeof requestId!=='string'||!/^[A-Za-z0-9_-]{16,100}$/.test(requestId))fail('INPUT','신청 번호를 확인하세요.');
   if(!supportAccountEligible(userRow,now))fail('ELIGIBILITY','가입 3일 경과와 2차 인증 완료 후 신청할 수 있습니다.',403);
+  requirePassPurchase(userRow);
   const receiptKey='support_pass_month2_request_v1:'+id+':'+requestId;
   const [support,pending,previous]=await Promise.all([readSupportRecord(env,id),secondPassOrder(env,id),receipt(env,receiptKey)]);
   if(passSubscription(support.state,2,now).purchased)return {purchased:true,pending:null,serverNow:now};
-  if(pending||previous)return {pending,serverNow:now};
+  if(pending||previous){
+    if(pending?.id!==id+'_'+requestId&&await receipt(env,unpaidKey(id+'_'+requestId)))fail('REJECTED','미입금으로 거절된 신청입니다.',409);
+    return {pending,serverNow:now};
+  }
   const sale=await secondPassSale(env,support.state,now),token=crypto.randomUUID(),p=(sql,...args)=>DB.prepare(sql).bind(...args);
   await ensureJointAtomicSchema(env);
   try{await DB.batch([
@@ -44,10 +48,14 @@ export async function requestSecondPassPurchase(env,userRow,requestId,now){
     jointGuard(DB,token,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[sale.key,sale.raw]),
     jointGuard(DB,token+'t',support.raw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',support.raw===null?[support.key]:[support.key,support.raw]),
     jointGuard(DB,token+'u','EXISTS(SELECT 1 FROM users u JOIN user_second_verifications s ON s.user_id=u.id WHERE u.id=? AND u.status=? AND u.created_at=? AND s.verified_at=?)',[id,'ACTIVE',userRow.created_at,userRow.verified_at]),
+    jointGuard(DB,token+'h',...purchaseHoldGuard(userRow)),
+    jointGuard(DB,token+'n','NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)',[unpaidKey(id+'_'+requestId)]),
     passOrderStatement(DB,id,requestId,now),
     p('INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO NOTHING',receiptKey,JSON.stringify({issuedAt:now})),
-    ...[token,token+'t',token+'u'].map(t=>jointGuardEnd(DB,t))
+    ...[token,token+'t',token+'u',token+'h',token+'n'].map(t=>jointGuardEnd(DB,t))
   ]);}catch(error){
+    requirePassPurchase(await supportAccount(env,id));
+    if(await receipt(env,unpaidKey(id+'_'+requestId)))fail('REJECTED','미입금으로 거절된 신청입니다.',409);
     if(passSubscription((await readSupportRecord(env,id)).state,2,now).purchased)return {purchased:true,pending:null,serverNow:now};
     if(!(await receipt(env,receiptKey)))throw error;
   }
@@ -100,18 +108,20 @@ async function resultFor(env,userId,saved,now,replayed){
   const row=await env.DB.prepare('SELECT id FROM user_messages WHERE user_id=? AND campaign_key=? AND hidden_at IS NULL').bind(userId,campaignKey(userId,saved.requestId)).first();
   return {ok:true,...saved,replayed,serverNow:now,expired:now>=saved.expiresAt,messageId:now<saved.expiresAt?Number(row?.id)||null:null,application:await readSupportApplication(env,userId,now)};
 }
-export async function issueSupportApplication(env,user,body,now=Date.now()){
+export async function issueSupportApplication(env,user,body,now=Date.now(),accountRow=null){
   const id=Number(user.id),month=passMonth(body.month);
   if(typeof body.requestId!=='string'||!/^[A-Za-z0-9_-]{16,100}$/.test(body.requestId))fail('INPUT','신청 요청을 다시 확인하세요.');
-  const row=await env.DB.prepare('SELECT u.id,u.status,u.created_at,s.verified_at FROM users u LEFT JOIN user_second_verifications s ON s.user_id=u.id WHERE u.id=?').bind(id).first();
+  const row=accountRow??await supportAccount(env,id);
   if(!supportAccountEligible(row,now))fail('ELIGIBILITY','가입 3일 경과와 2차 인증 완료 후 신청할 수 있습니다.',403);
+  requirePassPurchase(row);
   const applicationConfig=await configRecord(env);
   if(!applicationConfig.config.enabled)fail('DISABLED','현재 후원 신청을 받지 않습니다.',403);
   await deleteExpiredSupportMessages(env,now,id);
   const key=receiptKey(id,body.requestId),previous=await receipt(env,key);
   // Replaying an old request never recreates an expired or manually deleted message.
-  const replay=saved=>{
+  const replay=async saved=>{
     if((saved.month??1)!==month)fail('REQUEST_CONFLICT','같은 신청 번호의 시즌패스가 다릅니다.',409);
+    if(month===2&&await receipt(env,unpaidKey(id+'_'+body.requestId)))fail('REJECTED','미입금으로 거절된 신청입니다.',409);
     return resultFor(env,id,saved,now,true);
   };
   if(previous)return replay(previous);
@@ -126,7 +136,10 @@ export async function issueSupportApplication(env,user,body,now=Date.now()){
     const DB=env.DB,token=crypto.randomUUID(),tokens=['d','r','a','w','m','c'].map(s=>token+s),p=(sql,...args)=>DB.prepare(sql).bind(...args);
     try{
       await DB.batch([
-        ...(sale&&DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',id),p('SELECT key FROM app_meta WHERE key=? FOR UPDATE',sale.key)]:[]),
+        ...(DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',id)]:[]),
+        ...(sale&&DB.dialect==='postgres'?[p('SELECT key FROM app_meta WHERE key=? FOR UPDATE',sale.key)]:[]),
+        jointGuard(DB,token+'h',...purchaseHoldGuard(row)),
+        ...(month===2?[jointGuard(DB,token+'n','NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)',[unpaidKey(id+'_'+body.requestId)])]:[]),
         ...(sale?[jointGuard(DB,token+'sale','EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[sale.key,sale.raw]),
           jointGuard(DB,token+'term',support.raw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',support.raw===null?[support.key]:[support.key,support.raw])]:[]),
         jointGuard(DB,tokens[0],record.raw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',record.raw===null?[record.key]:[record.key,record.raw]),
@@ -139,11 +152,13 @@ export async function issueSupportApplication(env,user,body,now=Date.now()){
         jointGuard(DB,tokens[5],'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[SUPPORT_APPLICATION_CONFIG_KEY,applicationConfig.raw]),
         p('INSERT INTO app_meta(key,value) VALUES(?,?)',key,JSON.stringify(saved)),
         ...(month===2?[passOrderStatement(DB,id,body.requestId,now)]:[]),
-        ...[...tokens,...(sale?[token+'sale',token+'term']:[])].map(t=>jointGuardEnd(DB,t))
+        ...[...tokens,token+'h',...(sale?[token+'sale',token+'term',token+'n']:[])].map(t=>jointGuardEnd(DB,t))
       ]);
       return resultFor(env,id,saved,now,false);
     }catch(error){
       const prior=await receipt(env,key);if(prior)return replay(prior);
+      requirePassPurchase(await supportAccount(env,id));
+      if(month===2&&await receipt(env,unpaidKey(id+'_'+body.requestId)))fail('REJECTED','미입금으로 거절된 신청입니다.',409);
       if((await ledger(env,id,now)).raw!==record.raw&&attempt<3)continue;
       throw error;
     }

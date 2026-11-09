@@ -3,7 +3,7 @@ import {mountSupportPackage} from './support-package-v1.mjs?v=20261106-package-r
 import {mountPackageAlerts} from './support-package-alerts-v1.mjs?v=20261108-pass-purchases';
 import {SUPPORT_PACKAGE_EVENT_DEADLINE,supportPackageSalesOpen} from '../shared/support-package-v1.mjs?v=20261106-package-refresh-v1';
 import {jointAccountRequest} from './joint-account-transport.mjs';
-import {mountSeasonPass} from './supporter-season-pass-v1.mjs?v=20261108-pass-purchases';
+import {mountSeasonPass} from './supporter-season-pass-v1.mjs?v=20261109-pass-review';
 import {mountSupportScreenGuard} from './supporter-screen-guard-v1.mjs?v=20261011-guard1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date=v=>v?new Date(v).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
@@ -36,13 +36,16 @@ export function mountServerSupportNavigation({root,getUser,signal,request=jointA
   const identity=()=>{let token='';try{token=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';}catch{}return String(getUser()?.serverUserId||getUser()?.id||'')+':'+token;};
   let currentIdentity=identity();
   const clearEntry=()=>{footer.replaceChildren();footer.hidden=true;setPassVisible(false);};
-  const close=()=>{applicationView?.dispose();applicationView=null;screenGuard?.dispose();screenGuard=null;passView?.dispose();passView=null;dialog?.close();dialog?.remove();dialog=null;data=null;selectedMonth=1;opener?.isConnected&&opener.focus({preventScroll:true});};
+  let timer=null;
+  function stopExpiryChecks(){clearInterval(timer);timer=null;}
+  const close=()=>{stopExpiryChecks();applicationView?.dispose();applicationView=null;screenGuard?.dispose();screenGuard=null;passView?.dispose();passView=null;dialog?.close();dialog?.remove();dialog=null;data=null;selectedMonth=1;opener?.isConnected&&opener.focus({preventScroll:true});};
   const key=()=>`cnine_support_pet_pending_v1:${Number(getUser()?.serverUserId||getUser()?.id||0)}`;
   function render(){
     if(!dialog||!data)return;
     if(!supportPackageSalesOpen(Date.now()+serverOffset)){data.packageVisible=false;if(page==='package')page='info';}
     passView?.dispose();passView=null;
     const s=data.subscription,p=data.plan,selected=s.magnetPetCode,active=s.active;
+    if(active||data.packageVisible)timer??=setInterval(checkExpiry,1000);else stopExpiryChecks();
     const selectedPass=selectedMonth===2?data.secondSeasonPass:data.seasonPass;
     const passTabs=[data.seasonPass,data.secondSeasonPass].filter(Boolean).map((pass,i)=>`<button type="button" data-ss-month="${i+1}" aria-pressed="${selectedMonth===i+1}"><strong>${i+1}개월차</strong><small>${pass.active?'이용 중':pass.purchased?'기간 종료':!pass.enabled?'판매 준비 중':'미구매'}</small></button>`).join('');
     const scrollTop=dialog.scrollTop,focusPet=root.activeElement?.dataset?.ssPet;
@@ -112,7 +115,7 @@ export function mountServerSupportNavigation({root,getUser,signal,request=jointA
   const observer=new MutationObserver(()=>void sync());observer.observe(menu,{attributes:true,attributeFilter:['open','data-menu-category']});
   const changed=()=>void sync(true);
   window.addEventListener('storage',changed);window.addEventListener('cnine:player-updated',changed);
-  const timer=setInterval(()=>{if(!dialog?.open||!data)return;if(data.packageVisible&&!supportPackageSalesOpen(Date.now()+serverOffset)){data.packageVisible=false;if(page==='package')page='info';render();}if(data.subscription.active&&Date.now()+serverOffset>=data.subscription.endsAt)void loadPage(page);},1000);
-  function dispose(){if(disposed)return;disposed=true;generation++;observer.disconnect();clearInterval(timer);window.removeEventListener('storage',changed);window.removeEventListener('cnine:player-updated',changed);packageAlerts.dispose();close();footer.remove();link.remove();passStyle.remove();packageStyle.remove();}
+  function checkExpiry(){if(!dialog?.open||!data)return;if(data.packageVisible&&!supportPackageSalesOpen(Date.now()+serverOffset)){data.packageVisible=false;if(page==='package')page='info';render();}if(data.subscription.active&&Date.now()+serverOffset>=data.subscription.endsAt)void loadPage(page);}
+  function dispose(){if(disposed)return;disposed=true;generation++;observer.disconnect();window.removeEventListener('storage',changed);window.removeEventListener('cnine:player-updated',changed);packageAlerts.dispose();close();footer.remove();link.remove();passStyle.remove();packageStyle.remove();}
   signal?.addEventListener('abort',dispose,{once:true});void sync();return {dispose,openSeasonPass(button){opener=button;return loadPage('pass');}};
 }

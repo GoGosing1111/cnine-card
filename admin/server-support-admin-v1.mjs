@@ -4,9 +4,11 @@ import {mountPackageAlerts} from '../js/support-package-alerts-v1.mjs?v=20261108
 import {jointAdminRequest} from '../js/joint-account-transport.mjs';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date=v=>v?new Date(v).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'—';
+const reviewLabels={REJECT_UNPAID:'미입금 거절',HOLD_PURCHASE:'시즌패스 구매 임시 제한',RELEASE_PURCHASE:'시즌패스 구매 제한 해제'};
+const actionLabel=r=>r.action==='GRANT'?(r.month??1)+'개월차 · 29,800원':r.action==='REVOKE'?'전체 혜택 중지':reviewLabels[r.action]||r.action;
 export function mountSupportAdmin(root,{request=jointAdminRequest,initial=null}={}){
   let state=initial,preview=null,pending=null,busy=false,disposed=false,reviewing=null,passOrders=initial?.passPending||[];
-  root.innerHTML=`<div class="ss-admin"><header><span>SERVER SUPPORT · 운영 전용</span><h2>후원 관리</h2><p>후원 내역을 확인한 계정에 30일 혜택을 부여하고, 이용 기간과 처리 기록을 관리합니다.</p></header><section data-pass-orders aria-label="시즌패스 2개월차 구매 신청"></section><div data-support-package-admin></div><div data-support-application-admin></div><div class="ss-admin-summary"><div><small>후원 금액</small><b>30일 · 29,800원</b></div><div><small>기간제 펫 잠재력</small><b>자석 100% · 1마리</b></div><div><small>군단토벌 혜택</small><b>행동력 최대치 +3회</b></div></div><div class="ss-admin-workspace"><section><h3>후원 확인 · 이용 기간 관리</h3><form data-support-form novalidate><label>대상 계정<div class="ss-recipient"><select name="recipientType" aria-label="계정 검색 기준"><option value="NICKNAME">닉네임</option><option value="ID">계정 ID</option></select><input name="recipient" required maxlength="80" placeholder="정확한 닉네임" autocomplete="off" aria-label="후원 대상 계정"></div></label><button type="submit" class="ss-secondary" data-support-check>계정 · 이용 기간 확인</button><label>입금 확인할 시즌패스<select name="passMonth"><option value="">구매 월 선택</option><option value="1">1개월차</option><option value="2">2개월차</option></select></label><label>후원 확인 / 중지 메모<input name="note" required maxlength="200" placeholder="확인한 후원 내역 또는 중지 사유"></label></form><div data-support-preview class="ss-admin-preview" hidden></div><p data-support-status role="status" aria-live="polite"></p><p>이용 중인 계정은 기존 종료일에 30일을 더합니다. 같은 날 연장해도 군단토벌 행동력은 초기화되지 않습니다.</p></section><section><div class="ss-section-heading"><h3>등록된 후원자</h3><button type="button" class="ss-secondary" data-support-refresh>새로고침</button></div><p>후원 페이지는 가입 3일 이상·2차 인증 완료 유저에게 표시됩니다. CMS 후원 관리는 핑크빛유두 전용입니다.</p><div class="ss-admin-table-wrap"><table><thead><tr><th>계정</th><th>상태</th><th>이용 종료</th></tr></thead><tbody data-support-subscribers></tbody></table></div><p class="ss-footnote">최근 등록·변경된 계정 최대 200명</p></section></div><section class="ss-admin-history"><h3>최근 처리 기록</h3><div class="ss-admin-table-wrap"><table><thead><tr><th>처리 시각</th><th>계정</th><th>처리</th><th>종료일</th><th>확인 메모</th></tr></thead><tbody data-support-history></tbody></table></div></section></div>`;
+  root.innerHTML=`<div class="ss-admin"><header><span>SERVER SUPPORT · 운영 전용</span><h2>후원 관리</h2><p>후원 내역을 확인한 계정에 30일 혜택을 부여하고, 이용 기간과 처리 기록을 관리합니다.</p></header><section data-pass-orders aria-label="시즌패스 2개월차 구매 신청"></section><div data-support-package-admin></div><div data-support-application-admin></div><div class="ss-admin-summary"><div><small>후원 금액</small><b>30일 · 29,800원</b></div><div><small>기간제 펫 잠재력</small><b>자석 100% · 1마리</b></div><div><small>군단토벌 혜택</small><b>행동력 최대치 +3회</b></div></div><div class="ss-admin-workspace"><section><h3>후원 확인 · 이용 기간 관리</h3><form data-support-form novalidate><label>대상 계정<div class="ss-recipient"><select name="recipientType" aria-label="계정 검색 기준"><option value="NICKNAME">닉네임</option><option value="ID">계정 ID</option></select><input name="recipient" required maxlength="80" placeholder="정확한 닉네임" autocomplete="off" aria-label="후원 대상 계정"></div></label><button type="submit" class="ss-secondary" data-support-check>계정 · 이용 기간 확인</button><label>입금 확인할 시즌패스<select name="passMonth"><option value="">구매 월 선택</option><option value="1">1개월차</option><option value="2">2개월차</option></select></label><label>처리 메모<input name="note" required maxlength="200" placeholder="확인한 후원 내역 또는 중지 사유"></label></form><div data-support-preview class="ss-admin-preview" hidden></div><p data-support-status role="status" aria-live="polite"></p><p>이용 중인 계정은 기존 종료일에 30일을 더합니다. 같은 날 연장해도 군단토벌 행동력은 초기화되지 않습니다.</p></section><section><div class="ss-section-heading"><h3>등록된 후원자</h3><button type="button" class="ss-secondary" data-support-refresh>새로고침</button></div><p>후원 페이지는 가입 3일 이상·2차 인증 완료 유저에게 표시됩니다. CMS 후원 관리는 핑크빛유두 전용입니다.</p><div class="ss-admin-table-wrap"><table><thead><tr><th>계정</th><th>상태</th><th>이용 종료</th></tr></thead><tbody data-support-subscribers></tbody></table></div><p class="ss-footnote">최근 등록·변경된 계정 최대 200명</p></section></div><section class="ss-admin-history"><h3>최근 처리 기록</h3><div class="ss-admin-table-wrap"><table><thead><tr><th>처리 시각</th><th>계정</th><th>처리</th><th>종료일</th><th>확인 메모</th></tr></thead><tbody data-support-history></tbody></table></div></section></div>`;
   const packageAdmin=mountSupportPackageAdmin(root.querySelector('[data-support-package-admin]'),{request});
   const applicationAdmin=mountSupportApplicationAdmin(root.querySelector('[data-support-application-admin]'),{request});
   const $=s=>root.querySelector(s),form=$('[data-support-form]'),storageKey='cnine_support_admin_pending_v1:1';
@@ -14,7 +16,7 @@ export function mountSupportAdmin(root,{request=jointAdminRequest,initial=null}=
   const lock=()=>{root.querySelectorAll('input,select,button').forEach(el=>{if(el.closest('[data-support-application-admin],[data-support-package-admin]'))return;el.disabled=busy||!state||!!pending&&!el.hasAttribute('data-support-retry')||el.dataset.blocked==='true'});if(reviewing)form.elements.passMonth.disabled=true;};
   function renderOrders(){
     const panel=$('[data-pass-orders]');
-    panel.innerHTML=`<h3>시즌패스 2개월차 구매 신청 · 확인 대기 ${passOrders.length}건</h3>${passOrders.length?`<div class="ss-admin-table-wrap"><table><thead><tr><th>신청자</th><th>신청 시각</th><th>입금 확인</th></tr></thead><tbody>${passOrders.map(o=>`<tr><td><b>${esc(o.nickname)}</b><small>ID ${Number(o.userId)}</small></td><td>${date(o.createdAt)}</td><td><button type="button" class="ss-secondary" data-pass-review="${esc(o.id)}" ${pending||busy?'disabled':''}>${Number(o.priceWon).toLocaleString('ko-KR')}원 확인</button></td></tr>`).join('')}</tbody></table></div>`:'<p>입금 확인을 기다리는 2개월차 신청이 없습니다.</p>'}`;
+    panel.innerHTML=`<h3>시즌패스 2개월차 구매 신청 · 확인 대기 ${passOrders.length}건</h3>${passOrders.length?`<div class="ss-admin-table-wrap"><table><thead><tr><th>신청자</th><th>신청 시각</th><th>신청 처리</th></tr></thead><tbody>${passOrders.map(o=>`<tr><td><b>${esc(o.nickname)}</b><small>ID ${Number(o.userId)}</small></td><td>${date(o.createdAt)}</td><td><button type="button" class="ss-secondary" data-pass-review="${esc(o.id)}" ${pending||busy?'disabled':''}>${Number(o.priceWon).toLocaleString('ko-KR')}원 · 신청 검토</button></td></tr>`).join('')}</tbody></table></div>`:'<p>입금 확인을 기다리는 2개월차 신청이 없습니다.</p>'}`;
   }
   function setPassOrders(orders){
     if(disposed||JSON.stringify(orders)===JSON.stringify(passOrders))return;
@@ -27,11 +29,23 @@ export function mountSupportAdmin(root,{request=jointAdminRequest,initial=null}=
   function render(){
     if(!state)return;
     $('[data-support-subscribers]').innerHTML=state.subscribers.map(r=>`<tr><td><b>${esc(r.target.nickname)}</b><small>ID ${r.target.id}</small></td><td><span class="ss-state ${r.subscription.active?'is-active':''}">${r.subscription.active?'이용 중':r.subscription.revokedAt?'중지':'만료'}</span></td><td>${date(r.subscription.endsAt)}</td></tr>`).join('')||'<tr><td colspan="3">등록된 후원자가 없습니다.</td></tr>';
-    $('[data-support-history]').innerHTML=state.history.map(r=>`<tr><td>${date(r.processedAt)}</td><td>${esc(r.target.nickname)}<small>ID ${r.target.id}</small></td><td>${r.action==='GRANT'?`${r.month??1}개월차 · 29,800원`:'전체 혜택 중지'}</td><td>${date(r.subscription.endsAt)}</td><td>${esc(r.note)}</td></tr>`).join('')||'<tr><td colspan="5">처리 기록이 없습니다.</td></tr>';
+    $('[data-support-history]').innerHTML=state.history.map(r=>`<tr><td>${date(r.processedAt)}</td><td>${esc(r.target.nickname)}<small>ID ${r.target.id}</small></td><td>${esc(actionLabel(r))}</td><td>${date(r.subscription.endsAt)}</td><td>${esc(r.note)}</td></tr>`).join('')||'<tr><td colspan="5">처리 기록이 없습니다.</td></tr>';
     renderOrders();
     const block=$('[data-support-preview]'),v=preview||pending?.preview;block.hidden=!v;
     if(v){const active=v.subscription.active,end=Math.max(active?v.subscription.endsAt:0,state.serverNow)+30*86400000;
-      block.innerHTML=`<h3>${esc(v.target.nickname)} <small>· ID ${v.target.id}</small></h3><dl><div><dt>현재 상태</dt><dd>${active?'이용 중':v.subscription.revokedAt?'중지':v.subscription.endsAt?'만료':'등록 전'}</dd></div><div><dt>현재 종료일</dt><dd>${date(v.subscription.endsAt)}</dd></div><div><dt>30일 추가 후</dt><dd>${date(end)}</dd></div></dl>${v.lastPassApplication?`<p>최근 계좌 안내 신청 · ${v.lastPassApplication.month}개월차 · ${date(v.lastPassApplication.issuedAt)}</p>`:''}<p>${v.eligible?'가입 3일 경과 · 2차 인증 완료':'가입 3일 경과와 2차 인증 완료가 필요합니다.'}</p>${form.elements.passMonth.value==='2'&&!v.secondPassEnabled?'<p>2개월차 보상표를 완성하고 판매를 개방하면 결제를 확인할 수 있습니다.</p>':form.elements.passMonth.value==='2'&&v.subscription.passTerms?.[2]?.revokedAt===null?'<p>이 계정은 이미 2개월차 패스를 구매했습니다.</p>':''}${pending?`<p>${pending.body.action==='GRANT'?`${pending.body.month??1}개월차 혜택 부여`:'혜택 중지'} 결과를 확인하고 있습니다. 같은 요청으로 다시 확인해 주세요.</p><button type="button" class="ss-primary" data-support-retry>이전 처리 결과 확인</button>`:`<div class="ss-admin-actions"><button type="button" class="ss-primary" data-support-action="GRANT" data-blocked="${!v.eligible||!form.elements.passMonth.value||(form.elements.passMonth.value==='2'&&(v.subscription.passTerms?.[2]?.revokedAt===null||!v.secondPassEnabled))}">${form.elements.passMonth.value?`${form.elements.passMonth.value}개월차 결제 확인`:'구매 월을 선택하세요'}</button><button type="button" class="ss-danger" data-support-action="REVOKE" data-blocked="${!active}">전체 후원 혜택 중지</button></div>`}`;
+      block.innerHTML=`<h3>${esc(v.target.nickname)} <small>· ID ${v.target.id}</small></h3><dl><div><dt>현재 상태</dt><dd>${active?'이용 중':v.subscription.revokedAt?'중지':v.subscription.endsAt?'만료':'등록 전'}</dd></div><div><dt>현재 종료일</dt><dd>${date(v.subscription.endsAt)}</dd></div><div><dt>30일 추가 후</dt><dd>${date(end)}</dd></div></dl>${v.lastPassApplication?`<p>최근 계좌 안내 신청 · ${v.lastPassApplication.month}개월차 · ${date(v.lastPassApplication.issuedAt)}</p>`:''}<p>${v.eligible?'가입 3일 경과 · 2차 인증 완료':'가입 3일 경과와 2차 인증 완료가 필요합니다.'}</p>${form.elements.passMonth.value==='2'&&!v.secondPassEnabled?'<p>2개월차 보상표를 완성하고 판매를 개방하면 결제를 확인할 수 있습니다.</p>':form.elements.passMonth.value==='2'&&v.subscription.passTerms?.[2]?.revokedAt===null?'<p>이 계정은 이미 2개월차 패스를 구매했습니다.</p>':''}${pending?`<p>${esc(actionLabel(pending.body))} 결과를 확인하고 있습니다. 같은 요청으로 다시 확인해 주세요.</p><button type="button" class="ss-primary" data-support-retry>이전 처리 결과 확인</button>`:`<div class="ss-admin-actions"><button type="button" class="ss-primary" data-support-action="GRANT" data-blocked="${v.purchaseHold?.blocked||!v.eligible||!form.elements.passMonth.value||(form.elements.passMonth.value==='2'&&(v.subscription.passTerms?.[2]?.revokedAt===null||!v.secondPassEnabled))}">${form.elements.passMonth.value?`${form.elements.passMonth.value}개월차 결제 확인`:'구매 월을 선택하세요'}</button><button type="button" class="ss-danger" data-support-action="REVOKE" data-blocked="${!active}">전체 후원 혜택 중지</button></div>`}`;
+    }
+    if(v){
+      const hold=v.purchaseHold||{blocked:false,revision:0};
+      const stateLine=block.ownerDocument.createElement('p');
+      stateLine.textContent=hold.blocked?'시즌패스 구매 임시 제한 중':'시즌패스 구매 제한 없음';
+      block.querySelector('dl').after(stateLine);
+      const actions=block.querySelector('.ss-admin-actions');
+      if(actions){
+        if(reviewing)actions.insertAdjacentHTML('beforeend','<button type="button" class="ss-danger" data-support-action="REJECT_UNPAID">미입금 거절</button>');
+        const action=hold.blocked?'RELEASE_PURCHASE':'HOLD_PURCHASE';
+        actions.insertAdjacentHTML('beforeend',`<button type="button" class="ss-secondary" data-support-action="${action}">${reviewLabels[action]}</button>`);
+      }
     }
     if(reviewing){const revoke=block.querySelector('[data-support-action="REVOKE"]');if(revoke)revoke.hidden=true;}
     lock();
@@ -48,9 +62,36 @@ export function mountSupportAdmin(root,{request=jointAdminRequest,initial=null}=
   }
   async function change(action){
     if(busy||!pending&&!preview)return;
-    if(!pending){if(!form.elements.note.reportValidity())return;pending={preview,body:{userId:preview.target.id,action,...(action==='GRANT'?{month:Number(form.elements.passMonth.value),...(reviewing?{passApplicationId:reviewing.id}:{})}:{}),note:form.elements.note.value.trim(),expectedRevision:preview.subscription.revision,requestId:crypto.randomUUID()}};try{localStorage.setItem(storageKey,JSON.stringify(pending));}catch{pending=null;status('처리 요청을 저장하지 못했습니다. 브라우저 저장 공간을 확인하세요.',true);return;}}
-    busy=true;render();status('후원 혜택 처리 결과를 확인하고 있습니다.');
-    try{const result=await request('admin/server-support',{method:'POST',body:pending.body});if(disposed)return;localStorage.removeItem(storageKey);pending=null;preview=null;reviewing=null;if(result.action==='GRANT'&&result.month===2)setPassOrders(passOrders.filter(o=>Number(o.userId)!==Number(result.target.id)));state.history=[result,...state.history.filter(r=>r.requestId!==result.requestId)].slice(0,30);state.subscribers=[{target:result.target,subscription:result.subscription},...state.subscribers.filter(r=>r.target.id!==result.target.id)];state.serverNow=result.processedAt;render();status(`${result.target.nickname} · ${result.action==='GRANT'?`${result.month??1}개월차 적용 완료 · 후원 종료 ${date(result.subscription.endsAt)}`:'후원 혜택 중지 완료'}${result.replayed?' · 저장된 처리 결과':''}`);}
+    if(!pending){
+      const isReview=Object.hasOwn(reviewLabels,action);
+      if(!isReview&&!form.elements.note.reportValidity())return;
+      if(action==='REJECT_UNPAID'&&!reviewing)return;
+      const body={userId:preview.target.id,action,note:form.elements.note.value.trim()||(action==='REJECT_UNPAID'?'미입금':reviewLabels[action]),expectedRevision:preview.subscription.revision,requestId:crypto.randomUUID()};
+      if(action==='GRANT')body.month=Number(form.elements.passMonth.value);
+      if(reviewing&&(action==='GRANT'||action==='REJECT_UNPAID'))body.passApplicationId=reviewing.id;
+      if(action==='HOLD_PURCHASE'||action==='RELEASE_PURCHASE')body.expectedHoldRevision=preview.purchaseHold?.revision??0;
+      pending={preview,body};
+      try{localStorage.setItem(storageKey,JSON.stringify(pending));}catch{pending=null;status('처리 요청을 저장하지 못했습니다. 브라우저 저장 공간을 확인하세요.',true);return;}
+    }
+    busy=true;render();status('처리 결과를 확인하고 있습니다.');
+    try{
+      const result=await request('admin/server-support',{method:'POST',body:pending.body});
+      if(disposed)return;
+      const targetPreview=pending.preview;
+      localStorage.removeItem(storageKey);pending=null;
+      if(result.action==='HOLD_PURCHASE'||result.action==='RELEASE_PURCHASE'){
+        preview={...targetPreview,purchaseHold:result.purchaseHold};
+      }else{
+        preview=null;reviewing=null;
+      }
+      if(result.passApplicationId)setPassOrders(passOrders.filter(o=>o.id!==result.passApplicationId));
+      else if(result.action==='GRANT'&&result.month===2)setPassOrders(passOrders.filter(o=>Number(o.userId)!==Number(result.target.id)));
+      state.history=[result,...state.history.filter(r=>r.requestId!==result.requestId)].slice(0,30);
+      if(result.action==='GRANT'||result.action==='REVOKE')state.subscribers=[{target:result.target,subscription:result.subscription},...state.subscribers.filter(r=>r.target.id!==result.target.id)];
+      state.serverNow=result.processedAt;render();
+      const done=result.action==='GRANT'?`${result.month??1}개월차 적용 완료 · 후원 종료 ${date(result.subscription.endsAt)}`:actionLabel(result)+' 완료';
+      status(`${result.target.nickname} · ${done}${result.replayed?' · 저장된 처리 결과':''}`);
+    }
     catch(error){if(disposed)return;if(!error.retryable&&error.status&&error.status<500&&![408,429].includes(error.status)){localStorage.removeItem(storageKey);pending=null;preview=null;reviewing=null;}render();status(error.message,true);}finally{busy=false;if(!disposed)lock();}
   }
   const click=e=>{const row=e.target.closest('[data-pass-review]');if(row){const order=passOrders.find(o=>o.id===row.dataset.passReview);if(order)void reviewPass(order.userId,order.id);return;}const action=e.target.closest('[data-support-action]');if(action&&!action.disabled)void change(action.dataset.supportAction);if(e.target.closest('[data-support-retry]'))void change();if(e.target.closest('[data-support-refresh]'))void load();};
