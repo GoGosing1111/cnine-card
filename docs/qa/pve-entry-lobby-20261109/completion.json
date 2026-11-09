@@ -1,0 +1,1104 @@
+{
+  "title": "PVE 덱 편성·몬스터 토벌 UI 개편 및 몬스터 디펜스 진입",
+  "verifiedAt": "2026-11-09T14:08:43.504961+00:00",
+  "release": {
+    "source": "809ddd4d113e83db88a341d753246bf437d50e8b",
+    "previous": "faf730d6ab43130089fe49a51a574974e6364278",
+    "pages": "0d5d602c-3462-4e68-8909-6819747773c2",
+    "pagesUrl": "https://0d5d602c.cnine-card.pages.dev",
+    "testsPassed": 39,
+    "filesDeployed": 20000,
+    "verifiedPublicFiles": [
+      {
+        "file": "index.html",
+        "bytes": 51701,
+        "sha256": "3d3db1ab6e15a026a0a2fa0e272037e0be7318233376e87cc48c4dd1e965e0d5",
+        "windows": true
+      },
+      {
+        "file": "onestore/index.html",
+        "bytes": 51574,
+        "sha256": "3f069e45113aedf572fb2ad5e9b3d8b943b5043ba0e3196e7a3098b50cd142f7",
+        "windows": false
+      },
+      {
+        "file": "js/app.js",
+        "bytes": 820650,
+        "sha256": "31dd1584b10c6af79355b59141d33568f9217eedc9ad174c2c71e50ded2044b4",
+        "windows": true
+      },
+      {
+        "file": "onestore/js/app.js",
+        "bytes": 821574,
+        "sha256": "8a1540f00052343307f3151b68b20c61acd75ff426243fe677f578571f72936c",
+        "windows": false
+      },
+      {
+        "file": "js/pve-command-v2-live.js",
+        "bytes": 39326,
+        "sha256": "e78c6db03d679d508f6af638d4802b83b89aeeb7e579598c07a114f25de7c4c0",
+        "windows": true
+      },
+      {
+        "file": "css/combat-lobby-v2110.css",
+        "bytes": 43604,
+        "sha256": "106deaf951724c12568935e66db4f77f5b5c77aa8b0fc67016af7e338160c5cc",
+        "windows": true
+      },
+      {
+        "file": "js/soopketmon-v21-command-icons.js",
+        "bytes": 11108,
+        "sha256": "47868727545ba410b5ec9e28fee2da009be336f35771353ac4fa9994f28bd4cc",
+        "windows": true
+      },
+      {
+        "file": "js/soopketmon-v21-exact-shell-adapter.js",
+        "bytes": 57338,
+        "sha256": "af9e4170ae687b747936beef9a422588e8247dacdd63ae6c3a09a8d70f8b42b0",
+        "windows": true
+      },
+      {
+        "file": "onestore/js/soopketmon-v21-exact-shell-adapter.js",
+        "bytes": 57533,
+        "sha256": "ce851a7b9ccc1e8204b3aed4335ad89af57fec8782459756ad0302496b4c21f8",
+        "windows": false
+      },
+      {
+        "file": "assets/ui/tactical-20261030/panel-flat.webp",
+        "bytes": 40384,
+        "sha256": "b09ad6d16bcf520352f8185ebc55ae38596e0574b865adc93ecba1cee1fe834b",
+        "windows": true
+      },
+      {
+        "file": "assets/ui/pve-command-v2/deck-command-hangar-v1-1280.avif",
+        "bytes": 39271,
+        "sha256": "2305371832f24701b57736a28c8d1e1a5f99eb22a8c983f4a38fd9afdc710b80",
+        "windows": true
+      }
+    ],
+    "windowsRelease": "ef694b9a518c668acd3dae1adbebebb8b2dab178ddd5ba4d2b0d61239febd3a7",
+    "workerTraffic": [
+      {
+        "name": "cnine-card-api-runtime",
+        "versions": [
+          {
+            "version_id": "c7b941e8-02d7-4215-9be4-79422484d4c7",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "versions": [
+          {
+            "version_id": "f56ec00b-9961-4805-bfc5-88266b226ff7",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "userChoice": "모바일에도 입장 가능한 모든 전장을 항상 펼쳐 표시한다. 운영 및 계정별 입장 조건을 따른다.",
+  "verified": [
+    "로비 → 모험 · PVE → PVE 전투",
+    "보유 카드 필터·초기화, 전열·후열 카드 제거와 키보드 선택, 명시적 덱 저장",
+    "난이도 변경, 대상 선택, 빈 난이도, 행동력·소탕 표시, 아포칼립스 소탕 제외",
+    "선택 덱 5장과 몬스터 ID를 전달해 기존 V3 전투 캔버스 진입",
+    "웹 /defense/와 원스토어 /onestore/defense/에서 최후의 방어선 대기실 진입"
+  ],
+  "presentation": {
+    "skill": "Impeccable",
+    "review": "ship",
+    "detector": [],
+    "art": "실제 로비 전술 아이콘·9-slice 프레임·서체 스택, 기존 격납고·카드·토벌 원화",
+    "narrowScreen": "320px에서 전장 3열 4행, 편성 카드 2열, 상단 전체 메뉴 한 줄. 390px 전열 2장·후열 3장 배치.",
+    "cardCrop": "강구열 ICON의 오프셋 지연 로딩 영역에 초기 비율을 부여해 1080×2520 초상화가 실제로 디코딩됨.",
+    "fonts": "데스크톱 웹에서 Black Han Sans·Barlow Condensed·Pretendard Variable 로드 확인. 격리 Windows 렌더러에서는 기존 Windows 로비와 동일한 대체 글꼴이 적용됨."
+  },
+  "performance": {
+    "environment": "같은 Windows 호스트에서 이전 운영 커밋과 개편본을 번갈아 실행. Chrome 1440×900, 터치 WebKit 390×844, 별도 프로필의 ReverseCall.exe 1440×900, 공식 H5 SDK를 로드한 Chromium 원스토어 iframe 390×844. 320×844 WebKit 추가 배치 검수.",
+    "data": "공개 카드 309종 중 보유 38장, 저장 덱 5장, 토벌 대상 fixture와 전장 표시 조건을 고정. API는 격리하고 브라우저 프로필은 새로 시작. 공개 사이트 확인도 동일한 격리 계정 응답을 사용.",
+    "method": "앱 첫 로드에서 조작 가능한 로비까지, PVE 버튼 pointerdown부터 저장 가능한 편성 화면의 다음 페인트까지 측정. 한 번 로비로 나갔다가 같은 버튼으로 재진입. 토벌 대상 교체 동작은 변경 이벤트부터 두 번째 animation frame까지. 최초·재진입 약 600ms, 대상 전환 약 650ms 동안 프레임 간격 및 50ms 초과 집계. 다회 실행 수치는 중앙값이며 원시 값도 보존.",
+    "bottleneck": "편성 첫 진입에서 카드 목록 레이아웃과 전투 엔진 실행이 메인 스레드를 점유했다. 화면 밖 카드 목록은 보일 때 구성하고, 엔진은 덱에서 낮은 우선순위로 캐시한 뒤 토벌 탭에서 실행한다. 대상 변경 때 목록을 재생성하지 않는다.",
+    "exit": "모든 비교 실행의 이탈 1.15초 뒤 PVE 화면 노드 0개, 행동력 타이머 종료.",
+    "results": {
+      "desktop-1440": {
+        "before": {
+          "runs": 3,
+          "coldLobbyMs": 1062,
+          "firstEntry": {
+            "usableMs": 262,
+            "p95Ms": 254,
+            "maxMs": 254,
+            "over50": 4,
+            "frames": 9
+          },
+          "reentry": {
+            "usableMs": 96,
+            "p95Ms": 25,
+            "maxMs": 112,
+            "over50": 1,
+            "frames": 83
+          },
+          "selectAnotherMonster": {
+            "usableMs": 209,
+            "p95Ms": 4,
+            "maxMs": 133,
+            "over50": 2,
+            "frames": 76
+          },
+          "samples": [
+            {
+              "coldMs": 1141,
+              "entry": [
+                {
+                  "usableMs": 249,
+                  "p95Ms": 254,
+                  "maxMs": 254,
+                  "over50": 4,
+                  "frames": 7
+                },
+                {
+                  "usableMs": 96,
+                  "p95Ms": 25,
+                  "maxMs": 142,
+                  "over50": 1,
+                  "frames": 83
+                }
+              ],
+              "selectAnotherMonster": {
+                "usableMs": 144,
+                "p95Ms": 4,
+                "maxMs": 133,
+                "over50": 3,
+                "frames": 75
+              }
+            },
+            {
+              "coldMs": 1062,
+              "entry": [
+                {
+                  "usableMs": 262,
+                  "p95Ms": 263,
+                  "maxMs": 263,
+                  "over50": 3,
+                  "frames": 9
+                },
+                {
+                  "usableMs": 103,
+                  "p95Ms": 25,
+                  "maxMs": 112,
+                  "over50": 2,
+                  "frames": 83
+                }
+              ],
+              "selectAnotherMonster": {
+                "usableMs": 209,
+                "p95Ms": 4,
+                "maxMs": 129,
+                "over50": 1,
+                "frames": 77
+              }
+            },
+            {
+              "coldMs": 1055,
+              "entry": [
+                {
+                  "usableMs": 267,
+                  "p95Ms": 250,
+                  "maxMs": 250,
+                  "over50": 4,
+                  "frames": 11
+                },
+                {
+                  "usableMs": 82,
+                  "p95Ms": 17,
+                  "maxMs": 100,
+                  "over50": 1,
+                  "frames": 102
+                }
+              ],
+              "selectAnotherMonster": {
+                "usableMs": 218,
+                "p95Ms": 4,
+                "maxMs": 217,
+                "over50": 2,
+                "frames": 76
+              }
+            }
+          ]
+        },
+        "candidate": {
+          "runs": 3,
+          "coldLobbyMs": 1073,
+          "firstEntry": {
+            "usableMs": 250,
+            "p95Ms": 129,
+            "maxMs": 163,
+            "over50": 4,
+            "frames": 38
+          },
+          "reentry": {
+            "usableMs": 95,
+            "p95Ms": 25,
+            "maxMs": 71,
+            "over50": 1,
+            "frames": 89
+          },
+          "selectAnotherMonster": {
+            "usableMs": 22,
+            "p95Ms": 4,
+            "maxMs": 292,
+            "over50": 1,
+            "frames": 82
+          },
+          "samples": [
+            {
+              "coldMs": 1073,
+              "entry": [
+                {
+                  "usableMs": 239,
+                  "p95Ms": 75,
+                  "maxMs": 179,
+                  "over50": 4,
+                  "frames": 49
+                },
+                {
+                  "usableMs": 95,
+                  "p95Ms": 25,
+                  "maxMs": 75,
+                  "over50": 1,
+                  "frames": 89
+                }
+              ],
+              "selectAnotherMonster": {
+                "usableMs": 20,
+                "p95Ms": 4,
+                "maxMs": 304,
+                "over50": 1,
+                "frames": 80
+              }
+            },
+            {
+              "coldMs": 1212,
+              "entry": [
+                {
+                  "usableMs": 250,
+                  "p95Ms": 129,
+                  "maxMs": 163,
+                  "over50": 4,
+                  "frames": 38
+                },
+                {
+                  "usableMs": 83,
+                  "p95Ms": 25,
+                  "maxMs": 50,
+                  "over50": 1,
+                  "frames": 97
+                }
+              ],
+              "selectAnotherMonster": {
+                "usableMs": 29,
+                "p95Ms": 4,
+                "maxMs": 292,
+                "over50": 1,
+                "frames": 82
+              }
+            },
+            {
+              "coldMs": 958,
+              "entry": [
+                {
+                  "usableMs": 282,
+                  "p95Ms": 138,
+                  "maxMs": 154,
+                  "over50": 4,
+                  "frames": 38
+                },
+                {
+                  "usableMs": 103,
+                  "p95Ms": 29,
+                  "maxMs": 71,
+                  "over50": 1,
+                  "frames": 87
+                }
+              ],
+              "selectAnotherMonster": {
+                "usableMs": 22,
+                "p95Ms": 4,
+                "maxMs": 292,
+                "over50": 1,
+                "frames": 83
+              }
+            }
+          ]
+        }
+      },
+      "ios-390": {
+        "before": {
+          "runs": 3,
+          "coldLobbyMs": 1141,
+          "firstEntry": {
+            "usableMs": 628,
+            "p95Ms": 117,
+            "maxMs": 320,
+            "over50": 2,
+            "frames": 21
+          },
+          "reentry": {
+            "usableMs": 173,
+            "p95Ms": 46,
+            "maxMs": 76,
+            "over50": 1,
+            "frames": 36
+          },
+          "selectAnotherMonster": {
+            "usableMs": 32,
+            "p95Ms": 30,
+            "maxMs": 30,
+            "over50": 0,
+            "frames": 40
+          },
+          "samples": [
+            {
+              "coldMs": 1141,
+              "entry": [
+                {
+                  "usableMs": 825,
+                  "p95Ms": 63,
+                  "maxMs": 591,
+                  "over50": 2,
+                  "frames": 35
+                },
+                {
+                  "usableMs": 202,
+                  "p95Ms": 59,
+                  "maxMs": 79,
+                  "over50": 2,
+                  "frames": 34
+                }
+              ],
+              "selectAnotherMonster": {
+                "usableMs": 37,
+                "p95Ms": 29,
+                "maxMs": 31,
+                "over50": 0,
+                "frames": 40
+              }
+            },
+            {
+              "coldMs": 1504,
+              "entry": [
+                {
+                  "usableMs": 234,
+                  "p95Ms": 117,
+                  "maxMs": 163,
+                  "over50": 2,
+                  "frames": 21
+                },
+                {
+                  "usableMs": 102,
+                  "p95Ms": 29,
+                  "maxMs": 30,
+                  "over50": 0,
+                  "frames": 37
+                }
+              ],
+              "selectAnotherMonster": {
+                "usableMs": 31,
+                "p95Ms": 30,
+                "maxMs": 30,
+                "over50": 0,
+                "frames": 39
+              }
+            },
+            {
+              "coldMs": 920,
+              "entry": [
+                {
+                  "usableMs": 628,
+                  "p95Ms": 320,
+                  "maxMs": 320,
+                  "over50": 2,
+                  "frames": 18
+                },
+                {
+                  "usableMs": 173,
+                  "p95Ms": 46,
+                  "maxMs": 76,
+                  "over50": 1,
+                  "frames": 36
+                }
+              ],
+              "selectAnotherMonster": {
+                "usableMs": 32,
+                "p95Ms": 30,
+                "maxMs": 30,
+                "over50": 0,
+                "frames": 40
+              }
+            }
+          ]
+        },
+        "candidate": {
+          "runs": 3,
+          "coldLobbyMs": 1001,
+          "firstEntry": {
+            "usableMs": 461,
+            "p95Ms": 100,
+            "maxMs": 242,
+            "over50": 2,
+            "frames": 34
+          },
+          "reentry": {
+            "usableMs": 202,
+            "p95Ms": 66,
+            "maxMs": 74,
+            "over50": 2,
+            "frames": 33
+          },
+          "selectAnotherMonster": {
+            "usableMs": 54,
+            "p95Ms": 30,
+            "maxMs": 30,
+            "over50": 0,
+            "frames": 36
+          },
+          "samples": [
+            {
+              "coldMs": 943,
+              "entry": [
+                {
+                  "usableMs": 461,
+                  "p95Ms": 100,
+                  "maxMs": 280,
+                  "over50": 2,
+                  "frames": 34
+                },
+                {
+                  "usableMs": 202,
+                  "p95Ms": 66,
+                  "maxMs": 74,
+                  "over50": 2,
+                  "frames": 33
+                }
+              ],
+              "selectAnotherMonster": {
+                "usableMs": 43,
+                "p95Ms": 30,
+                "maxMs": 30,
+                "over50": 0,
+                "frames": 36
+              }
+            },
+            {
+              "coldMs": 1001,
+              "entry": [
+                {
+                  "usableMs": 360,
+                  "p95Ms": 67,
+                  "maxMs": 211,
+                  "over50": 2,
+                  "frames": 35
+                },
+                {
+                  "usableMs": 190,
+                  "p95Ms": 62,
+                  "maxMs": 64,
+                  "over50": 2,
+                  "frames": 34
+                }
+              ],
+              "selectAnotherMonster": {
+                "usableMs": 54,
+                "p95Ms": 30,
+                "maxMs": 30,
+                "over50": 0,
+                "frames": 37
+              }
+            },
+            {
+              "coldMs": 23809,
+              "entry": [
+                {
+                  "usableMs": 491,
+                  "p95Ms": 201,
+                  "maxMs": 242,
+                  "over50": 2,
+                  "frames": 24
+                },
+                {
+                  "usableMs": 247,
+                  "p95Ms": 77,
+                  "maxMs": 82,
+                  "over50": 2,
+                  "frames": 33
+                }
+              ],
+              "selectAnotherMonster": {
+                "usableMs": 63,
+                "p95Ms": 39,
+                "maxMs": 40,
+                "over50": 0,
+                "frames": 35
+              }
+            }
+          ]
+        }
+      },
+      "windows-1440": {
+        "before": {
+          "runs": 1,
+          "coldLobbyMs": 738,
+          "firstEntry": {
+            "usableMs": 260,
+            "p95Ms": 217,
+            "maxMs": 217,
+            "over50": 4,
+            "frames": 7
+          },
+          "reentry": {
+            "usableMs": 61,
+            "p95Ms": 33,
+            "maxMs": 50,
+            "over50": 0,
+            "frames": 36
+          },
+          "selectAnotherMonster": {
+            "usableMs": 175,
+            "p95Ms": 117,
+            "maxMs": 167,
+            "over50": 2,
+            "frames": 24
+          },
+          "samples": [
+            {
+              "coldMs": 738,
+              "entry": [
+                {
+                  "usableMs": 260,
+                  "p95Ms": 217,
+                  "maxMs": 217,
+                  "over50": 4,
+                  "frames": 7
+                },
+                {
+                  "usableMs": 61,
+                  "p95Ms": 33,
+                  "maxMs": 50,
+                  "over50": 0,
+                  "frames": 36
+                }
+              ],
+              "selectAnotherMonster": {
+                "usableMs": 175,
+                "p95Ms": 117,
+                "maxMs": 167,
+                "over50": 2,
+                "frames": 24
+              }
+            }
+          ]
+        },
+        "candidate": {
+          "runs": 1,
+          "coldLobbyMs": 837,
+          "firstEntry": {
+            "usableMs": 292,
+            "p95Ms": 150,
+            "maxMs": 150,
+            "over50": 3,
+            "frames": 19
+          },
+          "reentry": {
+            "usableMs": 60,
+            "p95Ms": 33,
+            "maxMs": 117,
+            "over50": 1,
+            "frames": 30
+          },
+          "selectAnotherMonster": {
+            "usableMs": 32,
+            "p95Ms": 17,
+            "maxMs": 300,
+            "over50": 1,
+            "frames": 22
+          },
+          "samples": [
+            {
+              "coldMs": 837,
+              "entry": [
+                {
+                  "usableMs": 292,
+                  "p95Ms": 150,
+                  "maxMs": 150,
+                  "over50": 3,
+                  "frames": 19
+                },
+                {
+                  "usableMs": 60,
+                  "p95Ms": 33,
+                  "maxMs": 117,
+                  "over50": 1,
+                  "frames": 30
+                }
+              ],
+              "selectAnotherMonster": {
+                "usableMs": 32,
+                "p95Ms": 17,
+                "maxMs": 300,
+                "over50": 1,
+                "frames": 22
+              }
+            }
+          ]
+        }
+      },
+      "h5-390": {
+        "before": {
+          "runs": 1,
+          "coldLobbyMs": 1031,
+          "firstEntry": {
+            "usableMs": 340,
+            "p95Ms": 317,
+            "maxMs": 317,
+            "over50": 4,
+            "frames": 19
+          },
+          "reentry": {
+            "usableMs": 86,
+            "p95Ms": 13,
+            "maxMs": 71,
+            "over50": 1,
+            "frames": 111
+          },
+          "selectAnotherMonster": {
+            "usableMs": 60,
+            "p95Ms": 4,
+            "maxMs": 29,
+            "over50": 0,
+            "frames": 129
+          },
+          "samples": [
+            {
+              "coldMs": 1031,
+              "entry": [
+                {
+                  "usableMs": 340,
+                  "p95Ms": 317,
+                  "maxMs": 317,
+                  "over50": 4,
+                  "frames": 19
+                },
+                {
+                  "usableMs": 86,
+                  "p95Ms": 13,
+                  "maxMs": 71,
+                  "over50": 1,
+                  "frames": 111
+                }
+              ],
+              "selectAnotherMonster": {
+                "usableMs": 60,
+                "p95Ms": 4,
+                "maxMs": 29,
+                "over50": 0,
+                "frames": 129
+              }
+            }
+          ]
+        },
+        "candidate": {
+          "runs": 1,
+          "coldLobbyMs": 1029,
+          "firstEntry": {
+            "usableMs": 235,
+            "p95Ms": 17,
+            "maxMs": 88,
+            "over50": 4,
+            "frames": 106
+          },
+          "reentry": {
+            "usableMs": 55,
+            "p95Ms": 8,
+            "maxMs": 29,
+            "over50": 0,
+            "frames": 131
+          },
+          "selectAnotherMonster": {
+            "usableMs": 16,
+            "p95Ms": 4,
+            "maxMs": 242,
+            "over50": 1,
+            "frames": 97
+          },
+          "samples": [
+            {
+              "coldMs": 1029,
+              "entry": [
+                {
+                  "usableMs": 235,
+                  "p95Ms": 17,
+                  "maxMs": 88,
+                  "over50": 4,
+                  "frames": 106
+                },
+                {
+                  "usableMs": 55,
+                  "p95Ms": 8,
+                  "maxMs": 29,
+                  "over50": 0,
+                  "frames": 131
+                }
+              ],
+              "selectAnotherMonster": {
+                "usableMs": 16,
+                "p95Ms": 4,
+                "maxMs": 242,
+                "over50": 1,
+                "frames": 97
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "flows": {
+    "candidate-desktop-1440": {
+      "displayedBattlefields": 12,
+      "overflow": false,
+      "hunt": {
+        "targetSwitch": true,
+        "empty": true,
+        "apocalypse": true,
+        "sweep": true,
+        "hiddenButtons": 0
+      },
+      "defense": {
+        "url": "/defense/",
+        "title": "최후의 방어선"
+      },
+      "coldLobbyMs": 975,
+      "entry": [
+        {
+          "usableMs": 196,
+          "p95Ms": 58,
+          "maxMs": 158,
+          "over50": 4,
+          "frames": 57
+        },
+        {
+          "usableMs": 84,
+          "p95Ms": 25,
+          "maxMs": 71,
+          "over50": 1,
+          "frames": 89
+        }
+      ],
+      "afterExit": {
+        "pveNodes": 0,
+        "energyTimer": false
+      },
+      "diagnostics": [],
+      "visibleMonsterArtDecoded": null
+    },
+    "candidate-ios-390": {
+      "displayedBattlefields": 12,
+      "overflow": false,
+      "hunt": {
+        "targetSwitch": true,
+        "empty": true,
+        "apocalypse": true,
+        "sweep": true,
+        "hiddenButtons": 0
+      },
+      "defense": {
+        "url": "/defense/",
+        "title": "최후의 방어선"
+      },
+      "coldLobbyMs": 1196,
+      "entry": [
+        {
+          "usableMs": 418,
+          "p95Ms": 91,
+          "maxMs": 246,
+          "over50": 2,
+          "frames": 35
+        },
+        {
+          "usableMs": 189,
+          "p95Ms": 64,
+          "maxMs": 65,
+          "over50": 2,
+          "frames": 32
+        }
+      ],
+      "afterExit": {
+        "pveNodes": 0,
+        "energyTimer": false
+      },
+      "diagnostics": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "visibleMonsterArtDecoded": null
+    },
+    "candidate-ios-320": {
+      "displayedBattlefields": 12,
+      "overflow": false,
+      "hunt": {
+        "targetSwitch": true,
+        "empty": true,
+        "apocalypse": true,
+        "sweep": true,
+        "hiddenButtons": 0
+      },
+      "defense": {
+        "url": "/defense/",
+        "title": "최후의 방어선"
+      },
+      "coldLobbyMs": 903,
+      "entry": [
+        {
+          "usableMs": 413,
+          "p95Ms": 76,
+          "maxMs": 255,
+          "over50": 2,
+          "frames": 35
+        },
+        {
+          "usableMs": 212,
+          "p95Ms": 62,
+          "maxMs": 78,
+          "over50": 2,
+          "frames": 35
+        }
+      ],
+      "afterExit": {
+        "pveNodes": 0,
+        "energyTimer": false
+      },
+      "diagnostics": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "visibleMonsterArtDecoded": null
+    },
+    "candidate-windows-1440": {
+      "displayedBattlefields": 12,
+      "overflow": false,
+      "hunt": {
+        "targetSwitch": true,
+        "empty": true,
+        "apocalypse": true,
+        "sweep": true,
+        "hiddenButtons": 0
+      },
+      "defense": {
+        "url": "/defense/",
+        "title": "최후의 방어선"
+      },
+      "coldLobbyMs": 735,
+      "entry": [
+        {
+          "usableMs": 144,
+          "p95Ms": 100,
+          "maxMs": 117,
+          "over50": 3,
+          "frames": 21
+        },
+        {
+          "usableMs": 61,
+          "p95Ms": 50,
+          "maxMs": 50,
+          "over50": 0,
+          "frames": 33
+        }
+      ],
+      "afterExit": {
+        "pveNodes": 0,
+        "energyTimer": false
+      },
+      "diagnostics": [],
+      "visibleMonsterArtDecoded": null
+    },
+    "candidate-h5-390": {
+      "displayedBattlefields": 12,
+      "overflow": false,
+      "hunt": {
+        "targetSwitch": true,
+        "empty": true,
+        "apocalypse": true,
+        "sweep": true,
+        "hiddenButtons": 0
+      },
+      "defense": {
+        "url": "/onestore/defense/",
+        "title": "최후의 방어선"
+      },
+      "coldLobbyMs": 1017,
+      "entry": [
+        {
+          "usableMs": 188,
+          "p95Ms": 21,
+          "maxMs": 92,
+          "over50": 2,
+          "frames": 105
+        },
+        {
+          "usableMs": 63,
+          "p95Ms": 13,
+          "maxMs": 33,
+          "over50": 0,
+          "frames": 122
+        }
+      ],
+      "afterExit": {
+        "pveNodes": 0,
+        "energyTimer": false
+      },
+      "diagnostics": [],
+      "visibleMonsterArtDecoded": null
+    },
+    "public-desktop-1440": {
+      "displayedBattlefields": 12,
+      "overflow": false,
+      "hunt": {
+        "targetSwitch": true,
+        "empty": true,
+        "apocalypse": true,
+        "sweep": true,
+        "hiddenButtons": 0
+      },
+      "defense": {
+        "url": "/defense/",
+        "title": "최후의 방어선"
+      },
+      "coldLobbyMs": 1030,
+      "entry": [
+        {
+          "usableMs": 225,
+          "p95Ms": 67,
+          "maxMs": 179,
+          "over50": 3,
+          "frames": 56
+        },
+        {
+          "usableMs": 88,
+          "p95Ms": 29,
+          "maxMs": 63,
+          "over50": 1,
+          "frames": 95
+        }
+      ],
+      "afterExit": {
+        "pveNodes": 0,
+        "energyTimer": false
+      },
+      "diagnostics": [],
+      "visibleMonsterArtDecoded": [
+        {
+          "w": 340,
+          "h": 311
+        },
+        {
+          "w": 294,
+          "h": 314
+        },
+        {
+          "w": 1000,
+          "h": 989
+        },
+        {
+          "w": 340,
+          "h": 311
+        }
+      ]
+    },
+    "public-ios-390": {
+      "displayedBattlefields": 12,
+      "overflow": false,
+      "hunt": {
+        "targetSwitch": true,
+        "empty": true,
+        "apocalypse": true,
+        "sweep": true,
+        "hiddenButtons": 0
+      },
+      "defense": {
+        "url": "/defense/",
+        "title": "최후의 방어선"
+      },
+      "coldLobbyMs": 1578,
+      "entry": [
+        {
+          "usableMs": 470,
+          "p95Ms": 90,
+          "maxMs": 295,
+          "over50": 2,
+          "frames": 34
+        },
+        {
+          "usableMs": 197,
+          "p95Ms": 59,
+          "maxMs": 65,
+          "over50": 2,
+          "frames": 32
+        }
+      ],
+      "afterExit": {
+        "pveNodes": 0,
+        "energyTimer": false
+      },
+      "diagnostics": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "visibleMonsterArtDecoded": null
+    },
+    "public-h5-390": {
+      "displayedBattlefields": 12,
+      "overflow": false,
+      "hunt": {
+        "targetSwitch": true,
+        "empty": true,
+        "apocalypse": true,
+        "sweep": true,
+        "hiddenButtons": 0
+      },
+      "defense": {
+        "url": "/onestore/defense/",
+        "title": "최후의 방어선"
+      },
+      "coldLobbyMs": 1060,
+      "entry": [
+        {
+          "usableMs": 305,
+          "p95Ms": 17,
+          "maxMs": 108,
+          "over50": 3,
+          "frames": 104
+        },
+        {
+          "usableMs": 67,
+          "p95Ms": 13,
+          "maxMs": 38,
+          "over50": 0,
+          "frames": 124
+        }
+      ],
+      "afterExit": {
+        "pveNodes": 0,
+        "energyTimer": false
+      },
+      "diagnostics": [],
+      "visibleMonsterArtDecoded": null
+    }
+  },
+  "isolatedFight": {
+    "monsterId": 1,
+    "cards": 5,
+    "autoBattle": false,
+    "canvas": true
+  },
+  "screenshotsDirectory": "operations/pve-entry-lobby-20261109/review/",
+  "limits": "모바일 검수는 WebKit·Chromium 에뮬레이션이며 물리 휴대폰이나 스토어 설치판 기기 검수는 포함하지 않는다. 이전·개편 WebKit에서 간헐적으로 동일한 ResizeObserver 알림이 발생했다. 사용자가 실제 통신망에서 경험하는 지연은 달라질 수 있다."
+}
