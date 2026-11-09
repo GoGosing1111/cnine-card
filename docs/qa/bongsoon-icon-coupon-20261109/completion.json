@@ -59,6 +59,7 @@
     "liveAccountTrialRedemptions": 0
   },
   "art": {
+    "headline": "망순이가 드리는 선물",
     "portrait": {
       "cardId": "CN-1C000013",
       "skill": "귀환 서약",
@@ -74,13 +75,13 @@
     "files": {
       "png": {
         "file": "output/announcements/bongsoon-icon-coupon-20261109/bongsoon-icon-coupon.png",
-        "sha256": "18dd0a28a267be58123ba137d0512c472590a76db17b80751b45e1023e1a12db",
-        "bytes": 1714208
+        "sha256": "1e90e4e0ab663672b60371dadd04dabeba7ba719a0afca1de382fb8b7bc1b9c8",
+        "bytes": 1723587
       },
       "jpg": {
         "file": "output/announcements/bongsoon-icon-coupon-20261109/bongsoon-icon-coupon.jpg",
-        "sha256": "3dbaf995c805ea4207b85c8e066a084099dde1a49325fae66f3509a4db4ee077",
-        "bytes": 349526
+        "sha256": "5894db39264f3ba57f7ac94bd280f1bf467d55b2e0423c81fcef4b6b43567fb6",
+        "bytes": 352975
       }
     },
     "background": {
