@@ -1,0 +1,21 @@
+{
+  "status": "COMPLETED",
+  "delivery": "GAME_INBOX",
+  "operationKey": "ops:weekly-post:2026-11-02:sss-miracle3-extra:v1",
+  "parentOperationKey": "ops:weekly-post:2026-11-02:coin500t-miracle3:v1",
+  "parentAudit": "57145",
+  "parentReceiptSha256": "4681babbc7116c75927865ab3e6e0668a9e2733096f894199be4d77ac9d05899",
+  "type": "SSS_MIRACLE_CUBE",
+  "perAccount": 3,
+  "recipients": 51,
+  "messages": 51,
+  "total": 153,
+  "completedAtKST": "2026-11-09 13:24:51",
+  "auditId": "57148",
+  "verifiedAtKST": "2026-11-09 13:24:56",
+  "claimedAtVerification": 0,
+  "missing": 0,
+  "duplicates": 0,
+  "claimTestsPassed": 3,
+  "independentReadOnlyVerification": true
+}

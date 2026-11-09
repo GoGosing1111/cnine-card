@@ -2,6 +2,7 @@
 
 - 13:18:06 KST, 감사 57145. 갤 게시글 300개 주간퀘스트 완료자 51명에게 코인 500조와 일반 미라클 큐브(MIRACLE_CUBE) 3개를 게임 내 메시지로 보냈다. 각 2통, 총 102통이며 첨부 합계는 코인 2경 5,500조와 큐브 153개다.
 - 완료키 `ops:weekly-post:2026-11-02:coin500t-miracle3:v1`. 같은 지급 요청은 기존 영수증을 조회한다. 운영 DB에서 51명 전원의 첨부를 대조해 누락·중복 0건을 확인했다. 확인 기록은 `docs/qa/weekly-post-rewards-20261109/completion.json`에 있다.
+- 13:24:51 KST, 별도 추가 지급 감사 57148. 같은 51명에게 SSS 미라클큐브(SSS_MIRACLE_CUBE) 3개씩을 새 메시지 51통으로 발송했다. 총 153개, 누락·중복 0건. 완료키 `ops:weekly-post:2026-11-02:sss-miracle3-extra:v1`. 확인 기록은 `docs/qa/weekly-post-rewards-20261109/sss-extra.json`에 있다.
 
 ## 수원삼성 K1 승격 기념 공용 쿠폰 — 2026-11-08
 
