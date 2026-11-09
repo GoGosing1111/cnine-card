@@ -1,0 +1,152 @@
+[
+  {
+    "id": "11-weapon",
+    "source": "sources/11-weapon.png",
+    "sourceSHA256": "fe1880f0ecd4cb2ad26674486aeaf71ef8d204419ec7a7fad10358a3f71a6aad",
+    "asset": "assets/ui/mercenary-equipment/unique-20261109/11-weapon.webp",
+    "sha256": "fb96e7f381bc473b32f9838d99924a8d22e648a4cf946dd02baa6a5c1c3c90b2",
+    "bytes": 76126,
+    "alphaCoverage": 0.2443,
+    "prompt": "Use case: stylized-concept. A single premium fantasy RPG inventory icon for a Korean mercenary armory. Render ONE standalone complete equippable relic, square canvas, genuine transparent alpha, centered with at least 8% clean transparent margins on every side. Fill about 80% of frame. Tangible, polished high-end finely painted 3D game key art, beautifully cut hard edges, deep dark recesses, precise emissive inlays and selective bright rim lighting. Big confident graphic silhouette legible at 64px as well as intricate closeup. Strong focal jewel with high local contrast. Lavish endgame rarity, weight and magical architecture already beyond the golden feathered existing tier. Restrict emission, trails and particles to the immediate object so silhouette stays clear on navy. No floor or backdrop, no frame, labels, letters, numbers, human body, portrait, hands, flat diagram, watermark or other item.\nArt direction: Crimson solar eclipse and a royal fire phoenix: polished oxblood enamel, coal-black obsidian, warm antique gold, burnished scarlet phoenix-feather plates, deep carmine rubies with internal fire. A gold corona frames an ember-black eclipse. Sumptuous martial regalia, beautiful fiery silhouettes.\nSubject: Hongryeon eclipse phoenix dao, one ornate broad curved fantasy saber diagonally rising from lower left to upper right, with two sculpture-like gold phoenix feathers swept off the spine and a black solar ruby disc at the guard. Heroic red flame along the cutting silhouette."
+  },
+  {
+    "id": "11-top",
+    "source": "sources/11-top.png",
+    "sourceSHA256": "9d00260db4064ed0d2871f81f6c6e1d0bd6c4f7fedfeb0f22a00801680305d4f",
+    "asset": "assets/ui/mercenary-equipment/unique-20261109/11-top.webp",
+    "sha256": "3f35677a184275e6b767812764bcb95c08df0876831c4ecf728b8aa227f293fd",
+    "bytes": 107794,
+    "alphaCoverage": 0.5556,
+    "prompt": "Use case: stylized-concept. A single premium fantasy RPG inventory icon for a Korean mercenary armory. Render ONE standalone complete equippable relic, square canvas, genuine transparent alpha, centered with at least 8% clean transparent margins on every side. Fill about 80% of frame. Tangible, polished high-end finely painted 3D game key art, beautifully cut hard edges, deep dark recesses, precise emissive inlays and selective bright rim lighting. Big confident graphic silhouette legible at 64px as well as intricate closeup. Strong focal jewel with high local contrast. Lavish endgame rarity, weight and magical architecture already beyond the golden feathered existing tier. Restrict emission, trails and particles to the immediate object so silhouette stays clear on navy. No floor or backdrop, no frame, labels, letters, numbers, human body, portrait, hands, flat diagram, watermark or other item.\nArt direction: Crimson solar eclipse and a royal fire phoenix: polished oxblood enamel, coal-black obsidian, warm antique gold, burnished scarlet phoenix-feather plates, deep carmine rubies with internal fire. A gold corona frames an ember-black eclipse. Sumptuous martial regalia, beautiful fiery silhouettes.\nSubject: Only the empty cuirass with its pauldrons, frontal three-quarter. A sculpted phoenix spreads its layered garnet-red enamel wings across the chest and broad shoulders. A sovereign black-and-crimson eclipse heart beats in a golden circular breast setting."
+  },
+  {
+    "id": "11-bottom",
+    "source": "sources/11-bottom.png",
+    "sourceSHA256": "abece32c858d3f40fa95e37aab9521da9f1bee8536aae1adc8cd8fbd13186be1",
+    "asset": "assets/ui/mercenary-equipment/unique-20261109/11-bottom.webp",
+    "sha256": "586cfa45501bfd565f5087d7c37b87bff741b010354c2bc43e6b5a11ce0b345e",
+    "bytes": 91818,
+    "alphaCoverage": 0.4538,
+    "prompt": "Use case: stylized-concept. A single premium fantasy RPG inventory icon for a Korean mercenary armory. Render ONE standalone complete equippable relic, square canvas, genuine transparent alpha, centered with at least 8% clean transparent margins on every side. Fill about 80% of frame. Tangible, polished high-end finely painted 3D game key art, beautifully cut hard edges, deep dark recesses, precise emissive inlays and selective bright rim lighting. Big confident graphic silhouette legible at 64px as well as intricate closeup. Strong focal jewel with high local contrast. Lavish endgame rarity, weight and magical architecture already beyond the golden feathered existing tier. Restrict emission, trails and particles to the immediate object so silhouette stays clear on navy. No floor or backdrop, no frame, labels, letters, numbers, human body, portrait, hands, flat diagram, watermark or other item.\nArt direction: Crimson solar eclipse and a royal fire phoenix: polished oxblood enamel, coal-black obsidian, warm antique gold, burnished scarlet phoenix-feather plates, deep carmine rubies with internal fire. A gold corona frames an ember-black eclipse. Sumptuous martial regalia, beautiful fiery silhouettes.\nSubject: Only lower-body armor from high belt to ankle, one coherent hanging pair of decorated armored trousers, two distinct thigh plates, pointed overlapping garnet feather panels over black silk, long split ceremonial red sash. No footwear or upper torso."
+  },
+  {
+    "id": "11-shoes",
+    "source": "sources/11-shoes.png",
+    "sourceSHA256": "32dd3cfe96c1df04166fd5f1208e6fe6c3f9cb10fb53e8105df9c9eaf7d86b46",
+    "asset": "assets/ui/mercenary-equipment/unique-20261109/11-shoes.webp",
+    "sha256": "e27acacf497a41e94d66533e74a692f4fc39e3db1dfd4145058763237f62d066",
+    "bytes": 97870,
+    "alphaCoverage": 0.4993,
+    "prompt": "Use case: stylized-concept. A single premium fantasy RPG inventory icon for a Korean mercenary armory. Render ONE standalone complete equippable relic, square canvas, genuine transparent alpha, centered with at least 8% clean transparent margins on every side. Fill about 80% of frame. Tangible, polished high-end finely painted 3D game key art, beautifully cut hard edges, deep dark recesses, precise emissive inlays and selective bright rim lighting. Big confident graphic silhouette legible at 64px as well as intricate closeup. Strong focal jewel with high local contrast. Lavish endgame rarity, weight and magical architecture already beyond the golden feathered existing tier. Restrict emission, trails and particles to the immediate object so silhouette stays clear on navy. No floor or backdrop, no frame, labels, letters, numbers, human body, portrait, hands, flat diagram, watermark or other item.\nArt direction: Crimson solar eclipse and a royal fire phoenix: polished oxblood enamel, coal-black obsidian, warm antique gold, burnished scarlet phoenix-feather plates, deep carmine rubies with internal fire. A gold corona frames an ember-black eclipse. Sumptuous martial regalia, beautiful fiery silhouettes.\nSubject: One matching pair of regal pointed armored boots, arranged together in a dynamic three-quarter angle, tapering red lacquer feathers sweep backward from the gold heels and ember rubies glow at the insteps. Barely any trailing magic."
+  },
+  {
+    "id": "11-accessory",
+    "source": "sources/11-accessory.png",
+    "sourceSHA256": "6e83b12ae1b55b05e28d9b1567b60f39d3b28bb0b738bee3fd48a6e74f732790",
+    "asset": "assets/ui/mercenary-equipment/unique-20261109/11-accessory.webp",
+    "sha256": "65eae8309fbffc6104795825a07a13bbcfc1676b008be2b415779f58c899e619",
+    "bytes": 99164,
+    "alphaCoverage": 0.504,
+    "prompt": "Use case: stylized-concept. A single premium fantasy RPG inventory icon for a Korean mercenary armory. Render ONE standalone complete equippable relic, square canvas, genuine transparent alpha, centered with at least 8% clean transparent margins on every side. Fill about 80% of frame. Tangible, polished high-end finely painted 3D game key art, beautifully cut hard edges, deep dark recesses, precise emissive inlays and selective bright rim lighting. Big confident graphic silhouette legible at 64px as well as intricate closeup. Strong focal jewel with high local contrast. Lavish endgame rarity, weight and magical architecture already beyond the golden feathered existing tier. Restrict emission, trails and particles to the immediate object so silhouette stays clear on navy. No floor or backdrop, no frame, labels, letters, numbers, human body, portrait, hands, flat diagram, watermark or other item.\nArt direction: Crimson solar eclipse and a royal fire phoenix: polished oxblood enamel, coal-black obsidian, warm antique gold, burnished scarlet phoenix-feather plates, deep carmine rubies with internal fire. A gold corona frames an ember-black eclipse. Sumptuous martial regalia, beautiful fiery silhouettes.\nSubject: One monumental signet ring, tilted three-quarter viewing the visible circular black-gold band and a large eclipsed ruby centerpiece gripped by gold phoenix feathers. A joyful loop of molten radiance follows the top stone."
+  },
+  {
+    "id": "12-weapon",
+    "source": "sources/12-weapon.png",
+    "sourceSHA256": "bb5123b1e4c57271dbf0b9347ca1e2c5c4fcf2e6126bedf71dcba480a9de14ad",
+    "asset": "assets/ui/mercenary-equipment/unique-20261109/12-weapon.webp",
+    "sha256": "f2aa785744b21762c169113ddee8ee8ef9f97fdc7ffc863c8cc326bc92f69397",
+    "bytes": 46014,
+    "alphaCoverage": 0.224,
+    "prompt": "A single fully visible luxury equipment icon for a mature Korean fantasy RPG inventory. Premium hand-painted three-dimensional metalwork, sculptor's sense of weight, chiseled edges, sweeping unmistakable silhouette readable at 64 px, intricate fine detail at full size. Studio-lit from upper left with deep contact shadows inside the object. Square transparent canvas, genuine transparent alpha. Center one complete equippable object with 9–12% clear margin on every side. No person, mannequin, face of a human, hand, text, backdrop, floor, cast shadow outside the object, frame, watermark or large aura. Small inset glow on the object, no overexposed edges. Object fills the center; exquisite icon fit for an RPG final boss reward.\nKing of the snow mountains, BAEKHO white tiger. Immediately read as a white TIGER: snow-white enamel fur ridges with pronounced bold ONYX BLACK tiger stripes, muscular feline features, round ears, ice-blue cat eyes, ivory sabre fangs and paw claws. Clean platinum armor plates, blue light only in the eyes or small sapphires. Visually tactile, ferocious and regal. Strictly white and black, no giant crystals or wings. This is a tiger, with the true tiger's short muzzle and round ears.\nA complete diagonal broad single edged tiger-fang war saber. Sword silhouette: cold luminous metal blade with jagged tiger-stripe inlay, elaborate roaring sculpted WHITE TIGER head at the guard, twin long fangs flowing into blade, black wrapped hilt ends with heavy silver claw. A precious blade, imposing not cartoony."
+  },
+  {
+    "id": "12-top",
+    "source": "sources/12-top.png",
+    "sourceSHA256": "f1f8f8a82f7f3dee3bb5a5bfa39ab5b08339be10278a667567ec42f081a2ef1b",
+    "asset": "assets/ui/mercenary-equipment/unique-20261109/12-top.webp",
+    "sha256": "29b655712a8900d786bb64081ed9a2ff6460d93b0f29937fe0ed6b9b7c8bf3ad",
+    "bytes": 85640,
+    "alphaCoverage": 0.5653,
+    "prompt": "A single fully visible luxury equipment icon for a mature Korean fantasy RPG inventory. Premium hand-painted three-dimensional metalwork, sculptor's sense of weight, chiseled edges, sweeping unmistakable silhouette readable at 64 px, intricate fine detail at full size. Studio-lit from upper left with deep contact shadows inside the object. Square transparent canvas, genuine transparent alpha. Center one complete equippable object with 9–12% clear margin on every side. No person, mannequin, face of a human, hand, text, backdrop, floor, cast shadow outside the object, frame, watermark or large aura. Small inset glow on the object, no overexposed edges. Object fills the center; exquisite icon fit for an RPG final boss reward.\nKing of the snow mountains, BAEKHO white tiger. Immediately read as a white TIGER: snow-white enamel fur ridges with pronounced bold ONYX BLACK tiger stripes, muscular feline features, round ears, ice-blue cat eyes, ivory sabre fangs and paw claws. Clean platinum armor plates, blue light only in the eyes or small sapphires. Visually tactile, ferocious and regal. Strictly white and black, no giant crystals or wings. This is a tiger, with the true tiger's short muzzle and round ears.\nA magnificent standalone front-facing suit of chest armor from shoulders to waist. Broad sculptural protective pauldrons crowned with lifelike white tiger faces, black stripes clear on each brow, short ice-blue eyes, fang ridges. Strong layered white-silver cuirass with tiger-stripe channels and contrasting dark underplates. The opening for the wearer's head is empty."
+  },
+  {
+    "id": "12-bottom",
+    "source": "sources/12-bottom.png",
+    "sourceSHA256": "48135ec94e78c6e83e5b0d4f0221dd7730b3c203c61070c52a3441286da1988c",
+    "asset": "assets/ui/mercenary-equipment/unique-20261109/12-bottom.webp",
+    "sha256": "e00b34b529186cf33580249159f980b0c244d83da9b67c3c5967c8022e08fddc",
+    "bytes": 65798,
+    "alphaCoverage": 0.3756,
+    "prompt": "A single fully visible luxury equipment icon for a mature Korean fantasy RPG inventory. Premium hand-painted three-dimensional metalwork, sculptor's sense of weight, chiseled edges, sweeping unmistakable silhouette readable at 64 px, intricate fine detail at full size. Studio-lit from upper left with deep contact shadows inside the object. Square transparent canvas, genuine transparent alpha. Center one complete equippable object with 9–12% clear margin on every side. No person, mannequin, face of a human, hand, text, backdrop, floor, cast shadow outside the object, frame, watermark or large aura. Small inset glow on the object, no overexposed edges. Object fills the center; exquisite icon fit for an RPG final boss reward.\nKing of the snow mountains, BAEKHO white tiger. Immediately read as a white TIGER: snow-white enamel fur ridges with pronounced bold ONYX BLACK tiger stripes, muscular feline features, round ears, ice-blue cat eyes, ivory sabre fangs and paw claws. Clean platinum armor plates, blue light only in the eyes or small sapphires. Visually tactile, ferocious and regal. Strictly white and black, no giant crystals or wings. This is a tiger, with the true tiger's short muzzle and round ears.\nA complete standalone set of armored legwear from high belt to ankles without boots. Independent articulated legs separated by negative space below the broad snow-white striped tassets. Sculpted white tiger faces on the knees, descending ivory fangs on shins, matte black beneath platinum relief. Heroically shaped wearable armored trousers."
+  },
+  {
+    "id": "12-shoes",
+    "source": "sources/12-shoes.png",
+    "sourceSHA256": "a1537a6050b0adfae0b2340a9571e81f1083e3242d06750d60a8836addbff90a",
+    "asset": "assets/ui/mercenary-equipment/unique-20261109/12-shoes.webp",
+    "sha256": "d223dedc894fe802593da98f86d0fc6abc99a939854d125e010a8bf3243bd2e9",
+    "bytes": 99934,
+    "alphaCoverage": 0.5997,
+    "prompt": "A single fully visible luxury equipment icon for a mature Korean fantasy RPG inventory. Premium hand-painted three-dimensional metalwork, sculptor's sense of weight, chiseled edges, sweeping unmistakable silhouette readable at 64 px, intricate fine detail at full size. Studio-lit from upper left with deep contact shadows inside the object. Square transparent canvas, genuine transparent alpha. Center one complete equippable object with 9–12% clear margin on every side. No person, mannequin, face of a human, hand, text, backdrop, floor, cast shadow outside the object, frame, watermark or large aura. Small inset glow on the object, no overexposed edges. Object fills the center; exquisite icon fit for an RPG final boss reward.\nKing of the snow mountains, BAEKHO white tiger. Immediately read as a white TIGER: snow-white enamel fur ridges with pronounced bold ONYX BLACK tiger stripes, muscular feline features, round ears, ice-blue cat eyes, ivory sabre fangs and paw claws. Clean platinum armor plates, blue light only in the eyes or small sapphires. Visually tactile, ferocious and regal. Strictly white and black, no giant crystals or wings. This is a tiger, with the true tiger's short muzzle and round ears.\nOne matched PAIR of white tiger paw-shaped armored boots, in three-quarter view with both boots fully visible and offset. Heavy feline paws with bright silver claw toe caps, black tiger stripes on white enamel around the ankles, fur cuff, small blue tiger eyes. No legs or leg armor. The two boots read as one unique item."
+  },
+  {
+    "id": "12-accessory",
+    "source": "sources/12-accessory.png",
+    "sourceSHA256": "a73ee057f169b67664a0b9c26c51efb843e1da25435145eb18ab32049248cb3a",
+    "asset": "assets/ui/mercenary-equipment/unique-20261109/12-accessory.webp",
+    "sha256": "84a03ae267aa5e8315f33af27a487ac14ad006a8773cb972c6159f15fdf06627",
+    "bytes": 67974,
+    "alphaCoverage": 0.3971,
+    "prompt": "A single fully visible luxury equipment icon for a mature Korean fantasy RPG inventory. Premium hand-painted three-dimensional metalwork, sculptor's sense of weight, chiseled edges, sweeping unmistakable silhouette readable at 64 px, intricate fine detail at full size. Studio-lit from upper left with deep contact shadows inside the object. Square transparent canvas, genuine transparent alpha. Center one complete equippable object with 9–12% clear margin on every side. No person, mannequin, face of a human, hand, text, backdrop, floor, cast shadow outside the object, frame, watermark or large aura. Small inset glow on the object, no overexposed edges. Object fills the center; exquisite icon fit for an RPG final boss reward.\nKing of the snow mountains, BAEKHO white tiger. Immediately read as a white TIGER: snow-white enamel fur ridges with pronounced bold ONYX BLACK tiger stripes, muscular feline features, round ears, ice-blue cat eyes, ivory sabre fangs and paw claws. Clean platinum armor plates, blue light only in the eyes or small sapphires. Visually tactile, ferocious and regal. Strictly white and black, no giant crystals or wings. This is a tiger, with the true tiger's short muzzle and round ears.\nA single large tiger king amulet, a front-view sculpted roaring WHITE TIGER HEAD with extraordinary enamel black stripes across white forehead and cheeks, visible round ears, icy sapphire cat eyes and large ivory fangs. Short silver suspension loop and a small icy-blue drop. Symmetrical pendant emblem, fierce and charismatic, no human or shield."
+  },
+  {
+    "id": "13-weapon",
+    "source": "sources/13-weapon.png",
+    "sourceSHA256": "db9280882b3cd220d2144c992518fe7c827b7157513b809b70f021c80dac39f7",
+    "asset": "assets/ui/mercenary-equipment/unique-20261109/13-weapon.webp",
+    "sha256": "7cf8d4c22266d0dd8792e52d4e5a81023417171adba86f127034f2e83b1f3522",
+    "bytes": 59406,
+    "alphaCoverage": 0.1781,
+    "prompt": "A single fully visible luxury equipment icon for a mature Korean fantasy RPG inventory. Premium hand-painted three-dimensional metalwork, sculptor's sense of weight, chiseled edges, sweeping unmistakable silhouette readable at 64 px, intricate fine detail at full size. Studio-lit from upper left with deep contact shadows inside the object. Square transparent canvas, genuine transparent alpha. Center one complete equippable object with 9–12% clear margin on every side. No person, mannequin, face of a human, hand, text, backdrop, floor, cast shadow outside the object, frame, watermark or large aura. Small inset glow on the object, no overexposed edges. Object fills the center; exquisite icon fit for an RPG final boss reward.\nHWANGNYONG, the Korean imperial golden dragon. Exquisite saturated 24-karat yellow GOLD dominates the entire object. Golden overlapping scales and belly plates, intricately sculpted East Asian serpentine dragon with deer-antler horns, slender whiskers and generous sweeping golden mane, claw tips and a luminous deep honey-gold wish pearl (yeouiju). Burnished bronze in the deepest recesses and champagne highlights. This is a coronation treasury masterpiece; rich gold and amber, precious metal with sharp dark separations. No gemstones of other colors, no silver, no Western bat wings. Highly identifiable imperial dragon imagery.\nOne majestic diagonal guandao / Korean woldo crescent polearm visible in its entirety, its proportions composed for an inventory icon. Great curved golden blade growing from the jaws of a long, horned Korean dragon coiled tightly around the neck of the haft. Engraved gold scales, long sweeping whiskers sweep along blade, small gold wish-pearl held in claw, dark bronze grip, gorgeous crisp cutting edge."
+  },
+  {
+    "id": "13-top",
+    "source": "sources/13-top.png",
+    "sourceSHA256": "b99e36748c8dd20b53e6242c1f6fbaf26dd9120e8df316c9f983937d0b997412",
+    "asset": "assets/ui/mercenary-equipment/unique-20261109/13-top.webp",
+    "sha256": "15dfa174249e85053a4d02e4795ba55564db58b6cf4f5b3491761ecb646ccfd7",
+    "bytes": 110758,
+    "alphaCoverage": 0.5722,
+    "prompt": "A single fully visible luxury equipment icon for a mature Korean fantasy RPG inventory. Premium hand-painted three-dimensional metalwork, sculptor's sense of weight, chiseled edges, sweeping unmistakable silhouette readable at 64 px, intricate fine detail at full size. Studio-lit from upper left with deep contact shadows inside the object. Square transparent canvas, genuine transparent alpha. Center one complete equippable object with 9–12% clear margin on every side. No person, mannequin, face of a human, hand, text, backdrop, floor, cast shadow outside the object, frame, watermark or large aura. Small inset glow on the object, no overexposed edges. Object fills the center; exquisite icon fit for an RPG final boss reward.\nHWANGNYONG, the Korean imperial golden dragon. Exquisite saturated 24-karat yellow GOLD dominates the entire object. Golden overlapping scales and belly plates, intricately sculpted East Asian serpentine dragon with deer-antler horns, slender whiskers and generous sweeping golden mane, claw tips and a luminous deep honey-gold wish pearl (yeouiju). Burnished bronze in the deepest recesses and champagne highlights. This is a coronation treasury masterpiece; rich gold and amber, precious metal with sharp dark separations. No gemstones of other colors, no silver, no Western bat wings. Highly identifiable imperial dragon imagery.\nA standalone imperial gold breastplate, broad shoulders to waist only, head opening empty. A fully visible sculpted golden Eastern dragon head and neck cross the chest in a bold S-curve, horned and long whiskered, claws cradle an amber-gold wish pearl at the sternum. Wingless shoulders layered in golden scales and flowing flame-shaped metal relief, strong dark interstices, formal court regalia transformed into battle armor."
+  },
+  {
+    "id": "13-bottom",
+    "source": "sources/13-bottom.png",
+    "sourceSHA256": "46fc45e01cc02f19b746901c73dfbecd9cd92a4762b19c79ba881cf9d3ae6230",
+    "asset": "assets/ui/mercenary-equipment/unique-20261109/13-bottom.webp",
+    "sha256": "fe4ff36beb4098098a417225c2d4cf977bcf4b15a53d170d05c7dc1b73f2b423",
+    "bytes": 90976,
+    "alphaCoverage": 0.4004,
+    "prompt": "A single fully visible luxury equipment icon for a mature Korean fantasy RPG inventory. Premium hand-painted three-dimensional metalwork, sculptor's sense of weight, chiseled edges, sweeping unmistakable silhouette readable at 64 px, intricate fine detail at full size. Studio-lit from upper left with deep contact shadows inside the object. Square transparent canvas, genuine transparent alpha. Center one complete equippable object with 9–12% clear margin on every side. No person, mannequin, face of a human, hand, text, backdrop, floor, cast shadow outside the object, frame, watermark or large aura. Small inset glow on the object, no overexposed edges. Object fills the center; exquisite icon fit for an RPG final boss reward.\nHWANGNYONG, the Korean imperial golden dragon. Exquisite saturated 24-karat yellow GOLD dominates the entire object. Golden overlapping scales and belly plates, intricately sculpted East Asian serpentine dragon with deer-antler horns, slender whiskers and generous sweeping golden mane, claw tips and a luminous deep honey-gold wish pearl (yeouiju). Burnished bronze in the deepest recesses and champagne highlights. This is a coronation treasury masterpiece; rich gold and amber, precious metal with sharp dark separations. No gemstones of other colors, no silver, no Western bat wings. Highly identifiable imperial dragon imagery.\nOne standalone pair of imperial gilded armored trousers, belt to ankles, no shoes. Both leg silhouettes separate below the hip. Long cascading tassets made of hundreds of overlapping warm golden dragon scales, dragon faces on the two knees and coiled golden tails up the outer legs. Prominent sculpted horn and claw shapes, wish-pearl buckle, dark bronze flexible base. No chest armor."
+  },
+  {
+    "id": "13-shoes",
+    "source": "sources/13-shoes.png",
+    "sourceSHA256": "f072efafb67e593aeab1b6571ca5997390dec8755eafe67668511326211ac8e6",
+    "asset": "assets/ui/mercenary-equipment/unique-20261109/13-shoes.webp",
+    "sha256": "a7fc2b5d3b008d13eb9bec439c0b753d1606546916606764a4b3a67eb06adc01",
+    "bytes": 114402,
+    "alphaCoverage": 0.53,
+    "prompt": "A single fully visible luxury equipment icon for a mature Korean fantasy RPG inventory. Premium hand-painted three-dimensional metalwork, sculptor's sense of weight, chiseled edges, sweeping unmistakable silhouette readable at 64 px, intricate fine detail at full size. Studio-lit from upper left with deep contact shadows inside the object. Square transparent canvas, genuine transparent alpha. Center one complete equippable object with 9–12% clear margin on every side. No person, mannequin, face of a human, hand, text, backdrop, floor, cast shadow outside the object, frame, watermark or large aura. Small inset glow on the object, no overexposed edges. Object fills the center; exquisite icon fit for an RPG final boss reward.\nHWANGNYONG, the Korean imperial golden dragon. Exquisite saturated 24-karat yellow GOLD dominates the entire object. Golden overlapping scales and belly plates, intricately sculpted East Asian serpentine dragon with deer-antler horns, slender whiskers and generous sweeping golden mane, claw tips and a luminous deep honey-gold wish pearl (yeouiju). Burnished bronze in the deepest recesses and champagne highlights. This is a coronation treasury masterpiece; rich gold and amber, precious metal with sharp dark separations. No gemstones of other colors, no silver, no Western bat wings. Highly identifiable imperial dragon imagery.\nA matching pair of short imperial gold dragon boots, full view, three-quarter perspective and staggered so both visible. Each outward-curling gilded toe is an unmistakable long-snouted Korean dragon head with antler horns, sweeping golden whiskers and tiny wish-pearl, beautiful overlapping scales around the ankles and curled tail-like heel. Gold filigree, rich bronze recesses, no other colors. No legs."
+  },
+  {
+    "id": "13-accessory",
+    "source": "sources/13-accessory.png",
+    "sourceSHA256": "a6292ccd2938893f5ed69e7955dc0a1affca3211f330592e6daad46b6c32ac0a",
+    "asset": "assets/ui/mercenary-equipment/unique-20261109/13-accessory.webp",
+    "sha256": "3a7ca5eb5c3ec72ee759afd9f5d922a477596f6bc816f63317c3f2e0c8e105d0",
+    "bytes": 103140,
+    "alphaCoverage": 0.378,
+    "prompt": "A single fully visible luxury equipment icon for a mature Korean fantasy RPG inventory. Premium hand-painted three-dimensional metalwork, sculptor's sense of weight, chiseled edges, sweeping unmistakable silhouette readable at 64 px, intricate fine detail at full size. Studio-lit from upper left with deep contact shadows inside the object. Square transparent canvas, genuine transparent alpha. Center one complete equippable object with 9–12% clear margin on every side. No person, mannequin, face of a human, hand, text, backdrop, floor, cast shadow outside the object, frame, watermark or large aura. Small inset glow on the object, no overexposed edges. Object fills the center; exquisite icon fit for an RPG final boss reward.\nHWANGNYONG, the Korean imperial golden dragon. Exquisite saturated 24-karat yellow GOLD dominates the entire object. Golden overlapping scales and belly plates, intricately sculpted East Asian serpentine dragon with deer-antler horns, slender whiskers and generous sweeping golden mane, claw tips and a luminous deep honey-gold wish pearl (yeouiju). Burnished bronze in the deepest recesses and champagne highlights. This is a coronation treasury masterpiece; rich gold and amber, precious metal with sharp dark separations. No gemstones of other colors, no silver, no Western bat wings. Highly identifiable imperial dragon imagery.\nOne exquisite imperial golden dragon diadem for the forehead: an OPEN arched coronet, symmetrical upward sweep with sculpted antler-like finials. Two unmistakable long, slim, whiskered Korean golden dragons curve around the large smooth luminous honey-gold yeouiju pearl at the middle. Distinct reflective gold scale texture and dark negative space between dragon bodies. A crown-shaped jewelry silhouette; no head, mannequin or face."
+  }
+]

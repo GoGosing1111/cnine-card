@@ -1,0 +1,652 @@
+{
+  "completedAt": "2026-11-09T06:03:53.345Z",
+  "production": {
+    "verified": true,
+    "at": "2026-11-09T06:02:34.139Z",
+    "commit": "1bb22954e316c5c1553b6631b2652377bf44493f",
+    "pages": {
+      "id": "9b1a4c97-4f4b-4e63-b83f-0e8ed20b9cf0",
+      "commit": "1bb22954e316c5c1553b6631b2652377bf44493f",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "5d6f770c-6772-41ef-9f62-ad8a269f7608",
+        "percentage": 100
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "20f1cd60-a547-41c3-a3d5-f8dc4b9e73e4",
+        "percentage": 100
+      }
+    ],
+    "icons": 15,
+    "windowsIcons": 15,
+    "authStatus": 401,
+    "releaseTests": 40,
+    "registration": {
+      "checkedAt": "2026-11-09T06:03:41.900Z",
+      "operationKey": "ops:mercenary-unique-11-13:20261109:v1",
+      "auditId": "57182",
+      "at": "2026-11-09T06:03:24.030Z",
+      "checks": {
+        "drops": 0,
+        "box": 0,
+        "owned": 0,
+        "audits": 1
+      },
+      "readOnlyReplay": true,
+      "catalogSize": 95,
+      "visible": [
+        {
+          "code": "MERC_UQ_11_WEAPON",
+          "name": "홍련일식 봉황도",
+          "tier": 11,
+          "passive": "낙일의 참격",
+          "totalPower": 2400000
+        },
+        {
+          "code": "MERC_UQ_11_TOP",
+          "name": "홍련심장 흉갑",
+          "tier": 11,
+          "passive": "불멸의 심장",
+          "totalPower": 1680000
+        },
+        {
+          "code": "MERC_UQ_11_BOTTOM",
+          "name": "적양비늘 각반",
+          "tier": 11,
+          "passive": "일식 결계",
+          "totalPower": 1560000
+        },
+        {
+          "code": "MERC_UQ_11_SHOES",
+          "name": "잔양 비상화",
+          "tier": 11,
+          "passive": "홍련 비상",
+          "totalPower": 1200000
+        },
+        {
+          "code": "MERC_UQ_11_ACCESSORY",
+          "name": "흑일의 인장",
+          "tier": 11,
+          "passive": "검은 태양",
+          "totalPower": 1440000
+        },
+        {
+          "code": "MERC_UQ_12_WEAPON",
+          "name": "백호의 송곳니 대도",
+          "tier": 12,
+          "passive": "산군의 포효",
+          "totalPower": 3200000
+        },
+        {
+          "code": "MERC_UQ_12_TOP",
+          "name": "설령백호 흉갑",
+          "tier": 12,
+          "passive": "백호의 기백",
+          "totalPower": 2240000
+        },
+        {
+          "code": "MERC_UQ_12_BOTTOM",
+          "name": "흑호문 각반",
+          "tier": 12,
+          "passive": "설산의 호위",
+          "totalPower": 2080000
+        },
+        {
+          "code": "MERC_UQ_12_SHOES",
+          "name": "백호 발톱 전투화",
+          "tier": 12,
+          "passive": "설원을 가르는 발톱",
+          "totalPower": 1600000
+        },
+        {
+          "code": "MERC_UQ_12_ACCESSORY",
+          "name": "벽안백호 패옥",
+          "tier": 12,
+          "passive": "사냥꾼의 눈",
+          "totalPower": 1920000
+        },
+        {
+          "code": "MERC_UQ_13_WEAPON",
+          "name": "황룡여의 언월도",
+          "tier": 13,
+          "passive": "황룡의 역린",
+          "totalPower": 4400000
+        },
+        {
+          "code": "MERC_UQ_13_TOP",
+          "name": "황룡제왕 금갑",
+          "tier": 13,
+          "passive": "용제의 가호",
+          "totalPower": 3080000
+        },
+        {
+          "code": "MERC_UQ_13_BOTTOM",
+          "name": "황금용린 각반",
+          "tier": 13,
+          "passive": "만 겹의 금린",
+          "totalPower": 2860000
+        },
+        {
+          "code": "MERC_UQ_13_SHOES",
+          "name": "등천황룡화",
+          "tier": 13,
+          "passive": "금룡 등천",
+          "totalPower": 2200000
+        },
+        {
+          "code": "MERC_UQ_13_ACCESSORY",
+          "name": "황룡 여의보관",
+          "tier": 13,
+          "passive": "여의주의 광휘",
+          "totalPower": 2640000
+        }
+      ],
+      "productionAccountReadMs": 430,
+      "accountWrites": 0,
+      "loadoutModes": [
+        "PVE",
+        "PVP"
+      ]
+    }
+  },
+  "scope": {
+    "tiers": [
+      {
+        "tier": 11,
+        "family": "홍련일식",
+        "totalBasePower": 8280000,
+        "items": [
+          {
+            "name": "홍련일식 봉황도",
+            "slot": "WEAPON",
+            "passiveName": "낙일의 참격",
+            "individualEffects": {
+              "attackPercent": 68,
+              "penetrationPoints": 12,
+              "hpPercent": 42
+            },
+            "totalPower": 2400000
+          },
+          {
+            "name": "홍련심장 흉갑",
+            "slot": "TOP",
+            "passiveName": "불멸의 심장",
+            "individualEffects": {
+              "hpPercent": 77,
+              "damageReductionPercent": 30,
+              "attackPercent": 36
+            },
+            "totalPower": 1680000
+          },
+          {
+            "name": "적양비늘 각반",
+            "slot": "BOTTOM",
+            "passiveName": "일식 결계",
+            "individualEffects": {
+              "shieldPercent": 60,
+              "attackPercent": 36,
+              "hpPercent": 42
+            },
+            "totalPower": 1560000
+          },
+          {
+            "name": "잔양 비상화",
+            "slot": "SHOES",
+            "passiveName": "홍련 비상",
+            "individualEffects": {
+              "speedPercent": 32,
+              "attackPercent": 36,
+              "hpPercent": 42
+            },
+            "totalPower": 1200000
+          },
+          {
+            "name": "흑일의 인장",
+            "slot": "ACCESSORY",
+            "passiveName": "검은 태양",
+            "individualEffects": {
+              "criticalChancePoints": 24,
+              "criticalDamagePoints": 96,
+              "attackPercent": 36,
+              "hpPercent": 42
+            },
+            "totalPower": 1440000
+          }
+        ]
+      },
+      {
+        "tier": 12,
+        "family": "설령백호",
+        "totalBasePower": 11040000,
+        "items": [
+          {
+            "name": "백호의 송곳니 대도",
+            "slot": "WEAPON",
+            "passiveName": "산군의 포효",
+            "individualEffects": {
+              "attackPercent": 86,
+              "penetrationPoints": 16,
+              "hpPercent": 52
+            },
+            "totalPower": 3200000
+          },
+          {
+            "name": "설령백호 흉갑",
+            "slot": "TOP",
+            "passiveName": "백호의 기백",
+            "individualEffects": {
+              "hpPercent": 98,
+              "damageReductionPercent": 36,
+              "attackPercent": 44
+            },
+            "totalPower": 2240000
+          },
+          {
+            "name": "흑호문 각반",
+            "slot": "BOTTOM",
+            "passiveName": "설산의 호위",
+            "individualEffects": {
+              "shieldPercent": 80,
+              "attackPercent": 44,
+              "hpPercent": 52
+            },
+            "totalPower": 2080000
+          },
+          {
+            "name": "백호 발톱 전투화",
+            "slot": "SHOES",
+            "passiveName": "설원을 가르는 발톱",
+            "individualEffects": {
+              "speedPercent": 44,
+              "attackPercent": 44,
+              "hpPercent": 52
+            },
+            "totalPower": 1600000
+          },
+          {
+            "name": "벽안백호 패옥",
+            "slot": "ACCESSORY",
+            "passiveName": "사냥꾼의 눈",
+            "individualEffects": {
+              "criticalChancePoints": 28,
+              "criticalDamagePoints": 130,
+              "attackPercent": 44,
+              "hpPercent": 52
+            },
+            "totalPower": 1920000
+          }
+        ]
+      },
+      {
+        "tier": 13,
+        "family": "천제황룡",
+        "totalBasePower": 15180000,
+        "items": [
+          {
+            "name": "황룡여의 언월도",
+            "slot": "WEAPON",
+            "passiveName": "황룡의 역린",
+            "individualEffects": {
+              "attackPercent": 108,
+              "penetrationPoints": 20,
+              "hpPercent": 64
+            },
+            "totalPower": 4400000
+          },
+          {
+            "name": "황룡제왕 금갑",
+            "slot": "TOP",
+            "passiveName": "용제의 가호",
+            "individualEffects": {
+              "hpPercent": 124,
+              "damageReductionPercent": 42,
+              "attackPercent": 54
+            },
+            "totalPower": 3080000
+          },
+          {
+            "name": "황금용린 각반",
+            "slot": "BOTTOM",
+            "passiveName": "만 겹의 금린",
+            "individualEffects": {
+              "shieldPercent": 105,
+              "attackPercent": 54,
+              "hpPercent": 64
+            },
+            "totalPower": 2860000
+          },
+          {
+            "name": "등천황룡화",
+            "slot": "SHOES",
+            "passiveName": "금룡 등천",
+            "individualEffects": {
+              "speedPercent": 58,
+              "attackPercent": 54,
+              "hpPercent": 64
+            },
+            "totalPower": 2200000
+          },
+          {
+            "name": "황룡 여의보관",
+            "slot": "ACCESSORY",
+            "passiveName": "여의주의 광휘",
+            "individualEffects": {
+              "criticalChancePoints": 32,
+              "criticalDamagePoints": 170,
+              "attackPercent": 54,
+              "hpPercent": 64
+            },
+            "totalPower": 2640000
+          }
+        ]
+      }
+    ],
+    "slotsPerTier": 5,
+    "eachPieceWorksAlone": true,
+    "modes": [
+      "PVE",
+      "PVP"
+    ],
+    "existingTier10Power": 3450000,
+    "standardDrops": false,
+    "playerGrants": 0
+  },
+  "tests": {
+    "gate": 40,
+    "releasePolicy": 19,
+    "sqlite": true,
+    "postgresql": true,
+    "normalBrowserEquipAndUnequip": true,
+    "earlierGateCorrections": "Pagination checked against the actual 20 seeded weapon definitions; ranked regression uses the current six-person roster."
+  },
+  "performance": {
+    "method": "Local before/after served the actual armory and previous or new server code. Each press on the codex equipment link ended when the armory was ready. First entry used a fresh browser cache after warming the static-file server. Re-entry reused that context. 24 animation-frame samples used the same ten existing tier 9–10 pieces, with repeated selections and real dialogs. Isolated SQLite fixture. One cold and one returning sample per device, not population percentiles. Headless desktop Chrome 1440×950 and touch-emulated WebKit 390×844; no physical phone or Windows installer run.",
+    "bottleneck": "Selecting gear used to recreate the entire grid, format every value and rebind images. Update only selection state and the details panel, index catalog lookups and reuse locale formatters. Exit cancels queued armory refreshes.",
+    "before": [
+      {
+        "width": 1440,
+        "engine": "installed desktop Chrome, headless",
+        "entries": [
+          {
+            "inputToReadyMs": 152,
+            "documentTtfbMs": 5,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 22
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 26
+              }
+            ]
+          },
+          {
+            "inputToReadyMs": 62,
+            "documentTtfbMs": 0,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 17
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 22
+              }
+            ]
+          }
+        ],
+        "frames": {
+          "samples": 24,
+          "frameP95Ms": 35,
+          "maxFrameMs": 38.1,
+          "framesOver50Ms": 0,
+          "selectionJsP95Ms": 21.4
+        },
+        "exitRequests": 0
+      },
+      {
+        "width": 390,
+        "engine": "WebKit mobile emulation",
+        "entries": [
+          {
+            "inputToReadyMs": 244,
+            "documentTtfbMs": 1,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 15
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 18
+              }
+            ]
+          },
+          {
+            "inputToReadyMs": 149,
+            "documentTtfbMs": 0,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 14
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 18
+              }
+            ]
+          }
+        ],
+        "frames": {
+          "samples": 24,
+          "frameP95Ms": 105,
+          "maxFrameMs": 124,
+          "framesOver50Ms": 9,
+          "selectionJsP95Ms": 28
+        },
+        "exitRequests": 0
+      }
+    ],
+    "after": [
+      {
+        "width": 1440,
+        "engine": "installed desktop Chrome, headless",
+        "entries": [
+          {
+            "inputToReadyMs": 80,
+            "documentTtfbMs": 0,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 16
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 20
+              }
+            ]
+          },
+          {
+            "inputToReadyMs": 50,
+            "documentTtfbMs": 1,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 16
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 20
+              }
+            ]
+          }
+        ],
+        "frames": {
+          "samples": 24,
+          "frameP95Ms": 8.1,
+          "maxFrameMs": 12.8,
+          "framesOver50Ms": 0,
+          "selectionJsP95Ms": 2
+        },
+        "exitRequests": 0,
+        "decoded": 15,
+        "wear": "PVE",
+        "remove": true,
+        "codexWithoutMercenary": true
+      },
+      {
+        "width": 390,
+        "engine": "WebKit mobile emulation",
+        "entries": [
+          {
+            "inputToReadyMs": 236,
+            "documentTtfbMs": 0,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 11
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 14
+              }
+            ]
+          },
+          {
+            "inputToReadyMs": 127,
+            "documentTtfbMs": 0,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 11
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 13
+              }
+            ]
+          }
+        ],
+        "frames": {
+          "samples": 24,
+          "frameP95Ms": 62,
+          "maxFrameMs": 76,
+          "framesOver50Ms": 2,
+          "selectionJsP95Ms": 2
+        },
+        "exitRequests": 0,
+        "decoded": 15,
+        "wear": "PVP",
+        "remove": true
+      }
+    ],
+    "public": {
+      "method": "Actual public game pages and shipped media. Account routes intercepted with the isolated game API; no real account mutation. Browser HTTP caching differs under interception.",
+      "results": [
+        {
+          "width": 1440,
+          "engine": "installed desktop Chrome, headless",
+          "entries": [
+            {
+              "inputToReadyMs": 910,
+              "documentTtfbMs": 360,
+              "apiDurations": [
+                {
+                  "endpoint": "/api/mercenaries/v3/equipment",
+                  "ms": 19
+                },
+                {
+                  "endpoint": "/api/mercenaries/v3/state",
+                  "ms": 19
+                }
+              ]
+            },
+            {
+              "inputToReadyMs": 162,
+              "documentTtfbMs": 20,
+              "apiDurations": [
+                {
+                  "endpoint": "/api/mercenaries/v3/equipment",
+                  "ms": 17
+                },
+                {
+                  "endpoint": "/api/mercenaries/v3/state",
+                  "ms": 17
+                }
+              ]
+            }
+          ],
+          "frames": {
+            "samples": 24,
+            "frameP95Ms": 4.3,
+            "maxFrameMs": 4.3,
+            "framesOver50Ms": 0,
+            "selectionJsP95Ms": 2
+          },
+          "exitRequests": 0,
+          "decoded": 15,
+          "wear": "PVE",
+          "remove": true
+        },
+        {
+          "width": 390,
+          "engine": "WebKit mobile emulation",
+          "entries": [
+            {
+              "inputToReadyMs": 398,
+              "documentTtfbMs": 24,
+              "apiDurations": [
+                {
+                  "endpoint": "/api/mercenaries/v3/equipment",
+                  "ms": 21
+                },
+                {
+                  "endpoint": "/api/mercenaries/v3/state",
+                  "ms": 22
+                }
+              ]
+            },
+            {
+              "inputToReadyMs": 387,
+              "documentTtfbMs": 28,
+              "apiDurations": [
+                {
+                  "endpoint": "/api/mercenaries/v3/equipment",
+                  "ms": 15
+                },
+                {
+                  "endpoint": "/api/mercenaries/v3/state",
+                  "ms": 16
+                }
+              ]
+            }
+          ],
+          "frames": {
+            "samples": 24,
+            "frameP95Ms": 46,
+            "maxFrameMs": 63,
+            "framesOver50Ms": 1,
+            "selectionJsP95Ms": 2
+          },
+          "exitRequests": 0,
+          "decoded": 15,
+          "wear": "PVP",
+          "remove": true
+        }
+      ]
+    }
+  },
+  "art": {
+    "count": 15,
+    "webpSize": 512,
+    "totalBytes": 1316814,
+    "artwork": "artwork.json",
+    "preview": "baekho-hwangryong.png",
+    "localOriginals": "operations/mercenary-unique-20261109/sources/"
+  }
+}
