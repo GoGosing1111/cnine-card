@@ -1,0 +1,529 @@
+{
+  "at": "2026-11-09T08:45:49.603Z",
+  "release": {
+    "verified": true,
+    "at": "2026-11-09T08:44:54.620Z",
+    "commit": "129896c6c4fb37e95da9a5d118d0c1b87e98c3f7",
+    "pages": {
+      "id": "1b286210-4921-4b75-bbd2-e2461478282d",
+      "commit": "129896c6c4fb37e95da9a5d118d0c1b87e98c3f7",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "540de3ea-5b0e-4a0f-a5b9-f6147fa37a9c",
+        "percentage": 100
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "135d380a-3cef-4190-b0e0-6b8d55b9aabd",
+        "percentage": 100
+      }
+    ],
+    "icons": 15,
+    "windowsIcons": 15,
+    "legacyRedirects": 15,
+    "authStatus": 401,
+    "releaseTests": 41
+  },
+  "database": {
+    "verifiedAt": "2026-11-09T08:45:14.765Z",
+    "operationKey": "ops:mercenary-unique-final-art-names:20261109:v1",
+    "auditId": "57228",
+    "appliedAt": "2026-11-09T08:45:10.403Z",
+    "commit": "129896c6c4fb37e95da9a5d118d0c1b87e98c3f7",
+    "totalCatalog": 95,
+    "approvedUnique": 15,
+    "tiers": [
+      "새벽별",
+      "그믐달",
+      "태양왕좌"
+    ],
+    "sameIDs": true,
+    "sameCombatStats": true,
+    "priorReceiptsIntact": true,
+    "accountWrites": 0,
+    "readOnlyReplay": true,
+    "drops": 0,
+    "boxes": 0,
+    "audits": 1
+  },
+  "combatSHA256": "a57eae0d295621fdd164ca55d360959b79985081bbdd522a3998f5f5c0efd858",
+  "items": [
+    {
+      "code": "MERC_UQ_11_WEAPON",
+      "rank": 1,
+      "family": "새벽별",
+      "name": "별가름",
+      "passive": "성광관통",
+      "icon": "assets/ui/mercenary-equipment/unique-regalia-20261109/1-weapon.webp",
+      "iconSHA256": "197f73a4d6ff2faf8739a679c2f93eeefd4f744b33c9c732903cdad8a9a600ab"
+    },
+    {
+      "code": "MERC_UQ_11_TOP",
+      "rank": 1,
+      "family": "새벽별",
+      "name": "오팔갑주",
+      "passive": "별빛수호",
+      "icon": "assets/ui/mercenary-equipment/unique-regalia-20261109/1-top.webp",
+      "iconSHA256": "d243d44fd6bd633ce2086a18c8f9d207fd1ea074d3a55dd866d8d798332fa4a7"
+    },
+    {
+      "code": "MERC_UQ_11_BOTTOM",
+      "rank": 1,
+      "family": "새벽별",
+      "name": "성운각반",
+      "passive": "성운장막",
+      "icon": "assets/ui/mercenary-equipment/unique-regalia-20261109/1-bottom.webp",
+      "iconSHA256": "3d7be6f57da7c784a581e82cb13f064933848870d68edcd599797b3c0aa5bde0"
+    },
+    {
+      "code": "MERC_UQ_11_SHOES",
+      "rank": 1,
+      "family": "새벽별",
+      "name": "혜성부츠",
+      "passive": "유성질주",
+      "icon": "assets/ui/mercenary-equipment/unique-regalia-20261109/1-shoes.webp",
+      "iconSHA256": "9b91863b689cd2d5c29c584d289042f56ef12bc5fe1176604b595cf3b6f560a9"
+    },
+    {
+      "code": "MERC_UQ_11_ACCESSORY",
+      "rank": 1,
+      "family": "새벽별",
+      "name": "성좌반지",
+      "passive": "별빛공명",
+      "icon": "assets/ui/mercenary-equipment/unique-regalia-20261109/1-accessory.webp",
+      "iconSHA256": "75a15476507a46950336b658af403e857def0849e5c7d71a5fde1ab3c955c75f"
+    },
+    {
+      "code": "MERC_UQ_12_WEAPON",
+      "rank": 2,
+      "family": "그믐달",
+      "name": "월식도",
+      "passive": "월식참",
+      "icon": "assets/ui/mercenary-equipment/unique-regalia-20261109/2-weapon.webp",
+      "iconSHA256": "704f39061fc43b5af111c39266cf00f536831e3465b57fbf98ce6421fde4baeb"
+    },
+    {
+      "code": "MERC_UQ_12_TOP",
+      "rank": 2,
+      "family": "그믐달",
+      "name": "흑요갑주",
+      "passive": "흑요결계",
+      "icon": "assets/ui/mercenary-equipment/unique-regalia-20261109/2-top.webp",
+      "iconSHA256": "43ff80933f9abdb3ca62fd1aad5009f2125e3c0b1035753e02f694882a20bcba"
+    },
+    {
+      "code": "MERC_UQ_12_BOTTOM",
+      "rank": 2,
+      "family": "그믐달",
+      "name": "반월각반",
+      "passive": "월영장벽",
+      "icon": "assets/ui/mercenary-equipment/unique-regalia-20261109/2-bottom.webp",
+      "iconSHA256": "be292563f98f84937097028a5d049c1558bc8a2d3916b7c70d03480852c2f866"
+    },
+    {
+      "code": "MERC_UQ_12_SHOES",
+      "rank": 2,
+      "family": "그믐달",
+      "name": "잠행부츠",
+      "passive": "달그림자",
+      "icon": "assets/ui/mercenary-equipment/unique-regalia-20261109/2-shoes.webp",
+      "iconSHA256": "4f1b6fe3c5050b85593151c4f1923c4d4dcf616ee3c83ea9499209d7c48e67ec"
+    },
+    {
+      "code": "MERC_UQ_12_ACCESSORY",
+      "rank": 2,
+      "family": "그믐달",
+      "name": "월식심장",
+      "passive": "월광공명",
+      "icon": "assets/ui/mercenary-equipment/unique-regalia-20261109/2-accessory.webp",
+      "iconSHA256": "d651a85fff9071a0ca28d8796a9479207627bc0291b4ef27e20089a1515d4ebb"
+    },
+    {
+      "code": "MERC_UQ_13_WEAPON",
+      "rank": 3,
+      "family": "태양왕좌",
+      "name": "태양서약",
+      "passive": "여명선고",
+      "icon": "assets/ui/mercenary-equipment/unique-regalia-20261109/3-weapon.webp",
+      "iconSHA256": "eb2486dd3bdf4d0f8737fb63f547d2c657b7a32be224b4ca920b668cf909d25c"
+    },
+    {
+      "code": "MERC_UQ_13_TOP",
+      "rank": 3,
+      "family": "태양왕좌",
+      "name": "백금갑주",
+      "passive": "백금수호",
+      "icon": "assets/ui/mercenary-equipment/unique-regalia-20261109/3-top.webp",
+      "iconSHA256": "89135bf267e0ce2409b75a28bf1e90cdd5b567a72f123d64755b43392f911d20"
+    },
+    {
+      "code": "MERC_UQ_13_BOTTOM",
+      "rank": 3,
+      "family": "태양왕좌",
+      "name": "근위각반",
+      "passive": "왕실방벽",
+      "icon": "assets/ui/mercenary-equipment/unique-regalia-20261109/3-bottom.webp",
+      "iconSHA256": "393b4baf72b1765fc8928e6021c15339639503003ab265769c063c1acb354324"
+    },
+    {
+      "code": "MERC_UQ_13_SHOES",
+      "rank": 3,
+      "family": "태양왕좌",
+      "name": "황실군화",
+      "passive": "여명진군",
+      "icon": "assets/ui/mercenary-equipment/unique-regalia-20261109/3-shoes.webp",
+      "iconSHA256": "75e60e8561dac01d911641e8153a77b5d0f932a1ac416c991d9731318f7a04fe"
+    },
+    {
+      "code": "MERC_UQ_13_ACCESSORY",
+      "rank": 3,
+      "family": "태양왕좌",
+      "name": "일륜왕관",
+      "passive": "태양권능",
+      "icon": "assets/ui/mercenary-equipment/unique-regalia-20261109/3-accessory.webp",
+      "iconSHA256": "883565a4f1f361802314650a23a6aa88c7e07ece991909caeadceabccffd738e"
+    }
+  ],
+  "poster": {
+    "directory": "output/announcements/mercenary-unique-equipment-20261109",
+    "brand": "리버스콜",
+    "fonts": {
+      "Black Han Sans": {
+        "file": "assets/fonts/clan-camp/BlackHanSans-Regular.ttf",
+        "sha256": "31960809284026681774a8e52dc19ebcad26cf69b0ad9d560f288296fbb52739"
+      },
+      "Noto Sans KR": {
+        "file": "C:/Windows/Fonts/NotoSansKR-VF.ttf",
+        "sha256": "018174e8cdd366aff67c8d366c7dc806a7babbe7f2819fc23b00d59f7b8353d0"
+      },
+      "Russo One": {
+        "file": "operations/doosan-ck-poster-20261107/assets/RussoOne-Regular.ttf",
+        "sha256": "bc0abcc660bd8b7ad3000ecb2898a27c58a29a50f7ec81652fa12e75148d09df"
+      }
+    },
+    "width": 2064,
+    "height": 2819,
+    "pngSHA256": "76b8363903e024436f0aee90666f64a5362abbfefcf4b9fd71b8aec3dc29526a",
+    "jpgSHA256": "110a5fd6b1294d7e7b191ed6fa245e4e2ba52426b15de5d8ce4aa34e55e2303a",
+    "verifiedStats": 48,
+    "items": 15
+  },
+  "performance": {
+    "condition": "Installed headless Chrome 1440×950 and touch WebKit 390×844 emulation. Mercenary codex → equipment, cold browser context and re-entry, 95-item isolated account. 24 catalog selections per run. Public client used production static files and isolated account API. No physical phone test.",
+    "oldRank3IconBytes": 478682,
+    "newRank3IconBytes": 269246,
+    "changeBytes": -209436,
+    "localBefore": [
+      {
+        "width": 1440,
+        "engine": "installed desktop Chrome, headless",
+        "entries": [
+          {
+            "inputToReadyMs": 71,
+            "documentTtfbMs": 0,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 13
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 19
+              }
+            ],
+            "documentToFirstApiMs": 38,
+            "lastApiToUiMs": 5
+          },
+          {
+            "inputToReadyMs": 49,
+            "documentTtfbMs": 0,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 11
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 16
+              }
+            ],
+            "documentToFirstApiMs": 21,
+            "lastApiToUiMs": 7
+          }
+        ],
+        "frames": {
+          "samples": 24,
+          "frameP95Ms": 8.3,
+          "maxFrameMs": 8.4,
+          "framesOver50Ms": 0,
+          "selectionJsP95Ms": 3.4
+        },
+        "exitRequests": 0,
+        "decoded": 15,
+        "equipped": "MERC_UQ_12_ACCESSORY",
+        "wear": "PVE",
+        "remove": true,
+        "codexWithoutMercenary": true
+      },
+      {
+        "width": 390,
+        "engine": "WebKit mobile emulation",
+        "entries": [
+          {
+            "inputToReadyMs": 182,
+            "documentTtfbMs": 0,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 13
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 16
+              }
+            ],
+            "documentToFirstApiMs": 141,
+            "lastApiToUiMs": 20
+          },
+          {
+            "inputToReadyMs": 112,
+            "documentTtfbMs": 0,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 9
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 12
+              }
+            ],
+            "documentToFirstApiMs": 85,
+            "lastApiToUiMs": 12
+          }
+        ],
+        "frames": {
+          "samples": 24,
+          "frameP95Ms": 16,
+          "maxFrameMs": 30,
+          "framesOver50Ms": 0,
+          "selectionJsP95Ms": 2
+        },
+        "exitRequests": 0,
+        "decoded": 15,
+        "equipped": "MERC_UQ_12_ACCESSORY",
+        "wear": "PVP",
+        "remove": true
+      }
+    ],
+    "localAfter": [
+      {
+        "width": 1440,
+        "engine": "installed desktop Chrome, headless",
+        "entries": [
+          {
+            "inputToReadyMs": 79,
+            "documentTtfbMs": 0,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 15
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 19
+              }
+            ],
+            "documentToFirstApiMs": 44,
+            "lastApiToUiMs": 6
+          },
+          {
+            "inputToReadyMs": 51,
+            "documentTtfbMs": 0,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 15
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 19
+              }
+            ],
+            "documentToFirstApiMs": 17,
+            "lastApiToUiMs": 8
+          }
+        ],
+        "frames": {
+          "samples": 24,
+          "frameP95Ms": 12.5,
+          "maxFrameMs": 16.7,
+          "framesOver50Ms": 0,
+          "selectionJsP95Ms": 5.9
+        },
+        "exitRequests": 0,
+        "decoded": 15,
+        "equipped": "MERC_UQ_13_WEAPON",
+        "wear": "PVE",
+        "remove": true,
+        "codexWithoutMercenary": true
+      },
+      {
+        "width": 390,
+        "engine": "WebKit mobile emulation",
+        "entries": [
+          {
+            "inputToReadyMs": 307,
+            "documentTtfbMs": 1,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 19
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 23
+              }
+            ],
+            "documentToFirstApiMs": 255,
+            "lastApiToUiMs": 25
+          },
+          {
+            "inputToReadyMs": 100,
+            "documentTtfbMs": 0,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 9
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 12
+              }
+            ],
+            "documentToFirstApiMs": 76,
+            "lastApiToUiMs": 10
+          }
+        ],
+        "frames": {
+          "samples": 24,
+          "frameP95Ms": 29,
+          "maxFrameMs": 30,
+          "framesOver50Ms": 0,
+          "selectionJsP95Ms": 2
+        },
+        "exitRequests": 0,
+        "decoded": 15,
+        "equipped": "MERC_UQ_13_WEAPON",
+        "wear": "PVP",
+        "remove": true
+      }
+    ],
+    "publicAfter": [
+      {
+        "width": 1440,
+        "engine": "installed desktop Chrome, headless",
+        "entries": [
+          {
+            "inputToReadyMs": 250,
+            "documentTtfbMs": 31,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 25
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 25
+              }
+            ],
+            "documentToFirstApiMs": 175,
+            "lastApiToUiMs": 7
+          },
+          {
+            "inputToReadyMs": 233,
+            "documentTtfbMs": 34,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 25
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 25
+              }
+            ],
+            "documentToFirstApiMs": 160,
+            "lastApiToUiMs": 6
+          }
+        ],
+        "frames": {
+          "samples": 24,
+          "frameP95Ms": 8.4,
+          "maxFrameMs": 12.5,
+          "framesOver50Ms": 0,
+          "selectionJsP95Ms": 3.9
+        },
+        "exitRequests": 0,
+        "decoded": 15,
+        "equipped": "MERC_UQ_13_WEAPON",
+        "wear": "PVE",
+        "remove": true
+      },
+      {
+        "width": 390,
+        "engine": "WebKit mobile emulation",
+        "entries": [
+          {
+            "inputToReadyMs": 248,
+            "documentTtfbMs": 30,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 19
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 21
+              }
+            ],
+            "documentToFirstApiMs": 175,
+            "lastApiToUiMs": 18
+          },
+          {
+            "inputToReadyMs": 472,
+            "documentTtfbMs": 226,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 20
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 20
+              }
+            ],
+            "documentToFirstApiMs": 210,
+            "lastApiToUiMs": 13
+          }
+        ],
+        "frames": {
+          "samples": 24,
+          "frameP95Ms": 30,
+          "maxFrameMs": 31,
+          "framesOver50Ms": 0,
+          "selectionJsP95Ms": 5
+        },
+        "exitRequests": 0,
+        "decoded": 15,
+        "equipped": "MERC_UQ_13_WEAPON",
+        "wear": "PVP",
+        "remove": true
+      }
+    ],
+    "observation": "In the public run, HTML arrival and the interval until the first equipment API request dominated entry time. Both public initial entries spent 175 ms from HTML response start until that request. Mobile re-entry had a 226 ms document TTFB. The five replacement icons ship 209,436 fewer bytes and use a single 2,276-byte WebP gallery embedded in the scoped stylesheet, with no per-frame animation callbacks. Public selection frames stayed below 50 ms on both sampled browsers."
+  }
+}
