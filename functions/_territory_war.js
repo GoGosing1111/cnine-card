@@ -1,4 +1,5 @@
-import {schedulePolicy,scheduledSlot,scheduledRoundKey} from './_territory_schedule.js';
+import {activeDraftRoster,draftInsertStatements,deliverDraftOrder} from './_territory_draft.js';
+import {schedulePolicy,scheduledSlot,scheduledRoundKey,DRAFT_NOTICE_MS,DRAFT_PREP_MS,draftKeyPrefix} from './_territory_schedule.js';
 import {frontActivity,readVictoryBuff,territoryVictoryCoin} from './_territory_frontline.js';
 import {companionSnapshotRows,pvpCompanionOptions} from '../shared/companion-battle-snapshot-v1.mjs';
 import {pvpPolicySnapshot,pvpReplayInput} from '../shared/pvp-power-balance-v1.mjs';
@@ -564,8 +565,9 @@ async function settings(env){
   settingsCacheValue={...DEFAULTS,...safeJson(row?.value,{})};settingsCacheValue.battlefield=normalizeBattlefieldConfig(settingsCacheValue.battlefield);settingsCacheExpiresAt=Date.now()+5000;return settingsCacheValue;
 }
 function invalidateSettingsCache(){settingsCacheValue=null;settingsCacheExpiresAt=0}
-async function latestRound(env){return env.DB.prepare('SELECT * FROM territory_war_v3_rounds ORDER BY id DESC LIMIT 1').first()}
-async function roundById(env,id){return env.DB.prepare('SELECT * FROM territory_war_v3_rounds WHERE id=?').bind(id).first()}
+const draftRoundRead="SELECT r.*,m.value draft_battle_at FROM territory_war_v3_rounds r LEFT JOIN app_meta m ON m.key='"+draftKeyPrefix+"'||CAST(r.id AS TEXT)";
+async function latestRound(env){return env.DB.prepare(draftRoundRead+' ORDER BY r.id DESC LIMIT 1').first()}
+async function roundById(env,id){return env.DB.prepare(draftRoundRead+' WHERE r.id=?').bind(id).first()}
 async function activeFront(env,round){if(!round?.current_front_id)return null;return env.DB.prepare('SELECT * FROM territory_war_v3_fronts WHERE id=?').bind(round.current_front_id).first()}
 async function roundEquipmentBonuses(env,roundId,resultScope='WIN'){
   if(!Number(roundId)||String(resultScope||'').toUpperCase()!=='WIN')return[];
@@ -897,13 +899,9 @@ async function createRound(env,cfg,slot=null){
       const saved=safeJson(raw?.value,{});
       if(saved.mode==='OFF'||scheduledSlot(saved)?.key!==slot.key)return null;
     }
-    const end=slot?.formationAt||iso(Date.now()+Number(cfg.recruitmentHours||3)*3600000);
-    const previous=await latestRound(env);
+    const battleAt=slot?.battleAt||iso(Date.now()+DRAFT_NOTICE_MS),end=iso(Date.parse(battleAt)-DRAFT_PREP_MS);
     const statements=[env.DB.prepare("INSERT INTO territory_war_v3_rounds(status,battle_name,recruitment_ends_at,current_front_index,warfare_version) VALUES('RECRUITING',?,?,4,6)").bind(String(cfg.battleName||'').trim().slice(0,40),end)];
-    // Preserve registrations from an unopened, stopped round; remove clan locks.
-    // Completed/started rounds never auto-enrol anyone in a later round.
-    if(previous?.status==='DISABLED'&&!previous.formed_at&&!previous.starts_at)statements.push(env.DB.prepare(`INSERT INTO territory_war_v3_users(round_id,user_id,deck_snapshot,deck_power,formation_power,formation_breakdown_json,loadout_bonus_json,side,status,energy,mandatory_clan)
-      SELECT (SELECT MAX(id) FROM territory_war_v3_rounds),user_id,deck_snapshot,deck_power,formation_power,formation_breakdown_json,loadout_bonus_json,NULL,'WAITING',?,0 FROM territory_war_v3_users WHERE round_id=? AND status='WAITING' ON CONFLICT(round_id,user_id) DO NOTHING`).bind(Number(cfg.energyMax||10),previous.id));
+    statements.push(env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) SELECT ?||CAST(MAX(id) AS TEXT),?,CURRENT_TIMESTAMP FROM territory_war_v3_rounds").bind(draftKeyPrefix,battleAt));
     if(slot)statements.push(
       env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) SELECT ?,CAST(MAX(id) AS TEXT),CURRENT_TIMESTAMP FROM territory_war_v3_rounds').bind(slot.key),
       env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) SELECT 'territory_scheduled_battle_v1:'||CAST(MAX(id) AS TEXT),?,CURRENT_TIMESTAMP FROM territory_war_v3_rounds").bind(slot.battleAt));
@@ -986,17 +984,21 @@ async function formRound(env,round,cfg,deps=territoryRuntimeDeps,scheduledBattle
       fresh=await syncRecruitingClanRoster(env,fresh,cfg);
       if(fresh.clanRosterSyncPending)return{status:'WAITING_CLANS'};
     }
-    let users=(await env.DB.prepare('SELECT w.*,u.nickname,u.role FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? ORDER BY w.deck_power DESC,w.registered_at,w.user_id').bind(round.id).all()).results||[];
-    if(users.length<Number(cfg.minParticipants||6))return{status:'WAITING_MINIMUM',count:users.length};
-    if(deps?.battleSettings&&deps?.cardBattlePower){const battle=await deps.battleSettings(env);users=await refreshFormationSnapshots(env,deps,round.id,users,battle)}
+    const draftAt=Date.parse(fresh.draft_battle_at);
+    const drafted=Number.isFinite(draftAt);
+    if(drafted&&Date.now()<draftAt-DRAFT_PREP_MS)return {status:'WAITING_FRONT'};
+    let users=drafted?await activeDraftRoster(env,deps,draftAt-DRAFT_PREP_MS):(await env.DB.prepare('SELECT w.*,u.nickname,u.role FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? ORDER BY w.deck_power DESC,w.registered_at,w.user_id').bind(round.id).all()).results||[];
+    if(users.length<(drafted?2:Number(cfg.minParticipants||6)))return{status:'WAITING_MINIMUM',count:users.length};
+    if(!drafted&&deps?.battleSettings&&deps?.cardBattlePower){const battle=await deps.battleSettings(env);users=await refreshFormationSnapshots(env,deps,round.id,users,battle)}
     if(isNetworkWar(fresh))users=users.map(item=>({...item,mandatory_clan:0,clan_id:null}));
     const history=await recentRoundHistory(env,round.id),candidates=users.map(item=>{const prior=history.users.get(Number(item.user_id));return{...item,balance_previous_round_id:prior?.latestRoundId||null,balance_previous_side:prior?.latestSide||null,balance_previous_result:prior?.latestResult||'NEW',balance_previous_attacks:prior?.latestAttacks||0,balance_history_rounds:prior?.rounds||0,balance_history_active_rounds:prior?.activeRounds||0,balance_history_participation_weight:prior?.participationWeight||0,balance_history_weighted_attacks:prior?.weightedAttacks||0,balance_history_win_weight:prior?.winWeight||0,balance_history_loss_weight:prior?.lossWeight||0}}),balanced=isClanWarfare(fresh)?balancedSideAssignments(candidates.filter(row=>Number(row.mandatory_clan)!==1),candidates.filter(row=>Number(row.mandatory_clan)===1).map(item=>({item,side:item.side}))):balancedSideAssignments(candidates),{aPower,bPower,aCount,bCount}=balanced,statements=[];
-    for(const {item,side} of balanced.assignments)statements.push(env.DB.prepare("UPDATE territory_war_v3_users SET side=?,status='ACTIVE',energy=?,last_recharged_at=CURRENT_TIMESTAMP,balance_previous_round_id=?,balance_previous_side=?,balance_previous_result=?,balance_previous_attacks=?,balance_history_rounds=?,balance_history_active_rounds=?,balance_history_participation_weight=?,balance_history_weighted_attacks=?,balance_history_win_weight=?,balance_history_loss_weight=?,updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=?").bind(side,Number(cfg.energyMax||10),item.balance_previous_round_id,item.balance_previous_side,item.balance_previous_result,Number(item.balance_previous_attacks||0),Number(item.balance_history_rounds||0),Number(item.balance_history_active_rounds||0),Number(item.balance_history_participation_weight||0),Number(item.balance_history_weighted_attacks||0),Number(item.balance_history_win_weight||0),Number(item.balance_history_loss_weight||0),round.id,item.user_id));
+    if(drafted)statements.push(...draftInsertStatements(env,fresh.id,balanced.assignments,Number(cfg.energyMax||10)));
+    else for(const {item,side} of balanced.assignments)statements.push(env.DB.prepare("UPDATE territory_war_v3_users SET side=?,status='ACTIVE',energy=?,last_recharged_at=CURRENT_TIMESTAMP,balance_previous_round_id=?,balance_previous_side=?,balance_previous_result=?,balance_previous_attacks=?,balance_history_rounds=?,balance_history_active_rounds=?,balance_history_participation_weight=?,balance_history_weighted_attacks=?,balance_history_win_weight=?,balance_history_loss_weight=?,updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=?").bind(side,Number(cfg.energyMax||10),item.balance_previous_round_id,item.balance_previous_side,item.balance_previous_result,Number(item.balance_previous_attacks||0),Number(item.balance_history_rounds||0),Number(item.balance_history_active_rounds||0),Number(item.balance_history_participation_weight||0),Number(item.balance_history_weighted_attacks||0),Number(item.balance_history_win_weight||0),Number(item.balance_history_loss_weight||0),round.id,item.user_id));
     await freezeBattlefieldPolicy(env,fresh,cfg);
     if(isNetworkWar(fresh)){
-      const now=Date.now(),startMs=scheduledBattleAt?Math.max(now,Date.parse(scheduledBattleAt)):now+Math.max(0,Number(cfg.preparationMinutes||0))*60000;
+      const now=Date.now(),startMs=drafted?draftAt:scheduledBattleAt?Math.max(now,Date.parse(scheduledBattleAt)):now+Math.max(0,Number(cfg.preparationMinutes||0))*60000;
       const starts=iso(startMs),ends=iso(startMs+Number(cfg.roundMinutes||180)*60000),status=startMs>now?'PREPARING':'ACTIVE';
-      statements.push(env.DB.prepare('UPDATE territory_war_v3_users SET mandatory_clan=0,clan_id=NULL WHERE round_id=?').bind(round.id));
+      if(!drafted)statements.push(env.DB.prepare('UPDATE territory_war_v3_users SET mandatory_clan=0,clan_id=NULL WHERE round_id=?').bind(round.id));
       await env.DB.batch(networkFormationStatements(env,{round:fresh,cfg,status,starts,ends,assignments:statements}));
       publicStateSharedCache=null;counterSharedCache=null;realtimePulseCache=null;
       return {status,allocation:'INDIVIDUAL',aCount,bCount,aPower,bPower,historyRoundIds:history.roundIds};
@@ -1130,7 +1132,9 @@ async function lifecycle(env,cfg,{forceClanRoster=false,deps=territoryRuntimeDep
     const scheduled=cfg.autoOpen&&cfg.autoOpen.kind!=='MANUAL',slot=scheduled?scheduledSlot(cfg):null;
     if(scheduled&&!slot)return round;
     const id=await createRound(env,cfg,slot);
-    return id?roundById(env,id):round;
+    if(!id)return round;
+    round=await roundById(env,id);
+    if(!round||round.status!=='RECRUITING')return round;
   }
   if(round.status==='RECRUITING'&&!isNetworkWar(round)&&!round.clan_opened_at){
     const openingLock=await acquireLock(env,`clan_open_${round.id}`,60000);
@@ -1140,8 +1144,8 @@ async function lifecycle(env,cfg,{forceClanRoster=false,deps=territoryRuntimeDep
   }
   if(round.status==='RECRUITING'&&sqlMs(round.recruitment_ends_at)>Date.now())round=await refreshRecruitingClans(env,round,cfg,forceClanRoster);
   if(round.status==='RECRUITING'&&sqlMs(round.recruitment_ends_at)<=Date.now()){
-    const planned=cfg.autoOpen&&cfg.autoOpen.kind!=='MANUAL'?await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(scheduledRoundKey(round.id)).first():null;
-    const formed=await formRound(env,round,cfg,deps,planned?.value);if(formed.status==='WAITING_MINIMUM'){await env.DB.prepare("UPDATE territory_war_v3_rounds SET recruitment_ends_at=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RECRUITING'").bind(iso(Date.now()+15*60000),round.id).run();return roundById(env,round.id)}round=await roundById(env,round.id);
+    const planned=!round.draft_battle_at&&cfg.autoOpen&&cfg.autoOpen.kind!=='MANUAL'?await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(scheduledRoundKey(round.id)).first():null;
+    const formed=await formRound(env,round,cfg,deps,planned?.value);if(formed.status==='WAITING_MINIMUM'){if(round.draft_battle_at){await env.DB.prepare("UPDATE territory_war_v3_rounds SET status='DISABLED',version=version+1 WHERE id=? AND status='RECRUITING'").bind(round.id).run();return roundById(env,round.id)}await env.DB.prepare("UPDATE territory_war_v3_rounds SET recruitment_ends_at=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RECRUITING'").bind(iso(Date.now()+15*60000),round.id).run();return roundById(env,round.id)}round=await roundById(env,round.id);
   }
   if(round.status==='PREPARING'&&sqlMs(round.starts_at)<=Date.now())round=await activateRound(env,round);
   if(round.status==='ACTIVE'&&isNetworkWar(round)){
@@ -1360,8 +1364,8 @@ async function publicState(env,userId,includeAdmin=false,nodeIndex=4,knownRound=
       env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,userId).first(),
       rewardForUser(env,userId)
     ]);
-    const clans=await territoryClanView(env,round),canRegister=!mine&&sqlMs(round.recruitment_ends_at)>Date.now()&&(isNetworkWar(round)||(Boolean(round.clan_opened_at)&&!await currentClanMember(env,userId)));
-    const state={clans,mode,settings:cfg,round,front:null,nodes:NODES,truce:{active:false,endsAt:null,minutes:15,canRefresh:false},comeback:{active:false},fatigue:{active:false},lastDefense:{active:false},counter:null,ace:null,notice:null,counts:{total:Number(counts.total||0),A:Number(counts.a_count||0),B:Number(counts.b_count||0),aPower:Number(counts.a_power||0),bPower:Number(counts.b_power||0)},mine:mine||null,registration:{canRegister,canCancel:Boolean(mine)&&Number(mine.mandatory_clan)!==1,mandatory:Boolean(Number(mine?.mandatory_clan)===1)},ranking:[],recentResults:[],recentActions:[],reward,serverNow:iso(),version:Number(round.version||0)};
+    const clans=await territoryClanView(env,round),canRegister=!round.draft_battle_at&&!mine&&sqlMs(round.recruitment_ends_at)>Date.now()&&(isNetworkWar(round)||(Boolean(round.clan_opened_at)&&!await currentClanMember(env,userId)));
+    const state={clans,mode,settings:cfg,round,front:null,nodes:NODES,truce:{active:false,endsAt:null,minutes:15,canRefresh:false},comeback:{active:false},fatigue:{active:false},lastDefense:{active:false},counter:null,ace:null,notice:null,counts:{total:Number(counts.total||0),A:Number(counts.a_count||0),B:Number(counts.b_count||0),aPower:Number(counts.a_power||0),bPower:Number(counts.b_power||0)},mine:mine||null,registration:{canRegister,canCancel:!round.draft_battle_at&&Boolean(mine)&&Number(mine.mandatory_clan)!==1,mandatory:Boolean(Number(mine?.mandatory_clan)===1)},ranking:[],recentResults:[],recentActions:[],reward,serverNow:iso(),version:Number(round.version||0)};
     if(isNetworkWar(round)){state.network=await networkView(env,round,mine?.side,nodeIndex);state.nodes=state.network.nodes;state.allocation='INDIVIDUAL';}
     if(includeAdmin)state.adminUsers=(await env.DB.prepare(`SELECT w.*,u.nickname FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? ORDER BY CASE w.side WHEN 'A' THEN 1 WHEN 'B' THEN 2 ELSE 3 END,w.deck_power DESC`).bind(round.id).all()).results||[];
     return state;
@@ -1378,7 +1382,7 @@ async function publicState(env,userId,includeAdmin=false,nodeIndex=4,knownRound=
   ) ranked WHERE ranked.user_id=?`).bind(round.id,userId).first(),rewardForUser(env,userId,afterAction?round.id:null,{readOnly:afterAction}),readVictoryBuff(env.DB,userId)]),front=isNetworkWar(round)?await networkFront(env,round,{nodeIndex}):shared.front,counts=shared.counts;
   let mine=null;if(mineRow){const e=rechargeEnergy(mineRow,cfg,front);mine={...mineRow,energy:e.energy,nextEnergyAt:e.nextEnergyAt}}
   const ranking=shared.ranking,recentResults=shared.recentResults,recentActions=shared.recentActions;
-  const canRegister=!mine&&round.status==='RECRUITING',canCancel=Boolean(mine&&round.status==='RECRUITING');
+  const canRegister=!round.draft_battle_at&&!mine&&round.status==='RECRUITING',canCancel=!round.draft_battle_at&&Boolean(mine&&round.status==='RECRUITING');
   const ace=ranking.find(row=>row.side===(Number(round.current_front_index||4)>=4?'A':'B'))||null,notice=shared.notice;
   const commanders={...shared.commanders,mineSide:mine?.side||'',canBroadcast:Boolean(mine?.status==='ACTIVE'&&mine?.side&&Number(shared.commanders?.[mine.side]?.user_id||0)===Number(userId))};
   // The shared cache is server-internal. Filter for the freshly loaded roster
@@ -1687,6 +1691,17 @@ async function inspectTerritoryParticipant(env,deps,nickname){
 
 export async function handleTerritoryWar({path,request,env,deps}){
   if(!String(path).startsWith('territory-war')&&!String(path).startsWith('admin/territory-war'))return null;
+  if(path==='territory-war/draft-order'&&request.method==='POST'){
+    const user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);
+    const body=await deps.readBody(request);
+    let round=null,cfg={};
+    if(body.action==='reserve'){
+      cfg=await settings(env);round=await latestRound(env);
+      if(cfg.mode==='ON'&&Number(round?.id)===Number(body.roundId)&&round?.draft_battle_at&&round.status==='RECRUITING'&&sqlMs(round.recruitment_ends_at)<=Date.now())round=await lifecycle(env,cfg,{deps});
+    }
+    const result=await deliverDraftOrder(env,user.id,round,cfg,body);
+    return deps.json(result,result.status||200);
+  }
   territoryRuntimeDeps=deps;await ensureFoundation(env);await ensureTerritoryClanSchema(env);const user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);await ensureBattlefieldSchema(env);await ensureNetworkSchema(env);
   try{const gamstRepair=readRuntimeData(env,GAMST_REPAIR_WAITING_CACHE_KEY)||await ensureGamstDeckRepairV2005(env);if(gamstRepair?.status==='WAITING')cacheRuntimeData(env,GAMST_REPAIR_WAITING_CACHE_KEY,gamstRepair,60000);if(gamstRepair?.status==='COMPLETED')await refreshGamstRepairedTerritoryFormations(env,deps)}catch(error){console.error('gamst territory deck repair failed',error)}
   const admin=deps.isAdminRole(user),cfg=await settings(env);
@@ -1710,7 +1725,7 @@ export async function handleTerritoryWar({path,request,env,deps}){
   if(path==='territory-war/supply-claim'&&request.method==='POST')return handleSupplyClaim(env,deps,user,cfg,await deps.readBody(request));
   if(path==='territory-war/action-status'&&request.method==='GET')return handleActionStatus(env,deps,user,cfg,request);
   if(path==='territory-war/register'&&request.method==='POST'){
-    const mode=String(cfg.mode||'OFF').toUpperCase();if(mode==='OFF')return deps.json({error:'영토전 운영이 중지되었습니다.'},409);const round=await lifecycle(env,cfg,{forceClanRoster:true}),canJoin=round&&round.status==='RECRUITING'&&sqlMs(round.recruitment_ends_at)>Date.now();if(!canJoin)return deps.json({error:'참가 모집이 종료되어 현재 회차에는 입장할 수 없습니다.'},409);
+    const mode=String(cfg.mode||'OFF').toUpperCase();if(mode==='OFF')return deps.json({error:'영토전 운영이 중지되었습니다.'},409);const round=await lifecycle(env,cfg,{forceClanRoster:true}),canJoin=round&&round.status==='RECRUITING'&&sqlMs(round.recruitment_ends_at)>Date.now();if(round?.draft_battle_at)return deps.json({error:'이번 회차는 활동 유저 자동 차출로 편성됩니다.'},409);if(!canJoin)return deps.json({error:'참가 모집이 종료되어 현재 회차에는 입장할 수 없습니다.'},409);
     const existing=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();if(existing)return deps.json({ok:true,alreadyRegistered:true,state:await publicState(env,user.id)});
     if(!isNetworkWar(round)&&!round.clan_opened_at)return deps.json({error:'8개 클랜 개막 편성이 준비 중입니다.'},409);
     if(!isNetworkWar(round)&&await currentClanMember(env,user.id))return deps.json({error:'현재 클랜 명단을 동기화하고 있습니다. 잠시 후 다시 확인해 주세요.'},409);
@@ -1736,7 +1751,7 @@ export async function handleTerritoryWar({path,request,env,deps}){
     }
     return deps.json({ok:true,alreadyRegistered:false,lateJoined:false,side:null,state});
   }
-  if(path==='territory-war/unregister'&&request.method==='POST'){const round=await lifecycle(env,cfg);if(!round||round.status!=='RECRUITING'||sqlMs(round.recruitment_ends_at)<=Date.now())return deps.json({error:'모집 중에만 참가 신청을 취소할 수 있습니다.'},409);const mine=await env.DB.prepare('SELECT mandatory_clan FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();if(Number(mine?.mandatory_clan)===1)return deps.json({error:'개막 클랜 로스터는 자동 참가하며 취소할 수 없습니다.'},409);const removal=env.DB.prepare('DELETE FROM territory_war_v3_users WHERE round_id=? AND user_id=? AND mandatory_clan=0').bind(round.id,user.id);if(isNetworkWar(round))await mutateNetworkRecruitment(env,round,removal);else await removal.run();return deps.json({ok:true,state:await publicState(env,user.id)})}
+  if(path==='territory-war/unregister'&&request.method==='POST'){const round=await lifecycle(env,cfg);if(round?.draft_battle_at)return deps.json({error:'이번 회차는 활동 유저 자동 차출로 편성됩니다.'},409);if(!round||round.status!=='RECRUITING'||sqlMs(round.recruitment_ends_at)<=Date.now())return deps.json({error:'모집 중에만 참가 신청을 취소할 수 있습니다.'},409);const mine=await env.DB.prepare('SELECT mandatory_clan FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();if(Number(mine?.mandatory_clan)===1)return deps.json({error:'개막 클랜 로스터는 자동 참가하며 취소할 수 없습니다.'},409);const removal=env.DB.prepare('DELETE FROM territory_war_v3_users WHERE round_id=? AND user_id=? AND mandatory_clan=0').bind(round.id,user.id);if(isNetworkWar(round))await mutateNetworkRecruitment(env,round,removal);else await removal.run();return deps.json({ok:true,state:await publicState(env,user.id)})}
   if(path==='territory-war/refresh-loadout'&&request.method==='POST'){
     const body=await deps.readBody(request),round=await lifecycle(env,cfg);if(!round||cfg.mode==='OFF'||!['RECRUITING','PREPARING','ACTIVE'].includes(round.status))return deps.json({error:'진행 중인 영토전에서 최신화할 수 있습니다.'},409);
     const mine=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();
@@ -1769,7 +1784,7 @@ export async function handleTerritoryWar({path,request,env,deps}){
       await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('territory_war_settings_v3',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(next)).run();invalidateSettingsCache();
       const round=await latestRound(env);
       if(round&&['RECRUITING','PREPARING','ACTIVE'].includes(round.status))await env.DB.prepare("UPDATE territory_war_v3_rounds SET battle_name=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(next.battleName,round.id).run();
-      if(round?.status==='RECRUITING'&&next.autoOpen?.kind==='MANUAL'&&Number(next.recruitmentHours)!==Number(cfg.recruitmentHours)){
+      if(round?.status==='RECRUITING'&&!round.draft_battle_at&&next.autoOpen?.kind==='MANUAL'&&Number(next.recruitmentHours)!==Number(cfg.recruitmentHours)){
         const recruitmentEndsAt=iso(Date.now()+Number(next.recruitmentHours||3)*3600000);
         await env.DB.prepare("UPDATE territory_war_v3_rounds SET recruitment_ends_at=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RECRUITING'").bind(recruitmentEndsAt,round.id).run();
       }
@@ -1843,6 +1858,7 @@ export async function handleTerritoryWar({path,request,env,deps}){
     if(!admin)return deps.json({error:'관리자 권한이 필요합니다.'},403);
     if(String(cfg.mode||'OFF').toUpperCase()==='OFF')return deps.json({error:'영토전을 먼저 ON 또는 TEST로 전환하세요.'},409);
     const round=await latestRound(env);if(!round||round.status!=='RECRUITING')return deps.json({error:'모집 시간을 초기화할 수 있는 모집 회차가 없습니다.'},409);
+    if(round.draft_battle_at)return deps.json({error:'자동 차출 회차는 공지한 개전 시각을 따릅니다.'},409);
     const body=await deps.readBody(request),requestedEndsAt=sqlMs(body.recruitmentEndsAt),rawDuration=Number(body.durationMinutes),durationMinutes=Number.isFinite(rawDuration)&&rawDuration>0?clampInt(rawDuration,1,10080):0;
     const recruitmentEndsAt=Number.isFinite(requestedEndsAt)&&requestedEndsAt>Date.now()
       ?iso(requestedEndsAt)
@@ -1882,7 +1898,11 @@ export async function tickTerritorySchedule(env,deps){
   // Opening is opt-in. A disabled schedule costs one indexed read and never opens a round.
   const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='territory_war_settings_v3'").first();
   const raw=safeJson(row?.value,{});
-  if(!raw.autoOpen||raw.autoOpen.kind==='MANUAL'||raw.mode==='OFF')return {scheduled:false};
+  if(!raw.mode||raw.mode==='OFF')return {scheduled:false};
+  if(!raw.autoOpen||raw.autoOpen.kind==='MANUAL'){
+    const round=await latestRound(env);
+    if(!round?.draft_battle_at||!['RECRUITING','PREPARING','ACTIVE'].includes(round.status))return {scheduled:false};
+  }
   await ensureFoundation(env);await ensureTerritoryClanSchema(env);await ensureBattlefieldSchema(env);await ensureNetworkSchema(env);
   const cfg={...DEFAULTS,...raw,battlefield:normalizeBattlefieldConfig(raw.battlefield)};
   const round=await lifecycle(env,cfg,{deps});return {scheduled:true,roundId:round?.id||null,status:round?.status||null};

@@ -17,13 +17,13 @@ test('three routes are connected symmetrically; isolated territory cannot open a
 });
 
 for(const postgres of [false,true]){const dialect=postgres?'PostgreSQL':'SQLite';
-  test(`${dialect}: stopped unformed roster carries forward once without clan locks; completed rounds never auto-enrol`,async t=>{
+  test(`${dialect}: new drafts start empty and keep the stopped roster in its original round`,async t=>{
     const f=await territoryNetworkFixture(t,postgres);
     await f.p("UPDATE territory_war_v3_rounds SET status='DISABLED',warfare_version=4 WHERE id=1").run();
     const id=await T.createRound(f.env,f.cfg);assert.equal(id,2);
     const newRound=await f.p('SELECT * FROM territory_war_v3_rounds WHERE id=?',id).first();assert.equal(Number(newRound.warfare_version),6);
     const roster=(await f.p('SELECT * FROM territory_war_v3_users WHERE round_id=?',id).all()).results;
-    assert.equal(roster.length,52);assert.ok(roster.every(r=>r.side==null&&Number(r.mandatory_clan)===0));
+    assert.equal(roster.length,0);assert.ok(await f.p("SELECT value FROM app_meta WHERE key=?",`territory_draft_v1:${id}`).first());
     assert.equal(await T.createRound(f.env,f.cfg),id);
     assert.equal(Number((await f.p('SELECT COUNT(*) n FROM territory_war_v3_users WHERE round_id=1 AND mandatory_clan=1').first()).n),52);
     await f.p("UPDATE territory_war_v3_rounds SET status='FINISHED',settled_at=CURRENT_TIMESTAMP WHERE id=?",id).run();

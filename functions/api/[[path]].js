@@ -112,7 +112,7 @@ import {handleSssReroll,presentSssRerollInventory,ensureSssRerollCatalog} from '
 import {canIssueMiracleCubeCoupon,redeemMiracleCubeCoupon} from '../_miracle_cube_coupon.js';
 import {handleMasterStarMine} from '../_master_star_mine.js';
 import {handleForgeRuntime,isForgeRuntimePath} from '../_equipment_forge_routes.js';
-import {rankedSelectedMercenaries,releasedMercenarySnapshot,releasedMercenarySnapshots,releasedMercenaryFormation,mercenaryFormationPower,mercenarySnapshotPower} from '../_mercenary_account.js';
+import {rankedSelectedMercenaries,releasedMercenarySnapshot,releasedMercenarySnapshots,releasedMercenaryFormation,releasedMercenaryFormations,mercenaryFormationPower,mercenarySnapshotPower} from '../_mercenary_account.js';
 import {handleEquipmentForgePublic} from '../_equipment_forge_public.js';
 import {handleEquipmentPolish} from '../_equipment_polish.js';
 import {ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM} from '../_forge_protection_catalog.js';
@@ -124,6 +124,7 @@ import { handleAvatar,avatarFeatureAccess,equippedAvatarEffect,applyAvatarCoinGa
 import { handleVehicleDraw,ensureVehicleDrawFoundation } from '../_vehicle_draw.js';
 import { handlePrimeDraw } from '../_prime_draw.js';
 import { handleHighGradeReroll,grantHighGradeRerollDrop,ensureHighGradeRerollFoundation } from '../_high_grade_reroll.js';
+import {visibleTerritorySchedule} from '../_territory_draft.js';
 import { handleTerritoryWar,tickTerritorySchedule } from '../_territory_war.js';
 import { handleClan } from '../_clan.js';
 import {handleOrganization,reconcileOrganizationRecruitment,organizationLiveOperation,runOrganizationAllocation} from '../_organization.js';
@@ -1176,23 +1177,28 @@ async function pvpFormationPower(env,userId,battle,{defense=false}={}){
   const mercenaryPower=mercenarySnapshotPower(mercenary),power=Math.max(1,deck.reduce((sum,card)=>sum+cardBattlePower(card,Number(card.breakthrough_level||0),battle),0)+Number(bonus.pvp||0)+mercenaryPower);
   const scaled=avatarScaledPower(power,bonus.avatarPowerPercent);return {power:scaled,matchPower:rankedMatchPower(scaled,avatarScaledPower(mercenaryPower,bonus.avatarPowerPercent)),deckReady:true};
 }
-async function pvpDefenseFormationPowers(env,userIds,battle){
+async function draftFormationPowers(env,rows,battle){
+  const decks=rows.map(row=>{let deck;try{deck=JSON.parse(row.deck_snapshot)}catch{deck=[]}
+    return {userId:Number(row.user_id),deck:Array.isArray(deck)&&deck.length===5&&new Set(deck.map(String)).size===5?deck:[]};});
+  return pvpDefenseFormationPowers(env,decks.map(row=>row.userId),battle,decks);
+}
+async function pvpDefenseFormationPowers(env,userIds,battle,draftDecks=null){
   const ids=[...new Set((userIds||[]).map(Number).filter(Boolean))];if(!ids.length)return new Map();const marks=ids.map(()=>'?').join(',');
   const [mercenaries,forgeBonuses,cardRows,equipmentRows,garageRows,titleRows]=await Promise.all([
-    Promise.resolve(new Map()),FORGE_RUNTIME_RELEASE_ENABLED?forgeEquipmentBonuses(env,ids):Promise.resolve(new Map()),
+    draftDecks?releasedMercenaryFormations(env,ids,'PVP'):Promise.resolve(new Map()),FORGE_RUNTIME_RELEASE_ENABLED?forgeEquipmentBonuses(env,ids):Promise.resolve(new Map()),
     // Keep the five JSON deck ids as the outer loop. The previous implicit JOIN
     // order scanned every owned card (and, in practice, the effective card view)
     // for every candidate, producing tens of millions of reads per matchmaking
     // request. CROSS JOIN fixes the loop order and the composite user_cards PK
     // resolves each of the five cards directly.
-    env.DB.prepare(`SELECT d.user_id,c.id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level
-      FROM pvp_decks d
+    env.DB.prepare(`${draftDecks?"WITH draft_decks AS (SELECT CAST(json_extract(x.value,'$.userId') AS INTEGER) user_id,json_extract(x.value,'$.deck') card_ids FROM json_each(?) x) ":''}SELECT d.user_id,c.id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level
+      FROM ${draftDecks?'draft_decks':'pvp_decks'} d
       CROSS JOIN json_each(d.card_ids) j
       CROSS JOIN cards_effective_v1210 c
       CROSS JOIN user_cards uc
       WHERE d.user_id IN (${marks})
         AND c.id=CAST(j.value AS TEXT)
-        AND uc.user_id=d.user_id AND uc.card_id=c.id AND uc.quantity>0`).bind(...ids).all(),
+        AND uc.user_id=d.user_id AND uc.card_id=c.id AND uc.quantity>0`).bind(...(draftDecks?[JSON.stringify(draftDecks),...ids]:ids)).all(),
     env.DB.prepare(`SELECT l.user_id,COALESCE(SUM(i.pvp_power),0) power FROM user_equipment_loadout l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.is_active=1 WHERE l.user_id IN (${marks}) AND i.slot<>'BATTLE_SUIT' AND i.code NOT IN (${MERCENARY_EQUIPMENT_SQL_CODES}) GROUP BY l.user_id`).bind(...ids).all(),
     env.DB.prepare(`SELECT l.user_id,COALESCE(g.pvp_power,0) power FROM user_garage_loadout l JOIN user_garage_vehicles v ON v.user_id=l.user_id AND v.garage_id=l.garage_id JOIN character_garage_items g ON g.id=l.garage_id AND g.is_active=1 WHERE l.user_id IN (${marks})`).bind(...ids).all(),
     env.DB.prepare(`SELECT l.user_id,COALESCE(t.pve_power,0) power FROM user_title_loadout l JOIN user_character_titles u ON u.user_id=l.user_id AND u.title_id=l.title_id AND (u.expires_at IS NULL OR u.expires_at>CURRENT_TIMESTAMP) JOIN character_titles t ON t.id=l.title_id AND t.is_active=1 WHERE l.user_id IN (${marks})`).bind(...ids).all()
@@ -1200,7 +1206,7 @@ async function pvpDefenseFormationPowers(env,userIds,battle){
   const result=new Map(ids.map(id=>[id,{power:0,count:0,superstarCount:0,iconCount:0}]));for(const row of cardRows.results||[]){const state=result.get(Number(row.user_id));if(state){state.power+=cardBattlePower(row,Number(row.breakthrough_level||0),battle);state.count++;state.superstarCount+=superstarDeckCount([row]);state.iconCount+=iconDeckCount([row])}}
   for(const rows of [equipmentRows.results||[],garageRows.results||[],titleRows.results||[]])for(const row of rows){const state=result.get(Number(row.user_id));if(state)state.power+=Number(row.power||0)}
   const avatarPowers=await avatarBattlePowerPercents(env,ids);
-  return new Map([...result].map(([id,state])=>{const rawMercenaryPower=mercenarySnapshotPower(mercenaries.get(id)),mercenaryPower=avatarScaledPower(rawMercenaryPower,avatarPowers.get(id)),power=Math.max(0,avatarScaledPower(Math.floor(state.power+Number(forgeBonuses.get(id)?.pvp||0)+rawMercenaryPower),avatarPowers.get(id)));return [id,{power,matchPower:rankedMatchPower(power,mercenaryPower),deckReady:state.count===5&&state.superstarCount<=SUPERSTAR_DECK_LIMIT&&state.iconCount<=ICON_DECK_LIMIT}]}));
+  return new Map([...result].map(([id,state])=>{const rawMercenaryPower=draftDecks?mercenaryFormationPower(mercenaries.get(id)):mercenarySnapshotPower(mercenaries.get(id)),mercenaryPower=avatarScaledPower(rawMercenaryPower,avatarPowers.get(id)),power=Math.max(0,avatarScaledPower(Math.floor(state.power+Number(forgeBonuses.get(id)?.pvp||0)+rawMercenaryPower),avatarPowers.get(id)));return [id,{power,matchPower:rankedMatchPower(power,mercenaryPower),deckReady:state.count===5&&state.superstarCount<=SUPERSTAR_DECK_LIMIT&&state.iconCount<=ICON_DECK_LIMIT}]}));
 }
 async function createRankedMatchTicket(env,user,settings){
   await ensureRankedPvpFoundation(env);
@@ -4113,23 +4119,23 @@ async function liveOperationAlerts(env){
     const [result,coup,duo,organization,faction]=await Promise.all([env.DB.prepare(`WITH
     territory AS (
       SELECT 'TERRITORY' kind,
-        CASE r.status WHEN 'RECRUITING' THEN 'FORMATION' WHEN 'PREPARING' THEN 'PREPARING' ELSE 'BATTLE' END phase,
+        CASE WHEN draft.value IS NOT NULL THEN CASE WHEN r.status='ACTIVE' OR (r.status='PREPARING' AND datetime(r.starts_at)<=CURRENT_TIMESTAMP) THEN 'DRAFT_BATTLE' WHEN datetime(r.recruitment_ends_at)<=CURRENT_TIMESTAMP THEN 'DRAFT_READY' ELSE 'DRAFT_WAIT' END ELSE CASE r.status WHEN 'RECRUITING' THEN 'FORMATION' WHEN 'PREPARING' THEN 'PREPARING' ELSE 'BATTLE' END END phase,
         r.id entity_id,
         COALESCE(NULLIF(TRIM(r.battle_name),''),'PROJECT V3 영토전') title,
-        CASE r.status
+        CASE WHEN draft.value IS NOT NULL AND r.status='PREPARING' AND datetime(r.starts_at)<=CURRENT_TIMESTAMP THEN '실시간 전선 공성 진행 중' WHEN draft.value IS NOT NULL AND r.status<>'ACTIVE' THEN CASE WHEN datetime(r.recruitment_ends_at)<=CURRENT_TIMESTAMP THEN '전선 개방 · 차출 명령 하달' ELSE '개전 5분 전 전선 개방' END ELSE CASE r.status
           WHEN 'RECRUITING' THEN '전투단 편성 접수 중'
           WHEN 'PREPARING' THEN '진영 편성 완료 · 개전 준비 중'
           ELSE '실시간 전선 공성 진행 중'
-        END detail,
-        CASE r.status WHEN 'RECRUITING' THEN r.recruitment_ends_at WHEN 'PREPARING' THEN r.starts_at ELSE r.ends_at END deadline_at,
+        END END detail,
+        CASE WHEN draft.value IS NOT NULL AND r.status='PREPARING' AND datetime(r.starts_at)<=CURRENT_TIMESTAMP THEN r.ends_at WHEN draft.value IS NOT NULL AND r.status<>'ACTIVE' THEN draft.value ELSE CASE r.status WHEN 'RECRUITING' THEN r.recruitment_ends_at WHEN 'PREPARING' THEN r.starts_at ELSE r.ends_at END END deadline_at,
         1 sort_order
-      FROM territory_war_v3_rounds r
+      FROM territory_war_v3_rounds r LEFT JOIN app_meta draft ON draft.key='territory_draft_v1:'||CAST(r.id AS TEXT)
       WHERE r.status IN ('RECRUITING','PREPARING','ACTIVE')
-        AND CASE r.status
+        AND (draft.value IS NOT NULL AND (r.status='RECRUITING' OR r.status='PREPARING' AND datetime(r.ends_at)>CURRENT_TIMESTAMP) OR CASE r.status
           WHEN 'RECRUITING' THEN r.recruitment_ends_at IS NOT NULL AND datetime(r.recruitment_ends_at)>CURRENT_TIMESTAMP
           WHEN 'PREPARING' THEN r.starts_at IS NOT NULL AND datetime(r.starts_at)>CURRENT_TIMESTAMP
           ELSE r.ends_at IS NULL OR datetime(r.ends_at)>CURRENT_TIMESTAMP
-        END
+        END)
         AND EXISTS(SELECT 1 FROM app_meta m WHERE m.key='territory_war_settings_v3'
           AND json_valid(m.value) AND UPPER(COALESCE(json_extract(m.value,'$.mode'),'OFF'))='ON')
       ORDER BY CASE r.status WHEN 'ACTIVE' THEN 0 WHEN 'PREPARING' THEN 1 ELSE 2 END,r.id DESC LIMIT 1
@@ -4167,7 +4173,10 @@ async function liveOperationAlerts(env){
           AND COALESCE(LOWER(CAST(json_extract(m.value,'$.ownerOnlyTest') AS TEXT)),'false') IN ('0','false'))
       ORDER BY CASE ri.status WHEN 'BATTLE' THEN 0 ELSE 1 END,ri.id DESC LIMIT 1
     )
-    SELECT * FROM territory UNION ALL SELECT * FROM seal
+    SELECT * FROM territory UNION ALL
+    SELECT 'TERRITORY_SCHEDULE','SCHEDULE',0,'',m.value,(SELECT draft.value FROM territory_war_v3_rounds r LEFT JOIN app_meta draft ON draft.key='territory_draft_v1:'||CAST(r.id AS TEXT) ORDER BY r.id DESC LIMIT 1),1
+    FROM app_meta m WHERE m.key='territory_war_settings_v3' AND json_valid(m.value) AND json_extract(m.value,'$.mode')='ON' AND json_extract(m.value,'$.autoOpen.kind') IN ('ONCE','WEEKLY') AND NOT EXISTS(SELECT 1 FROM territory)
+    UNION ALL SELECT * FROM seal
     UNION ALL SELECT * FROM auction UNION ALL SELECT * FROM raid ORDER BY sort_order`).all(),coupLiveOperation(env,now).catch(error=>{console.error('Coup lobby summary unavailable',error?.message);return null;}),rankedDuoLiveOperation(env,now).catch(error=>{console.error('Duo lobby summary unavailable',error?.message);return null;}),organizationLiveOperation(env,now).catch(error=>{console.error('Organization lobby summary unavailable',error?.message);return null;}),organizationFactionLiveOperation(env,now).catch(error=>{console.error('Faction lobby summary unavailable',error?.message);return null;})]);
     const value=(result.results||[]).map(row=>({
       kind:String(row.kind||''),phase:String(row.phase||''),entityId:Number(row.entity_id||0),
@@ -5137,10 +5146,10 @@ async function handleRequest(context){
     const landResponse=await handleSoopketLand({path,request,env,deps:{authenticate,readBody,json,isRandomDrawExcluded,cleanBurningEventSettings,invalidateBurning:()=>{burningEventCache=null;invalidateEquipmentPromotionCache()}}});if(landResponse)return landResponse;
 
     if(path==='live-operations'&&request.method==='GET'){
-      const items=await liveOperationAlerts(env),payload=JSON.stringify(presentOriginalIpResponse(path,{items,serverNow:new Date().toISOString(),pollSeconds:30}));
+      const schedule=visibleTerritorySchedule(await liveOperationAlerts(env)),payload=JSON.stringify(presentOriginalIpResponse(path,{...schedule,serverNow:new Date().toISOString(),pollSeconds:30}));
       return new Response(payload,{headers:{
         'content-type':'application/json; charset=utf-8',
-        'cache-control':'public, max-age=10, stale-while-revalidate=20'
+        'cache-control':schedule.nextTerritoryChangeAt?'public, max-age=0, must-revalidate':'public, max-age=10, stale-while-revalidate=20'
       }});
     }
 
@@ -5267,7 +5276,7 @@ async function handleRequest(context){
     const duoResponse=await handleRankedDuo({path,request,env,deps:{authenticate,readBody,json,readBattleSettings,cardBattlePower,battleEngineState,cardUniqueDeckStates,evaluateDeckSynergiesBatch,duoMagicLoadouts}});if(duoResponse)return duoResponse;
     const cityResponse=await handleJokgakCity({path,request,env,deps:{authenticate,json,pvpDeckSnapshot,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout,withUserMutationLock:withJointUserMutationLock}});if(cityResponse)return cityResponse;
     const coupResponse=await handleCoup({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,evaluateDeckSynergiesBatch,magicBattleLoadout,magicBattleLoadouts}});if(coupResponse)return coupResponse;
-    const territoryWarResponse=await handleTerritoryWar({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,evaluateDeckSynergiesBatch,magicBattleLoadout,magicBattleLoadouts}});if(territoryWarResponse)return territoryWarResponse;
+    const territoryWarResponse=await handleTerritoryWar({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,draftFormationPowers,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,evaluateDeckSynergiesBatch,magicBattleLoadout,magicBattleLoadouts}});if(territoryWarResponse)return territoryWarResponse;
     const organizationFactionResponse=await handleOrganizationFaction({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout}});if(organizationFactionResponse)return organizationFactionResponse;
     const organizationResponse=await handleOrganization({path,request,env,deps:{afterClanJoin:settleComebackMissions,authenticate,readBody,json,readBattleSettings,cardBattlePower,battleEngineState,cardUniqueDeckStates,evaluateDeckSynergiesBatch,duoMagicLoadouts}});if(organizationResponse)return organizationResponse;
     const clanResponse=await handleClan({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout}});if(clanResponse)return clanResponse;
@@ -9573,6 +9582,6 @@ export async function runUserAuctionSchedule(env){
 
 export async function runTerritoryWarSchedule(env){
   const runtime=await createPostgresD1Compat(env.HYPERDRIVE?.connectionString);
-  try{return await tickTerritorySchedule({...env,DB:runtime.db},{battleSettings,cardBattlePower,pvpDeckSnapshot,pvpDeckSnapshotByIds,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,evaluateDeckSynergiesBatch,magicBattleLoadout,magicBattleLoadouts});}
+  try{return await tickTerritorySchedule({...env,DB:runtime.db},{draftFormationPowers,battleSettings,cardBattlePower,pvpDeckSnapshot,pvpDeckSnapshotByIds,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,evaluateDeckSynergiesBatch,magicBattleLoadout,magicBattleLoadouts});}
   finally{await runtime.close();}
 }
