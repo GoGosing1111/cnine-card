@@ -1,0 +1,358 @@
+{
+  "verifiedAt": "2026-11-09T07:38:25.537Z",
+  "source": "de7531af173867e78fd076793b91561591be8b64",
+  "pages": {
+    "at": "2026-11-09T07:34:32.902Z",
+    "id": "b29ebf31-5785-45f8-9485-50aa3b152dd5",
+    "url": "https://b29ebf31.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "de7531af173867e78fd076793b91561591be8b64"
+  },
+  "workers": [
+    "09abc43a-c895-4413-987a-17525e8f33ed",
+    "288eb4b1-4a85-4604-b81e-a97f256bbbf6"
+  ],
+  "access": "로비 → 대전 · PVP → 영토전. 운영 중지·모집에서는 기존 대기/모집 화면, 개전 뒤 전선 지도에 적용.",
+  "liveRound": {
+    "observed": "2026-11-09T07:34:37.455Z",
+    "readonly": "on",
+    "mode": "OFF",
+    "scheduled": null,
+    "round": "97",
+    "status": "DISABLED"
+  },
+  "productionFiles": 20000,
+  "verifiedRoutes": [
+    {
+      "file": "index.html",
+      "bytes": 51432,
+      "hash": "82543f1b202dee821bfb1d9b002548aad486e4cf4b9f89c3a558e9a5592dc90e",
+      "windows": true
+    },
+    {
+      "file": "onestore/index.html",
+      "bytes": 51026,
+      "hash": "588cb01910edbba1ead1193f6eb3e90831f21a0bc0de374b406ef876179d417b",
+      "windows": false
+    },
+    {
+      "file": "service-worker.js",
+      "bytes": 25321,
+      "hash": "bb075035f4b7dd9a882f11e35e786622ebf75b76af7e884a096a1fffd847f200",
+      "windows": false
+    },
+    {
+      "file": "css/territory-network-v6.css",
+      "bytes": 56809,
+      "hash": "e0b51e396c4f15b58e6f8a9c4f76ded2ec46e8f21675d943fcd9da5d2bbd52cd",
+      "windows": true
+    },
+    {
+      "file": "js/territory-network-v6.js",
+      "bytes": 15224,
+      "hash": "5d527536c3fd258722103038743288044f0c6b2d0b0aab04fdbbf65a46802c7a",
+      "windows": true
+    },
+    {
+      "file": "js/territory-war-v1811.js",
+      "bytes": 92312,
+      "hash": "e6eeb9a030c57ef9aa70595699f879a25b12117e6971f51a15b5972a8456312f",
+      "windows": true
+    },
+    {
+      "file": "js/territory-battlefield-v5.js",
+      "bytes": 20709,
+      "hash": "d669a682ad4051a9da175f5a159ff9c5cb6b08469da20ea366f413eb34dec80c",
+      "windows": true
+    },
+    {
+      "file": "assets/ui/territory-war/frontline-20261109/hud.webp",
+      "bytes": 25322,
+      "hash": "74f4477cb8b75a099d3c3e5596fb142d331d4596486b53b55bf1978c5f1ca0e3",
+      "windows": true
+    },
+    {
+      "file": "assets/ui/territory-war/frontline-20261109/terrain-wide.webp",
+      "bytes": 277470,
+      "hash": "5063677861588c3e6104b054363aa2a5193f7ea52b96633df2a35da7e3357467",
+      "windows": true
+    },
+    {
+      "file": "assets/ui/territory-war/frontline-20261109/terrain-mobile.webp",
+      "bytes": 108708,
+      "hash": "538ed7596c0a7f04af1899a2ae1e5cdf28259d2a261c58964c89afb5a112bb52",
+      "windows": true
+    }
+  ],
+  "regressionTests": 44,
+  "windows": {
+    "release": "2d1586602e480fe36f46f6040418df905a3cdd8726e894cf1434807420eb221d",
+    "changed": [
+      "/assets/ui/territory-war/frontline-20261109/hud.webp",
+      "/assets/ui/territory-war/frontline-20261109/terrain-mobile.webp",
+      "/assets/ui/territory-war/frontline-20261109/terrain-wide.webp",
+      "/css/territory-network-v6.css",
+      "/index.html",
+      "/js/territory-battlefield-v5.js",
+      "/js/territory-network-v6.js",
+      "/js/territory-war-v1811.js"
+    ],
+    "removed": []
+  },
+  "art": {
+    "tool": "built-in ImageGen",
+    "originalsAndPrompts": "operations/territory-radio-depth-20261109/art/",
+    "runtimeDirectory": "assets/ui/territory-war/frontline-20261109/",
+    "files": [
+      {
+        "name": "terrain.original.png",
+        "width": 1672,
+        "height": 941,
+        "hasAlpha": false,
+        "bytes": 3798587,
+        "sha256": "49eb38be5ae2e430310167223c7d6547a1750dcf8edd2b601fb8ce4bb16c9727"
+      },
+      {
+        "name": "hud.original.png",
+        "width": 1536,
+        "height": 1024,
+        "hasAlpha": true,
+        "bytes": 2087893,
+        "sha256": "3c088d3ca0eef4822d2aa318e8da12aee53a3462da45134a5a39c10d0e17379a"
+      },
+      {
+        "name": "terrain-wide.webp",
+        "width": 1440,
+        "height": 810,
+        "hasAlpha": false,
+        "bytes": 277470,
+        "sha256": "5063677861588c3e6104b054363aa2a5193f7ea52b96633df2a35da7e3357467"
+      },
+      {
+        "name": "terrain-mobile.webp",
+        "width": 680,
+        "height": 654,
+        "hasAlpha": false,
+        "bytes": 108708,
+        "sha256": "538ed7596c0a7f04af1899a2ae1e5cdf28259d2a261c58964c89afb5a112bb52"
+      },
+      {
+        "name": "hud.webp",
+        "width": 312,
+        "height": 208,
+        "hasAlpha": true,
+        "bytes": 25322,
+        "sha256": "74f4477cb8b75a099d3c3e5596fb142d331d4596486b53b55bf1978c5f1ca0e3"
+      }
+    ]
+  },
+  "checks": [
+    "두 활동 거점의 교전중 아이콘, 9개 거점 및 세 주 행동의 그림 아이콘",
+    "전선 무전 다음·일시정지와 자동 전환, 거점 공방 승리·개인전·집중 교전·점령 수·휴전·정산·조용한 전선 구분",
+    "거점 선택 → 현장 진입 → 지도 복귀, 전술 작전·내 전투단 버튼",
+    "교전 연출 끄기와 재개, 320px 동작 줄이기·수동 무전, 관전/지난 전선 호환"
+  ],
+  "review": [
+    {
+      "client": "public-1440",
+      "width": 1440,
+      "overflowPx": 0,
+      "reducedMotion": false,
+      "atlas": [
+        312,
+        208
+      ],
+      "errors": []
+    },
+    {
+      "client": "public-390",
+      "width": 390,
+      "overflowPx": 0,
+      "reducedMotion": false,
+      "atlas": [
+        312,
+        208
+      ],
+      "errors": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ]
+    },
+    {
+      "client": "after-320",
+      "width": 320,
+      "overflowPx": 0,
+      "reducedMotion": true,
+      "atlas": [
+        312,
+        208
+      ],
+      "errors": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ]
+    }
+  ],
+  "performance": [
+    {
+      "client": "1440",
+      "before": {
+        "environment": "Windows headless Chromium",
+        "screen": [
+          1440,
+          900
+        ],
+        "firstActionableFrameMs": 68,
+        "warmActionableFrameMs": 26,
+        "firstTerrainDecodedMs": 158,
+        "warmTerrainDecodedMs": 149,
+        "apiMs": 8,
+        "frameP95Ms": 4.3,
+        "frames": 1709,
+        "framesOver50Ms": 0,
+        "sectorSelectionMs": 18.6,
+        "requestsAfterExit": 0
+      },
+      "after": {
+        "environment": "Windows headless Chromium",
+        "screen": [
+          1440,
+          900
+        ],
+        "firstActionableFrameMs": 62,
+        "warmActionableFrameMs": 31,
+        "firstTerrainDecodedMs": 181,
+        "warmTerrainDecodedMs": 162,
+        "apiMs": 7,
+        "frameP95Ms": 4.3,
+        "frames": 1612,
+        "framesOver50Ms": 1,
+        "sectorSelectionMs": 35.1,
+        "requestsAfterExit": 0
+      }
+    },
+    {
+      "client": "390",
+      "before": {
+        "environment": "Windows WebKit touch emulation",
+        "screen": [
+          390,
+          844
+        ],
+        "firstActionableFrameMs": 38,
+        "warmActionableFrameMs": 41,
+        "firstTerrainDecodedMs": 184,
+        "warmTerrainDecodedMs": 166,
+        "apiMs": 7,
+        "frameP95Ms": 32,
+        "frames": 270,
+        "framesOver50Ms": 0,
+        "sectorSelectionMs": 40,
+        "requestsAfterExit": 0
+      },
+      "after": {
+        "environment": "Windows WebKit touch emulation",
+        "screen": [
+          390,
+          844
+        ],
+        "firstActionableFrameMs": 54,
+        "warmActionableFrameMs": 59,
+        "firstTerrainDecodedMs": 223,
+        "warmTerrainDecodedMs": 153,
+        "apiMs": 10,
+        "frameP95Ms": 35,
+        "frames": 264,
+        "framesOver50Ms": 0,
+        "sectorSelectionMs": 72,
+        "requestsAfterExit": 0
+      }
+    },
+    {
+      "client": "1440-windows",
+      "before": {
+        "environment": "Windows packaged Electron QA runtime",
+        "screen": [
+          1440,
+          900
+        ],
+        "firstActionableFrameMs": 64,
+        "warmActionableFrameMs": 30,
+        "firstTerrainDecodedMs": 125,
+        "warmTerrainDecodedMs": 144,
+        "apiMs": 6,
+        "frameP95Ms": 16.7,
+        "frames": 429,
+        "framesOver50Ms": 0,
+        "sectorSelectionMs": 24.4,
+        "requestsAfterExit": 0
+      },
+      "after": {
+        "environment": "Windows packaged Electron QA runtime",
+        "screen": [
+          1440,
+          900
+        ],
+        "firstActionableFrameMs": 130,
+        "warmActionableFrameMs": 32,
+        "firstTerrainDecodedMs": 418,
+        "warmTerrainDecodedMs": 58,
+        "apiMs": 14,
+        "frameP95Ms": 16.8,
+        "frames": 406,
+        "framesOver50Ms": 1,
+        "sectorSelectionMs": 26.2,
+        "requestsAfterExit": 0
+      }
+    },
+    {
+      "client": "390-h5",
+      "before": {
+        "environment": "Windows Chromium, ONE store H5 SDK emulation",
+        "screen": [
+          390,
+          844
+        ],
+        "firstActionableFrameMs": 96,
+        "warmActionableFrameMs": 44,
+        "firstTerrainDecodedMs": 411,
+        "warmTerrainDecodedMs": 106,
+        "apiMs": 12,
+        "frameP95Ms": 4.3,
+        "frames": 1710,
+        "framesOver50Ms": 0,
+        "sectorSelectionMs": 32.7,
+        "requestsAfterExit": 0
+      },
+      "after": {
+        "environment": "Windows Chromium, ONE store H5 SDK emulation",
+        "screen": [
+          390,
+          844
+        ],
+        "firstActionableFrameMs": 70,
+        "warmActionableFrameMs": 24,
+        "firstTerrainDecodedMs": 220,
+        "warmTerrainDecodedMs": 50,
+        "apiMs": 6,
+        "frameP95Ms": 4.3,
+        "frames": 1591,
+        "framesOver50Ms": 0,
+        "sectorSelectionMs": 23.1,
+        "requestsAfterExit": 0
+      }
+    }
+  ],
+  "naturalRadio": {
+    "first": "중앙 교차지",
+    "second": "북동 요새",
+    "rotationMs": 6898,
+    "polledReport": "북서 고지\n양측 교전이 집중되고 있습니다."
+  },
+  "conditions": "동일한 테스트 회차와 따뜻한 로컬 정적 원본으로 실제 게임 로비의 PVP 영토전 버튼을 눌렀다. 새 문서와 같은 문서 재진입을 따로 측정했다. 입력부터 조작 가능한 거점의 첫 rAF 및 지형 디코드 완료까지 각각 기록. 지도에서 7.2초간 rAF와 50ms 초과 프레임 수 측정, 퇴장 후 14.5초간 영토전 요청 점검. Windows Chromium과 실제 설치 배포판 Electron 바이너리를 사용한 격리 QA 창. 모바일 WebKit 및 ONE store H5 부모는 Windows 에뮬레이션. 공개 배포본의 PC·모바일 UI는 격리 API 사용. 운영 DB는 READ ONLY.",
+  "optimization": "모바일에서 추가 타일 합성·그림자 비용을 줄이기 위해 카메라 원근은 정밀 포인터에만 적용하고, 교전중 모든 거점 표식은 유지하되 동적 포격은 가장 활발한 한 곳에 표시한다. PC는 최대 두 곳. 지형과 아이콘을 전장 상태 수신 시 함께 요청한다. 무전 전환은 기존 1초 틱을 사용한다.",
+  "observations": "최종 WebKit 에뮬레이션의 첫 지형 디코드는 184→223ms, 재진입은 166→153ms. 중간 구현의 프레임 p95 48ms를 35ms로 낮췄고, 최종 7.2초 동안 50ms 초과 0회였다. PC와 Windows 런타임에서는 각 1회 관측. 공개 390px에서 종전에도 관찰된 비치명 ResizeObserver 알림이 기록됐다.",
+  "media": {
+    "video": "operations/territory-radio-depth-20261109/review/public-1440/frontline.webm",
+    "desktop": "operations/territory-radio-depth-20261109/review/public-1440/map.png",
+    "mobile": "operations/territory-radio-depth-20261109/review/public-390/map.png"
+  }
+}
