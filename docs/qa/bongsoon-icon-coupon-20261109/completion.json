@@ -75,13 +75,13 @@
     "files": {
       "png": {
         "file": "output/announcements/bongsoon-icon-coupon-20261109/bongsoon-icon-coupon.png",
-        "sha256": "1e90e4e0ab663672b60371dadd04dabeba7ba719a0afca1de382fb8b7bc1b9c8",
-        "bytes": 1723587
+        "sha256": "4454d045ed139e8b04277b9b7926dc3e4f42dd518873033e2ad88fd12afee216",
+        "bytes": 1721624
       },
       "jpg": {
         "file": "output/announcements/bongsoon-icon-coupon-20261109/bongsoon-icon-coupon.jpg",
-        "sha256": "5894db39264f3ba57f7ac94bd280f1bf467d55b2e0423c81fcef4b6b43567fb6",
-        "bytes": 352975
+        "sha256": "f44d9a519c3339c045d015b8c9c1c07af329ecd7c1d7a7610c1e8f5fdfad1894",
+        "bytes": 349932
       }
     },
     "background": {
