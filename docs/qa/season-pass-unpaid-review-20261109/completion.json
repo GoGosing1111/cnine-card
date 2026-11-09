@@ -1,0 +1,342 @@
+{
+  "title": "슈라·아프저리가라 시즌패스 구매 임시 제한 및 미입금 신청 거절",
+  "status": "VERIFIED",
+  "operationKey": "ops:season-pass-unpaid-review:20261109:v1",
+  "completedAt": "2026-11-09T13:36:00.513Z",
+  "verifiedAt": "2026-11-09T13:36:08.841Z",
+  "scope": {
+    "decision": "두 건 모두 미입금으로 거절",
+    "purchaseHold": "시즌패스 신규 구매 및 연장 임시 제한, 운영자 해제 시까지",
+    "scopeMonths": [
+      1,
+      2
+    ],
+    "applicationMonth": 2,
+    "financialAmountWon": 0,
+    "entitlementsGranted": 0,
+    "access": "기존 후원 관리 OWNER 권한",
+    "release": "CMS → 후원 관리 → 대상 계정 조회 → 시즌패스 구매 제한 해제",
+    "reject": "CMS → 후원 관리 → 시즌패스 2개월차 구매 신청 → 신청 검토 → 미입금 거절"
+  },
+  "accounts": [
+    {
+      "id": 4010,
+      "nickname": "슈라",
+      "applicationMonth": 2,
+      "applicationStatus": "REJECTED",
+      "reason": "UNPAID",
+      "stillPending": false,
+      "purchaseHold": true,
+      "ownsFirstMonth": false,
+      "ownsSecondMonth": false,
+      "audits": {
+        "HOLD_PURCHASE": "57337",
+        "REJECT_UNPAID": "57338"
+      }
+    },
+    {
+      "id": 5514,
+      "nickname": "아프저리가라",
+      "applicationMonth": 2,
+      "applicationStatus": "REJECTED",
+      "reason": "UNPAID",
+      "stillPending": false,
+      "purchaseHold": true,
+      "ownsFirstMonth": false,
+      "ownsSecondMonth": false,
+      "audits": {
+        "HOLD_PURCHASE": "57339",
+        "REJECT_UNPAID": "57340"
+      }
+    }
+  ],
+  "verification": {
+    "database": "운영 PostgreSQL 단일 트랜잭션·정확한 신청 대조·사전 롤백 예행 실행. 커밋 후 별도 읽기 전용 트랜잭션에서 기존 후원 데이터 해시, 거절 영수증, 감사 및 CMS 목록과 두 달의 구매 상태를 재확인.",
+    "purchaseEntryPointsPerAccount": [
+      "server-support/apply (month 1)",
+      "server-support/apply (month 2)",
+      "server-support/pass/purchase-request"
+    ],
+    "expectedResponse": "403 SUPPORT_PURCHASE_HELD",
+    "subscriptionsChanged": 0,
+    "accountMessagesSent": 0,
+    "administrativeActionReceipts": 4,
+    "otherAccountDataMutations": 0,
+    "tests": {
+      "supportAndMonthlyRegression": 39,
+      "officialReleaseSelection": 29,
+      "storeDistribution": 7,
+      "selectionOverlap": true
+    },
+    "publicRelease": {
+      "source": "1de308b87811f7fe9ac1461b4f58663fea22e39b",
+      "pages": {
+        "id": "869b622a-a196-4460-9648-c7b9012e2d2c",
+        "url": "https://869b622a.cnine-card.pages.dev"
+      },
+      "workers": [
+        {
+          "name": "cnine-card-api-runtime",
+          "version": "70ef91d0-991b-4b73-92a7-c9368b7e5ce3",
+          "percentageAtRelease": 100,
+          "controls": {
+            "SUPPORT_PURCHASE_HELD": true,
+            "REJECT_UNPAID": true,
+            "RELEASE_PURCHASE": true,
+            "support_pass_unpaid_v1:": true
+          }
+        },
+        {
+          "name": "cnine-card-clan-draft",
+          "version": "be757d90-de4f-45a1-961b-917e38097948",
+          "percentageAtRelease": 100,
+          "controls": {}
+        }
+      ],
+      "verifiedPublicPaths": [
+        "js/adventure-lobby-v2107.js",
+        "js/server-support-v1.mjs",
+        "js/supporter-season-pass-v1.mjs",
+        "index.html",
+        "onestore/index.html",
+        "service-worker.js",
+        "admin/index.html",
+        "admin/server-support-admin-v1.mjs"
+      ],
+      "windowsManifest": {
+        "releaseId": "58fb05814f959224ca047174ea971527419b2d710c8d481f99953f70c63970b8",
+        "changed": [
+          "/index.html",
+          "/js/adventure-lobby-v2107.js",
+          "/js/server-support-v1.mjs",
+          "/js/supporter-season-pass-v1.mjs"
+        ]
+      },
+      "publicUnauthorizedReads": [
+        {
+          "route": "admin/server-support/package/alerts",
+          "status": 401
+        },
+        {
+          "route": "server-support/info",
+          "status": 401
+        }
+      ]
+    },
+    "publicUi": {
+      "profiles": {
+        "pc": {
+          "engine": "Windows desktop Chrome",
+          "actions": {
+            "reviewed": true,
+            "unpaidRejected": true,
+            "heldBothMonths": true,
+            "release": true,
+            "adminPollsAfterLogout": 0
+          },
+          "reviewFrames": {
+            "samples": 24,
+            "p95": 4.2000000000000455,
+            "over50": 0,
+            "max": 4.300000000000068
+          },
+          "afterDisposeIntervalsMs": [
+            5000
+          ]
+        },
+        "ios": {
+          "engine": "iPhone Safari / Windows WebKit emulation",
+          "actions": {
+            "reviewed": true,
+            "unpaidRejected": true,
+            "heldBothMonths": true,
+            "release": true,
+            "adminPollsAfterLogout": 0
+          },
+          "reviewFrames": {
+            "samples": 24,
+            "p95": 30,
+            "over50": 0,
+            "max": 30
+          },
+          "afterDisposeIntervalsMs": [
+            5000
+          ]
+        },
+        "android": {
+          "engine": "Android Chrome / Pixel 7 emulation",
+          "actions": {
+            "reviewed": true,
+            "unpaidRejected": true,
+            "heldBothMonths": true,
+            "release": true,
+            "adminPollsAfterLogout": 0
+          },
+          "reviewFrames": {
+            "samples": 24,
+            "p95": 4.2999999999999545,
+            "over50": 0,
+            "max": 4.699999999999989
+          },
+          "afterDisposeIntervalsMs": [
+            5000
+          ]
+        },
+        "windows": {
+          "engine": "Windows packaged Electron QA runtime",
+          "actions": {
+            "reviewed": true,
+            "unpaidRejected": true,
+            "heldBothMonths": true,
+            "release": true,
+            "adminPollsAfterLogout": 0
+          },
+          "reviewFrames": {
+            "samples": 24,
+            "p95": 16.799999999999955,
+            "over50": 0,
+            "max": 16.80000000000001
+          },
+          "afterDisposeIntervalsMs": [
+            5000
+          ]
+        }
+      },
+      "gameEntry": "공개 게임 로비 → 보상 → 시즌패스. 격리한 API로 두 달의 제한 안내와 구매 버튼 상태를 첫 진입·재진입에서 확인.",
+      "lobby": {
+        "pc": {
+          "first": {
+            "inputToPassReadyMs": 133,
+            "inputToBothMonthsCheckedMs": 793,
+            "heldMonths": [
+              1,
+              2
+            ]
+          },
+          "reentry": {
+            "inputToPassReadyMs": 30,
+            "inputToBothMonthsCheckedMs": 79,
+            "heldMonths": [
+              1,
+              2
+            ]
+          }
+        },
+        "ios": {
+          "first": {
+            "inputToPassReadyMs": 112,
+            "inputToBothMonthsCheckedMs": 1556,
+            "heldMonths": [
+              1,
+              2
+            ]
+          },
+          "reentry": {
+            "inputToPassReadyMs": 55,
+            "inputToBothMonthsCheckedMs": 906,
+            "heldMonths": [
+              1,
+              2
+            ]
+          }
+        }
+      },
+      "adminEntry": {
+        "firstQueueMs": 51,
+        "reentryQueueMs": 12,
+        "confirmed": [
+          "공개 CMS 셸에서 대기 목록 열기",
+          "구매 제한",
+          "미입금 거절",
+          "처리 이력",
+          "계정 조회 후 제한 해제"
+        ]
+      }
+    }
+  },
+  "performance": {
+    "conditions": "Windows PC의 Chrome 1440×960 및 iPhone 13 WebKit 에뮬레이션, 같은 SQLite 격리 API와 화면 입력 사용. 각 리비전의 독립 브라우저에서 모듈 준비 후 새 페이지의 첫 입력과 동일 페이지 재진입을 1회씩 측정. PC 브라우저 캐시는 첫 입력 전 비움. Android는 Pixel 7 에뮬레이션, Windows 앱은 기존 Electron QA 실행 파일. 실물 모바일 측정은 포함하지 않음.",
+    "endpoint": "passInteractiveMs는 시즌패스 열기 입력 후 내용 렌더링 다음 프레임까지, inputToMonthTwoMs는 2개월차 선택 완료까지. 실게임 로비와 CMS 시간은 공개 자산·격리 API로 별도 측정.",
+    "changes": "계정 조회에서 구매 제한을 키 인덱스로 함께 읽고, 계좌 안내 처리의 중복 계정 조회를 제거했다. 관리자 계정 조회의 독립 읽기는 병렬 처리한다. 1초 만료 검사 타이머는 열린 화면에서 만료를 확인할 항목이 있을 때만 동작한다.",
+    "afterExit": "CMS 로그아웃 후 후원 20초 폴링 0건. 시즌패스 화면 해제 후 잔여 1초 만료 타이머 0건. 측정 페이지에 공통 5초 타이머 1개가 남았다.",
+    "comparable": {
+      "pc": {
+        "before": {
+          "first": {
+            "inputToMonthTwoMs": 225.3,
+            "passInteractiveMs": 156.4,
+            "monthTwoTabFrameMs": 17.2
+          },
+          "reentry": {
+            "inputToMonthTwoMs": 36.2,
+            "passInteractiveMs": 11.8,
+            "monthTwoTabFrameMs": 7.3
+          },
+          "steadyFrames": {
+            "samples": 24,
+            "p95": 4.199999999999989,
+            "over50": 0,
+            "max": 4.300000000000011
+          }
+        },
+        "after": {
+          "first": {
+            "inputToMonthTwoMs": 206,
+            "passInteractiveMs": 127.7,
+            "monthTwoTabFrameMs": 9.9
+          },
+          "reentry": {
+            "inputToMonthTwoMs": 34.4,
+            "passInteractiveMs": 8.7,
+            "monthTwoTabFrameMs": 5.7
+          },
+          "steadyFrames": {
+            "samples": 24,
+            "p95": 4.2000000000000455,
+            "over50": 0,
+            "max": 4.300000000000011
+          }
+        }
+      },
+      "ios": {
+        "before": {
+          "first": {
+            "inputToMonthTwoMs": 697,
+            "passInteractiveMs": 70,
+            "monthTwoTabFrameMs": 238
+          },
+          "reentry": {
+            "inputToMonthTwoMs": 392,
+            "passInteractiveMs": 29,
+            "monthTwoTabFrameMs": 19
+          },
+          "steadyFrames": {
+            "samples": 24,
+            "p95": 24,
+            "over50": 0,
+            "max": 30
+          }
+        },
+        "after": {
+          "first": {
+            "inputToMonthTwoMs": 495,
+            "passInteractiveMs": 39,
+            "monthTwoTabFrameMs": 210
+          },
+          "reentry": {
+            "inputToMonthTwoMs": 393,
+            "passInteractiveMs": 38,
+            "monthTwoTabFrameMs": 18
+          },
+          "steadyFrames": {
+            "samples": 24,
+            "p95": 29,
+            "over50": 0,
+            "max": 31
+          }
+        }
+      }
+    }
+  },
+  "evidenceDirectory": "operations/season-pass-unpaid-review-20261109"
+}
