@@ -20,7 +20,7 @@ const cards=Array.from({length:5},(_,i)=>({id:String(i+1),title:'장비 검수',
 
 test('all 50 pieces preserve the mercenary slot ratio, exceed existing unique pieces, and increase at every tier',async()=>{
  assert.deepEqual(ASCENDANT_POWER_BASELINE,{WEAPON:200000,TOP:140000,BOTTOM:130000,SHOES:100000,ACCESSORY:120000});
- assert.equal(ASCENDANT_EQUIPMENT.length,50);assert.equal(new Set(MERCENARY_EQUIPMENT_CODES).size,80);
+ assert.equal(ASCENDANT_EQUIPMENT.length,50);assert.equal(REGION_EQUIPMENT.length,30);assert.equal(new Set(MERCENARY_EQUIPMENT_CODES).size,95);
  for(const code of ['ARDEN_TOP','ARDEN_BOTTOM','EMPEROR_TOP','EMPEROR_DUAL_DISK'])assert.equal(isMercenaryEquipment(code),false);
  for(const item of ASCENDANT_EQUIPMENT){
   const previous=item.tier===1?Math.max(...REGION_EQUIPMENT.filter(i=>i.slot===item.slot).map(i=>i.totalPower)):gear(item.tier-1).find(i=>i.slot===item.slot).totalPower;
@@ -59,7 +59,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: owne
  const f=await ascendantEquipmentFixture(t,{postgres}),coins=await f.coin();
  for(const tier of [1,10])for(const mode of ['PVE','PVP'])for(const item of gear(tier))await f.equip(mode,item);
  let state=await mercenaryEquipmentState(f.env,f.user);
- assert.equal(state.catalog.length,80);assert.equal(state.regions.length,15);assert.equal(state.regions.at(-1).five.shieldPercent,25);
+ assert.equal(state.catalog.length,95);assert.equal(state.regions.length,15);assert.equal(state.regions.at(-1).five.shieldPercent,25);
  for(const mode of ['PVE','PVP']){
   const loadout=state.loadouts[mode];assert.equal(loadout.power,mode==='PVE'?3105000:345000);assert.equal(loadout.sets[0].active,5);assert.deepEqual(loadout.effects,snapshotGear(10,mode).effects);
   const snapshot=await releasedMercenarySnapshot(f.env,f.user,mode);assert.equal(snapshot.equipment.mode,mode);assert.equal(snapshot.equipment.power,loadout.power);

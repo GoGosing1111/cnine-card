@@ -42,7 +42,8 @@ export async function attachPolishInventory(env,userId,items){
   const states=new Map(results.map(r=>[r.key,r.value]));
   return items.map(item=>{
     const gear=mercenaryEquipmentDefinition(item.code||item.item?.code),region=gear?regionById(gear.regionId)||ascendantSet(gear.regionId):null,polish=decodePolishState(states.get(polishStateKey(item.instanceId,userId)),item.instanceId,userId);
-    return {...item,regionEquipment:gear?{...gear,two:equipmentEffectText(region.two),four:equipmentEffectText(region.four),...(region.five?{five:equipmentEffectText(region.five),modes:region.modes}:{})}:null,polish,polishSummary:POLISH_OPTIONS.filter((o,i)=>polish.values[i]>0).map(o=>{const i=POLISH_OPTIONS.indexOf(o);return o.name+' +'+polish.values[i]+o.unit;}).join(' · ')};
+    const regionEquipment=region?{...gear,two:equipmentEffectText(region.two),four:equipmentEffectText(region.four),...(region.five?{five:equipmentEffectText(region.five),modes:region.modes}:{})}:gear;
+    return {...item,regionEquipment,polish,polishSummary:POLISH_OPTIONS.filter((o,i)=>polish.values[i]>0).map(o=>{const i=POLISH_OPTIONS.indexOf(o);return o.name+' +'+polish.values[i]+o.unit;}).join(' · ')};
   });
 }
 export async function restoredPolishStatements(db,userId,recordId){

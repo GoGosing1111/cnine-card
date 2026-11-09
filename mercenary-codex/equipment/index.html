@@ -4,7 +4,7 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#0b1420"><meta name="color-scheme" content="dark">
   <title>용병 장비 · 리버스콜</title>
-  <link rel="stylesheet" href="./style.css?v=20261105-mercenary-v2">
+  <link rel="stylesheet" href="./style.css?v=20261109-unique">
 </head>
 <body>
 <a class="skip" href="#storage">장비 보관함으로 이동</a>
@@ -30,12 +30,13 @@
       <div class="stage"><button id="openArt" class="portrait-button" aria-haspopup="dialog"><img id="portrait" src="/assets/ui/mercenary-codex/command-20261021/panel-v3.webp" alt="은설 원화"><span class="art-hint"><span data-icon="expand"></span>원화 보기</span></button><div id="slots" class="slots" role="group" aria-label="장비 부위 선택"></div></div>
       <div class="equipped-summary"><span id="slotCount"></span><button class="text-button" id="clearSlot">모든 부위 보기</button></div>
       <div class="power-summary"><div><span id="powerLabel"></span><small>장비가 더하는 전투력</small></div><strong id="gearPower"></strong></div>
+      <details id="individualPanel" class="set-effects" hidden open><summary>착용 중인 유니크 효과</summary><div id="individualList"></div></details>
       <details class="set-effects" open><summary>세트 효과 <span id="setCount"></span></summary><div id="setEffects"></div></details>
       <button class="ui-button inventory-jump" id="inventoryJump">장비 보관함 보기<span data-icon="down"></span></button>
     </section>
     <section id="storage" class="storage panel" aria-labelledby="storageTitle" tabindex="-1">
       <div class="section-heading"><h2 id="storageTitle">장비 보관함</h2><button class="ui-button icon-button" id="refresh" aria-label="장비 새로고침" data-icon="refresh"></button></div>
-      <div class="storage-tabs" role="group" aria-label="보유 장비와 장비 도감"><button class="ui-button" data-view="owned" aria-pressed="true">보유 장비 <span id="ownedCount"></span></button><button class="ui-button" data-view="catalog" aria-pressed="false">장비 도감 <span id="catalogCount"></span></button></div>
+      <div class="storage-tabs" role="group" aria-label="보유 장비와 장비 도감"><button class="ui-button" data-view="owned" aria-pressed="true">보유 장비 <span id="ownedCount"></span></button><button class="ui-button" data-view="catalog" aria-pressed="false">장비 도감 <span id="catalogCount"></span></button><button class="ui-button" data-view="unique" aria-pressed="false">유니크 도감</button></div>
       <label class="search-box"><span data-icon="search"></span><input id="gearSearch" type="search" placeholder="장비 이름 검색" aria-label="장비 이름 검색" maxlength="80"></label>
       <div class="filters"><label><span class="sr-only">장비 부위</span><select id="slotFilter"><option value="">모든 부위</option><option value="WEAPON">무기</option><option value="TOP">상의</option><option value="BOTTOM">하의</option><option value="SHOES">신발</option><option value="ACCESSORY">장신구</option></select></label><label><span class="sr-only">착용 상태</span><select id="ownerFilter"><option value="">착용 전체</option><option value="free">미착용</option><option value="self">선택 용병</option><option value="other">다른 용병</option></select></label><label><span class="sr-only">장비 정렬</span><select id="sortFilter"><option value="default">기본순</option><option value="power">표시 전투력순</option><option value="name">표시 이름순</option></select></label></div>
       <div class="list-caption"><span id="listContext"></span><span id="resultCount" role="status"></span></div>
@@ -51,5 +52,5 @@
 <dialog id="artDialog" class="art-dialog panel" aria-labelledby="artTitle"><header><h2 id="artTitle">용병 원화</h2><button class="ui-button" data-close="artDialog">닫기</button></header><img id="fullArt" src="/assets/ui/mercenary-codex/command-20261021/panel-v3.webp" alt="은설 원화"></dialog>
 <div id="toast" class="toast panel" role="status" aria-live="polite" hidden></div>
 <noscript><p>장비를 확인하려면 JavaScript를 켜 주세요.</p></noscript>
-<script type="module" src="./app.mjs?v=20261105-mercenary-v2"></script>
+<script type="module" src="./app.mjs?v=20261109-unique"></script>
 </body></html>

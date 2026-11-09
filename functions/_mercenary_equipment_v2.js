@@ -2,7 +2,8 @@ import {LOAN_CODES, PLAYABLE_MERCENARIES} from './_comeback_loans.js';
 import {MERCENARY_EQUIPMENT_SLOTS as SLOTS,MERCENARY_EQUIPMENT_SQL_CODES as SQL_CODES,MERCENARY_EQUIPMENT_CATALOG,mercenaryEquipmentImage,mercenaryEquipmentDefinition,ASCENDANT_EQUIPMENT_SETS,ascendantEquipmentEffects} from '../shared/mercenary-equipment-v1.mjs';
 import {LEGION_REGIONS} from '../shared/legion-regions-v1.mjs';
 import {equipmentEffectText} from '../shared/equipment-growth-text-v1.mjs';
-import {normalizedEquipmentEffects} from '../shared/equipment-combat-growth-v1.mjs';
+import {normalizedEquipmentEffects,addIndividualEquipmentEffects} from '../shared/equipment-combat-growth-v1.mjs';
+import {individualMercenaryBonuses} from '../shared/mercenary-unique-equipment-v1.mjs';
 import {forgePower} from '../shared/equipment-forge-policy-v1.mjs';
 import {readForgeAdvancedForLevels} from './_equipment_forge_advanced.js';
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
@@ -46,8 +47,14 @@ function gearItem(row,userId,advanced=null){
 const gearColumns='x.user_id,x.id AS instance_id,x.equipment_id,i.code,i.name,i.slot,i.rarity,i.total_power,i.pve_power,i.pvp_power,COALESCE(s.level,0) AS level,p.value';
 const gearJoins="LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id LEFT JOIN app_meta p ON p.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT))";
 function runtime(rows,id,mode,revision,advanced){
- const items=rows.map(r=>gearItem(r,id,advanced)),growth=equipmentGrowthFromRows(rows.map(r=>({...r,id:r.instance_id})),id),pvp=ascendantEquipmentEffects(rows.map(r=>r.code),'PVP');
- return {schemaVersion:1,mode,revision,power:items.reduce((sum,i)=>sum+i[mode==='PVE'?'pvePower':'pvpPower'],0),items,effects:mode==='PVE'?growth.effects:pvp.effects,sets:mode==='PVE'?growth.sets:pvp.sets,uniques:mode==='PVE'?growth.uniques:[],summary:mode==='PVE'?growth.summary:equipmentEffectText(normalizedEquipmentEffects(pvp.effects)),effectsMode:mode};
+ const items=rows.map(r=>gearItem(r,id,advanced));
+ const standard=mode==='PVE'?equipmentGrowthFromRows(rows.map(r=>({...r,id:r.instance_id})),id):ascendantEquipmentEffects(rows.map(r=>r.code),'PVP');
+ const individual=individualMercenaryBonuses(items);
+ const summary=individual?equipmentEffectText(addIndividualEquipmentEffects(normalizedEquipmentEffects(standard.effects),individual.effects)):
+   standard.summary??equipmentEffectText(normalizedEquipmentEffects(standard.effects));
+ return {schemaVersion:1,mode,revision,power:items.reduce((sum,i)=>sum+i[mode==='PVE'?'pvePower':'pvpPower'],0),items,
+  effects:standard.effects,sets:standard.sets,uniques:individual?[...standard.uniques,...individual.codes]:standard.uniques,
+  ...(individual?{individualEffects:individual.effects}:{}),summary,effectsMode:mode};
 }
 export async function mercenaryEquipmentRuntimes(env,userIds,mode='PVE',{records,selections}={}){
  mode=mercenaryMode(mode);records??=await readMercenaryEquipmentRecords(env,userIds);
@@ -64,7 +71,7 @@ async function inventoryPage(env,id,catalog,record,options){
  if(options.owner&&!['free','self','other'].includes(options.owner)||options.slot&&!SLOTS.includes(options.slot))throw jointError('MERCENARY_EQUIPMENT_FILTER','장비 필터를 확인하세요.');
  const cursor=options.cursor||'',match=cursor.match(/^([1-9][0-9]{0,8}):([1-9][0-9]{0,17})$/);if(cursor&&!match)throw jointError('MERCENARY_EQUIPMENT_CURSOR','장비 목록을 다시 불러오세요.');
  const boundary=match?Number(match[1]):Number.MAX_SAFE_INTEGER,limit=120,args=[];
- let defs=catalog.filter(i=>Number(i.is_active)===1&&Number(i.is_public)===1&&Number(i.id)<=boundary);if(options.slot)defs=defs.filter(i=>i.slot===options.slot);if(options.query)defs=defs.filter(i=>i.name.toLowerCase().includes(String(options.query).slice(0,80).toLowerCase()));
+ let defs=catalog.filter(i=>Number(i.is_active)===1&&Number(i.is_public)===1&&Number(i.id)<=boundary);if(options.slot)defs=defs.filter(i=>i.slot===options.slot);if(options.query){const query=String(options.query).slice(0,80).toLowerCase();defs=defs.filter(i=>{const gear=mercenaryEquipmentDefinition(i.code);return (gear?.individualEffects?[i.name,gear.family,gear.passiveName,gear.tier+'단계','유니크'].join(' '):i.name).toLowerCase().includes(query);});}
  const wearerIds=[];for(const [code,modes]of Object.entries(record.state.loadouts))for(const v of Object.values(modes))for(const instanceId of Object.values(v))if(instanceId)wearerIds.push([instanceId,code]);
  const ids=[...new Set(wearerIds.filter(([,code])=>options.owner==='self'?code===options.mercenaryCode:options.owner==='other'?code!==options.mercenaryCode:true).map(([i])=>i))];
  if((options.owner==='self'||options.owner==='other')&&!ids.length)return {rows:[],nextCursor:null};

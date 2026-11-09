@@ -3,14 +3,24 @@ export function normalizedEquipmentEffects(raw={}){
   const limits={hpPercent:30,attackPercent:30,speedPercent:15,shieldPercent:25,damageReductionPercent:15,criticalChancePoints:15,criticalDamagePoints:50,penetrationPoints:20,bossDamagePercent:40,shieldDamagePercent:30,leechPercent:5,criticalExtraPercent:15,echoEvery:12,echoPercent:40,uniqueEchoEvery:12,uniqueEchoPercent:40};
   return Object.fromEntries(Object.entries(limits).map(([key,max])=>[key,bounded(raw[key],max)]));
 }
-function applyEquipmentGrowth(fighters,runtime,allowMercenaryPvp=false){
-  if(!runtime?.effects||!Object.values(runtime.effects).some(Number))return fighters;
+export function addIndividualEquipmentEffects(standard,individual){
+  if(!individual)return standard;
+  const effects={...standard};
+  for(const [key,value] of Object.entries(individual))effects[key]=(effects[key]||0)+value;
+  return effects;
+}
+function applyEquipmentGrowth(fighters,runtime,allowMercenaryPvp=false,individual=null){
+  if(!runtime?.effects||(!individual&&!Object.values(runtime.effects).some(Number)))return fighters;
   for(const fighter of fighters){
     if(fighter.isMonster||fighter.battleMode==='PVP'&&!(allowMercenaryPvp&&fighter.isMercenary))continue;
-    const old=fighter.equipmentEffects||{},combined={...runtime.effects};
+    const old=fighter.equipmentStandardEffects||fighter.equipmentEffects||{},combined={...runtime.effects};
     for(const [key,value] of Object.entries(old))combined[key]=key==='echoEvery'||key==='uniqueEchoEvery'?Math.min(value||Infinity,combined[key]||Infinity):value+(Number(combined[key])||0);
     for(const key of ['echoEvery','uniqueEchoEvery'])if(combined[key]===Infinity)combined[key]=0;
-    const effects=normalizedEquipmentEffects(combined);
+    const standard=normalizedEquipmentEffects(combined);
+    if(individual&&fighter.isMercenary)fighter.equipmentIndividualEffects=individual;
+    const personal=fighter.isMercenary&&fighter.equipmentIndividualEffects;
+    if(personal)fighter.equipmentStandardEffects=standard;
+    const effects=addIndividualEquipmentEffects(standard,personal);
     // Personal mercenary gear and ordinary account polish can meet here.
     // Recompute from the unmodified entry stats so caps apply to their sum.
     const base=fighter.equipmentGrowthBase??={attack:fighter.attack,maxHp:fighter.maxHp,hp:fighter.hp,speed:fighter.speed,shield:fighter.shield,maxShield:fighter.maxShield};
@@ -23,8 +33,8 @@ function applyEquipmentGrowth(fighters,runtime,allowMercenaryPvp=false){
   }
   return fighters;
 }
-export const applyPveEquipmentGrowth=(fighters,runtime)=>applyEquipmentGrowth(fighters,runtime);
-export const applyPvpMercenaryEquipmentGrowth=(fighter,effects)=>fighter?.isMercenary&&fighter.battleMode==='PVP'?applyEquipmentGrowth([fighter],{effects},true):[fighter];
+export const applyPveEquipmentGrowth=(fighters,runtime,individual=null)=>applyEquipmentGrowth(fighters,runtime,false,individual);
+export const applyPvpMercenaryEquipmentGrowth=(fighter,effects,individual=null)=>fighter?.isMercenary&&fighter.battleMode==='PVP'?applyEquipmentGrowth([fighter],{effects},true,individual):[fighter];
 export function equipmentHitMultiplier(actor,target,critical){
   const fx=actor.equipmentEffects;if(!fx)return 1;
   return 1+(target.isBoss?fx.bossDamagePercent:0)/100+(target.shield>0?fx.shieldDamagePercent:0)/100+(critical?fx.criticalExtraPercent:0)/100;

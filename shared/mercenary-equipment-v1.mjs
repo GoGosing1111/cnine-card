@@ -1,12 +1,14 @@
-import {REGION_EQUIPMENT,REGION_EQUIPMENT_SLOTS,regionalEquipment} from './legion-regions-v1.mjs';
+import {REGION_EQUIPMENT,REGION_EQUIPMENT_SLOTS} from './legion-regions-v1.mjs';
+import {UNIQUE_MERCENARY_EQUIPMENT} from './mercenary-unique-equipment-v1.mjs';
 import {ASCENDANT_EQUIPMENT,ASCENDANT_EQUIPMENT_SETS,ascendantEquipment,ascendantEquipmentEffects,ascendantSet} from './mercenary-ascendant-equipment-v1.mjs';
 
 export const MERCENARY_EQUIPMENT_SLOTS=REGION_EQUIPMENT_SLOTS;
-export const MERCENARY_EQUIPMENT_CATALOG=Object.freeze([...REGION_EQUIPMENT,...ASCENDANT_EQUIPMENT]);
+export const MERCENARY_EQUIPMENT_CATALOG=Object.freeze([...REGION_EQUIPMENT,...ASCENDANT_EQUIPMENT,...UNIQUE_MERCENARY_EQUIPMENT]);
 export const MERCENARY_EQUIPMENT_CODES=MERCENARY_EQUIPMENT_CATALOG.map(item=>item.code);
 // Compile-time catalog identifiers only; never interpolate request values here.
 export const MERCENARY_EQUIPMENT_SQL_CODES=MERCENARY_EQUIPMENT_CODES.map(code=>`'${code}'`).join(',');
-export const mercenaryEquipmentDefinition=code=>regionalEquipment(code)||ascendantEquipment(code);
+const definitions=new Map(MERCENARY_EQUIPMENT_CATALOG.map(gear=>[gear.code,gear]));
+export const mercenaryEquipmentDefinition=code=>definitions.get(code)||null;
 export const isMercenaryEquipment=code=>Boolean(mercenaryEquipmentDefinition(code));
 export {ASCENDANT_EQUIPMENT_SETS,ascendantEquipmentEffects,ascendantSet};
 export const mercenaryEquipmentImage=code=>{
