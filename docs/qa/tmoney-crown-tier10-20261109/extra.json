@@ -1,0 +1,93 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:tmoney-mercenary-crown-tier10-extra:20261109:v1",
+  "auditId": "57261",
+  "completedAt": "2026-11-09T10:03:00.995Z",
+  "verifiedAt": "2026-11-09T10:03:07.072Z",
+  "userId": 5147,
+  "nickname": "T-Money™",
+  "setName": "창세의 왕관",
+  "tier": 10,
+  "level": 0,
+  "quantityPerSlot": 1,
+  "granted": 5,
+  "parts": [
+    {
+      "equipmentId": "166",
+      "code": "MERC_ASC_10_WEAPON",
+      "name": "창세의 왕관 무기",
+      "slot": "WEAPON",
+      "instanceId": "3228345531",
+      "level": 0,
+      "quantityGranted": 1,
+      "quantityBefore": 1,
+      "quantityAfter": 2,
+      "verifiedQuantity": 2,
+      "equipped": false
+    },
+    {
+      "equipmentId": "167",
+      "code": "MERC_ASC_10_TOP",
+      "name": "창세의 왕관 상의",
+      "slot": "TOP",
+      "instanceId": "3228345532",
+      "level": 0,
+      "quantityGranted": 1,
+      "quantityBefore": 1,
+      "quantityAfter": 2,
+      "verifiedQuantity": 2,
+      "equipped": false
+    },
+    {
+      "equipmentId": "168",
+      "code": "MERC_ASC_10_BOTTOM",
+      "name": "창세의 왕관 하의",
+      "slot": "BOTTOM",
+      "instanceId": "3228345533",
+      "level": 0,
+      "quantityGranted": 1,
+      "quantityBefore": 1,
+      "quantityAfter": 2,
+      "verifiedQuantity": 2,
+      "equipped": false
+    },
+    {
+      "equipmentId": "169",
+      "code": "MERC_ASC_10_SHOES",
+      "name": "창세의 왕관 신발",
+      "slot": "SHOES",
+      "instanceId": "3228345534",
+      "level": 0,
+      "quantityGranted": 1,
+      "quantityBefore": 1,
+      "quantityAfter": 2,
+      "verifiedQuantity": 2,
+      "equipped": false
+    },
+    {
+      "equipmentId": "170",
+      "code": "MERC_ASC_10_ACCESSORY",
+      "name": "창세의 왕관 장신구",
+      "slot": "ACCESSORY",
+      "instanceId": "3228345535",
+      "level": 0,
+      "quantityGranted": 1,
+      "quantityBefore": 1,
+      "quantityAfter": 2,
+      "verifiedQuantity": 2,
+      "equipped": false
+    }
+  ],
+  "autoEquipped": false,
+  "verification": {
+    "source": "81cc8060380b704cf53d82d77252bb676b8c2150",
+    "readOnly": true,
+    "route": "GET /api/mercenaries/v3/equipment",
+    "owner": "free",
+    "timingScope": "Local released server handler on a single production database connection, no device or browser",
+    "firstReadMs": 582,
+    "repeatReadMs": 547
+  },
+  "previousOperationKey": "ops:tmoney-mercenary-crown-tier10:20261109:v1",
+  "previousAuditId": "57187"
+}
