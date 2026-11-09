@@ -1,0 +1,107 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:hiheeya-pig3000-mercenary-tier9:20261110:v1",
+  "userId": 4977,
+  "nickname": "하이희야♡",
+  "auditId": "57581",
+  "completedAt": "2026-11-09T22:14:21.470Z",
+  "verifiedAt": "2026-11-09T22:15:00.219Z",
+  "pig": {
+    "granted": 3000,
+    "before": 1070,
+    "after": 4070,
+    "ledgerId": "ops:hiheeya-pig3000-mercenary-tier9:20261110:v1:pig:4977",
+    "verifiedWalletBalance": 4070
+  },
+  "setId": "MERC_ASC_09",
+  "setName": "천룡태황",
+  "tier": 9,
+  "level": 0,
+  "autoEquipped": false,
+  "parts": [
+    {
+      "equipmentId": "161",
+      "code": "MERC_ASC_09_WEAPON",
+      "name": "천룡태황 무기",
+      "slot": "WEAPON",
+      "instanceId": "3239851205",
+      "level": 0,
+      "quantityGranted": 1,
+      "quantityBefore": 0,
+      "quantityAfter": 1
+    },
+    {
+      "equipmentId": "162",
+      "code": "MERC_ASC_09_TOP",
+      "name": "천룡태황 상의",
+      "slot": "TOP",
+      "instanceId": "3239851206",
+      "level": 0,
+      "quantityGranted": 1,
+      "quantityBefore": 0,
+      "quantityAfter": 1
+    },
+    {
+      "equipmentId": "163",
+      "code": "MERC_ASC_09_BOTTOM",
+      "name": "천룡태황 하의",
+      "slot": "BOTTOM",
+      "instanceId": "3239851207",
+      "level": 0,
+      "quantityGranted": 1,
+      "quantityBefore": 0,
+      "quantityAfter": 1
+    },
+    {
+      "equipmentId": "164",
+      "code": "MERC_ASC_09_SHOES",
+      "name": "천룡태황 신발",
+      "slot": "SHOES",
+      "instanceId": "3239851208",
+      "level": 0,
+      "quantityGranted": 1,
+      "quantityBefore": 0,
+      "quantityAfter": 1
+    },
+    {
+      "equipmentId": "165",
+      "code": "MERC_ASC_09_ACCESSORY",
+      "name": "천룡태황 장신구",
+      "slot": "ACCESSORY",
+      "instanceId": "3239851209",
+      "level": 0,
+      "quantityGranted": 1,
+      "quantityBefore": 0,
+      "quantityAfter": 1
+    }
+  ],
+  "verification": {
+    "readOnly": true,
+    "releasedSource": "faf730d6ab43130089fe49a51a574974e6364278",
+    "routes": [
+      "GET /api/loot-shop/balance",
+      "GET /api/mercenaries/v3/equipment?owner=free&query=천룡태황"
+    ],
+    "timingScope": "Local released handlers, read-only production database, first and repeat calls. Server timings only.",
+    "before": {
+      "first": {
+        "walletMs": 172,
+        "equipmentMs": 321
+      },
+      "repeat": {
+        "walletMs": 155,
+        "equipmentMs": 324
+      }
+    },
+    "after": {
+      "first": {
+        "walletMs": 176,
+        "equipmentMs": 327
+      },
+      "repeat": {
+        "walletMs": 155,
+        "equipmentMs": 319
+      }
+    }
+  }
+}
