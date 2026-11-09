@@ -124,7 +124,7 @@ import { handleAvatar,avatarFeatureAccess,equippedAvatarEffect,applyAvatarCoinGa
 import { handleVehicleDraw,ensureVehicleDrawFoundation } from '../_vehicle_draw.js';
 import { handlePrimeDraw } from '../_prime_draw.js';
 import { handleHighGradeReroll,grantHighGradeRerollDrop,ensureHighGradeRerollFoundation } from '../_high_grade_reroll.js';
-import {visibleTerritorySchedule} from '../_territory_draft.js';
+import {upcomingTerritoryScheduleSql,visibleTerritorySchedule} from '../_territory_draft.js';
 import { handleTerritoryWar,tickTerritorySchedule } from '../_territory_war.js';
 import { handleClan } from '../_clan.js';
 import {handleOrganization,reconcileOrganizationRecruitment,organizationLiveOperation,runOrganizationAllocation} from '../_organization.js';
@@ -4174,8 +4174,7 @@ async function liveOperationAlerts(env){
       ORDER BY CASE ri.status WHEN 'BATTLE' THEN 0 ELSE 1 END,ri.id DESC LIMIT 1
     )
     SELECT * FROM territory UNION ALL
-    SELECT 'TERRITORY_SCHEDULE','SCHEDULE',0,'',m.value,(SELECT draft.value FROM territory_war_v3_rounds r LEFT JOIN app_meta draft ON draft.key='territory_draft_v1:'||CAST(r.id AS TEXT) ORDER BY r.id DESC LIMIT 1),1
-    FROM app_meta m WHERE m.key='territory_war_settings_v3' AND json_valid(m.value) AND json_extract(m.value,'$.mode')='ON' AND json_extract(m.value,'$.autoOpen.kind') IN ('ONCE','WEEKLY') AND NOT EXISTS(SELECT 1 FROM territory)
+    ${upcomingTerritoryScheduleSql}
     UNION ALL SELECT * FROM seal
     UNION ALL SELECT * FROM auction UNION ALL SELECT * FROM raid ORDER BY sort_order`).all(),coupLiveOperation(env,now).catch(error=>{console.error('Coup lobby summary unavailable',error?.message);return null;}),rankedDuoLiveOperation(env,now).catch(error=>{console.error('Duo lobby summary unavailable',error?.message);return null;}),organizationLiveOperation(env,now).catch(error=>{console.error('Organization lobby summary unavailable',error?.message);return null;}),organizationFactionLiveOperation(env,now).catch(error=>{console.error('Faction lobby summary unavailable',error?.message);return null;})]);
     const value=(result.results||[]).map(row=>({

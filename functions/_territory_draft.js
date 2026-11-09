@@ -76,6 +76,13 @@ export function draftInsertStatements(env,roundId,assignments,energy) {
   return batch;
 }
 
+// This SELECT shares the live feed's territory CTE. Read the indexed settings row once.
+export const upcomingTerritoryScheduleSql = `
+  SELECT 'TERRITORY_SCHEDULE' AS kind,'SCHEDULE' AS phase,0 AS entity_id,'' AS title,m.value AS detail,
+    (SELECT d.value FROM territory_war_v3_rounds r LEFT JOIN app_meta d
+      ON d.key='territory_draft_v1:'||CAST(r.id AS TEXT) ORDER BY r.id DESC LIMIT 1) AS deadline_at,1 AS sort_order
+  FROM app_meta m WHERE m.key='territory_war_settings_v3' AND NOT EXISTS(SELECT 1 FROM territory)`;
+
 // The public feed contains shared scheduling only. Personal orders use a separate authenticated request.
 export function visibleTerritorySchedule(items,now=Date.now()){
   let nextAt=Infinity;
@@ -89,6 +96,7 @@ export function visibleTerritorySchedule(items,now=Date.now()){
     }
     let cfg;
     try{cfg=JSON.parse(item.detail);}catch{continue;}
+    if(cfg?.mode!=='ON')continue;
     const slot=nextDraftSlot(cfg,now);
     if(!slot||slot.battleAt===item.deadlineAt)continue;
     const notice=Date.parse(slot.noticeAt);

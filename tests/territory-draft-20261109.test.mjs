@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {territoryNetworkFixture} from './helpers/territory-network-fixture.mjs';
 import {seedDraftActivity,draftTestDeps} from './helpers/territory-draft-fixture.mjs';
-import {activeDraftRoster,deliverDraftOrder,visibleTerritorySchedule} from '../functions/_territory_draft.js';
+import {activeDraftRoster,deliverDraftOrder,upcomingTerritoryScheduleSql,visibleTerritorySchedule} from '../functions/_territory_draft.js';
 import {draftCandidate} from '../js/territory-draft-order.mjs';
 import {__territoryClanTest as T} from '../functions/_territory_war.js';
 const iso=ms=>new Date(ms).toISOString(),minute=60000,day=86400000;
@@ -16,6 +16,26 @@ test('public standby at T-30 and a personal order only after T-5 or during ongoi
   wait.entityId=14;assert.equal(draftCandidate([wait],battle-5*minute-1),undefined);assert.equal(draftCandidate([wait],battle-5*minute),wait);
   const fight={...wait,phase:'DRAFT_BATTLE',deadlineAt:iso(battle+minute)};assert.equal(draftCandidate([fight],battle),fight);assert.equal(draftCandidate([fight],battle+minute),undefined);
   assert.deepEqual(visibleTerritorySchedule([{...scheduled,deadlineAt:iso(battle)}],battle-minute).items,[]);
+});
+
+for(const pg of [false,true])test((pg?'PostgreSQL':'SQLite')+' public feed reads the nested schedule from stored settings before the first round',async t=>{
+  const f=await territoryNetworkFixture(t,pg,{participants:0});
+  const battle=Date.parse('2030-10-12T04:00:00Z');
+  const cfg={...f.cfg,mode:'ON',autoOpen:{kind:'ONCE',battleAt:iso(battle)}};
+  const save=value=>f.p("UPDATE app_meta SET value=? WHERE key='territory_war_settings_v3'",JSON.stringify(value)).run();
+  const read=async()=>{
+    const row=await f.p('WITH territory AS (SELECT 1 WHERE 1=0) '+upcomingTerritoryScheduleSql).first();
+    return now=>visibleTerritorySchedule([{...row,deadlineAt:row.deadline_at}],now);
+  };
+  await save(cfg);
+  const visible=await read();
+  assert.equal(visible(battle-31*minute).nextTerritoryChangeAt,iso(battle-30*minute));
+  assert.equal(visible(battle-30*minute).items[0].phase,'DRAFT_WAIT');
+  assert.equal(visible(battle-30*minute).nextTerritoryChangeAt,iso(battle-5*minute));
+  assert.equal(await f.p('WITH territory AS (SELECT 1) '+upcomingTerritoryScheduleSql).first(),null);
+  for(const off of [{...cfg,mode:'OFF'},{...cfg,autoOpen:{kind:'MANUAL'}}]){
+    await save(off);assert.deepEqual((await read())(battle-30*minute),{items:[],nextTerritoryChangeAt:null});
+  }
 });
 
 for(const pg of [false,true])test((pg?'PostgreSQL':'SQLite')+' draft fixes 150 active accounts once, balances 75/75 and delivers only one visible order per account/round',async t=>{
