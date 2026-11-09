@@ -1,0 +1,38 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:weekly-post:2026-11-02:coin500t-miracle3:v1",
+  "auditId": "57145",
+  "periodKST": {
+    "start": "2026-11-02",
+    "endInclusive": "2026-11-08"
+  },
+  "quest": "POST",
+  "board": "skm",
+  "minimumPosts": 300,
+  "completionReceiptsMatchedPostRecords": 51,
+  "recipients": 51,
+  "delivery": "GAME_INBOX",
+  "messagesPerRecipient": 2,
+  "perRecipient": {
+    "COIN": "500000000000000",
+    "MIRACLE_CUBE": "3"
+  },
+  "messages": 102,
+  "attachments": 102,
+  "totals": {
+    "COIN": "25500000000000000",
+    "MIRACLE_CUBE": "153"
+  },
+  "sentAtKST": "2026-11-09 13:18:06",
+  "verifiedAtKST": "2026-11-09 13:18:23",
+  "independentReadOnlyVerification": true,
+  "claimedAttachmentsAtVerification": 2,
+  "pendingAttachmentsAtVerification": 100,
+  "missing": 0,
+  "duplicates": 0,
+  "recipientMessageSyncUpdated": 51,
+  "planSha256": "b57a0bfac861ec1898ff0539b349b8a50f44b154cd4fc57273c8f3b5f41da5f7",
+  "rehearsalRolledBack": true,
+  "sendTransactionAndCheckMs": 1842,
+  "verificationTransactionAndCheckMs": 715
+}
