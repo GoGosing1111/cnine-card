@@ -18,6 +18,8 @@
 /* Reuse the approved command panel and action art for selection preferences. */
 .rs-console,.rs-console select,.rs-console button{box-sizing:border-box}.rs-console select,.rs-console button{max-width:100%}.rs-console select{overflow:hidden;text-overflow:ellipsis}
 .rs-select-control{min-width:0;max-width:100%;overflow:hidden}.rs-select-control:focus-within{outline:2px solid #9fe9ff;outline-offset:3px}
+.rs-promotion{display:grid;gap:4px;margin:10px 0 16px;padding:10px 14px;border-left:3px solid #bddb82;background:#162331;color:#eef3e7;text-align:left;overflow-wrap:anywhere}
+.rs-promotion strong{font-size:15px;color:#d4edaa}.rs-promotion span{font-size:13px;line-height:1.5;color:#d3e1eb}
 .rs-selection-tools{border:16px solid transparent;border-image:url('/assets/ui/mercenary-codex/command-20261021/panel-v3.webp') 48 fill stretch;padding:5px 7px 8px;margin:0 0 22px;min-width:0}
 .rs-filter-controls{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px}.rs-filter-controls label{font-size:14px;color:#e4edf4}.rs-filter-controls select{flex:1;min-width:130px;max-width:220px;min-height:44px;font:inherit;font-size:16px;color:#edf6ff;background:#101e2c;border:1px solid #547184;border-radius:2px;padding:7px 9px}
 .rs-selection-tools p{font-size:13px;line-height:1.6;margin:10px 0 3px;color:#d3e1eb}.rs-selection-tools small{display:block;font-size:12px;line-height:1.5;color:#aebfcd}.rs-selection-tools .rs-preference-warning{color:#ffe3a2}

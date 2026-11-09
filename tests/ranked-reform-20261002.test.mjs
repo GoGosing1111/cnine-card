@@ -5,7 +5,7 @@ import {DatabaseSync} from 'node:sqlite';
 import {PGlite} from '@electric-sql/pglite';
 import nodePg from 'pg';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
-import {rankedScoreAdjustment,rankedPowerDifference,rankedCandidateAllowed,rankedSqlUtc} from '../shared/ranked-reform-v1.mjs';
+import {rankedScoreAdjustment,rankedPowerDifference,rankedCandidateAllowed,rankedSqlUtc,rankedPromotionStatus,rankedLadderGame,rankedMatchForecast} from '../shared/ranked-reform-v1.mjs';
 import {RANKED_REFORM_SCHEMA,readRankedEnergy,commitRankedFight,rankedFightReceipt} from '../functions/_ranked_reform.js';
 import {reopenRankedIfDue,RANKED_REOPEN_KEY} from '../functions/_ranked_reopen.js';
 import {runRankedReopenSchedule} from '../workers/clan-draft/src/ranked-reopen.js';
@@ -58,15 +58,13 @@ async function fixture(t,postgres){
  return {env,q,settings,user,ticket,energy,commit,state,clock:()=>now,calls:()=>calls,fail:sql=>fail=sql,async setNow(value){now=value;if(pg)await pg.query('UPDATE test_clock SET value=$1',[rankedSqlUtc(now)]);}};
 }
 
-test('rating: equal opponents have no 50% drift; stronger opponents pay more and cost less',()=>{
- for(const score of [-200,0,1000,6500]){
-  assert.equal(rankedScoreAdjustment(true,score,score).change,24);assert.equal(rankedScoreAdjustment(false,score,score).change,24);
-  assert.equal(10*rankedScoreAdjustment(true,score,score).change-10*rankedScoreAdjustment(false,score,score).change,0);
- }
- for(let gap=-250;gap<=250;gap++){
-  const win=rankedScoreAdjustment(true,1000,1000+gap),lose=rankedScoreAdjustment(false,1000,1000+gap);
-  assert.equal(win.change+lose.change,48);assert.equal(win.change,rankedScoreAdjustment(false,1000+gap,1000).change);
-  if(gap>10){assert.ok(win.change>24);assert.ok(lose.change<24);}
+test('the ascent bonus tapers through platinum; diamond, master, grandmaster and challenger keep original Elo',()=>{
+ for(const [tier,gain,loss] of [['bronze',30,14],['silver',28,16],['gold',26,18],['platinum',24,20],['diamond',24,24],['master',24,24],['grandmaster',24,24],['challenger',24,24],['custom',24,24]]){
+  for(let gap=-500;gap<=500;gap++){
+   const oldLoss=Math.round(48/(1+10**(gap/400)));
+   assert.equal(rankedScoreAdjustment(true,1000,1000+gap,tier).change,Math.round((48-oldLoss)*gain/24));
+   assert.equal(rankedScoreAdjustment(false,1000,1000+gap,tier).change,Math.round(oldLoss*loss/24));
+  }
  }
 });
 test('match limits are hard, symmetric, and independent of available candidate count',()=>{
@@ -75,8 +73,72 @@ test('match limits are hard, symmetric, and independent of available candidate c
  assert.equal(rankedCandidateAllowed({powerDiff:0,scoreDiff:251},cfg),false);
 });
 
+const tiers=[{id:'bronze',name:'브론즈',min:250},{id:'silver',name:'실버',min:500},{id:'gold',name:'골드',min:750}];
+const seasonKey='시즌 19|2026-10-01 15:00:00|2026-10-06 15:00:00';
+function game(profile,won,season=seasonKey,tierId=profile.season_score>=500?'silver':'bronze'){
+ const progress=rankedPromotionStatus(profile,tiers,season,tierId);
+ return rankedLadderGame(won,profile.season_score,profile.season_score,progress,tierId);
+}
+function nextProfile(profile,result,season=seasonKey){
+ const {promotion,scoreAfter}=result;
+ return {season_score:scoreAfter,highest_score:Math.max(profile.highest_score,scoreAfter),
+  promotion_state:promotion&&['STARTED','ACTIVE'].includes(promotion.status)?JSON.stringify({seasonKey:season,...promotion}):null};
+}
+test('the qualifying victory opens a separate best-of-five; all twenty terminal sequences settle at three',()=>{
+ const before={season_score:481,highest_score:489},start=game(before,true);
+ assert.deepEqual([start.scoreAfter,start.promotion.status,start.promotion.wins,start.promotion.losses],[499,'STARTED',0,0]);
+ let series=0;
+ function play(profile){
+  for(const won of [false,true]){
+   const forecast=rankedMatchForecast(profile,499,tiers,seasonKey,'bronze');
+   const res=game(profile,won),run=res.promotion,next=nextProfile(profile,res);
+   assert.equal(res.scoreAfter-profile.season_score,won?forecast.expectedWin:-forecast.expectedLoss||0);
+   if(run.status==='ACTIVE'){
+    assert.equal(res.scoreAfter,499);assert(run.wins+run.losses<=4);play(next);
+   }else{
+    series++;assert(run.wins+run.losses>=3&&run.wins+run.losses<=5);
+    if(run.status==='PROMOTED'){assert.equal(run.wins,3);assert.equal(next.season_score,500);assert.equal(game(next,false).scoreAfter,484);}
+    else{assert.equal(run.losses,3);assert.equal(next.season_score,485);assert.equal(next.highest_score,499);assert.equal(game(next,true).promotion.status,'STARTED');}
+   }
+  }
+ }
+ play(nextProfile(before,start));assert.equal(series,20);
+});
+test('season changes discard prior runs, previous personal bests allow re-entry, challenger is ranking-based',()=>{
+ const profile=nextProfile({season_score:480,highest_score:480},game({season_score:480,highest_score:480},true));
+ const afterOne=nextProfile(profile,game(profile,true));
+ assert.equal(rankedPromotionStatus(afterOne,tiers,'next season').status,'CLIMBING');
+ assert.equal(game(afterOne,true,'next season').promotion.wins,0);
+ assert.equal(rankedPromotionStatus(afterOne,[tiers[0],{...tiers[1],min:510}],seasonKey).status,'CLIMBING');
+ const past={season_score:490,highest_score:710};assert.equal(game(past,true).scoreAfter,520);assert.equal(game(past,true).promotion,null);
+ assert.equal(rankedPromotionStatus(afterOne,tiers,seasonKey,'challenger').retryScore,485,'the quoted retry score survives a challenger ranking change');
+ assert.equal(rankedPromotionStatus({season_score:755,highest_score:755},[...tiers,{id:'challenger',min:1000,rankingBased:true}],seasonKey),null);
+});
+
 for(const postgres of [false,true]){
  const dialect=postgres?'PostgreSQL pipeline':'SQLite';
+ test(`${dialect}: retries, rollback and stale same-score tickets cannot advance a promotion twice`,async t=>{
+  const f=await fixture(t,postgres),q=f.q,key='ranked_promotion_v1:1',snapshot=async()=>{
+   const p=await q('SELECT season_score,highest_score FROM pvp_profiles WHERE user_id=1').first();
+   const run=await q('SELECT value FROM app_meta WHERE key=?',key).first();return {...p,promotion_state:run?.value??null};
+  };
+  await q('UPDATE pvp_profiles SET season_score=481,highest_score=481 WHERE user_id=1').run();
+  let originalRun;
+  for(const [i,won] of [true,true,false,true,false,true].entries()){
+   const profile=await snapshot(),result=game(profile,won),token=i?'ticket-'+i:'ticket',requestId='promotion-'+i;
+   if(i)await q('INSERT INTO pvp_ranked_match_tickets_v1671 VALUES(?,?,NULL,?)',token,1,'2026-10-01 16:01:30').run();
+   const args={ticket:{token,season_key:seasonKey},requestId,profile,beforeScore:profile.season_score,
+    response:{rankedSeries:{promotion:result.promotion},scoreAfter:result.scoreAfter,scoreChange:result.scoreAfter-profile.season_score},
+    writes:[q('UPDATE pvp_profiles SET season_score=?,highest_score=?,wins=wins+?,losses=losses+? WHERE user_id=1',result.scoreAfter,Math.max(result.scoreAfter,profile.highest_score),Number(won),Number(!won)),q('INSERT INTO pvp_match_history VALUES(?,?,?)',i,1,Math.abs(result.scoreAfter-profile.season_score)),q("INSERT INTO coin_logs SELECT id,0,coin,'TEST' FROM users WHERE id=1")]};
+   if(i===1){originalRun=profile.promotion_state;f.fail('INSERT INTO coin_logs');await assert.rejects(f.commit(args));assert.deepEqual(await snapshot(),profile);}
+   if(i===2){await assert.rejects(f.commit({...args,profile:{...profile,promotion_state:originalRun}}));assert.deepEqual(await snapshot(),profile);}
+   const committed=await f.commit(args);assert.deepEqual(committed.rankedSeries.promotion,result.promotion);
+   const receipt=await rankedFightReceipt(f.env,1,requestId,token);assert.deepEqual(receipt.rankedSeries,committed.rankedSeries);
+   await assert.rejects(f.commit(args));assert.equal((await f.state()).energy.energy,9-i);
+  }
+  assert.deepEqual({...await snapshot()},{season_score:500,highest_score:500,promotion_state:null});
+  const state=await f.state();assert.equal(state.history.length,6);assert.equal(state.receipts.length,6);assert.equal(state.defender.season_score,1000);assert.equal(state.defender.wins+state.defender.losses,0);
+ });
  test(`${dialect}: score, energy, coin, history and receipt are atomic; defense stays unchanged`,async t=>{
   const f=await fixture(t,postgres),before=await f.state(),start=f.calls(),result=await f.commit();
   const after=await f.state();assert.equal(after.profile.season_score,1024);assert.deepEqual(after.defender,before.defender);assert.equal(after.energy.energy,9);assert.equal(after.wallet.coin,550);assert.equal(after.receipts.length,1);assert.equal(after.history.length,1);assert.equal(result.energy.energy,9);

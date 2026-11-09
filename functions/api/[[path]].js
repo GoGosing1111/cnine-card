@@ -11,7 +11,7 @@ import {ensureCnineStreamerBoxCatalog,openCnineStreamerBox,grantCnineStreamerBox
 import {visibleAdminLogs} from '../_admin_log_visibility.js';
 import {deleteReadPackageNotice,presentPackageNotice} from '../_support_package_notice.js';
 import {messageCleanupEligibleSql,messageCleanupAfterReadSql,countCompletedMessages,hideCompletedMessages} from '../_message_cleanup.js';
-import {readRankedRosters,rankedRosterState,saveRankedRoster,saveRankedSeriesTicket,readRankedSeriesTicket,rankedTicketPreview,rankedOwnershipGuard} from '../_ranked_series.js';
+import {readRankedRosters,readRankedCandidateRosters,rankedRosterPrefix,rankedRosterState,saveRankedRoster,saveRankedSeriesTicket,readRankedSeriesTicket,rankedTicketPreview,rankedOwnershipGuard} from '../_ranked_series.js';
 import {simulateRankedSeries,rankedSeriesReceipt} from '../../shared/ranked-series-v1.mjs';
 import {presentBrandedSystemMessage} from '../../shared/brand-presentation-20261016.mjs';
 import {handleHalloweenPack,halloweenPackShopRow} from '../_mercenary_halloween_pack.js';
@@ -23,9 +23,9 @@ import {ensureLimitedShardCatalog} from '../_support_package.js';
 import {MERCENARY_EQUIPMENT_SQL_CODES} from '../../shared/mercenary-equipment-v1.mjs';
 import {presentOriginalIpResponse} from '../../shared/monster-original-ip-presentation-v1.mjs';
 import {registerApocalypseChallenge,apocalypseChallengeAction,reserveApocalypseBattle} from '../_apocalypse_challenge.js';
-import {rankedScoreAdjustment,rankedPowerDifference,normalizeRankedRechargeMinutes} from '../../shared/ranked-reform-v1.mjs';
+import {rankedEqualPoints,rankedPromotionStatus,rankedLadderGame,rankedMatchForecast,rankedPowerDifference,normalizeRankedRechargeMinutes} from '../../shared/ranked-reform-v1.mjs';
 import {RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,RANKED_MATCH_MIN_POOL_SIZE,RANKED_MATCH_HISTORY_LIMIT,rankedMatchPower,rankedMatchBands,rankedMatchBand,selectRankedCandidate} from '../../shared/ranked-matchmaking-v2.mjs';
-import {RANKED_REFORM_SCHEMA,readRankedEnergy,rankedFightReceipt,commitRankedFight} from '../_ranked_reform.js';
+import {RANKED_REFORM_SCHEMA,readRankedEnergy,rankedFightReceipt,commitRankedFight,rankedPromotionKey} from '../_ranked_reform.js';
 import {reopenRankedIfDue} from '../_ranked_reopen.js';
 import {retiredContentResponse} from '../_retired_content.js';
 import {handleCooperative,cooperativeStream} from '../_cooperative_live.js';
@@ -1169,7 +1169,6 @@ async function advancePvpSeasonLifecycle(env){
 
 function pvpScoreAdjustment(base,isWin,myCard,opponentCard,settings){const cfg=settings.scoreBalance||{},safeBase=Math.max(0,Number(base||0));if(cfg.enabled===false||!myCard||!opponentCard)return {change:safeBase,multiplier:100,diffPercent:0,label:'기본 점수'};const diff=(Number(opponentCard)-Number(myCard))/Math.max(1,Number(myCard))*100,abs=Math.abs(diff),eq=Number(cfg.equalRange??10);let multiplier=100,label='비슷한 체급';if(abs>eq){const band=abs<20?'Mid':abs<30?'High':'Extreme';if(isWin){if(diff<0){multiplier=Number(cfg['weakerWin'+band]??100);label='낮은 체급 승리 패널티'}else{multiplier=Number(cfg['strongerWin'+band]??100);label='상위 체급 승리 보너스'}}else{if(diff>0){multiplier=Number(cfg['strongerLoss'+band]??100);label='상위 체급 패배 완화'}else{multiplier=Number(cfg['weakerLoss'+band]??100);label='낮은 체급 패배 패널티'}}}const min=Math.max(0,Number(cfg.minChange??1)),max=Math.max(min,Number(cfg.maxChange??999));return {change:Math.max(min,Math.min(max,Math.round(safeBase*multiplier/100))),multiplier,diffPercent:Math.round(diff*10)/10,label}}
 
-function pvpSeasonScoreAdjustment(isWin,myScore,opponentScore){return rankedScoreAdjustment(isWin,myScore,opponentScore)}
 function pvpTierIndex(score,tiers=[]){const resolved=resolveTier(Number(score||0),tiers);return Math.max(0,(tiers||[]).findIndex(tier=>tier.id===resolved.id))}
 async function pvpFormationPower(env,userId,battle,{defense=false}={}){
   const [deck,bonus]=await Promise.all([pvpDeckSnapshot(env,userId,defense),userEquipmentBonuses(env,userId)]);const mercenary=null;
@@ -1206,49 +1205,53 @@ async function pvpDefenseFormationPowers(env,userIds,battle){
 async function createRankedMatchTicket(env,user,settings){
   await ensureRankedPvpFoundation(env);
   const seasonKey=pvpSeasonKey(settings),myRoster=(await readRankedRosters(env,[user.id])).get(Number(user.id));
-  if(!myRoster.ready)throw Object.assign(Error('서로 다른 용병 3종을 편성하고 저장하세요.'),{status:409,code:'PVP_SERIES_ROSTER'});
+  if(!myRoster.ready)throw Object.assign(Error(`서로 다른 용병 ${myRoster.rosterSize}종을 편성하고 저장하세요.`),{status:409,code:'PVP_SERIES_ROSTER'});
   // A live ticket has already passed deck and opponent validation. Reuse it
   // before rebuilding every candidate formation; pvp/fight validates live decks.
   await env.DB.prepare(`DELETE FROM pvp_ranked_match_tickets_v1671 WHERE attacker_id=? AND season_key=? AND used_at IS NULL AND
     (expires_at<=CURRENT_TIMESTAMP OR NOT EXISTS(SELECT 1 FROM users u WHERE u.id=pvp_ranked_match_tickets_v1671.defender_id AND u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))))`).bind(user.id,seasonKey).run();
-  const existing=await env.DB.prepare(`SELECT t.*,u.nickname,p.wins,p.losses FROM pvp_ranked_match_tickets_v1671 t
+  const existing=await env.DB.prepare(`SELECT t.*,u.nickname,p.wins,p.losses,mine.highest_score,run.value AS promotion_state FROM pvp_ranked_match_tickets_v1671 t
     JOIN users u ON u.id=t.defender_id JOIN pvp_profiles p ON p.user_id=t.defender_id
+    JOIN pvp_profiles mine ON mine.user_id=t.attacker_id LEFT JOIN app_meta run ON run.key=?
     WHERE t.attacker_id=? AND t.season_key=? AND t.used_at IS NULL AND t.expires_at>CURRENT_TIMESTAMP
       AND u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))
-    ORDER BY t.created_at DESC LIMIT 1`).bind(user.id,seasonKey).first();
+    ORDER BY t.created_at DESC LIMIT 1`).bind(rankedPromotionKey(user.id),user.id,seasonKey).first();
   if(existing){
     // Recheck the same card/equipment basis on refresh, including pre-patch tickets.
     // One two-account batch preserves the fast path without rebuilding candidates.
     const [titleMap,seriesTicket]=await Promise.all([publicEquippedTitleMap(env,[existing.defender_id]),readRankedSeriesTicket(env,existing.token,user.id,existing.defender_id)]);
-    if(!seriesTicket){await env.DB.prepare('DELETE FROM pvp_ranked_match_tickets_v1671 WHERE token=? AND used_at IS NULL').bind(existing.token).run();return createRankedMatchTicket(env,user,settings)}
+    if(!seriesTicket?.scoringTier){await env.DB.prepare('DELETE FROM pvp_ranked_match_tickets_v1671 WHERE token=? AND used_at IS NULL').bind(existing.token).run();return createRankedMatchTicket(env,user,settings)}
     const scoreDiff=Math.abs(Number(existing.defender_score)-Number(existing.attacker_score)),powerDiff=rankedPowerDifference(existing.attacker_power,existing.defender_power);
-    if(rankedMatchBand({scoreDiff,powerDiff},settings)<0){await env.DB.prepare('DELETE FROM pvp_ranked_match_tickets_v1671 WHERE token=? AND used_at IS NULL').bind(existing.token).run();return createRankedMatchTicket(env,user,settings)}
-    return {token:existing.token,expiresAt:existing.expires_at,reused:true,series:await rankedTicketPreview(env,seriesTicket),opponent:{id:Number(existing.defender_id),nickname:existing.nickname,season_score:Number(existing.defender_score),wins:Number(existing.wins||0),losses:Number(existing.losses||0),title:titleMap[String(existing.defender_id)]||null,tier:resolvePvpTier(Number(existing.defender_score),settings,await pvpChallengerRank(env,existing.defender_id)),expectedWin:pvpSeasonScoreAdjustment(true,existing.attacker_score,existing.defender_score).change,expectedLoss:pvpSeasonScoreAdjustment(false,existing.attacker_score,existing.defender_score).change,balance:{tierDistance:Math.abs(pvpTierIndex(existing.defender_score,settings.tiers)-pvpTierIndex(existing.attacker_score,settings.tiers)),scoreDifference:scoreDiff,powerDifferencePercent:Math.round(powerDiff*10)/10}}};
+    if(rankedMatchBand({scoreDiff,powerDiff,lowerScore:Math.min(Number(existing.attacker_score),Number(existing.defender_score))},settings)<0){await env.DB.prepare('DELETE FROM pvp_ranked_match_tickets_v1671 WHERE token=? AND used_at IS NULL').bind(existing.token).run();return createRankedMatchTicket(env,user,settings)}
+    const {promotion,expectedWin,expectedLoss}=rankedMatchForecast({...existing,season_score:existing.attacker_score},existing.defender_score,settings.tiers,seasonKey,seriesTicket.scoringTier);
+    return {token:existing.token,expiresAt:existing.expires_at,reused:true,promotion,series:await rankedTicketPreview(env,seriesTicket),opponent:{id:Number(existing.defender_id),nickname:existing.nickname,season_score:Number(existing.defender_score),wins:Number(existing.wins||0),losses:Number(existing.losses||0),title:titleMap[String(existing.defender_id)]||null,tier:resolvePvpTier(Number(existing.defender_score),settings,await pvpChallengerRank(env,existing.defender_id)),expectedWin,expectedLoss,balance:{tierDistance:Math.abs(pvpTierIndex(existing.defender_score,settings.tiers)-pvpTierIndex(existing.attacker_score,settings.tiers)),scoreDifference:scoreDiff,powerDifferencePercent:Math.round(powerDiff*10)/10}}};
   }
-  const [mine,battle]=await Promise.all([ensurePvpProfile(env,user,settings),battleSettings(env)]),myFormation=await pvpFormationPower(env,user.id,battle);
+  const [mine,battle,challengerRank]=await Promise.all([ensurePvpProfile(env,user,settings,true),battleSettings(env),pvpChallengerRank(env,user.id)]),myFormation=await pvpFormationPower(env,user.id,battle);
   if(!myFormation.deckReady){const error=new Error('먼저 랭크전 덱 5장을 저장하세요.');error.status=400;throw error}
-  const searchRange=rankedMatchBands(settings).at(-1).matchSeasonRange,[recentRows,candidates]=await Promise.all([
+  const searchRange=rankedMatchBands(settings,Number(mine.season_score)).at(-1).matchSeasonRange,[recentRows,candidates]=await Promise.all([
     env.DB.prepare('SELECT defender_id FROM pvp_match_history WHERE attacker_id=? ORDER BY id DESC LIMIT ?').bind(user.id,RANKED_MATCH_HISTORY_LIMIT).all(),
-    env.DB.prepare(`SELECT u.id,u.nickname,p.season_score,p.highest_score,p.wins,p.losses
+    env.DB.prepare(`SELECT u.id,u.nickname,p.season_score,p.highest_score,p.wins,p.losses,r.value AS ranked_roster
     FROM users u JOIN pvp_profiles p ON p.user_id=u.id JOIN pvp_decks d ON d.user_id=u.id
+    JOIN app_meta r ON r.key=(? || CAST(u.id AS TEXT))
     WHERE u.id<>? AND u.status='ACTIVE' AND ${PVP_RANKED_ROLE_SQL}
       AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))
       AND CASE WHEN json_valid(d.card_ids) THEN json_array_length(d.card_ids) ELSE 0 END=5
-      AND ABS(p.season_score-?)<=?
-    ORDER BY ABS(p.season_score-?) ASC,p.updated_at DESC,u.id ASC LIMIT ?`).bind(user.id,mine.season_score,searchRange,mine.season_score,RANKED_MATCH_CANDIDATE_LIMIT).all()
+      AND p.season_score BETWEEN ? AND ?
+    ORDER BY ABS(p.season_score-?) ASC,p.updated_at DESC,u.id ASC LIMIT ?`).bind(rankedRosterPrefix(),user.id,Number(mine.season_score)-searchRange,Number(mine.season_score)+searchRange,mine.season_score,RANKED_MATCH_CANDIDATE_LIMIT).all()
   ]),recentOpponentIds=(recentRows.results||[]).map(row=>Number(row.defender_id));
   if(!(candidates.results||[]).length){const error=new Error('현재 매칭 가능한 랭크전 상대가 없습니다. 잠시 후 다시 시도하세요.');error.status=409;throw error}
   const candidateRows=candidates.results||[],evaluated=[],seriesRosters=new Map([[Number(user.id),myRoster]]);let baselineCount=0;
   // Gather at least eight suitable formations when available before drawing once.
   // Sparse brackets still use bounded 96-row batches, never per-account queries.
   for(let offset=0;offset<candidateRows.length;offset+=RANKED_MATCH_BATCH_SIZE){
-    const batch=candidateRows.slice(offset,offset+RANKED_MATCH_BATCH_SIZE),rosters=await readRankedRosters(env,batch.map(candidate=>candidate.id)),readyIds=batch.filter(c=>rosters.get(Number(c.id))?.ready).map(c=>c.id),formationMap=await pvpDefenseFormationPowers(env,readyIds,battle);
+    const batch=candidateRows.slice(offset,offset+RANKED_MATCH_BATCH_SIZE),rosters=await readRankedCandidateRosters(env,batch),readyIds=batch.filter(c=>rosters.get(Number(c.id))?.ready).map(c=>c.id),formationMap=await pvpDefenseFormationPowers(env,readyIds,battle);
     for(const [id,roster] of rosters)if(roster.ready)seriesRosters.set(id,roster);
     for(const candidate of batch){
       const formation=formationMap.get(Number(candidate.id));if(!formation?.deckReady)continue;
       const scoreDiff=Math.abs(Number(candidate.season_score)-Number(mine.season_score)),powerDiff=rankedPowerDifference(formation.matchPower,myFormation.matchPower),tierDistance=Math.abs(pvpTierIndex(candidate.season_score,settings.tiers)-pvpTierIndex(mine.season_score,settings.tiers));
-      const matchStage=rankedMatchBand({scoreDiff,powerDiff},settings);if(matchStage<0)continue;
-      evaluated.push({...candidate,power:formation.power,scoreDiff,powerDiff,tierDistance});
+      const lowerScore=Math.min(Number(candidate.season_score),Number(mine.season_score));
+      const matchStage=rankedMatchBand({scoreDiff,powerDiff,lowerScore},settings);if(matchStage<0)continue;
+      evaluated.push({id:candidate.id,nickname:candidate.nickname,season_score:candidate.season_score,wins:candidate.wins,losses:candidate.losses,power:formation.power,scoreDiff,powerDiff,lowerScore,tierDistance});
       if(matchStage===0)baselineCount++;
     }
     if(baselineCount>=RANKED_MATCH_MIN_POOL_SIZE)break;
@@ -1258,10 +1261,12 @@ async function createRankedMatchTicket(env,user,settings){
   const token=crypto.randomUUID(),expiresAt=pvpSqlUtc(Date.now()+90000);
   const insert=env.DB.prepare(`INSERT OR IGNORE INTO pvp_ranked_match_tickets_v1671(token,attacker_id,defender_id,season_key,attacker_score,defender_score,attacker_power,defender_power,expires_at)
     VALUES(?,?,?,?,?,?,?,?,?)`).bind(token,user.id,selected.id,seasonKey,mine.season_score,selected.season_score,myFormation.power,selected.power,expiresAt);
-  const seriesTicket=await saveRankedSeriesTicket(env,{insert,ticket:{token},attacker:user.id,defender:selected.id,rosters:seriesRosters});
+  const scoringTier=resolvePvpTier(Number(mine.season_score),settings,challengerRank).id;
+  const seriesTicket=await saveRankedSeriesTicket(env,{insert,ticket:{token},attacker:user.id,defender:selected.id,rosters:seriesRosters,scoringTier});
   if(!seriesTicket)return createRankedMatchTicket(env,user,settings);
-  const titleMap=await publicEquippedTitleMap(env,[selected.id]),winPreview=pvpSeasonScoreAdjustment(true,mine.season_score,selected.season_score),lossPreview=pvpSeasonScoreAdjustment(false,mine.season_score,selected.season_score);
-  return {token,expiresAt,series:await rankedTicketPreview(env,seriesTicket),opponent:{id:Number(selected.id),nickname:selected.nickname,season_score:Number(selected.season_score),wins:Number(selected.wins||0),losses:Number(selected.losses||0),title:titleMap[String(selected.id)]||null,tier:resolvePvpTier(Number(selected.season_score),settings,await pvpChallengerRank(env,selected.id)),expectedWin:winPreview.change,expectedLoss:lossPreview.change,balance:{tierDistance:selected.tierDistance,scoreDifference:selected.scoreDiff,powerDifferencePercent:Math.round(selected.powerDiff*10)/10}}};
+  const titleMap=await publicEquippedTitleMap(env,[selected.id]);
+  const {promotion,expectedWin,expectedLoss}=rankedMatchForecast(mine,selected.season_score,settings.tiers,seasonKey,scoringTier);
+  return {token,expiresAt,promotion,series:await rankedTicketPreview(env,seriesTicket),opponent:{id:Number(selected.id),nickname:selected.nickname,season_score:Number(selected.season_score),wins:Number(selected.wins||0),losses:Number(selected.losses||0),title:titleMap[String(selected.id)]||null,tier:resolvePvpTier(Number(selected.season_score),settings,await pvpChallengerRank(env,selected.id)),expectedWin,expectedLoss,balance:{tierDistance:selected.tierDistance,scoreDifference:selected.scoreDiff,powerDifferencePercent:Math.round(selected.powerDiff*10)/10}}};
 }
 async function claimRankedMatchTicket(env,userId,token,settings){
   await ensureRankedPvpFoundation(env);const cleanToken=String(token||'').trim();if(!cleanToken){const error=new Error('랭크전 자동 매칭을 먼저 진행하세요.');error.status=400;throw error}
@@ -1270,7 +1275,15 @@ async function claimRankedMatchTicket(env,userId,token,settings){
   // Ticket consumption is committed with score and energy in commitRankedFight.
   return ticket;
 }
-async function ensurePvpProfile(env,user,settings){let row=await env.DB.prepare('SELECT * FROM pvp_profiles WHERE user_id=?').bind(user.id).first();if(!row){await env.DB.prepare('INSERT OR IGNORE INTO pvp_profiles(user_id,season_score,highest_score,wins,losses,updated_at) VALUES(?,?,?,?,?,CURRENT_TIMESTAMP)').bind(user.id,settings.initialScore,settings.initialScore,0,0).run();row=await env.DB.prepare('SELECT * FROM pvp_profiles WHERE user_id=?').bind(user.id).first()}return row}
+async function ensurePvpProfile(env,user,settings,withPromotion=false){
+  const query=withPromotion
+    ?env.DB.prepare('SELECT p.*,run.value AS promotion_state FROM pvp_profiles p LEFT JOIN app_meta run ON run.key=? WHERE p.user_id=?').bind(rankedPromotionKey(user.id),user.id)
+    :env.DB.prepare('SELECT * FROM pvp_profiles WHERE user_id=?').bind(user.id);
+  const row=await query.first();
+  if(row)return row;
+  await env.DB.prepare('INSERT OR IGNORE INTO pvp_profiles(user_id,season_score,highest_score,wins,losses,updated_at) VALUES(?,?,?,?,?,CURRENT_TIMESTAMP)').bind(user.id,settings.initialScore,settings.initialScore,0,0).run();
+  return query.first();
+}
 async function pvpDeckCards(env,userId,defense=false){let row=null;if(!defense){try{row=await env.DB.prepare('SELECT p.card_ids FROM pvp_active_presets a JOIN pvp_deck_presets p ON p.user_id=a.user_id AND p.preset_no=a.preset_no WHERE a.user_id=?').bind(userId).first()}catch{row=null}}if(!row)row=await env.DB.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').bind(userId).first();if(!row)return [];try{return JSON.parse(row.card_ids||'[]')}catch{return []}}
 async function pveDeckCards(env,userId){const row=await env.DB.prepare('SELECT card_ids FROM pve_decks WHERE user_id=?').bind(userId).first();if(!row)return [];try{return JSON.parse(row.card_ids||'[]')}catch{return []}}
 const PRESTIGE_DECK_LIMIT=2;
@@ -7005,13 +7018,16 @@ async function handleRequest(context){
       await syncRankedDefensePreset(env,user.id);
       const settings=applyBurningPvpSettings(lifecycle.settings,burning);
       const [profile,deck,titleMap,characterBonus,energy,battle,presetRows,activeRow,challengerRank,pvpMagic,rankedSeries]=await Promise.all([
-        ensurePvpProfile(env,user,settings),pvpDeckCards(env,user.id),publicEquippedTitleMap(env,[user.id]),userEquipmentBonuses(env,user.id),pvpEnergyState(env,user,settings),battleSettings(env),
+        ensurePvpProfile(env,user,settings,true),pvpDeckCards(env,user.id),publicEquippedTitleMap(env,[user.id]),userEquipmentBonuses(env,user.id),pvpEnergyState(env,user,settings),battleSettings(env),
         env.DB.prepare('SELECT preset_no,card_ids FROM pvp_deck_presets WHERE user_id=? AND preset_no BETWEEN 1 AND 3 ORDER BY preset_no').bind(user.id).all(),
         env.DB.prepare('SELECT preset_no FROM pvp_active_presets WHERE user_id=?').bind(user.id).first(),pvpChallengerRank(env,user.id),readPvpMagicPresets(env,user.id),rankedRosterState(env,user.id)
       ]);
       context.pvpTiming?.mark('state');
       const presets={1:[],2:[],3:[]};for(const row of presetRows.results||[]){try{presets[Number(row.preset_no)]=JSON.parse(row.card_ids||'[]')}catch{presets[Number(row.preset_no)]=[]}}
-      return json({settings,rankedSeries,lifecycle:{settling:lifecycle.settling===true,phase:lifecycle.phase||null,startedNewSeason:lifecycle.startedNewSeason===true,completedSeason:lifecycle.completedSeason||null},battleSettings:battle,burningEvent:burningPublicState(burning),profile:{...profile,rank:challengerRank,tier:resolvePvpTier(Number(profile.season_score),settings,challengerRank),highestTier:resolvePvpTier(Number(profile.highest_score),settings,challengerRank)},title:titleMap[String(user.id)]||null,deck,presets,magicPresets:pvpMagic.magicPresets,activePreset:Math.max(1,Math.min(3,Number(activeRow?.preset_no||1))),deckRules:deckRulesContract('PVP'),characterBonus,energy,battleEngine:battleEngineState(battle,user),bypass:isAdminRole(user),serverNow:new Date().toISOString()});
+      const tier=resolvePvpTier(Number(profile.season_score),settings,challengerRank);
+      const promotion=rankedPromotionStatus(profile,settings.tiers,pvpSeasonKey(settings),tier.id);
+      const {promotion_state,...publicProfile}=profile;
+      return json({settings,rankedSeries,lifecycle:{settling:lifecycle.settling===true,phase:lifecycle.phase||null,startedNewSeason:lifecycle.startedNewSeason===true,completedSeason:lifecycle.completedSeason||null},battleSettings:battle,burningEvent:burningPublicState(burning),profile:{...publicProfile,promotion,equalPoints:rankedEqualPoints(tier.id),rank:challengerRank,tier,highestTier:resolvePvpTier(Number(profile.highest_score),settings,challengerRank)},title:titleMap[String(user.id)]||null,deck,presets,magicPresets:pvpMagic.magicPresets,activePreset:Math.max(1,Math.min(3,Number(activeRow?.preset_no||1))),deckRules:deckRulesContract('PVP'),characterBonus,energy,battleEngine:battleEngineState(battle,user),bypass:isAdminRole(user),serverNow:new Date().toISOString()});
     }
     if(path==='pvp/series-roster'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -7054,13 +7070,13 @@ async function handleRequest(context){
       let rankedTicket;try{rankedTicket=await claimRankedMatchTicket(env,user.id,body.matchToken,settings)}catch(error){return json({error:error.message||'랭크전 매칭 확인에 실패했습니다.',code:error.code},Number(error.status||500))}const defenderId=Number(rankedTicket.defender_id);if(!defenderId||defenderId===user.id)return json({error:'자동 배정된 상대가 올바르지 않습니다.'},400);
       const rejectRankedMatch=async(payload,status)=>{await env.DB.prepare('DELETE FROM pvp_ranked_match_tickets_v1671 WHERE token=? AND attacker_id=? AND used_at IS NULL').bind(rankedTicket.token,user.id).run();return json(payload,status);};
       const seriesTicket=await readRankedSeriesTicket(env,rankedTicket.token,user.id,defenderId);
-      if(!seriesTicket)return rejectRankedMatch({error:'새 랭크전 방식으로 다시 매칭해주세요.',code:'PVP_MATCH_EXPIRED'},409);
+      if(!seriesTicket?.scoringTier)return rejectRankedMatch({error:'새 랭크전 방식으로 다시 매칭해주세요.',code:'PVP_MATCH_EXPIRED'},409);
       let seriesMercenaries;try{seriesMercenaries=await rankedSelectedMercenaries(env,new Map([[Number(user.id),seriesTicket.A],[defenderId,seriesTicket.B]]))}catch(error){if(error.status)return rejectRankedMatch({error:error.message,code:'PVP_MATCH_FORMATION_CHANGED'},409);throw error}
       context.pvpTiming?.mark('ticket');
       // Matchmaking already prefers another opponent and permits a repeat only
       // when no other candidate fits its bounded search. Honor that server ticket.
       const [attacker,defUser]=await Promise.all([
-        ensurePvpProfile(env,user,settings),
+        ensurePvpProfile(env,user,settings,true),
         env.DB.prepare("SELECT * FROM users WHERE id=? AND status='ACTIVE' AND (banned_until IS NULL OR banned_until<=datetime('now'))").bind(defenderId).first()
       ]);
       if(!defUser)return rejectRankedMatch({error:'상대를 찾을 수 없습니다.'},404);const defender=await ensurePvpProfile(env,defUser,settings);
@@ -7111,7 +7127,11 @@ async function handleRequest(context){
       }
       const attackerWin=rankedSeries.winner==='A';
       const aPower=engineState.active?Number(battleV2.teams.A.summary.power||legacyAPower):legacyAPower,dPower=engineState.active?Number(battleV2.teams.B.summary.power||legacyDPower):legacyDPower;
-      const winnerId=attackerWin?user.id:defenderId,aBefore=Number(attacker.season_score),dBefore=Number(defender.season_score),aAdj=pvpSeasonScoreAdjustment(attackerWin,aBefore,dBefore),dAdj={change:0,label:'방어전 점수 미반영'},change=aAdj.change,aAfter=aBefore+(attackerWin?change:-change),dAfter=dBefore,aCard=0,dCard=0;
+      const winnerId=attackerWin?user.id:defenderId,aBefore=Number(attacker.season_score),dBefore=Number(defender.season_score);
+      const progress=rankedPromotionStatus(attacker,settings.tiers,rankedTicket.season_key,seriesTicket.scoringTier);
+      const {scoreAfter:aAfter,adjustment:aAdj,promotion}=rankedLadderGame(attackerWin,aBefore,dBefore,progress,seriesTicket.scoringTier);
+      if(promotion)rankedSeries.promotion=promotion;
+      const dAdj={change:0,label:'방어전 점수 미반영'},change=aAdj.change,dAfter=dBefore,aCard=0,dCard=0;
       const energyPlan=await consumePvpEnergy(env,user,settings);let pvpEnergy=energyPlan.state;
       context.pvpTiming?.mark('simulation_energy');
       // PvP battle coin is an active-challenge reward. Only the authenticated attacker receives it.
@@ -7135,7 +7155,7 @@ async function handleRequest(context){
       ));
       if(attackerCoinReward>0)matchWrites.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'PVP_ATTACK_BATTLE' FROM users WHERE id=?").bind(attackerCoinReward,user.id));
       try{
-        const committed=await commitRankedFight(env,{user,settings,ticket:rankedTicket,requestId,energy:energyPlan,beforeScore:aBefore,writes:matchWrites,response:{rankedSeries:rankedSeriesReceipt(rankedSeries),result:attackerWin?'WIN':'LOSE',scoreChange:aAfter-aBefore,scoreAfter:aAfter,coinReward:attackerCoinReward,attackerPower:aPower,defenderPower:dPower,opponent:defUser.nickname,scoreAdjustment:aAdj,opponentScoreAdjustment:dAdj,rewardRecipient:'ATTACKER'}});
+        const committed=await commitRankedFight(env,{user,settings,ticket:rankedTicket,requestId,energy:energyPlan,beforeScore:aBefore,profile:attacker,writes:matchWrites,response:{rankedSeries:rankedSeriesReceipt(rankedSeries),result:attackerWin?'WIN':'LOSE',scoreChange:aAfter-aBefore,scoreAfter:aAfter,coinReward:attackerCoinReward,attackerPower:aPower,defenderPower:dPower,opponent:defUser.nickname,scoreAdjustment:aAdj,opponentScoreAdjustment:dAdj,rewardRecipient:'ATTACKER'}});
         pvpEnergy=committed.energy;
       }catch(error){
         const receipt=await rankedFightReceipt(env,user.id,requestId,String(body.matchToken||''));if(receipt)return json(receipt);
@@ -7158,7 +7178,7 @@ async function handleRequest(context){
       context.pvpTiming?.mark('unified');
       const freshCoinUser=await env.DB.prepare('SELECT coin,magic_crystals FROM users WHERE id=?').bind(user.id).first();
       context.pvpTiming?.mark('balances');
-      return json({result:attackerWin?'WIN':'LOSE',burningEvent:burningPublicState(burning),battleEngine:engineState,battleV2,rankedSeries,magicReward,equipmentReward,blackMiracleReward,unifiedDrop,attackerCharacterBonus:aCharacterBonus,defenderCharacterBonus:dCharacterBonus,attackerCardPower:aCardPower,defenderCardPower:dCardPower,scoreChange:attackerWin?change:-change,scoreAfter:aAfter,coinReward:attackerCoinReward,coinRewardBeforeAvatar:attackerAvatarCoin.base,avatarCoinBonus:attackerAvatarCoin.bonus,avatarCoinGainPercent:attackerAvatarCoin.percent,coinAfter:freshCoinUser?.coin??coinUser.coin,magicCrystalsAfter:Number(freshCoinUser?.magic_crystals||0),rewardRecipient:'ATTACKER',attackerPower:aPower,defenderPower:dPower,attackerTitle:titleMap[String(user.id)]||null,defenderTitle:titleMap[String(defenderId)]||null,opponent:defUser.nickname,attackerDeck:aUnique.cards||aDeck,defenderDeck:dUnique.cards||dDeck,uniqueAbility:{attacker:uniqueBattleResponsePayload(aUnique,aUniqueRuntime),defender:uniqueBattleResponsePayload(dUnique,dUniqueRuntime)},scoreAdjustment:aAdj,opponentScoreAdjustment:dAdj,energy:pvpEnergy,serverNow:new Date().toISOString()});
+      return json({result:attackerWin?'WIN':'LOSE',burningEvent:burningPublicState(burning),battleEngine:engineState,battleV2,rankedSeries,magicReward,equipmentReward,blackMiracleReward,unifiedDrop,attackerCharacterBonus:aCharacterBonus,defenderCharacterBonus:dCharacterBonus,attackerCardPower:aCardPower,defenderCardPower:dCardPower,scoreChange:aAfter-aBefore,scoreAfter:aAfter,coinReward:attackerCoinReward,coinRewardBeforeAvatar:attackerAvatarCoin.base,avatarCoinBonus:attackerAvatarCoin.bonus,avatarCoinGainPercent:attackerAvatarCoin.percent,coinAfter:freshCoinUser?.coin??coinUser.coin,magicCrystalsAfter:Number(freshCoinUser?.magic_crystals||0),rewardRecipient:'ATTACKER',attackerPower:aPower,defenderPower:dPower,attackerTitle:titleMap[String(user.id)]||null,defenderTitle:titleMap[String(defenderId)]||null,opponent:defUser.nickname,attackerDeck:aUnique.cards||aDeck,defenderDeck:dUnique.cards||dDeck,uniqueAbility:{attacker:uniqueBattleResponsePayload(aUnique,aUniqueRuntime),defender:uniqueBattleResponsePayload(dUnique,dUniqueRuntime)},scoreAdjustment:aAdj,opponentScoreAdjustment:dAdj,energy:pvpEnergy,serverNow:new Date().toISOString()});
     }
     if(path==='pvp/history'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await pvpSettings(env);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 랭크전이 중지되어 있습니다.'},503);

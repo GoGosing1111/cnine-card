@@ -12,7 +12,10 @@ const matchStart=api.indexOf('async function createRankedMatchTicket');
 const existingTicket=api.indexOf('const existing=',matchStart);
 const formationBuild=api.indexOf('pvpFormationPower(env,user.id,battle)',matchStart);
 assert.ok(existingTicket>matchStart&&formationBuild>existingTicket,'ranked ticket reuse must run before formation rebuild');
-assert.match(api,/ORDER BY ABS\(p\.season_score-\?\) ASC,p\.updated_at DESC LIMIT 36/,'ranked candidate formation fan-out must stay bounded');
+const matchPolicy=await import('../shared/ranked-matchmaking-v2.mjs');
+assert.ok(matchPolicy.RANKED_MATCH_CANDIDATE_LIMIT<=768&&matchPolicy.RANKED_MATCH_BATCH_SIZE<=96);
+assert.match(api,/p\.season_score BETWEEN \? AND \?[\s\S]{0,350}LIMIT \?[\s\S]{0,200}RANKED_MATCH_CANDIDATE_LIMIT/,'bound the indexed candidate query');
+assert.match(api,/candidateRows\.slice\(offset,offset\+RANKED_MATCH_BATCH_SIZE\)[\s\S]{0,320}pvpDefenseFormationPowers\(env,readyIds,battle\)/,'bound formation reads to each eligible roster batch');
 assert.match(api,/\[recentRows,candidates\]=await Promise\.all/,'ranked history and candidates must load together');
 assert.match(api,/\[lifecycle,burning\]=await Promise\.all/,'ranked lifecycle and burning settings must load together');
 

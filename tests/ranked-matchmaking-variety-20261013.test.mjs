@@ -59,3 +59,20 @@ test('stable scores no longer trap a healthy pool in a five-opponent cycle',()=>
  assert(new Set(sequence.slice(-20)).size>=12,'Repeated play must reach a broader set of equally suitable opponents');
  assert(new Set(sequence).size>=22);
 });
+
+test('two recently alternating peers can yield to a fresh neighbor one band away',()=>{
+ const rows=[candidate(1),candidate(2),candidate(3,300,21),candidate(4,480,38)];
+ assert.equal(selectRankedCandidate(rows,settings,{recentOpponentIds:[1,2,1,2,1]}).id,3);
+ assert.equal(selectRankedCandidate(rows,settings,{recentOpponentIds:[1,3]}).id,2);
+ assert.equal(selectRankedCandidate(rows.filter(r=>r.id!==3),settings,{recentOpponentIds:[1,2]}).id,2);
+});
+
+test('upper-tier rescue only replaces an empty pool or a lone last opponent, within both hard caps',()=>{
+ const cfg={...settings,tiers:[{id:'diamond',min:1300}]},peer=(id,scoreDiff,powerDiff=10,lowerScore=1500)=>({...candidate(id,scoreDiff,powerDiff),lowerScore});
+ const lone=peer(1,498),rescue=peer(2,503);
+ const pick=(rows,recent=[])=>selectRankedCandidate(rows,cfg,{recentOpponentIds:recent,random:()=>0});
+ assert.equal(pick([rescue]).matchStage,3);assert.equal(pick([lone,rescue]).id,1);assert.equal(pick([lone,rescue],[1]).id,2);
+ assert.equal(pick([lone,peer(3,490),rescue],[1,3]).id,3);
+ assert.equal(pick([peer(1,750,20,1300)]).matchStage,3);
+ for(const row of [peer(1,751),peer(1,510,20.1),peer(1,510,10,1299)])assert.equal(pick([row]),null);
+});

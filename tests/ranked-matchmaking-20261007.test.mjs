@@ -4,7 +4,9 @@ import {readFileSync} from 'node:fs';
 import {DatabaseSync} from 'node:sqlite';
 import {PGlite} from '@electric-sql/pglite';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
-import {rankedPowerDifference} from '../shared/ranked-reform-v1.mjs';
+import {rankedPowerDifference,rankedMatchForecast} from '../shared/ranked-reform-v1.mjs';
+import {rankedRosterPrefix} from '../functions/_ranked_series.js';
+import {rankedPromotionKey} from '../functions/_ranked_reform.js';
 import {RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,RANKED_MATCH_MIN_POOL_SIZE,RANKED_MATCH_HISTORY_LIMIT,rankedMatchPower,rankedMatchBands,rankedMatchBand,selectRankedCandidate} from '../shared/ranked-matchmaking-v2.mjs';
 
 const settings={matchSeasonRange:250,matchCardRange:20};
@@ -13,11 +15,12 @@ const matching=source.slice(source.indexOf('async function createRankedMatchTick
 const schema=`CREATE TABLE users(id INTEGER PRIMARY KEY,nickname TEXT,role TEXT,status TEXT,banned_until TEXT);
 CREATE TABLE pvp_profiles(user_id INTEGER PRIMARY KEY,season_score INTEGER,highest_score INTEGER,wins INTEGER DEFAULT 0,losses INTEGER DEFAULT 0,updated_at TEXT);
 CREATE TABLE pvp_decks(user_id INTEGER PRIMARY KEY,card_ids TEXT);
+CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT);
 CREATE TABLE pvp_match_history(id INTEGER PRIMARY KEY,attacker_id INTEGER,defender_id INTEGER);
 CREATE TABLE pvp_ranked_match_tickets_v1671(token TEXT PRIMARY KEY,attacker_id INTEGER,defender_id INTEGER,season_key TEXT,attacker_score INTEGER,defender_score INTEGER,attacker_power INTEGER,defender_power INTEGER,expires_at TEXT,used_at TEXT,created_at TEXT DEFAULT CURRENT_TIMESTAMP);
 CREATE UNIQUE INDEX active_ranked_ticket ON pvp_ranked_match_tickets_v1671(attacker_id,season_key) WHERE used_at IS NULL;`;
 
-async function fixture(t,{rows=[],recent=[],postgres=false,myDeckReady=true,myMercenaryPower=0,random=()=>0}={}){
+async function fixture(t,{rows=[],recent=[],postgres=false,myDeckReady=true,myMercenaryPower=0,myScore=1000,matchSettings=settings,random=()=>0}={}){
  const sqlite=postgres?null:new DatabaseSync(':memory:'),pg=postgres?new PGlite():null;
  const raw=async(sql,values=[])=>postgres?(await pg.query(sql,values)).rows:sqlite.prepare(sql).all(...values);
  if(postgres){t.after(()=>pg.close());await pg.exec(readFileSync(new URL('../scripts/postgres-runtime-compat.sql',import.meta.url),'utf8'));await pg.exec(schema+"CREATE FUNCTION sqlite_now() RETURNS text LANGUAGE SQL STABLE AS $$ SELECT to_char(CURRENT_TIMESTAMP AT TIME ZONE 'UTC','YYYY-MM-DD HH24:MI:SS') $$;");}
@@ -26,29 +29,32 @@ async function fixture(t,{rows=[],recent=[],postgres=false,myDeckReady=true,myMe
  let db;
  if(postgres)db=new __postgresCompatTest.PostgresD1Database({async query(q){const result=await pg.query(typeof q==='string'?q:q.text,typeof q==='string'?[]:q.values);return {...result,rowCount:result.affectedRows??result.rows.length};}});
  else db={prepare(sql){let values=[];return {bind(...v){values=v;return this;},all:async()=>({results:sqlite.prepare(sql).all(...values)}),first:async()=>sqlite.prepare(sql).get(...values)||null,run:async()=>({meta:{changes:Number(sqlite.prepare(sql).run(...values).changes)}})};}};
- for(const row of [{id:1,power:100},...rows]){
+ for(const row of [{id:1,power:100,score:myScore},...rows]){
   await db.prepare('INSERT INTO users VALUES(?,?,?,?,?)').bind(row.id,'player-'+row.id,row.role||'USER',row.status||'ACTIVE',row.bannedUntil||null).run();
   await db.prepare('INSERT INTO pvp_profiles(user_id,season_score,highest_score,updated_at) VALUES(?,?,?,?)').bind(row.id,row.score??1000,row.score??1000,'2026-10-07 00:00:00').run();
   await db.prepare('INSERT INTO pvp_decks VALUES(?,?)').bind(row.id,row.deck||'[1,2,3,4,5]').run();
+  if(row.saved!==false)await db.prepare('INSERT INTO app_meta VALUES(?,?)').bind(rankedRosterPrefix()+row.id,'{}').run();
  }
  for(let i=0;i<recent.length;i++)await db.prepare('INSERT INTO pvp_match_history VALUES(?,?,?)').bind(recent.length-i,1,recent[i]).run();
  const env={DB:{prepare(sql){let values=[];return {bind(...v){values=v;return this;},all:async()=>{queries.push({sql,values});return db.prepare(sql).bind(...values).all();},first:async()=>{queries.push({sql,values});return db.prepare(sql).bind(...values).first();},run:async()=>{writes.push(sql);return db.prepare(sql).bind(...values).run();}};}}};
  const ticketPayloads=new Map(),rosterCodes=['V-001','V-002','V-003'];
- const deps={
+ let currentTier='silver';
+ const deps={rankedMatchForecast,rankedRosterPrefix,rankedPromotionKey,
+  readRankedCandidateRosters:(_,batch)=>deps.readRankedRosters(_,batch.map(row=>row.id)),
   readRankedRosters:async(_,ids)=>new Map(ids.map(id=>[Number(id),{ready:rows.find(row=>row.id===Number(id))?.rosterReady!==false,codes:rosterCodes}])),
-  saveRankedSeriesTicket:async(_,{insert,ticket,attacker,defender})=>{const r=await insert.run();if(Number(r.meta.changes)!==1)return null;const payload={token:ticket.token,attacker,defender,A:rosterCodes,B:rosterCodes};ticketPayloads.set(ticket.token,payload);return payload;},
+  saveRankedSeriesTicket:async(_,{insert,ticket,attacker,defender,scoringTier})=>{const r=await insert.run();if(Number(r.meta.changes)!==1)return null;const payload={token:ticket.token,attacker,defender,scoringTier,A:rosterCodes,B:rosterCodes};ticketPayloads.set(ticket.token,payload);return payload;},
   readRankedSeriesTicket:async(_,token)=>ticketPayloads.get(token)||null,
   rankedTicketPreview:async()=>({opponentOrderHidden:true,attacker:[],opponent:[]}),
   RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,RANKED_MATCH_MIN_POOL_SIZE,RANKED_MATCH_HISTORY_LIMIT,rankedMatchPower,rankedMatchBands,rankedMatchBand,
   selectRankedCandidate:(rows,settings,options)=>selectRankedCandidate(rows,settings,{...options,random}),rankedPowerDifference,
-  ensureRankedPvpFoundation:async()=>{},pvpSeasonKey:()=> 'fixture-season',publicEquippedTitleMap:async()=>({}),resolvePvpTier:()=>({name:'test'}),pvpChallengerRank:async()=>0,pvpTierIndex:()=>0,
-  pvpSeasonScoreAdjustment:()=>({change:24}),ensurePvpProfile:async()=>({season_score:1000}),battleSettings:async()=>({}),pvpFormationPower:async()=>({power:100,matchPower:100,deckReady:myDeckReady}),
+  ensureRankedPvpFoundation:async()=>{},pvpSeasonKey:()=> 'fixture-season',publicEquippedTitleMap:async()=>({}),resolvePvpTier:()=>({id:currentTier,name:currentTier}),pvpChallengerRank:async()=>0,pvpTierIndex:()=>0,
+  ensurePvpProfile:async()=>({season_score:myScore,highest_score:myScore}),battleSettings:async()=>({}),pvpFormationPower:async()=>({power:100,matchPower:100,deckReady:myDeckReady}),
   releasedMercenarySnapshots:async(_,ids,mode)=>{assert.equal(mode,'PVP');assert.equal(ids.length,2);mercenaryBatches.push(ids);return new Map(ids.map(id=>[id,mercenaries.get(id)]));},mercenarySnapshotPower:m=>m?.power??0,
   pvpDefenseFormationPowers:async(_,ids)=>{assert.ok(ids.length<=96);batches.push(ids);return new Map(ids.map(id=>[Number(id),powers.get(Number(id))]));},
   PVP_RANKED_ROLE_SQL:"UPPER(TRIM(COALESCE(u.role,'USER'))) <> 'OWNER'",pvpSqlUtc:ms=>new Date(ms).toISOString().replace('T',' ').slice(0,19)
  };
  const match=Function('deps',`with(deps){${matching}\nreturn createRankedMatchTicket;}`)(deps);
- return {call:()=>match(env,{id:1},settings),db,raw,queries,writes,batches,powers,mercenaryBatches};
+ return {call:()=>match(env,{id:1},matchSettings),setTier:tier=>{currentTier=tier;},db,raw,queries,writes,batches,powers,mercenaryBatches};
 }
 
 test('widening keeps symmetric finite power caps and CMS baseline, with no unlimited fallback',()=>{
@@ -73,7 +79,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: sear
  const rows=Array.from({length:193},(_,i)=>({id:i+2}));Object.assign(rows[0],{power:125});Object.assign(rows[158],{power:110});
  for(let i=159;i<166;i++)Object.assign(rows[i],{power:112});
  const f=await fixture(t,{rows,postgres}),result=await f.call();assert.equal(result.opponent.id,160);assert.equal(f.batches.length,2);assert.equal(f.batches.flat().length,192);
- const query=f.queries.find(x=>x.sql.includes('FROM users u JOIN pvp_profiles'));assert.equal(query.values.at(-1),768);assert.equal(query.values[2],500);
+ const query=f.queries.find(x=>x.sql.includes('FROM users u JOIN pvp_profiles'));assert.equal(query.values.at(-1),768);assert.deepEqual(query.values.slice(0,4),[rankedRosterPrefix(),1,500,1500]);
  const again=await f.call();assert.equal(again.token,result.token);assert.equal(again.reused,true);assert.equal(f.batches.length,2);
 });
 
@@ -81,6 +87,16 @@ test('expanded tickets are usable and reused without rebuilding or silently rema
  const f=await fixture(t,{rows:[{id:2,power:140,score:1500}]}),first=await f.call(),again=await f.call();
  assert.equal(first.opponent.id,2);assert.equal(first.opponent.balance.powerDifferencePercent,40);assert.equal(first.opponent.balance.scoreDifference,500);
  assert.equal(again.token,first.token);assert.equal(again.reused,true);assert.equal(f.batches.length,1);
+});
+
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: scarce high-tier ticket survives a display-rank change with exactly the quoted scoring policy`,async t=>{
+ const myScore=2654,opponentScore=3157,matchSettings={...settings,tiers:[{id:'bronze',min:250},{id:'diamond',min:1300},{id:'grandmaster',min:2000}]};
+ const f=await fixture(t,{postgres,myScore,matchSettings,rows:[{id:2,score:opponentScore,power:105}]});
+ f.setTier('challenger');const ticket=await f.call();
+ const forecast=rankedMatchForecast({season_score:myScore,highest_score:myScore},opponentScore,matchSettings.tiers,'fixture-season','challenger');
+ assert.equal(ticket.opponent.id,2);assert.equal(ticket.opponent.expectedWin,forecast.expectedWin);assert.equal(ticket.opponent.expectedLoss,forecast.expectedLoss);
+ f.setTier('bronze');const refresh=await f.call();assert.equal(refresh.token,ticket.token);
+ assert.equal(refresh.opponent.expectedWin,ticket.opponent.expectedWin);assert.equal(refresh.opponent.expectedLoss,ticket.opponent.expectedLoss);
 });
 
 test('third consecutive opponent is permitted only when no alternative fits any bounded band',async t=>{
@@ -140,4 +156,13 @@ test('matching keeps card/equipment and season caps even when mercenaries hide t
 test('an otherwise suitable defender without three saved owned types never enters the pool',async t=>{
  const f=await fixture(t,{rows:[{id:2,power:100,rosterReady:false},{id:3,power:105}]});
  assert.equal((await f.call()).opponent.id,3);assert.ok(!f.batches.flat().includes(2));
+});
+
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: saved eligible rosters remain discoverable behind the candidate limit`,async t=>{
+ const rows=Array.from({length:780},(_,i)=>({id:i+2,power:100,saved:false}));
+ rows.push({id:1000,power:102,score:1001});
+ const f=await fixture(t,{rows,postgres}),match=await f.call();
+ assert.equal(match.opponent.id,1000);assert.deepEqual(f.batches,[[1000]]);
+ assert.equal(match.opponent.expectedWin,28);assert.equal(match.opponent.expectedLoss,16);
+ const refresh=await f.call();assert.equal(refresh.token,match.token);assert.equal(refresh.opponent.expectedLoss,16);
 });

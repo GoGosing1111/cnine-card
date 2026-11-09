@@ -1,3 +1,4 @@
+import {readFileSync} from 'node:fs';
 import {DatabaseSync} from 'node:sqlite';
 import {PGlite} from '@electric-sql/pglite';
 import pg from 'pg';
@@ -21,7 +22,7 @@ const schema=[...RANKED_REFORM_SCHEMA,
 ];
 export async function rankedFixture(t,postgres,{codes=['V-001','V-002','V-003'],ranks=[],rules=RANKED_SERIES_RULES}={}){
  let DB,db;
- if(postgres){db=new PGlite();await db.exec("CREATE FUNCTION sqlite_now() RETURNS TEXT LANGUAGE SQL STABLE AS $$ SELECT to_char(CURRENT_TIMESTAMP AT TIME ZONE 'UTC','YYYY-MM-DD HH24:MI:SS') $$;"+schema.join(';'));DB=new __postgresCompatTest.PostgresD1Database({escapeLiteral:pg.Client.prototype.escapeLiteral,async query(input){if(typeof input==='string'){const r=(await db.exec(input)).map(r=>({...r,rowCount:r.affectedRows??r.rows.length}));return r.length===1?r[0]:r;}const r=await db.query(input.text,input.values||[]);return {...r,rowCount:r.affectedRows??r.rows.length};}});}
+ if(postgres){db=new PGlite();await db.exec(readFileSync(new URL('../../scripts/postgres-runtime-compat.sql',import.meta.url),'utf8'));await db.exec("CREATE FUNCTION sqlite_now() RETURNS TEXT LANGUAGE SQL STABLE AS $$ SELECT to_char(CURRENT_TIMESTAMP AT TIME ZONE 'UTC','YYYY-MM-DD HH24:MI:SS') $$;"+schema.join(';'));DB=new __postgresCompatTest.PostgresD1Database({escapeLiteral:pg.Client.prototype.escapeLiteral,async query(input){if(typeof input==='string'){const r=(await db.exec(input)).map(r=>({...r,rowCount:r.affectedRows??r.rows.length}));return r.length===1?r[0]:r;}const r=await db.query(input.text,input.values||[]);return {...r,rowCount:r.affectedRows??r.rows.length};}});}
  else{db=new DatabaseSync(':memory:');db.exec(schema.join(';'));const run=s=>{const q=db.prepare(s.sql);return q.columns().length?{results:q.all(...s.values),meta:{changes:0}}:{results:[],meta:{changes:Number(q.run(...s.values).changes)}};};DB={prepare(sql){return {sql,values:[],bind(...values){return {...this,values};},async all(){return run(this)},async first(){return run(this).results[0]||null},async run(){return run(this)}}},async batch(list){db.exec('BEGIN');try{const r=list.map(run);db.exec('COMMIT');return r}catch(e){db.exec('ROLLBACK');throw e}}};}
  const queries=[],prepare=DB.prepare.bind(DB);DB.prepare=sql=>{queries.push(sql);return prepare(sql);};
  t.after(()=>db.close());const env={DB},q=(sql,...values)=>DB.prepare(sql).bind(...values);

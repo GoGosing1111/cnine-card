@@ -8,6 +8,7 @@ export const RANKED_REFORM_SCHEMA=[...JOINT_ATOMIC_SCHEMA,
 ];
 const p=env=>(sql,...args)=>env.DB.prepare(sql).bind(...args);
 const lock=(env,sql,...args)=>env.DB.dialect==='postgres'?[p(env)(sql,...args)]:[];
+export const rankedPromotionKey=userId=>'ranked_promotion_v1:'+Number(userId);
 
 // Reads calculate recharge without writing a stale snapshot over a concurrent fight.
 export async function readRankedEnergy(env,user,cfg,{unlimited=false,now=Date.now()}={}){
@@ -27,7 +28,7 @@ export async function rankedFightReceipt(env,userId,requestId,matchToken){
 
 // Energy, ticket, attacker score, history, coins, audit and receipt commit together.
 // Defense neither changes score nor tie-breaking win/loss counts.
-export async function commitRankedFight(env,{user,settings,ticket,requestId,energy,beforeScore,writes,response,now=Date.now()}){
+export async function commitRankedFight(env,{user,settings,ticket,requestId,energy,beforeScore,profile,writes,response,now=Date.now()}){
  const q=p(env),token=crypto.randomUUID(),field=name=>env.DB.dialect==='postgres'?`value::jsonb->>'${name}'`:`CAST(json_extract(value,'$.${name}') AS TEXT)`;
  const truth=env.DB.dialect==='postgres'?'true':'1';
  const predicate=`EXISTS(SELECT 1 FROM app_meta WHERE key='pvp_settings_v1' AND COALESCE(${field('enabled')},?)=? AND ${field('seasonName')}=? AND ${field('startsAt')}=? AND ${field('endsAt')}=?)
@@ -35,8 +36,23 @@ export async function commitRankedFight(env,{user,settings,ticket,requestId,ener
  AND EXISTS(SELECT 1 FROM pvp_profiles WHERE user_id=? AND season_score=?)
  AND EXISTS(SELECT 1 FROM pvp_ranked_match_tickets_v1671 WHERE token=? AND attacker_id=? AND used_at IS NULL AND expires_at>CURRENT_TIMESTAMP)`;
  const args=[truth,truth,settings.seasonName,settings.startsAt,settings.endsAt,settings.startsAt,settings.endsAt,user.id,beforeScore,ticket.token,user.id];
- const extra=energy.row?' AND EXISTS(SELECT 1 FROM user_pvp_energy WHERE user_id=? AND energy=? AND last_recharged_at=?)':'';
+ let extra=energy.row?' AND EXISTS(SELECT 1 FROM user_pvp_energy WHERE user_id=? AND energy=? AND last_recharged_at=?)':'';
  if(energy.row)args.push(user.id,Number(energy.row.energy),energy.row.last_recharged_at);
+ const promotionWrites=[];
+ if(profile){
+  const key=rankedPromotionKey(user.id),previous=profile.promotion_state??null,progress=response.rankedSeries?.promotion;
+  // The score can stay still for four games. Check the actual run as well as
+  // the personal best under the profile lock, including a missing initial run.
+  extra+=" AND EXISTS(SELECT 1 FROM pvp_profiles WHERE user_id=? AND highest_score=?) AND COALESCE((SELECT value FROM app_meta WHERE key=?),'')=?";
+  args.push(user.id,Number(profile.highest_score),key,previous??'');
+  if(progress?.status==='STARTED'||progress?.status==='ACTIVE'){
+   const {targetId,targetScore,retryScore,wins,losses}=progress;
+   const next=JSON.stringify({seasonKey:ticket.season_key,targetId,targetScore,retryScore,wins,losses});
+   promotionWrites.push(q('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at',key,next));
+  }else if(previous!==null){
+   promotionWrites.push(q('DELETE FROM app_meta WHERE key=?',key));
+  }
+ }
  if(!energy.state.unlimited&&energy.state.energy<energy.state.costPerBattle)throw Object.assign(Error('랭크전 행동력이 부족합니다.'),{status:409,code:'NO_PVP_ENERGY',energy:energy.state});
  const nextEnergy=energy.state.unlimited?energy.state:{...energy.state,energy:energy.state.energy-energy.state.costPerBattle,lastRechargedAt:energy.state.energy>=energy.state.maxEnergy?rankedSqlUtc(now):energy.state.lastRechargedAt};
  if(!nextEnergy.unlimited){const last=Date.parse(nextEnergy.lastRechargedAt.replace(' ','T')+'Z');nextEnergy.nextRechargeAt=settings.energy?.__martialLaw?martialRecharge(nextEnergy.energy,last,settings.energy,now).nextRechargeAt:new Date(last+nextEnergy.rechargeMinutes*60000).toISOString();}
@@ -50,6 +66,7 @@ export async function commitRankedFight(env,{user,settings,ticket,requestId,ener
   q('UPDATE pvp_ranked_match_tickets_v1671 SET used_at=CURRENT_TIMESTAMP WHERE token=?',ticket.token),
   ...(energy.row?[q('UPDATE user_pvp_energy SET energy=?,last_recharged_at=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?',nextEnergy.energy,nextEnergy.lastRechargedAt,user.id)]:[]),
   ...writes,
+  ...promotionWrites,
   q('INSERT INTO ranked_fight_receipts_v1(user_id,request_id,match_token,response_json) VALUES(?,?,?,?)',user.id,requestId,ticket.token,JSON.stringify(receipt)),
   jointGuardEnd(env.DB,token)
  ]);

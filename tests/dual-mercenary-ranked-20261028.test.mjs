@@ -7,7 +7,7 @@ import {independentMercenaryTurnCadence,mercenaryTurnCadence} from '../functions
 import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-v1.mjs';
 import {rankedSelectedMercenaries,battleConfig} from '../functions/_mercenary_account.js';
 import {MERCENARY_CMS_SEED as seed} from '../functions/_mercenary_cms_seed.js';
-import {readRankedRosters,saveRankedRoster,readRankedSeriesTicket,rankedTicketPreview,rankedOwnershipGuard} from '../functions/_ranked_series.js';
+import {readRankedRosters,readRankedCandidateRosters,saveRankedRoster,readRankedSeriesTicket,rankedTicketPreview,rankedOwnershipGuard} from '../functions/_ranked_series.js';
 import {readRankedEnergy,commitRankedFight,rankedFightReceipt} from '../functions/_ranked_reform.js';
 import {reviewMercenaries,companionCmsFixture} from './helpers/companion-preparation-fixture.mjs';
 import {rankedFixture} from './helpers/ranked-series-fixture.mjs';
@@ -20,6 +20,15 @@ const codes=['V-001','V-002','V-003','V-004','V-005','V-006'],ranks=['SS','SSS',
 const pair=reviewMercenaries().slice(0,2);
 const document=structuredClone(seed.document);codes.forEach((code,i)=>{document.mercenaries.find(m=>m.code===code).rank=ranks[i];});
 const six=codes.map(code=>battleConfig(document,code,1));
+
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: shortlist validates only saved units, including lost ownership and incomplete orders`,async t=>{
+ const {env,q}=await rankedFixture(t,postgres,{codes,ranks,rules});
+ const raw=JSON.stringify({codes,revision:4}),reversed=JSON.stringify({codes:[...codes].reverse(),revision:5});
+ await q('UPDATE user_mercenary_cards_v1 SET total_copies=0 WHERE user_id=2 AND mercenary_code=?',codes[0]).run();
+ const rosters=await readRankedCandidateRosters(env,[{id:1,ranked_roster:raw},{id:2,ranked_roster:reversed},{id:3,ranked_roster:'{'},{id:4,ranked_roster:null}],rules);
+ assert.deepEqual([...rosters.values()].map(x=>x.ready),[true,false,false,false]);
+ assert.deepEqual(rosters.get(1).codes,codes);assert.equal(rosters.get(1).raw,raw);assert.equal(rosters.get(1).revision,4);
+});
 
 test('released PVE pairs and ranked six selections preserve explicit legacy rules',()=>{
  assert.equal(COMPANION_RELEASE.dualMercenaries,true);assert.equal(RANKED_SERIES_RULES.rosterSize,6);

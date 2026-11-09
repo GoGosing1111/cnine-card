@@ -83,18 +83,29 @@ export async function releasedMercenaryFormations(env,userIds,mode='PVE',{dual=C
  return new Map(ids.map(id=>{const mercenaries=leveled.get(id).map(m=>equipmentForMercenary(equipment,id,m.code)?.items.length?{...m,equipment:equipmentForMercenary(equipment,id,m.code)}:m);return [id,{mercenaries}];}));
 }
 // Ranked-only selection. Does not read or write the ordinary PVE/PVP single slot.
-export async function rankedOwnedMercenaries(env,userIds){
+export async function rankedOwnedMercenaries(env,userIds,selections=null){
   const ids=[...new Set(userIds.map(Number))];
   if(ids.some(id=>!Number.isSafeInteger(id)||id<1)||ids.length>200)throw jointError('MERCENARY_USERS','계정 범위를 확인하세요.');
   const result=new Map(ids.map(id=>[id,[]]));if(!ids.length||!MERCENARY_DEPLOYMENT_RELEASE_ENABLED)return result;
-  const [{document},owned]=await Promise.all([readMercenaryDocument(env),env.DB.prepare(`SELECT user_id,mercenary_code FROM ${PLAYABLE_MERCENARIES} WHERE user_id IN (${ids.map(()=>'?').join(',')}) AND total_copies>0`).bind(...ids).all()]);
-  const [packOwners,jokroPackOwners]=await Promise.all([readJinmuPackOwners(env,owned.results.filter(r=>r.mercenary_code===JINMU_CODE).map(r=>Number(r.user_id))),readJokroPackOwners(env,owned.results.filter(r=>r.mercenary_code===JOKRO_CODE).map(r=>Number(r.user_id)))]);
-  const shiranuiEligible=await readShiranuiEligibleUsers(env,owned.results.filter(r=>r.mercenary_code===SHIRANUI_CODE).map(r=>r.user_id));
-  for(const row of owned.results){
+  const selectedCodes=selections?[...new Set([...selections.values()].flat())]:null;
+  const filter=selectedCodes?' AND mercenary_code IN (SELECT value FROM json_each(?))':'';
+  const [{document},owned]=await Promise.all([readMercenaryDocument(env),env.DB.prepare(`SELECT user_id,mercenary_code FROM ${PLAYABLE_MERCENARIES} WHERE user_id IN (${ids.map(()=>'?').join(',')}) AND total_copies>0${filter}`).bind(...ids,...(selectedCodes?[JSON.stringify(selectedCodes)]:[])).all()]);
+  const rows=selections?owned.results.filter(r=>selections.get(Number(r.user_id))?.includes(r.mercenary_code)):owned.results;
+  const [packOwners,jokroPackOwners,shiranuiEligible]=await Promise.all([
+    readJinmuPackOwners(env,rows.filter(r=>r.mercenary_code===JINMU_CODE).map(r=>Number(r.user_id))),
+    readJokroPackOwners(env,rows.filter(r=>r.mercenary_code===JOKRO_CODE).map(r=>Number(r.user_id))),
+    readShiranuiEligibleUsers(env,rows.filter(r=>r.mercenary_code===SHIRANUI_CODE).map(r=>r.user_id))
+  ]);
+  const candidateConfigs=selections?new Map():null;
+  for(const row of rows){
     if(!mercenaryModeAllowed(row.mercenary_code,'PVP'))continue;
     if(row.mercenary_code===SHIRANUI_CODE&&!shiranuiEligible.has(Number(row.user_id)))continue;
     if(!exclusiveAccountAllowed(row.user_id,row.mercenary_code,packOwners,jokroPackOwners))continue;
-    try{result.get(Number(row.user_id)).push(battleConfig(document,row.mercenary_code,1));}catch(error){if(error.code!=='MERCENARY_STATS_PENDING')throw error;}
+    try{
+      const code=row.mercenary_code,config=candidateConfigs?.get(code)??battleConfig(document,code,1);
+      candidateConfigs?.set(code,config);
+      result.get(Number(row.user_id)).push(config);
+    }catch(error){if(error.code!=='MERCENARY_STATS_PENDING')throw error;}
   }
   return result;
 }

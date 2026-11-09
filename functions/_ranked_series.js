@@ -5,19 +5,38 @@ import {rankedSeriesCodes,rankedSeriesRoster,rankedPublicMercenary,rankedPublicR
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {SHIRANUI_CODE} from '../shared/mercenary-shiranui-v1.mjs';
 import {shiranuiDeploymentGuard} from './_mercenary_shiranui_access.js';
-const rosterKey=(id,rules)=>`ranked_series_roster_v${rules.mercenariesPerRound}:${Number(id)}`;
+export const rankedRosterPrefix=(rules=RANKED_SERIES_RULES)=>`ranked_series_roster_v${rules.mercenariesPerRound}:`;
+const rosterKey=(id,rules)=>rankedRosterPrefix(rules)+Number(id);
 const ticketKey=(id,rules)=>`ranked_series_ticket_v${rules.mercenariesPerRound}:${Number(id)}`;
 const fail=(message='서로 다른 용병 3종을 편성하고 저장하세요.',status=409)=>Object.assign(Error(message),{status,code:'PVP_SERIES_ROSTER'});
+function savedOrder(raw,rules){
+  let revision=0,codes=[];
+  if(raw)try{
+    const value=JSON.parse(raw);
+    revision=value?.revision||0;
+    codes=rankedSeriesCodes(value?.codes,rules);
+  }catch{/* An incomplete legacy roster cannot match. */}
+  return {raw,codes,revision};
+}
+function rosterReady(codes,cards,rules){
+  try{rankedSeriesRoster(codes.map(code=>cards.find(c=>c.code===code)),rules);return true;}catch{return false;}
+}
 export async function readRankedRosters(env,ids,rules=RANKED_SERIES_RULES){
   ids=[...new Set(ids.map(Number))];if(!ids.length)return new Map();
   const [owned,saved]=await Promise.all([rankedOwnedMercenaries(env,ids),env.DB.prepare(`SELECT key,value FROM app_meta WHERE key IN (${ids.map(()=>'?').join(',')})`).bind(...ids.map(id=>rosterKey(id,rules))).all()]);
   const values=new Map(saved.results.map(row=>[row.key,row.value]));
   return new Map(ids.map(id=>{
-    const raw=values.get(rosterKey(id,rules))??null,cards=owned.get(id).map(rankedPublicMercenary);let codes=[],revision=0;
-    if(raw){const value=JSON.parse(raw);revision=value.revision;try{codes=rankedSeriesCodes(value.codes,rules);}catch{codes=[];}}
-    let ready=false;try{rankedSeriesRoster(codes.map(code=>cards.find(c=>c.code===code)),rules);ready=true;}catch{}
-    return [id,{version:rules.version,mercenariesPerRound:rules.mercenariesPerRound,rosterSize:rules.rosterSize,raw,revision,codes,cards,ready,ownedCount:cards.length}];
+    const order=savedOrder(values.get(rosterKey(id,rules))??null,rules),cards=owned.get(id).map(rankedPublicMercenary);
+    return [id,{version:rules.version,mercenariesPerRound:rules.mercenariesPerRound,rosterSize:rules.rosterSize,...order,cards,ready:rosterReady(order.codes,cards,rules),ownedCount:cards.length}];
   }));
+}
+// The shortlist query already supplies each saved order. Opponent validation
+// needs only those six owned selections, not the full collection used by the editor.
+export async function readRankedCandidateRosters(env,rows,rules=RANKED_SERIES_RULES){
+  const orders=new Map(rows.map(row=>[Number(row.id),savedOrder(row.ranked_roster,rules)]));
+  const selections=new Map([...orders].filter(([,order])=>order.codes.length).map(([id,order])=>[id,order.codes]));
+  const owned=await rankedOwnedMercenaries(env,[...selections.keys()],selections);
+  return new Map([...orders].map(([id,order])=>[id,{...order,version:rules.version,ready:rosterReady(order.codes,owned.get(id)||[],rules)}]));
 }
 export const rankedRosterPublic=({raw,...roster})=>roster;
 export async function rankedRosterState(env,id,rules=RANKED_SERIES_RULES){return rankedRosterPublic((await readRankedRosters(env,[id],rules)).get(Number(id)));}
@@ -50,9 +69,9 @@ export async function saveRankedRoster(env,user,body,rules=RANKED_SERIES_RULES){
   return {...rankedRosterPublic(current),codes,revision:current.revision+1,ready:true};
 }
 // The payload is bounded to one per attacker and committed atomically with its ticket.
-export async function saveRankedSeriesTicket(env,{insert,ticket,attacker,defender,rosters},rules=RANKED_SERIES_RULES){
+export async function saveRankedSeriesTicket(env,{insert,ticket,attacker,defender,rosters,scoringTier},rules=RANKED_SERIES_RULES){
   const a=rosters.get(Number(attacker)),b=rosters.get(Number(defender));if(!a?.ready||!b?.ready||a.version!==rules.version||b.version!==rules.version)throw fail(`서로 다른 용병 ${rules.rosterSize}종을 편성하고 저장하세요.`);
-  const payload={version:rules.version,token:ticket.token,attacker:Number(attacker),defender:Number(defender),A:a.codes,B:b.codes},guard=crypto.randomUUID();
+  const payload={version:rules.version,token:ticket.token,attacker:Number(attacker),defender:Number(defender),scoringTier,A:a.codes,B:b.codes},guard=crypto.randomUUID();
   const rows=await env.DB.batch([
     ...(env.DB.dialect==='postgres'?[env.DB.prepare('SELECT key FROM app_meta WHERE key IN (?,?) ORDER BY key FOR SHARE').bind(rosterKey(attacker,rules),rosterKey(defender,rules))]:[]),
     jointGuard(env.DB,guard,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[rosterKey(attacker,rules),a.raw,rosterKey(defender,rules),b.raw]),

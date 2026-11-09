@@ -1,3 +1,4 @@
+import {rankedPromotionStatus,rankedLadderGame} from '../shared/ranked-reform-v1.mjs';
 import {seasonBonus,seasonAwardStatements} from '../functions/_season_s1.js';
 import {simulateRankedSeries,rankedSeriesReceipt} from '../shared/ranked-series-v1.mjs';
 import test from 'node:test';
@@ -25,8 +26,8 @@ function fixture({win=true,deckLength=5,stale=false,recent=[],invalidTicket=fals
   }};
   const reward=name=>async()=>{effects.push(name);return null;};
   const selectedCodes=['V-001','V-002','V-003','V-004','V-005','V-006'];
-  const deps={seasonBonus,seasonAwardStatements,simulateRankedSeries,rankedSeriesReceipt,rankedOwnershipGuard:()=>[],
-    readRankedSeriesTicket:async()=>missingSeries?null:{A:selectedCodes,B:[...selectedCodes].reverse()},
+  const deps={rankedPromotionStatus,rankedLadderGame,seasonBonus,seasonAwardStatements,simulateRankedSeries,rankedSeriesReceipt,rankedOwnershipGuard:()=>[],
+    readRankedSeriesTicket:async()=>missingSeries?null:{scoringTier:'bronze',A:selectedCodes,B:[...selectedCodes].reverse()},
     rankedSelectedMercenaries:async(_,selections)=>{if(invalidRoster)throw Object.assign(Error('ownership changed'),{status:409});return new Map([...selections].map(([id,codes])=>[id,codes.map(code=>({code,rank:Number(code.slice(2))%2?'SSS':'SS',basePower:mercenaryPowers[id]||100}))]));},
     ensureRankedPvpFoundation:async()=>{},rankedFightReceipt:async()=>receipt?{...receipt,replayed:true}:null,utcMs:()=>0,authenticate:async()=>users[1],readBody:async()=>({requestId:'ranked-performance-request',matchToken:'ticket'}),
     advancePvpSeasonLifecycle:async()=>({settings,settling:false}),burningEventSettings:async()=>({}),applyBurningPvpSettings:s=>s,isAdminRole:()=>false,
@@ -41,7 +42,7 @@ function fixture({win=true,deckLength=5,stale=false,recent=[],invalidTicket=fals
     releasedMercenarySnapshot:async(_,user)=>mercenaryPowers[user.id]?{code:'mercenary-'+user.id,basePower:mercenaryPowers[user.id]}:null,mercenarySnapshotPower:m=>m?.basePower??0,loadPetBattleSnapshot:async()=>null,
     battleEngineState:()=>({active:true}),drawIntegrityHash:()=> 'abc123',avatarScaledPower:n=>n,
     createPvpBattleV2:input=>{combatInputs.push(input);return {result:{winner:outcomes?.[combatInputs.length-1]||(win?'A':'B'),reason:'ELIMINATION',actions:5,final:{A:[],B:[]}},teams:{A:{summary:{power:500}},B:{summary:{power:500}}}};},
-    pvpSeasonScoreAdjustment:w=>({change:24}),consumePvpEnergy:async()=>{effects.push('energy');return {state:{energy}};},commitRankedFight:async(_,options)=>{await env.DB.batch(options.writes);receipt={...options.response,energy:{energy:--energy}};return receipt;},
+    consumePvpEnergy:async()=>{effects.push('energy');return {state:{energy}};},commitRankedFight:async(_,options)=>{await env.DB.batch(options.writes);receipt={...options.response,energy:{energy:--energy}};return receipt;},
     burningRewardAmount:amount=>amount,applyAvatarCoinGain:base=>({base,total:base,bonus:0,percent:0}),
     collectionRewardCoin:async(_env,userId,base,source)=>{assert.equal(userId,1);assert.equal(source,'PVP');return base;}, // This fixture has no collection bonuses.
     grantBattleCube:async()=>assert.fail('retired cube rewards must not run'),grantHighGradeRerollDrop:reward('reroll'),magicSettings:async()=>({acquisition:{pvp:{enabled:true,chance:1,amount:1,dailyLimit:3}}}),
@@ -58,7 +59,7 @@ test('optimized ranked fight preserves win/loss energy, attacker-only coins, sco
     const f=fixture({win}),r=await f.call();
     assert.equal(r.status,200);assert.equal(f.combatInputs.length,2);assert.equal(r.data.rankedSeries.rounds.length,2);assert.equal(r.data.result,win?'WIN':'LOSE');assert.equal(f.energy(),4);
     assert.equal(f.users[1].coin,win?350:325);assert.equal(f.users[2].coin,900);
-    assert.equal(r.data.coinAfter,f.users[1].coin);assert.equal(f.profiles[2].season_score,1000);assert.equal(f.profiles[2].wins+f.profiles[2].losses,0);assert.equal(r.data.scoreAfter,win?1024:976);
+    assert.equal(r.data.coinAfter,f.users[1].coin);assert.equal(f.profiles[2].season_score,1000);assert.equal(f.profiles[2].wins+f.profiles[2].losses,0);assert.equal(r.data.scoreAfter,win?1030:986);
     assert.deepEqual(f.effects,['energy','history','audit','coin_log',...(win?['reroll','magic','equipment','black','unified']:[])]);
     assert.equal(f.queries.filter(q=>q.includes('SELECT id,role')).length,0);
   }
@@ -80,9 +81,9 @@ test('concurrent duplicate tickets and replay do not enter reward work twice',as
 test('a server-issued fallback ticket starts a third consecutive match and replay charges only once',async()=>{
   const f=fixture({recent:[2,2]}),result=await f.call();
   assert.equal(result.status,200,JSON.stringify(result.data));assert.equal(result.data.result,'WIN');
-  assert.equal(f.energy(),4);assert.equal(f.users[1].coin,350);assert.equal(f.profiles[1].season_score,1024);
+  assert.equal(f.energy(),4);assert.equal(f.users[1].coin,350);assert.equal(f.profiles[1].season_score,1030);
   assert.equal((await f.call()).data.replayed,true);
-  assert.equal(f.energy(),4);assert.equal(f.users[1].coin,350);assert.equal(f.profiles[1].season_score,1024);
+  assert.equal(f.energy(),4);assert.equal(f.users[1].coin,350);assert.equal(f.profiles[1].season_score,1030);
   assert.equal(f.effects.filter(x=>x==='history').length,1);
 });
 
