@@ -5,10 +5,14 @@ const clamp=v=>Math.max(0,Math.min(1,v));
 const smooth=v=>{v=clamp(v);return v*v*(3-2*v);};
 const gate=(t,a,b,c,d)=>smooth((t-a)/(b-a))*(1-smooth((t-c)/(d-c)));
 export class TrioFX{
- static pending=new Map();
  static preload(key){
-  if(!this.pending.has(key))this.pending.set(key,Promise.all([`${key}-battle-ready-v1.png`,`${key}-cutin-v1.png`,`${key}-ultimate-sheet-v2.png`,`${key}-action-poses-v1.png`,'status-effects-sheet-v1.png'].map(file=>Assets.load(ROOT+'/assets/'+file))).catch(error=>{this.pending.delete(key);throw error;}));
-  return this.pending.get(key);
+  // Pixi owns both in-flight loads and cached textures. Leaving a battle
+  // unloads these images, so a resolved promise from that battle is stale.
+  const load=file=>Assets.load(ROOT+'/assets/'+file);
+  return Promise.all([
+   load(key+'-battle-ready-v1.png'),load(key+'-cutin-v1.png'),load(key+'-ultimate-sheet-v2.png'),
+   load(key+'-action-poses-v1.png').catch(()=>null),load('status-effects-sheet-v1.png')
+  ]);
  }
  constructor(skill,textures,points,{viewport,reducedMotion=false,actorMotion=null}={}){
   this.skill=skill;this.boss=bossByKey(skill.boss);this.points=points;this.w=viewport?.width||1440;this.h=viewport?.height||900;this.reducedMotion=reducedMotion;this.actorMotion=actorMotion;this.cursor={time:0};this.released=false;

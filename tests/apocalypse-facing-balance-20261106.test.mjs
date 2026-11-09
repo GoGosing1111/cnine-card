@@ -3,6 +3,10 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
 import {PGlite} from '@electric-sql/pglite';
+import {Assets,Container,Sprite,Texture,TextureSource} from 'pixi.js';
+import {configureTrioActor,TrioActorMotion} from '../preview/project-v-v3/source/battle/trio/TrioActorMotion.mjs';
+import {TrioFX} from '../preview/project-v-v3/source/battle/trio/TrioFX.mjs';
+import {playTrioSkill} from '../preview/project-v-v3/source/battle/TrioPlayback.js';
 import {BOSSES,draftBoss,apocalypseTrioLiveProfile} from '../shared/apocalypse-trio-v1.mjs';
 import reference from '../docs/qa/apocalypse-trio-live-20261106/reference.json' with {type:'json'};
 import saved from '../docs/qa/apocalypse-facing-balance-20261106/saved-parties.json' with {type:'json'};
@@ -11,7 +15,7 @@ import {lowerApocalypseTrio,OPERATION_KEY,PREVIOUS_POWERS} from '../scripts/ops/
 
 test('Kargen reused sprite faces allies in world space, including an inherited negative body scale',()=>{
  const source=fs.readFileSync(new URL('../preview/project-v-v3/source/battle/trio/TrioActorMotion.mjs',import.meta.url),'utf8');
- const code=source.slice(source.indexOf('export function configureTrioActors'),source.indexOf('/** Owns')).replace('export function','function');
+ const code=source.slice(source.indexOf('export function configureTrioActors'),source.indexOf('/** Owns')).replaceAll('export function','function');
  const context={draftBoss};vm.runInNewContext(code+';globalThis.configure=configureTrioActors;',context);
  for(const initial of [-.22,.22]){
   const actor={battleCard:{cardId:'MONSTER:81'},art:{},view:{scale:{x:-1}},fullBodySprite:{scale:{x:initial}},animationAdapter:{kill(){}},applyFacing(){this.view.scale.x=this.artFacing===-1?1:-1;},captureNeutralAvatarPose(){this.neutral={view:this.view.scale.x,body:this.fullBodySprite.scale.x};}};
@@ -19,6 +23,60 @@ test('Kargen reused sprite faces allies in world space, including an inherited n
   assert(muzzle<shoulder,'muzzle must be to the left of the shoulder, not merely a positive view scale');
   assert.deepEqual(actor.neutral,{view:1,body:.22});
  }
+});
+
+test('Morgas restores the visible authored body on every cast, interruption and return, and releases the slot on reuse',()=>{
+ const texture=(w,h)=>new Texture({source:new TextureSource({width:w,height:h})});
+ const idle=texture(64,44),actions=texture(128,128),stage=new Container(),root=new Container(),view=new Container();
+ const body=new Sprite(idle);stage.addChild(root);root.addChild(view);view.addChild(body);root.position.set(900,320);
+ const actor={team:'ENEMY',battleCard:{cardId:'MONSTER:83'},hp:14,state:'IDLE',root,view,art:{},fullBodySprite:body,fullBodyRestPose:{texture:idle,width:256,height:176},
+  applyFacing(){view.scale.x=this.artFacing===-1?1:-1;},captureNeutralAvatarPose(){},setState(state){this.state=state;}};
+ for(const skill of BOSSES[2].skills){
+  body.texture=Texture.EMPTY;body.scale.set(-.01,0);body.alpha=view.alpha=0;body.visible=view.visible=false;body.renderable=view.renderable=false;
+  configureTrioActor(actor);
+  const motion=new TrioActorMotion({scene:{width:1440}},actor,skill,actions,[{x:270,y:300}]);
+  for(const t of [0,1.12,skill.impactAt,skill.impactAt+.32,skill.duration-.09,skill.duration]){
+   motion.render(t);
+   assert(body.toGlobal({x:-12,y:0}).x<body.toGlobal({x:8,y:0}).x,skill.code+' must look left');
+   assert(view.visible&&view.renderable&&view.alpha===1&&body.visible&&body.renderable&&body.alpha===1&&body.height>170,skill.code+' must have a body');
+  }
+  motion.render(skill.impactAt);motion.release();motion.release();
+  assert.equal(body.texture,idle);assert.equal(body.height,176);assert.equal(root.x,900);assert.equal(actor.hp,14);
+ }
+ const motion=new TrioActorMotion({scene:{width:1440}},actor,BOSSES[2].skills[2],actions,[{x:270,y:300}]);
+ actor.hp=0;motion.release();assert.equal(actor.state,'DEAD');
+ actor.battleCard={cardId:'MONSTER:82'};configureTrioActor(actor);assert(view.scale.x<0);
+ actor.battleCard={cardId:'MONSTER:7'};configureTrioActor(actor,-1);assert(view.scale.x>0);assert.equal(actor.trioBossKey,null);
+ stage.destroy({children:true});idle.destroy(true);actions.destroy(true);
+});
+
+test('a second encounter loads fresh skill textures after the previous Pixi assets are retired',async t=>{
+ const cache=new Map();
+ t.mock.method(Assets,'load',async path=>{
+  if(!cache.has(path))cache.set(path,new Texture({source:new TextureSource({width:32,height:32})}));
+  return cache.get(path);
+ });
+ const first=await TrioFX.preload('archdemon');
+ assert.equal((await TrioFX.preload('archdemon'))[3],first[3]);
+ for(const texture of cache.values())texture.destroy(true);
+ cache.clear();
+ const second=await TrioFX.preload('archdemon');
+ assert(second.every((texture,i)=>texture!==first[i]&&texture.source&&!texture.destroyed));
+ for(const texture of cache.values())texture.destroy(true);
+});
+
+test('a failed Morgas pose atlas keeps his idle body and plays the effect through its single server impact',async t=>{
+ const image=new Texture({source:new TextureSource({width:96,height:96})});
+ t.mock.method(Assets,'load',async file=>{if(file.endsWith('-action-poses-v1.png'))throw Error('decode failed');return image;});
+ const body=new Sprite(Texture.EMPTY),view=new Container(),root=new Container(),effectLayer=new Container();view.addChild(body);root.addChild(view);
+ const actor={battleCard:{cardId:'MONSTER:83'},id:'boss',hp:14,root,view,fullBodySprite:body,fullBodyRestPose:{texture:image,width:180,height:180},applyFacing(){},captureNeutralAvatarPose(){}};
+ const target={id:'ally',root:{x:320,y:400}},skill=BOSSES[2].skills[2];let applied=0,timed=0;
+ const engine={combatantById:id=>id==='boss'?actor:target,effectLayer,scene:{width:1440,height:900},queueBanner(){},eventHpPercent:()=>63,syncTargetHp(){applied++;},
+  async timeline(build,cleanup){timed++;assert.equal(this.activeTrioFX.actorMotion,null);assert.equal(body.texture,image);assert(body.visible);
+   build({to(){},call(fn,args,at){assert.equal(at,skill.impactAt);fn();fn();}});cleanup();}};
+ assert(await playTrioSkill(engine,{skillCode:skill.code,actorId:'boss',hits:[{targetId:'ally',targetHpAfter:63}]},()=>{}));
+ assert.equal(timed,1);assert.equal(applied,1);assert.equal(actor.hp,14);assert.equal(body.texture,image);assert.equal(effectLayer.children.length,0);
+ root.destroy({children:true});effectLayer.destroy();image.destroy(true);
 });
 
 test('mercenary crossing behind Kargen during recovery cannot turn his action pose away from the allied formation',()=>{

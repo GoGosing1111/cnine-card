@@ -10,25 +10,49 @@ const footAnchors={
  'archdemon':[.95,.95,.94,.97]
 };
 
-// The enemy view already mirrors source art. Counter-mirror this left-facing
-// rifle source so the soldier faces the player's formation in the real engine.
 export function configureTrioActors(engine){
- for(const actor of engine.enemies||[]){
-  const boss=draftBoss(actor.battleCard||actor);
-  if(!boss){
-   if(actor.trioBossKey){actor.artFacing=1;actor.applyFacing();actor.art={...actor.art,calmIdle:actor.trioPreviousCalmIdle};actor.captureNeutralAvatarPose();actor.trioBossKey=null;}
-   continue;
+ for(const actor of engine.enemies||[])configureTrioActor(actor);
+}
+
+export function configureTrioActor(actor,defaultFacing){
+ const boss=draftBoss(actor.battleCard||actor);
+ if(!boss){
+  if(actor.trioBossKey||defaultFacing!==undefined){
+   actor.artFacing=defaultFacing??1;
+   actor.applyFacing();
   }
-  if(!actor.trioBossKey)actor.trioPreviousCalmIdle=actor.art?.calmIdle;
-  actor.animationAdapter?.kill?.();
-  // A reused actor may retain a mirrored action sprite. Facing belongs to the
-  // view; normalize the body as well before freezing the next idle/rest pose.
-  // Testing view.scale alone misses this second, inherited mirror.
-  if(actor.fullBodySprite)actor.fullBodySprite.scale.x=Math.abs(actor.fullBodySprite.scale.x);
-  actor.artFacing=boss.key==='infected-soldier'?-1:1;actor.applyFacing();
-  actor.art={...actor.art,calmIdle:true};actor.captureNeutralAvatarPose();
-  actor.trioBossKey=boss.key;
+  if(actor.trioBossKey){
+   actor.art={...actor.art,calmIdle:actor.trioPreviousCalmIdle};
+   actor.captureNeutralAvatarPose();
+   actor.trioBossKey=null;
+  }
+  return;
  }
+ if(!actor.trioBossKey)actor.trioPreviousCalmIdle=actor.art?.calmIdle;
+ actor.animationAdapter?.kill?.();
+ const body=actor.fullBodySprite,rest=actor.fullBodyRestPose;
+ if(body){
+  // Restore the loaded SD and its authored size before sampling a rest pose.
+  // A hit, interrupted cast or unloaded action atlas can leave a transient pose.
+  if(rest?.texture?.source&&!rest.texture.destroyed&&!rest.texture.source.destroyed){
+   body.texture=rest.texture;
+   body.anchor.set(.5,.98);
+   body.width=rest.width;
+   body.height=rest.height;
+   if(actor.hp>0){
+    body.visible=body.renderable=true;
+    actor.view.visible=actor.view.renderable=true;
+    body.alpha=actor.view.alpha=1;
+   }
+  }
+  body.scale.x=Math.abs(body.scale.x);
+ }
+ // The soldier and dragon idle drawings already face the allied (left) side.
+ actor.artFacing=boss.key==='hell-general'?1:-1;
+ actor.applyFacing();
+ actor.art={...actor.art,calmIdle:true};
+ actor.captureNeutralAvatarPose();
+ actor.trioBossKey=boss.key;
 }
 
 /** Owns the existing BattleCharacter's sprite and world position, never a clone. */

@@ -1,6 +1,7 @@
 import {TrioFX} from './trio/TrioFX.mjs';
 import {BOSSES,bossByKey} from '../../../../shared/apocalypse-trio-v1.mjs';
-import {TrioActorMotion,configureTrioActors} from './trio/TrioActorMotion.mjs';
+import {TrioActorMotion,configureTrioActor} from './trio/TrioActorMotion.mjs';
+const drawable=texture=>texture?.source&&!texture.destroyed&&!texture.source.destroyed&&texture.width>1&&texture.height>1;
 export async function playTrioSkill(engine,event,showApocalypseStatus){
  const skill=BOSSES.flatMap(b=>b.skills).find(s=>s.code===event.skillCode);if(!skill)return false;
  const epoch=engine.playbackEpoch,session=engine.battleData;
@@ -22,11 +23,14 @@ export async function playTrioSkill(engine,event,showApocalypseStatus){
  if(engine.disposed||engine.playbackEpoch!==epoch||engine.battleData!==session)return false;
  engine.lastTrioPlayback=record;(engine.trioRecords??=[]).push(record);
  engine.queueBanner(skill.name,bossByKey(skill.boss).color,bossByKey(skill.boss).name);
- if(!textures||!actor?.fullBodySprite){apply();return true;}
+ if(!actor?.fullBodySprite||actor.hp<=0){apply();return true;}
  // A preceding mercenary dash can still be returning beyond the boss. Finish
  // those owned tails before taking target positions for this new action.
- engine.settlePendingTails?.([actor,...targets]);configureTrioActors(engine);
- const points=targets.map(t=>({x:t.root.x,y:t.root.y})),motion=new TrioActorMotion(engine,actor,skill,textures[3],points);
+ engine.settlePendingTails?.([actor,...targets]);configureTrioActor(actor);
+ if(!textures||![textures[1],textures[2],textures[4]].every(drawable)){apply();return true;}
+ const points=targets.map(t=>({x:t.root.x,y:t.root.y}));
+ // Keep the restored SD on stage if only the action poses failed to decode.
+ const motion=drawable(textures[3])?new TrioActorMotion(engine,actor,skill,textures[3],points):null;
  const fx=new TrioFX(skill,textures,points,{viewport:engine.scene,reducedMotion:engine.reducedMotion,actorMotion:motion}).attach(engine.effectLayer);
  const release=()=>{fx.release();if(engine.activeTrioFX===fx)engine.activeTrioFX=null;};fx.onCancel=release;
  engine.activeTrioFX=fx;engine.trioPlaybackTime=0;

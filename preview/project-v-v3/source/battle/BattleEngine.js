@@ -8,7 +8,7 @@ import {drawBattleGroundStations} from './BattleGroundSigil.js';
 import {preloadBattleHud} from './BattleHud.js';
 import {apocalypseLegionBoss} from '../../../../shared/apocalypse-legion-v1.mjs';
 import {ApocalypseLegionFX} from './ApocalypseLegionFX.js';
-import {configureTrioActors} from './trio/TrioActorMotion.mjs';
+import {configureTrioActor,configureTrioActors} from './trio/TrioActorMotion.mjs';
 import {playApocalypseLegionSkill,showApocalypseStatus} from './ApocalypseLegionPlayback.js';
 import {Application, Assets, BlurFilter, Container, Graphics, Sprite, Text, Texture} from 'pixi.js';
 import {gsap} from 'gsap';
@@ -2024,7 +2024,7 @@ export class BaseBattleEngine{
     target.cutInTexture=texture;
     if(target.sealDragon){target.setAnimationAdapter(null);target.sealDragon=null;}
     target.useFullBodySprite(texture,285*(art.scaleMultiplier||1));
-    target.artFacing=this.coopArkeBattlefield?-1:1;target.applyFacing();
+    configureTrioActor(target,this.coopArkeBattlefield?-1:1);
     if(this.coopArkeBattlefield)target.fullBodySprite.anchor.set(.5,.94);
     target.setTint(0xffffff);
     target.name=monster?.name||art.name;
