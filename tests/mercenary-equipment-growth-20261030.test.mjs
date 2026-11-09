@@ -69,9 +69,11 @@ test('duo owner with the full set and growth can enter and resolve battle',()=>{
 });
 
 test('ranked series resolves equipped grown mercenaries across round boundaries',()=>{
- const series=simulateRankedSeries({createBattle:createPvpBattleV2,options:{attackerCards:cards,defenderCards:cards},attackerMercenaries:['V-972','V-999','V-058'].map(code=>geared('PVP',8,21,10,code)),defenderMercenaries:['V-979','V-996','V-058'].map(code=>rankedSnapshot(code,5)),seed:17});
+ const attackers=['V-972','V-001','V-999','V-002','V-058','V-003'].map((code,i)=>i%2?rankedSnapshot(code,5):geared('PVP',8,21,10,code));
+ const defenders=['V-979','V-004','V-996','V-005','V-058','V-006'].map(code=>rankedSnapshot(code,5));
+ const series=simulateRankedSeries({createBattle:createPvpBattleV2,options:{attackerCards:cards,defenderCards:cards},attackerMercenaries:attackers,defenderMercenaries:defenders,seed:17});
  assert(series.rounds.length>=2);assert.equal(Math.max(series.score.A,series.score.B),2);
- for(const round of series.rounds){const m=round.battleV2.teams.A.mercenaries[0];assert(m.mercenaryLevelApplied);assert.equal(m.equipmentEffects.speedPercent,10);assert(round.battleV2.result.timeline.length>0);}
+ for(const round of series.rounds){const [m,partner]=round.battleV2.teams.A.mercenaries;assert(m.mercenaryLevelApplied);assert.equal(m.equipmentEffects.speedPercent,10);assert.equal(partner.equipmentEffects?.speedPercent||0,0);assert(round.battleV2.result.timeline.length>0);}
 });
 
 test('no-gear and 2/4-piece integer inputs preserve the prior arithmetic',()=>{

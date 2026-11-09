@@ -49,7 +49,8 @@ for(const postgres of [false,true]){
  test(`${label}: inventory cursor exposes every duplicate once and applies filters before pagination`,async t=>{
   const f=await fixture(t,postgres);for(let n=0;n<145;n++)await f.p("INSERT INTO user_equipment_instances(id,user_id,equipment_id,source_type,request_id) VALUES(?,7,100,'QA',?)",9000+n,rid()).run();
   let cursor='',seen=[];do{const page=await mercenaryEquipmentState(f.env,f.user,{cursor,slot:'WEAPON'});assert.ok(page.items.length<=120);assert.ok(page.items.every(i=>i.slot==='WEAPON'));seen.push(...page.items.map(i=>i.instanceId));cursor=page.nextCursor;}while(cursor);
-  assert.equal(seen.length,162);assert.equal(new Set(seen).size,seen.length);
+  const expected=(await f.p("SELECT x.id FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id WHERE x.user_id=7 AND i.slot='WEAPON'").all()).results.map(row=>String(row.id));
+  assert.deepEqual([...seen].sort(),expected.sort());assert.equal(new Set(seen).size,seen.length);
   await f.save('V-001','PVE','1000',0);const own=await mercenaryEquipmentState(f.env,f.user,{owner:'self',mercenaryCode:'V-001'});assert.deepEqual(own.items.map(i=>i.instanceId),['1000']);
   const free=await mercenaryEquipmentState(f.env,f.user,{owner:'free'});assert.ok(!free.items.some(i=>i.instanceId==='1000'));
   await assert.rejects(()=>f.save('V-999','PVE','1000',1),{code:'MERCENARY_EQUIPMENT_MERCENARY'});
