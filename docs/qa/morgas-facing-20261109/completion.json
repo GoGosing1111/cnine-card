@@ -1,0 +1,1181 @@
+{
+  "title": "아포칼립스 모르가스 방향 · 스킬 중 몸체 소실",
+  "verifiedAt": "2026-11-09T14:54:28.834Z",
+  "source": "41652d58780c57b1cdcb88d84c430c40e373580c",
+  "pages": {
+    "at": "2026-11-09T14:52:35.583Z",
+    "id": "4fdfe82f-274e-4f14-a06d-8bfee0829f95",
+    "url": "https://4fdfe82f.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "41652d58780c57b1cdcb88d84c430c40e373580c"
+  },
+  "workerDeployments": [
+    {
+      "name": "cnine-card-api-runtime",
+      "versions": [
+        {
+          "version_id": "e876727a-9503-4b13-8660-e2aa8ee35cae",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "versions": [
+        {
+          "version_id": "c4ab1bf8-937b-438d-bc0a-1be94f5b3104",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "scopedTests": 51,
+  "deliveryFiles": 20000,
+  "publicHashes": [
+    {
+      "file": "index.html",
+      "bytes": 51725,
+      "sha256": "887483c3b6c296fdcf495c28fb50f9780c8117acb3e087becfc5caf681022ca6",
+      "windows": true
+    },
+    {
+      "file": "onestore/index.html",
+      "bytes": 51319,
+      "sha256": "8af7985afab36822e35e60c0886c82b86e81b9b9a519f88216d5ae40f261135e",
+      "windows": false
+    },
+    {
+      "file": "js/app.js",
+      "bytes": 820720,
+      "sha256": "2972eb574e9f8774fbc406b90750d1cab9deb85cdc47124c9920b4585d89b17f",
+      "windows": true
+    },
+    {
+      "file": "onestore/js/app.js",
+      "bytes": 815130,
+      "sha256": "56d3edfa041fe8aa1b19b8802f0485c2e63964a57884e30c564da174fc73b515",
+      "windows": false
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "bytes": 78406,
+      "sha256": "5968364cc685b1cd3c07f094743e6a27b5b6498b3f5cac4f0e584613cb39c633",
+      "windows": true
+    },
+    {
+      "file": "service-worker.js",
+      "bytes": 25402,
+      "sha256": "6f62d6dca2c7f36e0e48785b134124d0ab9e81d814d0e011770cc123a565ed76",
+      "windows": false
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "bytes": 3648039,
+      "sha256": "97037455767516a55f829f2354c2edabe93c2edf146516237149481bca7bb467",
+      "windows": true
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "bytes": 3648013,
+      "sha256": "1c25248eab029046d7a64a004c1fde35a1768570999f11ad8ca2c4fd1e9aa60f",
+      "windows": true
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "bytes": 3671725,
+      "sha256": "a493d8a414e416a8405ff3c5bac93a72919f588d7ac8c95c8a10e4bca3f45f6a",
+      "windows": true
+    },
+    {
+      "file": "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/archdemon-battle-ready-v1.png",
+      "bytes": 2397964,
+      "sha256": "bf15f2668dbb96445199f8d7af7dacd1652bb13303031de43581e856feed1b01",
+      "windows": true
+    },
+    {
+      "file": "assets/ui/project-v/monsters/apocalypse-trio-20261106/assets/archdemon-action-poses-v1.png",
+      "bytes": 2656958,
+      "sha256": "96069ad87428c522cfba20441e34ddc29d2036aeb7472ed4a21ee1d70f52bd17",
+      "windows": true
+    }
+  ],
+  "reproduction": "Start Monster Hunt from the actual lobby, choose Apocalypse/Morgas, dodge, finish the battle, acknowledge the result, then enter the same target again in the same document. The legacy trio cache retained the resolved pose atlas after Pixi unloaded the first encounter. The second fight had valid object bounds and alpha but zero opaque pixels in all four skill poses. The left-facing authored idle art was mirrored a second time by the enemy view.",
+  "fix": "Use the live Pixi asset cache on each load. Restore the loaded idle texture, authored dimensions, visible body and facing before recording a neutral pose. If the pose atlas cannot decode, keep the idle body and play the remaining effects through the authoritative impact. Normalize both formation and single-boss entries.",
+  "fixture": "An isolated server-generated battle uses the five card identities from the report, Helios King, Bikini Joeun, and a Z-body. Gear, power, equipment and seed are controlled test inputs. After the six escorts fall Morgas reaches 14.37% HP. A separate historical battle with other mercenaries exercises the mobile and host paths. Production APIs were intercepted into an isolated local fixture.",
+  "method": "Frame samples check direction against the allied formation, body visibility/scales/screen bounds, and opaque pixels in the decoded source at 64 px. Candidate and published party checks additionally draw each actual pose as a Pixi sprite in an offscreen render target and read its opaque pixels. Screenshots show the on-stage body. Milliseconds from the fight button pointerdown to the first selectable safe-zone frame. Frame intervals are browser RAF samples, not display refresh-rate promises. Isolated Windows host and touch-emulated WebKit/H5; no physical phone.",
+  "performanceNotes": "The controlled WebKit 390px entry-only comparison starts in a fresh browser context, then repeats the same opponent after the normal result dialog. It uses the same isolated party and ends the challenge on an unsafe zone after measuring input readiness. Full fights use the safe zone. First/repeat times were 6697/2837 ms before and 5612/2388 ms after in this single pair. The local fight response took 16–22 ms. Emulated WebKit produced long frames in both full-fight runs; example p95 45/45 ms before and 56/62 ms after on the alternate party, with overlapping host build work on the latter. The reported party on desktop stayed at 4 ms p95. These measurements do not establish physical iPhone performance. Releasing expired GPU images and letting Pixi reuse living assets avoids retaining the previous encounter’s bitmaps without adding a per-frame update.",
+  "reportedParty": {
+    "before": {
+      "coldLobbyMs": 994,
+      "battleClickToFirstSafeInputMs": [
+        1965,
+        688
+      ],
+      "exit": {
+        "fx": false,
+        "canvas": false,
+        "timers": false
+      },
+      "diagnostics": [],
+      "fights": [
+        {
+          "livingSamples": 11753,
+          "wrongFacing": 10297,
+          "missingBody": 0,
+          "loneBossSamples": 8645,
+          "minHpPercent": 14.36597881074489,
+          "frameMs": {
+            "count": 11780,
+            "p95": 4,
+            "max": 63,
+            "over50": 2
+          },
+          "impacts": [
+            {
+              "code": "ARCHDEMON_SEAL",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_CURSE",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_ULTIMATE",
+              "impacts": 1
+            }
+          ],
+          "sourcePixelsAt64": {
+            "battle/-1": 1319,
+            "seal/-1": 1319,
+            "seal/0": 1068,
+            "seal/3": 1512,
+            "curse/-1": 1319,
+            "curse/0": 1068,
+            "curse/3": 1512,
+            "ultimate/-1": 1319,
+            "ultimate/0": 1068,
+            "ultimate/1": 1652,
+            "ultimate/2": 1362,
+            "ultimate/3": 1512
+          }
+        },
+        {
+          "livingSamples": 11758,
+          "wrongFacing": 10288,
+          "missingBody": 1470,
+          "loneBossSamples": 8681,
+          "minHpPercent": 14.36597881074489,
+          "frameMs": {
+            "count": 11789,
+            "p95": 4,
+            "max": 54,
+            "over50": 1
+          },
+          "impacts": [
+            {
+              "code": "ARCHDEMON_SEAL",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_CURSE",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_ULTIMATE",
+              "impacts": 1
+            }
+          ],
+          "sourcePixelsAt64": {
+            "battle/-1": 1319,
+            "seal/-1": 1319,
+            "seal/0": 0,
+            "seal/3": 0,
+            "curse/-1": 1319,
+            "curse/0": 0,
+            "curse/3": 0,
+            "ultimate/-1": 1319,
+            "ultimate/0": 0,
+            "ultimate/1": 0,
+            "ultimate/2": 0,
+            "ultimate/3": 0
+          }
+        }
+      ]
+    },
+    "after": {
+      "coldLobbyMs": 949,
+      "battleClickToFirstSafeInputMs": [
+        2082,
+        965
+      ],
+      "exit": {
+        "fx": false,
+        "canvas": false,
+        "timers": false
+      },
+      "diagnostics": [],
+      "fights": [
+        {
+          "livingSamples": 11612,
+          "wrongFacing": 0,
+          "missingBody": 0,
+          "loneBossSamples": 8567,
+          "minHpPercent": 14.36597881074489,
+          "frameMs": {
+            "count": 11668,
+            "p95": 4,
+            "max": 83,
+            "over50": 6
+          },
+          "impacts": [
+            {
+              "code": "ARCHDEMON_SEAL",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_CURSE",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_ULTIMATE",
+              "impacts": 1
+            }
+          ],
+          "sourcePixelsAt64": {
+            "battle/-1": 1319,
+            "seal/-1": 1319,
+            "seal/0": 1068,
+            "seal/3": 1512,
+            "curse/-1": 1319,
+            "curse/0": 1068,
+            "curse/3": 1512,
+            "ultimate/-1": 1319,
+            "ultimate/0": 1068,
+            "ultimate/1": 1652,
+            "ultimate/2": 1362,
+            "ultimate/3": 1512
+          },
+          "rendererPixelsAt64": {
+            "battle/-1": 887,
+            "seal/-1": 887,
+            "seal/0": 711,
+            "seal/3": 1000,
+            "curse/-1": 887,
+            "curse/0": 711,
+            "curse/3": 1000,
+            "ultimate/-1": 887,
+            "ultimate/0": 711,
+            "ultimate/1": 1101,
+            "ultimate/2": 918,
+            "ultimate/3": 1000
+          }
+        },
+        {
+          "livingSamples": 11616,
+          "wrongFacing": 0,
+          "missingBody": 0,
+          "loneBossSamples": 8654,
+          "minHpPercent": 14.36597881074489,
+          "frameMs": {
+            "count": 11647,
+            "p95": 4,
+            "max": 75,
+            "over50": 1
+          },
+          "impacts": [
+            {
+              "code": "ARCHDEMON_SEAL",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_CURSE",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_ULTIMATE",
+              "impacts": 1
+            }
+          ],
+          "sourcePixelsAt64": {
+            "battle/-1": 1319,
+            "seal/-1": 1319,
+            "seal/0": 1068,
+            "seal/3": 1512,
+            "curse/-1": 1319,
+            "curse/0": 1068,
+            "curse/3": 1512,
+            "ultimate/-1": 1319,
+            "ultimate/0": 1068,
+            "ultimate/1": 1652,
+            "ultimate/2": 1362,
+            "ultimate/3": 1512
+          },
+          "rendererPixelsAt64": {
+            "battle/-1": 887,
+            "seal/-1": 887,
+            "seal/0": 711,
+            "seal/3": 1000,
+            "curse/-1": 887,
+            "curse/0": 711,
+            "curse/3": 1000,
+            "ultimate/-1": 887,
+            "ultimate/0": 711,
+            "ultimate/1": 1101,
+            "ultimate/2": 918,
+            "ultimate/3": 1000
+          }
+        }
+      ]
+    },
+    "published": {
+      "coldLobbyMs": 1119,
+      "battleClickToFirstSafeInputMs": [
+        3346,
+        2995
+      ],
+      "entryDetails": [
+        {
+          "resources": 40,
+          "apiMs": 13,
+          "lastResource": "/css/apocalypse-challenge-v1.css",
+          "afterLastMs": 1,
+          "mainThreadOver50Ms": 230,
+          "slowest": [
+            {
+              "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/source-art-approved.png",
+              "ms": 248
+            },
+            {
+              "path": "/assets/optimized/20261015-v1/1d33db1c01d4aa7a7ee53eae.webp",
+              "ms": 227
+            },
+            {
+              "path": "/assets/optimized/20261015-v1/6562acf5b146cb621487955a.webp",
+              "ms": 129
+            },
+            {
+              "path": "/assets/cards/976467971.jpg",
+              "ms": 102
+            },
+            {
+              "path": "/assets/ui/project-v/battlefields/v3-nightmare-forest-battlefield-v1.png",
+              "ms": 97
+            }
+          ]
+        },
+        {
+          "resources": 24,
+          "apiMs": 14,
+          "lastResource": "/api/battle/apocalypse-challenge/open",
+          "afterLastMs": 41,
+          "mainThreadOver50Ms": 73,
+          "slowest": [
+            {
+              "path": "/assets/sfx/v3-role-impact-v2/heal.mp3",
+              "ms": 35
+            },
+            {
+              "path": "/assets/sfx/v3-role-impact-v2/speed.mp3",
+              "ms": 35
+            },
+            {
+              "path": "/assets/sfx/v3-role-impact-v2/defense.mp3",
+              "ms": 32
+            },
+            {
+              "path": "/assets/ui/project-v/fx/role-impact-v2/attack-impact-atlas-v2.json",
+              "ms": 32
+            },
+            {
+              "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/sss-v2/effects/runtime/fx-manifest.json",
+              "ms": 30
+            }
+          ]
+        }
+      ],
+      "exit": {
+        "fx": false,
+        "canvas": false,
+        "timers": false
+      },
+      "diagnostics": [],
+      "fights": [
+        {
+          "livingSamples": 11697,
+          "wrongFacing": 0,
+          "missingBody": 0,
+          "loneBossSamples": 8637,
+          "minHpPercent": 14.36597881074489,
+          "frameMs": {
+            "count": 11723,
+            "p95": 4,
+            "max": 79,
+            "over50": 3
+          },
+          "impacts": [
+            {
+              "code": "ARCHDEMON_SEAL",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_CURSE",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_ULTIMATE",
+              "impacts": 1
+            }
+          ],
+          "sourcePixelsAt64": {
+            "battle/-1": 1319,
+            "seal/-1": 1319,
+            "seal/0": 1068,
+            "seal/3": 1512,
+            "curse/-1": 1319,
+            "curse/0": 1068,
+            "curse/3": 1512,
+            "ultimate/-1": 1319,
+            "ultimate/0": 1068,
+            "ultimate/1": 1652,
+            "ultimate/2": 1362,
+            "ultimate/3": 1512
+          },
+          "rendererPixelsAt64": {
+            "battle/-1": 887,
+            "seal/-1": 887,
+            "seal/0": 711,
+            "seal/3": 1000,
+            "curse/-1": 887,
+            "curse/0": 711,
+            "curse/3": 1000,
+            "ultimate/-1": 887,
+            "ultimate/0": 711,
+            "ultimate/1": 1101,
+            "ultimate/2": 918,
+            "ultimate/3": 1000
+          }
+        },
+        {
+          "livingSamples": 11694,
+          "wrongFacing": 0,
+          "missingBody": 0,
+          "loneBossSamples": 8640,
+          "minHpPercent": 14.36597881074489,
+          "frameMs": {
+            "count": 11757,
+            "p95": 4,
+            "max": 50,
+            "over50": 1
+          },
+          "impacts": [
+            {
+              "code": "ARCHDEMON_SEAL",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_CURSE",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_ULTIMATE",
+              "impacts": 1
+            }
+          ],
+          "sourcePixelsAt64": {
+            "battle/-1": 1319,
+            "seal/-1": 1319,
+            "seal/0": 1068,
+            "seal/3": 1512,
+            "curse/-1": 1319,
+            "curse/0": 1068,
+            "curse/3": 1512,
+            "ultimate/-1": 1319,
+            "ultimate/0": 1068,
+            "ultimate/1": 1652,
+            "ultimate/2": 1362,
+            "ultimate/3": 1512
+          },
+          "rendererPixelsAt64": {
+            "battle/-1": 887,
+            "seal/-1": 887,
+            "seal/0": 711,
+            "seal/3": 1000,
+            "curse/-1": 887,
+            "curse/0": 711,
+            "curse/3": 1000,
+            "ultimate/-1": 887,
+            "ultimate/0": 711,
+            "ultimate/1": 1101,
+            "ultimate/2": 918,
+            "ultimate/3": 1000
+          }
+        }
+      ]
+    }
+  },
+  "additional": {
+    "desktopBefore": {
+      "coldLobbyMs": 880,
+      "battleClickToFirstSafeInputMs": [
+        2542,
+        1092
+      ],
+      "exit": {
+        "fx": false,
+        "canvas": false,
+        "timers": false
+      },
+      "diagnostics": [],
+      "fights": [
+        {
+          "livingSamples": 7984,
+          "wrongFacing": 6521,
+          "missingBody": 0,
+          "frameMs": {
+            "count": 7982,
+            "p95": 4,
+            "max": 75,
+            "over50": 1
+          },
+          "impacts": [
+            {
+              "code": "ARCHDEMON_SEAL",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_CURSE",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_ULTIMATE",
+              "impacts": 1
+            }
+          ]
+        },
+        {
+          "livingSamples": 7941,
+          "wrongFacing": 6471,
+          "missingBody": 0,
+          "frameMs": {
+            "count": 7939,
+            "p95": 4,
+            "max": 46,
+            "over50": 0
+          },
+          "impacts": [
+            {
+              "code": "ARCHDEMON_SEAL",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_CURSE",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_ULTIMATE",
+              "impacts": 1
+            }
+          ]
+        }
+      ]
+    },
+    "desktopAfter": {
+      "coldLobbyMs": 920,
+      "battleClickToFirstSafeInputMs": [
+        2659,
+        1070
+      ],
+      "exit": {
+        "fx": false,
+        "canvas": false,
+        "timers": false
+      },
+      "diagnostics": [],
+      "fights": [
+        {
+          "livingSamples": 7889,
+          "wrongFacing": 0,
+          "missingBody": 0,
+          "loneBossSamples": 0,
+          "minHpPercent": 100,
+          "frameMs": {
+            "count": 7976,
+            "p95": 4,
+            "max": 88,
+            "over50": 2
+          },
+          "impacts": [
+            {
+              "code": "ARCHDEMON_SEAL",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_CURSE",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_ULTIMATE",
+              "impacts": 1
+            }
+          ],
+          "sourcePixelsAt64": {
+            "battle/-1": 1319,
+            "seal/-1": 1319,
+            "seal/0": 1068,
+            "seal/3": 1512,
+            "curse/-1": 1319,
+            "curse/0": 1068,
+            "curse/3": 1512,
+            "ultimate/-1": 1319,
+            "ultimate/0": 1068,
+            "ultimate/1": 1652,
+            "ultimate/2": 1362,
+            "ultimate/3": 1512
+          }
+        },
+        {
+          "livingSamples": 7768,
+          "wrongFacing": 0,
+          "missingBody": 0,
+          "loneBossSamples": 0,
+          "minHpPercent": 100,
+          "frameMs": {
+            "count": 7869,
+            "p95": 4,
+            "max": 54,
+            "over50": 1
+          },
+          "impacts": [
+            {
+              "code": "ARCHDEMON_SEAL",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_CURSE",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_ULTIMATE",
+              "impacts": 1
+            }
+          ],
+          "sourcePixelsAt64": {
+            "battle/-1": 1319,
+            "seal/-1": 1319,
+            "seal/0": 1068,
+            "seal/3": 1512,
+            "curse/-1": 1319,
+            "curse/0": 1068,
+            "curse/3": 1512,
+            "ultimate/-1": 1319,
+            "ultimate/0": 1068,
+            "ultimate/1": 1652,
+            "ultimate/2": 1362,
+            "ultimate/3": 1512
+          }
+        }
+      ]
+    },
+    "iosBefore": {
+      "coldLobbyMs": 793,
+      "battleClickToFirstSafeInputMs": [
+        6472,
+        3263
+      ],
+      "exit": {
+        "fx": false,
+        "canvas": false,
+        "timers": false
+      },
+      "diagnostics": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "fights": [
+        {
+          "livingSamples": 1065,
+          "wrongFacing": 876,
+          "missingBody": 0,
+          "frameMs": {
+            "count": 1063,
+            "p95": 45,
+            "max": 276,
+            "over50": 26
+          },
+          "impacts": [
+            {
+              "code": "ARCHDEMON_SEAL",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_CURSE",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_ULTIMATE",
+              "impacts": 1
+            }
+          ]
+        },
+        {
+          "livingSamples": 1089,
+          "wrongFacing": 885,
+          "missingBody": 0,
+          "frameMs": {
+            "count": 1087,
+            "p95": 45,
+            "max": 120,
+            "over50": 17
+          },
+          "impacts": [
+            {
+              "code": "ARCHDEMON_SEAL",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_CURSE",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_ULTIMATE",
+              "impacts": 1
+            }
+          ]
+        }
+      ]
+    },
+    "iosAfter": {
+      "coldLobbyMs": 1700,
+      "battleClickToFirstSafeInputMs": [
+        8140,
+        4595
+      ],
+      "exit": {
+        "fx": false,
+        "canvas": false,
+        "timers": false
+      },
+      "diagnostics": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "fights": [
+        {
+          "livingSamples": 917,
+          "wrongFacing": 0,
+          "missingBody": 0,
+          "loneBossSamples": 0,
+          "minHpPercent": 100,
+          "frameMs": {
+            "count": 925,
+            "p95": 56,
+            "max": 284,
+            "over50": 55
+          },
+          "impacts": [
+            {
+              "code": "ARCHDEMON_SEAL",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_CURSE",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_ULTIMATE",
+              "impacts": 1
+            }
+          ],
+          "sourcePixelsAt64": {
+            "battle/-1": 1319,
+            "seal/-1": 1319,
+            "seal/0": 1068,
+            "seal/3": 1514,
+            "curse/-1": 1319,
+            "curse/0": 1068,
+            "curse/3": 1514,
+            "ultimate/-1": 1319,
+            "ultimate/0": 1068,
+            "ultimate/1": 1654,
+            "ultimate/2": 1365,
+            "ultimate/3": 1514
+          },
+          "rendererPixelsAt64": {}
+        },
+        {
+          "livingSamples": 801,
+          "wrongFacing": 0,
+          "missingBody": 0,
+          "loneBossSamples": 0,
+          "minHpPercent": 100,
+          "frameMs": {
+            "count": 811,
+            "p95": 62,
+            "max": 359,
+            "over50": 106
+          },
+          "impacts": [
+            {
+              "code": "ARCHDEMON_SEAL",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_CURSE",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_ULTIMATE",
+              "impacts": 1
+            }
+          ],
+          "sourcePixelsAt64": {
+            "battle/-1": 1319,
+            "seal/-1": 1319,
+            "seal/0": 1068,
+            "seal/3": 1514,
+            "curse/-1": 1319,
+            "curse/0": 1068,
+            "curse/3": 1514,
+            "ultimate/-1": 1319,
+            "ultimate/0": 1068,
+            "ultimate/1": 1654,
+            "ultimate/2": 1365,
+            "ultimate/3": 1514
+          },
+          "rendererPixelsAt64": {}
+        }
+      ]
+    },
+    "iosEntryBefore": {
+      "coldLobbyMs": 1164,
+      "battleClickToFirstSafeInputMs": [
+        6697,
+        2837
+      ],
+      "entryDetails": [
+        {
+          "resources": 33,
+          "apiMs": 16,
+          "lastResource": "/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+          "afterLastMs": 39,
+          "mainThreadOver50Ms": 0,
+          "slowest": [
+            {
+              "path": "/assets/ui/mercenary-codex/command-20261021/panel-v3.webp",
+              "ms": 85
+            },
+            {
+              "path": "/assets/optimized/20261015-v1/1d33db1c01d4aa7a7ee53eae.webp",
+              "ms": 85
+            },
+            {
+              "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/source-art-approved.png",
+              "ms": 62
+            },
+            {
+              "path": "/api/chief/extension-notice",
+              "ms": 62
+            },
+            {
+              "path": "/api/clan/faction/alerts",
+              "ms": 54
+            }
+          ]
+        },
+        {
+          "resources": 18,
+          "apiMs": 22,
+          "lastResource": "/api/battle/apocalypse-challenge/open",
+          "afterLastMs": 70,
+          "mainThreadOver50Ms": 0,
+          "slowest": [
+            {
+              "path": "/api/raid/blackwing/feature",
+              "ms": 53
+            },
+            {
+              "path": "/api/raid/lich/feature",
+              "ms": 52
+            },
+            {
+              "path": "/api/raid/madara/feature",
+              "ms": 52
+            },
+            {
+              "path": "/api/loot-shop/balance",
+              "ms": 48
+            },
+            {
+              "path": "/api/account-rank/status",
+              "ms": 37
+            }
+          ]
+        }
+      ],
+      "exit": {
+        "fx": false,
+        "canvas": false,
+        "timers": false
+      },
+      "diagnostics": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "fights": []
+    },
+    "iosEntryAfter": {
+      "coldLobbyMs": 1352,
+      "battleClickToFirstSafeInputMs": [
+        5612,
+        2388
+      ],
+      "entryDetails": [
+        {
+          "resources": 33,
+          "apiMs": 22,
+          "lastResource": "/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+          "afterLastMs": 51,
+          "mainThreadOver50Ms": 0,
+          "slowest": [
+            {
+              "path": "/api/account-rank/status",
+              "ms": 140
+            },
+            {
+              "path": "/assets/optimized/20261015-v1/1d33db1c01d4aa7a7ee53eae.webp",
+              "ms": 89
+            },
+            {
+              "path": "/assets/ui/mercenary-codex/command-20261021/panel-v3.webp",
+              "ms": 76
+            },
+            {
+              "path": "/assets/ui/project-v/mercenaries/helios-king-20261106/source-art-approved.png",
+              "ms": 59
+            },
+            {
+              "path": "/api/chief/extension-notice",
+              "ms": 44
+            }
+          ]
+        },
+        {
+          "resources": 19,
+          "apiMs": 17,
+          "lastResource": "/api/battle/apocalypse-challenge/open",
+          "afterLastMs": 85,
+          "mainThreadOver50Ms": 0,
+          "slowest": [
+            {
+              "path": "/api/battle/apocalypse-challenge/open",
+              "ms": 44
+            },
+            {
+              "path": "/api/account-rank/status",
+              "ms": 38
+            },
+            {
+              "path": "/api/raid/madara/feature",
+              "ms": 36
+            },
+            {
+              "path": "/api/raid/blackwing/feature",
+              "ms": 36
+            },
+            {
+              "path": "/api/raid/lich/feature",
+              "ms": 35
+            }
+          ]
+        }
+      ],
+      "exit": {
+        "fx": false,
+        "canvas": false,
+        "timers": false
+      },
+      "diagnostics": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "fights": []
+    },
+    "windows": {
+      "coldLobbyMs": 2980,
+      "battleClickToFirstSafeInputMs": [
+        8319
+      ],
+      "entryDetails": [
+        {
+          "resources": 47,
+          "apiMs": 26,
+          "lastResource": "/api/loot-shop/balance",
+          "afterLastMs": 9,
+          "mainThreadOver50Ms": 1096,
+          "slowest": [
+            {
+              "path": "/assets/optimized/20261015-v1/9fead0c350cc3b923e4fb2db.webp",
+              "ms": 444
+            },
+            {
+              "path": "/assets/ui/project-v/mercenaries/jokro-20261018/source-art.png",
+              "ms": 417
+            },
+            {
+              "path": "/assets/fonts/battle/RussoOne-Regular.ttf",
+              "ms": 386
+            },
+            {
+              "path": "/api/clan/faction/alerts",
+              "ms": 382
+            },
+            {
+              "path": "/api/account-rank/status",
+              "ms": 364
+            }
+          ]
+        }
+      ],
+      "exit": {
+        "fx": false,
+        "canvas": false,
+        "timers": false
+      },
+      "diagnostics": [],
+      "fights": [
+        {
+          "livingSamples": 1892,
+          "wrongFacing": 0,
+          "missingBody": 0,
+          "loneBossSamples": 0,
+          "minHpPercent": 100,
+          "frameMs": {
+            "count": 1922,
+            "p95": 17,
+            "max": 433,
+            "over50": 9
+          },
+          "impacts": [
+            {
+              "code": "ARCHDEMON_SEAL",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_CURSE",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_ULTIMATE",
+              "impacts": 1
+            }
+          ],
+          "sourcePixelsAt64": {
+            "battle/-1": 1319,
+            "seal/-1": 1319,
+            "seal/0": 1068,
+            "seal/3": 1512,
+            "curse/-1": 1319,
+            "curse/0": 1068,
+            "curse/3": 1512,
+            "ultimate/-1": 1319,
+            "ultimate/0": 1068,
+            "ultimate/1": 1652,
+            "ultimate/2": 1362,
+            "ultimate/3": 1512
+          },
+          "rendererPixelsAt64": {}
+        }
+      ]
+    },
+    "oneStore": {
+      "coldLobbyMs": 3457,
+      "battleClickToFirstSafeInputMs": [
+        9974
+      ],
+      "entryDetails": [
+        {
+          "resources": 41,
+          "apiMs": 62,
+          "lastResource": "/css/apocalypse-challenge-v1.css",
+          "afterLastMs": 93,
+          "mainThreadOver50Ms": 1181,
+          "slowest": [
+            {
+              "path": "/assets/optimized/20261015-v1/9fead0c350cc3b923e4fb2db.webp",
+              "ms": 1653
+            },
+            {
+              "path": "/assets/ui/project-v/mercenaries/jokro-20261018/source-art.png",
+              "ms": 1606
+            },
+            {
+              "path": "/preview/icon-diim-redcap-battle-20261015-v1/sources/diim-photo-original.png",
+              "ms": 1531
+            },
+            {
+              "path": "/assets/fonts/battle/RussoOne-Regular.ttf",
+              "ms": 1523
+            },
+            {
+              "path": "/api/chief/extension-notice",
+              "ms": 434
+            }
+          ]
+        }
+      ],
+      "exit": {
+        "fx": false,
+        "canvas": false,
+        "timers": false
+      },
+      "diagnostics": [],
+      "fights": [
+        {
+          "livingSamples": 7588,
+          "wrongFacing": 0,
+          "missingBody": 0,
+          "loneBossSamples": 0,
+          "minHpPercent": 100,
+          "frameMs": {
+            "count": 7622,
+            "p95": 4,
+            "max": 117,
+            "over50": 5
+          },
+          "impacts": [
+            {
+              "code": "ARCHDEMON_SEAL",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_CURSE",
+              "impacts": 1
+            },
+            {
+              "code": "ARCHDEMON_ULTIMATE",
+              "impacts": 1
+            }
+          ],
+          "sourcePixelsAt64": {
+            "battle/-1": 1319,
+            "seal/-1": 1319,
+            "seal/0": 1068,
+            "seal/3": 1512,
+            "curse/-1": 1319,
+            "curse/0": 1068,
+            "curse/3": 1512,
+            "ultimate/-1": 1319,
+            "ultimate/0": 1068,
+            "ultimate/1": 1652,
+            "ultimate/2": 1362,
+            "ultimate/3": 1512
+          },
+          "rendererPixelsAt64": {}
+        }
+      ]
+    }
+  },
+  "screenFiles": [
+    "review/before-desktop-1440-party/skill-1.png",
+    "review/public-desktop-1440-party/opening-1.png",
+    "review/public-desktop-1440-party/skill-1.png",
+    "review/public-desktop-1440-party/low-hp-1.png"
+  ],
+  "scope": "Rendering and asset lifetime only. Account HP, battle outcomes and rewards were supplied by the server timeline. No test fight on a production account."
+}
