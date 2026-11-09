@@ -1,0 +1,91 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:tmoney-mercenary-crown-tier10:20261109:v1",
+  "auditId": "57187",
+  "completedAt": "2026-11-09T06:58:26.678Z",
+  "verifiedAt": "2026-11-09T06:58:32.966Z",
+  "userId": 5147,
+  "nickname": "T-Money™",
+  "setName": "창세의 왕관",
+  "tier": 10,
+  "level": 0,
+  "quantityPerSlot": 1,
+  "granted": 5,
+  "parts": [
+    {
+      "equipmentId": "166",
+      "code": "MERC_ASC_10_WEAPON",
+      "name": "창세의 왕관 무기",
+      "slot": "WEAPON",
+      "instanceId": "3225466640",
+      "level": 0,
+      "quantityGranted": 1,
+      "quantityBefore": 0,
+      "quantityAfter": 1,
+      "verifiedQuantity": 1,
+      "equipped": false
+    },
+    {
+      "equipmentId": "167",
+      "code": "MERC_ASC_10_TOP",
+      "name": "창세의 왕관 상의",
+      "slot": "TOP",
+      "instanceId": "3225466641",
+      "level": 0,
+      "quantityGranted": 1,
+      "quantityBefore": 0,
+      "quantityAfter": 1,
+      "verifiedQuantity": 1,
+      "equipped": false
+    },
+    {
+      "equipmentId": "168",
+      "code": "MERC_ASC_10_BOTTOM",
+      "name": "창세의 왕관 하의",
+      "slot": "BOTTOM",
+      "instanceId": "3225466642",
+      "level": 0,
+      "quantityGranted": 1,
+      "quantityBefore": 0,
+      "quantityAfter": 1,
+      "verifiedQuantity": 1,
+      "equipped": false
+    },
+    {
+      "equipmentId": "169",
+      "code": "MERC_ASC_10_SHOES",
+      "name": "창세의 왕관 신발",
+      "slot": "SHOES",
+      "instanceId": "3225466643",
+      "level": 0,
+      "quantityGranted": 1,
+      "quantityBefore": 0,
+      "quantityAfter": 1,
+      "verifiedQuantity": 1,
+      "equipped": false
+    },
+    {
+      "equipmentId": "170",
+      "code": "MERC_ASC_10_ACCESSORY",
+      "name": "창세의 왕관 장신구",
+      "slot": "ACCESSORY",
+      "instanceId": "3225466644",
+      "level": 0,
+      "quantityGranted": 1,
+      "quantityBefore": 0,
+      "quantityAfter": 1,
+      "verifiedQuantity": 1,
+      "equipped": false
+    }
+  ],
+  "autoEquipped": false,
+  "verification": {
+    "source": "a8c0b7e1c8c8fedb6310ad171511523b58912c9b",
+    "readOnly": true,
+    "route": "GET /api/mercenaries/v3/equipment",
+    "owner": "free",
+    "timingScope": "Local released server handler on a single production database connection, no device or browser",
+    "firstReadMs": 553,
+    "repeatReadMs": 536
+  }
+}
