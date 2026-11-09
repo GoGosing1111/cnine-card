@@ -21,7 +21,8 @@ test('content status uses the same current raid name as raid/status, preserving 
 test('the cached public aggregate applies the projection and keeps its cache contract',async()=>{
   const api=await readFile(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
   const route=api.slice(api.indexOf("if(path==='live-operations'"),api.indexOf("if(path==='live-operations'")+550);
-  assert.match(route,/JSON\.stringify\(presentOriginalIpResponse\(path,\{items,/);
+  assert.match(route,/JSON\.stringify\(presentOriginalIpResponse\(path,\{\.\.\.schedule,/);
+  assert.match(route,/visibleTerritorySchedule\(await liveOperationAlerts\(env\)\)/);
   assert.match(route,/pollSeconds:30/);
   assert.match(route,/public, max-age=10, stale-while-revalidate=20/);
 });

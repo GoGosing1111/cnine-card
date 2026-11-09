@@ -1,4 +1,4 @@
-import {activeDraftRoster,draftInsertStatements,deliverDraftOrder} from './_territory_draft.js';
+import {activeDraftRoster,draftInsertStatements,deliverDraftOrder,firstDraftPrize,draftSettlement,limitedShardStatements} from './_territory_draft.js';
 import {schedulePolicy,scheduledSlot,scheduledRoundKey,DRAFT_NOTICE_MS,DRAFT_PREP_MS,draftKeyPrefix} from './_territory_schedule.js';
 import {frontActivity,readVictoryBuff,territoryVictoryCoin} from './_territory_frontline.js';
 import {companionSnapshotRows,pvpCompanionOptions} from '../shared/companion-battle-snapshot-v1.mjs';
@@ -565,7 +565,7 @@ async function settings(env){
   settingsCacheValue={...DEFAULTS,...safeJson(row?.value,{})};settingsCacheValue.battlefield=normalizeBattlefieldConfig(settingsCacheValue.battlefield);settingsCacheExpiresAt=Date.now()+5000;return settingsCacheValue;
 }
 function invalidateSettingsCache(){settingsCacheValue=null;settingsCacheExpiresAt=0}
-const draftRoundRead="SELECT r.*,m.value draft_battle_at FROM territory_war_v3_rounds r LEFT JOIN app_meta m ON m.key='"+draftKeyPrefix+"'||CAST(r.id AS TEXT)";
+const draftRoundRead="SELECT r.*,m.value draft_battle_at,p.value draft_prize FROM territory_war_v3_rounds r LEFT JOIN app_meta m ON m.key='"+draftKeyPrefix+"'||CAST(r.id AS TEXT) LEFT JOIN app_meta p ON p.key='territory_round_prize_v1:'||CAST(r.id AS TEXT)";
 async function latestRound(env){return env.DB.prepare(draftRoundRead+' ORDER BY r.id DESC LIMIT 1').first()}
 async function roundById(env,id){return env.DB.prepare(draftRoundRead+' WHERE r.id=?').bind(id).first()}
 async function activeFront(env,round){if(!round?.current_front_id)return null;return env.DB.prepare('SELECT * FROM territory_war_v3_fronts WHERE id=?').bind(round.current_front_id).first()}
@@ -903,6 +903,7 @@ async function createRound(env,cfg,slot=null){
     const statements=[env.DB.prepare("INSERT INTO territory_war_v3_rounds(status,battle_name,recruitment_ends_at,current_front_index,warfare_version) VALUES('RECRUITING',?,?,4,6)").bind(String(cfg.battleName||'').trim().slice(0,40),end)];
     statements.push(env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) SELECT ?||CAST(MAX(id) AS TEXT),?,CURRENT_TIMESTAMP FROM territory_war_v3_rounds").bind(draftKeyPrefix,battleAt));
     if(slot)statements.push(
+      env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) SELECT 'territory_round_prize_v1:'||CAST((SELECT MAX(id) FROM territory_war_v3_rounds) AS TEXT),value,CURRENT_TIMESTAMP FROM app_meta WHERE key=? AND value=?").bind('territory_slot_prize_v1:'+battleAt,firstDraftPrize),
       env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) SELECT ?,CAST(MAX(id) AS TEXT),CURRENT_TIMESTAMP FROM territory_war_v3_rounds').bind(slot.key),
       env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) SELECT 'territory_scheduled_battle_v1:'||CAST(MAX(id) AS TEXT),?,CURRENT_TIMESTAMP FROM territory_war_v3_rounds").bind(slot.battleAt));
     const result=await env.DB.batch(statements);return Number(result[0].meta.last_row_id);
@@ -1049,7 +1050,14 @@ async function generateRewards(env,round,cfg){
     FROM territory_war_v3_users u LEFT JOIN action_counts ac ON ac.user_id=u.user_id
     WHERE u.round_id=? ORDER BY u.damage DESC,attacks DESC,u.user_id`).bind(round.id,round.id).all()).results||[],required=Math.max(0,Number(cfg.settlementMinAttacks??1)),snapshotLimit=Math.max(1,Number(cfg.siegeSnapshotLimit||12)),snapshotThreshold=Math.max(0,Number(cfg.siegeSnapshotAttackThreshold??200)),snapshotReward=Math.max(0,Number(cfg.siegeSnapshotBonusCoin??500000)),payloads=[];
   for(const [rank,item] of rows.entries()){
-    const attacks=Number(item.attacks||0),eligible=attacks>=required,winner=String(round.winner_side||'DRAW'),result=!eligible?'INELIGIBLE':winner==='DRAW'?'DRAW':item.side===winner?'WIN':'LOSE',inSnapshot=rank<snapshotLimit;
+    const attacks=Number(item.attacks||0),winner=String(round.winner_side||'DRAW');
+    if(round.draft_prize===firstDraftPrize){
+      const win=['A','B'].includes(winner)&&item.side===winner,prize=draftSettlement(win,attacks);
+      const result=win?'WIN':attacks<50?'INELIGIBLE':winner==='DRAW'?'DRAW':'LOSE';
+      payloads.push([round.id,item.user_id,item.side||'',result,prize.coin,0,Number(item.damage||0),attacks,required,win?150000000000000:0,0,prize.coin,0,0,0,0,0]);
+      continue;
+    }
+    const eligible=attacks>=required,result=!eligible?'INELIGIBLE':winner==='DRAW'?'DRAW':item.side===winner?'WIN':'LOSE',inSnapshot=rank<snapshotLimit;
     let coin=0,shards=0,baseResultCoin=0,attackPercent=0,attackAdjustedCoin=0,counterBonus=0,aceBonus=0,lastDefenseBonus=0,comebackBonus=0,siegeSnapshotBonus=0;
     if(eligible){
       baseResultCoin=result==='WIN'?Number(cfg.winnerCoin||0):result==='LOSE'?Number(cfg.loserCoin||0):Number(cfg.drawCoin||0);
@@ -1192,12 +1200,12 @@ async function legacyTerritoryRewardsPending(env){
 }
 async function rewardForUser(env,userId,roundId=null,{readOnly=false}={}){
   const roundFilter=roundId?' AND r.round_id=?':'';
-  let v3=await env.DB.prepare('SELECT r.*,w.battle_name,w.winner_side pig_winner_side FROM territory_war_v3_rewards r JOIN territory_war_v3_rounds w ON w.id=r.round_id WHERE r.user_id=? AND r.claimed_at IS NULL AND w.settled_at IS NOT NULL'+roundFilter+' ORDER BY r.round_id DESC LIMIT 1').bind(userId,...(roundId?[roundId]:[])).first();
-  if(v3&&v3.result==='INELIGIBLE'&&!readOnly){
+  let v3=await env.DB.prepare('SELECT r.*,w.battle_name,w.winner_side pig_winner_side,prize.value draft_prize FROM territory_war_v3_rewards r JOIN territory_war_v3_rounds w ON w.id=r.round_id LEFT JOIN app_meta prize ON prize.key=\'territory_round_prize_v1:\'||CAST(w.id AS TEXT) WHERE r.user_id=? AND r.claimed_at IS NULL AND w.settled_at IS NOT NULL'+roundFilter+' ORDER BY r.round_id DESC LIMIT 1').bind(userId,...(roundId?[roundId]:[])).first();
+  if(v3&&v3.draft_prize!==firstDraftPrize&&v3.result==='INELIGIBLE'&&!readOnly){
     const source=await env.DB.prepare(`SELECT side,damage,attacks FROM territory_war_v3_users WHERE round_id=? AND user_id=?`).bind(v3.round_id,userId).first(),cfg=await settings(env),required=Math.max(0,Number(v3.required_attacks)>0?Number(v3.required_attacks):Number(cfg.settlementMinAttacks??1));
     if(source){const attacks=Number(source.attacks||0),damage=Number(source.damage||0),eligible=attacks>=required;let result='INELIGIBLE',coin=0,shards=0,baseResultCoin=0,attackPercent=0,attackAdjustedCoin=0;if(eligible){const round=await roundById(env,v3.round_id),winner=String(round?.winner_side||'DRAW');result=winner==='DRAW'?'DRAW':source.side===winner?'WIN':'LOSE';baseResultCoin=result==='WIN'?Number(cfg.winnerCoin||0):result==='LOSE'?Number(cfg.loserCoin||0):Number(cfg.drawCoin||0);attackPercent=attackRewardPercent(attacks,cfg);attackAdjustedCoin=Math.floor(baseResultCoin*attackPercent/100);coin=attackAdjustedCoin+Math.min(Number(cfg.maxContributionCoin||1000000),Math.floor(damage/1000)*Number(cfg.contributionCoinPer1000Damage||0));shards=Number(cfg.participationShards||0)}await env.DB.prepare(`UPDATE territory_war_v3_rewards SET side=?,result=?,coin=?,shards=?,damage=?,attacks=?,required_attacks=?,base_result_coin=?,attack_reward_percent=?,attack_adjusted_coin=? WHERE round_id=? AND user_id=? AND claimed_at IS NULL`).bind(source.side||'',result,coin,shards,damage,attacks,required,baseResultCoin,attackPercent,attackAdjustedCoin,v3.round_id,userId).run();v3=await env.DB.prepare('SELECT r.*,w.battle_name,w.winner_side pig_winner_side FROM territory_war_v3_rewards r JOIN territory_war_v3_rounds w ON w.id=r.round_id WHERE r.round_id=? AND r.user_id=? AND w.settled_at IS NOT NULL').bind(v3.round_id,userId).first()}
   }
-  if(v3){const participationItems=participationInventoryReward(v3.attacks);return{...v3,version:'V3',pigCoins:await territoryPigCoinPreview(env,v3),scrapyard_ticket_quantity:participationItems.scrapyardTickets,mystic_energy_quantity:participationItems.mysticEnergy,bonusEquipment:await roundEquipmentBonuses(env,v3.round_id,v3.result)}}
+  if(v3){const participationItems=participationInventoryReward(v3.attacks);return{...v3,version:'V3',limitedShards:v3.draft_prize===firstDraftPrize?draftSettlement(v3.result==='WIN',v3.attacks).limitedShards:0,pigCoins:await territoryPigCoinPreview(env,v3),scrapyard_ticket_quantity:participationItems.scrapyardTickets,mystic_energy_quantity:participationItems.mysticEnergy,bonusEquipment:await roundEquipmentBonuses(env,v3.round_id,v3.result)}}
   if(!roundId&&await legacyTerritoryRewardsPending(env)){const old=await env.DB.prepare('SELECT * FROM territory_war_rewards WHERE user_id=? AND claimed_at IS NULL ORDER BY round_id DESC LIMIT 1').bind(userId).first();if(old)return{...old,version:'LEGACY',bonusEquipment:[]}}
   return null;
 }
@@ -1635,6 +1643,8 @@ async function claimV3(env,deps,user,nodeIndex=4,roundId=null){
       env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,'STARLIGHT_ARMOR_CORE',?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE EXISTS(SELECT 1 FROM ${table} WHERE round_id=? AND user_id=? AND claimed_at IS NULL) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(user.id,mysticEnergy,mysticEnergy,reward.round_id,user.id),
       env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,'STARLIGHT_ARMOR_CORE',?,quantity,'TERRITORY_WAR_100_ATTACK_REWARD','TERRITORY_WAR',? FROM cnine_user_inventory WHERE user_id=? AND item_code='STARLIGHT_ARMOR_CORE' AND EXISTS(SELECT 1 FROM ${table} WHERE round_id=? AND user_id=? AND claimed_at IS NULL)`).bind(user.id,mysticEnergy,String(reward.round_id),user.id,reward.round_id,user.id)
     );
+    if(reward.draft_prize===firstDraftPrize)statements.unshift(env.DB.prepare('UPDATE territory_war_v3_rewards SET result=result WHERE round_id=? AND user_id=? AND claimed_at IS NULL').bind(reward.round_id,user.id));
+    statements.push(...limitedShardStatements(env.DB,reward));
     for(const item of bonusEquipment){
       const equipmentId=Math.max(0,Number(item.equipment_id||0)),quantity=Math.min(100,Math.max(0,Number(item.quantity||0)));
       for(let index=0;equipmentId&&index<quantity;index++)statements.push(env.DB.prepare(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id)
@@ -1644,7 +1654,7 @@ async function claimV3(env,deps,user,nodeIndex=4,roundId=null){
     statements.push(...await territoryPigCoinStatements(env,{userId:Number(user.id),roundId:reward.round_id,version:reward.version}));
     statements.push(env.DB.prepare(`UPDATE ${table} SET claimed_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=? AND claimed_at IS NULL`).bind(reward.round_id,user.id));
     const results=await env.DB.batch(statements),claimed=results?.[results.length-1];
-    if(!Number(claimed?.meta?.changes||0))return deps.json({error:'이미 수령한 보상입니다.'},409);const [state,balance]=await Promise.all([publicState(env,user.id,false,nodeIndex),env.DB.prepare('SELECT coin,card_shards FROM users WHERE id=?').bind(user.id).first()]);return deps.json({ok:true,coin,shards,pigCoins:await pigCoinRewardAmount(env,user.id,'TERRITORY',`${reward.version}:${reward.round_id}`),scrapyardTickets,mysticEnergy,bonusEquipment,state,coinAfter:Number(balance?.coin||0),cardShardsAfter:Number(balance?.card_shards||0)});
+    if(!Number(claimed?.meta?.changes||0))return deps.json({error:'이미 수령한 보상입니다.'},409);const [state,balance]=await Promise.all([publicState(env,user.id,false,nodeIndex),env.DB.prepare('SELECT CAST(coin AS TEXT) coin,card_shards FROM users WHERE id=?').bind(user.id).first()]);return deps.json({ok:true,coin,shards,limitedShards:Number(reward.limitedShards||0),pigCoins:await pigCoinRewardAmount(env,user.id,'TERRITORY',`${reward.version}:${reward.round_id}`),scrapyardTickets,mysticEnergy,bonusEquipment,state,coinAfterExact:String(balance?.coin||'0'),coinAfter:Number(balance?.coin||0),cardShardsAfter:Number(balance?.card_shards||0)});
   }finally{await releaseLock(env,lock)}
 }
 
@@ -1892,7 +1902,7 @@ export const __territoryLoadoutTest={currentTerritoryFormation,saveCurrentTerrit
 // Coup shares the live territory combat engine and formation rules.
 export { simulateTerritoryBattle as simulateTerritoryDuel, singleFormationSnapshot as territoryFormationSnapshot, buildFormationSnapshot as territoryFormationFromParts, pickPowerMatchedOpponent as territoryMatchedOpponent, damageFor as territorySiegeDamage };
 
-export const __territoryClanTest={realtimeState,sendCommanderMessage,executeMassAssault,createRound,publicState,resolveFront,balancedSideAssignments,cleanSettings,rechargeEnergy,handleAttack,handleActionStatus,createFront,formRound,lifecycle,settleRound,activateCommanderOperation,activateVotedTerritorySkill,settlePendingTerritoryVotes,submitTerritoryVote,counterState,DEFAULTS,OPERATIONS,NODES};
+export const __territoryClanTest={generateRewards,rewardForUser,claimV3,realtimeState,sendCommanderMessage,executeMassAssault,createRound,publicState,resolveFront,balancedSideAssignments,cleanSettings,rechargeEnergy,handleAttack,handleActionStatus,createFront,formRound,lifecycle,settleRound,activateCommanderOperation,activateVotedTerritorySkill,settlePendingTerritoryVotes,submitTerritoryVote,counterState,DEFAULTS,OPERATIONS,NODES};
 
 export async function tickTerritorySchedule(env,deps){
   // Opening is opt-in. A disabled schedule costs one indexed read and never opens a round.

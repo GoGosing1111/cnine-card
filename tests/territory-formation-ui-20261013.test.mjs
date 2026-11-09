@@ -13,7 +13,7 @@ function runtime(){const modal={innerHTML:'',classList:{add(){},remove(){}},quer
 const base=()=>({mode:'ON',round:{id:70,status:'RECRUITING',warfare_version:6},allocation:'INDIVIDUAL',network:{},settings:{teamAName:'수호',teamBName:'정화',energyMax:15},counts:{total:146,A:73,B:73},registration:{canRegister:true,canCancel:true},mine:null});
 test('loadout displays actual card portraits and escaped PVP mercenary names',()=>{
  const r=runtime(),s=base();s.round.status='ACTIVE';s.mine={deck_snapshot:'[1,2,3,4,5]',formation_breakdown_json:'{"deckComplete":true}',loadout_bonus_json:JSON.stringify({territoryCards:Array.from({length:5},(_,i)=>({id:i,name:'카드 '+i,rarity:'SSR',image:'/card-'+i+'.png'})),mercenary:{name:'<용병>'}})};
- r.set(s);const html=r.qa.loadout();assert.equal((html.match(/alt="카드 /g)||[]).length,5);assert.match(html,/함께 출전하는 용병/);assert.match(html,/&lt;용병&gt;/);assert.doesNotMatch(html,/<용병>/);
+ r.set(s);const html=r.qa.loadout();assert.equal((html.match(/src="\/card-\d\.png"/g)||[]).length,5);assert.match(html,/출전 용병/);assert.match(html,/&lt;용병&gt;/);assert.doesNotMatch(html,/<용병>/);
 });
 test('real recruitment render honors registration eligibility, mandatory roster cancellation lock and OFF mode',()=>{
  const r=runtime(),s=base();s.registration.canRegister=false;r.set(s);r.qa.render();assert.match(r.modal.innerHTML,/data-tw3-register disabled/);
@@ -34,7 +34,7 @@ test('preserved generated sources, transparent control resources and main loader
  const manifest=JSON.parse(read('assets/ui/territory-war/formation-v1/manifest.json')),index=read('index.html'),css=read('css/territory-formation-20261013.css');
  assert.equal(Object.keys(manifest.assets).length,5);
  assert.equal(createHash('sha256').update(readFileSync(new URL('../'+manifest.logo.url.slice(1),import.meta.url))).digest('hex'),manifest.logo.sha256);
- assert.match(runtime().CNineTerritoryFormation.lobby(base()),/soopketmon-logo-approved.png/);
+ assert.match(runtime().CNineTerritoryFormation.lobby(base()),/reverse-call-20261016\/icon-192.png/);
  for(const [key,asset]of Object.entries(manifest.assets)){const source=new URL('../'+asset.source+asset.sourceFile,import.meta.url),output=new URL('../'+asset.url.slice(1),import.meta.url);assert.equal(createHash('sha256').update(readFileSync(source)).digest('hex'),asset.sourceSha256);assert.equal(createHash('sha256').update(readFileSync(output)).digest('hex'),asset.sha256);if(key.startsWith('button-')){assert.equal(asset.hasAlpha,true);assert.ok(css.includes(key+'.webp'))}}
  assert.ok(index.indexOf('js/territory-formation-20261013.js')<index.indexOf('js/territory-war-v1811.js'));assert.match(index,/css\/territory-formation-20261013\.css/);assert.ok(existsSync(new URL('../preview/territory-formation-20261013-v1/prompts.json',import.meta.url)));
 });

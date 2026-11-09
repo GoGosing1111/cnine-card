@@ -71,12 +71,12 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: curr
   assert.equal(saved.side,before.side);assert.equal(Number(saved.energy),Number(before.energy)-1);assert.equal(Number(saved.attacks),Number(before.attacks)+1);
   assert.deepEqual(JSON.parse(saved.deck_snapshot),p.calls[0].attackerCards.map(c=>c.id));
   const receipt=await f.p('SELECT * FROM territory_war_v3_actions WHERE request_id=?',body.requestId).first();
-  assert.deepEqual(JSON.parse(receipt.battle_meta_json).replayInput,p.calls[0]);
+  assert.deepEqual(JSON.parse(receipt.battle_meta_json).replayInput,JSON.parse(JSON.stringify(p.calls[0])));
   const pool=await L.selectBattleOpponent(f.env,1,{...saved,user_id:user.id},'CURRENT:MATCH:NEXT');assert.equal(pool.recent.length,1);
   assert.equal(Number(pool.recent[0].opponent_user_id),Number(receipt.opponent_user_id));
   p.selections.set(user.id,cards('changed-again-'));p.deps.releasedMercenarySnapshot=async()=>null;
   const replay=await T.handleAttack(f.env,p.deps,user,f.cfg,body);assert.equal(replay.status,200);assert.equal(replay.data.replayed,true);
-  assert.deepEqual(p.calls[1],p.calls[0],'retry uses the immutable battle input');
+  assert.deepEqual(JSON.parse(JSON.stringify(p.calls[1])),JSON.parse(JSON.stringify(p.calls[0])),'retry uses the immutable serialized battle input');
   assert.equal(Number((await f.p('SELECT coin FROM users WHERE id=?',user.id).first()).coin),100);
   assert.equal(Number((await f.p('SELECT energy FROM territory_war_v3_users WHERE user_id=?',user.id).first()).energy),Number(saved.energy));
   const current=await L.currentTerritoryFormation(f.env,p.deps,{...saved,nickname:user.nickname},{});

@@ -1,5 +1,28 @@
 import {DRAFT_LIMIT,DRAFT_NOTICE_MS,DRAFT_PREP_MS,nextDraftSlot} from './_territory_schedule.js';
 
+export const firstDraftPrize='VICTORY150_ATTACK50_LIMITED_V1';
+export const limitedShard='MERCENARY_SSS_LIMITED_SHARD';
+export function draftSettlement(win,attacks){
+  const bonus=Number(attacks)>=50;
+  return {coin:(win?150000000000000:0)+(bonus?50000000000000:0),limitedShards:(win?10:0)+(bonus?5:0)};
+}
+
+export function limitedShardStatements(db,reward){
+  const n=Number(reward.limitedShards);
+  if(!(n>0))return [];
+  const available="EXISTS(SELECT 1 FROM territory_war_v3_rewards WHERE round_id=? AND user_id=? AND claimed_at IS NULL)";
+  return [
+    db.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at)
+      SELECT ?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE ${available}
+      ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,
+      unseen_quantity=COALESCE(cnine_user_inventory.unseen_quantity,0)+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`)
+      .bind(reward.user_id,limitedShard,n,n,reward.round_id,reward.user_id),
+    db.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id)
+      SELECT user_id,item_code,?,quantity,'TERRITORY_DRAFT_REWARD','TERRITORY_WAR',? FROM cnine_user_inventory
+      WHERE user_id=? AND item_code=? AND ${available}`).bind(n,String(reward.round_id),reward.user_id,limitedShard,reward.round_id,reward.user_id)
+  ];
+}
+
 const iso = ms => new Date(ms).toISOString();
 const day = 86400000;
 const kstDate = ms => iso(ms + 9 * 3600000).slice(0, 10);

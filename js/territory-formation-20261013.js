@@ -41,6 +41,7 @@
       <aside class="tf-entry"><div class="tf-entry-top"><span>전선사령부</span><i>${state}</i></div><small>${ready?'내 배속':'작전 상태'}</small><h3>${ready?(mine?esc(sideName(s,s.mine.side)):'관전 대기'):'개전 예고'}</h3>
       <div class="tf-countdown"><span>개전까지</span><time data-tw3-countdown="${esc(round.draft_battle_at)}">—</time></div>
       ${ready?'<div class="tf-roster-count"><span>차출 인원</span><b>'+fmt(s.counts?.total)+'<small>명</small></b></div>':''}<div class="tf-entry-actions">${action}</div></aside></section>
+      ${round.draft_prize==='VICTORY150_ATTACK50_LIMITED_V1'?'<section class="tf-draft-prize" aria-label="이번 영토전 보상"><h3>작전 보상</h3><dl><div><dt>승리팀 전원</dt><dd>코인 150조 · SSS 리미티드 조각 10개</dd></div><div><dt>공격 50회 이상</dt><dd>코인 50조 · SSS 리미티드 조각 5개 추가</dd></div><div><dt>승리 후 7일</dt><dd>계급 경험치 +20% · 코인 습득량 +50%</dd></div></dl></section>':''}
       ${ready?factions(s,true):''}${ready&&mine?squad(s,{canRefresh,embedded:true}):''}${rewardHtml?'<div class="tf-reward-wrap">'+rewardHtml+'</div>':''}</main></section>`;
   }
   function lobby(s,{rewardHtml='',canRefresh=false}={}){
