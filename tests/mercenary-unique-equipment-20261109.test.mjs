@@ -22,7 +22,7 @@ const cards=Array.from({length:5},(_,i)=>({id:String(i+1),title:'검수',rarity:
 test('fifteen unique images, five real slots per tier, and stronger individual bonuses than the complete tenth tier',async()=>{
  assert.equal(new Set(pieces.map(i=>i.code)).size,15);
  assert.equal(new Set(pieces.map(i=>i.name)).size,15);
- for(const [stage,family,total] of [[1,'흑기사',8280000],[2,'흑금 월식',11040000],[3,'천제황룡',15180000]]){
+ for(const [stage,family,total] of [[1,'흑기사',8280000],[2,'흑금 월식',11040000],[3,'제국의 옥좌',15180000]]){
   const items=byTier(stage);assert.deepEqual(items.map(i=>i.slot),ASCENDANT_EQUIPMENT_SLOTS);
   assert.equal(items.reduce((sum,i)=>sum+i.totalPower,0),total);
   for(const item of items){

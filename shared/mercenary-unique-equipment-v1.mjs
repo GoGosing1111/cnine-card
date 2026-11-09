@@ -17,13 +17,13 @@ const tiers = [
       ['월영의 흑금각반','월영 장벽',{shieldPercent:80}],
       ['흑금의 잠행화','그림자 보법',{speedPercent:44}],
       ['암월의 흑금 펜던트','월식 공명',{criticalChancePoints:28,criticalDamagePoints:130}]]},
-  {tier:3, imageStem:'unique-20261109/13-', codePrefix:'MERC_UQ_13_', family:'천제황룡', scale:22, attack:54, hp:64,
+  {tier:3, imageStem:'unique-regalia-20261109/3-', codePrefix:'MERC_UQ_13_', family:'제국의 옥좌', scale:22, attack:54, hp:64,
     pieces:[
-      ['황룡여의 언월도','황룡의 역린',{attackPercent:54,penetrationPoints:20}],
-      ['황룡제왕 금갑','용제의 가호',{hpPercent:60,damageReductionPercent:42}],
-      ['황금용린 각반','만 겹의 금린',{shieldPercent:105}],
-      ['등천황룡화','금룡 등천',{speedPercent:58}],
-      ['황룡 여의보관','여의주의 광휘',{criticalChancePoints:32,criticalDamagePoints:170}]]}
+      ['황제의 단죄대검','황제의 선고',{attackPercent:54,penetrationPoints:20}],
+      ['황제의 대례 흉갑','옥좌의 맹세',{hpPercent:60,damageReductionPercent:42}],
+      ['옥좌의 근위각반','근위 방벽',{shieldPercent:105}],
+      ['황실 근위대 판금화','황실의 진군',{speedPercent:58}],
+      ['황제의 보관','황제의 권위',{criticalChancePoints:32,criticalDamagePoints:170}]]}
 ];
 
 export const UNIQUE_MERCENARY_EQUIPMENT = Object.freeze(tiers.flatMap(tier =>
