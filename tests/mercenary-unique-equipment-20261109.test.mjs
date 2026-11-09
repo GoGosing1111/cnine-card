@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
 import {UNIQUE_MERCENARY_EQUIPMENT as pieces, individualMercenaryBonuses} from '../shared/mercenary-unique-equipment-v1.mjs';
 import {ASCENDANT_EQUIPMENT,ASCENDANT_EQUIPMENT_SLOTS,ascendantEquipmentEffects} from '../shared/mercenary-ascendant-equipment-v1.mjs';
@@ -21,10 +22,11 @@ const cards=Array.from({length:5},(_,i)=>({id:String(i+1),title:'검수',rarity:
 test('fifteen unique images, five real slots per tier, and stronger individual bonuses than the complete tenth tier',async()=>{
  assert.equal(new Set(pieces.map(i=>i.code)).size,15);
  assert.equal(new Set(pieces.map(i=>i.name)).size,15);
- for(const [stage,family,total] of [[11,'홍련일식',8280000],[12,'설령백호',11040000],[13,'천제황룡',15180000]]){
+ for(const [stage,family,total] of [[1,'흑기사',8280000],[2,'흑금 월식',11040000],[3,'천제황룡',15180000]]){
   const items=byTier(stage);assert.deepEqual(items.map(i=>i.slot),ASCENDANT_EQUIPMENT_SLOTS);
   assert.equal(items.reduce((sum,i)=>sum+i.totalPower,0),total);
   for(const item of items){
+   assert.equal(item.tierLabel,'유니크 '+stage+'단계');
    assert.equal(item.family,family);assert.equal(item.setId,null);assert.equal(item.regionId,null);
    assert.equal(mercenaryEquipmentDefinition(item.code),item);assert.deepEqual(item.modes,['PVE','PVP']);
    assert.equal(item.pvePower+item.pvpPower,item.totalPower);assert(item.individualEffects.attackPercent>crownEffects.attackPercent);assert(item.individualEffects.hpPercent>crownEffects.hpPercent);
@@ -34,18 +36,26 @@ test('fifteen unique images, five real slots per tier, and stronger individual b
  }
 });
 
+test('the published fifteen item identifiers, passives, stats and mode rules retain their original values',()=>{
+ const options=pieces.map(({code,kind,slot,subtype,rarity,setId,regionId,totalPower,pvePower,pvpPower,modes,individualEffects,description})=>
+  ({code,kind,slot,subtype,rarity,setId,regionId,totalPower,pvePower,pvpPower,modes,individualEffects,description}));
+ const digest=createHash('sha256').update(JSON.stringify(options)).digest('hex');
+ // Captured from the original live definitions before the artwork and rank change.
+ assert.equal(digest,'a57eae0d295621fdd164ca55d360959b79985081bbdd522a3998f5f5c0efd858');
+});
+
 test('duplicates, wrong slots and unrelated items cannot multiply or supply a passive',()=>{
- const tiger=byTier(12)[1],dragon=byTier(13)[1],wrong={...tiger,slot:'SHOES'};
+ const second=byTier(2)[1],third=byTier(3)[1],wrong={...second,slot:'SHOES'};
  assert.equal(individualMercenaryBonuses([wrong,...crown]),null);
- assert.deepEqual(individualMercenaryBonuses([tiger,tiger,{...tiger,individualEffects:{hpPercent:9999}}]),individualMercenaryBonuses([tiger]));
- assert.equal(individualMercenaryBonuses([tiger,dragon,tiger]),null);
+ assert.deepEqual(individualMercenaryBonuses([second,second,{...second,individualEffects:{hpPercent:9999}}]),individualMercenaryBonuses([second]));
+ assert.equal(individualMercenaryBonuses([second,third,second]),null);
 });
 
 for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' registers, equips, mixes, and removes each passive in its own battle mode',async t=>{
  const f=await ascendantEquipmentFixture(t,{postgres});const base=await releasedMercenarySnapshot(f.env,f.user,'PVE');
  const rewards=await regionRewardCatalog(f.env,{ascendant:true});assert(!rewards.some(r=>pieces.some(i=>i.code===r.equipmentCode)));assert.equal(rewards.length,81);
  for(const mode of ['PVE','PVP']){
-  const items=byTier(mode==='PVE'?12:13);
+  const items=byTier(mode==='PVE'?2:3);
   for(const item of items){
    await f.equip(mode,item);
    const snapshot=await releasedMercenarySnapshot(f.env,f.user,mode),fighter=buildMercenaryFighter(snapshot,'A',mode,buildFighter);

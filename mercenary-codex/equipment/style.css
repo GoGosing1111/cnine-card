@@ -29,9 +29,9 @@ dialog{color:var(--text);padding:20px;max-width:calc(100vw - 24px);max-height:ca
 .item-details{font-size:12px;line-height:1.65;color:var(--muted);overflow-wrap:anywhere}.item-details p{margin:10px 0}
 
 /* Individual relic tiers echo the light and materials of their item art. */
-[data-unique-tier="11"]{--relic:#ff8b6b;--relic-glow:#7c2d29}
-[data-unique-tier="12"]{--relic:#e4f3ff;--relic-glow:#365268}
-[data-unique-tier="13"]{--relic:#ffdc76;--relic-glow:#704510}
+[data-unique-tier="1"]{--relic:#efbbdc;--relic-glow:#514054}
+[data-unique-tier="2"]{--relic:#d7ae6d;--relic-glow:#3f3a38}
+[data-unique-tier="3"]{--relic:#ffe098;--relic-glow:#594725}
 .gear-option[data-unique-tier]{border-color:var(--relic);background:radial-gradient(ellipse at 50% 32%,var(--relic-glow),#142033 71%)}
 .gear-option .unique-grade{font-size:11px;font-weight:750;font-style:normal;color:var(--relic)}
 .inspect-heading[data-unique-tier] img{width:clamp(86px,10vw,134px);height:clamp(86px,10vw,134px);object-fit:contain;border:1px solid var(--relic);border-radius:8px;background:radial-gradient(ellipse at center,var(--relic-glow),#101827 78%)}

@@ -11,3 +11,14 @@
 /events/golden-axe/* /?screen=home 302
 /admin/monster-siege-participation-bonus-v1 /admin/ 302
 /preview/monster-siege-ai-v1883/* /?screen=home 302
+
+/assets/ui/mercenary-equipment/unique-20261109/11-weapon.webp /assets/ui/mercenary-equipment/unique-regalia-20261109/1-weapon.webp 301
+/assets/ui/mercenary-equipment/unique-20261109/11-top.webp /assets/ui/mercenary-equipment/unique-regalia-20261109/1-top.webp 301
+/assets/ui/mercenary-equipment/unique-20261109/11-bottom.webp /assets/ui/mercenary-equipment/unique-regalia-20261109/1-bottom.webp 301
+/assets/ui/mercenary-equipment/unique-20261109/11-shoes.webp /assets/ui/mercenary-equipment/unique-regalia-20261109/1-shoes.webp 301
+/assets/ui/mercenary-equipment/unique-20261109/11-accessory.webp /assets/ui/mercenary-equipment/unique-regalia-20261109/1-accessory.webp 301
+/assets/ui/mercenary-equipment/unique-20261109/12-weapon.webp /assets/ui/mercenary-equipment/unique-regalia-20261109/2-weapon.webp 301
+/assets/ui/mercenary-equipment/unique-20261109/12-top.webp /assets/ui/mercenary-equipment/unique-regalia-20261109/2-top.webp 301
+/assets/ui/mercenary-equipment/unique-20261109/12-bottom.webp /assets/ui/mercenary-equipment/unique-regalia-20261109/2-bottom.webp 301
+/assets/ui/mercenary-equipment/unique-20261109/12-shoes.webp /assets/ui/mercenary-equipment/unique-regalia-20261109/2-shoes.webp 301
+/assets/ui/mercenary-equipment/unique-20261109/12-accessory.webp /assets/ui/mercenary-equipment/unique-regalia-20261109/2-accessory.webp 301

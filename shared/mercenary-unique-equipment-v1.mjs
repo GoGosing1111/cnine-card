@@ -1,22 +1,23 @@
 import {ASCENDANT_POWER_BASELINE, ASCENDANT_EQUIPMENT_MODES, ASCENDANT_EQUIPMENT_SLOTS} from './mercenary-ascendant-equipment-v1.mjs';
 import {equipmentEffectText} from './equipment-growth-text-v1.mjs';
 
+// Published item codes are permanent inventory identifiers. Unique ranks have their own progression.
 const tiers = [
-  {tier:11, family:'홍련일식', scale:12, attack:36, hp:42,
+  {tier:1, imageStem:'unique-regalia-20261109/1-', codePrefix:'MERC_UQ_11_', family:'흑기사', scale:12, attack:36, hp:42,
     pieces:[
-      ['홍련일식 봉황도','낙일의 참격',{attackPercent:32,penetrationPoints:12}],
-      ['홍련심장 흉갑','불멸의 심장',{hpPercent:35,damageReductionPercent:30}],
-      ['적양비늘 각반','일식 결계',{shieldPercent:60}],
-      ['잔양 비상화','홍련 비상',{speedPercent:32}],
-      ['흑일의 인장','검은 태양',{criticalChancePoints:24,criticalDamagePoints:96}]]},
-  {tier:12, family:'설령백호', scale:16, attack:44, hp:52,
+      ['흑기사의 처형대검','처형 선고',{attackPercent:32,penetrationPoints:12}],
+      ['흑기사의 혈석 흉갑','불굴의 맹세',{hpPercent:35,damageReductionPercent:30}],
+      ['철벽의 전투각반','붉은 방벽',{shieldPercent:60}],
+      ['성문파쇄 전투화','중갑 돌진',{speedPercent:32}],
+      ['흑기사의 인장','집행자의 각인',{criticalChancePoints:24,criticalDamagePoints:96}]]},
+  {tier:2, imageStem:'unique-regalia-20261109/2-', codePrefix:'MERC_UQ_12_', family:'흑금 월식', scale:16, attack:44, hp:52,
     pieces:[
-      ['백호의 송곳니 대도','산군의 포효',{attackPercent:42,penetrationPoints:16}],
-      ['설령백호 흉갑','백호의 기백',{hpPercent:46,damageReductionPercent:36}],
-      ['흑호문 각반','설산의 호위',{shieldPercent:80}],
-      ['백호 발톱 전투화','설원을 가르는 발톱',{speedPercent:44}],
-      ['벽안백호 패옥','사냥꾼의 눈',{criticalChancePoints:28,criticalDamagePoints:130}]]},
-  {tier:13, family:'천제황룡', scale:22, attack:54, hp:64,
+      ['흑금의 월식도','월식 절단',{attackPercent:42,penetrationPoints:16}],
+      ['흑금의 월식 흉갑','흑금 장갑',{hpPercent:46,damageReductionPercent:36}],
+      ['월영의 흑금각반','월영 장벽',{shieldPercent:80}],
+      ['흑금의 잠행화','그림자 보법',{speedPercent:44}],
+      ['암월의 흑금 펜던트','월식 공명',{criticalChancePoints:28,criticalDamagePoints:130}]]},
+  {tier:3, imageStem:'unique-20261109/13-', codePrefix:'MERC_UQ_13_', family:'천제황룡', scale:22, attack:54, hp:64,
     pieces:[
       ['황룡여의 언월도','황룡의 역린',{attackPercent:54,penetrationPoints:20}],
       ['황룡제왕 금갑','용제의 가호',{hpPercent:60,damageReductionPercent:42}],
@@ -30,11 +31,11 @@ export const UNIQUE_MERCENARY_EQUIPMENT = Object.freeze(tiers.flatMap(tier =>
     const slot=ASCENDANT_EQUIPMENT_SLOTS[i], totalPower=ASCENDANT_POWER_BASELINE[slot]*tier.scale;
     const pvePower=Math.floor(totalPower*.9);
     const individualEffects=Object.freeze({...special,attackPercent:tier.attack+(special.attackPercent||0),hpPercent:tier.hp+(special.hpPercent||0)});
-    return Object.freeze({code:'MERC_UQ_'+tier.tier+'_'+slot,kind:'UNIQUE',setId:null,regionId:null,
-      tier:tier.tier,family:tier.family,name,slot,subtype:slot,rarity:'MYTHIC',totalPower,pvePower,pvpPower:totalPower-pvePower,
+    return Object.freeze({code:tier.codePrefix+slot,kind:'UNIQUE',setId:null,regionId:null,
+      tier:tier.tier,tierLabel:'유니크 '+tier.tier+'단계',family:tier.family,name,slot,subtype:slot,rarity:'MYTHIC',totalPower,pvePower,pvpPower:totalPower-pvePower,
       modes:ASCENDANT_EQUIPMENT_MODES,passiveName,individualEffects,
       description:equipmentEffectText(individualEffects),
-      image:'/assets/ui/mercenary-equipment/unique-20261109/'+tier.tier+'-'+slot.toLowerCase()+'.webp'});
+      image:'/assets/ui/mercenary-equipment/'+tier.imageStem+slot.toLowerCase()+'.webp'});
   })
 ));
 const byCode=new Map(UNIQUE_MERCENARY_EQUIPMENT.map(item=>[item.code,item]));
