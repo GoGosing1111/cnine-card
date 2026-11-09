@@ -11,51 +11,66 @@
   const legacyEvolutionBinder = window.bindEvolutionView;
 
   const NAV_META = Object.freeze({
-    legion: ['군단토벌', '잊혀진 섬', '<path d="M4 19V9l4-4 4 4 4-4 4 4v10zM8 19v-5h8v5"/>'],
-    deck: ['덱 편성', 'DEPLOY DECK', '<rect x="4" y="5" width="11" height="14"/><path d="M9 2h11v14"/>'],
-    hunt: ['몬스터 토벌', 'HUNT ZONE', '<path d="m5 19 5-5m4-4 5-5M8 4l12 12M4 8l12 12"/><path d="m4 4 4 1-3 3zM20 20l-4-1 3-3z"/>'],
-    raid: ['월드 레이드', 'RAID LIVE', '<path d="M4 20V9h4v11M10 20V4h4v16M16 20V7h4v13M2 20h20"/>'],
-    coop: ['격전지(협동)', '3인 공동 전투', '<circle cx="12" cy="6" r="3"/><circle cx="5" cy="17" r="3"/><circle cx="19" cy="17" r="3"/><path d="m10 9-3 5m7-5 3 5M8 17h8"/>'],
-    escort: ['호송작전', 'ESCORT', '<path d="M3 7h12v10H3zM15 10h4l2 3v4h-6z"/><path d="M6 20v-3m12 3v-3"/>'],
-    seal: ['봉인전', 'SEAL BATTLE', '<rect x="5" y="10" width="14" height="10"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/>'],
-    tower: ['무한의 탑', 'INFINITE TOWER', '<path d="M6 21V7h12v14M9 7V3h6v4M9 11h2m2 0h2m-6 4h2m2 0h2"/>'],
-    'cow-room': ['카우방', 'COW PORTAL', '<path d="M5 21V10a7 7 0 0 1 14 0v11M3 21h18M8 21V11a4 4 0 0 1 8 0v10"/>'],
-    scrapyard: ['폐차장 원정', 'SALVAGE', '<path d="M4 8h16v11H4zM7 8V5h10v3M8 13h8M10 16h4"/>']
+    deck: ['덱 편성', '출전 카드 배치'],
+    hunt: ['몬스터 토벌', '난이도별 사냥'],
+    defense: ['몬스터 디펜스', '거점 방어'],
+    coop: ['격전지(협동)', '3인 협동 전투'],
+    raid: ['월드 레이드', '레이드 보스'],
+    escort: ['호송작전', '호송대 방어'],
+    scrapyard: ['폐차장 원정', '구역 탐색'],
+    legion: ['군단토벌', '잊혀진 섬'],
+    citadel: ['군단토벌 파티', '불타는 성채 · 2인'],
+    seal: ['봉인전', '봉인 던전'],
+    tower: ['무한의 탑', '층별 도전'],
+    'cow-room': ['카우방', '포탈 입장', 'magic']
   });
+
+  const lobbyIcon = key => window.SoopTacticalIcons?.html(key) || '';
 
   function navKey(button) {
     if (button.hasAttribute('data-v3-cow-entry')) return 'cow-room';
+    if (button.hasAttribute('data-legion-hunt-entry')) return 'legion';
+    if (button.hasAttribute('data-legion-citadel')) return 'citadel';
     if (button.dataset.sealBattleMode) return 'seal';
-    if (button.dataset.v21Route === 'scrapyard') return 'scrapyard';
-    return String(button.dataset.pveMode || '').toLowerCase();
+    return button.dataset.pveMode || button.dataset.v21Route || button.dataset.pveV2Key;
+  }
+
+  function modeContent(key) {
+    const [title, detail, icon = key] = NAV_META[key];
+    return `${lobbyIcon(icon)}<span><b>${title}</b><small>${detail}</small></span>`;
   }
 
   function decorateModeButton(button) {
-    const key = navKey(button), meta = NAV_META[key];
-    if (!meta) return;
-    button.dataset.pveV2Key = key;
+    const key = navKey(button);
+    if (!NAV_META[key]) return;
+    // Seal, cow portal and tower can join after their access checks finish.
     if (button.dataset.pveV2Decorated !== '1') {
+      button.innerHTML = modeContent(key);
       button.dataset.pveV2Decorated = '1';
-      button.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true">${meta[2]}</svg><span><b>${meta[0]}</b><small>${meta[1]}</small></span>${key === 'raid' ? '<em>LIVE</em>' : ''}`;
+      button.dataset.pveV2Key = key;
     }
-    button.setAttribute('aria-selected', button.classList.contains('active') ? 'true' : 'false');
+    if (button.matches('button')) {
+      const active = button.classList.contains('active') ? 'true' : 'false';
+      if (button.getAttribute('aria-selected') !== active) button.setAttribute('aria-selected', active);
+    }
   }
 
   function syncModeNavigation() {
-    const nav = document.querySelector('.pve-mode-tabs');
+    const nav = document.querySelector('#pveCommandV2 > .pve-mode-tabs');
     if (!nav) return;
-    nav.classList.add('pvev2-mode-nav');
     nav.querySelectorAll('.pve-mode-btn').forEach(decorateModeButton);
     window.syncLegionHuntNavigation?.(nav);
-    const active = nav.querySelector('.pve-mode-btn.active');
-    active?.scrollIntoView?.({ block: 'nearest', inline: 'nearest', behavior: 'auto' });
-    const root = document.getElementById('pveCommandV2');
-    if (root && nav.dataset.pveV2Observer !== '1') {
-      nav.dataset.pveV2Observer = '1';
-      const observer = new MutationObserver(() => nav.querySelectorAll('.pve-mode-btn').forEach(decorateModeButton));
-      observer.observe(nav, { childList: true, subtree: false });
-      window.CNineRuntime?.registerCleanup?.(() => observer.disconnect());
-    }
+    if (nav.dataset.pveV2Observer === '1') return;
+    nav.dataset.pveV2Observer = '1';
+    const observer = new MutationObserver(records => {
+      for (const record of records) {
+        for (const node of record.addedNodes) {
+          if (node.matches?.('.pve-mode-btn')) decorateModeButton(node);
+        }
+      }
+    });
+    observer.observe(nav, { childList: true });
+    window.CNineRuntime?.registerCleanup?.(() => observer.disconnect());
   }
 
   function battleEnergySnapshot(apocalypse = false) {
@@ -73,21 +88,35 @@
     const apocalypse = typeof selectedPveIsApocalypse === 'function' && selectedPveIsApocalypse();
     const energy = battleEnergySnapshot(apocalypse);
     return `<div class="pvev2-live-toolbar">
+      <h2 id="pveDestinationsTitle">${lobbyIcon('battle')}전장 선택</h2>
       <div class="pvev2-energy${apocalypse ? ' apocalypse-energy' : ''}" id="battleEnergyCard" data-energy-kind="${apocalypse ? 'APOCALYPSE' : 'STANDARD'}" aria-label="${esc(energy.label)}"><small id="battleEnergyLabel">${esc(energy.label)}</small><b id="battleEnergyCount">${esc(energy.text)}</b><span><i id="battleEnergyFill" style="width:${energy.fill}%"></i></span><em id="battleEnergyTimer">${esc(energy.timer)}</em></div>
-      <button class="pvev2-evolution-entry" id="pveV2EvolutionEntry" type="button" aria-label="카드 진화로 이동" title="카드 진화"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M4 12h16M10 17h10"/><path d="m11 4 3 3-3 3m2 4-3 3 3 3"/></svg><span><small>CARD EVOLUTION</small><b>카드 진화</b></span><em>진입</em></button>
+      <button class="pvev2-evolution-entry" id="pveV2EvolutionEntry" type="button" aria-label="카드 진화로 이동">${lobbyIcon('evolution')}<b>카드 진화</b></button>
     </div>`;
   }
 
-  function modeButton(key, active = false) {
-    const meta = NAV_META[key];
-    const route = key === 'legion' ? 'data-legion-hunt-entry hidden' : key === 'scrapyard' ? 'data-v21-route="scrapyard"' : key === 'coop' ? 'id="pveCoopTab" data-pve-mode="coop" hidden' : `data-pve-mode="${key}"`;
-    return `<button type="button" class="pve-mode-btn${key === 'escort' ? ' pve-escort-tab' : ''}${active ? ' active' : ''}" ${key === 'escort' ? 'id="pveEscortTab"' : ''} ${route} aria-selected="${active ? 'true' : 'false'}"><svg viewBox="0 0 24 24" aria-hidden="true">${meta[2]}</svg><span><b>${meta[0]}</b><small>${meta[1]}</small></span>${key === 'raid' ? '<em>LIVE</em>' : ''}</button>`;
+  function modeButton(key, attributes, active = false) {
+    const metadata = `data-pve-v2-key="${key}" data-pve-v2-decorated="1"`;
+    if (key === 'defense') {
+      const href = window.SoopketmonV21RuntimeRouter?.routeContract?.defense?.href || '/defense/';
+      return `<a class="pve-mode-btn" ${metadata} href="${esc(href)}" aria-label="몬스터 디펜스">${modeContent(key)}</a>`;
+    }
+    return `<button type="button" class="pve-mode-btn${key === 'escort' ? ' pve-escort-tab' : ''}${active ? ' active' : ''}" ${metadata} ${attributes} aria-selected="${active}">${modeContent(key)}</button>`;
   }
 
   function liveBattleView(user) {
     return `${summaryBar(user)}<div id="pveCommandV2" class="pvev2-root pvev2-live-root" data-screen="deck">
       ${battleToolbar()}
-      <nav class="pve-mode-tabs pvev2-mode-nav" aria-label="PVE 콘텐츠">${modeButton('deck', true)}${modeButton('hunt')}${modeButton('coop')}${modeButton('raid')}${modeButton('escort')}${modeButton('scrapyard')}${modeButton('legion')}<button type="button" class="pve-mode-btn" data-legion-citadel hidden>${window.SoopTacticalIcons?.html("citadel") || ""}<span><b>군단토벌 파티</b><small>불타는 성채 · 2인</small></span></button></nav>
+      <nav class="pve-mode-tabs pvev2-mode-nav" aria-labelledby="pveDestinationsTitle">
+        ${modeButton('deck', 'data-pve-mode="deck"', true)}
+        ${modeButton('hunt', 'data-pve-mode="hunt"')}
+        ${modeButton('defense')}
+        ${modeButton('coop', 'id="pveCoopTab" data-pve-mode="coop" hidden')}
+        ${modeButton('raid', 'data-pve-mode="raid"')}
+        ${modeButton('escort', 'id="pveEscortTab" data-pve-mode="escort"')}
+        ${modeButton('scrapyard', 'data-v21-route="scrapyard"')}
+        ${modeButton('legion', 'data-legion-hunt-entry hidden')}
+        ${modeButton('citadel', 'data-legion-citadel hidden')}
+      </nav>
       <main class="pvev2-viewport" id="pveV2LiveViewport">
         <div id="pveHuntView" class="pve-hunt-redesign pve-hunt-v1179"><div class="pvev2-loading"><i></i><b>라이브 PVE 데이터 연결 중</b><span>REVERSE CALL DATABASE</span></div></div>
         <div id="pveRiftView" class="pve-rift-view" hidden><div class="rift-loading"><i></i><b>차원의 균열을 확인하는 중...</b></div></div>
@@ -170,12 +199,13 @@
   function pveFormationStrip() {
     const formation = pveDeckRules().formation || {};
     const front = Number(formation.front ?? formation.frontSlots ?? 2), back = Number(formation.back ?? formation.backSlots ?? 3);
-    return `<div class="pvev2-formation-strip" aria-label="PVE 전투 배치"><span><small>FORMATION</small><b>전열 ${front}</b></span><i></i><span><small>DEPLOYMENT</small><b>후열 ${back}</b></span><button class="pvev2-btn pvev2-rule-open" type="button" id="pveDeckRulesOpen">편성 규칙</button></div>`;
+    return `<div class="pvev2-formation-strip"><b>전열 ${front}장 <span aria-hidden="true">/</span> 후열 ${back}장</b><button class="pvev2-btn pvev2-rule-open" type="button" id="pveDeckRulesOpen">편성 규칙</button></div>`;
   }
 
   function pveHealerWarning() {
     const state = pveHealerPenaltyState(), penalties = state.rules.healerPenalties || {};
-    return `<section class="pvev2-healer-rule ${state.reduction ? 'is-active' : ''}" aria-live="polite"><div><small>HEALER STACK RULE</small><b>힐러 ${state.count}장${state.reduction ? ` · 회복량 ${state.reduction}% 감소` : ''}</b></div><p>2장부터 PVE·PVP 회복량이 감소하며, 2장 이상 편성 시 HP형 불굴의 생존 효과가 비활성화됩니다.</p><span>2장 -${Number(penalties[2] || 0)}% · 3장 -${Number(penalties[3] || 0)}% · 4장 -${Number(penalties[4] || 0)}% · 5장 -${Number(penalties[5] || 0)}%</span></section>`;
+    if (!state.reduction) return '';
+    return `<section class="pvev2-healer-rule ${state.reduction ? 'is-active' : ''}" aria-live="polite"><div><b>힐러 ${state.count}장${state.reduction ? ` · 회복량 ${state.reduction}% 감소` : ''}</b></div><p>힐러를 2장 이상 편성하면 HP형 불굴의 생존 효과가 비활성화됩니다.</p><span>2장 -${Number(penalties[2] || 0)}% · 3장 -${Number(penalties[3] || 0)}% · 4장 -${Number(penalties[4] || 0)}% · 5장 -${Number(penalties[5] || 0)}%</span></section>`;
   }
 
   function pveDeckRulesDialog() {
@@ -189,7 +219,11 @@
     opener.onclick = () => {
       document.body.insertAdjacentHTML('beforeend', pveDeckRulesDialog());
       const dialog = document.getElementById('pveDeckRulesDialog');
-      const close = () => dialog?.remove();
+      const close = () => { dialog?.remove(); opener.focus({preventScroll:true}); };
+      dialog?.addEventListener('keydown', event => {
+        if (event.key === 'Escape') close();
+        if (event.key === 'Tab') { event.preventDefault(); dialog.querySelector('[data-pve-rule-close]').focus(); }
+      });
       dialog?.querySelector('[data-pve-rule-close]')?.addEventListener('click', close, { once: true });
       dialog?.addEventListener('click', event => { if (event.target === dialog) close(); });
       dialog?.querySelector('[data-pve-rule-close]')?.focus();
@@ -216,25 +250,28 @@
     window.CNineRuntime?.registerCleanup?.(() => observer.disconnect());
   }
 
-  function deckScreenMarkup({ deckCount, energyText, totalPower, ready, violation, cardPower, equipment, battleSuit, garage, title }) {
+  function deckScreenMarkup({ deckCount, totalPower, ready, violation, cardPower, equipment, battleSuit, garage, title }) {
     const readyLabel = violation ? '규칙 확인' : (ready ? '출전 준비' : '편성 중');
     return `<section class="pvev2-screen pvev2-deck-screen"><div class="pvev2-backdrop deck"></div><div class="pvev2-content">
-      ${screenHead('PVE / DEPLOYMENT CONTROL', 'PVE 덱 편성실', '보유 카드 5장을 선택해 출전 덱을 구성하세요.', `<div class="pvev2-operation-rail"><article><small>편성 카드</small><b id="battleDeckCount">${deckCount} / 5</b></article><article><small>토벌 잔여 횟수</small><b>${esc(energyText)}</b></article><article><small>출전 전투력</small><b id="battleDeckPower">${number(totalPower)}</b></article><article class="${ready ? 'ready' : ''}${violation ? ' blocked' : ''}"><small>편성 상태</small><b id="battleDeckReady">${readyLabel}</b></article></div>`)}
-      <section class="pvev2-deck-console ${violation ? 'has-rule-violation' : ''}"><header class="pvev2-console-head"><div><small>ACTIVE PVE FORMATION</small><b>저장된 출전 덱</b></div><div class="pvev2-console-actions"><button class="pvev2-btn" type="button" id="clearBattleDeck">편성 초기화</button><button class="pvev2-btn primary" type="button" id="saveBattleDeck" ${ready ? '' : 'disabled'}>${violation ? '규칙 확인 필요' : '덱 저장'}</button></div></header>
-        ${pveFormationStrip()}${pveDeckRuleChips()}
+      ${screenHead('PVE / DEPLOYMENT CONTROL', 'PVE 덱 편성실', '보유 카드에서 출전할 5장을 선택하세요.', `<div class="pvev2-operation-rail"><article><small>편성 카드</small><b id="battleDeckCount">${deckCount} / 5</b></article><article><small>출전 전투력</small><b id="battleDeckPower">${number(totalPower)}</b></article><article class="${ready ? 'ready' : ''}${violation ? ' blocked' : ''}"><small>편성 상태</small><b id="battleDeckReady">${readyLabel}</b></article></div>`)}
+      <section class="pvev2-deck-console ${violation ? 'has-rule-violation' : ''}"><header class="pvev2-console-head"><div class="pvev2-panel-title">${lobbyIcon('deck')}<h2>출전 덱</h2></div><div class="pvev2-console-actions"><button class="pvev2-btn" type="button" id="clearBattleDeck">편성 초기화</button><button class="pvev2-btn primary" type="button" id="saveBattleDeck" ${ready ? '' : 'disabled'}>${violation ? '규칙 확인 필요' : '덱 저장'}</button></div></header>
+        ${pveFormationStrip()}
         <div id="battleDeck" class="pvev2-roster pvev2-live-roster"></div>
-        ${pveHealerWarning()}<footer class="pvev2-roster-foot"><article><small>카드 전투력</small><b>${number(cardPower)}</b></article><article><small>장비</small><b>${number(equipment)}</b></article><article class="battle-suit"><small>배틀슈트 · PVE 전용</small><b>${number(battleSuit)}</b></article><article><small>이동수단</small><b>${number(garage)}</b></article><article class="total"><small>합계 전투력</small><b>${number(totalPower)}</b></article><div class="pvev2-console-actions"><button class="pvev2-btn primary" type="button" id="pveV2GoHunt" ${ready ? '' : 'disabled'}>토벌 목표 선택</button></div></footer>
+        ${pveHealerWarning()}
+        <div class="pvev2-deck-next"><details class="pvev2-deck-details"${violation ? ' open' : ''}><summary>편성 상세</summary>
+          ${pveDeckRuleChips()}<div class="pvev2-roster-foot"><article><small>카드</small><b>${number(cardPower)}</b></article><article><small>장비</small><b>${number(equipment)}</b></article><article class="battle-suit"><small>배틀슈트 · PVE 전용</small><b>${number(battleSuit)}</b></article><article><small>이동수단</small><b>${number(garage)}</b></article><article><small>칭호</small><b>${number(title)}</b></article></div>
+        </details><button class="pvev2-btn primary" type="button" id="pveV2GoHunt" ${ready ? '' : 'disabled'}>토벌 목표 선택</button></div>
       </section>
-      <section class="pvev2-inventory"><header class="pvev2-console-head"><div><small>OWNED CARD CATALOG</small><b>보유 카드 편성</b></div><span class="pvev2-status-line">검색 결과 <b id="pveDeckResultCount">0장</b></span></header>
-        <div class="pvev2-inventory-tools"><label class="pvev2-field"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg><input id="pveDeckSearch" type="search" autocomplete="off" placeholder="카드명 또는 멤버 검색"></label><label class="pvev2-field"><select id="pveDeckGrade"><option value="ALL">전체 등급</option>${['ICON','SUPERSTAR','ZENITH','FUR','PRESTIGE','LIMITED','MA','SSR','UR','HR','SR','R','U','C'].map(grade => `<option value="${grade}">${grade}</option>`).join('')}</select></label><label class="pvev2-field"><select id="pveDeckType"><option value="ALL">전체 유형</option><option value="ATTACK">공격형</option><option value="DEFENSE">방어형</option><option value="SPEED">속도형</option><option value="HP">HP형</option><option value="NONE">기본형</option></select></label><label class="pvev2-field"><select id="pveDeckSort"><option value="POWER_DESC">전투력 높은순</option><option value="GRADE_DESC">등급 높은순</option><option value="NAME_ASC">이름순</option></select></label><button class="pvev2-btn" type="button" id="pveDeckFilterReset">필터 초기화</button></div>
-        <div id="battleCards" class="battle-card-picker pve-builder-list pvp-card-picker grouped pvev2-live-card-catalog"><div class="empty-recent">보유 카드를 불러오는 중입니다.</div></div>
+      <section class="pvev2-inventory"><header class="pvev2-console-head"><div class="pvev2-panel-title">${lobbyIcon('cards')}<h2 id="pveOwnedCardsTitle" tabindex="-1">보유 카드</h2></div><span class="pvev2-status-line">검색 결과 <b id="pveDeckResultCount">…</b></span></header>
+        <div class="pvev2-inventory-tools"><label class="pvev2-field">${lobbyIcon('search')}<input id="pveDeckSearch" type="search" autocomplete="off" aria-label="카드명 또는 멤버 검색" placeholder="카드명 또는 멤버 검색"></label><label class="pvev2-field"><select id="pveDeckGrade" aria-label="카드 등급"><option value="ALL">전체 등급</option>${['ICON','SUPERSTAR','ZENITH','FUR','PRESTIGE','LIMITED','MA','SSR','UR','HR','SR','R','U','C'].map(grade => `<option value="${grade}">${grade}</option>`).join('')}</select></label><label class="pvev2-field"><select id="pveDeckType" aria-label="카드 유형"><option value="ALL">전체 유형</option><option value="ATTACK">공격형</option><option value="DEFENSE">방어형</option><option value="SPEED">속도형</option><option value="HP">HP형</option><option value="NONE">기본형</option></select></label><label class="pvev2-field"><select id="pveDeckSort" aria-label="카드 정렬"><option value="POWER_DESC">전투력 높은순</option><option value="GRADE_DESC">등급 높은순</option><option value="NAME_ASC">이름순</option></select></label><button class="pvev2-btn" type="button" id="pveDeckFilterReset">필터 초기화</button></div>
+        <div id="battleCards" class="battle-card-picker pve-builder-list pvp-card-picker grouped pvev2-live-card-catalog"><div class="empty-recent pvev2-catalog-loading">보유 카드를 불러오는 중입니다.</div></div>
       </section>
       <span id="battleDeckStatusText" class="pvev2-live-deck-contract">카드 ${number(cardPower)} + 일반 장비 ${number(equipment)} + 배틀슈트 ${number(battleSuit)} (PVE 전용) + 이동수단 ${number(garage)} + 칭호 ${number(title)}</span>
     </div></section>`;
   }
 
-  function emptyDeckSlot(index) {
-    return `<div class="pvev2-live-card-slot empty ${battleState.deckEditSlot===index?'is-edit-target':''}" data-pve-empty="${index}" role="button" tabindex="0" aria-label="${index+1}번 슬롯에 카드 편성"><span>${String(index + 1).padStart(2, '0')}</span><b>빈 슬롯</b><small>${battleState.deckEditSlot===index?'이 자리에 카드 선택':'카드를 선택하세요'}</small></div>`;
+  function emptyDeckSlot(index, position) {
+    return `<div class="pvev2-live-card-slot empty ${battleState.deckEditSlot===index?'is-edit-target':''}" data-pve-empty="${index}" role="button" tabindex="0" aria-label="${position}에 카드 편성"><span class="pvev2-slot-position">${position}</span><b>빈 슬롯</b><small>${battleState.deckEditSlot===index?'이 자리에 카드 선택':'카드를 선택하세요'}</small></div>`;
   }
 
   function renderPveMonsterBrowserV2() {
@@ -255,49 +292,133 @@
       battleState.selectedMonster = Number(selected.id);
       saveLastPveMonsterId(battleState.selectedMonster);
     }
+    const difficultyButtons = PVE_MONSTER_TABS.map(tab =>
+      `<button type="button" class="${state.tab === tab ? 'active' : ''}" aria-pressed="${state.tab === tab}" data-monster-tab="${tab}">${monsterCategoryLabel(tab)}</button>`
+    ).join('');
+    const targets = rows.map(monster => {
+      const active = Number(monster.id) === Number(selected?.id);
+      const thumb = monster.image ? `<img src="${esc(monster.image)}" alt="" loading="lazy" decoding="async">` : lobbyIcon('hunt');
+      return `<button type="button" class="pvev2-monster${active ? ' active' : ''}" aria-pressed="${active}" data-monster="${Number(monster.id)}">
+        ${thumb}<span><b>${esc(monster.name)}</b><em>전투력 ${number(monster.battlePower)}</em></span></button>`;
+    }).join('');
+    const options = rows.map(monster =>
+      `<option value="${Number(monster.id)}"${monster === selected ? ' selected' : ''}>${esc(monster.name)}</option>`
+    ).join('');
+    root.innerHTML = `<nav class="pvev2-difficulty" aria-label="토벌 난이도">${difficultyButtons}</nav>
+      ${selected ? `<section class="pvev2-hunt-list" aria-labelledby="pveTargetLabel">
+        <header><h2 id="pveTargetLabel">토벌 대상</h2><span>${rows.length}종</span></header>
+        <select class="pvev2-target-select" aria-labelledby="pveTargetLabel">${options}</select>
+        <div class="pvev2-monster-grid">${targets}</div></section>
+        <section class="pvev2-hunt-hero" aria-labelledby="pveTargetName"></section>`
+        : '<p class="pvev2-no-targets">이 난이도에 공개된 몬스터가 없습니다. 다른 난이도를 선택하세요.</p>'}`;
+
     const user = loadUser(), bonus = battleState.characterBonus || {};
     const cardPower = battleState.deck.reduce((sum, id) => {
       const card = cards.find(item => String(item.id) === String(id));
       return sum + (card ? battleCardPower(card, user, battleState.config) : 0);
     }, 0);
-    const apocalypse = state.tab === 'APOCALYPSE', huntEnergy = battleEnergySnapshot(apocalypse), energyState = huntEnergy.state;
-    const myPower = cardPower + Number(bonus.pve || 0), requiredPower = Math.max(0, Number(selected?.recommendedPower ?? selected?.battlePower ?? 0)), powerDelta = myPower - requiredPower, powerDeltaPercent = requiredPower > 0 ? powerDelta / requiredPower * 100 : 0, powerReady = requiredPower <= 0 || powerDelta >= 0, noEnergy = !energyState || huntEnergy.unavailable || (!energyState.unlimited && energyState.energy < energyState.costPerBattle), ruleViolation = pveDeckLimitViolation();
-    const image = selected?.image ? `<img class="pvev2-hunt-monster-image" src="${esc(selected.image)}" alt="${esc(selected.name)}" loading="eager">` : '<div class="pvev2-monster-image-missing"><b>IMAGE CHECK</b><span>CMS 몬스터 원본 이미지가 필요합니다.</span></div>';
-    const remainingBattles = energyState?.unlimited ? 0 : Math.floor(Number(energyState?.energy || 0) / Math.max(1, Number(energyState?.costPerBattle || 1)));
-    const sweepControl = apocalypse
-      ? '<div class="pvev2-sweep-unavailable" data-pve-sweep-policy="APOCALYPSE_EXCLUDED"><i>!</i><span><b>아포칼립스 소탕 제외</b><small>전용 기믹 전투는 매회 직접 진행합니다.</small></span></div>'
-      : `<label class="pvev2-auto pvev2-sweep${remainingBattles < 2 || energyState?.unlimited ? ' is-disabled' : ''}" data-pve-sweep-policy="STANDARD_ONLY"><input type="checkbox" id="battleAuto" ${remainingBattles < 2 || energyState?.unlimited ? 'disabled' : ''}><span><b>전투 소탕</b><small>첫 1회는 V3 연출 · 이후 ${Math.max(0, remainingBattles - 1)}회 일괄 판정</small></span><em>${remainingBattles >= 2 && !energyState?.unlimited ? `총 ${remainingBattles}회` : '2회부터'}</em></label>`;
-    root.innerHTML = `<section class="pvev2-hunt-hero"><div class="pvev2-hunt-visual monster-art"><span class="pvev2-target-code"><small>토벌 대상</small><b>H-${String(selected?.id || 0).padStart(3, '0')}</b></span>${image}</div><div class="pvev2-hunt-copy"><span class="pvev2-kicker">${esc(state.tab)} THREAT · H-${String(selected?.id || 0).padStart(3, '0')}</span><h1>${esc(selected?.name || '토벌 대상 선택')}</h1><p>${selected?.apocalypse?.skill?.minionCount ? '보스 1마리 + 쫄몹 6마리 · 전원 처치 시 승리합니다. 봉인·회복 불가·궁극기에 대비하세요.' + (Number(selected?.apocalypse?.battleSuitSkillDefensePercent)>0 ? ' 배틀슈트 스킬 피해 '+number(selected.apocalypse.battleSuitSkillDefensePercent)+'% 감소.' : '') : Number(selected?.isBoss) ? '저장한 덱으로 보스에 도전하세요.' : '저장한 덱으로 몬스터를 토벌하세요.'}</p><div class="pvev2-hunt-stats"><article><small>권장 전투력</small><b>${number(requiredPower)}</b></article><article><small>내 전투력</small><b>${number(myPower)}</b></article><article><small>승리 보상</small><b>${number(selected?.rewardCoin)} COIN</b></article></div><section class="pvev2-power-readout ${powerReady ? 'is-ready' : 'is-short'}"><span><small>권장 대비 전투력</small><b>${powerDelta >= 0 ? '+' : ''}${number(powerDelta)} · ${powerDelta >= 0 ? '+' : ''}${powerDeltaPercent.toFixed(1)}%</b></span><strong>${powerReady ? '권장 전투력 충족' : '권장 전투력 미달'}</strong><p>${selected?.recommendedPowerSource === 'ENGINE_ESTIMATE' ? '아포칼립스 권장 전투력은 실제 전투 엔진으로 계산한 승률 50% 기준 덱 전투력입니다.' : '권장 전투력은 비교 지표이며 입장 제한이 아닙니다.'}</p></section><div class="pvev2-hunt-attempts${apocalypse ? ' apocalypse-energy' : ''}" data-energy-kind="${apocalypse ? 'APOCALYPSE' : 'STANDARD'}"><span><small>${esc(huntEnergy.label)}</small><b>${esc(huntEnergy.text)}</b></span><em>${esc(huntEnergy.timer)}</em></div>${ruleViolation ? `<div class="pvev2-hunt-rule-block"><b>${esc(pveGradeLimitLabel(ruleViolation.grade))} ${ruleViolation.count}장 편성</b><span>최대 ${ruleViolation.limit}장 규칙을 맞춘 뒤 전투를 시작할 수 있습니다.</span></div>` : ''}<div class="pvev2-hunt-actions">${sweepControl}<button class="pvev2-btn primary" type="button" id="battleStart" data-pve-start-button="1" ${deckCardCount(battleState.deck) !== 5 || !selected || noEnergy || ruleViolation ? 'disabled' : ''}>${ruleViolation ? '편성 규칙 확인' : (noEnergy ? (apocalypse ? '아포칼립스 행동력 부족' : '전투 횟수 부족') : '전투 시작')}</button></div></div></section>
-      <section class="pvev2-hunt-list"><nav class="pvev2-difficulty">${PVE_MONSTER_TABS.map(tab => `<button type="button" class="${state.tab === tab ? 'active' : ''}" data-monster-tab="${tab}">${monsterCategoryLabel(tab)}</button>`).join('')}</nav><div class="pvev2-monster-grid">${rows.map(monster => `<button type="button" class="pvev2-monster ${Number(monster.id) === Number(selected?.id) ? 'active' : ''}" data-monster="${Number(monster.id)}">${monster.image ? `<img src="${esc(monster.image)}" alt="${esc(monster.name)}" loading="lazy">` : '<span class="pvev2-monster-thumb-missing">IMAGE</span>'}<span><small>${esc(resolveTab(monster))} TARGET · H-${String(monster.id).padStart(3, '0')}</small><b>${esc(monster.name)}</b><em>전투력 ${number(monster.battlePower)}</em><strong>보상 ${number(monster.rewardCoin)} COIN</strong></span></button>`).join('') || '<div class="empty-recent">이 난이도에 공개된 몬스터가 없습니다.</div>'}</div></section>`;
-    const huntActions = root.querySelector('.pvev2-hunt-actions');
-    const sweepControlElement = huntActions?.querySelector('.pvev2-sweep,.pvev2-sweep-unavailable');
-    if (huntActions && sweepControlElement) {
-      const options = document.createElement('div');
-      options.className = 'pvev2-battle-options';
-      sweepControlElement.before(options);
-      options.appendChild(sweepControlElement);
-      if (!battleState.battleEngine?.active) options.insertAdjacentHTML('beforeend', `<label class="pvev2-auto pvev2-ultimate-skip"><input type="checkbox" id="battleSkipPlayerUltimate" ${localStorage.getItem('cnine_skip_player_ultimate') === 'ON' ? 'checked' : ''}><span><b>내 궁극기 연출 스킵</b><small>보스 궁극기는 정상 재생합니다.</small></span></label>`);
-      const skipToggle = options.querySelector('#battleSkipPlayerUltimate');
+    const myPower = cardPower + Number(bonus.pve || 0) + Number(globalThis.MercenaryDeckSlot?.power?.('PVE') || 0);
+    function renderTarget() {
+      const hero = root.querySelector('.pvev2-hunt-hero');
+      if (!hero || !selected) return;
+      const requiredPower = Math.max(0, Number(selected.recommendedPower ?? selected.battlePower ?? 0));
+      const powerDelta = myPower - requiredPower, powerReady = powerDelta >= 0;
+      const apocalypse = state.tab === 'APOCALYPSE', huntEnergy = battleEnergySnapshot(apocalypse), energyState = huntEnergy.state;
+      const noEnergy = !energyState || huntEnergy.unavailable || (!energyState.unlimited && energyState.energy < energyState.costPerBattle);
+      const ruleViolation = pveDeckLimitViolation(), deckReady = deckCardCount(battleState.deck) === 5;
+      const remainingBattles = energyState?.unlimited ? 0 : Math.floor(Number(energyState?.energy || 0) / Math.max(1, Number(energyState?.costPerBattle || 1)));
+      const sweepControl = apocalypse
+        ? '<div class="pvev2-sweep-unavailable" data-pve-sweep-policy="APOCALYPSE_EXCLUDED"><i>!</i><span><b>아포칼립스 소탕 제외</b><small>전용 기믹 전투는 매회 직접 진행합니다.</small></span></div>'
+        : `<label class="pvev2-auto pvev2-sweep${remainingBattles < 2 || energyState?.unlimited ? ' is-disabled' : ''}" data-pve-sweep-policy="STANDARD_ONLY"><input type="checkbox" id="battleAuto" ${remainingBattles < 2 || energyState?.unlimited ? 'disabled' : ''}><span><b>전투 소탕</b><small>첫 1회는 V3 연출 · 이후 ${Math.max(0, remainingBattles - 1)}회 일괄 판정</small></span><em>${remainingBattles >= 2 && !energyState?.unlimited ? `총 ${remainingBattles}회` : '2회부터'}</em></label>`;
+      const skipControl = battleState.battleEngine?.active ? '' : `<label class="pvev2-auto pvev2-ultimate-skip"><input type="checkbox" id="battleSkipPlayerUltimate" ${localStorage.getItem('cnine_skip_player_ultimate') === 'ON' ? 'checked' : ''}><span><b>내 궁극기 연출 스킵</b><small>보스 궁극기는 정상 재생합니다.</small></span></label>`;
+      const minions = Number(selected.apocalypse?.skill?.minionCount || 0);
+      const suitDefense = Number(selected.apocalypse?.battleSuitSkillDefensePercent || 0);
+      const art = selected.image
+        ? `<img class="pvev2-hunt-monster-image" src="${esc(selected.image)}" alt="${esc(selected.name)}" decoding="async">`
+        : '<span class="pvev2-monster-image-missing">등록된 몬스터 이미지가 없습니다.</span>';
+      hero.innerHTML = `<div class="pvev2-hunt-visual monster-art">${art}</div>
+        <div class="pvev2-hunt-copy">
+          <h2 id="pveTargetName">${esc(selected.name)}</h2>
+          ${minions ? `<p>보스 1마리와 쫄몹 ${minions}마리를 모두 처치하세요. 봉인·회복 불가·궁극기에 대비하세요.${suitDefense > 0 ? ` 배틀슈트 스킬 피해 ${number(suitDefense)}% 감소.` : ''}</p>` : ''}
+          <dl class="pvev2-target-facts">
+            <div><dt>권장 전투력</dt><dd>${number(requiredPower)}</dd></div>
+            <div><dt>내 전투력</dt><dd>${number(myPower)}</dd></div>
+            <div class="pvev2-target-reward"><dt>승리 보상</dt><dd>${number(selected.rewardCoin)} <span>코인</span></dd></div>
+          </dl>
+          <details class="pvev2-power-guide"><summary>권장 대비 ${powerReady ? '+' : ''}${number(powerDelta)}${requiredPower ? ` (${powerReady ? '+' : ''}${(powerDelta / requiredPower * 100).toFixed(1)}%)` : ''}</summary>
+            <p>${selected.recommendedPowerSource === 'ENGINE_ESTIMATE' ? '아포칼립스 권장 전투력은 전투 엔진의 승률 50% 추정치입니다.' : '권장 전투력에 미달해도 도전할 수 있습니다.'}</p></details>
+          <div class="pvev2-hunt-attempts${apocalypse ? ' apocalypse-energy' : ''}" data-energy-kind="${apocalypse ? 'APOCALYPSE' : 'STANDARD'}"><span><small>${esc(huntEnergy.label)}</small><b>${esc(huntEnergy.text)}</b></span><em>${esc(huntEnergy.timer)}</em></div>
+          ${ruleViolation ? `<div class="pvev2-hunt-rule-block">${esc(pveGradeLimitLabel(ruleViolation.grade))} ${ruleViolation.count}장 편성 · 최대 ${ruleViolation.limit}장까지 편성할 수 있습니다.</div>` : ''}
+          ${!deckReady ? '<p>덱 편성에서 출전 카드 5장을 저장하세요.</p>' : ''}
+          <div class="pvev2-hunt-actions"><div class="pvev2-battle-options">${sweepControl}${skipControl}</div>
+            <button class="pvev2-btn primary" type="button" id="battleStart" data-pve-start-button="1" ${!deckReady || noEnergy || ruleViolation ? 'disabled' : ''}>${ruleViolation ? '편성 규칙 확인' : noEnergy ? (apocalypse ? '아포칼립스 행동력 부족' : '전투 횟수 부족') : '전투 시작'}</button>
+          </div>
+        </div>`;
+      const autoToggle = hero.querySelector('#battleAuto');
+      if (autoToggle) autoToggle.onchange = renderBattleEnergy;
+      const skipToggle = hero.querySelector('#battleSkipPlayerUltimate');
       if (skipToggle) skipToggle.onchange = () => localStorage.setItem('cnine_skip_player_ultimate', skipToggle.checked ? 'ON' : 'OFF');
     }
-    root.querySelectorAll('[data-monster-tab]').forEach(button => button.onclick = () => {
-      state.tab = button.dataset.monsterTab;
-      const visible = (battleState.monsters || []).filter(monster => resolveTab(monster) === state.tab);
-      battleState.selectedMonster = visible[0]?.id || null;
-      savePveMonsterFilterState(state);
-      if (battleState.selectedMonster) saveLastPveMonsterId(battleState.selectedMonster);
-      renderBattleBuilder();
-    });
-    root.querySelectorAll('[data-monster]').forEach(button => button.onclick = () => {
-      battleState.selectedMonster = Number(button.dataset.monster);
-      saveLastPveMonsterId(battleState.selectedMonster);
+    function selectTarget(id) {
+      const target = rows.find(monster => Number(monster.id) === Number(id));
+      if (!target || target === selected) return;
+      const mark = (monster, active) => {
+        const button = root.querySelector(`[data-monster="${Number(monster.id)}"]`);
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', String(active));
+      };
+      mark(selected, false);
+      selected = target;
+      mark(selected, true);
+      battleState.selectedMonster = Number(selected.id);
       battleState.restoreMonsterCursor = false;
+      saveLastPveMonsterId(battleState.selectedMonster);
+      root.querySelector('.pvev2-target-select').value = String(selected.id);
+      renderTarget();
+      renderBattleEnergy();
+      void warmBattleArtAssets().catch(error => console.warn('토벌 원화 로딩 실패:', error));
+    }
+    renderTarget();
+    root.querySelectorAll('[data-monster-tab]').forEach(button => button.onclick = () => {
+      if (state.tab === button.dataset.monsterTab) return;
+      state.tab = button.dataset.monsterTab;
+      const next = (battleState.monsters || []).find(monster => resolveTab(monster) === state.tab);
+      battleState.selectedMonster = next?.id || null;
+      savePveMonsterFilterState(state);
+      if (next) saveLastPveMonsterId(next.id);
       renderBattleBuilder();
+      document.querySelector(`#battleMonsters [data-monster-tab="${state.tab}"]`)?.focus({preventScroll:true});
     });
+    root.querySelectorAll('[data-monster]').forEach(button => button.onclick = () => selectTarget(button.dataset.monster));
+    const select = root.querySelector('.pvev2-target-select');
+    if (select) select.onchange = () => selectTarget(select.value);
+  }
+
+  let cancelCatalogMount;
+  function mountDeckCatalog(owned, user, alreadyVisible) {
+    if (alreadyVisible || !('IntersectionObserver' in window)) {
+      renderPveDeckCardList(owned, user);
+      return;
+    }
+    // The deck and its controls can paint before the inventory needs its card frames.
+    const catalog = document.getElementById('battleCards');
+    const observer = new IntersectionObserver(entries => {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      cancel();
+      if (catalog.isConnected && catalog.querySelector('.pvev2-catalog-loading')) renderPveDeckCardList(owned, user);
+    });
+    const cancel = () => {
+      observer.disconnect();
+      unregister?.();
+      if (cancelCatalogMount === cancel) cancelCatalogMount = null;
+    };
+    const unregister = window.CNineRuntime?.registerCleanup?.(cancel);
+    cancelCatalogMount = cancel;
+    observer.observe(catalog);
   }
 
   function liveRenderBattleBuilder() {
-    void warmBattleArtAssets().catch(error => console.warn('전투 스프라이트 사전 로딩 실패:', error));
+    cancelCatalogMount?.();
     const root = document.getElementById('pveHuntView');
     if (!root) return;
     const viewMode = getPveViewMode(), user = loadUser();
@@ -305,7 +426,7 @@
       const card = cards.find(item => String(item.id) === String(id));
       return sum + (card ? battleCardPower(card, user, battleState.config) : 0);
     }, 0);
-    const totalPower = cardPower + Number(bonus.pve || 0) + Number(globalThis.MercenaryDeckSlot?.power?.('PVE') || 0), violation = pveDeckLimitViolation(), ready = deckCardCount(battleState.deck) === 5 && !violation, energy = battleEnergySnapshot(false);
+    const totalPower = cardPower + Number(bonus.pve || 0) + Number(globalThis.MercenaryDeckSlot?.power?.('PVE') || 0), violation = pveDeckLimitViolation(), ready = deckCardCount(battleState.deck) === 5 && !violation;
     document.getElementById('pveCommandV2')?.setAttribute('data-screen', viewMode);
     root.classList.toggle('pve-view-deck', viewMode === 'deck');
     root.classList.toggle('pve-view-hunt', viewMode === 'hunt');
@@ -313,16 +434,32 @@
       const ownedSet = ownedIds(user), visibilityPolicy = globalThis.CNineCardVisibilityV1908;
       const visibleCatalog = typeof visibilityPolicy?.filterCollectionCards === 'function' ? visibilityPolicy.filterCollectionCards(cards, user) : collectionSurfaceCards(cards, user);
       const owned = visibleCatalog.filter(card => ownedSet.has(card.id));
-      root.innerHTML = deckScreenMarkup({ deckCount: deckCardCount(battleState.deck), energyText: energy.text, totalPower, ready, violation, cardPower, equipment: Number(bonus.equipmentPve || 0), battleSuit: Number(bonus.battleSuitPve || 0), garage: Number(bonus.garagePve || 0), title: Number(bonus.titlePve || 0) });
+      const catalogWasRendered = !!root.querySelector('#battleCards .virtual-card-chunk, #battleCards .deck-filter-empty');
+      root.innerHTML = deckScreenMarkup({ deckCount: deckCardCount(battleState.deck), totalPower, ready, violation, cardPower, equipment: Number(bonus.equipmentPve || 0), battleSuit: Number(bonus.battleSuitPve || 0), garage: Number(bonus.garagePve || 0), title: Number(bonus.titlePve || 0) });
       const deckRoot = document.getElementById('battleDeck');
+      const formation = pveDeckRules().formation;
+      const front = Number(formation.front ?? formation.frontSlots ?? 2);
       if (deckRoot) deckRoot.innerHTML = Array.from({ length: 5 }, (_, index) => {
         const card = cards.find(item => String(item.id) === String(battleState.deck[index]));
-        return card ? `<button type="button" class="pvev2-live-card-slot filled" data-remove="${esc(card.id)}" title="클릭해서 덱에서 제외">${pveDeckCardMini(card, user)}<span class="pvev2-live-remove">덱에서 빼기</span></button>` : emptyDeckSlot(index);
+        const position = index < front ? `전열 ${index + 1}` : `후열 ${index - front + 1}`;
+        return card ? `<button type="button" class="pvev2-live-card-slot filled" data-remove="${esc(card.id)}" aria-label="${position} ${esc(card.title || card.name)} 제외"><span class="pvev2-slot-position">${position}</span>${pveDeckCardMini(card, user)}<span class="pvev2-live-remove">덱에서 빼기</span></button>` : emptyDeckSlot(index, position);
       }).join('');
-      renderPveDeckCardList(owned, user);
+      mountDeckCatalog(owned, user, catalogWasRendered);
       bindPveDeckFilters(owned, user);
       root.querySelectorAll('[data-remove]').forEach(button => button.onclick = () => { clearDeckSlot(battleState,button.dataset.remove); renderBattleBuilder(); });
-      root.querySelectorAll('[data-pve-empty]').forEach(button=>{const select=()=>{selectEmptyDeckSlot(battleState,Number(button.dataset.pveEmpty));renderBattleBuilder()};button.onclick=select;button.onkeydown=event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();select()}}});
+      root.querySelectorAll('[data-pve-empty]').forEach(button => {
+        const selectSlot = () => {
+          selectEmptyDeckSlot(battleState, Number(button.dataset.pveEmpty));
+          renderBattleBuilder();
+          const heading = document.getElementById('pveOwnedCardsTitle');
+          heading?.focus({preventScroll:true});
+          heading?.scrollIntoView({block:'nearest'});
+        };
+        button.onclick = selectSlot;
+        button.onkeydown = event => {
+          if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); selectSlot(); }
+        };
+      });
       const save = document.getElementById('saveBattleDeck'); if (save) save.onclick = saveBattleDeck;
       const reset = document.getElementById('clearBattleDeck'); if (reset) reset.onclick = resetBattleDeck;
       const hunt = document.getElementById('pveV2GoHunt'); if (hunt) hunt.onclick = () => switchPveMode('hunt');
@@ -330,6 +467,7 @@
     } else {
       activeVirtualCardLists.get('pve')?.destroy?.();
       root.innerHTML = `<section class="pvev2-screen pvev2-hunt-screen"><div class="pvev2-backdrop hunt"></div><div class="pvev2-content">${screenHead('PVE / TARGET ACQUISITION', '몬스터 토벌', '난이도와 보상을 확인하고 토벌 대상을 선택하세요.')}<div id="battleMonsters"></div></div></section>`;
+      warmFeatureForTab('battle');
       renderPveMonsterBrowserV2();
     }
     const autoToggle = root.querySelector('#battleAuto');

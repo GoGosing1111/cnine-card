@@ -30,103 +30,145 @@
   outline-offset:3px;
 }
 
-/* One compact navigation surface, with every destination visible. */
-.pvev2-live-root.pvev2-root>.pve-mode-tabs.pvev2-mode-nav {
-  display:grid!important;
-  grid-template-columns:repeat(5,minmax(0,1fr))!important;
-  grid-template-rows:none!important;
-  grid-auto-flow:row!important;
-  grid-auto-columns:auto!important;
-  gap:4px!important;
-  width:auto!important;
-  min-height:0!important;
-  margin:0 20px!important;
-  padding:6px!important;
-  overflow:visible!important;
-  border:1px solid var(--combat-line)!important;
-  border-radius:6px!important;
-  background:var(--combat-panel)!important;
+/* The lobby registers Pretendard, Black Han Sans and Barlow Condensed on the document.
+   Use the same sliced command plate and palette on the PVE entrance. */
+#pveCommandV2, .v21-live-route[data-live-route="battle"] > .v21-route-command-head {
+  --pve-type:'Pretendard Variable',Pretendard,'Noto Sans KR','Malgun Gothic',sans-serif;
+  --pve-heading:'Black Han Sans',var(--pve-type);
+  --pve-number:'Barlow Condensed',var(--pve-type);
+  --pve-plate:url('/assets/ui/tactical-20261030/panel-flat.webp');
+  --combat-bg:#0c1b28;
+  --combat-panel:#152b3d;
+  --combat-line:#385264;
+  --combat-ink:#f4f8fb;
+  --combat-muted:#bfd1dd;
+  --combat-accent:#46dcff;
+  font-family:var(--pve-type);
+  -webkit-font-smoothing:antialiased;
 }
-.pvev2-live-root.pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn {
-  display:flex!important;
-  align-items:center!important;
-  justify-content:flex-start!important;
-  gap:9px!important;
-  width:auto!important;
-  min-width:0!important;
-  max-width:none!important;
-  height:auto!important;
-  min-height:48px!important;
-  padding:10px 12px!important;
-  margin:0!important;
-  border:1px solid transparent!important;
-  border-radius:4px!important;
-  background:transparent!important;
-  box-shadow:none!important;
-  color:var(--combat-muted)!important;
-  overflow:visible!important;
+.page.game-frame .v21-live-route[data-live-route="battle"] > .v21-route-command-head {
+  background:#152b3d;
+  border-bottom:1px solid var(--combat-line);
 }
-.pvev2-live-root.pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn[hidden] {display:none!important;}
-.pvev2-live-root.pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn>svg {
-  position:static!important;width:22px!important;height:22px!important;flex:0 0 22px!important;margin:0!important;stroke:currentColor!important;
+.page.game-frame .v21-live-route[data-live-route="battle"] > .v21-route-command-head h1 {
+  font:400 24px/1.2 var(--pve-heading);
+  color:var(--combat-ink);
 }
-.pvev2-live-root.pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn>span {min-width:0!important;gap:2px!important;}
-.pvev2-live-root.pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn b {
-  font-size:13px!important;line-height:1.45!important;font-weight:700!important;white-space:normal!important;overflow:visible!important;word-break:keep-all;
+.page.game-frame .v21-live-route[data-live-route="battle"] > .v21-route-command-head button {
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  border:5px solid transparent;border-image:var(--pve-plate) 48 fill / 9px stretch;
+  border-radius:0;background:none;color:var(--combat-ink);font:700 13px var(--pve-type);
 }
-.pvev2-live-root.pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn small,
-.pvev2-live-root.pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn>em,
-.pvev2-live-root.pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn::after {display:none!important;}
-/* Portal availability is data, so retain it when the live count is present. */
-.pvev2-live-root.pvev2-root>.pve-mode-tabs.pvev2-mode-nav [data-v3-cow-entry][data-cow-available] small {display:block!important;font-size:10px!important;color:var(--combat-muted)!important;}
-.pvev2-live-root.pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn:hover {background:#1b2a40!important;color:var(--combat-ink)!important;}
-.pvev2-live-root.pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn:is(.active,[aria-selected=true]) {
-  color:var(--combat-accent)!important;background:#202d2a!important;border-color:#52683a!important;box-shadow:inset 3px 0 var(--combat-accent)!important;
+.v21-live-route[data-live-route="battle"] > header .tactical-icon {
+  width:28px;height:28px;flex:none;object-fit:contain;
 }
-.pvev2-live-root>.pvev2-live-toolbar {
-  display:grid!important;grid-template-columns:minmax(0,320px) auto!important;justify-content:space-between!important;align-items:center!important;
-  min-height:76px!important;gap:16px!important;margin:0 20px!important;padding:12px 0!important;border:0!important;background:transparent!important;overflow:visible!important;
+.page.game-frame .v21-live-route[data-live-route="battle"] > .v21-route-command-head [data-v21-home] {
+  width:44px;height:44px;padding:0;
 }
-.pvev2-live-root>.pvev2-live-toolbar .pvev2-energy {
-  display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:3px 10px!important;
-  width:auto!important;min-width:0!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;
+.page.game-frame .v21-live-route[data-live-route="battle"] > .v21-route-command-head [data-v21-all] {
+  width:max-content;min-width:max-content;white-space:nowrap;justify-self:end;
 }
-.pvev2-live-root>.pvev2-live-toolbar .pvev2-energy small {grid-column:1!important;grid-row:1!important;color:var(--combat-muted)!important;font-size:11px!important;letter-spacing:0!important;}
-.pvev2-live-root>.pvev2-live-toolbar .pvev2-energy b {grid-column:2!important;grid-row:1!important;font-size:19px!important;line-height:1.3!important;color:var(--combat-ink)!important;}
-.pvev2-live-root>.pvev2-live-toolbar .pvev2-energy>span {grid-column:1 / -1!important;grid-row:2!important;min-width:0!important;width:100%!important;height:3px!important;background:#293951!important;}
-.pvev2-live-root>.pvev2-live-toolbar .pvev2-energy>span i {background:var(--combat-accent)!important;}
-.pvev2-live-root>.pvev2-live-toolbar .pvev2-energy>em {grid-column:1 / -1!important;grid-row:3!important;text-align:left!important;color:var(--combat-muted)!important;font-size:10px!important;line-height:1.5!important;white-space:normal!important;overflow:visible!important;}
-.pvev2-live-root>.pvev2-live-toolbar .pvev2-evolution-entry {
-  display:flex!important;align-items:center!important;gap:10px!important;min-width:0!important;width:auto!important;min-height:44px!important;height:auto!important;
-  padding:10px 16px!important;border:1px solid var(--combat-line)!important;border-radius:4px!important;background:var(--combat-panel)!important;box-shadow:none!important;color:var(--combat-ink)!important;
+#pveCommandV2 {padding:0 0 20px;}
+#pveCommandV2 .pvev2-live-toolbar {
+  display:grid!important;grid-template-columns:minmax(0,1fr) minmax(155px,220px) auto!important;
+  align-items:center!important;gap:24px!important;min-height:96px!important;
+  margin:0!important;padding:16px 24px!important;overflow:visible!important;
+  border:0!important;border-bottom:1px solid #456374!important;
+  background-color:#102333!important;
+  background-image:linear-gradient(90deg,#0b1c2ce8,#142c3b52 42%,#0e2231f2 76%),url('/assets/ui/pve-command-v2/deck-command-hangar-v1-1280.avif')!important;
+  background-size:cover!important;background-position:center 48%!important;
 }
-.pvev2-live-root .pvev2-evolution-entry :is(small,em) {display:none!important;}
-.pvev2-live-root .pvev2-evolution-entry span {display:block!important;}
-.pvev2-live-root .pvev2-evolution-entry b {font-size:13px!important;white-space:nowrap;}
-.pvev2-live-root .pvev2-evolution-entry svg {width:22px!important;height:22px!important;stroke:var(--combat-muted)!important;}
+#pveDestinationsTitle {
+  display:flex;align-items:center;gap:12px;margin:0;color:var(--combat-ink);
+  font:400 clamp(24px,3vw,34px)/1.2 var(--pve-heading);letter-spacing:-.04em;text-shadow:0 2px 6px #061019;
+}
+#pveDestinationsTitle img {width:46px;height:46px;object-fit:contain;}
+#pveCommandV2 .pvev2-energy {
+  display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:4px 8px!important;
+  width:100%!important;min-width:0!important;margin:0!important;padding:0!important;
+  border:0!important;background:none!important;box-shadow:none!important;
+}
+#pveCommandV2 .pvev2-energy small {grid-area:1/1!important;color:var(--combat-muted)!important;font:650 12px/1.25 var(--pve-type)!important;letter-spacing:0!important;}
+#pveCommandV2 .pvev2-energy b {grid-area:1/2!important;font:700 21px/1 var(--pve-number)!important;color:var(--combat-ink)!important;}
+#pveCommandV2 .pvev2-energy > span {grid-area:2/1/3/-1!important;width:100%!important;height:3px!important;background:#48606e!important;box-shadow:none!important;}
+#pveCommandV2 .pvev2-energy > span i {background:var(--combat-accent)!important;box-shadow:none!important;}
+#pveCommandV2 .pvev2-energy > em {grid-area:3/1/4/-1!important;text-align:left!important;color:var(--combat-muted)!important;font:500 11px/1.4 var(--pve-type)!important;white-space:normal!important;overflow:visible!important;}
+#pveCommandV2 .pvev2-evolution-entry {
+  position:static!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;
+  min-width:0!important;width:auto!important;height:auto!important;min-height:44px!important;padding:4px 10px!important;
+  border:5px solid transparent!important;border-image:var(--pve-plate) 48 fill / 9px stretch!important;border-radius:0!important;
+  background:none!important;box-shadow:none!important;color:var(--combat-ink)!important;
+}
+#pveCommandV2 .pvev2-evolution-entry b {font:750 13px/1.3 var(--pve-type);white-space:nowrap;}
+#pveCommandV2 .pvev2-evolution-entry img {width:26px;height:26px;object-fit:contain;}
+#pveCommandV2 > .pvev2-mode-nav {
+  display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;grid-template-rows:none!important;
+  grid-auto-flow:row!important;grid-auto-columns:auto!important;gap:0 12px!important;width:auto!important;
+  height:auto!important;min-height:0!important;margin:12px 18px 0!important;padding:5px 12px!important;overflow:visible!important;
+  background:none!important;border:7px solid transparent!important;border-image:var(--pve-plate) 48 fill / 15px stretch!important;border-radius:0!important;
+}
+#pveCommandV2 > .pvev2-mode-nav .pve-mode-btn {
+  display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:10px!important;
+  width:auto!important;min-width:0!important;max-width:none!important;min-height:58px!important;height:auto!important;
+  margin:0!important;padding:5px 8px!important;border:0!important;border-bottom:1px solid #83a6bd40!important;
+  border-radius:0!important;background:transparent!important;box-shadow:none!important;color:var(--combat-ink)!important;
+  font-family:var(--pve-type)!important;text-align:left!important;text-decoration:none;overflow:visible!important;
+}
+#pveCommandV2 > .pvev2-mode-nav .pve-mode-btn[hidden] {display:none!important;}
+#pveCommandV2 > .pvev2-mode-nav .pve-mode-btn > .tactical-icon {
+  position:static;width:36px!important;height:36px!important;flex:0 0 auto;object-fit:contain;
+}
+#pveCommandV2 > .pvev2-mode-nav .pve-mode-btn > span {display:grid!important;gap:2px!important;min-width:0!important;}
+#pveCommandV2 > .pvev2-mode-nav .pve-mode-btn b {
+  color:inherit!important;font:800 14px/1.4 var(--pve-type)!important;white-space:normal!important;
+  overflow:visible!important;word-break:keep-all;letter-spacing:-.02em!important;
+}
+#pveCommandV2 > .pvev2-mode-nav .pve-mode-btn small {
+  display:block!important;color:var(--combat-muted)!important;font:500 11px/1.4 var(--pve-type)!important;
+  letter-spacing:0!important;white-space:normal!important;
+}
+#pveCommandV2 > .pvev2-mode-nav .pve-mode-btn::after,
+#pveCommandV2 > .pvev2-mode-nav .pve-mode-btn > em {display:none!important;}
+#pveCommandV2 > .pvev2-mode-nav .pve-mode-btn:hover {background:#b9e0f315!important;}
+#pveCommandV2 > .pvev2-mode-nav .pve-mode-btn:is(.active,[aria-selected="true"]) {
+  background:#40cfff16!important;border-bottom-color:var(--combat-accent)!important;
+  box-shadow:inset 3px 0 var(--combat-accent)!important;color:var(--combat-accent)!important;
+}
+#pveCommandV2 :is(a,button):focus-visible {outline:2px solid var(--combat-accent)!important;outline-offset:2px;}
 .pvev2-live-root .pvev2-viewport {margin:16px 20px 0;}
 .pvev2-live-root .pvev2-screen {min-height:0;border:0;border-radius:0;background:transparent;box-shadow:none;}
 .pvev2-live-root .pvev2-screen::after {display:none;}
 .pvev2-live-root .pvev2-backdrop.deck {display:none;}
 .pvev2-live-root .pvev2-backdrop.hunt {opacity:.12;}
 .pvev2-live-root .pvev2-content {padding:8px 0 0;}
-.pvev2-live-root .pvev2-section-head {display:grid;grid-template-columns:minmax(0,1fr);gap:20px;align-items:center;}
-.pvev2-live-root .pvev2-kicker {display:none;}
-.pvev2-live-root .pvev2-section-head h1 {margin:0 0 6px;font-size:28px;line-height:1.3;letter-spacing:-.045em;}
-.pvev2-live-root .pvev2-section-head p {font-size:13px;line-height:1.7;color:var(--combat-muted);}
-.pvev2-live-root .pvev2-operation-rail {width:100%;min-width:0;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;background:var(--combat-panel);border:1px solid var(--combat-line);border-radius:5px;overflow:hidden;}
-.pvev2-live-root .pvev2-operation-rail article {min-width:0;padding:12px 18px;background:transparent;border-right:1px solid var(--combat-line);}
-.pvev2-live-root .pvev2-operation-rail article:last-child {border-right:0;}
-.pvev2-live-root .pvev2-operation-rail small {font-size:11px;color:var(--combat-muted);letter-spacing:0;}
-.pvev2-live-root .pvev2-operation-rail b {font-size:23px;line-height:1.4;white-space:normal;overflow-wrap:anywhere;}
-.pvev2-live-root .pvev2-operation-rail .ready b {color:var(--combat-accent);}
-.pvev2-live-root :is(.pvev2-deck-console,.pvev2-inventory) {background:var(--combat-panel)!important;border:1px solid var(--combat-line)!important;border-radius:6px;box-shadow:none!important;}
+#pveCommandV2 .pvev2-section-head {display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.75fr);gap:20px;align-items:center;margin-bottom:14px;}
+#pveCommandV2 .pvev2-kicker {display:none;}
+#pveCommandV2 .pvev2-section-head h1 {margin:0 0 4px;font:400 clamp(23px,2.35vw,32px)/1.25 var(--pve-heading);letter-spacing:-.035em;}
+#pveCommandV2 .pvev2-section-head p {margin:0;color:var(--combat-muted);font:500 13px/1.6 var(--pve-type);}
+#pveCommandV2 .pvev2-operation-rail {
+  display:grid;width:100%;min-width:0;grid-template-columns:1fr 1fr 1.35fr 1fr;gap:0;
+  padding:6px 0;border:0;border-block:1px solid var(--combat-line);border-radius:0;background:transparent;
+}
+#pveCommandV2 .pvev2-operation-rail article {min-width:0;padding:4px 12px;background:transparent;border:0;border-inline-start:1px solid var(--combat-line);}
+#pveCommandV2 .pvev2-operation-rail article:first-child {border-inline-start:0;}
+#pveCommandV2 .pvev2-operation-rail small {font:600 11px/1.4 var(--pve-type);color:var(--combat-muted);letter-spacing:0;}
+#pveCommandV2 .pvev2-operation-rail b {font:700 clamp(18px,1.8vw,25px)/1.4 var(--pve-number);font-variant-numeric:tabular-nums;white-space:normal;overflow-wrap:anywhere;}
+#pveCommandV2 .pvev2-operation-rail :is(.ready,.blocked) b {color:var(--combat-accent);font:800 16px/1.8 var(--pve-type);}
+#pveCommandV2 .pvev2-operation-rail .blocked b {color:#ffbca2;}
+#pveCommandV2 :is(.pvev2-deck-console,.pvev2-inventory) {background:none!important;border:6px solid transparent!important;border-image:var(--pve-plate) 48 fill / 13px stretch!important;border-radius:0;box-shadow:none!important;}
 .pvev2-live-root .pvev2-console-head {gap:12px;padding:16px 18px;border-color:var(--combat-line);}
 .pvev2-live-root .pvev2-console-head>div>small {display:none;}
 .pvev2-live-root .pvev2-console-head>div>b {font-size:17px;letter-spacing:-.025em;}
 .pvev2-live-root .pvev2-console-actions {display:flex;flex-direction:row;align-items:center;gap:8px;}
-.pvev2-live-root .pvev2-btn {min-height:44px;padding:10px 16px;background:#18263a;border:1px solid #40516c;border-radius:4px;color:var(--combat-ink);font-size:13px;box-shadow:none;clip-path:none;}
-.pvev2-live-root .pvev2-btn.primary {background:var(--combat-accent);border-color:var(--combat-accent);color:#18250b;font-weight:800;}
+#pveCommandV2 .pvev2-btn {
+  min-height:44px;padding:6px 13px;border:5px solid transparent;border-image:var(--pve-plate) 48 fill / 9px stretch;
+  border-radius:0;background:none;color:var(--combat-ink);font:700 13px/1.3 var(--pve-type);box-shadow:none;clip-path:none;
+}
+#pveCommandV2 .pvev2-btn.primary {color:var(--combat-accent);filter:brightness(1.18);}
+#pveCommandV2 .pvev2-btn:enabled:hover {filter:brightness(1.35);}
+#pveCommandV2 .pvev2-console-head>div>b {font:400 19px/1.35 var(--pve-heading);}
+#pveCommandV2 .pvev2-field img {width:20px;height:20px;object-fit:contain;}
+#pveCommandV2 :is(.pvev2-field input,.pvev2-field select,.pvev2-formation-strip,.pvev2-healer-rule,.pvev2-roster-foot) {font-family:var(--pve-type);}
 .pvev2-live-root .pvev2-btn:disabled {opacity:.42;cursor:not-allowed;}
 .pvev2-live-root .pvev2-roster-foot {gap:12px;padding:14px 18px;background:#0d1625;border-top:1px solid var(--combat-line);}
 .pvev2-live-root .pvev2-roster-foot small {font-size:10px;letter-spacing:0;color:var(--combat-muted);}
@@ -136,29 +178,143 @@
 .pvev2-live-root .pvev2-inventory-tools {padding:14px 18px;gap:8px;background:transparent;}
 .pvev2-live-root .pvev2-field {min-width:0;min-height:44px;border:1px solid #40516c;border-radius:4px;background:#0c1525;}
 .pvev2-live-root .pvev2-field :is(input,select) {min-width:0;min-height:42px;color:var(--combat-ink);font-size:12px;}
-.pvev2-live-root .pvev2-difficulty {display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;background:transparent;border:0;overflow:visible;padding:8px;}
-.pvev2-live-root .pvev2-difficulty button {width:auto;min-width:0;min-height:44px;height:auto;padding:10px 6px;font-size:12px;white-space:normal;word-break:keep-all;background:var(--combat-panel);border:1px solid var(--combat-line);border-radius:4px;color:var(--combat-muted);}
-.pvev2-live-root .pvev2-difficulty button.active {border-color:#789848;background:#233127;color:var(--combat-accent);box-shadow:none;}
-.pvev2-live-root .pvev2-hunt-hero {border:1px solid var(--combat-line);border-radius:6px;background:var(--combat-panel);}
-.pvev2-live-root .pvev2-hunt-copy {background:linear-gradient(90deg,transparent,#101a2b);}
-.pvev2-live-root .pvev2-hunt-copy h1 {font-size:32px;letter-spacing:-.04em;}
-.pvev2-live-root .pvev2-hunt-copy p {font-size:13px;color:var(--combat-muted);}
-.pvev2-live-root .pvev2-hunt-stats {border-color:var(--combat-line);background:#0b1424;}
-.pvev2-live-root .pvev2-hunt-stats small {font-size:10px;color:var(--combat-muted);letter-spacing:0;}
-.pvev2-live-root .pvev2-hunt-stats b {font-size:20px;}
-.pvev2-live-root :is(.pvev2-monster,.pvev2-auto) {background:#101a2b;border-color:var(--combat-line);border-radius:4px;}
-.pvev2-live-root .pvev2-monster.active {border-color:var(--combat-accent);box-shadow:inset 0 -2px var(--combat-accent);}
-.pvev2-live-root :is(.pvev2-formation-strip,.pvev2-deck-rule-chips>*,.pvev2-hunt-list,.pvev2-hunt-stats article,.pvev2-hunt-attempts) {border-color:var(--combat-line);background:#0c1525;}
-.pvev2-live-root .pvev2-target-code {border-color:var(--combat-accent);border-radius:3px;background:#101a2b;}
-.pvev2-live-root .pvev2-hunt-visual {border-color:var(--combat-line);background:linear-gradient(160deg,#192942,#0c1525);}
-.pvev2-live-root .pvev2-hunt-visual::before {display:none;}
-.pvev2-live-root .pvev2-hunt-stats article {min-width:0;}
-.pvev2-live-root.pvev2-root .pvev2-hunt-stats b {white-space:normal!important;overflow:visible!important;overflow-wrap:anywhere;line-height:1.45!important;}
-.pvev2-live-root .pvev2-power-readout.is-ready {border-color:#789848;background:#19271f;}
-.pvev2-live-root .pvev2-power-readout.is-ready :is(b,strong) {color:var(--combat-accent);}
-.pvev2-live-root .pvev2-hunt-actions {gap:10px;}
-.pvev2-live-root .pvev2-hunt-actions .pvev2-auto small {font-size:10px;color:var(--combat-muted);line-height:1.6;}
-.pvev2-live-root .pvev2-hunt-options {min-width:0;}
+/* Keep the selected line-up beside the collection at desk width. */
+#pveCommandV2 .pvev2-panel-title {display:flex;align-items:center;gap:8px;}
+#pveCommandV2 .pvev2-panel-title h2,
+#pveCommandV2 .pvev2-hunt-list h2 {margin:0;color:var(--combat-ink);font:400 20px/1.35 var(--pve-heading);letter-spacing:-.025em;}
+#pveCommandV2 .pvev2-panel-title img {width:30px;height:30px;object-fit:contain;}
+#pveCommandV2 .pvev2-formation-strip {
+  display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 12px;padding:6px 0;
+  border:0;border-bottom:1px solid var(--combat-line);background:none;color:var(--combat-muted);
+}
+#pveCommandV2 .pvev2-formation-strip b {font:650 13px/1.4 var(--pve-type);}
+#pveCommandV2 .pvev2-formation-strip span {margin-inline:5px;color:#8eacbc;}
+#pveCommandV2 .pvev2-rule-open {width:auto;margin:0;}
+#pveCommandV2 #battleDeck {
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:stretch;gap:8px;
+  padding:12px;margin:0;overflow:visible;
+}
+#battleDeck .pvev2-live-card-slot {display:flex;flex-direction:column;min-width:0;align-items:stretch;gap:5px;}
+#pveCommandV2 #battleDeck .pve-card-mini-full,
+#pveCommandV2 #battleCards .pve-card-mini-full,
+#pveCommandV2 :is(#battleDeck,#battleCards) .card-frame {
+  box-sizing:border-box;width:100%!important;max-width:100%!important;min-width:0!important;height:auto!important;
+}
+#pveCommandV2 :is(#battleDeck,#battleCards) .card-frame {aspect-ratio: .71;}
+/* An offset, lazy-loaded portrait needs a visible box before its native dimensions arrive. */
+#pveCommandV2 .icon-live-crop img {aspect-ratio:auto 2 / 3;}
+#pveCommandV2 #battleCards .pve-frame-pick {
+  box-sizing:border-box;inline-size:100%!important;min-inline-size:0!important;max-inline-size:100%!important;
+}
+#pveCommandV2 #battleCards .pve-grade-grid {grid-template-columns:repeat(3,minmax(0,1fr))!important;}
+#pveCommandV2 #battleCards .pve-grade-title {background:#102333;color:var(--combat-ink);border-radius:0;}
+#pveCommandV2 .pvev2-deck-console {margin:0;}
+#pveCommandV2 .pvev2-mode-nav .pve-escort-tab small {margin:0;padding:0;border:0;background:none;}
+#pveCommandV2 .pvev2-mode-nav [data-v3-cow-entry]:not([data-cow-available]) small {display:none!important;}
+#battleDeck .pvev2-live-card-slot .pvev2-slot-position {
+  display:block;width:auto;height:auto;flex:none;margin:0;padding:3px 1px;border:0;border-bottom:1px solid #577386;
+  color:#d0dfe7;background:none;text-align:center;font:700 11px/1.4 var(--pve-type);
+}
+#battleDeck .pvev2-live-card-slot.empty {padding:0 4px 12px;justify-content:flex-start;border:1px dashed #526d7c;background:#102334;}
+#battleDeck .pvev2-live-card-slot.empty b {margin-top:auto;}
+#battleDeck .pvev2-live-card-slot.empty small {margin-bottom:auto;}
+#battleDeck .pvev2-live-card-slot.is-edit-target {outline:2px solid var(--combat-accent);outline-offset:0;}
+#pveCommandV2 .pvev2-deck-next {display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:10px 12px;border-top:1px solid var(--combat-line);}
+#pveCommandV2 .pvev2-deck-next>.pvev2-btn {flex:none;}
+#pveCommandV2 .pvev2-deck-details {min-width:0;flex:1;}
+#pveCommandV2 :is(.pvev2-deck-details,.pvev2-power-guide)>summary {min-height:44px;align-content:center;cursor:pointer;color:#c4d9e6;font:700 13px/1.5 var(--pve-type);}
+#pveCommandV2 summary:focus-visible {outline:2px solid var(--combat-accent);}
+#pveCommandV2 .pvev2-roster-foot {display:grid;grid-template-columns:repeat(auto-fit,minmax(74px,1fr));gap:8px;padding:8px;border:0;background:#102334;}
+#pveCommandV2 .pvev2-deck-rule-chips {margin:0;padding:5px 0;}
+#pveCommandV2 .pvev2-operation-rail {grid-template-columns:.85fr 1.4fr 1fr;}
+#pveCommandV2 .pvev2-live-card-catalog {margin:0;min-height:180px;max-height:560px;}
+#pveCommandV2 .pvev2-inventory-tools {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:10px;}
+#pveCommandV2 .pvev2-inventory-tools>.pvev2-field:first-child {grid-column:1/3;grid-row:1;}
+#pveCommandV2 .pvev2-inventory-tools>#pveDeckFilterReset {grid-column:3;grid-row:1;}
+#pveCommandV2 .pvev2-inventory-tools .pvev2-field {min-width:0;min-height:44px;border:1px solid var(--combat-line);background:#102334;}
+#pveCommandV2 .pvev2-field :is(input,select) {width:100%;min-width:0;color:var(--combat-ink);font:600 13px var(--pve-type);}
+#pveCommandV2 .pvev2-field input::placeholder {color:var(--combat-muted);}
+#pveCommandV2 .pvev2-healer-rule.is-active {margin:9px 12px;}
+
+@container pvecommand (min-width:1020px) {
+  #pveCommandV2 .pvev2-deck-screen>.pvev2-content {display:grid;grid-template-columns:minmax(0,1.22fr) minmax(0,1fr);gap:14px;align-items:start;}
+  #pveCommandV2 .pvev2-deck-screen .pvev2-section-head,
+  #pveCommandV2 .pvev2-live-deck-contract {grid-column:1/-1;margin:0;}
+  #pveCommandV2 .pvev2-inventory {margin:0;}
+}
+#pveCommandV2 .pvev2-hunt-screen .pvev2-section-head {grid-template-columns:minmax(0,1fr);margin-bottom:10px;}
+#pveCommandV2 #battleMonsters {
+  display:grid;grid-template-columns:minmax(188px,.7fr) minmax(0,2fr);grid-template-areas:"difficulty difficulty" "targets encounter";
+  align-items:start;gap:12px;
+}
+#pveCommandV2 .pvev2-difficulty {
+  grid-area:difficulty;display:flex;flex-wrap:wrap;align-items:stretch;gap:2px;margin:0;padding:0 0 5px;
+  border:0;border-bottom:1px solid var(--combat-line);background:none;overflow:visible;
+}
+#pveCommandV2 .pvev2-difficulty button {
+  flex:1 1 80px;min-width:0;min-height:44px;padding:5px 8px;border:0;border-bottom:2px solid transparent;
+  border-radius:0;background:none;color:var(--combat-muted);font:750 14px/1.4 var(--pve-type);
+}
+#pveCommandV2 .pvev2-difficulty button.active {background:#153545;color:var(--combat-accent);border-color:var(--combat-accent);box-shadow:none;}
+#pveCommandV2 :is(.pvev2-hunt-list,.pvev2-hunt-hero) {
+  min-width:0;margin:0;border:7px solid transparent;border-image:var(--pve-plate) 48 fill / 14px stretch;border-radius:0;background:none;box-shadow:none;
+}
+#pveCommandV2 .pvev2-hunt-list {grid-area:targets;padding:8px;}
+#pveCommandV2 .pvev2-hunt-list>header {display:flex;align-items:center;justify-content:space-between;padding:2px 6px 8px;color:var(--combat-muted);font:600 12px var(--pve-type);}
+#pveCommandV2 .pvev2-monster-grid {display:grid;grid-template-columns:minmax(0,1fr);gap:0;max-height:460px;overflow-y:auto;padding:0;scrollbar-color:#536f82 #102030;}
+#pveCommandV2 .pvev2-monster {
+  display:grid;grid-template-columns:44px minmax(0,1fr);gap:8px;align-items:center;min-width:0;min-height:58px;
+  padding:6px 5px;border:0;border-bottom:1px solid var(--combat-line);background:transparent;color:var(--combat-ink);text-align:left;
+}
+#pveCommandV2 .pvev2-monster img {width:44px;height:44px;object-fit:contain;background:#0d1b28;}
+#pveCommandV2 .pvev2-monster span {min-width:0;padding:0;}
+#pveCommandV2 .pvev2-monster b {font:750 14px/1.4 var(--pve-type);white-space:normal;overflow-wrap:anywhere;}
+#pveCommandV2 .pvev2-monster em {color:var(--combat-muted);font:550 12px/1.4 var(--pve-type);}
+#pveCommandV2 .pvev2-monster.active {border-color:var(--combat-accent);background:#214356;box-shadow:none;}
+#pveCommandV2 .pvev2-monster.active b {color:var(--combat-accent);}
+#pveCommandV2 .pvev2-target-select {display:none;}
+#pveCommandV2 .pvev2-hunt-hero {grid-area:encounter;display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.2fr);align-items:stretch;}
+#pveCommandV2 .pvev2-hunt-visual {min-height:180px;height:auto;display:grid;place-items:center;background:#101f2b;border:0;}
+#pveCommandV2 .pvev2-hunt-visual::before {display:none;}
+#pveCommandV2 .pvev2-hunt-monster-image {width:100%!important;height:100%!important;max-height:430px!important;min-height:0!important;padding:6px;object-fit:contain!important;}
+#pveCommandV2 .pvev2-hunt-copy {display:flex;min-width:0;flex-direction:column;align-items:stretch;justify-content:center;gap:10px;padding:14px;background:none;}
+#pveTargetName {margin:0;font:400 26px/1.25 var(--pve-heading);letter-spacing:-.03em;overflow-wrap:anywhere;}
+#pveCommandV2 .pvev2-hunt-copy p {margin:0;font:500 13px/1.55 var(--pve-type);color:var(--combat-muted);}
+#pveCommandV2 .pvev2-target-facts {display:grid;gap:0;margin:0;font-family:var(--pve-type);}
+#pveCommandV2 .pvev2-target-facts div {display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 12px;padding:5px 0;border-bottom:1px solid var(--combat-line);}
+#pveCommandV2 .pvev2-target-facts dt {color:var(--combat-muted);font:600 12px var(--pve-type);}
+#pveCommandV2 .pvev2-target-facts dd {min-width:0;margin:0;overflow-wrap:anywhere;font:700 21px/1.2 var(--pve-number);font-variant-numeric:tabular-nums;}
+#pveCommandV2 .pvev2-target-reward dd {color:#f1d890;}
+#pveCommandV2 .pvev2-target-reward dd span {font:650 12px var(--pve-type);}
+#pveCommandV2 .pvev2-power-guide {border:0;background:none;}
+#pveCommandV2 .pvev2-hunt-attempts {margin:0;padding:8px 0;border:0;border-block:1px solid var(--combat-line);background:none;}
+#pveCommandV2 .pvev2-hunt-actions {display:grid;grid-template-columns:minmax(0,1fr);gap:8px;margin:0;}
+#pveCommandV2 .pvev2-battle-options {min-width:0;}
+#pveCommandV2 .pvev2-hunt-actions .pvev2-auto {margin:0;background:#102333;border:1px solid var(--combat-line);border-radius:0;}
+#pveCommandV2 .pvev2-hunt-actions .pvev2-auto small {font:500 11px/1.5 var(--pve-type);color:var(--combat-muted);}
+#pveCommandV2 #battleStart {width:100%;min-height:48px;font-size:16px;color:var(--combat-accent);}
+#pveCommandV2 .pvev2-no-targets {grid-column:1/-1;padding:20px;color:var(--combat-muted);}
+@container pvecommand (max-width:850px) {
+  #pveCommandV2 #battleMonsters {grid-template-columns:minmax(0,1fr);grid-template-areas:"difficulty" "targets" "encounter";gap:7px;}
+  #pveCommandV2 .pvev2-hunt-list {display:flex;align-items:center;gap:10px;padding:4px;}
+  #pveCommandV2 .pvev2-hunt-list>header {flex:0 0 auto;gap:6px;padding:0 4px;}
+  #pveCommandV2 .pvev2-hunt-list h2 {font:750 14px var(--pve-type);}
+  #pveCommandV2 .pvev2-target-select {display:block;min-width:0;min-height:44px;width:100%;padding:5px 8px;border:1px solid var(--combat-line);border-radius:0;background:#0e2233;color:var(--combat-ink);font:650 14px var(--pve-type);}
+  #pveCommandV2 .pvev2-monster-grid {display:none;}
+}
+@container pvecommand (max-width:520px) {
+  #pveCommandV2 .pvev2-difficulty button {flex:1 1 25%;font-size:13px;}
+  #pveCommandV2 .pvev2-hunt-hero {grid-template-columns:minmax(0,1fr);}
+  #pveCommandV2 .pvev2-hunt-visual {min-height:0;height:160px;}
+  #pveCommandV2 .pvev2-hunt-monster-image {padding:4px;}
+  #pveCommandV2 #battleCards .pve-grade-grid {grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+  #pveCommandV2 .pvev2-hunt-copy {gap:6px;padding:10px;}
+  #pveCommandV2 #battleDeck {grid-template-columns:repeat(6,minmax(0,1fr));gap:7px;}
+  #pveCommandV2 #battleDeck>.pvev2-live-card-slot {grid-column:span 2;}
+  #pveCommandV2 #battleDeck>.pvev2-live-card-slot:first-child {grid-column:2/span 2;}
+  #pveCommandV2 #battleDeck>.pvev2-live-card-slot:nth-child(3) {grid-column:1/span 2;}
+  #pveCommandV2 .pvev2-operation-rail {grid-template-columns:.8fr 1.4fr 1fr;}
+}
 .pvev2-live-root .raid-content-tabs {gap:6px;margin-bottom:12px;border:0;background:transparent;}
 .pvev2-live-root .raid-content-tabs button {min-height:44px;border:1px solid var(--combat-line);border-radius:4px;background:var(--combat-panel);color:var(--combat-muted);}
 .pvev2-live-root .raid-content-tabs button.active {border-color:#789848;background:#233127;color:var(--combat-accent);}
@@ -271,18 +427,25 @@
 .ranked-live-v2 .ranked-title-reward {border:1px solid var(--combat-line)!important;border-radius:5px!important;background:#101a2b!important;color:var(--combat-muted)!important;}
 .ranked-live-v2 :is(.pvp-history-row,.pvp-rank-row,.pvp-reward-current,.pvp-tier-rewards>div,.pvp-final-reward-wait) {border-color:var(--combat-line)!important;border-radius:4px!important;background:var(--combat-panel)!important;}
 
+@container pvecommand (max-width:880px) {
+  #pveCommandV2 .pvev2-section-head {grid-template-columns:minmax(0,1fr);gap:10px;}
+}
 @container pvecommand (max-width:700px) {
-  .pvev2-live-root>.pvev2-live-toolbar {margin-inline:12px!important;grid-template-columns:minmax(0,1fr) auto!important;gap:12px!important;}
-  .pvev2-live-root.pvev2-root>.pve-mode-tabs.pvev2-mode-nav {grid-template-columns:repeat(5,minmax(0,1fr))!important;margin-inline:12px!important;}
-  .pvev2-live-root.pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn {flex-direction:column!important;justify-content:center!important;gap:6px!important;padding:10px 6px!important;}
-  .pvev2-live-root.pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn b {font-size:12px!important;}
+  #pveCommandV2 > .pvev2-live-toolbar {grid-template-columns:minmax(0,1fr) auto!important;gap:10px!important;padding:14px!important;}
+  #pveDestinationsTitle {gap:8px;font-size:25px;}
+  #pveDestinationsTitle img {width:32px;height:32px;}
+  #pveCommandV2 .pvev2-evolution-entry {grid-column:2;grid-row:1;}
+  #pveCommandV2 .pvev2-energy {grid-column:1/-1;max-width:350px;}
+  #pveCommandV2 > .pvev2-mode-nav {grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:0 4px!important;padding:2px 4px!important;margin:8px 8px 0!important;}
+  #pveCommandV2 > .pvev2-mode-nav .pve-mode-btn {gap:5px!important;padding:6px 3px!important;min-height:53px!important;}
+  #pveCommandV2 > .pvev2-mode-nav .pve-mode-btn > img {width:30px!important;height:30px!important;}
+  #pveCommandV2 > .pvev2-mode-nav .pve-mode-btn b {font-size:12px!important;}
+  #pveCommandV2 > .pvev2-mode-nav .pve-mode-btn small {display:none!important;}
+  #pveCommandV2 > .pvev2-mode-nav [data-cow-available] small {display:block!important;font-size:10px!important;}
   .pvev2-live-root .pvev2-viewport {margin:14px 12px 0;}
-  .pvev2-live-root .pvev2-section-head h1 {font-size:25px;}
-  .pvev2-live-root .pvev2-operation-rail {grid-template-columns:repeat(2,minmax(0,1fr));}
-  .pvev2-live-root .pvev2-operation-rail article {padding:10px 12px;}
-  .pvev2-live-root .pvev2-operation-rail article:nth-child(2) {border-right:0;}
-  .pvev2-live-root .pvev2-operation-rail article:nth-child(n+3) {border-top:1px solid var(--combat-line);}
-  .pvev2-live-root .pvev2-operation-rail b {font-size:21px;}
+  #pveCommandV2 .pvev2-operation-rail article {padding:3px 6px;}
+  #pveCommandV2 .pvev2-operation-rail b {font-size:18px;}
+  #pveCommandV2 .pvev2-operation-rail :is(.ready,.blocked) b {font-size:14px;}
   .pvev2-live-root .pvev2-console-head {flex-wrap:wrap;padding:12px;}
   .pvev2-live-root .pvev2-console-head .pvev2-console-actions {width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));}
   .pvev2-live-root .pvev2-console-head .pvev2-btn {min-width:0;padding-inline:8px;}
@@ -296,14 +459,16 @@
   .pvev2-live-root .pvev2-hunt-copy h1 {font-size:27px;}
 }
 @container pvecommand (max-width:420px) {
-  .pvev2-live-root.pvev2-root>.pve-mode-tabs.pvev2-mode-nav {gap:3px!important;padding:4px!important;margin-inline:8px!important;}
-  .pvev2-live-root.pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn {flex-direction:column!important;justify-content:flex-start!important;min-height:74px!important;gap:4px!important;padding:8px 2px!important;}
-  .pvev2-live-root.pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn>span {flex:none!important;}
-  .pvev2-live-root.pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn b {font-size:11px!important;text-align:center;}
-  .pvev2-live-root .pvev2-evolution-entry {padding-inline:10px!important;}
-  .pvev2-live-root .pvev2-evolution-entry svg {display:none!important;}
+  #pveCommandV2 > .pvev2-mode-nav .pve-mode-btn {flex-direction:column!important;justify-content:center!important;text-align:center!important;gap:3px!important;min-height:63px!important;}
+  #pveCommandV2 > .pvev2-mode-nav .pve-mode-btn > span {flex:none!important;}
+  #pveCommandV2 .pvev2-operation-rail {grid-template-columns:.8fr 1.4fr 1fr;}
+  #pveCommandV2 .pvev2-operation-rail article:nth-child(odd) {border-inline-start:0;}
   .pvev2-live-root .pvev2-viewport {margin-inline:8px;}
   .pvev2-live-root .pvev2-difficulty {grid-template-columns:repeat(3,minmax(0,1fr));}
+}
+@container pvecommand (max-width:330px) {
+  #pveCommandV2 #battleDeck {grid-template-columns:repeat(2,minmax(0,1fr));}
+  #pveCommandV2 #battleDeck>.pvev2-live-card-slot:nth-child(n) {grid-column:auto;}
 }
 @container rankedlobby (max-width:800px) {
   .ranked-live-v2 .ranked-season-hud {grid-template-columns:minmax(0,1fr) minmax(110px,.65fr)!important;gap:12px!important;padding:18px 0!important;margin-inline:12px!important;}

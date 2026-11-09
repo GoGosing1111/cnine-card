@@ -119,6 +119,7 @@
   }
 
   function decorate(button) {
+    if (button.matches('.pve-mode-btn[data-pve-v2-key]')) return;
     const key = iconKey(button);
     installSvg(iconHost(button), key);
     button.dataset.v21Icon = key;

@@ -15,7 +15,9 @@ assert.match(tower,/anchor=document\.getElementById\('pveRaidHubView'\)\|\|docum
 assert.match(tower,/anchor\.insertAdjacentElement\('afterend',box\)/);
 assert.match(idle,/#pveHuntView,#pveRiftView,#pveEscortView,#pveTowerView,#pveSealBattleView,#pveIdleDungeonView/);
 assert.match(tower,/\['pveRaidHubView','pveRaidView','pveHuntView','pveRiftView','pveEscortView','pveSealBattleView','pveIdleDungeonView'\]\.forEach/);
-assert.match(index,/tower-v1038\.js\?v=2098-hyper-codex/);
+const towerScript = index.match(/src="(js\/tower-v1038\.js\?[^"]+)"/)?.[1];
+assert.ok(towerScript, 'the tower entry script is loaded');
+assert.equal(new URL(towerScript.replaceAll('&amp;', '&'), 'https://game.test').searchParams.get('v'), '2098-hyper-codex');
 assert.doesNotMatch(index,/idle-dungeon-v1600\.js/,'retired idle expedition must not load in the live shell');
 
 console.log('PVE auxiliary navigation host v2023: OK');

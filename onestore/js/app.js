@@ -1261,8 +1261,9 @@ function prefetchBattleBundleWhenIdle(){
 }
 window.prefetchBattleBundleWhenIdle=prefetchBattleBundleWhenIdle;
 function warmFeatureForTab(tab){
-  // Editing a ranked roster needs the download cache, not a running battle renderer.
   if(tab==='pvp'){prefetchBattleBundleWhenIdle();return;}
+  // The PVE deck screen only needs card frames. Start the renderer when a hunt is opened.
+  if(tab==='battle'&&runtimeCommandContext==='battle'&&getPveViewMode()==='deck'){prefetchBattleBundleWhenIdle();return;}
   const key=featureKeyForTab(tab);if(!key)return;
   const resources=ensureFeatureResources(key);
   if(key==='battleV2')resources.then(()=>warmBattleArtAssets()).catch(error=>console.warn(`${key} 리소스 사전 로딩 실패:`,error));

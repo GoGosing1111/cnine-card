@@ -512,7 +512,10 @@
     if (!frame.screen.querySelector('.v21-live-route')) {
       const wrapper = document.createElement('section'); wrapper.className = 'v21-live-route'; wrapper.dataset.liveRoute = route;
       const info = ROUTES[route] || ['게임 화면', 'REVERSE CALL', 'menu'];
-      wrapper.innerHTML = `<header class="v21-route-command-head"><button type="button" data-v21-home aria-label="로비로 돌아가기">${svg('home')}</button><div><small>${esc(info[1])} / LIVE SERVICE</small><h1>${esc(info[0])}</h1></div><button type="button" data-v21-all>전체 메뉴</button></header><div class="v21-route-body"></div>`;
+      const pveEntry = route === 'battle';
+      const homeIcon = (pveEntry && global.SoopTacticalIcons?.html('home')) || svg('home');
+      const menuIcon = pveEntry ? (global.SoopTacticalIcons?.html('grid') || '') : '';
+      wrapper.innerHTML = `<header class="v21-route-command-head"><button type="button" data-v21-home aria-label="로비로 돌아가기">${homeIcon}</button><div><small>${esc(info[1])}${pveEntry ? '' : ' / LIVE SERVICE'}</small><h1>${esc(info[0])}</h1></div><button type="button" data-v21-all>${menuIcon}전체 메뉴</button></header><div class="v21-route-body"></div>`;
       const body = wrapper.querySelector('.v21-route-body');
       let node = frame.start.nextSibling;
       const nodes = [];
