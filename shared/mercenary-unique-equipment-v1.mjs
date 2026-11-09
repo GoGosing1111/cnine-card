@@ -3,27 +3,27 @@ import {equipmentEffectText} from './equipment-growth-text-v1.mjs';
 
 // Published item codes are permanent inventory identifiers. Unique ranks have their own progression.
 const tiers = [
-  {tier:1, imageStem:'unique-regalia-20261109/1-', codePrefix:'MERC_UQ_11_', family:'흑기사', scale:12, attack:36, hp:42,
+  {tier:1, imageStem:'unique-regalia-20261109/1-', codePrefix:'MERC_UQ_11_', family:'새벽별', scale:12, attack:36, hp:42,
     pieces:[
-      ['흑기사의 처형대검','처형 선고',{attackPercent:32,penetrationPoints:12}],
-      ['흑기사의 혈석 흉갑','불굴의 맹세',{hpPercent:35,damageReductionPercent:30}],
-      ['철벽의 전투각반','붉은 방벽',{shieldPercent:60}],
-      ['성문파쇄 전투화','중갑 돌진',{speedPercent:32}],
-      ['흑기사의 인장','집행자의 각인',{criticalChancePoints:24,criticalDamagePoints:96}]]},
-  {tier:2, imageStem:'unique-regalia-20261109/2-', codePrefix:'MERC_UQ_12_', family:'흑금 월식', scale:16, attack:44, hp:52,
+      ['별가름','성광관통',{attackPercent:32,penetrationPoints:12}],
+      ['오팔갑주','별빛수호',{hpPercent:35,damageReductionPercent:30}],
+      ['성운각반','성운장막',{shieldPercent:60}],
+      ['혜성부츠','유성질주',{speedPercent:32}],
+      ['성좌반지','별빛공명',{criticalChancePoints:24,criticalDamagePoints:96}]]},
+  {tier:2, imageStem:'unique-regalia-20261109/2-', codePrefix:'MERC_UQ_12_', family:'그믐달', scale:16, attack:44, hp:52,
     pieces:[
-      ['흑금의 월식도','월식 절단',{attackPercent:42,penetrationPoints:16}],
-      ['흑금의 월식 흉갑','흑금 장갑',{hpPercent:46,damageReductionPercent:36}],
-      ['월영의 흑금각반','월영 장벽',{shieldPercent:80}],
-      ['흑금의 잠행화','그림자 보법',{speedPercent:44}],
-      ['암월의 흑금 펜던트','월식 공명',{criticalChancePoints:28,criticalDamagePoints:130}]]},
-  {tier:3, imageStem:'unique-regalia-20261109/3-', codePrefix:'MERC_UQ_13_', family:'제국의 옥좌', scale:22, attack:54, hp:64,
+      ['월식도','월식참',{attackPercent:42,penetrationPoints:16}],
+      ['흑요갑주','흑요결계',{hpPercent:46,damageReductionPercent:36}],
+      ['반월각반','월영장벽',{shieldPercent:80}],
+      ['잠행부츠','달그림자',{speedPercent:44}],
+      ['월식심장','월광공명',{criticalChancePoints:28,criticalDamagePoints:130}]]},
+  {tier:3, imageStem:'unique-regalia-20261109/3-', codePrefix:'MERC_UQ_13_', family:'태양왕좌', scale:22, attack:54, hp:64,
     pieces:[
-      ['황제의 단죄대검','황제의 선고',{attackPercent:54,penetrationPoints:20}],
-      ['황제의 대례 흉갑','옥좌의 맹세',{hpPercent:60,damageReductionPercent:42}],
-      ['옥좌의 근위각반','근위 방벽',{shieldPercent:105}],
-      ['황실 근위대 판금화','황실의 진군',{speedPercent:58}],
-      ['황제의 보관','황제의 권위',{criticalChancePoints:32,criticalDamagePoints:170}]]}
+      ['태양서약','여명선고',{attackPercent:54,penetrationPoints:20}],
+      ['백금갑주','백금수호',{hpPercent:60,damageReductionPercent:42}],
+      ['근위각반','왕실방벽',{shieldPercent:105}],
+      ['황실군화','여명진군',{speedPercent:58}],
+      ['일륜왕관','태양권능',{criticalChancePoints:32,criticalDamagePoints:170}]]}
 ];
 
 export const UNIQUE_MERCENARY_EQUIPMENT = Object.freeze(tiers.flatMap(tier =>

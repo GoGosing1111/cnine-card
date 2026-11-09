@@ -22,11 +22,12 @@ const cards=Array.from({length:5},(_,i)=>({id:String(i+1),title:'검수',rarity:
 test('fifteen unique images, five real slots per tier, and stronger individual bonuses than the complete tenth tier',async()=>{
  assert.equal(new Set(pieces.map(i=>i.code)).size,15);
  assert.equal(new Set(pieces.map(i=>i.name)).size,15);
- for(const [stage,family,total] of [[1,'흑기사',8280000],[2,'흑금 월식',11040000],[3,'제국의 옥좌',15180000]]){
+ for(const [stage,family,total] of [[1,'새벽별',8280000],[2,'그믐달',11040000],[3,'태양왕좌',15180000]]){
   const items=byTier(stage);assert.deepEqual(items.map(i=>i.slot),ASCENDANT_EQUIPMENT_SLOTS);
   assert.equal(items.reduce((sum,i)=>sum+i.totalPower,0),total);
   for(const item of items){
    assert.equal(item.tierLabel,'유니크 '+stage+'단계');
+   for(const label of [family,item.name,item.passiveName])assert.match(label,/^[가-힣]{3,4}$/);
    assert.equal(item.family,family);assert.equal(item.setId,null);assert.equal(item.regionId,null);
    assert.equal(mercenaryEquipmentDefinition(item.code),item);assert.deepEqual(item.modes,['PVE','PVP']);
    assert.equal(item.pvePower+item.pvpPower,item.totalPower);assert(item.individualEffects.attackPercent>crownEffects.attackPercent);assert(item.individualEffects.hpPercent>crownEffects.hpPercent);
