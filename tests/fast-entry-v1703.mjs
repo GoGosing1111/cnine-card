@@ -8,6 +8,11 @@ const drops=readFileSync(new URL('functions/_drop_pool.js',root),'utf8');
 const workshop=readFileSync(new URL('js/workshop-v1676.js',root),'utf8');
 const battle=readFileSync(new URL('js/scrapyard-battle-v1698.js',root),'utf8');
 
+const app=readFileSync(new URL('js/app.js',root),'utf8');
+const warm=app.slice(app.indexOf('function warmFeatureForTab('),app.indexOf('function featureRouteLoadingHtml('));
+assert.ok(warm.indexOf("if(tab==='pvp'){prefetchBattleBundleWhenIdle();return;}")>=0&&warm.indexOf('prefetchBattleBundleWhenIdle()')<warm.indexOf('ensureFeatureResources(key)'),'ranked roster entry must only prefetch the engine');
+const matchClick=app.slice(app.indexOf('async function startRankedMatch('),app.indexOf('async function fightPvp(id,matchToken)'));
+assert.ok(matchClick.includes("settled(ensureFeatureResources('battleV2'))")&&matchClick.indexOf("settled(ensureFeatureResources('battleV2'))")<matchClick.indexOf("await apiRequest('pvp/match'"),'start preparing the battle engine alongside the match request');
 const matchStart=api.indexOf('async function createRankedMatchTicket');
 const existingTicket=api.indexOf('const existing=',matchStart);
 const formationBuild=api.indexOf('pvpFormationPower(env,user.id,battle)',matchStart);

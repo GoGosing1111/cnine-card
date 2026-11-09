@@ -1252,6 +1252,8 @@ function prefetchBattleBundleWhenIdle(){
 }
 window.prefetchBattleBundleWhenIdle=prefetchBattleBundleWhenIdle;
 function warmFeatureForTab(tab){
+  // Editing a ranked roster needs the download cache, not a running battle renderer.
+  if(tab==='pvp'){prefetchBattleBundleWhenIdle();return;}
   const key=featureKeyForTab(tab);if(!key)return;
   const resources=ensureFeatureResources(key);
   if(key==='battleV2')resources.then(()=>warmBattleArtAssets()).catch(error=>console.warn(`${key} 리소스 사전 로딩 실패:`,error));
@@ -1496,7 +1498,7 @@ function renderShell(tab,routeOptions={}) {
       const retry=document.querySelector(`[data-feature-retry="${tab}"]`);if(retry)retry.onclick=()=>{featureResourcePromises.delete(routeFeatureKey);renderShell(tab,routeOptions)};
     });
   }else if(!lobbyFrameOnly)bindView(tab);
-  if(['battle','pvp','clan','dex','inventory'].includes(tab))warmFeatureForTab(tab==='clan'?'pvp':tab);
+  if(['battle','pvp','clan','dex','inventory'].includes(tab))warmFeatureForTab(tab==='clan'?'battle':tab);
   try{performance.measure('cnine-route-render',{start:renderStarted,end:performance.now(),detail:{tab,partial:existingShell}})}catch(_){}
   const deferShellLoad=(delay,task)=>setTimeout(()=>{if(renderSeq!==shellRenderSeq)return;try{const result=task();if(result&&typeof result.catch==='function')result.catch(()=>{})}catch(_){}},delay);
   // 공통 상단 정보는 한 번의 경량 요청으로 묶고 30초 캐시를 사용한다.
@@ -6311,7 +6313,14 @@ async function startRankedMatch(){
   if(window.CNineRankedSeries&&!window.CNineRankedSeries.ready())return alert(`서로 다른 용병 ${pvpState.rankedSeries?.rosterSize||3}종을 편성하고 저장하세요.`);
   if(pvpState.energy&&!pvpState.energy.unlimited&&pvpState.energy.energy<pvpState.energy.costPerBattle)return alert(`랭크전 횟수가 부족합니다. ${pvpRechargeIntervalText(pvpState.energy.rechargeMinutes)}마다 1회 충전됩니다.`);
   const button=document.getElementById('rankedMatchStart'),consoleEl=document.querySelector('.ranked-match-v1907');pvpState.matching=true;if(consoleEl){consoleEl.classList.add('is-searching');consoleEl.setAttribute('aria-busy','true')}if(button){button.disabled=true;rankedMatchButtonLabel(button,'상대 탐색 중...')}
-  try{const matched=await apiRequest('pvp/match',{method:'POST',body:JSON.stringify({requestId:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`})});pvpState.opponents=[matched.opponent];await window.CNineRankedSeries?.preview(matched);await fightPvp(Number(matched.opponent.id),matched.token)}catch(error){alert(error.message);if(error.code==='PVP_SEASON_SETTLING')setTimeout(()=>loadPvpView(),Number(error.retryAfterMs||1500))}finally{pvpState.matching=false;if(consoleEl&&document.body.contains(consoleEl)){consoleEl.classList.remove('is-searching');consoleEl.setAttribute('aria-busy','false')}renderPvpEnergy();if(pvpState.tab==='match')window.CNineRankedSeries?.bind();}
+  try{
+    const resources=pvpState.battleEngine?.active?settled(ensureFeatureResources('battleV2')):null;
+    const matched=await apiRequest('pvp/match',{method:'POST',body:JSON.stringify({requestId:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`})});
+    pvpState.opponents=[matched.opponent];
+    await window.CNineRankedSeries?.preview(matched);
+    if(resources){const result=await resources;if(!result.ok)throw result.error;}
+    await fightPvp(Number(matched.opponent.id),matched.token);
+  }catch(error){alert(error.message);if(error.code==='PVP_SEASON_SETTLING')setTimeout(()=>loadPvpView(),Number(error.retryAfterMs||1500))}finally{pvpState.matching=false;if(consoleEl&&document.body.contains(consoleEl)){consoleEl.classList.remove('is-searching');consoleEl.setAttribute('aria-busy','false')}renderPvpEnergy();if(pvpState.tab==='match')window.CNineRankedSeries?.bind();}
 }
 async function fightPvp(id,matchToken){
   if(pvpState.energy&&!pvpState.energy.unlimited&&pvpState.energy.energy<pvpState.energy.costPerBattle)return alert(`랭크전 횟수가 부족합니다. ${pvpRechargeIntervalText(pvpState.energy.rechargeMinutes)}마다 1회 충전됩니다.`);
