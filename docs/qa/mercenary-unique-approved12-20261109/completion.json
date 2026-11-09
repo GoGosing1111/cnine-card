@@ -1,0 +1,487 @@
+{
+  "at": "2026-11-09T07:33:35.250Z",
+  "effectiveRanks": [
+    1,
+    2
+  ],
+  "reviewBoundary": "The 10 user-approved opal and black-gold pieces are public. Candidate rank-3 artwork stays local for review. Prior rank-3 data and images were preserved in the release.",
+  "release": {
+    "verified": true,
+    "at": "2026-11-09T07:25:36.964Z",
+    "commit": "0980bdca303300eba037faa985b3688dafaec69b",
+    "pages": {
+      "id": "e63cb835-cbd5-4efe-84bf-9338ae4e952d",
+      "commit": "0980bdca303300eba037faa985b3688dafaec69b",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "44cf6725-b3d8-49f3-92a7-8e45b03452ab",
+        "percentage": 100
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "b57ec245-4bc5-4a7a-aec8-397dd528796d",
+        "percentage": 100
+      }
+    ],
+    "icons": 10,
+    "windowsIcons": 10,
+    "legacyRedirects": 10,
+    "authStatus": 401,
+    "releaseTests": 41
+  },
+  "database": {
+    "at": "2026-11-09T07:26:05.042Z",
+    "operationKey": "ops:mercenary-unique-approved-tiers-1-2:20261109:v1",
+    "auditId": "57201",
+    "updatedAt": "2026-11-09T07:26:00.833Z",
+    "catalog": 95,
+    "updated": 10,
+    "rowsByRank": [
+      5,
+      5,
+      0
+    ],
+    "unchangedFieldsSHA256": "db128fd27ef9cf2686c8b232bec207aed1c952e54d3a6b54e67cb1fabe5a223f",
+    "priorThirdRankRowsUnchanged": 5,
+    "oldReceiptIntact": true,
+    "sameIds": true,
+    "sameStatsAndNumericEffects": true,
+    "accountWrites": 0,
+    "checks": {
+      "drops": 0,
+      "box": 0,
+      "audits": 1
+    },
+    "readOnlyReplay": true
+  },
+  "combatSHA256": "a57eae0d295621fdd164ca55d360959b79985081bbdd522a3998f5f5c0efd858",
+  "approvedCuirassSourceSHA256": "633a045e35099a5891c4344d6b9e86543b8ec22f97831f6c9221e5418ed5e64c",
+  "art": [
+    {
+      "id": "1-weapon",
+      "tier": 1,
+      "slot": "weapon",
+      "asset": "assets/ui/mercenary-equipment/unique-regalia-20261109/1-weapon.webp",
+      "sha256": "197f73a4d6ff2faf8739a679c2f93eeefd4f744b33c9c732903cdad8a9a600ab",
+      "bytes": 45044,
+      "source": "royal-sources/1-weapon.png",
+      "sourceSHA256": "71fbbfe54b43271638a1d33797a606703ea0f8089f113c910531c8035a9427a5",
+      "width": 1254,
+      "height": 1254,
+      "alphaCoverage": 0.2004
+    },
+    {
+      "id": "1-top",
+      "tier": 1,
+      "slot": "top",
+      "asset": "assets/ui/mercenary-equipment/unique-regalia-20261109/1-top.webp",
+      "sha256": "d243d44fd6bd633ce2086a18c8f9d207fd1ea074d3a55dd866d8d798332fa4a7",
+      "bytes": 89648,
+      "source": "royal-sources/1-top.png",
+      "sourceSHA256": "633a045e35099a5891c4344d6b9e86543b8ec22f97831f6c9221e5418ed5e64c",
+      "width": 1254,
+      "height": 1254,
+      "alphaCoverage": 0.4716
+    },
+    {
+      "id": "1-bottom",
+      "tier": 1,
+      "slot": "bottom",
+      "asset": "assets/ui/mercenary-equipment/unique-regalia-20261109/1-bottom.webp",
+      "sha256": "3d7be6f57da7c784a581e82cb13f064933848870d68edcd599797b3c0aa5bde0",
+      "bytes": 82280,
+      "source": "royal-sources/1-bottom.png",
+      "sourceSHA256": "ab2e111630b2dd65f0773d2adde5bb87eb1da1157ed02b38aa60a34745030f89",
+      "width": 1254,
+      "height": 1254,
+      "alphaCoverage": 0.422
+    },
+    {
+      "id": "1-shoes",
+      "tier": 1,
+      "slot": "shoes",
+      "asset": "assets/ui/mercenary-equipment/unique-regalia-20261109/1-shoes.webp",
+      "sha256": "9b91863b689cd2d5c29c584d289042f56ef12bc5fe1176604b595cf3b6f560a9",
+      "bytes": 81302,
+      "source": "royal-sources/1-shoes.png",
+      "sourceSHA256": "c893f9a3134b94982c2df7c7e3375ef3830970e04a60f96ba8340de53168a8ad",
+      "width": 1254,
+      "height": 1254,
+      "alphaCoverage": 0.4097
+    },
+    {
+      "id": "1-accessory",
+      "tier": 1,
+      "slot": "accessory",
+      "asset": "assets/ui/mercenary-equipment/unique-regalia-20261109/1-accessory.webp",
+      "sha256": "75a15476507a46950336b658af403e857def0849e5c7d71a5fde1ab3c955c75f",
+      "bytes": 87676,
+      "source": "royal-sources/1-accessory.png",
+      "sourceSHA256": "3d041a091c634509fc9ca2b42d55630d6ead5435f79db65507d28ee2af4a3c2d",
+      "width": 1254,
+      "height": 1254,
+      "alphaCoverage": 0.5228
+    },
+    {
+      "id": "2-weapon",
+      "tier": 2,
+      "slot": "weapon",
+      "asset": "assets/ui/mercenary-equipment/unique-regalia-20261109/2-weapon.webp",
+      "sha256": "704f39061fc43b5af111c39266cf00f536831e3465b57fbf98ce6421fde4baeb",
+      "bytes": 41522,
+      "source": "royal-sources/2-weapon.png",
+      "sourceSHA256": "4e88c173906634ab3314fc1ad75e22059329bf5fe95578b72752048ebf265d3e",
+      "width": 1254,
+      "height": 1254,
+      "alphaCoverage": 0.2101
+    },
+    {
+      "id": "2-top",
+      "tier": 2,
+      "slot": "top",
+      "asset": "assets/ui/mercenary-equipment/unique-regalia-20261109/2-top.webp",
+      "sha256": "43ff80933f9abdb3ca62fd1aad5009f2125e3c0b1035753e02f694882a20bcba",
+      "bytes": 83962,
+      "source": "royal-sources/2-top.png",
+      "sourceSHA256": "177443f67fbae9a04bb4b3238158ba4b80caf0fc3a8589761f8f715cbb653e03",
+      "width": 1254,
+      "height": 1254,
+      "alphaCoverage": 0.5497
+    },
+    {
+      "id": "2-bottom",
+      "tier": 2,
+      "slot": "bottom",
+      "asset": "assets/ui/mercenary-equipment/unique-regalia-20261109/2-bottom.webp",
+      "sha256": "be292563f98f84937097028a5d049c1558bc8a2d3916b7c70d03480852c2f866",
+      "bytes": 65696,
+      "source": "royal-sources/2-bottom.png",
+      "sourceSHA256": "bd698ae298db89442a0059927bdd3427969bdd9c88cead9e4990a27d5db6d957",
+      "width": 1254,
+      "height": 1254,
+      "alphaCoverage": 0.4326
+    },
+    {
+      "id": "2-shoes",
+      "tier": 2,
+      "slot": "shoes",
+      "asset": "assets/ui/mercenary-equipment/unique-regalia-20261109/2-shoes.webp",
+      "sha256": "4f1b6fe3c5050b85593151c4f1923c4d4dcf616ee3c83ea9499209d7c48e67ec",
+      "bytes": 75282,
+      "source": "royal-sources/2-shoes.png",
+      "sourceSHA256": "7b867feafd69fa2777f4ae61932d00be112f3ceb708b972b126c0536620de8a9",
+      "width": 1254,
+      "height": 1254,
+      "alphaCoverage": 0.4833
+    },
+    {
+      "id": "2-accessory",
+      "tier": 2,
+      "slot": "accessory",
+      "asset": "assets/ui/mercenary-equipment/unique-regalia-20261109/2-accessory.webp",
+      "sha256": "d651a85fff9071a0ca28d8796a9479207627bc0291b4ef27e20089a1515d4ebb",
+      "bytes": 59094,
+      "source": "royal-sources/2-accessory.png",
+      "sourceSHA256": "8a331d6ebdc6f8f691e08e1a64326b9132bdc14abede7dab56c6741a6edc8342",
+      "width": 1254,
+      "height": 1254,
+      "alphaCoverage": 0.412
+    }
+  ],
+  "performance": {
+    "condition": "Installed Chrome 1440x950 headless and emulated touch WebKit 390x844. Same 95-item in-memory account, user enters the equipment page from the mercenary codex. Input-to-ready for first entry/fresh browser context and re-entry. 24 selection frames per case. Public checks use live static files and isolated account routes. No physical phone or installed Windows client was played. One run per condition.",
+    "observation": "The public HTML-to-first-equipment-API interval was the largest measured interval. Critical equipment modules are preloaded. Measured live selection had no frames over 50 ms and no equipment requests after exit on either browser.",
+    "priorAssetBytes": 0,
+    "currentAssetBytes": 711506,
+    "before": [
+      {
+        "width": 1440,
+        "engine": "installed desktop Chrome, headless",
+        "entries": [
+          {
+            "inputToReadyMs": 68,
+            "documentTtfbMs": 0,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 11
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 14
+              }
+            ]
+          },
+          {
+            "inputToReadyMs": 59,
+            "documentTtfbMs": 1,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 21
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 25
+              }
+            ]
+          }
+        ],
+        "frames": {
+          "samples": 24,
+          "frameP95Ms": 8.3,
+          "maxFrameMs": 8.3,
+          "framesOver50Ms": 0,
+          "selectionJsP95Ms": 3.4
+        },
+        "exitRequests": 0
+      },
+      {
+        "width": 390,
+        "engine": "WebKit mobile emulation",
+        "entries": [
+          {
+            "inputToReadyMs": 145,
+            "documentTtfbMs": 0,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 7
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 10
+              }
+            ]
+          },
+          {
+            "inputToReadyMs": 95,
+            "documentTtfbMs": 0,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 9
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 11
+              }
+            ]
+          }
+        ],
+        "frames": {
+          "samples": 24,
+          "frameP95Ms": 18,
+          "maxFrameMs": 29,
+          "framesOver50Ms": 0,
+          "selectionJsP95Ms": 2
+        },
+        "exitRequests": 0
+      }
+    ],
+    "after": [
+      {
+        "width": 1440,
+        "engine": "installed desktop Chrome, headless",
+        "entries": [
+          {
+            "inputToReadyMs": 87,
+            "documentTtfbMs": 1,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 14
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 19
+              }
+            ],
+            "documentToFirstApiMs": 47,
+            "lastApiToUiMs": 7
+          },
+          {
+            "inputToReadyMs": 40,
+            "documentTtfbMs": 0,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 12
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 15
+              }
+            ],
+            "documentToFirstApiMs": 12,
+            "lastApiToUiMs": 6
+          }
+        ],
+        "frames": {
+          "samples": 24,
+          "frameP95Ms": 8.5,
+          "maxFrameMs": 12.4,
+          "framesOver50Ms": 0,
+          "selectionJsP95Ms": 2.9
+        },
+        "exitRequests": 0,
+        "decoded": 15,
+        "wear": "PVE",
+        "remove": true,
+        "codexWithoutMercenary": true
+      },
+      {
+        "width": 390,
+        "engine": "WebKit mobile emulation",
+        "entries": [
+          {
+            "inputToReadyMs": 223,
+            "documentTtfbMs": 0,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 12
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 16
+              }
+            ],
+            "documentToFirstApiMs": 181,
+            "lastApiToUiMs": 23
+          },
+          {
+            "inputToReadyMs": 124,
+            "documentTtfbMs": 0,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 11
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 14
+              }
+            ],
+            "documentToFirstApiMs": 81,
+            "lastApiToUiMs": 25
+          }
+        ],
+        "frames": {
+          "samples": 24,
+          "frameP95Ms": 18,
+          "maxFrameMs": 30,
+          "framesOver50Ms": 0,
+          "selectionJsP95Ms": 2
+        },
+        "exitRequests": 0,
+        "decoded": 15,
+        "wear": "PVP",
+        "remove": true
+      }
+    ],
+    "public": [
+      {
+        "width": 1440,
+        "engine": "installed desktop Chrome, headless",
+        "entries": [
+          {
+            "inputToReadyMs": 210,
+            "documentTtfbMs": 21,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 24
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 25
+              }
+            ],
+            "documentToFirstApiMs": 145,
+            "lastApiToUiMs": 6
+          },
+          {
+            "inputToReadyMs": 188,
+            "documentTtfbMs": 24,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 21
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 22
+              }
+            ],
+            "documentToFirstApiMs": 129,
+            "lastApiToUiMs": 5
+          }
+        ],
+        "frames": {
+          "samples": 24,
+          "frameP95Ms": 8.4,
+          "maxFrameMs": 12.5,
+          "framesOver50Ms": 0,
+          "selectionJsP95Ms": 2.8
+        },
+        "exitRequests": 0,
+        "decoded": 15,
+        "wear": "PVE",
+        "remove": true
+      },
+      {
+        "width": 390,
+        "engine": "WebKit mobile emulation",
+        "entries": [
+          {
+            "inputToReadyMs": 319,
+            "documentTtfbMs": 28,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 18
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 19
+              }
+            ],
+            "documentToFirstApiMs": 252,
+            "lastApiToUiMs": 17
+          },
+          {
+            "inputToReadyMs": 305,
+            "documentTtfbMs": 25,
+            "apiDurations": [
+              {
+                "endpoint": "/api/mercenaries/v3/equipment",
+                "ms": 21
+              },
+              {
+                "endpoint": "/api/mercenaries/v3/state",
+                "ms": 21
+              }
+            ],
+            "documentToFirstApiMs": 241,
+            "lastApiToUiMs": 14
+          }
+        ],
+        "frames": {
+          "samples": 24,
+          "frameP95Ms": 30,
+          "maxFrameMs": 31,
+          "framesOver50Ms": 0,
+          "selectionJsP95Ms": 2
+        },
+        "exitRequests": 0,
+        "decoded": 15,
+        "wear": "PVP",
+        "remove": true
+      }
+    ]
+  }
+}
