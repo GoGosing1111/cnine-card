@@ -25,7 +25,7 @@ test('remaining actionable live operation states share one cached aggregate endp
     assert.match(app,new RegExp(`${kind}:\\{label:`));
   }
   for(const table of ['territory_war_v3_rounds','seal_battle_events','auctions_v1553','raid_instances'])assert.match(api,new RegExp(table));
-  assert.match(api,/WITH[\s\S]*SELECT \* FROM territory UNION ALL[\s\S]*?'TERRITORY_SCHEDULE'[\s\S]*?UNION ALL SELECT \* FROM seal[\s\S]*UNION ALL SELECT \* FROM auction UNION ALL SELECT \* FROM raid ORDER BY sort_order/);
+  assert.match(api,/WITH[\s\S]*SELECT \* FROM territory UNION ALL[\s\S]*?\$\{upcomingTerritoryScheduleSql\}[\s\S]*?UNION ALL SELECT \* FROM seal[\s\S]*UNION ALL SELECT \* FROM auction UNION ALL SELECT \* FROM raid ORDER BY sort_order/);
   assert.match(api,/LIVE_OPERATIONS_CACHE_MS=15000/);
   assert.doesNotMatch(api,/json_valid\([^)]*\)\s*=\s*1/);
   assert.doesNotMatch(api,/json_extract\([^)]*\)\s*,?\s*0?\)\s*=\s*[01]/);
