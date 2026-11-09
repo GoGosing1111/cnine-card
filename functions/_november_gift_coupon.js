@@ -19,7 +19,15 @@ export const SUWON_K1_COUPON=Object.freeze({
  ...LUCKY_SEVEN_COUPON,
  code:'SUWONK1UP',type:'NOVEMBER_GIFT_SUWON_K1_20261108',label:'수원삼성 K1 승격 기념'
 });
-const gifts=new Map([NOVEMBER_GIFT_COUPON,LUCKY_SEVEN_COUPON,SUWON_K1_COUPON].map(gift=>[gift.code,gift]));
+export const BONGSOON_ICON_COUPON=Object.freeze({
+ code:'BONGSOON1000',type:'NOVEMBER_GIFT_BONGSOON_20261109',maxUses:150,coin:1_000_000_000_000_000,
+ label:'나무늘봉순 · 귀환 서약',message:'코인 1,000조, 마스터의 별 4억 개, 계급 경험치 3배 물약 (60분) 4개를 받았습니다. 물약은 인벤토리에서 사용하세요.',
+ items:Object.freeze([
+  Object.freeze({code:'MASTER_STAR',name:'마스터의 별',amount:400_000_000}),
+  Object.freeze({code:'RANK_EXP_POTION_3X_60M',name:'계급 경험치 3배 물약 (60분)',amount:4})
+ ])
+});
+const gifts=new Map([NOVEMBER_GIFT_COUPON,LUCKY_SEVEN_COUPON,SUWON_K1_COUPON,BONGSOON_ICON_COUPON].map(gift=>[gift.code,gift]));
 class GiftCouponError extends Error{constructor(message,status=409){super(message);this.status=status;}}
 const fail=(message,status)=>{throw new GiftCouponError(message,status);};
 const changed=(rows,message)=>{if(rows.length!==1)fail(message);return rows[0];};

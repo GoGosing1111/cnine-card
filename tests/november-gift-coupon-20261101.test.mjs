@@ -146,3 +146,34 @@ test('Suwon coupon cannot pay a partial bundle or fall back to an ordinary coupo
  await f.pg.query('UPDATE coupons SET reward_type=$1 WHERE code=$2',['COIN','SUWONK1UP']);
  const mismatched=await f.snapshot();assert.equal((await f.redeem(1,'SUWON_INVALID','SUWONK1UP')).status,409);assert.deepEqual(await f.snapshot(),mismatched);
 });
+
+test('Bongsoon ICON coupon settles the full bundle exactly once at the last available place',async t=>{
+ const f=await suwonFixture(t),code='BONGSOON1000';
+ await f.pg.query('INSERT INTO coupons(code,reward_type,reward_coin,reward_amount,max_uses,used_count) VALUES($1,$2,$3,1,150,149)',[code,'NOVEMBER_GIFT_BONGSOON_20261109','1000000000000000']);
+ await f.pg.exec('UPDATE users SET coin=100000000000000001 WHERE id=1');
+ const before=await f.snapshot();
+ f.fault({pattern:'INSERT INTO coupon_redemptions'});
+ await assert.rejects(f.redeem(1,'BONGSOON_CLAIM_1',code),/QA injected/);
+ assert.deepEqual(await f.snapshot(),before);
+ f.fault({ack:true});
+ await assert.rejects(f.redeem(1,'BONGSOON_CLAIM_1',' bongsoon1000 '),/lost commit response/);
+ const response=await f.redeem(1,'BONGSOON_CLAIM_1',code);
+ assert.equal(response.status,200);
+ const result=await response.json();assert.equal(result.replayed,true);
+ assert.deepEqual(result.rewards,[{type:'COIN',amount:1_000_000_000_000_000},{type:'MASTER_STAR',amount:400_000_000},{type:'RANK_EXP_POTION_3X_60M',amount:4}]);
+ assert.equal(result.rewardLabel,'나무늘봉순 · 귀환 서약');
+ assert.equal((await f.one('SELECT coin::text FROM users WHERE id=1')).coin,'101000000000000001');
+ assert.equal(await f.quantity('MASTER_STAR'),400_000_000);assert.equal(await f.quantity('RANK_EXP_POTION_3X_60M'),4);
+ assert.equal(await f.count('coupon_redemptions'),1);assert.equal(await f.count('coin_logs'),1);assert.equal(await f.count('inventory_logs'),2);
+ assert.equal((await f.one("SELECT value FROM app_meta WHERE key='account_rank_potion_v1:1'")).value,'existing-buff-preserved');
+ const completed=await f.snapshot();
+ assert.equal((await f.redeem(1,'BONGSOON_DIFFERENT',code)).status,409);
+ assert.equal((await f.redeem(2,'BONGSOON_LAST_SPOT',code)).status,409);
+ assert.deepEqual(await f.snapshot(),completed);
+ assert.equal((await f.one('SELECT used_count FROM coupons WHERE code=$1',[code])).used_count,150);
+ assert.equal((await f.one('SELECT used_count FROM coupons WHERE code=$1',['SUWONK1UP'])).used_count,0);
+ await f.pg.query("UPDATE coupons SET reward_type='COIN',used_count=0 WHERE code=$1",[code]);
+ const malformed=await f.snapshot();
+ assert.equal((await f.redeem(2,'BONGSOON_BAD_TYPE',code)).status,409);
+ assert.deepEqual(await f.snapshot(),malformed);
+});
