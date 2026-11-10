@@ -18,7 +18,8 @@ import {earnedLegionCoins} from '../shared/legion-hunt-coins-v1.mjs';
 
 const P='legion_citadel_v1:',roomKey=id=>P+'room:'+id,userKey=id=>P+'user:'+id,replayKey=id=>P+'battle:'+id;
 const entryKey=id=>P+'next-entry:'+id;
-const PARTY_ENTRY_INTERVAL_MS=3*60*60*1000;
+const PARTY_RECHARGE_HOURS=6;
+const PARTY_ENTRY_INTERVAL_MS=PARTY_RECHARGE_HOURS*60*60*1000;
 const tag='legion-party/',fields={create:['requestId','tier','area'],join:['id'],ready:['id','cardIds','mercenaryCodes'],unready:['id'],start:['id'],loaded:['id'],pickup:['id','token'],claim:['id'],leave:['id']};
 const idOK=id=>typeof id==='string'&&/^[0-9a-f]{24}$/.test(id);
 const stmt=(db,sql,...args)=>db.prepare(sql).bind(...args);
@@ -310,8 +311,8 @@ export async function handleLegionCitadel({path,request,env,deps}){
     const clanRooms=clanOpen?await rooms(DB,at,hideout):[];
     const state=here.r&&here.r.members.some(m=>m.id===Number(user.id))&&phase(here.r,at)!=='CANCELLED'?await resultState(here.r):null;
     const unlimited=user.role==='OWNER';
-    const nextEntryAt=state?state.nextEntryAt:(open||clanOpen)&&policy.mode==='ON'&&!unlimited?entryDeadline(here.deadline):null;
-    return reply({ok:true,open,clanOpen,clanHideout:hideout,clanRooms,tiers:citadelTierMenu,state,rooms:list,test:policy.mode!=='ON',unlimited,serverNow:at,nextEntryAt:!unlimited&&nextEntryAt>at?nextEntryAt:null});
+    const nextEntryAt=!unlimited&&policy.mode==='ON'?(state?.nextEntryAt??entryDeadline(here.deadline)):null;
+    return reply({ok:true,open,clanOpen,clanHideout:hideout,clanRooms,tiers:citadelTierMenu,state,rooms:list,test:policy.mode!=='ON',unlimited,serverNow:at,partyRechargeHours:PARTY_RECHARGE_HOURS,nextEntryAt:nextEntryAt>at?nextEntryAt:null});
    }
    if(action==='options'){
      if(new URL(request.url).searchParams.get('area')===DOCKYARD.id){if(policy.mode!=='ON')fail('CLOSED','군단토벌 일시 중지',403);await requireClanHideout(env,user.id,DOCKYARD.stage);}

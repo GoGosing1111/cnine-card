@@ -313,7 +313,7 @@ for(const current of [0,1])test('OWNER is exempt from the party clock with '+cur
   const active=await boot(f,'gate');f.clock.now=active.startsAt+active.duration+1;
   const owner=await state(f,1,'state?id='+active.id),partner=await state(f,2,'state?id='+active.id);
   assert.equal(owner.coins>0,current>0);assert.equal(owner.nextEntryAt,null);
-  assert.ok(partner.coins>0);assert.equal(partner.nextEntryAt,active.startsAt+10800000);
+  assert.ok(partner.coins>0);assert.equal(partner.nextEntryAt,active.startsAt+6*60*60*1000);
   assert.equal((await getMeta(f,'legion_hunt_owner_session_v1:1')).energy.current,0);
   assert.equal(await getMeta(f,'legion_citadel_v1:next-entry:1'),prior);
   for(const uid of [1,2]){await state(f,uid,'claim',{id:active.id});await state(f,uid,'leave',{id:active.id});}

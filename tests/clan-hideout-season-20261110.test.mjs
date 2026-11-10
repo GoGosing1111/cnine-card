@@ -55,8 +55,12 @@ test('party dockyard is locked in season four and private to the eligible clan f
  assert.equal((await f.action(2,'loaded',{id})).body.code,'CLAN_ROOM_REQUIRED');
  assert.equal((await f.db.prepare("SELECT COUNT(*) AS n FROM app_meta WHERE key LIKE 'legion_citadel_v1:next-entry:%'").first()).n,0);
  await f.exec('UPDATE organization_members_v1 SET organization_id=1 WHERE user_id=1');
- assert.equal((await f.action(2,'loaded',{id})).body.state.status,'ACTIVE');
- assert.equal((await f.action(2,'loaded',{id})).body.state.status,'ACTIVE');
+ const active=(await f.action(2,'loaded',{id})).body.state;assert.equal(active.status,'ACTIVE');
+ assert.equal(active.nextEntryAt,active.startsAt+6*60*60*1000);
+ assert.equal((await f.action(2,'loaded',{id})).body.state.nextEntryAt,active.nextEntryAt);
+ for(const uid of [1,2]){
+  const current=await lobby(uid);assert.equal(current.partyRechargeHours,6);assert.equal(current.nextEntryAt,active.nextEntryAt);
+ }
  assert.equal((await f.db.prepare("SELECT COUNT(*) AS n FROM app_meta WHERE key LIKE 'legion_citadel_v1:next-entry:%'").first()).n,2);
  const roster=citadelEnemies('gate',DOCKYARD.id);assert.equal(roster.monster.name,'철갑 집행자');
  const roll=calamityPartyDrops([],{stonePercent:10,eliteStonePercent:0,bossStonePercent:0},[],[],{ref:'stone'},n=>n,DOCKYARD.itemMultiplier);

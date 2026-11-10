@@ -73,7 +73,7 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' party
   const ukey=u=>'legion_hunt_owner_session_v1:'+u,read=async k=>JSON.parse((await f.db.prepare('SELECT value FROM app_meta WHERE key=?').bind(k).first())?.value||'null');
   assert.equal(await read(ukey(1)),null);const active=(await states(f,2,'loaded',{id})).state;assert.equal(active.status,'ACTIVE');
   await states(f,2,'loaded',{id});assert.equal((await read(ukey(1))).energy.current,9);assert.equal((await read(ukey(2))).energy.current,9);assert.equal((await f.action(3,'claim',{id})).status,403);
-  const deadline=active.startsAt+3*60*60*1000;
+  const deadline=active.startsAt+6*60*60*1000;
   assert.equal(active.nextEntryAt,deadline);
   for(const uid of [1,2])assert.equal((await states(f,uid,'lobby')).nextEntryAt,deadline);
   assert.equal((await states(f,3,'lobby')).nextEntryAt,null);
@@ -95,7 +95,10 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' party
   assert.deepEqual((await states(f,1,'claim',{id})).state.drops,a.drops);assert.deepEqual(await inventory(1),own);
   assert.deepEqual(await counts(),[1,1,0]);
   assert.equal(await read('legion_citadel_v1:farm:'+id+':1'),null);assert.equal((await f.action(3,'claim',{id})).status,404);
-  // The original room has been removed. Both seats still share one limit across all three tiers.
+  // One party charge is shared across all tiers. Three hours after departure is still too early.
+  f.clock.now=active.startsAt+3*60*60*1000;
+  assert.equal((await states(f,1,'lobby')).partyRechargeHours,6);
+  assert.equal((await f.action(1,'create',{requestId:'three-hours-after-departure',tier:'keep'})).body.code,'CITADEL_COOLDOWN');
   f.clock.now=deadline-1;
   const openRoom=(await states(f,3,'create',{requestId:'new-party-different-host',tier:'throne'})).state;
   for(const uid of [1,2]){
@@ -116,10 +119,23 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' party
   for(const uid of [1,2])await states(f,uid,'ready',{id:second.id,...f.selection(uid-1)});
   await states(f,2,'start',{id:second.id});await states(f,2,'loaded',{id:second.id});
   const secondBattle=(await states(f,1,'loaded',{id:second.id})).state;
-  assert.equal(secondBattle.nextEntryAt,secondBattle.startsAt+10800000);
+  assert.equal(secondBattle.nextEntryAt,secondBattle.startsAt+6*60*60*1000);
   for(const uid of [1,2])assert.equal((await read(ukey(uid))).energy.current,9);
  }finally{await f.close();}
 });
+test('a party recharge already underway completes at its saved deadline',async()=>{
+ const f=await citadelFixture();try{
+  const until=f.clock.now+3*60*60*1000;
+  await f.exec('INSERT INTO app_meta(key,value) VALUES(?,?)','legion_citadel_v1:next-entry:1',String(until));
+  f.clock.now=until-1;
+  assert.equal((await states(f,1,'lobby')).nextEntryAt,until);
+  assert.equal((await f.action(1,'create',{requestId:'previous-party-deadline',tier:'gate'})).body.code,'CITADEL_COOLDOWN');
+  f.clock.now=until;
+  assert.equal((await states(f,1,'lobby')).nextEntryAt,null);
+  assert.equal((await f.action(1,'create',{requestId:'previous-party-deadline',tier:'gate'})).status,200);
+ }finally{await f.close();}
+});
+
 test('abandoned loading and failed second-player energy transaction never charge either participant',async()=>{
  const f=await citadelFixture();try{const id=await boot(f);await states(f,1,'loaded',{id});
  const key='legion_hunt_owner_session_v1:2';await f.exec('INSERT INTO app_meta(key,value) VALUES(?,?)',key,JSON.stringify({energy:{version:1,current:0,updatedAt:f.clock.now,maximum:10}}));
@@ -145,7 +161,7 @@ test('activation rechecks both deadlines, survives a lost reply and keeps the pa
   f.loseReply();
   assert.equal((await f.action(2,'loaded',{id})).status,503);
   const retry=(await states(f,2,'loaded',{id})).state;
-  assert.equal(retry.status,'ACTIVE');assert.equal(retry.nextEntryAt,retry.startsAt+10800000);
+  assert.equal(retry.status,'ACTIVE');assert.equal(retry.nextEntryAt,retry.startsAt+6*60*60*1000);
   for(const uid of [1,2]){
    const row=await f.db.prepare('SELECT value FROM app_meta WHERE key=?').bind('legion_hunt_owner_session_v1:'+uid).first();
    assert.equal(JSON.parse(row.value).energy.current,9);
@@ -183,7 +199,7 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' secon
   const confirmations=await Promise.all([states(f,2,'loaded',{id}),states(f,2,'loaded',{id})]);
   assert.equal(confirmations[0].state.nextEntryAt,confirmations[1].state.nextEntryAt);
   for(const uid of [1,2]){
-   assert.equal(await read(key+uid),String(confirmations[0].state.startsAt+10800000));
+   assert.equal(await read(key+uid),String(confirmations[0].state.startsAt+6*60*60*1000));
    assert.equal(JSON.parse(await read('legion_hunt_owner_session_v1:'+uid)).energy.current,9);
   }
  }finally{await f.close();}
