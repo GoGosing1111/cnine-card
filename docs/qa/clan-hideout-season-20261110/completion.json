@@ -1,0 +1,598 @@
+{
+  "verifiedAt": "2026-11-10T15:43:02.887Z",
+  "source": "c34949a09e6ed11df80b2406cc3bad682cb786d5",
+  "production": {
+    "pages": {
+      "id": "2f9de300-72ba-4444-a787-6e54dce45631",
+      "url": "https://2f9de300.cnine-card.pages.dev"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "id": "9abcabf9-4760-46f5-908d-2c2ba7f281ec",
+        "trafficPercent": 100
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "id": "e8b4a890-29ed-4826-95b1-422a85557644",
+        "trafficPercent": 100
+      }
+    ],
+    "files": 20,
+    "windows": {
+      "releaseId": "eb19a3f0588ca3a8b4f642800e64a3202df18f875c42de36c03b25a51f96ed3b",
+      "changed": [
+        "/index.html",
+        "/js/cooperative-battleground-entry.js",
+        "/raid/cooperative/live.mjs"
+      ],
+      "encodingChanges": [],
+      "removed": []
+    },
+    "assetCount": 20000
+  },
+  "schedule": {
+    "seasonNumber": 4,
+    "regularEnd": "2026-11-11T13:00:00.000Z",
+    "semifinalKst": "2026-11-12T21:00:00+09:00",
+    "newRegularDays": 50,
+    "factionDaysKst": [
+      "TUE",
+      "WED",
+      "FRI"
+    ],
+    "elderWindowHours": 48,
+    "eldersPerClan": 3
+  },
+  "clanAccess": {
+    "firstSeason": 5,
+    "party": {
+      "stage": 3,
+      "itemDropMultiplier": 1.5,
+      "players": 2
+    },
+    "battleground": {
+      "stage": 4,
+      "difficulty": "HARD"
+    },
+    "partyActionChargeHours": 6,
+    "existingDeadlinesPreserved": true,
+    "sameClan": true,
+    "headquarters": "preview only",
+    "productionSnapshot": {
+      "at": "2026-11-10T15:14:47.054Z",
+      "settings": [
+        {
+          "key": "cooperative_battleground_settings_v1",
+          "mode": "ON"
+        },
+        {
+          "key": "legion_hunt_regions_v1",
+          "mode": "ON"
+        },
+        {
+          "key": "legion_hunt_settings_v1",
+          "mode": "ON"
+        }
+      ],
+      "access": [
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "season_no": "4",
+          "clan_id": 1,
+          "stage": 3,
+          "season_open": false
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "season_no": "4",
+          "clan_id": 2,
+          "stage": 3,
+          "season_open": false
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "season_no": "4",
+          "clan_id": 3,
+          "stage": 3,
+          "season_open": false
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "season_no": "4",
+          "clan_id": 4,
+          "stage": 3,
+          "season_open": false
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "season_no": "4",
+          "clan_id": 5,
+          "stage": 3,
+          "season_open": false
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "season_no": "4",
+          "clan_id": 6,
+          "stage": 3,
+          "season_open": false
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "season_no": "4",
+          "clan_id": 7,
+          "stage": 3,
+          "season_open": false
+        },
+        {
+          "round_id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "season_no": "4",
+          "clan_id": 8,
+          "stage": 3,
+          "season_open": false
+        }
+      ]
+    }
+  },
+  "schema": {
+    "check": "CHECK (((scope = ANY (ARRAY['TEST'::text, 'LIVE'::text])) OR (scope = ('ARCHIVED:'::text || id))))",
+    "live": {
+      "id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+      "phase": "ASSIGNED",
+      "season_no": "4",
+      "season_phase": "ACTIVE",
+      "starts_at": "2026-10-28T12:00:00.000Z",
+      "ends_at": "2026-11-11T13:00:00.000Z"
+    },
+    "stage": [
+      {
+        "clan": 1,
+        "stage": 3,
+        "members": 15
+      },
+      {
+        "clan": 2,
+        "stage": 3,
+        "members": 13
+      },
+      {
+        "clan": 3,
+        "stage": 3,
+        "members": 10
+      },
+      {
+        "clan": 4,
+        "stage": 3,
+        "members": 17
+      },
+      {
+        "clan": 5,
+        "stage": 3,
+        "members": 15
+      },
+      {
+        "clan": 6,
+        "stage": 3,
+        "members": 16
+      },
+      {
+        "clan": 7,
+        "stage": 3,
+        "members": 15
+      },
+      {
+        "clan": 8,
+        "stage": 3,
+        "members": 15
+      }
+    ],
+    "opening": {
+      "time": "21:00"
+    },
+    "windows": 0
+  },
+  "checks": {
+    "command": "npm run deploy:production",
+    "gate": {
+      "head": "485dfa19210db2393d16c1efa5b20fe14adb3d18",
+      "verifiedHead": "485dfa19210db2393d16c1efa5b20fe14adb3d18",
+      "code": 0,
+      "log": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\clan-hideout-season-20261110\\deploy-1794322250652.log",
+      "start": "2026-11-10T14:50:50.653Z",
+      "end": "2026-11-10T15:11:11.496Z"
+    },
+    "partyEnergyRelease": {
+      "head": "e0341cd046549bc153f35a31e7e12ec6cff4c866",
+      "verifiedHead": "e0341cd046549bc153f35a31e7e12ec6cff4c866",
+      "code": 0,
+      "log": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\clan-hideout-season-20261110\\deploy-1794323925491.log",
+      "start": "2026-11-10T15:18:45.491Z",
+      "end": "2026-11-10T15:21:49.153Z"
+    },
+    "partyLayoutRelease": {
+      "head": "41503a7894842fbe3bea131ebca99a912de4b00e",
+      "verifiedHead": "41503a7894842fbe3bea131ebca99a912de4b00e",
+      "code": 0,
+      "log": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\clan-hideout-season-20261110\\deploy-1794324477830.log",
+      "start": "2026-11-10T15:27:57.830Z",
+      "end": "2026-11-10T15:31:02.699Z"
+    },
+    "finalClientRelease": {
+      "head": "c34949a09e6ed11df80b2406cc3bad682cb786d5",
+      "verifiedHead": "c34949a09e6ed11df80b2406cc3bad682cb786d5",
+      "code": 0,
+      "log": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\clan-hideout-season-20261110\\deploy-1794325084291.log",
+      "start": "2026-11-10T15:38:04.291Z",
+      "end": "2026-11-10T15:41:23.893Z"
+    },
+    "partyEnergyTestsPassed": 58,
+    "gardenLifecycleTestsPassed": 23,
+    "partyIntegration": "season5-full.log",
+    "battleground": {
+      "at": "2026-11-10T14:38:11.333Z",
+      "backend": "isolated PostgreSQL compatibility",
+      "checks": [
+        "season-four-closed-for-owner-stage-four",
+        "ineligible-private-list",
+        "direct-room-id-ignores-client-area",
+        "qualified-private-directory",
+        "departure-rollback",
+        "other-qualified-clan-denied",
+        "qualified-direct-join",
+        "single-charge-replay"
+      ]
+    },
+    "cms": {
+      "source": "admin/index.html",
+      "database": "isolated PostgreSQL",
+      "actions": [
+        "owner-navigation",
+        "initially-closed",
+        "open-48-hours",
+        "three-applicant-checkboxes",
+        "confirmed-clan-slate",
+        "remaining-clans-required"
+      ],
+      "publicWrites": 0,
+      "errors": [],
+      "openToCommitMs": 348
+    },
+    "screens": {
+      "desktop": {
+        "conditions": "Chrome on Windows, 1440×960",
+        "publicAssetsWithIsolatedAccounts": true,
+        "before": {
+          "coldGameMs": 969,
+          "firstAndReturnMs": [
+            97,
+            21
+          ],
+          "tierInteractionFrames": [
+            {
+              "p95": 4.3,
+              "max": 42,
+              "long50": 0,
+              "n": 222
+            },
+            {
+              "p95": 4.3,
+              "max": 4,
+              "long50": 0,
+              "n": 222
+            }
+          ],
+          "isolatedLobbyHandlerMs": [
+            2,
+            0
+          ]
+        },
+        "candidate": {
+          "coldGameMs": 975,
+          "firstAndReturnMs": [
+            134,
+            24
+          ],
+          "tierInteractionFrames": [
+            {
+              "p95": 4.3,
+              "max": 129,
+              "long50": 1,
+              "n": 216
+            },
+            {
+              "p95": 4.3,
+              "max": 4,
+              "long50": 0,
+              "n": 223
+            }
+          ],
+          "isolatedLobbyHandlerMs": [
+            2,
+            0
+          ]
+        },
+        "public": {
+          "party": {
+            "timings": [
+              318,
+              38
+            ],
+            "frames": [
+              {
+                "p95": 41.700000000000045,
+                "long50": 5,
+                "n": 119
+              },
+              {
+                "p95": 4.300000000000182,
+                "long50": 0,
+                "n": 137
+              }
+            ],
+            "requests": [
+              "lobby",
+              "lobby",
+              "lobby"
+            ],
+            "afterClose": 0,
+            "checks": [
+              "dockyard-title-and-card-fit",
+              "season-four-no-entry",
+              "dockyard-title-and-card-fit",
+              "season-five-create",
+              "private-room-board",
+              "six-hour-shared-energy",
+              "next-entry-time"
+            ],
+            "accountFixture": true,
+            "emulated": false
+          },
+          "battleground": {
+            "platform": "desktop",
+            "emulation": "Windows desktop Chrome",
+            "isolatedApi": true,
+            "actions": [
+              "apply",
+              "cancel",
+              "headquarters-preview-only",
+              "season-four-locked",
+              "cancel-pending-room-and-current",
+              "normal-route",
+              "garden-only",
+              "public-directory",
+              "switch-back"
+            ],
+            "pageErrors": [],
+            "errorContext": [],
+            "roomAreas": [
+              "public",
+              "public",
+              "clan-garden",
+              "public",
+              "clan-garden"
+            ],
+            "timings": {
+              "firstHeadquartersMs": 439,
+              "gardenMenuMs": 729
+            },
+            "postCloseRoomRequests": 0
+          }
+        }
+      },
+      "ios": {
+        "conditions": "iPhone 13 WebKit emulation on Windows, 390×844",
+        "publicAssetsWithIsolatedAccounts": true,
+        "before": {
+          "coldGameMs": 976,
+          "firstAndReturnMs": [
+            479,
+            363
+          ],
+          "tierInteractionFrames": [
+            {
+              "p95": 258,
+              "max": 279,
+              "long50": 5,
+              "n": 38
+            },
+            {
+              "p95": 262,
+              "max": 277,
+              "long50": 5,
+              "n": 40
+            }
+          ],
+          "isolatedLobbyHandlerMs": [
+            2,
+            0
+          ]
+        },
+        "candidate": {
+          "coldGameMs": 1153,
+          "firstAndReturnMs": [
+            500,
+            508
+          ],
+          "tierInteractionFrames": [
+            {
+              "p95": 221,
+              "max": 228,
+              "long50": 5,
+              "n": 40
+            },
+            {
+              "p95": 223,
+              "max": 265,
+              "long50": 4,
+              "n": 41
+            }
+          ],
+          "isolatedLobbyHandlerMs": [
+            2,
+            1
+          ]
+        },
+        "public": {
+          "party": {
+            "timings": [
+              598,
+              530
+            ],
+            "frames": [
+              {
+                "p95": 355,
+                "long50": 12,
+                "n": 38
+              },
+              {
+                "p95": 296,
+                "long50": 12,
+                "n": 59
+              }
+            ],
+            "requests": [
+              "lobby",
+              "lobby",
+              "lobby"
+            ],
+            "afterClose": 0,
+            "checks": [
+              "dockyard-title-and-card-fit",
+              "season-four-no-entry",
+              "dockyard-title-and-card-fit",
+              "season-five-create",
+              "private-room-board",
+              "six-hour-shared-energy",
+              "next-entry-time"
+            ],
+            "accountFixture": true,
+            "emulated": true
+          },
+          "battleground": {
+            "platform": "ios",
+            "emulation": "iPhone 13 WebKit",
+            "isolatedApi": true,
+            "actions": [
+              "apply",
+              "cancel",
+              "headquarters-preview-only",
+              "season-four-locked",
+              "cancel-pending-room-and-current",
+              "normal-route",
+              "garden-only",
+              "public-directory",
+              "switch-back"
+            ],
+            "pageErrors": [
+              "ResizeObserver loop completed with undelivered notifications.",
+              "ResizeObserver loop completed with undelivered notifications."
+            ],
+            "errorContext": [
+              {
+                "at": "https://cnine-card.pages.dev/",
+                "lastAction": "headquarters-preview-only",
+                "stack": ""
+              },
+              {
+                "at": "https://cnine-card.pages.dev/",
+                "lastAction": "cancel-pending-room-and-current",
+                "stack": ""
+              }
+            ],
+            "roomAreas": [
+              "public",
+              "clan-garden",
+              "public",
+              "clan-garden"
+            ],
+            "timings": {
+              "firstHeadquartersMs": 422,
+              "gardenMenuMs": 2515
+            },
+            "postCloseRoomRequests": 0
+          }
+        }
+      }
+    },
+    "performance": {
+      "conditions": "Windows, fresh browser context per run. Same public game shell and fixture accounts. Before and candidate use their respective party sheets and server fixture. Capture on real PVE menu click through painted finder, and on four native difficulty selections on each visit. Three paired runs, alternating order. No live player writes.",
+      "median": {
+        "desktop": {
+          "before": {
+            "games": 3,
+            "coldGameMedianMs": 1020,
+            "firstEntryMedianMs": 138,
+            "returnEntryMedianMs": 24,
+            "firstDomMedianMs": 68,
+            "returnDomMedianMs": 15,
+            "lobbyHandlerMedianMs": 1.5,
+            "tierHandlerMedianMs": 0,
+            "tierPaintMedianMs": 9,
+            "replacedTierControls": 0,
+            "tierChanges": 24,
+            "frameP95MedianMs": 4.3,
+            "longFramesOver50Ms": 1,
+            "postCloseRequests": 0
+          },
+          "candidate": {
+            "games": 3,
+            "coldGameMedianMs": 975,
+            "firstEntryMedianMs": 146,
+            "returnEntryMedianMs": 25,
+            "firstDomMedianMs": 73,
+            "returnDomMedianMs": 16,
+            "lobbyHandlerMedianMs": 1,
+            "tierHandlerMedianMs": 0,
+            "tierPaintMedianMs": 5,
+            "replacedTierControls": 0,
+            "tierChanges": 24,
+            "frameP95MedianMs": 4.3,
+            "longFramesOver50Ms": 4,
+            "postCloseRequests": 0
+          }
+        },
+        "ios": {
+          "before": {
+            "games": 3,
+            "coldGameMedianMs": 1134,
+            "firstEntryMedianMs": 486,
+            "returnEntryMedianMs": 274,
+            "firstDomMedianMs": 100,
+            "returnDomMedianMs": 11,
+            "lobbyHandlerMedianMs": 1,
+            "tierHandlerMedianMs": 0,
+            "tierPaintMedianMs": 266,
+            "replacedTierControls": 0,
+            "tierChanges": 24,
+            "frameP95MedianMs": 257,
+            "longFramesOver50Ms": 28,
+            "postCloseRequests": 0
+          },
+          "candidate": {
+            "games": 3,
+            "coldGameMedianMs": 1076,
+            "firstEntryMedianMs": 500,
+            "returnEntryMedianMs": 466,
+            "firstDomMedianMs": 60,
+            "returnDomMedianMs": 41,
+            "lobbyHandlerMedianMs": 1.5,
+            "tierHandlerMedianMs": 0,
+            "tierPaintMedianMs": 236,
+            "replacedTierControls": 0,
+            "tierChanges": 24,
+            "frameP95MedianMs": 226.5,
+            "longFramesOver50Ms": 27,
+            "postCloseRequests": 0
+          }
+        }
+      }
+    },
+    "performanceNote": "Timing uses the actual PVE menu and isolated API responses. Three paired comparisons per platform isolate the party view. The WebKit client spent a median 1.5 ms in the isolated lobby handler and 236 ms from a difficulty change to the second paint, with long frames still visible. WebKit also reported ResizeObserver delivery warnings during navigation. The delayed-request exit, reentry and room isolation checks completed. The Android/iOS hardware and installed Windows executable were not directly measured."
+  },
+  "notice": {
+    "path": "output/announcements/클랜_시즌4_마감과_시즌5_전장_안내.txt",
+    "sha256": "7b5bed171b77fbed29b0b0869aa2ca34f6ca6449b8dd75b5977270a65709b268",
+    "posted": false
+  }
+}
