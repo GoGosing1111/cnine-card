@@ -1,0 +1,1199 @@
+{
+  "verifiedAt": "2026-11-10T15:16:12.995Z",
+  "featureCommit": "f90e72f21f123d349cf7339f04a4116684992d88",
+  "liveRelease": {
+    "verifiedAt": "2026-11-10T15:11:50.899Z",
+    "head": "485dfa19210db2393d16c1efa5b20fe14adb3d18",
+    "feature": "f90e72f21f123d349cf7339f04a4116684992d88",
+    "pages": {
+      "id": "0dce3ad8-5d59-497e-a199-6f343eb46590",
+      "url": "https://0dce3ad8.cnine-card.pages.dev"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "fbae7b26-4692-48a1-bbf2-2500df1e9464",
+        "percent": 100
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "54bfe1eb-9c2b-4483-98db-bf2c6e1c2a1f",
+        "percent": 100
+      }
+    ],
+    "files": [
+      {
+        "file": "index.html",
+        "sha256": "a1aa4778e0fb27b8a38d6b39559f1110869924b3314a92ea838e131b56d6cc81",
+        "windows": true
+      },
+      {
+        "file": "onestore/index.html",
+        "sha256": "26d5494b217087ce45406b58f0b1e767fbb364dccb276c47dcd68628a13e1b09",
+        "windows": false
+      },
+      {
+        "file": "js/app.js",
+        "sha256": "e7bec4b926c6468680e6194cc459548e554e6d9450eaa07ddd0208449c0a82fb",
+        "windows": true
+      },
+      {
+        "file": "onestore/js/app.js",
+        "sha256": "c1da58611eaf1cc2c8b1404fc087e856f66c1ca41ed7bbd18f6091ab608b111c",
+        "windows": false
+      },
+      {
+        "file": "js/auction-user-entry.js",
+        "sha256": "4916c867d0e70ba815378da48bbcda216e6c6224c53b7dda85c59f98d54d4a9c",
+        "windows": true
+      },
+      {
+        "file": "js/auction-user-live.mjs",
+        "sha256": "e6808cf96c0f56a7232df29f77a870f2b4e9c4e3c2f1c9c3af6b07602468dce9",
+        "windows": true
+      },
+      {
+        "file": "js/auction-user-v1.mjs",
+        "sha256": "4c10df6efef5b2b3f35f890edd83e81996bdd538154770c882c8ac4096928bee",
+        "windows": true
+      },
+      {
+        "file": "css/auction-user-v1.css",
+        "sha256": "fb79a0cb5cbf2c810de575ab3f1b7651fc1ad82e2c54354faf041786fd2c5986",
+        "windows": true
+      },
+      {
+        "file": "shared/auction-user-policy-v1.mjs",
+        "sha256": "8d645d20ab352cf22a02c9a0533be61824c77298eddf465c87e70bb38ed527fa",
+        "windows": true
+      },
+      {
+        "file": "admin/index.html",
+        "sha256": "894d2ff8e56d7f964c7a1530f7f597ce6eca143a4da6b8b3e9882cfac21d10a9",
+        "windows": false
+      },
+      {
+        "file": "admin/auction-user-admin-v1.mjs",
+        "sha256": "495152c030127c91cd2211d84cdaf018bed3bb38230a33f96f361bb46b712f6b",
+        "windows": false
+      },
+      {
+        "file": "service-worker.js",
+        "sha256": "6e8ce7d1a1a18d34b10a4b2e85d4acf72959e7d64c525ef0940e0ca351408d20",
+        "windows": false
+      }
+    ],
+    "windows": {
+      "releaseId": "0fea0e95d58aa15709768a4deb0997a54f966a8bde22752da1394258823b3039"
+    },
+    "unauth": 401,
+    "fullRelease": {
+      "command": "npm run deploy:production",
+      "finishedAt": "2026-11-10T15:11:11.496Z",
+      "assetCount": 20000,
+      "exitCode": 0
+    }
+  },
+  "policy": {
+    "scope": "market-wide across sellers, both user and operator hosts",
+    "lotMinutes": [
+      30,
+      60,
+      120
+    ],
+    "defaultAndLegacyMinutes": 120,
+    "timerStart": "actual FIFO start",
+    "windowHours": 24,
+    "windowStartExclusive": true,
+    "listings": 10,
+    "includesStatuses": [
+      "ACTIVE",
+      "QUEUED",
+      "SOLD",
+      "UNSOLD",
+      "CANCELLED"
+    ],
+    "countsBundlesOnce": true,
+    "equipmentIdentity": "catalog model ID across instances"
+  },
+  "refund": {
+    "operationKey": "ops:auction:queue-after-ten:20261110:v1",
+    "at": "2026-11-10T14:18:27.147Z",
+    "selectionAt": "2026-11-10T14:09:08.656Z",
+    "auditId": "57899",
+    "scope": "then-existing displayed queue positions 11 through 43; current active excluded",
+    "kept": [
+      {
+        "id": "3cfc0a54-ae75-46e6-8966-f84d9b899f30",
+        "status": "ACTIVE",
+        "ends_ms": "1794323587751",
+        "started_ms": "1794316387751"
+      },
+      {
+        "id": "774bf5fa-5f4e-4f3c-80be-c01f6a1913b1",
+        "status": "QUEUED",
+        "ends_ms": null,
+        "started_ms": null
+      },
+      {
+        "id": "2b6b5729-757a-4ae2-a6f3-b07326795901",
+        "status": "QUEUED",
+        "ends_ms": null,
+        "started_ms": null
+      },
+      {
+        "id": "bb595996-6235-4aea-b775-07c3dc523c96",
+        "status": "QUEUED",
+        "ends_ms": null,
+        "started_ms": null
+      },
+      {
+        "id": "0fde8c3c-35ba-4ba8-bc28-3a3dec0e67a1",
+        "status": "QUEUED",
+        "ends_ms": null,
+        "started_ms": null
+      },
+      {
+        "id": "78fec3c9-a6f6-4e0e-b47f-ba7a9d413ec7",
+        "status": "QUEUED",
+        "ends_ms": null,
+        "started_ms": null
+      },
+      {
+        "id": "6ea70178-ef9a-404e-a678-4c1573503d35",
+        "status": "QUEUED",
+        "ends_ms": null,
+        "started_ms": null
+      },
+      {
+        "id": "dd169a30-4114-4eb1-adbd-a1904ab75379",
+        "status": "QUEUED",
+        "ends_ms": null,
+        "started_ms": null
+      },
+      {
+        "id": "9c8b27e1-78d2-4f40-b4bb-3fb27b3dc15a",
+        "status": "QUEUED",
+        "ends_ms": null,
+        "started_ms": null
+      },
+      {
+        "id": "bd1d02c2-38a1-4212-8ee9-ce8dcd2c4efa",
+        "status": "QUEUED",
+        "ends_ms": null,
+        "started_ms": null
+      },
+      {
+        "id": "c01f5a0f-2ba7-42f8-ae34-5b243d75e148",
+        "status": "QUEUED",
+        "ends_ms": null,
+        "started_ms": null
+      }
+    ],
+    "refundedTickets": 33,
+    "sellers": 20,
+    "cancelled": [
+      {
+        "position": 11,
+        "lotId": "0e22f791-34bc-4b66-a5f9-c544bca8605c",
+        "sellerId": "4570",
+        "item": "Z-BODY",
+        "quantity": "1",
+        "ticketLogId": "89275646"
+      },
+      {
+        "position": 12,
+        "lotId": "b26b2238-99c5-42be-b69c-7dec89f26dea",
+        "sellerId": "1768",
+        "item": "Z-BODY",
+        "quantity": "1",
+        "ticketLogId": "89275647"
+      },
+      {
+        "position": 13,
+        "lotId": "99204768-66ff-4d9d-a8db-a462b245b2a5",
+        "sellerId": "303",
+        "item": "Z-BODY",
+        "quantity": "1",
+        "ticketLogId": "89275648"
+      },
+      {
+        "position": 14,
+        "lotId": "3ea7eb01-e3ef-4413-a53e-d30ce0f1820a",
+        "sellerId": "303",
+        "item": "Z-BODY",
+        "quantity": "1",
+        "ticketLogId": "89275649"
+      },
+      {
+        "position": 15,
+        "lotId": "28c3e933-ee41-420e-add8-9c61c76fb5f4",
+        "sellerId": "303",
+        "item": "Z-BODY",
+        "quantity": "1",
+        "ticketLogId": "89275650"
+      },
+      {
+        "position": 16,
+        "lotId": "187ae2d5-2a9f-4c19-b5ba-13e911f367bf",
+        "sellerId": "3",
+        "item": "Z-BODY",
+        "quantity": "1",
+        "ticketLogId": "89275651"
+      },
+      {
+        "position": 17,
+        "lotId": "0081d9e1-5162-4b73-bae8-63d0e0b6e09b",
+        "sellerId": "4582",
+        "item": "Z-BODY",
+        "quantity": "1",
+        "ticketLogId": "89275652"
+      },
+      {
+        "position": 18,
+        "lotId": "0707c095-17ce-4cf0-8514-09d63bf3a656",
+        "sellerId": "4582",
+        "item": "Z-BODY",
+        "quantity": "1",
+        "ticketLogId": "89275653"
+      },
+      {
+        "position": 19,
+        "lotId": "44ebe267-23f6-45fc-9b63-bcb3f5cc0277",
+        "sellerId": "4582",
+        "item": "Z-BODY",
+        "quantity": "1",
+        "ticketLogId": "89275654"
+      },
+      {
+        "position": 20,
+        "lotId": "ac0055ba-3b2c-4003-8ab1-46dd127d1a22",
+        "sellerId": "5362",
+        "item": "Z-BODY",
+        "quantity": "1",
+        "ticketLogId": "89275655"
+      },
+      {
+        "position": 21,
+        "lotId": "9fd2c9b2-9098-423c-b293-fea6cb7874a6",
+        "sellerId": "303",
+        "item": "낙뢰의 깃",
+        "quantity": "1",
+        "ticketLogId": "89275656"
+      },
+      {
+        "position": 22,
+        "lotId": "c58667c1-b2c1-4e74-9550-ff7492bafd24",
+        "sellerId": "4415",
+        "item": "디임 · SS",
+        "quantity": "1",
+        "ticketLogId": "89275657"
+      },
+      {
+        "position": 23,
+        "lotId": "fe2182e2-7099-482e-a7ba-a7a86eab3c44",
+        "sellerId": "3884",
+        "item": "디임 · SS",
+        "quantity": "1",
+        "ticketLogId": "89275658"
+      },
+      {
+        "position": 24,
+        "lotId": "7a546d3e-6069-415e-bee8-30f6b9653de7",
+        "sellerId": "233",
+        "item": "수댕 · SS",
+        "quantity": "1",
+        "ticketLogId": "89275659"
+      },
+      {
+        "position": 25,
+        "lotId": "0a97131b-3b96-48e6-b840-714230805630",
+        "sellerId": "303",
+        "item": "Z-BODY",
+        "quantity": "1",
+        "ticketLogId": "89275660"
+      },
+      {
+        "position": 26,
+        "lotId": "e56461a0-0954-454b-91a4-f06614fb2f09",
+        "sellerId": "360",
+        "item": "Z-BODY",
+        "quantity": "1",
+        "ticketLogId": "89275661"
+      },
+      {
+        "position": 27,
+        "lotId": "9e9c5b89-195d-4842-9733-0c3ee1369e23",
+        "sellerId": "1195",
+        "item": "잠재력 물약",
+        "quantity": "50",
+        "ticketLogId": "89275663"
+      },
+      {
+        "position": 28,
+        "lotId": "398e42b8-5529-4672-9bc2-3eb053e0cb46",
+        "sellerId": "1195",
+        "item": "Z-BODY",
+        "quantity": "1",
+        "ticketLogId": "89275664"
+      },
+      {
+        "position": 29,
+        "lotId": "941bcbcc-d5d9-4e03-8436-a9c0e269f2ef",
+        "sellerId": "218",
+        "item": "계급 경험치 3배 물약",
+        "quantity": "1",
+        "ticketLogId": "89275666"
+      },
+      {
+        "position": 30,
+        "lotId": "067c8b90-ab90-484e-b99c-16712556249a",
+        "sellerId": "289",
+        "item": "Z-BODY",
+        "quantity": "1",
+        "ticketLogId": "89275667"
+      },
+      {
+        "position": 31,
+        "lotId": "dcadc8d4-5386-46a7-a460-b8ad29eaff57",
+        "sellerId": "289",
+        "item": "나무늘봉순 · SS",
+        "quantity": "1",
+        "ticketLogId": "89275668"
+      },
+      {
+        "position": 32,
+        "lotId": "ef462095-eafd-431a-885a-305e1cac0991",
+        "sellerId": "4597",
+        "item": "Z-BODY",
+        "quantity": "1",
+        "ticketLogId": "89275669"
+      },
+      {
+        "position": 33,
+        "lotId": "158a56cf-9a36-438c-b125-4ff959ecbeed",
+        "sellerId": "4597",
+        "item": "Z-BODY",
+        "quantity": "1",
+        "ticketLogId": "89275670"
+      },
+      {
+        "position": 34,
+        "lotId": "8d0b72df-2d10-43d0-a8c2-facc5460202f",
+        "sellerId": "4597",
+        "item": "Z-BODY",
+        "quantity": "1",
+        "ticketLogId": "89275671"
+      },
+      {
+        "position": 35,
+        "lotId": "4d729279-f43f-42ef-b05d-48aab9990d3a",
+        "sellerId": "4595",
+        "item": "Z-BODY",
+        "quantity": "1",
+        "ticketLogId": "89275672"
+      },
+      {
+        "position": 36,
+        "lotId": "85efd797-8859-443f-a15b-09adc11eefec",
+        "sellerId": "4627",
+        "item": "헬리오스 · SSS",
+        "quantity": "1",
+        "ticketLogId": "89275673"
+      },
+      {
+        "position": 37,
+        "lotId": "c647acb2-6f69-41f2-b5ab-c123a97b2c67",
+        "sellerId": "787",
+        "item": "카르베나 · SS",
+        "quantity": "1",
+        "ticketLogId": "89275674"
+      },
+      {
+        "position": 38,
+        "lotId": "df018d77-232c-49b4-a55a-e8d98fd20753",
+        "sellerId": "4597",
+        "item": "Z-BODY",
+        "quantity": "1",
+        "ticketLogId": "89275675"
+      },
+      {
+        "position": 39,
+        "lotId": "8b67583e-b22a-4072-9802-9cd2a304f45a",
+        "sellerId": "233",
+        "item": "동방무기상 무기설계도",
+        "quantity": "1",
+        "ticketLogId": "89275677"
+      },
+      {
+        "position": 40,
+        "lotId": "c5ec8305-618f-459b-aa29-a24801c71485",
+        "sellerId": "233",
+        "item": "라자크 · SSS",
+        "quantity": "1",
+        "ticketLogId": "89275678"
+      },
+      {
+        "position": 41,
+        "lotId": "43f41cf9-17a2-4736-aafe-373e2e7d3968",
+        "sellerId": "4705",
+        "item": "수댕 · SS",
+        "quantity": "1",
+        "ticketLogId": "89275679"
+      },
+      {
+        "position": 42,
+        "lotId": "1e726aff-31da-4ff4-98b6-d397e4dda906",
+        "sellerId": "4981",
+        "item": "X-BODY",
+        "quantity": "1",
+        "ticketLogId": "89275680"
+      },
+      {
+        "position": 43,
+        "lotId": "aa99ecce-8234-4537-a7b2-17ea8bbf27c3",
+        "sellerId": "22",
+        "item": "東方軍火商(동방무기상)",
+        "quantity": "1",
+        "ticketLogId": "89275681"
+      }
+    ],
+    "holdings": [
+      {
+        "ref": "3183965382",
+        "kind": "EQUIPMENT",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "3"
+      },
+      {
+        "ref": "AUCTION_HOST_TICKET",
+        "kind": "ITEM",
+        "after": "2",
+        "delta": "1",
+        "balance": "1",
+        "seller_id": "3"
+      },
+      {
+        "ref": "2566469337",
+        "kind": "EQUIPMENT",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "22"
+      },
+      {
+        "ref": "AUCTION_HOST_TICKET",
+        "kind": "ITEM",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "22"
+      },
+      {
+        "ref": "AUCTION_HOST_TICKET",
+        "kind": "ITEM",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "218"
+      },
+      {
+        "ref": "RANK_EXP_POTION_3X_60M",
+        "kind": "ITEM",
+        "after": "7",
+        "delta": "1",
+        "balance": "6",
+        "seller_id": "218"
+      },
+      {
+        "ref": "AUCTION_HOST_TICKET",
+        "kind": "ITEM",
+        "after": "3",
+        "delta": "3",
+        "balance": "0",
+        "seller_id": "233"
+      },
+      {
+        "ref": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+        "kind": "ITEM",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "233"
+      },
+      {
+        "ref": "V-058",
+        "kind": "MERCENARY",
+        "after": "2",
+        "delta": "1",
+        "balance": "1",
+        "seller_id": "233"
+      },
+      {
+        "ref": "V-954",
+        "kind": "MERCENARY",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "233"
+      },
+      {
+        "ref": "2567648213",
+        "kind": "EQUIPMENT",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "289"
+      },
+      {
+        "ref": "AUCTION_HOST_TICKET",
+        "kind": "ITEM",
+        "after": "2",
+        "delta": "2",
+        "balance": "0",
+        "seller_id": "289"
+      },
+      {
+        "ref": "V-951",
+        "kind": "MERCENARY",
+        "after": "2",
+        "delta": "1",
+        "balance": "1",
+        "seller_id": "289"
+      },
+      {
+        "ref": "2891500109",
+        "kind": "EQUIPMENT",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "303"
+      },
+      {
+        "ref": "3208473011",
+        "kind": "EQUIPMENT",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "303"
+      },
+      {
+        "ref": "3229598788",
+        "kind": "EQUIPMENT",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "303"
+      },
+      {
+        "ref": "3229669773",
+        "kind": "EQUIPMENT",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "303"
+      },
+      {
+        "ref": "3229672774",
+        "kind": "EQUIPMENT",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "303"
+      },
+      {
+        "ref": "AUCTION_HOST_TICKET",
+        "kind": "ITEM",
+        "after": "5",
+        "delta": "5",
+        "balance": "0",
+        "seller_id": "303"
+      },
+      {
+        "ref": "3243304944",
+        "kind": "EQUIPMENT",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "360"
+      },
+      {
+        "ref": "AUCTION_HOST_TICKET",
+        "kind": "ITEM",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "360"
+      },
+      {
+        "ref": "AUCTION_HOST_TICKET",
+        "kind": "ITEM",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "787"
+      },
+      {
+        "ref": "V-963",
+        "kind": "MERCENARY",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "787"
+      },
+      {
+        "ref": "3243456413",
+        "kind": "EQUIPMENT",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "1195"
+      },
+      {
+        "ref": "AUCTION_HOST_TICKET",
+        "kind": "ITEM",
+        "after": "2",
+        "delta": "2",
+        "balance": "0",
+        "seller_id": "1195"
+      },
+      {
+        "ref": "PET_POTENTIAL_POTION",
+        "kind": "ITEM",
+        "after": "134",
+        "delta": "50",
+        "balance": "84",
+        "seller_id": "1195"
+      },
+      {
+        "ref": "3228466022",
+        "kind": "EQUIPMENT",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "1768"
+      },
+      {
+        "ref": "AUCTION_HOST_TICKET",
+        "kind": "ITEM",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "1768"
+      },
+      {
+        "ref": "AUCTION_HOST_TICKET",
+        "kind": "ITEM",
+        "after": "2",
+        "delta": "1",
+        "balance": "1",
+        "seller_id": "3884"
+      },
+      {
+        "ref": "V-984",
+        "kind": "MERCENARY",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "3884"
+      },
+      {
+        "ref": "AUCTION_HOST_TICKET",
+        "kind": "ITEM",
+        "after": "2",
+        "delta": "1",
+        "balance": "1",
+        "seller_id": "4415"
+      },
+      {
+        "ref": "V-962",
+        "kind": "MERCENARY",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "4415"
+      },
+      {
+        "ref": "3228466021",
+        "kind": "EQUIPMENT",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "4570"
+      },
+      {
+        "ref": "AUCTION_HOST_TICKET",
+        "kind": "ITEM",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "4570"
+      },
+      {
+        "ref": "3231159436",
+        "kind": "EQUIPMENT",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "4582"
+      },
+      {
+        "ref": "3231159437",
+        "kind": "EQUIPMENT",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "4582"
+      },
+      {
+        "ref": "3231159438",
+        "kind": "EQUIPMENT",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "4582"
+      },
+      {
+        "ref": "AUCTION_HOST_TICKET",
+        "kind": "ITEM",
+        "after": "3",
+        "delta": "3",
+        "balance": "0",
+        "seller_id": "4582"
+      },
+      {
+        "ref": "3200534381",
+        "kind": "EQUIPMENT",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "4595"
+      },
+      {
+        "ref": "AUCTION_HOST_TICKET",
+        "kind": "ITEM",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "4595"
+      },
+      {
+        "ref": "2999264610",
+        "kind": "EQUIPMENT",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "4597"
+      },
+      {
+        "ref": "3229218864",
+        "kind": "EQUIPMENT",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "4597"
+      },
+      {
+        "ref": "3247758122",
+        "kind": "EQUIPMENT",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "4597"
+      },
+      {
+        "ref": "3247760622",
+        "kind": "EQUIPMENT",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "4597"
+      },
+      {
+        "ref": "AUCTION_HOST_TICKET",
+        "kind": "ITEM",
+        "after": "4",
+        "delta": "4",
+        "balance": "0",
+        "seller_id": "4597"
+      },
+      {
+        "ref": "AUCTION_HOST_TICKET",
+        "kind": "ITEM",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "4627"
+      },
+      {
+        "ref": "V-999",
+        "kind": "MERCENARY",
+        "after": "3",
+        "delta": "1",
+        "balance": "2",
+        "seller_id": "4627"
+      },
+      {
+        "ref": "AUCTION_HOST_TICKET",
+        "kind": "ITEM",
+        "after": "5",
+        "delta": "1",
+        "balance": "4",
+        "seller_id": "4705"
+      },
+      {
+        "ref": "V-954",
+        "kind": "MERCENARY",
+        "after": "2",
+        "delta": "1",
+        "balance": "1",
+        "seller_id": "4705"
+      },
+      {
+        "ref": "3257531602",
+        "kind": "EQUIPMENT",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "4981"
+      },
+      {
+        "ref": "AUCTION_HOST_TICKET",
+        "kind": "ITEM",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "4981"
+      },
+      {
+        "ref": "3183947770",
+        "kind": "EQUIPMENT",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "5362"
+      },
+      {
+        "ref": "AUCTION_HOST_TICKET",
+        "kind": "ITEM",
+        "after": "1",
+        "delta": "1",
+        "balance": "0",
+        "seller_id": "5362"
+      }
+    ]
+  },
+  "guard": {
+    "op": "ops:auction-item-window-guard:20261110:v1",
+    "at": "2026-11-10T14:45:17.764Z",
+    "index": "auction_user_item_window_v1",
+    "trigger": "cnine_auction_item_limit_v1",
+    "limit": 10,
+    "windowHours": 24,
+    "probed": [
+      {
+        "kind": "EQUIPMENT",
+        "ref": "48",
+        "registrations": 20
+      }
+    ],
+    "rejected": 1,
+    "audit": "57921"
+  },
+  "index": {
+    "actualPlanUsesIndex": true,
+    "rows": 124,
+    "beforeMedianMs": 0.235,
+    "afterMedianMs": 0.044
+  },
+  "databasePerformance": {
+    "at": "2026-11-10T14:26:42.292Z",
+    "condition": "Same direct PostgreSQL connection and REPEATABLE READ READ ONLY snapshot, one warmup then five alternating samples per version through production state reader. Includes network round trips from this workstation.",
+    "before": [
+      {
+        "ms": 944.5,
+        "submissions": 12
+      },
+      {
+        "ms": 924.4,
+        "submissions": 12
+      },
+      {
+        "ms": 922.9,
+        "submissions": 12
+      },
+      {
+        "ms": 936.1,
+        "submissions": 12
+      },
+      {
+        "ms": 917.9,
+        "submissions": 12
+      }
+    ],
+    "after": [
+      {
+        "ms": 769.6,
+        "submissions": 10
+      },
+      {
+        "ms": 768.2,
+        "submissions": 10
+      },
+      {
+        "ms": 770.8,
+        "submissions": 10
+      },
+      {
+        "ms": 766.2,
+        "submissions": 10
+      },
+      {
+        "ms": 763.7,
+        "submissions": 10
+      }
+    ],
+    "beforeMedian": 924.4,
+    "afterMedian": 768.2
+  },
+  "readOnlyLiveCheck": {
+    "at": "2026-11-10T15:11:47.135Z",
+    "readOnly": true,
+    "hosting": {
+      "users": true,
+      "operator": true
+    },
+    "statuses": [
+      {
+        "status": "ACTIVE",
+        "count": 1
+      },
+      {
+        "status": "CANCELLED",
+        "count": 70
+      },
+      {
+        "status": "QUEUED",
+        "count": 29
+      },
+      {
+        "status": "SOLD",
+        "count": 47
+      },
+      {
+        "status": "UNSOLD",
+        "count": 4
+      }
+    ],
+    "registrationsSinceGuard": {
+      "checked": 3,
+      "violations": 0
+    },
+    "existingReceipt": {
+      "id": "3cfc0a54-ae75-46e6-8966-f84d9b899f30",
+      "minutes": 120,
+      "matchingRetry": true,
+      "differentDurationRejected": true
+    }
+  },
+  "quality": {
+    "localTests": 84,
+    "browserCases": [
+      {
+        "phase": "before",
+        "profile": "desktop",
+        "width": 1440,
+        "condition": "Headless real game shell, fresh browser context, intercepted game API with isolated SQLite fixture; click to first painted interactive control. Re-entry through game router.",
+        "navMs": 2836,
+        "firstMs": 76,
+        "reentryMs": 25,
+        "firstFormMs": 37,
+        "reentryFormMs": 19,
+        "frames": {
+          "n": 289,
+          "p95": 4.3,
+          "max": 4,
+          "over50": 0
+        },
+        "remainingIntervals": [],
+        "exitRequests": 0
+      },
+      {
+        "phase": "before",
+        "profile": "ios",
+        "width": 390,
+        "condition": "Headless real game shell, fresh browser context, intercepted game API with isolated SQLite fixture; click to first painted interactive control. Re-entry through game router.",
+        "navMs": 2390,
+        "firstMs": 130,
+        "reentryMs": 89,
+        "firstFormMs": 129,
+        "reentryFormMs": 62,
+        "frames": {
+          "n": 70,
+          "p95": 30,
+          "max": 35,
+          "over50": 0
+        },
+        "remainingIntervals": [],
+        "exitRequests": 0
+      },
+      {
+        "phase": "after",
+        "profile": "desktop",
+        "width": 1440,
+        "condition": "Headless real game shell, fresh browser context, intercepted game API with isolated SQLite fixture; click to first painted interactive control. Re-entry through game router.",
+        "navMs": 3509,
+        "firstMs": 80,
+        "reentryMs": 48,
+        "firstFormMs": 39,
+        "reentryFormMs": 30,
+        "frames": {
+          "n": 287,
+          "p95": 4.3,
+          "max": 8,
+          "over50": 0
+        },
+        "remainingIntervals": [],
+        "exitRequests": 0
+      },
+      {
+        "phase": "after",
+        "profile": "ios",
+        "width": 390,
+        "condition": "Headless real game shell, fresh browser context, intercepted game API with isolated SQLite fixture; click to first painted interactive control. Re-entry through game router.",
+        "navMs": 2773,
+        "firstMs": 170,
+        "reentryMs": 125,
+        "firstFormMs": 98,
+        "reentryFormMs": 81,
+        "frames": {
+          "n": 68,
+          "p95": 31,
+          "max": 45,
+          "over50": 0
+        },
+        "remainingIntervals": [],
+        "exitRequests": 0
+      },
+      {
+        "phase": "after",
+        "profile": "android",
+        "width": 390,
+        "condition": "Headless real game shell, fresh browser context, intercepted game API with isolated SQLite fixture; click to first painted interactive control. Re-entry through game router.",
+        "navMs": 4051,
+        "firstMs": 167,
+        "reentryMs": 60,
+        "firstFormMs": 48,
+        "reentryFormMs": 34,
+        "frames": {
+          "n": 282,
+          "p95": 4.4,
+          "max": 17,
+          "over50": 0
+        },
+        "remainingIntervals": [],
+        "exitRequests": 0
+      },
+      {
+        "phase": "after",
+        "profile": "onestore",
+        "width": 390,
+        "condition": "Headless real game shell, fresh browser context, intercepted game API with isolated SQLite fixture; click to first painted interactive control. Re-entry through game router.",
+        "navMs": 2233,
+        "firstMs": 84,
+        "reentryMs": 27,
+        "firstFormMs": 27,
+        "reentryFormMs": 18,
+        "frames": {
+          "n": 288,
+          "p95": 4.2,
+          "max": 4,
+          "over50": 0
+        },
+        "remainingIntervals": [],
+        "exitRequests": 0
+      },
+      {
+        "phase": "public",
+        "profile": "desktop",
+        "width": 1440,
+        "condition": "Headless real game shell, fresh browser context, intercepted game API with isolated SQLite fixture; click to first painted interactive control. Re-entry through game router.",
+        "navMs": 1449,
+        "firstMs": 89,
+        "reentryMs": 33,
+        "firstFormMs": 29,
+        "reentryFormMs": 19,
+        "frames": {
+          "n": 288,
+          "p95": 4.3,
+          "max": 5,
+          "over50": 0
+        },
+        "remainingIntervals": [],
+        "exitRequests": 0
+      },
+      {
+        "phase": "public",
+        "profile": "ios",
+        "width": 390,
+        "condition": "Headless real game shell, fresh browser context, intercepted game API with isolated SQLite fixture; click to first painted interactive control. Re-entry through game router.",
+        "navMs": 1490,
+        "firstMs": 146,
+        "reentryMs": 100,
+        "firstFormMs": 83,
+        "reentryFormMs": 64,
+        "frames": {
+          "n": 68,
+          "p95": 30,
+          "max": 47,
+          "over50": 0
+        },
+        "remainingIntervals": [],
+        "exitRequests": 0
+      },
+      {
+        "phase": "public",
+        "profile": "android",
+        "width": 390,
+        "condition": "Headless real game shell, fresh browser context, intercepted game API with isolated SQLite fixture; click to first painted interactive control. Re-entry through game router.",
+        "navMs": 1247,
+        "firstMs": 121,
+        "reentryMs": 30,
+        "firstFormMs": 30,
+        "reentryFormMs": 17,
+        "frames": {
+          "n": 288,
+          "p95": 4.3,
+          "max": 5,
+          "over50": 0
+        },
+        "remainingIntervals": [],
+        "exitRequests": 0
+      },
+      {
+        "phase": "public",
+        "profile": "onestore",
+        "width": 390,
+        "condition": "Headless real game shell, fresh browser context, intercepted game API with isolated SQLite fixture; click to first painted interactive control. Re-entry through game router.",
+        "navMs": 1378,
+        "firstMs": 114,
+        "reentryMs": 37,
+        "firstFormMs": 29,
+        "reentryFormMs": 19,
+        "frames": {
+          "n": 288,
+          "p95": 4.3,
+          "max": 5,
+          "over50": 0
+        },
+        "remainingIntervals": [],
+        "exitRequests": 0
+      }
+    ],
+    "publicBrowserAccounts": "local isolated API behind the published frontend; no production test registrations",
+    "hardware": "desktop Chromium, Android/ONE store H5 Chromium and iPhone-size WebKit emulation; Windows manifest and downloaded client resource hashes",
+    "noticePublished": false
+  }
+}
