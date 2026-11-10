@@ -1,7 +1,7 @@
 (() => {
  'use strict';
- const VERSION='coop-clan-garden-20261110-v2';
- let visible=false,controller=null,revision=0,featureRequest,checked=0,loading=false;
+ const VERSION='coop-clan-garden-20261111-v3';
+ let visible=false,controller=null,pendingMount=null,revision=0,featureRequest,checked=0,loading=false;
  const host=()=>document.getElementById('pveCoopView');
  async function refresh(){
   const tab=document.getElementById('pveCoopTab');if(!tab)return false;
@@ -12,7 +12,7 @@
    catch{visible=false;}finally{tab.hidden=!visible;featureRequest=null;}return visible;
   })();return featureRequest;
  }
- function deactivate(){revision++;loading=false;controller?.destroy();controller=null;if(host()){host().hidden=true;host().replaceChildren();}}
+ function deactivate(){revision++;loading=false;pendingMount?.abort();pendingMount=null;controller?.destroy();controller=null;if(host()){host().hidden=true;host().replaceChildren();}}
  async function open(){
   const root=host();if(!root||controller||loading)return;
   const current=++revision;loading=true;root.hidden=false;root.innerHTML='<div class="pvev2-loading" role="status"><i></i><b>격전지에 연결 중</b><span>심층 제련소 · 2~3인 공동 전투</span></div>';
@@ -21,10 +21,11 @@
    if(current!==revision)return;
    const {mountCooperative}=await import('/raid/cooperative/live.mjs?v='+VERSION);
    if(current!==revision)return;
-   const result=await mountCooperative(root);
+   pendingMount=new AbortController();
+   const result=await mountCooperative(root,{signal:pendingMount.signal});
    if(current!==revision){result.destroy();return;}controller=result;
   }catch(error){if(current===revision){root.textContent=error.message;const retry=document.createElement('button');retry.textContent='다시 연결';retry.onclick=()=>void open();root.append(retry);}}
-  finally{if(current===revision)loading=false;}
+  finally{if(current===revision){pendingMount=null;loading=false;}}
  }
  function wire(){
   if(host()){checked=0;void refresh();}

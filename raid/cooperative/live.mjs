@@ -22,8 +22,9 @@ const GUIDE=[
  ['난이도와 승리 조건','<p><b>일반</b>은 SS 용병 중심으로 조합을 익히는 단계입니다. <b>격전</b>은 공격과 보호를 함께 준비하고, <b>극한</b>은 SSS 용병과 강화된 카드의 효과를 연계하는 도전입니다.</p><p>등급만으로 승리를 보장하지 않습니다. 카드 강화, 장비, 고유효과와 용병 조합에 따라 결과가 달라집니다. 적의 능력치는 각 난이도에 고정되어 있습니다.</p><p><b>3분 안에 세 단계의 모든 적을 처치하면 승리.</b> 시간이 끝났을 때 보스가 생존했거나 아군이 전멸하면 패배합니다. 화면 배속과 일시정지는 지원하지 않습니다.</p><p>행동력은 최대 3회까지 저장되며 3시간마다 1회 충전됩니다. 전장 로딩을 시작할 때 각자 1회를 사용합니다. 출전 후 패배·이탈해도 반환되지 않으며, TEST에서는 소모하지 않습니다. 승리 보상에는 별도 일일 횟수 제한이 없습니다.</p>'],
  ['새로고침·이탈 규칙','<p><b>전장 로딩이 시작된 뒤 새로고침하거나 나가면 본인이 패배합니다.</b> 다른 창으로 전투를 다시 열어도 복귀할 수 없습니다. 해당 분대의 카드 2장과 용병 1명은 전장에서 제거됩니다.</p><p><b>남은 사람은 계속 싸웁니다.</b> 남은 인원이 보스를 처치해도 이미 이탈한 사람의 패배가 승리로 바뀌지는 않습니다.</p><p>일시적인 통신 끊김은 같은 화면에서 자동 재연결을 시도합니다. 서버가 <b>15초 동안 연결을 확인하지 못하면</b> 패배합니다. 연결 복구 안내가 보이면 새로고침하지 말고 기다려주세요.</p><p>대기방에서는 나가도 패배하지 않습니다. 방장이 나가면 다음 참가자가 방장이 됩니다. 편성을 변경하면 준비 완료가 해제됩니다.</p>']
 ];
-export async function mountCooperative(root){
+export async function mountCooperative(root,{signal}={}){
  await loadStyles();
+ if(signal?.aborted)throw new DOMException('격전지 입장이 취소됐습니다.','AbortError');
  const lifecycle=new AbortController(),clientId=crypto.randomUUID(),api=(path,options)=>jointAccountRequest('coop/'+path,options);
  const serverClock=createServerClock();let connecting=false,connectionGeneration=0,lastAcceptedServerNow=0;
  let disposed=false,state=null,roomId='',you=0,options=null,feature=null,ws=null,reconnectTimer,heartbeatTimer,battle=null,portal=null,mounting=null,battlePayload=null,lastMessage=0;
@@ -101,7 +102,7 @@ export async function mountCooperative(root){
    const query=new URLSearchParams();
    if(area===CLAN_GARDEN.id)query.set('area',area);
    if(roomFilter)query.set('difficulty',roomFilter);
-   const result=await api('rooms'+(query.size?'?'+query:''));
+   const result=await api('rooms'+(query.size?'?'+query:''),{signal:lifecycle.signal});
    if(disposed||state||epoch!==listEpoch)return;
    rooms=result.rooms;hasMore=!!result.hasMore;listLoaded=true;
   }catch(e){if(!disposed&&!state&&epoch===listEpoch)listError=e.message;}
@@ -399,7 +400,8 @@ export async function mountCooperative(root){
   await optionsRequest;
  }
  async function availability(){
-  feature=await api('feature');
+  feature=await api('feature',{signal:lifecycle.signal});
+  if(disposed)return false;
   drawRewardSummary();$('[data-owner]').hidden=!feature.owner;drawConfiguration();
   $('[data-release]').textContent=feature.mode==='OFF'?'운영 중지':feature.mode==='TEST'?'테스트 운영 · 보상 없음':feature.rewardLocked?'기본 보상 OFF':'행동력 최대 3회';
   if(!feature.accessible){$('[data-entry]').hidden=true;alert('격전지는 현재 운영 중지 상태입니다. 운영 설정에서 변경할 수 있습니다.');return false;}
@@ -416,8 +418,16 @@ export async function mountCooperative(root){
  on(document,'visibilitychange',()=>{if(!document.hidden&&state&&!state.myResult){if(ws?.readyState===WebSocket.OPEN&&Date.now()-lastMessage<10000)send('ping',{clientSentAt:performance.now()});else void connect();}});
  const clock=setInterval(battleClock,200);
  const entry=$('[data-entry]');entry.inert=true;
+ function destroy(){
+  if(disposed)return;
+  abandon();disposed=true;closePreparation();listEpoch++;clearTimeout(listTimer);clearInterval(clock);clearInterval(heartbeatTimer);clearTimeout(reconnectTimer);lifecycle.abort();ws?.close();ws=null;closeBattle();for(const d of root.querySelectorAll('dialog'))d.close();
+ }
+ signal?.addEventListener('abort',destroy,{once:true,signal:lifecycle.signal});
  try{
-  if(await availability()){const current=await api('current');if(current.state){roomId=current.state.id;apply(current);if(!current.state.myResult)await connect();}}
- }catch(e){alert(e.message);}finally{entry.inert=false;}
- return {destroy(){abandon();disposed=true;closePreparation();listEpoch++;clearTimeout(listTimer);clearInterval(clock);clearInterval(heartbeatTimer);clearTimeout(reconnectTimer);lifecycle.abort();ws?.close();ws=null;closeBattle();for(const d of root.querySelectorAll('dialog'))d.close();},diagnostics:()=>({state,clock:serverClock.diagnostics(),battle:battle?.diagnostics()})};
+  if(await availability()&&!disposed){
+   const current=await api('current',{signal:lifecycle.signal});
+   if(!disposed&&current.state){roomId=current.state.id;apply(current);if(!current.state.myResult)await connect();}
+  }
+ }catch(e){if(!disposed)alert(e.message);}finally{if(!disposed)entry.inert=false;}
+ return {destroy,diagnostics:()=>({state,clock:serverClock.diagnostics(),battle:battle?.diagnostics()})};
 }
