@@ -123,7 +123,7 @@ test('territory polling shares round-level reads and hidden tabs stop polling',(
   assert.match(territory,/if\(!shared&&round\?\.id\)shared=await counterSharedForRound\(env,round,Boolean\(mine\?\.side\)\);/);
   assert.match(territory,/const key=`\$\{round\.id\}:\$\{round\.current_front_id\|\|0\}`,now=Date\.now\(\);/);
   assert.match(territory,/readRuntimeData\(env,GAMST_REPAIR_WAITING_CACHE_KEY\)\|\|await ensureGamstDeckRepairV2005\(env\)/);
-  assert.match(territory,/if\(await legacyTerritoryRewardsPending\(env\)\)/);
+  assert.match(territory,/if\(!roundId&&await legacyTerritoryRewardsPending\(env\)\)/);
   assert.match(client,/if\(!document\.hidden\)loadFull\(true\);else stopPolling\(\)/);
   assert.match(coup,/UNION ALL SELECT 'TRIAL' due_kind,id FROM coup_trials_v2115/);
 });
