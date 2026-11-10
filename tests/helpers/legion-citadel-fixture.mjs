@@ -9,12 +9,13 @@ const merc=(code,lv)=>{const m=structuredClone(tower.snapshots.find(s=>s.code===
 export function citadelSquads({codes=[['V-996','V-952'],['V-999','V-977']],ss=16,sss=10,gear=2300000,deck='BALANCED',level=13}={}){
  return currentSquads({codes:[codes[0][0],codes[1][0]],gear,deck,level}).map((s,i)=>({...s,mercenary:undefined,mercenaries:codes[i].map(code=>merc(code,(tower.snapshots.find(m=>m.code===code)||coop.mercenaries.find(m=>m.code===code)).rank==='SSS'?sss:ss))}));
 }
-export async function citadelFixture({postgres=false,squads=citadelSquads(),liveClock=false,partyMode='ON'}={}){
+export async function citadelFixture({postgres=false,squads=citadelSquads(),liveClock=false,partyMode='ON',ownerIds=[]}={}){
  const f=await legionFixture({postgres,inventoryBigInt:true}),db=f.DB;const exec=(q,...v)=>db.prepare(q).bind(...v).run();
  const schema=['CREATE TABLE user_mercenary_cards_v1(user_id INTEGER,mercenary_code TEXT,total_copies INTEGER,PRIMARY KEY(user_id,mercenary_code))','ALTER TABLE user_cards ADD COLUMN breakthrough_level INTEGER DEFAULT 0'];
  if(postgres)await db.execSchema(schema);else for(const sql of schema)await exec(sql);
  await exec("INSERT INTO users(id,nickname) VALUES(3,'세 번째 참가자')");
  await exec("UPDATE users SET role='USER'");
+ for(const uid of ownerIds)await exec("UPDATE users SET role='OWNER' WHERE id=?",uid);
  const cfg={...defaultLegionHuntPolicy(),mode:'ON'};
  await exec('INSERT INTO app_meta(key,value) VALUES(?,?)',LEGION_HUNT_SETTINGS_KEY,JSON.stringify(cfg));
  if(partyMode!==null)await exec('INSERT INTO app_meta(key,value) VALUES(?,?)',CITADEL_POLICY_KEY,JSON.stringify({...defaultCitadelPolicy(),mode:partyMode}));
@@ -24,7 +25,7 @@ export async function citadelFixture({postgres=false,squads=citadelSquads(),live
   for(const m of s.mercenaries)await exec('INSERT INTO user_mercenary_cards_v1 VALUES(?,?,1)',s.ownerId,m.code);
  }
  f.clock.now=Date.now();const ticks=()=>liveClock?Date.now()+f.clock.offset:f.clock.now;f.clock.offset=0;
- const named=id=>id?({id,nickname:['','선봉','후위','관전자'][id]||'테스트',role:id===4?'OWNER':'USER'}):null;
+ const named=id=>id?({id,nickname:['','선봉','후위','관전자'][id]||'테스트',role:id===4||ownerIds.includes(id)?'OWNER':'USER'}):null;
  const opts=u=>{const s=squads.find(s=>s.ownerId===u.id);return {mercenaries:(s?.mercenaries||[]).map(m=>({id:m.code,name:m.name,rank:m.rank,level:m.mercenaryLevel.level,image:m.sourceArt})),icons:(s?.cards||[]).map(c=>({id:c.id,name:c.title,level:c.breakthrough_level||0,image:c.image}))};};
  const deps={...f.deps,authenticate:async req=>named(Number(req.headers.get('x-test-id')||0)),now:ticks,supportBenefits:async()=>null,
   citadelOptions:async(_,u)=>opts(u),citadelSquad:async(_,u,selection)=>{const s=squads.find(s=>s.ownerId===Number(u.id));return {...s,cards:selection.cardIds.map(id=>s.cards.find(c=>c.id===id)),mercenaries:selection.mercenaryCodes.map(id=>s.mercenaries.find(m=>m.code===id))};}};

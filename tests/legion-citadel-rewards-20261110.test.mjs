@@ -294,8 +294,10 @@ test('test mode previews earnings without spending energy or granting money; old
  const f=await citadelFixture();try{
   await saveMeta(f,LEGION_HUNT_SETTINGS_KEY,{...defaultLegionHuntPolicy(),mode:'TEST',testUserIds:[1,2]});
   const active=await boot(f,'gate'),{id}=active;assert.equal(active.test,true);
+  assert.equal(active.nextEntryAt,null);
   f.clock.now=active.startsAt+active.duration+1;
   const claim=await state(f,1,'claim',{id});assert.ok(claim.coins>0&&claim.claimed);assert.equal(await getMeta(f,'legion_hunt_owner_session_v1:1'),null);
+  for(const uid of [1,2])assert.equal(await getMeta(f,'legion_citadel_v1:next-entry:'+uid),null);
   assert.equal(Number((await f.db.prepare('SELECT COUNT(*) AS n FROM coin_logs').first()).n),0);
   const roomKey='legion_citadel_v1:room:'+id,room=await getMeta(f,roomKey);
   delete room.members[1].coins;await saveMeta(f,roomKey,room);
@@ -303,13 +305,22 @@ test('test mode previews earnings without spending energy or granting money; old
  }finally{await f.close();}
 });
 
-test('an owner with no remaining paid energy can play but earns no Calamity coins',async()=>{
- const f=await citadelFixture();try{
-  await f.exec("UPDATE users SET role='OWNER' WHERE id=1");
-  await saveMeta(f,'legion_hunt_owner_session_v1:1',{energy:{version:1,current:0,updatedAt:f.clock.now,maximum:10}});
+for(const current of [0,1])test('OWNER is exempt from the party clock with '+current+' paid energy and the partner has an independent limit',async()=>{
+ const f=await citadelFixture({ownerIds:[1]});try{
+  await saveMeta(f,'legion_hunt_owner_session_v1:1',{energy:{version:1,current,updatedAt:f.clock.now,maximum:10}});
+  const prior=f.clock.now+3600000;
+  await saveMeta(f,'legion_citadel_v1:next-entry:1',prior);
   const active=await boot(f,'gate');f.clock.now=active.startsAt+active.duration+1;
-  assert.equal((await state(f,1,'state?id='+active.id)).coins,0);
-  assert.ok((await state(f,2,'state?id='+active.id)).coins>0);
+  const owner=await state(f,1,'state?id='+active.id),partner=await state(f,2,'state?id='+active.id);
+  assert.equal(owner.coins>0,current>0);assert.equal(owner.nextEntryAt,null);
+  assert.ok(partner.coins>0);assert.equal(partner.nextEntryAt,active.startsAt+10800000);
   assert.equal((await getMeta(f,'legion_hunt_owner_session_v1:1')).energy.current,0);
+  assert.equal(await getMeta(f,'legion_citadel_v1:next-entry:1'),prior);
+  for(const uid of [1,2]){await state(f,uid,'claim',{id:active.id});await state(f,uid,'leave',{id:active.id});}
+  const lobby=(await f.action(1,'lobby')).body;assert.equal(lobby.unlimited,true);assert.equal(lobby.nextEntryAt,null);
+  const other=await state(f,3,'create',{tier:'keep',requestId:'available-to-owner'});
+  assert.equal((await f.action(2,'join',{id:other.id})).body.code,'CITADEL_COOLDOWN');
+  await state(f,1,'join',{id:other.id});await state(f,1,'leave',{id:other.id});
+  await state(f,1,'create',{tier:'throne',requestId:'unlimited-owner-can-host'});
  }finally{await f.close();}
 });

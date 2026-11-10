@@ -16,16 +16,38 @@ import {citadelLoot,citadelGrantStatements,personalFarm,farmView,collectCitadelP
 import {earnedLegionCoins} from '../shared/legion-hunt-coins-v1.mjs';
 
 const P='legion_citadel_v1:',roomKey=id=>P+'room:'+id,userKey=id=>P+'user:'+id,replayKey=id=>P+'battle:'+id;
+const entryKey=id=>P+'next-entry:'+id;
+const PARTY_ENTRY_INTERVAL_MS=3*60*60*1000;
 const tag='legion-party/',fields={create:['requestId','tier'],join:['id'],ready:['id','cardIds','mercenaryCodes'],unready:['id'],start:['id'],loaded:['id'],pickup:['id','token'],claim:['id'],leave:['id']};
 const idOK=id=>typeof id==='string'&&/^[0-9a-f]{24}$/.test(id);
 const stmt=(db,sql,...args)=>db.prepare(sql).bind(...args);
 const raw=async(db,key)=>(await stmt(db,'SELECT value FROM app_meta WHERE key=?',key).first())?.value??null;
+// The room pointer is removed on leave and solo can replace its session. The party deadline survives both.
+const readWithEntry=(db,key,uid)=>stmt(db,'SELECT (SELECT value FROM app_meta WHERE key=?) AS value,(SELECT value FROM app_meta WHERE key=?) AS deadline',key,entryKey(uid)).first();
 const put=(db,k,v)=>stmt(db,'INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at',k,v);
 const del=(db,k)=>stmt(db,'DELETE FROM app_meta WHERE key=?',k);
 const fail=(kind,msg,status=409)=>{throw jointError('CITADEL_'+kind,msg,status);};
+function entryDeadline(stored){
+ if(stored===null)return null;
+ const next=Number(stored);
+ if(!Number.isSafeInteger(next)||next<=0||String(next)!==stored)fail('ENTRY_DATA','파티 입장 시간을 확인할 수 없습니다.',503);
+ return next;
+}
+function requireEntry(stored,at,name){
+ const next=entryDeadline(stored);
+ if(next>at)fail('COOLDOWN',name+'님의 다음 파티 입장까지 '+Math.ceil((next-at)/60000)+'분 남았습니다.');
+}
 const entryActions=new Set(['create','join','ready','unready','start','loaded']);
 const requireOpen=policy=>{if(policy.mode!=='ON')fail('PAUSED','불타는 성채 파티의 신규 입장이 일시 중지됐습니다.',423);};
-const guard=(db,k,expected)=>{const token=crypto.randomUUID();return [jointGuard(db,token,expected===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',expected===null?[k]:[k,expected]),jointGuardEnd(db,token)];};
+function guard(db,...snapshots){
+ const token=crypto.randomUUID(),values=[];
+ const conditions=snapshots.map(([key,expected])=>{
+  values.push(key);
+  if(expected===null)return 'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)';
+  values.push(expected);return 'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)';
+ });
+ return [jointGuard(db,token,conditions.join(' AND '),values),jointGuardEnd(db,token)];
+}
 const listKey=r=>P+'open:'+String(r.expiresAt).padStart(16,'0')+':'+r.id;
 const phase=(r,at)=>r.phase==='ACTIVE'&&at>=r.startsAt+r.duration?(r.won?'VICTORY':'DEFEAT'):['LOBBY','LOADING'].includes(r.phase)&&at>=r.expiresAt?'CANCELLED':r.phase;
 function needsSeasonResult(env,r,at){
@@ -43,7 +65,7 @@ function view(r,user,at){
   units+=kind===2?5:kind===1?3:1;killTime=time;
  }
  const coins=m.coins?m.coins.partyMultiplier*earnedLegionCoins(m.coins,units,killTime,m.coins.huntDurationMs):0;
- return {id:r.id,status,tier:r.tier??FIRST_TIER,tierName:tierById(r.tier??FIRST_TIER).name,you:m.id,hostId:r.hostId,serverNow:at,expiresAt:r.expiresAt,startsAt:r.startsAt||null,duration:r.duration||0,
+ return {id:r.id,status,tier:r.tier??FIRST_TIER,tierName:tierById(r.tier??FIRST_TIER).name,you:m.id,hostId:r.hostId,serverNow:at,expiresAt:r.expiresAt,startsAt:r.startsAt||null,nextEntryAt:m.nextEntryAt??null,duration:r.duration||0,
   members:r.members.map(({id,name,ready,loaded,summary})=>({id,name,ready:!!ready,loaded:!!loaded,summary:summary||null})),selection:m.selection||null,
   kills,bosses,coins,drops:[],ground:[],claimed:!!m.claimed,canClaim:false,test:!r.paying};
 }
@@ -56,7 +78,11 @@ async function present(db,r,user,at){
  return {...state,...earned,canClaim:['VICTORY','DEFEAT'].includes(state.status)&&(earned.drops.length>0||state.coins>0)&&!state.claimed};
 }
 const emptyMember=u=>({id:Number(u.id),name:String(u.nickname||'토벌대원').slice(0,64),ready:false,loaded:false});
-async function current(DB,u){const ptr=await raw(DB,userKey(u));const data=ptr&&await raw(DB,roomKey(ptr));return {ptr,r:data?JSON.parse(data):null};}
+async function current(db,uid){
+ const {value:ptr,deadline}=await readWithEntry(db,userKey(uid),uid);
+ const data=ptr&&await raw(db,roomKey(ptr));
+ return {ptr,deadline,r:data?JSON.parse(data):null};
+}
 async function rooms(DB,at){const prefix=P+'open:',result=await stmt(DB,'SELECT value FROM app_meta WHERE key>=? AND key<? ORDER BY key LIMIT 31',prefix+String(at+1).padStart(16,'0'),P+'open;').all();return result.results.map(r=>JSON.parse(r.value)).slice(0,30);}
 async function options(env,user){
  const [merc,icons]=await Promise.all([mercenaryAccountState(env,user),stmt(env.DB,"SELECT c.id,c.title,c.image_url AS image,uc.breakthrough_level AS level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.quantity>0 AND c.rarity='ICON' AND c.is_active=1 ORDER BY c.title,c.id",user.id).all()]);
@@ -88,16 +114,26 @@ async function eligibleUsers(env,r,policy){
  const users=r.members.map(m=>rows.find(u=>Number(u.id)===m.id));if(users.some(u=>!canAccessLegionHunt(policy,u)))fail('CLOSED','두 참가자 모두 군단토벌 이용이 가능해야 합니다.',403);
  return users;
 }
-async function energyStatements(env,users,members,at,deps){
+async function paidEntryStatements(env,users,members,at,nextEntryAt,deps){
  const db=env.DB;
- const balances=await Promise.all(users.map(async (u,index)=>{const k='legion_hunt_owner_session_v1:'+u.id,[old,support]=await Promise.all([raw(db,k),(deps.supportBenefits||readSupportBenefits)(env,u.id,at)]),solo=old?JSON.parse(old):{};
+ const balances=await Promise.all(users.map(async (u,index)=>{
+  const k='legion_hunt_owner_session_v1:'+u.id;
+  const [{value:old,deadline},support]=await Promise.all([readWithEntry(db,k,u.id),(deps.supportBenefits||readSupportBenefits)(env,u.id,at)]);
+  const solo=old?JSON.parse(old):{};
   if(solo.state&&!solo.state.ended&&!solo.state.receipt&&!solo.interruption&&solo.expiresAt>at)fail('SOLO','진행 중인 개인 군단토벌을 종료한 뒤 출전하세요.');
-  const e=legionHuntEntries(solo,at,u,support);if(!e.unlimited&&e.current<1)fail('ENERGY',u.nickname+'님의 군단토벌 행동력이 부족합니다.');
-  if(e.unlimited&&(!members[index].coins||e.current<1)){
-   delete members[index].coins;
-   return [];
+  const e=legionHuntEntries(solo,at,u,support);
+  const versions=[[k,old]],writes=[];
+  if(e.unlimited){
+   if(!members[index].coins||e.current<1){delete members[index].coins;return [];}
+  }else{
+   requireEntry(deadline,at,u.nickname);
+   if(e.current<1)fail('ENERGY',u.nickname+'님의 군단토벌 행동력이 부족합니다.');
+   members[index].nextEntryAt=nextEntryAt;
+   versions.push([entryKey(u.id),deadline]);
+   writes.push(put(db,entryKey(u.id),String(nextEntryAt)));
   }
-  return [...guard(db,k,old),put(db,k,JSON.stringify({...solo,energy:{version:1,current:e.current-1,maximum:e.maximum,updatedAt:e.updatedAt}}))];
+  const saved=JSON.stringify({...solo,energy:{version:1,current:e.current-1,maximum:e.maximum,updatedAt:e.updatedAt}});
+  return [...guard(db,...versions),put(db,k,saved),...writes];
  }));return balances.flat();
 }
 async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
@@ -115,19 +151,24 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
  if(action==='create'||action==='join'){
   prior=pointer.r;
   if(prior&&prior.id!==id&&prior.members.some(m=>m.id===uid)&&phase(prior,at)!=='CANCELLED')fail('OTHER','현재 파티의 전리품을 정산하고 나간 뒤 참가하세요.');
-  if(pointer.ptr!==id){check.push(...guard(db,who,pointer.ptr));out.push(put(db,who,id));}
+  if(pointer.ptr!==id){check.push(...guard(db,[who,pointer.ptr]));out.push(put(db,who,id));}
   if(prior&&phase(prior,at)==='CANCELLED'&&prior.id!==id)out.push(del(db,listKey(prior)));
  }
  let room=r;
  if(action==='create'){
   if(r){if(r.hostId!==uid||phase(r,at)!=='LOBBY'||pointer.ptr!==id||(r.tier??FIRST_TIER)!==(b.tier??FIRST_TIER))fail('OLD','이미 사용한 개설 요청입니다. 파티를 새로 만드세요.');return present(db,r,user,at);}
+  if(policy.mode==='ON'&&user.role!=='OWNER')requireEntry(pointer.deadline,at,user.nickname);
   room={id,hostId:uid,tier:b.tier??FIRST_TIER,phase:'LOBBY',expiresAt:at+900000,paying:policy.mode==='ON',members:[emptyMember(user)]};
  }else{
   if(!r){if(action==='claim'){const receipt=await raw(db,receiptKey(id,uid));if(receipt)return {...JSON.parse(receipt),serverNow:at};}fail('MISSING','파티가 종료되었거나 존재하지 않습니다.',404);}
   const status=phase(r,at),idx=r.members.findIndex(m=>m.id===uid),me=r.members[idx];
   if(action==='join'){
    if(status!=='LOBBY')fail('CLOSED','모집이 종료됐습니다.');
-   if(!me){if(r.members.length!==1)fail('FULL','두 명이 모두 입장했습니다.');r.members.push(emptyMember(user));}
+   if(!me){
+    if(r.members.length!==1)fail('FULL','두 명이 모두 입장했습니다.');
+    if(r.paying&&user.role!=='OWNER')requireEntry(pointer.deadline,at,user.nickname);
+    r.members.push(emptyMember(user));
+   }
    else if(pointer.ptr===id)return present(db,r,user,at);
   }else{
    if(!me)fail('MEMBER','참가한 파티만 이용할 수 있습니다.',403);
@@ -159,7 +200,10 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
     if(r.members.every(m=>m.loaded)){
      const us=await eligibleUsers(env,r,policy);
      if(r.paying&&policy.mode!=='ON')fail('PAUSED','군단토벌 운영이 일시 중지됐습니다.',423);
-     if(r.paying)out.push(...await energyStatements(env,us,r.members,now(),deps));r.phase='ACTIVE';r.startsAt=now()+1200;
+     const confirmedAt=now();
+     r.startsAt=confirmedAt+1200;
+     if(r.paying)out.push(...await paidEntryStatements(env,us,r.members,confirmedAt,r.startsAt+PARTY_ENTRY_INTERVAL_MS,deps));
+     r.phase='ACTIVE';
     }
    }else if(action==='pickup'){
     if(typeof b.token!=='string'||b.token.length!==18)fail('TOKEN','내 전리품을 선택하세요.',400);
@@ -183,7 +227,7 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
     if(pointer.ptr!==id){if(me.left)return null;fail('OTHER','현재 참가한 파티를 다시 확인하세요.');}
     if(status==='ACTIVE')fail('ACTIVE','전투가 진행 중입니다. 화면을 닫았다가 다시 입장할 수 있습니다.');
     if(['VICTORY','DEFEAT'].includes(status)&&!me.claimed&&(await present(db,r,user,at)).canClaim)fail('CLAIM','내 전리품을 먼저 수령하세요.');
-    check.push(...guard(db,who,id));out.push(del(db,who));
+    check.push(...guard(db,[who,id]));out.push(del(db,who));
     if(status==='LOBBY'&&uid!==r.hostId)r.members.splice(idx,1);
     else if(['LOADING','LOBBY','CANCELLED'].includes(status)){r.phase='CANCELLED';me.left=true;}
     else me.left=true;
@@ -205,8 +249,9 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
  const finished=room.members.every(m=>m.left);
  if(finished)for(const m of room.members)out.push(del(db,farmKey(id,m.id)));
  out.push(finished?del(db,key):put(db,key,JSON.stringify(room)));
- const statements=[...guard(db,key,old),...guard(db,LEGION_HUNT_SETTINGS_KEY,policyRaw),...check,...out];
- if(admission)statements.unshift(...guard(db,CITADEL_POLICY_KEY,citadel.raw));
+ const versions=[[key,old],[LEGION_HUNT_SETTINGS_KEY,policyRaw]];
+ if(admission)versions.push([CITADEL_POLICY_KEY,citadel.raw]);
+ const statements=[...guard(db,...versions),...check,...out];
  // Lock rows before checking the room version on PostgreSQL; no simulation in the transaction.
  if(db.dialect==='postgres'){
   if(admission)statements.unshift(stmt(db,'SELECT key FROM app_meta WHERE key=? FOR SHARE',CITADEL_POLICY_KEY));
@@ -242,7 +287,13 @@ export async function handleLegionCitadel({path,request,env,deps}){
   });
   const resultState=r=>needsSeasonResult(env,r,at)&&r.members.some(m=>m.id===Number(user.id))?mutate('season',{id:r.id}):present(DB,r,user,at);
   if(request.method==='GET'){
-   if(action==='lobby'){const [here,list]=await Promise.all([current(DB,user.id),open?rooms(DB,at):[]]);return reply({ok:true,open,tiers:citadelTierMenu,state:here.r&&here.r.members.some(m=>m.id===Number(user.id))&&phase(here.r,at)!=='CANCELLED'?await resultState(here.r):null,rooms:list,test:policy.mode!=='ON'});}
+   if(action==='lobby'){
+    const [here,list]=await Promise.all([current(DB,user.id),open?rooms(DB,at):[]]);
+    const state=here.r&&here.r.members.some(m=>m.id===Number(user.id))&&phase(here.r,at)!=='CANCELLED'?await resultState(here.r):null;
+    const unlimited=user.role==='OWNER';
+    const nextEntryAt=state?state.nextEntryAt:open&&policy.mode==='ON'&&!unlimited?entryDeadline(here.deadline):null;
+    return reply({ok:true,open,tiers:citadelTierMenu,state,rooms:list,test:policy.mode!=='ON',unlimited,serverNow:at,nextEntryAt:!unlimited&&nextEntryAt>at?nextEntryAt:null});
+   }
    if(action==='options'){requireOpen(citadel.policy);return reply({ok:true,...await (deps.citadelOptions||options)(env,user)});}
    if(!['state','battle','chunk'].includes(action))fail('PATH','존재하지 않는 메뉴입니다.',404);
    const id=new URL(request.url).searchParams.get('id');if(!idOK(id))fail('INPUT','파티 번호를 확인하세요.',400);

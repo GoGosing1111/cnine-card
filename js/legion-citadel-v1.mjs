@@ -82,23 +82,28 @@ function expeditionGuide() {
   const quality=[['auto','기기에 맞춤'],['detail','상세 연출'],['light','경량 연출']];
   const choices=quality.map(([v,n])=>'<option value="'+v+'" '+(readQuality()===v?'selected':'')+'>'+n+'</option>').join('');
   return '<details class="ct-details"><summary>원정 규칙과 화면 설정'+glyph('chevron')+'</summary><div class="ct-rules">'+
-    '<div><b>편성 및 입장</b><p>각자 용병 2명과 아이콘 2장을 자유롭게 편성합니다. 두 사람의 전장 로딩이 끝나면 각자 행동력 1을 사용합니다.</p></div>'+
+    '<div><b>편성 및 입장</b><p>각자 용병 2명과 아이콘 2장을 편성합니다. 일반 계정은 두 사람의 로딩이 끝나 전투가 시작될 때 군단토벌 행동력 1을 사용합니다. 전투 시작 3시간 후에 다시 입장할 수 있습니다.</p></div>'+
     '<div><b>성주와 전리품</b><p>5분에 성주가 합류하고, 처치 후에도 7분까지 사냥합니다. 솔로 재앙의 필드 아이템과 장비는 각자 재앙의 1.3배 확률로 얻습니다. 필드 전리품은 12초 안에 주우세요. 성주 처치 확정 연마석과 처치 코인은 자동 누적되며 전투 종료 후 수령합니다.</p></div>'+
     '<label class="ct-quality">전투 화면 <select data-quality aria-label="전투 화면">'+choices+'</select></label></div></details>';
 }
-function finder({open,tiers,selectedTier,rooms,tierLabel,waiting,test}) {
+let entryTime;
+function finder({open,tiers,selectedTier,rooms,tierLabel,waiting,test,nextEntryAt,unlimited}) {
   const tier=tiers.find(t=>t.id===selectedTier)||tiers[0];
   const cards=tiers.map(t=>'<label class="ct-tier"><input type="radio" name="ct-tier" data-tier value="'+esc(t.id)+'" '+(tier?.id===t.id?'checked':'')+'>'+
     '<span class="ct-tier-face">'+glyph(t.id)+'<span><small>'+esc(t.stage)+'단계</small><b>'+esc(t.name)+'</b></span></span></label>').join('');
   const refresh='<button type="button" class="ct-refresh" data-act="refresh" aria-label="모집 상태 새로고침">'+glyph('refresh')+'<span>새로고침</span></button>';
-  const create=open?'<button type="button" class="ct-primary ct-create" data-act="create">'+glyph('plus')+'파티 만들기'+glyph('arrow')+'</button>':
+  const disabled=nextEntryAt?' disabled':'';
+  if(nextEntryAt&&!entryTime)entryTime=new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'});
+  const entryRule=test?'테스트 입장 · 행동력 소모 없음':unlimited?'OWNER 입장 무제한 · 코인 수급 시 행동력 1':'계정당 3시간에 1회 · 1인당 행동력 1';
+  const entry='<p class="ct-recommend"><b>입장</b><span>'+entryRule+(nextEntryAt?'<br><strong data-next-entry>다음 입장 '+entryTime.format(nextEntryAt)+' (한국시간)</strong>':'')+'</span></p>';
+  const create=open?'<button type="button" class="ct-primary ct-create" data-act="create"'+disabled+'>'+glyph('plus')+'파티 만들기'+glyph('arrow')+'</button>':
     '<div class="ct-locked" data-paused>'+glyph('lock')+'파티 입장 일시 중지</div>';
-  const roomList=rooms.map(r=>'<li><span class="ct-party-flag">'+glyph('banner')+'</span><div><b>'+esc(r.host)+'</b><small>'+esc(tierLabel(r.tier))+' · 1/2명</small></div><button class="ct-join" data-act="join" data-id="'+esc(r.id)+'">참가'+glyph('arrow')+'</button></li>').join('');
+  const roomList=rooms.map(r=>'<li><span class="ct-party-flag">'+glyph('banner')+'</span><div><b>'+esc(r.host)+'</b><small>'+esc(tierLabel(r.tier))+' · 1/2명</small></div><button class="ct-join" data-act="join" data-id="'+esc(r.id)+'"'+disabled+'>참가'+glyph('arrow')+'</button></li>').join('');
   const empty='<div class="ct-quiet">'+glyph(open?'banner':'lock')+'<b>'+(open?'모집 중인 파티가 없습니다':'현재 모집이 닫혀 있습니다')+'</b><p>'+(open?'먼저 파티를 만들고 함께할 대원을 기다려 보세요.':'모집이 열리면 이곳에서 파티를 찾을 수 있습니다.')+'</p></div>';
   return (test&&open?'<p class="ct-test">테스트 모드 · 행동력과 실제 보상을 사용하지 않습니다.</p>':'')+
     '<div class="ct-finder"><section class="ct-panel ct-departure"><h2>원정 난이도</h2>'+
     (cards?'<fieldset class="ct-tiers" aria-label="파티 개설 난이도">'+cards+'</fieldset><p class="ct-recommend"><b>권장</b><span>'+esc((tier.guide||'').replace(/^권장\s+|\s*권장$/g,''))+'</span></p>'+
-     (tier.uniqueFamilies?.length?'<p class="ct-recommend"><b>성주 전리품</b><span>'+esc(tier.uniqueFamilies.join(' · '))+'<br>모든 성주가 유니크 1~3단계를 드롭하며, 상위 성주일수록 확률이 조금 높습니다.</span></p>':''):'')+create+'</section>'+
+     (tier.uniqueFamilies?.length?'<p class="ct-recommend"><b>성주 전리품</b><span>'+esc(tier.uniqueFamilies.join(' · '))+'<br>모든 성주가 유니크 1~3단계를 드롭하며, 상위 성주일수록 확률이 조금 높습니다.</span></p>':''):'')+entry+create+'</section>'+
     '<section class="ct-panel ct-board"><div class="ct-panel-head"><h2>모집 중인 파티'+(open?'<span class="ct-count">'+rooms.length+'</span>':'')+'</h2>'+refresh+'</div>'+
     (open&&rooms.length?'<ul class="ct-rooms">'+roomList+'</ul>':empty)+(waiting?'<button data-act="leave">대기 파티 나가기</button>':'')+'</section></div>'+expeditionGuide();
 }
@@ -115,7 +120,7 @@ export function openCitadel(trigger,firstRead=null){
    '<ul class="ct-facts"><li>'+glyph('people')+'<span>원정 인원 <b>2인 협동</b></span></li><li>'+glyph('clock')+'<span>사냥 시간 <b>7분</b></span></li><li>'+glyph('bag')+'<span>전리품 <b>개인 획득</b></span></li></ul>'+
    '<div class="ct-content"><section data-region></section><p class="ct-message" role="status" aria-live="polite"></p></div></div><div data-arena hidden></div>';
  document.body.append(d);d.showModal();const $=q=>d.querySelector(q),main=$('[data-region]'),box=$('[data-arena]'),msg=$('.ct-message'),scope=new AbortController(),sig=scope.signal,clock=createServerClock();
- let readingEpoch=null,entryOpen=true,resolved=false,tiers=[],selectedTier='gate';
+ let readingEpoch=null,entryOpen=true,resolved=false,tiers=[],selectedTier='gate',nextEntryAt=null,unlimited=false;
  const tierLabel=id=>{const t=tiers.find(v=>v.id===(id??'gate'));return t?t.stage+'단계 · '+t.name:state?.tierName||'재앙의 성문';};
  const paused=()=>!entryOpen&&(!state||state.status==='LOBBY'||state.status==='LOADING');
  let state=null,rooms=[],options=null,fetchOptions=null,closed=false,busy=false,epoch=0,timer,uiTimer,picker='mercenaries',selected={cardIds:[],mercenaryCodes:[]},pinnedId=null,displayKey='',createId=crypto.randomUUID(),battle=null,replay=null,mounting=null,prewarm=null,battleEpoch=0,frameIndex=-1,prKey='',preparation=null,loadingError=false,displayTest=false,loadedPart=-1,pendingPart=null,groundKey='',lastPartAttempt=0;
@@ -130,12 +135,17 @@ export function openCitadel(trigger,firstRead=null){
  function schedule(){pauseNet();if(closed||document.hidden||busy||!resolved||paused())return;
   const status=state?.status;if(terminal(status))return;
   let ms=!state?8000:status==='ACTIVE'?Math.max(120,Math.min(9000,state.startsAt+(state.next??state.duration)-clock.now()+100,state.startsAt+state.duration-clock.now()+80)):status==='LOADING'?1000:2000;
+  if(!state&&!unlimited&&!displayTest&&nextEntryAt){
+   const remaining=nextEntryAt-clock.now();if(remaining>0)ms=remaining+50;
+  }
   timer=setTimeout(refresh,ms);
  }
  document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseNet();else if(!busy)void refresh();},{signal:sig});
  async function refresh(initial=null){
   if(closed||busy||document.hidden||readingEpoch===epoch)return;const e=++epoch,at=initial?.sentAt??performance.now();readingEpoch=e;pauseNet();
-  try{const v=await (initial?.lobby||request(state?'state?id='+state.id:'lobby'));if(closed||e!==epoch)return;if(v.rooms)rooms=v.rooms;if(v.tiers)tiers=v.tiers;if('test'in v)displayTest=v.test;if('open'in v)entryOpen=v.open;resolved=true;apply(v.state,at);if(!loadingError)say('');}
+  try{const v=await (initial?.lobby||request(state?'state?id='+state.id:'lobby'));if(closed||e!==epoch)return;if(v.rooms)rooms=v.rooms;if(v.tiers)tiers=v.tiers;if('test'in v)displayTest=v.test;if('open'in v)entryOpen=v.open;
+   if('nextEntryAt'in v){nextEntryAt=v.nextEntryAt;unlimited=v.unlimited===true;if(!v.state)clock.sample(v.serverNow,{reset:true});}
+   resolved=true;apply(v.state,at);if(!loadingError)say('');}
   catch(err){if(closed||e!==epoch)return;if(err.status===404&&state){apply(null);rooms=[];}say(err.message);if(!resolved){txt($('[data-ct-status]'),'연결 확인 필요');txt(main.querySelector('[role="status"]'),'모집 정보를 불러오지 못했습니다.');}if(!main.firstChild)main.innerHTML='<button data-act="refresh">다시 불러오기</button>';}
   finally{if(readingEpoch===e)readingEpoch=null;if(!closed&&e===epoch)schedule();}
  }
@@ -162,6 +172,7 @@ export function openCitadel(trigger,firstRead=null){
  function apply(next,sent){
   if(closed)return;if(next?.status==='CANCELLED')next=null;
   const old=state,me=next?.members.find(m=>m.id===next.you);if(next?.serverNow)clock.sample(next.serverNow,{sentAt:sent});
+  if(next?.nextEntryAt)nextEntryAt=next.nextEntryAt;
   if(next?.id!==pinnedId){if(pinnedId)release();pinnedId=next?.id||null;selected=next?.selection?structuredClone(next.selection):{cardIds:[],mercenaryCodes:[]};picker='mercenaries';}
   if(!next&&old){createId=crypto.randomUUID();options=null;rooms=[];}
   state=next;
@@ -180,7 +191,8 @@ export function openCitadel(trigger,firstRead=null){
  }
  function draw(force=false){
   if(closed||!paused()&&['ACTIVE','LOADING'].includes(state?.status))return;
-  const key=JSON.stringify([entryOpen,selectedTier,tiers,readQuality(),state?.id,state?.status,state?.members,state?.claimed,state?.drops,state?.coins,rooms,picker,selected,!!options,busy,displayTest]);
+  const blockedUntil=entryOpen&&!unlimited&&!displayTest?nextEntryAt:null;
+  const key=JSON.stringify([entryOpen,selectedTier,tiers,readQuality(),state?.id,state?.status,state?.members,state?.claimed,state?.drops,state?.coins,rooms,picker,selected,!!options,busy,displayTest,blockedUntil,unlimited]);
   if(key===displayKey&&!force)return;displayKey=key;
   const focus=document.activeElement?.dataset,restore=main.contains(document.activeElement)?[focus?.act,focus?.id]:null;
   const oldScroll=main.querySelector('.ct-grid')?.scrollTop||0;
@@ -189,7 +201,7 @@ export function openCitadel(trigger,firstRead=null){
   const choice=control?.matches('[data-tier]')?control.value:null;
   const inGuide=control?.matches('summary')?'summary':control?.matches('[data-quality]')?'[data-quality]':null;
   if(!state||paused()){
-   main.innerHTML=finder({open:entryOpen&&resolved,tiers,selectedTier,rooms,tierLabel,waiting:!!state,test:displayTest});
+   main.innerHTML=finder({open:entryOpen&&resolved,tiers,selectedTier,rooms,tierLabel,waiting:!!state,test:displayTest,nextEntryAt:blockedUntil,unlimited});
   }
   else if(terminal(state.status)){
    const coins=state.coins?'<p><b>처치 코인 '+coinNumber.format(state.coins)+'</b></p>':'';
@@ -283,7 +295,8 @@ export function openCitadel(trigger,firstRead=null){
   const body=kind==='create'?{requestId:createId,...(tiers.length?{tier:selectedTier}:{})}:kind==='join'?{id}:kind==='ready'?{id:state.id,...selected}:{id:state.id};
   try{const at=performance.now(),v=await request(kind,{method:'POST',body});if(closed||e!==epoch)return;apply(v.state,at);
    if(kind==='leave'){busy=false;void refresh();return;}
-  }catch(err){if(!closed){if(err.code==='CITADEL_PAUSED'&&(!state||['LOBBY','LOADING'].includes(state.status))){entryOpen=false;apply(state);}say(err.message);if(kind==='create'&&err.code==='CITADEL_OLD')createId=crypto.randomUUID();}}
+  }catch(err){if(!closed){if(err.code==='CITADEL_PAUSED'&&(!state||['LOBBY','LOADING'].includes(state.status))){entryOpen=false;apply(state);}say(err.message);if(kind==='create'&&err.code==='CITADEL_OLD')createId=crypto.randomUUID();
+   if(!state&&err.code==='CITADEL_COOLDOWN'){busy=false;void refresh();}}}
   finally{if(!closed){busy=false;draw();schedule();}}
  }
  d.addEventListener('change',e=>{if((!state||paused())&&e.target.matches('[data-tier]')&&tiers.some(t=>t.id===e.target.value)){selectedTier=e.target.value;createId=crypto.randomUUID();draw();return;}if(!state&&e.target.matches('[data-quality]')){const quality=e.target.value;if(['auto','detail','light'].includes(quality)){try{localStorage.setItem(qualityKey,quality);}catch{}liteOnly=false;}}});

@@ -1,0 +1,484 @@
+{
+  "scope": "LOCAL_PREPARATION_ONLY",
+  "baseline": "9bdbbdc60",
+  "hashes": {
+    "server": "3097bf286259a3eeb5072d81c415ba6d24b1a2faf60945e25f83ec169a5bb7e7",
+    "client": "52daf26e132f713b81b4637aa87ef9f1d163d23f578c073d880b7a51dd036a65"
+  },
+  "liveDeployment": false,
+  "latestPriorProductionObservation": {
+    "checkedAt": "2026-11-10T07:18:33.114Z",
+    "partyMode": "OFF"
+  },
+  "rules": {
+    "intervalMs": 10800000,
+    "energyPerOrdinaryPlayer": 1,
+    "anchor": "actual server battle startsAt",
+    "scope": "one rolling window per account across all three tiers and both seats",
+    "signUpAndLoading": "no spend until both confirmations commit",
+    "owner": "unlimited; an enabled coin run costs 1 if available, no coins at 0",
+    "testMode": "no live energy or cooldown"
+  },
+  "verification": {
+    "tests": 73,
+    "failures": 0,
+    "db": [
+      "Node SQLite",
+      "PostgreSQL via PGlite"
+    ],
+    "cases": [
+      "deadline minus 1 ms and equality",
+      "role swap and other tiers",
+      "solo midnight refill",
+      "reconnect, collection and claim during cooldown",
+      "second-seat failure rollback",
+      "overlapping confirmations and lost reply",
+      "OWNER with 0 and 1 energy and an ordinary partner",
+      "TEST isolation"
+    ],
+    "browser": [
+      "ordinary create and join disabled with Korean next-entry time",
+      "both enabled without user input at expiry",
+      "former host can join",
+      "OWNER unrestricted entry label"
+    ]
+  },
+  "performance": {
+    "conditions": "Local Windows host, actual game menu to Citadel, real fixture API, 1440x960 Chromium/Edge desktop and Windows Electron, 390x844 phone emulation. Android distributions and H5 entries are emulations. Synthetic clock advances for 3-hour and 7-minute boundaries. Each listed before/after pair is sequential, one cold process per variant and warm re-entry; battle frames observed for 4.5 s and close for 2.5 s.",
+    "timingDefinition": "Finder timings run from the PvE menu input to the create control and two animation frames. Battle entry and resume run from the start or menu input to the mounted hunting stage and two animation frames.",
+    "observedWait": "The desktop and Android traces record the interval between the replay response and the client load acknowledgement. This includes renderer and asset setup and is measured independently of the server admission handler.",
+    "timer": "The waiting finder sleeps until the server deadline; manual refresh and tab return still work.",
+    "desktopCooldownIdle8500ms": {
+      "before": {
+        "ms": 8500,
+        "lobbyRequests": 1
+      },
+      "after": {
+        "ms": 8500,
+        "lobbyRequests": 0
+      }
+    },
+    "backendBefore": {
+      "SQLite": {
+        "eligibleFinder": {
+          "samples": 60,
+          "medianMs": 0.173,
+          "medianDbStatements": 4
+        },
+        "twoPlayerActivation": {
+          "samples": 7,
+          "medianMs": 2.37,
+          "medianDbStatements": 21
+        },
+        "finderAfterBattle": {
+          "samples": 7,
+          "medianMs": 0.211,
+          "medianDbStatements": 4
+        }
+      },
+      "PGlite": {
+        "eligibleFinder": {
+          "samples": 60,
+          "medianMs": 2.705,
+          "medianDbStatements": 4
+        },
+        "twoPlayerActivation": {
+          "samples": 7,
+          "medianMs": 17.055,
+          "medianDbStatements": 26
+        },
+        "finderAfterBattle": {
+          "samples": 7,
+          "medianMs": 2.339,
+          "medianDbStatements": 4
+        }
+      }
+    },
+    "backendAfter": {
+      "SQLite": {
+        "eligibleFinder": {
+          "samples": 60,
+          "medianMs": 0.144,
+          "medianDbStatements": 4
+        },
+        "twoPlayerActivation": {
+          "samples": 7,
+          "medianMs": 1.985,
+          "medianDbStatements": 19
+        },
+        "finderAfterBattle": {
+          "samples": 7,
+          "medianMs": 0.197,
+          "medianDbStatements": 4
+        }
+      },
+      "PGlite": {
+        "eligibleFinder": {
+          "samples": 60,
+          "medianMs": 2.367,
+          "medianDbStatements": 4
+        },
+        "twoPlayerActivation": {
+          "samples": 7,
+          "medianMs": 14.079,
+          "medianDbStatements": 24
+        },
+        "finderAfterBattle": {
+          "samples": 7,
+          "medianMs": 2.581,
+          "medianDbStatements": 4
+        }
+      }
+    },
+    "platforms": {
+      "desktop": {
+        "sample": "final3",
+        "before": {
+          "firstLobbyMs": 288,
+          "lobbyReentryMs": 54,
+          "firstBattleMs": 3123,
+          "resumeBattleMs": 1089,
+          "lobbyHandlerMs": 3,
+          "loadedHandlerMs": 6,
+          "replayResponseToLoadAckMs": 2517,
+          "battleFrameP95Ms": 10.3,
+          "longFramesOver50Ms": 1,
+          "longestFrameMs": 70.1,
+          "close": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "renderer": "detail",
+          "pageDiagnostics": []
+        },
+        "after": {
+          "firstLobbyMs": 220,
+          "lobbyReentryMs": 44,
+          "firstBattleMs": 2860,
+          "resumeBattleMs": 1067,
+          "lobbyHandlerMs": 4,
+          "loadedHandlerMs": 8,
+          "replayResponseToLoadAckMs": 2398,
+          "battleFrameP95Ms": 10.2,
+          "longFramesOver50Ms": 1,
+          "longestFrameMs": 60.1,
+          "close": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "renderer": "detail",
+          "pageDiagnostics": []
+        }
+      },
+      "android": {
+        "sample": "final3",
+        "before": {
+          "firstLobbyMs": 243,
+          "lobbyReentryMs": 54,
+          "firstBattleMs": 2790,
+          "resumeBattleMs": 1648,
+          "lobbyHandlerMs": 4,
+          "loadedHandlerMs": 8,
+          "replayResponseToLoadAckMs": 2348,
+          "battleFrameP95Ms": 10.2,
+          "longFramesOver50Ms": 1,
+          "longestFrameMs": 60.3,
+          "close": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "renderer": "detail",
+          "pageDiagnostics": []
+        },
+        "after": {
+          "firstLobbyMs": 188,
+          "lobbyReentryMs": 45,
+          "firstBattleMs": 3038,
+          "resumeBattleMs": 1673,
+          "lobbyHandlerMs": 3,
+          "loadedHandlerMs": 5,
+          "replayResponseToLoadAckMs": 2631,
+          "battleFrameP95Ms": 10.1,
+          "longFramesOver50Ms": 1,
+          "longestFrameMs": 50.1,
+          "close": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "renderer": "detail",
+          "pageDiagnostics": []
+        }
+      },
+      "ios": {
+        "sample": "final3",
+        "before": {
+          "firstLobbyMs": 773,
+          "lobbyReentryMs": 563,
+          "firstBattleMs": 1413,
+          "resumeBattleMs": 637,
+          "lobbyHandlerMs": 3,
+          "loadedHandlerMs": 4,
+          "replayResponseToLoadAckMs": 37,
+          "battleFrameP95Ms": 30,
+          "longFramesOver50Ms": 4,
+          "longestFrameMs": 183,
+          "close": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "renderer": "light",
+          "pageDiagnostics": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        },
+        "after": {
+          "firstLobbyMs": 698,
+          "lobbyReentryMs": 624,
+          "firstBattleMs": 1197,
+          "resumeBattleMs": 682,
+          "lobbyHandlerMs": 2,
+          "loadedHandlerMs": 3,
+          "replayResponseToLoadAckMs": 98,
+          "battleFrameP95Ms": 30,
+          "longFramesOver50Ms": 6,
+          "longestFrameMs": 183,
+          "close": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "renderer": "light",
+          "pageDiagnostics": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        }
+      },
+      "windows": {
+        "sample": "final2",
+        "before": {
+          "firstLobbyMs": 137,
+          "lobbyReentryMs": 61,
+          "firstBattleMs": 3632,
+          "resumeBattleMs": 1681,
+          "lobbyHandlerMs": 4,
+          "loadedHandlerMs": 5,
+          "replayResponseToLoadAckMs": 2992,
+          "battleFrameP95Ms": 16.8,
+          "longFramesOver50Ms": 0,
+          "longestFrameMs": 50,
+          "close": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "renderer": "detail",
+          "pageDiagnostics": []
+        },
+        "after": {
+          "firstLobbyMs": 183,
+          "lobbyReentryMs": 60,
+          "firstBattleMs": 3396,
+          "resumeBattleMs": 1662,
+          "lobbyHandlerMs": 4,
+          "loadedHandlerMs": 13,
+          "replayResponseToLoadAckMs": 2671,
+          "battleFrameP95Ms": 16.8,
+          "longFramesOver50Ms": 1,
+          "longestFrameMs": 66.7,
+          "close": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "renderer": "detail",
+          "pageDiagnostics": []
+        }
+      },
+      "edge": {
+        "sample": "final2",
+        "before": {
+          "firstLobbyMs": 240,
+          "lobbyReentryMs": 45,
+          "firstBattleMs": 2723,
+          "resumeBattleMs": 998,
+          "lobbyHandlerMs": 3,
+          "loadedHandlerMs": 7,
+          "replayResponseToLoadAckMs": 2250,
+          "battleFrameP95Ms": 10.2,
+          "longFramesOver50Ms": 1,
+          "longestFrameMs": 60.1,
+          "close": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "renderer": "detail",
+          "pageDiagnostics": []
+        },
+        "after": {
+          "firstLobbyMs": 235,
+          "lobbyReentryMs": 63,
+          "firstBattleMs": 2719,
+          "resumeBattleMs": 845,
+          "lobbyHandlerMs": 3,
+          "loadedHandlerMs": 6,
+          "replayResponseToLoadAckMs": 2264,
+          "battleFrameP95Ms": 10.3,
+          "longFramesOver50Ms": 1,
+          "longestFrameMs": 60.2,
+          "close": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "renderer": "detail",
+          "pageDiagnostics": []
+        }
+      },
+      "android-direct": {
+        "sample": "final2",
+        "before": {
+          "firstLobbyMs": 269,
+          "lobbyReentryMs": 51,
+          "firstBattleMs": 2890,
+          "resumeBattleMs": 1323,
+          "lobbyHandlerMs": 4,
+          "loadedHandlerMs": 8,
+          "replayResponseToLoadAckMs": 2477,
+          "battleFrameP95Ms": 10.2,
+          "longFramesOver50Ms": 1,
+          "longestFrameMs": 70.2,
+          "close": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "renderer": "detail",
+          "pageDiagnostics": []
+        },
+        "after": {
+          "firstLobbyMs": 251,
+          "lobbyReentryMs": 45,
+          "firstBattleMs": 2746,
+          "resumeBattleMs": 1396,
+          "lobbyHandlerMs": 4,
+          "loadedHandlerMs": 7,
+          "replayResponseToLoadAckMs": 2309,
+          "battleFrameP95Ms": 10.3,
+          "longFramesOver50Ms": 1,
+          "longestFrameMs": 60.3,
+          "close": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "renderer": "detail",
+          "pageDiagnostics": []
+        }
+      },
+      "play-twa": {
+        "sample": "final2",
+        "before": {
+          "firstLobbyMs": 259,
+          "lobbyReentryMs": 54,
+          "firstBattleMs": 3097,
+          "resumeBattleMs": 1139,
+          "lobbyHandlerMs": 5,
+          "loadedHandlerMs": 5,
+          "replayResponseToLoadAckMs": 2582,
+          "battleFrameP95Ms": 10.3,
+          "longFramesOver50Ms": 1,
+          "longestFrameMs": 70,
+          "close": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "renderer": "detail",
+          "pageDiagnostics": []
+        },
+        "after": {
+          "firstLobbyMs": 242,
+          "lobbyReentryMs": 61,
+          "firstBattleMs": 2871,
+          "resumeBattleMs": 1305,
+          "lobbyHandlerMs": 4,
+          "loadedHandlerMs": 7,
+          "replayResponseToLoadAckMs": 2407,
+          "battleFrameP95Ms": 10.2,
+          "longFramesOver50Ms": 1,
+          "longestFrameMs": 70.3,
+          "close": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "renderer": "detail",
+          "pageDiagnostics": []
+        }
+      },
+      "onestore-h5": {
+        "sample": "final2",
+        "before": {
+          "firstLobbyMs": 214,
+          "lobbyReentryMs": 65,
+          "firstBattleMs": 4936,
+          "resumeBattleMs": 2162,
+          "lobbyHandlerMs": 2,
+          "loadedHandlerMs": 4,
+          "replayResponseToLoadAckMs": 4353,
+          "battleFrameP95Ms": 10.4,
+          "longFramesOver50Ms": 1,
+          "longestFrameMs": 60.7,
+          "close": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "renderer": "detail",
+          "pageDiagnostics": []
+        },
+        "after": {
+          "firstLobbyMs": 279,
+          "lobbyReentryMs": 58,
+          "firstBattleMs": 4145,
+          "resumeBattleMs": 2252,
+          "lobbyHandlerMs": 2,
+          "loadedHandlerMs": 5,
+          "replayResponseToLoadAckMs": 3664,
+          "battleFrameP95Ms": 10.2,
+          "longFramesOver50Ms": 1,
+          "longestFrameMs": 50.1,
+          "close": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "renderer": "detail",
+          "pageDiagnostics": []
+        }
+      }
+    }
+  },
+  "delivery": {
+    "workers": [
+      {
+        "name": "api-runtime\\src\\index.js",
+        "bytes": 9371766,
+        "sha256": "cb4fe92dd0657fce9a914e5ae84956077bb6dc150fd19677537e44dd3823272c"
+      },
+      {
+        "name": "clan-draft\\src\\index.js",
+        "bytes": 3537729,
+        "sha256": "1ec9497e7a4efa616b91f6b24e2cf38d4488acd8c2a750fa51d2a51737820203"
+      }
+    ],
+    "pagesFiles": 20000,
+    "clientManifestChecks": 115
+  }
+}

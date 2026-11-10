@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {citadelFixture,citadelSquads} from './helpers/legion-citadel-fixture.mjs';
 import {SEASON_S1_SCHEMA,seasonAccount} from '../functions/_season_s1.js';
 import {buildCitadelBattle} from '../functions/_legion_citadel_battle.js';
+import {legionHuntEnergy} from '../functions/_legion_hunt.js';
 import {distributeCitadelLoot,personalFarm,farmView} from '../functions/_legion_citadel_loot.js';
 import {validatePreparedMercenaries} from '../shared/companion-loadout-v2.mjs';
 const states=async(f,uid,cmd,body)=>{const r=await f.action(uid,cmd,body);assert.equal(r.status,200,JSON.stringify(r.body));return r.body;};
@@ -40,6 +41,10 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' party
   const ukey=u=>'legion_hunt_owner_session_v1:'+u,read=async k=>JSON.parse((await f.db.prepare('SELECT value FROM app_meta WHERE key=?').bind(k).first())?.value||'null');
   assert.equal(await read(ukey(1)),null);const active=(await states(f,2,'loaded',{id})).state;assert.equal(active.status,'ACTIVE');
   await states(f,2,'loaded',{id});assert.equal((await read(ukey(1))).energy.current,9);assert.equal((await read(ukey(2))).energy.current,9);assert.equal((await f.action(3,'claim',{id})).status,403);
+  const deadline=active.startsAt+3*60*60*1000;
+  assert.equal(active.nextEntryAt,deadline);
+  for(const uid of [1,2])assert.equal((await states(f,uid,'lobby')).nextEntryAt,deadline);
+  assert.equal((await states(f,3,'lobby')).nextEntryAt,null);
   const farms=[];for(const u of [1,2])farms.push(await read('legion_citadel_v1:farm:'+id+':'+u));
   const first=farms[0].events[0],next=farms[1].events[0];
   assert.equal((await f.action(1,'pickup',{id,token:first[4]})).status,409);assert.equal((await f.action(2,'pickup',{id,token:first[4]})).status,403);
@@ -58,6 +63,29 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' party
   assert.deepEqual((await states(f,1,'claim',{id})).state.drops,a.drops);assert.deepEqual(await inventory(1),own);
   assert.deepEqual(await counts(),[1,1,0]);
   assert.equal(await read('legion_citadel_v1:farm:'+id+':1'),null);assert.equal((await f.action(3,'claim',{id})).status,404);
+  // The original room has been removed. Both seats still share one limit across all three tiers.
+  f.clock.now=deadline-1;
+  const openRoom=(await states(f,3,'create',{requestId:'new-party-different-host',tier:'throne'})).state;
+  for(const uid of [1,2]){
+   const lobby=await states(f,uid,'lobby');
+   assert.equal(lobby.state,null);assert.equal(lobby.serverNow,f.clock.now);assert.equal(lobby.nextEntryAt,deadline);
+   for(const tier of ['gate','keep','throne']){
+    const response=await f.action(uid,'create',{requestId:'cooldown-next-party-'+tier,tier});
+    assert.equal(response.body.code,'CITADEL_COOLDOWN');assert.equal(response.status,409);
+   }
+   assert.equal((await f.action(uid,'join',{id:openRoom.id})).body.code,'CITADEL_COOLDOWN');
+   assert.equal((await read(ukey(uid))).energy.current,9);
+  }
+  // Both accounts can enter at the exact boundary, swapping the two original roles.
+  f.clock.now=deadline;
+  assert.equal((await states(f,1,'lobby')).nextEntryAt,null);
+  const second=(await states(f,2,'create',{requestId:'cooldown-next-party-throne',tier:'throne'})).state;
+  await states(f,1,'join',{id:second.id});
+  for(const uid of [1,2])await states(f,uid,'ready',{id:second.id,...f.selection(uid-1)});
+  await states(f,2,'start',{id:second.id});await states(f,2,'loaded',{id:second.id});
+  const secondBattle=(await states(f,1,'loaded',{id:second.id})).state;
+  assert.equal(secondBattle.nextEntryAt,secondBattle.startsAt+10800000);
+  for(const uid of [1,2])assert.equal((await read(ukey(uid))).energy.current,9);
  }finally{await f.close();}
 });
 test('abandoned loading and failed second-player energy transaction never charge either participant',async()=>{
@@ -66,5 +94,65 @@ test('abandoned loading and failed second-player energy transaction never charge
  assert.equal((await f.action(2,'loaded',{id})).status,409);
  assert.equal(await f.db.prepare('SELECT value FROM app_meta WHERE key=?').bind('legion_hunt_owner_session_v1:1').first(),null);
  f.clock.now+=130000;assert.equal((await states(f,1,'lobby')).state,null);assert.equal((await f.action(2,'claim',{id})).status,409);
+ for(const uid of [1,2])assert.equal((await states(f,uid,'lobby')).nextEntryAt,null);
+ }finally{await f.close();}
+});
+
+test('activation rechecks both deadlines, survives a lost reply and keeps the party cooldown across the solo midnight refill',async()=>{
+ const f=await citadelFixture();
+ try{
+  f.clock.now=Date.parse('2026-11-10T23:56:00+09:00');
+  const id=await boot(f),peerKey='legion_citadel_v1:next-entry:2',until=f.clock.now+60000;
+  await states(f,1,'loaded',{id});
+  await f.exec('INSERT INTO app_meta(key,value) VALUES(?,?)',peerKey,String(until));
+  f.clock.now=until-1;
+  assert.equal((await f.action(2,'loaded',{id})).body.code,'CITADEL_COOLDOWN');
+  const unchanged=(await states(f,1,'state?id='+id)).state;
+  assert.equal(unchanged.status,'LOADING');assert.equal(unchanged.members[1].loaded,false);
+  f.clock.now=until;
+  f.loseReply();
+  assert.equal((await f.action(2,'loaded',{id})).status,503);
+  const retry=(await states(f,2,'loaded',{id})).state;
+  assert.equal(retry.status,'ACTIVE');assert.equal(retry.nextEntryAt,retry.startsAt+10800000);
+  for(const uid of [1,2]){
+   const row=await f.db.prepare('SELECT value FROM app_meta WHERE key=?').bind('legion_hunt_owner_session_v1:'+uid).first();
+   assert.equal(JSON.parse(row.value).energy.current,9);
+  }
+  f.clock.now=retry.startsAt+retry.duration+1;
+  const solo=await f.db.prepare('SELECT value FROM app_meta WHERE key=?').bind('legion_hunt_owner_session_v1:1').first();
+  assert.equal(legionHuntEnergy(JSON.parse(solo.value),f.clock.now).current,10);
+  await states(f,1,'claim',{id});await states(f,1,'leave',{id});
+  assert.equal((await f.action(1,'create',{requestId:'after-midnight-party'})).body.code,'CITADEL_COOLDOWN');
+ }finally{await f.close();}
+});
+
+for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' second seat write failure and overlapping loading confirmations spend exactly one entry per account',async()=>{
+ const f=await citadelFixture({postgres});
+ try{
+  const id=await boot(f),key='legion_citadel_v1:next-entry:';
+  await states(f,1,'loaded',{id});
+  if(postgres)await f.db.execSchema([
+   "CREATE FUNCTION deny_party_entry() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN RAISE EXCEPTION 'entry failure'; END $$",
+   "CREATE TRIGGER deny_party_entry BEFORE INSERT ON app_meta FOR EACH ROW WHEN (NEW.key='legion_citadel_v1:next-entry:2') EXECUTE FUNCTION deny_party_entry()"
+  ]);
+  else await f.exec("CREATE TRIGGER deny_party_entry BEFORE INSERT ON app_meta WHEN NEW.key='legion_citadel_v1:next-entry:2' BEGIN SELECT RAISE(ABORT,'entry failure'); END");
+  assert.equal((await f.action(2,'loaded',{id})).status,503);
+  assert.equal((await states(f,1,'state?id='+id)).state.status,'LOADING');
+  const read=async k=>(await f.db.prepare('SELECT value FROM app_meta WHERE key=?').bind(k).first())?.value??null;
+  for(const uid of [1,2]){
+   assert.equal(await read(key+uid),null);
+   assert.equal(await read('legion_hunt_owner_session_v1:'+uid),null);
+  }
+  if(postgres)await f.db.execSchema(['DROP TRIGGER deny_party_entry ON app_meta']);
+  else await f.exec('DROP TRIGGER deny_party_entry');
+  // The in-memory fixtures use a single connection. Serialize transactions while allowing both requests to read the same room version.
+  const batch=f.db.batch.bind(f.db);let tail=Promise.resolve();
+  f.db.batch=statements=>{const result=tail.then(()=>batch(statements));tail=result.catch(()=>{});return result;};
+  const confirmations=await Promise.all([states(f,2,'loaded',{id}),states(f,2,'loaded',{id})]);
+  assert.equal(confirmations[0].state.nextEntryAt,confirmations[1].state.nextEntryAt);
+  for(const uid of [1,2]){
+   assert.equal(await read(key+uid),String(confirmations[0].state.startsAt+10800000));
+   assert.equal(JSON.parse(await read('legion_hunt_owner_session_v1:'+uid)).energy.current,9);
+  }
  }finally{await f.close();}
 });
