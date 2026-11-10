@@ -18,7 +18,8 @@ assert.match(bridge,/ultimateSourceCard[\s\S]*actorId/,'player ultimate must res
 assert.doesNotMatch(bridge,/INIT_WATCHDOG_MS|EVENT_WATCHDOG_MS/,'cold mobile loading must not destroy a healthy renderer on an arbitrary deadline');
 assert.doesNotMatch(bridge,/recoverRenderer/,'renderer failure must never jump directly to the server result');
 assert.match(bridge,/const PLAYBACK_SPEED = 1\.3/,'the V3 runtime speed must be 1.3x');
-assert.match(bridge,/for \(let attempt = 0; attempt < 2;/,'WebGL initialization must retry once after an explicit failure');
+assert.match(bridge,/hasLightweightScene=sourceData\.sceneAssetKey==='LEGION_BURNING_CITADEL'/);
+assert.match(bridge,/for \(let attempt = 0; attempt < \(hasLightweightScene\?1:2\);/,'the Citadel uses its lightweight fallback and ordinary WebGL battles retry once');
 assert.match(bridge,/battle-v3-preparing/,'the battlefield shell must identify its first-frame state');
 assert.match(bridge,/stage\.classList\.add\('is-v3-ready'\);[\s\S]*revealBattle\(\)/,'the modal may reveal only after the renderer is ready');
 assert.doesNotMatch(battleCss,/:has\(canvas\) \.battle-v3-loader/,'a canvas alone must never hide the loader before assets are ready');
