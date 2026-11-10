@@ -35,7 +35,7 @@ body:has(>.citadel.in-battle.ct-light-field)>#app{display:none}
 .ct-status::before {content:"";width:6px;height:6px;border-radius:50%;background:#b7aaa0}
 .ct-status[data-status="open"]::before,.ct-status[data-status="party"]::before {background:#aed28a}
 .ct-status[data-status="paused"]::before {background:#e2af75}
-.citadel .ct-hero h1 {color:#fff4d7;font-family:"Batang","바탕","Noto Serif KR",serif;font-size:clamp(38px,5vw,62px);font-weight:800;line-height:1.12;letter-spacing:-.08em;margin:8px 0 6px;text-shadow:0 2px 8px #170d0c}
+.citadel .ct-hero h1 {color:#fff4d7;font-family:"Batang","바탕","Noto Serif KR",serif;font-size:clamp(38px,5vw,62px);font-weight:800;line-height:1.12;letter-spacing:-.08em;word-break:keep-all;overflow-wrap:normal;margin:8px 0 6px;text-shadow:0 2px 8px #170d0c}
 .citadel .ct-hero p {color:#f0e5d7;font-size:14px;line-height:1.5;margin:0;word-break:keep-all}
 .ct-facts {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:0 27px;margin:0;list-style:none;background:linear-gradient(90deg,#28252a,#232226 50%,#28252a);border-bottom:1px solid var(--ct-edge)}
 .ct-facts li {display:flex;align-items:center;justify-content:center;gap:10px;margin:11px 0;color:var(--ct-brass);min-width:0}
@@ -50,6 +50,7 @@ body:has(>.citadel.in-battle.ct-light-field)>#app{display:none}
 .ct-count {display:inline-grid;place-items:center;min-width:21px;height:20px;padding:0 5px;border:1px solid #5a5049;border-radius:3px;background:#39332f;color:#e5c49d;font:700 11px/1 sans-serif;letter-spacing:.02em}
 .ct-tiers {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:13px 0 0;padding:0;min-width:0;border:0}
 .ct-tier {position:relative;display:block;min-width:0;cursor:pointer}
+.citadel .ct-tier:only-child {grid-column:1 / -1}
 .ct-tier input {position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
 .ct-tier-face {position:relative;pointer-events:none;display:flex;flex-direction:column;gap:7px;align-items:flex-start;justify-content:center;min-height:82px;padding:8px 12px;border:1px solid #52484b;border-radius:4px;background:linear-gradient(135deg,#353035,#29282e);color:#aea5a2}
 .ct-tier-face .ct-glyph {width:21px;height:21px}

@@ -262,8 +262,8 @@ function finder({open,tiers,selectedTier,rooms,tierLabel,waiting,test,nextEntryA
   const roomList=rooms.map(r=>'<li><span class="ct-party-flag">'+tactical('duo')+'</span><div><b>'+esc(r.host)+'</b><small>'+esc(tierLabel(r.tier))+' · 1/2명</small></div><button class="ct-join" data-act="join" data-id="'+esc(r.id)+'"'+disabled+'>참가'+glyph('arrow')+'</button></li>').join('');
   const empty='<div class="ct-quiet"><div class="ct-muster">'+tactical('clan')+'</div>'+'<b>'+(open?'모집 중인 파티가 없습니다':'현재 모집이 닫혀 있습니다')+'</b><p>'+(open?'먼저 파티를 만들고 함께할 대원을 기다려 보세요.':'모집이 열리면 이곳에서 파티를 찾을 수 있습니다.')+'</p></div>';
   return (test&&open?'<p class="ct-test">테스트 모드 · 행동력과 실제 보상을 사용하지 않습니다.</p>':'')+
-    '<div class="ct-finder"><section class="ct-panel ct-departure"><h2>'+tactical('legion')+'원정 난이도</h2>'+
-    (cards?'<fieldset class="ct-tiers" aria-label="파티 개설 난이도">'+cards+'</fieldset><p class="ct-recommend"><b>권장</b><span data-tier-guide>'+esc((tier.guide||'').replace(/^권장\s+|\s*권장$/g,''))+'</span></p>'+
+    '<div class="ct-finder"><section class="ct-panel ct-departure"><h2>'+tactical('legion')+(dock?'클랜 원정':'원정 난이도')+'</h2>'+
+    (cards?'<fieldset class="ct-tiers" aria-label="파티 개설 난이도">'+cards+'</fieldset><p class="ct-recommend"><b>'+(dock?'참가 조건':'권장')+'</b><span data-tier-guide>'+esc((tier.guide||'').replace(/^권장\s+|\s*권장$/g,''))+'</span></p>'+
      (tier.uniqueFamilies?.length?'<div class="ct-reliquary"><strong>성주 전리품</strong><ul>'+tier.uniqueFamilies.map((name,i)=>'<li>'+illustratedIcon('/assets/ui/mercenary-equipment/unique-regalia-20261109/'+(i+1)+'-weapon.webp','ct-armory-icon')+'<span>'+esc(name)+'</span></li>').join('')+'</ul><small>유니크 1~3단계 · 상위 성주일수록 드랍 확률 증가</small></div>':''):'')+entry+create+'</section>'+
     '<section class="ct-panel ct-board"><div class="ct-panel-head"><h2>'+tactical('duo')+(dock?'우리 클랜 파티':'모집 중인 파티')+(open?'<span class="ct-count">'+rooms.length+'</span>':'')+'</h2>'+refresh+'</div>'+
     (open&&rooms.length?'<ul class="ct-rooms">'+roomList+'</ul>':empty)+(waiting?'<button data-act="leave">대기 파티 나가기</button>':'')+'</section></div>'+expeditionGuide(dock,rechargeHours);
@@ -272,7 +272,7 @@ function finder({open,tiers,selectedTier,rooms,tierLabel,waiting,test,nextEntryA
 export function openCitadel(trigger,firstRead=null){
  if(active){firstRead?.controller.abort();return;}
 
- style('/css/legion-citadel-v1.css?v=6');
+ style('/css/legion-citadel-v1.css?v=7');
  const d=document.createElement('dialog');
  active=d;d.className='citadel';d.setAttribute('aria-labelledby','ct-title');
  d.innerHTML='<header class="ct-bar"><div class="ct-brand">'+citadelCrest()+'<b>군단토벌 파티</b></div><button type="button" class="ct-close" data-act="close" aria-label="화면 닫기">'+glyph('close')+'</button></header>'+
@@ -381,7 +381,7 @@ export function openCitadel(trigger,firstRead=null){
   const choice=control?.matches('[data-tier]')?control.value:null;
   const inGuide=control?.matches('summary')?'summary':control?.matches('[data-quality]')?'[data-quality]':null;
   if(!state||paused()){
-   main.innerHTML=finder({open:entryOpen&&resolved,dock:dockSelected(),lockedReason:dockSelected()?reason():'',tiers:dockSelected()?[{id:'gate',stage:3,name:'물류기지 탈환',guide:'같은 클랜 2인 · 아이템 및 장비 드랍률 150%'}]:tiers,selectedTier,rooms,tierLabel,waiting:!!state,test:displayTest,nextEntryAt:blockedUntil,unlimited,rechargeHours});
+   main.innerHTML=finder({open:entryOpen&&resolved,dock:dockSelected(),lockedReason:dockSelected()?reason():'',tiers:dockSelected()?[{id:'gate',stage:3,name:'물류기지 탈환',guide:'소속 클랜 아지트 3단계 이상 · 클랜원 2명'}]:tiers,selectedTier,rooms,tierLabel,waiting:!!state,test:displayTest,nextEntryAt:blockedUntil,unlimited,rechargeHours});
   }
   else if(terminal(state.status)){
    const coins=state.coins?'<p><b>처치 코인 '+coinNumber.format(state.coins)+'</b></p>':'';
