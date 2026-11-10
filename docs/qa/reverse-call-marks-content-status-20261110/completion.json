@@ -1,0 +1,548 @@
+{
+  "verifiedAt": "2026-11-10T13:40:02.910Z",
+  "liveUrl": "https://cnine-card.pages.dev/?screen=home",
+  "release": {
+    "previousSource": "f1b98a074d09c67ca8699e819aa9998999fc1389",
+    "source": "d40871782c9c0a2f5249fec36fe97a160e0001e1",
+    "pages": {
+      "id": "55914b4d-a002-47d0-af33-6c3bbed44e82",
+      "url": "https://55914b4d.cnine-card.pages.dev"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "id": "77cc56fd-a803-4266-95db-73677d6e0dcb",
+        "trafficPercent": 100
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "id": "538d2056-f1a1-403f-b161-23abaf7c3166",
+        "trafficPercent": 100
+      }
+    ],
+    "scopedChecks": 34,
+    "tests": [
+      "tests/reverse-call-game-marks-20261110.test.mjs",
+      "tests/live-operations-v1868.mjs",
+      "tests/live-operations-raid-name-20261016.test.mjs",
+      "tests/legion-hunt-entry-account-20260926.test.mjs",
+      "tests/pve-battlefield-entry-v2117.test.mjs"
+    ],
+    "assets": 20000,
+    "checkedPublicFiles": 21,
+    "windows": {
+      "releaseId": "4cf1e5cfcb4fcec57d82761643a6814da7950afcb4a9b7ed2e5662272828f975",
+      "changed": [
+        "/css/legion-hunt-battle-v2.css",
+        "/css/legion-hunt-entry-v2.css",
+        "/equipment-forge/index.html",
+        "/equipment-forge/live.css",
+        "/index.html",
+        "/js/adventure-lobby-v2107.js",
+        "/js/app.js",
+        "/js/legion-hunt-entry-v1.mjs",
+        "/mercenary-codex/command.css",
+        "/mercenary-codex/index.html",
+        "/mercenary-codex/shell.mjs",
+        "/mercenary-codex/style.css",
+        "/preview/equipment-forge-v1/index.html",
+        "/preview/equipment-forge-v1/style.css",
+        "/pve/legion-hunt/index.html",
+        "/shared/onestore-web-assets-v1.mjs"
+      ],
+      "removed": []
+    }
+  },
+  "brand": {
+    "asset": {
+      "file": "assets/ui/brand/reverse-call-20261016/logo-240.webp",
+      "bytes": 36980,
+      "sha256": "58bb1f07d5675261d046c50fa542e139d66cf16656e701f530576cf37c5bd0d1",
+      "windows": true
+    },
+    "surfaces": [
+      "군단토벌 입장 및 전투 상단",
+      "용병 도감 상단 로고와 용병 · 편성 제목",
+      "장비 강화소 상단 및 장비 미선택 작업대, 미리보기"
+    ],
+    "check": "기존 삼각형 SVG 경로를 검색하고, PC와 모바일 화면에서 공식 이미지의 디코딩 및 표시 크기를 확인했다."
+  },
+  "status": {
+    "detailsOnly": [
+      "클랜 본부",
+      "랭크 듀오 시즌",
+      "종료까지 24시간 이상 남은 다른 기간제 콘텐츠"
+    ],
+    "publicFeed": [
+      {
+        "kind": "ORGANIZATION",
+        "phase": "ACTIVE",
+        "title": "클랜 본부",
+        "deadlineAt": null
+      },
+      {
+        "kind": "RANKED_DUO",
+        "phase": "ACTIVE",
+        "title": "랭크 듀오 시즌 8",
+        "deadlineAt": "2026-11-17T05:39:19.367Z"
+      }
+    ],
+    "initialCards": 0,
+    "initialCount": 2,
+    "detailCards": 2,
+    "scenarios": [
+      "제목 또는 전체 보기로 열기, 닫기와 Esc로 초점 복구",
+      "상시 2건만 있으면 높이 44px 한 줄",
+      "짧은 레이드와 3일 봉인전이 함께 있을 때 요약에는 레이드만 노출",
+      "빈 목록 안내",
+      "다른 화면에서 갱신 중단 및 로비 복귀 후 재개"
+    ]
+  },
+  "measurement": {
+    "conditions": "동일 Windows PC에서 이전 운영 소스와 변경 소스를 같은 로컬 QA 서버와 격리 계정으로 실행했다. PC Chrome 1440×900, 모바일 WebKit 터치 에뮬레이션 390×844. 상태 창 및 군단토벌의 pointerdown부터 조작 가능한 첫 프레임을 첫 진입과 재진입에 한 번씩 측정했다. 해당 프레임 이후 약 500ms까지 프레임 간격을 기록했다. coldLobbyMs는 새 브라우저 문서 시작부터 로비 조작까지의 시간이다.",
+    "publicConditions": "공개 게임 주소에서 실제 콘텐츠 현황을 읽어 초기 로비를 검증했다. 혼합 및 빈 목록은 통제된 데이터로 전환했다. 계정 및 전투 API는 로컬 테스트 계정을 사용했다. Windows Electron QA 셸과 원스토어 H5 호스트의 에뮬레이션도 포함한다. 모바일 실기기 및 설치 앱 측정은 수행하지 않았다.",
+    "timingFields": {
+      "usableMs": "조작까지 걸린 ms",
+      "p95Ms": "프레임 간격 95백분위 ms",
+      "maxMs": "가장 긴 프레임 ms",
+      "longFrames": "50ms 초과 프레임 수"
+    },
+    "findings": [
+      "홈에서 전체 목록을 다시 합치던 경로를 제거해 상시 카드 2개와 숨은 카운트다운 갱신을 줄였다. 로비를 떠난 뒤 남아 있던 초 단위 갱신과 API 재조회 타이머가 각각 1개에서 0개로 감소했다.",
+      "현황 창을 열 때 추가 네트워크 조회는 모든 측정에서 0건이었다. 공식 로고는 로비와 동일한 URL을 재사용한다.",
+      "각 환경에서 1회씩 표본을 측정했다. 모바일 군단토벌 첫 진입 시간과 긴 프레임은 실행별 편차가 있었다. 로컬 WebKit에서 기존과 변경 소스 모두 같은 ResizeObserver 알림을 남겼다."
+    ],
+    "browserDiagnostics": "공개 WebKit 검수에서는 화면을 오가는 동안 경매 로비 조회의 access control 진단도 1회 기록됐다. 현황 열기·닫기, 군단토벌 진입·복귀와 마크 표시 검사는 모두 통과했다.",
+    "runs": {
+      "before-desktop-1440": {
+        "coldLobbyMs": 1062,
+        "compactHeight": 76,
+        "statusDialog": [
+          {
+            "usableMs": 39,
+            "p95Ms": 5,
+            "maxMs": 45,
+            "longFrames": 0
+          },
+          {
+            "usableMs": 19,
+            "p95Ms": 5,
+            "maxMs": 19,
+            "longFrames": 0
+          }
+        ],
+        "legionPortal": [
+          {
+            "usableMs": 479,
+            "p95Ms": 45,
+            "maxMs": 274,
+            "longFrames": 3
+          },
+          {
+            "usableMs": 173,
+            "p95Ms": 40,
+            "maxMs": 67,
+            "longFrames": 1
+          }
+        ],
+        "afterClose": {
+          "statusTimers": 1,
+          "focus": true
+        },
+        "afterLeaving": {
+          "dialog": false,
+          "hunt": false,
+          "statusTimer": 1,
+          "remainingClocks": 2
+        },
+        "statusRequestsOnOpen": 0,
+        "errors": []
+      },
+      "candidate-desktop-1440": {
+        "coldLobbyMs": 1045,
+        "compactHeight": 44,
+        "statusDialog": [
+          {
+            "usableMs": 31,
+            "p95Ms": 4,
+            "maxMs": 54,
+            "longFrames": 1
+          },
+          {
+            "usableMs": 8,
+            "p95Ms": 4,
+            "maxMs": 8,
+            "longFrames": 0
+          }
+        ],
+        "legionPortal": [
+          {
+            "usableMs": 371,
+            "p95Ms": 45,
+            "maxMs": 235,
+            "longFrames": 3
+          },
+          {
+            "usableMs": 120,
+            "p95Ms": 5,
+            "maxMs": 47,
+            "longFrames": 0
+          }
+        ],
+        "afterClose": {
+          "statusTimers": 0,
+          "focus": true
+        },
+        "afterLeaving": {
+          "dialog": false,
+          "hunt": false,
+          "statusTimer": 0,
+          "refreshTimer": 0
+        },
+        "statusRequestsOnOpen": 0,
+        "errors": []
+      },
+      "before-ios-390": {
+        "coldLobbyMs": 1679,
+        "compactHeight": 89,
+        "statusDialog": [
+          {
+            "usableMs": 63,
+            "p95Ms": 60,
+            "maxMs": 79,
+            "longFrames": 3
+          },
+          {
+            "usableMs": 27,
+            "p95Ms": 30,
+            "maxMs": 64,
+            "longFrames": 1
+          }
+        ],
+        "legionPortal": [
+          {
+            "usableMs": 442,
+            "p95Ms": 333,
+            "maxMs": 333,
+            "longFrames": 3
+          },
+          {
+            "usableMs": 111,
+            "p95Ms": 51,
+            "maxMs": 85,
+            "longFrames": 2
+          }
+        ],
+        "afterClose": {
+          "statusTimers": 1,
+          "focus": true
+        },
+        "afterLeaving": {
+          "dialog": false,
+          "hunt": false,
+          "statusTimer": 1,
+          "refreshTimer": 1
+        },
+        "statusRequestsOnOpen": 0,
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ]
+      },
+      "candidate-ios-390": {
+        "coldLobbyMs": 1343,
+        "compactHeight": 44,
+        "statusDialog": [
+          {
+            "usableMs": 30,
+            "p95Ms": 89,
+            "maxMs": 89,
+            "longFrames": 1
+          },
+          {
+            "usableMs": 31,
+            "p95Ms": 30,
+            "maxMs": 62,
+            "longFrames": 1
+          }
+        ],
+        "legionPortal": [
+          {
+            "usableMs": 536,
+            "p95Ms": 123,
+            "maxMs": 419,
+            "longFrames": 3
+          },
+          {
+            "usableMs": 177,
+            "p95Ms": 41,
+            "maxMs": 148,
+            "longFrames": 1
+          }
+        ],
+        "afterClose": {
+          "statusTimers": 0,
+          "focus": true
+        },
+        "afterLeaving": {
+          "dialog": false,
+          "hunt": false,
+          "statusTimer": 0,
+          "refreshTimer": 0
+        },
+        "statusRequestsOnOpen": 0,
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ]
+      },
+      "candidate-windows-1440": {
+        "coldLobbyMs": 647,
+        "compactHeight": 44,
+        "statusDialog": [
+          {
+            "usableMs": 16,
+            "p95Ms": 18,
+            "maxMs": 58,
+            "longFrames": 1
+          },
+          {
+            "usableMs": 13,
+            "p95Ms": 18,
+            "maxMs": 18,
+            "longFrames": 0
+          }
+        ],
+        "legionPortal": [
+          {
+            "usableMs": 244,
+            "p95Ms": 153,
+            "maxMs": 153,
+            "longFrames": 5
+          },
+          {
+            "usableMs": 93,
+            "p95Ms": 34,
+            "maxMs": 51,
+            "longFrames": 1
+          }
+        ],
+        "afterClose": {
+          "statusTimers": 0,
+          "focus": true
+        },
+        "afterLeaving": {
+          "dialog": false,
+          "hunt": false,
+          "statusTimer": 0,
+          "refreshTimer": 0
+        },
+        "statusRequestsOnOpen": 0,
+        "errors": []
+      },
+      "candidate-h5-390": {
+        "coldLobbyMs": 1548,
+        "compactHeight": 44,
+        "statusDialog": [
+          {
+            "usableMs": 42,
+            "p95Ms": 5,
+            "maxMs": 56,
+            "longFrames": 1
+          },
+          {
+            "usableMs": 11,
+            "p95Ms": 4,
+            "maxMs": 11,
+            "longFrames": 0
+          }
+        ],
+        "legionPortal": [
+          {
+            "usableMs": 315,
+            "p95Ms": 17,
+            "maxMs": 199,
+            "longFrames": 3
+          },
+          {
+            "usableMs": 117,
+            "p95Ms": 5,
+            "maxMs": 32,
+            "longFrames": 0
+          }
+        ],
+        "afterClose": {
+          "statusTimers": 0,
+          "focus": true
+        },
+        "afterLeaving": {
+          "dialog": false,
+          "hunt": false,
+          "statusTimer": 0,
+          "refreshTimer": 0
+        },
+        "statusRequestsOnOpen": 0,
+        "errors": []
+      },
+      "public-desktop-1440": {
+        "coldLobbyMs": 982,
+        "compactHeight": 44,
+        "statusDialog": [
+          {
+            "usableMs": 27,
+            "p95Ms": 5,
+            "maxMs": 29,
+            "longFrames": 0
+          },
+          {
+            "usableMs": 7,
+            "p95Ms": 4,
+            "maxMs": 7,
+            "longFrames": 0
+          }
+        ],
+        "legionPortal": [
+          {
+            "usableMs": 376,
+            "p95Ms": 53,
+            "maxMs": 138,
+            "longFrames": 6
+          },
+          {
+            "usableMs": 140,
+            "p95Ms": 5,
+            "maxMs": 62,
+            "longFrames": 1
+          }
+        ],
+        "afterClose": {
+          "statusTimers": 0,
+          "focus": true
+        },
+        "afterLeaving": {
+          "dialog": false,
+          "hunt": false,
+          "statusTimer": 0,
+          "refreshTimer": 0
+        },
+        "statusRequestsOnOpen": 0,
+        "errors": [],
+        "initialPublicFeed": {
+          "serverNow": "2026-11-10T13:36:52.364Z",
+          "titles": [
+            "클랜 본부",
+            "랭크 듀오 시즌 8"
+          ]
+        }
+      },
+      "public-ios-390": {
+        "coldLobbyMs": 1491,
+        "compactHeight": 44,
+        "statusDialog": [
+          {
+            "usableMs": 27,
+            "p95Ms": 38,
+            "maxMs": 70,
+            "longFrames": 1
+          },
+          {
+            "usableMs": 14,
+            "p95Ms": 48,
+            "maxMs": 59,
+            "longFrames": 1
+          }
+        ],
+        "legionPortal": [
+          {
+            "usableMs": 252,
+            "p95Ms": 193,
+            "maxMs": 193,
+            "longFrames": 6
+          },
+          {
+            "usableMs": 146,
+            "p95Ms": 46,
+            "maxMs": 116,
+            "longFrames": 1
+          }
+        ],
+        "afterClose": {
+          "statusTimers": 0,
+          "focus": true
+        },
+        "afterLeaving": {
+          "dialog": false,
+          "hunt": false,
+          "statusTimer": 0,
+          "refreshTimer": 0
+        },
+        "statusRequestsOnOpen": 0,
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications.",
+          "/cnine-card.pages.dev/api/auction/user/lobby due to access control checks."
+        ],
+        "initialPublicFeed": {
+          "serverNow": "2026-11-10T13:38:58.203Z",
+          "titles": [
+            "클랜 본부",
+            "랭크 듀오 시즌 8"
+          ]
+        }
+      },
+      "public-h5-390": {
+        "coldLobbyMs": 1154,
+        "compactHeight": 44,
+        "statusDialog": [
+          {
+            "usableMs": 30,
+            "p95Ms": 5,
+            "maxMs": 51,
+            "longFrames": 1
+          },
+          {
+            "usableMs": 9,
+            "p95Ms": 4,
+            "maxMs": 9,
+            "longFrames": 0
+          }
+        ],
+        "legionPortal": [
+          {
+            "usableMs": 352,
+            "p95Ms": 7,
+            "maxMs": 228,
+            "longFrames": 3
+          },
+          {
+            "usableMs": 111,
+            "p95Ms": 5,
+            "maxMs": 38,
+            "longFrames": 0
+          }
+        ],
+        "afterClose": {
+          "statusTimers": 0,
+          "focus": true
+        },
+        "afterLeaving": {
+          "dialog": false,
+          "hunt": false,
+          "statusTimer": 0,
+          "refreshTimer": 0
+        },
+        "statusRequestsOnOpen": 0,
+        "errors": [],
+        "initialPublicFeed": {
+          "serverNow": "2026-11-10T13:38:58.209Z",
+          "titles": [
+            "클랜 본부",
+            "랭크 듀오 시즌 8"
+          ]
+        }
+      }
+    }
+  },
+  "screenshots": [
+    "lobby-summary.png",
+    "lobby-details.png",
+    "legion-header.png"
+  ]
+}
