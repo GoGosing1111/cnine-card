@@ -78,20 +78,22 @@ for(const postgres of [false,true]){
   }finally{await f.close();}
  });
 }
-test('live regional set inheritance, explicit equipment filter, weights and inclusive/exclusive percentage boundaries',async()=>{
+test('Calamity equipment follows the public region and retains its rates across old party filters',async()=>{
  const f=await citadelFixture();try{
   const region=legionRegionDefaults();region.mode='ON';region.difficulties.find(v=>v.id==='calamity').loot.bossSetPercent=.5529;
   await f.exec('INSERT INTO app_meta(key,value) VALUES(?,?)',LEGION_REGIONS_KEY,JSON.stringify(region));
-  const sets=REGION_EQUIPMENT.filter(v=>v.kind==='SET').slice(0,3);for(const [i,v] of sets.entries())await f.exec('INSERT INTO character_equipment_items(id,code,name,is_active,is_public) VALUES(?,?,?,1,?)',20+i,v.code,v.name,i===2?0:1);
+  const sets=REGION_EQUIPMENT.filter(v=>v.kind==='SET');for(const [i,v] of REGION_EQUIPMENT.entries())await f.exec('INSERT INTO character_equipment_items(id,code,name,is_active,is_public) VALUES(?,?,?,1,1)',20+i,v.code,v.name);
   const d=defaultCitadelPolicy().drops;const pools=await citadelLoot(f.env,[{id:1},{id:2}],{...d,equipmentCodes:[sets[0].code]});
-  assert.equal(pools[0].chance,.5529);assert.deepEqual(pools.flatMap(p=>p.armory.map(v=>v.ref)),['20']);
-  const limited=await citadelLoot(f.env,[{id:1},{id:2}],{...d,bossSetPercent:0,equipmentCodes:[]});assert.equal(limited[0].chance,0);assert.equal(limited.flatMap(v=>v.armory).length,0);
+  const inherited=p=>p.calamity.groups[2].flat().filter(v=>v.item.kind==='SET');
+  for(const p of pools){assert.equal(inherited(p).length,25);assert.ok(inherited(p).every(v=>Math.abs(v.percent-.5529*1.3/5)<1e-12));}
+  const limited=await citadelLoot(f.env,[{id:1},{id:2}],{...d,bossSetPercent:0,equipmentCodes:[]});
+  assert.deepEqual(inherited(limited[0]),inherited(pools[0]));
   const pool={chance:100,goods:[{ref:'A',quantity:2,weight:1,type:'INVENTORY_ITEM'},{ref:'B',quantity:7,weight:3,type:'INVENTORY_ITEM'}],armory:[{ref:'9',type:'EQUIPMENT'}],rates:{normalPercent:0,elitePercent:100,bossPercent:0,bossMultiplier:3}};
   const series=[[1000,0],[4000,1],[7000,2]],one=personalFarm(pool,series,false,()=>0);
   assert.deepEqual(one.events.map(v=>v.slice(0,3)),[[4000,0,2]]);assert.ok(!('weight' in one.items[0]));
-  // The 1:3 material weights now have 37.5% and (capped) 100% marginal chances.
-  pool.rates.bossPercent=100;assert.deepEqual(personalFarm(pool,series,false,()=>.375).events.map(v=>v.slice(0,3)),[[4000,1,7],[7000,2,1]]);
-  pool.chance=0;assert.deepEqual(personalFarm(pool,series,false,()=>.375).events.at(-1).slice(0,3),[7000,1,21]);
+  // The 1:3 material weights have 32.5% and 97.5% marginal chances.
+  pool.rates.bossPercent=100;assert.deepEqual(personalFarm(pool,series,false,()=>.325).events.map(v=>v.slice(0,3)),[[4000,1,7],[7000,2,1]]);
+  pool.chance=0;assert.deepEqual(personalFarm(pool,series,false,()=>.325).events.at(-1).slice(0,3),[7000,1,21]);
  }finally{await f.close();}
 });
 test('stronger tier opponents and continuous replenishment allow boss progression with the same four mercenaries',()=>{

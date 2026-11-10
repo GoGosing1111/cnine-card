@@ -17,7 +17,7 @@ test('seeded fixed enemies, rank recommendations rather than restrictions, cross
  assert.equal(common.chunks.length,14);assert.ok(common.chunks.at(-1).events.some(e=>e.type==='ENEMY_SPAWN'));assert.ok(common.kills.some(([at])=>at>common.kills.find(k=>k[1]===2)[0]+30000));
  assert.throws(()=>buildCitadelBattle(ss.slice(0,1),1));assert.throws(()=>buildCitadelBattle([{...ss[0],cards:ss[0].cards.map(c=>({...c,grade:'C',rarity:'C'}))},ss[1]],1));
 });
-test('no player can draw any of the other player’s item types even with an odd catalogue',()=>{
+test('custom party-only pools stay disjoint even with an odd catalogue',()=>{
  const supply=['a','b','c'].map(ref=>({type:'INVENTORY_ITEM',ref})),gear=['1','2','3'].map(ref=>({type:'EQUIPMENT',ref}));
  for(const chance of [0,35,100])for(let i=0;i<100;i++){const [a,b]=distributeCitadelLoot(supply,gear,chance);assert.ok([...b.goods,...b.armory].every(y=>[...a.goods,...a.armory].every(x=>x.type!==y.type||x.ref!==y.ref)));const farm=personalFarm(a,[[10000,2],[15000,2]],true);assert.equal(farmView(farm,9999,true).picked,0);assert.equal(farmView(farm,20000,true).picked,2);}
 });

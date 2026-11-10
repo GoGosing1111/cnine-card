@@ -1,6 +1,6 @@
 import {UNIQUE_MERCENARY_EQUIPMENT} from '../shared/mercenary-unique-equipment-v1.mjs';
 export const FIRST_TIER='gate';
-export const CITADEL_ITEM_MULTIPLIER=1.5;
+export const CITADEL_ITEM_MULTIPLIER=1.3;
 export const CITADEL_COIN_MULTIPLIER=10;
 export const CITADEL_UNIQUE_REWARDS=Object.freeze([5,10,20].map((divisor,index)=>({
  tier:index+1,divisor,family:UNIQUE_MERCENARY_EQUIPMENT.find(item=>item.tier===index+1).family

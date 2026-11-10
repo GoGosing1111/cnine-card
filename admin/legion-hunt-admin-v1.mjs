@@ -16,18 +16,18 @@ function mountCitadelEditor(panel){
   body.querySelector('[data-add-supply]').disabled=!rows.length||used.size>=100;
  }
  function supplyRow(item){
-  const name=catalog.supplies.find(v=>v.code===item.code)?.name||item.code;
+  const name=(catalog.supplies.find(v=>v.code===item.code)?.name||item.code)+(catalog.partyRewards?.calamity?.materialCodes.includes(item.code)?' · 재앙 연동':'');
   return '<div data-supply="'+esc(item.code)+'"><strong>'+esc(name)+'</strong>'+field('quantity','드롭 수량',item.quantity,1,1000000,1)+field('weight','가중치',item.weight,1,1000000,1)+'<button type="button" data-remove-supply aria-label="'+esc(name)+' 제외">제외</button></div>';
  }
  function dependencies(){
-  const f=body.querySelector('[data-drops]');f.elements.bossSetPercent.disabled=f.elements.inheritChance.checked;
+  const f=body.querySelector('[data-drops]');
   body.querySelector('[data-tier-fields]').disabled=f.elements.shareDrops?.checked===true;
-  body.querySelector('[data-gear-options]').disabled=f.elements.allSets.checked;
  }
  function edited(f){
   const get=key=>f.elements[key].valueAsNumber;
+  const previous=drafts.get(tier)?.drops??policy.tierDrops?.[tier]??policy.drops;
   return {normalPercent:get('normalPercent'),elitePercent:get('elitePercent'),bossPercent:get('bossPercent'),bossMultiplier:get('bossMultiplier'),
-   bossSetPercent:f.elements.inheritChance.checked?null:get('bossSetPercent'),equipmentCodes:f.elements.allSets.checked?null:[...f.querySelectorAll('[name=equipment]:checked')].map(el=>el.value),
+   bossSetPercent:previous.bossSetPercent,equipmentCodes:previous.equipmentCodes,
    supplies:[...f.querySelectorAll('[data-supply]')].map(row=>({code:row.dataset.supply,quantity:row.querySelector('[name=quantity]').valueAsNumber,weight:row.querySelector('[name=weight]').valueAsNumber}))};
  }
  function draw(){
@@ -39,16 +39,13 @@ function mountCitadelEditor(panel){
   (unique?.tiers?'<fieldset><legend>성주 유니크 장비</legend><p>이 성주의 확률은 왕좌의 '+Math.round(unique.scale*100)+'%입니다. 아래 평균은 보너스 전 1인 기준입니다.</p><ul>'+
    unique.tiers.map(row=>'<li>'+esc(row.tier+'단계 '+row.family)+' · 10단계 용병장비 확률의 1/'+row.divisor+' × '+Math.round(unique.scale*100)+'% · '+(row.expectedRuns?'평균 약 '+Math.round(row.expectedRuns).toLocaleString('ko-KR')+'회에 1개':'지역 상위 장비 드롭 중지')+'</li>').join('')+'</ul></fieldset>':'')+
   (rewards?'<p>처치 코인은 재앙의 '+rewards.coinMultiplier+'배, 1인 최대 '+rewards.coinCap.toLocaleString('ko-KR')+'코인입니다.</p>':'')+
-  '<fieldset data-tier-fields><legend>개인 드롭 설정</legend><fieldset><legend>몬스터별 기본 확률</legend>'+
-  (rewards?'<p>재료와 지역 세트 장비는 아래 확률과 가중치로 구한 품목별 확률의 '+rewards.itemMultiplier+'배로 드롭합니다. 품목별 상한은 100%입니다.</p>':'')+'<div class="legion-cms-region-fields">'+
+  '<fieldset><legend>솔로 재앙 연동</legend>'+(rewards?.calamity?'<p>운영 지역 '+rewards.calamity.regions+'곳 · 필드 아이템 '+rewards.calamity.fieldItems+'종</p>':'')+'<p>공개 지역의 필드 아이템, 연마석, 지역 세트·보스 고유 장비와 용병 장비 1~10단계를 각 참가자가 획득할 수 있습니다. 품목별 확률은 같은 처치의 솔로 재앙 기준 '+esc(rewards?.itemMultiplier??1.3)+'배이며 최대 100%입니다. 성주 처치 확정 연마석은 개인 가방에 담깁니다.</p></fieldset>'+
+  '<fieldset data-tier-fields><legend>파티 전용 추가 재료</legend><fieldset><legend>몬스터별 기본 확률</legend>'+
+  '<p>재앙 드롭과 겹치는 품목은 재앙 설정을 따릅니다. 아래 확률과 가중치는 추가 재료에 적용합니다.</p><div class="legion-cms-region-fields">'+
   field('normalPercent','일반 몬스터 드롭 확률 (%)',d.normalPercent,0,100,'any')+field('elitePercent','정예 몬스터 드롭 확률 (%)',d.elitePercent,0,100,'any')+
   field('bossPercent','성주 드롭 확률 (%)',d.bossPercent,0,100,'any')+field('bossMultiplier','성주 재료 수량 배수',d.bossMultiplier,1,100,1)+'</div></fieldset>'+
   '<fieldset><legend>개인 재료 후보</legend><p>서로 다른 재료를 2종 이상 등록하세요. 출전 시 두 사람에게 후보를 나눈 뒤, 각자 배정된 후보 안에서 가중치에 따라 추첨합니다.</p><div data-supplies>'+d.supplies.map(supplyRow).join('')+'</div>'+
   '<div class="legion-cms-add"><label>재료 검색<input type="search" data-supply-search></label><label>추가할 재료<select data-supply-options></select></label><button type="button" data-add-supply>재료 추가</button></div></fieldset>'+
-  '<fieldset><legend>성주 세트 장비</legend><label class="legion-cms-check"><input type="checkbox" name="inheritChance" '+(d.bossSetPercent===null?'checked':'')+'>지역 재앙 확률 연동 ('+esc(catalog.regionalBossSetPercent)+'%)</label>'+
-  field('bossSetPercent','성주 드롭 중 장비 확률 (%)',d.bossSetPercent??catalog.regionalBossSetPercent,0,100,'any')+
-  '<label class="legion-cms-check"><input type="checkbox" name="allSets" '+(d.equipmentCodes===null?'checked':'')+'>운영 중인 지역의 공개 세트 장비 전체 사용</label>'+
-  '<fieldset data-gear-options><legend>개별 장비 선택</legend>'+catalog.equipment.map(v=>'<label class="legion-cms-check"><input type="checkbox" name="equipment" value="'+esc(v.code)+'" '+(d.equipmentCodes?.includes(v.code)?'checked':'')+'>'+esc(v.name)+(v.available?'':' · 지역 운영 중지')+'</label>').join('')+'</fieldset><p>여러 품목에 당첨되면 한 번의 습득으로 모두 받습니다.</p></fieldset>'+
   '</fieldset><footer><span>다음 출전부터 적용됩니다.</span><button type="submit">성채 드롭 저장</button></footer></form>';
   body.querySelector('[name=mode]').value=policy.mode;available();dependencies();
  }
@@ -66,7 +63,6 @@ function mountCitadelEditor(panel){
    const saved=drafts.get(tier)?.drops??policy.tierDrops?.[tier]??policy.drops;
    drafts.set(tier,{shared:e.target.checked,drops:e.target.checked?edited(e.target.form):saved});draw();return;
   }
-  if(['inheritChance','allSets'].includes(e.target.name))dependencies();
  });
  body.addEventListener('click',e=>{
   const remove=e.target.closest('[data-remove-supply]');if(remove){remove.closest('[data-supply]').remove();available();return;}

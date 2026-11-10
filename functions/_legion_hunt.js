@@ -1,5 +1,4 @@
 import {readCollectionBonuses} from './_collection_bonuses.js';
-import {rewardDropWithBonus} from '../shared/collection-bonuses-v1.mjs';
 import {createHuntSession,restoreHuntSession,DIFFICULTIES} from '../preview/sustained-hunt-v2/session.mjs';
 import {loadScrapyardV3Snapshot} from './_scrapyard_v3.js';
 import {legionHuntAccess,canAccessLegionHunt,legionHuntCatalog,legionHuntTestUsers,searchLegionHuntTestUsers,readLegionHuntPolicy,saveLegionHuntPolicy} from './_legion_hunt_settings.js';
@@ -7,8 +6,8 @@ import {claimLegionHuntReward,settleLegionHuntRewards} from './_legion_hunt_rewa
 import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
 import {contentEnergy,LEGION_ENERGY_MAXIMUM} from '../shared/content-energy-v1.mjs';
 import {legionHuntEnergyView} from '../shared/legion-hunt-energy-v1.mjs';
-import {readMiracleDropPercent,applyMiracleDropChance} from './_miracle_burning.js';
-import {readRegionPolicy,saveRegionPolicy,regionAccess,regionBootstrap,regionRewardCatalog,publicRegionHuntPayload,ascendantBossPercent} from './_legion_regions.js';
+import {readMiracleDropPercent} from './_miracle_burning.js';
+import {readRegionPolicy,saveRegionPolicy,regionAccess,regionBootstrap,regionRewardCatalog,publicRegionHuntPayload,ascendantBossPercent,legionDropPercent} from './_legion_regions.js';
 import {regionalDifficulty,regionById} from '../shared/legion-regions-v1.mjs';
 import {readSupportBenefits} from './_supporter_benefits.js';
 import {SUPPORT_PLAN} from '../shared/server-support-v1.mjs';
@@ -181,18 +180,19 @@ export async function handleLegionHunt({path,request,env,deps}){
         const snapshot=await accountSnapshot(env,user,deps);
         const [miracleDropPercent,collection,martialLaw]=await Promise.all([readMiracleDropPercent(env),readCollectionBonuses(env,user.id),readMartialLaw(env,{now:now()})]);
         const collectionPercent=collection.totals.dropPercent;
+        const boosted=base=>legionDropPercent(base,miracleDropPercent,collectionPercent);
         const paying=access.liveRewards&&(!regionPolicy||regionPolicy.mode==='ON');
         const coins=createLegionCoins(body.regionId,body.difficulty,{live:paying,bonusPercent:collection.totals.coinPercent,martialLaw:martialLaw.enabled});
         const regionLoot=regionDifficulty?{...regionDifficulty.loot}:null;
-        if(regionLoot)for(const key of ['stonePercent','eliteStonePercent','eliteSetPercent','bossSetPercent','bossUniquePercent'])regionLoot[key]=rewardDropWithBonus(applyMiracleDropChance(regionLoot[key],miracleDropPercent),collectionPercent);
-        const dropPolicy=regionPolicy?{regionLoot,dropLifeMs:regionLoot.lifetimeSeconds*1000,items:await regionRewardCatalog(env,{live:paying,ascendant:regionPolicy.ascendantDrops?.enabled===true})}:{dropChance:rewardDropWithBonus(applyMiracleDropChance(d.dropPercent,miracleDropPercent),collectionPercent)/100,bossDropChance:rewardDropWithBonus(applyMiracleDropChance(d.bossDropPercent,miracleDropPercent),collectionPercent)/100,dropLifeMs:d.lifetimeSeconds*1000,items:policy.items};
+        if(regionLoot)for(const key of ['stonePercent','eliteStonePercent','eliteSetPercent','bossSetPercent','bossUniquePercent'])regionLoot[key]=boosted(regionLoot[key]);
+        const dropPolicy=regionPolicy?{regionLoot,dropLifeMs:regionLoot.lifetimeSeconds*1000,items:await regionRewardCatalog(env,{live:paying,ascendant:regionPolicy.ascendantDrops?.enabled===true})}:{dropChance:boosted(d.dropPercent)/100,bossDropChance:boosted(d.bossDropPercent)/100,dropLifeMs:d.lifetimeSeconds*1000,items:policy.items};
         if(regionPolicy?.ascendantDrops?.enabled){
           dropPolicy.ascendantDrops=regionPolicy.ascendantDrops.tiers.map(row=>({tier:row.tier,bossPercent:ascendantBossPercent(row.expectedRuns,miracleDropPercent,collectionPercent)}));
         }
         const fieldDrops=regionPolicy?.regions.find(r=>r.id===body.regionId)?.fieldDrops;
         if(fieldDrops){
           const field=fieldDrops.difficulties.find(r=>r.id===body.difficulty);
-          dropPolicy.fieldDrops={items:fieldDrops.items,dropChance:rewardDropWithBonus(applyMiracleDropChance(field.dropPercent,miracleDropPercent),collectionPercent)/100,bossDropChance:rewardDropWithBonus(applyMiracleDropChance(field.bossDropPercent,miracleDropPercent),collectionPercent)/100};
+          dropPolicy.fieldDrops={items:fieldDrops.items,dropChance:boosted(field.dropPercent)/100,bossDropChance:boosted(field.bossDropPercent)/100};
           dropPolicy.dropLifeMs=field.lifetimeSeconds*1000;
         }
         dropPolicy.coinCap=coins.cap;

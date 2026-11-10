@@ -4,6 +4,7 @@ import {readRegionPolicy} from './_legion_regions.js';
 import {REGION_EQUIPMENT} from '../shared/legion-regions-v1.mjs';
 import {FIRST_TIER,tierById,citadelTierMenu,CITADEL_ITEM_MULTIPLIER,CITADEL_COIN_MULTIPLIER,CITADEL_UNIQUE_REWARDS} from './_legion_citadel_tiers.js';
 import {LEGION_COIN_CAPS} from '../shared/legion-hunt-coins-v1.mjs';
+import {calamityMaterialCodes} from './_legion_citadel_calamity.js';
 
 export const CITADEL_POLICY_KEY='legion_citadel_settings_v1';
 export const SUPPLIES=Object.freeze({EQUIPMENT_POLISH_STONE:5,VEHICLE_PART_ENGINE:1,VEHICLE_PART_FRAME:2,VEHICLE_PART_TIRE:3});
@@ -49,8 +50,11 @@ async function adminCatalog(env){
  ]);
  const enabled=new Set(region.policy.regions.filter(r=>r.enabled).map(r=>r.id));
  const open=new Set(REGION_EQUIPMENT.filter(e=>enabled.has(e.regionId)&&region.policy.mode==='ON').map(e=>e.code));
- const reference=region.policy.mode==='ON'&&region.policy.ascendantDrops?.enabled&&region.policy.ascendantDrops.tiers.find(t=>t.tier===10);
+ const regions=region.policy.mode==='ON'?region.policy.regions.filter(r=>r.enabled):[];
+ const reference=regions.length&&region.policy.ascendantDrops?.enabled&&region.policy.ascendantDrops.tiers.find(t=>t.tier===10);
+ const fieldItems=new Set(regions.flatMap(r=>(r.fieldDrops?.items||[]).filter(v=>v.enabled&&v.weight>0).map(v=>v.code)));
  const partyRewards={itemMultiplier:CITADEL_ITEM_MULTIPLIER,coinMultiplier:CITADEL_COIN_MULTIPLIER,coinCap:LEGION_COIN_CAPS.regions.calamity*CITADEL_COIN_MULTIPLIER,
+  calamity:{regions:regions.length,fieldItems:fieldItems.size,materialCodes:[...calamityMaterialCodes(regions)]},
   unique:Object.fromEntries(citadelTierMenu.map(({id})=>{
    const scale=tierById(id).uniqueScale;
    return [id,{scale,tiers:CITADEL_UNIQUE_REWARDS.map(row=>({...row,expectedRuns:reference?reference.expectedRuns*row.divisor/scale:null}))}];

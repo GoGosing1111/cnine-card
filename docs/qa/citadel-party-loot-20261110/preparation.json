@@ -1,5 +1,6 @@
 {
   "status": "PREPARED_LOCALLY",
+  "supersedingOrdinaryDropVerification": "calamity.json",
   "branch": "codex/legion-citadel-loot-20261110",
   "baseline": "88513d3f8",
   "verifiedAt": "2026-11-10T04:33:54.983Z",

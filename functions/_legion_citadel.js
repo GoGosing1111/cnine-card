@@ -12,7 +12,7 @@ import {seasonAwardStatements,seasonBonus,seasonEnabled} from './_season_s1.js';
 import {buildCitadelBattle} from './_legion_citadel_battle.js';
 import {FIRST_TIER,tierById,citadelTierMenu} from './_legion_citadel_tiers.js';
 import {citadelAdmin,readCitadelPolicy,CITADEL_POLICY_KEY} from './_legion_citadel_policy.js';
-import {citadelLoot,citadelGrantStatements,personalFarm,farmView} from './_legion_citadel_loot.js';
+import {citadelLoot,citadelGrantStatements,personalFarm,farmView,collectCitadelPile} from './_legion_citadel_loot.js';
 import {earnedLegionCoins} from '../shared/legion-hunt-coins-v1.mjs';
 
 const P='legion_citadel_v1:',roomKey=id=>P+'room:'+id,userKey=id=>P+'user:'+id,replayKey=id=>P+'battle:'+id;
@@ -53,7 +53,7 @@ async function present(db,r,user,at){
  const state=view(r,user,at);if(!r.startsAt)return state;
  const f=JSON.parse(await raw(db,farmKey(r.id,user.id)));if(!f)fail('FARM','개인 전리품을 읽지 못했습니다.',503);
  const earned=farmView(f,Math.min(r.duration,at-r.startsAt),state.status==='ACTIVE');
- return {...state,...earned,canClaim:['VICTORY','DEFEAT'].includes(state.status)&&(earned.picked>0||state.coins>0)&&!state.claimed};
+ return {...state,...earned,canClaim:['VICTORY','DEFEAT'].includes(state.status)&&(earned.drops.length>0||state.coins>0)&&!state.claimed};
 }
 const emptyMember=u=>({id:Number(u.id),name:String(u.nickname||'토벌대원').slice(0,64),ready:false,loaded:false});
 async function current(DB,u){const ptr=await raw(DB,userKey(u));const data=ptr&&await raw(DB,roomKey(ptr));return {ptr,r:data?JSON.parse(data):null};}
@@ -148,6 +148,7 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
     out.push(del(db,listKey(r)));
     for(let i=0;i<2;i++){
      r.members[i].coins=loot[i].coins;
+     r.members[i].calamity=!!loot[i].calamity;
      out.push(put(db,farmKey(r.id,us[i].id),JSON.stringify(personalFarm(loot[i],built.kills,squads[i].pet?.magnet===true))));
     }
     Object.assign(r,{phase:'LOADING',expiresAt:now()+120000,won:built.won,kills:built.kills,duration:built.duration,parts:built.chunks.length});
@@ -165,8 +166,8 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
     const k=farmKey(id,uid),saved=await raw(db,k),farm=saved&&JSON.parse(saved);
     if(!farm||!farm.events.some(d=>d[4]===b.token))fail('TOKEN','내 전리품만 획득할 수 있습니다.',403);
     if(farm.picked.includes(b.token))return present(db,r,user,at);
-    if(status!=='ACTIVE'||!farmView(farm,at-r.startsAt,true).ground.some(d=>d.token===b.token))fail('EXPIRED','아직 떨어지지 않았거나 사라진 전리품입니다.');
-    farm.picked.push(b.token);const result=await stmt(db,'UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?',JSON.stringify(farm),k,saved).run();
+    if(status!=='ACTIVE'||!collectCitadelPile(farm,b.token,at-r.startsAt))fail('EXPIRED','아직 떨어지지 않았거나 사라진 전리품입니다.');
+    const result=await stmt(db,'UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?',JSON.stringify(farm),k,saved).run();
     if(Number(result.meta?.changes)!==1)fail('CONFLICT','개인 가방을 갱신 중입니다.');
     return present(db,r,user,at);
    }else if(action==='season'){
@@ -176,7 +177,7 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
     if(me.claimed)return present(db,r,user,at);
     if(r.paying&&policy.mode!=='ON')fail('PAUSED','보상 지급이 재개된 후 수령하세요. 전리품은 보관됩니다.',423);
     const snapshot=await present(db,r,user,at);
-    out.push(...await citadelGrantStatements(env,user,id,snapshot.drops,r.paying,snapshot.coins));me.claimed=true;
+    out.push(...await citadelGrantStatements(env,user,id,snapshot.drops,r.paying,snapshot.coins,me.calamity));me.claimed=true;
     out.push(put(db,receiptKey(id,uid),JSON.stringify({...snapshot,claimed:true,canClaim:false,ground:[]})));
    }else if(action==='leave'){
     if(pointer.ptr!==id){if(me.left)return null;fail('OTHER','현재 참가한 파티를 다시 확인하세요.');}

@@ -83,7 +83,7 @@ function expeditionGuide() {
   const choices=quality.map(([v,n])=>'<option value="'+v+'" '+(readQuality()===v?'selected':'')+'>'+n+'</option>').join('');
   return '<details class="ct-details"><summary>원정 규칙과 화면 설정'+glyph('chevron')+'</summary><div class="ct-rules">'+
     '<div><b>편성 및 입장</b><p>각자 용병 2명과 아이콘 2장을 자유롭게 편성합니다. 두 사람의 전장 로딩이 끝나면 각자 행동력 1을 사용합니다.</p></div>'+
-    '<div><b>성주와 전리품</b><p>5분에 성주가 합류하고, 처치 후에도 7분까지 사냥합니다. 내 필드의 아이템은 12초 안에 주우세요. 처치 코인은 자동으로 누적되며 전투 종료 후 아이템과 함께 수령합니다.</p></div>'+
+    '<div><b>성주와 전리품</b><p>5분에 성주가 합류하고, 처치 후에도 7분까지 사냥합니다. 솔로 재앙의 필드 아이템과 장비는 각자 재앙의 1.3배 확률로 얻습니다. 필드 전리품은 12초 안에 주우세요. 성주 처치 확정 연마석과 처치 코인은 자동 누적되며 전투 종료 후 수령합니다.</p></div>'+
     '<label class="ct-quality">전투 화면 <select data-quality aria-label="전투 화면">'+choices+'</select></label></div></details>';
 }
 function finder({open,tiers,selectedTier,rooms,tierLabel,waiting,test}) {
@@ -215,9 +215,10 @@ export function openCitadel(trigger,firstRead=null){
  function unpack(frame){const ret={A:[],B:[]},row=frame?.[1]||[];for(let i=0;i<row.length;i+=3){const u=replay.units[row[i]];ret[u.side].push({...u,hp:row[i+1],shield:row[i+2]});}return ret;}
  function ground(){
   const host=box.querySelector('[data-ground]');if(!host||!state)return;
-  const elapsed=clock.now()-(state.startsAt||0),items=(state.ground||[]).filter(x=>x.expires>elapsed),key=items.map(x=>x.token).join('|');
+  const elapsed=clock.now()-(state.startsAt||0),items=(state.ground||[]).filter(x=>x.expires>elapsed);
+  const key=items.map(x=>[x.token,x.name,x.quantity,x.extraKinds||0].join('/')).join('|');
   if(key!==groundKey){groundKey=key;host.innerHTML=items.map(x=>'<button data-act="pickup" data-id="'+esc(x.token)+'" style="left:'+([12,43,73][x.pos%3])+'%;top:'+(Math.floor(x.pos/3)?56:26)+'%">'+(art(x.image)?'<img alt="" src="'+esc(art(x.image))+'">':'')+'<span>'+esc(x.name)+' × '+x.quantity+(x.extraKinds?' 외 '+x.extraKinds+'종':'')+'</span></button>').join('');}
-  txt(box.querySelector('[data-farm-count]'),'처치 '+state.kills+' · 내 가방 '+(state.picked||0)+(state.magnet?' · 자석 수집':''));
+  txt(box.querySelector('[data-farm-count]'),'처치 '+state.kills+' · 내 가방 '+(state.drops?.length||0)+'종'+(state.magnet?' · 자석 수집':''));
  }
  function ahead(elapsed){
   const dest=Math.max(0,Math.floor(elapsed/replay.chunkMs)),next=dest>loadedPart?dest:loadedPart+1;

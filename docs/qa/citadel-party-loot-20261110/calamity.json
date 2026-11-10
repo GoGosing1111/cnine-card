@@ -1,0 +1,579 @@
+{
+  "status": "PREPARED_LOCALLY",
+  "branch": "codex/legion-citadel-loot-20261110",
+  "baseline": "971705680",
+  "verifiedAt": "2026-11-10T07:19:09.577Z",
+  "source": {
+    "readOnly": true,
+    "checkedAt": "2026-11-10T06:47:14.743Z",
+    "recheck": {
+      "readOnly": true,
+      "checkedAt": "2026-11-10T07:18:33.114Z",
+      "partyMode": "OFF",
+      "regionMode": "ON",
+      "sameRevision": true,
+      "sameLoot": true
+    },
+    "partyAdmission": "OFF",
+    "regions": 5,
+    "liveAccountWrites": 0,
+    "deployments": 0
+  },
+  "party": {
+    "inheritedTotal": 93,
+    "fieldItems": 12,
+    "polishStone": 1,
+    "regionalSetPieces": 25,
+    "regionalBossSignatureItems": 5,
+    "ascendantPieces": 50,
+    "relativeChancePerItem": 1.3,
+    "maximumPercentPerItem": 100,
+    "quantity": "same range as solo Calamity",
+    "regularFieldCheckPct": [
+      8,
+      10.4
+    ],
+    "bossFieldCheckPct": [
+      72,
+      93.6
+    ],
+    "guaranteedBossPolishQuantity": 20,
+    "personalRolls": true,
+    "partyDifficulties": [
+      "gate",
+      "keep",
+      "throne"
+    ],
+    "regionalEquipment": "each active map contributes the original per-piece chance from that map; no dilution by map count",
+    "commonField": "duplicate rows across open maps use the highest solo marginal and the range from that same source. The five live tables are identical.",
+    "manualAndMagnet": "All confirmed kills roll; six screen positions stack simultaneous earned drops, each keeping its own 12-second deadline. Guaranteed stones enter the bag at the boss kill.",
+    "coins": {
+      "relativeToCalamity": 10,
+      "capPerPerson": 300000000000
+    },
+    "partyExclusiveUnique": {
+      "pieces": 15,
+      "throneDivisorsOfSoloTier10": [
+        5,
+        10,
+        20
+      ],
+      "stageScales": [
+        0.8,
+        0.9,
+        1
+      ]
+    }
+  },
+  "checks": {
+    "passed": 74,
+    "failed": 0,
+    "sourceParityAndForcedGrants": [
+      {
+        "database": "SQLite",
+        "seats": 2,
+        "partyDifficulties": 3,
+        "checkedMarginals": 858,
+        "forcedSuccessfulRolls": 858,
+        "grantTypesPerAccount": 93,
+        "equipmentInEachAccount": 80
+      },
+      {
+        "database": "PGlite",
+        "seats": 2,
+        "partyDifficulties": 3,
+        "checkedMarginals": 858,
+        "forcedSuccessfulRolls": 858,
+        "grantTypesPerAccount": 93,
+        "equipmentInEachAccount": 80
+      }
+    ],
+    "cms": [
+      {
+        "width": 1440,
+        "tiers": 3,
+        "mode": "OFF",
+        "bounds": [
+          1102,
+          1102
+        ]
+      },
+      {
+        "width": 390,
+        "tiers": 3,
+        "mode": "OFF",
+        "bounds": [
+          336,
+          336
+        ]
+      }
+    ],
+    "guaranteedStonesVisibleAndClaimedViaResultScreen": [
+      "desktop",
+      "ios"
+    ],
+    "packaging": {
+      "publicCount": 20000,
+      "publicLimit": 20000,
+      "itemImages": 108,
+      "enemyImages": 5,
+      "windowsManifestFiles": 115,
+      "workerBundles": 2
+    }
+  },
+  "performance": {
+    "conditions": "Windows, local fixture APIs and a copy of read-only production Calamity settings on isolated test accounts. No physical mobile device. Before/after inputs and local static server match. Browser/RNG and the computer are not locked to a fixed frame rate.",
+    "routes": "Real game PVE → party → two ready squads → start, boss resume, claim. Fresh web sessions for desktop Chrome 1440×960, WebKit iPhone 13 and Android Chrome Pixel 7 at 390×844. Smoke on Windows Electron QA shell, ONE store SDK iframe, Android direct entry, Play entry and Edge.",
+    "timing": "Click to actionable finder, reentry, first battle and boss resume. Per-run median values with three interleaved samples on primary paths and one matched run otherwise. requestAnimationFrame measured for 4.5s. Post-close observation 2.5s.",
+    "implementation": "Compile per-room roll tables, batch 53-bit cryptographic draws and store artwork metadata only for awarded inherited items. Local start API includes building the combat replay; subsequent client setup includes asset fetch/decode, rendering and mounting.",
+    "isolatedRoomCost": {
+      "before": {
+        "variant": "before",
+        "rooms": 40,
+        "seed": 5,
+        "kills": 698,
+        "medianSnapshotDbMs": 0.976,
+        "medianRollBothMs": 2.356,
+        "medianFarmJsonBytesBoth": 9862,
+        "medianKindsStoredBoth": 44,
+        "medianGroundEventsBoth": 104,
+        "medianReadBothMs": 0.055
+      },
+      "after": {
+        "variant": "after",
+        "rooms": 40,
+        "seed": 5,
+        "kills": 698,
+        "medianSnapshotDbMs": 1.059,
+        "medianRollBothMs": 0.522,
+        "medianFarmJsonBytesBoth": 8040,
+        "medianKindsStoredBoth": 15,
+        "medianGroundEventsBoth": 161,
+        "medianReadBothMs": 0.056
+      }
+    },
+    "comparison": {
+      "desktop": {
+        "before": {
+          "samples": 3,
+          "renderer": "detail",
+          "firstFinderMs": 195,
+          "finderReentryMs": 36,
+          "firstBattleMs": 2383,
+          "bossResumeMs": 824,
+          "startServerMs": 306,
+          "replayServerMs": 20,
+          "clientSetupAfterReplayResponseMs": 1943,
+          "frames": {
+            "windowSeconds": 4.5,
+            "medianMs": 4.2,
+            "p95Ms": 4.3,
+            "worstMs": 58.3,
+            "sampledFrames": 3162,
+            "over50ms": 3
+          },
+          "afterClose": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "diagnostics": []
+        },
+        "after": {
+          "samples": 3,
+          "renderer": "detail",
+          "firstFinderMs": 208,
+          "finderReentryMs": 39,
+          "firstBattleMs": 2353,
+          "bossResumeMs": 967,
+          "startServerMs": 318,
+          "replayServerMs": 12,
+          "clientSetupAfterReplayResponseMs": 1905,
+          "frames": {
+            "windowSeconds": 4.5,
+            "medianMs": 4.2,
+            "p95Ms": 4.3,
+            "worstMs": 62.5,
+            "sampledFrames": 3141,
+            "over50ms": 3
+          },
+          "afterClose": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "diagnostics": []
+        }
+      },
+      "ios": {
+        "before": {
+          "samples": 3,
+          "renderer": "light",
+          "firstFinderMs": 639,
+          "finderReentryMs": 376,
+          "firstBattleMs": 966,
+          "bossResumeMs": 423,
+          "startServerMs": 265,
+          "replayServerMs": 10,
+          "clientSetupAfterReplayResponseMs": 83,
+          "frames": {
+            "windowSeconds": 4.5,
+            "medianMs": 15,
+            "p95Ms": 30,
+            "worstMs": 183,
+            "sampledFrames": 739,
+            "over50ms": 11
+          },
+          "afterClose": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "diagnostics": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        },
+        "after": {
+          "samples": 3,
+          "renderer": "light",
+          "firstFinderMs": 630,
+          "finderReentryMs": 545,
+          "firstBattleMs": 1005,
+          "bossResumeMs": 437,
+          "startServerMs": 270,
+          "replayServerMs": 10,
+          "clientSetupAfterReplayResponseMs": 86,
+          "frames": {
+            "windowSeconds": 4.5,
+            "medianMs": 15,
+            "p95Ms": 30,
+            "worstMs": 168,
+            "sampledFrames": 707,
+            "over50ms": 16
+          },
+          "afterClose": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "diagnostics": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        }
+      },
+      "android": {
+        "before": {
+          "samples": 3,
+          "renderer": "detail",
+          "firstFinderMs": 189,
+          "finderReentryMs": 30,
+          "firstBattleMs": 2069,
+          "bossResumeMs": 1130,
+          "startServerMs": 244,
+          "replayServerMs": 9,
+          "clientSetupAfterReplayResponseMs": 1713,
+          "frames": {
+            "windowSeconds": 4.5,
+            "medianMs": 4.2,
+            "p95Ms": 4.3,
+            "worstMs": 66.6,
+            "sampledFrames": 3155,
+            "over50ms": 2
+          },
+          "afterClose": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "diagnostics": []
+        },
+        "after": {
+          "samples": 3,
+          "renderer": "detail",
+          "firstFinderMs": 177,
+          "finderReentryMs": 42,
+          "firstBattleMs": 2556,
+          "bossResumeMs": 1041,
+          "startServerMs": 251,
+          "replayServerMs": 9,
+          "clientSetupAfterReplayResponseMs": 2115,
+          "frames": {
+            "windowSeconds": 4.5,
+            "medianMs": 4.2,
+            "p95Ms": 4.3,
+            "worstMs": 58.3,
+            "sampledFrames": 3148,
+            "over50ms": 2
+          },
+          "afterClose": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "diagnostics": []
+        }
+      },
+      "windows": {
+        "before": {
+          "samples": 1,
+          "renderer": "detail",
+          "firstFinderMs": 123,
+          "finderReentryMs": 57,
+          "firstBattleMs": 2566,
+          "bossResumeMs": 1065,
+          "startServerMs": 292,
+          "replayServerMs": 8,
+          "clientSetupAfterReplayResponseMs": 2030,
+          "frames": {
+            "windowSeconds": 4.5,
+            "medianMs": 16.7,
+            "p95Ms": 16.8,
+            "worstMs": 50,
+            "sampledFrames": 269,
+            "over50ms": 0
+          },
+          "afterClose": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "diagnostics": []
+        },
+        "after": {
+          "samples": 1,
+          "renderer": "detail",
+          "firstFinderMs": 93,
+          "finderReentryMs": 45,
+          "firstBattleMs": 2115,
+          "bossResumeMs": 980,
+          "startServerMs": 257,
+          "replayServerMs": 11,
+          "clientSetupAfterReplayResponseMs": 1747,
+          "frames": {
+            "windowSeconds": 4.5,
+            "medianMs": 16.7,
+            "p95Ms": 16.8,
+            "worstMs": 16.8,
+            "sampledFrames": 271,
+            "over50ms": 0
+          },
+          "afterClose": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "diagnostics": []
+        }
+      },
+      "onestore-h5": {
+        "before": {
+          "samples": 1,
+          "renderer": "detail",
+          "firstFinderMs": 161,
+          "finderReentryMs": 48,
+          "firstBattleMs": 3046,
+          "bossResumeMs": 1941,
+          "startServerMs": 244,
+          "replayServerMs": 17,
+          "clientSetupAfterReplayResponseMs": 2626,
+          "frames": {
+            "windowSeconds": 4.5,
+            "medianMs": 12.8,
+            "p95Ms": 20.6,
+            "worstMs": 64.7,
+            "sampledFrames": 362,
+            "over50ms": 1
+          },
+          "afterClose": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "diagnostics": []
+        },
+        "after": {
+          "samples": 1,
+          "renderer": "detail",
+          "firstFinderMs": 231,
+          "finderReentryMs": 57,
+          "firstBattleMs": 3241,
+          "bossResumeMs": 2211,
+          "startServerMs": 325,
+          "replayServerMs": 11,
+          "clientSetupAfterReplayResponseMs": 2764,
+          "frames": {
+            "windowSeconds": 4.5,
+            "medianMs": 13.9,
+            "p95Ms": 23.3,
+            "worstMs": 81.7,
+            "sampledFrames": 302,
+            "over50ms": 1
+          },
+          "afterClose": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "diagnostics": []
+        }
+      },
+      "android-direct": {
+        "before": {
+          "samples": 1,
+          "renderer": "detail",
+          "firstFinderMs": 225,
+          "finderReentryMs": 49,
+          "firstBattleMs": 2699,
+          "bossResumeMs": 1048,
+          "startServerMs": 261,
+          "replayServerMs": 9,
+          "clientSetupAfterReplayResponseMs": 2282,
+          "frames": {
+            "windowSeconds": 4.5,
+            "medianMs": 13.4,
+            "p95Ms": 15.2,
+            "worstMs": 53.2,
+            "sampledFrames": 333,
+            "over50ms": 1
+          },
+          "afterClose": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "diagnostics": []
+        },
+        "after": {
+          "samples": 1,
+          "renderer": "detail",
+          "firstFinderMs": 168,
+          "finderReentryMs": 36,
+          "firstBattleMs": 1983,
+          "bossResumeMs": 1540,
+          "startServerMs": 251,
+          "replayServerMs": 10,
+          "clientSetupAfterReplayResponseMs": 1623,
+          "frames": {
+            "windowSeconds": 4.5,
+            "medianMs": 13.3,
+            "p95Ms": 16.6,
+            "worstMs": 58,
+            "sampledFrames": 340,
+            "over50ms": 1
+          },
+          "afterClose": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "diagnostics": []
+        }
+      },
+      "play-twa": {
+        "before": {
+          "samples": 1,
+          "renderer": "detail",
+          "firstFinderMs": 200,
+          "finderReentryMs": 52,
+          "firstBattleMs": 2070,
+          "bossResumeMs": 1107,
+          "startServerMs": 243,
+          "replayServerMs": 8,
+          "clientSetupAfterReplayResponseMs": 1706,
+          "frames": {
+            "windowSeconds": 4.5,
+            "medianMs": 4.2,
+            "p95Ms": 20.6,
+            "worstMs": 49.8,
+            "sampledFrames": 505,
+            "over50ms": 0
+          },
+          "afterClose": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "diagnostics": []
+        },
+        "after": {
+          "samples": 1,
+          "renderer": "detail",
+          "firstFinderMs": 192,
+          "finderReentryMs": 30,
+          "firstBattleMs": 2196,
+          "bossResumeMs": 1065,
+          "startServerMs": 249,
+          "replayServerMs": 6,
+          "clientSetupAfterReplayResponseMs": 1837,
+          "frames": {
+            "windowSeconds": 4.5,
+            "medianMs": 4.2,
+            "p95Ms": 4.3,
+            "worstMs": 49.9,
+            "sampledFrames": 1034,
+            "over50ms": 0
+          },
+          "afterClose": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "diagnostics": []
+        }
+      },
+      "edge": {
+        "before": {
+          "samples": 1,
+          "renderer": "detail",
+          "firstFinderMs": 220,
+          "finderReentryMs": 35,
+          "firstBattleMs": 2058,
+          "bossResumeMs": 932,
+          "startServerMs": 275,
+          "replayServerMs": 9,
+          "clientSetupAfterReplayResponseMs": 1671,
+          "frames": {
+            "windowSeconds": 4.5,
+            "medianMs": 4.2,
+            "p95Ms": 4.3,
+            "worstMs": 50,
+            "sampledFrames": 1048,
+            "over50ms": 0
+          },
+          "afterClose": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "diagnostics": []
+        },
+        "after": {
+          "samples": 1,
+          "renderer": "detail",
+          "firstFinderMs": 170,
+          "finderReentryMs": 51,
+          "firstBattleMs": 2049,
+          "bossResumeMs": 851,
+          "startServerMs": 282,
+          "replayServerMs": 30,
+          "clientSetupAfterReplayResponseMs": 1623,
+          "frames": {
+            "windowSeconds": 4.5,
+            "medianMs": 13.4,
+            "p95Ms": 16.3,
+            "worstMs": 57.7,
+            "sampledFrames": 330,
+            "over50ms": 1
+          },
+          "afterClose": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "diagnostics": []
+        }
+      }
+    }
+  },
+  "rawReports": "operations/citadel-party-loot-20261110/calamity-*"
+}

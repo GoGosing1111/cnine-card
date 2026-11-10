@@ -5,7 +5,7 @@ import {jointError} from './_joint_request.js';
 import {LEGION_HUNT_SETTINGS_KEY} from './_legion_hunt_settings.js';
 import {LEGION_REGIONS_KEY} from '../shared/legion-regions-v1.mjs';
 
-function available(item){
+export function legionRewardAvailable(item){
   const definitions={
     INVENTORY_ITEM:['inventory_items','code=? AND is_active=1'],
     EQUIPMENT:['character_equipment_items','id=? AND is_active=1 AND is_public=1'],
@@ -38,7 +38,7 @@ async function commitHuntRewards(env,user,{key,before,run,policyRaw,regionPolicy
   const DB=env.DB,guard=`hunt:${token}`,proof=`hunt-proof:${token}`;
   const statements=[
     DB.prepare('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?').bind(raw,key,before),
-    jointGuard(DB,guard,`EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND (${items.map(available).join(' AND ')||'1=1'})`,[key,raw,LEGION_HUNT_SETTINGS_KEY,policyRaw,...items.map(item=>item.ref)]),
+    jointGuard(DB,guard,`EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND (${items.map(legionRewardAvailable).join(' AND ')||'1=1'})`,[key,raw,LEGION_HUNT_SETTINGS_KEY,policyRaw,...items.map(item=>item.ref)]),
     ...grants.statements,
     jointGuard(DB,proof,grants.proofs.map(p=>`(${p.sql})`).join(' AND ')||(items.length?'1=0':'1=1'),grants.proofs.flatMap(p=>p.values)),
     jointGuardEnd(DB,guard),jointGuardEnd(DB,proof)
