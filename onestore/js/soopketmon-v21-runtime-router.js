@@ -382,7 +382,22 @@
   global.SoopketmonV21RuntimeRouter = api;
 
   if (global.document) {
-    const boot = () => bind(global.document);
+    const boot = () => {
+      bind(global.document);
+      const url=new URL(global.location.href),area=url.searchParams.get('clanArea');
+      if(!['clan-dockyard','clan-garden'].includes(area))return;
+      const open=()=>{
+        if(!global.document.querySelector('#depart-button,button[data-v21-all]'))return false;
+        url.searchParams.delete('clanArea');global.history.replaceState(global.history.state,'',url);
+        global.sessionStorage.setItem('clanAreaEntry',area);
+        void navigate(area==='clan-garden'?'coop':'legion').catch(()=>global.sessionStorage.removeItem('clanAreaEntry'));
+        return true;
+      };
+      if(!open()){
+        const observer=new MutationObserver(()=>{if(open())observer.disconnect();});
+        observer.observe(global.document.body,{childList:true,subtree:true});global.addEventListener('pagehide',()=>observer.disconnect(),{once:true});
+      }
+    };
     if (global.document.readyState === 'loading') global.document.addEventListener('DOMContentLoaded', boot, { once: true });
     else boot();
   }
