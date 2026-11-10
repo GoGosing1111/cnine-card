@@ -95,17 +95,18 @@ test('same game entry runs behind private service with Singapore placement, exis
   assert.ok(deploy.indexOf('await prepareApiRuntime(') < deploy.indexOf("'pages','deploy'"));
 });
 
-test('minute cron retains both auction and weekly tower jobs with the scheduled timestamp', async () => {
+test('minute cron runs auctions, territory wars and the timestamped weekly tower job', async () => {
   const source = read('workers/api-runtime/src/index.js').replaceAll('\r\n','\n').replace(/^import .*;\n/gm, '').replace(/^export \{.*;\n/gm, '').replace('export default', 'return');
   const environment = {DB: {}}, at = Date.parse('2026-11-09T00:00:00+09:00'), pending = [];
-  const auction = Promise.resolve('auction'), tower = Promise.resolve('tower');
-  const worker = new Function('runUserAuctionSchedule','runTowerWeeklySchedule',source)(
+  const auction = Promise.resolve('auction'), territory = Promise.resolve('territory'), tower = Promise.resolve('tower');
+  const worker = new Function('runUserAuctionSchedule','runTerritoryWarSchedule','runTowerWeeklySchedule',source)(
     env => {assert.equal(env,environment);return auction;},
+    env => {assert.equal(env,environment);return territory;},
     (env,time) => {assert.equal(env,environment);assert.equal(time,at);return tower;}
   );
   await worker.scheduled({scheduledTime:at},environment,{waitUntil(job){pending.push(job);}});
-  assert.deepEqual(pending,[auction,tower]);
-  assert.deepEqual(await Promise.all(pending),['auction','tower']);
+  assert.deepEqual(pending,[auction,territory,tower]);
+  assert.deepEqual(await Promise.all(pending),['auction','territory','tower']);
   assert.deepEqual(JSON.parse(read('workers/api-runtime/wrangler.jsonc')).triggers.crons, ['* * * * *']);
 });
 
