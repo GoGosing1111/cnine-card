@@ -68,6 +68,20 @@ function layoutWeapon(engine,unit){
 export function layoutIconTechniqueWeapons(engine){for(const unit of engine.iconTechniqueWeapons?.values()||[])layoutWeapon(engine,unit);}
 function spawn(engine,event){engine.iconTechniqueWeapons??=new Map();if(engine.iconTechniqueWeapons.has(event.targetId)){const unit=engine.iconTechniqueWeapons.get(event.targetId),f=event.fighter||{};unit.serverMaxHp=Number(f.maxHp)||unit.serverMaxHp;unit.battleActive=true;unit.root.visible=unit.root.renderable=true;unit.root.alpha=unit.view.alpha=1;unit.view.visible=unit.view.renderable=true;unit.setHp(Number(f.hp)/Math.max(1,Number(f.maxHp))*100);unit.setShield(Number(f.shield)||0,Number(f.maxShield)||0);unit.setState('IDLE');layoutWeapon(engine,unit);metrics(engine).summons++;return unit;}const f=event.fighter||{},owner=engine.combatantById(event.actorId),art=ICON_EXPANSION_ART[owner?.cardId]?.weapon,graphic=art?null:weaponDrawing(),texture=art?Assets.get(art.url):engine.app.renderer.generateTexture(graphic);graphic?.destroy();if(!texture)throw Error('ICON_WEAPON_ASSET_NOT_READY');const unit=new BattleCharacter({id:event.targetId,name:'자율 병기',team:(event.side||f.side)==='B'?TEAM.ENEMY:TEAM.ALLY,fullBodyTexture:texture,fullBodyHeight:art?480:170,accent:0x8bd7ff,hp:finite(f.hp)&&finite(f.maxHp)?f.hp/f.maxHp*100:100});unit.iconWeapon=true;unit.iconWeaponOwner=event.ownerId||event.actorId;unit.iconWeaponTexture=art?null:texture;if(art){unit.fullBodySprite.anchor.set(art.anchor.x,art.anchor.y);unit.captureNeutralAvatarPose();unit.iconExpansionWeapon=true;}unit.serverMaxHp=Number(f.maxHp)||1;unit.cardId='';unit.battleActive=true;unit.root.visible=true;unit.root.alpha=1;unit.hud.scale.set(.78);unit.animationController?.kill();unit.animationAdapter=null;unit.iconTechniqueServerSlot=event.slot;engine.characters.push(unit);engine.combatLayer.addChild(unit.root);engine.iconTechniqueWeapons.set(unit.id,unit);layoutWeapon(engine,unit);metrics(engine).summons++;return unit;}
 function endWeapon(engine,event){const unit=engine.iconTechniqueWeapons?.get(event.targetId||event.summonId);if(!unit)return;unit.battleActive=false;unit.setHp(0);unit.root.visible=false;}
+export function restoreCooperativeIconWeapons(engine,rows){
+ const roster=Array.isArray(rows)?rows:[];
+ for(const [id,unit] of engine.iconTechniqueWeapons||[]){
+  if(unit.battleActive&&!roster.some(row=>row?.id===id&&row.hp>0))endWeapon(engine,{targetId:id});
+ }
+ for(const row of roster){
+  if(typeof row?.id!=='string'||!row.id.endsWith(':ICON_WEAPON')||!(row.hp>0))continue;
+  const unit=engine.iconTechniqueWeapons?.get(row.id);
+  if(unit?.battleActive&&unit.root.visible)continue;
+  // Reuse the server's summon and slot on late entry without replaying the cast or its damage.
+  const event=engine.battleData?.battleV2?.result?.timeline?.find(e=>e.type==='ICON_SUMMON'&&e.targetId===row.id);
+  if(event&&engine.combatantById(event.actorId))spawn(engine,{...event,fighter:{...event.fighter,...row}});
+ }
+}
 export function disposeIconTechniques(engine){if(engine.iconTechniqueOriginalFormation){engine.allies=engine.iconTechniqueOriginalFormation.allies;engine.enemies=engine.iconTechniqueOriginalFormation.enemies;engine.iconTechniqueOriginalFormation=null;}engine.iconTechniqueOaths?.clear();for(const unit of engine.iconTechniqueWeapons?.values()||[]){engine.characters=engine.characters.filter(a=>a!==unit);unit.destroy();unit.iconWeaponTexture?.destroy(true);}engine.iconTechniqueWeapons?.clear();for(const actor of engine.characters||[]){for(const label of actor.iconTechniqueBadges?.values()||[])label.destroy();actor.iconTechniqueBadges?.clear();delete actor.iconTechniqueServerSlot;delete actor.iconTechniqueDisplaySlot;}engine.iconTechniqueMetrics=null;engine.lastIconTechnique=null;engine.iconTechniqueActive=null;}
 async function playIconTechniqueCore(engine,event){
  const code=event.techniqueCode||'AUTONOMOUS_WEAPON',spec=ICON_TECHNIQUE_VISUALS[code];if(!spec)return false;

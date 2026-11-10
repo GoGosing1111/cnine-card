@@ -102,7 +102,9 @@ export class BattleCharacter{
     this.view.zIndex=2;
     this.root.addChild(this.view);
     this.buildHumanoidRig();
-    if(fullBodyTexture)this.useFullBodySprite(fullBodyTexture,this.fullBodyHeight);
+    // Live roster slots start with an explicitly empty texture until their art loads.
+    if(fullBodyTexture===Texture.EMPTY)this.rig.root.visible=false;
+    else if(fullBodyTexture)this.useFullBodySprite(fullBodyTexture,this.fullBodyHeight);
 
     this.stateHalo=createBattleGroundSigil({team,width:210,height:58});
     this.stateHalo.y=-7;

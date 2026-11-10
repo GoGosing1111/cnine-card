@@ -40,7 +40,7 @@ import {preloadCooperativeArke,playCooperativeArkeAttack,playCooperativeWatcherA
 import {bindCooperativeEnemy,cooperativeSnapshot,spawnCooperativeEnemy} from './CooperativeEncounter.js';
 import {preloadIconPlayback,playIconEvent,playIconBasic,disposeIconPlayback} from './IconRolePlayback.js';
 import {preparePetSupport,playPetOpening,disposePetSupport,restorePetSupport} from './PetSupportPlayback.js';
-import {playIconTechnique,playIconWeaponAttack,disposeIconTechniques} from './IconTechniquePlayback.js';
+import {playIconTechnique,playIconWeaponAttack,disposeIconTechniques,restoreCooperativeIconWeapons} from './IconTechniquePlayback.js';
 import {iconDefinition} from '../../../../shared/icon-roles-v1.mjs';
 
 const DESKTOP={width:1600,height:820};
@@ -2588,7 +2588,11 @@ export class BaseBattleEngine{
       list.forEach((row,index)=>{
         const identity=row?.id||row?.cardId||row?.card_id;
         let character=this.combatantById(identity);
-        if(!character||!team.includes(character)||claimed.has(character))character=team[index]||null;
+        if(!character||!team.includes(character)||claimed.has(character)){
+          // Cooperative snapshots also carry summons. Only an identified team member owns a card slot.
+          if(this.formationCoop)return;
+          character=team[index]||null;
+        }
         if(!character)return;
         claimed.add(character);
         const rowMaxHp=Math.max(0,Number(row?.maxHp||0));
@@ -2621,6 +2625,7 @@ export class BaseBattleEngine{
         character.setShield?.(0,0);
       });
     };
+    if(this.formationCoop)restoreCooperativeIconWeapons(this,final?.A||[]);
     syncTeam(final?.A,this.allies);
     syncTeam(this.cooperativeInstances?cooperativeSnapshot(this,final?.B):final?.B,this.enemies);
     this.currentAllyTarget=this.allies.find(character=>this.isAlive(character))||null;
