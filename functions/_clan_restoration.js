@@ -1,6 +1,6 @@
 import {clanRestorationState} from '../shared/clan-restoration-v1.mjs';
 import {readClanResumption} from './_clan_resumption.js';
-import {regularClanRules} from '../shared/clan-resumption-v1.mjs';
+import {regularClanRules,resumedFactionLabel} from '../shared/clan-resumption-v1.mjs';
 import {handleRestoredClanMemberKick} from './_organization.js';
 
 // Run before the former retirement gate, admin shortcuts and lazy lifecycle writes.
@@ -14,8 +14,8 @@ export async function handleClanRestorationRoute({path,request,env,deps,readOver
  const resumption=await readClanResumption(env);
  const reply=data=>deps.json({...data,restoration},200,{'cache-control':'no-store'});
  if(resumption){
-  const status={...restoration,regularScheduleLocked:false,factionScheduleLocked:false,scheduleLocked:false,pointsIncluded:true,
-   factionDailyCount:1,message:regularClanRules(resumption).regularLabel+' · 세력전 매일 랜덤 1회 / 4개 이상 점령 시 승점 1점. 새 가입 방식과 챔피언스리그 개최는 보류 중입니다.'};
+  const status={...restoration,regularScheduleLocked:false,championsScheduleLocked:false,factionScheduleLocked:false,scheduleLocked:false,pointsIncluded:true,
+   factionDailyCount:1,message:regularClanRules(resumption).regularLabel+' · 세력전 '+resumedFactionLabel(resumption)+' · 챔피언스리그는 정규시즌 종료 다음 날 개최합니다.'};
   const resumed=data=>deps.json({...data,resumption,restoration:status},200,{'cache-control':'no-store'});
   if(path==='clan/member/kick')return handleRestoredClanMemberKick({request,env,deps,user});
   if(request.method==='GET'&&path==='clan/overview')return resumed(await readOverview(user,resumption));
@@ -23,7 +23,7 @@ export async function handleClanRestorationRoute({path,request,env,deps,readOver
   if(request.method==='GET'&&path==='clan/organization')return resumed({ok:true,organizationPreparation:{restored:true,legacyClosed:false}});
   if(request.method==='GET'&&path==='clan/faction/alerts')return resumed({ok:true,enabled:false,alert:null,alerts:[]});
   if(['clan/war/fight','clan/war/planning','clan/war/availability','clan/war/ready','clan/war/field','clan/war/ready-alert'].includes(path))return null;
-  return deps.json({error:'새 가입·드래프트와 챔피언스리그 개최는 보류 중입니다. 현재 클랜 가입은 클랜 본부의 기존 원로 심사를 이용하세요.',code:'CLAN_SCHEDULE_LOCKED',restoration:status},409,{'cache-control':'no-store'});
+  return deps.json({error:'클랜 본부에서 원하는 클랜에 개별 신청하세요. 해당 클랜의 원로가 심사합니다.',code:'CLAN_SCHEDULE_LOCKED',restoration:status},409,{'cache-control':'no-store'});
  }
   if(request.method==='GET'){
     if(['clan/war/ready-alert','clan/faction/alerts'].includes(path))return reply({ok:true,enabled:false,alert:null,alerts:[]});

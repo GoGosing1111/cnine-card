@@ -5,7 +5,7 @@ import {reconcilePauses,closeSession,sessionView} from './_clan_faction_sessions
 import {advanceFixedOrganizationFaction} from './_organization_fixed_sessions.js';
 import {ORGANIZATION_FIXED_SCHEDULE} from '../shared/organization-schedule-v1.mjs';
 import {clanRestorationActive,CLAN_RESTORATION,lockedFactionSessions} from '../shared/clan-restoration-v1.mjs';
-import {activeClanResumption,resumedFactionRules,resumedFactionLabel} from '../shared/clan-resumption-v1.mjs';
+import {activeClanResumption,resumedFactionRules,resumedFactionLabel,factionDayPermitted} from '../shared/clan-resumption-v1.mjs';
 import {organizationSessionRewardRules,addOrganizationPigCoinRecipients} from '../shared/organization-competition-v1.mjs';
 export const ORGANIZATION_SESSION_POLICY=Object.freeze({recipients:'PARTICIPANTS',interruption:'PAUSE',overlap:'DEFER',mapPolicy:'KEEP',rewardRules:RULES});
 export function validateOrganizationFormation(formation,memberIds){
@@ -99,6 +99,13 @@ export function advanceOrganizationFaction(state,{schedule,wars=[],roster=[],now
  if((state.session?.status==='ACTIVE'&&state.session.endsAt<=now)||(['ACTIVE','PAUSED'].includes(state.session?.status)&&state.session.hardEndsAt<=now))
   settlements.push(addOrganizationPigCoinRecipients(closeSession(state,state.session,state.session.endsAt,'SESSION_END',roster,{...ORGANIZATION_SESSION_POLICY,rewardRules:state.session.rewardRules||RULES}),roster));
  const busy=()=>['ACTIVE','PAUSED'].includes(state.session?.status);
+ // Stored schedules can predate the weekday change. Finish active sessions normally.
+ if(resumption){
+  state.sessionQueue=state.sessionQueue.filter(slot=>factionDayPermitted(slot.dayKey));
+  for(const slot of state.sessionPlan||[])if(['SCHEDULED','QUEUED'].includes(slot.status)&&!factionDayPermitted(slot.dayKey)){
+   slot.status='SKIPPED';slot.reason='CLOSED_WEEKDAY';
+  }
+ }
  const overlaps=slot=>busy()||state.sessionQueue.length||(state.session?.key!==slot.key&&state.session?.closedAt>slot.startsAt);
  const queue=(slot,reason='PREVIOUS_SESSION')=>{slot.status='QUEUED';slot.reason=reason;if(!state.sessionQueue.some(s=>s.key===slot.key))state.sessionQueue.push({...slot,plannedStartsAt:slot.startsAt,plannedEndsAt:slot.endsAt});state.sessionQueue.sort((a,b)=>a.plannedStartsAt-b.plannedStartsAt);};
  const territoryOverlaps=slot=>wars.some(w=>['ACTIVE','PREPARING','FINISHED'].includes(w.status)&&factionTime(w.starts_at)<=now&&factionTime(w.starts_at)<slot.endsAt&&(w.status!=='FINISHED'||factionTime(w.settled_at||w.ends_at)>slot.startsAt));

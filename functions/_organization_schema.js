@@ -21,9 +21,15 @@ export const ORGANIZATION_LIVE_SCHEMA = [
   "ALTER TABLE organization_rounds_v1 ADD COLUMN IF NOT EXISTS assignment_token TEXT",
   "ALTER TABLE organization_rounds_v1 ADD COLUMN IF NOT EXISTS assignment_lease_until BIGINT"
 ];
+// Installed once before the first voluntary season. Each archived round keeps its
+// original id, foreign keys and roster. The unique LIVE/TEST scope index still applies.
+export const ORGANIZATION_ARCHIVE_SCHEMA=[
+ "ALTER TABLE organization_rounds_v1 DROP CONSTRAINT IF EXISTS organization_rounds_v1_scope_check",
+ "ALTER TABLE organization_rounds_v1 ADD CONSTRAINT organization_rounds_v1_scope_check CHECK(scope IN('TEST','LIVE') OR scope='ARCHIVED:'||id)"
+];
 export async function installOrganizationSchema(DB){
   if(DB.dialect!=='postgres'||!DB.execSchema)throw Error('Organization preparation requires PostgreSQL');
-  await DB.execSchema([...ORGANIZATION_SCHEMA,...ORGANIZATION_LIVE_SCHEMA]);
+  await DB.execSchema([...ORGANIZATION_SCHEMA,...ORGANIZATION_LIVE_SCHEMA,...ORGANIZATION_ARCHIVE_SCHEMA]);
   const {defaultOrganizationPolicy}=await import('../shared/organization-system-v1.mjs');
   await DB.prepare('INSERT INTO organization_policy_v1(id,policy_json) VALUES(1,?) ON CONFLICT(id) DO NOTHING').bind(JSON.stringify(defaultOrganizationPolicy())).run();
 }

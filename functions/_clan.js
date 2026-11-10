@@ -576,7 +576,7 @@ async function finalizeWar(env,war,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
   }
   return true;
 }
-async function reconcileWarWindows(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
+async function reconcileWarWindows(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS,waitForSeasonEnd=false){
   if(season?.phase!=='ACTIVE')return season;const now=iso();
   await env.DB.prepare("UPDATE clan_war_battles SET status='FAILED',error_message='WAR_WINDOW_STALE_RESERVATION',updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND status IN ('PENDING','RESOLVING') AND updated_at<datetime('now','-120 seconds')").bind(season.id).run();
   await env.DB.prepare("UPDATE clan_wars SET status='ACTIVE',updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND status='CLOSING' AND updated_at<datetime('now','-60 seconds')").bind(season.id).run();
@@ -585,7 +585,7 @@ async function reconcileWarWindows(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAU
   await settlePendingClanWarPigCoins(env,Number(season.id),settings);
   await settlePendingClanWarItems(env,Number(season.id),settings);
   const remaining=await env.DB.prepare("SELECT COUNT(*) count FROM clan_wars WHERE season_id=? AND status IN ('SCHEDULED','ACTIVE','CLOSING')").bind(season.id).first(),total=await env.DB.prepare('SELECT COUNT(*) count FROM clan_wars WHERE season_id=?').bind(season.id).first();
-  if(Number(total?.count||0)>0&&Number(remaining?.count||0)===0)await env.DB.prepare("UPDATE clan_seasons SET phase='SETTLEMENT',updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='ACTIVE'").bind(season.id).run();
+  if(Number(total?.count||0)>0&&Number(remaining?.count||0)===0&&(!waitForSeasonEnd||sqlMs(season.ends_at)<=Date.now()))await env.DB.prepare("UPDATE clan_seasons SET phase='SETTLEMENT',updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='ACTIVE'").bind(season.id).run();
   return env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first();
 }
 async function payClanSeasonRewards(env,season,settings,rankedTeams){
@@ -683,7 +683,7 @@ export async function reconcileClanDraft(env,{retire=finishClanRetirement}={}){
     if(!season)return{phase:'SCHEDULE_LOCKED',nextCheckAt:null,registrationOpen:false};
     season=await advanceLifecycle(env,season,settings);
     const war=await env.DB.prepare("SELECT * FROM clan_wars WHERE season_id=? AND status IN ('SCHEDULED','ACTIVE','CLOSING') ORDER BY starts_at,id LIMIT 1").bind(season.id).first();
-    return{phase:season.phase,seasonId:Number(season.id),registrationOpen:false,nextCheckAt:war?(war.status==='SCHEDULED'?war.starts_at:iso(Date.now()+60000)):null};
+    return{phase:season.phase,seasonId:Number(season.id),registrationOpen:false,nextCheckAt:war?(war.status==='SCHEDULED'?war.starts_at:iso(Date.now()+60000)):season.phase==='ACTIVE'?season.ends_at:null};
   }
   const ready=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(CLAN_FOUNDATION_VERSION).first();
   if(!ready)return{phase:'NOT_READY',nextCheckAt:null};
@@ -723,8 +723,12 @@ async function advanceLifecycle(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS
     const resumed=await readClanResumption(env);if(!resumed||Number(season?.id)!==resumed.seasonId)return season;
     if(settings.mode!=='ON')return season;
     let current=season;
-    if(current.phase==='ACTIVE')current=await reconcileWarWindows(env,current,settings);
+    if(current.phase==='ACTIVE')current=await reconcileWarWindows(env,current,settings,resumed.seasonDays===50);
     if(current.phase==='SETTLEMENT')current=await settleSeason(env,current,settings);
+    if(current.phase==='CHAMPIONS'){
+      await advanceChampions(env,current,settings);
+      current=await env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(current.id).first();
+    }
     return current;
   }
   let fresh=season;
@@ -1203,4 +1207,4 @@ export async function handleClan({path,request,env,deps}){
 export const __clanTest={startScheduledRedraft,activateSeason,clanDraftDeadlineMs,nextDraftCheckAt,createSeason,finishDraftAtDeadline,beginDraft,autoDraftDue,skipExpiredDraftTurns,makeDraftPick,draftContext,nextDraftTurn,draftTurnMs,settleSeason,advanceLifecycle,fight,normalizeScores,currentDraftPosition,roundRobinRounds,scheduledWindowStarts,seoulDayTimestamp,clanLateDraftFixedSchedule,clanEnergySnapshot,randomMatchCandidates,cleanRole,isOwner,publicSeason,clanRegistrationOpen,clanLateRegistrationSchedule,warWinnerClanId,cleanClanAdminSettings,clanAdminState,CLAN_ADMIN_SETTINGS_DEFAULTS,CLAN_MAX_MEMBERS,CLAN_MAX_PARTICIPANTS,CLAN_LATE_REGISTRATION_EXTENSION_MS,CLAN_LATE_DRAFT_HOUR_KST,CLAN_WAR_OPEN_HOUR_KST,CLAN_ATTACKS_PER_WAR,CLAN_DEFENSES_PER_TARGET,CLAN_REPEAT_TARGET_LIMIT,CLAN_MARKS,OFFICIAL_CLAN_CATALOG,FOUNDATION_SQL};
 
 // Organization faction warfare reuses the current V3 account battle builder.
-export {buildClanBattle};
+export {buildClanBattle,roundRobinRounds,scheduledWindowStarts};

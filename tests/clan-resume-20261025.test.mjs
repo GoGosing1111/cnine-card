@@ -13,7 +13,7 @@ test('Tue Wed Thu Sat 21–22 generates seven full round robins; daily random is
  const wars=planRegularWars({},now);assert.equal(wars.length,28);assert.equal(new Set(wars.map(w=>[w.clanAId,w.clanBId].sort().join(':'))).size,28);
  for(const w of wars){const d=new Date(Date.parse(w.startsAt)+9*3600000);assert([2,3,4,6].includes(d.getUTCDay()));assert.equal(d.getUTCHours(),21);assert.equal(Date.parse(w.endsAt)-Date.parse(w.startsAt),3600000);}
  assert.equal(wars[0].startsAt,'2026-10-27T12:00:00.000Z');
- for(const day of ['2026-10-25','2026-10-26','2026-12-31','2027-01-01'])for(const random of [()=>0,n=>n-1,n=>Math.floor(n/2)]){
+ for(const day of ['2026-10-25','2026-10-26','2026-11-09','2027-01-01'])for(const random of [()=>0,n=>n-1,n=>Math.floor(n/2)]){
   const slots=createResumedFactionDay(day,release,random);assert.equal(slots.length,1);assert(slots[0].startsAt>=now+300000);assert.equal(slots[0].endsAt-slots[0].startsAt,10800000);assert(slots[0].endsAt<=at(day+'T00:00:00')+86400000);
  }
  assert.deepEqual(createResumedFactionDay('2026-10-24',release),[]);

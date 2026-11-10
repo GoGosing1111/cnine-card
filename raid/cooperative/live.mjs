@@ -5,14 +5,14 @@ import {jointAccountRequest} from '/js/joint-account-transport.mjs';
 import {COOP_ALL_DIFFICULTIES as COOP_DIFFICULTIES,COOP_RULES,COOP_VERSION,COOP_ENCOUNTER,COOP_STAGES} from '/shared/cooperative-battleground-v1.mjs?v=20261102-transcend-v1';
 import {mountCoopBattle} from './battle.mjs?v=20261102-transcend-v1';
 import {createServerClock} from '/shared/server-clock-v1.mjs?v=20261015-v1';
-import {COOP_LIST_REFRESH_MS} from '/shared/cooperative-room-list-v1.mjs?v=20261004-list1';
+import {COOP_LIST_REFRESH_MS,CLAN_GARDEN} from '/shared/cooperative-room-list-v1.mjs?v=20261110-garden';
 import {coopCombatSummary} from '/shared/cooperative-settings-v1.mjs?v=20261102-transcend-v1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number=v=>Math.round(v||0).toLocaleString('ko-KR');
 function setValue(node,property,value){if(node[property]!==value)node[property]=value;}
 const uniqueText=c=>c.uniqueAbility?([['공격','attackPercent'],['방어','defensePercent'],['체력','hpPercent'],['속도','speedPercent']].filter(([,k])=>c.uniqueAbility[k]).map(([label,k])=>label+' '+(c.uniqueAbility[k]>0?'+':'')+c.uniqueAbility[k]+'%').join(' · ')||'고유효과 적용'):'고유효과 없음';
 let styles;
-function loadStyles(){return styles||=new Promise((resolve,reject)=>{const link=document.createElement('link');link.rel='stylesheet';link.href='/raid/cooperative/style.css?v=20261102-transcend-v1';link.onload=resolve;link.onerror=()=>{styles=null;reject(Error('격전지 화면을 불러오지 못했습니다.'));};document.head.append(link);});}
+function loadStyles(){return styles||=new Promise((resolve,reject)=>{const link=document.createElement('link');link.rel='stylesheet';link.href='/raid/cooperative/style.css?v=20261110-garden';link.onload=resolve;link.onerror=()=>{styles=null;reject(Error('격전지 화면을 불러오지 못했습니다.'));};document.head.append(link);});}
 const shield='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 2 21 6v6c0 5-9 10-9 10S3 17 3 12V6Z"/><path d="m7 12 3 3 7-7"/></svg>';
 const GUIDE=[
  ['3단계 돌파전','<p><b>2~3명이 편성한 전투원으로 세 구역을 연속 격파합니다.</b> 전체 제한 시간은 3분입니다.</p><ol><li><b>1단계 · 제련소 외곽:</b> 근접 공격을 하는 용철 추적자 2기와 원거리 연사형 불씨 감시기 1기를 모두 처치하세요.</li><li><b>2단계 · 노심 관문:</b> 준보스 노심 수문장이 나타납니다. 최대 체력의 30% 방벽을 깨고 연속 공격을 버티세요. 보호와 회복이 있으면 마지막 구간의 생존을 확보하기 쉽습니다.</li><li><b>3단계 · 심층 노심:</b> 최종 보스 삼핵 거신 아르케가 등장합니다. 평타·스킬은 자동으로 진행되며, 화면에 뜨는 차단·엄폐·교란은 각자 직접 눌러야 합니다.</li></ol><p><b>앞 단계의 적을 전부 처치해야 다음 단계가 열립니다.</b> 체력·방벽·스킬 대기 시간은 이어지며, 단계 전환으로 회복하거나 쓰러진 캐릭터가 부활하지 않습니다. 일반 몬스터와 준보스만 잡고 시간이 끝나면 패배입니다.</p>'],
@@ -27,7 +27,7 @@ export async function mountCooperative(root){
  const lifecycle=new AbortController(),clientId=crypto.randomUUID(),api=(path,options)=>jointAccountRequest('coop/'+path,options);
  const serverClock=createServerClock();let connecting=false,connectionGeneration=0,lastAcceptedServerNow=0;
  let disposed=false,state=null,roomId='',you=0,options=null,feature=null,ws=null,reconnectTimer,heartbeatTimer,battle=null,portal=null,mounting=null,battlePayload=null,lastMessage=0;
- let rooms=[],roomFilter='',listLoading=false,listLoaded=false,listError='',listTimer,listEpoch=0,listSignature='',hasMore=false;
+ let area='public',preferredArea=root.dataset.clanArea||'',rooms=[],roomFilter='',listLoading=false,listLoaded=false,listError='',listTimer,listEpoch=0,listSignature='',hasMore=false;
  let optionsRequest=null,scoutRoom='';
  let preparation=null,preparingRoom='',cancelPreparationIdle=null;
  let busy=false,selected={cardIds:[],mercenaryCode:''},picker='mercenary',query='',grade='',difficulty='NORMAL',serverOffset=0,guideChapter=0,bodyOverflow='',selectionRoom='',squadSignature='',battleEpoch=0,patternSignature='',pendingPattern=null,configSignature='',favoritesOnly=false,pendingFavorite=false;
@@ -39,6 +39,7 @@ export async function mountCooperative(root){
  const $=s=>root.querySelector(s),on=(el,event,fn)=>el?.addEventListener(event,fn,{signal:lifecycle.signal});
  root.classList.add('coop-root');
  root.innerHTML=`<section class="coop-head"><div><span class="coop-eyebrow">2~3인 공동 전투</span><h2>격전지<span>(협동)</span></h2><p>함께한 분대의 선택이 하나의 전장을 바꾼다.</p></div><button class="coop-quiet" data-guide>${shield}공략 지침</button></section>
+ <nav class="coop-areas" aria-label="격전지 전장"><button type="button" data-area="public" aria-pressed="true">심층 제련소</button><button type="button" data-area="clan-garden" disabled aria-pressed="false">침식된 비밀정원 <small>아지트 4단계</small></button></nav>
  <section class="coop-hero"><div class="coop-hero-copy"><span>전장 01 · ${COOP_ENCOUNTER.arena}</span><h3>세 구역을 뚫고,<br>노심을 멈춰라.</h3><p><b>매번 달라지는 적, 함께 맞추는 조합</b><br>몬스터 5종 · 보스 4종 · 자동 전투</p><div class="coop-meta"><span data-party-size>2~3인 · 참가자별 편성</span><span>3분 전투</span><span data-release>연결 중</span></div></div><img src="/assets/ui/cooperative-roster-v3/bastion-768.webp" alt="철벽 군주 바스티온" /><div class="coop-hero-index" aria-hidden="true">RANDOM <b>04</b></div></section>
  <div class="coop-operation-strip">${COOP_STAGES.map(s=>`<span><i>0${s.wave}</i><b>${s.name}</b><small>${s.target}</small></span>`).join('')}</div>
  <div class="coop-reward-summary" data-reward-summary role="status"></div>
@@ -97,7 +98,10 @@ export async function mountCooperative(root){
   if(disposed||state||listLoading||!feature?.accessible||document.hidden)return;
   const epoch=listEpoch;listLoading=true;listError='';drawRooms();
   try{
-   const result=await api('rooms'+(roomFilter?'?difficulty='+encodeURIComponent(roomFilter):''));
+   const query=new URLSearchParams();
+   if(area===CLAN_GARDEN.id)query.set('area',area);
+   if(roomFilter)query.set('difficulty',roomFilter);
+   const result=await api('rooms'+(query.size?'?'+query:''));
    if(disposed||state||epoch!==listEpoch)return;
    rooms=result.rooms;hasMore=!!result.hasMore;listLoaded=true;
   }catch(e){if(!disposed&&!state&&epoch===listEpoch)listError=e.message;}
@@ -113,9 +117,21 @@ export async function mountCooperative(root){
   finally{lock(false);if(!state)void refreshRooms();}
  }
  function drawConfiguration(){
-  const c=configuration(),available=feature?.difficulties||COOP_DIFFICULTIES.filter(d=>d.id!=='TRANSCEND'),signature=JSON.stringify([c,available]);if(signature===configSignature)return;configSignature=signature;
+  const garden=area===CLAN_GARDEN.id,c=configuration(),choices=feature?.difficulties||COOP_DIFFICULTIES.filter(d=>d.id!=='TRANSCEND');
+  const available=garden?choices.filter(d=>d.id===CLAN_GARDEN.difficulty):choices,signature=JSON.stringify([c,available,area,feature?.clanHideout?.stage,!!state]);if(signature===configSignature)return;configSignature=signature;
+  for(const button of root.querySelectorAll('[data-area]')){
+   button.disabled=!!state||button.dataset.area===CLAN_GARDEN.id&&!(feature?.clanHideout?.stage>=CLAN_GARDEN.stage);
+   button.setAttribute('aria-pressed',String(button.dataset.area===area));
+  }
+  const hero=$('.coop-hero'),portrait=hero.querySelector('img');
+  hero.classList.toggle('coop-garden',garden);
+  hero.querySelector('.coop-hero-copy>span').textContent=garden?'클랜 아지트 4단계 · 침식된 비밀정원':'전장 01 · '+COOP_ENCOUNTER.arena;
+  hero.querySelector('h3').innerHTML=garden?'가시관 포식자를<br>정벌하라.':'세 구역을 뚫고,<br>노심을 멈춰라.';
+  hero.querySelector('p').innerHTML=garden?'흑장미 사냥개가 지키는 정원 외벽을 돌파하고<br>침식의 심장에서 가시관 포식자를 처치하세요.':'<b>매번 달라지는 적, 함께 맞추는 조합</b><br>몬스터 5종 · 보스 4종 · 자동 전투';
+  portrait.src=garden?CLAN_GARDEN.bossArt:'/assets/ui/cooperative-roster-v3/bastion-768.webp';portrait.alt=garden?'가시관 포식자':'철벽 군주 바스티온';
+  $('.coop-hero-index').hidden=garden;
   $('.coop-meta span:nth-child(2)').textContent=c.maxBattleSeconds+'초 전투';
-  $('.coop-operation-strip').innerHTML=c.stages.map(s=>`<span><i>0${s.wave}</i><b>${esc(s.name)}</b><small>${esc(s.target)}</small></span>`).join('');
+  $('.coop-operation-strip').innerHTML=c.stages.map((s,i)=>`<span><i>0${s.wave}</i><b>${esc(garden?['정원 외벽','가시 회랑','침식의 심장'][i]:s.name)}</b><small>${esc(garden?['흑장미 사냥개 무리','역병 여왕 베스페라','가시관 포식자'][i]:s.target)}</small></span>`).join('');
   if(!available.some(d=>d.id===difficulty))difficulty=available[0]?.id||'NORMAL';
   $('.coop-difficulties').innerHTML=available.map((d,i)=>`<button data-difficulty="${d.id}" aria-pressed="${d.id===difficulty}" class="${d.id===difficulty?'selected':''}"><small>0${i+1} / ${esc(d.subtitle)}</small><b>${esc(d.name)}</b><span>${esc(c.difficulties.find(row=>row.id===d.id)?.recommendation||d.recommendation)}</span>${d.id==='TRANSCEND'?'<em>극한 기본 보상 ×2</em>':''}</button>`).join('');
   $('[data-room-filter]').innerHTML='<option value="">전체 난이도</option>'+available.map(d=>`<option value="${d.id}" ${roomFilter===d.id?'selected':''}>${esc(d.name)}</option>`).join('');
@@ -156,7 +172,7 @@ export async function mountCooperative(root){
   setValue($('[data-party-size]'),'textContent',state.members.length+'인 · 1인당 '+(2+mercenarySlots())+'캐릭터');
   setValue($('[data-formation-title]'),'textContent','용병 '+mercenarySlots()+'명, 카드 2장'+(mercenarySlots()===2?' · SSS·SS 각 1명':''));
   $('[data-count]').textContent=state.members.length+' / 3';
-  $('[data-room-title]').textContent=(COOP_DIFFICULTIES.find(d=>d.id===state.difficulty)?.name||'')+' · '+(state.members.find(m=>m.id===state.hostId)?.name||'방장')+'의 대기방';
+  $('[data-room-title]').textContent=(area===CLAN_GARDEN.id?CLAN_GARDEN.name+' · ':'')+(COOP_DIFFICULTIES.find(d=>d.id===state.difficulty)?.name||'')+' · '+(state.members.find(m=>m.id===state.hostId)?.name||'방장')+'의 대기방';
   $('[data-squads]').innerHTML=Array.from({length:3},(_,i)=>{
    const m=state.members[i],sel=m?.selection;
    return `<article class="coop-squad ${m?.id===you?'is-mine':''} ${m?.ready?'is-ready':''}"><header><span>분대 0${i+1}${m?.id===you?' · 나':''}</span><b>${m?esc(m.name):'동료를 기다리는 중'}</b><small>${m?(m.result==='DEFEAT'?'이탈 · 패배':m.ready?'준비 완료':'편성 중'):'빈 자리'}</small></header><div class="coop-squad-art">${sel?.mercenaries?.length>1?`<section class="coop-squad-pair">${sel.mercenaries.map(m=>`<figure><img src="${esc(m.sourceArt)}" alt="${esc(m.name)}"><figcaption><small>${esc(m.rank)}</small><b>${esc(m.name)}</b></figcaption></figure>`).join('')}</section>`:sel?`<img src="${esc(sel.mercenary.sourceArt)}" alt="${esc(sel.mercenary.name)}"><div><small>${esc(sel.mercenary.rank)} 용병</small><b>${esc(sel.mercenary.name)}</b></div>`:`<span class="coop-empty">${shield}<b>${m?'용병을 선택하세요':'모집 목록에서 동료가 합류합니다'}</b></span>`}</div><div class="coop-squad-cards">${[0,1].map(j=>sel?`<div><img src="${esc(sel.cards[j].image)}" alt=""><span><small>${esc(sel.cards[j].grade)}</small><b>${esc(sel.cards[j].title)}</b></span></div>`:'<div class="coop-card-empty">카드 선택 대기</div>').join('')}</div><footer>${sel?'분대 전투력 <b>'+number(sel.power)+'</b>':'용병 '+mercenarySlots()+'명 + 카드 2장'}</footer></article>`;
@@ -228,7 +244,7 @@ export async function mountCooperative(root){
    releaseInventory();
    bodyOverflow=document.body.style.overflow;document.body.style.overflow='hidden';
    portal=document.createElement('section');portal.className='coop-battle-portal';portal.setAttribute('aria-label','격전지 공동 전투');
-   portal.innerHTML=`<div class="coop-battle-top"><div><small>격전지(협동) · ${COOP_ENCOUNTER.arena}</small><b data-phase>전장 집결 중</b></div><div><strong data-time></strong><button data-battle-guide>공략</button><button data-exit>전투 이탈</button></div></div><div class="coop-boss-hud"><div><b data-enemy-title>제련소 외곽 · 적 3기</b><span data-hp></span></div><progress data-boss-health max="100" value="100"></progress><small data-battle-members></small></div><section class="coop-pattern" data-pattern hidden aria-label="협동 기믹"><header><div><small data-pattern-kicker></small><b data-pattern-title></b></div><strong data-pattern-time></strong></header><p data-pattern-instruction role="status" aria-live="polite"></p><div class="coop-pattern-members" data-pattern-members></div><button class="coop-primary" data-pattern-action></button><progress data-pattern-clock max="100" value="100" aria-label="기믹 남은 시간"></progress></section><div class="coop-battle-mount"></div><div class="coop-battle-notice" role="status">참가자 모두 로딩이 끝나면 함께 출전합니다.</div><div class="coop-result" hidden></div>`;
+   portal.innerHTML=`<div class="coop-battle-top"><div><small>격전지(협동) · ${area===CLAN_GARDEN.id?CLAN_GARDEN.name:COOP_ENCOUNTER.arena}</small><b data-phase>전장 집결 중</b></div><div><strong data-time></strong><button data-battle-guide>공략</button><button data-exit>전투 이탈</button></div></div><div class="coop-boss-hud"><div><b data-enemy-title>제련소 외곽 · 적 3기</b><span data-hp></span></div><progress data-boss-health max="100" value="100"></progress><small data-battle-members></small></div><section class="coop-pattern" data-pattern hidden aria-label="협동 기믹"><header><div><small data-pattern-kicker></small><b data-pattern-title></b></div><strong data-pattern-time></strong></header><p data-pattern-instruction role="status" aria-live="polite"></p><div class="coop-pattern-members" data-pattern-members></div><button class="coop-primary" data-pattern-action></button><progress data-pattern-clock max="100" value="100" aria-label="기믹 남은 시간"></progress></section><div class="coop-battle-mount"></div><div class="coop-battle-notice" role="status">참가자 모두 로딩이 끝나면 함께 출전합니다.</div><div class="coop-result" hidden></div>`;
    document.body.append(portal);on(portal.querySelector('[data-exit]'),'click',async()=>{if(!confirm('전투에서 이탈하면 본인은 패배하고 내 분대 전원이 제거됩니다. 이탈하시겠습니까?'))return;await leave();});
    on(portal.querySelector('[data-battle-guide]'),'click',()=>openGuide(guideChapter));
    on(portal.querySelector('[data-pattern-action]'),'click',()=>{
@@ -319,7 +335,7 @@ export async function mountCooperative(root){
   if(state&&value.state.id===state.id&&value.state.version<state.version)return;
   if(state&&value.state.id===state.id&&value.state.version===state.version&&value.serverNow<lastAcceptedServerNow)return;
   serverClock.sample(value.serverNow,{sentAt:value.clientSentAt??undefined});lastAcceptedServerNow=value.serverNow;
-  clearTimeout(listTimer);listEpoch++;state=value.state;you=value.you||you;roomId=state.id;serverOffset=serverClock.now()-Date.now();if(state.energy&&feature)feature.energy=state.energy;if(state.entryError)alert(state.entryError);
+  clearTimeout(listTimer);listEpoch++;state=value.state;area=state.area||'public';you=value.you||you;roomId=state.id;serverOffset=serverClock.now()-Date.now();if(state.energy&&feature)feature.energy=state.energy;if(state.entryError)alert(state.entryError);
   setValue($('[data-entry]'),'hidden',true);setValue($('[data-room]'),'hidden',state.status!=='LOBBY');
   if(state.status==='LOBBY'){
    if(portal)closeBattle();
@@ -330,7 +346,7 @@ export async function mountCooperative(root){
   else if(state.status==='CANCELLED'){alert(state.reason||'대기방이 종료되었습니다.');resetRoom();}
   else showBattle(value);
  }
- function resetRoom(){closePreparation();connectionGeneration++;lastAcceptedServerNow=0;ws?.close();ws=null;clearTimeout(reconnectTimer);closeBattle();state=null;roomId='';releaseInventory();scoutRoom='';squadSignature='';selected={cardIds:[],mercenaryCode:''};$('[data-entry]').hidden=false;$('[data-room]').hidden=true;drawConfiguration();void refreshRooms();}
+ function resetRoom(){closePreparation();connectionGeneration++;lastAcceptedServerNow=0;ws?.close();ws=null;clearTimeout(reconnectTimer);closeBattle();state=null;configSignature='';roomId='';releaseInventory();scoutRoom='';squadSignature='';selected={cardIds:[],mercenaryCode:''};$('[data-entry]').hidden=false;$('[data-room]').hidden=true;drawConfiguration();void refreshRooms();}
  async function leave(){if(!roomId){resetRoom();return;}try{await command('leave');resetRoom();feature=await api('feature');serverOffset=feature.energy.serverNow-Date.now();drawRewardSummary();void rewardInbox?.refresh();}catch(e){alert(e.message);}}
  function abandon(){
   if(disposed)return;send('leave');
@@ -352,6 +368,10 @@ export async function mountCooperative(root){
  }
  on(root,'click',event=>{
   const b=event.target.closest('button');if(!b)return;
+  if(b.dataset.area&&!state&&!busy&&b.dataset.area!==area){
+   area=b.dataset.area;roomFilter='';difficulty=area===CLAN_GARDEN.id?CLAN_GARDEN.difficulty:'NORMAL';
+   listEpoch++;rooms=[];listLoaded=false;listSignature='';hasMore=false;listError='';drawConfiguration();drawRooms();void refreshRooms();
+  }
   if(b.dataset.joinRoom)void joinRoom(b.dataset.joinRoom);
   if(b.dataset.difficulty){difficulty=b.dataset.difficulty;root.querySelectorAll('[data-difficulty]').forEach(x=>{x.classList.toggle('selected',x===b);x.setAttribute('aria-pressed',String(x===b));});}
   if(b.dataset.picker){picker=b.dataset.picker;grade='';query='';$('[data-search]').value='';root.querySelectorAll('[data-picker]').forEach(x=>x.setAttribute('aria-selected',String(x===b)));drawInventory();}
@@ -360,7 +380,7 @@ export async function mountCooperative(root){
   if(b.hasAttribute('data-favorites-only')){favoritesOnly=!favoritesOnly;drawInventory();}
   if(b.dataset.chapter!==undefined)openGuide(Number(b.dataset.chapter));
  });
- on($('[data-create]'),'click',async()=>{if(busy)return;lock(true);try{await loadOptions();if(disposed)return;const result=await command('create',{difficulty});roomId=result.roomId;await connect();}catch(e){alert(e.message);}finally{lock(false);}});
+ on($('[data-create]'),'click',async()=>{if(busy)return;lock(true);try{await loadOptions();if(disposed)return;const result=await command('create',{difficulty,...(area==='public'?{}:{area})});roomId=result.roomId;await connect();}catch(e){alert(e.message);}finally{lock(false);}});
  on($('[data-refresh-rooms]'),'click',()=>void refreshRooms());
  on($('[data-room-filter]'),'change',event=>{roomFilter=event.target.value;listEpoch++;rooms=[];listLoaded=false;listSignature='';void refreshRooms();});
  on(document,'visibilitychange',()=>{if(document.hidden)return;if(state?.status==='LOBBY')prepareRoom();else if(!state)void refreshRooms();});
@@ -378,7 +398,9 @@ export async function mountCooperative(root){
   await optionsRequest;
  }
  async function availability(){
-  feature=await api('feature');drawRewardSummary();$('[data-owner]').hidden=!feature.owner;drawConfiguration();
+  feature=await api('feature');
+  if(preferredArea){if(preferredArea===CLAN_GARDEN.id&&feature.clanHideout?.stage>=CLAN_GARDEN.stage)area=preferredArea;preferredArea='';}
+  drawRewardSummary();$('[data-owner]').hidden=!feature.owner;drawConfiguration();
   $('[data-release]').textContent=feature.mode==='OFF'?'운영 중지':feature.mode==='TEST'?'테스트 운영 · 보상 없음':feature.rewardLocked?'기본 보상 OFF':'행동력 최대 3회';
   if(!feature.accessible){$('[data-entry]').hidden=true;alert('격전지는 현재 운영 중지 상태입니다. 운영 설정에서 변경할 수 있습니다.');return false;}
   if(!state){options=null;$('[data-entry]').hidden=false;void refreshRooms();}

@@ -116,7 +116,7 @@ export class BattleEngine extends ScrapyardEngine{
     }
   }
   async applyBattlePayload(payload){
-    this.huntRegionBackground=/^\/assets\/ui\/legion-regions-v1\/(coast|desert|theatre|viscera|sky)\/background-v1\.webp$/.test(payload.battlefieldBackground||'')?payload.battlefieldBackground:null;
+    this.huntRegionBackground=payload.battlefieldBackground==='/assets/ui/organization/hunts-20261023/stage3-dockyard.webp'?payload.battlefieldBackground:/^\/assets\/ui\/legion-regions-v1\/(coast|desert|theatre|viscera|sky)\/background-v1\.webp$/.test(payload.battlefieldBackground||'')?payload.battlefieldBackground:null;
     this.huntPlaybackPlan=payload.huntPlayback||null;
     while(this.enemies.length<CAPACITY){
       const a=new BattleCharacter({id:'HUNT_SLOT_'+this.enemies.length,name:'몬스터',team:TEAM.ENEMY,texture:Texture.EMPTY,fullBodyTexture:Texture.EMPTY,fullBodyHeight:245,scale:.4,accent:0xe9aa65});

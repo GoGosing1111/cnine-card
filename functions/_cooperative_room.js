@@ -1,3 +1,4 @@
+import {CLAN_GARDEN} from '../shared/cooperative-room-list-v1.mjs';
 import {COMPANION_RELEASE,COMPANION_PREPARATION_REVIEW as REVIEW} from '../shared/companion-loadout-v2.mjs';
 import {COOP_DUAL_BALANCE,validateCoopDualBalance} from '../shared/cooperative-dual-preparation-v1.mjs';
 const coopSelectionMercenaries=loadout=>{const rows=loadout.mercenaries||[loadout.mercenary],mercenaries=rows.filter(Boolean).map(({code,name,rank,sourceArt})=>({code,name,rank,sourceArt}));return {mercenary:mercenaries[0]||null,...(loadout.mercenaries?{mercenaries}:{})};};
@@ -6,7 +7,7 @@ import {COOP_RULES,coopDifficulty,validCoopClient} from '../shared/cooperative-b
 import {createCooperativeBattle} from './_cooperative_battle.js';
 import {advanceCoopPatterns,coopPatternInput} from './_cooperative_patterns.js';
 import {defaultCoopCombat,validateCoopCombat,coopCombatSummary} from '../shared/cooperative-settings-v1.mjs';
-import {rollCoopRoster,coopRosterSummary} from '../shared/cooperative-roster-v3.mjs';
+import {rollCoopRoster,coopRosterSummary,gardenRoster} from '../shared/cooperative-roster-v3.mjs';
 import {contentEnergyView,COOP_ENERGY_MAXIMUM} from '../shared/content-energy-v1.mjs';
 const fail=(code,message,status=409)=>{throw Object.assign(Error(message),{code:'COOP_'+code,status});};
 const fighting=s=>s==='LOADING'||s==='ACTIVE';
@@ -19,6 +20,7 @@ function depart(room,now){
 function battle(room){
  const built=createCooperativeBattle({...companionReviewOptions(room),...(room.dualBalance?{dualBalance:room.dualBalance}:{}),squads:room.members.map(m=>m.loadout),difficulty:room.difficulty,seed:room.seed,withdrawals:room.withdrawals,effects:room.effects||[],
   monsterSnapshot:room.encounterVersion>=2?undefined:room.payload?.monster,combat:room.combat,turnClockVersion:room.turnClockVersion||1,encounter:room.encounter||null});
+ if(room.area===CLAN_GARDEN.id)built.payload.sceneAssetKey='CLAN_GARDEN';
  room.payload=built.payload;room.states=built.states;room.battleRevision++;
  room.bossAtMs=room.payload.cooperativeEncounter?room.payload.battleV2.result.timeline.find(e=>e.type==='ENEMY_SPAWN'&&e.wave===3)?.combatAtMs:null;
  room.durationMs=Math.min(room.combat?room.combat.maxBattleSeconds*1000:COOP_RULES.maxBattleMs,Math.max(1000,Number(room.payload.battleV2.result.timeline.at(-1).combatAtMs)));
@@ -56,12 +58,16 @@ export function advanceCoopRoom(room,now){
  }
  return room;
 }
-export function createCoopRoom({id,user,clientId,difficulty,seed,now,combat=defaultCoopCombat(),settingsRevision=0,encounterVersion=3,rewardPolicy=null,[REVIEW]:review=false,dualBalance=COOP_DUAL_BALANCE}){
+export function createCoopRoom({id,user,clientId,area='public',difficulty,seed,now,combat=defaultCoopCombat(),settingsRevision=0,encounterVersion=3,rewardPolicy=null,[REVIEW]:review=false,dualBalance=COOP_DUAL_BALANCE}){
  if(!coopDifficulty(difficulty)||!validCoopClient(clientId))fail('INPUT','난이도와 접속 정보를 확인하세요.',400);
+ if(!['public',CLAN_GARDEN.id].includes(area)||(area===CLAN_GARDEN.id&&difficulty!==CLAN_GARDEN.difficulty))fail('AREA','격전지 공간과 난이도를 확인하세요.',400);
  const snapshot=validateCoopCombat(combat);
+ if(area===CLAN_GARDEN.id){
+  snapshot.stages=snapshot.stages.map((stage,i)=>({...stage,name:['정원 외벽','가시 회랑','침식의 심장'][i]}));
+ }
  if(!snapshot.difficulties.some(d=>d.id===difficulty))fail('DIFFICULTY','아직 개방되지 않은 난이도입니다.',400);
  if(difficulty==='TRANSCEND'&&!review&&!COMPANION_RELEASE.dualMercenaries)fail('PREPARING','초월 난이도는 2용병 출시와 함께 개방됩니다.');
- return {...(review||COMPANION_RELEASE.dualMercenaries?{[REVIEW]:true,dualBalance:validateCoopDualBalance(dualBalance),mercenariesPerOwner:2}:{}),id,minPlayers:COOP_RULES.minPlayers,hostId:Number(user.id),status:'LOBBY',difficulty,seed,combat:snapshot,rewardPolicy:structuredClone(rewardPolicy),settingsRevision,encounterVersion:encounterVersion===3?3:2,...(encounterVersion===3?{encounter:rollCoopRoster(seed)}:{}),turnClockVersion:4,patternIndex:0,pattern:null,patternHistory:[],effects:[],createdAt:now,expiresAt:now+snapshot.lobbySeconds*1000,members:[{id:Number(user.id),name:String(user.nickname).slice(0,80),clientId,ready:false,loaded:false,lastSeen:now}],withdrawals:[],battleRevision:0,version:1,receipts:[]};
+ return {...(review||COMPANION_RELEASE.dualMercenaries?{[REVIEW]:true,dualBalance:validateCoopDualBalance(dualBalance),mercenariesPerOwner:2}:{}),...(area===CLAN_GARDEN.id?{area}:{}),id,minPlayers:COOP_RULES.minPlayers,hostId:Number(user.id),status:'LOBBY',difficulty,seed,combat:snapshot,rewardPolicy:structuredClone(rewardPolicy),settingsRevision,encounterVersion:encounterVersion===3?3:2,...(encounterVersion===3?{encounter:area===CLAN_GARDEN.id?gardenRoster():rollCoopRoster(seed)}:{}),turnClockVersion:4,patternIndex:0,pattern:null,patternHistory:[],effects:[],createdAt:now,expiresAt:now+snapshot.lobbySeconds*1000,members:[{id:Number(user.id),name:String(user.nickname).slice(0,80),clientId,ready:false,loaded:false,lastSeen:now}],withdrawals:[],battleRevision:0,version:1,receipts:[]};
 }
 export function coopCommand(room,user,kind,input,now){
  advanceCoopRoom(room,now);
@@ -113,7 +119,7 @@ export function coopView(room,user,now,revision=-1){
  const wave=frame?Math.max(1,...frame.B.map(f=>f.wave||1)):1;
  const stage=room.payload?.cooperativeEncounter?{wave,total:3,cleared:frame?.B.filter(f=>f.hp<=0).length||0,totalEnemies:5,bossAtMs:room.bossAtMs}:null;
  const fighters=frame?{A:frame.A.map(f=>room.withdrawals.some(w=>w.ownerId===f.ownerId)?{...f,hp:0,shield:0}:f),B:frame.B}:null;
- return {ok:true,serverNow:now,state:{id:room.id,minPlayers:room.minPlayers||3,maxPlayers:COOP_RULES.players,mercenariesPerOwner:room.mercenariesPerOwner||1,hostId:room.hostId,status:room.status,difficulty:room.difficulty,expiresAt:room.expiresAt,loadingEndsAt:room.loadingEndsAt,startsAt:room.startsAt,durationMs:room.durationMs,finishedAt:room.finishedAt,reason:room.reason,
+ return {ok:true,serverNow:now,state:{id:room.id,area:room.area||'public',minPlayers:room.minPlayers||3,maxPlayers:COOP_RULES.players,mercenariesPerOwner:room.mercenariesPerOwner||1,hostId:room.hostId,status:room.status,difficulty:room.difficulty,expiresAt:room.expiresAt,loadingEndsAt:room.loadingEndsAt,startsAt:room.startsAt,durationMs:room.durationMs,finishedAt:room.finishedAt,reason:room.reason,
   energy:room.energyEntry?.energies?.[user.id]?{...contentEnergyView(room.energyEntry.energies[user.id],{at:now,maximum:COOP_ENERGY_MAXIMUM}),unlimited:room.energyEntry.energies[user.id].unlimited===true}:null,entryError:room.entryError||null,stage,encounter:coopRosterSummary(room.encounter),configuration:coopCombatSummary(room.combat,room.settingsRevision||0),version:room.version,battleRevision:room.battleRevision,rewardLocked:!room.rewardPolicy?.enabled&&!(room.rewardPolicy?.mode==='ON'&&room.rewardPolicy?.revealPolicy?.enabled),rewardPolicy:room.rewardPolicy||null,clearReward:room.clearRewards?.[String(user.id)]||null,myResult:m.result||null,encounterVersion:room.encounterVersion||1,pattern:room.pattern||null,patternHistory:room.patternHistory||[],
   members:room.members.map(x=>({id:x.id,name:x.name,ready:x.ready,loaded:x.loaded,result:x.result||null,reason:x.reason||null,connected:now-x.lastSeen<COOP_RULES.disconnectMs,
    selection:x.loadout?{cards:x.loadout.cards.map(c=>({id:c.id,title:c.title,grade:c.grade||c.rarity,image:c.image,power:c.power,uniqueAbility:c.uniqueAbility})),...coopSelectionMercenaries(x.loadout),power:x.loadout.power}:null})),fighters},

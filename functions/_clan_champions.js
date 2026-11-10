@@ -108,10 +108,13 @@ function rewardSpec(settings) {
 
 export async function startChampions(env, season, settings, rankedTeams, now = Date.now()) {
   const {readClanResumption}=await import('./_clan_resumption.js');
-  if(await readClanResumption(env,now)){
+  const resumed=await readClanResumption(env,now);
+  const nextDayCup=resumed?.seasonId===Number(season.id)&&time(season.ends_at)>=Date.parse('2026-11-10T00:00:00+09:00');
+  if(resumed&&!nextDayCup){
     await env.DB.prepare("UPDATE clan_seasons SET phase='CHAMPIONS',updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='SETTLEMENT'").bind(season.id).run();
-    return; // Keep the qualified season; never schedule the held Champions League.
+    return;
   }
+  if(nextDayCup)settings={...settings,championsEnabled:true,championsSemifinalDelayDays:1};
   if (!settings.championsEnabled || rankedTeams.length < 3) {
     await env.DB.prepare("UPDATE clan_seasons SET phase='COMPLETE',updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='SETTLEMENT'").bind(season.id).run();
     return;
@@ -120,8 +123,9 @@ export async function startChampions(env, season, settings, rankedTeams, now = D
     name: team.name, markKey: team.mark_key, primaryColor: team.primary_color, accentColor: team.accent_color,
     score: num(team.score), combatPoints: num(team.combat_points) }));
   invariant(new Set(seeds.map(seed => seed.clanId)).size === 3, '챔피언스리그 시드가 중복되었습니다.');
-  const semi = championsNextWindow(now, settings.championsSemifinalDelayDays, settings);
-  const final = championsNextWindow(semi, settings.championsFinalDelayDays, settings);
+  const calendar = nextDayCup ? {...settings,openDays:[0,1,2,3,4,5,6]} : settings;
+  const semi = championsNextWindow(nextDayCup ? time(season.ends_at) : now, settings.championsSemifinalDelayDays, calendar);
+  const final = championsNextWindow(semi, settings.championsFinalDelayDays, calendar);
   const token = crypto.randomUUID(), db = env.DB, writes = [];
   const p = (sql, ...values) => db.prepare(sql).bind(...values);
   if (db.dialect === 'postgres') writes.push(p('SELECT id FROM clan_seasons WHERE id=? FOR UPDATE', season.id));
@@ -129,7 +133,7 @@ export async function startChampions(env, season, settings, rankedTeams, now = D
   writes.push(p(`INSERT OR IGNORE INTO clan_championships(season_id,seeds_json,settings_json,creation_token,
     semifinal_starts_at,final_starts_at,reward_status,reward_json)
     SELECT ?,?,?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM clan_seasons WHERE id=? AND phase='SETTLEMENT')`,
-    season.id, JSON.stringify(seeds), JSON.stringify(settings), token, iso(semi), iso(final),
+    season.id, JSON.stringify(seeds), JSON.stringify(calendar), token, iso(semi), iso(final),
     settings.mode !== 'ON' ? 'DISABLED_TEST' : rewards?.length ? 'PENDING' : 'AWAITING_CONFIG', rewards ? JSON.stringify(rewards) : null, season.id));
   writes.push(p(`INSERT OR IGNORE INTO clan_championship_members(season_id,user_id,clan_id)
     SELECT m.season_id,m.user_id,m.clan_id FROM clan_members m WHERE m.season_id=? AND m.clan_id IN (?,?,?)
@@ -297,7 +301,7 @@ export async function championsPublicState(env, seasonId, settings) {
   // Keep the latest champion visible after next season registration opens.
   if (!cup) cup = await env.DB.prepare("SELECT * FROM clan_championships WHERE status='COMPLETED' ORDER BY season_id DESC LIMIT 1").first();
   if (!cup) return { enabled: settings.championsEnabled, status: 'UPCOMING', seeds: [], matches: [], rewards: rewardSpec(settings), rewardStatus: settings.mode === 'ON' ? 'CONFIGURED' : 'DISABLED_TEST' };
-  if(cup.status==='COMPLETED'&&cup.reward_status==='PENDING'&&settings.mode==='ON'&&!await (await import('./_clan_resumption.js')).readClanResumption(env)){
+  if(cup.status==='COMPLETED'&&cup.reward_status==='PENDING'&&settings.mode==='ON'&&(Number(cup.season_id)===Number(seasonId)||!await (await import('./_clan_resumption.js')).readClanResumption(env))){
     await deliverChampionsRewards(env,cup.season_id,settings);
     cup=await env.DB.prepare('SELECT * FROM clan_championships WHERE season_id=?').bind(cup.season_id).first();
   }

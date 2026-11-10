@@ -11,6 +11,7 @@ import {kickOrganizationMember} from './_organization_member_kick.js';
 import {CLAN_MEMBER_KICK_ENABLED,CLAN_MEMBER_KICK_DISABLED} from '../shared/clan-member-kick-policy-v1.mjs';
 import {CLAN_RESUMPTION_STATE_KEY,activeClanResumption} from '../shared/clan-resumption-v1.mjs';
 
+import {seasonAdmissionEnabled,elderSeasonView,elderSeasonCommand} from './_organization_elder_season.js';
 const parse=JSON.parse;
 // Presentation only: retain stored proposal snapshots and all allocation inputs.
 const displayAllocation=value=>({...value,...(Array.isArray(value.organizations)?{organizations:value.organizations.map(o=>({...o,name:organizationIdentity(o.id)?.name||o.name}))}:{})});
@@ -36,6 +37,7 @@ async function round(q,id,lock=''){
   const [row]=await q('SELECT * FROM organization_rounds_v1 WHERE id=$1'+lock,[id]);orgAssert(row,'ROUND','클랜 모집 회차를 찾을 수 없습니다.',404);return row;
 }
 function access(p,user,r,{write=false}={}){
+  orgAssert(['LIVE','TEST'].includes(r.scope),'ROUND_ARCHIVED','종료된 시즌입니다. 클랜 본부를 다시 여세요.');
   orgAssert(user&&(!user.status||user.status==='ACTIVE'),'AUTH','활성 계정으로 로그인하세요.',403);
   if(r.scope==='TEST')orgAssert(owner(user)||p.testUserIds.includes(Number(user.id)),'TEST_ONLY','클랜 검수는 OWNER와 지정된 테스트 계정만 이용할 수 있습니다.',403);
   if(write&&r.scope==='LIVE')orgAssert(ORGANIZATION_RELEASE_ENABLED,'RELEASE_LOCKED','실제 클랜 모집과 배정은 출시 승인 전까지 잠겨 있습니다.');
@@ -77,7 +79,7 @@ async function inputFor(q,r,now){
 }
 export async function organizationOverview(env,user,{roundId,admin=false,now=Date.now()}={}){
   return env.DB.enqueue(async()=>{
-    const q=qFor(env.DB),p=await policy(q),rounds=await q('SELECT * FROM organization_rounds_v1 ORDER BY created_at DESC,id LIMIT 2');
+    const q=qFor(env.DB),p=await policy(q),rounds=await q("SELECT * FROM organization_rounds_v1 WHERE scope IN('LIVE','TEST') ORDER BY created_at DESC,id LIMIT 2");
     const r=roundId?await round(q,roundId):rounds.find(r=>r.scope==='LIVE')||rounds.find(r=>r.scope==='TEST');
     if(admin)orgAssert(owner(user),'PERMISSION','클랜 운영은 OWNER 전용입니다.',403);
     if(r)access(p,user,r);
@@ -93,7 +95,8 @@ export async function organizationOverview(env,user,{roundId,admin=false,now=Dat
     const latest=proposal[0],join=await organizationJoinOverview(q,r,user,now);
     const applicants=admin&&r?await q('SELECT s.user_id,u.nickname,s.preferred_id,s.updated_at,s.revision,s.active,x.expires_at,x.round_revision FROM organization_surveys_v1 s JOIN users u ON u.id=s.user_id LEFT JOIN organization_ratings_v1 x ON x.round_id=s.round_id AND x.user_id=s.user_id WHERE s.round_id=$1 ORDER BY s.active DESC,s.updated_at,s.user_id',[r.id]):[];
     const allMembers=admin&&r?await q('SELECT m.user_id,m.organization_id,m.slot,m.seed_power,u.nickname FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 ORDER BY m.organization_id,m.slot',[r.id]):[];
-    return {ok:true,join,viewerId:Number(user.id),releaseEnabled:ORGANIZATION_RELEASE_ENABLED,admissionEnabled:join.enabled||!!r&&(surveyOpen(r,now)||survey[0]?.active===1),serverNow:now,capacity:ORGANIZATION_LIMITS.participants,limits:ORGANIZATION_LIMITS,preparation:{...ORGANIZATION_PREPARATION,status:r?.phase||'PREPARATION',registrationOpen:join.canApply||surveyOpen(r,now)&&!membership[0]},round:roundView(r,now),policy:admin?p:{pointsPerRegion:p.pointsPerRegion,settlementMinutes:p.settlementMinutes,growthMode:p.growthMode,hideoutThresholds:p.hideoutThresholds,unlocks:p.unlocks},...(admin?{rounds:rounds.map(row=>roundView(row,now)),participants:applicants.map(a=>({userId:Number(a.user_id),nickname:a.nickname,preferredOrganizationId:Number(a.preferred_id),submittedAt:Number(a.updated_at),surveyRevision:Number(a.revision),assignedOrganizationId:Number(allMembers.find(m=>Number(m.user_id)===Number(a.user_id))?.organization_id)||null,active:a.active===1,rated:Number(a.expires_at)>now&&Number(a.round_revision)===Number(r.revision)}))}:{}),survey:survey[0]?{answers:parse(survey[0].answers_json),submitted:survey[0].active===1,preferredOrganizationId:Number(survey[0].preferred_id),revision:Number(survey[0].revision)}:null,membership:membership[0]?{organizationId:Number(membership[0].organization_id),slot:Number(membership[0].slot)}:null,roster:roster.map(m=>({userId:Number(m.user_id),nickname:m.nickname,slot:Number(m.slot),joinedAt:Number(m.joined_at),isSelf:Number(m.user_id)===Number(user.id),isElder:(join.elderIds||[]).includes(Number(m.user_id)),canKick:CLAN_MEMBER_KICK_ENABLED&&join.canReview===true&&Number(m.user_id)!==Number(user.id)&&!(join.elderIds||[]).includes(Number(m.user_id))})),participantCount:counts.reduce((n,c)=>n+c.n,0),pendingApplicantCount:counts.reduce((n,c)=>n+c.pending,0),memberCount:progress.reduce((n,p)=>n+Number(p.member_count),0),ratedCount:ratingCount[0]?.n||0,organizations:ORGANIZATIONS.map(o=>{const s=progress.find(p=>Number(p.organization_id)===o.id);return {...o,...(admin?{roster:allMembers.filter(m=>Number(m.organization_id)===o.id).map(m=>({userId:Number(m.user_id),nickname:m.nickname,slot:Number(m.slot),power:Number(m.seed_power)}))}:{}),applicants:counts.find(c=>Number(c.preferred_id)===o.id)?.n||0,memberCount:s?.member_count||0,power:Number(s?.power||0),hideout:organizationHeadquartersState(s,p)};}),proposal:latest?{id:latest.id,expiresAt:Number(latest.expires_at),appliedAt:latest.applied_at?Number(latest.applied_at):null,...displayAllocation(parse(latest.result_json))}:null};
+    const elderSeason=seasonAdmissionEnabled(r,now)?await elderSeasonView(q,r,user,now,admin):null;
+    return {ok:true,join,elderSeason,viewerId:Number(user.id),releaseEnabled:ORGANIZATION_RELEASE_ENABLED,admissionEnabled:join.enabled||!!r&&(surveyOpen(r,now)||survey[0]?.active===1),serverNow:now,capacity:ORGANIZATION_LIMITS.participants,limits:ORGANIZATION_LIMITS,preparation:{...ORGANIZATION_PREPARATION,status:r?.phase||'PREPARATION',registrationOpen:join.canApply||surveyOpen(r,now)&&!membership[0]},round:roundView(r,now),policy:admin?p:{pointsPerRegion:p.pointsPerRegion,settlementMinutes:p.settlementMinutes,growthMode:p.growthMode,hideoutThresholds:p.hideoutThresholds,unlocks:p.unlocks},...(admin?{rounds:rounds.map(row=>roundView(row,now)),participants:applicants.map(a=>({userId:Number(a.user_id),nickname:a.nickname,preferredOrganizationId:Number(a.preferred_id),submittedAt:Number(a.updated_at),surveyRevision:Number(a.revision),assignedOrganizationId:Number(allMembers.find(m=>Number(m.user_id)===Number(a.user_id))?.organization_id)||null,active:a.active===1,rated:Number(a.expires_at)>now&&Number(a.round_revision)===Number(r.revision)}))}:{}),survey:survey[0]?{answers:parse(survey[0].answers_json),submitted:survey[0].active===1,preferredOrganizationId:Number(survey[0].preferred_id),revision:Number(survey[0].revision)}:null,membership:membership[0]?{organizationId:Number(membership[0].organization_id),slot:Number(membership[0].slot)}:null,roster:roster.map(m=>({userId:Number(m.user_id),nickname:m.nickname,slot:Number(m.slot),joinedAt:Number(m.joined_at),isSelf:Number(m.user_id)===Number(user.id),isElder:(join.elderIds||[]).includes(Number(m.user_id)),canKick:CLAN_MEMBER_KICK_ENABLED&&join.canReview===true&&Number(m.user_id)!==Number(user.id)&&!(join.elderIds||[]).includes(Number(m.user_id))})),participantCount:counts.reduce((n,c)=>n+c.n,0),pendingApplicantCount:counts.reduce((n,c)=>n+c.pending,0),memberCount:progress.reduce((n,p)=>n+Number(p.member_count),0),ratedCount:ratingCount[0]?.n||0,organizations:ORGANIZATIONS.map(o=>{const s=progress.find(p=>Number(p.organization_id)===o.id);return {...o,...(admin?{roster:allMembers.filter(m=>Number(m.organization_id)===o.id).map(m=>({userId:Number(m.user_id),nickname:m.nickname,slot:Number(m.slot),power:Number(m.seed_power)}))}:{}),applicants:counts.find(c=>Number(c.preferred_id)===o.id)?.n||0,memberCount:s?.member_count||0,power:Number(s?.power||0),hideout:organizationHeadquartersState(s,p)};}),proposal:latest?{id:latest.id,expiresAt:Number(latest.expires_at),appliedAt:latest.applied_at?Number(latest.applied_at):null,...displayAllocation(parse(latest.result_json))}:null};
   });
 }
 async function refreshRatings(env,user,body,deps,now){
@@ -119,6 +122,11 @@ export async function handleOrganization({path,request,env,deps}){
     if(request.method==='GET'&&['organization/overview','admin/organization'].includes(path))return json(await organizationOverview(env,user,{roundId:url.searchParams.get('roundId')||undefined,admin,now}));
     orgAssert(request.method==='POST','METHOD','지원하지 않는 요청입니다.',405);
     const fields={
+      'admin/organization/elder/open':['requestId','roundId','windowId'],
+      'admin/organization/elder/select':['requestId','roundId','windowId','organizationId','userIds','revision'],
+      'admin/organization/elder/start':['requestId','roundId','windowId','revision'],
+      'organization/elder/apply':['requestId','roundId','windowId','organizationId'],
+      'organization/elder/cancel':['requestId','roundId','windowId'],
       'organization/join/apply':['requestId','roundId','revision','organizationId','message'],
       'organization/join/cancel':['requestId','roundId','revision'],
       'organization/join/review':['requestId','roundId','revision','userId','decision'],
@@ -169,8 +177,13 @@ export async function handleRestoredClanMemberKick({request,env,deps,user}){
 }
 
 async function organizationCommand(env,user,path,body,deps,now){
+    if(path.includes('/elder/'))return elderSeasonCommand(env,user,path,body,deps,now,{mutation,lockedContext,qFor});
     if(path.startsWith('organization/join/'))return organizationJoinCommand(env,user,path,body,deps,now,{mutation,lockedContext,qFor});
-    if(path==='admin/organization/ratings')return refreshRatings(env,user,body,deps,now);
+    if(path==='admin/organization/ratings'){
+      const [r]=await env.DB.enqueue(()=>qFor(env.DB)('SELECT scope FROM organization_rounds_v1 WHERE id=$1',[body.roundId]));
+      orgAssert(!seasonAdmissionEnabled(r,now),'MASS_CLOSED','일괄 모집과 배정은 종료되었습니다.');
+      return refreshRatings(env,user,body,deps,now);
+    }
     return mutation(env,user,path,body,async q=>{
       if(path==='admin/organization/policy'){
         // An explicit draft save never changes a round's recruitment state.
@@ -189,6 +202,7 @@ async function organizationCommand(env,user,path,body,deps,now){
       // Admission deadlines are checked after body parsing and all row locks.
       now=(deps.now||Date.now)();
       if(path==='organization/member/kick')return kickOrganizationMember(q,user,body,r,now);
+      orgAssert(!seasonAdmissionEnabled(r,now),'MASS_CLOSED','원하는 클랜에 개별 신청하세요. 해당 클랜 원로가 승인합니다.');
       if(path==='admin/organization/additional-recruitment'){
         const [actor]=await q('SELECT role,status,banned_until FROM users WHERE id=$1 FOR SHARE',[user.id]);
         orgAssert(actor?.role==='OWNER'&&actor.status==='ACTIVE'&&(!actor.banned_until||Date.parse(actor.banned_until)<=now),'PERMISSION','클랜 추가 모집은 활성 OWNER 전용입니다.',403);
@@ -262,8 +276,13 @@ export async function runOrganizationAllocation(env,{ownerId,action,...body},dep
 
 // Public content status contains no applicant identity, wish, answers or ratings.
 export async function organizationLiveOperation(env,now=Date.now()){
- const r=await env.DB.prepare("SELECT id,phase,opened_at,closes_at,auto_assign,assignment_status FROM organization_rounds_v1 WHERE scope='LIVE' LIMIT 1").first();
+ const r=await env.DB.prepare("SELECT id,scope,phase,opened_at,closes_at,auto_assign,assignment_status FROM organization_rounds_v1 WHERE scope='LIVE' LIMIT 1").first();
  if(!r||r.phase==='PREPARATION')return null;
+ if(seasonAdmissionEnabled(r,now)){
+  const e=await env.DB.enqueue(()=>elderSeasonView(qFor(env.DB),r,{id:0},now));
+  return {kind:'ORGANIZATION',phase:e.phase==='OPEN'?'FORMATION':'ACTIVE',entityId:r.id,title:e.phase==='OPEN'?'클랜 원로 모집':'클랜 본부',
+   detail:e.phase==='OPEN'?'다음 시즌 원로 지원 · 클랜별 3명':'개별 가입 신청 · 원로 승인',deadlineAt:e.phase==='OPEN'?new Date(e.closesAt).toISOString():null,sortOrder:0};
+ }
  const open=surveyOpen(r,now);
  if(additionalRecruitment(r)&&open)return {kind:'ORGANIZATION',phase:'FORMATION',entityId:r.id,title:'클랜 추가 모집',detail:'24시간 추가 접수 · 자동 배정 OFF · 시즌 시작 전',deadlineAt:new Date(Number(r.closes_at)).toISOString(),sortOrder:0};
  if(r.phase==='ASSIGNED'){
@@ -280,7 +299,7 @@ export async function reconcileOrganizationRecruitment(env,deps={}, {now=Date.no
  const token=crypto.randomUUID(),clock=()=>deps.now?deps.now():Date.now();
  const job=await transaction(env.DB,async q=>{
   const [r]=await q("SELECT * FROM organization_rounds_v1 WHERE scope='LIVE' FOR UPDATE");
-  if(!r||r.phase==='PREPARATION')return null;
+  if(!r||r.phase==='PREPARATION'||seasonAdmissionEnabled(r,now))return null;
   if(r.phase==='ASSIGNED'){
    if(r.assignment_status==='RECRUITING'&&Number(r.closes_at)<=now){await q("UPDATE organization_rounds_v1 SET assignment_status='RECRUITMENT_CLOSED',auto_assign=0,revision=revision+1 WHERE id=$1",[r.id]);return {waiting:true,status:'MANUAL',additionalRecruitment:true};}
    return null;

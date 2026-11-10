@@ -9,7 +9,8 @@ import {readMercenaryDocument,readMercenaryRuntime,battleConfig,mercenaryAccount
 import {COOP_ALL_DIFFICULTIES,COOP_RULES,COOP_DUAL_RULES,validCoopRoom,validCoopClient,validateCoopSelection} from '../shared/cooperative-battleground-v1.mjs';
 import {coopSettings,cooperativeAdmin} from './_cooperative_settings.js';
 import {coopCombatSummary} from '../shared/cooperative-settings-v1.mjs';
-import {COOP_DIRECTORY} from '../shared/cooperative-room-list-v1.mjs';
+import {clanHideout,requireClanHideout} from './_clan_hideout_access.js';
+import {coopDirectory,CLAN_GARDEN} from '../shared/cooperative-room-list-v1.mjs';
 import {freezeCoopReward} from '../shared/cooperative-rewards-v1.mjs';
 import {coopEnergy} from './_cooperative_energy.js';
 import {readRewardRevealPolicy} from './_reward_reveal.js';
@@ -76,14 +77,17 @@ export async function handleCooperative({path,request,env,deps}){
   const config=await coopSettings(env),kind=path.replace(/^(?:admin\/)?coop\//,''),url=new URL(request.url);
   if(kind==='settings'||path.startsWith('admin/coop/'))return await cooperativeAdmin({kind,request,env,deps,user,config});
   const difficulties=COOP_ALL_DIFFICULTIES.filter(d=>config.combat.difficulties.some(row=>row.id===d.id)&&(d.id!=='TRANSCEND'||COMPANION_RELEASE.dualMercenaries));
-  if(kind==='feature'&&request.method==='GET')return deps.json({ok:true,mode:config.mode,visible:user.role==='OWNER'||coopAccess(user,config),accessible:coopAccess(user,config),owner:user.role==='OWNER',rewardLocked:config.mode!=='ON'||config.rewardLocked,rewards:config.rewards,energy:await coopEnergy(env,user.id),rules:{...(COMPANION_RELEASE.dualMercenaries?COOP_DUAL_RULES:COOP_RULES),maxBattleMs:config.combat.maxBattleSeconds*1000},difficulties,configuration:coopCombatSummary(config.combat,config.revision)},200,{'cache-control':'no-store'});
+  if(kind==='feature'&&request.method==='GET')return deps.json({ok:true,mode:config.mode,visible:user.role==='OWNER'||coopAccess(user,config),accessible:coopAccess(user,config),owner:user.role==='OWNER',clanHideout:await clanHideout(env,user.id),rewardLocked:config.mode!=='ON'||config.rewardLocked,rewards:config.rewards,energy:await coopEnergy(env,user.id),rules:{...(COMPANION_RELEASE.dualMercenaries?COOP_DUAL_RULES:COOP_RULES),maxBattleMs:config.combat.maxBattleSeconds*1000},difficulties,configuration:coopCombatSummary(config.combat,config.revision)},200,{'cache-control':'no-store'});
   if(!coopAccess(user,config))fail('CLOSED',config.mode==='OFF'?'격전지는 현재 운영 중지 상태입니다.':'격전지 테스트 참여자로 등록된 계정만 입장할 수 있습니다.',403);
   if(kind==='favorites')return deps.json(await saveCoopFavorite({request,env,user,deps,owned:async(kind,id)=>kind==='card'?(await loadCoopOwnedCards(env,user,deps,[id])).length===1:(await mercenaryAccountState(env,user)).cards.some(m=>m.code===id&&m.canDeploy)}),200,{'cache-control':'no-store'});
   if(!env.COOP_ROOMS||!env.COOP_PLAYERS)fail('UNAVAILABLE','격전지 서버를 준비 중입니다.',503);
   if(kind==='rooms'&&request.method==='GET'){
    const difficulty=url.searchParams.get('difficulty')||'';
    if(difficulty&&!difficulties.some(d=>d.id===difficulty))fail('DIFFICULTY','난이도를 확인하세요.',400);
-   return response(deps,await env.COOP_PLAYERS.getByName(COOP_DIRECTORY).rooms(difficulty));
+   const area=url.searchParams.get('area')||'public';
+   if(!['public',CLAN_GARDEN.id].includes(area))fail('AREA','격전지 공간을 확인하세요.',400);
+   if(area===CLAN_GARDEN.id)await requireClanHideout(env,user.id,CLAN_GARDEN.stage);
+   return response(deps,await env.COOP_PLAYERS.getByName(coopDirectory(area)).rooms(difficulty));
   }
   if(kind==='options'&&request.method==='GET'){
    const [cards,mercenaries]=await Promise.all([loadCoopOwnedCards(env,user,deps),mercenaryAccountState(env,user)]);
@@ -95,7 +99,7 @@ export async function handleCooperative({path,request,env,deps}){
    return result.code==='COOP_MISSING'||result.code==='COOP_MEMBER'?deps.json({ok:true,state:null}):response(deps,result);
   }
   if(request.method!=='POST')fail('METHOD','지원하지 않는 요청입니다.',405);
-  const body=await readJointBody(request,{fields:['roomId','clientId','requestId','difficulty','cardIds','mercenaryCode','revision',...(COMPANION_RELEASE.dualMercenaries?['mercenaryCodes']:[])]});
+  const body=await readJointBody(request,{fields:['roomId','clientId','requestId','difficulty','area','cardIds','mercenaryCode','revision',...(COMPANION_RELEASE.dualMercenaries?['mercenaryCodes']:[])]});
   if(!validCoopClient(body.clientId)||typeof body.requestId!=='string'||!/^[-a-zA-Z0-9_]{8,100}$/.test(body.requestId))fail('INPUT','접속과 요청 정보를 확인하세요.',400);
   if(kind!=='create'&&!validCoopRoom(body.roomId))fail('ROOM','목록에서 참가할 대기방을 선택하세요.',400);
   return await deps.withUserMutationLock(env,user.id,path,async()=>{
@@ -106,13 +110,19 @@ export async function handleCooperative({path,request,env,deps}){
    if(kind==='create'||kind==='join'){
     const digest=kind==='create'?await crypto.subtle.digest('SHA-256',new TextEncoder().encode(user.id+':'+body.requestId)):null;
     const target=kind==='create'?Array.from(new Uint8Array(digest)).map(b=>b.toString(16).padStart(2,'0')).join('').slice(0,10).toUpperCase():body.roomId;
+    const area=kind==='create'?(body.area??'public'):await roomStub(env,target).admissionArea();
+    if(!['public',CLAN_GARDEN.id].includes(area))fail('AREA','격전지 공간을 확인하세요.',400);
+    if(area===CLAN_GARDEN.id){
+     await requireClanHideout(env,user.id,CLAN_GARDEN.stage);
+     if(kind==='create'&&body.difficulty!==CLAN_GARDEN.difficulty)fail('DIFFICULTY','아지트 격전지는 격전 난이도로 출전합니다.',400);
+    }
     const pointer=playerStub(env,user),prior=await pointer.getRoom();
     if(prior){const previous=await roomStub(env,prior).state(user,0);
      if(previous.ok&&['LOBBY','LOADING','ACTIVE'].includes(previous.state.status)&&!previous.state.myResult&&prior!==target)fail('ALREADY_JOINED','현재 대기방에서 먼저 나와주세요.');}
     if(kind==='create'){
      if(!difficulties.some(d=>d.id===body.difficulty))fail('DIFFICULTY','아직 개방되지 않은 난이도입니다.',400);
      const id=target;
-     const result=await roomStub(env,id).create({id,user:{id:Number(user.id),nickname:user.nickname},clientId:body.clientId,difficulty:body.difficulty,seed:crypto.getRandomValues(new Uint32Array(1))[0],requestId:body.requestId,combat:config.combat,settingsRevision:config.revision,encounterVersion:config.encounterVersion===3?3:2,rewardPolicy:{...freezeCoopReward(config,body.difficulty),revealPolicy:await readRewardRevealPolicy(env,'COOP_'+body.difficulty)}});
+     const result=await roomStub(env,id).create({id,area,user:{id:Number(user.id),nickname:user.nickname},clientId:body.clientId,difficulty:body.difficulty,seed:crypto.getRandomValues(new Uint32Array(1))[0],requestId:body.requestId,combat:config.combat,settingsRevision:config.revision,encounterVersion:config.encounterVersion===3?3:2,rewardPolicy:{...freezeCoopReward(config,body.difficulty),revealPolicy:await readRewardRevealPolicy(env,'COOP_'+body.difficulty)}});
      if(result.ok)await pointer.setRoom(id);return response(deps,result);
     }
     const result=await roomStub(env,body.roomId).command({id:Number(user.id),nickname:user.nickname},kind,body);

@@ -2,6 +2,9 @@ import {COOP_RULES} from './cooperative-battleground-v1.mjs';
 
 // A reserved instance in the existing cooperative-player namespace.
 export const COOP_DIRECTORY='public-lobbies-v1';
+export const CLAN_GARDEN=Object.freeze({id:'clan-garden',name:'침식된 비밀정원',stage:4,difficulty:'HARD',
+ background:'/assets/ui/organization/hunts-20261023/stage4-garden.webp',bossArt:'/assets/ui/organization/hunts-20261023/stage4-boss.webp'});
+export const coopDirectory=area=>area===CLAN_GARDEN.id?'clan-garden-lobbies-v1':COOP_DIRECTORY;
 export const COOP_LIST_LIMIT=50,COOP_LIST_REFRESH_MS=10000,COOP_LIST_LEASE_MS=45000;
 export function coopRoomListing(room,now=Date.now()){
  if(room.status!=='LOBBY'||room.expiresAt<=now||!room.members.length)return null;

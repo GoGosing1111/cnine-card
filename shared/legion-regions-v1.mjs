@@ -55,7 +55,17 @@ export const REGION_EQUIPMENT = Object.freeze(LEGION_REGIONS.flatMap(region=>[
   Object.freeze({code:`${region.setId}_UNIQUE`,regionId:region.id,setId:null,kind:'UNIQUE',name:region.unique.name,slot:region.unique.slot,rarity:'MYTHIC',
     totalPower:region.unique.slot==='WEAPON'?290000:200000,image:`/assets/ui/mercenary-equipment/legion-20261011/${region.id}-unique.webp`,effect:region.unique.effect,description:region.unique.description})
 ]));
-export const regionById=id=>LEGION_REGIONS.find(row=>row.id===id)||null;
+const dock='/assets/ui/organization/hunts-20261023/';
+export const CLAN_HUNT_REGION=Object.freeze({...LEGION_REGIONS[0],id:'clan-dockyard',lootRegionId:'coast',requiredStage:3,dropMultiplier:1.5,
+ name:'봉쇄된 물류기지',english:'CLAN DOCKYARD',description:'클랜 본거지에서 확보한 항만 창고. 철갑 집행자의 봉쇄를 돌파하세요.',
+ counter:'아지트 3단계 · 일반 사냥터 대비 아이템·장비 드랍 확률 150%',background:dock+'stage3-dockyard.webp',
+ monsters:[
+  {...LEGION_REGIONS[0].monsters[0],id:'dock-tracker',name:'철사갈퀴 추적자',sprite:dock+'stage3-monster.webp'},
+  {...LEGION_REGIONS[0].monsters[1],id:'dock-guard',name:'창고 철갑병',sprite:'/assets/ui/legion-citadel/enemies-v1/black-iron-guard.webp'},
+  {...LEGION_REGIONS[0].monsters[2],id:'dock-watcher',name:'부두 감시병',sprite:'/assets/ui/legion-citadel/enemies-v1/ember-watcher.webp'}],
+ boss:{...LEGION_REGIONS[0].boss,id:'dock-executor',name:'철갑 집행자',sprite:dock+'stage3-boss.webp'}
+});
+export const regionById=id=>id===CLAN_HUNT_REGION.id?CLAN_HUNT_REGION:LEGION_REGIONS.find(row=>row.id===id)||null;
 export const regionalDifficulty=id=>REGION_DIFFICULTIES.find(row=>row.id===id)||null;
 export const regionalEquipment=code=>REGION_EQUIPMENT.find(row=>row.code===code)||null;
 export function legionRegionDefaults(){

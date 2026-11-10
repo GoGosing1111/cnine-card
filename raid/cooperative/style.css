@@ -117,3 +117,10 @@
 .coop-create-panel .coop-difficulties:has([data-difficulty=TRANSCEND]){grid-template-columns:1fr}.coop-create-panel .coop-difficulties em{grid-column:1/-1}
 @media(max-width:1050px){.coop-create-panel .coop-difficulties:has([data-difficulty=TRANSCEND]){grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.coop-readybar:has([data-start]:not([hidden])){flex-wrap:wrap}.coop-readybar:has([data-start]:not([hidden]))>div{width:100%}.coop-readybar [data-start]{margin-left:0}.coop-readybar:has([data-start]:not([hidden]))>button{flex:1;min-width:0}.coop-filter>label{flex-basis:55%}}
+
+.coop-areas{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1rem}
+.coop-areas button{border:1px solid #52525a;border-radius:.4rem;padding:.65rem 1rem;background:#20242b;color:#dedde1;font:inherit;font-weight:700}
+.coop-areas button[aria-pressed=true]{border-color:#deb777;background:#443a2d;color:#ffe4ae}
+.coop-areas small{font-size:.75em;margin-left:.35rem}
+.coop-areas button:disabled:not([aria-pressed=true]){opacity:.6}
+.coop-hero.coop-garden{background:linear-gradient(90deg,#1b161ef5 2%,#221a2890 58%,#201a2533),url('/assets/ui/organization/hunts-20261023/stage4-garden.webp') center/cover}

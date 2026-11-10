@@ -1,4 +1,4 @@
-import {mountOrganization} from './organization-system-v1.mjs?v=20261029-elder-kick&clanRestore=20261025&clanResume=20261025&factionEvening=20261105-v1';
+import {mountOrganization} from './organization-system-v1.mjs?clanSeason=20261110-v1&v=20261029-elder-kick&clanRestore=20261025&clanResume=20261025&factionEvening=20261105-v1';
 import {observeOrganizationHeight,isOrganizationEmbedded} from './organization-embed-size-v1.mjs?v=20261025-clan-eight';
 import {organizationApi,organizationToken} from './organization-api-v1.mjs?v=20261025-clan-eight';
 

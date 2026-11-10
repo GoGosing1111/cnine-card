@@ -1,13 +1,13 @@
 {
   "date": "2026-09-26",
   "engineBase": "0d67ae862a1f9763605ad7323e889acf5d51ad41",
-  "sourceRevision": "5c3285cc219912f737a6e1123b5b41ac68678c2d",
+  "sourceRevision": "9eb513cbf88477f562fb26b19d998757071b442a",
   "pixi": "8.20.0",
   "gsap": "3.13.0",
-  "serverHash": "578f375fa2d147fce86bf3b67c8f4a13ae4aee6ae38882a74e0e0a3b4e1ab2c1",
-  "engineHash": "fa916e31bb541235dfcbe73e5b320d967603a58140b23783771b997dc8fdcdd4",
+  "serverHash": "2415c041f1108b14e059178100b5e626af71aae1bc04bd7de7d91e9ebfb561dc",
+  "engineHash": "38a019f7ff10f3a88e5b4fa027d804a6b925da06b9a5cdbf0f4a9abd67c6a011",
   "playbackHash": "459b7773a7ee9408a4291827856607493be1bb147607a3c7be33af93945fdf3e",
-  "bundleHash": "041bb4a33a40aa33551a534926733f707504272561257e180962a6c130a611c5",
+  "bundleHash": "3786dda05703aede0ac508249f4202972b1cb9eec2671c73f60751a7f5edcd2b",
   "commonInputs": [
     "preview/project-v-v3/source/battle/IconExpansionPlayback.js",
     "preview/project-v-v3/source/battle/BattleDevicePolicy.mjs",

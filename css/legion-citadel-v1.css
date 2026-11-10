@@ -176,3 +176,29 @@ body:has(>.citadel.in-battle.ct-light-field)>#app{display:none}
 .ct-lite-slots figure,.ct-lite-slots figure.ct-boss{background:transparent;border:0}
 .ct-lite-slots figcaption{background:#0b1525db}
 .ct-hit-layer>canvas{display:block;width:100%;height:100%}
+
+/* Use field portraits and item art on the expedition board. */
+.citadel .ct-tactical{object-fit:contain;flex:none;width:32px;height:32px;vertical-align:middle}
+.citadel .ct-facts .ct-tactical{width:27px;height:27px}
+.citadel .ct-panel h2 .ct-tactical{margin-right:2px}
+.citadel .ct-castellan{position:absolute;right:clamp(16px,7vw,112px);bottom:-15%;height:112%;width:34%;object-fit:contain;object-position:bottom;pointer-events:none;filter:drop-shadow(0 5px 11px #100503)}
+.citadel .ct-hero-copy{max-width:66%}
+.citadel .ct-tier-face{isolation:isolate;position:relative;overflow:hidden;display:flex;justify-content:flex-end;align-items:flex-start;min-height:104px;padding:12px 9px;color:#e3d4b8;background:linear-gradient(145deg,#282832,#15161f);border-color:#594d47}
+.citadel .ct-tier-face[data-tier-art="keep"]{background:linear-gradient(135deg,#3d2d29,#1b1a20)}
+.citadel .ct-tier-face[data-tier-art="throne"]{background:linear-gradient(135deg,#49302e,#1e1821)}
+.citadel .ct-tier-portrait{position:absolute;z-index:-1;top:-4px;right:-4px;width:77%;height:95%;object-fit:contain;object-position:top right;opacity:.82}
+.citadel .ct-tier-face>span{align-self:flex-start;z-index:1;margin-top:auto;text-shadow:0 2px 4px #000,0 0 5px #000}
+.citadel .ct-tier-face::before{content:"";position:absolute;z-index:0;inset:0;background:linear-gradient(0deg,#140f14 3%,#140f14aa 35%,transparent 71%);pointer-events:none}
+.citadel .ct-tier input:checked+.ct-tier-face{border-color:#e7b86b;box-shadow:inset 0 2px #e7b86b;background-color:#493520}
+.citadel .ct-tier input:checked+.ct-tier-face::after{background:#342213;color:#ffe3a8;border:1px solid #d6a263;border-radius:50%;height:18px;width:18px;text-align:center;line-height:16px}
+.ct-reliquary{padding:10px 0 12px;border-block:1px solid #53453c;margin:12px 0;display:grid;gap:7px}
+.ct-reliquary>strong{font-size:13px;color:#e9c18b}
+.ct-reliquary ul{display:flex;align-items:center;flex-wrap:wrap;gap:5px 14px;padding:0;margin:0;list-style:none}
+.ct-reliquary li{display:flex;align-items:center;gap:5px;color:#f0e3d3;font-size:13px;font-weight:700}
+.ct-reliquary .ct-armory-icon{width:35px;height:35px;object-fit:contain;background:radial-gradient(ellipse at bottom,#614d35,#201d26);border:1px solid #77634b;border-radius:4px}
+.ct-reliquary small{color:#beb2a6;font-size:12px}
+.citadel .ct-board{position:relative;overflow:hidden;background:linear-gradient(155deg,#292832,#1d1b20 70%)}
+.citadel .ct-quiet{position:relative;min-height:173px}
+.citadel .ct-muster{width:80px;height:76px;display:grid;place-items:center;margin:0 auto 6px;background:radial-gradient(ellipse,#79604448,transparent 72%)}
+.citadel .ct-muster .ct-tactical{width:68px;height:68px}
+@media(max-width:700px){.citadel .ct-castellan{bottom:0;right:0;width:44%;height:90%}.citadel .ct-hero-copy{max-width:75%}.citadel .ct-tier-face{min-height:91px}.citadel .ct-facts .ct-tactical{width:20px;height:20px}.citadel .ct-quiet{min-height:130px}.citadel .ct-muster,.citadel .ct-muster .ct-tactical{width:48px;height:48px}.citadel .ct-reliquary ul{gap:4px 10px}}

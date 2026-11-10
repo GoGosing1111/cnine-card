@@ -14,7 +14,13 @@ export const COOP_SPECIES=Object.freeze([
  {id:'VESPERA',name:'역병 여왕 베스페라',kind:'BOSS',art:BASE+'vespera-768.webp',style:'RANGED',trait:'VENOM',hint:'생명 재생과 맹독 · 회복 억제와 정화',hp:.95,attack:.85,shield:0,height:370},
  {id:'TEMPEST',name:'폭풍룡 템페스트',kind:'BOSS',art:BASE+'tempest-768.webp',style:'MELEE',trait:'TEMPEST',hint:'분산 연타와 약화 · 보호와 회복',hp:1.25,attack:1.15,shield:0,height:330}
 ]);
-export const coopSpecies=id=>COOP_SPECIES.find(s=>s.id===id);
+const gardenRoot='/assets/ui/organization/hunts-20261023/';
+const gardenSpecies=[
+ {...COOP_SPECIES[2],id:'ROSEHOUND',name:'흑장미 사냥개',art:gardenRoot+'stage4-monster.webp'},
+ {...COOP_SPECIES[6],id:'THORNCROWN',name:'가시관 포식자',art:gardenRoot+'stage4-boss.webp'}
+];
+export const coopSpecies=id=>COOP_SPECIES.find(s=>s.id===id)||gardenSpecies.find(s=>s.id===id);
+export const gardenRoster=()=>({version:3,policyVersion:1,mobs:['ROSEHOUND','BLIGHTSTALKER','STORMWISP'],elite:'VESPERA',boss:'THORNCROWN'});
 export function rollCoopRoster(seed){
  let n=(Number(seed)^0xC0090312)>>>0;
  const random=()=>{n=(n+0x6D2B79F5)>>>0;let t=Math.imul(n^n>>>15,1|n);t^=t+Math.imul(t^t>>>7,61|t);return ((t^t>>>14)>>>0)/4294967296;};

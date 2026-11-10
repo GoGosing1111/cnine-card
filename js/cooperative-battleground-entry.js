@@ -1,6 +1,6 @@
 (() => {
  'use strict';
- const VERSION='coop-transcend-favorites-two-player-20261102-v1';
+ const VERSION='coop-clan-garden-20261110-v1';
  let visible=false,controller=null,revision=0,featureRequest,checked=0,loading=false;
  const host=()=>document.getElementById('pveCoopView');
  async function refresh(){
@@ -21,6 +21,7 @@
    if(current!==revision)return;
    const {mountCooperative}=await import('/raid/cooperative/live.mjs?v='+VERSION);
    if(current!==revision)return;
+   if(sessionStorage.getItem('clanAreaEntry')==='clan-garden'){root.dataset.clanArea='clan-garden';sessionStorage.removeItem('clanAreaEntry');}else delete root.dataset.clanArea;
    const result=await mountCooperative(root);
    if(current!==revision){result.destroy();return;}controller=result;
   }catch(error){if(current===revision){root.textContent=error.message;const retry=document.createElement('button');retry.textContent='다시 연결';retry.onclick=()=>void open();root.append(retry);}}

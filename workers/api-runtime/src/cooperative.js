@@ -5,7 +5,7 @@ import {MonsterDefenseHost} from './monster-defense.js';
 import {MonsterDefenseDirectory} from './monster-defense-directory.js';
 import {createCoopRoom,coopCommand,advanceCoopRoom,coopView,coopTerminal} from '../../../functions/_cooperative_room.js';
 import {COOP_RULES,validCoopRoom,coopDifficulty} from '../../../shared/cooperative-battleground-v1.mjs';
-import {COOP_DIRECTORY,COOP_LIST_LIMIT,COOP_LIST_LEASE_MS,coopRoomListing} from '../../../shared/cooperative-room-list-v1.mjs';
+import {coopDirectory,COOP_LIST_LIMIT,COOP_LIST_LEASE_MS,coopRoomListing} from '../../../shared/cooperative-room-list-v1.mjs';
 import {nextCoopPatternAt} from '../../../functions/_cooperative_patterns.js';
 import {coopUnpaidRewards,settleCoopRewards} from '../../../functions/_cooperative_rewards.js';
 import {createPostgresD1Compat} from '../../../functions/_postgres_d1_compat.js';
@@ -70,7 +70,7 @@ export class CooperativeRoom extends DurableObject{
    for(const member of room.members)member.lastSeen=Date.now();
    this.save(room);return true;
   }catch(error){
-   if(['COOP_ENERGY_EMPTY','COOP_CLOSED'].includes(error.code)){
+   if(['COOP_ENERGY_EMPTY','COOP_CLOSED','CLAN_HIDEOUT_REQUIRED'].includes(error.code)){
     const requestKey=room.entryPending.requestKey;
     room.status='LOBBY';room.entryError=error.message;room.receipts=room.receipts.filter(r=>r.id!==requestKey);
     for(const key of ['entryPending','payload','states','durationMs','loadingEndsAt','bossAtMs'])delete room[key];
@@ -106,7 +106,7 @@ export class CooperativeRoom extends DurableObject{
   room.directoryRevision=(room.directoryRevision||0)+1;this.save(room);
   const revision=room.directoryRevision;
   try{
-   await this.env.COOP_PLAYERS.getByName(COOP_DIRECTORY).publishRoom({id:room.id,revision,listing,retireAt:room.expiresAt+3600000});
+   await this.env.COOP_PLAYERS.getByName(coopDirectory(room.area)).publishRoom({id:room.id,revision,listing,retireAt:room.expiresAt+3600000});
    if(revision>=(this.publishedRevision||0)){this.publishedRevision=revision;this.publishedSignature=signature;this.publishedAt=now;}
    return true;
   }catch{console.warn('Cooperative lobby directory publication will retry');return false;}
@@ -130,9 +130,10 @@ export class CooperativeRoom extends DurableObject{
    catch{try{ws.close(1000,'대기방 종료');}catch{}}
   }
  }
+ async admissionArea(){return this.read()?.area||'public';}
  async create(input){
   let room=this.read();
-  if(room){if(room.hostId!==Number(input.user.id)||room.creationRequest!==input.requestId)return {ok:false,status:409,code:'COOP_ROOM_EXISTS',error:'대기방 코드가 이미 사용 중입니다.'};return {ok:true,roomId:room.id};}
+  if(room){if(room.hostId!==Number(input.user.id)||room.creationRequest!==input.requestId||(room.area||'public')!==(input.area||'public'))return {ok:false,status:409,code:'COOP_ROOM_EXISTS',error:'대기방 코드가 이미 사용 중입니다.'};return {ok:true,roomId:room.id};}
   try{room=createCoopRoom({...input,now:Date.now()});}
   catch(e){return {ok:false,status:e.status||400,code:e.code||'COOP_INPUT',error:e.code?e.message:'대기방 정보를 확인하세요.'};}
   room.creationRequest=input.requestId;this.save(room);await this.schedule(room);return {ok:true,roomId:room.id};

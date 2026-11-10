@@ -11,8 +11,8 @@ const imagePath=value=>{
   return '/'+path;
 };
 const power=value=>Math.round(Number(value)||0).toLocaleString('ko-KR');
-export function createHuntEntry({request=jointAccountRequest,render,enter,dispose}){
-  let state={phase:'loading',difficulty:'normal',regionId:undefined,data:null,error:''},revision=0,serverOffset=0;
+export function createHuntEntry({request=jointAccountRequest,render,enter,dispose,initialRegion}){
+  let state={phase:'loading',difficulty:'normal',regionId:initialRegion,data:null,error:''},revision=0,serverOffset=0;
   const difficulties=()=>state.regionId?state.data?.regionExpansion?.difficulties:state.data?.difficulties;
   const update=next=>{state={...state,...next};render(state);};
   return {
@@ -65,7 +65,7 @@ export function openLegionHunt(button){
       <section class="legion-squad"><div class="legion-section-heading"><div><span>YOUR EXPEDITION</span><h2>출전 원정대</h2></div><button type="button" data-hunt-refresh>편성 새로고침 <span aria-hidden="true">↻</span></button></div>
         <p class="legion-account"></p><div class="legion-loadout"><div class="legion-cards" aria-label="저장된 일반 카드 5장"></div><div class="legion-mercenary" aria-label="용병 전용 슬롯"></div></div><p class="legion-equipment"></p>
       </section>
-      <section class="legion-region-loot" hidden aria-label="용병장비"></section>
+      <p data-clan-field-note></p><section class="legion-region-loot" hidden aria-label="용병장비"></section>
       <aside class="legion-select"><div class="legion-section-heading"><div><span>SELECT DIFFICULTY</span><h2>난이도 선택</h2></div></div>
         <div class="legion-difficulties" role="group" aria-label="사냥 난이도"></div>
         <div class="legion-conditions"><span>토벌 진행 <strong class="legion-limit"></strong></span><span><b class="legion-entries"></b></span><span>판당 최대 코인 <strong data-hunt-coin-cap>—</strong></span></div>
@@ -103,9 +103,10 @@ export function openLegionHunt(button){
     const oldNames=['군단 조우','끊임없는 증원','끝까지 생존','태고의 수호자'],oldSprites=['ember-mantis-sd-v2.png','mossback-tortoise-sd-v2.png','cobalt-bat-sd-v2.png','ancient-forge-warden-boss-sd-v2.png'];
     [...dialog.querySelectorAll('.legion-route>div')].forEach((el,i)=>{const m=region?(i===3?region.boss:region.monsters[i]):null;el.querySelector('b').textContent=m?.name||oldNames[i];el.querySelector('img').src=imagePath(m?.sprite||art+'monsters/'+oldSprites[i]);});
     find('[data-hunt-poster]').hidden=!!region;
+    const notice=dialog.querySelector('[data-clan-field-note]');if(notice)notice.textContent=data?.clanHideout?.stage>=3?'클랜 전용 · 봉쇄된 물류기지 · 드랍 확률 150%':'봉쇄된 물류기지 · 소속 클랜 아지트 3단계부터 입장';
     find('.legion-region-loot').hidden=!region;
     if(region){
-      const gear=expansion.equipment.filter(i=>i.regionId===region.id),d=choices.find(d=>d.id===state.difficulty),loot=d?.loot;
+      const gear=expansion.equipment.filter(i=>i.regionId===(region.lootRegionId||region.id)),d=choices.find(d=>d.id===state.difficulty),loot=d?.loot;
       find('.legion-region-loot').innerHTML=`<div class="legion-section-heading"><div><span>REGION EXCLUSIVE</span><h2>용병장비 · ${escape(region.setName)}</h2></div><span class="legion-pve-tag">PVE 전용 효과</span></div><p class="legion-region-counter">${escape(region.counter)}</p><div class="legion-loot-grid">${gear.map(i=>`<figure class="${i.kind==='UNIQUE'?'unique':''}"><img src="${escape(imagePath(i.image))}" alt="${escape(i.name)}" loading="lazy"><figcaption><small>${i.kind==='UNIQUE'?'용병 고유장비':'용병 세트장비'}</small><strong>${escape(i.name)}</strong><span>${escape(i.kind==='UNIQUE'?i.description:'기본 전투력 '+power(i.totalPower))}</span></figcaption></figure>`).join('')}</div><div class="legion-set-effects"><p><b>2세트</b> ${escape(equipmentEffectText(region.two))}</p><p><b>4세트</b> ${escape(equipmentEffectText(region.four))}</p></div><p class="legion-stone-guide">보스 처치 시 연마석 <b>${loot?.bossStones||0}개 확정</b> · 용병 장비 드랍률이 상향되었습니다.${expansion.ascendantAvailable?' 상위 1~10단계 장비도 보스에게서 획득할 수 있으며, 높은 단계일수록 더 희귀합니다. <a href="/mercenary-codex/equipment/">용병 장비 보기</a>':''}<br><small>확정 연마석은 원정 가방에 바로 보관됩니다. 용병장비는 직접 줍거나 자석 펫으로 수집하세요. </small></p>`;
     }
     const unlimited=data?.entries?.unlimited===true,exhausted=!unlimited&&data?.entries?.remaining===0;
@@ -134,7 +135,9 @@ export function openLegionHunt(button){
     find('[data-hunt-entry-limit]').textContent=unlimited?'무제한':data?.entries?data.entries.limit+'회':'—';
     dialog.dataset.difficulty=state.difficulty;
   };
-  const controller=createHuntEntry({render,enter:async()=>{
+  const initialRegion=sessionStorage.getItem('clanAreaEntry')==='clan-dockyard'?'clan-dockyard':undefined;
+  if(initialRegion)sessionStorage.removeItem('clanAreaEntry');
+  const controller=createHuntEntry({initialRegion,render,enter:async()=>{
     try{await window.ProjectVPixiBattle?.releaseBattle?.({onlyIfIdle:true});}
     catch(error){console.warn('[Legion Hunt] Previous battle resource release failed',error);}
     if(controller.state.phase!=='battle')return;
@@ -170,13 +173,13 @@ export function openLegionHunt(button){
   dialog.addEventListener('cancel',event=>{event.preventDefault();if(event.target===find('.legion-poster-view'))find('.legion-poster-view').close();else controller.close();});
   window.addEventListener('message',onMessage);active=controller;document.body.append(dialog);dialog.showModal();void controller.refresh();
 }
-const citadelSheet='/css/legion-citadel-v1.css?v=4';
+const citadelSheet='/css/legion-citadel-v1.css?v=5';
 let openingCitadel=null,citadelModule=null;
 function loadCitadelShell(priority){
   if(!document.querySelector('link[href="'+citadelSheet+'"]')){
     const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href=citadelSheet;sheet.fetchPriority=priority;document.head.append(sheet);
   }
-  if(!citadelModule)citadelModule=import('./legion-citadel-v1.mjs?v=7').catch(error=>{citadelModule=null;throw error;});
+  if(!citadelModule)citadelModule=import('./legion-citadel-v1.mjs?v=8').catch(error=>{citadelModule=null;throw error;});
   return citadelModule;
 }
 function prepareCitadelFinder(){

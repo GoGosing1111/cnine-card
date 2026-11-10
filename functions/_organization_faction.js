@@ -1,3 +1,4 @@
+import {nextFactionDay,factionDayPermitted} from '../shared/clan-resumption-v1.mjs';
 import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261025-clan-eight';
 import {ORGANIZATIONS,orgAssert} from '../shared/organization-system-v1.mjs';
 import {ORGANIZATION_DISTRICTS,ORGANIZATION_SESSION_RULES as FACTION_SESSION_RULES,organizationDistrictById,defaultOrganizationFactionPolicy,validateOrganizationFactionPolicy,FACTION_RULES as R,SQUADS,isSelfJoinSquad} from '../shared/organization-faction-v1.mjs';
@@ -68,6 +69,7 @@ async function readRound(q,id){
 }
 async function authorize(q,user,round,policy,{write=false}={}){
  orgAssert(user&&(!user.status||user.status==='ACTIVE'),'AUTH','활성 계정으로 로그인하세요.',403);
+ orgAssert(!round||['LIVE','TEST'].includes(round.scope),'ROUND_ARCHIVED','종료된 시즌입니다. 클랜 본부를 다시 여세요.');
  if(round?.scope==='TEST'){
   const [row]=await q('SELECT policy_json FROM organization_policy_v1 WHERE id=1'),p=JSON.parse(row?.policy_json||'{}');
   orgAssert(user.role==='OWNER'||p.testUserIds?.includes(Number(user.id)),'TEST_ONLY','지정된 클랜 테스트 계정만 이용할 수 있습니다.',403);
@@ -149,9 +151,9 @@ async function sync(q,r,row,roster,policy,now,deps){
  const wars=await q("SELECT id,status,starts_at,ends_at,settled_at FROM territory_war_v3_rounds WHERE status IN ('ACTIVE','PREPARING') OR id IN (SELECT id FROM territory_war_v3_rounds WHERE status='FINISHED' ORDER BY id DESC LIMIT 32)");
  const paused=(row.state.session?.pauses?.at(-1)?.territoryRoundIds||[]).filter(id=>!wars.some(w=>Number(w.id)===Number(id)));
  if(paused.length)wars.push(...await q('SELECT id,status,starts_at,ends_at,settled_at FROM territory_war_v3_rounds WHERE id=ANY($1::bigint[])',[paused]));
- const result=advanceOrganizationFaction(row.state,{schedule:JSON.parse(published.schedule_json),wars,roster,policy,now,assignedAt:Number(r.assigned_at||r.created_at)});
+ const result=advanceOrganizationFaction(row.state,{schedule:resumption&&!factionDayPermitted(day)?[]:JSON.parse(published.schedule_json),wars,roster,policy,now,assignedAt:Number(r.assigned_at||r.created_at)});
  if(resumption){
-  const tomorrow=factionDayKey(now+86400000);
+  const tomorrow=nextFactionDay(day);
   await q('INSERT INTO organization_faction_days_v1 VALUES($1,$2,$3) ON CONFLICT DO NOTHING',[r.id,tomorrow,JSON.stringify(createOrganizationFactionDay(tomorrow,deps.randomFactionSchedule,resumption))]);
   const [next]=await q('SELECT schedule_json FROM organization_faction_days_v1 WHERE round_id=$1 AND day_key=$2',[r.id,tomorrow]);
   if(!result.view.nextStartsAt)result.view.nextStartsAt=JSON.parse(next.schedule_json).find(s=>s.startsAt>now)?.startsAt||null;
@@ -234,7 +236,7 @@ async function mutation(env,user,action,body,deps){
    orgAssert(before.revision===next.revision,'STALE','클랜 세력전 설정이 변경되었습니다. 새로고침하세요.');
    // Settle elapsed cutoffs using the old mode/settings before applying a change.
    // Older CMS clients may omit the new fields; they must not reset them.
-   const rounds=await q("SELECT * FROM organization_rounds_v1 WHERE phase='ASSIGNED' ORDER BY id FOR SHARE");
+   const rounds=await q("SELECT * FROM organization_rounds_v1 WHERE phase='ASSIGNED' AND scope IN('LIVE','TEST') ORDER BY id FOR SHARE");
    for(const r of rounds){const roster=await rosterFor(q,r),row=await stateFor(q,r,now);await sync(q,r,row,roster,before,now,deps);}
    next.revision++;
    await q('UPDATE organization_faction_policy_v1 SET policy_json=$1,revision=$2 WHERE id=1',[JSON.stringify(next),next.revision]);
@@ -253,6 +255,7 @@ async function mutation(env,user,action,body,deps){
    if(['launch','enter','strike'].includes(action))orgAssert(sessions.active,'WINDOW',sessions.blockedByTerritory?'영토전 동안 세력전이 일시정지됩니다.':'현재 세력전 개방 시간이 아닙니다.');
    result.roundId=r.id;
    if(action==='commander'||action==='elders'){
+    orgAssert(r.scope!=='LIVE'||now<Date.parse('2026-11-10T00:00:00+09:00'),'ELDER_WINDOW','다음 시즌 원로는 클랜 운영의 원로 모집에서 지원자 3명을 선정하세요.');
     orgAssert(Number.isInteger(body.organizationId)&&body.organizationId>=1&&ORGANIZATIONS.some(o=>o.id===body.organizationId),'INPUT','클랜을 확인하세요.',400);
     const current=organizationElderIds(s,roster,body.organizationId);
     if(action==='commander')orgAssert(current.length<=1,'ELDERS','여러 원로가 지정되어 있습니다. 최신 원로 관리 화면에서 변경하세요.');
@@ -361,7 +364,7 @@ export async function tickOrganizationFaction(env,deps={}){
  if(clanRestorationActive(nowOf(deps))&&!await readClanResumption(env,nowOf(deps)))return {enabled:false,scheduleLocked:true,rounds:0,changed:false};
  return tx(env,async q=>{
   const policy=await readPolicy(q,' FOR SHARE');
-  const rounds=await q("SELECT * FROM organization_rounds_v1 WHERE phase='ASSIGNED' ORDER BY id FOR SHARE");
+  const rounds=await q("SELECT * FROM organization_rounds_v1 WHERE phase='ASSIGNED' AND scope IN('LIVE','TEST') ORDER BY id FOR SHARE");
   let changed=false;
   for(const r of rounds){const now=nowOf(deps),roster=await rosterFor(q,r),row=await stateFor(q,r,now),revision=row.revision;await sync(q,r,row,roster,policy,now,deps);changed||=revision!==row.revision;}
   return {enabled:policy.mode!=='OFF',rounds:rounds.length,changed};
