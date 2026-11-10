@@ -569,7 +569,7 @@ export class BaseBattleEngine{
 
     this.camera=new CameraController(this.stage,DESKTOP);
     this.camera.zoomEnabled=!this.formationCoop;
-    this.pools=createBattlePools();
+    this.pools=createBattlePools(()=>this.battleData?.citadelDamageHud===true);
     this.audio=new BattleAudioMixer();
     // Start the compact authored SFX fetch/decode beside the heavier atlases.
     // In the live shell the mixer has already adopted the start-button audio
@@ -1391,7 +1391,7 @@ export class BaseBattleEngine{
 
   showAccountBattleUnitDamage(victim,{damage=0,critical=false,playbackRate=1,compactArea=false}={}){
     const amount=Math.max(0,Number(damage)||0);
-    if(!victim?.root||!amount)return false;
+    if(!victim?.root||!amount||this.battleData?.citadelDamageHud)return false;
     const damageLabel=this.pools.damage.acquire();
     const victimView=victim.root;
     configureDamageText(damageLabel,{kind:SKILL_EFFECT_KIND.ATTACK,damage:amount,critical:Boolean(critical),healing:0,hitCount:1,compact:this.mobile});
@@ -1868,7 +1868,7 @@ export class BaseBattleEngine{
 
     const legion=payload?.battleV2?.rules?.enemyFormation==='BOSS_WITH_SIX_MINIONS';
     const duo=payload?.battleV2?.rules?.formation==='DUO_TWO_SQUADS';
-    this.ensureAllyCapacity(duo?10:payload?.battleV2?.rules?.formation==='COOP_THREE_SQUADS'?6:5);this.ensureEnemyCapacity(payload?.sceneAssetKey==='LEGION_BURNING_CITADEL'?12:duo?10:legion?7:5);
+    this.ensureAllyCapacity(citadel?4:duo?10:payload?.battleV2?.rules?.formation==='COOP_THREE_SQUADS'?6:5);this.ensureEnemyCapacity(citadel?payload.cooperativeEncounter.initialIds.length:duo?10:legion?7:5);
     for(const actor of this.characters)if(actor.apocalypseStatusLabel){actor.apocalypseStatusLabel.text='';actor.apocalypseStatusLabel.visible=false;}
     const allyCards=Array.isArray(payload?.battleV2?.teams?.A?.cards)?payload.battleV2.teams.A.cards:[];
     const enemyCards=Array.isArray(payload?.battleV2?.teams?.B?.cards)

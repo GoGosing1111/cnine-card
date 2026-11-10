@@ -39,7 +39,7 @@ export function createCooperativeBattle({squads,difficulty='NORMAL',seed=1,withd
  if(balance&&staged)staged.encounter.instances=[...enemies,...staged.pending].map(publicFighter);
  const pets=squads.filter(s=>s.pet).map(s=>({...s.pet,ownerId:s.ownerId}));
  const result=simulateBattleV2Preview({[REVIEW]:review,pets:{A:pets},petMode:'PVE',teamA:[...cards,...mercenaries],teamB:enemies,reinforcements:staged?.pending||[],seed,maxActions:citadelEnemies?6000:600,maxCombatDurationMs:maxBattleMs,
-  ...(citadelEnemies?{encounterCapacity:12,sustainedEncounter:citadelEnemies.sustained}:{}),
+  ...(citadelEnemies?{encounterCapacity:citadelEnemies.initial.length,sustainedEncounter:citadelEnemies.sustained}:{}),
   forcedMonsterEvery:tuned.forcedEvery,healerPenalty:true,singleHealerBonus:squads[0].singleHealerBonus||{},cooperative:{withdrawals,effects,turnClockVersion,encounter}});
  // PVE survival is always a loss, regardless of HP-ratio tiebreaking.
  result.winner=!result.encounter?.remaining&&result.final.B.every(f=>f.hp<=0)&&result.final.A.some(f=>f.hp>0)?'A':'B';

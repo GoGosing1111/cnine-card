@@ -1,3 +1,19 @@
+// Each allied row has two seats. The two mercenary rows share one block.
+export const CITADEL_ENEMY_CAPACITY = 16;
+export const CITADEL_BOARDS = Object.freeze({
+ desktop: {width:1600, height:820, actorScale:.69},
+ compact: {width:800, height:1230, actorScale:.59}
+});
+export function citadelStation(kind, index, enemy, compact) {
+ const col = index % (enemy ? 4 : 2), row = Math.floor(index / (enemy ? 4 : 2));
+ if (compact) {
+  if (enemy) return {x:110 + col * 190, y:160 + row * 116};
+  return {x:190 + col * 420,
+   y:(kind === 'mercenaries' ? 702 : 1040) + row * 155};
+ }
+ if (enemy) return {x:972 + col * 165, y:205 + row * 171};
+ return {x:225 + col * 430, y:kind === 'mercenaries' ? 551 + row * 226 : 168 + row * 179};
+}
 export const COOP_VERSION='20261102-transcend-v1';
 export const COOP_ENCOUNTER=Object.freeze({id:'COOP_ARKE',version:2,name:'삼핵 거신 아르케',arena:'심층 제련소',sceneAssetKey:'COOP_ARKE_FORGE',
  sourceArt:'/assets/ui/cooperative-arke-v1/arke-source-art-v1.png',battleSprite:'/assets/ui/cooperative-arke-v1/arke-battle-sprite-v1.png',background:'/assets/ui/cooperative-arke-v1/forge-arena-v1.png'});

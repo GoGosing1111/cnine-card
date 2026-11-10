@@ -117,6 +117,7 @@
     "preview/project-v-v3/source/battle/SXSuitModel.mjs",
     "preview/project-v-v3/source/battle/SXSuitCamera.js",
     "preview/project-v-v3/source/battle/SXSuitAnimation.js",
+    "shared/cooperative-battleground-v1.mjs",
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",
     "preview/project-v-v3/source/battle/TacticalHudLayout.js",
@@ -376,5 +377,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 3649388
+  "outputBytes": 3653438
 }

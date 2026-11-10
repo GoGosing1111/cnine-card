@@ -1,3 +1,4 @@
+import {CITADEL_BOARDS, citadelStation} from '../../../../shared/cooperative-battleground-v1.mjs';
 import {layoutTacticalHud} from './TacticalHudLayout.js';
 import {layoutIconTechniqueWeapons} from './IconTechniquePlayback.js';
 import {drawBattleGroundStations} from './BattleGroundSigil.js';
@@ -15,6 +16,7 @@ export const withOccupiedGrid = Base => class extends Base {
   }
   async applyBattlePayload(payload) {
     this.cooperativeFrame=null;
+    this.formationCitadel=payload?.sceneAssetKey==='LEGION_BURNING_CITADEL';
     this.formationMercenariesPerOwner=payload?.battleV2?.rules?.mercenariesPerOwner===2?2:1;
     this.formationCoop = payload?.battleV2?.rules?.formation === 'COOP_THREE_SQUADS';
     // Shared battles keep a fixed camera; simultaneous ultimates cannot reframe
@@ -46,10 +48,15 @@ export const withOccupiedGrid = Base => class extends Base {
     return this.isoConfig;
   }
   depthForY(y) {return this.gridMode === 'wide' ? .5 : super.depthForY(y);}
+  cooperativeBoard() {
+    const boards = this.formationCitadel ? CITADEL_BOARDS : this.formationMercenariesPerOwner===2 ? COOP_DUAL_BOARDS : COOP_BOARDS;
+    return boards[this.mobile?'compact':'desktop'];
+  }
   station(kind, index = 0, team = 'ALLY') {
-    if(kind==='cards'&&team==='ENEMY'&&this.battleData?.sceneAssetKey==='LEGION_BURNING_CITADEL'){
-      const col=index%3,row=Math.floor(index/3),compact=this.mobile;
-      return {x:(compact?595:880)+(col+(row%2)*.16)*(compact?130:176)+(this.viewportFit?.offsetX||0),y:(compact?325:227)+row*(compact?146:104)+(this.viewportFit?.offsetY||0)};
+    if(this.formationCitadel && (kind==='cards'||kind==='mercenaries')){
+      const p=citadelStation(kind,index,team==='ENEMY',this.mobile);
+      const y=this.mobile?p.y:410+(p.y-410)*(this.citadelYScale||1);
+      return {x:p.x+(this.viewportFit?.offsetX||0),y:y+(this.viewportFit?.offsetY||0)};
     }
     if(this.formationCoop&&['cards','mercenaries'].includes(kind)){const p=coopStation(kind,index,team,this.mobile,this.formationMercenariesPerOwner);return {x:p.x+(this.viewportFit?.offsetX||0),y:p.y+(this.viewportFit?.offsetY||0)};}
     if(this.formationDuo&&['cards','mercenaries'].includes(kind)){const p=duoStation(kind,index,team,this.mobile,this.formationMercenariesPerOwner);return {x:p.x+(this.viewportFit?.offsetX||0),y:p.y+(this.viewportFit?.offsetY||0)};}
@@ -89,7 +96,7 @@ export const withOccupiedGrid = Base => class extends Base {
       objectiveHudFit = {x: 12, y: top + 8, scale, height: b.height * scale + 8};
       top += objectiveHudFit.height;
     }
-    this.viewportFit = fitCompactViewport({width: this.app.screen.width, height: this.app.screen.height, top, bottom,board:this.formationCoop?(this.formationMercenariesPerOwner===2?COOP_DUAL_BOARDS:COOP_BOARDS)[this.mobile?'compact':'desktop']:this.formationDuo?(this.formationMercenariesPerOwner===2?DUO_DUAL_BOARDS:DUO_BOARDS)[this.mobile?'compact':'desktop']:undefined});
+    this.viewportFit = fitCompactViewport({width: this.app.screen.width, height: this.app.screen.height, top, bottom,board:this.formationCoop?this.cooperativeBoard():this.formationDuo?(this.formationMercenariesPerOwner===2?DUO_DUAL_BOARDS:DUO_BOARDS)[this.mobile?'compact':'desktop']:undefined});
     this.viewportFit.objectiveHud = objectiveHudFit;
     const extraTop = String(objectiveHudFit?.height || 0);
     if (this.host.dataset.v3FormationExtraTop !== extraTop) {
@@ -161,7 +168,7 @@ export const withOccupiedGrid = Base => class extends Base {
     if (this.viewportFit) this.mobile = false;
     try {super.layoutCharacterGrid();} finally {this.baselineLayout = false; this.isoConfig = wide; this.mobile = mobile;}
     for (const [team, actors] of [['ALLY', this.allies], ['ENEMY', this.enemies]]) for (const [index, actor] of actors.entries()) {
-      const scale = this.formationCoop?(this.formationMercenariesPerOwner===2?COOP_DUAL_BOARDS:COOP_BOARDS)[this.mobile?'compact':'desktop'].actorScale:this.formationDuo?DUO_BOARDS[mobile?'compact':'desktop'].actorScale:formationActorScale(Boolean(this.viewportFit), mobile), next = this.station('cards', actor.iconTechniqueDisplaySlot??index, team);
+      const scale = this.formationCitadel&&team==='ALLY'?(mobile ? .53 : .55):this.formationCoop?this.cooperativeBoard().actorScale:this.formationDuo?DUO_BOARDS[mobile?'compact':'desktop'].actorScale:formationActorScale(Boolean(this.viewportFit), mobile), next = this.station('cards', actor.iconTechniqueDisplaySlot??index, team);
       const p = this.screenToGrid(next.x, next.y); actor.gridPosition = {x: p.gridX, y: p.gridY};
       actor.designScale = scale;
       actor.setFormation(next.x, next.y, scale); actor.setCompactHud?.(mobile);
@@ -215,7 +222,7 @@ export const withOccupiedGrid = Base => class extends Base {
     for (const item of this.formationMercenaries || []) {
       item.cooperativeScaleLocked=Boolean(this.formationCoop);
       const p = this.station('mercenaries', (this.formationDuo||this.formationCoop)?Number(item.squadIndex)*this.formationMercenariesPerOwner+Math.max(0,Number(item.localSlot??(this.formationDuo?5:2))-(this.formationDuo?5:2)):(item.formationMercenaryIndex||0), item.team);
-      const scale = this.formationCoop?(this.formationMercenariesPerOwner===2?COOP_DUAL_BOARDS:COOP_BOARDS)[this.mobile?'compact':'desktop'].actorScale:this.formationDuo?(this.formationMercenariesPerOwner===2?DUO_DUAL_BOARDS:DUO_BOARDS)[this.mobile?'compact':'desktop'].actorScale:formationActorScale(Boolean(this.viewportFit), this.mobile);
+      const scale = this.formationCoop?this.cooperativeBoard().actorScale:this.formationDuo?(this.formationMercenariesPerOwner===2?DUO_DUAL_BOARDS:DUO_BOARDS)[this.mobile?'compact':'desktop'].actorScale:formationActorScale(Boolean(this.viewportFit), this.mobile);
       if (typeof item.setFormation === 'function') {
         item.setFormation(p.x, p.y, scale); item.setCompactHud?.(this.mobile);
         item.perspectiveResolver = () => scale;

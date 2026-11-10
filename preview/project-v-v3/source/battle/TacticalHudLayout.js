@@ -1,5 +1,5 @@
 import {fitCompactViewport, usesCompactViewport} from './ViewportLayout.mjs';
-import {COOP_BOARDS, COOP_DUAL_BOARDS, DUO_BOARDS, DUO_DUAL_BOARDS} from './FormationLayout.mjs';
+import {DUO_BOARDS, DUO_DUAL_BOARDS} from './FormationLayout.mjs';
 
 // The HUD reserves actor space, never canvas space. The same three Pixi
 // background layers cover the full viewport, including behind the portraits.
@@ -13,8 +13,9 @@ export function layoutTacticalHud(engine) {
   const dialogue=shell.querySelector('.jinmu-dialogue-rail');
   if(dialogue&&!engine.formationCoop)top=Math.max(top,dialogue.getBoundingClientRect().bottom-engine.host.getBoundingClientRect().top+8);
   const compact=usesCompactViewport(width)||engine.formationDuo;
+  engine.citadelYScale=1;
   if(compact){
-    const board=engine.formationCoop?(engine.formationMercenariesPerOwner===2?COOP_DUAL_BOARDS:COOP_BOARDS)[engine.mobile?'compact':'desktop']:engine.formationDuo?(engine.formationMercenariesPerOwner===2?DUO_DUAL_BOARDS:DUO_BOARDS)[engine.mobile?'compact':'desktop']:undefined;
+    const board=engine.formationCoop?engine.cooperativeBoard():engine.formationDuo?(engine.formationMercenariesPerOwner===2?DUO_DUAL_BOARDS:DUO_BOARDS)[engine.mobile?'compact':'desktop']:undefined;
     let objectiveHud=null;
     if(engine.objectiveData&&engine.objectiveHud?.visible){
       const b=engine.objectiveHud.getLocalBounds(),scale=Math.min(1,(width-left-right-16)/Math.max(1,b.width));
@@ -26,6 +27,7 @@ export function layoutTacticalHud(engine) {
     engine.root.scale.set(engine.viewportFit.scale);engine.root.position.set(0,0);
   }else{
     const scale=Math.min(Math.max(1,width-left-right)/engine.scene.width,Math.max(1,height-top-12)/engine.scene.height);
+    if(engine.formationCitadel)engine.citadelYScale=Math.max(1,Math.min(1.6,(height-top-16)/(engine.scene.height*scale)));
     engine.root.scale.set(scale);
     engine.root.position.set(left+(width-left-right-engine.scene.width*scale)/2,top+(height-top-12-engine.scene.height*scale)/2);
   }

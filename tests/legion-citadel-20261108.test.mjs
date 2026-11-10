@@ -6,6 +6,9 @@ import {buildCitadelBattle} from '../functions/_legion_citadel_battle.js';
 import {legionHuntEnergy} from '../functions/_legion_hunt.js';
 import {distributeCitadelLoot,personalFarm,farmView} from '../functions/_legion_citadel_loot.js';
 import {validatePreparedMercenaries} from '../shared/companion-loadout-v2.mjs';
+import {CITADEL_BOARDS,citadelStation} from '../shared/cooperative-battleground-v1.mjs';
+import {citadelHitRows} from '../js/legion-citadel-v1.mjs';
+import {CAPACITY as soloCapacity} from '../preview/sustained-hunt-v2/hunt-rules.mjs';
 const states=async(f,uid,cmd,body)=>{const r=await f.action(uid,cmd,body);assert.equal(r.status,200,JSON.stringify(r.body));return r.body;};
 const boot=async f=>{const {state:{id}}=await states(f,1,'create',{requestId:'citadel-party-fixture-01'});await states(f,2,'join',{id});for(const u of [1,2])await states(f,u,'ready',{id,...f.selection(u-1)});await states(f,1,'start',{id});return id;};
 test('seeded fixed enemies, rank recommendations rather than restrictions, cross-owner IDs and existing raid caps',()=>{
@@ -17,6 +20,35 @@ test('seeded fixed enemies, rank recommendations rather than restrictions, cross
  assert.equal(common.duration,420000);assert.ok(common.kills.length>low.kills.length);assert.ok(common.kills.some(k=>k[1]===2));assert.ok(!low.kills.some(k=>k[1]===2));assert.ok(common.kills.at(-1)[0]>415000);
  assert.equal(common.chunks.length,14);assert.ok(common.chunks.at(-1).events.some(e=>e.type==='ENEMY_SPAWN'));assert.ok(common.kills.some(([at])=>at>common.kills.find(k=>k[1]===2)[0]+30000));
  assert.throws(()=>buildCitadelBattle(ss.slice(0,1),1));assert.throws(()=>buildCitadelBattle([{...ss[0],cards:ss[0].cards.map(c=>({...c,grade:'C',rarity:'C'}))},ss[1]],1));
+});
+test('sixteen real Citadel slots refill through the boss, with two separate allied blocks',()=>{
+ const b=buildCitadelBattle(citadelSquads(),5),enc=b.replay.payload.cooperativeEncounter;
+ assert.equal(soloCapacity,12);assert.equal(enc.initialIds.length,16);
+ assert.equal(new Set(enc.initialIds).size,16);
+ const spawn=b.chunks.flatMap(c=>c.events).filter(e=>e.type==='ENEMY_SPAWN');
+ assert.ok(spawn.some(e=>e.slot===15&&e.combatAtMs>=300000));assert.equal(spawn.filter(e=>e.boss).length,1);
+ for(const compact of [false,true]){
+  const all=(kind,size,enemy=false)=>Array.from({length:size},(_,i)=>citadelStation(kind,i,enemy,compact));
+  const rear=all('cards',4),front=all('mercenaries',4),enemy=all('cards',16,true);
+  const distinct=(points,axis)=>new Set(points.map(p=>p[axis])).size;
+  for(const p of [front,rear]){assert.equal(distinct(p,'x'),2);assert.equal(distinct(p,'y'),2);}
+  assert.equal(distinct(enemy,'x'),4);assert.equal(distinct(enemy,'y'),4);
+  assert.equal(distinct([...front,...rear],'x'),2);assert.equal(distinct([...front,...rear],'y'),4);
+  const line=(points,axis)=>points.map(p=>p[axis]);
+  const ordered=(a,b,axis)=>Math.max(...line(a,axis))<Math.min(...line(b,axis));
+  if(compact){assert.ok(ordered(enemy,front,'y'));assert.ok(ordered(front,rear,'y'));}
+  else{assert.ok(ordered(rear,front,'y'));assert.ok(ordered(front,enemy,'x'));}
+  const board=CITADEL_BOARDS[compact?'compact':'desktop'];for(const p of [...enemy,...front,...rear])assert.ok(p.x>0&&p.x<board.width&&p.y>0&&p.y<board.height);
+ }
+});
+test('field damage uses each receipt once across area hits, combos, absorption, dodges and status effects',()=>{
+ const rows=e=>citadelHitRows(e).map(h=>[h.id,h.damage,h.shield,h.dodge]);
+ assert.deepEqual(rows({damage:15,hits:[{targetId:'x',damage:10},{targetId:'y',damage:5,absorbed:2}]}),[['x',10,0,false],['y',5,2,false]]);
+ assert.deepEqual(rows({targetId:'x',damage:17,hits:[{damage:9},{damage:8}]}),[['x',9,0,false],['x',8,0,false]]);
+ assert.deepEqual(rows({targetId:'y',absorbed:40}),[['y',0,40,false]]);
+ assert.deepEqual(rows({targets:[{targetId:'x',damage:4}]}),[['x',4,0,false]]);
+ assert.deepEqual(rows({type:'DODGE',targetId:'x'}),[['x',0,0,true]]);
+ assert.deepEqual(rows({type:'ICON_STATUS',targetId:'x',targetHpAfter:30}),[]);
 });
 test('custom party-only pools stay disjoint even with an odd catalogue',()=>{
  const supply=['a','b','c'].map(ref=>({type:'INVENTORY_ITEM',ref})),gear=['1','2','3'].map(ref=>({type:'EQUIPMENT',ref}));

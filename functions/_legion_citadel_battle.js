@@ -2,7 +2,9 @@ import {buildMonsterFighter,publicFighter} from './_battle_v2_preview.js';
 import {createCooperativeBattle} from './_cooperative_battle.js';
 import {regionalDifficulty} from '../shared/legion-regions-v1.mjs';
 import {tierById,FIRST_TIER} from './_legion_citadel_tiers.js';
-import {HUNT_DURATION_MS,CAPACITY} from '../preview/sustained-hunt-v2/hunt-rules.mjs';
+import {HUNT_DURATION_MS} from '../preview/sustained-hunt-v2/hunt-rules.mjs';
+
+import {CITADEL_ENEMY_CAPACITY} from '../shared/cooperative-battleground-v1.mjs';
 
 const c=regionalDifficulty('calamity'),artRoot='/assets/ui/legion-citadel/enemies-v1/';
 export const CITADEL_CHUNK_MS=30000;
@@ -21,7 +23,7 @@ export function citadelEnemies(tierId=FIRST_TIER){
   pve_defense_percent:tier.defense,pve_speed_percent:tier.speed,pve_shield_percent:shield+tier.shield,pve_attack_count:i===4?tier.repeat:1,pve_forced_action_every:3,
   battleSprite:art,image:art,attackStyle:code==='EMBER'?'RANGED':'MELEE',projectVMonsterArt:{scope:'BATTLE_ENGINE_ONLY',kind:'CITADEL_'+code,primaryUrl:art,pngFallbackUrl:art,footAnchor:{x:.5,y:.94},scaleMultiplier:1,objectFit:'contain',objectPosition:'50% 100%'}}));
  const forms=monsters.map((m,i)=>({...buildMonsterFighter(m),id:'B:T:'+i,slot:i,huntArtId:i,battleSprite:m.battleSprite,projectVMonsterArt:m.projectVMonsterArt,displayHeight:i===4?320:155,legionRegion:'CITADEL',legionRole:i===1?'SUPPORT':'ASSAULT'}));
- const initial=Array.from({length:CAPACITY},(_,slot)=>({...forms[slot%4],slot,id:'B:'+slot+':CITADEL'}));
+ const initial=Array.from({length:CITADEL_ENEMY_CAPACITY},(_,slot)=>({...forms[slot%4],slot,id:'B:'+slot+':CITADEL'}));
  return {monster:monsters.at(-1),initial,pending:[],forms,encounter:{schemaVersion:1,initialIds:initial.map(f=>f.id),instances:initial.map(publicFighter)},
   sustained:{durationMs:c.huntDurationMs,continuousUntilMs:HUNT_DURATION_MS,regionId:'CITADEL',templates:forms.slice(0,4),finalBoss:{...forms[4],id:'B:4:CITADEL:BOSS',finalBoss:true}}};
 }

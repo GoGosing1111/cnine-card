@@ -170,13 +170,13 @@ export function openLegionHunt(button){
   dialog.addEventListener('cancel',event=>{event.preventDefault();if(event.target===find('.legion-poster-view'))find('.legion-poster-view').close();else controller.close();});
   window.addEventListener('message',onMessage);active=controller;document.body.append(dialog);dialog.showModal();void controller.refresh();
 }
-const citadelSheet='/css/legion-citadel-v1.css?v=3';
+const citadelSheet='/css/legion-citadel-v1.css?v=4';
 let openingCitadel=null,citadelModule=null;
 function loadCitadelShell(priority){
   if(!document.querySelector('link[href="'+citadelSheet+'"]')){
     const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href=citadelSheet;sheet.fetchPriority=priority;document.head.append(sheet);
   }
-  if(!citadelModule)citadelModule=import('./legion-citadel-v1.mjs?v=6').catch(error=>{citadelModule=null;throw error;});
+  if(!citadelModule)citadelModule=import('./legion-citadel-v1.mjs?v=7').catch(error=>{citadelModule=null;throw error;});
   return citadelModule;
 }
 function prepareCitadelFinder(){

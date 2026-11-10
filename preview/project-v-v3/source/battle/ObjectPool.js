@@ -85,6 +85,8 @@ function sharedDamageStyle(options){
 }
 
 export function configureDamageText(view,{kind='ATTACK',damage=0,critical=false,healing=0,healingOnly=false,hitCount=1,hitValues=null,compact=false}={}){
+  view.renderable=!view.usesReceiptHud?.() || healingOnly || healing>0;
+  if(!view.renderable)return view;
   const normalized=normalizeDamageKind(kind);
   const profile=DAMAGE_STYLE[normalized];
   const amount=Math.max(0,Number(damage)||0);
@@ -116,12 +118,13 @@ export function configureDamageText(view,{kind='ATTACK',damage=0,critical=false,
   return view;
 }
 
-export function createDamageTextPool(size=24){
+export function createDamageTextPool(size=24,usesReceiptHud){
   return new ObjectPool({
     name:'damage-text',
     warm:size,
     factory:()=>{
       const root=new Container({label:'RoleDamageText'});
+      root.usesReceiptHud=usesReceiptHud;
       const numberLabel=new BitmapText({
         text:'0',
         style:{
@@ -169,8 +172,8 @@ export function createDamageTextPool(size=24){
   });
 }
 
-export function createBattlePools(){
-  const damage=createDamageTextPool(28);
+export function createBattlePools(usesReceiptHud){
+  const damage=createDamageTextPool(28,usesReceiptHud);
   return {
     damage,
     releaseAll(){damage.releaseAll()},

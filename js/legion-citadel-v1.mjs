@@ -1,5 +1,6 @@
 import {jointAccountRequest} from './joint-account-transport.mjs';
 import {createServerClock} from '../shared/server-clock-v1.mjs';
+import {CITADEL_BOARDS, citadelStation} from '../shared/cooperative-battleground-v1.mjs?citadel=2';
 const root='/assets/ui/legion-citadel/gate-',esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const art=v=>{const s=String(v||'').replace(/^\/+/, '');return /^(assets|preview)\//.test(s)&&!s.includes('..')?'/'+s:'';};
 const terminal=s=>['VICTORY','DEFEAT'].includes(s);
@@ -8,52 +9,202 @@ function style(href){if(!document.querySelector('link[href="'+href+'"]')){const 
 let active=null,bundleUpgrade,liteOnly=false,hasGL;
 const qualityKey='cnine_citadel_display_v1';
 function readQuality(){try{return localStorage.getItem(qualityKey)||'auto';}catch{return 'auto';}}
-function lightweight(){const quality=readQuality();if(liteOnly||quality==='light')return true;if(quality==='detail')return false;
- // Twenty simultaneous combatants: on touch WebKit avoid creating a GPU battlefield before the fast scene.
- return /iP(?:hone|ad|od)/.test(navigator.userAgent)||(/Mac/.test(navigator.platform)&&navigator.maxTouchPoints>1);
+function lightweight(){
+ const quality=readQuality();
+ if(liteOnly||quality==='light')return true;
+ if(quality==='detail')return false;
+ return /iP(?:hone|ad|od)/.test(navigator.userAgent) || (/Mac/.test(navigator.platform)&&navigator.maxTouchPoints>1) || navigator.connection?.saveData===true || (navigator.deviceMemory>0&&navigator.deviceMemory<=2);
+}
+let iconSprites;
+function loadIconSprites(){
+ if(!iconSprites){
+  const url=window.ProjectVTierBattleArt?.constants?.MANIFEST_URLS?.ICON||'/assets/ui/project-v/characters/icon/manifest-v1.json?v=20261029-four-live-v1';
+  iconSprites=fetch(url,{credentials:'same-origin'}).then(async r=>{
+   if(!r.ok)throw Error('ICON_ART');const m=await r.json();
+   return new Map(m.characters.map(c=>[c.cardId,c.battleSprite]));
+  }).catch(()=>{iconSprites=null;return new Map();});
+ }
+ return iconSprites;
 }
 function webglAvailable(){
  if(hasGL!==undefined)return hasGL;
  try{const c=document.createElement('canvas'),gl=c.getContext('webgl2');hasGL=!!gl;gl?.getExtension('WEBGL_lose_context')?.loseContext();}catch{hasGL=false;}return hasGL;
 }
-function mountLite(host,payload,units){
- const sprite=v=>art(window.cnineBattleSpriteUrl?.(v)||v),team=payload.battleV2.teams.A,cards=[...team.cards,...team.mercenaries],allies=new Map(cards.map((c,i)=>[c.id,{index:i,name:c.title||c.name,src:sprite(c.battleSprite||c.image||c.sourceArt)}]));
- const {manifest,forms}=payload.cooperativeEncounter.citadel,enemies=new Map(units.filter(u=>u.side==='B').map((u,i)=>[u.id,{index:manifest[i][0],name:(manifest[i][3]?'정예 ':'')+forms[manifest[i][2]].title,src:sprite(forms[manifest[i][2]].battleSprite)}]));
+// Both renderers use the same physical slots, including later generations of a monster.
+function fieldSlot(unit, payload) {
+ if(unit.side==='B')return {kind:'cards',index:unit.slot,enemy:true};
+ const kind=unit.isMercenary?'mercenaries':'cards',index=payload.battleV2.teams.A[kind].findIndex(a=>a.id===unit.id);
+ return index>=0?{kind,index,enemy:false}:null;
+}
+function litePlane(node) {
+ const rect=node.getBoundingClientRect(), compact=rect.width<650;
+ const board=CITADEL_BOARDS[compact?'compact':'desktop'];
+ return {left:rect.left,top:rect.top,sx:rect.width/board.width,sy:rect.height/board.height,compact};
+}
+function liteTile(info, w, h) {
+ const compact=w<650, board=CITADEL_BOARDS[compact?'compact':'desktop'];
+ const p=citadelStation(info.kind,info.index,info.enemy,compact);
+ const tw=Math.max(4,Math.floor(Math.min(info.enemy?112:134,w*(compact?(info.enemy ? .216 : .31):.095))));
+ const th=Math.max(8,Math.floor(Math.min(info.enemy?100:132,h*(compact?(info.enemy ? .088 : .112):.145))));
+ return {tw,th,x:Math.round(p.x*w/board.width-tw/2),y:Math.round(p.y*h/board.height-th)};
+}
+
+function mountLite(host,payload,units,icons){
+ const sprite=v=>art(window.cnineBattleSpriteUrl?.(v)||v),team=payload.battleV2.teams.A,allies=new Map();
+ for(const kind of ['cards','mercenaries'])for(const [index,c] of team[kind].entries()){
+  const file=c.projectVBattleArt?.primaryUrl||c.battleSprite||icons.get(c.cardId)||'assets/ui/project-v/fallback/unassigned-card-unit-sd-v1.png';
+  allies.set(c.id,{kind,index,enemy:false,name:c.title||c.name,src:sprite(file)});
+ }
+ const {manifest,forms}=payload.cooperativeEncounter.citadel,enemies=new Map(units.filter(u=>u.side==='B').map((u,i)=>[u.id,{kind:'cards',enemy:true,index:manifest[i][0],name:(manifest[i][3]?'정예 ':'')+forms[manifest[i][2]].title,src:sprite(forms[manifest[i][2]].battleSprite)}]));
  const arena=document.createElement('div');arena.className='ct-lite';arena.setAttribute('aria-label','성채 전투 · 경량 화면');host.replaceChildren(arena);
  const surface=document.createElement('canvas'),ctx=surface.getContext('2d');if(ctx){
   arena.append(surface);const cache=new Map();let fighters,frame=0,dead=false,w=0,h=0;
   function queue(){if(!dead&&!frame)frame=requestAnimationFrame(paint);}
   function bitmap(url){if(!url)return null;if(cache.has(url))return cache.get(url);cache.set(url,null);const img=new Image();img.decoding='async';
-   img.onload=()=>{if(dead||!img.naturalWidth)return;const proxy=document.createElement('canvas'),r=Math.min(1,104/img.naturalWidth,100/img.naturalHeight);proxy.width=Math.max(1,Math.round(img.naturalWidth*r));proxy.height=Math.max(1,Math.round(img.naturalHeight*r));const c=proxy.getContext('2d');if(c){c.drawImage(img,0,0,proxy.width,proxy.height);cache.set(url,proxy);queue();}};img.src=url;return null;}
+   img.onload=()=>{if(dead||!img.naturalWidth)return;const proxy=document.createElement('canvas'),r=Math.min(1,160/img.naturalWidth,150/img.naturalHeight);proxy.width=Math.max(1,Math.round(img.naturalWidth*r));proxy.height=Math.max(1,Math.round(img.naturalHeight*r));const c=proxy.getContext('2d');if(c){c.drawImage(img,0,0,proxy.width,proxy.height);cache.set(url,proxy);queue();}};img.src=url;return null;}
   const tiles=new Map(),previous=new Map();let nextBitmap=0;
   function tile(v,boss,tw,th){const key=v.src+'|'+v.name+'|'+boss+'|'+tw+'x'+th,photo=bitmap(v.src),saved=tiles.get(key);if(saved&&saved.photo===photo)return saved;
-   const cv=document.createElement('canvas');cv.width=tw;cv.height=th;const c=cv.getContext('2d');c.fillStyle=boss?'#66331f':'#14202de6';c.fillRect(0,0,tw,th);
+   const cv=document.createElement('canvas');cv.width=tw;cv.height=th;const c=cv.getContext('2d');
+   c.beginPath();c.ellipse(tw/2,th-14,tw*.38,Math.max(2,th*.045),0,0,Math.PI*2);
+   c.fillStyle=boss?'#6e382caa':v.enemy?'#49201dbb':'#1a3847bb';c.fill();
    if(photo){const r=Math.min(tw/photo.width,(th-15)/photo.height),iw=Math.round(photo.width*r),ih=Math.round(photo.height*r);c.drawImage(photo,Math.round((tw-iw)/2),Math.round((th-15-ih)/2),iw,ih);}
-   c.fillStyle='#fff';c.textAlign='center';c.font=(w<650?'10':'12')+'px sans-serif';c.fillText(v.name||'',tw/2,th-4,tw-2);
+   c.fillStyle='#0b1525db';c.fillRect(0,th-15,tw,15);c.fillStyle='#fff';c.textAlign='center';c.font=(w<650?'10':'12')+'px sans-serif';c.fillText(v.name||'',tw/2,th-4,tw-2);
    const row={cv,photo,version:++nextBitmap};tiles.set(key,row);return row;}
-  function paint(){frame=0;if(dead||!fighters||!w||!h||document.hidden)return;const mobile=w<650,cols=mobile?3:4,gap=mobile?2:6,half=(w-12)/2,tw=Math.max(4,Math.floor((half-cols*gap)/cols)),th=Math.floor(Math.min(mobile?63:95,Math.max(23,(h-4*gap)/4))),present=new Set();
-   for(const [j,side] of ['A','B'].entries()){const rows=Math.ceil((j?12:8)/cols),top=(h-rows*(th+gap))/2;for(const f of fighters[side]){const v=(j?enemies:allies).get(f.id);if(!v||f.hp<=0)continue;
-    const i=j*12+v.index,x=Math.round((j?half+12:0)+(v.index%cols)*(tw+gap)),y=Math.round(top+Math.floor(v.index/cols)*(th+gap)),t=tile(v,!!f.isBoss,tw,th),bar=Math.round(tw*Math.max(0,Math.min(1,f.hp/Math.max(1,f.maxHp)))),old=previous.get(i);present.add(i);
+  function paint(){frame=0;if(dead||!fighters||!w||!h||document.hidden)return;const present=new Set();
+   for(const [j,side] of ['A','B'].entries())for(const f of fighters[side]){const v=(j?enemies:allies).get(f.id);if(!v||f.hp<=0)continue;
+    const i=(j?'enemy':v.kind)+v.index,{x,y,tw,th}=liteTile(v,w,h),t=tile(v,!!f.isBoss,tw,th),bar=Math.round(tw*Math.max(0,Math.min(1,f.hp/Math.max(1,f.maxHp)))),old=previous.get(i);present.add(i);
     if(old?.v===t.version&&old.bar===bar)continue;
     if(old?.v!==t.version){ctx.clearRect(x,y,tw,th);ctx.drawImage(t.cv,x,y);}else ctx.clearRect(x,y+th-2,tw,2);
     ctx.fillStyle=j?'#f78664':'#9ddd89';if(bar)ctx.fillRect(x,y+th-2,bar,2);previous.set(i,{v:t.version,bar,x,y,tw,th});
-   }}
+   }
    for(const [i,old] of previous)if(!present.has(i)){ctx.clearRect(old.x,old.y,old.tw,old.th);previous.delete(i);}
   }
-  const resize=()=>{const a=surface.getBoundingClientRect(),width=Math.round(a.width),height=Math.round(a.height);if(width>0&&height>0&&(width!==w||height!==h)){surface.width=w=width;surface.height=h=height;previous.clear();tiles.clear();queue();}};const observer=new ResizeObserver(resize);observer.observe(surface);resize();
-  return {append(){},update({state}){if(state?.fighters){fighters=state.fighters;const summary='성채 전투 · 아군 '+fighters.A.filter(f=>f.hp>0).length+'명 · 적 '+fighters.B.filter(f=>f.hp>0).length+'명';if(surface.getAttribute('aria-label')!==summary)surface.setAttribute('aria-label',summary);queue();}},destroy(){dead=true;observer.disconnect();cancelAnimationFrame(frame);cache.clear();tiles.clear();previous.clear();surface.width=surface.height=0;arena.remove();}};
+  const resize=()=>{const a=surface.getBoundingClientRect(),width=Math.round(a.width),height=Math.round(a.height);if(width>0&&height>0&&(width!==w||height!==h)){surface.width=w=width;surface.height=h=height;previous.clear();tiles.clear();cancelAnimationFrame(frame);paint();}};const observer=new ResizeObserver(resize);observer.observe(surface);resize();
+  return {projection:()=>litePlane(surface),append(){},update({state}){if(state?.fighters){fighters=state.fighters;const summary='성채 전투 · 아군 '+fighters.A.filter(f=>f.hp>0).length+'명 · 적 '+fighters.B.filter(f=>f.hp>0).length+'명';if(surface.getAttribute('aria-label')!==summary)surface.setAttribute('aria-label',summary);queue();}},destroy(){dead=true;observer.disconnect();cancelAnimationFrame(frame);cache.clear();tiles.clear();previous.clear();surface.width=surface.height=0;arena.remove();}};
  }
- const slots=[8,12].map((n,j)=>{const side=document.createElement('div');side.className=j?'ct-enemy':'ct-ally';arena.append(side);return Array.from({length:n},()=>{const node=document.createElement('figure'),img=document.createElement('img'),name=document.createElement('figcaption'),hp=document.createElement('i');node.hidden=true;img.alt='';img.decoding='async';node.append(img,name,hp);side.append(node);return {node,img,name,hp};});});
- return {append(){},update({state}){if(!state?.fighters)return;for(const [j,side] of ['A','B'].entries()){const found=new Set();for(const f of state.fighters[side]){const info=(j?enemies:allies).get(f.id);if(!info||f.hp<=0)continue;const v=slots[j][info.index];found.add(info.index);v.node.hidden=false;
- if(v.id!==f.id){v.id=f.id;if(v.img.getAttribute('src')!==info.src&&info.src)v.img.src=info.src;v.name.textContent=info.name;v.node.classList.toggle('ct-boss',!!f.isBoss);v.last=null;}
- if(v.last!==f.hp){const hit=v.last!==null&&v.last>f.hp;v.last=f.hp;v.hp.style.transform='scaleX('+Math.max(0,Math.min(1,f.hp/Math.max(1,f.maxHp)))+')';if(hit&&!document.hidden)v.node.classList.toggle('ct-hit',!v.node.classList.contains('ct-hit'));}}
- slots[j].forEach((v,i)=>{if(!found.has(i))v.node.hidden=true;});}},destroy(){arena.remove();}};
+ const field=document.createElement('div');field.className='ct-lite-slots';arena.append(field);
+ const slots=new Map();
+ for(const info of [...allies.values(),...enemies.values()]){
+  const key=(info.enemy?'B':info.kind)+info.index;if(slots.has(key))continue;
+  const node=document.createElement('figure'),img=document.createElement('img'),name=document.createElement('figcaption'),hp=document.createElement('i');
+  node.hidden=true;img.alt='';node.append(img,name,hp);node.classList.toggle('ct-hostile',!!info.enemy);field.append(node);slots.set(key,{node,img,name,hp,info});
+ }
+ function layout(){const {width,height}=field.getBoundingClientRect();for(const {node,info} of slots.values()){
+  const {tw,th,x,y}=liteTile(info,width,height);Object.assign(node.style,{left:x+'px',top:y+'px',width:tw+'px',height:th+'px'});
+ }}
+ const observer=new ResizeObserver(layout);observer.observe(field);layout();
+ return {projection:()=>litePlane(field),append(){},update({state}){
+  if(!state?.fighters)return;const found=new Set();
+  for(const f of [...state.fighters.A,...state.fighters.B]){const info=enemies.get(f.id)||allies.get(f.id);if(!info||f.hp<=0)continue;
+   const v=slots.get((info.enemy?'B':info.kind)+info.index);found.add(v);v.node.hidden=false;
+   if(v.id!==f.id){v.id=f.id;if(info.src&&v.img.getAttribute('src')!==info.src)v.img.src=info.src;v.name.textContent=info.name;v.node.classList.toggle('ct-boss',!!f.isBoss);}
+   if(v.last!==f.hp){v.last=f.hp;v.hp.style.transform='scaleX('+Math.max(0,Math.min(1,f.hp/Math.max(1,f.maxHp)))+')';}
+  }
+  for(const v of slots.values())if(!found.has(v))v.node.hidden=true;
+ },destroy(){observer.disconnect();arena.remove();}};
+}
+const compactAmount=new Intl.NumberFormat('ko-KR',{notation:'compact',maximumFractionDigits:1});
+export function citadelHitRows(event) {
+ const hasImpact=row=>row && (row.damage>0 || row.absorbed>0 || row.dodge || row.type==='DODGE');
+ // Area/combination receipts often contain the cast total as well as individual hits.
+ const hits=Array.isArray(event.hits)?event.hits.filter(hasImpact):[];
+ const targets=Array.isArray(event.targets)?event.targets.filter(hasImpact):[];
+ const rows=hits.length?hits:targets.length?targets:hasImpact(event)?[event]:[];
+ return rows.map(row=>({id:row.targetId||event.targetId,damage:Number(row.damage)||0,shield:Number(row.absorbed)||0,
+  critical:!!(row.critical??event.critical),dodge:!!(row.dodge||event.type==='DODGE')})).filter(row=>row.id);
+}
+function mountHitReceipts(layer, projection, replay, light) {
+ const allies=new Map(replay.units.filter(u=>u.side==='A').map(u=>[u.id,fieldSlot(u,replay.payload)]));
+ const active=new Map(),free=[],capacity=replay.payload.cooperativeEncounter.initialIds.length;
+ const canvas=light?document.createElement('canvas'):null,ctx=canvas?.getContext('2d');
+ if(ctx)layer.append(canvas);
+ let events=[],cursor=0,lastPart=-1,rects=[];
+ const format=n=>n>=10000?compactAmount.format(n):coinNumber.format(n);
+ function append(part,chunk) {
+  if(part<=lastPart)return;
+  lastPart=part;events=events.slice(cursor).concat(chunk).sort((a,b)=>a.combatAtMs-b.combatAtMs);cursor=0;
+ }
+ function paintCanvas(rect){
+  const w=Math.round(rect.width),h=Math.round(rect.height);
+  if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
+  else for(const r of rects)ctx.clearRect(r.x-50,r.y-20,100,41);
+  rects=[];ctx.textAlign='center';ctx.lineJoin='round';ctx.lineWidth=3;ctx.strokeStyle='#16131b';
+  for(const hit of active.values()){
+   rects.push(hit);
+   if(hit.number){ctx.font='bold 15px system-ui,sans-serif';ctx.fillStyle=hit.color;ctx.strokeText(hit.number,hit.x,hit.y,94);ctx.fillText(hit.number,hit.x,hit.y,94);}
+   if(hit.barrier){ctx.font='bold 11px system-ui,sans-serif';ctx.fillStyle='#b5dbff';const y=hit.y+(hit.number?14:0);ctx.strokeText(hit.barrier,hit.x,y,94);ctx.fillText(hit.barrier,hit.x,y,94);}
+  }
+ }
+ function tick(elapsed) {
+  let expired=false;
+  for(const [id,label] of active)if(elapsed>=label.until){
+   if(label.node){label.node.hidden=true;free.push(label);}active.delete(id);expired=true;
+  }
+  const due=new Map();
+  while(cursor<events.length && events[cursor].combatAtMs<=elapsed){
+   const event=events[cursor++];if(event.combatAtMs<elapsed-750)continue;
+   for(const hit of citadelHitRows(event)){
+    const total=due.get(hit.id);if(total){total.damage+=hit.damage;total.shield+=hit.shield;total.critical||=hit.critical;}else due.set(hit.id,hit);
+   }
+  }
+  if(!due.size&&!expired)return;
+  const rect=layer.getBoundingClientRect(),plane=due.size?projection():null;
+  for(const [id,hit] of due){
+   if(!plane)break;let slot=allies.get(id);
+   if(!slot){const match=/^B:(\d+):CITADEL(?::(?:R\d+|BOSS))?$/.exec(id);if(!match||Number(match[1])>=capacity)continue;slot={kind:'cards',index:Number(match[1]),enemy:true};}
+   const p=citadelStation(slot.kind,slot.index,slot.enemy,plane.compact),anchor=plane.anchor?.(id);
+   const x=Math.min(Math.max(28,(anchor?.x??(plane.left+p.x*plane.sx))-rect.left),rect.width-28);
+   const y=Math.max(0,(anchor?.y??(plane.top+(p.y-(slot.enemy?69:108))*plane.sy))-rect.top);
+   const number=hit.damage?'−'+format(hit.damage):hit.shield?'':'회피',barrier=hit.shield?'방벽 '+format(hit.shield):'';
+   if(ctx){active.set(id,{x,y,number,barrier,color:hit.critical?'#a6f5ff':slot.enemy?'#ffec9e':'#ffaca0',until:elapsed+800});continue;}
+   let label=active.get(id);
+   if(!label){label=free.pop();if(!label){const node=document.createElement('div'),hp=document.createElement('b'),shield=document.createElement('small');
+    node.className='ct-damage';node.append(hp,shield);layer.append(node);label={node,hp,shield};}active.set(id,label);}
+   const {node,hp,shield}=label;
+   node.style.left=x+'px';node.style.top=y+'px';
+   node.dataset.target=id;node.dataset.damage=String(hit.damage);node.dataset.absorbed=String(hit.shield);
+   node.classList.toggle('ct-incoming',!slot.enemy);node.classList.toggle('ct-critical',hit.critical);
+   hp.textContent=number;shield.textContent=barrier;
+   node.title='피해 '+coinNumber.format(hit.damage)+' · 방벽 '+coinNumber.format(hit.shield);
+   node.hidden=false;label.until=elapsed+800;
+  }
+  if(ctx)paintCanvas(rect);
+ }
+ return {append,tick};
+}
+function mountLootBag(section,toast) {
+ const list=section.querySelector('[data-bag-items]'),empty=section.querySelector('[data-bag-empty]'),expand=section.querySelector('button');
+ const coins=section.querySelector('[data-bag-coins]'),rows=new Map();let snapshot=false,timer;
+ const header=section.closest('header'),portal=header.parentElement;
+ let headerHeight=0;
+ const resize=new ResizeObserver(()=>{const height=Math.ceil(header.getBoundingClientRect().height);
+  if(height!==headerHeight){headerHeight=height;portal.style.setProperty('--ct-head',height+'px');}});resize.observe(header);
+ expand.onclick=()=>{const open=expand.getAttribute('aria-expanded')!=='true';expand.setAttribute('aria-expanded',String(open));expand.textContent=open?'접기':'전체 보기';section.classList.toggle('ct-expanded',open);};
+ function update(state){
+  const gains=[];
+  for(const item of state.drops||[]){
+   const key=item.type+'|'+item.ref;let row=rows.get(key);
+   if(!row){const li=document.createElement('li'),label=document.createElement('span'),src=art(item.image);
+    if(src){const image=document.createElement('img');image.src=src;image.alt='';image.decoding='async';li.append(image);}
+    li.append(label);li.dataset.item=key;list.append(li);row={label,quantity:0};rows.set(key,row);}
+   if(item.quantity!==row.quantity){const delta=item.quantity-row.quantity;
+    row.label.textContent=item.name+' ×'+coinNumber.format(item.quantity);row.quantity=item.quantity;
+    if(snapshot&&delta>0)gains.push(item.name+' ×'+coinNumber.format(delta));}
+  }
+  empty.hidden=rows.size>0;expand.hidden=!rows.size;
+  const value='코인 '+coinNumber.format(state.coins||0);if(coins.textContent!==value)coins.textContent=value;
+  if(gains.length){toast.textContent='획득 · '+gains.slice(0,2).join(', ')+(gains.length>2?' 외 '+(gains.length-2)+'종':'');
+   toast.hidden=false;clearTimeout(timer);timer=setTimeout(()=>{toast.hidden=true;},2200);}
+  // A reconnect restores the entire bag without announcing it as a new pickup.
+  snapshot=true;
+ }
+ return {update,destroy(){clearTimeout(timer);resize.disconnect();expand.onclick=null;}};
 }
 async function ensureCitadelRenderer(){
- if(window.ProjectVPixiBattle?.legionCitadelVersion===1)return;
+ if(window.ProjectVPixiBattle?.legionCitadelVersion===2)return;
  // An installed shell may already have a cached V3 bundle from another game mode.
- if(!bundleUpgrade)bundleUpgrade=new Promise((resolve,reject)=>{const script=document.createElement('script');script.async=true;script.src='/preview/project-v-v3/project-v-pixi-battle.bundle.js?citadel=1&compat=1';
- script.onload=()=>window.ProjectVPixiBattle?.legionCitadelVersion===1?resolve():reject(Error('성채 전투 화면을 다시 불러오세요.'));script.onerror=()=>reject(Error('성채 전투 화면을 내려받지 못했습니다.'));document.head.append(script);}).finally(()=>{bundleUpgrade=null;});
+ if(!bundleUpgrade)bundleUpgrade=new Promise((resolve,reject)=>{const script=document.createElement('script');script.async=true;script.src='/preview/project-v-v3/project-v-pixi-battle.bundle.js?citadel=2&compat=1';
+ script.onload=()=>window.ProjectVPixiBattle?.legionCitadelVersion===2?resolve():reject(Error('성채 전투 화면을 다시 불러오세요.'));script.onerror=()=>reject(Error('성채 전투 화면을 내려받지 못했습니다.'));document.head.append(script);}).finally(()=>{bundleUpgrade=null;});
  return bundleUpgrade;
 }
 const glyphPaths = {
@@ -111,7 +262,7 @@ function finder({open,tiers,selectedTier,rooms,tierLabel,waiting,test,nextEntryA
 export function openCitadel(trigger,firstRead=null){
  if(active){firstRead?.controller.abort();return;}
 
- style('/css/legion-citadel-v1.css?v=3');
+ style('/css/legion-citadel-v1.css?v=4');
  const d=document.createElement('dialog');
  active=d;d.className='citadel';d.setAttribute('aria-labelledby','ct-title');
  d.innerHTML='<header class="ct-bar"><div class="ct-brand">'+citadelCrest()+'<b>군단토벌 파티</b></div><button type="button" class="ct-close" data-act="close" aria-label="화면 닫기">'+glyph('close')+'</button></header>'+
@@ -123,11 +274,12 @@ export function openCitadel(trigger,firstRead=null){
  let readingEpoch=null,entryOpen=true,resolved=false,tiers=[],selectedTier='gate',nextEntryAt=null,unlimited=false;
  const tierLabel=id=>{const t=tiers.find(v=>v.id===(id??'gate'));return t?t.stage+'단계 · '+t.name:state?.tierName||'재앙의 성문';};
  const paused=()=>!entryOpen&&(!state||state.status==='LOBBY'||state.status==='LOADING');
+ let lootBag=null,hitReceipts=null;
  let state=null,rooms=[],options=null,fetchOptions=null,closed=false,busy=false,epoch=0,timer,uiTimer,picker='mercenaries',selected={cardIds:[],mercenaryCodes:[]},pinnedId=null,displayKey='',createId=crypto.randomUUID(),battle=null,replay=null,mounting=null,prewarm=null,battleEpoch=0,frameIndex=-1,prKey='',preparation=null,loadingError=false,displayTest=false,loadedPart=-1,pendingPart=null,groundKey='',lastPartAttempt=0;
  const request=(name,o={})=>jointAccountRequest('legion-party/'+name,{...o,signal:sig});
  const say=m=>{if(!closed&&msg.textContent!==m)msg.textContent=m;};
  const txt=(el,v)=>{if(el&&el.textContent!==v)el.textContent=v;};
- function release(){battleEpoch++;clearInterval(uiTimer);uiTimer=null;battle?.destroy();battle=null;preparation?.close?.();preparation=null;prewarm=null;prKey='';replay=null;mounting=null;frameIndex=-1;loadedPart=-1;pendingPart=null;groundKey='';lastPartAttempt=0;loadingError=false;box.hidden=true;box.replaceChildren();d.classList.remove('in-battle','ct-light-field');void window.ProjectVPixiBattle?.releaseBattle?.({onlyIfIdle:true})?.catch?.(()=>{});}
+ function release(){battleEpoch++;lootBag?.destroy();lootBag=null;hitReceipts=null;clearInterval(uiTimer);uiTimer=null;battle?.destroy();battle=null;preparation?.close?.();preparation=null;prewarm=null;prKey='';replay=null;mounting=null;frameIndex=-1;loadedPart=-1;pendingPart=null;groundKey='';lastPartAttempt=0;loadingError=false;box.hidden=true;box.replaceChildren();d.classList.remove('in-battle','ct-light-field');void window.ProjectVPixiBattle?.releaseBattle?.({onlyIfIdle:true})?.catch?.(()=>{});}
  function close(){if(closed)return;closed=true;scope.abort();firstRead?.controller.abort();clearTimeout(timer);release();d.close();d.remove();active=null;if(trigger?.isConnected)trigger.focus?.({preventScroll:true});}
  d.addEventListener('cancel',e=>{e.preventDefault();close();});
  window.addEventListener('pagehide',close,{signal:sig});
@@ -185,7 +337,7 @@ export function openCitadel(trigger,firstRead=null){
    ensureOptions();
    if((me?.ready||next.members.length===2)&&!navigator.connection?.saveData&&!document.hidden)void warm().catch(()=>{});
   }
-  if(next&&['LOADING','ACTIVE'].includes(next.status)){showBattle();ground();return;}
+  if(next&&['LOADING','ACTIVE'].includes(next.status)){showBattle();lootBag?.update(next);ground();return;}
   if(!box.hidden)release();
   draw();
  }
@@ -230,7 +382,7 @@ export function openCitadel(trigger,firstRead=null){
   const elapsed=clock.now()-(state.startsAt||0),items=(state.ground||[]).filter(x=>x.expires>elapsed);
   const key=items.map(x=>[x.token,x.name,x.quantity,x.extraKinds||0].join('/')).join('|');
   if(key!==groundKey){groundKey=key;host.innerHTML=items.map(x=>'<button data-act="pickup" data-id="'+esc(x.token)+'" style="left:'+([12,43,73][x.pos%3])+'%;top:'+(Math.floor(x.pos/3)?56:26)+'%">'+(art(x.image)?'<img alt="" src="'+esc(art(x.image))+'">':'')+'<span>'+esc(x.name)+' × '+x.quantity+(x.extraKinds?' 외 '+x.extraKinds+'종':'')+'</span></button>').join('');}
-  txt(box.querySelector('[data-farm-count]'),'처치 '+state.kills+' · 내 가방 '+(state.drops?.length||0)+'종'+(state.magnet?' · 자석 수집':''));
+  txt(box.querySelector('[data-farm-count]'),'처치 '+state.kills+(state.magnet?' · 자석 수집':''));
  }
  function ahead(elapsed){
   const dest=Math.max(0,Math.floor(elapsed/replay.chunkMs)),next=dest>loadedPart?dest:loadedPart+1;
@@ -238,12 +390,12 @@ export function openCitadel(trigger,firstRead=null){
   const gen=battleEpoch;pendingPart=next;lastPartAttempt=performance.now();
   void request('chunk?id='+state.id+'&part='+next).then(v=>{if(closed||gen!==battleEpoch)return;
    const frames=replay.frames.slice(Math.max(0,frameIndex));replay.frames=[...frames,...v.chunk.frames];frameIndex=frames.length?0:-1;
-   battle.append(v.chunk.events);loadedPart=next;
+   battle.append(v.chunk.events);hitReceipts?.append(next,v.chunk.events);loadedPart=next;
   }).catch(()=>{}).finally(()=>{if(gen===battleEpoch)pendingPart=null;});
  }
  function clockHud(){
   if(!battle||!replay||!state||closed||document.hidden)return;const elapsed=state.startsAt?Math.max(0,clock.now()-state.startsAt):0;
-  ahead(elapsed);ground();const t=Math.max(0,Math.ceil((420000-elapsed)/1000)),frames=replay.frames;let idx=frameIndex;
+  ahead(elapsed);ground();if(state.status==='ACTIVE')hitReceipts?.tick(elapsed);const t=Math.max(0,Math.ceil((420000-elapsed)/1000)),frames=replay.frames;let idx=frameIndex;
   while(idx+1<frames.length&&frames[idx+1][0]<=elapsed)idx++;
   const label=box.querySelector('[data-stage]');if(idx!==frameIndex||prKey!==state.status){
    frameIndex=idx;prKey=state.status;const fighters=unpack(frames[idx]);
@@ -252,7 +404,8 @@ export function openCitadel(trigger,firstRead=null){
   txt(box.querySelector('[data-time]'),state.status==='LOADING'?'전장 준비':Math.floor(t/60)+':'+String(t%60).padStart(2,'0'));
  }
  function showBattle(){
-  if(box.hidden){d.classList.add('in-battle');box.hidden=false;box.innerHTML='<section class="coop-battle-portal"><header class="coop-battle-top"><div><small>불타는 성채 · '+esc(state.tierName||tierLabel(state.tier))+'</small><b data-stage>두 분대 집결 중</b></div><div><small data-farm-count></small><strong data-time></strong><button data-act="leave" hidden>집결 취소</button><button data-act="close">닫기</button></div></header><div class="coop-battle-mount"></div><div data-ground aria-label="내 필드 전리품"></div><div class="coop-battle-notice" role="status">선택한 용병과 아이콘을 불러오는 중입니다.</div></section>';style('/raid/cooperative/style.css');}
+  if(box.hidden){d.classList.add('in-battle');box.hidden=false;box.innerHTML='<section class="coop-battle-portal"><header class="coop-battle-top"><div><small>불타는 성채 · '+esc(state.tierName||tierLabel(state.tier))+'</small><b data-stage>두 분대 집결 중</b></div><div><small data-farm-count></small><strong data-time></strong><button data-act="leave" hidden>집결 취소</button><button data-act="close">닫기</button></div><section class="ct-loot" aria-label="내가 획득한 전리품"><div class="ct-loot-head"><b>획득 전리품</b><span data-bag-coins></span><button type="button" aria-expanded="false" aria-controls="ct-party-bag" hidden>전체 보기</button></div><p data-bag-empty>아직 획득한 아이템이 없습니다</p><ul id="ct-party-bag" data-bag-items></ul></section></header><div class="coop-battle-mount"></div><div class="ct-hit-layer" aria-hidden="true"></div><output class="ct-pickup" aria-live="polite" hidden></output><div data-ground aria-label="내 필드 전리품"></div><div class="coop-battle-notice" role="status">선택한 용병과 아이콘을 불러오는 중입니다.</div></section>';style('/raid/cooperative/style.css');
+   lootBag=mountLootBag(box.querySelector('.ct-loot'),box.querySelector('.ct-pickup'));}
   box.querySelector('[data-act="leave"]').hidden=state.status!=='LOADING';
   if(battle){clockHud();return;}if(mounting||loadingError)return;
   const gen=++battleEpoch,id=state.id,valid=()=>!closed&&gen===battleEpoch&&state?.id===id;
@@ -260,13 +413,15 @@ export function openCitadel(trigger,firstRead=null){
    try{
     const part=Math.min(Math.ceil(state.duration/30000)-1,Math.max(0,Math.floor((clock.now()-(state.startsAt||clock.now()))/30000)));
     const detail=!lightweight()&&webglAvailable();
-    const rendererReady=detail?Promise.all([import('/raid/cooperative/battle.mjs?citadel=1'),warm()])
+    const rendererReady=detail?Promise.all([import('/raid/cooperative/battle.mjs?citadel=2'),warm()])
      .then(([renderer])=>renderer).catch(()=>{liteOnly=true;return null;}):null;
-    const [v,renderer]=await Promise.all([request('battle?id='+id+'&part='+part),rendererReady]);
+    const [v,renderer,icons]=await Promise.all([request('battle?id='+id+'&part='+part),rendererReady,detail?null:loadIconSprites()]);
     if(!valid())return;
-    replay=v.replay;replay.frames=v.chunk.frames;loadedPart=v.part;replay.payload.battleV2.result.timeline=v.chunk.events;const {manifest,forms}=replay.payload.cooperativeEncounter.citadel;for(const [slot,n,t,elite] of manifest){const f=forms[t];replay.units.push({id:n===-1?'B:4:CITADEL:BOSS':'B:'+slot+':CITADEL'+(n?':R'+n:''),side:'B',slot,maxHp:f.maxHp*(elite?2:1),maxShield:f.maxShield,isBoss:f.isBoss});}
-    const host=box.querySelector('.coop-battle-mount');let mounted;if(renderer){try{mounted=await renderer.mountCoopBattle(host,replay.payload,{title:'군단토벌 · 불타는 성채',playerName:'성채 토벌대',clock});}catch{if(!valid())return;liteOnly=true;preparation?.close?.();preparation=null;void window.ProjectVPixiBattle?.releaseBattle?.({onlyIfIdle:true})?.catch?.(()=>{});}}if(!mounted){d.classList.add('ct-light-field');mounted=mountLite(host,replay.payload,replay.units);}
-    if(!valid()){mounted.destroy();return;}battle=mounted;battle.update({state,serverNow:clock.now(),payload:replay.payload});frameIndex=-1;prKey='';clockHud();
+    replay=v.replay;replay.payload.citadelDamageHud=true;replay.frames=v.chunk.frames;loadedPart=v.part;replay.payload.battleV2.result.timeline=v.chunk.events;const {manifest,forms}=replay.payload.cooperativeEncounter.citadel;for(const [slot,n,t,elite] of manifest){const f=forms[t];replay.units.push({id:n===-1?'B:4:CITADEL:BOSS':'B:'+slot+':CITADEL'+(n?':R'+n:''),side:'B',slot,maxHp:f.maxHp*(elite?2:1),maxShield:f.maxShield,isBoss:f.isBoss});}
+    const host=box.querySelector('.coop-battle-mount');let mounted;if(renderer){try{mounted=await renderer.mountCoopBattle(host,replay.payload,{title:'군단토벌 · 불타는 성채',playerName:'성채 토벌대',clock});}catch{if(!valid())return;liteOnly=true;preparation?.close?.();preparation=null;void window.ProjectVPixiBattle?.releaseBattle?.({onlyIfIdle:true})?.catch?.(()=>{});}}if(!mounted){d.classList.add('ct-light-field');const sprites=icons||await loadIconSprites();if(!valid())return;mounted=mountLite(host,replay.payload,replay.units,sprites);}
+    if(!valid()){mounted.destroy();return;}battle=mounted;
+    hitReceipts=mountHitReceipts(box.querySelector('.ct-hit-layer'),mounted.projection||(()=>window.ProjectVPixiBattle.citadelProjection()),replay,!!mounted.projection);
+    hitReceipts.append(v.part,v.chunk.events);battle.update({state,serverNow:clock.now(),payload:replay.payload});frameIndex=-1;prKey='';clockHud();
     const notice=box.querySelector('.coop-battle-notice');notice.hidden=true;uiTimer=setInterval(clockHud,250);
     if(state.status==='LOADING'){const response=await request('loaded',{method:'POST',body:{id}});if(valid()){apply(response.state);schedule();}}
    }catch(e){if(!valid())return;loadingError=true;box.querySelector('.coop-battle-notice').hidden=false;box.querySelector('.coop-battle-notice').innerHTML=esc(e.message)+' <button data-act="retry">다시 연결</button>';say(e.message);}

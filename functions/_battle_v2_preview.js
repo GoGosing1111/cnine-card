@@ -1,3 +1,4 @@
+import {CITADEL_ENEMY_CAPACITY} from '../shared/cooperative-battleground-v1.mjs';
 import {applySeasonFighterBonus} from '../shared/season-s1-combat.mjs';
 import {jinJokroIncomingDamage,jinJokroActionCredit} from '../shared/mercenary-jin-jokro-v1.mjs';
 import {heliosKingIncomingDamage,heliosKingActionCredit} from '../shared/mercenary-helios-king-v1.mjs';
@@ -857,7 +858,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   // Restrict it to bounded, uniquely identified PVE monsters, never player cards.
   if (!Array.isArray(reinforcements) || reinforcements.length > 40) throw new Error('INVALID_REINFORCEMENTS');
   // Explicit bounded preview extension; existing encounters retain five slots.
-  if (!Number.isInteger(encounterCapacity) || encounterCapacity < 1 || encounterCapacity > 12 ||
+  if (!Number.isInteger(encounterCapacity) || encounterCapacity < 1 || encounterCapacity > (cooperative && sustainedEncounter?.regionId === 'CITADEL' ? CITADEL_ENEMY_CAPACITY : 12) ||
       !Number.isSafeInteger(maxCombatDurationMs) || maxCombatDurationMs < 0 || maxCombatDurationMs > (sustained ? 1080000 : 180000)) throw new Error('INVALID_ENCOUNTER_LIMITS');
   const pendingMonsters = reinforcements.map(card => ({ ...card }));
   const encounterMode = pendingMonsters.length > 0 || Boolean(sustained);

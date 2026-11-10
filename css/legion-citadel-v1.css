@@ -146,3 +146,33 @@ body:has(>.citadel.in-battle.ct-light-field)>#app{display:none}
 .citadel .ct-tabs button[aria-pressed="true"],.citadel button.ct-card[aria-pressed="true"] {background:#44382d;border-color:#d4a16b;box-shadow:inset 0 0 0 1px #b6844d;color:#ffe2ae}
 .ct-card-mark {display:grid;place-items:center;flex:none;width:30px;height:36px;background:#393331;border:1px solid #52453e;border-radius:3px;color:#c0a37e}
 .ct-card[aria-pressed="true"] b::before {color:#f4c485}
+
+.citadel .coop-battle-top{flex-wrap:wrap;row-gap:4px;z-index:7}
+.citadel .ct-loot{flex:1 0 100%;min-width:0;border-top:1px solid #334359;padding-top:4px;line-height:1.25}
+.ct-loot-head{display:flex;align-items:center;gap:10px;color:#e6eacc}
+.citadel .ct-loot-head b{font-size:12px;color:#ffe3a9}
+.ct-loot-head [data-bag-coins]{font-size:11px;font-variant-numeric:tabular-nums}
+.citadel .coop-battle-top .ct-loot-head button{margin-left:auto;border:0;background:transparent;color:#b9d5ec;font-size:12px;min-height:26px;padding:3px 8px}
+.ct-loot p{font-size:12px;color:#bdc9d7;margin:4px 0}
+.ct-loot ul{list-style:none;display:flex;align-items:center;gap:4px 12px;overflow-x:auto;overscroll-behavior:contain;margin:3px 0 0;padding:0;scrollbar-width:thin}
+.ct-loot ul:empty{display:none}
+.ct-loot li{flex:0 0 auto;display:flex;align-items:center;gap:4px;white-space:nowrap;color:#f6f8ef;font-size:12px}
+.ct-loot img{width:24px;height:24px;object-fit:contain}
+.ct-loot.ct-expanded ul{flex-wrap:wrap;overflow:auto;max-height:26dvh;padding-bottom:4px}
+.ct-pickup{position:absolute;top:calc(var(--ct-head,110px) + 5px);left:50%;transform:translateX(-50%);max-width:95%;width:max-content;padding:4px 12px;border-radius:4px;background:#16251df2;color:#d7ffc4;z-index:5;font-size:12px;pointer-events:none}
+.ct-hit-layer{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:2;contain:strict}
+.ct-damage{position:absolute;transform:translate(-50%,-75%);display:grid;justify-items:center;color:#ffec9e;text-shadow:0 1px 2px #10070c,1px 0 #22121a,-1px 0 #22121a,0 -1px #22121a;white-space:nowrap;font:800 clamp(13px,1.45vw,23px)/1.05 system-ui,sans-serif;font-variant-numeric:tabular-nums}
+.ct-damage.ct-incoming{color:#ffaca0}.ct-damage.ct-critical{color:#a6f5ff}.ct-damage small{font-size:.73em;color:#b5dbff}
+.ct-lite,.ct-lite:has(>canvas){display:grid;grid-template: minmax(0,1fr) / minmax(0,1fr);align-content:stretch;gap:0;padding:calc(var(--ct-head,110px) + 8px) 2% 12px}
+.ct-lite>.ct-lite-slots{display:block;position:relative;min-height:0}
+.ct-lite-slots figure{position:absolute;display:grid;grid-template-rows:minmax(0,1fr) auto 3px}
+.ct-lite-slots figure img{height:100%;min-height:0}
+.ct-lite-slots figure.ct-hostile i{background:#ff8c69}
+@media(max-width:700px){
+ .citadel .coop-battle-top{column-gap:4px;padding:5px 8px}
+ .ct-loot img{width:20px;height:20px}
+ .ct-loot ul{gap:4px 9px}
+}
+.ct-lite-slots figure,.ct-lite-slots figure.ct-boss{background:transparent;border:0}
+.ct-lite-slots figcaption{background:#0b1525db}
+.ct-hit-layer>canvas{display:block;width:100%;height:100%}
