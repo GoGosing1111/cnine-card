@@ -165,7 +165,8 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(chief,/viewer_avatar_code/);
   assert.match(chief,/vo\.expires_at IS NULL OR vo\.expires_at>CURRENT_TIMESTAMP/);
   assert.match(chief,/viewerAvatar:a\.viewerAvatar\|\|null/);
-  assert.match(exact,/viewerAvatar: chief\.viewerAvatar \|\| null/);
+  assert.match(exact,/if\(Object\.hasOwn\(next\.chief,'viewerAvatar'\)\)rememberLobbyAvatar\(next\.chief\.viewerAvatar\)/);
+  assert.match(exact,/viewerAvatar:lobbyAvatar/);
   assert.match(exact,/chiefPictureMarkup\(chief, true, true\)/);
   assert.match(loadout,/<div class="clv2-armory-backdrop" aria-hidden="true"><\/div>/);
   assert.match(loadout,/<div class="clv2-reactor" aria-hidden="true">/);
