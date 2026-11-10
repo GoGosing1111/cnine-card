@@ -1,7 +1,8 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {PGlite} from '@electric-sql/pglite';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
-import {createUserAuctionService} from '../functions/_auction_user_service.js';
+import {createUserAuctionService,auctionRegistrationIndex} from '../functions/_auction_user_service.js';
 import {AUCTION_GROWTH_TRIGGER_SQL} from '../scripts/ops/auction-user-schema-20261103.mjs';
+import {AUCTION_ITEM_GUARD_SQL} from '../scripts/ops/auction-item-limit-20261110.mjs';
 import {auctionAssetDebit} from '../functions/_auction_user_assets.js';
 import {userAuctionFixture} from './helpers/auction-user-fixture-20261103.mjs';
 for(const initial of ['500000000000000','100000000000000001'])test(`PostgreSQL wallet ${initial}: 100조 payment, rollback, queue promotion and exactly-once settlement`,async t=>{
@@ -13,6 +14,8 @@ for(const initial of ['500000000000000','100000000000000001'])test(`PostgreSQL w
   for(const row of f.sql.prepare('SELECT * FROM '+name).all()){const entries=Object.entries(row);await pg.query(`INSERT INTO ${name}(${entries.map(([key])=>key).join(',')}) VALUES(${entries.map((_,i)=>'$'+(i+1)).join(',')})`,entries.map(([,value])=>value));}
  }
  await pg.exec("CREATE UNIQUE INDEX auction_user_one_active_v1 ON auction_user_lots_v1(status) WHERE status='ACTIVE'");
+ await pg.exec(auctionRegistrationIndex('postgres'));
+ await pg.exec(AUCTION_ITEM_GUARD_SQL);
  __postgresCompatTest.clearPostgresCatalogCache();let fail='';
  f.env.DB=new __postgresCompatTest.PostgresD1Database({async query(input){const text=typeof input==='string'?input:input.text;if(fail&&text.includes(fail))throw Error('PostgreSQL injected failure');const result=await pg.query(text,typeof input==='string'?[]:input.values||[]),rows=result.rows.map(row=>Object.fromEntries(Object.entries(row).map(([k,v])=>[k,typeof v==='bigint'?Number(v):v])));return {...result,rows,rowCount:result.affectedRows??rows.length};}});
  await pg.query('UPDATE users SET coin=$1::bigint',[initial]);
@@ -20,7 +23,7 @@ for(const initial of ['500000000000000','100000000000000001'])test(`PostgreSQL w
  fail='INSERT INTO auction_user_lots_v1';await assert.rejects(s.host(f.user(1),body),/PostgreSQL injected/);fail='';
  assert.equal(Number((await pg.query("SELECT quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code='AUCTION_HOST_TICKET'")).rows[0].quantity),10);
  const a=await s.host(f.user(1),body);assert.equal((await s.host(f.user(1),body)).replayed,true);
- const b=await s.host(f.user(3),{...body,requestId:f.requestId()});assert.equal(b.lot.status,'QUEUED');
+ const b=await s.host(f.user(3),{...body,durationMinutes:30,requestId:f.requestId()});assert.equal(b.lot.status,'QUEUED');
  const bid={lotId:a.lot.id,amount:1e14,requestId:f.requestId()};fail='INSERT INTO coin_logs';await assert.rejects(s.bid(f.user(2),bid),/PostgreSQL injected/);fail='';
  assert.equal((await pg.query('SELECT coin::text coin FROM users WHERE id=2')).rows[0].coin,initial);
  fail='INSERT INTO auction_user_bgm_events_v1';await assert.rejects(s.bid(f.user(2),bid),/PostgreSQL injected/);fail='';
@@ -33,9 +36,19 @@ for(const initial of ['500000000000000','100000000000000001'])test(`PostgreSQL w
  const users=(await pg.query('SELECT id,coin::text coin FROM users ORDER BY id')).rows;assert.equal(users[0].coin,(BigInt(initial)+80000000000000n).toString());assert.equal(users[1].coin,(BigInt(initial)-100000000000000n).toString());
  const bidLog=(await pg.query('SELECT balance_after::text coin FROM coin_logs WHERE user_id=2 ORDER BY id LIMIT 1')).rows[0];assert.equal(bidLog.coin,users[1].coin);
  assert.equal(Number((await pg.query('SELECT COUNT(*) n FROM auction_user_settlements_v1')).rows[0].n),1);
- assert.equal((await s.state(f.user(2))).active.id,b.lot.id);
+ const promoted=(await s.state(f.user(2))).active;assert.equal(promoted.id,b.lot.id);assert.equal(promoted.endsMs-promoted.startedMs,30*60_000);
  assert.equal((await s.claimNotice(f.user(2),b.lot.id)).show,true);assert.equal((await s.claimNotice(f.user(2),b.lot.id)).show,false);
  assert.equal(Number((await pg.query('SELECT COUNT(*) n FROM joint_atomic_guards_v1')).rows[0].n),0);
+ for(let i=2;i<10;i++)await s.host(f.user(3),{...body,requestId:f.requestId()});
+ await assert.rejects(s.host(f.user(2),{...body,requestId:f.requestId()}),{code:'AUCTION_ITEM_LIMIT'});
+ // Exercise a writer from before the rollout that debits escrow first, then inserts the lot without a quota precheck.
+ const originalTickets=await pg.query("SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code='AUCTION_HOST_TICKET'");
+ await pg.exec('BEGIN');
+ await pg.exec("UPDATE cnine_user_inventory SET quantity=quantity-1 WHERE user_id=2 AND item_code='AUCTION_HOST_TICKET'");
+ await assert.rejects(pg.query(`INSERT INTO auction_user_lots_v1(id,request_id,input_json,seller_id,seller_name,asset_json,start_price,status,queue_order,created_ms)
+   SELECT 'legacy-writer','legacy-writer',input_json,seller_id,seller_name,asset_json,start_price,'QUEUED',1000000,$1 FROM auction_user_lots_v1 WHERE id=$2`,[f.now(),a.lot.id]),/AUCTION_ITEM_LIMIT/);
+ await pg.exec('ROLLBACK');
+ assert.deepEqual((await pg.query("SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code='AUCTION_HOST_TICKET'")).rows,originalTickets.rows);
  await pg.exec(AUCTION_GROWTH_TRIGGER_SQL);
  await pg.exec("UPDATE user_cards SET quantity=1,breakthrough_level=13,breakthrough_fail_count=7 WHERE user_id=1 AND card_id='C001'");
  const debit=await auctionAssetDebit(f.env,1,f.assets.find(a=>a.kind==='CARD'),1,'growth-test');await f.env.DB.batch(debit.statements);

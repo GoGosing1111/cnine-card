@@ -3,7 +3,12 @@ import {createLootProductDraft} from './loot-shop-policy-v1.mjs?v=20261103-live-
 export const AUCTION_USER_POLICY_KEY='auction_user_policy_v1';
 export const AUCTION_TICKET='AUCTION_HOST_TICKET';
 export const AUCTION_TICKET_IMAGE='/assets/items/auction-host-ticket-20261103-v1.png';
-export const AUCTION_DURATION_MS=2*60*60*1000;
+export const AUCTION_DEFAULT_MINUTES=120;
+export const AUCTION_DURATION_MINUTES=Object.freeze([30,60,120]);
+export const AUCTION_DURATION_MS=AUCTION_DEFAULT_MINUTES*60_000;
+export const AUCTION_ITEM_LISTING_LIMIT=10;
+export const AUCTION_LISTING_WINDOW_MS=24*60*60*1000;
+export const auctionDurationLabel=(minutes=AUCTION_DEFAULT_MINUTES)=>minutes===30?'30분':(minutes/60)+'시간';
 export const AUCTION_MAX_BID=100_000_000_000_000;
 export const AUCTION_QUICK_BIDS=Object.freeze([
   {label:'1,000만',amount:10_000_000},{label:'1,000억',amount:100_000_000_000},

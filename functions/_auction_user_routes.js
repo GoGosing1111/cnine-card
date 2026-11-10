@@ -28,13 +28,13 @@ export async function handleUserAuction({path,request,env,deps}){
   const service=createLiveAuctionService(env,deps),url=new URL(request.url);
   if(request.method==='GET'){
    if(action==='state')return reply(await service.state(user));
-   if(action==='lobby'){await service.tick();return reply({active:await service.activeLot(),userId:Number(user.id),serverNow:Date.now()});}
+   if(action==='lobby')return reply({active:await service.activeLot(),userId:Number(user.id),serverNow:Date.now()});
    if(action==='bgm-events')return reply(await service.bgmEvents({lotId:url.searchParams.get('lotId'),after:url.searchParams.get('after')||0}));
    if(action==='catalog')return reply({assets:await (deps.catalog?deps.catalog(user):auctionOwnedCatalog(env,user))});
    if(action==='admin/bgm')return reply(await readAuctionAdminBgm(env));
    if(action==='admin/state'){const [state,{policy},catalog]=await Promise.all([service.state(user),readAuctionPolicy(env),deps.adminCatalog?deps.adminCatalog():auctionAdminCatalog(env)]);return reply({...state,policy,catalog,boundItems:AUCTION_BOUND_ITEMS});}
   }else if(request.method==='POST'){
-   const fields={host:['kind','ref','quantity','startPrice','requestId'],bid:['lotId','amount','message','requestId'],cancel:['lotId'],return:['lotId'],notice:['lotId'],'admin/host':['kind','ref','quantity','startPrice','requestId'],'admin/cancel':['lotId'],'admin/policy':['revision','enabled','operatorEnabled','blockedAssets'],'admin/bgm':['revision','rules']};
+   const fields={host:['kind','ref','quantity','startPrice','durationMinutes','requestId'],bid:['lotId','amount','message','requestId'],cancel:['lotId'],return:['lotId'],notice:['lotId'],'admin/host':['kind','ref','quantity','startPrice','durationMinutes','requestId'],'admin/cancel':['lotId'],'admin/policy':['revision','enabled','operatorEnabled','blockedAssets'],'admin/bgm':['revision','rules']};
    if(fields[action]){
     const body=await readJointBody(request,{fields:fields[action],maxBytes:action.startsWith('admin/')?750000:8192});
     if(action==='host')return reply(await service.host(user,body));
