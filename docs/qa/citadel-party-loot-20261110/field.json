@@ -1,0 +1,249 @@
+{
+  "source": "f1b98a074d09c67ca8699e819aa9998999fc1389",
+  "publishedAt": "2026-11-10T09:03:04.448Z",
+  "verifiedAt": "2026-11-10T09:04:21.053Z",
+  "pages": {
+    "id": "1a3e7624-7e99-4c80-afa8-3bc551c3109e",
+    "url": "https://1a3e7624.cnine-card.pages.dev"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "id": "527d9f8d-d303-463d-8dc0-a7c81c55100e",
+      "trafficPercent": 100,
+      "citadelEnemyCapacity": 16,
+      "verifiedRole": "game API including Citadel party"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "id": "94cc7a30-157f-4e65-a660-b23645d8e6ec",
+      "trafficPercent": 100,
+      "verifiedRole": "clan scheduling"
+    }
+  ],
+  "releaseChecks": 106,
+  "admission": {
+    "before": "OFF",
+    "after": "OFF",
+    "revision": 5,
+    "settingsIdentical": true
+  },
+  "formation": {
+    "alliedColumns": 2,
+    "alliedRows": 4,
+    "icons": 4,
+    "mercenaries": 4,
+    "mercenaryBlock": [
+      2,
+      2
+    ],
+    "enemyColumns": 4,
+    "enemyRows": 4,
+    "activeEnemySlots": 16,
+    "soloSlots": 12
+  },
+  "publicBattleChecks": {
+    "chrome": {
+      "render": "detail",
+      "pickup": {
+        "mode": "manual",
+        "item": "마스터의 별 ×5",
+        "toasts": [
+          "획득 · 마스터의 별 ×2",
+          "획득 · 마스터의 별 ×3"
+        ]
+      },
+      "restoredAfterBoss": true,
+      "hitMatches": 10,
+      "postClose": {
+        "requests": 0,
+        "canvas": 0,
+        "mounted": false
+      },
+      "checkedPublicResources": true,
+      "productionAccountWrites": 0
+    },
+    "ios": {
+      "render": "light",
+      "pickup": {
+        "mode": "magnet",
+        "item": "고성능 타이어 ×5",
+        "toasts": [
+          "획득 · 고성능 타이어 ×2",
+          "획득 · 고성능 타이어 ×3"
+        ]
+      },
+      "restoredAfterBoss": true,
+      "hitMatches": 23,
+      "postClose": {
+        "requests": 0,
+        "canvas": 0,
+        "mounted": false
+      },
+      "checkedPublicResources": true,
+      "productionAccountWrites": 0
+    }
+  },
+  "performance": {
+    "conditions": "Windows host. Chrome desktop 1440x960. WebKit iPhone 13 emulation 390x844. Local SQLite accounts, production assets from the indicated revision, real home menu and two-person start. 4.5 seconds of combat frame timing and 2.5 seconds post-close. Single paired samples.",
+    "compare": {
+      "desktop": {
+        "before": {
+          "platform": "chrome",
+          "renderer": "detail",
+          "firstLobbyMs": 177,
+          "lobbyReentryMs": 28,
+          "firstBattleMs": 1912,
+          "battleReentryMs": 799,
+          "frameSampleMs": 4500,
+          "frames": 1063,
+          "medianMs": 4.2,
+          "p95Ms": 4.3,
+          "maxMs": 45.8,
+          "over50Ms": 0,
+          "closed": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "serverStartMs": 263
+        },
+        "after": {
+          "platform": "chrome",
+          "renderer": "detail",
+          "firstLobbyMs": 146,
+          "lobbyReentryMs": 28,
+          "firstBattleMs": 1764,
+          "battleReentryMs": 540,
+          "frameSampleMs": 4500,
+          "frames": 1056,
+          "medianMs": 4.2,
+          "p95Ms": 4.3,
+          "maxMs": 54.2,
+          "over50Ms": 1,
+          "closed": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "serverStartMs": 249
+        }
+      },
+      "ios": {
+        "before": {
+          "platform": "ios",
+          "renderer": "light",
+          "firstLobbyMs": 531,
+          "lobbyReentryMs": 317,
+          "firstBattleMs": 914,
+          "battleReentryMs": 400,
+          "frameSampleMs": 4500,
+          "frames": 236,
+          "medianMs": 15,
+          "p95Ms": 30,
+          "maxMs": 168,
+          "over50Ms": 5,
+          "closed": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "serverStartMs": 233
+        },
+        "after": {
+          "platform": "ios",
+          "renderer": "light",
+          "firstLobbyMs": 994,
+          "lobbyReentryMs": 992,
+          "firstBattleMs": 925,
+          "battleReentryMs": 393,
+          "frameSampleMs": 4500,
+          "frames": 222,
+          "medianMs": 15,
+          "p95Ms": 30,
+          "maxMs": 180,
+          "over50Ms": 5,
+          "closed": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "serverStartMs": 263
+        }
+      }
+    },
+    "observations": "The start handler computes the full encounter. The detailed renderer loads SD art while squads prepare. The light renderer draws pooled damage on canvas and caches fighter tiles. WebKit reports a ResizeObserver loop warning on baseline and candidate. No physical iPhone or Android run."
+  },
+  "liveAccount": {
+    "nickname": "핑크빛유두",
+    "stage": "throne",
+    "atKst": "2026-11-10 17:30:31",
+    "observedMidFight": {
+      "picked": 139,
+      "floorRolls": 139,
+      "onGround": 0,
+      "magnet": true
+    },
+    "claimed": true,
+    "kills": 918,
+    "bosses": 1,
+    "pickups": 195,
+    "coins": 300000000000,
+    "items": [
+      {
+        "name": "연마석",
+        "quantity": 40
+      },
+      {
+        "name": "미스틱 에너지",
+        "quantity": 408
+      },
+      {
+        "name": "마스터의 별",
+        "quantity": 553365
+      },
+      {
+        "name": "고출력 엔진",
+        "quantity": 98
+      },
+      {
+        "name": "강화 차체 프레임",
+        "quantity": 63
+      },
+      {
+        "name": "고성능 타이어",
+        "quantity": 55
+      },
+      {
+        "name": "슈트 코어 4",
+        "quantity": 1
+      },
+      {
+        "name": "슈트 코어 3",
+        "quantity": 2
+      },
+      {
+        "name": "청룡천위 장신구",
+        "quantity": 1
+      }
+    ]
+  },
+  "filesChecked": [
+    "index.html",
+    "onestore/index.html",
+    "js/legion-hunt-entry-v1.mjs",
+    "js/legion-citadel-v1.mjs",
+    "css/legion-citadel-v1.css",
+    "shared/cooperative-battleground-v1.mjs",
+    "preview/project-v-v3/project-v-pixi-battle.bundle.js"
+  ],
+  "windowsRelease": "4ea51919a2b62dc52034e475b47fe240776e31df8617d86f9215a975a90bd5d2",
+  "assetCount": 20000,
+  "evidence": "operations/citadel-party-formation-20261110",
+  "images": [
+    "party-formation-chrome.png",
+    "party-formation-ios.png",
+    "field-public-chrome-smoke.png",
+    "field-public-ios-smoke.png"
+  ]
+}
