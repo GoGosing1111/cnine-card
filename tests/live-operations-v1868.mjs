@@ -1,8 +1,35 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFile } from 'node:fs/promises';
+import {runInNewContext} from 'node:vm';
 
 const load=(path)=>readFile(new URL(`../${path}`,import.meta.url),'utf8');
+
+test('compact boards show short operations and retain the full list in the dialog',async()=>{
+  const app=await load('js/app.js');
+  const render=app.slice(app.indexOf('function renderLiveOperations('),app.indexOf('function scheduleLiveOperationsRefresh('));
+  const lists=['lobby','','all'].map(view=>({dataset:{liveOperationsList:view},contains:()=>false}));
+  const count={};
+  const context={
+    document:{querySelectorAll:selector=>({'[data-live-operations-list]':lists,'[data-live-operations-count]':[count]}[selector]||[])},
+    window:{},runtimeCommandContext:'buy',LIVE_OPERATION_META:{ORGANIZATION:{},RANKED_DUO:{},SEAL:{},RAID:{}},
+    liveOperationTimestamp:Date.parse,liveOperationsServerOffset:0,
+    bindLiveOperationsControls(){},syncTerritoryDraftNotice(){},syncOrganizationStartNotice(){},updateLiveOperationClocks(){},
+    liveBurningOperationHtml:()=>'',liveRankExpPotionHtml:()=>'',liveOperationCardHtml:item=>item.kind+' '
+  };
+  const renderBoard=runInNewContext(render+'; renderLiveOperations',context);
+  const serverNow='2026-11-10T12:00:00Z';
+  const evergreen=[{kind:'ORGANIZATION',deadlineAt:null},{kind:'RANKED_DUO',deadlineAt:'2026-11-10T12:01:00Z'}];
+  const long={kind:'SEAL',deadlineAt:'2026-11-12T12:00:00Z'},short={kind:'RAID',deadlineAt:'2026-11-10T13:00:00Z'};
+  renderBoard({serverNow,items:[...evergreen,long,short]});
+  assert.deepEqual(lists.map(list=>list.innerHTML),['RAID ','RAID ','ORGANIZATION RANKED_DUO SEAL RAID ']);
+  assert.equal(count.textContent,'4건 진행');
+  renderBoard({serverNow,items:evergreen});
+  assert.deepEqual(lists.map(list=>list.innerHTML),['','','ORGANIZATION RANKED_DUO ']);
+  assert.equal(count.textContent,'2건 진행');
+  renderBoard({serverNow,items:[]});
+  assert.match(lists[0].innerHTML,/현재 진행 중인 주요 콘텐츠 없음/);
+});
 
 test('acquisition crawls are retired from the loaded store and lobby surfaces',async()=>{
   const [app,shell]=await Promise.all([

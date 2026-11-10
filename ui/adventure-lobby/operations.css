@@ -119,6 +119,13 @@
 }
 #lobby-operations-summary :focus-visible { outline: 2px solid var(--ops-accent); outline-offset: -2px; }
 #lobby-operations-summary .live-operations-viewport { min-width: 0; overflow: hidden; }
+#lobby-operations-summary:has(.live-operations-list:empty) {
+  grid-template-columns: minmax(0, 1fr) auto;
+  min-height: 44px;
+  padding-block: 0;
+}
+#lobby-operations-summary:has(.live-operations-list:empty) > header { flex-direction: row; align-items: center; justify-content: flex-start; gap: 8px; }
+#lobby-operations-summary .live-operations-viewport:has(> .live-operations-list:empty) { display: none; }
 #lobby-operations-summary .live-operations-list {
   display: flex;
   flex-flow: row nowrap;

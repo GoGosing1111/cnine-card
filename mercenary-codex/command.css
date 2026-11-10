@@ -5,6 +5,8 @@
 .command-codex :is(.archive-ribbon,.topbar,.heading-index,.heading-tag){display:none}
 .command-codex .archive-shell{max-width:1540px;padding:0 28px}
 .command-codex .page-heading{padding:28px 0 18px;gap:18px}
+.command-codex .page-heading h1{display:flex;align-items:center;gap:10px}
+.command-codex .page-heading h1>img{width:1em;height:1em;object-fit:contain;flex:none}
 .command-codex .heading-title{gap:0}.command-codex .eyebrow{font:700 11px/1.5 'Pretendard Variable',Pretendard,sans-serif;color:var(--lime);letter-spacing:1.3px}
 .command-codex h1{font-size:32px;font-weight:780;letter-spacing:-.8px;line-height:1.35}
 .command-codex .archive-heading-actions{gap:7px;display:flex;flex-wrap:wrap}

@@ -7,7 +7,7 @@ body[data-legion-live] button.primary{background:var(--lime);border-color:var(--
 body[data-legion-live] button.primary:hover:not(:disabled){background:#ddffa6}
 body[data-legion-live] .hunt-command{min-height:0;height:var(--hunt-command-height);display:grid;grid-template-columns:1fr auto 1fr;gap:24px;padding:0 26px;background:#0b1120;border-bottom:1px solid var(--hunt-line);box-shadow:none}
 body[data-legion-live] .hunt-heading{gap:13px;min-width:0}
-body[data-legion-live] .hunt-heading>svg{width:28px;height:28px;fill:none;stroke:var(--lime);stroke-width:1.6;flex-shrink:0}
+body[data-legion-live] .hunt-heading>img{width:28px;height:28px;object-fit:contain;flex:none}
 body[data-legion-live] .hunt-heading>div{border:0;padding:0;gap:3px;min-width:0}
 body[data-legion-live] .hunt-heading small{font-size:9px;letter-spacing:1px;color:#9eafc9}
 body[data-legion-live] .hunt-heading strong{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:650;letter-spacing:-.6px;white-space:nowrap}
@@ -64,13 +64,16 @@ body[data-legion-live] #hunt-result dd{font-size:18px;font-weight:600;color:#e5f
 body[data-legion-live] #result-items{padding:12px 14px;background:#0c1424;border:1px solid #293752;border-radius:4px;color:#9daecb;font-size:11px;line-height:1.7}
 body[data-legion-live] #hunt-result .review-note{margin:12px 0 18px;color:#8095b5!important;font-size:9px!important}
 body[data-legion-live] #hunt-result button{min-height:46px;font-size:12px}
-@media(max-width:1000px){body[data-legion-live] .hunt-command{gap:14px;padding-inline:18px}.hunt-timer{gap:10px}.hunt-timer>span{font-size:9px}body[data-legion-live] .hunt-heading>svg{display:none}body[data-legion-live] .stage-banner strong{display:none}.hunt-readout{padding-inline:18px}}
+@media(max-width:1000px){body[data-legion-live] .hunt-command{gap:14px;padding-inline:18px}.hunt-timer{gap:10px}.hunt-timer>span{font-size:9px}body[data-legion-live] .hunt-heading>img{width:22px;height:22px}body[data-legion-live] .stage-banner strong{display:none}.hunt-readout{padding-inline:18px}}
 @media(max-width:760px){
  body[data-legion-live]{--hunt-command-height:108px;--hunt-hud-height:148px}
  body[data-legion-live] .hunt-command{grid-template-columns:1fr auto;grid-template-rows:51px 39px;gap:0 12px;align-content:start;padding:6px 14px 12px}
  body[data-legion-live] .hunt-heading strong{font-size:16px;gap:8px}
  body[data-legion-live] .hunt-heading small{font-size:8px;letter-spacing:.7px}
  #hunt-difficulty-label{font-size:8px;padding:2px 5px}
+ body[data-legion-live] .hunt-heading{gap:6px}
+ #hunt-region-label{overflow:hidden;text-overflow:ellipsis}
+ #hunt-difficulty-label{flex:none}
  .hunt-timer{gap:8px}
  .hunt-timer>span{font-size:8px;max-width:50px;white-space:normal;line-height:1.7}
  .hunt-timer>strong{font-size:32px;min-width:68px;letter-spacing:.5px}

@@ -1391,7 +1391,12 @@ function renderShell(tab,routeOptions={}) {
   if(tab!=='prediction'&&typeof window.stopCoinPredictionView==='function')window.stopCoinPredictionView();
   if(tab!=='soopketland')window.stopSoopketLandView?.();
   runtimeCommandContext=tab;
-  if(tab!=='buy')territoryDraftNotice?.stop();
+  if(tab!=='buy'){
+    territoryDraftNotice?.stop();
+    clearTimeout(liveOperationsRefreshTimer);
+    clearInterval(liveOperationsClockTimer);
+    liveOperationsRefreshTimer=liveOperationsClockTimer=0;
+  }
   queueMicrotask(()=>window.CNineMartialLaw?.mount({visible:tab==='buy'}));
   document.body.dataset.contentScope=['battle','scrapyard'].includes(tab)?'pve':['pvp','duo','rank','clan','jokgakCity'].includes(tab)?'pvp':['dex','upgrade','evolution','iconfusion','magic'].includes(tab)?'collection':['character','workshop','alchemy','avatar'].includes(tab)?'growth':['buy'].includes(tab)?'store':'system';
   const burningPageActive=burningEventState.enabled===true,burningPageMode=burningMode();
@@ -1623,9 +1628,11 @@ function liveOperationCardHtml(item){
   return `<button type="button" class="live-operation-card kind-${escapeHtml(kind.toLowerCase())}" data-live-operation-kind="${escapeHtml(kind)}" aria-label="${escapeHtml(base.label)} ${escapeHtml(state)}"><span class="live-operation-icon">${liveOperationIcon(kind)}</span><span class="live-operation-copy"><small><i aria-hidden="true"></i><span class="live-operation-kind">${escapeHtml(base.label)}</span><em>${escapeHtml(state)}</em></small><b>${escapeHtml(title)}</b><span>${escapeHtml(detail)}</span></span><strong><small>${escapeHtml(deadline)}</small><b ${coupRecruiting||(kind==='ORGANIZATION_FACTION'&&phase==='PAUSED')?'':`data-live-operation-deadline="${escapeHtml(item?.deadlineAt||'')}"`}>${kind==='ORGANIZATION_FACTION'&&phase==='PAUSED'?'영토전 종료 후 재개':coupRecruiting?'개전 대기':liveOperationClock(item?.deadlineAt)}</b></strong><i class="live-operation-enter" aria-hidden="true">›</i></button>`;
 }
 function updateLiveOperationClocks(){
-  const nodes=document.querySelectorAll('[data-live-operation-deadline]'),potions=document.querySelectorAll('[data-rank-potion-countdown]');
+  if(runtimeCommandContext!=='buy')return;
+  const nodes=document.querySelectorAll('[data-live-operation-deadline]:not([data-live-operation-deadline=""])'),potions=document.querySelectorAll('[data-rank-potion-countdown]');
   if(potions.length&&!rankExpPotionRemaining()){if(rankExpPotionState)rankExpPotionState={...rankExpPotionState,active:false};renderLiveOperations();return;}
   if(!nodes.length&&!potions.length){if(liveOperationsClockTimer)clearInterval(liveOperationsClockTimer);liveOperationsClockTimer=0;return;}
+  if(!liveOperationsClockTimer)liveOperationsClockTimer=setInterval(updateLiveOperationClocks,1000);
   nodes.forEach(node=>{node.textContent=liveOperationClock(node.dataset.liveOperationDeadline)});potions.forEach(node=>{node.textContent=rankExpPotionClock()});
 }
 function openLiveOperation(kind){
@@ -1664,6 +1671,7 @@ function openLiveOperationsDialog(opener){
   dialog.addEventListener('close',()=>{
     opener?.setAttribute('aria-expanded','false');
     dialog.remove();
+    updateLiveOperationClocks();
     if(opener?.isConnected&&opener.getClientRects().length)opener.focus({preventScroll:true});
   },{once:true});
   document.body.append(dialog);
@@ -1678,6 +1686,7 @@ function liveBurningOperationHtml(){
   return `<article class="live-operation-card live-operation-event kind-${miracle?'miracle-burning':hyper?'hyper-burning':'burning'}" data-live-burning-event="${miracle?'MIRACLE':hyper?'HYPER':'BURNING'}" role="group" aria-label="${title} 진행 중"><span class="live-operation-icon"><svg viewBox="0 0 24 24" aria-hidden="true">${flame}${hyper?'<path d="m13 12-3 5h3l-1 4 4-6h-3Z"/>':''}</svg></span><span class="live-operation-copy"><small><i aria-hidden="true"></i><span class="live-operation-kind">이벤트</span><em>진행 중</em></small><b>${title}</b><span>전투 코인 ×${burningMultiplierText(coins)} · ${minutes}분 충전</span></span><strong><small>남은 시간</small><b data-burning-countdown data-burning-countdown-compact>${burningRemainingText().replace(/ 남음$/,'')}</b></strong></article>`;
 }
 function renderLiveOperations(payload=null){
+  if(runtimeCommandContext!=='buy')return;
   bindLiveOperationsControls();
   const lists=[...document.querySelectorAll('[data-live-operations-list]')];if(!lists.length)return;
   if(payload){
@@ -1689,14 +1698,17 @@ function renderLiveOperations(payload=null){
   syncOrganizationStartNotice();
   const items=liveOperationsFailed?[]:liveOperationsItems,eventHtml=liveBurningOperationHtml(),potionHtml=liveRankExpPotionHtml(),count=items.length+(eventHtml?1:0)+(potionHtml?1:0);
   const errorHtml='<div class="live-operation-empty error"><span aria-hidden="true"></span><b>운영 상태 갱신 대기</b><small>잠시 후 자동으로 다시 확인합니다.</small></div>';
-  const isClanOrDuo=item=>['RANKED_DUO','ORGANIZATION'].includes(String(item.kind).toUpperCase());
-  const featured=items.filter(item=>!isClanOrDuo(item));
-  const lobbyItems=featured.concat(items.filter(isClanOrDuo));
+  const now=Date.now()+liveOperationsServerOffset;
+  const featured=items.filter(item=>{
+    if(['ORGANIZATION','RANKED_DUO'].includes(String(item.kind).toUpperCase()))return false;
+    const deadline=liveOperationTimestamp(item.deadlineAt);
+    return !Number.isFinite(deadline)||deadline-now<24*60*60*1000;
+  });
   lists.forEach(list=>{
     const view=list.dataset.liveOperationsList;
     const all=view==='all';
-    const visible=all?items:view==='lobby'?lobbyItems:featured;
-    const empty=!all&&items.length?'<div class="live-operation-empty"><b>전체 진행 상황 보기</b><small>콘텐츠 현황을 누르면 모두 확인할 수 있습니다.</small></div>':'<div class="live-operation-empty"><span aria-hidden="true"></span><b>현재 진행 중인 주요 콘텐츠 없음</b><small>새 작전이 열리면 자동으로 표시됩니다.</small></div>';
+    const visible=all?items:featured;
+    const empty=items.length?'':'<div class="live-operation-empty"><span aria-hidden="true"></span><b>현재 진행 중인 주요 콘텐츠 없음</b><small>새 작전이 열리면 자동으로 표시됩니다.</small></div>';
     const loading='<div class="live-operation-empty loading"><b>콘텐츠 상태 확인 중</b><small>현재 진행 상황을 불러오고 있습니다.</small></div>';
     const focused=list.contains(document.activeElement)?document.activeElement.dataset.liveOperationKind:null;
     const left=list.scrollLeft,top=list.scrollTop;
@@ -1712,13 +1724,15 @@ function renderLiveOperations(payload=null){
   document.querySelectorAll('[data-live-operations-count]').forEach(node=>{node.textContent=count?summary:liveOperationsFailed?'갱신 대기':!liveOperationsReady?'확인 중':'대기 중'});
   document.querySelectorAll('[data-live-operation-kind]').forEach(button=>{button.onclick=()=>openLiveOperation(button.dataset.liveOperationKind)});
   window.SoopLobbyOperations?.refresh();
-  updateLiveOperationClocks();if(!liveOperationsClockTimer)liveOperationsClockTimer=setInterval(updateLiveOperationClocks,1000);
+  updateLiveOperationClocks();
 }
 function scheduleLiveOperationsRefresh(seconds=30,boundary=null){
+  if(runtimeCommandContext!=='buy')return;
   const until=liveOperationTimestamp(boundary)-(Date.now()+liveOperationsServerOffset);
   const delay=Math.min(Math.max(15,Number(seconds)||30)*1000,Number.isFinite(until)&&until>=0?until+50:Infinity);
   if(liveOperationsRefreshTimer)clearTimeout(liveOperationsRefreshTimer);liveOperationsRefreshTimer=setTimeout(()=>{liveOperationsRefreshTimer=0;if(document.querySelector('[data-live-operations-list]'))loadLiveOperations(true)},delay)}
 async function loadLiveOperations(fresh=false){
+  if(runtimeCommandContext!=='buy')return;
   bindLiveOperationsControls();
   const lists=document.querySelectorAll('[data-live-operations-list]');if(!lists.length)return;
   if(!API_MODE){renderLiveOperations({items:[]});return}

@@ -150,11 +150,11 @@ svg {
   align-items: center;
   gap: 11px;
 }
-.brand > svg {
+.brand > img {
   width: 31px;
   height: 31px;
-  color: var(--lime);
-  stroke-width: 1.5;
+  object-fit: contain;
+  flex: none;
 }
 .brand > span {
   font-size: 18px;
@@ -2211,7 +2211,7 @@ h1 {
   .brand {
     gap: 8px;
   }
-  .brand > svg {
+  .brand > img {
     width: 25px;
     height: 25px;
   }

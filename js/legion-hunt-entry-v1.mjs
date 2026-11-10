@@ -47,7 +47,7 @@ let active=null;
 export function openLegionHunt(button){
   if(active)return;
   const dialog=document.createElement('dialog');dialog.className='legion-hunt-portal';dialog.setAttribute('aria-label','군단토벌 입장');
-  dialog.innerHTML=`<header class="legion-portal-bar"><div class="legion-brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8V3h5m8 0h5v5M3 16v5h5m8 0h5v-5M8 6v12l8-6Z"/></svg><span>리버스콜<small>REVERSE CALL</small></span></div><nav class="legion-breadcrumb" aria-label="현재 위치"><span>모험</span><i aria-hidden="true">/</i><b>군단토벌</b></nav><button type="button" data-hunt-close><span aria-hidden="true">←</span> PVE로 돌아가기</button></header>
+  dialog.innerHTML=`<header class="legion-portal-bar"><div class="legion-brand"><img src="/assets/ui/brand/reverse-call-20261016/logo-240.webp?v=20261018-transparent" alt="" width="31" height="31"><span>리버스콜<small>REVERSE CALL</small></span></div><nav class="legion-breadcrumb" aria-label="현재 위치"><span>모험</span><i aria-hidden="true">/</i><b>군단토벌</b></nav><button type="button" data-hunt-close><span aria-hidden="true">←</span> PVE로 돌아가기</button></header>
     <div class="legion-lobby"><button type="button" class="legion-party-gate" data-legion-citadel>2인 파티 원정 · 불타는 성채　→</button><div class="legion-lobby-layout">
       <nav class="legion-regions" aria-label="토벌 지역 선택" hidden></nav>
       <section class="legion-intro" aria-labelledby="legion-island-title">
@@ -139,7 +139,7 @@ export function openLegionHunt(button){
     catch(error){console.warn('[Legion Hunt] Previous battle resource release failed',error);}
     if(controller.state.phase!=='battle')return;
     find('.legion-lobby').hidden=true;find('.legion-play').hidden=false;
-    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?v=20261024-mobile-memory-v1';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
+    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?brand=20261110&v=20261024-mobile-memory-v1';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
   },dispose:()=>{clearInterval(energyTimer);clearFrame();window.removeEventListener('message',onMessage);dialog.close();dialog.remove();active=null;button?.focus();}});
   energyTimer=setInterval(()=>{
     const state=controller.state;if(state.phase!=='lobby'||!state.data)return;
