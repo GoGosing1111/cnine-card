@@ -1,10 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {clanResumeFixture} from './helpers/clan-resume-fixture.mjs';
-import {legionFixture} from './helpers/legion-hunt-fixture.mjs';
-import {seedRegionalCatalog} from './helpers/legion-regions-fixture.mjs';
-import {legionRegionDefaults,CLAN_HUNT_REGION} from '../shared/legion-regions-v1.mjs';
-import {saveRegionPolicy} from '../functions/_legion_regions.js';
+import {citadelFixture} from './helpers/legion-citadel-fixture.mjs';
+import {citadelEnemies} from '../functions/_legion_citadel_battle.js';
+import {calamityPartyDrops} from '../functions/_legion_citadel_calamity.js';
+import {DOCKYARD} from '../functions/_legion_citadel_tiers.js';
 import {factionDayPermitted,nextFactionDay,CLAN_WED_SAT_SUN_SCHEDULE} from '../shared/clan-resumption-v1.mjs';
 import {applyResume,inspectResume} from '../scripts/ops/clan-resume-20261025.mjs';
 import {__clanTest} from '../functions/_clan.js';
@@ -20,33 +20,47 @@ test('KST faction days change at release and the weekend skips to Tuesday',()=>{
 });
 
 test('private garden has its own directory, three waves, original boss and fixed lower difficulty',()=>{
- const input={id:'ABCDEF1234',user:{id:1,nickname:'방장'},clientId:crypto.randomUUID(),area:CLAN_GARDEN.id,difficulty:'HARD',seed:20,now:100};
- const room=createCoopRoom(input);assert.notEqual(coopDirectory(room.area),coopDirectory('public'));
+ const input={id:'ABCDEF1234',user:{id:1,nickname:'방장'},clientId:crypto.randomUUID(),area:CLAN_GARDEN.id,clanId:1,roundId:'live',difficulty:'HARD',seed:20,now:100};
+ const room=createCoopRoom(input);assert.notEqual(coopDirectory(room.area,room),coopDirectory('public'));
  assert.deepEqual(room.combat.stages.map(s=>s.name),['정원 외벽','가시 회랑','침식의 심장']);
  assert.equal(coopRosterSummary(room.encounter).boss.name,'가시관 포식자');
  assert.throws(()=>createCoopRoom({...input,difficulty:'EXTREME'}),{code:'COOP_AREA'});
 });
 
-test('dockyard checks membership both before preparation and before charging, snapshots 150% drops',async t=>{
- const f=await legionFixture({postgres:true,regions:true});t.after(f.close);
- await f.DB.execSchema(["CREATE TABLE organization_rounds_v1(id text PRIMARY KEY,scope text,phase text)","CREATE TABLE organization_progress_v1(round_id text,organization_id integer,stage integer)","CREATE TABLE organization_members_v1(round_id text,user_id bigint,organization_id integer)"]);
- await f.DB.prepare("INSERT INTO organization_rounds_v1 VALUES('live','LIVE','ASSIGNED')").run();
- await f.DB.prepare("INSERT INTO organization_progress_v1 VALUES('live',1,2)").run();
- await f.DB.prepare("INSERT INTO organization_members_v1 VALUES('live',1,1)").run();
- await seedRegionalCatalog(f);const base=(await f.call('admin/legion-hunt')).body.policy;base.mode='ON';await f.call('admin/legion-hunt',{policy:base},{method:'PATCH'});
- let policy=legionRegionDefaults();policy.mode='ON';policy.difficulties[0].loot.eliteSetPercent=10;await saveRegionPolicy(f.env,f.owner,policy);
- const body={regionId:CLAN_HUNT_REGION.id,difficulty:policy.difficulties[0].id,version:5};
- assert.equal((await f.call('legion-hunt/start',body)).status,403);
- assert.equal((await f.call('legion-hunt/bootstrap')).body.regionExpansion.regions.some(r=>r.id===body.regionId),false);
- await f.DB.prepare('UPDATE organization_progress_v1 SET stage=3').run();
- assert.equal((await f.call('legion-hunt/bootstrap')).body.regionExpansion.regions.some(r=>r.id===body.regionId),true);
- const result=await f.call('legion-hunt/start',body);assert.equal(result.status,200,JSON.stringify(result.body).slice(0,200));
- assert.equal(result.body.payload.battlefieldBackground,CLAN_HUNT_REGION.background);
- const run=async()=>JSON.parse((await f.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind('legion_hunt_owner_session_v1:1').first()).value);
- const before=await run();assert.equal(before.state.policy.regionLoot.eliteSetPercent,15);assert.equal(before.state.policy.lootRegionId,'coast');
- await f.DB.prepare('UPDATE organization_progress_v1 SET stage=2').run();assert.equal((await f.call('legion-hunt/begin',{id:result.body.id})).status,403);
- assert.deepEqual((await run()).energy,before.energy);await f.DB.prepare('UPDATE organization_progress_v1 SET stage=4').run();
- assert.equal((await f.call('legion-hunt/begin',{id:result.body.id})).status,200);
+test('party dockyard is locked in season four and private to the eligible clan from season five, including final charge',async t=>{
+ const f=await citadelFixture({postgres:true,partyMode:'OFF'});t.after(f.close);
+ await f.db.execSchema(["CREATE TABLE organization_rounds_v1(id text PRIMARY KEY,scope text,phase text)","CREATE TABLE organization_progress_v1(round_id text,organization_id integer,stage integer)","CREATE TABLE organization_members_v1(round_id text,user_id bigint,organization_id integer)","CREATE TABLE clan_seasons(id bigint PRIMARY KEY,season_no int,phase text,starts_at text)"]);
+ await f.exec("INSERT INTO organization_rounds_v1 VALUES('live','LIVE','ASSIGNED')");await f.exec("INSERT INTO organization_progress_v1 VALUES('live',1,4),('live',2,4)");
+ await f.exec("INSERT INTO organization_members_v1 VALUES('live',1,1),('live',2,1),('live',3,2)");
+ await f.exec("INSERT INTO clan_seasons VALUES(9,4,'ACTIVE','2026-01-01T00:00:00Z')");
+ await f.exec('INSERT INTO app_meta(key,value) VALUES(?,?)','clan_resumption_v1',JSON.stringify({roundId:'live',seasonId:9}));
+ const create={requestId:'dockyard-owned-clan-request',area:DOCKYARD.id};
+ const lobby=async uid=>(await f.action(uid,'lobby')).body;
+ assert.equal((await lobby(1)).clanOpen,false);
+ assert.equal((await f.action(1,'create',create)).body.code,'CLAN_SEASON_REQUIRED');
+ await f.exec("UPDATE clan_seasons SET season_no=5,starts_at='2100-01-01T00:00:00Z'");
+ assert.equal((await lobby(1)).clanOpen,false);
+ await f.exec("UPDATE clan_seasons SET starts_at='2026-01-01T00:00:00Z'");
+ await f.exec('UPDATE organization_progress_v1 SET stage=2 WHERE organization_id=1');
+ assert.equal((await f.action(1,'create',create)).body.code,'CLAN_HIDEOUT_REQUIRED');
+ await f.exec('UPDATE organization_progress_v1 SET stage=3 WHERE organization_id=1');
+ assert.equal((await lobby(1)).clanOpen,true);assert.equal((await lobby(1)).open,false);
+ const created=await f.action(1,'create',create);assert.equal(created.status,200,JSON.stringify(created.body));const {id}=created.body.state;
+ assert.equal((await lobby(2)).clanRooms[0].id,id);assert.equal((await lobby(3)).clanRooms.length,0);assert.equal((await lobby(1)).rooms.length,0);
+ assert.equal((await f.action(3,'join',{id})).body.code,'CLAN_ROOM_REQUIRED');
+ assert.equal((await f.action(2,'join',{id})).status,200);
+ for(const uid of [1,2])assert.equal((await f.action(uid,'ready',{id,...f.selection(uid-1)})).status,200);
+ const launched=await f.action(1,'start',{id});assert.equal(launched.status,200,JSON.stringify(launched.body));assert.equal(launched.body.state.status,'LOADING');
+ assert.equal((await f.action(1,'loaded',{id})).status,200);await f.exec('UPDATE organization_members_v1 SET organization_id=2 WHERE user_id=1');
+ assert.equal((await f.action(2,'loaded',{id})).body.code,'CLAN_ROOM_REQUIRED');
+ assert.equal((await f.db.prepare("SELECT COUNT(*) AS n FROM app_meta WHERE key LIKE 'legion_citadel_v1:next-entry:%'").first()).n,0);
+ await f.exec('UPDATE organization_members_v1 SET organization_id=1 WHERE user_id=1');
+ assert.equal((await f.action(2,'loaded',{id})).body.state.status,'ACTIVE');
+ assert.equal((await f.action(2,'loaded',{id})).body.state.status,'ACTIVE');
+ assert.equal((await f.db.prepare("SELECT COUNT(*) AS n FROM app_meta WHERE key LIKE 'legion_citadel_v1:next-entry:%'").first()).n,2);
+ const roster=citadelEnemies('gate',DOCKYARD.id);assert.equal(roster.monster.name,'철갑 집행자');
+ const roll=calamityPartyDrops([],{stonePercent:10,eliteStonePercent:0,bossStonePercent:0},[],[],{ref:'stone'},n=>n,DOCKYARD.itemMultiplier);
+ assert.equal(roll.groups[0][0][0].percent,15);
 });
 
 test('48-hour election, consent-only 50-day season, archived history, repeated start and elder-reviewed join',async t=>{
@@ -91,7 +105,7 @@ test('48-hour election, consent-only 50-day season, archived history, repeated s
  assert.equal((await q('SELECT organization_id FROM organization_members_v1 WHERE round_id=$1',[f.roundId])).length,128);
  const wars=await q('SELECT starts_at,ends_at FROM clan_wars WHERE season_id=$1',[seasonId]);assert(wars.length>=80);
  assert(wars.every(w=>[3,6,0].includes(new Date(Date.parse(w.starts_at)+32400000).getUTCDay())&&Date.parse(w.ends_at)<=Date.parse(season.ends_at)));
- assert.deepEqual(await clanHideout(f.env,2),{clanId:1,stage:4});assert.equal((await clanHideout(f.env,30)).stage,0);
+ assert.equal((await clanHideout(f.env,2)).clanId,1);assert.equal((await clanHideout(f.env,2)).stage,4);assert.equal((await clanHideout(f.env,30)).stage,0);
  const app=await send('organization/join/apply',{roundId,revision:0,organizationId:1,message:'참가합니다'},30);assert.equal(app.status,200);
  assert.equal((await send('organization/join/review',{roundId,revision:1,userId:30,decision:'APPROVED'},5)).status,403);
  assert.equal((await send('organization/join/review',{roundId,revision:1,userId:30,decision:'APPROVED'},2)).status,200);

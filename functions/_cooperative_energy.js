@@ -1,5 +1,5 @@
 import {CLAN_GARDEN} from '../shared/cooperative-room-list-v1.mjs';
-import {HIDEOUT_MEMBERSHIP_SQL,requireClanHideout} from './_clan_hideout_access.js';
+import {clanEntryGuards,requireClanHideout} from './_clan_hideout_access.js';
 import {contentEnergy,contentEnergyView,COOP_ENERGY_MAXIMUM} from '../shared/content-energy-v1.mjs';
 import {COOP_SETTINGS_KEY,coopRewardDay} from '../shared/cooperative-rewards-v1.mjs';
 import {ensureJointAtomicSchema,jointGuard,jointGuardEnd} from './_joint_atomic.js';
@@ -47,7 +47,7 @@ export async function spendCoopEnergy(env,room,at=Date.now()){
   const charged=room.rewardPolicy?.mode==='ON';
   if(charged&&config.mode!=='ON')fail('CLOSED','격전지 운영 모드가 변경되어 다시 준비해야 합니다.');
   const garden=room.area===CLAN_GARDEN.id;
-  if(garden)for(const id of userIds)await requireClanHideout(env,id,CLAN_GARDEN.stage);
+  if(garden)for(const id of userIds)await requireClanHideout(env,id,CLAN_GARDEN.stage,room);
   const balances=[];
   if(charged)for(const id of userIds){
    const before=await load(env,id,at);
@@ -56,10 +56,7 @@ export async function spendCoopEnergy(env,room,at=Date.now()){
    balances.push({id,...before,unlimited});
   }
   const token=crypto.randomUUID(),energies={},statements=[];
-  if(garden)for(const id of userIds){
-   const key=token+':hideout:'+id;
-   statements.push(jointGuard(env.DB,key,'EXISTS('+HIDEOUT_MEMBERSHIP_SQL+' AND p.stage>=?)',[id,CLAN_GARDEN.stage]),jointGuardEnd(env.DB,key));
-  }
+  if(garden)statements.push(...clanEntryGuards(env.DB,userIds,CLAN_GARDEN.stage,room));
   for(const before of balances){
    if(before.unlimited){
     statements.push(jointGuard(env.DB,token+':owner',"EXISTS(SELECT 1 FROM users WHERE id=? AND role='OWNER' AND status='ACTIVE')",[before.id]),jointGuardEnd(env.DB,token+':owner'));
@@ -77,7 +74,7 @@ export async function spendCoopEnergy(env,room,at=Date.now()){
    const saved=await readCoopEntry(env,room);if(saved)return saved;
    let changed=await read(env,COOP_SETTINGS_KEY)!==configRaw;
    for(const before of balances)if(await read(env,before.key)!==before.raw)changed=true;
-   if(garden)for(const id of userIds)await requireClanHideout(env,id,CLAN_GARDEN.stage);
+   if(garden)for(const id of userIds)await requireClanHideout(env,id,CLAN_GARDEN.stage,room);
    if(!changed)throw error;
   }
  }

@@ -33,7 +33,7 @@ test('진행 중 주요 콘텐츠는 영토전 모집·준비·실전을 모두 
   ]);
   assert.match(api,/r\.status IN \('RECRUITING','PREPARING','ACTIVE'\)/);
   assert.match(api,/WHEN 'PREPARING' THEN 'PREPARING' ELSE 'BATTLE'/);
-  assert.match(api,/WHEN 'PREPARING' THEN r\.starts_at ELSE r\.ends_at END deadline_at/);
+  assert.match(api,/WHEN 'PREPARING' THEN r\.starts_at ELSE r\.ends_at END END deadline_at/);
   assert.match(app,/FORMATION:\{state:'편성 접수',deadline:'편성 마감'\}/);
   assert.match(app,/BATTLE:\{state:'공성 진행',deadline:'종료까지'\}/);
   assert.match(index,/territory-war-v1811\.js\?[^"\s]*\bv=2062-my-team-emphasis/);

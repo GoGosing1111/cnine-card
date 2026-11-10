@@ -10,7 +10,8 @@ import {validateCoopSelection,COOP_DUAL_RULES} from '../shared/cooperative-battl
 import {loadPetBattleSnapshot} from './_pet_account.js';
 import {seasonAwardStatements,seasonBonus,seasonEnabled} from './_season_s1.js';
 import {buildCitadelBattle} from './_legion_citadel_battle.js';
-import {FIRST_TIER,tierById,citadelTierMenu} from './_legion_citadel_tiers.js';
+import {clanHideout,requireClanHideout,clanEntryGuards} from './_clan_hideout_access.js';
+import {DOCKYARD,FIRST_TIER,tierById,citadelTierMenu} from './_legion_citadel_tiers.js';
 import {citadelAdmin,readCitadelPolicy,CITADEL_POLICY_KEY} from './_legion_citadel_policy.js';
 import {citadelLoot,citadelGrantStatements,personalFarm,farmView,collectCitadelPile} from './_legion_citadel_loot.js';
 import {earnedLegionCoins} from '../shared/legion-hunt-coins-v1.mjs';
@@ -18,7 +19,7 @@ import {earnedLegionCoins} from '../shared/legion-hunt-coins-v1.mjs';
 const P='legion_citadel_v1:',roomKey=id=>P+'room:'+id,userKey=id=>P+'user:'+id,replayKey=id=>P+'battle:'+id;
 const entryKey=id=>P+'next-entry:'+id;
 const PARTY_ENTRY_INTERVAL_MS=3*60*60*1000;
-const tag='legion-party/',fields={create:['requestId','tier'],join:['id'],ready:['id','cardIds','mercenaryCodes'],unready:['id'],start:['id'],loaded:['id'],pickup:['id','token'],claim:['id'],leave:['id']};
+const tag='legion-party/',fields={create:['requestId','tier','area'],join:['id'],ready:['id','cardIds','mercenaryCodes'],unready:['id'],start:['id'],loaded:['id'],pickup:['id','token'],claim:['id'],leave:['id']};
 const idOK=id=>typeof id==='string'&&/^[0-9a-f]{24}$/.test(id);
 const stmt=(db,sql,...args)=>db.prepare(sql).bind(...args);
 const raw=async(db,key)=>(await stmt(db,'SELECT value FROM app_meta WHERE key=?',key).first())?.value??null;
@@ -48,7 +49,8 @@ function guard(db,...snapshots){
  });
  return [jointGuard(db,token,conditions.join(' AND '),values),jointGuardEnd(db,token)];
 }
-const listKey=r=>P+'open:'+String(r.expiresAt).padStart(16,'0')+':'+r.id;
+const listPrefix=scope=>scope?.clanId?P+'clan:'+scope.roundId+':'+scope.clanId+':open:':P+'open:';
+const listKey=r=>listPrefix(r)+String(r.expiresAt).padStart(16,'0')+':'+r.id;
 const phase=(r,at)=>r.phase==='ACTIVE'&&at>=r.startsAt+r.duration?(r.won?'VICTORY':'DEFEAT'):['LOBBY','LOADING'].includes(r.phase)&&at>=r.expiresAt?'CANCELLED':r.phase;
 function needsSeasonResult(env,r,at){
  return seasonEnabled(env)&&r.paying===true&&!r.seasonSettled&&r.phase==='ACTIVE'&&
@@ -65,7 +67,7 @@ function view(r,user,at){
   units+=kind===2?5:kind===1?3:1;killTime=time;
  }
  const coins=m.coins?m.coins.partyMultiplier*earnedLegionCoins(m.coins,units,killTime,m.coins.huntDurationMs):0;
- return {id:r.id,status,tier:r.tier??FIRST_TIER,tierName:tierById(r.tier??FIRST_TIER).name,you:m.id,hostId:r.hostId,serverNow:at,expiresAt:r.expiresAt,startsAt:r.startsAt||null,nextEntryAt:m.nextEntryAt??null,duration:r.duration||0,
+ return {id:r.id,status,area:r.area||'public',tier:r.tier??FIRST_TIER,tierName:r.area===DOCKYARD.id?DOCKYARD.name:tierById(r.tier??FIRST_TIER).name,you:m.id,hostId:r.hostId,serverNow:at,expiresAt:r.expiresAt,startsAt:r.startsAt||null,nextEntryAt:m.nextEntryAt??null,duration:r.duration||0,
   members:r.members.map(({id,name,ready,loaded,summary})=>({id,name,ready:!!ready,loaded:!!loaded,summary:summary||null})),selection:m.selection||null,
   kills,bosses,coins,drops:[],ground:[],claimed:!!m.claimed,canClaim:false,test:!r.paying};
 }
@@ -83,7 +85,7 @@ async function current(db,uid){
  const data=ptr&&await raw(db,roomKey(ptr));
  return {ptr,deadline,r:data?JSON.parse(data):null};
 }
-async function rooms(DB,at){const prefix=P+'open:',result=await stmt(DB,'SELECT value FROM app_meta WHERE key>=? AND key<? ORDER BY key LIMIT 31',prefix+String(at+1).padStart(16,'0'),P+'open;').all();return result.results.map(r=>JSON.parse(r.value)).slice(0,30);}
+async function rooms(DB,at,scope=null){const prefix=listPrefix(scope),result=await stmt(DB,'SELECT value FROM app_meta WHERE key>=? AND key<? ORDER BY key LIMIT 31',prefix+String(at+1).padStart(16,'0'),prefix.slice(0,-1)+';').all();return result.results.map(r=>JSON.parse(r.value)).slice(0,30);}
 async function options(env,user){
  const [merc,icons]=await Promise.all([mercenaryAccountState(env,user),stmt(env.DB,"SELECT c.id,c.title,c.image_url AS image,uc.breakthrough_level AS level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.quantity>0 AND c.rarity='ICON' AND c.is_active=1 ORDER BY c.title,c.id",user.id).all()]);
  return {mercenaries:merc.cards.filter(m=>m.canDeploy).map(m=>({id:m.code,name:m.name,rank:m.rank,level:m.level,image:m.sourceArt})),icons:icons.results.map(c=>({id:String(c.id),name:c.title,level:Number(c.level),image:c.image}))};
@@ -140,14 +142,28 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
  const db=env.DB,uid=Number(user.id),now=deps.now||Date.now;
  const who=userKey(uid),at=now();let id=b.id,prior;
  if(action==='create'){
+  if(b.area!==undefined&&!['public',DOCKYARD.id].includes(b.area))fail('AREA','토벌 전장을 확인하세요.',400);
+  if(b.area===DOCKYARD.id&&(b.tier??FIRST_TIER)!==FIRST_TIER)fail('TIER','클랜 원정 난이도를 확인하세요.',400);
   if(!tierById(Object.hasOwn(b,'tier')?b.tier:FIRST_TIER))fail('TIER','성채 난이도를 선택하세요.',400);
   if(typeof b.requestId!=='string'||!/^[a-zA-Z0-9_-]{12,80}$/.test(b.requestId))fail('INPUT','파티 개설 요청을 다시 보내세요.',400);
   id=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(tag+uid+':'+b.requestId)))).slice(0,12).map(n=>n.toString(16).padStart(2,'0')).join('');
  }else if(!idOK(id))fail('INPUT','파티 번호를 확인하세요.',400);
  const key=roomKey(id),old=await raw(db,key),r=old&&JSON.parse(old);
  const admission=entryActions.has(action);
- if(admission&&!(action==='loaded'&&r&&['ACTIVE','VICTORY','DEFEAT'].includes(phase(r,at))))requireOpen(citadel.policy);
- const out=[],check=[],pointer=['join','create','leave'].includes(action)?await current(db,uid):null;
+ const area=action==='create'?(b.area??'public'):(r?.area||'public'),privateRaid=area===DOCKYARD.id;
+ const entering=admission&&!(action==='loaded'&&r&&['ACTIVE','VICTORY','DEFEAT'].includes(phase(r,at)));
+ let clan=null;
+ const out=[],check=[];
+ if(entering){
+  if(privateRaid){
+   if(policy.mode!=='ON')fail('CLOSED','군단토벌 정식 운영 중에 클랜 원정을 이용할 수 있습니다.',403);
+   clan=await requireClanHideout(env,uid,DOCKYARD.stage,r);
+   const ids=r&&['join','start','loaded'].includes(action)?[...new Set([uid,...r.members.map(m=>m.id)])]:[uid];
+   await Promise.all(ids.filter(id=>id!==uid).map(id=>requireClanHideout(env,id,DOCKYARD.stage,clan)));
+   check.push(...clanEntryGuards(db,ids,DOCKYARD.stage,clan));
+  }else requireOpen(citadel.policy);
+ }
+ const pointer=['join','create','leave'].includes(action)?await current(db,uid):null;
  if(action==='create'||action==='join'){
   prior=pointer.r;
   if(prior&&prior.id!==id&&prior.members.some(m=>m.id===uid)&&phase(prior,at)!=='CANCELLED')fail('OTHER','현재 파티의 전리품을 정산하고 나간 뒤 참가하세요.');
@@ -156,9 +172,9 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
  }
  let room=r;
  if(action==='create'){
-  if(r){if(r.hostId!==uid||phase(r,at)!=='LOBBY'||pointer.ptr!==id||(r.tier??FIRST_TIER)!==(b.tier??FIRST_TIER))fail('OLD','이미 사용한 개설 요청입니다. 파티를 새로 만드세요.');return present(db,r,user,at);}
+  if(r){if((r.area||'public')!==area||r.hostId!==uid||phase(r,at)!=='LOBBY'||pointer.ptr!==id||(r.tier??FIRST_TIER)!==(b.tier??FIRST_TIER))fail('OLD','이미 사용한 개설 요청입니다. 파티를 새로 만드세요.');return present(db,r,user,at);}
   if(policy.mode==='ON'&&user.role!=='OWNER')requireEntry(pointer.deadline,at,user.nickname);
-  room={id,hostId:uid,tier:b.tier??FIRST_TIER,phase:'LOBBY',expiresAt:at+900000,paying:policy.mode==='ON',members:[emptyMember(user)]};
+  room={id,...(clan?{area,clanId:clan.clanId,roundId:clan.roundId}:{}),hostId:uid,tier:b.tier??FIRST_TIER,phase:'LOBBY',expiresAt:at+900000,paying:policy.mode==='ON',members:[emptyMember(user)]};
  }else{
   if(!r){if(action==='claim'){const receipt=await raw(db,receiptKey(id,uid));if(receipt)return {...JSON.parse(receipt),serverNow:at};}fail('MISSING','파티가 종료되었거나 존재하지 않습니다.',404);}
   const status=phase(r,at),idx=r.members.findIndex(m=>m.id===uid),me=r.members[idx];
@@ -182,8 +198,8 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
     if(status!=='LOBBY'||r.members.length!==2||!r.members.every(m=>m.ready&&m.selection))fail('READY','두 참가자 모두 편성을 마치고 준비해야 합니다.');
     const us=await eligibleUsers(env,r,policy);
     const tier=r.tier??FIRST_TIER,drops=citadel.policy.tierDrops[tier]??citadel.policy.drops;
-    const [squads,loot]=await Promise.all([Promise.all(us.map((u,i)=>(deps.citadelSquad||loadSquad)(env,u,r.members[i].selection,deps))),(deps.citadelLoot||citadelLoot)(env,us,drops,tier)]);
-    const built=buildCitadelBattle(squads,crypto.getRandomValues(new Uint32Array(1))[0],tier);
+    const [squads,loot]=await Promise.all([Promise.all(us.map((u,i)=>(deps.citadelSquad||loadSquad)(env,u,r.members[i].selection,deps))),(deps.citadelLoot||citadelLoot)(env,us,drops,tier,area)]);
+    const built=buildCitadelBattle(squads,crypto.getRandomValues(new Uint32Array(1))[0],tier,area);
     const replayParts=[['header',built.replay],...built.chunks.map((v,i)=>[i,v])];
     for(const [part,v] of replayParts)out.push(put(db,replayKey(r.hostId)+':'+part,await saveReplay(v,id)));
     out.push(del(db,listKey(r)));
@@ -250,17 +266,18 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
  if(finished)for(const m of room.members)out.push(del(db,farmKey(id,m.id)));
  out.push(finished?del(db,key):put(db,key,JSON.stringify(room)));
  const versions=[[key,old],[LEGION_HUNT_SETTINGS_KEY,policyRaw]];
- if(admission)versions.push([CITADEL_POLICY_KEY,citadel.raw]);
+ if(admission&&!privateRaid)versions.push([CITADEL_POLICY_KEY,citadel.raw]);
  const statements=[...guard(db,...versions),...check,...out];
  // Lock rows before checking the room version on PostgreSQL; no simulation in the transaction.
  if(db.dialect==='postgres'){
-  if(admission)statements.unshift(stmt(db,'SELECT key FROM app_meta WHERE key=? FOR SHARE',CITADEL_POLICY_KEY));
+  if(admission&&!privateRaid)statements.unshift(stmt(db,'SELECT key FROM app_meta WHERE key=? FOR SHARE',CITADEL_POLICY_KEY));
   if(old!==null)statements.unshift(stmt(db,'SELECT key FROM app_meta WHERE key=? FOR UPDATE',key));
   const ids=action==='loaded'||settle?room.members.map(m=>m.id).sort((a,b)=>a-b):[uid];
   statements.unshift(stmt(db,'SELECT id FROM users WHERE id IN ('+ids.map(()=>'?').join(',')+') ORDER BY id FOR UPDATE',...ids));
  }
  try{await db.batch(statements);}catch(error){
-  if(admission&&(await raw(db,CITADEL_POLICY_KEY))!==citadel.raw){requireOpen((await readCitadelPolicy(env)).policy);fail('SETTINGS_CHANGED','성채 설정이 변경됐습니다. 다시 시도하세요.');}
+  if(entering&&privateRaid)await Promise.all(room.members.map(m=>requireClanHideout(env,m.id,DOCKYARD.stage,clan)));
+  if(admission&&!privateRaid&&(await raw(db,CITADEL_POLICY_KEY))!==citadel.raw){requireOpen((await readCitadelPolicy(env)).policy);fail('SETTINGS_CHANGED','성채 설정이 변경됐습니다. 다시 시도하세요.');}
   if(await raw(db,key)!==old||pointer&&await raw(db,who)!==pointer.ptr)fail('CONFLICT','파티 상태가 변경됐습니다. 다시 시도하세요.');
   throw error;
  }
@@ -288,29 +305,32 @@ export async function handleLegionCitadel({path,request,env,deps}){
   const resultState=r=>needsSeasonResult(env,r,at)&&r.members.some(m=>m.id===Number(user.id))?mutate('season',{id:r.id}):present(DB,r,user,at);
   if(request.method==='GET'){
    if(action==='lobby'){
-    const [here,list]=await Promise.all([current(DB,user.id),open?rooms(DB,at):[]]);
+    const [here,list,hideout]=await Promise.all([current(DB,user.id),open?rooms(DB,at):[],clanHideout(env,user.id)]);
+    const clanOpen=policy.mode==='ON'&&hideout.seasonOpen&&hideout.stage>=DOCKYARD.stage;
+    const clanRooms=clanOpen?await rooms(DB,at,hideout):[];
     const state=here.r&&here.r.members.some(m=>m.id===Number(user.id))&&phase(here.r,at)!=='CANCELLED'?await resultState(here.r):null;
     const unlimited=user.role==='OWNER';
-    const nextEntryAt=state?state.nextEntryAt:open&&policy.mode==='ON'&&!unlimited?entryDeadline(here.deadline):null;
-    return reply({ok:true,open,tiers:citadelTierMenu,state,rooms:list,test:policy.mode!=='ON',unlimited,serverNow:at,nextEntryAt:!unlimited&&nextEntryAt>at?nextEntryAt:null});
+    const nextEntryAt=state?state.nextEntryAt:(open||clanOpen)&&policy.mode==='ON'&&!unlimited?entryDeadline(here.deadline):null;
+    return reply({ok:true,open,clanOpen,clanHideout:hideout,clanRooms,tiers:citadelTierMenu,state,rooms:list,test:policy.mode!=='ON',unlimited,serverNow:at,nextEntryAt:!unlimited&&nextEntryAt>at?nextEntryAt:null});
    }
-   if(action==='options'){requireOpen(citadel.policy);return reply({ok:true,...await (deps.citadelOptions||options)(env,user)});}
+   if(action==='options'){
+     if(new URL(request.url).searchParams.get('area')===DOCKYARD.id){if(policy.mode!=='ON')fail('CLOSED','군단토벌 일시 중지',403);await requireClanHideout(env,user.id,DOCKYARD.stage);}
+     else requireOpen(citadel.policy);return reply({ok:true,...await (deps.citadelOptions||options)(env,user)});}
    if(!['state','battle','chunk'].includes(action))fail('PATH','존재하지 않는 메뉴입니다.',404);
    const id=new URL(request.url).searchParams.get('id');if(!idOK(id))fail('INPUT','파티 번호를 확인하세요.',400);
    const v=await raw(DB,roomKey(id));if(!v)fail('MISSING','종료된 파티입니다.',404);
    const r=JSON.parse(v),state=action==='state'?await resultState(r):await present(DB,r,user,at);
    if(action!=='state'&&!['LOADING','ACTIVE'].includes(state.status))fail('EARLY','현재 재생할 전투가 없습니다.');
-   if(action==='state')return reply({ok:true,open,state});
-   if(state.status==='LOADING')requireOpen(citadel.policy);
+   if(action==='state')return reply({ok:true,open:r.area===DOCKYARD.id?policy.mode==='ON':open,state});
+   if(state.status==='LOADING'){if(r.area===DOCKYARD.id)await requireClanHideout(env,user.id,DOCKYARD.stage,r);else requireOpen(citadel.policy);}
    const part=Number(new URL(request.url).searchParams.get('part')||0);
    if(!Number.isInteger(part)||part<0||part>=r.parts)fail('PART','전투 구간을 확인하세요.',400);
    if(action==='chunk')return reply({ok:true,chunk:await readReplay(DB,r,part)});
    const [replay,chunk]=await Promise.all([readReplay(DB,r),readReplay(DB,r,part)]);return reply({ok:true,state,replay,chunk,part});
   }
   if(request.method!=='POST'||!Object.hasOwn(fields,action))fail('METHOD','지원하지 않는 요청입니다.',405);
-  if(entryActions.has(action)&&action!=='loaded')requireOpen(citadel.policy);
   const b=await readJointBody(request,{fields:fields[action],maxBytes:2048});
   return reply({ok:true,open,state:await mutate(action,b)});
- }catch(err){const known=/^(CITADEL|MERCENARY|COOP_SELECTION|JOINT)_?/.test(err.code||'');if(!known)console.error('[legion citadel]',err.name,err.code||'storage');return reply({ok:false,code:known?err.code:'CITADEL_RETRY',error:known?err.message:'파티 정보를 저장하거나 읽지 못했습니다. 같은 화면에서 다시 시도하세요.'},known?(err.status||400):503);}
+ }catch(err){const known=/^(CITADEL|CLAN|MERCENARY|COOP_SELECTION|JOINT)_?/.test(err.code||'');if(!known)console.error('[legion citadel]',err.name,err.code||'storage');return reply({ok:false,code:known?err.code:'CITADEL_RETRY',error:known?err.message:'파티 정보를 저장하거나 읽지 못했습니다. 같은 화면에서 다시 시도하세요.'},known?(err.status||400):503);}
 }
 

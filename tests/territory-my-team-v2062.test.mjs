@@ -12,6 +12,7 @@ const server = read('functions/_territory_war.js');
 
 function renderer(mine, settings = {}) {
   const sandbox = {__testWarChat:warChat};
+  vm.runInNewContext(read('js/territory-network-v6.js'),sandbox);
   const bootstrap = client.lastIndexOf("  document.addEventListener('visibilitychange'");
   assert.ok(bootstrap > 0, 'isolate real renderers before browser bootstrap');
   vm.runInNewContext(client.slice(0, bootstrap) + `
@@ -66,23 +67,23 @@ test('CMS 팀명은 이스케이프하며 미설정 이름은 기존 진영명�
 test('선택 거점·상대 진영과 무관하며 폴링으로 받은 소속 변경·삭제를 반영한다', () => {
   const ui = renderer({ side: 'A', energy: 12, damage: 500, attacks: 3 });
   ui.selectNode(8);
-  assert.match(ui.rail(), /tw4-my-team-name">청순녀</);
+  assert.match(ui.rail(), /소속<\/dt><dd>청순녀</);
   ui.mergeLite({ mine: { side: 'B' } });
   assert.match(ui.team(), /is-assigned side-b/);
-  assert.match(ui.rail(), /tw4-my-team-name">섹시녀</);
+  assert.match(ui.rail(), /소속<\/dt><dd>섹시녀</);
   ui.mergeLite({ mine: null });
   assert.match(ui.team(), /tw4-my-team-name">미참가</);
 });
 
-test('PC 상세·모바일 상단·내 전투단이 같은 팀 배너를 공유하고 통계는 보존한다', () => {
+test('PC 상세·모바일 상단·내 전투단이 소속과 개인 통계를 표시한다', () => {
   const ui = renderer({ side: 'B', energy: 12, damage: 500, attacks: 3, contribution_rank: 2, contribution_total: 40 });
   const original = JSON.stringify(ui.state);
   const badge = ui.team();
-  for (const html of [ui.rail(), ui.loadout(), ui.scoreboard(false)]) assert.ok(html.includes(badge));
+  for (const html of [ui.loadout(), ui.scoreboard(false)]) assert.ok(html.includes(badge));
   assert.match(ui.scoreboard(false), /tw4-mobile-my-team/);
-  assert.match(ui.rail(), /행동력<\/small><b>12/);
-  assert.match(ui.rail(), /누적 피해<\/small><b>500/);
-  assert.match(ui.rail(), /공격<\/small><b>3회/);
+  assert.match(ui.rail(), /행동력<\/dt><dd>12/);
+  assert.match(ui.rail(), /누적 피해<\/dt><dd>500/);
+  assert.match(ui.rail(), /교전<\/dt><dd>3회/);
   assert.match(ui.loadout(), /2위<em>\/ 40명/);
   assert.equal(JSON.stringify(ui.state), original, 'team emphasis never changes gameplay state');
 });

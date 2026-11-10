@@ -202,3 +202,13 @@ body:has(>.citadel.in-battle.ct-light-field)>#app{display:none}
 .citadel .ct-muster{width:80px;height:76px;display:grid;place-items:center;margin:0 auto 6px;background:radial-gradient(ellipse,#79604448,transparent 72%)}
 .citadel .ct-muster .ct-tactical{width:68px;height:68px}
 @media(max-width:700px){.citadel .ct-castellan{bottom:0;right:0;width:44%;height:90%}.citadel .ct-hero-copy{max-width:75%}.citadel .ct-tier-face{min-height:91px}.citadel .ct-facts .ct-tactical{width:20px;height:20px}.citadel .ct-quiet{min-height:130px}.citadel .ct-muster,.citadel .ct-muster .ct-tactical{width:48px;height:48px}.citadel .ct-reliquary ul{gap:4px 10px}}
+
+.citadel .ct-areas{display:flex;gap:6px;padding:7px clamp(12px,3vw,28px);border-bottom:1px solid #62513c;background:#1d1d23}
+.citadel .ct-areas button{display:flex;align-items:center;gap:7px;padding:6px 12px;border:1px solid #514849;border-radius:4px;background:#27262c;color:#c2b9af;font-weight:700}
+.citadel .ct-areas button[aria-pressed="true"]{background:#3e3229;border-color:#bc945c;color:#ffe2ad}
+.ct-areas .ct-tactical,.ct-areas .ct-glyph{width:21px;height:21px;object-fit:contain}
+.ct-areas small{font-size:11px;color:#d6b47f}
+.ct-lite.ct-dockyard{background-image:linear-gradient(#10162233,#10131e80),url('/assets/ui/organization/hunts-20261023/stage3-dockyard.webp')}
+@media(max-width:530px){.citadel .ct-areas{gap:5px;padding:6px}.citadel .ct-areas button{flex:1;justify-content:center;flex-wrap:wrap;gap:2px 5px;padding:5px;font-size:12px}.ct-areas small{font-size:10px}}
+
+@media(max-width:640px){.citadel .ct-castellan{filter:none}}

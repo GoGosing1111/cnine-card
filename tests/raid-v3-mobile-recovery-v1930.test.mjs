@@ -72,7 +72,7 @@ test('raid start has a finite deadline, invalidates late work, hard-resets WebGL
   assert.match(startSource, /ProjectVBattleV3Live\?\.hardReset/);
   assert.match(startSource, /renderRaidV3Recovery\(modal,current,me,error,button\)/);
   assert.doesNotMatch(startSource, /alert\(/);
-  assert.match(rendererSource, /withRejectingTimeout\(initialize\(\),\s*14000/);
+  assert.match(rendererSource, /withRejectingTimeout\(initialize\(\),\s*hasLightweightScene\?6500:14000/);
   assert.match(rendererSource, /ProjectVPixiBattle\?\.destroy\?\.\(\)/);
   assert.match(rendererSource, /__V3_PIXI_GENERATION/);
   assert.match(rendererSource, /hardReset:\s*hardResetPixiBattle/);

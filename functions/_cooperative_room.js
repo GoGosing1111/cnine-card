@@ -58,16 +58,17 @@ export function advanceCoopRoom(room,now){
  }
  return room;
 }
-export function createCoopRoom({id,user,clientId,area='public',difficulty,seed,now,combat=defaultCoopCombat(),settingsRevision=0,encounterVersion=3,rewardPolicy=null,[REVIEW]:review=false,dualBalance=COOP_DUAL_BALANCE}){
+export function createCoopRoom({id,user,clientId,area='public',clanId,roundId,difficulty,seed,now,combat=defaultCoopCombat(),settingsRevision=0,encounterVersion=3,rewardPolicy=null,[REVIEW]:review=false,dualBalance=COOP_DUAL_BALANCE}){
  if(!coopDifficulty(difficulty)||!validCoopClient(clientId))fail('INPUT','난이도와 접속 정보를 확인하세요.',400);
  if(!['public',CLAN_GARDEN.id].includes(area)||(area===CLAN_GARDEN.id&&difficulty!==CLAN_GARDEN.difficulty))fail('AREA','격전지 공간과 난이도를 확인하세요.',400);
  const snapshot=validateCoopCombat(combat);
  if(area===CLAN_GARDEN.id){
+  if(!roundId||!Number.isSafeInteger(clanId)||clanId<1)fail('AREA','소속 클랜을 확인하세요.',403);
   snapshot.stages=snapshot.stages.map((stage,i)=>({...stage,name:['정원 외벽','가시 회랑','침식의 심장'][i]}));
  }
  if(!snapshot.difficulties.some(d=>d.id===difficulty))fail('DIFFICULTY','아직 개방되지 않은 난이도입니다.',400);
  if(difficulty==='TRANSCEND'&&!review&&!COMPANION_RELEASE.dualMercenaries)fail('PREPARING','초월 난이도는 2용병 출시와 함께 개방됩니다.');
- return {...(review||COMPANION_RELEASE.dualMercenaries?{[REVIEW]:true,dualBalance:validateCoopDualBalance(dualBalance),mercenariesPerOwner:2}:{}),...(area===CLAN_GARDEN.id?{area}:{}),id,minPlayers:COOP_RULES.minPlayers,hostId:Number(user.id),status:'LOBBY',difficulty,seed,combat:snapshot,rewardPolicy:structuredClone(rewardPolicy),settingsRevision,encounterVersion:encounterVersion===3?3:2,...(encounterVersion===3?{encounter:area===CLAN_GARDEN.id?gardenRoster():rollCoopRoster(seed)}:{}),turnClockVersion:4,patternIndex:0,pattern:null,patternHistory:[],effects:[],createdAt:now,expiresAt:now+snapshot.lobbySeconds*1000,members:[{id:Number(user.id),name:String(user.nickname).slice(0,80),clientId,ready:false,loaded:false,lastSeen:now}],withdrawals:[],battleRevision:0,version:1,receipts:[]};
+ return {...(review||COMPANION_RELEASE.dualMercenaries?{[REVIEW]:true,dualBalance:validateCoopDualBalance(dualBalance),mercenariesPerOwner:2}:{}),...(area===CLAN_GARDEN.id?{area,clanId,roundId}:{}),id,minPlayers:COOP_RULES.minPlayers,hostId:Number(user.id),status:'LOBBY',difficulty,seed,combat:snapshot,rewardPolicy:structuredClone(rewardPolicy),settingsRevision,encounterVersion:encounterVersion===3?3:2,...(encounterVersion===3?{encounter:area===CLAN_GARDEN.id?gardenRoster():rollCoopRoster(seed)}:{}),turnClockVersion:4,patternIndex:0,pattern:null,patternHistory:[],effects:[],createdAt:now,expiresAt:now+snapshot.lobbySeconds*1000,members:[{id:Number(user.id),name:String(user.nickname).slice(0,80),clientId,ready:false,loaded:false,lastSeen:now}],withdrawals:[],battleRevision:0,version:1,receipts:[]};
 }
 export function coopCommand(room,user,kind,input,now){
  advanceCoopRoom(room,now);

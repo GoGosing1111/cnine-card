@@ -11,7 +11,7 @@ import {createLegionCoins} from '../shared/legion-hunt-coins-v1.mjs';
 import {readCollectionBonuses} from './_collection_bonuses.js';
 import {readMartialLaw} from './_martial_law.js';
 import {readMiracleDropPercent} from './_miracle_burning.js';
-import {FIRST_TIER,tierById,CITADEL_ITEM_MULTIPLIER,CITADEL_COIN_MULTIPLIER,CITADEL_UNIQUE_REWARDS} from './_legion_citadel_tiers.js';
+import {DOCKYARD,FIRST_TIER,tierById,CITADEL_ITEM_MULTIPLIER,CITADEL_COIN_MULTIPLIER,CITADEL_UNIQUE_REWARDS} from './_legion_citadel_tiers.js';
 import {jointError} from './_joint_request.js';
 import {defaultCitadelPolicy,SUPPLIES} from './_legion_citadel_policy.js';
 export {SUPPLIES};
@@ -57,7 +57,7 @@ export function personalFarm(pool,kills,magnet=false,random=secureRolls()){
   const extra=ordinary.map((item,index)=>{
    const share=index<pool.goods.length?(1-setShare)*(item.weight??1)/weight:setShare/pool.armory.length;
    const quantity=item.type==='EQUIPMENT'?1:(item.quantity??SUPPLIES[item.ref]??1)*(kind===2?rules.bossMultiplier:1);
-   return {item,percent:Math.min(100,pct*share*CITADEL_ITEM_MULTIPLIER),min:quantity,max:quantity};
+   return {item,percent:Math.min(100,pct*share*(pool.itemMultiplier??CITADEL_ITEM_MULTIPLIER)),min:quantity,max:quantity};
   });
   const groups=[...(pool.calamity?.groups[kind]||[]),extra];
   return groups.filter(g=>g.some(row=>row.percent>0)).map(group=>{
@@ -150,7 +150,8 @@ async function activeCatalogRows(db,select,codes){
  }
  return (await Promise.all(queries)).flatMap(page=>page.results);
 }
-export async function citadelLoot(env,users,drops=defaultCitadelPolicy().drops,tier=FIRST_TIER){
+export async function citadelLoot(env,users,drops=defaultCitadelPolicy().drops,tier=FIRST_TIER,area=null){
+ const itemMultiplier=area===DOCKYARD.id?DOCKYARD.itemMultiplier:CITADEL_ITEM_MULTIPLIER;
  const configured=new Map(drops.supplies.map(v=>[v.code,v]));
  const codes=[...new Set([...configured.keys(),POLISH_ITEM_CODE])];
  const [inventory,region,bonuses,miracle,martialLaw]=await Promise.all([
@@ -185,9 +186,9 @@ export async function citadelLoot(env,users,drops=defaultCitadelPolicy().drops,t
   const {coinPercent,dropPercent}=totals;
   const uniqueBase=tier10?ascendantBossPercent(tier10.expectedRuns,miracle,dropPercent)*uniqueScale:0;
   const {revision,cap,referenceUnits,multiplier}=createLegionCoins('coast','calamity',{bonusPercent:coinPercent,martialLaw:martialLaw.enabled});
-  return {...parties[i],rates:{normalPercent,elitePercent,bossPercent,bossMultiplier},
-   calamity:regions.length?calamityPartyDrops(regions,calamity,ascendant,gear,material(stoneRow),base=>legionDropPercent(base,miracle,dropPercent)):null,
-   unique:uniquePools.map(row=>({pieces:row.seats[i],percent:uniqueBase/row.divisor})),
+  return {...parties[i],itemMultiplier,rates:{normalPercent,elitePercent,bossPercent,bossMultiplier},
+   calamity:regions.length?calamityPartyDrops(regions,calamity,ascendant,gear,material(stoneRow),base=>legionDropPercent(base,miracle,dropPercent),itemMultiplier):null,
+   unique:uniquePools.map(row=>({pieces:row.seats[i],percent:Math.min(100,uniqueBase/row.divisor*(area===DOCKYARD.id?DOCKYARD.itemMultiplier:1))})),
    coins:{revision,cap,referenceUnits,multiplier,huntDurationMs:regionalDifficulty('calamity').huntDurationMs,partyMultiplier:CITADEL_COIN_MULTIPLIER}};
  });
 }

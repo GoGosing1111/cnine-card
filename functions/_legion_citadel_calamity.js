@@ -10,9 +10,9 @@ export function calamityMaterialCodes(regions){
 // Compile when the room departs. Each roll is per player and per confirmed kill.
 // Map-specific gear retains the chance in its own map. Common field rows occur
 // only once, using the best available individual rate if the source maps differ.
-export function calamityPartyDrops(regions,loot,ascendant,gear,stone,soloPercent){
+export function calamityPartyDrops(regions,loot,ascendant,gear,stone,soloPercent,itemMultiplier=CITADEL_ITEM_MULTIPLIER){
  const groups=[[],[],[]],fields=[new Map(),new Map(),new Map()];
- const entry=(item,chance,min=1,max=min)=>({item,percent:Math.min(100,chance*CITADEL_ITEM_MULTIPLIER),min,max});
+ const entry=(item,chance,min=1,max=min)=>({item,percent:Math.min(100,chance*itemMultiplier),min,max});
  function uniform(kind,items,base){
   if(!items.length||!base)return;
   const share=soloPercent(base)/items.length;

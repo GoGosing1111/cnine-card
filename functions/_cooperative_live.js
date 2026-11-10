@@ -86,8 +86,8 @@ export async function handleCooperative({path,request,env,deps}){
    if(difficulty&&!difficulties.some(d=>d.id===difficulty))fail('DIFFICULTY','난이도를 확인하세요.',400);
    const area=url.searchParams.get('area')||'public';
    if(!['public',CLAN_GARDEN.id].includes(area))fail('AREA','격전지 공간을 확인하세요.',400);
-   if(area===CLAN_GARDEN.id)await requireClanHideout(env,user.id,CLAN_GARDEN.stage);
-   return response(deps,await env.COOP_PLAYERS.getByName(coopDirectory(area)).rooms(difficulty));
+   const clan=area===CLAN_GARDEN.id?await requireClanHideout(env,user.id,CLAN_GARDEN.stage):null;
+   return response(deps,await env.COOP_PLAYERS.getByName(coopDirectory(area,clan)).rooms(difficulty));
   }
   if(kind==='options'&&request.method==='GET'){
    const [cards,mercenaries]=await Promise.all([loadCoopOwnedCards(env,user,deps),mercenaryAccountState(env,user)]);
@@ -110,10 +110,13 @@ export async function handleCooperative({path,request,env,deps}){
    if(kind==='create'||kind==='join'){
     const digest=kind==='create'?await crypto.subtle.digest('SHA-256',new TextEncoder().encode(user.id+':'+body.requestId)):null;
     const target=kind==='create'?Array.from(new Uint8Array(digest)).map(b=>b.toString(16).padStart(2,'0')).join('').slice(0,10).toUpperCase():body.roomId;
-    const area=kind==='create'?(body.area??'public'):await roomStub(env,target).admissionArea();
+    const admission=kind==='join'?await roomStub(env,target).admissionArea():null;
+    const area=kind==='create'?(body.area??'public'):(admission?.area||admission);
+    let clan=null;
     if(!['public',CLAN_GARDEN.id].includes(area))fail('AREA','격전지 공간을 확인하세요.',400);
     if(area===CLAN_GARDEN.id){
-     await requireClanHideout(env,user.id,CLAN_GARDEN.stage);
+     if(kind==='join'&&!admission?.roundId)fail('AREA','클랜 대기방이 종료되었습니다.',403);
+     clan=await requireClanHideout(env,user.id,CLAN_GARDEN.stage,admission);
      if(kind==='create'&&body.difficulty!==CLAN_GARDEN.difficulty)fail('DIFFICULTY','아지트 격전지는 격전 난이도로 출전합니다.',400);
     }
     const pointer=playerStub(env,user),prior=await pointer.getRoom();
@@ -122,7 +125,7 @@ export async function handleCooperative({path,request,env,deps}){
     if(kind==='create'){
      if(!difficulties.some(d=>d.id===body.difficulty))fail('DIFFICULTY','아직 개방되지 않은 난이도입니다.',400);
      const id=target;
-     const result=await roomStub(env,id).create({id,area,user:{id:Number(user.id),nickname:user.nickname},clientId:body.clientId,difficulty:body.difficulty,seed:crypto.getRandomValues(new Uint32Array(1))[0],requestId:body.requestId,combat:config.combat,settingsRevision:config.revision,encounterVersion:config.encounterVersion===3?3:2,rewardPolicy:{...freezeCoopReward(config,body.difficulty),revealPolicy:await readRewardRevealPolicy(env,'COOP_'+body.difficulty)}});
+     const result=await roomStub(env,id).create({id,area,...(clan?{clanId:clan.clanId,roundId:clan.roundId}:{}),user:{id:Number(user.id),nickname:user.nickname},clientId:body.clientId,difficulty:body.difficulty,seed:crypto.getRandomValues(new Uint32Array(1))[0],requestId:body.requestId,combat:config.combat,settingsRevision:config.revision,encounterVersion:config.encounterVersion===3?3:2,rewardPolicy:{...freezeCoopReward(config,body.difficulty),revealPolicy:await readRewardRevealPolicy(env,'COOP_'+body.difficulty)}});
      if(result.ok)await pointer.setRoom(id);return response(deps,result);
     }
     const result=await roomStub(env,body.roomId).command({id:Number(user.id),nickname:user.nickname},kind,body);

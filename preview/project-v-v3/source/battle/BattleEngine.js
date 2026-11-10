@@ -784,7 +784,7 @@ export class BaseBattleEngine{
     this.app.ticker.add(this.parallaxTicker);
   }
 
-  battlefieldAsset(mode){if(this.battleData?.sceneAssetKey==='CLAN_GARDEN'&&mode==='RAID')return '/assets/ui/organization/hunts-20261023/stage4-garden.webp';if(this.battleData?.sceneAssetKey==='LEGION_BURNING_CITADEL'&&mode==='RAID')return '/assets/ui/legion-citadel/gate-'+(LOW_MEMORY_DEVICE?'720':'1440')+'.webp';if(this.battleData?.sceneAssetKey==='CLASSIC_COLOSSEUM'&&mode==='PVP')return '/assets/ui/classic-colosseum/20261027/arena-v1.png';if(this.jokgakCityBattlefield&&mode==='PVP')return '/assets/ui/jokgak-city/city-street-battle-v1.webp';if(this.territoryBattlefieldV5&&mode==='SIEGE'){
+  battlefieldAsset(mode){if(this.battleData?.sceneAssetKey==='CLAN_DOCKYARD'&&mode==='RAID')return '/assets/ui/organization/hunts-20261023/stage3-dockyard.webp';if(this.battleData?.sceneAssetKey==='CLAN_GARDEN'&&mode==='RAID')return '/assets/ui/organization/hunts-20261023/stage4-garden.webp';if(this.battleData?.sceneAssetKey==='LEGION_BURNING_CITADEL'&&mode==='RAID')return '/assets/ui/legion-citadel/gate-'+(LOW_MEMORY_DEVICE?'720':'1440')+'.webp';if(this.battleData?.sceneAssetKey==='CLASSIC_COLOSSEUM'&&mode==='PVP')return '/assets/ui/classic-colosseum/20261027/arena-v1.png';if(this.jokgakCityBattlefield&&mode==='PVP')return '/assets/ui/jokgak-city/city-street-battle-v1.webp';if(this.territoryBattlefieldV5&&mode==='SIEGE'){
       const site=this.battleData?.territorySiteKey;
       return '/assets/ui/territory-war/frontline-20261108/'+(['hq','outpost','gate','depot'].includes(site)?'site-'+site+'-scene.webp':LOW_MEMORY_DEVICE?'field-960.webp':'field-1600.webp');
     }return this.coopArkeBattlefield&&mode==='RAID'?COOP_ARKE_BATTLEFIELD:this.coupPalaceBattlefield&&mode==='SIEGE'?COUP_PALACE_BATTLEFIELD:(BATTLEFIELD_ASSETS[mode]||BATTLEFIELD_ASSETS[DEFAULT_BATTLEFIELD_MODE])}
@@ -1843,7 +1843,7 @@ export class BaseBattleEngine{
     this.territoryBattlefieldV5=payload?.sceneAssetKey==='TERRITORY_BATTLEFIELD_V5';
     this.cooperativeInstances=payload?.cooperativeEncounter?new Map(payload.cooperativeEncounter.instances.map(row=>[row.id,row])):null;
     const citadel=payload?.cooperativeEncounter?.citadel;
-    if(citadel&&payload.sceneAssetKey==='LEGION_BURNING_CITADEL'){
+    if(citadel&&['LEGION_BURNING_CITADEL','CLAN_DOCKYARD'].includes(payload.sceneAssetKey)){
       for(const [slot,n,type,elite] of citadel.manifest){
         const form=citadel.forms[type],id=n===-1?'B:4:CITADEL:BOSS':'B:'+slot+':CITADEL'+(n?':R'+n:'');
         this.cooperativeInstances.set(id,Object.assign(Object.create(form),{id,slot,title:(elite?'정예 ':'')+form.title,maxHp:form.maxHp*(elite?2:1),shield:form.maxShield,finalBoss:n===-1}));
@@ -2389,7 +2389,7 @@ export class BaseBattleEngine{
 
   syncCooperativeState(frame){
     if(!this.formationCoop||!frame)return;
-    if(this.battleData?.sceneAssetKey==='LEGION_BURNING_CITADEL'&&this.cooperativeInstances)cooperativeSnapshot(this,frame.B||[]);
+    if(['LEGION_BURNING_CITADEL','CLAN_DOCKYARD'].includes(this.battleData?.sceneAssetKey)&&this.cooperativeInstances)cooperativeSnapshot(this,frame.B||[]);
     this.cooperativeFrame=new Map([...(frame.A||[]),...(frame.B||[])].map(row=>[row.id,row]));
     for(const actor of this.characters){
       const row=this.cooperativeFrame.get(actor.id);if(!row)continue;

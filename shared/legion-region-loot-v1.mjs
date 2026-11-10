@@ -1,6 +1,6 @@
 // RNG is injected from the server. The client cannot select a table or outcome.
 export function regionKillLoot(policy,event,random){
-  const loot=policy.regionLoot,items=policy.items||[],region=policy.lootRegionId||policy.regionId;
+  const loot=policy.regionLoot,items=policy.items||[],region=policy.regionId;
   if(!loot||!region)return [];
   const result=[],roll=p=>random()*100<p;
   const stone=items.find(row=>row.kind==='STONE');

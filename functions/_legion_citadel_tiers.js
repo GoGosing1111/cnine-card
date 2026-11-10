@@ -1,5 +1,7 @@
 import {UNIQUE_MERCENARY_EQUIPMENT} from '../shared/mercenary-unique-equipment-v1.mjs';
 export const FIRST_TIER='gate';
+export const DOCKYARD=Object.freeze({id:'clan-dockyard',name:'봉쇄된 물류기지',stage:3,itemMultiplier:1.5,
+ art:'/assets/ui/organization/hunts-20261023/'});
 export const CITADEL_ITEM_MULTIPLIER=1.3;
 export const CITADEL_COIN_MULTIPLIER=10;
 export const CITADEL_UNIQUE_REWARDS=Object.freeze([5,10,20].map((divisor,index)=>({

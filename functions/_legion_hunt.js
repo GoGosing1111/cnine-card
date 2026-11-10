@@ -8,8 +8,7 @@ import {contentEnergy,LEGION_ENERGY_MAXIMUM} from '../shared/content-energy-v1.m
 import {legionHuntEnergyView} from '../shared/legion-hunt-energy-v1.mjs';
 import {readMiracleDropPercent} from './_miracle_burning.js';
 import {readRegionPolicy,saveRegionPolicy,regionAccess,regionBootstrap,regionRewardCatalog,publicRegionHuntPayload,ascendantBossPercent,legionDropPercent} from './_legion_regions.js';
-import {clanHideout,requireClanHideout,HIDEOUT_MEMBERSHIP_SQL} from './_clan_hideout_access.js';
-import {regionalDifficulty,regionById,CLAN_HUNT_REGION} from '../shared/legion-regions-v1.mjs';
+import {regionalDifficulty,regionById} from '../shared/legion-regions-v1.mjs';
 import {readSupportBenefits} from './_supporter_benefits.js';
 import {SUPPORT_PLAN} from '../shared/server-support-v1.mjs';
 import {LEGION_COIN_CAPS,createLegionCoins,legionCoinSummary} from '../shared/legion-hunt-coins-v1.mjs';
@@ -51,13 +50,8 @@ async function loadRun(env,key){
   if(!row)return {raw:null,run:null};
   try{return {raw:row.value,run:JSON.parse(row.value)};}catch{throw jointError('HUNT_SESSION_UNAVAILABLE','원정 기록을 읽을 수 없습니다. 다시 출전하세요.',503);}
 }
-async function saveRun(env,key,before,run,admissionUser=null){
+async function saveRun(env,key,before,run){
   const raw=JSON.stringify(run);
-  if(admissionUser!==null){
-    const changed=await env.DB.prepare('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=? AND EXISTS('+HIDEOUT_MEMBERSHIP_SQL+' AND p.stage>=?)').bind(raw,key,before,admissionUser,CLAN_HUNT_REGION.requiredStage).run();
-    if(!changed.meta?.changes)throw jointError('HUNT_ADMISSION_CHANGED','클랜 아지트나 원정 상태가 바뀌었습니다. 입장 화면을 다시 열어주세요.',409);
-    return {raw,run};
-  }
   const statement=before===null?env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING').bind(key,raw):
     env.DB.prepare('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?').bind(raw,key,before);
   if(Number((await statement.run()).meta?.changes)!==1)throw jointError('HUNT_SESSION_CONFLICT','다른 요청을 처리 중입니다. 같은 요청으로 다시 시도하세요.',409);
@@ -158,10 +152,8 @@ export async function handleLegionHunt({path,request,env,deps}){
       });
       let loadout=null,loadoutError=null;
       try{loadout=await accountSnapshot(env,user,deps);}catch(error){if(error.code!=='HUNT_DECK')throw error;loadoutError=error.message;}
-      const [regional,hideout]=await Promise.all([readRegionPolicy(env),clanHideout(env,user.id)]);
-      const expansion=regionBootstrap(regional.policy,user,regionAccess(regional.policy,user)?await regionRewardCatalog(env):[]);
-      if(expansion?.regions.some(region=>region.id===CLAN_HUNT_REGION.lootRegionId)&&hideout.stage>=CLAN_HUNT_REGION.requiredStage)expansion.regions.push(CLAN_HUNT_REGION);
-      return json({ok:true,access,difficulties:DIFFICULTIES,clanHideout:hideout,regionExpansion:expansion,entries:legionHuntEntries(saved.run,now(),user,support),coinEntries:coinEntries(saved.run,now(),support,user),coinCaps:LEGION_COIN_CAPS,loadout,loadoutError,revision:policy.revision,activeItems:policy.items.filter(i=>i.enabled&&i.weight>0).length});
+      const regional=await readRegionPolicy(env);
+      return json({ok:true,access,difficulties:DIFFICULTIES,regionExpansion:regionBootstrap(regional.policy,user,regionAccess(regional.policy,user)?await regionRewardCatalog(env):[]),entries:legionHuntEntries(saved.run,now(),user,support),coinEntries:coinEntries(saved.run,now(),support,user),coinCaps:LEGION_COIN_CAPS,loadout,loadoutError,revision:policy.revision,activeItems:policy.items.filter(i=>i.enabled&&i.weight>0).length});
     }
     if(!Object.hasOwn(ACTIONS,action))return json({error:'군단토벌 경로를 확인하세요.'},404);
     if(request.method!=='POST')return json({error:'지원하지 않는 요청입니다.'},405);
@@ -171,8 +163,6 @@ export async function handleLegionHunt({path,request,env,deps}){
     if(!['start','recover'].includes(action)&&!idValid(body.id))throw jointError('HUNT_SESSION','원정 번호를 확인하세요.');
     return json(await deps.withUserMutationLock(env,user.id,path,async()=>{
       const {policy,raw:policyRaw}=await readLegionHuntPolicy(env),access=action==='recover'?legionHuntAccess(policy):requireAccess(policy,user);
-      const hideoutHunt=action==='start'&&body.regionId===CLAN_HUNT_REGION.id;
-      if(hideoutHunt)await requireClanHideout(env,user.id,CLAN_HUNT_REGION.requiredStage);
       let before=await loadRun(env,key),recovery=null;
       const support=['start','begin','recover','cancel','finish'].includes(action)?await readSupportBenefits(env,user.id,now()):null;
       if(action==='recover'||action==='start'){
@@ -184,33 +174,30 @@ export async function handleLegionHunt({path,request,env,deps}){
       if(action==='start'){
         requireEntry(entries);
         let regionPolicy=null,regionDifficulty=null;
-        const rewardRegion=hideoutHunt?CLAN_HUNT_REGION.lootRegionId:body.regionId;
-        if(body.regionId){regionPolicy=(await readRegionPolicy(env)).policy;if(!regionAccess(regionPolicy,user)||!regionPolicy.regions.find(r=>r.id===rewardRegion)?.enabled)throw jointError('HUNT_REGION_CLOSED','선택한 지역은 현재 이용할 수 없습니다.',403);regionDifficulty=regionPolicy.difficulties.find(d=>d.id===body.difficulty);}
+        if(body.regionId){regionPolicy=(await readRegionPolicy(env)).policy;if(!regionAccess(regionPolicy,user)||!regionPolicy.regions.find(r=>r.id===body.regionId)?.enabled)throw jointError('HUNT_REGION_CLOSED','선택한 지역은 현재 이용할 수 없습니다.',403);regionDifficulty=regionPolicy.difficulties.find(d=>d.id===body.difficulty);}
         const d=regionDifficulty||policy.difficulties.find(r=>r.id===body.difficulty);
         if(!d)throw jointError('HUNT_POLICY_UNAVAILABLE','난이도별 드랍 설정을 확인하세요.',503);
         const snapshot=await accountSnapshot(env,user,deps);
         const [miracleDropPercent,collection,martialLaw]=await Promise.all([readMiracleDropPercent(env),readCollectionBonuses(env,user.id),readMartialLaw(env,{now:now()})]);
         const collectionPercent=collection.totals.dropPercent;
-        const multiplier=hideoutHunt?CLAN_HUNT_REGION.dropMultiplier:1;
-        const boosted=base=>Math.min(100,legionDropPercent(base,miracleDropPercent,collectionPercent)*multiplier);
+        const boosted=base=>legionDropPercent(base,miracleDropPercent,collectionPercent);
         const paying=access.liveRewards&&(!regionPolicy||regionPolicy.mode==='ON');
-        const coins=createLegionCoins(rewardRegion,body.difficulty,{live:paying,bonusPercent:collection.totals.coinPercent,martialLaw:martialLaw.enabled});
+        const coins=createLegionCoins(body.regionId,body.difficulty,{live:paying,bonusPercent:collection.totals.coinPercent,martialLaw:martialLaw.enabled});
         const regionLoot=regionDifficulty?{...regionDifficulty.loot}:null;
         if(regionLoot)for(const key of ['stonePercent','eliteStonePercent','eliteSetPercent','bossSetPercent','bossUniquePercent'])regionLoot[key]=boosted(regionLoot[key]);
         const dropPolicy=regionPolicy?{regionLoot,dropLifeMs:regionLoot.lifetimeSeconds*1000,items:await regionRewardCatalog(env,{live:paying,ascendant:regionPolicy.ascendantDrops?.enabled===true})}:{dropChance:boosted(d.dropPercent)/100,bossDropChance:boosted(d.bossDropPercent)/100,dropLifeMs:d.lifetimeSeconds*1000,items:policy.items};
         if(regionPolicy?.ascendantDrops?.enabled){
-          dropPolicy.ascendantDrops=regionPolicy.ascendantDrops.tiers.map(row=>({tier:row.tier,bossPercent:Math.min(100,ascendantBossPercent(row.expectedRuns,miracleDropPercent,collectionPercent)*multiplier)}));
+          dropPolicy.ascendantDrops=regionPolicy.ascendantDrops.tiers.map(row=>({tier:row.tier,bossPercent:ascendantBossPercent(row.expectedRuns,miracleDropPercent,collectionPercent)}));
         }
-        const fieldDrops=regionPolicy?.regions.find(r=>r.id===rewardRegion)?.fieldDrops;
+        const fieldDrops=regionPolicy?.regions.find(r=>r.id===body.regionId)?.fieldDrops;
         if(fieldDrops){
           const field=fieldDrops.difficulties.find(r=>r.id===body.difficulty);
           dropPolicy.fieldDrops={items:fieldDrops.items,dropChance:boosted(field.dropPercent)/100,bossDropChance:boosted(field.bossDropPercent)/100};
           dropPolicy.dropLifeMs=field.lifetimeSeconds*1000;
         }
-        if(hideoutHunt)dropPolicy.lootRegionId=rewardRegion;
         dropPolicy.coinCap=coins.cap;
         const session=(deps.createSession||createHuntSession)({snapshot,...body,regionDifficulty,now,dropPolicy});
-        await saveRun(env,key,before.raw,{daily:before.run?.daily||null,coinDaily:before.run?.coinDaily||null,energy:legionHuntEnergy(before.run,now(),support,user),coins,expiresAt:now()+TTL,configRevision:policy.revision,regionRevision:regionPolicy?.revision??null,liveRewards:paying,rewardTiming:'FINISH',entry:{charged:false,status:'READY'},state:session.exportState()},hideoutHunt?user.id:null);
+        await saveRun(env,key,before.raw,{daily:before.run?.daily||null,coinDaily:before.run?.coinDaily||null,energy:legionHuntEnergy(before.run,now(),support,user),coins,expiresAt:now()+TTL,configRevision:policy.revision,regionRevision:regionPolicy?.revision??null,liveRewards:paying,rewardTiming:'FINISH',entry:{charged:false,status:'READY'},state:session.exportState()});
         return {ok:true,id:session.id,payload:publicRegionHuntPayload(session.payload),entries,...legionCoinSummary(coins),access:{...access,liveRewards:paying,...(regionPolicy&&!paying?{mode:'TEST'}:{})},recovery,configRevision:policy.revision};
       }
       if(!before.run||before.run.state?.id!==body.id)throw jointError('HUNT_SESSION_EXPIRED','원정이 만료됐습니다. 입장 화면에서 복구 후 다시 출전하세요.',409);
@@ -227,7 +214,6 @@ export async function handleLegionHunt({path,request,env,deps}){
       let result;
       if(action==='begin'){
         if(before.run.state.startedAt===null&&!before.run.state.ended){
-          if(before.run.state.policy.regionId===CLAN_HUNT_REGION.id)await requireClanHideout(env,user.id,CLAN_HUNT_REGION.requiredStage);
           requireEntry(entries);
           const balance=legionHuntEnergy(before.run,now(),support,user);
           const coinEligible=!!(before.run.coins?.live&&access.liveRewards&&balance.current>0);
@@ -268,11 +254,11 @@ export async function handleLegionHunt({path,request,env,deps}){
       if(action==='reveal'||action==='finish'){
         const credited=await saveLegionCoinProgress(env,user,{key,before:before.raw,run:next,policyRaw,access,saveRun});
         Object.assign(result,credited.summary);
-      }else await saveRun(env,key,before.raw,next,action==='begin'&&before.run.state.policy.regionId===CLAN_HUNT_REGION.id&&before.run.state.startedAt===null?user.id:null);
+      }else await saveRun(env,key,before.raw,next);
       return result;
     }));
   }catch(error){
-    if(error.code?.startsWith('HUNT_')||error.code==='CLAN_HIDEOUT_REQUIRED')return json({ok:false,code:error.code,error:error.message},error.status||400);
+    if(error.code?.startsWith('HUNT_'))return json({ok:false,code:error.code,error:error.message},error.status||400);
     if(/^(?:HUNT_|INVALID_HUNT_|INVALID_DROP_|DROP_)[A-Z_]+$/.test(error.message||''))return json({ok:false,code:error.message,error:error.message},409);
     return jointResponseError(error,json);
   }

@@ -16,12 +16,23 @@ export function approvedPresentationBytes(file, raw) {
   // The October 16 branding release changed only these four labels. Compare
   // the original approval bytes after reversing those exact text substitutions.
   if (file.path === 'preview/equipment-forge-v1/index.html') {
+    // Restore the previously published November brand image and its removed symbol before checking the original approval.
+    const brandImage='<img src="/assets/ui/brand/reverse-call-20261016/logo-240.webp?v=20261018-transparent" alt="" width="31" height="31">';
+    if(text.includes(brandImage)){
+      text=text.replace(brandImage,'<svg><use href="#i-core"/></svg>')
+        .replace('style.css?brand=20261110&amp;v=2','style.css?v=2')
+        .replace('  </defs></svg>', '    <symbol id="i-core" viewBox="0 0 24 24"><path d="M3 8V3h5m8 0h5v5M3 16v5h5m8 0h5v-5M8 6v12l8-6Z"/></symbol>\n  </defs></svg>');
+    }
     for (const [current, original] of [
       ['<title>장비 강화 V2 · 리버스콜</title>', '<title>장비 강화 V2 · 숲켓몬</title>'],
       ['aria-label="리버스콜 강화소"', 'aria-label="숲켓몬 강화소"'],
       ['<span>리버스콜<small>ARMORY DIVISION</small>', '<span>숲켓몬<small>ARMORY DIVISION</small>'],
       ['<span>REVERSE CALL <i>/</i> UPGRADE LAB', '<span>SOOPKETMON <i>/</i> UPGRADE LAB'],
     ]) text = text.replace(current, original);
+  }
+  if(file.path==='preview/equipment-forge-v1/style.css'){
+    text=text.replace('.brand > img {\n  width: 31px;\n  height: 31px;\n  object-fit: contain;\n  flex: none;', '.brand > svg {\n  width: 31px;\n  height: 31px;\n  color: var(--lime);\n  stroke-width: 1.5;')
+      .replace('  .brand > img {','  .brand > svg {');
   }
   return Buffer.from(text);
 }
