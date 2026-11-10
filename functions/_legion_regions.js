@@ -4,6 +4,10 @@ import {jointError} from './_joint_request.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {legionHuntCatalog,validateLegionHuntPolicy} from './_legion_hunt_settings.js';
 import {ASCENDANT_EQUIPMENT} from '../shared/mercenary-ascendant-equipment-v1.mjs';
+import {applyMiracleDropChance} from './_miracle_burning.js';
+import {rewardDropWithBonus} from '../shared/collection-bonuses-v1.mjs';
+export const ascendantBossPercent=(expectedRuns,miraclePercent,collectionPercent)=>
+  rewardDropWithBonus(applyMiracleDropChance(100/expectedRuns,miraclePercent),collectionPercent);
 const fail=message=>{throw jointError('HUNT_REGION_POLICY',message,400);};
 const bounded=(value,min,max)=>typeof value==='number'&&Number.isFinite(value)&&value>=min&&value<=max;
 const exact=(value,names)=>value&&typeof value==='object'&&!Array.isArray(value)&&Object.keys(value).every(k=>names.includes(k));

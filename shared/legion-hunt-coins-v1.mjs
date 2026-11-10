@@ -31,6 +31,14 @@ export function legionCoinTotal(coins,units=coins.units){
   const amount=BigInt(coins.cap)*BigInt(coins.multiplier)*BigInt(units)/(BigInt(coins.referenceUnits)*100000n);
   return Number(amount>BigInt(coins.cap)?BigInt(coins.cap):amount);
 }
+// Only time reached by a confirmed kill may unlock the paced coin budget.
+export function earnedLegionCoins(coins,units,killTimeMs,huntDurationMs){
+  const earned=legionCoinTotal(coins,units);
+  if((coins.revision??1)<2)return earned;
+  const duration=Math.max(1,Math.floor(huntDurationMs||300000));
+  const budget=BigInt(coins.cap)*BigInt(Math.min(duration,killTimeMs))/BigInt(duration);
+  return Math.min(earned,Number(budget));
+}
 export function advanceLegionCoins(coins,state){
   if(!coins)return {coins:null,delta:0}; // Pre-release sessions never back-pay.
   let units=coins.units,killTimeMs=coins.killTimeMs||0;
@@ -43,12 +51,7 @@ export function advanceLegionCoins(coins,state){
   // Only confirmed kills advance the budget. Bonuses can improve a kill's
   // value, but cannot spend a later part of the expedition in its first minute.
   // Saved v1 runs retain their original contract; waiting/finish never pays.
-  let earned=legionCoinTotal(coins,units);
-  if(coins.revision>=2){
-    const duration=Math.max(1,Math.floor(state.policy?.huntDurationMs||300000));
-    const budget=Number(BigInt(coins.cap)*BigInt(Math.min(duration,killTimeMs))/BigInt(duration));
-    earned=Math.min(earned,budget);
-  }
+  const earned=earnedLegionCoins(coins,units,killTimeMs,state.policy?.huntDurationMs);
   const paid=coins.live&&coins.eligible?earned:0;
   if(paid<coins.paid)throw Error('HUNT_COIN_RECEIPT');
   return {coins:{...coins,units,killTimeMs,throughSeq:Math.max(coins.throughSeq,state.lastAck),paid},delta:paid-coins.paid};

@@ -32,10 +32,15 @@ function mountCitadelEditor(panel){
  }
  function draw(){
   const draft=drafts.get(tier),own=policy.tierDrops?.[tier],shared=tier!=='gate'&&(draft?.shared??!own),d=shared?policy.drops:draft?.drops??own??policy.drops;
+  const rewards=catalog.partyRewards,unique=rewards?.unique[tier];
   body.innerHTML='<form data-mode-form><fieldset><legend>파티 신규 입장</legend><label>입장 상태<select name="mode"><option value="OFF">OFF · 입장 중지</option><option value="ON">ON · 입장 허용</option></select></label><button type="submit">입장 상태 저장</button></fieldset></form>'+
   '<form data-drops><label>드롭 설정 난이도<select name="tier">'+tiers.map(t=>'<option value="'+esc(t.id)+'" '+(tier===t.id?'selected':'')+'>'+esc(t.stage+'단계 · '+t.name)+'</option>').join('')+'</select></label>'+
   (tier==='gate'?'':'<label class="legion-cms-check"><input type="checkbox" name="shareDrops" '+(shared?'checked':'')+'>1단계 드롭 설정 사용</label>')+
-  '<fieldset data-tier-fields><legend>개인 드롭 설정</legend><fieldset><legend>몬스터별 개인 드롭</legend><div class="legion-cms-region-fields">'+
+  (unique?.tiers?'<fieldset><legend>성주 유니크 장비</legend><p>이 성주의 확률은 왕좌의 '+Math.round(unique.scale*100)+'%입니다. 아래 평균은 보너스 전 1인 기준입니다.</p><ul>'+
+   unique.tiers.map(row=>'<li>'+esc(row.tier+'단계 '+row.family)+' · 10단계 용병장비 확률의 1/'+row.divisor+' × '+Math.round(unique.scale*100)+'% · '+(row.expectedRuns?'평균 약 '+Math.round(row.expectedRuns).toLocaleString('ko-KR')+'회에 1개':'지역 상위 장비 드롭 중지')+'</li>').join('')+'</ul></fieldset>':'')+
+  (rewards?'<p>처치 코인은 재앙의 '+rewards.coinMultiplier+'배, 1인 최대 '+rewards.coinCap.toLocaleString('ko-KR')+'코인입니다.</p>':'')+
+  '<fieldset data-tier-fields><legend>개인 드롭 설정</legend><fieldset><legend>몬스터별 기본 확률</legend>'+
+  (rewards?'<p>재료와 지역 세트 장비는 아래 확률과 가중치로 구한 품목별 확률의 '+rewards.itemMultiplier+'배로 드롭합니다. 품목별 상한은 100%입니다.</p>':'')+'<div class="legion-cms-region-fields">'+
   field('normalPercent','일반 몬스터 드롭 확률 (%)',d.normalPercent,0,100,'any')+field('elitePercent','정예 몬스터 드롭 확률 (%)',d.elitePercent,0,100,'any')+
   field('bossPercent','성주 드롭 확률 (%)',d.bossPercent,0,100,'any')+field('bossMultiplier','성주 재료 수량 배수',d.bossMultiplier,1,100,1)+'</div></fieldset>'+
   '<fieldset><legend>개인 재료 후보</legend><p>서로 다른 재료를 2종 이상 등록하세요. 출전 시 두 사람에게 후보를 나눈 뒤, 각자 배정된 후보 안에서 가중치에 따라 추첨합니다.</p><div data-supplies>'+d.supplies.map(supplyRow).join('')+'</div>'+
@@ -43,7 +48,7 @@ function mountCitadelEditor(panel){
   '<fieldset><legend>성주 세트 장비</legend><label class="legion-cms-check"><input type="checkbox" name="inheritChance" '+(d.bossSetPercent===null?'checked':'')+'>지역 재앙 확률 연동 ('+esc(catalog.regionalBossSetPercent)+'%)</label>'+
   field('bossSetPercent','성주 드롭 중 장비 확률 (%)',d.bossSetPercent??catalog.regionalBossSetPercent,0,100,'any')+
   '<label class="legion-cms-check"><input type="checkbox" name="allSets" '+(d.equipmentCodes===null?'checked':'')+'>운영 중인 지역의 공개 세트 장비 전체 사용</label>'+
-  '<fieldset data-gear-options><legend>개별 장비 선택</legend>'+catalog.equipment.map(v=>'<label class="legion-cms-check"><input type="checkbox" name="equipment" value="'+esc(v.code)+'" '+(d.equipmentCodes?.includes(v.code)?'checked':'')+'>'+esc(v.name)+(v.available?'':' · 지역 운영 중지')+'</label>').join('')+'</fieldset><p>개인에게 배정된 장비 후보가 없거나 장비 추첨에 들지 않으면 개인 재료를 드롭합니다.</p></fieldset>'+
+  '<fieldset data-gear-options><legend>개별 장비 선택</legend>'+catalog.equipment.map(v=>'<label class="legion-cms-check"><input type="checkbox" name="equipment" value="'+esc(v.code)+'" '+(d.equipmentCodes?.includes(v.code)?'checked':'')+'>'+esc(v.name)+(v.available?'':' · 지역 운영 중지')+'</label>').join('')+'</fieldset><p>여러 품목에 당첨되면 한 번의 습득으로 모두 받습니다.</p></fieldset>'+
   '</fieldset><footer><span>다음 출전부터 적용됩니다.</span><button type="submit">성채 드롭 저장</button></footer></form>';
   body.querySelector('[name=mode]').value=policy.mode;available();dependencies();
  }

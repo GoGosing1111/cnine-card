@@ -1,0 +1,620 @@
+{
+  "status": "PREPARED_LOCALLY",
+  "branch": "codex/legion-citadel-loot-20261110",
+  "baseline": "88513d3f8",
+  "verifiedAt": "2026-11-10T04:33:54.983Z",
+  "production": {
+    "availabilityAtRead": "OFF",
+    "readAt": "2026-11-10T03:54:20.237Z",
+    "publicActiveUniquePieces": 15,
+    "push": false,
+    "deployment": false,
+    "liveAccountWrites": 0
+  },
+  "bossRewards": {
+    "families": [
+      "새벽별",
+      "그믐달",
+      "태양왕좌"
+    ],
+    "piecesPerFamily": 5,
+    "stageIds": [
+      "gate",
+      "keep",
+      "throne"
+    ],
+    "relativeToThrone": [
+      0.8,
+      0.9,
+      1
+    ],
+    "throneDivisorsOfConfiguredTier10": [
+      5,
+      10,
+      20
+    ],
+    "roll": "One personal roll per defeated boss with three mutually exclusive family intervals. Pick a random item from that family. Piece assignment is randomized per room and independent of other drops.",
+    "ordinary": {
+      "perItemChanceMultiplier": 1.5,
+      "capPercent": 100,
+      "defaultNormalPercent": 9.75,
+      "defaultElitePercent": 57,
+      "unchangedQuantities": true
+    },
+    "coins": {
+      "reference": "same confirmed kills, time, event and personal multiplier as coast Calamity",
+      "partyMultiplier": 10,
+      "capPerPerson": 300000000000,
+      "settlement": "individual room receipt"
+    }
+  },
+  "artwork": [
+    {
+      "name": "ash-hound",
+      "sourceSHA256": "4a7346a8c15c36fcbeaf6aad8593a8d1413ac6666373435808793f099db17d14",
+      "width": 408,
+      "height": 273,
+      "hasAlpha": true,
+      "bytes": 34772,
+      "runtimeSHA256": "d955bbc71629e3e897dfa4294a8726129c8a3f2d50c81e746bf3e1f8080c5b2b"
+    },
+    {
+      "name": "ember-watcher",
+      "sourceSHA256": "a6538a3228fe5f2f09daa18df477e690b131cb26c649cec8eba824a0bc187004",
+      "width": 297,
+      "height": 345,
+      "hasAlpha": true,
+      "bytes": 29136,
+      "runtimeSHA256": "ccf4ec565612415a96942e1d77b9e9e0dac40a798068677e8c60257e8df7f046"
+    },
+    {
+      "name": "black-iron-guard",
+      "sourceSHA256": "4dd6b2d47313fd619234e6abbe81a049e02af9de7183b8f1d1db22ad87c49706",
+      "width": 333,
+      "height": 345,
+      "hasAlpha": true,
+      "bytes": 32490,
+      "runtimeSHA256": "ccc053d917c662fe093195e959439c9a231f3cd796b22815c53537eb82a24001"
+    },
+    {
+      "name": "furnace-warden",
+      "sourceSHA256": "543b84b9c9874cf95290d2b8c3dd6bbeb44b2fbd7ab71b018176f9782dbc3ec0",
+      "width": 406,
+      "height": 345,
+      "hasAlpha": true,
+      "bytes": 48500,
+      "runtimeSHA256": "738d389f04701ee70377e25784024033546d112dceac40eb81dbee1edb82af2e"
+    },
+    {
+      "name": "castellan-moloch",
+      "sourceSHA256": "4160899ace4379392e553e0035ed85e548c85ad79469091db14ad640760b67b8",
+      "width": 571,
+      "height": 651,
+      "hasAlpha": true,
+      "bytes": 105372,
+      "runtimeSHA256": "d01e9f367fd47c022c08655b708bb9a708012d2a2dde9d46aee42d56a91f1b10"
+    }
+  ],
+  "packaging": {
+    "publicAssets": 20000,
+    "publicLimit": 20000,
+    "windowsManifestConfirmed": 22,
+    "gearIcons": 15,
+    "enemyBytes": 250270,
+    "workerBundles": [
+      {
+        "name": "api-runtime\\src\\index.js",
+        "bytes": 9363313,
+        "sha256": "4a7b9ebe5b47a784c04ddd5321998fef65bfe701c884ef98bb8a077c06941dd9"
+      },
+      {
+        "name": "clan-draft\\src\\index.js",
+        "bytes": 3537498,
+        "sha256": "1ffb53128835a25c84af3bfee5980002b353ac60364ce85f517352b3b45cb875"
+      }
+    ]
+  },
+  "checks": {
+    "passed": 51,
+    "failed": 0,
+    "databases": [
+      "SQLite",
+      "PostgreSQL-compatible PGlite"
+    ],
+    "endToEndNineBossFamilyGrants": true,
+    "cms": [
+      {
+        "width": 1440,
+        "tiers": 3,
+        "mode": "OFF",
+        "bounds": [
+          1102,
+          1102
+        ]
+      },
+      {
+        "width": 390,
+        "tiers": 3,
+        "mode": "OFF",
+        "bounds": [
+          336,
+          336
+        ]
+      }
+    ]
+  },
+  "performance": {
+    "environment": "Windows host, no artificial throttling. Chrome 1440×960, Playwright WebKit iPhone 13 and Chromium Pixel 7 390×844. Three fresh sessions per configuration for these paths and the H5 fixture. Remaining distribution paths have single-run smoke measurements. Local HTTP and isolated accounts. No physical mobile device.",
+    "method": "Actual PVE > party input to usable finder, reopen finder, two squads start battle, resume at boss. requestAnimationFrame for 4.5 s in combat; count >50 ms. Check teardown for 2.5 s. Durations are median per-run values.",
+    "distributionMethods": {
+      "windows": "local Electron QA shell using the Windows client entry",
+      "onestore-h5": "ONE store SDK/iframe QA host using the real H5 entry",
+      "android-direct": "Android distributor entry with WebView user agent",
+      "play-twa": "Play entry with simulated Android Chrome",
+      "edge": "Windows Edge browser"
+    },
+    "timingInterpretation": "Departure waits for a server-generated replay and then primarily for client battle preparation, artwork loading and renderer mounting. The lightweight path skips the detailed renderer import. Detailed mode begins preloading when the party assembles or both mercenaries are chosen.",
+    "primary": {
+      "desktop": {
+        "before": {
+          "samples": 3,
+          "renderer": "detail",
+          "firstFinderMs": 197,
+          "finderReentryMs": 35,
+          "firstBattleMs": 2105,
+          "bossResumeMs": 1166,
+          "startApiMs": 293,
+          "replayPart0ServerMs": 11,
+          "replayResponseEndToLocalLoadedMs": 1711,
+          "raf": {
+            "medianMs": 13.4,
+            "p95Ms": 19.9,
+            "worstMs": 60.8,
+            "sampleFrames": 1673,
+            "framesOver50ms": 3
+          },
+          "afterExit": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "pageErrors": []
+        },
+        "after": {
+          "samples": 3,
+          "renderer": "detail",
+          "firstFinderMs": 173,
+          "finderReentryMs": 31,
+          "firstBattleMs": 2233,
+          "bossResumeMs": 913,
+          "startApiMs": 334,
+          "replayPart0ServerMs": 13,
+          "replayResponseEndToLocalLoadedMs": 1790,
+          "raf": {
+            "medianMs": 11.8,
+            "p95Ms": 17.4,
+            "worstMs": 58.4,
+            "sampleFrames": 1807,
+            "framesOver50ms": 3
+          },
+          "afterExit": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "pageErrors": []
+        }
+      },
+      "ios": {
+        "before": {
+          "samples": 3,
+          "renderer": "light",
+          "firstFinderMs": 615,
+          "finderReentryMs": 516,
+          "firstBattleMs": 956,
+          "bossResumeMs": 455,
+          "startApiMs": 237,
+          "replayPart0ServerMs": 9,
+          "replayResponseEndToLocalLoadedMs": 91,
+          "raf": {
+            "medianMs": 16,
+            "p95Ms": 31,
+            "worstMs": 171,
+            "sampleFrames": 555,
+            "framesOver50ms": 12
+          },
+          "afterExit": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "pageErrors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        },
+        "after": {
+          "samples": 3,
+          "renderer": "light",
+          "firstFinderMs": 605,
+          "finderReentryMs": 363,
+          "firstBattleMs": 942,
+          "bossResumeMs": 429,
+          "startApiMs": 233,
+          "replayPart0ServerMs": 8,
+          "replayResponseEndToLocalLoadedMs": 54,
+          "raf": {
+            "medianMs": 16,
+            "p95Ms": 30,
+            "worstMs": 154,
+            "sampleFrames": 708,
+            "framesOver50ms": 16
+          },
+          "afterExit": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "pageErrors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        }
+      },
+      "android": {
+        "before": {
+          "samples": 3,
+          "renderer": "detail",
+          "firstFinderMs": 158,
+          "finderReentryMs": 63,
+          "firstBattleMs": 2523,
+          "bossResumeMs": 1377,
+          "startApiMs": 263,
+          "replayPart0ServerMs": 17,
+          "replayResponseEndToLocalLoadedMs": 2121,
+          "raf": {
+            "medianMs": 13.7,
+            "p95Ms": 20.6,
+            "worstMs": 55.5,
+            "sampleFrames": 942,
+            "framesOver50ms": 2
+          },
+          "afterExit": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "pageErrors": []
+        },
+        "after": {
+          "samples": 3,
+          "renderer": "detail",
+          "firstFinderMs": 168,
+          "finderReentryMs": 33,
+          "firstBattleMs": 2324,
+          "bossResumeMs": 1158,
+          "startApiMs": 245,
+          "replayPart0ServerMs": 7,
+          "replayResponseEndToLocalLoadedMs": 1943,
+          "raf": {
+            "medianMs": 4.2,
+            "p95Ms": 4.3,
+            "worstMs": 54.2,
+            "sampleFrames": 2450,
+            "framesOver50ms": 2
+          },
+          "afterExit": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "pageErrors": []
+        }
+      }
+    },
+    "distributions": {
+      "windows": {
+        "before": {
+          "samples": 1,
+          "renderer": "detail",
+          "firstFinderMs": 103,
+          "finderReentryMs": 62,
+          "firstBattleMs": 2765,
+          "bossResumeMs": 1129,
+          "startApiMs": 330,
+          "replayPart0ServerMs": 16,
+          "replayResponseEndToLocalLoadedMs": 2270,
+          "raf": {
+            "medianMs": 16.7,
+            "p95Ms": 16.8,
+            "worstMs": 50,
+            "sampleFrames": 269,
+            "framesOver50ms": 0
+          },
+          "afterExit": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "electron": "44.7.2",
+          "pageErrors": []
+        },
+        "after": {
+          "samples": 1,
+          "renderer": "detail",
+          "firstFinderMs": 109,
+          "finderReentryMs": 56,
+          "firstBattleMs": 2284,
+          "bossResumeMs": 971,
+          "startApiMs": 255,
+          "replayPart0ServerMs": 11,
+          "replayResponseEndToLocalLoadedMs": 1830,
+          "raf": {
+            "medianMs": 16.7,
+            "p95Ms": 16.8,
+            "worstMs": 50,
+            "sampleFrames": 269,
+            "framesOver50ms": 0
+          },
+          "afterExit": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "electron": "44.7.2",
+          "pageErrors": []
+        }
+      },
+      "onestore-h5": {
+        "before": {
+          "samples": 3,
+          "renderer": "detail",
+          "firstFinderMs": 155,
+          "finderReentryMs": 38,
+          "firstBattleMs": 3239,
+          "bossResumeMs": 1883,
+          "startApiMs": 255,
+          "replayPart0ServerMs": 12,
+          "replayResponseEndToLocalLoadedMs": 2780,
+          "raf": {
+            "medianMs": 4.2,
+            "p95Ms": 4.3,
+            "worstMs": 65,
+            "sampleFrames": 2433,
+            "framesOver50ms": 2
+          },
+          "afterExit": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "pageErrors": []
+        },
+        "after": {
+          "samples": 3,
+          "renderer": "detail",
+          "firstFinderMs": 144,
+          "finderReentryMs": 46,
+          "firstBattleMs": 3509,
+          "bossResumeMs": 1763,
+          "startApiMs": 286,
+          "replayPart0ServerMs": 14,
+          "replayResponseEndToLocalLoadedMs": 3075,
+          "raf": {
+            "medianMs": 13.4,
+            "p95Ms": 16.3,
+            "worstMs": 54.2,
+            "sampleFrames": 1692,
+            "framesOver50ms": 2
+          },
+          "afterExit": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "pageErrors": []
+        },
+        "initialSmoke": {
+          "before": {
+            "samples": 1,
+            "renderer": "detail",
+            "firstFinderMs": 121,
+            "finderReentryMs": 44,
+            "firstBattleMs": 3414,
+            "bossResumeMs": 2278,
+            "startApiMs": 241,
+            "replayPart0ServerMs": 10,
+            "replayResponseEndToLocalLoadedMs": 2922,
+            "raf": {
+              "medianMs": 13.4,
+              "p95Ms": 17.2,
+              "worstMs": 51.6,
+              "sampleFrames": 335,
+              "framesOver50ms": 1
+            },
+            "afterExit": {
+              "requests": 0,
+              "canvas": 0,
+              "mounted": false
+            },
+            "pageErrors": []
+          },
+          "after": {
+            "samples": 1,
+            "renderer": "light",
+            "firstFinderMs": 279,
+            "finderReentryMs": 71,
+            "firstBattleMs": 8776,
+            "bossResumeMs": 129,
+            "startApiMs": 801,
+            "replayPart0ServerMs": 13,
+            "replayResponseEndToLocalLoadedMs": 7593,
+            "raf": {
+              "medianMs": 13.5,
+              "p95Ms": 20.5,
+              "worstMs": 20.7,
+              "sampleFrames": 332,
+              "framesOver50ms": 0
+            },
+            "afterExit": {
+              "requests": 0,
+              "canvas": 0,
+              "mounted": false
+            },
+            "pageErrors": []
+          },
+          "note": "Initial candidate run overlapped the isolated database tests and bundle build, and completed with the lightweight renderer. The serial measurements above repeat both sides on an idle host."
+        }
+      },
+      "android-direct": {
+        "before": {
+          "samples": 1,
+          "renderer": "detail",
+          "firstFinderMs": 270,
+          "finderReentryMs": 46,
+          "firstBattleMs": 2761,
+          "bossResumeMs": 1179,
+          "startApiMs": 277,
+          "replayPart0ServerMs": 16,
+          "replayResponseEndToLocalLoadedMs": 2200,
+          "raf": {
+            "medianMs": 13.5,
+            "p95Ms": 26.5,
+            "worstMs": 70.7,
+            "sampleFrames": 306,
+            "framesOver50ms": 1
+          },
+          "afterExit": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "pageErrors": []
+        },
+        "after": {
+          "samples": 1,
+          "renderer": "detail",
+          "firstFinderMs": 279,
+          "finderReentryMs": 62,
+          "firstBattleMs": 2664,
+          "bossResumeMs": 1160,
+          "startApiMs": 251,
+          "replayPart0ServerMs": 10,
+          "replayResponseEndToLocalLoadedMs": 2209,
+          "raf": {
+            "medianMs": 13.6,
+            "p95Ms": 27.3,
+            "worstMs": 57.3,
+            "sampleFrames": 304,
+            "framesOver50ms": 3
+          },
+          "afterExit": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "pageErrors": []
+        }
+      },
+      "play-twa": {
+        "before": {
+          "samples": 1,
+          "renderer": "detail",
+          "firstFinderMs": 142,
+          "finderReentryMs": 46,
+          "firstBattleMs": 2577,
+          "bossResumeMs": 1193,
+          "startApiMs": 243,
+          "replayPart0ServerMs": 16,
+          "replayResponseEndToLocalLoadedMs": 2132,
+          "raf": {
+            "medianMs": 13.4,
+            "p95Ms": 19.8,
+            "worstMs": 81.9,
+            "sampleFrames": 317,
+            "framesOver50ms": 1
+          },
+          "afterExit": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "pageErrors": []
+        },
+        "after": {
+          "samples": 1,
+          "renderer": "detail",
+          "firstFinderMs": 204,
+          "finderReentryMs": 62,
+          "firstBattleMs": 2455,
+          "bossResumeMs": 1100,
+          "startApiMs": 283,
+          "replayPart0ServerMs": 9,
+          "replayResponseEndToLocalLoadedMs": 2068,
+          "raf": {
+            "medianMs": 13.7,
+            "p95Ms": 26.4,
+            "worstMs": 39.2,
+            "sampleFrames": 307,
+            "framesOver50ms": 0
+          },
+          "afterExit": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "pageErrors": []
+        }
+      },
+      "edge": {
+        "before": {
+          "samples": 1,
+          "renderer": "detail",
+          "firstFinderMs": 211,
+          "finderReentryMs": 61,
+          "firstBattleMs": 2617,
+          "bossResumeMs": 1033,
+          "startApiMs": 307,
+          "replayPart0ServerMs": 15,
+          "replayResponseEndToLocalLoadedMs": 2156,
+          "raf": {
+            "medianMs": 13.6,
+            "p95Ms": 27,
+            "worstMs": 66.4,
+            "sampleFrames": 303,
+            "framesOver50ms": 1
+          },
+          "afterExit": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "pageErrors": []
+        },
+        "after": {
+          "samples": 1,
+          "renderer": "detail",
+          "firstFinderMs": 178,
+          "finderReentryMs": 47,
+          "firstBattleMs": 2485,
+          "bossResumeMs": 857,
+          "startApiMs": 285,
+          "replayPart0ServerMs": 11,
+          "replayResponseEndToLocalLoadedMs": 2074,
+          "raf": {
+            "medianMs": 13.5,
+            "p95Ms": 17.9,
+            "worstMs": 67.7,
+            "sampleFrames": 321,
+            "framesOver50ms": 1
+          },
+          "afterExit": {
+            "requests": 0,
+            "canvas": 0,
+            "mounted": false
+          },
+          "pageErrors": []
+        }
+      }
+    }
+  },
+  "supportingFiles": "operations/citadel-party-loot-20261110"
+}

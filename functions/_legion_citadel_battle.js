@@ -4,14 +4,14 @@ import {regionalDifficulty} from '../shared/legion-regions-v1.mjs';
 import {tierById,FIRST_TIER} from './_legion_citadel_tiers.js';
 import {HUNT_DURATION_MS,CAPACITY} from '../preview/sustained-hunt-v2/hunt-rules.mjs';
 
-const c=regionalDifficulty('calamity'),forge='/assets/ui/cooperative-arke-v1/';
+const c=regionalDifficulty('calamity'),artRoot='/assets/ui/legion-citadel/enemies-v1/';
 export const CITADEL_CHUNK_MS=30000;
 const species=[
- ['ASH_HOUND','잿불 사냥개','/assets/ui/cooperative-roster-v3/ironhound-768.webp',c.power*2,220,150,0],
- ['EMBER','화염 감시기',forge+'ember-watcher-v1.png',c.power*1.6,170,165,0],
- ['GUARD','흑철 근위병',forge+'forge-stalker-v1.png',c.power*2.8,260,165,12],
- ['WARDEN','용광로 파수병',forge+'core-warden-v1.png',c.power*3.4,280,180,18],
- ['CASTELLAN','잿불 성주 몰록','/preview/scrapyard-v3-v1/assets/moloch-sd-v1.png',c.bossPower*1.1,650,185,32],
+ ['ASH_HOUND','잿불 사냥개',artRoot+'ash-hound.webp',c.power*2,220,150,0],
+ ['EMBER','화염 감시기',artRoot+'ember-watcher.webp',c.power*1.6,170,165,0],
+ ['GUARD','흑철 근위병',artRoot+'black-iron-guard.webp',c.power*2.8,260,165,12],
+ ['WARDEN','용광로 파수병',artRoot+'furnace-warden.webp',c.power*3.4,280,180,18],
+ ['CASTELLAN','잿불 성주 몰록',artRoot+'castellan-moloch.webp',c.bossPower*1.1,650,185,32],
 ];
 export function citadelEnemies(tierId=FIRST_TIER){
  const tier=tierById(tierId);

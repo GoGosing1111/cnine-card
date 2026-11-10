@@ -13,6 +13,7 @@ import {buildCitadelBattle} from './_legion_citadel_battle.js';
 import {FIRST_TIER,tierById,citadelTierMenu} from './_legion_citadel_tiers.js';
 import {citadelAdmin,readCitadelPolicy,CITADEL_POLICY_KEY} from './_legion_citadel_policy.js';
 import {citadelLoot,citadelGrantStatements,personalFarm,farmView} from './_legion_citadel_loot.js';
+import {earnedLegionCoins} from '../shared/legion-hunt-coins-v1.mjs';
 
 const P='legion_citadel_v1:',roomKey=id=>P+'room:'+id,userKey=id=>P+'user:'+id,replayKey=id=>P+'battle:'+id;
 const tag='legion-party/',fields={create:['requestId','tier'],join:['id'],ready:['id','cardIds','mercenaryCodes'],unready:['id'],start:['id'],loaded:['id'],pickup:['id','token'],claim:['id'],leave:['id']};
@@ -34,11 +35,17 @@ function needsSeasonResult(env,r,at){
 }
 function view(r,user,at){
  const i=r.members.findIndex(m=>m.id===Number(user.id));if(i<0)fail('MEMBER','참가한 파티만 볼 수 있습니다.',403);
- const m=r.members[i],status=phase(r,at),end=['VICTORY','DEFEAT'].includes(status),elapsed=r.startsAt?at-r.startsAt:-1;
- const kills=(r.kills||[]).filter(k=>k[0]<=elapsed);
+ const m=r.members[i],status=phase(r,at),elapsed=r.startsAt?Math.min(r.duration,at-r.startsAt):-1;
+ let kills=0,bosses=0,units=0,killTime=0;
+ for(const [time,kind] of r.kills||[]){
+  if(time>elapsed)break;
+  kills++;if(kind===2)bosses++;
+  units+=kind===2?5:kind===1?3:1;killTime=time;
+ }
+ const coins=m.coins?m.coins.partyMultiplier*earnedLegionCoins(m.coins,units,killTime,m.coins.huntDurationMs):0;
  return {id:r.id,status,tier:r.tier??FIRST_TIER,tierName:tierById(r.tier??FIRST_TIER).name,you:m.id,hostId:r.hostId,serverNow:at,expiresAt:r.expiresAt,startsAt:r.startsAt||null,duration:r.duration||0,
   members:r.members.map(({id,name,ready,loaded,summary})=>({id,name,ready:!!ready,loaded:!!loaded,summary:summary||null})),selection:m.selection||null,
-  kills:kills.length,bosses:kills.filter(k=>k[1]===2).length,drops:[],ground:[],claimed:!!m.claimed,canClaim:false,test:!r.paying};
+  kills,bosses,coins,drops:[],ground:[],claimed:!!m.claimed,canClaim:false,test:!r.paying};
 }
 const farmKey=(id,uid)=>P+'farm:'+id+':'+uid;
 const receiptKey=(id,uid)=>P+'receipt:'+id+':'+uid;
@@ -46,7 +53,7 @@ async function present(db,r,user,at){
  const state=view(r,user,at);if(!r.startsAt)return state;
  const f=JSON.parse(await raw(db,farmKey(r.id,user.id)));if(!f)fail('FARM','개인 전리품을 읽지 못했습니다.',503);
  const earned=farmView(f,Math.min(r.duration,at-r.startsAt),state.status==='ACTIVE');
- return {...state,...earned,canClaim:['VICTORY','DEFEAT'].includes(state.status)&&earned.picked>0&&!state.claimed};
+ return {...state,...earned,canClaim:['VICTORY','DEFEAT'].includes(state.status)&&(earned.picked>0||state.coins>0)&&!state.claimed};
 }
 const emptyMember=u=>({id:Number(u.id),name:String(u.nickname||'토벌대원').slice(0,64),ready:false,loaded:false});
 async function current(DB,u){const ptr=await raw(DB,userKey(u));const data=ptr&&await raw(DB,roomKey(ptr));return {ptr,r:data?JSON.parse(data):null};}
@@ -81,12 +88,16 @@ async function eligibleUsers(env,r,policy){
  const users=r.members.map(m=>rows.find(u=>Number(u.id)===m.id));if(users.some(u=>!canAccessLegionHunt(policy,u)))fail('CLOSED','두 참가자 모두 군단토벌 이용이 가능해야 합니다.',403);
  return users;
 }
-async function energyStatements(env,users,at,deps){
+async function energyStatements(env,users,members,at,deps){
  const db=env.DB;
- const balances=await Promise.all(users.map(async u=>{const k='legion_hunt_owner_session_v1:'+u.id,[old,support]=await Promise.all([raw(db,k),(deps.supportBenefits||readSupportBenefits)(env,u.id,at)]),solo=old?JSON.parse(old):{};
+ const balances=await Promise.all(users.map(async (u,index)=>{const k='legion_hunt_owner_session_v1:'+u.id,[old,support]=await Promise.all([raw(db,k),(deps.supportBenefits||readSupportBenefits)(env,u.id,at)]),solo=old?JSON.parse(old):{};
   if(solo.state&&!solo.state.ended&&!solo.state.receipt&&!solo.interruption&&solo.expiresAt>at)fail('SOLO','진행 중인 개인 군단토벌을 종료한 뒤 출전하세요.');
   const e=legionHuntEntries(solo,at,u,support);if(!e.unlimited&&e.current<1)fail('ENERGY',u.nickname+'님의 군단토벌 행동력이 부족합니다.');
-  return e.unlimited?[]:[...guard(db,k,old),put(db,k,JSON.stringify({...solo,energy:{version:1,current:e.current-1,maximum:e.maximum,updatedAt:e.updatedAt}}))];
+  if(e.unlimited&&(!members[index].coins||e.current<1)){
+   delete members[index].coins;
+   return [];
+  }
+  return [...guard(db,k,old),put(db,k,JSON.stringify({...solo,energy:{version:1,current:e.current-1,maximum:e.maximum,updatedAt:e.updatedAt}}))];
  }));return balances.flat();
 }
 async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
@@ -130,12 +141,15 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
     if(status!=='LOBBY'||r.members.length!==2||!r.members.every(m=>m.ready&&m.selection))fail('READY','두 참가자 모두 편성을 마치고 준비해야 합니다.');
     const us=await eligibleUsers(env,r,policy);
     const tier=r.tier??FIRST_TIER,drops=citadel.policy.tierDrops[tier]??citadel.policy.drops;
-    const [squads,loot]=await Promise.all([Promise.all(us.map((u,i)=>(deps.citadelSquad||loadSquad)(env,u,r.members[i].selection,deps))),(deps.citadelLoot||citadelLoot)(env,us,drops)]);
+    const [squads,loot]=await Promise.all([Promise.all(us.map((u,i)=>(deps.citadelSquad||loadSquad)(env,u,r.members[i].selection,deps))),(deps.citadelLoot||citadelLoot)(env,us,drops,tier)]);
     const built=buildCitadelBattle(squads,crypto.getRandomValues(new Uint32Array(1))[0],tier);
     const replayParts=[['header',built.replay],...built.chunks.map((v,i)=>[i,v])];
     for(const [part,v] of replayParts)out.push(put(db,replayKey(r.hostId)+':'+part,await saveReplay(v,id)));
     out.push(del(db,listKey(r)));
-    for(let i=0;i<2;i++)out.push(put(db,farmKey(r.id,us[i].id),JSON.stringify(personalFarm(loot[i],built.kills,squads[i].pet?.magnet===true))));
+    for(let i=0;i<2;i++){
+     r.members[i].coins=loot[i].coins;
+     out.push(put(db,farmKey(r.id,us[i].id),JSON.stringify(personalFarm(loot[i],built.kills,squads[i].pet?.magnet===true))));
+    }
     Object.assign(r,{phase:'LOADING',expiresAt:now()+120000,won:built.won,kills:built.kills,duration:built.duration,parts:built.chunks.length});
    }else if(action==='loaded'){
     if(['ACTIVE','VICTORY','DEFEAT'].includes(status))return present(db,r,user,at);
@@ -144,7 +158,7 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
     if(r.members.every(m=>m.loaded)){
      const us=await eligibleUsers(env,r,policy);
      if(r.paying&&policy.mode!=='ON')fail('PAUSED','군단토벌 운영이 일시 중지됐습니다.',423);
-     if(r.paying)out.push(...await energyStatements(env,us,now(),deps));r.phase='ACTIVE';r.startsAt=now()+1200;
+     if(r.paying)out.push(...await energyStatements(env,us,r.members,now(),deps));r.phase='ACTIVE';r.startsAt=now()+1200;
     }
    }else if(action==='pickup'){
     if(typeof b.token!=='string'||b.token.length!==18)fail('TOKEN','내 전리품을 선택하세요.',400);
@@ -162,12 +176,12 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
     if(me.claimed)return present(db,r,user,at);
     if(r.paying&&policy.mode!=='ON')fail('PAUSED','보상 지급이 재개된 후 수령하세요. 전리품은 보관됩니다.',423);
     const snapshot=await present(db,r,user,at);
-    out.push(...await citadelGrantStatements(env,user,id,snapshot.drops,r.paying));me.claimed=true;
+    out.push(...await citadelGrantStatements(env,user,id,snapshot.drops,r.paying,snapshot.coins));me.claimed=true;
     out.push(put(db,receiptKey(id,uid),JSON.stringify({...snapshot,claimed:true,canClaim:false,ground:[]})));
    }else if(action==='leave'){
     if(pointer.ptr!==id){if(me.left)return null;fail('OTHER','현재 참가한 파티를 다시 확인하세요.');}
     if(status==='ACTIVE')fail('ACTIVE','전투가 진행 중입니다. 화면을 닫았다가 다시 입장할 수 있습니다.');
-    if(['VICTORY','DEFEAT'].includes(status)&&!me.claimed&&(await present(db,r,user,at)).drops.length)fail('CLAIM','내 전리품을 먼저 수령하세요.');
+    if(['VICTORY','DEFEAT'].includes(status)&&!me.claimed&&(await present(db,r,user,at)).canClaim)fail('CLAIM','내 전리품을 먼저 수령하세요.');
     check.push(...guard(db,who,id));out.push(del(db,who));
     if(status==='LOBBY'&&uid!==r.hostId)r.members.splice(idx,1);
     else if(['LOADING','LOBBY','CANCELLED'].includes(status)){r.phase='CANCELLED';me.left=true;}

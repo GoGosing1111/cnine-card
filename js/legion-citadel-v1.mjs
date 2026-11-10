@@ -3,6 +3,7 @@ import {createServerClock} from '../shared/server-clock-v1.mjs';
 const root='/assets/ui/legion-citadel/gate-',esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const art=v=>{const s=String(v||'').replace(/^\/+/, '');return /^(assets|preview)\//.test(s)&&!s.includes('..')?'/'+s:'';};
 const terminal=s=>['VICTORY','DEFEAT'].includes(s);
+const coinNumber=new Intl.NumberFormat('ko-KR');
 function style(href){if(!document.querySelector('link[href="'+href+'"]')){const l=document.createElement('link');l.rel='stylesheet';l.href=href;document.head.append(l);}}
 let active=null,bundleUpgrade,liteOnly=false,hasGL;
 const qualityKey='cnine_citadel_display_v1';
@@ -82,7 +83,7 @@ function expeditionGuide() {
   const choices=quality.map(([v,n])=>'<option value="'+v+'" '+(readQuality()===v?'selected':'')+'>'+n+'</option>').join('');
   return '<details class="ct-details"><summary>원정 규칙과 화면 설정'+glyph('chevron')+'</summary><div class="ct-rules">'+
     '<div><b>편성 및 입장</b><p>각자 용병 2명과 아이콘 2장을 자유롭게 편성합니다. 두 사람의 전장 로딩이 끝나면 각자 행동력 1을 사용합니다.</p></div>'+
-    '<div><b>성주와 전리품</b><p>5분에 성주가 합류하고, 성주를 처치한 뒤에도 7분까지 사냥이 이어집니다. 내 필드의 아이템을 12초 안에 주우면 종료 후 내 가방에서 수령할 수 있습니다.</p></div>'+
+    '<div><b>성주와 전리품</b><p>5분에 성주가 합류하고, 처치 후에도 7분까지 사냥합니다. 내 필드의 아이템은 12초 안에 주우세요. 처치 코인은 자동으로 누적되며 전투 종료 후 아이템과 함께 수령합니다.</p></div>'+
     '<label class="ct-quality">전투 화면 <select data-quality aria-label="전투 화면">'+choices+'</select></label></div></details>';
 }
 function finder({open,tiers,selectedTier,rooms,tierLabel,waiting,test}) {
@@ -96,7 +97,8 @@ function finder({open,tiers,selectedTier,rooms,tierLabel,waiting,test}) {
   const empty='<div class="ct-quiet">'+glyph(open?'banner':'lock')+'<b>'+(open?'모집 중인 파티가 없습니다':'현재 모집이 닫혀 있습니다')+'</b><p>'+(open?'먼저 파티를 만들고 함께할 대원을 기다려 보세요.':'모집이 열리면 이곳에서 파티를 찾을 수 있습니다.')+'</p></div>';
   return (test&&open?'<p class="ct-test">테스트 모드 · 행동력과 실제 보상을 사용하지 않습니다.</p>':'')+
     '<div class="ct-finder"><section class="ct-panel ct-departure"><h2>원정 난이도</h2>'+
-    (cards?'<fieldset class="ct-tiers" aria-label="파티 개설 난이도">'+cards+'</fieldset><p class="ct-recommend"><b>권장</b><span>'+esc((tier.guide||'').replace(/^권장\s+|\s*권장$/g,''))+'</span></p>':'')+create+'</section>'+
+    (cards?'<fieldset class="ct-tiers" aria-label="파티 개설 난이도">'+cards+'</fieldset><p class="ct-recommend"><b>권장</b><span>'+esc((tier.guide||'').replace(/^권장\s+|\s*권장$/g,''))+'</span></p>'+
+     (tier.uniqueFamilies?.length?'<p class="ct-recommend"><b>성주 전리품</b><span>'+esc(tier.uniqueFamilies.join(' · '))+'<br>모든 성주가 유니크 1~3단계를 드롭하며, 상위 성주일수록 확률이 조금 높습니다.</span></p>':''):'')+create+'</section>'+
     '<section class="ct-panel ct-board"><div class="ct-panel-head"><h2>모집 중인 파티'+(open?'<span class="ct-count">'+rooms.length+'</span>':'')+'</h2>'+refresh+'</div>'+
     (open&&rooms.length?'<ul class="ct-rooms">'+roomList+'</ul>':empty)+(waiting?'<button data-act="leave">대기 파티 나가기</button>':'')+'</section></div>'+expeditionGuide();
 }
@@ -140,14 +142,20 @@ export function openCitadel(trigger,firstRead=null){
  function ensureOptions(){
   if(!entryOpen||options||fetchOptions)return;fetchOptions=request('options').then(v=>{if(closed||!entryOpen)return;options=v;draw(true);}).catch(e=>{if(entryOpen)say(e.message);}).finally(()=>{fetchOptions=null;});
  }
+ function warmSelectedMercenaries(){
+  if(!preparation||!options||!state||document.hidden||navigator.connection?.saveData)return;
+  const own=options.mercenaries.filter(m=>selected.mercenaryCodes.includes(m.id));
+  if(own.length)preparation.update?.([{id:state.you,selection:{mercenaries:own.map(m=>({code:m.id,name:m.name,sourceArt:m.image,rank:m.rank}))}}],state.you);
+ }
  function warm(){
   if(prewarm)return prewarm;
+  const roomId=state?.id,available=()=>!closed&&state?.id===roomId&&!paused()&&!terminal(state?.status);
   prewarm=(async()=>{if(lightweight()||!webglAvailable())return;await (window.ensureFeatureResources||window.CNineCoreRaidBridge?.ensureFeatureResources)('battleV2');
-   if(closed||!state||paused()||terminal(state.status))return;await ensureCitadelRenderer();if(closed||!state||paused()||terminal(state.status))return;
+   if(!available())return;await ensureCitadelRenderer();if(!available())return;
    if(!document.hidden&&!navigator.connection?.saveData){
     const compact=matchMedia('(pointer:coarse), (max-width:860px)').matches||navigator.deviceMemory<=4;
     preparation=window.ProjectVPixiBattle?.prepareCooperativeRoom?.(root+(compact?'720':'1440')+'.webp');
-    const own=options?.mercenaries.filter(m=>selected.mercenaryCodes.includes(m.id));if(own?.length)preparation?.update?.([{id:state.you,selection:{mercenaries:own.map(m=>({code:m.id,name:m.name,sourceArt:m.image,rank:m.rank}))}}],state.you);
+    warmSelectedMercenaries();
    }
   })().catch(e=>{prewarm=null;throw e;});return prewarm;
  }
@@ -162,14 +170,17 @@ export function openCitadel(trigger,firstRead=null){
   const label=paused()?'입장 일시 중지':terminal(next?.status)?'원정 종료':next?'대원 집결':displayTest?'테스트 모집':'파티 모집 중';
   txt(notice,label);notice.dataset.status=paused()?'paused':next?'party':'open';
   if(paused()){if(prewarm||!box.hidden)release();draw();return;}
-  if(next?.status==='LOBBY'){ensureOptions();if(me?.ready&&!navigator.connection?.saveData&&!document.hidden)void warm().catch(()=>{});}
+  if(next?.status==='LOBBY'){
+   ensureOptions();
+   if((me?.ready||next.members.length===2)&&!navigator.connection?.saveData&&!document.hidden)void warm().catch(()=>{});
+  }
   if(next&&['LOADING','ACTIVE'].includes(next.status)){showBattle();ground();return;}
   if(!box.hidden)release();
   draw();
  }
  function draw(force=false){
   if(closed||!paused()&&['ACTIVE','LOADING'].includes(state?.status))return;
-  const key=JSON.stringify([entryOpen,selectedTier,tiers,readQuality(),state?.id,state?.status,state?.members,state?.claimed,state?.drops,rooms,picker,selected,!!options,busy,displayTest]);
+  const key=JSON.stringify([entryOpen,selectedTier,tiers,readQuality(),state?.id,state?.status,state?.members,state?.claimed,state?.drops,state?.coins,rooms,picker,selected,!!options,busy,displayTest]);
   if(key===displayKey&&!force)return;displayKey=key;
   const focus=document.activeElement?.dataset,restore=main.contains(document.activeElement)?[focus?.act,focus?.id]:null;
   const oldScroll=main.querySelector('.ct-grid')?.scrollTop||0;
@@ -180,7 +191,11 @@ export function openCitadel(trigger,firstRead=null){
   if(!state||paused()){
    main.innerHTML=finder({open:entryOpen&&resolved,tiers,selectedTier,rooms,tierLabel,waiting:!!state,test:displayTest});
   }
-  else if(terminal(state.status)){main.innerHTML='<small>'+esc(state.tierName||tierLabel(state.tier))+'</small><h2>'+(state.status==='VICTORY'?'7분 사냥 완료':'토벌대 전멸')+'</h2><p>처치 '+state.kills+' · 성주 '+(state.bosses?'처치':'미처치')+' · 내 습득 '+state.picked+'회</p><h3>내 전리품</h3>'+items(state.drops)+'<p>'+(state.test?'테스트 모드 · 실제 보상 미지급':state.claimed?'내 계정에 지급되었습니다.':'사냥 중 내 가방에 담은 전리품입니다.')+'</p>'+(state.canClaim?'<button class="ct-primary" data-act="claim">내 전리품 수령</button>':'<button class="ct-primary" data-act="leave">파티 목록으로</button>');}
+  else if(terminal(state.status)){
+   const coins=state.coins?'<p><b>처치 코인 '+coinNumber.format(state.coins)+'</b></p>':'';
+   main.innerHTML='<small>'+esc(state.tierName||tierLabel(state.tier))+'</small><h2>'+(state.status==='VICTORY'?'7분 사냥 완료':'토벌대 전멸')+'</h2><p>처치 '+state.kills+' · 성주 '+(state.bosses?'처치':'미처치')+' · 내 습득 '+state.picked+'회</p><h3>내 전리품</h3>'+coins+(state.drops?.length||!coins?items(state.drops):'')+
+    '<p>'+(state.test?'테스트 모드 · 실제 보상 미지급':state.claimed?'내 계정에 지급되었습니다.':'습득한 보상을 내 계정으로 수령하세요.')+'</p>'+(state.canClaim?'<button class="ct-primary" data-act="claim">내 전리품 수령</button>':'<button class="ct-primary" data-act="leave">파티 목록으로</button>');
+  }
   else{const mine=state.members.find(m=>m.id===state.you),group=picker==='mercenaries'?'mercenaryCodes':'cardIds',other=group==='mercenaryCodes'?'cardIds':'mercenaryCodes',eligible=selected[group],opts=options?.[picker]||[];
    const seats=state.members.map(m=>'<div class="ct-seat"><span class="ct-seat-icon">'+glyph('people')+'</span><div><small>'+(m.id===state.hostId?'방장':'대원')+(m.id===state.you?' · 나':'')+'</small><b>'+esc(m.name)+'</b></div><span class="ct-seat-state" data-ready="'+!!m.ready+'">'+(m.ready?'준비 완료':'편성 중')+'</span></div>').join('');
    const emptySeat='<div class="ct-seat ct-seat-empty"><span class="ct-seat-icon">'+glyph('plus')+'</span><div><small>두 번째 자리</small><b>대원 모집 중</b></div></div>';
@@ -201,7 +216,7 @@ export function openCitadel(trigger,firstRead=null){
  function ground(){
   const host=box.querySelector('[data-ground]');if(!host||!state)return;
   const elapsed=clock.now()-(state.startsAt||0),items=(state.ground||[]).filter(x=>x.expires>elapsed),key=items.map(x=>x.token).join('|');
-  if(key!==groundKey){groundKey=key;host.innerHTML=items.map((x,i)=>'<button data-act="pickup" data-id="'+esc(x.token)+'" style="left:'+([12,43,73][x.pos%3])+'%;top:'+(Math.floor(x.pos/3)?56:26)+'%">'+(art(x.image)?'<img alt="" src="'+esc(art(x.image))+'">':'')+'<span>'+esc(x.name)+' × '+x.quantity+'</span></button>').join('');}
+  if(key!==groundKey){groundKey=key;host.innerHTML=items.map(x=>'<button data-act="pickup" data-id="'+esc(x.token)+'" style="left:'+([12,43,73][x.pos%3])+'%;top:'+(Math.floor(x.pos/3)?56:26)+'%">'+(art(x.image)?'<img alt="" src="'+esc(art(x.image))+'">':'')+'<span>'+esc(x.name)+' × '+x.quantity+(x.extraKinds?' 외 '+x.extraKinds+'종':'')+'</span></button>').join('');}
   txt(box.querySelector('[data-farm-count]'),'처치 '+state.kills+' · 내 가방 '+(state.picked||0)+(state.magnet?' · 자석 수집':''));
  }
  function ahead(elapsed){
@@ -229,8 +244,15 @@ export function openCitadel(trigger,firstRead=null){
   if(battle){clockHud();return;}if(mounting||loadingError)return;
   const gen=++battleEpoch,id=state.id,valid=()=>!closed&&gen===battleEpoch&&state?.id===id;
   mounting=(async()=>{
-   try{const [v,{mountCoopBattle}]=await Promise.all([request('battle?id='+id+'&part='+Math.min(Math.ceil(state.duration/30000)-1,Math.max(0,Math.floor((clock.now()-(state.startsAt||clock.now()))/30000)))),import('/raid/cooperative/battle.mjs?citadel=1'),warm().catch(()=>{liteOnly=true;})]);if(!valid())return;
-    replay=v.replay;replay.frames=v.chunk.frames;loadedPart=v.part;replay.payload.battleV2.result.timeline=v.chunk.events;const {manifest,forms}=replay.payload.cooperativeEncounter.citadel;for(const [slot,n,t,elite] of manifest){const f=forms[t];replay.units.push({id:n===-1?'B:4:CITADEL:BOSS':'B:'+slot+':CITADEL'+(n?':R'+n:''),side:'B',slot,maxHp:f.maxHp*(elite?2:1),maxShield:f.maxShield,isBoss:f.isBoss});}const host=box.querySelector('.coop-battle-mount');let mounted;if(!lightweight()&&webglAvailable()){try{mounted=await mountCoopBattle(host,replay.payload,{title:'군단토벌 · 불타는 성채',playerName:'성채 토벌대',clock});}catch{if(!valid())return;liteOnly=true;preparation?.close?.();preparation=null;void window.ProjectVPixiBattle?.releaseBattle?.({onlyIfIdle:true})?.catch?.(()=>{});}}if(!mounted){d.classList.add('ct-light-field');mounted=mountLite(host,replay.payload,replay.units);}
+   try{
+    const part=Math.min(Math.ceil(state.duration/30000)-1,Math.max(0,Math.floor((clock.now()-(state.startsAt||clock.now()))/30000)));
+    const detail=!lightweight()&&webglAvailable();
+    const rendererReady=detail?Promise.all([import('/raid/cooperative/battle.mjs?citadel=1'),warm()])
+     .then(([renderer])=>renderer).catch(()=>{liteOnly=true;return null;}):null;
+    const [v,renderer]=await Promise.all([request('battle?id='+id+'&part='+part),rendererReady]);
+    if(!valid())return;
+    replay=v.replay;replay.frames=v.chunk.frames;loadedPart=v.part;replay.payload.battleV2.result.timeline=v.chunk.events;const {manifest,forms}=replay.payload.cooperativeEncounter.citadel;for(const [slot,n,t,elite] of manifest){const f=forms[t];replay.units.push({id:n===-1?'B:4:CITADEL:BOSS':'B:'+slot+':CITADEL'+(n?':R'+n:''),side:'B',slot,maxHp:f.maxHp*(elite?2:1),maxShield:f.maxShield,isBoss:f.isBoss});}
+    const host=box.querySelector('.coop-battle-mount');let mounted;if(renderer){try{mounted=await renderer.mountCoopBattle(host,replay.payload,{title:'군단토벌 · 불타는 성채',playerName:'성채 토벌대',clock});}catch{if(!valid())return;liteOnly=true;preparation?.close?.();preparation=null;void window.ProjectVPixiBattle?.releaseBattle?.({onlyIfIdle:true})?.catch?.(()=>{});}}if(!mounted){d.classList.add('ct-light-field');mounted=mountLite(host,replay.payload,replay.units);}
     if(!valid()){mounted.destroy();return;}battle=mounted;battle.update({state,serverNow:clock.now(),payload:replay.payload});frameIndex=-1;prKey='';clockHud();
     const notice=box.querySelector('.coop-battle-notice');notice.hidden=true;uiTimer=setInterval(clockHud,250);
     if(state.status==='LOADING'){const response=await request('loaded',{method:'POST',body:{id}});if(valid()){apply(response.state);schedule();}}
@@ -245,7 +267,17 @@ export function openCitadel(trigger,firstRead=null){
   if(kind==='options'){ensureOptions();return;}
   if(kind==='refresh'){void refresh();return;}
   if(['mercenaries','icons'].includes(kind)){picker=kind;draw();return;}
-  if(kind==='pick'){if(!state||state.members.find(m=>m.id===state.you)?.ready)return;const group=picker==='mercenaries'?'mercenaryCodes':'cardIds',arr=selected[group];if(arr.includes(id))selected[group]=arr.filter(v=>v!==id);else if(arr.length<2)arr.push(id);else{say('선택한 슬롯을 해제한 뒤 다른 대원을 고르세요.');return;}say('');draw();return;}
+  if(kind==='pick'){
+   if(!state||state.members.find(m=>m.id===state.you)?.ready)return;
+   const group=picker==='mercenaries'?'mercenaryCodes':'cardIds',arr=selected[group];
+   if(arr.includes(id))selected[group]=arr.filter(v=>v!==id);
+   else if(arr.length<2)arr.push(id);
+   else{say('선택한 슬롯을 해제한 뒤 다른 대원을 고르세요.');return;}
+   if(group==='mercenaryCodes'&&selected[group].length===2&&!document.hidden&&!navigator.connection?.saveData){
+    if(preparation)warmSelectedMercenaries();else void warm().catch(()=>{});
+   }
+   say('');draw();return;
+  }
   busy=true;pauseNet();const e=++epoch;draw(true);say('');
   const body=kind==='create'?{requestId:createId,...(tiers.length?{tier:selectedTier}:{})}:kind==='join'?{id}:kind==='ready'?{id:state.id,...selected}:{id:state.id};
   try{const at=performance.now(),v=await request(kind,{method:'POST',body});if(closed||e!==epoch)return;apply(v.state,at);

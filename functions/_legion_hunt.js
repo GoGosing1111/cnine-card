@@ -8,7 +8,7 @@ import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
 import {contentEnergy,LEGION_ENERGY_MAXIMUM} from '../shared/content-energy-v1.mjs';
 import {legionHuntEnergyView} from '../shared/legion-hunt-energy-v1.mjs';
 import {readMiracleDropPercent,applyMiracleDropChance} from './_miracle_burning.js';
-import {readRegionPolicy,saveRegionPolicy,regionAccess,regionBootstrap,regionRewardCatalog,publicRegionHuntPayload} from './_legion_regions.js';
+import {readRegionPolicy,saveRegionPolicy,regionAccess,regionBootstrap,regionRewardCatalog,publicRegionHuntPayload,ascendantBossPercent} from './_legion_regions.js';
 import {regionalDifficulty,regionById} from '../shared/legion-regions-v1.mjs';
 import {readSupportBenefits} from './_supporter_benefits.js';
 import {SUPPORT_PLAN} from '../shared/server-support-v1.mjs';
@@ -187,7 +187,7 @@ export async function handleLegionHunt({path,request,env,deps}){
         if(regionLoot)for(const key of ['stonePercent','eliteStonePercent','eliteSetPercent','bossSetPercent','bossUniquePercent'])regionLoot[key]=rewardDropWithBonus(applyMiracleDropChance(regionLoot[key],miracleDropPercent),collectionPercent);
         const dropPolicy=regionPolicy?{regionLoot,dropLifeMs:regionLoot.lifetimeSeconds*1000,items:await regionRewardCatalog(env,{live:paying,ascendant:regionPolicy.ascendantDrops?.enabled===true})}:{dropChance:rewardDropWithBonus(applyMiracleDropChance(d.dropPercent,miracleDropPercent),collectionPercent)/100,bossDropChance:rewardDropWithBonus(applyMiracleDropChance(d.bossDropPercent,miracleDropPercent),collectionPercent)/100,dropLifeMs:d.lifetimeSeconds*1000,items:policy.items};
         if(regionPolicy?.ascendantDrops?.enabled){
-          dropPolicy.ascendantDrops=regionPolicy.ascendantDrops.tiers.map(row=>({tier:row.tier,bossPercent:rewardDropWithBonus(applyMiracleDropChance(100/row.expectedRuns,miracleDropPercent),collectionPercent)}));
+          dropPolicy.ascendantDrops=regionPolicy.ascendantDrops.tiers.map(row=>({tier:row.tier,bossPercent:ascendantBossPercent(row.expectedRuns,miracleDropPercent,collectionPercent)}));
         }
         const fieldDrops=regionPolicy?.regions.find(r=>r.id===body.regionId)?.fieldDrops;
         if(fieldDrops){

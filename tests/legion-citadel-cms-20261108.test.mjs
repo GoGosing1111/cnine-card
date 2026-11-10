@@ -26,7 +26,8 @@ for(const postgres of [false,true]){
    assert.ok(catalog.supplies.length>=4);assert.ok(catalog.supplies.every(v=>v.code!=='OFF_ITEM'));
    const lobby=ok(await f.action(1,'lobby'));assert.deepEqual(lobby.rooms,[]);assert.equal(lobby.open,false);
    assert.deepEqual(lobby.tiers.map(t=>t.id),['gate','keep','throne']);
-   assert.deepEqual(Object.keys(lobby.tiers[0]).sort(),['guide','id','name','stage']);
+   assert.deepEqual(Object.keys(lobby.tiers[0]).sort(),['guide','id','name','stage','uniqueFamilies']);
+   for(const tier of lobby.tiers)assert.deepEqual(tier.uniqueFamilies,['새벽별','그믐달','태양왕좌']);
    assert.equal((await f.action(1,'options')).status,423);assert.equal((await f.action(1,'create',{requestId:'citadel-growth-cms-party'})).status,423);
    const d={...policy.drops,normalPercent:100,elitePercent:0,bossSetPercent:0,bossMultiplier:4,equipmentCodes:[],supplies:policy.drops.supplies.slice(0,2).map(v=>({...v,quantity:17,weight:4}))};
    for(const bad of [{...d,normalPercent:101},{...d,supplies:d.supplies.slice(0,1)},{...d,supplies:[d.supplies[0],d.supplies[0]]},{...d,supplies:[d.supplies[0],{code:'OFF_ITEM',quantity:1,weight:1}]},{...d,equipmentCodes:['NO_SUCH_GEAR']}]){
@@ -88,8 +89,9 @@ test('live regional set inheritance, explicit equipment filter, weights and incl
   const pool={chance:100,goods:[{ref:'A',quantity:2,weight:1,type:'INVENTORY_ITEM'},{ref:'B',quantity:7,weight:3,type:'INVENTORY_ITEM'}],armory:[{ref:'9',type:'EQUIPMENT'}],rates:{normalPercent:0,elitePercent:100,bossPercent:0,bossMultiplier:3}};
   const series=[[1000,0],[4000,1],[7000,2]],one=personalFarm(pool,series,false,()=>0);
   assert.deepEqual(one.events.map(v=>v.slice(0,3)),[[4000,0,2]]);assert.ok(!('weight' in one.items[0]));
-  pool.rates.bossPercent=100;assert.deepEqual(personalFarm(pool,series,false,()=>.25).events.map(v=>v.slice(0,3)),[[4000,1,7],[7000,2,1]]);
-  pool.chance=0;assert.deepEqual(personalFarm(pool,series,false,()=>.25).events.at(-1).slice(0,3),[7000,1,21]);
+  // The 1:3 material weights now have 37.5% and (capped) 100% marginal chances.
+  pool.rates.bossPercent=100;assert.deepEqual(personalFarm(pool,series,false,()=>.375).events.map(v=>v.slice(0,3)),[[4000,1,7],[7000,2,1]]);
+  pool.chance=0;assert.deepEqual(personalFarm(pool,series,false,()=>.375).events.at(-1).slice(0,3),[7000,1,21]);
  }finally{await f.close();}
 });
 test('stronger tier opponents and continuous replenishment allow boss progression with the same four mercenaries',()=>{
