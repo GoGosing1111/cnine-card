@@ -1,0 +1,201 @@
+{
+  "scope": "Code and assets deployed; operator controls admission separately",
+  "source": "a4abdeeee0ab882604089f11b833d6bf0ff8b558",
+  "priorSource": "41652d58780c57b1cdcb88d84c430c40e373580c",
+  "deployedAt": "2026-11-10T08:16:58.003Z",
+  "verifiedAt": "2026-11-10T08:19:16.633Z",
+  "pages": {
+    "id": "ec09922d-de8a-44fb-aac1-006d424e6e6b",
+    "url": "https://ec09922d.cnine-card.pages.dev"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "id": "f0823d91-0a7c-4b19-a5ea-ca14e0235a36",
+      "trafficPercent": 100,
+      "verifiedRole": "game API including Citadel party"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "id": "ead49aa6-5593-4504-8f7b-c850ca97cc1e",
+      "trafficPercent": 100,
+      "verifiedRole": "clan scheduling"
+    }
+  ],
+  "admission": {
+    "before": "OFF",
+    "after": "OFF",
+    "revisionBefore": 3,
+    "revisionAfter": 3,
+    "rawSettingsSHA256": "35f08b161fb91fbf4bc58e9b25223e998996679cc29d2f88cad9a85d3689c886",
+    "settingsIdentical": true,
+    "publicStatus": {
+      "ok": true,
+      "open": false
+    },
+    "verifiedAt": "2026-11-10T08:18:00.309Z",
+    "cmsWrites": 0,
+    "operatorTestBattles": 0
+  },
+  "content": {
+    "soloCalamityDrops": true,
+    "ordinaryItemRateMultiplier": 1.3,
+    "coinAmountMultiplier": 10,
+    "uniqueTiers": [
+      1,
+      2,
+      3
+    ],
+    "enemiesAndBoss": 5,
+    "ordinaryEntryCost": 1,
+    "ordinaryEntryIntervalHours": 3,
+    "ownerUnlimited": true
+  },
+  "checks": {
+    "releaseTests": 54,
+    "workerSyntax": true,
+    "hyperdriveQueryCache": "disabled",
+    "pagesAssets": 20000,
+    "distributedFiles": [
+      {
+        "file": "index.html",
+        "bytes": 51725,
+        "sha256": "7bcd4be9b61e5f42045fb20c5520b0b4e763b65c4a2b35d71adfb6818a0052d6",
+        "windows": true
+      },
+      {
+        "file": "onestore/index.html",
+        "bytes": 51568,
+        "sha256": "f74b4b62c46c94ca0dffe3868415359a2afcca4fef9e0aadfa1ff4fc33a69846",
+        "windows": false
+      },
+      {
+        "file": "admin/index.html",
+        "bytes": 82969,
+        "sha256": "3903df075de53a867105b996c81d611f23936b120fbd7201c33815290b39aba7",
+        "windows": false
+      },
+      {
+        "file": "admin/legion-hunt-admin-v1.mjs",
+        "bytes": 23724,
+        "sha256": "9e2c7db720347dd22e9e1740f4b3923cbf023a63d55949029e8a16888032aa07",
+        "windows": false
+      },
+      {
+        "file": "js/legion-hunt-entry-v1.mjs",
+        "bytes": 24031,
+        "sha256": "50025fe7ed59897a4f636105c901647eb45d2363cf30ceca92c2c48cd75ccc67",
+        "windows": true
+      },
+      {
+        "file": "js/legion-citadel-v1.mjs",
+        "bytes": 35513,
+        "sha256": "52daf26e132f713b81b4637aa87ef9f1d163d23f578c073d880b7a51dd036a65",
+        "windows": true
+      },
+      {
+        "file": "shared/legion-hunt-coins-v1.mjs",
+        "bytes": 3837,
+        "sha256": "3e33b8fe7b2e50e083ceb5016ca8dd77758c0db2ef1596e108f25bfb78c0d23b",
+        "windows": true
+      },
+      {
+        "file": "assets/ui/legion-citadel/enemies-v1/ash-hound.webp",
+        "bytes": 34772,
+        "sha256": "d955bbc71629e3e897dfa4294a8726129c8a3f2d50c81e746bf3e1f8080c5b2b",
+        "windows": true
+      },
+      {
+        "file": "assets/ui/legion-citadel/enemies-v1/ember-watcher.webp",
+        "bytes": 29136,
+        "sha256": "ccf4ec565612415a96942e1d77b9e9e0dac40a798068677e8c60257e8df7f046",
+        "windows": true
+      },
+      {
+        "file": "assets/ui/legion-citadel/enemies-v1/black-iron-guard.webp",
+        "bytes": 32490,
+        "sha256": "ccc053d917c662fe093195e959439c9a231f3cd796b22815c53537eb82a24001",
+        "windows": true
+      },
+      {
+        "file": "assets/ui/legion-citadel/enemies-v1/furnace-warden.webp",
+        "bytes": 48500,
+        "sha256": "738d389f04701ee70377e25784024033546d112dceac40eb81dbee1edb82af2e",
+        "windows": true
+      },
+      {
+        "file": "assets/ui/legion-citadel/enemies-v1/castellan-moloch.webp",
+        "bytes": 105372,
+        "sha256": "d01e9f367fd47c022c08655b708bb9a708012d2a2dde9d46aee42d56a91f1b10",
+        "windows": true
+      }
+    ],
+    "windows": {
+      "releaseId": "1a49e62c2f34f4d4b94ee5507afd7072fb1be9260b736df24b3ed614e8c78a0b",
+      "changed": [
+        "/assets/ui/legion-citadel/enemies-v1/ash-hound.webp",
+        "/assets/ui/legion-citadel/enemies-v1/black-iron-guard.webp",
+        "/assets/ui/legion-citadel/enemies-v1/castellan-moloch.webp",
+        "/assets/ui/legion-citadel/enemies-v1/ember-watcher.webp",
+        "/assets/ui/legion-citadel/enemies-v1/furnace-warden.webp",
+        "/index.html",
+        "/js/legion-citadel-v1.mjs",
+        "/js/legion-hunt-entry-v1.mjs",
+        "/shared/legion-hunt-coins-v1.mjs"
+      ],
+      "removed": []
+    },
+    "auth": [
+      {
+        "route": "legion-party/lobby",
+        "status": 401
+      },
+      {
+        "route": "admin/legion-hunt/citadel",
+        "status": 401
+      }
+    ]
+  },
+  "smoke": {
+    "publicAssets": true,
+    "accountAndLobbyFixture": true,
+    "liveStatusReadOnly": true,
+    "screens": [
+      {
+        "at": "2026-11-10T08:18:02.117Z",
+        "platform": "desktop",
+        "emulated": false,
+        "publicAssets": true,
+        "publicAdmission": {
+          "ok": true,
+          "open": false
+        },
+        "accountAndLobbyFixture": true,
+        "changedProductionAccounts": 0,
+        "tiers": 3,
+        "createJoinButtons": 0,
+        "firstMs": 121,
+        "reentryMs": 47,
+        "postCloseRequests": 0
+      },
+      {
+        "at": "2026-11-10T08:18:11.713Z",
+        "platform": "ios",
+        "emulated": true,
+        "publicAssets": true,
+        "publicAdmission": {
+          "ok": true,
+          "open": false
+        },
+        "accountAndLobbyFixture": true,
+        "changedProductionAccounts": 0,
+        "tiers": 3,
+        "createJoinButtons": 0,
+        "firstMs": 508,
+        "reentryMs": 346,
+        "postCloseRequests": 0
+      }
+    ],
+    "openBattlePerformance": "entry.json"
+  }
+}
