@@ -7,18 +7,18 @@ const key=(r,id)=>prefix(r)+id;
 export const organizationJoinOpen=(r,now)=>ORGANIZATION_RELEASE_ENABLED&&r?.phase==='ASSIGNED'&&now>=ORGANIZATION_FIXED_SCHEDULE.effectiveAt;
 async function membership(q,r,id){return (await q('SELECT * FROM organization_members_v1 WHERE round_id=$1 AND user_id=$2',[r.id,id]))[0];}
 async function application(q,r,id){const [row]=await q('SELECT value FROM app_meta WHERE key=$1',[key(r,id)]);return row?JSON.parse(row.value):null;}
-async function authority(q,r,user,{lock=false}={}){
- const mine=await membership(q,r,user.id);
+async function authority(q,r,user,{lock=false,knownMembership}={}){
+ const mine=knownMembership===undefined?await membership(q,r,user.id):knownMembership;
  if(!mine)return {canReview:false,organizationId:null};
  const [row]=await q('SELECT state_json FROM organization_faction_state_v1 WHERE round_id=$1'+(lock?' FOR SHARE':''),[r.id]);
- const roster=(await q('SELECT m.user_id,m.organization_id,u.status FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1',[r.id])).map(m=>({userId:Number(m.user_id),clanId:Number(m.organization_id),status:m.status}));
+ const roster=(await q('SELECT m.user_id,m.organization_id,u.status FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 AND m.organization_id=$2',[r.id,mine.organization_id])).map(m=>({userId:Number(m.user_id),clanId:Number(m.organization_id),status:m.status}));
  const state=JSON.parse(row?.state_json||'{}'),organizationId=Number(mine.organization_id);
  const elderIds=(state.elders?.[organizationId]??[state.commanders?.[organizationId]]).filter(id=>roster.some(m=>m.userId===id&&m.clanId===organizationId));
  return {organizationId,elderIds,canReview:organizationElderIds(state,roster,organizationId).includes(Number(user.id))};
 }
-export async function organizationJoinOverview(q,r,user,now){
+export async function organizationJoinOverview(q,r,user,now,knownMembership){
  if(!organizationJoinOpen(r,now))return {enabled:false,canApply:false,canReview:false,applications:[]};
- const mine=await membership(q,r,user.id),a=await application(q,r,user.id),auth=await authority(q,r,user);
+ const mine=knownMembership===undefined?await membership(q,r,user.id):knownMembership,a=await application(q,r,user.id),auth=await authority(q,r,user,{knownMembership:mine});
  const rows=auth.canReview?await q('SELECT value FROM app_meta WHERE left(key,length($1))=$1 ORDER BY key',[prefix(r)]):[];
  const requests=rows.map(row=>JSON.parse(row.value)).filter(a=>a.organizationId===auth.organizationId&&a.status==='PENDING');
  const users=requests.length?await q('SELECT id,nickname,status FROM users WHERE id=ANY($1::bigint[])',[requests.map(a=>a.userId)]):[];
