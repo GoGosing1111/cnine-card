@@ -32,11 +32,12 @@ function navigationRuntime() {
 test('public document uses the native forge-inspired archive with game links and CMS information', () => {
   const limitedTab='<button id="limitedView" type="button" role="tab" data-view="limited" aria-controls="cardGrid" aria-selected="false">리미티드 <b id="limitedCount">—</b></button>';
   const limitedCss='<link rel="stylesheet" href="/mercenary-codex/limited.css?bloodmoon=20261023-codex-v1&amp;v=20261017-halloween-ready-v1">';
-  const deploymentCss='<link rel="stylesheet" href="/mercenary-codex/command.css?v=20261102-codex-ui-v1">';
+  const deploymentCss=[...html.matchAll(/<link rel="stylesheet" href="(\/mercenary-codex\/command\.css\?[^"]+)">/g)];
   const levelingLink='<a id="openLeveling" class="fusion-entry" href="/mercenary-codex/leveling/">용병 성장</a>';
   assert.equal(html.split(levelingLink).length,2,'the read-only growth entry is publicly visible');
   assert.equal(html.split(limitedTab).length,2);assert.equal(html.split(limitedCss).length,2);
-  assert.equal(html.split(deploymentCss).length,2);
+  assert.equal(deploymentCss.length,1);
+  assert.equal(new URL(deploymentCss[0][1].replaceAll('&amp;','&'),'https://game.test').searchParams.get('v'),'20261102-codex-ui-v1');
   assert.equal(html.split('&amp;mine=20261003').length,3);
   assert.equal(html.replaceAll('\r\n','\n'),publicCodexHtml().replaceAll('\r\n','\n'),'rebuilding the public archive must preserve every live stylesheet and release hook');
   assert.match(html, /data-codex-mode="public"/);

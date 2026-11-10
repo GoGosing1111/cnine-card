@@ -14,7 +14,8 @@ test('용병도감은 내 용병을 기본으로 표시하고 전체 도감을 �
   assert.match(html,/id="ownedCount"/);
   assert.match(html,/id="loadoutName"/);
   assert.match(client,/catalogCards\(\)\.filter\(c=>ownedCard\(c\.code\)\)/);
-  assert.match(client,/Lv\.\$\{fmt\(owned\.level\)\} · 보유/);
+  assert.match(client,/Lv\.\$\{fmt\(owned\.level\)\} · \$\{ownershipLabel\(owned\)\}/);
+  assert.match(client,/const ownershipLabel=card=>card\.loanUntil\?'컴백 대여 .*:'보유 '\+fmt\(Number\(card\.duplicates\|\|0\)\+1\)\+'장';/);
 });
 
 test('선택 상세에서 기존 원자 편성 계약만 호출하고 유실 응답을 같은 요청으로 복구한다',()=>{
