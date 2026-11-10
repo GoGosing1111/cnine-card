@@ -1,0 +1,155 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:support-package-20261106:paid4-xbody-all-failed:20261109:v1",
+  "completedAt": "2026-11-10T02:36:28.096Z",
+  "verifiedAt": "2026-11-10T02:37:06.048Z",
+  "auditId": "57651",
+  "productCode": "SEASON_PASS_PACKAGE_20261106",
+  "unitPriceWon": 49800,
+  "minimumPaidUnits": 4,
+  "reopeningDeployment": "2026-11-06T19:03:16.550+09:00",
+  "saleEndsExclusive": "2026-11-09T00:00:00+09:00",
+  "paidAccounts": 22,
+  "paidOrders": 33,
+  "buyersAtThreshold": 15,
+  "eligibleAccounts": 3,
+  "reward": {
+    "id": "49",
+    "code": "BATTLE_SUIT_X_BODY",
+    "name": "X-BODY",
+    "slot": "BATTLE_SUIT",
+    "quantity": 1
+  },
+  "grants": [
+    {
+      "userId": "65",
+      "nickname": "음순이",
+      "paidUnits": 10,
+      "attempts": 10,
+      "successes": 0,
+      "instanceId": "3243456417",
+      "quantity": 1,
+      "quantityBefore": 0,
+      "quantityAfter": 1,
+      "verifiedQuantity": 1,
+      "newItemEquipped": false
+    },
+    {
+      "userId": "148",
+      "nickname": "꾸까1",
+      "paidUnits": 5,
+      "attempts": 5,
+      "successes": 0,
+      "instanceId": "3243456418",
+      "quantity": 1,
+      "quantityBefore": 1,
+      "quantityAfter": 2,
+      "verifiedQuantity": 2,
+      "newItemEquipped": false
+    },
+    {
+      "userId": "289",
+      "nickname": "베베킹",
+      "paidUnits": 10,
+      "attempts": 10,
+      "successes": 0,
+      "instanceId": "3243456419",
+      "quantity": 1,
+      "quantityBefore": 0,
+      "quantityAfter": 1,
+      "verifiedQuantity": 1,
+      "newItemEquipped": false
+    }
+  ],
+  "existingAuctionPurchase": {
+    "lot_id": "40081f5f-a68d-4a78-9fb8-9738abf4d267",
+    "buyer": "148",
+    "seller": "4391",
+    "instance": "3194523165",
+    "crafter": "4391",
+    "success": 1,
+    "recipe": "570"
+  },
+  "missing": 0,
+  "duplicates": 0,
+  "evidenceHash": "48bbe420d2512c383439342fad6153a25baf74318b112a074a986b1a9a98a465",
+  "verification": {
+    "readOnly": true,
+    "source": "35e45266f2322d053b0df293ebe2ceb8968adad9",
+    "routes": [
+      "GET /api/character/loadout?quantities=deferred",
+      "GET /api/character/equipment/quantities"
+    ],
+    "timingsScope": "Local released handlers and production database, first and repeat calls per account, server timings only.",
+    "before": [
+      {
+        "userId": "65",
+        "first": {
+          "loadoutMs": 2148,
+          "quantitiesMs": 158
+        },
+        "repeat": {
+          "loadoutMs": 1771,
+          "quantitiesMs": 74
+        }
+      },
+      {
+        "userId": "148",
+        "first": {
+          "loadoutMs": 1043,
+          "quantitiesMs": 74
+        },
+        "repeat": {
+          "loadoutMs": 864,
+          "quantitiesMs": 74
+        }
+      },
+      {
+        "userId": "289",
+        "first": {
+          "loadoutMs": 967,
+          "quantitiesMs": 74
+        },
+        "repeat": {
+          "loadoutMs": 1322,
+          "quantitiesMs": 81
+        }
+      }
+    ],
+    "after": [
+      {
+        "userId": "65",
+        "first": {
+          "loadoutMs": 1577,
+          "quantitiesMs": 167
+        },
+        "repeat": {
+          "loadoutMs": 1199,
+          "quantitiesMs": 84
+        }
+      },
+      {
+        "userId": "148",
+        "first": {
+          "loadoutMs": 1583,
+          "quantitiesMs": 420
+        },
+        "repeat": {
+          "loadoutMs": 1119,
+          "quantitiesMs": 84
+        }
+      },
+      {
+        "userId": "289",
+        "first": {
+          "loadoutMs": 1025,
+          "quantitiesMs": 83
+        },
+        "repeat": {
+          "loadoutMs": 989,
+          "quantitiesMs": 86
+        }
+      }
+    ]
+  }
+}
