@@ -1,0 +1,98 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:support-package-20261106:paid4-xbody-all-failed:20261109:v1:notice",
+  "planHash": "9e2d1960634a24bcb6a179a1a262a38010778a15d65edabf4024afae711da734",
+  "grantAuditId": "57651",
+  "grantHash": "2f229feaae594f112b66931edddcd3b30c0881bfeba364a00c666be2ddb80ee0",
+  "sentAt": "2026-11-10T02:43:42.378Z",
+  "title": "X-BODY 제작 실패 보상 지급 완료",
+  "body": "49,800원 패키지 구매자 제작 실패 보상으로 11월 10일 X-BODY 완성품 1개를 캐릭터 장비함에 지급했습니다. 장비함의 배틀슈트 목록에서 확인해 주세요.",
+  "attachments": 0,
+  "messages": [
+    {
+      "userId": "65",
+      "nickname": "음순이",
+      "messageId": "288328"
+    },
+    {
+      "userId": "148",
+      "nickname": "꾸까1",
+      "messageId": "288329"
+    },
+    {
+      "userId": "289",
+      "nickname": "베베킹",
+      "messageId": "288330"
+    }
+  ],
+  "beforeInboxMs": [
+    {
+      "userId": "65",
+      "elapsedMs": 86
+    },
+    {
+      "userId": "148",
+      "elapsedMs": 75
+    },
+    {
+      "userId": "289",
+      "elapsedMs": 84
+    }
+  ],
+  "auditId": "57665",
+  "verifiedAt": "2026-11-10T02:44:15.673Z",
+  "visible": 3,
+  "missing": 0,
+  "duplicates": 0,
+  "verification": {
+    "readOnly": true,
+    "inboxQuery": "GET /api/messages visible list, latest 100",
+    "timingScope": "Production PostgreSQL visible-list query, first and repeat reads",
+    "first": [
+      {
+        "userId": "65",
+        "ids": [
+          "288328"
+        ],
+        "elapsedMs": 78
+      },
+      {
+        "userId": "148",
+        "ids": [
+          "288329"
+        ],
+        "elapsedMs": 81
+      },
+      {
+        "userId": "289",
+        "ids": [
+          "288330"
+        ],
+        "elapsedMs": 378
+      }
+    ],
+    "repeat": [
+      {
+        "userId": "65",
+        "ids": [
+          "288328"
+        ],
+        "elapsedMs": 81
+      },
+      {
+        "userId": "148",
+        "ids": [
+          "288329"
+        ],
+        "elapsedMs": 80
+      },
+      {
+        "userId": "289",
+        "ids": [
+          "288330"
+        ],
+        "elapsedMs": 77
+      }
+    ]
+  }
+}
