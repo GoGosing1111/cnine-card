@@ -1,0 +1,405 @@
+{
+  "verifiedAt": "2026-11-10T14:41:52.235Z",
+  "source": "f1ff2847c0881a2ed042c2dd5551ba3c972ffaf8",
+  "production": null,
+  "cause": "2인 격전지의 서버 상태에는 일반 카드 4명과 용병, 디임의 자율 병기가 함께 있다. 병기는 용병이 아니므로 카드 목록에 포함됐고, 늦게 받은 상태를 복원할 때 표시기가 병기를 다섯 번째 편성 칸에 대응시켜 기본 마네킹을 표시했다.",
+  "fix": "출전 카드와 적을 서버 식별자로 일치시킨다. 자율 병기는 원래의 소환 이벤트로 복원하며, 명시적 빈 텍스처가 있는 배포용 캐릭터 칸의 기본 마네킹은 숨긴다.",
+  "conditions": "Windows PC에서 Chrome 1440×900 및 모바일 WebKit 390×844 에뮬레이션. 같은 격리 계정/서버 전투 시드/자석 펫/소환 프레임을 이전 소스와 수정본에 재생했다. 공개 검증은 운영 렌더러를 같은 전투에 사용했다. 실제 모바일 기기는 사용하지 않았다.",
+  "snapshots": {
+    "before-desktop": [
+      {
+        "members": 2,
+        "round": 0,
+        "cards": 5,
+        "mercenaries": 4,
+        "weapons": 1,
+        "pepegu": true,
+        "dummies": 1,
+        "readyMs": 3018,
+        "snapshotCpuMs": 6,
+        "frames": {
+          "max": 42,
+          "p95": 16,
+          "over50": 0
+        },
+        "requests": 100,
+        "servedBytes": 96351838,
+        "afterExit": {
+          "canvases": 0,
+          "mounted": false,
+          "tickerStarted": false
+        }
+      },
+      {
+        "members": 2,
+        "round": 1,
+        "cards": 5,
+        "mercenaries": 4,
+        "weapons": 1,
+        "pepegu": true,
+        "dummies": 1,
+        "readyMs": 737,
+        "snapshotCpuMs": 4.4,
+        "frames": {
+          "max": 16,
+          "p95": 9,
+          "over50": 0
+        },
+        "requests": 58,
+        "servedBytes": 66835641,
+        "afterExit": {
+          "canvases": 0,
+          "mounted": false,
+          "tickerStarted": false
+        }
+      },
+      {
+        "members": 3,
+        "round": 2,
+        "cards": 6,
+        "mercenaries": 6,
+        "weapons": 1,
+        "pepegu": true,
+        "dummies": 0,
+        "readyMs": 967,
+        "snapshotCpuMs": 5.3,
+        "frames": {
+          "max": 29,
+          "p95": 11,
+          "over50": 0
+        },
+        "requests": 68,
+        "servedBytes": 76188933,
+        "afterExit": {
+          "canvases": 0,
+          "mounted": false,
+          "tickerStarted": false
+        }
+      }
+    ],
+    "candidate-desktop": [
+      {
+        "members": 2,
+        "round": 0,
+        "cards": 4,
+        "mercenaries": 4,
+        "weapons": 1,
+        "pepegu": true,
+        "dummies": 0,
+        "readyMs": 2337,
+        "snapshotCpuMs": 5.4,
+        "frames": {
+          "max": 35,
+          "p95": 12,
+          "over50": 0
+        },
+        "requests": 100,
+        "servedBytes": 96372625,
+        "afterExit": {
+          "canvases": 0,
+          "mounted": false,
+          "tickerStarted": false
+        }
+      },
+      {
+        "members": 2,
+        "round": 1,
+        "cards": 4,
+        "mercenaries": 4,
+        "weapons": 1,
+        "pepegu": true,
+        "dummies": 0,
+        "readyMs": 740,
+        "snapshotCpuMs": 3.4,
+        "frames": {
+          "max": 23,
+          "p95": 7,
+          "over50": 0
+        },
+        "requests": 57,
+        "servedBytes": 66808705,
+        "afterExit": {
+          "canvases": 0,
+          "mounted": false,
+          "tickerStarted": false
+        }
+      },
+      {
+        "members": 3,
+        "round": 2,
+        "cards": 6,
+        "mercenaries": 6,
+        "weapons": 1,
+        "pepegu": true,
+        "dummies": 0,
+        "readyMs": 696,
+        "snapshotCpuMs": 4.6,
+        "frames": {
+          "max": 30,
+          "p95": 7,
+          "over50": 0
+        },
+        "requests": 68,
+        "servedBytes": 76188933,
+        "afterExit": {
+          "canvases": 0,
+          "mounted": false,
+          "tickerStarted": false
+        }
+      }
+    ],
+    "before-ios": [
+      {
+        "members": 2,
+        "round": 0,
+        "cards": 5,
+        "mercenaries": 4,
+        "weapons": 1,
+        "pepegu": true,
+        "dummies": 1,
+        "readyMs": 12235,
+        "snapshotCpuMs": 21,
+        "frames": {
+          "max": 103,
+          "p95": 103,
+          "over50": 10
+        },
+        "requests": 96,
+        "servedBytes": 92726835,
+        "afterExit": {
+          "canvases": 0,
+          "mounted": false,
+          "tickerStarted": false
+        }
+      },
+      {
+        "members": 2,
+        "round": 1,
+        "cards": 5,
+        "mercenaries": 4,
+        "weapons": 1,
+        "pepegu": true,
+        "dummies": 1,
+        "readyMs": 4866,
+        "snapshotCpuMs": 9,
+        "frames": {
+          "max": 91,
+          "p95": 72,
+          "over50": 3
+        },
+        "requests": 58,
+        "servedBytes": 80213405,
+        "afterExit": {
+          "canvases": 0,
+          "mounted": false,
+          "tickerStarted": false
+        }
+      },
+      {
+        "members": 3,
+        "round": 2,
+        "cards": 6,
+        "mercenaries": 6,
+        "weapons": 1,
+        "pepegu": true,
+        "dummies": 0,
+        "readyMs": 4155,
+        "snapshotCpuMs": 8,
+        "frames": {
+          "max": 167,
+          "p95": 167,
+          "over50": 3
+        },
+        "requests": 68,
+        "servedBytes": 90716325,
+        "afterExit": {
+          "canvases": 0,
+          "mounted": false,
+          "tickerStarted": false
+        }
+      }
+    ],
+    "candidate-ios": [
+      {
+        "members": 2,
+        "round": 0,
+        "cards": 4,
+        "mercenaries": 4,
+        "weapons": 1,
+        "pepegu": true,
+        "dummies": 0,
+        "readyMs": 7619,
+        "snapshotCpuMs": 12,
+        "frames": {
+          "max": 107,
+          "p95": 107,
+          "over50": 7
+        },
+        "requests": 95,
+        "servedBytes": 91352616,
+        "afterExit": {
+          "canvases": 0,
+          "mounted": false,
+          "tickerStarted": false
+        }
+      },
+      {
+        "members": 2,
+        "round": 1,
+        "cards": 4,
+        "mercenaries": 4,
+        "weapons": 1,
+        "pepegu": true,
+        "dummies": 0,
+        "readyMs": 3007,
+        "snapshotCpuMs": 7,
+        "frames": {
+          "max": 128,
+          "p95": 128,
+          "over50": 9
+        },
+        "requests": 58,
+        "servedBytes": 80213405,
+        "afterExit": {
+          "canvases": 0,
+          "mounted": false,
+          "tickerStarted": false
+        }
+      },
+      {
+        "members": 3,
+        "round": 2,
+        "cards": 6,
+        "mercenaries": 6,
+        "weapons": 1,
+        "pepegu": true,
+        "dummies": 0,
+        "readyMs": 3271,
+        "snapshotCpuMs": 9,
+        "frames": {
+          "max": 83,
+          "p95": 68,
+          "over50": 5
+        },
+        "requests": 68,
+        "servedBytes": 90716325,
+        "afterExit": {
+          "canvases": 0,
+          "mounted": false,
+          "tickerStarted": false
+        }
+      }
+    ]
+  },
+  "lobbyEntry": {
+    "baseline-desktop": {
+      "client": {
+        "width": 1440,
+        "height": 960,
+        "agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "coarse": false,
+        "standalone": false,
+        "homeLaunch": false,
+        "startLink": "/",
+        "worker": "/service-worker.js",
+        "gl": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3070 (0x00002484) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "timing": {
+        "clickToFormationMs": 1107,
+        "clickToFirstAttackMs": 4692,
+        "firstAttackDriftMs": 1,
+        "clickToSkillMs": 5034
+      },
+      "staticInReady": {
+        "count": 42,
+        "bytes": 8134821
+      },
+      "errors": [],
+      "stableReturn": true,
+      "returned": true
+    },
+    "candidate-desktop": {
+      "client": {
+        "width": 1440,
+        "height": 960,
+        "agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "coarse": false,
+        "standalone": false,
+        "homeLaunch": false,
+        "startLink": "/",
+        "worker": "/service-worker.js",
+        "gl": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3070 (0x00002484) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "timing": {
+        "clickToFormationMs": 763,
+        "clickToFirstAttackMs": 4356,
+        "firstAttackDriftMs": 6,
+        "clickToSkillMs": 4693
+      },
+      "staticInReady": {
+        "count": 42,
+        "bytes": 8138518
+      },
+      "errors": [],
+      "stableReturn": true,
+      "returned": true
+    },
+    "baseline-ios": {
+      "client": {
+        "width": 390,
+        "height": 844,
+        "agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Mobile/15E148 Safari/604.1",
+        "coarse": true,
+        "standalone": false,
+        "homeLaunch": false,
+        "startLink": "/",
+        "worker": "/service-worker.js",
+        "gl": "Apple GPU"
+      },
+      "timing": {
+        "clickToFormationMs": 8722,
+        "clickToFirstAttackMs": 12256,
+        "firstAttackDriftMs": 295,
+        "clickToSkillMs": 12688
+      },
+      "staticInReady": {
+        "count": 63,
+        "bytes": 29904201
+      },
+      "errors": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "stableReturn": true,
+      "returned": true
+    },
+    "candidate-ios": {
+      "client": {
+        "width": 390,
+        "height": 844,
+        "agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Mobile/15E148 Safari/604.1",
+        "coarse": true,
+        "standalone": false,
+        "homeLaunch": false,
+        "startLink": "/",
+        "worker": "/service-worker.js",
+        "gl": "Apple GPU"
+      },
+      "timing": {
+        "clickToFormationMs": 7468,
+        "clickToFirstAttackMs": 10938,
+        "firstAttackDriftMs": 249,
+        "clickToSkillMs": 11397
+      },
+      "staticInReady": {
+        "count": 63,
+        "bytes": 29915951
+      },
+      "errors": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "stableReturn": true,
+      "returned": true
+    }
+  },
+  "notice": "output/announcements/coop-character-display-20261110.txt"
+}
