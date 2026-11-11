@@ -31,22 +31,29 @@ test('only the SSS interval enters the second lottery; SS remains ordinary and m
 });
 
 test('unauthenticated opening performs no database query; OFF and incomplete ON never charge',async t=>{
- const f=await bloodmoonFixture(t);f.settings.mode='OFF';await f.configure();
+ const f=await bloodmoonFixture(t);
+ assert.equal((await bloodmoonPackShopRow(f.env)).id,BLOODMOON_PACK.id);
+ f.settings.mode='OFF';await f.configure();
  const queries=f.stats.queries,response=await handleBloodmoonPack({path:BLOODMOON_PACK.openPath,request:new Request('https://qa.test/api/'+BLOODMOON_PACK.openPath,{method:'POST'}),env:f.env,deps:{authenticate:async()=>null,json:(body,status)=>({body,status})}});
- assert.equal(response.status,401);assert.equal(f.stats.queries,queries);assert.equal((await bloodmoonPackShopRow(f.env)).drawEnabled,false);
+ assert.equal(response.status,401);assert.equal(f.stats.queries,queries);assert.equal(await bloodmoonPackShopRow(f.env),null);
  const s=bloodmoonPackDraft();s.mode='ON';await assert.rejects(saveBloodmoonPack(f.env,{id:1},{expectedRevision:1,requestId:crypto.randomUUID(),reason:'검수 ON 차단',settings:s}),e=>e.code==='MERCENARY_BLOODMOON_CONFIG');
- const closed=createBloodmoonPackService({readState:readBloodmoonPackState});await assert.rejects(closed.open(f.env,f.user,f.body()),e=>e.code==='MERCENARY_BLOODMOON_CLOSED');assert.equal(await f.coin(),1000000);
+ const closed=createBloodmoonPackService({readState:readBloodmoonPackState});
+ for(const body of [f.body(), f.body(10), {...f.body(100),budget:'9000'}])
+  await assert.rejects(closed.open(f.env,f.user,body),e=>e.code==='MERCENARY_BLOODMOON_CLOSED');
+ assert.equal(await f.coin(),1000000);
 });
 
 test('one prepared ten-draw transaction grants both ordinary and limited cards once and survives a lost response',async t=>{
- const samples=[];for(let i=0;i<10;i++)samples.push(6000000000,i<2?0:9000000000,...(i<2?[]:[0]));
+ const samples=[];for(let i=0;i<10;i++){samples.push(6000000000,i<2?0:9000000000);if(i>0)samples.push(0);}
  const f=await bloodmoonFixture(t,{randomInt:rng(samples)});Object.assign(f.settings,plan().settings,{mode:'ON'});await f.configure();
- const b=f.body(10),first=await f.service.open(f.env,f.user,b);assert.equal(first.draws.length,10);assert.equal(first.draws.filter(r=>r.edition==='BLOODMOON_LIMITED').length,2);assert.equal(await f.coin(),999100);
+ const b=f.body(10),first=await f.service.open(f.env,f.user,b);assert.equal(first.draws.length,10);assert.equal(first.draws.filter(r=>r.edition==='BLOODMOON_LIMITED').length,1);assert.equal(first.draws.filter(r=>r.outcomeId==='CARD_SSS').length,9);assert.equal(await f.coin(),999100);
  const again=await f.service.open(f.env,f.user,b);assert.equal(again.replayed,true);assert.equal(await f.coin(),999100);assert.equal(samples.length,0);
  assert.equal((await f.pg.query('SELECT * FROM mercenary_card_acquisitions_v1')).rows.length,10);
- assert.deepEqual(first.draws.filter(r=>r.serial).map(r=>r.serial),[1,2]);
+ assert.deepEqual(first.draws.filter(r=>r.serial).map(r=>r.serial),[1]);
  assert.equal(bloodmoonReceiptResults(first).length,10);assert.equal(bloodmoonBatchCinematic(bloodmoonReceiptResults(first)).rank,'SSS');
+ f.settings.mode='OFF';await f.configure(2);
  const read=await f.service.receipt(f.env,f.user,b.requestId);assert.deepEqual(read.draws,first.draws);await assert.rejects(f.service.receipt(f.env,{id:2},b.requestId));
+ assert.equal((await f.service.open(f.env,f.user,b)).replayed,true);assert.equal(await f.coin(),999100);
 });
 
 test('failure after stock reservation rolls back stock, coins and cards; retry uses the original fixed draw',async t=>{

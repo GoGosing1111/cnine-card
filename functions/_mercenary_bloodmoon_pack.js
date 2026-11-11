@@ -29,7 +29,9 @@ const publicState=(state,{admin=false}={})=>{const {rawPack,stockScheduleHistory
 export async function bloodmoonPackShopRow(env){
  await processMercenaryStockSchedules(env);
  const {row,stock}=await readBloodmoonStockSnapshot(env);
- return bloodmoonPackCatalogRow(row?JSON.parse(row.value).settings:bloodmoonPackDraft(),stock);
+ const settings=row&&JSON.parse(row.value).settings;
+ if(!BLOODMOON_PACK_RELEASE_ENABLED||settings?.mode!=='ON')return null;
+ return bloodmoonPackCatalogRow(settings,stock);
 }
 export async function saveBloodmoonPack(env,actor,body){
  if(!body||Object.keys(body).sort().join(',')!=='expectedRevision,reason,requestId,settings'||!Number.isSafeInteger(body.expectedRevision)||body.expectedRevision<1||body.expectedRevision>=2147483646||typeof body.requestId!=='string'||!/^[A-Za-z0-9_-]{16,100}$/.test(body.requestId)||typeof body.reason!=='string'||body.reason.trim().length<4||body.reason.length>500||/[\u0000-\u001f]/.test(body.reason))throw jointError('MERCENARY_BLOODMOON_CONFIG','현재 버전·요청 번호·저장 사유를 확인하세요.');
