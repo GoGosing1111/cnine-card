@@ -112,6 +112,11 @@ async function readReplay(db,r,part='header'){
  const saved=JSON.parse(await raw(db,replayKey(r.hostId)+':'+part));if(saved?.id!==r.id)fail('REPLAY','전장 기록을 다시 불러오세요.',409);
  const bytes=Uint8Array.from(atob(saved.gzip),c=>c.charCodeAt(0));return new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).json();
 }
+function requireReadyParty(members){
+ if(members.length!==2||Number(members[0].id)===Number(members[1].id)||!members.every(m=>m.ready&&m.selection&&!m.left)){
+  fail('READY','서로 다른 두 참가자가 편성을 마치고 준비해야 출전할 수 있습니다.');
+ }
+}
 async function eligibleUsers(env,r,policy){
  const rows=(await stmt(env.DB,"SELECT id,nickname,role,status FROM users WHERE id IN (?,?) AND status='ACTIVE'",...r.members.map(m=>m.id)).all()).results;
  const users=r.members.map(m=>rows.find(u=>Number(u.id)===m.id));if(users.some(u=>!canAccessLegionHunt(policy,u)))fail('CLOSED','두 참가자 모두 군단토벌 이용이 가능해야 합니다.',403);
@@ -194,8 +199,10 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
     me.ready=action==='ready';
    }else if(action==='start'){
     if(uid!==r.hostId)fail('HOST','방장만 출전할 수 있습니다.',403);
-    if(['LOADING','ACTIVE','VICTORY','DEFEAT'].includes(status))return present(db,r,user,at);
-    if(status!=='LOBBY'||r.members.length!==2||!r.members.every(m=>m.ready&&m.selection))fail('READY','두 참가자 모두 편성을 마치고 준비해야 합니다.');
+    if(['ACTIVE','VICTORY','DEFEAT'].includes(status))return present(db,r,user,at);
+    if(status!=='LOBBY'&&status!=='LOADING')fail('READY','모집 시간이 종료됐습니다. 파티를 다시 만드세요.');
+    requireReadyParty(r.members);
+    if(status==='LOADING')return present(db,r,user,at);
     const us=await eligibleUsers(env,r,policy);
     const tier=r.tier??FIRST_TIER,drops=citadel.policy.tierDrops[tier]??citadel.policy.drops;
     const [squads,loot]=await Promise.all([Promise.all(us.map((u,i)=>(deps.citadelSquad||loadSquad)(env,u,r.members[i].selection,deps))),(deps.citadelLoot||citadelLoot)(env,us,drops,tier,area)]);
@@ -212,6 +219,7 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
    }else if(action==='loaded'){
     if(['ACTIVE','VICTORY','DEFEAT'].includes(status))return present(db,r,user,at);
     if(status!=='LOADING')fail('LOADING','전장 준비 시간이 종료됐습니다. 행동력은 차감되지 않습니다.');
+    requireReadyParty(r.members);
     if(me.loaded)return present(db,r,user,at);me.loaded=true;
     if(r.members.every(m=>m.loaded)){
      const us=await eligibleUsers(env,r,policy);
@@ -322,7 +330,7 @@ export async function handleLegionCitadel({path,request,env,deps}){
    const r=JSON.parse(v),state=action==='state'?await resultState(r):await present(DB,r,user,at);
    if(action!=='state'&&!['LOADING','ACTIVE'].includes(state.status))fail('EARLY','현재 재생할 전투가 없습니다.');
    if(action==='state')return reply({ok:true,open:r.area===DOCKYARD.id?policy.mode==='ON':open,state});
-   if(state.status==='LOADING'){if(r.area===DOCKYARD.id)await requireClanHideout(env,user.id,DOCKYARD.stage,r);else requireOpen(citadel.policy);}
+   if(state.status==='LOADING'){requireReadyParty(r.members);if(r.area===DOCKYARD.id)await requireClanHideout(env,user.id,DOCKYARD.stage,r);else requireOpen(citadel.policy);}
    const part=Number(new URL(request.url).searchParams.get('part')||0);
    if(!Number.isInteger(part)||part<0||part>=r.parts)fail('PART','전투 구간을 확인하세요.',400);
    if(action==='chunk')return reply({ok:true,chunk:await readReplay(DB,r,part)});

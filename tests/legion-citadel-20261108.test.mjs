@@ -136,6 +136,49 @@ test('a party recharge already underway completes at its saved deadline',async()
  }finally{await f.close();}
 });
 
+test('even an OWNER needs a second account and both loading confirmations to enter',async t=>{
+ const f=await citadelFixture({ownerIds:[1]});t.after(f.close);
+ const {state:{id}}=await states(f,1,'create',{requestId:'owner-needs-another-player'});
+ await states(f,1,'ready',{id,...f.selection(0)});
+ const rejoined=(await states(f,1,'join',{id})).state;
+ assert.deepEqual(rejoined.members.map(m=>m.id),[1]);
+ assert.equal((await f.action(1,'start',{id})).body.code,'CITADEL_READY');
+ assert.equal((await f.action(1,'loaded',{id})).body.code,'CITADEL_LOADING');
+ assert.equal((await f.action(1,'battle?id='+id)).body.code,'CITADEL_EARLY');
+ await states(f,2,'join',{id});
+ assert.equal((await f.action(1,'start',{id})).body.code,'CITADEL_READY');
+ await states(f,2,'ready',{id,...f.selection(1)});
+ await states(f,2,'leave',{id});
+ assert.equal((await f.action(1,'start',{id})).body.code,'CITADEL_READY');
+ await states(f,2,'join',{id});
+ await states(f,2,'ready',{id,...f.selection(1)});
+ assert.equal((await states(f,1,'start',{id})).state.status,'LOADING');
+ for(let i=0;i<2;i++){
+  const {state}=await states(f,1,'loaded',{id});
+  assert.equal(state.status,'LOADING');
+  assert.equal(state.startsAt,null);
+  assert.deepEqual(state.members.map(m=>m.loaded),[true,false]);
+ }
+ assert.equal((await states(f,2,'lobby')).nextEntryAt,null);
+ assert.equal(await f.db.prepare('SELECT value FROM app_meta WHERE key=?').bind('legion_hunt_owner_session_v1:1').first(),null);
+ assert.equal((await states(f,2,'loaded',{id})).state.status,'ACTIVE');
+});
+
+test('an incomplete or duplicate saved loading roster cannot expose the battle or spend energy',async t=>{
+ const f=await citadelFixture();t.after(f.close);
+ const id=await boot(f),key='legion_citadel_v1:room:'+id;
+ const readRoom=async()=>JSON.parse((await f.db.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first()).value);
+ const room=await readRoom(),[host,guest]=room.members;
+ for(const members of [[host],[host,{...host,loaded:true}],[host,{...guest,ready:false,loaded:true}],[host,{...guest,left:true,loaded:true}]]){
+  await f.exec('UPDATE app_meta SET value=? WHERE key=?',JSON.stringify({...room,members}),key);
+  assert.equal((await f.action(1,'start',{id})).body.code,'CITADEL_READY');
+  assert.equal((await f.action(1,'battle?id='+id)).body.code,'CITADEL_READY');
+  assert.equal((await f.action(1,'loaded',{id})).body.code,'CITADEL_READY');
+  assert.deepEqual(await readRoom(),{...room,members});
+ }
+ for(const uid of [1,2])assert.equal((await states(f,uid,'lobby')).nextEntryAt,null);
+});
+
 test('empty solo energy cannot block a paid party departure or be debited by a retry',async()=>{
  const f=await citadelFixture();
  try{
