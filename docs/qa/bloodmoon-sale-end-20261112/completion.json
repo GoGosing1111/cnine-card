@@ -1,0 +1,759 @@
+{
+  "action": "블러드문팩 판매 종료 및 카드팩 상점 비노출",
+  "status": "완료",
+  "closedAtKst": "2026-11-12T00:44:20.282+09:00",
+  "verifiedAt": "2026-11-11T16:05:34.145Z",
+  "receipt": {
+    "key": "ops:bloodmoon-sale-end:20261112:v1",
+    "packId": "mercenary-bloodmoon-ss-limited",
+    "closedAt": "2026-11-11T15:44:20.282Z",
+    "modeBefore": "ON",
+    "modeAfter": "OFF",
+    "revisionBefore": 13,
+    "revisionAfter": 14,
+    "auditId": "58521"
+  },
+  "production": {
+    "api": "https://cnine-card.pages.dev/api/packs",
+    "before": [
+      {
+        "id": "pickup",
+        "name": "리미티드팩"
+      },
+      {
+        "id": "ultimate",
+        "name": "얼티메이트 카드팩"
+      },
+      {
+        "id": "superstar",
+        "name": "슈퍼스타팩"
+      },
+      {
+        "id": "mercenary-bloodmoon-ss-limited",
+        "name": "블러드문팩"
+      },
+      {
+        "id": "mercenary-blackcrown-ss-limited",
+        "name": "블랙크라운팩"
+      },
+      {
+        "id": "mercenary-reversecall-streamer",
+        "name": "리버스콜 스트리머 팩"
+      }
+    ],
+    "after": [
+      {
+        "id": "pickup",
+        "name": "리미티드팩"
+      },
+      {
+        "id": "ultimate",
+        "name": "얼티메이트 카드팩"
+      },
+      {
+        "id": "superstar",
+        "name": "슈퍼스타팩"
+      },
+      {
+        "id": "mercenary-blackcrown-ss-limited",
+        "name": "블랙크라운팩"
+      },
+      {
+        "id": "mercenary-reversecall-streamer",
+        "name": "리버스콜 스트리머 팩"
+      }
+    ],
+    "sales": {
+      "id": "mercenary-bloodmoon-ss-limited",
+      "revision": 14,
+      "mode": "OFF",
+      "userOpeningEnabled": false,
+      "ms": 253
+    },
+    "otherPackPricesAndOpeningFlagsMatch": true,
+    "shopLinkWithOldPackId": {
+      "selected": "pickup",
+      "ids": [
+        "pickup",
+        "ultimate",
+        "superstar",
+        "mercenary-blackcrown-ss-limited",
+        "mercenary-reversecall-streamer"
+      ]
+    },
+    "completedOpeningsAfterClosure": {
+      "measure": "Completed Bloodmoon purchase requests created after sales closure",
+      "from": "2026-11-11T15:44:20.282Z",
+      "through": "2026-11-11T16:04:44.103Z",
+      "count": 0
+    }
+  },
+  "verification": {
+    "database": "운영에서 판매 설정과 감사 기록, 완료 영수증을 별도 읽기 전용 거래로 대조.",
+    "purchases": "격리된 거래 테스트에서 판매 종료 후 1회, 10회, 예산 지정 대량 개봉 모두 MERCENARY_BLOODMOON_CLOSED와 코인 미차감을 확인. 종료 전 완료한 요청은 원래 영수증을 복구하며 다시 차감하지 않는다.",
+    "releaseTests": 33,
+    "productionTestPurchases": 0
+  },
+  "release": {
+    "source": "112cc836b2839717f64de910ff3b158baebf3ddb",
+    "pages": {
+      "id": "c2029204-ac15-4b3c-ada6-03b8f75436a1",
+      "url": "https://c2029204.cnine-card.pages.dev"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "id": "2ae30559-8c35-416b-a48c-d9c1cc17d312",
+        "trafficPercent": 100
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "id": "6b3a2b93-1057-42f9-9f8e-2daa837504b9",
+        "trafficPercent": 100
+      }
+    ],
+    "publicAssets": [
+      {
+        "file": "index.html",
+        "bytes": 51871,
+        "sha256": "4e0fdc128e50cf99953496d1bf6722dd35af6cd22d56bbbbd9cfe48d2dc4949e",
+        "windows": true
+      },
+      {
+        "file": "js/app.js",
+        "bytes": 820667,
+        "sha256": "e33dbaf02e464d578deffd2b73f3080847c5402c92fc9c0dc5fc89a95edd1a6e",
+        "windows": true
+      },
+      {
+        "file": "shared/onestore-web-assets-v1.mjs",
+        "bytes": 985,
+        "sha256": "c37dde54a259c19d8fe28fddd119c52d89c7ca09caf831d2df597a479b91904a",
+        "windows": true
+      },
+      {
+        "file": "onestore/index.html",
+        "bytes": 51992,
+        "sha256": "1c97a586b9643e15a382c14557c7b1c488da1df43bcb085001374585cd0b011b",
+        "windows": false
+      },
+      {
+        "file": "onestore/js/app.js",
+        "bytes": 821579,
+        "sha256": "0a91cbddb084a2fc0e3965cf2f524885886be6a07ecf5912ee364cc420c71576",
+        "windows": false
+      },
+      {
+        "file": "service-worker.js",
+        "bytes": 25569,
+        "sha256": "8e36a736516815ec6c4be4a6b73af16d8d39eb31cdc03cf613fbf1c6c843be4a",
+        "windows": false
+      }
+    ],
+    "windows": {
+      "releaseId": "a2c6b43f2c552b6e748a4758863f5779c1555c070723bb1d117c04abf180b6dc",
+      "changed": [
+        "/index.html",
+        "/js/app.js",
+        "/shared/onestore-web-assets-v1.mjs"
+      ],
+      "removed": []
+    }
+  },
+  "performance": {
+    "method": "동일한 로비 상점 버튼으로 첫 진입 및 로비로 돌아간 뒤 재진입. 공개 배포 리소스, 격리 로그인, 변경 전후 실제 공개 목록을 재생. 초기 캐시 없음과 이전 판매 중 캐시를 각각 측정. 이전 캐시 검증 시 첫 상점 화면까지 새 목록 응답을 보류했다. 팩 선택 중 36프레임을 측정하고 퇴장 후 1.1초 동안 전용 요청과 잔여 상점 화면을 확인했다.",
+    "platforms": "Windows의 데스크톱 Chrome 1440×900, iPhone 13 WebKit 및 Pixel 7 Chrome 모바일 에뮬레이션, ONE store H5 테스트 호스트 iframe, Windows 배포 자산을 사용한 Electron 격리 렌더러. 모바일 실기기 및 설치 앱 직접 실행은 측정 범위 밖이다.",
+    "observed": "오래된 목록은 상점 진입 중에 로컬에서 걸러져 네트워크 응답을 기다리지 않았다. 공개 목록 HTTP 응답의 본문 수신은 2~6ms였고 대기는 주로 응답 헤더 도착 전이었다. WebKit에서는 변경 전후 모두 상점 전환과 팩 선택 중 50ms 초과 프레임이 관찰됐다. 각 조건을 한 번씩 측정했다.",
+    "catalogHttp": {
+      "beforeMs": [
+        339,
+        212,
+        250
+      ],
+      "after": [
+        {
+          "ms": 381,
+          "toHeadersMs": 375,
+          "bodyMs": 6,
+          "serverTiming": "app;dur=58, d1;dur=245;desc=\"17q 1b\""
+        },
+        {
+          "ms": 1146,
+          "toHeadersMs": 1144,
+          "bodyMs": 2,
+          "serverTiming": "app;dur=126, d1;dur=561;desc=\"20q 1b\""
+        },
+        {
+          "ms": 318,
+          "toHeadersMs": 316,
+          "bodyMs": 2,
+          "serverTiming": "app;dur=114, d1;dur=507;desc=\"17q 1b\""
+        },
+        {
+          "ms": 258,
+          "toHeadersMs": 256,
+          "bodyMs": 2,
+          "serverTiming": "app;dur=67, d1;dur=260;desc=\"17q 0b\""
+        },
+        {
+          "ms": 322,
+          "toHeadersMs": 320,
+          "bodyMs": 2,
+          "serverTiming": "app;dur=85, d1;dur=370;desc=\"17q 1b\""
+        }
+      ]
+    },
+    "runs": {
+      "desktop": {
+        "before": [
+          {
+            "cache": "empty",
+            "lobbyMs": 1122,
+            "navigation": {
+              "responseStartMs": 223,
+              "domInteractiveMs": 952
+            },
+            "firstAndReturn": [
+              {
+                "inputToInteractiveMs": 398,
+                "frameP95Ms": 29,
+                "framesOver50ms": 0,
+                "sampledFrames": 36
+              },
+              {
+                "inputToInteractiveMs": 48,
+                "frameP95Ms": 17,
+                "framesOver50ms": 0,
+                "sampledFrames": 36
+              }
+            ],
+            "afterExit": {
+              "bloodmoonRequests": 0,
+              "visibleShopSelectors": 0
+            }
+          },
+          {
+            "cache": "previously active Bloodmoon sale",
+            "lobbyMs": 972,
+            "navigation": {
+              "responseStartMs": 246,
+              "domInteractiveMs": 973
+            },
+            "firstAndReturn": [
+              {
+                "inputToInteractiveMs": 207,
+                "frameP95Ms": 5,
+                "framesOver50ms": 0,
+                "sampledFrames": 36
+              },
+              {
+                "inputToInteractiveMs": 50,
+                "frameP95Ms": 13,
+                "framesOver50ms": 0,
+                "sampledFrames": 36
+              }
+            ],
+            "afterExit": {
+              "bloodmoonRequests": 0,
+              "visibleShopSelectors": 0
+            }
+          }
+        ],
+        "after": [
+          {
+            "cache": "empty",
+            "lobbyMs": 877,
+            "navigation": {
+              "responseStartMs": 54,
+              "domInteractiveMs": 762
+            },
+            "firstAndReturn": [
+              {
+                "inputToInteractiveMs": 444,
+                "frameP95Ms": 13,
+                "framesOver50ms": 0,
+                "sampledFrames": 36
+              },
+              {
+                "inputToInteractiveMs": 42,
+                "frameP95Ms": 8,
+                "framesOver50ms": 0,
+                "sampledFrames": 36
+              }
+            ],
+            "afterExit": {
+              "bloodmoonRequests": 0,
+              "visibleShopSelectors": 0
+            }
+          },
+          {
+            "cache": "previously active Bloodmoon sale",
+            "lobbyMs": 790,
+            "navigation": {
+              "responseStartMs": 34,
+              "domInteractiveMs": 751
+            },
+            "firstAndReturn": [
+              {
+                "inputToInteractiveMs": 115,
+                "frameP95Ms": 4,
+                "framesOver50ms": 0,
+                "sampledFrames": 36
+              },
+              {
+                "inputToInteractiveMs": 47,
+                "frameP95Ms": 17,
+                "framesOver50ms": 0,
+                "sampledFrames": 36
+              }
+            ],
+            "afterExit": {
+              "bloodmoonRequests": 0,
+              "visibleShopSelectors": 0
+            }
+          }
+        ]
+      },
+      "ios": {
+        "before": [
+          {
+            "cache": "empty",
+            "lobbyMs": 1749,
+            "navigation": {
+              "responseStartMs": 94,
+              "domInteractiveMs": 295
+            },
+            "firstAndReturn": [
+              {
+                "inputToInteractiveMs": 445,
+                "frameP95Ms": 167,
+                "framesOver50ms": 4,
+                "sampledFrames": 36
+              },
+              {
+                "inputToInteractiveMs": 664,
+                "frameP95Ms": 170,
+                "framesOver50ms": 2,
+                "sampledFrames": 36
+              }
+            ],
+            "afterExit": {
+              "bloodmoonRequests": 0,
+              "visibleShopSelectors": 0
+            }
+          },
+          {
+            "cache": "previously active Bloodmoon sale",
+            "lobbyMs": 1342,
+            "navigation": {
+              "responseStartMs": 19,
+              "domInteractiveMs": 207
+            },
+            "firstAndReturn": [
+              {
+                "inputToInteractiveMs": 320,
+                "frameP95Ms": 151,
+                "framesOver50ms": 2,
+                "sampledFrames": 36
+              },
+              {
+                "inputToInteractiveMs": 329,
+                "frameP95Ms": 122,
+                "framesOver50ms": 3,
+                "sampledFrames": 36
+              }
+            ],
+            "afterExit": {
+              "bloodmoonRequests": 0,
+              "visibleShopSelectors": 0
+            }
+          }
+        ],
+        "after": [
+          {
+            "cache": "empty",
+            "lobbyMs": 2361,
+            "navigation": {
+              "responseStartMs": 66,
+              "domInteractiveMs": 131
+            },
+            "firstAndReturn": [
+              {
+                "inputToInteractiveMs": 399,
+                "frameP95Ms": 137,
+                "framesOver50ms": 2,
+                "sampledFrames": 36
+              },
+              {
+                "inputToInteractiveMs": 336,
+                "frameP95Ms": 158,
+                "framesOver50ms": 3,
+                "sampledFrames": 36
+              }
+            ],
+            "afterExit": {
+              "bloodmoonRequests": 0,
+              "visibleShopSelectors": 0
+            }
+          },
+          {
+            "cache": "previously active Bloodmoon sale",
+            "lobbyMs": 1977,
+            "navigation": {
+              "responseStartMs": 15,
+              "domInteractiveMs": 65
+            },
+            "firstAndReturn": [
+              {
+                "inputToInteractiveMs": 953,
+                "frameP95Ms": 190,
+                "framesOver50ms": 3,
+                "sampledFrames": 36
+              },
+              {
+                "inputToInteractiveMs": 414,
+                "frameP95Ms": 155,
+                "framesOver50ms": 2,
+                "sampledFrames": 36
+              }
+            ],
+            "afterExit": {
+              "bloodmoonRequests": 0,
+              "visibleShopSelectors": 0
+            }
+          }
+        ]
+      },
+      "android": {
+        "before": [
+          {
+            "cache": "empty",
+            "lobbyMs": 1183,
+            "navigation": {
+              "responseStartMs": 46,
+              "domInteractiveMs": 1059
+            },
+            "firstAndReturn": [
+              {
+                "inputToInteractiveMs": 514,
+                "frameP95Ms": 33,
+                "framesOver50ms": 1,
+                "sampledFrames": 36
+              },
+              {
+                "inputToInteractiveMs": 42,
+                "frameP95Ms": 17,
+                "framesOver50ms": 0,
+                "sampledFrames": 36
+              }
+            ],
+            "afterExit": {
+              "bloodmoonRequests": 0,
+              "visibleShopSelectors": 0
+            }
+          },
+          {
+            "cache": "previously active Bloodmoon sale",
+            "lobbyMs": 1002,
+            "navigation": {
+              "responseStartMs": 50,
+              "domInteractiveMs": 930
+            },
+            "firstAndReturn": [
+              {
+                "inputToInteractiveMs": 214,
+                "frameP95Ms": 4,
+                "framesOver50ms": 0,
+                "sampledFrames": 36
+              },
+              {
+                "inputToInteractiveMs": 66,
+                "frameP95Ms": 8,
+                "framesOver50ms": 0,
+                "sampledFrames": 36
+              }
+            ],
+            "afterExit": {
+              "bloodmoonRequests": 0,
+              "visibleShopSelectors": 0
+            }
+          }
+        ],
+        "after": [
+          {
+            "cache": "empty",
+            "lobbyMs": 1151,
+            "navigation": {
+              "responseStartMs": 52,
+              "domInteractiveMs": 867
+            },
+            "firstAndReturn": [
+              {
+                "inputToInteractiveMs": 257,
+                "frameP95Ms": 54,
+                "framesOver50ms": 2,
+                "sampledFrames": 36
+              },
+              {
+                "inputToInteractiveMs": 58,
+                "frameP95Ms": 4,
+                "framesOver50ms": 0,
+                "sampledFrames": 36
+              }
+            ],
+            "afterExit": {
+              "bloodmoonRequests": 0,
+              "visibleShopSelectors": 0
+            }
+          },
+          {
+            "cache": "previously active Bloodmoon sale",
+            "lobbyMs": 958,
+            "navigation": {
+              "responseStartMs": 52,
+              "domInteractiveMs": 830
+            },
+            "firstAndReturn": [
+              {
+                "inputToInteractiveMs": 213,
+                "frameP95Ms": 4,
+                "framesOver50ms": 0,
+                "sampledFrames": 36
+              },
+              {
+                "inputToInteractiveMs": 55,
+                "frameP95Ms": 13,
+                "framesOver50ms": 0,
+                "sampledFrames": 36
+              }
+            ],
+            "afterExit": {
+              "bloodmoonRequests": 0,
+              "visibleShopSelectors": 0
+            }
+          }
+        ]
+      },
+      "h5": {
+        "before": [
+          {
+            "cache": "empty",
+            "lobbyMs": 2492,
+            "navigation": {
+              "responseStartMs": 356,
+              "domInteractiveMs": 2444
+            },
+            "firstAndReturn": [
+              {
+                "inputToInteractiveMs": 253,
+                "frameP95Ms": 62,
+                "framesOver50ms": 3,
+                "sampledFrames": 36
+              },
+              {
+                "inputToInteractiveMs": 62,
+                "frameP95Ms": 4,
+                "framesOver50ms": 0,
+                "sampledFrames": 36
+              }
+            ],
+            "afterExit": {
+              "bloodmoonRequests": 0,
+              "visibleShopSelectors": 0
+            }
+          },
+          {
+            "cache": "previously active Bloodmoon sale",
+            "lobbyMs": 2186,
+            "navigation": {
+              "responseStartMs": 205,
+              "domInteractiveMs": 2049
+            },
+            "firstAndReturn": [
+              {
+                "inputToInteractiveMs": 201,
+                "frameP95Ms": 4,
+                "framesOver50ms": 0,
+                "sampledFrames": 36
+              },
+              {
+                "inputToInteractiveMs": 68,
+                "frameP95Ms": 21,
+                "framesOver50ms": 1,
+                "sampledFrames": 36
+              }
+            ],
+            "afterExit": {
+              "bloodmoonRequests": 0,
+              "visibleShopSelectors": 0
+            }
+          }
+        ],
+        "after": [
+          {
+            "cache": "empty",
+            "lobbyMs": 1518,
+            "navigation": {
+              "responseStartMs": 47,
+              "domInteractiveMs": 929
+            },
+            "firstAndReturn": [
+              {
+                "inputToInteractiveMs": 421,
+                "frameP95Ms": 58,
+                "framesOver50ms": 2,
+                "sampledFrames": 36
+              },
+              {
+                "inputToInteractiveMs": 54,
+                "frameP95Ms": 71,
+                "framesOver50ms": 2,
+                "sampledFrames": 36
+              }
+            ],
+            "afterExit": {
+              "bloodmoonRequests": 0,
+              "visibleShopSelectors": 0
+            }
+          },
+          {
+            "cache": "previously active Bloodmoon sale",
+            "lobbyMs": 934,
+            "navigation": {
+              "responseStartMs": 40,
+              "domInteractiveMs": 858
+            },
+            "firstAndReturn": [
+              {
+                "inputToInteractiveMs": 197,
+                "frameP95Ms": 4,
+                "framesOver50ms": 0,
+                "sampledFrames": 36
+              },
+              {
+                "inputToInteractiveMs": 61,
+                "frameP95Ms": 17,
+                "framesOver50ms": 0,
+                "sampledFrames": 36
+              }
+            ],
+            "afterExit": {
+              "bloodmoonRequests": 0,
+              "visibleShopSelectors": 0
+            }
+          }
+        ]
+      },
+      "windows": {
+        "before": [
+          {
+            "cache": "empty",
+            "lobbyMs": 853,
+            "navigation": {
+              "responseStartMs": 73,
+              "domInteractiveMs": 704
+            },
+            "firstAndReturn": [
+              {
+                "inputToInteractiveMs": 84,
+                "frameP95Ms": 17,
+                "framesOver50ms": 1,
+                "sampledFrames": 36
+              },
+              {
+                "inputToInteractiveMs": 45,
+                "frameP95Ms": 17,
+                "framesOver50ms": 0,
+                "sampledFrames": 36
+              }
+            ],
+            "afterExit": {
+              "bloodmoonRequests": 0,
+              "visibleShopSelectors": 0
+            }
+          },
+          {
+            "cache": "previously active Bloodmoon sale",
+            "lobbyMs": 1243,
+            "navigation": {
+              "responseStartMs": 57,
+              "domInteractiveMs": 742
+            },
+            "firstAndReturn": [
+              {
+                "inputToInteractiveMs": 102,
+                "frameP95Ms": 33,
+                "framesOver50ms": 1,
+                "sampledFrames": 36
+              },
+              {
+                "inputToInteractiveMs": 74,
+                "frameP95Ms": 17,
+                "framesOver50ms": 0,
+                "sampledFrames": 36
+              }
+            ],
+            "afterExit": {
+              "bloodmoonRequests": 0,
+              "visibleShopSelectors": 0
+            }
+          }
+        ],
+        "after": [
+          {
+            "cache": "empty",
+            "lobbyMs": 1465,
+            "navigation": {
+              "responseStartMs": 50,
+              "domInteractiveMs": 672
+            },
+            "firstAndReturn": [
+              {
+                "inputToInteractiveMs": 96,
+                "frameP95Ms": 50,
+                "framesOver50ms": 1,
+                "sampledFrames": 36
+              },
+              {
+                "inputToInteractiveMs": 56,
+                "frameP95Ms": 17,
+                "framesOver50ms": 0,
+                "sampledFrames": 36
+              }
+            ],
+            "afterExit": {
+              "bloodmoonRequests": 0,
+              "visibleShopSelectors": 0
+            }
+          },
+          {
+            "cache": "previously active Bloodmoon sale",
+            "lobbyMs": 2157,
+            "navigation": {
+              "responseStartMs": 38,
+              "domInteractiveMs": 1004
+            },
+            "firstAndReturn": [
+              {
+                "inputToInteractiveMs": 91,
+                "frameP95Ms": 33,
+                "framesOver50ms": 1,
+                "sampledFrames": 36
+              },
+              {
+                "inputToInteractiveMs": 67,
+                "frameP95Ms": 33,
+                "framesOver50ms": 0,
+                "sampledFrames": 36
+              }
+            ],
+            "afterExit": {
+              "bloodmoonRequests": 0,
+              "visibleShopSelectors": 0
+            }
+          }
+        ]
+      }
+    }
+  }
+}
