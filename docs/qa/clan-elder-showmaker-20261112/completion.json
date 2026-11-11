@@ -1,0 +1,139 @@
+{
+  "operationKey": "ops:clan-elders-showmaker:season4:1000t:20261112:v1",
+  "completedAtKST": "2026-11-12 01:44:04",
+  "verifiedAtKST": "2026-11-12 01:45:51",
+  "auditId": "58547",
+  "delivery": "게임 메시지함 수령",
+  "clans": 8,
+  "perClan": 3,
+  "elderRecipients": 24,
+  "additionalRecipient": {
+    "id": 233,
+    "nickname": "ShowMaker",
+    "clan": "DC",
+    "isElder": false,
+    "amount": "1000000000000000"
+  },
+  "amountPerPerson": "1000000000000000",
+  "totalCoin": "25000000000000000",
+  "accounts": 25,
+  "messages": 25,
+  "claimedAtVerification": 3,
+  "pendingAtVerification": 22,
+  "missing": 0,
+  "duplicates": 0,
+  "groups": [
+    {
+      "kind": "elder",
+      "clan": "DC",
+      "count": 3,
+      "recipients": 3,
+      "messages": 3,
+      "attachments": 3,
+      "claimed": 0,
+      "invalid": 0,
+      "coin": "3000000000000000"
+    },
+    {
+      "kind": "elder",
+      "clan": "DK",
+      "count": 3,
+      "recipients": 3,
+      "messages": 3,
+      "attachments": 3,
+      "claimed": 1,
+      "invalid": 0,
+      "coin": "3000000000000000"
+    },
+    {
+      "kind": "elder",
+      "clan": "FM",
+      "count": 3,
+      "recipients": 3,
+      "messages": 3,
+      "attachments": 3,
+      "claimed": 1,
+      "invalid": 0,
+      "coin": "3000000000000000"
+    },
+    {
+      "kind": "elder",
+      "clan": "LG",
+      "count": 3,
+      "recipients": 3,
+      "messages": 3,
+      "attachments": 3,
+      "claimed": 0,
+      "invalid": 0,
+      "coin": "3000000000000000"
+    },
+    {
+      "kind": "elder",
+      "clan": "T1",
+      "count": 3,
+      "recipients": 3,
+      "messages": 3,
+      "attachments": 3,
+      "claimed": 1,
+      "invalid": 0,
+      "coin": "3000000000000000"
+    },
+    {
+      "kind": "elder",
+      "clan": "롯데",
+      "count": 3,
+      "recipients": 3,
+      "messages": 3,
+      "attachments": 3,
+      "claimed": 0,
+      "invalid": 0,
+      "coin": "3000000000000000"
+    },
+    {
+      "kind": "elder",
+      "clan": "삼성",
+      "count": 3,
+      "recipients": 3,
+      "messages": 3,
+      "attachments": 3,
+      "claimed": 0,
+      "invalid": 0,
+      "coin": "3000000000000000"
+    },
+    {
+      "kind": "elder",
+      "clan": "한화",
+      "count": 3,
+      "recipients": 3,
+      "messages": 3,
+      "attachments": 3,
+      "claimed": 0,
+      "invalid": 0,
+      "coin": "3000000000000000"
+    },
+    {
+      "kind": "showmaker",
+      "clan": "DC",
+      "count": 1,
+      "recipients": 1,
+      "messages": 1,
+      "attachments": 1,
+      "claimed": 0,
+      "invalid": 0,
+      "coin": "1000000000000000"
+    }
+  ],
+  "readOnlyReplay": true,
+  "grantTransactionAndChecksMs": 2725,
+  "claimCheck": {
+    "storage": "isolated PostgreSQL (PGlite), live code path for inbox claim-all",
+    "rewardSupported": true,
+    "amount": "1000000000000000",
+    "claimOnce": true,
+    "foreignClaimRejected": true,
+    "walletBefore": "100000000000000001",
+    "walletAfter": "101000000000000001",
+    "ledgerEntries": 1,
+    "claimMs": 14
+  }
+}
