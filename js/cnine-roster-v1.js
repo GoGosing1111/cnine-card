@@ -1,4 +1,4 @@
-// Members and department order follow the user's roster through 2026-10-31.
+// Members and department order follow the user's roster through 2026-11-12.
 // This public directory does not infer broadcast status or change lounge CMS data.
 export const CNINE_GROUPS = Object.freeze([
   Object.freeze({ id: 'female', name: '여캠부', label: 'FEMALE CAM', members: Object.freeze([
@@ -11,8 +11,7 @@ export const CNINE_GROUPS = Object.freeze([
     Object.freeze({ id: 'luaa0803', name: '히나_♥' }),
     Object.freeze({ id: 'ddaggida3', name: '주성' }),
     Object.freeze({ id: 'hhy789', name: '♡김베리♡' }),
-    Object.freeze({ id: 'myby1221', name: 'ε연두з' }),
-    Object.freeze({ id: 'dbstmf3497', name: '서윤슬@' })
+    Object.freeze({ id: 'myby1221', name: 'ε연두з' })
   ]) }),
   Object.freeze({ id: 'star', name: '스타부', label: 'STARCRAFT', members: Object.freeze([
     Object.freeze({ id: 'mew030709', name: '남수댕' }),
@@ -21,7 +20,9 @@ export const CNINE_GROUPS = Object.freeze([
     Object.freeze({ id: 'bts150', name: '방태수' }),
     Object.freeze({ id: 'rlaxordyd', name: '김택용' }),
     Object.freeze({ id: 'rudals5467', name: '이경민' }),
-    Object.freeze({ id: 'hiyoko040', name: '히요코' })
+    Object.freeze({ id: 'hiyoko040', name: '히요코' }),
+    Object.freeze({ id: 'wooooo123', name: '리니씨' }),
+    Object.freeze({ id: 'ouo20411', name: '히댕' })
   ]) })
 ]);
 
@@ -45,7 +46,7 @@ export function mountCnineLobby() {
 function memberMarkup(member, index) {
   return `<a class="c9-member" href="https://www.sooplive.com/station/${member.id}" target="_blank" rel="noopener noreferrer" aria-label="${member.name} SOOP 방송국 바로가기 (새 탭)" data-cnine-member="${member.id}">
     <span class="c9-member-number" aria-hidden="true">MEMBER ${String(index + 1).padStart(2, '0')}</span>
-    <span class="c9-member-portrait"><span class="c9-member-initial" aria-hidden="true">${Array.from(member.name)[0]}</span><img src="${profileUrl(member.id)}" data-fallback="${profileUrl(member.id, true)}" alt="${member.name} 프로필" width="120" height="120" decoding="async" referrerpolicy="no-referrer"></span>
+    <span class="c9-member-portrait"><span class="c9-member-initial" aria-hidden="true">${Array.from(member.name)[0]}</span><img src="${profileUrl(member.id)}" data-fallback="${profileUrl(member.id, true)}" alt="${member.name} 프로필" width="120" height="120" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span>
     <h3>${member.name}</h3><span class="c9-member-handle">@${member.id}</span>
     <span class="c9-member-link c9-roster-action" aria-hidden="true">방송국 <span class="c9-member-link-more">바로가기</span><span>↗</span></span>
   </a>`;
