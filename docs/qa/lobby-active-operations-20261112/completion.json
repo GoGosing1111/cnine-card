@@ -1,0 +1,796 @@
+{
+  "verifiedAt": "2026-11-11T16:13:36.197Z",
+  "status": "LIVE",
+  "url": "https://cnine-card.pages.dev/?screen=home",
+  "previousProduction": "9f2e92ce2899391ebfc19f0086913cd49f306c8c",
+  "release": {
+    "verifiedAt": "2026-11-11T16:12:49.987Z",
+    "commit": "9b9a213dcf2dff24e5b433a4ef3c6ea1df556997",
+    "pages": {
+      "id": "36b89496-c8f9-45d7-bf9d-4a78ec7f8e29",
+      "url": "https://36b89496.cnine-card.pages.dev"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "id": "eccf36e0-9c77-41b2-9997-046efd354abb",
+        "trafficPercent": 100
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "id": "e7030ac1-9322-4109-beeb-2749b33b1a6d",
+        "trafficPercent": 100
+      }
+    ],
+    "files": [
+      {
+        "file": "index.html",
+        "bytes": 52149,
+        "sha256": "60e444196a79a7324d2b210fec9160b67caf5104e40aa31e40d4e401a41b978e",
+        "windows": true
+      },
+      {
+        "file": "js/app.js",
+        "bytes": 827574,
+        "sha256": "2e31f655e2d7c171c740dac4f3aecd33feb2f0fb2242748aa6fae885c9ce2c45",
+        "windows": true
+      },
+      {
+        "file": "js/adventure-lobby-v2107.js",
+        "bytes": 1220749,
+        "sha256": "9c1e5c91c754cd828151d98ae2623cf6ff2ae9e2a7c3509e583983955268acff",
+        "windows": true
+      },
+      {
+        "file": "onestore/index.html",
+        "bytes": 52271,
+        "sha256": "59428de014c85ffa6e237f21f25c863e8fb3c46753a499b5933b25faf694e121",
+        "windows": false
+      },
+      {
+        "file": "onestore/js/app.js",
+        "bytes": 828498,
+        "sha256": "c33bbb387b17c685258fd662a6bdcd9d907ed5e61f3ef359b8a559b86b7d3c9b",
+        "windows": false
+      },
+      {
+        "file": "onestore/js/adventure-lobby-v2107.js",
+        "bytes": 1220348,
+        "sha256": "ff5f58153838456e33f5c277ffe8acd2a47ad1d7183974121946888f72157a91",
+        "windows": false
+      },
+      {
+        "file": "service-worker.js",
+        "bytes": 25569,
+        "sha256": "c9683f06ec81940ad062e522125c4d9061cca0b10ed7b8ed996e0371729c9b43",
+        "windows": false
+      },
+      {
+        "file": "shared/onestore-web-assets-v1.mjs",
+        "bytes": 988,
+        "sha256": "272be0989aaed19e1bca4b907cf55c33b8fa52a214320427b0b315db18fb0e03",
+        "windows": true
+      }
+    ],
+    "windows": {
+      "releaseId": "4f6a37be00331a97dbca18b4e973964acd8f6a71bb09be01293650b00da821e0",
+      "changed": [
+        "/index.html",
+        "/js/adventure-lobby-v2107.js",
+        "/js/app.js",
+        "/shared/onestore-web-assets-v1.mjs"
+      ],
+      "removed": []
+    },
+    "liveItems": [
+      {
+        "kind": "ORGANIZATION",
+        "phase": "ACTIVE",
+        "title": "클랜 본부",
+        "deadlineAt": null
+      },
+      {
+        "kind": "RANKED_DUO",
+        "phase": "ACTIVE",
+        "title": "랭크 듀오 시즌 8",
+        "deadlineAt": "2026-11-17T05:39:19.367Z"
+      },
+      {
+        "kind": "SEAL",
+        "phase": "ACTIVE",
+        "title": "봉인전",
+        "deadlineAt": "2026-11-13T16:00:00.000Z"
+      }
+    ],
+    "scopedTests": 30,
+    "assetCount": 20000
+  },
+  "issue": "운영 공개 목록에는 봉인전이 있었지만 로비가 남은 시간 24시간 이상인 항목을 제외했다. 좁은 화면의 카드 개수 제한도 함께 제거했다.",
+  "rule": "로비에는 클랜 본부와 랭크 듀오를 제외한 현황 항목을 모두 표시한다. 전체 보기에는 두 항목을 포함한다. 각 화면은 자기 목록의 진행·대기 건수를 표시한다.",
+  "publicCheck": {
+    "feed": {
+      "status": 200,
+      "serverNow": "2026-11-11T16:12:34.612Z",
+      "nextTerritoryChangeAt": "2026-11-12T10:30:00.000Z",
+      "items": [
+        {
+          "kind": "ORGANIZATION",
+          "phase": "ACTIVE",
+          "entityId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+          "title": "클랜 본부",
+          "detail": "개별 가입 신청 · 원로 승인",
+          "deadlineAt": null,
+          "sortOrder": 0
+        },
+        {
+          "kind": "RANKED_DUO",
+          "phase": "ACTIVE",
+          "additionalRecruiting": false,
+          "entityId": "e2f662ef-595d-4de7-ac1c-b3b65705a315",
+          "title": "랭크 듀오 시즌 8",
+          "detail": "상시 랜덤 2대2 · 랭크전 덱으로 바로 출전",
+          "deadlineAt": "2026-11-17T05:39:19.367Z",
+          "sortOrder": 0
+        },
+        {
+          "kind": "SEAL",
+          "phase": "ACTIVE",
+          "entityId": 75,
+          "title": "봉인전",
+          "detail": "봉인룡 네르가온",
+          "deadlineAt": "2026-11-13T16:00:00.000Z",
+          "sortOrder": 3
+        }
+      ]
+    },
+    "lobby": [
+      "SEAL"
+    ],
+    "lobbyCount": "1건 진행",
+    "dialog": [
+      "ORGANIZATION",
+      "RANKED_DUO",
+      "SEAL"
+    ],
+    "dialogCount": "3건 진행",
+    "detailRoutes": [
+      {
+        "kind": "ORGANIZATION",
+        "tab": "clan"
+      },
+      {
+        "kind": "RANKED_DUO",
+        "tab": "duo"
+      }
+    ],
+    "condition": "운영 Pages와 공개 현황 API 실응답. 인증이 필요한 계정과 봉인전 입장 데이터는 격리한 테스트 계정 응답으로 확인했다. PC Chrome 1440px, 모바일 WebKit 390px.",
+    "desktop": {
+      "lobbyReadyMs": 865,
+      "statusReadyMs": 1212,
+      "detailFirst": {
+        "ms": 37,
+        "frames": 89,
+        "p95": 4.5,
+        "max": 37.6,
+        "over50": 0
+      },
+      "detailReentry": {
+        "ms": 17,
+        "frames": 98,
+        "p95": 4.3,
+        "max": 4.4,
+        "over50": 0
+      },
+      "returnToLobby": {
+        "ms": 16,
+        "frames": 91,
+        "p95": 4.3,
+        "max": 16.6,
+        "over50": 0
+      },
+      "sealEntry": {
+        "ms": 304,
+        "frames": 87,
+        "p95": 25.1,
+        "max": 141.7,
+        "over50": 2
+      },
+      "apiReadsOnTwoOpens": 0,
+      "unchangedClockWritesIn2250ms": 0,
+      "afterExit": {
+        "clock": false,
+        "poll": false,
+        "dialog": false
+      },
+      "diagnostics": []
+    },
+    "mobile": {
+      "lobbyReadyMs": 1622,
+      "statusReadyMs": 2027,
+      "detailFirst": {
+        "ms": 64,
+        "frames": 14,
+        "p95": 92,
+        "max": 92,
+        "over50": 3
+      },
+      "detailReentry": {
+        "ms": 17,
+        "frames": 18,
+        "p95": 65,
+        "max": 65,
+        "over50": 1
+      },
+      "returnToLobby": {
+        "ms": 11,
+        "frames": 18,
+        "p95": 71,
+        "max": 71,
+        "over50": 1
+      },
+      "sealEntry": {
+        "ms": 478,
+        "frames": 16,
+        "p95": 220,
+        "max": 220,
+        "over50": 4
+      },
+      "apiReadsOnTwoOpens": 0,
+      "unchangedClockWritesIn2250ms": 0,
+      "afterExit": {
+        "clock": false,
+        "poll": false,
+        "dialog": false
+      },
+      "diagnostics": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ]
+    }
+  },
+  "simultaneous": {
+    "kinds": [
+      "SEAL",
+      "AUCTION",
+      "ORGANIZATION_FACTION",
+      "TERRITORY",
+      "RAID",
+      "COUP"
+    ],
+    "compact": "진행 5건 · 대기 1건",
+    "dialog": "진행 7건 · 대기 1건",
+    "mobile320": {
+      "width": 290,
+      "height": 337,
+      "rows": 6,
+      "contained": true,
+      "overflow": false,
+      "cardHitTargets": 6,
+      "dock": {
+        "boardBottom": 744,
+        "dockTop": 778,
+        "scrollTop": 432,
+        "maxScroll": 432
+      }
+    }
+  },
+  "performance": {
+    "condition": "전후 동일한 공개 현황 3건 스냅샷과 격리 계정. 로컬 HTTP에서 실제 게임 진입, 새 브라우저 컨텍스트. 데스크톱 Chrome, Windows Electron 검수 런타임, Android Chrome 모바일 에뮬레이션, iOS WebKit 에뮬레이션, ONE store H5 SDK 테스트 호스트 안의 실제 게임 iframe. 모바일 실기기 미측정.",
+    "timings": "로비 진입은 탐색 시작부터 조작 버튼 표시까지, 현황은 건수 표시와 그 다음 프레임까지 측정했다. 상세 첫 열기와 재열기, 로비 복귀는 포인터 입력부터 대상이 표시된 첫 애니메이션 프레임까지다. 각 동작에서 표시 이후 400ms 동안의 프레임을 포함한다. 플랫폼·시나리오별 1회 측정.",
+    "bottleneck": "상세를 열 때 로비 카드를 다시 생성하던 작업을 제거했다. 하루 이상 남은 카운트다운은 표시 분이 같으면 텍스트 노드를 교체하지 않는다. PC와 WebKit에서 2.25초 관찰 중 같은 글자를 다시 쓰는 횟수 2회→0회. 전체 보기 두 번 열 때 현황 API 추가 호출 0회. 봉인전 진입 후 로비 타이머와 자동 조회 예약 0개.",
+    "platforms": {
+      "desktop-1440": {
+        "before": {
+          "lobbyReadyMs": 1072,
+          "statusReadyMs": 1389,
+          "detailFirst": {
+            "ms": 51,
+            "frames": 85,
+            "p95": 5.5,
+            "max": 25,
+            "over50": 0
+          },
+          "detailReentry": {
+            "ms": 19,
+            "frames": 98,
+            "p95": 4.4,
+            "max": 8.2,
+            "over50": 0
+          },
+          "returnToLobby": {
+            "ms": 23,
+            "frames": 92,
+            "p95": 4.8,
+            "max": 20.8,
+            "over50": 0
+          },
+          "sealEntry": {
+            "ms": 352,
+            "frames": 63,
+            "p95": 45.9,
+            "max": 141.7,
+            "over50": 2
+          },
+          "apiReadsOnTwoOpens": 0,
+          "unchangedClockWritesIn2250ms": 2,
+          "afterExit": {
+            "clock": false,
+            "poll": false,
+            "dialog": false
+          },
+          "diagnostics": []
+        },
+        "after": {
+          "lobbyReadyMs": 1183,
+          "statusReadyMs": 1540,
+          "detailFirst": {
+            "ms": 56,
+            "frames": 85,
+            "p95": 4.8,
+            "max": 58.3,
+            "over50": 1
+          },
+          "detailReentry": {
+            "ms": 14,
+            "frames": 98,
+            "p95": 4.3,
+            "max": 4.4,
+            "over50": 0
+          },
+          "returnToLobby": {
+            "ms": 16,
+            "frames": 92,
+            "p95": 4.3,
+            "max": 19.7,
+            "over50": 0
+          },
+          "sealEntry": {
+            "ms": 282,
+            "frames": 79,
+            "p95": 58.3,
+            "max": 95.9,
+            "over50": 4
+          },
+          "apiReadsOnTwoOpens": 0,
+          "unchangedClockWritesIn2250ms": 0,
+          "afterExit": {
+            "clock": false,
+            "poll": false,
+            "dialog": false
+          },
+          "diagnostics": []
+        },
+        "allSix": {
+          "width": 1258,
+          "height": 112,
+          "rows": 2,
+          "contained": true,
+          "overflow": false,
+          "cardHitTargets": 6
+        }
+      },
+      "windows-1440": {
+        "before": {
+          "lobbyReadyMs": 1107,
+          "statusReadyMs": 1473,
+          "detailFirst": {
+            "ms": 31,
+            "frames": 26,
+            "p95": 16.7,
+            "max": 16.7,
+            "over50": 0
+          },
+          "detailReentry": {
+            "ms": 13,
+            "frames": 25,
+            "p95": 16.7,
+            "max": 16.8,
+            "over50": 0
+          },
+          "returnToLobby": {
+            "ms": 16,
+            "frames": 25,
+            "p95": 16.7,
+            "max": 16.8,
+            "over50": 0
+          },
+          "sealEntry": {
+            "ms": 253,
+            "frames": 29,
+            "p95": 66.6,
+            "max": 66.7,
+            "over50": 2
+          },
+          "apiReadsOnTwoOpens": 0,
+          "afterExit": {
+            "clock": false,
+            "poll": false,
+            "dialog": false
+          },
+          "diagnostics": []
+        },
+        "after": {
+          "lobbyReadyMs": 698,
+          "statusReadyMs": 981,
+          "detailFirst": {
+            "ms": 21,
+            "frames": 25,
+            "p95": 16.8,
+            "max": 16.8,
+            "over50": 0
+          },
+          "detailReentry": {
+            "ms": 12,
+            "frames": 25,
+            "p95": 16.7,
+            "max": 16.7,
+            "over50": 0
+          },
+          "returnToLobby": {
+            "ms": 13,
+            "frames": 25,
+            "p95": 16.7,
+            "max": 16.7,
+            "over50": 0
+          },
+          "sealEntry": {
+            "ms": 261,
+            "frames": 30,
+            "p95": 66.7,
+            "max": 100,
+            "over50": 2
+          },
+          "apiReadsOnTwoOpens": 0,
+          "afterExit": {
+            "clock": false,
+            "poll": false,
+            "dialog": false
+          },
+          "diagnostics": []
+        },
+        "allSix": {
+          "width": 1258,
+          "height": 112,
+          "rows": 2,
+          "contained": true,
+          "overflow": false,
+          "cardHitTargets": 6
+        }
+      },
+      "android-390": {
+        "before": {
+          "lobbyReadyMs": 1059,
+          "statusReadyMs": 1320,
+          "detailFirst": {
+            "ms": 46,
+            "frames": 87,
+            "p95": 4.3,
+            "max": 41.6,
+            "over50": 0
+          },
+          "detailReentry": {
+            "ms": 14,
+            "frames": 98,
+            "p95": 4.3,
+            "max": 4.3,
+            "over50": 0
+          },
+          "returnToLobby": {
+            "ms": 19,
+            "frames": 94,
+            "p95": 4.4,
+            "max": 37.3,
+            "over50": 0
+          },
+          "sealEntry": {
+            "ms": 395,
+            "frames": 76,
+            "p95": 45.9,
+            "max": 220.8,
+            "over50": 3
+          },
+          "apiReadsOnTwoOpens": 0,
+          "afterExit": {
+            "clock": false,
+            "poll": false,
+            "dialog": false
+          },
+          "diagnostics": []
+        },
+        "after": {
+          "lobbyReadyMs": 1028,
+          "statusReadyMs": 1308,
+          "detailFirst": {
+            "ms": 43,
+            "frames": 89,
+            "p95": 4.9,
+            "max": 45.8,
+            "over50": 0
+          },
+          "detailReentry": {
+            "ms": 14,
+            "frames": 98,
+            "p95": 4.3,
+            "max": 4.3,
+            "over50": 0
+          },
+          "returnToLobby": {
+            "ms": 15,
+            "frames": 95,
+            "p95": 4.3,
+            "max": 12.5,
+            "over50": 0
+          },
+          "sealEntry": {
+            "ms": 325,
+            "frames": 90,
+            "p95": 25,
+            "max": 99.9,
+            "over50": 3
+          },
+          "apiReadsOnTwoOpens": 0,
+          "afterExit": {
+            "clock": false,
+            "poll": false,
+            "dialog": false
+          },
+          "diagnostics": []
+        },
+        "allSix": {
+          "width": 360,
+          "height": 199,
+          "rows": 3,
+          "contained": true,
+          "overflow": false,
+          "cardHitTargets": 6,
+          "dock": {
+            "boardBottom": 744,
+            "dockTop": 778,
+            "scrollTop": 331,
+            "maxScroll": 331
+          }
+        }
+      },
+      "ios-390": {
+        "before": {
+          "lobbyReadyMs": 938,
+          "statusReadyMs": 1328,
+          "detailFirst": {
+            "ms": 41,
+            "frames": 14,
+            "p95": 56,
+            "max": 56,
+            "over50": 1
+          },
+          "detailReentry": {
+            "ms": 18,
+            "frames": 19,
+            "p95": 68,
+            "max": 68,
+            "over50": 1
+          },
+          "returnToLobby": {
+            "ms": 11,
+            "frames": 18,
+            "p95": 68,
+            "max": 68,
+            "over50": 1
+          },
+          "sealEntry": {
+            "ms": 682,
+            "frames": 12,
+            "p95": 434,
+            "max": 434,
+            "over50": 3
+          },
+          "apiReadsOnTwoOpens": 0,
+          "unchangedClockWritesIn2250ms": 2,
+          "afterExit": {
+            "clock": false,
+            "poll": false,
+            "dialog": false
+          },
+          "diagnostics": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        },
+        "after": {
+          "lobbyReadyMs": 1356,
+          "statusReadyMs": 1670,
+          "detailFirst": {
+            "ms": 48,
+            "frames": 14,
+            "p95": 59,
+            "max": 59,
+            "over50": 2
+          },
+          "detailReentry": {
+            "ms": 36,
+            "frames": 17,
+            "p95": 77,
+            "max": 77,
+            "over50": 1
+          },
+          "returnToLobby": {
+            "ms": 13,
+            "frames": 18,
+            "p95": 69,
+            "max": 69,
+            "over50": 1
+          },
+          "sealEntry": {
+            "ms": 675,
+            "frames": 10,
+            "p95": 411,
+            "max": 411,
+            "over50": 5
+          },
+          "apiReadsOnTwoOpens": 0,
+          "unchangedClockWritesIn2250ms": 0,
+          "afterExit": {
+            "clock": false,
+            "poll": false,
+            "dialog": false
+          },
+          "diagnostics": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        },
+        "allSix": {
+          "width": 360,
+          "height": 199,
+          "rows": 3,
+          "contained": true,
+          "overflow": false,
+          "cardHitTargets": 6,
+          "dock": {
+            "boardBottom": 744,
+            "dockTop": 778,
+            "scrollTop": 331,
+            "maxScroll": 331
+          }
+        }
+      },
+      "h5-390": {
+        "before": {
+          "lobbyReadyMs": 1367,
+          "statusReadyMs": 1620,
+          "detailFirst": {
+            "ms": 55,
+            "frames": 83,
+            "p95": 4.5,
+            "max": 58.4,
+            "over50": 2
+          },
+          "detailReentry": {
+            "ms": 13,
+            "frames": 99,
+            "p95": 4.3,
+            "max": 12.5,
+            "over50": 0
+          },
+          "returnToLobby": {
+            "ms": 14,
+            "frames": 95,
+            "p95": 4.3,
+            "max": 33.4,
+            "over50": 0
+          },
+          "sealEntry": {
+            "ms": 269,
+            "frames": 81,
+            "p95": 25.1,
+            "max": 112.4,
+            "over50": 3
+          },
+          "apiReadsOnTwoOpens": 0,
+          "afterExit": {
+            "clock": false,
+            "poll": false,
+            "dialog": false
+          },
+          "diagnostics": []
+        },
+        "after": {
+          "lobbyReadyMs": 1455,
+          "statusReadyMs": 1702,
+          "detailFirst": {
+            "ms": 55,
+            "frames": 85,
+            "p95": 4.4,
+            "max": 50,
+            "over50": 0
+          },
+          "detailReentry": {
+            "ms": 13,
+            "frames": 97,
+            "p95": 4.3,
+            "max": 4.3,
+            "over50": 0
+          },
+          "returnToLobby": {
+            "ms": 17,
+            "frames": 95,
+            "p95": 4.3,
+            "max": 24.9,
+            "over50": 0
+          },
+          "sealEntry": {
+            "ms": 318,
+            "frames": 90,
+            "p95": 20.8,
+            "max": 170.7,
+            "over50": 3
+          },
+          "apiReadsOnTwoOpens": 0,
+          "afterExit": {
+            "clock": false,
+            "poll": false,
+            "dialog": false
+          },
+          "diagnostics": []
+        },
+        "allSix": {
+          "width": 360,
+          "height": 199,
+          "rows": 3,
+          "contained": true,
+          "overflow": false,
+          "cardHitTargets": 6,
+          "dock": {
+            "boardBottom": 744,
+            "dockTop": 778,
+            "scrollTop": 331,
+            "maxScroll": 331
+          }
+        }
+      }
+    },
+    "ios320": {
+      "lobbyReadyMs": 1063,
+      "statusReadyMs": 1352,
+      "detailFirst": {
+        "ms": 34,
+        "frames": 18,
+        "p95": 45,
+        "max": 45,
+        "over50": 0
+      },
+      "detailReentry": {
+        "ms": 36,
+        "frames": 20,
+        "p95": 62,
+        "max": 62,
+        "over50": 1
+      },
+      "returnToLobby": {
+        "ms": 12,
+        "frames": 21,
+        "p95": 30,
+        "max": 62,
+        "over50": 1
+      },
+      "sealEntry": {
+        "ms": 540,
+        "frames": 13,
+        "p95": 340,
+        "max": 340,
+        "over50": 5
+      },
+      "apiReadsOnTwoOpens": 0,
+      "unchangedClockWritesIn2250ms": 0,
+      "afterExit": {
+        "clock": false,
+        "poll": false,
+        "dialog": false
+      },
+      "diagnostics": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ]
+    }
+  },
+  "captures": {
+    "lobby": "lobby.png",
+    "dialog": "details.png",
+    "mobileSixActivities": "mobile-six.png"
+  }
+}
