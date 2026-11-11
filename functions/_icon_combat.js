@@ -22,7 +22,7 @@ export function selectIconSupportTarget(allies){
 
 // One isolated state machine per battle. Secondary damage never starts a new
 // action, another skill, a retaliation loop, or an on-hit magic chain.
-export function createIconCombatRuntime({teams,hit,damage,rawDamage,knockout,emit,sealed=apocalypseSealed,cleanseOne=()=>false,techniques=()=>null}){
+export function createIconCombatRuntime({teams,citadelHealing=false,hit,damage,rawDamage,knockout,emit,sealed=apocalypseSealed,cleanseOne=()=>false,techniques=()=>null}){
  const fighters=()=>[...teams.A,...teams.B];
  const passiveSealed=actor=>sealed(actor)||Number(actor.magicSealCharges||0)>0;
  const states=new Map(fighters().filter(a=>a.iconRole).map(a=>{
@@ -156,8 +156,11 @@ export function createIconCombatRuntime({teams,hit,damage,rawDamage,knockout,emi
     extra.healPriority='LOWEST_HP_PERCENT';extra.targetHpBefore=target.hp;extra.targetMaxHpBefore=target.maxHp;
     const cleaned=cleanseOne(target)||cleanse(target);
     const request=target.maxHp*(c.healPercent+s.resonance*c.resonancePercent)/100*s.scale;
-    const amount=apocalypseCursed(target)?0:Math.min(s.healLeft,target.maxHp-target.hp,iconHealingAmount(target,request));
-    s.healLeft-=amount;target.hp+=amount;actor.healingDone+=amount;
+    // In a Citadel squad mercenary HP can be hundreds of times the caster's.
+    // Spend the same fraction of the support's allowance for the same fraction healed.
+    const budgetScale=citadelHealing?Math.max(1,target.maxHp/actor.maxHp):1;
+    const amount=apocalypseCursed(target)?0:Math.min(s.healLeft*budgetScale,target.maxHp-target.hp,iconHealingAmount(target,request));
+    s.healLeft=Math.max(0,s.healLeft-amount/budgetScale);target.hp+=amount;actor.healingDone+=amount;
     target.iconEmpower={percent:c.nextAttackPercent*s.scale,remaining:c.durationActions,sourceId:actor.id};
     targets=[{...snapshot(target),amount,cleaned,empowerPercent:target.iconEmpower.percent}];extra.stacksConsumed=s.resonance;s.resonance=0;break;
    }
@@ -219,5 +222,10 @@ export function createIconCombatRuntime({teams,hit,damage,rawDamage,knockout,emi
  function schedule(actor){const s=states.get(actor.id);return s&&s.casts<s.tuning.maxCasts&&!s.charging&&!s.advanceDebt?{next:s.next,code:s.def.code}:null;}
  function advance(actor){const s=states.get(actor.id),current=schedule(actor);if(!current||current.next<=actor.actions+1)return null;const borrowed=current.next-actor.actions-1;s.advanceDebt={borrowed,repaidAt:null};s.next=actor.actions+1;if(s.def.role==='MAGIC'){s.charging=true;status(s,actor,'CHANNEL',{remaining:1,advanced:true});}return{borrowed,nextAction:s.next};}
  const offensive=actor=>{const s=states.get(actor.id);return !!(s&&s.def.role!=='SUPPORT'&&s.casts<s.tuning.maxCasts);};
- return {schedule,advance,offensive,beforeAction,selectTarget,basicMultiplier,afterBasic,beforeDamage,onDamage,endAction,cleanse,hasDebuff:t=>!!(t.iconCurse||t.iconVulnerability||t.iconLink),snapshot:()=>[...states.values()].map(s=>({id:s.actor.id,role:s.def.role,casts:s.casts,nextAction:s.next,guardRemaining:s.guardLeft,healRemaining:s.healLeft,stacks:s.heat||s.resonance,takedowns:s.takedowns,...(s.def.role==='LINK'?{echoRemaining:s.echoLeft||0}:{} )}))};
+ function replenishCitadelHealing(){
+  for(const s of states.values())if(s.def.role==='SUPPORT'&&live(s.actor)){
+   s.casts=0;s.healLeft=s.actor.maxHp*s.tuning.healBudgetPercent/100;
+  }
+ }
+ return {replenishCitadelHealing,schedule,advance,offensive,beforeAction,selectTarget,basicMultiplier,afterBasic,beforeDamage,onDamage,endAction,cleanse,hasDebuff:t=>!!(t.iconCurse||t.iconVulnerability||t.iconLink),snapshot:()=>[...states.values()].map(s=>({id:s.actor.id,role:s.def.role,casts:s.casts,nextAction:s.next,guardRemaining:s.guardLeft,healRemaining:s.healLeft,stacks:s.heat||s.resonance,takedowns:s.takedowns,...(s.def.role==='LINK'?{echoRemaining:s.echoLeft||0}:{} )}))};
 }

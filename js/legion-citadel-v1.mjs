@@ -115,8 +115,11 @@ export function citadelHitRows(event) {
  const hits=Array.isArray(event.hits)?event.hits.filter(hasImpact):[];
  const targets=Array.isArray(event.targets)?event.targets.filter(hasImpact):[];
  const rows=hits.length?hits:targets.length?targets:hasImpact(event)?[event]:[];
- return rows.map(row=>({id:row.targetId||event.targetId,damage:Number(row.damage)||0,shield:Number(row.absorbed)||0,
-  critical:!!(row.critical??event.critical),dodge:!!(row.dodge||event.type==='DODGE')})).filter(row=>row.id);
+ const healing=event.heals||(event.type==='ICON_SKILL'&&event.iconRole==='SUPPORT'?event.targets:null)||
+  (['TEAM_HEAL','MERCENARY_HEAL','EMERGENCY_HEAL','REGEN'].includes(event.type)?[event]:[]);
+ const restored=healing.filter(row=>row.targetId&&row.amount>0).map(row=>({id:row.targetId,damage:0,shield:0,heal:row.amount}));
+ return restored.concat(rows.map(row=>({id:row.targetId||event.targetId,damage:Number(row.damage)||0,shield:Number(row.absorbed)||0,
+  critical:!!(row.critical??event.critical),dodge:!!(row.dodge||event.type==='DODGE')})).filter(row=>row.id));
 }
 // Existing rooms retain their original one-second checkpoints. Fill the gaps
 // from absolute server receipts, keyed by instance so an old hit cannot hurt a respawn.
@@ -151,7 +154,7 @@ export function citadelPlaybackFrames(chunk,replay,seed){
    const event=ordered[e++];
    set(event.actorId,event.actorHpAfter,event.actorShieldAfter);
    set(event.targetId,event.type==='KO'?0:event.targetHpAfter??event.hpAfter,event.targetShieldAfter??event.shieldAfter,event.type==='ENEMY_SPAWN');
-   for(const list of [event.hits,event.targets])if(Array.isArray(list))for(const hit of list){
+   for(const list of [event.hits,event.targets,event.heals])if(Array.isArray(list))for(const hit of list){
     if(hit&&typeof hit==='object')set(hit.targetId||hit.id||event.targetId,hit.targetHpAfter??hit.hpAfter,hit.targetShieldAfter??hit.shieldAfter);
    }
   }
@@ -191,28 +194,30 @@ function mountHitReceipts(layer, projection, replay, light) {
   while(cursor<events.length && events[cursor].combatAtMs<=elapsed){
    const event=events[cursor++];if(event.combatAtMs<elapsed-750)continue;
    for(const hit of citadelHitRows(event)){
-    const total=due.get(hit.id);if(total){total.damage+=hit.damage;total.shield+=hit.shield;total.critical||=hit.critical;}else due.set(hit.id,hit);
+    const key=hit.heal?'heal:'+hit.id:hit.id,total=due.get(key);
+    if(total){total.damage+=hit.damage;total.shield+=hit.shield;total.critical||=hit.critical;if(hit.heal)total.heal+=hit.heal;}else due.set(key,hit);
    }
   }
   if(!due.size&&!(ctx&&expired))return;
   const rect=layer.getBoundingClientRect(),plane=due.size?projection():null;
-  for(const [id,hit] of due){
+  for(const [key,hit] of due){
+   const id=hit.id;
    if(!plane)break;let slot=allies.get(id);
    if(!slot){const match=/^B:(\d+):CITADEL(?::(?:R\d+|BOSS))?$/.exec(id);if(!match||Number(match[1])>=capacity)continue;slot={kind:'cards',index:Number(match[1]),enemy:true};}
    const p=citadelStation(slot.kind,slot.index,slot.enemy,plane.compact),anchor=plane.anchor?.(id);
    const x=Math.min(Math.max(28,(anchor?.x??(plane.left+p.x*plane.sx))-rect.left),rect.width-28);
-   const y=Math.max(0,(anchor?.y??(plane.top+(p.y-(slot.enemy?69:108))*plane.sy))-rect.top);
-   const number=hit.damage?'−'+format(hit.damage):hit.shield?'':'회피',barrier=hit.shield?'방벽 '+format(hit.shield):'';
-   if(ctx){active.set(id,{x,y,number,barrier,color:hit.critical?'#41dfff':'#ff4a4a',until:elapsed+800});continue;}
-   let label=active.get(id);
+   const y=Math.max(0,(anchor?.y??(plane.top+(p.y-(slot.enemy?69:108))*plane.sy))-rect.top-(hit.heal?15:0));
+   const number=hit.heal?'+'+format(hit.heal):hit.damage?'−'+format(hit.damage):hit.shield?'':'회피',barrier=hit.shield?'방벽 '+format(hit.shield):'';
+   if(ctx){active.set(key,{x,y,number,barrier,color:hit.heal?'#99f3a6':hit.critical?'#41dfff':'#ff4a4a',until:elapsed+800});continue;}
+   let label=active.get(key);
    if(!label){label=free.pop();if(!label){const node=document.createElement('div'),hp=document.createElement('b'),shield=document.createElement('small');
-    node.className='ct-damage';node.append(hp,shield);layer.append(node);label={node,hp,shield};}active.set(id,label);}
+    node.className='ct-damage';node.append(hp,shield);layer.append(node);label={node,hp,shield};}active.set(key,label);}
    const {node,hp,shield}=label;
    node.style.left=x+'px';node.style.top=y+'px';
    node.dataset.target=id;node.dataset.damage=String(hit.damage);node.dataset.absorbed=String(hit.shield);
-   node.classList.toggle('ct-critical',hit.critical);
+   node.classList.toggle('ct-critical',!!hit.critical);node.classList.toggle('ct-heal',!!hit.heal);node.dataset.heal=String(hit.heal||0);
    hp.textContent=number;shield.textContent=barrier;
-   node.title='피해 '+coinNumber.format(hit.damage)+' · 방벽 '+coinNumber.format(hit.shield);
+   node.title=hit.heal?'회복 '+coinNumber.format(hit.heal):'피해 '+coinNumber.format(hit.damage)+' · 방벽 '+coinNumber.format(hit.shield);
    node.hidden=false;label.until=elapsed+800;
   }
   if(ctx)paintCanvas(rect);
@@ -297,7 +302,7 @@ function expeditionGuide(dock,rechargeHours) {
   const choices=quality.map(([v,n])=>'<option value="'+v+'" '+(readQuality()===v?'selected':'')+'>'+n+'</option>').join('');
   return '<details class="ct-details"><summary>원정 규칙과 화면 설정'+glyph('chevron')+'</summary><div class="ct-rules">'+
     '<div><b>편성 및 입장</b><p>각자 용병 2명과 아이콘 2장을 편성합니다. 일반 계정은 두 사람의 로딩이 끝나 전투가 시작될 때 파티 행동력 1을 사용합니다. 전투 시작 '+rechargeHours+'시간 후 1회 충전되며, 일반 파티와 클랜 전용 파티가 공유합니다.</p></div>'+
-    '<div><b>성주와 전리품</b><p>5분에 성주가 합류하고, 처치 후에도 7분까지 사냥합니다. 일반 재앙 대비 아이템·장비 드랍 확률은 '+(dock?'150%':'130%')+'입니다. 필드 전리품은 12초 안에 주우세요. 성주 처치 확정 연마석과 처치 코인은 자동 누적되며 전투 종료 후 수령합니다.</p></div>'+
+    '<div><b>성주와 전리품</b><p>'+(dock?'5분에 성주가 합류하고, 처치 후에도 7분까지 사냥합니다.':'첫 포격은 15초, 이후 30초마다 토벌대 전체가 피해를 받습니다. 지원 아이콘은 매분 회복 횟수와 회복량을 충전하며, 오조은과 간호사의 회복량은 대상 체력에 맞춰집니다. 5분에 등장하는 성주를 처치하고 7분까지 생존하면 승리합니다.')+' 일반 재앙 대비 아이템·장비 드랍 확률은 '+(dock?'150%':'130%')+'입니다. 필드 전리품은 12초 안에 주우세요. 성주 처치 확정 연마석과 처치 코인은 자동 누적되며 전투 종료 후 수령합니다.</p></div>'+
     '<label class="ct-quality">전투 화면 <select data-quality aria-label="전투 화면">'+choices+'</select></label></div></details>';
 }
 function finder({open,tiers,selectedTier,rooms,tierLabel,waiting,test,nextEntryAt,dock,lockedReason,rechargeHours}) {
@@ -321,14 +326,14 @@ function finder({open,tiers,selectedTier,rooms,tierLabel,waiting,test,nextEntryA
 export function openCitadel(trigger,firstRead=null){
  if(active){firstRead?.controller.abort();return;}
 
- style('/css/legion-citadel-v1.css?v=8');
+ style('/css/legion-citadel-v1.css?v=9');
  const d=document.createElement('dialog');
  active=d;d.className='citadel';d.setAttribute('aria-labelledby','ct-title');
  d.innerHTML='<header class="ct-bar"><div class="ct-brand">'+citadelCrest()+'<b>군단토벌 파티</b></div><button type="button" class="ct-close" data-act="close" aria-label="화면 닫기">'+glyph('close')+'</button></header>'+
    '<div class="ct-scroll"><nav class="ct-areas" aria-label="토벌 전장"><button type="button" data-ct-area="public" aria-pressed="true">'+tactical('legion')+'불타는 성채</button><button type="button" data-ct-area="clan-dockyard" aria-pressed="false">'+tactical('clan')+'클랜 전용 사냥터<small data-clan-access>시즌 5 · 아지트 3단계</small></button></nav><div class="ct-hero"><picture aria-hidden="true"><source media="(max-width:700px)" srcset="'+root+'720.webp"><img alt="" src="'+root+'1440.webp" decoding="async" width="1440" height="810"></picture><img class="ct-castellan" src="'+unitArt+'castellan-moloch.webp" alt="" width="276" height="276" decoding="async">'+
    '<div class="ct-hero-copy"><div class="ct-status" data-ct-status>모집 확인 중</div><h1 id="ct-title">불타는 성채</h1><p>밀려드는 군단을 사냥하고, 잿불 성주 몰록을 처치하세요.</p></div></div>'+
-   '<section class="ct-energy" aria-label="파티 행동력"><div>'+glyph('clock')+'<b>파티 행동력</b><strong data-party-energy>확인 중</strong></div><div><span data-charge-label>다음 충전</span><time data-charge-time>—</time></div></section>'+
-   '<ul class="ct-facts"><li>'+tactical('duo')+'<span>원정 인원 <b>2인 협동</b></span></li><li>'+glyph('clock')+'<span>사냥 시간 <b>7분</b></span></li><li>'+tactical('inventory')+'<span>전리품 <b>개인 획득</b></span></li></ul>'+
+   '<div class="ct-expedition-hud"><section class="ct-energy" aria-label="파티 행동력"><div><b>파티 행동력</b><strong data-party-energy>확인 중</strong></div><div><span data-charge-label>다음 충전</span><time data-charge-time>—</time></div></section>'+
+   '<ul class="ct-facts"><li>'+tactical('duo')+'<span>원정 인원 <b>2인 협동</b></span></li><li>'+glyph('clock')+'<span>사냥 시간 <b>7분</b></span></li><li>'+tactical('inventory')+'<span>전리품 <b>개인 획득</b></span></li></ul></div>'+
    '<div class="ct-content"><section data-region></section><p class="ct-message" role="status" aria-live="polite"></p></div></div><div data-arena hidden></div>';
  document.body.append(d);d.showModal();const $=q=>d.querySelector(q),main=$('[data-region]'),box=$('[data-arena]'),msg=$('.ct-message'),scope=new AbortController(),sig=scope.signal,clock=createServerClock();
  let readingEpoch=null,entryOpen=true,resolved=false,tiers=[],selectedTier='gate',nextEntryAt=null,unlimited=false,rechargeHours=6;
@@ -361,12 +366,12 @@ export function openCitadel(trigger,firstRead=null){
   if(closed||document.hidden||!resolved)return;
   const remaining=nextEntryAt?Math.max(0,nextEntryAt-clock.now()):0;
   const seconds=Math.min(rechargeHours*3600,Math.ceil(remaining/1000));
+  energyHud.dataset.charge=displayTest?'test':unlimited?'unlimited':seconds?'charging':'ready';
   txt(energyValue,displayTest?'테스트':unlimited?'무제한':seconds?'0 / 1':'1 / 1');
-  txt(chargeLabel,displayTest?'테스트 입장':unlimited?'OWNER 입장':seconds?'다음 충전':'일반 · 클랜 공용');
-  txt(chargeTime,displayTest?'소모 없음':unlimited?'무제한':seconds?[
+  txt(chargeLabel,displayTest?'테스트 입장':unlimited?'코인 수급 시':seconds?'다음 충전':'일반 · 클랜 공용');
+  txt(chargeTime,displayTest?'소모 없음':unlimited?'솔로 행동력 1':seconds?[
    Math.floor(seconds/3600),Math.floor(seconds/60)%60,seconds%60
   ].map(n=>String(n).padStart(2,'0')).join(':'):'충전 완료');
-  if(unlimited&&!displayTest){txt(chargeLabel,'코인 수급 시');txt(chargeTime,'솔로 행동력 1');}
   if(!displayTest&&!unlimited&&seconds){
    energyTimer=setTimeout(drawEnergy,Math.max(16,remaining-(seconds-1)*1000+5));
   }else if(nextEntryAt&&!remaining){
@@ -455,7 +460,7 @@ export function openCitadel(trigger,firstRead=null){
   }
   else if(terminal(state.status)){
    const coins=state.coins?'<p><b>처치 코인 '+coinNumber.format(state.coins)+'</b></p>':'';
-   main.innerHTML='<small>'+esc(state.tierName||tierLabel(state.tier))+'</small><h2>'+(state.status==='VICTORY'?'7분 사냥 완료':'토벌대 전멸')+'</h2><p>처치 '+state.kills+' · 성주 '+(state.bosses?'처치':'미처치')+' · 내 습득 '+state.picked+'회</p><h3>내 전리품</h3>'+coins+(state.drops?.length||!coins?items(state.drops):'')+
+   main.innerHTML='<small>'+esc(state.tierName||tierLabel(state.tier))+'</small><h2>'+(state.status==='VICTORY'?'7분 사냥 완료':state.resultReason==='BOSS_SURVIVED'?'시간 종료 · 성주 미처치':'토벌대 전멸')+'</h2><p>처치 '+state.kills+' · 성주 '+(state.bosses?'처치':'미처치')+' · 내 습득 '+state.picked+'회</p><h3>내 전리품</h3>'+coins+(state.drops?.length||!coins?items(state.drops):'')+
     '<p>'+(state.test?'테스트 모드 · 실제 보상 미지급':state.claimed?'내 계정에 지급되었습니다.':'습득한 보상을 내 계정으로 수령하세요.')+'</p>'+(state.canClaim?'<button class="ct-primary" data-act="claim">내 전리품 수령</button>':'<button class="ct-primary" data-act="leave">파티 목록으로</button>');
   }
   else{const mine=state.members.find(m=>m.id===state.you),group=picker==='mercenaries'?'mercenaryCodes':'cardIds',other=group==='mercenaryCodes'?'cardIds':'mercenaryCodes',eligible=selected[group],opts=options?.[picker]||[];

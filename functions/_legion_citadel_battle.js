@@ -16,8 +16,9 @@ const species=[
  ['CASTELLAN','잿불 성주 몰록',artRoot+'castellan-moloch.webp',c.bossPower*1.1,650,185,32],
 ];
 export function citadelEnemies(tierId=FIRST_TIER,area=null){
- const tier=tierById(tierId);
- if(!tier)throw Error('Invalid citadel difficulty');
+ const profile=tierById(tierId);
+ if(!profile)throw Error('Invalid citadel difficulty');
+ const tier=area===DOCKYARD.id?DOCKYARD.combat:profile;
  const dockyard=[['철사갈퀴 추적자',DOCKYARD.art+'stage3-monster.webp'],['항만 감시병',artRoot+'ember-watcher.webp'],['창고 철갑병',artRoot+'black-iron-guard.webp'],['부두 파수병',artRoot+'furnace-warden.webp'],['철갑 집행자',DOCKYARD.art+'stage3-boss.webp']];
  const roster=area===DOCKYARD.id?species.map(([code,,, ...stats],i)=>[code,...dockyard[i],...stats]):species;
  const monsters=roster.map(([code,name,art,power,hp,attack,shield],i)=>({id:'CITADEL_'+code,name,isBoss:i===4,
@@ -27,15 +28,19 @@ export function citadelEnemies(tierId=FIRST_TIER,area=null){
  const forms=monsters.map((m,i)=>({...buildMonsterFighter(m),id:'B:T:'+i,slot:i,huntArtId:i,battleSprite:m.battleSprite,projectVMonsterArt:m.projectVMonsterArt,displayHeight:i===4?320:155,legionRegion:'CITADEL',legionRole:i===1?'SUPPORT':'ASSAULT'}));
  const initial=Array.from({length:CITADEL_ENEMY_CAPACITY},(_,slot)=>({...forms[slot%4],slot,id:'B:'+slot+':CITADEL'}));
  return {monster:monsters.at(-1),initial,pending:[],forms,encounter:{schemaVersion:1,initialIds:initial.map(f=>f.id),instances:initial.map(publicFighter)},
-  sustained:{durationMs:c.huntDurationMs,continuousUntilMs:HUNT_DURATION_MS,regionId:'CITADEL',templates:forms.slice(0,4),finalBoss:{...forms[4],id:'B:4:CITADEL:BOSS',finalBoss:true}}};
+  sustained:{barragePercent:tier.barragePercent,durationMs:c.huntDurationMs,continuousUntilMs:HUNT_DURATION_MS,regionId:'CITADEL',templates:forms.slice(0,4),finalBoss:{...forms[4],id:'B:4:CITADEL:BOSS',finalBoss:true}}};
 }
 export function buildCitadelBattle(squads,seed,tierId=FIRST_TIER,area=null){
  if(squads.length!==2||squads.some(s=>s.cards.length!==2||s.cards.some(c=>(c.grade||c.rarity)!=='ICON')||s.mercenaries.length!==2))throw Error('Invalid citadel squads');
  const field=citadelEnemies(tierId,area),{payload,states}=createCooperativeBattle({squads,seed,difficulty:{id:'CITADEL',forcedEvery:3},combat:{maxBattleSeconds:HUNT_DURATION_MS/1000,difficulties:[]},citadelEnemies:field});
  payload.sceneAssetKey=area===DOCKYARD.id?'CLAN_DOCKYARD':'LEGION_BURNING_CITADEL';payload.accountNickname=area===DOCKYARD.id?'클랜 항만 토벌대':'성채 토벌대';
- const result=payload.battleV2.result,elapsed=result.timeline.at(-1).combatAtMs,won=result.final.A.concat(result.final.mercenaries.A).some(f=>f.hp>0)&&elapsed>=HUNT_DURATION_MS,duration=won?HUNT_DURATION_MS:Math.min(HUNT_DURATION_MS,Math.max(1000,Math.round(elapsed)));
+ const result=payload.battleV2.result,elapsed=result.timeline.at(-1).combatAtMs;
+ const survived=elapsed>=HUNT_DURATION_MS&&result.final.A.concat(result.final.mercenaries.A).some(f=>f.hp>0);
+ const duration=Math.min(HUNT_DURATION_MS,Math.max(1000,Math.round(elapsed)));
  const instances=result.encounter.instances,byId=new Map(instances.map(f=>[f.id,f]));
  const kills=result.timeline.filter(e=>e.type==='KO'&&byId.has(e.targetId)).map(e=>[Math.round(e.combatAtMs),byId.get(e.targetId).isBoss?2:byId.get(e.targetId).huntElite?1:0]);
+ const won=survived&&(area===DOCKYARD.id||kills.some(([,kind])=>kind===2));
+ const reason=survived?(won?'TIME_LIMIT':'BOSS_SURVIVED'):'ELIMINATION';
  const manifest=instances.map(f=>[f.slot,f.isBoss?-1:Number(f.id.split(':R')[1]||0),f.huntArtId,f.huntElite?1:0]);
  const units=states[0].A.map(({hp,shield,...f})=>({...f,side:'A'})),ids=new Map([...units.map((f,i)=>[f.id,i]),...instances.map((f,i)=>[f.id,i+units.length])]);
  const chunks=Array.from({length:Math.ceil(duration/CITADEL_CHUNK_MS)},()=>({frames:[],events:[]}));
@@ -68,11 +73,11 @@ export function buildCitadelBattle(squads,seed,tierId=FIRST_TIER,area=null){
  }
  while(part+1<chunks.length){part++;chunks[part].frames.push(frame(part*CITADEL_CHUNK_MS,previous,previousLimits));}
  for(const e of result.timeline){if(e.type==='RESULT')continue;const {combatClock,...event}=e;chunk(e.combatAtMs).events.push(event);}
- result.winner=won?'A':'B';result.reason=won?'TIME_LIMIT':'ELIMINATION';result.timeline=[];delete result.encounter;delete result.openingTeams;delete result.openingMercenaries;
+ result.winner=won?'A':'B';result.reason=reason;result.timeline=[];delete result.encounter;delete result.openingTeams;delete result.openingMercenaries;
  // All dates, targets and death rolls remain authoritative. Generations share one
  // template per species; the remaining six minutes never block first-frame decode.
  const forms=field.forms.map(({id,cardId,title,name,isBoss,battleSprite,attackStyle,displayHeight,maxHp,maxShield,projectVMonsterArt})=>({id,cardId,title,name,isBoss,battleSprite,attackStyle,displayHeight,maxHp,maxShield,projectVMonsterArt}));
  payload.cooperativeEncounter.citadel={manifest,forms};
- return {won,duration,kills,replay:{payload,units,impactFrames:true,chunkMs:CITADEL_CHUNK_MS,chunkCount:chunks.length},chunks};
+ return {won,reason,duration,kills,replay:{payload,units,impactFrames:true,chunkMs:CITADEL_CHUNK_MS,chunkCount:chunks.length},chunks};
 }
 

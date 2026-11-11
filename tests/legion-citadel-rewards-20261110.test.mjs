@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {citadelFixture,citadelSquads} from './helpers/legion-citadel-fixture.mjs';
+import {citadelFixture,veteranCitadelSquads} from './helpers/legion-citadel-fixture.mjs';
 import {citadelEnemies} from '../functions/_legion_citadel_battle.js';
 import {citadelLoot,personalFarm,farmView,collectCitadelPile,citadelGrantStatements} from '../functions/_legion_citadel_loot.js';
 import {defaultCitadelPolicy} from '../functions/_legion_citadel_policy.js';
@@ -189,7 +189,7 @@ test('each confirmed kill rolls, overflowing ground piles remain collectible, an
 });
 
 test('a paused regional catalog holds an already earned guaranteed drop and coins until the original room settles',async()=>{
- const f=await citadelFixture({squads:citadelSquads({ss:21,sss:21,gear:12000000})});try{
+ const f=await citadelFixture({squads:veteranCitadelSquads({gear:48000000})});try{
   const region=await seedGear(f),active=await boot(f,'keep'),{id}=active,key='legion_citadel_v1:farm:'+id+':1';
   const frozen=await getMeta(f,key);assert.equal(frozen.guaranteed.length,1);
   f.clock.now=active.startsAt+active.duration+1;region.mode='OFF';await saveMeta(f,LEGION_REGIONS_KEY,region);
@@ -230,7 +230,7 @@ test('all nine boss and equipment-tier combinations settle through the normal tw
   for(const [index,divisor] of [5,10,20].entries()){
    const rate=scale/(syntheticTenth*divisor);
    ticket=lower+rate/2;lower+=rate;
-   const f=await citadelFixture({squads:citadelSquads({ss:21,sss:21,gear:12000000})});
+   const f=await citadelFixture({squads:veteranCitadelSquads({gear:48000000})});
    try{
     await seedGear(f);const active=await boot(f,tier),{id}=active;
     const room=await getMeta(f,'legion_citadel_v1:room:'+id),boss=room.kills.find(([,kind])=>kind===2);
@@ -249,7 +249,7 @@ test('all nine boss and equipment-tier combinations settle through the normal tw
 });
 
 for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' exact coin and unique settlement, failure rollback, peer isolation and replay',async t=>{
- const f=await citadelFixture({postgres,squads:citadelSquads({ss:21,sss:21,gear:12000000})});try{
+ const f=await citadelFixture({postgres,squads:veteranCitadelSquads({gear:48000000})});try{
   await seedGear(f);
   const balance=async uid=>BigInt((await f.db.prepare('SELECT CAST(coin AS TEXT) coin FROM users WHERE id=?').bind(uid).first()).coin);
   const before=100000000000000001n;

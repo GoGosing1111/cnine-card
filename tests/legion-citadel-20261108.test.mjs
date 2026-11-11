@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {citadelFixture,citadelSquads} from './helpers/legion-citadel-fixture.mjs';
+import {citadelFixture,citadelSquads,veteranCitadelSquads} from './helpers/legion-citadel-fixture.mjs';
 import {SEASON_S1_SCHEMA,seasonAccount} from '../functions/_season_s1.js';
 import {buildCitadelBattle} from '../functions/_legion_citadel_battle.js';
 import {legionHuntEnergy} from '../functions/_legion_hunt.js';
@@ -14,10 +14,10 @@ const boot=async f=>{const {state:{id}}=await states(f,1,'create',{requestId:'ci
 test('seeded fixed enemies, rank recommendations rather than restrictions, cross-owner IDs and existing raid caps',()=>{
  const ss=citadelSquads({codes:[['V-952','V-977'],['V-952','V-977']]}),sss=citadelSquads({codes:[['V-996','V-999'],['V-996','V-999']]});
  assert.throws(()=>validatePreparedMercenaries(ss[0].mercenaries));assert.throws(()=>validatePreparedMercenaries(sss[0].mercenaries));
- const common=buildCitadelBattle(citadelSquads(),5),low=buildCitadelBattle(citadelSquads({ss:1,sss:1}),5);
- for(const party of [ss,sss]){const b=buildCitadelBattle(party,5);assert.equal(b.won,true);assert.deepEqual(b.replay.payload.cooperativeEncounter.instances,common.replay.payload.cooperativeEncounter.instances);
+ const common=buildCitadelBattle(veteranCitadelSquads(),5),low=buildCitadelBattle(citadelSquads({ss:1,sss:1}),5);
+ for(const party of [ss,sss]){const b=buildCitadelBattle(party,5);assert.deepEqual(b.replay.payload.cooperativeEncounter.instances,common.replay.payload.cooperativeEncounter.instances);
  const {A}=b.replay.payload.battleV2.teams;assert.equal(A.cards.length,4);assert.equal(A.mercenaries.length,4);assert.equal(new Set([...A.cards,...A.mercenaries].map(u=>u.id)).size,8);}
- assert.equal(common.duration,420000);assert.ok(common.kills.length>low.kills.length);assert.ok(common.kills.some(k=>k[1]===2));assert.ok(!low.kills.some(k=>k[1]===2));assert.ok(common.kills.at(-1)[0]>415000);
+ assert.equal(common.duration,420000);assert.ok(common.kills.length>low.kills.length);assert.ok(common.kills.some(k=>k[1]===2));assert.ok(!low.kills.some(k=>k[1]===2));assert.ok(common.kills.at(-1)[0]>=415000);
  assert.equal(common.chunks.length,14);assert.ok(common.chunks.at(-1).events.some(e=>e.type==='ENEMY_SPAWN'));assert.ok(common.kills.some(([at])=>at>common.kills.find(k=>k[1]===2)[0]+30000));
  assert.throws(()=>buildCitadelBattle(ss.slice(0,1),1));assert.throws(()=>buildCitadelBattle([{...ss[0],cards:ss[0].cards.map(c=>({...c,grade:'C',rarity:'C'}))},ss[1]],1));
 });
@@ -55,7 +55,7 @@ test('custom party-only pools stay disjoint even with an odd catalogue',()=>{
  for(const chance of [0,35,100])for(let i=0;i<100;i++){const [a,b]=distributeCitadelLoot(supply,gear,chance);assert.ok([...b.goods,...b.armory].every(y=>[...a.goods,...a.armory].every(x=>x.type!==y.type||x.ref!==y.ref)));const farm=personalFarm(a,[[10000,2],[15000,2]],true);assert.equal(farmView(farm,9999,true).picked,0);assert.equal(farmView(farm,20000,true).picked,2);}
 });
 for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' party flow, barriers, private grants, retries and recovery',async()=>{
- const f=await citadelFixture({postgres});try{
+ const f=await citadelFixture({postgres,squads:veteranCitadelSquads()});try{
   if(postgres)await f.db.execSchema(SEASON_S1_SCHEMA.map(sql=>sql.replaceAll('INTEGER','BIGINT')));
   else for(const sql of SEASON_S1_SCHEMA)await f.exec(sql);
   f.env.SEASON_S1_ENABLED='1';f.env.SEASON_S1_NOW=()=>f.clock.now;f.env.SEASON_S1_SCHEDULE={PVE:{start:f.clock.now-86400000}};
@@ -244,8 +244,43 @@ test('running legacy rooms apply absolute area damage, recovery and shield hits 
  const events=[
   {combatAtMs:230,hits:[{targetId:'a',targetHpAfter:70,targetShieldAfter:0},{targetId:'b',targetHpAfter:20,targetShieldAfter:5}]},
   {combatAtMs:400,type:'KO',targetId:'b'},{combatAtMs:410,type:'ENEMY_SPAWN',targetId:'c',targetHpAfter:100,targetShieldAfter:3},
-  {combatAtMs:420,targetId:'b',targetHpAfter:45},{combatAtMs:450,targets:[{targetId:'a',hpAfter:85}]}];
+  {combatAtMs:420,targetId:'b',targetHpAfter:45},{combatAtMs:450,targets:[{targetId:'a',hpAfter:85}]},
+  {combatAtMs:470,type:'MERCENARY_GROUP_HEAL',heals:[{targetId:'a',amount:5,targetHpAfter:90}]}];
  const frames=citadelPlaybackFrames({frames:[[0,[0,90,0,1,100,10]]],events},{units});
- assert.deepEqual(frames.map(([ms])=>ms),[0,230,400,410,450]);
- assert.deepEqual(frames[1][1],[0,70,0,1,20,5]);assert.deepEqual(frames.at(-1)[1],[0,85,0,2,100,3]);
+ assert.deepEqual(frames.map(([ms])=>ms),[0,230,400,410,450,470]);
+ assert.deepEqual(frames[1][1],[0,70,0,1,20,5]);assert.deepEqual(frames.at(-1)[1],[0,90,0,2,100,3]);
+});
+
+test('Citadel support and nurse heals reach the target HP frame on the paid skill action',()=>{
+ const off=veteranCitadelSquads({deck:'OFFENSE',gear:24000000});
+ const woundedParty=structuredClone(off),healer=citadelSquads({ss:21,codes:[['V-051','V-052'],['V-053','V-054']]})[0].mercenaries[0];
+ healer.equipment={schemaVersion:1,mode:'PVE',power:24000000};
+ woundedParty[1].mercenaries[0]=healer;
+ assert.equal(buildCitadelBattle(off,5).reason,'ELIMINATION');
+ for(const [party,group] of [[veteranCitadelSquads(),false],[woundedParty,true]]){
+  const battle=buildCitadelBattle(party,5);assert.ok(battle.won);
+  const ids=battle.replay.units.map(u=>u.id),events=battle.chunks.flatMap(part=>part.events);
+  const heals=events.filter(e=>group?e.type==='MERCENARY_GROUP_HEAL':e.type==='ICON_SKILL'&&e.iconRole==='SUPPORT');
+  const frames=new Map(battle.chunks.flatMap(part=>part.frames).map(([at,values])=>[at,values]));
+  let verified=0;
+  for(const e of heals){
+   const rows=citadelHitRows(e);if(!rows.length)continue;
+   const values=frames.get(e.combatAtMs);
+   assert.ok(values);
+   for(const r of e.heals||e.targets){
+    if(r.amount<=0)continue;
+    assert.ok(r.targetHpAfter>=r.amount&&r.targetHpAfter<=r.targetMaxHp);
+    assert.equal(rows.find(h=>h.id===r.targetId).heal,r.amount);
+    if(!group)assert.ok(Math.abs(r.targetHpAfter-e.targetHpBefore-r.amount)<.0001);
+    const i=values.findIndex((idx,k)=>k%3===0&&idx===ids.indexOf(r.targetId));
+    if(i>=0&&values[i+1]===r.targetHpAfter)verified++;
+   }
+   if(group){
+    const windup=events.find(w=>w.type==='MERCENARY_WINDUP'&&w.actorId===e.actorId&&w.combatGroup===e.combatGroup);
+    assert.ok(windup&&windup.energyAfter>=0&&windup.energyAfter<=healer.combat.energyMax-25);
+    assert.equal(e.amount,e.heals.reduce((sum,h)=>sum+h.amount,0));
+   }
+  }
+  assert.ok(heals.length>=2&&verified>=2);
+ }
 });

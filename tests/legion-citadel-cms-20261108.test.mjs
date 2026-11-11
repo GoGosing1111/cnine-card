@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {citadelFixture,citadelSquads} from './helpers/legion-citadel-fixture.mjs';
+import {citadelFixture,citadelSquads,veteranCitadelSquads} from './helpers/legion-citadel-fixture.mjs';
 import {citadelEnemies,buildCitadelBattle} from '../functions/_legion_citadel_battle.js';
 import {defaultCitadelPolicy,CITADEL_POLICY_KEY} from '../functions/_legion_citadel_policy.js';
 import {citadelLoot,personalFarm} from '../functions/_legion_citadel_loot.js';
@@ -99,11 +99,22 @@ test('Calamity equipment follows the public region and retains its rates across 
   pool.chance=0;assert.deepEqual(personalFarm(pool,series,false,()=>.325).events.at(-1).slice(0,3),[7000,1,21]);
  }finally{await f.close();}
 });
-test('stronger tier opponents and continuous replenishment allow boss progression with the same four mercenaries',()=>{
- const recommended=citadelSquads(),raised=citadelSquads({ss:19,sss:16}),capped=citadelSquads({ss:21,sss:21,gear:12000000});
+test('public Citadel requires a boss kill and survival, with escalating pressure and a separate dockyard',()=>{
  const stages=['gate','keep','throne'],forms=stages.map(t=>citadelEnemies(t).forms);
  for(let i=1;i<3;i++)for(let j=0;j<5;j++){assert.ok(forms[i][j].maxHp>forms[i-1][j].maxHp);assert.ok(forms[i][j].attack>forms[i-1][j].attack);}
- const boss=(s,t)=>{const b=buildCitadelBattle(s,5,t);assert.equal(b.duration,420000);assert.ok(b.chunks.at(-1).events.some(e=>e.type==='ENEMY_SPAWN'));return b.kills.some(e=>e[1]===2);};
- assert.ok(boss(recommended,'gate'));assert.equal(boss(recommended,'keep'),false);assert.ok(boss(raised,'keep'));assert.equal(boss(raised,'throne'),false);assert.ok(boss(capped,'throne'));
+ const veteran=veteranCitadelSquads(),offense=veteranCitadelSquads({deck:'OFFENSE'});
+ for(const tier of stages){
+  const wipe=buildCitadelBattle(offense,5,tier);
+  assert.equal(wipe.won,false);assert.equal(wipe.reason,'ELIMINATION');assert.ok(wipe.duration<420000);
+  assert.ok(wipe.replay.payload.battleV2.result.final.mercenaries.A.every(f=>f.hp===0));
+ }
+ const gate=buildCitadelBattle(veteran,5,'gate'),keep=buildCitadelBattle(veteran,5,'keep');
+ assert.ok(gate.won&&keep.won);assert.ok(keep.kills.find(k=>k[1]===2)[0]>gate.kills.find(k=>k[1]===2)[0]);
+ const timeout=buildCitadelBattle(veteran,5,'throne');
+ assert.equal(timeout.duration,420000);assert.equal(timeout.won,false);assert.equal(timeout.reason,'BOSS_SURVIVED');
+ const clear=buildCitadelBattle(veteranCitadelSquads({gear:24000000}),5,'throne');
+ assert.ok(clear.won);assert.equal(clear.duration,420000);assert.ok(clear.kills.some(k=>k[1]===2));
+ const dock=buildCitadelBattle(citadelSquads({ss:1,sss:1}),5,'gate','clan-dockyard');
+ assert.equal(dock.won,true);assert.equal(dock.kills.some(k=>k[1]===2),false);
+ assert.equal(dock.chunks.some(c=>c.events.some(e=>e.legionPattern==='성채 일제 포격')),false);
 });
-

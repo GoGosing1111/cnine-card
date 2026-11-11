@@ -70,7 +70,7 @@ function view(r,user,at){
  const coins=m.coins?m.coins.partyMultiplier*earnedLegionCoins(m.coins,units,killTime,m.coins.huntDurationMs):0;
  return {id:r.id,status,area:r.area||'public',tier:r.tier??FIRST_TIER,tierName:r.area===DOCKYARD.id?DOCKYARD.name:tierById(r.tier??FIRST_TIER).name,you:m.id,hostId:r.hostId,serverNow:at,expiresAt:r.expiresAt,startsAt:r.startsAt||null,nextEntryAt:m.nextEntryAt??null,duration:r.duration||0,
   members:r.members.map(({id,name,ready,loaded,summary})=>({id,name,ready:!!ready,loaded:!!loaded,summary:summary||null})),selection:m.selection||null,
-  kills,bosses,coins,drops:[],ground:[],claimed:!!m.claimed,canClaim:false,test:!r.paying};
+  ...(status==='DEFEAT'&&r.resultReason?{resultReason:r.resultReason}:{}),kills,bosses,coins,drops:[],ground:[],claimed:!!m.claimed,canClaim:false,test:!r.paying};
 }
 const farmKey=(id,uid)=>P+'farm:'+id+':'+uid;
 const receiptKey=(id,uid)=>P+'receipt:'+id+':'+uid;
@@ -208,7 +208,7 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
      r.members[i].calamity=!!loot[i].calamity;
      out.push(put(db,farmKey(r.id,us[i].id),JSON.stringify(personalFarm(loot[i],built.kills,squads[i].pet?.magnet===true))));
     }
-    Object.assign(r,{phase:'LOADING',expiresAt:now()+120000,won:built.won,kills:built.kills,duration:built.duration,parts:built.chunks.length});
+    Object.assign(r,{phase:'LOADING',expiresAt:now()+120000,won:built.won,resultReason:built.reason,kills:built.kills,duration:built.duration,parts:built.chunks.length});
    }else if(action==='loaded'){
     if(['ACTIVE','VICTORY','DEFEAT'].includes(status))return present(db,r,user,at);
     if(status!=='LOADING')fail('LOADING','전장 준비 시간이 종료됐습니다. 행동력은 차감되지 않습니다.');

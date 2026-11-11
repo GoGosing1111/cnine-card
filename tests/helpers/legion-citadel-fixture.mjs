@@ -1,5 +1,6 @@
 import {legionFixture} from './legion-hunt-fixture.mjs';
 import {currentSquads,currentMerc,fixture as coop} from './cooperative-current.mjs';
+import {snapshot as limitedSnapshot} from './helios-king-balance-20261106.mjs';
 import tower from '../fixtures/tower-expansion-20261102.json' with {type:'json'};
 import {defaultLegionHuntPolicy,LEGION_HUNT_SETTINGS_KEY} from '../../functions/_legion_hunt_settings.js';
 import {handleLegionCitadel} from '../../functions/_legion_citadel.js';
@@ -8,6 +9,11 @@ import {CITADEL_POLICY_KEY,defaultCitadelPolicy} from '../../functions/_legion_c
 const merc=(code,lv)=>{const m=structuredClone(tower.snapshots.find(s=>s.code===code)||currentMerc(code));return {...m,mercenaryLevel:{version:2,level:lv,breakthroughMask:[5,10,15,20].reduce((mask,n,i)=>mask|(lv>n?1<<i:0),0),policyRevision:tower.growthRevision,growth:tower.growth}};};
 export function citadelSquads({codes=[['V-996','V-952'],['V-999','V-977']],ss=16,sss=10,gear=2300000,deck='BALANCED',level=13}={}){
  return currentSquads({codes:[codes[0][0],codes[1][0]],gear,deck,level}).map((s,i)=>({...s,mercenary:undefined,mercenaries:codes[i].map(code=>merc(code,(tower.snapshots.find(m=>m.code===code)||coop.mercenaries.find(m=>m.code===code)).rank==='SSS'?sss:ss))}));
+}
+export function veteranCitadelSquads({deck='SUPPORT',gear=12000000}={}){
+ const codes=[['V-967','V-966'],['V-965','V-974']];
+ return citadelSquads({deck,gear}).map((s,i)=>({...s,
+  mercenaries:codes[i].map(code=>limitedSnapshot(code,21,'PVE',gear))}));
 }
 export async function citadelFixture({postgres=false,squads=citadelSquads(),liveClock=false,partyMode='ON',ownerIds=[]}={}){
  const f=await legionFixture({postgres,inventoryBigInt:true}),db=f.DB;const exec=(q,...v)=>db.prepare(q).bind(...v).run();

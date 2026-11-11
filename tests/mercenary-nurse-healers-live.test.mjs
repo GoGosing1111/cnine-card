@@ -26,7 +26,7 @@ function setup(){
  const cast=(options)=>{actor.actions++;return runtime.beforeAction(actor,options);};return {actor,allies,enemy,events,teams,runtime,cast};
 }
 test('four immutable user portraits and transparent SD register as SS with one reviewed shared skill',()=>{
- assert.equal(seed.catalog.cards.length,55);assert.equal(seed.catalog.skills.filter(s=>s.id===NURSE_SKILL_ID).length,1);
+ assert.deepEqual(seed.catalog.cards.filter(c=>NURSE_CODES.includes(c.code)).map(c=>c.code).sort(),[...NURSE_CODES].sort());assert.equal(seed.catalog.skills.filter(s=>s.id===NURSE_SKILL_ID).length,1);
  for(const [i,code]of NURSE_CODES.entries()){
   const art=seed.catalog.cards.find(c=>c.code===code),row=seed.document.mercenaries.find(c=>c.code===code);
   assert.equal(row.name,NURSE_NAMES[i]);assert.equal(row.rank,'SS');assert.equal(row.role,'SUPPORT');assert.equal(row.position,'REAR');
@@ -83,7 +83,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} nurse
  for(const code of NURSE_CODES){const ticket=choices.slice(0,ss.indexOf(code)).reduce((n,r)=>n+r.weight,0),before=await f.coin(),request={requestId:crypto.randomUUID(),count:1};
   const result=await openMercenaryCards(f.env,f.user,request,{randomInt:n=>n===1000000?0:ticket});assert.equal(result.draws[0].mercenaryCode,code);
   await openMercenaryCards(f.env,f.user,request,{randomInt:()=>{throw Error('Duplicate reroll')}});assert.equal(await f.coin(),before-1000);
-  await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:code,revision:revision++});const deployed=await loadMercenaryBattleSnapshot(f.env,f.user);
+  await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCodes:[code],mode:'PVE',revision:revision++});const deployed=await loadMercenaryBattleSnapshot(f.env,f.user);
   assert.equal(deployed.rank,'SS');assert.equal(deployed.basePower,120000);assert.deepEqual(deployed.skills.map(s=>s.id),[NURSE_SKILL_ID]);assert.deepEqual(deployed.skills[0].balance,NURSE_BALANCE);assert.equal(deployed.skills[0].nurseHealing.maxTargetHpPercent,15);
  }
 });

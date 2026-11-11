@@ -643,7 +643,7 @@ function applyCanonicalDamage(target, incoming, options = {}) {
   incoming = mercenaryGrowthIncomingDamage(target,beforeMercenaryMitigation,incoming,options.actor);
   // A shield-only removal may not spill its additional power budget into HP.
   if(options.shieldOnly&&options.actor?.pvpPowerBalance)incoming=Math.min(incoming,Math.max(0,target.shield));
-  let remaining = Math.max(0, Number(incoming || 0));
+  let remaining = Math.max(options.damageFloor || 0, Number(incoming || 0));
   const shieldBefore = target.shield;
   const bypass=Math.floor(remaining*clamp(Number(options.shieldPierce||0),0,1));
   const absorbed = options.ignoreShield ? 0 : Math.min(target.shield, remaining-bypass);
@@ -1239,7 +1239,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   // Nine-player actors must defeat the fixed boss with their own stats/skills;
   // the ordinary hunt's percent-HP floor otherwise defeats every tier equally.
   const hitOptions = { minDamagePercent: escortMode || cooperative ? 0 : MONSTER_MIN_DAMAGE_PERCENT };
-  mercenaryRuntime=[...a,...b].some(actor=>actor.isMercenary)?mercenaryCombat({teams:{A:a,B:b},techniques:()=>techniqueRuntime,
+  mercenaryRuntime=[...a,...b].some(actor=>actor.isMercenary)?mercenaryCombat({citadelHealing:Boolean(sustainedEncounter?.barragePercent),teams:{A:a,B:b},techniques:()=>techniqueRuntime,
     // Selected sniper/slow-shot casts use the PVE basic floor, scaled by the
     // actual per-impact ratio. A divided volley never repeats the full floor.
     // Escort has no floor; apocalypse scaling and the per-hit cap still apply.
@@ -1251,7 +1251,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     // A skill replaces a basic action, so it shares that action's PVE floor.
     // multiplier already contains the per-pellet share; never repeat the full
     // floor for every hit. Keep escort/cooperative floors off and retain caps.
-    iconRuntime=createIconCombatRuntime({teams:{A:a,B:b},techniques:()=>techniqueRuntime,hit:(actor,target,multiplier,options)=>hitResult(actor,target,iconRandom[actor.side],multiplier,false,{...hitOptions,...season2Runtime?.defenseOptions(target),...options,minDamagePercent:hitOptions.minDamagePercent*multiplier,capMinimumDamage:true}),
+    iconRuntime=createIconCombatRuntime({teams:{A:a,B:b},citadelHealing:Boolean(sustainedEncounter?.barragePercent),techniques:()=>techniqueRuntime,hit:(actor,target,multiplier,options)=>hitResult(actor,target,iconRandom[actor.side],multiplier,false,{...hitOptions,...season2Runtime?.defenseOptions(target),...options,minDamagePercent:hitOptions.minDamagePercent*multiplier,capMinimumDamage:true}),
       damage:applyDamage,rawDamage,knockout:target=>settleKnockout(target,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data),
       sealed:actor=>apocalypseSealed(actor)||season2Runtime?.skillBlocked(actor),
       cleanseOne:target=>{const key=apocalypseCursed(target)?'curse':Object.keys(target.apocalypseStatus||{})[0];if(key){delete target.apocalypseStatus[key];emitTimeline(timeline,clock,'APOCALYPSE_STATUS',{targetId:target.id,statuses:{...target.apocalypseStatus},label:'공명 정화'});return true;}for(const field of ['magicSealCharges','doomMarks','timeDistortionStacks'])if(target[field]>0){target[field]=0;return true;}return false;}});
@@ -1391,6 +1391,22 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const advanceSustained=()=>{
     const from=timeline.length;combatMs=sustained.nextAt;
     sustained.advance(combatMs,b,(type,data)=>emitTimeline(timeline,clock,type,data));
+    // The citadel garrison fires between waves, even if the party cleared the previous wave.
+    const barrage=sustainedEncounter.barragePercent;
+    if(barrage&&combatMs<sustainedEncounter.continuousUntilMs&&combatMs%60000===0)iconRuntime?.replenishCitadelHealing();
+    if(barrage&&combatMs%30000===15000){
+      const gunner=targetableAlive(b).find(unit=>unit.isBoss)||targetableAlive(b)[0];
+      if(gunner){
+        for(const target of targetableAlive(a)){
+          const incoming=Math.round(target.maxHp*barrage/100);
+          const hit=applyDamage(target,incoming,{actor:gunner,damageFloor:incoming});
+          gunner.damageDealt+=hit.hpDamage+hit.absorbed;
+          emitTimeline(timeline,clock,'TURN',{actorId:gunner.id,actorKind:'MONSTER',targetId:target.id,damage:hit.hpDamage,absorbed:hit.absorbed,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield,legionPattern:'성채 일제 포격',label:'성채 일제 포격'});
+          maybeEmergencyHeal(target,timeline,clock,healerRules[target.side].multiplier,season2Runtime);
+          settleKnockout(target,timeline,clock,reviveFromMagic);
+        }
+      }
+    }
     stampCombatGroup(from,combatMs,false);
     // A late visual queue must be able to enter the boss phase using exactly
     // this server state, without healing the party or replaying old attacks.
