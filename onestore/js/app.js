@@ -4464,6 +4464,8 @@ function readStartupSnapshot(){
     if(!raw){raw=sessionStorage.getItem(STARTUP_SNAPSHOT_LEGACY_KEY);if(raw)localStorage.setItem(storageKey,raw)}
     if(!raw)return null;
     const data=JSON.parse(raw);if(!data||Date.now()-Number(data.savedAt||0)>STARTUP_SNAPSHOT_MAX_AGE){localStorage.removeItem(storageKey);return null}
+    // Confirm Bloodmoon sales with the live catalog before offering the pack.
+    if(Array.isArray(data.packs))data.packs=data.packs.filter(pack=>pack?.id!=='mercenary-bloodmoon-ss-limited');
     return data;
   }catch(_){return null}
 }
