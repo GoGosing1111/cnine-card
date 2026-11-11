@@ -1,0 +1,432 @@
+{
+  "at": "2026-11-11T14:17:28.097Z",
+  "status": "LIVE",
+  "scope": "Two registered inventory items. One new unequipped +15 Emperor part or one owned mercenary at effective level 21 with breakthrough mask 15, XP zero and no additional cost.",
+  "items": [
+    {
+      "code": "EMPEROR_EQUIPMENT_CHOICE_15",
+      "name": "엠퍼러 +15 장비 선택상자",
+      "category": "SUPPLY_BOX",
+      "rarity": "EMPEROR",
+      "image_url": "assets/items/emperor-equipment-choice-15-v1.webp",
+      "is_active": "1"
+    },
+    {
+      "code": "MERCENARY_BREAKTHROUGH_21",
+      "name": "용병 21레벨 최종 돌파권",
+      "category": "EVENT",
+      "rarity": "MYTHIC",
+      "image_url": "assets/items/mercenary-breakthrough-21-v1.webp",
+      "is_active": "1"
+    }
+  ],
+  "receipt": {
+    "operationKey": "ops:inventory-choice-emperor15-mercenary21:20261111:v1",
+    "items": [
+      {
+        "code": "EMPEROR_EQUIPMENT_CHOICE_15",
+        "name": "엠퍼러 +15 장비 선택상자"
+      },
+      {
+        "code": "MERCENARY_BREAKTHROUGH_21",
+        "name": "용병 21레벨 최종 돌파권"
+      }
+    ],
+    "createdAt": "2026-11-11T14:16:41.959Z",
+    "auditId": "58437"
+  },
+  "cms": [
+    {
+      "code": "INVENTORY_ITEM:EMPEROR_EQUIPMENT_CHOICE_15",
+      "type": "INVENTORY_ITEM",
+      "ref": "EMPEROR_EQUIPMENT_CHOICE_15",
+      "name": "엠퍼러 +15 장비 선택상자",
+      "image": "/assets/items/emperor-equipment-choice-15-v1.webp",
+      "rarity": "EMPEROR",
+      "tier": "normal",
+      "maxQuantity": 1000000,
+      "available": true,
+      "unavailableReason": ""
+    },
+    {
+      "code": "INVENTORY_ITEM:MERCENARY_BREAKTHROUGH_21",
+      "type": "INVENTORY_ITEM",
+      "ref": "MERCENARY_BREAKTHROUGH_21",
+      "name": "용병 21레벨 최종 돌파권",
+      "image": "/assets/items/mercenary-breakthrough-21-v1.webp",
+      "rarity": "MYTHIC",
+      "tier": "epic",
+      "maxQuantity": 1000000,
+      "available": true,
+      "unavailableReason": ""
+    }
+  ],
+  "holdersAtVerification": [],
+  "registrationReplayedWithoutWriting": true,
+  "deployment": {
+    "verifiedAt": "2026-11-11T14:16:12.712Z",
+    "commit": "abbb5d6d5304e0004424592208872aa2420f5475",
+    "pages": {
+      "id": "f090aa53-6159-4d5e-902b-8d9195df7b25",
+      "url": "https://f090aa53.cnine-card.pages.dev"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "id": "a1e8d5c8-87da-4d34-b991-d3ebd4f90d42",
+        "trafficPercent": 100
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "id": "f9c5c614-3410-43e2-a8cf-abf57cd8d19e",
+        "trafficPercent": 100
+      }
+    ],
+    "files": [
+      {
+        "file": "assets/items/emperor-equipment-choice-15-v1.webp",
+        "bytes": 41428,
+        "sha256": "49f897975608fcbbcb7c2fd583115223a59c420fe34184e0905151c38076e992",
+        "windows": true
+      },
+      {
+        "file": "assets/items/emperor-equipment-choice-parts-v1.webp",
+        "bytes": 22434,
+        "sha256": "bbb9ae7d374cec18aac15cdf38557530cec65054cd4d759d2f05f43dadeb015e",
+        "windows": true
+      },
+      {
+        "file": "assets/items/mercenary-breakthrough-21-v1.webp",
+        "bytes": 27746,
+        "sha256": "649ae6f28c3ff7025cd8724a79a1659d2424152fa5950a3fd5fc3131dcc98ab9",
+        "windows": true
+      },
+      {
+        "file": "css/inventory-choice-v1.css",
+        "bytes": 3187,
+        "sha256": "4996cb292161cb46ae32d464f94a1c04386b41e3c94c5593a73c3e121f6d7e68",
+        "windows": true
+      },
+      {
+        "file": "index.html",
+        "bytes": 51840,
+        "sha256": "2e5c3ad3e8f0f5db5ae8d83326e1febfe51218ff1ebfa50eba6a46b6caf1fa70",
+        "windows": true
+      },
+      {
+        "file": "js/app.js",
+        "bytes": 820474,
+        "sha256": "6d4dd89179da7ea211fe169536769c38b6c97b7b58b5b14a9b3aa7bdbde31382",
+        "windows": true
+      },
+      {
+        "file": "js/inventory-choice-v1.mjs",
+        "bytes": 8266,
+        "sha256": "dfa1b04f144efe32a2d0783e825f89d740376835c637abaf849584dac92f19cd",
+        "windows": true
+      },
+      {
+        "file": "shared/onestore-web-assets-v1.mjs",
+        "bytes": 985,
+        "sha256": "ae5af463beab30a2d8430c9991e83f122e5b80c61d60334d357a0d17ed4f79c2",
+        "windows": true
+      },
+      {
+        "file": "onestore/index.html",
+        "bytes": 51961,
+        "sha256": "2392cb2466006fbd63ae4d06a9d3b07921e3a9d139e5fd6f03c99b3b373432c2",
+        "windows": false
+      },
+      {
+        "file": "onestore/js/app.js",
+        "bytes": 821386,
+        "sha256": "66e45088a0b3ffb7c3bee9a742d201d64251f26f71897b633353d24a5b3ed991",
+        "windows": false
+      },
+      {
+        "file": "service-worker.js",
+        "bytes": 25538,
+        "sha256": "31fe7cde51d878f671d707e355df97ae8d2d027ba0ff72fa994ab291b87f7785",
+        "windows": false
+      }
+    ],
+    "windows": {
+      "releaseId": "e783d89aab1ca6bc97391a657cc8a9700250d4d14dc696c791ed1bdc7ff0bfc5",
+      "changed": [
+        "/assets/items/emperor-equipment-choice-15-v1.webp",
+        "/assets/items/emperor-equipment-choice-parts-v1.webp",
+        "/assets/items/mercenary-breakthrough-21-v1.webp",
+        "/css/inventory-choice-v1.css",
+        "/index.html",
+        "/js/app.js",
+        "/js/inventory-choice-v1.mjs",
+        "/shared/onestore-web-assets-v1.mjs"
+      ],
+      "removed": []
+    },
+    "productionAccountWrites": 0,
+    "scopedTests": 52,
+    "assetCount": 20000
+  },
+  "readOnlyOptions": {
+    "at": "2026-11-11T14:17:00.069Z",
+    "condition": "Production PostgreSQL, read-only snapshot, local authenticated handler invocation. Timing includes Windows to database network.",
+    "EMPEROR_EQUIPMENT_CHOICE_15": {
+      "ms": 131,
+      "choices": 4,
+      "selectable": 4,
+      "completed": 0,
+      "stock": 0,
+      "cache": "private, no-store"
+    },
+    "MERCENARY_BREAKTHROUGH_21": {
+      "ms": 354,
+      "choices": 90,
+      "selectable": 44,
+      "completed": 46,
+      "stock": 0,
+      "cache": "private, no-store"
+    }
+  },
+  "verification": {
+    "database": "SQLite and PGlite with the PostgreSQL compatibility adapter, real transaction code plus independent read-only production catalog and options. Simulated debit/issue failure, rollback, retry, unavailable targets, concurrency and final levels.",
+    "scopeTests": 52,
+    "productionAccountGrants": 0,
+    "browserEntry": "Lobby menu → inventory → owned item → selection → confirm. Local browser profiles with isolated accounts and a transactional fixture. A lost HTTP response and zero balance are recovered using the original receipt.",
+    "platforms": "Desktop Chrome 1440, Windows Electron 1440, Android Chromium emulation 390, iOS WebKit emulation 390 and 320, ONE store H5 iframe in Chromium at 390. Mobile hardware was not used.",
+    "browser": {
+      "desktop-1440": {
+        "before": {
+          "width": 1440,
+          "lobbyColdMs": 906,
+          "inventoryFirstMs": 208,
+          "inventoryReentryMs": 34,
+          "diagnostics": [],
+          "reloadRecovery": false
+        },
+        "implemented": {
+          "width": 1440,
+          "lobbyColdMs": 1023,
+          "inventoryFirstMs": 252,
+          "inventoryReentryMs": 47,
+          "boxFirstMs": 98,
+          "boxReentryMs": 26,
+          "ticketFirstMs": 43,
+          "frames": {
+            "count": 165,
+            "p95": 4.3,
+            "max": 8.4,
+            "over50": 0
+          },
+          "afterExitRequests": 0,
+          "diagnostics": [],
+          "reloadRecovery": true
+        }
+      },
+      "windows-1440": {
+        "before": {
+          "width": 1440,
+          "lobbyColdMs": 1287,
+          "inventoryFirstMs": 177,
+          "inventoryReentryMs": 45,
+          "diagnostics": [],
+          "reloadRecovery": false
+        },
+        "implemented": {
+          "width": 1440,
+          "lobbyColdMs": 818,
+          "inventoryFirstMs": 168,
+          "inventoryReentryMs": 41,
+          "boxFirstMs": 75,
+          "boxReentryMs": 44,
+          "ticketFirstMs": 62,
+          "frames": {
+            "count": 42,
+            "p95": 16.8,
+            "max": 16.8,
+            "over50": 0
+          },
+          "afterExitRequests": 0,
+          "diagnostics": [],
+          "reloadRecovery": false
+        }
+      },
+      "android-390": {
+        "before": {
+          "width": 390,
+          "lobbyColdMs": 1305,
+          "inventoryFirstMs": 228,
+          "inventoryReentryMs": 43,
+          "diagnostics": [],
+          "reloadRecovery": false
+        },
+        "implemented": {
+          "width": 390,
+          "lobbyColdMs": 1150,
+          "inventoryFirstMs": 221,
+          "inventoryReentryMs": 32,
+          "boxFirstMs": 75,
+          "boxReentryMs": 29,
+          "ticketFirstMs": 32,
+          "frames": {
+            "count": 166,
+            "p95": 4.2,
+            "max": 12.4,
+            "over50": 0
+          },
+          "afterExitRequests": 0,
+          "diagnostics": [],
+          "reloadRecovery": false
+        }
+      },
+      "ios-390": {
+        "before": {
+          "width": 390,
+          "lobbyColdMs": 1282,
+          "inventoryFirstMs": 296,
+          "inventoryReentryMs": 148,
+          "diagnostics": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "reloadRecovery": false
+        },
+        "implemented": {
+          "width": 390,
+          "lobbyColdMs": 1272,
+          "inventoryFirstMs": 593,
+          "inventoryReentryMs": 145,
+          "boxFirstMs": 228,
+          "boxReentryMs": 79,
+          "ticketFirstMs": 70,
+          "frames": {
+            "count": 38,
+            "p95": 31,
+            "max": 35,
+            "over50": 0
+          },
+          "afterExitRequests": 0,
+          "diagnostics": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "reloadRecovery": false
+        }
+      },
+      "h5-390": {
+        "before": {
+          "width": 390,
+          "lobbyColdMs": 1151,
+          "inventoryFirstMs": 179,
+          "inventoryReentryMs": 34,
+          "diagnostics": [],
+          "reloadRecovery": false
+        },
+        "implemented": {
+          "width": 390,
+          "lobbyColdMs": 983,
+          "inventoryFirstMs": 173,
+          "inventoryReentryMs": 30,
+          "boxFirstMs": 77,
+          "boxReentryMs": 30,
+          "ticketFirstMs": 48,
+          "frames": {
+            "count": 166,
+            "p95": 4.2,
+            "max": 12.4,
+            "over50": 0
+          },
+          "afterExitRequests": 0,
+          "diagnostics": [],
+          "reloadRecovery": false
+        }
+      }
+    },
+    "ios320": {
+      "width": 320,
+      "lobbyColdMs": 786,
+      "inventoryFirstMs": 210,
+      "inventoryReentryMs": 109,
+      "boxFirstMs": 222,
+      "boxReentryMs": 52,
+      "ticketFirstMs": 78,
+      "frames": {
+        "count": 38,
+        "p95": 34,
+        "max": 48,
+        "over50": 0
+      },
+      "afterExitRequests": 0,
+      "diagnostics": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "reloadRecovery": false
+    },
+    "publicBrowser": {
+      "width": 390,
+      "lobbyColdMs": 1187,
+      "inventoryFirstMs": 196,
+      "inventoryReentryMs": 123,
+      "boxFirstMs": 564,
+      "boxReentryMs": 81,
+      "ticketFirstMs": 68,
+      "frames": {
+        "count": 36,
+        "p95": 38,
+        "max": 39,
+        "over50": 0
+      },
+      "afterExitRequests": 0,
+      "diagnostics": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "reloadRecovery": false
+    },
+    "artOptimization": {
+      "condition": "Same real selection dialog over localhost, same art content, fresh browser context, from item use click through image decode and a painted frame. One sample per variant. Four original PNGs compared to a single 576×144 WebP.",
+      "originalBytes": 8453462,
+      "sheetBytes": 22434,
+      "timing": {
+        "desktop-1440": {
+          "originalPngMs": 262,
+          "thumbnailSheetMs": 111
+        },
+        "ios-390": {
+          "originalPngMs": 371,
+          "thumbnailSheetMs": 249
+        }
+      }
+    },
+    "frames": "Foreground requestAnimationFrame while selecting two different equipment parts. After dismissing the dialog, no choice API reads or writes in a 350ms observation window.",
+    "webkitDiagnostic": "ResizeObserver loop completed with undelivered notifications was also observed on the unchanged WebKit baseline."
+  },
+  "art": {
+    "tool": "Built-in ImageGen",
+    "prompts": "docs/qa/emperor-choice-mercenary21-20261111/art/prompts.json",
+    "files": [
+      {
+        "file": "assets/items/emperor-equipment-choice-15-v1.webp",
+        "bytes": 41428,
+        "sha256": "49f897975608fcbbcb7c2fd583115223a59c420fe34184e0905151c38076e992"
+      },
+      {
+        "file": "assets/items/emperor-equipment-choice-parts-v1.webp",
+        "bytes": 22434,
+        "sha256": "bbb9ae7d374cec18aac15cdf38557530cec65054cd4d759d2f05f43dadeb015e"
+      },
+      {
+        "file": "assets/items/mercenary-breakthrough-21-v1.webp",
+        "bytes": 27746,
+        "sha256": "649ae6f28c3ff7025cd8724a79a1659d2424152fa5950a3fd5fc3131dcc98ab9"
+      },
+      {
+        "file": "docs/qa/emperor-choice-mercenary21-20261111/art/emperor-choice-source.png",
+        "bytes": 2357947,
+        "sha256": "a768c6fa71c3a1f652bc520f4c86f210f7d8c6ac65815d4e4729882692f3c864"
+      },
+      {
+        "file": "docs/qa/emperor-choice-mercenary21-20261111/art/mercenary-breakthrough-source.png",
+        "bytes": 1150125,
+        "sha256": "81cb61e2a55fc990803de732eebab082af5f0349ccb362a52eb0aa16fe536f39"
+      }
+    ]
+  }
+}
