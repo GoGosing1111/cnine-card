@@ -1,0 +1,37 @@
+.inventory-choice {
+  box-sizing: border-box; width: min(540px, calc(100% - 24px)); max-height: min(88vh, 780px);
+  padding: 0; overflow: auto; overscroll-behavior: contain;
+  color: #eef3fc; background: #101b2a; border: 1px solid #617488; border-radius: 12px;
+  box-shadow: 0 18px 60px #0009; font: inherit; color-scheme: dark;
+}
+.inventory-choice::backdrop { background: #050a13ba; }
+.choice-surface { padding: clamp(15px, 4vw, 24px); }
+.choice-surface header, .choice-item { display: flex; align-items: center; gap: 12px; }
+.choice-surface header { justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid #394757; }
+.choice-surface h2, .choice-surface h3, .choice-surface p { margin: 0; }
+.choice-surface h2 { font-size: clamp(17px, 4.3vw, 23px); color: #fff3d9; }
+.choice-surface button, .choice-surface select { font: inherit; cursor: pointer; }
+.choice-surface button:focus-visible, .choice-surface select:focus-visible { outline: 2px solid #e1f79a; outline-offset: 2px; }
+.choice-surface header button { width: 40px; height: 40px; flex: none; color: #e1e9ed; border: 1px solid #475668; background: #1e2b3b; border-radius: 6px; font-size: 22px; }
+.choice-item { margin-block: 14px; }
+.choice-item img { object-fit: contain; flex: none; }
+.choice-item strong { color: #ebce8e; }
+.choice-item p, .choice-result p { margin-top: 5px; line-height: 1.5; color: #c1cdd9; font-size: 14px; }
+.choice-parts { display: grid; gap: 8px; grid-template-columns: repeat(2,minmax(0,1fr)); }
+.choice-parts button { display: grid; justify-items: center; gap: 4px; padding: 8px 4px; color: #e5ebf0; background: #192739; border: 1px solid #405469; border-radius: 7px; }
+.choice-parts button[aria-pressed=true] { color: #ffe3a2; border-color: #efc46d; background: #332f27; box-shadow: inset 0 0 0 1px #efc46d; }
+.choice-parts b { font-size: 14px; }
+.choice-parts small { color: #abbac9; }
+.choice-part { display: block; width: 66px; height: 66px; background: url('/assets/items/emperor-equipment-choice-parts-v1.webp') no-repeat 0 0 / 400% 100%; border-radius: 3px; }
+.choice-part.part-1 { background-position-x: 33.3333%; }
+.choice-part.part-2 { background-position-x: 66.6667%; }
+.choice-part.part-3 { background-position-x: 100%; }
+.choice-mercenary { display: grid; gap: 8px; font-weight: 700; }
+.choice-mercenary select { box-sizing: border-box; min-width: 0; width: 100%; min-height: 46px; padding: 4px 8px; color: #f3f6fa; background: #192739; border: 1px solid #576b80; border-radius: 5px; }
+.choice-surface footer { margin-top: 14px; }
+.choice-surface footer p { min-height: 24px; }
+.choice-primary { width: 100%; margin-top: 8px; min-height: 44px; padding: 6px 12px; color: #18270f; font-weight: 750 !important; background: #c8eb78; border: 1px solid #defa91; border-radius: 6px; }
+.choice-primary:disabled { background: #344152; color: #acbac8; border-color: #465464; cursor: default; }
+.choice-surface output { display: block; color: #f5d494; margin-top: 5px; }
+.choice-result { display: grid; justify-items: center; text-align: center; gap: 8px; padding-top: 18px; }
+.choice-result img, .choice-result .choice-part { width: 98px; height: 98px; object-fit: contain; }

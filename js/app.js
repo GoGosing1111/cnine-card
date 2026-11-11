@@ -4404,7 +4404,7 @@ function showAccountPanel() {
 // ===== V1.4 D1 API bridge: API가 없으면 기존 LocalStorage 모드로 자동 전환 =====
 let API_MODE=false, API_TOKEN=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const API_GET_CACHE=new Map(),API_INFLIGHT=new Map();
-const ACCOUNT_RANK_QUIET_MUTATIONS=/^(?:battle\/apocalypse-challenge\/(?:open|answer|pulse|status|abandon)|draw|draw\/ack|superstar-pack\/draw|equipment\/supply-box\/(?:open|purchase)|equipment\/prime-supply-box\/(?:open|purchase)|vehicle-draw\/(?:open|purchase)|vehicle-draw\/prime\/(?:open|purchase))(?:\?|$)/;
+const ACCOUNT_RANK_QUIET_MUTATIONS=/^(?:item-choice\/(?:EMPEROR_EQUIPMENT_CHOICE_15|MERCENARY_BREAKTHROUGH_21)\/use|battle\/apocalypse-challenge\/(?:open|answer|pulse|status|abandon)|draw|draw\/ack|superstar-pack\/draw|equipment\/supply-box\/(?:open|purchase)|equipment\/prime-supply-box\/(?:open|purchase)|vehicle-draw\/(?:open|purchase)|vehicle-draw\/prime\/(?:open|purchase))(?:\?|$)/;
 let PLAYER_STATE_MUTATION_EPOCH=0;
 // The Cloudflare account migration creates a brand-new Hyperdrive pool. Letting a
 // lobby render fire dozens of reads at once makes every request wait for a new
@@ -4602,6 +4602,8 @@ function inventoryPendingGifts(){
     {code:'RECRUITMENT_GIFT_BOX',key:'recruitment-gift',name:'영입전 사은품'},
     {code:'PINGDU_THANKS_GIFT_BOX',key:'pingdu-thanks-gift',name:'핑두의 감사 선물'},
     {code:'TOURNAMENT_GIFT_BOX',key:'tournament-gift',name:'대회 사은품'},
+    {code:'EMPEROR_EQUIPMENT_CHOICE_15',storageKey:`cnine.choice.EMPEROR_EQUIPMENT_CHOICE_15:${owner}`,name:'엠퍼러 +15 장비 선택상자',image:'assets/items/emperor-equipment-choice-15-v1.webp'},
+    {code:'MERCENARY_BREAKTHROUGH_21',storageKey:`cnine.choice.MERCENARY_BREAKTHROUGH_21:${owner}`,name:'용병 21레벨 최종 돌파권',image:'assets/items/mercenary-breakthrough-21-v1.webp'},
     {code:'PET_PUMPKIN_CHOICE_TICKET',storageKey:`cnine.pet-pumpkin-choice.v1:${owner}`,name:'호박펫 선택권',image:'assets/items/pumpkin-pet-choice-20261023/ticket.webp'},
     {code:'ICON_CARD_CHOICE_TICKET',storageKey:`cnine.icon-choice.v1:${owner}`,name:'아이콘 카드 선택권',image:'assets/items/icon-card-choice-20261020/ticket.webp'},
     ...(multiplier?[{code:potion.itemCode,storageKey:potionKey,name:`계급 경험치 ${multiplier}배 물약`,image:`assets/items/rank-exp-potions-20261020/${multiplier}x.webp`}]:[])
@@ -4628,7 +4630,7 @@ function inventoryItemGroup(item){
 function inventoryItemMeta(item){
   const code=String(item.code||'').toUpperCase(),group=inventoryItemGroup(item),quantity=Math.max(0,Number(item.quantity)||0),owned=quantity>0,isMaterial=group==='MATERIAL',isWorkshopOnly=WORKSHOP_ONLY_ITEM_CODES.has(code),rarity=String(item.rarity||'NORMAL').toUpperCase();
   const usable=item.usable!==false&&item.usable!==0&&(!isMaterial||['SIG_HUNTER_BOX','GUARANTEED_ENHANCEMENT_SCROLL'].includes(code))&&!isWorkshopOnly&&group!=='SKILL_CHIP';
-  const action=code==='GUARANTEED_ENHANCEMENT_SCROLL'?'확정 강화할 장비 선택':code==='SIG_HUNTER_BOX'?'상자 열기':code==='SOOPKETLAND_TICKET'?'리버스랜드 입장':code==='SOOPKETLAND_HYPER_BURNING_TICKET'?'버닝 발동':code==='SCRAPYARD_ENTRY_TICKET'?'폐차장 입장':code==='HIGH_GRADE_REROLL_TICKET'?'재뽑기 화면 열기':group==='REROLL'?'재뽑기':code==='SUIT_CORE_SUPPLY_BOX'?'슈트코어 일괄 개봉':code.startsWith('PRIME_')?'프라임 일괄 개봉':code==='VEHICLE_DRAW_TICKET'?'이동수단 뽑기':String(item.category||'').toUpperCase()==='CUBE'?'큐브 개봉':group==='PACK'?'아이템 개봉':'아이템 사용';
+  const action=code==='EMPEROR_EQUIPMENT_CHOICE_15'?'받을 장비 선택':code==='MERCENARY_BREAKTHROUGH_21'?'돌파할 용병 선택':code==='GUARANTEED_ENHANCEMENT_SCROLL'?'확정 강화할 장비 선택':code==='SIG_HUNTER_BOX'?'상자 열기':code==='SOOPKETLAND_TICKET'?'리버스랜드 입장':code==='SOOPKETLAND_HYPER_BURNING_TICKET'?'버닝 발동':code==='SCRAPYARD_ENTRY_TICKET'?'폐차장 입장':code==='HIGH_GRADE_REROLL_TICKET'?'재뽑기 화면 열기':group==='REROLL'?'재뽑기':code==='SUIT_CORE_SUPPLY_BOX'?'슈트코어 일괄 개봉':code.startsWith('PRIME_')?'프라임 일괄 개봉':code==='VEHICLE_DRAW_TICKET'?'이동수단 뽑기':String(item.category||'').toUpperCase()==='CUBE'?'큐브 개봉':group==='PACK'?'아이템 개봉':'아이템 사용';
   const reason=!owned?'보유하고 있지 않은 아이템입니다.':isWorkshopOnly?'제작소 전용':item.useDisabledMessage||(isMaterial?'제작에 사용하는 재료입니다. 인벤토리에서 직접 사용하지 않습니다.':group==='SKILL_CHIP'?'장비 → 스킬칩 탭에서 장착':'현재 사용이 중지된 아이템입니다.');
   return {code,group,quantity,owned,usable,action,reason,rarity,grade:INVENTORY_RARITIES[rarity]?.[0]||rarity,rank:INVENTORY_RARITIES[rarity]?.[1]||0,kind:rarity.toLowerCase().replace(/[^a-z0-9_-]/g,''),categoryLabel:INVENTORY_GROUPS.find(x=>x[0]===group)?.[1]||'기타'};
 }
@@ -4754,6 +4756,19 @@ async function openInventoryPack(itemCode,ownedQuantity=0){
     const dialog=document.getElementById('inventoryDetailDialog'),body=document.getElementById('inventoryDialogContent');
     if(!dialog||!body)return renderShell('inventory');
     try{const {openRankExpPotion}=await import('/js/rank-exp-potion-v1.mjs?v=20261020-v1');await openRankExpPotion({itemCode,userId:loadUser()?.serverUserId,dialog,body,token:()=>API_TOKEN,onClose:inventoryRenderGiftRecovery,onApplied:buff=>{setRankExpPotionState(buff);renderLiveOperations();},refresh:async()=>{clearApiCache('inventory');clearApiCache('account-rank/status');clearApiCache('rank-exp-potion/status');await loadInventory();}});}catch(error){alert(error.message)}
+    return;
+  }
+  if(itemCode==='EMPEROR_EQUIPMENT_CHOICE_15'||itemCode==='MERCENARY_BREAKTHROUGH_21'){
+    const host=document.getElementById('inventoryVault');
+    if(!host)return renderShell('inventory');
+    try{
+      const {openInventoryChoice}=await import('/js/inventory-choice-v1.mjs');
+      await openInventoryChoice({itemCode,userId:loadUser()?.serverUserId,token:()=>API_TOKEN,apiRequest,host,onClose:inventoryRenderGiftRecovery,
+        refresh:recovered=>{
+          if(recovered)PLAYER_STATE_MUTATION_EPOCH++;
+          clearApiCache('inventory');API_INFLIGHT.delete('inventory');return loadInventory();
+        }});
+    }catch(error){alert(error.message);}
     return;
   }
   if(itemCode==='PET_PUMPKIN_CHOICE_TICKET'){

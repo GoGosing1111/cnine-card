@@ -102,6 +102,7 @@ import {handleIconFusion} from '../_icon_fusion.js';
 import {handleIconEnhancement} from '../_icon_enhancement.js';
 import {iconEnhancementPower} from '../../shared/icon-enhancement-v1.mjs';
 import {handleIconCardChoice} from '../_icon_card_choice.js';
+import {handleInventoryChoice,EMPEROR_BOX,LEVEL_TICKET} from '../_inventory_choice.js';
 import {handlePetPumpkinChoice} from '../_pet_pumpkin_choice.js';
 import {handleRankExpPotion} from '../_rank_exp_potion.js';
 import {handleMercenaryCodex} from '../_mercenary_codex.js';
@@ -5255,6 +5256,7 @@ async function handleRequest(context){
     const petGrantsResponse=await handlePetGrants({path,request,env,deps:{requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petGrantsResponse)return petGrantsResponse;
     const petPotentialResponse=await handlePetPotential({path,request,env,deps:{authenticate,requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petPotentialResponse)return petPotentialResponse;
     const petOpeningResponse=await handlePetOpening({path,request,env,deps:{authenticate,requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petOpeningResponse)return petOpeningResponse;
+    if(path.startsWith('item-choice/'))return (await handleInventoryChoice({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}}))||json({error:'아이템 사용 경로를 확인하세요.'},404);
     const petPumpkinChoiceResponse=await handlePetPumpkinChoice({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(petPumpkinChoiceResponse)return petPumpkinChoiceResponse;
     const iconChoiceResponse=await handleIconCardChoice({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(iconChoiceResponse)return iconChoiceResponse;
     const rankPotionResponse=await handleRankExpPotion({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(rankPotionResponse)return rankPotionResponse;
@@ -5432,6 +5434,7 @@ async function handleRequest(context){
       const body=await readBody(request),itemCode=String(body.itemCode||'').trim().toUpperCase(),requestId=String(body.requestId||crypto.randomUUID()).trim().slice(0,100),rawOpenCount=body.count===undefined?1:Number(body.count),openCount=Number.isInteger(rawOpenCount)?rawOpenCount:0;
       if(itemCode==='AUCTION_HOST_TICKET')return json({code:'AUCTION_TICKET_HOST_ONLY',error:'경매장 → 경매 개최에서 판매할 물품을 등록하면 자동 사용됩니다.'},409);
       // inventory/use already holds the request-level user lock. A second lock rejects the same request.
+      if(itemCode===EMPEROR_BOX.code||itemCode===LEVEL_TICKET.code)return json({code:'ITEM_CHOICE_REQUIRED',error:'인벤토리에서 대상을 선택한 뒤 사용하세요.'},400);
       if(itemCode==='MERCENARY_XP_TRANSFER_POTION')return json({code:'MERCENARY_TRANSFER_SELECTION_REQUIRED',error:'경험치 이전 화면에서 보낼 용병과 받을 용병을 선택하세요. 별도로 획득한 물약 1개가 필요합니다.',url:'/mercenary-codex/leveling/transfer.html'},400);
       if(itemCode==='PET_SEAL_ORB'){
         try{return json(await openPetSeal(env,user,{requestId:body.requestId,count:body.count,expectedRevision:body.expectedRevision}));}catch(error){return json({code:error.code||'PET_OPEN_RETRYABLE',error:error.status?error.message:'개봉 결과를 확인하지 못했습니다. 같은 요청으로 다시 확인하세요.',retryable:!error.status||error.status>=500},error.status||503);}

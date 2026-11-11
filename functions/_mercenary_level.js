@@ -41,7 +41,12 @@ function captureGrowth(policy,result){
  return result;
 }
 const terminal=message=>Object.assign(levelError('MERCENARY_LEVEL_CONFLICT',message,409),{terminal:true});
-function levelCatalog(document,userId,hasJinmuPackIssue,hasJokroPackIssue){return [...document.mercenaries.map(c=>({...c,sourceArt:SEED.catalog.cards.find(art=>art.code===c.code)?.sourceArt})),...[...LIMITED_MERCENARIES.map(c=>c.code),JIN_JOKRO_CODE,HELIOS_KING_CODE,HAKUYA_CODE,CARDGU_CODE,KAMISHIRO_CODE,HEUKMU_CODE,AWAKENED_OMEGA_CODE,REVAN_CODE,EUNSEOL_CODE,GENERAL_JOK_CODE,PRIME_CODE,RAZAK_CODE,JINMU_CODE,KAIRON_CODE,SHIRANUI_CODE,JOKRO_CODE,LEONEL_CODE,ZERO_CODE].filter(code=>jinmuAccountAllowed(userId,code,hasJinmuPackIssue)&&jokroAccountAllowed(userId,code,Date.now(),hasJokroPackIssue)).map(limitedDeploymentSnapshot).filter(Boolean)];}
+function levelCatalog(document,userId,hasJinmuPackIssue,hasJokroPackIssue,codes){return [...document.mercenaries.filter(c=>!codes||codes.has(c.code)).map(c=>({...c,sourceArt:SEED.catalog.cards.find(art=>art.code===c.code)?.sourceArt})),...[...LIMITED_MERCENARIES.map(c=>c.code),JIN_JOKRO_CODE,HELIOS_KING_CODE,HAKUYA_CODE,CARDGU_CODE,KAMISHIRO_CODE,HEUKMU_CODE,AWAKENED_OMEGA_CODE,REVAN_CODE,EUNSEOL_CODE,GENERAL_JOK_CODE,PRIME_CODE,RAZAK_CODE,JINMU_CODE,KAIRON_CODE,SHIRANUI_CODE,JOKRO_CODE,LEONEL_CODE,ZERO_CODE].filter(code=>(!codes||codes.has(code))&&jinmuAccountAllowed(userId,code,hasJinmuPackIssue)&&jokroAccountAllowed(userId,code,Date.now(),hasJokroPackIssue)).map(limitedDeploymentSnapshot).filter(Boolean)];}
+export async function ownedMercenaryLevelCatalog(env,userId,rows,document){
+ const codes=new Set(rows.map(row=>row.mercenary_code));
+ const [jinmu,jokro]=await Promise.all([readJinmuPackOwners(env,codes.has(JINMU_CODE)?[userId]:[]),readJokroPackOwners(env,codes.has(JOKRO_CODE)?[userId]:[])]);
+ return levelCatalog(document,userId,jinmu.has(Number(userId)),jokro.has(Number(userId)),codes);
+}
 function normalize(body,action,{preview=false}={}){
  if(['EXTRACT','INFUSE'].includes(action))throw transferError('LEGACY_DISABLED','기존 무료 추출·물약 보관 방식은 종료됐습니다. 별도로 획득한 물약을 사용해 주세요.',423);
  if(action==='TRANSFER'&&!TRANSFER_RELEASE_ENABLED)throw transferError('PAUSED',TRANSFER_REPAIR_MESSAGE,423);
@@ -187,8 +192,7 @@ export async function handleMercenaryLevel({path,request,env,deps}){
     const configured=RELEASE&&mercenaryLevelReadiness(policy,{requireGrowth:true}).ready,enabled=configured&&policy.mode==='ON';
     const rows=configured?(await env.DB.prepare(`SELECT * FROM ${PLAYABLE_LEVELS} WHERE user_id=?`).bind(user.id).all()).results:[];
     const history=configured&&rows.length?await readMercenaryBreakthroughHistory(env,user.id):[];
-    const [packOwners,jokroPackOwners]=await Promise.all([readJinmuPackOwners(env,owned.results.some(r=>r.mercenary_code===JINMU_CODE)?[user.id]:[]),readJokroPackOwners(env,owned.results.some(r=>r.mercenary_code===JOKRO_CODE)?[user.id]:[])]);
-    const catalog=levelCatalog(document,user.id,packOwners.has(Number(user.id)),jokroPackOwners.has(Number(user.id)));
+    const catalog=await ownedMercenaryLevelCatalog(env,user.id,owned.results,document);
     const transfer=await readExperienceTransfer(env,user.id),quantity=await readTransferItemQuantity(env,user.id);
     return reply({userId:Number(user.id),enabled,policy,rules:RULES,transfer:{enabled:TRANSFER_RELEASE_ENABLED,message:TRANSFER_REPAIR_MESSAGE,revision:transfer.state.revision,quantity,potions:[],item:TRANSFER_ITEM},cards:owned.results.filter(r=>catalog.some(c=>c.code===r.mercenary_code)).map(r=>{const state=mercenaryLevelStateFromStorage(rows.find(s=>s.mercenary_code===r.mercenary_code)),card=catalog.find(c=>c.code===r.mercenary_code),memory=transferCardView(transfer,card);return {code:r.mercenary_code,totalCopies:Number(r.total_copies),duplicates:Number(r.duplicate_count),...card,growth:state,loanUntil:r.loan_until||null,transfer:memory,breakthroughPity:mercenaryPityFromHistory(history,r.mercenary_code,state,memory.resetRevision)};})});
    }

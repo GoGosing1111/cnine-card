@@ -1,0 +1,15 @@
+{
+  "tool": "built-in ImageGen",
+  "resources": [
+    {
+      "source": "emperor-choice-source.png",
+      "runtime": "assets/items/emperor-equipment-choice-15-v1.webp",
+      "prompt": "Use case: stylized-concept. Create a single production inventory item icon for the CNINE Korean fantasy RPG, the Emperor +15 equipment choice chest. Square canvas, true transparent background. One closed imperial armory coffer in a strong three-quarter view, broad and imposing silhouette with a slightly domed lid, made of blackened steel and layered sharp fluted sun-gold plate, ivory metal accents and two small deep ruby inlays, a dominant round radiant solar clasp inset in the front and a crown-shaped metal crest on the lid. Front details read clearly at 48px. Beautifully painted high-end RPG loot object with realistic metal specular highlights and disciplined hand-painted edges. Chest fills about 83 percent of the canvas with safe transparent margins. Exact single object, no typography, numerals, UI frame, ground, pedestal, ambient particles, cast shadow or colored background."
+    },
+    {
+      "source": "mercenary-breakthrough-source.png",
+      "runtime": "assets/items/mercenary-breakthrough-21-v1.webp",
+      "prompt": "Use case: stylized-concept. Create a square transparent inventory icon for a Korean fantasy RPG: a single legendary mercenary final-breakthrough promotion insignia, used to bring a companion all the way to level 21. One faceted luminous sapphire-blue spearhead crystal clasped by two rising ivory-gold wing-shaped blades, integrated atop a compact midnight-blue enamel officer medal with a short folded ribbon, unmistakable prominent silver-gold double upward chevron embossed in the center. Centered bold vertical silhouette about 83% of canvas, polished beveled metal, strong blue light and deliberate painterly highlights, high-end illustrated game loot with refined sharp edges readable at 48px. No person, lettering, digits, additional objects, particles, floor, ground shadow, frame or background. Genuine alpha."
+    }
+  ]
+}
