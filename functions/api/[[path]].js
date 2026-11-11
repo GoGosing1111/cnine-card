@@ -595,6 +595,8 @@ function messageRewardClaimToken(){
 }
 
 const VERIFIED_MESSAGE_REWARD_TYPES={
+  WEAPON_ENHANCEMENT_SCROLL:{label:'무기 강화주문서',icon:'📜',inventory:true,messageOnly:true,forgeScroll:true,max:100000,messageType:'ITEM_REWARD'},
+  ARMOR_ENHANCEMENT_SCROLL:{label:'방어구 강화주문서',icon:'📜',inventory:true,messageOnly:true,forgeScroll:true,max:100000,messageType:'ITEM_REWARD'},
   SSS_MIRACLE_CUBE:{label:'SSS 미라클큐브',icon:'🎲',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   MIRACLE_CUBE:{label:'미라클 큐브',icon:'🎲',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   SIG_HUNTER_BOX:{label:'시그헌터 박스',icon:'🎁',inventory:true,messageOnly:true,max:9999,messageType:'ITEM_REWARD'},
@@ -673,6 +675,7 @@ async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowCla
   const spec=verifiedMessageRewardSpec(rewardType);
   const rewardAmount=Math.max(0,Math.floor(Number(reward?.reward_amount||0)));
   if(!spec||rewardAmount<=0)throw new Error('지원하지 않는 메시지 보상입니다.');
+  if(spec.forgeScroll)await ensureForgeScrollCatalog(env);
   if(rewardType==='SSS_MIRACLE_CUBE')await ensureSssCubeCatalog(env);
   if(rewardType==='MIRACLE_CUBE')await ensureMiracleCubeCatalog(env);
   if(rewardType==='PINGDU_REPAIR_COUPON')await ensureForgeRepairCatalog(env);
@@ -7652,7 +7655,7 @@ async function handleRequest(context){
       const body=await readBody(request);
       const requestedType=path==='admin/verified-coin-message-send'?'COIN':String(body.rewardType||'COIN').trim().toUpperCase();
       const spec=verifiedMessageRewardSpec(requestedType);
-      if(!spec||!['SIG_HUNTER_BOX','REVERSECALL_STREAMER_GIFT_BOX','CNINE_STREAMER_BOX','COIN','MASTER_STAR','EQUIPMENT_SUPPLY_BOX','PINGDU_REPAIR_COUPON','FUNDING_GIFT_BOX','RECRUITMENT_GIFT_BOX','PINGDU_THANKS_GIFT_BOX','HIGH_GRADE_REROLL_TICKET','UNIQUE_ADVANCEMENT_PASS','STARLIGHT_ARMOR_CORE'].includes(requestedType))return json({error:'지원하지 않는 인증자 메시지 보상입니다.'},400);
+      if(!spec||!(spec.forgeScroll||['SIG_HUNTER_BOX','REVERSECALL_STREAMER_GIFT_BOX','CNINE_STREAMER_BOX','COIN','MASTER_STAR','EQUIPMENT_SUPPLY_BOX','PINGDU_REPAIR_COUPON','FUNDING_GIFT_BOX','RECRUITMENT_GIFT_BOX','PINGDU_THANKS_GIFT_BOX','HIGH_GRADE_REROLL_TICKET','UNIQUE_ADVANCEMENT_PASS','STARLIGHT_ARMOR_CORE'].includes(requestedType)))return json({error:'지원하지 않는 인증자 메시지 보상입니다.'},400);
       const rawAmount=Number(String(body.rewardAmount??body.rewardCoin??'').replace(/,/g,'').trim());
       if(!Number.isSafeInteger(rawAmount)||rawAmount<1||rawAmount>spec.max)return json({error:`지급 ${spec.label} 수량은 1~${spec.max.toLocaleString()} 범위의 정수로 입력하세요.`},400);
       const rewardAmount=rawAmount;

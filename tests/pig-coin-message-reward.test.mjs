@@ -21,7 +21,8 @@ async function fixture(t,postgres){
   'CREATE TABLE user_message_rewards(id BIGINT PRIMARY KEY,message_id BIGINT UNIQUE,user_id BIGINT,reward_type TEXT,reward_amount BIGINT,claimed_at TEXT)',
   'CREATE TABLE user_message_reward_claim_receipts_v1222(reward_id BIGINT PRIMARY KEY,message_id BIGINT UNIQUE,user_id BIGINT,reward_type TEXT,reward_amount BIGINT,claim_token TEXT UNIQUE,balance_before BIGINT,balance_after BIGINT,source TEXT,credited_at TEXT)',
   'CREATE TABLE coin_logs(user_id BIGINT,change_amount BIGINT,balance_after BIGINT,reason TEXT)',
-  'CREATE TABLE cnine_user_inventory(user_id BIGINT,item_code TEXT,quantity BIGINT)',
+  'CREATE TABLE cnine_user_inventory(user_id BIGINT,item_code TEXT,quantity BIGINT,unseen_quantity BIGINT,created_at TEXT,updated_at TEXT,PRIMARY KEY(user_id,item_code))',
+  'CREATE TABLE inventory_logs(user_id BIGINT,item_code TEXT,change_amount BIGINT,balance_after BIGINT,reason TEXT,reference_type TEXT,reference_id TEXT)',
   ...LOOT_SHOP_SCHEMA.slice(0,2)
  ];
  let DB,fail='',pg,sqlite;
@@ -36,13 +37,36 @@ async function fixture(t,postgres){
   DB={prepare,async batch(list){sqlite.exec('BEGIN');try{const r=list.map(execute);sqlite.exec('COMMIT');return r;}catch(e){sqlite.exec('ROLLBACK');throw e;}}};
  }
  const p=(sql,...v)=>DB.prepare(sql).bind(...v),env={DB};
- const context=vm.createContext({crypto:webcrypto,ensureVerifiedRewardMessageV1276:async()=>{},messageRewardClaimToken:()=>webcrypto.randomUUID(),claimPigCoinMessageReward});
+ const context=vm.createContext({crypto:webcrypto,ensureVerifiedRewardMessageV1276:async()=>{},ensureForgeScrollCatalog:async()=>{},messageRewardClaimToken:()=>webcrypto.randomUUID(),claimPigCoinMessageReward});
  vm.runInContext(specs+'\n'+common+'\nthis.claim=claimMessageRewardDirectV1222;this.spec=verifiedMessageRewardSpec;this.coupon=couponRewardSpec;',context);
  const reward=async(id=1,type='PIG_COIN',amount=50)=>{await p('INSERT INTO user_messages(id,user_id,title) VALUES(?,1,?)',id,'세력전 점령 보상').run();await p('INSERT INTO user_message_rewards(id,message_id,user_id,reward_type,reward_amount) VALUES(?,?,1,?,?)',id,id,type,amount).run();return p('SELECT * FROM user_message_rewards WHERE id=?',id).first();};
  return {DB,p,env,context,reward,fail:v=>{fail=v;},claim:r=>context.claim(env,{id:1},r,Number(r.message_id)),balance:async()=>Number((await p('SELECT balance FROM pig_coin_wallets_v1 WHERE user_id=1').first())?.balance||0)};
 }
 for(const postgres of [false,true]){
  const dialect=postgres?'PostgreSQL':'SQLite';
+ test(`${dialect}: four clan rank attachments can be claimed together and retried once inventory logging recovers`,async t=>{
+  const f=await fixture(t,postgres);
+  const initialCoin=postgres?'100000000000000001':'9000000000';
+  await f.p('UPDATE users SET coin=CAST(? AS BIGINT) WHERE id=1',initialCoin).run();
+  await f.reward(1,'COIN',2_000_000_000_000_000);
+  await f.reward(2,'WEAPON_ENHANCEMENT_SCROLL',10);
+  await f.reward(3,'ARMOR_ENHANCEMENT_SCROLL',10);
+  await f.reward(4,'PIG_COIN',3000);
+  const deps={specFor:f.context.spec,canRecover:async()=>false,claim:f.context.claim};
+  const claim=()=>claimMessageRewardBatch(f.env,{id:1},[1,2,3,4],deps);
+  f.fail('INSERT INTO inventory_logs');
+  const first=await claim();
+  assert.deepEqual(first.map(r=>r.ok===true),[true,false,false,true]);
+  f.fail('');
+  const retry=await claim();
+  assert.deepEqual(retry.map(r=>r.ok===true),[false,true,true,false]);
+  assert((await claim()).every(r=>r.alreadyClaimed));
+  assert.equal((await f.p('SELECT CAST(coin AS TEXT) AS value FROM users WHERE id=1').first()).value,(BigInt(initialCoin)+2_000_000_000_000_000n).toString());
+  assert.equal(await f.balance(),3000);
+  const inventory=(await f.p('SELECT item_code,quantity,unseen_quantity FROM cnine_user_inventory ORDER BY item_code').all()).results;
+  assert.deepEqual(inventory.map(r=>[r.item_code,Number(r.quantity),Number(r.unseen_quantity)]),[['ARMOR_ENHANCEMENT_SCROLL',10,10],['WEAPON_ENHANCEMENT_SCROLL',10,10]]);
+  assert.equal(Number((await f.p('SELECT COUNT(*) AS n FROM user_message_reward_claim_receipts_v1222').first()).n),4);
+ });
  test(`${dialect}: real message claim credits only Pig Coin and an owned receipt exactly once`,async t=>{
   const f=await fixture(t,postgres),r=await f.reward();
   await assert.rejects(()=>f.context.claim(f.env,{id:2},r,1),/보상/);
