@@ -1,6 +1,7 @@
 import {jointAccountRequest} from './joint-account-transport.mjs';
+import {DAMAGE_FONT_FAMILY,ensureDamageFont} from '../shared/battle-damage-font.mjs';
 import {createServerClock} from '../shared/server-clock-v1.mjs';
-import {CITADEL_BOARDS, citadelStation} from '../shared/cooperative-battleground-v1.mjs?citadel=2';
+import {CITADEL_BOARDS, citadelStation} from '../shared/cooperative-battleground-v1.mjs?citadel=3';
 const root='/assets/ui/legion-citadel/gate-',esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const art=v=>{const s=String(v||'').replace(/^\/+/, '');return /^(assets|preview)\//.test(s)&&!s.includes('..')?'/'+s:'';};
 const terminal=s=>['VICTORY','DEFEAT'].includes(s);
@@ -44,8 +45,8 @@ function litePlane(node) {
 function liteTile(info, w, h) {
  const compact=w<650, board=CITADEL_BOARDS[compact?'compact':'desktop'];
  const p=citadelStation(info.kind,info.index,info.enemy,compact);
- const tw=Math.max(4,Math.floor(Math.min(info.enemy?112:134,w*(compact?(info.enemy ? .216 : .31):.095))));
- const th=Math.max(8,Math.floor(Math.min(info.enemy?100:132,h*(compact?(info.enemy ? .088 : .112):.145))));
+ const tw=Math.max(4,Math.floor(Math.min(info.enemy?112:134,w*(compact?(info.enemy ? .216 : .31):.095))*.8));
+ const th=Math.max(8,Math.floor(Math.min(info.enemy?100:132,h*(compact?(info.enemy ? .088 : .112):.145))*.8));
  return {tw,th,x:Math.round(p.x*w/board.width-tw/2),y:Math.round(p.y*h/board.height-th)};
 }
 
@@ -73,21 +74,23 @@ function mountLite(host,payload,units,icons){
   function paint(){frame=0;if(dead||!fighters||!w||!h||document.hidden)return;const present=new Set();
    for(const [j,side] of ['A','B'].entries())for(const f of fighters[side]){const v=(j?enemies:allies).get(f.id);if(!v||f.hp<=0)continue;
     const i=(j?'enemy':v.kind)+v.index,{x,y,tw,th}=liteTile(v,w,h),t=tile(v,!!f.isBoss,tw,th),bar=Math.round(tw*Math.max(0,Math.min(1,f.hp/Math.max(1,f.maxHp)))),old=previous.get(i);present.add(i);
-    if(old?.v===t.version&&old.bar===bar)continue;
-    if(old?.v!==t.version){ctx.clearRect(x,y,tw,th);ctx.drawImage(t.cv,x,y);}else ctx.clearRect(x,y+th-2,tw,2);
-    ctx.fillStyle=j?'#f78664':'#9ddd89';if(bar)ctx.fillRect(x,y+th-2,bar,2);previous.set(i,{v:t.version,bar,x,y,tw,th});
+    const shield=f.maxShield?Math.round(tw*Math.min(1,f.shield/f.maxShield)):0;
+    if(old?.v===t.version&&old.bar===bar&&old.shield===shield)continue;
+    if(old?.v!==t.version){ctx.clearRect(x,y,tw,th);ctx.drawImage(t.cv,x,y);}else ctx.clearRect(x,y+th-4,tw,4);
+    if(shield){ctx.fillStyle='#70caff';ctx.fillRect(x,y+th-4,shield,2);}
+    ctx.fillStyle=j?'#f78664':'#9ddd89';if(bar)ctx.fillRect(x,y+th-2,bar,2);previous.set(i,{v:t.version,bar,shield,x,y,tw,th});
    }
    for(const [i,old] of previous)if(!present.has(i)){ctx.clearRect(old.x,old.y,old.tw,old.th);previous.delete(i);}
   }
   const resize=()=>{const a=surface.getBoundingClientRect(),width=Math.round(a.width),height=Math.round(a.height);if(width>0&&height>0&&(width!==w||height!==h)){surface.width=w=width;surface.height=h=height;previous.clear();tiles.clear();cancelAnimationFrame(frame);paint();}};const observer=new ResizeObserver(resize);observer.observe(surface);resize();
-  return {projection:()=>litePlane(surface),append(){},update({state}){if(state?.fighters){fighters=state.fighters;const summary='성채 전투 · 아군 '+fighters.A.filter(f=>f.hp>0).length+'명 · 적 '+fighters.B.filter(f=>f.hp>0).length+'명';if(surface.getAttribute('aria-label')!==summary)surface.setAttribute('aria-label',summary);queue();}},destroy(){dead=true;observer.disconnect();cancelAnimationFrame(frame);cache.clear();tiles.clear();previous.clear();surface.width=surface.height=0;arena.remove();}};
+  return {projection:()=>litePlane(surface),append(){},update({state}){if(state?.fighters){fighters=state.fighters;const summary='성채 전투 · 아군 '+fighters.A.filter(f=>f.hp>0).length+'명 · 적 '+fighters.B.filter(f=>f.hp>0).length+'명';if(surface.getAttribute('aria-label')!==summary)surface.setAttribute('aria-label',summary);cancelAnimationFrame(frame);paint();}},destroy(){dead=true;observer.disconnect();cancelAnimationFrame(frame);cache.clear();tiles.clear();previous.clear();surface.width=surface.height=0;arena.remove();}};
  }
  const field=document.createElement('div');field.className='ct-lite-slots';arena.append(field);
  const slots=new Map();
  for(const info of [...allies.values(),...enemies.values()]){
   const key=(info.enemy?'B':info.kind)+info.index;if(slots.has(key))continue;
-  const node=document.createElement('figure'),img=document.createElement('img'),name=document.createElement('figcaption'),hp=document.createElement('i');
-  node.hidden=true;img.alt='';node.append(img,name,hp);node.classList.toggle('ct-hostile',!!info.enemy);field.append(node);slots.set(key,{node,img,name,hp,info});
+  const node=document.createElement('figure'),img=document.createElement('img'),name=document.createElement('figcaption'),hp=document.createElement('i'),shield=document.createElement('i');
+  node.hidden=true;img.alt='';shield.className='ct-shield';node.append(img,name,shield,hp);node.classList.toggle('ct-hostile',!!info.enemy);field.append(node);slots.set(key,{node,img,name,hp,shield,info});
  }
  function layout(){const {width,height}=field.getBoundingClientRect();for(const {node,info} of slots.values()){
   const {tw,th,x,y}=liteTile(info,width,height);Object.assign(node.style,{left:x+'px',top:y+'px',width:tw+'px',height:th+'px'});
@@ -98,7 +101,9 @@ function mountLite(host,payload,units,icons){
   for(const f of [...state.fighters.A,...state.fighters.B]){const info=enemies.get(f.id)||allies.get(f.id);if(!info||f.hp<=0)continue;
    const v=slots.get((info.enemy?'B':info.kind)+info.index);found.add(v);v.node.hidden=false;
    if(v.id!==f.id){v.id=f.id;if(info.src&&v.img.getAttribute('src')!==info.src)v.img.src=info.src;v.name.textContent=info.name;v.node.classList.toggle('ct-boss',!!f.isBoss);}
-   if(v.last!==f.hp){v.last=f.hp;v.hp.style.transform='scaleX('+Math.max(0,Math.min(1,f.hp/Math.max(1,f.maxHp)))+')';}
+   const hp=Math.min(1,f.hp/Math.max(1,f.maxHp)),shield=Math.min(1,f.shield/Math.max(1,f.maxShield||0));
+   if(v.last!==hp){v.last=hp;v.hp.style.transform='scaleX('+hp+')';}
+   if(v.barrier!==shield){v.barrier=shield;v.shield.style.transform='scaleX('+shield+')';}
   }
   for(const v of slots.values())if(!found.has(v))v.node.hidden=true;
  },destroy(){observer.disconnect();arena.remove();}};
@@ -113,32 +118,60 @@ export function citadelHitRows(event) {
  return rows.map(row=>({id:row.targetId||event.targetId,damage:Number(row.damage)||0,shield:Number(row.absorbed)||0,
   critical:!!(row.critical??event.critical),dodge:!!(row.dodge||event.type==='DODGE')})).filter(row=>row.id);
 }
-function mountHitReceipts(layer, projection, replay, light) {
+// Existing rooms retain their original one-second checkpoints. Fill the gaps
+// from absolute server receipts, keyed by instance so an old hit cannot hurt a respawn.
+export function citadelPlaybackFrames(chunk,replay,seed){
+ if(replay.impactFrames)return chunk.frames;
+ const indices=replay.unitIndices??=new Map(replay.units.map((u,i)=>[u.id,i]));
+ const rows=new Map(),slots=new Map(),out=[];
+ function restore(values){
+  rows.clear();slots.clear();
+  for(let i=0;i<values.length;i+=3){
+   const index=values[i],unit=replay.units[index];rows.set(index,[values[i+1],values[i+2]]);
+   if(unit.side==='B')slots.set(unit.slot,index);
+  }
+ }
+ restore(seed?.[1]||[]);
+ const ordered=chunk.events.slice().sort((a,b)=>a.combatAtMs-b.combatAtMs);
+ let e=0,f=0;
+ while(e<ordered.length||f<chunk.frames.length){
+  const at=Math.min(ordered[e]?.combatAtMs??Infinity,chunk.frames[f]?.[0]??Infinity);
+  let changed=false;
+  while(chunk.frames[f]?.[0]===at){restore(chunk.frames[f++][1]);changed=true;}
+  const set=(id,hp,shield,spawn=false)=>{
+   const index=indices.get(id),unit=replay.units[index];if(!unit)return;
+   if(spawn&&unit.side==='B'&&slots.get(unit.slot)!==index){
+    rows.delete(slots.get(unit.slot));slots.set(unit.slot,index);rows.set(index,[unit.maxHp,unit.maxShield||0]);changed=true;
+   }
+   const row=rows.get(index);if(!row)return;
+   if(Number.isFinite(hp)&&row[0]!==hp){row[0]=hp;changed=true;}
+   if(Number.isFinite(shield)&&row[1]!==shield){row[1]=shield;changed=true;}
+  };
+  while(ordered[e]?.combatAtMs===at){
+   const event=ordered[e++];
+   set(event.actorId,event.actorHpAfter,event.actorShieldAfter);
+   set(event.targetId,event.type==='KO'?0:event.targetHpAfter??event.hpAfter,event.targetShieldAfter??event.shieldAfter,event.type==='ENEMY_SPAWN');
+   for(const list of [event.hits,event.targets])if(Array.isArray(list))for(const hit of list){
+    if(hit&&typeof hit==='object')set(hit.targetId||hit.id||event.targetId,hit.targetHpAfter??hit.hpAfter,hit.targetShieldAfter??hit.shieldAfter);
+   }
+  }
+  if(changed){const values=[];for(const [i,[hp,shield]] of rows)values.push(i,hp,shield);out.push([at,values]);}
+ }
+ return out;
+}
+function mountHitReceipts(layer, projection, replay) {
+ layer.style.setProperty('--ct-damage-font',DAMAGE_FONT_FAMILY);
  const allies=new Map(replay.units.filter(u=>u.side==='A').map(u=>[u.id,fieldSlot(u,replay.payload)]));
  const active=new Map(),free=[],capacity=replay.payload.cooperativeEncounter.initialIds.length;
- const canvas=light?document.createElement('canvas'):null,ctx=canvas?.getContext('2d');
- if(ctx)layer.append(canvas);
- let events=[],cursor=0,lastPart=-1,rects=[];
+ let events=[],cursor=0,lastPart=-1;
  const format=n=>n>=10000?compactAmount.format(n):coinNumber.format(n);
  function append(part,chunk) {
   if(part<=lastPart)return;
   lastPart=part;events=events.slice(cursor).concat(chunk).sort((a,b)=>a.combatAtMs-b.combatAtMs);cursor=0;
  }
- function paintCanvas(rect){
-  const w=Math.round(rect.width),h=Math.round(rect.height);
-  if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
-  else for(const r of rects)ctx.clearRect(r.x-50,r.y-20,100,41);
-  rects=[];ctx.textAlign='center';ctx.lineJoin='round';ctx.lineWidth=3;ctx.strokeStyle='#16131b';
-  for(const hit of active.values()){
-   rects.push(hit);
-   if(hit.number){ctx.font='bold 15px system-ui,sans-serif';ctx.fillStyle=hit.color;ctx.strokeText(hit.number,hit.x,hit.y,94);ctx.fillText(hit.number,hit.x,hit.y,94);}
-   if(hit.barrier){ctx.font='bold 11px system-ui,sans-serif';ctx.fillStyle='#b5dbff';const y=hit.y+(hit.number?14:0);ctx.strokeText(hit.barrier,hit.x,y,94);ctx.fillText(hit.barrier,hit.x,y,94);}
-  }
- }
  function tick(elapsed) {
-  let expired=false;
   for(const [id,label] of active)if(elapsed>=label.until){
-   if(label.node){label.node.hidden=true;free.push(label);}active.delete(id);expired=true;
+   label.node.hidden=true;free.push(label);active.delete(id);
   }
   const due=new Map();
   while(cursor<events.length && events[cursor].combatAtMs<=elapsed){
@@ -147,8 +180,8 @@ function mountHitReceipts(layer, projection, replay, light) {
     const total=due.get(hit.id);if(total){total.damage+=hit.damage;total.shield+=hit.shield;total.critical||=hit.critical;}else due.set(hit.id,hit);
    }
   }
-  if(!due.size&&!expired)return;
-  const rect=layer.getBoundingClientRect(),plane=due.size?projection():null;
+  if(!due.size)return;
+  const rect=layer.getBoundingClientRect(),plane=projection();
   for(const [id,hit] of due){
    if(!plane)break;let slot=allies.get(id);
    if(!slot){const match=/^B:(\d+):CITADEL(?::(?:R\d+|BOSS))?$/.exec(id);if(!match||Number(match[1])>=capacity)continue;slot={kind:'cards',index:Number(match[1]),enemy:true};}
@@ -156,7 +189,6 @@ function mountHitReceipts(layer, projection, replay, light) {
    const x=Math.min(Math.max(28,(anchor?.x??(plane.left+p.x*plane.sx))-rect.left),rect.width-28);
    const y=Math.max(0,(anchor?.y??(plane.top+(p.y-(slot.enemy?69:108))*plane.sy))-rect.top);
    const number=hit.damage?'−'+format(hit.damage):hit.shield?'':'회피',barrier=hit.shield?'방벽 '+format(hit.shield):'';
-   if(ctx){active.set(id,{x,y,number,barrier,color:hit.critical?'#a6f5ff':slot.enemy?'#ffec9e':'#ffaca0',until:elapsed+800});continue;}
    let label=active.get(id);
    if(!label){label=free.pop();if(!label){const node=document.createElement('div'),hp=document.createElement('b'),shield=document.createElement('small');
     node.className='ct-damage';node.append(hp,shield);layer.append(node);label={node,hp,shield};}active.set(id,label);}
@@ -168,9 +200,13 @@ function mountHitReceipts(layer, projection, replay, light) {
    node.title='피해 '+coinNumber.format(hit.damage)+' · 방벽 '+coinNumber.format(hit.shield);
    node.hidden=false;label.until=elapsed+800;
   }
-  if(ctx)paintCanvas(rect);
  }
- return {append,tick};
+ function nextAt(){
+  let at=events[cursor]?.combatAtMs??Infinity;
+  for(const item of active.values())at=Math.min(at,item.until);
+  return at;
+ }
+ return {append,tick,nextAt};
 }
 function mountLootBag(section,toast) {
  const list=section.querySelector('[data-bag-items]'),empty=section.querySelector('[data-bag-empty]'),expand=section.querySelector('button');
@@ -201,10 +237,10 @@ function mountLootBag(section,toast) {
  return {update,destroy(){clearTimeout(timer);resize.disconnect();expand.onclick=null;}};
 }
 async function ensureCitadelRenderer(){
- if(window.ProjectVPixiBattle?.legionCitadelVersion===2)return;
+ if(window.ProjectVPixiBattle?.legionCitadelVersion===3)return;
  // An installed shell may already have a cached V3 bundle from another game mode.
- if(!bundleUpgrade)bundleUpgrade=new Promise((resolve,reject)=>{const script=document.createElement('script');script.async=true;script.src='/preview/project-v-v3/project-v-pixi-battle.bundle.js?citadel=2&compat=1';
- script.onload=()=>window.ProjectVPixiBattle?.legionCitadelVersion===2?resolve():reject(Error('성채 전투 화면을 다시 불러오세요.'));script.onerror=()=>reject(Error('성채 전투 화면을 내려받지 못했습니다.'));document.head.append(script);}).finally(()=>{bundleUpgrade=null;});
+ if(!bundleUpgrade)bundleUpgrade=new Promise((resolve,reject)=>{const script=document.createElement('script');script.async=true;script.src='/preview/project-v-v3/project-v-pixi-battle.bundle.js?citadel=3&compat=1';
+ script.onload=()=>window.ProjectVPixiBattle?.legionCitadelVersion===3?resolve():reject(Error('성채 전투 화면을 다시 불러오세요.'));script.onerror=()=>reject(Error('성채 전투 화면을 내려받지 못했습니다.'));document.head.append(script);}).finally(()=>{bundleUpgrade=null;});
  return bundleUpgrade;
 }
 const glyphPaths = {
@@ -243,20 +279,16 @@ function expeditionGuide(dock,rechargeHours) {
   const quality=[['auto','기기에 맞춤'],['detail','상세 연출'],['light','경량 연출']];
   const choices=quality.map(([v,n])=>'<option value="'+v+'" '+(readQuality()===v?'selected':'')+'>'+n+'</option>').join('');
   return '<details class="ct-details"><summary>원정 규칙과 화면 설정'+glyph('chevron')+'</summary><div class="ct-rules">'+
-    '<div><b>편성 및 입장</b><p>각자 용병 2명과 아이콘 2장을 편성합니다. 일반 계정은 두 사람의 로딩이 끝나 전투가 시작될 때 군단토벌 행동력 1을 사용합니다. 파티 행동력은 전투 시작 '+rechargeHours+'시간 후 1회 충전되며, 일반 파티와 클랜 전용 파티가 공유합니다.</p></div>'+
+    '<div><b>편성 및 입장</b><p>각자 용병 2명과 아이콘 2장을 편성합니다. 일반 계정은 두 사람의 로딩이 끝나 전투가 시작될 때 파티 행동력 1을 사용합니다. 전투 시작 '+rechargeHours+'시간 후 1회 충전되며, 일반 파티와 클랜 전용 파티가 공유합니다.</p></div>'+
     '<div><b>성주와 전리품</b><p>5분에 성주가 합류하고, 처치 후에도 7분까지 사냥합니다. 일반 재앙 대비 아이템·장비 드랍 확률은 '+(dock?'150%':'130%')+'입니다. 필드 전리품은 12초 안에 주우세요. 성주 처치 확정 연마석과 처치 코인은 자동 누적되며 전투 종료 후 수령합니다.</p></div>'+
     '<label class="ct-quality">전투 화면 <select data-quality aria-label="전투 화면">'+choices+'</select></label></div></details>';
 }
-let entryTime;
-function finder({open,tiers,selectedTier,rooms,tierLabel,waiting,test,nextEntryAt,unlimited,dock,lockedReason,rechargeHours}) {
+function finder({open,tiers,selectedTier,rooms,tierLabel,waiting,test,nextEntryAt,dock,lockedReason,rechargeHours}) {
   const tier=tiers.find(t=>t.id===selectedTier)||tiers[0];
   const cards=tiers.map(t=>'<label class="ct-tier"><input type="radio" name="ct-tier" data-tier value="'+esc(t.id)+'" '+(tier?.id===t.id?'checked':'')+'>'+
     '<span class="ct-tier-face" data-tier-art="'+esc(t.id)+'">'+illustratedIcon(dock?dockArt+'stage3-boss.webp':unitArt+(tierArt[t.id]||tierArt.gate)+'.webp','ct-tier-portrait')+'<span><small>'+(dock?'클랜 전용':esc(t.stage)+'단계')+'</small><b>'+esc(t.name)+'</b></span></span></label>').join('');
   const refresh='<button type="button" class="ct-refresh" data-act="refresh" aria-label="모집 상태 새로고침">'+glyph('refresh')+'<span>새로고침</span></button>';
   const disabled=nextEntryAt?' disabled':'';
-  if(nextEntryAt&&!entryTime)entryTime=new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'});
-  const entryRule=test?'테스트 입장 · 행동력 소모 없음':unlimited?'OWNER 입장 무제한 · 코인 수급 시 행동력 1':'파티 행동력 '+(nextEntryAt?'0':'1')+'/1 · '+rechargeHours+'시간에 1회 충전<br>출전 시 1인당 군단토벌 행동력 1 소모';
-  const entry='<p class="ct-recommend"><b>입장</b><span>'+entryRule+(nextEntryAt?'<br><strong data-next-entry>다음 입장 '+entryTime.format(nextEntryAt)+' (한국시간)</strong>':'')+'</span></p>';
   const create=open?'<button type="button" class="ct-primary ct-create" data-act="create"'+disabled+'>'+glyph('plus')+'파티 만들기'+glyph('arrow')+'</button>':
     '<div class="ct-locked" data-paused>'+glyph('lock')+esc(lockedReason||'파티 입장 일시 중지')+'</div>';
   const roomList=rooms.map(r=>'<li><span class="ct-party-flag">'+tactical('duo')+'</span><div><b>'+esc(r.host)+'</b><small>'+esc(tierLabel(r.tier))+' · 1/2명</small></div><button class="ct-join" data-act="join" data-id="'+esc(r.id)+'"'+disabled+'>참가'+glyph('arrow')+'</button></li>').join('');
@@ -264,7 +296,7 @@ function finder({open,tiers,selectedTier,rooms,tierLabel,waiting,test,nextEntryA
   return (test&&open?'<p class="ct-test">테스트 모드 · 행동력과 실제 보상을 사용하지 않습니다.</p>':'')+
     '<div class="ct-finder"><section class="ct-panel ct-departure"><h2>'+tactical('legion')+(dock?'클랜 원정':'원정 난이도')+'</h2>'+
     (cards?'<fieldset class="ct-tiers" aria-label="파티 개설 난이도">'+cards+'</fieldset><p class="ct-recommend"><b>'+(dock?'참가 조건':'권장')+'</b><span data-tier-guide>'+esc((tier.guide||'').replace(/^권장\s+|\s*권장$/g,''))+'</span></p>'+
-     (tier.uniqueFamilies?.length?'<div class="ct-reliquary"><strong>성주 전리품</strong><ul>'+tier.uniqueFamilies.map((name,i)=>'<li>'+illustratedIcon('/assets/ui/mercenary-equipment/unique-regalia-20261109/'+(i+1)+'-weapon.webp','ct-armory-icon')+'<span>'+esc(name)+'</span></li>').join('')+'</ul><small>유니크 1~3단계 · 상위 성주일수록 드랍 확률 증가</small></div>':''):'')+entry+create+'</section>'+
+     (tier.uniqueFamilies?.length?'<div class="ct-reliquary"><strong>성주 전리품</strong><ul>'+tier.uniqueFamilies.map((name,i)=>'<li>'+illustratedIcon('/assets/ui/mercenary-equipment/unique-regalia-20261109/'+(i+1)+'-weapon.webp','ct-armory-icon')+'<span>'+esc(name)+'</span></li>').join('')+'</ul><small>유니크 1~3단계 · 상위 성주일수록 드랍 확률 증가</small></div>':''):'')+create+'</section>'+
     '<section class="ct-panel ct-board"><div class="ct-panel-head"><h2>'+tactical('duo')+(dock?'우리 클랜 파티':'모집 중인 파티')+(open?'<span class="ct-count">'+rooms.length+'</span>':'')+'</h2>'+refresh+'</div>'+
     (open&&rooms.length?'<ul class="ct-rooms">'+roomList+'</ul>':empty)+(waiting?'<button data-act="leave">대기 파티 나가기</button>':'')+'</section></div>'+expeditionGuide(dock,rechargeHours);
 }
@@ -272,12 +304,13 @@ function finder({open,tiers,selectedTier,rooms,tierLabel,waiting,test,nextEntryA
 export function openCitadel(trigger,firstRead=null){
  if(active){firstRead?.controller.abort();return;}
 
- style('/css/legion-citadel-v1.css?v=7');
+ style('/css/legion-citadel-v1.css?v=8');
  const d=document.createElement('dialog');
  active=d;d.className='citadel';d.setAttribute('aria-labelledby','ct-title');
  d.innerHTML='<header class="ct-bar"><div class="ct-brand">'+citadelCrest()+'<b>군단토벌 파티</b></div><button type="button" class="ct-close" data-act="close" aria-label="화면 닫기">'+glyph('close')+'</button></header>'+
    '<div class="ct-scroll"><nav class="ct-areas" aria-label="토벌 전장"><button type="button" data-ct-area="public" aria-pressed="true">'+tactical('legion')+'불타는 성채</button><button type="button" data-ct-area="clan-dockyard" aria-pressed="false">'+tactical('clan')+'클랜 전용 사냥터<small data-clan-access>시즌 5 · 아지트 3단계</small></button></nav><div class="ct-hero"><picture aria-hidden="true"><source media="(max-width:700px)" srcset="'+root+'720.webp"><img alt="" src="'+root+'1440.webp" decoding="async" width="1440" height="810"></picture><img class="ct-castellan" src="'+unitArt+'castellan-moloch.webp" alt="" width="276" height="276" decoding="async">'+
    '<div class="ct-hero-copy"><div class="ct-status" data-ct-status>모집 확인 중</div><h1 id="ct-title">불타는 성채</h1><p>밀려드는 군단을 사냥하고, 잿불 성주 몰록을 처치하세요.</p></div></div>'+
+   '<section class="ct-energy" aria-label="파티 행동력"><div>'+glyph('clock')+'<b>파티 행동력</b><strong data-party-energy>확인 중</strong></div><div><span data-charge-label>다음 충전</span><time data-charge-time>—</time></div></section>'+
    '<ul class="ct-facts"><li>'+tactical('duo')+'<span>원정 인원 <b>2인 협동</b></span></li><li>'+glyph('clock')+'<span>사냥 시간 <b>7분</b></span></li><li>'+tactical('inventory')+'<span>전리품 <b>개인 획득</b></span></li></ul>'+
    '<div class="ct-content"><section data-region></section><p class="ct-message" role="status" aria-live="polite"></p></div></div><div data-arena hidden></div>';
  document.body.append(d);d.showModal();const $=q=>d.querySelector(q),main=$('[data-region]'),box=$('[data-arena]'),msg=$('.ct-message'),scope=new AbortController(),sig=scope.signal,clock=createServerClock();
@@ -299,13 +332,32 @@ export function openCitadel(trigger,firstRead=null){
  }
  const tierLabel=id=>{if(dockSelected())return '봉쇄된 물류기지';const t=tiers.find(v=>v.id===(id??'gate'));return t?t.stage+'단계 · '+t.name:state?.tierName||'재앙의 성문';};
  const paused=()=>!entryOpen&&(!state||state.status==='LOBBY'||state.status==='LOADING');
- let lootBag=null,hitReceipts=null;
+ let lootBag=null,hitReceipts=null,energyTimer,impactTimer;
+ const energyHud=$('.ct-energy'),energyHome=$('.ct-facts');
+ const energyValue=$('[data-party-energy]'),chargeLabel=$('[data-charge-label]'),chargeTime=$('[data-charge-time]');
  let state=null,rooms=[],options=null,fetchOptions=null,closed=false,busy=false,epoch=0,timer,uiTimer,picker='mercenaries',selected={cardIds:[],mercenaryCodes:[]},pinnedId=null,displayKey='',createId=crypto.randomUUID(),battle=null,replay=null,mounting=null,prewarm=null,battleEpoch=0,frameIndex=-1,prKey='',preparation=null,loadingError=false,displayTest=false,loadedPart=-1,pendingPart=null,groundKey='',lastPartAttempt=0;
  const request=(name,o={})=>jointAccountRequest('legion-party/'+name,{...o,signal:sig});
  const say=m=>{if(!closed&&msg.textContent!==m)msg.textContent=m;};
  const txt=(el,v)=>{if(el&&el.textContent!==v)el.textContent=v;};
- function release(){battleEpoch++;lootBag?.destroy();lootBag=null;hitReceipts=null;clearInterval(uiTimer);uiTimer=null;battle?.destroy();battle=null;preparation?.close?.();preparation=null;prewarm=null;prKey='';replay=null;mounting=null;frameIndex=-1;loadedPart=-1;pendingPart=null;groundKey='';lastPartAttempt=0;loadingError=false;box.hidden=true;box.replaceChildren();d.classList.remove('in-battle','ct-light-field');void window.ProjectVPixiBattle?.releaseBattle?.({onlyIfIdle:true})?.catch?.(()=>{});}
- function close(){if(closed)return;closed=true;scope.abort();firstRead?.controller.abort();clearTimeout(timer);release();d.close();d.remove();active=null;if(trigger?.isConnected)trigger.focus?.({preventScroll:true});}
+ function drawEnergy(){
+  clearTimeout(energyTimer);
+  if(closed||document.hidden||!resolved)return;
+  const remaining=nextEntryAt?Math.max(0,nextEntryAt-clock.now()):0;
+  const seconds=Math.min(rechargeHours*3600,Math.ceil(remaining/1000));
+  txt(energyValue,displayTest?'테스트':unlimited?'무제한':seconds?'0 / 1':'1 / 1');
+  txt(chargeLabel,displayTest?'테스트 입장':unlimited?'OWNER 입장':seconds?'다음 충전':'일반 · 클랜 공용');
+  txt(chargeTime,displayTest?'소모 없음':unlimited?'무제한':seconds?[
+   Math.floor(seconds/3600),Math.floor(seconds/60)%60,seconds%60
+  ].map(n=>String(n).padStart(2,'0')).join(':'):'충전 완료');
+  if(unlimited&&!displayTest){txt(chargeLabel,'코인 수급 시');txt(chargeTime,'솔로 행동력 1');}
+  if(!displayTest&&!unlimited&&seconds){
+   energyTimer=setTimeout(drawEnergy,Math.max(16,remaining-(seconds-1)*1000+5));
+  }else if(nextEntryAt&&!remaining){
+   nextEntryAt=null;queueMicrotask(()=>{if(!closed)draw();});
+  }
+ }
+ function release(){battleEpoch++;lootBag?.destroy();lootBag=null;hitReceipts=null;clearTimeout(impactTimer);clearInterval(uiTimer);uiTimer=null;battle?.destroy();battle=null;preparation?.close?.();preparation=null;prewarm=null;prKey='';replay=null;mounting=null;frameIndex=-1;loadedPart=-1;pendingPart=null;groundKey='';lastPartAttempt=0;loadingError=false;if(box.contains(energyHud))energyHome.before(energyHud);box.hidden=true;box.replaceChildren();d.classList.remove('in-battle','ct-light-field');void window.ProjectVPixiBattle?.releaseBattle?.({onlyIfIdle:true})?.catch?.(()=>{});}
+ function close(){if(closed)return;closed=true;scope.abort();clearTimeout(energyTimer);firstRead?.controller.abort();clearTimeout(timer);release();d.close();d.remove();active=null;if(trigger?.isConnected)trigger.focus?.({preventScroll:true});}
  d.addEventListener('cancel',e=>{e.preventDefault();close();});
  window.addEventListener('pagehide',close,{signal:sig});
  const pauseNet=()=>{clearTimeout(timer);};
@@ -317,7 +369,7 @@ export function openCitadel(trigger,firstRead=null){
   }
   timer=setTimeout(refresh,ms);
  }
- document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseNet();else if(!busy)void refresh();},{signal:sig});
+ document.addEventListener('visibilitychange',()=>{if(document.hidden){pauseNet();clearTimeout(energyTimer);clearTimeout(impactTimer);}else if(!busy){drawEnergy();impactTick();void refresh();}},{signal:sig});
  async function refresh(initial=null){
   if(closed||busy||document.hidden||readingEpoch===epoch)return;const e=++epoch,at=initial?.sentAt??performance.now();readingEpoch=e;pauseNet();
   try{const v=await (initial?.lobby||request(state?'state?id='+state.id:'lobby'));if(closed||e!==epoch)return;if(v.rooms){publicRooms=v.rooms;ownRooms=v.clanRooms||[];clanOpen=v.clanOpen===true;hideout=v.clanHideout||null;publicOpen=v.open===true;}
@@ -325,7 +377,7 @@ export function openCitadel(trigger,firstRead=null){
    if(v.tiers)tiers=v.tiers;if('test'in v)displayTest=v.test;
    if(Number.isInteger(v.partyRechargeHours)&&v.partyRechargeHours>0)rechargeHours=v.partyRechargeHours;
    if('nextEntryAt'in v){nextEntryAt=v.nextEntryAt;unlimited=v.unlimited===true;if(!v.state)clock.sample(v.serverNow,{reset:true});}
-   resolved=true;apply(v.state,at);if(!loadingError)say('');}
+   resolved=true;apply(v.state,at,'nextEntryAt' in v);if(!loadingError)say('');}
   catch(err){if(closed||e!==epoch)return;if(err.status===404&&state){apply(null);rooms=[];}say(err.message);if(!resolved){txt($('[data-ct-status]'),'연결 확인 필요');txt(main.querySelector('[role="status"]'),'모집 정보를 불러오지 못했습니다.');}if(!main.firstChild)main.innerHTML='<button data-act="refresh">다시 불러오기</button>';}
   finally{if(readingEpoch===e)readingEpoch=null;if(!closed&&e===epoch)schedule();}
  }
@@ -338,6 +390,7 @@ export function openCitadel(trigger,firstRead=null){
   if(own.length)preparation.update?.([{id:state.you,selection:{mercenaries:own.map(m=>({code:m.id,name:m.name,sourceArt:m.image,rank:m.rank}))}}],state.you);
  }
  function warm(){
+  void ensureDamageFont();
   if(prewarm)return prewarm;
   const roomId=state?.id,available=()=>!closed&&state?.id===roomId&&!paused()&&!terminal(state?.status);
   prewarm=(async()=>{if(lightweight()||!webglAvailable())return;await (window.ensureFeatureResources||window.CNineCoreRaidBridge?.ensureFeatureResources)('battleV2');
@@ -349,10 +402,10 @@ export function openCitadel(trigger,firstRead=null){
    }
   })().catch(e=>{prewarm=null;throw e;});return prewarm;
  }
- function apply(next,sent){
+ function apply(next,sent,lobbyDeadline=false){
   if(closed)return;if(next?.status==='CANCELLED')next=null;
   const old=state,me=next?.members.find(m=>m.id===next.you);if(next?.serverNow)clock.sample(next.serverNow,{sentAt:sent});
-  if(next?.nextEntryAt)nextEntryAt=next.nextEntryAt;
+  if(!lobbyDeadline&&next?.nextEntryAt>clock.now())nextEntryAt=next.nextEntryAt;
   if(next?.id!==pinnedId){if(pinnedId)release();pinnedId=next?.id||null;selected=next?.selection?structuredClone(next.selection):{cardIds:[],mercenaryCodes:[]};picker='mercenaries';}
   if(!next&&old){createId=crypto.randomUUID();options=null;rooms=[];}
   state=next;if(next)area=next.area||'public';syncArea();
@@ -362,7 +415,7 @@ export function openCitadel(trigger,firstRead=null){
   txt(notice,label);notice.dataset.status=paused()?'paused':next?'party':'open';
   if(paused()){if(prewarm||!box.hidden)release();draw();return;}
   if(next?.status==='LOBBY'){
-   ensureOptions();
+   void ensureDamageFont();ensureOptions();
    if((me?.ready||next.members.length===2)&&!navigator.connection?.saveData&&!document.hidden)void warm().catch(()=>{});
   }
   if(next&&['LOADING','ACTIVE'].includes(next.status)){showBattle();lootBag?.update(next);ground();return;}
@@ -373,7 +426,7 @@ export function openCitadel(trigger,firstRead=null){
   if(closed||!paused()&&['ACTIVE','LOADING'].includes(state?.status))return;
   const blockedUntil=!unlimited&&!displayTest?nextEntryAt:null;
   const key=JSON.stringify([area,hideout?.seasonOpen,hideout?.stage,entryOpen,selectedTier,tiers,readQuality(),state?.id,state?.status,state?.members,state?.claimed,state?.drops,state?.coins,rooms,picker,selected,!!options,busy,displayTest,blockedUntil,unlimited,rechargeHours]);
-  if(key===displayKey&&!force)return;displayKey=key;
+  drawEnergy();if(key===displayKey&&!force)return;displayKey=key;
   const focus=document.activeElement?.dataset,restore=main.contains(document.activeElement)?[focus?.act,focus?.id]:null;
   const oldScroll=main.querySelector('.ct-grid')?.scrollTop||0;
   const openGuide=!!main.querySelector('.ct-details[open]');
@@ -381,7 +434,7 @@ export function openCitadel(trigger,firstRead=null){
   const choice=control?.matches('[data-tier]')?control.value:null;
   const inGuide=control?.matches('summary')?'summary':control?.matches('[data-quality]')?'[data-quality]':null;
   if(!state||paused()){
-   main.innerHTML=finder({open:entryOpen&&resolved,dock:dockSelected(),lockedReason:dockSelected()?reason():'',tiers:dockSelected()?[{id:'gate',stage:3,name:'물류기지 탈환',guide:'소속 클랜 아지트 3단계 이상 · 클랜원 2명'}]:tiers,selectedTier,rooms,tierLabel,waiting:!!state,test:displayTest,nextEntryAt:blockedUntil,unlimited,rechargeHours});
+   main.innerHTML=finder({open:entryOpen&&resolved,dock:dockSelected(),lockedReason:dockSelected()?reason():'',tiers:dockSelected()?[{id:'gate',stage:3,name:'물류기지 탈환',guide:'소속 클랜 아지트 3단계 이상 · 클랜원 2명'}]:tiers,selectedTier,rooms,tierLabel,waiting:!!state,test:displayTest,nextEntryAt:blockedUntil,rechargeHours});
   }
   else if(terminal(state.status)){
    const coins=state.coins?'<p><b>처치 코인 '+coinNumber.format(state.coins)+'</b></p>':'';
@@ -404,7 +457,16 @@ export function openCitadel(trigger,firstRead=null){
   if(restore&&restore[0])main.querySelector('[data-act="'+CSS.escape(restore[0])+'"]'+(restore[1]?'[data-id="'+CSS.escape(restore[1])+'"]':''))?.focus({preventScroll:true});
  }
  const items=rows=>rows?.length?'<ul class="ct-items">'+rows.map(i=>'<li>'+(art(i.image)?'<img alt="" src="'+esc(art(i.image))+'">':'')+'<span><small>'+'내 가방'+'</small><b>'+esc(i.name)+' × '+i.quantity+'</b></span></li>').join('')+'</ul>':'<p>사냥 중 습득한 전리품이 없습니다.</p>';
- function unpack(frame){const ret={A:[],B:[]},row=frame?.[1]||[];for(let i=0;i<row.length;i+=3){const u=replay.units[row[i]];ret[u.side].push({...u,hp:row[i+1],shield:row[i+2]});}return ret;}
+ function unpack(frame){
+  const fighters={A:[],B:[]},row=frame?.[1]||[],limits=frame?.[2]||[];
+  let cap=0;
+  for(let i=0;i<row.length;i+=3){
+   const index=row[i],u={...replay.units[index],hp:row[i+1],shield:row[i+2]};
+   if(cap<limits.length&&limits[cap]===index){u.maxHp=limits[cap+1];u.maxShield=limits[cap+2];cap+=3;}
+   fighters[u.side].push(u);
+  }
+  return fighters;
+ }
  function ground(){
   const host=box.querySelector('[data-ground]');if(!host||!state)return;
   const elapsed=clock.now()-(state.startsAt||0),items=(state.ground||[]).filter(x=>x.expires>elapsed);
@@ -417,39 +479,71 @@ export function openCitadel(trigger,firstRead=null){
   if(next>=replay.chunkCount||next<=loadedPart||pendingPart!==null||next===loadedPart+1&&elapsed<next*replay.chunkMs-9000||performance.now()-lastPartAttempt<1200)return;
   const gen=battleEpoch;pendingPart=next;lastPartAttempt=performance.now();
   void request('chunk?id='+state.id+'&part='+next).then(v=>{if(closed||gen!==battleEpoch)return;
-   const frames=replay.frames.slice(Math.max(0,frameIndex));replay.frames=[...frames,...v.chunk.frames];frameIndex=frames.length?0:-1;
-   battle.append(v.chunk.events);hitReceipts?.append(next,v.chunk.events);loadedPart=next;
+   const frames=citadelPlaybackFrames(v.chunk,replay,replay.frames.at(-1));
+   const consumed=Math.max(0,frameIndex);replay.frames=replay.frames.slice(consumed).concat(frames);frameIndex-=consumed;
+   battle.append(v.chunk.events);hitReceipts?.append(next,v.chunk.events);loadedPart=next;impactTick();
   }).catch(()=>{}).finally(()=>{if(gen===battleEpoch)pendingPart=null;});
  }
- function clockHud(){
-  if(!battle||!replay||!state||closed||document.hidden)return;const elapsed=state.startsAt?Math.max(0,clock.now()-state.startsAt):0;
-  ahead(elapsed);ground();if(state.status==='ACTIVE')hitReceipts?.tick(elapsed);const t=Math.max(0,Math.ceil((420000-elapsed)/1000)),frames=replay.frames;let idx=frameIndex;
+ function impactTick(){
+  clearTimeout(impactTimer);
+  if(!battle||!replay||!state||closed||document.hidden)return;
+  const now=clock.now(),elapsed=state.startsAt?now-state.startsAt:-1,frames=replay.frames;
+  let idx=frameIndex;
   while(idx+1<frames.length&&frames[idx+1][0]<=elapsed)idx++;
-  const label=box.querySelector('[data-stage]');if(idx!==frameIndex||prKey!==state.status){
-   frameIndex=idx;prKey=state.status;const fighters=unpack(frames[idx]);
-   battle.update({serverNow:clock.now(),state:{...state,fighters}});
-   txt(label,state.status==='LOADING'?'두 분대 집결 중':elapsed>=300000?'성주 합류 · 군단 사냥':'군단 연속 사냥');}
+  if(frameIndex!==idx||prKey!==state.status){
+   frameIndex=idx;prKey=state.status;
+   const fighters=unpack(frames[idx]||replay.openingFrame);
+   battle.update({serverNow:now,state:{...state,fighters}});
+  }
+  if(state.status!=='ACTIVE'||!state.startsAt)return;
+  if(elapsed>=0)hitReceipts.tick(elapsed);
+  const next=Math.min(frames[idx+1]?.[0]??Infinity,hitReceipts.nextAt());
+  if(Number.isFinite(next))impactTimer=setTimeout(impactTick,Math.max(1,Math.ceil(next-elapsed)));
+ }
+ function clockHud(){
+  if(!battle||!replay||!state||closed||document.hidden)return;
+  const elapsed=state.startsAt?Math.max(0,clock.now()-state.startsAt):0;
+  ahead(elapsed);ground();
+  txt(box.querySelector('[data-stage]'),state.status==='LOADING'?'두 분대 집결 중':elapsed>=300000?'성주 합류 · 군단 사냥':'군단 연속 사냥');
+  const t=Math.max(0,Math.ceil((state.duration-elapsed)/1000));
   txt(box.querySelector('[data-time]'),state.status==='LOADING'?'전장 준비':Math.floor(t/60)+':'+String(t%60).padStart(2,'0'));
  }
  function showBattle(){
-  if(box.hidden){d.classList.add('in-battle');box.hidden=false;box.innerHTML='<section class="coop-battle-portal"><header class="coop-battle-top"><div><small>'+(dockSelected()?'클랜 원정':'불타는 성채')+' · '+esc(state.tierName||tierLabel(state.tier))+'</small><b data-stage>두 분대 집결 중</b></div><div><small data-farm-count></small><strong data-time></strong><button data-act="leave" hidden>집결 취소</button><button data-act="close">닫기</button></div><section class="ct-loot" aria-label="내가 획득한 전리품"><div class="ct-loot-head"><b>획득 전리품</b><span data-bag-coins></span><button type="button" aria-expanded="false" aria-controls="ct-party-bag" hidden>전체 보기</button></div><p data-bag-empty>아직 획득한 아이템이 없습니다</p><ul id="ct-party-bag" data-bag-items></ul></section></header><div class="coop-battle-mount"></div><div class="ct-hit-layer" aria-hidden="true"></div><output class="ct-pickup" aria-live="polite" hidden></output><div data-ground aria-label="내 필드 전리품"></div><div class="coop-battle-notice" role="status">선택한 용병과 아이콘을 불러오는 중입니다.</div></section>';style('/raid/cooperative/style.css');
+  if(box.hidden){void ensureDamageFont();clearTimeout(energyTimer);d.classList.add('in-battle');box.hidden=false;box.innerHTML='<section class="coop-battle-portal"><header class="coop-battle-top"><div><small>'+(dockSelected()?'클랜 원정':'불타는 성채')+' · '+esc(state.tierName||tierLabel(state.tier))+'</small><b data-stage>두 분대 집결 중</b></div><div><small data-farm-count></small><strong data-time></strong><button data-act="leave" hidden>집결 취소</button><button data-act="close">닫기</button></div><section class="ct-loot" aria-label="내가 획득한 전리품"><div class="ct-loot-head"><b>획득 전리품</b><span data-bag-coins></span><button type="button" aria-expanded="false" aria-controls="ct-party-bag" hidden>전체 보기</button></div><p data-bag-empty>아직 획득한 아이템이 없습니다</p><ul id="ct-party-bag" data-bag-items></ul></section></header><div class="coop-battle-mount"></div><div class="ct-hit-layer" aria-hidden="true"></div><output class="ct-pickup" aria-live="polite" hidden></output><div data-ground aria-label="내 필드 전리품"></div><div class="coop-battle-notice" role="status">선택한 용병과 아이콘을 불러오는 중입니다.</div></section>';style('/raid/cooperative/style.css');
+   box.querySelector('.coop-battle-top>div').after(energyHud);
    lootBag=mountLootBag(box.querySelector('.ct-loot'),box.querySelector('.ct-pickup'));}
+  drawEnergy();
   box.querySelector('[data-act="leave"]').hidden=state.status!=='LOADING';
-  if(battle){clockHud();return;}if(mounting||loadingError)return;
+  if(battle){impactTick();clockHud();return;}if(mounting||loadingError)return;
   const gen=++battleEpoch,id=state.id,valid=()=>!closed&&gen===battleEpoch&&state?.id===id;
   mounting=(async()=>{
    try{
     const part=Math.min(Math.ceil(state.duration/30000)-1,Math.max(0,Math.floor((clock.now()-(state.startsAt||clock.now()))/30000)));
     const detail=!lightweight()&&webglAvailable();
-    const rendererReady=detail?Promise.all([import('/raid/cooperative/battle.mjs?citadel=2'),warm()])
+    const rendererReady=detail?Promise.all([import('/raid/cooperative/battle.mjs?citadel=3'),warm()])
      .then(([renderer])=>renderer).catch(()=>{liteOnly=true;return null;}):null;
     const [v,renderer,icons]=await Promise.all([request('battle?id='+id+'&part='+part),rendererReady,detail?null:loadIconSprites()]);
     if(!valid())return;
-    replay=v.replay;replay.payload.citadelDamageHud=true;replay.frames=v.chunk.frames;loadedPart=v.part;replay.payload.battleV2.result.timeline=v.chunk.events;const {manifest,forms}=replay.payload.cooperativeEncounter.citadel;for(const [slot,n,t,elite] of manifest){const f=forms[t];replay.units.push({id:n===-1?'B:4:CITADEL:BOSS':'B:'+slot+':CITADEL'+(n?':R'+n:''),side:'B',slot,maxHp:f.maxHp*(elite?2:1),maxShield:f.maxShield,isBoss:f.isBoss});}
+    replay=v.replay;replay.payload.citadelDamageHud=true;loadedPart=v.part;replay.payload.battleV2.result.timeline=v.chunk.events;const {manifest,forms}=replay.payload.cooperativeEncounter.citadel;for(const [slot,n,t,elite] of manifest){const f=forms[t];replay.units.push({id:n===-1?'B:4:CITADEL:BOSS':'B:'+slot+':CITADEL'+(n?':R'+n:''),side:'B',slot,maxHp:f.maxHp*(elite?2:1),maxShield:f.maxShield,isBoss:f.isBoss});}
+    const starting=new Set(replay.payload.cooperativeEncounter.initialIds),opening=[];
+    replay.units.forEach((u,i)=>{if(u.side==='A'||starting.has(u.id))opening.push(i,u.maxHp,u.maxShield||0);});
+    replay.openingFrame=[0,opening];
+    let seed=replay.openingFrame;
+    if(!replay.impactFrames&&v.part>0&&(v.chunk.frames[0]?.[0]??Infinity)>clock.now()-state.startsAt){
+     // A saved room can have its first checkpoint after the point of reentry.
+     const earlier=[];
+     for(let i=v.part-1;i>=0;i--){
+      const {chunk}=await request('chunk?id='+id+'&part='+i);if(!valid())return;
+      earlier.push(chunk);if(chunk.frames.length)break;
+     }
+     for(const chunk of earlier.reverse())seed=citadelPlaybackFrames(chunk,replay,seed).at(-1)||seed;
+     replay.openingFrame=seed;
+    }
+    replay.frames=citadelPlaybackFrames(v.chunk,replay,seed);
     const host=box.querySelector('.coop-battle-mount');let mounted;if(renderer){try{mounted=await renderer.mountCoopBattle(host,replay.payload,{title:'군단토벌 · 불타는 성채',playerName:'성채 토벌대',clock});}catch{if(!valid())return;liteOnly=true;preparation?.close?.();preparation=null;void window.ProjectVPixiBattle?.releaseBattle?.({onlyIfIdle:true})?.catch?.(()=>{});}}if(!mounted){d.classList.add('ct-light-field');const sprites=icons||await loadIconSprites();if(!valid())return;mounted=mountLite(host,replay.payload,replay.units,sprites);}
     if(!valid()){mounted.destroy();return;}battle=mounted;
-    hitReceipts=mountHitReceipts(box.querySelector('.ct-hit-layer'),mounted.projection||(()=>window.ProjectVPixiBattle.citadelProjection()),replay,!!mounted.projection);
-    hitReceipts.append(v.part,v.chunk.events);battle.update({state,serverNow:clock.now(),payload:replay.payload});frameIndex=-1;prKey='';clockHud();
+    hitReceipts=mountHitReceipts(box.querySelector('.ct-hit-layer'),mounted.projection||(()=>window.ProjectVPixiBattle.citadelProjection()),replay);
+    hitReceipts.append(v.part,v.chunk.events);battle.update({state,serverNow:clock.now(),payload:replay.payload});frameIndex=-1;prKey='';impactTick();clockHud();
     const notice=box.querySelector('.coop-battle-notice');notice.hidden=true;uiTimer=setInterval(clockHud,250);
     if(state.status==='LOADING'){const response=await request('loaded',{method:'POST',body:{id}});if(valid()){apply(response.state);schedule();}}
    }catch(e){if(!valid())return;loadingError=true;box.querySelector('.coop-battle-notice').hidden=false;box.querySelector('.coop-battle-notice').innerHTML=esc(e.message)+' <button data-act="retry">다시 연결</button>';say(e.message);}

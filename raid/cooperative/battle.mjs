@@ -63,7 +63,7 @@ export async function mountCoopBattle(host,payload,{clock:sharedClock,title='격
     const elapsed=clock.now()-startsAt;
     if(cursor<groups.length&&elapsed-groups[cursor].at>1000){cancel();while(cursor<groups.length&&groups[cursor].at<elapsed-100){cursor++;skipped++;}api.restorePetSupport?.(elapsed-100);sync();lastSync=elapsed;}
     let budget=6;
-    while(budget-->0&&cursor<groups.length&&groups[cursor].at<=elapsed){const group=groups[cursor++];if(payload.sceneAssetKey!=='LEGION_BURNING_CITADEL'&&group.events.some(e=>e.type==='ENEMY_SPAWN'))cancel();play(group);}
+    while(budget-->0&&cursor<groups.length&&groups[cursor].at<=elapsed){const group=groups[cursor++];if(!['LEGION_BURNING_CITADEL','CLAN_DOCKYARD'].includes(payload.sceneAssetKey)&&group.events.some(e=>e.type==='ENEMY_SPAWN'))cancel();play(group);}
     if(cursor>=groups.length&&elapsed-lastSync>5000&&!lanes.size){sync();lastSync=elapsed;}
    }
   }

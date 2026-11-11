@@ -26,6 +26,7 @@ export function layoutTacticalHud(engine) {
     engine.scene=engine.viewportFit.scene;
     engine.root.scale.set(engine.viewportFit.scale);engine.root.position.set(0,0);
   }else{
+    if(engine.formationCitadel){const {width,height}=engine.cooperativeBoard();engine.scene={width,height};}
     const scale=Math.min(Math.max(1,width-left-right)/engine.scene.width,Math.max(1,height-top-12)/engine.scene.height);
     if(engine.formationCitadel)engine.citadelYScale=Math.max(1,Math.min(1.6,(height-top-16)/(engine.scene.height*scale)));
     engine.root.scale.set(scale);
@@ -42,7 +43,8 @@ export function layoutTacticalHud(engine) {
     banner.position.set((left+(availableWidth-320*noticeScale*scale)/2-engine.root.x)/scale,(top+8-engine.root.y)/scale);
     banner.baseY=banner.y;
   }
-  const scale=engine.root.scale.x,coverWidth=width/scale+96,coverHeight=height/scale+96;
+  const scale=engine.root.scale.x,overscan=engine.formationCitadel?32:96;
+  const coverWidth=width/scale+overscan,coverHeight=height/scale+overscan;
   const cx=(width/2-engine.root.x)/scale,cy=(height/2-engine.root.y)/scale;
   const x=cx-coverWidth/2,y=cy-coverHeight/2;
   engine.backdropBounds={x,y,width:coverWidth,height:coverHeight};

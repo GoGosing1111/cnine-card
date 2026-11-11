@@ -22,7 +22,7 @@ export function bindCooperativeEnemy(engine,row){
  return actor;
 }
 export function cooperativeSnapshot(engine,rows=[]){
- if(engine.battleData?.sceneAssetKey==='LEGION_BURNING_CITADEL'){
+ if(['LEGION_BURNING_CITADEL','CLAN_DOCKYARD'].includes(engine.battleData?.sceneAssetKey)){
   const seen=new Set();for(const row of rows){const spec=engine.cooperativeInstances.get(row.id);if(!spec)continue;seen.add(spec.slot);if(engine.enemies[spec.slot]?.id!==row.id)bindCooperativeEnemy(engine,spec);}
   for(const [slot,a] of engine.enemies.entries())if(!seen.has(slot)){a.root.visible=a.root.renderable=a.battleActive=false;}return rows;
  }
@@ -33,7 +33,13 @@ export function cooperativeSnapshot(engine,rows=[]){
 }
 export function spawnCooperativeEnemy(engine,event){
  const row=engine.cooperativeInstances?.get(event.targetId);if(!row)return false;
- if(engine.battleData?.sceneAssetKey==='LEGION_BURNING_CITADEL'){bindCooperativeEnemy(engine,row);return true;}
+ if(['LEGION_BURNING_CITADEL','CLAN_DOCKYARD'].includes(engine.battleData?.sceneAssetKey)){
+  // A queued cast can finish after this slot has already respawned. The current
+  // server frame owns the binding and HP, including damage at the spawn time.
+  if(engine.cooperativeFrame&&!engine.cooperativeFrame.has(row.id))return true;
+  if(engine.enemies[row.slot]?.id!==row.id)bindCooperativeEnemy(engine,row);
+  return true;
+ }
  for(const actor of engine.enemies){actor.battleActive=false;actor.root.visible=false;actor.root.renderable=false;}
  const actor=bindCooperativeEnemy(engine,row);engine.currentEnemyTarget=actor;engine.boss=actor;
  engine.queueBanner(row.title||row.name,0xffbf72,`${row.encounterWave} / 3 단계`);

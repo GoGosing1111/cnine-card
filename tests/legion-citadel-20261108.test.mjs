@@ -7,7 +7,7 @@ import {legionHuntEnergy} from '../functions/_legion_hunt.js';
 import {distributeCitadelLoot,personalFarm,farmView} from '../functions/_legion_citadel_loot.js';
 import {validatePreparedMercenaries} from '../shared/companion-loadout-v2.mjs';
 import {CITADEL_BOARDS,citadelStation} from '../shared/cooperative-battleground-v1.mjs';
-import {citadelHitRows} from '../js/legion-citadel-v1.mjs';
+import {citadelHitRows,citadelPlaybackFrames} from '../js/legion-citadel-v1.mjs';
 import {CAPACITY as soloCapacity} from '../preview/sustained-hunt-v2/hunt-rules.mjs';
 const states=async(f,uid,cmd,body)=>{const r=await f.action(uid,cmd,body);assert.equal(r.status,200,JSON.stringify(r.body));return r.body;};
 const boot=async f=>{const {state:{id}}=await states(f,1,'create',{requestId:'citadel-party-fixture-01'});await states(f,2,'join',{id});for(const u of [1,2])await states(f,u,'ready',{id,...f.selection(u-1)});await states(f,1,'start',{id});return id;};
@@ -72,7 +72,7 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' party
   assert.equal((await states(f,1,'loaded',{id})).state.status,'LOADING');assert.equal((await f.action(1,'claim',{id})).status,409);
   const ukey=u=>'legion_hunt_owner_session_v1:'+u,read=async k=>JSON.parse((await f.db.prepare('SELECT value FROM app_meta WHERE key=?').bind(k).first())?.value||'null');
   assert.equal(await read(ukey(1)),null);const active=(await states(f,2,'loaded',{id})).state;assert.equal(active.status,'ACTIVE');
-  await states(f,2,'loaded',{id});assert.equal((await read(ukey(1))).energy.current,9);assert.equal((await read(ukey(2))).energy.current,9);assert.equal((await f.action(3,'claim',{id})).status,403);
+  await states(f,2,'loaded',{id});assert.equal(await read(ukey(1)),null);assert.equal(await read(ukey(2)),null);assert.equal((await f.action(3,'claim',{id})).status,403);
   const deadline=active.startsAt+6*60*60*1000;
   assert.equal(active.nextEntryAt,deadline);
   for(const uid of [1,2])assert.equal((await states(f,uid,'lobby')).nextEntryAt,deadline);
@@ -109,7 +109,7 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' party
     assert.equal(response.body.code,'CITADEL_COOLDOWN');assert.equal(response.status,409);
    }
    assert.equal((await f.action(uid,'join',{id:openRoom.id})).body.code,'CITADEL_COOLDOWN');
-   assert.equal((await read(ukey(uid))).energy.current,9);
+   assert.equal(await read(ukey(uid)),null);
   }
   // Both accounts can enter at the exact boundary, swapping the two original roles.
   f.clock.now=deadline;
@@ -120,7 +120,7 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' party
   await states(f,2,'start',{id:second.id});await states(f,2,'loaded',{id:second.id});
   const secondBattle=(await states(f,1,'loaded',{id:second.id})).state;
   assert.equal(secondBattle.nextEntryAt,secondBattle.startsAt+6*60*60*1000);
-  for(const uid of [1,2])assert.equal((await read(ukey(uid))).energy.current,9);
+  for(const uid of [1,2])assert.equal(await read(ukey(uid)),null);
  }finally{await f.close();}
 });
 test('a party recharge already underway completes at its saved deadline',async()=>{
@@ -136,13 +136,30 @@ test('a party recharge already underway completes at its saved deadline',async()
  }finally{await f.close();}
 });
 
-test('abandoned loading and failed second-player energy transaction never charge either participant',async()=>{
- const f=await citadelFixture();try{const id=await boot(f);await states(f,1,'loaded',{id});
- const key='legion_hunt_owner_session_v1:2';await f.exec('INSERT INTO app_meta(key,value) VALUES(?,?)',key,JSON.stringify({energy:{version:1,current:0,updatedAt:f.clock.now,maximum:10}}));
- assert.equal((await f.action(2,'loaded',{id})).status,409);
- assert.equal(await f.db.prepare('SELECT value FROM app_meta WHERE key=?').bind('legion_hunt_owner_session_v1:1').first(),null);
- f.clock.now+=130000;assert.equal((await states(f,1,'lobby')).state,null);assert.equal((await f.action(2,'claim',{id})).status,409);
- for(const uid of [1,2])assert.equal((await states(f,uid,'lobby')).nextEntryAt,null);
+test('empty solo energy cannot block a paid party departure or be debited by a retry',async()=>{
+ const f=await citadelFixture();
+ try{
+  const key='legion_hunt_owner_session_v1:2',original=JSON.stringify({energy:{version:1,current:0,updatedAt:f.clock.now,maximum:10}});
+  await f.exec('INSERT INTO app_meta(key,value) VALUES(?,?)',key,original);
+  assert.equal((await states(f,2,'lobby')).nextEntryAt,null);
+  const id=await boot(f);
+  await states(f,1,'loaded',{id});
+  for(const uid of [1,2])assert.equal((await states(f,uid,'lobby')).nextEntryAt,null);
+  const active=(await states(f,2,'loaded',{id})).state;
+  assert.equal(active.status,'ACTIVE');
+  await states(f,2,'loaded',{id});
+  for(const uid of [1,2])assert.equal((await states(f,uid,'lobby')).nextEntryAt,active.startsAt+6*3600000);
+  assert.equal((await f.db.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first()).value,original);
+  assert.equal(await f.db.prepare('SELECT value FROM app_meta WHERE key=?').bind('legion_hunt_owner_session_v1:1').first(),null);
+ }finally{await f.close();}
+});
+
+test('abandoned loading leaves both party charges available',async()=>{
+ const f=await citadelFixture();
+ try{
+  const id=await boot(f);await states(f,1,'loaded',{id});
+  f.clock.now+=130000;assert.equal((await states(f,1,'lobby')).state,null);
+  for(const uid of [1,2])assert.equal((await states(f,uid,'lobby')).nextEntryAt,null);
  }finally{await f.close();}
 });
 
@@ -164,11 +181,11 @@ test('activation rechecks both deadlines, survives a lost reply and keeps the pa
   assert.equal(retry.status,'ACTIVE');assert.equal(retry.nextEntryAt,retry.startsAt+6*60*60*1000);
   for(const uid of [1,2]){
    const row=await f.db.prepare('SELECT value FROM app_meta WHERE key=?').bind('legion_hunt_owner_session_v1:'+uid).first();
-   assert.equal(JSON.parse(row.value).energy.current,9);
+   assert.equal(row,null);
   }
   f.clock.now=retry.startsAt+retry.duration+1;
   const solo=await f.db.prepare('SELECT value FROM app_meta WHERE key=?').bind('legion_hunt_owner_session_v1:1').first();
-  assert.equal(legionHuntEnergy(JSON.parse(solo.value),f.clock.now).current,10);
+  assert.equal(legionHuntEnergy(solo&&JSON.parse(solo.value),f.clock.now).current,10);
   await states(f,1,'claim',{id});await states(f,1,'leave',{id});
   assert.equal((await f.action(1,'create',{requestId:'after-midnight-party'})).body.code,'CITADEL_COOLDOWN');
  }finally{await f.close();}
@@ -200,7 +217,35 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' secon
   assert.equal(confirmations[0].state.nextEntryAt,confirmations[1].state.nextEntryAt);
   for(const uid of [1,2]){
    assert.equal(await read(key+uid),String(confirmations[0].state.startsAt+6*60*60*1000));
-   assert.equal(JSON.parse(await read('legion_hunt_owner_session_v1:'+uid)).energy.current,9);
+   assert.equal(await read('legion_hunt_owner_session_v1:'+uid),null);
   }
  }finally{await f.close();}
+});
+
+test('party HP follows each impact timestamp and every 30-second part can resume independently',()=>{
+ const {replay,chunks}=buildCitadelBattle(citadelSquads(),5);
+ assert.equal(replay.impactFrames,true);
+ const ids=[...replay.units.map(u=>u.id),...replay.payload.cooperativeEncounter.citadel.manifest.map(([s,n])=>n===-1?'B:4:CITADEL:BOSS':'B:'+s+':CITADEL'+(n?':R'+n:''))];
+ let checked=0,subsecond=0;
+ for(const [i,chunk] of chunks.entries()){
+  const {frames}=chunk;assert.equal(frames[0][0],i*replay.chunkMs);
+  const at=new Map(frames);let prev=-1;
+  for(const [ms] of frames){assert.ok(ms>prev);if(prev>=0&&ms-prev<1000)subsecond++;prev=ms;}
+  for(const e of chunk.events){
+   if(e.type!=='KO')continue;
+   const values=at.get(e.combatAtMs);if(!values)continue;
+   const idx=ids.indexOf(e.targetId);for(let k=0;k<values.length;k+=3)if(values[k]===idx){assert.equal(values[k+1],0);checked++;break;}
+  }
+ }
+ assert.ok(checked>100&&subsecond>20);
+});
+test('running legacy rooms apply absolute area damage, recovery and shield hits between checkpoints',()=>{
+ const units=[{id:'a',side:'A',maxHp:90},{id:'b',side:'B',slot:0,maxHp:100},{id:'c',side:'B',slot:0,maxHp:100}];
+ const events=[
+  {combatAtMs:230,hits:[{targetId:'a',targetHpAfter:70,targetShieldAfter:0},{targetId:'b',targetHpAfter:20,targetShieldAfter:5}]},
+  {combatAtMs:400,type:'KO',targetId:'b'},{combatAtMs:410,type:'ENEMY_SPAWN',targetId:'c',targetHpAfter:100,targetShieldAfter:3},
+  {combatAtMs:420,targetId:'b',targetHpAfter:45},{combatAtMs:450,targets:[{targetId:'a',hpAfter:85}]}];
+ const frames=citadelPlaybackFrames({frames:[[0,[0,90,0,1,100,10]]],events},{units});
+ assert.deepEqual(frames.map(([ms])=>ms),[0,230,400,410,450]);
+ assert.deepEqual(frames[1][1],[0,70,0,1,20,5]);assert.deepEqual(frames.at(-1)[1],[0,85,0,2,100,3]);
 });

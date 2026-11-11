@@ -1321,7 +1321,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if(!combatClockEnabled)return;
     const events=timeline.slice(from),durationMs=!blocking?0:cooperative?.turnClockVersion>=3?cooperativeCombatGroupMs(events,cooperative.turnClockVersion):events.reduce((sum,event)=>sum+skillChipCombatEventMs(event,chipClockOptions),0);
     for(const event of events)Object.assign(event,{combatClock:SKILL_CHIP_CLOCK,combatAtMs:atMs,combatGroup,combatGroupDurationMs:durationMs});
-    if(cooperative)combatStates.push({atMs,group:combatGroup,A:a.map(c=>({id:c.id,hp:c.hp,maxHp:c.maxHp,shield:c.shield,isMercenary:!!c.isMercenary,ownerId:c.ownerId})),B:b.map(c=>({id:c.id,hp:c.hp,maxHp:c.maxHp,shield:c.shield,maxShield:c.maxShield,slot:c.slot,wave:c.encounterWave,isBoss:!!c.isBoss}))});
+    if(cooperative)combatStates.push({atMs,group:combatGroup,A:a.map(c=>({id:c.id,hp:c.hp,maxHp:c.maxHp,shield:c.shield,...(sustainedEncounter?{maxShield:c.maxShield}:{}),isMercenary:!!c.isMercenary,ownerId:c.ownerId})),B:b.map(c=>({id:c.id,hp:c.hp,maxHp:c.maxHp,shield:c.shield,maxShield:c.maxShield,slot:c.slot,wave:c.encounterWave,isBoss:!!c.isBoss}))});
     combatGroup++;
     if(blocking){lastCardCombatMs=atMs;nextCombatMs=atMs+durationMs;lastCardGaugeClock=clock;}
   };

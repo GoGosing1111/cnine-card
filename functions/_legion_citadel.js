@@ -121,22 +121,21 @@ async function paidEntryStatements(env,users,members,at,nextEntryAt,deps){
  const db=env.DB;
  const balances=await Promise.all(users.map(async (u,index)=>{
   const k='legion_hunt_owner_session_v1:'+u.id;
-  const [{value:old,deadline},support]=await Promise.all([readWithEntry(db,k,u.id),(deps.supportBenefits||readSupportBenefits)(env,u.id,at)]);
+  const {value:old,deadline}=await readWithEntry(db,k,u.id);
   const solo=old?JSON.parse(old):{};
-  if(solo.state&&!solo.state.ended&&!solo.state.receipt&&!solo.interruption&&solo.expiresAt>at)fail('SOLO','진행 중인 개인 군단토벌을 종료한 뒤 출전하세요.');
-  const e=legionHuntEntries(solo,at,u,support);
-  const versions=[[k,old]],writes=[];
-  if(e.unlimited){
-   if(!members[index].coins||e.current<1){delete members[index].coins;return [];}
-  }else{
+  if(solo.state&&!solo.state.ended&&!solo.state.receipt&&!solo.interruption&&solo.expiresAt>at)fail('SOLO',u.nickname+'님의 개인 군단토벌을 종료한 뒤 출전하세요.');
+  if(u.role!=='OWNER'){
    requireEntry(deadline,at,u.nickname);
-   if(e.current<1)fail('ENERGY',u.nickname+'님의 군단토벌 행동력이 부족합니다.');
    members[index].nextEntryAt=nextEntryAt;
-   versions.push([entryKey(u.id),deadline]);
-   writes.push(put(db,entryKey(u.id),String(nextEntryAt)));
+   return [...guard(db,[k,old],[entryKey(u.id),deadline]),put(db,entryKey(u.id),String(nextEntryAt))];
   }
+  // OWNER may always enter. Only the opt-in coin payout uses solo energy.
+  if(!members[index].coins)return [];
+  const support=await (deps.supportBenefits||readSupportBenefits)(env,u.id,at);
+  const e=legionHuntEntries(solo,at,u,support);
+  if(e.current<1){delete members[index].coins;return [];}
   const saved=JSON.stringify({...solo,energy:{version:1,current:e.current-1,maximum:e.maximum,updatedAt:e.updatedAt}});
-  return [...guard(db,...versions),put(db,k,saved),...writes];
+  return [...guard(db,[k,old]),put(db,k,saved)];
  }));return balances.flat();
 }
 async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
@@ -311,7 +310,7 @@ export async function handleLegionCitadel({path,request,env,deps}){
     const clanRooms=clanOpen?await rooms(DB,at,hideout):[];
     const state=here.r&&here.r.members.some(m=>m.id===Number(user.id))&&phase(here.r,at)!=='CANCELLED'?await resultState(here.r):null;
     const unlimited=user.role==='OWNER';
-    const nextEntryAt=!unlimited&&policy.mode==='ON'?(state?.nextEntryAt??entryDeadline(here.deadline)):null;
+    const nextEntryAt=!unlimited&&policy.mode==='ON'?entryDeadline(here.deadline):null;
     return reply({ok:true,open,clanOpen,clanHideout:hideout,clanRooms,tiers:citadelTierMenu,state,rooms:list,test:policy.mode!=='ON',unlimited,serverNow:at,partyRechargeHours:PARTY_RECHARGE_HOURS,nextEntryAt:nextEntryAt>at?nextEntryAt:null});
    }
    if(action==='options'){

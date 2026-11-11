@@ -1,18 +1,18 @@
 // Each allied row has two seats. The two mercenary rows share one block.
 export const CITADEL_ENEMY_CAPACITY = 16;
 export const CITADEL_BOARDS = Object.freeze({
- desktop: {width:1600, height:820, actorScale:.69},
- compact: {width:800, height:1230, actorScale:.59}
+ desktop: {width:2000, height:1025, actorScale:.69},
+ compact: {width:1000, height:1540, actorScale:.59}
 });
 export function citadelStation(kind, index, enemy, compact) {
  const col = index % (enemy ? 4 : 2), row = Math.floor(index / (enemy ? 4 : 2));
  if (compact) {
-  if (enemy) return {x:110 + col * 190, y:160 + row * 116};
-  return {x:190 + col * 420,
-   y:(kind === 'mercenaries' ? 702 : 1040) + row * 155};
+  if (enemy) return {x:137 + col * 238, y:200 + row * 145};
+  return {x:238 + col * 525,
+   y:(kind === 'mercenaries' ? 878 : 1300) + row * 194};
  }
- if (enemy) return {x:972 + col * 165, y:205 + row * 171};
- return {x:225 + col * 430, y:kind === 'mercenaries' ? 551 + row * 226 : 168 + row * 179};
+ if (enemy) return {x:1215 + col * 206, y:256 + row * 214};
+ return {x:281 + col * 538, y:kind === 'mercenaries' ? 689 + row * 283 : 210 + row * 224};
 }
 export const COOP_VERSION='20261102-transcend-v1';
 export const COOP_ENCOUNTER=Object.freeze({id:'COOP_ARKE',version:2,name:'삼핵 거신 아르케',arena:'심층 제련소',sceneAssetKey:'COOP_ARKE_FORGE',

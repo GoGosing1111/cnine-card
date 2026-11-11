@@ -16,7 +16,7 @@ export const withOccupiedGrid = Base => class extends Base {
   }
   async applyBattlePayload(payload) {
     this.cooperativeFrame=null;
-    this.formationCitadel=payload?.sceneAssetKey==='LEGION_BURNING_CITADEL';
+    this.formationCitadel=['LEGION_BURNING_CITADEL','CLAN_DOCKYARD'].includes(payload?.sceneAssetKey);
     this.formationMercenariesPerOwner=payload?.battleV2?.rules?.mercenariesPerOwner===2?2:1;
     this.formationCoop = payload?.battleV2?.rules?.formation === 'COOP_THREE_SQUADS';
     // Shared battles keep a fixed camera; simultaneous ultimates cannot reframe
@@ -55,7 +55,8 @@ export const withOccupiedGrid = Base => class extends Base {
   station(kind, index = 0, team = 'ALLY') {
     if(this.formationCitadel && (kind==='cards'||kind==='mercenaries')){
       const p=citadelStation(kind,index,team==='ENEMY',this.mobile);
-      const y=this.mobile?p.y:410+(p.y-410)*(this.citadelYScale||1);
+      const center=this.cooperativeBoard().height/2;
+      const y=this.mobile?p.y:center+(p.y-center)*(this.citadelYScale||1);
       return {x:p.x+(this.viewportFit?.offsetX||0),y:y+(this.viewportFit?.offsetY||0)};
     }
     if(this.formationCoop&&['cards','mercenaries'].includes(kind)){const p=coopStation(kind,index,team,this.mobile,this.formationMercenariesPerOwner);return {x:p.x+(this.viewportFit?.offsetX||0),y:p.y+(this.viewportFit?.offsetY||0)};}
@@ -70,9 +71,9 @@ export const withOccupiedGrid = Base => class extends Base {
     this.viewportFit = null;
     super.resize();
     if(layoutTacticalHud(this))return;
-    // Desktop cooperative battles use the ordinary 1600 x 820 viewport.
+    // Ordinary desktop cooperative battles keep their 1600 x 820 viewport.
     // Fitting the board again above the card dock shrinks the entire battle.
-    if (!this.root || this.gridMode !== 'wide' || !this.formationDuo&&!usesCompactViewport(this.app.screen.width)) return;
+    if (!this.root || this.gridMode !== 'wide' || !this.formationCitadel&&!this.formationDuo&&!usesCompactViewport(this.app.screen.width)) return;
     const hostRect = this.host.getBoundingClientRect(), shell = this.host.closest('.battle-v3-live-shell');
     const dock = shell?.querySelector('.battle-v3-dock')?.getBoundingClientRect();
     const status = shell?.querySelector('.battle-v3-status');

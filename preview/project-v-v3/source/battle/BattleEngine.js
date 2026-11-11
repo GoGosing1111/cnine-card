@@ -2394,8 +2394,10 @@ export class BaseBattleEngine{
     for(const actor of this.characters){
       const row=this.cooperativeFrame.get(actor.id);if(!row)continue;
       actor.serverMaxHp=row.maxHp;
-      this.syncTargetHp(actor,row.hp/Math.max(1,row.maxHp)*100);
-      this.syncTargetShield(actor,row.shield,row.maxShield);
+      const hp=row.hp/Math.max(1,row.maxHp)*100;
+      if(actor.hp!==hp)this.syncTargetHp(actor,hp);
+      const maxShield=row.maxShield??Math.max(row.shield,actor.maxShield||0);
+      if(actor.shield!==row.shield||actor.maxShield!==maxShield)this.syncTargetShield(actor,row.shield,maxShield);
       if(row.hp>0&&actor.team===TEAM.ALLY&&!actor.isMercenary){
         // The server identifies each owner's card separately, including copies
         // of the same card. Recovery must restore its body as well as its HP.

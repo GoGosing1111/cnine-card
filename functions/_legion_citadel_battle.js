@@ -39,16 +39,40 @@ export function buildCitadelBattle(squads,seed,tierId=FIRST_TIER,area=null){
  const manifest=instances.map(f=>[f.slot,f.isBoss?-1:Number(f.id.split(':R')[1]||0),f.huntArtId,f.huntElite?1:0]);
  const units=states[0].A.map(({hp,shield,...f})=>({...f,side:'A'})),ids=new Map([...units.map((f,i)=>[f.id,i]),...instances.map((f,i)=>[f.id,i+units.length])]);
  const chunks=Array.from({length:Math.ceil(duration/CITADEL_CHUNK_MS)},()=>({frames:[],events:[]}));
- const chunk=t=>chunks[Math.min(chunks.length-1,Math.floor(t/CITADEL_CHUNK_MS))];let window=-1;
- for(const st of states){const t=Math.floor(st.atMs/1000);if(t===window)continue;window=t;const values=[];
-  for(const f of [...st.A,...st.B]){if(ids.has(f.id))values.push(ids.get(f.id),f.hp,f.shield||0);}
-  chunk(st.atMs).frames.push([st.atMs,values]);}
+ const chunk=t=>chunks[Math.min(chunks.length-1,Math.floor(t/CITADEL_CHUNK_MS))];
+ // All events in a combat group land together. Keep its final visible state,
+ // including simultaneous heals and spawns, and seed each reconnect boundary.
+ const ordered=states.slice().sort((a,b)=>a.atMs-b.atMs);
+ const defaults=[...units,...instances.map(f=>{
+  const form=field.forms[f.huntArtId];return {maxHp:form.maxHp*(f.huntElite?2:1),maxShield:form.maxShield};
+ })];
+ let previous=null,previousLimits=[],part=0;
+ const same=(a,b)=>a?.length===b.length&&b.every((v,n)=>v===a[n]);
+ const frame=(at,values,limits)=>limits.length?[at,values,limits]:[at,values];
+ for(let i=0;i<ordered.length;i++){
+  const st=ordered[i];
+  if(ordered[i+1]?.atMs===st.atMs)continue;
+  while(part+1<chunks.length&&(part+1)*CITADEL_CHUNK_MS<=st.atMs){
+   part++;
+   if(previous&&part*CITADEL_CHUNK_MS<st.atMs)chunks[part].frames.push(frame(part*CITADEL_CHUNK_MS,previous,previousLimits));
+  }
+  const values=[],limits=[];
+  for(const f of [...st.A,...st.B]){
+   const index=ids.get(f.id);if(index===undefined)continue;
+   values.push(index,f.hp,f.shield||0);
+   const base=defaults[index],maxShield=f.maxShield||0;
+   if(base.maxHp!==f.maxHp||(base.maxShield||0)!==maxShield)limits.push(index,f.maxHp,maxShield);
+  }
+  if(chunks[part].frames.length&&same(previous,values)&&same(previousLimits,limits))continue;
+  chunks[part].frames.push(frame(st.atMs,values,limits));previous=values;previousLimits=limits;
+ }
+ while(part+1<chunks.length){part++;chunks[part].frames.push(frame(part*CITADEL_CHUNK_MS,previous,previousLimits));}
  for(const e of result.timeline){if(e.type==='RESULT')continue;const {combatClock,...event}=e;chunk(e.combatAtMs).events.push(event);}
  result.winner=won?'A':'B';result.reason=won?'TIME_LIMIT':'ELIMINATION';result.timeline=[];delete result.encounter;delete result.openingTeams;delete result.openingMercenaries;
  // All dates, targets and death rolls remain authoritative. Generations share one
  // template per species; the remaining six minutes never block first-frame decode.
  const forms=field.forms.map(({id,cardId,title,name,isBoss,battleSprite,attackStyle,displayHeight,maxHp,maxShield,projectVMonsterArt})=>({id,cardId,title,name,isBoss,battleSprite,attackStyle,displayHeight,maxHp,maxShield,projectVMonsterArt}));
  payload.cooperativeEncounter.citadel={manifest,forms};
- return {won,duration,kills,replay:{payload,units,chunkMs:CITADEL_CHUNK_MS,chunkCount:chunks.length},chunks};
+ return {won,duration,kills,replay:{payload,units,impactFrames:true,chunkMs:CITADEL_CHUNK_MS,chunkCount:chunks.length},chunks};
 }
 
