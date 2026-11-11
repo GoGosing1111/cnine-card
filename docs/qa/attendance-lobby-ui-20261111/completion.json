@@ -1,0 +1,301 @@
+{
+  "screen": "접속 보상",
+  "production": "https://cnine-card.pages.dev/?screen=attendance",
+  "deployedAt": "2026-11-11T05:08:15.291Z",
+  "previousCommit": "439639817d2e2cf445ea5c72212aae20fd7bb380",
+  "deployedCommit": "76170105d42762474547b318d638f1a67fa7f39d",
+  "pages": {
+    "id": "51e676de-dd39-4cff-9912-c1f382f785b2",
+    "url": "https://51e676de.cnine-card.pages.dev"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "id": "5487aca8-d54f-4980-bb51-21935b51975e",
+      "trafficPercent": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "id": "b5be3584-f6d5-43a9-8978-c6e54cad1c6c",
+      "trafficPercent": 100
+    }
+  ],
+  "scopedTests": 43,
+  "publishedFilesVerifiedOnBothHosts": 15,
+  "windowsManifest": {
+    "releaseId": "77017bda797f621d67c8a1739d214cbfa4d4edb5a96e7bab0f9d085a8c0908a6",
+    "changed": [
+      "/css/soopketmon-v21-messages-attendance.css",
+      "/index.html",
+      "/js/app.js",
+      "/js/soopketmon-v21-exact-shell-adapter.js",
+      "/js/soopketmon-v21-rewards-presentation.js",
+      "/shared/onestore-web-assets-v1.mjs"
+    ],
+    "removed": []
+  },
+  "productionAccountWritesDuringQA": 0,
+  "verifiedFlows": [
+    "로비 전체 메뉴에서 접속 보상 열기, 로비로 복귀 후 재진입, 웹 직접 주소 진입",
+    "운영 보상 설정에 따른 7일 금액과 상태, 누적·연속 출석, 영 코인·중지 상태, 한국 날짜 기준 결석·7일 주기·당일 수령 완료 표시",
+    "격리 계정에서 두 번 클릭해도 출석 수령 요청 한 건, 지갑·출석표 갱신, 입력 위치에 성공 안내",
+    "쿠폰 빈 입력과 잘못된 코드 안내, 코드 수정 후 Enter로 재시도, 정규화한 코드와 요청 키 전송, 지급 확인 후 입력란 초기화",
+    "320·390·1440px에서 보상 카드·쿠폰 영역의 가로 넘침, 이미지 로딩과 모바일 첫 화면의 수령 버튼 위치 확인"
+  ],
+  "performance": {
+    "conditions": {
+      "comparison": "같은 Windows 호스트에서 이전 운영 커밋과 배포 커밋을 동일한 로컬 정적 서버·격리 계정으로 측정했다. 단계마다 새 브라우저 세션에서 실제 전체 메뉴를 조작했다. 각 조건에서 3회 측정한 중앙값이다.",
+      "coldLobbyMs": "문서 탐색 시작부터 조작 가능한 로비 메뉴가 나타날 때까지",
+      "firstEntryMs": "메뉴에서 접속 보상을 누른 시점부터 수령 핸들러가 연결된 버튼이 배치된 뒤의 화면 갱신까지",
+      "reentryMs": "같은 세션에서 로비로 돌아가 다시 누른 시점부터 같은 조건 충족까지",
+      "frameP95Ms": "쿠폰 입력·포커스 1초 구간에서 각 회차의 프레임 간격 95백분위수의 중앙값",
+      "framesOver50Total": "3회 대표 동작 동안 50ms 초과 프레임의 합계",
+      "postExit": "로비로 나간 후 출석 보상판과 출석·쿠폰 요청, 보상 전용 화면 갱신 콜백의 잔류를 확인했다.",
+      "devices": "Chromium PC 1440×900, Android Chromium 및 iOS WebKit 390×844 에뮬레이션, ONE store H5 모바일 iframe·SDK 검수 환경, Windows Electron 렌더러. 스마트폰 실기기는 사용하지 않았다."
+    },
+    "platforms": {
+      "desktop-1440": {
+        "before": {
+          "samples": 3,
+          "coldLobbyMs": 1359,
+          "firstEntryMs": 64,
+          "reentryMs": 34,
+          "frameP95Ms": 4.3,
+          "maxFrameMs": 9.7,
+          "framesOver50Total": 0,
+          "postExitMax": {
+            "board": 0,
+            "presentationFrames": 0,
+            "requests": 0
+          }
+        },
+        "candidate": {
+          "samples": 3,
+          "coldLobbyMs": 933,
+          "firstEntryMs": 133,
+          "reentryMs": 38,
+          "frameP95Ms": 4.3,
+          "maxFrameMs": 4.3,
+          "framesOver50Total": 0,
+          "postExitMax": {
+            "board": 0,
+            "presentationFrames": 0,
+            "requests": 0
+          }
+        }
+      },
+      "android-390": {
+        "before": {
+          "samples": 3,
+          "coldLobbyMs": 969,
+          "firstEntryMs": 79,
+          "reentryMs": 41,
+          "frameP95Ms": 4.3,
+          "maxFrameMs": 4.3,
+          "framesOver50Total": 0,
+          "postExitMax": {
+            "board": 0,
+            "presentationFrames": 0,
+            "requests": 0
+          }
+        },
+        "candidate": {
+          "samples": 3,
+          "coldLobbyMs": 1062,
+          "firstEntryMs": 179,
+          "reentryMs": 48,
+          "frameP95Ms": 4.3,
+          "maxFrameMs": 9.3,
+          "framesOver50Total": 0,
+          "postExitMax": {
+            "board": 0,
+            "presentationFrames": 0,
+            "requests": 0
+          }
+        }
+      },
+      "ios-390": {
+        "before": {
+          "samples": 3,
+          "coldLobbyMs": 1062,
+          "firstEntryMs": 116,
+          "reentryMs": 112,
+          "frameP95Ms": 29,
+          "maxFrameMs": 31,
+          "framesOver50Total": 0,
+          "postExitMax": {
+            "board": 0,
+            "presentationFrames": 0,
+            "requests": 0
+          }
+        },
+        "candidate": {
+          "samples": 3,
+          "coldLobbyMs": 898,
+          "firstEntryMs": 179,
+          "reentryMs": 98,
+          "frameP95Ms": 29,
+          "maxFrameMs": 31,
+          "framesOver50Total": 0,
+          "postExitMax": {
+            "board": 0,
+            "presentationFrames": 0,
+            "requests": 0
+          }
+        }
+      },
+      "h5-390": {
+        "before": {
+          "samples": 3,
+          "coldLobbyMs": 1054,
+          "firstEntryMs": 179,
+          "reentryMs": 26,
+          "frameP95Ms": 4.3,
+          "maxFrameMs": 29.1,
+          "framesOver50Total": 0,
+          "postExitMax": {
+            "board": 0,
+            "presentationFrames": 0,
+            "requests": 0
+          }
+        },
+        "candidate": {
+          "samples": 3,
+          "coldLobbyMs": 1140,
+          "firstEntryMs": 195,
+          "reentryMs": 29,
+          "frameP95Ms": 4.3,
+          "maxFrameMs": 4.5,
+          "framesOver50Total": 0,
+          "postExitMax": {
+            "board": 0,
+            "presentationFrames": 0,
+            "requests": 0
+          }
+        }
+      },
+      "windows-1440": {
+        "before": {
+          "samples": 3,
+          "coldLobbyMs": 878,
+          "firstEntryMs": 90,
+          "reentryMs": 44,
+          "frameP95Ms": 16.7,
+          "maxFrameMs": 16.8,
+          "framesOver50Total": 0,
+          "postExitMax": {
+            "board": 0,
+            "presentationFrames": 0,
+            "requests": 0
+          }
+        },
+        "candidate": {
+          "samples": 3,
+          "coldLobbyMs": 893,
+          "firstEntryMs": 85,
+          "reentryMs": 44,
+          "frameP95Ms": 16.7,
+          "maxFrameMs": 16.8,
+          "framesOver50Total": 0,
+          "postExitMax": {
+            "board": 0,
+            "presentationFrames": 0,
+            "requests": 0
+          }
+        }
+      }
+    },
+    "profile": {
+      "flow": "Android Chromium 에뮬레이션에서 출석 화면으로 전환할 때 이미 설치된 로비를 다시 갱신하면서 innerWidth 읽기가 동기 레이아웃을 유발했다. 이미 설치된 로비의 중복 갱신을 건너뛰고 기존 계정 갱신 이벤트를 이용한다. 현행 흐름에서는 출석 상태 표시를 위한 별도 서버 요청 없이 보유 계정 데이터로 바로 렌더링한다.",
+      "synchronousGeometryCallsAbove2msBeforeChange": [
+        {
+          "read": "close",
+          "ms": 4.1
+        },
+        {
+          "read": "innerWidth",
+          "ms": 70.8
+        }
+      ],
+      "synchronousGeometryCallsAbove2msAfterChange": [
+        {
+          "read": "close",
+          "ms": 3.6
+        }
+      ]
+    },
+    "comparisonNote": "공통 검수 조건에서 PC·모바일 웹의 첫 진입 중앙값은 기존 화면보다 63~100ms 길었다. Windows 렌더러의 첫 진입은 90→85ms였다."
+  },
+  "publicBrowserSmoke": {
+    "conditions": "공개 주소에서 게임과 정적 리소스를 받아 실제 UI 경로를 조작했다. 계정 API만 격리 응답으로 연결했다. 이 단일 실행 수치는 상기 로컬 중앙값과 별도다.",
+    "results": {
+      "desktop-1440": {
+        "size": [
+          1440,
+          900
+        ],
+        "menuAndFormChecksPassed": true,
+        "directLink": true,
+        "firstEntryMs": 175,
+        "reentryMs": 38,
+        "diagnostics": []
+      },
+      "android-390": {
+        "size": [
+          390,
+          844
+        ],
+        "menuAndFormChecksPassed": true,
+        "directLink": true,
+        "firstEntryMs": 111,
+        "reentryMs": 35,
+        "diagnostics": []
+      },
+      "ios-390": {
+        "size": [
+          390,
+          844
+        ],
+        "menuAndFormChecksPassed": true,
+        "directLink": true,
+        "firstEntryMs": 144,
+        "reentryMs": 96,
+        "diagnostics": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ]
+      },
+      "ios-320": {
+        "size": [
+          320,
+          844
+        ],
+        "menuAndFormChecksPassed": true,
+        "directLink": true,
+        "firstEntryMs": 336,
+        "reentryMs": 142,
+        "diagnostics": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ]
+      },
+      "h5-390": {
+        "size": [
+          390,
+          844
+        ],
+        "menuAndFormChecksPassed": true,
+        "directLink": null,
+        "firstEntryMs": 170,
+        "reentryMs": 49,
+        "diagnostics": []
+      }
+    },
+    "webkitNote": "WebKit의 ResizeObserver 진단은 기존 운영 커밋에서도 재현됐다."
+  },
+  "screenshots": [
+    "public-desktop-1440/ready.png",
+    "public-ios-390/ready.png",
+    "public-ios-320/ready.png",
+    "public-ios-390/coupon.png"
+  ],
+  "localEvidenceDirectory": "operations/attendance-lobby-ui-20261111/"
+}
