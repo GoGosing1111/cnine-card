@@ -1,0 +1,379 @@
+{
+  "operationKey": "ops:clan-rank:season4:20261112:member500t-first2000t:v1",
+  "completedAtKST": "2026-11-12 01:08:21",
+  "checkedAtKST": "2026-11-12 01:11:03",
+  "auditId": "58523",
+  "season": 4,
+  "ranking": "일반 시즌 클랜 순위",
+  "rosterCheckedAtKST": "2026-11-12 00:52:26",
+  "clans": [
+    {
+      "rank": 1,
+      "name": "FM",
+      "members": 15
+    },
+    {
+      "rank": 2,
+      "name": "한화",
+      "members": 17
+    },
+    {
+      "rank": 3,
+      "name": "DC",
+      "members": 15
+    },
+    {
+      "rank": 4,
+      "name": "T1",
+      "members": 10
+    },
+    {
+      "rank": 5,
+      "name": "DK",
+      "members": 15
+    },
+    {
+      "rank": 6,
+      "name": "LG",
+      "members": 15
+    },
+    {
+      "rank": 7,
+      "name": "삼성",
+      "members": 13
+    },
+    {
+      "rank": 8,
+      "name": "롯데",
+      "members": 16
+    }
+  ],
+  "recipientCount": 116,
+  "winner": {
+    "name": "FM",
+    "members": 15,
+    "delivery": "MESSAGE",
+    "perMember": {
+      "coin": "2000000000000000",
+      "weaponScrolls": 10,
+      "armorScrolls": 10,
+      "pigCoins": 3000
+    }
+  },
+  "otherClans": {
+    "members": 101,
+    "delivery": "DIRECT_WALLET",
+    "coinPerMember": "500000000000000"
+  },
+  "reconciliation": {
+    "winners": 15,
+    "ordinary": 101,
+    "mismatches": 0,
+    "outsiders": 0,
+    "walletEntries": 101,
+    "walletCoins": "50500000000000000",
+    "messages": 60,
+    "mailCoins": "30000000000000000",
+    "weaponScrolls": 150,
+    "armorScrolls": 150,
+    "pigCoins": 45000,
+    "auditId": "58523",
+    "totalCoin": "80500000000000000",
+    "claimedAtCheck": 0,
+    "pendingAtCheck": 60,
+    "readOnlyVerification": true,
+    "sameRequestReplayedReadOnly": true,
+    "source": "PostgreSQL coin ledger, receipts, and individual message attachments"
+  },
+  "verificationMs": 282,
+  "grantTransactionMs": 4807,
+  "release": {
+    "source": "e63a23d1c",
+    "pages": "9f17cd4d-0718-4708-a0d2-c01d0462745d",
+    "commit": "9f2e92ce2899391ebfc19f0086913cd49f306c8c",
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "49da75e2-a4da-4dfe-b0aa-0ff8f48eb0b8",
+        "percentage": 100,
+        "bothScrollRewardSpecs": true
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "e4b9f697-baac-4faa-b473-d6a566bc2ad1",
+        "percentage": 100
+      }
+    ],
+    "testsPassed": 71,
+    "testsFailed": 0
+  },
+  "performance": {
+    "conditions": "Windows host, desktop Chromium and packaged Electron runtime, mobile Chromium and WebKit emulation, and an H5 host fixture. Each run used a fresh browser profile, a public game shell, and an isolated database behind the message endpoints. Cold navigation began at URL navigation. Re-entry began with navigation from attendance. No live user claims were made for QA.",
+    "measurements": [
+      {
+        "phase": "before",
+        "device": "android",
+        "width": 390,
+        "height": 844,
+        "publicShell": "https://c2029204.cnine-card.pages.dev",
+        "isolatedAPI": true,
+        "coldNavigationMs": 1890,
+        "claimable": 2,
+        "inboxRequestsAfterExit700ms": 0,
+        "reentryMs": 49,
+        "claimAllMs": 198,
+        "frame": {
+          "n": 132,
+          "p95": 12.5,
+          "max": 87.5,
+          "over50ms": 1
+        },
+        "receipts": 2,
+        "inboxApiRequests": 4,
+        "errors": []
+      },
+      {
+        "phase": "before",
+        "device": "desktop",
+        "width": 1440,
+        "height": 900,
+        "publicShell": "https://c2029204.cnine-card.pages.dev",
+        "isolatedAPI": true,
+        "coldNavigationMs": 1923,
+        "claimable": 2,
+        "inboxRequestsAfterExit700ms": 0,
+        "reentryMs": 52,
+        "claimAllMs": 116,
+        "frame": {
+          "n": 114,
+          "p95": 8.4,
+          "max": 29.2,
+          "over50ms": 0
+        },
+        "receipts": 2,
+        "inboxApiRequests": 4,
+        "errors": []
+      },
+      {
+        "phase": "before",
+        "device": "h5",
+        "width": 390,
+        "height": 844,
+        "publicShell": "https://c2029204.cnine-card.pages.dev",
+        "isolatedAPI": true,
+        "coldNavigationMs": 2049,
+        "claimable": 2,
+        "inboxRequestsAfterExit700ms": 0,
+        "reentryMs": 46,
+        "claimAllMs": 119,
+        "frame": {
+          "n": 121,
+          "p95": 5.2,
+          "max": 29.1,
+          "over50ms": 0
+        },
+        "receipts": 2,
+        "inboxApiRequests": 6,
+        "errors": []
+      },
+      {
+        "phase": "before",
+        "device": "ios",
+        "width": 390,
+        "height": 844,
+        "publicShell": "https://c2029204.cnine-card.pages.dev",
+        "isolatedAPI": true,
+        "coldNavigationMs": 2127,
+        "claimable": 2,
+        "inboxRequestsAfterExit700ms": 0,
+        "reentryMs": 121,
+        "claimAllMs": 221,
+        "frame": {
+          "n": 25,
+          "p95": 99,
+          "max": 100,
+          "over50ms": 3
+        },
+        "receipts": 2,
+        "inboxApiRequests": 4,
+        "errors": []
+      },
+      {
+        "phase": "before",
+        "device": "windows",
+        "width": 1440,
+        "height": 900,
+        "publicShell": "https://c2029204.cnine-card.pages.dev",
+        "isolatedAPI": true,
+        "coldNavigationMs": 2106,
+        "claimable": 2,
+        "inboxRequestsAfterExit700ms": 0,
+        "reentryMs": 30,
+        "claimAllMs": 107,
+        "frame": {
+          "n": 32,
+          "p95": 16.8,
+          "max": 33.4,
+          "over50ms": 0
+        },
+        "receipts": 2,
+        "inboxApiRequests": 4,
+        "errors": []
+      },
+      {
+        "phase": "candidate",
+        "device": "android",
+        "width": 390,
+        "height": 844,
+        "publicShell": "https://c2029204.cnine-card.pages.dev",
+        "isolatedAPI": true,
+        "coldNavigationMs": 2721,
+        "claimable": 4,
+        "inboxRequestsAfterExit700ms": 0,
+        "reentryMs": 55,
+        "claimAllMs": 152,
+        "frame": {
+          "n": 118,
+          "p95": 8.3,
+          "max": 58.4,
+          "over50ms": 1
+        },
+        "receipts": 4,
+        "inboxApiRequests": 4,
+        "errors": []
+      },
+      {
+        "phase": "candidate",
+        "device": "desktop",
+        "width": 1440,
+        "height": 900,
+        "publicShell": "https://c2029204.cnine-card.pages.dev",
+        "isolatedAPI": true,
+        "coldNavigationMs": 1673,
+        "claimable": 4,
+        "inboxRequestsAfterExit700ms": 0,
+        "reentryMs": 61,
+        "claimAllMs": 149,
+        "frame": {
+          "n": 128,
+          "p95": 8.3,
+          "max": 45.7,
+          "over50ms": 0
+        },
+        "receipts": 4,
+        "inboxApiRequests": 4,
+        "errors": []
+      },
+      {
+        "phase": "candidate",
+        "device": "h5",
+        "width": 390,
+        "height": 844,
+        "publicShell": "https://c2029204.cnine-card.pages.dev",
+        "isolatedAPI": true,
+        "coldNavigationMs": 1768,
+        "claimable": 4,
+        "inboxRequestsAfterExit700ms": 0,
+        "reentryMs": 49,
+        "claimAllMs": 693,
+        "frame": {
+          "n": 240,
+          "p95": 8.3,
+          "max": 100,
+          "over50ms": 1
+        },
+        "receipts": 4,
+        "inboxApiRequests": 6,
+        "errors": []
+      },
+      {
+        "phase": "candidate",
+        "device": "ios",
+        "width": 390,
+        "height": 844,
+        "publicShell": "https://c2029204.cnine-card.pages.dev",
+        "isolatedAPI": true,
+        "coldNavigationMs": 2724,
+        "claimable": 4,
+        "inboxRequestsAfterExit700ms": 0,
+        "reentryMs": 153,
+        "claimAllMs": 229,
+        "frame": {
+          "n": 29,
+          "p95": 69,
+          "max": 121,
+          "over50ms": 3
+        },
+        "receipts": 4,
+        "inboxApiRequests": 4,
+        "errors": []
+      },
+      {
+        "phase": "candidate",
+        "device": "windows",
+        "width": 1440,
+        "height": 900,
+        "publicShell": "https://c2029204.cnine-card.pages.dev",
+        "isolatedAPI": true,
+        "coldNavigationMs": 2632,
+        "claimable": 4,
+        "inboxRequestsAfterExit700ms": 0,
+        "reentryMs": 38,
+        "claimAllMs": 193,
+        "frame": {
+          "n": 39,
+          "p95": 16.8,
+          "max": 33.4,
+          "over50ms": 0
+        },
+        "receipts": 4,
+        "inboxApiRequests": 4,
+        "errors": []
+      },
+      {
+        "phase": "public",
+        "device": "desktop",
+        "width": 1440,
+        "height": 900,
+        "publicShell": "https://9f17cd4d.cnine-card.pages.dev",
+        "isolatedAPI": true,
+        "coldNavigationMs": 1519,
+        "claimable": 4,
+        "inboxRequestsAfterExit700ms": 0,
+        "reentryMs": 38,
+        "claimAllMs": 98,
+        "frame": {
+          "n": 115,
+          "p95": 8.4,
+          "max": 20.8,
+          "over50ms": 0
+        },
+        "receipts": 4,
+        "inboxApiRequests": 4,
+        "errors": []
+      },
+      {
+        "phase": "public",
+        "device": "ios",
+        "width": 390,
+        "height": 844,
+        "publicShell": "https://9f17cd4d.cnine-card.pages.dev",
+        "isolatedAPI": true,
+        "coldNavigationMs": 1966,
+        "claimable": 4,
+        "inboxRequestsAfterExit700ms": 0,
+        "reentryMs": 49,
+        "claimAllMs": 249,
+        "frame": {
+          "n": 30,
+          "p95": 75,
+          "max": 81,
+          "over50ms": 2
+        },
+        "receipts": 4,
+        "inboxApiRequests": 4,
+        "errors": []
+      }
+    ]
+  }
+}
