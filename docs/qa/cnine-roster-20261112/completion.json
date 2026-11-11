@@ -1,0 +1,958 @@
+{
+  "status": "LIVE",
+  "verifiedAt": "2026-11-11T17:06:53.600Z",
+  "lobby": "https://cnine-card.pages.dev/?screen=home",
+  "star": {
+    "previous": 7,
+    "current": 9,
+    "added": [
+      {
+        "id": "wooooo123",
+        "name": "리니씨",
+        "url": "https://www.sooplive.com/station/wooooo123",
+        "officialStationTitle": "리니씨의 방송국 | SOOP",
+        "httpStatus": 200
+      },
+      {
+        "id": "ouo20411",
+        "name": "히댕",
+        "url": "https://www.sooplive.com/station/ouo20411",
+        "officialStationTitle": "히댕의 방송국 | SOOP",
+        "httpStatus": 200
+      }
+    ]
+  },
+  "female": {
+    "previous": 11,
+    "current": 10,
+    "removed": {
+      "id": "dbstmf3497",
+      "name": "서윤슬@"
+    }
+  },
+  "total": 19,
+  "sharedWatchStreamerCountIncludingCheolgu": 20,
+  "source": "0ce32511b28457ab0253058ce7f60acd7ce765b8",
+  "previousRelease": "9b9a213dcf2dff24e5b433a4ef3c6ea1df556997",
+  "pages": {
+    "id": "a4969648-f79c-4f1c-baea-98b34e76b9f6",
+    "url": "https://a4969648.cnine-card.pages.dev"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "id": "0dae493f-4ac6-4f97-8fa4-30a860ddb71a",
+      "trafficPercent": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "id": "66a7613d-4d67-4575-82bb-9aa14a31a3de",
+      "trafficPercent": 100
+    }
+  ],
+  "releaseChecks": 31,
+  "windowsDelivery": {
+    "releaseId": "4d83b7e05de83e2a3a9e9be825e239dd9917b78039ba0c309966e22624bd110b",
+    "changed": [
+      "/index.html",
+      "/js/cnine-roster-v1.js",
+      "/js/streamer-lounge-v2036.js"
+    ],
+    "removed": []
+  },
+  "publicAssetHashes": [
+    {
+      "file": "index.html",
+      "bytes": 52119,
+      "sha256": "95dfbbe14512ec1162b303d5533ce42cf54c6c2219bc64df300e3c676baa153f",
+      "windows": true
+    },
+    {
+      "file": "js/cnine-roster-v1.js",
+      "bytes": 9680,
+      "sha256": "a72e541388fa350e460caff58cdb729c19193ff9d88605906043e931dcdc56be",
+      "windows": true
+    },
+    {
+      "file": "js/streamer-lounge-v2036.js",
+      "bytes": 17732,
+      "sha256": "8ccc7047ab545f1c655d7c9632d14a56a90b141275a633a709ea214c319baec0",
+      "windows": true
+    },
+    {
+      "file": "onestore/index.html",
+      "bytes": 52241,
+      "sha256": "5fbbc20fba9b385bd4624ea126fa9a335a427b6e5f3bd65156d3d79cce316a5b",
+      "windows": false
+    },
+    {
+      "file": "service-worker.js",
+      "bytes": 25554,
+      "sha256": "5da7508d46439d82e69e0b93c05978e929c22203dda56af9e2da5931c4985ec2",
+      "windows": false
+    }
+  ],
+  "checks": "부서 선택 인원, 내비게이션 인원, 부서 제목 인원, 모든 멤버의 순서·이름·아이디·방송국 링크, 서윤슬 제거, 원본 프로필 디코딩, 가로 넘침, 로비 복귀와 재입장을 확인했다.",
+  "performance": {
+    "conditions": "이전 운영 소스와 후보 소스를 동일한 Windows 호스트에서 각기 새 세션으로 실행했다. 각 플랫폼의 실제 로비 버튼을 누르고 다음 프레임에 부서 선택 버튼을 조작할 수 있는 시점까지 측정했다. 첫 실행은 문서 탐색 시작부터 로비 버튼이 표시될 때까지다. 프레임 표본은 입력부터 조작 가능 시점 이후 400ms까지다. 창을 닫은 후 650ms 동안 현황판의 DOM 갱신·실행 중인 애니메이션·프로필 요청을 확인했다. 계정 API는 격리 응답을 사용했고 SOOP 프로필은 CDN에서 받았다.",
+    "portraits": "숨긴 부서의 프로필도 첫 화면에서 다운로드하던 것을 브라우저 지연 로딩으로 변경했다. 동일 조건에서 부서 선택 화면이 요청한 고유 멤버 프로필은 모든 플랫폼에서 18개에서 6개로 줄었다.",
+    "comparisons": {
+      "desktop": {
+        "environment": "Windows PC, Chrome 1440×900",
+        "samples": [
+          {
+            "before": {
+              "lobbyColdMs": 880,
+              "first": {
+                "inputToReadyMs": 50,
+                "frames": 47,
+                "p95Ms": 50.3,
+                "maxMs": 146.7,
+                "over50": 3
+              },
+              "reentry": {
+                "inputToReadyMs": 7,
+                "frames": 99,
+                "p95Ms": 4.6,
+                "maxMs": 7.4,
+                "over50": 0
+              },
+              "star": {
+                "inputToReadyMs": 12,
+                "frames": 72,
+                "p95Ms": 13.6,
+                "maxMs": 81.1,
+                "over50": 1,
+                "count": 7
+              },
+              "female": {
+                "inputToReadyMs": 9,
+                "frames": 91,
+                "p95Ms": 5,
+                "maxMs": 26.5,
+                "over50": 0,
+                "count": 11
+              },
+              "homePortraits": 18,
+              "afterExit": {
+                "mutations": 0,
+                "runningAnimations": 0,
+                "portraitRequests": 0
+              },
+              "diagnostics": []
+            },
+            "after": {
+              "lobbyColdMs": 930,
+              "first": {
+                "inputToReadyMs": 48,
+                "frames": 39,
+                "p95Ms": 66.8,
+                "maxMs": 182.1,
+                "over50": 2
+              },
+              "reentry": {
+                "inputToReadyMs": 8,
+                "frames": 98,
+                "p95Ms": 4.3,
+                "maxMs": 10.9,
+                "over50": 0
+              },
+              "star": {
+                "inputToReadyMs": 19,
+                "frames": 57,
+                "p95Ms": 25,
+                "maxMs": 70,
+                "over50": 1,
+                "count": 9
+              },
+              "female": {
+                "inputToReadyMs": 9,
+                "frames": 78,
+                "p95Ms": 11.5,
+                "maxMs": 21.9,
+                "over50": 0,
+                "count": 10
+              },
+              "homePortraits": 6,
+              "afterExit": {
+                "mutations": 0,
+                "runningAnimations": 0,
+                "portraitRequests": 0
+              },
+              "diagnostics": []
+            }
+          },
+          {
+            "before": {
+              "lobbyColdMs": 858,
+              "first": {
+                "inputToReadyMs": 42,
+                "frames": 43,
+                "p95Ms": 42.1,
+                "maxMs": 155,
+                "over50": 2
+              },
+              "reentry": {
+                "inputToReadyMs": 8,
+                "frames": 98,
+                "p95Ms": 4.6,
+                "maxMs": 8.8,
+                "over50": 0
+              },
+              "star": {
+                "inputToReadyMs": 13,
+                "frames": 70,
+                "p95Ms": 17.5,
+                "maxMs": 80.8,
+                "over50": 1,
+                "count": 7
+              },
+              "female": {
+                "inputToReadyMs": 8,
+                "frames": 93,
+                "p95Ms": 4.3,
+                "maxMs": 25.5,
+                "over50": 0,
+                "count": 11
+              },
+              "homePortraits": 18,
+              "afterExit": {
+                "mutations": 0,
+                "runningAnimations": 0,
+                "portraitRequests": 0
+              },
+              "diagnostics": []
+            },
+            "after": {
+              "lobbyColdMs": 903,
+              "first": {
+                "inputToReadyMs": 45,
+                "frames": 36,
+                "p95Ms": 83.3,
+                "maxMs": 155.3,
+                "over50": 2
+              },
+              "reentry": {
+                "inputToReadyMs": 9,
+                "frames": 97,
+                "p95Ms": 4.5,
+                "maxMs": 9,
+                "over50": 0
+              },
+              "star": {
+                "inputToReadyMs": 14,
+                "frames": 56,
+                "p95Ms": 29.2,
+                "maxMs": 71,
+                "over50": 1,
+                "count": 9
+              },
+              "female": {
+                "inputToReadyMs": 12,
+                "frames": 70,
+                "p95Ms": 14.6,
+                "maxMs": 42.5,
+                "over50": 0,
+                "count": 10
+              },
+              "homePortraits": 6,
+              "afterExit": {
+                "mutations": 0,
+                "runningAnimations": 0,
+                "portraitRequests": 0
+              },
+              "diagnostics": []
+            }
+          }
+        ]
+      },
+      "ios": {
+        "environment": "iOS 크기 에뮬레이션, WebKit 390×844",
+        "samples": [
+          {
+            "before": {
+              "lobbyColdMs": 1022,
+              "first": {
+                "inputToReadyMs": 69,
+                "frames": 13,
+                "p95Ms": 122,
+                "maxMs": 122,
+                "over50": 3
+              },
+              "reentry": {
+                "inputToReadyMs": 17,
+                "frames": 17,
+                "p95Ms": 82,
+                "maxMs": 82,
+                "over50": 1
+              },
+              "star": {
+                "inputToReadyMs": 15,
+                "frames": 16,
+                "p95Ms": 53,
+                "maxMs": 53,
+                "over50": 1,
+                "count": 7
+              },
+              "female": {
+                "inputToReadyMs": 16,
+                "frames": 17,
+                "p95Ms": 104,
+                "maxMs": 104,
+                "over50": 2,
+                "count": 11
+              },
+              "homePortraits": 18,
+              "afterExit": {
+                "mutations": 0,
+                "runningAnimations": 0,
+                "portraitRequests": 0
+              },
+              "diagnostics": [
+                "ResizeObserver loop completed with undelivered notifications."
+              ]
+            },
+            "after": {
+              "lobbyColdMs": 1052,
+              "first": {
+                "inputToReadyMs": 45,
+                "frames": 11,
+                "p95Ms": 121,
+                "maxMs": 121,
+                "over50": 2
+              },
+              "reentry": {
+                "inputToReadyMs": 15,
+                "frames": 18,
+                "p95Ms": 84,
+                "maxMs": 84,
+                "over50": 1
+              },
+              "star": {
+                "inputToReadyMs": 15,
+                "frames": 16,
+                "p95Ms": 56,
+                "maxMs": 56,
+                "over50": 2,
+                "count": 9
+              },
+              "female": {
+                "inputToReadyMs": 12,
+                "frames": 14,
+                "p95Ms": 86,
+                "maxMs": 86,
+                "over50": 2,
+                "count": 10
+              },
+              "homePortraits": 6,
+              "afterExit": {
+                "mutations": 0,
+                "runningAnimations": 0,
+                "portraitRequests": 0
+              },
+              "diagnostics": [
+                "ResizeObserver loop completed with undelivered notifications."
+              ]
+            }
+          },
+          {
+            "before": {
+              "lobbyColdMs": 943,
+              "first": {
+                "inputToReadyMs": 37,
+                "frames": 10,
+                "p95Ms": 97,
+                "maxMs": 97,
+                "over50": 2
+              },
+              "reentry": {
+                "inputToReadyMs": 14,
+                "frames": 18,
+                "p95Ms": 58,
+                "maxMs": 58,
+                "over50": 1
+              },
+              "star": {
+                "inputToReadyMs": 17,
+                "frames": 13,
+                "p95Ms": 67,
+                "maxMs": 67,
+                "over50": 1,
+                "count": 7
+              },
+              "female": {
+                "inputToReadyMs": 14,
+                "frames": 15,
+                "p95Ms": 100,
+                "maxMs": 100,
+                "over50": 2,
+                "count": 11
+              },
+              "homePortraits": 18,
+              "afterExit": {
+                "mutations": 0,
+                "runningAnimations": 0,
+                "portraitRequests": 0
+              },
+              "diagnostics": [
+                "ResizeObserver loop completed with undelivered notifications."
+              ]
+            },
+            "after": {
+              "lobbyColdMs": 966,
+              "first": {
+                "inputToReadyMs": 44,
+                "frames": 14,
+                "p95Ms": 107,
+                "maxMs": 107,
+                "over50": 1
+              },
+              "reentry": {
+                "inputToReadyMs": 12,
+                "frames": 20,
+                "p95Ms": 57,
+                "maxMs": 57,
+                "over50": 1
+              },
+              "star": {
+                "inputToReadyMs": 16,
+                "frames": 16,
+                "p95Ms": 58,
+                "maxMs": 58,
+                "over50": 1,
+                "count": 9
+              },
+              "female": {
+                "inputToReadyMs": 12,
+                "frames": 15,
+                "p95Ms": 87,
+                "maxMs": 87,
+                "over50": 2,
+                "count": 10
+              },
+              "homePortraits": 6,
+              "afterExit": {
+                "mutations": 0,
+                "runningAnimations": 0,
+                "portraitRequests": 0
+              },
+              "diagnostics": [
+                "ResizeObserver loop completed with undelivered notifications."
+              ]
+            }
+          }
+        ]
+      },
+      "android": {
+        "environment": "모바일 크기 에뮬레이션, Chrome 390×844",
+        "samples": [
+          {
+            "before": {
+              "lobbyColdMs": 910,
+              "first": {
+                "inputToReadyMs": 50,
+                "frames": 34,
+                "p95Ms": 52.4,
+                "maxMs": 211.2,
+                "over50": 2
+              },
+              "reentry": {
+                "inputToReadyMs": 7,
+                "frames": 98,
+                "p95Ms": 4.3,
+                "maxMs": 9.3,
+                "over50": 0
+              },
+              "star": {
+                "inputToReadyMs": 17,
+                "frames": 72,
+                "p95Ms": 11,
+                "maxMs": 106.5,
+                "over50": 1,
+                "count": 7
+              },
+              "female": {
+                "inputToReadyMs": 8,
+                "frames": 92,
+                "p95Ms": 5.3,
+                "maxMs": 27.1,
+                "over50": 0,
+                "count": 11
+              },
+              "homePortraits": 18,
+              "afterExit": {
+                "mutations": 0,
+                "runningAnimations": 0,
+                "portraitRequests": 0
+              },
+              "diagnostics": []
+            },
+            "after": {
+              "lobbyColdMs": 1035,
+              "first": {
+                "inputToReadyMs": 43,
+                "frames": 31,
+                "p95Ms": 66.1,
+                "maxMs": 229.2,
+                "over50": 2
+              },
+              "reentry": {
+                "inputToReadyMs": 10,
+                "frames": 98,
+                "p95Ms": 4.7,
+                "maxMs": 9.6,
+                "over50": 0
+              },
+              "star": {
+                "inputToReadyMs": 25,
+                "frames": 57,
+                "p95Ms": 29.5,
+                "maxMs": 104.1,
+                "over50": 1,
+                "count": 9
+              },
+              "female": {
+                "inputToReadyMs": 11,
+                "frames": 79,
+                "p95Ms": 11,
+                "maxMs": 34.9,
+                "over50": 0,
+                "count": 10
+              },
+              "homePortraits": 6,
+              "afterExit": {
+                "mutations": 0,
+                "runningAnimations": 0,
+                "portraitRequests": 0
+              },
+              "diagnostics": []
+            }
+          }
+        ]
+      },
+      "h5": {
+        "environment": "ONE store H5 호스트 에뮬레이션, 실제 /onestore/ iframe, Chrome 390×844",
+        "samples": [
+          {
+            "before": {
+              "lobbyColdMs": 941,
+              "first": {
+                "inputToReadyMs": 51,
+                "frames": 12,
+                "p95Ms": 256.5,
+                "maxMs": 256.5,
+                "over50": 3
+              },
+              "reentry": {
+                "inputToReadyMs": 8,
+                "frames": 98,
+                "p95Ms": 4.3,
+                "maxMs": 10,
+                "over50": 0
+              },
+              "star": {
+                "inputToReadyMs": 18,
+                "frames": 74,
+                "p95Ms": 4.9,
+                "maxMs": 97,
+                "over50": 1,
+                "count": 7
+              },
+              "female": {
+                "inputToReadyMs": 10,
+                "frames": 85,
+                "p95Ms": 8,
+                "maxMs": 29,
+                "over50": 0,
+                "count": 11
+              },
+              "homePortraits": 18,
+              "afterExit": {
+                "mutations": 0,
+                "runningAnimations": 0,
+                "portraitRequests": 0
+              },
+              "diagnostics": []
+            },
+            "after": {
+              "lobbyColdMs": 988,
+              "first": {
+                "inputToReadyMs": 42,
+                "frames": 27,
+                "p95Ms": 95.3,
+                "maxMs": 222.4,
+                "over50": 2
+              },
+              "reentry": {
+                "inputToReadyMs": 9,
+                "frames": 99,
+                "p95Ms": 4.5,
+                "maxMs": 11.2,
+                "over50": 0
+              },
+              "star": {
+                "inputToReadyMs": 27,
+                "frames": 65,
+                "p95Ms": 12.3,
+                "maxMs": 88.4,
+                "over50": 1,
+                "count": 9
+              },
+              "female": {
+                "inputToReadyMs": 9,
+                "frames": 86,
+                "p95Ms": 8.5,
+                "maxMs": 19.2,
+                "over50": 0,
+                "count": 10
+              },
+              "homePortraits": 6,
+              "afterExit": {
+                "mutations": 0,
+                "runningAnimations": 0,
+                "portraitRequests": 0
+              },
+              "diagnostics": []
+            }
+          }
+        ]
+      },
+      "windows": {
+        "environment": "Windows Electron 검수 렌더러, 게임의 Windows 진입 URL, 1440×900",
+        "samples": [
+          {
+            "before": {
+              "lobbyColdMs": 523,
+              "first": {
+                "inputToReadyMs": 31,
+                "frames": 16,
+                "p95Ms": 131.9,
+                "maxMs": 131.9,
+                "over50": 2
+              },
+              "reentry": {
+                "inputToReadyMs": 14,
+                "frames": 26,
+                "p95Ms": 17.1,
+                "maxMs": 17.4,
+                "over50": 0
+              },
+              "star": {
+                "inputToReadyMs": 14,
+                "frames": 23,
+                "p95Ms": 18,
+                "maxMs": 72,
+                "over50": 1,
+                "count": 7
+              },
+              "female": {
+                "inputToReadyMs": 12,
+                "frames": 25,
+                "p95Ms": 17.2,
+                "maxMs": 17.3,
+                "over50": 0,
+                "count": 11
+              },
+              "homePortraits": 18,
+              "afterExit": {
+                "mutations": 0,
+                "runningAnimations": 0,
+                "portraitRequests": 0
+              },
+              "diagnostics": []
+            },
+            "after": {
+              "lobbyColdMs": 786,
+              "first": {
+                "inputToReadyMs": 20,
+                "frames": 17,
+                "p95Ms": 139.6,
+                "maxMs": 139.6,
+                "over50": 1
+              },
+              "reentry": {
+                "inputToReadyMs": 12,
+                "frames": 25,
+                "p95Ms": 17.5,
+                "maxMs": 17.6,
+                "over50": 0
+              },
+              "star": {
+                "inputToReadyMs": 13,
+                "frames": 25,
+                "p95Ms": 28.1,
+                "maxMs": 31.1,
+                "over50": 0,
+                "count": 9
+              },
+              "female": {
+                "inputToReadyMs": 14,
+                "frames": 26,
+                "p95Ms": 17.5,
+                "maxMs": 33.2,
+                "over50": 0,
+                "count": 10
+              },
+              "homePortraits": 6,
+              "afterExit": {
+                "mutations": 0,
+                "runningAnimations": 0,
+                "portraitRequests": 0
+              },
+              "diagnostics": []
+            }
+          }
+        ]
+      }
+    }
+  },
+  "publicChecks": {
+    "desktop": {
+      "lobbyColdMs": 1156,
+      "first": {
+        "inputToReadyMs": 42,
+        "frames": 32,
+        "p95Ms": 85.9,
+        "maxMs": 172.5,
+        "over50": 2
+      },
+      "reentry": {
+        "inputToReadyMs": 10,
+        "frames": 98,
+        "p95Ms": 4.3,
+        "maxMs": 11.1,
+        "over50": 0
+      },
+      "star": {
+        "inputToReadyMs": 18,
+        "frames": 65,
+        "p95Ms": 19.2,
+        "maxMs": 64.1,
+        "over50": 1,
+        "count": 9
+      },
+      "female": {
+        "inputToReadyMs": 12,
+        "frames": 70,
+        "p95Ms": 18.6,
+        "maxMs": 30.6,
+        "over50": 0,
+        "count": 10
+      },
+      "homePortraits": 6,
+      "afterExit": {
+        "mutations": 0,
+        "runningAnimations": 0,
+        "portraitRequests": 0
+      },
+      "diagnostics": [],
+      "profiles": [
+        {
+          "station": "wooooo123",
+          "name": "리니씨",
+          "image": {
+            "width": 420,
+            "height": 420,
+            "src": "https://stimg.sooplive.com/LOGO/wo/wooooo123/wooooo123.webp"
+          },
+          "target": "https://www.sooplive.com/station/wooooo123"
+        },
+        {
+          "station": "ouo20411",
+          "name": "히댕",
+          "image": {
+            "width": 796,
+            "height": 420,
+            "src": "https://stimg.sooplive.com/LOGO/ou/ouo20411/ouo20411.webp"
+          },
+          "target": "https://www.sooplive.com/station/ouo20411"
+        }
+      ]
+    },
+    "ios": {
+      "lobbyColdMs": 1325,
+      "first": {
+        "inputToReadyMs": 58,
+        "frames": 13,
+        "p95Ms": 89,
+        "maxMs": 89,
+        "over50": 3
+      },
+      "reentry": {
+        "inputToReadyMs": 15,
+        "frames": 15,
+        "p95Ms": 82,
+        "maxMs": 82,
+        "over50": 1
+      },
+      "star": {
+        "inputToReadyMs": 18,
+        "frames": 12,
+        "p95Ms": 63,
+        "maxMs": 63,
+        "over50": 2,
+        "count": 9
+      },
+      "female": {
+        "inputToReadyMs": 24,
+        "frames": 11,
+        "p95Ms": 122,
+        "maxMs": 122,
+        "over50": 3,
+        "count": 10
+      },
+      "homePortraits": 6,
+      "afterExit": {
+        "mutations": 0,
+        "runningAnimations": 0,
+        "portraitRequests": 0
+      },
+      "diagnostics": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "profiles": [
+        {
+          "station": "wooooo123",
+          "name": "리니씨",
+          "image": {
+            "width": 420,
+            "height": 420,
+            "src": "https://stimg.sooplive.com/LOGO/wo/wooooo123/wooooo123.webp"
+          },
+          "target": "https://www.sooplive.com/station/wooooo123"
+        },
+        {
+          "station": "ouo20411",
+          "name": "히댕",
+          "image": {
+            "width": 796,
+            "height": 420,
+            "src": "https://stimg.sooplive.com/LOGO/ou/ouo20411/ouo20411.webp"
+          },
+          "target": "https://www.sooplive.com/station/ouo20411"
+        }
+      ]
+    },
+    "h5": {
+      "lobbyColdMs": 1433,
+      "first": {
+        "inputToReadyMs": 60,
+        "frames": 16,
+        "p95Ms": 280.1,
+        "maxMs": 280.1,
+        "over50": 3
+      },
+      "reentry": {
+        "inputToReadyMs": 14,
+        "frames": 96,
+        "p95Ms": 4.4,
+        "maxMs": 15,
+        "over50": 0
+      },
+      "star": {
+        "inputToReadyMs": 25,
+        "frames": 60,
+        "p95Ms": 27,
+        "maxMs": 85.8,
+        "over50": 1,
+        "count": 9
+      },
+      "female": {
+        "inputToReadyMs": 15,
+        "frames": 66,
+        "p95Ms": 14,
+        "maxMs": 41.9,
+        "over50": 0,
+        "count": 10
+      },
+      "homePortraits": 6,
+      "afterExit": {
+        "mutations": 0,
+        "runningAnimations": 0,
+        "portraitRequests": 0
+      },
+      "diagnostics": [],
+      "profiles": [
+        {
+          "station": "wooooo123",
+          "name": "리니씨",
+          "image": {
+            "width": 420,
+            "height": 420,
+            "src": "https://stimg.sooplive.com/LOGO/wo/wooooo123/wooooo123.webp"
+          }
+        },
+        {
+          "station": "ouo20411",
+          "name": "히댕",
+          "image": {
+            "width": 796,
+            "height": 420,
+            "src": "https://stimg.sooplive.com/LOGO/ou/ouo20411/ouo20411.webp"
+          }
+        }
+      ]
+    },
+    "windows": {
+      "lobbyColdMs": 1150,
+      "first": {
+        "inputToReadyMs": 31,
+        "frames": 15,
+        "p95Ms": 144.5,
+        "maxMs": 144.5,
+        "over50": 2
+      },
+      "reentry": {
+        "inputToReadyMs": 12,
+        "frames": 25,
+        "p95Ms": 17.6,
+        "maxMs": 18,
+        "over50": 0
+      },
+      "star": {
+        "inputToReadyMs": 14,
+        "frames": 25,
+        "p95Ms": 18.5,
+        "maxMs": 45.4,
+        "over50": 0,
+        "count": 9
+      },
+      "female": {
+        "inputToReadyMs": 13,
+        "frames": 24,
+        "p95Ms": 32.1,
+        "maxMs": 46.1,
+        "over50": 0,
+        "count": 10
+      },
+      "homePortraits": 6,
+      "afterExit": {
+        "mutations": 0,
+        "runningAnimations": 0,
+        "portraitRequests": 0
+      },
+      "diagnostics": [],
+      "profiles": [
+        {
+          "station": "wooooo123",
+          "name": "리니씨",
+          "image": {
+            "width": 420,
+            "height": 420,
+            "src": "https://stimg.sooplive.com/LOGO/wo/wooooo123/wooooo123.webp"
+          }
+        },
+        {
+          "station": "ouo20411",
+          "name": "히댕",
+          "image": {
+            "width": 796,
+            "height": 420,
+            "src": "https://stimg.sooplive.com/LOGO/ou/ouo20411/ouo20411.webp"
+          }
+        }
+      ]
+    }
+  },
+  "coverage": "공개 Pages와 공개 SOOP 방송국을 확인했다. 데스크톱 Chrome·모바일 크기 WebKit에서 카드 클릭으로 새 탭 주소와 opener 분리를 검증했다. H5는 호스트 에뮬레이션, Windows는 Electron 검수 렌더러와 배포 매니페스트를 확인했다. Windows 설치판의 현행 탐색 허용 목록은 게임·PlayDK 도메인으로 제한되어 있다."
+}
