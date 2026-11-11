@@ -5,14 +5,18 @@ import {runInNewContext} from 'node:vm';
 
 const load=(path)=>readFile(new URL(`../${path}`,import.meta.url),'utf8');
 
-test('compact boards show short operations and retain the full list in the dialog',async()=>{
+test('compact boards show every operation except clan and duo, and each count matches its list',async()=>{
   const app=await load('js/app.js');
   const render=app.slice(app.indexOf('function renderLiveOperations('),app.indexOf('function scheduleLiveOperationsRefresh('));
-  const lists=['lobby','','all'].map(view=>({dataset:{liveOperationsList:view},contains:()=>false}));
-  const count={};
+  const counters=[{},{},{}];
+  const lists=['lobby','','all'].map((view,index)=>({
+    dataset:{liveOperationsList:view}, contains:()=>false, querySelectorAll:()=>[],
+    closest:()=>({querySelector:()=>counters[index]})
+  }));
+  const counts=()=>counters.map(counter=>counter.textContent);
   const context={
-    document:{querySelectorAll:selector=>({'[data-live-operations-list]':lists,'[data-live-operations-count]':[count]}[selector]||[])},
-    window:{},runtimeCommandContext:'buy',LIVE_OPERATION_META:{ORGANIZATION:{},RANKED_DUO:{},SEAL:{},RAID:{}},
+    document:{querySelectorAll:()=>lists},
+    window:{},runtimeCommandContext:'buy',LIVE_OPERATION_META:{ORGANIZATION:{},RANKED_DUO:{},SEAL:{},RAID:{},TERRITORY:{},AUCTION:{},COUP:{},ORGANIZATION_FACTION:{}},
     liveOperationTimestamp:Date.parse,liveOperationsServerOffset:0,
     bindLiveOperationsControls(){},syncTerritoryDraftNotice(){},syncOrganizationStartNotice(){},updateLiveOperationClocks(){},
     liveBurningOperationHtml:()=>'',liveRankExpPotionHtml:()=>'',liveOperationCardHtml:item=>item.kind+' '
@@ -21,14 +25,26 @@ test('compact boards show short operations and retain the full list in the dialo
   const serverNow='2026-11-10T12:00:00Z';
   const evergreen=[{kind:'ORGANIZATION',deadlineAt:null},{kind:'RANKED_DUO',deadlineAt:'2026-11-10T12:01:00Z'}];
   const long={kind:'SEAL',deadlineAt:'2026-11-12T12:00:00Z'},short={kind:'RAID',deadlineAt:'2026-11-10T13:00:00Z'};
-  renderBoard({serverNow,items:[...evergreen,long,short]});
-  assert.deepEqual(lists.map(list=>list.innerHTML),['RAID ','RAID ','ORGANIZATION RANKED_DUO SEAL RAID ']);
-  assert.equal(count.textContent,'4건 진행');
+  const waiting={kind:'TERRITORY',phase:'DRAFT_WAIT',deadlineAt:'2026-11-11T12:00:00Z'};
+  const featured=[long,short,waiting,{kind:'AUCTION'},{kind:'COUP'},{kind:'ORGANIZATION_FACTION'}];
+  renderBoard({serverNow,items:[...evergreen,...featured]});
+  const compact='SEAL RAID TERRITORY AUCTION COUP ORGANIZATION_FACTION ';
+  assert.deepEqual(lists.map(list=>list.innerHTML),[compact,compact,'ORGANIZATION RANKED_DUO '+compact]);
+  assert.deepEqual(counts(),['진행 5건 · 대기 1건','진행 5건 · 대기 1건','진행 7건 · 대기 1건']);
+  renderBoard({serverNow,items:[...evergreen,waiting]});
+  assert.deepEqual(counts(),['1건 대기','1건 대기','진행 2건 · 대기 1건']);
+  renderBoard({serverNow,items:[...evergreen,long]});
+  assert.deepEqual(counts(),['1건 진행','1건 진행','3건 진행']);
   renderBoard({serverNow,items:evergreen});
   assert.deepEqual(lists.map(list=>list.innerHTML),['','','ORGANIZATION RANKED_DUO ']);
-  assert.equal(count.textContent,'2건 진행');
+  assert.deepEqual(counts(),['대기 중','대기 중','2건 진행']);
   renderBoard({serverNow,items:[]});
   assert.match(lists[0].innerHTML,/현재 진행 중인 주요 콘텐츠 없음/);
+  context.liveBurningOperationHtml=()=>'버닝 ';
+  context.liveRankExpPotionHtml=()=>'경험치 물약 ';
+  renderBoard({serverNow,items:evergreen});
+  assert.deepEqual(lists.map(list=>list.innerHTML),['버닝 경험치 물약 ','버닝 경험치 물약 ','버닝 경험치 물약 ORGANIZATION RANKED_DUO ']);
+  assert.deepEqual(counts(),['2건 진행','2건 진행','4건 진행']);
 });
 
 test('acquisition crawls are retired from the loaded store and lobby surfaces',async()=>{

@@ -60,7 +60,7 @@ try{
   check(await lobby.locator('.lobby-body').evaluate(e=>e.scrollWidth<=e.clientWidth+1),size+' live inner viewport does not overflow');
   check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),size+' full app has no horizontal overflow');
   const statusHeight=await page.locator('[slot="operations"][data-live-operations-surface="lobby-clarity"]').evaluate(e=>e.getBoundingClientRect().height);
-  check(viewport.width<=760?statusHeight>=82 && statusHeight<=98:statusHeight>=70 && statusHeight<=84,size+' content status board reserves space for activity names and phases');
+  check(statusHeight>=(viewport.width<=760?82:70),size+' content status board reserves space for activity names and phases');
   await page.evaluate(()=>{localStorage.setItem('soop-lobby-bgm-muted-v1','1');lobbyBgm.applySettings({enabled:true,tracks:[{title:'검수',url:'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQQAAACAgICA'}]});lobbyBgm.syncRoute();});
   const bgm=page.locator('#lobbyBgmToggleV1803');await bgm.waitFor();
   const bgmBox=await bgm.boundingBox(),chiefBox=await lobby.locator('#chief-shortcut').boundingBox(),headerBox=await lobby.locator('.topbar').boundingBox();
@@ -74,12 +74,15 @@ try{
   const clock=page.locator('[data-live-operation-kind="AUCTION"] [data-live-operation-deadline]'),before=await clock.textContent();
   await page.waitForFunction(before=>document.querySelector('[data-live-operation-kind="AUCTION"] [data-live-operation-deadline]').textContent!==before,before);
   check(true,size+' original auction countdown continues ticking');
-  await page.evaluate(()=>renderLiveOperations({items:['AUCTION','TERRITORY','ORGANIZATION','SEAL','RAID'].map(kind=>({kind,title:kind+' 검수 콘텐츠',detail:'검수 중',deadlineAt:new Date(Date.now()+300000).toISOString()}))}));
+  await page.evaluate(()=>renderLiveOperations({items:['AUCTION','TERRITORY','ORGANIZATION','RANKED_DUO','SEAL','RAID'].map(kind=>({kind,title:kind+' 검수 콘텐츠',detail:'검수 중',deadlineAt:new Date(Date.now()+(kind==='SEAL'?3*86400000:300000)).toISOString()}))}));
   const summary=page.locator('#lobby-operations-summary');
-  const row=await summary.locator('[data-live-operation-kind]:visible').evaluateAll(els=>els.map(e=>e.getBoundingClientRect().top));
-  check(row.length===(viewport.width>1200?3:2)&&row.every(top=>Math.abs(top-row[0])<1),size+' featured activities share one row');
+  assert.deepEqual(await summary.locator('[data-live-operation-kind]:visible').evaluateAll(els=>els.map(e=>e.dataset.liveOperationKind)),['AUCTION','TERRITORY','SEAL','RAID']);
+  check(await summary.locator('[data-live-operations-count]').textContent()==='4건 진행',size+' compact count matches all four visible activities');
+  check(await summary.locator('[data-live-operation-kind="SEAL"] [data-live-operation-deadline]').evaluate(clock=>{
+    updateLiveOperationClocks();const text=clock.firstChild;updateLiveOperationClocks();return clock.firstChild===text;
+  }),size+' the multi-day countdown keeps its text node between displayed minutes');
   await summary.locator('[data-live-operations-open]').click();
-  check(await page.locator('#liveOperationsDialog[open] [data-live-operation-kind]').count()===5,size+' all five activities can be viewed');
+  check(await page.locator('#liveOperationsDialog[open] [data-live-operation-kind]').count()===6,size+' clan and duo join all four activities in the full list');
   await page.locator('#liveOperationsDialog [data-live-operations-close]').click();
   await page.evaluate(()=>loadLiveOperations(true));
   await openCategory('all');

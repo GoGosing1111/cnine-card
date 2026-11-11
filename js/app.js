@@ -1633,7 +1633,14 @@ function updateLiveOperationClocks(){
   if(potions.length&&!rankExpPotionRemaining()){if(rankExpPotionState)rankExpPotionState={...rankExpPotionState,active:false};renderLiveOperations();return;}
   if(!nodes.length&&!potions.length){if(liveOperationsClockTimer)clearInterval(liveOperationsClockTimer);liveOperationsClockTimer=0;return;}
   if(!liveOperationsClockTimer)liveOperationsClockTimer=setInterval(updateLiveOperationClocks,1000);
-  nodes.forEach(node=>{node.textContent=liveOperationClock(node.dataset.liveOperationDeadline)});potions.forEach(node=>{node.textContent=rankExpPotionClock()});
+  nodes.forEach(node=>{
+    const clock=liveOperationClock(node.dataset.liveOperationDeadline);
+    if(node.textContent!==clock)node.textContent=clock;
+  });
+  if(potions.length){
+    const clock=rankExpPotionClock();
+    potions.forEach(node=>{if(node.textContent!==clock)node.textContent=clock});
+  }
 }
 function openLiveOperation(kind){
   document.getElementById('liveOperationsDialog')?.close();
@@ -1675,7 +1682,7 @@ function openLiveOperationsDialog(opener){
     if(opener?.isConnected&&opener.getClientRects().length)opener.focus({preventScroll:true});
   },{once:true});
   document.body.append(dialog);
-  renderLiveOperations();
+  renderLiveOperationLists(dialog.querySelectorAll('[data-live-operations-list]'));
   opener?.setAttribute('aria-expanded','true');
   dialog.showModal();
 }
@@ -1696,18 +1703,24 @@ function renderLiveOperations(payload=null){
   }
   syncTerritoryDraftNotice();
   syncOrganizationStartNotice();
-  const items=liveOperationsFailed?[]:liveOperationsItems,eventHtml=liveBurningOperationHtml(),potionHtml=liveRankExpPotionHtml(),count=items.length+(eventHtml?1:0)+(potionHtml?1:0);
+  renderLiveOperationLists(lists);
+}
+function renderLiveOperationLists(lists){
+  const items=liveOperationsFailed?[]:liveOperationsItems;
+  const featured=items.filter(item=>!['ORGANIZATION','RANKED_DUO'].includes(String(item.kind).toUpperCase()));
+  const eventHtml=liveBurningOperationHtml(),potionHtml=liveRankExpPotionHtml();
   const errorHtml='<div class="live-operation-empty error"><span aria-hidden="true"></span><b>운영 상태 갱신 대기</b><small>잠시 후 자동으로 다시 확인합니다.</small></div>';
-  const now=Date.now()+liveOperationsServerOffset;
-  const featured=items.filter(item=>{
-    if(['ORGANIZATION','RANKED_DUO'].includes(String(item.kind).toUpperCase()))return false;
-    const deadline=liveOperationTimestamp(item.deadlineAt);
-    return !Number.isFinite(deadline)||deadline-now<24*60*60*1000;
-  });
   lists.forEach(list=>{
-    const view=list.dataset.liveOperationsList;
-    const all=view==='all';
-    const visible=all?items:featured;
+    const visible=list.dataset.liveOperationsList==='all'?items:featured;
+    const count=visible.length+Number(!!eventHtml)+Number(!!potionHtml);
+    const waiting=visible.filter(item=>item.kind==='TERRITORY'&&['DRAFT_WAIT','DRAFT_READY'].includes(item.phase)).length;
+    const counter=list.closest('[data-live-operations-surface],dialog')?.querySelector('[data-live-operations-count]');
+    if(counter){
+      if(!count)counter.textContent=liveOperationsFailed?'갱신 대기':!liveOperationsReady?'확인 중':'대기 중';
+      else if(!waiting)counter.textContent=`${count}건 진행`;
+      else if(waiting===count)counter.textContent=`${waiting}건 대기`;
+      else counter.textContent=`진행 ${count-waiting}건 · 대기 ${waiting}건`;
+    }
     const empty=items.length?'':'<div class="live-operation-empty"><span aria-hidden="true"></span><b>현재 진행 중인 주요 콘텐츠 없음</b><small>새 작전이 열리면 자동으로 표시됩니다.</small></div>';
     const loading='<div class="live-operation-empty loading"><b>콘텐츠 상태 확인 중</b><small>현재 진행 상황을 불러오고 있습니다.</small></div>';
     const focused=list.contains(document.activeElement)?document.activeElement.dataset.liveOperationKind:null;
@@ -1718,11 +1731,8 @@ function renderLiveOperations(payload=null){
       const next=[...list.querySelectorAll('[data-live-operation-kind]')].find(button=>button.dataset.liveOperationKind===focused);
       (next||document.querySelector('#liveOperationsDialog [data-live-operations-close]'))?.focus({preventScroll:true});
     }
+    list.querySelectorAll('[data-live-operation-kind]').forEach(button=>{button.onclick=()=>openLiveOperation(button.dataset.liveOperationKind)});
   });
-  const waiting=items.filter(item=>item.kind==='TERRITORY'&&['DRAFT_WAIT','DRAFT_READY'].includes(item.phase)).length;
-  const summary=waiting?(count===waiting?`${waiting}건 대기`:`진행 ${count-waiting}건 · 대기 ${waiting}건`):`${count}건 진행`;
-  document.querySelectorAll('[data-live-operations-count]').forEach(node=>{node.textContent=count?summary:liveOperationsFailed?'갱신 대기':!liveOperationsReady?'확인 중':'대기 중'});
-  document.querySelectorAll('[data-live-operation-kind]').forEach(button=>{button.onclick=()=>openLiveOperation(button.dataset.liveOperationKind)});
   window.SoopLobbyOperations?.refresh();
   updateLiveOperationClocks();
 }

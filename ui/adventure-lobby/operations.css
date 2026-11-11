@@ -52,7 +52,7 @@
  #liveOperationsDialog[data-tactical-operations]{max-height:80dvh}
 }
 
-/* The homepage shows activity names and their current phase beside the overall count. */
+/* The homepage shows activity names and their current phase beside the visible count. */
 #lobby-operations-summary {
   position: relative;
   isolation: isolate;
@@ -127,10 +127,11 @@
 #lobby-operations-summary:has(.live-operations-list:empty) > header { flex-direction: row; align-items: center; justify-content: flex-start; gap: 8px; }
 #lobby-operations-summary .live-operations-viewport:has(> .live-operations-list:empty) { display: none; }
 #lobby-operations-summary .live-operations-list {
-  display: flex;
-  flex-flow: row nowrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr));
+  grid-auto-flow: row;
   align-items: stretch;
-  gap: 0;
+  row-gap: 4px;
   min-height: 0;
   height: auto;
   max-height: none;
@@ -141,7 +142,6 @@
   position: relative;
   z-index: 2;
   display: grid;
-  flex: 1 1 0;
   grid-template-columns: 32px minmax(0, 1fr) auto;
   align-items: center;
   gap: 9px;
@@ -159,7 +159,6 @@
 }
 #lobby-operations-summary .live-operation-card::before,
 #lobby-operations-summary .live-operation-card::after,
-#lobby-operations-summary .live-operation-card:nth-child(n+4),
 #lobby-operations-summary .live-operation-copy > span,
 #lobby-operations-summary .live-operation-copy small > :is(i, .live-operation-kind),
 #lobby-operations-summary .live-operation-card > strong:has([data-live-operation-deadline=""]),
@@ -168,7 +167,7 @@
 #lobby-operations-summary .live-operation-icon,
 #lobby-operations-summary .live-operation-icon :is(img, svg) { display: block; width: 32px; height: 36px; margin: 0; padding: 0; border: 0; background: none; object-fit: contain; }
 #lobby-operations-summary .live-operation-copy { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-#lobby-operations-summary .live-operation-copy > b { order: -1; margin: 0; color: var(--ops-ink); font-size: 15px; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#lobby-operations-summary .live-operation-copy > b { order: -1; margin: 0; color: var(--ops-ink); font-size: 15px; line-height: 1.3; white-space: normal; word-break: keep-all; overflow-wrap: anywhere; }
 #lobby-operations-summary .live-operation-copy > small { display: block; line-height: 1.35; letter-spacing: 0; }
 #lobby-operations-summary .live-operation-copy em { display: block; margin: 0; padding: 0; border: 0; color: #a9d7e7; background: none; font: 600 12px/1.35 'Pretendard Variable', sans-serif; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 #lobby-operations-summary .live-operation-card > strong { display: grid; gap: 4px; min-width: 0; margin: 0; padding: 0; border: 0; text-align: right; }
@@ -179,9 +178,6 @@
 #lobby-operations-summary .live-operation-empty small { color: var(--ops-muted); font-size: 12px; line-height: 1.35; }
 #lobby-operations-summary :is(button:hover, button:focus-visible) { color: #69dff6; background-color: #a8d7ea0d; }
 
-@media (max-width: 1200px) {
-  #lobby-operations-summary .live-operation-card:nth-child(n+3) { display: none; }
-}
 @media (max-width: 760px) {
   #lobby-operations-summary { grid-template-columns: minmax(0, 1fr) auto; gap: 0; padding: 0 10px; }
   #lobby-operations-summary > header { grid-area: 1 / 1; flex-direction: row; justify-content: flex-start; align-items: baseline; gap: 8px; }
@@ -190,6 +186,7 @@
   #lobby-operations-summary .live-operations-open { grid-area: 1 / 2; font-size: 12px; }
   #lobby-operations-summary :is(.live-operations-open, .live-operation-card) { scroll-margin-bottom: calc(76px + env(safe-area-inset-bottom)); }
   #lobby-operations-summary .live-operations-viewport { grid-area: 2 / 1 / 3 / -1; align-self: stretch; border-top: 1px solid #9bb9ca36; }
+  #lobby-operations-summary .live-operations-list { grid-template-columns: repeat(auto-fit, minmax(min(100%, 158px), 1fr)); row-gap: 2px; }
   #lobby-operations-summary .live-operation-card {
     grid-template-columns: 21px minmax(0, 1fr) auto;
     grid-template-areas: 'icon name name' 'icon phase time';
