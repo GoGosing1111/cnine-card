@@ -40,19 +40,29 @@ export function createBattleGroundSigil({actor, kind = 'cards', team = actor?.te
 }
 
 export function drawBattleGroundStations(engine, stations) {
-  if (!engine.isoFloorLayer || !engine.isoConfig) return;
-  // Texture ownership belongs to Pixi's shared Assets cache, never a station.
-  engine.isoFloorLayer.removeChildren().forEach(child => child.destroy({children: true}));
-  engine.isoTiles = []; engine.accountBattleUnitTile = null;
-  const {tileWidth, tileHeight} = engine.isoConfig;
+  if (!engine.isoFloorLayer || engine.isoFloorLayer.destroyed || !engine.isoConfig) return;
+  const layer=engine.isoFloorLayer,{tileWidth,tileHeight}=engine.isoConfig;
+  // A Citadel slot can respawn hundreds of times. Keep the other slots' Pixi
+  // sprites and shared textures alive while the changed slot is rebound.
+  const reusable=new Map();
+  if(engine.formationCitadel){
+    for(const tile of layer.children)if(!tile.destroyed&&tile.station)reusable.set(tile.station.id,tile);
+  }else layer.removeChildren().forEach(tile=>tile.destroy({children:true}));
+  engine.isoTiles=[];engine.accountBattleUnitTile=null;
   for (const station of stations) {
-    const tile = createBattleGroundSigil({...station, width: tileWidth, height: tileHeight});
-    tile.label = `OccupiedTile:${station.id}`;
+    let tile=reusable.get(station.id);
+    if(tile&&tile.groundStyle===battleGroundStyle(station.actor,station.kind,station.team)&&tile.groundWidth===tileWidth&&tile.groundHeight===tileHeight)reusable.delete(station.id);
+    else{
+      tile=createBattleGroundSigil({...station,width:tileWidth,height:tileHeight});
+      tile.groundWidth=tileWidth;tile.groundHeight=tileHeight;layer.addChild(tile);
+    }
+    tile.label='OccupiedTile:'+station.id;
     tile.station = station; tile.position.set(station.x, station.y); tile.depthSortY = -100000;
     if (station.actor?.stateHalo) station.actor.stateHalo.visible = false;
     if (station.kind === 'support') {tile.isAccountBattleUnitTile = true; engine.accountBattleUnitTile = tile;}
-    engine.isoFloorLayer.addChild(tile); engine.isoTiles.push(tile);
+    engine.isoTiles.push(tile);
   }
+  for(const tile of reusable.values()){tile.removeFromParent();tile.destroy({children:true});}
   engine.occupiedTileSignature = battleGroundSignature(stations);
   engine.syncAccountBattleUnitTile();
 }

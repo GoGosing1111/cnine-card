@@ -223,3 +223,6 @@ body:has(>.citadel.in-battle.ct-light-field)>#app{display:none}
 .coop-battle-top .ct-energy strong,.coop-battle-top .ct-energy time{font:700 13px/1.15 system-ui,sans-serif;font-variant-numeric:tabular-nums;color:#cdffa4}
 .coop-battle-top .ct-energy b,.coop-battle-top .ct-energy span{font-size:12px}
 @media(max-width:700px){.citadel .coop-battle-top .ct-energy{order:1;flex:1 0 100%;box-sizing:border-box}.citadel .coop-battle-top .ct-loot{order:2}}
+
+.ct-hit-layer>canvas{display:block;width:100%;height:100%}
+.ct-light-field .ct-lite>canvas,.ct-light-field .ct-hit-layer{transform:translateZ(0)}

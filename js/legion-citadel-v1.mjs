@@ -159,19 +159,33 @@ export function citadelPlaybackFrames(chunk,replay,seed){
  }
  return out;
 }
-function mountHitReceipts(layer, projection, replay) {
+function mountHitReceipts(layer, projection, replay, light) {
  layer.style.setProperty('--ct-damage-font',DAMAGE_FONT_FAMILY);
  const allies=new Map(replay.units.filter(u=>u.side==='A').map(u=>[u.id,fieldSlot(u,replay.payload)]));
  const active=new Map(),free=[],capacity=replay.payload.cooperativeEncounter.initialIds.length;
- let events=[],cursor=0,lastPart=-1;
+ const canvas=light?document.createElement('canvas'):null,ctx=canvas?.getContext('2d');
+ if(ctx)layer.append(canvas);
+ let events=[],cursor=0,lastPart=-1,rects=[];
  const format=n=>n>=10000?compactAmount.format(n):coinNumber.format(n);
  function append(part,chunk) {
   if(part<=lastPart)return;
   lastPart=part;events=events.slice(cursor).concat(chunk).sort((a,b)=>a.combatAtMs-b.combatAtMs);cursor=0;
  }
+ function paintCanvas(rect){
+  const w=Math.round(rect.width),h=Math.round(rect.height);
+  if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
+  else for(const r of rects)ctx.clearRect(r.x-50,r.y-20,100,41);
+  rects=[];ctx.textAlign='center';ctx.lineJoin='round';ctx.lineWidth=3;ctx.strokeStyle='#16131b';
+  for(const hit of active.values()){
+   rects.push(hit);
+   if(hit.number){ctx.font='15px '+DAMAGE_FONT_FAMILY;ctx.fillStyle=hit.color;ctx.strokeText(hit.number,hit.x,hit.y,94);ctx.fillText(hit.number,hit.x,hit.y,94);}
+   if(hit.barrier){ctx.font='11px '+DAMAGE_FONT_FAMILY;ctx.fillStyle='#b5dbff';const y=hit.y+(hit.number?14:0);ctx.strokeText(hit.barrier,hit.x,y,94);ctx.fillText(hit.barrier,hit.x,y,94);}
+  }
+ }
  function tick(elapsed) {
+  let expired=false;
   for(const [id,label] of active)if(elapsed>=label.until){
-   label.node.hidden=true;free.push(label);active.delete(id);
+   if(label.node){label.node.hidden=true;free.push(label);}active.delete(id);expired=true;
   }
   const due=new Map();
   while(cursor<events.length && events[cursor].combatAtMs<=elapsed){
@@ -180,8 +194,8 @@ function mountHitReceipts(layer, projection, replay) {
     const total=due.get(hit.id);if(total){total.damage+=hit.damage;total.shield+=hit.shield;total.critical||=hit.critical;}else due.set(hit.id,hit);
    }
   }
-  if(!due.size)return;
-  const rect=layer.getBoundingClientRect(),plane=projection();
+  if(!due.size&&!(ctx&&expired))return;
+  const rect=layer.getBoundingClientRect(),plane=due.size?projection():null;
   for(const [id,hit] of due){
    if(!plane)break;let slot=allies.get(id);
    if(!slot){const match=/^B:(\d+):CITADEL(?::(?:R\d+|BOSS))?$/.exec(id);if(!match||Number(match[1])>=capacity)continue;slot={kind:'cards',index:Number(match[1]),enemy:true};}
@@ -189,22 +203,25 @@ function mountHitReceipts(layer, projection, replay) {
    const x=Math.min(Math.max(28,(anchor?.x??(plane.left+p.x*plane.sx))-rect.left),rect.width-28);
    const y=Math.max(0,(anchor?.y??(plane.top+(p.y-(slot.enemy?69:108))*plane.sy))-rect.top);
    const number=hit.damage?'−'+format(hit.damage):hit.shield?'':'회피',barrier=hit.shield?'방벽 '+format(hit.shield):'';
+   if(ctx){active.set(id,{x,y,number,barrier,color:hit.critical?'#41dfff':'#ff4a4a',until:elapsed+800});continue;}
    let label=active.get(id);
    if(!label){label=free.pop();if(!label){const node=document.createElement('div'),hp=document.createElement('b'),shield=document.createElement('small');
     node.className='ct-damage';node.append(hp,shield);layer.append(node);label={node,hp,shield};}active.set(id,label);}
    const {node,hp,shield}=label;
    node.style.left=x+'px';node.style.top=y+'px';
    node.dataset.target=id;node.dataset.damage=String(hit.damage);node.dataset.absorbed=String(hit.shield);
-   node.classList.toggle('ct-incoming',!slot.enemy);node.classList.toggle('ct-critical',hit.critical);
+   node.classList.toggle('ct-critical',hit.critical);
    hp.textContent=number;shield.textContent=barrier;
    node.title='피해 '+coinNumber.format(hit.damage)+' · 방벽 '+coinNumber.format(hit.shield);
    node.hidden=false;label.until=elapsed+800;
   }
+  if(ctx)paintCanvas(rect);
  }
- function nextAt(){
-  let at=events[cursor]?.combatAtMs??Infinity;
-  for(const item of active.values())at=Math.min(at,item.until);
-  return at;
+ function nextAt(nextFrame){
+  const impact=Math.min(nextFrame,events[cursor]?.combatAtMs??Infinity);
+  let expiry=Infinity;for(const label of active.values())expiry=Math.min(expiry,label.until);
+  // An expiring label can share a paint with a nearby impact. HP never waits for it.
+  return expiry<impact-200?expiry:impact;
  }
  return {append,tick,nextAt};
 }
@@ -332,7 +349,7 @@ export function openCitadel(trigger,firstRead=null){
  }
  const tierLabel=id=>{if(dockSelected())return '봉쇄된 물류기지';const t=tiers.find(v=>v.id===(id??'gate'));return t?t.stage+'단계 · '+t.name:state?.tierName||'재앙의 성문';};
  const paused=()=>!entryOpen&&(!state||state.status==='LOBBY'||state.status==='LOADING');
- let lootBag=null,hitReceipts=null,energyTimer,impactTimer;
+ let lootBag=null,hitReceipts=null,energyTimer,impactTimer,impactRaf;
  const energyHud=$('.ct-energy'),energyHome=$('.ct-facts');
  const energyValue=$('[data-party-energy]'),chargeLabel=$('[data-charge-label]'),chargeTime=$('[data-charge-time]');
  let state=null,rooms=[],options=null,fetchOptions=null,closed=false,busy=false,epoch=0,timer,uiTimer,picker='mercenaries',selected={cardIds:[],mercenaryCodes:[]},pinnedId=null,displayKey='',createId=crypto.randomUUID(),battle=null,replay=null,mounting=null,prewarm=null,battleEpoch=0,frameIndex=-1,prKey='',preparation=null,loadingError=false,displayTest=false,loadedPart=-1,pendingPart=null,groundKey='',lastPartAttempt=0;
@@ -356,7 +373,7 @@ export function openCitadel(trigger,firstRead=null){
    nextEntryAt=null;queueMicrotask(()=>{if(!closed)draw();});
   }
  }
- function release(){battleEpoch++;lootBag?.destroy();lootBag=null;hitReceipts=null;clearTimeout(impactTimer);clearInterval(uiTimer);uiTimer=null;battle?.destroy();battle=null;preparation?.close?.();preparation=null;prewarm=null;prKey='';replay=null;mounting=null;frameIndex=-1;loadedPart=-1;pendingPart=null;groundKey='';lastPartAttempt=0;loadingError=false;if(box.contains(energyHud))energyHome.before(energyHud);box.hidden=true;box.replaceChildren();d.classList.remove('in-battle','ct-light-field');void window.ProjectVPixiBattle?.releaseBattle?.({onlyIfIdle:true})?.catch?.(()=>{});}
+ function release(){battleEpoch++;lootBag?.destroy();lootBag=null;hitReceipts=null;clearTimeout(impactTimer);cancelAnimationFrame(impactRaf);clearInterval(uiTimer);uiTimer=null;battle?.destroy();battle=null;preparation?.close?.();preparation=null;prewarm=null;prKey='';replay=null;mounting=null;frameIndex=-1;loadedPart=-1;pendingPart=null;groundKey='';lastPartAttempt=0;loadingError=false;if(box.contains(energyHud))energyHome.before(energyHud);box.hidden=true;box.replaceChildren();d.classList.remove('in-battle','ct-light-field');void window.ProjectVPixiBattle?.releaseBattle?.({onlyIfIdle:true})?.catch?.(()=>{});}
  function close(){if(closed)return;closed=true;scope.abort();clearTimeout(energyTimer);firstRead?.controller.abort();clearTimeout(timer);release();d.close();d.remove();active=null;if(trigger?.isConnected)trigger.focus?.({preventScroll:true});}
  d.addEventListener('cancel',e=>{e.preventDefault();close();});
  window.addEventListener('pagehide',close,{signal:sig});
@@ -369,7 +386,7 @@ export function openCitadel(trigger,firstRead=null){
   }
   timer=setTimeout(refresh,ms);
  }
- document.addEventListener('visibilitychange',()=>{if(document.hidden){pauseNet();clearTimeout(energyTimer);clearTimeout(impactTimer);}else if(!busy){drawEnergy();impactTick();void refresh();}},{signal:sig});
+ document.addEventListener('visibilitychange',()=>{if(document.hidden){pauseNet();clearTimeout(energyTimer);clearTimeout(impactTimer);cancelAnimationFrame(impactRaf);}else if(!busy){drawEnergy();impactTick();void refresh();}},{signal:sig});
  async function refresh(initial=null){
   if(closed||busy||document.hidden||readingEpoch===epoch)return;const e=++epoch,at=initial?.sentAt??performance.now();readingEpoch=e;pauseNet();
   try{const v=await (initial?.lobby||request(state?'state?id='+state.id:'lobby'));if(closed||e!==epoch)return;if(v.rooms){publicRooms=v.rooms;ownRooms=v.clanRooms||[];clanOpen=v.clanOpen===true;hideout=v.clanHideout||null;publicOpen=v.open===true;}
@@ -485,7 +502,7 @@ export function openCitadel(trigger,firstRead=null){
   }).catch(()=>{}).finally(()=>{if(gen===battleEpoch)pendingPart=null;});
  }
  function impactTick(){
-  clearTimeout(impactTimer);
+  clearTimeout(impactTimer);cancelAnimationFrame(impactRaf);
   if(!battle||!replay||!state||closed||document.hidden)return;
   const now=clock.now(),elapsed=state.startsAt?now-state.startsAt:-1,frames=replay.frames;
   let idx=frameIndex;
@@ -497,8 +514,10 @@ export function openCitadel(trigger,firstRead=null){
   }
   if(state.status!=='ACTIVE'||!state.startsAt)return;
   if(elapsed>=0)hitReceipts.tick(elapsed);
-  const next=Math.min(frames[idx+1]?.[0]??Infinity,hitReceipts.nextAt());
-  if(Number.isFinite(next))impactTimer=setTimeout(impactTick,Math.max(1,Math.ceil(next-elapsed)));
+  const next=hitReceipts.nextAt(frames[idx+1]?.[0]??Infinity);
+  if(Number.isFinite(next))impactTimer=setTimeout(()=>{
+   if(battle?.projection)impactRaf=requestAnimationFrame(impactTick);else impactTick();
+  },Math.max(1,Math.ceil(next-elapsed)));
  }
  function clockHud(){
   if(!battle||!replay||!state||closed||document.hidden)return;
@@ -542,7 +561,7 @@ export function openCitadel(trigger,firstRead=null){
     replay.frames=citadelPlaybackFrames(v.chunk,replay,seed);
     const host=box.querySelector('.coop-battle-mount');let mounted;if(renderer){try{mounted=await renderer.mountCoopBattle(host,replay.payload,{title:'군단토벌 · 불타는 성채',playerName:'성채 토벌대',clock});}catch{if(!valid())return;liteOnly=true;preparation?.close?.();preparation=null;void window.ProjectVPixiBattle?.releaseBattle?.({onlyIfIdle:true})?.catch?.(()=>{});}}if(!mounted){d.classList.add('ct-light-field');const sprites=icons||await loadIconSprites();if(!valid())return;mounted=mountLite(host,replay.payload,replay.units,sprites);}
     if(!valid()){mounted.destroy();return;}battle=mounted;
-    hitReceipts=mountHitReceipts(box.querySelector('.ct-hit-layer'),mounted.projection||(()=>window.ProjectVPixiBattle.citadelProjection()),replay);
+    hitReceipts=mountHitReceipts(box.querySelector('.ct-hit-layer'),mounted.projection||(()=>window.ProjectVPixiBattle.citadelProjection()),replay,!!mounted.projection);
     hitReceipts.append(v.part,v.chunk.events);battle.update({state,serverNow:clock.now(),payload:replay.payload});frameIndex=-1;prKey='';impactTick();clockHud();
     const notice=box.querySelector('.coop-battle-notice');notice.hidden=true;uiTimer=setInterval(clockHud,250);
     if(state.status==='LOADING'){const response=await request('loaded',{method:'POST',body:{id}});if(valid()){apply(response.state);schedule();}}

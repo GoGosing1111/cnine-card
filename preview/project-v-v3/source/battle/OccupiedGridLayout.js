@@ -233,7 +233,7 @@ export const withOccupiedGrid = Base => class extends Base {
     }
   }
   gridDiagnostics() {
-    const tiles = (this.isoTiles || []).filter(t => t.visible).map(t => ({id: t.station?.id || t.label, x: t.x, y: t.y, kind: t.station?.kind, style: t.groundStyle, asset: t.groundAsset}));
+    const tiles = (this.isoTiles || []).filter(t => !t.destroyed && t.visible).map(t => ({id: t.station?.id || t.label, x: t.x, y: t.y, kind: t.station?.kind, style: t.groundStyle, asset: t.groundAsset}));
     const w = this.isoConfig?.tileWidth || 0, h = this.isoConfig?.tileHeight || 0;
     const left = Math.min(...tiles.map(t => t.x - w / 2)), right = Math.max(...tiles.map(t => t.x + w / 2));
     const top = Math.min(...tiles.map(t => t.y - h / 2)), bottom = Math.max(...tiles.map(t => t.y + h / 2));

@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {Container, Sprite} from 'pixi.js';
 import {battleGroundStyle, BATTLE_GROUND_ASSETS} from '../preview/project-v-v3/source/battle/BattleGroundStyle.mjs';
-import {createBattleGroundSigil} from '../preview/project-v-v3/source/battle/BattleGroundSigil.js';
+import {createBattleGroundSigil,drawBattleGroundStations} from '../preview/project-v-v3/source/battle/BattleGroundSigil.js';
 import {withOccupiedGrid} from '../preview/project-v-v3/source/battle/OccupiedGridLayout.js';
 import {petSupportPosition, petBattleDisplaySize} from '../preview/project-v-v3/source/battle/PetSupportLayout.mjs';
 import {ALL_LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
@@ -77,4 +77,15 @@ test('all five runtime assets preserve their generated originals and transparent
       assert.equal(createHash('sha256').update(readFileSync(new URL(file,root))).digest('hex'),expected);
     assert(BATTLE_GROUND_ASSETS[row.name].endsWith(row.runtime));
   }
+});
+
+test('Citadel respawns reuse neighboring floor sprites and retire only the vacated slot',()=>{
+ const layer=new Container(),engine={formationCitadel:true,isoFloorLayer:layer,isoConfig:{tileWidth:190,tileHeight:64},syncAccountBattleUnitTile(){}};
+ const station=i=>({id:'ENEMY:cards:'+i,kind:'cards',team:'ENEMY',actor:{id:'B:'+i},x:i*100,y:80});
+ const first=[station(0),station(1)];drawBattleGroundStations(engine,first);
+ const [left,right]=engine.isoTiles;
+ drawBattleGroundStations(engine,[{...first[0],actor:{id:'B:0:R1'},x:25}]);
+ assert.equal(engine.isoTiles[0],left);assert.equal(left.x,25);assert.equal(right.destroyed,true);
+ drawBattleGroundStations(engine,first);assert.equal(engine.isoTiles[0],left);assert.notEqual(engine.isoTiles[1],right);
+ assert.equal(layer.children.length,2);layer.destroy({children:true});
 });
