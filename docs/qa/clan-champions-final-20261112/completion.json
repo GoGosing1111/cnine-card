@@ -1,0 +1,186 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:clan-champions:season4:final-20261112T2200KST:v1",
+  "auditId": "58420",
+  "appliedAt": "2026-11-11T13:41:39.879Z",
+  "verifiedAt": "2026-11-11T13:41:58.232Z",
+  "timezone": "Asia/Seoul",
+  "seasonNo": 4,
+  "seasonId": 9,
+  "semifinalWarId": 404,
+  "previousFinalStartKst": "2026-11-13T21:00:00+09:00",
+  "schedule": [
+    {
+      "round": "SEMIFINAL",
+      "startKst": "2026-11-12T21:00:00+09:00",
+      "endKst": "2026-11-12T22:00:00+09:00",
+      "teams": [
+        "한화",
+        "DC"
+      ]
+    },
+    {
+      "round": "FINAL",
+      "startKst": "2026-11-12T22:00:00+09:00",
+      "endKst": "2026-11-12T23:00:00+09:00",
+      "teams": [
+        "FM",
+        "준결승 승자"
+      ]
+    }
+  ],
+  "seeds": [
+    {
+      "name": "FM",
+      "seed": 1,
+      "clanId": 7
+    },
+    {
+      "name": "한화",
+      "seed": 2,
+      "clanId": 4
+    },
+    {
+      "name": "DC",
+      "seed": 3,
+      "clanId": 8
+    }
+  ],
+  "seasonEnd": "2026-11-12T14:00:00.000Z",
+  "verification": {
+    "preflightRolledBack": true,
+    "independentReadOnly": true,
+    "receiptMatched": true,
+    "gameBracket": {
+      "previous": [
+        "2026-11-12T12:00:00.000Z",
+        "2026-11-13T12:00:00.000Z"
+      ],
+      "current": [
+        "2026-11-12T12:00:00.000Z",
+        "2026-11-12T13:00:00.000Z"
+      ],
+      "phase": "SEMIFINAL",
+      "finalParticipantResolvedBy": "Semifinal result",
+      "productionServiceReadMs": {
+        "before": [
+          225,
+          227
+        ],
+        "after": [
+          257,
+          252
+        ]
+      }
+    },
+    "transitionTests": {
+      "passed": 6,
+      "backends": [
+        "SQLite",
+        "PostgreSQL adapter"
+      ],
+      "coverage": [
+        "Kickoff at the booked minute",
+        "Kickoff one second later",
+        "Pending semifinal battle resolves within the booked final"
+      ]
+    },
+    "playerDisplay": {
+      "entry": "로비 → 전체 메뉴 → 클랜전 → 챔피언스리그",
+      "times": [
+        "11월 12일 21:00 KST",
+        "11월 12일 22:00 KST"
+      ],
+      "data": "Public game client with isolated login and a replay of the production bracket view read from PostgreSQL. Windows desktop Chrome and iPhone 13 WebKit emulation.",
+      "measurements": "First and repeat entry per snapshot and platform. Open the clan route and then the Champions League tab. Frames sampled while scrolling the bracket. A previously scheduled one-shot refresh checked for the closed view after 20 seconds. Both platforms made zero additional overview requests in 20.5 seconds.",
+      "desktop": {
+        "before": {
+          "coldLobbyMs": 1495,
+          "entryMs": [
+            294,
+            55
+          ],
+          "bracketTabPaintMs": [
+            78,
+            28
+          ],
+          "frameP95Ms": [
+            21,
+            4
+          ],
+          "framesOver50Ms": [
+            0,
+            0
+          ],
+          "samplesPerEntry": 24,
+          "postExitOverviewRequests": 0
+        },
+        "after": {
+          "coldLobbyMs": 886,
+          "entryMs": [
+            210,
+            35
+          ],
+          "bracketTabPaintMs": [
+            54,
+            21
+          ],
+          "frameP95Ms": [
+            12,
+            4
+          ],
+          "framesOver50Ms": [
+            0,
+            0
+          ],
+          "samplesPerEntry": 24,
+          "postExitOverviewRequests": 0
+        }
+      },
+      "mobile": {
+        "before": {
+          "coldLobbyMs": 2235,
+          "entryMs": [
+            531,
+            251
+          ],
+          "bracketTabPaintMs": [
+            281,
+            167
+          ],
+          "frameP95Ms": [
+            46,
+            30
+          ],
+          "framesOver50Ms": [
+            1,
+            1
+          ],
+          "samplesPerEntry": 24,
+          "postExitOverviewRequests": 0
+        },
+        "after": {
+          "coldLobbyMs": 1484,
+          "entryMs": [
+            453,
+            236
+          ],
+          "bracketTabPaintMs": [
+            280,
+            173
+          ],
+          "frameP95Ms": [
+            32,
+            30
+          ],
+          "framesOver50Ms": [
+            1,
+            1
+          ],
+          "samplesPerEntry": 24,
+          "postExitOverviewRequests": 0
+        }
+      }
+    }
+  }
+}
