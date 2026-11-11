@@ -74,7 +74,10 @@ for(const postgres of [false,true]){
    const receipt=ok(await f.action(1,'claim',{id:paid})).state;assert.equal(receipt.drops[0].quantity,19);assert.equal(receipt.claimed,true);
    ok(await f.action(1,'claim',{id:paid}));const inventory=await f.db.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=1').first();assert.equal(Number(inventory.quantity),19);
    assert.equal((await f.db.prepare('SELECT COUNT(*) AS n FROM cnine_user_inventory WHERE user_id=2').first()).n.toString(),'0');
-   assert.deepEqual((await read(f,'legion_hunt_owner_session_v1:2')).energy.current,9);
+   for(const uid of [1,2]){
+    assert.equal(await read(f,'legion_hunt_owner_session_v1:'+uid),null);
+    assert.equal(Number(await read(f,'legion_citadel_v1:next-entry:'+uid)),active.startsAt+6*3600000);
+   }
   }finally{await f.close();}
  });
 }
