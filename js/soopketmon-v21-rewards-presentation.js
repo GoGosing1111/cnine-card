@@ -1,7 +1,7 @@
 (function soopketmonV21RewardsPresentation(global) {
   'use strict';
 
-  const VERSION = '21.4.2-message-cleanup';
+  const VERSION = '20261111-attendance';
   const ROOT_SELECTOR = '.v21-production-shell[data-soopketmon-v21-shell="approved-v21"]';
   const script = document.currentScript;
   let frame = 0;
@@ -51,52 +51,6 @@
     document.head.append(link);
   }
 
-  function numberFrom(text) {
-    const match = String(text || '').replace(/,/g, '').match(/\d+/);
-    return match ? Math.max(0, Number(match[0]) || 0) : 0;
-  }
-
-  function buildAttendanceCycle(panel) {
-    if (panel.querySelector('.v21-attendance-cycle')) return;
-    const stats = [...panel.querySelectorAll('.attendance-stats span')];
-    const streak = numberFrom(stats.find(node => node.textContent.includes('현재 연속'))?.textContent);
-    const completedToday = stats.some(node => node.textContent.includes('수령 완료'));
-    const nextDay = Math.min(7, Math.max(1, numberFrom(panel.querySelector('.attendance-reward span')?.textContent) || 1));
-    const completedThrough = completedToday ? Math.min(7, streak) : Math.min(7, Math.max(0, nextDay - 1));
-    const cycle = document.createElement('ol');
-    cycle.className = 'v21-attendance-cycle';
-    cycle.setAttribute('aria-label', '7일 연속 출석 진행도');
-    for (let day = 1; day <= 7; day += 1) {
-      const item = document.createElement('li');
-      if (day <= completedThrough) item.classList.add('is-complete');
-      if (!completedToday && day === nextDay) item.classList.add('is-current');
-      item.setAttribute('aria-label', `${day}일차${day <= completedThrough ? ' 완료' : (!completedToday && day === nextDay ? ' 수령 예정' : '')}`);
-      const label = document.createElement('span'); label.textContent = 'DAY';
-      const value = document.createElement('b'); value.textContent = String(day);
-      item.append(label, value); cycle.append(item);
-    }
-    const claim = panel.querySelector('#claimAttendance');
-    if (claim) panel.querySelector('.attendance-copy')?.insertBefore(cycle, claim);
-    else panel.querySelector('.attendance-copy')?.append(cycle);
-  }
-
-  function enhanceAttendance(root) {
-    const panel = root.querySelector('.attendance-panel');
-    if (!panel) return;
-    panel.dataset.v21RewardUi = 'attendance';
-    buildAttendanceCycle(panel);
-    const coupon = root.querySelector('.coupon-panel');
-    if (coupon) coupon.dataset.v21RewardUi = 'coupon';
-    const input = root.querySelector('#couponCode');
-    if (input) {
-      if (!input.getAttribute('aria-label')) input.setAttribute('aria-label', '쿠폰 코드');
-      input.setAttribute('inputmode', 'text');
-      input.setAttribute('enterkeyhint', 'done');
-      input.setAttribute('autocorrect', 'off');
-      input.setAttribute('spellcheck', 'false');
-    }
-  }
-
   function enhanceMessages(root) {
     const center = root.querySelector('.message-center');
     if (!center) return;
@@ -137,13 +91,12 @@
     frame = 0;
     const root = document.querySelector(ROOT_SELECTOR);
     if (!root) return false;
-    enhanceAttendance(root);
     enhanceMessages(root);
     return true;
   }
 
   function schedule() {
-    if (frame) return;
+    if (frame || !document.getElementById('claimAllMessages')) return;
     frame = requestAnimationFrame(enhance);
   }
 

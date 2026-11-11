@@ -69,8 +69,10 @@ test('mobile reward presentation keeps the generated claim control full width', 
   assert.match(mobile, /\.message-head \.message-claim-all\s*\{[\s\S]*?width:\s*100%/);
 });
 
-test('message presentation cache version matches the inbox cleanup release', async () => {
+test('the reward presentation script and its stylesheet use the same release version', async () => {
   const [index, presentation] = await Promise.all([read('index.html'), read('js/soopketmon-v21-rewards-presentation.js')]);
-  assert.match(index, /soopketmon-v21-rewards-presentation\.js\?v=21\.4\.2-message-cleanup/);
-  assert.match(presentation, /const VERSION = '21\.4\.2-message-cleanup'/);
+  const version = presentation.match(/const VERSION = '([^']+)'/)[1];
+  assert.ok(index.includes('js/soopketmon-v21-rewards-presentation.js?v=' + version + '"'));
+  assert.ok(presentation.includes('soopketmon-v21-messages-attendance.css'));
+  assert.ok(presentation.includes('?v=${VERSION}'));
 });

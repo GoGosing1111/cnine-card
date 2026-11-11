@@ -19,11 +19,7 @@
   --v21-reward-danger: #ff7e85;
 }
 
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] :is(
-  .attendance-panel,
-  .coupon-panel,
-  .message-center
-) {
+.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .message-center {
   box-sizing: border-box;
   width: 100%;
   max-width: 100%;
@@ -34,10 +30,6 @@
 }
 
 .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] :is(
-  .attendance-copy,
-  .attendance-reward,
-  .attendance-stats,
-  .coupon-form,
   .message-head,
   .message-list,
   .user-message,
@@ -52,22 +44,16 @@
 }
 
 .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] :is(
-  .attendance-panel,
-  .coupon-panel,
   .message-center,
   .verify-card,
   .user-message
 ) *,
 .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] :is(
-  .attendance-panel,
-  .coupon-panel,
   .message-center,
   .verify-card,
   .user-message
 ) *::before,
 .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] :is(
-  .attendance-panel,
-  .coupon-panel,
   .message-center,
   .verify-card,
   .user-message
@@ -75,11 +61,7 @@
   box-sizing: border-box;
 }
 
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] :is(
-  .attendance-panel,
-  .coupon-panel,
-  .message-center
-) .eyebrow {
+.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .message-center .eyebrow {
   margin: 0;
   color: var(--v21-reward-cyan);
   font-size: 12px;
@@ -88,336 +70,343 @@
   letter-spacing: .14em;
 }
 
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] :is(
-  .attendance-panel,
-  .coupon-panel,
-  .message-center
-) :is(button, a, input) {
+.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .message-center :is(button, a, input) {
   min-height: 44px;
   font-size: 13px;
   touch-action: manipulation;
 }
 
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] :is(
-  .attendance-panel,
-  .coupon-panel,
-  .message-center
-) :is(button, a, input):focus-visible {
+.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .message-center :is(button, a, input):focus-visible {
   outline: 2px solid var(--v21-reward-cyan-bright);
   outline-offset: 2px;
 }
 
-/* Attendance command board ------------------------------------------------ */
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-panel {
-  isolation: isolate;
+/* Attendance uses the same sliced plates, icons and type as the lobby. */
+.attendance-lobby, .v21-live-route[data-live-route="attendance"] {
+  --att-frame: url('/assets/ui/tactical-20261030/panel-flat.webp');
+  --att-action: url('/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp');
+  --att-font: 'Pretendard Variable', Pretendard, 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  --att-heading: 'Black Han Sans', var(--att-font);
+  --att-text: #f4f8fb;
+  --att-muted: #b7c9d7;
+  --att-line: #41576c;
+  --att-cyan: #8ceaff;
+  --att-gold: #ffdf96;
+  font-family: var(--att-font);
+}
+.page.game-frame .v21-live-route[data-live-route="attendance"] > .v21-route-command-head {
+  color: var(--att-text);
+  border-bottom: 1px solid var(--att-line);
+  background: #152b3d;
+}
+.page.game-frame .v21-live-route[data-live-route="attendance"] > header h1 {
+  font: 400 24px/1.15 var(--att-heading);
+}
+.page.game-frame .v21-live-route[data-live-route="attendance"] > header button,
+#attendanceCoupon button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 3px 13px;
+  border: 5px solid transparent;
+  border-image: var(--att-frame) 48 fill / 9px stretch;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--att-text);
+  font: 750 14px/1.3 var(--att-font);
+  cursor: pointer;
+}
+.page.game-frame .v21-live-route[data-live-route="attendance"] > header [data-v21-home] {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+}
+.page.game-frame .v21-live-route[data-live-route="attendance"] > header [data-v21-all] {
+  width: max-content;
+  justify-self: end;
+  white-space: nowrap;
+}
+.v21-live-route[data-live-route="attendance"] > header .tactical-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+.attendance-lobby {
+  width: min(100%, 1320px);
+  min-width: 0;
+  margin: 0 auto;
+  color: var(--att-text);
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+}
+.attendance-lobby *, .attendance-lobby *::before, .attendance-lobby *::after {
+  box-sizing: border-box;
+}
+.attendance-lobby :is(h2, h3, p, ol, dl, dt, dd) { margin: 0; }
+.attendance-lobby img { display: block; object-fit: contain; }
+.attendance-lobby ::selection { color: #0d2430; background: var(--att-cyan); }
+.attendance-lobby :is(button, input):focus-visible {
+  outline: 2px solid var(--att-cyan);
+  outline-offset: 2px;
+}
+#attendanceBoard, #attendanceCoupon {
+  position: relative;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 8px solid transparent;
+  border-image: var(--att-frame) 48 fill / 14px stretch;
+  border-radius: 0;
+  background: #112237;
+  box-shadow: none;
+}
+#attendanceBoard { display: block; isolation: isolate; overflow: visible; text-align: left; }
+#attendanceBoard::before, #attendanceBoard::after { display: none; }
+#attendanceBoard .attendance-hero {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(230px, .65fr);
-  align-items: stretch;
-  gap: clamp(20px, 3vw, 44px);
-  min-height: 390px;
-  margin: 0;
-  padding: clamp(28px, 4.2vw, 58px);
+  grid-template-columns: 1.1fr 1fr;
+  align-items: center;
+  isolation: isolate;
+  min-height: 250px;
+  margin: 3px;
+  padding: 24px 5%;
   overflow: hidden;
-  border: 1px solid var(--v21-reward-line);
-  border-left: 4px solid var(--v21-reward-cyan);
-  border-radius: 2px;
-  background:
-    linear-gradient(90deg, rgba(115, 212, 232, .026) 1px, transparent 1px) 0 0 / 58px 58px,
-    linear-gradient(rgba(115, 212, 232, .02) 1px, transparent 1px) 0 0 / 58px 58px,
-    linear-gradient(132deg, rgba(18, 28, 37, .99), rgba(7, 11, 16, .99) 74%);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, .28), inset 0 1px rgba(255, 255, 255, .025);
+  border-bottom: 1px solid #526276;
+  background-color: #12243a;
+  background-image: radial-gradient(ellipse at 75% 68%, #e2b15b36, transparent 30%),
+    linear-gradient(90deg, #13273b 1%, #112539ef 28%, #14304763 65%, #1121323b),
+    url('/assets/ui/pve-command-v2/deck-command-hangar-v1-1280.avif');
+  background-position: center, center, 50% 60%;
+  background-size: cover;
 }
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-panel::before {
-  content: "LOGIN PROTOCOL / 07";
-  position: absolute;
-  z-index: -1;
-  top: 21px;
-  right: 25px;
-  color: rgba(156, 236, 247, .2);
-  font-size: 12px;
-  font-weight: 850;
-  letter-spacing: .18em;
-}
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-panel::after {
-  content: "";
-  position: absolute;
-  z-index: -2;
-  right: -12%;
-  bottom: -52%;
-  width: 62%;
-  aspect-ratio: 1;
-  border: 1px solid rgba(115, 212, 232, .12);
-  transform: rotate(45deg);
-  background: rgba(115, 212, 232, .018);
-}
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-glow {
-  z-index: -1;
-  inset: auto -9% -60% auto;
-  width: min(540px, 48vw);
-  height: min(540px, 48vw);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(115, 212, 232, .12), transparent 68%);
-  pointer-events: none;
-}
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-copy {
-  z-index: 1;
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-copy h2 {
-  margin: 10px 0 12px;
-  color: var(--v21-reward-text);
-  font-size: clamp(32px, 4vw, 52px);
-  line-height: 1.04;
-  letter-spacing: -.055em;
-}
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-copy > p:not(.eyebrow) {
-  max-width: 680px;
-  margin: 0;
-  color: var(--v21-reward-muted);
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.65;
-}
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1px;
-  width: min(100%, 720px);
-  margin: 27px 0 0;
-  overflow: hidden;
-  border: 1px solid var(--v21-reward-line);
-  border-radius: 2px;
-  background: var(--v21-reward-line);
-}
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-stats span {
-  display: grid;
-  align-content: center;
-  gap: 4px;
-  min-width: 0;
-  min-height: 72px;
-  padding: 12px 14px;
-  border: 0;
-  border-radius: 0;
-  color: var(--v21-reward-muted);
-  background: rgba(9, 15, 21, .96);
-  font-size: 12px;
-  line-height: 1.25;
-}
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-stats b {
-  color: var(--v21-reward-text);
-  font-size: 16px;
+#attendanceBoard .attendance-intro { position: relative; z-index: 1; min-width: 0; text-align: left; }
+#attendanceBoard .attendance-intro h2 {
+  color: var(--att-text);
+  font: 400 38px/1.12 var(--att-heading);
   letter-spacing: -.025em;
 }
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .v21-attendance-cycle {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(42px, 1fr));
-  gap: 5px;
-  width: min(100%, 720px);
-  margin: 14px 0 24px;
-  padding: 0;
-  list-style: none;
-}
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .v21-attendance-cycle li {
-  display: grid;
-  place-content: center;
-  min-height: 52px;
-  border: 1px solid rgba(205, 226, 232, .11);
-  color: #72858c;
-  text-align: center;
-  background: #0a1016;
-}
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .v21-attendance-cycle li span {
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .v21-attendance-cycle li b {
-  margin-top: 4px;
-  font-size: 14px;
-}
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .v21-attendance-cycle li.is-complete {
-  border-color: rgba(115, 212, 232, .24);
-  color: #a8bbc0;
-  background: rgba(31, 59, 68, .48);
-}
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .v21-attendance-cycle li.is-current {
-  border-color: var(--v21-reward-cyan);
-  color: #061015;
-  background: var(--v21-reward-cyan);
-  box-shadow: 0 0 22px rgba(115, 212, 232, .16);
-}
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-claim.btn {
-  min-width: min(320px, 100%);
-  min-height: 50px;
-  padding: 13px 22px;
-  border: 1px solid rgba(156, 236, 247, .7);
-  border-radius: 2px;
-  color: #effbfc;
-  background: linear-gradient(135deg, #17323b, #0d1e25);
-  box-shadow: inset 4px 0 var(--v21-reward-cyan);
-  font-size: 14px;
-  font-weight: 850;
-}
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-claim.btn:not(:disabled):hover {
-  border-color: var(--v21-reward-cyan-bright);
-  background: linear-gradient(135deg, #1d414c, #112932);
-}
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-claim.btn:disabled {
-  border-color: rgba(205, 226, 232, .15);
-  color: #75868b;
-  background: #10171d;
-  box-shadow: inset 4px 0 #3b484d;
-  filter: none;
-  opacity: 1;
-}
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-reward {
-  align-self: center;
-  position: relative;
-  z-index: 1;
+#attendanceBoard .attendance-today {
   display: flex;
-  width: min(100%, 290px);
-  height: auto;
-  min-height: 250px;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 30px 22px;
-  border: 1px solid var(--v21-reward-line-cyan);
-  border-radius: 2px;
-  background:
-    linear-gradient(135deg, rgba(115, 212, 232, .1), transparent 46%),
-    linear-gradient(145deg, #111c24, #090f15);
-  box-shadow: 0 25px 60px rgba(0, 0, 0, .34), inset 0 1px rgba(255, 255, 255, .04);
-  clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+  gap: 9px;
+  margin: 18px 0 2px;
+  color: #d2deea;
+  font-size: 14px;
+  font-weight: 650;
 }
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-reward::before,
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-reward::after {
-  content: "";
-  position: absolute;
-  left: 28px;
-  right: 28px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(115, 212, 232, .58), transparent);
-}
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-reward::before { top: 28px; }
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-reward::after { bottom: 28px; }
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-reward span,
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-reward small {
-  color: var(--v21-reward-cyan);
-  font-size: 12px;
-  font-weight: 850;
-  line-height: 1.3;
-  letter-spacing: .16em;
-}
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-reward strong {
-  margin: 14px 0 11px;
-  color: var(--v21-reward-text);
-  font-size: clamp(34px, 4vw, 48px);
+#attendanceBoard .attendance-today b {
+  padding-left: 9px;
+  border-left: 1px solid #738492;
+  color: var(--att-gold);
   line-height: 1;
-  letter-spacing: -.055em;
 }
-
-/* Coupon station --------------------------------------------------------- */
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .coupon-panel {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(360px, .72fr);
+#attendanceBoard .attendance-amount {
+  display: flex;
   align-items: center;
-  gap: clamp(22px, 4vw, 54px);
-  margin-top: 14px;
-  padding: clamp(22px, 3vw, 34px);
-  border: 1px solid var(--v21-reward-line);
-  border-left: 4px solid rgba(115, 212, 232, .58);
-  border-radius: 2px;
-  background:
-    linear-gradient(90deg, rgba(115, 212, 232, .022) 1px, transparent 1px) 0 0 / 48px 48px,
-    linear-gradient(140deg, #111820, #090e13);
-  box-shadow: 0 18px 45px rgba(0, 0, 0, .2);
+  gap: 8px;
+  color: var(--att-gold);
+  font-size: 19px;
+  font-weight: 750;
+  line-height: 1.12;
+  white-space: nowrap;
 }
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .coupon-panel h2 {
-  margin: 7px 0 6px;
-  color: var(--v21-reward-text);
-  font-size: clamp(23px, 2.3vw, 31px);
-  line-height: 1.15;
+#attendanceBoard .attendance-amount strong {
+  color: #ffdf96;
+  font: 750 44px/1.16 var(--att-font);
   letter-spacing: -.035em;
 }
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .coupon-panel p:not(.eyebrow) {
-  margin: 0;
-  color: var(--v21-reward-muted);
-  font-size: 13px;
-  line-height: 1.55;
+#attendanceBoard .attendance-action {
+  min-width: 202px;
+  min-height: 46px;
+  margin: 16px 0 0;
+  padding: 5px 19px;
+  border: 6px solid transparent;
+  border-image: var(--att-action) 38 fill / 9px stretch;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: #162206;
+  font: 800 16px/1.35 var(--att-font);
+  cursor: pointer;
 }
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .coupon-form {
+#attendanceBoard .attendance-action:disabled {
+  border-image: var(--att-frame) 48 fill / 9px stretch;
+  color: #d3e1eb;
+  opacity: 1;
+  cursor: default;
+}
+#attendanceBoard .attendance-chest {
+  position: absolute;
+  right: 11%;
+  bottom: 2%;
+  width: 31%;
+  height: 94%;
+  pointer-events: none;
+}
+#attendanceBoard .attendance-week { padding: 19px 3% 18px; }
+#attendanceBoard .attendance-week-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 18px;
+  margin-bottom: 13px;
+}
+#attendanceBoard .attendance-week-head h3, #attendanceCoupon h2 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--att-text);
+  font: 780 20px/1.25 var(--att-font);
+  letter-spacing: -.025em;
+}
+#attendanceBoard .attendance-week-head img { width: 35px; height: 35px; }
+#attendanceBoard .attendance-counts, #attendanceBoard .attendance-counts div {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+#attendanceBoard .attendance-counts { flex-wrap: wrap; gap: 6px 16px; }
+#attendanceBoard .attendance-counts div + div { padding-left: 16px; border-left: 1px solid var(--att-line); }
+#attendanceBoard .attendance-counts dt { color: var(--att-muted); font-size: 13px; }
+#attendanceBoard .attendance-counts dd { color: var(--att-text); font-size: 16px; font-weight: 750; }
+#attendanceBoard .attendance-strip {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 8px;
-  width: 100%;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+}
+#attendanceBoard .attendance-strip li {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 3px;
   min-width: 0;
-  margin: 0;
+  min-height: 110px;
+  padding: 7px 3px;
+  border: 1px solid #39526a;
+  background: #102135;
+  color: var(--att-muted);
 }
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .coupon-form input {
-  width: 100%;
-  max-width: 100%;
+#attendanceBoard .attendance-strip li > b { font-size: 13px; font-weight: 650; }
+#attendanceBoard .attendance-strip img { width: 38px; height: 38px; }
+#attendanceBoard .attendance-strip strong { color: var(--att-text); font-size: 15px; line-height: 1.15; overflow-wrap: anywhere; }
+#attendanceBoard .attendance-strip small { display: flex; align-items: center; gap: 4px; font-size: 11px; line-height: 1.3; }
+#attendanceBoard .attendance-strip .is-done { background: #172c3d; }
+#attendanceBoard .attendance-strip .is-done img { opacity: .72; }
+#attendanceBoard .attendance-strip [aria-current="date"] { border: 2px solid var(--att-cyan); padding: 6px 2px; background: #1a394b; color: var(--att-cyan); }
+#attendanceBoard .attendance-strip [aria-current="date"] strong { color: #fff1be; }
+#attendanceBoard .attendance-check {
+  display: inline-block;
+  width: 9px;
+  height: 5px;
+  margin-top: -2px;
+  border: solid currentColor;
+  border-width: 0 0 1.5px 1.5px;
+  transform: rotate(-45deg);
+}
+#attendanceBoard .attendance-rule, #attendanceCoupon .attendance-coupon-copy p {
+  color: var(--att-muted);
+  font-size: 13px;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+#attendanceBoard .attendance-rule { margin-top: 12px; }
+#attendanceCoupon {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) minmax(260px, .85fr);
+  align-items: center;
+  gap: 0 22px;
+  margin-top: 13px;
+  padding: 17px 3%;
+}
+#attendanceCoupon .attendance-coupon-copy { display: flex; align-items: center; gap: 14px; }
+#attendanceCoupon .attendance-coupon-copy img { width: 54px; height: 54px; flex: none; }
+#attendanceCoupon .attendance-coupon-copy p { margin-top: 4px; }
+#attendanceCoupon form { display: flex; gap: 8px; min-width: 0; }
+#attendanceCoupon input {
+  flex: 1;
+  width: 0;
   min-width: 0;
-  min-height: 50px;
-  padding: 12px 15px;
-  border: 1px solid rgba(205, 226, 232, .2);
-  border-radius: 2px;
-  color: var(--v21-reward-text);
-  background: #070c11;
-  font-family: inherit;
-  font-size: 16px;
-  letter-spacing: .06em;
+  height: 46px;
+  padding: 0 14px;
+  border: 1px solid #60788c;
+  border-radius: 3px;
+  background: #0a1929;
+  color: var(--att-text);
+  caret-color: var(--att-cyan);
+  font: 500 16px var(--att-font);
 }
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .coupon-form input::placeholder {
-  color: #65767b;
-  letter-spacing: 0;
+#attendanceCoupon input::placeholder { color: #9caec0; }
+#attendanceCoupon button { min-width: 95px; min-height: 46px; color: #deefff; }
+#attendanceCoupon button:disabled { cursor: wait; color: var(--att-muted); }
+.attendance-lobby .attendance-feedback { grid-column: 1/-1; margin: 0; color: var(--att-cyan); font-size: 14px; line-height: 1.55; }
+.attendance-lobby .attendance-feedback:not(:empty) { padding-top: 8px; }
+#attendanceCoupon .attendance-feedback:not(:empty) { padding: 8px 0 0; }
+.attendance-lobby .attendance-feedback.is-error { color: #ffbdaf; }
+@media (hover: hover) {
+  #attendanceBoard button:hover:not(:disabled), #attendanceCoupon button:hover:not(:disabled) { filter: brightness(1.13); }
 }
-
-.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .coupon-form .btn {
-  min-width: 138px;
-  min-height: 50px;
-  padding: 12px 18px;
-  border: 1px solid rgba(156, 236, 247, .62);
-  border-radius: 2px;
-  color: #eefbfc;
-  background: #15313a;
-  box-shadow: inset 3px 0 var(--v21-reward-cyan);
-  font-weight: 850;
+@media (max-width: 850px) {
+  #attendanceCoupon { grid-template-columns: minmax(0, 1fr); row-gap: 12px; }
+  #attendanceCoupon .attendance-feedback { grid-row: 2; }
+  #attendanceCoupon .attendance-feedback:empty { display: none; }
+  #attendanceCoupon .attendance-feedback:not(:empty) { padding: 0; }
+}
+@media (max-width: 640px) {
+  #attendanceBoard, #attendanceCoupon { border-width: 5px; border-image-width: 10px; }
+  #attendanceBoard .attendance-hero {
+    grid-template-columns: 1fr;
+    min-height: 193px;
+    padding: 18px 13px 14px;
+    margin: 2px;
+    background-position: center, center, 60% center;
+  }
+  #attendanceBoard .attendance-intro h2 { font-size: 28px; }
+  #attendanceBoard .attendance-today { margin: 12px 0 4px; font-size: 12px; }
+  #attendanceBoard .attendance-amount { gap: 4px; font-size: 14px; }
+  #attendanceBoard .attendance-amount strong { font-size: 28px; }
+  #attendanceBoard .attendance-amount img { width: 28px; height: 28px; }
+  #attendanceBoard .attendance-chest { right: 1%; bottom: 9%; width: 33%; height: 75%; }
+  #attendanceBoard .attendance-action { min-width: 146px; margin-top: 13px; padding: 4px 12px; font-size: 14px; }
+  #attendanceBoard .attendance-week { padding: 13px 10px; }
+  #attendanceBoard .attendance-week-head { align-items: flex-start; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+  #attendanceBoard .attendance-week-head h3, #attendanceCoupon h2 { font-size: 18px; }
+  #attendanceBoard .attendance-week-head img { width: 29px; height: 29px; }
+  #attendanceBoard .attendance-counts dt { font-size: 12px; }
+  #attendanceBoard .attendance-counts dd { font-size: 14px; }
+  #attendanceBoard .attendance-strip { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; }
+  #attendanceBoard .attendance-strip li { min-height: 86px; gap: 1px; padding: 5px 2px; }
+  #attendanceBoard .attendance-strip [aria-current="date"] { padding: 4px 1px; }
+  #attendanceBoard .attendance-strip li:last-child {
+    grid-column: span 2;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    align-items: center;
+    column-gap: 6px;
+  }
+  #attendanceBoard .attendance-strip li:last-child img { grid-column: 1; grid-row: 1/4; width: 38px; height: 38px; }
+  #attendanceBoard .attendance-strip li:last-child > :not(img) { grid-column: 2; }
+  #attendanceBoard .attendance-strip img { width: 28px; height: 28px; }
+  #attendanceBoard .attendance-strip strong { font-size: 13px; }
+  #attendanceBoard .attendance-strip small { font-size: 11px; }
+  #attendanceBoard .attendance-rule { margin-top: 9px; font-size: 12px; }
+  #attendanceCoupon { margin-top: 9px; padding: 11px 10px 13px; }
+  #attendanceCoupon .attendance-coupon-copy { gap: 9px; }
+  #attendanceCoupon .attendance-coupon-copy img { width: 39px; height: 39px; }
+  #attendanceCoupon .attendance-coupon-copy p { font-size: 12px; }
+  #attendanceCoupon form { gap: 5px; }
+  #attendanceCoupon button { min-width: 78px; padding: 3px 8px; font-size: 13px; }
+}
+@media (max-width: 360px) {
+  #attendanceBoard .attendance-chest { top: 10px; right: 3px; bottom: auto; width: 25%; height: 66px; }
+  #attendanceBoard .attendance-intro h2 { font-size: 25px; }
+  #attendanceBoard .attendance-amount strong { font-size: 25px; }
 }
 
 /* Message operations center --------------------------------------------- */
@@ -901,122 +890,18 @@
 
 /* Compact PC / windowed mode -------------------------------------------- */
 
-@media (min-width: 760px) and (max-width: 1050px) {
-  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-panel {
-    grid-template-columns: minmax(0, 1fr) minmax(205px, .54fr);
-    gap: 20px;
-    padding: 28px;
-  }
-
-  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-reward {
-    min-height: 220px;
-  }
-
-  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .coupon-panel {
-    grid-template-columns: minmax(0, 1fr) minmax(320px, .75fr);
-  }
-}
-
 /* Phone / coarse pointer ------------------------------------------------- */
 
 @media (max-width: 759px), (hover: none) and (pointer: coarse) {
-  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] :is(
-    .attendance-panel,
-    .coupon-panel,
-    .message-center
-  ) {
+  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .message-center {
     max-width: 100%;
     font-size: 13px;
   }
 
-  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-panel {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 22px;
-    min-height: 0;
-    padding: 22px 16px;
-    text-align: left;
-  }
-
-  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-panel::before {
-    top: 15px;
-    right: 14px;
-    font-size: 12px;
-  }
-
-  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-copy {
-    align-items: stretch;
-  }
-
-  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-copy h2 {
-    margin-top: 9px;
-    font-size: 32px;
-  }
-
-  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-copy > p:not(.eyebrow) {
-    font-size: 13px;
-  }
-
-  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-stats {
-    grid-template-columns: 1fr;
-    margin-top: 20px;
-  }
-
-  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-stats span {
-    min-height: 54px;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .v21-attendance-cycle {
-    grid-template-columns: repeat(7, minmax(34px, 1fr));
-    gap: 3px;
-    margin: 11px 0 19px;
-  }
-
-  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .v21-attendance-cycle li {
-    min-height: 48px;
-  }
-
-  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .v21-attendance-cycle li span {
-    font-size: 12px;
-    letter-spacing: -.04em;
-  }
-
-  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-claim.btn {
-    width: 100%;
-    min-height: 50px;
-  }
-
-  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-reward {
-    order: -1;
-    justify-self: stretch;
-    width: 100%;
-    min-height: 148px;
-    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
-  }
-
-  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .attendance-reward strong {
-    font-size: 38px;
-  }
-
-  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .coupon-panel {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 18px;
-    margin-top: 10px;
-    padding: 20px 16px;
-  }
-
-  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .coupon-panel h2 {
-    font-size: 25px;
-  }
-
-  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .coupon-form,
   .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .verify-form {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .coupon-form :is(input, .btn),
   .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .verify-form :is(input, .btn) {
     width: 100%;
     min-width: 0;

@@ -430,7 +430,7 @@
       ['clan', '#clanRoot, .clan-shell'], ['pvp', '#pvpContent, .pvp-cover'], ['battle', '#pveHuntView, #pveRaidView'],
       ['dex', '#dexSections, .dex-cover'], ['upgrade', '#bulkEnhancementRoot, .bulk-enhancement-root'], ['evolution', '#evolutionRoot, .evolution-system'],
       ['magic', '#magicSystemRoot, .magic-lab-hero'], ['character', '#characterSystemRoot, .character-system-root-v1249'], ['avatar', '#avatarShopV1, .avatar-shop-v1-root'], ['alchemy', '#alchemyLiveV1, .alchemy-v1-root'],
-      ['scrapyard', '#scrapyardRootV1881, .ws81-scrapyard'], ['workshop', '#workshopRootV1881, .ws81-workshop, #workshopRootV1676, #workshopRootV1668, .workshop-v1668'], ['attendance', '#attendanceClaim, .attendance-board'],
+      ['scrapyard', '#scrapyardRootV1881, .ws81-scrapyard'], ['workshop', '#workshopRootV1881, .ws81-workshop, #workshopRootV1676, #workshopRootV1668, .workshop-v1668'], ['attendance', '#attendanceBoard, #attendanceClaim, .attendance-board'],
       ['comeback', '#comebackRoot'], ['dailyquest', '#questHubRoot, #dailyQuestRoot, .daily-quest-grid'], ['messages', '#messageList, .message-center'],
       ['rank', '#rankHubRoot, #serverRanking'],
       ['auction', '#auctionHouseRoot, .auction-house-v1553'], ['mineral', '#mineralMyRequests, .mineral-exchange'],
@@ -453,6 +453,7 @@
     // The shared chrome lives outside the native route markers. Feature
     // rerenders replace only their own content, preserving menus and audio.
     let lobby = frame.page.querySelector(':scope > soop-adventure-lobby');
+    const needsInitialModel = !lobby;
     if (!lobby) {
       lobby = global.SoopAdventureLobby.create();
       lobby.setAttribute('data-shared-navigation', '');
@@ -479,7 +480,9 @@
       legacy.inert = true; legacy.setAttribute('aria-hidden', 'true');
     }
     lobby.setRoute(route);
-    lobby.update({ user: userModel(), chief: chiefView() });
+    // The mounted lobby already follows player updates. Refreshing its hidden
+    // character and menus here forces layout before the reward controls paint.
+    if (route !== 'attendance' || needsInitialModel) lobby.update({ user: userModel(), chief: chiefView() });
     return lobby;
   }
 
@@ -513,10 +516,10 @@
     if (!frame.screen.querySelector('.v21-live-route')) {
       const wrapper = document.createElement('section'); wrapper.className = 'v21-live-route'; wrapper.dataset.liveRoute = route;
       const info = ROUTES[route] || ['게임 화면', 'REVERSE CALL', 'menu'];
-      const pveEntry = route === 'battle';
-      const homeIcon = (pveEntry && global.SoopTacticalIcons?.html('home')) || svg('home');
-      const menuIcon = pveEntry ? (global.SoopTacticalIcons?.html('grid') || '') : '';
-      wrapper.innerHTML = `<header class="v21-route-command-head"><button type="button" data-v21-home aria-label="로비로 돌아가기">${homeIcon}</button><div><small>${esc(info[1])}${pveEntry ? '' : ' / LIVE SERVICE'}</small><h1>${esc(info[0])}</h1></div><button type="button" data-v21-all>${menuIcon}전체 메뉴</button></header><div class="v21-route-body"></div>`;
+      const lobbyHeader = route === 'battle' || route === 'attendance';
+      const homeIcon = (lobbyHeader && global.SoopTacticalIcons?.html('home')) || svg('home');
+      const menuIcon = lobbyHeader ? (global.SoopTacticalIcons?.html('grid') || '') : '';
+      wrapper.innerHTML = `<header class="v21-route-command-head"><button type="button" data-v21-home aria-label="로비로 돌아가기">${homeIcon}</button><div><small>${esc(info[1])}${lobbyHeader ? '' : ' / LIVE SERVICE'}</small><h1>${esc(info[0])}</h1></div><button type="button" data-v21-all>${menuIcon}전체 메뉴</button></header><div class="v21-route-body"></div>`;
       const body = wrapper.querySelector('.v21-route-body');
       let node = frame.start.nextSibling;
       const nodes = [];

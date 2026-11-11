@@ -3059,9 +3059,70 @@ async function drawMagicCard(count=1,season='S1'){
   try{const d=await apiRequest('magic/draw',{method:'POST',body:JSON.stringify({requestId:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,count,season})});const current=loadUser();if(current){current.magicCrystals=Number(d.magicCrystals||0);current.cardShards=Number(d.cardShards??current.cardShards??0);current.coin=Number(d.coin??current.coin);saveUser(current)}await showMagicDrawResults(d);await loadMagicView()}catch(e){alert(e.message);buttons.forEach(button=>button.disabled=false);if(btn)btn.textContent=count===10?'아르카나 10회 개방':'아르카나 1회 개방'}
 }
 
+function attendanceProgress(attendance = {}, today = kstDateKey()) {
+  const yesterday = new Date(Date.parse(today + 'T00:00:00Z') - 86400000).toISOString().slice(0, 10);
+  const claimed = attendance.lastClaimDate === today;
+  const continued = attendance.lastClaimDate === yesterday;
+  const recordedDay = ((Math.max(1, Math.trunc(Number(attendance.streak) || 1)) - 1) % 7) + 1;
+  const streak = claimed || continued ? recordedDay : 0;
+  const day = claimed ? recordedDay : (streak % 7) + 1;
+  const defaults = [1000, 1200, 1400, 1600, 1800, 2000, 3000];
+  const rewards = defaults.map((fallback, i) => {
+    const amount = Number(attendance.settings?.rewards?.[i] ?? fallback);
+    return Number.isFinite(amount) ? Math.max(0, Math.trunc(amount)) : fallback;
+  });
+  return { today, day, streak, claimed, enabled: attendance.settings?.enabled !== false, rewards };
+}
+
+function attendanceBoardContent(attendance) {
+  const { day, streak, claimed, enabled, rewards } = attendanceProgress(attendance);
+  const coin = '/assets/ui/icon-fusion-20261004/coin.webp';
+  const busy = attendanceClaimInFlight && !claimed;
+  const claimLabel = !enabled ? '출석 보상 일시 중지' : claimed ? '오늘 보상 수령 완료' : busy ? '수령 중…' : '오늘 보상 받기';
+  const days = rewards.map((reward, index) => {
+    const number = index + 1, current = number === day;
+    const done = number < day || (current && claimed);
+    const state = done ? '수령 완료' : current ? (enabled ? '수령 가능' : '일시 중지') : '예정';
+    const short = reward >= 10000 && reward % 10000 === 0 ? `${(reward / 10000).toLocaleString('ko-KR')}만` : reward.toLocaleString('ko-KR');
+    return `<li class="${done ? 'is-done' : ''}" ${current ? 'aria-current="date"' : ''} aria-label="${number}일차 · ${reward.toLocaleString('ko-KR')}코인 · ${state}">
+      <b>${number}일차</b><img src="${coin}" alt="" width="42" height="42"><strong>${short}</strong>
+      <small>${done ? '<i class="attendance-check" aria-hidden="true"></i>' : ''}${state}</small>
+    </li>`;
+  }).join('');
+  return `<div class="attendance-hero">
+    <div class="attendance-intro">
+      <h2 id="attendanceTitle">연속 출석 보상</h2>
+      <p class="attendance-today">오늘의 보상 <b>${day}일차</b></p>
+      <p class="attendance-amount"><img src="${coin}" alt="" width="48" height="48"><strong>${rewards[day - 1].toLocaleString('ko-KR')}</strong> 코인</p>
+      <button id="claimAttendance" class="attendance-action" type="button" ${enabled && !claimed && !busy ? '' : 'disabled'}>${claimLabel}</button>
+      <p id="attendanceFeedback" class="attendance-feedback" role="status"></p>
+    </div>
+    <img class="attendance-chest" src="/assets/ui/season-pass-v1/reward-chest.webp" alt="" width="260" height="260" decoding="async" fetchpriority="low">
+  </div>
+  <div class="attendance-week">
+    <div class="attendance-week-head">
+      <h3>${window.SoopTacticalIcons?.html('attendance') || ''}7일 출석표</h3>
+      <dl class="attendance-counts"><div><dt>누적 출석</dt><dd>${(Number(attendance.totalDays) || 0).toLocaleString('ko-KR')}일</dd></div><div><dt>현재 연속</dt><dd>${streak}일</dd></div></dl>
+    </div>
+    <ol class="attendance-strip" aria-label="일차별 코인 보상">${days}</ol>
+    <p class="attendance-rule">하루를 쉬거나 7일차 보상을 받으면 다음 출석은 1일차부터 시작합니다.</p>
+  </div>`;
+}
+
 function attendanceView(user) {
-  const claimable = canClaimAttendance(user),a=user.attendance||{},cfg=a.settings||{enabled:true,rewards:[1000,1200,1400,1600,1800,2000,3000]},nextDay=((Number(a.streak||0)%7)+1),reward=Number(cfg.rewards?.[nextDay-1]||1000);
-  return `${summaryBar(user)}<section class="attendance-panel"><div class="attendance-glow"></div><div class="attendance-copy"><p class="eyebrow">DAILY LOGIN REWARD</p><h2>연속 출석 보상</h2><p>하루라도 빠지면 1일차로 초기화되며, 7일 달성 후 다시 1일차부터 반복됩니다.</p><div class="attendance-stats"><span>누적 출석 <b>${a.totalDays||0}일</b></span><span>현재 연속 <b>${a.streak||0}일</b></span><span>오늘 상태 <b>${claimable?'수령 가능':'수령 완료'}</b></span></div><button class="btn attendance-claim" id="claimAttendance" ${(claimable&&cfg.enabled!==false)?'':'disabled'}>${cfg.enabled===false?'출석체크 중지됨':claimable?`${reward.toLocaleString()}코인 받기`:'오늘 보상 수령 완료'}</button></div><div class="attendance-reward"><span>DAY ${nextDay}</span><strong>◈ ${reward.toLocaleString()}</strong><small>COIN REWARD</small></div></section><section class="coupon-panel"><div><p class="eyebrow">COUPON REWARD</p><h2>쿠폰 코드 입력</h2><p>관리자가 발급한 쿠폰 코드를 입력하면 보상이 즉시 지급됩니다.</p></div><form class="coupon-form" id="couponForm"><input id="couponCode" name="couponCode" type="text" maxlength="40" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" enterkeyhint="done" placeholder="쿠폰 코드"><button type="submit" class="btn" id="redeemCoupon">쿠폰 사용</button></form></section>`;
+  return `${summaryBar(user)}<div class="attendance-lobby">
+    <section id="attendanceBoard" class="attendance-panel" aria-labelledby="attendanceTitle">${attendanceBoardContent(user.attendance || {})}</section>
+    <section id="attendanceCoupon" aria-labelledby="attendanceCouponTitle">
+      <div class="attendance-coupon-copy">${window.SoopTacticalIcons?.html('seasonPass') || ''}
+        <div><h2 id="attendanceCouponTitle">쿠폰 코드 입력</h2><p>발급받은 코드를 입력해 보상을 받으세요.</p></div>
+      </div>
+      <form id="couponForm">
+        <input id="couponCode" name="couponCode" type="text" aria-label="쿠폰 코드" aria-describedby="couponFeedback" maxlength="40" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" inputmode="text" enterkeyhint="done" placeholder="쿠폰 코드">
+        <button type="submit" id="redeemCoupon" ${couponRedeemInFlight ? 'disabled' : ''}>${couponRedeemInFlight ? '지급 확인 중…' : '쿠폰 사용'}</button>
+      </form>
+      <p id="couponFeedback" class="attendance-feedback" role="status"></p>
+    </section>
+  </div>`;
 }
 
 let rankedChallengerFxLoading=false;
@@ -5430,7 +5491,61 @@ async function init(){
   if(authenticated)void loadStartupOptionalFeatures(runId);
 }
 function renderLogin(){window.SoopWatchConsent?.close();resetUniqueAdvancementFeatureState();stopPrisonWatch();document.body.classList.remove('prison-locked');if(window.lobbyBgm){try{window.lobbyBgm.stop()}catch(_){}}app.innerHTML=`<div class="login-wrap"><div class="login-box game-panel player-login-box"><img src="assets/ui/brand/reverse-call-20261016/icon-512.png" class="login-logo" alt="리버스콜"><p class="eyebrow">REVERSE CALL COLLECTION GAME</p><h1>리버스콜 로그인</h1><div class="logged-out-notice"><span>로그아웃 상태</span><p>기존 계정은 아래에 개인키를 입력하면 다시 접속할 수 있습니다.</p></div><div class="field key-login-field"><label for="key">기존 계정으로 로그인</label><input id="key" autocomplete="off" autocapitalize="characters" placeholder="CN-XXXX-XXXX-XXXX"></div><button class="btn" id="login">개인키로 로그인</button><p class="login-help">개인키를 분실했다면 운영팀에 재발급을 요청하세요.</p><div class="login-divider"><span>처음 이용하시나요?</span></div><div class="field"><label for="nickname">신규 닉네임</label><input id="nickname" maxlength="20" placeholder="PLAY DK 닉네임 등록"></div><button class="btn secondary" id="start">새 계정 만들기</button></div></div>`;document.getElementById('start').onclick=async()=>{const nickname=document.getElementById('nickname').value.trim();if(!nickname)return alert('닉네임을 입력해주세요.');if(!API_MODE){alert('서버 연결이 없어 계정을 생성할 수 없습니다. 새로고침 후 다시 시도해주세요.');return renderStartupRecovery('서버 연결이 확인되지 않아 계정 생성을 중단했습니다.')}try{const d=await apiRequest('auth/register',{method:'POST',body:JSON.stringify({nickname})});persistPlayerToken(d.token);const user=apiUserToLocal(d.user,d.privateKey);saveUser(user);applyPrisonStatus({incarcerated:false});await refreshCardCatalogForCurrentViewer();await syncUniqueAdvancementFeatureState();renderCreated(user)}catch(e){alert(e.message)}};document.getElementById('login').onclick=async()=>{const key=document.getElementById('key').value.trim();if(!API_MODE){alert('서버 연결이 없어 로그인할 수 없습니다. 새로고침 후 다시 시도해주세요.');return renderStartupRecovery('서버 연결이 확인되지 않아 로그인을 중단했습니다.')}try{const normalizedKey=key.trim().toUpperCase();const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey:normalizedKey})});persistPlayerToken(d.token);saveUser(apiUserToLocal(d.user,normalizedKey));applyPrisonStatus(d.prison||{incarcerated:false});if(isPrisonLocked())return renderLockedPrison();await refreshCardCatalogForCurrentViewer();await syncUniqueAdvancementFeatureState();if(d.maintenance&&!d.bypass)renderMaintenance(d.maintenance,{user:d.user});else{renderShell('buy');void completePendingPlaydkVerification()}}catch(e){alert(e.message)}};document.getElementById('key').onkeydown=e=>{if(e.key==='Enter')document.getElementById('login').click()};document.getElementById('nickname').onkeydown=e=>{if(e.key==='Enter')document.getElementById('start').click()}}
-async function claimAttendance(){if(!API_MODE){const user=loadUser();if(!canClaimAttendance(user))return alert('오늘 접속 보상은 이미 받았습니다.');const cfg=user.attendance?.settings||{rewards:[1000,1200,1400,1600,1800,2000,3000]};user.attendance.streak=(Number(user.attendance.streak||0)%7)+1;const reward=Number(cfg.rewards[user.attendance.streak-1]||1000);user.coin+=reward;user.attendance.lastClaimDate=kstDateKey();user.attendance.totalDays=(user.attendance.totalDays||0)+1;saveUser(user);alert(`오늘의 접속 보상 ${reward.toLocaleString()}코인을 받았습니다.`);return renderShell('attendance')}try{const d=await apiRequest('attendance/claim',{method:'POST'});const u=apiUserToLocal(d.user);u.attendance=d.user.attendance||{lastClaimDate:kstDateKey(),totalDays:(loadUser()?.attendance?.totalDays||0)+1,streak:d.streak||1};saveUser(u);alert(`오늘의 접속 보상 ${d.reward}코인을 받았습니다.`);renderShell('attendance')}catch(e){alert(e.message)}}
+let attendanceClaimInFlight = false;
+
+function attendanceFeedback(id, text, error = false) {
+  const message = document.getElementById(id);
+  if (message) {
+    message.textContent = text;
+    message.classList.toggle('is-error', error);
+  }
+}
+
+async function claimAttendance() {
+  const user = loadUser();
+  if (!user || attendanceClaimInFlight) return;
+  const attendance = user.attendance || {};
+  const progress = attendanceProgress(attendance);
+  if (!progress.enabled || progress.claimed) return;
+  attendanceClaimInFlight = true;
+  const button = document.getElementById('claimAttendance');
+  button.disabled = true;
+  button.textContent = '수령 중…';
+  attendanceFeedback('attendanceFeedback', '');
+  let message, failed = false;
+  try {
+    let reward = progress.rewards[progress.day - 1];
+    if (API_MODE) {
+      const result = await apiRequest('attendance/claim', { method: 'POST' });
+      const updated = apiUserToLocal(result.user);
+      updated.attendance = result.user.attendance || { ...attendance, lastClaimDate: progress.today, totalDays: Number(attendance.totalDays || 0) + 1, streak: result.streak || progress.day };
+      reward = Number(result.reward);
+      saveUser(updated);
+    } else {
+      user.coin += reward;
+      user.attendance = { ...attendance, lastClaimDate: progress.today, totalDays: Number(attendance.totalDays || 0) + 1, streak: progress.day };
+      saveUser(user);
+    }
+    message = `${reward.toLocaleString('ko-KR')}코인을 받았습니다.`;
+  } catch (error) {
+    failed = true;
+    message = error.message;
+    if (Number(error.status) === 409) {
+      try {
+        const { user: latest } = await apiRequest('me');
+        if (latest?.attendance) saveUser(apiUserToLocal(latest));
+      } catch { /* The next visit can retry the profile refresh. */ }
+    }
+  } finally {
+    attendanceClaimInFlight = false;
+    const board = document.getElementById('attendanceBoard');
+    if (board) {
+      board.innerHTML = attendanceBoardContent(loadUser()?.attendance || attendance);
+      board.querySelector('#claimAttendance').onclick = claimAttendance;
+      attendanceFeedback('attendanceFeedback', message, failed);
+    }
+  }
+}
 
 const couponRedeemKeys=new Map();
 let couponRedeemInFlight=false;
@@ -5441,12 +5556,39 @@ async function redeemCouponApi(code){
   for(let attempt=0;attempt<3;attempt++){try{const result=await apiRequest('coupon/redeem',{method:'POST',body:JSON.stringify({code:normalized,operationKey})},{timeoutMs:20000});couponRedeemKeys.delete(normalized);return result}catch(error){lastError=error;if(!couponNetworkError(error)||attempt===2)break;await new Promise(resolve=>setTimeout(resolve,500*(attempt+1)))} }
   if(couponNetworkError(lastError)){const error=new Error('쿠폰 서버 연결이 불안정합니다. 지급 여부를 안전하게 재확인할 수 있으니 잠시 후 쿠폰 사용 버튼을 다시 눌러주세요.');error.code='COUPON_NETWORK_ERROR';throw error}throw lastError;
 }
-async function redeemCoupon(){
-  if(!API_MODE)return alert('현재 쿠폰을 사용할 수 없습니다. 잠시 후 다시 시도해주세요.');
-  const input=document.getElementById('couponCode'),button=document.getElementById('redeemCoupon'),code=input?.value.trim();
-  if(!code)return alert('쿠폰 코드를 입력하세요.');
-  if(couponRedeemInFlight)return;couponRedeemInFlight=true;if(button){button.disabled=true;button.textContent='지급 확인 중...'}
-  try{input?.blur();const d=await redeemCouponApi(code);saveUser(apiUserToLocal(d.user));alert(`쿠폰 사용 완료! ${d.message||`${Number(d.rewardAmount||d.rewardCoin||0).toLocaleString()} ${d.rewardLabel||'보상'}을 받았습니다.`}`);renderShell('attendance')}catch(e){alert(e.message)}finally{couponRedeemInFlight=false;if(button?.isConnected){button.disabled=false;button.textContent='쿠폰 사용'}}
+async function redeemCoupon() {
+  const input = document.getElementById('couponCode');
+  const code = input?.value.trim();
+  if (couponRedeemInFlight || !input) return;
+  if (!code || !API_MODE) {
+    attendanceFeedback('couponFeedback', code ? '현재 쿠폰을 사용할 수 없습니다. 잠시 후 다시 시도해 주세요.' : '쿠폰 코드를 입력해 주세요.', true);
+    if (!code) input.focus();
+    return;
+  }
+  couponRedeemInFlight = true;
+  const button = document.getElementById('redeemCoupon');
+  button.disabled = true;
+  button.textContent = '지급 확인 중…';
+  input.readOnly = true;
+  attendanceFeedback('couponFeedback', '');
+  try {
+    input.blur();
+    const result = await redeemCouponApi(code);
+    saveUser(apiUserToLocal(result.user));
+    input.value = '';
+    const reward = Number(result.rewardAmount || result.rewardCoin || 0).toLocaleString('ko-KR');
+    attendanceFeedback('couponFeedback', `쿠폰 사용 완료! ${result.message || `${reward} ${result.rewardLabel || '보상'}을 받았습니다.`}`);
+  } catch (error) {
+    attendanceFeedback('couponFeedback', error.message, true);
+  } finally {
+    couponRedeemInFlight = false;
+    input.readOnly = false;
+    const current = document.getElementById('redeemCoupon');
+    if (current) {
+      current.disabled = false;
+      current.textContent = '쿠폰 사용';
+    }
+  }
 }
 
 const localOpenPack=openPack;
