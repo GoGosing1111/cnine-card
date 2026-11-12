@@ -1,0 +1,484 @@
+{
+  "verifiedAt": "2026-11-12T17:21:43.549Z",
+  "operation": "시즌 4 종료 확인 및 시즌 5 원로 무작위 배정·자율 가입·50일 대회",
+  "scheduleKST": {
+    "openedAt": "2026-11-13T00:56:36.823+09:00",
+    "elderDrawAndMemberSignupAt": "2026-11-15T00:56:36.823+09:00",
+    "competitionStartsAt": "2026-11-16T00:56:36.823+09:00",
+    "semifinal": "2027-01-04T21:00:00.000+09:00",
+    "final": "2027-01-04T22:00:00.000+09:00",
+    "competitionEndsAt": "2027-01-05T00:56:36.823+09:00"
+  },
+  "registrationAudit": "59532",
+  "lotteryAudit": "59557",
+  "preexistingApplicationsRetained": 4,
+  "calendarWindowId": "3c8d2f77-9257-434a-88f2-854f2ec41eb9",
+  "observedProduction": {
+    "season4": {
+      "season_no": 4,
+      "phase": "COMPLETE",
+      "status": "COMPLETED",
+      "winner_clan_id": 7
+    },
+    "season5PublicStatus": {
+      "kind": "ORGANIZATION",
+      "phase": "FORMATION",
+      "entityId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+      "title": "클랜 원로 모집",
+      "detail": "시즌 5 원로 무작위 배정 · 클랜별 최대 3명",
+      "deadlineAt": "2026-11-14T15:56:36.823Z",
+      "sortOrder": 0
+    },
+    "elderApplicantsAtVerification": 4,
+    "currentApplicantView": {
+      "applied": true,
+      "selected": false,
+      "assignedClub": null,
+      "drawnAt": null
+    },
+    "operatorMode": "ON",
+    "regularSchedule": "20261025-wed-sat-sun",
+    "factionSchedule": "20261105-evening-once",
+    "cron": {
+      "checkedAt": "2026-11-12T17:21:07.028Z",
+      "recruitment": {
+        "status": "OPEN",
+        "changed": false,
+        "waiting": true,
+        "seasonId": 9,
+        "nextCheckAt": "2026-11-14T15:56:36.823Z",
+        "calendarWindowId": "3c8d2f77-9257-434a-88f2-854f2ec41eb9"
+      },
+      "seasonClock": {
+        "phase": "ELDER_RECRUITMENT",
+        "source": "ORGANIZATION_CRON",
+        "seasonId": 9,
+        "windowId": "3c8d2f77-9257-434a-88f2-854f2ec41eb9",
+        "nextCheckAt": "2026-11-14T15:56:36.823Z"
+      }
+    },
+    "legacySharedAlarm": {
+      "checkedAt": "2026-11-12T17:21:12.530Z",
+      "version": "20260915-alarm-1h-30s",
+      "phase": "NONE",
+      "nextCheckAt": null
+    },
+    "readOnlyOverviewMs": [
+      443,
+      440
+    ]
+  },
+  "rules": {
+    "elderSeatsPerClub": 3,
+    "clans": 8,
+    "elderSeatsTotal": 24,
+    "method": "마감 시 활성 신청자를 중복 없이 추첨하고 무작위 순서의 8개 클랜에 고르게 배정",
+    "vacancies": "지원자가 부족하거나 개막 전 자격을 잃은 원로 자리는 공석",
+    "members": "미배정 유저가 원로 포함 25명 정원 내에서 원하는 클랜에 승인 없이 가입"
+  },
+  "release": {
+    "verifiedAt": "2026-11-12T17:20:41.516Z",
+    "pages": {
+      "at": "2026-11-12T17:20:32.900Z",
+      "id": "1fd97647-c65b-4242-b4d4-4945060bec3d",
+      "url": "https://1fd97647.cnine-card.pages.dev",
+      "status": "success",
+      "commit": "74e5693b8a9ff8ded31ad50e54cf3ab75c1ff5d5"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version_id": "b50cb13f-87dc-469f-a3a0-e4e221f5aaff",
+        "percentage": 100,
+        "cron": "* * * * *"
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version_id": "561f08de-86b7-4f43-baad-062ee89462f8",
+        "percentage": 100,
+        "cron": "* * * * *"
+      }
+    ],
+    "assets": [
+      {
+        "path": "/organization/",
+        "sha256": "a1f9c36ac5703d20c8978855a24ef3b0f8f7ba8cba587075543aa5d58d54cf61",
+        "bytes": 1121
+      },
+      {
+        "path": "/js/organization-public-v1.mjs",
+        "sha256": "d56a798c7a2ac697c7ee874cec1b97868b8a521b2abf7d452406e33492e7cfaf",
+        "bytes": 988
+      },
+      {
+        "path": "/js/organization-system-v1.mjs",
+        "sha256": "4759b58a1de0077cada8d2339aaf35df52005192ea7b2ff231cbbb2c6ef05809",
+        "bytes": 32629
+      },
+      {
+        "path": "/admin/organization-admin-v1.mjs",
+        "sha256": "776ed9e665b1309a49ecec9d1f7a24e931d793b5291cc3d295ccacdd57da844f",
+        "bytes": 43094
+      },
+      {
+        "path": "/js/organization-preparation-v1.js",
+        "sha256": "cd22c67e8804cfe019b842ea54ab8b38d2725417ccaef85bc1380ea05e3d7860",
+        "bytes": 1500
+      },
+      {
+        "path": "/js/app.js",
+        "sha256": "abe037d7d9ce5f26d82cd230b02b24ebe469cda32643c2793dbfdc851e41f320",
+        "bytes": 828060
+      },
+      {
+        "path": "/onestore/js/app.js",
+        "sha256": "005819547878cebf0b1ab28cc8a0ce14d5a8ae20842c74d23ca2f4a7c6078b32",
+        "bytes": 822287
+      },
+      {
+        "path": "/js/adventure-lobby-v2107.js",
+        "sha256": "e31f8fba64f20b33beb61441b93efb29a7cad10bd5bc651f0eaeadaa6f71bb1b",
+        "bytes": 1220344
+      }
+    ],
+    "windows": {
+      "releaseId": "dee229b8b9a5cacac581ea0103ed7da717fb315ef2c3dde8c9897a842357254a",
+      "registered": 14792,
+      "unexpectedChanges": 0
+    }
+  },
+  "verification": {
+    "futureStages": "격리 PostgreSQL의 시간을 이동해 마감·개막·준결승·결승·시즌 종료와 재시도를 검증",
+    "drawCases": "신청 0·12·35명, 계정 정지와 지원 취소, 24명 상한 및 계정별 중복 배정 방지",
+    "cms": [
+      "4 accounts in the common pool",
+      "no manual selection controls",
+      "4 different clans drawn",
+      "4 clans with vacancies",
+      "no early start"
+    ],
+    "performanceConditions": "Windows Chrome 1440px, iPhone WebKit 390px 에뮬레이션, Windows Electron 렌더러, 스토어 H5 호스트 에뮬레이션. 공개 배포 자산·운영 콘텐츠 현황·격리 계정 PostgreSQL로 첫 진입과 재진입을 측정. 실휴대폰 미측정.",
+    "forms": {
+      "desktop": {
+        "before": {
+          "platform": "Windows · Chrome 1440×900",
+          "loads": [
+            {
+              "entering": "first",
+              "ms": 668,
+              "apiRequests": [
+                "api/organization/overview",
+                "api/organization/faction/overview"
+              ]
+            },
+            {
+              "entering": "return",
+              "ms": 419,
+              "apiRequests": [
+                "api/organization/overview",
+                "api/organization/faction/overview"
+              ]
+            }
+          ],
+          "frames": {
+            "samples": 246,
+            "p95": 4.3,
+            "max": 25.1,
+            "over50": 0,
+            "overflow": false
+          },
+          "postExit": 0
+        },
+        "public": {
+          "platform": "Windows · Chrome 1440×900",
+          "loads": [
+            {
+              "entering": "first",
+              "ms": 306,
+              "apiRequests": [
+                "api/organization/overview"
+              ]
+            },
+            {
+              "entering": "return",
+              "ms": 200,
+              "apiRequests": [
+                "api/organization/overview"
+              ]
+            }
+          ],
+          "frames": {
+            "samples": 202,
+            "p95": 4.3,
+            "max": 24.9,
+            "over50": 0,
+            "overflow": false
+          },
+          "postExit": 0
+        }
+      },
+      "ios": {
+        "before": {
+          "platform": "iPhone 13 · WebKit 에뮬레이션",
+          "loads": [
+            {
+              "entering": "first",
+              "ms": 1077,
+              "apiRequests": [
+                "api/organization/overview",
+                "api/organization/faction/overview"
+              ]
+            },
+            {
+              "entering": "return",
+              "ms": 806,
+              "apiRequests": [
+                "api/organization/overview",
+                "api/organization/faction/overview"
+              ]
+            }
+          ],
+          "frames": {
+            "samples": 61,
+            "p95": 76,
+            "max": 102,
+            "over50": 5,
+            "overflow": false
+          },
+          "postExit": 0
+        },
+        "public": {
+          "platform": "iPhone 13 · WebKit 에뮬레이션",
+          "loads": [
+            {
+              "entering": "first",
+              "ms": 368,
+              "apiRequests": [
+                "api/organization/overview"
+              ]
+            },
+            {
+              "entering": "return",
+              "ms": 261,
+              "apiRequests": [
+                "api/organization/overview"
+              ]
+            }
+          ],
+          "frames": {
+            "samples": 59,
+            "p95": 48,
+            "max": 61,
+            "over50": 2,
+            "overflow": false
+          },
+          "postExit": 0
+        }
+      }
+    },
+    "entrances": {
+      "desktop": {
+        "before": {
+          "surface": "전체 보기",
+          "coldLobbyMs": 1482,
+          "entry": [
+            {
+              "ms": 1205,
+              "calls": [
+                "clan/overview",
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            },
+            {
+              "ms": 451,
+              "calls": [
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            }
+          ],
+          "postExit": 0,
+          "console": []
+        },
+        "public": {
+          "surface": "로비 콘텐츠 현황",
+          "coldLobbyMs": 1821,
+          "entry": [
+            {
+              "ms": 731,
+              "calls": [
+                "clan/overview",
+                "organization/overview"
+              ]
+            },
+            {
+              "ms": 168,
+              "calls": [
+                "organization/overview"
+              ]
+            }
+          ],
+          "postExit": 0,
+          "console": []
+        }
+      },
+      "ios": {
+        "before": {
+          "surface": "전체 보기",
+          "coldLobbyMs": 1866,
+          "entry": [
+            {
+              "ms": 1667,
+              "calls": [
+                "clan/overview",
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            },
+            {
+              "ms": 1217,
+              "calls": [
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            }
+          ],
+          "postExit": 0,
+          "console": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        },
+        "public": {
+          "surface": "로비 콘텐츠 현황",
+          "coldLobbyMs": 1350,
+          "entry": [
+            {
+              "ms": 1273,
+              "calls": [
+                "clan/overview",
+                "organization/overview"
+              ]
+            },
+            {
+              "ms": 670,
+              "calls": [
+                "organization/overview"
+              ]
+            }
+          ],
+          "postExit": 0,
+          "console": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        }
+      },
+      "windows": {
+        "before": {
+          "surface": "전체 보기",
+          "coldLobbyMs": 1371,
+          "entry": [
+            {
+              "ms": 1049,
+              "calls": [
+                "clan/overview",
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            },
+            {
+              "ms": 556,
+              "calls": [
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            }
+          ],
+          "postExit": 0,
+          "console": []
+        },
+        "public": {
+          "surface": "로비 콘텐츠 현황",
+          "coldLobbyMs": 1577,
+          "entry": [
+            {
+              "ms": 839,
+              "calls": [
+                "clan/overview",
+                "organization/overview"
+              ]
+            },
+            {
+              "ms": 479,
+              "calls": [
+                "organization/overview"
+              ]
+            }
+          ],
+          "postExit": 0,
+          "console": []
+        }
+      },
+      "h5": {
+        "before": {
+          "surface": "전체 보기",
+          "coldLobbyMs": 1124,
+          "entry": [
+            {
+              "ms": 833,
+              "calls": [
+                "clan/overview",
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            },
+            {
+              "ms": 355,
+              "calls": [
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            }
+          ],
+          "postExit": 0,
+          "console": []
+        },
+        "public": {
+          "surface": "로비 콘텐츠 현황",
+          "coldLobbyMs": 1660,
+          "entry": [
+            {
+              "ms": 728,
+              "calls": [
+                "clan/overview",
+                "organization/overview"
+              ]
+            },
+            {
+              "ms": 261,
+              "calls": [
+                "organization/overview"
+              ]
+            }
+          ],
+          "postExit": 0,
+          "console": []
+        }
+      }
+    },
+    "testRuns": {
+      "clan": {
+        "tests": 233,
+        "fail": 0
+      },
+      "organization": {
+        "tests": 69,
+        "fail": 0
+      },
+      "calendarCronRelease": {
+        "tests": 72,
+        "fail": 0
+      }
+    }
+  }
+}
