@@ -1,0 +1,544 @@
+{
+  "verifiedAt": "2026-11-12T14:33:48.423Z",
+  "season": 4,
+  "final": {
+    "season": 4,
+    "status": "COMPLETED",
+    "completed": "2026-11-12 14:00:00",
+    "winner": 7,
+    "match": 405,
+    "final_winner": 7,
+    "final_status": "COMPLETED",
+    "score_a": 1235,
+    "score_b": 1134,
+    "team_a": "FM",
+    "team_b": "한화"
+  },
+  "champion": "FM",
+  "eligibility": "Season 4 frozen Champions League roster, cross-checked against the final match and championship trophy receipts.",
+  "payout": {
+    "operationKey": "ops:clan-champions:season4:ruler30d-coin1000t:20261112:v1",
+    "audit": "59465",
+    "grantedKST": "2026-11-12 23:15:22",
+    "expiresKST": "2026-12-12 23:15:22",
+    "coinPerPerson": "1000000000000000",
+    "totalCoin": "15000000000000000",
+    "coinDelivery": "Claimable COIN attachment in the in-game inbox",
+    "titleDelivery": "Personal 30-day ownership starting at grant",
+    "recipients": [
+      {
+        "id": 3,
+        "nickname": "ε연두з",
+        "message": "290898",
+        "attachment": "263445"
+      },
+      {
+        "id": 16,
+        "nickname": "오승환이다",
+        "message": "290899",
+        "attachment": "263446"
+      },
+      {
+        "id": 25,
+        "nickname": "여우",
+        "message": "290900",
+        "attachment": "263447"
+      },
+      {
+        "id": 45,
+        "nickname": "박세라-ㅂ-",
+        "message": "290901",
+        "attachment": "263448"
+      },
+      {
+        "id": 164,
+        "nickname": "박사",
+        "message": "290902",
+        "attachment": "263449"
+      },
+      {
+        "id": 521,
+        "nickname": "대저동토마토",
+        "message": "290903",
+        "attachment": "263450"
+      },
+      {
+        "id": 1255,
+        "nickname": "전게씹선미아웃",
+        "message": "290904",
+        "attachment": "263451"
+      },
+      {
+        "id": 1768,
+        "nickname": "핫시",
+        "message": "290905",
+        "attachment": "263452"
+      },
+      {
+        "id": 4501,
+        "nickname": "장씨아저씨",
+        "message": "290906",
+        "attachment": "263453"
+      },
+      {
+        "id": 4582,
+        "nickname": "족단",
+        "message": "290907",
+        "attachment": "263454"
+      },
+      {
+        "id": 4621,
+        "nickname": "리이렐",
+        "message": "290908",
+        "attachment": "263455"
+      },
+      {
+        "id": 4668,
+        "nickname": "화성가뿌자",
+        "message": "290909",
+        "attachment": "263456"
+      },
+      {
+        "id": 4754,
+        "nickname": "조은",
+        "message": "290910",
+        "attachment": "263457"
+      },
+      {
+        "id": 5362,
+        "nickname": "점빡이",
+        "message": "290911",
+        "attachment": "263458"
+      },
+      {
+        "id": 5996,
+        "nickname": "관종이얌",
+        "message": "290912",
+        "attachment": "263459"
+      }
+    ],
+    "verification": {
+      "frozenRoster": 15,
+      "trophyOwnersMatched": true,
+      "titleOwners": 15,
+      "messages": 15,
+      "claimed": 6,
+      "pending": 9,
+      "perPerson": "1000000000000000",
+      "total": "15000000000000000",
+      "days": 30,
+      "powerOnEquip": {
+        "PVE": 1500000,
+        "PVP": 1500000
+      },
+      "missing": 0,
+      "duplicates": 0
+    }
+  },
+  "title": {
+    "id": 2840751,
+    "name": "챔스의 지배자",
+    "combatPower": 1500000,
+    "durationDays": 30,
+    "appearance": {
+      "key": "ops:clan-champions:season4:ruler30d-coin1000t:20261112:v1:nameplate-v2",
+      "creditedBy": "59465",
+      "titleId": 2840751,
+      "image": "/assets/ui/titles/champions-ruler-nameplate-v2.webp",
+      "style": "CHAMPIONS_RULER",
+      "sha256": "ef3771ada1d239477677168a62e355190fec6ad7fa59ae3feefcc74429229897",
+      "updatedKST": "2026-11-12 23:30:38",
+      "originalTermEndsKST": "2026-12-12 23:15:22",
+      "auditId": "59467"
+    },
+    "artProvenance": "nameplate.json",
+    "reference": "버스기사",
+    "sources": [
+      "nameplate-source.png",
+      "nameplate-prompt.txt"
+    ],
+    "display": "장비·칭호·차고 → 칭호, 장착 시 공개 닉네임 위와 플레이어 명함",
+    "screens": [
+      "equipped-mobile.png",
+      "nickname-desktop.png"
+    ]
+  },
+  "production": {
+    "pages": {
+      "at": "2026-11-12T14:30:38.580Z",
+      "id": "9b90a38f-b23e-4f74-817e-ec3a491e4092",
+      "url": "https://9b90a38f.cnine-card.pages.dev",
+      "status": "success",
+      "commit": "ea2dabf8d33f6d7aaff62b0ec2f04a6e1162fc6e"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version_id": "bc84458a-f21c-4b99-82c5-1f68689303b2",
+        "percentage": 100
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version_id": "107ace89-5e0c-443f-b121-eb7505666050",
+        "percentage": 100
+      }
+    ],
+    "windows": {
+      "id": "7d2d3d6f0a9fc96c08cd9237a50141b2179148aeec79e29881a9144eda812501",
+      "verified": [
+        "/assets/ui/titles/champions-ruler-nameplate-v2.webp",
+        "/css/achievement-titles-20260927.css",
+        "/js/character-loadout-v2.js",
+        "/js/app.js"
+      ]
+    },
+    "artifactSHA256": "ef3771ada1d239477677168a62e355190fec6ad7fa59ae3feefcc74429229897",
+    "representativeTitleAPI": {
+      "transaction": "READ ONLY",
+      "reach": "production character/loadout and publicEquippedTitleMap",
+      "sampleUserId": 45,
+      "readsMs": [
+        943,
+        666
+      ],
+      "winnersCurrentlyWearing": [
+        45,
+        164,
+        1768,
+        4582
+      ],
+      "image": "/assets/ui/titles/champions-ruler-nameplate-v2.webp",
+      "style": "CHAMPIONS_RULER",
+      "titleId": 2840751,
+      "owned": true,
+      "exactExpiryUTC": "2026-12-12 14:15:22"
+    }
+  },
+  "checks": {
+    "scopedTests": 58,
+    "isolatedEquipmentAndExpiry": {
+      "runtime": "actual character/title/equip, character/loadout, publicEquippedTitleMap in isolated SQLite",
+      "powerEquipped": [
+        1500000,
+        1500000
+      ],
+      "repeatEquipAddsZero": true,
+      "powerAfterExpiry": [
+        0,
+        0
+      ],
+      "unownedAndExpiredEquipStatus": 404,
+      "expiredBadgeHidden": true,
+      "style": "CHAMPIONS_RULER",
+      "image": "/assets/ui/titles/champions-ruler-nameplate-v2.webp"
+    },
+    "isolatedInboxClaim": {
+      "storage": "isolated PostgreSQL (PGlite), live code path for inbox claim-all",
+      "rewardSupported": true,
+      "amount": "1000000000000000",
+      "claimOnce": true,
+      "foreignClaimRejected": true,
+      "walletBefore": "100000000000000001",
+      "walletAfter": "101000000000000001",
+      "ledgerEntries": 1,
+      "claimMs": 13
+    },
+    "rehearsalRolledBack": true,
+    "originalMessagesAndTitleDurationVerifiedAfterAppearanceChange": true
+  },
+  "measurements": {
+    "conditions": "Windows host. Desktop Chrome 1440x900, actual Electron Windows app QA shell 1440x900, Chrome Android viewport and WebKit iPhone viewport at 390x844; ONE store H5 production entry in a Chrome iframe with its SDK. Browser API fixtures are isolated, no physical phones. Current public resources with live read-only ownership checked separately. Representative frames cover equip, profile-open, dismiss, unequip; screenshot overhead excluded from action intervals.",
+    "comparison": "Identical generated nameplate, raw PNG versus WebP served through an intercepted local art response on the same pinned public shell; separate public CDN check with no asset substitution. No network or CPU throttling, one sample per setup. Lazy image load and decode during title navigation; no extra title request after leaving.",
+    "imageBytes": {
+      "original": 1990110,
+      "runtime": 96634
+    },
+    "perDevice": [
+      {
+        "device": "desktop",
+        "viewport": [
+          1440,
+          900
+        ],
+        "original": {
+          "coldMs": 1647,
+          "reentryMs": 67,
+          "equipMs": 160,
+          "profileOpenMs": 237,
+          "frames": {
+            "samples": 96,
+            "p95Ms": 37.6,
+            "maxMs": 91.7,
+            "over50ms": 2
+          },
+          "requestsAfterExit1200ms": 0
+        },
+        "compressed": {
+          "coldMs": 1686,
+          "reentryMs": 70,
+          "equipMs": 126,
+          "profileOpenMs": 54,
+          "frames": {
+            "samples": 80,
+            "p95Ms": 16.6,
+            "maxMs": 37.5,
+            "over50ms": 0
+          },
+          "requestsAfterExit1200ms": 0
+        },
+        "production": {
+          "coldMs": 1461,
+          "reentryMs": 66,
+          "equipMs": 90,
+          "profileOpenMs": 49,
+          "frames": {
+            "samples": 81,
+            "p95Ms": 12.5,
+            "maxMs": 33.3,
+            "over50ms": 0
+          },
+          "requestsAfterExit1200ms": 0
+        },
+        "displayed": {
+          "collectionAndEquipment": {
+            "url": "/assets/ui/titles/champions-ruler-nameplate-v2.webp",
+            "width": 417,
+            "height": 139,
+            "decoded": true
+          },
+          "compactBadgeWidth": 142,
+          "playerCardWidth": 190,
+          "nicknameBelow": true
+        }
+      },
+      {
+        "device": "ios",
+        "viewport": [
+          390,
+          844
+        ],
+        "original": {
+          "coldMs": 1903,
+          "reentryMs": 275,
+          "equipMs": 292,
+          "profileOpenMs": 498,
+          "frames": {
+            "samples": 35,
+            "p95Ms": 200,
+            "maxMs": 459,
+            "over50ms": 10
+          },
+          "requestsAfterExit1200ms": 0
+        },
+        "compressed": {
+          "coldMs": 1562,
+          "reentryMs": 282,
+          "equipMs": 231,
+          "profileOpenMs": 40,
+          "frames": {
+            "samples": 34,
+            "p95Ms": 55,
+            "maxMs": 112,
+            "over50ms": 2
+          },
+          "requestsAfterExit1200ms": 0
+        },
+        "production": {
+          "coldMs": 1554,
+          "reentryMs": 264,
+          "equipMs": 220,
+          "profileOpenMs": 42,
+          "frames": {
+            "samples": 33,
+            "p95Ms": 47,
+            "maxMs": 109,
+            "over50ms": 1
+          },
+          "requestsAfterExit1200ms": 0
+        },
+        "displayed": {
+          "collectionAndEquipment": {
+            "url": "/assets/ui/titles/champions-ruler-nameplate-v2.webp",
+            "width": 336,
+            "height": 112,
+            "decoded": true
+          },
+          "compactBadgeWidth": 142,
+          "playerCardWidth": 190,
+          "nicknameBelow": true
+        }
+      },
+      {
+        "device": "android",
+        "viewport": [
+          390,
+          844
+        ],
+        "original": {
+          "coldMs": 1490,
+          "reentryMs": 64,
+          "equipMs": 89,
+          "profileOpenMs": 63,
+          "frames": {
+            "samples": 83,
+            "p95Ms": 25,
+            "maxMs": 62.5,
+            "over50ms": 1
+          },
+          "requestsAfterExit1200ms": 0
+        },
+        "compressed": {
+          "coldMs": 1461,
+          "reentryMs": 67,
+          "equipMs": 95,
+          "profileOpenMs": 61,
+          "frames": {
+            "samples": 77,
+            "p95Ms": 45.8,
+            "maxMs": 58.4,
+            "over50ms": 2
+          },
+          "requestsAfterExit1200ms": 0
+        },
+        "production": {
+          "coldMs": 1403,
+          "reentryMs": 64,
+          "equipMs": 99,
+          "profileOpenMs": 64,
+          "frames": {
+            "samples": 77,
+            "p95Ms": 33.4,
+            "maxMs": 66.7,
+            "over50ms": 1
+          },
+          "requestsAfterExit1200ms": 0
+        },
+        "displayed": {
+          "collectionAndEquipment": {
+            "url": "/assets/ui/titles/champions-ruler-nameplate-v2.webp",
+            "width": 336,
+            "height": 112,
+            "decoded": true
+          },
+          "compactBadgeWidth": 142,
+          "playerCardWidth": 190,
+          "nicknameBelow": true
+        }
+      },
+      {
+        "device": "windows",
+        "viewport": [
+          1440,
+          900
+        ],
+        "original": {
+          "coldMs": 1551,
+          "reentryMs": 101,
+          "equipMs": 166,
+          "profileOpenMs": 76,
+          "frames": {
+            "samples": 33,
+            "p95Ms": 50,
+            "maxMs": 83.4,
+            "over50ms": 1
+          },
+          "requestsAfterExit1200ms": 0
+        },
+        "compressed": {
+          "coldMs": 1436,
+          "reentryMs": 106,
+          "equipMs": 126,
+          "profileOpenMs": 64,
+          "frames": {
+            "samples": 28,
+            "p95Ms": 33.4,
+            "maxMs": 83.3,
+            "over50ms": 1
+          },
+          "requestsAfterExit1200ms": 0
+        },
+        "production": {
+          "coldMs": 1499,
+          "reentryMs": 120,
+          "equipMs": 143,
+          "profileOpenMs": 77,
+          "frames": {
+            "samples": 28,
+            "p95Ms": 33.4,
+            "maxMs": 83.3,
+            "over50ms": 1
+          },
+          "requestsAfterExit1200ms": 0
+        },
+        "displayed": {
+          "collectionAndEquipment": {
+            "url": "/assets/ui/titles/champions-ruler-nameplate-v2.webp",
+            "width": 413,
+            "height": 138,
+            "decoded": true
+          },
+          "compactBadgeWidth": 142,
+          "playerCardWidth": 190,
+          "nicknameBelow": true
+        }
+      },
+      {
+        "device": "h5",
+        "viewport": [
+          390,
+          844
+        ],
+        "original": {
+          "coldMs": 2126,
+          "reentryMs": 64,
+          "equipMs": 98,
+          "profileOpenMs": 185,
+          "frames": {
+            "samples": 88,
+            "p95Ms": 12.6,
+            "maxMs": 87.5,
+            "over50ms": 1
+          },
+          "requestsAfterExit1200ms": 0
+        },
+        "compressed": {
+          "coldMs": 1589,
+          "reentryMs": 67,
+          "equipMs": 91,
+          "profileOpenMs": 54,
+          "frames": {
+            "samples": 84,
+            "p95Ms": 33.3,
+            "maxMs": 50,
+            "over50ms": 0
+          },
+          "requestsAfterExit1200ms": 0
+        },
+        "production": {
+          "coldMs": 1590,
+          "reentryMs": 82,
+          "equipMs": 95,
+          "profileOpenMs": 66,
+          "frames": {
+            "samples": 83,
+            "p95Ms": 16.6,
+            "maxMs": 79.2,
+            "over50ms": 2
+          },
+          "requestsAfterExit1200ms": 0
+        },
+        "displayed": {
+          "collectionAndEquipment": {
+            "url": "/assets/ui/titles/champions-ruler-nameplate-v2.webp",
+            "width": 336,
+            "height": 112,
+            "decoded": true
+          },
+          "compactBadgeWidth": 142,
+          "playerCardWidth": 190,
+          "nicknameBelow": true
+        }
+      }
+    ]
+  }
+}
