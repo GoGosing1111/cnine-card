@@ -1,0 +1,876 @@
+{
+  "operation": "영토전 98회차 서버 지연 완화 및 거점 점령·방어 전선 무전 전환",
+  "timezone": "Asia/Seoul",
+  "observedAt": "2026-11-12T11:54:40.714Z",
+  "latestBattle": {
+    "info": {
+      "id": "98",
+      "status": "ACTIVE",
+      "battle_name": "씨나인",
+      "starts_at": "2026-11-12T11:00:00.000Z",
+      "settled_at": null,
+      "current_front_id": "756",
+      "node_name": "중앙 교차지",
+      "at": "2026-11-12T11:54:40.714Z"
+    },
+    "teams": [
+      {
+        "side": "A",
+        "assigned": 75,
+        "attacks": 1893,
+        "mismatched": 0
+      },
+      {
+        "side": "B",
+        "assigned": 75,
+        "attacks": 1653,
+        "mismatched": 0
+      }
+    ],
+    "actions": [
+      {
+        "status": "COMPLETED",
+        "n": 3546,
+        "first": "2026-11-12 11:00:04",
+        "most_recent": "2026-11-12 11:54:40",
+        "last60": 64
+      }
+    ],
+    "rejected": [
+      {
+        "reason": "행동력이 부족합니다.",
+        "n": 305,
+        "energy": 0
+      },
+      {
+        "reason": "전황이 변경되어 공격이 취소되었습니다. 행동력과 전투 보상은 반영되지 않았습니다. 최신 지도를 확인해 주세요.",
+        "n": 104,
+        "energy": 0
+      }
+    ],
+    "pending": [
+      {
+        "status": "PENDING",
+        "n": 1,
+        "oldest_seconds": "1.4"
+      }
+    ],
+    "notices": [
+      {
+        "id": "2585",
+        "side": "B",
+        "title": "거점 점령",
+        "message": "중앙 교차지 · 진입 가능한 경로가 변경되었습니다.",
+        "created_at": "2026-11-12 11:49:07",
+        "front": "754",
+        "node": "4"
+      },
+      {
+        "id": "2581",
+        "side": "A",
+        "title": "거점 점령",
+        "message": "북동 요새 · 진입 가능한 경로가 변경되었습니다.",
+        "created_at": "2026-11-12 11:46:03",
+        "front": "747",
+        "node": "2"
+      },
+      {
+        "id": "2571",
+        "side": "A",
+        "title": "거점 점령",
+        "message": "중앙 교차지 · 진입 가능한 경로가 변경되었습니다.",
+        "created_at": "2026-11-12 11:13:09",
+        "front": "749",
+        "node": "4"
+      }
+    ],
+    "db": {
+      "lock_waits": 0,
+      "deadlocks": "613",
+      "numbackends": 69,
+      "startup": "2026-10-24T19:00:52.072Z"
+    }
+  },
+  "laterConnectionSamples": [
+    {
+      "at": "2026-11-12T11:47:00Z",
+      "meanWaiting": 0.35,
+      "meanAvailable": 10.116666666666667
+    },
+    {
+      "at": "2026-11-12T11:48:00Z",
+      "meanWaiting": 0,
+      "meanAvailable": 9.833333333333334
+    },
+    {
+      "at": "2026-11-12T11:49:00Z",
+      "meanWaiting": 0,
+      "meanAvailable": 9.85
+    },
+    {
+      "at": "2026-11-12T11:50:00Z",
+      "meanWaiting": 0,
+      "meanAvailable": 10.566666666666666
+    },
+    {
+      "at": "2026-11-12T11:51:00Z",
+      "meanWaiting": 0,
+      "meanAvailable": 10.416666666666666
+    },
+    {
+      "at": "2026-11-12T11:52:00Z",
+      "meanWaiting": 0,
+      "meanAvailable": 10.716666666666667
+    }
+  ],
+  "incident": {
+    "windowKST": "2026-11-12 20:14–20:16",
+    "atPeakKST": "20:15",
+    "apiRuntimeSuccessP99WallMs": 61892.34,
+    "apiRuntimeSuccessP99CpuMs": 390.369,
+    "workerExceptions": 1,
+    "connectionWaitersMean": 119.63333333333334,
+    "availablePoolSlotsMean": 0,
+    "avgAcquireMs": 1224,
+    "avgQueryMs": 1270,
+    "queryCount": 32506,
+    "completedAttacksByMinute": {
+      "20:13": 60,
+      "20:14": 42,
+      "20:15": 3,
+      "20:16": 36,
+      "20:17": 57
+    }
+  },
+  "incidentAttackTiming": {
+    "meaning": "운영 원장의 완료 상태인 공격을 시작 시각과 완료 시각으로 각각 집계했다.",
+    "byStart": [
+      {
+        "kst": "20:13",
+        "n": 56
+      },
+      {
+        "kst": "20:14",
+        "n": 45
+      },
+      {
+        "kst": "20:15",
+        "n": 9
+      },
+      {
+        "kst": "20:16",
+        "n": 28
+      },
+      {
+        "kst": "20:17",
+        "n": 57
+      }
+    ],
+    "byCompletion": [
+      {
+        "kst": "20:13",
+        "n": 60
+      },
+      {
+        "kst": "20:14",
+        "n": 42
+      },
+      {
+        "kst": "20:15",
+        "n": 3
+      },
+      {
+        "kst": "20:16",
+        "n": 36
+      },
+      {
+        "kst": "20:17",
+        "n": 57
+      }
+    ]
+  },
+  "response": {
+    "pool": {
+      "at": "2026-11-12T11:25:49.104Z",
+      "before": 20,
+      "requested": 60,
+      "observed": 60,
+      "caching": {
+        "disabled": true
+      },
+      "modified": "2026-11-12T11:25:16.468585Z"
+    },
+    "postgresMaxConnections": 901,
+    "observedRoleConnectionLimit": -1,
+    "appliedAt": "2026-11-12T11:25:16.468585Z",
+    "initialRecoveryKST": "20:17",
+    "note": "최초 지연은 운영 설정 변경 전 20:17에 완화됐다. 20:25:16에 재포화를 줄이기 위해 상한을 변경했다."
+  },
+  "observedAfter": {
+    "windowKST": "20:26–20:46 각 1분 집계",
+    "minutes": 21,
+    "maxMeanWaiters": 0,
+    "maxMeanAcquireMs": 0,
+    "minMeanAvailableSlots": 8.5,
+    "peakQueriesPerMinute": 96725,
+    "workerRuntimeExceptions": 0,
+    "realPlayerSamples": {
+      "postPoolPreCode": {
+        "start": "2026-11-12T11:41:09.363Z",
+        "end": "2026-11-12T11:42:04.374Z",
+        "sampling": 0.15,
+        "parsed": 1012,
+        "warnings": 0,
+        "paths": {
+          "GET /api/live-operations": {
+            "sample": 14,
+            "status": {
+              "200": 14
+            },
+            "wallSample": 14,
+            "median": 107,
+            "p95": 242,
+            "max": 242
+          },
+          "GET /api/territory-war/state-lite": {
+            "sample": 21,
+            "status": {
+              "200": 21
+            },
+            "wallSample": 21,
+            "median": 268,
+            "p95": 332,
+            "max": 444
+          },
+          "GET /api/territory-war/state": {
+            "sample": 35,
+            "status": {
+              "200": 35
+            },
+            "wallSample": 35,
+            "median": 530,
+            "p95": 939,
+            "max": 1091
+          },
+          "POST /api/territory-war/vote-operation": {
+            "sample": 1,
+            "status": {
+              "200": 1
+            },
+            "wallSample": 1,
+            "median": 640,
+            "p95": 640,
+            "max": 640
+          },
+          "POST /api/territory-war/attack": {
+            "sample": 5,
+            "status": {
+              "200": 5
+            },
+            "wallSample": 5,
+            "median": 1150,
+            "p95": 1179,
+            "max": 1179
+          },
+          "POST /api/territory-war/draft-order": {
+            "sample": 1,
+            "status": {
+              "200": 1
+            },
+            "wallSample": 1,
+            "median": 584,
+            "p95": 584,
+            "max": 584
+          }
+        }
+      },
+      "immediatelyAfterRelease": {
+        "start": "2026-11-12T11:44:57.305Z",
+        "end": "2026-11-12T11:45:52.318Z",
+        "sampling": 0.15,
+        "parsed": 1026,
+        "warnings": 0,
+        "paths": {
+          "GET /api/territory-war/state": {
+            "sample": 26,
+            "status": {
+              "200": 26
+            },
+            "wallSample": 26,
+            "median": 683,
+            "p95": 995,
+            "max": 1486
+          },
+          "GET /api/live-operations": {
+            "sample": 19,
+            "status": {
+              "200": 19
+            },
+            "wallSample": 19,
+            "median": 98,
+            "p95": 8152,
+            "max": 8152
+          },
+          "GET /api/territory-war/state-lite": {
+            "sample": 18,
+            "status": {
+              "200": 18
+            },
+            "wallSample": 18,
+            "median": 336,
+            "p95": 495,
+            "max": 495
+          },
+          "POST /api/territory-war/attack": {
+            "sample": 12,
+            "status": {
+              "200": 10,
+              "409": 2
+            },
+            "wallSample": 12,
+            "median": 1741,
+            "p95": 4906,
+            "max": 4906
+          },
+          "POST /api/territory-war/supply-claim": {
+            "sample": 3,
+            "status": {
+              "200": 3
+            },
+            "wallSample": 3,
+            "median": 655,
+            "p95": 1033,
+            "max": 1033
+          }
+        }
+      },
+      "nextWindow": {
+        "start": "2026-11-12T11:46:31.413Z",
+        "end": "2026-11-12T11:47:26.424Z",
+        "sampling": 0.15,
+        "parsed": 1096,
+        "warnings": 0,
+        "paths": {
+          "GET /api/live-operations": {
+            "sample": 13,
+            "status": {
+              "200": 13
+            },
+            "wallSample": 13,
+            "median": 124,
+            "p95": 281,
+            "max": 281
+          },
+          "GET /api/territory-war/state": {
+            "sample": 21,
+            "status": {
+              "200": 21
+            },
+            "wallSample": 21,
+            "median": 633,
+            "p95": 936,
+            "max": 973
+          },
+          "GET /api/territory-war/state-lite": {
+            "sample": 18,
+            "status": {
+              "200": 18
+            },
+            "wallSample": 18,
+            "median": 265,
+            "p95": 427,
+            "max": 427
+          },
+          "POST /api/territory-war/attack": {
+            "sample": 10,
+            "status": {
+              "200": 9,
+              "409": 1
+            },
+            "wallSample": 10,
+            "median": 1345,
+            "p95": 2747,
+            "max": 2747
+          },
+          "POST /api/territory-war/vote-operation": {
+            "sample": 3,
+            "status": {
+              "200": 2,
+              "409": 1
+            },
+            "wallSample": 3,
+            "median": 852,
+            "p95": 996,
+            "max": 996
+          }
+        }
+      },
+      "latestCheck": {
+        "start": "2026-11-12T11:52:44.478Z",
+        "end": "2026-11-12T11:53:39.501Z",
+        "sampling": 0.15,
+        "parsed": 895,
+        "warnings": 0,
+        "paths": {
+          "GET /api/live-operations": {
+            "sample": 10,
+            "status": {
+              "200": 10
+            },
+            "wallSample": 10,
+            "median": 106,
+            "p95": 141,
+            "max": 141
+          },
+          "GET /api/territory-war/state-lite": {
+            "sample": 25,
+            "status": {
+              "200": 25
+            },
+            "wallSample": 25,
+            "median": 238,
+            "p95": 525,
+            "max": 550
+          },
+          "GET /api/territory-war/state": {
+            "sample": 20,
+            "status": {
+              "200": 20
+            },
+            "wallSample": 20,
+            "median": 498,
+            "p95": 957,
+            "max": 957
+          },
+          "POST /api/territory-war/attack": {
+            "sample": 5,
+            "status": {
+              "200": 5
+            },
+            "wallSample": 5,
+            "median": 1883,
+            "p95": 3126,
+            "max": 3126
+          },
+          "POST /api/territory-war/vote-operation": {
+            "sample": 3,
+            "status": {
+              "200": 3
+            },
+            "wallSample": 3,
+            "median": 638,
+            "p95": 807,
+            "max": 807
+          }
+        }
+      }
+    },
+    "publicLobbyChecks": [
+      {
+        "at": "2026-11-12T11:46:31.696Z",
+        "status": 200,
+        "ms": 277,
+        "round": 98
+      },
+      {
+        "at": "2026-11-12T11:46:32.924Z",
+        "status": 200,
+        "ms": 324,
+        "round": 98
+      },
+      {
+        "at": "2026-11-12T11:46:33.985Z",
+        "status": 200,
+        "ms": 147,
+        "round": 98
+      },
+      {
+        "at": "2026-11-12T11:46:35.129Z",
+        "status": 200,
+        "ms": 236,
+        "round": 98
+      },
+      {
+        "at": "2026-11-12T11:46:36.204Z",
+        "status": 200,
+        "ms": 164,
+        "round": 98
+      },
+      {
+        "at": "2026-11-12T11:46:37.323Z",
+        "status": 200,
+        "ms": 214,
+        "round": 98
+      }
+    ],
+    "battle": {
+      "info": {
+        "id": "98",
+        "status": "ACTIVE",
+        "battle_name": "씨나인",
+        "starts_at": "2026-11-12T11:00:00.000Z",
+        "settled_at": null,
+        "current_front_id": "756",
+        "node_name": "중앙 교차지",
+        "at": "2026-11-12T11:49:56.626Z"
+      },
+      "teams": [
+        {
+          "side": "A",
+          "assigned": 75,
+          "attacks": 1736,
+          "mismatched": 0
+        },
+        {
+          "side": "B",
+          "assigned": 75,
+          "attacks": 1549,
+          "mismatched": 0
+        }
+      ],
+      "actions": [
+        {
+          "status": "COMPLETED",
+          "n": 3285,
+          "first": "2026-11-12 11:00:04",
+          "most_recent": "2026-11-12 11:49:53",
+          "last60": 78
+        }
+      ],
+      "rejected": [
+        {
+          "reason": "행동력이 부족합니다.",
+          "n": 255,
+          "energy": 0
+        },
+        {
+          "reason": "전황이 변경되어 공격이 취소되었습니다. 행동력과 전투 보상은 반영되지 않았습니다. 최신 지도를 확인해 주세요.",
+          "n": 102,
+          "energy": 0
+        }
+      ],
+      "pending": [
+        {
+          "status": "PENDING",
+          "n": 2
+        }
+      ],
+      "notices": [
+        {
+          "id": "2585",
+          "side": "B",
+          "title": "거점 점령",
+          "message": "중앙 교차지 · 진입 가능한 경로가 변경되었습니다.",
+          "created_at": "2026-11-12 11:49:07",
+          "front": "754",
+          "node": "4"
+        },
+        {
+          "id": "2581",
+          "side": "A",
+          "title": "거점 점령",
+          "message": "북동 요새 · 진입 가능한 경로가 변경되었습니다.",
+          "created_at": "2026-11-12 11:46:03",
+          "front": "747",
+          "node": "2"
+        },
+        {
+          "id": "2571",
+          "side": "A",
+          "title": "거점 점령",
+          "message": "중앙 교차지 · 진입 가능한 경로가 변경되었습니다.",
+          "created_at": "2026-11-12 11:13:09",
+          "front": "749",
+          "node": "4"
+        }
+      ],
+      "db": {
+        "lock_waits": 0,
+        "deadlocks": "613",
+        "numbackends": 69,
+        "startup": "2026-10-24T19:00:52.072Z"
+      }
+    },
+    "reconciliation": {
+      "at": "2026-11-12T11:51:01.819Z",
+      "through": "2026-11-12T11:49:56.626Z",
+      "pending": [],
+      "olderThan60s": 0
+    }
+  },
+  "software": {
+    "commit": "6221254f18855ae635dd89fe1a8c3daacbcda765",
+    "pages": {
+      "id": "7cfc66c0-7551-45ef-a498-d5ee6714fd28",
+      "url": "https://7cfc66c0.cnine-card.pages.dev"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version_id": "8fcf779c-06b8-40dc-ae57-718156f1eb4e",
+        "percentage": 100
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version_id": "83a93b3b-0cb5-44a2-a62c-9eb4ff5de6c2",
+        "percentage": 100
+      }
+    ],
+    "tests": 100,
+    "windowsChanged": [
+      "/index.html",
+      "/js/territory-network-v6.js",
+      "/js/territory-war-v1811.js"
+    ],
+    "verifiedClientFiles": [
+      "index.html",
+      "onestore/index.html",
+      "js/territory-network-v6.js",
+      "js/territory-war-v1811.js"
+    ],
+    "changes": [
+      "전황 전체 갱신 차례에 앞선 중복 조회를 생략하고 기존의 편성 확인을 수행한다.",
+      "한 상태 응답에서 선택 전선을 한 번 읽고, 진행 회차의 자동 갱신에서 동일한 편성 쓰기와 캐시 무효화를 생략한다.",
+      "새 점령 또는 방어 공지를 전선 무전에 우선 표시하고 동일 거점 결과의 중복을 제거한다."
+    ]
+  },
+  "ui": {
+    "source": "운영 정적 리소스 및 로컬 후보를 실제 로비 경로에서 검수. 계정 API는 격리된 응답을 사용. 운영 전투 이벤트는 읽기 전용 기록으로 재현.",
+    "captureReplay": {
+      "roundId": 98,
+      "noticeId": 2581,
+      "location": "북동 요새",
+      "team": "스타부",
+      "image": "frontline-radio.png"
+    },
+    "checks": {
+      "public-1440": {
+        "phase": "public",
+        "first": {
+          "shell": 6,
+          "dom": 31,
+          "frame": 82
+        },
+        "observedMs": 25872,
+        "overlayCount": 0,
+        "capture": true,
+        "defense": true,
+        "repeatDidNotReannounce": true,
+        "requestsAfterExit": 0,
+        "errors": []
+      },
+      "public-390": {
+        "phase": "public",
+        "first": {
+          "shell": 7,
+          "dom": 69,
+          "frame": 120
+        },
+        "observedMs": 27627,
+        "overlayCount": 0,
+        "capture": true,
+        "defense": true,
+        "repeatDidNotReannounce": true,
+        "requestsAfterExit": 0,
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications.",
+          "ResizeObserver loop completed with undelivered notifications."
+        ]
+      },
+      "after-1440-windows": {
+        "phase": "after",
+        "first": {
+          "shell": 8,
+          "dom": 79,
+          "frame": 164
+        },
+        "observedMs": 27263,
+        "overlayCount": 0,
+        "capture": true,
+        "defense": true,
+        "repeatDidNotReannounce": true,
+        "requestsAfterExit": 0,
+        "errors": []
+      },
+      "after-390-h5": {
+        "phase": "after",
+        "first": {
+          "shell": 7,
+          "dom": 48,
+          "frame": 85
+        },
+        "observedMs": 26576,
+        "overlayCount": 0,
+        "capture": true,
+        "defense": true,
+        "repeatDidNotReannounce": true,
+        "requestsAfterExit": 0,
+        "errors": []
+      }
+    }
+  },
+  "measurements": {
+    "source": "같은 Windows 호스트. PC Chromium, 모바일 WebKit 터치 에뮬레이션, Windows 게임 Electron 검수 런타임, ONE store H5 SDK 에뮬레이션, 동일 회차 응답·같은 로비 진입 방식. 최초 진입/재진입의 조작 가능 프레임, 약 7.2초 전장 렌더링과 퇴장 후 14.5초를 확인.",
+    "client": {
+      "390": {
+        "before": {
+          "platform": "Windows WebKit touch emulation",
+          "firstInputToReadyFrameMs": 176,
+          "reentryInputToReadyFrameMs": 54,
+          "firstAssetsDecodedMs": 806,
+          "reentryAssetsDecodedMs": 81,
+          "p95FrameMs": 45,
+          "frames": 228,
+          "framesOver50Ms": 1,
+          "requestsAfterExit": 0
+        },
+        "after": {
+          "platform": "Windows WebKit touch emulation",
+          "firstInputToReadyFrameMs": 54,
+          "reentryInputToReadyFrameMs": 41,
+          "firstAssetsDecodedMs": 386,
+          "reentryAssetsDecodedMs": 97,
+          "p95FrameMs": 38,
+          "frames": 232,
+          "framesOver50Ms": 0,
+          "requestsAfterExit": 0
+        }
+      },
+      "1440": {
+        "before": {
+          "platform": "Windows headless Chromium",
+          "firstInputToReadyFrameMs": 76,
+          "reentryInputToReadyFrameMs": 28,
+          "firstAssetsDecodedMs": 495,
+          "reentryAssetsDecodedMs": 55,
+          "p95FrameMs": 4.3,
+          "frames": 1665,
+          "framesOver50Ms": 1,
+          "requestsAfterExit": 0
+        },
+        "after": {
+          "platform": "Windows headless Chromium",
+          "firstInputToReadyFrameMs": 65,
+          "reentryInputToReadyFrameMs": 27,
+          "firstAssetsDecodedMs": 498,
+          "reentryAssetsDecodedMs": 55,
+          "p95FrameMs": 4.3,
+          "frames": 1688,
+          "framesOver50Ms": 1,
+          "requestsAfterExit": 0
+        }
+      },
+      "1440-windows": {
+        "before": {
+          "platform": "Windows packaged Electron QA runtime",
+          "firstInputToReadyFrameMs": 125,
+          "reentryInputToReadyFrameMs": 29,
+          "firstAssetsDecodedMs": 678,
+          "reentryAssetsDecodedMs": 63,
+          "p95FrameMs": 16.7,
+          "frames": 426,
+          "framesOver50Ms": 0,
+          "requestsAfterExit": 0
+        },
+        "after": {
+          "platform": "Windows packaged Electron QA runtime",
+          "firstInputToReadyFrameMs": 92,
+          "reentryInputToReadyFrameMs": 30,
+          "firstAssetsDecodedMs": 502,
+          "reentryAssetsDecodedMs": 66,
+          "p95FrameMs": 16.7,
+          "frames": 424,
+          "framesOver50Ms": 0,
+          "requestsAfterExit": 0
+        }
+      },
+      "390-h5": {
+        "before": {
+          "platform": "Windows Chromium, ONE store H5 SDK emulation",
+          "firstInputToReadyFrameMs": 80,
+          "reentryInputToReadyFrameMs": 23,
+          "firstAssetsDecodedMs": 666,
+          "reentryAssetsDecodedMs": 46,
+          "p95FrameMs": 4.3,
+          "frames": 1717,
+          "framesOver50Ms": 0,
+          "requestsAfterExit": 0
+        },
+        "after": {
+          "platform": "Windows Chromium, ONE store H5 SDK emulation",
+          "firstInputToReadyFrameMs": 55,
+          "reentryInputToReadyFrameMs": 25,
+          "firstAssetsDecodedMs": 398,
+          "reentryAssetsDecodedMs": 47,
+          "p95FrameMs": 4.3,
+          "frames": 1707,
+          "framesOver50Ms": 0,
+          "requestsAfterExit": 0
+        }
+      }
+    },
+    "readOnlySql": {
+      "before": {
+        "at": "2026-11-12T11:31:10.638Z",
+        "source": "Windows direct production PostgreSQL read-only, same player and selected sector, cold and warm same process",
+        "samples": [
+          {
+            "round": 98,
+            "front": 754,
+            "selected": 4,
+            "nodes": 9,
+            "count": 150,
+            "side": "B",
+            "queries": 14,
+            "selectedFrontQueries": 2,
+            "elapsedMs": 1125
+          },
+          {
+            "round": 98,
+            "front": 754,
+            "selected": 4,
+            "nodes": 9,
+            "count": 150,
+            "side": "B",
+            "queries": 9,
+            "selectedFrontQueries": 2,
+            "elapsedMs": 661
+          }
+        ]
+      },
+      "after": {
+        "at": "2026-11-12T11:33:53.666Z",
+        "source": "Windows direct production PostgreSQL read-only, same player and selected sector, cold and warm same process",
+        "samples": [
+          {
+            "round": 98,
+            "front": 754,
+            "selected": 4,
+            "nodes": 9,
+            "count": 150,
+            "side": "B",
+            "queries": 13,
+            "selectedFrontQueries": 1,
+            "elapsedMs": 1114
+          },
+          {
+            "round": 98,
+            "front": 754,
+            "selected": 4,
+            "nodes": 9,
+            "count": 150,
+            "side": "B",
+            "queries": 8,
+            "selectedFrontQueries": 1,
+            "elapsedMs": 622
+          }
+        ]
+      }
+    }
+  },
+  "caveats": [
+    "Cloudflare 집계는 표본 기반이다. Worker 실행시간은 성공 분류 호출의 벽시계 시간이다. HTTP 상태는 별도 실시간 표본으로 확인했다.",
+    "배포 직후 로비 현황 요청 1건이 8.15초였다. 뒤이은 55초 표본에서 로비 현황 최대 0.281초였다.",
+    "모바일 WebKit 검수에서는 기존 로비에서도 관측됐던 ResizeObserver 알림이 기록됐다. 점령·방어 표시, 조작, 퇴장 후 갱신 중지 검사를 통과했다."
+  ]
+}
