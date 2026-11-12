@@ -1,0 +1,20 @@
+{
+  "tool": "ImageGen built-in",
+  "title": "챔스의 지배자",
+  "source": "source.png",
+  "prompt": "image-prompt.txt",
+  "runtime": "/assets/ui/titles/champions-ruler-v1.webp",
+  "original": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 1854508,
+    "sha256": "43f7a1d2b4f5f6020830b6bd1a852866bfa781025bf424223c047e323af5fb16"
+  },
+  "webp": {
+    "width": 320,
+    "height": 320,
+    "bytes": 40262,
+    "sha256": "668e8d7ba155f4d03a210fbc17b538ea06ca16ddeb8a6a9b2a3d224da78400e7",
+    "alpha": true
+  }
+}

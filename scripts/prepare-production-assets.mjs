@@ -181,6 +181,8 @@ operationAuditOnly.add('docs/eumju-player-forge-protection-check-20261002.md');
 // these two authoring records leave room for the new chat-squad plaque on Pages.
 operationAuditOnly.add('assets/ui/titles/administration-command-prompt-v2.json');
 operationAuditOnly.add('assets/ui/titles/administration-command-v2.json');
+// Keep the JVM-only client test in the repository and use its Pages slot for the champions' title emblem.
+operationAuditOnly.add('tests/android-native/ClientCoreTest.java');
 // CLI-only PostgreSQL loading/verification commands stay in Git. Browsers never
 // import these Python files; their two Pages slots hold the faction standings UI.
 const postgresCommandOnly=new Set(['scripts/postgres-load.py','scripts/postgres-verify.py']);
