@@ -1,0 +1,24 @@
+{
+  "tool": "ImageGen built-in",
+  "title": "챔스의 지배자",
+  "source": "nameplate-source.png",
+  "prompt": "nameplate-prompt.txt",
+  "runtime": "/assets/ui/titles/champions-ruler-nameplate-v2.webp",
+  "original": {
+    "width": 2172,
+    "height": 724,
+    "bytes": 1990110,
+    "sha256": "7246a1a188140d5d1e5d5f7e23a72a664bc7ba2139341e19c39f9194331d1b83"
+  },
+  "webp": {
+    "width": 960,
+    "height": 320,
+    "bytes": 96634,
+    "sha256": "ef3771ada1d239477677168a62e355190fec6ad7fa59ae3feefcc74429229897",
+    "alpha": true
+  },
+  "references": [
+    "assets/ui/titles/raid-bus-driver-v1.png",
+    "docs/qa/champions-ruler-season4-20261112/source.png"
+  ]
+}

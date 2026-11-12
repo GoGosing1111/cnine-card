@@ -34,6 +34,55 @@
   -webkit-text-fill-color:#ffe7a7!important;font-size:inherit!important;line-height:1.3!important;
 }
 @media(max-width:640px){.clv2-title-showcase.is-title-bus_driver .clv2-title-sigil.has-emblem{width:min(100%,330px)}}
+/* Full illustrated Champions League title. Player cards and CMS previews also
+   render this preset without the public name helper. Keep their semantic text. */
+.title-style-champions_ruler {
+  display: inline-block !important;
+  vertical-align: middle;
+  width: min(190px, 100%) !important;
+  max-width: 100%;
+  height: auto !important;
+  min-height: 0 !important;
+  aspect-ratio: 3 / 1;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent url('../assets/ui/titles/champions-ruler-nameplate-v2.webp') center / contain no-repeat !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+.title-style-champions_ruler.compact { width: min(142px, 100%) !important; }
+.title-preview-badge.title-style-champions_ruler { width: min(248px, 100%) !important; }
+.title-style-champions_ruler::before, .title-style-champions_ruler::after { content: none !important; }
+.title-style-champions_ruler:has(> img) { background: transparent !important; }
+.title-style-champions_ruler > img { display: block; width: 100%; height: auto; }
+.clv2-title-showcase.is-title-champions_ruler .clv2-title-sigil.has-emblem {
+  width: min(100%, 460px);
+  height: auto;
+  aspect-ratio: 3 / 1;
+}
+.clv2-title-card.is-title-champions_ruler { align-items: center; text-align: center; }
+.clv2-title-card.is-title-champions_ruler .clv2-title-emblem-wrap { width: 100%; }
+.clv2-title-card.is-title-champions_ruler .clv2-title-emblem {
+  width: min(100%, 300px);
+  height: auto;
+  aspect-ratio: 3 / 1;
+}
+.clv2-title-showcase.is-title-champions_ruler h2 .title-style-champions_ruler,
+.clv2-title-card.is-title-champions_ruler > strong .title-style-champions_ruler {
+  width: auto !important;
+  aspect-ratio: auto;
+  background: none !important;
+  color: #ffe7a7 !important;
+  -webkit-text-fill-color: #ffe7a7 !important;
+  font-size: inherit !important;
+  line-height: 1.3 !important;
+}
+
 /* Chat squad: generated full title plaque, with semantic text retained. */
 .title-style-chat_squad {
   --chat-title-width:156px;position:relative;display:inline-block!important;vertical-align:middle;

@@ -183,6 +183,8 @@ operationAuditOnly.add('assets/ui/titles/administration-command-prompt-v2.json')
 operationAuditOnly.add('assets/ui/titles/administration-command-v2.json');
 // Keep the JVM-only client test in the repository and use its Pages slot for the champions' title emblem.
 operationAuditOnly.add('tests/android-native/ClientCoreTest.java');
+// The forge CMS QA fixture stays in Git. The illustrated champions nameplate ships on Pages.
+operationAuditOnly.add('tests/fixtures/equipment-forge-cms-20260922.json');
 // CLI-only PostgreSQL loading/verification commands stay in Git. Browsers never
 // import these Python files; their two Pages slots hold the faction standings UI.
 const postgresCommandOnly=new Set(['scripts/postgres-load.py','scripts/postgres-verify.py']);
