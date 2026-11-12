@@ -1,0 +1,298 @@
+{
+  "status": "VERIFIED",
+  "operation": "ops:season-pass-month1-sale-end:20261112:v1",
+  "completedKST": "2026-11-12 13:59:37",
+  "audit": 59155,
+  "source": "b83a50c216cf003d00aa7341d51b8e7e025106a0",
+  "pages": {
+    "id": "e0451644-0811-42d2-8ae4-7b9f278e3644",
+    "url": "https://e0451644.cnine-card.pages.dev"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "id": "d4955692-c80f-4b58-b40b-2b1c80227bb5",
+      "trafficPercent": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "id": "70eb4d96-4906-4a4d-9191-d9eb948bf964",
+      "trafficPercent": 100
+    }
+  ],
+  "sale": {
+    "month": 1,
+    "scope": "All accounts: no new bank notices, purchases, extensions or paid grants. Legacy requests without a month default to month 1.",
+    "before": {
+      "enabled": true,
+      "firstMonthSalesOpen": true,
+      "revision": 5
+    },
+    "after": {
+      "enabled": true,
+      "firstMonthSalesOpen": false,
+      "revision": 6
+    }
+  },
+  "unchangedAtCommit": {
+    "entitlements": 116,
+    "combinedHash": "528abc29443eda2bf9c5087fefe654426b0f7a61392a05a9d82f2ae9d45c8cca",
+    "activeMonth1": 28,
+    "activeMonth2": 65,
+    "calendars": [
+      {
+        "key": "supporter_season_pass_month2_v1",
+        "enabled": true,
+        "revision": 22,
+        "hash": "53fc851de07a68d94dca2b5568830da2c734e817fb7a2549c4852a31920db340"
+      },
+      {
+        "key": "supporter_season_pass_v1",
+        "enabled": true,
+        "revision": 17,
+        "hash": "2e8175294bf3576ce7e9e69ff15e309b7e0949db7065d5974a84b59498334f66"
+      }
+    ],
+    "activeMonth1RewardsEnabled": true,
+    "month2BankNoticeEnabled": true,
+    "month2PurchaseAllowed": true
+  },
+  "verification": {
+    "rejectionsOnProductionDataReadOnly": [
+      {
+        "route": "bankNotice",
+        "month": "legacy",
+        "status": 409,
+        "code": "SUPPORT_APPLICATION_MONTH1_CLOSED"
+      },
+      {
+        "route": "paidApproval",
+        "month": "legacy",
+        "status": 409,
+        "code": "SUPPORT_APPLICATION_MONTH1_CLOSED"
+      },
+      {
+        "route": "bankNotice",
+        "month": 1,
+        "status": 409,
+        "code": "SUPPORT_APPLICATION_MONTH1_CLOSED"
+      },
+      {
+        "route": "paidApproval",
+        "month": 1,
+        "status": 409,
+        "code": "SUPPORT_APPLICATION_MONTH1_CLOSED"
+      }
+    ],
+    "liveUserTransactions": 0,
+    "regressionTests": 41,
+    "engines": [
+      "SQLite",
+      "PostgreSQL-compatible fixture"
+    ],
+    "windowsRelease": "4cbbb10c61b12528f7e17f05fa93e0f44ce6801d142fb5f477c90608bf1c0b67",
+    "publicAssets": [
+      "index.html",
+      "js/adventure-lobby-v2107.js",
+      "js/server-support-v1.mjs",
+      "js/supporter-season-pass-v1.mjs",
+      "onestore/index.html",
+      "service-worker.js",
+      "admin/index.html",
+      "admin/server-support-admin-v1.mjs",
+      "admin/supporter-application-admin-v1.mjs"
+    ]
+  },
+  "performance": {
+    "method": "Actual game lobby → Rewards → Season pass with isolated authenticated APIs; one cold entry and one reentry per phase. Milliseconds; frame intervals over 50 ms recorded. Same PC per profile. No physical mobile device. No new game info API call or client polling introduced.",
+    "comparison": {
+      "pc": {
+        "engine": "Windows Chrome 1440×960",
+        "before": {
+          "first": {
+            "inputToReadyMs": 163,
+            "frames": 8,
+            "p95Ms": 520,
+            "longFrames": 4,
+            "maxMs": 520
+          },
+          "reentry": {
+            "inputToReadyMs": 36,
+            "frames": 99,
+            "p95Ms": 6,
+            "longFrames": 0,
+            "maxMs": 27
+          },
+          "serverSupportRequests": 3,
+          "afterExitSupportCalls": 0
+        },
+        "candidate": {
+          "first": {
+            "inputToReadyMs": 196,
+            "frames": 8,
+            "p95Ms": 556,
+            "longFrames": 3,
+            "maxMs": 556
+          },
+          "reentry": {
+            "inputToReadyMs": 35,
+            "frames": 41,
+            "p95Ms": 11,
+            "longFrames": 0,
+            "maxMs": 29
+          },
+          "serverSupportRequests": 3,
+          "afterExitSupportCalls": 0
+        },
+        "public": {
+          "first": {
+            "inputToReadyMs": 129,
+            "frames": 6,
+            "p95Ms": 494,
+            "longFrames": 3,
+            "maxMs": 494
+          },
+          "reentry": {
+            "inputToReadyMs": 35,
+            "frames": 34,
+            "p95Ms": 20,
+            "longFrames": 0,
+            "maxMs": 25
+          },
+          "serverSupportRequests": 3,
+          "afterExitSupportCalls": 0
+        }
+      },
+      "ios": {
+        "engine": "Windows WebKit iPhone 13 emulation (no physical iPhone)",
+        "before": {
+          "first": {
+            "inputToReadyMs": 359,
+            "frames": 3,
+            "p95Ms": 650,
+            "longFrames": 2,
+            "maxMs": 650
+          },
+          "reentry": {
+            "inputToReadyMs": 160,
+            "frames": 3,
+            "p95Ms": 429,
+            "longFrames": 2,
+            "maxMs": 429
+          },
+          "serverSupportRequests": 3,
+          "afterExitSupportCalls": 0
+        },
+        "candidate": {
+          "first": {
+            "inputToReadyMs": 328,
+            "frames": 3,
+            "p95Ms": 619,
+            "longFrames": 2,
+            "maxMs": 619
+          },
+          "reentry": {
+            "inputToReadyMs": 233,
+            "frames": 3,
+            "p95Ms": 568,
+            "longFrames": 2,
+            "maxMs": 568
+          },
+          "serverSupportRequests": 4,
+          "afterExitSupportCalls": 0
+        },
+        "public": {
+          "first": {
+            "inputToReadyMs": 219,
+            "frames": 3,
+            "p95Ms": 469,
+            "longFrames": 2,
+            "maxMs": 469
+          },
+          "reentry": {
+            "inputToReadyMs": 195,
+            "frames": 3,
+            "p95Ms": 609,
+            "longFrames": 2,
+            "maxMs": 609
+          },
+          "serverSupportRequests": 3,
+          "afterExitSupportCalls": 0
+        }
+      }
+    },
+    "controls": {
+      "pc": {
+        "environment": "Windows desktop Chrome",
+        "scope": "Release assets; isolated authenticated API fixture",
+        "entry": {
+          "inputToMonthTwoMs": 266.8,
+          "passInteractiveMs": 169.7,
+          "monthTwoTabFrameMs": 382
+        },
+        "reentry": {
+          "inputToMonthTwoMs": 94.9,
+          "passInteractiveMs": 39.2,
+          "monthTwoTabFrameMs": 11.9
+        },
+        "steadyFrames": {
+          "samples": 24,
+          "p95": 17.5,
+          "over50": 0,
+          "max": 18.399999999999864
+        },
+        "firstMonthSaleClosed": true,
+        "secondPurchaseVisible": true,
+        "firstBankNoticeButton": false,
+        "cmsMonth1Disabled": true,
+        "cmsMonth2Enabled": true
+      },
+      "windows": {
+        "environment": "Windows Electron client renderer (isolated profile)",
+        "scope": "Release assets; isolated authenticated API fixture",
+        "entry": {
+          "inputToMonthTwoMs": 230.8,
+          "passInteractiveMs": 164.6,
+          "monthTwoTabFrameMs": 12.6
+        },
+        "reentry": {
+          "inputToMonthTwoMs": 83.2,
+          "passInteractiveMs": 28.2,
+          "monthTwoTabFrameMs": 11.6
+        },
+        "steadyFrames": {
+          "samples": 24,
+          "p95": 16.700000000000045,
+          "over50": 0,
+          "max": 16.700000000000045
+        },
+        "firstMonthSaleClosed": true,
+        "secondPurchaseVisible": true,
+        "firstBankNoticeButton": false
+      },
+      "android": {
+        "environment": "Android Chrome / Pixel 7 emulation",
+        "scope": "Release assets; isolated authenticated API fixture",
+        "entry": {
+          "inputToMonthTwoMs": 272.5,
+          "passInteractiveMs": 179,
+          "monthTwoTabFrameMs": 262.5
+        },
+        "reentry": {
+          "inputToMonthTwoMs": 67.3,
+          "passInteractiveMs": 22.2,
+          "monthTwoTabFrameMs": 9.8
+        },
+        "steadyFrames": {
+          "samples": 24,
+          "p95": 15.099999999999909,
+          "over50": 0,
+          "max": 17
+        },
+        "firstMonthSaleClosed": true,
+        "secondPurchaseVisible": true,
+        "firstBankNoticeButton": false
+      }
+    }
+  }
+}
