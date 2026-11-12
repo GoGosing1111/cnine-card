@@ -16,6 +16,30 @@ import {coopRosterSummary} from '../shared/cooperative-roster-v3.mjs';
 import {reconcileOrganizationRecruitment,organizationLiveOperation} from '../functions/_organization.js';
 import {clanPlayoffTimes} from '../shared/clan-resumption-v1.mjs';
 import {advanceChampions} from '../functions/_clan_champions.js';
+import {reconcileElderSeason} from '../functions/_organization_elder_season.js';
+
+test('empty, partial and oversubscribed elder pools draw active applicants once without club preferences',async t=>{
+ const f=await clanResumeFixture(t),q=async(sql,args=[])=>(await f.pg.query(sql,args)).rows;
+ const now=f.clock(),key='organization:elder-season:'+f.roundId;
+ const window={id:'pool',closesAt:now,calendar:{elderClosesAt:now,startsAt:now+86400000},selections:{},revision:1};
+ await q("UPDATE users SET status='SUSPENDED' WHERE id=2");
+ for(const size of [0,12,35]){
+  const ids=Array.from({length:size},(_,i)=>i+2);
+  const applications=Object.fromEntries(ids.map(id=>[id,{nickname:'신청자 '+id,organizationId:8,power:1000+id}]));
+  await q('INSERT INTO app_meta(key,value) VALUES($1,$2) ON CONFLICT(key) DO UPDATE SET value=excluded.value',[key,JSON.stringify({...window,applications})]);
+  assert.equal((await reconcileElderSeason(q,{id:f.roundId},now)).changed,true);
+  const read=async()=>(await q('SELECT value::jsonb w FROM app_meta WHERE key=$1',[key]))[0].w;
+  const drawn=await read(),groups=Object.values(drawn.selections),winning=groups.flat().map(x=>x.id);
+  const eligible=ids.filter(id=>id!==2);
+  assert.equal(drawn.drawEligibleCount,eligible.length);
+  assert.equal(winning.length,Math.min(24,eligible.length));assert.equal(new Set(winning).size,winning.length);
+  assert.ok(winning.every(id=>eligible.includes(id)));
+  assert.ok(Math.max(...groups.map(g=>g.length))-Math.min(...groups.map(g=>g.length))<=1);
+  assert.ok(groups.every(g=>g.length<=3));
+  assert.equal((await reconcileElderSeason(q,{id:f.roundId},now+1)).changed,false);
+  assert.deepEqual((await read()).selections,drawn.selections);
+ }
+});
 
 test('fixed season calendar admits volunteers for 24h, starts with vacant elders and finishes both playoffs inside 50 days',async t=>{
  const f=await clanResumeFixture(t),review=await inspectResume(f.pg),day=86400000;
@@ -39,25 +63,37 @@ test('fixed season calendar admits volunteers for 24h, starts with vacant elders
  assert.equal((await join(30,1)).data.code,'ORG_MEMBER_PHASE');
  assert.equal((await f.call('organization/faction/overview')).data.sessions.active,false);
  assert.equal((await f.call('organization/faction/overview')).data.sessions.scheduleLocked,true);
- for(const uid of [2,3,4])assert.equal((await send('organization/elder/apply',{windowId,organizationId:1},uid)).status,200);
+ assert.equal((await send('organization/elder/apply',{windowId},2)).status,200);
+ assert.equal((await send('organization/elder/apply',{windowId,organizationId:8},3)).status,200);
+ await q("UPDATE app_meta SET value=jsonb_set(value::jsonb,'{applications,4}',$2::jsonb)::text WHERE key=$1",[windowKey,JSON.stringify({organizationId:1,nickname:'기존 신청자',appliedAt:openedAt})]);
+ assert.equal((await send('organization/elder/apply',{windowId},5)).status,200);
+ assert.equal((await send('organization/elder/cancel',{windowId},5)).status,200);
+ const player=async user=>(await f.organizationCall('organization/overview',{user})).data.elderSeason;
+ assert.equal((await player(3)).applied,true);assert.equal((await player(3)).organizationId,null);
+ assert.ok((await get()).applicants.every(a=>!('organizationId' in a)));
+ assert.equal((await select([2])).data.code,'ORG_ELDER_DRAW');
  f.advance(2*day-1);assert.equal((await tick()).status,'OPEN');f.advance(1);
+ // An unsuccessful first join must still commit the draw so subsequent requests cannot reroll.
+ assert.equal((await join(2,2)).data.code,'ORG_MEMBER');
+ const drawn=await get(),allocations=Object.values(drawn.selections);
+ assert.deepEqual(allocations.flat().sort(),[2,3,4]);assert.equal(allocations.filter(r=>r.length===1).length,3);
+ const club=(await player(4)).memberClubId,other=club===1?2:1;
  assert.equal((await tick()).status,'MEMBERS');
+ assert.deepEqual((await get()).selections,drawn.selections);
  assert.equal((await organizationLiveOperation(f.env,f.clock())).title,'클랜원 자율 가입');
  assert.equal((await send('organization/elder/apply',{windowId,organizationId:1},5)).data.code,'ORG_ELDER_CLOSED');
  assert.equal((await send('admin/organization/elder/open',{windowId})).data.code,'ORG_ELDER_PHASE');
  assert.equal((await send('admin/organization/elder/start',{windowId,revision:(await get()).revision})).data.code,'ORG_ELDER_PHASE');
  assert.equal((await send('organization/join/apply',{revision:0,organizationId:1,message:''},131)).data.code,'ORG_JOIN_CLOSED');
- assert.equal((await select([2])).status,200);
+ assert.equal((await select([2])).data.code,'ORG_ELDER_DRAW');
  assert.equal((await join(2,2)).data.code,'ORG_MEMBER');
- assert.equal((await join(3,2)).status,200);assert.equal((await select([2,3])).data.code,'ORG_MEMBER');
- assert.equal((await join(4,1)).status,200);assert.equal((await select([2,4])).status,200);
  const request='fixed-calendar-last-seat-replay';
- assert.equal((await join(31,1,request)).status,200);
- assert.equal((await join(31,1,request)).status,200);
- for(let uid=32;uid<=53;uid++)assert.equal((await join(uid,1)).status,200);
- assert.equal((await join(54,1)).data.code,'ORG_FULL');assert.equal((await join(54,8)).status,200);
- assert.equal((await get()).memberCounts[1],25);
- await q("UPDATE users SET status='SUSPENDED' WHERE id=2");
+ assert.equal((await join(31,club,request)).status,200);
+ assert.equal((await join(31,club,request)).status,200);
+ for(let uid=32;uid<=54;uid++)assert.equal((await join(uid,club)).status,200);
+ assert.equal((await join(55,club)).data.code,'ORG_FULL');assert.equal((await join(55,other)).status,200);
+ assert.equal((await get()).memberCounts[club],25);
+ await q("UPDATE users SET status='SUSPENDED' WHERE id IN (2,3)");
  f.advance(day-1);assert.equal((await tick()).status,'MEMBERS');f.advance(1);
  assert.equal((await join(55,2)).data.code,'ORG_MEMBER_PHASE');
  const transition=await tick();assert.equal(transition.status,'STARTED');

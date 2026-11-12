@@ -1,4 +1,4 @@
-import {mount} from './organization-faction-v1.mjs?warChat=20261028-v2&v=20261025-wed-sat-sun&clanRestore=20261025&clanResume=20261025&factionEvening=20261105-v1';
+import {mount} from './organization-faction-v1.mjs?season=20261113&warChat=20261028-v2&v=20261025-wed-sat-sun&clanRestore=20261025&clanResume=20261025&factionEvening=20261105-v1';
 import {observeOrganizationHeight} from './organization-embed-size-v1.mjs?v=20261025-clan-eight';
 const root=document.getElementById('organizationFactionRoot');
 const token=()=>localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';

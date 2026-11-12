@@ -23,6 +23,7 @@ import {presentMiracleInventory} from '../functions/_miracle_cube.js';
 import {forgeAdminState} from './helpers/forge-held-runtime.mjs';
 import {forgeQuote,executeForge,readForgeRuntime,saveForgeRuntime,forgeAccountState} from './helpers/forge-held-runtime.mjs';
 import {TOURNAMENT_GIFT} from '../functions/_tournament_gift.js';
+import {EMPEROR_BOX,LEVEL_TICKET} from '../functions/_inventory_choice.js';
 import {FORGE_RUNTIME_KEY} from '../shared/equipment-forge-policy-v1.mjs';
 
 const rid=()=>crypto.randomUUID();
@@ -33,7 +34,7 @@ const inventory=new AsyncFunction('deps',`const {env,request,authenticate,json,e
 const path='inventory',ensureReversecallStreamerGiftCatalog=async()=>{},ensureTournamentGiftCatalog=async()=>{},ensureFundingGiftCatalog=async()=>{},ensureRecruitmentGiftCatalog=async()=>{},ensurePingduThanksGiftCatalog=async()=>{},ensureSkillChipFoundation=async()=>{},ensureBattleSuitCoreCatalog=async()=>{},ensureUniqueAdvancementPassCatalog=async()=>{},ensureMysticEnergyCatalog=async()=>{},blackMiracleSettings=async()=>({enabled:false}),UNIQUE_ADVANCEMENT_PASS_CODE='UNIQUE_ADVANCEMENT_PASS';${inventoryBody}`);
 const useStart=api.indexOf("    if(path==='inventory/use'&&request.method==='POST'){");
 const useBody=api.slice(useStart,api.indexOf('      const usableCodes=',useStart))+'}';
-const directUse=new AsyncFunction('deps',`const {env,request,authenticate,json,readBody,FORGE_REPAIR_ITEM,TOURNAMENT_GIFT}=deps;const path='inventory/use',UNIQUE_ADVANCEMENT_PASS_CODE='UNIQUE_ADVANCEMENT_PASS';${useBody}`);
+const directUse=new AsyncFunction('deps',`const {env,request,authenticate,json,readBody,FORGE_REPAIR_ITEM,TOURNAMENT_GIFT,EMPEROR_BOX,LEVEL_TICKET}=deps;const path='inventory/use',UNIQUE_ADVANCEMENT_PASS_CODE='UNIQUE_ADVANCEMENT_PASS';${useBody}`);
 const deps=f=>({env:f.env,request:new Request('https://qa.test/api/inventory'),authenticate:async()=>f.user,json:(body,status=200)=>({body,status}),ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM:item,ensureForgeScrollCatalog,ensureEmperorEnergyCatalog,ensurePetOpeningItems,ensurePetPotentialItem,TOURNAMENT_GIFT,LICH_TICKET,MADARA_TICKET,presentMiracleInventory,ensureWormContestGiftCatalog,ensureMercenarySssShardCatalog,ensureSssRerollCatalog,presentSssRerollInventory,presentSssCubeInventory,ensureLimitedShardCatalog,ensureSigHunterBoxCatalog,ensurePrimeMaterialCatalog,ensureCnineStreamerBoxCatalog});
 async function ready(t,postgres,quantity=2){
   const f=await forgeFixture(t,{postgres});await ensureForgeRepairCatalog(f.env);
@@ -79,7 +80,7 @@ for(const postgres of [false,true]){
     await f.p('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(7,?,2,1),(8,?,99,0)',item.code,item.code).run();
     const result=await inventory(deps(f)),coupon=result.body.items.find(x=>x.code===item.code);
     assert.equal(coupon.quantity,2);assert.equal(coupon.unseenQuantity,1);assert.equal(coupon.usable,false);assert.equal(coupon.image,item.image);assert.match(coupon.useDisabledMessage,/파괴 기록/);
-    const denied=await directUse({...deps(f),request:new Request('https://qa.test/api/inventory/use',{method:'POST'}),readBody:async()=>({itemCode:item.code})});
+    const denied=await directUse({...deps(f),EMPEROR_BOX,LEVEL_TICKET,request:new Request('https://qa.test/api/inventory/use',{method:'POST'}),readBody:async()=>({itemCode:item.code})});
     assert.equal(denied.status,400);assert.match(denied.body.error,/파괴 기록/);assert.equal(await f.qty(item.code),2);
     assert.equal((await inventory({...deps(f),env:{},authenticate:async()=>null})).status,401);
   });

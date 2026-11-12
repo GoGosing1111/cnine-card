@@ -263,7 +263,7 @@ async function mutation(env,user,action,body,deps){
    if(['launch','enter','strike'].includes(action))orgAssert(sessions.active,'WINDOW',sessions.blockedByTerritory?'영토전 동안 세력전이 일시정지됩니다.':'현재 세력전 개방 시간이 아닙니다.');
    result.roundId=r.id;
    if(action==='commander'||action==='elders'){
-    orgAssert(r.scope!=='LIVE'||now<Date.parse('2026-11-10T00:00:00+09:00'),'ELDER_WINDOW','다음 시즌 원로는 클랜 운영의 원로 모집에서 지원자 3명을 선정하세요.');
+    orgAssert(r.scope!=='LIVE'||now<Date.parse('2026-11-10T00:00:00+09:00'),'ELDER_WINDOW','클랜 본부의 시즌 원로 모집과 배정 결과를 확인하세요.');
     orgAssert(Number.isInteger(body.organizationId)&&body.organizationId>=1&&ORGANIZATIONS.some(o=>o.id===body.organizationId),'INPUT','클랜을 확인하세요.',400);
     const current=organizationElderIds(s,roster,body.organizationId);
     if(action==='commander')orgAssert(current.length<=1,'ELDERS','여러 원로가 지정되어 있습니다. 최신 원로 관리 화면에서 변경하세요.');

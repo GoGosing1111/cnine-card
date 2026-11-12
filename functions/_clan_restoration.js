@@ -16,6 +16,12 @@ export async function handleClanRestorationRoute({path,request,env,deps,readOver
  if(resumption){
   const status={...restoration,regularScheduleLocked:false,championsScheduleLocked:false,factionScheduleLocked:false,scheduleLocked:false,pointsIncluded:true,
    factionDailyCount:1,message:regularClanRules(resumption).regularLabel+' · 세력전 '+resumedFactionLabel(resumption)+' · 챔피언스리그는 정규시즌 종료 다음 날 개최합니다.'};
+  const calendar=resumption.nextSeasonCalendar||resumption.competitionCalendar;
+  if(calendar){
+   const before=Date.now()<calendar.startsAt,finished=Date.now()>=calendar.endsAt;
+   Object.assign(status,{regularScheduleLocked:before||finished,championsScheduleLocked:before||finished,factionScheduleLocked:before||finished,scheduleLocked:before||finished,
+    message:finished?'시즌 5가 종료되었습니다.':before?'시즌 5 원로 소집 48시간 후 클랜원을 24시간 모집합니다. 자율 가입 마감과 함께 개막합니다.':regularClanRules(resumption).regularLabel+' · 세력전 '+resumedFactionLabel(resumption)+' · 마지막 경기일에 챔피언스리그 준결승과 결승을 진행합니다.'});
+  }
   const resumed=data=>deps.json({...data,resumption,restoration:status},200,{'cache-control':'no-store'});
   if(path==='clan/member/kick')return handleRestoredClanMemberKick({request,env,deps,user});
   if(request.method==='GET'&&path==='clan/overview')return resumed(await readOverview(user,resumption));
@@ -23,7 +29,7 @@ export async function handleClanRestorationRoute({path,request,env,deps,readOver
   if(request.method==='GET'&&path==='clan/organization')return resumed({ok:true,organizationPreparation:{restored:true,legacyClosed:false}});
   if(request.method==='GET'&&path==='clan/faction/alerts')return resumed({ok:true,enabled:false,alert:null,alerts:[]});
   if(['clan/war/fight','clan/war/planning','clan/war/availability','clan/war/ready','clan/war/field','clan/war/ready-alert'].includes(path))return null;
-  return deps.json({error:'클랜 본부에서 원하는 클랜에 개별 신청하세요. 해당 클랜의 원로가 심사합니다.',code:'CLAN_SCHEDULE_LOCKED',restoration:status},409,{'cache-control':'no-store'});
+  return deps.json({error:calendar?'클랜 본부에서 시즌 모집 일정과 가입 상태를 확인하세요.':'클랜 본부에서 원하는 클랜에 개별 신청하세요. 해당 클랜의 원로가 심사합니다.',code:'CLAN_SCHEDULE_LOCKED',restoration:status},409,{'cache-control':'no-store'});
  }
   if(request.method==='GET'){
     if(['clan/war/ready-alert','clan/faction/alerts'].includes(path))return reply({ok:true,enabled:false,alert:null,alerts:[]});

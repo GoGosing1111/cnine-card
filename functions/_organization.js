@@ -100,10 +100,11 @@ export async function organizationOverview(env,user,{roundId,admin=false,now=Dat
     return {ok:true,join,elderSeason,viewerId:Number(user.id),releaseEnabled:ORGANIZATION_RELEASE_ENABLED,admissionEnabled:join.enabled||!!r&&(surveyOpen(r,now)||survey[0]?.active===1),serverNow:now,capacity:ORGANIZATION_LIMITS.participants,limits:ORGANIZATION_LIMITS,preparation:{...ORGANIZATION_PREPARATION,status:r?.phase||'PREPARATION',registrationOpen:join.canApply||surveyOpen(r,now)&&!membership[0]},round:roundView(r,now),policy:admin?p:{pointsPerRegion:p.pointsPerRegion,settlementMinutes:p.settlementMinutes,growthMode:p.growthMode,hideoutThresholds:p.hideoutThresholds,unlocks:p.unlocks},...(admin?{rounds:rounds.map(row=>roundView(row,now)),participants:applicants.map(a=>({userId:Number(a.user_id),nickname:a.nickname,preferredOrganizationId:Number(a.preferred_id),submittedAt:Number(a.updated_at),surveyRevision:Number(a.revision),assignedOrganizationId:Number(allMembers.find(m=>Number(m.user_id)===Number(a.user_id))?.organization_id)||null,active:a.active===1,rated:Number(a.expires_at)>now&&Number(a.round_revision)===Number(r.revision)}))}:{}),survey:survey[0]?{answers:parse(survey[0].answers_json),submitted:survey[0].active===1,preferredOrganizationId:Number(survey[0].preferred_id),revision:Number(survey[0].revision)}:null,membership:membership[0]?{organizationId:Number(membership[0].organization_id),slot:Number(membership[0].slot)}:null,roster:roster.map(m=>({userId:Number(m.user_id),nickname:m.nickname,slot:Number(m.slot),joinedAt:Number(m.joined_at),isSelf:Number(m.user_id)===Number(user.id),isElder:(join.elderIds||[]).includes(Number(m.user_id)),canKick:CLAN_MEMBER_KICK_ENABLED&&join.canReview===true&&Number(m.user_id)!==Number(user.id)&&!(join.elderIds||[]).includes(Number(m.user_id))})),participantCount:counts.reduce((n,c)=>n+c.n,0),pendingApplicantCount:counts.reduce((n,c)=>n+c.pending,0),memberCount:progress.reduce((n,p)=>n+Number(p.member_count),0),ratedCount:ratingCount[0]?.n||0,organizations:ORGANIZATIONS.map(o=>{const s=progress.find(p=>Number(p.organization_id)===o.id);return {...o,...(admin?{roster:allMembers.filter(m=>Number(m.organization_id)===o.id).map(m=>({userId:Number(m.user_id),nickname:m.nickname,slot:Number(m.slot),power:Number(m.seed_power)}))}:{}),applicants:counts.find(c=>Number(c.preferred_id)===o.id)?.n||0,memberCount:s?.member_count||0,power:Number(s?.power||0),hideout:organizationHeadquartersState(s,p)};}),proposal:latest?{id:latest.id,expiresAt:Number(latest.expires_at),appliedAt:latest.applied_at?Number(latest.applied_at):null,...displayAllocation(parse(latest.result_json))}:null};
   });
   const election=result.elderSeason;
-  if(!roundId&&election?.calendar?.sourceRoundId===result.round?.id&&now>=election.calendar.startsAt){
+  if(result.round?.scope==='LIVE'&&election?.calendar?.sourceRoundId===result.round.id&&
+    ((!election.drawnAt&&now>=election.calendar.elderClosesAt)||(!roundId&&now>=election.calendar.startsAt))){
     await reconcileOrganizationRecruitment(env,{}, {now});
     const current=await env.DB.prepare("SELECT id FROM organization_rounds_v1 WHERE scope='LIVE'").first();
-    if(current?.id&&current.id!==result.round.id)return organizationOverview(env,user,{roundId:current.id,admin,now});
+    if(current?.id)return organizationOverview(env,user,{roundId:current.id,admin,now});
   }
   return result;
 }
@@ -186,7 +187,7 @@ export async function handleRestoredClanMemberKick({request,env,deps,user}){
 }
 
 async function organizationCommand(env,user,path,body,deps,now){
-    if(path.includes('/elder/'))return elderSeasonCommand(env,user,path,body,deps,now,{mutation,lockedContext,qFor});
+    if(path.includes('/elder/'))return elderSeasonCommand(env,user,path,body,deps,now,{mutation,lockedContext,qFor,reconcileRecruitment:reconcileOrganizationRecruitment});
     if(path.startsWith('organization/join/'))return organizationJoinCommand(env,user,path,body,deps,now,{mutation,lockedContext,qFor});
     if(path==='admin/organization/ratings'){
       const [r]=await env.DB.enqueue(()=>qFor(env.DB)('SELECT scope FROM organization_rounds_v1 WHERE id=$1',[body.roundId]));
@@ -293,7 +294,7 @@ export async function organizationLiveOperation(env,now=Date.now()){
    const open=e.phase==='OPEN',members=e.phase==='MEMBERS';
    return {kind:'ORGANIZATION',phase:open||members?'FORMATION':'ACTIVE',entityId:r.id,
     title:open?'클랜 원로 모집':members?'클랜원 자율 가입':'클랜 본부',
-    detail:open?'시즌 5 원로 지원 · 클랜별 최대 3명':members?'시즌 5 · 희망 클랜에 바로 가입':e.phase==='FINISHED'?'시즌 5 종료':'시즌 5 · 클랜전·세력전·챔피언스리그',
+    detail:open?'시즌 5 원로 무작위 배정 · 클랜별 최대 3명':members?'시즌 5 · 희망 클랜에 바로 가입':e.phase==='FINISHED'?'시즌 5 종료':'시즌 5 · 클랜전·세력전·챔피언스리그',
     deadlineAt:open||members?new Date(open?e.closesAt:e.calendar.startsAt).toISOString():null,sortOrder:0};
   }
   return {kind:'ORGANIZATION',phase:e.phase==='OPEN'?'FORMATION':'ACTIVE',entityId:r.id,title:e.phase==='OPEN'?'클랜 원로 모집':'클랜 본부',

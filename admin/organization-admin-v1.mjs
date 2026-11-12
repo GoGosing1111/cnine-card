@@ -3,7 +3,7 @@ import {jointAdminRequest as api} from '../js/joint-account-transport.mjs';
 import {ORGANIZATION_PREPARATION} from '../shared/organization-preparation-v1.mjs?v=20261025-clan-eight';
 import {FACTION_RULES,ORGANIZATION_DISTRICTS,organizationDistrictById,validateOrganizationFactionPolicy} from '../shared/organization-faction-v1.mjs?v=20261024-weekly&clanRestore=20261025&clanResume=20261025';
 import {ORGANIZATION_SESSION_RULES as FACTION_SESSION_RULES} from '../shared/organization-faction-v1.mjs?v=20261025-restored-locked&clanRestore=20261025&clanResume=20261025';
-import {renderOrganizationRankings} from '../js/organization-rankings-v1.mjs?clanSeason=20261110-v1&v=20261025-wed-sat-sun&clanRestore=20261025&clanResume=20261025';
+import {renderOrganizationRankings} from '../js/organization-rankings-v1.mjs?clanSeason=20261113-v1&v=20261025-wed-sat-sun&clanRestore=20261025&clanResume=20261025';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number=value=>Number(value||0).toLocaleString('ko-KR');
 const date=value=>value?new Date(Number(value)||value).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'아직 없음';
@@ -43,6 +43,19 @@ export function mountOrganizationCms(root,{request=api}={}){
   const organizations=()=>faction?.organizations||state?.organizations||[];
   function elderRecruitment(){
     const e=state.elderSeason,open=e.phase==='OPEN',choosing=e.phase==='SELECTION'||e.phase==='MEMBERS',choices=e.selections||{};
+    if(e.calendar){
+      const c=e.calendar,deadline=open?c.elderClosesAt:choosing?c.startsAt:c.endsAt;
+      const people=e.applicants||[],names=new Map(people.map(a=>[a.id,a.nickname]));
+      const result=e.drawnAt?state.organizations.map(club=>{
+        const assigned=choices[club.id]||[],roster=club.roster||[];
+        return '<fieldset><legend>'+esc(club.name)+' · '+assigned.length+'/3명</legend><p>'+
+          (assigned.map(id=>esc(names.get(id)||roster.find(m=>m.userId===id)?.nickname||('#'+id))).join(' · ')||'배정된 원로 없음')+'</p></fieldset>';
+      }).join(''):'';
+      return section('01',open?'원로 추첨 신청 접수 중':choosing?'클랜원 자율 가입':e.phase==='FINISHED'?'시즌 5 종료':'시즌 5 경기 진행',
+        '원로 소집 48시간 · 자율 가입 24시간 · 경기 50일','<p>원로 마감 '+date(c.elderClosesAt)+' · 개막 '+date(c.startsAt)+' · 종료 '+date(c.endsAt)+' (한국시간)</p>'+(e.phase==='FINISHED'?'':'<b data-deadline="'+deadline+'"></b>'))+
+        (open?section('02','원로 추첨 신청 '+people.length+'명','마감 때 최대 24명을 뽑아 8개 클랜에 무작위로 배정합니다.',people.map(a=>esc(a.nickname)).join(' · ')):
+          section('02','원로 추첨 결과','클랜별 최대 3명이며 남은 자리는 빈자리로 개막합니다.','<div class="orgcms-grid">'+result+'</div>'));
+    }
     const heading=open?'원로 지원 접수 중':choosing?'지원 마감 · 원로 선정':'원로 모집 대기';
     const controls='<p>'+(e.closesAt?'지원 마감 '+date(e.closesAt)+' (한국시간)':'운영자가 열면 48시간 동안 지원을 받습니다.')+'</p>'+
       '<button type="button" data-action="elder-open" '+(open?'disabled':'')+'>'+(choosing?'추가 원로 모집 48시간 열기':'원로 모집 48시간 열기')+'</button>';
@@ -52,12 +65,6 @@ export function mountOrganizationCms(root,{request=api}={}){
         (candidates.map(a=>'<label><input type="checkbox" value="'+a.id+'" '+(selected.includes(a.id)?'checked ':'')+(choosing?'':'disabled')+'>'+esc(a.nickname)+' <small>#'+a.id+'</small></label>').join('')||'<p>지원자 없음</p>')+
         (choosing?'<button type="button" data-action="elder-select" '+(!e.calendar&&candidates.length<3?'disabled':'')+'>선택한 원로 확정</button>':'')+'</fieldset>';
     }).join('');
-    if(e.calendar){
-      const c=e.calendar,deadline=open?c.elderClosesAt:choosing?c.startsAt:c.endsAt;
-      return section('01',open?'원로 지원 접수 중':choosing?'원로 선정 · 클랜원 자율 가입':e.phase==='FINISHED'?'시즌 5 종료':'시즌 5 경기 진행',
-        '원로 소집 48시간 · 자율 가입 24시간 · 경기 50일','<p>원로 마감 '+date(c.elderClosesAt)+' · 개막 '+date(c.startsAt)+' · 종료 '+date(c.endsAt)+' (한국시간)</p>'+(e.phase==='FINISHED'?'':'<b data-deadline="'+deadline+'"></b>'))+
-        (open||choosing?section('02','클랜별 원로 선정','자율 가입 기간에 클랜별 지원자 중 최대 3명을 선정하세요. 남은 자리는 비어 있는 상태로 개막합니다.','<div class="orgcms-grid">'+lists+'</div>'):'');
-    }
     return section('01',heading,'클랜별 원로 3명을 선정합니다. 일반 참가자는 본인이 선택한 클랜에 신청하고 원로가 승인합니다.',controls)+
       section('02','클랜별 지원 명단','선정한 원로는 다음 시즌 개막과 함께 배치됩니다.','<div class="orgcms-grid">'+lists+'</div>')+
       section('03','다음 정규시즌','이전 챔피언스리그 종료 후 개막합니다. 새 시즌은 50일간 진행되며 종료 다음 날 챔피언스리그가 열립니다.','<button type="button" class="primary" data-action="elder-start" '+(choosing&&e.ready?'':'disabled')+'>50일 정규시즌 시작</button>');

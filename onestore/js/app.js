@@ -1718,7 +1718,11 @@ function renderLiveOperations(payload=null){
 }
 function renderLiveOperationLists(lists){
   const items=liveOperationsFailed?[]:liveOperationsItems;
-  const featured=items.filter(item=>!['ORGANIZATION','RANKED_DUO'].includes(String(item.kind).toUpperCase()));
+  const featured=items.filter(item=>{
+    const kind=String(item.kind).toUpperCase();
+    if(kind==='ORGANIZATION')return item.phase==='FORMATION'&&!!item.deadlineAt;
+    return kind!=='RANKED_DUO';
+  });
   const eventHtml=liveBurningOperationHtml(),potionHtml=liveRankExpPotionHtml();
   const errorHtml='<div class="live-operation-empty error"><span aria-hidden="true"></span><b>운영 상태 갱신 대기</b><small>잠시 후 자동으로 다시 확인합니다.</small></div>';
   lists.forEach(list=>{

@@ -35,6 +35,8 @@ test('compact boards show every operation except clan and duo, and each count ma
   assert.deepEqual(counts(),['1건 대기','1건 대기','진행 2건 · 대기 1건']);
   renderBoard({serverNow,items:[...evergreen,long]});
   assert.deepEqual(counts(),['1건 진행','1건 진행','3건 진행']);
+  renderBoard({serverNow,items:[{kind:'ORGANIZATION',phase:'FORMATION',deadlineAt:'2026-11-15T00:56:36Z'}]});
+  assert.deepEqual(lists.map(list=>list.innerHTML),['ORGANIZATION ','ORGANIZATION ','ORGANIZATION ']);
   renderBoard({serverNow,items:evergreen});
   assert.deepEqual(lists.map(list=>list.innerHTML),['','','ORGANIZATION RANKED_DUO ']);
   assert.deepEqual(counts(),['대기 중','대기 중','2건 진행']);

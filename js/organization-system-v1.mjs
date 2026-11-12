@@ -63,6 +63,9 @@ export async function mountOrganization({root,api,isOwner=false}){
   }
   function elderForm(){
     const e=state.elderSeason,own=state.organizations.find(o=>o.id===e.organizationId),open=e.phase==='OPEN';
+    if(e.calendar)return '<section class="org-join"><header class="org-section-head"><h2>원로 추첨 신청</h2><button type="button" data-org-refresh>새로고침</button></header><p>마감 때 신청자 중 최대 24명을 추첨해 8개 클랜에 무작위로 배정합니다. 클랜별 원로는 최대 3명입니다.</p>'+
+      (e.applied?'<aside class="org-join-status" role="status"><strong>원로 추첨 신청 완료</strong><button type="button" data-elder-cancel>지원 취소</button></aside>':
+      '<form id="org-elder-form"><button class="org-primary" type="submit">원로 추첨 신청하기</button></form>')+'</section>';
     const detail=open?'지원 마감 '+date(e.closesAt)+' (한국시간)':e.phase==='SELECTION'?'지원을 마감했습니다. 운영자가 클랜별 원로 3명을 선정합니다.':'운영자가 모집을 열면 48시간 동안 지원할 수 있습니다.';
     return '<section class="org-join"><header class="org-section-head"><h2>다음 시즌 원로 지원</h2><button type="button" data-org-refresh>새로고침</button></header><p>'+detail+'</p>'+
       (own?'<aside class="org-join-status"><strong>'+esc(own.name)+' · '+(e.selected?'원로 선정 완료':'원로 지원 완료')+'</strong>'+
@@ -73,11 +76,12 @@ export async function mountOrganization({root,api,isOwner=false}){
   function renderCalendar(){
     const e=state.elderSeason,c=e.calendar,elder=e.phase==='OPEN',deadline=elder?c.elderClosesAt:c.startsAt;
     const name=id=>esc(state.organizations.find(o=>o.id===id)?.name||'');
+    const result=e.selected?'<p>원로 추첨 결과 · '+name(e.organizationId)+' 원로로 배정되었습니다.</p>':e.applied&&e.drawnAt?'<p>원로 추첨 결과 · 이번 추첨에서 선정되지 않았습니다. 원하는 클랜에 가입할 수 있습니다.</p>':'';
     const memberForm=e.memberClubId?'<aside class="org-join-status" role="status"><strong>'+name(e.memberClubId)+' · '+(e.selected?'원로 선정 완료':'시즌 5 가입 완료')+'</strong></aside>':
       '<form id="org-season-member"><label>가입할 클랜<select name="club" required><option value="">클랜 선택</option>'+state.organizations.map(o=>'<option value="'+o.id+'" '+(e.memberCounts[o.id]>=25?'disabled':'')+'>'+esc(o.name)+' · '+e.memberCounts[o.id]+'/25명</option>').join('')+'</select></label><button type="submit" class="org-primary">선택한 클랜에 가입</button></form>';
     root.innerHTML='<header class="org-topbar"><div class="org-brand"><b>리버스콜</b><span>클랜 본부</span></div><span class="org-status">시즌 5</span></header>'+
       '<aside class="org-recruitment is-open"><div><h1>'+(elder?'원로 소집':'클랜원 자율 가입')+'</h1><p>'+date(deadline)+' 마감 (한국시간)</p></div><div class="org-recruitment-time"><b data-season-deadline="'+deadline+'"></b><small>마감까지</small></div></aside>'+
-      '<main class="org-content">'+(elder?elderForm():'<section class="org-join"><h2>시즌 5 클랜 선택</h2><p>희망 클랜을 선택하면 바로 가입됩니다. 클랜별 정원은 원로를 포함해 25명입니다.</p>'+memberForm+'</section>')+
+      '<main class="org-content">'+(elder?elderForm():'<section class="org-join"><h2>클랜원 자율 가입</h2>'+result+(e.memberClubId?'':'<p>희망 클랜을 선택하면 바로 가입됩니다. 클랜별 정원은 원로를 포함해 25명입니다.</p>')+memberForm+'</section>')+
       '<section class="org-join"><h2>시즌 일정</h2><p>원로 소집 · '+date(c.openedAt)+' ~ '+date(c.elderClosesAt)+'</p><p>클랜원 자율 가입 · '+date(c.elderClosesAt)+' ~ '+date(c.startsAt)+'</p><p>클랜전 · 세력전 · 챔피언스리그 · '+date(c.startsAt)+' ~ '+date(c.endsAt)+'</p></section></main>';
     root.setAttribute('aria-busy','false');bind();clearInterval(countdown);updateCountdown();countdown=setInterval(updateCountdown,1000);
   }
@@ -121,7 +125,10 @@ export async function mountOrganization({root,api,isOwner=false}){
       event.preventDefault();const organizationId=Number(new FormData(event.currentTarget).get('club'));
       run(()=>post('organization/elder/join',{...context(),organizationId}),'시즌 5 클랜 가입을 완료했습니다.');
     });
-    root.querySelector('#org-elder-form')?.addEventListener('submit',event=>{event.preventDefault();const id=Number(new FormData(event.currentTarget).get('club'));run(()=>post('organization/elder/apply',{...context(),organizationId:id}),'원로 지원을 접수했습니다.');});
+    root.querySelector('#org-elder-form')?.addEventListener('submit',event=>{event.preventDefault();
+      const body=context();if(!state.elderSeason.calendar)body.organizationId=Number(new FormData(event.currentTarget).get('club'));
+      run(()=>post('organization/elder/apply',body),'원로 지원을 접수했습니다.');
+    });
     root.querySelector('[data-elder-cancel]')?.addEventListener('click',()=>run(()=>post('organization/elder/cancel',context()),'원로 지원을 취소했습니다.'));
     root.querySelectorAll('[data-org-kick]').forEach(button=>button.onclick=()=>openMemberKick(state.roster.find(m=>m.userId===Number(button.dataset.orgKick)),button));
     root.querySelector('#org-join-form')?.addEventListener('submit',event=>{event.preventDefault();const form=new FormData(event.currentTarget);run(()=>post('organization/join/apply',{roundId:state.round.id,revision:state.join.application?.revision||0,organizationId:Number(form.get('organizationId')),message:String(form.get('message')||'')}),'가입 신청을 접수했습니다. 해당 클랜 원로의 심사를 기다려 주세요.');});

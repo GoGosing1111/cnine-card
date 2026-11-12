@@ -1,6 +1,7 @@
 import {ORGANIZATIONS,orgAssert,orgInteger} from '../shared/organization-system-v1.mjs';
 import {activeClanResumption,CLAN_RESUMPTION_STATE_KEY,resumedClanSettings,clanCalendarPhase,clanPlayoffTimes} from '../shared/clan-resumption-v1.mjs';
 import {newOrganizationFactionState} from './_organization_faction_model.js';
+import {shuffleDuo as shuffle} from '../shared/ranked-duo-random-v4.mjs';
 
 const day=86400000, applicationMs=2*day, seasonDays=50;
 const clubs=ORGANIZATIONS.map(o=>o.id);
@@ -18,6 +19,31 @@ async function writeValue(q,name,value,now){
 function activeAccount(user,now){
  return user?.status==='ACTIVE'&&(!user.banned_until||Date.parse(user.banned_until)<=now);
 }
+async function drawElders(q,round,window,now){
+ if(window.drawnAt||now<window.closesAt)return false;
+ const ids=Object.keys(window.applications).map(Number);
+ const accounts=await q(`SELECT u.id,u.status,u.banned_until,m.seed_power FROM users u
+  LEFT JOIN organization_members_v1 m ON m.round_id=$1 AND m.user_id=u.id
+  WHERE u.id=ANY($2::bigint[]) ORDER BY u.id FOR SHARE OF u`,[round.id,ids]);
+ const eligible=accounts.filter(a=>activeAccount(a,now));
+ const order=shuffle(clubs),winners=shuffle(eligible).slice(0,clubs.length*3);
+ const withoutSeed=winners.filter(a=>!window.applications[a.id].power&&!a.seed_power).map(a=>Number(a.id));
+ // Pre-calendar applications may predate both enrollment ratings and clan membership.
+ const cached=withoutSeed.length?await q("SELECT user_id,(payload_json::jsonb->>'power')::bigint AS power FROM ranked_duo_profiles_v1 WHERE user_id=ANY($1::bigint[])",[withoutSeed]):[];
+ const priorPower=new Map(cached.map(p=>[Number(p.user_id),Number(p.power)]));
+ window.selections=Object.fromEntries(clubs.map(id=>[id,[]]));
+ winners.forEach((a,index)=>{
+  const id=Number(a.id),application=window.applications[id];
+  // Older clients recorded a preferred clan. Only their original power snapshot is used.
+  const power=Number(application.power||a.seed_power||priorPower.get(id)||1);
+  window.selections[order[index%order.length]].push({id,power});
+ });
+ window.drawnAt=now;
+ window.drawEligibleCount=eligible.length;
+ window.revision++;
+ await writeValue(q,key(round),window,now);
+ return true;
+}
 function signupRoster(window, club, selected=window.selections[club]||[]) {
  const members=new Map(selected.map(p=>[p.id,{...p,elder:true}]));
  for(const [uid,m] of Object.entries(window.members||{})){
@@ -29,49 +55,54 @@ export async function elderSeasonView(q,r,user,now,admin=false){
  const window=await readWindow(q,r);
  if(!window)return {phase:'CLOSED',windowId:null,revision:0,seasonDays,elderCount:3};
  const phase=window.calendar?clanCalendarPhase(window.calendar,now):window.startedSeasonId?'STARTED':now<window.closesAt?'OPEN':'SELECTION';
+ const assignedClub=clubs.find(club=>window.selections[club]?.some(p=>p.id===Number(user.id)))||null;
  const view={phase,windowId:window.id,revision:window.revision,openedAt:window.openedAt,closesAt:window.closesAt,seasonDays,elderCount:3,
-  organizationId:window.applications[user.id]?.organizationId||null,selected:Object.values(window.selections).some(s=>s.some(p=>p.id===Number(user.id)))};
+  organizationId:window.calendar?assignedClub:window.applications[user.id]?.organizationId||null,selected:!!assignedClub};
  if(window.calendar){
   view.calendar=window.calendar;
-  view.memberClubId=window.members?.[user.id]?.organizationId||(view.selected?view.organizationId:null);
+  view.applied=!!window.applications[user.id];view.drawnAt=window.drawnAt||null;
+  view.memberClubId=assignedClub||window.members?.[user.id]?.organizationId||null;
   view.memberCounts=Object.fromEntries(clubs.map(id=>[id,signupRoster(window,id).length]));
  }
  if(admin){
-  view.applicants=Object.entries(window.applications).map(([id,a])=>({id:Number(id),...a}));
+  view.applicants=Object.entries(window.applications).map(([id,a])=>window.calendar?{id:Number(id),nickname:a.nickname,appliedAt:a.appliedAt}:{id:Number(id),...a});
   view.selections=Object.fromEntries(Object.entries(window.selections).map(([id,people])=>[id,people.map(p=>p.id)]));
   view.ready=clubs.every(id=>window.selections[id]?.length===3);
  }
  return view;
 }
 function checkCandidates(window,body,now){
+ orgAssert(!window?.calendar,'ELDER_DRAW','시즌 5 원로는 접수 마감 때 자동 추첨합니다.');
  orgAssert(window&&window.id===body.windowId&&window.closesAt<=now&&!window.startedSeasonId,'ELDER_PHASE','원로 모집 마감 후 선정할 수 있습니다.');
- if(window.calendar)orgAssert(now<window.calendar.startsAt,'ELDER_PHASE','시즌 개막으로 원로 선정이 마감되었습니다.');
  orgAssert(body.revision===window.revision,'STALE','다른 운영 작업이 반영되었습니다. 명단을 다시 불러오세요.');
  const id=orgInteger(body.organizationId,1,clubs.length,'희망 클랜'),ids=body.userIds;
- orgAssert(Array.isArray(ids)&&(window.calendar?ids.length<=3:ids.length===3)&&new Set(ids).size===ids.length&&ids.every(uid=>Number.isSafeInteger(uid)&&window.applications[uid]?.organizationId===id),'ELDER_SELECTION','해당 클랜에 지원한 원로를 선택하세요 (최대 3명).');
- if(window.calendar){
-  orgAssert(ids.every(uid=>!window.members?.[uid]||window.members[uid].organizationId===id),'MEMBER','다른 클랜에 가입한 지원자가 있습니다.');
-  orgAssert(signupRoster(window,id,ids.map(uid=>({id:uid}))).length<=25,'FULL','이미 가입한 클랜원을 포함해 최대 25명입니다.');
- }
+ orgAssert(Array.isArray(ids)&&ids.length===3&&new Set(ids).size===ids.length&&ids.every(uid=>Number.isSafeInteger(uid)&&window.applications[uid]?.organizationId===id),'ELDER_SELECTION','해당 클랜에 지원한 원로 3명을 선택하세요.');
 }
-export async function elderSeasonCommand(env,user,path,body,deps,now,{mutation,lockedContext,qFor}){
+export async function elderSeasonCommand(env,user,path,body,deps,now,{mutation,lockedContext,qFor,reconcileRecruitment}){
  const action=path.split('/').at(-1),operator=path.startsWith('admin/');
- let ratings;
- if(action==='select'||action==='join'){
+ let ratings,drawDue=false;
+ if(action==='select'||action==='join'||action==='apply'){
   const load=await env.DB.enqueue(async()=>{
    const q=qFor(env.DB),[receipt]=await q('SELECT request_id FROM organization_receipts_v1 WHERE actor_id=$1 AND request_id=$2',[user.id,body.requestId]);
    if(receipt)return false;
    const [r]=await q('SELECT * FROM organization_rounds_v1 WHERE id=$1',[body.roundId]);
    const window=r&&await readWindow(q,r);
-   if(action==='join'){
+   if(action==='apply'){
+    if(!window?.calendar)return false;
+    orgAssert(window.id===body.windowId&&now<window.closesAt,'ELDER_CLOSED','원로 신청이 마감되었습니다.');
+    orgAssert(!window.applications[user.id],'PENDING','이미 원로 추첨에 신청했습니다.');
+    return true;
+   }else if(action==='join'){
     orgAssert(window?.calendar&&window.id===body.windowId&&clanCalendarPhase(window.calendar,now)==='MEMBERS','MEMBER_PHASE','클랜원 자율 가입 기간에만 가입할 수 있습니다.');
+    drawDue=!window.drawnAt;
    }else{
     orgAssert(seasonAdmissionEnabled(r,now)&&user.role==='OWNER','PERMISSION','운영자만 원로를 선정할 수 있습니다.',403);
     checkCandidates(window,body,now);
    }
    return action==='join'||body.userIds.length>0;
   });
-  if(load)ratings=await (deps.loadOrganizationRatings||(await import('./_organization_ratings.js')).loadOrganizationRatings)(env,action==='join'?[Number(user.id)]:body.userIds,deps,{now});
+  if(drawDue)await reconcileRecruitment(env,deps,{now});
+  if(load)ratings=await (deps.loadOrganizationRatings||(await import('./_organization_ratings.js')).loadOrganizationRatings)(env,action==='select'?body.userIds:[Number(user.id)],deps,{now});
  }
  return mutation(env,user,path,body,async q=>{
   const {r}=await lockedContext(q,user,body),at=(deps.now||Date.now)();
@@ -96,12 +127,18 @@ export async function elderSeasonCommand(env,user,path,body,deps,now,{mutation,l
     const previous=window.applications[user.id],selected=previous&&window.selections[previous.organizationId]?.some(p=>p.id===Number(user.id));
     orgAssert(!selected,'ELDER_SELECTED','이미 원로로 선정되었습니다.');
     if(action==='apply'){
-     const id=orgInteger(body.organizationId,1,clubs.length,'희망 클랜');
-     orgAssert(!previous,'PENDING','기존 지원을 취소한 후 원하는 클랜에 지원하세요.');
-     window.applications[user.id]={organizationId:id,nickname:actor.nickname,appliedAt:at};
+     orgAssert(!previous,'PENDING','이미 원로 지원을 접수했습니다.');
+     const application={nickname:actor.nickname,appliedAt:at};
+     if(window.calendar){
+      const rating=ratings?.[0];
+      orgAssert(rating?.userId===Number(user.id)&&Number.isSafeInteger(rating.power)&&rating.power>0,'RATING_INVALID','전력 정보를 다시 확인해 주세요.');
+      application.power=rating.power;
+     }else application.organizationId=orgInteger(body.organizationId,1,clubs.length,'희망 클랜');
+     window.applications[user.id]=application;
     }else{orgAssert(previous,'ELDER_APPLICATION','접수된 지원서가 없습니다.');delete window.applications[user.id];}
    }else if(action==='join'){
     orgAssert(window.calendar&&clanCalendarPhase(window.calendar,at)==='MEMBERS','MEMBER_PHASE','클랜원 자율 가입이 마감되었습니다.');
+    orgAssert(window.drawnAt,'ELDER_DRAW','원로 추첨 결과를 다시 불러오세요.');
     const club=orgInteger(body.organizationId,1,clubs.length,'가입할 클랜'),uid=Number(user.id);
     orgAssert(!window.members?.[uid]&&!Object.values(window.selections).some(s=>s.some(p=>p.id===uid)),'MEMBER','이미 이번 시즌 클랜에 가입했습니다.');
     orgAssert(signupRoster(window,club).length<25,'FULL','클랜 정원 25명이 찼습니다.');
@@ -134,13 +171,14 @@ export async function elderSeasonCommand(env,user,path,body,deps,now,{mutation,l
 export async function reconcileElderSeason(q,round,now){
  const window=await readWindow(q,round),calendar=window?.calendar;
  if(!calendar||window.startedSeasonId)return null;
- if(now<calendar.startsAt)return {waiting:true,status:clanCalendarPhase(calendar,now),nextCheckAt:iso(now<calendar.elderClosesAt?calendar.elderClosesAt:calendar.startsAt)};
- const result=await startVoluntarySeason(q,round,window,now);
- window.startedSeasonId=result.seasonId;window.nextRoundId=result.roundId;window.revision++;
+ const drawn=await drawElders(q,round,window,now);
+ if(now<calendar.startsAt)return {waiting:true,changed:drawn,status:clanCalendarPhase(calendar,now),nextCheckAt:iso(now<calendar.elderClosesAt?calendar.elderClosesAt:calendar.startsAt)};
+ const {seasonId,roundId,registeredElders}=await startVoluntarySeason(q,round,window,now);
+ window.startedSeasonId=seasonId;window.nextRoundId=roundId;window.revision++;
  await writeValue(q,key(round),window,now);
- // Keep the source election with its archived round. The new round only needs its dates.
- await writeValue(q,key({id:result.roundId}),{...window,applications:{},selections:{},members:{}},now);
- return {waiting:true,changed:true,status:'STARTED',...result};
+ // Keep all applications with the archived round and show the registered winners in the new round.
+ await writeValue(q,key({id:roundId}),{...window,applications:{},selections:registeredElders,members:{}},now);
+ return {waiting:true,changed:true,status:'STARTED',seasonId,roundId};
 }
 
 async function startVoluntarySeason(q,round,window,now){
@@ -187,5 +225,6 @@ async function startVoluntarySeason(q,round,window,now){
  const wars=starts.filter(start=>start>=startsAt&&start+3600000<=regularEnd).flatMap((start,i)=>cycle[i%cycle.length].map(pair=>({a:pair.clanAId,b:pair.clanBId,n:i+1,start:iso(start),finish:iso(start+3600000)})));
  await q("INSERT INTO clan_wars(season_id,round_no,clan_a_id,clan_b_id,status,starts_at,ends_at) SELECT $1,n,a,b,'SCHEDULED',w.start,w.finish FROM jsonb_to_recordset($2::jsonb) AS w(n integer,a integer,b integer,start text,finish text)",[seasonId,JSON.stringify(wars)]);
  await writeValue(q,CLAN_RESUMPTION_STATE_KEY,release,now);
- return {seasonId,roundId};
+ const registeredElders=Object.fromEntries(clubs.map(club=>[club,(window.selections[club]||[]).filter(p=>active.has(p.id))]));
+ return {seasonId,roundId,registeredElders};
 }
