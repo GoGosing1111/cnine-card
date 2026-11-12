@@ -2,6 +2,10 @@
   "engineSource": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
   "pixiCopies": 1,
   "inputs": [
+    "preview/project-v-v3/source/battle/mercenary-advancement/catalog.mjs",
+    "preview/project-v-v3/source/battle/mercenary-advancement/AdvancementEffects.mjs",
+    "preview/project-v-v3/source/battle/mercenary-advancement/AdvancementStateEffects.mjs",
+    "preview/project-v-v3/source/battle/mercenary-advancement/playback.mjs",
     "shared/icon-expansion-art-v1.mjs",
     "shared/icon-fusion-recipe-v1.mjs",
     "shared/icon-expansion-v1.mjs",
@@ -377,5 +381,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 3655214
+  "outputBytes": 3667644
 }

@@ -1,3 +1,4 @@
+import {playAdvancement,clearAdvancement} from './mercenary-advancement/playback.mjs';
 import {preloadIconExpansionPlayback,configureIconExpansionSprite,disposeIconExpansionPlayback} from './IconExpansionPlayback.js';
 import {BATTLE_DEVICE} from './BattleDevicePolicy.mjs';
 import './BattleTextureLifecycle.mjs';
@@ -1824,6 +1825,7 @@ export class BaseBattleEngine{
   }
 
   async applyBattlePayload(payload){
+    clearAdvancement(this);
     disposeIconTechniques(this);
     this.equipmentSetFX?.destroy();this.equipmentSetFX=null;
     this.battleData=payload;
@@ -2556,6 +2558,7 @@ export class BaseBattleEngine{
   }
 
   cancelTimelines(){
+    clearAdvancement(this);
     this.releaseBackgroundClock();
     // Invalidate event handlers still waiting on an optional atlas or recorded
     // SFX decode. The late network result may warm a cache, but it must never
@@ -3234,6 +3237,10 @@ export class BaseBattleEngine{
       const healing=Math.max(0,Number(event.healing||event.healAmount||event.recoveredHp||0));
       const hitCount=Math.max(1,Number(event.hitCount||event.comboCount||1));
       if(type==='DEPLOY')await this.deployCards({force:forceDeploy,instant:Boolean(this.livePayload)});
+      else if(type==='MERCENARY_ADVANCEMENT'){
+        if(target && resolvedTargetHp!==null)this.syncTargetHp(target,resolvedTargetHp);
+        syncEventShields();playAdvancement(this,event);
+      }
       else if(type==='ENEMY_SPAWN'&&this.cooperativeInstances)spawnCooperativeEnemy(this,event);
       else if(type==='START_EFFECT'||type==='GUARD_PROTECT'){
         // START_EFFECT is the authoritative opening-shield snapshot. Targeted

@@ -665,6 +665,15 @@ export function mercenaryCombat({teams,citadelHealing=false,hit,damage,knockout,
   afterBasic(a,t,hit,{additional=false}={}){if(hit&&!additional){if(a.isMercenary&&state(a).guardBasicAction!==a.actions)state(a).energy=Math.min(a.combat.energyMax,state(a).energy+a.combat.energyPerBasic);if(!sovereign(a)){const d=table(debuffs,a);d.offender||={};for(const enemy of enemies(a).filter(e=>e.isMercenary&&e.skills?.some(s=>s.mechanic==='REPEAT_OFFENDER_RESTRAINT')))d.offender[enemy.id]=Math.min(10,(d.offender[enemy.id]||0)+1);}}
    if(hit&&!additional){const d=table(debuffs,a),thorn=d.thorn;if(thorn){delete d.thorn;if(living(thorn.actor)&&living(a)&&a.actions<thorn.expires)effect(thorn.actor,thorn.skill,a,thorn.damage,'DOT');}}
    const r=state(t).riposte;delete state(t).riposte;if(r&&living(t)&&living(r.target))strike(t,r.skill,r.target,1,'RIPOSTE',{followup:true});
+  },cleanseOne(target){
+    const d=debuffs.get(target.id);
+    if(!d)return null;
+    for(const key of ['poison','rift','thorn','oath','armor','veil','restraint']){
+      if(!d[key])continue;
+      if(key==='armor')target.defense=d[key].original;
+      delete d[key];return key;
+    }
+    return null;
   },cleanse,cancel,state,buffs,debuffs,
  };
 }

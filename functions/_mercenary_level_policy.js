@@ -1,3 +1,4 @@
+import {ADVANCEMENT_PREFIX,storedAdvancement} from './_mercenary_advancement_storage.js';
 import {PLAYABLE_LEVELS} from './_comeback_loans.js';
 import {MERCENARY_LEVEL_RELEASE_ENABLED as RELEASE,MERCENARY_LEVEL_KEY as KEY,MERCENARY_LEVEL_RULES,mercenaryLevelDraft,validateMercenaryLevelPolicy,mercenaryLevelReadiness,mercenaryLevelStateFromStorage,attachMercenaryLevel,levelError} from '../shared/mercenary-level-v1.mjs';
 import {saveJointPolicyDraft} from './_joint_transactions.js';
@@ -29,14 +30,28 @@ export async function releasedMercenaryLevelSummary(env,userId){
  const {policy}=await readMercenaryLevelPolicy(env);if(policy.mode!=='ON'||!mercenaryLevelReadiness(policy,{requireGrowth:true}).ready)return {enabled:false,rows:[]};
  return {enabled:true,rows:(await env.DB.prepare(`SELECT * FROM ${PLAYABLE_LEVELS} WHERE user_id=?`).bind(userId).all()).results.map(r=>({code:r.mercenary_code,...mercenaryLevelStateFromStorage(r)}))};
 }
-// Both switches must open. OFF performs no new table reads and preserves all old snapshots.
+// Growth can close independently of a paid class. The OFF path needs no growth schema.
 // A value may contain multiple owned candidates for one user's duo rating.
 export async function attachReleasedMercenaryLevels(env,snapshots){
  if(!RELEASE||!snapshots.size)return snapshots;
- const {policy}=await readMercenaryLevelPolicy(env);if(policy.mode!=='ON'||!mercenaryLevelReadiness(policy,{requireGrowth:true}).ready)return snapshots;
- const ids=[...snapshots.keys()],rows=(await env.DB.prepare(`SELECT * FROM ${PLAYABLE_LEVELS} WHERE user_id IN (${ids.map(()=>'?').join(',')})`).bind(...ids).all()).results;
+ const {policy}=await readMercenaryLevelPolicy(env);
+ const growth=policy.mode==='ON'&&mercenaryLevelReadiness(policy,{requireGrowth:true}).ready;
+ const ids=[...snapshots.keys()], slots=ids.map(()=>'?').join(',');
+ const sql=growth?`SELECT g.*,m.value AS class_choice FROM ${PLAYABLE_LEVELS} g
+   LEFT JOIN app_meta m ON m.key=(?||CAST(g.user_id AS TEXT)||':'||g.mercenary_code)
+     AND (g.loan_until IS NULL OR EXISTS(SELECT 1 FROM user_mercenary_cards_v1 p WHERE p.user_id=g.user_id AND p.mercenary_code=g.mercenary_code AND p.total_copies>0))
+   WHERE g.user_id IN (${slots})`:
+   `SELECT p.user_id,p.mercenary_code,m.value AS class_choice FROM user_mercenary_cards_v1 p
+    JOIN app_meta m ON m.key=(?||CAST(p.user_id AS TEXT)||':'||p.mercenary_code)
+    WHERE p.total_copies>0 AND p.user_id IN (${slots})`;
+ const rows=(await env.DB.prepare(sql).bind(ADVANCEMENT_PREFIX,...ids).all()).results;
+ const byOwner=new Map(rows.map(row=>[row.user_id+':'+row.mercenary_code,row]));
  return new Map([...snapshots].map(([id,value])=>{
-  const attach=snapshot=>attachMercenaryLevel(snapshot,policy,rows.find(r=>Number(r.user_id)===id&&r.mercenary_code===snapshot.code));
+  const attach=snapshot=>{
+    if(!snapshot)return snapshot;
+    const row=byOwner.get(id+':'+snapshot.code), fighter=growth?attachMercenaryLevel(snapshot,policy,row):snapshot;
+    return row?.class_choice ? {...fighter,advancementId:storedAdvancement(row.class_choice).id} : fighter;
+  };
   return [id,Array.isArray(value)?value.map(attach):attach(value)];
  }));
 }

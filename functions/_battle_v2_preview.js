@@ -31,6 +31,7 @@ import {SX_RELEASE_ENABLED,SX_ATTACK_SPEED,isSxSuit,isSxAreaActor} from '../shar
 import {battleSuitIntrinsicDamage} from '../shared/z-body-area-skill.mjs';
 import {buildApocalypseLegion,castApocalypseAction,apocalypseSealed,apocalypseCursed,clearApocalypseStatus,finishApocalypseAction} from './_apocalypse_legion.js';
 import {SKILL_CHIP_RUNTIME_ENABLED,SKILL_CHIP_CLOCK,normalizeSkillChipCodes,skillChipDamage,splitSkillChipDamage,skillChipCombatEventMs} from '../shared/battle-suit-skill-chips.mjs';
+import {mercenaryAdvancementCombat} from './_mercenary_advancement_combat.js';
 import {buildMercenaryFighter,mercenaryCombat,mercenaryTurnCadence,mercenaryBaseActionCredit,independentMercenaryTurnCadence} from './_mercenary_combat.js';
 import {MAGIC_SEASON2_REVIEW} from '../shared/magic-season2-v1.mjs';
 import {COMPANION_PREPARATION_REVIEW,COMPANION_RELEASE,validatePreparedMercenaries} from '../shared/companion-loadout-v2.mjs';
@@ -646,13 +647,15 @@ function applyCanonicalDamage(target, incoming, options = {}) {
   let remaining = Math.max(options.damageFloor || 0, Number(incoming || 0));
   const shieldBefore = target.shield;
   const bypass=Math.floor(remaining*clamp(Number(options.shieldPierce||0),0,1));
-  const absorbed = options.ignoreShield ? 0 : Math.min(target.shield, remaining-bypass);
+  const baseAbsorbed = options.ignoreShield ? 0 : Math.min(target.shield, remaining-bypass);
+  const extraShield = options.advancementBreaker ? Math.min(target.shield-baseAbsorbed,Math.round(baseAbsorbed*.50)) : 0;
+  const absorbed = baseAbsorbed + extraShield;
   target.shield -= absorbed;
-  remaining -= absorbed;
+  remaining -= baseAbsorbed;
   const hpBefore = target.hp;
   if(options.beforeHpDamage)remaining=options.beforeHpDamage(target,remaining);
   target.hp = Math.max(0, target.hp - remaining);
-  return { absorbed, hpDamage: hpBefore - target.hp, shieldBefore, shieldAfter: target.shield, hpBefore, hpAfter: target.hp };
+  return { ...(extraShield?{advancementShieldDamage:extraShield}:{}), absorbed, hpDamage: hpBefore - target.hp, shieldBefore, shieldAfter: target.shield, hpBefore, hpAfter: target.hp };
 }
 
 function pushEvent(timeline, clock, type, data = {}) {
@@ -811,11 +814,16 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
 }
 
 export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [], encounterCapacity = 5, maxCombatDurationMs = 0, sustainedEncounter = null, cooperative = null, pets = null, petMode = 'PVE', [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false, [MAGIC_SEASON2_REVIEW]: season2Review = false, [COMPANION_PREPARATION_REVIEW]: companionReview = null, [PVP_POWER_BALANCE_REVIEW]: powerReview = false, [ICON_TECHNIQUE_PREPARATION]: techniquePreparation = null } = {}) {
-  let mercenaryRuntime=null,season2Runtime=null,iconRuntime=null,coopRuntime=null,techniqueRuntime=null;
-  const rawDamage=(target,incoming,options)=>{const result=applyCanonicalDamage(target,incoming,options);mercenaryRuntime?.onDamage(target,result);iconRuntime?.onDamage(target,result,options);season2Runtime?.afterDamage(target,result,options);techniqueRuntime?.onDamage(target,result,options);return result;};
+  let advancement=null,mercenaryRuntime=null,season2Runtime=null,iconRuntime=null,coopRuntime=null,techniqueRuntime=null;
+  const rawDamage=(target,incoming,options={})=>{const result=applyCanonicalDamage(target,incoming,options);advancement?.afterDamage(options.advancementSource||options.actor,target,result,options);mercenaryRuntime?.onDamage(target,result);iconRuntime?.onDamage(target,result,options);season2Runtime?.afterDamage(target,result,options);techniqueRuntime?.onDamage(target,result,options);return result;};
   const applyDamage=(target,incoming,options={})=>{
     // Scale once after the attack's hit cap, before guard redirection. A guard
     // receives an already scaled share through rawDamage, without another boost.
+    if(advancement){
+      const source=options.advancementSource||options.actor;
+      incoming=advancement.beforeDamage(source,target,incoming,options);
+      if(source?.advancementId==='breaker'&&options.direct&&!options.ignoreShield)options={...options,advancementBreaker:true};
+    }
     const powerMultiplier=pvpPowerDamageMultiplier(options.actor||options.pvpPowerSource);
     if(powerMultiplier!==1){incoming=Math.round(incoming*powerMultiplier);if(Number.isFinite(options.iconDamageCap))options={...options,iconDamageCap:Math.round(options.iconDamageCap*powerMultiplier)};}
     if(target.legionRegion==='coast'&&target.isBoss)target.legionVulnerability=b.some(c=>c.legionBossSupport&&c.hp>0&&c.alive)?.72:1.1;
@@ -877,7 +885,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   }
   const timeline = [];
   const emitTimeline=(list,at,type,data={})=>{pushEvent(list,at,type,data);if(type==='MAGIC_CARD')season2Runtime?.observeMagic(list[list.length-1]);};
-  const settleKnockout=(target,list,at,onBefore)=>{const down=resolveKnockout(target,list,at,target.isIconSummon?null:onBefore);if(down)techniqueRuntime?.onKnockout(target);return down;};
+  const settleKnockout=(target,list,at,onBefore)=>{const down=resolveKnockout(target,list,at,target.isIconSummon?null:onBefore);if(down){techniqueRuntime?.onKnockout(target);advancement?.updateCommand();}return down;};
   let clock = 0;
   let actionCount = 0;
   let mercenaryActionCount = 0;
@@ -1163,7 +1171,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
 
   if(season2Review===true){
     season2Runtime=createMagicSeason2Runtime({teams:{A:a,B:b},loadouts:{A:magicA,B:magicB},emit:(type,data)=>emitTimeline(timeline,clock,type,data),rawDamage,
-      knockout:(target,{finalOnly=false}={})=>{if(finalOnly){target.hp=0;target.alive=false;target.gauge=0;emitTimeline(timeline,clock,'KO',{targetId:target.id});}else settleKnockout(target,timeline,clock,reviveFromMagic);},
+      knockout:(target,{finalOnly=false}={})=>{if(finalOnly){target.hp=0;target.alive=false;target.gauge=0;advancement?.updateCommand();emitTimeline(timeline,clock,'KO',{targetId:target.id});}else settleKnockout(target,timeline,clock,reviveFromMagic);},
       spendHeal:spendHealPool,magicCap:(...args)=>apocalypseMagicCap(...args),sealed:actor=>apocalypseSealed(actor),
       cleanse:target=>{clearApocalypseStatus(target);mercenaryRuntime?.cleanse(target);season2Runtime?.cleanse(target);iconRuntime?.cleanse(target);},
       isHealingAllowed:()=>!(suddenDeathAfter>0&&actionCount>suddenDeathAfter)});
@@ -1177,6 +1185,27 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if(openingMonster)pushEscortStrike(openingMonster,clock+0.00005,true);
   }
 
+  advancement=mercenaryAdvancementCombat({
+    teams:{A:a,B:b},emit:(type,data)=>emitTimeline(timeline,clock,type,data),
+    heal(target,amount){
+      if(apocalypseCursed(target))return 0;
+      // Class healing is earned by its own action. A party without an HP card has no HP-card pool.
+      if(season2Runtime)return season2Runtime.heal(target,amount,{useTeamPool:false});
+      const actual=Math.min(target.maxHp-target.hp,iconHealingAmount(target,amount));
+      target.hp+=actual;return actual;
+    },
+    cleanseOne(target){
+      const key=Object.keys(target.apocalypseStatus||{})[0];
+      if(key){delete target.apocalypseStatus[key];emitTimeline(timeline,clock,'APOCALYPSE_STATUS',{targetId:target.id,statuses:{...target.apocalypseStatus},label:'정화'});return key;}
+      for(const field of ['magicSealCharges','doomMarks','timeDistortionStacks','stunned','silenced']){
+        if(target[field]>0){target[field]=0;return field;}
+      }
+      return mercenaryRuntime?.cleanseOne(target)||season2Runtime?.cleanseOne(target)||iconRuntime?.cleanse(target)||null;
+    },
+    extraHit:(actor,target,amount)=>applyDamage(target,amount,{actor,direct:true,advancementFollowup:true}),
+    knockout:target=>settleKnockout(target,timeline,clock,reviveFromMagic)
+  });
+  advancement?.open();
   const openingUltimate = Math.max(0, Math.round(Number(openingPlayerUltimateDamage || 0)));
   if (openingUltimate > 0 && alive(b).length) {
     const target = alive(b)[0];
@@ -1243,7 +1272,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     // Selected sniper/slow-shot casts use the PVE basic floor, scaled by the
     // actual per-impact ratio. A divided volley never repeats the full floor.
     // Escort has no floor; apocalypse scaling and the per-hit cap still apply.
-    hit:(actor,target,multiplier,{rangedSkill=false,castShare=1,capScale=null,pveCapScale=1,varyDamageCap=false}={})=>hitResult(actor,target,mercenaryRandom[actor.side],multiplier,false,{...hitOptions,...season2Runtime?.defenseOptions(target),minDamagePercent:rangedSkill?hitOptions.minDamagePercent*multiplier:0,capMinimumDamage:rangedSkill,varyDamageCap:actor.battleMode==='PVP'&&varyDamageCap,damageCapScale:actor.battleMode==='PVP'?(Number.isFinite(capScale)?capScale:(rangedSkill?castShare:1)):pveCapScale}),damage:applyDamage,
+    hit:(actor,target,multiplier,{rangedSkill=false,castShare=1,capScale=null,pveCapScale=1,varyDamageCap=false}={})=>{advancement?.attempt(actor,target);return hitResult(actor,target,mercenaryRandom[actor.side],multiplier,false,{...hitOptions,...season2Runtime?.defenseOptions(target),minDamagePercent:rangedSkill?hitOptions.minDamagePercent*multiplier:0,capMinimumDamage:rangedSkill,varyDamageCap:actor.battleMode==='PVP'&&varyDamageCap,damageCapScale:actor.battleMode==='PVP'?(Number.isFinite(capScale)?capScale:(rangedSkill?castShare:1)):pveCapScale});},damage:applyDamage,
     knockout:target=>settleKnockout(target,timeline,clock+0.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data),clock:()=>clock,season2:{skillBlocked:actor=>season2Runtime?.skillBlocked(actor)||false,cleanse:target=>{const cleared=iconRuntime?.cleanse(target);return season2Runtime?.cleanse(target)||cleared||false;},heal:(target,amount)=>season2Runtime?season2Runtime.heal(target,amount):null}}):null;
   if(cooperative?.encounter)coopRuntime=createCoopTraitRuntime({allies:a,emit:(type,data)=>emitTimeline(timeline,clock,type,data)});
   if(coopRuntime||techniqueConfig||[...a,...b].some(actor=>actor.iconRole)){
@@ -1433,6 +1462,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         c.hp=0;c.shield=0;c.alive=false;c.gauge=0;c.untargetable=true;
         emitTimeline(timeline,clock,'KO',{targetId:c.id,withdrawn:true,ownerId:c.ownerId});
       }
+      advancement?.updateCommand();
       stampCombatGroup(from,departed.atMs,false);
     }
     if(!targetableAlive(a).length||cooperative&&!targetableAlive(b).length&&!pendingMonsters.length&&(!sustained||sustained.bossSpawned))break;
@@ -1594,6 +1624,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if(actor.isMercenary){mercenaryActionCount += 1;mercenaryActionsBySide[actor.side] += 1;mercenaryActorActions.set(actor.id,(mercenaryActorActions.get(actor.id)||0)+1);}
     else if(!independentAction)actionCount += 1;
     const suddenDeath=Number(suddenDeathAfter||0)>0&&actionCount>Number(suddenDeathAfter||0);
+    if(!independentAction)advancement?.begin(actor,!suddenDeath);
     if(suddenDeath&&!actor.isMercenary&&actionCount===Number(suddenDeathAfter||0)+1){
       emitTimeline(timeline,clock,'SUDDEN_DEATH',{action:actionCount,label:'연장전 · 회복 봉쇄 · 공격 증폭'});
     }
@@ -1654,8 +1685,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
 
     const allEnemies=actor.side==='A'?b:a;
     const enemyTeam=coopRuntime?coopRuntime.targetTeam(actor,allEnemies):allEnemies;
-    if(castLegionRegionAction(actor,actor.side==='A'?a:b,enemyTeam,{damage:applyDamage,knockout:t=>settleKnockout(t,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data)}))continue;
-    if(castApocalypseAction(actor,enemyTeam,{damage:applyDamage,damageCombined:season2Runtime?(target,normal,pierce)=>applyDamage(target,normal+pierce,{actor,direct:true,shieldPierce:normal+pierce>0?pierce/(normal+pierce):0}):null,knockout:t=>settleKnockout(t,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data)}))continue;
+    const monsterDamage=advancement&&actor.isMonster?(target,n,opt)=>applyDamage(target,n,{...opt,advancementSource:actor,advancementDirect:true}):applyDamage;
+    if(castLegionRegionAction(actor,actor.side==='A'?a:b,enemyTeam,{damage:monsterDamage,knockout:t=>settleKnockout(t,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data)}))continue;
+    if(castApocalypseAction(actor,enemyTeam,{damage:monsterDamage,damageCombined:season2Runtime?(target,normal,pierce)=>applyDamage(target,normal+pierce,{actor,direct:true,shieldPierce:normal+pierce>0?pierce/(normal+pierce):0}):null,knockout:t=>settleKnockout(t,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data)}))continue;
     if(!independentAction&&mercenaryRuntime?.beforeAction(actor,{healingAllowed:!suddenDeath}))continue;
     // V2063: PVP speed assassins bypass formation to hunt living HP-unique cards.
     // Once no healer remains, normal formation targeting resumes. PVE is unchanged.
@@ -1668,6 +1700,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     const tauntGuard=actor.isMonster?pool.find(card=>card.type==='DEFENSE'&&random()<0.70):null;
     const preferredTarget=iconRuntime?.selectTarget(actor,pool);
     const target = tauntGuard||(!techniqueRuntime?preferredTarget:preferredTarget&&pool.includes(preferredTarget)?preferredTarget:null)||lowestRatioTarget(pool, random);
+    advancement?.attempt(actor,target);
     techniqueRuntime?.singleTarget(actor,target);
     const speedCombo=isPvpSpeedCard(actor)&&!apocalypseSealed(actor);
     if(speedCombo)actor.speedBasicAttacks=(actor.speedBasicAttacks||0)+1;
@@ -1891,7 +1924,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         if(barrierBroken){actor.attack=Math.max(1,Math.round(actor.attack*(target.defenseLineBreached?0.95:0.90)));emitTimeline(timeline,clock+0.0015,'GUARD_BREAK_DEBUFF',{actorId:target.id,targetId:actor.id,attackAfter:actor.attack,label:'방어형 · 방벽 파쇄 반격'});}
       }
     }
-    } finally {if(actionActor)season2Runtime?.endAction(actionActor);if(!independentAction)iconRuntime?.endAction(actionActor);if(!independentAction)techniqueRuntime?.endAction(actionActor);refreshSpeedSuppression();const statuses=finishApocalypseAction(actionActor);if(statuses)emitTimeline(timeline,clock+.00009,'APOCALYPSE_STATUS',{targetId:actionActor.id,statuses});actionRandom=cardRandom;stampCombatGroup(groupFrom,combatMs,!independentAction);}
+    } finally {if(actionActor&&!independentAction)advancement?.end(actionActor);if(actionActor)season2Runtime?.endAction(actionActor);if(!independentAction)iconRuntime?.endAction(actionActor);if(!independentAction)techniqueRuntime?.endAction(actionActor);refreshSpeedSuppression();const statuses=finishApocalypseAction(actionActor);if(statuses)emitTimeline(timeline,clock+.00009,'APOCALYPSE_STATUS',{targetId:actionActor.id,statuses});actionRandom=cardRandom;stampCombatGroup(groupFrom,combatMs,!independentAction);}
   }
 
   const aRatio = teamHpRatio(a);

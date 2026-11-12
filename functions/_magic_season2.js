@@ -88,9 +88,10 @@ export function createMagicSeason2Runtime({teams,loadouts,emit,rawDamage,knockou
   if(!amount||blocked(s))return;consume(s);target.s2ForgeShield=n(target.s2ForgeShield)+amount;target.shield+=amount;target.maxShield=Math.max(target.maxShield,target.shield);
   event(s,target,'OVERHEAL',{amount,approvedHeal:approved,actualHeal:actual,shieldGain:amount,targetHpAfter:target.hp,targetShieldAfter:target.shield});
  }
- function heal(target,requested,{allowOvertime=false}={}){
+ function heal(target,requested,{allowOvertime=false,useTeamPool=true}={}){
   if(!living(target)||!allowOvertime&&!isHealingAllowed())return 0;
-  const approved=n(spendHeal(target.side,iconHealingAmount(target,n(requested)))),actual=Math.min(approved,Math.max(0,target.maxHp-target.hp));
+  const adjusted=iconHealingAmount(target,n(requested));
+  const approved=n(useTeamPool?spendHeal(target.side,adjusted):adjusted),actual=Math.min(approved,Math.max(0,target.maxHp-target.hp));
   target.hp+=actual;healed(target,approved,actual);return actual;
  }
  function afterDamage(target,result,options={}){
@@ -165,6 +166,12 @@ export function createMagicSeason2Runtime({teams,loadouts,emit,rawDamage,knockou
   settle();
  }
  function cleanseTarget(target){const debuffs=anti.get(target.id);if(debuffs)for(const [code,d] of Object.entries(debuffs))status(d.s,target,code,0);const had=anti.has(target.id)||armor.has(target.id);anti.delete(target.id);armor.delete(target.id);return had;}
- return {open,beforeAttack,defenseOptions,beforeDamage,beforeHpDamage,afterDamage,afterAttack,heal,settle,observeMagic,skillBlocked,endAction,cleanse:cleanseTarget,hasDebuff:target=>anti.has(target.id)||armor.has(target.id),
+ function cleanseOne(target){
+  const rows=anti.get(target.id);
+  const active=rows&&Object.entries(rows).find(([,effect])=>effect.remaining>0);
+  if(active){const [code,effect]=active;status(effect.s,target,code,0);delete rows[code];if(!Object.keys(rows).length)anti.delete(target.id);return code;}
+  return armor.delete(target.id)?'armor':null;
+ }
+ return {cleanseOne,open,beforeAttack,defenseOptions,beforeDamage,beforeHpDamage,afterDamage,afterAttack,heal,settle,observeMagic,skillBlocked,endAction,cleanse:cleanseTarget,hasDebuff:target=>anti.has(target.id)||armor.has(target.id),
   snapshot:()=>({states:states.map(s=>({code:s.card.code,actorId:s.actor.id,uses:s.uses,attacks:s.attacks})),teamUses:Object.fromEntries(teamUses)})};
 }

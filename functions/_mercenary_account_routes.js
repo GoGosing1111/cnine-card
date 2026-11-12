@@ -1,4 +1,5 @@
 import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
+import {handleMercenaryAdvancement} from './_mercenary_advancement.js';
 import {handleMercenaryFusion} from './_mercenary_fusion.js';
 import {handleMercenaryLevel} from './_mercenary_level.js';
 import {handleMercenaryEquipment} from './_mercenary_equipment.js';
@@ -9,6 +10,7 @@ import {handleHyperOpening,hyperOpeningFeature,hyperOpeningRuntime,hyperOpeningG
 export const isMercenaryAccountPath=path=>path.startsWith('mercenaries/v3/')||['mercenary-cards/open','mercenary-cards/open-batch','mercenary-cards/feature','hyper-pack/open'].includes(path);
 export const mercenaryUsesInnerLock=path=>isMercenaryAccountPath(path);
 export async function handleMercenaryAccount({path,request,env,deps}){
+  if(path.startsWith('mercenaries/v3/advancement/'))return handleMercenaryAdvancement({path,request,env,deps});
   const equipment=await handleMercenaryEquipment({path,request,env,deps});if(equipment)return equipment;
   const leveling=await handleMercenaryLevel({path,request,env,deps});if(leveling)return leveling;
   const fusion=await handleMercenaryFusion({path,request,env,deps});if(fusion)return fusion;

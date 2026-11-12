@@ -264,6 +264,15 @@ window.addEventListener('hashchange',()=>{if(catalog)choose(location.hash.slice(
 window.addEventListener('storage',event=>{if(['cnine.mercenary.cms.changed','cnine.mercenary.loadout.changed'].includes(event.key))void refresh({quiet:true});if(event.key===storageKey){try{const value=JSON.parse(event.newValue||'[]');if(Array.isArray(value)){favorites=new Set(value);updateFilters();renderSelection();}}catch{}}});
 window.addEventListener('focus',()=>{if(Date.now()-lastCheck>2000)void refresh({quiet:true});});document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now()-lastCheck>2000)void refresh({quiet:true});});
 let fusionOpening=false,fusionLoadAttempt=0;
+const advancementButton=$('openAdvancement');
+if(advancementButton)advancementButton.onclick=async()=>{
+  advancementButton.disabled=true;
+  try{
+    const {openAdvancement}=await import('./advancement/open.mjs');
+    await openAdvancement(current()?.code,()=>{void refresh();});
+  }catch(e){note(e.message||'전직창을 열지 못했습니다.');}
+  finally{advancementButton.disabled=false;}
+};
 $('openFusion').onclick=async()=>{
   if(fusionOpening)return;
   if(!catalog){note('용병 정보를 불러온 뒤 다시 시도하세요.');return;}

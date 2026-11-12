@@ -1,0 +1,1 @@
+export const roleIcons = ["vanguard","duelist","executioner","berserker","combo","vampire","avenger","shield-knight","barrier","undying","regenerator","healer","guardian","cleanser","commander","breaker"];

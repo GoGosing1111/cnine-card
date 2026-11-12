@@ -170,6 +170,8 @@ export function disposeV3MercenaryPresentation(engine){
  for(const sequence of engine.mercenarySequences?.values()||[])releaseFrameViews(sequence);
  engine.mercenarySequences?.clear();void engine.mercenaryAudio?.destroy();
 }
+const isMercenarySkillEvent = event => event.type !== 'MERCENARY_ADVANCEMENT' && String(event.type).startsWith('MERCENARY_');
+
 export const withMercenaryBattle=Base=>class extends Base{
  constructor(options){super(options);this.mercenaries=[];this.mercenarySequences=new Map();this.mercenaryLoads=new Map();this.mercenaryHitIndices=new Map();this.mercenaryFx=null;}
  async setVisible(next){const out=await super.setVisible(next);if(this.visible){resumeLimitedPlayback(this);resumeJinmuPlayback(this);resumeKaironPlayback(this);resumeJokroPlayback(this);resumeCardguPlayback(this);resumeKamishiroPlayback(this);resumeHeukmuPlayback(this);resumeGeneralJokPlayback(this);resumeAwakenedOmegaPlayback(this);resumeRazakPlayback(this);resumeNamsudaengPlayback(this);resumeBlackCrownPlayback(this);resumeBloodmoonPlayback(this);resumeJinJokroPlayback(this);resumeHeliosKingPlayback(this);resumeHakuyaPlayback(this);resumeRevanPlayback(this);resumeEunseolPlayback(this);resumePrimePlayback(this);resumeZeroPlayback(this);resumeLeonelPlayback(this);resumeBathoryPlayback(this);resumeShiranuiPlayback(this);resumeHeliosPlayback(this);resumeAzantPlayback(this);resumeKangyunPlayback(this);}return out;}
@@ -459,9 +461,9 @@ export const withMercenaryBattle=Base=>class extends Base{
   finally{audio?.stop();this.lastMercenaryPlayback={skillId:skill.id,eventType:type,phaseIndex:hitIndex,audio:audio?.diagnostics()||null,frames:fx.activeFrames};fx.destroy();if(this.mercenaryFx===fx)this.mercenaryFx=null;}
  }
  async playEvents(events=[],options={}){
-  if(!options.timedInternal&&events.some(e=>e.combatClock===SKILL_CHIP_CLOCK)||!events.some(e=>String(e.type).startsWith('MERCENARY_')))return super.playEvents(events,options);
+  if(!options.timedInternal&&events.some(e=>e.combatClock===SKILL_CHIP_CLOCK)||!events.some(isMercenarySkillEvent))return super.playEvents(events,options);
   const epoch=this.playbackEpoch;
-  for(const e of events){if(!this.visible||this.formationCoop&&epoch!==this.playbackEpoch)return false;const played=String(e.type).startsWith('MERCENARY_')?await this.playMercenaryEvent(e):await super.playEvents([e],options);if(played===false)return false;}return true;
+  for(const e of events){if(!this.visible||this.formationCoop&&epoch!==this.playbackEpoch)return false;const played=isMercenarySkillEvent(e)?await this.playMercenaryEvent(e):await super.playEvents([e],options);if(played===false)return false;}return true;
  }
  diagnostics(){return {...super.diagnostics(),mercenaryPlayback:{last:this.lastMercenaryPlayback||null,active:this.mercenaryFx?.diagnostics()||null,audio:this.mercenaryAudio?.diagnostics()||null,limited:limitedDiagnostics(this)}};}
  destroy(){this.mercenaryDisposed=true;this.clearMercenaryActors();void this.mercenaryAudio?.destroy();for(const sequence of this.mercenarySequences?.values()||[])releaseFrameViews(sequence);this.mercenarySequences?.clear();super.destroy();}
