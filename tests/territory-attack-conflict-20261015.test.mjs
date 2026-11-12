@@ -99,7 +99,7 @@ for(const postgres of [false,true]){
     const f=await fixture(t,postgres),before=await f.snapshot(),prepare=f.env.DB.prepare.bind(f.env.DB),id='CONFLICT:COMPLETED:001';let readFailures=0;
     f.env.DB.prepare=sql=>{
       const statement=prepare(sql);
-      if(sql==='SELECT * FROM territory_war_v3_rounds ORDER BY id DESC LIMIT 1'){
+      if(sql.includes('FROM territory_war_v3_rounds r')&&sql.endsWith(' ORDER BY r.id DESC LIMIT 1')){
         const first=statement.first.bind(statement);
         statement.first=async()=>{
           const action=await prepare('SELECT status FROM territory_war_v3_actions WHERE request_id=?').bind(id).first();

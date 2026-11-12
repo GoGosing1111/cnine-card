@@ -48,6 +48,23 @@ test('matching rechecks changed current powers and skips an invalid current deck
   assert.notEqual((await L.currentBattleOpponent({},deps,{candidates:pool,recent:[],seed},{deck_power:50000},{})).user_id,first);
 });
 
+test('automatic map reads only write a changed formation in an active round',async t=>{
+  const f=await territoryNetworkFixture(t,false,{participants:6}),{deps}=providers();
+  await f.form();
+  const round=await f.round(),read=()=>f.p('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=2',round.id).first();
+  const stored=await read(),current=await L.currentTerritoryFormation(f.env,deps,stored,{});
+  await L.saveCurrentTerritoryFormation(f.env,current,round,stored);
+  assert.equal((await read()).deck_snapshot,current.deck_snapshot);
+  const marker='2026-01-01 00:00:00';
+  await f.p('UPDATE territory_war_v3_users SET loadout_refreshed_at=? WHERE round_id=? AND user_id=2',marker,round.id).run();
+  const unchanged=await read();
+  await L.saveCurrentTerritoryFormation(f.env,current,round,unchanged);
+  assert.equal((await read()).loadout_refreshed_at,marker);
+  const changed={...current,loadout_bonus_json:JSON.stringify({pet:{id:8}})};
+  await L.saveCurrentTerritoryFormation(f.env,changed,round,unchanged);
+  assert.equal((await read()).loadout_bonus_json,changed.loadout_bonus_json);
+});
+
 test('carried complete registrations refresh cards and mercenaries before team allocation',async t=>{
   const f=await territoryNetworkFixture(t,false,{participants:6}),{deps}=providers();
   await f.p('UPDATE territory_war_v3_users SET mandatory_clan=0').run();

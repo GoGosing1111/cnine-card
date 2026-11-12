@@ -695,7 +695,10 @@ async function currentTerritoryFormation(env,deps,row,battle){
     formation_breakdown_json:JSON.stringify(snapshot.breakdown),loadout_bonus_json:JSON.stringify(snapshot.loadoutBonus),
     currentCards:deck.map(card=>({...card,id:String(card.id),power:deps.cardBattlePower(card,card.breakthrough_level,battle)}))};
 }
-async function saveCurrentTerritoryFormation(env,row,round=null){
+async function saveCurrentTerritoryFormation(env,row,round=null,previous=null){
+  if(round?.status==='ACTIVE'&&previous?.loadout_refreshed_at&&
+    ['deck_snapshot','deck_power','formation_power','formation_breakdown_json','loadout_bonus_json']
+      .every(key=>String(previous[key])===String(row[key])))return;
   // Only the formation changes. Never overwrite energy, team or contribution.
   const update=env.DB.prepare(`UPDATE territory_war_v3_users SET deck_snapshot=?,deck_power=?,formation_power=?,formation_breakdown_json=?,loadout_bonus_json=?,loadout_refreshed_at=CURRENT_TIMESTAMP
     WHERE round_id=? AND user_id=? AND EXISTS(SELECT 1 FROM territory_war_v3_rounds WHERE id=? AND status IN ('RECRUITING','PREPARING','ACTIVE'))`)
@@ -1379,7 +1382,9 @@ async function publicState(env,userId,includeAdmin=false,nodeIndex=4,knownRound=
     return state;
   }
   if(round.status!=='FINISHED')await recoverAppliedForUser(env,userId,cfg);
-  if(isNetworkWar(round))round=frontRound(round,await networkFront(env,round,{nodeIndex}));
+  const network=isNetworkWar(round);
+  const selectedFront=network?await networkFront(env,round,{nodeIndex}):null;
+  if(network)round=frontRound(round,selectedFront);
   const [shared,mineRow,reward,victoryBuff]=await Promise.all([sharedPublicState(env,round,cfg),env.DB.prepare(`SELECT ranked.* FROM (
     SELECT w.*,
       (w.damage+w.front_finishes*10000+w.defense_wins*2500+w.counter_contribution*25) command_score,
@@ -1387,7 +1392,7 @@ async function publicState(env,userId,includeAdmin=false,nodeIndex=4,knownRound=
       COUNT(*) OVER () contribution_total
     FROM territory_war_v3_users w
     WHERE w.round_id=? AND w.side IN ('A','B')
-  ) ranked WHERE ranked.user_id=?`).bind(round.id,userId).first(),rewardForUser(env,userId,afterAction?round.id:null,{readOnly:afterAction}),readVictoryBuff(env.DB,userId)]),front=isNetworkWar(round)?await networkFront(env,round,{nodeIndex}):shared.front,counts=shared.counts;
+  ) ranked WHERE ranked.user_id=?`).bind(round.id,userId).first(),rewardForUser(env,userId,afterAction?round.id:null,{readOnly:afterAction}),readVictoryBuff(env.DB,userId)]),front=network?selectedFront:shared.front,counts=shared.counts;
   let mine=null;if(mineRow){const e=rechargeEnergy(mineRow,cfg,front);mine={...mineRow,energy:e.energy,nextEnergyAt:e.nextEnergyAt}}
   const ranking=shared.ranking,recentResults=shared.recentResults,recentActions=shared.recentActions;
   const canRegister=!round.draft_battle_at&&!mine&&round.status==='RECRUITING',canCancel=!round.draft_battle_at&&Boolean(mine&&round.status==='RECRUITING');
@@ -1720,7 +1725,7 @@ export async function handleTerritoryWar({path,request,env,deps}){
     const round=await lifecycle(env,cfg);
     if(round&&cfg.mode!=='OFF'&&['RECRUITING','PREPARING','ACTIVE'].includes(round.status)){
       const row=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();
-      if(row&&['WAITING','ACTIVE'].includes(row.status)){const current=await currentTerritoryFormation(env,deps,{...row,nickname:user.nickname,role:user.role},await deps.battleSettings(env));if(current)await saveCurrentTerritoryFormation(env,current,round);}
+      if(row&&['WAITING','ACTIVE'].includes(row.status)){const current=await currentTerritoryFormation(env,deps,{...row,nickname:user.nickname,role:user.role},await deps.battleSettings(env));if(current)await saveCurrentTerritoryFormation(env,current,round,row);}
     }
     return deps.json(await publicState(env,user.id,false,new URL(request.url).searchParams.get('nodeIndex')??4,round));
   }

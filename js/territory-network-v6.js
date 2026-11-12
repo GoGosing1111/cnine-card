@@ -102,10 +102,22 @@
       return stamp<=now&&stamp>=now-120000;
     };
     const nodeAt=index=>index==null?null:nodes.find(n=>Number(n.index)===Number(index));
+    const notice=state.notice;
+    if(state.network&&notice?.type==='NETWORK_CAPTURE'&&fresh(notice.created_at)){
+      const payload=notice.payload||{},node=nodeAt(payload.nodeIndex);
+      const key='sector:'+(payload.frontId||'notice-'+notice.id);
+      const team=validSide(notice.side)?sideName(notice.side)+' 측이 ':'';
+      if(node&&typeof payload.defended==='boolean'){
+        rows.push(report(key,node.name,team+(payload.defended?'거점 방어에 성공했습니다.':'거점을 점령했습니다. 진입 가능한 경로가 변경되었습니다.')));
+      }else{
+        rows.push(report(key,notice.title||'거점 소식',notice.message||'거점 상황이 변경되었습니다.'));
+      }
+    }
     for(const row of state.recentResults||[]){
       const node=nodeAt(row.node_index);
       if(node&&validSide(row.winner_side)&&fresh(row.created_at)){
-        rows.push(report('sector:'+row.front_id,node.name,sideName(row.winner_side)+' 측이 거점 공방에서 승리했습니다.'));
+        const key='sector:'+row.front_id;
+        if(!rows.some(item=>item.key===key))rows.push(report(key,node.name,sideName(row.winner_side)+' 측이 거점 공방에서 승리했습니다.'));
         break;
       }
     }
@@ -139,7 +151,7 @@
     const changed=roundId!==state.round?.id;
     if(changed){roundId=state.round?.id;manualPause=false;}
     const latestSector=next[0].key.startsWith('sector:')&&next[0].key!==reports[0]?.key;
-    const index=changed||latestSector?-1:next.findIndex(row=>row.key===previous);
+    const index=changed||(latestSector&&!manualPause)?-1:next.findIndex(row=>row.key===previous);
     if(index<0){cursor=0;lastTurn=Date.now();}else cursor=index;
     reports=next;
     const row=reports[cursor];

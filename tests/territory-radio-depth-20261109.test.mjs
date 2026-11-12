@@ -47,6 +47,22 @@ test('quiet, truce and final result replace live reports, including archived rou
   assert.match(ui.occupationHtml(legacy,labels),/flex:8.+flex:0.+flex:12/);
 });
 
+test('a fresh capture or defense leads the radio once even when a full result reports the same front',()=>{
+  const ui=view(),s=base();
+  s.notice={id:9,type:'NETWORK_CAPTURE',side:'B',created_at:'2026-11-09 06:59:58',payload:{nodeIndex:4,frontId:41,defended:false}};
+  s.recentResults=[{front_id:41,node_index:4,winner_side:'B',created_at:s.notice.created_at}];
+  let rows=ui.radioReports(s,sideName);
+  assert.equal(rows.filter(r=>r.key==='sector:41').length,1);
+  assert.equal(rows[0].place,'중앙 교차지');assert.match(rows[0].body,/동부 연합.*점령.*경로/);
+  s.notice.payload.defended=true;
+  assert.match(ui.radioReports(s,sideName)[0].body,/동부 연합.*방어에 성공/);
+  delete s.notice.payload;
+  s.notice.title='거점 방어 성공';s.notice.message='중앙 교차지 · 방어에 성공했습니다.';
+  assert.match(ui.radioHtml(s,labels),/중앙 교차지 · 방어에 성공했습니다/);
+  s.notice.created_at='2026-11-09 06:57:00';s.recentResults=[];
+  assert.equal(ui.radioReports(s,sideName)[0].key,'contact:4');
+});
+
 test('supplied team and sector names are escaped in the radio and map',()=>{
   const ui=view(),s=base();s.network.nodes[1].name='<sector>';
   assert.match(ui.radioHtml(s,labels),/&lt;sector>/);assert.doesNotMatch(ui.mapHtml(s,labels),/<sector>/);

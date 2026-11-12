@@ -135,7 +135,7 @@
     if(!item?.key||warDispatchSeen.has(item.key))return;warDispatchSeen.add(item.key);if(warDispatchSeen.size>80)warDispatchSeen.delete(warDispatchSeen.values().next().value);warDispatchQueue.push(item);warDispatchQueue.sort((a,b)=>Number(b.priority||0)-Number(a.priority||0));if(warDispatchQueue.length>4)warDispatchQueue.length=4;playNextWarDispatch();
   }
   function syncWarDispatches(){
-    if(state?.network){const next=warDispatchSnapshot(),previous=warDispatchBaseline;warDispatchBaseline=next;const notice=state.notice;if(previous&&next.noticeId!==previous.noticeId&&notice?.type==='NETWORK_CAPTURE')enqueueWarDispatch({key:`${next.roundId}:network:${next.noticeId}`,side:notice.side,tier:0,priority:70,kicker:'TERRITORY CONTROL',code:'SECTOR UPDATE',mark:'LIVE',title:notice.title,detail:notice.message});return;}
+    if(state?.network)return;
     const next=warDispatchSnapshot();if(!warDispatchBaseline||warDispatchBaseline.roundId!==next.roundId){warDispatchBaseline=next;if(next.active&&next.frontId){const a=tw4SideHp('A'),b=tw4SideHp('B'),gap=Math.abs(a.pct-b.pct).toFixed(1),leader=Math.abs(a.pct-b.pct)<.05?'':a.pct>b.pct?'A':'B',node=tw4NodeMeta(next.frontIndex).name;clearTimeout(warDispatchIntroTimer);warDispatchIntroTimer=setTimeout(()=>{if(modal&&Number(state?.round?.id||0)===next.roundId)enqueueWarDispatch({key:`${next.roundId}:session:${next.frontId}`,side:leader,tier:0,priority:58,kicker:'LIVE FRONTLINE',code:'SITUATION SYNC',mark:'LIVE',title:`현재 교전지 · ${node}`,detail:leader?`${teamLabel(leader)} 공성 HP 우세 · 현재 격차 ${gap}%P`:`양 진영 공성 HP 초접전 · 현재 격차 ${gap}%P`})},420)}return}const previous=warDispatchBaseline;warDispatchBaseline=next;if(!next.active||!previous.active)return;
     const candidates=[];let captureMilestone=false;
     for(const side of ['A','B']){const current=next.capture[side],before=previous.capture[side],tier=current>=5&&before<5?5:current>=3&&before<3?3:0;if(!tier)continue;captureMilestone=true;const node=tw4NodeMeta(next.frontIndex).name;candidates.push({key:`${next.roundId}:capture:${side}:${tier}`,side,tier,priority:tier===5?100:82,kicker:'FRONTLINE BREAKTHROUGH',code:`CAPTURE ${tier}`,mark:`${tier}C`,title:`${teamLabel(side)} ${tier}개 거점 연속 돌파`,detail:tier===5?`${node} 확보 · 상대 본성 방어 단계가 임박했습니다.`:`${node} 확보 · 전선 압박이 빠르게 상승합니다.`})}
@@ -335,16 +335,16 @@
   function render(){if(!modal||!state)return;if((state.mode==='OFF'&&!pinnedRound)||!state.round||state.round.status==='DISABLED'){modal.classList.remove('tw4-mode');return renderDisabled()}if(state.round.status==='RECRUITING'){modal.classList.remove('tw4-mode');return renderRecruit()}if(state.round.status==='PREPARING'&&renderFormation())return;renderBattle();showMassAssaultBriefing();showOperationBriefing();showTruceBriefing();syncWarDispatches()}
   function startCountdowns(){const tick=()=>{tickSkills();globalThis.CNineTerritoryNetwork?.tick?.();globalThis.CNineTerritoryBattlefield?.tick();modal?.querySelectorAll('[data-tw3-countdown]').forEach(node=>{const text=remaining(node.dataset.tw3Countdown);if(text!==node.textContent)node.textContent=text});if(state?.truce?.active&&Date.parse(state.truce.endsAt||'')<=Date.now()+serverOffsetMs&&!truceExpiryRefresh){truceExpiryRefresh=true;setTimeout(()=>loadFull(true),50)}};tick();clearInterval(modal?._countdownTimer);if(modal)modal._countdownTimer=setInterval(tick,1000)}
 
-  async function loadFull(force=false,errorMessage=''){
+  async function loadFull(force=false,errorMessage='',signal){
     if(!modal)return false;
     const request=++fullRequest,instance=modal,selected=selectedNodeIndex,previous=state?.round,started=Date.now();
-    const archived=id=>api('territory-war/after-action?roundId='+id+'&nodeIndex='+(selected??4),{},{microcache:false});
+    const archived=id=>api('territory-war/after-action?roundId='+id+'&nodeIndex='+(selected??4),{signal},{microcache:false});
     try{
-      let data=pinnedRound?await archived(pinnedRound):await api('territory-war/state',{},force?{replaceInflight:true,microcache:false}:{});
+      let data=pinnedRound?await archived(pinnedRound):await api('territory-war/state',{signal},force?{replaceInflight:true,microcache:false}:{});
       if(previous?.status==='ACTIVE'&&previous.id!==data.round?.id){
         try{data=await archived(Number(previous.id));}catch(e){if(Number(e.status)!==404)throw e;}
       }
-      if(instance!==modal||request!==fullRequest||selected!==selectedNodeIndex)return false;
+      if(signal?.aborted||instance!==modal||request!==fullRequest||selected!==selectedNodeIndex)return false;
       if(previous?.status==='ACTIVE'&&data.round?.status==='FINISHED')pinnedRound=Number(data.round.id);
       const responseAt=Date.now(),serverAt=Date.parse(data.serverNow||'');
       if(Number.isFinite(serverAt))serverOffsetMs=serverAt-Math.round((started+responseAt)/2);
@@ -353,14 +353,36 @@
       render();if(openPanel&&modal.querySelector('.tw4-drawer-content')){tw4OpenDrawer(openPanel,false);modal.querySelector('.tw4-drawer-content').scrollTop=scroll}
       schedulePoll();return true;
     }catch(error){
-      if(instance!==modal||request!==fullRequest)return false;
+      if(signal?.aborted||instance!==modal||request!==fullRequest)return false;
       pollFailureCount=Math.min(4,pollFailureCount+1);
       if(state){showToast(errorMessage||'전황을 갱신하지 못했습니다. 새로고침으로 다시 확인하세요.');schedulePoll();return false}
       (warSurface||modal).innerHTML='<div class="tw3-loading tw3-error"><b>영토전을 불러오지 못했습니다.</b><span>'+esc(errorMessage||error.message)+'</span><button data-retry>다시 시도</button><button data-tw3-close>닫기</button></div>';
       bindClose();modal.querySelector('[data-retry]')?.addEventListener('click',()=>loadFull(true,errorMessage));return false;
     }
   }
-  async function loadLite(){if(!modal||pollController)return;pollController=new AbortController();try{const selectedAtStart=selectedNodeIndex,data=await api('territory-war/state-lite',{signal:pollController.signal},{replaceInflight:true,timeoutMs:10000});if(!state||selectedAtStart!==selectedNodeIndex)return;pollFailureCount=0;const frontChanged=Number(data.front?.id||0)!==lastFrontId,statusChanged=String(data.round?.status||'')!==lastRoundStatus,fullRefreshDue=Date.now()-lastFullLoadedAt>=30000;if(frontChanged||statusChanged||data.round?.status==='FINISHED'||fullRefreshDue){pollController=null;return loadFull(true)}const openPanel=modal.querySelector('.tw4-drawer-layer:not([hidden]) .tw4-drawer-panel:not([hidden])')?.dataset.tw4Panel,scroll=modal.querySelector('.tw4-drawer-content')?.scrollTop||0;mergeLite(data);render();if(openPanel&&modal.querySelector('.tw4-drawer-content')){tw4OpenDrawer(openPanel,false);modal.querySelector('.tw4-drawer-content').scrollTop=scroll}}catch(error){if(error.name!=='AbortError'){pollFailureCount=Math.min(4,pollFailureCount+1);console.warn('territory war poll failed',error)}}finally{pollController=null;schedulePoll()}}
+  async function loadLite(){
+    if(!modal||pollController)return;
+    const controller=pollController=new AbortController(),instance=modal,selected=selectedNodeIndex,request=fullRequest;
+    try{
+      // The full read also refreshes the player's loadout. On those ticks,
+      // request it directly instead of reading the entire network map twice.
+      if(state?.network&&Date.now()-lastFullLoadedAt>=30000)return await loadFull(true,'',controller.signal);
+      const data=await api('territory-war/state-lite',{signal:controller.signal},{replaceInflight:true,timeoutMs:10000});
+      if(controller.signal.aborted||instance!==modal||request!==fullRequest||!state||selected!==selectedNodeIndex)return;
+      pollFailureCount=0;
+      const frontChanged=Number(data.front?.id||0)!==lastFrontId,statusChanged=String(data.round?.status||'')!==lastRoundStatus;
+      if(frontChanged||statusChanged||data.round?.status==='FINISHED'||(!state.network&&Date.now()-lastFullLoadedAt>=30000)){
+        return await loadFull(true,'',controller.signal);
+      }
+      const openPanel=modal.querySelector('.tw4-drawer-layer:not([hidden]) .tw4-drawer-panel:not([hidden])')?.dataset.tw4Panel,scroll=modal.querySelector('.tw4-drawer-content')?.scrollTop||0;
+      mergeLite(data);render();
+      if(openPanel&&modal.querySelector('.tw4-drawer-content')){tw4OpenDrawer(openPanel,false);modal.querySelector('.tw4-drawer-content').scrollTop=scroll}
+    }catch(error){
+      if(!controller.signal.aborted&&error.name!=='AbortError'){pollFailureCount=Math.min(4,pollFailureCount+1);console.warn('territory war poll failed',error)}
+    }finally{
+      if(pollController===controller){pollController=null;if(!busy&&!battleModal)schedulePoll()}
+    }
+  }
   function schedulePoll(){clearTimeout(pollTimer);if(!modal||!state||pinnedRound)return;const status=String(state.round?.status||''),active=['PREPARING','ACTIVE'].includes(status),normalBase=document.hidden?60000:active?Math.max(12000,Number(state.settings?.realtimePollSeconds||12)*1000):status==='RECRUITING'?45000:30000,base=Math.min(90000,normalBase*Math.pow(2,pollFailureCount)),delay=Math.round(base*(.9+Math.random()*.2));pollTimer=setTimeout(loadLite,delay)}
   function stopPolling(){clearTimeout(pollTimer);pollTimer=null;clearInterval(modal?._countdownTimer)}
 

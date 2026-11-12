@@ -39,13 +39,22 @@ function runtime(respond){
     'prepareTerritoryBattle=async()=>{battleModal={remove:globalThis.qaClose};return {}};',
     'playTerritoryBattle=async(data)=>globalThis.qaPlay(data);',
     'showToast=(text)=>globalThis.qaToast(text);',
-    'globalThis.qa={attack,loadFull,setup:(value,element)=>{state=value;modal=element;selectedNodeIndex=3;lastFrontId=value.front.id},snapshot:()=>({state,selectedNodeIndex,lastFrontId,pendingAttackId,pendingAttackPayload,busy,battleOpen:Boolean(battleModal)}),setPoll:(value)=>{pollController=value}};',
+    'globalThis.qa={attack,loadFull,loadLite,setup:(value,element)=>{state=value;modal=element;selectedNodeIndex=3;lastFrontId=value.front.id;lastRoundStatus=value.round.status},snapshot:()=>({state,selectedNodeIndex,lastFrontId,pendingAttackId,pendingAttackPayload,busy,battleOpen:Boolean(battleModal)}),setPoll:(value)=>{pollController=value}};',
     '})();'
   ].join('\n'),sandbox);
   sandbox.qa.setup(base(),modal);
   return{...sandbox,events,calls,alerts,saves,modal,retry};
 }
 const attackCalls=r=>r.calls.filter(call=>call.method==='POST');
+
+test('a due network poll refreshes the loadout and map in one request, then resumes lite polling',async()=>{
+  const r=runtime(()=>base(101,8));
+  await r.qa.loadLite();
+  assert.deepEqual(r.calls.map(call=>call.path),['territory-war/state?nodeIndex=3']);
+  assert.equal(r.qa.snapshot().state.mine.energy,8);
+  await r.qa.loadLite();
+  assert.deepEqual(r.calls.map(call=>call.path),['territory-war/state?nodeIndex=3','territory-war/state-lite?nodeIndex=3']);
+});
 
 test('state-change rejection discards the old request, bypasses cached state and renders the selected replacement front before notifying',async()=>{
   let attacks=0;
