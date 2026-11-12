@@ -170,15 +170,17 @@ export async function elderSeasonCommand(env,user,path,body,deps,now,{mutation,l
 
 export async function reconcileElderSeason(q,round,now){
  const window=await readWindow(q,round),calendar=window?.calendar;
- if(!calendar||window.startedSeasonId)return null;
+ if(!calendar)return null;
+ const calendarWindowId=window.id;
+ if(window.startedSeasonId)return {waiting:true,status:clanCalendarPhase(calendar,now),calendarWindowId,seasonId:window.startedSeasonId};
  const drawn=await drawElders(q,round,window,now);
- if(now<calendar.startsAt)return {waiting:true,changed:drawn,status:clanCalendarPhase(calendar,now),nextCheckAt:iso(now<calendar.elderClosesAt?calendar.elderClosesAt:calendar.startsAt)};
+ if(now<calendar.startsAt)return {waiting:true,changed:drawn,status:clanCalendarPhase(calendar,now),calendarWindowId,seasonId:calendar.previousSeasonId,nextCheckAt:iso(now<calendar.elderClosesAt?calendar.elderClosesAt:calendar.startsAt)};
  const {seasonId,roundId,registeredElders}=await startVoluntarySeason(q,round,window,now);
  window.startedSeasonId=seasonId;window.nextRoundId=roundId;window.revision++;
  await writeValue(q,key(round),window,now);
  // Keep all applications with the archived round and show the registered winners in the new round.
  await writeValue(q,key({id:roundId}),{...window,applications:{},selections:registeredElders,members:{}},now);
- return {waiting:true,changed:true,status:'STARTED',seasonId,roundId};
+ return {waiting:true,changed:true,status:'STARTED',calendarWindowId,seasonId,roundId};
 }
 
 async function startVoluntarySeason(q,round,window,now){

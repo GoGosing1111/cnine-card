@@ -17,6 +17,30 @@ import {reconcileOrganizationRecruitment,organizationLiveOperation} from '../fun
 import {clanPlayoffTimes} from '../shared/clan-resumption-v1.mjs';
 import {advanceChampions} from '../functions/_clan_champions.js';
 import {reconcileElderSeason} from '../functions/_organization_elder_season.js';
+import {runOrganizationSchedule} from '../workers/clan-draft/src/organization-schedule.js';
+
+test('calendar cron runs the clan lifecycle without the draft alarm and reuses only a current matching heartbeat',async t=>{
+ const f=await clanResumeFixture(t),now=f.clock(),id='season5-calendar',deadline=new Date(now+100000).toISOString();
+ let phase='OPEN',advanced=0;
+ const expected={phase:'ELDER_RECRUITMENT',seasonId:7,nextCheckAt:deadline};
+ const tick=()=>runOrganizationSchedule({},{
+  now:()=>now,openDatabase:async()=>({db:f.env.DB,close:async()=>{}}),
+  reconcile:async()=>({recruitment:{calendarWindowId:id,seasonId:7,status:phase,nextCheckAt:deadline}}),
+  competition:async()=>{advanced++;return expected;}
+ });
+ const store=async data=>f.pg.query("INSERT INTO app_meta(key,value) VALUES('clan_draft_scheduler_v1',$1) ON CONFLICT(key) DO UPDATE SET value=excluded.value",[JSON.stringify(data)]);
+ const stamp={version:'20261012-clan-retirement',checkedAt:new Date(now).toISOString(),...expected};
+ await store({...stamp,version:'20260915-alarm-1h-30s',phase:'NONE'});
+ assert.equal((await tick()).seasonClock.source,'ORGANIZATION_CRON');assert.equal(advanced,1);
+ await store(stamp);assert.equal((await tick()).seasonClock.source,'DURABLE_ALARM');assert.equal(advanced,1);
+ await store({...stamp,nextCheckAt:null});assert.equal((await tick()).seasonClock.source,'ORGANIZATION_CRON');
+ phase='COMPETITION';expected.phase='ACTIVE';await store(stamp);assert.equal((await tick()).seasonClock.phase,'ACTIVE');
+ expected.phase='CHAMPIONS';await store({...stamp,phase:'ACTIVE',checkedAt:new Date(now-61000).toISOString()});
+ assert.equal((await tick()).seasonClock.phase,'CHAMPIONS');
+ phase='FINISHED';expected.phase='COMPLETE';assert.equal((await tick()).seasonClock.phase,'COMPLETE');
+ const row=(await f.pg.query("SELECT value::jsonb state FROM app_meta WHERE key='organization_scheduler_v1'")).rows[0];
+ assert.equal(row.state.seasonClock.windowId,id);assert.equal(row.state.seasonClock.source,'ORGANIZATION_CRON');
+});
 
 test('empty, partial and oversubscribed elder pools draw active applicants once without club preferences',async t=>{
  const f=await clanResumeFixture(t),q=async(sql,args=[])=>(await f.pg.query(sql,args)).rows;
