@@ -77,23 +77,35 @@ async function ledger(env,userId,now){
 function status(used,now){return {used,limit:LIMIT,remaining:LIMIT-used,resetsAt:Date.parse(dayOf(now)+'T00:00:00+09:00')+86400000,expiresAfterSeconds:SUPPORT_BANK_MESSAGE_TTL/1000};}
 async function configRecord(env){
   const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(SUPPORT_APPLICATION_CONFIG_KEY).first(),value=row?JSON.parse(row.value):{};
-  return {raw:row?.value??null,config:{enabled:value.enabled===true,revision:Number(value.revision)||0}};
+  return {key:SUPPORT_APPLICATION_CONFIG_KEY,raw:row?.value??null,config:{enabled:value.enabled===true,firstMonthSalesOpen:value.firstMonthSalesOpen!==false,revision:Number(value.revision)||0}};
+}
+function requireFirstMonthOpen(record){
+  if(!record.config.firstMonthSalesOpen)fail('MONTH1_CLOSED','1개월차 시즌패스 판매가 종료되었습니다.',409);
+  return record;
+}
+export async function firstPassSale(env){return requireFirstMonthOpen(await configRecord(env));}
+// Lock the owner row when initializing settings: PostgreSQL cannot lock a missing config row.
+export function lockSaleConfig(DB,p,sale,writing=false){
+  if(DB.dialect!=='postgres')return [];
+  const lock=writing?' FOR UPDATE':' FOR SHARE';
+  return sale.raw==null?[p('SELECT id FROM users WHERE id=1'+lock)]:[p('SELECT key FROM app_meta WHERE key=?'+lock,sale.key)];
 }
 export async function readSupportApplicationConfig(env){return (await configRecord(env)).config;}
 export async function readSupportApplication(env,userId,now=Date.now()){
   const [record,config]=await Promise.all([ledger(env,userId,now),readSupportApplicationConfig(env)]);
-  return {...status(record.used,now),enabled:config.enabled};
+  return {...status(record.used,now),enabled:config.enabled,firstMonthSalesOpen:config.firstMonthSalesOpen};
 }
 export async function saveSupportApplicationConfig(env,admin,body,now=Date.now()){
   if(!canManageSupport(admin))fail('ADMIN','후원 관리는 핑크빛유두 전용입니다.',403);
-  if(typeof body.enabled!=='boolean'||!Number.isSafeInteger(body.expectedRevision)||body.expectedRevision<0||typeof body.requestId!=='string'||!/^[A-Za-z0-9_-]{16,100}$/.test(body.requestId))fail('INPUT','신청 버튼 설정을 확인하세요.');
-  const key='support_application_settings_receipt_v1:'+body.requestId,payload=JSON.stringify([admin.id,body.enabled,body.expectedRevision]);
+  if(typeof body.enabled!=='boolean'||(body.firstMonthSalesOpen!==undefined&&typeof body.firstMonthSalesOpen!=='boolean')||!Number.isSafeInteger(body.expectedRevision)||body.expectedRevision<0||typeof body.requestId!=='string'||!/^[A-Za-z0-9_-]{16,100}$/.test(body.requestId))fail('INPUT','신청 버튼 설정을 확인하세요.');
+  const key='support_application_settings_receipt_v1:'+body.requestId,payload=JSON.stringify([admin.id,body.enabled,body.expectedRevision,...(body.firstMonthSalesOpen===undefined?[]:[body.firstMonthSalesOpen])]);
   const replay=async()=>{const prior=await receipt(env,key);if(!prior)return null;if(prior.payload!==payload)fail('REQUEST_CONFLICT','같은 요청 번호로 다른 설정을 저장할 수 없습니다.',409);return {...prior.result,replayed:true};};
   const previous=await replay();if(previous)return previous;
   const record=await configRecord(env);if(record.config.revision!==body.expectedRevision)fail('REVISION','다른 창에서 설정을 변경했습니다. 새로고침 후 다시 저장하세요.',409);
-  const config={enabled:body.enabled,revision:record.config.revision+1},raw=JSON.stringify({...config,lastRequestId:body.requestId}),DB=env.DB,token=crypto.randomUUID(),p=(sql,...a)=>DB.prepare(sql).bind(...a);
+  const config={enabled:body.enabled,firstMonthSalesOpen:body.firstMonthSalesOpen??record.config.firstMonthSalesOpen,revision:record.config.revision+1},raw=JSON.stringify({...config,lastRequestId:body.requestId}),DB=env.DB,token=crypto.randomUUID(),p=(sql,...a)=>DB.prepare(sql).bind(...a);
   const result={ok:true,config,processedAt:now,replayed:false};await ensureJointAtomicSchema(env);
   try{await DB.batch([
+    ...lockSaleConfig(DB,p,record,true),
     jointGuard(DB,token,record.raw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',record.raw===null?[SUPPORT_APPLICATION_CONFIG_KEY]:[SUPPORT_APPLICATION_CONFIG_KEY,record.raw]),
     record.raw===null?p('INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO NOTHING',SUPPORT_APPLICATION_CONFIG_KEY,raw):p('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?',raw,SUPPORT_APPLICATION_CONFIG_KEY,record.raw),
     jointGuard(DB,token+'w','EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[SUPPORT_APPLICATION_CONFIG_KEY,raw]),
@@ -116,7 +128,6 @@ export async function issueSupportApplication(env,user,body,now=Date.now(),accou
   requirePassPurchase(row);
   const applicationConfig=await configRecord(env);
   if(!applicationConfig.config.enabled)fail('DISABLED','현재 후원 신청을 받지 않습니다.',403);
-  await deleteExpiredSupportMessages(env,now,id);
   const key=receiptKey(id,body.requestId),previous=await receipt(env,key);
   // Replaying an old request never recreates an expired or manually deleted message.
   const replay=async saved=>{
@@ -125,6 +136,8 @@ export async function issueSupportApplication(env,user,body,now=Date.now(),accou
     return resultFor(env,id,saved,now,true);
   };
   if(previous)return replay(previous);
+  if(month===1)requireFirstMonthOpen(applicationConfig);
+  await deleteExpiredSupportMessages(env,now,id);
   const support=month===2?await readSupportRecord(env,id):null;
   const sale=support?await secondPassSale(env,support.state,now):null;
   await ensureJointAtomicSchema(env);
@@ -137,6 +150,7 @@ export async function issueSupportApplication(env,user,body,now=Date.now(),accou
     try{
       await DB.batch([
         ...(DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',id)]:[]),
+        ...lockSaleConfig(DB,p,applicationConfig),
         ...(sale&&DB.dialect==='postgres'?[p('SELECT key FROM app_meta WHERE key=? FOR UPDATE',sale.key)]:[]),
         jointGuard(DB,token+'h',...purchaseHoldGuard(row)),
         ...(month===2?[jointGuard(DB,token+'n','NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)',[unpaidKey(id+'_'+body.requestId)])]:[]),
@@ -158,6 +172,7 @@ export async function issueSupportApplication(env,user,body,now=Date.now(),accou
     }catch(error){
       const prior=await receipt(env,key);if(prior)return replay(prior);
       requirePassPurchase(await supportAccount(env,id));
+      if(month===1)await firstPassSale(env);
       if(month===2&&await receipt(env,unpaidKey(id+'_'+body.requestId)))fail('REJECTED','미입금으로 거절된 신청입니다.',409);
       if((await ledger(env,id,now)).raw!==record.raw&&attempt<3)continue;
       throw error;
