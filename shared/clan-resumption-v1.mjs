@@ -25,6 +25,22 @@ export function eveningFactionPolicy(resumption,now=Date.now()){
 export function resumedFactionRules(base,resumption,now=Date.now()){return {...base,version:CLAN_RESUMPTION_VERSION,dailyCount:1,durationMs:3*3600000,requiredTerritories:4,pointsPerSession:1,regularSeasonId:resumption.seasonId,resumedAt:resumption.effectiveAt,...(eveningFactionPolicy(resumption,now)?EVENING_FACTION_RULES:{})};}
 const FACTION_WEEKDAYS=[2,3,5];
 export const FACTION_WEEK_FROM='2026-11-10';
+
+export function clanCalendarPhase(calendar,now){
+ if(now<calendar.elderClosesAt)return 'OPEN';
+ if(now<calendar.startsAt)return 'MEMBERS';
+ if(now<calendar.endsAt)return 'COMPETITION';
+ return 'FINISHED';
+}
+
+// Both playoff matches use the last complete Korean evening inside the season.
+export function clanPlayoffTimes(calendar){
+ const day=86400000,hour=3600000;
+ const midnight=Math.floor((calendar.endsAt+9*hour)/day)*day-9*hour;
+ let semifinal=midnight+21*hour;
+ if(semifinal+2*hour>calendar.endsAt)semifinal-=day;
+ return {regularEndsAt:semifinal-hour,semifinal,final:semifinal+hour};
+}
 export function factionDayPermitted(dayKey) {
  return dayKey<FACTION_WEEK_FROM||FACTION_WEEKDAYS.includes(new Date(dayKey+'T12:00:00Z').getUTCDay());
 }

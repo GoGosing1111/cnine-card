@@ -1,4 +1,5 @@
 import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
+import {clanPlayoffTimes} from '../shared/clan-resumption-v1.mjs';
 
 // Reserved postseason rounds; regular ranking/season points exclude these rounds.
 export const CHAMPIONS_SEMIFINAL_ROUND = 1001;
@@ -123,9 +124,11 @@ export async function startChampions(env, season, settings, rankedTeams, now = D
     name: team.name, markKey: team.mark_key, primaryColor: team.primary_color, accentColor: team.accent_color,
     score: num(team.score), combatPoints: num(team.combat_points) }));
   invariant(new Set(seeds.map(seed => seed.clanId)).size === 3, '챔피언스리그 시드가 중복되었습니다.');
-  const calendar = nextDayCup ? {...settings,openDays:[0,1,2,3,4,5,6]} : settings;
-  const semi = championsNextWindow(nextDayCup ? time(season.ends_at) : now, settings.championsSemifinalDelayDays, calendar);
-  const final = championsNextWindow(semi, settings.championsFinalDelayDays, calendar);
+  const fixedSeason = resumed?.seasonId===Number(season.id)&&resumed.competitionCalendar;
+  const booked = fixedSeason && clanPlayoffTimes(fixedSeason);
+  const calendar = nextDayCup ? {...settings,openDays:[0,1,2,3,4,5,6],...(fixedSeason?{seasonClosesAt:fixedSeason.endsAt,warDurationMinutes:60}:{})} : settings;
+  const semi = booked ? booked.semifinal : championsNextWindow(nextDayCup ? time(season.ends_at) : now, settings.championsSemifinalDelayDays, calendar);
+  const final = booked ? booked.final : championsNextWindow(semi, settings.championsFinalDelayDays, calendar);
   const token = crypto.randomUUID(), db = env.DB, writes = [];
   const p = (sql, ...values) => db.prepare(sql).bind(...values);
   if (db.dialect === 'postgres') writes.push(p('SELECT id FROM clan_seasons WHERE id=? FOR UPDATE', season.id));
@@ -143,7 +146,7 @@ export async function startChampions(env, season, settings, rankedTeams, now = D
     SELECT ?,?,?,?,'SCHEDULED',?,? WHERE EXISTS(SELECT 1 FROM clan_championships WHERE season_id=? AND creation_token=?)`,
     season.id, CHAMPIONS_SEMIFINAL_ROUND, seeds[1].clanId, seeds[2].clanId, iso(semi), iso(semi + settings.warDurationMinutes * 60000), season.id, token));
   writes.push(p(`UPDATE clan_seasons SET phase='CHAMPIONS',ends_at=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='SETTLEMENT'
-    AND EXISTS(SELECT 1 FROM clan_championships WHERE season_id=?)`, iso(final + settings.warDurationMinutes * 60000), season.id, season.id));
+    AND EXISTS(SELECT 1 FROM clan_championships WHERE season_id=?)`, iso(fixedSeason?fixedSeason.endsAt:final + settings.warDurationMinutes * 60000), season.id, season.id));
   await db.batch(writes);
 }
 
@@ -187,7 +190,8 @@ export async function advanceChampions(env, season, settings, now = Date.now()) 
     // Back-to-back rounds retain the booked final while its window is still open.
     // Only a fully missed final window is moved to a future opening.
     const bookedFinalStart = time(cup.final_starts_at), finalDuration = frozen.warDurationMinutes * 60000;
-    const finalStart = now < bookedFinalStart + finalDuration ? bookedFinalStart : championsNextWindow(now, 1, frozen);
+    const onCalendar = Boolean(frozen.seasonClosesAt)||now < bookedFinalStart + finalDuration;
+    const finalStart = onCalendar ? bookedFinalStart : championsNextWindow(now, 1, frozen);
     const finalStatus = finalStart <= now ? 'ACTIVE' : 'SCHEDULED';
     const writes = [];
     if (db.dialect === 'postgres') writes.push(p('SELECT season_id FROM clan_championships WHERE season_id=? FOR UPDATE', season.id));
@@ -195,15 +199,14 @@ export async function advanceChampions(env, season, settings, now = Date.now()) 
       SELECT ?,?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM clan_championships WHERE season_id=? AND status='SEMIFINAL')`,
       season.id, CHAMPIONS_FINAL_ROUND, seeds[0].clanId, semi.winner_clan_id, finalStatus, iso(finalStart), iso(finalStart + finalDuration), season.id));
     writes.push(p("UPDATE clan_championships SET status='FINAL',final_starts_at=? WHERE season_id=? AND status='SEMIFINAL'", iso(finalStart), season.id));
-    writes.push(p("UPDATE clan_seasons SET ends_at=(SELECT ends_at FROM clan_wars WHERE season_id=? AND round_no=? LIMIT 1),updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='CHAMPIONS'", season.id, CHAMPIONS_FINAL_ROUND, season.id));
+    if(!frozen.seasonClosesAt)writes.push(p("UPDATE clan_seasons SET ends_at=(SELECT ends_at FROM clan_wars WHERE season_id=? AND round_no=? LIMIT 1),updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='CHAMPIONS'", season.id, CHAMPIONS_FINAL_ROUND, season.id));
     await db.batch(writes);
   }
   const final = await p('SELECT * FROM clan_wars WHERE season_id=? AND round_no=?', season.id, CHAMPIONS_FINAL_ROUND).first();
   if (final?.status === 'COMPLETED') {
-    await db.batch([
-      p("UPDATE clan_championships SET status='COMPLETED',winner_clan_id=?,completed_at=CURRENT_TIMESTAMP WHERE season_id=? AND status='FINAL'", final.winner_clan_id, season.id),
-      p("UPDATE clan_seasons SET phase='COMPLETE',updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='CHAMPIONS' AND EXISTS(SELECT 1 FROM clan_championships WHERE season_id=? AND status='COMPLETED')", season.id, season.id)
-    ]);
+    const writes=[p("UPDATE clan_championships SET status='COMPLETED',winner_clan_id=?,completed_at=CURRENT_TIMESTAMP WHERE season_id=? AND status='FINAL'", final.winner_clan_id, season.id)];
+    if(!frozen.seasonClosesAt||now>=frozen.seasonClosesAt)writes.push(p("UPDATE clan_seasons SET phase='COMPLETE',updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='CHAMPIONS' AND EXISTS(SELECT 1 FROM clan_championships WHERE season_id=? AND status='COMPLETED')", season.id, season.id));
+    await db.batch(writes);
     await deliverChampionsRewards(env, season.id, settings);
   }
 }

@@ -1,4 +1,4 @@
-import {nextFactionDay,factionDayPermitted} from '../shared/clan-resumption-v1.mjs';
+import {nextFactionDay,factionDayPermitted,clanPlayoffTimes} from '../shared/clan-resumption-v1.mjs';
 import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261025-clan-eight';
 import {ORGANIZATIONS,orgAssert} from '../shared/organization-system-v1.mjs';
 import {ORGANIZATION_DISTRICTS,ORGANIZATION_SESSION_RULES as FACTION_SESSION_RULES,organizationDistrictById,defaultOrganizationFactionPolicy,validateOrganizationFactionPolicy,FACTION_RULES as R,SQUADS,isSelfJoinSquad} from '../shared/organization-faction-v1.mjs';
@@ -36,6 +36,7 @@ export async function organizationFactionLiveOperation(env,now=Date.now()){
    WHERE r.scope='LIVE' AND r.phase='ASSIGNED' LIMIT 1`).first();
  if(!row||JSON.parse(row.policy_json).mode!=='ON')return null;
  const state=JSON.parse(row.state_json);if(clanRestorationActive(now)&&!activeClanResumption(state.resumption,now))return null;
+ if(state.resumption?.nextSeasonCalendar||state.resumption?.competitionCalendar&&now>=state.resumption.competitionCalendar.endsAt)return null;
  const session=state.session;
  if(!session?.key||!['ACTIVE','PAUSED'].includes(session.status)||!Number.isFinite(session.startsAt)||session.startsAt>now)return null;
  const paused=session.status==='PAUSED',deadline=paused&&session.hardEndsAt?session.hardEndsAt:session.endsAt;
@@ -135,6 +136,10 @@ async function settle(q,r,snapshot,now){
 }
 async function sync(q,r,row,roster,policy,now,deps){
  const resumption=activeClanResumption(row.state.resumption,now);
+ const calendar=resumption?.competitionCalendar;
+ if(resumption?.nextSeasonCalendar||calendar&&(now<calendar.startsAt||now>=calendar.endsAt)){
+  return {...lockedFactionSessions(FACTION_SESSION_RULES),scheduleLabel:'시즌 경기 대기',message:'세력전은 시즌 경기 기간에 열립니다.'};
+ }
  if(clanRestorationActive(now)&&!resumption)return lockedFactionSessions(organizationSessionRewardRules(FACTION_SESSION_RULES,policy,now));
  const enabled=r?.phase==='ASSIGNED'&&(policy.mode==='ON'?r.scope==='LIVE':policy.mode==='TEST'&&r.scope==='TEST');
  const before=JSON.stringify(row.state);
@@ -151,12 +156,13 @@ async function sync(q,r,row,roster,policy,now,deps){
  const wars=await q("SELECT id,status,starts_at,ends_at,settled_at FROM territory_war_v3_rounds WHERE status IN ('ACTIVE','PREPARING') OR id IN (SELECT id FROM territory_war_v3_rounds WHERE status='FINISHED' ORDER BY id DESC LIMIT 32)");
  const paused=(row.state.session?.pauses?.at(-1)?.territoryRoundIds||[]).filter(id=>!wars.some(w=>Number(w.id)===Number(id)));
  if(paused.length)wars.push(...await q('SELECT id,status,starts_at,ends_at,settled_at FROM territory_war_v3_rounds WHERE id=ANY($1::bigint[])',[paused]));
- const result=advanceOrganizationFaction(row.state,{schedule:resumption&&!factionDayPermitted(day)?[]:JSON.parse(published.schedule_json),wars,roster,policy,now,assignedAt:Number(r.assigned_at||r.created_at)});
+ const inSeason=s=>!calendar||s.startsAt>=calendar.startsAt&&s.endsAt<=clanPlayoffTimes(calendar).regularEndsAt;
+ const result=advanceOrganizationFaction(row.state,{schedule:resumption&&!factionDayPermitted(day)?[]:JSON.parse(published.schedule_json).filter(inSeason),wars,roster,policy,now,assignedAt:Number(r.assigned_at||r.created_at)});
  if(resumption){
   const tomorrow=nextFactionDay(day);
   await q('INSERT INTO organization_faction_days_v1 VALUES($1,$2,$3) ON CONFLICT DO NOTHING',[r.id,tomorrow,JSON.stringify(createOrganizationFactionDay(tomorrow,deps.randomFactionSchedule,resumption))]);
   const [next]=await q('SELECT schedule_json FROM organization_faction_days_v1 WHERE round_id=$1 AND day_key=$2',[r.id,tomorrow]);
-  if(!result.view.nextStartsAt)result.view.nextStartsAt=JSON.parse(next.schedule_json).find(s=>s.startsAt>now)?.startsAt||null;
+  if(!result.view.nextStartsAt)result.view.nextStartsAt=JSON.parse(next.schedule_json).find(s=>s.startsAt>now&&inSeason(s))?.startsAt||null;
  }
  for(const snapshot of result.settlements)await settle(q,r,snapshot,now);
  await recordOrganizationCompetition(q,r,advanceOrganizationCompetition(row.state,{now,enabled:true,policy}),now);
@@ -184,7 +190,9 @@ async function overview(q,user,r,policy,row,roster,sessions,now,{admin=false,ale
  }
  const clans=all.map(o=>({clanId:o.id,name:o.name,color:o.color,accentColor:o.accentColor,masterUserId:o.commanderId,markKey:o.markKey,markImage:o.markImage}));
  return {ok:true,serverNow:now,roundId:r?.id,revision:row.revision,organizationMode:true,policy,round:publicRound(r),competition,
-  season:{id:r?.id,seasonNo:1,phase:r?.phase==='ASSIGNED'&&policy.mode!=='OFF'?'ACTIVE':'PREPARATION',active:r?.phase==='ASSIGNED'&&(policy.mode==='ON'?r.scope==='LIVE':policy.mode==='TEST'&&r.scope==='TEST'),endsAt:null},
+  season:s.resumption?.nextSeasonCalendar||s.resumption?.competitionCalendar?
+   {id:r?.id,seasonNo:competition.season?.number,phase:competition.season?.phase,active:!!sessions.enabled,endsAt:competition.season?.endsAt}:
+   {id:r?.id,seasonNo:1,phase:r?.phase==='ASSIGNED'&&policy.mode!=='OFF'?'ACTIVE':'PREPARATION',active:r?.phase==='ASSIGNED'&&(policy.mode==='ON'?r.scope==='LIVE':policy.mode==='TEST'&&r.scope==='TEST'),endsAt:null},
   userId,mine:id?{clanId:id,isElder:isMaster,isMaster,canManageFormation:isMaster||Object.values(captains).includes(userId),canManageGarrison:isMaster||Object.values(captains).includes(userId)}:null,
   clans,organizations:all.map(({roster,...o})=>o),roster:roster.filter(m=>m.clanId===id),formation,captains,
   districts:s.districts.map(d=>({...d,defenders:d.owner?(formationOf(s,roster,d.owner)[d.defense]||[]).map(userId=>roster.find(m=>m.userId===userId)).filter(Boolean):[]})),

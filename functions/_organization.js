@@ -11,7 +11,7 @@ import {kickOrganizationMember} from './_organization_member_kick.js';
 import {CLAN_MEMBER_KICK_ENABLED,CLAN_MEMBER_KICK_DISABLED} from '../shared/clan-member-kick-policy-v1.mjs';
 import {CLAN_RESUMPTION_STATE_KEY,activeClanResumption} from '../shared/clan-resumption-v1.mjs';
 
-import {seasonAdmissionEnabled,elderSeasonView,elderSeasonCommand} from './_organization_elder_season.js';
+import {seasonAdmissionEnabled,elderSeasonView,elderSeasonCommand,reconcileElderSeason} from './_organization_elder_season.js';
 const parse=JSON.parse;
 // Presentation only: retain stored proposal snapshots and all allocation inputs.
 const displayAllocation=value=>({...value,...(Array.isArray(value.organizations)?{organizations:value.organizations.map(o=>({...o,name:organizationIdentity(o.id)?.name||o.name}))}:{})});
@@ -78,7 +78,7 @@ async function inputFor(q,r,now){
   return {rows,ratings,existing,players:rows.map((row,i)=>({userId:Number(row.user_id),nickname:row.nickname,preferredOrganizationId:Number(row.preferred_id),power:ratings[i].power,organizationFit:reviewOrganizationAnswers(parse(row.answers_json)).organizationFit})),hash:await jointHash(existing.length?{applicants:source,existing}:source)};
 }
 export async function organizationOverview(env,user,{roundId,admin=false,now=Date.now()}={}){
-  return env.DB.enqueue(async()=>{
+  const result=await env.DB.enqueue(async()=>{
     const q=qFor(env.DB),p=await policy(q),rounds=await q("SELECT * FROM organization_rounds_v1 WHERE scope IN('LIVE','TEST') ORDER BY created_at DESC,id LIMIT 2");
     const r=roundId?await round(q,roundId):rounds.find(r=>r.scope==='LIVE')||rounds.find(r=>r.scope==='TEST');
     if(admin)orgAssert(owner(user),'PERMISSION','클랜 운영은 OWNER 전용입니다.',403);
@@ -93,12 +93,19 @@ export async function organizationOverview(env,user,{roundId,admin=false,now=Dat
       q('SELECT p.*,COUNT(m.user_id)::integer AS member_count,COALESCE(SUM(m.seed_power),0) AS power FROM organization_progress_v1 p LEFT JOIN organization_members_v1 m ON m.round_id=p.round_id AND m.organization_id=p.organization_id WHERE p.round_id=$1 GROUP BY p.round_id,p.organization_id,p.points,p.stage ORDER BY p.organization_id',[r.id])
     ]):[[],[],[],[],[],[]];
     const roster=r&&membership[0]?await q('SELECT m.user_id,m.slot,m.joined_at,u.nickname FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 AND m.organization_id=$2 ORDER BY m.slot LIMIT 25',[r.id,membership[0].organization_id]):[];
-    const latest=proposal[0],join=await organizationJoinOverview(q,r,user,now,membership[0]||null);
+    const elderSeason=voluntary?await elderSeasonView(q,r,user,now,admin):null;
+    const latest=proposal[0],join=await organizationJoinOverview(q,r,user,now,membership[0]||null,elderSeason?.calendar);
     const applicants=admin&&r&&!voluntary?await q('SELECT s.user_id,u.nickname,s.preferred_id,s.updated_at,s.revision,s.active,x.expires_at,x.round_revision FROM organization_surveys_v1 s JOIN users u ON u.id=s.user_id LEFT JOIN organization_ratings_v1 x ON x.round_id=s.round_id AND x.user_id=s.user_id WHERE s.round_id=$1 ORDER BY s.active DESC,s.updated_at,s.user_id',[r.id]):[];
     const allMembers=admin&&r?await q('SELECT m.user_id,m.organization_id,m.slot,m.seed_power,u.nickname FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 ORDER BY m.organization_id,m.slot',[r.id]):[];
-    const elderSeason=voluntary?await elderSeasonView(q,r,user,now,admin):null;
     return {ok:true,join,elderSeason,viewerId:Number(user.id),releaseEnabled:ORGANIZATION_RELEASE_ENABLED,admissionEnabled:join.enabled||!!r&&(surveyOpen(r,now)||survey[0]?.active===1),serverNow:now,capacity:ORGANIZATION_LIMITS.participants,limits:ORGANIZATION_LIMITS,preparation:{...ORGANIZATION_PREPARATION,status:r?.phase||'PREPARATION',registrationOpen:join.canApply||surveyOpen(r,now)&&!membership[0]},round:roundView(r,now),policy:admin?p:{pointsPerRegion:p.pointsPerRegion,settlementMinutes:p.settlementMinutes,growthMode:p.growthMode,hideoutThresholds:p.hideoutThresholds,unlocks:p.unlocks},...(admin?{rounds:rounds.map(row=>roundView(row,now)),participants:applicants.map(a=>({userId:Number(a.user_id),nickname:a.nickname,preferredOrganizationId:Number(a.preferred_id),submittedAt:Number(a.updated_at),surveyRevision:Number(a.revision),assignedOrganizationId:Number(allMembers.find(m=>Number(m.user_id)===Number(a.user_id))?.organization_id)||null,active:a.active===1,rated:Number(a.expires_at)>now&&Number(a.round_revision)===Number(r.revision)}))}:{}),survey:survey[0]?{answers:parse(survey[0].answers_json),submitted:survey[0].active===1,preferredOrganizationId:Number(survey[0].preferred_id),revision:Number(survey[0].revision)}:null,membership:membership[0]?{organizationId:Number(membership[0].organization_id),slot:Number(membership[0].slot)}:null,roster:roster.map(m=>({userId:Number(m.user_id),nickname:m.nickname,slot:Number(m.slot),joinedAt:Number(m.joined_at),isSelf:Number(m.user_id)===Number(user.id),isElder:(join.elderIds||[]).includes(Number(m.user_id)),canKick:CLAN_MEMBER_KICK_ENABLED&&join.canReview===true&&Number(m.user_id)!==Number(user.id)&&!(join.elderIds||[]).includes(Number(m.user_id))})),participantCount:counts.reduce((n,c)=>n+c.n,0),pendingApplicantCount:counts.reduce((n,c)=>n+c.pending,0),memberCount:progress.reduce((n,p)=>n+Number(p.member_count),0),ratedCount:ratingCount[0]?.n||0,organizations:ORGANIZATIONS.map(o=>{const s=progress.find(p=>Number(p.organization_id)===o.id);return {...o,...(admin?{roster:allMembers.filter(m=>Number(m.organization_id)===o.id).map(m=>({userId:Number(m.user_id),nickname:m.nickname,slot:Number(m.slot),power:Number(m.seed_power)}))}:{}),applicants:counts.find(c=>Number(c.preferred_id)===o.id)?.n||0,memberCount:s?.member_count||0,power:Number(s?.power||0),hideout:organizationHeadquartersState(s,p)};}),proposal:latest?{id:latest.id,expiresAt:Number(latest.expires_at),appliedAt:latest.applied_at?Number(latest.applied_at):null,...displayAllocation(parse(latest.result_json))}:null};
   });
+  const election=result.elderSeason;
+  if(!roundId&&election?.calendar?.sourceRoundId===result.round?.id&&now>=election.calendar.startsAt){
+    await reconcileOrganizationRecruitment(env,{}, {now});
+    const current=await env.DB.prepare("SELECT id FROM organization_rounds_v1 WHERE scope='LIVE'").first();
+    if(current?.id&&current.id!==result.round.id)return organizationOverview(env,user,{roundId:current.id,admin,now});
+  }
+  return result;
 }
 async function refreshRatings(env,user,body,deps,now){
   const replay=await env.DB.enqueue(async()=>{const [row]=await qFor(env.DB)('SELECT * FROM organization_receipts_v1 WHERE actor_id=$1 AND request_id=$2',[user.id,body.requestId]);return row;});
@@ -128,6 +135,7 @@ export async function handleOrganization({path,request,env,deps}){
       'admin/organization/elder/start':['requestId','roundId','windowId','revision'],
       'organization/elder/apply':['requestId','roundId','windowId','organizationId'],
       'organization/elder/cancel':['requestId','roundId','windowId'],
+      'organization/elder/join':['requestId','roundId','windowId','organizationId'],
       'organization/join/apply':['requestId','roundId','revision','organizationId','message'],
       'organization/join/cancel':['requestId','roundId','revision'],
       'organization/join/review':['requestId','roundId','revision','userId','decision'],
@@ -281,6 +289,13 @@ export async function organizationLiveOperation(env,now=Date.now()){
  if(!r||r.phase==='PREPARATION')return null;
  if(seasonAdmissionEnabled(r,now)){
   const e=await env.DB.enqueue(()=>elderSeasonView(qFor(env.DB),r,{id:0},now));
+  if(e.calendar){
+   const open=e.phase==='OPEN',members=e.phase==='MEMBERS';
+   return {kind:'ORGANIZATION',phase:open||members?'FORMATION':'ACTIVE',entityId:r.id,
+    title:open?'클랜 원로 모집':members?'클랜원 자율 가입':'클랜 본부',
+    detail:open?'시즌 5 원로 지원 · 클랜별 최대 3명':members?'시즌 5 · 희망 클랜에 바로 가입':e.phase==='FINISHED'?'시즌 5 종료':'시즌 5 · 클랜전·세력전·챔피언스리그',
+    deadlineAt:open||members?new Date(open?e.closesAt:e.calendar.startsAt).toISOString():null,sortOrder:0};
+  }
   return {kind:'ORGANIZATION',phase:e.phase==='OPEN'?'FORMATION':'ACTIVE',entityId:r.id,title:e.phase==='OPEN'?'클랜 원로 모집':'클랜 본부',
    detail:e.phase==='OPEN'?'다음 시즌 원로 지원 · 클랜별 3명':'개별 가입 신청 · 원로 승인',deadlineAt:e.phase==='OPEN'?new Date(e.closesAt).toISOString():null,sortOrder:0};
  }
@@ -300,7 +315,8 @@ export async function reconcileOrganizationRecruitment(env,deps={}, {now=Date.no
  const token=crypto.randomUUID(),clock=()=>deps.now?deps.now():Date.now();
  const job=await transaction(env.DB,async q=>{
   const [r]=await q("SELECT * FROM organization_rounds_v1 WHERE scope='LIVE' FOR UPDATE");
-  if(!r||r.phase==='PREPARATION'||seasonAdmissionEnabled(r,now))return null;
+  if(!r||r.phase==='PREPARATION')return null;
+  if(seasonAdmissionEnabled(r,now))return reconcileElderSeason(q,r,now);
   if(r.phase==='ASSIGNED'){
    if(r.assignment_status==='RECRUITING'&&Number(r.closes_at)<=now){await q("UPDATE organization_rounds_v1 SET assignment_status='RECRUITMENT_CLOSED',auto_assign=0,revision=revision+1 WHERE id=$1",[r.id]);return {waiting:true,status:'MANUAL',additionalRecruitment:true};}
    return null;

@@ -16,7 +16,11 @@ async function authority(q,r,user,{lock=false,knownMembership}={}){
  const elderIds=(state.elders?.[organizationId]??[state.commanders?.[organizationId]]).filter(id=>roster.some(m=>m.userId===id&&m.clanId===organizationId));
  return {organizationId,elderIds,canReview:organizationElderIds(state,roster,organizationId).includes(Number(user.id))};
 }
-export async function organizationJoinOverview(q,r,user,now,knownMembership){
+export async function organizationJoinOverview(q,r,user,now,knownMembership,calendar){
+ if(calendar){
+  const auth=r.id!==calendar.sourceRoundId&&knownMembership?await authority(q,r,user,{knownMembership}):{};
+  return {enabled:false,canApply:false,canReview:false,applications:[],...auth};
+ }
  if(!organizationJoinOpen(r,now))return {enabled:false,canApply:false,canReview:false,applications:[]};
  const mine=knownMembership===undefined?await membership(q,r,user.id):knownMembership,a=await application(q,r,user.id),auth=await authority(q,r,user,{knownMembership:mine});
  const rows=auth.canReview?await q('SELECT value FROM app_meta WHERE left(key,length($1))=$1 ORDER BY key',[prefix(r)]):[];
@@ -42,6 +46,8 @@ export async function organizationJoinCommand(env,user,path,body,deps,now,{mutat
  }
  return mutation(env,user,path,body,async q=>{
   const {r}=await lockedContext(q,user,body);
+  const [timed]=await q("SELECT 1 FROM app_meta WHERE key=$1 AND value::jsonb->'calendar' IS NOT NULL",['organization:elder-season:'+r.id]);
+  orgAssert(!timed,'JOIN_CLOSED','시즌 모집 일정에서 희망 클랜에 자율 가입하세요.');
   orgAssert(organizationJoinOpen(r,now),'JOIN_CLOSED','가입 신청은 클랜 배정 완료 후 이용할 수 있습니다.');
   const [actor]=await q('SELECT status,banned_until FROM users WHERE id=$1 FOR SHARE',[user.id]);
   orgAssert(actor?.status==='ACTIVE'&&(!actor.banned_until||Date.parse(actor.banned_until)<=now),'ACCOUNT','활성 계정만 가입 신청과 심사를 진행할 수 있습니다.',403);

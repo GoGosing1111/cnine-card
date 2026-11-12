@@ -42,7 +42,7 @@ export function mountOrganizationCms(root,{request=api}={}){
   const input=(path,label,value,{min=0,max=1e12,readonly=false,hint='미입력 시 사용 대기',kind='faction'}={})=>`<label>${label}<input type="number" data-${kind}-path="${path}" min="${min}" max="${max}" step="1" value="${value??''}" ${readonly?'readonly':''} placeholder="미입력"><small>${hint}</small></label>`;
   const organizations=()=>faction?.organizations||state?.organizations||[];
   function elderRecruitment(){
-    const e=state.elderSeason,open=e.phase==='OPEN',choosing=e.phase==='SELECTION',choices=e.selections||{};
+    const e=state.elderSeason,open=e.phase==='OPEN',choosing=e.phase==='SELECTION'||e.phase==='MEMBERS',choices=e.selections||{};
     const heading=open?'원로 지원 접수 중':choosing?'지원 마감 · 원로 선정':'원로 모집 대기';
     const controls='<p>'+(e.closesAt?'지원 마감 '+date(e.closesAt)+' (한국시간)':'운영자가 열면 48시간 동안 지원을 받습니다.')+'</p>'+
       '<button type="button" data-action="elder-open" '+(open?'disabled':'')+'>'+(choosing?'추가 원로 모집 48시간 열기':'원로 모집 48시간 열기')+'</button>';
@@ -50,8 +50,14 @@ export function mountOrganizationCms(root,{request=api}={}){
       const candidates=(e.applicants||[]).filter(a=>a.organizationId===c.id),selected=choices[c.id]||[];
       return '<fieldset data-elder-club="'+c.id+'"><legend>'+esc(c.name)+' · '+selected.length+'/3명 선정</legend>'+
         (candidates.map(a=>'<label><input type="checkbox" value="'+a.id+'" '+(selected.includes(a.id)?'checked ':'')+(choosing?'':'disabled')+'>'+esc(a.nickname)+' <small>#'+a.id+'</small></label>').join('')||'<p>지원자 없음</p>')+
-        (choosing?'<button type="button" data-action="elder-select" '+(candidates.length<3?'disabled':'')+'>이 클랜 원로 3명 확정</button>':'')+'</fieldset>';
+        (choosing?'<button type="button" data-action="elder-select" '+(!e.calendar&&candidates.length<3?'disabled':'')+'>선택한 원로 확정</button>':'')+'</fieldset>';
     }).join('');
+    if(e.calendar){
+      const c=e.calendar,deadline=open?c.elderClosesAt:choosing?c.startsAt:c.endsAt;
+      return section('01',open?'원로 지원 접수 중':choosing?'원로 선정 · 클랜원 자율 가입':e.phase==='FINISHED'?'시즌 5 종료':'시즌 5 경기 진행',
+        '원로 소집 48시간 · 자율 가입 24시간 · 경기 50일','<p>원로 마감 '+date(c.elderClosesAt)+' · 개막 '+date(c.startsAt)+' · 종료 '+date(c.endsAt)+' (한국시간)</p>'+(e.phase==='FINISHED'?'':'<b data-deadline="'+deadline+'"></b>'))+
+        (open||choosing?section('02','클랜별 원로 선정','자율 가입 기간에 클랜별 지원자 중 최대 3명을 선정하세요. 남은 자리는 비어 있는 상태로 개막합니다.','<div class="orgcms-grid">'+lists+'</div>'):'');
+    }
     return section('01',heading,'클랜별 원로 3명을 선정합니다. 일반 참가자는 본인이 선택한 클랜에 신청하고 원로가 승인합니다.',controls)+
       section('02','클랜별 지원 명단','선정한 원로는 다음 시즌 개막과 함께 배치됩니다.','<div class="orgcms-grid">'+lists+'</div>')+
       section('03','다음 정규시즌','이전 챔피언스리그 종료 후 개막합니다. 새 시즌은 50일간 진행되며 종료 다음 날 챔피언스리그가 열립니다.','<button type="button" class="primary" data-action="elder-start" '+(choosing&&e.ready?'':'disabled')+'>50일 정규시즌 시작</button>');
@@ -104,9 +110,9 @@ export function mountOrganizationCms(root,{request=api}={}){
       if(action==='elder-open')return void run(()=>post('admin/organization/elder/open',context),'원로 지원을 48시간 동안 받습니다.');
       if(action==='elder-select')return void run(()=>{
         const group=button.closest('[data-elder-club]'),userIds=[...group.querySelectorAll('input:checked')].map(x=>Number(x.value));
-        if(userIds.length!==3)throw Error('원로 3명을 선택하세요.');
+        if(e.calendar?userIds.length>3:userIds.length!==3)throw Error(e.calendar?'원로는 최대 3명입니다.':'원로 3명을 선택하세요.');
         return post('admin/organization/elder/select',{...context,organizationId:Number(group.dataset.elderClub),userIds,revision:e.revision});
-      },'원로 3명을 선정했습니다.');
+      },'원로 명단을 저장했습니다.');
       if(action==='elder-start')return void run(async()=>{const result=await post('admin/organization/elder/start',{...context,revision:e.revision});roundId=result.roundId;factionLoaded=false;faction=null;},'새 정규시즌을 시작했습니다.');
     }
     if(action==='competition-settle')return void run(async()=>{await post('admin/organization/faction/settle',{roundId:r.id});await loadFaction();},'주간·시즌 정산을 확인했습니다. 기한 전에는 승점이 추가되지 않습니다.');

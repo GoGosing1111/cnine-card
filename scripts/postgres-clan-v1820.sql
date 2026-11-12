@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS clan_organizations (
 CREATE TABLE IF NOT EXISTS clan_season_teams (
   season_id BIGINT NOT NULL,
   clan_id BIGINT NOT NULL,
-  master_user_id BIGINT NOT NULL,
+  master_user_id BIGINT,
   draft_position BIGINT NOT NULL,
   score BIGINT NOT NULL DEFAULT 0,
   wins BIGINT NOT NULL DEFAULT 0,
@@ -45,6 +45,9 @@ CREATE TABLE IF NOT EXISTS clan_season_teams (
   UNIQUE (season_id, master_user_id),
   UNIQUE (season_id, draft_position)
 );
+
+-- A club may open a season with its elder seats vacant.
+ALTER TABLE clan_season_teams ALTER COLUMN master_user_id DROP NOT NULL;
 
 CREATE TABLE IF NOT EXISTS clan_draft_pool (
   season_id BIGINT NOT NULL,

@@ -1,5 +1,5 @@
 import {ORGANIZATIONS,orgAssert,orgInteger} from '../shared/organization-system-v1.mjs';
-import {activeClanResumption,CLAN_RESUMPTION_STATE_KEY,resumedClanSettings} from '../shared/clan-resumption-v1.mjs';
+import {activeClanResumption,CLAN_RESUMPTION_STATE_KEY,resumedClanSettings,clanCalendarPhase,clanPlayoffTimes} from '../shared/clan-resumption-v1.mjs';
 import {newOrganizationFactionState} from './_organization_faction_model.js';
 
 const day=86400000, applicationMs=2*day, seasonDays=50;
@@ -18,12 +18,24 @@ async function writeValue(q,name,value,now){
 function activeAccount(user,now){
  return user?.status==='ACTIVE'&&(!user.banned_until||Date.parse(user.banned_until)<=now);
 }
+function signupRoster(window, club, selected=window.selections[club]||[]) {
+ const members=new Map(selected.map(p=>[p.id,{...p,elder:true}]));
+ for(const [uid,m] of Object.entries(window.members||{})){
+  if(m.organizationId===club&&!members.has(Number(uid)))members.set(Number(uid),{id:Number(uid),power:m.power,elder:false});
+ }
+ return [...members.values()];
+}
 export async function elderSeasonView(q,r,user,now,admin=false){
  const window=await readWindow(q,r);
  if(!window)return {phase:'CLOSED',windowId:null,revision:0,seasonDays,elderCount:3};
- const phase=window.startedSeasonId?'STARTED':now<window.closesAt?'OPEN':'SELECTION';
+ const phase=window.calendar?clanCalendarPhase(window.calendar,now):window.startedSeasonId?'STARTED':now<window.closesAt?'OPEN':'SELECTION';
  const view={phase,windowId:window.id,revision:window.revision,openedAt:window.openedAt,closesAt:window.closesAt,seasonDays,elderCount:3,
   organizationId:window.applications[user.id]?.organizationId||null,selected:Object.values(window.selections).some(s=>s.some(p=>p.id===Number(user.id)))};
+ if(window.calendar){
+  view.calendar=window.calendar;
+  view.memberClubId=window.members?.[user.id]?.organizationId||(view.selected?view.organizationId:null);
+  view.memberCounts=Object.fromEntries(clubs.map(id=>[id,signupRoster(window,id).length]));
+ }
  if(admin){
   view.applicants=Object.entries(window.applications).map(([id,a])=>({id:Number(id),...a}));
   view.selections=Object.fromEntries(Object.entries(window.selections).map(([id,people])=>[id,people.map(p=>p.id)]));
@@ -33,22 +45,33 @@ export async function elderSeasonView(q,r,user,now,admin=false){
 }
 function checkCandidates(window,body,now){
  orgAssert(window&&window.id===body.windowId&&window.closesAt<=now&&!window.startedSeasonId,'ELDER_PHASE','원로 모집 마감 후 선정할 수 있습니다.');
+ if(window.calendar)orgAssert(now<window.calendar.startsAt,'ELDER_PHASE','시즌 개막으로 원로 선정이 마감되었습니다.');
  orgAssert(body.revision===window.revision,'STALE','다른 운영 작업이 반영되었습니다. 명단을 다시 불러오세요.');
  const id=orgInteger(body.organizationId,1,clubs.length,'희망 클랜'),ids=body.userIds;
- orgAssert(Array.isArray(ids)&&ids.length===3&&new Set(ids).size===3&&ids.every(uid=>Number.isSafeInteger(uid)&&window.applications[uid]?.organizationId===id),'ELDER_SELECTION','이 클랜에 지원한 서로 다른 원로 3명을 선택하세요.');
+ orgAssert(Array.isArray(ids)&&(window.calendar?ids.length<=3:ids.length===3)&&new Set(ids).size===ids.length&&ids.every(uid=>Number.isSafeInteger(uid)&&window.applications[uid]?.organizationId===id),'ELDER_SELECTION','해당 클랜에 지원한 원로를 선택하세요 (최대 3명).');
+ if(window.calendar){
+  orgAssert(ids.every(uid=>!window.members?.[uid]||window.members[uid].organizationId===id),'MEMBER','다른 클랜에 가입한 지원자가 있습니다.');
+  orgAssert(signupRoster(window,id,ids.map(uid=>({id:uid}))).length<=25,'FULL','이미 가입한 클랜원을 포함해 최대 25명입니다.');
+ }
 }
 export async function elderSeasonCommand(env,user,path,body,deps,now,{mutation,lockedContext,qFor}){
  const action=path.split('/').at(-1),operator=path.startsWith('admin/');
  let ratings;
- if(action==='select'){
+ if(action==='select'||action==='join'){
   const load=await env.DB.enqueue(async()=>{
    const q=qFor(env.DB),[receipt]=await q('SELECT request_id FROM organization_receipts_v1 WHERE actor_id=$1 AND request_id=$2',[user.id,body.requestId]);
    if(receipt)return false;
    const [r]=await q('SELECT * FROM organization_rounds_v1 WHERE id=$1',[body.roundId]);
-   orgAssert(seasonAdmissionEnabled(r,now)&&user.role==='OWNER','PERMISSION','운영자만 원로를 선정할 수 있습니다.',403);
-   checkCandidates(await readWindow(q,r),body,now);return true;
+   const window=r&&await readWindow(q,r);
+   if(action==='join'){
+    orgAssert(window?.calendar&&window.id===body.windowId&&clanCalendarPhase(window.calendar,now)==='MEMBERS','MEMBER_PHASE','클랜원 자율 가입 기간에만 가입할 수 있습니다.');
+   }else{
+    orgAssert(seasonAdmissionEnabled(r,now)&&user.role==='OWNER','PERMISSION','운영자만 원로를 선정할 수 있습니다.',403);
+    checkCandidates(window,body,now);
+   }
+   return action==='join'||body.userIds.length>0;
   });
-  if(load)ratings=await (deps.loadOrganizationRatings||(await import('./_organization_ratings.js')).loadOrganizationRatings)(env,body.userIds,deps,{now});
+  if(load)ratings=await (deps.loadOrganizationRatings||(await import('./_organization_ratings.js')).loadOrganizationRatings)(env,action==='join'?[Number(user.id)]:body.userIds,deps,{now});
  }
  return mutation(env,user,path,body,async q=>{
   const {r}=await lockedContext(q,user,body),at=(deps.now||Date.now)();
@@ -56,8 +79,12 @@ export async function elderSeasonCommand(env,user,path,body,deps,now,{mutation,l
   const [actor]=await q('SELECT nickname,role,status,banned_until FROM users WHERE id=$1 FOR SHARE',[user.id]);
   orgAssert(activeAccount(actor,at)&&(!operator||actor.role==='OWNER'),'PERMISSION','이 요청을 처리할 권한이 없습니다.',403);
   let window=await readWindow(q,r);
+  if(action==='open'&&window?.calendar&&r.id!==window.calendar.sourceRoundId&&at>=window.calendar.endsAt&&window.id===body.windowId){
+   window=null;body={...body,windowId:null};
+  }
   orgAssert((window?.id||null)===body.windowId&&!window?.startedSeasonId,'STALE','모집 일정이 바뀌었습니다. 다시 불러오세요.');
   if(action==='open'){
+   orgAssert(!window?.calendar,'ELDER_PHASE','이 시즌의 원로 모집 일정은 확정되었습니다.');
    orgAssert(!window||at>=window.closesAt,'ELDER_OPEN','이미 원로 지원을 받고 있습니다.');
    // An additional window retains candidates and confirmed slates.
    window={id:crypto.randomUUID(),openedAt:at,closesAt:at+applicationMs,revision:(window?.revision||0)+1,
@@ -73,18 +100,27 @@ export async function elderSeasonCommand(env,user,path,body,deps,now,{mutation,l
      orgAssert(!previous,'PENDING','기존 지원을 취소한 후 원하는 클랜에 지원하세요.');
      window.applications[user.id]={organizationId:id,nickname:actor.nickname,appliedAt:at};
     }else{orgAssert(previous,'ELDER_APPLICATION','접수된 지원서가 없습니다.');delete window.applications[user.id];}
+   }else if(action==='join'){
+    orgAssert(window.calendar&&clanCalendarPhase(window.calendar,at)==='MEMBERS','MEMBER_PHASE','클랜원 자율 가입이 마감되었습니다.');
+    const club=orgInteger(body.organizationId,1,clubs.length,'가입할 클랜'),uid=Number(user.id);
+    orgAssert(!window.members?.[uid]&&!Object.values(window.selections).some(s=>s.some(p=>p.id===uid)),'MEMBER','이미 이번 시즌 클랜에 가입했습니다.');
+    orgAssert(signupRoster(window,club).length<25,'FULL','클랜 정원 25명이 찼습니다.');
+    const validate=deps.validateOrganizationRatingsLocked||(await import('./_organization_ratings.js')).validateOrganizationRatingsLocked;
+    orgAssert(ratings?.[0]?.userId===uid&&Number.isSafeInteger(ratings[0].power)&&ratings[0].power>0&&await validate(q,ratings,{now:at,requireCurrentSource:false}),'RATING_INVALID','전력 정보를 다시 확인해 주세요.');
+    window.members??={};window.members[uid]={organizationId:club,power:ratings[0].power,joinedAt:at};
    }else if(action==='select'){
     checkCandidates(window,body,at);
     const accounts=await q('SELECT id,status,banned_until FROM users WHERE id=ANY($1::bigint[]) FOR SHARE',[body.userIds]);
-    orgAssert(accounts.length===3&&accounts.every(a=>activeAccount(a,at)),'ACCOUNT','활성 계정 3명을 선택하세요.');
+    orgAssert(accounts.length===body.userIds.length&&accounts.every(a=>activeAccount(a,at)),'ACCOUNT','활성 계정을 선택하세요.');
     const validate=deps.validateOrganizationRatingsLocked||(await import('./_organization_ratings.js')).validateOrganizationRatingsLocked;
-    orgAssert(ratings?.length===3&&await validate(q,ratings,{now:at,requireCurrentSource:false}),'RATING_INVALID','원로의 전력 평가를 다시 불러오세요.');
+    orgAssert(!body.userIds.length||ratings?.length===body.userIds.length&&await validate(q,ratings,{now:at,requireCurrentSource:false}),'RATING_INVALID','원로의 전력 평가를 다시 불러오세요.');
     window.selections[body.organizationId]=body.userIds.map(id=>{
      const power=ratings.find(p=>p.userId===id)?.power;
      orgAssert(Number.isSafeInteger(power)&&power>0,'RATING_INVALID','원로의 전력을 확인할 수 없습니다.');
      return {id,power};
     });
    }else if(action==='start'){
+    orgAssert(!window.calendar,'ELDER_PHASE','자율 가입 마감 시 시즌이 자동 개막합니다.');
     orgAssert(at>=window.closesAt&&window.revision===body.revision&&clubs.every(id=>window.selections[id]?.length===3),'ELDER_SELECTION','모집 마감 후 모든 클랜에 원로 3명을 선정하세요.');
     const result=await startVoluntarySeason(q,r,window,at);window.startedSeasonId=result.seasonId;window.nextRoundId=result.roundId;
    }
@@ -93,6 +129,18 @@ export async function elderSeasonCommand(env,user,path,body,deps,now,{mutation,l
   await writeValue(q,key(r),window,at);
   return {ok:true,windowId:window.id,revision:window.revision,closesAt:window.closesAt,seasonId:window.startedSeasonId,roundId:window.nextRoundId||r.id};
  },now);
+}
+
+export async function reconcileElderSeason(q,round,now){
+ const window=await readWindow(q,round),calendar=window?.calendar;
+ if(!calendar||window.startedSeasonId)return null;
+ if(now<calendar.startsAt)return {waiting:true,status:clanCalendarPhase(calendar,now),nextCheckAt:iso(now<calendar.elderClosesAt?calendar.elderClosesAt:calendar.startsAt)};
+ const result=await startVoluntarySeason(q,round,window,now);
+ window.startedSeasonId=result.seasonId;window.nextRoundId=result.roundId;window.revision++;
+ await writeValue(q,key(round),window,now);
+ // Keep the source election with its archived round. The new round only needs its dates.
+ await writeValue(q,key({id:result.roundId}),{...window,applications:{},selections:{},members:{}},now);
+ return {waiting:true,changed:true,status:'STARTED',...result};
 }
 
 async function startVoluntarySeason(q,round,window,now){
@@ -104,32 +152,39 @@ async function startVoluntarySeason(q,round,window,now){
  const [old]=await q('SELECT state_json FROM organization_faction_state_v1 WHERE round_id=$1 FOR UPDATE',[round.id]);
  const state=JSON.parse(old.state_json);
  orgAssert(!['ACTIVE','PAUSED'].includes(state.session?.status)&&!state.sessionQueue?.length&&!state.battles.some(b=>b.status==='ACTIVE'),'FACTION_ACTIVE','진행 중인 세력전 정산 후 시즌을 시작하세요.');
- const rows=clubs.flatMap(id=>window.selections[id].map((p,i)=>({uid:p.id,club:id,slot:i+1,power:p.power})));
- const accounts=await q('SELECT id,status,banned_until FROM users WHERE id=ANY($1::bigint[]) FOR SHARE',[rows.map(p=>p.uid)]);
- orgAssert(accounts.length===rows.length&&accounts.every(a=>activeAccount(a,now)),'ACCOUNT','비활성 원로가 있습니다. 지원 명단에서 다시 선정하세요.');
- const ends=now+seasonDays*day,number=Number(last.season_no)+1,roundId=crypto.randomUUID();
- const [season]=await q("INSERT INTO clan_seasons(season_no,phase,max_members,registration_ends_at,draft_ends_at,starts_at,ends_at) VALUES($1,'ACTIVE',25,$2,$2,$2,$3) RETURNING id",[number,iso(now),iso(ends)]);
+ const candidates=clubs.flatMap(club=>signupRoster(window,club).map(p=>({...p,club})));
+ const accounts=await q('SELECT id,status,banned_until FROM users WHERE id=ANY($1::bigint[]) ORDER BY id FOR SHARE',[candidates.map(p=>p.id)]);
+ const active=new Set(accounts.filter(a=>activeAccount(a,now)).map(a=>Number(a.id)));
+ const calendar=window.calendar,startsAt=calendar?.startsAt??now,ends=calendar?.endsAt??now+seasonDays*day;
+ if(!calendar)orgAssert(active.size===candidates.length,'ACCOUNT','비활성 원로가 있습니다. 지원 명단에서 다시 선정하세요.');
+ const rows=clubs.flatMap(club=>candidates.filter(p=>p.club===club&&active.has(p.id)).map((p,i)=>({uid:p.id,club,slot:i+1,power:p.power,elder:p.elder})));
+ const number=Number(last.season_no)+1,roundId=crypto.randomUUID();
+ if(calendar)orgAssert(number===calendar.seasonNo&&calendar.sourceRoundId===round.id&&calendar.previousSeasonId===previous.seasonId,'SEASON','개막 대상 시즌을 확인하세요.');
+ const [season]=await q("INSERT INTO clan_seasons(season_no,phase,max_members,registration_ends_at,draft_ends_at,starts_at,ends_at) VALUES($1,'ACTIVE',25,$2,$2,$2,$3) RETURNING id",[number,iso(startsAt),iso(ends)]);
  const seasonId=Number(season.id),release={...previous,roundId,seasonId,seasonDays};
+ delete release.nextSeasonCalendar;delete release.competitionCalendar;
+ if(calendar)release.competitionCalendar=calendar;
  await q("UPDATE organization_rounds_v1 SET scope='ARCHIVED:'||id,auto_assign=0,revision=revision+1 WHERE id=$1",[round.id]);
- await q("INSERT INTO organization_rounds_v1(id,scope,name,phase,created_at,assigned_at,auto_assign,assignment_status) VALUES($1,'LIVE',$2,'ASSIGNED',$3,$3,0,'APPLIED')",[roundId,'클랜 정규시즌 '+number,now]);
- const people=JSON.stringify(rows),recordset=' FROM jsonb_to_recordset($2::jsonb) AS p(uid bigint,club integer,slot integer,power bigint)';
- await q('INSERT INTO organization_members_v1(round_id,user_id,organization_id,slot,seed_power,joined_at) SELECT $1,uid,club,slot,power,$3'+recordset,[roundId,people,now]);
- await q('INSERT INTO clan_season_teams(season_id,clan_id,master_user_id,draft_position) SELECT $1,club,uid,club-1'+recordset+' WHERE slot=1',[seasonId,people]);
- await q("INSERT INTO clan_members(season_id,clan_id,user_id,member_role,draft_pick_no) SELECT $1,club,uid,CASE WHEN slot=1 THEN 'MASTER' ELSE 'MEMBER' END,slot"+recordset,[seasonId,people]);
- await q('INSERT INTO clan_executives(season_id,clan_id,user_id,power,position,checked_ms) SELECT $1,club,uid,power,slot,$3'+recordset,[seasonId,people,now]);
+ await q("INSERT INTO organization_rounds_v1(id,scope,name,phase,created_at,assigned_at,auto_assign,assignment_status) VALUES($1,'LIVE',$2,'ASSIGNED',$3,$3,0,'APPLIED')",[roundId,'클랜 정규시즌 '+number,startsAt]);
+ const people=JSON.stringify(rows),recordset=' FROM jsonb_to_recordset($2::jsonb) AS p(uid bigint,club integer,slot integer,power bigint,elder boolean)';
+ await q('INSERT INTO organization_members_v1(round_id,user_id,organization_id,slot,seed_power,joined_at) SELECT $1,uid,club,slot,power,$3'+recordset,[roundId,people,startsAt]);
+ await q('INSERT INTO clan_season_teams(season_id,clan_id,master_user_id,draft_position) SELECT $1,c.id,p.uid,c.id-1 FROM unnest($3::integer[]) c(id) LEFT JOIN (SELECT club,uid'+recordset+' WHERE elder AND slot=1) p ON p.club=c.id',[seasonId,people,clubs]);
+ await q("INSERT INTO clan_members(season_id,clan_id,user_id,member_role,draft_pick_no) SELECT $1,club,uid,CASE WHEN elder AND slot=1 THEN 'MASTER' ELSE 'MEMBER' END,slot"+recordset,[seasonId,people]);
+ await q('INSERT INTO clan_executives(season_id,clan_id,user_id,power,position,checked_ms) SELECT $1,club,uid,power,slot,$3'+recordset+' WHERE elder',[seasonId,people,startsAt]);
  await q('INSERT INTO organization_progress_v1(round_id,organization_id,points,stage) SELECT $1,organization_id,points,stage FROM organization_progress_v1 WHERE round_id=$2',[roundId,round.id]);
  await q('INSERT INTO organization_faction_treasury_v1(round_id,organization_id,balance,total_earned) SELECT $1,organization_id,balance,total_earned FROM organization_faction_treasury_v1 WHERE round_id=$2',[roundId,round.id]);
  const next=newOrganizationFactionState(now);
- next.resumption=release;next.elders=Object.fromEntries(clubs.map(id=>[id,window.selections[id].map(p=>p.id)]));
+ next.resumption=release;next.elders=Object.fromEntries(clubs.map(id=>[id,rows.filter(p=>p.club===id&&p.elder).map(p=>p.uid)]));
  next.commanders=Object.fromEntries(clubs.map(id=>[id,next.elders[id][0]]));
  next.districts=state.districts.map(d=>({...d,defense:''}));
- for(const field of ['session','sessionDay','sessionPlan','scheduleVersion'])if(state[field]!=null)next[field]=state[field];
- const dayKey=new Date(now+9*3600000).toISOString().slice(0,10);
+ if(!calendar)for(const field of ['session','sessionDay','sessionPlan','scheduleVersion'])if(state[field]!=null)next[field]=state[field];
+ const dayKey=new Date(startsAt+9*3600000).toISOString().slice(0,10);
  await q('INSERT INTO organization_faction_days_v1(round_id,day_key,schedule_json) SELECT $1,day_key,schedule_json FROM organization_faction_days_v1 WHERE round_id=$2 AND day_key>=$3',[roundId,round.id,dayKey]);
  await q('INSERT INTO organization_faction_state_v1(round_id,state_json) VALUES($1,$2)',[roundId,JSON.stringify(next)]);
  const {roundRobinRounds,scheduledWindowStarts}=await import('./_clan.js');
- const cycle=roundRobinRounds(clubs),settings=resumedClanSettings({},release),starts=scheduledWindowStarts(settings,now,seasonDays);
- const wars=starts.filter(start=>start+3600000<=ends).flatMap((start,i)=>cycle[i%cycle.length].map(pair=>({a:pair.clanAId,b:pair.clanBId,n:i+1,start:iso(start),finish:iso(start+3600000)})));
+ const cycle=roundRobinRounds(clubs),settings=resumedClanSettings({},release),starts=scheduledWindowStarts(settings,startsAt,seasonDays);
+ const regularEnd=calendar?clanPlayoffTimes(calendar).regularEndsAt:ends;
+ const wars=starts.filter(start=>start>=startsAt&&start+3600000<=regularEnd).flatMap((start,i)=>cycle[i%cycle.length].map(pair=>({a:pair.clanAId,b:pair.clanBId,n:i+1,start:iso(start),finish:iso(start+3600000)})));
  await q("INSERT INTO clan_wars(season_id,round_no,clan_a_id,clan_b_id,status,starts_at,ends_at) SELECT $1,n,a,b,'SCHEDULED',w.start,w.finish FROM jsonb_to_recordset($2::jsonb) AS w(n integer,a integer,b integer,start text,finish text)",[seasonId,JSON.stringify(wars)]);
  await writeValue(q,CLAN_RESUMPTION_STATE_KEY,release,now);
  return {seasonId,roundId};

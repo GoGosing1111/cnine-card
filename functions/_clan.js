@@ -3,7 +3,7 @@ import {readClanRetirementPlan,clanRetirementPublicState,finishClanRetirement,ha
 import {handleClanRestorationRoute} from './_clan_restoration.js';
 import {clanRestorationActive} from '../shared/clan-restoration-v1.mjs';
 import {readClanResumption} from './_clan_resumption.js';
-import {resumedClanSettings} from '../shared/clan-resumption-v1.mjs';
+import {resumedClanSettings,clanPlayoffTimes} from '../shared/clan-resumption-v1.mjs';
 import {loadPetBattleSnapshot} from './_pet_account.js';
 import {clanReformEnabled,ensureClanReform,refreshClanExecutives,clanExecutive} from './_clan_governance.js';
 import {clanReformState,handleClanReform} from './_clan_war_reform.js';
@@ -138,7 +138,7 @@ const FOUNDATION_SQL=Object.freeze([
     id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL UNIQUE,mark_key TEXT NOT NULL DEFAULT 'SHIELD',primary_color TEXT NOT NULL DEFAULT '#31d7e8',accent_color TEXT NOT NULL DEFAULT '#e4f8ff',
     slogan TEXT NOT NULL DEFAULT '',trophies INTEGER NOT NULL DEFAULT 0,is_active INTEGER NOT NULL DEFAULT 1,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
   `CREATE TABLE IF NOT EXISTS clan_season_teams(
-    season_id INTEGER NOT NULL,clan_id INTEGER NOT NULL,master_user_id INTEGER NOT NULL,draft_position INTEGER NOT NULL,score INTEGER NOT NULL DEFAULT 0,wins INTEGER NOT NULL DEFAULT 0,losses INTEGER NOT NULL DEFAULT 0,
+    season_id INTEGER NOT NULL,clan_id INTEGER NOT NULL,master_user_id INTEGER,draft_position INTEGER NOT NULL,score INTEGER NOT NULL DEFAULT 0,wins INTEGER NOT NULL DEFAULT 0,losses INTEGER NOT NULL DEFAULT 0,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(season_id,clan_id),UNIQUE(season_id,master_user_id),UNIQUE(season_id,draft_position))`,
   `CREATE TABLE IF NOT EXISTS clan_draft_pool(
     season_id INTEGER NOT NULL,user_id INTEGER NOT NULL,candidate_key TEXT NOT NULL,preferred_role TEXT NOT NULL DEFAULT 'BALANCED',activity_window TEXT NOT NULL DEFAULT 'EVENING',
@@ -576,7 +576,7 @@ async function finalizeWar(env,war,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
   }
   return true;
 }
-async function reconcileWarWindows(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS,waitForSeasonEnd=false){
+async function reconcileWarWindows(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS,waitForSeasonEnd=false,regularEndsAt=sqlMs(season?.ends_at)){
   if(season?.phase!=='ACTIVE')return season;const now=iso();
   await env.DB.prepare("UPDATE clan_war_battles SET status='FAILED',error_message='WAR_WINDOW_STALE_RESERVATION',updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND status IN ('PENDING','RESOLVING') AND updated_at<datetime('now','-120 seconds')").bind(season.id).run();
   await env.DB.prepare("UPDATE clan_wars SET status='ACTIVE',updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND status='CLOSING' AND updated_at<datetime('now','-60 seconds')").bind(season.id).run();
@@ -585,7 +585,7 @@ async function reconcileWarWindows(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAU
   await settlePendingClanWarPigCoins(env,Number(season.id),settings);
   await settlePendingClanWarItems(env,Number(season.id),settings);
   const remaining=await env.DB.prepare("SELECT COUNT(*) count FROM clan_wars WHERE season_id=? AND status IN ('SCHEDULED','ACTIVE','CLOSING')").bind(season.id).first(),total=await env.DB.prepare('SELECT COUNT(*) count FROM clan_wars WHERE season_id=?').bind(season.id).first();
-  if(Number(total?.count||0)>0&&Number(remaining?.count||0)===0&&(!waitForSeasonEnd||sqlMs(season.ends_at)<=Date.now()))await env.DB.prepare("UPDATE clan_seasons SET phase='SETTLEMENT',updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='ACTIVE'").bind(season.id).run();
+  if(Number(total?.count||0)>0&&Number(remaining?.count||0)===0&&(!waitForSeasonEnd||regularEndsAt<=Date.now()))await env.DB.prepare("UPDATE clan_seasons SET phase='SETTLEMENT',updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='ACTIVE'").bind(season.id).run();
   return env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first();
 }
 async function payClanSeasonRewards(env,season,settings,rankedTeams){
@@ -677,7 +677,14 @@ async function startScheduledRedraft(env,season,settings){
 // Registration/draft plus explicitly armed post-championship season transitions.
 export async function reconcileClanDraft(env,{retire=finishClanRetirement}={}){
   if(clanRestorationActive()){
-    const resumed=await readClanResumption(env);if(!resumed)return{phase:'SCHEDULE_LOCKED',nextCheckAt:null,registrationOpen:false};
+    let resumed=await readClanResumption(env);if(!resumed)return{phase:'SCHEDULE_LOCKED',nextCheckAt:null,registrationOpen:false};
+    if(resumed.nextSeasonCalendar){
+      const now=Date.now(),calendar=resumed.nextSeasonCalendar;
+      if(now<calendar.startsAt)return {phase:now<calendar.elderClosesAt?'ELDER_RECRUITMENT':'MEMBER_RECRUITMENT',seasonId:resumed.seasonId,registrationOpen:false,nextCheckAt:iso(now<calendar.elderClosesAt?calendar.elderClosesAt:calendar.startsAt)};
+      const {reconcileOrganizationRecruitment}=await import('./_organization.js');
+      await reconcileOrganizationRecruitment(env,{}, {now});
+      resumed=await readClanResumption(env);
+    }
     const settings=await clanSettings(env);if(settings.mode!=='ON')return{phase:settings.mode,nextCheckAt:null,registrationOpen:false};
     let season=await env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(resumed.seasonId).first();
     if(!season)return{phase:'SCHEDULE_LOCKED',nextCheckAt:null,registrationOpen:false};
@@ -723,7 +730,7 @@ async function advanceLifecycle(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS
     const resumed=await readClanResumption(env);if(!resumed||Number(season?.id)!==resumed.seasonId)return season;
     if(settings.mode!=='ON')return season;
     let current=season;
-    if(current.phase==='ACTIVE')current=await reconcileWarWindows(env,current,settings,resumed.seasonDays===50);
+    if(current.phase==='ACTIVE')current=await reconcileWarWindows(env,current,settings,resumed.seasonDays===50,resumed.competitionCalendar?clanPlayoffTimes(resumed.competitionCalendar).regularEndsAt:undefined);
     if(current.phase==='SETTLEMENT')current=await settleSeason(env,current,settings);
     if(current.phase==='CHAMPIONS'){
       await advanceChampions(env,current,settings);
