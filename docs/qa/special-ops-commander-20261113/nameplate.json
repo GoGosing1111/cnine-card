@@ -1,0 +1,27 @@
+{
+  "tool": "ImageGen built-in",
+  "title": "특공사령관",
+  "source": "nameplate-source.png",
+  "prompt": "nameplate-prompt.txt",
+  "runtime": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+  "reference": {
+    "publishedFormat": "docs/qa/champions-ruler-season4-20261112/nameplate-source.png",
+    "sha256": "7246a1a188140d5d1e5d5f7e23a72a664bc7ba2139341e19c39f9194331d1b83",
+    "firstPass": "design-reference.png",
+    "firstPassSHA256": "0f884ef1a9675bdee925c4592e0b134ff3721a03ae5f5a620ea6065db5bb86bf",
+    "firstPassPrompt": "design-prompt.txt"
+  },
+  "original": {
+    "width": 2172,
+    "height": 724,
+    "bytes": 1941067,
+    "sha256": "18ece62bbdabc4c92a49dc39207563cca9aca620e7e51d62dafb96ea672f9a7c"
+  },
+  "webp": {
+    "width": 960,
+    "height": 320,
+    "bytes": 73846,
+    "sha256": "b0727d8bc97d7417a0e3046bd6d45dcf2205530e841e8c97bbacbd31d70d5ca1",
+    "alpha": true
+  }
+}
