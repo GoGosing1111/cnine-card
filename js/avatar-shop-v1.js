@@ -32,12 +32,16 @@
       return { type, tone: 'raid', icon: 'raid', label: '레이드 추가 횟수', value: `+${value}회`, summary: `레이드 입장 +${value}회`, detail: `장착 중에는 레이드 각 운영 슬롯의 입장 가능 횟수가 ${value}회 증가합니다.` };
     }
     if (type === 'COIN_GAIN_PERCENT') {
-      const value = Math.max(1, Math.min(item?.code === 'IYEJUN' ? 150 : 100, amount || 1));
+      const value = Math.max(1, Math.min(Number(item?.coinGainCap)||(item?.code==='IYEJUN'?150:100), amount || 1));
       return { type, tone: 'coin', icon: 'coinGain', label: '코인 습득률', value: `+${value}%`, summary: `코인 습득률 +${value}%`, detail: `전투와 콘텐츠에서 직접 획득하는 코인이 ${value}% 증가합니다. 거래·환불·관리자 지급은 제외됩니다.` };
     }
     if (type === 'DROP_RATE_PERCENT') {
       const value = Math.max(1, Math.min(100, amount || 1));
       return { type, tone: 'drop', icon: 'drop', label: '드랍률 증가', value: `+${value}%`, summary: `드랍률 +${value}%`, detail: `콘텐츠 보상의 기본 드랍 확률이 ${value}% 증가합니다. 최종 확률은 100%를 넘지 않으며, 확정 보상 수량과 뽑기·상자 개봉 확률은 그대로입니다.` };
+    }
+    if (type === 'ACCOUNT_RANK_XP_PERCENT') {
+      const value=Math.max(0,Math.min(100,amount));
+      return {type,tone:'raid',icon:'rankXp',label:'계급 경험치 상승',value:`+${value}%`,summary:`계급 경험치 +${value}%`,detail:`장착 중 획득하는 계급 경험치가 ${value}% 증가합니다.`};
     }
     if (type === 'BATTLE_POWER_PERCENT') {
       const value = Math.max(1, Math.min(100, amount || 1));
@@ -48,7 +52,7 @@
 
   function effectInfos(item) {
     const effects = Array.isArray(item?.effects) && item.effects.length ? item.effects : [item?.effect || {}];
-    return effects.map(effect => effectInfo({code:item?.code,effect})).filter((effect) => effect.type !== 'NONE');
+    return effects.map(effect => effectInfo({code:item?.code,coinGainCap:item?.coinGainCap,effect})).filter((effect) => effect.type !== 'NONE');
   }
 
   const icon = (name) => {
@@ -59,6 +63,7 @@
       drop: '<path d="M4 5h16v4L12 20 4 9V5Zm0 4h16M9 5l3 4 3-4"/>',
       power: '<path d="m5 5 14 14M19 5 5 19M4 7l3-3 4 1M20 7l-3-3-4 1"/>',
       scrapyard: '<path d="M4 14h16l-1-5-3-2H8L5 9l-1 5Zm3 0v4m10-4v4M8 11h8M9 7l1-3h4l1 3"/>',
+      rankXp: '<path d="m3 15 5-5 4 4 8-9m-6 0h6v6M3 20h18"/>',
       raid: '<path d="M5 21V4m1 1h11l-2 4 2 4H6M9 17h7"/>',
       coinGain: '<path d="M5 5h10v10H5zM8 8h4v4H8zM14 19l5-5m0 0v4m0-4h-4"/>',
       check: '<path d="m5 12 4 4L19 6"/>',

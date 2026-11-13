@@ -990,7 +990,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   avatar:{
     styles:['css/avatar-shop-v1.css?v=7-iyejun-portrait'],
-    scripts:['js/avatar-shop-v1.js?v=6-iyejun-150-fractional','js/avatar-shop-v1-live.js?v=2-avatar-cache-sync'],
+    scripts:['js/avatar-shop-v1.js?v=7-santa-options','js/avatar-shop-v1-live.js?v=2-avatar-cache-sync'],
     ready:()=>Boolean(window.AvatarShopV1Live?.bind)&&typeof window.avatarShopView==='function'&&typeof window.bindAvatarShopView==='function'
   },
   workshop:{
