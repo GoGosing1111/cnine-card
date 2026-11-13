@@ -1,0 +1,332 @@
+[
+  {
+    "file": "assets/ui/packs/blue-gear-live-v1/bongsoon-320.webp",
+    "sha256": "8bd2d2d0245c671cb4987c8ab2b5ee43efabda18b78acae641afc3323e13b7fe",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/packs/blue-gear-live-v1/bongsoon-640.webp",
+    "sha256": "66b8d824c063411d3368ffc8b212c6632f9f16ee5ec3f5dfbb87bb1827bc2c5d",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/packs/blue-gear-live-v1/diim-320.webp",
+    "sha256": "bf5f8e1e5c78b0cf0f586b7784cd609ecacfbcb003f3a9a689d4d33547ec1341",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/packs/blue-gear-live-v1/diim-640.webp",
+    "sha256": "9570b30263325b95760ae130c66326a0425830e68898abce41240980bea45935",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/packs/blue-gear-live-v1/hiheeya-320.webp",
+    "sha256": "2bad064dbfbf6d67761318808e6a862c65f60016e5474d555ae8c75690832578",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/packs/blue-gear-live-v1/hiheeya-640.webp",
+    "sha256": "cfd842d564a2b7819a385acf309ff1a495d5897358a61f8b897fdb9cc64de385",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/packs/blue-gear-live-v1/joeun-320.webp",
+    "sha256": "086ace6e6a94e7e6ea0d2206d164f1334aff8fd6bd5b5c17df91ea9f154827a7",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/packs/blue-gear-live-v1/joeun-640.webp",
+    "sha256": "bb6f96a340480b6842e73919ef872eb960584f0c171763f793b86c65f3a3d61e",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/packs/blue-gear-live-v1/pack-320.webp",
+    "sha256": "32d9710039e4289827f1e1c6464e11c064ba6a050582821d1421b22e2d3637eb",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/packs/blue-gear-live-v1/pack-768.webp",
+    "sha256": "e710d2e5764a6f71c7963e71d788d65028fdb7f928c16c4b3f229e1392fadcd2",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/packs/blue-gear-live-v1/sudaeng-320.webp",
+    "sha256": "de33f8acf1fdad44554b68ad1b2a09f2f9677d6b88ec9d531d76c801f54a2e28",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/packs/blue-gear-live-v1/sudaeng-640.webp",
+    "sha256": "8cb67bdfec0311f005f58acc25902611719b75f8dfc50a16d16b0700a1d5953c",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/packs/blue-gear-live-v1/V-967-320.webp",
+    "sha256": "6e8aa673fa49d4cfac3d7168fb92f8038c8f529395e9e2653ac95195dd4a2212",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/packs/blue-gear-live-v1/V-976-320.webp",
+    "sha256": "86b88859870f5dc217a25fbc2f0ba65d3d3f99567895cc1358aa378676725844",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/bongsoon/runtime/bongsoon-02e98f988fa8.atlas",
+    "sha256": "3d9b918b8e1d2dad013c0b2f7f77a6a60a01928f6856838f359c8a0f1ca77674",
+    "windows": false
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/bongsoon/runtime/bongsoon-02e98f988fa8.webp",
+    "sha256": "f9301c3a6cf4036266a72c671568a578fd58d187704ef5f3850c19335e63748f",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/bongsoon/runtime/bongsoon.json",
+    "sha256": "8c357d49f13bbfb4806631fb372b4782ebf20024971bb302982e3d04b05a9cb8",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/bongsoon/runtime/guard.webp",
+    "sha256": "1144bd585bb1dabf1a857b7769d818b763139e5c9c2c6ef9dc2e9a00c4737e6a",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/diim/runtime/diim-3a8abe3e41c7.atlas",
+    "sha256": "b1baeb17a196cc9dfddbe60ee437635d056e17517e27be15385b3342be60397d",
+    "windows": false
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/diim/runtime/diim-3a8abe3e41c7.webp",
+    "sha256": "8179ff1721ff6863ef35301ed5a8b11b443a7fa899f414d296e75bc329e6d8e6",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/diim/runtime/diim.json",
+    "sha256": "b7ba1048af6c30360eafeeefe86719e335144aea2cb079a1b783eda8632174de",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/diim/runtime/guard.webp",
+    "sha256": "fcdcd867a0203564e5a7353bc6175e2f6ef7e6de9f465f8c8136879e0dea22f4",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/hiheeya/runtime/guard.webp",
+    "sha256": "3e77d7f8fb3650baf168b4efa12d057648249251d0677edaddb593148b78ac4a",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/hiheeya/runtime/hiheeya-ccdc117ec0c2.atlas",
+    "sha256": "ba265564ff6bec038cdc29ec25c2490f948a656afbe770fbd9aa3cda0051cf51",
+    "windows": false
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/hiheeya/runtime/hiheeya-ccdc117ec0c2.webp",
+    "sha256": "4213724fc8241c28369e226376a53f2bc6064552efe89aa936b4c684ef074580",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/hiheeya/runtime/hiheeya.json",
+    "sha256": "0470fd1739a10fbc7b5a751883b94a1d8dd50e4f3f88fd55ee6570d973d8dff5",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/joeun/runtime/guard.webp",
+    "sha256": "0b196965115ff0c0936ea3c966e7f4ec9d8b5ccd5bd1258281092d945b41f4f3",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/joeun/runtime/joeun-f4a5fee985ec.atlas",
+    "sha256": "276ea68e61b03855e646835facb597cfdb3e486b522d69b40bef20680d0a0307",
+    "windows": false
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/joeun/runtime/joeun-f4a5fee985ec.webp",
+    "sha256": "0c7052531d389e5682406d4cf93e7b16b995120e04f9270cf7f8d796dde0c3fe",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/joeun/runtime/joeun.json",
+    "sha256": "805b9b27d757a793e67295f1731099247f682e12005fcf9d55169ddb852f164d",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/sudaeng/runtime/guard.webp",
+    "sha256": "bff900c379b17290c8201ccab36b5b745592407676d40396c7ab9062f9176f02",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/sudaeng/runtime/sudaeng-e120d0681a5a.atlas",
+    "sha256": "a81077eb86d193343e0224b20d068e5a89d916b56b8618e472495f251eb967d5",
+    "windows": false
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/sudaeng/runtime/sudaeng-e120d0681a5a.webp",
+    "sha256": "66a19fe1c130530ef459011260760d1f132a24a0f8deb1a75198d442af089640",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/sudaeng/runtime/sudaeng.json",
+    "sha256": "15c69765ed4ac24b72c723dfcd4853a5a999432b1fcb40bbae06be8118868db9",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/accelerator-painting.webp",
+    "sha256": "2fce7a5fd338a42665d4257589e98f0384cca32c46ef9b1e7e6b4f7b043c05a8",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/accelerator-particles.webp",
+    "sha256": "c7cab82db4dfc1a0abd3d5503efd1b45ff58d489f566bdd91636e1812a9eaf11",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/accelerator-release.webp",
+    "sha256": "fbd77f52a0e5e8792f95348ce8813bacdb0915014eea522239c20ee4b1bc781a",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/aegis-painting.webp",
+    "sha256": "4554e07349cb8efff61ca466ea9fb1ae1a2e8e2d63044eb73bc81570c4317ba4",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/aegis-particles.webp",
+    "sha256": "da58e6fd9ce2e641553be01b58aad8d596cae9a0dcf68b2eecf4c4e9e1bc10a5",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/aegis-release.webp",
+    "sha256": "3da291eb4dd1511f992f1b903d2cc0438b30eea24a944833e9830ad4260eab5a",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/crescent-painting.webp",
+    "sha256": "0c78422cf415983f9520871e5ff1e83a110e6ef62066e4e39c64ae2d48f2b43d",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/crescent-particles.webp",
+    "sha256": "cd671d55a2cebb27413f4a5fec083bdf5681bf305f7cd26684ad1fb6c869561b",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/crescent-release.webp",
+    "sha256": "41fdf202f3028d8651e733d59a5d61529a005e98d3316fe4b143eb209fe36414",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/maelstrom-painting.webp",
+    "sha256": "70faf4f4327e925ac883eb2e0c6f4b59433c8b3387d91bec5cfd15764aff4b1a",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/maelstrom-particles.webp",
+    "sha256": "04ca51cc03f85ede2fc0c457f8bb29e536ca68b06c4bac21fb9dee8671ed449b",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/maelstrom-release.webp",
+    "sha256": "9d581f1dc11da9cb51a11aac413990d7f78e23ace3ca2aedc224145178969b33",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/refraction-painting.webp",
+    "sha256": "5b950850ac3df90991d4e2a76d86dc63aec7543aba976f72ab0f3c3af8a65952",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/refraction-particles.webp",
+    "sha256": "82675e1c3a04626ce6f7da0a5d13a973ee128e720338a128bffd6eebf8d0f14e",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/refraction-release.webp",
+    "sha256": "1fe1a0fb03150839fc7af420996a3c9fbb5d812e4cc7012950f0793490198a26",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/ricochet-painting.webp",
+    "sha256": "0e7352aa76c8b42d655d055c819e24e20ec4eeaa84eca9ceec745d54676a563b",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/ricochet-particles.webp",
+    "sha256": "dc690f5de1f4878bf3b0c4ec6e29d7ec597e7c2f29363309ff8140cffbea3955",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/ricochet-release.webp",
+    "sha256": "b371553198aed6a2f6aeaae14e1f74fdf9f5404bb45f7f190623e8355f8f62f4",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/singularity-painting.webp",
+    "sha256": "65a867373f4c6bd65f3d482130fa0ba0184cc3146d14f65a12bb6119b952eea4",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/singularity-particles.webp",
+    "sha256": "7973273e351f05aaf582c86309c593f5699c79231e5d17238ff6241ba6f0cb64",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/singularity-release.webp",
+    "sha256": "8fab0ecc7a4b0e1fa20215116804cf17d1c1db6199fe46a9efa15d1e8e5a0e6a",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/skyline-painting.webp",
+    "sha256": "be41435fb4ebf491bf5aec9a1eefaf4f4a649f7c040e6c89d7b80ff88888ec62",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/skyline-particles.webp",
+    "sha256": "84b614e1f5317ef87e66d5c58d82259ae3c12d39a21fb262735a7fefdb8d1ef0",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/skyline-release.webp",
+    "sha256": "0d824380b54a37bdb80219785e58dce918d62c1f951dcf0b030eb50785549679",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/sunburst-painting.webp",
+    "sha256": "214237dbe74be2baef608bb8239b1e91c6b205763da9efcd32db59fc821d4077",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/sunburst-particles.webp",
+    "sha256": "d534c29da71298b0e816bf1fffa9b909d0144d2bec63ec9c40028e1854a92e82",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/sunburst-release.webp",
+    "sha256": "6ab6ee47f6cd43fc602d4af1fb804ddb5139cd8cdc5b261cfa9ec6fdfff45cc7",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/tidelance-painting.webp",
+    "sha256": "e7b957c883f647122c8536b9cb82a9ce0c9d7c15ed12155737a266201638a737",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/tidelance-particles.webp",
+    "sha256": "9133eed7baa6a85133494523e4c5e44d28e5f42d055d55d5a895c27c33e1b06c",
+    "windows": true
+  },
+  {
+    "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/effects/runtime/tidelance-release.webp",
+    "sha256": "2f684028caaf190cc4f7fcb96e0b434179f445e2c892b91543d90ebcfea8828b",
+    "windows": true
+  },
+  {
+    "file": "css/blue-gear-pack-v1.css",
+    "sha256": "d6ac25470e1b5a30393f24b635022814c63244c2df16cfa29abb5c033fc09fd3",
+    "windows": true
+  },
+  {
+    "file": "js/mercenary-blue-gear-pack-live.bundle.mjs",
+    "sha256": "24ebbd036dc08aafcea9085cdd81c3b2028f8ebc94952ce4631f5a507c1150c5",
+    "windows": true
+  }
+]

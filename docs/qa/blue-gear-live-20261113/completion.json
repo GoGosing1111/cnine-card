@@ -1,0 +1,807 @@
+{
+  "verifiedAt": "2026-11-13T13:08:24.043Z",
+  "production": {
+    "at": "2026-11-13T13:08:19.877Z",
+    "id": "9118deef-bad6-4e5c-a5a2-1504c89e3f00",
+    "url": "https://9118deef.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "cb7ed5e9c16e429166b2a79269faaaedd27d0acb"
+  },
+  "workers": {
+    "cnine-card-api-runtime": {
+      "createdAt": "2026-11-13T13:04:41.825352Z",
+      "id": "6198c8c2-a97f-4718-b2ee-808ef9538765",
+      "version": "49f19ce0-710d-4237-8bf1-c26984bc4421",
+      "traffic": 100
+    },
+    "cnine-card-clan-draft": {
+      "createdAt": "2026-11-13T13:07:26.11758Z",
+      "id": "f9abe7a9-e6f7-448e-bd16-305b06554cb4",
+      "version": "2b2b3cec-c0e1-4ed6-a86a-3b13d30ecf3a",
+      "traffic": 100
+    }
+  },
+  "audit": {
+    "id": "59979",
+    "created_at": "2026-11-13 12:38:00"
+  },
+  "completionKey": "ops:blue-gear-pack:20261120:v1",
+  "approvedPackSha256": "d343385b4535fd3ba5357522cdc0ad1337f3ca0f0fd9212e792d47944298afbc",
+  "stock": [
+    {
+      "code": "V-701",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true
+    },
+    {
+      "code": "V-702",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true
+    },
+    {
+      "code": "V-703",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true
+    },
+    {
+      "code": "V-704",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true
+    },
+    {
+      "code": "V-705",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true
+    },
+    {
+      "code": "V-976",
+      "limit": 3,
+      "issued": 0,
+      "remaining": 3,
+      "prepared": true
+    },
+    {
+      "code": "V-967",
+      "limit": 3,
+      "issued": 0,
+      "remaining": 3,
+      "prepared": true
+    }
+  ],
+  "settings": {
+    "prices": {
+      "single": 2250000000,
+      "ten": 22500000000
+    },
+    "missRatePpm": 800000,
+    "normalRankRatesPpm": {
+      "C": 104500,
+      "B": 30000,
+      "A": 30000,
+      "S": 30000,
+      "SS": 4700,
+      "SSS": 800
+    },
+    "cardRatesPpm": {
+      "V-701": 500,
+      "V-702": 500,
+      "V-703": 500,
+      "V-704": 500,
+      "V-705": 500,
+      "V-976": 1,
+      "V-967": 1,
+      "V-058": 400
+    },
+    "normalSssRatePpm": 997098,
+    "stockLimits": {
+      "V-701": 10,
+      "V-702": 10,
+      "V-703": 10,
+      "V-704": 10,
+      "V-705": 10,
+      "V-976": 3,
+      "V-967": 3
+    },
+    "mode": "OFF"
+  },
+  "individualBasePercent": {
+    "V-701": "0.00004",
+    "V-702": "0.00004",
+    "V-703": "0.00004",
+    "V-704": "0.00004",
+    "V-705": "0.00004",
+    "V-976": "0.00000008",
+    "V-967": "0.00000008",
+    "V-058": "0.000032"
+  },
+  "openingAt": "2026-11-19T15:00:00.000Z",
+  "timezone": "Asia/Seoul",
+  "mercenaries": [
+    {
+      "code": "V-976",
+      "name": "제로",
+      "rank": "SSS",
+      "basePower": 3000000,
+      "skills": [
+        "청광 횡단",
+        "섬광 연참",
+        "용궤 검격",
+        "천검 포위",
+        "창천 종단"
+      ],
+      "limit": 3
+    },
+    {
+      "code": "V-701",
+      "name": "하이희야",
+      "rank": "SS",
+      "basePower": 1000000,
+      "skills": [
+        "황금 도탄",
+        "극광 가속탄"
+      ],
+      "limit": 10
+    },
+    {
+      "code": "V-702",
+      "name": "나무늘봉순",
+      "rank": "SS",
+      "basePower": 1000000,
+      "skills": [
+        "청월 올려베기",
+        "이지스 브레이크"
+      ],
+      "limit": 10
+    },
+    {
+      "code": "V-703",
+      "name": "디임",
+      "rank": "SS",
+      "basePower": 1000000,
+      "skills": [
+        "일점 작렬포",
+        "특이점 박격포"
+      ],
+      "limit": 10
+    },
+    {
+      "code": "V-704",
+      "name": "수댕",
+      "rank": "SS",
+      "basePower": 1000000,
+      "skills": [
+        "쇄도하는 해류창",
+        "용오름 낙창"
+      ],
+      "limit": 10
+    },
+    {
+      "code": "V-705",
+      "name": "조은",
+      "rank": "SS",
+      "basePower": 1000000,
+      "skills": [
+        "프리즘 관통사격",
+        "오로라 좌표포격"
+      ],
+      "limit": 10
+    },
+    {
+      "code": "V-967",
+      "name": "하쿠야 신",
+      "rank": "SSS",
+      "basePower": 2700000,
+      "skills": [
+        "절광발도",
+        "삼첩관통",
+        "회천검압",
+        "만검낙성"
+      ],
+      "limit": 3
+    }
+  ],
+  "sourceAssetCheck": {
+    "publicFiles": 66,
+    "sha256Matched": 66,
+    "windowsManifestVerified": "9cb18d5daa7f6be8a86441da390bae8a73f543acce15c2e477628236647b14f1",
+    "legacyMarkdownUrls": 2
+  },
+  "balance": {
+    "conditions": "Local canonical server. Same five cards, magic, equipment and growth on each side, matched seeds and swapped sides. No accounts or grants.",
+    "pvpVersusRazak": {
+      "하이희야": {
+        "win": 156,
+        "loss": 156
+      },
+      "나무늘봉순": {
+        "win": 156,
+        "loss": 156
+      },
+      "디임": {
+        "win": 156,
+        "loss": 156
+      },
+      "수댕": {
+        "win": 156,
+        "loss": 156
+      },
+      "조은": {
+        "win": 156,
+        "loss": 156
+      }
+    },
+    "pvePairedMatchups": 360,
+    "maxPveDamageDifferencePercent": 0.1408
+  },
+  "battle": {
+    "conditions": "Windows desktop headless Chrome, 1280×800, isolated generated HUNT battle payload and genuine published V3 renderer/assets. Two authoritative skill events each, alternating ally/enemy. Public fixture forwards individual asset requests, so its network loading is diagnostic.",
+    "public": {
+      "report": [
+        {
+          "id": "hiheeya",
+          "side": "A",
+          "readyMs": 9033,
+          "casts": [
+            {
+              "action": "ricochet",
+              "contacts": 1,
+              "frames": 63,
+              "p95": 33,
+              "longFrames": 0,
+              "fxAfter": 0
+            },
+            {
+              "action": "accelerator",
+              "contacts": 1,
+              "frames": 105,
+              "p95": 20.600000000000364,
+              "longFrames": 0,
+              "fxAfter": 0
+            }
+          ],
+          "actorsAfter": 0
+        },
+        {
+          "id": "bongsoon",
+          "side": "B",
+          "readyMs": 9377,
+          "casts": [
+            {
+              "action": "crescent",
+              "contacts": 1,
+              "frames": 62,
+              "p95": 32.20000000000073,
+              "longFrames": 1,
+              "fxAfter": 0
+            },
+            {
+              "action": "aegis",
+              "contacts": 1,
+              "frames": 77,
+              "p95": 31.299999999999272,
+              "longFrames": 0,
+              "fxAfter": 0
+            }
+          ],
+          "actorsAfter": 0
+        },
+        {
+          "id": "diim",
+          "side": "A",
+          "readyMs": 6025,
+          "casts": [
+            {
+              "action": "sunburst",
+              "contacts": 1,
+              "frames": 127,
+              "p95": 19.699999999999818,
+              "longFrames": 0,
+              "fxAfter": 0
+            },
+            {
+              "action": "singularity",
+              "contacts": 1,
+              "frames": 128,
+              "p95": 20.5,
+              "longFrames": 0,
+              "fxAfter": 0
+            }
+          ],
+          "actorsAfter": 0
+        },
+        {
+          "id": "sudaeng",
+          "side": "B",
+          "readyMs": 7564,
+          "casts": [
+            {
+              "action": "tidelance",
+              "contacts": 1,
+              "frames": 78,
+              "p95": 24.69999999999891,
+              "longFrames": 0,
+              "fxAfter": 0
+            },
+            {
+              "action": "maelstrom",
+              "contacts": 1,
+              "frames": 90,
+              "p95": 38.69999999999891,
+              "longFrames": 2,
+              "fxAfter": 0
+            }
+          ],
+          "actorsAfter": 0
+        },
+        {
+          "id": "joeun",
+          "side": "A",
+          "readyMs": 4932,
+          "casts": [
+            {
+              "action": "refraction",
+              "contacts": 1,
+              "frames": 100,
+              "p95": 20.900000000000546,
+              "longFrames": 0,
+              "fxAfter": 0
+            },
+            {
+              "action": "skyline",
+              "contacts": 1,
+              "frames": 159,
+              "p95": 10.300000000000182,
+              "longFrames": 0,
+              "fxAfter": 0
+            }
+          ],
+          "actorsAfter": 0
+        }
+      ],
+      "errors": []
+    },
+    "local": {
+      "report": [
+        {
+          "id": "hiheeya",
+          "side": "A",
+          "readyMs": 1538,
+          "casts": [
+            {
+              "action": "ricochet",
+              "contacts": 1,
+              "frames": 83,
+              "p95": 20.800000000000182,
+              "longFrames": 0,
+              "fxAfter": 0
+            },
+            {
+              "action": "accelerator",
+              "contacts": 1,
+              "frames": 117,
+              "p95": 17.699999999999818,
+              "longFrames": 0,
+              "fxAfter": 0
+            }
+          ],
+          "actorsAfter": 0
+        },
+        {
+          "id": "bongsoon",
+          "side": "B",
+          "readyMs": 2942,
+          "casts": [
+            {
+              "action": "crescent",
+              "contacts": 1,
+              "frames": 85,
+              "p95": 28.399999999999636,
+              "longFrames": 0,
+              "fxAfter": 0
+            },
+            {
+              "action": "aegis",
+              "contacts": 1,
+              "frames": 128,
+              "p95": 17.300000000000182,
+              "longFrames": 0,
+              "fxAfter": 0
+            }
+          ],
+          "actorsAfter": 0
+        },
+        {
+          "id": "diim",
+          "side": "A",
+          "readyMs": 1143,
+          "casts": [
+            {
+              "action": "sunburst",
+              "contacts": 1,
+              "frames": 122,
+              "p95": 20.09999999999991,
+              "longFrames": 0,
+              "fxAfter": 0
+            },
+            {
+              "action": "singularity",
+              "contacts": 1,
+              "frames": 150,
+              "p95": 19.099999999999454,
+              "longFrames": 0,
+              "fxAfter": 0
+            }
+          ],
+          "actorsAfter": 0
+        },
+        {
+          "id": "sudaeng",
+          "side": "B",
+          "readyMs": 975,
+          "casts": [
+            {
+              "action": "tidelance",
+              "contacts": 1,
+              "frames": 93,
+              "p95": 23,
+              "longFrames": 0,
+              "fxAfter": 0
+            },
+            {
+              "action": "maelstrom",
+              "contacts": 1,
+              "frames": 124,
+              "p95": 20.700000000000273,
+              "longFrames": 0,
+              "fxAfter": 0
+            }
+          ],
+          "actorsAfter": 0
+        },
+        {
+          "id": "joeun",
+          "side": "A",
+          "readyMs": 1592,
+          "casts": [
+            {
+              "action": "refraction",
+              "contacts": 1,
+              "frames": 93,
+              "p95": 20.699999999999818,
+              "longFrames": 0,
+              "fxAfter": 0
+            },
+            {
+              "action": "skyline",
+              "contacts": 1,
+              "frames": 132,
+              "p95": 20.5,
+              "longFrames": 0,
+              "fxAfter": 0
+            }
+          ],
+          "actorsAfter": 0
+        }
+      ],
+      "errors": []
+    }
+  },
+  "shop": {
+    "conditions": "Actual lobby → shop → pack picker → preview. Server reads use the public API in public mode. Isolated browser identity, payment requests intercepted in public-open mode. Windows Electron is offscreen; WebKit/iPhone and Android/ONE store H5 tests use emulation on Windows. Each run measures first entry and re-entry, 30 animation frames after handling controls. No physical phone.",
+    "publicCatalogBeforeMs": [
+      335,
+      250,
+      288
+    ],
+    "publicCatalogAfterMs": [
+      242,
+      239,
+      207
+    ],
+    "webkitA_B": {
+      "sample": [
+        {
+          "p50": 396,
+          "p95": 585
+        },
+        {
+          "p50": 16,
+          "p95": 28
+        }
+      ],
+      "siblings": [
+        [
+          "DIV",
+          "app",
+          ""
+        ],
+        [
+          "BUTTON",
+          "pwaInstallButton",
+          "pwa-install-button"
+        ]
+      ],
+      "animations": 3
+    },
+    "samples": {
+      "shop-before-desktop.json": {
+        "platform": "desktop",
+        "mode": "before",
+        "emulated": true,
+        "source": "https://c97b36c1.cnine-card.pages.dev",
+        "entries": [
+          {
+            "shopMs": 929
+          },
+          {
+            "shopMs": 382
+          }
+        ],
+        "errors": [],
+        "simulatedPurchases": 0
+      },
+      "shop-before-ios.json": {
+        "platform": "ios",
+        "mode": "before",
+        "emulated": true,
+        "source": "https://c97b36c1.cnine-card.pages.dev",
+        "entries": [
+          {
+            "shopMs": 159,
+            "frames": {
+              "p95": 379,
+              "over50": 28
+            }
+          },
+          {
+            "shopMs": 427,
+            "frames": {
+              "p95": 459,
+              "over50": 30
+            }
+          }
+        ],
+        "errors": [],
+        "simulatedPurchases": 0
+      },
+      "shop-public-desktop.json": {
+        "platform": "desktop",
+        "mode": "public",
+        "emulated": true,
+        "source": "https://cnine-card.pages.dev",
+        "entries": [
+          {
+            "shopMs": 243,
+            "roomMs": 312,
+            "frames": {
+              "p95": 23.299999999999272,
+              "over50": 0
+            }
+          },
+          {
+            "shopMs": 79,
+            "roomMs": 261,
+            "frames": {
+              "p95": 20.699999999999818,
+              "over50": 0
+            }
+          }
+        ],
+        "errors": [],
+        "simulatedPurchases": 0
+      },
+      "shop-public-ios.json": {
+        "platform": "ios",
+        "mode": "public",
+        "emulated": true,
+        "source": "https://cnine-card.pages.dev",
+        "entries": [
+          {
+            "shopMs": 79,
+            "roomMs": 259,
+            "frames": {
+              "p95": 31,
+              "over50": 1
+            }
+          },
+          {
+            "shopMs": 72,
+            "roomMs": 271,
+            "frames": {
+              "p95": 29,
+              "over50": 1
+            }
+          }
+        ],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "simulatedPurchases": 0
+      },
+      "shop-public-android.json": {
+        "platform": "android",
+        "mode": "public",
+        "emulated": true,
+        "source": "https://cnine-card.pages.dev",
+        "entries": [
+          {
+            "shopMs": 328,
+            "roomMs": 251,
+            "frames": {
+              "p95": 18.899999999999636,
+              "over50": 0
+            }
+          },
+          {
+            "shopMs": 209,
+            "roomMs": 228,
+            "frames": {
+              "p95": 15.300000000000182,
+              "over50": 0
+            }
+          }
+        ],
+        "errors": [],
+        "simulatedPurchases": 0
+      },
+      "shop-public-h5.json": {
+        "platform": "h5",
+        "mode": "public",
+        "emulated": true,
+        "source": "https://cnine-card.pages.dev",
+        "entries": [
+          {
+            "shopMs": 359,
+            "roomMs": 234,
+            "frames": {
+              "p95": 15.899999999999636,
+              "over50": 0
+            }
+          },
+          {
+            "shopMs": 239,
+            "roomMs": 243,
+            "frames": {
+              "p95": 16.600000000000364,
+              "over50": 0
+            }
+          }
+        ],
+        "errors": [],
+        "simulatedPurchases": 0
+      },
+      "shop-public-windows.json": {
+        "platform": "windows",
+        "mode": "public",
+        "emulated": true,
+        "source": "https://cnine-card.pages.dev",
+        "entries": [
+          {
+            "shopMs": 346,
+            "roomMs": 271,
+            "frames": {
+              "p95": 16.700000000000728,
+              "over50": 0
+            }
+          },
+          {
+            "shopMs": 246,
+            "roomMs": 340,
+            "frames": {
+              "p95": 16.700000000000728,
+              "over50": 0
+            }
+          }
+        ],
+        "errors": [],
+        "runtime": {
+          "electron": "44.7.2",
+          "chrome": "152.0.7977.149",
+          "fixture": "Isolated offscreen Windows game renderer with deployed web assets"
+        },
+        "simulatedPurchases": 0
+      },
+      "shop-public-open-desktop.json": {
+        "platform": "desktop",
+        "mode": "public-open",
+        "emulated": true,
+        "source": "https://cnine-card.pages.dev",
+        "entries": [
+          {
+            "shopMs": 293,
+            "roomMs": 82,
+            "frames": {
+              "p95": 17.300000000000182,
+              "over50": 0
+            }
+          },
+          {
+            "shopMs": 178,
+            "roomMs": 97,
+            "frames": {
+              "p95": 18.5,
+              "over50": 0
+            }
+          }
+        ],
+        "errors": [],
+        "simulatedPurchases": 1
+      }
+    }
+  },
+  "tests": {
+    "releases": [
+      {
+        "head": "f26da8968a35fb5dad4eeea89202fe1e7deef10a",
+        "base": "abf08cf2c109bb8ce9a278ae801f7e8e357bda1f",
+        "startedAt": "2026-11-13T12:38:42.733Z",
+        "finishedAt": "2026-11-13T12:45:38.582Z",
+        "code": 0,
+        "tests": [
+          "tests/blue-gear-pack-20261113.test.mjs",
+          "tests/blackcrown-ss-unique-20261031.test.mjs",
+          "tests/blackcrown-card-once-20261031.test.mjs",
+          "tests/blackcrown-opening-delivery-20261030.test.mjs",
+          "tests/bloodmoon-unique-20261103.test.mjs",
+          "tests/razak-balance-20261026.test.mjs",
+          "tests/razak-priority-matchups-20261026.test.mjs"
+        ]
+      },
+      {
+        "head": "2d0bff694f476e343a68d228b9b337ae5f858e54",
+        "base": "f26da8968a35fb5dad4eeea89202fe1e7deef10a",
+        "startedAt": "2026-11-13T12:46:53.032Z",
+        "finishedAt": "2026-11-13T12:54:00.535Z",
+        "code": 0,
+        "tests": [
+          "tests/blue-gear-pack-20261113.test.mjs",
+          "tests/blackcrown-ss-unique-20261031.test.mjs",
+          "tests/blackcrown-card-once-20261031.test.mjs",
+          "tests/blackcrown-opening-delivery-20261030.test.mjs",
+          "tests/bloodmoon-unique-20261103.test.mjs",
+          "tests/razak-balance-20261026.test.mjs",
+          "tests/razak-priority-matchups-20261026.test.mjs"
+        ]
+      },
+      {
+        "head": "35d0f62e987325d544d67237d63380b3008aa218",
+        "base": "2d0bff694f476e343a68d228b9b337ae5f858e54",
+        "startedAt": "2026-11-13T12:55:05.655Z",
+        "finishedAt": "2026-11-13T13:01:26.108Z",
+        "code": 0,
+        "tests": [
+          "tests/blue-gear-pack-20261113.test.mjs"
+        ]
+      },
+      {
+        "head": "cb7ed5e9c16e429166b2a79269faaaedd27d0acb",
+        "base": "35d0f62e987325d544d67237d63380b3008aa218",
+        "startedAt": "2026-11-13T13:01:57.906Z",
+        "finishedAt": "2026-11-13T13:07:28.914Z",
+        "code": 0,
+        "tests": [
+          "tests/blue-gear-pack-20261113.test.mjs"
+        ]
+      }
+    ],
+    "scopedPassCounts": [
+      69,
+      69,
+      21,
+      21
+    ],
+    "openingChecks": "Real restricted isolated PostgreSQL-compatible transactions. Exact gate, 1/10/bulk debit, replay, stock, ownership, both complete SSS awards, account isolation, full client codex validation. Closed/open browser workflows.",
+    "archiveTests": "Two tests for the October 25 one-time Bloodmoon activation still assume Prime crafting was disabled. Current live configuration enables Prime crafting. These legacy activation failures are independent of this release."
+  },
+  "liveTestPurchases": 0
+}
