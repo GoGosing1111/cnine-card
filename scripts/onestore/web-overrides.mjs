@@ -30,7 +30,7 @@ overrides.set('/index.html',html);
 let lobby=await source('js/adventure-lobby-v2107.js');
 lobby=once(lobby,"      void import('/js/server-support-v1.mjs?v=20261112-month1-sale-end').then(({mountServerSupportNavigation})=>{\n        if(!supportSignal.aborted)this.supportNavigation=mountServerSupportNavigation({root,getUser,signal:supportSignal,onOpenMessages:()=>settings.navigate?settings.navigate('messages'):global.SoopketmonV21ExactShell.navigate('messages'),onSeasonPassVisibilityChange:visible=>{this.seasonPassVisible=visible;this.controls?.refreshMenus();}});\n      }).catch(()=>{});",'', 'support navigation');
 lobby=once(lobby,"  entries.push({id:'seasonPass',title:'시즌패스',category:'rewards',description:'후원 적용일부터 30일 · 당일 보상 수령'});",'', 'pass menu');
-lobby=once(lobby,"        isSeasonPassVisible:()=>this.seasonPassVisible===true,","        isRouteVisible:id=>window.CNineStorePolicy.allowsRoute(id)&&(settings.isRouteVisible?settings.isRouteVisible(id):['world','equipmentForge','mercenaryEquipment'].includes(id)||global.SoopketmonV21ExactShell?.isRouteVisible(id)!==false),\n        isSeasonPassVisible:()=>false,",'lobby route policy');
+lobby=once(lobby,"        isSeasonPassVisible:()=>this.seasonPassVisible===true,","        isRouteVisible:id=>window.CNineStorePolicy.allowsRoute(id)&&(settings.isRouteVisible||isRouteVisible)(id),\n        isSeasonPassVisible:()=>false,",'lobby route policy');
 overrides.set('/js/adventure-lobby-v2107.js',lobby);
 let pet=await source('js/pet-equipment-window-v1.mjs');
 pet=once(pet,'  async function loadSupport(){','  async function loadSupport(){\n    support=null;pendingSupport=null;supportError="";return;','pet support request');

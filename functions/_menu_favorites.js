@@ -1,7 +1,7 @@
 // Per-route keys make add/remove idempotent and avoid overwriting another
 // device's edits. This reuses app_meta; no account or economy schema changes.
 export const FAVORITE_MENU_ROUTES = Object.freeze([
-  'inventory','buy','lootShop','dex','mercenaryDex','petDex','upgrade','evolution','iconfusion','magic',
+  'inventory','buy','lootShop','dex','mercenaryDex','mercenaryGrowth','petDex','upgrade','evolution','iconfusion','magic',
   'battle','deck','hunt','defense','coop','legion','citadel','raid','escort','seal','tower','scrapyard','masterStarMine',
   'pvp','jokgakCity','duo','classicColosseum','rank','rankedShop','clanWar','clanFaction','clan','territory','character','avatar',
   'vehicle','fusion','alchemy','season','attendance','dailyquest','comeback','messages','mineral',

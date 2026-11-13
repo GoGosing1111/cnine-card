@@ -10,6 +10,8 @@ const {overrides,hashes,source,once,hash}=await createWebOverrides(root);
 // Only a dozen client variants, not a project/assets/dependencies copy.
 for(const file of ['js/adventure-navigation-standalone.js','pet-codex/app.mjs','js/pet-deck-slot-v1.mjs','js/pet-opening-v1.mjs'])overrides.set('/'+file,await source(file));
 overrides.delete('/js/store-distribution-v1.js'); // the early H5 policy includes it
+const lobby=overrides.get('/js/adventure-lobby-v2107.js');
+overrides.set('/js/adventure-lobby-v2107.js',once(lobby,"if(href){location.assign(href);return;}","if(href){location.assign(window.CNineStoreWeb.storeDocumentUrl(href,location.href)||'/onestore/');return;}",'lobby route retention'));
 let adapter=overrides.get('/js/soopketmon-v21-exact-shell-adapter.js');
 adapter=once(adapter,"new URL(`../css/${filename}`, script.src).href","new URL(`/css/${filename}`, location.origin).href",'canonical styles');
 adapter=once(adapter,"      try { if (global.top && global.top !== global) global.top.location.href = 'https://cnine-card.pages.dev/'; } catch (_error) { global.open('https://cnine-card.pages.dev/', '_blank', 'noopener,noreferrer'); }","      // Fullscreen is optional in the ONE store parent iframe.",'no frame escape');

@@ -15,7 +15,10 @@ const images=JSON.parse(bundle.match(/window\.__TACTICAL_UI_IMAGES__=(\{[^\n]+\}
 test('all 64 shipped icons preserve the original WebP bytes and remain available through the public renderer',()=>{
  const context=vm.createContext({__TACTICAL_UI_IMAGES__:images});
  vm.runInContext(read('js/tactical-icons-20261030.js').toString(),context);
- assert.equal(manifest.icons.length,64);assert.deepEqual(Object.keys(images).sort(),[...manifest.icons.map(i=>i.id),'citadel'].sort());
+ assert.equal(manifest.icons.length,64);assert.deepEqual(Object.keys(images).sort(),[...manifest.icons.map(i=>i.id),'citadel','mercenaryGrowth'].sort());
+ const growth=read('assets/ui/tactical-20261030/mercenaryGrowth.webp');
+ assert.deepEqual(Buffer.from(images.mercenaryGrowth.split(',')[1],'base64'),growth);
+ assert.ok(context.SoopTacticalIcons.html('mercenaryGrowth').includes('data-tactical-icon="mercenaryGrowth"'));
  const crest=read('assets/ui/tactical-20261030/citadel.webp');
  assert.deepEqual(Buffer.from(images.citadel.split(',')[1],'base64'),crest);
  assert.ok(context.SoopTacticalIcons.html('citadel').includes('data-tactical-icon="citadel"'));

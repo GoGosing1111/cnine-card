@@ -30,6 +30,10 @@ test('card and equipment destinations use separate top-level categories',async()
   assert.match(app,/group==='equipment'\|\|group==='crafting'\|\|id==='equipmentForge'\)return 'equipment'/);
   assert.match(app,/equipmentForge',title:'장비 강화',category:'equipment'/);
   assert.match(app,/mercenaryDex:'보유 용병 확인·편성과 전체 용병 정보'/);
+  assert.ok(app.includes("{id:'mercenaryGrowth',title:'용병 성장',category:'cards'"));
+  assert.ok(app.includes("{id:'mercenaryEquipment',title:'용병 장비',category:'equipment',alsoIn:'cards'"));
+  assert.ok(app.includes("mercenaryGrowth:'/mercenary-codex/leveling/'"));
+  assert.ok(app.includes("mercenaryEquipment:'/mercenary-codex/equipment/'"));
   assert.doesNotMatch(app,/mercenaryHangar',title:'용병 지휘소',category:'cards'/);
 });
 

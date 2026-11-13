@@ -24,6 +24,7 @@
       this.seasonPassVisible=false;
       const root=this.shadowRoot,scroller=root.querySelector('.lobby-body');this.lifecycle=new AbortController();
       const settings=this.navigationOptions||{},getUser=settings.getUser||(()=>global.loadUser?.()||{}),user=getUser();
+      const isRouteVisible=id=>['world','equipmentForge','mercenaryEquipment','mercenaryGrowth'].includes(id)||global.SoopketmonV21ExactShell?.isRouteVisible(id)!==false;
       this.controls=global.SoopLobbyInteractions.mount(root,{scroller,accountId:user.serverUserId||user.id||'player',
         getAccountId:()=>{const current=getUser();return current.serverUserId||current.id;},
         favoriteRequest:async body=>{
@@ -32,7 +33,7 @@
           if(!response.ok)throw Error('즐겨찾기 요청에 실패했습니다.');
           return response.json();
         },
-        isRouteVisible:id=>['world','equipmentForge','mercenaryEquipment'].includes(id)||global.SoopketmonV21ExactShell?.isRouteVisible(id)!==false,
+        isRouteVisible,
         navigate:async(id,href)=>{if(href){location.assign(href);return;}return global.SoopketmonV21ExactShell.navigate(id);},
         openChief:()=>global.SoopketmonV21ExactShell.openChief(),openAccount:()=>global.showAccountPanel?.(),...settings,
         isSeasonPassVisible:()=>this.seasonPassVisible===true,

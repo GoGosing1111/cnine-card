@@ -29,6 +29,12 @@ test('authenticated favorites persist independently and retries never duplicate 
     assert.deepEqual((await call(10)).body.routes,['petDex']);
     await call(1,{route:'hunt',favorite:false});await call(1,{route:'hunt',favorite:false});
     assert.deepEqual((await call(1)).body.routes,['pvp']);
+    assert.equal((await call(1,{route:'mercenaryGrowth',favorite:true})).status,200);
+    await call(1,{route:'mercenaryEquipment',favorite:true});
+    await call(1,{route:'mercenaryEquipment',favorite:true});
+    assert.deepEqual(new Set((await call(1)).body.routes),new Set(['pvp','mercenaryGrowth','mercenaryEquipment']));
+    await call(1,{route:'mercenaryEquipment',favorite:false});
+    await call(1,{route:'mercenaryGrowth',favorite:false});
     assert.equal((await call(1,{route:'citadel',favorite:true})).status,200);
     assert.deepEqual(new Set((await call(1)).body.routes),new Set(['pvp','citadel']));
     assert.equal((await call(1,{route:'citadel',favorite:false})).status,200);
@@ -44,7 +50,7 @@ test('server accepts every shared public menu and standalone destination',()=>{
   const routes=nav.menuGroupOrder.flatMap(id=>Array.from(nav.groups[id].routes));
   const archived=['siege','chicken','goldenAxe'];
   assert.ok(nav.groups.pve.routes.includes('citadel'));
-  assert.deepEqual(new Set(FAVORITE_MENU_ROUTES),new Set([...routes,'mercenaryEquipment','equipmentForge','seasonPass',...archived]));
+  assert.deepEqual(new Set(FAVORITE_MENU_ROUTES),new Set([...routes,'mercenaryGrowth','mercenaryEquipment','equipmentForge','seasonPass',...archived]));
 });
 
 test('failed writes keep confirmed state, and retry adds once',async()=>{

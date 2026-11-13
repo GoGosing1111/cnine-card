@@ -17,14 +17,19 @@
   const tips={attendance:'먼저 수령할 수 있는 보상이 있는지 확인하세요. 도착한 보상은 메시지함에서도 확인할 수 있어요.',dex:'카드가 없다면 상점이나 보유 카드팩부터 확인하세요. 이미 있는 카드로 먼저 덱을 만들 수 있어요.',deck:'일반 덱은 정확히 5장입니다. 용병은 별도 1명이며, 없어도 일반 카드 5장으로 출전할 수 있어요.',hunt:'저장한 덱과 상대 정보를 확인한 뒤 도전하세요. 입장 조건과 보상은 해당 전투 화면에서 확인할 수 있어요.',equipmentForge:'강화 가능 여부와 필요한 재료는 운영 화면에서 확인하세요. 시안에서 강화를 실행하지 않습니다.',mercenaryDex:'첫 화면에서 내 용병과 현재 편성을 확인하고, 같은 상세 화면에서 바로 편성·해제할 수 있어요.'};
   function categoryOf(id,group){if(id==='inventory')return 'inventory';if(group==='administration')return 'administration';if(id==='clan')return 'social';if(group==='pve'||group==='pvp')return group;if(['store','market'].includes(group)||id==='mineral')return 'shop';if(group==='rewards')return 'rewards';if(group==='equipment'||group==='crafting'||id==='equipmentForge')return 'equipment';return 'cards';}
   const entries=contract?contract.menuGroupOrder.flatMap(group=>contract.groups[group].routes.map(id=>({id,title:contract.routes[id].title,category:categoryOf(id,group),description:descriptions[id]||contract.routes[id].title}))):[];
-  for(const item of [{id:'mercenaryEquipment',title:'용병 장비',category:'equipment'},{id:'equipmentForge',title:'장비 강화',category:'equipment'}])entries.push({...item,description:descriptions[item.id]});
+  const mercenaryIndex=entries.findIndex(entry=>entry.id==='mercenaryDex');
+  entries.splice(mercenaryIndex+1,0,
+    {id:'mercenaryGrowth',title:'용병 성장',category:'cards',description:'보유 용병의 경험치 전수와 레벨 돌파'},
+    {id:'mercenaryEquipment',title:'용병 장비',category:'equipment',alsoIn:'cards',description:descriptions.mercenaryEquipment}
+  );
+  entries.push({id:'equipmentForge',title:'장비 강화',category:'equipment',description:descriptions.equipmentForge});
   entries.push({id:'world',title:'세계관',category:'world',description:'돌아올 사람의 자리 · 본편 2부와 용병 이야기 7편'});
   entries.push({id:'seasonPass',title:'시즌패스',category:'rewards',description:'후원 적용일부터 30일 · 당일 보상 수령'});
   const byId=new Map(entries.map(e=>[e.id,e]));
   categories.favorites={title:'즐겨찾기',icon:'favorites',description:'자주 쓰는 메뉴를 모아 바로 열어 보세요. 메뉴 옆 별표로 추가하거나 해제할 수 있어요.'};
   let favoriteStorage=null;try{favoriteStorage=global.localStorage;}catch{}
   const favorites=global.SoopMenuFavorites.create({getAccountId:options.getAccountId||(()=>options.accountId),routeIds:[...byId.keys()],request:options.favoriteRequest,storage:favoriteStorage,onChange:renderDirectory});
-  const hrefs={world:'/world/',defense:'/defense/',mercenaryEquipment:'/mercenary-codex/equipment/',chicken:'/events/chicken/',masterStarMine:'/master-star-mine/',rankedShop:'/ranked-shop/',lootShop:'/loot-shop/',mercenaryDex:'/mercenary-codex/',petDex:'/pet-codex/',equipmentForge:'/equipment-forge/'};
+  const hrefs={world:'/world/',defense:'/defense/',mercenaryGrowth:'/mercenary-codex/leveling/',mercenaryEquipment:'/mercenary-codex/equipment/',chicken:'/events/chicken/',masterStarMine:'/master-star-mine/',rankedShop:'/ranked-shop/',lootShop:'/loot-shop/',mercenaryDex:'/mercenary-codex/',petDex:'/pet-codex/',equipmentForge:'/equipment-forge/'};
   const keywords={citadel:'군단토벌 파티 불타는 성채 2인 협동 사냥 파밍 모집 성문 내성 왕좌',comeback:'복귀 휴면 휴면유저 컴백 카미시로',world:'세계관 스토리 이야기 리버스콜 서막 최초의 호출 지도에 없는 역 용병 보스 레이드 베스페라 베르칸 아잔트 크라이베른 이스겐 세드릭',defense:'몬스터 디펜스 수호석 방어 보스 입문 보통 어려움 악몽 재앙 테스트',coop:'협동전 협동 3인 파티 일반 격전 극한 보상',mercenaryEquipment:'용병 무장고 무기 방어구 장신구 군단토벌 장착 장비 전투력',masterStarMine:'마별 채굴 전동드릴 태양광드릴 황금드릴 방치 광산',lootShop:'피그 코인 고급 전리품 확정 상점',attendance:'출석 출첵 출석체크',inventory:'인벤 가방 아이템 사용 개봉',buy:'뽑기 하이퍼팩 구매',dex:'보유카드 내카드 도감',mercenaryDex:'내용병 용병 선택 편성 지휘소',petDex:'펫 동료 도감 수집 보유 장착 시작 버프 봉순 조은 희야 디임 구수댕 시바 고양이',deck:'팀 파티 덱 편성 저장',equipmentForge:'무기 방어구 강화 복구 보호권',messages:'우편 선물 소식',dailyquest:'일퀘 주간퀘스트 주퀘 임무 미션',vehicle:'자동차 이동수단 제작',character:'착용 무기 방어구 장착'};
   let category='pve',activeRoute='home',query='',destinationOpener,lastResults='',guideOpener,menuOpener,fromAll=false;
   const routeCategory=id=>byId.get(id)?.category||categoryOf(id,contract?.routes[id]?.group);
@@ -35,7 +40,7 @@
     const favoriteState=favorites.snapshot(),saved=new Set(favoriteState.routes);
     const tokens=query.trim().split(/\s+/).filter(Boolean).map(normalize);
     const available=entries.filter(e=>e.id==='seasonPass'?options.isSeasonPassVisible?.()===true:options.isRouteVisible?.(e.id)!==false);
-    const shown=available.filter(e=>(category==='all'||(category==='favorites'?saved.has(e.id):category===e.category))&&tokens.every(t=>normalize([e.title,e.description,e.id,keywords[e.id]||''].join(' ')).includes(t)));
+    const shown=available.filter(e=>(category==='all'||(category==='favorites'?saved.has(e.id):category===e.category||category===e.alsoIn))&&tokens.every(t=>normalize([e.title,e.description,e.id,keywords[e.id]||''].join(' ')).includes(t)));
     if(category==='favorites')shown.sort((a,b)=>favoriteState.routes.indexOf(a.id)-favoriteState.routes.indexOf(b.id));
     const selected=categories[category]||{title:'전체 메뉴',icon:'search'};
     $('directory-title').textContent=selected.title;
@@ -57,7 +62,7 @@
     document.querySelectorAll('.menu-quick-access [data-category]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.category===category)));
     const categoryNav=$('menu-categories');
     if(categoryNav){
-      const visibleCategories=Object.entries(categories).filter(([key])=>key!=='favorites'&&available.some(e=>e.category===key)),navKey=visibleCategories.map(([key])=>key).join('|');
+      const visibleCategories=Object.entries(categories).filter(([key])=>key!=='favorites'&&available.some(e=>e.category===key||e.alsoIn===key)),navKey=visibleCategories.map(([key])=>key).join('|');
       if(categoryNav.dataset.categories!==navKey){categoryNav.innerHTML=visibleCategories.map(([key,group])=>`<button type="button" data-category="${key}" aria-pressed="false">${esc(group.title)}</button>`).join('');categoryNav.dataset.categories=navKey;}
       categoryNav.querySelectorAll('button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.category===category)));
     }
@@ -67,7 +72,7 @@
     const resultKey=category+':'+shown.map(e=>e.id+':'+Number(saved.has(e.id))+':'+Number(favoriteState.pending.has(e.id))).join('|')+':'+favoriteState.loading;
     if(resultKey!==lastResults||!$('menu-results').childElementCount){
       const focusedFavorite=document.activeElement?.dataset?.favoriteRoute;
-      const row=e=>`<div class="menu-result-row"><button class="menu-result" data-route="${esc(e.id)}" data-menu-category="${e.category}"><span class="menu-route-icon" data-icon="${esc(e.id)}"></span><span><b>${esc(e.title)}</b><small>${esc(e.description)}</small></span><i aria-hidden="true">↗</i></button>${e.id==='world'?'':`<button type="button" class="menu-favorite-toggle" data-favorite-route="${esc(e.id)}" aria-pressed="${saved.has(e.id)}" aria-label="${esc(e.title)} 즐겨찾기 ${saved.has(e.id)?'해제':'추가'}" title="즐겨찾기 ${saved.has(e.id)?'해제':'추가'}" aria-disabled="${favoriteState.loading||favoriteState.pending.has(e.id)}">${icon('favorites')}</button>`}</div>`;
+      const row=e=>`<div class="menu-result-row"><button class="menu-result" data-route="${esc(e.id)}" data-menu-category="${category===e.alsoIn?category:e.category}"><span class="menu-route-icon" data-icon="${esc(e.id)}"></span><span><b>${esc(e.title)}</b><small>${esc(e.description)}</small></span><i aria-hidden="true">↗</i></button>${e.id==='world'?'':`<button type="button" class="menu-favorite-toggle" data-favorite-route="${esc(e.id)}" aria-pressed="${saved.has(e.id)}" aria-label="${esc(e.title)} 즐겨찾기 ${saved.has(e.id)?'해제':'추가'}" title="즐겨찾기 ${saved.has(e.id)?'해제':'추가'}" aria-disabled="${favoriteState.loading||favoriteState.pending.has(e.id)}">${icon('favorites')}</button>`}</div>`;
       $('menu-results').innerHTML=category==='all'?Object.entries(categories).map(([key,group])=>{const items=shown.filter(e=>e.category===key);return items.length?`<h3 class="category-divider"><button class="category-jump" data-category="${key}"><span class="category-name">${esc(group.title)}</span><span class="category-meta">${items.length}개 <span class="category-action">분류 보기</span></span></button></h3>`+items.map(row).join(''):'';}).join(''):shown.map(row).join('');
       paintIcons($('menu-results'));lastResults=resultKey;
       if(focusedFavorite)(document.querySelector(`[data-favorite-route="${focusedFavorite}"]:not(:disabled)`)||document.querySelector('.menu-favorite-toggle:not(:disabled)')||$('menu-favorites')).focus({preventScroll:true});
