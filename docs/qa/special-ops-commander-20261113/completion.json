@@ -1,0 +1,503 @@
+{
+  "name": "특공사령관",
+  "registeredKST": "2026-11-13 10:18:46",
+  "operationKey": "ops:special-ops-commander:title1250000:20261113:v1",
+  "adminAudit": "59656",
+  "code": "SPECIAL_OPS_COMMANDER",
+  "id": 2862563,
+  "title": {
+    "mode": "MANUAL",
+    "active": true,
+    "public": true,
+    "combatPower": {
+      "pve": 1250000,
+      "pvp": 1250000
+    },
+    "accountGrants": 0,
+    "ownershipAtRegistration": {
+      "owners": 0,
+      "equipped": 0
+    },
+    "ownershipAtReadback": {
+      "owners": 0,
+      "equipped": 0
+    }
+  },
+  "image": {
+    "method": "ImageGen",
+    "nameplate": "nameplate-source.png",
+    "prompt": "nameplate-prompt.txt",
+    "manifest": "nameplate.json",
+    "game": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+    "originalBytes": 1941067,
+    "webpBytes": 73846,
+    "webpSha256": "b0727d8bc97d7417a0e3046bd6d45dcf2205530e841e8c97bbacbd31d70d5ca1",
+    "screens": [
+      "equipped-mobile.png",
+      "nickname-desktop.png",
+      "cms-preview.png"
+    ]
+  },
+  "deployment": {
+    "source": "47ffb4791886897930e4ea366706ff46ecdc2f7e",
+    "pages": {
+      "at": "2026-11-13T01:18:40.665Z",
+      "id": "bc77d646-69e4-4a57-bfb2-958ba77741c2",
+      "url": "https://bc77d646.cnine-card.pages.dev",
+      "status": "success",
+      "commit": "47ffb4791886897930e4ea366706ff46ecdc2f7e"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version_id": "f23784fb-6158-483e-858e-9a7139dd4537",
+        "percentage": 100
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version_id": "3a46d01a-8742-4784-b01a-9ea168ea203b",
+        "percentage": 100
+      }
+    ],
+    "windows": {
+      "id": "549e279beb87471d48b360302111737a4ce321fddc996ca53850be2b164c29ef",
+      "verified": [
+        "/assets/ui/titles/special-ops-commander-red-v1.webp",
+        "/css/achievement-titles-20260927.css",
+        "/js/character-loadout-v2.js",
+        "/js/app.js"
+      ]
+    }
+  },
+  "checks": {
+    "scopedTestsPassed": 58,
+    "isolatedEquipment": {
+      "runtime": "actual character/title/equip, character/loadout, publicEquippedTitleMap in isolated SQLite",
+      "powerEquipped": [
+        1250000,
+        1250000
+      ],
+      "repeatEquipAddsZero": true,
+      "powerAfterUnequip": [
+        0,
+        0
+      ],
+      "unownedEquipStatus": 404,
+      "unequippedBadgeHidden": true,
+      "style": "SPECIAL_OPS_COMMANDER",
+      "image": "/assets/ui/titles/special-ops-commander-red-v1.webp"
+    },
+    "productionReadOnly": {
+      "sampleUserId": 45,
+      "loadoutOwned": false,
+      "apiTimesMs": [
+        1162,
+        703
+      ],
+      "cmsPreset": "SPECIAL_OPS_COMMANDER"
+    },
+    "cmsAppearance": {
+      "realCmsResources": [
+        "admin-v945.css?v=1684-zenith-evolution&forgeTickets=20261012-scrolls&retired=20261019",
+        "equipment-admin-v1247.css?v=1247-supply-box-settings",
+        "equipment-admin-v1278.css?v=1279-battle-suit-pve-only",
+        "../css/achievement-titles-20260927.css?v=2-gambling-king&asura=20261007&supporterBlueBeast=20261003&busDriver=20261005&secretPolice=20261011&administrationTitle=20261012-staff-v4&flagBrigade=20261013&chatSquad=20261029&championsRuler=20261112-plate-v2&specialOps=20261113-red-v1",
+        "equipment-admin-v1278.js?v=2032-challenger-title&achievementTitles=20260927&gamblingKing=20260928&asura=20261007&supporterBlueBeast=20261003&busDriver=20261005&secretPolice=20261011&administrationTitle=20261012-staff-v4&flagBrigade=20261013&chatSquad=20261029&championsRuler=20261112-plate-v2&specialOps=20261113-red-v1",
+        "equipment-admin-v1278.css?v=1279-battle-suit-pve-only"
+      ],
+      "catalog": "production read-only equipment-system payload, scoped to this title",
+      "image": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+      "decodedWidth": 960,
+      "previewWidth": 96,
+      "previewHeight": 32,
+      "slotWidth": 96,
+      "mobile": {
+        "image": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+        "decodedWidth": 960,
+        "previewWidth": 248,
+        "previewHeight": 82.65625,
+        "slotWidth": 298
+      }
+    },
+    "rehearsalRolledBack": true,
+    "readOnlyReplayConfirmed": true
+  },
+  "measurements": {
+    "conditions": "Windows host. Desktop Chrome and a Windows Electron QA client at 1440x900. Android Chrome and iPhone WebKit viewport emulation at 390x844. ONE store H5 production entry embedded in a Chromium QA iframe with the SDK. No physical mobile devices. Public game UI uses an isolated account fixture for equip and unequip. Real production account and catalog reads were verified separately.",
+    "comparison": "Same pinned shell and same artwork using PNG or WebP, locally fulfilled for comparison, one sample per device and format. A separate run loads the production asset from the CDN. Input-to-ready timings from navigation/equip, separately from profile/reentry. Frame times include equip, profile open, dismiss and unequip. No CPU throttling on these entry runs.",
+    "imageNetworkAndDecode": {
+      "conditions": "Windows headless Chrome, 390x844. Same machine and local HTTP server, disabled browser cache, 10 Mbit/s and 30 ms emulated latency in CDP. Three alternating samples, explicit blob decode after transfer. Isolates the title image from unrelated shell work.",
+      "series": {
+        "png": [
+          {
+            "transferMs": 1613,
+            "decodeMs": 16,
+            "imageReadyMs": 1629,
+            "bytes": 1941067
+          },
+          {
+            "transferMs": 1618,
+            "decodeMs": 15,
+            "imageReadyMs": 1633,
+            "bytes": 1941067
+          },
+          {
+            "transferMs": 1628,
+            "decodeMs": 17,
+            "imageReadyMs": 1645,
+            "bytes": 1941067
+          }
+        ],
+        "webp": [
+          {
+            "transferMs": 103,
+            "decodeMs": 7,
+            "imageReadyMs": 110,
+            "bytes": 73846
+          },
+          {
+            "transferMs": 101,
+            "decodeMs": 8,
+            "imageReadyMs": 109,
+            "bytes": 73846
+          },
+          {
+            "transferMs": 106,
+            "decodeMs": 9,
+            "imageReadyMs": 115,
+            "bytes": 73846
+          }
+        ]
+      },
+      "medians": {
+        "png": {
+          "transferMs": 1618,
+          "decodeMs": 16,
+          "imageReadyMs": 1633
+        },
+        "webp": {
+          "transferMs": 103,
+          "decodeMs": 8,
+          "imageReadyMs": 110
+        }
+      }
+    },
+    "perDevice": [
+      {
+        "device": "desktop",
+        "viewport": [
+          1440,
+          900
+        ],
+        "original": {
+          "coldMs": 1446,
+          "reentryMs": 63,
+          "equipMs": 120,
+          "openPlayerCardMs": 49,
+          "frames": {
+            "samples": 77,
+            "p95Ms": 29.2,
+            "maxMs": 70.8,
+            "over50ms": 1
+          },
+          "titleRequestsDuring1200msAfterExit": 0
+        },
+        "webp": {
+          "coldMs": 1393,
+          "reentryMs": 50,
+          "equipMs": 74,
+          "openPlayerCardMs": 43,
+          "frames": {
+            "samples": 76,
+            "p95Ms": 25,
+            "maxMs": 70.7,
+            "over50ms": 2
+          },
+          "titleRequestsDuring1200msAfterExit": 0
+        },
+        "liveResources": {
+          "coldMs": 1859,
+          "reentryMs": 52,
+          "equipMs": 83,
+          "openPlayerCardMs": 92,
+          "frames": {
+            "samples": 80,
+            "p95Ms": 12.5,
+            "maxMs": 41.7,
+            "over50ms": 0
+          },
+          "titleRequestsDuring1200msAfterExit": 0
+        },
+        "showcase": {
+          "url": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+          "width": 417,
+          "height": 139,
+          "decoded": true
+        },
+        "publicBadge": {
+          "text": "특공사령관",
+          "image": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+          "width": 142
+        },
+        "callingCard": {
+          "text": "특공사령관",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/titles/special-ops-commander-red-v1.webp\")",
+          "width": 190,
+          "aboveName": true
+        }
+      },
+      {
+        "device": "ios",
+        "viewport": [
+          390,
+          844
+        ],
+        "original": {
+          "coldMs": 1440,
+          "reentryMs": 93,
+          "equipMs": 273,
+          "openPlayerCardMs": 81,
+          "frames": {
+            "samples": 35,
+            "p95Ms": 57,
+            "maxMs": 110,
+            "over50ms": 3
+          },
+          "titleRequestsDuring1200msAfterExit": 0
+        },
+        "webp": {
+          "coldMs": 1296,
+          "reentryMs": 91,
+          "equipMs": 230,
+          "openPlayerCardMs": 65,
+          "frames": {
+            "samples": 36,
+            "p95Ms": 49,
+            "maxMs": 92,
+            "over50ms": 1
+          },
+          "titleRequestsDuring1200msAfterExit": 0
+        },
+        "liveResources": {
+          "coldMs": 1738,
+          "reentryMs": 88,
+          "equipMs": 527,
+          "openPlayerCardMs": 51,
+          "frames": {
+            "samples": 42,
+            "p95Ms": 47,
+            "maxMs": 120,
+            "over50ms": 2
+          },
+          "titleRequestsDuring1200msAfterExit": 0
+        },
+        "showcase": {
+          "url": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+          "width": 336,
+          "height": 112,
+          "decoded": true
+        },
+        "publicBadge": {
+          "text": "특공사령관",
+          "image": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+          "width": 142
+        },
+        "callingCard": {
+          "text": "특공사령관",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/titles/special-ops-commander-red-v1.webp\")",
+          "width": 190,
+          "aboveName": true
+        }
+      },
+      {
+        "device": "android",
+        "viewport": [
+          390,
+          844
+        ],
+        "original": {
+          "coldMs": 1314,
+          "reentryMs": 53,
+          "equipMs": 119,
+          "openPlayerCardMs": 82,
+          "frames": {
+            "samples": 74,
+            "p95Ms": 45.9,
+            "maxMs": 120.9,
+            "over50ms": 2
+          },
+          "titleRequestsDuring1200msAfterExit": 0
+        },
+        "webp": {
+          "coldMs": 1302,
+          "reentryMs": 55,
+          "equipMs": 88,
+          "openPlayerCardMs": 52,
+          "frames": {
+            "samples": 77,
+            "p95Ms": 33.2,
+            "maxMs": 54.1,
+            "over50ms": 2
+          },
+          "titleRequestsDuring1200msAfterExit": 0
+        },
+        "liveResources": {
+          "coldMs": 1241,
+          "reentryMs": 54,
+          "equipMs": 139,
+          "openPlayerCardMs": 163,
+          "frames": {
+            "samples": 77,
+            "p95Ms": 29.1,
+            "maxMs": 79.2,
+            "over50ms": 1
+          },
+          "titleRequestsDuring1200msAfterExit": 0
+        },
+        "showcase": {
+          "url": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+          "width": 336,
+          "height": 112,
+          "decoded": true
+        },
+        "publicBadge": {
+          "text": "특공사령관",
+          "image": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+          "width": 142
+        },
+        "callingCard": {
+          "text": "특공사령관",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/titles/special-ops-commander-red-v1.webp\")",
+          "width": 190,
+          "aboveName": true
+        }
+      },
+      {
+        "device": "windows",
+        "viewport": [
+          1440,
+          900
+        ],
+        "original": {
+          "coldMs": 1433,
+          "reentryMs": 41,
+          "equipMs": 164,
+          "openPlayerCardMs": 67,
+          "frames": {
+            "samples": 34,
+            "p95Ms": 33.4,
+            "maxMs": 116.6,
+            "over50ms": 1
+          },
+          "titleRequestsDuring1200msAfterExit": 0
+        },
+        "webp": {
+          "coldMs": 1446,
+          "reentryMs": 49,
+          "equipMs": 151,
+          "openPlayerCardMs": 74,
+          "frames": {
+            "samples": 30,
+            "p95Ms": 33.4,
+            "maxMs": 83.2,
+            "over50ms": 1
+          },
+          "titleRequestsDuring1200msAfterExit": 0
+        },
+        "liveResources": {
+          "coldMs": 1244,
+          "reentryMs": 70,
+          "equipMs": 115,
+          "openPlayerCardMs": 59,
+          "frames": {
+            "samples": 27,
+            "p95Ms": 50,
+            "maxMs": 83.3,
+            "over50ms": 1
+          },
+          "titleRequestsDuring1200msAfterExit": 0
+        },
+        "showcase": {
+          "url": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+          "width": 413,
+          "height": 138,
+          "decoded": true
+        },
+        "publicBadge": {
+          "text": "특공사령관",
+          "image": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+          "width": 142
+        },
+        "callingCard": {
+          "text": "특공사령관",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/titles/special-ops-commander-red-v1.webp\")",
+          "width": 190,
+          "aboveName": true
+        }
+      },
+      {
+        "device": "h5",
+        "viewport": [
+          390,
+          844
+        ],
+        "original": {
+          "coldMs": 1587,
+          "reentryMs": 54,
+          "equipMs": 93,
+          "openPlayerCardMs": 58,
+          "frames": {
+            "samples": 79,
+            "p95Ms": 29.1,
+            "maxMs": 70.7,
+            "over50ms": 2
+          },
+          "titleRequestsDuring1200msAfterExit": 0
+        },
+        "webp": {
+          "coldMs": 1511,
+          "reentryMs": 53,
+          "equipMs": 95,
+          "openPlayerCardMs": 55,
+          "frames": {
+            "samples": 82,
+            "p95Ms": 16.6,
+            "maxMs": 70.9,
+            "over50ms": 1
+          },
+          "titleRequestsDuring1200msAfterExit": 0
+        },
+        "liveResources": {
+          "coldMs": 1662,
+          "reentryMs": 56,
+          "equipMs": 142,
+          "openPlayerCardMs": 478,
+          "frames": {
+            "samples": 139,
+            "p95Ms": 12.6,
+            "maxMs": 145.8,
+            "over50ms": 3
+          },
+          "titleRequestsDuring1200msAfterExit": 0
+        },
+        "showcase": {
+          "url": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+          "width": 336,
+          "height": 112,
+          "decoded": true
+        },
+        "publicBadge": {
+          "text": "특공사령관",
+          "image": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+          "width": 142
+        },
+        "callingCard": {
+          "text": "특공사령관",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/titles/special-ops-commander-red-v1.webp\")",
+          "width": 190,
+          "aboveName": true
+        }
+      }
+    ]
+  }
+}
