@@ -1,0 +1,409 @@
+{
+  "phase": "LIVE",
+  "verifiedAt": "2026-11-13T00:44:47.299Z",
+  "verifiedKst": "2026-11-13 09:44 KST",
+  "source": "a37921e2481000437ff92e1a2068001dc2ec6535",
+  "policy": {
+    "revision": "mercenary-advancement-20261113-lv11-v2",
+    "minimumLevel": 11,
+    "ranks": [
+      "SS",
+      "SSS"
+    ],
+    "cost": {
+      "coin": "10000000000000",
+      "MASTER_STAR": "50000000"
+    }
+  },
+  "entry": [
+    "로비",
+    "용병 도감",
+    "현재 편성 · 용병 관리",
+    "용병 전직"
+  ],
+  "releaseTests": {
+    "batches": [
+      113,
+      239,
+      25,
+      18,
+      1
+    ],
+    "passed": 396,
+    "failed": 0,
+    "includesClassTests": 40
+  },
+  "publicVerification": {
+    "checkedAt": "2026-11-13T00:44:47.299Z",
+    "pages": {
+      "id": "a74511f2-a117-4756-825a-ad41471508fe",
+      "url": "https://a74511f2.cnine-card.pages.dev",
+      "status": "success",
+      "commit": "a37921e2481000437ff92e1a2068001dc2ec6535"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version_id": "9c929e95-7ce1-46b1-8039-c849af5fbcff",
+        "percentage": 100
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version_id": "ee7b7219-33f2-42ba-ba1f-207bb14cee4f",
+        "percentage": 100
+      }
+    ],
+    "publicPages": [
+      "/mercenary-codex/",
+      "/onestore/mercenary-codex/"
+    ],
+    "windows": {
+      "releaseId": "20199a24b2b04588f6a4e3b9292c26b114bf03327b8609288ac5a0b4a4f5dc24",
+      "files": 14819,
+      "featureHashes": 27
+    },
+    "publicAPI": {
+      "status": 401,
+      "code": "MERCENARY_ADVANCEMENT_AUTH",
+      "worker": "regional-v1"
+    },
+    "dbSample": {
+      "mode": "READ ONLY",
+      "accounts": 1,
+      "cards": 90,
+      "eligible": 46,
+      "newlyEligibleInSample": 0,
+      "dbRoundtripMs": [
+        336,
+        166,
+        166
+      ]
+    }
+  },
+  "levelBoundary": [
+    {
+      "level": 10,
+      "rank": "SSS",
+      "availableByLevel": false,
+      "checked": "same deployed policy in READ ONLY transaction",
+      "timeMs": 324
+    },
+    {
+      "level": 11,
+      "rank": "SSS",
+      "availableByLevel": true,
+      "checked": "same deployed policy in READ ONLY transaction",
+      "timeMs": 237
+    }
+  ],
+  "publicBrowser": [
+    {
+      "name": "pc",
+      "url": "/mercenary-codex/",
+      "static": "public production",
+      "account": "isolated fixture, level 11",
+      "codexReadyMs": 1140,
+      "coldMs": 1674,
+      "reentryMs": 25,
+      "frames": {
+        "p95Ms": 4.3,
+        "over50": 0,
+        "frames": 188
+      },
+      "featureRequestsBeforeOpening": 0,
+      "openDialogsOrPreviewCanvasAfterExit": 0,
+      "realAccountMutations": 0,
+      "isolatedChanges": 1
+    },
+    {
+      "name": "mobile",
+      "url": "/mercenary-codex/",
+      "static": "public production",
+      "account": "isolated fixture, level 11",
+      "codexReadyMs": 603,
+      "coldMs": 397,
+      "reentryMs": 73,
+      "frames": {
+        "p95Ms": 16,
+        "over50": 0,
+        "frames": 53
+      },
+      "featureRequestsBeforeOpening": 0,
+      "openDialogsOrPreviewCanvasAfterExit": 0,
+      "realAccountMutations": 0,
+      "isolatedChanges": 1
+    },
+    {
+      "name": "store",
+      "url": "/onestore/mercenary-codex/",
+      "static": "public production",
+      "account": "isolated fixture, level 11",
+      "codexReadyMs": 584,
+      "coldMs": 163,
+      "reentryMs": 26,
+      "frames": {
+        "p95Ms": 4.5,
+        "over50": 0,
+        "frames": 187
+      },
+      "featureRequestsBeforeOpening": 0,
+      "openDialogsOrPreviewCanvasAfterExit": 0,
+      "realAccountMutations": 0,
+      "isolatedChanges": 1
+    }
+  ],
+  "additionalColdPCSamplesMs": [
+    164,
+    128,
+    134
+  ],
+  "additionalColdPCProfile": [
+    {
+      "entryMs": 164,
+      "slowest": [
+        {
+          "name": "/css/server-support-v1.css",
+          "start": 25,
+          "duration": 25,
+          "ttfb": 22,
+          "transfer": 7402
+        },
+        {
+          "name": "/css/supporter-season-pass-v1.css",
+          "start": 25,
+          "duration": 25,
+          "ttfb": 21,
+          "transfer": 7878
+        },
+        {
+          "name": "/mercenary-codex/advancement/AdvancementWindow.mjs",
+          "start": 26,
+          "duration": 25,
+          "ttfb": 23,
+          "transfer": 5453
+        }
+      ]
+    },
+    {
+      "entryMs": 128,
+      "slowest": [
+        {
+          "name": "/css/supporter-season-pass-v1.css",
+          "start": 14,
+          "duration": 27,
+          "ttfb": 26,
+          "transfer": 7880
+        },
+        {
+          "name": "/css/server-support-v1.css",
+          "start": 14,
+          "duration": 26,
+          "ttfb": 25,
+          "transfer": 7402
+        },
+        {
+          "name": "/mercenary-codex/advancement/AdvancementWindow.mjs",
+          "start": 23,
+          "duration": 24,
+          "ttfb": 23,
+          "transfer": 5453
+        }
+      ]
+    },
+    {
+      "entryMs": 134,
+      "slowest": [
+        {
+          "name": "/mercenary-codex/advancement/client.mjs",
+          "start": 31,
+          "duration": 24,
+          "ttfb": 22,
+          "transfer": 1746
+        },
+        {
+          "name": "/shared/mercenary-advancement-v1.mjs",
+          "start": 31,
+          "duration": 20,
+          "ttfb": 17,
+          "transfer": 2899
+        },
+        {
+          "name": "/mercenary-codex/advancement/AdvancementWindow.mjs",
+          "start": 31,
+          "duration": 19,
+          "ttfb": 17,
+          "transfer": 5453
+        }
+      ]
+    }
+  ],
+  "candidateBrowser": [
+    {
+      "name": "pc",
+      "coldMs": 98,
+      "warmMs": 28,
+      "frame": {
+        "p95Ms": 4.2,
+        "over50": 0,
+        "n": 164
+      },
+      "cleanup": {
+        "previewCanvas": 0,
+        "openDialogs": 0
+      },
+      "recoveredWithSameKey": true
+    },
+    {
+      "name": "ios",
+      "coldMs": 297,
+      "warmMs": 99,
+      "frame": {
+        "p95Ms": 16,
+        "over50": 0,
+        "n": 87
+      },
+      "cleanup": {
+        "previewCanvas": 0,
+        "openDialogs": 0
+      },
+      "recoveredWithSameKey": true
+    },
+    {
+      "name": "android",
+      "coldMs": 76,
+      "warmMs": 42,
+      "frame": {
+        "p95Ms": 4.3,
+        "over50": 0,
+        "n": 164
+      },
+      "cleanup": {
+        "previewCanvas": 0,
+        "openDialogs": 0
+      },
+      "recoveredWithSameKey": true
+    },
+    {
+      "name": "h5",
+      "coldMs": 88,
+      "warmMs": 29,
+      "frame": {
+        "p95Ms": 4.3,
+        "over50": 0,
+        "n": 164
+      },
+      "cleanup": {
+        "previewCanvas": 0,
+        "openDialogs": 0
+      },
+      "recoveredWithSameKey": true
+    },
+    {
+      "name": "windows",
+      "coldMs": 81,
+      "warmMs": 22,
+      "frame": {
+        "p95Ms": 4.3,
+        "over50": 0,
+        "n": 165
+      },
+      "cleanup": {
+        "previewCanvas": 0,
+        "openDialogs": 0
+      },
+      "recoveredWithSameKey": true
+    },
+    {
+      "name": "narrow",
+      "coldMs": 75,
+      "warmMs": 46,
+      "frame": {
+        "p95Ms": 4.3,
+        "over50": 0,
+        "n": 165
+      },
+      "cleanup": {
+        "previewCanvas": 0,
+        "openDialogs": 0
+      },
+      "recoveredWithSameKey": true
+    },
+    {
+      "name": "battle-pc",
+      "roles": 16,
+      "states": 3,
+      "firstVisibleMs": 179,
+      "frame": {
+        "n": 193,
+        "p95Ms": 5,
+        "over50": 0,
+        "maxMs": 5.6
+      },
+      "baseline": {
+        "n": 193,
+        "p95Ms": 4.8,
+        "over50": 0,
+        "maxMs": 5.2
+      },
+      "cleanup": {
+        "sprites": 0,
+        "timelines": 0
+      }
+    },
+    {
+      "name": "battle-mobile",
+      "roles": 16,
+      "states": 3,
+      "firstVisibleMs": 135,
+      "frame": {
+        "n": 193,
+        "p95Ms": 5,
+        "over50": 0,
+        "maxMs": 5.7
+      },
+      "baseline": {
+        "n": 192,
+        "p95Ms": 5.2,
+        "over50": 0,
+        "maxMs": 5.8
+      },
+      "cleanup": {
+        "sprites": 0,
+        "timelines": 0
+      }
+    }
+  ],
+  "performanceConditions": "Windows RTX 3070, Chromium desktop, 390px WebKit and Chromium mobile emulation. Public static assets with isolated account API, production PostgreSQL read only measured separately.",
+  "assets": {
+    "previewBeforeBytes": 4479523,
+    "previewAfterBytes": 91956,
+    "thumbnailRequestsBefore": 16,
+    "thumbnailRequestsAfter": 1,
+    "pagesFileCount": 19976
+  },
+  "poster": {
+    "brand": "assets/ui/brand/reverse-call-20261016/icon-512.png",
+    "brandSha256": "7d18d7ccd347a2cfb46deac38b49ceb540d69c910a4bc1837eeb70abaf1197c9",
+    "backgroundGenerator": "built-in ImageGen",
+    "prompt": "output/announcements/mercenary-advancement-live-20261113/제작_프롬프트.txt",
+    "jobs": 16,
+    "layoutOverflow": 0,
+    "files": {
+      "png": {
+        "file": "output/announcements/mercenary-advancement-live-20261113/리버스콜_용병전직_업데이트.png",
+        "bytes": 1804030,
+        "width": 1350,
+        "height": 4526,
+        "sha256": "dfb39c7b9e9669b9fbd6a8f12b93ef51d0ea06ecd28cd3805e045f8322d84ee7"
+      },
+      "jpg": {
+        "file": "output/announcements/mercenary-advancement-live-20261113/리버스콜_용병전직_업데이트.jpg",
+        "bytes": 1204651,
+        "width": 1350,
+        "height": 4526,
+        "sha256": "d847f30a78a6b8e31fcb1916f627f6d55bb003472db0f29be889c4f0a97f263b"
+      }
+    }
+  },
+  "productionTestTransactions": 0
+}
