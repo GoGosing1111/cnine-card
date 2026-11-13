@@ -1,7 +1,8 @@
 import {readJointBody,jointError} from './_joint_request.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {canAccessLegionHunt,readLegionHuntPolicy,LEGION_HUNT_SETTINGS_KEY} from './_legion_hunt_settings.js';
-import {legionHuntEntries} from './_legion_hunt.js';
+import {EXTREME_PULSE_KEY} from '../shared/extreme-burning-v1.mjs';
+import {legionHuntEntries,restoreExtremeLegionEnergy} from './_legion_hunt.js';
 import {readSupportBenefits} from './_supporter_benefits.js';
 import {loadCoopOwnedCards} from './_cooperative_live.js';
 import {PLAYABLE_MERCENARIES} from './_comeback_loans.js';
@@ -18,6 +19,7 @@ import {earnedLegionCoins} from '../shared/legion-hunt-coins-v1.mjs';
 
 const P='legion_citadel_v1:',roomKey=id=>P+'room:'+id,userKey=id=>P+'user:'+id,replayKey=id=>P+'battle:'+id;
 const entryKey=id=>P+'next-entry:'+id;
+const entryPulseKey=id=>P+'entry-generation:'+id;
 const PARTY_RECHARGE_HOURS=6;
 const PARTY_ENTRY_INTERVAL_MS=PARTY_RECHARGE_HOURS*60*60*1000;
 const tag='legion-party/',fields={create:['requestId','tier','area'],join:['id'],ready:['id','cardIds','mercenaryCodes'],unready:['id'],start:['id'],loaded:['id'],pickup:['id','token'],claim:['id'],leave:['id']};
@@ -25,7 +27,14 @@ const idOK=id=>typeof id==='string'&&/^[0-9a-f]{24}$/.test(id);
 const stmt=(db,sql,...args)=>db.prepare(sql).bind(...args);
 const raw=async(db,key)=>(await stmt(db,'SELECT value FROM app_meta WHERE key=?',key).first())?.value??null;
 // The room pointer is removed on leave and solo can replace its session. The party deadline survives both.
-const readWithEntry=(db,key,uid)=>stmt(db,'SELECT (SELECT value FROM app_meta WHERE key=?) AS value,(SELECT value FROM app_meta WHERE key=?) AS deadline',key,entryKey(uid)).first();
+async function readWithEntry(db,key,uid){
+ const row=await stmt(db,'SELECT (SELECT value FROM app_meta WHERE key=?) AS value,(SELECT value FROM app_meta WHERE key=?) AS deadline,(SELECT value FROM app_meta WHERE key=?) AS pulses,(SELECT value FROM app_meta WHERE key=?) AS entryGeneration',key,entryKey(uid),EXTREME_PULSE_KEY,entryPulseKey(uid)).first();
+ const pulses=JSON.parse(row.pulses||'[]'),latest=pulses.at(-1);
+ // Older admissions only have the deadline, measured from the synchronized start.
+ const paidAt=row.deadline===null?null:entryDeadline(row.deadline)-PARTY_ENTRY_INTERVAL_MS-1200;
+ const recovered=latest&&paidAt!==null&&(row.entryGeneration===null?latest.at>paidAt:latest.generation>Number(row.entryGeneration));
+ return {...row,pulses,pulseRaw:row.pulses,storedDeadline:row.deadline,deadline:recovered?null:row.deadline};
+}
 const put=(db,k,v)=>stmt(db,'INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at',k,v);
 const del=(db,k)=>stmt(db,'DELETE FROM app_meta WHERE key=?',k);
 const fail=(kind,msg,status=409)=>{throw jointError('CITADEL_'+kind,msg,status);};
@@ -76,7 +85,9 @@ const farmKey=(id,uid)=>P+'farm:'+id+':'+uid;
 const receiptKey=(id,uid)=>P+'receipt:'+id+':'+uid;
 async function present(db,r,user,at){
  const state=view(r,user,at);if(!r.startsAt)return state;
- const f=JSON.parse(await raw(db,farmKey(r.id,user.id)));if(!f)fail('FARM','개인 전리품을 읽지 못했습니다.',503);
+ const entry=await readWithEntry(db,farmKey(r.id,user.id),user.id);
+ const f=JSON.parse(entry.value);if(!f)fail('FARM','개인 전리품을 읽지 못했습니다.',503);
+ if(state.nextEntryAt!==null)state.nextEntryAt=entryDeadline(entry.deadline);
  const earned=farmView(f,Math.min(r.duration,at-r.startsAt),state.status==='ACTIVE');
  return {...state,...earned,canClaim:['VICTORY','DEFEAT'].includes(state.status)&&(earned.drops.length>0||state.coins>0)&&!state.claimed};
 }
@@ -126,21 +137,22 @@ async function paidEntryStatements(env,users,members,at,nextEntryAt,deps){
  const db=env.DB;
  const balances=await Promise.all(users.map(async (u,index)=>{
   const k='legion_hunt_owner_session_v1:'+u.id;
-  const {value:old,deadline}=await readWithEntry(db,k,u.id);
+  const {value:old,deadline,storedDeadline,pulses,pulseRaw}=await readWithEntry(db,k,u.id);
   const solo=old?JSON.parse(old):{};
   if(solo.state&&!solo.state.ended&&!solo.state.receipt&&!solo.interruption&&solo.expiresAt>at)fail('SOLO',u.nickname+'님의 개인 군단토벌을 종료한 뒤 출전하세요.');
   if(u.role!=='OWNER'){
    requireEntry(deadline,at,u.nickname);
    members[index].nextEntryAt=nextEntryAt;
-   return [...guard(db,[k,old],[entryKey(u.id),deadline]),put(db,entryKey(u.id),String(nextEntryAt))];
+   return [...guard(db,[k,old],[entryKey(u.id),storedDeadline],[EXTREME_PULSE_KEY,pulseRaw]),put(db,entryKey(u.id),String(nextEntryAt)),put(db,entryPulseKey(u.id),String(pulses.at(-1)?.generation??0))];
   }
   // OWNER may always enter. Only the opt-in coin payout uses solo energy.
   if(!members[index].coins)return [];
   const support=await (deps.supportBenefits||readSupportBenefits)(env,u.id,at);
-  const e=legionHuntEntries(solo,at,u,support);
+  const restored=restoreExtremeLegionEnergy(solo,pulses,at,support,u);
+  const e=legionHuntEntries(restored,at,u,support);
   if(e.current<1){delete members[index].coins;return [];}
-  const saved=JSON.stringify({...solo,energy:{version:1,current:e.current-1,maximum:e.maximum,updatedAt:e.updatedAt}});
-  return [...guard(db,[k,old]),put(db,k,saved)];
+  const saved=JSON.stringify({...restored,energy:{version:1,current:e.current-1,maximum:e.maximum,updatedAt:e.updatedAt}});
+  return [...guard(db,[k,old],[EXTREME_PULSE_KEY,pulseRaw]),put(db,k,saved)];
  }));return balances.flat();
 }
 async function change({action,b,env,user,deps,policy,policyRaw,citadel}){

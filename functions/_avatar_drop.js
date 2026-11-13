@@ -1,4 +1,4 @@
-import { MIRACLE_BURNING_META_KEY,MIRACLE_BURNING_DROP_PERCENT,applyMiracleDropChance } from './_miracle_burning.js';
+import { MIRACLE_BURNING_META_KEY,EXTREME_BURNING_META_KEY,extremeSettings,MIRACLE_BURNING_DROP_PERCENT,applyMiracleDropChance } from './_miracle_burning.js';
 import { burningEventIsLive } from './_burning_event_access.js';
 import { readAccountRank } from './_account_rank.js';
 import {withCollectionBonusScope,collectionDropPercent} from './_collection_bonuses.js';
@@ -27,11 +27,11 @@ async function readDropSettings(env, scope) {
   const read = async () => {
     // Both settings belong to the same request snapshot. Reading them together
     // avoids an extra database round trip on every battle/drop request.
-    const rows = await env.DB.prepare('SELECT key,value FROM app_meta WHERE key IN (?,?)')
-      .bind('avatar_settings_v1',MIRACLE_BURNING_META_KEY).all();
+    const rows = await env.DB.prepare('SELECT key,value FROM app_meta WHERE key IN (?,?,?)')
+      .bind('avatar_settings_v1',MIRACLE_BURNING_META_KEY,EXTREME_BURNING_META_KEY).all();
     const values=new Map((rows.results||[]).map(row=>[row.key,row.value]));
     const parse=key=>{try{return JSON.parse(values.get(key)||'{}')||{}}catch{return {}}};
-    return {mode:String(parse('avatar_settings_v1').mode||'OFF').toUpperCase(),miracle:parse(MIRACLE_BURNING_META_KEY)};
+    return {mode:String(parse('avatar_settings_v1').mode||'OFF').toUpperCase(),miracle:parse(MIRACLE_BURNING_META_KEY),extreme:parse(EXTREME_BURNING_META_KEY)};
   };
   if (!scope) return read();
   if (!scope.settings) scope.settings = read();
@@ -85,7 +85,7 @@ export async function resolveAvatarDropRate(env, userId, chance,rankSource) {
 
 export async function miracleDropIncreasePercent(env) {
   const scope=env[DROP_SCOPE];
-  const read=async()=>burningEventIsLive((await readDropSettings(env,scope)).miracle)?MIRACLE_BURNING_DROP_PERCENT:0;
+  const read=async()=>{const settings=await readDropSettings(env,scope);return extremeSettings(settings.extreme).enabled?100:burningEventIsLive(settings.miracle)?MIRACLE_BURNING_DROP_PERCENT:0;};
   if(!scope)return read();
   if(!scope.miracle)scope.miracle=read();
   return scope.miracle;

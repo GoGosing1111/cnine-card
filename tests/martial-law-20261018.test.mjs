@@ -23,9 +23,11 @@ test('only martial authoring and isolated fixture are omitted from delivery; eve
 test('omitted isolated QA fixtures have no deployed JavaScript or preview consumers',()=>{
  const pattern=[...isolatedQaFixtures].map(f=>f.split('/').at(-1).replaceAll('.','\\.')).join('|');
  let matches='';try{matches=execFileSync('rg',['-l',pattern,'scripts','preview','js','shared','functions','admin','workers','world','--glob','*.mjs','--glob','*.js','--glob','*.html','--glob','*.json'],{encoding:'utf8',maxBuffer:1e6})}catch(error){if(error.status!==1)throw error}
- assert.equal(matches.trim(),'','isolated test fixtures cannot be referenced by deployed code or previews');
+ const consumers=matches.trim().split(/\r?\n/).map(p=>p.replaceAll('\\','/')).filter(p=>p&&p!=='scripts/prepare-production-assets.mjs');
+ assert.deepEqual(consumers,[],'only the packaging exclusion list may name isolated test fixtures');
  for(const file of isolatedQaFixtures){assert.ok(readFileSync(file).length);assert.equal(isProductionFile(file),false);}
- assert.equal(isProductionFile('tests/helpers/apocalypse-fixture.mjs'),true,'local preview imports are preserved');
+ assert.equal(isProductionFile('tests/helpers/apocalypse-fixture.mjs'),false,'the current distribution excludes local test fixtures');
+ assert.equal(isProductionFile('js/miracle-burning-v1.js'),true,'the live event dialog is packaged');
 });
 function runtime(f){
  const ctx={...access,...miracle,...policy,console,readMartialLaw,
@@ -86,21 +88,21 @@ for(const postgres of [false,true]){
   assert.equal((await f.request(owner,'PATCH',body)).body.replayed,true);assert.equal(await logs(f),2);
   assert.equal(Number((await f.p('SELECT COUNT(*) n FROM joint_atomic_guards_v1').first()).n),0);
  });
- test(db+': actual PVE and Apocalypse energy preserve partial charge without declaration refill',async t=>{
+ test(db+': retired declarations leave actual PvE and Apocalypse on their normal recharge clocks',async t=>{
   const f=await martialFixture({postgres});t.after(()=>f.close());const base=f.now;
   await f.request(owner,'PATCH',draft());const rt=runtime(f),user={id:1,role:'USER'};
   const today=new Date(base+9*3600000).toISOString().slice(0,10);
   await f.p('INSERT INTO user_battle_energy VALUES(?,?,?,?,NULL)',1,1,policy.martialSqlUtc(base-2*60000),today).run();
   await f.p('INSERT INTO user_apocalypse_energy VALUES(?,?,?,NULL)',1,1,policy.martialSqlUtc(base-20*60000)).run();
   const settings=rt.applyBurningPveSettings({energy:{enabled:true,maxEnergy:5,dailyRestore:5,costPerBattle:1,rechargeMinutes:5}},await rt.burningEventSettings(f.env,{fresh:true}));
-  assert.equal(settings.energy.rechargeMinutes,15);assert.equal(settings.__burningActivatedAt,undefined);
+  assert.equal(settings.energy.rechargeMinutes,5);assert.equal(settings.__burningActivatedAt,undefined);
   assert.equal(JSON.parse(JSON.stringify(settings)).energy.__martialLaw,undefined);
   const pve=await rt.battleEnergyState(f.env,user,settings),apoc=await rt.apocalypseEnergyState(f.env,user);
-  assert.equal(pve.energy,1);assert.equal(Date.parse(pve.nextRechargeAt),base+9*60000);
-  assert.equal(apoc.energy,1);assert.equal(apoc.rechargeMinutes,90);assert.equal(Date.parse(apoc.nextRechargeAt),base+30*60000);
-  f.now=base+9*60000;assert.equal((await rt.battleEnergyState(f.env,user,settings)).energy,2);
+  assert.equal(pve.energy,1);assert.equal(Date.parse(pve.nextRechargeAt),base+3*60000);
+  assert.equal(apoc.energy,1);assert.equal(apoc.rechargeMinutes,30);assert.equal(Date.parse(apoc.nextRechargeAt),base+10*60000);
+  f.now=base+3*60000;assert.equal((await rt.battleEnergyState(f.env,user,settings)).energy,2);
   f.now=base+30*60000;const expired=await rt.apocalypseEnergyState(f.env,user);
-  assert.equal(expired.energy,2);assert.equal(expired.rechargeMinutes,30);assert.equal(Date.parse(expired.nextRechargeAt),base+60*60000);
+  assert.equal(expired.energy,2);assert.equal(expired.rechargeMinutes,30);assert.equal(Date.parse(expired.nextRechargeAt),base+40*60000);
  });
 }
 test('battle rewards and sweep use 0.9 with every Burning mode; other drops and capacity preserved',async t=>{

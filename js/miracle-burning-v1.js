@@ -2,22 +2,23 @@
 (()=>{
   const escape=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   function show({state,remainingText,manual=false}={}){
-    if(!state?.enabled||state.mode!=='MIRACLE')return;
+    if(!state?.enabled||!['MIRACLE','EXTREME'].includes(state.mode))return;
+    const extreme=state.mode==='EXTREME',eventName=extreme?'익스트림 버닝':'미라클 버닝';
     const old=document.getElementById('burningActivationNotice');old?.__burningCleanup?.();old?.remove();
     const el=document.createElement('div'),focus=document.activeElement;
-    el.id='burningActivationNotice';el.className='burning-activation-notice miracle-ceremony'+(manual?' is-manual':'');
+    el.id='burningActivationNotice';el.className='burning-activation-notice miracle-ceremony'+(extreme?' extreme-ceremony':'')+(manual?' is-manual':'');
     const multiplier=Number(state.battleRewardMultiplier||100).toLocaleString('ko-KR',{maximumFractionDigits:2});
     el.innerHTML=`<article class="miracle-palace" role="dialog" aria-modal="true" aria-labelledby="miracleBurningTitle" aria-describedby="miracleBurningCopy" tabindex="-1">
       <div class="miracle-celestial-art" aria-hidden="true"></div><div class="miracle-rays" aria-hidden="true"></div><div class="miracle-dust" aria-hidden="true">${Array.from({length:18},(_,i)=>`<i style="--i:${i};--x:${(i*37)%100}%"></i>`).join('')}</div>
-      <button class="miracle-close" type="button" aria-label="미라클 버닝 안내 닫기" data-miracle-close>×</button>
-      <div class="miracle-masthead"><span>REVERSE CALL</span><i></i><span>CELESTIAL AWAKENING</span></div>
-      <header class="miracle-title"><p class="miracle-announcement">전 서버에 기적이 펼쳐집니다</p><h2 id="miracleBurningTitle"><span>MIRACLE</span><em>BURNING</em></h2><p id="miracleBurningCopy">${escape(state.title||'리버스콜 미라클 버닝이 발동되었습니다')}</p></header>
-      <section class="miracle-benefits" aria-label="미라클 버닝 혜택">
+      <button class="miracle-close" type="button" aria-label="${eventName} 안내 닫기" data-miracle-close>×</button>
+      <div class="miracle-masthead"><span>REVERSE CALL</span><i></i><span>${extreme?'EXTREME PROTOCOL':'CELESTIAL AWAKENING'}</span></div>
+      <header class="miracle-title"><p class="miracle-announcement">${extreme?'전 서버 익스트림 버닝 발동':'전 서버에 기적이 펼쳐집니다'}</p><h2 id="miracleBurningTitle"><span>${extreme?'EXTREME':'MIRACLE'}</span><em>BURNING</em></h2><p id="miracleBurningCopy">${escape(state.title||('리버스콜 '+eventName+'이 발동되었습니다'))}</p></header>
+      <section class="miracle-benefits" aria-label="${eventName} 혜택">
         <div class="miracle-coin"><span>COIN REWARD</span><strong><small>×</small>${multiplier}</strong><b>전투 코인 보상</b></div>
-        <div class="miracle-drop"><span>ITEM DROP</span><strong>+30<small>%</small></strong><b>기존 드랍 확률 ×1.3</b></div>
-        <div class="miracle-energy"><div><span>APOCALYPSE</span><strong>10<small>회</small></strong><b>5분마다 1회 충전</b></div><div><span>PVE</span><strong>30<small>회</small></strong><b>최대 · 1분마다 1회 충전 · 랭크전 제외</b></div></div>
+        <div class="miracle-drop"><span>ITEM DROP</span><strong>+${extreme?'100':'30'}<small>%</small></strong><b>기존 드랍 확률 ×${extreme?'2 · 최대 100%':'1.3'}</b></div>
+        <div class="miracle-energy">${extreme?'<div><span>군단토벌</span><strong>+1</strong><b>발동 시 행동력 1 회복</b></div><div><span>파티 군단토벌</span><strong>+1</strong><b>발동 시 재입장 대기 해제</b></div>':'<div><span>APOCALYPSE</span><strong>10<small>회</small></strong><b>5분마다 1회 충전</b></div><div><span>PVE</span><strong>30<small>회</small></strong><b>최대 · 1분마다 1회 충전 · 랭크전 제외</b></div>'}</div>
       </section>
-      <footer class="miracle-footer"><span><small>THE MIRACLE ENDS IN</small><b data-burning-countdown>${escape(remainingText?.()||'진행 중')}</b></span><button type="button" class="miracle-enter" data-miracle-close>기적의 전장으로 <i aria-hidden="true">→</i></button></footer>
+      <footer class="miracle-footer"><span><small>${extreme?'EXTREME ENDS IN':'THE MIRACLE ENDS IN'}</small><b data-burning-countdown>${escape(remainingText?.()||'진행 중')}</b></span><button type="button" class="miracle-enter" data-miracle-close>${extreme?'확인':'기적의 전장으로'} <i aria-hidden="true">→</i></button></footer>
     </article>`;
     const root=document.documentElement,viewport=window.visualViewport;
     const size=()=>{el.style.setProperty('--miracle-height',Math.round(viewport?.height||innerHeight)+'px');el.style.setProperty('--miracle-top',Math.round(viewport?.offsetTop||0)+'px')};

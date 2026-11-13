@@ -15,15 +15,19 @@ function harness(identity){
   const calls={authenticate:0,read:0,body:0,batch:0,log:[]};
   const settings=new Map(['BURNING','HYPER'].map(mode=>[mode,{mode,enabled:false,durationMinutes:60,title:mode,generation:0}]));
   const env={DB:{
-    prepare:()=>({bind:(key,value)=>({key,value})}),
-    batch:async statements=>{calls.batch++;for(const statement of statements)settings.set(statement.key,JSON.parse(statement.value));}
+    prepare:sql=>({bind:(...args)=>({sql,args})}),
+    batch:async statements=>{calls.batch++;for(const {sql,args} of statements){
+      if(sql.includes("'burning_mode_conflict'")){
+        for(let i=0;i<args.length;i+=2)assert.equal(JSON.stringify(settings.get(args[i]))??null,args[i+1]);
+      }else settings.set(args[0],JSON.parse(args[1]));
+    }}
   }};
   const context={...access,env,
     BURNING_EVENT_META_KEY:'BURNING',HYPER_BURNING_EVENT_META_KEY:'HYPER',burningEventCache:null,
     authenticate:async()=>{calls.authenticate++;return identity;},
     json:(body,status=200)=>({body,status}),
     readBody:async request=>{calls.body++;return request.json();},
-    burningEventPair:async()=>{calls.read++;return {normal:settings.get('BURNING'),hyper:settings.get('HYPER'),active:{enabled:false,mode:'NONE'}};},
+    burningEventPair:async()=>{calls.read++;return {normal:settings.get('BURNING'),hyper:settings.get('HYPER'),active:{enabled:false,mode:'NONE'},raw:[...settings].map(([k,v])=>[k,JSON.stringify(v)])};},
     burningPublicState:settings=>settings,
     cleanBurningEventSettings:(settings,mode)=>({...settings,mode}),
     invalidateEquipmentPromotionCache:()=>{},

@@ -62,9 +62,9 @@ import {handleLimitedPack,limitedPackShopRow} from '../_mercenary_limited_pack.j
 import {extendFurHighBreakthrough,furExtendedReady,furExtendedStepAvailable,FUR_MAX_ENHANCEMENT} from '../_fur_enhancement_v2114.js';
 import {forgeEquipmentBonuses,ensureForgeTransactionSchema} from '../_equipment_forge_transactions.js';
 import { resolveAvatarDropRate,withAvatarDropScope } from '../_avatar_drop.js';
-import { MIRACLE_BURNING_META_KEY,defaultMiracleBurningSettings,canManageMiracleBurning,miracleApocalypseConfig,handleMiracleBurningAdmin } from '../_miracle_burning.js';
-import {readMartialLaw,handleMartialLawAdmin} from '../_martial_law.js';
-import {composeMartialBurning,martialEnergyConfig,martialRecharge,martialSqlUtc} from '../../shared/martial-law-v1.mjs';
+import {handleExtremeBurning} from '../_extreme_burning.js';
+import { MIRACLE_BURNING_META_KEY,EXTREME_BURNING_META_KEY,extremeSettings,defaultMiracleBurningSettings,canManageMiracleBurning,miracleApocalypseConfig,handleMiracleBurningAdmin } from '../_miracle_burning.js';
+import {martialEnergyConfig,martialRecharge,martialSqlUtc} from '../../shared/martial-law-v1.mjs';
 import { SCHEMA } from '../_data/schema.js';
 import { MEMBERS, CARDS, PACKS, RATES } from '../_data/seed.js';
 import { handleEvolution } from '../_evolution.js';
@@ -142,7 +142,7 @@ import { reconcileClanCampSeason } from '../_clan.js';
 import { handleBlackMiracleAdmin,blackMiracleSettings,openBlackMiraclePack,rollBlackMiracleDrop } from '../_black_miracle_pack.js';
 import { SUPERSTAR_PACK_ID,handleSuperstarPackDraw,superstarPackCatalogRow,superstarPackSettings } from '../_superstar_pack.js';
 import { handleSuperstarDuplicateAudit } from '../_superstar_duplicate_audit.js';
-import { BURNING_EVENT_DURATION_MINUTES,BURNING_EVENT_DEFAULT_DURATION_MINUTES,burningEventEndsAt,burningEventIsLive,canManageBurningEvent,isBurningEventDurationMinutes,normalizeBurningEventDurationMinutes } from '../_burning_event_access.js';
+import { BURNING_EVENT_DURATION_MINUTES,BURNING_EVENT_DEFAULT_DURATION_MINUTES,burningEventEndsAt,burningEventIsLive,commitBurningChange,canManageBurningEvent,isBurningEventDurationMinutes,normalizeBurningEventDurationMinutes } from '../_burning_event_access.js';
 import { handleEscortOperation } from '../_escort_operation.js';
 import { handleLichRaid,ensureLichLive,LICH_TICKET } from '../_raid_lich_live.js';
 import {handleMadaraRaid,ensureMadaraLive,MADARA_TICKET} from '../_raid_madara_live.js';
@@ -851,6 +851,7 @@ function defaultBurningEventSettings(){return {mode:'BURNING',theme:'RED',enable
 function defaultHyperBurningEventSettings(){return {mode:'HYPER',theme:'HYPER',enabled:false,generation:0,activatedAt:null,updatedAt:null,endsAt:null,durationMinutes:BURNING_EVENT_DEFAULT_DURATION_MINUTES,title:'리버스콜 하이퍼 버닝이 발동 되었습니다',pveMaxEnergy:30,pvpMaxEnergy:30,rechargeMinutes:1,duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:2.5};}
 function runtimeBurningDurationMinutes(value,fallback=BURNING_EVENT_DEFAULT_DURATION_MINUTES){const number=Number(value);return Number.isInteger(number)&&number>=1&&number<=1440?number:normalizeBurningEventDurationMinutes(fallback);}
 function cleanBurningEventSettings(raw={},mode='BURNING'){
+  if(mode==='EXTREME')return {...extremeSettings(raw),revision:Number(raw.revision||0)};
   const miracle=String(mode).toUpperCase()==='MIRACLE',hyper=String(mode||raw.mode||'BURNING').toUpperCase()==='HYPER',b=miracle?defaultMiracleBurningSettings():hyper?defaultHyperBurningEventSettings():defaultBurningEventSettings();
   const num=(v,d,min,max)=>Math.max(min,Math.min(max,Number.isFinite(Number(v))?Number(v):d));
   let title=String(raw.title||b.title).trim().slice(0,80)||b.title;
@@ -859,6 +860,8 @@ function cleanBurningEventSettings(raw={},mode='BURNING'){
   return {...b,enabled:burningEventIsLive({...raw,endsAt}),generation:Math.max(0,Math.floor(num(raw.generation,b.generation,0,999999999))),activatedAt:raw.activatedAt||null,updatedAt:raw.updatedAt||null,endsAt,durationMinutes:runtimeBurningDurationMinutes(raw.durationMinutes,b.durationMinutes),title,pveMaxEnergy:miracle?30:Math.floor(num(raw.pveMaxEnergy,b.pveMaxEnergy,1,999)),pvpMaxEnergy:miracle?30:Math.floor(num(raw.pvpMaxEnergy,b.pvpMaxEnergy,1,999)),rechargeMinutes:miracle?1:Math.floor(num(raw.rechargeMinutes,b.rechargeMinutes,1,1440)),duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:num(raw.battleRewardMultiplier,b.battleRewardMultiplier,1,miracle?300:hyper?30:10)};
 }
 function activeBurningEvent(pair={}){
+  const extreme=cleanBurningEventSettings(pair.extreme||{},'EXTREME');
+  if(extreme.enabled)return extreme;
   const miracle=cleanBurningEventSettings(pair.miracle||{},'MIRACLE');
   if(miracle.enabled)return miracle;
   const normal=cleanBurningEventSettings(pair.normal||{},'BURNING'),hyper=cleanBurningEventSettings(pair.hyper||{},'HYPER');
@@ -866,12 +869,14 @@ function activeBurningEvent(pair={}){
   if(normal.enabled)return normal;
   const normalAt=Date.parse(String(normal.updatedAt||normal.activatedAt||''))||0,hyperAt=Date.parse(String(hyper.updatedAt||hyper.activatedAt||''))||0;
   const latest=hyperAt>normalAt?hyper:normal;
-  return (Date.parse(String(miracle.updatedAt||''))||0)>Math.max(normalAt,hyperAt)?miracle:latest;
+  const recent=(Date.parse(String(miracle.updatedAt||''))||0)>Math.max(normalAt,hyperAt)?miracle:latest;
+  return Date.parse(extreme.updatedAt)>(Date.parse(recent.updatedAt)||0)?extreme:recent;
 }
 function cleanBurningEventPair(pair={}){
   const normal=cleanBurningEventSettings(pair.normal||{},'BURNING'),hyper=cleanBurningEventSettings(pair.hyper||{},'HYPER');
   const miracle=cleanBurningEventSettings(pair.miracle||{},'MIRACLE');
-  return {normal,hyper,miracle,active:activeBurningEvent({normal,hyper,miracle})};
+  const extreme=cleanBurningEventSettings(pair.extreme||{},'EXTREME');
+  return {normal,hyper,miracle,extreme,active:activeBurningEvent({normal,hyper,miracle,extreme})};
 }
 async function burningEventPair(env,{fresh=false}={}){
   const now=Date.now();
@@ -879,20 +884,15 @@ async function burningEventPair(env,{fresh=false}={}){
     const value=cleanBurningEventPair(burningEventCache.value);burningEventCache={at:burningEventCache.at,value};return value;
   }
   try{
-    const [normalResult,hyperResult,miracleResult]=await env.DB.batch([
-      env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(BURNING_EVENT_META_KEY),
-      env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(HYPER_BURNING_EVENT_META_KEY),
-      env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(MIRACLE_BURNING_META_KEY)
-    ]);
-    let normal=defaultBurningEventSettings(),hyper=defaultHyperBurningEventSettings();
-    const normalValue=normalResult?.results?.[0]?.value,hyperValue=hyperResult?.results?.[0]?.value;
-    if(normalValue)try{normal=cleanBurningEventSettings(JSON.parse(normalValue),'BURNING')}catch{}
-    if(hyperValue)try{hyper=cleanBurningEventSettings(JSON.parse(hyperValue),'HYPER')}catch{}
-    let miracle=defaultMiracleBurningSettings();
-    try{miracle=cleanBurningEventSettings(JSON.parse(miracleResult?.results?.[0]?.value||'{}'),'MIRACLE')}catch{}
-    const value=cleanBurningEventPair({normal,hyper,miracle});
+    const keys=[BURNING_EVENT_META_KEY,HYPER_BURNING_EVENT_META_KEY,MIRACLE_BURNING_META_KEY,EXTREME_BURNING_META_KEY];
+    const rows=(await env.DB.prepare('SELECT key,value FROM app_meta WHERE key IN (?,?,?,?)').bind(...keys).all()).results;
+    const values=new Map(rows.map(row=>[row.key,row.value]));
+    const parse=key=>{try{return JSON.parse(values.get(key)||'{}')}catch{return {}}};
+    const value=cleanBurningEventPair({normal:parse(keys[0]),hyper:parse(keys[1]),miracle:parse(keys[2]),extreme:parse(keys[3])});
+    value.raw=keys.map(key=>[key,values.get(key)??null]);
     burningEventCache={at:now,value};return value;
   }catch(error){
+    if(fresh)throw error;
     if(burningEventCache?.value){console.warn('burning event settings fallback to cache',error);const value=cleanBurningEventPair(burningEventCache.value);burningEventCache={at:now,value};return value;}
     throw error;
   }
@@ -914,15 +914,16 @@ function isDrawCoinGuardError(error){
   const message=String(error?.message||error||'').toLowerCase();
   return message.includes('draw_count')&&(message.includes('not null')||message.includes('null value'));
 }
-async function burningEventSettings(env,{fresh=false}={}){const [pair,martial]=await Promise.all([burningEventPair(env,{fresh}),readMartialLaw(env,{fresh})]);return composeMartialBurning(pair.active,martial);}
+async function burningEventSettings(env,{fresh=false}={}){return (await burningEventPair(env,{fresh})).active;}
 // PERF-0919: 카드뽑기 응답의 burningEvent 는 표시용이며 클라이언트 뽑기 흐름이 읽지 않는다(가격·지급 무관).
 //   이 isolate 에 이미 읽어 둔 값이 있을 때만 싣고, 뽑기 때문에 app_meta 를 다시 읽지 않는다.
 function cachedBurningEventSettings(){
   if(!burningEventCache||Date.now()-burningEventCache.at>=BURNING_EVENT_CACHE_MS)return null;
   return cleanBurningEventPair(burningEventCache.value).active;
 }
-function burningPublicState(settings){return {mode:settings.enabled===true?String(settings.mode||'BURNING').toUpperCase():'NONE',theme:String(settings.theme||'RED').toUpperCase(),enabled:settings.enabled===true,generation:Number(settings.generation||0),activatedAt:settings.activatedAt||null,updatedAt:settings.updatedAt||null,endsAt:settings.endsAt||null,durationMinutes:runtimeBurningDurationMinutes(settings.durationMinutes),title:settings.title,pve:{maxEnergy:settings.pveMaxEnergy,rechargeMinutes:settings.rechargeMinutes},pvp:{maxEnergy:settings.pvpMaxEnergy,rechargeMinutes:settings.rechargeMinutes},apocalypse:settings.mode==='MIRACLE'?{maxEnergy:10,rechargeMinutes:5}:null,dropIncreasePercent:settings.mode==='MIRACLE'?30:0,duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:settings.battleRewardMultiplier,...(settings.martialLaw?{martialLaw:settings.martialLaw,effectiveBattleRewardMultiplier:settings.effectiveBattleRewardMultiplier}:{})};}
+function burningPublicState(settings){return {mode:settings.enabled===true?String(settings.mode||'BURNING').toUpperCase():'NONE',theme:String(settings.theme||'RED').toUpperCase(),enabled:settings.enabled===true,generation:Number(settings.generation||0),activatedAt:settings.activatedAt||null,updatedAt:settings.updatedAt||null,endsAt:settings.endsAt||null,durationMinutes:runtimeBurningDurationMinutes(settings.durationMinutes),title:settings.title,pve:{maxEnergy:settings.pveMaxEnergy,rechargeMinutes:settings.rechargeMinutes},pvp:{maxEnergy:settings.pvpMaxEnergy,rechargeMinutes:settings.rechargeMinutes},apocalypse:settings.mode==='MIRACLE'?{maxEnergy:10,rechargeMinutes:5}:null,dropIncreasePercent:settings.mode==='EXTREME'?100:settings.mode==='MIRACLE'?30:0,duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:settings.battleRewardMultiplier,...(settings.martialLaw?{martialLaw:settings.martialLaw,effectiveBattleRewardMultiplier:settings.effectiveBattleRewardMultiplier}:{})};}
 function applyBurningPveSettings(settings,burning){
+  if(burning?.mode==='EXTREME'&&burning.enabled)return {...settings,__burningRewardMultiplier:burning.battleRewardMultiplier};
   let next=burning?.enabled?{...settings,__burningRewardMultiplier:Number(burning.battleRewardMultiplier||1),__burningActivatedAt:burning.activatedAt||null,__burningMode:String(burning.mode||'BURNING'),energy:{...(settings.energy||{}),enabled:true,maxEnergy:burning.pveMaxEnergy,dailyRestore:burning.pveMaxEnergy,rechargeMinutes:burning.rechargeMinutes}}:settings;
   if(burning?.__martialLaw?.windows?.length)next={...next,__burningRewardMultiplier:burning.effectiveBattleRewardMultiplier,energy:martialEnergyConfig(next.energy||defaultBattleSettings().energy,burning.__martialLaw)};
   return next;
@@ -934,16 +935,18 @@ function chiefBurningEndsAt(startAt,durationMinutes){const startMs=Date.parse(St
 async function activateChiefBurningEvent(env,{type='BURNING',chiefUserId,appointmentId}={}){
   const mode=String(type||'BURNING').toUpperCase()==='HYPER'?'HYPER':'BURNING',isHyper=mode==='HYPER';
   const pairBefore=await burningEventPair(env,{fresh:true}),before=isHyper?pairBefore.hyper:pairBefore.normal,otherBefore=isHyper?pairBefore.normal:pairBefore.hyper;
+  if(pairBefore.extreme?.enabled)throw new Error('익스트림 버닝 진행 중에는 족장 버닝을 발동할 수 없습니다.');
   if(pairBefore.miracle?.enabled)throw new Error('미라클 버닝 진행 중에는 족장 버닝을 발동할 수 없습니다.');
   const durationMinutes=isHyper?60:180,changedAt=new Date().toISOString();
   const next=cleanBurningEventSettings({...before,enabled:true,durationMinutes,generation:Number(before.generation||0)+1,activatedAt:changedAt,updatedAt:changedAt,endsAt:chiefBurningEndsAt(changedAt,durationMinutes)},mode);
   const otherNext=cleanBurningEventSettings({...otherBefore,enabled:false,endsAt:null,updatedAt:changedAt},isHyper?'BURNING':'HYPER');
   const authority=chiefAuthorityGuard(env,String(appointmentId),Number(chiefUserId));
-  await env.DB.batch([...authority.before,
+  const committed=await commitBurningChange(env.DB,pairBefore.raw,[...authority.before,
     env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(isHyper?HYPER_BURNING_EVENT_META_KEY:BURNING_EVENT_META_KEY,JSON.stringify(next)),
     env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(isHyper?BURNING_EVENT_META_KEY:HYPER_BURNING_EVENT_META_KEY,JSON.stringify(otherNext)),
     authority.after
   ]);
+  if(!committed)throw new Error('버닝 설정이 바뀌었습니다. 다시 발동해 주세요.');
   burningEventCache=null;invalidateEquipmentPromotionCache();
   const verifiedPair=await burningEventPair(env,{fresh:true}),verified=isHyper?verifiedPair.hyper:verifiedPair.normal;
   return{mode,source:'CHIEF',chiefUserId:Number(chiefUserId)||0,appointmentId:String(appointmentId||''),startsAt:verified.activatedAt,endsAt:verified.endsAt,durationMinutes:verified.durationMinutes,generation:Number(verified.generation||0)};
@@ -8617,7 +8620,8 @@ async function handleRequest(context){
       const active=await burningEventSettings(env,{fresh:forceFresh});
       return json({burningEvent:burningPublicState(active),serverNow:new Date().toISOString()});
     }
-    if(path==='admin/martial-law')return handleMartialLawAdmin({request,env,deps:{authenticate,json,readBody}});
+    if(path==='admin/martial-law')return json({error:'종료된 이벤트입니다.'},410);
+    if(path==='admin/extreme-burning-event')return handleExtremeBurning({request,env,deps:{authenticate,json,readBody,invalidate:()=>{burningEventCache=null;invalidateEquipmentPromotionCache()}}});
     if(path==='admin/miracle-burning-event')return handleMiracleBurningAdmin({request,env,deps:{authenticate,json,readBody,burningEventPair,burningPublicState,cleanBurningEventSettings,writeAdminLog,invalidate:()=>{burningEventCache=null;invalidateEquipmentPromotionCache()}}});
     if(path==='admin/burning-event'||path==='admin/hyper-burning-event'){
       const admin=await authenticate(request,env);if(!admin)return json({error:'관리자 로그인이 필요합니다.'},401);
@@ -8632,13 +8636,15 @@ async function handleRequest(context){
         const payload=body.settings||body,requestedDuration=payload.durationMinutes??before.durationMinutes??BURNING_EVENT_DEFAULT_DURATION_MINUTES;
         if(!isBurningEventDurationMinutes(requestedDuration))return json({error:'진행 시간은 30분, 1시간, 2시간 중 하나만 선택할 수 있습니다.',code:'INVALID_BURNING_DURATION',allowedDurations:BURNING_EVENT_DURATION_MINUTES},400);
         const enabled=Object.prototype.hasOwnProperty.call(payload,'enabled')?payload.enabled===true:before.enabled===true,durationMinutes=normalizeBurningEventDurationMinutes(requestedDuration),changedAt=new Date().toISOString(),activated=enabled===true,shouldDisableOther=activated;
+        if(activated&&pairBefore.extreme?.enabled&&(Number(admin.id)!==1||!canManageMiracleBurning(admin)))return json({error:'익스트림 버닝은 핑크빛유두만 전환할 수 있습니다.'},409);
         if(activated&&pairBefore.miracle?.enabled&&!canManageMiracleBurning(admin))return json({error:'미라클 버닝 진행 중에는 핑크빛유두만 이벤트를 전환할 수 있습니다.',code:'MIRACLE_BURNING_ACTIVE'},409);
         const next=cleanBurningEventSettings({...before,...payload,enabled,durationMinutes,generation:activated?Number(before.generation||0)+1:Number(before.generation||0),activatedAt:activated?changedAt:before.activatedAt,updatedAt:changedAt,endsAt:activated?burningEventEndsAt(changedAt,durationMinutes):null},mode);
         const otherNext=shouldDisableOther?cleanBurningEventSettings({...otherBefore,enabled:false,endsAt:null,updatedAt:changedAt},isHyper?'BURNING':'HYPER'):otherBefore;
         const statements=[env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(metaKey,JSON.stringify(next))];
         if(shouldDisableOther)statements.push(env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(otherKey,JSON.stringify(otherNext)));
+        if(shouldDisableOther&&pairBefore.extreme?.enabled)statements.push(env.DB.prepare('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=?').bind(JSON.stringify({...pairBefore.extreme,revision:pairBefore.extreme.revision+1,enabled:false,endsAt:null,updatedAt:changedAt}),EXTREME_BURNING_META_KEY));
         if(shouldDisableOther&&pairBefore.miracle?.enabled)statements.push(env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(MIRACLE_BURNING_META_KEY,JSON.stringify(cleanBurningEventSettings({...pairBefore.miracle,enabled:false,endsAt:null,updatedAt:changedAt},'MIRACLE'))));
-        await env.DB.batch(statements);
+        if(!await commitBurningChange(env.DB,pairBefore.raw,statements))return json({error:'버닝 설정이 바뀌었습니다. 다시 불러오세요.'},409);
         burningEventCache=null;invalidateEquipmentPromotionCache();
         const verified=await burningEventPair(env,{fresh:true}),verifiedSettings=isHyper?verified.hyper:verified.normal;
         await writeAdminLog(env,admin,isHyper?'HYPER_BURNING_EVENT_UPDATE':'BURNING_EVENT_UPDATE','APP_META',metaKey,before,verifiedSettings);

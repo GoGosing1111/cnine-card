@@ -40,3 +40,16 @@ html.burning-notice-open,body.burning-notice-open{overflow:hidden!important;over
 @media(max-height:740px) and (min-width:701px){.miracle-palace{min-height:0;padding:20px 40px}.miracle-title{margin-top:140px}.miracle-title h2 span{font-size:60px}.miracle-title h2 em{font-size:36px}.miracle-title>#miracleBurningCopy{margin:9px 0 12px}.miracle-benefits{padding:12px 0}.miracle-benefits strong{font-size:42px}.miracle-footer{padding-top:12px}}
 @media(max-height:680px) and (max-width:700px){.miracle-palace{overflow-y:auto;justify-content:flex-start;padding:125px 18px 18px}.miracle-title{margin-top:0}.miracle-title h2 span{font-size:43px}.miracle-title h2 em{font-size:27px}.miracle-benefits{row-gap:10px;padding:11px 0}.miracle-title>#miracleBurningCopy{margin:8px 0 11px}.miracle-benefits strong{font-size:37px}.miracle-energy strong{font-size:28px}.miracle-footer{gap:11px;padding-top:12px}.miracle-celestial-art{position:fixed}}
 @media(prefers-reduced-motion:reduce){.miracle-ceremony,.miracle-palace{transition:none}.miracle-rays,.miracle-dust i,.miracle-celestial-art{animation:none}.miracle-rays{opacity:.15}.miracle-dust{display:none}}
+
+/* Extreme uses the same cinematic layout with an amber and crimson palette. */
+.extreme-ceremony .miracle-palace{background:#23090d;border-color:#ffaf6f;box-shadow:0 0 0 4px #f064391b,0 26px 90px #31090ae6}
+.extreme-ceremony{background:#130c12;backdrop-filter:none}
+.extreme-ceremony .miracle-celestial-art{background-color:#dd9472;background-image:linear-gradient(180deg,#43150c08 8%,#40171a15 30%,#32101885 48%,#1a0a15f2 76%,#130910),url("../assets/ui/burning-miracle-v1/celestial-awakening-v1.webp");background-blend-mode:normal,luminosity;animation:none}
+.extreme-ceremony .miracle-rays{filter:none;opacity:.16}
+.extreme-ceremony .miracle-announcement,.extreme-ceremony .miracle-benefits span,.extreme-ceremony .miracle-footer small{color:#ffcfa3}
+.extreme-ceremony .miracle-benefits b,.extreme-ceremony .miracle-title>#miracleBurningCopy{color:#f2dccc}
+.extreme-ceremony .miracle-benefits strong small,.extreme-ceremony .miracle-footer b{color:#ffdbb8}
+.extreme-ceremony .miracle-title h2 em,.extreme-ceremony .miracle-enter{color:#ffd29b;text-shadow:0 0 18px #ff663f}
+.extreme-ceremony .miracle-title h2 span{color:#fff5db}.extreme-ceremony .miracle-benefits{border-color:#ff9b7266}.extreme-ceremony .miracle-enter{border-color:#ffab78;background:#40191a}
+.burning-event-hud.is-extreme,.live-operation-card.kind-extreme-burning{border-color:#df855c;color:#ffdaaf}
+@media(max-width:700px){.extreme-ceremony .miracle-rays{display:none}.extreme-ceremony .miracle-dust i:nth-child(n+5){display:none}.extreme-ceremony .miracle-palace{transition:transform .32s ease-out}}

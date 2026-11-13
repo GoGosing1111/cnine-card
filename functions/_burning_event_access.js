@@ -37,3 +37,20 @@ export function burningEventEndsAt(startAt, durationMinutes) {
   }
   return new Date(startMs + Number(durationMinutes) * 60_000).toISOString();
 }
+
+// Compare absent rows as well so concurrent first activations cannot coexist.
+export async function commitBurningChange(db, snapshot, writes) {
+  const conditions=[], values=[];
+  for(const [key,value] of snapshot){
+    conditions.push('(SELECT value FROM app_meta WHERE key=?) IS DISTINCT FROM ?');
+    values.push(key,value);
+  }
+  // A stale snapshot attempts two identical primary keys, rolling back the entire batch.
+  const guard=db.prepare("INSERT INTO app_meta(key,value) SELECT 'burning_mode_conflict','stale' FROM (SELECT 1 AS n UNION ALL SELECT 2 AS n) AS conflicts WHERE "+conditions.join(' OR ')).bind(...values);
+  const lock=db.dialect==='postgres'?[db.prepare('SELECT pg_advisory_xact_lock(20261113, 1)')]:[];
+  try { await db.batch([...lock,guard,...writes]); return true; }
+  catch(error){
+    if(/UNIQUE constraint failed: app_meta\.key|duplicate key value violates unique constraint "app_meta_pkey"/i.test(String(error?.message)))return false;
+    throw error;
+  }
+}

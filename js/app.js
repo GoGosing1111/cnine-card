@@ -114,8 +114,7 @@ function burningRemainingMs(state=burningEventState){const end=Date.parse(String
 function burningEventIsActive(state=burningEventState){return state?.enabled===true&&Number.isFinite(burningRemainingMs(state))&&burningRemainingMs(state)>0}
 function burningMode(){return burningEventIsActive()?String(burningEventState.mode||'BURNING').toUpperCase():'NONE'}
 function burningEventNumbers(){
-  const martial=burningEventState.martialLaw?.enabled&&Date.parse(burningEventState.martialLaw.endsAt)>burningClientNow();
-  return{pve:Math.max(0,Number(burningEventState.pve?.maxEnergy||0)),pvp:Math.max(0,Number(burningEventState.pvp?.maxEnergy||0)),minutes:Math.max(0,Number(burningEventState.pve?.rechargeMinutes||0))*(martial?3:1),coins:Math.max(1,Number(burningEventState.battleRewardMultiplier||1))*(martial?0.9:1)};
+  return{pve:Math.max(0,Number(burningEventState.pve?.maxEnergy||0)),pvp:Math.max(0,Number(burningEventState.pvp?.maxEnergy||0)),minutes:Math.max(0,Number(burningEventState.pve?.rechargeMinutes||0)),coins:Math.max(1,Number(burningEventState.battleRewardMultiplier||1))};
 }
 function burningMultiplierText(value){const number=Number(value||1);return Number.isInteger(number)?String(number):number.toFixed(2).replace(/0+$/,'').replace(/\.$/,'')}
 function burningRemainingText(){
@@ -125,8 +124,8 @@ function burningRemainingText(){
 }
 function burningEventHudMarkup(){
   if(!burningEventIsActive())return '';
-  const miracle=burningMode()==='MIRACLE',hyper=burningMode()==='HYPER',{pve,pvp,minutes,coins}=burningEventNumbers(),modeLabel=miracle?'MIRACLE BURNING':hyper?'HYPER BURNING':'BURNING';
-  return `<section id="burningEventHud" class="burning-event-hud ${miracle?'is-miracle':hyper?'is-hyper':'is-burning'}" aria-label="${modeLabel} 이벤트 진행 중"><button type="button" class="burning-event-hud-trigger" data-burning-event-details aria-haspopup="dialog"><span class="burning-event-hud-ident"><i aria-hidden="true">${miracle?'MB':hyper?'HB':'B'}</i><span><small>LIVE EVENT</small><strong>${modeLabel}</strong></span></span><span class="burning-event-hud-boost"><small>COIN BOOST</small><b>×${burningMultiplierText(coins)}</b></span><span class="burning-event-hud-stats"><em><small>PVE</small><b>${pve}</b></em><em><small>PVP</small><b>${pvp}</b></em><em><small>RECHARGE</small><b>${minutes}<i>분</i></b></em></span><span class="burning-event-hud-open"><small data-burning-countdown>${burningRemainingText()}</small><b>상세보기 <i aria-hidden="true">›</i></b></span></button></section>`;
+  const extreme=burningMode()==='EXTREME',miracle=burningMode()==='MIRACLE',hyper=burningMode()==='HYPER',{pve,pvp,minutes,coins}=burningEventNumbers(),modeLabel=extreme?'EXTREME BURNING':miracle?'MIRACLE BURNING':hyper?'HYPER BURNING':'BURNING';
+  return `<section id="burningEventHud" class="burning-event-hud ${extreme?'is-extreme':miracle?'is-miracle':hyper?'is-hyper':'is-burning'}" aria-label="${modeLabel} 이벤트 진행 중"><button type="button" class="burning-event-hud-trigger" data-burning-event-details aria-haspopup="dialog"><span class="burning-event-hud-ident"><i aria-hidden="true">${extreme?'EX':miracle?'MB':hyper?'HB':'B'}</i><span><small>LIVE EVENT</small><strong>${modeLabel}</strong></span></span><span class="burning-event-hud-boost"><small>COIN BOOST</small><b>×${burningMultiplierText(coins)}</b></span><span class="burning-event-hud-stats">${extreme?'<em><small>드랍 확률</small><b>×2</b></em><em><small>토벌 회복</small><b>+1</b></em>':`<em><small>PVE</small><b>${pve}</b></em><em><small>PVP</small><b>${pvp}</b></em><em><small>RECHARGE</small><b>${minutes}<i>분</i></b></em>`}</span><span class="burning-event-hud-open"><small data-burning-countdown>${burningRemainingText()}</small><b>상세보기 <i aria-hidden="true">›</i></b></span></button></section>`;
 }
 function stopBurningCountdownWatch(){if(burningCountdownTimer){clearInterval(burningCountdownTimer);burningCountdownTimer=null}}
 function syncBurningCountdownUi(){
@@ -140,7 +139,6 @@ function syncBurningCountdownUi(){
 }
 function startBurningCountdownWatch(){stopBurningCountdownWatch();syncBurningCountdownUi();if(burningEventIsActive()&&!document.hidden)burningCountdownTimer=setInterval(syncBurningCountdownUi,1000)}
 function ensureBurningEventHudVisible(){
-  window.CNineMartialLaw?.mount({visible:runtimeCommandContext==='buy'});
   const page=document.querySelector('.page');
   if(!page)return;
   page.querySelectorAll('.burning-event-strip').forEach(node=>node.remove());
@@ -166,7 +164,6 @@ function syncBurningEventVisibleUi(){
   const y=window.scrollY;renderShell('buy');requestAnimationFrame(()=>{window.scrollTo(0,y);ensureBurningEventHudVisible()});
 }
 function applyBurningEventState(next={},options={}){
-  if(next.martialLaw){window.CNineMartialLaw?.apply(next.martialLaw,{announce:options.announce!==false,now:burningClientNow()});window.CNineMartialLaw?.mount({visible:runtimeCommandContext==='buy'});}
   const before=burningEventFingerprint(burningEventState),currentUpdated=Date.parse(String(burningEventState.updatedAt||burningEventState.activatedAt||''))||0,incomingUpdated=Date.parse(String(next.updatedAt||next.activatedAt||''))||0;
   if(currentUpdated&&(!incomingUpdated||incomingUpdated<currentUpdated)){
     PACKS=PACKS.map(pack=>{const original=Math.max(0,Number(pack.originalPrice??pack.price)||0);return {...pack,originalPrice:original,price:original,burningDiscountPercent:0}});
@@ -196,7 +193,7 @@ function applyBurningEventState(next={},options={}){
 }
 function showBurningActivationNotice({manual=false}={}){
   if(!burningEventIsActive()||runtimeCommandContext!=='buy')return;
-  if(burningMode()==='MIRACLE'&&window.CNineMiracleBurning)return window.CNineMiracleBurning.show({state:burningEventState,remainingText:burningRemainingText,manual});
+  if(['EXTREME','MIRACLE'].includes(burningMode())&&window.CNineMiracleBurning)return window.CNineMiracleBurning.show({state:burningEventState,remainingText:burningRemainingText,manual});
   const previous=document.getElementById('burningActivationNotice');
   if(previous){try{previous.__burningCleanup?.()}catch(_){}previous.remove()}
   const hyper=burningMode()==='HYPER',{pve,pvp,minutes,coins}=burningEventNumbers();
@@ -1421,7 +1418,6 @@ function renderShell(tab,routeOptions={}) {
     clearInterval(liveOperationsClockTimer);
     liveOperationsRefreshTimer=liveOperationsClockTimer=0;
   }
-  queueMicrotask(()=>window.CNineMartialLaw?.mount({visible:tab==='buy'}));
   document.body.dataset.contentScope=['battle','scrapyard'].includes(tab)?'pve':['pvp','duo','rank','clan','jokgakCity'].includes(tab)?'pvp':['dex','upgrade','evolution','iconfusion','magic'].includes(tab)?'collection':['character','workshop','alchemy','avatar'].includes(tab)?'growth':['buy'].includes(tab)?'store':'system';
   const burningPageActive=burningEventState.enabled===true,burningPageMode=burningMode();
   document.documentElement.classList.toggle('burning-event-active',burningPageActive&&burningPageMode==='BURNING');
@@ -1712,9 +1708,9 @@ function openLiveOperationsDialog(opener){
 }
 function liveBurningOperationHtml(){
   if(!burningEventIsActive())return '';
-  const miracle=burningMode()==='MIRACLE',hyper=burningMode()==='HYPER',title=miracle?'미라클 버닝':hyper?'하이퍼버닝':'버닝',{coins,minutes}=burningEventNumbers();
+  const extreme=burningMode()==='EXTREME',miracle=burningMode()==='MIRACLE',hyper=burningMode()==='HYPER',title=extreme?'익스트림 버닝':miracle?'미라클 버닝':hyper?'하이퍼버닝':'버닝',{coins,minutes}=burningEventNumbers();
   const flame='<path d="M13 2c1 5-4 6-3 10 2-1 3-3 3-5 4 3 6 6 5 10a6.3 6.3 0 0 1-12-1c-1-4 2-6 3-8-1 4 0 5 1 6"/>';
-  return `<article class="live-operation-card live-operation-event kind-${miracle?'miracle-burning':hyper?'hyper-burning':'burning'}" data-live-burning-event="${miracle?'MIRACLE':hyper?'HYPER':'BURNING'}" role="group" aria-label="${title} 진행 중"><span class="live-operation-icon"><svg viewBox="0 0 24 24" aria-hidden="true">${flame}${hyper?'<path d="m13 12-3 5h3l-1 4 4-6h-3Z"/>':''}</svg></span><span class="live-operation-copy"><small><i aria-hidden="true"></i><span class="live-operation-kind">이벤트</span><em>진행 중</em></small><b>${title}</b><span>전투 코인 ×${burningMultiplierText(coins)} · ${minutes}분 충전</span></span><strong><small>남은 시간</small><b data-burning-countdown data-burning-countdown-compact>${burningRemainingText().replace(/ 남음$/,'')}</b></strong></article>`;
+  return `<button type="button" data-burning-event-details aria-haspopup="dialog" class="live-operation-card live-operation-event kind-${extreme?'extreme-burning':miracle?'miracle-burning':hyper?'hyper-burning':'burning'}" data-live-burning-event="${extreme?'EXTREME':miracle?'MIRACLE':hyper?'HYPER':'BURNING'}" aria-label="${title} 상세보기"><span class="live-operation-icon"><svg viewBox="0 0 24 24" aria-hidden="true">${flame}${hyper?'<path d="m13 12-3 5h3l-1 4 4-6h-3Z"/>':''}</svg></span><span class="live-operation-copy"><small><i aria-hidden="true"></i><span class="live-operation-kind">이벤트</span><em>진행 중</em></small><b>${title}</b><span>전투 코인 ×${burningMultiplierText(coins)} · ${extreme?'드랍 확률 ×2 · 토벌 +1':minutes+'분 충전'}</span></span><strong><small>남은 시간</small><b data-burning-countdown data-burning-countdown-compact>${burningRemainingText().replace(/ 남음$/,'')}</b></strong></button>`;
 }
 function renderLiveOperations(payload=null){
   if(runtimeCommandContext!=='buy')return;

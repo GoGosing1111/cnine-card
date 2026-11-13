@@ -1,4 +1,6 @@
-import { BURNING_EVENT_DEFAULT_DURATION_MINUTES, burningEventIsLive } from './_burning_event_access.js';
+import {EXTREME_BURNING_META_KEY,extremeSettings} from '../shared/extreme-burning-v1.mjs';
+export {EXTREME_BURNING_META_KEY,extremeSettings} from '../shared/extreme-burning-v1.mjs';
+import { BURNING_EVENT_DEFAULT_DURATION_MINUTES, burningEventIsLive, commitBurningChange } from './_burning_event_access.js';
 
 export const MIRACLE_BURNING_META_KEY = 'miracle_burning_event_settings_v1';
 export const MIRACLE_BURNING_OPERATOR = '핑크빛유두';
@@ -27,14 +29,17 @@ export function miracleApocalypseConfig(base, burning, now = Date.now()) {
 }
 
 export async function readMiracleDropPercent(env) {
-  const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(MIRACLE_BURNING_META_KEY).first();
-  let settings;try{settings=JSON.parse(row?.value||'{}')}catch{return 0}
-  return burningEventIsLive(settings) ? MIRACLE_BURNING_DROP_PERCENT : 0;
+  const rows=(await env.DB.prepare('SELECT key,value FROM app_meta WHERE key IN (?,?)').bind(MIRACLE_BURNING_META_KEY,EXTREME_BURNING_META_KEY).all()).results;
+  const states=new Map();
+  for(const row of rows){try{states.set(row.key,JSON.parse(row.value))}catch{ /* Ignore a malformed event record. */ }}
+  if(extremeSettings(states.get(EXTREME_BURNING_META_KEY)).enabled)return 100;
+  return burningEventIsLive(states.get(MIRACLE_BURNING_META_KEY))?MIRACLE_BURNING_DROP_PERCENT:0;
 }
 
 // Probability only: existing quantities, weights and grant receipts stay authoritative.
 export function applyMiracleDropChance(chance, percent=0) {
   const value=Number(chance),base=Number.isFinite(value)?Math.max(0,Math.min(100,value)):0;
+  if(Number(percent)===100)return Math.min(100,base*2);
   return Number(percent)===MIRACLE_BURNING_DROP_PERCENT ? Math.min(100,base*1.3) : base;
 }
 
@@ -63,7 +68,11 @@ export async function handleMiracleBurningAdmin({request,env,deps}) {
     ['burning_event_settings_v1',beforePair.normal,'BURNING'],
     ['hyper_burning_event_settings_v1310',beforePair.hyper,'HYPER']
   ])statements.push(upsert(key,cleanBurningEventSettings({...settings,enabled:false,endsAt:null,updatedAt:changedAt},mode)));
-  await env.DB.batch(statements);
+  if(enabled&&beforePair.extreme?.enabled){
+    if(Number(admin.id)!==1)return json({error:'익스트림 버닝은 핑크빛유두만 전환할 수 있습니다.'},403);
+    statements.push(upsert(EXTREME_BURNING_META_KEY,{...beforePair.extreme,revision:beforePair.extreme.revision+1,enabled:false,endsAt:null,updatedAt:changedAt}));
+  }
+  if(!await commitBurningChange(env.DB,beforePair.raw,statements))return json({error:'버닝 설정이 바뀌었습니다. 다시 불러오세요.'},409);
   invalidate();
   const verified=await burningEventPair(env,{fresh:true});
   await writeAdminLog(env,admin,'MIRACLE_BURNING_EVENT_UPDATE','APP_META',MIRACLE_BURNING_META_KEY,before,verified.miracle);
