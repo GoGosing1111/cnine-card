@@ -1,0 +1,788 @@
+{
+  "verifiedAt": "2026-11-13T13:51:17.492Z",
+  "pages": {
+    "at": "2026-11-13T13:51:15.525Z",
+    "id": "0865604b-331a-4462-90cb-b4e26a7abac3",
+    "url": "https://0865604b.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "084fa609c258aca4f53accc7316682680f386883"
+  },
+  "workers": {
+    "cnine-card-api-runtime": {
+      "createdAt": "2026-11-13T13:47:06.127366Z",
+      "id": "7fc0172f-d756-4951-b492-46ab23e0e242",
+      "version": "f84480dc-78b5-4925-bbd7-7b73281d09b9",
+      "traffic": 100
+    },
+    "cnine-card-clan-draft": {
+      "createdAt": "2026-11-13T13:49:19.445151Z",
+      "id": "cc6b3d69-4d64-46c8-bb59-72667534ba6a",
+      "version": "ad0a909f-b7ae-43e5-8a50-c03cc8b01442",
+      "traffic": 100
+    }
+  },
+  "windowsRelease": "04b3911be07e9852563b58478c4c511236ef908b47c452f06a2ea86073d08236",
+  "sharedRoom": "Bloodmoon shop hero, room markup, quantity presets, sticky draw controls, auto sequence, confirmation, results, cinematics and recovery screen; Blue Gear keeps its own authenticated server pack, account-specific receipts and stock.",
+  "sale": {
+    "openingAt": "2026-11-19T15:00:00.000Z",
+    "prices": {
+      "single": 2250000000,
+      "ten": 22500000000
+    },
+    "remaining": [
+      10,
+      10,
+      10,
+      10,
+      10,
+      3,
+      3
+    ],
+    "percents": {
+      "V-701": "0.00004",
+      "V-702": "0.00004",
+      "V-703": "0.00004",
+      "V-704": "0.00004",
+      "V-705": "0.00004",
+      "V-976": "0.00000008",
+      "V-967": "0.00000008",
+      "V-058": "0.000032"
+    },
+    "liveDrawsDuringQA": 0
+  },
+  "approvedPackSha256": "d343385b4535fd3ba5357522cdc0ad1337f3ca0f0fd9212e792d47944298afbc",
+  "sourceAssets": {
+    "hangar": {
+      "file": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\blue-gear-bloodmoon-room-20261113\\hangar-source.png",
+      "sha256": "541c3422a3e332b028f785789605f8d8146cf3fce899bc5688bbebfcc2310973",
+      "prompt": "Use case: stylized-concept. Asset type: a finished wide landscape game environment plate for Reverse Call Blue Gear, premium Korean sci-fi RPG pack opening room and shop backdrop. A cinematic deep-perspective view inside an immense royal-blue flagship armory. Pearl-white ceramic articulated arch ribs, fine bevelled champagne-gold edges, lapis cobalt enamel equipment bays, brushed steel, a brilliant azure plasma reactor suspended inside an enormous concentric mechanical aperture on the far right third, luminous rail inlays along the floor leading to the reactor, several floating particles in bright skylight beams, detailed vaulted hangar wall on the left with large architectural shapes. Eye-level 28mm lens, grand architectural scale, richly painted AAA mecha key art with highly legible silhouette, quiet lower foreground and clear layer separation. Left third in mid-depth cobalt shadow for readable interface, spectacular illustrated depth and brighter white/gold and blue machinery center and right. Landscape 16:9 edge-to-edge environmental art, sharp, moderate contrast, not too dark. The approved product (not depicted) has pearly white armor, metallic gold trims and an electric blue core. No card or pack, no characters, no words, no letters, no numbers, no watermark, no logos, no dashboard or interface, no buttons or frames. This is an actual physical mecha hangar, never a flat abstract graphic."
+    },
+    "button": {
+      "file": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\blue-gear-bloodmoon-room-20261113\\button-source.png",
+      "sha256": "d08bb20f475f900c099827a28625171a5f43af1cd74f878d1c979cbb64c5eb2e",
+      "prompt": "Use case: stylized-concept. Single isolated raster UI ASSET on a completely transparent background, a professionally crafted horizontal premium Blue Gear mecha game pushbutton plate. Canvas very wide (3:1). ONE front facing strictly orthographic flat rectangular metal plaque, extremely wide almost edge-to-edge, completely blank and perfectly straight, left and right short edges have small symmetric machined 45-degree chamfers only at corners. Wide uniform central 65 percent clean deep sapphire enamel, midblue at top to dark lapis at bottom with luxurious controlled gloss and no reflections competing with future white text. Thin polished pale champagne gold outer bevel, layered silver titanium inner edges, tiny ultra-cyan glowing slits at the far corners, cobalt endcaps. Metal border is narrow (under 10 percent height); the plaque height fills about 73 percent of canvas. Symmetrical top and bottom, elegant restrained engineering detail concentrated at edges and endcaps. A beautiful standalone blank royal blue rectangular keycap that belongs on a pearl-white/cobalt/gold flagship bridge. Hard clean alpha silhouette, no exterior glow spill, no shadow outside silhouette. NO text or letters or glyphs, numbers, arrows, logos, icons, center symbol, screws in central field, no extra elements or multiples. Only one blank button."
+    }
+  },
+  "measuredLimits": "On the last sequential public desktop check the feature request took 201 ms cold and 158 ms warm, compared with 26 ms for the opening bundle and 38 ms for the wide background. On emulated iOS, separating the two Korean font weights fixed the thin rendering. Simplifying scroll repainting reduced the emulation scroll p95 from 307–398 ms in the initial implementation to 153–154 ms in production; settled p95 23–30 ms. Physical-device scroll cost was not measured.",
+  "releaseTestsPassed": 79,
+  "referenceRoomProof": [
+    {
+      "width": 1440,
+      "lockedPurchase": true,
+      "count": 100000,
+      "posts": 1,
+      "compactResults": true,
+      "ordinaryImages": 0,
+      "exampleFeaturedImages": 4,
+      "referenceStyle": {
+        "color": "rgb(255, 240, 207)",
+        "text": "rgb(255, 240, 207)",
+        "image": "url(\"http://127.0.0.1:1964/assets/ui/packs/blood-pack-20261023/button-ember.webp\")",
+        "height": 60
+      },
+      "errors": [],
+      "failed": []
+    },
+    {
+      "width": 390,
+      "lockedPurchase": true,
+      "count": 100000,
+      "posts": 1,
+      "compactResults": true,
+      "ordinaryImages": 0,
+      "exampleFeaturedImages": 4,
+      "referenceStyle": {
+        "color": "rgb(255, 240, 207)",
+        "text": "rgb(255, 240, 207)",
+        "image": "url(\"http://127.0.0.1:1964/assets/ui/packs/blood-pack-20261023/button-ember.webp\")",
+        "height": 54.00001525878906
+      },
+      "errors": [],
+      "failed": []
+    },
+    {
+      "width": 320,
+      "lockedPurchase": true,
+      "count": 100000,
+      "posts": 1,
+      "compactResults": true,
+      "ordinaryImages": 0,
+      "exampleFeaturedImages": 4,
+      "referenceStyle": {
+        "color": "rgb(255, 240, 207)",
+        "text": "rgb(255, 240, 207)",
+        "image": "url(\"http://127.0.0.1:1964/assets/ui/packs/blood-pack-20261023/button-ember.webp\")",
+        "height": 54
+      },
+      "errors": [],
+      "failed": []
+    }
+  ],
+  "isolatedPostReleaseFlow": {
+    "platform": "desktop",
+    "mode": "public-open",
+    "emulated": true,
+    "source": "https://cnine-card.pages.dev",
+    "entries": [
+      {
+        "shopMs": 501,
+        "hangar": {
+          "path": "/assets/ui/packs/blue-gear-live-v1/hangar-wide.webp",
+          "width": 1440,
+          "height": 810
+        },
+        "roomMs": 246,
+        "requests": [],
+        "font": {
+          "family": "\"Blue Gear Hangul\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", system-ui, sans-serif",
+          "weight": "700",
+          "fill": "rgb(246, 249, 255)",
+          "loaded": true
+        },
+        "frames": {
+          "p95": 4.2,
+          "over50": 0
+        },
+        "settledFrames": {
+          "p95": 10.1,
+          "over50": 1
+        },
+        "featureReadsAfterClose": 0
+      },
+      {
+        "shopMs": 104,
+        "hangar": {
+          "path": "/assets/ui/packs/blue-gear-live-v1/hangar-wide.webp",
+          "width": 1440,
+          "height": 810
+        },
+        "roomMs": 85,
+        "requests": [],
+        "frames": {
+          "p95": 4.3,
+          "over50": 0
+        },
+        "settledFrames": {
+          "p95": 4.2,
+          "over50": 0
+        },
+        "featureReadsAfterClose": 0
+      }
+    ],
+    "errors": [],
+    "pendingRestoredWithoutPost": true,
+    "stopAfterOneOf100": true,
+    "simulatedPurchases": 6,
+    "featureReads": 13
+  },
+  "performance": {
+    "conditions": "Windows desktop Chromium and packaged Electron renderer. Android Chromium and iPhone 13 WebKit emulation, ONE store H5 SDK in a test-hosted iframe. No physical phones. All stages visited from the lobby; for public runs pack list, feature, shop, JS, CSS, artworks and fonts come from production. User-specific unrelated endpoints are isolated. First and second entry timed from button click. 40 rAF intervals for programmatic scroll and settled screen; scroll metrics include software WebKit repaint overhead. After close the pack feature endpoint is observed for 1100 ms. Baseline uses the previous immutable Pages build with the same browser and draw state.",
+    "public": {
+      "desktop": {
+        "platform": "desktop",
+        "mode": "public",
+        "emulated": true,
+        "source": "https://cnine-card.pages.dev",
+        "entries": [
+          {
+            "shopMs": 395,
+            "hangar": {
+              "path": "/assets/ui/packs/blue-gear-live-v1/hangar-wide.webp",
+              "width": 1440,
+              "height": 810
+            },
+            "roomMs": 300,
+            "requests": [],
+            "font": {
+              "family": "\"Blue Gear Hangul\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", system-ui, sans-serif",
+              "weight": "700",
+              "fill": "rgb(246, 249, 255)",
+              "loaded": true
+            },
+            "frames": {
+              "p95": 28.7,
+              "over50": 0
+            },
+            "settledFrames": {
+              "p95": 17.4,
+              "over50": 0
+            },
+            "featureReadsAfterClose": 0
+          },
+          {
+            "shopMs": 83,
+            "hangar": {
+              "path": "/assets/ui/packs/blue-gear-live-v1/hangar-wide.webp",
+              "width": 1440,
+              "height": 810
+            },
+            "roomMs": 246,
+            "requests": [],
+            "frames": {
+              "p95": 27.6,
+              "over50": 0
+            },
+            "settledFrames": {
+              "p95": 24,
+              "over50": 0
+            },
+            "featureReadsAfterClose": 0
+          }
+        ],
+        "errors": [],
+        "network": [
+          {
+            "path": "/assets/ui/packs/blue-gear-live-v1/control-plate.webp",
+            "ms": 27
+          },
+          {
+            "path": "/assets/ui/packs/blue-gear-live-v1/contract-ko-bold.woff2",
+            "ms": 28
+          },
+          {
+            "path": "/assets/ui/packs/blue-gear-live-v1/contract-ko.woff2",
+            "ms": 30
+          },
+          {
+            "path": "/assets/ui/packs/blue-gear-live-v1/hangar-wide.webp",
+            "ms": 38
+          },
+          {
+            "path": "/js/mercenary-blue-gear-pack-live.bundle.mjs",
+            "ms": 26
+          },
+          {
+            "path": "/api/mercenaries/v3/blue-gear-pack/feature",
+            "ms": 201
+          },
+          {
+            "path": "/api/mercenaries/v3/blue-gear-pack/feature",
+            "ms": 158
+          }
+        ],
+        "simulatedPurchases": 0,
+        "featureReads": 2
+      },
+      "ios": {
+        "platform": "ios",
+        "mode": "public",
+        "emulated": true,
+        "source": "https://cnine-card.pages.dev",
+        "entries": [
+          {
+            "shopMs": 156,
+            "hangar": {
+              "path": "/assets/ui/packs/blue-gear-live-v1/hangar-narrow.webp",
+              "width": 752,
+              "height": 920
+            },
+            "roomMs": 324,
+            "requests": [],
+            "font": {
+              "family": "Blue Gear Hangul, Apple SD Gothic Neo, Malgun Gothic, system-ui, sans-serif",
+              "weight": "700",
+              "fill": "rgb(246, 249, 255)",
+              "loaded": true
+            },
+            "frames": {
+              "p95": 154,
+              "over50": 36
+            },
+            "settledFrames": {
+              "p95": 23,
+              "over50": 1
+            },
+            "featureReadsAfterClose": 0
+          },
+          {
+            "shopMs": 83,
+            "hangar": {
+              "path": "/assets/ui/packs/blue-gear-live-v1/hangar-narrow.webp",
+              "width": 752,
+              "height": 920
+            },
+            "roomMs": 291,
+            "requests": [],
+            "frames": {
+              "p95": 153,
+              "over50": 36
+            },
+            "settledFrames": {
+              "p95": 30,
+              "over50": 1
+            },
+            "featureReadsAfterClose": 0
+          }
+        ],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "simulatedPurchases": 0,
+        "featureReads": 2
+      },
+      "android": {
+        "platform": "android",
+        "mode": "public",
+        "emulated": true,
+        "source": "https://cnine-card.pages.dev",
+        "entries": [
+          {
+            "shopMs": 511,
+            "hangar": {
+              "path": "/assets/ui/packs/blue-gear-live-v1/hangar-narrow.webp",
+              "width": 752,
+              "height": 920
+            },
+            "roomMs": 1575,
+            "requests": [],
+            "font": {
+              "family": "\"Blue Gear Hangul\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", system-ui, sans-serif",
+              "weight": "700",
+              "fill": "rgb(246, 249, 255)",
+              "loaded": true
+            },
+            "frames": {
+              "p95": 33.6,
+              "over50": 0
+            },
+            "settledFrames": {
+              "p95": 11.9,
+              "over50": 0
+            },
+            "featureReadsAfterClose": 0
+          },
+          {
+            "shopMs": 588,
+            "hangar": {
+              "path": "/assets/ui/packs/blue-gear-live-v1/hangar-narrow.webp",
+              "width": 752,
+              "height": 920
+            },
+            "roomMs": 473,
+            "requests": [],
+            "frames": {
+              "p95": 20.1,
+              "over50": 0
+            },
+            "settledFrames": {
+              "p95": 10.5,
+              "over50": 0
+            },
+            "featureReadsAfterClose": 0
+          }
+        ],
+        "errors": [],
+        "simulatedPurchases": 0,
+        "featureReads": 2
+      },
+      "h5": {
+        "platform": "h5",
+        "mode": "public",
+        "emulated": true,
+        "source": "https://cnine-card.pages.dev",
+        "entries": [
+          {
+            "shopMs": 622,
+            "hangar": {
+              "path": "/assets/ui/packs/blue-gear-live-v1/hangar-narrow.webp",
+              "width": 752,
+              "height": 920
+            },
+            "roomMs": 2718,
+            "requests": [],
+            "font": {
+              "family": "\"Blue Gear Hangul\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", system-ui, sans-serif",
+              "weight": "700",
+              "fill": "rgb(246, 249, 255)",
+              "loaded": true
+            },
+            "frames": {
+              "p95": 41.8,
+              "over50": 1
+            },
+            "settledFrames": {
+              "p95": 13,
+              "over50": 0
+            },
+            "featureReadsAfterClose": 0
+          },
+          {
+            "shopMs": 461,
+            "hangar": {
+              "path": "/assets/ui/packs/blue-gear-live-v1/hangar-narrow.webp",
+              "width": 752,
+              "height": 920
+            },
+            "roomMs": 917,
+            "requests": [],
+            "frames": {
+              "p95": 10.4,
+              "over50": 0
+            },
+            "settledFrames": {
+              "p95": 10.3,
+              "over50": 0
+            },
+            "featureReadsAfterClose": 0
+          }
+        ],
+        "errors": [],
+        "simulatedPurchases": 0,
+        "featureReads": 2
+      },
+      "windows": {
+        "platform": "windows",
+        "mode": "public",
+        "emulated": true,
+        "source": "https://cnine-card.pages.dev",
+        "entries": [
+          {
+            "shopMs": 520,
+            "hangar": {
+              "path": "/assets/ui/packs/blue-gear-live-v1/hangar-wide.webp",
+              "width": 1440,
+              "height": 810
+            },
+            "roomMs": 5063,
+            "requests": [],
+            "font": {
+              "family": "\"Blue Gear Hangul\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", system-ui, sans-serif",
+              "weight": "700",
+              "fill": "rgb(246, 249, 255)",
+              "loaded": true
+            },
+            "frames": {
+              "p95": 16.7,
+              "over50": 0
+            },
+            "settledFrames": {
+              "p95": 16.7,
+              "over50": 0
+            },
+            "featureReadsAfterClose": 0
+          },
+          {
+            "shopMs": 384,
+            "hangar": {
+              "path": "/assets/ui/packs/blue-gear-live-v1/hangar-wide.webp",
+              "width": 1440,
+              "height": 810
+            },
+            "roomMs": 328,
+            "requests": [],
+            "frames": {
+              "p95": 16.8,
+              "over50": 0
+            },
+            "settledFrames": {
+              "p95": 16.7,
+              "over50": 0
+            },
+            "featureReadsAfterClose": 0
+          }
+        ],
+        "errors": [],
+        "runtime": {
+          "electron": "44.7.2",
+          "chrome": "152.0.7977.149",
+          "fixture": "Isolated offscreen Windows game renderer with deployed web assets"
+        },
+        "simulatedPurchases": 0,
+        "featureReads": 2
+      }
+    },
+    "before": {
+      "ios": {
+        "platform": "ios",
+        "mode": "baseline",
+        "emulated": true,
+        "source": "https://9118deef.cnine-card.pages.dev",
+        "entries": [
+          {
+            "shopMs": 404,
+            "roomMs": 145,
+            "frames": {
+              "p95": 156,
+              "over50": 3
+            },
+            "featureReadsAfterClose": 0
+          },
+          {
+            "shopMs": 73,
+            "roomMs": 52,
+            "frames": {
+              "p95": 31,
+              "over50": 2
+            },
+            "featureReadsAfterClose": 0
+          }
+        ],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "simulatedPurchases": 0,
+        "featureReads": 2
+      },
+      "desktop": {
+        "platform": "desktop",
+        "mode": "baseline",
+        "emulated": true,
+        "source": "https://9118deef.cnine-card.pages.dev",
+        "entries": [
+          {
+            "shopMs": 320,
+            "roomMs": 243,
+            "frames": {
+              "p95": 4.3,
+              "over50": 0
+            },
+            "featureReadsAfterClose": 0
+          },
+          {
+            "shopMs": 242,
+            "roomMs": 79,
+            "frames": {
+              "p95": 4.3,
+              "over50": 0
+            },
+            "featureReadsAfterClose": 0
+          }
+        ],
+        "errors": [],
+        "simulatedPurchases": 0,
+        "featureReads": 2
+      }
+    },
+    "mobileInvestigation": {
+      "initial": [
+        {
+          "name": "default",
+          "median": 466,
+          "p95": 664
+        },
+        {
+          "name": "static",
+          "median": 184,
+          "p95": 209
+        },
+        {
+          "name": "mainPaint",
+          "median": 354,
+          "p95": 487
+        },
+        {
+          "name": "skipBelow",
+          "median": 307,
+          "p95": 366
+        },
+        {
+          "name": "gpu",
+          "median": 223,
+          "p95": 256
+        },
+        {
+          "name": "scroller",
+          "median": 276,
+          "p95": 320
+        },
+        {
+          "name": "sheet",
+          "median": 327,
+          "p95": 453
+        },
+        {
+          "name": "doc",
+          "median": 312,
+          "p95": 367
+        }
+      ],
+      "scrollSurfaceVariants": [
+        {
+          "name": "idle",
+          "median": 16,
+          "p95": 27
+        },
+        {
+          "name": "surface",
+          "median": 209,
+          "p95": 259
+        },
+        {
+          "name": "surfaceBlocks",
+          "median": 203,
+          "p95": 226
+        },
+        {
+          "name": "surfaceSimple",
+          "median": 144,
+          "p95": 175
+        },
+        {
+          "name": "topOnly",
+          "median": 196,
+          "p95": 210
+        },
+        {
+          "name": "noBg",
+          "median": 180,
+          "p95": 203
+        },
+        {
+          "name": "flat",
+          "median": 105,
+          "p95": 112
+        },
+        {
+          "name": "scrollGpu",
+          "median": 205,
+          "p95": 214
+        }
+      ],
+      "paintVariants": [
+        {
+          "name": "quiet",
+          "median": 88,
+          "p95": 94
+        },
+        {
+          "name": "quietGpu",
+          "median": 89,
+          "p95": 98
+        },
+        {
+          "name": "layer",
+          "median": 95,
+          "p95": 98
+        },
+        {
+          "name": "paint",
+          "median": 94,
+          "p95": 103
+        },
+        {
+          "name": "contain",
+          "median": 90,
+          "p95": 94
+        },
+        {
+          "name": "staticBars",
+          "median": 85,
+          "p95": 92
+        },
+        {
+          "name": "simpStage",
+          "median": 91,
+          "p95": 100
+        },
+        {
+          "name": "mainSplit",
+          "median": 84,
+          "p95": 103
+        },
+        {
+          "name": "fast",
+          "median": 84,
+          "p95": 91
+        }
+      ]
+    }
+  },
+  "assets": [
+    {
+      "file": "index.html",
+      "bytes": 52214,
+      "sha256": "9898263567fc77c618e615b1170472f4ea0e23f238ffb006c562d2d99c7a8897",
+      "inWindowsManifest": true
+    },
+    {
+      "file": "onestore/index.html",
+      "bytes": 52335,
+      "sha256": "7c502632d248058c5813021d5df56b0c5fe5e891a43f2353caf48ea16039ca75",
+      "inWindowsManifest": false
+    },
+    {
+      "file": "js/app.js",
+      "bytes": 825571,
+      "sha256": "7ecb6388aa8d90955bad665aab3306119642a512bbd411698d974c1103cfab28",
+      "inWindowsManifest": true
+    },
+    {
+      "file": "onestore/js/app.js",
+      "bytes": 826483,
+      "sha256": "0e87ca2a52131586da38d5c43411dabf28b8e26cc991722c03def7417531b8ad",
+      "inWindowsManifest": false
+    },
+    {
+      "file": "js/mercenary-blue-gear-pack-live.bundle.mjs",
+      "bytes": 184260,
+      "sha256": "8d18695f05d0688e7278c446ddca604b10a03b50629877e5bded00938bfe9d13",
+      "inWindowsManifest": true
+    },
+    {
+      "file": "css/blue-gear-pack-v1.css",
+      "bytes": 12353,
+      "sha256": "52e22305cdc095dd349338f19d036e58cac79e118f77528fb356ec6094c4b78c",
+      "inWindowsManifest": true
+    },
+    {
+      "file": "js/mercenary-bloodmoon-pack-live.mjs",
+      "bytes": 21419,
+      "sha256": "cc77e6da3d5a6f082947be4cea0e9eca98d83303b38942a3f3c671339100a2db",
+      "inWindowsManifest": true
+    },
+    {
+      "file": "js/mercenary-bloodmoon-presentation-v2.mjs",
+      "bytes": 12557,
+      "sha256": "2629a9d7cb8e1fd3dde3bab2775bbe24f468cf9358c94c449482ef8353695ca2",
+      "inWindowsManifest": true
+    },
+    {
+      "file": "service-worker.js",
+      "bytes": 25435,
+      "sha256": "82ede52a4eeefd63bb87dff1e4af15e64d45de7de91d4a81694cab66b5b7f83c",
+      "inWindowsManifest": false
+    },
+    {
+      "file": "assets/ui/packs/blue-gear-live-v1/pack-320.webp",
+      "bytes": 67444,
+      "sha256": "32d9710039e4289827f1e1c6464e11c064ba6a050582821d1421b22e2d3637eb",
+      "inWindowsManifest": true
+    },
+    {
+      "file": "assets/ui/packs/blue-gear-live-v1/pack-768.webp",
+      "bytes": 251978,
+      "sha256": "e710d2e5764a6f71c7963e71d788d65028fdb7f928c16c4b3f229e1392fadcd2",
+      "inWindowsManifest": true
+    },
+    {
+      "file": "assets/ui/packs/blue-gear-live-v1/hangar-narrow.webp",
+      "bytes": 151968,
+      "sha256": "94a918572e4c05bfe8a256de12f464c38f8835b86f3802b74a20b484869609ad",
+      "inWindowsManifest": true
+    },
+    {
+      "file": "assets/ui/packs/blue-gear-live-v1/hangar-wide.webp",
+      "bytes": 248708,
+      "sha256": "4d38d40dd0ed9d08f5fbc8821c0551c0c0d1bfe80c21704987cddf2eb81f2faf",
+      "inWindowsManifest": true
+    },
+    {
+      "file": "assets/ui/packs/blue-gear-live-v1/control-plate.webp",
+      "bytes": 10518,
+      "sha256": "0560776651ff0f7ac2cdd82359baa0326b78148e2ea573cdd8256f8ac7d9d61c",
+      "inWindowsManifest": true
+    },
+    {
+      "file": "assets/ui/packs/blue-gear-live-v1/contract-ko.woff2",
+      "bytes": 27828,
+      "sha256": "121521a41a29a2c14fa4ac5a11802b8609e6dc2f88c06a78a476eed1e7e11345",
+      "inWindowsManifest": true
+    },
+    {
+      "file": "assets/ui/packs/blue-gear-live-v1/contract-ko-bold.woff2",
+      "bytes": 27916,
+      "sha256": "0345b647a7251b13ebbae4411c09c778ae305a5f3a96052e689bf287eb1d680f",
+      "inWindowsManifest": true
+    }
+  ]
+}
