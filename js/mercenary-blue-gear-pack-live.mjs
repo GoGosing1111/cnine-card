@@ -1,3 +1,4 @@
+import {MercenaryAcquisitionVideo} from './mercenary-acquisition-video.mjs';
 import {jointAccountRequest} from './joint-account-transport.mjs';
 import {BLUE_GEAR_PACK as pack,BLUE_GEAR_DRAW_POLICY as policy} from '../shared/mercenary-blue-gear-pack-v1.mjs';
 import {BlackcrownOpeningSession} from '../shared/mercenary-blackcrown-session-v2.mjs';
@@ -13,7 +14,7 @@ let active;
 export async function openBlueGearPack({api=jointAccountRequest,getAccountId=account,storage=localStorage}={}){
  if(active?.open)return active;
  if(!document.querySelector('link[data-blue-gear-style]')){
-  const style=document.createElement('link');style.rel='stylesheet';style.href='/css/blue-gear-pack-v1.css';style.dataset.blueGearStyle='';document.head.append(style);
+  const style=document.createElement('link');style.rel='stylesheet';style.href='/css/blue-gear-pack-v1.css?reveal=2';style.dataset.blueGearStyle='';document.head.append(style);
  }
  const dialog=document.createElement('dialog'),previous=document.activeElement,lifetime=new AbortController();
  dialog.className='bgp-room';dialog.setAttribute('aria-labelledby','bgp-title');active=dialog;
@@ -21,18 +22,19 @@ export async function openBlueGearPack({api=jointAccountRequest,getAccountId=acc
  <div class="bgp-workbench"><div class="bgp-chamber"><div class="bgp-rings" aria-hidden="true"></div><img data-pack-art src="/assets/ui/packs/blue-gear-live-v1/pack-768.webp" srcset="/assets/ui/packs/blue-gear-live-v1/pack-320.webp 320w, /assets/ui/packs/blue-gear-live-v1/pack-768.webp 768w" sizes="(max-width:600px) 145px, 250px" width="964" height="1632" alt="블루기어 승인 팩 원화"></div>
  <main class="bgp-panel"><div class="bgp-kicker">LIMITED MERCENARY PACK</div><h2 id="bgp-title">블루기어팩</h2><p class="bgp-sale" data-sale>판매 정보 확인 중</p>
  <div class="bgp-modes" role="group" aria-label="개봉 방식">${Object.entries(modes).map(([key,label])=>'<button type="button" data-mode="'+key+'" aria-pressed="'+(key==='single')+'">'+label+'</button>').join('')}</div>
- <section class="bgp-controls" data-controls></section><p role="status" aria-live="polite" data-status></p>
+ <section class="bgp-controls" data-controls></section><section class="bgp-confirm" data-confirm hidden><h3>개봉 확인</h3><p data-total></p><div><button type="button" data-back>취소</button><button class="bgp-buy" type="button" data-pay>개봉 확정</button></div></section><p role="status" aria-live="polite" data-status></p>
  <div class="bgp-tools"><button type="button" data-odds aria-expanded="false">등장 확률</button><button type="button" data-recover hidden>이전 결과 확인</button></div></main></div>
- <section class="bgp-odds" data-rates hidden></section><section class="bgp-results" data-results hidden aria-label="개봉 결과"></section>`;
+ <section class="bgp-odds" data-rates hidden></section><section class="bgp-film" data-film hidden><div data-film-screen></div><p><button type="button" data-pause>일시정지</button><button type="button" data-skip>건너뛰기</button></p></section><section class="bgp-results" data-results hidden aria-label="개봉 결과"></section>`;
  document.body.append(dialog);dialog.showModal();
  const $=s=>dialog.querySelector(s),controls=$('[data-controls]'),results=$('[data-results]'),status=$('[data-status]');
- const id=getAccountId();let config,mode='single',busy=false,quote,autoQuote,boundary,closing=false;
+ const id=getAccountId();let config,mode='single',busy=false,quote,autoQuote,boundary,closing=false,purchase=null,paused=false;
+ const cinema=new MercenaryAcquisitionVideo($('[data-film-screen]'));
  const request=(path,options={})=>api(path,{...options,signal:lifetime.signal});
  const drawButton=(count)=>'<button type="button" class="bgp-buy" data-buy="'+count+'"><strong>'+count+'회 개봉</strong><span>'+money(count===1?config.settings.prices.single:config.settings.prices.ten)+'</span></button>';
  const update=()=>{
   if(!config||closing)return;
   $('[data-sale]').textContent=config.openingScheduled?'11월 20일 00:00 판매 시작 · 한국시간':config.userOpeningEnabled?'판매 중':'현재 개봉할 수 없습니다';
-  for(const button of dialog.querySelectorAll('[data-mode]')){button.setAttribute('aria-pressed',String(button.dataset.mode===mode));button.disabled=busy;}
+  for(const button of dialog.querySelectorAll('[data-mode]')){button.setAttribute('aria-pressed',String(button.dataset.mode===mode));button.disabled=busy||Boolean(purchase);}
   for(const el of controls.querySelectorAll('button:not([data-stop]),input,select'))el.disabled=busy||!config.userOpeningEnabled||!id;
   const stop=$('[data-stop]');if(stop)stop.hidden=!auto.state.running;
   $('[data-recover]').hidden=!id||!(session.read(session.pendingKey)||session.read(session.receiptKey)||session.lastReceipt);
@@ -59,12 +61,24 @@ export async function openBlueGearPack({api=jointAccountRequest,getAccountId=acc
  async function load(){
   const next=await request(pack.featurePath);if(closing)return next;
   config=next;displayRates();clearTimeout(boundary);
+  window.dispatchEvent(new CustomEvent('blue-gear-pack:stock',{detail:{stock:next.stock,open:next.drawEnabled,scheduled:next.openingScheduled}}));
   if(next.openingScheduled)boundary=setTimeout(()=>run(async()=>{await load();drawControls();}),Math.max(180,Date.parse(next.openingAt)-Date.parse(next.serverNow)+150));
   update();return config;
  }
  async function present(receipt){
   if(closing)return;
   const rows=blackcrownReceiptResults(receipt,pack,policy);
+  // Match Bloodmoon's per-batch SS/SSS contract reveals. Bulk receipts use the image grid.
+  if(!receipt.format){
+   for(const rank of ['SS','SSS']){
+    const featured=rows.find(r=>r.rank===rank&&(r.limited||rank==='SSS'));if(!featured||closing)continue;
+    const film=$('[data-film]');film.hidden=false;paused=false;$('[data-pause]').textContent='일시정지';
+    status.textContent=featured.name+' · '+rank+' 계약';film.scrollIntoView({block:'nearest'});
+    try{await cinema.play(featured,state=>{if(state==='paused'&&!closing){paused=true;$('[data-pause]').textContent='계속 재생';}});}
+    finally{film.hidden=true;}
+   }
+  }
+  if(closing)return;
   results.hidden=false;results.innerHTML='<div class="bgp-result-head"><h3>개봉 결과</h3><span>'+receipt.count.toLocaleString()+'회 · '+money(receipt.coinCost)+'</span></div><div class="bgp-result-grid">'+rows.map(r=>r.kind==='MISS'?'<div class="bgp-miss">미획득'+(r.quantity>1?' ×'+r.quantity:'')+'</div>':'<article data-grade="'+escape(r.rank)+'"><img loading="lazy" src="'+escape(r.artUrl)+'" alt=""><div><small>'+escape(r.rank)+(r.limited?' LIMITED':'')+'</small><strong>'+escape(r.name)+'</strong><span>'+(r.serial?'발행 '+r.serial+' / '+r.stockLimit:r.quantity>1?'×'+r.quantity:'1장')+'</span></div></article>').join('')+'</div>';
   dialog.classList.remove('bgp-opening');results.scrollIntoView?.({block:'nearest'});status.textContent='개봉 결과를 확인했습니다.';
  }
@@ -83,14 +97,26 @@ export async function openBlueGearPack({api=jointAccountRequest,getAccountId=acc
   const b=e.target.closest('button');if(!b||b.disabled)return;
   if(b.hasAttribute('data-close'))return dialog.close();
   if(b.hasAttribute('data-stop'))return auto.stop();
+  if(b.hasAttribute('data-skip'))return cinema.cancel();
+  if(b.hasAttribute('data-pause')){paused=!paused;cinema.setPaused(paused);b.textContent=paused?'계속 재생':'일시정지';return;}
+  if(b.hasAttribute('data-back')){purchase=null;$('[data-confirm]').hidden=true;controls.hidden=false;update();return;}
+  if(b.hasAttribute('data-pay')&&purchase){
+   const selected=purchase;purchase=null;$('[data-confirm]').hidden=true;controls.hidden=false;
+   return run(async()=>{if(selected.mode==='auto')await auto.start(selected.config,selected.count,selected.repeats);
+    else if(selected.mode==='bulk')await session.startBulk(selected.config,selected.quote);
+    else await session.start(selected.config,selected.count);await load();});
+  }
   if(b.hasAttribute('data-odds')){const rates=$('[data-rates]');rates.hidden=!rates.hidden;b.setAttribute('aria-expanded',String(!rates.hidden));if(!rates.hidden)rates.scrollIntoView({block:'nearest'});return;}
   if(b.hasAttribute('data-mode')){mode=b.dataset.mode;drawControls();return;}
   if(b.hasAttribute('data-recover'))return run(async()=>{await session.recover();await load();});
-  if(b.hasAttribute('data-buy'))return run(async()=>{await session.start(config,Number(b.dataset.buy));await load();});
-  if(b.hasAttribute('data-auto')&&autoQuote)return run(async()=>{await auto.start(config,autoQuote.count,autoQuote.repeats);await load();});
-  if(b.hasAttribute('data-bulk')&&quote)return run(async()=>{await session.startBulk(config,quote);await load();});
+  if(b.hasAttribute('data-buy'))purchase={mode:'single',config,count:Number(b.dataset.buy),total:config.settings.prices[Number(b.dataset.buy)===1?'single':'ten']};
+  else if(b.hasAttribute('data-auto')&&autoQuote)purchase={mode:'auto',config,count:autoQuote.count,repeats:autoQuote.repeats,total:autoQuote.maxCost};
+  else if(b.hasAttribute('data-bulk')&&quote)purchase={mode:'bulk',config,quote,count:quote.count,total:quote.coinCost};
+  else return;
+  const draws=purchase.count*(purchase.repeats||1);$('[data-total]').textContent=(purchase.mode==='auto'?'자동 ':'')+draws.toLocaleString()+'회 · '+(purchase.mode==='auto'?'최대 ':'')+money(purchase.total);
+  controls.hidden=true;$('[data-confirm]').hidden=false;update();$('[data-pay]').focus();
  });
- dialog.addEventListener('close',()=>{closing=true;auto.stop();clearTimeout(boundary);lifetime.abort();dialog.remove();active=null;if(previous?.isConnected)previous.focus();},{once:true});
+ dialog.addEventListener('close',()=>{closing=true;auto.stop();cinema.destroy();clearTimeout(boundary);lifetime.abort();dialog.remove();active=null;if(previous?.isConnected)previous.focus();},{once:true});
  await run(async()=>{await load();drawControls();if(id&&session.read(session.pendingKey)){const receipt=await session.reconcilePending();if(receipt?.retryable)status.textContent='이전 개봉 결과를 확인해 주세요.';}});
  return dialog;
 }
