@@ -1,0 +1,624 @@
+{
+  "feature": "리버스콜 익스트림 버닝",
+  "checkedAt": "2026-11-13T06:18:36.607Z",
+  "commit": "abf08cf2c109bb8ce9a278ae801f7e8e357bda1f",
+  "pages": "https://c97b36c1.cnine-card.pages.dev",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version_id": "b16de411-62d8-431d-829c-5cdd1728ff75",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version_id": "92d76702-6847-4659-9f15-cf24afd918b7",
+      "percentage": 100
+    }
+  ],
+  "windows": {
+    "id": "ea74ad8a95ff29dcd0c67edbd95e52b544866181f021ec1b048922065d1831ca",
+    "needed": [
+      "/css/extreme-burning-v1.css",
+      "/js/extreme-burning-v1.js",
+      "/js/app.js",
+      "/js/pve-command-v2-live.js",
+      "/assets/ui/extreme-burning-v1/eclipse-v1.webp",
+      "/assets/ui/extreme-burning-v1/eclipse-mobile-v1.webp",
+      "/assets/ui/extreme-burning-v1/event-serif-v1.woff2",
+      "/assets/ui/extreme-burning-v1/event-text-v1.woff2"
+    ]
+  },
+  "operator": "핑크빛유두 (ID 1)",
+  "current": {
+    "checkedAt": "2026-11-13T06:18:36.358Z",
+    "readOnly": true,
+    "admin": {
+      "id": 1,
+      "nickname": "핑크빛유두"
+    },
+    "mode": "EXTREME",
+    "enabled": false,
+    "revision": 0,
+    "generation": 0,
+    "durations": [
+      10,
+      30,
+      60,
+      120,
+      180,
+      240,
+      300,
+      360,
+      420,
+      480,
+      540,
+      600,
+      660,
+      720,
+      780,
+      840,
+      900,
+      960,
+      1020,
+      1080,
+      1140,
+      1200,
+      1260,
+      1320,
+      1380,
+      1440
+    ],
+    "pve": [
+      30,
+      1
+    ],
+    "apocalypse": [
+      10,
+      5
+    ],
+    "dropIncreasePercent": 100,
+    "recordExists": false,
+    "recoveryPulses": 0,
+    "activationOrStopAudits": 0,
+    "readMs": [
+      77.8,
+      73.5,
+      74.6
+    ]
+  },
+  "retired": "계엄령",
+  "rules": {
+    "multiplierRange": [
+      1,
+      1000
+    ],
+    "durationMinutes": [
+      10,
+      30,
+      60,
+      120,
+      180,
+      240,
+      300,
+      360,
+      420,
+      480,
+      540,
+      600,
+      660,
+      720,
+      780,
+      840,
+      900,
+      960,
+      1020,
+      1080,
+      1140,
+      1200,
+      1260,
+      1320,
+      1380,
+      1440
+    ],
+    "relativeDropPercent": 100,
+    "probabilityCapPercent": 100,
+    "normalPve": {
+      "cap": 30,
+      "minutesPerAction": 1,
+      "refillOnActivation": true
+    },
+    "apocalypse": {
+      "cap": 10,
+      "minutesPerAction": 5,
+      "refillOnActivation": true
+    },
+    "rankedEnergy": "standard",
+    "soloLegion": "one action per activation and account up to capacity",
+    "partyLegion": "clear a running 6h cooldown once per activation; next paid admission starts its own cooldown",
+    "retries": "durable request receipt; stale revisions and concurrent switches rejected"
+  },
+  "presentation": {
+    "source": "invitation-source.png",
+    "prompt": "invitation-prompt.txt",
+    "art": {
+      "generator": "Built-in ImageGen",
+      "prompt": "invitation-prompt.txt",
+      "source": [
+        {
+          "name": "invitation-source.png",
+          "width": 1024,
+          "height": 1536,
+          "bytes": 2212034,
+          "sha256": "eea3f594fab8fe2c83cbf8af45dde1de14636ce63f7d9e65072dadbb3e4f1cdc"
+        }
+      ],
+      "webp": [
+        {
+          "name": "eclipse-v1.webp",
+          "width": 920,
+          "height": 1380,
+          "bytes": 97084,
+          "sha256": "ddb5fc419d3770156db539fc852d362a9c078c15919384cc0488fc6c0623b923"
+        },
+        {
+          "name": "eclipse-mobile-v1.webp",
+          "width": 700,
+          "height": 1050,
+          "bytes": 52208,
+          "sha256": "64b8e2c07299185f2893ff3a67b2ec6f9aeb3819db478acb7e094b3707bca5de"
+        }
+      ],
+      "fonts": [
+        {
+          "name": "event-text-v1.woff2",
+          "bytes": 22144,
+          "sha256": "c29a2fa4562e2878f381952b6723b0d1f771e8f60d81b0cc6751f1f7dcb032e7"
+        },
+        {
+          "name": "event-serif-v1.woff2",
+          "bytes": 3368,
+          "sha256": "26988524756b63d0e2e98ac102b7cc74a51f25785f8cbfd945ec43533d63a752"
+        }
+      ]
+    },
+    "clock": "fraction of original event duration, 10 minute warning, last minute, ends at zero",
+    "motion": "honors reduced motion; visibility and dismissal stop the dialog timer",
+    "mobile": "popup-mobile.png",
+    "desktop": "popup-desktop.png",
+    "lastMinute": "last-minute-mobile.png"
+  },
+  "verification": {
+    "tests": 108,
+    "operatorCMS": {
+      "origin": "https://cnine-card.pages.dev",
+      "mode": "public",
+      "actualPublicAssetURLs": [
+        "admin-v945.css?v=1684-zenith-evolution&forgeTickets=20261012-scrolls&retired=20261019",
+        "extreme-burning-admin.js?v=20261113-eclipse1",
+        "../css/extreme-burning-v1.css?v=20261113-eclipse1",
+        "../js/extreme-burning-v1.js?v=20261113-eclipse1"
+      ],
+      "identityGate": true,
+      "maxMultiplier": 1000,
+      "maxHours": 24,
+      "previewWrites": 0,
+      "isolatedStartStop": 2,
+      "reducedMotion": true,
+      "escapeCloses": true
+    },
+    "publicRoutes": [
+      {
+        "origin": "https://cnine-card.pages.dev",
+        "burningEvent": "NONE",
+        "enabled": false,
+        "anonymousAdmin": 401,
+        "retiredAnonymousRoute": 401,
+        "retiredAuthorizedHandler": 410
+      },
+      {
+        "origin": "https://c97b36c1.cnine-card.pages.dev",
+        "burningEvent": "NONE",
+        "enabled": false,
+        "anonymousAdmin": 401,
+        "retiredAnonymousRoute": 401,
+        "retiredAuthorizedHandler": 410
+      }
+    ],
+    "performance": {
+      "conditions": "Windows host, controlled player responses through the ordinary game entry. Web Chrome 1440x900, WebKit/Chromium 390x844 mobile emulation, SDK host iframe emulation and the Windows Electron client. No physical iOS or Android measurements. Cold browser context to interactive popup with image and fonts decoded; reopen from click to decoded popup. Original Miracle baseline used its existing manual handler when its shop banner was hidden. Frame sampling first 0.8 second of the open dialog. Local runs intercept identical static assets for comparison. Public runs fetch released assets over the network.",
+      "changes": "New event requests its 52,208-byte mobile or 97,084-byte desktop image only on opening, with 25,512 bytes of subset fonts. No background blur, hidden game shell while the opaque dialog is open, no recurring frame loop in the dialog. Local database checks use both SQLite and PostgreSQL. No production event started for verification.",
+      "devices": [
+        {
+          "device": "desktop",
+          "viewport": [
+            1440,
+            900
+          ],
+          "before": {
+            "coldMs": 1842,
+            "reopenMs": 31,
+            "reentryTrigger": "existing manual popup handler",
+            "frames": {
+              "samples": 192,
+              "p95Ms": 4.3,
+              "maxMs": 8.4,
+              "over50ms": 0
+            },
+            "afterClose": {
+              "popup": false,
+              "animations": 0
+            },
+            "errors": []
+          },
+          "localNew": {
+            "coldMs": 1476,
+            "reopenMs": 13,
+            "reentryTrigger": "lobby detail button",
+            "frames": {
+              "samples": 159,
+              "p95Ms": 4.3,
+              "maxMs": 145.8,
+              "over50ms": 1
+            },
+            "afterClose": {
+              "popup": false,
+              "animations": 0
+            },
+            "errors": []
+          },
+          "publicNew": {
+            "coldMs": 1415,
+            "reopenMs": 9,
+            "reentryTrigger": "lobby detail button",
+            "frames": {
+              "samples": 158,
+              "p95Ms": 4.3,
+              "maxMs": 137.5,
+              "over50ms": 1
+            },
+            "afterClose": {
+              "popup": false,
+              "animations": 0
+            },
+            "errors": []
+          },
+          "phases": [
+            {
+              "phase": "live",
+              "time": "00:10:02",
+              "upper": 0.08340968724270537,
+              "lower": 0.9165903127572946
+            },
+            {
+              "phase": "closing",
+              "time": "00:10:00",
+              "upper": 0.08329860387429916,
+              "lower": 0.9167013961257009
+            },
+            {
+              "phase": "final",
+              "time": "00:00:59",
+              "upper": 0.026131788503092748,
+              "lower": 0.9738682114969073
+            },
+            {
+              "phase": "ended",
+              "time": "00:00:00",
+              "upper": 0,
+              "lower": 1
+            }
+          ]
+        },
+        {
+          "device": "ios",
+          "viewport": [
+            390,
+            844
+          ],
+          "before": {
+            "coldMs": 2160,
+            "reopenMs": 77,
+            "reentryTrigger": "existing manual popup handler",
+            "frames": {
+              "samples": 12,
+              "p95Ms": 80,
+              "maxMs": 80,
+              "over50ms": 11
+            },
+            "afterClose": {
+              "popup": false,
+              "animations": 0
+            },
+            "errors": []
+          },
+          "localNew": {
+            "coldMs": 6242,
+            "reopenMs": 36,
+            "reentryTrigger": "lobby detail button",
+            "frames": {
+              "samples": 10,
+              "p95Ms": 102,
+              "maxMs": 102,
+              "over50ms": 10
+            },
+            "afterClose": {
+              "popup": false,
+              "animations": 0
+            },
+            "errors": []
+          },
+          "publicNew": {
+            "coldMs": 1915,
+            "reopenMs": 60,
+            "reentryTrigger": "lobby detail button",
+            "frames": {
+              "samples": 24,
+              "p95Ms": 45,
+              "maxMs": 45,
+              "over50ms": 0
+            },
+            "afterClose": {
+              "popup": false,
+              "animations": 0
+            },
+            "errors": []
+          },
+          "phases": [
+            {
+              "phase": "live",
+              "time": "00:10:02",
+              "upper": 0.08340968724270537,
+              "lower": 0.9165903127572946
+            },
+            {
+              "phase": "closing",
+              "time": "00:10:00",
+              "upper": 0.08329860387429916,
+              "lower": 0.9167013961257009
+            },
+            {
+              "phase": "final",
+              "time": "00:00:59",
+              "upper": 0.026131788503092748,
+              "lower": 0.9738682114969073
+            },
+            {
+              "phase": "ended",
+              "time": "00:00:00",
+              "upper": 0,
+              "lower": 1
+            }
+          ]
+        },
+        {
+          "device": "android",
+          "viewport": [
+            390,
+            844
+          ],
+          "before": null,
+          "localNew": {
+            "coldMs": 1424,
+            "reopenMs": 12,
+            "reentryTrigger": "lobby detail button",
+            "frames": {
+              "samples": 142,
+              "p95Ms": 4.3,
+              "maxMs": 120.8,
+              "over50ms": 1
+            },
+            "afterClose": {
+              "popup": false,
+              "animations": 0
+            },
+            "errors": []
+          },
+          "publicNew": {
+            "coldMs": 1640,
+            "reopenMs": 13,
+            "reentryTrigger": "lobby detail button",
+            "frames": {
+              "samples": 159,
+              "p95Ms": 4.3,
+              "maxMs": 108.3,
+              "over50ms": 1
+            },
+            "afterClose": {
+              "popup": false,
+              "animations": 0
+            },
+            "errors": []
+          },
+          "phases": [
+            {
+              "phase": "live",
+              "time": "00:10:02",
+              "upper": 0.08340968724270537,
+              "lower": 0.9165903127572946
+            },
+            {
+              "phase": "closing",
+              "time": "00:10:00",
+              "upper": 0.08329860387429916,
+              "lower": 0.9167013961257009
+            },
+            {
+              "phase": "final",
+              "time": "00:00:59",
+              "upper": 0.026131788503092748,
+              "lower": 0.9738682114969073
+            },
+            {
+              "phase": "ended",
+              "time": "00:00:00",
+              "upper": 0,
+              "lower": 1
+            }
+          ]
+        },
+        {
+          "device": "h5",
+          "viewport": [
+            390,
+            844
+          ],
+          "before": {
+            "coldMs": 1904,
+            "reopenMs": 26,
+            "reentryTrigger": "existing manual popup handler",
+            "frames": {
+              "samples": 160,
+              "p95Ms": 8.4,
+              "maxMs": 12.5,
+              "over50ms": 0
+            },
+            "afterClose": {
+              "popup": false,
+              "animations": 0
+            },
+            "errors": []
+          },
+          "localNew": {
+            "coldMs": 1352,
+            "reopenMs": 13,
+            "reentryTrigger": "lobby detail button",
+            "frames": {
+              "samples": 141,
+              "p95Ms": 4.3,
+              "maxMs": 145.9,
+              "over50ms": 1
+            },
+            "afterClose": {
+              "popup": false,
+              "animations": 0
+            },
+            "errors": []
+          },
+          "publicNew": {
+            "coldMs": 1798,
+            "reopenMs": 16,
+            "reentryTrigger": "lobby detail button",
+            "frames": {
+              "samples": 192,
+              "p95Ms": 4.3,
+              "maxMs": 4.3,
+              "over50ms": 0
+            },
+            "afterClose": {
+              "popup": false,
+              "animations": 0
+            },
+            "errors": []
+          },
+          "phases": [
+            {
+              "phase": "live",
+              "time": "00:10:02",
+              "upper": 0.08340968724270537,
+              "lower": 0.9165903127572946
+            },
+            {
+              "phase": "closing",
+              "time": "00:10:00",
+              "upper": 0.08329860387429916,
+              "lower": 0.9167013961257009
+            },
+            {
+              "phase": "final",
+              "time": "00:00:59",
+              "upper": 0.026131788503092748,
+              "lower": 0.9738682114969073
+            },
+            {
+              "phase": "ended",
+              "time": "00:00:00",
+              "upper": 0,
+              "lower": 1
+            }
+          ]
+        },
+        {
+          "device": "windows",
+          "viewport": [
+            1440,
+            900
+          ],
+          "before": {
+            "coldMs": 3726,
+            "reopenMs": 32,
+            "reentryTrigger": "existing manual popup handler",
+            "frames": {
+              "samples": 50,
+              "p95Ms": 16.8,
+              "maxMs": 16.8,
+              "over50ms": 0
+            },
+            "afterClose": {
+              "popup": false,
+              "animations": 0
+            },
+            "errors": []
+          },
+          "localNew": {
+            "coldMs": 2918,
+            "reopenMs": 26,
+            "reentryTrigger": "lobby detail button",
+            "frames": {
+              "samples": 51,
+              "p95Ms": 16.8,
+              "maxMs": 16.8,
+              "over50ms": 0
+            },
+            "afterClose": {
+              "popup": false,
+              "animations": 0
+            },
+            "errors": []
+          },
+          "publicNew": {
+            "coldMs": 1148,
+            "reopenMs": 11,
+            "reentryTrigger": "lobby detail button",
+            "frames": {
+              "samples": 27,
+              "p95Ms": 83.3,
+              "maxMs": 150,
+              "over50ms": 3
+            },
+            "afterClose": {
+              "popup": false,
+              "animations": 0
+            },
+            "errors": []
+          },
+          "phases": [
+            {
+              "phase": "live",
+              "time": "00:10:02",
+              "upper": 0.08340968724270537,
+              "lower": 0.9165903127572946
+            },
+            {
+              "phase": "closing",
+              "time": "00:10:00",
+              "upper": 0.08329860387429916,
+              "lower": 0.9167013961257009
+            },
+            {
+              "phase": "final",
+              "time": "00:00:59",
+              "upper": 0.026131788503092748,
+              "lower": 0.9738682114969073
+            },
+            {
+              "phase": "ended",
+              "time": "00:00:00",
+              "upper": 0,
+              "lower": 1
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
