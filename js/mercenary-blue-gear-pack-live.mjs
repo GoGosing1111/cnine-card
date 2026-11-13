@@ -14,7 +14,7 @@ let active;
 export async function openBlueGearPack({api=jointAccountRequest,getAccountId=account,storage=localStorage}={}){
  if(active?.open)return active;
  if(!document.querySelector('link[data-blue-gear-style]')){
-  const style=document.createElement('link');style.rel='stylesheet';style.href='/css/blue-gear-pack-v1.css?reveal=3';style.dataset.blueGearStyle='';document.head.append(style);
+  const style=document.createElement('link');style.rel='stylesheet';style.href='/css/blue-gear-pack-v1.css?reveal=4';style.dataset.blueGearStyle='';document.head.append(style);
  }
  const dialog=document.createElement('dialog'),previous=document.activeElement,lifetime=new AbortController();
  dialog.className='bgp-room';dialog.setAttribute('aria-labelledby','bgp-title');active=dialog;

@@ -1788,7 +1788,7 @@ function responsiveLogoImage(classes='',loading='eager'){
   return `<picture class="responsive-game-picture"><source type="image/avif" srcset="${base}-240.avif 240w, ${base}-480.avif 480w" sizes="240px"><source type="image/webp" srcset="${base}-240.webp 240w, ${base}-480.webp 480w" sizes="240px"><img src="assets/ui/brand/reverse-call-20261016/icon-512.png" class="${classes}" alt="리버스콜" loading="${loading}" decoding="async" fetchpriority="${loading==='eager'?'high':'auto'}"></picture>`;
 }
 function packResponsiveImage(pack,{classes='',hero=false}={}){
-  if(pack?.id==='mercenary-blue-gear')return `<img class="${classes}" src="/assets/ui/packs/blue-gear-live-v1/pack-${hero?768:320}.webp" srcset="/assets/ui/packs/blue-gear-live-v1/pack-320.webp 320w, /assets/ui/packs/blue-gear-live-v1/pack-768.webp 768w" width="964" height="1632" sizes="${hero?'(max-width:600px) 145px, 250px':'100px'}" style="object-fit:contain" alt="블루기어팩">`;
+  if(pack?.id==='mercenary-blue-gear')return `<img class="${classes}" src="/assets/ui/packs/blue-gear-live-v1/pack-${hero?768:320}.webp" srcset="/assets/ui/packs/blue-gear-live-v1/pack-320.webp 320w, /assets/ui/packs/blue-gear-live-v1/pack-768.webp 768w" width="${hero?145:84}" height="${hero?245:142}" sizes="${hero?'(max-width:600px) 145px, 250px':'100px'}" style="object-fit:contain" alt="블루기어팩">`;
   if(pack?.id==='mercenary-bloodmoon-ss-limited')return `<picture class="responsive-game-picture"><source type="image/avif" srcset="/assets/ui/packs/blood-pack-20261023/pack-320.avif 320w, /assets/ui/packs/blood-pack-20261023/pack-768.avif 768w" sizes="${hero?'390px':'150px'}"><img src="/assets/ui/packs/blood-pack-20261023/pack-768.webp" class="${classes}" alt="블러드문팩" loading="${hero?'eager':'lazy'}" decoding="async"></picture>`;
   if(pack?.id==='mercenary-reversecall-streamer')return `<img src="/assets/ui/packs/reversecall-streamer-20261105-v4/pack-${hero?'768':'320'}.webp" class="${classes}" alt="리버스콜 스트리머 팩" loading="${hero?'eager':'lazy'}" decoding="async">`;
   if(pack?.id==='mercenary-blackcrown-ss-limited')return `<picture class="responsive-game-picture"><source type="image/avif" srcset="/assets/ui/packs/black-crown-20261027-v1/pack-320.avif 320w, /assets/ui/packs/black-crown-20261027-v1/pack-768.avif 768w" sizes="${hero?'390px':'150px'}"><img src="/assets/ui/packs/black-crown-20261027-v1/pack-768.webp" class="${classes}" alt="블랙크라운팩" loading="${hero?'eager':'lazy'}" decoding="async"></picture>`;
@@ -1970,7 +1970,11 @@ window.addEventListener('blackcrown-pack:stock',event=>{
  pack.previewCards=(pack.previewCards||[]).map(card=>({...card,...stock.find(row=>row.code===card.code)}));
  for(const label of document.querySelectorAll('.blackcrown-shop-hero:not(.streamer-pack-hero) [data-bcp-stock-code]'))label.textContent=blackcrownShopStockText(pack.previewCards.find(row=>row.code===label.dataset.bcpStockCode));
 });
+function loadBlueGearShopStyle(){
+ if(!document.querySelector('link[data-blue-gear-style]')){const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href='/css/blue-gear-pack-v1.css?reveal=4';sheet.dataset.blueGearStyle='';document.head.append(sheet);}
+}
 function blueGearChoice(pack){
+ loadBlueGearShopStyle();
  return `<button class="pack-choice pack-choice-blue-gear ${pack.id===selectedPackId?'active':''}" data-pack-id="mercenary-blue-gear" aria-pressed="${pack.id===selectedPackId}"><span class="mini-pack">${packResponsiveImage(pack)}</span><strong>블루기어팩</strong><small>SS 5종 · SSS 2종</small><em>${pack.drawEnabled?'판매 중 · 22억 5천만 코인':'11월 20일 00:00 판매'}</em></button>`;
 }
 window.addEventListener('blue-gear-pack:stock',event=>{
@@ -1984,14 +1988,14 @@ window.addEventListener('blue-gear-pack:stock',event=>{
  const status=document.querySelector('.bgp-shop [class="bgp-sale"]'),button=document.querySelector('[data-blue-gear-enter]');if(status&&pack.drawEnabled)status.textContent='판매 중';if(button&&pack.drawEnabled)button.textContent='블루기어팩 개봉';
 });
 function blueGearShopHero(pack){
- if(!document.querySelector('link[data-blue-gear-style]')){const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href='/css/blue-gear-pack-v1.css?reveal=3';sheet.dataset.blueGearStyle='';document.head.append(sheet);}
+ loadBlueGearShopStyle();
  const cards=(pack.previewCards||[]).map(c=>`<figure data-blue-stock="${escapeHtml(c.code)}" data-grade="${escapeHtml(c.rank)}"><img src="/${escapeHtml(c.thumbnailArt)}" alt="" loading="lazy" width="100" height="150"><figcaption><small>${escapeHtml(c.rank)} · 잔여 ${Number(c.remaining)}/${Number(c.limit)}</small>${escapeHtml(c.name)}</figcaption></figure>`).join('');
  return `<section class="bgp-shop"><div class="bgp-shop-main"><div class="bgp-shop-copy"><div class="bgp-kicker">REVERSE CALL / BLUE GEAR</div><h2>블루기어팩</h2><p class="bgp-sale">${pack.drawEnabled?'판매 중':'11월 20일 00:00 판매 시작 · 한국시간'}</p><p>블루기어 SS 5종 각 10장<br>제로 · 하쿠야 신 각 3장</p><button type="button" class="bgp-enter" data-blue-gear-enter>${pack.drawEnabled?'블루기어팩 개봉':'개봉실 미리보기'}</button></div><div class="bgp-shop-visual"><span class="bgp-rings" aria-hidden="true"></span>${packResponsiveImage(pack,{hero:true})}</div></div><section class="bgp-collection"><h3>한정 용병</h3><div>${cards}</div></section></section>`;
 }
 document.addEventListener('click',async event=>{
  const button=event.target.closest?.('[data-blue-gear-enter]');if(!button||button.disabled)return;
  button.disabled=true;
- try{const module=await import('/js/mercenary-blue-gear-pack-live.bundle.mjs?reveal=3');await module.openBlueGearPack();}
+ try{const module=await import('/js/mercenary-blue-gear-pack-live.bundle.mjs?reveal=4');await module.openBlueGearPack();}
  catch(error){alert(error.message);}finally{if(button.isConnected)button.disabled=false;}
 });
 function blackcrownPackHero(pack) {
