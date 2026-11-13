@@ -1984,14 +1984,14 @@ window.addEventListener('blue-gear-pack:stock',event=>{
  const status=document.querySelector('.bgp-shop [class="bgp-sale"]'),button=document.querySelector('[data-blue-gear-enter]');if(status&&pack.drawEnabled)status.textContent='판매 중';if(button&&pack.drawEnabled)button.textContent='블루기어팩 개봉';
 });
 function blueGearShopHero(pack){
- if(!document.querySelector('link[data-blue-gear-style]')){const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href='/css/blue-gear-pack-v1.css?reveal=2';sheet.dataset.blueGearStyle='';document.head.append(sheet);}
+ if(!document.querySelector('link[data-blue-gear-style]')){const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href='/css/blue-gear-pack-v1.css?reveal=3';sheet.dataset.blueGearStyle='';document.head.append(sheet);}
  const cards=(pack.previewCards||[]).map(c=>`<figure data-blue-stock="${escapeHtml(c.code)}" data-grade="${escapeHtml(c.rank)}"><img src="/${escapeHtml(c.thumbnailArt)}" alt="" loading="lazy" width="100" height="150"><figcaption><small>${escapeHtml(c.rank)} · 잔여 ${Number(c.remaining)}/${Number(c.limit)}</small>${escapeHtml(c.name)}</figcaption></figure>`).join('');
  return `<section class="bgp-shop"><div class="bgp-shop-main"><div class="bgp-shop-copy"><div class="bgp-kicker">REVERSE CALL / BLUE GEAR</div><h2>블루기어팩</h2><p class="bgp-sale">${pack.drawEnabled?'판매 중':'11월 20일 00:00 판매 시작 · 한국시간'}</p><p>블루기어 SS 5종 각 10장<br>제로 · 하쿠야 신 각 3장</p><button type="button" class="bgp-enter" data-blue-gear-enter>${pack.drawEnabled?'블루기어팩 개봉':'개봉실 미리보기'}</button></div><div class="bgp-shop-visual"><span class="bgp-rings" aria-hidden="true"></span>${packResponsiveImage(pack,{hero:true})}</div></div><section class="bgp-collection"><h3>한정 용병</h3><div>${cards}</div></section></section>`;
 }
 document.addEventListener('click',async event=>{
  const button=event.target.closest?.('[data-blue-gear-enter]');if(!button||button.disabled)return;
  button.disabled=true;
- try{const module=await import('/js/mercenary-blue-gear-pack-live.bundle.mjs?reveal=2');await module.openBlueGearPack();}
+ try{const module=await import('/js/mercenary-blue-gear-pack-live.bundle.mjs?reveal=3');await module.openBlueGearPack();}
  catch(error){alert(error.message);}finally{if(button.isConnected)button.disabled=false;}
 });
 function blackcrownPackHero(pack) {
