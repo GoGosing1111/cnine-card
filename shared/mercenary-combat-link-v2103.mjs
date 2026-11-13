@@ -5,6 +5,7 @@ import {isHeukmu,HEUKMU_COMBAT} from './mercenary-heukmu-v1.mjs';
 import {isKamishiro,KAMISHIRO_COMBAT} from './mercenary-kamishiro-v1.mjs';
 import {isCardgu,CARDGU_COMBAT} from './mercenary-cardgu-v1.mjs';
 import {isRevan,REVAN_COMBAT} from './mercenary-revan-v1.mjs';
+import {BLUE_GEAR_DESCRIPTION,isBlueGear,blueGearProfile} from './mercenary-blue-gear-v1.mjs';
 import {isRazak,RAZAK_CODE,RAZAK_COMBAT,RAZAK_COMBAT_DESCRIPTION} from './mercenary-razak-v1.mjs';
 import {isAwakenedOmega,AWAKENED_OMEGA_COMBAT} from './mercenary-awakened-omega-v1.mjs';
 import {isEunseol,EUNSEOL_COMBAT} from './mercenary-eunseol-v1.mjs';
@@ -43,6 +44,7 @@ export const MERCENARY_COMBAT_LINK=Object.freeze({
 });
 
 export function mercenaryCombatLinkText(rank,position,actor=null){
+ if(blueGearProfile(actor?.code||actor?.cardId))return BLUE_GEAR_DESCRIPTION;
  if((actor?.code||actor?.cardId)===RAZAK_CODE)return RAZAK_COMBAT_DESCRIPTION;
  const row=isRazak(actor)?RAZAK_COMBAT.link:isImperialArcher(actor)?IMPERIAL_ARCHER_COMBAT.link:MERCENARY_COMBAT_LINK.ranks[rank];if(!row)return '';
  const frontText=position==='FRONT'?` 전열은 평균 최대 체력의 ${MERCENARY_COMBAT_LINK.frontRowShieldBonusPercent}% 방벽을 추가하며, PVP에서는 ${MERCENARY_COMBAT_LINK.pvpFrontRowShieldBonusByRank[rank]??MERCENARY_COMBAT_LINK.frontRowShieldBonusPercent}%를 추가합니다.`:'';
@@ -74,7 +76,7 @@ export function mercenaryPvpTierGuard(actor,teams){
  // actual attack/HP/shield/cap advantage at entry, using catalog identities.
  // A mixed opposing lineup containing any other mercenary keeps the baseline;
  // an SS companion must never unlock this guard against an SSS limited fighter.
- const razakPriority=isRazak(actor)&&opponents.every(other=>ssLimitedProfile(other)||isImperialArcher(other));
+ const razakPriority=(isRazak(actor)||isBlueGear(actor))&&opponents.every(other=>!isBlueGear(other)&&(ssLimitedProfile(other)||isImperialArcher(other)));
  const primeZeroPriority=primeZeroGeneralJokOpponents(actor,teams).length>0;
  return Math.max(rankGrowthGuard,1+gap*MERCENARY_COMBAT_LINK.pvpTierGuardPerStep*retained,razakPriority?RAZAK_COMBAT.pvpPriorityTierGuard:1,primeZeroPriority?ZERO_PRIME_GENERAL_JOK_PRIORITY.tierGuard:1);
 }
