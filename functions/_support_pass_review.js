@@ -24,7 +24,7 @@ export function purchaseHold(row){
 export function requirePassPurchase(row){
   if(purchaseHold(row).blocked)throw jointError('SUPPORT_PURCHASE_HELD','이 계정의 시즌패스 구매가 임시 제한되어 있습니다.',403);
 }
-function recordGuard(key,raw){
+export function recordGuard(key,raw){
   return raw==null?['NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)',[key]]:
     ['EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[key,raw]];
 }

@@ -3,7 +3,7 @@ import {mountSupportPackage} from './support-package-v1.mjs?v=20261106-package-r
 import {mountPackageAlerts} from './support-package-alerts-v1.mjs?v=20261108-pass-purchases';
 import {SUPPORT_PACKAGE_EVENT_DEADLINE,supportPackageSalesOpen} from '../shared/support-package-v1.mjs?v=20261106-package-refresh-v1';
 import {jointAccountRequest} from './joint-account-transport.mjs';
-import {mountSeasonPass} from './supporter-season-pass-v1.mjs?v=20261112-month1-sale-end';
+import {mountSeasonPass} from './supporter-season-pass-v1.mjs?v=20261114-month2-purchase';
 import {mountSupportScreenGuard} from './supporter-screen-guard-v1.mjs?v=20261011-guard1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date=v=>v?new Date(v).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
@@ -84,7 +84,7 @@ export function mountServerSupportNavigation({root,getUser,signal,request=jointA
   }
   function openApplication(month){
     const purchaseOnly=month===2&&!data?.application?.enabled;
-    if(applicationView||disposed||!data||data.previewOnly||(month===1&&data.seasonPass?.saleClosed)||(purchaseOnly?!data.secondSeasonPass?.canRequestPurchase:!data.application?.enabled))return;
+    if(applicationView||disposed||!data||data.previewOnly||(month===2?data.secondSeasonPass?.saleClosed:data.seasonPass?.saleClosed)||(purchaseOnly?!data.secondSeasonPass?.canRequestPurchase:!data.application?.enabled))return;
     screenGuard?.dispose();screenGuard=null;
     applicationView=openSupportApplication({root,getUser,request,signal,month,purchaseOnly,priceWon:data.plan.priceWon,now:()=>Date.now()+serverOffset,
       onIssued:value=>{if(disposed||!data)return;if(value.application)data.application=value.application;
