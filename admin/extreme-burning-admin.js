@@ -3,8 +3,8 @@
     const grid=document.querySelector('.burningCmsGrid');
     if(!grid)return;
     const panel=document.createElement('section');
-    panel.id='extremeBurningCms';panel.className='miracleCmsPanel';
-    panel.innerHTML='<div class="miracleCmsArt" aria-hidden="true"></div><header><h2>리버스콜 익스트림 버닝</h2><strong data-state>OFF</strong></header><p class="miracleCmsAccess">핑크빛유두 전용</p><div class="miracleCmsBenefits"><span><b>드랍 확률 ×2</b>최대 100%</span><span><b>군단토벌 행동력 +1</b>발동 시 1회</span><span><b>파티 군단토벌</b>발동 시 재입장 대기 해제</span></div><form><div class="formgrid"><label class="field">전투 코인 배율<input name="multiplier" type="number" min="1" max="1000" step="any" value="100" required></label><label class="field">진행 시간<select name="duration"></select></label></div><div class="miracleCmsActions"><button type="submit" data-start>발동</button><button type="button" data-stop>종료</button><button type="button" data-preview>팝업 미리보기</button></div></form><p class="miracleStatus" role="status"></p>';
+    panel.id='extremeBurningCms';panel.className='extreme-cms';
+    panel.innerHTML='<header><h2>리버스콜 익스트림 버닝</h2><strong data-state>OFF</strong></header><p class="ex-cms-access">핑크빛유두 전용</p><div class="ex-cms-benefits"><span><b>드랍 확률 ×2</b>최대 100%</span><span><b>일반 PvE · 아포칼립스</b>발동 시 완충 · 30회/1분 · 10회/5분</span><span><b>군단토벌 행동력 +1</b>발동 시 1회</span><span><b>파티 군단토벌</b>발동 시 재입장 대기 해제</span></div><form><div class="formgrid"><label class="field">전투 코인 배율<input name="multiplier" type="number" min="1" max="1000" step="any" value="100" required></label><label class="field">진행 시간<select name="duration"></select></label></div><div class="ex-cms-actions"><button type="submit" data-start>발동</button><button type="button" data-stop>종료</button><button type="button" data-preview>팝업 미리보기</button></div></form><p class="ex-cms-status" role="status"></p>';
     (document.getElementById('miracleBurningCms')||grid).after(panel);
     const el=k=>panel.querySelector(k),form=el('form'),status=el('[role=status]'),stateLabel=el('[data-state]');
     const syncKey='cnine:burning-event-sync-v1310';
@@ -51,7 +51,11 @@
       status.textContent=allowed?'':'핑크빛유두 계정에서 관리할 수 있습니다.';if(allowed)void load();
     }
     form.onsubmit=e=>{e.preventDefault();void save(true);};el('[data-stop]').onclick=()=>void save(false);
-    el('[data-preview]').onclick=()=>{if(!form.reportValidity())return;window.CNineMiracleBurning?.show({manual:true,state:{...settings,mode:'EXTREME',enabled:true,battleRewardMultiplier:Number(form.elements.multiplier.value)},remainingText:()=>form.elements.duration.selectedOptions[0].textContent});};
+    el('[data-preview]').onclick=()=>{
+      if(!form.reportValidity())return;
+      const start=Date.now(),end=start+Number(form.elements.duration.value)*60000;
+      window.CNineExtremeBurning?.show({preview:true,state:{...settings,mode:'EXTREME',enabled:true,activatedAt:new Date(start).toISOString(),endsAt:new Date(end).toISOString(),battleRewardMultiplier:Number(form.elements.multiplier.value)}});
+    };
     window.addEventListener('soop:cms-identity',e=>identity(e.detail));
     window.addEventListener('soop:burning-updated',()=>void load());window.addEventListener('storage',e=>{if(e.key===syncKey)void load();});
     new IntersectionObserver(state).observe(panel);

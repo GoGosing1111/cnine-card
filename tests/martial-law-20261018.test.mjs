@@ -139,11 +139,15 @@ test('ranked actual commit charges one action and keeps expiry-aware next charge
  assert.equal((await rankedFightReceipt(f.env,1,'qa-request','qa-ticket')).replayed,true);
  assert.equal(Number((await f.p('SELECT coin FROM users WHERE id=1').first()).coin),145);
 });
-test('client clamps Apocalypse base interval and applies only live martial delay',()=>{
+test('client drops the retired delay and shows the current Miracle or Extreme Apocalypse interval',()=>{
  const app=readFileSync(new URL('../js/app.js',import.meta.url),'utf8'),now=Date.now(),normalize=vm.runInNewContext(app.slice(app.indexOf('function normalizeApocalypseEnergyClient('),app.indexOf('function activeBattleEnergy('))+';normalizeApocalypseEnergyClient',{APOCALYPSE_ENERGY_MAX:5,APOCALYPSE_ENERGY_RECHARGE_MINUTES:30,burningClientNow:()=>now});
  const state={energy:2,rechargeMinutes:999,martialLawEndsAt:new Date(now+60000).toISOString()};
- assert.equal(normalize(state).rechargeMinutes,90);
+ assert.equal(normalize(state).rechargeMinutes,30);
  assert.equal(normalize({...state,martialLawEndsAt:new Date(now).toISOString()}).rechargeMinutes,30);
- assert.equal(normalize({...state,burningMode:'MIRACLE',burningEndsAt:new Date(now+60000).toISOString()}).rechargeMinutes,15);
+ for(const mode of ['MIRACLE','EXTREME']){
+  const active=normalize({...state,burningMode:mode,burningEndsAt:new Date(now+60000).toISOString()});
+  assert.equal(active.burningMode,mode);assert.equal(active.maxEnergy,10);assert.equal(active.rechargeMinutes,5);
+  assert.equal(normalize({...state,burningMode:mode,burningEndsAt:new Date(now).toISOString()}).rechargeMinutes,30);
+ }
 });
 

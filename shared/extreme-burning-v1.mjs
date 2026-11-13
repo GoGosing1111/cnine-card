@@ -6,7 +6,7 @@ export const canManageExtreme=user=>Number(user?.id)===1&&user?.nickname==='핑�
 export function defaultExtremeBurningSettings(){
   return {mode:'EXTREME',theme:'EXTREME',enabled:false,generation:0,activatedAt:null,endsAt:null,updatedAt:null,
     durationMinutes:60,title:'리버스콜 익스트림 버닝이 발동되었습니다',battleRewardMultiplier:100,dropIncreasePercent:100,
-    pveMaxEnergy:null,pvpMaxEnergy:null,rechargeMinutes:null,duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0};
+    pveMaxEnergy:30,pvpMaxEnergy:null,rechargeMinutes:1,apocalypseMaxEnergy:10,apocalypseRechargeMinutes:5,duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0};
 }
 export function extremeSettings(raw={},now=Date.now()){
   if(!raw||typeof raw!=='object')raw={};

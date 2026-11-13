@@ -1,0 +1,41 @@
+{
+  "generator": "Built-in ImageGen",
+  "prompt": "invitation-prompt.txt",
+  "source": [
+    {
+      "name": "invitation-source.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2212034,
+      "sha256": "eea3f594fab8fe2c83cbf8af45dde1de14636ce63f7d9e65072dadbb3e4f1cdc"
+    }
+  ],
+  "webp": [
+    {
+      "name": "eclipse-v1.webp",
+      "width": 920,
+      "height": 1380,
+      "bytes": 97084,
+      "sha256": "ddb5fc419d3770156db539fc852d362a9c078c15919384cc0488fc6c0623b923"
+    },
+    {
+      "name": "eclipse-mobile-v1.webp",
+      "width": 700,
+      "height": 1050,
+      "bytes": 52208,
+      "sha256": "64b8e2c07299185f2893ff3a67b2ec6f9aeb3819db478acb7e094b3707bca5de"
+    }
+  ],
+  "fonts": [
+    {
+      "name": "event-text-v1.woff2",
+      "bytes": 22144,
+      "sha256": "c29a2fa4562e2878f381952b6723b0d1f771e8f60d81b0cc6751f1f7dcb032e7"
+    },
+    {
+      "name": "event-serif-v1.woff2",
+      "bytes": 3368,
+      "sha256": "26988524756b63d0e2e98ac102b7cc74a51f25785f8cbfd945ec43533d63a752"
+    }
+  ]
+}

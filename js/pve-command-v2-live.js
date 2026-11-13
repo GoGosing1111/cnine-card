@@ -80,8 +80,9 @@
     const maximum = Math.max(1, Number(source.maxEnergy || 1));
     const current = Math.max(0, Math.min(maximum, Number(source.energy || 0)));
     const state = apocalypse ? { ...source, mode: 'APOCALYPSE', energy: current, maxEnergy: maximum, costPerBattle: 1, rechargeMinutes: source.rechargeMinutes } : source;
-    if (state.unlimited) return { apocalypse, label, state, unavailable: false, text: '무제한', fill: 100, timer: apocalypse ? (source.burningMode==='MIRACLE'?'미라클 버닝 · 무제한 계정':'버닝 미적용 · 무제한 계정') : '무제한 적용' };
-    return { apocalypse, label, state, unavailable: state.unavailable === true, text: `${current} / ${maximum}`, fill: Math.min(100, current / maximum * 100), timer: apocalypse ? ((source.burningMode==='MIRACLE'?'미라클 버닝':'버닝 미적용')+' · '+(current>=maximum?'최대 '+maximum+'회 · 충전 완료':source.rechargeMinutes+'분마다 1회 충전')) : (current >= maximum ? '충전 완료' : '자동 충전 적용') };
+    const eventName=source.burningMode==='EXTREME'?'익스트림 버닝':source.burningMode==='MIRACLE'?'미라클 버닝':'버닝 미적용';
+    if (state.unlimited) return { apocalypse, label, state, unavailable: false, text: '무제한', fill: 100, timer: apocalypse ? (eventName+' · 무제한 계정') : '무제한 적용' };
+    return { apocalypse, label, state, unavailable: state.unavailable === true, text: `${current} / ${maximum}`, fill: Math.min(100, current / maximum * 100), timer: apocalypse ? (eventName+' · '+(current>=maximum?'최대 '+maximum+'회 · 충전 완료':source.rechargeMinutes+'분마다 1회 충전')) : (current >= maximum ? '충전 완료' : '자동 충전 적용') };
   }
 
   function battleToolbar() {

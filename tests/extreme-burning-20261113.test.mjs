@@ -21,7 +21,7 @@ const request=(f,user,body,method=body?'PATCH':'GET')=>handleExtremeBurning({req
   authenticate:async()=>user,readBody:async()=>body,json:(body,status=200)=>({body,status}),invalidate(){},now:()=>f.now
 }});
 const runtime=()=>vm.runInNewContext(api.slice(api.indexOf('const BURNING_EVENT_META_KEY='),api.indexOf('function defaultPvpSettings()'))+
-  ';({burningEventPair,burningPublicState,applyBurningPveSettings,burningRewardAmount,activateChiefBurningEvent})',{...access,...miracle,console});
+  ';({burningEventPair,burningPublicState,applyBurningPveSettings,applyBurningPvpSettings,burningRewardAmount,activateChiefBurningEvent})',{...access,...miracle,console});
 
 for(const postgres of [false,true]){
   const engine=postgres?'PostgreSQL':'SQLite';
@@ -86,7 +86,9 @@ test('reward multiplier and relative item probability reach their actual caps, a
   const rt=runtime(),pair=await rt.burningEventPair(f.env,{fresh:true});
   assert.equal(rt.burningPublicState(pair.active).mode,'EXTREME');assert.equal(rt.burningRewardAmount(25,pair.active),25000);
   const base={energy:{maxEnergy:5,rechargeMinutes:5}};
-  assert.equal(rt.applyBurningPveSettings(base,pair.active).energy,base.energy);
+  const cfg=rt.applyBurningPveSettings(base,pair.active);assert.equal(cfg.energy.maxEnergy,30);assert.equal(cfg.energy.rechargeMinutes,1);
+  assert.equal(cfg.__burningActivatedAt,pair.active.activatedAt);assert.equal(rt.burningPublicState(pair.active).apocalypse.maxEnergy,10);
+  assert.equal(miracle.miracleApocalypseConfig(base.energy,pair.active).burningMode,'EXTREME');
   await assert.rejects(rt.activateChiefBurningEvent(f.env,{type:'HYPER'}),/익스트림/);
   assert.equal(await miracle.readMiracleDropPercent(f.env),100);
   const scoped=withAvatarDropScope(f.env);
@@ -103,4 +105,30 @@ test('reward multiplier and relative item probability reach their actual caps, a
   assert.equal(personalFarm(pool,[[3000,0]],true,()=>.3).events.length,0);
   const rolls=personalFarm({...pool,supplyDropMultiplier:2},[[3000,0]],true,()=>.3);assert.equal(rolls.events[0][2],4);
   await request(f,owner,draft(1,false));assert.equal(await miracle.readMiracleDropPercent(f.env),0);
+});
+
+for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' Extreme inherits both Miracle pools and ranked keeps its base energy',async t=>{
+  const f=await martialFixture({postgres});t.after(()=>f.close());
+  f.now=Date.now()-1000;let clock=f.now;
+  const on=(await request(f,owner,draft())).body.settings,active=()=>({...on,enabled:clock<Date.parse(on.endsAt)});
+  const context={...access,...miracle,Date:class extends Date{constructor(...a){super(...(a.length?a:[clock]));}static now(){return clock;}},
+    APOCALYPSE_ENERGY_CONFIG:{enabled:true,maxEnergy:5,rechargeMinutes:30,costPerBattle:1},ensureApocalypseEnergyFoundation:async()=>{},
+    maintenanceSettings:async()=>({active:false}),isAdminRole:()=>false,canUseTestAccess:()=>false,kstDate:()=>new Date(clock+9*3600000).toISOString().slice(0,10),
+    sqlUtcNow:()=>new Date(clock).toISOString().replace('T',' ').slice(0,19),utcMs:s=>Date.parse(s.replace(' ','T')+'Z'),
+    miracleApocalypseConfig:(base,b)=>miracle.miracleApocalypseConfig(base,b,clock),burningEventSettings:async()=>active()};
+  const pve=vm.runInNewContext(api.slice(api.indexOf('async function battleEnergyState('),api.indexOf('// V1975:'))+';({read:battleEnergyState,spend:consumeBattleEnergy})',context);
+  const apoc=vm.runInNewContext(api.slice(api.indexOf('async function apocalypseEnergyState('),api.indexOf('async function pveEnergyStateForDifficulty('))+';({read:apocalypseEnergyState,spend:consumeApocalypseEnergy})',context);
+  const base={energy:{enabled:true,maxEnergy:5,rechargeMinutes:30,dailyRestore:5,costPerBattle:1}},user={id:2,role:'USER'};
+  const earlier=new Date(clock-120000).toISOString().replace('T',' ').slice(0,19);
+  await f.p('INSERT INTO user_battle_energy VALUES(?,?,?,?,NULL)',2,1,earlier,context.kstDate()).run();
+  await f.p('INSERT INTO user_apocalypse_energy VALUES(?,?,?,NULL)',2,1,earlier).run();
+  const rt=runtime(),cfg=rt.applyBurningPveSettings(base,active());
+  assert.equal(rt.applyBurningPvpSettings(base,active()),base);
+  assert.deepEqual([(await pve.read(f.env,user,cfg)).energy,(await apoc.read(f.env,user)).energy],[30,10]);
+  assert.deepEqual([(await pve.spend(f.env,user,cfg)).energy,(await apoc.spend(f.env,user)).energy],[29,9]);
+  assert.deepEqual([(await pve.read(f.env,user,cfg)).energy,(await apoc.read(f.env,user)).energy],[29,9]);
+  clock+=60000;assert.equal((await pve.read(f.env,user,cfg)).energy,30);assert.equal((await apoc.read(f.env,user)).energy,9);
+  clock+=240000;assert.equal((await apoc.read(f.env,user)).energy,10);
+  clock=Date.parse(on.endsAt);assert.equal((await pve.read(f.env,user,rt.applyBurningPveSettings(base,active()))).maxEnergy,5);
+  assert.equal((await apoc.read(f.env,user)).rechargeMinutes,30);
 });

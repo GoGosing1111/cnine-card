@@ -23,8 +23,8 @@ export function defaultMiracleBurningSettings() {
 }
 
 export function miracleApocalypseConfig(base, burning, now = Date.now()) {
-  return burning?.mode === 'MIRACLE' && burningEventIsLive(burning,now)
-    ? {...base,maxEnergy:10,rechargeMinutes:5,burningMode:'MIRACLE',burningEndsAt:burning.endsAt,burningActivatedAt:burning.activatedAt}
+  return ['MIRACLE','EXTREME'].includes(burning?.mode) && burningEventIsLive(burning,now)
+    ? {...base,maxEnergy:10,rechargeMinutes:5,burningMode:burning.mode,burningEndsAt:burning.endsAt,burningActivatedAt:burning.activatedAt}
     : {...base,burningMode:'NONE',burningEndsAt:null};
 }
 
