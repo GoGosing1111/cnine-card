@@ -1,3 +1,4 @@
+import {BLUE_GEAR_MERCENARIES} from './mercenary-blue-gear-catalog-v1.mjs';
 import {blueGearProfile,blueGearDeploymentSnapshot} from './mercenary-blue-gear-v1.mjs';
 import {JIN_JOKRO_CODE,jinJokroDeploymentSnapshot} from './mercenary-jin-jokro-v1.mjs';
 import {HELIOS_KING_CODE,heliosKingDeploymentSnapshot} from './mercenary-helios-king-v1.mjs';
@@ -35,7 +36,7 @@ import {KAIRON_CODE,kaironDeploymentSnapshot} from './mercenary-kairon-v1.mjs';
 // Artwork provenance, acquisition and pack release remain separate contracts.
 export const LIMITED_DEPLOYMENT_VERSION='20261012-helios-deployment-v1';
 export function limitedDeploymentSnapshot(code){
- if(blueGearProfile(code))return blueGearDeploymentSnapshot(code);
+ if(blueGearProfile(code))return {...BLUE_GEAR_MERCENARIES.find(c=>c.code===code),...blueGearDeploymentSnapshot(code)};
  if(Object.hasOwn(BLACKCROWN_COMBAT,code)){
   const art=BLACKCROWN_MERCENARIES.find(c=>c.code===code),profile=BLACKCROWN_COMBAT[code];
   return {...art,actorKind:'MERCENARY',level:1,statMode:'RANK_FIXED',position:profile.position,role:profile.role,attackStyle:profile.attackStyle,

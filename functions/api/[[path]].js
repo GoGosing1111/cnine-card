@@ -4,6 +4,7 @@ import {coinChangeStatements} from '../_coin_settlement.js';
 import {jointGuard,jointGuardEnd} from '../_joint_atomic.js';
 import {handleStreamerPack,streamerPackShopRow} from '../_reversecall_streamer_pack.js';
 import {handleWarChat,warChatStream} from '../_war_chat.js';
+import {handleBlueGearPack,blueGearPackShopRow} from '../_mercenary_blue_gear_pack.js';
 import {handleBlackcrownPack,blackcrownPackShopRow} from '../_mercenary_blackcrown_pack.js';
 import {ensureSigHunterBoxCatalog,openSigHunterBox,grantSigHunterBox} from '../_sig_hunter_box.js';
 import {ensureReversecallStreamerGiftCatalog,openReversecallStreamerGift,grantReversecallStreamerGift} from '../_reversecall_streamer_gift.js';
@@ -5181,6 +5182,7 @@ async function handleRequest(context){
     const mineResponse=await handleMasterStarMine({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(mineResponse)return mineResponse;
     const halloweenPackResponse=await handleHalloweenPack({path,request,env,deps:{json,requirePermission,authenticate,withUserMutationLock:withJointUserMutationLock}});if(halloweenPackResponse)return halloweenPackResponse;
     const streamerPackResponse=await handleStreamerPack({path,request,env,deps:{json,requirePermission,authenticate,withUserMutationLock:withJointUserMutationLock}});if(streamerPackResponse)return streamerPackResponse;
+    const blueGearPackResponse=await handleBlueGearPack({path,request,env,deps:{json,authenticate,withUserMutationLock:withJointUserMutationLock}});if(blueGearPackResponse)return blueGearPackResponse;
     const blackcrownPackResponse=await handleBlackcrownPack({path,request,env,deps:{json,requirePermission,authenticate,withUserMutationLock:withJointUserMutationLock}});if(blackcrownPackResponse)return blackcrownPackResponse;
     const bloodmoonPackResponse=await handleBloodmoonPack({path,request,env,deps:{json,requirePermission,authenticate,withUserMutationLock:withJointUserMutationLock}});if(bloodmoonPackResponse)return bloodmoonPackResponse;
     const limitedPackResponse=await handleLimitedPack({path,request,env,deps:{authenticate,json,requirePermission,withUserMutationLock:withJointUserMutationLock}});if(limitedPackResponse)return limitedPackResponse;
@@ -5387,10 +5389,10 @@ async function handleRequest(context){
       return json({cards:rows.map(({memberSortOrder,...card})=>({...card,id:String(card.id),uniqueAbility:uniqueVisible?(uniqueMap.has(String(card.id))?{...uniqueMap.get(String(card.id)),ownerTest:uniqueCfg.enabled!==true}:null):null})),uniqueAbilitySystem:{enabled:uniqueCfg.enabled===true,ownerTest:uniqueVisible&&uniqueCfg.enabled!==true,visible:uniqueVisible}});
     }
     if(path==='packs'){
-      const [rows,burning,superstarSettings,limitedPack,halloweenPack,bloodmoonPack,blackcrownPack,streamerPack]=await Promise.all([activePackCatalogRows(env),burningEventSettings(env),superstarPackSettings(env),limitedPackShopRow(env),halloweenPackShopRow(env),bloodmoonPackShopRow(env),blackcrownPackShopRow(env),streamerPackShopRow(env)]);
+      const [rows,burning,superstarSettings,limitedPack,halloweenPack,bloodmoonPack,blackcrownPack,streamerPack,blueGearPack]=await Promise.all([activePackCatalogRows(env),burningEventSettings(env),superstarPackSettings(env),limitedPackShopRow(env),halloweenPackShopRow(env),bloodmoonPackShopRow(env),blackcrownPackShopRow(env),streamerPackShopRow(env),blueGearPackShopRow(env)]);
       const packs=rows.filter(row=>String(row.id)!=='basic').map(row=>{const originalPrice=Number(row.price||0);return {...row,price:originalPrice,originalPrice,burningDiscountPercent:0,allowed:JSON.parse(row.allowed_rarities)}});
       if(superstarSettings.visible)packs.push(superstarPackCatalogRow(superstarSettings));
-      return json({packs:[...arrangeHyperPackCatalog(packs),...(limitedPack?[limitedPack]:[]),...(halloweenPack?[halloweenPack]:[]),...(bloodmoonPack?[bloodmoonPack]:[]),blackcrownPack,streamerPack],burningEvent:burningPublicState(burning),serverNow:new Date().toISOString()});
+      return json({packs:[...arrangeHyperPackCatalog(packs),...(limitedPack?[limitedPack]:[]),...(halloweenPack?[halloweenPack]:[]),...(bloodmoonPack?[bloodmoonPack]:[]),blackcrownPack,streamerPack,...(blueGearPack?[blueGearPack]:[])],burningEvent:burningPublicState(burning),serverNow:new Date().toISOString()});
     }
     if(path==='superstar-pack/draw'&&request.method==='POST'){
       return handleSuperstarPackDraw({request,env,deps:{authenticate,json,readBody}});

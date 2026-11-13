@@ -120,31 +120,31 @@ export function pickBlackcrownNormalCard(state,rank,random){
  const card=pool.find(c=>{ticket-=c.weight;return ticket<0;});
  return {outcomeId:'CARD_'+card.rank,mercenaryCode:card.code,name:card.name,rank:card.rank,edition:'STANDARD',quantity:1,sourceArt:card.sourceArt};
 }
-export function pickBlackcrownBatch(state,count,random,{firstLimitedCode=null}={}){
+export function pickBlackcrownBatch(state,count,random,{firstLimitedCode=null,pool=BLACKCROWN_PACK_CARDS,ssCodes,ssEdition='BLACKCROWN_LIMITED',outcomePrefix='BLACKCROWN',isLimited=isBlackcrownLimited}={}){
  if(![1,10].includes(count))throw Error('Invalid Blackcrown batch');
- if(firstLimitedCode!==null&&(!BLACKCROWN_PACK_CARDS.some(c=>c.code===firstLimitedCode&&c.rank==='SSS'&&isBlackcrownLimited(c.code))||!(state.settings.cardRatesPpm[firstLimitedCode]>0)||!state.stock.some(s=>s.code===firstLimitedCode&&s.prepared&&s.remaining>0)))throw Error('Invalid Blackcrown one-time reward');
+ if(firstLimitedCode!==null&&(!pool.some(c=>c.code===firstLimitedCode&&c.rank==='SSS'&&isLimited(c.code))||!(state.settings.cardRatesPpm[firstLimitedCode]>0)||!state.stock.some(s=>s.code===firstLimitedCode&&s.prepared&&s.remaining>0)))throw Error('Invalid Blackcrown one-time reward');
  const {settings}=state,used=Object.fromEntries(state.stock.map(s=>[s.code,s.issued]));
  const choose=rows=>{
   const units=rows.map(r=>limitedRateUnits(r.rate));if(units.some(n=>n===null)||units.reduce((s,n)=>s+n,0)!==LIMITED_RATE_TOTAL)throw Error('블랙크라운 단계별 확률을 확인하세요.');
   let ticket=random(LIMITED_RATE_TOTAL);if(!Number.isSafeInteger(ticket)||ticket<0||ticket>=LIMITED_RATE_TOTAL)throw Error('Invalid random sample');
   return rows.find((r,i)=>{ticket-=units[i];return ticket<0;});
  };
- const draws=[],owned=new Set(blackcrownOwnedCodes(state.ownedCodes));
+ const draws=[],owned=new Set(blackcrownOwnedCodes(state.ownedCodes,ssCodes));
  for(let i=0;i<count;i++){
   const forced=i===0&&firstLimitedCode!==null;
   const first=forced?{id:'SSS'}:choose([...MERCENARY_RANKS.map(rank=>({id:rank,rate:settings.normalRankRatesPpm[rank]})),{id:'NONE',rate:settings.missRatePpm}]);
   if(first.id==='NONE'){draws.push({outcomeId:'NONE',quantity:0});continue;}
   if(first.id==='SSS'){
-   const second=forced?{id:firstLimitedCode}:choose([...codes.map(code=>({id:code,rate:settings.cardRatesPpm[code]})),{id:'STANDARD_SSS',rate:settings.normalSssRatePpm}]);
+   const second=forced?{id:firstLimitedCode}:choose([...pool.map(({code})=>({id:code,rate:settings.cardRatesPpm[code]})),{id:'STANDARD_SSS',rate:settings.normalSssRatePpm}]);
    if(second.id!=='STANDARD_SSS'){
     const unlimited=blackcrownUnlimitedDraw(second.id);
     if(unlimited){draws.push(unlimited);continue;}
-    const card=BLACKCROWN_PACK_CARDS.find(c=>c.code===second.id),stock=state.stock.find(s=>s.code===card.code);
+    const card=pool.find(c=>c.code===second.id),stock=state.stock.find(s=>s.code===card.code);
     if(!stock?.prepared)throw Object.assign(Error('리미티드 발행 수량을 확인해야 합니다.'),{code:'MERCENARY_BLACKCROWN_NOT_READY',terminal:true,status:409});
-    if((used[card.code]||0)<stock.limit&&blackcrownAcceptSs(card.code,owned,random)){
+    if((used[card.code]||0)<stock.limit&&blackcrownAcceptSs(card.code,owned,random,ssCodes)){
      used[card.code]=(used[card.code]||0)+1;
      if(card.rank==='SS')owned.add(card.code);
-     const draw={outcomeId:card.rank==='SSS'?'BLACKCROWN_SSS':'BLACKCROWN_SS',mercenaryCode:card.code,name:card.name,rank:card.rank,gateRank:'SSS',edition:card.rank==='SSS'?'SSS_LIMITED':'BLACKCROWN_LIMITED',stockLimit:stock.limit,quantity:1,sourceArt:card.sourceArt};
+     const draw={outcomeId:outcomePrefix+'_'+card.rank,mercenaryCode:card.code,name:card.name,rank:card.rank,gateRank:'SSS',edition:card.rank==='SSS'?'SSS_LIMITED':ssEdition,stockLimit:stock.limit,quantity:1,sourceArt:card.sourceArt};
      if(forced)draw.guaranteed=true;
      draws.push(card.code===PRIME_MATERIAL_STOCK_CODE?primeMaterialDraw(draw):draw);continue;
     }
@@ -156,17 +156,17 @@ export function pickBlackcrownBatch(state,count,random,{firstLimitedCode=null}={
  }
  return draws;
 }
-export function blackcrownReceiptResults(receipt,pack=BLACKCROWN_PACK){
+export function blackcrownReceiptResults(receipt,pack=BLACKCROWN_PACK,{pool=BLACKCROWN_PACK_CARDS,isLimited=isBlackcrownLimited,bulkFormat=BLACKCROWN_BULK_FORMAT}={}){
  const result=(r,index)=>{
   if((r.kind==='ITEM'||r.itemCode||r.stockCode)&&!isPrimeMaterialDraw(r))throw Error('재료 카드 영수증을 확인하세요.');
-  const item=isPrimeMaterialDraw(r),card=BLACKCROWN_PACK_CARDS.find(c=>c.code===bloodmoonDrawCode(r));
+  const item=isPrimeMaterialDraw(r),card=pool.find(c=>c.code===bloodmoonDrawCode(r));
   // Completed pre-change receipts still describe the mercenary actually granted.
   const art=item?PRIME_MATERIAL.image:r.mercenaryCode===PRIME_MATERIAL_STOCK_CODE?'assets/ui/packs/blood-pack-20261023/v-975-640.webp':card?.displayArt;
-  return {...r,limited:isBlackcrownLimited(bloodmoonDrawCode(r)),kind:item?'ITEM':r.mercenaryCode?'MERCENARY':'MISS',receiptId:receipt.requestId+':'+index,preview:false,granted:true,artUrl:art?'/'+art:r.mercenaryCode?'/assets/ui/project-v/mercenaries/codex-v1/'+r.mercenaryCode.toLowerCase()+'-art-640.webp':null};
+  return {...r,limited:isLimited(bloodmoonDrawCode(r)),kind:item?'ITEM':r.mercenaryCode?'MERCENARY':'MISS',receiptId:receipt.requestId+':'+index,preview:false,granted:true,artUrl:art?'/'+art:r.mercenaryCode?'/assets/ui/project-v/mercenaries/codex-v1/'+r.mercenaryCode.toLowerCase()+'-art-640.webp':null};
  };
- if(receipt?.status==='COMPLETED'&&receipt.packId===pack.id&&receipt.format===BLACKCROWN_BULK_FORMAT){
-  return validateBlackcrownBulkReceipt(receipt).map(r=>result(r,r.drawIndex??'bulk:'+r.mercenaryCode));
+ if(receipt?.status==='COMPLETED'&&receipt.packId===pack.id&&receipt.format===bulkFormat){
+  return validateBlackcrownBulkReceipt(receipt,{pool,isLimited,bulkFormat}).map(r=>result(r,r.drawIndex??'bulk:'+r.mercenaryCode));
  }
- if(receipt?.status!=='COMPLETED'||receipt.packId!==pack.id||![1,10].includes(receipt.count)||receipt.draws?.length!==receipt.count)throw Error('확정된 블랙크라운팩 결과가 필요합니다.');
+ if(receipt?.status!=='COMPLETED'||receipt.packId!==pack.id||![1,10].includes(receipt.count)||receipt.draws?.length!==receipt.count)throw Error('확정된 '+pack.name+' 결과가 필요합니다.');
  return receipt.draws.map(result);
 }

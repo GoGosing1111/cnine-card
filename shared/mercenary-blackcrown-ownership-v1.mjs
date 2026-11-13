@@ -2,16 +2,16 @@ import {BLACKCROWN_CODES} from './mercenary-blackcrown-catalog-v1.mjs';
 import {limitedRateUnits} from './mercenary-limited-rates-v1.mjs';
 
 export const BLACKCROWN_OWNERSHIP_RULE=Object.freeze({basis:'CURRENT_DISTINCT_BLACKCROWN_SS',duplicatesAllowed:false,threshold:2,divisors:Object.freeze([1,1,2,4,8,16,32]),fallback:'STANDARD_SSS'});
-export function blackcrownOwnedCodes(rows=[]){
- return [...new Set(rows.filter(row=>typeof row==='string'||Number(row.total_copies??row.totalCopies)>0).map(row=>typeof row==='string'?row:row.mercenary_code??row.code).filter(code=>BLACKCROWN_CODES.includes(code)))].sort();
+export function blackcrownOwnedCodes(rows=[],ssCodes=BLACKCROWN_CODES){
+ return [...new Set(rows.filter(row=>typeof row==='string'||Number(row.total_copies??row.totalCopies)>0).map(row=>typeof row==='string'?row:row.mercenary_code??row.code).filter(code=>ssCodes.includes(code)))].sort();
 }
-export const blackcrownDivisor=codes=>2**Math.max(0,blackcrownOwnedCodes(codes).length-1);
-export function blackcrownAcceptSs(code,owned,random){
- if(!BLACKCROWN_CODES.includes(code))return true;
+export const blackcrownDivisor=(codes,ssCodes=BLACKCROWN_CODES)=>2**Math.max(0,blackcrownOwnedCodes(codes,ssCodes).length-1);
+export function blackcrownAcceptSs(code,owned,random,ssCodes=BLACKCROWN_CODES){
+ if(!ssCodes.includes(code))return true;
  // Both single/batch and bulk update this set immediately after each new SS.
  // An owned interval keeps its probability mass in ordinary SSS, never another SS.
  if(owned.has(code))return false;
- const divisor=blackcrownDivisor([...owned]);
+ const divisor=blackcrownDivisor([...owned],ssCodes);
  if(divisor===1)return true;
  // A separate exact binary gate preserves even the smallest configured rate.
  // No rounding, redistribution among rare cards, or extra rank lottery.
@@ -23,14 +23,14 @@ function decimal(numerator,denominator){
  while(rest){rest*=10n;tail+=String(rest/denominator);rest%=denominator;}
  return String(whole)+(tail?'.'+tail:'');
 }
-export function blackcrownPersonalOdds(settings,stock,ownedCodes=[]){
- const codes=blackcrownOwnedCodes(ownedCodes),divisor=blackcrownDivisor(codes),first=limitedRateUnits(settings.normalRankRatesPpm.SSS);
+export function blackcrownPersonalOdds(settings,stock,ownedCodes=[],ssCodes=BLACKCROWN_CODES){
+ const codes=blackcrownOwnedCodes(ownedCodes,ssCodes),divisor=blackcrownDivisor(codes,ssCodes),first=limitedRateUnits(settings.normalRankRatesPpm.SSS);
  let ordinary=limitedRateUnits(settings.normalSssRatePpm);ordinary=ordinary===null?null:ordinary*32;
  const effectiveCardPercents={},cardRatesPpm={};
  for(const [code,rate] of Object.entries(settings.cardRatesPpm)){
   const base=limitedRateUnits(rate),row=stock.find(s=>s.code===code),soldOut=row?.prepared&&row.remaining===0;
   const excluded=soldOut||codes.includes(code);
-  const weight=base===null?null:excluded?0:base*32/(BLACKCROWN_CODES.includes(code)?divisor:1);
+  const weight=base===null?null:excluded?0:base*32/(ssCodes.includes(code)?divisor:1);
   if(base===null||ordinary===null)ordinary=null;else ordinary+=base*32-weight;
   cardRatesPpm[code]=weight===null?null:weight/32/10000;
   effectiveCardPercents[code]=first===null||weight===null?null:decimal(BigInt(first)*BigInt(weight),32n*10n**18n);

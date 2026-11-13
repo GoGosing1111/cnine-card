@@ -84,6 +84,11 @@ export function mercenaryCodexDocument(row){
     }
     card.combatLinkDescription=[card.combatLinkDescription,MERCENARY_PVP_GROWTH_DESCRIPTION,MERCENARY_RANK_GROWTH_DESCRIPTION].filter(Boolean).join(' ');
   }
+  for(const card of projection.cards){
+    if(card.code!==ZERO_CODE&&card.code!==HAKUYA_ART.code)continue;
+    Object.assign(card,{acquisition:'BLUE_GEAR_PACK',packAcquisitionEnabled:true,acquisitionPackId:'mercenary-blue-gear',acquisitionPackName:'블루기어팩',acquisitionDescription:'11월 20일부터 블루기어팩에서 3장 한정으로 획득합니다.',stockPolicy:'PACK_ONLY',serverLimit:3,releaseStatus:'BATTLE_RELEASED'});
+    card.combatLinkDescription=(card.combatLinkDescription||'').replace(/현재 (일반 )?획득 불가[.。]?/g,'')+' 블루기어팩에서 3장 한정으로 획득합니다.';
+  }
   return projection;
 }
 
