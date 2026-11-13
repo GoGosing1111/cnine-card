@@ -1,0 +1,398 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:eumsooni:mercenary-equipment:tier8-to-tier10:20261113:v1",
+  "userId": 65,
+  "nickname": "음순이",
+  "completedUTC": "2026-11-13T02:36:58.299Z",
+  "completedKST": "2026-11-13 11:36:58",
+  "fromTier": 8,
+  "fromSet": "심연성좌",
+  "toTier": 10,
+  "toSet": "창세의 왕관",
+  "exchanged": 5,
+  "total8Before": 5,
+  "total8After": 0,
+  "total10Before": 0,
+  "total10After": 5,
+  "parts": [
+    {
+      "instanceId": "3062231018",
+      "slot": "WEAPON",
+      "from": "MERC_ASC_08_WEAPON",
+      "to": "MERC_ASC_10_WEAPON",
+      "fromId": "156",
+      "toId": "166",
+      "level": 10,
+      "worn": [
+        {
+          "code": "V-971",
+          "mode": "PVE"
+        },
+        {
+          "code": "V-971",
+          "mode": "PVP"
+        }
+      ]
+    },
+    {
+      "instanceId": "3062415474",
+      "slot": "TOP",
+      "from": "MERC_ASC_08_TOP",
+      "to": "MERC_ASC_10_TOP",
+      "fromId": "157",
+      "toId": "167",
+      "level": 10,
+      "worn": [
+        {
+          "code": "V-971",
+          "mode": "PVE"
+        },
+        {
+          "code": "V-971",
+          "mode": "PVP"
+        }
+      ]
+    },
+    {
+      "instanceId": "2933727180",
+      "slot": "BOTTOM",
+      "from": "MERC_ASC_08_BOTTOM",
+      "to": "MERC_ASC_10_BOTTOM",
+      "fromId": "158",
+      "toId": "168",
+      "level": 11,
+      "worn": [
+        {
+          "code": "V-971",
+          "mode": "PVE"
+        },
+        {
+          "code": "V-971",
+          "mode": "PVP"
+        }
+      ]
+    },
+    {
+      "instanceId": "2934463044",
+      "slot": "SHOES",
+      "from": "MERC_ASC_08_SHOES",
+      "to": "MERC_ASC_10_SHOES",
+      "fromId": "159",
+      "toId": "169",
+      "level": 10,
+      "worn": [
+        {
+          "code": "V-971",
+          "mode": "PVE"
+        },
+        {
+          "code": "V-971",
+          "mode": "PVP"
+        }
+      ]
+    },
+    {
+      "instanceId": "2934223590",
+      "slot": "ACCESSORY",
+      "from": "MERC_ASC_08_ACCESSORY",
+      "to": "MERC_ASC_10_ACCESSORY",
+      "fromId": "160",
+      "toId": "170",
+      "level": 10,
+      "worn": [
+        {
+          "code": "V-971",
+          "mode": "PVE"
+        },
+        {
+          "code": "V-971",
+          "mode": "PVP"
+        }
+      ]
+    }
+  ],
+  "loadoutRevision": 16,
+  "instanceAndEnhancementPreserved": true,
+  "coinsAndMaterialsSpent": 0,
+  "auditId": "59676",
+  "equipmentPower": {
+    "PVE": {
+      "before": 5745600,
+      "after": 7182000,
+      "set": {
+        "id": "MERC_ASC_10",
+        "name": "창세의 왕관",
+        "tier": 10,
+        "count": 5,
+        "active": 5,
+        "modes": [
+          "PVE",
+          "PVP"
+        ]
+      }
+    },
+    "PVP": {
+      "before": 638400,
+      "after": 798000,
+      "set": {
+        "id": "MERC_ASC_10",
+        "name": "창세의 왕관",
+        "tier": 10,
+        "count": 5,
+        "active": 5,
+        "modes": [
+          "PVE",
+          "PVP"
+        ]
+      }
+    }
+  },
+  "checks": {
+    "independentReadOnlyArmory": "mercenaries/v3/equipment",
+    "verifiedAt": "2026-11-13T02:39:11.181Z",
+    "productionSource": "47ffb4791886897930e4ea366706ff46ecdc2f7e",
+    "auditMatched": true,
+    "readOnlyReplayMatched": true,
+    "receiptCount": 1,
+    "gearSets": {
+      "PVE": {
+        "V-971": {
+          "power": 7182000,
+          "items": [
+            {
+              "id": "3062231018",
+              "code": "MERC_ASC_10_WEAPON",
+              "slot": "WEAPON",
+              "level": 10
+            },
+            {
+              "id": "3062415474",
+              "code": "MERC_ASC_10_TOP",
+              "slot": "TOP",
+              "level": 10
+            },
+            {
+              "id": "2933727180",
+              "code": "MERC_ASC_10_BOTTOM",
+              "slot": "BOTTOM",
+              "level": 11
+            },
+            {
+              "id": "2934463044",
+              "code": "MERC_ASC_10_SHOES",
+              "slot": "SHOES",
+              "level": 10
+            },
+            {
+              "id": "2934223590",
+              "code": "MERC_ASC_10_ACCESSORY",
+              "slot": "ACCESSORY",
+              "level": 10
+            }
+          ],
+          "sets": [
+            {
+              "id": "MERC_ASC_10",
+              "name": "창세의 왕관",
+              "tier": 10,
+              "count": 5,
+              "active": 5,
+              "modes": [
+                "PVE",
+                "PVP"
+              ]
+            }
+          ]
+        }
+      },
+      "PVP": {
+        "V-971": {
+          "power": 798000,
+          "items": [
+            {
+              "id": "3062231018",
+              "code": "MERC_ASC_10_WEAPON",
+              "slot": "WEAPON",
+              "level": 10
+            },
+            {
+              "id": "3062415474",
+              "code": "MERC_ASC_10_TOP",
+              "slot": "TOP",
+              "level": 10
+            },
+            {
+              "id": "2933727180",
+              "code": "MERC_ASC_10_BOTTOM",
+              "slot": "BOTTOM",
+              "level": 11
+            },
+            {
+              "id": "2934463044",
+              "code": "MERC_ASC_10_SHOES",
+              "slot": "SHOES",
+              "level": 10
+            },
+            {
+              "id": "2934223590",
+              "code": "MERC_ASC_10_ACCESSORY",
+              "slot": "ACCESSORY",
+              "level": 10
+            }
+          ],
+          "sets": [
+            {
+              "id": "MERC_ASC_10",
+              "name": "창세의 왕관",
+              "tier": 10,
+              "count": 5,
+              "active": 5,
+              "modes": [
+                "PVE",
+                "PVP"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "gearIdsAndForgePreserved": true
+  },
+  "performance": {
+    "conditions": "Unmodified production armory handler and a direct read-only PostgreSQL connection, milliseconds for first and repeat lookups. Desktop Chrome 1440×900 and WebKit iPhone viewport 390×844 in isolated Windows sessions. Served the captured real gear response to the deployed UI with a focused Revan roster. Timed ready with all five equipped icons decoded, toggled both modes, opened the actual +11 item and sampled animation frames. Re-entered after navigating away. One sample per viewport per condition; physical phones were not used.",
+    "handler": {
+      "before": {
+        "firstMs": 635,
+        "repeatMs": 607
+      },
+      "after": {
+        "firstMs": 639,
+        "repeatMs": 598
+      }
+    },
+    "ui": [
+      {
+        "device": "desktop",
+        "before": {
+          "stage": "before",
+          "device": "desktop",
+          "width": 1440,
+          "height": 900,
+          "origin": "https://bc77d646.cnine-card.pages.dev",
+          "accountData": "read-only production equipment snapshot in an isolated browser session; focused roster fixture for Revan",
+          "coldMs": 442,
+          "reentryMs": 241,
+          "frames": {
+            "samples": 66,
+            "p95Ms": 4,
+            "maxMs": 12,
+            "over50ms": 0
+          },
+          "requestsAfterExit": 0,
+          "items": [
+            "무기: 심연성좌 무기",
+            "상의: 심연성좌 상의",
+            "하의: 심연성좌 하의",
+            "신발: 심연성좌 신발",
+            "장신구: 심연성좌 장신구"
+          ],
+          "powers": {
+            "PVP": 638400,
+            "PVE": 5745600
+          },
+          "errors": []
+        },
+        "after": {
+          "stage": "after",
+          "device": "desktop",
+          "width": 1440,
+          "height": 900,
+          "origin": "https://bc77d646.cnine-card.pages.dev",
+          "accountData": "read-only production equipment snapshot in an isolated browser session; focused roster fixture for Revan",
+          "coldMs": 703,
+          "reentryMs": 281,
+          "frames": {
+            "samples": 73,
+            "p95Ms": 8,
+            "maxMs": 46,
+            "over50ms": 0
+          },
+          "requestsAfterExit": 0,
+          "items": [
+            "무기: 창세의 왕관 무기",
+            "상의: 창세의 왕관 상의",
+            "하의: 창세의 왕관 하의",
+            "신발: 창세의 왕관 신발",
+            "장신구: 창세의 왕관 장신구"
+          ],
+          "powers": {
+            "PVP": 798000,
+            "PVE": 7182000
+          },
+          "errors": []
+        }
+      },
+      {
+        "device": "ios",
+        "before": {
+          "stage": "before",
+          "device": "ios",
+          "width": 390,
+          "height": 844,
+          "origin": "https://bc77d646.cnine-card.pages.dev",
+          "accountData": "read-only production equipment snapshot in an isolated browser session; focused roster fixture for Revan",
+          "coldMs": 622,
+          "reentryMs": 477,
+          "frames": {
+            "samples": 41,
+            "p95Ms": 38,
+            "maxMs": 60,
+            "over50ms": 2
+          },
+          "requestsAfterExit": 0,
+          "items": [
+            "무기: 심연성좌 무기",
+            "상의: 심연성좌 상의",
+            "하의: 심연성좌 하의",
+            "신발: 심연성좌 신발",
+            "장신구: 심연성좌 장신구"
+          ],
+          "powers": {
+            "PVP": 638400,
+            "PVE": 5745600
+          },
+          "errors": []
+        },
+        "after": {
+          "stage": "after",
+          "device": "ios",
+          "width": 390,
+          "height": 844,
+          "origin": "https://bc77d646.cnine-card.pages.dev",
+          "accountData": "read-only production equipment snapshot in an isolated browser session; focused roster fixture for Revan",
+          "coldMs": 598,
+          "reentryMs": 529,
+          "frames": {
+            "samples": 41,
+            "p95Ms": 31,
+            "maxMs": 43,
+            "over50ms": 0
+          },
+          "requestsAfterExit": 0,
+          "items": [
+            "무기: 창세의 왕관 무기",
+            "상의: 창세의 왕관 상의",
+            "하의: 창세의 왕관 하의",
+            "신발: 창세의 왕관 신발",
+            "장신구: 창세의 왕관 장신구"
+          ],
+          "powers": {
+            "PVP": 798000,
+            "PVE": 7182000
+          },
+          "errors": []
+        }
+      }
+    ]
+  }
+}
