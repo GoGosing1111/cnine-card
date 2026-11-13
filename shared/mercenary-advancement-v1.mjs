@@ -1,6 +1,6 @@
 export const POLICY = Object.freeze({
-  revision: 'mercenary-advancement-20261113-v1',
-  minimumLevel: 16,
+  revision: 'mercenary-advancement-20261113-lv11-v2',
+  minimumLevel: 11,
   ranks: Object.freeze(['SS', 'SSS']),
   cost: Object.freeze({ coin: '10000000000000', MASTER_STAR: '50000000' })
 });
@@ -45,7 +45,7 @@ export function formatAmount(value) {
 export function eligibility(card){
  if(!card||!(card.totalCopies>0))return '보유한 용병만 전직할 수 있습니다.';
  if(!POLICY.ranks.includes(card.rank))return 'SS급 이상 용병부터 전직할 수 있습니다.';
- if(!Number.isInteger(card.growth?.level)||card.growth.level<POLICY.minimumLevel)return '용병 16레벨부터 전직할 수 있습니다.';
+ if(!Number.isInteger(card.growth?.level)||card.growth.level<POLICY.minimumLevel)return '용병 '+POLICY.minimumLevel+'레벨부터 전직할 수 있습니다.';
  return '';
 }
 export function quote(snapshot, code, roleId) {

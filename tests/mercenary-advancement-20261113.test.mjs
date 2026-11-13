@@ -16,6 +16,13 @@ const change=(role='vanguard',revision=0,extra={})=>({idempotencyKey:crypto.rand
 for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' — codex, exact balance, repeat, races, rollback, ownership and snapshots',async t=>{
   const f=await advancementFixture(t,postgres), state=async()=>(await f.call('state')).data;
   const original=await state();
+  assert.equal(original.cards.find(c=>c.code==='V-996').growth.level,11);
+  await f.setState('V-996',{level:10,experience:0,breakthroughMask:1,revision:2});
+  const tooEarly=await f.call('change',change());
+  assert.equal(tooEarly.status,409);
+  assert.match(tooEarly.data.error,/11레벨/);
+  assert.deepEqual((await state()).wallet,original.wallet);
+  await f.setState('V-996',{level:11,experience:37,breakthroughMask:3,revision:3});
   assert.equal(original.wallet.coin,'90071992547409937');
   assert.equal(original.cards.find(c=>c.code==='V-055').growth.level,1);
   assert.equal(original.cards.find(c=>c.code==='V-049').growth.level,21);

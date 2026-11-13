@@ -30,7 +30,7 @@ export function createAdvancementWindow({adapter,onPreview=async()=>{},onChanged
       <label class="adv-mercenary-select">전직할 용병<select data-action="mercenary" data-focus="mercenary" aria-label="전직할 용병" ${blocked?'disabled':''}>${snapshot.cards.map(c=>`<option value="${esc(c.code)}" ${code===c.code?'selected':''}>${esc(c.name)} · ${esc(c.rank)} · Lv.${c.growth.level}</option>`).join('')}</select></label>
       <div class="adv-portrait"><img src="${esc(asset(card.sourceArt))}" alt="${esc(card.name)} 원화"><span class="adv-rank">${esc(card.rank)}${card.edition==='LIMITED'?' · LIMITED':''}</span></div>
       <div class="adv-mercenary-info"><span class="adv-code">${esc(card.code)} · Lv.${card.growth.level}</span><h2>${esc(card.name)}</h2><p>현재 전직 <b>${oldRole?esc(oldRole.name):'미전직'}</b></p></div>
-      <div class="adv-conditions"><span class="${POLICY.ranks.includes(card.rank)?'met':'unmet'}">${POLICY.ranks.includes(card.rank)?'✓':'!'} SS급 이상</span><span class="${card.growth.level>=16?'met':'unmet'}">${card.growth.level>=16?'✓':'!'} 용병 16레벨 이상</span></div>
+      <div class="adv-conditions"><span class="${POLICY.ranks.includes(card.rank)?'met':'unmet'}">${POLICY.ranks.includes(card.rank)?'✓':'!'} SS급 이상</span><span class="${card.growth.level>=POLICY.minimumLevel?'met':'unmet'}">${card.growth.level>=POLICY.minimumLevel?'✓':'!'} 용병 ${POLICY.minimumLevel}레벨 이상</span></div>
       <p class="adv-retain"><span>무기·포지션 제한 없이 선택</span><span>레벨·돌파·장비 유지</span></p>
      </aside>
      <section class="adv-selection" aria-label="전직 선택">

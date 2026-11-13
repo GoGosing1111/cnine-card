@@ -91,6 +91,9 @@ try{
       const cold=await measureEntry(page);
       await page.locator('[data-action="mercenary"]').selectOption('V-996');
       assert.equal(await page.locator('[data-action="role"]').count(),16);
+      assert.match(await page.locator('.adv-code').innerText(),/Lv\.11/);
+      assert.match(await page.locator('.adv-conditions .met').last().innerText(),/11레벨 이상/);
+      assert.equal(await page.locator('[data-action="confirm"]').isEnabled(),true);
       const geometry=await page.evaluate(()=>({page:document.documentElement.scrollWidth<=innerWidth,roles:[...document.querySelectorAll('.adv-role')].every(e=>e.querySelector('b').getBoundingClientRect().bottom<=e.querySelector('small').getBoundingClientRect().top+1),squareIcons:[...document.querySelectorAll('.adv-role .adv-icon')].every(e=>{const r=e.getBoundingClientRect();return r.width>0&&Math.abs(r.width-r.height)<1;})}));
       assert.ok(geometry.page&&geometry.roles&&geometry.squareIcons,JSON.stringify(geometry));
       if(out&&['ios','pc'].includes(name))await page.screenshot({path:path.join(out,name+'-codex.png')});
