@@ -37,6 +37,15 @@ test('card and equipment destinations use separate top-level categories',async()
   assert.doesNotMatch(app,/mercenaryHangar',title:'용병 지휘소',category:'cards'/);
 });
 
+test('the lobby opens the collection beside PvE and PvP and offers it once in the command panel',async()=>{
+  const html=await read('ui/adventure-lobby/observatory.html');
+  const panel=html.match(/<section class="command"[\s\S]*?<\/section>/)[0];
+  const navigation=panel.split('<div class="command-section-label">')[0];
+  assert.match(navigation,/data-mode="pve"[\s\S]*data-mode="pvp"[\s\S]*data-category="cards"[^>]*><span data-icon="mercenaryDex"><\/span><b>카드·용병<\/b>/);
+  assert.equal(panel.match(/data-category="cards"/g)?.length,1);
+  assert.doesNotMatch(panel,/data-route="deck"/);
+});
+
 test('legacy tutorial opens the growth guide and every destination exists in the live route contract',async()=>{
   const [legacy,bridge,lobby,adapter,app]=await Promise.all([
     read('preview/lobby-clarity-v1/tutorial/index.html'),read('preview/lobby-clarity-v1/tutorial/bridge.js'),
