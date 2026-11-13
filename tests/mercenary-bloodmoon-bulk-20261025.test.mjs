@@ -50,7 +50,7 @@ test('bulk sampler preserves exact ordinary, conditional and sold-out results fo
 test('100,000 draws use one compact transaction and recover the identical receipt without another charge',async t=>{
  const f=await bloodmoonFixture(t);f.settings.prices={...BLOODMOON_BULK_REFERENCE_PRICES};await f.configure();await f.pg.exec('UPDATE users SET coin=200000000000000 WHERE id=1');
  const request=body(f,'100000000000000'),before={...f.stats},started=performance.now(),r=await f.service.open(f.env,f.user,request),elapsedMs=performance.now()-started;
- assert.equal(r.count,100000);assert.equal(sum(r),100000);assert.equal(r.draws.length,f.settings.stockLimits['V-960']);assert.equal(r.normalDraws.reduce((n,r)=>n+r.quantity,0),100000-f.settings.stockLimits['V-960']);assert.equal(await f.coin(),1e14);
+ assert.equal(r.count,100000);assert.equal(sum(r),100000);assert.equal(r.draws.length,1);assert.equal(r.draws[0].mercenaryCode,'V-960');assert.equal(r.normalDraws.reduce((n,r)=>n+r.quantity,0),99999);assert.equal(await f.coin(),1e14);
  assert.equal(f.stats.batches-before.batches,1);assert.ok(f.stats.statements-before.statements<50+f.settings.stockLimits['V-960']*6);assert.ok(JSON.stringify(r).length<20000);
  const snapshot=await f.pg.query('SELECT * FROM user_mercenary_cards_v1 WHERE user_id=1 ORDER BY mercenary_code');
  const replay=await f.service.open(f.env,f.user,request);assert.deepEqual(replay.draws,r.draws);assert.deepEqual(replay.normalDraws,r.normalDraws);assert.equal(await f.coin(),1e14);assert.deepEqual((await f.pg.query('SELECT * FROM user_mercenary_cards_v1 WHERE user_id=1 ORDER BY mercenary_code')).rows,snapshot.rows);

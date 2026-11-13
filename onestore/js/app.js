@@ -1945,7 +1945,7 @@ function halloweenPackHero(pack) {
 
 document.addEventListener('click',event=>{
  const button=event.target.closest?.('[data-bloodmoon-pack-enter]');if(!button||button.disabled)return;
- button.disabled=true;import('/js/mercenary-bloodmoon-pack-live.mjs?v=20261103-unique-v1').then(module=>module.openBloodmoonPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
+ button.disabled=true;import('/js/mercenary-bloodmoon-pack-live.mjs?v=20261113-contract1').then(module=>module.openBloodmoonPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
 });
 function bloodmoonShopStockText(stock){
  if(stock?.stockPolicy==='UNLIMITED')return '발행 한도 없음';
@@ -1956,12 +1956,22 @@ function bloodmoonShopStockText(stock){
 window.addEventListener('bloodmoon-pack:stock',event=>{
  const stock=event.detail?.stock,pack=PACKS.find(row=>row.id==='mercenary-bloodmoon-ss-limited');if(!Array.isArray(stock)||!pack)return;
  pack.previewCards=(pack.previewCards||[]).map(card=>({...card,...stock.find(row=>row.code===card.code)}));
- for(const label of document.querySelectorAll('.bloodmoon-shop-hero [data-bwp-stock-code]'))label.textContent=bloodmoonShopStockText(pack.previewCards.find(row=>row.code===label.dataset.bwpStockCode));
+ for(const label of document.querySelectorAll('.bloodmoon-shop-hero:not(.blue-gear-skin) [data-bwp-stock-code]'))label.textContent=bloodmoonShopStockText(pack.previewCards.find(row=>row.code===label.dataset.bwpStockCode));
 });
 function bloodmoonPackHero(pack) {
- const portrait=c=>'<figure class="bwp-portrait" data-rank="'+escapeHtml(c.rank)+'" data-code="'+escapeHtml(c.code)+'"><div class="bwp-art-frame"><img src="/'+escapeHtml(c.thumbnailArt)+'" alt="'+escapeHtml(c.name)+' 원화" loading="lazy"><span>'+escapeHtml(c.rank)+'</span></div><figcaption>'+(c.stockPolicy==='UNLIMITED'?'<em>일반 SSS</em>':c.rank==='SSS'?'<em>SSS LIMITED</em>':'')+'<strong>'+escapeHtml(c.name)+'</strong><small data-bwp-stock-code="'+escapeHtml(c.code)+'">'+bloodmoonShopStockText(c)+'</small></figcaption></figure>';
- const collection=(pack.previewCards||[]).filter(c=>c.rank==='SS').map(portrait).join(''),legends=(pack.previewCards||[]).filter(c=>c.rank==='SSS'&&c.stockPolicy!=='UNLIMITED').map(portrait).join(''),unlimited=(pack.previewCards||[]).filter(c=>c.stockPolicy==='UNLIMITED').map(portrait).join('');
- return '<section class="bloodmoon-shop-hero"><div class="bloodmoon-shop-main"><div class="bloodmoon-shop-copy"><p class="bloodmoon-eyebrow">REVERSE CALL · BLOODMOON</p><h2>블러드문팩</h2><p class="bloodmoon-shop-description">블러드문의 계약이 깨어나는 밤.</p><div class="bloodmoon-shop-facts"><span>블러드 <b>SS 6종</b></span><span>SSS 리미티드·재료 <b>4종</b></span><span>일반 SSS <b>라자크</b></span></div>'+(pack.drawEnabled?'<button class="bwp-button bwp-primary bloodmoon-shop-action" data-bloodmoon-pack-enter>블러드문팩 개봉</button>':'<div class="bwp-button bloodmoon-shop-action bloodmoon-shop-status" role="status">출시 예정 · 개봉 OFF</div>')+(pack.drawEnabled?'<p class="bloodmoon-shop-note"><span>1회 '+Number(pack.prices?.single??pack.price).toLocaleString()+' 코인</span><span>10회 '+Number(pack.prices?.ten).toLocaleString()+' 코인</span></p>':'')+'</div><div class="bloodmoon-shop-art">'+packResponsiveImage(pack,{hero:true})+'</div></div><section class="bloodmoon-shop-collection"><div class="bwp-section-heading"><h3>블러드 한정 컬렉션</h3><span>SS LIMITED · 6</span></div><div class="bwp-roster">'+collection+'</div><section class="bwp-legend-collection"><div class="bwp-section-heading"><h3>SSS 리미티드 · 프라임 제작 재료</h3><span>SSS LIMITED · 재료 포함 4종</span></div><div class="bwp-sss-roster">'+legends+'</div></section><section class="bwp-legend-collection"><div class="bwp-section-heading"><h3>일반 SSS · 별도 획득</h3><span>발행 한도 없음</span></div><div class="bwp-sss-roster">'+unlimited+'</div></section></section></section>';
+ const blue=pack.id==='mercenary-blue-gear';
+ if(blue)loadBlueGearShopStyle();
+ const preview=pack.previewCards||[];
+ const ssCards=preview.filter(card=>card.rank==='SS');
+ const legends=preview.filter(card=>card.rank==='SSS'&&card.stockPolicy!=='UNLIMITED');
+ const unlimited=blue?[{code:'V-058',name:'라자크',rank:'SSS',stockPolicy:'UNLIMITED',thumbnailArt:'assets/ui/project-v/mercenaries/razak-20261024/art-320.webp'}]:preview.filter(card=>card.stockPolicy==='UNLIMITED');
+ const portrait=c=>`<figure class="bwp-portrait" data-rank="${escapeHtml(c.rank)}" data-code="${escapeHtml(c.code)}"><div class="bwp-art-frame"><img src="/${escapeHtml(c.thumbnailArt)}" alt="${escapeHtml(c.name)} 원화" loading="lazy" decoding="async"><span>${escapeHtml(c.rank)}</span></div><figcaption>${c.stockPolicy==='UNLIMITED'?'<em>일반 SSS</em>':c.rank==='SSS'?'<em>SSS LIMITED</em>':''}<strong>${escapeHtml(c.name)}</strong><small data-bwp-stock-code="${escapeHtml(c.code)}">${bloodmoonShopStockText(c)}</small></figcaption></figure>`;
+ const action=pack.drawEnabled||blue?`<button class="bwp-button bwp-primary bloodmoon-shop-action" ${blue?'data-blue-gear-enter':'data-bloodmoon-pack-enter'}>${pack.drawEnabled?escapeHtml(pack.name)+' 개봉':'개봉실 미리보기'}</button>`:'<div class="bwp-button bloodmoon-shop-action bloodmoon-shop-status" role="status">출시 예정 · 개봉 OFF</div>';
+ const prices=blue||pack.drawEnabled?`<p class="bloodmoon-shop-note"><span>1회 ${Number(pack.prices?.single??pack.price).toLocaleString()} 코인</span><span>10회 ${Number(pack.prices?.ten).toLocaleString()} 코인</span></p>`:'';
+ return `<section class="bloodmoon-shop-hero${blue?' blue-gear-skin':''}"><div class="bloodmoon-shop-main"><div class="bloodmoon-shop-copy"><p class="bloodmoon-eyebrow">REVERSE CALL · ${blue?'BLUE GEAR':'BLOODMOON'}</p><h2>${escapeHtml(pack.name)}</h2><p class="bloodmoon-shop-description">${blue?(pack.drawEnabled?'판매 중':'11월 20일 00:00 판매 시작 · 한국시간'):'블러드문의 계약이 깨어나는 밤.'}</p><div class="bloodmoon-shop-facts"><span>${blue?'블루기어':'블러드'} <b>SS ${ssCards.length}종</b></span><span>${blue?'SSS 리미티드':'SSS 리미티드·재료'} <b>${legends.length}종</b></span><span>일반 SSS <b>라자크</b></span></div>${action}${prices}</div><div class="bloodmoon-shop-art">${packResponsiveImage(pack,{hero:true})}</div></div>
+ <section class="bloodmoon-shop-collection"><div class="bwp-section-heading"><h3>${blue?'블루기어':'블러드'} 한정 컬렉션</h3><span>SS LIMITED · ${ssCards.length}${blue?' · 각 10장':''}</span></div><div class="bwp-roster">${ssCards.map(portrait).join('')}</div>
+ <section class="bwp-legend-collection"><div class="bwp-section-heading"><h3>${blue?'SSS 리미티드 · 제로 · 하쿠야 신':'SSS 리미티드 · 프라임 제작 재료'}</h3><span>${blue?'팩 한도 각 3장':'SSS LIMITED · 재료 포함 4종'}</span></div><div class="bwp-sss-roster">${legends.map(portrait).join('')}</div></section>
+ <section class="bwp-legend-collection"><div class="bwp-section-heading"><h3>일반 SSS · 별도 획득</h3><span>발행 한도 없음</span></div><div class="bwp-sss-roster">${unlimited.map(portrait).join('')}</div></section></section></section>`;
 }
 
 document.addEventListener('click',event=>{
@@ -1982,31 +1992,30 @@ window.addEventListener('blackcrown-pack:stock',event=>{
  for(const label of document.querySelectorAll('.blackcrown-shop-hero:not(.streamer-pack-hero) [data-bcp-stock-code]'))label.textContent=blackcrownShopStockText(pack.previewCards.find(row=>row.code===label.dataset.bcpStockCode));
 });
 function loadBlueGearShopStyle(){
- if(!document.querySelector('link[data-blue-gear-style]')){const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href='/css/blue-gear-pack-v1.css?reveal=4';sheet.dataset.blueGearStyle='';document.head.append(sheet);}
+ if(!document.querySelector('link[data-blue-gear-style]')){const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href='/css/blue-gear-pack-v1.css?v=20261113-contract1';sheet.dataset.blueGearStyle='';document.head.append(sheet);}
 }
 function blueGearChoice(pack){
  loadBlueGearShopStyle();
  return `<button class="pack-choice pack-choice-blue-gear ${pack.id===selectedPackId?'active':''}" data-pack-id="mercenary-blue-gear" aria-pressed="${pack.id===selectedPackId}"><span class="mini-pack">${packResponsiveImage(pack)}</span><strong>블루기어팩</strong><small>SS 5종 · SSS 2종</small><em>${pack.drawEnabled?'판매 중 · 22억 5천만 코인':'11월 20일 00:00 판매'}</em></button>`;
 }
 window.addEventListener('blue-gear-pack:stock',event=>{
- const pack=PACKS.find(row=>row.id==='mercenary-blue-gear');if(!pack||!Array.isArray(event.detail?.stock))return;
- for(const stock of event.detail.stock){
-  const card=pack.previewCards?.find(row=>row.code===stock.code);if(!card)continue;
-  Object.assign(card,stock);
-  for(const node of document.querySelectorAll('.bgp-collection [data-blue-stock]'))if(node.dataset.blueStock===card.code)node.querySelector('small').textContent=card.rank+' · 잔여 '+card.remaining+'/'+card.limit;
- }
+ const pack=PACKS.find(row=>row.id==='mercenary-blue-gear');
+ if(!pack||!Array.isArray(event.detail?.stock))return;
  pack.drawEnabled=event.detail.open;pack.openingScheduled=event.detail.scheduled;
- const status=document.querySelector('.bgp-shop [class="bgp-sale"]'),button=document.querySelector('[data-blue-gear-enter]');if(status&&pack.drawEnabled)status.textContent='판매 중';if(button&&pack.drawEnabled)button.textContent='블루기어팩 개봉';
+ pack.previewCards=(pack.previewCards||[]).map(card=>({...card,...event.detail.stock.find(row=>row.code===card.code)}));
+ const hero=document.querySelector('.bloodmoon-shop-hero.blue-gear-skin');
+ if(!hero)return;
+ for(const label of hero.querySelectorAll('[data-bwp-stock-code]')){
+  const card=pack.previewCards.find(row=>row.code===label.dataset.bwpStockCode);
+  if(card)label.textContent=bloodmoonShopStockText(card);
+ }
+ hero.querySelector('.bloodmoon-shop-description').textContent=pack.drawEnabled?'판매 중':pack.openingScheduled?'11월 20일 00:00 판매 시작 · 한국시간':'현재 개봉 불가';
+ hero.querySelector('[data-blue-gear-enter]').textContent=pack.drawEnabled?'블루기어팩 개봉':'개봉실 미리보기';
 });
-function blueGearShopHero(pack){
- loadBlueGearShopStyle();
- const cards=(pack.previewCards||[]).map(c=>`<figure data-blue-stock="${escapeHtml(c.code)}" data-grade="${escapeHtml(c.rank)}"><img src="/${escapeHtml(c.thumbnailArt)}" alt="" loading="lazy" width="100" height="150"><figcaption><small>${escapeHtml(c.rank)} · 잔여 ${Number(c.remaining)}/${Number(c.limit)}</small>${escapeHtml(c.name)}</figcaption></figure>`).join('');
- return `<section class="bgp-shop"><div class="bgp-shop-main"><div class="bgp-shop-copy"><div class="bgp-kicker">REVERSE CALL / BLUE GEAR</div><h2>블루기어팩</h2><p class="bgp-sale">${pack.drawEnabled?'판매 중':'11월 20일 00:00 판매 시작 · 한국시간'}</p><p>블루기어 SS 5종 각 10장<br>제로 · 하쿠야 신 각 3장</p><button type="button" class="bgp-enter" data-blue-gear-enter>${pack.drawEnabled?'블루기어팩 개봉':'개봉실 미리보기'}</button></div><div class="bgp-shop-visual"><span class="bgp-rings" aria-hidden="true"></span>${packResponsiveImage(pack,{hero:true})}</div></div><section class="bgp-collection"><h3>한정 용병</h3><div>${cards}</div></section></section>`;
-}
 document.addEventListener('click',async event=>{
  const button=event.target.closest?.('[data-blue-gear-enter]');if(!button||button.disabled)return;
  button.disabled=true;
- try{const module=await import('/js/mercenary-blue-gear-pack-live.bundle.mjs?reveal=4');await module.openBlueGearPack();}
+ try{const module=await import('/js/mercenary-blue-gear-pack-live.bundle.mjs?v=20261113-contract1');await module.openBlueGearPack();}
  catch(error){alert(error.message);}finally{if(button.isConnected)button.disabled=false;}
 });
 function blackcrownPackHero(pack) {
@@ -2018,7 +2027,7 @@ function blackcrownPackHero(pack) {
 
 function standardPackHero(pack) {
   if (pack.id === 'mercenary-bloodmoon-ss-limited') return bloodmoonPackHero(pack);
-  if(pack.id==='mercenary-blue-gear')return blueGearShopHero(pack);
+  if(pack.id==='mercenary-blue-gear')return bloodmoonPackHero(pack);
   if(pack.id==='mercenary-reversecall-streamer')return blackcrownPackHero(pack).replace('blackcrown-shop-hero','blackcrown-shop-hero streamer-pack-hero').replaceAll('REVERSE CALL · BLACK CROWN','REVERSE CALL · STREAMER').replaceAll('블랙크라운팩','리버스콜 스트리머 팩').replace('<h2>','<h2 style="word-break:keep-all">').replaceAll('data-blackcrown-pack-enter','data-streamer-pack-enter').replace('검은 왕관 아래, 새로운 계약이 시작된다.','리버스랜드 등록 스트리머를 위한 전용 계약.').replace('10장 한정','독립 한도').replace('SSS 각 5장','SSS 독립 한도').replace('팩 한도 각 5장','블랙크라운과 별도 재고').replace('블랙크라운 한정 컬렉션','스트리머 팩 · 블랙크라운 컬렉션');
   if (pack.id === 'mercenary-blackcrown-ss-limited') return blackcrownPackHero(pack);
   if (pack.id === 'mercenary-halloween-ss-limited') return halloweenPackHero(pack);
