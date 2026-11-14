@@ -1,0 +1,20 @@
+{
+  "header": [
+    {
+      "message": "ResizeObserver loop completed with undelivered notifications.",
+      "url": "/",
+      "recent": [
+        {
+          "origin": "@web-inspector://bootstrap.js:27:48\nconnectedCallback@http://127.0.0.1:8954/js/adventure-lobby-v2107.js:332:45\nappend@[native code]\nensureSharedNavigation@http://127.0.0.1:8954/js/soopketmon-v21-exact-shell-adapter.js:475:24\nrenderHome@http://127.0.0.1:8954/js/soopketmon-v21-exact-shell-adapter.js:490:31\nenhance@http://127.0.0.1:8954/js/soopketmon-v21-exact-shell-adapter.js:539:37\n@http://127.0.0.1:8954/js/soopketmon-v21-exact-shell-adapter.js:549:75",
+          "time": 1132,
+          "targets": [
+            "topbar",
+            "rail sidebar",
+            "mobile-dock"
+          ]
+        }
+      ]
+    }
+  ],
+  "polish": []
+}

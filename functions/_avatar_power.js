@@ -1,5 +1,6 @@
 import {ensureAvatarFoundation} from './_avatar.js';
-// Roll out the newly approved Iyejun option without changing legacy avatar balance.
+import {SANTA_CODES} from './_avatar_santa.js';
+const powerCodes=['IYEJUN',...SANTA_CODES];
 // Read on every formation snapshot: expiry, unequip and CMS OFF are immediate.
 export async function avatarBattlePowerPercents(env,userIds){
   const ids=[...new Set(userIds.map(Number).filter(n=>Number.isSafeInteger(n)&&n>0))];
@@ -12,7 +13,7 @@ export async function avatarBattlePowerPercents(env,userIds){
     JOIN avatar_catalog_v1 a ON a.code=l.avatar_code AND a.is_active=1 AND a.is_public=1
     JOIN users u ON u.id=l.user_id LEFT JOIN app_meta s ON s.key='avatar_settings_v1'
     LEFT JOIN avatar_effect_options_v1 e ON e.avatar_code=a.code AND e.effect_type IN ('BATTLE_POWER_PERCENT','BATTLE_POWER_BASIS_POINTS')
-    WHERE l.avatar_code='IYEJUN' AND l.user_id IN (${ids.map(()=>'?').join(',')}) ORDER BY e.option_order`).bind(...ids).all();
+    WHERE l.avatar_code IN (${powerCodes.map(()=>'?').join(',')}) AND l.user_id IN (${ids.map(()=>'?').join(',')}) ORDER BY e.option_order`).bind(...powerCodes,...ids).all();
   const result=new Map();
   for(const row of rows.results||[]){
     let settings;try{settings=JSON.parse(row.settings||'{}')}catch{continue}

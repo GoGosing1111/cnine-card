@@ -1,5 +1,6 @@
 import {handleAvatarAdminGrant} from './_avatar_admin_grant.js';
 import {ensureRuntimeFoundation} from './_runtime_foundation.js';
+import {SANTA_AVATAR_KEY,ensureSantaAvatars,isSantaAvatar,avatarCoinCap,santaModeAllows} from './_avatar_santa.js';
 import {IYEJUN_AVATAR_KEY,ensureIyejunAvatar} from './_avatar_iyejun.js';
 
 /* REVERSE CALL AVATAR CATALOG V1
@@ -26,7 +27,8 @@ const SETTINGS_KEY='avatar_settings_v1';
 const SETTINGS_DEFAULT=Object.freeze({mode:'OFF',shopEnabled:false,version:1});
 const MODES=Object.freeze(['OFF','TEST','ON']);
 const ACQUISITION_TYPES=Object.freeze(['UNSET','COIN','DROP','EVENT']);
-const EFFECT_TYPES=Object.freeze(['BATTLE_POWER_PERCENT','SCRAPYARD_FREE_ENTRY','RAID_EXTRA_ENTRY','COIN_GAIN_PERCENT','DROP_RATE_PERCENT']);
+const EFFECT_TYPES=Object.freeze(['BATTLE_POWER_PERCENT','SCRAPYARD_FREE_ENTRY','RAID_EXTRA_ENTRY','COIN_GAIN_PERCENT','DROP_RATE_PERCENT','ACCOUNT_RANK_XP_PERCENT']);
+const MAX_AVATAR_EFFECTS=5;
 const MAX_SAFE_COIN=Number.MAX_SAFE_INTEGER;
 const AVATAR_EQUIP_COOLDOWN_MS=24*60*60*1000;
 const FOUNDATION_CACHE=Symbol('avatar-foundation-iyejun-20261018');
@@ -56,7 +58,7 @@ function cleanAcquisition(value){const type=String(value||'').trim().toUpperCase
 function cleanEffect(value){const type=String(value||'').trim().toUpperCase();return EFFECT_TYPES.includes(type)?type:''}
 function cleanEffectValue(type,value,code=''){
   const raw=Number(value)||0,n=type==='BATTLE_POWER_PERCENT'?Math.round(raw*100)/100:Math.floor(raw);
-  const max=type==='COIN_GAIN_PERCENT'&&code==='IYEJUN'?150:['COIN_GAIN_PERCENT','BATTLE_POWER_PERCENT','DROP_RATE_PERCENT'].includes(type)?100:type==='RAID_EXTRA_ENTRY'?20:1;
+  const max=type==='COIN_GAIN_PERCENT'?avatarCoinCap(code):['BATTLE_POWER_PERCENT','DROP_RATE_PERCENT','ACCOUNT_RANK_XP_PERCENT'].includes(type)?100:type==='RAID_EXTRA_ENTRY'?20:1;
   return Math.max(1,Math.min(max,n));
 }
 function storedEffect(effect){
@@ -211,7 +213,7 @@ export async function ensureAvatarFoundation(env){
   return ensureRuntimeFoundation(env,FOUNDATION_CACHE,[
     FOUNDATION_KEY,EFFECT_OPTIONS_KEY,EQUIPMENT_ALPHA_V2_KEY,EQUIPMENT_ALPHA_V3_KEY,
     DIMWOOS_AVATAR_KEY,TERRAN_EMPRESS_JOEUN_AVATAR_KEY,HI_HEEYA_AVATAR_KEY,CHEON_AVATAR_KEY,
-    ORIKKUNG_AVATAR_KEY,SAENGBYUWANG_AVATAR_KEY,HANBOK_DIIM_AVATAR_KEY,T1_JOEUN_AVATAR_KEY,OWNERSHIP_EXPIRY_KEY,IYEJUN_AVATAR_KEY
+    ORIKKUNG_AVATAR_KEY,SAENGBYUWANG_AVATAR_KEY,HANBOK_DIIM_AVATAR_KEY,T1_JOEUN_AVATAR_KEY,OWNERSHIP_EXPIRY_KEY,IYEJUN_AVATAR_KEY,SANTA_AVATAR_KEY
   ],async()=>{
     const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(FOUNDATION_KEY).first();
     if(marker?.value!=='1'){
@@ -244,6 +246,7 @@ export async function ensureAvatarFoundation(env){
     await ensureT1JoeunAvatar(env);
     await ensureAvatarOwnershipExpiry(env);
     await ensureIyejunAvatar(env);
+    await ensureSantaAvatars(env);
   });
 }
 
@@ -378,7 +381,7 @@ function normalizedEffects(row,effects){
   const raw=Array.isArray(effects)&&effects.length?effects:[{type:row?.effect_type,value:row?.effect_value}];
   const seen=new Set();
   return raw.map(option=>readEffect(option,row?.code))
-    .filter(option=>option.type&&!seen.has(option.type)&&seen.add(option.type)).slice(0,EFFECT_TYPES.length);
+    .filter(option=>option.type&&(option.type!=='ACCOUNT_RANK_XP_PERCENT'||isSantaAvatar(row?.code))&&!seen.has(option.type)&&seen.add(option.type)).slice(0,MAX_AVATAR_EFFECTS);
 }
 
 function publicAvatar(row,effects){
@@ -386,7 +389,7 @@ function publicAvatar(row,effects){
   const effectOptions=normalizedEffects(row,effects),effect=effectOptions[0]||{type:'',value:0};
   return{
     serial:String(row.serial||''),code:String(row.code||''),name:String(row.name||''),callSign:String(row.call_sign||''),role:String(row.role_label||''),description:String(row.description||''),
-    lobbyImage:String(row.lobby_image||''),lobbyMobileImage:String(row.lobby_mobile_image||''),equipmentImage:String(row.equipment_image||''),accent:String(row.accent||'#82c7d7'),
+    coinGainCap:avatarCoinCap(row.code),rankXpAllowed:isSantaAvatar(row.code),lobbyImage:String(row.lobby_image||''),lobbyMobileImage:String(row.lobby_mobile_image||''),equipmentImage:String(row.equipment_image||''),accent:String(row.accent||'#82c7d7'),
     acquisitionType,coinPrice:Number.isFinite(coinPrice)?coinPrice:null,sourceLabel:String(row.source_label||''),sourceDetail:String(row.source_detail||''),
     effect,effects:effectOptions,owned:Boolean(Number(row.owned||0)),equipped:Boolean(Number(row.equipped||0)),expiresAt:row.expires_at||null,
     active:Boolean(Number(row.is_active||0)),public:Boolean(Number(row.is_public||0)),saleEnabled:Boolean(Number(row.sale_enabled||0)),sortOrder:Number(row.sort_order||0),version:Number(row.version||1)
@@ -505,11 +508,13 @@ async function equipAvatar(env,user,body){
 export async function equippedAvatarEffect(env,userId){
   await ensureAvatarFoundation(env);
   const result=await env.DB.prepare(`SELECT a.code,a.name,a.call_sign,a.role_label,a.effect_type,a.effect_value,a.lobby_image,a.lobby_mobile_image,a.equipment_image,
-    e.option_order,e.effect_type option_effect_type,e.effect_value option_effect_value
+    e.option_order,e.effect_type option_effect_type,e.effect_value option_effect_value,sg.value system_gate,su.role owner_role
     FROM avatar_user_loadout_v1 l JOIN avatar_user_ownership_v1 o ON o.user_id=l.user_id AND o.avatar_code=l.avatar_code AND (o.expires_at IS NULL OR o.expires_at>CURRENT_TIMESTAMP)
     JOIN avatar_catalog_v1 a ON a.code=l.avatar_code LEFT JOIN avatar_effect_options_v1 e ON e.avatar_code=a.code
+    LEFT JOIN app_meta sg ON sg.key='avatar_settings_v1' LEFT JOIN users su ON su.id=l.user_id
     WHERE l.user_id=? AND a.is_active=1 AND a.is_public=1 ORDER BY e.option_order`).bind(userId).all();
   const found=rows(result);if(!found.length)return null;
+  if(isSantaAvatar(found[0].code)&&!santaModeAllows(safeJson(found[0].system_gate,{})?.mode,found[0].owner_role))return null;
   const row=found[0],effects=normalizedEffects(row,found.map(option=>({type:option.option_effect_type,value:option.option_effect_value})));
   const first=effects[0]||{type:'',value:0};
   return{code:String(row.code),name:String(row.name||''),callSign:String(row.call_sign||''),role:String(row.role_label||''),type:first.type,value:first.value,effects,lobbyImage:String(row.lobby_image||''),lobbyMobileImage:String(row.lobby_mobile_image||''),equipmentImage:String(row.equipment_image||'')};
@@ -519,7 +524,7 @@ export function applyAvatarCoinGain(amount,equippedAvatar){
   const base=Math.max(0,Math.min(MAX_SAFE_COIN,Math.floor(Number(amount)||0)));
   const effects=Array.isArray(equippedAvatar?.effects)?equippedAvatar.effects:equippedAvatar?[{type:equippedAvatar.type,value:equippedAvatar.value}]:[];
   const coinEffect=effects.find(effect=>String(effect?.type||'').toUpperCase()==='COIN_GAIN_PERCENT');
-  const percent=coinEffect?Math.max(0,Math.min(equippedAvatar?.code==='IYEJUN'?150:100,Math.floor(Number(coinEffect.value)||0))):0;
+  const percent=coinEffect?Math.max(0,Math.min(avatarCoinCap(equippedAvatar?.code),Math.floor(Number(coinEffect.value)||0))):0;
   const bonus=Math.min(MAX_SAFE_COIN-base,Math.floor(base*(percent/100)));
   return{base,percent,bonus,total:base+bonus};
 }
@@ -559,10 +564,11 @@ async function adminAvatarByCode(env,code){
 
 function cleanAdminEffects(body){
   const source=Array.isArray(body.effects)?body.effects:[{type:body.effectType,value:body.effectValue}];
-  if(!source.length||source.length>EFFECT_TYPES.length)return{error:`아바타 효과는 1개 이상 ${EFFECT_TYPES.length}개 이하로 설정해 주세요.`};
+  if(!source.length||source.length>MAX_AVATAR_EFFECTS)return{error:`아바타 효과는 1개 이상 ${MAX_AVATAR_EFFECTS}개 이하로 설정해 주세요.`};
   const seen=new Set(),effects=[];
   for(const option of source){
     const type=cleanEffect(option?.type);if(!type)return{error:'아바타 효과 유형이 올바르지 않습니다.'};
+    if(type==='ACCOUNT_RANK_XP_PERCENT'&&!isSantaAvatar(cleanText(body.code,80).toUpperCase()))return{error:'계급 경험치 옵션은 산타걸 아바타에만 설정할 수 있습니다.'};
     if(seen.has(type))return{error:'같은 아바타 효과를 중복으로 등록할 수 없습니다.'};
     seen.add(type);effects.push({type,value:cleanEffectValue(type,option?.value,cleanText(body.code,80).toUpperCase())});
   }

@@ -21,7 +21,43 @@ test('favorite changes preserve the draft and saved roster and make no server re
 });
 test('favorite and grade filters retain a selected card outside the filter',()=>{
  const f=fixture();f.node('rsFavorite0').onclick();f.node('rsFavoriteOnly').onclick();let html=f.ui.render();assert.deepEqual(codes(select(html)),['V-002']);assert.match(select(html,1),/<optgroup label="현재 선택">/);assert.deepEqual(codes(select(html,1)),['V-004','V-002']);
- f.node('rsGradeFilter').value='C';f.node('rsGradeFilter').onchange();html=f.ui.render();assert.deepEqual(codes(select(html)),['V-002']);assert.match(html,/목록 0종/);assert.equal(f.ui.ready(),true);
+ f.node('rsGradeFilter').value='C';f.node('rsGradeFilter').onchange();html=f.ui.render();
+ assert.equal(codes(select(html)).length,rows.length);assert.match(html,/선택한 조건에 맞는 용병이 없습니다. 전체 편성 가능 용병 7종을 표시합니다/);assert.equal(f.ui.ready(),true);
+});
+test('empty saved filters show the full roster in every slot and preserve the draft, preferences and eligibility',()=>{
+ for(const prefs of [
+   {grade:'',favoriteOnly:true,favorites:[]},
+   {grade:'',favoriteOnly:true,favorites:['V-999']},
+   {grade:'B',favoriteOnly:false,favorites:['V-008']},
+   {grade:'C',favoriteOnly:true,favorites:['V-002']},
+ ]){
+   const stored=JSON.stringify(prefs),f=fixture({storage:new Map([[key(41),stored]])});
+   const original=JSON.stringify(f.context.pvpState),html=f.ui.render();
+   for(let i=0;i<6;i++){
+     const menu=select(html,i);assert.equal(codes(menu).length,rows.length);
+     assert.deepEqual(new Set(codes(menu)),new Set(rows.map(c=>c.code)));
+     assert.match(menu,/전체 목록에서 선택하세요/);assert.doesNotMatch(menu,/label="현재 선택"/);
+   }
+   assert.equal(JSON.stringify(f.context.pvpState),original);assert.equal(f.storage.get(key(41)),stored);
+   assert.match(select(html,1),/<option value="V-002"[^>]*disabled/);
+   assert.match(select(html,0),/<option value="V-003"[^>]*disabled/);
+   f.node('rsSelect0').value='V-008';f.node('rsSelect0').onchange();
+   assert.equal(f.context.pvpState.rankedDraft[0],'V-008');assert.equal(f.context.pvpState.rankedSeries.codes[0],'V-002');
+   assert.equal(f.posts(),0);assert.equal(f.storage.get(key(41)),stored);
+ }
+});
+test('removing the last favorite restores options and adding an owned favorite reapplies the active filter',()=>{
+ const f=fixture();f.node('rsFavorite0').onclick();f.node('rsFavoriteOnly').onclick();
+ f.node('rsFavorite0').onclick();assert.equal(codes(select(f.ui.render())).length,rows.length);
+ f.node('rsFavorite2').onclick();assert.deepEqual(codes(select(f.ui.render(),2)),['V-003']);
+ assert.equal(f.ui.ready(),true);assert.equal(f.posts(),0);
+});
+test('an empty server roster does not turn stale saved codes or favorites into options',()=>{
+ const f=fixture({storage:new Map([[key(41),JSON.stringify({grade:'SS',favoriteOnly:true,favorites:['V-004']})]])});
+ Object.assign(f.context.pvpState.rankedSeries,{cards:[],ownedCount:0,ready:false});
+ const html=f.ui.render();assert.match(html,/편성 가능한 보유 용병이 없습니다/);
+ for(let i=0;i<6;i++)assert.deepEqual(codes(select(html,i)),[]);
+ assert.doesNotMatch(html,/전체 목록에서 선택하세요/);assert.equal(f.posts(),0);
 });
 test('same-rank and duplicate restrictions still apply to filtered favorites',()=>{
  const f=fixture();f.node('rsFavorite0').onclick();f.node('rsFavoriteOnly').onclick();const html=select(f.ui.render(),1);assert.match(html,/<option value="V-002"[^>]*disabled/);const before=JSON.stringify(f.context.pvpState);f.node('rsSelect1').value='V-002';f.node('rsSelect1').onchange();assert.equal(JSON.stringify(f.context.pvpState),before);

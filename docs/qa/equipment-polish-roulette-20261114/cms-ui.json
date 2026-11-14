@@ -1,0 +1,10 @@
+{
+  "successRate": 10,
+  "coins": 10000000000000,
+  "masterStars": 30000000,
+  "stones": 1,
+  "rows": 20,
+  "firstOptionChance": "2.00%",
+  "saveAndReload": true,
+  "localFixture": true
+}

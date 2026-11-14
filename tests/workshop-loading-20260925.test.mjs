@@ -76,9 +76,9 @@ test('reentry replaces an abandoned inflight read instead of joining an old acco
   h.reads[0].resolve({account:'a'});
 });
 test('entry prefetch is opt-in, clears on exit and keeps assembly effects deferred',()=>{
-  assert.equal((app.match(/parallelStyles:true/g)||[]).length,1);
   assert.match(app,/if\(tab!=='workshop'\)workshopEntryRead=null/);
   const manifest=app.slice(app.indexOf('workshop:{'),app.indexOf('workshopAssemblyFx:{'));
+  assert.match(manifest,/parallelStyles:true/);
   assert.match(manifest,/prepareWorkshopEntryRead/);assert.doesNotMatch(manifest,/ui-fx-vendor|workshop-assembly-fx/);
 });
 test('late workshop responses cannot render after navigation or account change',async()=>{

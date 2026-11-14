@@ -1,0 +1,72 @@
+{
+  "mode": "public",
+  "platform": "ios",
+  "api": "isolated PostgreSQL",
+  "errors": [],
+  "actions": [
+    "approved/rejected/pending results",
+    "member signup",
+    "leave confirmation",
+    "seven-day restriction survives refresh"
+  ],
+  "loads": [
+    {
+      "entry": "first",
+      "ms": 808
+    },
+    {
+      "entry": "return",
+      "ms": 412
+    }
+  ],
+  "frames": {
+    "samples": 31,
+    "p95Ms": 207,
+    "maxMs": 256,
+    "over50": 7,
+    "overflow": false
+  },
+  "postExitRequests": 0,
+  "calls": [
+    {
+      "endpoint": "organization/overview",
+      "ms": 11
+    },
+    {
+      "endpoint": "organization/overview",
+      "ms": 8
+    },
+    {
+      "endpoint": "organization/overview",
+      "ms": 8
+    },
+    {
+      "endpoint": "organization/overview",
+      "ms": 9
+    },
+    {
+      "endpoint": "organization/overview",
+      "ms": 7
+    },
+    {
+      "endpoint": "organization/elder/join",
+      "ms": 18
+    },
+    {
+      "endpoint": "organization/overview",
+      "ms": 7
+    },
+    {
+      "endpoint": "organization/member/leave",
+      "ms": 14
+    },
+    {
+      "endpoint": "organization/overview",
+      "ms": 10
+    },
+    {
+      "endpoint": "organization/overview",
+      "ms": 6
+    }
+  ]
+}

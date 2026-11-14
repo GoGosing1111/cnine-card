@@ -4,7 +4,7 @@ import {openOrganizationFaction} from './organization-faction-window-v1.mjs?v=20
 import {currentOrganization,organizationRosterView,organizationHideoutView} from './organization-headquarters-v1.mjs?clanSeason=20261110-v1&v=20261029-elder-kick';
 import {createOrganizationAdmission} from './organization-admission-v1.mjs?v=20261025-clan-eight';
 import {organizationDashboardHeader,organizationDashboardView} from './organization-dashboard-v1.mjs?clanSeason=20261110-v1&v=20261025-clan-eight&clanRestore=20261025&clanResume=20261025';
-import {organizationJoinView} from './organization-join-v1.mjs?v=20261029-elder-kick';
+import {organizationJoinView} from './organization-join-v1.mjs?v=20261114-rejoin';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number=value=>Number(value||0).toLocaleString('ko-KR');
 const phaseName={PREPARATION:'모집 준비',SURVEY:'희망 클랜 설문',CLOSED:'균등 배정 준비',ASSIGNED:'배정 완료'};
@@ -12,8 +12,10 @@ const emblem=index=>organizationCrest(index+1);
 export async function mountOrganization({root,api,isOwner=false}){
   const admission=createOrganizationAdmission();
   let state,tab=isOwner?'manage':'survey',stage=null,huntKind='boss',busy=false,timer,countdown,clockOffset=0;
-  let destroyed=false,nextRefresh=0;
-  const date=value=>new Date(Number(value)).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'});
+  let destroyed=false,nextRefresh=0,leaveDialog=null;
+  const date=value=>new Date(Number(value)).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const rejoinNotice=()=>state.rejoin?.blocked?'<aside class="org-join-status" role="status"><strong>클랜 재가입 제한 · 탈퇴 후 7일</strong><p>'+date(state.rejoin.availableAt)+' (한국시간)에 재가입 제한이 해제됩니다.</p></aside>':'';
+  const leaveControl=()=>'<section class="org-join"><p>탈퇴하면 7일 동안 모든 클랜에 재가입할 수 없습니다.</p><button type="button" class="org-secondary" data-clan-leave>클랜 탈퇴</button></section>';
   const message=(text,error=false)=>{const el=document.querySelector('#org-message');if(!el)return;clearTimeout(timer);el.className='org-message show'+(error?' error':'');el.textContent=text;timer=setTimeout(()=>el.classList.remove('show'),error?10000:4500);};
   const post=(path,body)=>api(path,{method:'POST',body:{requestId:crypto.randomUUID(),...body}});
   const load=async()=>{
@@ -51,10 +53,11 @@ export async function mountOrganization({root,api,isOwner=false}){
   const run=async(action,success)=>{if(busy)return;busy=true;root.setAttribute('aria-busy','true');root.querySelectorAll('button,input,select,textarea').forEach(el=>el.disabled=true);try{await action();if(success)message(success);await load();}catch(error){message(error.message,true);await load().catch(()=>{});}finally{busy=false;root.setAttribute('aria-busy','false');}};
   function survey(){return admission.render(state);}
   function mine(){
+    if(!state.membership&&state.rejoin?.blocked)return rejoinNotice();
     if(state.join?.canApply)return organizationJoinView(state);
     if(!state.membership&&state.round?.phase==='ASSIGNED')return '<section class="org-empty"><span class="org-kicker">MY CLAN</span><h2>현재 소속된 클랜이 없습니다.</h2><p>클랜 목록과 세력 보유 현황은 확인할 수 있습니다.</p><button type="button" data-tab="overview">클랜 현황 보기</button></section>';
     const id=state.membership?.organizationId;if(!id)return `<section class="org-empty"><span class="org-kicker">A NEW BEGINNING</span><h2>함께할 클랜을 기다립니다.</h2><p>${state.survey?.submitted?`희망 클랜 <strong>${esc(state.organizations[state.survey.preferredOrganizationId-1].name)}</strong> 설문이 접수되었습니다.`:state.admissionEnabled===false?'입단 심사와 모집을 준비하고 있습니다.':state.previewOnly?'입단 심사에서 나와 맞는 클랜을 미리 알아보세요.':'먼저 희망 클랜 설문에 참여해 주세요.'}<br>${state.round?.recruitment?.kind==='ADDITIONAL'?'추가 지원서는 접수만 진행하며, 배정은 운영 확정 후 안내합니다.':'24시간 모집 마감 후 전체 인원과 전력을 평가해 최종 소속을 안내합니다.'}</p><button type="button" class="org-secondary" data-tab="survey" ${state.admissionEnabled===false?'disabled':''}>${state.admissionEnabled===false?'입단 심사 준비 중':'희망 클랜 살펴보기'}</button></section>`;
-    const org=state.organizations[id-1];return `<header class="org-my-head">${emblem(id-1)}<div><span class="org-kicker">MY CLAN</span><h2>${esc(org.name)}</h2><p>새로운 출발, 함께하는 ${org.memberCount}명.<br>클랜 공동 자금 ${number(state.faction?.treasury?.funds)} · ${esc(org.hideout.name)}</p></div></header>${organizationRosterView(state)}${hideout(true)}`;
+    const org=state.organizations[id-1];return `<header class="org-my-head">${emblem(id-1)}<div><span class="org-kicker">MY CLAN</span><h2>${esc(org.name)}</h2><p>새로운 출발, 함께하는 ${org.memberCount}명.<br>클랜 공동 자금 ${number(state.faction?.treasury?.funds)} · ${esc(org.hideout.name)}</p></div></header>${organizationRosterView(state)}${leaveControl()}${hideout(true)}`;
   }
   function hideout(compact=false){return organizationHideoutView(state,{compact,stage:stage??((currentOrganization(state)?.hideout.stage||1)-1),huntKind});}
   function policyForm(){
@@ -63,9 +66,12 @@ export async function mountOrganization({root,api,isOwner=false}){
   }
   function elderForm(){
     const e=state.elderSeason,own=state.organizations.find(o=>o.id===e.organizationId),open=e.phase==='OPEN';
-    if(e.calendar)return '<section class="org-join"><header class="org-section-head"><h2>원로 추첨 신청</h2><button type="button" data-org-refresh>새로고침</button></header><p>마감 때 신청자 중 최대 24명을 추첨해 8개 클랜에 무작위로 배정합니다. 클랜별 원로는 최대 3명입니다.</p>'+
-      (e.applied?'<aside class="org-join-status" role="status"><strong>원로 추첨 신청 완료</strong><button type="button" data-elder-cancel>지원 취소</button></aside>':
-      '<form id="org-elder-form"><button class="org-primary" type="submit">원로 추첨 신청하기</button></form>')+'</section>';
+    if(e.calendar){
+      const manual=e.reviewMode==='MANUAL',rejected=e.reviewStatus==='REJECTED';
+      const label=manual?{APPROVED:'원로 합격 · 클랜 배정 대기',REJECTED:'원로 탈락',PENDING:'원로 심사 대기'}[e.reviewStatus]:'원로 추첨 신청 완료';
+      const content=state.rejoin?.blocked?rejoinNotice():e.applied||rejected?'<aside class="org-join-status" role="status"><strong>'+esc(label||'원로 지원 완료')+'</strong>'+(rejected?'<p>클랜원 자율 가입 기간에 원하는 클랜에 가입할 수 있습니다.</p>':'<button type="button" data-elder-cancel>지원 취소</button>')+'</aside>':'<form id="org-elder-form"><button class="org-primary" type="submit">'+(manual?'원로 지원하기':'원로 추첨 신청하기')+'</button></form>';
+      return '<section class="org-join"><header class="org-section-head"><h2>'+(manual?'원로 지원 · 심사 결과':'원로 추첨 신청')+'</h2><button type="button" data-org-refresh>새로고침</button></header><p>'+(manual?'운영 심사에 합격한 원로를 마감 때 8개 클랜에 무작위로 배정합니다.':'마감 때 신청자 중 최대 24명을 추첨해 8개 클랜에 무작위로 배정합니다.')+' 클랜별 원로는 최대 3명입니다.</p>'+content+'</section>';
+    }
     const detail=open?'지원 마감 '+date(e.closesAt)+' (한국시간)':e.phase==='SELECTION'?'지원을 마감했습니다. 운영자가 클랜별 원로 3명을 선정합니다.':'운영자가 모집을 열면 48시간 동안 지원할 수 있습니다.';
     return '<section class="org-join"><header class="org-section-head"><h2>다음 시즌 원로 지원</h2><button type="button" data-org-refresh>새로고침</button></header><p>'+detail+'</p>'+
       (own?'<aside class="org-join-status"><strong>'+esc(own.name)+' · '+(e.selected?'원로 선정 완료':'원로 지원 완료')+'</strong>'+
@@ -76,12 +82,12 @@ export async function mountOrganization({root,api,isOwner=false}){
   function renderCalendar(){
     const e=state.elderSeason,c=e.calendar,elder=e.phase==='OPEN',deadline=elder?c.elderClosesAt:c.startsAt;
     const name=id=>esc(state.organizations.find(o=>o.id===id)?.name||'');
-    const result=e.selected?'<p>원로 추첨 결과 · '+name(e.organizationId)+' 원로로 배정되었습니다.</p>':e.applied&&e.drawnAt?'<p>원로 추첨 결과 · 이번 추첨에서 선정되지 않았습니다. 원하는 클랜에 가입할 수 있습니다.</p>':'';
+    const result=e.selected?'<p>원로 '+(e.reviewMode==='MANUAL'?'배정':'추첨')+' 결과 · '+name(e.organizationId)+' 원로로 배정되었습니다.</p>':e.applied&&e.drawnAt?'<p>원로 선정 결과 · 이번 시즌 원로로 선정되지 않았습니다. 원하는 클랜에 가입할 수 있습니다.</p>':'';
     const memberForm=e.memberClubId?'<aside class="org-join-status" role="status"><strong>'+name(e.memberClubId)+' · '+(e.selected?'원로 선정 완료':'시즌 5 가입 완료')+'</strong></aside>':
-      '<form id="org-season-member"><label>가입할 클랜<select name="club" required><option value="">클랜 선택</option>'+state.organizations.map(o=>'<option value="'+o.id+'" '+(e.memberCounts[o.id]>=25?'disabled':'')+'>'+esc(o.name)+' · '+e.memberCounts[o.id]+'/25명</option>').join('')+'</select></label><button type="submit" class="org-primary">선택한 클랜에 가입</button></form>';
+      state.rejoin?.blocked?rejoinNotice():'<form id="org-season-member"><label>가입할 클랜<select name="club" required><option value="">클랜 선택</option>'+state.organizations.map(o=>'<option value="'+o.id+'" '+(e.memberCounts[o.id]>=25?'disabled':'')+'>'+esc(o.name)+' · '+e.memberCounts[o.id]+'/25명</option>').join('')+'</select></label><button type="submit" class="org-primary">선택한 클랜에 가입</button></form>';
     root.innerHTML='<header class="org-topbar"><div class="org-brand"><b>리버스콜</b><span>클랜 본부</span></div><span class="org-status">시즌 5</span></header>'+
       '<aside class="org-recruitment is-open"><div><h1>'+(elder?'원로 소집':'클랜원 자율 가입')+'</h1><p>'+date(deadline)+' 마감 (한국시간)</p></div><div class="org-recruitment-time"><b data-season-deadline="'+deadline+'"></b><small>마감까지</small></div></aside>'+
-      '<main class="org-content">'+(elder?elderForm():'<section class="org-join"><h2>클랜원 자율 가입</h2>'+result+(e.memberClubId?'':'<p>희망 클랜을 선택하면 바로 가입됩니다. 클랜별 정원은 원로를 포함해 25명입니다.</p>')+memberForm+'</section>')+
+      '<main class="org-content">'+(elder?elderForm():'<section class="org-join"><header class="org-section-head"><h2>클랜원 자율 가입</h2><button type="button" data-org-refresh>새로고침</button></header>'+result+(e.memberClubId?'':'<p>희망 클랜을 선택하면 바로 가입됩니다. 클랜별 정원은 원로를 포함해 25명입니다.</p>')+memberForm+'</section>'+(e.memberClubId?leaveControl():''))+
       '<section class="org-join"><h2>시즌 일정</h2><p>원로 소집 · '+date(c.openedAt)+' ~ '+date(c.elderClosesAt)+'</p><p>클랜원 자율 가입 · '+date(c.elderClosesAt)+' ~ '+date(c.startsAt)+'</p><p>클랜전 · 세력전 · 챔피언스리그 · '+date(c.startsAt)+' ~ '+date(c.endsAt)+'</p></section></main>';
     root.setAttribute('aria-busy','false');bind();clearInterval(countdown);updateCountdown();countdown=setInterval(updateCountdown,1000);
   }
@@ -119,6 +125,28 @@ export async function mountOrganization({root,api,isOwner=false}){
     };
     document.body.append(dialog);dialog.showModal();
   }
+  function openClanLeave(){
+    if(leaveDialog||busy)return;
+    const e=state.elderSeason,planned=e?.calendar?.sourceRoundId===state.round.id&&e.phase==='MEMBERS';
+    const body={requestId:crypto.randomUUID(),roundId:state.round.id,revision:Number(state.round.revision),organizationId:planned?e.memberClubId:state.membership.organizationId,joinedAt:planned?e.memberJoinedAt:state.membership.joinedAt,windowRevision:e?.revision,confirmation:'LEAVE_CLAN'};
+    const dialog=document.createElement('dialog');leaveDialog=dialog;dialog.className='org-kick-dialog';
+    dialog.setAttribute('aria-labelledby','clan-leave-title');
+    dialog.innerHTML='<h2 id="clan-leave-title">클랜을 탈퇴하시겠습니까?</h2><p>탈퇴한 시각부터 <strong>7일 동안 모든 클랜에 재가입할 수 없습니다.</strong> 원로 권한과 부대 편성도 해제됩니다.</p><p class="org-kick-error" role="alert"></p><footer><button type="button" data-leave-cancel>취소</button><button type="button" data-leave-confirm>탈퇴하기</button></footer>';
+    let submitting=false;
+    const close=()=>{dialog.close();dialog.remove();if(leaveDialog===dialog)leaveDialog=null;};
+    dialog.addEventListener('cancel',event=>{event.preventDefault();if(!submitting)close();});
+    dialog.querySelector('[data-leave-cancel]').onclick=close;
+    dialog.querySelector('[data-leave-confirm]').onclick=async()=>{
+      if(submitting)return;submitting=true;dialog.querySelectorAll('button').forEach(b=>b.disabled=true);
+      try{
+        const result=await api('organization/member/leave',{method:'POST',body});
+        close();if(destroyed)return;
+        message('탈퇴했습니다. '+date(result.rejoinAvailableAt)+' (한국시간)에 재가입 제한이 해제됩니다.');await load();
+      }catch(error){if(!destroyed){dialog.querySelector('.org-kick-error').textContent=error.message;dialog.querySelector('[data-leave-cancel]').disabled=false;dialog.querySelector('[data-leave-confirm]').disabled=['ORG_STALE','ORG_MEMBERSHIP','ORG_MEMBER_PHASE'].includes(error.code);}}
+      finally{submitting=false;}
+    };
+    document.body.append(dialog);dialog.showModal();dialog.querySelector('[data-leave-cancel]').focus();
+  }
   function bind(){
     const context=()=>({roundId:state.round.id,windowId:state.elderSeason.windowId});
     root.querySelector('#org-season-member')?.addEventListener('submit',event=>{
@@ -130,6 +158,7 @@ export async function mountOrganization({root,api,isOwner=false}){
       run(()=>post('organization/elder/apply',body),'원로 지원을 접수했습니다.');
     });
     root.querySelector('[data-elder-cancel]')?.addEventListener('click',()=>run(()=>post('organization/elder/cancel',context()),'원로 지원을 취소했습니다.'));
+    root.querySelector('[data-clan-leave]')?.addEventListener('click',openClanLeave);
     root.querySelectorAll('[data-org-kick]').forEach(button=>button.onclick=()=>openMemberKick(state.roster.find(m=>m.userId===Number(button.dataset.orgKick)),button));
     root.querySelector('#org-join-form')?.addEventListener('submit',event=>{event.preventDefault();const form=new FormData(event.currentTarget);run(()=>post('organization/join/apply',{roundId:state.round.id,revision:state.join.application?.revision||0,organizationId:Number(form.get('organizationId')),message:String(form.get('message')||'')}),'가입 신청을 접수했습니다. 해당 클랜 원로의 심사를 기다려 주세요.');});
     root.querySelector('[data-join-cancel]')?.addEventListener('click',()=>run(()=>post('organization/join/cancel',{roundId:state.round.id,revision:state.join.application.revision}),'가입 신청을 취소했습니다.'));
@@ -154,5 +183,5 @@ export async function mountOrganization({root,api,isOwner=false}){
   const factionSize=event=>{const frame=root.querySelector('.org-faction-frame');if(frame&&event.origin===location.origin&&event.source===frame.contentWindow&&event.data?.type==='organization:faction:height'&&Number.isFinite(event.data.height))frame.style.height=Math.max(400,Math.min(20000,Math.ceil(event.data.height)))+'px';};
   window.addEventListener('message',factionSize);
   try{await load();}catch(error){root.innerHTML=`<section class="org-empty"><h2>클랜 본부를 불러오지 못했습니다.</h2><p>${esc(error.message)}</p><button class="org-secondary" type="button" id="org-retry">다시 불러오기</button></section>`;root.setAttribute('aria-busy','false');root.querySelector('#org-retry').onclick=()=>run(load);}
-  return {refresh:load,destroy:()=>{destroyed=true;clearTimeout(timer);clearInterval(countdown);window.removeEventListener('message',factionSize);root.innerHTML='';}};
+  return {refresh:load,destroy:()=>{destroyed=true;leaveDialog?.remove();leaveDialog=null;clearTimeout(timer);clearInterval(countdown);window.removeEventListener('message',factionSize);root.innerHTML='';}};
 }

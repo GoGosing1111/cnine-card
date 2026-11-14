@@ -6,6 +6,7 @@ import {LIMITED_SHARD_CRAFTS,LIMITED_CRAFT_SHARD} from '../shared/mercenary-limi
 import {MERCENARY_CRAFTS,mercenaryCraftDraft,validateMercenaryCraft} from '../shared/mercenary-craft-v1.mjs';
 import {decorateMercenaryCraft,readMercenaryCraft,readMercenaryCraftStock,saveMercenaryCraft} from '../functions/_mercenary_craft.js';
 import {addLimitedShardCraftStock} from '../functions/_mercenary_craft_stock.js';
+import {scheduleLimitedCraftStock,processLimitedCraftStockSchedules} from '../functions/_mercenary_craft_stock_schedule.js';
 import {__workshopCraftTest,handleWorkshop} from '../functions/_workshop.js';
 import {ensureLimitedPackSchema} from '../functions/_mercenary_limited_pack.js';
 import {readJinmuPackOwners} from '../functions/_mercenary_jinmu_access.js';
@@ -28,7 +29,7 @@ async function fixture(t,postgres=false){
  return {...f,save,craft,stock,balance,add};
 }
 
-test('all 12 SSS LIMITED recipes have separate five-slot drafts, null costs/rates, required shards and no implicit publication or writes',async t=>{
+test('registered SSS LIMITED recipes have separate five-slot drafts, null costs/rates, required shards and no implicit publication or writes',async t=>{
  const f=await fixture(t),before=await f.balance(),prepare=f.env.DB.prepare.bind(f.env.DB);let queries=0;
  f.env.DB.prepare=(...args)=>{queries++;return prepare(...args);};
  const rows=await decorateMercenaryCraft(f.env,[],{admin:true});assert.equal(queries,3);f.env.DB.prepare=prepare;
@@ -115,14 +116,16 @@ test('verified new Jinmu/Jokro recipients can deploy and rank; incomplete receip
   await f.p("UPDATE workshop_craft_receipts_v1668 SET status='PENDING' WHERE request_id=?",requestId).run();assert.equal((await owners(f.env,[7])).has(7),false);
   await f.p("UPDATE workshop_craft_receipts_v1668 SET status='COMPLETED' WHERE request_id=?",requestId).run();
   assert((await mercenaryAccountState(f.env,f.user)).cards.find(c=>c.code===code).canDeploy);
-  for(const mode of ['PVE','PVP']){const state=await mercenaryAccountState(f.env,f.user);await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCode:code,revision:state.loadouts[mode].revision});assert.equal((await loadMercenaryBattleSnapshot(f.env,f.user,mode)).code,code);}
+  for(const mode of ['PVE','PVP']){const state=await mercenaryAccountState(f.env,f.user);await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCodes:[code],revision:state.loadouts[mode].revision});assert.equal((await loadMercenaryBattleSnapshot(f.env,f.user,mode)).code,code);}
   assert((await rankedOwnedMercenaries(f.env,[7])).get(7).some(c=>c.code===code));
  }
  const id=await f.save(def('V-973'));await f.craft(id);assert((await rankedOwnedMercenaries(f.env,[7])).get(7).some(c=>c.code==='V-973'));
- const state=await mercenaryAccountState(f.env,f.user);await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode:'PVP',mercenaryCode:'V-973',revision:state.loadouts.PVP.revision});
+ const state=await mercenaryAccountState(f.env,f.user);await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode:'PVP',mercenaryCodes:['V-973'],revision:state.loadouts.PVP.revision});
  const shiranui=await f.save(def('V-987'));await f.craft(shiranui);
+ await f.p('CREATE TABLE character_titles(id INTEGER PRIMARY KEY,code TEXT UNIQUE,is_active INTEGER)').run();
+ await f.p('CREATE TABLE user_character_titles(user_id INTEGER,title_id INTEGER,expires_at TEXT,PRIMARY KEY(user_id,title_id))').run();
  const account=await mercenaryAccountState(f.env,f.user);assert.equal(account.cards.find(c=>c.code==='V-987').canDeploy,false);
- await assert.rejects(saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode:'PVE',mercenaryCode:'V-987',revision:account.loadouts.PVE.revision}),/중장/);
+ await assert.rejects(saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode:'PVE',mercenaryCodes:['V-987'],revision:account.loadouts.PVE.revision}),/중장/);
 });
 
 test('CMS route accepts only an authenticated OWNER and returns the separated updated snapshot',async t=>{
@@ -134,4 +137,64 @@ test('CMS route accepts only an authenticated OWNER and returns the separated up
   assert.equal(response.status,role==='OWNER'?200:403);
   if(role==='OWNER'){const result=await response.json();assert.equal(result.snapshot.recipes.find(r=>r.code===d.recipeCode).craftStock.limit,10);}
  }
+});
+
+for(const postgres of [false,true])test(`timed refill and first publication share one commit; three new recipes charge correctly (${postgres?'PostgreSQL':'SQLite'})`,async t=>{
+ const f=await fixture(t,postgres);
+ const open=['V-970','V-974','V-971'].map(def);
+ const restock=['V-979','V-989','V-996','V-999'].map(def);
+ const player={id:7,role:'USER'};
+ const byCode=new Map();
+ for(const d of restock){
+  const id=await f.save(d),policy=(await readMercenaryCraft(f.env,d)).policy;
+  await f.setting(d.key,{...policy,stockLimit:25});
+  await f.p("INSERT INTO workshop_craft_logs_v1668(request_id,user_id,recipe_id,recipe_name,category,output_type,output_ref,output_quantity,payment_type,success) VALUES(?,8,?,?,'MERCENARY_CRAFT','MERCENARY',?,25,'BOTH',1)",crypto.randomUUID(),id,d.name,d.code).run();
+ }
+ const request={requestId:crypto.randomUUID(),reason:'소진 4종 각 10장 복구 및 신규 3종 공개',executeAt:new Date(Math.floor(Date.now()/1000)*1000+3600000).toISOString(),
+  changes:[...restock.map(d=>({code:d.code,quantity:10})),...open.map(d=>({code:d.code,open:true}))]};
+ const due=Date.parse(request.executeAt);
+ for(const d of open){
+  await f.add(d,0);
+  await assert.rejects(scheduleLimitedCraftStock(f.env,f.user,request));
+  byCode.set(d.code,await f.save(d,{craftRevision:1,coinCost:500000000000000,masterStarCost:100000000,materials:[{itemCode:LIMITED_CRAFT_SHARD,quantity:25}],successRate:10,isActive:false,isPublic:false}));
+ }
+ await scheduleLimitedCraftStock(f.env,f.user,request);
+ assert((await scheduleLimitedCraftStock(f.env,f.user,request)).replayed);
+ await assert.rejects(scheduleLimitedCraftStock(f.env,f.user,{...request,requestId:crypto.randomUUID()}),/한 번만/);
+ const snapshot=async()=> (await decorateMercenaryCraft(f.env,[])).filter(r=>r.craftScope==='SSS_LIMITED_SHARD');
+ assert.equal((await processLimitedCraftStockSchedules(f.env,{clock:()=>due-1})).applied,0);
+ const before=await snapshot();assert.equal(before.length,4);assert(before.every(r=>r.craftStock.soldOut));
+ for(const d of open)await assert.rejects(f.craft(byCode.get(d.code),crypto.randomUUID(),player),/현재 제작할 수 없는/);
+ f.fail('INSERT INTO admin_logs');
+ await assert.rejects(processLimitedCraftStockSchedules(f.env,{clock:()=>due}),/INJECTED_FAILURE/);
+ f.fail('');assert.deepEqual(await snapshot(),before);
+ for(const id of byCode.values())assert.equal(Number((await f.p('SELECT is_public FROM workshop_recipes_v1668 WHERE id=?',id).first()).is_public),0);
+ assert.equal((await processLimitedCraftStockSchedules(f.env,{clock:()=>due})).applied,1);
+ assert.equal((await processLimitedCraftStockSchedules(f.env,{clock:()=>due+1})).applied,0);
+ const rows=await snapshot();assert.equal(rows.length,7);
+ for(const row of rows){
+  const prior=before.find(r=>r.code===row.code);
+  assert.deepEqual(row.craftStock,{limit:prior?35:10,crafted:prior?25:0,remaining:10,soldOut:false});assert.equal(row.craftLocked,false);
+  if(prior){assert.equal(row.coin_cost,prior.coin_cost);assert.deepEqual(row.materials,prior.materials);continue;}
+  assert.equal(row.coin_cost,500000000000000);assert.equal(row.master_star_cost,100000000);assert.equal(row.success_rate,10);
+  assert.equal(row.output_image,def(row.output_ref).previewImage);
+  assert.deepEqual(row.materials.map(m=>[m.item_code,m.quantity]),[[LIMITED_CRAFT_SHARD,25]]);
+ }
+ await f.p('UPDATE users SET coin=8000000000000000 WHERE id=7').run();
+ await f.p("UPDATE cnine_user_inventory SET quantity=2000000000 WHERE user_id=7 AND item_code='MASTER_STAR'").run();
+ await f.p('UPDATE cnine_user_inventory SET quantity=500 WHERE user_id=7 AND item_code=?',LIMITED_CRAFT_SHARD).run();
+ const random=t.mock.method(Math,'random',()=>0.10),first=byCode.get('V-970');
+ assert.equal((await f.craft(first,crypto.randomUUID(),player)).success,false);
+ assert.equal((await f.stock(open[0])).remaining,10);
+ random.mock.mockImplementation(()=>0.099);
+ for(const d of open){
+  const rid=crypto.randomUUID(),result=await f.craft(byCode.get(d.code),rid,player);
+  assert.equal(result.output.ref,d.code);assert.equal(result.output.quantity,1);
+  assert.equal(result.output.image,d.art.sourceArt);
+  assert((await f.craft(byCode.get(d.code),rid,player)).replayed);assert.equal((await f.stock(d)).remaining,9);
+ }
+ assert.equal(await f.coin(),6000000000000000);assert.equal(await f.quantity('MASTER_STAR'),1600000000);assert.equal(await f.quantity(LIMITED_CRAFT_SHARD),400);
+ for(let i=0;i<9;i++)await f.craft(first,crypto.randomUUID(),player);
+ const spent=await f.balance();await assert.rejects(f.craft(first,crypto.randomUUID(),player),/소진/);assert.deepEqual(await f.balance(),spent);
+ assert.equal((await f.stock(open[0])).remaining,0);assert.equal((await f.stock(open[1])).remaining,9);assert.equal((await f.stock(open[2])).remaining,9);
 });

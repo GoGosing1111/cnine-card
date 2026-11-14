@@ -101,7 +101,7 @@ export function battleWarmupWork(engine){
   const work=[];
   for(const [key,value] of Object.entries(engine||{})){
     if(/Loads$/.test(key)&&value instanceof Map)work.push(...value.values());
-    else if(/ReadyPromise$/.test(key)&&value?.then)work.push(value);
+    else if(/(?:Ready|Release)Promise$/.test(key)&&value?.then)work.push(value);
   }
   return work;
 }

@@ -71,3 +71,29 @@ for(const postgres of [false,true])test('polish CMS atomic settings/material, OF
   assert.equal((await f.call('state')).status,403);
   assert.equal(await snapshot(),untouched);
 });
+
+
+test('10% success boundaries, fail weights, capped options and old settings remain valid', () => {
+  const policy = polishDefaults();
+  delete policy.successRate;
+  assert.equal(validatePolishSettings(policy).successRate, 100);
+  assert.equal(polishPreviewResult(policy, [0,0,0,0,0], .9999).success, true);
+  policy.successRate = 10;
+  policy.costs.forEach(row => Object.assign(row, {coins: 10000000000000, masterStars: 30000000}));
+  assert.equal(validatePolishSettings(policy).successRate, 10);
+  assert.deepEqual(polishRates(policy), [2,2,2,2,2]);
+  assert.deepEqual(polishRates(policy, [10,0,0,0,0]), [0,2.5,2.5,2.5,2.5]);
+  const successes = [0,0,0,0,0];
+  let misses = 0;
+  for (let i=0; i<10000; i++) {
+    const result = polishPreviewResult(policy, [0,0,0,0,0], (i + .5) / 10000);
+    if (result.success) successes[result.selected]++;
+    else misses++;
+  }
+  assert.deepEqual(successes, [200,200,200,200,200]);
+  assert.equal(misses, 9000);
+  assert.equal(polishPreviewResult(policy, [10,0,0,0,0], 0).selected, 1);
+  for (const invalid of [-1,101,Infinity,NaN,.001,'10']) {
+    assert.throws(() => validatePolishSettings({...policy, successRate: invalid}));
+  }
+});

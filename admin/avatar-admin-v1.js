@@ -3,8 +3,9 @@
 
   const $ = selector => document.querySelector(selector);
   const esc = value => String(value ?? '').replace(/[&<>'"]/g, char => ({ '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;' }[char]));
-  const EFFECT_LABELS={BATTLE_POWER_PERCENT:'전투력 상승 (%)',SCRAPYARD_FREE_ENTRY:'폐차장 입장권 무료',RAID_EXTRA_ENTRY:'레이드 추가 횟수',COIN_GAIN_PERCENT:'코인 습득률 (%)',DROP_RATE_PERCENT:'드랍률 증가 (%)'};
-  const MAX_EFFECTS=Object.keys(EFFECT_LABELS).length;
+  const EFFECT_LABELS={BATTLE_POWER_PERCENT:'전투력 상승 (%)',SCRAPYARD_FREE_ENTRY:'폐차장 입장권 무료',RAID_EXTRA_ENTRY:'레이드 추가 횟수',COIN_GAIN_PERCENT:'코인 습득률 (%)',DROP_RATE_PERCENT:'드랍률 증가 (%)',ACCOUNT_RANK_XP_PERCENT:'계급 경험치 상승 (%)'};
+  const MAX_EFFECTS=5;
+  const itemFor=code=>state?.avatars?.find(item=>item.code===code);
   const ACQUISITION_LABELS={UNSET:'미설정',COIN:'코인 판매',DROP:'콘텐츠 드랍',EVENT:'이벤트/운영 지급'};
   let state=null;
 
@@ -27,10 +28,10 @@
 
   function modeOptions(current){return ['OFF','TEST','ON'].map(mode=>`<option value="${mode}" ${mode===current?'selected':''}>${mode}${mode==='OFF'?' · 완전 비공개':mode==='TEST'?' · OWNER만':' · 전체 공개'}</option>`).join('')}
   function acquisitionOptions(current){return Object.entries(ACQUISITION_LABELS).map(([value,label])=>`<option value="${value}" ${value===current?'selected':''}>${label}</option>`).join('')}
-  function effectOptions(current){return (current?'':'<option value="" selected>미설정 · 효과를 선택하세요</option>')+Object.entries(EFFECT_LABELS).map(([value,label])=>`<option value="${value}" ${value===current?'selected':''}>${label}</option>`).join('')}
-  function effectMax(type,code){if(type==='COIN_GAIN_PERCENT'&&code==='IYEJUN')return 150;return type==='RAID_EXTRA_ENTRY'?20:type==='SCRAPYARD_FREE_ENTRY'?1:100}
+  function effectOptions(current,code){return (current?'':'<option value="" selected>미설정 · 효과를 선택하세요</option>')+Object.entries(EFFECT_LABELS).filter(([type])=>type!=='ACCOUNT_RANK_XP_PERCENT'||itemFor(code)?.rankXpAllowed).map(([value,label])=>`<option value="${value}" ${value===current?'selected':''}>${label}</option>`).join('')}
+  function effectMax(type,code){if(type==='COIN_GAIN_PERCENT')return Number(itemFor(code)?.coinGainCap)||(code==='IYEJUN'?150:100);return type==='RAID_EXTRA_ENTRY'?20:type==='SCRAPYARD_FREE_ENTRY'?1:100}
   function itemEffects(item){return Array.isArray(item.effects)&&item.effects.length?item.effects:[item.effect||{type:'BATTLE_POWER_PERCENT',value:1}]}
-  function effectRow(effect,index,code){const type=effect?.type||'';return `<div class="avatar-admin-effect-row" data-effect-row><i>${String(index+1).padStart(2,'0')}</i><label><span>효과 유형</span><select data-effect-type>${effectOptions(type)}</select></label><label><span>효과 수치</span><input data-effect-value type="number" min="1" max="${effectMax(type,code)}" step="${type==='BATTLE_POWER_PERCENT'?0.01:1}" value="${Math.max(1,Number(effect?.value||1))}"></label><button type="button" data-effect-remove aria-label="효과 삭제">삭제</button></div>`}
+  function effectRow(effect,index,code){const type=effect?.type||'';return `<div class="avatar-admin-effect-row" data-effect-row><i>${String(index+1).padStart(2,'0')}</i><label><span>효과 유형</span><select data-effect-type>${effectOptions(type,code)}</select></label><label><span>효과 수치</span><input data-effect-value type="number" min="1" max="${effectMax(type,code)}" step="${type==='BATTLE_POWER_PERCENT'?0.01:1}" value="${Math.max(1,Number(effect?.value||1))}"></label><button type="button" data-effect-remove aria-label="효과 삭제">삭제</button></div>`}
 
   function avatarCard(item){
     const image=String(item.lobbyMobileImage||item.lobbyImage||'');
@@ -45,7 +46,7 @@
         <label class="avatar-admin-wide"><span>획득 상세 안내</span><textarea data-field="sourceDetail" maxlength="500" rows="2" placeholder="유저에게 표시할 획득 조건">${esc(item.sourceDetail||'')}</textarea></label>
         <label><span>정렬 순서</span><input data-field="sortOrder" type="number" min="0" max="9999" step="1" value="${Number(item.sortOrder||0)}"></label>
       </div>
-      <section class="avatar-admin-effects"><header><div><small>MULTI EFFECT OPTIONS</small><b>최대 ${MAX_EFFECTS}개 · 중복 유형 불가</b></div><button type="button" data-effect-add ${effects.length>=MAX_EFFECTS?'disabled':''}>+ 옵션 추가</button></header><div data-effect-list>${effects.map((effect,index)=>effectRow(effect,index,item.code)).join('')}</div><p class="avatar-admin-option-help">코인은 최대 +${item.code==='IYEJUN'?150:100}%, 드랍률은 최대 +100%. 드랍률은 기본 확률에 비례해 증가합니다. 예: 10%에 +50% → 15%.</p></section>
+      <section class="avatar-admin-effects"><header><div><small>MULTI EFFECT OPTIONS</small><b>최대 ${MAX_EFFECTS}개 · 중복 유형 불가</b></div><button type="button" data-effect-add ${effects.length>=MAX_EFFECTS?'disabled':''}>+ 옵션 추가</button></header><div data-effect-list>${effects.map((effect,index)=>effectRow(effect,index,item.code)).join('')}</div><p class="avatar-admin-option-help">코인은 최대 +${effectMax('COIN_GAIN_PERCENT',item.code)}%, 드랍률은 최대 +100%. 드랍률은 기본 확률에 비례해 증가합니다. 예: 10%에 +50% → 15%.</p></section>
       <div class="avatar-admin-switches">
         <label><input data-field="active" type="checkbox" ${item.active?'checked':''}><span>데이터 사용 ON</span></label>
         <label><input data-field="public" type="checkbox" ${item.public?'checked':''}><span>유저 공개</span></label>
@@ -77,7 +78,7 @@
     $('#avatarConfigSave').onclick=saveConfig;
     document.querySelectorAll('.avatar-admin-card').forEach(card=>{
       syncCard(card);syncEffects(card);card.querySelector('[data-field="acquisitionType"]')?.addEventListener('change',()=>syncCard(card));card.querySelector('[data-avatar-save]')?.addEventListener('click',()=>saveAvatar(card));
-      card.querySelector('[data-effect-add]')?.addEventListener('click',()=>{const used=new Set(readEffects(card).map(effect=>effect.type)),type=Object.keys(EFFECT_LABELS).find(value=>!used.has(value));if(!type)return;card.querySelector('[data-effect-list]').insertAdjacentHTML('beforeend',effectRow({type,value:1},card.querySelectorAll('[data-effect-row]').length));syncEffects(card)});
+      card.querySelector('[data-effect-add]')?.addEventListener('click',()=>{const used=new Set(readEffects(card).map(effect=>effect.type)),type=Object.keys(EFFECT_LABELS).find(value=>!used.has(value)&&(value!=='ACCOUNT_RANK_XP_PERCENT'||itemFor(card.dataset.avatarCode)?.rankXpAllowed));if(!type)return;card.querySelector('[data-effect-list]').insertAdjacentHTML('beforeend',effectRow({type,value:1},card.querySelectorAll('[data-effect-row]').length,card.dataset.avatarCode));syncEffects(card)});
       card.addEventListener('click',event=>{const remove=event.target.closest('[data-effect-remove]');if(remove&&!remove.disabled){remove.closest('[data-effect-row]').remove();syncEffects(card)}});
       card.addEventListener('change',event=>{if(event.target.matches('[data-effect-type]'))syncEffects(card)});
     });

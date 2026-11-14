@@ -1,6 +1,7 @@
 import {orgAssert,orgInteger} from '../shared/organization-system-v1.mjs';
 import {organizationElderIds} from '../shared/organization-faction-v1.mjs';
 import {CLAN_RESUMPTION_STATE_KEY,activeClanResumption} from '../shared/clan-resumption-v1.mjs';
+import {recordClanLeave} from './_organization_rejoin.js';
 
 const pack=JSON.stringify;
 const hasUser=(ids,id)=>(ids||[]).some(value=>Number(value)===id);
@@ -11,9 +12,17 @@ function removeFromFormation(state,clanId,userId,now){
  for(const [squad,id] of Object.entries(state.captains?.[clanId]||{}))if(Number(id)===userId)delete state.captains[clanId][squad];
  for(const district of state.districts||[])if(Number(district.owner)===clanId&&district.defense&&!state.formations?.[clanId]?.[district.defense]?.length)district.defense='';
 }
+function removeElderRole(state,clanId,userId){
+ const elders=state.elders?.[clanId]??[state.commanders?.[clanId]].filter(Boolean);
+ state.elders??={};state.elders[clanId]=elders.filter(id=>Number(id)!==userId);
+ if(Number(state.commanders?.[clanId])===userId){
+  if(state.elders[clanId].length)state.commanders[clanId]=state.elders[clanId][0];
+  else delete state.commanders[clanId];
+ }
+}
 
 // Run inside the organization's existing transaction, never as a separate removal.
-async function removeRegularMembership(q,round,userId,clanId,now,expected){
+async function removeRegularMembership(q,round,userId,clanId,now,expected,selfLeave=false){
  if(round.scope!=='LIVE')return null;
  const [meta]=await q('SELECT value FROM app_meta WHERE key=$1',[CLAN_RESUMPTION_STATE_KEY]);
  const release=meta&&activeClanResumption(JSON.parse(meta.value),now);
@@ -34,13 +43,66 @@ async function removeRegularMembership(q,round,userId,clanId,now,expected){
  orgAssert(!(await q("SELECT 1 FROM clan_war_battles WHERE season_id=$1 AND status IN ('PENDING','RESOLVING') AND (attacker_user_id=$2 OR defender_user_id=$2) LIMIT 1",[release.seasonId,userId])).length,'BATTLE','대상의 전투가 끝난 뒤 방출하세요.');
  orgAssert(!(await q('SELECT 1 FROM clan_war_reservation_locks l JOIN clan_wars w ON w.id=l.war_id WHERE w.season_id=$1 AND l.user_id=$2 AND l.expires_at::timestamptz>CURRENT_TIMESTAMP LIMIT 1',[release.seasonId,userId])).length,'BATTLE','대상의 전투 예약이 끝난 뒤 방출하세요.');
  const [faction]=await q('SELECT * FROM clan_faction_state WHERE season_id=$1 FOR UPDATE',[release.seasonId]);
- if(faction){const state=JSON.parse(faction.state_json);removeFromFormation(state,clanId,userId,now);await q('UPDATE clan_faction_state SET state_json=$1,revision=revision+1 WHERE season_id=$2',[pack(state),release.seasonId]);}
+ if(faction){const state=JSON.parse(faction.state_json);removeFromFormation(state,clanId,userId,now);if(selfLeave)removeElderRole(state,clanId,userId);await q('UPDATE clan_faction_state SET state_json=$1,revision=revision+1 WHERE season_id=$2',[pack(state),release.seasonId]);}
  const pool=await q('SELECT * FROM clan_draft_pool WHERE season_id=$1 AND user_id=$2',[release.seasonId,userId]);
  orgAssert(pool.every(p=>Number(p.drafted_clan_id)===clanId),'MEMBERSHIP','클랜전 편성 정보가 변경되었습니다. 다시 확인하세요.');
  await q('DELETE FROM clan_members WHERE season_id=$1 AND user_id=$2',[release.seasonId,userId]);
  await q("UPDATE clan_draft_pool SET status='WITHDRAWN',drafted_clan_id=NULL,pick_no=NULL,updated_at=sqlite_now() WHERE season_id=$1 AND user_id=$2",[release.seasonId,userId]);
  await q('DELETE FROM clan_executives WHERE season_id=$1 AND clan_id=$2 AND user_id=$3',[release.seasonId,clanId,userId]);
+ if(selfLeave){
+  const [changed]=await q('UPDATE clan_season_teams SET master_user_id=(SELECT user_id FROM clan_executives WHERE season_id=$1 AND clan_id=$2 ORDER BY user_id LIMIT 1) WHERE season_id=$1 AND clan_id=$2 AND master_user_id=$3 RETURNING master_user_id',[release.seasonId,clanId,userId]);
+  if(changed?.master_user_id)await q("UPDATE clan_members SET member_role='MASTER' WHERE season_id=$1 AND user_id=$2",[release.seasonId,changed.master_user_id]);
+ }
  return {member,pool,faction};
+}
+
+// Voluntary withdrawal uses the same membership/battle locks as removal. The
+// account-wide cooldown and the receipt commit together with both clan rosters.
+export async function leaveOrganizationMember(q,user,body,round,now){
+ const userId=Number(user.id);
+ orgAssert(body.confirmation==='LEAVE_CLAN','CONFIRMATION','탈퇴 후 7일간 모든 클랜에 재가입할 수 없음을 확인하세요.',400);
+ orgAssert(round.phase==='ASSIGNED'&&body.revision===Number(round.revision),'STALE','클랜 명단이 변경되었습니다. 새로고침한 뒤 탈퇴하세요.');
+ const [actor]=await q('SELECT nickname,status,banned_until FROM users WHERE id=$1 FOR SHARE',[userId]);
+ orgAssert(actor?.status==='ACTIVE'&&(!actor.banned_until||Date.parse(actor.banned_until)<=now),'ACCOUNT','활성 계정으로 탈퇴할 수 있습니다.',403);
+ const windowKey='organization:elder-season:'+round.id,[row]=await q('SELECT value FROM app_meta WHERE key=$1',[windowKey]);
+ const window=row?JSON.parse(row.value):null;
+ let clanId,before;
+ if(window?.calendar?.sourceRoundId===round.id){
+  orgAssert(window.drawnAt&&now>=window.closesAt&&now<window.calendar.startsAt,'MEMBER_PHASE','원로 지원 취소는 원로 신청 화면에서 진행하세요.');
+  orgAssert(body.windowRevision===window.revision,'STALE','이번 시즌 가입 명단이 변경되었습니다. 새로고침하세요.');
+  clanId=Number(Object.keys(window.selections).find(id=>window.selections[id].some(p=>p.id===userId))||window.members?.[userId]?.organizationId);
+  orgAssert(clanId&&clanId===body.organizationId,'MEMBERSHIP','이번 시즌에 가입된 클랜이 없습니다.');
+  before={window:structuredClone(window)};
+ }else{
+  const joinedAt=orgInteger(body.joinedAt,0,Number.MAX_SAFE_INTEGER,'가입 시각');
+  const [faction]=await q('SELECT * FROM organization_faction_state_v1 WHERE round_id=$1 FOR UPDATE',[round.id]);
+  const [member]=await q('SELECT * FROM organization_members_v1 WHERE round_id=$1 AND user_id=$2',[round.id,userId]);
+  clanId=Number(member?.organization_id);
+  orgAssert(member&&clanId===body.organizationId&&Number(member.joined_at)===joinedAt,'MEMBERSHIP','현재 클랜 소속을 다시 확인하세요.');
+  const next=JSON.parse(faction?.state_json||'{}');removeFromFormation(next,clanId,userId,now);removeElderRole(next,clanId,userId);
+  const regular=await removeRegularMembership(q,round,userId,clanId,now,null,true);
+  const applicationKey='organization-join:'+round.id+':'+userId;
+  const [application]=await q('SELECT value FROM app_meta WHERE key=$1',[applicationKey]);
+  const survey=await q('SELECT * FROM organization_surveys_v1 WHERE round_id=$1 AND user_id=$2',[round.id,userId]);
+  before={member,faction,regular,application,survey,window:structuredClone(window)};
+  const removed=await q('DELETE FROM organization_members_v1 WHERE round_id=$1 AND user_id=$2 AND joined_at=$3 RETURNING user_id',[round.id,userId,joinedAt]);
+  orgAssert(removed.length===1,'STALE','클랜 소속이 변경되었습니다. 다시 확인하세요.');
+  await q('UPDATE organization_surveys_v1 SET active=0,revision=revision+1,updated_at=$3 WHERE round_id=$1 AND user_id=$2 AND active=1',[round.id,userId,now]);
+  if(application){const a=JSON.parse(application.value);await q('UPDATE app_meta SET value=$2,updated_at=$3 WHERE key=$1',[applicationKey,pack({...a,status:'LEFT',revision:a.revision+1,updatedAt:now,leftAt:now}),new Date(now).toISOString()]);}
+  if(faction)await q('UPDATE organization_faction_state_v1 SET state_json=$1,revision=revision+1 WHERE round_id=$2',[pack(next),round.id]);
+ }
+ if(window){
+  for(const id of Object.keys(window.selections||{}))window.selections[id]=window.selections[id].filter(p=>p.id!==userId);
+  if(window.members)delete window.members[userId];
+  if(window.applications)delete window.applications[userId];
+  window.revision++;
+  await q('UPDATE app_meta SET value=$2,updated_at=$3 WHERE key=$1',[windowKey,pack(window),new Date(now).toISOString()]);
+ }
+ const restriction=await recordClanLeave(q,round,userId,clanId,now);
+ await q('UPDATE organization_rounds_v1 SET revision=revision+1 WHERE id=$1',[round.id]);
+ const result={ok:true,left:true,roundId:round.id,organizationId:clanId,userId,rejoinAvailableAt:restriction.availableAt};
+ await q("INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES($1,'ORGANIZATION_MEMBER_LEAVE','USER',$2,$3,$4)",[userId,String(userId),pack(before),pack({...result,requestId:body.requestId,leftAt:now})]);
+ return result;
 }
 
 export async function kickOrganizationMember(q,user,body,round,now,regularMembership){

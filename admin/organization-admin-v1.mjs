@@ -51,9 +51,11 @@ export function mountOrganizationCms(root,{request=api}={}){
         return '<fieldset><legend>'+esc(club.name)+' · '+assigned.length+'/3명</legend><p>'+
           (assigned.map(id=>esc(names.get(id)||roster.find(m=>m.userId===id)?.nickname||('#'+id))).join(' · ')||'배정된 원로 없음')+'</p></fieldset>';
       }).join(''):'';
-      return section('01',open?'원로 추첨 신청 접수 중':choosing?'클랜원 자율 가입':e.phase==='FINISHED'?'시즌 5 종료':'시즌 5 경기 진행',
+      const manual=e.reviewMode==='MANUAL',labels={APPROVED:'합격',REJECTED:'탈락',PENDING:'심사 대기'};
+      const applicantList='<div class="orgcms-table-scroll"><table><thead><tr><th>접수순</th><th>지원자</th><th>심사</th><th>결정</th></tr></thead><tbody>'+people.map((a,i)=>'<tr><td>'+(i+1)+'</td><td>'+esc(a.nickname)+' <small>#'+a.id+'</small></td><td>'+labels[a.reviewStatus||'PENDING']+'</td><td><button type="button" data-action="elder-review" data-user="'+a.id+'" data-decision="APPROVED" '+(a.reviewStatus==='APPROVED'?'disabled':'')+'>합격</button> <button type="button" data-action="elder-review" data-user="'+a.id+'" data-decision="REJECTED" '+(a.reviewStatus==='REJECTED'?'disabled':'')+'>탈락</button></td></tr>').join('')+'</tbody></table></div>';
+      return section('01',open?(manual?'원로 지원 심사 중':'원로 추첨 신청 접수 중'):choosing?'클랜원 자율 가입':e.phase==='FINISHED'?'시즌 5 종료':'시즌 5 경기 진행',
         '원로 소집 48시간 · 자율 가입 24시간 · 경기 50일','<p>원로 마감 '+date(c.elderClosesAt)+' · 개막 '+date(c.startsAt)+' · 종료 '+date(c.endsAt)+' (한국시간)</p>'+(e.phase==='FINISHED'?'':'<b data-deadline="'+deadline+'"></b>'))+
-        (open?section('02','원로 추첨 신청 '+people.length+'명','마감 때 최대 24명을 뽑아 8개 클랜에 무작위로 배정합니다.',people.map(a=>esc(a.nickname)).join(' · ')):
+        (open?section('02','원로 지원 '+people.length+'명',manual?'합격 '+people.filter(a=>a.reviewStatus==='APPROVED').length+'명 · 탈락 '+people.filter(a=>a.reviewStatus==='REJECTED').length+'명 · 심사 대기 '+people.filter(a=>a.reviewStatus==='PENDING').length+'명. 합격자만 마감 때 무작위 클랜 배정에 포함됩니다.':'심사 결정을 저장하면 합격자만 마감 때 무작위 클랜 배정에 포함됩니다. 최대 24명입니다.',applicantList):
           section('02','원로 추첨 결과','클랜별 최대 3명이며 남은 자리는 빈자리로 개막합니다.','<div class="orgcms-grid">'+result+'</div>'));
     }
     const heading=open?'원로 지원 접수 중':choosing?'지원 마감 · 원로 선정':'원로 모집 대기';
@@ -114,6 +116,7 @@ export function mountOrganizationCms(root,{request=api}={}){
     const r=state.round;
     if(action?.startsWith('elder-')){
       const e=state.elderSeason,context={roundId:r.id,windowId:e.windowId};
+      if(action==='elder-review')return void run(()=>post('admin/organization/elder/review',{...context,revision:e.revision,decisions:[{userId:Number(button.dataset.user),decision:button.dataset.decision}]}),'원로 심사 결과를 저장했습니다.');
       if(action==='elder-open')return void run(()=>post('admin/organization/elder/open',context),'원로 지원을 48시간 동안 받습니다.');
       if(action==='elder-select')return void run(()=>{
         const group=button.closest('[data-elder-club]'),userIds=[...group.querySelectorAll('input:checked')].map(x=>Number(x.value));

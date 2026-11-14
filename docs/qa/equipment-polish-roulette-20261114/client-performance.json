@@ -1,0 +1,923 @@
+{
+  "method": "Production shell entry with isolated local API/account and real production modules. Local files, no network throttle, headless Chrome and WebKit viewport emulation.",
+  "results": [
+    {
+      "platform": "Windows Chrome",
+      "viewport": [
+        1440,
+        960
+      ],
+      "before": true,
+      "header": [
+        {
+          "entry": "cold",
+          "readyMs": 399,
+          "frames": 361,
+          "p95Ms": 4.3,
+          "maxMs": 395.8,
+          "over50": 3,
+          "menu": {
+            "width": 1328,
+            "client": 1328,
+            "icons": 0
+          }
+        },
+        {
+          "entry": "warm",
+          "readyMs": 55,
+          "frames": 47,
+          "p95Ms": 37.5,
+          "maxMs": 108.4,
+          "over50": 2,
+          "menu": {
+            "width": 1328,
+            "client": 1328,
+            "icons": 0
+          }
+        }
+      ],
+      "loads": [
+        {
+          "entry": "cold",
+          "readyMs": 663,
+          "idle": {
+            "frames": 121,
+            "p95Ms": 4.3,
+            "maxMs": 4.5,
+            "over50": 0
+          }
+        },
+        {
+          "entry": "warm",
+          "readyMs": 387,
+          "idle": {
+            "frames": 121,
+            "p95Ms": 4.3,
+            "maxMs": 4.4,
+            "over50": 0
+          }
+        }
+      ],
+      "animation": {
+        "durationMs": 6949,
+        "frames": 1658,
+        "p95Ms": 4.3,
+        "maxMs": 20.9,
+        "over50": 0
+      },
+      "recovery": null,
+      "animationsAtRest": 0,
+      "remainingPolishNodes": 0,
+      "resources": [
+        {
+          "url": "/preview/equipment-polish-premium-v1/style.css",
+          "bytes": 13900,
+          "durationMs": 18
+        },
+        {
+          "url": "/equipment-polish/live.css",
+          "bytes": 1319,
+          "durationMs": 16
+        },
+        {
+          "url": "/js/ui-fx-vendor-v2045.bundle.js",
+          "bytes": 661177,
+          "durationMs": 19
+        },
+        {
+          "url": "/equipment-polish/app.mjs",
+          "bytes": 14331,
+          "durationMs": 17
+        },
+        {
+          "url": "/preview/equipment-polish-premium-v1/assets/polishing-stone-v1.png",
+          "bytes": 1419730,
+          "durationMs": 34
+        },
+        {
+          "url": "/js/joint-account-transport.mjs",
+          "bytes": 2994,
+          "durationMs": 5
+        },
+        {
+          "url": "/shared/equipment-polish-v1.mjs",
+          "bytes": 5445,
+          "durationMs": 4
+        },
+        {
+          "url": "/js/equipment-polish-request-v1.mjs",
+          "bytes": 1796,
+          "durationMs": 5
+        },
+        {
+          "url": "/preview/equipment-polish-premium-v1/source/fx.mjs",
+          "bytes": 11139,
+          "durationMs": 7
+        },
+        {
+          "url": "/js/account-sync-client-v1.mjs",
+          "bytes": 5029,
+          "durationMs": 3
+        },
+        {
+          "url": "/preview/equipment-polish-premium-v1/source/audio.mjs",
+          "bytes": 1924,
+          "durationMs": 4
+        },
+        {
+          "url": "/shared/account-sync-v1.mjs",
+          "bytes": 1223,
+          "durationMs": 2
+        },
+        {
+          "url": "/api/sync/ticket",
+          "bytes": 28,
+          "durationMs": 3
+        },
+        {
+          "url": "/api/character/equipment/polish/state",
+          "bytes": 3799,
+          "durationMs": 10
+        },
+        {
+          "url": "/favicon.ico",
+          "bytes": 0,
+          "durationMs": 5
+        },
+        {
+          "url": "/preview/equipment-polish-premium-v1/assets/polishing-chamber-v1.png",
+          "bytes": 2827775,
+          "durationMs": 86
+        },
+        {
+          "url": "/api/character/equipment/polish/execute",
+          "bytes": 526,
+          "durationMs": 6
+        }
+      ],
+      "errors": [],
+      "errorContexts": []
+    },
+    {
+      "platform": "Windows Chrome",
+      "viewport": [
+        1440,
+        960
+      ],
+      "before": false,
+      "header": [
+        {
+          "entry": "cold",
+          "readyMs": 441,
+          "frames": 501,
+          "p95Ms": 4.4,
+          "maxMs": 188.6,
+          "over50": 3,
+          "menu": {
+            "width": 1328,
+            "client": 1328,
+            "icons": 6
+          }
+        },
+        {
+          "entry": "warm",
+          "readyMs": 77,
+          "frames": 78,
+          "p95Ms": 16.6,
+          "maxMs": 66.6,
+          "over50": 1,
+          "menu": {
+            "width": 1328,
+            "client": 1328,
+            "icons": 6
+          }
+        }
+      ],
+      "loads": [
+        {
+          "entry": "cold",
+          "readyMs": 181,
+          "idle": {
+            "frames": 121,
+            "p95Ms": 4.3,
+            "maxMs": 4.7,
+            "over50": 0
+          }
+        },
+        {
+          "entry": "warm",
+          "readyMs": 82,
+          "idle": {
+            "frames": 122,
+            "p95Ms": 4.3,
+            "maxMs": 4.4,
+            "over50": 0
+          }
+        }
+      ],
+      "animation": {
+        "durationMs": 5070,
+        "frames": 1214,
+        "p95Ms": 4.3,
+        "maxMs": 8.4,
+        "over50": 0
+      },
+      "recovery": {
+        "chargedOnce": true,
+        "result": "치명타 피해 상승\n\n+0%p → +1%p"
+      },
+      "animationsAtRest": 0,
+      "remainingPolishNodes": 0,
+      "resources": [
+        {
+          "url": "/css/equipment-icons-20261114.css",
+          "bytes": 1404,
+          "durationMs": 17
+        },
+        {
+          "url": "/equipment-polish/live.css",
+          "bytes": 8061,
+          "durationMs": 14
+        },
+        {
+          "url": "/assets/ui/equipment-polish-20261114/icons.webp",
+          "bytes": 337084,
+          "durationMs": 21
+        },
+        {
+          "url": "/equipment-polish/app.mjs",
+          "bytes": 14798,
+          "durationMs": 14
+        },
+        {
+          "url": "/js/joint-account-transport.mjs",
+          "bytes": 2994,
+          "durationMs": 7
+        },
+        {
+          "url": "/js/equipment-polish-request-v1.mjs",
+          "bytes": 1796,
+          "durationMs": 8
+        },
+        {
+          "url": "/shared/equipment-polish-v1.mjs",
+          "bytes": 6051,
+          "durationMs": 8
+        },
+        {
+          "url": "/js/account-sync-client-v1.mjs",
+          "bytes": 5029,
+          "durationMs": 4
+        },
+        {
+          "url": "/shared/account-sync-v1.mjs",
+          "bytes": 1223,
+          "durationMs": 3
+        },
+        {
+          "url": "/api/sync/ticket",
+          "bytes": 28,
+          "durationMs": 3
+        },
+        {
+          "url": "/api/character/equipment/polish/state",
+          "bytes": 3798,
+          "durationMs": 9
+        },
+        {
+          "url": "/favicon.ico",
+          "bytes": 0,
+          "durationMs": 4
+        },
+        {
+          "url": "/assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png",
+          "bytes": 337863,
+          "durationMs": 25
+        },
+        {
+          "url": "/api/character/equipment/polish/execute",
+          "bytes": 530,
+          "durationMs": 6
+        }
+      ],
+      "errors": [],
+      "errorContexts": []
+    },
+    {
+      "platform": "Android viewport emulation",
+      "viewport": [
+        390,
+        844
+      ],
+      "before": true,
+      "header": [
+        {
+          "entry": "cold",
+          "readyMs": 343,
+          "frames": 393,
+          "p95Ms": 4.3,
+          "maxMs": 437.5,
+          "over50": 4,
+          "menu": {
+            "width": 388,
+            "client": 388,
+            "icons": 0
+          }
+        },
+        {
+          "entry": "warm",
+          "readyMs": 54,
+          "frames": 86,
+          "p95Ms": 4.3,
+          "maxMs": 46,
+          "over50": 0,
+          "menu": {
+            "width": 388,
+            "client": 388,
+            "icons": 0
+          }
+        }
+      ],
+      "loads": [
+        {
+          "entry": "cold",
+          "readyMs": 554,
+          "idle": {
+            "frames": 121,
+            "p95Ms": 4.3,
+            "maxMs": 4.6,
+            "over50": 0
+          }
+        },
+        {
+          "entry": "warm",
+          "readyMs": 324,
+          "idle": {
+            "frames": 121,
+            "p95Ms": 4.3,
+            "maxMs": 4.4,
+            "over50": 0
+          }
+        }
+      ],
+      "animation": {
+        "durationMs": 6772,
+        "frames": 1621,
+        "p95Ms": 4.3,
+        "maxMs": 16.7,
+        "over50": 0
+      },
+      "recovery": null,
+      "animationsAtRest": 0,
+      "remainingPolishNodes": 0,
+      "resources": [
+        {
+          "url": "/preview/equipment-polish-premium-v1/style.css",
+          "bytes": 13900,
+          "durationMs": 15
+        },
+        {
+          "url": "/js/ui-fx-vendor-v2045.bundle.js",
+          "bytes": 661177,
+          "durationMs": 37
+        },
+        {
+          "url": "/equipment-polish/live.css",
+          "bytes": 1319,
+          "durationMs": 14
+        },
+        {
+          "url": "/equipment-polish/app.mjs",
+          "bytes": 14331,
+          "durationMs": 15
+        },
+        {
+          "url": "/preview/equipment-polish-premium-v1/assets/polishing-stone-v1.png",
+          "bytes": 1419730,
+          "durationMs": 27
+        },
+        {
+          "url": "/js/joint-account-transport.mjs",
+          "bytes": 2994,
+          "durationMs": 4
+        },
+        {
+          "url": "/shared/equipment-polish-v1.mjs",
+          "bytes": 5445,
+          "durationMs": 3
+        },
+        {
+          "url": "/js/equipment-polish-request-v1.mjs",
+          "bytes": 1796,
+          "durationMs": 5
+        },
+        {
+          "url": "/preview/equipment-polish-premium-v1/source/fx.mjs",
+          "bytes": 11139,
+          "durationMs": 5
+        },
+        {
+          "url": "/js/account-sync-client-v1.mjs",
+          "bytes": 5029,
+          "durationMs": 3
+        },
+        {
+          "url": "/preview/equipment-polish-premium-v1/source/audio.mjs",
+          "bytes": 1924,
+          "durationMs": 4
+        },
+        {
+          "url": "/shared/account-sync-v1.mjs",
+          "bytes": 1223,
+          "durationMs": 2
+        },
+        {
+          "url": "/api/sync/ticket",
+          "bytes": 28,
+          "durationMs": 3
+        },
+        {
+          "url": "/api/character/equipment/polish/state",
+          "bytes": 3824,
+          "durationMs": 10
+        },
+        {
+          "url": "/favicon.ico",
+          "bytes": 0,
+          "durationMs": 6
+        },
+        {
+          "url": "/preview/equipment-polish-premium-v1/assets/polishing-chamber-v1.png",
+          "bytes": 2827775,
+          "durationMs": 63
+        },
+        {
+          "url": "/api/character/equipment/polish/execute",
+          "bytes": 524,
+          "durationMs": 6
+        }
+      ],
+      "errors": [],
+      "errorContexts": []
+    },
+    {
+      "platform": "Android viewport emulation",
+      "viewport": [
+        390,
+        844
+      ],
+      "before": false,
+      "header": [
+        {
+          "entry": "cold",
+          "readyMs": 411,
+          "frames": 517,
+          "p95Ms": 4.3,
+          "maxMs": 95.8,
+          "over50": 1,
+          "menu": {
+            "width": 388,
+            "client": 388,
+            "icons": 6
+          }
+        },
+        {
+          "entry": "warm",
+          "readyMs": 55,
+          "frames": 88,
+          "p95Ms": 4.4,
+          "maxMs": 25,
+          "over50": 0,
+          "menu": {
+            "width": 388,
+            "client": 388,
+            "icons": 6
+          }
+        }
+      ],
+      "loads": [
+        {
+          "entry": "cold",
+          "readyMs": 139,
+          "idle": {
+            "frames": 122,
+            "p95Ms": 4.3,
+            "maxMs": 4.3,
+            "over50": 0
+          }
+        },
+        {
+          "entry": "warm",
+          "readyMs": 67,
+          "idle": {
+            "frames": 121,
+            "p95Ms": 4.3,
+            "maxMs": 9.6,
+            "over50": 0
+          }
+        }
+      ],
+      "animation": {
+        "durationMs": 5061,
+        "frames": 1211,
+        "p95Ms": 4.3,
+        "maxMs": 8.3,
+        "over50": 0
+      },
+      "recovery": null,
+      "animationsAtRest": 0,
+      "remainingPolishNodes": 0,
+      "resources": [
+        {
+          "url": "/css/equipment-icons-20261114.css",
+          "bytes": 1404,
+          "durationMs": 11
+        },
+        {
+          "url": "/equipment-polish/app.mjs",
+          "bytes": 14798,
+          "durationMs": 9
+        },
+        {
+          "url": "/equipment-polish/live.css",
+          "bytes": 8061,
+          "durationMs": 10
+        },
+        {
+          "url": "/assets/ui/equipment-polish-20261114/icons.webp",
+          "bytes": 337084,
+          "durationMs": 28
+        },
+        {
+          "url": "/js/joint-account-transport.mjs",
+          "bytes": 2994,
+          "durationMs": 8
+        },
+        {
+          "url": "/shared/equipment-polish-v1.mjs",
+          "bytes": 6051,
+          "durationMs": 7
+        },
+        {
+          "url": "/js/equipment-polish-request-v1.mjs",
+          "bytes": 1796,
+          "durationMs": 8
+        },
+        {
+          "url": "/js/account-sync-client-v1.mjs",
+          "bytes": 5029,
+          "durationMs": 3
+        },
+        {
+          "url": "/shared/account-sync-v1.mjs",
+          "bytes": 1223,
+          "durationMs": 4
+        },
+        {
+          "url": "/api/sync/ticket",
+          "bytes": 28,
+          "durationMs": 3
+        },
+        {
+          "url": "/api/character/equipment/polish/state",
+          "bytes": 3827,
+          "durationMs": 7
+        },
+        {
+          "url": "/favicon.ico",
+          "bytes": 0,
+          "durationMs": 5
+        },
+        {
+          "url": "/assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png",
+          "bytes": 337863,
+          "durationMs": 22
+        },
+        {
+          "url": "/api/character/equipment/polish/execute",
+          "bytes": 530,
+          "durationMs": 5
+        }
+      ],
+      "errors": [],
+      "errorContexts": []
+    },
+    {
+      "platform": "iPhone WebKit emulation",
+      "viewport": [
+        390,
+        844
+      ],
+      "before": true,
+      "header": [
+        {
+          "entry": "cold",
+          "readyMs": 745,
+          "frames": 16,
+          "p95Ms": 442,
+          "maxMs": 442,
+          "over50": 16,
+          "menu": {
+            "width": 388,
+            "client": 388,
+            "icons": 0
+          }
+        },
+        {
+          "entry": "warm",
+          "readyMs": 151,
+          "frames": 3,
+          "p95Ms": 187,
+          "maxMs": 187,
+          "over50": 3,
+          "menu": {
+            "width": 388,
+            "client": 388,
+            "icons": 0
+          }
+        }
+      ],
+      "loads": [
+        {
+          "entry": "cold",
+          "readyMs": 1471,
+          "idle": {
+            "frames": 36,
+            "p95Ms": 27,
+            "maxMs": 31,
+            "over50": 0
+          }
+        },
+        {
+          "entry": "warm",
+          "readyMs": 794,
+          "idle": {
+            "frames": 46,
+            "p95Ms": 15,
+            "maxMs": 16,
+            "over50": 0
+          }
+        }
+      ],
+      "animation": {
+        "durationMs": 6829,
+        "frames": 403,
+        "p95Ms": 30,
+        "maxMs": 45,
+        "over50": 0
+      },
+      "recovery": null,
+      "animationsAtRest": 0,
+      "remainingPolishNodes": 0,
+      "resources": [
+        {
+          "url": "/preview/equipment-polish-premium-v1/style.css",
+          "bytes": 13900,
+          "durationMs": 5
+        },
+        {
+          "url": "/equipment-polish/live.css",
+          "bytes": 1319,
+          "durationMs": 3
+        },
+        {
+          "url": "/equipment-polish/app.mjs",
+          "bytes": 14331,
+          "durationMs": 3
+        },
+        {
+          "url": "/js/ui-fx-vendor-v2045.bundle.js",
+          "bytes": 661177,
+          "durationMs": 6
+        },
+        {
+          "url": "/preview/equipment-polish-premium-v1/assets/polishing-stone-v1.png",
+          "bytes": 1419730,
+          "durationMs": 37
+        },
+        {
+          "url": "/js/joint-account-transport.mjs",
+          "bytes": 2994,
+          "durationMs": 8
+        },
+        {
+          "url": "/shared/equipment-polish-v1.mjs",
+          "bytes": 5445,
+          "durationMs": 3
+        },
+        {
+          "url": "/js/equipment-polish-request-v1.mjs",
+          "bytes": 1796,
+          "durationMs": 7
+        },
+        {
+          "url": "/preview/equipment-polish-premium-v1/source/fx.mjs",
+          "bytes": 11139,
+          "durationMs": 7
+        },
+        {
+          "url": "/js/account-sync-client-v1.mjs",
+          "bytes": 5029,
+          "durationMs": 3
+        },
+        {
+          "url": "/preview/equipment-polish-premium-v1/source/audio.mjs",
+          "bytes": 1924,
+          "durationMs": 4
+        },
+        {
+          "url": "/shared/account-sync-v1.mjs",
+          "bytes": 1223,
+          "durationMs": 2
+        },
+        {
+          "url": "/api/sync/ticket",
+          "bytes": 0,
+          "durationMs": 5
+        },
+        {
+          "url": "/api/character/equipment/polish/state",
+          "bytes": 3820,
+          "durationMs": 6
+        },
+        {
+          "url": "/preview/equipment-polish-premium-v1/assets/polishing-chamber-v1.png",
+          "bytes": 2827775,
+          "durationMs": 37
+        },
+        {
+          "url": "/api/character/equipment/polish/execute",
+          "bytes": 526,
+          "durationMs": 3
+        }
+      ],
+      "errors": [
+        "ResizeObserver loop completed with undelivered notifications.",
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "errorContexts": [
+        {
+          "message": "ResizeObserver loop completed with undelivered notifications.",
+          "stage": "shell",
+          "path": "/"
+        },
+        {
+          "message": "ResizeObserver loop completed with undelivered notifications.",
+          "stage": "exit",
+          "path": "/"
+        }
+      ]
+    },
+    {
+      "platform": "iPhone WebKit emulation",
+      "viewport": [
+        390,
+        844
+      ],
+      "before": false,
+      "header": [
+        {
+          "entry": "cold",
+          "readyMs": 522,
+          "frames": 19,
+          "p95Ms": 314,
+          "maxMs": 314,
+          "over50": 19,
+          "menu": {
+            "width": 388,
+            "client": 388,
+            "icons": 6
+          }
+        },
+        {
+          "entry": "warm",
+          "readyMs": 83,
+          "frames": 6,
+          "p95Ms": 80,
+          "maxMs": 80,
+          "over50": 6,
+          "menu": {
+            "width": 388,
+            "client": 388,
+            "icons": 6
+          }
+        }
+      ],
+      "loads": [
+        {
+          "entry": "cold",
+          "readyMs": 244,
+          "idle": {
+            "frames": 30,
+            "p95Ms": 17,
+            "maxMs": 22,
+            "over50": 0
+          }
+        },
+        {
+          "entry": "warm",
+          "readyMs": 124,
+          "idle": {
+            "frames": 29,
+            "p95Ms": 25,
+            "maxMs": 26,
+            "over50": 0
+          }
+        }
+      ],
+      "animation": {
+        "durationMs": 5189,
+        "frames": 332,
+        "p95Ms": 17,
+        "maxMs": 57,
+        "over50": 1
+      },
+      "recovery": null,
+      "animationsAtRest": 0,
+      "remainingPolishNodes": 0,
+      "resources": [
+        {
+          "url": "/assets/ui/equipment-polish-20261114/icons.webp",
+          "bytes": 0,
+          "durationMs": 1
+        },
+        {
+          "url": "/equipment-polish/live.css",
+          "bytes": 8061,
+          "durationMs": 3
+        },
+        {
+          "url": "/equipment-polish/app.mjs",
+          "bytes": 14798,
+          "durationMs": 3
+        },
+        {
+          "url": "/css/equipment-icons-20261114.css",
+          "bytes": 1404,
+          "durationMs": 4
+        },
+        {
+          "url": "/js/joint-account-transport.mjs",
+          "bytes": 2994,
+          "durationMs": 4
+        },
+        {
+          "url": "/shared/equipment-polish-v1.mjs",
+          "bytes": 6051,
+          "durationMs": 1
+        },
+        {
+          "url": "/js/equipment-polish-request-v1.mjs",
+          "bytes": 1796,
+          "durationMs": 3
+        },
+        {
+          "url": "/js/account-sync-client-v1.mjs",
+          "bytes": 5029,
+          "durationMs": 2
+        },
+        {
+          "url": "/shared/account-sync-v1.mjs",
+          "bytes": 1223,
+          "durationMs": 1
+        },
+        {
+          "url": "/api/sync/ticket",
+          "bytes": 0,
+          "durationMs": 2
+        },
+        {
+          "url": "/api/character/equipment/polish/state",
+          "bytes": 3827,
+          "durationMs": 3
+        },
+        {
+          "url": "/assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png",
+          "bytes": 337863,
+          "durationMs": 6
+        },
+        {
+          "url": "/api/character/equipment/polish/execute",
+          "bytes": 530,
+          "durationMs": 4
+        }
+      ],
+      "errors": [
+        "ResizeObserver loop completed with undelivered notifications.",
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "errorContexts": [
+        {
+          "message": "ResizeObserver loop completed with undelivered notifications.",
+          "stage": "shell",
+          "path": "/"
+        },
+        {
+          "message": "ResizeObserver loop completed with undelivered notifications.",
+          "stage": "exit",
+          "path": "/"
+        }
+      ]
+    }
+  ]
+}

@@ -2,6 +2,7 @@ import {orgAssert,orgInteger,ORGANIZATION_RELEASE_ENABLED,ORGANIZATION_LIMITS} f
 import {organizationElderIds} from '../shared/organization-faction-v1.mjs';
 import {ORGANIZATION_FIXED_SCHEDULE} from '../shared/organization-schedule-v1.mjs';
 import {mirrorResumedClanJoin} from './_clan_resumption.js';
+import {readClanRejoin,assertClanRejoin} from './_organization_rejoin.js';
 const prefix=r=>'organization-join:'+r.id+':';
 const key=(r,id)=>prefix(r)+id;
 export const organizationJoinOpen=(r,now)=>ORGANIZATION_RELEASE_ENABLED&&r?.phase==='ASSIGNED'&&now>=ORGANIZATION_FIXED_SCHEDULE.effectiveAt;
@@ -16,7 +17,7 @@ async function authority(q,r,user,{lock=false,knownMembership}={}){
  const elderIds=(state.elders?.[organizationId]??[state.commanders?.[organizationId]]).filter(id=>roster.some(m=>m.userId===id&&m.clanId===organizationId));
  return {organizationId,elderIds,canReview:organizationElderIds(state,roster,organizationId).includes(Number(user.id))};
 }
-export async function organizationJoinOverview(q,r,user,now,knownMembership,calendar){
+export async function organizationJoinOverview(q,r,user,now,knownMembership,calendar,rejoin){
  if(calendar){
   const auth=r.id!==calendar.sourceRoundId&&knownMembership?await authority(q,r,user,{knownMembership}):{};
   return {enabled:false,canApply:false,canReview:false,applications:[],...auth};
@@ -26,7 +27,8 @@ export async function organizationJoinOverview(q,r,user,now,knownMembership,cale
  const rows=auth.canReview?await q('SELECT value FROM app_meta WHERE left(key,length($1))=$1 ORDER BY key',[prefix(r)]):[];
  const requests=rows.map(row=>JSON.parse(row.value)).filter(a=>a.organizationId===auth.organizationId&&a.status==='PENDING');
  const users=requests.length?await q('SELECT id,nickname,status FROM users WHERE id=ANY($1::bigint[])',[requests.map(a=>a.userId)]):[];
- return {enabled:true,canApply:!mine,application:a,...auth,applications:requests.map(a=>({...a,nickname:users.find(u=>Number(u.id)===a.userId)?.nickname||'탈퇴 계정',accountActive:users.find(u=>Number(u.id)===a.userId)?.status==='ACTIVE'})).sort((a,b)=>a.updatedAt-b.updatedAt||a.userId-b.userId)};
+ rejoin??=await readClanRejoin(q,r,user.id,now);
+ return {enabled:true,canApply:!mine&&!rejoin.blocked,rejoin,application:a,...auth,applications:requests.map(a=>({...a,nickname:users.find(u=>Number(u.id)===a.userId)?.nickname||'탈퇴 계정',accountActive:users.find(u=>Number(u.id)===a.userId)?.status==='ACTIVE'})).sort((a,b)=>a.updatedAt-b.updatedAt||a.userId-b.userId)};
 }
 export async function organizationJoinCommand(env,user,path,body,deps,now,{mutation,lockedContext,qFor}){
  orgAssert(typeof body.requestId==='string'&&/^[a-zA-Z0-9:_-]{8,100}$/.test(body.requestId),'REQUEST_ID','요청 식별자를 확인하세요.',400);
@@ -40,12 +42,14 @@ export async function organizationJoinCommand(env,user,path,body,deps,now,{mutat
    const auth=await authority(q,r,user),a=await application(q,r,body.userId);
    orgAssert(auth.canReview&&a?.organizationId===auth.organizationId,'ELDER','우리 클랜의 원로만 가입 신청을 심사할 수 있습니다.',403);
    orgAssert(a.status==='PENDING'&&a.revision===body.revision,'STALE','신청 상태가 변경되었습니다. 다시 불러오세요.');
+   await assertClanRejoin(q,r,body.userId,now);
   });
   const loader=deps.loadOrganizationRatings||(await import('./_organization_ratings.js')).loadOrganizationRatings;
   [rating]=await loader(env,[body.userId],deps,{now});
  }
  return mutation(env,user,path,body,async q=>{
   const {r}=await lockedContext(q,user,body);
+  now=(deps.now||Date.now)();
   const [timed]=await q("SELECT 1 FROM app_meta WHERE key=$1 AND value::jsonb->'calendar' IS NOT NULL",['organization:elder-season:'+r.id]);
   orgAssert(!timed,'JOIN_CLOSED','시즌 모집 일정에서 희망 클랜에 자율 가입하세요.');
   orgAssert(organizationJoinOpen(r,now),'JOIN_CLOSED','가입 신청은 클랜 배정 완료 후 이용할 수 있습니다.');
@@ -57,6 +61,7 @@ export async function organizationJoinCommand(env,user,path,body,deps,now,{mutat
   orgAssert((before?.revision||0)===body.revision,'STALE','신청 상태가 변경되었습니다. 다시 불러오세요.');
   let next;
   if(path==='organization/join/apply'){
+   await assertClanRejoin(q,r,id,now);
    orgAssert(!await membership(q,r,id),'MEMBER','이미 클랜에 가입되어 있습니다.');
    const organizationId=orgInteger(body.organizationId,1,ORGANIZATION_LIMITS.organizations,'희망 클랜');
    orgAssert(typeof body.message==='string'&&body.message.length<=300,'INPUT','가입 인사는 300자 이내로 입력하세요.',400);
@@ -71,6 +76,7 @@ export async function organizationJoinCommand(env,user,path,body,deps,now,{mutat
     const auth=await authority(q,r,user,{lock:true});
     orgAssert(auth.canReview&&auth.organizationId===before.organizationId,'ELDER','우리 클랜의 원로만 가입 신청을 심사할 수 있습니다.',403);
     if(body.decision==='APPROVED'){
+     await assertClanRejoin(q,r,id,now);
      const [applicant]=await q('SELECT status,banned_until FROM users WHERE id=$1 FOR SHARE',[id]);
      orgAssert(applicant?.status==='ACTIVE'&&(!applicant.banned_until||Date.parse(applicant.banned_until)<=now),'ACCOUNT','현재 가입할 수 없는 계정입니다.');
      orgAssert(!await membership(q,r,id),'MEMBER','신청자가 이미 클랜에 가입되어 있습니다.');

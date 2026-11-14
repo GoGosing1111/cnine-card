@@ -74,7 +74,7 @@ export function mercenaryCraftRecipe(definition,policy,row={},stock=null){
  const ready=mercenaryCraftReady(policy),releaseLocked=definition.releaseEnabled===false,active=!releaseLocked&&ready&&policy.isActive&&!stock?.soldOut;
  return {...row,id:Number(row.id||definition.draftId||-Number(definition.code.slice(2))),code:definition.recipeCode,category:'MERCENARY_CRAFT',name:definition.name,
   description:definition.description,output_type:'MERCENARY',output_ref:definition.code,output_quantity:1,
-  output_name:definition.art.name,output_image:definition.art.sourceArt,output_rarity:'SSS LIMITED',output_pve:definition.power,output_pvp:definition.power,
+  output_name:definition.art.name,output_image:definition.previewImage??definition.art.sourceArt,output_rarity:'SSS LIMITED',output_pve:definition.power,output_pvp:definition.power,
   payment_mode:'BOTH',coin_cost:policy.coinCost,master_star_cost:policy.masterStarCost,card_shard_cost:0,success_rate:policy.successRate,
   is_active:active?1:0,is_public:policy.isPublic?1:0,owner_test_only:0,is_featured:1,sort_order:definition.sort,
   extension_draft:true,craftRevision:policy.revision,craftLocked:!active,craftReleaseLocked:releaseLocked,craftStock:stock,craftMasterStarMax:definition.masterStarMax,

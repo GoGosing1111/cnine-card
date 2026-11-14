@@ -261,7 +261,7 @@ function mountLootBag(section,toast) {
 async function ensureCitadelRenderer(){
  if(window.ProjectVPixiBattle?.legionCitadelVersion===3)return;
  // An installed shell may already have a cached V3 bundle from another game mode.
- if(!bundleUpgrade)bundleUpgrade=new Promise((resolve,reject)=>{const script=document.createElement('script');script.async=true;script.src='/preview/project-v-v3/project-v-pixi-battle.bundle.js?citadel=3&compat=1';
+ if(!bundleUpgrade)bundleUpgrade=new Promise((resolve,reject)=>{const script=document.createElement('script');script.async=true;script.src='/preview/project-v-v3/project-v-pixi-battle.bundle.js?citadel=3&compat=1&iphone=iphone-combat-20261114-v1';
  script.onload=()=>window.ProjectVPixiBattle?.legionCitadelVersion===3?resolve():reject(Error('성채 전투 화면을 다시 불러오세요.'));script.onerror=()=>reject(Error('성채 전투 화면을 내려받지 못했습니다.'));document.head.append(script);}).finally(()=>{bundleUpgrade=null;});
  return bundleUpgrade;
 }

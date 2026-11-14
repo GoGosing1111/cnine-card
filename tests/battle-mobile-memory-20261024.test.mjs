@@ -46,7 +46,7 @@ test('standalone Legion uses approved responsive maps after art selection and ke
   assert.equal(image('/approved-unmapped.png'),'/approved-unmapped.png');
   assert.equal(image('https://example.test/art.png'),'https://example.test/art.png');
 });
-function runtime({mountGate=null,releaseGate=null,playbackGate=null}={}){
+function runtime({mountGate=null,releaseGate=null,playbackGate=null,destructionGate=null}={}){
   const instances=[],calls=[];
   class Engine{
     constructor(){this.index=instances.length;instances.push(this);this.visible=false;}
@@ -56,12 +56,12 @@ function runtime({mountGate=null,releaseGate=null,playbackGate=null}={}){
     async playEvents(){if(playbackGate)await playbackGate.promise;calls.push('playback-settled');return false;}
     setVisible(value){this.visible=value;calls.push('visible:'+value);}
     diagnostics(){return {mounted:this.mounted,visible:this.visible,index:this.index};}
-    destroy(){this.destroyed=true;this.mounted=false;calls.push('destroy:'+this.index);}
+    destroy(){this.destroyed=true;this.mounted=false;calls.push('destroy:'+this.index);if(destructionGate)this.mercenaryAdvancementReleasePromise=destructionGate.promise;}
   }
   const context={window:{},document:{getElementById:()=>({})},BattleEngine:Engine,ExpeditionBattleEngine:Engine,
     Assets:{},Container:class{},Graphics:class{},Sprite:class{},Texture:class{},Rectangle:class{},prepareSealDragon(){},
-    battleWarmupWork:()=>[],battleAssetMemory:{async release(){calls.push('release');if(releaseGate)await releaseGate.promise;}},
-    SkillEffectFX:{async release(){}},releaseMercenaryRoleAssets:async()=>{},releaseIdleBattleBuffers(){},battleTextureDiagnostics:()=>({})};
+    battleWarmupWork:engine=>engine?.mercenaryAdvancementReleasePromise?[engine.mercenaryAdvancementReleasePromise]:[],battleAssetMemory:{async release(work=[]){calls.push('release');await Promise.allSettled(work);if(releaseGate)await releaseGate.promise;}},
+    SkillEffectFX:{async release(){}},releaseMercenaryRoleAssets:async()=>{},releaseCooperativeArke:async()=>{},releaseIdleBattleBuffers(){},battleTextureDiagnostics:()=>({})};
   vm.runInNewContext(entrySource.replace(/^import .*;\r?$/gm,'').replace(/^export .*;\r?$/gm,''),context);
   return {api:context.window.ProjectVPixiBattle,instances,calls};
 }
@@ -79,6 +79,12 @@ test('next battle waits until old images finish unloading',async()=>{
   assert.deepEqual(calls.slice(-2),['destroy:0','release']);
   releaseGate.resolve();await close;const replacement=await next;
   assert.equal(replacement.index,1);assert.equal(replacement.destroyed,undefined);
+});
+test('next battle waits for texture releases first created by the old engine destructor',async()=>{
+  const destructionGate=deferred(),{api,instances}=runtime({destructionGate});
+  await api.mountForBattle({});const close=api.releaseBattle(),next=api.mountForBattle({});
+  await new Promise(resolve=>setImmediate(resolve));assert.equal(instances[0].destroyed,true);assert.equal(instances.length,1);
+  destructionGate.resolve();await close;assert.equal((await next).index,1);
 });
 test('closing during initialization cancels its result and disposes only the old scene',async()=>{
   const mountGate=deferred(),{api,instances}=runtime({mountGate});

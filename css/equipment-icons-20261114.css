@@ -1,0 +1,25 @@
+.ep-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 48px;
+  aspect-ratio: 1;
+  vertical-align: middle;
+  background-image: url('/assets/ui/equipment-polish-20261114/icons.webp');
+  background-repeat: no-repeat;
+  background-size: 400% 400%;
+  background-position: var(--ep-x, 0%) var(--ep-y, 0%);
+}
+.ep-icon[data-icon="attack"] { --ep-x: 0%; --ep-y: 0%; }
+.ep-icon[data-icon="critical-chance"] { --ep-x: 33.333333333333336%; --ep-y: 0%; }
+.ep-icon[data-icon="critical-damage"] { --ep-x: 66.66666666666667%; --ep-y: 0%; }
+.ep-icon[data-icon="boss-damage"] { --ep-x: 100%; --ep-y: 0%; }
+.ep-icon[data-icon="penetration"] { --ep-x: 0%; --ep-y: 33.333333333333336%; }
+.ep-icon[data-icon="miss"] { --ep-x: 33.333333333333336%; --ep-y: 33.333333333333336%; }
+.ep-icon[data-icon="title"] { --ep-x: 66.66666666666667%; --ep-y: 33.333333333333336%; }
+.ep-icon[data-icon="vehicle"] { --ep-x: 100%; --ep-y: 33.333333333333336%; }
+.ep-icon[data-icon="avatar"] { --ep-x: 0%; --ep-y: 66.66666666666667%; }
+.ep-icon[data-icon="skill-chip"] { --ep-x: 33.333333333333336%; --ep-y: 66.66666666666667%; }
+.ep-icon[data-icon="forge"] { --ep-x: 66.66666666666667%; --ep-y: 66.66666666666667%; }
+.ep-icon[data-icon="coin"] { --ep-x: 100%; --ep-y: 66.66666666666667%; }
+.ep-icon[data-icon="master-star"] { --ep-x: 0%; --ep-y: 100%; }
+.ep-icon[data-icon="polish-stone"] { --ep-x: 33.333333333333336%; --ep-y: 100%; }

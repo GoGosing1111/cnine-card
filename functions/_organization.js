@@ -7,7 +7,8 @@ import {readJointBody} from './_joint_request.js';
 import {jointHash} from './_joint_transactions.js';
 import {allocateAdditionalOrganizations} from '../shared/organization-additional-v1.mjs';
 import {organizationJoinOverview,organizationJoinCommand,organizationJoinOpen} from './_organization_join.js';
-import {kickOrganizationMember} from './_organization_member_kick.js';
+import {kickOrganizationMember,leaveOrganizationMember} from './_organization_member_kick.js';
+import {readClanRejoin,assertClanRejoin} from './_organization_rejoin.js';
 import {CLAN_MEMBER_KICK_ENABLED,CLAN_MEMBER_KICK_DISABLED} from '../shared/clan-member-kick-policy-v1.mjs';
 import {CLAN_RESUMPTION_STATE_KEY,activeClanResumption} from '../shared/clan-resumption-v1.mjs';
 
@@ -87,17 +88,18 @@ export async function organizationOverview(env,user,{roundId,admin=false,now=Dat
     const [counts,survey,membership,ratingCount,proposal,progress]=r?await Promise.all([
       voluntary?[]:q('SELECT s.preferred_id,COUNT(*)::integer AS n,COUNT(*) FILTER(WHERE m.user_id IS NULL)::integer AS pending FROM organization_surveys_v1 s LEFT JOIN organization_members_v1 m ON m.round_id=s.round_id AND m.user_id=s.user_id WHERE s.round_id=$1 AND s.active=1 GROUP BY s.preferred_id',[r.id]),
       voluntary?[]:q('SELECT preferred_id,revision,updated_at,active,answers_json FROM organization_surveys_v1 WHERE round_id=$1 AND user_id=$2',[r.id,user.id]),
-      q('SELECT organization_id,slot FROM organization_members_v1 WHERE round_id=$1 AND user_id=$2',[r.id,user.id]),
+      q('SELECT organization_id,slot,joined_at FROM organization_members_v1 WHERE round_id=$1 AND user_id=$2',[r.id,user.id]),
       voluntary?[]:q('SELECT COUNT(*)::integer AS n FROM organization_ratings_v1 x WHERE round_id=$1 AND round_revision=$2 AND expires_at>$3 AND (NOT $4::boolean OR NOT EXISTS(SELECT 1 FROM organization_members_v1 m WHERE m.round_id=x.round_id AND m.user_id=x.user_id))',[r.id,r.revision,now,additionalRecruitment(r)]),
       admin&&!voluntary?q('SELECT * FROM organization_proposals_v1 WHERE round_id=$1 AND (round_revision=$2 OR (applied_at IS NOT NULL AND NOT $3::boolean)) ORDER BY created_at DESC,id DESC LIMIT 1',[r.id,r.revision,additionalRecruitment(r)]):[],
       q('SELECT p.*,COUNT(m.user_id)::integer AS member_count,COALESCE(SUM(m.seed_power),0) AS power FROM organization_progress_v1 p LEFT JOIN organization_members_v1 m ON m.round_id=p.round_id AND m.organization_id=p.organization_id WHERE p.round_id=$1 GROUP BY p.round_id,p.organization_id,p.points,p.stage ORDER BY p.organization_id',[r.id])
     ]):[[],[],[],[],[],[]];
     const roster=r&&membership[0]?await q('SELECT m.user_id,m.slot,m.joined_at,u.nickname FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 AND m.organization_id=$2 ORDER BY m.slot LIMIT 25',[r.id,membership[0].organization_id]):[];
     const elderSeason=voluntary?await elderSeasonView(q,r,user,now,admin):null;
-    const latest=proposal[0],join=await organizationJoinOverview(q,r,user,now,membership[0]||null,elderSeason?.calendar);
+    const rejoin=elderSeason?.rejoin||await readClanRejoin(q,r,user.id,now);
+    const latest=proposal[0],join=await organizationJoinOverview(q,r,user,now,membership[0]||null,elderSeason?.calendar,rejoin);
     const applicants=admin&&r&&!voluntary?await q('SELECT s.user_id,u.nickname,s.preferred_id,s.updated_at,s.revision,s.active,x.expires_at,x.round_revision FROM organization_surveys_v1 s JOIN users u ON u.id=s.user_id LEFT JOIN organization_ratings_v1 x ON x.round_id=s.round_id AND x.user_id=s.user_id WHERE s.round_id=$1 ORDER BY s.active DESC,s.updated_at,s.user_id',[r.id]):[];
     const allMembers=admin&&r?await q('SELECT m.user_id,m.organization_id,m.slot,m.seed_power,u.nickname FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 ORDER BY m.organization_id,m.slot',[r.id]):[];
-    return {ok:true,join,elderSeason,viewerId:Number(user.id),releaseEnabled:ORGANIZATION_RELEASE_ENABLED,admissionEnabled:join.enabled||!!r&&(surveyOpen(r,now)||survey[0]?.active===1),serverNow:now,capacity:ORGANIZATION_LIMITS.participants,limits:ORGANIZATION_LIMITS,preparation:{...ORGANIZATION_PREPARATION,status:r?.phase||'PREPARATION',registrationOpen:join.canApply||surveyOpen(r,now)&&!membership[0]},round:roundView(r,now),policy:admin?p:{pointsPerRegion:p.pointsPerRegion,settlementMinutes:p.settlementMinutes,growthMode:p.growthMode,hideoutThresholds:p.hideoutThresholds,unlocks:p.unlocks},...(admin?{rounds:rounds.map(row=>roundView(row,now)),participants:applicants.map(a=>({userId:Number(a.user_id),nickname:a.nickname,preferredOrganizationId:Number(a.preferred_id),submittedAt:Number(a.updated_at),surveyRevision:Number(a.revision),assignedOrganizationId:Number(allMembers.find(m=>Number(m.user_id)===Number(a.user_id))?.organization_id)||null,active:a.active===1,rated:Number(a.expires_at)>now&&Number(a.round_revision)===Number(r.revision)}))}:{}),survey:survey[0]?{answers:parse(survey[0].answers_json),submitted:survey[0].active===1,preferredOrganizationId:Number(survey[0].preferred_id),revision:Number(survey[0].revision)}:null,membership:membership[0]?{organizationId:Number(membership[0].organization_id),slot:Number(membership[0].slot)}:null,roster:roster.map(m=>({userId:Number(m.user_id),nickname:m.nickname,slot:Number(m.slot),joinedAt:Number(m.joined_at),isSelf:Number(m.user_id)===Number(user.id),isElder:(join.elderIds||[]).includes(Number(m.user_id)),canKick:CLAN_MEMBER_KICK_ENABLED&&join.canReview===true&&Number(m.user_id)!==Number(user.id)&&!(join.elderIds||[]).includes(Number(m.user_id))})),participantCount:counts.reduce((n,c)=>n+c.n,0),pendingApplicantCount:counts.reduce((n,c)=>n+c.pending,0),memberCount:progress.reduce((n,p)=>n+Number(p.member_count),0),ratedCount:ratingCount[0]?.n||0,organizations:ORGANIZATIONS.map(o=>{const s=progress.find(p=>Number(p.organization_id)===o.id);return {...o,...(admin?{roster:allMembers.filter(m=>Number(m.organization_id)===o.id).map(m=>({userId:Number(m.user_id),nickname:m.nickname,slot:Number(m.slot),power:Number(m.seed_power)}))}:{}),applicants:counts.find(c=>Number(c.preferred_id)===o.id)?.n||0,memberCount:s?.member_count||0,power:Number(s?.power||0),hideout:organizationHeadquartersState(s,p)};}),proposal:latest?{id:latest.id,expiresAt:Number(latest.expires_at),appliedAt:latest.applied_at?Number(latest.applied_at):null,...displayAllocation(parse(latest.result_json))}:null};
+    return {ok:true,join,elderSeason,rejoin,viewerId:Number(user.id),releaseEnabled:ORGANIZATION_RELEASE_ENABLED,admissionEnabled:join.enabled||!!r&&(surveyOpen(r,now)||survey[0]?.active===1),serverNow:now,capacity:ORGANIZATION_LIMITS.participants,limits:ORGANIZATION_LIMITS,preparation:{...ORGANIZATION_PREPARATION,status:r?.phase||'PREPARATION',registrationOpen:join.canApply||surveyOpen(r,now)&&!membership[0]},round:roundView(r,now),policy:admin?p:{pointsPerRegion:p.pointsPerRegion,settlementMinutes:p.settlementMinutes,growthMode:p.growthMode,hideoutThresholds:p.hideoutThresholds,unlocks:p.unlocks},...(admin?{rounds:rounds.map(row=>roundView(row,now)),participants:applicants.map(a=>({userId:Number(a.user_id),nickname:a.nickname,preferredOrganizationId:Number(a.preferred_id),submittedAt:Number(a.updated_at),surveyRevision:Number(a.revision),assignedOrganizationId:Number(allMembers.find(m=>Number(m.user_id)===Number(a.user_id))?.organization_id)||null,active:a.active===1,rated:Number(a.expires_at)>now&&Number(a.round_revision)===Number(r.revision)}))}:{}),survey:survey[0]?{answers:parse(survey[0].answers_json),submitted:survey[0].active===1,preferredOrganizationId:Number(survey[0].preferred_id),revision:Number(survey[0].revision)}:null,membership:membership[0]?{organizationId:Number(membership[0].organization_id),slot:Number(membership[0].slot),joinedAt:Number(membership[0].joined_at)}:null,roster:roster.map(m=>({userId:Number(m.user_id),nickname:m.nickname,slot:Number(m.slot),joinedAt:Number(m.joined_at),isSelf:Number(m.user_id)===Number(user.id),isElder:(join.elderIds||[]).includes(Number(m.user_id)),canKick:CLAN_MEMBER_KICK_ENABLED&&join.canReview===true&&Number(m.user_id)!==Number(user.id)&&!(join.elderIds||[]).includes(Number(m.user_id))})),participantCount:counts.reduce((n,c)=>n+c.n,0),pendingApplicantCount:counts.reduce((n,c)=>n+c.pending,0),memberCount:progress.reduce((n,p)=>n+Number(p.member_count),0),ratedCount:ratingCount[0]?.n||0,organizations:ORGANIZATIONS.map(o=>{const s=progress.find(p=>Number(p.organization_id)===o.id);return {...o,...(admin?{roster:allMembers.filter(m=>Number(m.organization_id)===o.id).map(m=>({userId:Number(m.user_id),nickname:m.nickname,slot:Number(m.slot),power:Number(m.seed_power)}))}:{}),applicants:counts.find(c=>Number(c.preferred_id)===o.id)?.n||0,memberCount:s?.member_count||0,power:Number(s?.power||0),hideout:organizationHeadquartersState(s,p)};}),proposal:latest?{id:latest.id,expiresAt:Number(latest.expires_at),appliedAt:latest.applied_at?Number(latest.applied_at):null,...displayAllocation(parse(latest.result_json))}:null};
   });
   const election=result.elderSeason;
   if(result.round?.scope==='LIVE'&&election?.calendar?.sourceRoundId===result.round.id&&
@@ -133,6 +135,7 @@ export async function handleOrganization({path,request,env,deps}){
     const fields={
       'admin/organization/elder/open':['requestId','roundId','windowId'],
       'admin/organization/elder/select':['requestId','roundId','windowId','organizationId','userIds','revision'],
+      'admin/organization/elder/review':['requestId','roundId','windowId','revision','decisions'],
       'admin/organization/elder/start':['requestId','roundId','windowId','revision'],
       'organization/elder/apply':['requestId','roundId','windowId','organizationId'],
       'organization/elder/cancel':['requestId','roundId','windowId'],
@@ -141,6 +144,7 @@ export async function handleOrganization({path,request,env,deps}){
       'organization/join/cancel':['requestId','roundId','revision'],
       'organization/join/review':['requestId','roundId','revision','userId','decision'],
       'organization/member/kick':['requestId','roundId','revision','targetUserId','joinedAt','confirmation'],
+      'organization/member/leave':['requestId','roundId','revision','organizationId','joinedAt','windowRevision','confirmation'],
       'admin/organization/policy':['requestId','policy'],
       'admin/organization/create':['requestId','scope','name'],
       'admin/organization/phase':['requestId','roundId','revision','phase','autoAssign'],
@@ -212,6 +216,7 @@ async function organizationCommand(env,user,path,body,deps,now){
       // Admission deadlines are checked after body parsing and all row locks.
       now=(deps.now||Date.now)();
       if(path==='organization/member/kick')return kickOrganizationMember(q,user,body,r,now);
+      if(path==='organization/member/leave')return leaveOrganizationMember(q,user,body,r,now);
       orgAssert(!seasonAdmissionEnabled(r,now),'MASS_CLOSED','원하는 클랜에 개별 신청하세요. 해당 클랜 원로가 승인합니다.');
       if(path==='admin/organization/additional-recruitment'){
         const [actor]=await q('SELECT role,status,banned_until FROM users WHERE id=$1 FOR SHARE',[user.id]);
@@ -234,6 +239,7 @@ async function organizationCommand(env,user,path,body,deps,now){
         return {ok:true,phase:body.phase,revision:Number(r.revision)+1,round:{id:r.id,phase:body.phase,revision:Number(r.revision)+1,opened_at:opened,closes_at:closes,auto_assign:automatic}};
       }
       if(path==='organization/survey'||path==='organization/withdraw'){
+        if(path==='organization/survey')await assertClanRejoin(q,r,user.id,now);
         if(path==='organization/survey')orgAssert(!organizationJoinOpen(r,now),'ELDER_ADMISSION','가입 신청 메뉴에서 원하는 클랜을 선택하세요. 해당 클랜 원로가 승인합니다.');
         orgAssert(surveyOpen(r,now),'SURVEY_CLOSED','클랜 입단 접수가 마감되었거나 아직 시작되지 않았습니다.');
         const [member]=await q('SELECT user_id FROM organization_members_v1 WHERE round_id=$1 AND user_id=$2',[r.id,user.id]);

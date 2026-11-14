@@ -1,5 +1,6 @@
 import {loadTextures,TexturePool,CanvasPool} from 'pixi.js';
 import {BATTLE_DEVICE} from './BattleDevicePolicy.mjs';
+import {BATTLE_MOBILE_IMAGES} from './BattleMobileImages.mjs';
 
 // Limit image decoding itself, including image loads nested inside atlas JSON.
 // Queuing Assets.load would miss those and can deadlock nested atlas loads.
@@ -23,6 +24,42 @@ export function ownDecodedBitmap(source,Bitmap=globalThis.ImageBitmap){
 const imageQueue=createImageLoadQueue(BATTLE_DEVICE.imageConcurrency);
 const originalLoad=loadTextures.load;
 const compactStats={images:0,originalBytes:0,residentBytes:0,failures:0};
+const deliveryStats={images:0,fallbacks:0};
+
+export function mobileBattleImage(value,{ios=BATTLE_DEVICE.ios,base=globalThis.location?.href||'https://battle.invalid/',images=BATTLE_MOBILE_IMAGES}={}){
+  if(!ios||typeof value!=='string')return null;
+  try{
+    const url=new URL(value,base);
+    if(url.origin!==new URL(base).origin)return null;
+    const entry=images[url.pathname];
+    // Pixi can decode in a blob worker, where document-relative fetch URLs fail.
+    return entry?{url:new URL(entry[0],base).href,scale:entry[1],width:entry[2],height:entry[3]}:null;
+  }catch{return null;}
+}
+
+// Fetch the smaller raster before decoding. Scaling a full decoded atlas only
+// afterwards still incurs its original Safari memory peak. Keep logical image
+// dimensions so authored atlas coordinates, UVs, anchors and poses stay exact.
+export async function loadMobileBattleTexture(load,context,args,variant){
+  if(variant){
+    const [url,asset={},...rest]=args;
+    try{
+      const texture=await load.call(context,variant.url,{...asset,data:{...asset.data,resolution:(asset.data?.resolution||1)*variant.scale}},...rest);
+      // An odd-sized atlas rounds its physical pixels. UVs must still use its
+      // exact original coordinate space, including the last half-pixel edge.
+      texture.source.width=variant.width/(asset.data?.resolution||1);
+      texture.source.height=variant.height/(asset.data?.resolution||1);
+      texture.update();
+      texture.source.__battleCompacted=true;
+      deliveryStats.images++;
+      return texture;
+    }catch{
+      // A stale/offline delivery cache must retain the working original path.
+      deliveryStats.fallbacks++;
+    }
+  }
+  return load.apply(context,args);
+}
 
 // Keep the original atlas coordinate space, anchors and actor sizes. Only the
 // decoded/GPU bitmap shrinks. Exact halving prevents frame edges from drifting.
@@ -62,7 +99,7 @@ export async function compactBattleTexture(texture,{createBitmap=globalThis.crea
   return true;
 }
 loadTextures.load=function(...args){return imageQueue.run(async()=>{
-  const texture=await originalLoad.apply(this,args);
+  const texture=await loadMobileBattleTexture(originalLoad,this,args,mobileBattleImage(args[0]));
   if(BATTLE_DEVICE.ios&&args[1]?.data?.battleLogicalPixels)await compactBattleTexture(texture);
   ownDecodedBitmap(texture.source);return texture;
 });};
@@ -78,4 +115,4 @@ export function releaseIdleBattleBuffers(){
   for(const {canvas} of idleCanvases){canvas.width=0;canvas.height=0;}
   idleCanvases.clear();
 }
-export const battleTextureDiagnostics=()=>({...imageQueue.diagnostics(),idleTextCanvases:idleCanvases.size,compaction:{...compactStats}});
+export const battleTextureDiagnostics=()=>({...imageQueue.diagnostics(),idleTextCanvases:idleCanvases.size,compaction:{...compactStats},mobileDelivery:{...deliveryStats}});

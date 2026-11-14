@@ -1,0 +1,11 @@
+[
+  "scripts/capture-pet-codex-v3-video.mjs",
+  "scripts/connect-pet-growth-live-ui-20261114.mjs",
+  "scripts/embed-pet-codex-v3-assets.mjs",
+  "scripts/embed-pet-rework-provenance-20261114.mjs",
+  "scripts/finalize-pet-live-20261114.mjs",
+  "scripts/record-pet-codex-v3-review.mjs",
+  "scripts/record-pet-rework-review-20261114.mjs",
+  "scripts/serve-pet-growth-live-qa.mjs",
+  "scripts/serve-pet-rework-20261114.mjs"
+]

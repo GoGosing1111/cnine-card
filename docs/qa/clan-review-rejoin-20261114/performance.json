@@ -1,0 +1,571 @@
+{
+  "conditions": {
+    "portal": "Windows host; actual lobby content-status entry and return; isolated API responses; local assets, fresh browser context then warm reentry. Windows: Electron runtime. iOS: Windows WebKit emulation. H5: host emulation, not installed store or physical mobile hardware.",
+    "database": "Read-only production PostgreSQL through Windows Node; same transaction/account before and after; includes host-to-database latency, not end-user network latency.",
+    "frames": "Serial Windows WebKit iPhone 13 emulation at DPR 3; identical idle and refresh scenario; screenshots outside the sampling interval.",
+    "confounders": "Original iOS portal timings overlapped another WebKit verification. Serial samples, when present, are the comparison baseline. Existing ResizeObserver notification appears before and after in WebKit."
+  },
+  "portal": [
+    {
+      "phase": "before",
+      "platform": "desktop",
+      "width": 1440,
+      "height": 900,
+      "entry": [
+        {
+          "ms": 861,
+          "calls": [
+            "clan/overview",
+            "organization/overview"
+          ]
+        },
+        {
+          "ms": 232,
+          "calls": [
+            "organization/overview"
+          ]
+        }
+      ],
+      "errors": [],
+      "coldLobbyMs": 1247,
+      "entrySurface": "로비 콘텐츠 현황",
+      "postExit": 0,
+      "isolatedAccount": true
+    },
+    {
+      "phase": "before",
+      "platform": "ios",
+      "width": 390,
+      "height": 844,
+      "entry": [
+        {
+          "ms": 919,
+          "calls": [
+            "clan/overview",
+            "organization/overview"
+          ]
+        },
+        {
+          "ms": 568,
+          "calls": [
+            "organization/overview"
+          ]
+        }
+      ],
+      "errors": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "coldLobbyMs": 1505,
+      "entrySurface": "로비 콘텐츠 현황",
+      "postExit": 0,
+      "isolatedAccount": true
+    },
+    {
+      "phase": "before",
+      "platform": "ios",
+      "width": 390,
+      "height": 844,
+      "entry": [
+        {
+          "ms": 2977,
+          "calls": [
+            "clan/overview",
+            "organization/overview"
+          ]
+        },
+        {
+          "ms": 1132,
+          "calls": [
+            "clan/overview",
+            "organization/overview"
+          ]
+        }
+      ],
+      "errors": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "coldLobbyMs": 8244,
+      "entrySurface": "로비 콘텐츠 현황",
+      "postExit": 0,
+      "isolatedAccount": true
+    },
+    {
+      "phase": "candidate",
+      "platform": "desktop",
+      "width": 1440,
+      "height": 900,
+      "entry": [
+        {
+          "ms": 884,
+          "calls": [
+            "clan/overview",
+            "organization/overview"
+          ]
+        },
+        {
+          "ms": 269,
+          "calls": [
+            "organization/overview"
+          ]
+        }
+      ],
+      "errors": [],
+      "coldLobbyMs": 1802,
+      "entrySurface": "로비 콘텐츠 현황",
+      "postExit": 0,
+      "isolatedAccount": true
+    },
+    {
+      "phase": "candidate",
+      "platform": "h5",
+      "width": 390,
+      "height": 844,
+      "entry": [
+        {
+          "ms": 967,
+          "calls": [
+            "clan/overview",
+            "organization/overview"
+          ]
+        },
+        {
+          "ms": 228,
+          "calls": [
+            "organization/overview"
+          ]
+        }
+      ],
+      "errors": [],
+      "coldLobbyMs": 1451,
+      "entrySurface": "로비 콘텐츠 현황",
+      "postExit": 0,
+      "isolatedAccount": true
+    },
+    {
+      "phase": "candidate",
+      "platform": "ios",
+      "width": 390,
+      "height": 844,
+      "entry": [
+        {
+          "ms": 1448,
+          "calls": [
+            "clan/overview",
+            "organization/overview"
+          ]
+        },
+        {
+          "ms": 787,
+          "calls": [
+            "organization/overview"
+          ]
+        }
+      ],
+      "errors": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "coldLobbyMs": 2010,
+      "entrySurface": "로비 콘텐츠 현황",
+      "postExit": 0,
+      "isolatedAccount": true
+    },
+    {
+      "phase": "candidate",
+      "platform": "ios",
+      "width": 390,
+      "height": 844,
+      "entry": [
+        {
+          "ms": 3078,
+          "calls": [
+            "clan/overview",
+            "organization/overview"
+          ]
+        },
+        {
+          "ms": 1248,
+          "calls": [
+            "clan/overview",
+            "organization/overview"
+          ]
+        }
+      ],
+      "errors": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "coldLobbyMs": 4774,
+      "entrySurface": "로비 콘텐츠 현황",
+      "postExit": 0,
+      "isolatedAccount": true
+    },
+    {
+      "phase": "candidate",
+      "platform": "windows",
+      "width": 1440,
+      "height": 900,
+      "entry": [
+        {
+          "ms": 786,
+          "calls": [
+            "clan/overview",
+            "organization/overview"
+          ]
+        },
+        {
+          "ms": 232,
+          "calls": [
+            "organization/overview"
+          ]
+        }
+      ],
+      "errors": [],
+      "coldLobbyMs": 1294,
+      "entrySurface": "로비 콘텐츠 현황",
+      "postExit": 0,
+      "isolatedAccount": true
+    }
+  ],
+  "frames": [
+    {
+      "mode": "before",
+      "device": "Windows WebKit iPhone 13 emulation, DPR 3, serial execution",
+      "idle": {
+        "samples": 68,
+        "p95": 17,
+        "max": 25,
+        "over50": 0
+      },
+      "refresh": {
+        "samples": 41,
+        "p95": 63,
+        "max": 64,
+        "over50": 5
+      },
+      "resources": [
+        {
+          "path": "/api/organization/overview",
+          "duration": 20
+        },
+        {
+          "path": "/api/organization/overview",
+          "duration": 8
+        }
+      ]
+    },
+    {
+      "mode": "after",
+      "device": "Windows WebKit iPhone 13 emulation, DPR 3, serial execution",
+      "idle": {
+        "samples": 67,
+        "p95": 17,
+        "max": 23,
+        "over50": 0
+      },
+      "refresh": {
+        "samples": 41,
+        "p95": 58,
+        "max": 64,
+        "over50": 5
+      },
+      "resources": [
+        {
+          "path": "/api/organization/overview",
+          "duration": 31
+        },
+        {
+          "path": "/api/organization/overview",
+          "duration": 9
+        }
+      ]
+    }
+  ],
+  "database": {
+    "measuredAt": "2026-11-14T07:54:46.472Z",
+    "conditions": "Windows Node to production PostgreSQL, repeatable read, same account and transaction, application functions only; actual browser path measured separately",
+    "results": [
+      {
+        "mode": "before",
+        "entry": "first",
+        "totalMs": 479,
+        "queryCount": 6,
+        "queries": [
+          {
+            "sql": "SELECT * FROM organization_policy_v1 WHERE id=1",
+            "ms": 81
+          },
+          {
+            "sql": "SELECT * FROM organization_rounds_v1 WHERE scope IN('LIVE','TEST') ORDER BY created_at DESC,id LIMIT",
+            "ms": 80
+          },
+          {
+            "sql": "SELECT organization_id,slot FROM organization_members_v1 WHERE round_id=$1 AND user_id=$2",
+            "ms": 81
+          },
+          {
+            "sql": "SELECT p.*,COUNT(m.user_id)::integer AS member_count,COALESCE(SUM(m.seed_power),0) AS power FROM org",
+            "ms": 159
+          },
+          {
+            "sql": "SELECT m.user_id,m.slot,m.joined_at,u.nickname FROM organization_members_v1 m JOIN users u ON u.id=m",
+            "ms": 79
+          },
+          {
+            "sql": "SELECT value FROM app_meta WHERE key=$1",
+            "ms": 78
+          }
+        ]
+      },
+      {
+        "mode": "before",
+        "entry": "return",
+        "totalMs": 464,
+        "queryCount": 6,
+        "queries": [
+          {
+            "sql": "SELECT * FROM organization_policy_v1 WHERE id=1",
+            "ms": 77
+          },
+          {
+            "sql": "SELECT * FROM organization_rounds_v1 WHERE scope IN('LIVE','TEST') ORDER BY created_at DESC,id LIMIT",
+            "ms": 77
+          },
+          {
+            "sql": "SELECT organization_id,slot FROM organization_members_v1 WHERE round_id=$1 AND user_id=$2",
+            "ms": 78
+          },
+          {
+            "sql": "SELECT p.*,COUNT(m.user_id)::integer AS member_count,COALESCE(SUM(m.seed_power),0) AS power FROM org",
+            "ms": 155
+          },
+          {
+            "sql": "SELECT m.user_id,m.slot,m.joined_at,u.nickname FROM organization_members_v1 m JOIN users u ON u.id=m",
+            "ms": 77
+          },
+          {
+            "sql": "SELECT value FROM app_meta WHERE key=$1",
+            "ms": 77
+          }
+        ]
+      },
+      {
+        "mode": "after",
+        "entry": "first",
+        "totalMs": 471,
+        "queryCount": 6,
+        "queries": [
+          {
+            "sql": "SELECT * FROM organization_policy_v1 WHERE id=1",
+            "ms": 78
+          },
+          {
+            "sql": "SELECT * FROM organization_rounds_v1 WHERE scope IN('LIVE','TEST') ORDER BY created_at DESC,id LIMIT",
+            "ms": 79
+          },
+          {
+            "sql": "SELECT organization_id,slot,joined_at FROM organization_members_v1 WHERE round_id=$1 AND user_id=$2",
+            "ms": 77
+          },
+          {
+            "sql": "SELECT p.*,COUNT(m.user_id)::integer AS member_count,COALESCE(SUM(m.seed_power),0) AS power FROM org",
+            "ms": 155
+          },
+          {
+            "sql": "SELECT m.user_id,m.slot,m.joined_at,u.nickname FROM organization_members_v1 m JOIN users u ON u.id=m",
+            "ms": 79
+          },
+          {
+            "sql": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[])",
+            "ms": 78
+          }
+        ]
+      },
+      {
+        "mode": "after",
+        "entry": "return",
+        "totalMs": 504,
+        "queryCount": 6,
+        "queries": [
+          {
+            "sql": "SELECT * FROM organization_policy_v1 WHERE id=1",
+            "ms": 78
+          },
+          {
+            "sql": "SELECT * FROM organization_rounds_v1 WHERE scope IN('LIVE','TEST') ORDER BY created_at DESC,id LIMIT",
+            "ms": 77
+          },
+          {
+            "sql": "SELECT organization_id,slot,joined_at FROM organization_members_v1 WHERE round_id=$1 AND user_id=$2",
+            "ms": 87
+          },
+          {
+            "sql": "SELECT p.*,COUNT(m.user_id)::integer AS member_count,COALESCE(SUM(m.seed_power),0) AS power FROM org",
+            "ms": 165
+          },
+          {
+            "sql": "SELECT m.user_id,m.slot,m.joined_at,u.nickname FROM organization_members_v1 m JOIN users u ON u.id=m",
+            "ms": 100
+          },
+          {
+            "sql": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[])",
+            "ms": 83
+          }
+        ]
+      }
+    ]
+  },
+  "desktop": {
+    "mode": "candidate",
+    "platform": "desktop",
+    "api": "isolated PostgreSQL",
+    "errors": [],
+    "actions": [
+      "approved/rejected/pending results",
+      "member signup",
+      "leave confirmation",
+      "seven-day restriction survives refresh"
+    ],
+    "loads": [
+      {
+        "entry": "first",
+        "ms": 172
+      },
+      {
+        "entry": "return",
+        "ms": 107
+      }
+    ],
+    "frames": {
+      "samples": 132,
+      "p95Ms": 4.3,
+      "maxMs": 29.2,
+      "over50": 0,
+      "overflow": false
+    },
+    "postExitRequests": 0,
+    "calls": [
+      {
+        "endpoint": "organization/overview",
+        "ms": 6
+      },
+      {
+        "endpoint": "organization/overview",
+        "ms": 7
+      },
+      {
+        "endpoint": "organization/overview",
+        "ms": 5
+      },
+      {
+        "endpoint": "organization/overview",
+        "ms": 5
+      },
+      {
+        "endpoint": "organization/overview",
+        "ms": 5
+      },
+      {
+        "endpoint": "organization/elder/join",
+        "ms": 10
+      },
+      {
+        "endpoint": "organization/overview",
+        "ms": 5
+      },
+      {
+        "endpoint": "organization/member/leave",
+        "ms": 8
+      },
+      {
+        "endpoint": "organization/overview",
+        "ms": 4
+      },
+      {
+        "endpoint": "organization/overview",
+        "ms": 5
+      }
+    ]
+  },
+  "public": {
+    "mode": "public",
+    "platform": "ios",
+    "api": "isolated PostgreSQL",
+    "errors": [],
+    "actions": [
+      "approved/rejected/pending results",
+      "member signup",
+      "leave confirmation",
+      "seven-day restriction survives refresh"
+    ],
+    "loads": [
+      {
+        "entry": "first",
+        "ms": 808
+      },
+      {
+        "entry": "return",
+        "ms": 412
+      }
+    ],
+    "frames": {
+      "samples": 31,
+      "p95Ms": 207,
+      "maxMs": 256,
+      "over50": 7,
+      "overflow": false
+    },
+    "postExitRequests": 0,
+    "calls": [
+      {
+        "endpoint": "organization/overview",
+        "ms": 11
+      },
+      {
+        "endpoint": "organization/overview",
+        "ms": 8
+      },
+      {
+        "endpoint": "organization/overview",
+        "ms": 8
+      },
+      {
+        "endpoint": "organization/overview",
+        "ms": 9
+      },
+      {
+        "endpoint": "organization/overview",
+        "ms": 7
+      },
+      {
+        "endpoint": "organization/elder/join",
+        "ms": 18
+      },
+      {
+        "endpoint": "organization/overview",
+        "ms": 7
+      },
+      {
+        "endpoint": "organization/member/leave",
+        "ms": 14
+      },
+      {
+        "endpoint": "organization/overview",
+        "ms": 10
+      },
+      {
+        "endpoint": "organization/overview",
+        "ms": 6
+      }
+    ]
+  },
+  "observedLimits": {
+    "publicIosDepartureAndRefresh": {
+      "samples": 31,
+      "p95Ms": 207,
+      "maxMs": 256,
+      "over50": 7,
+      "overflow": false
+    },
+    "interpretation": "Windows WebKit emulation shows long frames during the combined dialog close, departure and refresh. The matched before/after refresh comparison is a separate scenario and is not evidence of smooth physical iOS departure performance.",
+    "serialPortalCondition": "Sample 2 runs sequentially on the Windows host while release upload/hashing is active; before 2977/1132ms, after 3078/1248ms. Do not treat this as physical mobile latency."
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "createdAt": "2026-11-14T07:14:54.085Z",
+  "atlas": "assets/ui/equipment-polish-20261114/icons.webp",
+  "cell": 256,
+  "columns": 4,
+  "assets": [
+    {
+      "key": "attack",
+      "index": 0,
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a1cb45-d316-7ec1-a2bb-6668838a7f11\\exec-dcbb5f44-f9fd-43ca-8d5f-1dbb3d7f5c89.png",
+      "subject": "Two crossed elegant silver-and-gold longswords with a luminous ice-blue blade edge, distinct readable silhouette, attack power.",
+      "sha256": "dd32c8466d5bb208e2668457480161134d17dd74d564f4f87d32d0c4ba2c985e",
+      "transparentBackground": true,
+      "prompt": "Use case: stylized-concept. Asset type: production raster game UI icon, single object. Two crossed elegant silver-and-gold longswords with a luminous ice-blue blade edge, distinct readable silhouette, attack power. Match a premium dark fantasy science-fantasy RPG with finely painted realistic metals, physically convincing jewel light, elegant collectible inventory icon, refined semi-realistic Korean RPG illustration. One centered isolated object on genuine alpha transparency, large readable silhouette filling 78% of square canvas with safe transparent margins on every side, front readable presentation, detail that reads at 64px. No text, letters, numbers, circular badges, border frame, flat geometric placeholder, UI panel, scene or background. This is a finished painted icon."
+    },
+    {
+      "key": "critical-chance",
+      "index": 1,
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a1cb45-d316-7ec1-a2bb-6668838a7f11\\exec-4247f0bd-69c7-4c28-8aae-5dd909fe711a.png",
+      "subject": "A silver precision aiming sight surrounding a brilliant icy cyan star glint, realistic engraved metal lens, critical chance.",
+      "sha256": "3da5fd1749f686b076a9d2827194eac6812441e91c817a9ba45b05d8ef6e4ae3",
+      "transparentBackground": true,
+      "prompt": "Use case: stylized-concept. Asset type: production raster game UI icon, single object. A silver precision aiming sight surrounding a brilliant icy cyan star glint, realistic engraved metal lens, critical chance. Match a premium dark fantasy science-fantasy RPG with finely painted realistic metals, physically convincing jewel light, elegant collectible inventory icon, refined semi-realistic Korean RPG illustration. One centered isolated object on genuine alpha transparency, large readable silhouette filling 78% of square canvas with safe transparent margins on every side, front readable presentation, detail that reads at 64px. No text, letters, numbers, circular badges, border frame, flat geometric placeholder, UI panel, scene or background. This is a finished painted icon."
+    },
+    {
+      "key": "critical-damage",
+      "index": 2,
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a1cb45-d316-7ec1-a2bb-6668838a7f11\\exec-a833a007-b00e-40e2-a0a9-c4717272c4a9.png",
+      "subject": "A crimson-red crystal being struck and split by a bright gold blade, tiny controlled luminous shards, critical damage.",
+      "sha256": "a4228c66f4218e4400b546580a48920febba1e02d4e04080ba7d93f44f0e79a4",
+      "transparentBackground": true,
+      "prompt": "Use case: stylized-concept. Asset type: production raster game UI icon, single object. A crimson-red crystal being struck and split by a bright gold blade, tiny controlled luminous shards, critical damage. Match a premium dark fantasy science-fantasy RPG with finely painted realistic metals, physically convincing jewel light, elegant collectible inventory icon, refined semi-realistic Korean RPG illustration. One centered isolated object on genuine alpha transparency, large readable silhouette filling 78% of square canvas with safe transparent margins on every side, front readable presentation, detail that reads at 64px. No text, letters, numbers, circular badges, border frame, flat geometric placeholder, UI panel, scene or background. This is a finished painted icon."
+    },
+    {
+      "key": "boss-damage",
+      "index": 3,
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a1cb45-d316-7ec1-a2bb-6668838a7f11\\exec-5faae5b2-079a-4876-82cb-361a62453420.png",
+      "subject": "A dark horned dragon skull with ruby eyes and gold armor plates, boss damage.",
+      "sha256": "4a7dc92d6fc2873a518cbd63e66010498649f5c77d9673f23a6c020c781f097b",
+      "transparentBackground": true,
+      "prompt": "Use case: stylized-concept. Asset type: production raster game UI icon, single object. A dark horned dragon skull with ruby eyes and gold armor plates, boss damage. Match a premium dark fantasy science-fantasy RPG with finely painted realistic metals, physically convincing jewel light, elegant collectible inventory icon, refined semi-realistic Korean RPG illustration. One centered isolated object on genuine alpha transparency, large readable silhouette filling 78% of square canvas with safe transparent margins on every side, front readable presentation, detail that reads at 64px. No text, letters, numbers, circular badges, border frame, flat geometric placeholder, UI panel, scene or background. This is a finished painted icon."
+    },
+    {
+      "key": "penetration",
+      "index": 4,
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a1cb45-d316-7ec1-a2bb-6668838a7f11\\exec-ccf53acb-886e-477f-a141-af7ea96955c9.png",
+      "subject": "A sharp silver spearhead piercing a cracked dark steel shield, blue electrical highlights, armor penetration.",
+      "sha256": "da7ec2659e5a7e3b913262d6ad391d53ebd552fcceb3a512360ee84f0cccdbfd",
+      "transparentBackground": true,
+      "prompt": "Use case: stylized-concept. Asset type: production raster game UI icon, single object. A sharp silver spearhead piercing a cracked dark steel shield, blue electrical highlights, armor penetration. Match a premium dark fantasy science-fantasy RPG with finely painted realistic metals, physically convincing jewel light, elegant collectible inventory icon, refined semi-realistic Korean RPG illustration. One centered isolated object on genuine alpha transparency, large readable silhouette filling 78% of square canvas with safe transparent margins on every side, front readable presentation, detail that reads at 64px. No text, letters, numbers, circular badges, border frame, flat geometric placeholder, UI panel, scene or background. This is a finished painted icon."
+    },
+    {
+      "key": "miss",
+      "index": 5,
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a1cb45-d316-7ec1-a2bb-6668838a7f11\\exec-e7b52d36-27d9-4138-923d-37b5f0799879.png",
+      "subject": "A broken smoky charcoal gemstone with a cracked silver setting and dim red embers, a clear failed enchantment / miss icon. No text.",
+      "sha256": "8c04e8a2614c8c876f0770c65c0b0103117f7881f84e8d6e004a9b37abfe4484",
+      "transparentBackground": true,
+      "prompt": "Use case: stylized-concept. Asset type: production raster game UI icon, single object. A broken smoky charcoal gemstone with a cracked silver setting and dim red embers, a clear failed enchantment / miss icon. No text. Match a premium dark fantasy science-fantasy RPG with finely painted realistic metals, physically convincing jewel light, elegant collectible inventory icon, refined semi-realistic Korean RPG illustration. One centered isolated object on genuine alpha transparency, large readable silhouette filling 78% of square canvas with safe transparent margins on every side, front readable presentation, detail that reads at 64px. No text, letters, numbers, circular badges, border frame, flat geometric placeholder, UI panel, scene or background. This is a finished painted icon."
+    },
+    {
+      "key": "title",
+      "index": 6,
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a1cb45-d316-7ec1-a2bb-6668838a7f11\\exec-981d66a4-26ac-4c5b-8684-39da4f0c0ba7.png",
+      "subject": "An ornate gold royal medal with blue velvet ribbons and a ruby cabochon, title collection menu.",
+      "sha256": "bbe40ab2e66f71bd3ee9615a206ba99f85eaf4db31f140085ba60c24dc3d8e9f",
+      "transparentBackground": true,
+      "prompt": "Use case: stylized-concept. Asset type: production raster game UI icon, single object. An ornate gold royal medal with blue velvet ribbons and a ruby cabochon, title collection menu. Match a premium dark fantasy science-fantasy RPG with finely painted realistic metals, physically convincing jewel light, elegant collectible inventory icon, refined semi-realistic Korean RPG illustration. One centered isolated object on genuine alpha transparency, large readable silhouette filling 78% of square canvas with safe transparent margins on every side, front readable presentation, detail that reads at 64px. No text, letters, numbers, circular badges, border frame, flat geometric placeholder, UI panel, scene or background. This is a finished painted icon."
+    },
+    {
+      "key": "vehicle",
+      "index": 7,
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a1cb45-d316-7ec1-a2bb-6668838a7f11\\exec-267adcc5-558c-4833-ac02-28071484ddb2.png",
+      "subject": "A dramatic three-quarter view futuristic black and silver sports car with cyan headlights, transportation garage menu.",
+      "sha256": "eed1551bd0c51d786021e70de9db5f5f6970b0a83baf42d86dec8548a1aae53d",
+      "transparentBackground": true,
+      "prompt": "Use case: stylized-concept. Asset type: production raster game UI icon, single object. A dramatic three-quarter view futuristic black and silver sports car with cyan headlights, transportation garage menu. Match a premium dark fantasy science-fantasy RPG with finely painted realistic metals, physically convincing jewel light, elegant collectible inventory icon, refined semi-realistic Korean RPG illustration. One centered isolated object on genuine alpha transparency, large readable silhouette filling 78% of square canvas with safe transparent margins on every side, front readable presentation, detail that reads at 64px. No text, letters, numbers, circular badges, border frame, flat geometric placeholder, UI panel, scene or background. This is a finished painted icon."
+    },
+    {
+      "key": "avatar",
+      "index": 8,
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a1cb45-d316-7ec1-a2bb-6668838a7f11\\exec-4940569f-7ac5-4f6d-a9d9-98014535f2d4.png",
+      "subject": "An elegant white and midnight blue fantasy formal outfit on an invisible mannequin, gold shoulder detailing, full silhouette, avatar wardrobe menu.",
+      "sha256": "da2e0d02dddbfde305511a9d4282b2d7a21ee93d9944250fcdc085da97a24b03",
+      "transparentBackground": true,
+      "prompt": "Use case: stylized-concept. Asset type: production raster game UI icon, single object. An elegant white and midnight blue fantasy formal outfit on an invisible mannequin, gold shoulder detailing, full silhouette, avatar wardrobe menu. Match a premium dark fantasy science-fantasy RPG with finely painted realistic metals, physically convincing jewel light, elegant collectible inventory icon, refined semi-realistic Korean RPG illustration. One centered isolated object on genuine alpha transparency, large readable silhouette filling 78% of square canvas with safe transparent margins on every side, front readable presentation, detail that reads at 64px. No text, letters, numbers, circular badges, border frame, flat geometric placeholder, UI panel, scene or background. This is a finished painted icon."
+    },
+    {
+      "key": "skill-chip",
+      "index": 9,
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a1cb45-d316-7ec1-a2bb-6668838a7f11\\exec-456967c4-429f-48da-aae8-750c08802f03.png",
+      "subject": "A gold edged dark mechanical microchip with a vivid cyan energy crystal core, skill chip menu.",
+      "sha256": "636bd42fc74a4351823de3a17d006f94d976bceb678edfda95912e29aa7f6623",
+      "transparentBackground": true,
+      "prompt": "Use case: stylized-concept. Asset type: production raster game UI icon, single object. A gold edged dark mechanical microchip with a vivid cyan energy crystal core, skill chip menu. Match a premium dark fantasy science-fantasy RPG with finely painted realistic metals, physically convincing jewel light, elegant collectible inventory icon, refined semi-realistic Korean RPG illustration. One centered isolated object on genuine alpha transparency, large readable silhouette filling 78% of square canvas with safe transparent margins on every side, front readable presentation, detail that reads at 64px. No text, letters, numbers, circular badges, border frame, flat geometric placeholder, UI panel, scene or background. This is a finished painted icon."
+    },
+    {
+      "key": "forge",
+      "index": 10,
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a1cb45-d316-7ec1-a2bb-6668838a7f11\\exec-0cdb5935-d9d3-47da-bc43-045144399f2c.png",
+      "subject": "A short ornate gold-and-steel forging hammer striking a small silver anvil with a few warm sparks, equipment enhancement menu.",
+      "sha256": "c18bddffff2ddb2d8e30251dbc7ea2c97f75302a472245131a34770dcd66be31",
+      "transparentBackground": true,
+      "prompt": "Use case: stylized-concept. Asset type: production raster game UI icon, single object. A short ornate gold-and-steel forging hammer striking a small silver anvil with a few warm sparks, equipment enhancement menu. Match a premium dark fantasy science-fantasy RPG with finely painted realistic metals, physically convincing jewel light, elegant collectible inventory icon, refined semi-realistic Korean RPG illustration. One centered isolated object on genuine alpha transparency, large readable silhouette filling 78% of square canvas with safe transparent margins on every side, front readable presentation, detail that reads at 64px. No text, letters, numbers, circular badges, border frame, flat geometric placeholder, UI panel, scene or background. This is a finished painted icon."
+    },
+    {
+      "key": "coin",
+      "index": 11,
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a1cb45-d316-7ec1-a2bb-6668838a7f11\\exec-3d8e4dfd-a7ac-422d-bf3a-6a66c93fab01.png",
+      "subject": "A short stack of gleaming deeply embossed gold game coins with a restrained blue gem in the front coin, currency icon.",
+      "sha256": "8e3e03aa416ca0699d1ce2349953eef1c18a6b163916baac1498e07abe32b659",
+      "transparentBackground": true,
+      "prompt": "Use case: stylized-concept. Asset type: production raster game UI icon, single object. A short stack of gleaming deeply embossed gold game coins with a restrained blue gem in the front coin, currency icon. Match a premium dark fantasy science-fantasy RPG with finely painted realistic metals, physically convincing jewel light, elegant collectible inventory icon, refined semi-realistic Korean RPG illustration. One centered isolated object on genuine alpha transparency, large readable silhouette filling 78% of square canvas with safe transparent margins on every side, front readable presentation, detail that reads at 64px. No text, letters, numbers, circular badges, border frame, flat geometric placeholder, UI panel, scene or background. This is a finished painted icon."
+    },
+    {
+      "key": "master-star",
+      "index": 12,
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a1cb45-d316-7ec1-a2bb-6668838a7f11\\exec-9938dccc-e1cd-4fcf-8a8f-6739b91c3bf0.png",
+      "subject": "A lustrous sculpted five-point golden star gem with warm amber center and silver bevel highlights, master star currency icon.",
+      "sha256": "8ede3857e6abc7bb49a6041fd4485bb915245ccb5c27af4a7fd6c1cef418ca7b",
+      "transparentBackground": true,
+      "prompt": "Use case: stylized-concept. Asset type: production raster game UI icon, single object. A lustrous sculpted five-point golden star gem with warm amber center and silver bevel highlights, master star currency icon. Match a premium dark fantasy science-fantasy RPG with finely painted realistic metals, physically convincing jewel light, elegant collectible inventory icon, refined semi-realistic Korean RPG illustration. One centered isolated object on genuine alpha transparency, large readable silhouette filling 78% of square canvas with safe transparent margins on every side, front readable presentation, detail that reads at 64px. No text, letters, numbers, circular badges, border frame, flat geometric placeholder, UI panel, scene or background. This is a finished painted icon."
+    },
+    {
+      "key": "polish-stone",
+      "index": 13,
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a1cb45-d316-7ec1-a2bb-6668838a7f11\\exec-94260ef1-af4a-47d6-812d-c1ac832a9a13.png",
+      "subject": "A faceted luminous deep sapphire polishing crystal suspended in ornate polished gold prongs, tiny blue sparkles, high grade equipment polishing material.",
+      "sha256": "c69f3ab80d3efa9de99a7178673044aacecefbbf04b1be9fbc3e8ba6a42f8008",
+      "transparentBackground": true,
+      "prompt": "Use case: stylized-concept. Asset type: production raster game UI icon, single object. A faceted luminous deep sapphire polishing crystal suspended in ornate polished gold prongs, tiny blue sparkles, high grade equipment polishing material. Match a premium dark fantasy science-fantasy RPG with finely painted realistic metals, physically convincing jewel light, elegant collectible inventory icon, refined semi-realistic Korean RPG illustration. One centered isolated object on genuine alpha transparency, large readable silhouette filling 78% of square canvas with safe transparent margins on every side, front readable presentation, detail that reads at 64px. No text, letters, numbers, circular badges, border frame, flat geometric placeholder, UI panel, scene or background. This is a finished painted icon."
+    }
+  ]
+}

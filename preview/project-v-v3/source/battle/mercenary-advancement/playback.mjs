@@ -43,5 +43,7 @@ export function clearAdvancement(engine) {
   const battle=battles.get(engine);
   if (!battle) return;
   battles.delete(engine);
-  void battle.states?.destroy(); void battle.burst?.destroy();
+  const previous=engine.mercenaryAdvancementReleasePromise;
+  engine.mercenaryAdvancementReleasePromise=Promise.allSettled([previous,battle.states?.destroy(),battle.burst?.destroy()]);
+  return engine.mercenaryAdvancementReleasePromise;
 }

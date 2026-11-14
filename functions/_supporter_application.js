@@ -5,7 +5,7 @@ import {SUPPORT_BANK_MESSAGE_TYPE,SUPPORT_BANK_MESSAGE_TTL,deleteExpiredSupportM
 import {readSupportRecord} from './_supporter_benefits.js';
 import {passMonth,secondPassSale} from './_supporter_season_pass.js';
 import {passSubscription} from '../shared/supporter-season-pass-v1.mjs';
-import {PASS_ORDER_PREFIX as passOrderPrefix,secondPassOrderKey,unpaidKey,supportAccount,requirePassPurchase,purchaseHoldGuard} from './_support_pass_review.js';
+import {PASS_ORDER_PREFIX as passOrderPrefix,secondPassOrderKey,unpaidKey,supportAccount,requirePassPurchase,purchaseHoldGuard,recordGuard} from './_support_pass_review.js';
 export {secondPassOrderKey};
 
 const LIMIT=3,KST=9*60*60*1000;
@@ -35,8 +35,9 @@ export async function requestSecondPassPurchase(env,userRow,requestId,now){
   if(!supportAccountEligible(userRow,now))fail('ELIGIBILITY','가입 3일 경과와 2차 인증 완료 후 신청할 수 있습니다.',403);
   requirePassPurchase(userRow);
   const receiptKey='support_pass_month2_request_v1:'+id+':'+requestId;
-  const [support,pending,previous]=await Promise.all([readSupportRecord(env,id),secondPassOrder(env,id),receipt(env,receiptKey)]);
+  const [support,pending,previous,settings]=await Promise.all([readSupportRecord(env,id),secondPassOrder(env,id),receipt(env,receiptKey),configRecord(env)]);
   if(passSubscription(support.state,2,now).purchased)return {purchased:true,pending:null,serverNow:now};
+  if(!previous&&pending?.id!==id+'_'+requestId)requireOpenSale(settings,2);
   if(pending||previous){
     if(pending?.id!==id+'_'+requestId&&await receipt(env,unpaidKey(id+'_'+requestId)))fail('REJECTED','미입금으로 거절된 신청입니다.',409);
     return {pending,serverNow:now};
@@ -44,7 +45,9 @@ export async function requestSecondPassPurchase(env,userRow,requestId,now){
   const sale=await secondPassSale(env,support.state,now),token=crypto.randomUUID(),p=(sql,...args)=>DB.prepare(sql).bind(...args);
   await ensureJointAtomicSchema(env);
   try{await DB.batch([
-    ...(DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',id),p('SELECT key FROM app_meta WHERE key=? FOR UPDATE',sale.key)]:[]),
+    ...(DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',id)]:[]),
+    ...lockSaleConfig(DB,p,settings),...lockSaleConfig(DB,p,sale),
+    jointGuard(DB,token+'s',...recordGuard(settings.key,settings.raw)),
     jointGuard(DB,token,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[sale.key,sale.raw]),
     jointGuard(DB,token+'t',support.raw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',support.raw===null?[support.key]:[support.key,support.raw]),
     jointGuard(DB,token+'u','EXISTS(SELECT 1 FROM users u JOIN user_second_verifications s ON s.user_id=u.id WHERE u.id=? AND u.status=? AND u.created_at=? AND s.verified_at=?)',[id,'ACTIVE',userRow.created_at,userRow.verified_at]),
@@ -52,12 +55,12 @@ export async function requestSecondPassPurchase(env,userRow,requestId,now){
     jointGuard(DB,token+'n','NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)',[unpaidKey(id+'_'+requestId)]),
     passOrderStatement(DB,id,requestId,now),
     p('INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO NOTHING',receiptKey,JSON.stringify({issuedAt:now})),
-    ...[token,token+'t',token+'u',token+'h',token+'n'].map(t=>jointGuardEnd(DB,t))
+    ...[token,token+'s',token+'t',token+'u',token+'h',token+'n'].map(t=>jointGuardEnd(DB,t))
   ]);}catch(error){
     requirePassPurchase(await supportAccount(env,id));
     if(await receipt(env,unpaidKey(id+'_'+requestId)))fail('REJECTED','미입금으로 거절된 신청입니다.',409);
     if(passSubscription((await readSupportRecord(env,id)).state,2,now).purchased)return {purchased:true,pending:null,serverNow:now};
-    if(!(await receipt(env,receiptKey)))throw error;
+    if(!(await receipt(env,receiptKey))){await passSalesSettings(env,2);throw error;}
   }
   return {pending:await secondPassOrder(env,id),serverNow:now};
 }
@@ -77,13 +80,14 @@ async function ledger(env,userId,now){
 function status(used,now){return {used,limit:LIMIT,remaining:LIMIT-used,resetsAt:Date.parse(dayOf(now)+'T00:00:00+09:00')+86400000,expiresAfterSeconds:SUPPORT_BANK_MESSAGE_TTL/1000};}
 async function configRecord(env){
   const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(SUPPORT_APPLICATION_CONFIG_KEY).first(),value=row?JSON.parse(row.value):{};
-  return {key:SUPPORT_APPLICATION_CONFIG_KEY,raw:row?.value??null,config:{enabled:value.enabled===true,firstMonthSalesOpen:value.firstMonthSalesOpen!==false,revision:Number(value.revision)||0}};
+  return {key:SUPPORT_APPLICATION_CONFIG_KEY,raw:row?.value??null,config:{enabled:value.enabled===true,firstMonthSalesOpen:value.firstMonthSalesOpen!==false,secondMonthSalesOpen:value.secondMonthSalesOpen!==false,revision:Number(value.revision)||0}};
 }
-function requireFirstMonthOpen(record){
-  if(!record.config.firstMonthSalesOpen)fail('MONTH1_CLOSED','1개월차 시즌패스 판매가 종료되었습니다.',409);
+function requireOpenSale(record,month){
+  if(month===1&&!record.config.firstMonthSalesOpen)fail('MONTH1_CLOSED','1개월차 시즌패스 판매가 종료되었습니다.',409);
+  if(month===2&&!record.config.secondMonthSalesOpen)fail('MONTH2_CLOSED','2개월차 시즌패스 구매가 중단되었습니다.',409);
   return record;
 }
-export async function firstPassSale(env){return requireFirstMonthOpen(await configRecord(env));}
+export async function passSalesSettings(env,month){return requireOpenSale(await configRecord(env),month);}
 // Lock the owner row when initializing settings: PostgreSQL cannot lock a missing config row.
 export function lockSaleConfig(DB,p,sale,writing=false){
   if(DB.dialect!=='postgres')return [];
@@ -93,16 +97,17 @@ export function lockSaleConfig(DB,p,sale,writing=false){
 export async function readSupportApplicationConfig(env){return (await configRecord(env)).config;}
 export async function readSupportApplication(env,userId,now=Date.now()){
   const [record,config]=await Promise.all([ledger(env,userId,now),readSupportApplicationConfig(env)]);
-  return {...status(record.used,now),enabled:config.enabled,firstMonthSalesOpen:config.firstMonthSalesOpen};
+  return {...status(record.used,now),enabled:config.enabled,firstMonthSalesOpen:config.firstMonthSalesOpen,secondMonthSalesOpen:config.secondMonthSalesOpen};
 }
 export async function saveSupportApplicationConfig(env,admin,body,now=Date.now()){
   if(!canManageSupport(admin))fail('ADMIN','후원 관리는 핑크빛유두 전용입니다.',403);
-  if(typeof body.enabled!=='boolean'||(body.firstMonthSalesOpen!==undefined&&typeof body.firstMonthSalesOpen!=='boolean')||!Number.isSafeInteger(body.expectedRevision)||body.expectedRevision<0||typeof body.requestId!=='string'||!/^[A-Za-z0-9_-]{16,100}$/.test(body.requestId))fail('INPUT','신청 버튼 설정을 확인하세요.');
-  const key='support_application_settings_receipt_v1:'+body.requestId,payload=JSON.stringify([admin.id,body.enabled,body.expectedRevision,...(body.firstMonthSalesOpen===undefined?[]:[body.firstMonthSalesOpen])]);
+  if(typeof body.enabled!=='boolean'||['firstMonthSalesOpen','secondMonthSalesOpen'].some(field=>body[field]!==undefined&&typeof body[field]!=='boolean')||!Number.isSafeInteger(body.expectedRevision)||body.expectedRevision<0||typeof body.requestId!=='string'||!/^[A-Za-z0-9_-]{16,100}$/.test(body.requestId))fail('INPUT','신청 버튼 설정을 확인하세요.');
+  const key='support_application_settings_receipt_v1:'+body.requestId,payload=JSON.stringify([admin.id,body.enabled,body.expectedRevision,...(body.firstMonthSalesOpen===undefined?[]:[body.firstMonthSalesOpen]),...(body.secondMonthSalesOpen===undefined?[]:[{secondMonthSalesOpen:body.secondMonthSalesOpen}])]);
   const replay=async()=>{const prior=await receipt(env,key);if(!prior)return null;if(prior.payload!==payload)fail('REQUEST_CONFLICT','같은 요청 번호로 다른 설정을 저장할 수 없습니다.',409);return {...prior.result,replayed:true};};
   const previous=await replay();if(previous)return previous;
   const record=await configRecord(env);if(record.config.revision!==body.expectedRevision)fail('REVISION','다른 창에서 설정을 변경했습니다. 새로고침 후 다시 저장하세요.',409);
-  const config={enabled:body.enabled,firstMonthSalesOpen:body.firstMonthSalesOpen??record.config.firstMonthSalesOpen,revision:record.config.revision+1},raw=JSON.stringify({...config,lastRequestId:body.requestId}),DB=env.DB,token=crypto.randomUUID(),p=(sql,...a)=>DB.prepare(sql).bind(...a);
+  const config={enabled:body.enabled,firstMonthSalesOpen:body.firstMonthSalesOpen??record.config.firstMonthSalesOpen,
+    secondMonthSalesOpen:body.secondMonthSalesOpen??record.config.secondMonthSalesOpen,revision:record.config.revision+1},raw=JSON.stringify({...config,lastRequestId:body.requestId}),DB=env.DB,token=crypto.randomUUID(),p=(sql,...a)=>DB.prepare(sql).bind(...a);
   const result={ok:true,config,processedAt:now,replayed:false};await ensureJointAtomicSchema(env);
   try{await DB.batch([
     ...lockSaleConfig(DB,p,record,true),
@@ -127,7 +132,6 @@ export async function issueSupportApplication(env,user,body,now=Date.now(),accou
   if(!supportAccountEligible(row,now))fail('ELIGIBILITY','가입 3일 경과와 2차 인증 완료 후 신청할 수 있습니다.',403);
   requirePassPurchase(row);
   const applicationConfig=await configRecord(env);
-  if(!applicationConfig.config.enabled)fail('DISABLED','현재 후원 신청을 받지 않습니다.',403);
   const key=receiptKey(id,body.requestId),previous=await receipt(env,key);
   // Replaying an old request never recreates an expired or manually deleted message.
   const replay=async saved=>{
@@ -136,7 +140,8 @@ export async function issueSupportApplication(env,user,body,now=Date.now(),accou
     return resultFor(env,id,saved,now,true);
   };
   if(previous)return replay(previous);
-  if(month===1)requireFirstMonthOpen(applicationConfig);
+  requireOpenSale(applicationConfig,month);
+  if(!applicationConfig.config.enabled)fail('DISABLED','현재 후원 신청을 받지 않습니다.',403);
   await deleteExpiredSupportMessages(env,now,id);
   const support=month===2?await readSupportRecord(env,id):null;
   const sale=support?await secondPassSale(env,support.state,now):null;
@@ -172,7 +177,7 @@ export async function issueSupportApplication(env,user,body,now=Date.now(),accou
     }catch(error){
       const prior=await receipt(env,key);if(prior)return replay(prior);
       requirePassPurchase(await supportAccount(env,id));
-      if(month===1)await firstPassSale(env);
+      await passSalesSettings(env,month);
       if(month===2&&await receipt(env,unpaidKey(id+'_'+body.requestId)))fail('REJECTED','미입금으로 거절된 신청입니다.',409);
       if((await ledger(env,id,now)).raw!==record.raw&&attempt<3)continue;
       throw error;

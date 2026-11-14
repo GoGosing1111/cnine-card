@@ -9,7 +9,7 @@ export const polishUserPrefix=userId=>'equipment_polish_instance_v1:'+userId+':'
 export const polishStateKey=(id,userId)=>polishUserPrefix(userId)+id;
 export function decodePolishState(raw,instanceId,userId){
   if(raw==null)return {schemaVersion:1,instanceId:String(instanceId),userId:Number(userId),attempts:0,levels:[0,0,0,0,0],values:[0,0,0,0,0]};
-  try{const s=JSON.parse(raw);if(s.schemaVersion!==1||String(s.instanceId)!==String(instanceId)||Number(s.userId)!==Number(userId)||!Number.isInteger(s.attempts)||s.attempts<0||s.attempts>100||!Array.isArray(s.levels)||s.levels.length!==5||s.levels.some(n=>!Number.isInteger(n)||n<0||n>100)||s.levels.reduce((a,b)=>a+b,0)!==s.attempts||!Array.isArray(s.values)||s.values.length!==5||s.values.some(n=>!Number.isFinite(n)||n<0||n>10000))throw Error('invalid');return s;}
+  try{const s=JSON.parse(raw);if(s.schemaVersion!==1||String(s.instanceId)!==String(instanceId)||Number(s.userId)!==Number(userId)||!Number.isInteger(s.attempts)||s.attempts<0||s.attempts>100||(s.rolls!==undefined&&(!Number.isSafeInteger(s.rolls)||s.rolls<s.attempts))||!Array.isArray(s.levels)||s.levels.length!==5||s.levels.some(n=>!Number.isInteger(n)||n<0||n>100)||s.levels.reduce((a,b)=>a+b,0)!==s.attempts||!Array.isArray(s.values)||s.values.length!==5||s.values.some(n=>!Number.isFinite(n)||n<0||n>10000))throw Error('invalid');return s;}
   catch{throw jointError('POLISH_STATE_UNAVAILABLE','장비 연마 기록을 확인할 수 없습니다.',503);}
 }
 export async function equipmentGrowthRuntime(env,userId){

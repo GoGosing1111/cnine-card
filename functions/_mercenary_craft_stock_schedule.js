@@ -1,5 +1,5 @@
 import {LIMITED_SHARD_CRAFTS,LIMITED_CRAFT_STOCK_MAX,LIMITED_CRAFT_STOCK_STEP} from '../shared/mercenary-limited-shard-craft-v1.mjs';
-import {validateMercenaryCraft} from '../shared/mercenary-craft-v1.mjs';
+import {mercenaryCraftReady,validateMercenaryCraft} from '../shared/mercenary-craft-v1.mjs';
 import {STOCK_SCHEDULE_MAX_PENDING,stockScheduleInitial,stockScheduleNext} from '../shared/mercenary-stock-schedule-v1.mjs';
 import {jointHash} from './_joint_transactions.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
@@ -18,7 +18,13 @@ function validate(input){
  if(!input||Object.keys(input).sort().join(',')!=='changes,executeAt,reason,requestId'||typeof input.requestId!=='string'||!/^[A-Za-z0-9_-]{16,100}$/.test(input.requestId)||typeof input.reason!=='string'||input.reason.trim().length<4||input.reason.length>500||/[\u0000-\u001f]/.test(input.reason))throw fail('제작 수량 예약의 요청 번호와 사유를 확인하세요.');
  if(typeof input.executeAt!=='string'||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.000Z$/.test(input.executeAt)||!Number.isFinite(Date.parse(input.executeAt))||new Date(input.executeAt).toISOString()!==input.executeAt)throw fail('제작 수량 예약 시각을 확인하세요.');
  const changes=input.changes;
- if(!Array.isArray(changes)||!changes.length||changes.length>LIMITED_SHARD_CRAFTS.length||new Set(changes.map(c=>c?.code)).size!==changes.length||changes.some(c=>!c||Object.keys(c).sort().join(',')!=='code,quantity'||!definition(c.code)||!Number.isSafeInteger(c.quantity)||c.quantity<5||c.quantity>10000||c.quantity%LIMITED_CRAFT_STOCK_STEP))throw fail('SSS 리미티드 조각 제작 대상과 5장 단위 추가 수량을 확인하세요.');
+ if(!Array.isArray(changes)||!changes.length||changes.length>LIMITED_SHARD_CRAFTS.length||new Set(changes.map(c=>c?.code)).size!==changes.length)throw fail('서로 다른 SSS 리미티드 조각 제작 대상을 선택하세요.');
+ for(const change of changes){
+  if(!change||!definition(change.code))throw fail('등록된 SSS 리미티드 조각 제작 대상을 선택하세요.');
+  const fields=Object.keys(change).sort().join(',');
+  if(fields==='code,open'&&change.open===true)continue;
+  if(fields!=='code,quantity'||!Number.isSafeInteger(change.quantity)||change.quantity<LIMITED_CRAFT_STOCK_STEP||change.quantity>10000||change.quantity%LIMITED_CRAFT_STOCK_STEP)throw fail('공개 예약 또는 5장 단위 추가 수량을 확인하세요.');
+ }
  return {...input,changes:[...changes].sort((a,b)=>a.code.localeCompare(b.code))};
 }
 async function policies(env,changes){
@@ -28,6 +34,7 @@ async function policies(env,changes){
   if(!row)throw fail('예약 대상 제작 설정이 없습니다.',409);
   const rawPolicy=JSON.parse(row.value),policy=validateMercenaryCraft(rawPolicy,d);
   if(!Number.isSafeInteger(policy.revision)||policy.revision>=2147483646)throw fail('제작 설정 버전을 확인하세요.',409);
+  if(change.open&&!mercenaryCraftReady(policy))throw fail('공개할 제작식의 재료·비용·확률을 먼저 저장하세요.',409);
   return {change,definition:d,row,rawPolicy,policy};
  });
 }
@@ -41,8 +48,19 @@ export async function scheduleLimitedCraftStock(env,actor,input){
   if(Date.parse(body.executeAt)<now+60000||Date.parse(body.executeAt)>now+366*86400000)throw fail('예약은 서버 현재 시각에서 1분 이후, 1년 이내로 등록하세요.');
   if(stockScheduleNext(next).length>=STOCK_SCHEDULE_MAX_PENDING)throw fail('대기 제작 예약은 최대 32개입니다.');
   for(const {change,policy}of await policies(env,body.changes)){
-   const reserved=stockScheduleNext(next).flatMap(s=>s.changes).filter(c=>c.code===change.code).reduce((n,c)=>n+c.quantity,0);
+   const pending=stockScheduleNext(next).flatMap(s=>s.changes).filter(c=>c.code===change.code);
+   if(change.open){
+    if(policy.isActive||policy.isPublic||pending.some(c=>c.open))throw fail('공개 예약은 아직 열리지 않은 비공개 제작식에 한 번만 등록할 수 있습니다.',409);
+    continue;
+   }
+   const reserved=pending.reduce((n,c)=>n+(c.quantity??0),0);
    if(!policy.isPublic||!policy.isActive||policy.stockLimit+reserved+change.quantity>LIMITED_CRAFT_STOCK_MAX)throw fail('공개된 제작 대상과 현재 발행 한도를 확인하세요.',409);
+  }
+  const openings=body.changes.filter(c=>c.open);
+  if(openings.length){
+   const recipeCodes=openings.map(c=>definition(c.code).recipeCode);
+   const drafts=await p("SELECT code,output_ref FROM workshop_recipes_v1668 WHERE category='MERCENARY_CRAFT' AND output_type='MERCENARY' AND output_quantity=1 AND is_active=0 AND is_public=0 AND code IN ("+recipeCodes.map(()=>'?').join(',')+')',...recipeCodes).all();
+   if(!openings.every(c=>drafts.results.some(r=>r.code===definition(c.code).recipeCode&&r.output_ref===c.code)))throw fail('공개 예약할 비공개 제작식을 제작소에 먼저 저장하세요.',409);
   }
   const schedule={id:body.requestId,status:'SCHEDULED',executeAt:body.executeAt,changes:body.changes,reason:body.reason.trim(),createdAt:before.serverNow,createdBy:Number(actor.id)};
   next.revision++;next.schedules.push(schedule);
@@ -66,6 +84,7 @@ export async function processLimitedCraftStockSchedules(env,{clock}={}){
   // Revalidate persisted input before it can affect a policy.
   validate({requestId:due.id,executeAt:due.executeAt,changes:due.changes,reason:due.reason});
   const rows=await policies(env,due.changes),limits=rows.map(({change,policy})=>{
+   if(change.open)return {code:change.code,before:policy.stockLimit,after:policy.stockLimit,opened:true};
    if(policy.stockLimit+change.quantity>LIMITED_CRAFT_STOCK_MAX)throw fail('제작 예약 증가분이 한도 상한을 초과합니다.',409);
    return {code:change.code,before:policy.stockLimit,after:policy.stockLimit+change.quantity,quantity:change.quantity};
   });
@@ -76,8 +95,15 @@ export async function processLimitedCraftStockSchedules(env,{clock}={}){
   if(DB.dialect==='postgres')statements.push(p('SELECT key FROM app_meta WHERE key IN ('+rows.map(()=>'?').join(',')+') ORDER BY key FOR UPDATE',...rows.map(r=>r.definition.key)));
   statements.push(p('UPDATE app_meta SET value=? WHERE key=? AND value=?',after,CRAFT_STOCK_SCHEDULE_KEY,before.raw),jointGuard(DB,token,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[CRAFT_STOCK_SCHEDULE_KEY,after]));
   for(const {change,definition:d,row,rawPolicy,policy}of rows){
-   const value=JSON.stringify({...rawPolicy,revision:policy.revision+1,stockLimit:policy.stockLimit+change.quantity}),guard=token+change.code;
+   const update=change.open?{isActive:true,isPublic:true}:{stockLimit:policy.stockLimit+change.quantity};
+   const value=JSON.stringify({...rawPolicy,...update,revision:policy.revision+1}),guard=token+change.code;
    statements.push(p('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?',value,d.key,row.value),jointGuard(DB,guard,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[d.key,value]),jointGuardEnd(DB,guard));
+   if(change.open){
+    const recipeGuard=guard+'-recipe';
+    const recipeWhere="code=? AND category='MERCENARY_CRAFT' AND output_type='MERCENARY' AND output_ref=? AND output_quantity=1";
+    statements.push(p('UPDATE workshop_recipes_v1668 SET is_active=1,is_public=1,updated_at=CURRENT_TIMESTAMP WHERE '+recipeWhere,d.recipeCode,d.code),
+     jointGuard(DB,recipeGuard,'EXISTS(SELECT 1 FROM workshop_recipes_v1668 WHERE '+recipeWhere+' AND is_active=1 AND is_public=1)',[d.recipeCode,d.code]),jointGuardEnd(DB,recipeGuard));
+   }
   }
   statements.push(p('INSERT INTO app_meta(key,value) VALUES(?,?)',CRAFT_STOCK_SCHEDULE_KEY+':applied:'+due.id,JSON.stringify(receipt)),p('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)',due.createdBy,'MERCENARY_CRAFT_STOCK_SCHEDULE_APPLY','SETTING',due.id,JSON.stringify(rows.map(r=>r.row)),JSON.stringify(receipt)),jointGuardEnd(DB,token));
   try{await DB.batch(statements);applied++;conflicts=0;}catch(error){

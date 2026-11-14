@@ -67,3 +67,43 @@ test('missing owned equipment releases a stale polish intent without another cha
   assert.equal(await client.recover(),null);assert.equal(client.pending,null);assert.equal(values.size,0);
   assert.deepEqual(paths,['receipt?requestId=missing-equipment-001','state?instanceId=71']);
 });
+
+
+for (const postgres of [false, true]) test('10% polish spends exact 10 trillion coins, 30 million stars and one stone on miss and success: ' + (postgres ? 'PG' : 'SQLite'), async t => {
+  const f = await polishFixture(t, {postgres});
+  const settings = (await f.call('', {admin: true})).body.settings;
+  Object.assign(settings, {publicVisible: true, executionMode: 'ON', successRate: 10});
+  settings.costs = settings.costs.map(row => ({...row, coins: 10000000000000, masterStars: 30000000, stones: 1}));
+  await f.p('UPDATE users SET coin=? WHERE id=7', 100000000000000).run();
+  await f.p("UPDATE cnine_user_inventory SET quantity=300000000 WHERE user_id=7 AND item_code='MASTER_STAR'").run();
+  const saved = await f.call('', {admin: true, method: 'PATCH', body: {settings, expectedRevision: 0}});
+  assert.equal(saved.status, 200);
+  const policy = await readPolishSettings(f.env);
+  const body = {instanceId: '72', expectedAttempts: 0, revision: 1, requestId: 'miss-polish-request-00001'};
+  const miss = await executePolish(f.env, user, policy, body, {unit: .1});
+  assert.equal(miss.success, false);
+  assert.equal(miss.selected, -1);
+  assert.equal(miss.total, 0);
+  assert.equal(miss.state.rolls, 1);
+  assert.deepEqual(miss.values, [0, 0, 0, 0, 0]);
+  assert.deepEqual(await executePolish(f.env, user, policy, body, {unit: 0}), miss);
+  assert.equal(String((await f.p('SELECT coin FROM users WHERE id=7').first()).coin), '90000000000000');
+  assert.equal(Number((await f.p("SELECT quantity FROM cnine_user_inventory WHERE user_id=7 AND item_code='MASTER_STAR'").first()).quantity), 270000000);
+  assert.equal(Number((await f.p("SELECT quantity FROM cnine_user_inventory WHERE user_id=7 AND item_code='EQUIPMENT_POLISH_STONE'").first()).quantity), 19);
+  const second = await executePolish(f.env, user, policy, {...body, requestId: 'miss-polish-request-00002'}, {unit: .99});
+  assert.equal(second.state.rolls, 2);
+  assert.equal(second.state.attempts, 0);
+  const success = await executePolish(f.env, user, policy, {...body, requestId: 'miss-polish-request-00003'}, {unit: .09999999});
+  assert.equal(success.success, true);
+  assert.equal(success.selected, 4);
+  assert.equal(success.state.attempts, 1);
+  assert.equal(success.state.rolls, 3);
+  assert.equal(success.values[4], .2);
+  assert.equal(String((await f.p('SELECT coin FROM users WHERE id=7').first()).coin), '70000000000000');
+  const snapshot = (await f.call('state?instanceId=72')).body;
+  assert.equal(snapshot.items[0].polish.rolls, 3);
+  await f.p("UPDATE cnine_user_inventory SET quantity=29999999 WHERE user_id=7 AND item_code='MASTER_STAR'").run();
+  await assert.rejects(executePolish(f.env, user, policy, {...body, expectedAttempts: 1, requestId: 'miss-polish-request-00004'}, {unit: 0}), {code: 'POLISH_RETRY'});
+  assert.equal(String((await f.p('SELECT coin FROM users WHERE id=7').first()).coin), '70000000000000');
+  assert.equal(await polishReceipt(f.env, user, 'miss-polish-request-00004'), null);
+});

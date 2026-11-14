@@ -1,0 +1,379 @@
+{
+  "status": "COMPLETED",
+  "checkedAt": "2026-11-14T08:13:04.801Z",
+  "checkedAtKST": "2026. 11. 14. 17시 13분 4초",
+  "receipt": {
+    "status": "COMPLETED",
+    "auditId": "60495",
+    "roundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+    "targets": [
+      {
+        "id": 4391,
+        "decision": "APPROVED",
+        "nickname": "더듬이구"
+      },
+      {
+        "id": 3,
+        "decision": "APPROVED",
+        "nickname": "ε연두з"
+      },
+      {
+        "id": 4595,
+        "decision": "APPROVED",
+        "nickname": "비니"
+      },
+      {
+        "id": 218,
+        "decision": "APPROVED",
+        "nickname": "현하루"
+      },
+      {
+        "id": 4981,
+        "decision": "APPROVED",
+        "nickname": "간장왕대게찜"
+      },
+      {
+        "id": 5877,
+        "decision": "APPROVED",
+        "nickname": "깅더듬"
+      },
+      {
+        "id": 4479,
+        "decision": "APPROVED",
+        "nickname": "대지"
+      },
+      {
+        "id": 4627,
+        "decision": "APPROVED",
+        "nickname": "학벌"
+      },
+      {
+        "id": 1195,
+        "decision": "APPROVED",
+        "nickname": "씨나인택갓"
+      },
+      {
+        "id": 16,
+        "decision": "APPROVED",
+        "nickname": "오승환이다"
+      },
+      {
+        "id": 525,
+        "decision": "APPROVED",
+        "nickname": "족구조아"
+      },
+      {
+        "id": 85,
+        "decision": "APPROVED",
+        "nickname": "카르푸"
+      },
+      {
+        "id": 289,
+        "decision": "APPROVED",
+        "nickname": "베베킹"
+      },
+      {
+        "id": 4705,
+        "decision": "APPROVED",
+        "nickname": "˚쟁이。"
+      },
+      {
+        "id": 5404,
+        "decision": "REJECTED",
+        "nickname": "hokc1"
+      },
+      {
+        "id": 4917,
+        "decision": "REJECTED",
+        "nickname": "지엘라"
+      },
+      {
+        "id": 6198,
+        "decision": "REJECTED",
+        "nickname": "중꼬철구"
+      }
+    ],
+    "approved": 14,
+    "deadline": "2026-11-14T15:56:36.823Z",
+    "rejected": 3,
+    "windowId": "3c8d2f77-9257-434a-88f2-854f2ec41eb9",
+    "appliedAt": "2026-11-14T08:12:56.427Z",
+    "allocation": "RANDOM_CLANS_AT_DEADLINE",
+    "reviewMode": "MANUAL",
+    "operationKey": "ops:clan-season5:elder-review:20261114:v1"
+  },
+  "views": [
+    {
+      "id": 4391,
+      "nickname": "더듬이구",
+      "reviewStatus": "APPROVED",
+      "applied": true,
+      "selected": false,
+      "blocked": false
+    },
+    {
+      "id": 3,
+      "nickname": "ε연두з",
+      "reviewStatus": "APPROVED",
+      "applied": true,
+      "selected": false,
+      "blocked": false
+    },
+    {
+      "id": 4595,
+      "nickname": "비니",
+      "reviewStatus": "APPROVED",
+      "applied": true,
+      "selected": false,
+      "blocked": false
+    },
+    {
+      "id": 218,
+      "nickname": "현하루",
+      "reviewStatus": "APPROVED",
+      "applied": true,
+      "selected": false,
+      "blocked": false
+    },
+    {
+      "id": 4981,
+      "nickname": "간장왕대게찜",
+      "reviewStatus": "APPROVED",
+      "applied": true,
+      "selected": false,
+      "blocked": false
+    },
+    {
+      "id": 5877,
+      "nickname": "깅더듬",
+      "reviewStatus": "APPROVED",
+      "applied": true,
+      "selected": false,
+      "blocked": false
+    },
+    {
+      "id": 4479,
+      "nickname": "대지",
+      "reviewStatus": "APPROVED",
+      "applied": true,
+      "selected": false,
+      "blocked": false
+    },
+    {
+      "id": 4627,
+      "nickname": "학벌",
+      "reviewStatus": "APPROVED",
+      "applied": true,
+      "selected": false,
+      "blocked": false
+    },
+    {
+      "id": 1195,
+      "nickname": "씨나인택갓",
+      "reviewStatus": "APPROVED",
+      "applied": true,
+      "selected": false,
+      "blocked": false
+    },
+    {
+      "id": 16,
+      "nickname": "오승환이다",
+      "reviewStatus": "APPROVED",
+      "applied": true,
+      "selected": false,
+      "blocked": false
+    },
+    {
+      "id": 525,
+      "nickname": "족구조아",
+      "reviewStatus": "APPROVED",
+      "applied": true,
+      "selected": false,
+      "blocked": false
+    },
+    {
+      "id": 85,
+      "nickname": "카르푸",
+      "reviewStatus": "APPROVED",
+      "applied": true,
+      "selected": false,
+      "blocked": false
+    },
+    {
+      "id": 289,
+      "nickname": "베베킹",
+      "reviewStatus": "APPROVED",
+      "applied": true,
+      "selected": false,
+      "blocked": false
+    },
+    {
+      "id": 4705,
+      "nickname": "˚쟁이。",
+      "reviewStatus": "APPROVED",
+      "applied": true,
+      "selected": false,
+      "blocked": false
+    },
+    {
+      "id": 5404,
+      "nickname": "hokc1",
+      "reviewStatus": "REJECTED",
+      "applied": true,
+      "selected": false,
+      "blocked": false
+    },
+    {
+      "id": 4917,
+      "nickname": "지엘라",
+      "reviewStatus": "REJECTED",
+      "applied": true,
+      "selected": false,
+      "blocked": false
+    },
+    {
+      "id": 6198,
+      "nickname": "중꼬철구",
+      "reviewStatus": "REJECTED",
+      "applied": true,
+      "selected": false,
+      "blocked": false
+    }
+  ],
+  "additional": [
+    {
+      "id": 233,
+      "power": 155282,
+      "nickname": "ShowMaker",
+      "appliedAt": 1794642962358,
+      "reviewStatus": "PENDING",
+      "appliedAtKST": "2026. 11. 14. 16시 56분 2초"
+    }
+  ],
+  "currentApplications": 18,
+  "rule": {
+    "voluntaryLeaveDays": 7,
+    "durationMs": 604800000,
+    "accountScope": "all LIVE clans across season changes",
+    "starts": "server transaction time of voluntary departure",
+    "applicationCancellationStartsRestriction": false,
+    "existingSeasonCalendarPreserved": true
+  },
+  "deployment": {
+    "checkedAt": "2026-11-14T08:12:41.389Z",
+    "pages": {
+      "at": "2026-11-14T08:12:25.508Z",
+      "id": "61fe5a78-0828-4ad0-ab19-c2b46478b2ef",
+      "url": "https://61fe5a78.cnine-card.pages.dev",
+      "status": "success",
+      "commit": "dd732890e17fe79c021289fb3c16bd640f0bc507"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "fcaeb72e-01cf-424c-9cf9-7518ba6c17a4",
+        "percentage": 100,
+        "review": true,
+        "rejoin": true,
+        "leave": true,
+        "sha256": "2f3eb2f5f3a117274e519066bb1487e333f987b72da1743356c0066fee7202b3"
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "56378f77-cf1d-426d-994b-7f5e08df56e2",
+        "percentage": 100,
+        "review": true,
+        "rejoin": true,
+        "leave": true,
+        "sha256": "ddfbcbb76c34d212909ad374f0cdc6fb2ce83b26f0b18456e4f3162ea6ac744e"
+      }
+    ],
+    "files": [
+      {
+        "file": "organization/index.html",
+        "bytes": 1128,
+        "sha256": "0bb64a601d76d4c7ca690d8972d3ce40d43f5b87b7fafc7e5cac027ffe999e25"
+      },
+      {
+        "file": "js/organization-public-v1.mjs",
+        "bytes": 999,
+        "sha256": "317ba75e9eb6374772604e0e812cd95202dcdd662c134f76a25da8f60440811f"
+      },
+      {
+        "file": "js/organization-system-v1.mjs",
+        "bytes": 36470,
+        "sha256": "746a425d52281b068c30e8d5f77fc5a5a8486000c77e4730830903a31b1fa75e"
+      },
+      {
+        "file": "js/organization-join-v1.mjs",
+        "bytes": 3614,
+        "sha256": "138c5d0e766869e293870ae0602bb9b339b4369aa1118c8405996c417631043f"
+      },
+      {
+        "file": "css/organization-system-v1.css",
+        "bytes": 23693,
+        "sha256": "e7d24b03847b9deebbdafc6ca9953ca8c8d45224bb5300408512592768ef6edb"
+      },
+      {
+        "file": "admin/index.html",
+        "bytes": 83206,
+        "sha256": "2ab5dda36ba6e35880b01213726ef89ffe638dd58494ce896314bf2e034a3df0"
+      },
+      {
+        "file": "admin/organization-admin-v1.mjs",
+        "bytes": 44473,
+        "sha256": "e156542d33a4e3368518c16b9e49b7d09684b9ec98cb69fd69cba1c86cb41a69"
+      }
+    ],
+    "windowsRelease": "12677eb96360ce6c7d6c33c04282a3203c32d3390b7b756c4728c9ca9968e184",
+    "windowsChanged": [
+      "/css/organization-system-v1.css",
+      "/js/organization-join-v1.mjs",
+      "/js/organization-public-v1.mjs",
+      "/js/organization-system-v1.mjs",
+      "/organization/index.html"
+    ],
+    "windowsRemoved": []
+  },
+  "tests": {
+    "passed": 26,
+    "failed": 0,
+    "files": [
+      "tests/clan-review-rejoin-20261114.test.mjs",
+      "tests/clan-hideout-season-20261110.test.mjs",
+      "tests/organization-join-20261023.test.mjs",
+      "tests/organization-member-kick-20261029.test.mjs",
+      "tests/clan-kick-restored-route-20261029.test.mjs",
+      "tests/organization-elders-20261019.test.mjs"
+    ],
+    "workerCheck": true,
+    "atomicRollback": true,
+    "receiptReplay": true,
+    "exactExpiry": true,
+    "oldRosterPreserved": true,
+    "reviewUi": {
+      "source": "admin/index.html",
+      "database": "isolated PostgreSQL",
+      "actions": [
+        "four applicants in receipt order",
+        "approve and reject saved by OWNER",
+        "only the approved candidate allocated",
+        "pending and rejected excluded",
+        "seven clans vacant"
+      ],
+      "publicWrites": 0,
+      "errors": []
+    }
+  },
+  "performanceFile": "performance.json",
+  "publicUi": "public-ios.json",
+  "screenshots": [
+    "public-ios-approved.png",
+    "public-ios-leave.png",
+    "public-ios-blocked.png",
+    "candidate-cms-review.png"
+  ],
+  "evidenceRoot": "operations/clan-review-rejoin-20261114",
+  "productionUserDeparturesPerformed": 0,
+  "outboundMessagesSent": 0
+}
