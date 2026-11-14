@@ -1,0 +1,32 @@
+{
+  "checkedAt": "2026-11-14T09:09:49.724Z",
+  "readOnly": true,
+  "condition": "Windows operations connection to production PostgreSQL, current server handler; not edge HTTP latency",
+  "samples": [
+    {
+      "ms": 265.08950000000004,
+      "queries": 2
+    },
+    {
+      "ms": 168.09919999999966,
+      "queries": 2
+    },
+    {
+      "ms": 166.1878999999999,
+      "queries": 2
+    }
+  ],
+  "ownedInstances": 9,
+  "revision": 0,
+  "costs": {
+    "stats": {
+      "coin": "5000000000000",
+      "masterStars": 10000000
+    },
+    "trait": {
+      "coin": "30000000000000",
+      "masterStars": 50000000
+    }
+  },
+  "accountWrites": 0
+}

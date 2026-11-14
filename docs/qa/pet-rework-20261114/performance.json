@@ -1,0 +1,253 @@
+{
+  "conditions": {
+    "entry": "/pet-codex/ in local isolated review, same existing codex module",
+    "loading": "390x844 Chrome headless; CPU 4x, latency 80 ms, download 1.5 MB/s; three fresh contexts per variant; same UI and account fixture",
+    "comparison": "Original ImageGen dice PNGs versus proportionally resized runtime WebP icons; new UI unchanged",
+    "frames": "390x844 Chrome headless, unthrottled Windows host, warm single ASSAULT playback; not physical mobile",
+    "server": "Local in-memory test adapter, production server/database performance not measured"
+  },
+  "summary": {
+    "source-png": {
+      "firstInteractiveMs": 449,
+      "firstImagesMs": 1639,
+      "reentryInteractiveMs": 54,
+      "reentryImagesMs": 60
+    },
+    "runtime-webp": {
+      "firstInteractiveMs": 389,
+      "firstImagesMs": 486,
+      "reentryInteractiveMs": 51,
+      "reentryImagesMs": 56
+    }
+  },
+  "samples": [
+    {
+      "variant": "source-png",
+      "trial": 1,
+      "firstInteractiveMs": 449,
+      "firstImagesMs": 1639,
+      "reentryInteractiveMs": 87,
+      "reentryImagesMs": 97,
+      "navigationAndTwoEntriesMs": 12210,
+      "largestResourceWaits": [
+        {
+          "name": "/assets/ui/pets/gamer-duo-20261006-v1/pet-beanie-headset-cat-v1.png",
+          "ms": 8889,
+          "bytes": 1600121
+        },
+        {
+          "name": "/assets/ui/pets/gamer-duo-20261006-v1/pet-headset-shiba-v1.png",
+          "ms": 8784,
+          "bytes": 1463380
+        },
+        {
+          "name": "/assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approved-20261002.png",
+          "ms": 8648,
+          "bytes": 1645901
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/stat-dice.webp",
+          "ms": 6645,
+          "bytes": 1772495
+        },
+        {
+          "name": "/assets/ui/pets/gugugaga/pet-diim-gugugaga-nametag-v2.png",
+          "ms": 6539,
+          "bytes": 1284709
+        }
+      ]
+    },
+    {
+      "variant": "source-png",
+      "trial": 2,
+      "firstInteractiveMs": 464,
+      "firstImagesMs": 1665,
+      "reentryInteractiveMs": 54,
+      "reentryImagesMs": 60,
+      "navigationAndTwoEntriesMs": 12236,
+      "largestResourceWaits": [
+        {
+          "name": "/assets/ui/pets/gamer-duo-20261006-v1/pet-beanie-headset-cat-v1.png",
+          "ms": 8542,
+          "bytes": 1600121
+        },
+        {
+          "name": "/assets/ui/pets/gamer-duo-20261006-v1/pet-headset-shiba-v1.png",
+          "ms": 8448,
+          "bytes": 1463380
+        },
+        {
+          "name": "/assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approved-20261002.png",
+          "ms": 8079,
+          "bytes": 1645901
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/stat-dice.webp",
+          "ms": 6368,
+          "bytes": 1772495
+        },
+        {
+          "name": "/assets/ui/pets/gugugaga/pet-heeya-pig-nametag-v3.png",
+          "ms": 6215,
+          "bytes": 1596472
+        }
+      ]
+    },
+    {
+      "variant": "source-png",
+      "trial": 3,
+      "firstInteractiveMs": 410,
+      "firstImagesMs": 1631,
+      "reentryInteractiveMs": 48,
+      "reentryImagesMs": 54,
+      "navigationAndTwoEntriesMs": 12144,
+      "largestResourceWaits": [
+        {
+          "name": "/assets/ui/pets/gamer-duo-20261006-v1/pet-beanie-headset-cat-v1.png",
+          "ms": 9035,
+          "bytes": 1600121
+        },
+        {
+          "name": "/assets/ui/pets/gamer-duo-20261006-v1/pet-headset-shiba-v1.png",
+          "ms": 8929,
+          "bytes": 1463380
+        },
+        {
+          "name": "/assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approved-20261002.png",
+          "ms": 8899,
+          "bytes": 1645901
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/stat-dice.webp",
+          "ms": 6793,
+          "bytes": 1772495
+        },
+        {
+          "name": "/assets/ui/pets/gugugaga/pet-diim-gugugaga-nametag-v2.png",
+          "ms": 6725,
+          "bytes": 1284709
+        }
+      ]
+    },
+    {
+      "variant": "runtime-webp",
+      "trial": 1,
+      "firstInteractiveMs": 387,
+      "firstImagesMs": 486,
+      "reentryInteractiveMs": 51,
+      "reentryImagesMs": 56,
+      "navigationAndTwoEntriesMs": 9794,
+      "largestResourceWaits": [
+        {
+          "name": "/assets/ui/pets/gamer-duo-20261006-v1/pet-beanie-headset-cat-v1.png",
+          "ms": 7932,
+          "bytes": 1600121
+        },
+        {
+          "name": "/assets/ui/pets/gamer-duo-20261006-v1/pet-headset-shiba-v1.png",
+          "ms": 7656,
+          "bytes": 1463380
+        },
+        {
+          "name": "/assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approved-20261002.png",
+          "ms": 6994,
+          "bytes": 1645901
+        },
+        {
+          "name": "/assets/ui/pets/gugugaga/pet-heeya-pig-nametag-v3.png",
+          "ms": 6065,
+          "bytes": 1596472
+        },
+        {
+          "name": "/assets/ui/pets/gugugaga/pet-bongsoon-gugugaga-nametag-v2.png",
+          "ms": 5339,
+          "bytes": 1323075
+        }
+      ]
+    },
+    {
+      "variant": "runtime-webp",
+      "trial": 2,
+      "firstInteractiveMs": 389,
+      "firstImagesMs": 482,
+      "reentryInteractiveMs": 49,
+      "reentryImagesMs": 53,
+      "navigationAndTwoEntriesMs": 9763,
+      "largestResourceWaits": [
+        {
+          "name": "/assets/ui/pets/gamer-duo-20261006-v1/pet-beanie-headset-cat-v1.png",
+          "ms": 7927,
+          "bytes": 1600121
+        },
+        {
+          "name": "/assets/ui/pets/gamer-duo-20261006-v1/pet-headset-shiba-v1.png",
+          "ms": 7651,
+          "bytes": 1463380
+        },
+        {
+          "name": "/assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approved-20261002.png",
+          "ms": 7006,
+          "bytes": 1645901
+        },
+        {
+          "name": "/assets/ui/pets/gugugaga/pet-heeya-pig-nametag-v3.png",
+          "ms": 6063,
+          "bytes": 1596472
+        },
+        {
+          "name": "/assets/ui/pets/gugugaga/pet-bongsoon-gugugaga-nametag-v2.png",
+          "ms": 5339,
+          "bytes": 1323075
+        }
+      ]
+    },
+    {
+      "variant": "runtime-webp",
+      "trial": 3,
+      "firstInteractiveMs": 771,
+      "firstImagesMs": 803,
+      "reentryInteractiveMs": 198,
+      "reentryImagesMs": 222,
+      "navigationAndTwoEntriesMs": 10643,
+      "largestResourceWaits": [
+        {
+          "name": "/assets/ui/pets/gamer-duo-20261006-v1/pet-beanie-headset-cat-v1.png",
+          "ms": 7937,
+          "bytes": 1600121
+        },
+        {
+          "name": "/assets/ui/pets/gamer-duo-20261006-v1/pet-headset-shiba-v1.png",
+          "ms": 7663,
+          "bytes": 1463380
+        },
+        {
+          "name": "/assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approved-20261002.png",
+          "ms": 6992,
+          "bytes": 1645901
+        },
+        {
+          "name": "/assets/ui/pets/gugugaga/pet-heeya-pig-nametag-v3.png",
+          "ms": 6074,
+          "bytes": 1596472
+        },
+        {
+          "name": "/assets/ui/pets/gugugaga/pet-bongsoon-gugugaga-nametag-v2.png",
+          "ms": 5353,
+          "bytes": 1323075
+        }
+      ]
+    }
+  ],
+  "frames": {
+    "samples": 674,
+    "p50Ms": 4.199999999999818,
+    "p95Ms": 4.300000000000182,
+    "maxMs": 4.800000000000182,
+    "framesOver50Ms": 0,
+    "longTasks": []
+  },
+  "afterExit": {
+    "active": 0,
+    "updates": 1002
+  }
+}

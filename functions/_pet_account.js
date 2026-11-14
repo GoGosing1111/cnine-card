@@ -6,6 +6,7 @@ import {readPetCms} from './_pet_companion_cms.js';
 import {readSupportBenefits} from './_supporter_benefits.js';
 import {readPetRentals,petOwnershipProjection} from './_pet_rental.js';
 import {petSlotForMode,validatePetLoadoutRecord} from '../shared/pet-equipment-v1.mjs';
+import {PET_GROWTH_KEY,savedPetGrowth} from '../shared/pet-growth-live-v2.mjs';
 
 export async function readPetRecord(env,key,fallback){
   const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first();
@@ -43,9 +44,10 @@ export async function loadPetBattleSnapshot(env,user,mode='PVE'){
   const userId=Number(user?.id??user);if(!Number.isSafeInteger(userId)||userId<1)return null;
   const loadout=await readPetLoadout(env,userId),slot=petSlotForMode(loadout.state,mode);
   if(!slot.petCode)return null;
-  const [owned,potentials,cms,support]=await Promise.all([readPetOwnership(env,userId),readPetPotentials(env,userId),readPetCms(env),readSupportBenefits(env,userId)]);
+  const [owned,potentials,cms,support,growthRecord]=await Promise.all([readPetOwnership(env,userId),readPetPotentials(env,userId),readPetCms(env),readSupportBenefits(env,userId),readPetRecord(env,PET_GROWTH_KEY(userId),null)]);
   if(!(owned.pets[slot.petCode]>0))return null;
   const definition=livePetDefinition(cms.state.document.pets.find(p=>p.code===slot.petCode),mode);if(!definition)return null;
   const permanentMagnet=potentials.state.pets[definition.code]?.potential===PET_MAGNET;
-  return {definition,magnet:permanentMagnet||support.active&&support.magnetPetCode===definition.code,cmsRevision:cms.state.revision,loadoutRevision:slot.revision,ownerId:userId,...(owned.expiries[definition.code]?{expiresAt:owned.expiries[definition.code]}:{})};
+  const growth=savedPetGrowth(growthRecord.state,definition.code,mode,{quantity:owned.pets[definition.code],permanent:!!owned.collection.state.pets[definition.code]});
+  return {definition,...(growth?{growth:structuredClone(growth)}:{}),magnet:permanentMagnet||support.active&&support.magnetPetCode===definition.code,cmsRevision:cms.state.revision,loadoutRevision:slot.revision,ownerId:userId,...(owned.expiries[definition.code]?{expiresAt:owned.expiries[definition.code]}:{})};
 }

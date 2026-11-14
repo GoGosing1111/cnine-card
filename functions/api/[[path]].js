@@ -94,6 +94,7 @@ import {handleTrophyBonusCms} from '../_trophy_bonus_cms.js';
 import {collectionRewardCoin} from '../_collection_bonuses.js';
 import {handlePetCompanionCms} from '../_pet_companion_cms.js';
 import {handlePetEquipment} from '../_pet_equipment.js';
+import {handlePetGrowth} from '../_pet_growth.js';
 import {handlePetGrants} from '../_pet_grants.js';
 import {loadPetBattleSnapshot} from '../_pet_account.js';
 import {handleJokgakCity} from '../_jokgak_city.js';
@@ -5260,6 +5261,7 @@ async function handleRequest(context){
     const trophyBonusResponse=await handleTrophyBonusCms({path,request,env,deps:{requirePermission,authenticate,json}});if(trophyBonusResponse)return trophyBonusResponse;
     const petCompanionCmsResponse=await handlePetCompanionCms({path,request,env,deps:{requirePermission,json}});if(petCompanionCmsResponse)return petCompanionCmsResponse;
     const petEquipmentResponse=await handlePetEquipment({path,request,env,deps:{authenticate,requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petEquipmentResponse)return petEquipmentResponse;
+    const petGrowthResponse=await handlePetGrowth({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(petGrowthResponse)return petGrowthResponse;
     const petGrantsResponse=await handlePetGrants({path,request,env,deps:{requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petGrantsResponse)return petGrantsResponse;
     const petPotentialResponse=await handlePetPotential({path,request,env,deps:{authenticate,requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petPotentialResponse)return petPotentialResponse;
     const petOpeningResponse=await handlePetOpening({path,request,env,deps:{authenticate,requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petOpeningResponse)return petOpeningResponse;

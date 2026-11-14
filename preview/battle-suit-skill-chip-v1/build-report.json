@@ -11,6 +11,7 @@
     "shared/icon-expansion-v1.mjs",
     "preview/project-v-v3/source/battle/IconExpansionPlayback.js",
     "preview/project-v-v3/source/battle/BattleDevicePolicy.mjs",
+    "preview/project-v-v3/source/battle/BattleMobileImages.mjs",
     "preview/project-v-v3/source/battle/BattleTextureLifecycle.mjs",
     "shared/equipment-set-visual-v1.mjs",
     "preview/project-v-v3/source/battle/EquipmentSetFX.js",
@@ -377,10 +378,14 @@
     "preview/project-v-v3/source/battle/CooperativeEncounter.js",
     "preview/project-v-v3/source/battle/IconRolePlayback.js",
     "shared/pet-buff-visuals-v1.mjs",
+    "shared/pet-growth-v2.mjs",
+    "shared/pet-growth-live-v2.mjs",
     "preview/project-v-v3/source/battle/PetSupportLayout.mjs",
     "preview/project-v-v3/source/battle/PetSupportPresentation.mjs",
     "preview/project-v-v3/source/battle/PetSupportHud.js",
     "preview/project-v-v3/source/battle/PetOpeningFX.js",
+    "shared/pet-trait-visuals-v2.mjs",
+    "preview/project-v-v3/source/battle/PetTraitOpeningFX.js",
     "preview/project-v-v3/source/battle/PetSupportPlayback.js",
     "preview/project-v-v3/source/battle/BattleEngine.js",
     "preview/project-v-v3/source/battle/EffectScene.js",
@@ -389,5 +394,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 3717591
+  "outputBytes": 3724233
 }

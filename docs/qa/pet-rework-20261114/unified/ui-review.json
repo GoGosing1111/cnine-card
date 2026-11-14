@@ -1,0 +1,11 @@
+{
+  "disposition": "ship",
+  "scope": "local UI only",
+  "reviewer": "/root/impeccable_finish_reviewer_v3",
+  "requiredCaptures": 9,
+  "persistence": "pass",
+  "fidelity": "all elements match or intentional responsive adaptation",
+  "materialFixes": [],
+  "keep": "Unified pet details, 1120ms image-frame dice animation, raster UI resources, exact 흑구 name and clear before/after decisions.",
+  "note": "No approved whole-page comp; specific existing-surface extension. QUALITY assessed from UI-CONTRACT.md."
+}

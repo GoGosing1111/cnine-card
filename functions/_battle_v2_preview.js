@@ -1144,6 +1144,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     for(const pet of entries){
       const owned=Array.isArray(openingPets[side]),targets=owned?team.filter(actor=>actor.ownerId===pet?.ownerId):team;
       const event=applyPetOpeningBuff(targets,pet,side,companionReview?.mode||petMode);
+      if(event?.petTrait?.id==='HUNTER'){event.petTrait.targetIds=(side==='A'?b:a).filter(actor=>actor.isBoss&&actor.alive&&actor.hp>0).map(actor=>actor.id);event.petTrait.active=event.petTrait.active&&event.petTrait.targetIds.length>0;}
       if(event)emitTimeline(timeline,clock,'PET_OPENING_BUFF',{...event,...(owned?{ownerId:pet.ownerId,actorId:`${side}:OWNER:${pet.ownerId}:PET:${event.petCode}`}:{})});
     }
   }

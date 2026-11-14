@@ -1,0 +1,258 @@
+{
+  "conditions": {
+    "loading": "Windows Chrome headless, 390x844 viewport, CPU 4x, latency 80ms, 1.5MB/s download; three fresh contexts per variant",
+    "entry": "Direct /pet-codex/ navigation to actionable stats + trait buttons; reentry is another pet then Heukgu in same screen",
+    "comparison": "Same new UI, server serves original pet PNGs and dice icon PNGs vs resized WebP assets. Actual HTTP transfer, no browser route interception.",
+    "frames": "Unthrottled Windows Chrome headless, 390x844; a real stat roll and result render; not physical mobile",
+    "production": "No live DB/API, server or native game client measurement"
+  },
+  "summary": {
+    "source-png": {
+      "firstInteractiveMs": 1870,
+      "firstImagesMs": 12301,
+      "reentryInteractiveMs": 87,
+      "reentryImagesMs": 96,
+      "assetTransferBytes": 14918790
+    },
+    "runtime-webp": {
+      "firstInteractiveMs": 1680,
+      "firstImagesMs": 2054,
+      "reentryInteractiveMs": 122,
+      "reentryImagesMs": 132,
+      "assetTransferBytes": 2024586
+    }
+  },
+  "samples": [
+    {
+      "variant": "source-png",
+      "trial": 1,
+      "firstInteractiveMs": 2056,
+      "firstImagesMs": 11116,
+      "reentryInteractiveMs": 87,
+      "reentryImagesMs": 96,
+      "assetTransferBytes": 12170701,
+      "largestWaits": [
+        {
+          "name": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-bongsoon-thumb.webp",
+          "ms": 9294,
+          "bytes": 1323075
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/stat-dice.webp",
+          "ms": 7255,
+          "bytes": 1772495
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/trait-dice.webp",
+          "ms": 7068,
+          "bytes": 1686626
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-heeya-thumb.webp",
+          "ms": 6705,
+          "bytes": 1596472
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/codex-v3/action.webp",
+          "ms": 6214,
+          "bytes": 24776
+        }
+      ]
+    },
+    {
+      "variant": "source-png",
+      "trial": 2,
+      "firstInteractiveMs": 1635,
+      "firstImagesMs": 12379,
+      "reentryInteractiveMs": 214,
+      "reentryImagesMs": 4539,
+      "assetTransferBytes": 24433386,
+      "largestWaits": [
+        {
+          "name": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-beanie-cat-thumb.webp",
+          "ms": 11639,
+          "bytes": 1600121
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-gusudaeng-thumb.webp",
+          "ms": 11238,
+          "bytes": 1645901
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/trait-dice.webp",
+          "ms": 11124,
+          "bytes": 1686626
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-headset-shiba-thumb.webp",
+          "ms": 10914,
+          "bytes": 1463380
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-diim-thumb.webp",
+          "ms": 10343,
+          "bytes": 1284709
+        }
+      ]
+    },
+    {
+      "variant": "source-png",
+      "trial": 3,
+      "firstInteractiveMs": 1870,
+      "firstImagesMs": 12301,
+      "reentryInteractiveMs": 68,
+      "reentryImagesMs": 79,
+      "assetTransferBytes": 14918790,
+      "largestWaits": [
+        {
+          "name": "/assets/ui/pets/rework-20261114/trait-dice.webp",
+          "ms": 11040,
+          "bytes": 1686626
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-headset-shiba-thumb.webp",
+          "ms": 10842,
+          "bytes": 1463380
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-diim-thumb.webp",
+          "ms": 10314,
+          "bytes": 1284709
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/stat-dice.webp",
+          "ms": 7181,
+          "bytes": 1772495
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-heeya-thumb.webp",
+          "ms": 6442,
+          "bytes": 1596472
+        }
+      ]
+    },
+    {
+      "variant": "runtime-webp",
+      "trial": 1,
+      "firstInteractiveMs": 1587,
+      "firstImagesMs": 1908,
+      "reentryInteractiveMs": 89,
+      "reentryImagesMs": 101,
+      "assetTransferBytes": 2024586,
+      "largestWaits": [
+        {
+          "name": "/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+          "ms": 1254,
+          "bytes": 1173956
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/luck-icon.webp",
+          "ms": 678,
+          "bytes": 25326
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/hunter-icon.webp",
+          "ms": 663,
+          "bytes": 18628
+        },
+        {
+          "name": "/assets/ui/pets/buffs-v1/barrier-icon.webp",
+          "ms": 617,
+          "bytes": 21120
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/codex-v3/sanctuary.webp",
+          "ms": 605,
+          "bytes": 118756
+        }
+      ]
+    },
+    {
+      "variant": "runtime-webp",
+      "trial": 2,
+      "firstInteractiveMs": 1680,
+      "firstImagesMs": 2054,
+      "reentryInteractiveMs": 122,
+      "reentryImagesMs": 132,
+      "assetTransferBytes": 2024586,
+      "largestWaits": [
+        {
+          "name": "/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+          "ms": 1283,
+          "bytes": 1173956
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/luck-icon.webp",
+          "ms": 695,
+          "bytes": 25326
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/codex-v3/sanctuary.webp",
+          "ms": 616,
+          "bytes": 118756
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/codex-v3/action.webp",
+          "ms": 597,
+          "bytes": 24776
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/hunter-icon.webp",
+          "ms": 547,
+          "bytes": 18628
+        }
+      ]
+    },
+    {
+      "variant": "runtime-webp",
+      "trial": 3,
+      "firstInteractiveMs": 2338,
+      "firstImagesMs": 2466,
+      "reentryInteractiveMs": 348,
+      "reentryImagesMs": 541,
+      "assetTransferBytes": 2264954,
+      "largestWaits": [
+        {
+          "name": "/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+          "ms": 1366,
+          "bytes": 1173956
+        },
+        {
+          "name": "/assets/fonts/lich-raid/BarlowCondensed-lich-v1.woff2",
+          "ms": 660,
+          "bytes": 15696
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/codex-v3/sanctuary.webp",
+          "ms": 659,
+          "bytes": 118756
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/luck-icon.webp",
+          "ms": 589,
+          "bytes": 25326
+        },
+        {
+          "name": "/assets/ui/pets/rework-20261114/codex-v3/panel.webp",
+          "ms": 576,
+          "bytes": 30820
+        }
+      ]
+    }
+  ],
+  "diceFrames": {
+    "samples": 566,
+    "p50Ms": 4.199999999999932,
+    "p95Ms": 4.600000000000023,
+    "maxMs": 24.899999999999864,
+    "over50ms": 0,
+    "longTasks": []
+  },
+  "afterExit": {
+    "dice": {
+      "active": false,
+      "updates": 18
+    },
+    "effects": 0
+  }
+}

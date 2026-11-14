@@ -7,6 +7,7 @@ import {TROPHY_BONUSES_KEY,emptyTrophyBonuses,validateTrophyBonuses,trophyBonusP
 import {ZERO_REWARD_BONUSES,hasRewardBonuses,sumRewardBonuses,rewardAmountWithBonus} from '../shared/collection-bonuses-v1.mjs';
 import {readTrophyHonors} from './_trophy_honors.js';
 import {petRentalKey,validatePetRentals,activePetRental} from './_pet_rental.js';
+import {PET_GROWTH_KEY,savedPetGrowth,petGrowthCoinBonus} from '../shared/pet-growth-live-v2.mjs';
 
 const SCOPE=Symbol('collectionBonusRequest');
 export const COLLECTION_REWARD_SOURCES=new Set(['HUNT','PVE_DROP','PVP_DROP','PVE','PVE_AUTO','PVE_NIGHTMARE','PVE_NIGHTMARE_AUTO','PVE_APOCALYPSE','APOCALYPSE','PVP','RANKED_DUO','RAID','RAID_CLEAR','CORE_RAID','LICH_RAID','MADARA_RAID','BLACKWING_RAID','ESCORT','SIEGE','SEAL','TOWER','TOWER_FIRST_CLEAR','SCRAPYARD','COW_ROOM','RIFT','LEGION_HUNT']);
@@ -25,7 +26,7 @@ export async function readCollectionBonuses(env,userId,source='PVE'){
   const mode=PVP_REWARD_SOURCES.has(String(source).toUpperCase())?'PVP':'PVE';
   if(!Number.isSafeInteger(uid)||uid<1)throw Error('Invalid collection bonus owner');
   const read=async()=>{
-    const rows=await env.DB.prepare('SELECT key,value FROM app_meta WHERE key IN (?,?,?,?,?,?)').bind(PET_CMS_KEY,petCollectionKey(uid),petLoadoutKey(uid),TROPHY_BONUSES_KEY,petRentalKey(uid),victoryBuffKey(uid)).all();
+    const rows=await env.DB.prepare('SELECT key,value FROM app_meta WHERE key IN (?,?,?,?,?,?,?)').bind(PET_CMS_KEY,petCollectionKey(uid),petLoadoutKey(uid),TROPHY_BONUSES_KEY,petRentalKey(uid),victoryBuffKey(uid),PET_GROWTH_KEY(uid)).all();
     const map=new Map((rows.results||[]).map(row=>[row.key,JSON.parse(row.value)]));
     const pets=map.has(PET_CMS_KEY)?validatePetCmsDocument(map.get(PET_CMS_KEY).document,{allowLegacy:true}).pets:[];
     const code=petSlotForMode(map.get(petLoadoutKey(uid)),mode).petCode,quantity=map.get(petCollectionKey(uid))?.pets?.[code];
@@ -33,7 +34,8 @@ export async function readCollectionBonuses(env,userId,source='PVE'){
     const permanent=Number.isSafeInteger(quantity)&&quantity>0,rental=!permanent&&activePetRental(rentalState,code);
     const pet=COMPANION_RELEASE.pets&&(permanent||rental)?pets.find(p=>p.code===code&&p.liveEnabled!==false):null;
     const victoryBuff=activeVictoryBuff(map.get(victoryBuffKey(uid)));
-    const petBonuses=pet?.rewardBonuses||ZERO_REWARD_BONUSES;
+    const petBonuses={...(pet?.rewardBonuses||ZERO_REWARD_BONUSES)};
+    if(pet)petBonuses.coinPercent+=petGrowthCoinBonus(savedPetGrowth(map.get(PET_GROWTH_KEY(uid)),code,mode,{permanent,quantity:permanent?quantity:1}),mode);
     const trophyDocument=map.has(TROPHY_BONUSES_KEY)?validateTrophyBonuses(map.get(TROPHY_BONUSES_KEY).document,{allowLegacy:true}):emptyTrophyBonuses();
     // Only configured new trophy effects need their additional milestone sources.
     const activeCodes=trophyDocument.trophies.filter(t=>hasRewardBonuses(t.rewardBonuses)).map(t=>t.code);

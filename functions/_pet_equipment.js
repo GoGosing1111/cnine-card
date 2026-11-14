@@ -9,13 +9,14 @@ import {petOwnershipPredicate} from './_pet_rental.js';
 import {petPotentialState,ensurePetPotentialItem} from './_pet_potential.js';
 import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.js';
 import {readJointBody} from './_joint_request.js';
+import {PET_GROWTH_CAPS} from '../shared/pet-growth-live-v2.mjs';
 const jointHash=async value=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify(value)))),byte=>byte.toString(16).padStart(2,'0')).join('');
 
 export function petCatalogFrom(document,{review=true,includeUnowned=false,collection={},potentials={},expiries={}}={}){
   const codes=[...new Set([...PET_ART_CATALOG.map(row=>row.code),...document.pets.map(row=>row.code)])];
   return codes.map(code=>{
     const art=PET_ART_CATALOG.find(row=>row.code===code),pet=document.pets.find(row=>row.code===code);
-    return {code,name:pet?.name||art.name,sourceArt:pet?.sourceArt||art?.sourceArt||pet?.battleSprite||'',battleSprite:pet?.battleSprite||'',
+    return {code,growthCap:PET_GROWTH_CAPS[code]||null,name:pet?.name||art.name,sourceArt:pet?.sourceArt||art?.sourceArt||pet?.battleSprite||'',battleSprite:pet?.battleSprite||'',
       animal:art?.animal||'동료',description:art?.description||'',artStatus:art?.artStatus||'CMS_DRAFT',configured:Boolean(pet),
       rewardBonuses:pet?.rewardBonuses||{...ZERO_REWARD_BONUSES},rewardBonusesActive:pet?.liveEnabled!==false,...(expiries[code]?{rentalExpiresAt:expiries[code]}:{}),
       target:pet?.target||null,modes:pet?.modes||[],buffs:pet?.buffs||[],ready:pet?['PVE','PVP'].filter(mode=>review?petReadiness(pet,mode).ok:!!livePetDefinition(pet,mode)):[],owned:review||Number(collection[code]||0)>0,reviewOwned:review,quantity:Number(collection[code]||0),potential:potentials[code]?.potential||null,attempts:potentials[code]?.attempts||0};
