@@ -1,109 +1,683 @@
 {
-  "date": "2026-11-14",
-  "status": "LOCAL_IMPLEMENTATION_REVIEWED_NOT_DEPLOYED",
-  "sourceRoot": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\coop-pc-performance-20261108\\source",
-  "baseHead": "3fbbe62adab38a6d13cacafea630f117ecc7894d",
-  "productionWrites": 0,
-  "deployment": false,
-  "name": {
-    "required": "흑구",
-    "codepoints": [
-      "D751",
-      "AD6C"
-    ],
-    "exampleLabel": "펫 예시 · 흑구",
-    "hypothesis": "SSS 등급인 경우",
-    "exactFont": "Malgun Gothic bold",
-    "visuallyVerified": true
-  },
-  "poster": {
-    "file": "C:/Users/User/Downloads/upload/cnine-card/output/announcements/pet-rework-20261114/pet-rework-announcement-final.png",
-    "sha256": "2163f884f0d019c04bca2faec825f0686170b3b94c763e051a65e19e9a683df4",
-    "note": "Use only this final export. Earlier generated artwork is retained as production history."
-  },
-  "tests": {
-    "command": "node --test tests/pet-loadout-modes.test.mjs tests/pet-support-effects-20261012.test.mjs tests/pet-growth-v2-20261114.test.mjs",
-    "passed": 27,
-    "failed": 0
-  },
-  "browser": {
-    "report": "browser-checks.json",
-    "widths": [
-      1440,
-      768,
-      390,
-      320
-    ],
-    "errors": [],
-    "asyncCancellation": true,
-    "foreignPendingBlocked": true,
-    "traits": [
-      "ASSAULT",
-      "GUARD",
-      "VITALITY",
-      "HASTE",
-      "HUNTER",
-      "LUCK"
-    ]
-  },
-  "designReview": {
-    "skill": "Impeccable",
-    "detectorFindings": 0,
-    "reviewer": "/root/impeccable_finish_reviewer",
-    "disposition": "ship — local prepared UI only",
-    "resolved": [
-      "pending result belongs to another species",
-      "hunter preview targets a boss",
-      "late asynchronous preview is disposed",
-      "320px tab labels do not wrap"
-    ]
-  },
-  "provenance": {
-    "tool": "Built-in ImageGen",
-    "scan": "10 rasters, 0 missing prompts",
-    "new": "two dice icons and two 12-frame effect atlases",
-    "reused": "approved codex UI and four existing buff effects"
-  },
-  "performance": {
-    "entry": "/pet-codex/ in local isolated review, same existing codex module",
-    "loading": "390x844 Chrome headless; CPU 4x, latency 80 ms, download 1.5 MB/s; three fresh contexts per variant; same UI and account fixture",
-    "comparison": "Original ImageGen dice PNGs versus proportionally resized runtime WebP icons; new UI unchanged",
-    "frames": {
-      "samples": 674,
-      "p50Ms": 4.199999999999818,
-      "p95Ms": 4.300000000000182,
-      "maxMs": 4.800000000000182,
-      "framesOver50Ms": 0,
-      "longTasks": []
+  "completedAt": "2026-11-14T09:37:08.871Z",
+  "status": "live",
+  "deployment": {
+    "checkedAt": "2026-11-14T09:36:39.652Z",
+    "pages": {
+      "at": "2026-11-14T09:36:33.887Z",
+      "id": "7b2b107c-0378-4902-9c1e-9be502578812",
+      "url": "https://7b2b107c.cnine-card.pages.dev",
+      "status": "success",
+      "commit": "8864945f9cc2bd382626da6ba6d87a122c51e682"
     },
-    "server": "Local in-memory test adapter, production server/database performance not measured",
-    "summary": {
-      "source-png": {
-        "firstInteractiveMs": 449,
-        "firstImagesMs": 1639,
-        "reentryInteractiveMs": 54,
-        "reentryImagesMs": 60
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "327cd9c3-715a-4bee-a520-79a3ec2ab821",
+        "percentage": 100,
+        "sha256": "e348f8a975cf9acfc7bdbeddf73492009b65e981b294f2292da1966e3244e23a"
       },
-      "runtime-webp": {
-        "firstInteractiveMs": 389,
-        "firstImagesMs": 486,
-        "reentryInteractiveMs": 51,
-        "reentryImagesMs": 56
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "3397d53c-5f49-4c16-92d0-c2c77b187db5",
+        "percentage": 100,
+        "sha256": "b9b8f58a2dbde353ea7758dd65b4db3ed2ab11859d15d81b85c039fa704f3246"
+      }
+    ],
+    "files": [
+      {
+        "file": "pet-codex/index.html",
+        "bytes": 908,
+        "sha256": "471c29c73758d7b9404f27a9ba4a8d3ee7dd2ef3dbe2b136c25a0cedb99d781f",
+        "windowsResource": true
+      },
+      {
+        "file": "pet-codex/app.mjs",
+        "bytes": 1066,
+        "sha256": "978dd87c32f938a8fe492691b19095f8044d8f38cbc8781ad6305ea60b2cc586",
+        "windowsResource": true
+      },
+      {
+        "file": "js/pet-equipment-window-v1.mjs",
+        "bytes": 35748,
+        "sha256": "f891ace4c0c8d51db855fba3559b36d2a05c2e4d21bcb641062d76e21ca68fb6",
+        "windowsResource": true
+      },
+      {
+        "file": "js/pet-codex-growth-v3.mjs",
+        "bytes": 5404,
+        "sha256": "0e85a8d32eb9e0bb65ee7456e4288384f248a20bd924c991564404d7f4a98e9b",
+        "windowsResource": true
+      },
+      {
+        "file": "js/pet-growth-window-v2.mjs",
+        "bytes": 16305,
+        "sha256": "c8570c69239d17863435071087fefa1400d9a1f3b881b7db4d629cf565058045",
+        "windowsResource": true
+      },
+      {
+        "file": "js/pet-growth-live-adapter-v2.mjs",
+        "bytes": 1818,
+        "sha256": "02577aa319c18ec53462951e97e1d817bc113a302787abcdbf8df133f4b0d42a",
+        "windowsResource": true
+      },
+      {
+        "file": "js/pet-growth-extras-v2.mjs",
+        "bytes": 4913,
+        "sha256": "ac07ac2cfe1f8ca013ff3251073a7e7ff364301ec2db2408e24486945a2da288",
+        "windowsResource": true
+      },
+      {
+        "file": "js/pet-dice-roll-v3.mjs",
+        "bytes": 1793,
+        "sha256": "a5efe5c7b070f79549d6f985945a727cd7b3d7072313830b0d374efce8ec1554",
+        "windowsResource": true
+      },
+      {
+        "file": "css/pet-growth-v2.css",
+        "bytes": 17416,
+        "sha256": "4ce4a182332918474f7a1dcca07bd48ced2d5cafbed9c08ccf6e6fd3ff07c326",
+        "windowsResource": true
+      },
+      {
+        "file": "shared/pet-growth-live-v2.mjs",
+        "bytes": 3468,
+        "sha256": "12cae67b2358af15da164b6d4aeb1bb1a9b7d77267de2e5f96a779267b18d8a6",
+        "windowsResource": true
+      },
+      {
+        "file": "shared/pet-growth-v2.mjs",
+        "bytes": 10222,
+        "sha256": "1b747b88312366abac5aed514180647940d11db793e70c0d57ba7f7caa2e88c7",
+        "windowsResource": true
+      },
+      {
+        "file": "shared/pet-trait-visuals-v2.mjs",
+        "bytes": 615,
+        "sha256": "e7c0ad642b2e2d85779c585215e31b19bbc02767ce25eac54fe3ae305f5a91f3",
+        "windowsResource": true
+      },
+      {
+        "file": "preview/pet-rework-20261114/fx-preview.bundle.mjs",
+        "bytes": 658341,
+        "sha256": "1aa350022cdc61affb0979172c72a58bd72fdfc4e346579c2f5783fde8ab6fd9",
+        "windowsResource": true
+      },
+      {
+        "file": "assets/ui/pets/rework-20261114/codex-v3/pets.json",
+        "bytes": 9635,
+        "sha256": "857b1af5a8e8acbb96c42645e4a4896a3b28a2cfe8f0e211c973083595bbc005",
+        "windowsResource": true
+      },
+      {
+        "file": "assets/ui/pets/rework-20261114/codex-v3/panel.webp",
+        "bytes": 30520,
+        "sha256": "bd7d7301ecc1ece48f5765c4603f054d95ce7b249bb29ecac4103a55fcb40876",
+        "windowsResource": true
+      },
+      {
+        "file": "assets/ui/pets/rework-20261114/codex-v3/action.webp",
+        "bytes": 24476,
+        "sha256": "c422c913e2e90a64bd387fa5bdba47699b0ffb8c7f274e2de2777c1e811d87d2",
+        "windowsResource": true
+      },
+      {
+        "file": "assets/ui/pets/rework-20261114/hunter-atlas.webp",
+        "bytes": 279576,
+        "sha256": "eb8b051871b977f5e6b08f6112c89860ef6241d1a29ed474efe508649a0f8678",
+        "windowsResource": true
+      },
+      {
+        "file": "assets/ui/pets/rework-20261114/luck-atlas.webp",
+        "bytes": 451304,
+        "sha256": "4da506ee141b8db58caa1c0846d9b07a7dc008825ff9a8a733799e80bd57ac0b",
+        "windowsResource": true
+      },
+      {
+        "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "bytes": 3722886,
+        "sha256": "8c0befe259f78d1621ee538efbdacab2ba9e87b141d5e82c5f5a9c5273560329",
+        "windowsResource": true
+      },
+      {
+        "file": "onestore/pet-codex/app.mjs",
+        "bytes": 1102,
+        "sha256": "56274e26af8a2acdb643c8b6c4185ba5f7c2bc149e4db0ff1a6447b2fd2b29eb",
+        "windowsResource": false
+      }
+    ],
+    "canonical": "https://cnine-card.pages.dev",
+    "windowsRelease": "b87a87a38da85ea00505fb087bfc2d01a5494065214f4f843b1468189fe053f5",
+    "gradesVerified": true,
+    "prices": {
+      "stats": {
+        "coin": "5000000000000",
+        "masterStars": 10000000
+      },
+      "trait": {
+        "coin": "30000000000000",
+        "masterStars": 50000000
       }
     },
-    "afterExit": {
-      "active": 0,
-      "updates": 1002
-    },
-    "interpretation": "New dice icon transfer was a network bottleneck: first growth-view image readiness median fell from 1639 ms to 486 ms. These are local emulation measurements, not production or physical-device results. The existing codex PNG portraits still dominate full navigation resource waits; the new feature results must not be represented as entire-game loading times."
+    "realAccountMutations": 0
   },
-  "remaining": [
-    "production database transaction adapter and routes",
-    "actual species caps and existing-pet migration",
-    "production probabilities, costs and acquisition rules",
-    "stat conversion, battle calculation and reward settlement integration",
-    "trait sounds and production/platform validation"
+  "release": {
+    "head": "8864945f9cc2bd382626da6ba6d87a122c51e682",
+    "base": "af810757fba1e4dd3d39cac0d9709cf0da574f44",
+    "startedAt": "2026-11-14T09:32:41.127Z",
+    "finishedAt": "2026-11-14T09:35:11.487Z",
+    "code": 0,
+    "tests": [
+      "tests/pet-growth-live-20261114.test.mjs",
+      "tests/pet-growth-v2-20261114.test.mjs",
+      "tests/pet-loadout-modes.test.mjs",
+      "tests/pet-support-effects-20261012.test.mjs",
+      "tests/pet-live-magnet-20261006.test.mjs",
+      "tests/pet-persistent-raid-20261006.test.mjs",
+      "tests/equipment-polish-buff-20261114.test.mjs",
+      "tests/scoped-release-policy-20260923.test.mjs",
+      "tests/mercenary-equipment-20261011.test.mjs",
+      "tests/mercenary-equipment-20261011.test.mjs"
+    ],
+    "staging": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\pet-rework-live-20261114\\staged"
+  },
+  "grades": {
+    "basis": "펫 등급은 기존꺼 고유효과 제일 높은순으로 SSS등급 ~ C까지 매겨",
+    "cmsRevision": 49,
+    "thresholds": {
+      "SSS": 55,
+      "SS": 50,
+      "S": 35,
+      "A": 30,
+      "B": 20,
+      "C": 0
+    },
+    "pets": [
+      {
+        "code": "PET-BAZZI-BONGSOON",
+        "name": "배찌 나무늘봉순",
+        "grade": "SSS",
+        "highestExistingEffect": 55
+      },
+      {
+        "code": "PET-PEPEGU",
+        "name": "페페구",
+        "grade": "SSS",
+        "highestExistingEffect": 55
+      },
+      {
+        "code": "PET-HEUKGU",
+        "name": "흑구",
+        "grade": "SS",
+        "highestExistingEffect": 50
+      },
+      {
+        "code": "PET-JJANGGU-HEEYA",
+        "name": "짱구희야",
+        "grade": "SS",
+        "highestExistingEffect": 50
+      },
+      {
+        "code": "PET-CRIMSON-DEMON",
+        "name": "붉은 날개 마신",
+        "grade": "S",
+        "highestExistingEffect": 35
+      },
+      {
+        "code": "PET-GILDED-DRAGON",
+        "name": "흑금 영룡",
+        "grade": "A",
+        "highestExistingEffect": 30
+      },
+      {
+        "code": "PET-WHITE-SPIRIT",
+        "name": "흰 정령",
+        "grade": "A",
+        "highestExistingEffect": 30
+      },
+      {
+        "code": "PET-PUMPKIN-BONGSOON",
+        "name": "호박봉순",
+        "grade": "A",
+        "highestExistingEffect": 30
+      },
+      {
+        "code": "PET-PUMPKIN-JOEUN",
+        "name": "호박조은",
+        "grade": "A",
+        "highestExistingEffect": 30
+      },
+      {
+        "code": "PET-DAENGSORYONG",
+        "name": "댕소룡",
+        "grade": "A",
+        "highestExistingEffect": 30
+      },
+      {
+        "code": "PET-NAMUNEUL-BONGSOON",
+        "name": "나무늘봉순",
+        "grade": "B",
+        "highestExistingEffect": 25
+      },
+      {
+        "code": "PET-MALTESE-DIIM",
+        "name": "말티즈디임",
+        "grade": "B",
+        "highestExistingEffect": 25
+      },
+      {
+        "code": "PET-GUSUDAENG",
+        "name": "토끼 구수댕",
+        "grade": "B",
+        "highestExistingEffect": 20
+      },
+      {
+        "code": "PET-BONGSOON",
+        "name": "봉순",
+        "grade": "B",
+        "highestExistingEffect": 20
+      },
+      {
+        "code": "PET-JOEUN",
+        "name": "조은",
+        "grade": "B",
+        "highestExistingEffect": 20
+      },
+      {
+        "code": "PET-HEEYA",
+        "name": "희야",
+        "grade": "B",
+        "highestExistingEffect": 20
+      },
+      {
+        "code": "PET-DIIM",
+        "name": "디임",
+        "grade": "B",
+        "highestExistingEffect": 20
+      },
+      {
+        "code": "PET-MOON-FOX",
+        "name": "월령 여우",
+        "grade": "C",
+        "highestExistingEffect": 10
+      },
+      {
+        "code": "PET-FROST-WOLF",
+        "name": "빙관 늑대",
+        "grade": "C",
+        "highestExistingEffect": 10
+      },
+      {
+        "code": "PET-SOLAR-PHOENIX",
+        "name": "태양 봉황",
+        "grade": "C",
+        "highestExistingEffect": 10
+      },
+      {
+        "code": "PET-VERDANT-STAG",
+        "name": "비취 성록",
+        "grade": "C",
+        "highestExistingEffect": 10
+      },
+      {
+        "code": "PET-ASTRAL-PANTHER",
+        "name": "성운 마수",
+        "grade": "C",
+        "highestExistingEffect": 10
+      },
+      {
+        "code": "PET-BULLDOG",
+        "name": "금방울 불독",
+        "grade": "C",
+        "highestExistingEffect": 10
+      },
+      {
+        "code": "PET-HEADSET-SHIBA",
+        "name": "헤드셋 시바견",
+        "grade": "C",
+        "highestExistingEffect": 8
+      },
+      {
+        "code": "PET-BEANIE-CAT",
+        "name": "비니 헤드셋 고양이",
+        "grade": "C",
+        "highestExistingEffect": 8
+      }
+    ]
+  },
+  "validation": {
+    "testsPassed": 88,
+    "testsFailed": 0,
+    "browser": {
+      "conditions": "Windows Chrome headless; local isolated PostgreSQL-compatible database, actual /pet-codex/ entry and live API handler",
+      "widths": [
+        {
+          "width": 1440,
+          "overflow": false,
+          "broken": [],
+          "small": [],
+          "errors": []
+        },
+        {
+          "width": 768,
+          "overflow": false,
+          "broken": [],
+          "small": [],
+          "errors": []
+        },
+        {
+          "width": 390,
+          "overflow": false,
+          "broken": [],
+          "small": [],
+          "errors": []
+        },
+        {
+          "width": 320,
+          "overflow": false,
+          "broken": [],
+          "small": [],
+          "errors": []
+        }
+      ],
+      "checks": [
+        {
+          "width": 1440,
+          "frames": [
+            "2",
+            "5",
+            "4",
+            "6"
+          ],
+          "statsCost": "5조 + 1000만",
+          "traitCost": "30조 + 5000만",
+          "reloadPending": true,
+          "effect": true,
+          "after": {
+            "coin": "1965000000000000",
+            "masterStars": 940000000
+          }
+        },
+        {
+          "width": 390,
+          "frames": [
+            "2",
+            "5",
+            "7",
+            "6"
+          ],
+          "statsCost": "5조 + 1000만",
+          "traitCost": "30조 + 5000만",
+          "reloadPending": true,
+          "effect": true,
+          "after": {
+            "coin": "1965000000000000",
+            "masterStars": 940000000
+          }
+        }
+      ]
+    },
+    "performance": {
+      "conditions": {
+        "loading": "Windows Chrome headless; 390x844, CPU 4x, network 80ms / 1.5 MBps; three fresh browser contexts per version",
+        "entry": "Actual /pet-codex/ with canonical standalone navigation scripts and isolated database API; baseline git 3fbbe62; after current source. No real mobile/native device.",
+        "frames": "Unthrottled Windows Chrome; stat roll, result render; effect preview exit",
+        "server": "Local PostgreSQL-compatible fixture. Production DB read latency is recorded separately."
+      },
+      "summary": {
+        "before": {
+          "firstInteractiveMs": 1320,
+          "firstImagesMs": 6445,
+          "reentryInteractiveMs": 240,
+          "transferBytes": 5342154
+        },
+        "after": {
+          "firstInteractiveMs": 1260,
+          "firstImagesMs": 1576,
+          "reentryInteractiveMs": 109,
+          "transferBytes": 670019
+        }
+      },
+      "samples": [
+        {
+          "variant": "before",
+          "trial": 1,
+          "firstInteractiveMs": 1254,
+          "firstImagesMs": 6445,
+          "reentryInteractiveMs": 169,
+          "transferBytes": 5342154,
+          "slowest": [
+            {
+              "url": "/assets/ui/pets/gugugaga/pet-joeun-gugugaga-nametag-v2.png",
+              "ms": 5326.199999988079,
+              "bytes": 1315428
+            },
+            {
+              "url": "/assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+              "ms": 5197.699999988079,
+              "bytes": 1321878
+            },
+            {
+              "url": "/js/adventure-lobby-v2107.js",
+              "ms": 4519.800000011921,
+              "bytes": 1231077
+            },
+            {
+              "url": "/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+              "ms": 1919.7999999523163,
+              "bytes": 1173956
+            }
+          ]
+        },
+        {
+          "variant": "before",
+          "trial": 2,
+          "firstInteractiveMs": 1320,
+          "firstImagesMs": 6506,
+          "reentryInteractiveMs": 287,
+          "transferBytes": 7949938,
+          "slowest": [
+            {
+              "url": "/assets/ui/pets/gugugaga/pet-diim-gugugaga-nametag-v2.png",
+              "ms": 5372.199999988079,
+              "bytes": 1284709
+            },
+            {
+              "url": "/assets/ui/pets/gugugaga/pet-bongsoon-gugugaga-nametag-v2.png",
+              "ms": 5361.199999988079,
+              "bytes": 1323075
+            },
+            {
+              "url": "/assets/ui/pets/gugugaga/pet-joeun-gugugaga-nametag-v2.png",
+              "ms": 5330,
+              "bytes": 1315428
+            },
+            {
+              "url": "/assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+              "ms": 5181.800000011921,
+              "bytes": 1321878
+            }
+          ]
+        },
+        {
+          "variant": "before",
+          "trial": 3,
+          "firstInteractiveMs": 1471,
+          "firstImagesMs": 6169,
+          "reentryInteractiveMs": 240,
+          "transferBytes": 4026726,
+          "slowest": [
+            {
+              "url": "/assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+              "ms": 4684.5,
+              "bytes": 1321878
+            },
+            {
+              "url": "/js/adventure-lobby-v2107.js",
+              "ms": 3772.600000023842,
+              "bytes": 1231077
+            },
+            {
+              "url": "/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+              "ms": 1234.199999988079,
+              "bytes": 1173956
+            },
+            {
+              "url": "/assets/fonts/lich-raid/BarlowCondensed-lich-v1.woff2",
+              "ms": 548.1000000238419,
+              "bytes": 15696
+            }
+          ]
+        },
+        {
+          "variant": "after",
+          "trial": 1,
+          "firstInteractiveMs": 1260,
+          "firstImagesMs": 1573,
+          "reentryInteractiveMs": 109,
+          "transferBytes": 670019,
+          "slowest": [
+            {
+              "url": "/assets/ui/pets/rework-20261114/codex-v3/trait-roll.webp",
+              "ms": 619.2999999523163,
+              "bytes": 160592
+            },
+            {
+              "url": "/assets/ui/pets/rework-20261114/codex-v3/stats-roll.webp",
+              "ms": 512.5999999642372,
+              "bytes": 127118
+            },
+            {
+              "url": "/assets/fonts/lich-raid/BarlowCondensed-lich-v1.woff2",
+              "ms": 447.80000001192093,
+              "bytes": 15696
+            },
+            {
+              "url": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-bongsoon-thumb.webp",
+              "ms": 341.5,
+              "bytes": 8024
+            }
+          ]
+        },
+        {
+          "variant": "after",
+          "trial": 2,
+          "firstInteractiveMs": 1262,
+          "firstImagesMs": 1582,
+          "reentryInteractiveMs": 91,
+          "transferBytes": 502893,
+          "slowest": [
+            {
+              "url": "/assets/ui/pets/rework-20261114/codex-v3/stats-roll.webp",
+              "ms": 515.6999999880791,
+              "bytes": 127118
+            },
+            {
+              "url": "/assets/fonts/lich-raid/BarlowCondensed-lich-v1.woff2",
+              "ms": 433.60000002384186,
+              "bytes": 15696
+            },
+            {
+              "url": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-heukgu-portrait.webp",
+              "ms": 320.19999998807907,
+              "bytes": 45464
+            },
+            {
+              "url": "/assets/ui/pets/buffs-v1/attack-icon.webp",
+              "ms": 302.10000002384186,
+              "bytes": 27236
+            }
+          ]
+        },
+        {
+          "variant": "after",
+          "trial": 3,
+          "firstInteractiveMs": 1252,
+          "firstImagesMs": 1576,
+          "reentryInteractiveMs": 109,
+          "transferBytes": 671509,
+          "slowest": [
+            {
+              "url": "/assets/ui/pets/rework-20261114/codex-v3/trait-roll.webp",
+              "ms": 634.6999999880791,
+              "bytes": 160592
+            },
+            {
+              "url": "/assets/ui/pets/rework-20261114/codex-v3/stats-roll.webp",
+              "ms": 533,
+              "bytes": 127118
+            },
+            {
+              "url": "/assets/fonts/lich-raid/BarlowCondensed-lich-v1.woff2",
+              "ms": 446.5999999642372,
+              "bytes": 15696
+            },
+            {
+              "url": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-heeya-thumb.webp",
+              "ms": 355.9000000357628,
+              "bytes": 8748
+            }
+          ]
+        }
+      ],
+      "frameTimes": {
+        "samples": 597,
+        "p50": 4.199999999999818,
+        "p95": 4.399999999999977,
+        "max": 12.700000000000045,
+        "over50ms": 0,
+        "longTasks": []
+      },
+      "afterExit": {
+        "activeFx": 0,
+        "updates": 4,
+        "dice": false,
+        "stopped": true
+      }
+    },
+    "serverRead": {
+      "checkedAt": "2026-11-14T09:09:49.724Z",
+      "readOnly": true,
+      "condition": "Windows operations connection to production PostgreSQL, current server handler; not edge HTTP latency",
+      "samples": [
+        {
+          "ms": 265.08950000000004,
+          "queries": 2
+        },
+        {
+          "ms": 168.09919999999966,
+          "queries": 2
+        },
+        {
+          "ms": 166.1878999999999,
+          "queries": 2
+        }
+      ],
+      "ownedInstances": 9,
+      "revision": 0,
+      "costs": {
+        "stats": {
+          "coin": "5000000000000",
+          "masterStars": 10000000
+        },
+        "trait": {
+          "coin": "30000000000000",
+          "masterStars": 50000000
+        }
+      },
+      "accountWrites": 0
+    },
+    "review": {
+      "result": "ship",
+      "reviewer": "/root/impeccable_finish_reviewer_v3",
+      "reviewed": "live prices, unified pet management, mobile result buttons and fixed navigation",
+      "resolved": "Result comparison uses dock-aware scroll margin. Both buttons passed viewport and elementFromPoint checks.",
+      "requiredFixes": 0
+    }
+  },
+  "limitations": [
+    "Visual and timing checks used Windows Chrome desktop and mobile viewport/CPU/network emulation, not a physical phone or native launcher.",
+    "Paid actions were exercised on an isolated database through the real API handler. Production verification made no account mutations."
   ],
-  "guide": "preview/pet-rework-20261114/PROJECT.md",
-  "latestUiReview": "unified/completion.json"
+  "notice": "output/announcements/pet-rework-20261114/유저공지.txt"
 }
