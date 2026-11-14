@@ -50,10 +50,10 @@ function runtime(rows,id,mode,revision,advanced){
  const items=rows.map(r=>gearItem(r,id,advanced));
  const standard=mode==='PVE'?equipmentGrowthFromRows(rows.map(r=>({...r,id:r.instance_id})),id):ascendantEquipmentEffects(rows.map(r=>r.code),'PVP');
  const individual=individualMercenaryBonuses(items);
- const summary=individual?equipmentEffectText(addIndividualEquipmentEffects(normalizedEquipmentEffects(standard.effects),individual.effects)):
-   standard.summary??equipmentEffectText(normalizedEquipmentEffects(standard.effects));
+ const summary=individual?equipmentEffectText(addIndividualEquipmentEffects(normalizedEquipmentEffects(standard.effects,standard.polishEffects),individual.effects)):
+   standard.summary??equipmentEffectText(normalizedEquipmentEffects(standard.effects,standard.polishEffects));
  return {schemaVersion:1,mode,revision,power:items.reduce((sum,i)=>sum+i[mode==='PVE'?'pvePower':'pvpPower'],0),items,
-  effects:standard.effects,sets:standard.sets,uniques:individual?[...standard.uniques,...individual.codes]:standard.uniques,
+  effects:standard.effects,...(standard.polishEffects?{polishEffects:standard.polishEffects}:{}),sets:standard.sets,uniques:individual?[...standard.uniques,...individual.codes]:standard.uniques,
   ...(individual?{individualEffects:individual.effects}:{}),summary,effectsMode:mode};
 }
 export async function mercenaryEquipmentRuntimes(env,userIds,mode='PVE',{records,selections}={}){

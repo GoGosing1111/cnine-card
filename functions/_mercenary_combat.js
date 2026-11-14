@@ -275,9 +275,10 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
  // Growth is derived for this entry from its equipped slots and mode.
  delete fighter.equipmentIndividualEffects;
  delete fighter.equipmentStandardEffects;
+ delete fighter.equipmentPolishEffects;
  if(snapshot.equipment?.schemaVersion===1&&snapshot.equipment.mode===mode){
   const individual=individualMercenaryBonuses(snapshot.equipment.items)?.effects;
-  if(mode==='PVE')applyPveEquipmentGrowth([fighter],{effects:snapshot.equipment.effects||{}},individual);
+  if(mode==='PVE')applyPveEquipmentGrowth([fighter],{effects:snapshot.equipment.effects||{},polishEffects:snapshot.equipment.polishEffects},individual);
   if(mode==='PVP'){
    const effects=mercenaryPvpEquipmentEffects(snapshot.equipment);
    if(individual||Object.keys(effects).length){applyPvpMercenaryEquipmentGrowth(fighter,effects,individual);fighter.equipmentEffectsMode='PVP_ASCENDANT';}

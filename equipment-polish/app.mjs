@@ -267,6 +267,11 @@ async function load() {
       : data.ownerReview ? '운영자 연출 검수 중입니다. 실제 연마는 닫혀 있습니다.' : data.notice;
     renderPicker(focus);
     choose();
+    if (recovered && recovered.revision !== data.settings.revision) {
+      try { localStorage.removeItem(resultKey()); } catch {}
+      $('#live-message').textContent = '새 연마 설정이 적용됐습니다. 현재 장비의 성장 수치를 확인해 주세요.';
+      recovered = null;
+    }
     if (recovered && !items.some(item => item.instanceId === recovered.instanceId)) {
       try { localStorage.removeItem(resultKey()); } catch {}
       $('#live-message').textContent = '이전 장비의 연마 결과가 저장되어 있습니다. 현재 보유 장비를 선택해 주세요.';
