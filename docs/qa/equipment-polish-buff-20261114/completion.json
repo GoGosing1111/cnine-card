@@ -1,0 +1,584 @@
+{
+  "status": "complete",
+  "completedAt": "2026-11-14T09:46:42.051Z",
+  "operationKey": "ops:equipment-polish:growth-buff:20261114:v1",
+  "appliedAt": "2026-11-14T09:38:44.496Z",
+  "appliedAtKst": "2026-11-14 18:38:44 KST",
+  "audits": {
+    "policy": "60535",
+    "revalueExisting": "60536"
+  },
+  "policy": {
+    "revision": 2,
+    "publicVisible": true,
+    "executionMode": "ON",
+    "successRate": 10,
+    "failureRate": 90,
+    "maxSuccessesPerItem": {
+      "before": 20,
+      "after": 50
+    },
+    "maxLevelPerOption": {
+      "before": 10,
+      "after": 20
+    },
+    "costEachRollIncludingFailure": {
+      "coins": 10000000000000,
+      "masterStars": 30000000,
+      "polishStones": 1
+    },
+    "options": [
+      {
+        "code": "ATTACK",
+        "beforeIncrement": 0.5,
+        "increment": 2,
+        "maximum": 40,
+        "unit": "percent"
+      },
+      {
+        "code": "CRITICAL_CHANCE",
+        "beforeIncrement": 0.2,
+        "increment": 0.5,
+        "maximum": 10,
+        "unit": "percentage-points"
+      },
+      {
+        "code": "CRITICAL_DAMAGE",
+        "beforeIncrement": 1,
+        "increment": 3,
+        "maximum": 60,
+        "unit": "percentage-points"
+      },
+      {
+        "code": "BOSS_DAMAGE",
+        "beforeIncrement": 0.5,
+        "increment": 2,
+        "maximum": 40,
+        "unit": "percent"
+      },
+      {
+        "code": "PENETRATION",
+        "beforeIncrement": 0.2,
+        "increment": 0.5,
+        "maximum": 10,
+        "unit": "percentage-points"
+      }
+    ]
+  },
+  "combat": {
+    "mercenaryEquipmentModes": [
+      "PVE",
+      "PVP",
+      "RANKED",
+      "DUO"
+    ],
+    "ordinaryAccountEquipmentModes": [
+      "PVE"
+    ],
+    "appliedTo": "The wearer, using the actual equipment instances selected in each mode.",
+    "bossDamage": "Boss targets only. Ordinary PvP opponents are not bosses.",
+    "aggregation": "Existing set effects keep their caps. Valid earned polish is added after those caps, exactly once; individual gear composition is retained.",
+    "invalidPayload": "Invalid, duplicated, unequipped or mismatched instance polish is excluded.",
+    "finalCritAndPenetrationCaps": "Eligible mercenary polish extends existing combat caps; absolute 100% ceiling retained."
+  },
+  "existingRecords": {
+    "positiveStatesRevalued": 22,
+    "successfulGrowthsPreserved": 82,
+    "balancesAndMaterialsUnchanged": true,
+    "migration": "Levels, successful count and roll count preserved; values recalculated with the new increments.",
+    "transaction": "Exclusive policy lock and state updates, audits and completion receipt committed atomically. Polish execution and restoration take a shared policy lock.",
+    "existingReceiptRecovery": "Historical receipts remain intact; a stale policy revision displays current inventory values without another debit.",
+    "liveTestRolls": 0,
+    "accountGrants": 0
+  },
+  "independentReadOnlyVerification": {
+    "verifiedAt": "2026-11-14T09:39:15.436Z",
+    "stateCount": 29,
+    "ordinaryRuntimeRecords": 22,
+    "pvpRuntimeRecords": 104,
+    "polishedItemsInPvpLoadouts": 7,
+    "publicStatus": {
+      "checkedAt": "2026-11-14T09:40:07.957Z",
+      "publicVisible": true,
+      "executionMode": "ON",
+      "canPolish": true,
+      "executionReady": true,
+      "notice": "성공률 10% · 장비당 성공 50회 / 옵션별 20단계. 공격력·보스 피해 +2%, 치명타 확률·방어 관통 +0.5%p, 치명타 피해 +3%p. 1회 10조 코인·마스터의 별 3천만·연마석 1개 (꽝 포함).",
+      "ownerReview": false,
+      "canEnter": true
+    }
+  },
+  "release": {
+    "source": "8864945f9cc2bd382626da6ba6d87a122c51e682",
+    "pages": {
+      "id": "7b2b107c-0378-4902-9c1e-9be502578812",
+      "url": "https://7b2b107c.cnine-card.pages.dev",
+      "commit": "8864945f9cc2bd382626da6ba6d87a122c51e682",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "327cd9c3-715a-4bee-a520-79a3ec2ab821",
+        "percentage": 100
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "3397d53c-5f49-4c16-92d0-c2c77b187db5",
+        "percentage": 100
+      }
+    ],
+    "publicFiles": [
+      {
+        "file": "equipment-polish/index.html",
+        "sha256": "6a4c75d7c795ec954e034c4d1ff92577a34255e2b389c3bca05a5bc6581a9a48",
+        "canonicalSha256": "f1ad7fb93fe2b5e94564f5d151cbcb48ad7ff057d17abbf9b6fcf8e6fe978976",
+        "status": 200
+      },
+      {
+        "file": "equipment-polish/app.mjs",
+        "sha256": "8fbbcd215c54f1f4a47407be24449782b711a40896a037f4af80862144acf3a8",
+        "canonicalSha256": "e829b229c6e9ccffc02f1b1d108df10dd0fe2175699b7fdd96545fba39ec1f1f",
+        "status": 200
+      },
+      {
+        "file": "shared/equipment-combat-growth-v1.mjs",
+        "sha256": "0e6f9f6a77fc076d5c01203075b548ec37b591f5933ed62da2b32a5e62462bcc",
+        "canonicalSha256": "131439e7ec73280a2106432398a07d6deda45d15bdb01e71428cf662f4438247",
+        "status": 200
+      },
+      {
+        "file": "shared/mercenary-equipment-v1.mjs",
+        "sha256": "efec7d21dff6cfbfa6fec6e13f9bb7b5dd64f113ef285b02c25ce97ef6cbcff7",
+        "canonicalSha256": "6b9f1ec72c59bdb3816f3e93834bfca39b6691595599bad96f5c9faeecf9690f",
+        "status": 200
+      }
+    ],
+    "publicTextComparison": "Canonical LF source content matched; deployed CRLF byte hashes also matched the Windows manifest.",
+    "windowsRelease": "b87a87a38da85ea00505fb087bfc2d01a5494065214f4f843b1468189fe053f5",
+    "actualDeployedWorker": {
+      "policyLock": true,
+      "polishCaps": true,
+      "mercenaryPvpPolish": true,
+      "sha256": "4bfaee47e27a62872dd5a67c1d999d2a8579fc5a88ae66137ebd206a50e9f449",
+      "bytes": 9882102,
+      "clanSha256": "aa848213fade59d309eeb724002dc8d958bc40cc113761e65ea806a375ad2d9f",
+      "clanPolishVerified": true,
+      "deployedFunctionEvaluated": true,
+      "oldSetAttackCap": 30,
+      "polishedCombinedAttack": 70,
+      "polishedCriticalDamage": 110,
+      "unrelatedHpCap": 30
+    },
+    "privateStateUnauthenticatedStatus": 401,
+    "sharedRelease": "Combined with concurrent pet release; pet changes were retained. Initial Pages staging failure was not counted as completion."
+  },
+  "tests": {
+    "distinctPassed": 65,
+    "focusedEquipmentTests": 40,
+    "concurrentPetRegressionTests": 25,
+    "executionNote": "The merged test log contains 57 passing tests; eight new polish tests were materialized from sparse checkout and passed in a separate run.",
+    "newPolishTests": 8,
+    "coverage": [
+      "SQLite and PGlite success limits and 20-to-50 continuation",
+      "Capped options excluded from selection",
+      "Existing set caps plus polish and individual equipment compose once",
+      "Independent PvE/PvP loadouts and wearer-only application",
+      "Actual PvP, ranked and duo battle constructors",
+      "Actual critical and penetration hit computation above old caps",
+      "Forged and duplicate polish payloads excluded",
+      "Stale restoration and concurrent policy update rollback",
+      "Legacy receipt recovery without repeated debit"
+    ],
+    "ui": "Desktop and mobile layouts show PvE/PvP help, 10% success, 50 successes and 20 levels with no horizontal overflow.",
+    "uiEvidence": "pvp-ui.json"
+  },
+  "performance": {
+    "browserMethod": "Real shell → equipment → polish navigation, isolated local API, unthrottled, headless installed Chrome and WebKit viewport emulation. Native launcher and physical phones not tested.",
+    "browserResults": [
+      {
+        "platform": "Windows Chrome",
+        "before": true,
+        "loads": [
+          {
+            "entry": "cold",
+            "readyMs": 207,
+            "documentReadyMs": 204,
+            "automationElapsedMs": 629,
+            "idle": {
+              "frames": 37,
+              "p95Ms": 20.5,
+              "maxMs": 20.6,
+              "over50": 0
+            }
+          },
+          {
+            "entry": "warm",
+            "readyMs": 161,
+            "documentReadyMs": 160,
+            "automationElapsedMs": 265,
+            "idle": {
+              "frames": 40,
+              "p95Ms": 20.4,
+              "maxMs": 20.6,
+              "over50": 0
+            }
+          }
+        ],
+        "animation": {
+          "durationMs": 5148,
+          "frames": 513,
+          "p95Ms": 30,
+          "maxMs": 49,
+          "over50": 0
+        },
+        "animationsAtRest": 0,
+        "remainingPolishNodes": 0,
+        "errors": []
+      },
+      {
+        "platform": "Windows Chrome",
+        "before": false,
+        "loads": [
+          {
+            "entry": "cold",
+            "readyMs": 147,
+            "documentReadyMs": 146,
+            "automationElapsedMs": 238,
+            "idle": {
+              "frames": 124,
+              "p95Ms": 4.3,
+              "maxMs": 4.6,
+              "over50": 0
+            }
+          },
+          {
+            "entry": "warm",
+            "readyMs": 173,
+            "documentReadyMs": 172,
+            "automationElapsedMs": 452,
+            "idle": {
+              "frames": 123,
+              "p95Ms": 4.6,
+              "maxMs": 8.3,
+              "over50": 0
+            }
+          }
+        ],
+        "animation": {
+          "durationMs": 5114,
+          "frames": 1209,
+          "p95Ms": 4.7,
+          "maxMs": 16.7,
+          "over50": 0
+        },
+        "animationsAtRest": 0,
+        "remainingPolishNodes": 0,
+        "errors": []
+      },
+      {
+        "platform": "Android viewport emulation",
+        "before": true,
+        "loads": [
+          {
+            "entry": "cold",
+            "readyMs": 220,
+            "documentReadyMs": 218,
+            "automationElapsedMs": 601,
+            "idle": {
+              "frames": 122,
+              "p95Ms": 4.6,
+              "maxMs": 5,
+              "over50": 0
+            }
+          },
+          {
+            "entry": "warm",
+            "readyMs": 184,
+            "documentReadyMs": 183,
+            "automationElapsedMs": 306,
+            "idle": {
+              "frames": 51,
+              "p95Ms": 13.7,
+              "maxMs": 15.4,
+              "over50": 0
+            }
+          }
+        ],
+        "animation": {
+          "durationMs": 5111,
+          "frames": 432,
+          "p95Ms": 20,
+          "maxMs": 46.4,
+          "over50": 0
+        },
+        "animationsAtRest": 0,
+        "remainingPolishNodes": 0,
+        "errors": []
+      },
+      {
+        "platform": "Android viewport emulation",
+        "before": false,
+        "loads": [
+          {
+            "entry": "cold",
+            "readyMs": 278,
+            "documentReadyMs": 276,
+            "automationElapsedMs": 366,
+            "idle": {
+              "frames": 41,
+              "p95Ms": 17.4,
+              "maxMs": 20.3,
+              "over50": 0
+            }
+          },
+          {
+            "entry": "warm",
+            "readyMs": 141,
+            "documentReadyMs": 141,
+            "automationElapsedMs": 190,
+            "idle": {
+              "frames": 40,
+              "p95Ms": 17.2,
+              "maxMs": 17.8,
+              "over50": 0
+            }
+          }
+        ],
+        "animation": {
+          "durationMs": 5180,
+          "frames": 377,
+          "p95Ms": 27.7,
+          "maxMs": 45.3,
+          "over50": 0
+        },
+        "animationsAtRest": 0,
+        "remainingPolishNodes": 0,
+        "errors": []
+      },
+      {
+        "platform": "iPhone WebKit emulation",
+        "before": true,
+        "loads": [
+          {
+            "entry": "cold",
+            "readyMs": 216,
+            "documentReadyMs": 204,
+            "automationElapsedMs": 1091,
+            "idle": {
+              "frames": 32,
+              "p95Ms": 21,
+              "maxMs": 25,
+              "over50": 0
+            }
+          },
+          {
+            "entry": "warm",
+            "readyMs": 139,
+            "documentReadyMs": 136,
+            "automationElapsedMs": 740,
+            "idle": {
+              "frames": 31,
+              "p95Ms": 23,
+              "maxMs": 25,
+              "over50": 0
+            }
+          }
+        ],
+        "animation": {
+          "durationMs": 5201,
+          "frames": 337,
+          "p95Ms": 17,
+          "maxMs": 21,
+          "over50": 0
+        },
+        "animationsAtRest": 0,
+        "remainingPolishNodes": 0,
+        "errors": [
+          {
+            "message": "ResizeObserver loop completed with undelivered notifications.",
+            "path": "/"
+          },
+          {
+            "message": "ResizeObserver loop completed with undelivered notifications.",
+            "path": "/"
+          }
+        ]
+      },
+      {
+        "platform": "iPhone WebKit emulation",
+        "before": false,
+        "loads": [
+          {
+            "entry": "cold",
+            "readyMs": 233,
+            "documentReadyMs": 228,
+            "automationElapsedMs": 865,
+            "idle": {
+              "frames": 30,
+              "p95Ms": 24,
+              "maxMs": 25,
+              "over50": 0
+            }
+          },
+          {
+            "entry": "warm",
+            "readyMs": 172,
+            "documentReadyMs": 166,
+            "automationElapsedMs": 1634,
+            "idle": {
+              "frames": 31,
+              "p95Ms": 24,
+              "maxMs": 26,
+              "over50": 0
+            }
+          }
+        ],
+        "animation": {
+          "durationMs": 5195,
+          "frames": 335,
+          "p95Ms": 17,
+          "maxMs": 29,
+          "over50": 0
+        },
+        "animationsAtRest": 0,
+        "remainingPolishNodes": 0,
+        "errors": [
+          {
+            "message": "ResizeObserver loop completed with undelivered notifications.",
+            "path": "/"
+          }
+        ]
+      }
+    ],
+    "browserEvidence": "client-performance.json",
+    "timingScope": "Actual home to equipment to polish navigation in local isolated fixtures on Windows; full serial before/after run preceded the final PvP help-text addition. That final text was checked separately at desktop and mobile widths. No animation changes in that last addition.",
+    "productionReadOnlyState": {
+      "method": "Production PostgreSQL, real owner inventory state handler, fixed 40-row first page, one repeatable-read connection, no grants or debit",
+      "before": {
+        "connectionMs": 598,
+        "samples": [
+          {
+            "entry": "first",
+            "milliseconds": 1068,
+            "queries": 10,
+            "items": 40
+          },
+          {
+            "entry": "repeat",
+            "milliseconds": 877,
+            "queries": 10,
+            "items": 40
+          },
+          {
+            "entry": "repeat",
+            "milliseconds": 799,
+            "queries": 10,
+            "items": 40
+          },
+          {
+            "entry": "repeat",
+            "milliseconds": 916,
+            "queries": 10,
+            "items": 40
+          },
+          {
+            "entry": "repeat",
+            "milliseconds": 894,
+            "queries": 10,
+            "items": 40
+          }
+        ]
+      },
+      "after": {
+        "connectionMs": 482,
+        "samples": [
+          {
+            "entry": "first",
+            "milliseconds": 826,
+            "queries": 10,
+            "items": 40
+          },
+          {
+            "entry": "repeat",
+            "milliseconds": 738,
+            "queries": 10,
+            "items": 40
+          },
+          {
+            "entry": "repeat",
+            "milliseconds": 746,
+            "queries": 10,
+            "items": 40
+          },
+          {
+            "entry": "repeat",
+            "milliseconds": 750,
+            "queries": 10,
+            "items": 40
+          },
+          {
+            "entry": "repeat",
+            "milliseconds": 757,
+            "queries": 10,
+            "items": 40
+          }
+        ]
+      },
+      "finding": "Most measured waiting was database query round trips; network versus server execution was not separately instrumented. Existing joined polish states are reused and no extra database query was introduced by PvP application. Timing variation is not claimed as a causal optimization gain."
+    },
+    "combat": {
+      "method": "Actual server battle constructors on Windows Node; same paired seeds and equipment. Baseline disables the newly authorized polish contribution. Warmed eight battles, then 30 paired samples per mode. No live account mutations.",
+      "reports": [
+        {
+          "kind": "PVP",
+          "samples": 30,
+          "beforeAndAfter": [
+            {
+              "polishApplied": false,
+              "medianMs": 2.695,
+              "p95Ms": 4.309,
+              "meanEvents": 20.6
+            },
+            {
+              "polishApplied": true,
+              "medianMs": 2.588,
+              "p95Ms": 5.313,
+              "meanEvents": 20.6
+            }
+          ]
+        },
+        {
+          "kind": "DUO",
+          "samples": 30,
+          "beforeAndAfter": [
+            {
+              "polishApplied": false,
+              "medianMs": 5.674,
+              "p95Ms": 13.078,
+              "meanEvents": 60.4
+            },
+            {
+              "polishApplied": true,
+              "medianMs": 5.537,
+              "p95Ms": 10.729,
+              "meanEvents": 60.4
+            }
+          ]
+        }
+      ]
+    },
+    "coverageLimit": "Chrome headless and Android/iPhone viewport emulation on Windows, plus Node battle simulation. Physical phones and the native Windows launcher were not measured.",
+    "existingWarning": "WebKit emitted the existing shared lobby ResizeObserver warning before and after; no polish-page error was recorded."
+  },
+  "evidence": [
+    "polish-pvp-desktop.png",
+    "polish-pvp-mobile.png",
+    "client-performance.json",
+    "combat-performance.json",
+    "pvp-ui.json",
+    "before-server.json",
+    "after-server.json"
+  ],
+  "privateOperationEvidence": "operations/equipment-polish-buff-20261114/{applied,verified,deployed}.json (account-level records retained locally)"
+}

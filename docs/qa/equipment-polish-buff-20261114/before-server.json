@@ -1,0 +1,244 @@
+{
+  "measuredAt": "2026-11-14T09:00:20.848Z",
+  "phase": "before",
+  "readOnly": true,
+  "method": "Production PostgreSQL, real owner inventory state handler, fixed 40-row first page, one repeatable-read connection, no grants or debit",
+  "connectionMs": 598,
+  "records": [
+    {
+      "entry": "first",
+      "milliseconds": 1068,
+      "items": 40,
+      "queries": [
+        {
+          "milliseconds": 89,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 86,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 119,
+          "kind": "WITH"
+        },
+        {
+          "milliseconds": 108,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 77,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 93,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 151,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 113,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 77,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 98,
+          "kind": "SELECT"
+        }
+      ]
+    },
+    {
+      "entry": "repeat",
+      "milliseconds": 877,
+      "items": 40,
+      "queries": [
+        {
+          "milliseconds": 84,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 80,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 83,
+          "kind": "WITH"
+        },
+        {
+          "milliseconds": 72,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 75,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 74,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 86,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 136,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 99,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 81,
+          "kind": "SELECT"
+        }
+      ]
+    },
+    {
+      "entry": "repeat",
+      "milliseconds": 799,
+      "items": 40,
+      "queries": [
+        {
+          "milliseconds": 85,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 75,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 89,
+          "kind": "WITH"
+        },
+        {
+          "milliseconds": 81,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 80,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 76,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 79,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 80,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 74,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 74,
+          "kind": "SELECT"
+        }
+      ]
+    },
+    {
+      "entry": "repeat",
+      "milliseconds": 916,
+      "items": 40,
+      "queries": [
+        {
+          "milliseconds": 79,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 74,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 82,
+          "kind": "WITH"
+        },
+        {
+          "milliseconds": 77,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 75,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 135,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 129,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 108,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 74,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 80,
+          "kind": "SELECT"
+        }
+      ]
+    },
+    {
+      "entry": "repeat",
+      "milliseconds": 894,
+      "items": 40,
+      "queries": [
+        {
+          "milliseconds": 83,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 73,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 153,
+          "kind": "WITH"
+        },
+        {
+          "milliseconds": 78,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 75,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 84,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 86,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 93,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 82,
+          "kind": "SELECT"
+        },
+        {
+          "milliseconds": 81,
+          "kind": "SELECT"
+        }
+      ]
+    }
+  ]
+}

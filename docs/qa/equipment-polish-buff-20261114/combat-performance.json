@@ -1,0 +1,41 @@
+{
+  "method": "Actual server battle constructors on Windows Node; same paired seeds and equipment. Baseline disables the newly authorized polish contribution. Warmed eight battles, then 30 paired samples per mode. No live account mutations.",
+  "reports": [
+    {
+      "kind": "PVP",
+      "samples": 30,
+      "beforeAndAfter": [
+        {
+          "polishApplied": false,
+          "medianMs": 2.695,
+          "p95Ms": 4.309,
+          "meanEvents": 20.6
+        },
+        {
+          "polishApplied": true,
+          "medianMs": 2.588,
+          "p95Ms": 5.313,
+          "meanEvents": 20.6
+        }
+      ]
+    },
+    {
+      "kind": "DUO",
+      "samples": 30,
+      "beforeAndAfter": [
+        {
+          "polishApplied": false,
+          "medianMs": 5.674,
+          "p95Ms": 13.078,
+          "meanEvents": 60.4
+        },
+        {
+          "polishApplied": true,
+          "medianMs": 5.537,
+          "p95Ms": 10.729,
+          "meanEvents": 60.4
+        }
+      ]
+    }
+  ]
+}
