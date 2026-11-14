@@ -400,20 +400,25 @@
       finally { state.busy = false; root.classList.remove('is-busy'); }
     }
 
+    function menuIcon(name) {
+      const names = {equipment:'attack', title:'title', garage:'vehicle', avatar:'avatar', skillChips:'skill-chip'};
+      return '<i class="ep-icon" data-icon="' + (names[name] || name) + '" aria-hidden="true"></i>';
+    }
+
     function shell() {
       const activeTitle = equippedTitle();
       const avatarEntry = state.data?.avatarFeature?.visible === true && typeof options.onOpenAvatarShop === 'function'
-        ? `<button type="button" class="clv2-avatar-entry" data-open-avatar-shop aria-label="아바타 컬렉션과 상점 열기">${icon('avatar')}<span>아바타</span><em>SHOP</em></button>`
+        ? `<button type="button" class="clv2-avatar-entry" data-open-avatar-shop aria-label="아바타 컬렉션과 상점 열기">${menuIcon('avatar')}<span>아바타</span></button>`
         : '';
       const chipEntry = state.data?.skillChips?.visible === true
-        ? `<button type="button" class="${state.tab === 'skillChips' ? 'is-active' : ''}" data-tab="skillChips" aria-selected="${state.tab === 'skillChips'}">${icon('skillChips')}<span>스킬칩</span></button>` : '';
+        ? `<button type="button" class="${state.tab === 'skillChips' ? 'is-active' : ''}" data-tab="skillChips" aria-selected="${state.tab === 'skillChips'}">${menuIcon('skillChips')}<span>스킬칩</span></button>` : '';
       return `<div class="clv2-shell" data-active-tab="${state.tab}">
         <header class="clv2-command-header">
-          <div class="clv2-brand-block"><span class="clv2-brand-mark">S</span><div><small>REVERSE CALL / GROWTH SYSTEM</small><strong>장비 시스템</strong></div></div>
-          <nav class="clv2-tabs${avatarEntry ? ' has-avatar-entry' : ''}${chipEntry ? ' has-skill-chip-entry' : ''}" aria-label="캐릭터 성장 메뉴">${Object.entries(TAB_LABELS).filter(([tab]) => tab !== 'skillChips').map(([tab, label]) => `<button type="button" class="${state.tab === tab ? 'is-active' : ''}" data-tab="${tab}" aria-selected="${state.tab === tab}">${icon(tab)}<span>${label}</span></button>`).join('')}${avatarEntry}${chipEntry}</nav>
-          <div class="clv2-live-status"><span><i></i> LIVE DATA</span><b>${escapeHtml(profile.nickname || '플레이어')}</b><small>${titleBadge(activeTitle)}</small></div>
+          <div class="clv2-brand-block">${menuIcon('equipment')}<strong>장비 시스템</strong></div>
+          <nav class="clv2-tabs${avatarEntry ? ' has-avatar-entry' : ''}${chipEntry ? ' has-skill-chip-entry' : ''}" aria-label="캐릭터 성장 메뉴">${Object.entries(TAB_LABELS).filter(([tab]) => tab !== 'skillChips').map(([tab, label]) => `<button type="button" class="${state.tab === tab ? 'is-active' : ''}" data-tab="${tab}" aria-selected="${state.tab === tab}">${menuIcon(tab)}<span>${label}</span></button>`).join('')}${avatarEntry}${chipEntry}</nav>
+          <div class="clv2-live-status"><small>${titleBadge(activeTitle)}</small><b>${escapeHtml(profile.nickname || '플레이어')}</b></div>
         </header>
-        ${options.forgePublicEntry === true ? `<a class="clv2-forge-entry" href="/equipment-forge/" aria-label="무기와 방어구 장비 강화 센터 열기">${icon('equipment')}<div><small>UPGRADE LAB</small><b>장비 강화 센터</b><p>무기·방어구·장신구의 다음 강화를 준비하세요.</p></div><span>강화 · 보호 · 복구</span><i>↗</i></a>` : ''}
+        ${options.forgePublicEntry === true ? `<div class="clv2-growth-links"><a class="clv2-growth-link" href="/equipment-forge/">${menuIcon('forge')}<div><b>장비 강화</b><span>강화 · 보호 · 복구</span></div></a><a class="clv2-growth-link" href="/equipment-polish/">${menuIcon('polish-stone')}<div><b>장비 연마</b><span>랜덤 옵션 성장</span></div></a></div>` : ''}
         <main class="clv2-content">${state.tab === 'equipment' ? equipmentView() : state.tab === 'title' ? titleView() : state.tab === 'skillChips' ? skillChipView() : garageView()}</main>
         <div class="clv2-notice" data-loadout-notice role="status" aria-live="polite"></div>
       </div>`;

@@ -33,6 +33,10 @@
   Cache-Control: no-cache, must-revalidate, max-age=0
 /equipment-forge/*
   Cache-Control: no-cache, must-revalidate, max-age=0
+/equipment-polish
+  Cache-Control: no-cache, must-revalidate, max-age=0
+/equipment-polish/*
+  Cache-Control: no-cache, must-revalidate, max-age=0
 /master-star-mine
   Cache-Control: no-cache, must-revalidate, max-age=0
 /master-star-mine/*

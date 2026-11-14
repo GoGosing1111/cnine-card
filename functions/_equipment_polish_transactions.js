@@ -34,9 +34,9 @@ export async function executePolish(env,user,current,body,{unit}={}){
   if(quote.state.attempts!==body.expectedAttempts)throw jointError('POLISH_CONFLICT','장비가 이미 연마됐습니다. 최신 상태를 확인하세요.',409);
   if(unit===undefined){const n=new Uint32Array(1);crypto.getRandomValues(n);unit=n[0]/4294967296;}
   const roll=polishPreviewResult(current.settings,quote.state.levels,unit),values=[...quote.state.values];
-  values[roll.selected]=Math.round((values[roll.selected]+current.settings.options[roll.selected].increment)*100)/100;
-  const next={...quote.state,attempts:quote.state.attempts+1,levels:roll.levels,values},stateRaw=JSON.stringify(next),key=polishStateKey(body.instanceId,user.id),rkey=receiptKey(user.id,body.requestId),db=env.DB;
-  const receipt={requestId:body.requestId,instanceId:body.instanceId,name:quote.name,revision:body.revision,beforeAttempts:quote.state.attempts,selected:roll.selected,before:roll.before,after:roll.after,beforeValues:quote.state.values,levels:roll.levels,values,total:next.attempts,state:next,cost:quote.cost,previewOnly:false,createdAt:new Date().toISOString()};
+  if(roll.success)values[roll.selected]=Math.round((values[roll.selected]+current.settings.options[roll.selected].increment)*100)/100;
+  const next={...quote.state,attempts:roll.total,rolls:(quote.state.rolls??quote.state.attempts)+1,levels:roll.levels,values},stateRaw=JSON.stringify(next),key=polishStateKey(body.instanceId,user.id),rkey=receiptKey(user.id,body.requestId),db=env.DB;
+  const receipt={requestId:body.requestId,instanceId:body.instanceId,name:quote.name,revision:body.revision,beforeAttempts:quote.state.attempts,success:roll.success,selected:roll.selected,before:roll.before,after:roll.after,beforeValues:quote.state.values,levels:roll.levels,values,total:next.attempts,state:next,cost:quote.cost,previewOnly:false,createdAt:new Date().toISOString()};
   const token=crypto.randomUUID(),c=quote.cost;
   const conditions=[`EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?)`,`EXISTS(SELECT 1 FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id WHERE x.id=? AND x.user_id=? AND i.is_active=1 AND i.is_public=1)`,`EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)`,`NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)`,quote.raw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',`EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=?)`];
   const params=[user.id,c.coins,body.instanceId,user.id,POLISH_KEY,current.raw,rkey,key,...(quote.raw===null?[]:[quote.raw]),user.id,POLISH_ITEM_CODE,c.stones];
@@ -50,7 +50,11 @@ export async function executePolish(env,user,current,body,{unit}={}){
     db.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(key,stateRaw),
     db.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(rkey,JSON.stringify(receipt)),jointGuardEnd(db,token)
   ];
-  if(db.dialect==='postgres')statements.unshift(db.prepare('SELECT id FROM users WHERE id=? FOR UPDATE').bind(user.id));
+  if(db.dialect==='postgres')statements.unshift(
+    db.prepare('SELECT id FROM users WHERE id=? FOR UPDATE').bind(user.id),
+    db.prepare('SELECT id FROM user_equipment_instances WHERE id=? AND user_id=? FOR UPDATE').bind(body.instanceId,user.id),
+    db.prepare('SELECT item_code FROM cnine_user_inventory WHERE user_id=? AND item_code IN (?,?) ORDER BY item_code FOR UPDATE').bind(user.id,POLISH_ITEM_CODE,'MASTER_STAR')
+  );
   try{await db.batch(statements);}catch{const prior=await polishReceipt(env,user,body.requestId);if(prior&&same(prior))return prior;throw jointError('POLISH_RETRY','연마를 완료하지 못했습니다. 재료·잔액과 최신 장비 상태를 확인한 뒤 같은 요청으로 다시 확인하세요.',409);}
   return receipt;
 }
