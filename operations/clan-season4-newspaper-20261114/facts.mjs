@@ -1,0 +1,23 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+const root=path.resolve('output/newspapers/clan-season-4-20261114');
+fs.mkdirSync(root,{recursive:true});
+const s=JSON.parse(fs.readFileSync(new URL('snapshot.json',import.meta.url),'utf8'));
+const num=Number, names=Object.fromEntries(s.ranks.map(r=>[r.clan_id,r.name]));
+const ranks=s.ranks.map((r,i)=>({rank:i+1,name:r.name,key:r.mark_key.toLowerCase(),leaguePoints:num(r.score),wins:num(r.wins),losses:num(r.losses),combatPoints:num(r.combat_points),against:num(r.combat_points_against),difference:num(r.combat_point_difference)}));
+const wars=s.wars.map(w=>{const field=JSON.parse(s.fields.find(x=>x.war_id===w.id).state_json),stats=s.attackStats.filter(x=>x.war_id===w.id),a=stats.find(x=>x.clan_id===w.clan_a_id),b=stats.find(x=>x.clan_id===w.clan_b_id);assert.equal(a.receipt_points+field.teams[w.clan_a_id].points,num(w.score_a));assert.equal(b.receipt_points+field.teams[w.clan_b_id].points,num(w.score_b));return {round:num(w.round_no),stage:num(w.round_no)<1000?'regular':num(w.round_no)===1001?'semifinal':'final',a:w.team_a,b:w.team_b,scoreA:num(w.score_a),scoreB:num(w.score_b),attackPointsA:a.receipt_points,attackPointsB:b.receipt_points,fieldPointsA:field.teams[w.clan_a_id].points,fieldPointsB:field.teams[w.clan_b_id].points,attacksA:a.attacks,attacksB:b.attacks,attackWinsA:a.wins,attackWinsB:b.wins,battles:num(w.battle_count),winner:names[w.winner_clan_id],startsAt:w.starts_at,endsAt:w.ends_at}});
+const final=wars.find(w=>w.stage==='final'),semi=wars.find(w=>w.stage==='semifinal');
+const playerClans=Object.fromEntries(s.players.filter(p=>p.stage==='final').map(p=>[p.user_id,p.clan]));
+const start=Date.parse(final.startsAt),end=Date.parse(final.endsAt);
+const fieldEvents=[];
+for(const r of s.finalFieldReceipts){const v=JSON.parse(r.result_json); if(!v.ok||!v.points)continue; assert.equal(v.points,v.contributions.reduce((n,c)=>n+c.points,0));const clans=[...new Set(v.contributions.map(c=>playerClans[c.userId]))];assert.equal(clans.length,1);assert(clans[0]);fieldEvents.push({clan:clans[0],points:v.points,kind:'field',at:num(r.created_ms)})}
+const events=[...s.finalAttacks.map(a=>({clan:a.clan,points:a.points,kind:'attack',at:Date.parse(a.completed_at.replace(' ','T')+'Z')})),...fieldEvents].sort((a,b)=>a.at-b.at);
+for(const [clan,score,field] of [[final.a,final.scoreA,final.fieldPointsA],[final.b,final.scoreB,final.fieldPointsB]]){assert.equal(events.filter(e=>e.clan===clan).reduce((n,e)=>n+e.points,0),score);assert.equal(fieldEvents.filter(e=>e.clan===clan).reduce((n,e)=>n+e.points,0),field)}
+const timeline=Array.from({length:61},(_,minute)=>({minute,...Object.fromEntries([final.a,final.b].map(clan=>[clan,events.filter(e=>e.clan===clan&&e.at<=start+minute*60000).reduce((n,e)=>n+e.points,0)]))}));
+assert.equal(timeline.at(-1)[final.a],final.scoreA);assert.equal(timeline.at(-1)[final.b],final.scoreB);
+const players=s.players.map(({user_id,...p})=>({...p,winRate:Math.round(p.wins/p.engagements*1000)/10}));
+const reward=JSON.parse(fs.readFileSync('docs/qa/clan-rank-rewards-20261112/completion.json','utf8'));
+const facts={edition:'리버스콜 스포츠 · 클랜 시즌 4 결산 특별판',season:4,published:'2026-11-14',snapshotAt:s.at,seasonStartsAt:s.season.starts_at,seasonEndsAt:s.season.ends_at,teams:ranks,wars,regularChampion:'FM',championsWinner:'FM',final,semifinal:semi,players,timeline,history:s.history.map(h=>({season:h.season_no,regularChampion:h.regular_champion,championsWinner:h.champions_winner})),championsRoster:s.roster.filter(r=>r.clan==='FM').map(r=>r.nickname),rosterAtRegularReward:reward.clans,totals:{completedBattles:s.checks.battleCount,regularBattles:wars.filter(w=>w.stage==='regular').reduce((n,w)=>n+w.battles,0),semifinalBattles:semi.battles,finalBattles:final.battles,regularMatches:28,championsMatches:2,excludedFailedBattles:s.status.find(x=>x.status==='FAILED').count},checks:{...s.checks,allThirtyScoresVerified:true,finalTimelineVerified:true,privateIdentifiersRemoved:true},notes:['공식 승점 내림차순, 동률이면 완료 정규 경기 누적점수 내림차순. 승수만으로 순위를 정하지 않음.','개인 공수 합산 승수는 정규시즌과 준결승·결승을 분리. 승률은 개인 승수/개인 교전 수. 방어 승수는 클랜 경기점수에 중복 가산하지 않음.','닉네임은 조회 시점 공개 이름, 클랜은 해당 전투 당시 소속.','결승 흐름은 기록의 완료 시각 합산이며 실제 화면 갱신 시각의 재현이 아님.']};
+fs.writeFileSync(path.join(root,'facts.json'),JSON.stringify(facts,null,2)+'\n');
+console.log(JSON.stringify({timeline10min:timeline.filter(x=>x.minute%10===0),final,semifinal:semi,roster:facts.championsRoster,teams:ranks,topPlayers:players.filter(p=>p.stage==='regular').slice(0,10),clanLeaders:ranks.map(t=>players.find(p=>p.clan===t.name&&p.stage==='regular')),checks:facts.checks},null,2));

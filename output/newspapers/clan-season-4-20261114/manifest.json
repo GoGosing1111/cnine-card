@@ -1,0 +1,403 @@
+{
+  "edition": "리버스콜 스포츠 · 클랜 시즌 4 결산 특별판",
+  "published": "2026-11-14",
+  "snapshotAt": "2026-11-14T07:07:18.276Z",
+  "pageCount": 6,
+  "pagePixels": [
+    1800,
+    3270
+  ],
+  "mainHeadline": "FM, 돌아온 왕관을 다시 겹쳐 쓰다",
+  "regularChampion": "FM",
+  "championsWinner": "FM",
+  "finalScore": "FM 1235 : 한화 1134",
+  "verification": {
+    "data": {
+      "battleCount": 21564,
+      "playerEngagements": 43128,
+      "playerWins": 21564,
+      "receiptsVerified": true,
+      "allWarsCompleted": true,
+      "allThirtyScoresVerified": true,
+      "finalTimelineVerified": true,
+      "privateIdentifiersRemoved": true
+    },
+    "desktopPages": 6,
+    "mobilePages": 6,
+    "physicalDevice": "Windows host, installed Chrome headless",
+    "mobile": "390×844 viewport/touch emulation; no real phone test",
+    "overflowOrMissingImageCount": 0,
+    "browserErrors": [],
+    "pdf": {
+      "pages": 6,
+      "pageSizePoints": [
+        600,
+        1090
+      ],
+      "pagePixels": [
+        1800,
+        3270
+      ],
+      "imageDpi": 216,
+      "format": "High-resolution newspaper facsimile; separate article text included",
+      "bytes": 8161323,
+      "bookmarks": 6
+    },
+    "visualReview": "All six final PDF pages rendered by Poppler and inspected; desktop and mobile page captures inspected."
+  },
+  "performance": {
+    "conditions": {
+      "os": "win32",
+      "browser": "Installed Chrome headless",
+      "entry": "Local index.html opened through file://, the delivered offline entry point",
+      "desktop": "1440×900 physical Windows host / headless browser",
+      "mobile": "390×844 touch viewport emulation; no physical phone measurement",
+      "network": "No server or network dependency; local files",
+      "cpu": "No throttling",
+      "samples": 3,
+      "readyDefinition": "Navigation invocation through document load, local fonts, viewport-visible image decode and two paint frames; controls installed.",
+      "firstLaunchDefinition": "Fresh Chrome launch plus first navigation; OS file cache not forcibly cleared",
+      "baseline": "Same article/layout, original source PNG, full TTF fonts, eager loading of every page image.",
+      "optimized": "WebP cover; WOFF2 font subsets with renamed internal families; hidden images deferred and selected-page images loaded immediately.",
+      "frameScenario": "Five user select changes and stepped scrolling; validation probes included",
+      "interpretation": "Timing samples are local emulation results, not production network or phone measurements."
+    },
+    "summary": [
+      {
+        "device": "desktop",
+        "variant": "baseline",
+        "firstNavigationMedianMs": 321.6,
+        "reentryMedianMs": 85.5,
+        "firstLaunchPlusNavigationMedianMs": 647.5,
+        "initialFileBytes": 5047330,
+        "initialAssetCount": 15
+      },
+      {
+        "device": "desktop",
+        "variant": "optimized",
+        "firstNavigationMedianMs": 340.3,
+        "reentryMedianMs": 105.1,
+        "firstLaunchPlusNavigationMedianMs": 607.9,
+        "initialFileBytes": 666137,
+        "initialAssetCount": 6
+      },
+      {
+        "device": "mobile",
+        "variant": "baseline",
+        "firstNavigationMedianMs": 310.8,
+        "reentryMedianMs": 90.1,
+        "firstLaunchPlusNavigationMedianMs": 585.9,
+        "initialFileBytes": 5047330,
+        "initialAssetCount": 15
+      },
+      {
+        "device": "mobile",
+        "variant": "optimized",
+        "firstNavigationMedianMs": 290.9,
+        "reentryMedianMs": 99.5,
+        "firstLaunchPlusNavigationMedianMs": 590.3,
+        "initialFileBytes": 666137,
+        "initialAssetCount": 6
+      }
+    ],
+    "interactions": [
+      {
+        "device": "desktop",
+        "pageChangesMs": [
+          93,
+          49.7,
+          42.3,
+          53.6,
+          37.5
+        ],
+        "frames": {
+          "frames": 76,
+          "p50": 4.199999999999989,
+          "p95": 20.800000000000068,
+          "max": 37.5,
+          "over33": 1,
+          "over50": 0,
+          "longTasks": []
+        },
+        "applicationScheduledCallbacksOnEntry": {
+          "raf": 0,
+          "interval": 0,
+          "timeout": 0
+        },
+        "afterExit500ms": {
+          "scriptDurationMs": 0,
+          "taskDurationMs": 0.4
+        }
+      },
+      {
+        "device": "mobile",
+        "pageChangesMs": [
+          106.1,
+          46.1,
+          35,
+          41.6,
+          37.5
+        ],
+        "frames": {
+          "frames": 74,
+          "p50": 4.199999999999989,
+          "p95": 20.899999999999977,
+          "max": 99.99999999999997,
+          "over33": 2,
+          "over50": 1,
+          "longTasks": []
+        },
+        "applicationScheduledCallbacksOnEntry": {
+          "raf": 0,
+          "interval": 0,
+          "timeout": 0
+        },
+        "afterExit500ms": {
+          "scriptDurationMs": 0,
+          "taskDurationMs": 0.5
+        }
+      }
+    ],
+    "findings": {
+      "resourceReduction": "Initial requested local file bytes fell from 5,047,330 to 666,137 (86.8%); requests from 15 to 6.",
+      "bottleneck": "The offline reader has no server/network wait. Full Korean font and source illustration loading/decoding, plus browser-scheduled lazy image loading on first page change, were the avoidable costs addressed.",
+      "timingLimit": "Local cold/reentry timings varied. Do not claim a general first-entry speedup: desktop first navigation 321.6→340.3 ms and reentry 85.5→105.1 ms; mobile emulation 310.8→290.9 ms and 90.1→99.5 ms.",
+      "interaction": "Selected-page eager image loading reduced the observed first switch from 174.9/228.9 ms to 93.0/106.1 ms (desktop/mobile emulation in sequential runs). No main-thread long tasks were recorded; mobile had one >50 ms frame during first switching/loading.",
+      "exit": "No application intervals, timeouts or RAF loops scheduled. After navigating away, script duration increase was 0 ms over the sampled 500 ms."
+    }
+  },
+  "art": {
+    "mode": "built-in image_gen",
+    "promptFile": "prompts.json",
+    "sourceSha256": "e110613b2fa3b1cf570a89a634cbc1800526d8e36de9fdfa4071ca952b58e562",
+    "webAsset": "assets/fm-double-crown.webp",
+    "originalPreserved": true
+  },
+  "scope": "Standalone newspaper. No production database writes, reward delivery, game settings or public publishing.",
+  "files": [
+    {
+      "file": ".gitattributes",
+      "bytes": 13,
+      "sha256": "547f59603028195ff9f8a87d04c4651551e8bd0d68f075257dfd549cd846b25b"
+    },
+    {
+      "file": "assets/champions-ruler.webp",
+      "bytes": 96634,
+      "sha256": "ef3771ada1d239477677168a62e355190fec6ad7fa59ae3feefcc74429229897",
+      "pixels": [
+        960,
+        320
+      ]
+    },
+    {
+      "file": "assets/fm-double-crown.webp",
+      "bytes": 554184,
+      "sha256": "2e1e866ab6bb27eec969a798ca6a9e25b830738b43d540f18babe1a1872142d8",
+      "pixels": [
+        1672,
+        941
+      ]
+    },
+    {
+      "file": "assets/fonts/BlackHanSans-OFL.txt",
+      "bytes": 4492,
+      "sha256": "759dcc6916f247fdb01811849b68c878b9d4ab8a5954a3174dc3e08fb4d08a9e"
+    },
+    {
+      "file": "assets/fonts/BlackHanSans-Regular.ttf",
+      "bytes": 998424,
+      "sha256": "31960809284026681774a8e52dc19ebcad26cf69b0ad9d560f288296fbb52739"
+    },
+    {
+      "file": "assets/fonts/IBMPlexMono-Medium.ttf",
+      "bytes": 136704,
+      "sha256": "a9b4c49bb299e05b5f6c481e7fb5e78943d2793249a0c8874ab574a2d1ea6755"
+    },
+    {
+      "file": "assets/fonts/IBMPlexMono-OFL.txt",
+      "bytes": 4456,
+      "sha256": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da"
+    },
+    {
+      "file": "assets/fonts/ReverseCallNewsDisplay.woff2",
+      "bytes": 37168,
+      "sha256": "78eeac1362aab30c06098d72788de8b2e16d3802ccc9567aad11e51b669afa7d"
+    },
+    {
+      "file": "assets/fonts/ReverseCallNewsMono.woff2",
+      "bytes": 7632,
+      "sha256": "0eb357933bab8d12937c15bf5817b4decce864e0c9d6ba13895aa49e3a025095"
+    },
+    {
+      "file": "assets/marks/dc-clan-mark-v1.webp",
+      "bytes": 76986,
+      "sha256": "b812470bd95f24356748f495bd947b52d618538a90c7463e1ab199305de47c73",
+      "pixels": [
+        384,
+        384
+      ]
+    },
+    {
+      "file": "assets/marks/dk-clan-mark-v1.webp",
+      "bytes": 74816,
+      "sha256": "03c3667dc94a525438b656b666526667017c4b311243b9142926f72e01ea4602",
+      "pixels": [
+        384,
+        384
+      ]
+    },
+    {
+      "file": "assets/marks/fm-clan-mark-v1.webp",
+      "bytes": 66728,
+      "sha256": "d66f197756716988670cd49b4b49b3f328aaa08596663d38a6915ce05e5a1049",
+      "pixels": [
+        384,
+        384
+      ]
+    },
+    {
+      "file": "assets/marks/hanwha-clan-mark-v1.webp",
+      "bytes": 83598,
+      "sha256": "4b8770d062b1ebdef19770155dd836d8f694280012be49b34436867dc8eb5a0a",
+      "pixels": [
+        384,
+        384
+      ]
+    },
+    {
+      "file": "assets/marks/lg-clan-mark-v1.webp",
+      "bytes": 90558,
+      "sha256": "af1ff1aa101ef0004b7ac174ccf09f273bf2f0dd986bce689e608ad5f73acd06",
+      "pixels": [
+        384,
+        384
+      ]
+    },
+    {
+      "file": "assets/marks/lotte-clan-mark-v1.webp",
+      "bytes": 67328,
+      "sha256": "4ddae75eda4050330bcbea44407db9356a9dfc1344d9f4b628cf576eede52314",
+      "pixels": [
+        384,
+        384
+      ]
+    },
+    {
+      "file": "assets/marks/samsung-clan-mark-v1.webp",
+      "bytes": 73192,
+      "sha256": "89b95dd0c819ce3377e4a59448ee89687b1151ec09ebe2b42832942d761f7645",
+      "pixels": [
+        384,
+        384
+      ]
+    },
+    {
+      "file": "assets/marks/t1-clan-mark-v1.webp",
+      "bytes": 52862,
+      "sha256": "4d7f00d4069c6be3ece082ef88e9d4da4114971b9e61620eb0d790b2da67601d",
+      "pixels": [
+        384,
+        384
+      ]
+    },
+    {
+      "file": "facts.json",
+      "bytes": 69513,
+      "sha256": "60b09d9a2f9099a3ca93237e81e0ffd48ec5a8b30fd2b0c20123d3b1d0def06c"
+    },
+    {
+      "file": "index.html",
+      "bytes": 38272,
+      "sha256": "bdd1bdbe0bf2c8c8256afa70e937adf0a6824cac52172115a606d3c446cb97ed"
+    },
+    {
+      "file": "news.css",
+      "bytes": 27509,
+      "sha256": "0061d0746a18c885dcc15207f86ff89f2a4461ad4285e2aa228e280dba50284c"
+    },
+    {
+      "file": "news.js",
+      "bytes": 1372,
+      "sha256": "380ea5d668f7b667d54bd018200dea40d507b68c99a441365d60c421e36ebd8d"
+    },
+    {
+      "file": "pages/01-front.png",
+      "bytes": 3102977,
+      "sha256": "14f9ad2072bc104dfc2cbb80d1ceacd9ce8e7f8fb2637f8404d8a5a004a4e5b3",
+      "pixels": [
+        1800,
+        3270
+      ]
+    },
+    {
+      "file": "pages/02-champions.png",
+      "bytes": 473790,
+      "sha256": "28b5544cb456cc14237165e071095c7ba1f16c5417be272067b9f920cb2eb4dc",
+      "pixels": [
+        1800,
+        3270
+      ]
+    },
+    {
+      "file": "pages/03-regular-season.png",
+      "bytes": 460569,
+      "sha256": "23bd79e3c5e4a0a74187a910ba4c15236439f6b147914c4285576386cb2dead4",
+      "pixels": [
+        1800,
+        3270
+      ]
+    },
+    {
+      "file": "pages/04-players.png",
+      "bytes": 913383,
+      "sha256": "a0609462f1698729a2b14e3101c708206faf771b062f6dba47836e8652989afc",
+      "pixels": [
+        1800,
+        3270
+      ]
+    },
+    {
+      "file": "pages/05-club-reviews.png",
+      "bytes": 561975,
+      "sha256": "4d226fce76db3d116bd07582b1792720624ec4447f8c6e3bd17087f88b43cb3d",
+      "pixels": [
+        1800,
+        3270
+      ]
+    },
+    {
+      "file": "pages/06-legacy.png",
+      "bytes": 631500,
+      "sha256": "23f591b775ec386e72482719d941360e1784c1b5dd6b6629014e92045aaaa51e",
+      "pixels": [
+        1800,
+        3270
+      ]
+    },
+    {
+      "file": "prompts.json",
+      "bytes": 1749,
+      "sha256": "7879c8b4e4a5f0277cdada45fe244b457239d7aea9941891cc435555d9b7ae9b"
+    },
+    {
+      "file": "sources.txt",
+      "bytes": 3841,
+      "sha256": "265376628985b6139265c6a5589c2ff5702b256437e313154ffd04a4db010a8e"
+    },
+    {
+      "file": "기사전문.txt",
+      "bytes": 17112,
+      "sha256": "e3ae3543bf3be460121012332d69d69d769c44f93f5d2f3a2345e1bd819c8ae8"
+    },
+    {
+      "file": "리버스콜_클랜_시즌4_뉴스.pdf",
+      "bytes": 8161323,
+      "sha256": "3189f8e36a9460f90f2c1ee7c9c5018e30b856d521fbf2a470c250382249fdb5"
+    },
+    {
+      "file": "읽어주세요.txt",
+      "bytes": 1125,
+      "sha256": "9c5051f48e43cfd972fd0a2d258bda5d85c371cc450cc9cd3bd6a4de946a5f90"
+    }
+  ]
+}
