@@ -27,7 +27,16 @@ export const BONGSOON_ICON_COUPON=Object.freeze({
   Object.freeze({code:'RANK_EXP_POTION_3X_60M',name:'계급 경험치 3배 물약 (60분)',amount:4})
  ])
 });
-const gifts=new Map([NOVEMBER_GIFT_COUPON,LUCKY_SEVEN_COUPON,SUWON_K1_COUPON,BONGSOON_ICON_COUPON].map(gift=>[gift.code,gift]));
+export const CNINE_CHEER_COUPON=Object.freeze({
+ code:'CNINECHEER100',type:'NOVEMBER_GIFT_CNINE_CHEER_20261114',maxUses:100,coin:250_000_000_000_000,
+ label:'씨나인 힘내라',message:'코인 250조, 마스터의 별 1억 개, 펫 정수 100개, 펫 봉인구 10개를 받았습니다.',
+ items:Object.freeze([
+  Object.freeze({code:'MASTER_STAR',name:'마스터의 별',amount:100_000_000}),
+  Object.freeze({code:'PET_ESSENCE',name:'펫 정수',amount:100}),
+  Object.freeze({code:'PET_SEAL_ORB',name:'펫 봉인구',amount:10})
+ ])
+});
+const gifts=new Map([NOVEMBER_GIFT_COUPON,LUCKY_SEVEN_COUPON,SUWON_K1_COUPON,BONGSOON_ICON_COUPON,CNINE_CHEER_COUPON].map(gift=>[gift.code,gift]));
 class GiftCouponError extends Error{constructor(message,status=409){super(message);this.status=status;}}
 const fail=(message,status)=>{throw new GiftCouponError(message,status);};
 const changed=(rows,message)=>{if(rows.length!==1)fail(message);return rows[0];};
@@ -61,14 +70,22 @@ export async function redeemNovemberGiftCoupon({env,user,coupon,body,deps}){
      if(catalog.length!==gift.items.length||catalog.some(item=>Number(item.is_active)!==1))fail('보상 아이템 지급이 중지되어 있습니다. 쿠폰은 사용되지 않았습니다.');
      const balance=changed(await q('UPDATE users SET coin=coin+$1::bigint WHERE id=$2 AND coin BETWEEN 0 AND $3::bigint RETURNING CAST(coin AS TEXT) AS coin',[String(gift.coin),user.id,(9223372036854775807n-BigInt(gift.coin)).toString()]),'코인 보유량을 확인하세요. 쿠폰은 사용되지 않았습니다.');
      changed(await q("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES($1,$2,$3,'COUPON') RETURNING user_id",[user.id,String(gift.coin),String(balance.coin)]),'코인 지급 기록 저장에 실패했습니다.');
-     for(const item of gift.items){
-      const inventory=changed(await q(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at)
-       VALUES($1,$2,$3,$3,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE
-       SET quantity=cnine_user_inventory.quantity+EXCLUDED.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+EXCLUDED.unseen_quantity,updated_at=CURRENT_TIMESTAMP
-       WHERE cnine_user_inventory.quantity BETWEEN 0 AND $4 AND cnine_user_inventory.unseen_quantity BETWEEN 0 AND $4 RETURNING quantity`,
-       [user.id,item.code,item.amount,Number.MAX_SAFE_INTEGER-item.amount]),'보상 보유 수량을 확인하세요. 쿠폰은 사용되지 않았습니다.');
-      changed(await q("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES($1,$2,$3,$4,'COUPON','COUPON',$5) RETURNING user_id",[user.id,item.code,item.amount,inventory.quantity,String(current.id)]),'아이템 지급 기록 저장에 실패했습니다.');
-     }
+     const codes=gift.items.map(item=>item.code),amounts=gift.items.map(item=>item.amount);
+     const inventories=await q(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at)
+      SELECT $1,item.code,item.amount,item.amount,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP
+      FROM UNNEST($2::text[],$3::bigint[]) AS item(code,amount) ORDER BY item.code
+      ON CONFLICT(user_id,item_code) DO UPDATE
+      SET quantity=cnine_user_inventory.quantity+EXCLUDED.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+EXCLUDED.unseen_quantity,updated_at=CURRENT_TIMESTAMP
+      WHERE cnine_user_inventory.quantity BETWEEN 0 AND $4::bigint-EXCLUDED.quantity
+       AND cnine_user_inventory.unseen_quantity BETWEEN 0 AND $4::bigint-EXCLUDED.unseen_quantity
+      RETURNING item_code,CAST(quantity AS TEXT) AS quantity`,[user.id,codes,amounts,String(Number.MAX_SAFE_INTEGER)]);
+     if(inventories.length!==gift.items.length)fail('보상 보유 수량을 확인하세요. 쿠폰은 사용되지 않았습니다.');
+     const balances=new Map(inventories.map(item=>[item.item_code,item.quantity]));
+     const logs=await q(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id)
+      SELECT $1,item.code,item.amount,item.balance,'COUPON','COUPON',$5
+      FROM UNNEST($2::text[],$3::bigint[],$4::bigint[]) AS item(code,amount,balance) RETURNING user_id`,
+      [user.id,codes,amounts,codes.map(code=>balances.get(code)),String(current.id)]);
+     if(logs.length!==gift.items.length)fail('아이템 지급 기록 저장에 실패했습니다.');
      changed(await q('UPDATE coupons SET used_count=used_count+1,updated_at=CURRENT_TIMESTAMP WHERE id=$1 AND is_active=1 AND deleted_at IS NULL AND used_count<max_uses RETURNING id',[current.id]),'쿠폰 사용 한도가 모두 소진되었거나 쿠폰이 중지되었습니다.');
      changed(await q('INSERT INTO coupon_redemptions(coupon_id,user_id,reward_coin,reward_type,reward_amount,operation_key) VALUES($1,$2,$3,$4,1,$5) RETURNING user_id',[current.id,user.id,String(gift.coin),gift.type,operationKey]),'쿠폰 사용 기록 저장에 실패했습니다.');
     }

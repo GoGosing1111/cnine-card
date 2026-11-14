@@ -1,0 +1,17 @@
+Use case: ads-marketing
+Asset type: Korean fantasy game coupon banknote, landscape 3:1, high resolution.
+Create one finished ornate collectible banknote for the user's CNINE card game. Main exact headline is "씨나인 힘내라". Use the attached image ONLY as the CNINE logo reference: preserve its recognizable crowned white leopard head and blue-silver/pale-pink C9 emblem, centered prominently in an engraved oval medallion on the left. This is the required logo, not the SOOP wordmark. Integrate this exact emblem cleanly, without redesigning it. No other characters or portraits.
+Style: refined engraved banknote print on ivory cotton paper, fine guilloche security line patterns, elegant blue-black and blue-silver ink with subtle rose-gold foil. Rectangular wide banknote with all four corners visible, frontal flat view, no tilt, no hands, no surrounding objects. Detailed ornate border, fine print-style texture, balanced premium Korean typography. The note fills almost the entire 3:1 canvas.
+Hierarchy: logo medallion at left; large very readable Korean headline across center upper area; four exact reward lines in an orderly 2-by-2 typographic arrangement across center/right; readable coupon code in a clean bottom-center strip; limit in a clear decorative seal. Keep a large quiet light area behind every text. This is a finished coupon, all text must be legible without collage-like rectangular panels.
+Render the following text EXACTLY and only once each:
+"씨나인 힘내라"
+"코인 250조"
+"마스터의 별 1억 개"
+"펫 정수 100개"
+"펫 봉인구 10개"
+"쿠폰 코드"
+"CNINECHEER100"
+"100장 한정"
+"선착순 100명 · 계정당 1회"
+"게임 전용 쿠폰"
+The headline is dominant. Rewards are large enough to read on a phone when expanded. Coupon code must use plain Latin uppercase, exact spelling C N I N E C H E E R 1 0 0. Avoid real-world currency denominations, real banks, QR codes, signatures, invented words, extra offers, misspellings, decorative fake Korean text. Preserve all reward values exactly.

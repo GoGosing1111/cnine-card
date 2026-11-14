@@ -1,0 +1,31 @@
+{
+  "tool": "built-in ImageGen",
+  "headline": "씨나인 힘내라",
+  "couponCode": "CNINECHEER100",
+  "size": [
+    2172,
+    724
+  ],
+  "logo": {
+    "file": "preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png",
+    "sha256": "834d34ba8e6ca7235b9ee688699e959de53770758483fe6d07d4cb403cf64eba",
+    "role": "Approved CNINE C9 crowned leopard logo reference"
+  },
+  "prompt": "output/announcements/cnine-cheer-coupon-20261114/prompt.txt",
+  "source": "C:/Users/User/.codex/generated_images/01a1d9db-0726-7f50-b9dc-6676d1a92506/exec-80e8281c-7574-4da4-950d-83cffc31526c.png",
+  "assets": {
+    "png": {
+      "file": "output/announcements/cnine-cheer-coupon-20261114/cnine-cheer-banknote.png",
+      "sha256": "2728f8a2a9c1aa8659545830ac32a69d387dec9b336ec5fa91115bb51641a02c",
+      "bytes": 4030811
+    },
+    "jpg": {
+      "file": "output/announcements/cnine-cheer-coupon-20261114/cnine-cheer-banknote.jpg",
+      "sha256": "3887752ac6709d1dc9461419a25ce6054951303afd0a40bce25da8833999835a",
+      "bytes": 1156624
+    }
+  },
+  "visuallyReviewed": true,
+  "review": "Main headline, crowned leopard C9 emblem, all four exact rewards, code and 100-person cap checked. JPEG is a format export of the generated PNG.",
+  "posted": false
+}
