@@ -1,0 +1,265 @@
+{
+  "status": "COMPLETE",
+  "completedAt": "2026-11-14T15:12:34.174Z",
+  "approval": {
+    "status": "USER_APPROVED",
+    "userInstruction": "마지막 사진 승인, 산타걸 나무늘봉순 리소스 교체",
+    "approvedAt": "2026-11-14T14:55:08.377Z",
+    "version": "v8-side-ponytail",
+    "master": {
+      "file": "approved-v8.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2342050,
+      "alpha": false,
+      "sha256": "b7cfe135152e8bb9fe8560c1a283ff7128ac99a8967ddbeb48ab6ec6f140aabb",
+      "sourceFile": "revisions\\bongsoon-photo-v2\\bongsoon-santa-lobby-v8-side-ponytail.png"
+    },
+    "equipment": {
+      "file": "equipment-v8.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 4177318,
+      "alpha": true,
+      "sha256": "4b63b841769bda18da4f3d6ef31dc0c3f07fc6ffe48145c2a74622a97f5cc633",
+      "sourceFile": "revisions\\bongsoon-photo-v2\\bongsoon-santa-equipment-v8-approved-rgb.png"
+    },
+    "alpha": {
+      "approvedSHA256": "b7cfe135152e8bb9fe8560c1a283ff7128ac99a8967ddbeb48ab6ec6f140aabb",
+      "equipmentSHA256": "4b63b841769bda18da4f3d6ef31dc0c3f07fc6ffe48145c2a74622a97f5cc633",
+      "imagegenExtractionSHA256": "984fd64d0a1e7e4a87106fb965cd6723c350587b590c2cafa794d9eaf5a1ac74",
+      "generatedAlphaPreserved": true,
+      "approvedRGBChangedChannels": 0,
+      "transparentPct": 80.99047342936198,
+      "solidPct": 16.480127970377605,
+      "edgePixelsAbove32": 0
+    },
+    "appearance": "승인 얼굴·피부·작은 머리 비율·한쪽 긴 포니테일. 분리된 상하의, 타이트한 미니스커트, 맨다리와 한쪽 가터.",
+    "tool": "built-in image_gen",
+    "prompts": [
+      "prompt-v8-hair.txt",
+      "prompt-extraction.txt"
+    ]
+  },
+  "receipt": {
+    "key": "ops:santa-bongsoon:approved-v8:20261114:resource-replace:v1",
+    "authorization": "마지막 사진 승인, 산타걸 나무늘봉순 리소스 교체",
+    "at": "2026-11-14T15:11:04.101Z",
+    "code": "SANTA_BONGSOON",
+    "serial": "A-38",
+    "approvedVersion": "v8-side-ponytail",
+    "approvedMasterSHA256": "b7cfe135152e8bb9fe8560c1a283ff7128ac99a8967ddbeb48ab6ec6f140aabb",
+    "source": "c1f8e53791a52c125cae9cbc52cd0e720fb9b844",
+    "pages": "777287f3-8d91-4c29-8273-8709c8991f44",
+    "beforeVersion": 1,
+    "version": 2,
+    "images": [
+      {
+        "url": "assets/ui/avatars-v1/santa-20261114/bongsoon-lobby-1024.webp?v=b7cfe135-v8",
+        "bytes": 250106,
+        "sha256": "8965bd52ce75e09a56ccbcb719b91609f3dd53bac129c31f6719076119860c3d",
+        "fetchMs": 668
+      },
+      {
+        "url": "assets/ui/avatars-v1/santa-20261114/bongsoon-lobby-640.webp?v=b7cfe135-v8",
+        "bytes": 110232,
+        "sha256": "041865256fa2cc01d89128dc00f1d4808238b23064ccb1b28f7675991031861f",
+        "fetchMs": 524
+      },
+      {
+        "url": "assets/ui/avatars-v1/santa-20261114/bongsoon-equipment-640.webp?v=b7cfe135-v8",
+        "bytes": 59884,
+        "sha256": "a21c22bb1ea2655fafe99a136e368f39fc7bb75b04ed1567468d6fdd08dcf4f7",
+        "fetchMs": 544
+      }
+    ],
+    "public": false,
+    "sale": false,
+    "effectsUnchanged": true,
+    "audit": 60761
+  },
+  "production": {
+    "pages": {
+      "id": "777287f3-8d91-4c29-8273-8709c8991f44",
+      "commit": "c1f8e53791a52c125cae9cbc52cd0e720fb9b844",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "74863657-c6ea-44d1-8e70-d4615faf5ba2",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "da9e55b1-dba8-4f22-bc60-a2661ee97e9a",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "assets": [
+    {
+      "url": "assets/ui/avatars-v1/santa-20261114/bongsoon-lobby-1024.webp?v=b7cfe135-v8",
+      "bytes": 250106,
+      "sha256": "8965bd52ce75e09a56ccbcb719b91609f3dd53bac129c31f6719076119860c3d",
+      "fetchMs": 668
+    },
+    {
+      "url": "assets/ui/avatars-v1/santa-20261114/bongsoon-lobby-640.webp?v=b7cfe135-v8",
+      "bytes": 110232,
+      "sha256": "041865256fa2cc01d89128dc00f1d4808238b23064ccb1b28f7675991031861f",
+      "fetchMs": 524
+    },
+    {
+      "url": "assets/ui/avatars-v1/santa-20261114/bongsoon-equipment-640.webp?v=b7cfe135-v8",
+      "bytes": 59884,
+      "sha256": "a21c22bb1ea2655fafe99a136e368f39fc7bb75b04ed1567468d6fdd08dcf4f7",
+      "fetchMs": 544
+    }
+  ],
+  "windowsManifest": {
+    "releaseId": "81c41eba9905f86e7cffa017271012c25a29bc655119c3abae0f8fa2ac5bc482",
+    "assets": [
+      {
+        "path": "/assets/ui/avatars-v1/santa-20261114/bongsoon-lobby-640.webp",
+        "sha256": "041865256fa2cc01d89128dc00f1d4808238b23064ccb1b28f7675991031861f",
+        "bytes": 110232,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/avatars-v1/santa-20261114/bongsoon-lobby-1024.webp",
+        "sha256": "8965bd52ce75e09a56ccbcb719b91609f3dd53bac129c31f6719076119860c3d",
+        "bytes": 250106,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/avatars-v1/santa-20261114/bongsoon-equipment-640.webp",
+        "sha256": "a21c22bb1ea2655fafe99a136e368f39fc7bb75b04ed1567468d6fdd08dcf4f7",
+        "bytes": 59884,
+        "essential": false
+      }
+    ]
+  },
+  "otherAvatarAssets": [
+    {
+      "file": "assets/ui/avatars-v1/santa-20261114/hiheeya-equipment-640.webp",
+      "sha256": "2ad2dc4d3a2c556de34679e29c7fc5af00d1ec0a0633dcb146df0d4307dfeeda"
+    },
+    {
+      "file": "assets/ui/avatars-v1/santa-20261114/hiheeya-lobby-1024.webp",
+      "sha256": "c33a13c6002842d40f169c8996e35b73b068408d8d328082fe974986b2e60b69"
+    },
+    {
+      "file": "assets/ui/avatars-v1/santa-20261114/hiheeya-lobby-640.webp",
+      "sha256": "0200c9145670dddeb7dbdf3f8a355292b500c279707a286e793c92abc8e54b6a"
+    },
+    {
+      "file": "assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp",
+      "sha256": "d115beb8b4ab8b109699b70a5d57c4c8412c33205107651dc07bb4f1d53bb75e"
+    },
+    {
+      "file": "assets/ui/avatars-v1/santa-20261114/joeun-lobby-1024.webp",
+      "sha256": "4bdcc47dce6801970c6c96ce1d958a99bcbd30539a6e47e8d2590b32804ab603"
+    },
+    {
+      "file": "assets/ui/avatars-v1/santa-20261114/joeun-lobby-640.webp",
+      "sha256": "083de4ce526f815b94b1bfa9de1fb7e0768d4691068e8850023450aac5ebf2da"
+    },
+    {
+      "file": "assets/ui/avatars-v1/santa-20261114/sudaeng-equipment-640.webp",
+      "sha256": "aad90bef9330f8cc2b6bebc3210fc21c36e08d5ce73a324504d2b2bf7d8ce789"
+    },
+    {
+      "file": "assets/ui/avatars-v1/santa-20261114/sudaeng-lobby-1024.webp",
+      "sha256": "72ade4692c4eb8fefadaccd2b7d3925eb498d1b6398a5e7981c74d9dbc9c3ce0"
+    },
+    {
+      "file": "assets/ui/avatars-v1/santa-20261114/sudaeng-lobby-640.webp",
+      "sha256": "ef8d7288961af3007353a50ad14d2ac12f36434107d6ae3dc15796de3264cd42"
+    }
+  ],
+  "adminResponse": {
+    "serial": "A-38",
+    "code": "SANTA_BONGSOON",
+    "name": "산타걸 나무늘봉순",
+    "callSign": "나무늘봉순",
+    "role": "산타걸",
+    "description": "나무늘봉순의 크리스마스 산타걸 아바타입니다.",
+    "coinGainCap": 175,
+    "rankXpAllowed": true,
+    "lobbyImage": "assets/ui/avatars-v1/santa-20261114/bongsoon-lobby-1024.webp?v=b7cfe135-v8",
+    "lobbyMobileImage": "assets/ui/avatars-v1/santa-20261114/bongsoon-lobby-640.webp?v=b7cfe135-v8",
+    "equipmentImage": "assets/ui/avatars-v1/santa-20261114/bongsoon-equipment-640.webp?v=b7cfe135-v8",
+    "accent": "#c14c51",
+    "acquisitionType": "UNSET",
+    "coinPrice": null,
+    "sourceLabel": "",
+    "sourceDetail": "",
+    "effect": {
+      "type": "DROP_RATE_PERCENT",
+      "value": 50
+    },
+    "effects": [
+      {
+        "type": "DROP_RATE_PERCENT",
+        "value": 50
+      },
+      {
+        "type": "COIN_GAIN_PERCENT",
+        "value": 175
+      },
+      {
+        "type": "RAID_EXTRA_ENTRY",
+        "value": 15
+      },
+      {
+        "type": "BATTLE_POWER_PERCENT",
+        "value": 7.7
+      },
+      {
+        "type": "ACCOUNT_RANK_XP_PERCENT",
+        "value": 30
+      }
+    ],
+    "owned": false,
+    "equipped": false,
+    "expiresAt": null,
+    "active": true,
+    "public": false,
+    "saleEnabled": false,
+    "sortOrder": 380,
+    "version": 2
+  },
+  "publicCatalogContainsBongsoon": false,
+  "otherCatalogAndEffectsPreserved": true,
+  "ownership": [],
+  "loadouts": [],
+  "independentReadOnlyVerification": {
+    "at": "2026-11-14T15:12:06.697Z",
+    "separateConnection": true,
+    "receiptMatches": true,
+    "catalogVersion": 2,
+    "audit": {
+      "id": "60761",
+      "action_type": "SANTA_AVATAR_ART_REPLACE",
+      "target_type": "AVATAR_CATALOG",
+      "target_id": "SANTA_BONGSOON"
+    }
+  },
+  "browserValidation": "browser-validation.json",
+  "browserConditions": "Windows headless Chrome/WebKit; production entry routes and production renderers; synthetic API and equipped account only. Image delivery fixed 25 ms latency + 2 MB/s. Not a physical phone or installed Windows client.",
+  "realDevices": false,
+  "siteReadyAssetTest": {
+    "command": "node --test --test-name-pattern='only site-ready' tests/avatar-santa-options-20261114.test.mjs",
+    "passed": 1,
+    "failed": 0
+  }
+}
