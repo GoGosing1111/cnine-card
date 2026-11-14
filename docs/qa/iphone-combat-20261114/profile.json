@@ -1535,6 +1535,1493 @@
           "bytes": 45056
         }
       ]
+    },
+    {
+      "name": "legion-active-0",
+      "images": [
+        {
+          "url": "/preview/sustained-hunt-v2/assets/backgrounds/overgrown-forge-field-v2.png",
+          "bytes": 6293408
+        },
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+          "bytes": 757760
+        },
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/fill.webp",
+          "bytes": 45056
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/icon.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/preview/sustained-hunt-v2/assets/spawn/atlas-v1.webp",
+          "bytes": 1577536
+        },
+        {
+          "url": "/assets/NEWCARD/24.png",
+          "bytes": 406260
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-02d9dc1e8a8a4209-sd-v1-768.webp",
+          "bytes": 2580480
+        },
+        {
+          "url": "/assets/responsive/cards/01a0b71a56ce8393-384.webp",
+          "bytes": 718848
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-ce16d291605a47f0-sd-v1-768.webp",
+          "bytes": 2497536
+        },
+        {
+          "url": "/assets/responsive/cards/3a320396b375a880-384.webp",
+          "bytes": 870912
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-716f6a71ee5f488e-sd-v1-768.webp",
+          "bytes": 2509824
+        },
+        {
+          "url": "/assets/superstar/3.jpg",
+          "bytes": 3686400
+        },
+        {
+          "url": "/assets/responsive/project-v/superstar/superstar-cn-23eb4b19986d4818-sd-v1-768.webp",
+          "bytes": 2752512
+        },
+        {
+          "url": "/assets/responsive/cards/ce94a92927cc23d3-384.webp",
+          "bytes": 734208
+        },
+        {
+          "url": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-gilded-dragon-horizontal-fire-atlas-v1.png",
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/characters/zenith/zenith-cn-519c181c18df4b8e-sd-v1.png?v=9C436C2EC93500B9",
+          "bytes": 7295028
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jinmu-20261012/idle.png?v=690F2CA540DF6F21",
+          "bytes": 2359296
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jinmu-20261012/source-art.png",
+          "bytes": 6291456
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/dash.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/idle.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/slash.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/cast.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/ultimate.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/hit.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/defeat.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/aura.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/dashfx.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/blade.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/dragon.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/charge.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/eruption.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/impact.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/battle-suit-skill-chip-v1/assets/textures/flash.webp",
+          "bytes": 569800
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/monster-1-v1.webp",
+          "bytes": 1104240
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/monster-2-v1.webp",
+          "bytes": 1431376
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/monster-3-v1.webp",
+          "bytes": 1366528
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/boss-v1.webp",
+          "bytes": 1954400
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/background-v1.webp",
+          "bytes": 6293408
+        }
+      ]
+    },
+    {
+      "name": "legion-stopped-0",
+      "images": [
+        {
+          "url": "/preview/sustained-hunt-v2/assets/backgrounds/overgrown-forge-field-v2.png",
+          "bytes": 6293408
+        },
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+          "bytes": 757760
+        },
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/fill.webp",
+          "bytes": 45056
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/icon.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/preview/sustained-hunt-v2/assets/spawn/atlas-v1.webp",
+          "bytes": 1577536
+        },
+        {
+          "url": "/assets/NEWCARD/24.png",
+          "bytes": 406260
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-02d9dc1e8a8a4209-sd-v1-768.webp",
+          "bytes": 2580480
+        },
+        {
+          "url": "/assets/responsive/cards/01a0b71a56ce8393-384.webp",
+          "bytes": 718848
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-ce16d291605a47f0-sd-v1-768.webp",
+          "bytes": 2497536
+        },
+        {
+          "url": "/assets/responsive/cards/3a320396b375a880-384.webp",
+          "bytes": 870912
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-716f6a71ee5f488e-sd-v1-768.webp",
+          "bytes": 2509824
+        },
+        {
+          "url": "/assets/superstar/3.jpg",
+          "bytes": 3686400
+        },
+        {
+          "url": "/assets/responsive/project-v/superstar/superstar-cn-23eb4b19986d4818-sd-v1-768.webp",
+          "bytes": 2752512
+        },
+        {
+          "url": "/assets/responsive/cards/ce94a92927cc23d3-384.webp",
+          "bytes": 734208
+        },
+        {
+          "url": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-gilded-dragon-horizontal-fire-atlas-v1.png",
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/characters/zenith/zenith-cn-519c181c18df4b8e-sd-v1.png?v=9C436C2EC93500B9",
+          "bytes": 7295028
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jinmu-20261012/idle.png?v=690F2CA540DF6F21",
+          "bytes": 2359296
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jinmu-20261012/source-art.png",
+          "bytes": 6291456
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/dash.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/idle.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/slash.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/cast.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/ultimate.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/hit.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/defeat.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/aura.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/dashfx.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/blade.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/dragon.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/charge.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/eruption.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/impact.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/battle-suit-skill-chip-v1/assets/textures/flash.webp",
+          "bytes": 569800
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/monster-1-v1.webp",
+          "bytes": 1104240
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/monster-2-v1.webp",
+          "bytes": 1431376
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/monster-3-v1.webp",
+          "bytes": 1366528
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/boss-v1.webp",
+          "bytes": 1954400
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/background-v1.webp",
+          "bytes": 6293408
+        },
+        {
+          "url": "/preview/battle-suit-skill-chip-v1/assets/textures/helicopter.webp",
+          "bytes": 380256
+        },
+        {
+          "url": "/preview/battle-suit-skill-chip-v1/assets/textures/explosion-atlas.webp",
+          "bytes": 6291456
+        },
+        {
+          "url": "/preview/battle-suit-skill-chip-v1/assets/textures/rotor.webp",
+          "bytes": 572968
+        },
+        {
+          "url": "/preview/battle-suit-skill-chip-v1/assets/textures/rocket.webp",
+          "bytes": 149940
+        },
+        {
+          "url": "/preview/battle-suit-skill-chip-v1/assets/textures/exhaust.webp",
+          "bytes": 200088
+        }
+      ]
+    },
+    {
+      "name": "legion-active-1",
+      "images": [
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+          "bytes": 757760
+        },
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/fill.webp",
+          "bytes": 45056
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/icon.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/preview/sustained-hunt-v2/assets/backgrounds/overgrown-forge-field-v2.png",
+          "bytes": 6293408
+        },
+        {
+          "url": "/preview/sustained-hunt-v2/assets/spawn/atlas-v1.webp",
+          "bytes": 1577536
+        },
+        {
+          "url": "/assets/NEWCARD/24.png",
+          "bytes": 406260
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-02d9dc1e8a8a4209-sd-v1-768.webp",
+          "bytes": 2580480
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-ce16d291605a47f0-sd-v1-768.webp",
+          "bytes": 2497536
+        },
+        {
+          "url": "/assets/responsive/cards/01a0b71a56ce8393-384.webp",
+          "bytes": 718848
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-716f6a71ee5f488e-sd-v1-768.webp",
+          "bytes": 2509824
+        },
+        {
+          "url": "/assets/responsive/cards/3a320396b375a880-384.webp",
+          "bytes": 870912
+        },
+        {
+          "url": "/assets/responsive/project-v/superstar/superstar-cn-23eb4b19986d4818-sd-v1-768.webp",
+          "bytes": 2752512
+        },
+        {
+          "url": "/assets/superstar/3.jpg",
+          "bytes": 3686400
+        },
+        {
+          "url": "/assets/responsive/cards/ce94a92927cc23d3-384.webp",
+          "bytes": 734208
+        },
+        {
+          "url": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-gilded-dragon-horizontal-fire-atlas-v1.png",
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/characters/zenith/zenith-cn-519c181c18df4b8e-sd-v1.png?v=9C436C2EC93500B9",
+          "bytes": 7295028
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jinmu-20261012/idle.png?v=690F2CA540DF6F21",
+          "bytes": 2359296
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jinmu-20261012/source-art.png",
+          "bytes": 6291456
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/dash.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/idle.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/slash.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/cast.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/ultimate.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/hit.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/defeat.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/aura.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/dashfx.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/blade.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/dragon.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/charge.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/eruption.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/impact.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/battle-suit-skill-chip-v1/assets/textures/flash.webp",
+          "bytes": 569800
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/monster-1-v1.webp",
+          "bytes": 1104240
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/monster-2-v1.webp",
+          "bytes": 1431376
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/monster-3-v1.webp",
+          "bytes": 1366528
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/boss-v1.webp",
+          "bytes": 1954400
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/background-v1.webp",
+          "bytes": 6293408
+        }
+      ]
+    },
+    {
+      "name": "legion-stopped-1",
+      "images": [
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+          "bytes": 757760
+        },
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/fill.webp",
+          "bytes": 45056
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/icon.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/preview/sustained-hunt-v2/assets/backgrounds/overgrown-forge-field-v2.png",
+          "bytes": 6293408
+        },
+        {
+          "url": "/preview/sustained-hunt-v2/assets/spawn/atlas-v1.webp",
+          "bytes": 1577536
+        },
+        {
+          "url": "/assets/NEWCARD/24.png",
+          "bytes": 406260
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-02d9dc1e8a8a4209-sd-v1-768.webp",
+          "bytes": 2580480
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-ce16d291605a47f0-sd-v1-768.webp",
+          "bytes": 2497536
+        },
+        {
+          "url": "/assets/responsive/cards/01a0b71a56ce8393-384.webp",
+          "bytes": 718848
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-716f6a71ee5f488e-sd-v1-768.webp",
+          "bytes": 2509824
+        },
+        {
+          "url": "/assets/responsive/cards/3a320396b375a880-384.webp",
+          "bytes": 870912
+        },
+        {
+          "url": "/assets/responsive/project-v/superstar/superstar-cn-23eb4b19986d4818-sd-v1-768.webp",
+          "bytes": 2752512
+        },
+        {
+          "url": "/assets/superstar/3.jpg",
+          "bytes": 3686400
+        },
+        {
+          "url": "/assets/responsive/cards/ce94a92927cc23d3-384.webp",
+          "bytes": 734208
+        },
+        {
+          "url": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-gilded-dragon-horizontal-fire-atlas-v1.png",
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/characters/zenith/zenith-cn-519c181c18df4b8e-sd-v1.png?v=9C436C2EC93500B9",
+          "bytes": 7295028
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jinmu-20261012/idle.png?v=690F2CA540DF6F21",
+          "bytes": 2359296
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jinmu-20261012/source-art.png",
+          "bytes": 6291456
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/dash.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/idle.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/slash.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/cast.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/ultimate.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/hit.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/defeat.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/aura.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/dashfx.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/blade.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/dragon.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/charge.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/eruption.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/impact.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/battle-suit-skill-chip-v1/assets/textures/flash.webp",
+          "bytes": 569800
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/monster-1-v1.webp",
+          "bytes": 1104240
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/monster-2-v1.webp",
+          "bytes": 1431376
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/monster-3-v1.webp",
+          "bytes": 1366528
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/boss-v1.webp",
+          "bytes": 1954400
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/background-v1.webp",
+          "bytes": 6293408
+        },
+        {
+          "url": "/preview/battle-suit-skill-chip-v1/assets/textures/helicopter.webp",
+          "bytes": 380256
+        },
+        {
+          "url": "/preview/battle-suit-skill-chip-v1/assets/textures/rotor.webp",
+          "bytes": 572968
+        },
+        {
+          "url": "/preview/battle-suit-skill-chip-v1/assets/textures/rocket.webp",
+          "bytes": 149940
+        },
+        {
+          "url": "/preview/battle-suit-skill-chip-v1/assets/textures/explosion-atlas.webp",
+          "bytes": 6291456
+        },
+        {
+          "url": "/preview/battle-suit-skill-chip-v1/assets/textures/exhaust.webp",
+          "bytes": 200088
+        },
+        {
+          "url": "/preview/battle-suit-skill-chip-v1/assets/textures/smoke.webp",
+          "bytes": 588280
+        },
+        {
+          "url": "/preview/battle-suit-skill-chip-v1/assets/textures/dust.webp",
+          "bytes": 447180
+        },
+        {
+          "url": "/preview/battle-suit-skill-chip-v1/assets/textures/cinder.webp",
+          "bytes": 137376
+        },
+        {
+          "url": "heal_00",
+          "bytes": 11182080
+        },
+        {
+          "url": "/assets/ui/project-v/fx/ballistic-impact-v1/muzzle-flash-atlas-v1.png?v=1970-ballistic-impact-v1",
+          "bytes": 2097152
+        },
+        {
+          "url": "/assets/ui/project-v/fx/ballistic-impact-v1/tracer-atlas-v1.png?v=1970-ballistic-impact-v1",
+          "bytes": 1572864
+        },
+        {
+          "url": "/assets/ui/project-v/fx/ballistic-impact-v1/monster-impact-atlas-v1.png?v=1970-ballistic-impact-v1",
+          "bytes": 2097152
+        }
+      ]
+    },
+    {
+      "name": "legion-active-2",
+      "images": [
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+          "bytes": 757760
+        },
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/fill.webp",
+          "bytes": 45056
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/icon.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp",
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/fx/ballistic-impact-v1/muzzle-flash-atlas-v1.png?v=1970-ballistic-impact-v1",
+          "bytes": 2097152
+        },
+        {
+          "url": "/assets/ui/project-v/fx/ballistic-impact-v1/tracer-atlas-v1.png?v=1970-ballistic-impact-v1",
+          "bytes": 1572864
+        },
+        {
+          "url": "/assets/ui/project-v/fx/ballistic-impact-v1/monster-impact-atlas-v1.png?v=1970-ballistic-impact-v1",
+          "bytes": 2097152
+        },
+        {
+          "url": "/preview/sustained-hunt-v2/assets/backgrounds/overgrown-forge-field-v2.png",
+          "bytes": 6293408
+        },
+        {
+          "url": "/preview/sustained-hunt-v2/assets/spawn/atlas-v1.webp",
+          "bytes": 1577536
+        },
+        {
+          "url": "/assets/NEWCARD/24.png",
+          "bytes": 406260
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-02d9dc1e8a8a4209-sd-v1-768.webp",
+          "bytes": 2580480
+        },
+        {
+          "url": "/assets/responsive/cards/01a0b71a56ce8393-384.webp",
+          "bytes": 718848
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-ce16d291605a47f0-sd-v1-768.webp",
+          "bytes": 2497536
+        },
+        {
+          "url": "/assets/responsive/cards/3a320396b375a880-384.webp",
+          "bytes": 870912
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-716f6a71ee5f488e-sd-v1-768.webp",
+          "bytes": 2509824
+        },
+        {
+          "url": "/assets/responsive/project-v/superstar/superstar-cn-23eb4b19986d4818-sd-v1-768.webp",
+          "bytes": 2752512
+        },
+        {
+          "url": "/assets/superstar/3.jpg",
+          "bytes": 3686400
+        },
+        {
+          "url": "/assets/responsive/cards/ce94a92927cc23d3-384.webp",
+          "bytes": 734208
+        },
+        {
+          "url": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-gilded-dragon-horizontal-fire-atlas-v1.png",
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/characters/zenith/zenith-cn-519c181c18df4b8e-sd-v1.png?v=9C436C2EC93500B9",
+          "bytes": 7295028
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jinmu-20261012/idle.png?v=690F2CA540DF6F21",
+          "bytes": 2359296
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jinmu-20261012/source-art.png",
+          "bytes": 6291456
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/idle.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/dash.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/slash.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/cast.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/ultimate.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/hit.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/defeat.png",
+          "bytes": 3538944
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/aura.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/dashfx.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/blade.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/dragon.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/charge.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/impact.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/mercenary-golden-dragon-battle-v1/assets/atlases/eruption.png",
+          "bytes": 3145728
+        },
+        {
+          "url": "/preview/battle-suit-skill-chip-v1/assets/textures/flash.webp",
+          "bytes": 569800
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/monster-1-v1.webp",
+          "bytes": 1104240
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/monster-2-v1.webp",
+          "bytes": 1431376
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/monster-3-v1.webp",
+          "bytes": 1366528
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/boss-v1.webp",
+          "bytes": 1954400
+        },
+        {
+          "url": "/assets/ui/legion-regions-v1/coast/background-v1.webp",
+          "bytes": 6293408
+        }
+      ]
+    },
+    {
+      "name": "legion-closed",
+      "images": []
+    },
+    {
+      "name": "coop-active",
+      "images": [
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/fill.webp",
+          "w": 512,
+          "h": 22,
+          "bytes": 45056
+        },
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+          "w": 1024,
+          "h": 185,
+          "bytes": 757760
+        },
+        {
+          "url": "/assets/ui/cooperative-arke-v1/forge-arena-v1.png",
+          "w": 1536,
+          "h": 1024,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/optimized/20261015-v1/2cd6d3dc86c8fdcfe070a767.webp",
+          "w": 1217,
+          "h": 1292,
+          "bytes": 6289456
+        },
+        {
+          "url": "/assets/optimized/20261015-v1/629564d768a4bcefcd0be746.webp",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/source-art.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/idle.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/icon.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/optimized/20261015-v1/8855d70472c08a154a956d32.webp",
+          "w": 1254,
+          "h": 1254,
+          "bytes": 6290064
+        },
+        {
+          "url": "/assets/optimized/20261015-v1/42853bdcb6c1843832c7050f.webp",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/awakened-omega-20261024/idle.png",
+          "w": 768,
+          "h": 768,
+          "bytes": 2359296
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/awakened-omega-20261024/source-art.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/optimized/20261015-v1/6f7e1361b343af9f8d6a64a7.webp",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/eunseol-20261023/idle.png",
+          "w": 768,
+          "h": 768,
+          "bytes": 2359296
+        },
+        {
+          "url": "/assets/optimized/20261015-v1/e71f2341e03911f9633a958e.webp",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/eunseol-20261023/source-art.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/responsive/project-v/superstar/superstar-cn-651fac27247a4922-sd-v1-768.webp",
+          "w": 768,
+          "h": 896,
+          "bytes": 2752512
+        },
+        {
+          "url": "/assets/superstar/2.jpg",
+          "w": 675,
+          "h": 1200,
+          "bytes": 3240000
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-346f8db0deb84d41-sd-v1-768.webp",
+          "w": 768,
+          "h": 768,
+          "bytes": 2359296
+        },
+        {
+          "url": "/assets/cards/new-card-20260919-01.png",
+          "w": 719,
+          "h": 1280,
+          "bytes": 3681280
+        },
+        {
+          "url": "/assets/cards/special/chulgu-fur.webp",
+          "w": 411,
+          "h": 486,
+          "bytes": 798984
+        },
+        {
+          "url": "/assets/responsive/cards/5b5ef6861a32ece3-384.webp",
+          "w": 384,
+          "h": 439,
+          "bytes": 674304
+        },
+        {
+          "url": "/assets/cards/6496413.jpg",
+          "w": 736,
+          "h": 1308,
+          "bytes": 3850752
+        },
+        {
+          "url": "/assets/responsive/project-v/superstar/superstar-cn-a041807b14b54c89-sd-v1-768.webp",
+          "w": 768,
+          "h": 896,
+          "bytes": 2752512
+        },
+        {
+          "url": "/assets/responsive/cards/1e51069578a6ac52-384.webp",
+          "w": 384,
+          "h": 662,
+          "bytes": 1016832
+        },
+        {
+          "url": "/assets/ui/cooperative-arke-v1/ember-watcher-v1.png",
+          "w": 1254,
+          "h": 1254,
+          "bytes": 6290064
+        },
+        {
+          "url": "/assets/ui/cooperative-arke-v1/forge-stalker-v1.png",
+          "w": 1254,
+          "h": 1254,
+          "bytes": 6290064
+        },
+        {
+          "url": "/assets/ui/cooperative-roster-v3/ironhound-768.webp",
+          "w": 768,
+          "h": 768,
+          "bytes": 2359296
+        },
+        {
+          "url": "/assets/ui/cooperative-roster-v3/tempest-768.webp",
+          "w": 768,
+          "h": 768,
+          "bytes": 2359296
+        },
+        {
+          "url": "/assets/ui/cooperative-roster-v3/vespera-768.webp",
+          "w": 768,
+          "h": 768,
+          "bytes": 2359296
+        },
+        {
+          "url": "/preview/mercenary-black-moon-swordsman-ss-v1/assets/descending-motion-v2.png",
+          "w": 1254,
+          "h": 1254,
+          "bytes": 6290064
+        },
+        {
+          "url": "/assets/ui/cooperative-arke-v1/core-rupture-atlas-v1.png",
+          "w": 1774,
+          "h": 887,
+          "bytes": 6294152
+        },
+        {
+          "url": "/preview/mercenary-black-moon-swordsman-ss-v1/assets/rising-motion-v2.png",
+          "w": 1254,
+          "h": 1254,
+          "bytes": 6290064
+        },
+        {
+          "url": "/preview/mercenary-black-moon-swordsman-ss-v1/assets/finisher-motion-v2.png",
+          "w": 1254,
+          "h": 1254,
+          "bytes": 6290064
+        },
+        {
+          "url": "/preview/mercenary-black-moon-swordsman-ss-v1/assets/triple-sever-fx-v2.png",
+          "w": 1254,
+          "h": 1254,
+          "bytes": 6290064
+        },
+        {
+          "url": "/preview/battle-suit-skill-chip-v1/assets/textures/flash.webp",
+          "w": 385,
+          "h": 370,
+          "bytes": 569800
+        },
+        {
+          "url": "/assets/ui/project-v/characters/zenith/zenith-cn-21b307e7279a4f3d-sd-v1.png?v=0B27EF5AA38423D1",
+          "w": 675,
+          "h": 675,
+          "bytes": 1822500
+        },
+        {
+          "url": "/assets/ui/project-v/characters/zenith/zenith-cn-2da48f7e57304017-sd-v1.png?v=250A115385BA85EF",
+          "w": 1254,
+          "h": 1254,
+          "bytes": 6290064
+        },
+        {
+          "url": "/assets/ui/project-v/characters/zenith/zenith-cn-5330101efdda4222-sd-v1.png?v=E818E6936875D603",
+          "w": 1254,
+          "h": 1254,
+          "bytes": 6290064
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/deal.png",
+          "w": 1248,
+          "h": 832,
+          "bytes": 4153344
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/rip.png",
+          "w": 1248,
+          "h": 832,
+          "bytes": 4153344
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/storm.png",
+          "w": 1248,
+          "h": 832,
+          "bytes": 4153344
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/crown.png",
+          "w": 1248,
+          "h": 832,
+          "bytes": 4153344
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/utility.png",
+          "w": 832,
+          "h": 832,
+          "bytes": 2768896
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/fx-deal.png",
+          "w": 896,
+          "h": 672,
+          "bytes": 2408448
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/fx-rip.png",
+          "w": 896,
+          "h": 672,
+          "bytes": 2408448
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/fx-storm.png",
+          "w": 896,
+          "h": 672,
+          "bytes": 2408448
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/fx-crown.png",
+          "w": 896,
+          "h": 672,
+          "bytes": 2408448
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/fx-aura.png",
+          "w": 672,
+          "h": 896,
+          "bytes": 2408448
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/eunseol-20261023/assets/atlases/idle.png?v=3C8AE874051B",
+          "w": 1152,
+          "h": 768,
+          "bytes": 3538944
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/eunseol-20261023/assets/atlases/dash.png?v=472242145F03",
+          "w": 1152,
+          "h": 768,
+          "bytes": 3538944
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/eunseol-20261023/assets/atlases/slash.png?v=7056C8DF4709",
+          "w": 1152,
+          "h": 768,
+          "bytes": 3538944
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/eunseol-20261023/assets/atlases/cast.png?v=10BE268627AC",
+          "w": 1152,
+          "h": 768,
+          "bytes": 3538944
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/eunseol-20261023/assets/atlases/ultimate.png?v=1269279E6840",
+          "w": 1152,
+          "h": 768,
+          "bytes": 3538944
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/eunseol-20261023/assets/atlases/hit.png?v=9A7C2CF3B902",
+          "w": 1152,
+          "h": 768,
+          "bytes": 3538944
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/eunseol-20261023/assets/atlases/defeat.png?v=40DBF9FEABD8",
+          "w": 1152,
+          "h": 768,
+          "bytes": 3538944
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/eunseol-20261023/assets/atlases/fx-aura.png?v=4BAC12066ABD",
+          "w": 1536,
+          "h": 1024,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/eunseol-20261023/assets/atlases/fx-slash.png?v=64A83CC34CF7",
+          "w": 1536,
+          "h": 1024,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/eunseol-20261023/assets/atlases/fx-tiger.png?v=D6FAB104311E",
+          "w": 1536,
+          "h": 1024,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/eunseol-20261023/assets/atlases/fx-impact.png?v=FE57DABA7049",
+          "w": 1536,
+          "h": 1024,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/awakened-omega-20261024/motion/idle.png?v=837a946e5fe1",
+          "w": 1152,
+          "h": 384,
+          "bytes": 1769472
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/awakened-omega-20261024/motion/cleave.png?v=f7cdda5a184d",
+          "w": 1152,
+          "h": 768,
+          "bytes": 3538944
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/awakened-omega-20261024/motion/sever.png?v=959f3192c078",
+          "w": 1152,
+          "h": 768,
+          "bytes": 3538944
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/awakened-omega-20261024/motion/orbit.png?v=57ed5d58ed0b",
+          "w": 1152,
+          "h": 768,
+          "bytes": 3538944
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/awakened-omega-20261024/motion/rupture.png?v=1d014b31c879",
+          "w": 1152,
+          "h": 768,
+          "bytes": 3538944
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/cleave.png?v=3239ebad9ae3",
+          "w": 1024,
+          "h": 512,
+          "bytes": 2097152
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/sever.png?v=47781fd30c36",
+          "w": 1024,
+          "h": 512,
+          "bytes": 2097152
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/orbit.png?v=3794387bf3f3",
+          "w": 1024,
+          "h": 512,
+          "bytes": 2097152
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/rupture.png?v=3917d7021cd3",
+          "w": 1024,
+          "h": 512,
+          "bytes": 2097152
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/charge.png?v=e9f72a700053",
+          "w": 1024,
+          "h": 512,
+          "bytes": 2097152
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/awakened-omega-20261024/effects/impact.png?v=732b9562dad2",
+          "w": 1024,
+          "h": 512,
+          "bytes": 2097152
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/cards.png",
+          "w": 1024,
+          "h": 512,
+          "bytes": 2097152
+        },
+        {
+          "url": "/assets/ui/project-v/fx/role-impact-v2/heal-impact-atlas-v2.json?v=3-v3-live-atlas",
+          "w": 2048,
+          "h": 1365,
+          "bytes": 11182080
+        },
+        {
+          "url": "/assets/ui/project-v/fx/role-impact-v2/speed-impact-atlas-v2.json?v=3-v3-live-atlas",
+          "w": 2048,
+          "h": 1365,
+          "bytes": 11182080
+        },
+        {
+          "url": "/assets/ui/project-v/fx/role-impact-v2/attack-impact-atlas-v2.json?v=3-v3-live-atlas",
+          "w": 2048,
+          "h": 1365,
+          "bytes": 11182080
+        },
+        {
+          "url": "/preview/mercenary-role-attacks-v2100/assets/support/atlas.json",
+          "w": 1256,
+          "h": 1256,
+          "bytes": 6310144
+        }
+      ]
+    },
+    {
+      "name": "coop-closed",
+      "images": [
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/fill.webp",
+          "w": 512,
+          "h": 22,
+          "bytes": 45056
+        },
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+          "w": 1024,
+          "h": 185,
+          "bytes": 757760
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/icon.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/cooperative-arke-v1/core-rupture-atlas-v1.png",
+          "w": 1774,
+          "h": 887,
+          "bytes": 6294152
+        }
+      ]
     }
   ]
 }

@@ -1,4 +1,5 @@
 import {BattleEngine} from './battle/BattleEngine.js';
+import {releaseCooperativeArke} from './battle/CooperativeArkePlayback.js';
 import {prepareSealDragon} from './battle/SealDragonPlayback.js';
 import {createEffectScene} from './battle/EffectScene.js';
 import {BattleEngine as ExpeditionBattleEngine} from '../../../pve-v3/BattleEngine.js';
@@ -93,8 +94,10 @@ function releaseBattle({onlyIfIdle=false}={}){
     await Promise.allSettled([hidden,...pendingOperations]);
     const work=battleWarmupWork(previous);
     previous?.destroy();
+      // Destructors can start asynchronous atlas releases of their own.
+      work.push(...battleWarmupWork(previous));
     await battleAssetMemory.release(work);
-    await Promise.all([SkillEffectFX.release(),releaseMercenaryRoleAssets()]);
+      await Promise.all([SkillEffectFX.release(),releaseMercenaryRoleAssets(),releaseCooperativeArke()]);
     releaseIdleBattleBuffers();
     return true;
   })().finally(()=>{releasePromise=null;});

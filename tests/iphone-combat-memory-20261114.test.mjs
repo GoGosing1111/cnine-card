@@ -73,3 +73,14 @@ test('an advancement texture requested during unload waits for retirement and re
  const release=f.context.trim(true),next=f.context.acquire('/fx/','vanguard',spec);await tick();assert.equal(f.loads.length,1);
  f.unloadGate.resolve();await release;const fresh=await next;assert.notEqual(fresh.atlas,first.atlas);assert.equal(fresh.refs,1);assert.equal(f.cache.size,1);await f.context.release([fresh]);await f.context.trim(true);
 });
+test('co-op boss frames finish decoding and unload on exit before a fresh room reuses them',async()=>{
+ const gate=deferred(),loads=[],unloads=[];
+ const source=await fs.readFile(new URL('../preview/project-v-v3/source/battle/CooperativeArkePlayback.js',import.meta.url),'utf8');
+ const context={Assets:{async load(url){loads.push(url);await gate.promise;return {width:80,height:40,source:{id:loads.length}};},async unload(url){unloads.push(url);}},Texture:class{constructor(options){Object.assign(this,options);}destroy(){this.destroyed=true;}},Rectangle:class{}};
+ vm.createContext(context);vm.runInContext(source.replace(/^import .*;\r?$/gm,'').replace(/^export /gm,'')+'\nthis.preload=preloadCooperativeArke;this.release=releaseCooperativeArke;',context);
+ const encounter={schemaVersion:3,instances:[{attackStyle:'RANGED'}]},first=context.preload(encounter),close=context.release(),next=context.preload(encounter);
+ await tick();assert.equal(loads.length,1);assert.equal(unloads.length,0);
+ gate.resolve();const old=await first;await close;const fresh=await next;
+ assert(old[0].every(texture=>texture.destroyed));assert.equal(loads.length,2);assert.equal(unloads.length,1);assert.notEqual(old[0][0].source,fresh[0][0].source);
+ await context.release();assert.equal(unloads.length,2);
+});

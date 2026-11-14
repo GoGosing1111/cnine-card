@@ -20,12 +20,12 @@ for(const file of files.filter(p=>/\.atlas$/.test(p)&&/\/(?:jin-jokro-20261106|h
  for(const page of content.split(/\r?\n/).filter(line=>/\.(?:png|webp)$/.test(line.trim())))inputs.set(path.posix.join(path.posix.dirname(file),page.trim()),'spine');
 }
 for(const file of ['assets/ui/coin-prediction/arena-v1.png','assets/ui/project-v/battlefields/v3-nightmare-forest-battlefield-v1.png','assets/ui/project-v/battlefields/v3-world-raid-obsidian-citadel-v1.png','assets/ui/project-v/battlefields/v3-siege-fortress-courtyard-v1.png','assets/ui/cooperative-arke-v1/forge-arena-v1.png'])inputs.set(file,'background');
-// Authored motion/FX pages observed in the real ranked and duo profiles.
+// Authored motion/FX pages observed in ranked, duo, Legion and co-op profiles.
 {
  const report=JSON.parse(await fs.readFile(process.env.BATTLE_IMAGE_PROFILE||path.join(root,'docs/qa/iphone-combat-20261114/profile.json'),'utf8'));
  for(const row of report.rows||[])for(const image of row.images||[]){
   const file=new URL(image.url,'https://local.invalid').pathname.slice(1);
-  if(!image.url.includes('#')&&/\.(?:png|webp|jpe?g)$/.test(file)&&image.bytes>4*1048576&&/^(?:preview\/mercenary-|preview\/prime-requiem-|assets\/ui\/project-v\/)/.test(file))if(!inputs.has(file))inputs.set(file,'motion');
+  if(!image.url.includes('#')&&/\.(?:png|webp|jpe?g)$/.test(file)&&image.bytes>3*1048576&&/^(?:assets\/|preview\/(?:mercenary-|prime-requiem-|sustained-hunt-|battle-suit-))/.test(file))if(!inputs.has(file))inputs.set(file,'motion');
  }
 }
 const directory='assets/optimized/iphone-battle-20261114',rows=[],map={};

@@ -4,7 +4,9 @@ import {projectilePixelScale,projectileTrailGeometry,drawProjectileTrail} from '
 const BASE='/assets/ui/cooperative-arke-v1/';
 const atlases={slam:'arke-slam-atlas-v1.png',rupture:'core-rupture-atlas-v1.png',focus:'focus-beam-atlas-v1.png'};
 const resources=new Map();
+let retirement=null;
 function arkeFrames(kind){
+ if(retirement)return retirement.then(()=>arkeFrames(kind));
  if(!resources.has(kind)){
   const frames=Assets.load(BASE+atlases[kind]).then(texture=>{
    const w=texture.width/4,h=texture.height/2;
@@ -13,6 +15,16 @@ function arkeFrames(kind){
   resources.set(kind,frames);
  }
  return resources.get(kind);
+}
+export function releaseCooperativeArke(){
+ if(retirement)return retirement;
+ const entries=[...resources];resources.clear();
+ retirement=(async()=>{
+  const results=await Promise.allSettled(entries.map(([,work])=>work));
+  for(const result of results)if(result.status==='fulfilled')for(const texture of result.value)texture.destroy(false);
+  await Promise.allSettled(entries.map(([kind])=>Assets.unload(BASE+atlases[kind])));
+ })().finally(()=>{retirement=null;});
+ return retirement;
 }
 export function preloadCooperativeArke(encounter){
  if(encounter?.schemaVersion!==3)return Promise.all(Object.keys(atlases).map(arkeFrames));
