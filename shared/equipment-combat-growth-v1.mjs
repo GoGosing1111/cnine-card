@@ -1,7 +1,13 @@
 const bounded=(value,max)=>Math.max(0,Math.min(max,Number(value)||0));
-export function normalizedEquipmentEffects(raw={}){
+export const POLISH_EFFECT_KEYS=['attackPercent','criticalChancePoints','criticalDamagePoints','bossDamagePercent','penetrationPoints'];
+const polishValue=value=>Number.isFinite(Number(value))?Math.max(0,Number(value)):0;
+export function normalizedEquipmentEffects(raw={},polish={}){
   const limits={hpPercent:30,attackPercent:30,speedPercent:15,shieldPercent:25,damageReductionPercent:15,criticalChancePoints:15,criticalDamagePoints:50,penetrationPoints:20,bossDamagePercent:40,shieldDamagePercent:30,leechPercent:5,criticalExtraPercent:15,echoEvery:12,echoPercent:40,uniqueEchoEvery:12,uniqueEchoPercent:40};
-  return Object.fromEntries(Object.entries(limits).map(([key,max])=>[key,bounded(raw[key],max)]));
+  return Object.fromEntries(Object.entries(limits).map(([key,max])=>{
+    // Earned polish is included in raw. Cap ordinary set bonuses separately.
+    const growth=POLISH_EFFECT_KEYS.includes(key)?Math.min(polishValue(raw[key]),polishValue(polish?.[key])):0;
+    return [key,bounded((Number(raw[key])||0)-growth,max)+growth];
+  }));
 }
 export function addIndividualEquipmentEffects(standard,individual){
   if(!individual)return standard;
@@ -16,13 +22,19 @@ function applyEquipmentGrowth(fighters,runtime,allowMercenaryPvp=false,individua
     const old=fighter.equipmentStandardEffects||fighter.equipmentEffects||{},combined={...runtime.effects};
     for(const [key,value] of Object.entries(old))combined[key]=key==='echoEvery'||key==='uniqueEchoEvery'?Math.min(value||Infinity,combined[key]||Infinity):value+(Number(combined[key])||0);
     for(const key of ['echoEvery','uniqueEchoEvery'])if(combined[key]===Infinity)combined[key]=0;
-    const standard=normalizedEquipmentEffects(combined);
+    const polish={};
+    if(fighter.battleMode!=='PVP')for(const key of POLISH_EFFECT_KEYS){
+      const value=polishValue(fighter.equipmentPolishEffects?.[key])+polishValue(runtime.polishEffects?.[key]);
+      if(value)polish[key]=Math.min(value,polishValue(combined[key]));
+    }
+    const standard=normalizedEquipmentEffects(combined,polish);
+    if(Object.keys(polish).length)fighter.equipmentPolishEffects=polish;
     if(individual&&fighter.isMercenary)fighter.equipmentIndividualEffects=individual;
     const personal=fighter.isMercenary&&fighter.equipmentIndividualEffects;
     if(personal)fighter.equipmentStandardEffects=standard;
     const effects=addIndividualEquipmentEffects(standard,personal);
     // Personal mercenary gear and ordinary account polish can meet here.
-    // Recompute from the unmodified entry stats so caps apply to their sum.
+    // Recompute from the unmodified entry stats; add polish after set caps.
     const base=fighter.equipmentGrowthBase??={attack:fighter.attack,maxHp:fighter.maxHp,hp:fighter.hp,speed:fighter.speed,shield:fighter.shield,maxShield:fighter.maxShield};
     fighter.equipmentEffects={...effects};
     fighter.attack=Math.round(base.attack*(1+effects.attackPercent/100));

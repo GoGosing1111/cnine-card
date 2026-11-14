@@ -51,6 +51,9 @@ export async function executePolish(env,user,current,body,{unit}={}){
     db.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(rkey,JSON.stringify(receipt)),jointGuardEnd(db,token)
   ];
   if(db.dialect==='postgres')statements.unshift(
+    // A policy/backfill transaction takes this row exclusively. Lock it before
+    // the user so a roll cannot commit old values across a policy migration.
+    db.prepare('SELECT key FROM app_meta WHERE key=? FOR SHARE').bind(POLISH_KEY),
     db.prepare('SELECT id FROM users WHERE id=? FOR UPDATE').bind(user.id),
     db.prepare('SELECT id FROM user_equipment_instances WHERE id=? AND user_id=? FOR UPDATE').bind(body.instanceId,user.id),
     db.prepare('SELECT item_code FROM cnine_user_inventory WHERE user_id=? AND item_code IN (?,?) ORDER BY item_code FOR UPDATE').bind(user.id,POLISH_ITEM_CODE,'MASTER_STAR')

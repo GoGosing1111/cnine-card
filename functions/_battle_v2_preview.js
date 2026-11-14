@@ -559,13 +559,16 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
     : 0.02;
   if (!counter && random() < dodgeChance && !options.s2CannotDodge) return { dodge: true, damage: 0, critical: false, penetration: 0 };
 
-  const criticalChance = clamp(0.10 + (actor.type === 'ATTACK' ? 0.06 : 0) + (actor.type === 'SPEED' && !actor.speedUniqueSuppressed ? 0.03 : 0) + Math.max(0, Number(actorAdvancement.criticalChancePoints || 0)) / 100 + (actor.equipmentEffects?.criticalChancePoints||0)/100, 0.10, actor.equipmentEffects?.criticalChancePoints?0.50:0.35);
+  const polish=actor.battleMode==='PVE'?actor.equipmentPolishEffects:null;
+  const criticalCap=Math.min(1,(actor.equipmentEffects?.criticalChancePoints?0.50:0.35)+Math.max(0,Number(polish?.criticalChancePoints)||0)/100);
+  const criticalChance = clamp(0.10 + (actor.type === 'ATTACK' ? 0.06 : 0) + (actor.type === 'SPEED' && !actor.speedUniqueSuppressed ? 0.03 : 0) + Math.max(0, Number(actorAdvancement.criticalChancePoints || 0)) / 100 + (actor.equipmentEffects?.criticalChancePoints||0)/100, 0.10, criticalCap);
   const critical = random() < criticalChance;
   const pveAttack = actor.type === 'ATTACK' && actor.battleMode === 'PVE';
   const basePenetration = actor.type === 'ATTACK'
     ? (pveAttack && target.isBoss ? 0.40 : pveAttack && target.isMonster ? 0.28 : (random() < 0.35 ? S1.attackPenetrationPvp : 0.15))
     : 0.03;
-  const penetration = clamp(basePenetration + Math.max(0, Number(actorAdvancement.penetrationPoints || 0)) / 100 + (actor.equipmentEffects?.penetrationPoints||0)/100, 0, 0.80);
+  const penetrationCap=Math.min(1,0.80+Math.max(0,Number(polish?.penetrationPoints)||0)/100);
+  const penetration = clamp(basePenetration + Math.max(0, Number(actorAdvancement.penetrationPoints || 0)) / 100 + (actor.equipmentEffects?.penetrationPoints||0)/100, 0, penetrationCap);
   const effectiveDefense = Math.max(0, target.defense * (1 - penetration) * (1 - (options.s2DefenseIgnore||0)) * (1 - (options.s2DefenseReduction||0)));
   // V1936: 분모 상수 600 은 전투력 스케일에 안 맞아 1만 이상은 전원 65% 상한이었다.
   //   = 방어 스탯도 관통 수치도 실제로는 아무 일을 안 했다. 공격자 공격력 비례로 되살린다.

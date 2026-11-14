@@ -1,9 +1,10 @@
 import {equipmentSetVisualFromRows} from '../shared/equipment-set-visual-v1.mjs';
 import {regionEquipmentEffects,regionById} from '../shared/legion-regions-v1.mjs';
 import {equipmentEffectText} from '../shared/equipment-growth-text-v1.mjs';
-import {normalizedEquipmentEffects} from '../shared/equipment-combat-growth-v1.mjs';
-import {POLISH_OPTIONS} from '../shared/equipment-polish-v1.mjs';
+import {normalizedEquipmentEffects,POLISH_EFFECT_KEYS} from '../shared/equipment-combat-growth-v1.mjs';
+import {POLISH_OPTIONS,POLISH_KEY} from '../shared/equipment-polish-v1.mjs';
 import {jointError} from './_joint_request.js';
+import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {MERCENARY_EQUIPMENT_SQL_CODES,mercenaryEquipmentDefinition,ascendantEquipmentEffects,ascendantSet} from '../shared/mercenary-equipment-v1.mjs';
 export const polishUserPrefix=userId=>'equipment_polish_instance_v1:'+userId+':';
 export const polishStateKey=(id,userId)=>polishUserPrefix(userId)+id;
@@ -27,12 +28,12 @@ export function equipmentGrowthFromRows(results,userId){
   const ascendant=ascendantEquipmentEffects(results.map(row=>row.code),'PVE');
   for(const [key,value] of Object.entries(ascendant.effects))runtime.effects[key]=(runtime.effects[key]||0)+value;
   runtime.sets.push(...ascendant.sets);
-  const names=['attackPercent','criticalChancePoints','criticalDamagePoints','bossDamagePercent','penetrationPoints'];
   const visual=equipmentSetVisualFromRows(results,userId);
   if(visual)runtime.equipmentSetVisual=visual;
   runtime.polished=[];
-  for(const row of results){if(!row.value)continue;const state=decodePolishState(row.value,row.id,userId);if(!state.attempts)continue;runtime.polished.push({instanceId:String(row.id),attempts:state.attempts,levels:state.levels,values:state.values});for(let i=0;i<5;i++)runtime.effects[names[i]]=(runtime.effects[names[i]]||0)+state.values[i];}
-  runtime.summary=equipmentEffectText(normalizedEquipmentEffects(runtime.effects));
+  runtime.polishEffects={};
+  for(const row of results){if(!row.value)continue;const state=decodePolishState(row.value,row.id,userId);if(!state.attempts)continue;runtime.polished.push({instanceId:String(row.id),attempts:state.attempts,levels:state.levels,values:state.values});for(let i=0;i<5;i++){const key=POLISH_EFFECT_KEYS[i];runtime.effects[key]=(runtime.effects[key]||0)+state.values[i];runtime.polishEffects[key]=(runtime.polishEffects[key]||0)+state.values[i];}}
+  runtime.summary=equipmentEffectText(normalizedEquipmentEffects(runtime.effects,runtime.polishEffects));
   return runtime;
 }
 export async function attachPolishInventory(env,userId,items){
@@ -53,10 +54,14 @@ export async function restoredPolishStatements(db,userId,recordId){
   if(!row)return [];
   const state=decodePolishState(row.value,row.original_instance_id,userId);
   const base=JSON.stringify({...state,instanceId:undefined}).slice(0,-1);
+  const token=crypto.randomUUID();
   // The existing restore transaction has already persisted its inserted ID.
   // Copy growth through that exact receipt, with no inventory scan or new roll.
-  return [db.prepare(`INSERT INTO app_meta(key,value,updated_at)
+  return [
+    ...(db.dialect==='postgres'?[db.prepare('SELECT key FROM app_meta WHERE key=? FOR SHARE').bind(POLISH_KEY)]:[]),
+    jointGuard(db,token,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[polishStateKey(row.original_instance_id,userId),row.value]),
+    db.prepare(`INSERT INTO app_meta(key,value,updated_at)
     SELECT ? || restored_instance_id,? || ',"instanceId":"' || restored_instance_id || '"}',CURRENT_TIMESTAMP
     FROM equipment_forge_destroyed_v1 WHERE record_id=? AND user_id=? AND restored_instance_id IS NOT NULL
-    ON CONFLICT(key) DO NOTHING`).bind(polishUserPrefix(userId),base,recordId,userId)];
+    ON CONFLICT(key) DO NOTHING`).bind(polishUserPrefix(userId),base,recordId,userId),jointGuardEnd(db,token)];
 }
