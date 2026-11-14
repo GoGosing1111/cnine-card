@@ -6,7 +6,7 @@ export const LIMITED_CRAFT_STOCK_STEP=5;
 export const LIMITED_CRAFT_STOCK_MAX=1000000;
 // Explicitly approved roster. New catalog entries do not acquire a recipe automatically.
 export const LIMITED_SHARD_CRAFTS=Object.freeze([
- 'V-996','V-999','V-989','V-988','V-987','V-979','V-978','V-976','V-975','V-974','V-973','V-972'
+ 'V-996','V-999','V-989','V-988','V-987','V-979','V-978','V-976','V-975','V-974','V-973','V-972','V-970','V-971'
 ].map((code,index)=>{
  const art=limitedDeploymentSnapshot(code);
  if(art?.rank!=='SSS'||art.edition!=='LIMITED')throw Error('SSS 리미티드 제작 대상을 확인하세요.');
