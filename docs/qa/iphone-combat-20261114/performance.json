@@ -1,0 +1,1114 @@
+{
+  "date": "2026-11-14T08:38:48.009Z",
+  "source": "bee54308807dda2cccb0d68a095b9c68677699d5",
+  "platform": "Windows WebKit; iPhone 13 viewport 390x844, DPR 3, Safari user-agent. Isolated API/DB fixtures; no physical iPhone.",
+  "interpretation": [
+    "Texture figures estimate unique RGBA pixels, excluding total process/GPU memory. They do not prove the reported crash cause.",
+    "Local asset delivery includes sparse-checkout Git reads and the shared Windows host. Frame/entry measurements are observations, not production-iPhone performance predictions.",
+    "Ranked/duo use the real app entry and result/exit controls twice; Legion uses its live iframe three times; co-op uses lobby, real local room/WebSocket start, result/exit, then reopens its lobby.",
+    "Only the existing shell ResizeObserver warning appeared. No page crash or missing image occurred."
+  ],
+  "bottlenecks": [
+    "Large decoded Spine pages and illustration/FX rasters survived network compression; iOS now fetches scaled WebPs before decoding.",
+    "Late advancement atlas acquisition could outlive teardown; teardown and remount now wait for those acquisitions and releases.",
+    "Co-op boss motion frames remained in their module cache after exit; their frame views and base textures now unload after pending work."
+  ],
+  "images": {
+    "files": 151,
+    "sourceBytes": 307606228,
+    "bytes": 13212342,
+    "rgbaBefore": 1137793000,
+    "rgbaAfter": 168824120
+  },
+  "scenarios": {
+    "duo": {
+      "before": {
+        "conditions": "Windows WebKit iPhone 13 emulation / local actual app with isolated API. RGBA estimates, not physical RAM.",
+        "rows": [
+          {
+            "phase": "active-0",
+            "inputMs": 6861,
+            "textureMiB": 65.54796600341797,
+            "frameP95": 309,
+            "frames": 6,
+            "longFramesOver50ms": 6,
+            "canvasCount": 1,
+            "mounted": true,
+            "textureLoading": {
+              "active": 2,
+              "queued": 39,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 9,
+              "compaction": {
+                "images": 10,
+                "originalBytes": 121010464,
+                "residentBytes": 30252616,
+                "failures": 0
+              }
+            },
+            "resourceBytes": 8739870
+          },
+          {
+            "phase": "warm-0",
+            "textureMiB": 398.81908798217773,
+            "frameP95": 221,
+            "frames": 8,
+            "longFramesOver50ms": 8,
+            "canvasCount": 1,
+            "mounted": true,
+            "textureLoading": {
+              "active": 0,
+              "queued": 0,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 9,
+              "compaction": {
+                "images": 29,
+                "originalBytes": 250331008,
+                "residentBytes": 62582752,
+                "failures": 0
+              }
+            },
+            "resourceBytes": 8739870
+          },
+          {
+            "phase": "close-0",
+            "textureMiB": 5.765625,
+            "frameP95": 22,
+            "frames": 88,
+            "longFramesOver50ms": 0,
+            "canvasCount": 0,
+            "mounted": false,
+            "textureLoading": {
+              "active": 0,
+              "queued": 0,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 0,
+              "compaction": {
+                "images": 29,
+                "originalBytes": 250331008,
+                "residentBytes": 62582752,
+                "failures": 0
+              }
+            },
+            "resourceBytes": 8739870
+          },
+          {
+            "phase": "active-1",
+            "inputMs": 4602,
+            "textureMiB": 77.43077850341797,
+            "frameP95": 303,
+            "frames": 6,
+            "longFramesOver50ms": 6,
+            "canvasCount": 1,
+            "mounted": true,
+            "textureLoading": {
+              "active": 2,
+              "queued": 33,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 9,
+              "compaction": {
+                "images": 41,
+                "originalBytes": 390609056,
+                "residentBytes": 97652264,
+                "failures": 0
+              }
+            },
+            "resourceBytes": 8739870
+          },
+          {
+            "phase": "warm-1",
+            "textureMiB": 398.81908798217773,
+            "frameP95": 403,
+            "frames": 6,
+            "longFramesOver50ms": 6,
+            "canvasCount": 1,
+            "mounted": true,
+            "textureLoading": {
+              "active": 0,
+              "queued": 0,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 9,
+              "compaction": {
+                "images": 58,
+                "originalBytes": 500662016,
+                "residentBytes": 125165504,
+                "failures": 0
+              }
+            },
+            "resourceBytes": 8739870
+          },
+          {
+            "phase": "close-1",
+            "textureMiB": 5.765625,
+            "frameP95": 26,
+            "frames": 84,
+            "longFramesOver50ms": 1,
+            "canvasCount": 0,
+            "mounted": false,
+            "textureLoading": {
+              "active": 0,
+              "queued": 0,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 0,
+              "compaction": {
+                "images": 58,
+                "originalBytes": 500662016,
+                "residentBytes": 125165504,
+                "failures": 0
+              }
+            },
+            "resourceBytes": 8739870
+          }
+        ],
+        "warningCount": 1
+      },
+      "after": {
+        "conditions": "Windows WebKit iPhone 13 emulation / local actual app with isolated API. RGBA estimates, not physical RAM.",
+        "rows": [
+          {
+            "phase": "active-0",
+            "inputMs": 8490,
+            "textureMiB": 28.88605499267578,
+            "frameP95": 407,
+            "frames": 5,
+            "longFramesOver50ms": 5,
+            "canvasCount": 1,
+            "mounted": true,
+            "textureLoading": {
+              "active": 2,
+              "queued": 37,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 9,
+              "compaction": {
+                "images": 8,
+                "originalBytes": 73824544,
+                "residentBytes": 18456136,
+                "failures": 0
+              },
+              "mobileDelivery": {
+                "images": 13,
+                "fallbacks": 0
+              }
+            },
+            "resourceBytes": 9777206
+          },
+          {
+            "phase": "warm-0",
+            "textureMiB": 160.51123809814453,
+            "frameP95": 266,
+            "frames": 6,
+            "longFramesOver50ms": 6,
+            "canvasCount": 1,
+            "mounted": true,
+            "textureLoading": {
+              "active": 0,
+              "queued": 0,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 9,
+              "compaction": {
+                "images": 24,
+                "originalBytes": 171062656,
+                "residentBytes": 42765664,
+                "failures": 0
+              },
+              "mobileDelivery": {
+                "images": 48,
+                "fallbacks": 0
+              }
+            },
+            "resourceBytes": 9777206
+          },
+          {
+            "phase": "close-0",
+            "textureMiB": 5.765625,
+            "frameP95": 30,
+            "frames": 89,
+            "longFramesOver50ms": 1,
+            "canvasCount": 0,
+            "mounted": false,
+            "textureLoading": {
+              "active": 0,
+              "queued": 0,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 0,
+              "compaction": {
+                "images": 24,
+                "originalBytes": 171062656,
+                "residentBytes": 42765664,
+                "failures": 0
+              },
+              "mobileDelivery": {
+                "images": 48,
+                "fallbacks": 0
+              }
+            },
+            "resourceBytes": 9777206
+          },
+          {
+            "phase": "active-1",
+            "inputMs": 2728,
+            "textureMiB": 41.38800811767578,
+            "frameP95": 372,
+            "frames": 5,
+            "longFramesOver50ms": 5,
+            "canvasCount": 1,
+            "mounted": true,
+            "textureLoading": {
+              "active": 2,
+              "queued": 19,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 9,
+              "compaction": {
+                "images": 34,
+                "originalBytes": 255637184,
+                "residentBytes": 63909296,
+                "failures": 0
+              },
+              "mobileDelivery": {
+                "images": 78,
+                "fallbacks": 0
+              }
+            },
+            "resourceBytes": 9777206
+          },
+          {
+            "phase": "warm-1",
+            "textureMiB": 160.51123809814453,
+            "frameP95": 315,
+            "frames": 6,
+            "longFramesOver50ms": 6,
+            "canvasCount": 1,
+            "mounted": true,
+            "textureLoading": {
+              "active": 0,
+              "queued": 0,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 9,
+              "compaction": {
+                "images": 48,
+                "originalBytes": 342125312,
+                "residentBytes": 85531328,
+                "failures": 0
+              },
+              "mobileDelivery": {
+                "images": 96,
+                "fallbacks": 0
+              }
+            },
+            "resourceBytes": 9777206
+          },
+          {
+            "phase": "close-1",
+            "textureMiB": 5.765625,
+            "frameP95": 28,
+            "frames": 87,
+            "longFramesOver50ms": 1,
+            "canvasCount": 0,
+            "mounted": false,
+            "textureLoading": {
+              "active": 0,
+              "queued": 0,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 0,
+              "compaction": {
+                "images": 48,
+                "originalBytes": 342125312,
+                "residentBytes": 85531328,
+                "failures": 0
+              },
+              "mobileDelivery": {
+                "images": 96,
+                "fallbacks": 0
+              }
+            },
+            "resourceBytes": 9777206
+          }
+        ],
+        "warningCount": 1
+      }
+    },
+    "ranked": {
+      "before": {
+        "conditions": "Windows WebKit iPhone 13 emulation / local actual app with isolated API. RGBA estimates, not physical RAM.",
+        "rows": [
+          {
+            "phase": "active-0",
+            "inputMs": 21763,
+            "textureMiB": 73.04627227783203,
+            "frameP95": 589,
+            "frames": 3,
+            "longFramesOver50ms": 3,
+            "canvasCount": 1,
+            "mounted": true,
+            "textureLoading": {
+              "active": 2,
+              "queued": 18,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 10,
+              "compaction": {
+                "images": 6,
+                "originalBytes": 48134432,
+                "residentBytes": 5742152,
+                "failures": 0
+              }
+            },
+            "resourceBytes": 7063721
+          },
+          {
+            "phase": "warm-0",
+            "textureMiB": 287.3746566772461,
+            "frameP95": 538,
+            "frames": 3,
+            "longFramesOver50ms": 3,
+            "canvasCount": 1,
+            "mounted": true,
+            "textureLoading": {
+              "active": 0,
+              "queued": 0,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 10,
+              "compaction": {
+                "images": 18,
+                "originalBytes": 122717280,
+                "residentBytes": 24387864,
+                "failures": 0
+              }
+            },
+            "resourceBytes": 7063721
+          },
+          {
+            "phase": "close-0",
+            "textureMiB": 5.765625,
+            "frameP95": 555,
+            "frames": 2,
+            "longFramesOver50ms": 2,
+            "canvasCount": 0,
+            "mounted": false,
+            "textureLoading": {
+              "active": 0,
+              "queued": 0,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 0,
+              "compaction": {
+                "images": 18,
+                "originalBytes": 122717280,
+                "residentBytes": 24387864,
+                "failures": 0
+              }
+            },
+            "resourceBytes": 7063721
+          },
+          {
+            "phase": "active-1",
+            "inputMs": 9548,
+            "textureMiB": 74.04308319091797,
+            "frameP95": 607,
+            "frames": 3,
+            "longFramesOver50ms": 3,
+            "canvasCount": 1,
+            "mounted": true,
+            "textureLoading": {
+              "active": 2,
+              "queued": 10,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 9,
+              "compaction": {
+                "images": 24,
+                "originalBytes": 170851712,
+                "residentBytes": 30130016,
+                "failures": 0
+              }
+            },
+            "resourceBytes": 7063721
+          },
+          {
+            "phase": "warm-1",
+            "textureMiB": 270.70873260498047,
+            "frameP95": 530,
+            "frames": 3,
+            "longFramesOver50ms": 3,
+            "canvasCount": 1,
+            "mounted": true,
+            "textureLoading": {
+              "active": 0,
+              "queued": 0,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 9,
+              "compaction": {
+                "images": 36,
+                "originalBytes": 245434560,
+                "residentBytes": 48775728,
+                "failures": 0
+              }
+            },
+            "resourceBytes": 7063721
+          },
+          {
+            "phase": "close-1",
+            "textureMiB": 5.765625,
+            "frameP95": 260,
+            "frames": 24,
+            "longFramesOver50ms": 3,
+            "canvasCount": 0,
+            "mounted": false,
+            "textureLoading": {
+              "active": 0,
+              "queued": 0,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 0,
+              "compaction": {
+                "images": 36,
+                "originalBytes": 245434560,
+                "residentBytes": 48775728,
+                "failures": 0
+              }
+            },
+            "resourceBytes": 7063721
+          }
+        ],
+        "warningCount": 0
+      },
+      "after": {
+        "conditions": "Windows WebKit iPhone 13 emulation / local actual app with isolated API. RGBA estimates, not physical RAM.",
+        "rows": [
+          {
+            "phase": "active-0",
+            "inputMs": 9721,
+            "textureMiB": 27.893592834472656,
+            "frameP95": 383,
+            "frames": 5,
+            "longFramesOver50ms": 5,
+            "canvasCount": 1,
+            "mounted": true,
+            "textureLoading": {
+              "active": 2,
+              "queued": 12,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 9,
+              "compaction": {
+                "images": 10,
+                "originalBytes": 76991072,
+                "residentBytes": 12956312,
+                "failures": 0
+              },
+              "mobileDelivery": {
+                "images": 11,
+                "fallbacks": 0
+              }
+            },
+            "resourceBytes": 7043370
+          },
+          {
+            "phase": "warm-0",
+            "textureMiB": 122.40420532226562,
+            "frameP95": 381,
+            "frames": 5,
+            "longFramesOver50ms": 5,
+            "canvasCount": 1,
+            "mounted": true,
+            "textureLoading": {
+              "active": 0,
+              "queued": 0,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 9,
+              "compaction": {
+                "images": 18,
+                "originalBytes": 122717280,
+                "residentBytes": 24387864,
+                "failures": 0
+              },
+              "mobileDelivery": {
+                "images": 29,
+                "fallbacks": 0
+              }
+            },
+            "resourceBytes": 7043370
+          },
+          {
+            "phase": "close-0",
+            "textureMiB": 5.765625,
+            "frameP95": 29,
+            "frames": 56,
+            "longFramesOver50ms": 2,
+            "canvasCount": 0,
+            "mounted": false,
+            "textureLoading": {
+              "active": 0,
+              "queued": 0,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 0,
+              "compaction": {
+                "images": 18,
+                "originalBytes": 122717280,
+                "residentBytes": 24387864,
+                "failures": 0
+              },
+              "mobileDelivery": {
+                "images": 29,
+                "fallbacks": 0
+              }
+            },
+            "resourceBytes": 7043370
+          },
+          {
+            "phase": "active-1",
+            "inputMs": 4206,
+            "textureMiB": 34.39226531982422,
+            "frameP95": 450,
+            "frames": 5,
+            "longFramesOver50ms": 5,
+            "canvasCount": 1,
+            "mounted": true,
+            "textureLoading": {
+              "active": 2,
+              "queued": 4,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 9,
+              "compaction": {
+                "images": 27,
+                "originalBytes": 192442112,
+                "residentBytes": 35527616,
+                "failures": 0
+              },
+              "mobileDelivery": {
+                "images": 51,
+                "fallbacks": 0
+              }
+            },
+            "resourceBytes": 7043370
+          },
+          {
+            "phase": "warm-1",
+            "textureMiB": 122.40420532226562,
+            "frameP95": 434,
+            "frames": 5,
+            "longFramesOver50ms": 5,
+            "canvasCount": 1,
+            "mounted": true,
+            "textureLoading": {
+              "active": 0,
+              "queued": 0,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 9,
+              "compaction": {
+                "images": 36,
+                "originalBytes": 245434560,
+                "residentBytes": 48775728,
+                "failures": 0
+              },
+              "mobileDelivery": {
+                "images": 58,
+                "fallbacks": 0
+              }
+            },
+            "resourceBytes": 7043370
+          },
+          {
+            "phase": "close-1",
+            "textureMiB": 5.765625,
+            "frameP95": 262,
+            "frames": 29,
+            "longFramesOver50ms": 3,
+            "canvasCount": 0,
+            "mounted": false,
+            "textureLoading": {
+              "active": 0,
+              "queued": 0,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 0,
+              "compaction": {
+                "images": 36,
+                "originalBytes": 245434560,
+                "residentBytes": 48775728,
+                "failures": 0
+              },
+              "mobileDelivery": {
+                "images": 58,
+                "fallbacks": 0
+              }
+            },
+            "resourceBytes": 7043370
+          }
+        ],
+        "warningCount": 0
+      }
+    },
+    "legion": {
+      "before": {
+        "samples": [
+          {
+            "label": "legion-input-0",
+            "inputMs": 36608
+          },
+          {
+            "label": "legion-active-0",
+            "frameP95": 616,
+            "over50": 3,
+            "frameSamples": 3,
+            "rgbaBytes": 112423312,
+            "canvases": 1
+          },
+          {
+            "label": "legion-stopped-0",
+            "frameP95": 761,
+            "over50": 2,
+            "frameSamples": 15,
+            "rgbaBytes": 120018020,
+            "canvases": 1
+          },
+          {
+            "label": "legion-input-1",
+            "inputMs": 13087
+          },
+          {
+            "label": "legion-active-1",
+            "frameP95": 571,
+            "over50": 3,
+            "frameSamples": 3,
+            "rgbaBytes": 112423312,
+            "canvases": 1
+          },
+          {
+            "label": "legion-stopped-1",
+            "frameP95": 724,
+            "over50": 2,
+            "frameSamples": 8,
+            "rgbaBytes": 138140104,
+            "canvases": 1
+          },
+          {
+            "label": "legion-input-2",
+            "inputMs": 14015
+          },
+          {
+            "label": "legion-active-2",
+            "frameP95": 866,
+            "over50": 3,
+            "frameSamples": 3,
+            "rgbaBytes": 118190480,
+            "canvases": 1
+          },
+          {
+            "label": "legion-closed",
+            "frameP95": 122,
+            "over50": 4,
+            "frameSamples": 57,
+            "rgbaBytes": 0,
+            "canvases": 0
+          }
+        ],
+        "productionWrites": 0
+      },
+      "after": {
+        "samples": [
+          {
+            "label": "legion-input-0",
+            "inputMs": 23066
+          },
+          {
+            "label": "legion-active-0",
+            "frameP95": 369,
+            "over50": 5,
+            "frameSamples": 5,
+            "rgbaBytes": 65556888,
+            "canvases": 1
+          },
+          {
+            "label": "legion-stopped-0",
+            "frameP95": 532,
+            "over50": 2,
+            "frameSamples": 16,
+            "rgbaBytes": 86555088,
+            "canvases": 1
+          },
+          {
+            "label": "legion-input-1",
+            "inputMs": 7966
+          },
+          {
+            "label": "legion-active-1",
+            "frameP95": 421,
+            "over50": 5,
+            "frameSamples": 5,
+            "rgbaBytes": 71324056,
+            "canvases": 1
+          },
+          {
+            "label": "legion-stopped-1",
+            "frameP95": 449,
+            "over50": 3,
+            "frameSamples": 30,
+            "rgbaBytes": 86555088,
+            "canvases": 1
+          },
+          {
+            "label": "legion-input-2",
+            "inputMs": 7110
+          },
+          {
+            "label": "legion-active-2",
+            "frameP95": 401,
+            "over50": 5,
+            "frameSamples": 5,
+            "rgbaBytes": 71324056,
+            "canvases": 1
+          },
+          {
+            "label": "legion-closed",
+            "frameP95": 103,
+            "over50": 4,
+            "frameSamples": 64,
+            "rgbaBytes": 0,
+            "canvases": 0
+          }
+        ],
+        "productionWrites": 0
+      }
+    },
+    "coop": {
+      "before": {
+        "timing": {
+          "clickToFormationMs": 8533,
+          "clickToFirstAttackMs": 12105,
+          "firstAttackDriftMs": 366,
+          "clickToSkillMs": 12666
+        },
+        "samples": [
+          {
+            "phase": "active",
+            "textureMiB": 304.22484970092773,
+            "frameP95": 507,
+            "longFramesOver50ms": 3,
+            "canvasCount": 1,
+            "mounted": true,
+            "textureLoading": {
+              "active": 0,
+              "queued": 0,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 9,
+              "compaction": {
+                "images": 30,
+                "originalBytes": 354499728,
+                "residentBytes": 88624932,
+                "failures": 0
+              }
+            }
+          },
+          {
+            "phase": "closed",
+            "textureMiB": 11.768196105957031,
+            "frameP95": 29,
+            "longFramesOver50ms": 2,
+            "canvasCount": 0,
+            "mounted": false,
+            "textureLoading": {
+              "active": 0,
+              "queued": 0,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 0,
+              "compaction": {
+                "images": 30,
+                "originalBytes": 354499728,
+                "residentBytes": 88624932,
+                "failures": 0
+              }
+            }
+          }
+        ],
+        "returned": true,
+        "reenteredLobby": true,
+        "client": {
+          "width": 390,
+          "height": 844,
+          "agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Mobile/15E148 Safari/604.1",
+          "coarse": true,
+          "standalone": false,
+          "homeLaunch": false,
+          "startLink": "/",
+          "worker": "/service-worker.js",
+          "gl": "Apple GPU"
+        }
+      },
+      "after": {
+        "timing": {
+          "clickToFormationMs": 8875,
+          "clickToFirstAttackMs": 12353,
+          "firstAttackDriftMs": 360,
+          "clickToSkillMs": 12356
+        },
+        "samples": [
+          {
+            "phase": "active",
+            "textureMiB": 100.92227172851562,
+            "frameP95": 675,
+            "longFramesOver50ms": 3,
+            "canvasCount": 1,
+            "mounted": true,
+            "textureLoading": {
+              "active": 1,
+              "queued": 0,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 9,
+              "compaction": {
+                "images": 15,
+                "originalBytes": 132332688,
+                "residentBytes": 33083172,
+                "failures": 0
+              },
+              "mobileDelivery": {
+                "images": 42,
+                "fallbacks": 0
+              }
+            }
+          },
+          {
+            "phase": "closed",
+            "textureMiB": 5.765625,
+            "frameP95": 30,
+            "longFramesOver50ms": 2,
+            "canvasCount": 0,
+            "mounted": false,
+            "textureLoading": {
+              "active": 0,
+              "queued": 0,
+              "peak": 2,
+              "limit": 2,
+              "idleTextCanvases": 0,
+              "compaction": {
+                "images": 15,
+                "originalBytes": 132332688,
+                "residentBytes": 33083172,
+                "failures": 0
+              },
+              "mobileDelivery": {
+                "images": 42,
+                "fallbacks": 0
+              }
+            }
+          }
+        ],
+        "returned": true,
+        "reenteredLobby": true,
+        "client": {
+          "width": 390,
+          "height": 844,
+          "agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Mobile/15E148 Safari/604.1",
+          "coarse": true,
+          "standalone": false,
+          "homeLaunch": false,
+          "startLink": "/",
+          "worker": "/service-worker.js",
+          "gl": "Apple GPU"
+        }
+      }
+    },
+    "desktop": {
+      "conditions": "Windows Chrome desktop, 1440x960, local actual app with isolated API. RGBA estimates, not physical RAM.",
+      "rows": [
+        {
+          "phase": "active-0",
+          "inputMs": 4244,
+          "textureMiB": 111.87089538574219,
+          "frameP95": 8.300000000001091,
+          "frames": 330,
+          "longFramesOver50ms": 0,
+          "canvasCount": 1,
+          "mounted": true,
+          "textureLoading": {
+            "active": 8,
+            "queued": 29,
+            "peak": 8,
+            "limit": 8,
+            "idleTextCanvases": 4,
+            "compaction": {
+              "images": 0,
+              "originalBytes": 0,
+              "residentBytes": 0,
+              "failures": 0
+            },
+            "mobileDelivery": {
+              "images": 0,
+              "fallbacks": 0
+            }
+          },
+          "resourceBytes": 11666118
+        },
+        {
+          "phase": "warm-0",
+          "textureMiB": 593.6861534118652,
+          "frameP95": 4.299999999999272,
+          "frames": 336,
+          "longFramesOver50ms": 1,
+          "canvasCount": 1,
+          "mounted": true,
+          "textureLoading": {
+            "active": 0,
+            "queued": 0,
+            "peak": 8,
+            "limit": 8,
+            "idleTextCanvases": 4,
+            "compaction": {
+              "images": 0,
+              "originalBytes": 0,
+              "residentBytes": 0,
+              "failures": 0
+            },
+            "mobileDelivery": {
+              "images": 0,
+              "fallbacks": 0
+            }
+          },
+          "resourceBytes": 11666118
+        },
+        {
+          "phase": "close-0",
+          "textureMiB": 93.2083740234375,
+          "frameP95": 4.299999999999272,
+          "frames": 360,
+          "longFramesOver50ms": 0,
+          "canvasCount": 0,
+          "mounted": false,
+          "textureLoading": {
+            "active": 0,
+            "queued": 0,
+            "peak": 8,
+            "limit": 8,
+            "idleTextCanvases": 0,
+            "compaction": {
+              "images": 0,
+              "originalBytes": 0,
+              "residentBytes": 0,
+              "failures": 0
+            },
+            "mobileDelivery": {
+              "images": 0,
+              "fallbacks": 0
+            }
+          },
+          "resourceBytes": 11666118
+        },
+        {
+          "phase": "active-1",
+          "inputMs": 511,
+          "textureMiB": 199.3136444091797,
+          "frameP95": 8.400000000001455,
+          "frames": 281,
+          "longFramesOver50ms": 1,
+          "canvasCount": 1,
+          "mounted": true,
+          "textureLoading": {
+            "active": 0,
+            "queued": 0,
+            "peak": 8,
+            "limit": 8,
+            "idleTextCanvases": 4,
+            "compaction": {
+              "images": 0,
+              "originalBytes": 0,
+              "residentBytes": 0,
+              "failures": 0
+            },
+            "mobileDelivery": {
+              "images": 0,
+              "fallbacks": 0
+            }
+          },
+          "resourceBytes": 11666118
+        },
+        {
+          "phase": "warm-1",
+          "textureMiB": 593.6861534118652,
+          "frameP95": 4.299999999999272,
+          "frames": 352,
+          "longFramesOver50ms": 0,
+          "canvasCount": 1,
+          "mounted": true,
+          "textureLoading": {
+            "active": 0,
+            "queued": 0,
+            "peak": 8,
+            "limit": 8,
+            "idleTextCanvases": 4,
+            "compaction": {
+              "images": 0,
+              "originalBytes": 0,
+              "residentBytes": 0,
+              "failures": 0
+            },
+            "mobileDelivery": {
+              "images": 0,
+              "fallbacks": 0
+            }
+          },
+          "resourceBytes": 11666118
+        },
+        {
+          "phase": "close-1",
+          "textureMiB": 93.2083740234375,
+          "frameP95": 4.299999999999272,
+          "frames": 360,
+          "longFramesOver50ms": 0,
+          "canvasCount": 0,
+          "mounted": false,
+          "textureLoading": {
+            "active": 0,
+            "queued": 0,
+            "peak": 8,
+            "limit": 8,
+            "idleTextCanvases": 0,
+            "compaction": {
+              "images": 0,
+              "originalBytes": 0,
+              "residentBytes": 0,
+              "failures": 0
+            },
+            "mobileDelivery": {
+              "images": 0,
+              "fallbacks": 0
+            }
+          },
+          "resourceBytes": 11666118
+        }
+      ],
+      "warningCount": 0
+    }
+  },
+  "regression": {
+    "tests": 93,
+    "failures": 0,
+    "log": "regression-final.log"
+  },
+  "productionAccountWrites": 0,
+  "measurementDefinitions": {
+    "inputMs": "Click to visible battle formation; Legion first entry includes its selection screen. Co-op reports formation and first attack separately.",
+    "frameP95": "95th percentile of requestAnimationFrame intervals; not a physical-iPhone GPU frame duration.",
+    "commonTextures": "Small ground/HUD/font caches can remain. Desktop intentionally keeps Spine warm caches; iOS releases those pages."
+  }
+}
