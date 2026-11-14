@@ -1,12 +1,12 @@
 :root {
   color-scheme: dark;
-  font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
   color: #edf1f5;
   background: #090f18;
   --gold: #e7c58b;
   --muted: #a9b8c8;
   --line: #2a3849;
-  font-synthesis: none;
+  font-synthesis: weight;
 }
 * { box-sizing: border-box; scrollbar-color: #61778e #111c2a; scrollbar-width: thin; }
 body { margin: 0; }
