@@ -177,6 +177,7 @@ for(const postgres of [false,true])test(`timed refill and first publication shar
   assert.deepEqual(row.craftStock,{limit:prior?35:10,crafted:prior?25:0,remaining:10,soldOut:false});assert.equal(row.craftLocked,false);
   if(prior){assert.equal(row.coin_cost,prior.coin_cost);assert.deepEqual(row.materials,prior.materials);continue;}
   assert.equal(row.coin_cost,500000000000000);assert.equal(row.master_star_cost,100000000);assert.equal(row.success_rate,10);
+  assert.equal(row.output_image,def(row.output_ref).previewImage);
   assert.deepEqual(row.materials.map(m=>[m.item_code,m.quantity]),[[LIMITED_CRAFT_SHARD,25]]);
  }
  await f.p('UPDATE users SET coin=8000000000000000 WHERE id=7').run();
@@ -189,6 +190,7 @@ for(const postgres of [false,true])test(`timed refill and first publication shar
  for(const d of open){
   const rid=crypto.randomUUID(),result=await f.craft(byCode.get(d.code),rid,player);
   assert.equal(result.output.ref,d.code);assert.equal(result.output.quantity,1);
+  assert.equal(result.output.image,d.art.sourceArt);
   assert((await f.craft(byCode.get(d.code),rid,player)).replayed);assert.equal((await f.stock(d)).remaining,9);
  }
  assert.equal(await f.coin(),6000000000000000);assert.equal(await f.quantity('MASTER_STAR'),1600000000);assert.equal(await f.quantity(LIMITED_CRAFT_SHARD),400);

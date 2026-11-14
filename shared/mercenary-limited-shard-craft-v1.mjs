@@ -4,6 +4,11 @@ export const LIMITED_CRAFT_SHARD='MERCENARY_SSS_LIMITED_SHARD';
 export const LIMITED_CRAFT_SCOPE='SSS_LIMITED_SHARD';
 export const LIMITED_CRAFT_STOCK_STEP=5;
 export const LIMITED_CRAFT_STOCK_MAX=1000000;
+const previewImages={
+ 'V-970':'assets/ui/project-v/mercenaries/cardgu-20261027/workshop-preview-v1.webp',
+ 'V-971':'assets/ui/project-v/mercenaries/reaper-mask-20261027/workshop-preview-v1.webp',
+ 'V-974':'assets/ui/project-v/mercenaries/general-jok-20261023/workshop-preview-v1.webp'
+};
 // Explicitly approved roster. New catalog entries do not acquire a recipe automatically.
 export const LIMITED_SHARD_CRAFTS=Object.freeze([
  'V-996','V-999','V-989','V-988','V-987','V-979','V-978','V-976','V-975','V-974','V-973','V-972','V-970','V-971'
@@ -15,6 +20,6 @@ export const LIMITED_SHARD_CRAFTS=Object.freeze([
   scope:LIMITED_CRAFT_SCOPE,requiredMaterial:LIMITED_CRAFT_SHARD,limit:LIMITED_CRAFT_STOCK_STEP,
   draftId:-10000-Number(code.slice(2)),name:`${art.name} · SSS 리미티드 조각 제작`,
   description:'SSS 리미티드 조각 전용 제작 · 일반 조각 제작·팩·직접 지급과 발행 수량 별도',
-  sort:1100+index,masterStarMax:100000000});
+  sort:1100+index,masterStarMax:100000000,previewImage:previewImages[code]});
 }));
 export const isLimitedShardCraft=definition=>definition?.scope===LIMITED_CRAFT_SCOPE;
