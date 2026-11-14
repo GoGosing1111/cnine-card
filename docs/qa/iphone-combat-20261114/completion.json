@@ -1,0 +1,73 @@
+{
+  "completedAt": "2026-11-14T08:51:50.111Z",
+  "status": "DEPLOYED_AND_VERIFIED",
+  "source": "af810757fba1e4dd3d39cac0d9709cf0da574f44",
+  "pages": {
+    "at": "2026-11-14T08:50:41.458Z",
+    "id": "3b44f39b-7157-4a14-be74-385b7c93c87f",
+    "url": "https://3b44f39b.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "af810757fba1e4dd3d39cac0d9709cf0da574f44"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "d3215e96-7892-4c08-802c-c45870d73d1c",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "8ade7cde-dcc4-4246-9852-7da8c8f0d0bf",
+      "percentage": 100
+    }
+  ],
+  "assetCount": 19975,
+  "verifiedFiles": 168,
+  "windowsRelease": "56996834e36d773d03c5175106adf176d1b636b445eaca984dd40320f9a8ad06",
+  "images": {
+    "files": 151,
+    "sourceBytes": 307606228,
+    "bytes": 13212342,
+    "rgbaBefore": 1137793000,
+    "rgbaAfter": 168824120
+  },
+  "tests": {
+    "passed": 93,
+    "failed": 0
+  },
+  "results": {
+    "duoTextureMiB": {
+      "before": 398.8,
+      "after": 160.5
+    },
+    "rankedTextureMiB": {
+      "before": [
+        287.4,
+        270.7
+      ],
+      "after": 122.4
+    },
+    "legionTextureMiB": {
+      "before": 107.2,
+      "after": 68
+    },
+    "coopTextureMiB": {
+      "before": 304.2,
+      "after": 100.9
+    },
+    "exit": {
+      "iosBattleCanvases": 0,
+      "pendingTextureLoads": 0,
+      "remainingSharedTextureMiB": 5.765625
+    }
+  },
+  "platform": "Windows WebKit; iPhone 13 viewport 390x844, DPR 3, Safari user-agent. Isolated API/DB fixtures; no physical iPhone.",
+  "limitations": [
+    "Physical iPhone not available; no actual user crash log was supplied. Emulator results do not establish that all reported crashes are fixed.",
+    "Texture MiB values estimate RGBA images, not total Safari process or GPU memory.",
+    "Frame/entry observations and exact test conditions are recorded in performance.json; no device FPS improvement claim."
+  ],
+  "productionAccountWrites": 0,
+  "verification": "live-verification.json",
+  "performance": "performance.json"
+}

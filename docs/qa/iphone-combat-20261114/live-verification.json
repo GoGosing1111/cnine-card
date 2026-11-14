@@ -1,0 +1,876 @@
+{
+  "pages": {
+    "at": "2026-11-14T08:50:41.458Z",
+    "id": "3b44f39b-7157-4a14-be74-385b7c93c87f",
+    "url": "https://3b44f39b.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "af810757fba1e4dd3d39cac0d9709cf0da574f44"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "d3215e96-7892-4c08-802c-c45870d73d1c",
+      "percentage": 100
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "8ade7cde-dcc4-4246-9852-7da8c8f0d0bf",
+      "percentage": 100
+    }
+  ],
+  "verified": [
+    {
+      "file": "js/battle-v3-live.js",
+      "bytes": 78637,
+      "sha256": "e1828a473308430f2f9ed13cefa1cc680cb534f857bf29dde0a74c7fd757d9c9"
+    },
+    {
+      "file": "service-worker.js",
+      "bytes": 25725,
+      "sha256": "69406be4607935dfd0749b86e5878d154f9eb3fc96d470ee2453834fe485e898"
+    },
+    {
+      "file": "index.html",
+      "bytes": 52612,
+      "sha256": "cfa4741346535f06727d05281205cfdee1e3095876278e00df3a0626ffc0edce"
+    },
+    {
+      "file": "onestore/index.html",
+      "bytes": 52699,
+      "sha256": "f6c5a21e498795d39b740e8b789af691f8cb973d0238f103128139902a3df018",
+      "representation": "verified live htmlForStore transform"
+    },
+    {
+      "file": "js/app.js",
+      "bytes": 832415,
+      "sha256": "26b89c0c47a874d6cf90ed64ccbc721148cccd6948c7d5d81cf9c1b604f4fc8b"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "bytes": 3715804,
+      "sha256": "1d79ba904c03ec4a6736738da9c7081c01eeef5224211c3ed9d5b71e2d11a77c"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "bytes": 3720210,
+      "sha256": "1108836ddd5cd47c8cc73f7283535514c2e94223e7c865c1542cfca780cdc44e"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "bytes": 833295,
+      "sha256": "3ccaf78dac5aa4ad462e7f35e318dfb0bbb01241cc696b5b675016b494e2d316"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "bytes": 3715871,
+      "sha256": "ea3b86e69e5cabb01f1bce3e3ab50c390d91baee189fb26319dd7b1db973d3f2"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "bytes": 3715860,
+      "sha256": "30f5b51154071056f55e912c3dc600ad16e120cf559d5fb51eb0e26813cd1169"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "bytes": 3720184,
+      "sha256": "6fde11d2670ed9152ba6c267000998bfb26c18332c6bafe56c92c290c9fa778e"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "bytes": 3717591,
+      "sha256": "fba7e41c2740a4b6fb7a5885ac62fece454142a5365260117aa053f2f9638620"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "bytes": 3719429,
+      "sha256": "2b8251b3d468c7023a6930f43c59a7ee783a9dd39786daf0e8d12aaeae152fd0"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "bytes": 3848911,
+      "sha256": "b8e246990526cc87bbd4d076791d86e7bf584919bd752a2dcd72bacc662f9edd"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "bytes": 3762701,
+      "sha256": "444d74910ac0aed61dbbb8533e48be8eee0811004decb053857a8e3a2bb137b4"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "bytes": 3712887,
+      "sha256": "675c69ec29af99928cd5007223e13bbcd645befdd620377ca7a7195efee17690"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/28d872b2e5b9b517f6d4.webp",
+      "bytes": 75720,
+      "sha256": "28d872b2e5b9b517f6d4b933efeedd4261014949755868ef051e84b9bbfeb830"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/59c7516f4c08399b7961.webp",
+      "bytes": 76668,
+      "sha256": "59c7516f4c08399b79618b3e9995aeb9973074375427333ace5fbff807ed1c67"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/13f1176812df9fa31e52.webp",
+      "bytes": 22910,
+      "sha256": "13f1176812df9fa31e52b0833087947950abfb1ff4a95721e1a5e45a8154e7ec"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "bytes": 3743895,
+      "sha256": "80555daa24a1650b894bec69809b4943f0ef1e605c637bc167a8eb36a83ad068"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/f19bd0cda6ca1c99186d.webp",
+      "bytes": 76496,
+      "sha256": "f19bd0cda6ca1c99186dc5e0f7cef3349d71907151fc105f65c644603053b86b"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/f0dcb0183c4c831dde4c.webp",
+      "bytes": 119242,
+      "sha256": "f0dcb0183c4c831dde4ceb08ac24ba392d98c053b82f895ceba17cca6bf6718c"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/a496cd6c9f56acf9c107.webp",
+      "bytes": 61204,
+      "sha256": "a496cd6c9f56acf9c1079bf2803851ec8d211b97a50596570470369b6da8bb8c"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/b1504b6e8aa615363391.webp",
+      "bytes": 85192,
+      "sha256": "b1504b6e8aa615363391fdb1cfa205336ea5c7a527036c77704f064099077add"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/9c4674e71d11d33ba76e.webp",
+      "bytes": 88118,
+      "sha256": "9c4674e71d11d33ba76e1ca5d5b2c1407b30325dd97acb20c2d7d94167870d7b"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/f0d216c5a4795e7443fb.webp",
+      "bytes": 91204,
+      "sha256": "f0d216c5a4795e7443fbe08853353870235f33e926cfee18e157676795df01c7"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/3a7e7903e7ce7f5e354b.webp",
+      "bytes": 59912,
+      "sha256": "3a7e7903e7ce7f5e354b3f82bd95e57e421c5a11c420202c92cd484ed5f257d3"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/26e90643e98f26a612c8.webp",
+      "bytes": 46110,
+      "sha256": "26e90643e98f26a612c83fa7959eccbe5bd00196ac0b1921a7d803e6b9f9c8fb"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/3f668b0da2a1635c2006.webp",
+      "bytes": 52838,
+      "sha256": "3f668b0da2a1635c2006f0ac141d25fa4bb4b90d3a97db42cf137e3a4980e804"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/48401c600aba0ef8a7bf.webp",
+      "bytes": 233858,
+      "sha256": "48401c600aba0ef8a7bfe48a2ebe38d1c0489f9e5908cd2e77e97a9958acd30c"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/e2af23aa7f1eec9151df.webp",
+      "bytes": 67298,
+      "sha256": "e2af23aa7f1eec9151dfbfc394e708411b1125a60d66321a4ca38f60de944e89"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/89bee884319112c382bc.webp",
+      "bytes": 75896,
+      "sha256": "89bee884319112c382bc1792a14511b69d4d6c8e55145f1f1d5592226861b4d0"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/5201905249761b101064.webp",
+      "bytes": 105078,
+      "sha256": "5201905249761b1010642a0b47429bdb77e1b296beea806b36d1e8311459938b"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/26687feb24b4f5a595cf.webp",
+      "bytes": 51280,
+      "sha256": "26687feb24b4f5a595cfd988c4c14ea1335c7c4d95be0fe09360b25940383e26"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/ef637490a93fc3cca498.webp",
+      "bytes": 104440,
+      "sha256": "ef637490a93fc3cca4987def66a0f00344ed325644bc324faeb929ecaaa05293"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/656e14c77a5226e0d52d.webp",
+      "bytes": 42338,
+      "sha256": "656e14c77a5226e0d52d7bbe32113b3efcaa8f22230e48fee4daf075e174edc0"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/cd6c0b2f4b78b5e51eca.webp",
+      "bytes": 35924,
+      "sha256": "cd6c0b2f4b78b5e51ecaac4e3f1548eba359cc92000ba8fe51dfceb3e286e37b"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/f53bfcc31e49f87e3b94.webp",
+      "bytes": 39392,
+      "sha256": "f53bfcc31e49f87e3b94ac0ecc3aaa994c1f66c5fcaf3652aac67f4e3c75a717"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/2971b2dca6705b349efc.webp",
+      "bytes": 42784,
+      "sha256": "2971b2dca6705b349efc36ecfb047fa4a187fe0489efc21cacc401e488cc3d32"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/7e00b4e01f7a7f9996da.webp",
+      "bytes": 72082,
+      "sha256": "7e00b4e01f7a7f9996da0f1c6c6d001a56b3713dc6163800f3a55fbe6774ae68"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/f18222345748e4e96d78.webp",
+      "bytes": 68332,
+      "sha256": "f18222345748e4e96d78ac6f1506cee00448330f09467dc9b2a4b564d805a2e4"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/33f015c74bc00c562bca.webp",
+      "bytes": 50554,
+      "sha256": "33f015c74bc00c562bca24f490bf45496939909156c3994eb926b371d51bb384"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/0cc8aebd0f024a0752e1.webp",
+      "bytes": 65592,
+      "sha256": "0cc8aebd0f024a0752e1507b49dfedadeccf52fb6fcf7f0858d7a052a09dc9b5"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/b58e4459e7b88b89af13.webp",
+      "bytes": 43276,
+      "sha256": "b58e4459e7b88b89af13b393cf6ce44dd67a322b46d620fe44af25876d577514"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/7d785cda872fc389dd98.webp",
+      "bytes": 85580,
+      "sha256": "7d785cda872fc389dd981b4873fc9ae41b7339bc4b7e0a5dc9f7b6852a4a35b9"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/666ea8ff89e9f99bd485.webp",
+      "bytes": 69146,
+      "sha256": "666ea8ff89e9f99bd48501c9f166e2fbd3fd887857cf3b3b23e9a95163686897"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/301c6be27c915084dda5.webp",
+      "bytes": 43132,
+      "sha256": "301c6be27c915084dda508c38d85eee307f3275c237b3e12b0c3c7cfd361a267"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/d1209115994d594410a8.webp",
+      "bytes": 76508,
+      "sha256": "d1209115994d594410a8c1aa534ff836d0f560865150bb2b6e6e98dd45d1e21b"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/43a349f35c9fd134f77f.webp",
+      "bytes": 70020,
+      "sha256": "43a349f35c9fd134f77f1ba38821d7bd4361d46183ed5a695fb0ca1e0607ab97"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/79f531060e6056d3b841.webp",
+      "bytes": 75042,
+      "sha256": "79f531060e6056d3b841a52773bebfda8a54be68573ad24afc441705bf0f44d0"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/64e173466d0acc5f5b4a.webp",
+      "bytes": 78846,
+      "sha256": "64e173466d0acc5f5b4a96579934df7327b8492a26b769ea1dfb95ee15fa3874"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/c2e4f76632d700c2754c.webp",
+      "bytes": 43992,
+      "sha256": "c2e4f76632d700c2754c067a934d36085c821470349cbadd607458138f205128"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/2e6b4da7dabfa17e6098.webp",
+      "bytes": 36454,
+      "sha256": "2e6b4da7dabfa17e6098081c9f38c098c0c996a1b49a74fc27bbf0d5e1fd1c9f"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/62a1f78b1fcde33c1058.webp",
+      "bytes": 32064,
+      "sha256": "62a1f78b1fcde33c10587293293eda08938d0dc4ca6177e4e09d4c2b5aee19c5"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/0052de5a9eaf81e8a4df.webp",
+      "bytes": 30364,
+      "sha256": "0052de5a9eaf81e8a4df68f47aae708038a87893197078072edcbe740f5a42ee"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/de8c6deeccd34ca6c20c.webp",
+      "bytes": 25300,
+      "sha256": "de8c6deeccd34ca6c20c9cfc0a6a8aefdbddff9433900f298b96016c7d6a999f"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/46a45262ce090582a542.webp",
+      "bytes": 28400,
+      "sha256": "46a45262ce090582a542ffd3d54c8f2749363f57482b1199e68cca9607204584"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/20dd54c719e5ae27f9ee.webp",
+      "bytes": 32618,
+      "sha256": "20dd54c719e5ae27f9eeb76fde7ac3cfe407e09b6a0451a936f993aaef84ccc0"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/2f3e4b74caf67119f088.webp",
+      "bytes": 41388,
+      "sha256": "2f3e4b74caf67119f0884ad74c9dda3599d1a003a23ce567e8f6fb0bc7bd0108"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/205b6876048430e2b619.webp",
+      "bytes": 27512,
+      "sha256": "205b6876048430e2b619cfad4ef322b27682563aefcf5966ec6fd8d53f1ab0bb"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/bc36b2db0739eabf8452.webp",
+      "bytes": 35846,
+      "sha256": "bc36b2db0739eabf845253664f214d8f62eec38a423323517a5dd067bf185d4b"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/ef2e6d3bf796737528a4.webp",
+      "bytes": 36142,
+      "sha256": "ef2e6d3bf796737528a4ead24d8e4718a3ef27244c6e3959a717a9f5af3ab5b1"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/6a096ff900b65ede95f6.webp",
+      "bytes": 37944,
+      "sha256": "6a096ff900b65ede95f60235d92dd5a908f69bf04a839a525e426c1591358c2a"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/6ceb161148e3323e26f1.webp",
+      "bytes": 35432,
+      "sha256": "6ceb161148e3323e26f1cd871f3f558daf89c80a99b9b219160de71aadb7ab0b"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/8bd2d93d16cf9d65ef10.webp",
+      "bytes": 39840,
+      "sha256": "8bd2d93d16cf9d65ef100aac32155baacbaa5cdb2bda2ed5efedc5945ba884fc"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/1d746867767862aa9820.webp",
+      "bytes": 97288,
+      "sha256": "1d746867767862aa9820ffa3740c3f2fa7e8d456e93883165e38e72a2325f027"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/e0429e39159405c83655.webp",
+      "bytes": 99646,
+      "sha256": "e0429e39159405c836559750a62403c5b722da34b300e5f04085751dee3ff226"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/39ef9254b9beb5a69df7.webp",
+      "bytes": 89536,
+      "sha256": "39ef9254b9beb5a69df71f5e1917aaee76564729cb7c3f304105b40909a3ce3e"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/a01fc263df2dadc09ce2.webp",
+      "bytes": 81452,
+      "sha256": "a01fc263df2dadc09ce2fce809982379972006e4123c2949abe445082dd5bfa3"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/a2dfc356a0570a3340a7.webp",
+      "bytes": 93246,
+      "sha256": "a2dfc356a0570a3340a7a201582d8a26483119810d1bf0e6f81fc034f468d9a0"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/e7d354f69821a6b7e351.webp",
+      "bytes": 50096,
+      "sha256": "e7d354f69821a6b7e351a327bd1769e8b49267e5a26c3cd8cc5997c24cdd6d94"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/c5cbbe17e6e2f64d13dd.webp",
+      "bytes": 51218,
+      "sha256": "c5cbbe17e6e2f64d13ddd6c5771b2c3a78eb196f7e5232365d81c17912ff243f"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/7c6efa3d556d243db5db.webp",
+      "bytes": 86744,
+      "sha256": "7c6efa3d556d243db5db2bb9446b91de02b7b6efdf7994932b3dcc3a387b5962"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/0ed11fc0e7a4c2056d13.webp",
+      "bytes": 53638,
+      "sha256": "0ed11fc0e7a4c2056d13715574d64d618b45c4f6108242edaf988551b4bf3705"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/82506ed8c5bf03075c60.webp",
+      "bytes": 43808,
+      "sha256": "82506ed8c5bf03075c60e92b34312c9728207f76b5103cc408bcf4d7b3f1c6ff"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/c97f412d878dc57d2114.webp",
+      "bytes": 64504,
+      "sha256": "c97f412d878dc57d211441b776ff700b5696400196c88673a3fe34a87d8609a3"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/40ffe1fbc1c50c47c84c.webp",
+      "bytes": 52206,
+      "sha256": "40ffe1fbc1c50c47c84c44f0d20ab8c6e700d1e321fe64a3f7fb4f65f3cc8c0f"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/be1ffe079432c156d07e.webp",
+      "bytes": 63870,
+      "sha256": "be1ffe079432c156d07ef86da0c290df58583f24b1b42d2568aac5999fea8fc5"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/e6e41ccd274904dc8c38.webp",
+      "bytes": 35292,
+      "sha256": "e6e41ccd274904dc8c38aa45483ebda8ec17cdce6abde6dc97d6546e801c07a7"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/d0b16c5508926180318b.webp",
+      "bytes": 118984,
+      "sha256": "d0b16c5508926180318b1b810656b478b9fed8e37772329a0f4d4308940abe7c"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/86a4866eab616e2bd75e.webp",
+      "bytes": 94424,
+      "sha256": "86a4866eab616e2bd75e787d0ff8896797448f7bc6b0a75ee4195642261cf9db"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/abf05e141052788b1baa.webp",
+      "bytes": 112978,
+      "sha256": "abf05e141052788b1baaa69394186f21b72e54d6584918783c664be1d9936e54"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/3a10dc8db25f004b262e.webp",
+      "bytes": 112870,
+      "sha256": "3a10dc8db25f004b262ee47a8fe94d59ebac485bf5c0161ee96e163cfa94df54"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/3a0f434b95918c3f5499.webp",
+      "bytes": 67208,
+      "sha256": "3a0f434b95918c3f54995cd160e1a2cdfb5c937305c9a2987b9b8df7c2cb3a7f"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/9437573efcdd53871112.webp",
+      "bytes": 68398,
+      "sha256": "9437573efcdd5387111269c966c14527dfc0d9b69e0f221b74a58e6cbd9d61c8"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/03d9d49ad838b7474ff1.webp",
+      "bytes": 73148,
+      "sha256": "03d9d49ad838b7474ff1e0daa64e952993ab9cd5798f8a909536f8e8c896fb29"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/8983d042c7aa37987346.webp",
+      "bytes": 72190,
+      "sha256": "8983d042c7aa379873466801ae0735335f69f710d8db55a1c449ab90ee36d8df"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/4bff0466dd86e0198ac0.webp",
+      "bytes": 43426,
+      "sha256": "4bff0466dd86e0198ac0da6c2b591a4024a130a51cadfb19615bd1c2b966c57f"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/433b1e5c6fad4f7bad89.webp",
+      "bytes": 42310,
+      "sha256": "433b1e5c6fad4f7bad893b229319040bb536fb2afcc52c186eedf89d8e4f5afa"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/9342abfdb72839cac081.webp",
+      "bytes": 52832,
+      "sha256": "9342abfdb72839cac08154dbb32c13c694963785c8c16ad0338baedf2e121134"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/b8f66316e7b7dd619103.webp",
+      "bytes": 73994,
+      "sha256": "b8f66316e7b7dd6191037992dd28078ad6a70d597ccd1b093c976d08c4c4e4dd"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/d8857590b6b7251a4040.webp",
+      "bytes": 32434,
+      "sha256": "d8857590b6b7251a404089bfab9c1f3da7fb4e9130d12d85570a46bfbf4381d5"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/096eac61c56addf81e4b.webp",
+      "bytes": 14414,
+      "sha256": "096eac61c56addf81e4bf05f2964e8e16648ae7a3ab4fb8c2f6a3db965e52e76"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/d02ba48159d78da076ef.webp",
+      "bytes": 108378,
+      "sha256": "d02ba48159d78da076ef7375478639912909f26ad2baeb87fe4dbc48b8b1a8b7"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/14e4943d01507bffecf5.webp",
+      "bytes": 91882,
+      "sha256": "14e4943d01507bffecf5dff8f4c167fc73ccc7f04a93c237c7a92c7143f5b57d"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/ab1c3c8f1b1f5a5ec4d9.webp",
+      "bytes": 206666,
+      "sha256": "ab1c3c8f1b1f5a5ec4d9dc535ba36979085bb310d9d327f6c31082a863a16472"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/93df792de9d0577b9b5d.webp",
+      "bytes": 17470,
+      "sha256": "93df792de9d0577b9b5d31838e2afcf774242ce6ef1de2e881beb7f1dd930068"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/3a8d8284c846c1597d35.webp",
+      "bytes": 31022,
+      "sha256": "3a8d8284c846c1597d3553f830a4848b9b0e4d51977741044fa38b4ffe7b8e5c"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/991b8209d0084f83d853.webp",
+      "bytes": 176752,
+      "sha256": "991b8209d0084f83d8533f9b85c5bcece9f47bf0b9f0568df594ee24944aac93"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/08736909d7f69e5ba168.webp",
+      "bytes": 164306,
+      "sha256": "08736909d7f69e5ba1682bbf42988d1fd8fdea14af5f431e087b558293ec50a5"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/baf6bdc94d389e937da2.webp",
+      "bytes": 73178,
+      "sha256": "baf6bdc94d389e937da25b281aeda61f637d0e8b89469d60c57dd3bcb6d2a5f5"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/0c1b15ef89a50ec7aff8.webp",
+      "bytes": 396632,
+      "sha256": "0c1b15ef89a50ec7aff8cd7e09983b63251a52aab4d682f68aa73c184f359636"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/f0a72233311f1e0ef54c.webp",
+      "bytes": 339314,
+      "sha256": "f0a72233311f1e0ef54c68458a21ea871b40af7516e2bff15efd17bc23d5a370"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/79e4453fea24d913f505.webp",
+      "bytes": 37326,
+      "sha256": "79e4453fea24d913f505356137b88636cb22296abb806b4f318c466df2af13db"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/4d1da6e84e0d3e737585.webp",
+      "bytes": 42184,
+      "sha256": "4d1da6e84e0d3e737585ce1f9a472a6c90c5c0e805879da4dcd6ef0b15fe61b0"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/2bde25e73fa6484041c8.webp",
+      "bytes": 384924,
+      "sha256": "2bde25e73fa6484041c8422e6f4a085f711ba9d3f35222ff1284d5bde473e74f"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/c8b2edc2a853d8af564f.webp",
+      "bytes": 35096,
+      "sha256": "c8b2edc2a853d8af564f8c00feec65de4c77e57fc65774a3a778f4c8bb69d954"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/39d25b500ca02c9f85ca.webp",
+      "bytes": 40854,
+      "sha256": "39d25b500ca02c9f85cafe6aff29d256b303cc7f048ac4ea93a15ecbedf320e6"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/c82ac193778fccc05cb6.webp",
+      "bytes": 41388,
+      "sha256": "c82ac193778fccc05cb6a33ce80137812eceb74e9db34881782eb80ed99ee1ef"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/61d98116e573fe2899ff.webp",
+      "bytes": 35080,
+      "sha256": "61d98116e573fe2899ff799df3ccbd7ac2467cc2d77d394789dcae970a16e33a"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/3b2063fe4645d06f7f5c.webp",
+      "bytes": 36532,
+      "sha256": "3b2063fe4645d06f7f5c9cf9889b735ca9a5014c9f5dc2c055413b54405658d7"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/5a8811f557ff01decc9c.webp",
+      "bytes": 43702,
+      "sha256": "5a8811f557ff01decc9c0f261f05fcd45c9eff0ada0ec6f447ab33ac22b37358"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/1157df5c265630efaa42.webp",
+      "bytes": 33166,
+      "sha256": "1157df5c265630efaa4217c7b10dacc5587bb605656f27ea1c94f8007bf86cb6"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/ae60158f4eb1fa363cc5.webp",
+      "bytes": 157374,
+      "sha256": "ae60158f4eb1fa363cc53b4b94cf117f75188ef9aa3224172f31fadd55a10007"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/23012e56e47e0b9ede24.webp",
+      "bytes": 62768,
+      "sha256": "23012e56e47e0b9ede24cd7e2103a3ad3c43e7e75a3c10a001b09e4861057efb"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/c7bab8a275bec4cf9797.webp",
+      "bytes": 219342,
+      "sha256": "c7bab8a275bec4cf979767399f3d051217669c4955971a214ed6d1c0f0f065a9"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/4886ae8996f3c0da1333.webp",
+      "bytes": 53304,
+      "sha256": "4886ae8996f3c0da13335bd6877cd06fb28c6a28b7a93bc97682f8191f872b69"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/9be9ef78ff50175c230e.webp",
+      "bytes": 108172,
+      "sha256": "9be9ef78ff50175c230e42375e4a2c5195b3b76c2711177029d9757c450a7bba"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/209f2b3257808f046d34.webp",
+      "bytes": 96192,
+      "sha256": "209f2b3257808f046d3448e435762d89f6e222aaacb4ba1c73ddcff6eec8c66b"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/4f057c724b4ae15d2bbf.webp",
+      "bytes": 154066,
+      "sha256": "4f057c724b4ae15d2bbfc6b27c9bf01318687a8aef83954cd308ed6d2c6aa982"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/eac514a31585d4be2dc5.webp",
+      "bytes": 143144,
+      "sha256": "eac514a31585d4be2dc5393fc3e85742d51ee6aae024258ea128e7c18ac20bf7"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/85d77545f54323a30e36.webp",
+      "bytes": 303468,
+      "sha256": "85d77545f54323a30e36ee9a3cb11f5cc8c21965bd3effb0c099a8d6f2de8f7b"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/4fa9d89b3bc3d8e918f7.webp",
+      "bytes": 29970,
+      "sha256": "4fa9d89b3bc3d8e918f7c4290a0458e1362ba7afb2795b0c63314e5a20ac20d7"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/7bb114b3a7fc405d98ac.webp",
+      "bytes": 320188,
+      "sha256": "7bb114b3a7fc405d98ac6c5d6538b4094824c696b912a432f2605d29332cad6a"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/cfb1f923faa38eb179ae.webp",
+      "bytes": 165602,
+      "sha256": "cfb1f923faa38eb179ae5383d352f3525070944c2add9354cfa7d7f78d48aa59"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/71014d99851bb1d64deb.webp",
+      "bytes": 35120,
+      "sha256": "71014d99851bb1d64debd87133b5b7c7c419542407d3964367ee3ba8296070d2"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/083c2654fa57d9985f3b.webp",
+      "bytes": 51132,
+      "sha256": "083c2654fa57d9985f3bcae5486f4aceeeaf04b7dc2335ecc5129bd353d9252f"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/f3aee9d8c70b2e12a735.webp",
+      "bytes": 32916,
+      "sha256": "f3aee9d8c70b2e12a73549047919b10a234d91edbd662f0a628ead401169d31d"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/384d2711ec1713d7f7e5.webp",
+      "bytes": 47200,
+      "sha256": "384d2711ec1713d7f7e5dd64c59361b9d72f462b2d678bfa553199a8d2a7d0d6"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/1cabae46c657dd0c9ad6.webp",
+      "bytes": 36260,
+      "sha256": "1cabae46c657dd0c9ad6f5fa30508b5ee17c30faf13d1bfd9bdb278a5011e50a"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/225d8455162b0d78c085.webp",
+      "bytes": 39958,
+      "sha256": "225d8455162b0d78c0851d0bf95f3e4549a029bc0f380dc716a19347e1997849"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/199938f960d1e42ae97c.webp",
+      "bytes": 30174,
+      "sha256": "199938f960d1e42ae97cb118540dd386fbeafd704a7aba81ce13129bff517351"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/ddccc08d9fb8cc934f97.webp",
+      "bytes": 31288,
+      "sha256": "ddccc08d9fb8cc934f976dc4bcd894d7a235932a6f16d394583bb46b4634b061"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/4bd49bebe10deec327cb.webp",
+      "bytes": 24128,
+      "sha256": "4bd49bebe10deec327cb4ccdc308c11eedca4da1194a6a1fed52c9a28f9a6eae"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/0e7008e34fa4230d38d4.webp",
+      "bytes": 27954,
+      "sha256": "0e7008e34fa4230d38d44b5a02cd1e291f67c60cd1955cb1334615f9931885de"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/cabf5f97b470a295bd9f.webp",
+      "bytes": 39304,
+      "sha256": "cabf5f97b470a295bd9f226989fd94f5814bc42ec5a97d267012f16b6bd854a3"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/1064bd684c8b53739bab.webp",
+      "bytes": 34840,
+      "sha256": "1064bd684c8b53739bab65b4b9aeb2c31afc31765651157ea08c0d2b568d290c"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/a56da9c847498a55088b.webp",
+      "bytes": 34458,
+      "sha256": "a56da9c847498a55088b3f8434af5138829017ba4946befdd1bcb7584de380e6"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/e350748300dada0c440d.webp",
+      "bytes": 39392,
+      "sha256": "e350748300dada0c440d51c83bb24346d9d24ad30f38d6ed44944f7b4b817d6a"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/097b649079d2d0078787.webp",
+      "bytes": 35200,
+      "sha256": "097b649079d2d00787872383859844d65e579ffda852cc429153b35b8e47c3fa"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/93d8eeadc2574756d9fb.webp",
+      "bytes": 35586,
+      "sha256": "93d8eeadc2574756d9fb50712ccceba62b6713a24074e88151bd7c929963c862"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/afa40c42906ee9ed2c94.webp",
+      "bytes": 47734,
+      "sha256": "afa40c42906ee9ed2c94b6d06ee6ab0ba6d69ef6d3ab512913be793b37c5cfb8"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/bcc2695dd75148e086a0.webp",
+      "bytes": 158204,
+      "sha256": "bcc2695dd75148e086a0049eed994471f69f6297f7fb0a67c3d5e89f23b6c025"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/969ef08d5c995763bbbd.webp",
+      "bytes": 37420,
+      "sha256": "969ef08d5c995763bbbd8e8c03a6485347ec18776c7ca79b3a8d591c313ef2b7"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/09f385d5d99e78cf81cc.webp",
+      "bytes": 121348,
+      "sha256": "09f385d5d99e78cf81cc437fa4558929ebd4daa87d29bff079d6fad6e4b0160c"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/d81bed0b4f884be035b0.webp",
+      "bytes": 100772,
+      "sha256": "d81bed0b4f884be035b0e6222caaad41a2ea1d7cd633b4922416223daac82c75"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/c844271b0b6b48f601d3.webp",
+      "bytes": 112954,
+      "sha256": "c844271b0b6b48f601d375fe9d085912542e21cf479f7da1d9ebd08d51cd5967"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/00ff47c8dec4830bfe8c.webp",
+      "bytes": 77758,
+      "sha256": "00ff47c8dec4830bfe8c21605327812ea25cdbe7439f6104eb2326539cacf5a7"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/b6723e576982987cb37c.webp",
+      "bytes": 54618,
+      "sha256": "b6723e576982987cb37c42b39c1a39fb3805b4ef948c80a699cd6d469806d95f"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/4e38277cfe4c003af65f.webp",
+      "bytes": 41176,
+      "sha256": "4e38277cfe4c003af65fb64efe342bb3384cb9a2f9acf466b49041192d5390c8"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/11f88c14e731e8c2ec6e.webp",
+      "bytes": 41228,
+      "sha256": "11f88c14e731e8c2ec6ee5e814057bc73f27e24e2821d68792df2b0d316507fa"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/f12fe6f35640e104ef86.webp",
+      "bytes": 46370,
+      "sha256": "f12fe6f35640e104ef863e3e24010b5541c95879d49e4a1ffba10354dc9ad734"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/aa850c5488d62816007a.webp",
+      "bytes": 51346,
+      "sha256": "aa850c5488d62816007a1548270051be8383f74d20ffb3b0e930450b5638b7bf"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/560e0849f499d72e080d.webp",
+      "bytes": 44690,
+      "sha256": "560e0849f499d72e080d44fc9791b22408cdd4f9a67d629bea08f983492f1960"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/4be0d098e44fdc2ffeb9.webp",
+      "bytes": 43644,
+      "sha256": "4be0d098e44fdc2ffeb9b647f75a23f87a7c82354142a8ecdab3a6596b508661"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/f357fc56f082d2f0f19c.webp",
+      "bytes": 144458,
+      "sha256": "f357fc56f082d2f0f19c8ce0d3ea077e38f5cdb840879124c3e8db4843794903"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/54f35bb95df94527118b.webp",
+      "bytes": 277824,
+      "sha256": "54f35bb95df94527118b6c5f0edfe8e78ed3a12747b662161ec8398d9701f094"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/1b4ca846bb107b82062f.webp",
+      "bytes": 204362,
+      "sha256": "1b4ca846bb107b82062fa6e95ff78fbc3ff955bd798de1633f6f6ad9daff972e"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/3172a11c07c042b49647.webp",
+      "bytes": 264576,
+      "sha256": "3172a11c07c042b49647b99198286fa2eaf9921744b931a29b63f2a65603bb23"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/683d8f6dc4e35ef44f44.webp",
+      "bytes": 177996,
+      "sha256": "683d8f6dc4e35ef44f441b8c7d23f4e37881d9c3b8fcc6ad6017789b50b5d956"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/284199b976dd5f018280.webp",
+      "bytes": 210374,
+      "sha256": "284199b976dd5f018280c6ac0c02fcee0c545ced5a61afd81600897a3b62850f"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/6c87554b2097b34fbb1c.webp",
+      "bytes": 263876,
+      "sha256": "6c87554b2097b34fbb1cf321fba63c501e6785fa82593413e39bf0e62f20a716"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/f574cfc504fbc79c0f5e.webp",
+      "bytes": 296314,
+      "sha256": "f574cfc504fbc79c0f5e6a0f73b041393fa5142245c5eaca1f9e94b93e0f5806"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/e3ac65a0cb9a0fac448f.webp",
+      "bytes": 144742,
+      "sha256": "e3ac65a0cb9a0fac448ff275265d03a0511c1b801383953b2c0d18d0fd2c1dd4"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/4fc6a01019a2eaaa9d04.webp",
+      "bytes": 161734,
+      "sha256": "4fc6a01019a2eaaa9d0479281692c2d9fadfd88db29755bf0e64216b86352947"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/ab99636de02aa01058ca.webp",
+      "bytes": 169488,
+      "sha256": "ab99636de02aa01058ca1f2634c752ac1778054de174cc2eb065c8064c963781"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/948365e1d4d1445e36d3.webp",
+      "bytes": 144040,
+      "sha256": "948365e1d4d1445e36d39da46d2a72111f5c1505c30a3cdc7eaea4ed433809c3"
+    },
+    {
+      "file": "assets/optimized/iphone-battle-20261114/ad01cfb6724966585ae9.webp",
+      "bytes": 171482,
+      "sha256": "ad01cfb6724966585ae99244155a48da800d72ca874f5c5710c50e900c178123"
+    }
+  ],
+  "images": {
+    "files": 151,
+    "sourceBytes": 307606228,
+    "bytes": 13212342,
+    "rgbaBefore": 1137793000,
+    "rgbaAfter": 168824120
+  },
+  "assetCount": 19975,
+  "windowsRelease": "56996834e36d773d03c5175106adf176d1b636b445eaca984dd40320f9a8ad06",
+  "unauthenticatedStatus": 401,
+  "productionAccountWrites": 0,
+  "verifiedAt": "2026-11-14T08:51:04.983Z"
+}
