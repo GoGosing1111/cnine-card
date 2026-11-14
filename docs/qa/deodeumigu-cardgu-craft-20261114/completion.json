@@ -1,0 +1,139 @@
+{
+  "code": "V-970",
+  "cost": {
+    "coin": 0,
+    "shards": 0,
+    "masterStars": 0
+  },
+  "name": "카드구",
+  "rank": "SSS",
+  "status": "COMPLETED",
+  "userId": "4391",
+  "auditId": "60479",
+  "edition": "LIMITED",
+  "delivery": "ADMIN_GRANT_USING_CRAFT_STOCK",
+  "nickname": "더듬이구",
+  "quantity": 1,
+  "requestId": "OPS-DEODEUMIGU-CARDGU-CRAFT-20261114-V1",
+  "craftLogId": "27219",
+  "stockLimit": 10,
+  "completedAt": "2026-11-14T07:13:26.390Z",
+  "copiesAfter": 1,
+  "craftResult": {
+    "ok": true,
+    "output": {
+      "ref": "V-970",
+      "name": "카드구",
+      "type": "MERCENARY",
+      "image": "assets/ui/project-v/mercenaries/cardgu-20261027/source-art.png",
+      "rarity": "SSS",
+      "quantity": 1
+    },
+    "success": true,
+    "attempts": 1,
+    "category": "MERCENARY_CRAFT",
+    "delivery": "ADMIN_GRANT_USING_CRAFT_STOCK",
+    "recipeId": 574,
+    "coinSpent": 0,
+    "requestId": "OPS-DEODEUMIGU-CARDGU-CRAFT-20261114-V1",
+    "recipeName": "카드구 · SSS 리미티드 조각 제작",
+    "paymentType": "ADMIN_GRANT",
+    "failureCount": 0,
+    "operationKey": "ops:deodeumigu-cardgu-craft:20261114:v1",
+    "successCount": 1,
+    "cardShardSpent": 0,
+    "masterStarSpent": 0
+  },
+  "packAtGrant": {
+    "code": "V-970",
+    "issued": 9,
+    "revision": 11,
+    "last_token": "ops:bebeking-blackcrown-cardgu:20261110:v1",
+    "stock_limit": 10
+  },
+  "copiesBefore": 0,
+  "craftedAfter": 1,
+  "operationKey": "ops:deodeumigu-cardgu-craft:20261114:v1",
+  "acquisitionId": "ops:deodeumigu-cardgu-craft:20261114:v1:4391:V-970:1",
+  "authorization": "더듬이구 계정에 용병제작 한도 한장 차감하고 카드구 지급",
+  "craftedBefore": 0,
+  "remainingAfter": 9,
+  "remainingBefore": 10,
+  "collectionRevision": "1157688",
+  "protectedAfterHash": "f7dd6e4f9e45a0c52f0380d808b07ee518a3e8e33fdb8bb58d28d5239e357619",
+  "protectedBeforeHash": "f7dd6e4f9e45a0c52f0380d808b07ee518a3e8e33fdb8bb58d28d5239e357619",
+  "verifiedAt": "2026-11-14T07:13:47.894Z",
+  "verification": {
+    "readOnly": true,
+    "acquisitions": 1,
+    "craftLogs": 1,
+    "craftReceipts": 1,
+    "audits": 1,
+    "game": {
+      "copies": 1,
+      "duplicates": 0,
+      "level": 1,
+      "permanent": true,
+      "canDeploy": true,
+      "stock": {
+        "limit": 10,
+        "crafted": 1,
+        "remaining": 9,
+        "soldOut": false
+      },
+      "timings": [
+        {
+          "pass": "first",
+          "collectionMs": 967,
+          "craftStockMs": 179
+        },
+        {
+          "pass": "repeat",
+          "collectionMs": 714,
+          "craftStockMs": 156
+        }
+      ],
+      "condition": "Windows Node verifier; game collection and craft-stock services; live PostgreSQL READ ONLY; no UI or device emulation"
+    },
+    "atomicity": {
+      "failedAfterQuotaRolledBack": true,
+      "successfulGrantRolledBack": true,
+      "replayAddedNoCardOrQuota": true,
+      "checkedAt": "2026-11-14T07:13:25.454Z"
+    },
+    "replayWrites": 0
+  },
+  "completedAtKst": "2026-11-14 16:13:26 KST",
+  "performance": {
+    "before": [
+      {
+        "pass": "first",
+        "collectionMs": 936,
+        "craftStockMs": 163
+      },
+      {
+        "pass": "repeat",
+        "collectionMs": 757,
+        "craftStockMs": 149
+      }
+    ],
+    "after": [
+      {
+        "pass": "first",
+        "collectionMs": 967,
+        "craftStockMs": 179
+      },
+      {
+        "pass": "repeat",
+        "collectionMs": 714,
+        "craftStockMs": 156
+      }
+    ],
+    "measurement": "Windows Node verifier; game collection and craft-stock services; live PostgreSQL READ ONLY; no UI or device emulation",
+    "bottleneck": "Repeated small queries to the live remote database dominate these service reads. No server, frontend, network or index code was changed by this account-only operation.",
+    "uiFrames": "Not measured: no rendered UI or gameplay implementation changed; service timings are not input-to-interactive timings.",
+    "scope": "Operation and data verification only; no platform performance claim."
+  },
+  "gameRedeployed": false,
+  "messagesSent": 0
+}
