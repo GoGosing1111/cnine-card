@@ -1,0 +1,1540 @@
+{
+  "rows": [
+    {
+      "name": "active-0",
+      "images": [
+        {
+          "url": "../../assets/ui/coin-prediction/arena-v1.png",
+          "w": 1672,
+          "h": 941,
+          "bytes": 6293408
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/source-art-approved.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/source-art-approved.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/source-art.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/idle.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/prime-requiem-20261021/source-art.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/cards/976467971.jpg",
+          "w": 1280,
+          "h": 960,
+          "bytes": 4915200
+        },
+        {
+          "url": "/assets/superstar/3.jpg",
+          "w": 720,
+          "h": 1280,
+          "bytes": 3686400
+        },
+        {
+          "url": "/assets/responsive/project-v/superstar/superstar-cn-23eb4b19986d4818-sd-v1-768.webp",
+          "w": 768,
+          "h": 896,
+          "bytes": 2752512
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-02d9dc1e8a8a4209-sd-v1-768.webp",
+          "w": 768,
+          "h": 840,
+          "bytes": 2580480
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-f500880b2ed34350-sd-v1-768.webp",
+          "w": 768,
+          "h": 840,
+          "bytes": 2580480
+        },
+        {
+          "url": "/assets/ui/project-v/characters/zenith/zenith-cn-0505936a0cbb4e59-sd-v1.png?v=FFD03C22343AB649",
+          "w": 675,
+          "h": 675,
+          "bytes": 1822500
+        },
+        {
+          "url": "/assets/ui/project-v/characters/zenith/zenith-cn-25f931ce393d474e-sd-v1.png?v=F1A07185C5BB1AA8",
+          "w": 675,
+          "h": 675,
+          "bytes": 1822500
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/body-ready.png",
+          "w": 716,
+          "h": 550,
+          "bytes": 1575200
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/images/guard.png",
+          "w": 463,
+          "h": 695,
+          "bytes": 1287140
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/icon.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+          "w": 1024,
+          "h": 185,
+          "bytes": 757760
+        },
+        {
+          "url": "/assets/responsive/cards/9dd2ce688fd51787-384.webp",
+          "w": 384,
+          "h": 488,
+          "bytes": 749568
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/prime-requiem-20261021/idle.png",
+          "w": 290,
+          "h": 515,
+          "bytes": 597400
+        },
+        {
+          "url": "/assets/NEWCARD/24.png",
+          "w": 305,
+          "h": 333,
+          "bytes": 406260
+        },
+        {
+          "url": "/assets/cards/남수댕/031.webp",
+          "w": 200,
+          "h": 200,
+          "bytes": 160000
+        },
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/fill.webp",
+          "w": 512,
+          "h": 22,
+          "bytes": 45056
+        }
+      ]
+    },
+    {
+      "name": "warm-0",
+      "images": [
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/runtime-164a00db5e6a/jin-jokro-164a00db5e6a.atlas#jin-jokro-164a00db5e6a_2.png",
+          "w": 2048,
+          "h": 2042,
+          "bytes": 16728064
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/runtime-164a00db5e6a/jin-jokro-164a00db5e6a.atlas#jin-jokro-164a00db5e6a.png",
+          "w": 2046,
+          "h": 2043,
+          "bytes": 16719912
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/spine/whitecoat-skills-v4-51fecca13bde.atlas#whitecoat-skills-v4-51fecca13bde_2.png",
+          "w": 2048,
+          "h": 2040,
+          "bytes": 16711680
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/spine/whitecoat-skills-v4-51fecca13bde.atlas#whitecoat-skills-v4-51fecca13bde.png",
+          "w": 1994,
+          "h": 1995,
+          "bytes": 15912120
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/spine/whitecoat-skills-v4-51fecca13bde.atlas#whitecoat-skills-v4-51fecca13bde_3.png",
+          "w": 2046,
+          "h": 1676,
+          "bytes": 13716384
+        },
+        {
+          "url": "/assets/ui/project-v/fx/role-impact-v2/attack-impact-atlas-v2.json?v=3-v3-live-atlas",
+          "w": 2048,
+          "h": 1365,
+          "bytes": 11182080
+        },
+        {
+          "url": "/assets/ui/project-v/fx/role-impact-v2/heal-impact-atlas-v2.json?v=3-v3-live-atlas",
+          "w": 2048,
+          "h": 1365,
+          "bytes": 11182080
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/../sword-ultimates-v10/runtime/crosscut-prison.png",
+          "w": 1967,
+          "h": 1038,
+          "bytes": 8166984
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/runtime-164a00db5e6a/jin-jokro-164a00db5e6a.atlas#jin-jokro-164a00db5e6a_3.png",
+          "w": 1942,
+          "h": 1040,
+          "bytes": 8078720
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/impact-burst.png",
+          "w": 1632,
+          "h": 1215,
+          "bytes": 7931520
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-wheel.png",
+          "w": 1785,
+          "h": 1071,
+          "bytes": 7646940
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-rain.png",
+          "w": 1785,
+          "h": 1071,
+          "bytes": 7646940
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-flash.png",
+          "w": 1785,
+          "h": 1065,
+          "bytes": 7604100
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-thrust.png",
+          "w": 1785,
+          "h": 1062,
+          "bytes": 7582680
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/cross.png",
+          "w": 1735,
+          "h": 1038,
+          "bytes": 7203720
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/thrust.png",
+          "w": 1735,
+          "h": 1038,
+          "bytes": 7203720
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/../sword-ultimates-v10/runtime/heaven-line.png",
+          "w": 1735,
+          "h": 1038,
+          "bytes": 7203720
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/assets/fx-blood-titanblade-v3.png",
+          "w": 1774,
+          "h": 887,
+          "bytes": 6294152
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/assets/fx-idle-shattered-moon-v7.png",
+          "w": 1774,
+          "h": 887,
+          "bytes": 6294152
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/assets/fx-blood-mantle-v3.png",
+          "w": 1309,
+          "h": 1202,
+          "bytes": 6293672
+        },
+        {
+          "url": "../../assets/ui/coin-prediction/arena-v1.png",
+          "w": 1672,
+          "h": 941,
+          "bytes": 6293408
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/source-art-approved.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/source-art-approved.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/source-art.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/idle.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/prime-requiem-20261021/source-art.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/sources/user-motion-sheet-v2.png",
+          "w": 1536,
+          "h": 1024,
+          "bytes": 6291456
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/assets/fx-blood-mooncleave-v3.png",
+          "w": 1536,
+          "h": 1024,
+          "bytes": 6291456
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/assets/fx-idle-blackflame-v6.png",
+          "w": 1448,
+          "h": 1086,
+          "bytes": 6290112
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/assets/fx-blood-dash.png",
+          "w": 1254,
+          "h": 1254,
+          "bytes": 6290064
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/assets/fx-blood-frenzy-v2.png",
+          "w": 1254,
+          "h": 1254,
+          "bytes": 6290064
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/assets/fx-blood-echo.png",
+          "w": 1254,
+          "h": 1254,
+          "bytes": 6290064
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/assets/fx-blood-tiger-burst.png",
+          "w": 1254,
+          "h": 1254,
+          "bytes": 6290064
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/assets/fx-blood-execution-v2.png",
+          "w": 1254,
+          "h": 1254,
+          "bytes": 6290064
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/assets/fx-blood-cataclysm-v3.png",
+          "w": 1310,
+          "h": 1200,
+          "bytes": 6288000
+        },
+        {
+          "url": "/assets/cards/976467971.jpg",
+          "w": 1280,
+          "h": 960,
+          "bytes": 4915200
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/aura-v8/runtime/katana-current.png",
+          "w": 1740,
+          "h": 705,
+          "bytes": 4906800
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/../sword-ultimates-v10/runtime/razor-ground.png",
+          "w": 1740,
+          "h": 705,
+          "bytes": 4906800
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-splinters.png",
+          "w": 1536,
+          "h": 736,
+          "bytes": 4521984
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v4-incision.png",
+          "w": 1932,
+          "h": 575,
+          "bytes": 4443600
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/pressure.png",
+          "w": 1911,
+          "h": 576,
+          "bytes": 4402944
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp",
+          "w": 1024,
+          "h": 1024,
+          "bytes": 4194304
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/deal.png",
+          "w": 1248,
+          "h": 832,
+          "bytes": 4153344
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/rip.png",
+          "w": 1248,
+          "h": 832,
+          "bytes": 4153344
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/storm.png",
+          "w": 1248,
+          "h": 832,
+          "bytes": 4153344
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/crown.png",
+          "w": 1248,
+          "h": 832,
+          "bytes": 4153344
+        },
+        {
+          "url": "/assets/superstar/3.jpg",
+          "w": 720,
+          "h": 1280,
+          "bytes": 3686400
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/aura/ink-front.png",
+          "w": 1296,
+          "h": 648,
+          "bytes": 3359232
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/aura/ink-rear.png",
+          "w": 1296,
+          "h": 648,
+          "bytes": 3359232
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v4-pressure.png",
+          "w": 972,
+          "h": 824,
+          "bytes": 3203712
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/utility.png",
+          "w": 832,
+          "h": 832,
+          "bytes": 2768896
+        },
+        {
+          "url": "/assets/responsive/project-v/superstar/superstar-cn-23eb4b19986d4818-sd-v1-768.webp",
+          "w": 768,
+          "h": 896,
+          "bytes": 2752512
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-02d9dc1e8a8a4209-sd-v1-768.webp",
+          "w": 768,
+          "h": 840,
+          "bytes": 2580480
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-f500880b2ed34350-sd-v1-768.webp",
+          "w": 768,
+          "h": 840,
+          "bytes": 2580480
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/spine/whitecoat-skills-v4-51fecca13bde.atlas#whitecoat-skills-v4-51fecca13bde_4.png",
+          "w": 1172,
+          "h": 536,
+          "bytes": 2512768
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/fx-deal.png",
+          "w": 896,
+          "h": 672,
+          "bytes": 2408448
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/fx-storm.png",
+          "w": 896,
+          "h": 672,
+          "bytes": 2408448
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/fx-rip.png",
+          "w": 896,
+          "h": 672,
+          "bytes": 2408448
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/fx-crown.png",
+          "w": 896,
+          "h": 672,
+          "bytes": 2408448
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/fx-aura.png",
+          "w": 672,
+          "h": 896,
+          "bytes": 2408448
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/cards.png",
+          "w": 1024,
+          "h": 512,
+          "bytes": 2097152
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/shards.png",
+          "w": 1000,
+          "h": 486,
+          "bytes": 1944000
+        },
+        {
+          "url": "/assets/ui/project-v/characters/zenith/zenith-cn-0505936a0cbb4e59-sd-v1.png?v=FFD03C22343AB649",
+          "w": 675,
+          "h": 675,
+          "bytes": 1822500
+        },
+        {
+          "url": "/assets/ui/project-v/characters/zenith/zenith-cn-25f931ce393d474e-sd-v1.png?v=F1A07185C5BB1AA8",
+          "w": 675,
+          "h": 675,
+          "bytes": 1822500
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/aura-v8/runtime/../../aura-v9/runtime/sovereign-discharge.png",
+          "w": 870,
+          "h": 522,
+          "bytes": 1816560
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/../sword-ultimates-v10/runtime/blade-orbit.png",
+          "w": 870,
+          "h": 522,
+          "bytes": 1816560
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/aura-v8/runtime/pressure-crown.png",
+          "w": 865,
+          "h": 522,
+          "bytes": 1806120
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/aura-v8/runtime/pressure-wrap.png",
+          "w": 865,
+          "h": 519,
+          "bytes": 1795740
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/iaido.png",
+          "w": 865,
+          "h": 519,
+          "bytes": 1795740
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/eclipse.png",
+          "w": 865,
+          "h": 519,
+          "bytes": 1795740
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-rimlight.png",
+          "w": 957,
+          "h": 426,
+          "bytes": 1630728
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/../sword-ultimates-v10/runtime/sword-splinters.png",
+          "w": 952,
+          "h": 420,
+          "bytes": 1599360
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/body-ready.png",
+          "w": 716,
+          "h": 550,
+          "bytes": 1575200
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/../sword-ultimates-v10/runtime/trinity-cleave.png",
+          "w": 940,
+          "h": 346,
+          "bytes": 1300960
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/images/guard.png",
+          "w": 463,
+          "h": 695,
+          "bytes": 1287140
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/../sword-ultimates-v10/runtime/severed-space.png",
+          "w": 865,
+          "h": 351,
+          "bytes": 1214460
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/../sword-ultimates-v10/runtime/sword-shock.png",
+          "w": 903,
+          "h": 294,
+          "bytes": 1061928
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/sword-ribbon-source.png",
+          "w": 1032,
+          "h": 256,
+          "bytes": 1056768
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/icon.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/debris.png",
+          "w": 964,
+          "h": 228,
+          "bytes": 879168
+        },
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+          "w": 1024,
+          "h": 185,
+          "bytes": 757760
+        },
+        {
+          "url": "/assets/responsive/cards/9dd2ce688fd51787-384.webp",
+          "w": 384,
+          "h": 488,
+          "bytes": 749568
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/../sword-ultimates-v10/runtime/sword-flash.png",
+          "w": 924,
+          "h": 189,
+          "bytes": 698544
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/prime-requiem-20261021/idle.png",
+          "w": 290,
+          "h": 515,
+          "bytes": 597400
+        },
+        {
+          "url": "/assets/NEWCARD/24.png",
+          "w": 305,
+          "h": 333,
+          "bytes": 406260
+        },
+        {
+          "url": "/assets/cards/남수댕/031.webp",
+          "w": 200,
+          "h": 200,
+          "bytes": 160000
+        },
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/fill.webp",
+          "w": 512,
+          "h": 22,
+          "bytes": 45056
+        }
+      ]
+    },
+    {
+      "name": "close-0",
+      "images": [
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/icon.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+          "w": 1024,
+          "h": 185,
+          "bytes": 757760
+        },
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/fill.webp",
+          "w": 512,
+          "h": 22,
+          "bytes": 45056
+        }
+      ]
+    },
+    {
+      "name": "active-1",
+      "images": [
+        {
+          "url": "../../assets/ui/coin-prediction/arena-v1.png",
+          "w": 1672,
+          "h": 941,
+          "bytes": 6293408
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/source-art-approved.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/source-art-approved.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/idle.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/source-art.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/prime-requiem-20261021/source-art.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/cards/976467971.jpg",
+          "w": 1280,
+          "h": 960,
+          "bytes": 4915200
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/deal.png",
+          "w": 1248,
+          "h": 832,
+          "bytes": 4153344
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/rip.png",
+          "w": 1248,
+          "h": 832,
+          "bytes": 4153344
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/storm.png",
+          "w": 1248,
+          "h": 832,
+          "bytes": 4153344
+        },
+        {
+          "url": "/assets/superstar/3.jpg",
+          "w": 720,
+          "h": 1280,
+          "bytes": 3686400
+        },
+        {
+          "url": "/assets/responsive/project-v/superstar/superstar-cn-23eb4b19986d4818-sd-v1-768.webp",
+          "w": 768,
+          "h": 896,
+          "bytes": 2752512
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-02d9dc1e8a8a4209-sd-v1-768.webp",
+          "w": 768,
+          "h": 840,
+          "bytes": 2580480
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-f500880b2ed34350-sd-v1-768.webp",
+          "w": 768,
+          "h": 840,
+          "bytes": 2580480
+        },
+        {
+          "url": "/assets/ui/project-v/characters/zenith/zenith-cn-0505936a0cbb4e59-sd-v1.png?v=FFD03C22343AB649",
+          "w": 675,
+          "h": 675,
+          "bytes": 1822500
+        },
+        {
+          "url": "/assets/ui/project-v/characters/zenith/zenith-cn-25f931ce393d474e-sd-v1.png?v=F1A07185C5BB1AA8",
+          "w": 675,
+          "h": 675,
+          "bytes": 1822500
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/body-ready.png",
+          "w": 716,
+          "h": 550,
+          "bytes": 1575200
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/images/guard.png",
+          "w": 463,
+          "h": 695,
+          "bytes": 1287140
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/icon.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+          "w": 1024,
+          "h": 185,
+          "bytes": 757760
+        },
+        {
+          "url": "/assets/responsive/cards/9dd2ce688fd51787-384.webp",
+          "w": 384,
+          "h": 488,
+          "bytes": 749568
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/prime-requiem-20261021/idle.png",
+          "w": 290,
+          "h": 515,
+          "bytes": 597400
+        },
+        {
+          "url": "/assets/NEWCARD/24.png",
+          "w": 305,
+          "h": 333,
+          "bytes": 406260
+        },
+        {
+          "url": "/assets/cards/남수댕/031.webp",
+          "w": 200,
+          "h": 200,
+          "bytes": 160000
+        },
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/fill.webp",
+          "w": 512,
+          "h": 22,
+          "bytes": 45056
+        }
+      ]
+    },
+    {
+      "name": "warm-1",
+      "images": [
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/runtime-164a00db5e6a/jin-jokro-164a00db5e6a.atlas#jin-jokro-164a00db5e6a_2.png",
+          "w": 2048,
+          "h": 2042,
+          "bytes": 16728064
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/runtime-164a00db5e6a/jin-jokro-164a00db5e6a.atlas#jin-jokro-164a00db5e6a.png",
+          "w": 2046,
+          "h": 2043,
+          "bytes": 16719912
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/spine/whitecoat-skills-v4-51fecca13bde.atlas#whitecoat-skills-v4-51fecca13bde_2.png",
+          "w": 2048,
+          "h": 2040,
+          "bytes": 16711680
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/spine/whitecoat-skills-v4-51fecca13bde.atlas#whitecoat-skills-v4-51fecca13bde.png",
+          "w": 1994,
+          "h": 1995,
+          "bytes": 15912120
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/spine/whitecoat-skills-v4-51fecca13bde.atlas#whitecoat-skills-v4-51fecca13bde_3.png",
+          "w": 2046,
+          "h": 1676,
+          "bytes": 13716384
+        },
+        {
+          "url": "/assets/ui/project-v/fx/role-impact-v2/heal-impact-atlas-v2.json?v=3-v3-live-atlas",
+          "w": 2048,
+          "h": 1365,
+          "bytes": 11182080
+        },
+        {
+          "url": "/assets/ui/project-v/fx/role-impact-v2/attack-impact-atlas-v2.json?v=3-v3-live-atlas",
+          "w": 2048,
+          "h": 1365,
+          "bytes": 11182080
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/../sword-ultimates-v10/runtime/crosscut-prison.png",
+          "w": 1967,
+          "h": 1038,
+          "bytes": 8166984
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/runtime-164a00db5e6a/jin-jokro-164a00db5e6a.atlas#jin-jokro-164a00db5e6a_3.png",
+          "w": 1942,
+          "h": 1040,
+          "bytes": 8078720
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/impact-burst.png",
+          "w": 1632,
+          "h": 1215,
+          "bytes": 7931520
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-wheel.png",
+          "w": 1785,
+          "h": 1071,
+          "bytes": 7646940
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-rain.png",
+          "w": 1785,
+          "h": 1071,
+          "bytes": 7646940
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-flash.png",
+          "w": 1785,
+          "h": 1065,
+          "bytes": 7604100
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-thrust.png",
+          "w": 1785,
+          "h": 1062,
+          "bytes": 7582680
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/cross.png",
+          "w": 1735,
+          "h": 1038,
+          "bytes": 7203720
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/thrust.png",
+          "w": 1735,
+          "h": 1038,
+          "bytes": 7203720
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/../sword-ultimates-v10/runtime/heaven-line.png",
+          "w": 1735,
+          "h": 1038,
+          "bytes": 7203720
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/assets/fx-blood-titanblade-v3.png",
+          "w": 1774,
+          "h": 887,
+          "bytes": 6294152
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/assets/fx-idle-shattered-moon-v7.png",
+          "w": 1774,
+          "h": 887,
+          "bytes": 6294152
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/assets/fx-blood-mantle-v3.png",
+          "w": 1309,
+          "h": 1202,
+          "bytes": 6293672
+        },
+        {
+          "url": "../../assets/ui/coin-prediction/arena-v1.png",
+          "w": 1672,
+          "h": 941,
+          "bytes": 6293408
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/source-art-approved.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/source-art-approved.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/idle.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/source-art.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/prime-requiem-20261021/source-art.png",
+          "w": 1024,
+          "h": 1536,
+          "bytes": 6291456
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/sources/user-motion-sheet-v2.png",
+          "w": 1536,
+          "h": 1024,
+          "bytes": 6291456
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/assets/fx-blood-mooncleave-v3.png",
+          "w": 1536,
+          "h": 1024,
+          "bytes": 6291456
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/assets/fx-idle-blackflame-v6.png",
+          "w": 1448,
+          "h": 1086,
+          "bytes": 6290112
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/assets/fx-blood-dash.png",
+          "w": 1254,
+          "h": 1254,
+          "bytes": 6290064
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/assets/fx-blood-echo.png",
+          "w": 1254,
+          "h": 1254,
+          "bytes": 6290064
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/assets/fx-blood-frenzy-v2.png",
+          "w": 1254,
+          "h": 1254,
+          "bytes": 6290064
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/assets/fx-blood-tiger-burst.png",
+          "w": 1254,
+          "h": 1254,
+          "bytes": 6290064
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/assets/fx-blood-execution-v2.png",
+          "w": 1254,
+          "h": 1254,
+          "bytes": 6290064
+        },
+        {
+          "url": "/preview/prime-requiem-blood-skills-20261021-v1/assets/fx-blood-cataclysm-v3.png",
+          "w": 1310,
+          "h": 1200,
+          "bytes": 6288000
+        },
+        {
+          "url": "/assets/cards/976467971.jpg",
+          "w": 1280,
+          "h": 960,
+          "bytes": 4915200
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/aura-v8/runtime/katana-current.png",
+          "w": 1740,
+          "h": 705,
+          "bytes": 4906800
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/../sword-ultimates-v10/runtime/razor-ground.png",
+          "w": 1740,
+          "h": 705,
+          "bytes": 4906800
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-splinters.png",
+          "w": 1536,
+          "h": 736,
+          "bytes": 4521984
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v4-incision.png",
+          "w": 1932,
+          "h": 575,
+          "bytes": 4443600
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/pressure.png",
+          "w": 1911,
+          "h": 576,
+          "bytes": 4402944
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/prime-requiem-pve-20261022/eclipse-impact-v1.webp",
+          "w": 1024,
+          "h": 1024,
+          "bytes": 4194304
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/deal.png",
+          "w": 1248,
+          "h": 832,
+          "bytes": 4153344
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/rip.png",
+          "w": 1248,
+          "h": 832,
+          "bytes": 4153344
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/storm.png",
+          "w": 1248,
+          "h": 832,
+          "bytes": 4153344
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/crown.png",
+          "w": 1248,
+          "h": 832,
+          "bytes": 4153344
+        },
+        {
+          "url": "/assets/superstar/3.jpg",
+          "w": 720,
+          "h": 1280,
+          "bytes": 3686400
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/aura/ink-rear.png",
+          "w": 1296,
+          "h": 648,
+          "bytes": 3359232
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/aura/ink-front.png",
+          "w": 1296,
+          "h": 648,
+          "bytes": 3359232
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v4-pressure.png",
+          "w": 972,
+          "h": 824,
+          "bytes": 3203712
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/utility.png",
+          "w": 832,
+          "h": 832,
+          "bytes": 2768896
+        },
+        {
+          "url": "/assets/responsive/project-v/superstar/superstar-cn-23eb4b19986d4818-sd-v1-768.webp",
+          "w": 768,
+          "h": 896,
+          "bytes": 2752512
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-02d9dc1e8a8a4209-sd-v1-768.webp",
+          "w": 768,
+          "h": 840,
+          "bytes": 2580480
+        },
+        {
+          "url": "/assets/responsive/project-v/fur/fur-cn-f500880b2ed34350-sd-v1-768.webp",
+          "w": 768,
+          "h": 840,
+          "bytes": 2580480
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/spine/whitecoat-skills-v4-51fecca13bde.atlas#whitecoat-skills-v4-51fecca13bde_4.png",
+          "w": 1172,
+          "h": 536,
+          "bytes": 2512768
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/fx-deal.png",
+          "w": 896,
+          "h": 672,
+          "bytes": 2408448
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/fx-rip.png",
+          "w": 896,
+          "h": 672,
+          "bytes": 2408448
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/fx-storm.png",
+          "w": 896,
+          "h": 672,
+          "bytes": 2408448
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/fx-crown.png",
+          "w": 896,
+          "h": 672,
+          "bytes": 2408448
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/fx-aura.png",
+          "w": 672,
+          "h": 896,
+          "bytes": 2408448
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/cardgu-20261027/cards.png",
+          "w": 1024,
+          "h": 512,
+          "bytes": 2097152
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/shards.png",
+          "w": 1000,
+          "h": 486,
+          "bytes": 1944000
+        },
+        {
+          "url": "/assets/ui/project-v/characters/zenith/zenith-cn-0505936a0cbb4e59-sd-v1.png?v=FFD03C22343AB649",
+          "w": 675,
+          "h": 675,
+          "bytes": 1822500
+        },
+        {
+          "url": "/assets/ui/project-v/characters/zenith/zenith-cn-25f931ce393d474e-sd-v1.png?v=F1A07185C5BB1AA8",
+          "w": 675,
+          "h": 675,
+          "bytes": 1822500
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/aura-v8/runtime/../../aura-v9/runtime/sovereign-discharge.png",
+          "w": 870,
+          "h": 522,
+          "bytes": 1816560
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/../sword-ultimates-v10/runtime/blade-orbit.png",
+          "w": 870,
+          "h": 522,
+          "bytes": 1816560
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/aura-v8/runtime/pressure-crown.png",
+          "w": 865,
+          "h": 522,
+          "bytes": 1806120
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/iaido.png",
+          "w": 865,
+          "h": 519,
+          "bytes": 1795740
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/aura-v8/runtime/pressure-wrap.png",
+          "w": 865,
+          "h": 519,
+          "bytes": 1795740
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/eclipse.png",
+          "w": 865,
+          "h": 519,
+          "bytes": 1795740
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/v5-rimlight.png",
+          "w": 957,
+          "h": 426,
+          "bytes": 1630728
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/../sword-ultimates-v10/runtime/sword-splinters.png",
+          "w": 952,
+          "h": 420,
+          "bytes": 1599360
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/body-ready.png",
+          "w": 716,
+          "h": 550,
+          "bytes": 1575200
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/../sword-ultimates-v10/runtime/trinity-cleave.png",
+          "w": 940,
+          "h": 346,
+          "bytes": 1300960
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/images/guard.png",
+          "w": 463,
+          "h": 695,
+          "bytes": 1287140
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/../sword-ultimates-v10/runtime/severed-space.png",
+          "w": 865,
+          "h": 351,
+          "bytes": 1214460
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/../sword-ultimates-v10/runtime/sword-shock.png",
+          "w": 903,
+          "h": 294,
+          "bytes": 1061928
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/sword-ribbon-source.png",
+          "w": 1032,
+          "h": 256,
+          "bytes": 1056768
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/icon.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/hakuya-shin-20261105/effects/debris.png",
+          "w": 964,
+          "h": 228,
+          "bytes": 879168
+        },
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+          "w": 1024,
+          "h": 185,
+          "bytes": 757760
+        },
+        {
+          "url": "/assets/responsive/cards/9dd2ce688fd51787-384.webp",
+          "w": 384,
+          "h": 488,
+          "bytes": 749568
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/jin-jokro-20261106/effects/runtime/../sword-ultimates-v10/runtime/sword-flash.png",
+          "w": 924,
+          "h": 189,
+          "bytes": 698544
+        },
+        {
+          "url": "/assets/ui/project-v/mercenaries/prime-requiem-20261021/idle.png",
+          "w": 290,
+          "h": 515,
+          "bytes": 597400
+        },
+        {
+          "url": "/assets/NEWCARD/24.png",
+          "w": 305,
+          "h": 333,
+          "bytes": 406260
+        },
+        {
+          "url": "/assets/cards/남수댕/031.webp",
+          "w": 200,
+          "h": 200,
+          "bytes": 160000
+        },
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/fill.webp",
+          "w": 512,
+          "h": 22,
+          "bytes": 45056
+        }
+      ]
+    },
+    {
+      "name": "close-1",
+      "images": [
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/icon.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp",
+          "w": 512,
+          "h": 512,
+          "bytes": 1048576
+        },
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+          "w": 1024,
+          "h": 185,
+          "bytes": 757760
+        },
+        {
+          "url": "/assets/ui/project-v/battle-hud-b-v1/fill.webp",
+          "w": 512,
+          "h": 22,
+          "bytes": 45056
+        }
+      ]
+    }
+  ]
+}

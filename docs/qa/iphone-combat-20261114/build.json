@@ -1,0 +1,90 @@
+[
+  {
+    "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+    "ref": "f26da8968a35fb5dad4eeea89202fe1e7deef10a",
+    "original": "214b755b5c7572bb339ce6b0593d7d913679d14ccb3b25951df6c96817a3eba8",
+    "updated": "2d67398b63051601be197f57d07da4d3301d12abbf9debdc2091237d0e00e8e6",
+    "size": 3707660,
+    "baselineReproduced": true
+  },
+  {
+    "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+    "ref": "f26da8968a35fb5dad4eeea89202fe1e7deef10a",
+    "original": "acfba5ade1a2cfcd4dbfd20f55b4aed55775582a64f12fe2fe7dccc2362d1636",
+    "updated": "47526de5f8905d6bef1dc2f5806dd061c6c55f65f19ae7d920b15fe79960d828",
+    "size": 3707218,
+    "baselineReproduced": true
+  },
+  {
+    "file": "preview/cow-room-v3-v1/battle.bundle.js",
+    "ref": "f26da8968a35fb5dad4eeea89202fe1e7deef10a",
+    "original": "117c9e6061fcb7fe346820ad17f9f6690ea4a6ebd18740f62e29fa5d0278c878",
+    "updated": "a6887bb741ab1299b86880e0a67fd6efa5215a7d2e57725c8d3258cdc1112550",
+    "size": 3707286,
+    "baselineReproduced": true
+  },
+  {
+    "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+    "ref": "f26da8968a35fb5dad4eeea89202fe1e7deef10a",
+    "original": "d084ef3df6e238f64385266509e916604132f7590085c4bb7fc43355cc9cdf6b",
+    "updated": "aff04fc2f8407b8262a1c03df8c6277c0593f9c36024e5225a639187dbc4b8a8",
+    "size": 3707275,
+    "baselineReproduced": true
+  },
+  {
+    "file": "pve-v3/battle.bundle.js",
+    "ref": "f26da8968a35fb5dad4eeea89202fe1e7deef10a",
+    "original": "7a37eba53a7dfcad3af73b24b7d36dd7fee0afe0464b47b873f1a396e9b424a8",
+    "updated": "92d86d0f13323705b9e99f7dffcb5c19a2d645386a59bf932e569b7a7c1e745e",
+    "size": 3707634,
+    "baselineReproduced": true
+  },
+  {
+    "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+    "ref": "f26da8968a35fb5dad4eeea89202fe1e7deef10a",
+    "original": "34c85413749e2b7c4b4baa01b7d9c71a6bb053e7cc2be69709546c1da303a64d",
+    "updated": "60c863919377dee232e8b96eccacc0572df132d9362014738a4204ce815f729e",
+    "size": 3710844,
+    "baselineReproduced": true
+  },
+  {
+    "file": "preview/boss-resources-v2048/lab.bundle.js",
+    "ref": "f26da8968a35fb5dad4eeea89202fe1e7deef10a",
+    "original": "cae3fd9804fda9533c6014df11e9a71ac9c91577a22f35799bf64c8251c04d81",
+    "updated": "11fbfeac05c2f389af228c08e9c780f54d25b0687cd14a957117cec04bf2070c",
+    "size": 3704302,
+    "baselineReproduced": true
+  },
+  {
+    "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+    "ref": "f26da8968a35fb5dad4eeea89202fe1e7deef10a",
+    "original": "e9fcff099c5d5b5a793a85cc62649c433d79e324ec19b1c16e6a897c0bedeba2",
+    "updated": "5fbfc83fb8885eb5091b1e00c7ed9411eab1aa9d4b9b94ac1482f6f88c3f69ce",
+    "size": 3709006,
+    "baselineReproduced": true
+  },
+  {
+    "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+    "ref": "f26da8968a35fb5dad4eeea89202fe1e7deef10a",
+    "original": "1432735c52cd7f2cb073aa38ae9627da8811cf05468546e167f7b1ec63a19d69",
+    "updated": "c963d342c58314a1b6f6f514b6f9afb3dd2a175ae5e0d09fa2e66ca4315d593f",
+    "size": 3754116,
+    "baselineReproduced": true
+  },
+  {
+    "file": "preview/coop-defense-v1/defense.bundle.js",
+    "ref": "f26da8968a35fb5dad4eeea89202fe1e7deef10a",
+    "original": "894e5a8138fb3ea00fc1bf65d2f71b01a929592aec0fca0119fa98ff4127d201",
+    "updated": "019a4125e0e1d4acf1e3a7895b28f7194b11f4dfb63ed6a04abdc199f3bd219d",
+    "size": 3840640,
+    "baselineReproduced": true
+  },
+  {
+    "file": "preview/sustained-hunt-v2/battle.bundle.js",
+    "ref": "f26da8968a35fb5dad4eeea89202fe1e7deef10a",
+    "original": "b0f4d6143e50432c1af5f49b2f1ab0e980793d5749d766a721949f827a11c1a5",
+    "updated": "d7ebe75fb4f2aa6705eb919ab2472ba8bd3f83b1b7b910ea697a7fa521400751",
+    "size": 3731344,
+    "baselineReproduced": true
+  }
+]

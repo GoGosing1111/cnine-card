@@ -1,13 +1,14 @@
 import {Assets,Sprite,Texture,Rectangle,Point} from 'pixi.js';
 import {EFFECTS} from './catalog.mjs';
 
-const cache=new Map(),pending=new Map();
+const cache=new Map(),pending=new Map(),retiring=new Map();
 const budget=32*1048576;
 let access=0;
 const clamp=n=>Math.max(0,Math.min(1,n));
 const lerp=(a,b,t)=>a+(b-a)*t;
 async function acquire(base,id,spec){
  const key=base+spec.atlas;
+ if(retiring.has(key))await retiring.get(key);
  if(!cache.has(key)){
   if(!pending.has(key))pending.set(key,Assets.load(key).then(atlas=>{
    const item={key,spec,atlas,refs:0,used:++access,textures:spec.frames.map(f=>new Texture({source:atlas.source,frame:new Rectangle(f.x,f.y,f.w,f.h)}))};
@@ -25,16 +26,23 @@ async function trimCache(all=false){
   for(const texture of c.textures)texture.destroy(false);
   // Only this module owns these URL loads. refs cover all concurrent engines;
   // active consumers' shared sources are never destroyed.
-  await Assets.unload(c.key);
+  const work=Assets.unload(c.key).finally(()=>retiring.delete(c.key));
+  retiring.set(c.key,work);
+  await work;
  }
+ if(all)await Promise.allSettled([...retiring.values()]);
 }
 function release(items){for(const c of items)c.refs--;return trimCache();}
 // Shared ownership for the separately authored sustained-state clips.
 export {acquire as acquireEffectAtlas,release as releaseEffectAtlases,trimCache as trimEffectCache};
 
 export class AdvancementEffects{
- constructor(engine,base,manifest){Object.assign(this,{engine,base,manifest,enabled:true,destroyed:false,sessions:new Set(),pendingEvents:new Set(),seen:new Set(),epoch:0,completed:0});}
- async begin(event){
+ constructor(engine,base,manifest){Object.assign(this,{engine,base,manifest,enabled:true,destroyed:false,sessions:new Set(),pendingEvents:new Set(),pendingWork:new Set(),seen:new Set(),epoch:0,completed:0});}
+ begin(event){
+  const work=this.beginEvent(event);this.pendingWork.add(work);
+  void work.then(()=>this.pendingWork.delete(work),()=>this.pendingWork.delete(work));return work;
+ }
+ async beginEvent(event){
   if(this.destroyed||!this.engine.visible||this.sessions.size+this.pendingEvents.size>=8)return null;
   const spec=EFFECTS[event.id];if(!spec)throw Error('Unknown advancement effect '+event.id);
   if(!event.actor?.root||!event.target?.root)throw Error('Explicit visual actor and target required');
@@ -64,7 +72,7 @@ export class AdvancementEffects{
  }
  setEnabled(value){this.enabled=Boolean(value);for(const s of this.sessions)s.render(s.time);}
  cancel(){this.epoch++;for(const s of [...this.sessions]){s.timeline?.kill();s.destroy();}}
- async destroy(){if(this.destroyed)return;this.destroyed=true;this.cancel();await trimCache(true);}
+ async destroy(){if(this.destroyed)return this.releasePromise;this.destroyed=true;this.cancel();return this.releasePromise=(async()=>{await Promise.allSettled([...this.pendingWork]);await trimCache(true);})();}
  audit(){return {active:this.sessions.size,sprites:[...this.sessions].reduce((n,s)=>n+s.sprites.length,0),sessions:[...this.sessions].map(s=>s.audit()),cacheBytes:[...cache.values()].reduce((n,c)=>n+c.spec.decodedBytes,0),loadedClips:[...cache.values()].map(c=>({id:c.key.split('/').at(-1),refs:c.refs})),completed:this.completed};}
 }
 class EffectSession{

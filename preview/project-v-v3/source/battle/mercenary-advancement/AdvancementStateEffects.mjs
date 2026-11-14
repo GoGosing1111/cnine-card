@@ -6,9 +6,13 @@ const positive=s=>s.id==='avenger'?s.charged:s.id==='shield-knight'?s.remaining>
 /** Presentation only. The battle event adapter supplies authoritative states.
  * Never infers procs, changes HP, decrements shields, or applies attack buffs. */
 export class AdvancementStateEffects{
- constructor(engine,options){Object.assign(this,{engine,...options,enabled:true,destroyed:false,epoch:0,time:0,speed:1,timeline:null,states:new Map(),versions:new Map(),pending:new Set()});}
+ constructor(engine,options){Object.assign(this,{engine,...options,enabled:true,destroyed:false,epoch:0,time:0,speed:1,timeline:null,states:new Map(),versions:new Map(),pending:new Set(),pendingWork:new Set()});}
  validActor(actor){return !!(actor?.root?.parent&&!actor.root.destroyed&&this.engine.isAlive(actor));}
- async apply(state){
+ apply(state){
+  const work=this.applyState(state);this.pendingWork.add(work);
+  void work.then(()=>this.pendingWork.delete(work),()=>this.pendingWork.delete(work));return work;
+ }
+ async applyState(state){
   if(this.destroyed||state.battleId!==this.battleId||!this.engine.visible)return false;
   if(!clips[state.id]||!state.actor?.id||!Number.isSafeInteger(state.revision)||state.revision<0)throw Error('Invalid advancement visual state');
   if(state.id==='shield-knight'&&(!Number.isInteger(state.remaining)||state.remaining<0||state.remaining>3))throw Error('Shield remaining must be 0..3');
@@ -86,6 +90,6 @@ export class AdvancementStateEffects{
  pause(value=true){if(value)this.timeline?.pause();else this.timeline?.resume();}
  seek(time){this.timeline?.pause();this.timeline?.totalTime(Math.max(0,time),false);this.render(time);}
  cancel(){this.epoch++;const timeline=this.timeline;this.timeline=null;timeline?.kill();for(const key of [...this.states.keys()])this.remove(key,false);}
- async destroy(){if(this.destroyed)return;this.cancel();this.destroyed=true;await trimEffectCache(true);}
+ async destroy(){if(this.destroyed)return this.releasePromise;this.destroyed=true;this.cancel();return this.releasePromise=(async()=>{await Promise.allSettled([...this.pendingWork]);await trimEffectCache(true);})();}
  audit(){return {battleId:this.battleId,time:this.time,pending:this.pending.size,active:this.states.size,clock:!!this.timeline,rows:[...this.states.values()].map(r=>({id:r.state.id,actor:r.state.actor.id,revision:r.state.revision,remaining:r.state.remaining,sprites:r.sprites.map(s=>({actor:s.actor.id,frame:s.frame,visible:s.sprite.visible,x:s.sprite.x,y:s.sprite.y}))}))};}
 }
