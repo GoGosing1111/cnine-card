@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-11-14T08:07:31.706Z",
+  "reducedMotionAutoReveal": true,
+  "accessibleResult": true,
+  "noIdleAnimation": true,
+  "exactlyOneReceipt": true,
+  "insufficientAllMaterials": true,
+  "emptyOwnedInventory": true,
+  "executionOff": true,
+  "maxBigintWalletNoOverflow": true,
+  "backLinkToEquipment": true,
+  "errors": []
+}

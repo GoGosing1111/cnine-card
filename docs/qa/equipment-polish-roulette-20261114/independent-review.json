@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-11-14T08:17:21.185Z",
+  "reviewer": "equipment_ui_review",
+  "scope": "Equipment header and polish icon reel, 1440/390/640/768 viewports, final native Korean font correction",
+  "findings": [],
+  "result": "독립 검수에서 제목·성공률·재료·버튼·옵션·결과의 잘림과 겹침을 발견하지 않았다.",
+  "screenshots": [
+    "polish-390-webkit-ready.png",
+    "polish-390-chrome-ready.png",
+    "polish-desktop-success.png",
+    "equipment-640-independent-review.png",
+    "equipment-768-independent-review.png"
+  ]
+}

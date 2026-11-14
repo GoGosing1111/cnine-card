@@ -1,0 +1,801 @@
+{
+  "completedAt": "2026-11-14T08:35:42.689Z",
+  "status": "live",
+  "requested": {
+    "headerIcons": true,
+    "polishSuccessPercent": 10,
+    "coinsPerRoll": 10000000000000,
+    "masterStarsPerRoll": 30000000,
+    "stonesPerRoll": 1,
+    "automaticIconRoulette": true,
+    "missOutcome": true,
+    "slideUnlockRemoved": true,
+    "skipRemoved": true
+  },
+  "live": {
+    "operationKey": "ops:equipment-polish:roulette10pct:20261114:v1",
+    "auditId": "60483",
+    "appliedAt": "2026-11-14T07:47:03.277Z",
+    "revision": 1,
+    "publicVisible": true,
+    "executionMode": "ON",
+    "successRate": 10,
+    "costs": {
+      "coins": 10000000000000,
+      "masterStars": 30000000,
+      "stones": 1
+    },
+    "accountGrants": 0,
+    "liveAccountPolishAttemptsByThisTask": 0,
+    "publicStatus": {
+      "publicVisible": true,
+      "executionMode": "ON",
+      "canPolish": true,
+      "executionReady": true,
+      "notice": "성공률 10% · 1회 코인 10조, 마스터의 별 3천만 개, 연마석 1개. 꽝도 재료를 소모합니다.",
+      "ownerReview": false,
+      "canEnter": true
+    }
+  },
+  "release": {
+    "featureSource": "052d22646708478a01c124814708c446123dc5e6",
+    "featurePages": "e8197a98-c32e-4d3d-b94e-f4e4148cdab7",
+    "finalSource": "7b09f54009f83d6eb0cdec519e275d166ffa8ebd",
+    "finalPages": "f79c45de-8c47-4643-b944-95cc792d598a",
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "fcaeb72e-01cf-424c-9cf9-7518ba6c17a4",
+        "percentage": 100,
+        "successRateWorker": true,
+        "sha256": "618a3835590ec43a0a88ced237948ad63ad3d09ecd07249f0c37f7725bfabe09"
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "56378f77-cf1d-426d-994b-7f5e08df56e2",
+        "percentage": 100,
+        "successRateWorker": false,
+        "sha256": "f34803b6978a98fa46b3efab476cf4bd8bb2ac6107ae2216abf38509ed6bbad5"
+      }
+    ],
+    "verifiedFiles": [
+      {
+        "file": "assets/ui/equipment-polish-20261114/icons.webp",
+        "bytes": 337084,
+        "sha256": "40e215b226e8277cc4da6d997b418d243c18715ec68996d8d300d4d434f5cb70"
+      },
+      {
+        "file": "css/equipment-icons-20261114.css",
+        "bytes": 1404,
+        "sha256": "7c536bced8fca7486370698ba147b2b7f9b67f41f07e62c4788f31e295d7710c"
+      },
+      {
+        "file": "css/character-loadout-v2.css",
+        "bytes": 50352,
+        "sha256": "9d57980ceb4eb899dfdd88e8cb0bcc9475faa359e96ea033c7a7f72f0278de66"
+      },
+      {
+        "file": "js/character-loadout-v2.js",
+        "bytes": 51036,
+        "sha256": "cd0b45bba207d851350c06a3d0cf4fdf6d3d09baa33a66cf9fbcde717fd966c4"
+      },
+      {
+        "file": "equipment-polish/index.html",
+        "bytes": 3718,
+        "sha256": "963b871c5a904ba5e40336517fb1024a57e7a2e1c232079740d86b1991ad0cc2"
+      },
+      {
+        "file": "equipment-polish/app.mjs",
+        "bytes": 14798,
+        "sha256": "98ab54edecfd45b1cd6588df96a4c8b0665615e3a84b85994968fe11799d5c18"
+      },
+      {
+        "file": "equipment-polish/live.css",
+        "bytes": 8061,
+        "sha256": "b9a1aacb9e9c0b41658f52864565b5a193a15586effce8b94e65feb42e85b86d"
+      },
+      {
+        "file": "shared/equipment-polish-v1.mjs",
+        "bytes": 6051,
+        "sha256": "6a50b5e0c116235d9d8a2acb472f665368b92696b62c7532d24337aca8677c07"
+      }
+    ],
+    "windowsRelease": "171c0b539a8cc5a2d1a751d8abffcf3d05d81f691798db1b8de60e603bbf24fc",
+    "publicChecks": [
+      {
+        "url": "https://cnine-card.pages.dev/api/character/equipment/polish/status",
+        "status": 200,
+        "milliseconds": 193,
+        "bytes": 245,
+        "sha256": "c254eed86d43d612b7b0b19e65dfced9a6e9234a21bef7b0422078debf51c5ed",
+        "cacheControl": "no-store",
+        "publicStatus": {
+          "publicVisible": true,
+          "executionMode": "ON",
+          "canPolish": true,
+          "executionReady": true,
+          "notice": "성공률 10% · 1회 코인 10조, 마스터의 별 3천만 개, 연마석 1개. 꽝도 재료를 소모합니다.",
+          "ownerReview": false,
+          "canEnter": true
+        }
+      },
+      {
+        "url": "https://cnine-card.pages.dev/equipment-polish/",
+        "status": 200,
+        "milliseconds": 26,
+        "bytes": 3718,
+        "sha256": "963b871c5a904ba5e40336517fb1024a57e7a2e1c232079740d86b1991ad0cc2",
+        "cacheControl": "no-cache, must-revalidate, max-age=0"
+      },
+      {
+        "url": "https://cnine-card.pages.dev/equipment-polish/live.css?v=20261114-font2",
+        "status": 200,
+        "milliseconds": 25,
+        "bytes": 8061,
+        "sha256": "b9a1aacb9e9c0b41658f52864565b5a193a15586effce8b94e65feb42e85b86d",
+        "cacheControl": "no-cache, must-revalidate, max-age=0"
+      },
+      {
+        "url": "https://cnine-card.pages.dev/assets/ui/equipment-polish-20261114/icons.webp",
+        "status": 200,
+        "milliseconds": 58,
+        "bytes": 337084,
+        "sha256": "40e215b226e8277cc4da6d997b418d243c18715ec68996d8d300d4d434f5cb70",
+        "cacheControl": "public, max-age=86400, stale-while-revalidate=604800"
+      }
+    ],
+    "typographyResume": {
+      "head": "7b09f54009f83d6eb0cdec519e275d166ffa8ebd",
+      "base": "dd732890e17fe79c021289fb3c16bd640f0bc507",
+      "stage": "C:/Users/User/AppData/Local/Temp/cnine-release-WaKtOQ",
+      "changed": [
+        "equipment-polish/index.html",
+        "equipment-polish/live.css"
+      ],
+      "unchangedWorkerDeployments": [
+        {
+          "name": "cnine-card-api-runtime",
+          "versions": [
+            {
+              "version_id": "fcaeb72e-01cf-424c-9cf9-7518ba6c17a4",
+              "percentage": 100
+            }
+          ]
+        },
+        {
+          "name": "cnine-card-clan-draft",
+          "versions": [
+            {
+              "version_id": "56378f77-cf1d-426d-994b-7f5e08df56e2",
+              "percentage": 100
+            }
+          ]
+        }
+      ],
+      "manifest": "171c0b539a8cc5a2d1a751d8abffcf3d05d81f691798db1b8de60e603bbf24fc",
+      "tests": 14,
+      "checkedAt": "2026-11-14T08:26:59.026Z",
+      "reason": "The reviewed change alters two frontend files. The staged Windows manifest differs from current production only in these two files. Reuse the verified stage and deploy Pages."
+    }
+  },
+  "artwork": {
+    "icons": 14,
+    "atlas": "assets/ui/equipment-polish-20261114/icons.webp",
+    "atlasBytes": 337084,
+    "promptsAndSourceHashes": "imagegen-manifest.json",
+    "transparentRasterArt": true
+  },
+  "implementation": {
+    "missConsumesAllListedMaterials": true,
+    "missDoesNotIncreaseSuccessfulGrowthCount": true,
+    "maxSuccessfulGrowths": 20,
+    "maximumLevelPerOption": 10,
+    "legacyPolicyWithoutSuccessRate": 100,
+    "atomicDebitAndReceipt": true,
+    "retryDoesNotDoubleCharge": true,
+    "reloadRevealsStoredReceipt": true,
+    "reducedMotionAutoReveal": true,
+    "hiddenDocumentPausesAnimation": true,
+    "pageExitCancelsAnimation": true,
+    "nativeKoreanFontStack": [
+      "Malgun Gothic",
+      "Apple SD Gothic Neo",
+      "sans-serif"
+    ]
+  },
+  "verification": {
+    "initialReleaseTestsPassed": 57,
+    "typographyRegressionTestsPassed": 14,
+    "workerSyntaxCheck": true,
+    "pagesFunctionCompilation": true,
+    "cms": {
+      "successRate": 10,
+      "coins": 10000000000000,
+      "masterStars": 30000000,
+      "stones": 1,
+      "rows": 20,
+      "firstOptionChance": "2.00%",
+      "saveAndReload": true,
+      "localFixture": true
+    },
+    "edgeCases": {
+      "checkedAt": "2026-11-14T08:07:31.706Z",
+      "reducedMotionAutoReveal": true,
+      "accessibleResult": true,
+      "noIdleAnimation": true,
+      "exactlyOneReceipt": true,
+      "insufficientAllMaterials": true,
+      "emptyOwnedInventory": true,
+      "executionOff": true,
+      "maxBigintWalletNoOverflow": true,
+      "backLinkToEquipment": true,
+      "errors": []
+    },
+    "independentReview": {
+      "checkedAt": "2026-11-14T08:17:21.185Z",
+      "reviewer": "equipment_ui_review",
+      "scope": "Equipment header and polish icon reel, 1440/390/640/768 viewports, final native Korean font correction",
+      "findings": [],
+      "result": "독립 검수에서 제목·성공률·재료·버튼·옵션·결과의 잘림과 겹침을 발견하지 않았다.",
+      "screenshots": [
+        "polish-390-webkit-ready.png",
+        "polish-390-chrome-ready.png",
+        "polish-desktop-success.png",
+        "equipment-640-independent-review.png",
+        "equipment-768-independent-review.png"
+      ]
+    },
+    "windowsManifestHashCheck": true
+  },
+  "performance": {
+    "conditions": "Serial before/after runs on the same Windows development host. Headless installed Chrome 1440x960 and 390x844 Android viewport emulation, headless WebKit 390x844 iPhone viewport emulation. Actual home-to-equipment routing and equipment-to-polish link with isolated local account/API. No network throttling. Historic changed text files loaded before timing. No concurrent task-owned build or database test during the final measurement.",
+    "physicalDeviceMeasurement": false,
+    "windowsNativeAppRuntimeMeasurement": false,
+    "browserEntryMeasurement": true,
+    "backendProductionReadOnlyMeasurement": true,
+    "frontend": [
+      {
+        "platform": "Windows Chrome",
+        "viewport": [
+          1440,
+          960
+        ],
+        "before": true,
+        "header": [
+          {
+            "entry": "cold",
+            "readyMs": 399,
+            "frames": 361,
+            "p95Ms": 4.3,
+            "maxMs": 395.8,
+            "over50": 3,
+            "menu": {
+              "width": 1328,
+              "client": 1328,
+              "icons": 0
+            }
+          },
+          {
+            "entry": "warm",
+            "readyMs": 55,
+            "frames": 47,
+            "p95Ms": 37.5,
+            "maxMs": 108.4,
+            "over50": 2,
+            "menu": {
+              "width": 1328,
+              "client": 1328,
+              "icons": 0
+            }
+          }
+        ],
+        "loads": [
+          {
+            "entry": "cold",
+            "readyMs": 663,
+            "idle": {
+              "frames": 121,
+              "p95Ms": 4.3,
+              "maxMs": 4.5,
+              "over50": 0
+            }
+          },
+          {
+            "entry": "warm",
+            "readyMs": 387,
+            "idle": {
+              "frames": 121,
+              "p95Ms": 4.3,
+              "maxMs": 4.4,
+              "over50": 0
+            }
+          }
+        ],
+        "animation": {
+          "durationMs": 6949,
+          "frames": 1658,
+          "p95Ms": 4.3,
+          "maxMs": 20.9,
+          "over50": 0
+        },
+        "decodedSameOriginBytes": 4972135,
+        "animationsAtRest": 0,
+        "remainingPolishNodes": 0,
+        "errors": []
+      },
+      {
+        "platform": "Windows Chrome",
+        "viewport": [
+          1440,
+          960
+        ],
+        "before": false,
+        "header": [
+          {
+            "entry": "cold",
+            "readyMs": 441,
+            "frames": 501,
+            "p95Ms": 4.4,
+            "maxMs": 188.6,
+            "over50": 3,
+            "menu": {
+              "width": 1328,
+              "client": 1328,
+              "icons": 6
+            }
+          },
+          {
+            "entry": "warm",
+            "readyMs": 77,
+            "frames": 78,
+            "p95Ms": 16.6,
+            "maxMs": 66.6,
+            "over50": 1,
+            "menu": {
+              "width": 1328,
+              "client": 1328,
+              "icons": 6
+            }
+          }
+        ],
+        "loads": [
+          {
+            "entry": "cold",
+            "readyMs": 181,
+            "idle": {
+              "frames": 121,
+              "p95Ms": 4.3,
+              "maxMs": 4.7,
+              "over50": 0
+            }
+          },
+          {
+            "entry": "warm",
+            "readyMs": 82,
+            "idle": {
+              "frames": 122,
+              "p95Ms": 4.3,
+              "maxMs": 4.4,
+              "over50": 0
+            }
+          }
+        ],
+        "animation": {
+          "durationMs": 5070,
+          "frames": 1214,
+          "p95Ms": 4.3,
+          "maxMs": 8.4,
+          "over50": 0
+        },
+        "decodedSameOriginBytes": 720659,
+        "animationsAtRest": 0,
+        "remainingPolishNodes": 0,
+        "errors": []
+      },
+      {
+        "platform": "Android viewport emulation",
+        "viewport": [
+          390,
+          844
+        ],
+        "before": true,
+        "header": [
+          {
+            "entry": "cold",
+            "readyMs": 343,
+            "frames": 393,
+            "p95Ms": 4.3,
+            "maxMs": 437.5,
+            "over50": 4,
+            "menu": {
+              "width": 388,
+              "client": 388,
+              "icons": 0
+            }
+          },
+          {
+            "entry": "warm",
+            "readyMs": 54,
+            "frames": 86,
+            "p95Ms": 4.3,
+            "maxMs": 46,
+            "over50": 0,
+            "menu": {
+              "width": 388,
+              "client": 388,
+              "icons": 0
+            }
+          }
+        ],
+        "loads": [
+          {
+            "entry": "cold",
+            "readyMs": 554,
+            "idle": {
+              "frames": 121,
+              "p95Ms": 4.3,
+              "maxMs": 4.6,
+              "over50": 0
+            }
+          },
+          {
+            "entry": "warm",
+            "readyMs": 324,
+            "idle": {
+              "frames": 121,
+              "p95Ms": 4.3,
+              "maxMs": 4.4,
+              "over50": 0
+            }
+          }
+        ],
+        "animation": {
+          "durationMs": 6772,
+          "frames": 1621,
+          "p95Ms": 4.3,
+          "maxMs": 16.7,
+          "over50": 0
+        },
+        "decodedSameOriginBytes": 4972158,
+        "animationsAtRest": 0,
+        "remainingPolishNodes": 0,
+        "errors": []
+      },
+      {
+        "platform": "Android viewport emulation",
+        "viewport": [
+          390,
+          844
+        ],
+        "before": false,
+        "header": [
+          {
+            "entry": "cold",
+            "readyMs": 411,
+            "frames": 517,
+            "p95Ms": 4.3,
+            "maxMs": 95.8,
+            "over50": 1,
+            "menu": {
+              "width": 388,
+              "client": 388,
+              "icons": 6
+            }
+          },
+          {
+            "entry": "warm",
+            "readyMs": 55,
+            "frames": 88,
+            "p95Ms": 4.4,
+            "maxMs": 25,
+            "over50": 0,
+            "menu": {
+              "width": 388,
+              "client": 388,
+              "icons": 6
+            }
+          }
+        ],
+        "loads": [
+          {
+            "entry": "cold",
+            "readyMs": 139,
+            "idle": {
+              "frames": 122,
+              "p95Ms": 4.3,
+              "maxMs": 4.3,
+              "over50": 0
+            }
+          },
+          {
+            "entry": "warm",
+            "readyMs": 67,
+            "idle": {
+              "frames": 121,
+              "p95Ms": 4.3,
+              "maxMs": 9.6,
+              "over50": 0
+            }
+          }
+        ],
+        "animation": {
+          "durationMs": 5061,
+          "frames": 1211,
+          "p95Ms": 4.3,
+          "maxMs": 8.3,
+          "over50": 0
+        },
+        "decodedSameOriginBytes": 720688,
+        "animationsAtRest": 0,
+        "remainingPolishNodes": 0,
+        "errors": []
+      },
+      {
+        "platform": "iPhone WebKit emulation",
+        "viewport": [
+          390,
+          844
+        ],
+        "before": true,
+        "header": [
+          {
+            "entry": "cold",
+            "readyMs": 745,
+            "frames": 16,
+            "p95Ms": 442,
+            "maxMs": 442,
+            "over50": 16,
+            "menu": {
+              "width": 388,
+              "client": 388,
+              "icons": 0
+            }
+          },
+          {
+            "entry": "warm",
+            "readyMs": 151,
+            "frames": 3,
+            "p95Ms": 187,
+            "maxMs": 187,
+            "over50": 3,
+            "menu": {
+              "width": 388,
+              "client": 388,
+              "icons": 0
+            }
+          }
+        ],
+        "loads": [
+          {
+            "entry": "cold",
+            "readyMs": 1471,
+            "idle": {
+              "frames": 36,
+              "p95Ms": 27,
+              "maxMs": 31,
+              "over50": 0
+            }
+          },
+          {
+            "entry": "warm",
+            "readyMs": 794,
+            "idle": {
+              "frames": 46,
+              "p95Ms": 15,
+              "maxMs": 16,
+              "over50": 0
+            }
+          }
+        ],
+        "animation": {
+          "durationMs": 6829,
+          "frames": 403,
+          "p95Ms": 30,
+          "maxMs": 45,
+          "over50": 0
+        },
+        "decodedSameOriginBytes": 4972128,
+        "animationsAtRest": 0,
+        "remainingPolishNodes": 0,
+        "errors": [
+          {
+            "message": "ResizeObserver loop completed with undelivered notifications.",
+            "stage": "shell",
+            "path": "/"
+          },
+          {
+            "message": "ResizeObserver loop completed with undelivered notifications.",
+            "stage": "exit",
+            "path": "/"
+          }
+        ]
+      },
+      {
+        "platform": "iPhone WebKit emulation",
+        "viewport": [
+          390,
+          844
+        ],
+        "before": false,
+        "header": [
+          {
+            "entry": "cold",
+            "readyMs": 522,
+            "frames": 19,
+            "p95Ms": 314,
+            "maxMs": 314,
+            "over50": 19,
+            "menu": {
+              "width": 388,
+              "client": 388,
+              "icons": 6
+            }
+          },
+          {
+            "entry": "warm",
+            "readyMs": 83,
+            "frames": 6,
+            "p95Ms": 80,
+            "maxMs": 80,
+            "over50": 6,
+            "menu": {
+              "width": 388,
+              "client": 388,
+              "icons": 6
+            }
+          }
+        ],
+        "loads": [
+          {
+            "entry": "cold",
+            "readyMs": 244,
+            "idle": {
+              "frames": 30,
+              "p95Ms": 17,
+              "maxMs": 22,
+              "over50": 0
+            }
+          },
+          {
+            "entry": "warm",
+            "readyMs": 124,
+            "idle": {
+              "frames": 29,
+              "p95Ms": 25,
+              "maxMs": 26,
+              "over50": 0
+            }
+          }
+        ],
+        "animation": {
+          "durationMs": 5189,
+          "frames": 332,
+          "p95Ms": 17,
+          "maxMs": 57,
+          "over50": 1
+        },
+        "decodedSameOriginBytes": 383576,
+        "animationsAtRest": 0,
+        "remainingPolishNodes": 0,
+        "errors": [
+          {
+            "message": "ResizeObserver loop completed with undelivered notifications.",
+            "stage": "shell",
+            "path": "/"
+          },
+          {
+            "message": "ResizeObserver loop completed with undelivered notifications.",
+            "stage": "exit",
+            "path": "/"
+          }
+        ]
+      }
+    ],
+    "server": [
+      {
+        "phase": "before",
+        "readOnly": true,
+        "method": "Production PostgreSQL, real owner inventory state handler, fixed 40-row first page, one repeatable-read connection, no grants or debit",
+        "connectionMs": 520,
+        "records": [
+          {
+            "entry": "first",
+            "milliseconds": 877,
+            "items": 40,
+            "queryCount": 10
+          },
+          {
+            "entry": "repeat",
+            "milliseconds": 795,
+            "items": 40,
+            "queryCount": 10
+          },
+          {
+            "entry": "repeat",
+            "milliseconds": 777,
+            "items": 40,
+            "queryCount": 10
+          },
+          {
+            "entry": "repeat",
+            "milliseconds": 788,
+            "items": 40,
+            "queryCount": 10
+          },
+          {
+            "entry": "repeat",
+            "milliseconds": 848,
+            "items": 40,
+            "queryCount": 10
+          }
+        ]
+      },
+      {
+        "phase": "after",
+        "readOnly": true,
+        "method": "Production PostgreSQL, real owner inventory state handler, fixed 40-row first page, one repeatable-read connection, no grants or debit",
+        "connectionMs": 507,
+        "records": [
+          {
+            "entry": "first",
+            "milliseconds": 874,
+            "items": 40,
+            "queryCount": 10
+          },
+          {
+            "entry": "repeat",
+            "milliseconds": 795,
+            "items": 40,
+            "queryCount": 10
+          },
+          {
+            "entry": "repeat",
+            "milliseconds": 831,
+            "items": 40,
+            "queryCount": 10
+          },
+          {
+            "entry": "repeat",
+            "milliseconds": 815,
+            "items": 40,
+            "queryCount": 10
+          },
+          {
+            "entry": "repeat",
+            "milliseconds": 811,
+            "items": 40,
+            "queryCount": 10
+          }
+        ]
+      }
+    ],
+    "bottleneck": "The prior polish view downloaded roughly 5 MB of visual resources and loaded the FX vendor bundle. The automatic icon reel uses a single 337 KB atlas and browser-native animation. The typography correction also removes external font downloads.",
+    "previousMeasurementsRetained": "operations/equipment-polish-roulette-20261114/client-performance-concurrent-build.json"
+  },
+  "knownIssues": [
+    {
+      "scope": "Existing shared lobby in Windows WebKit emulation",
+      "message": "ResizeObserver loop completed with undelivered notifications.",
+      "source": "js/adventure-lobby-v2107.js:332",
+      "observedInBeforeAndAfter": true,
+      "probePolishPageErrors": 0,
+      "evidence": "resize-observer-probe.json"
+    },
+    {
+      "scope": "Measurement coverage",
+      "message": "Physical iPhone/Android and the native Windows launcher runtime were not measured. Browser routes and Windows delivered-resource hashes were verified."
+    }
+  ],
+  "evidence": {
+    "screenshots": [
+      "equipment-1440-chrome.png",
+      "equipment-390-chrome.png",
+      "polish-desktop-success.png",
+      "polish-390-webkit-ready.png",
+      "polish-390-webkit-miss.png",
+      "polish-mobile-success.png"
+    ],
+    "rawFrontend": "client-performance.json",
+    "readOnlyOperation": "operations/equipment-polish-roulette-20261114/verified.json"
+  }
+}
