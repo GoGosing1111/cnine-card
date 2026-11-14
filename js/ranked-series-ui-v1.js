@@ -10,7 +10,13 @@
   const required=()=>3*perRound();
   const fullDraft=()=>Array.from({length:required()},(_,i)=>draft()[i]||'');
   const roundLabel=index=>`${Math.floor(index/perRound())+1}차전${perRound()===2?' · 용병 '+(index%2+1):''}`;
-  const sameRank=(code,index)=>{const rank=roster().cards.find(c=>c.code===code)?.rank;return perRound()===2&&['SSS','SS'].includes(rank)&&rank===roster().cards.find(c=>c.code===draft()[index%2?index-1:index+1])?.rank;};
+  function limitedPartnerRank(index){
+    if(perRound()!==2)return null;
+    const partner=draft()[index%2?index-1:index+1];
+    const rank=roster().cards.find(card=>card.code===partner)?.rank;
+    return rank==='SSS'||rank==='SS'?rank:null;
+  }
+  const sameRank=(code,index)=>{const rank=limitedPartnerRank(index);return rank!==null&&roster().cards.find(c=>c.code===code)?.rank===rank;};
   const complete=()=>fullDraft().every(Boolean)&&new Set(fullDraft()).size===required()&&!fullDraft().some(sameRank);
   const draft=()=>pvpState.rankedDraft||roster().codes;
   const dirty=()=>JSON.stringify(draft())!==JSON.stringify(roster().codes);
@@ -33,32 +39,40 @@
   }
   const rankIndex=card=>{const index=ranks.indexOf(card.rank);return index<0?ranks.length:index;};
   function sortedCards(){return [...roster().cards].sort((a,b)=>rankIndex(a)-rankIndex(b)||names.compare(a.name||'',b.name||'')||names.compare(identity(a),identity(b))||String(a.code).localeCompare(String(b.code)));}
-  function filteredCards(){const p=preferences();return sortedCards().filter(c=>(!p.grade||c.rank===p.grade)&&(!p.favoriteOnly||p.favorites.includes(c.code)));}
-  function selectionTools(visible){
-    const p=preferences(),count=roster().cards.filter(c=>p.favorites.includes(c.code)).length,locked=pvpState.matching||pvpState.rankedSaving;
-    return `<div class="rs-selection-tools"><div class="rs-filter-controls"><label for="rsGradeFilter">용병 등급</label><select id="rsGradeFilter" ${locked?'disabled':''}><option value="">전체 등급</option>${ranks.map(rank=>`<option value="${rank}" ${p.grade===rank?'selected':''}>${rank} · ${roster().cards.filter(c=>c.rank===rank).length}종</option>`).join('')}</select><button type="button" id="rsFavoriteOnly" class="rs-preference-button" aria-pressed="${p.favoriteOnly}" ${locked?'disabled':''}><span aria-hidden="true">${p.favoriteOnly?'★':'☆'}</span> 즐겨찾기만 · ${count}</button></div><p id="rsFilterStatus" role="status">${p.favoriteOnly&&!count?'즐겨찾기가 없습니다. 용병을 선택한 뒤 ☆를 눌러 추가하세요.':`목록 ${visible.length}종 · 높은 등급순 · 같은 등급은 이름순`}</p><small>즐겨찾기는 이 기기에 계정별로 저장됩니다.</small>${preferenceWarning?`<p class="rs-preference-warning" role="status">${esc(preferenceWarning)}</p>`:''}</div>`;
+  function selectionList(){
+    const prefs=preferences(),all=sortedCards();
+    const matches=all.filter(card=>(!prefs.grade||card.rank===prefs.grade)&&(!prefs.favoriteOnly||prefs.favorites.includes(card.code)));
+    const showAll=all.length>0&&matches.length===0;
+    return {prefs,visible:showAll?all:matches,showAll};
   }
-  function selectionOptions(index,visible){
-    const code=draft()[index]||'',p=preferences(),current=roster().cards.find(c=>c.code===code);
-    const option=c=>`<option value="${esc(c.code)}" ${code===c.code?'selected':''} ${(draft().includes(c.code)&&code!==c.code)||sameRank(c.code,index)?'disabled':''}>${p.favorites.includes(c.code)?'★ ':''}${esc(fullName(c))}</option>`;
-    let html=`<option value="">${visible.length?'선택하세요':'조건에 맞는 용병 없음'}</option>`;
+  function selectionTools({prefs:p,visible,showAll}){
+    const count=roster().cards.filter(c=>p.favorites.includes(c.code)).length,locked=pvpState.matching||pvpState.rankedSaving;
+    let status=`목록 ${visible.length}종 · 높은 등급순 · 같은 등급은 이름순`;
+    if(!visible.length)status='편성 가능한 보유 용병이 없습니다.';
+    else if(showAll)status=(p.favoriteOnly&&!count?'즐겨찾기가 없습니다.':'선택한 조건에 맞는 용병이 없습니다.')+` 전체 편성 가능 용병 ${visible.length}종을 표시합니다.`;
+    return `<div class="rs-selection-tools"><div class="rs-filter-controls"><label for="rsGradeFilter">용병 등급</label><select id="rsGradeFilter" ${locked?'disabled':''}><option value="">전체 등급</option>${ranks.map(rank=>`<option value="${rank}" ${p.grade===rank?'selected':''}>${rank} · ${roster().cards.filter(c=>c.rank===rank).length}종</option>`).join('')}</select><button type="button" id="rsFavoriteOnly" class="rs-preference-button" aria-pressed="${p.favoriteOnly}" ${locked?'disabled':''}><span aria-hidden="true">${p.favoriteOnly?'★':'☆'}</span> 즐겨찾기만 · ${count}</button></div><p id="rsFilterStatus" role="status">${status}</p><small>즐겨찾기는 이 기기에 계정별로 저장됩니다.</small>${preferenceWarning?`<p class="rs-preference-warning" role="status">${esc(preferenceWarning)}</p>`:''}</div>`;
+  }
+  function selectionOptions(index,{visible,prefs,showAll}){
+    const codes=draft(),code=codes[index]||'',current=roster().cards.find(c=>c.code===code),partnerRank=limitedPartnerRank(index);
+    const option=c=>`<option value="${esc(c.code)}" ${code===c.code?'selected':''} ${(codes.includes(c.code)&&code!==c.code)||(partnerRank!==null&&c.rank===partnerRank)?'disabled':''}>${prefs.favorites.includes(c.code)?'★ ':''}${esc(fullName(c))}</option>`;
+    let html=`<option value="">${showAll?'전체 목록에서 선택하세요':visible.length?'선택하세요':'편성 가능한 보유 용병 없음'}</option>`;
     if(current&&!visible.some(c=>c.code===code))html+=`<optgroup label="현재 선택">${option(current)}</optgroup>`;
     for(const rank of [...ranks,'기타']){const group=visible.filter(c=>(ranks.includes(c.rank)?c.rank:'기타')===rank);if(group.length)html+=`<optgroup label="${rank} · ${group.length}종">${group.map(option).join('')}</optgroup>`;}
     return html;
   }
-  function favoriteButton(index,card,locked){
-    const favorite=preferences().favorites.includes(card?.code);
+  function favoriteButton(index,card,locked,favorites){
+    const favorite=favorites.includes(card?.code);
     return `<button type="button" id="rsFavorite${index}" class="rs-preference-button rs-slot-favorite" data-rs-favorite="${index}" aria-pressed="${favorite}" aria-label="${esc(card?fullName(card)+' 즐겨찾기 '+(favorite?'해제':'추가'):'용병을 선택한 뒤 즐겨찾기 추가')}" ${!card||locked?'disabled':''}><span aria-hidden="true">${favorite?'★':'☆'}</span> ${favorite?'즐겨찾기 해제':'즐겨찾기 추가'}</button>`;
   }
   function cardArt(card){const value=card?.sourceArt,src=typeof value==='string'?value:typeof value?.src==='string'?value.src:'';return src.startsWith('assets/')?'/'+src:src;}
   function portrait(card){return cardArt(card)?`<img class="rs-portrait" src="${esc(cardArt(card))}" alt="" loading="lazy">`:'<span class="rs-empty">용병 선택</span>';}
   function deckPreview(){return Array.from({length:5},(_,index)=>{const card=cards.find(c=>String(c.id)===String(pvpState.deck[index])),image=card?.image||card?.image_url||'';return `<article>${image?`<img src="${esc(image)}" alt="${esc(card.title||card.name)}" loading="lazy">`:'<span>미편성</span>'}<small>${index<2?'전열':'후열'} ${index+1}</small></article>`;}).join('');}
-  function slot(index,visible){
+  function slot(index,list){
     const state=roster(),code=draft()[index]||'',card=state.cards.find(c=>c.code===code),locked=pvpState.matching||pvpState.rankedSaving;
-    return `<article class="rs-slot"><div class="rs-slot-top"><b>${roundLabel(index)}</b><span>${esc(card?.rank||'미편성')}</span></div><div class="rs-art">${portrait(card)}<img class="rs-frame" src="${art}frame.webp" alt=""><strong>${esc(card?.name||'출전할 용병')}</strong></div><p class="rs-identity">${esc(identity(card))}</p><label for="rsSelect${index}">${roundLabel(index)} 선택</label><div class="rs-select-control"><select id="rsSelect${index}" data-rs-select="${index}" ${locked?'disabled':''}>${selectionOptions(index,visible)}</select></div>${favoriteButton(index,card,locked)}${perRound()===2?'':`<div class="rs-order"><button class="rs-button" data-rs-move="${index}:0" aria-label="${index+1}차전 용병을 앞으로" ${index===0||locked?'disabled':''}>← 앞 차전</button><button class="rs-button" data-rs-move="${index}:1" aria-label="${index+1}차전 용병을 뒤로" ${index===2||locked?'disabled':''}>뒤 차전 →</button></div>`}</article>`;
+    return `<article class="rs-slot"><div class="rs-slot-top"><b>${roundLabel(index)}</b><span>${esc(card?.rank||'미편성')}</span></div><div class="rs-art">${portrait(card)}<img class="rs-frame" src="${art}frame.webp" alt=""><strong>${esc(card?.name||'출전할 용병')}</strong></div><p class="rs-identity">${esc(identity(card))}</p><label for="rsSelect${index}">${roundLabel(index)} 선택</label><div class="rs-select-control"><select id="rsSelect${index}" data-rs-select="${index}" ${locked?'disabled':''}>${selectionOptions(index,list)}</select></div>${favoriteButton(index,card,locked,list.prefs.favorites)}${perRound()===2?'':`<div class="rs-order"><button class="rs-button" data-rs-move="${index}:0" aria-label="${index+1}차전 용병을 앞으로" ${index===0||locked?'disabled':''}>← 앞 차전</button><button class="rs-button" data-rs-move="${index}:1" aria-label="${index+1}차전 용병을 뒤로" ${index===2||locked?'disabled':''}>뒤 차전 →</button></div>`}</article>`;
   }
-  function round(index,visible){
-    return `<section class="rs-round"><h3>${index+1}차전</h3><div class="rs-pair">${slot(index*2,visible)}${slot(index*2+1,visible)}</div><div class="rs-order">${[0,1].map(direction=>`<button class="rs-button" data-rs-round-move="${index}:${direction}" ${pvpState.matching||pvpState.rankedSaving||index===(direction?2:0)?'disabled':''}>${direction?'뒤 차전 →':'← 앞 차전'}</button>`).join('')}</div></section>`;
+  function round(index,list){
+    return `<section class="rs-round"><h3>${index+1}차전</h3><div class="rs-pair">${slot(index*2,list)}${slot(index*2+1,list)}</div><div class="rs-order">${[0,1].map(direction=>`<button class="rs-button" data-rs-round-move="${index}:${direction}" ${pvpState.matching||pvpState.rankedSaving||index===(direction?2:0)?'disabled':''}>${direction?'뒤 차전 →':'← 앞 차전'}</button>`).join('')}</div></section>`;
   }
   function promotionPanel(run){
     if(!run)return '';
@@ -84,8 +98,8 @@
     return `<div class="rs-promotion" role="status"><strong>${heading}</strong><span>${detail}</span></div>`;
   }
   function render(){
-    const state=roster(),user=loadUser(),tier=pvpState.profile?.tier?.name||'랭크전',score=Number(pvpState.profile?.season_score||0),canSave=complete(),visible=filteredCards();
-    return `<section class="rs-console" aria-busy="${Boolean(pvpState.matching)}"><header class="rs-heading"><div><small>RANKED MATCHMAKING</small><h2>랭크전 매칭</h2><p>${perRound()===2?'차전마다 용병 두 명, 두 번의 승리.':'용병 세 명, 두 번의 승리.'}</p></div><div class="rs-rating"><b>${esc(tier)}</b><strong>${score.toLocaleString()}<small>점</small></strong></div></header><div class="rs-rules"><b>한 경기 3전 2선승</b><span>차전마다 카드 5장 + 용병 ${perRound()}명</span><span>매 차전 체력·기력 초기화</span></div>${promotionPanel(pvpState.profile?.promotion)}${selectionTools(visible)}<div class="rs-roster ${perRound()===2?'rs-dual':''}">${[0,1,2].map(i=>perRound()===2?round(i,visible):slot(i,visible)).join('')}</div>${perRound()===2?'<p class="rs-pair-rule">차전당 SSS(리미티드 포함) 1명 · SS 1명 · 각 용병은 세트당 한 번 출전</p>':''}<div class="rs-save-row"><p id="rsNotice" role="status">${state.ownedCount<required()?`참가하려면 서로 다른 용병 ${required()}종이 필요합니다. 현재 ${state.ownedCount}종 보유`:dirty()?'출전 순서를 저장해야 매칭할 수 있습니다.':state.ready?'저장된 순서로 공격전과 방어전에 출전합니다.':'서로 다른 용병을 선택하고 출전 순서를 저장하세요.'}</p><button type="button" class="rs-button" id="rsSave" ${!canSave||!dirty()||pvpState.matching||pvpState.rankedSaving?'disabled':''}>${pvpState.rankedSaving?'저장 중…':'출전 순서 저장'}</button></div><div class="rs-deck-row"><div><b>현재 카드 덱</b><span>모든 차전에 같은 덱이 출전합니다.</span></div><button type="button" class="rs-button" id="rankedDeckShortcut">덱 편성</button><div class="rs-deck-mini">${deckPreview()}</div></div><button type="button" class="rs-button rs-start pvp-fight" id="rankedMatchStart"><strong>랭크전 매칭 시작</strong><span id="rsEnergy">행동력 ${pvpState.energy?.unlimited?'무제한':`${Number(pvpState.energy?.energy||0)} / ${Number(pvpState.energy?.maxEnergy||0)}`} · 세트당 ${Number(pvpState.energy?.costPerBattle||1)} 소모</span></button><div class="ranked-reform-rules rs-footer"><b>행동력·점수·보상은 세트당 한 번</b><span>${evenScoreText(pvpState.profile)} · 방어전 점수 변동 없음</span><small>상대의 용병 ${required()}종은 매칭 후 공개되며, 출전 순서는 숨겨집니다.</small></div></section>`;
+    const state=roster(),tier=pvpState.profile?.tier?.name||'랭크전',score=Number(pvpState.profile?.season_score||0),canSave=complete(),list=selectionList();
+    return `<section class="rs-console" aria-busy="${Boolean(pvpState.matching)}"><header class="rs-heading"><div><small>RANKED MATCHMAKING</small><h2>랭크전 매칭</h2><p>${perRound()===2?'차전마다 용병 두 명, 두 번의 승리.':'용병 세 명, 두 번의 승리.'}</p></div><div class="rs-rating"><b>${esc(tier)}</b><strong>${score.toLocaleString()}<small>점</small></strong></div></header><div class="rs-rules"><b>한 경기 3전 2선승</b><span>차전마다 카드 5장 + 용병 ${perRound()}명</span><span>매 차전 체력·기력 초기화</span></div>${promotionPanel(pvpState.profile?.promotion)}${selectionTools(list)}<div class="rs-roster ${perRound()===2?'rs-dual':''}">${[0,1,2].map(i=>perRound()===2?round(i,list):slot(i,list)).join('')}</div>${perRound()===2?'<p class="rs-pair-rule">차전당 SSS(리미티드 포함) 1명 · SS 1명 · 각 용병은 세트당 한 번 출전</p>':''}<div class="rs-save-row"><p id="rsNotice" role="status">${state.ownedCount<required()?`참가하려면 서로 다른 용병 ${required()}종이 필요합니다. 현재 ${state.ownedCount}종 보유`:dirty()?'출전 순서를 저장해야 매칭할 수 있습니다.':state.ready?'저장된 순서로 공격전과 방어전에 출전합니다.':'서로 다른 용병을 선택하고 출전 순서를 저장하세요.'}</p><button type="button" class="rs-button" id="rsSave" ${!canSave||!dirty()||pvpState.matching||pvpState.rankedSaving?'disabled':''}>${pvpState.rankedSaving?'저장 중…':'출전 순서 저장'}</button></div><div class="rs-deck-row"><div><b>현재 카드 덱</b><span>모든 차전에 같은 덱이 출전합니다.</span></div><button type="button" class="rs-button" id="rankedDeckShortcut">덱 편성</button><div class="rs-deck-mini">${deckPreview()}</div></div><button type="button" class="rs-button rs-start pvp-fight" id="rankedMatchStart"><strong>랭크전 매칭 시작</strong><span id="rsEnergy">행동력 ${pvpState.energy?.unlimited?'무제한':`${Number(pvpState.energy?.energy||0)} / ${Number(pvpState.energy?.maxEnergy||0)}`} · 세트당 ${Number(pvpState.energy?.costPerBattle||1)} 소모</span></button><div class="ranked-reform-rules rs-footer"><b>행동력·점수·보상은 세트당 한 번</b><span>${evenScoreText(pvpState.profile)} · 방어전 점수 변동 없음</span><small>상대의 용병 ${required()}종은 매칭 후 공개되며, 출전 순서는 숨겨집니다.</small></div></section>`;
   }
   function redraw(focus){renderPvpTab();if(focus)document.getElementById(focus)?.focus({preventScroll:true});}
   function bind(){
