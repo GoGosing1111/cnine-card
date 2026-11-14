@@ -1,0 +1,17 @@
+{
+  "base": "8864945f9cc2bd382626da6ba6d87a122c51e682",
+  "before": {
+    "id": "7b2b107c-0378-4902-9c1e-9be502578812",
+    "commit": "8864945f9cc2bd382626da6ba6d87a122c51e682",
+    "status": "success"
+  },
+  "reason": "Add the CNINE cheer coupon with 250 trillion coins, 100 million stars, 100 pet essences and 10 pet seal orbs; verify atomic settlement, 100-account cap, response-loss replay and unchanged CMS issuance limits. Batch inventory writes reduce database round trips.",
+  "tests": [
+    "tests/november-gift-coupon-20261101.test.mjs",
+    "tests/coupon-owner-limits-20261029.test.mjs",
+    "tests/coupon-reward-cap-v1997.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:cnine-cheer-coupon:20261114:v1",
+    "title": "씨나인 힘내라",
+    "couponCode": "CNINECHEER100",
+    "couponId": "5656",
+    "rewardType": "NOVEMBER_GIFT_CNINE_CHEER_20261114",
+    "coin": "250000000000000",
+    "items": [
+      {
+        "code": "MASTER_STAR",
+        "name": "마스터의 별",
+        "amount": 100000000
+      },
+      {
+        "code": "PET_ESSENCE",
+        "name": "펫 정수",
+        "amount": 100
+      },
+      {
+        "code": "PET_SEAL_ORB",
+        "name": "펫 봉인구",
+        "amount": 10
+      }
+    ],
+    "maxUses": 100,
+    "perAccount": 1,
+    "expiresAt": null,
+    "completedAt": "2026-11-14T11:50:59.950Z",
+    "auditId": "60621"
+  },
+  "used": 0,
+  "remaining": 100,
+  "readOnly": true,
+  "noWriteReplay": true,
+  "priorReceiptUnchanged": true,
+  "checkedAt": "2026-11-14T11:51:05.123Z"
+}

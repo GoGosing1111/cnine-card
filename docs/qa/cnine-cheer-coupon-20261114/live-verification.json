@@ -1,0 +1,28 @@
+{
+  "checkedAt": "2026-11-14T11:50:49.989Z",
+  "sourceCommit": "f65b9933bca39ec6639bc32c71b64949289ed217",
+  "pages": {
+    "id": "1b43209a-f683-4ca7-b0a9-fe59038ae50f",
+    "commit": "f65b9933bca39ec6639bc32c71b64949289ed217",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "74863657-c6ea-44d1-8e70-d4615faf5ba2",
+      "percentage": 100,
+      "bundleSupported": true,
+      "sourceSHA256": "14aecf1abff5cdb90cb86e73f6be24cec1b1bf38d061af5003a6af6e75072627"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "da9e55b1-dba8-4f22-bc60-a2661ee97e9a",
+      "percentage": 100,
+      "bundleSupported": true,
+      "sourceSHA256": "77f328802c60a3c69dc820138decb8f8f27ffe32fafb3e24c01d5a763e9c6c79"
+    }
+  ],
+  "unauthenticatedStatus": 401,
+  "releaseTests": 31,
+  "liveAccountRedemption": false
+}

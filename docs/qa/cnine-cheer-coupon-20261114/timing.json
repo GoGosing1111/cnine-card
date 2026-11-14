@@ -1,0 +1,80 @@
+{
+  "setup": "Isolated PGlite, actual coupon route, fixed 6 ms transport per SQL. First run is warm-up; eight matched different accounts follow. Not production network latency.",
+  "roundTripMs": 6,
+  "before": {
+    "results": [
+      {
+        "ms": 291.7,
+        "queries": 19
+      },
+      {
+        "ms": 354.4,
+        "queries": 19
+      },
+      {
+        "ms": 293.9,
+        "queries": 19
+      },
+      {
+        "ms": 307.2,
+        "queries": 19
+      },
+      {
+        "ms": 293,
+        "queries": 19
+      },
+      {
+        "ms": 294.8,
+        "queries": 19
+      },
+      {
+        "ms": 289.4,
+        "queries": 19
+      },
+      {
+        "ms": 290.4,
+        "queries": 19
+      }
+    ],
+    "medianMs": 293.9,
+    "queries": 19
+  },
+  "after": {
+    "results": [
+      {
+        "ms": 230.9,
+        "queries": 15
+      },
+      {
+        "ms": 231.5,
+        "queries": 15
+      },
+      {
+        "ms": 246.1,
+        "queries": 15
+      },
+      {
+        "ms": 231.1,
+        "queries": 15
+      },
+      {
+        "ms": 246.9,
+        "queries": 15
+      },
+      {
+        "ms": 231.1,
+        "queries": 15
+      },
+      {
+        "ms": 231.7,
+        "queries": 15
+      },
+      {
+        "ms": 245.4,
+        "queries": 15
+      }
+    ],
+    "medianMs": 231.7,
+    "queries": 15
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "readOnly": true,
+  "owner": {
+    "id": "1",
+    "role": "OWNER",
+    "status": "ACTIVE"
+  },
+  "items": [
+    {
+      "code": "MASTER_STAR",
+      "name": "마스터의 별",
+      "is_active": 1
+    },
+    {
+      "code": "PET_ESSENCE",
+      "name": "펫 정수",
+      "is_active": 1
+    },
+    {
+      "code": "PET_SEAL_ORB",
+      "name": "펫 봉인구",
+      "is_active": 1
+    }
+  ],
+  "priorCoupon": {
+    "definition": {
+      "id": "5594",
+      "code": "SUWONK1UP",
+      "reward_type": "NOVEMBER_GIFT_SUWON_K1_20261108",
+      "reward_coin": "250000000000000",
+      "reward_amount": "1",
+      "max_uses": 100
+    },
+    "receiptSHA256": "e1b6683e585c42453ebdb5227571f8c99db204ba6ee997e2e52258c89664c61e"
+  },
+  "code": "CNINECHEER100",
+  "existing": 0,
+  "checkedAt": "2026-11-14T11:43:01.354Z"
+}
