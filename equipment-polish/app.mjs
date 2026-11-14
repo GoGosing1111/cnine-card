@@ -263,7 +263,7 @@ async function load() {
     $('#workbench').hidden = false;
     $('#polish-cms-link').hidden = !data.ownerReview;
     $('#live-note').textContent = data.canPolish
-      ? '장착한 장비의 연마 효과는 PvE 전투에 적용됩니다. 꽝은 성장 횟수를 올리지 않습니다.'
+      ? '용병 장비는 PvE·PvP, 일반 장비는 PvE 전투에 연마 효과가 적용됩니다. 꽝은 성장 횟수를 올리지 않습니다.'
       : data.ownerReview ? '운영자 연출 검수 중입니다. 실제 연마는 닫혀 있습니다.' : data.notice;
     renderPicker(focus);
     choose();

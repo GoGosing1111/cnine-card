@@ -48,7 +48,7 @@ import {CRYVERN_SKILL_ID,CRYVERN_CAP_SCALE,cryvernPvpBasicDamageScale,cryvernCro
 import {resolveHeukwolCombo} from './_mercenary_heukwol.js';
 import {apocalypseSealed,apocalypseHealing,clearApocalypseStatus} from './_apocalypse_legion.js';
 import {validateMercenaryCombat} from '../shared/mercenary-combat-policy-v1.mjs';
-import {mercenaryEquipmentPower,mercenaryPvpEquipmentEffects} from '../shared/mercenary-equipment-v1.mjs';
+import {mercenaryEquipmentPower,mercenaryPvpEquipmentEffects,mercenaryEquipmentPolishEffects} from '../shared/mercenary-equipment-v1.mjs';
 import {individualMercenaryBonuses} from '../shared/mercenary-unique-equipment-v1.mjs';
 import {applyPveEquipmentGrowth,applyPvpMercenaryEquipmentGrowth} from '../shared/equipment-combat-growth-v1.mjs';
 import {MERCENARY_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
@@ -281,7 +281,7 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
   if(mode==='PVE')applyPveEquipmentGrowth([fighter],{effects:snapshot.equipment.effects||{},polishEffects:snapshot.equipment.polishEffects},individual);
   if(mode==='PVP'){
    const effects=mercenaryPvpEquipmentEffects(snapshot.equipment);
-   if(individual||Object.keys(effects).length){applyPvpMercenaryEquipmentGrowth(fighter,effects,individual);fighter.equipmentEffectsMode='PVP_ASCENDANT';}
+   if(individual||Object.keys(effects).length){applyPvpMercenaryEquipmentGrowth(fighter,effects,individual,mercenaryEquipmentPolishEffects(snapshot.equipment));fighter.equipmentEffectsMode='PVP_ASCENDANT';}
   }
  }
  return fighter;

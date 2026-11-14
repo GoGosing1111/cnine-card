@@ -5,11 +5,14 @@ import {readPolishSettings} from '../functions/_equipment_polish.js';
 import {executePolish,polishReceipt} from '../functions/_equipment_polish_transactions.js';
 import {equipmentGrowthFromRows,polishStateKey,restoredPolishStatements} from '../functions/_equipment_growth.js';
 import {normalizedEquipmentEffects,applyPveEquipmentGrowth,applyPvpMercenaryEquipmentGrowth} from '../shared/equipment-combat-growth-v1.mjs';
-import {buildFighter,buildMonsterFighter,simulateBattleV2Preview} from '../functions/_battle_v2_preview.js';
+import {buildFighter,buildMonsterFighter,simulateBattleV2Preview,createPvpBattleV2,createDuoBattleV2} from '../functions/_battle_v2_preview.js';
 import {ascendantEquipmentFixture} from './helpers/ascendant-equipment-db.mjs';
 import {releasedMercenarySnapshot} from '../functions/_mercenary_account.js';
 import {buildMercenaryFighter} from '../functions/_mercenary_combat.js';
 import {ASCENDANT_EQUIPMENT} from '../shared/mercenary-ascendant-equipment-v1.mjs';
+import {mercenaryEquipmentPolishEffects} from '../shared/mercenary-equipment-v1.mjs';
+import {rankedSnapshot} from './helpers/mercenary-rank-growth-20261029.mjs';
+import {simulateRankedSeries} from '../shared/ranked-series-v1.mjs';
 
 const user={id:7,role:'OWNER'},increments=[2,.5,3,2,.5];
 const buff=settings=>({...settings,publicVisible:true,executionMode:'ON',successRate:10,maxAttempts:50,
@@ -46,7 +49,7 @@ test('stored rebased polish reaches the equipped runtime and its user summary',(
   const f=fighter();applyPveEquipmentGrowth([f],runtime);assert.equal(f.attack,1400);
 });
 
-test('a mercenary snapshot carries earned polish into PvE without leaking it into PvP',async t=>{
+test('mercenary polish follows each mode selected gear instance',async t=>{
   const f=await ascendantEquipmentFixture(t);
   const item=ASCENDANT_EQUIPMENT.find(i=>i.tier===10&&i.slot==='WEAPON');
   await f.equip('PVE',item);
@@ -58,6 +61,58 @@ test('a mercenary snapshot carries earned polish into PvE without leaking it int
   assert.equal(pve.equipmentEffects.attackPercent,40);assert.equal(pve.attack,Math.round(pve.equipmentGrowthBase.attack*1.4));
   const pvp=buildMercenaryFighter({...snapshot,equipmentPolishEffects:{attackPercent:40}},'A','PVP',buildFighter);
   assert.equal(pvp.equipmentPolishEffects,undefined);assert.equal(pvp.attack,buildMercenaryFighter(snapshot,'A','PVP',buildFighter).attack);
+  await f.equip('PVP',item);
+  const pvpSnapshot=await releasedMercenarySnapshot(f.env,f.user,'PVP');
+  assert.equal(pvpSnapshot.equipment.effects.attackPercent,40);
+  assert.equal(pvpSnapshot.equipment.polishEffects.attackPercent,40);
+  const equipped=buildMercenaryFighter(pvpSnapshot,'A','PVP',buildFighter);
+  assert.equal(equipped.equipmentEffects.attackPercent,40);
+  assert.equal(equipped.attack,Math.round(equipped.equipmentGrowthBase.attack*1.4));
+});
+
+const cards=Array.from({length:5},(_,i)=>({id:String(i+1),title:'연마 PvP 검수',rarity:'FUR',power:100000,power_type:'ATTACK'}));
+function polishedMercenary(code='V-001'){
+  const item=ASCENDANT_EQUIPMENT.find(i=>i.tier===10&&i.slot==='WEAPON');
+  const owned={...item,instanceId:'72',polish:state([20,10,10,10,0])};
+  return {...structuredClone(rankedSnapshot(code,5)),equipment:{schemaVersion:1,mode:'PVP',revision:1,items:[owned],power:item.pvpPower,
+    effects:{attackPercent:9999,hpPercent:9999},polishEffects:{attackPercent:9999}}};
+}
+test('PvP, duo and ranked fights apply owned mercenary polish once and only to its wearer',()=>{
+  const own=polishedMercenary(),enemy=rankedSnapshot('V-058',5);
+  const check=battle=>{
+    assert(battle.result.timeline.length>0);
+    const m=battle.teams.A.mercenaries.find(m=>m.code==='V-001'||m.cardId==='V-001');
+    assert.equal(m.equipmentPolishEffects.attackPercent,40);assert.equal(m.equipmentEffects.attackPercent,40);
+    assert.equal(m.equipmentEffects.criticalChancePoints,5);assert.equal(m.equipmentEffects.criticalDamagePoints,30);
+    assert.equal(m.equipmentEffects.bossDamagePercent,20);assert.equal(m.equipmentEffects.hpPercent,0);
+    assert(battle.teams.A.cards.every(c=>!c.equipmentPolishEffects));
+    assert(battle.teams.B.mercenaries.every(c=>!c.equipmentPolishEffects));
+  };
+  check(createPvpBattleV2({attackerCards:cards,defenderCards:cards,attackerMercenary:own,defenderMercenary:enemy,seed:31}));
+  const squad=(ownerId,mercenary)=>({ownerId,cards:cards.map((c,i)=>({...c,rarity:['FUR','FUR','ZENITH','ZENITH','SUPERSTAR'][i]})),mercenary});
+  const duo=createDuoBattleV2({attackerSquads:[squad(7,own),squad(8,enemy)],defenderSquads:[squad(9,enemy),squad(10,enemy)],seed:31});
+  check(duo);assert.equal(duo.teams.A.mercenaries.find(m=>m.ownerId===8).equipmentPolishEffects,undefined);
+  const series=simulateRankedSeries({createBattle:createPvpBattleV2,options:{attackerCards:cards,defenderCards:cards},
+    attackerMercenaries:['V-972','V-001','V-999','V-002','V-058','V-003'].map(polishedMercenary),
+    defenderMercenaries:['V-979','V-004','V-996','V-005','V-058','V-006'].map(c=>rankedSnapshot(c,5)),seed:31});
+  assert(series.rounds.length>=2);
+  for(const round of series.rounds)for(const m of round.battleV2.teams.A.mercenaries){
+    assert.equal(m.equipmentPolishEffects.attackPercent,40);assert.equal(m.equipmentEffects.attackPercent,40);
+  }
+  const invalid=structuredClone(own.equipment);invalid.items.push(structuredClone(invalid.items[0]));
+  assert.deepEqual(mercenaryEquipmentPolishEffects(invalid),{});
+  assert.deepEqual(mercenaryEquipmentPolishEffects({...own.equipment,items:[]}),{});
+});
+
+test('PvP mercenary hit rolls use polish beyond former critical and penetration ceilings',()=>{
+  const a=buildMercenaryFighter(polishedMercenary(),'A','PVP',buildFighter);
+  const b=buildFighter(cards[0],0,'B',null,'PVP');
+  Object.assign(b,{maxHp:1e12,hp:1e12,attack:1,defense:1000,speed:1});
+  a.equipmentEffects.criticalChancePoints=100;a.equipmentEffects.penetrationPoints=100;
+  a.equipmentPolishEffects.criticalChancePoints=100;a.equipmentPolishEffects.penetrationPoints=100;
+  const run=actor=>simulateBattleV2Preview({teamA:[actor],teamB:[b],seed:19,maxActions:35}).timeline.filter(e=>e.type==='TURN'&&e.actorId===a.id&&e.damage>0&&typeof e.critical==='boolean');
+  const hits=run(a);assert(hits.length>=5);assert(hits.every(h=>h.critical&&h.penetration===100));
+  const old=run({...a,equipmentPolishEffects:undefined});assert(old.some(h=>!h.critical));assert(old.every(h=>h.penetration===80));
 });
 
 test('PvE hit rolls honor polished critical and penetration beyond the old ceilings',()=>{

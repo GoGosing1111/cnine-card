@@ -23,7 +23,7 @@ function applyEquipmentGrowth(fighters,runtime,allowMercenaryPvp=false,individua
     for(const [key,value] of Object.entries(old))combined[key]=key==='echoEvery'||key==='uniqueEchoEvery'?Math.min(value||Infinity,combined[key]||Infinity):value+(Number(combined[key])||0);
     for(const key of ['echoEvery','uniqueEchoEvery'])if(combined[key]===Infinity)combined[key]=0;
     const polish={};
-    if(fighter.battleMode!=='PVP')for(const key of POLISH_EFFECT_KEYS){
+    if(fighter.battleMode!=='PVP'||allowMercenaryPvp&&fighter.isMercenary)for(const key of POLISH_EFFECT_KEYS){
       const value=polishValue(fighter.equipmentPolishEffects?.[key])+polishValue(runtime.polishEffects?.[key]);
       if(value)polish[key]=Math.min(value,polishValue(combined[key]));
     }
@@ -46,7 +46,7 @@ function applyEquipmentGrowth(fighters,runtime,allowMercenaryPvp=false,individua
   return fighters;
 }
 export const applyPveEquipmentGrowth=(fighters,runtime,individual=null)=>applyEquipmentGrowth(fighters,runtime,false,individual);
-export const applyPvpMercenaryEquipmentGrowth=(fighter,effects,individual=null)=>fighter?.isMercenary&&fighter.battleMode==='PVP'?applyEquipmentGrowth([fighter],{effects},true,individual):[fighter];
+export const applyPvpMercenaryEquipmentGrowth=(fighter,effects,individual=null,polishEffects=null)=>fighter?.isMercenary&&fighter.battleMode==='PVP'?applyEquipmentGrowth([fighter],{effects,polishEffects},true,individual):[fighter];
 export function equipmentHitMultiplier(actor,target,critical){
   const fx=actor.equipmentEffects;if(!fx)return 1;
   return 1+(target.isBoss?fx.bossDamagePercent:0)/100+(target.shield>0?fx.shieldDamagePercent:0)/100+(critical?fx.criticalExtraPercent:0)/100;

@@ -74,7 +74,7 @@ for(const postgres of [false,true]){
     await f.p('INSERT INTO equipment_forge_states_v1 VALUES(1000,7,3,1)').run();
     await f.setting(polishStateKey('1000',7),{schemaVersion:1,userId:7,instanceId:'1000',attempts:1,levels:[1,0,0,0,0],values:[.5,0,0,0,0]});
     await save(f,'PVE','WEAPON','1000',0);await save(f,'PVP','WEAPON','1000',1);
-    const state=await mercenaryEquipmentState(f.env,f.user);assert.equal(state.loadouts.PVE.power,forgePower(200000,3).pve);assert.equal(state.loadouts.PVE.effects.attackPercent,.5);assert.deepEqual(state.loadouts.PVP.effects,{});
+    const state=await mercenaryEquipmentState(f.env,f.user);assert.equal(state.loadouts.PVE.power,forgePower(200000,3).pve);assert.equal(state.loadouts.PVE.effects.attackPercent,.5);assert.equal(state.loadouts.PVP.effects.attackPercent,.5);
     const item=state.items.find(i=>i.instanceId==='1000');assert.equal(item.level,3);assert.equal(item.polish.attempts,1);assert.equal(item.totalPower,236000);
     const forged=(await readForgePreparationInventory(f.env.DB,7,{focusId:'1000',includeEnhancement:true})).items[0];assert.equal(forged.equipped,true);assert.deepEqual(forged.mercenaryModes,['PVE','PVP']);
     await f.p("INSERT INTO user_equipment_loadout(user_id,slot,instance_id) VALUES(7,'WEAPON',1000)").run();

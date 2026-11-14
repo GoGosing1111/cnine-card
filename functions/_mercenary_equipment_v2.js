@@ -4,6 +4,7 @@ import {LEGION_REGIONS} from '../shared/legion-regions-v1.mjs';
 import {equipmentEffectText} from '../shared/equipment-growth-text-v1.mjs';
 import {normalizedEquipmentEffects,addIndividualEquipmentEffects} from '../shared/equipment-combat-growth-v1.mjs';
 import {individualMercenaryBonuses} from '../shared/mercenary-unique-equipment-v1.mjs';
+import {mercenaryEquipmentPolishEffects} from '../shared/mercenary-equipment-v1.mjs';
 import {forgePower} from '../shared/equipment-forge-policy-v1.mjs';
 import {readForgeAdvancedForLevels} from './_equipment_forge_advanced.js';
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
@@ -49,6 +50,10 @@ const gearJoins="LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND
 function runtime(rows,id,mode,revision,advanced){
  const items=rows.map(r=>gearItem(r,id,advanced));
  const standard=mode==='PVE'?equipmentGrowthFromRows(rows.map(r=>({...r,id:r.instance_id})),id):ascendantEquipmentEffects(rows.map(r=>r.code),'PVP');
+ if(mode==='PVP'){
+  standard.polishEffects=mercenaryEquipmentPolishEffects({schemaVersion:1,mode,items});
+  for(const [key,value] of Object.entries(standard.polishEffects))standard.effects[key]=(standard.effects[key]||0)+value;
+ }
  const individual=individualMercenaryBonuses(items);
  const summary=individual?equipmentEffectText(addIndividualEquipmentEffects(normalizedEquipmentEffects(standard.effects,standard.polishEffects),individual.effects)):
    standard.summary??equipmentEffectText(normalizedEquipmentEffects(standard.effects,standard.polishEffects));

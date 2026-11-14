@@ -559,7 +559,7 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
     : 0.02;
   if (!counter && random() < dodgeChance && !options.s2CannotDodge) return { dodge: true, damage: 0, critical: false, penetration: 0 };
 
-  const polish=actor.battleMode==='PVE'?actor.equipmentPolishEffects:null;
+  const polish=actor.battleMode==='PVE'||actor.battleMode==='PVP'&&actor.isMercenary?actor.equipmentPolishEffects:null;
   const criticalCap=Math.min(1,(actor.equipmentEffects?.criticalChancePoints?0.50:0.35)+Math.max(0,Number(polish?.criticalChancePoints)||0)/100);
   const criticalChance = clamp(0.10 + (actor.type === 'ATTACK' ? 0.06 : 0) + (actor.type === 'SPEED' && !actor.speedUniqueSuppressed ? 0.03 : 0) + Math.max(0, Number(actorAdvancement.criticalChancePoints || 0)) / 100 + (actor.equipmentEffects?.criticalChancePoints||0)/100, 0.10, criticalCap);
   const critical = random() < criticalChance;
