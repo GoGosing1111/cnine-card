@@ -1,0 +1,109 @@
+{
+  "date": "2026-11-14",
+  "status": "LOCAL_IMPLEMENTATION_REVIEWED_NOT_DEPLOYED",
+  "sourceRoot": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\coop-pc-performance-20261108\\source",
+  "baseHead": "3fbbe62adab38a6d13cacafea630f117ecc7894d",
+  "productionWrites": 0,
+  "deployment": false,
+  "name": {
+    "required": "흑구",
+    "codepoints": [
+      "D751",
+      "AD6C"
+    ],
+    "exampleLabel": "펫 예시 · 흑구",
+    "hypothesis": "SSS 등급인 경우",
+    "exactFont": "Malgun Gothic bold",
+    "visuallyVerified": true
+  },
+  "poster": {
+    "file": "C:/Users/User/Downloads/upload/cnine-card/output/announcements/pet-rework-20261114/pet-rework-announcement-final.png",
+    "sha256": "2163f884f0d019c04bca2faec825f0686170b3b94c763e051a65e19e9a683df4",
+    "note": "Use only this final export. Earlier generated artwork is retained as production history."
+  },
+  "tests": {
+    "command": "node --test tests/pet-loadout-modes.test.mjs tests/pet-support-effects-20261012.test.mjs tests/pet-growth-v2-20261114.test.mjs",
+    "passed": 27,
+    "failed": 0
+  },
+  "browser": {
+    "report": "browser-checks.json",
+    "widths": [
+      1440,
+      768,
+      390,
+      320
+    ],
+    "errors": [],
+    "asyncCancellation": true,
+    "foreignPendingBlocked": true,
+    "traits": [
+      "ASSAULT",
+      "GUARD",
+      "VITALITY",
+      "HASTE",
+      "HUNTER",
+      "LUCK"
+    ]
+  },
+  "designReview": {
+    "skill": "Impeccable",
+    "detectorFindings": 0,
+    "reviewer": "/root/impeccable_finish_reviewer",
+    "disposition": "ship — local prepared UI only",
+    "resolved": [
+      "pending result belongs to another species",
+      "hunter preview targets a boss",
+      "late asynchronous preview is disposed",
+      "320px tab labels do not wrap"
+    ]
+  },
+  "provenance": {
+    "tool": "Built-in ImageGen",
+    "scan": "10 rasters, 0 missing prompts",
+    "new": "two dice icons and two 12-frame effect atlases",
+    "reused": "approved codex UI and four existing buff effects"
+  },
+  "performance": {
+    "entry": "/pet-codex/ in local isolated review, same existing codex module",
+    "loading": "390x844 Chrome headless; CPU 4x, latency 80 ms, download 1.5 MB/s; three fresh contexts per variant; same UI and account fixture",
+    "comparison": "Original ImageGen dice PNGs versus proportionally resized runtime WebP icons; new UI unchanged",
+    "frames": {
+      "samples": 674,
+      "p50Ms": 4.199999999999818,
+      "p95Ms": 4.300000000000182,
+      "maxMs": 4.800000000000182,
+      "framesOver50Ms": 0,
+      "longTasks": []
+    },
+    "server": "Local in-memory test adapter, production server/database performance not measured",
+    "summary": {
+      "source-png": {
+        "firstInteractiveMs": 449,
+        "firstImagesMs": 1639,
+        "reentryInteractiveMs": 54,
+        "reentryImagesMs": 60
+      },
+      "runtime-webp": {
+        "firstInteractiveMs": 389,
+        "firstImagesMs": 486,
+        "reentryInteractiveMs": 51,
+        "reentryImagesMs": 56
+      }
+    },
+    "afterExit": {
+      "active": 0,
+      "updates": 1002
+    },
+    "interpretation": "New dice icon transfer was a network bottleneck: first growth-view image readiness median fell from 1639 ms to 486 ms. These are local emulation measurements, not production or physical-device results. The existing codex PNG portraits still dominate full navigation resource waits; the new feature results must not be represented as entire-game loading times."
+  },
+  "remaining": [
+    "production database transaction adapter and routes",
+    "actual species caps and existing-pet migration",
+    "production probabilities, costs and acquisition rules",
+    "stat conversion, battle calculation and reward settlement integration",
+    "trait sounds and production/platform validation"
+  ],
+  "guide": "preview/pet-rework-20261114/PROJECT.md",
+  "latestUiReview": "unified/completion.json"
+}

@@ -1,0 +1,62 @@
+{
+  "date": "2026-11-14",
+  "status": "LOCAL_REVIEW_NOT_LIVE",
+  "generator": "Built-in image_gen",
+  "prompts": "preview/pet-rework-20261114/prompts.json",
+  "entries": [
+    {
+      "name": "stat-dice",
+      "source": "stat-dice-source.png",
+      "sourceHash": "737f36a25415b742edb8b838c7fae80480bf3fb96f0aedc5a9f7fb0224349e78",
+      "sourceBytes": 1772195,
+      "runtime": "stat-dice.webp",
+      "runtimeHash": "022061159debc6b5e436ee411bdb2baa6dacadd807bbb632aca820df317f9b42",
+      "runtimeBytes": 14944,
+      "alpha": true,
+      "processing": "Encoding, proportional resize and atlas packing only; original image pixels retained in source PNG.",
+      "sourceImageGenHash": "0c79f3d11f7e2075c67f83f6c75c8571c47717378d7f07bf9ca77116a0962fb0",
+      "sourceImageGenBytes": 1771358
+    },
+    {
+      "name": "trait-dice",
+      "source": "trait-dice-source.png",
+      "sourceHash": "9ae226b79b259ca44adbfc8e678c675157742b37379d8e74978495765b73d95c",
+      "sourceBytes": 1686326,
+      "runtime": "trait-dice.webp",
+      "runtimeHash": "1c97094918489983bb457b85c8c8cb343dee05487e551ea5661a9ef972a56933",
+      "runtimeBytes": 14860,
+      "alpha": true,
+      "processing": "Encoding, proportional resize and atlas packing only; original image pixels retained in source PNG.",
+      "sourceImageGenHash": "840d3609dad35438c44ad77ad996ef49998b3c5574b61a8c3d357e5b5b25d6c6",
+      "sourceImageGenBytes": 1685547
+    },
+    {
+      "name": "hunter-atlas",
+      "source": "hunter-atlas-source.png",
+      "sourceHash": "817dfdafa29079324c286a0bf1d79e70c3216b1339e60745bd0518e89378ebe5",
+      "sourceBytes": 2043487,
+      "runtime": "hunter-atlas.webp",
+      "runtimeHash": "eb8b051871b977f5e6b08f6112c89860ef6241d1a29ed474efe508649a0f8678",
+      "runtimeBytes": 279576,
+      "alpha": true,
+      "processing": "Encoding, proportional resize and atlas packing only; original image pixels retained in source PNG.",
+      "sourceImageGenHash": "972978909a92ddfa2a48da7588cdbf9bf2789f37bedba23b5b9adae5f12af2c9",
+      "sourceImageGenBytes": 2042199
+    },
+    {
+      "name": "luck-atlas",
+      "source": "luck-atlas-source.png",
+      "sourceHash": "2642e89b4e0e81147cdf3ecb2d146dffc8c6557d324f8c8bd40dac273c3859c5",
+      "sourceBytes": 2645419,
+      "runtime": "luck-atlas.webp",
+      "runtimeHash": "4da506ee141b8db58caa1c0846d9b07a7dc008825ff9a8a733799e80bd57ac0b",
+      "runtimeBytes": 451304,
+      "alpha": true,
+      "processing": "Encoding, proportional resize and atlas packing only; original image pixels retained in source PNG.",
+      "sourceImageGenHash": "4c90bf351c99bc1021fb5672a12da09bdf21d0c86b77b542fe613174f5df710f",
+      "sourceImageGenBytes": 2644099
+    }
+  ],
+  "reused": "Original ImageGen pet buff atlases and approved codex panel/action textures. No generated geometry icons.",
+  "provenance": "Exact ImageGen prompts embedded via Impeccable; sourceImageGenHash records original before metadata embedding."
+}

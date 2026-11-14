@@ -1,0 +1,262 @@
+TAP version 13
+# Subtest: live costs, four independent grades, keep/apply and exact BIGINT balances
+ok 1 - live costs, four independent grades, keep/apply and exact BIGINT balances
+  ---
+  duration_ms: 3084.6857
+  type: 'test'
+  ...
+# Subtest: duplicate retry, lost commit acknowledgement, injected failure and pending lock never double charge
+ok 2 - duplicate retry, lost commit acknowledgement, injected failure and pending lock never double charge
+  ---
+  duration_ms: 1781.3431
+  type: 'test'
+  ...
+# Subtest: insufficient coin or stars and stale revision preserve account data
+ok 3 - insufficient coin or stars and stale revision preserve account data
+  ---
+  duration_ms: 2331.3417
+  type: 'test'
+  ...
+# Subtest: mode equipment persists the chosen instance without changing the other mode or base buffs
+ok 4 - mode equipment persists the chosen instance without changing the other mode or base buffs
+  ---
+  duration_ms: 2103.9788
+  type: 'test'
+  ...
+# Subtest: battle applies extra stats and trait once, hunter only damages bosses and old pets retain balance
+ok 5 - battle applies extra stats and trait once, hunter only damages bosses and old pets retain balance
+  ---
+  duration_ms: 0.931
+  type: 'test'
+  ...
+# Subtest: expired/lost ownership can dismiss pending result but cannot apply it
+ok 6 - expired/lost ownership can dismiss pending result but cannot apply it
+  ---
+  duration_ms: 2032.7086
+  type: 'test'
+  ...
+# Subtest: route requires authentication and rejects injected grades
+ok 7 - route requires authentication and rejects injected grades
+  ---
+  duration_ms: 1964.285
+  type: 'test'
+  ...
+# Subtest: each species cap limits every stat including C-only pets
+ok 8 - each species cap limits every stat including C-only pets
+  ---
+  duration_ms: 4.1239
+  type: 'test'
+  ...
+# Subtest: four random draws are independent and reproduce user example
+ok 9 - four random draws are independent and reproduce user example
+  ---
+  duration_ms: 0.3439
+  type: 'test'
+  ...
+# Subtest: exact perfect probability uses independent four-stat draws
+ok 10 - exact perfect probability uses independent four-stat draws
+  ---
+  duration_ms: 0.3702
+  type: 'test'
+  ...
+# Subtest: weight boundaries cover every ticket exactly
+ok 11 - weight boundaries cover every ticket exactly
+  ---
+  duration_ms: 0.8242
+  type: 'test'
+  ...
+# Subtest: roll deducts once and leaves owned grades unchanged until chosen
+ok 12 - roll deducts once and leaves owned grades unchanged until chosen
+  ---
+  duration_ms: 1.3672
+  type: 'test'
+  ...
+# Subtest: replayed request returns receipt without reroll or recharge
+ok 13 - replayed request returns receipt without reroll or recharge
+  ---
+  duration_ms: 0.3722
+  type: 'test'
+  ...
+# Subtest: same id with different content is rejected
+ok 14 - same id with different content is rejected
+  ---
+  duration_ms: 0.9236
+  type: 'test'
+  ...
+# Subtest: pending result blocks rerolls and equipping
+ok 15 - pending result blocks rerolls and equipping
+  ---
+  duration_ms: 1.309
+  type: 'test'
+  ...
+# Subtest: keep preserves old stats and spent dice; apply replaces all four
+ok 16 - keep preserves old stats and spent dice; apply replaces all four
+  ---
+  duration_ms: 0.9366
+  type: 'test'
+  ...
+# Subtest: client cannot submit grades or select individual stat results
+ok 17 - client cannot submit grades or select individual stat results
+  ---
+  duration_ms: 0.3681
+  type: 'test'
+  ...
+# Subtest: trait reroll does not change stats and respects grade cap
+ok 18 - trait reroll does not change stats and respects grade cap
+  ---
+  duration_ms: 0.3472
+  type: 'test'
+  ...
+# Subtest: ownership, expiry, stale revision and insufficient wallet reject before mutation
+ok 19 - ownership, expiry, stale revision and insufficient wallet reject before mutation
+  ---
+  duration_ms: 0.5461
+  type: 'test'
+  ...
+# Subtest: policy off, invalid weights and absent costs cannot mutate
+ok 20 - policy off, invalid weights and absent costs cannot mutate
+  ---
+  duration_ms: 0.4483
+  type: 'test'
+  ...
+# Subtest: PvE and PvP retain independent instance slots
+ok 21 - PvE and PvP retain independent instance slots
+  ---
+  duration_ms: 0.3131
+  type: 'test'
+  ...
+# Subtest: battle opening is a frozen-value copy and PvP has no hunter boss benefit
+ok 22 - battle opening is a frozen-value copy and PvP has no hunter boss benefit
+  ---
+  duration_ms: 0.524
+  type: 'test'
+  ...
+# Subtest: public state does not expose internal receipt records
+ok 23 - public state does not expose internal receipt records
+  ---
+  duration_ms: 0.2677
+  type: 'test'
+  ...
+# Subtest: atomic service serializes competing rolls and prevents cross-account writes
+ok 24 - atomic service serializes competing rolls and prevents cross-account writes
+  ---
+  duration_ms: 1.39
+  type: 'test'
+  ...
+# Subtest: live equipment uses actual collection, keeps OWNER review separate, validates ownership and reuses the save receipt
+ok 25 - live equipment uses actual collection, keeps OWNER review separate, validates ownership and reuses the save receipt
+  ---
+  duration_ms: 3068.1978
+  type: 'test'
+  ...
+# Subtest: actual PVE/PVP use one opening pet buff per side without adding a target, action slot or modifying unowned accounts
+ok 26 - actual PVE/PVP use one opening pet buff per side without adding a target, action slot or modifying unowned accounts
+  ---
+  duration_ms: 1822.8168
+  type: 'test'
+  ...
+# Subtest: potential policy starts unspecified/OFF; only OWNER can configure odds, and failed attempts cost exactly one potion
+ok 27 - potential policy starts unspecified/OFF; only OWNER can configure odds, and failed attempts cost exactly one potion
+  ---
+  duration_ms: 2317.3038
+  type: 'test'
+  ...
+# Subtest: success is permanent for the owned pet; repeated, concurrent, unauthorized and already-completed attempts cannot spend again
+ok 28 - success is permanent for the owned pet; repeated, concurrent, unauthorized and already-completed attempts cannot spend again
+  ---
+  duration_ms: 2096.1505
+  type: 'test'
+  ...
+# Subtest: potion debit, potential and durable receipt roll back together; a lost COMMIT reply replays instead of charging twice
+ok 29 - potion debit, potential and durable receipt roll back together; a lost COMMIT reply replays instead of charging twice
+  ---
+  duration_ms: 2106.3595
+  type: 'test'
+  ...
+# Subtest: magnet absorbs a full 24-drop batch without click throttling; restore/manual retries/finish cannot duplicate drops
+ok 30 - magnet absorbs a full 24-drop batch without click throttling; restore/manual retries/finish cannot duplicate drops
+  ---
+  duration_ms: 3.8113
+  type: 'test'
+  ...
+# Subtest: magnet finish absorbs reached but unacknowledged kills; without magnet there is no automatic pickup
+ok 31 - magnet finish absorbs reached but unacknowledged kills; without magnet there is no automatic pickup
+  ---
+  duration_ms: 4.3967
+  type: 'test'
+  ...
+# Subtest: legacy equipment and retries survive first edit, with independent revisions, explicit empty slots and shared ownership
+ok 32 - legacy equipment and retries survive first edit, with independent revisions, explicit empty slots and shared ownership
+  ---
+  duration_ms: 3213.3497
+  type: 'test'
+  ...
+# Subtest: first PVE edit keeps an empty PVP slot; forged modes, unowned pets and failed writes do not change either
+ok 33 - first PVE edit keeps an empty PVP slot; forged modes, unowned pets and failed writes do not change either
+  ---
+  duration_ms: 1760.9009
+  type: 'test'
+  ...
+# Subtest: different mode selections reach real battle openings, bonus settlement and the request cache
+ok 34 - different mode selections reach real battle openings, bonus settlement and the request cache
+  ---
+  duration_ms: 2414.4005
+  type: 'test'
+  ...
+# Subtest: an expired PVP rental drops out of the UI, battle and rewards without affecting PVE
+ok 35 - an expired PVP rental drops out of the UI, battle and rewards without affecting PVE
+  ---
+  duration_ms: 2112.1451
+  type: 'test'
+  ...
+# Subtest: a PVP-only selection protects the last copy in auction escrow and OWNER review stays isolated
+ok 36 - a PVP-only selection protects the last copy in auction escrow and OWNER review stays isolated
+  ---
+  duration_ms: 2149.8375
+  type: 'test'
+  ...
+# Subtest: racing saves from separate mode tabs converge on both edits without overwriting the winner
+ok 37 - racing saves from separate mode tabs converge on both edits without overwriting the winner
+  ---
+  duration_ms: 1841.5941
+  type: 'test'
+  ...
+# Subtest: Lich pets buff only their owner once; saved HP and opening survive re-entry without a second buff
+ok 38 - Lich pets buff only their owner once; saved HP and opening survive re-entry without a second buff
+  ---
+  duration_ms: 21.2701
+  type: 'test'
+  ...
+# Subtest: all five actual buff types have distinct readable motifs and preserve CMS percentages
+ok 39 - all five actual buff types have distinct readable motifs and preserve CMS percentages
+  ---
+  duration_ms: 3.9027
+  type: 'test'
+  ...
+# Subtest: PVE/PVP opening presentation follows real one-time server events without adding combat actors
+ok 40 - PVE/PVP opening presentation follows real one-time server events without adding combat actors
+  ---
+  duration_ms: 285.4775
+  type: 'test'
+  ...
+# Subtest: cooperative activation and late restore stay owner-scoped, idempotent and never refill HP or shield
+ok 41 - cooperative activation and late restore stay owner-scoped, idempotent and never refill HP or shield
+  ---
+  duration_ms: 252.9693
+  type: 'test'
+  ...
+# Subtest: cooperative controller restores skipped openings on late entry and clock catch-up without replaying them
+ok 42 - cooperative controller restores skipped openings on late entry and clock catch-up without replaying them
+  ---
+  duration_ms: 183.2855
+  type: 'test'
+  ...
+1..42
+# tests 42
+# suites 0
+# pass 42
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 14645.8934

@@ -1,0 +1,140 @@
+{
+  "environment": {
+    "platform": "Windows",
+    "browser": "Headless installed Chrome",
+    "mobile": "viewport emulation only; not a physical mobile device",
+    "entry": "/pet-codex/ (existing HTML and mount; isolated local account adapter)",
+    "productionWrites": 0
+  },
+  "viewports": [
+    {
+      "width": 1440,
+      "layout": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "missingImages": [],
+        "smallTargets": [],
+        "newSvgIcons": 0
+      },
+      "checks": [
+        "independent grades",
+        "keep result",
+        "trait preserves stats",
+        "apply result",
+        "lost response same request recovery",
+        "reentry",
+        "44px controls"
+      ]
+    },
+    {
+      "width": 768,
+      "layout": {
+        "width": 768,
+        "scrollWidth": 768,
+        "missingImages": [],
+        "smallTargets": [],
+        "newSvgIcons": 0
+      },
+      "checks": [
+        "independent grades",
+        "keep result",
+        "trait preserves stats",
+        "apply result",
+        "lost response same request recovery",
+        "reentry",
+        "44px controls"
+      ]
+    },
+    {
+      "width": 390,
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "missingImages": [],
+        "smallTargets": [],
+        "newSvgIcons": 0
+      },
+      "checks": [
+        "independent grades",
+        "keep result",
+        "trait preserves stats",
+        "apply result",
+        "lost response same request recovery",
+        "reentry",
+        "44px controls"
+      ]
+    },
+    {
+      "width": 320,
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320,
+        "missingImages": [],
+        "smallTargets": [],
+        "newSvgIcons": 0
+      },
+      "checks": [
+        "independent grades",
+        "keep result",
+        "trait preserves stats",
+        "apply result",
+        "lost response same request recovery",
+        "reentry",
+        "44px controls"
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "id": "ASSAULT",
+      "firstOpenMs": 1399,
+      "paused": true,
+      "halfSpeed": true,
+      "replay": true,
+      "cleanup": true
+    },
+    {
+      "id": "GUARD",
+      "firstOpenMs": 1214,
+      "paused": true,
+      "halfSpeed": true,
+      "replay": true,
+      "cleanup": true
+    },
+    {
+      "id": "VITALITY",
+      "firstOpenMs": 1205,
+      "paused": true,
+      "halfSpeed": true,
+      "replay": true,
+      "cleanup": true
+    },
+    {
+      "id": "HASTE",
+      "firstOpenMs": 1219,
+      "paused": true,
+      "halfSpeed": true,
+      "replay": true,
+      "cleanup": true
+    },
+    {
+      "id": "HUNTER",
+      "firstOpenMs": 1222,
+      "paused": true,
+      "halfSpeed": true,
+      "replay": true,
+      "cleanup": true
+    },
+    {
+      "id": "LUCK",
+      "firstOpenMs": 1222,
+      "paused": true,
+      "halfSpeed": true,
+      "replay": true,
+      "cleanup": true
+    }
+  ],
+  "errors": [],
+  "asyncCancellation": true,
+  "foreignPendingBlocked": true
+}

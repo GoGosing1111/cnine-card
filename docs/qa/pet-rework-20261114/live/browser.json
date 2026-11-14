@@ -1,0 +1,69 @@
+{
+  "conditions": "Windows Chrome headless; local isolated PostgreSQL-compatible database, actual /pet-codex/ entry and live API handler",
+  "widths": [
+    {
+      "width": 1440,
+      "overflow": false,
+      "broken": [],
+      "small": [],
+      "errors": []
+    },
+    {
+      "width": 768,
+      "overflow": false,
+      "broken": [],
+      "small": [],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "overflow": false,
+      "broken": [],
+      "small": [],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "overflow": false,
+      "broken": [],
+      "small": [],
+      "errors": []
+    }
+  ],
+  "checks": [
+    {
+      "width": 1440,
+      "frames": [
+        "2",
+        "5",
+        "7",
+        "6"
+      ],
+      "statsCost": "5조 + 1000만",
+      "traitCost": "30조 + 5000만",
+      "reloadPending": true,
+      "effect": true,
+      "after": {
+        "coin": "1965000000000000",
+        "masterStars": 940000000
+      }
+    },
+    {
+      "width": 390,
+      "frames": [
+        "2",
+        "5",
+        "7",
+        "6"
+      ],
+      "statsCost": "5조 + 1000만",
+      "traitCost": "30조 + 5000만",
+      "reloadPending": true,
+      "effect": true,
+      "after": {
+        "coin": "1965000000000000",
+        "masterStars": 940000000
+      }
+    }
+  ]
+}

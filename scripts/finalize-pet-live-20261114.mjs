@@ -1,0 +1,8 @@
+import fs from 'node:fs/promises';
+for(const file of ['js/battle-v3-live.js','preview/project-v-v3/source/project-v-pixi-battle.src.js']){const text=await fs.readFile(file,'utf8');await fs.writeFile(file,text.replaceAll('blue-gear-20261113-v1','blue-gear-20261113-v1-pet-growth-20261114-v1'));}
+let text=await fs.readFile('js/pet-codex-growth-v3.mjs','utf8');
+text=text.replace('>새로고침</button></section>','>새로고침</button><div class="pc-route-links"><a href="/">로비</a><a href="/pets/opening/">봉인구 개봉</a><a href="/pets/">편성 해제</a></div></section>');
+text=text.replace("esc(row.owned?'보유 '+row.quantity+'마리':'미보유')","esc((row.growthCap?row.growthCap+' · ':'')+(row.owned?'보유 '+row.quantity+'마리':'미보유'))");
+text=text.replace("const next=await request(review?'admin/pets/equipment/codex':'pets/v1/codex',{signal:controller.signal});if(disposed)return;\n   if(growth.live){const portraits=await fetch('/assets/ui/pets/rework-20261114/codex-v3/pets.json').then(r=>r.json());for(const row of next.cards)Object.assign(row,portraits[row.code]||{});}","const [next,portraits]=await Promise.all([request(review?'admin/pets/equipment/codex':'pets/v1/codex',{signal:controller.signal}),growth.live?fetch('/assets/ui/pets/rework-20261114/codex-v3/pets.json',{signal:controller.signal}).then(r=>r.json()):null]);if(disposed)return;\n   if(portraits)for(const row of next.cards)Object.assign(row,portraits[row.code]||{});");
+await fs.writeFile('js/pet-codex-growth-v3.mjs',text);
+await fs.writeFile('js/pet-growth-window-v2.mjs',(await fs.readFile('js/pet-growth-window-v2.mjs','utf8')).replace("esc(trait.name)+' '+badge(petRow.trait.grade)","esc(petRow.trait.activated===false?'미개방':trait.name)+' '+(petRow.trait.activated===false?'':badge(petRow.trait.grade))"));

@@ -36,8 +36,8 @@ function applyEquipmentGrowth(fighters,runtime,allowMercenaryPvp=false,individua
 export const applyPveEquipmentGrowth=(fighters,runtime,individual=null)=>applyEquipmentGrowth(fighters,runtime,false,individual);
 export const applyPvpMercenaryEquipmentGrowth=(fighter,effects,individual=null)=>fighter?.isMercenary&&fighter.battleMode==='PVP'?applyEquipmentGrowth([fighter],{effects},true,individual):[fighter];
 export function equipmentHitMultiplier(actor,target,critical){
-  const fx=actor.equipmentEffects;if(!fx)return 1;
-  return 1+(target.isBoss?fx.bossDamagePercent:0)/100+(target.shield>0?fx.shieldDamagePercent:0)/100+(critical?fx.criticalExtraPercent:0)/100;
+  const fx=actor.equipmentEffects||{},petBoss=actor.battleMode!=='PVP'&&target.isBoss?Number(actor.petBossDamagePercent||0):0;
+  return 1+(target.isBoss?Number(fx.bossDamagePercent||0)+petBoss:0)/100+(target.shield>0?Number(fx.shieldDamagePercent||0):0)/100+(critical?Number(fx.criticalExtraPercent||0):0)/100;
 }
 export function equipmentAfterBasic(actor,target,dealt,{damage,knockout,emit}){
   const fx=actor.equipmentEffects;if(!fx||actor.isBattleSuit||actor.isMonster)return;

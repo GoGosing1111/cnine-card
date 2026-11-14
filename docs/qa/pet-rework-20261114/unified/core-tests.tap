@@ -1,0 +1,35 @@
+✔ each species cap limits every stat including C-only pets (2.7306ms)
+✔ four random draws are independent and reproduce user example (0.3734ms)
+✔ exact perfect probability uses independent four-stat draws (0.9392ms)
+✔ weight boundaries cover every ticket exactly (2.5142ms)
+✔ roll deducts once and leaves owned grades unchanged until chosen (1.3541ms)
+✔ replayed request returns receipt without reroll or recharge (0.3942ms)
+✔ same id with different content is rejected (0.8463ms)
+✔ pending result blocks rerolls and equipping (1.6605ms)
+✔ keep preserves old stats and spent dice; apply replaces all four (1.4693ms)
+✔ client cannot submit grades or select individual stat results (0.5207ms)
+✔ trait reroll does not change stats and respects grade cap (0.4535ms)
+✔ ownership, expiry, stale revision and insufficient wallet reject before mutation (0.8257ms)
+✔ policy off, invalid weights and absent costs cannot mutate (0.8035ms)
+✔ PvE and PvP retain independent instance slots (0.2787ms)
+✔ battle opening is a frozen-value copy and PvP has no hunter boss benefit (1.4304ms)
+✔ public state does not expose internal receipt records (7.1963ms)
+✔ atomic service serializes competing rolls and prevents cross-account writes (5.9626ms)
+✔ legacy equipment and retries survive first edit, with independent revisions, explicit empty slots and shared ownership (4538.1845ms)
+✔ first PVE edit keeps an empty PVP slot; forged modes, unowned pets and failed writes do not change either (3629.2828ms)
+✔ different mode selections reach real battle openings, bonus settlement and the request cache (4286.8597ms)
+✔ an expired PVP rental drops out of the UI, battle and rewards without affecting PVE (4920.3461ms)
+✔ a PVP-only selection protects the last copy in auction escrow and OWNER review stays isolated (5210.5468ms)
+✔ racing saves from separate mode tabs converge on both edits without overwriting the winner (3490.3077ms)
+✔ all five actual buff types have distinct readable motifs and preserve CMS percentages (3.0176ms)
+✔ PVE/PVP opening presentation follows real one-time server events without adding combat actors (190.2756ms)
+✔ cooperative activation and late restore stay owner-scoped, idempotent and never refill HP or shield (161.4078ms)
+✔ cooperative controller restores skipped openings on late entry and clock catch-up without replaying them (146.49ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 28236.9444

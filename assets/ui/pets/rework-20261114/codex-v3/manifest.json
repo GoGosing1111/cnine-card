@@ -1,0 +1,477 @@
+{
+  "generator": "Built-in ImageGen",
+  "prompts": "preview/pet-rework-20261114/ui-v3-prompts.json",
+  "processing": "Mechanical cell extraction, proportional resize and WebP encoding; approved pet portraits reused without retouch.",
+  "entries": [
+    {
+      "source": "stats-source.png",
+      "originalSha256": "169ca0862bf3704fbfa9bf62acac7700dbeaefab5197f63bccff249de6d0eaf8",
+      "width": 1536,
+      "height": 1024,
+      "alpha": true
+    },
+    {
+      "source": "trait-source.png",
+      "originalSha256": "5ede778b621796a6d6415156cd801ac0d0c47a183f718ecd9c9efdd2d5908d61",
+      "width": 1536,
+      "height": 1024,
+      "alpha": true
+    },
+    {
+      "source": "kit-source.png",
+      "originalSha256": "5fab3e47e1822f6b63a1602419b686f602d48b13044c178385d54961f4a6e11a",
+      "width": 1254,
+      "height": 1254,
+      "alpha": true
+    }
+  ],
+  "pets": {
+    "PET-HEUKGU": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-heukgu-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-heukgu-portrait.webp",
+      "source": "assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png",
+      "sourceSha256": "5d7e5e8b1fa4c22fb6d37d8ea78e0b7c3dfbb5d763f6f71e4c17077dc0843d0a"
+    },
+    "PET-BONGSOON": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-bongsoon-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-bongsoon-portrait.webp",
+      "source": "assets/ui/pets/gugugaga/pet-bongsoon-gugugaga-nametag-v2.png",
+      "sourceSha256": "2ba48e1b55f6da43c2ba65d6c74b5a8802fd8aa5eebab26b527f13988e8e4b2f"
+    },
+    "PET-JOEUN": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-joeun-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-joeun-portrait.webp",
+      "source": "assets/ui/pets/gugugaga/pet-joeun-gugugaga-nametag-v2.png",
+      "sourceSha256": "814905a3639b6e4b341d6a32ab3058e3b3fe14ad5b87f328a292dd6326fc1122"
+    },
+    "PET-HEEYA": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-heeya-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-heeya-portrait.webp",
+      "source": "assets/ui/pets/gugugaga/pet-heeya-pig-nametag-v3.png",
+      "sourceSha256": "1c89ac01721e048ee4981717857c1fa5e9b8f80fd6e10166d0eeaa7888de5bb8"
+    },
+    "PET-DIIM": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-diim-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-diim-portrait.webp",
+      "source": "assets/ui/pets/gugugaga/pet-diim-gugugaga-nametag-v2.png",
+      "sourceSha256": "907c3a1ca2ec4f86ebad7ec31fa73981e4e106eb62ee78566a8d3bea59ecef41"
+    },
+    "PET-GUSUDAENG": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-gusudaeng-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-gusudaeng-portrait.webp",
+      "source": "assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approved-20261002.png",
+      "sourceSha256": "f632ce546f455947662e7c68cc11dadbb4f28907b2d28f74efb3a3dfab558349"
+    },
+    "PET-HEADSET-SHIBA": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-headset-shiba-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-headset-shiba-portrait.webp",
+      "source": "assets/ui/pets/gamer-duo-20261006-v1/pet-headset-shiba-v1.png",
+      "sourceSha256": "98810de99b1d2c9d33d96937555442f870d050abd130375f76645acd06572445"
+    },
+    "PET-BEANIE-CAT": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-beanie-cat-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-beanie-cat-portrait.webp",
+      "source": "assets/ui/pets/gamer-duo-20261006-v1/pet-beanie-headset-cat-v1.png",
+      "sourceSha256": "173c92958da275af6b6a600ee4d576512a91f2ff0d8dcf721dc8757e17a3d9ec"
+    },
+    "PET-NAMUNEUL-BONGSOON": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-namuneul-bongsoon-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-namuneul-bongsoon-portrait.webp",
+      "source": "assets/ui/pets/namuneul-bongsoon-20261009/pet-namuneul-bongsoon-sloth-sd-approved.png",
+      "sourceSha256": "c7638ec033002657ee4e0278174f99f819d0018345936710d2aaad46161781e2"
+    },
+    "PET-BAZZI-BONGSOON": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-bazzi-bongsoon-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-bazzi-bongsoon-portrait.webp",
+      "source": "assets/ui/pets/bazzi-bongsoon-20261016/pet-bazzi-bongsoon-v3.png",
+      "sourceSha256": "39c5e3451d9b6bac5fe5bb30419fb11856e6eef187c84405dfdb51bef9e47702"
+    },
+    "PET-MALTESE-DIIM": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-maltese-diim-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-maltese-diim-portrait.webp",
+      "source": "assets/ui/pets/maltese-diim-20261013/pet-maltese-diim-approved.png",
+      "sourceSha256": "e24d3b3917559e5474dd04fc4ef3d4e23c94a6f7fc557f7afdc43976b02330cc"
+    },
+    "PET-MOON-FOX": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-moon-fox-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-moon-fox-portrait.webp",
+      "source": "assets/ui/pets/approved-nine-20261014/pet-moon-fox-v1.png",
+      "sourceSha256": "824485d758f320ca411234def77a7e3384e231b563e16d5878f6819d1e7cb481"
+    },
+    "PET-FROST-WOLF": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-frost-wolf-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-frost-wolf-portrait.webp",
+      "source": "assets/ui/pets/approved-nine-20261014/pet-frost-crown-wolf-v1.png",
+      "sourceSha256": "13993cd58715dd68c624e1c8f280937995bda1c623d17b1a0f40747fb85057f7"
+    },
+    "PET-GILDED-DRAGON": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-gilded-dragon-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-gilded-dragon-portrait.webp",
+      "source": "assets/ui/pets/approved-nine-20261014/pet-gilded-spirit-dragon-v2.png",
+      "sourceSha256": "4b8cbc3d7981b2fd0ee4ccd22a4031500182838799d5419942339ad149e1fb76"
+    },
+    "PET-SOLAR-PHOENIX": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-solar-phoenix-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-solar-phoenix-portrait.webp",
+      "source": "assets/ui/pets/approved-nine-20261014/pet-solar-phoenix-v1.png",
+      "sourceSha256": "cf8ed295e76817e7aa5f402cd788e2747de332aaf0985295986c1d7bca7299ec"
+    },
+    "PET-VERDANT-STAG": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-verdant-stag-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-verdant-stag-portrait.webp",
+      "source": "assets/ui/pets/approved-nine-20261014/pet-verdant-crown-stag-v1.png",
+      "sourceSha256": "e46649298c1fc8cdc841630f614c0555e8977a9b0faff357deba846083606d2e"
+    },
+    "PET-ASTRAL-PANTHER": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-astral-panther-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-astral-panther-portrait.webp",
+      "source": "assets/ui/pets/approved-nine-20261014/pet-astral-panther-v1.png",
+      "sourceSha256": "0a3437d0163dfdb985e8622abeb7ac70651bbee906138e1e30b67daef99410f8"
+    },
+    "PET-WHITE-SPIRIT": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-white-spirit-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-white-spirit-portrait.webp",
+      "source": "assets/ui/pets/approved-nine-20261014/pet-white-spirit-v1.png",
+      "sourceSha256": "888eb0f9fe355fdbdf662af592254315d1a853cd014ddddc2550cb71bdcc723e"
+    },
+    "PET-BULLDOG": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-bulldog-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-bulldog-portrait.webp",
+      "source": "assets/ui/pets/approved-nine-20261014/pet-bell-bulldog-v1.png",
+      "sourceSha256": "70f637d222ed371dbeae6310f00c4db8765213cdbcb47115f743467e83b419f1"
+    },
+    "PET-CRIMSON-DEMON": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-crimson-demon-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-crimson-demon-portrait.webp",
+      "source": "assets/ui/pets/approved-nine-20261014/pet-crimson-wing-demon-v1.png",
+      "sourceSha256": "6fd7dafa0989c012b382d1580ec2fc1178637d86450b5fa4cac57a4a56071a3d"
+    },
+    "PET-PUMPKIN-BONGSOON": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-pumpkin-bongsoon-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-pumpkin-bongsoon-portrait.webp",
+      "source": "assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-bongsoon-approved.png",
+      "sourceSha256": "e2a44d08be09b436676acd22173a1ed8b246f54352659c97aaf1f5dfac556fee"
+    },
+    "PET-PUMPKIN-JOEUN": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-pumpkin-joeun-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-pumpkin-joeun-portrait.webp",
+      "source": "assets/ui/pets/pumpkin-duo-20261022/pet-pumpkin-joeun-approved.png",
+      "sourceSha256": "e5eb156285075caf10847c85264cf2a965bd6c7f31cef809446491468adb450f"
+    },
+    "PET-DAENGSORYONG": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-daengsoryong-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-daengsoryong-portrait.webp",
+      "source": "assets/ui/pets/daengsoryong-20261024/pet-daengsoryong-approved.png",
+      "sourceSha256": "cd3d76da195a5f3f82c8ae7711447a6d18cbf4fe934e04524f1ec348beea2d43"
+    },
+    "PET-PEPEGU": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-pepegu-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-pepegu-portrait.webp",
+      "source": "assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png",
+      "sourceSha256": "4793f92e1c04aa5ce5ebf013692ad30ea90edbbd9af43230b25eb98c9b53e5e4"
+    },
+    "PET-JJANGGU-HEEYA": {
+      "thumb": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-jjanggu-heeya-thumb.webp",
+      "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-jjanggu-heeya-portrait.webp",
+      "source": "assets/ui/pets/jjanggu-heeya-20261104/pet-jjanggu-heeya-approved.png",
+      "sourceSha256": "b035ee16a1db07b540510ffbef56465862d6e1c3c38106fe3125128595623773"
+    }
+  },
+  "files": [
+    {
+      "file": "action.webp",
+      "bytes": 24476,
+      "sha256": "c422c913e2e90a64bd387fa5bdba47699b0ffb8c7f274e2de2777c1e811d87d2"
+    },
+    {
+      "file": "codex-icon.webp",
+      "bytes": 13104,
+      "sha256": "e3ed9fd343448b3fe5c4cb04f81cbcdcb00c40c750035f3bdd42201fa2936347"
+    },
+    {
+      "file": "kit-source.png",
+      "bytes": 2010000,
+      "sha256": "73ddace1614308cece331f0a1f98b7aabcdfc63be0bad8a52d1cbe007907d7b3"
+    },
+    {
+      "file": "panel.webp",
+      "bytes": 30520,
+      "sha256": "bd7d7301ecc1ece48f5765c4603f054d95ce7b249bb29ecac4103a55fcb40876"
+    },
+    {
+      "file": "sanctuary.webp",
+      "bytes": 118456,
+      "sha256": "c3d8951c1154f5a67c8daefe7f7e7202bbd3e182f13c38ec6536aeb4227010a1"
+    },
+    {
+      "file": "stats-roll.webp",
+      "bytes": 126818,
+      "sha256": "7e5254c76427101200dd8a86cd99f9add46330e24f2f0a5642dcc524db59de90"
+    },
+    {
+      "file": "stats-source.png",
+      "bytes": 2234672,
+      "sha256": "14dcf64965720f80abee9ddc145dc597bd91fdba55a2bec9f7ca074c3ecef750"
+    },
+    {
+      "file": "trait-roll.webp",
+      "bytes": 160292,
+      "sha256": "3032d441831918115054730506c16e321b397c609f0c0cbb84c33faeb115165a"
+    },
+    {
+      "file": "trait-source.png",
+      "bytes": 2406965,
+      "sha256": "d21f19c99d1c4daa5ea109706961fa771e4fee1ccab21ee4ed862e118aca66d0"
+    },
+    {
+      "file": "pets\\pet-astral-panther-portrait.webp",
+      "bytes": 75552,
+      "sha256": "529f8817abd70d07214ec95245160d4999df800ff04b135fab140925e9f198a5"
+    },
+    {
+      "file": "pets\\pet-astral-panther-thumb.webp",
+      "bytes": 10424,
+      "sha256": "755ac4c588c955217af8796a3e66a495f36a90af8e0593aeb9dd348e6ccbfeb2"
+    },
+    {
+      "file": "pets\\pet-bazzi-bongsoon-portrait.webp",
+      "bytes": 48302,
+      "sha256": "c9c7678a49818257116a56cb486077945b4f1dd0d9d9acfa8fe3d9101355af28"
+    },
+    {
+      "file": "pets\\pet-bazzi-bongsoon-thumb.webp",
+      "bytes": 7192,
+      "sha256": "594fb595fa46a44bd7379535ed07faaafc5b505d00a0b8be22a2933d1e365118"
+    },
+    {
+      "file": "pets\\pet-beanie-cat-portrait.webp",
+      "bytes": 54540,
+      "sha256": "adf029b820c8b6ff626c9d2eaeba9cb0d15aa68b6219ea0bcc8e8a3f804d5654"
+    },
+    {
+      "file": "pets\\pet-beanie-cat-thumb.webp",
+      "bytes": 7634,
+      "sha256": "a6f4bf8fcf58a6ee4ea6dc6d60161765e06d010b1f1a33ba950a0c221cb7eebc"
+    },
+    {
+      "file": "pets\\pet-bongsoon-portrait.webp",
+      "bytes": 46952,
+      "sha256": "25c6601c19352c95f013bbad7c594ebfff457492ecda2995fbcbb665aaae6b96"
+    },
+    {
+      "file": "pets\\pet-bongsoon-thumb.webp",
+      "bytes": 7724,
+      "sha256": "fa4e8beb44093f2d2af42dbb376ed4f30ed428ba7826ab9911ec5f4c7bf66620"
+    },
+    {
+      "file": "pets\\pet-bulldog-portrait.webp",
+      "bytes": 49674,
+      "sha256": "e57717f82762f2aaf090fa36f20cabe56ae8648607a661c3cae81edbdb9410e6"
+    },
+    {
+      "file": "pets\\pet-bulldog-thumb.webp",
+      "bytes": 8350,
+      "sha256": "6f71bd5f794416126c24c904b28225e7eda1a36ab04b7672a7ab42e593e9339c"
+    },
+    {
+      "file": "pets\\pet-crimson-demon-portrait.webp",
+      "bytes": 73300,
+      "sha256": "c1091c5c85d5ed1217e5bf85cb06fa06512c3a75c37fdf98f5f67021cc1dfbfb"
+    },
+    {
+      "file": "pets\\pet-crimson-demon-thumb.webp",
+      "bytes": 9646,
+      "sha256": "39c902d2b3124732a7dc5362eb6e15b149b9bfbbb16cc974174811f345c61814"
+    },
+    {
+      "file": "pets\\pet-daengsoryong-portrait.webp",
+      "bytes": 49244,
+      "sha256": "61dd79a0da69d3557ebddc161889436fb7651e7e7a9b1851a4f1228ff608af48"
+    },
+    {
+      "file": "pets\\pet-daengsoryong-thumb.webp",
+      "bytes": 7102,
+      "sha256": "5c2ee191365c8ad9ab038fb5ece91cd497888cdd14ad7651398c6faa68459384"
+    },
+    {
+      "file": "pets\\pet-diim-portrait.webp",
+      "bytes": 43112,
+      "sha256": "95bf882c926ca681b939e0a296f531da58f415d03fad2a8a71b22f1875e0dd43"
+    },
+    {
+      "file": "pets\\pet-diim-thumb.webp",
+      "bytes": 7022,
+      "sha256": "fee9a70408380209be51264b2e75818afa9c03630048786c9ba2924bcba7661c"
+    },
+    {
+      "file": "pets\\pet-frost-wolf-portrait.webp",
+      "bytes": 78250,
+      "sha256": "1b52485620e3ace61d3f50f5b75310f0bab8d170ab44bd31d23d23d2382073d1"
+    },
+    {
+      "file": "pets\\pet-frost-wolf-thumb.webp",
+      "bytes": 10056,
+      "sha256": "323e026a0710e085f8858fadad34acc5b6a7552a286a3afa3d3d01a1ef467987"
+    },
+    {
+      "file": "pets\\pet-gilded-dragon-portrait.webp",
+      "bytes": 83582,
+      "sha256": "b7584e212aa8313c26fd8edb931f42aa746689e25d1628790f5a897eba132c8e"
+    },
+    {
+      "file": "pets\\pet-gilded-dragon-thumb.webp",
+      "bytes": 9824,
+      "sha256": "f774a7af7410e4c45a52afc87caad01a9b006c7ddfdb12bc5a5dc4a8a2f8af90"
+    },
+    {
+      "file": "pets\\pet-gusudaeng-portrait.webp",
+      "bytes": 58004,
+      "sha256": "ec31b707b2c76a5aba4e3e5c59f58aa2d05f6cdade6fbdb397d9ae918db6a305"
+    },
+    {
+      "file": "pets\\pet-gusudaeng-thumb.webp",
+      "bytes": 8802,
+      "sha256": "8f650896f641cce51be98a78da172e575bec8395ce39860e6c3a4963554e5e63"
+    },
+    {
+      "file": "pets\\pet-headset-shiba-portrait.webp",
+      "bytes": 53278,
+      "sha256": "1ca9788a5c447e4b1fb0ea2340f24c74d889df62adca77df2402c4419c6b36f0"
+    },
+    {
+      "file": "pets\\pet-headset-shiba-thumb.webp",
+      "bytes": 7854,
+      "sha256": "5d5383aa3827a32ce462849efae116a5477c21d98340356320cfff57594931f1"
+    },
+    {
+      "file": "pets\\pet-heeya-portrait.webp",
+      "bytes": 57426,
+      "sha256": "dcf7a8e57452ba06b8b72dbee5f4c8d215f34d67a92b89d78388319af227d015"
+    },
+    {
+      "file": "pets\\pet-heeya-thumb.webp",
+      "bytes": 8448,
+      "sha256": "d77be74dfcdf956aa58be727fcb01ea12f78a439be26b41d3df7522068ef23eb"
+    },
+    {
+      "file": "pets\\pet-heukgu-portrait.webp",
+      "bytes": 45164,
+      "sha256": "33f437d062c47e0a9b51d0a22d43cbc366c5b08d89e395d694eb44a37194c995"
+    },
+    {
+      "file": "pets\\pet-heukgu-thumb.webp",
+      "bytes": 7002,
+      "sha256": "a2c90c5b5caefb345f6f5e67c65d11b4ed7c6deebc292300cb732cc4781af59e"
+    },
+    {
+      "file": "pets\\pet-jjanggu-heeya-portrait.webp",
+      "bytes": 44108,
+      "sha256": "6e8073d384da1e3ea230d73fe260739c77dfd9219ae1639dd4304b7e74a7d2c9"
+    },
+    {
+      "file": "pets\\pet-jjanggu-heeya-thumb.webp",
+      "bytes": 6366,
+      "sha256": "0379776f8cb4b9527daca8b2989a1efdcf202533961669434c47f97050437ff1"
+    },
+    {
+      "file": "pets\\pet-joeun-portrait.webp",
+      "bytes": 44208,
+      "sha256": "e98982e1a235e48efb10313c10e8c4b2b8c940c946f6b1e227216aae79ac3209"
+    },
+    {
+      "file": "pets\\pet-joeun-thumb.webp",
+      "bytes": 6958,
+      "sha256": "fecfb4ec6f59a06baeb50bd8eac28c4ba1d531acdc64a8039925630e5aa0d415"
+    },
+    {
+      "file": "pets\\pet-maltese-diim-portrait.webp",
+      "bytes": 56348,
+      "sha256": "0094e9250666f3dfaa79b2dfe2b07c29aaeaba57aacb177fa83629feff5bedd2"
+    },
+    {
+      "file": "pets\\pet-maltese-diim-thumb.webp",
+      "bytes": 7822,
+      "sha256": "7590bf87da4e0782152497ecb9795a439777b0b696d413c8be99a57378358689"
+    },
+    {
+      "file": "pets\\pet-moon-fox-portrait.webp",
+      "bytes": 85974,
+      "sha256": "4ae379d00e1567b1716e7cd821e6efd44d06da61e580e2341e2f0ac1da21a011"
+    },
+    {
+      "file": "pets\\pet-moon-fox-thumb.webp",
+      "bytes": 11074,
+      "sha256": "f5489d399060910bcd4e270b6a7cdb1cea4350af1c262961aa67272a151b8b1a"
+    },
+    {
+      "file": "pets\\pet-namuneul-bongsoon-portrait.webp",
+      "bytes": 56942,
+      "sha256": "a88e08faa8987e41bad2c274dbf311b6978ba8204b7dcef95317b739b16283bd"
+    },
+    {
+      "file": "pets\\pet-namuneul-bongsoon-thumb.webp",
+      "bytes": 7562,
+      "sha256": "71ab06d2679b9b79b69791c6c480dc11dc3a37ba33ecc9f1294c5b75ad9e5b61"
+    },
+    {
+      "file": "pets\\pet-pepegu-portrait.webp",
+      "bytes": 22878,
+      "sha256": "fc2913ee5a552e580a74ca3ff32998ed78083d74ce217befaa2d31cc66a6913d"
+    },
+    {
+      "file": "pets\\pet-pepegu-thumb.webp",
+      "bytes": 5462,
+      "sha256": "5d1d89d532f88b62ff45de30fdebde347e75a4120692953f5b6acac88f223df0"
+    },
+    {
+      "file": "pets\\pet-pumpkin-bongsoon-portrait.webp",
+      "bytes": 47574,
+      "sha256": "6881e9241e15f655b6ef811775cc8a7b99526124c5624c4dd2c23eac47260070"
+    },
+    {
+      "file": "pets\\pet-pumpkin-bongsoon-thumb.webp",
+      "bytes": 7086,
+      "sha256": "e63c5dc4d142dd41624456482309c691644f6bd48e556fec8820127c77cd19ad"
+    },
+    {
+      "file": "pets\\pet-pumpkin-joeun-portrait.webp",
+      "bytes": 49622,
+      "sha256": "cc0ac2447a75f4bede1026e5faf6f956d3551bad754fef3cc785d7f5a27db00d"
+    },
+    {
+      "file": "pets\\pet-pumpkin-joeun-thumb.webp",
+      "bytes": 7460,
+      "sha256": "2d87912de7d7c618922bafb4c07734b4efea357d11e4b05821353fef5c027533"
+    },
+    {
+      "file": "pets\\pet-solar-phoenix-portrait.webp",
+      "bytes": 98240,
+      "sha256": "e7e0980951e29c9ae8fa7c3ade2017c6213106c30d173a40b3b89d42d41efbce"
+    },
+    {
+      "file": "pets\\pet-solar-phoenix-thumb.webp",
+      "bytes": 12468,
+      "sha256": "0dace7c02ce9a3fea63ca0d3f6b96e998e0003af9c928b1c99c51eb3b0906edb"
+    },
+    {
+      "file": "pets\\pet-verdant-stag-portrait.webp",
+      "bytes": 64922,
+      "sha256": "1f6e9da9433b72f5d614a9cbdb8fca428f3ec73f89f220cb367770a238370a4a"
+    },
+    {
+      "file": "pets\\pet-verdant-stag-thumb.webp",
+      "bytes": 9134,
+      "sha256": "8e0cdf0b71f61cbc1312f7ed7d2db1a2ef3a633b285c9a5a143587013b62553f"
+    },
+    {
+      "file": "pets\\pet-white-spirit-portrait.webp",
+      "bytes": 31146,
+      "sha256": "0b5ef1285626de2fe2ce24f7fb65ffe05057d723684a74ba05c758bbb56d211f"
+    },
+    {
+      "file": "pets\\pet-white-spirit-thumb.webp",
+      "bytes": 4674,
+      "sha256": "f716316f72e12841d6016f45d06debf6c1b202998093fd4abac6c4b88363718b"
+    }
+  ]
+}

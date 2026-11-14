@@ -1,15 +1,17 @@
 import {Assets,Container,Sprite,Text,Texture,Rectangle} from 'pixi.js';
 import {petBuffVisual} from '../../../../shared/pet-buff-visuals-v1.mjs';
+import {petGrowthBonuses} from '../../../../shared/pet-growth-live-v2.mjs';
 import {petSupportPosition,petBattleDisplaySize} from './PetSupportLayout.mjs';
 import {createBattleGroundSigil} from './BattleGroundSigil.js';
 import {PetSupportHud} from './PetSupportHud.js';
 import {petSupportKey,petOpeningMatches,skippedPetOpenings} from './PetSupportPresentation.mjs';
 import {playPetOpeningFX} from './PetOpeningFX.js';
+import {preparePetTraitFrames,playPetTraitOpeningFX} from './PetTraitOpeningFX.js';
 
 export function disposePetSupport(engine){
   if(engine.petSupportTick)engine.app?.ticker?.remove(engine.petSupportTick);
   engine.petSupportHud?.destroy();engine.petSupportHud=null;
-  for(const row of engine.petSupports?.values()||[]){row.fxCleanup?.();row.root.destroy({children:true});for(const frames of row.frames.values())for(const frame of frames)frame.destroy(false);}
+  for(const row of engine.petSupports?.values()||[]){row.fxCleanup?.();row.traitCleanup?.();row.traitResource?.dispose();row.root.destroy({children:true});for(const frames of row.frames.values())for(const frame of frames)frame.destroy(false);}
   engine.petSupports=new Map();engine.petSupportTick=null;
 }
 export async function preparePetSupport(engine,payload){
@@ -27,7 +29,11 @@ export async function preparePetSupport(engine,payload){
     root.addChild(halo,sprite,name);
     let badge=null;if(snapshot.magnet){badge=new Text({text:'자석',style:{fontFamily:'Noto Sans KR, sans-serif',fontSize:13,fontWeight:'700',fill:0xcbf687,stroke:{color:0x081020,width:4}}});badge.anchor.set(.5,0);badge.y=29;root.addChild(badge);}
     const row={root,sprite,halo,name,badge,snapshot,side,ownerId,frames:new Map(),applied:false};rows.set(key,row);engine.effectLayer.addChild(root);
-    await Promise.all(pet.buffs.map(async buff=>{
+    if(snapshot.growth?.trait?.id&&snapshot.growth.trait.activated!==false){
+      try{const resource=await preparePetTraitFrames(snapshot.growth.trait.id);if(engine.petSupports!==rows||engine.disposed){resource.dispose();return;}row.traitResource=resource;}catch{console.warn('[pet] trait effect load failed',snapshot.growth.trait.id);}
+    }
+    const growthBuffs=petGrowthBonuses(snapshot.growth,payload.battleV2?.mode==='PVP'?'PVP':'PVE')?.buffs||[];
+    await Promise.all([...new Map([...pet.buffs,...growthBuffs].map(buff=>[buff.type,buff])).values()].map(async buff=>{
       const visual=petBuffVisual(buff.type);if(!visual)return;
       try{const atlas=await Assets.load(visual.atlas);if(engine.petSupports!==rows||engine.disposed)return;
         const w=atlas.width/visual.columns,h=atlas.height/visual.rows;
@@ -81,7 +87,7 @@ export function playPetOpening(engine,event,{restored=false}={}){
   engine.petSupportHud?.apply(row===single?event.actorSide:key,event,{restored});
   // A late cooperative entry already holds the latest server HP/shield. Only
   // restore its activation record; replaying opening values could refill it.
-  if(restored)return true;
+  if(restored){playPetTraitOpeningFX(engine,row,event,{restored:true});return true;}
   for(const hit of event.hits||[]){
     const target=engine.combatantById(hit.targetId);if(!target)continue;
     // The server's opening snapshot already contains the stats. This only
@@ -89,7 +95,7 @@ export function playPetOpening(engine,event,{restored=false}={}){
     if(Number.isFinite(hit.after?.maxHp))target.serverMaxHp=hit.after.maxHp;
     if(Number.isFinite(hit.after?.shield))engine.syncTargetShield(target,hit.after.shield,Math.max(target.serverMaxShield||0,hit.after.shield));
   }
-  playPetOpeningFX(engine,row,event);return true;
+  if(!playPetTraitOpeningFX(engine,row,event))playPetOpeningFX(engine,row,event);return true;
 }
 export function restorePetSupport(engine,beforeMs){
   const events=skippedPetOpenings(engine.battleData?.battleV2?.result?.timeline||[],beforeMs);

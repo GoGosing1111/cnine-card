@@ -8,7 +8,14 @@ const icons={paw:'<ellipse cx="6" cy="7" rx="2" ry="2.7"/><ellipse cx="11" cy="4
 export const petUiIcon=name=>`<svg class="pe-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${icons[name]||icons.paw}</svg>`;
 let activeDialog=null;
 
-export function mountPetEquipment(root,{review=false,codex=false,mode:initialMode='PVE',request=review?jointAdminRequest:jointAccountRequest}={}){
+export function mountPetEquipment(root,{review=false,codex=false,mode:initialMode='PVE',request=review?jointAdminRequest:jointAccountRequest,growth=null}={}){
+  if(codex&&growth?.layout==='unified'){
+    let view=null,stopped=false;
+    root.textContent='펫 도감을 불러오고 있습니다.';
+    if(!document.querySelector('[data-pet-growth-css]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/pet-growth-v2.css?v=20261114-unified';link.dataset.petGrowthCss='';document.head.append(link);}
+    import('./pet-codex-growth-v3.mjs').then(({mountPetCodexGrowth})=>{if(!stopped)view=mountPetCodexGrowth(root,{growth,request,review});}).catch(()=>{if(!stopped)root.textContent='도감 화면을 불러오지 못했습니다. 페이지를 새로고침해 주세요.';});
+    return {dispose(){stopped=true;view?.dispose();},reload(){return view?.reload();},get animation(){return view?.animation||{active:false,updates:0};}};
+  }
   let state=null,selected=null,busy=false,pending=null,pendingPotential=null,lastPotential=null,needsRefresh=false,disposed=false,controller=null;
   const standalone=root.hasAttribute('data-pet-page-root');
   const requestedMode=standalone?(new URL(location.href).searchParams.get('mode')?.toUpperCase()??initialMode):initialMode;
@@ -24,6 +31,27 @@ export function mountPetEquipment(root,{review=false,codex=false,mode:initialMod
   if(!document.querySelector('[data-collection-bonus-css]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/collection-bonuses-v1.css?v=20261014-reward1';link.dataset.collectionBonusCss='';document.head.append(link);}
   root.classList.add('pet-equipment');if(codex)root.classList.add('pet-codex');
   let filter='all',query='';
+  let growthMount=null,growthEpoch=0;
+  function closeGrowth(){
+    growthEpoch++;growthMount?.dispose();growthMount=null;
+    root.querySelector('[data-pet-growth-host]')?.remove();
+    for(const node of root.querySelectorAll('.pe-workspace,.pe-footer,.pe-codex-tools,.pe-loadout-modes')){node.hidden=false;node.style.removeProperty('display');}
+    root.querySelector('[data-pet-growth-open]')?.focus();
+  }
+  async function openGrowth(){
+    const row=pet();if(!growth||!row?.owned||disposed||busy)return;
+    closeGrowth();const epoch=++growthEpoch;
+    const host=document.createElement('section');host.dataset.petGrowthHost='';
+    root.querySelector('.pe-footer').before(host);
+    for(const node of root.querySelectorAll('.pe-workspace,.pe-footer,.pe-codex-tools,.pe-loadout-modes')){node.hidden=true;node.style.display='none';}
+    host.textContent='펫 성장 정보를 불러오고 있습니다.';
+    if(!document.querySelector('[data-pet-growth-css]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/pet-growth-v2.css';link.dataset.petGrowthCss='';document.head.append(link);}
+    try{
+      const {mountPetGrowth}=await import('./pet-growth-window-v2.mjs');
+      if(disposed||epoch!==growthEpoch)return;
+      growthMount=mountPetGrowth(host,{...growth,pet:row,petCatalog:state.cards,onClose:closeGrowth});
+    }catch(error){if(!disposed&&epoch===growthEpoch){closeGrowth();status('성장 화면을 불러오지 못했습니다. 다시 시도해 주세요.',true);}}
+  }
   root.innerHTML=`<header class="pe-heading"><div class="pe-heading-title"><span class="pe-heading-icon">${petUiIcon('paw')}</span><div><span class="pe-eyebrow">지원 편성</span><h1>${codex?'펫 도감':'펫 장착'}</h1><p>${codex?'모든 동료의 모습과 버프, 나의 수집 현황을 확인하세요.':'함께할 동료를 선택하고 시작 버프를 확인하세요.'}</p></div></div><div class="pe-capacity"><span>펫 지원 슬롯</span><b><i data-pet-equipped-count>0</i><em>/ 1</em></b></div></header>
     <div class="pe-loadout-modes" role="group" aria-label="펫 편성 선택">${['PVE','PVP'].map(target=>`<button type="button" data-pet-mode="${target}" aria-pressed="${mode===target}"><b>${modeLabel(target)} 편성</b><span></span></button>`).join('')}</div>
     ${codex?'<section class="pe-codex-tools" aria-label="도감 검색"><div class="pe-codex-progress"><strong data-codex-progress>수집 현황</strong><progress data-codex-meter value="0" max="1" aria-label="펫 수집 현황"></progress></div><label>펫 검색<input type="search" data-codex-search placeholder="이름 · 동물 · 버프" aria-label="펫 검색"></label><div class="pe-codex-filters" role="group" aria-label="보유 필터"><button type="button" data-codex-filter="all" aria-pressed="true">전체</button><button type="button" data-codex-filter="owned" aria-pressed="false">보유</button><button type="button" data-codex-filter="missing" aria-pressed="false">미보유</button></div></section>':''}
@@ -85,6 +113,7 @@ export function mountPetEquipment(root,{review=false,codex=false,mode:initialMod
       const potential=state.potential,chance=potential.settings.successPpm===null?'설정 대기':(potential.settings.successPpm/10000).toLocaleString('ko-KR',{maximumFractionDigits:4})+'%';
       $('[data-pet-detail]').insertAdjacentHTML('beforeend',`<section class="pe-potential ${row.potential==='MAGNET'?'is-magnet':''}" aria-label="펫 잠재력"><div class="pe-potential-heading"><img src="/${esc(potential.potion.image)}" alt="잠재력 물약"><div><span class="pe-eyebrow">펫 잠재력</span><h3>${row.potential==='MAGNET'?'자석 · 활성':'자석 잠재력에 도전'}</h3></div></div><p>장착한 자석 펫이 군단토벌 드랍 아이템을 자동으로 흡수합니다. 획득 보상은 원정 종료 시 지급됩니다.</p><dl><div><dt>물약 보유</dt><dd>${potential.potion.quantity.toLocaleString()}개</dd></div><div><dt>성공확률</dt><dd>${chance}</dd></div></dl><button type="button" class="pe-button pe-potential-button" data-pet-potential-attempt>물약 1개로 도전</button><p class="pe-potential-result" data-pet-potential-result role="status">${esc(lastPotential||(!potential.settings.enabled?'잠재력 도전을 준비 중입니다.':'성공·실패와 관계없이 물약 1개를 소모합니다.'))}</p><small>같은 펫의 중복 보유분은 잠재력을 공유합니다.</small></section>`);
     }
+    if(codex&&growth&&row?.owned)$('[data-pet-detail]').insertAdjacentHTML('afterbegin','<div class="pg-entry"><button type="button" class="pe-button pe-primary" data-pet-growth-open><img src="/assets/ui/pets/rework-20261114/stat-dice.webp" alt="" width="44" height="44"><span>능력치 · 특성 관리</span></button></div>');
     if(pendingPotential&&!row)$('[data-pet-detail]').insertAdjacentHTML('beforeend','<p>이전 물약 도전 결과를 확인해 주세요.</p><button type="button" data-pet-potential-attempt>도전 결과 재확인</button>');
     root.querySelectorAll('img').forEach(img=>img.addEventListener('error',()=>{img.hidden=true;if(img.classList.contains('pe-hero'))$('.pe-art-error').hidden=false;},{once:true}));sync();
   }
@@ -193,6 +222,7 @@ export function mountPetEquipment(root,{review=false,codex=false,mode:initialMod
     if(button.hasAttribute('data-pet-refresh'))void load();
     if(button.hasAttribute('data-pet-potential-attempt'))void attemptPotential();
     if(button.hasAttribute('data-pet-support-magnet'))void applySupportMagnet();
+    if(button.hasAttribute('data-pet-growth-open'))void openGrowth();
   }
   const onSearch=event=>{if(event.target.hasAttribute('data-codex-search')){query=event.target.value.trim().toLowerCase();render();}};
   const onFilter=event=>{const button=event.target.closest('[data-codex-filter]');if(button){filter=button.dataset.codexFilter;render();}};
@@ -209,7 +239,7 @@ export function mountPetEquipment(root,{review=false,codex=false,mode:initialMod
     if(!busy&&!pending&&!pendingPotential&&!pendingSupport)void load();
   },1000):null;
   root.addEventListener('click',click);void load();
-  return {reload:load,dispose(){disposed=true;controller?.abort();clearInterval(supportTimer);clearInterval(rentalTimer);root.removeEventListener('click',click);root.removeEventListener('input',onSearch);root.removeEventListener('click',onFilter);root.replaceChildren();}};
+  return {reload:load,dispose(){disposed=true;closeGrowth();controller?.abort();clearInterval(supportTimer);clearInterval(rentalTimer);root.removeEventListener('click',click);root.removeEventListener('input',onSearch);root.removeEventListener('click',onFilter);root.replaceChildren();}};
 }
 
 export function openPetEquipment(options={}){
