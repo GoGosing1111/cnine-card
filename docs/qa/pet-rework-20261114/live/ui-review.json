@@ -1,0 +1,7 @@
+{
+  "result": "ship",
+  "reviewer": "/root/impeccable_finish_reviewer_v3",
+  "reviewed": "live prices, unified pet management, mobile result buttons and fixed navigation",
+  "resolved": "Result comparison uses dock-aware scroll margin. Both buttons passed viewport and elementFromPoint checks.",
+  "requiredFixes": 0
+}

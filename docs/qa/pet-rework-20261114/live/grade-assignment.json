@@ -1,0 +1,711 @@
+{
+  "userInstruction": "펫 등급은 기존꺼 고유효과 제일 높은순으로 SSS등급 ~ C까지 매겨",
+  "cmsRevision": 49,
+  "checkedAt": "2026-11-14T08:58:17.664Z",
+  "thresholds": {
+    "SSS": 55,
+    "SS": 50,
+    "S": 35,
+    "A": 30,
+    "B": 20,
+    "C": 0
+  },
+  "grades": [
+    {
+      "code": "PET-BAZZI-BONGSOON",
+      "name": "배찌 나무늘봉순",
+      "grade": "SSS",
+      "highestExistingEffect": 55,
+      "baseBuffs": [
+        {
+          "type": "SPEED_PERCENT",
+          "percent": 55
+        }
+      ],
+      "rewardBonuses": {
+        "dropPercent": 25,
+        "accountXpPercent": 55,
+        "coinPercent": 55
+      }
+    },
+    {
+      "code": "PET-PEPEGU",
+      "name": "페페구",
+      "grade": "SSS",
+      "highestExistingEffect": 55,
+      "baseBuffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": 55
+        }
+      ],
+      "rewardBonuses": {
+        "dropPercent": 25,
+        "accountXpPercent": 55,
+        "coinPercent": 55
+      }
+    },
+    {
+      "code": "PET-HEUKGU",
+      "name": "흑구",
+      "grade": "SS",
+      "highestExistingEffect": 50,
+      "baseBuffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": 50
+        }
+      ],
+      "rewardBonuses": {
+        "dropPercent": 20,
+        "accountXpPercent": 50,
+        "coinPercent": 50
+      }
+    },
+    {
+      "code": "PET-JJANGGU-HEEYA",
+      "name": "짱구희야",
+      "grade": "SS",
+      "highestExistingEffect": 50,
+      "baseBuffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": 50
+        }
+      ],
+      "rewardBonuses": {
+        "dropPercent": 20,
+        "accountXpPercent": 50,
+        "coinPercent": 50
+      }
+    },
+    {
+      "code": "PET-CRIMSON-DEMON",
+      "name": "붉은 날개 마신",
+      "grade": "S",
+      "highestExistingEffect": 35,
+      "baseBuffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": 35
+        }
+      ],
+      "rewardBonuses": {
+        "dropPercent": 10,
+        "accountXpPercent": 15,
+        "coinPercent": 15
+      }
+    },
+    {
+      "code": "PET-GILDED-DRAGON",
+      "name": "흑금 영룡",
+      "grade": "A",
+      "highestExistingEffect": 30,
+      "baseBuffs": [
+        {
+          "type": "SPEED_PERCENT",
+          "percent": 30
+        }
+      ],
+      "rewardBonuses": {}
+    },
+    {
+      "code": "PET-WHITE-SPIRIT",
+      "name": "흰 정령",
+      "grade": "A",
+      "highestExistingEffect": 30,
+      "baseBuffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": 30
+        }
+      ],
+      "rewardBonuses": {
+        "dropPercent": 5,
+        "accountXpPercent": 10,
+        "coinPercent": 15
+      }
+    },
+    {
+      "code": "PET-PUMPKIN-BONGSOON",
+      "name": "호박봉순",
+      "grade": "A",
+      "highestExistingEffect": 30,
+      "baseBuffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": 30
+        }
+      ],
+      "rewardBonuses": {
+        "dropPercent": 10,
+        "accountXpPercent": 15,
+        "coinPercent": 15
+      }
+    },
+    {
+      "code": "PET-PUMPKIN-JOEUN",
+      "name": "호박조은",
+      "grade": "A",
+      "highestExistingEffect": 30,
+      "baseBuffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": 30
+        }
+      ],
+      "rewardBonuses": {
+        "dropPercent": 10,
+        "accountXpPercent": 15,
+        "coinPercent": 15
+      }
+    },
+    {
+      "code": "PET-DAENGSORYONG",
+      "name": "댕소룡",
+      "grade": "A",
+      "highestExistingEffect": 30,
+      "baseBuffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": 30
+        }
+      ],
+      "rewardBonuses": {
+        "dropPercent": 10,
+        "accountXpPercent": 15,
+        "coinPercent": 15
+      }
+    },
+    {
+      "code": "PET-NAMUNEUL-BONGSOON",
+      "name": "나무늘봉순",
+      "grade": "B",
+      "highestExistingEffect": 25,
+      "baseBuffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": 25
+        }
+      ],
+      "rewardBonuses": {
+        "dropPercent": 0,
+        "accountXpPercent": 5,
+        "coinPercent": 10
+      }
+    },
+    {
+      "code": "PET-MALTESE-DIIM",
+      "name": "말티즈디임",
+      "grade": "B",
+      "highestExistingEffect": 25,
+      "baseBuffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": 25
+        }
+      ],
+      "rewardBonuses": {
+        "dropPercent": 0,
+        "accountXpPercent": 5,
+        "coinPercent": 10
+      }
+    },
+    {
+      "code": "PET-GUSUDAENG",
+      "name": "토끼 구수댕",
+      "grade": "B",
+      "highestExistingEffect": 20,
+      "baseBuffs": [
+        {
+          "type": "MAX_HP_PERCENT",
+          "percent": 20
+        }
+      ],
+      "rewardBonuses": {
+        "dropPercent": 0,
+        "accountXpPercent": 5,
+        "coinPercent": 10
+      }
+    },
+    {
+      "code": "PET-BONGSOON",
+      "name": "봉순",
+      "grade": "B",
+      "highestExistingEffect": 20,
+      "baseBuffs": [
+        {
+          "type": "SPEED_PERCENT",
+          "percent": 20
+        }
+      ],
+      "rewardBonuses": {
+        "dropPercent": 0,
+        "accountXpPercent": 0,
+        "coinPercent": 5
+      }
+    },
+    {
+      "code": "PET-JOEUN",
+      "name": "조은",
+      "grade": "B",
+      "highestExistingEffect": 20,
+      "baseBuffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": 20
+        }
+      ],
+      "rewardBonuses": {
+        "dropPercent": 0,
+        "accountXpPercent": 0,
+        "coinPercent": 5
+      }
+    },
+    {
+      "code": "PET-HEEYA",
+      "name": "희야",
+      "grade": "B",
+      "highestExistingEffect": 20,
+      "baseBuffs": [
+        {
+          "type": "START_SHIELD_PERCENT",
+          "percent": 20
+        }
+      ],
+      "rewardBonuses": {
+        "dropPercent": 0,
+        "accountXpPercent": 0,
+        "coinPercent": 5
+      }
+    },
+    {
+      "code": "PET-DIIM",
+      "name": "디임",
+      "grade": "B",
+      "highestExistingEffect": 20,
+      "baseBuffs": [
+        {
+          "type": "DEFENSE_PERCENT",
+          "percent": 20
+        }
+      ],
+      "rewardBonuses": {
+        "dropPercent": 0,
+        "accountXpPercent": 0,
+        "coinPercent": 5
+      }
+    },
+    {
+      "code": "PET-MOON-FOX",
+      "name": "월령 여우",
+      "grade": "C",
+      "highestExistingEffect": 10,
+      "baseBuffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": 10
+        }
+      ],
+      "rewardBonuses": {}
+    },
+    {
+      "code": "PET-FROST-WOLF",
+      "name": "빙관 늑대",
+      "grade": "C",
+      "highestExistingEffect": 10,
+      "baseBuffs": [
+        {
+          "type": "START_SHIELD_PERCENT",
+          "percent": 10
+        }
+      ],
+      "rewardBonuses": {}
+    },
+    {
+      "code": "PET-SOLAR-PHOENIX",
+      "name": "태양 봉황",
+      "grade": "C",
+      "highestExistingEffect": 10,
+      "baseBuffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": 10
+        }
+      ],
+      "rewardBonuses": {}
+    },
+    {
+      "code": "PET-VERDANT-STAG",
+      "name": "비취 성록",
+      "grade": "C",
+      "highestExistingEffect": 10,
+      "baseBuffs": [
+        {
+          "type": "START_SHIELD_PERCENT",
+          "percent": 10
+        }
+      ],
+      "rewardBonuses": {}
+    },
+    {
+      "code": "PET-ASTRAL-PANTHER",
+      "name": "성운 마수",
+      "grade": "C",
+      "highestExistingEffect": 10,
+      "baseBuffs": [
+        {
+          "type": "DEFENSE_PERCENT",
+          "percent": 10
+        }
+      ],
+      "rewardBonuses": {}
+    },
+    {
+      "code": "PET-BULLDOG",
+      "name": "금방울 불독",
+      "grade": "C",
+      "highestExistingEffect": 10,
+      "baseBuffs": [
+        {
+          "type": "MAX_HP_PERCENT",
+          "percent": 10
+        }
+      ],
+      "rewardBonuses": {}
+    },
+    {
+      "code": "PET-HEADSET-SHIBA",
+      "name": "헤드셋 시바견",
+      "grade": "C",
+      "highestExistingEffect": 8,
+      "baseBuffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": 8
+        }
+      ],
+      "rewardBonuses": {}
+    },
+    {
+      "code": "PET-BEANIE-CAT",
+      "name": "비니 헤드셋 고양이",
+      "grade": "C",
+      "highestExistingEffect": 8,
+      "baseBuffs": [
+        {
+          "type": "DEFENSE_PERCENT",
+          "percent": 8
+        }
+      ],
+      "rewardBonuses": {}
+    }
+  ],
+  "unchangedExistingEffects": true,
+  "policy": {
+    "enabled": true,
+    "revision": 1,
+    "costs": {
+      "stats": {
+        "coin": "5000000000000",
+        "masterStars": 10000000
+      },
+      "trait": {
+        "coin": "30000000000000",
+        "masterStars": 50000000
+      }
+    },
+    "weights": {
+      "C": 30,
+      "B": 25,
+      "A": 20,
+      "S": 15,
+      "SS": 7,
+      "SSS": 3
+    },
+    "values": {
+      "attack": {
+        "C": 0,
+        "B": 1,
+        "A": 2,
+        "S": 3,
+        "SS": 4,
+        "SSS": 5
+      },
+      "defense": {
+        "C": 0,
+        "B": 1,
+        "A": 2,
+        "S": 3,
+        "SS": 4,
+        "SSS": 5
+      },
+      "hp": {
+        "C": 0,
+        "B": 1,
+        "A": 2,
+        "S": 3,
+        "SS": 4,
+        "SSS": 5
+      },
+      "speed": {
+        "C": 0,
+        "B": 1,
+        "A": 2,
+        "S": 3,
+        "SS": 4,
+        "SSS": 5
+      },
+      "ASSAULT": {
+        "C": 1,
+        "B": 2,
+        "A": 3,
+        "S": 5,
+        "SS": 7,
+        "SSS": 10
+      },
+      "GUARD": {
+        "C": 1,
+        "B": 2,
+        "A": 3,
+        "S": 5,
+        "SS": 7,
+        "SSS": 10
+      },
+      "VITALITY": {
+        "C": 1,
+        "B": 2,
+        "A": 3,
+        "S": 5,
+        "SS": 7,
+        "SSS": 10
+      },
+      "HASTE": {
+        "C": 1,
+        "B": 2,
+        "A": 3,
+        "S": 5,
+        "SS": 7,
+        "SSS": 10
+      },
+      "HUNTER": {
+        "C": 1,
+        "B": 2,
+        "A": 3,
+        "S": 5,
+        "SS": 7,
+        "SSS": 10
+      },
+      "LUCK": {
+        "C": 1,
+        "B": 2,
+        "A": 3,
+        "S": 5,
+        "SS": 7,
+        "SSS": 10
+      }
+    },
+    "traitPools": {
+      "PET-HEADSET-SHIBA": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-BEANIE-CAT": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-MOON-FOX": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-FROST-WOLF": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-SOLAR-PHOENIX": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-VERDANT-STAG": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-ASTRAL-PANTHER": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-BULLDOG": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-BONGSOON": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-JOEUN": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-HEEYA": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-DIIM": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-GUSUDAENG": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-NAMUNEUL-BONGSOON": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-MALTESE-DIIM": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-GILDED-DRAGON": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-WHITE-SPIRIT": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-PUMPKIN-BONGSOON": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-PUMPKIN-JOEUN": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-DAENGSORYONG": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-CRIMSON-DEMON": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-HEUKGU": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-JJANGGU-HEEYA": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-BAZZI-BONGSOON": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-PEPEGU": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ]
+    }
+  }
+}
