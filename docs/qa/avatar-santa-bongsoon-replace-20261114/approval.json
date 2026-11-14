@@ -1,0 +1,40 @@
+{
+  "status": "USER_APPROVED",
+  "userInstruction": "마지막 사진 승인, 산타걸 나무늘봉순 리소스 교체",
+  "approvedAt": "2026-11-14T14:55:08.377Z",
+  "version": "v8-side-ponytail",
+  "master": {
+    "file": "approved-v8.png",
+    "width": 1024,
+    "height": 1536,
+    "bytes": 2342050,
+    "alpha": false,
+    "sha256": "b7cfe135152e8bb9fe8560c1a283ff7128ac99a8967ddbeb48ab6ec6f140aabb",
+    "sourceFile": "revisions\\bongsoon-photo-v2\\bongsoon-santa-lobby-v8-side-ponytail.png"
+  },
+  "equipment": {
+    "file": "equipment-v8.png",
+    "width": 1024,
+    "height": 1536,
+    "bytes": 4177318,
+    "alpha": true,
+    "sha256": "4b63b841769bda18da4f3d6ef31dc0c3f07fc6ffe48145c2a74622a97f5cc633",
+    "sourceFile": "revisions\\bongsoon-photo-v2\\bongsoon-santa-equipment-v8-approved-rgb.png"
+  },
+  "alpha": {
+    "approvedSHA256": "b7cfe135152e8bb9fe8560c1a283ff7128ac99a8967ddbeb48ab6ec6f140aabb",
+    "equipmentSHA256": "4b63b841769bda18da4f3d6ef31dc0c3f07fc6ffe48145c2a74622a97f5cc633",
+    "imagegenExtractionSHA256": "984fd64d0a1e7e4a87106fb965cd6723c350587b590c2cafa794d9eaf5a1ac74",
+    "generatedAlphaPreserved": true,
+    "approvedRGBChangedChannels": 0,
+    "transparentPct": 80.99047342936198,
+    "solidPct": 16.480127970377605,
+    "edgePixelsAbove32": 0
+  },
+  "appearance": "승인 얼굴·피부·작은 머리 비율·한쪽 긴 포니테일. 분리된 상하의, 타이트한 미니스커트, 맨다리와 한쪽 가터.",
+  "tool": "built-in image_gen",
+  "prompts": [
+    "prompt-v8-hair.txt",
+    "prompt-extraction.txt"
+  ]
+}

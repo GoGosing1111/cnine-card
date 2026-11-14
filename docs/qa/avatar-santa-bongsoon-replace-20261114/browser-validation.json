@@ -1,0 +1,467 @@
+{
+  "checkedAt": "2026-11-14T15:04:04.676Z",
+  "conditions": "Windows headless Chrome/WebKit; production entry routes and production renderers; synthetic API and equipped account only. Image delivery fixed 25 ms latency + 2 MB/s. Not a physical phone or installed Windows client.",
+  "realDevices": false,
+  "realWindowsInstalledApp": false,
+  "productionDatabaseWritesDuringBrowserQA": false,
+  "syntheticAccountOnly": true,
+  "siteReadyAssetTest": {
+    "command": "node --test --test-name-pattern='only site-ready' tests/avatar-santa-options-20261114.test.mjs",
+    "passed": 1,
+    "failed": 0
+  },
+  "views": [
+    {
+      "mode": "before",
+      "device": "pc",
+      "coldStartToLobbyMs": 1716,
+      "rounds": [
+        {
+          "round": "first",
+          "clickToDecodedMs": 328,
+          "image": {
+            "src": "https://1b43209a.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/bongsoon-equipment-640.webp",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 10,
+            "p95Ms": 296.6,
+            "maxMs": 296.6,
+            "over50": 3
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        },
+        {
+          "round": "reentry",
+          "clickToDecodedMs": 270,
+          "image": {
+            "src": "https://1b43209a.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/bongsoon-equipment-640.webp",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 38,
+            "p95Ms": 20.7,
+            "maxMs": 55,
+            "over50": 1
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "bongsoon-lobby-1024.webp",
+          "bytes": 261096,
+          "deliveryMs": 175
+        },
+        {
+          "file": "bongsoon-equipment-640.webp",
+          "bytes": 67580,
+          "deliveryMs": 62
+        },
+        {
+          "file": "bongsoon-equipment-640.webp",
+          "bytes": 67580,
+          "deliveryMs": 69
+        }
+      ],
+      "errors": []
+    },
+    {
+      "mode": "after",
+      "device": "pc",
+      "coldStartToLobbyMs": 1612,
+      "rounds": [
+        {
+          "round": "first",
+          "clickToDecodedMs": 351,
+          "image": {
+            "src": "https://1b43209a.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/bongsoon-equipment-640.webp?v=b7cfe135-v8",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 6,
+            "p95Ms": 309.2,
+            "maxMs": 309.2,
+            "over50": 3
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        },
+        {
+          "round": "reentry",
+          "clickToDecodedMs": 161,
+          "image": {
+            "src": "https://1b43209a.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/bongsoon-equipment-640.webp?v=b7cfe135-v8",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 39,
+            "p95Ms": 20.4,
+            "maxMs": 20.7,
+            "over50": 0
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "bongsoon-lobby-1024.webp",
+          "bytes": 250106,
+          "deliveryMs": 170
+        },
+        {
+          "file": "bongsoon-equipment-640.webp",
+          "bytes": 59884,
+          "deliveryMs": 57
+        }
+      ],
+      "errors": []
+    },
+    {
+      "mode": "before",
+      "device": "ios",
+      "coldStartToLobbyMs": 1760,
+      "rounds": [
+        {
+          "round": "first",
+          "clickToDecodedMs": 642,
+          "image": {
+            "src": "https://1b43209a.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/bongsoon-equipment-640.webp",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 6,
+            "p95Ms": 136,
+            "maxMs": 136,
+            "over50": 5
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        },
+        {
+          "round": "reentry",
+          "clickToDecodedMs": 441,
+          "image": {
+            "src": "https://1b43209a.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/bongsoon-equipment-640.webp",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 5,
+            "p95Ms": 167,
+            "maxMs": 167,
+            "over50": 5
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "bongsoon-lobby-640.webp",
+          "bytes": 113044,
+          "deliveryMs": 132
+        },
+        {
+          "file": "bongsoon-equipment-640.webp",
+          "bytes": 67580,
+          "deliveryMs": 104
+        }
+      ],
+      "errors": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ]
+    },
+    {
+      "mode": "after",
+      "device": "ios",
+      "coldStartToLobbyMs": 2089,
+      "rounds": [
+        {
+          "round": "first",
+          "clickToDecodedMs": 679,
+          "image": {
+            "src": "https://1b43209a.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/bongsoon-equipment-640.webp?v=b7cfe135-v8",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 8,
+            "p95Ms": 94,
+            "maxMs": 94,
+            "over50": 7
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        },
+        {
+          "round": "reentry",
+          "clickToDecodedMs": 362,
+          "image": {
+            "src": "https://1b43209a.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/bongsoon-equipment-640.webp?v=b7cfe135-v8",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 7,
+            "p95Ms": 88,
+            "maxMs": 88,
+            "over50": 7
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "bongsoon-lobby-640.webp",
+          "bytes": 110232,
+          "deliveryMs": 225
+        },
+        {
+          "file": "bongsoon-equipment-640.webp",
+          "bytes": 59884,
+          "deliveryMs": 64
+        }
+      ],
+      "errors": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ]
+    },
+    {
+      "mode": "after",
+      "device": "android",
+      "coldStartToLobbyMs": 1643,
+      "rounds": [
+        {
+          "round": "first",
+          "clickToDecodedMs": 424,
+          "image": {
+            "src": "https://1b43209a.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/bongsoon-equipment-640.webp?v=b7cfe135-v8",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 5,
+            "p95Ms": 333.8,
+            "maxMs": 333.8,
+            "over50": 3
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        },
+        {
+          "round": "reentry",
+          "clickToDecodedMs": 157,
+          "image": {
+            "src": "https://1b43209a.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/bongsoon-equipment-640.webp?v=b7cfe135-v8",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 47,
+            "p95Ms": 20.6,
+            "maxMs": 20.7,
+            "over50": 0
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "bongsoon-lobby-640.webp",
+          "bytes": 110232,
+          "deliveryMs": 98
+        },
+        {
+          "file": "bongsoon-equipment-640.webp",
+          "bytes": 59884,
+          "deliveryMs": 68
+        }
+      ],
+      "errors": []
+    },
+    {
+      "mode": "after",
+      "device": "windows",
+      "coldStartToLobbyMs": 1436,
+      "rounds": [
+        {
+          "round": "first",
+          "clickToDecodedMs": 376,
+          "image": {
+            "src": "https://1b43209a.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/bongsoon-equipment-640.webp?v=b7cfe135-v8",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 10,
+            "p95Ms": 302.3,
+            "maxMs": 302.3,
+            "over50": 2
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        },
+        {
+          "round": "reentry",
+          "clickToDecodedMs": 149,
+          "image": {
+            "src": "https://1b43209a.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/bongsoon-equipment-640.webp?v=b7cfe135-v8",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 40,
+            "p95Ms": 20.7,
+            "maxMs": 34.3,
+            "over50": 0
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "bongsoon-lobby-1024.webp",
+          "bytes": 250106,
+          "deliveryMs": 157
+        },
+        {
+          "file": "bongsoon-equipment-640.webp",
+          "bytes": 59884,
+          "deliveryMs": 62
+        }
+      ],
+      "errors": []
+    },
+    {
+      "mode": "after",
+      "device": "h5",
+      "coldStartToLobbyMs": 1383,
+      "rounds": [
+        {
+          "round": "first",
+          "clickToDecodedMs": 403,
+          "image": {
+            "src": "https://1b43209a.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/bongsoon-equipment-640.webp?v=b7cfe135-v8",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 8,
+            "p95Ms": 287.9,
+            "maxMs": 287.9,
+            "over50": 3
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        },
+        {
+          "round": "reentry",
+          "clickToDecodedMs": 162,
+          "image": {
+            "src": "https://1b43209a.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/bongsoon-equipment-640.webp?v=b7cfe135-v8",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 17,
+            "p95Ms": 62.9,
+            "maxMs": 62.9,
+            "over50": 1
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "bongsoon-lobby-640.webp",
+          "bytes": 110232,
+          "deliveryMs": 85
+        },
+        {
+          "file": "bongsoon-equipment-640.webp",
+          "bytes": 59884,
+          "deliveryMs": 60
+        }
+      ],
+      "errors": []
+    },
+    {
+      "mode": "after",
+      "device": "cms-mobile",
+      "rounds": [],
+      "cmsFirstEntryMs": 308,
+      "images": [
+        {
+          "file": "bongsoon-lobby-640.webp",
+          "bytes": 110232,
+          "deliveryMs": 98
+        }
+      ],
+      "errors": [
+        "Cannot convert undefined or null to object"
+      ]
+    }
+  ],
+  "observations": [
+    "Approved image RGB and proportions are unchanged. Transparent PNG uses the generated alpha with the original approved RGB.",
+    "Task-scoped delivery bottleneck is image bytes: 441720 to 420222 bytes (4.87% less); identical dimensions prevent extra decode-memory demand.",
+    "First-entry and WebKit equipment frames include existing shared UI paint/animation costs. First-entry results vary; no claim that the entire UI frame issue is fixed. WebKit ResizeObserver warning occurs before and after.",
+    "After navigating to the lobby, equipment DOM and its animations are gone and no new character requests occur during 1200 ms observation.",
+    "CMS fixture reports a global admin initialization error (incomplete synthetic dashboard data), while the target avatar card, image, five options and private/sale-OFF controls render and validate. Production API is separately read-only verified after deployment."
+  ]
+}

@@ -1,0 +1,6 @@
+Use case: background-extraction.
+Extract the single full-length Santa woman and her held candy cane from this USER-APPROVED finished illustration, with a genuinely transparent background, for an equipment-screen game asset.
+
+This is production background removal, NOT a repaint or redesign. Preserve the existing approved woman exactly: her specific face, eyes, mouth, expression, complexion, hair fringe, the tied long side ponytail with its small red tie, small head scale, Santa hat, cropped red top, pencil mini skirt, bare legs, single thigh strap, boots, gloves and every hand/candy-cane detail. Her face and skin must not be restyled, smoothed, relit, recolored or beautified. Preserve exact full-body size, position, limb contours and original 1024x1536 pixel registration.
+
+Remove ONLY the snow, scenery, manor, tree, sleigh, lanterns, floor and all background. Output true RGBA transparency outside the character silhouette and in the natural gap between her legs, between arm and torso, and around loose hairs. Keep fine hair and fur edge alpha clean. No added ground, drop shadow, vignette, glow, checkerboard, white/black backing or backdrop. Keep every boot and the hat fully visible with the same canvas margins. The approved character remains untouched.

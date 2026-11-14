@@ -1,0 +1,10 @@
+{
+  "approvedSHA256": "b7cfe135152e8bb9fe8560c1a283ff7128ac99a8967ddbeb48ab6ec6f140aabb",
+  "equipmentSHA256": "4b63b841769bda18da4f3d6ef31dc0c3f07fc6ffe48145c2a74622a97f5cc633",
+  "imagegenExtractionSHA256": "984fd64d0a1e7e4a87106fb965cd6723c350587b590c2cafa794d9eaf5a1ac74",
+  "generatedAlphaPreserved": true,
+  "approvedRGBChangedChannels": 0,
+  "transparentPct": 80.99047342936198,
+  "solidPct": 16.480127970377605,
+  "edgePixelsAbove32": 0
+}

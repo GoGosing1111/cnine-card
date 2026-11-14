@@ -1,0 +1,26 @@
+[
+  {
+    "file": "assets/ui/avatars-v1/santa-20261114/bongsoon-lobby-640.webp",
+    "width": 640,
+    "height": 960,
+    "bytes": 110232,
+    "alpha": false,
+    "sha256": "041865256fa2cc01d89128dc00f1d4808238b23064ccb1b28f7675991031861f"
+  },
+  {
+    "file": "assets/ui/avatars-v1/santa-20261114/bongsoon-lobby-1024.webp",
+    "width": 1024,
+    "height": 1536,
+    "bytes": 250106,
+    "alpha": false,
+    "sha256": "8965bd52ce75e09a56ccbcb719b91609f3dd53bac129c31f6719076119860c3d"
+  },
+  {
+    "file": "assets/ui/avatars-v1/santa-20261114/bongsoon-equipment-640.webp",
+    "width": 640,
+    "height": 960,
+    "bytes": 59884,
+    "alpha": true,
+    "sha256": "a21c22bb1ea2655fafe99a136e368f39fc7bb75b04ed1567468d6fdd08dcf4f7"
+  }
+]
