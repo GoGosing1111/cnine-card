@@ -1,0 +1,246 @@
+{
+  "status": "COMPLETED",
+  "checkedAt": "2026-11-14T09:38:31.414Z",
+  "mode": "verify",
+  "committed": false,
+  "replayed": true,
+  "receipt": {
+    "status": "COMPLETED",
+    "userId": 233,
+    "auditId": "60534",
+    "roundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+    "decision": "APPROVED",
+    "nickname": "ShowMaker",
+    "windowId": "3c8d2f77-9257-434a-88f2-854f2ec41eb9",
+    "appliedAt": "2026-11-14T09:38:26.381Z",
+    "operationKey": "ops:clan-season5:showmaker-approved:20261114:v1",
+    "previousReview": null
+  },
+  "windowId": "3c8d2f77-9257-434a-88f2-854f2ec41eb9",
+  "revision": 76,
+  "counts": {
+    "total": 18,
+    "approved": 15,
+    "rejected": 3,
+    "pending": 0
+  },
+  "applications": [
+    {
+      "userId": 4391,
+      "nickname": "더듬이구",
+      "applicationNickname": "더듬이구",
+      "accountStatus": "ACTIVE",
+      "appliedAt": 1794499655751,
+      "reviewStatus": "APPROVED"
+    },
+    {
+      "userId": 3,
+      "nickname": "ε연두з",
+      "applicationNickname": "ε연두з",
+      "accountStatus": "ACTIVE",
+      "appliedAt": 1794499667884,
+      "reviewStatus": "APPROVED"
+    },
+    {
+      "userId": 4595,
+      "nickname": "비니",
+      "applicationNickname": "비니",
+      "accountStatus": "ACTIVE",
+      "appliedAt": 1794513012983,
+      "reviewStatus": "APPROVED"
+    },
+    {
+      "userId": 218,
+      "nickname": "현하루",
+      "applicationNickname": "현하루",
+      "accountStatus": "ACTIVE",
+      "appliedAt": 1794513270225,
+      "reviewStatus": "APPROVED"
+    },
+    {
+      "userId": 4981,
+      "nickname": "간장왕대게찜",
+      "applicationNickname": "간장왕대게찜",
+      "accountStatus": "ACTIVE",
+      "appliedAt": 1794514361009,
+      "reviewStatus": "APPROVED"
+    },
+    {
+      "userId": 5877,
+      "nickname": "깅더듬",
+      "applicationNickname": "깅더듬",
+      "accountStatus": "ACTIVE",
+      "appliedAt": 1794533245495,
+      "reviewStatus": "APPROVED"
+    },
+    {
+      "userId": 4627,
+      "nickname": "학벌",
+      "applicationNickname": "학벌",
+      "accountStatus": "ACTIVE",
+      "appliedAt": 1794549591784,
+      "reviewStatus": "APPROVED"
+    },
+    {
+      "userId": 5404,
+      "nickname": "hokc1",
+      "applicationNickname": "hokc1",
+      "accountStatus": "ACTIVE",
+      "appliedAt": 1794554471371,
+      "reviewStatus": "REJECTED"
+    },
+    {
+      "userId": 4917,
+      "nickname": "지엘라",
+      "applicationNickname": "지엘라",
+      "accountStatus": "ACTIVE",
+      "appliedAt": 1794572078059,
+      "reviewStatus": "REJECTED"
+    },
+    {
+      "userId": 6198,
+      "nickname": "중꼬철구",
+      "applicationNickname": "중꼬철구",
+      "accountStatus": "ACTIVE",
+      "appliedAt": 1794573794455,
+      "reviewStatus": "REJECTED"
+    },
+    {
+      "userId": 1195,
+      "nickname": "씨나인택갓",
+      "applicationNickname": "씨나인택갓",
+      "accountStatus": "ACTIVE",
+      "appliedAt": 1794620780550,
+      "reviewStatus": "APPROVED"
+    },
+    {
+      "userId": 16,
+      "nickname": "오승환이다",
+      "applicationNickname": "오승환이다",
+      "accountStatus": "ACTIVE",
+      "appliedAt": 1794623504123,
+      "reviewStatus": "APPROVED"
+    },
+    {
+      "userId": 525,
+      "nickname": "족구조아",
+      "applicationNickname": "족구조아",
+      "accountStatus": "ACTIVE",
+      "appliedAt": 1794623868396,
+      "reviewStatus": "APPROVED"
+    },
+    {
+      "userId": 85,
+      "nickname": "카르푸",
+      "applicationNickname": "카르푸",
+      "accountStatus": "ACTIVE",
+      "appliedAt": 1794624997519,
+      "reviewStatus": "APPROVED"
+    },
+    {
+      "userId": 289,
+      "nickname": "베베킹",
+      "applicationNickname": "베베킹",
+      "accountStatus": "ACTIVE",
+      "appliedAt": 1794625276894,
+      "reviewStatus": "APPROVED"
+    },
+    {
+      "userId": 4479,
+      "nickname": "대지",
+      "applicationNickname": "대지",
+      "accountStatus": "ACTIVE",
+      "appliedAt": 1794641609546,
+      "reviewStatus": "APPROVED"
+    },
+    {
+      "userId": 4705,
+      "nickname": "˚쟁이。",
+      "applicationNickname": "˚쟁이。",
+      "accountStatus": "ACTIVE",
+      "appliedAt": 1794641929436,
+      "reviewStatus": "APPROVED"
+    },
+    {
+      "userId": 233,
+      "nickname": "ShowMaker",
+      "applicationNickname": "ShowMaker",
+      "accountStatus": "ACTIVE",
+      "appliedAt": 1794642962358,
+      "reviewStatus": "APPROVED"
+    }
+  ],
+  "withdrawnReviewed": [],
+  "calendar": {
+    "endsAt": 1799078196823,
+    "version": 1,
+    "openedAt": 1794498996823,
+    "seasonNo": 5,
+    "startsAt": 1794758196823,
+    "windowId": "3c8d2f77-9257-434a-88f2-854f2ec41eb9",
+    "elderClosesAt": 1794671796823,
+    "sourceRoundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+    "previousSeasonId": 9
+  },
+  "drawnAt": null,
+  "targetView": {
+    "phase": "OPEN",
+    "windowId": "3c8d2f77-9257-434a-88f2-854f2ec41eb9",
+    "revision": 76,
+    "openedAt": 1794498996823,
+    "closesAt": 1794671796823,
+    "seasonDays": 50,
+    "elderCount": 3,
+    "rejoin": {
+      "days": 7,
+      "blocked": false,
+      "availableAt": null,
+      "leftAt": null
+    },
+    "organizationId": null,
+    "selected": false,
+    "calendar": {
+      "endsAt": 1799078196823,
+      "version": 1,
+      "openedAt": 1794498996823,
+      "seasonNo": 5,
+      "startsAt": 1794758196823,
+      "windowId": "3c8d2f77-9257-434a-88f2-854f2ec41eb9",
+      "elderClosesAt": 1794671796823,
+      "sourceRoundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+      "previousSeasonId": 9
+    },
+    "applied": true,
+    "drawnAt": null,
+    "memberClubId": null,
+    "memberJoinedAt": null,
+    "reviewMode": "MANUAL",
+    "reviewStatus": "APPROVED",
+    "memberCounts": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0
+    }
+  },
+  "checkedAtKST": "2026-11-14 18:38:31 KST",
+  "appliedAtKST": "2026-11-14 18:38:26 KST",
+  "verification": {
+    "productionReadOnlyRequery": true,
+    "auditReceiptMatched": true,
+    "showMakerPlayerViewApproved": true,
+    "otherReviewsPreserved": true,
+    "calendarPreserved": true,
+    "dryRunRolledBack": true
+  },
+  "notice": {
+    "file": "output/announcements/clan-season5-elder-results-20261114/원로_심사현황_공지.txt",
+    "delivery": "text artifact and chat",
+    "externalPublication": false
+  },
+  "runtimeChanged": false
+}
