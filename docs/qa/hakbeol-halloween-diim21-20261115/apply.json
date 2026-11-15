@@ -1,0 +1,67 @@
+{
+  "status": "COMMITTED",
+  "receipt": {
+    "status": "COMPLETED",
+    "actor": "CODEX_OPERATIONS",
+    "operationKey": "ops:hakbeol:halloween-diim-level21:20261115:v1",
+    "planHash": "e2b229557fa52381c8a5c2d1d649e496f84e1d72aa4d041c857ebb00970506c4",
+    "account": {
+      "userId": "4627",
+      "nickname": "학벌",
+      "role": "USER",
+      "status": "ACTIVE"
+    },
+    "card": {
+      "code": "V-984",
+      "name": "디임",
+      "title": "할로윈 SS 리미티드",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "season": "HALLOWEEN"
+    },
+    "quantity": 1,
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "previousLevel": null,
+    "after": {
+      "level": 21,
+      "experience": 0,
+      "breakthroughMask": 15,
+      "revision": 1
+    },
+    "acquisition": "ops:hakbeol:halloween-diim-level21:20261115:v1:4627:V-984:1",
+    "coinCost": 0,
+    "materialsConsumed": 0,
+    "stockChange": 0,
+    "syncRevision": "518107",
+    "completedAt": "2026-11-15T10:53:49.236Z",
+    "auditId": "61295"
+  },
+  "rollbackVerified": true,
+  "noWriteReplay": true,
+  "protectedBeforeHash": "3ed52b6ac22baaf970efa97da6488e87dd482b021ba26107229ee53f4ed8d3ba",
+  "protectedAfterHash": "3ed52b6ac22baaf970efa97da6488e87dd482b021ba26107229ee53f4ed8d3ba",
+  "ticketBefore": 0,
+  "ticketAfter": 0,
+  "stockBefore": [
+    {
+      "code": "V-984",
+      "issued": 13,
+      "revision": 16,
+      "stock_limit": 13
+    }
+  ],
+  "stockAfter": [
+    {
+      "code": "V-984",
+      "issued": 13,
+      "revision": 16,
+      "stock_limit": 13
+    }
+  ],
+  "rehearsalMs": 3468,
+  "grantMs": 2432,
+  "messagesSent": 0,
+  "condition": "Windows client to production PostgreSQL; network included; live USER_LOCK and DB lease held; no game runtime or UI change.",
+  "leasesReleased": true
+}

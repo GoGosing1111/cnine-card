@@ -1,0 +1,72 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:hakbeol:halloween-diim-level21:20261115:v1",
+  "auditId": "61295",
+  "completedAt": "2026-11-15T10:53:49.236Z",
+  "verifiedAt": "2026-11-15T10:54:04.591Z",
+  "account": {
+    "id": 4627,
+    "nickname": "학벌",
+    "role": "USER",
+    "status": "ACTIVE"
+  },
+  "card": {
+    "code": "V-984",
+    "name": "디임",
+    "title": "할로윈 SS 리미티드",
+    "rank": "SS",
+    "edition": "LIMITED",
+    "season": "HALLOWEEN"
+  },
+  "quantity": 1,
+  "copiesBefore": 0,
+  "copiesAfter": 1,
+  "permanent": true,
+  "level": 21,
+  "finalBreakthrough": true,
+  "breakthroughMask": 15,
+  "experience": 0,
+  "selectable": {
+    "PVE": 21,
+    "PVP": 21
+  },
+  "rankedAvailable": true,
+  "acquisition": "ops:hakbeol:halloween-diim-level21:20261115:v1:4627:V-984:1",
+  "acquisitionRecords": 1,
+  "auditRecords": 1,
+  "readOnly": true,
+  "noWriteReplay": true,
+  "additionalGrantsOnReplay": 0,
+  "numberedIssuesForGrant": 0,
+  "stock": [
+    {
+      "code": "V-984",
+      "stock_limit": 13,
+      "issued": 13,
+      "revision": 16
+    }
+  ],
+  "ticketAtGrantBefore": 0,
+  "ticketAtGrantAfter": 0,
+  "currentTicketQuantity": 0,
+  "coinCost": 0,
+  "materialsConsumed": 0,
+  "messagesSent": 0,
+  "performance": {
+    "conditions": "Production account-state service invoked locally on Windows against production PostgreSQL in READ ONLY transaction; includes network. First and repeated service reads, not browser input-to-interactive or physical-device frame measurements. Data-only grant; no UI/runtime modification.",
+    "measurements": [
+      {
+        "phase": "first",
+        "elapsedMs": 907,
+        "copies": 1,
+        "level": 21
+      },
+      {
+        "phase": "reentry",
+        "elapsedMs": 685,
+        "copies": 1,
+        "level": 21
+      }
+    ]
+  }
+}
