@@ -1,0 +1,144 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:jokjjogi:pepegu-permanent-sss-arden15:20261116:v1",
+  "auditId": "61475",
+  "petAuditId": "61474",
+  "authorization": [
+    "[C9]족쪽이 계정에 페페구 무제한 1개 지급하고 능력치 다 SSS로 맞춰",
+    "아르덴 15강으로 세트 전체 지급해"
+  ],
+  "userId": "303",
+  "nickname": "[C9]족쪽이",
+  "completedAtKST": "2026-11-16 00:16:33",
+  "verifiedAtKST": "2026-11-16 00:17:24",
+  "pet": {
+    "code": "PET-PEPEGU",
+    "name": "페페구",
+    "quantityGranted": 1,
+    "permanentBefore": 0,
+    "permanentAfter": 1,
+    "expiresAt": null,
+    "instanceId": "PET-PEPEGU:1",
+    "stats": {
+      "attack": "SSS",
+      "defense": "SSS",
+      "hp": "SSS",
+      "speed": "SSS"
+    },
+    "trait": {
+      "id": "ASSAULT",
+      "grade": "SS"
+    },
+    "traitTransferredFromRental": true,
+    "priorRentalRecordPreserved": true,
+    "priorRentalGrowthPreserved": true,
+    "pveBattleInstance": "PET-PEPEGU:1",
+    "pveBattleStats": {
+      "attack": "SSS",
+      "defense": "SSS",
+      "hp": "SSS",
+      "speed": "SSS"
+    },
+    "availableModes": [
+      "PVE",
+      "PVP"
+    ],
+    "pvpExistingPetPreserved": true
+  },
+  "equipment": {
+    "set": "ARDEN",
+    "quantityPerPart": 1,
+    "total": 4,
+    "level": 15,
+    "autoEquipped": false,
+    "parts": [
+      {
+        "instanceId": "3373751529",
+        "code": "ARDEN_TOP",
+        "name": "아르덴 아머",
+        "level": 15,
+        "equipped": false
+      },
+      {
+        "instanceId": "3373751530",
+        "code": "ARDEN_BOTTOM",
+        "name": "아르덴 그리브",
+        "level": 15,
+        "equipped": false
+      },
+      {
+        "instanceId": "3373751531",
+        "code": "ARDEN_SHOES",
+        "name": "아르덴 부츠",
+        "level": 15,
+        "equipped": false
+      },
+      {
+        "instanceId": "3373751532",
+        "code": "ARDEN_DUAL_DISK",
+        "name": "아르덴 듀얼디스크",
+        "level": 15,
+        "equipped": false
+      }
+    ]
+  },
+  "directGrant": true,
+  "coinCost": 0,
+  "materialsConsumed": 0,
+  "messagesSent": 0,
+  "verification": {
+    "independentReadOnly": true,
+    "missing": 0,
+    "duplicates": 0,
+    "partialFailureRolledBack": true,
+    "fullRehearsalRolledBack": true,
+    "onlyExpectedWrites": true,
+    "readOnlyReplayAdditionalGrants": 0,
+    "accountLocksReleased": true,
+    "otherStateHashBefore": "b5ecb8f6af3bf61515bea59758e2c2bf3683dcad05188245bb93d64a331f2096",
+    "otherStateHashAfter": "b5ecb8f6af3bf61515bea59758e2c2bf3683dcad05188245bb93d64a331f2096",
+    "syncDomains": [
+      "collection",
+      "inventory",
+      "loadout"
+    ],
+    "sourceHashes": {
+      "shared/pet-growth-live-v2.mjs": "f548c6347b451e16645e0759e7b989d1dd53c3f5537ade98995d21f267de9f30",
+      "shared/pet-growth-v2.mjs": "1b747b88312366abac5aed514180647940d11db793e70c0d57ba7f7caa2e88c7"
+    },
+    "publicPetGrowthHelpersMatched": true
+  },
+  "performance": {
+    "environment": "Windows Node.js CLI invoking actual pet growth and equipment loadout services against production PostgreSQL in READ ONLY transaction; network included.",
+    "petGrowthFirstAndRepeat": [
+      {
+        "phase": "first",
+        "ms": 163
+      },
+      {
+        "phase": "repeat",
+        "ms": 193
+      }
+    ],
+    "equipmentFirstAndRepeat": [
+      {
+        "phase": "first",
+        "ms": 1789
+      },
+      {
+        "phase": "repeat",
+        "ms": 1761
+      }
+    ],
+    "physicalDevice": false,
+    "browserInputToInteractive": false,
+    "frames": "Not measured: data-only operation, no screen or runtime code changes.",
+    "preflightQuery": "Full account equipment-instance scan timed out at 20 seconds. Restricted the grant check to the four Arden equipment IDs using a materialized CTE; same production connection path completed in 77 ms. No schema or game-runtime changes.",
+    "grantMs": 2878,
+    "rehearsalMs": 3912
+  },
+  "planHash": "7d1d510e5986a7ba69a416d12bc900d9db2d708179c056e1800689ddc0fba3c1",
+  "evidenceDirectory": "operations/jokjjogi-pepegu-arden15-20261116",
+  "gameRuntimeChanges": 0,
+  "gameDeployments": 0
+}
