@@ -1,0 +1,64 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:jokjjogi:coin15000t-star30b:20261115:v1",
+  "userId": "303",
+  "nickname": "[C9]족쪽이",
+  "auditId": "61456",
+  "completedAt": "2026-11-15T14:44:04.898Z",
+  "verifiedAt": "2026-11-15T14:44:53.347Z",
+  "coins": {
+    "amount": "15000000000000000",
+    "before": "16806648754577927",
+    "after": "31806648754577927",
+    "logId": "105255788"
+  },
+  "masterStars": {
+    "amount": "30000000000",
+    "before": "192710250",
+    "after": "30192710250",
+    "unseenBefore": "9000000",
+    "unseenAfter": "30009000000",
+    "logId": "89790932"
+  },
+  "currentBalance": {
+    "id": "303",
+    "nickname": "[C9]족쪽이",
+    "status": "ACTIVE",
+    "coin": "31806648754577927",
+    "master_stars": "30192710250",
+    "master_stars_unseen": "30009000000"
+  },
+  "subsequentCoins": {
+    "delta": "0",
+    "entries": 0
+  },
+  "subsequentStars": {
+    "delta": "0",
+    "entries": 0
+  },
+  "balancesReconciled": true,
+  "coinLedgerRecords": 1,
+  "starLedgerRecords": 1,
+  "auditRecords": 1,
+  "exactIntegerArithmetic": true,
+  "protectedStatePreserved": true,
+  "packageCounterReset": false,
+  "readOnly": true,
+  "noWriteReplay": true,
+  "additionalGrantsOnReplay": 0,
+  "operationLocksRemaining": 0,
+  "messagesSent": 0,
+  "performance": {
+    "conditions": "Windows CLI read-only queries against production PostgreSQL; same exact wallet and inventory query first/repeated, including network. No UI/runtime changes; not browser entry, device loading or FPS measurements.",
+    "measurements": [
+      {
+        "phase": "first",
+        "elapsedMs": 73
+      },
+      {
+        "phase": "repeat",
+        "elapsedMs": 72
+      }
+    ]
+  }
+}

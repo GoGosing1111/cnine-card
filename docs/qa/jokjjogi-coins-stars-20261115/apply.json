@@ -1,0 +1,76 @@
+{
+  "status": "COMMITTED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:jokjjogi:coin15000t-star30b:20261115:v1",
+    "plan": {
+      "operationKey": "ops:jokjjogi:coin15000t-star30b:20261115:v1",
+      "userId": "303",
+      "nickname": "[C9]족쪽이",
+      "coins": "15000000000000000",
+      "masterStars": "30000000000",
+      "delivery": "DIRECT",
+      "messagesSent": 0,
+      "authorization": "족쪽이 계정에 코인 1경, 마별 300억 지급해 → 코인 1경 5천조로 변경"
+    },
+    "planHash": "19d2491b870a216cce532b4ec462e0203782f4cc8605ae62c4b3b6e67bb82f86",
+    "userId": "303",
+    "nickname": "[C9]족쪽이",
+    "completedAt": "2026-11-15T14:44:04.898Z",
+    "coins": {
+      "amount": "15000000000000000",
+      "before": "16806648754577927",
+      "after": "31806648754577927",
+      "logId": "105255788"
+    },
+    "masterStars": {
+      "amount": "30000000000",
+      "before": "192710250",
+      "after": "30192710250",
+      "unseenBefore": "9000000",
+      "unseenAfter": "30009000000",
+      "logId": "89790932"
+    },
+    "protectedBeforeHash": "1d6e135dad31c33e8a6b4ac892b3260775734f559a1f987553c57a9ad6531a5b",
+    "protectedAfterHash": "1d6e135dad31c33e8a6b4ac892b3260775734f559a1f987553c57a9ad6531a5b",
+    "syncBefore": {
+      "domains": {
+        "pvp": "782100",
+        "wallet": "783684",
+        "loadout": "783220",
+        "messages": "783035",
+        "inventory": "783682",
+        "collection": "783642"
+      },
+      "user_id": "303",
+      "revision": "783684"
+    },
+    "syncAfter": {
+      "domains": {
+        "pvp": "782100",
+        "wallet": "783685",
+        "loadout": "783220",
+        "messages": "783035",
+        "inventory": "783686",
+        "collection": "783642"
+      },
+      "user_id": "303",
+      "revision": "783686"
+    },
+    "messagesSent": 0,
+    "packageCounterReset": false,
+    "auditId": "61456"
+  },
+  "rollbackVerified": true,
+  "injectedPartialFailureRollback": true,
+  "noWriteReplay": true,
+  "onlyExpectedWrites": true,
+  "logFloor": {
+    "coin": "105255758",
+    "inventory": "89790926"
+  },
+  "rehearsalMs": 2010,
+  "grantMs": 1931,
+  "conditions": "Windows CLI against production PostgreSQL with live account lease; network included; data-only operation, no UI/runtime change.",
+  "leasesReleased": true
+}
