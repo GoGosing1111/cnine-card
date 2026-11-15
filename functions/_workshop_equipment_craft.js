@@ -3,6 +3,8 @@ import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {jointError} from './_joint_request.js';
 import {runJointOperation,jointInventoryChange} from './_joint_transactions.js';
 import {mercenaryRandomInt} from './_mercenary_draw_accounting.js';
+import {decodePolishState,polishStateKey,polishUserPrefix} from './_equipment_growth.js';
+import {POLISH_KEY} from '../shared/equipment-polish-v1.mjs';
 
 const CONFIG='WORKSHOP_EQUIPMENT_CRAFT_V1:',PITY='WORKSHOP_EQUIPMENT_PITY_V1:',KIND='WORKSHOP_EQUIPMENT_CRAFT';
 const RECIPES='workshop_recipes_v1668',MATERIALS='workshop_recipe_materials_v1668';
@@ -73,7 +75,7 @@ export async function saveEquipmentCraftRecipe(env,admin,raw){
 export async function executeEquipmentCraft(env,user,body,{randomInt=mercenaryRandomInt}={}){
   const DB=env.DB,p=(s,...v)=>DB.prepare(s).bind(...v),recipeId=Number(body.recipeId),instanceId=String(body.instanceId||'');
   if(!Number.isSafeInteger(recipeId)||recipeId<1||!/^\d{1,19}$/.test(instanceId)||BigInt(instanceId)<1n||BigInt(instanceId)>9223372036854775807n||Number(body.attempts??1)!==1)throw fail('조합식과 투입할 장비 1개를 선택하세요.');
-  const prepared=await runJointOperation(env,user,{requestId:body.requestId,kind:KIND,input:{recipeId,instanceId},prepare:async()=>{
+  const prepared=await runJointOperation(env,user,{requestId:body.requestId,kind:KIND,input:{recipeId,instanceId},policyKeys:[POLISH_KEY],prepare:async()=>{
     const recipe=await p(`SELECT r.*,e.name output_name,e.image_url output_image,e.rarity output_rarity FROM ${RECIPES} r JOIN character_equipment_items e ON CAST(e.id AS TEXT)=r.output_ref AND e.is_active=1 AND e.is_public=1 WHERE r.id=?`,recipeId).first();
     if(!isEquipmentCraft(recipe)||!active(recipe,user))throw fail('현재 제작할 수 없는 장비 조합식입니다.');
     const raw=(await p('SELECT value FROM app_meta WHERE key=?',configKey(recipe.code)).first())?.value??null,policy=parse(raw);
@@ -103,9 +105,10 @@ export async function executeEquipmentCraft(env,user,body,{randomInt=mercenaryRa
     return {result,recipe,policy,configRaw:raw,progressRaw,pity,materials,repairRecord,revision:Number(input.revision)};
   },statements:async plan=>{
     const {result,recipe,policy,materials}=plan,key=pityKey(user.id,recipeId),requiredLevel=policy.requiredLevel??10,paymentType=recipe.payment_mode==='COIN_ONLY'?'COIN':'BOTH';
-    const latest=(await p('SELECT value FROM app_meta WHERE key=?',key).first())?.value??null;
+    const sourceKey=polishStateKey(instanceId,user.id),metadata=(await p('SELECT key,value FROM app_meta WHERE key IN (?,?,?)',key,configKey(recipe.code),sourceKey).all()).results||[],saved=new Map(metadata.map(r=>[r.key,r.value]));
+    const latest=saved.get(key)??null;
     if(latest!==plan.progressRaw)throw fail('다른 제작으로 실패 누적이 변경됐습니다. 최신 상태에서 다시 시도하세요.',true);
-    const config=(await p('SELECT value FROM app_meta WHERE key=?',configKey(recipe.code)).first())?.value??null;
+    const config=saved.get(configKey(recipe.code))??null;
     if(config!==plan.configRaw)throw fail('조합식 설정이 변경됐습니다. 최신 설정을 확인하세요.',true);
     const token=crypto.randomUUID(),pityToken=crypto.randomUUID(),configToken=crypto.randomUUID(),[samePity,pityValues]=sameMeta(key,plan.progressRaw),[sameConfig,configValues]=sameMeta(configKey(recipe.code),plan.configRaw);
     const list=[];
@@ -126,10 +129,22 @@ export async function executeEquipmentCraft(env,user,body,{randomInt=mercenaryRa
       list.push(p('UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN NOT EXISTS(SELECT 1 FROM user_equipment_instances WHERE id=?) THEN 1 ELSE 0 END WHERE token=?',instanceId,token));
     }
     if(result.success){
+      // Read the current growth even for a durable plan prepared by an older
+      // release. The exact snapshot is guarded inside the delivery transaction.
+      const polishRaw=saved.get(sourceKey)??null,polish=decodePolishState(polishRaw,instanceId,user.id),polishToken=crypto.randomUUID(),[samePolish,polishValues]=sameMeta(sourceKey,polishRaw);
+      list.push(jointGuard(DB,polishToken,samePolish,polishValues));
       const grant="INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT ?,id,'WORKSHOP_EQUIPMENT',?,? FROM character_equipment_items WHERE id=? AND is_active=1 AND is_public=1";
       const values=[user.id,String(recipeId),body.requestId,Number(recipe.output_ref)];
       if(DB.dialect==='postgres')list.push(p(`WITH granted AS (${grant} RETURNING id) UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN (SELECT COUNT(*) FROM granted)=1 THEN 1 ELSE 0 END WHERE token=?`,...values,token));
       else list.push(p(grant,...values),p('UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN changes()=1 THEN 1 ELSE 0 END WHERE token=?',token));
+      if(polishRaw!==null){
+        const base=JSON.stringify({...polish,instanceId:undefined}).slice(0,-1),prefix=polishUserPrefix(user.id);
+        list.push(p(`INSERT INTO app_meta(key,value,updated_at) SELECT ? || CAST(x.id AS TEXT),? || ',"instanceId":"' || CAST(x.id AS TEXT) || '"}',CURRENT_TIMESTAMP FROM user_equipment_instances x WHERE x.user_id=? AND x.request_id=? AND x.source_type='WORKSHOP_EQUIPMENT' AND x.equipment_id=?`,prefix,base,user.id,body.requestId,Number(recipe.output_ref)));
+        list.push(p(`UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN EXISTS(SELECT 1 FROM user_equipment_instances x JOIN app_meta m ON m.key=(? || CAST(x.id AS TEXT)) AND m.value=(? || ',"instanceId":"' || CAST(x.id AS TEXT) || '"}') WHERE x.user_id=? AND x.request_id=? AND x.source_type='WORKSHOP_EQUIPMENT' AND x.equipment_id=?) THEN 1 ELSE 0 END WHERE token=?`,prefix,base,user.id,body.requestId,Number(recipe.output_ref),polishToken));
+        result.polishInherited=true;result.output.polish={attempts:polish.attempts,rolls:polish.rolls??polish.attempts,levels:polish.levels,values:polish.values};
+        list.push(p("UPDATE joint_operations_v1 SET plan_json=? WHERE request_id=? AND user_id=? AND status='PENDING'",JSON.stringify(plan),body.requestId,user.id));
+      }
+      list.push(jointGuardEnd(DB,polishToken));
     }
     list.push(writeMeta(DB,key,JSON.stringify(plan.pity)),p("INSERT INTO workshop_craft_logs_v1668(request_id,user_id,recipe_id,recipe_name,category,output_type,output_ref,output_quantity,payment_type,coin_spent,master_star_spent,success) VALUES(?,?,?,?,'ITEM_SYNTHESIS','EQUIPMENT',?,?,?,?,?,?)",body.requestId,user.id,recipeId,recipe.name,recipe.output_ref,result.success?1:0,paymentType,result.coinSpent,result.masterStarSpent,result.success?1:0));
     list.push(p("INSERT INTO workshop_craft_receipts_v1668(request_id,user_id,recipe_id,payment_type,status,result_json) VALUES(?,?,?,?,'COMPLETED',?)",body.requestId,user.id,recipeId,paymentType,JSON.stringify(result)),jointGuardEnd(DB,token),jointGuardEnd(DB,pityToken),jointGuardEnd(DB,configToken));

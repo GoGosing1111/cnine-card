@@ -21,7 +21,7 @@ export async function readJointOperation(env,userId,requestId,kind){
 
 // Caller holds the shared user mutation lock. The durable plan fixes randomness
 // and policy before any payment; retries use it even after CMS settings change.
-export async function runJointOperation(env,user,{requestId,kind,input,prepare,statements}){
+export async function runJointOperation(env,user,{requestId,kind,input,prepare,statements,policyKeys=[]}){
   jointRequestId(requestId);const DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v),hash=await jointHash({kind,input});
   let row=await p('SELECT * FROM joint_operations_v1 WHERE request_id=?',requestId).first();
   const check=()=>{if(Number(row.user_id)!==Number(user.id)||row.kind!==kind||row.input_hash!==hash)throw jointError('JOINT_REQUEST_CONFLICT','같은 요청 번호에 다른 내용이 있습니다.',409);};
@@ -32,6 +32,9 @@ export async function runJointOperation(env,user,{requestId,kind,input,prepare,s
   }
   check();if(row.status==='CANCELLED')throw jointError('JOINT_OPERATION_SUPERSEDED','대상이 변경되어 요청을 취소했습니다. 최신 상태에서 다시 시도하세요.',409);const plan=JSON.parse(row.plan_json);if(row.status==='COMPLETED')return {requestId,plan,replayed:true,status:'COMPLETED'};
   const token=crypto.randomUUID(),list=[];
+  // Policy migrations take these locks before account rows. Keep the same
+  // ordering when transferring growth into a newly created instance.
+  if(DB.dialect==='postgres')for(const key of [...new Set(policyKeys)].sort())list.push(p('SELECT key FROM app_meta WHERE key=? FOR SHARE',key));
   if(DB.dialect==='postgres')list.push(p('SELECT id FROM users WHERE id=? FOR UPDATE',user.id));
   list.push(jointGuard(DB,token,"EXISTS(SELECT 1 FROM joint_operations_v1 WHERE request_id=? AND user_id=? AND input_hash=? AND status='PENDING')",[requestId,user.id,hash]));
   try{list.push(...await statements(plan));}catch(error){if(error.terminal===true)await p("UPDATE joint_operations_v1 SET status='CANCELLED',completed_at=? WHERE request_id=? AND user_id=? AND status='PENDING'",new Date().toISOString(),requestId,user.id).run();throw error;}
