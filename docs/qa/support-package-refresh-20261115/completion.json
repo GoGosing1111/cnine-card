@@ -1,0 +1,724 @@
+{
+  "status": "COMPLETED",
+  "completedAt": "2026-11-15T12:40:24.803Z",
+  "request": {
+    "priceWon": 49800,
+    "totalsIncludeBogo": true,
+    "coins": "500000000000000",
+    "items": {
+      "MASTER_STAR": 1000000000,
+      "ARDEN_ENERGY": 50,
+      "WEAPON_ENHANCEMENT_SCROLL": 10,
+      "ARMOR_ENHANCEMENT_SCROLL": 10,
+      "MERCENARY_SSS_LIMITED_SHARD": 25,
+      "PET_SEAL_ORB": 50,
+      "PET_ESSENCE": 500
+    },
+    "bonusTrillions": [
+      [
+        1,
+        1000
+      ],
+      [
+        2,
+        2000
+      ],
+      [
+        3,
+        3000
+      ],
+      [
+        4,
+        6000
+      ],
+      [
+        5,
+        8000
+      ],
+      [
+        10,
+        8000
+      ]
+    ],
+    "reset": "Every account starts at zero in the November 15 campaign. Prior purchases and grants retained under their historical campaign.",
+    "salesEndExclusive": "2026-11-19T00:00:00+09:00",
+    "displayDeadline": "2026년 11월 18일 23:59까지 (한국시간)"
+  },
+  "deployment": {
+    "at": "2026-11-15T12:37:36.414Z",
+    "pages": {
+      "id": "59c772a6-7e30-49bb-97e1-bdfef6407e85",
+      "url": "https://59c772a6.cnine-card.pages.dev",
+      "status": "success",
+      "commit": "f108c339bdcd967c5f672e5998fe311b6dc86cfa"
+    },
+    "releaseCommit": "f108c339bdcd967c5f672e5998fe311b6dc86cfa",
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "sha256": "deab35cd8876757e620c1b2436d68e67ead19f1893a206661ff93cc2e68e7dee",
+        "deployment": {
+          "id": "9ffb4621-0fbd-4e54-8d11-81007fb38f90",
+          "source": "wrangler",
+          "strategy": "percentage",
+          "author_email": "wlgks6344@naver.com",
+          "annotations": {
+            "workers/triggered_by": "deployment"
+          },
+          "versions": [
+            {
+              "version_id": "f0fe4bc6-7557-48c8-91d2-223eeb444ec0",
+              "percentage": 100
+            }
+          ],
+          "created_on": "2026-11-15T12:34:15.571459Z"
+        }
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "sha256": "4418cf2eaaff15ce6c4fe6973d5113cf6bcff9a54cf2c73362e78dc132e3e16e",
+        "deployment": {
+          "id": "19c555c3-c001-4058-9ca9-ebac16e2f67f",
+          "source": "wrangler",
+          "strategy": "percentage",
+          "author_email": "wlgks6344@naver.com",
+          "annotations": {
+            "workers/triggered_by": "deployment"
+          },
+          "versions": [
+            {
+              "version_id": "d370a161-b2a8-402b-b85c-1aefa9431bd5",
+              "percentage": 100
+            }
+          ],
+          "created_on": "2026-11-15T12:36:12.999217Z"
+        }
+      }
+    ],
+    "publicFiles": [
+      {
+        "file": "shared/support-package-v1.mjs",
+        "sha256": "78d46a46a811b00dc09e2bc666866bc91d03cff0c3d48df18f809f084cbbcfda",
+        "normalizedSha256": "c34d93ab7ef1ded5f19f550ef1bff085fbb6d33946a72716fdd30cd6331f4829"
+      },
+      {
+        "file": "js/support-package-v1.mjs",
+        "sha256": "581fed7df1c417a6300b7ab425a9cd24d61abd96fc5794822899cd2b5b643c41",
+        "normalizedSha256": "764db2b7c5a30e1f77b47ac2a864d2d0cec45d73156904f834668cf3a5869452"
+      },
+      {
+        "file": "js/server-support-v1.mjs",
+        "sha256": "022651cc61cf457acdfc76cf97f113f4167759e39d2a8fa4076dd0ef5876e206",
+        "normalizedSha256": "022651cc61cf457acdfc76cf97f113f4167759e39d2a8fa4076dd0ef5876e206"
+      },
+      {
+        "file": "js/support-package-alerts-v1.mjs",
+        "sha256": "8b17a14a049d3fdc34feffeee8feabcabe7a345ffd289fa1c20ed9ff64a8df87",
+        "normalizedSha256": "00e6b796a644e842fe69e984edd330f0ca420cf231d7083cc407c66c0188486f"
+      },
+      {
+        "file": "js/adventure-lobby-v2107.js",
+        "sha256": "fcff24f1640127778c649b114ce43a6e19f655d08c1a86cb65facf0676eb9727",
+        "normalizedSha256": "fcff24f1640127778c649b114ce43a6e19f655d08c1a86cb65facf0676eb9727"
+      },
+      {
+        "file": "admin/support-package-admin-v1.mjs",
+        "sha256": "c79b070034bdc467bbd6420f42a8428108ac455cbe2ed2dd59d7fbe3135ff1c2",
+        "normalizedSha256": "3bc50b0f9fcbc00212b9ac320bbd8973b5802420a22b331d18cdcd94222bbe6b"
+      },
+      {
+        "file": "admin/server-support-admin-v1.mjs",
+        "sha256": "656b66c494ddd02afa9bcc01028f668f26cb133264123782f905f363433c8c7b",
+        "normalizedSha256": "c1ef0a743066d848c5228595187aeb6dd43ac70927f6eedb2bad745b22629097"
+      },
+      {
+        "file": "admin/index.html",
+        "sha256": "90d0a6a447104f80cd291e358a1a57b0ecdcfb9d4c5ea7ca7ed4c976b45042d4",
+        "normalizedSha256": "63c77708a40e992ce1c83daf8d48471853bb961af79f0692cd5c24b95e074f33"
+      },
+      {
+        "file": "index.html",
+        "sha256": "a712d51c8b8c73897b1f8e01f4384b2fddba42d3145ce2763d3d08dca93dcbe8",
+        "normalizedSha256": "fc1a9c59a4aad35a7ebf5f3bed5d919d63a592e198e5f61d95fc7f4aafb602f1"
+      },
+      {
+        "file": "service-worker.js",
+        "sha256": "717ebac9edd26444f28f9698e23b19e1bb5f0fba3079214713d9ac8df2f3d162",
+        "normalizedSha256": "fa8ed668369e1a3d39bf1c998005a598e7d3ae2fd6b4850e3e4f9778f7702f17"
+      }
+    ],
+    "windowsFiles": [
+      "shared/support-package-v1.mjs",
+      "js/support-package-v1.mjs",
+      "js/server-support-v1.mjs",
+      "js/support-package-alerts-v1.mjs",
+      "js/adventure-lobby-v2107.js"
+    ]
+  },
+  "notice": {
+    "operationKey": "ops:support-package-refresh:20261115:month2-notice:v1",
+    "auditId": "61330",
+    "recipientCount": 67,
+    "messageIds": [
+      "291099",
+      "291100",
+      "291101",
+      "291102",
+      "291103",
+      "291104",
+      "291105",
+      "291106",
+      "291107",
+      "291108",
+      "291109",
+      "291110",
+      "291111",
+      "291112",
+      "291113",
+      "291114",
+      "291115",
+      "291116",
+      "291117",
+      "291118",
+      "291119",
+      "291120",
+      "291121",
+      "291122",
+      "291123",
+      "291124",
+      "291125",
+      "291126",
+      "291127",
+      "291128",
+      "291129",
+      "291130",
+      "291131",
+      "291132",
+      "291133",
+      "291134",
+      "291135",
+      "291136",
+      "291137",
+      "291138",
+      "291139",
+      "291140",
+      "291141",
+      "291142",
+      "291143",
+      "291144",
+      "291145",
+      "291146",
+      "291147",
+      "291148",
+      "291149",
+      "291150",
+      "291151",
+      "291152",
+      "291153",
+      "291154",
+      "291155",
+      "291156",
+      "291157",
+      "291158",
+      "291159",
+      "291160",
+      "291161",
+      "291162",
+      "291163",
+      "291164",
+      "291165"
+    ],
+    "title": "[구매 가능] 49,800원 패키지 새 구성 · 11월 18일 23:59까지",
+    "body": "2개월차 시즌패스 활성 이용자님께 새 패키지 판매를 안내드립니다.\n\n판매 기한: 2026년 11월 18일 23:59까지 (한국시간)\n가격: 1회 49,800원\n\n[1회 구매 기본 구성 · 1+1 포함 총 지급량]\n코인 500조\n마스터의 별 10억 개\n아르덴 에너지 50개\n무기 강화주문서 10개\n방어구 강화주문서 10개\nSSS 리미티드 조각 25개\n펫 봉인구(수정구) 50개\n펫 정수 500개\n\n[누적 구매 보너스]\n누적 구매 횟수를 전 계정 0회로 초기화했습니다. 이번 판매에서 1회부터 다시 누적됩니다.\n1회: 1,000조 / 2회: 2,000조 / 3회: 3,000조\n4회: 6,000조 / 5회: 8,000조 / 10회: 8,000조\n각 단계 달성 시 한 번씩 추가 지급합니다. 1+1 증정 수량은 구매 횟수에 포함되지 않습니다.\n기존 지급 내역과 보유 재화는 유지됩니다.\n\n구매 경로: 게임 로비 → 전체 메뉴 → 서버 안내 → 패키지 구매\n웹·윈도우·모바일·PWA에서 시즌패스 활성 기간 중 신청할 수 있습니다. ONE store 배포판은 제외됩니다.\n구매 신청 후 메시지함의 계좌 안내를 확인해 주세요. 운영자 입금 확인 후 지급되며, 시즌패스 이용 기간은 연장되지 않습니다.",
+    "recipientHash": "898f6eab968b889611d520d01fb0623efd9f72f774548b45a7553a596b377fa1",
+    "completedAt": "2026-11-15T12:39:53.559Z",
+    "attachments": 0,
+    "duplicates": 0,
+    "replay": true
+  },
+  "preservation": {
+    "oldCounterAccounts": 22,
+    "oldCounterHash": "83cfec3f6357d7ad0276edc6093b07b4ae257139039277b85e8b98f1f1cb85bb",
+    "historicalOrders": 527,
+    "newOrders": 0,
+    "newCampaignRows": 0,
+    "resetAccountCounters": [
+      {
+        "priorPaidPurchases": 2,
+        "currentPaidPurchases": 0,
+        "newCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      },
+      {
+        "priorPaidPurchases": 5,
+        "currentPaidPurchases": 0,
+        "newCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      },
+      {
+        "priorPaidPurchases": 10,
+        "currentPaidPurchases": 0,
+        "newCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      },
+      {
+        "priorPaidPurchases": 10,
+        "currentPaidPurchases": 0,
+        "newCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      },
+      {
+        "priorPaidPurchases": 1,
+        "currentPaidPurchases": 0,
+        "newCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      },
+      {
+        "priorPaidPurchases": 20,
+        "currentPaidPurchases": 0,
+        "newCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      },
+      {
+        "priorPaidPurchases": 10,
+        "currentPaidPurchases": 0,
+        "newCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      },
+      {
+        "priorPaidPurchases": 5,
+        "currentPaidPurchases": 0,
+        "newCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      },
+      {
+        "priorPaidPurchases": 1,
+        "currentPaidPurchases": 0,
+        "newCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      },
+      {
+        "priorPaidPurchases": 1,
+        "currentPaidPurchases": 0,
+        "newCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      },
+      {
+        "priorPaidPurchases": 1,
+        "currentPaidPurchases": 0,
+        "newCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      },
+      {
+        "priorPaidPurchases": 10,
+        "currentPaidPurchases": 0,
+        "newCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      },
+      {
+        "priorPaidPurchases": 1,
+        "currentPaidPurchases": 0,
+        "newCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      },
+      {
+        "priorPaidPurchases": 5,
+        "currentPaidPurchases": 0,
+        "newCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      },
+      {
+        "priorPaidPurchases": 1,
+        "currentPaidPurchases": 0,
+        "newCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      },
+      {
+        "priorPaidPurchases": 5,
+        "currentPaidPurchases": 0,
+        "newCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      },
+      {
+        "priorPaidPurchases": 10,
+        "currentPaidPurchases": 0,
+        "newCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      },
+      {
+        "priorPaidPurchases": 20,
+        "currentPaidPurchases": 0,
+        "newCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      },
+      {
+        "priorPaidPurchases": 40,
+        "currentPaidPurchases": 0,
+        "newCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      },
+      {
+        "priorPaidPurchases": 5,
+        "currentPaidPurchases": 0,
+        "newCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      },
+      {
+        "priorPaidPurchases": 10,
+        "currentPaidPurchases": 0,
+        "newCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      },
+      {
+        "priorPaidPurchases": 6,
+        "currentPaidPurchases": 0,
+        "newCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      }
+    ],
+    "manualCurrencyOrItemGrants": 0
+  },
+  "validation": {
+    "focusedTests": 44,
+    "passed": 44,
+    "workerCheck": true,
+    "retiredPredictionSuite": {
+      "unchangedBeforeAfter": true,
+      "passed": 2,
+      "failed": 4,
+      "reason": "Pre-existing tests invoke the retired coin prediction route and receive HTTP 410; no prediction behavior changed."
+    }
+  },
+  "performance": {
+    "sqlBefore": {
+      "phase": "before",
+      "condition": "Isolated PostgreSQL-compatible fixture, fixed 10ms delay per SQL call; same Windows host, no live writes, not real network timings",
+      "times": [
+        {
+          "phase": "first",
+          "ms": 115,
+          "queries": 14
+        },
+        {
+          "phase": "reentry",
+          "ms": 91,
+          "queries": 8
+        },
+        {
+          "phase": "reentry",
+          "ms": 91,
+          "queries": 8
+        },
+        {
+          "phase": "reentry",
+          "ms": 91,
+          "queries": 8
+        },
+        {
+          "phase": "reentry",
+          "ms": 92,
+          "queries": 8
+        },
+        {
+          "phase": "reentry",
+          "ms": 93,
+          "queries": 8
+        },
+        {
+          "phase": "reentry",
+          "ms": 93,
+          "queries": 8
+        }
+      ]
+    },
+    "sqlAfter": {
+      "phase": "after",
+      "condition": "Isolated PostgreSQL-compatible fixture, fixed 10ms delay per SQL call; same Windows host, no live writes, not real network timings",
+      "times": [
+        {
+          "phase": "first",
+          "ms": 90,
+          "queries": 14
+        },
+        {
+          "phase": "reentry",
+          "ms": 60,
+          "queries": 8
+        },
+        {
+          "phase": "reentry",
+          "ms": 61,
+          "queries": 8
+        },
+        {
+          "phase": "reentry",
+          "ms": 61,
+          "queries": 8
+        },
+        {
+          "phase": "reentry",
+          "ms": 59,
+          "queries": 8
+        },
+        {
+          "phase": "reentry",
+          "ms": 62,
+          "queries": 8
+        },
+        {
+          "phase": "reentry",
+          "ms": 62,
+          "queries": 8
+        }
+      ]
+    },
+    "ui": [
+      {
+        "phase": "before",
+        "platform": "desktop",
+        "emulated": true,
+        "condition": "Actual lobby → all menu → server information → package, isolated account/API fixture; public assets with selected checkout overrides",
+        "entries": [
+          {
+            "interactiveMs": 476,
+            "imagesMs": 570,
+            "frames": {
+              "samples": 45,
+              "p95": 4.299999999999727,
+              "max": 4.300000000000182,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          },
+          {
+            "interactiveMs": 86,
+            "imagesMs": 94,
+            "frames": {
+              "samples": 45,
+              "p95": 4.200000000000273,
+              "max": 4.300000000000182,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          }
+        ],
+        "errors": [],
+        "productionWrites": 0,
+        "blockedWrites": 1
+      },
+      {
+        "phase": "before",
+        "platform": "ios",
+        "emulated": true,
+        "condition": "Actual lobby → all menu → server information → package, isolated account/API fixture; public assets with selected checkout overrides",
+        "entries": [
+          {
+            "interactiveMs": 1685,
+            "imagesMs": 1776,
+            "frames": {
+              "samples": 45,
+              "p95": 30,
+              "max": 234,
+              "over50": 1
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          },
+          {
+            "interactiveMs": 1511,
+            "imagesMs": 1532,
+            "frames": {
+              "samples": 45,
+              "p95": 30,
+              "max": 249,
+              "over50": 2
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          }
+        ],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "productionWrites": 0,
+        "blockedWrites": 1
+      },
+      {
+        "phase": "public",
+        "platform": "android",
+        "emulated": true,
+        "condition": "Actual lobby → all menu → server information → package, isolated account/API fixture; public assets with selected checkout overrides",
+        "entries": [
+          {
+            "interactiveMs": 594,
+            "imagesMs": 788,
+            "frames": {
+              "samples": 45,
+              "p95": 18,
+              "max": 20,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          },
+          {
+            "interactiveMs": 311,
+            "imagesMs": 419,
+            "frames": {
+              "samples": 45,
+              "p95": 19.300000000000182,
+              "max": 20.699999999999818,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          }
+        ],
+        "errors": [],
+        "productionWrites": 0,
+        "blockedWrites": 1
+      },
+      {
+        "phase": "public",
+        "platform": "desktop",
+        "emulated": true,
+        "condition": "Actual lobby → all menu → server information → package, isolated account/API fixture; public assets with selected checkout overrides",
+        "entries": [
+          {
+            "interactiveMs": 1005,
+            "imagesMs": 1241,
+            "frames": {
+              "samples": 45,
+              "p95": 26.200000000000728,
+              "max": 35.5,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          },
+          {
+            "interactiveMs": 165,
+            "imagesMs": 205,
+            "frames": {
+              "samples": 45,
+              "p95": 20.5,
+              "max": 27.699999999999818,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          }
+        ],
+        "errors": [],
+        "productionWrites": 0,
+        "blockedWrites": 1
+      },
+      {
+        "phase": "public",
+        "platform": "ios",
+        "emulated": true,
+        "condition": "Actual lobby → all menu → server information → package, isolated account/API fixture; public assets with selected checkout overrides",
+        "entries": [
+          {
+            "interactiveMs": 3044,
+            "imagesMs": 3355,
+            "frames": {
+              "samples": 45,
+              "p95": 30,
+              "max": 548,
+              "over50": 1
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          },
+          {
+            "interactiveMs": 1937,
+            "imagesMs": 1972,
+            "frames": {
+              "samples": 45,
+              "p95": 30,
+              "max": 428,
+              "over50": 2
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          }
+        ],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "productionWrites": 0,
+        "blockedWrites": 1
+      },
+      {
+        "phase": "public",
+        "platform": "windows",
+        "emulated": false,
+        "condition": "Actual lobby → all menu → server information → package, isolated account/API fixture; public assets with selected checkout overrides",
+        "entries": [
+          {
+            "interactiveMs": 775,
+            "imagesMs": 958,
+            "frames": {
+              "samples": 45,
+              "p95": 16.700000000000728,
+              "max": 16.800000000000182,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          },
+          {
+            "interactiveMs": 298,
+            "imagesMs": 463,
+            "frames": {
+              "samples": 45,
+              "p95": 16.799999999999272,
+              "max": 16.80000000000109,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          }
+        ],
+        "errors": [],
+        "productionWrites": 0,
+        "blockedWrites": 1
+      }
+    ],
+    "h5": {
+      "platform": "ONE store H5 iframe, Android emulation",
+      "entries": [
+        {
+          "interactiveMs": 158,
+          "packageHidden": true
+        },
+        {
+          "interactiveMs": 82,
+          "packageHidden": true
+        }
+      ],
+      "packageHidden": true,
+      "packageApiCalls": 0,
+      "productionWrites": 0,
+      "errors": []
+    },
+    "limits": "Windows Chrome headless, Android/iPhone emulation and offscreen Windows Electron renderer; isolated account APIs with public assets, not physical phone measurements. WebKit retains its pre-existing common lobby ResizeObserver warning and occasional long frames, seen in baseline and final verification."
+  }
+}
