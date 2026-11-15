@@ -1,0 +1,122 @@
+{
+  "at": "2026-11-15T08:05:26.485Z",
+  "pages": {
+    "id": "4369205d-a1ec-4e93-80a3-2020670605ec",
+    "url": "https://4369205d.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "b55e30e0491ac07fa0a6e3634e6ad549315351bc"
+  },
+  "releaseCommit": "b55e30e0491ac07fa0a6e3634e6ad549315351bc",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "defenseSetsConnected": true,
+      "sha256": "6d0ec38ce145da9a5b69d01cb9fd567da6d8b0b02de7f1ae375c7c9ac85e2972",
+      "latestDeployment": {
+        "id": "2e04a401-5783-4f04-9bc4-449dd80cd0fa",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "1e5eb2fa-9302-469d-add0-f8a41fe4e8be",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-11-15T08:01:54.401889Z"
+      }
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "defenseSetsConnected": true,
+      "sha256": "967aec6ec830ca45e30802b3e53bc13778b3f2f3a32cdfacde1badc5c99dd20b",
+      "latestDeployment": {
+        "id": "d2260f3a-f2db-4c42-afc5-8df98db8586b",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "bbe2b71b-cb3c-4447-86a9-cdddf1795288",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-11-15T08:03:22.378212Z"
+      }
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "bytes": 52677,
+      "sha256": "1eaa4a4ebd1fcb30cc207c66027a66c56ec8be85bfef08c56758a652ce17e25e"
+    },
+    {
+      "file": "js/app.js",
+      "bytes": 832400,
+      "sha256": "dcb1e8af9531244dd9582842ee915f8530e19cee1eadd66c86d47b7ec7cd5bc4"
+    },
+    {
+      "file": "js/character-loadout-v2.js",
+      "bytes": 51199,
+      "sha256": "2d45736bf7fbdf0bc734b90cfeabe0b34b578c6d146432692544e8bf075b7c33"
+    },
+    {
+      "file": "service-worker.js",
+      "bytes": 25954,
+      "sha256": "082412a6c1d4845b8df0c8894e578e3ac0362ccdef269d103be1b67ee91e72c5"
+    },
+    {
+      "file": "mercenary-codex/equipment/index.html",
+      "bytes": 7884,
+      "sha256": "acbe3fcfd8d1bcc662b6886916b1f5becf903f495eadb9420585cf2e2ab15f9b"
+    },
+    {
+      "file": "mercenary-codex/equipment/app.mjs",
+      "bytes": 28471,
+      "sha256": "81a944819a75804f16efb8ca1138fb84b3a1eb2097f7f2eabb1f9723f135bbda"
+    },
+    {
+      "file": "mercenary-codex/equipment/ui.mjs",
+      "bytes": 5359,
+      "sha256": "eca9c3d4308aa7548a7280c9b829a4731721f8aa7bef6df1c2d958da1c6bae3b"
+    },
+    {
+      "file": "shared/equipment-defense-v1.mjs",
+      "bytes": 3460,
+      "sha256": "16c10cd38973ea18340e8844a7d9fbec6e5e7bf54cb34cd36f5f3f14eeb27587"
+    },
+    {
+      "file": "shared/equipment-combat-growth-v1.mjs",
+      "bytes": 6239,
+      "sha256": "eb173514fde8ebd5b02c730f3c144a785af988c7ff8372678530efb7b0c66c0a"
+    },
+    {
+      "file": "shared/equipment-growth-text-v1.mjs",
+      "bytes": 1276,
+      "sha256": "06caa6b532ff3b071768fa725b65e75e0c8b5dbfbc33508ae58b270fcad10587"
+    },
+    {
+      "file": "onestore/index.html",
+      "bytes": 52518,
+      "sha256": "5e7144a047dd368941754b83a6cecf122e84505144be8408dac02eb3b047915c",
+      "verification": "Exact htmlForStore response, including SDK/stylesheet injection"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "bytes": 826563,
+      "sha256": "96053ab770fb48e57329af1dd873729506f5176138846a4726ac950650f536a1"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "bytes": 985,
+      "sha256": "014e31bde237291e513a6aa1083f033f8ac8db0f5a9836cac985f365efe830a0"
+    }
+  ],
+  "operationalAccountWrites": 0,
+  "announcementsSent": 0
+}

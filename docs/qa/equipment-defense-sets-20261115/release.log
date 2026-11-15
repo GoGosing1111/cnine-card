@@ -1,0 +1,128 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"d5e6dc8a806b8a22cd17921920bc9a522abed87b","reason":"Arden and exact-tier mercenary PvE defense sets; actual defense growth and bounded multiplicative mitigation for normal and direct Legion attacks, equipment UI comparison. Existing PvP, ownership, rewards and polish preserved. Focused server, SQL, battle and loader regressions; no schema, auth or dependency changes. User rejected the initial small increase: final Arden 200 percent defense and 60 percent guard; Unique 1 350 percent defense and 65 percent guard. Preserve historical audit in Git, exclude only its public Pages copy to fit the verified file limit.","changed":["AGENTS.md","docs/qa/bluegear-astra-20261115/codex-public.json","docs/qa/bluegear-astra-20261115/completion.json","docs/qa/bluegear-astra-20261115/deployment-plan.json","docs/qa/bluegear-astra-20261115/live-verification.json","docs/qa/bluegear-astra-20261115/registration-verified.json","docs/qa/bluegear-astra-20261115/registration.json","docs/qa/bluegear-astra-20261115/shop-public-android.json","docs/qa/bluegear-astra-20261115/shop-public-desktop.json","docs/qa/bluegear-astra-20261115/shop-public-h5.json","docs/qa/bluegear-astra-20261115/shop-public-ios.json","docs/qa/bluegear-astra-20261115/shop-public-windows.json","docs/qa/equipment-defense-sets-20261115/README.md","docs/qa/equipment-defense-sets-20261115/after.json","docs/qa/equipment-defense-sets-20261115/arden-android-emulated.png","docs/qa/equipment-defense-sets-20261115/arden-iphone-webkit-emulated.png","docs/qa/equipment-defense-sets-20261115/arden-pc.png","docs/qa/equipment-defense-sets-20261115/armory-android-emulated.png","docs/qa/equipment-defense-sets-20261115/armory-iphone-webkit-emulated.png","docs/qa/equipment-defense-sets-20261115/armory-pc.png","docs/qa/equipment-defense-sets-20261115/before.json","docs/qa/equipment-defense-sets-20261115/browser-partial.json","docs/qa/equipment-defense-sets-20261115/browser.json","docs/qa/equipment-defense-sets-20261115/hunt-android-emulated.png","docs/qa/equipment-defense-sets-20261115/hunt-iphone-webkit-emulated.png","docs/qa/equipment-defense-sets-20261115/hunt-pc.png","docs/qa/equipment-defense-sets-20261115/rejected-v1-browser.json","docs/qa/equipment-defense-sets-20261115/rejected-v1.json","docs/qa/equipment-defense-sets-20261115/tests.log","docs/qa/hakbeol-mercenary21-20261115/apply.json","docs/qa/hakbeol-mercenary21-20261115/completion.json","docs/qa/hakbeol-mercenary21-20261115/options.json","docs/qa/hakbeol-mercenary21-20261115/verify.json","functions/_battle_v2_preview.js","functions/_equipment_growth.js","functions/_mercenary_equipment_v2.js","index.html","js/app.js","js/character-loadout-v2.js","mercenary-codex/equipment/app.mjs","mercenary-codex/equipment/index.html","mercenary-codex/equipment/ui.mjs","onestore/index.html","onestore/js/app.js","\"output/announcements/equipment-defense-sets-20261115/\\354\\234\\240\\354\\240\\200\\352\\263\\265\\354\\247\\200.txt\"","packaging/onestore/web-build.json","scripts/measure-equipment-defense-20261115.mjs","scripts/prepare-production-assets.mjs","service-worker.js","shared/equipment-combat-growth-v1.mjs","shared/equipment-defense-v1.mjs","shared/equipment-growth-text-v1.mjs","shared/onestore-web-assets-v1.mjs","tests/equipment-defense-sets-20261115.browser.mjs","tests/equipment-defense-sets-20261115.test.mjs","tests/operation-audit-packaging-20261029.test.mjs"],"tests":["tests/equipment-defense-sets-20261115.test.mjs","tests/mercenary-equipment-growth-20261030.test.mjs","tests/equipment-polish-buff-20261114.test.mjs","tests/pve-equipment-upgrade-20261002.test.mjs","tests/legion-regions-combat-20261008.test.mjs","tests/mercenary-equipment-by-mercenary-20261105.test.mjs","tests/operation-audit-packaging-20261029.test.mjs","tests/pve-battlefield-entry-v2117.test.mjs"],"checks":["check:worker"]}
+✔ Arden has four exact armor slots at +0; its complete defense is independent of the +10 cosmetic (3.3747ms)
+✔ each of ten tiers and three unique families requires five exact distinct slots, and removal drops the complete bonus (1.0267ms)
+✔ wrong slots, competing items and a reused instance cannot forge a complete set (0.3369ms)
+✔ real defense grows from the base exactly once across character and mercenary sources, with multiplicative guard (1.0305ms)
+✔ canonical regional special attacks and ordinary monster attacks both consume the guard exactly once (19.6942ms)
+✔ SQLite: actual loadout runtime applies the chosen tier and keeps PvP and ownership separate (113.3952ms)
+✔ PostgreSQL: actual loadout runtime applies the chosen tier and keeps PvP and ownership separate (3238.6562ms)
+✔ the equipment preview groups unique and ascendant sets separately and shows loss of the complete defense (1.245ms)
+✔ controlled before/after hunts preserve bare and PvP results and materially improve Arden survival (11.6291ms)
+✔ earned polish survives set caps and composes once with personal gear (2.1564ms)
+✔ stored rebased polish reaches the equipped runtime and its user summary (1.3898ms)
+✔ mercenary polish follows each mode selected gear instance (79.2155ms)
+✔ PvP, duo and ranked fights apply owned mercenary polish once and only to its wearer (53.1067ms)
+✔ PvP mercenary hit rolls use polish beyond former critical and penetration ceilings (23.5024ms)
+✔ PvE hit rolls honor polished critical and penetration beyond the old ceilings (6.008ms)
+✔ 50 successes, capped options, restoration and policy-race rollback: SQLite (40.9899ms)
+✔ 50 successes, capped options, restoration and policy-race rollback: PostgreSQL (2495.0627ms)
+✔ all five regions expose their actual boss mechanics on the canonical 7-minute timeline (591.4191ms)
+✔ tier increase cannot turn into a burst-fire reward and weak decks fail upper tiers (324.1734ms)
+✔ 2/4 sets, unique mixing, unequip and leech budgets change only explicit PVE equipment runtime (3.0764ms)
+✔ SQLite: explicit transfer clears only the prior wearer and atomically retains one owner across modes (91.9574ms)
+✔ SQLite: approved legacy migration favors PVP, freezes before formation changes and preserves source records (54.4088ms)
+✔ SQLite: each companion in actual battle snapshots receives only its own equipment (83.5939ms)
+✔ SQLite: inventory cursor exposes every duplicate once and applies filters before pagination (106.7935ms)
+✔ PostgreSQL: explicit transfer clears only the prior wearer and atomically retains one owner across modes (3042.859ms)
+✔ PostgreSQL: approved legacy migration favors PVP, freezes before formation changes and preserves source records (1736.5242ms)
+✔ PostgreSQL: each companion in actual battle snapshots receives only its own equipment (1647.8368ms)
+✔ PostgreSQL: inventory cursor exposes every duplicate once and applies filters before pagination (1716.6434ms)
+✔ growth preserves fractional equipment speed until the existing final floor (4.8185ms)
+✔ fractional speed support retains invalid-stat, overflow and growth-policy rejection (11.2357ms)
+✔ all ten 5-piece tiers combine with levels 1/6/16/21 in PVE and PVP exactly once (63.0377ms)
+✔ 8th-tier +10 equipment with awakened Omega Lv.21 completes real PVE/PVP battle construction (37.0458ms)
+✔ duo owner with the full set and growth can enter and resolve battle (11.003ms)
+✔ ranked series resolves equipped grown mercenaries across round boundaries (17.8808ms)
+✔ no-gear and 2/4-piece integer inputs preserve the prior arithmetic (7.1474ms)
+✔ operational receipts stay in Git while live combat files fit the Pages boundary (1007.5781ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes: js/app.js (25.8667ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes: onestore/js/app.js (17.9691ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (23.8805ms)
+✔ classic colosseum background is confined to the explicitly tagged PVP replay (0.4527ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (8.4022ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (36.1913ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (23.0476ms)
+✔ service worker refreshes historical versioned battle/account/auction resources /js/app.js (46.7214ms)
+✔ service worker refreshes historical versioned battle/account/auction resources /preview/sustained-hunt-v2/battle.bundle.js (5.2632ms)
+✔ service worker refreshes historical versioned battle/account/auction resources /js/account-sync-client-v1.mjs (4.658ms)
+✔ service worker refreshes historical versioned battle/account/auction resources /shared/server-clock-v1.mjs (6.2057ms)
+✔ service worker refreshes historical versioned battle/account/auction resources /js/auction-user-entry.js (4.691ms)
+✔ service worker refreshes historical versioned battle/account/auction resources /js/auction-user-live.mjs (6.1372ms)
+✔ service worker refreshes historical versioned battle/account/auction resources /admin/auction-user-admin-v1.mjs (2.8346ms)
+✔ service worker refreshes historical versioned battle/account/auction resources /css/auction-user-v1.css (3.3906ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (3.2931ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (1.0198ms)
+✔ enhancing any PvE card keeps every unchanged ally stat and equipment share intact (8.3886ms)
+✔ PvE preserves the support total and zero-support stats for one to five cards (0.6495ms)
+✔ independent PvE battle suit keeps its power outside card support (1.5623ms)
+✔ PvP continues to use its existing enhanced-power proportional support (23.8049ms)
+ℹ tests 57
+ℹ suites 0
+ℹ pass 57
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9311.8722
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] defense-sets15-zero-awakening15-v1-petgrowth14-polish14-bgcontract1-bluegear14-mercAdv11-20261113-bloodmoon-sale-end-20261112-v1-inventory-choice-20261111-v1-auction-duration-20261110-v1-clan-season-20261110-v1-lobby-status-20261112-v1-territory-draft-20261109-v1-ranked-promotion-20261109-v2-territory-radio-20261109-v1-s1-duo-v1-territory-frontline-20261108-v1-s1-counts-v2-veteran30-avatar-refresh-v1-s1-entry-v2-bus-driver-shiranui-20261108-citadel1-s1-lobby-20261108-2-royal-rune-frame-fit-20261107-1-mercenary-four-1950k-20261108-guaranteed-scroll-20261107-v1-pass-months-20261107-v1-auction-bgm-exact-20261107-v1-ranked-favorites-20261106-v1-workshop-ui-20261106-v2-coin-10g-20261106-v1-auction-bgm-volume-20261106-v1-support-package-refresh-20261106-v1-x-body-craft-20261106-v1-auction-bgm-compact-drag-20261106-v1-mercenary-armory-20261105-v2-hakuya-live-20261105-v1-helios-king-live-20261106-v1-jin-jokro-live-20261106-v1-suit-drain-progress-20261106-v1-hyper-pack-hidden-20261105-v1-streamer-pack-20261105-v1-pet-modes-20261105-v1-faction-evening-20261105-v1-pet-jjanggu-heeya-20261104-v1-lich-mobile-mechanics-20261104-v1-cnine-streamer-box-20261103-v1-bloodmoon-unique-20261103-v1-auction-user-off-20261103-v2-prediction-camp-closed-20261103-v1-quest-command-20261103-v1-package-extend-20261102-v1-apocalypse-overlay-off-20261102-v1-tactical-hud-20261102-v1-account-panel-20261102-v2-prime-zero-top-20261102-v1-ranked-labels-20261102-v1-tower-coop-dual-20261102-v2-blackwing-confirm8-20261101-v1-pepegu-ranked-rental-20261101-v1-trophy-renewal-20261101-v1-blackwing-reward20t-scroll30-20261101-v1-equipment-11-15-glow-20261101-v1-equipment-plus10-glow-20261101-v1-support-package-500t-20261101-v1-battle-resource-recovery-20261101-v1-support-package-clients-20261101-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-growth-guide-20261030-v1-blackcrown-opening-20261031-unique-v1-clan-kick-off-20261030-v1-tactical-shell-20261030-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-chat-squad-20261029-v1-territory-mobile-20261029-v1-heukmu-live-20261029-v1-omega-craft-20261029-v1-lobby-restore-20261029-v1-clan-elder-kick-20261029-v1-limited-220-20261029-v1-legion-ascendant-20261029-v1-blackwing-rewards-20261029-v1-lobby-pretendard-20261029-v5-icon-diim-front-20261029-v1-damage-hp-sync-20261029-v1-war-chat-20261028-v1-raid-rewards-20261028-v1-kamishiro-live-20261028-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-soop-watch-repeat-20261028-v1-blackwing-bloodscale-20261028-v3-classic-colosseum-20261027-v2-blackcrown-shop-sss-20261027-v1-blackcrown-sss-20261027-v1-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-age-ratings-20261027-v1-revan-general-jok-20261027-v2-blackcrown-live-20261027-v1-jokro-motion-20261027-v1-blackcrown-buttons-20261027-v4-support-package-hide-20261026-v1-soop-watch-consent-20261026-v1-bloodmoon-namsudaeng-timeout-20261026-v1-isgen-input-recovery-20261026-v1-prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261115-v13-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1-icon-four-20261029-arden-craft-20261029-v1-pet-pepegu-20261101-v1-apocalypse-trio-20261106-apocalypse-facing-balance-20261106-v2-morgas-body-20261109-v1-coop-summon-slot-20261110-v1-clan-random-20261113-iphone-combat-20261114-v1-astra-20261115-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 15516 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.162.0)
+───────────────────────────────────────────────
+Total Upload: 9669.82 KiB / gzip: 2098.12 KiB
+Worker Startup Time: 54 ms
+Your Worker has access to the following bindings:
+Binding                                                                         Resource                  
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)               Durable Object            
+env.COOP_ROOMS (CooperativeRoom)                                                Durable Object            
+env.COOP_PLAYERS (CooperativePlayer)                                            Durable Object            
+env.ACCOUNT_SYNC (AccountSync)                                                  Durable Object            
+env.DB (cnine-card-db)                                                          D1 Database               
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                               Hyperdrive Config         
+env.SEASON_S1_ENABLED ("1")                                                     Environment Variable      
+env.SEASON_S1_SCHEDULE ("live")                                                 Environment Variable      
+
+Uploaded cnine-card-api-runtime (4.29 sec)
+Deployed cnine-card-api-runtime triggers (0.96 sec)
+  schedule: * * * * *
+Current Version ID: 1e5eb2fa-9302-469d-add0-f8a41fe4e8be
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.162.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19986/20000)
+Uploading... (19991/20000)
+Uploading... (19996/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 14 files (19986 already uploaded) (2.27 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://4369205d.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.162.0)
+───────────────────────────────────────────────
+Total Upload: 3949.82 KiB / gzip: 880.89 KiB
+Worker Startup Time: 72 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.80 sec)
+Deployed cnine-card-clan-draft triggers (0.88 sec)
+  schedule: * * * * *
+Current Version ID: bbe2b71b-cb3c-4447-86a9-cdddf1795288
