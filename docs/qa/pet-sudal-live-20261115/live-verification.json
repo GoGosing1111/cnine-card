@@ -1,0 +1,132 @@
+{
+  "at": "2026-11-15T11:21:15.732Z",
+  "pages": {
+    "id": "1a624378-ac9c-49bb-a6c4-c3f188427601",
+    "url": "https://1a624378.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "3c2f7956a02b2983f963f76385a0f8417ba7cbb7"
+  },
+  "releaseCommit": "3c2f7956a02b2983f963f76385a0f8417ba7cbb7",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "sudalConnected": true,
+      "sha256": "6cb4b8666533feddedee846fe865fad5d679d69f6ec41990a008dc8aceb5949a",
+      "latestDeployment": {
+        "id": "798043d0-2326-4ef7-88b0-dda60c47e708",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "71e85370-0477-4984-9c0d-c058e2e40d00",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-11-15T11:19:04.405877Z"
+      }
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "sudalConnected": true,
+      "sha256": "892fd3a479a40ade2478fdc5692b483f037ee03a100f4ab2955f90e50ba60070",
+      "latestDeployment": {
+        "id": "30cb482a-e554-4a4c-ab2a-f5792a12f58d",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "80191c40-f47f-4a32-a403-28ac1c674e54",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-11-15T11:20:37.210361Z"
+      }
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png",
+      "bytes": 1235933,
+      "sha256": "ba46b4584c3ffb1856fa93d17f62d563a9565da6adf3f884bae4ef9657d51c3d"
+    },
+    {
+      "file": "assets/ui/pets/sudal-20261115/pet-sudal-portrait.webp",
+      "bytes": 43242,
+      "sha256": "8ad3b2a4db287406f8a431e183113c9a87bf2ac685b077f1a6fb41b0680bab8e"
+    },
+    {
+      "file": "assets/ui/pets/sudal-20261115/pet-sudal-thumb.webp",
+      "bytes": 6218,
+      "sha256": "de4d9fb2a3bb0a2d3693f2ae32ae609ed0a445ba236baefbd6e44639a20b5fc7"
+    },
+    {
+      "file": "shared/pet-art-catalog-v1.mjs",
+      "bytes": 7468,
+      "sha256": "80a3f63c40d2b04be5889791d4df3b54d50678f7a2c464064b797fb7f247e8a6"
+    },
+    {
+      "file": "shared/pet-growth-live-v2.mjs",
+      "bytes": 3519,
+      "sha256": "6f8d33f2af23208b3ced96cbfe423a11978d85916418386333011acc5cf6528a"
+    },
+    {
+      "file": "assets/ui/pets/rework-20261114/codex-v3/pets.json",
+      "bytes": 9805,
+      "sha256": "f69f3c2575846e44b66a6d041deffbd96456cb7a72946d5ec08cb1666084062b"
+    },
+    {
+      "file": "pet-codex/index.html",
+      "bytes": 902,
+      "sha256": "c519b07edf78344f9752380bdd68379d09553f5015d9343937cc5e0e95127e52"
+    },
+    {
+      "file": "pet-codex/app.mjs",
+      "bytes": 1069,
+      "sha256": "d31dfda6939ba3d11aa4a8b35b7aa6e07a7e68de6ec5f2a43d43712cba517ecf"
+    },
+    {
+      "file": "js/pet-equipment-window-v1.mjs",
+      "bytes": 35772,
+      "sha256": "824062b8fb43b354a1f7505625b0350ef5b7fedd54d2e0e7b36d07a7428f201e"
+    },
+    {
+      "file": "js/pet-codex-growth-v3.mjs",
+      "bytes": 5421,
+      "sha256": "f1d7968b31a548e2758096f4a27ac8b4ed21baf9ed8e7d0182d631abba328e73"
+    },
+    {
+      "file": "service-worker.js",
+      "bytes": 25962,
+      "sha256": "206f9dfffa42f472721e360582c9226f8ffe2c88f69988b1378e989444f151cf"
+    },
+    {
+      "file": "onestore/pet-codex/app.mjs",
+      "bytes": 1096,
+      "sha256": "896659ef5a7f6e2df09ba5519f1a9a2004c6cc733b88c09c24efa819e0ffd389"
+    },
+    {
+      "file": "onestore/js/pet-equipment-window-v1.mjs",
+      "bytes": 35557,
+      "sha256": "454e62f521c1b44d9cf38400549f3a7a72bd44c1c4e40609a3ee413dc02637d7"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "bytes": 985,
+      "sha256": "924b63d66fb640d7cc1cef301ceefeb27ac822749fad5ec0c3a7e39c094c047c"
+    }
+  ],
+  "archivedDocumentsPreserved": [
+    "docs/pet-maltese-diim-20261013.md",
+    "docs/pet-maltese-diim-live-20261013.md",
+    "docs/pet-namuneul-bongsoon-live-20261009.md"
+  ],
+  "windowsAssetsVerified": 3
+}

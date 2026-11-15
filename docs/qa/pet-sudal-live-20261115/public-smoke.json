@@ -1,0 +1,16 @@
+{
+  "status": "VERIFIED",
+  "checkedAt": "2026-11-15T11:21:43.419Z",
+  "conditions": "Published pet-codex HTML, modules and images; read-only local account API fixture. Mobile Chrome emulation, not a live authenticated account or physical phone.",
+  "name": "수달",
+  "growthCap": "SSS",
+  "image": {
+    "src": "https://cnine-card.pages.dev/assets/ui/pets/sudal-20261115/pet-sudal-portrait.webp",
+    "width": 560,
+    "height": 560
+  },
+  "basicEffects": "기본 효과 · 자석\n\n기본 효과는 성장 결과와 함께 적용됩니다.\n\n속도 +55%\n드랍률 +25%\n계정 경험치 +55%\n코인 +55%\n자석 잠재력\n\n군단토벌 드랍 아이템을 자동 수집합니다.\n같은 종류의 중복 펫은 자석을 공유합니다.\n\n잠재력 물약 5개 · 성공률 10%\n\n물약 1개로 도전\n성공·실패와 관계없이 물약 1개를 소모합니다.\n시즌패스 자석\n\n다른 펫으로 자석 효과를 옮길 수 있습니다.\n\n이 펫에 적용 · 무료",
+  "errors": [],
+  "productionAccountWrites": 0,
+  "storeDocumentAndEntryVerified": true
+}

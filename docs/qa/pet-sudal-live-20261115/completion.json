@@ -1,0 +1,312 @@
+{
+  "status": "LIVE_AND_INDEPENDENTLY_VERIFIED",
+  "name": "수달",
+  "alias": "수댕이건달",
+  "code": "PET-SUDAL",
+  "operationKey": "ops:pet-sudal-live:20261115:v1",
+  "completedAt": "2026-11-15T11:21:34.197Z",
+  "completedAtKst": "2026-11-15 20:21:34 KST",
+  "auditId": "61314",
+  "finalArt": {
+    "code": "PET-SUDAL",
+    "name": "수달",
+    "approvedAsset": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png",
+    "battleSprite": "assets/ui/pets/sudal-20261115/pet-sudal-portrait.webp",
+    "thumb": "assets/ui/pets/sudal-20261115/pet-sudal-thumb.webp",
+    "sha256": "ba46b4584c3ffb1856fa93d17f62d563a9565da6adf3f884bae4ef9657d51c3d",
+    "bytes": 1235933,
+    "width": 1254,
+    "height": 1254
+  },
+  "finalApproval": "이거로 승인",
+  "correctedFiveFingers": true,
+  "referencePet": "PET-BAZZI-BONGSOON",
+  "effects": {
+    "enabled": true,
+    "liveEnabled": true,
+    "modes": [
+      "PVE",
+      "PVP"
+    ],
+    "target": "ALL_ALLIES",
+    "buffs": [
+      {
+        "type": "SPEED_PERCENT",
+        "percent": 55
+      }
+    ],
+    "rewardBonuses": {
+      "dropPercent": 25,
+      "accountXpPercent": 55,
+      "coinPercent": 55
+    }
+  },
+  "growthCap": "SSS",
+  "cms": {
+    "previousRevision": 49,
+    "revision": 50,
+    "petCount": 27,
+    "preservedPets": 26
+  },
+  "source": "3c2f7956a02b2983f963f76385a0f8417ba7cbb7",
+  "pages": {
+    "id": "1a624378-ac9c-49bb-a6c4-c3f188427601",
+    "url": "https://1a624378.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "3c2f7956a02b2983f963f76385a0f8417ba7cbb7"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "deployment": {
+        "id": "798043d0-2326-4ef7-88b0-dda60c47e708",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "71e85370-0477-4984-9c0d-c058e2e40d00",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-11-15T11:19:04.405877Z"
+      }
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "deployment": {
+        "id": "30cb482a-e554-4a4c-ab2a-f5792a12f58d",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "80191c40-f47f-4a32-a403-28ac1c674e54",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-11-15T11:20:37.210361Z"
+      }
+    }
+  ],
+  "publicFiles": 14,
+  "windowsAssetsVerified": 3,
+  "storeEntryVerified": true,
+  "tests": {
+    "uniqueRelatedPassed": 17,
+    "registrationFailureRollback": true,
+    "readOnlyReplay": true,
+    "accountGrants": 0,
+    "messagesSent": 0,
+    "existingPetsAndOpeningShopPotentialSettingsPreserved": true
+  },
+  "performance": {
+    "conditions": "Windows host. Actual /pet-codex/ page and game API handlers with isolated PostgreSQL-compatible fixture. Chrome desktop/Android and WebKit iPhone emulation; hidden Electron renderer; iframe embedding smoke. No production account mutation or physical mobile measurements.",
+    "samples": [
+      {
+        "platform": "desktop",
+        "variant": "runtime-webp",
+        "firstInteractiveMs": 405,
+        "firstImagesMs": 1099,
+        "reentryInteractiveMs": 19,
+        "reentryImagesMs": 20,
+        "overflow": false,
+        "portrait": [
+          {
+            "path": "/assets/ui/pets/sudal-20261115/pet-sudal-portrait.webp",
+            "width": 560,
+            "height": 560
+          }
+        ],
+        "resources": [
+          {
+            "path": "/assets/ui/pets/sudal-20261115/pet-sudal-portrait.webp",
+            "bytes": 43542,
+            "ms": 726
+          }
+        ],
+        "errors": [],
+        "frames": {
+          "samples": 361,
+          "p95": 4.300000000000182,
+          "max": 4.400000000000091,
+          "over50ms": 0
+        },
+        "afterExit": {
+          "active": 0,
+          "updates": 104
+        }
+      },
+      {
+        "platform": "android",
+        "variant": "source-png",
+        "firstInteractiveMs": 1559,
+        "firstImagesMs": 4019,
+        "reentryInteractiveMs": 226,
+        "reentryImagesMs": 250,
+        "overflow": false,
+        "portrait": [
+          {
+            "path": "/assets/ui/pets/sudal-20261115/pet-sudal-approved.png",
+            "width": 1254,
+            "height": 1254
+          }
+        ],
+        "resources": [
+          {
+            "path": "/assets/ui/pets/sudal-20261115/pet-sudal-approved.png",
+            "bytes": 1236233,
+            "ms": 2371
+          }
+        ],
+        "errors": []
+      },
+      {
+        "platform": "android",
+        "variant": "runtime-webp",
+        "firstInteractiveMs": 1514,
+        "firstImagesMs": 2524,
+        "reentryInteractiveMs": 85,
+        "reentryImagesMs": 86,
+        "overflow": false,
+        "portrait": [
+          {
+            "path": "/assets/ui/pets/sudal-20261115/pet-sudal-portrait.webp",
+            "width": 560,
+            "height": 560
+          }
+        ],
+        "resources": [
+          {
+            "path": "/assets/ui/pets/sudal-20261115/pet-sudal-portrait.webp",
+            "bytes": 43542,
+            "ms": 295
+          }
+        ],
+        "errors": []
+      },
+      {
+        "platform": "ios",
+        "variant": "runtime-webp",
+        "firstInteractiveMs": 398,
+        "firstImagesMs": 750,
+        "reentryInteractiveMs": 135,
+        "reentryImagesMs": 136,
+        "overflow": false,
+        "portrait": [
+          {
+            "path": "/assets/ui/pets/sudal-20261115/pet-sudal-portrait.webp",
+            "width": 560,
+            "height": 560
+          }
+        ],
+        "resources": [
+          {
+            "path": "/assets/ui/pets/sudal-20261115/pet-sudal-portrait.webp",
+            "bytes": 43542,
+            "ms": 3
+          },
+          {
+            "path": "/assets/ui/pets/sudal-20261115/pet-sudal-thumb.webp",
+            "bytes": 0,
+            "ms": 0
+          }
+        ],
+        "errors": [],
+        "frames": {
+          "samples": 105,
+          "p95": 24,
+          "max": 54,
+          "over50ms": 1
+        },
+        "afterExit": {
+          "active": 0,
+          "updates": 22
+        }
+      },
+      {
+        "platform": "windows",
+        "variant": "runtime-webp",
+        "firstInteractiveMs": 552,
+        "firstImagesMs": 611,
+        "reentryInteractiveMs": 138,
+        "reentryImagesMs": 142,
+        "overflow": false,
+        "portrait": [
+          {
+            "path": "/assets/ui/pets/sudal-20261115/pet-sudal-portrait.webp",
+            "width": 560,
+            "height": 560
+          }
+        ],
+        "resources": [
+          {
+            "path": "/assets/ui/pets/sudal-20261115/pet-sudal-portrait.webp",
+            "bytes": 43542,
+            "ms": 6
+          },
+          {
+            "path": "/assets/ui/pets/sudal-20261115/pet-sudal-thumb.webp",
+            "bytes": 6518,
+            "ms": 28
+          }
+        ],
+        "errors": []
+      },
+      {
+        "platform": "iframe",
+        "variant": "runtime-webp",
+        "firstInteractiveMs": 600,
+        "firstImagesMs": 1034,
+        "reentryInteractiveMs": 45,
+        "reentryImagesMs": 46,
+        "overflow": false,
+        "portrait": [
+          {
+            "path": "/assets/ui/pets/sudal-20261115/pet-sudal-portrait.webp",
+            "width": 560,
+            "height": 560
+          }
+        ],
+        "resources": [
+          {
+            "path": "/assets/ui/pets/sudal-20261115/pet-sudal-portrait.webp",
+            "bytes": 43542,
+            "ms": 6
+          },
+          {
+            "path": "/assets/ui/pets/sudal-20261115/pet-sudal-thumb.webp",
+            "bytes": 6518,
+            "ms": 8
+          }
+        ],
+        "errors": []
+      }
+    ]
+  },
+  "liveRead": {
+    "condition": "Windows to live PostgreSQL read and current game catalog/battle definition assembly; network included; not HTTP or device-frame measurement.",
+    "measurements": [
+      {
+        "phase": "first",
+        "elapsedMs": 149
+      },
+      {
+        "phase": "reentry",
+        "elapsedMs": 76
+      }
+    ]
+  },
+  "limits": "Windows browser/Electron host and mobile emulation; no physical mobile or live account trial grants. Published browser verification uses isolated account API fixture.",
+  "archivedDocumentsPreserved": [
+    "docs/pet-maltese-diim-20261013.md",
+    "docs/pet-maltese-diim-live-20261013.md",
+    "docs/pet-namuneul-bongsoon-live-20261009.md"
+  ]
+}
