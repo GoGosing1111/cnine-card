@@ -1,0 +1,54 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:hakbeol:mercenary-breakthrough21:20261115:v1",
+  "authorization": "학벌 계정에 용병 21레벨 렙업권 지급해",
+  "userId": "4627",
+  "nickname": "학벌",
+  "itemCode": "MERCENARY_BREAKTHROUGH_21",
+  "itemName": "용병 21레벨 최종 돌파권",
+  "quantity": 1,
+  "before": "0",
+  "after": "1",
+  "currentQuantity": "1",
+  "completedAt": "2026-11-15T07:24:00.750Z",
+  "completedAtKst": "2026-11-15 16:24:00 KST",
+  "auditId": "61143",
+  "inventoryLogId": "89773037",
+  "rollbackVerified": true,
+  "noWriteReplay": true,
+  "locksReleased": true,
+  "inventorySyncVerified": true,
+  "ordinaryCurrencyOtherInventoryAndMercenariesPreserved": true,
+  "automaticallyUsed": false,
+  "messagesSent": 0,
+  "gameDeployment": false,
+  "verification": {
+    "inventoryLogs": 1,
+    "auditRecords": 1,
+    "missing": 0,
+    "duplicates": 0
+  },
+  "performance": {
+    "grantMs": 1272,
+    "rehearsalMs": 1461,
+    "conditions": "Local invocation of production inventory choice handler against production PostgreSQL in READ ONLY transaction. Windows to database network included; first and repeated reads. Not a device/browser frame measurement; no UI or runtime code changed.",
+    "inventoryOptions": [
+      {
+        "phase": "first",
+        "elapsedMs": 668,
+        "quantity": 1,
+        "choices": 74,
+        "selectable": 67,
+        "cache": "private, no-store"
+      },
+      {
+        "phase": "reentry",
+        "elapsedMs": 485,
+        "quantity": 1,
+        "choices": 74,
+        "selectable": 67,
+        "cache": "private, no-store"
+      }
+    ]
+  }
+}

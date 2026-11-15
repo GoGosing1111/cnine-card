@@ -1,0 +1,26 @@
+{
+  "checkedAt": "2026-11-15T07:24:55.562Z",
+  "userId": "4627",
+  "itemCode": "MERCENARY_BREAKTHROUGH_21",
+  "readOnly": true,
+  "automaticallyUsed": false,
+  "conditions": "Local invocation of production inventory choice handler against production PostgreSQL in READ ONLY transaction. Windows to database network included; first and repeated reads. Not a device/browser frame measurement; no UI or runtime code changed.",
+  "measurements": [
+    {
+      "phase": "first",
+      "elapsedMs": 668,
+      "quantity": 1,
+      "choices": 74,
+      "selectable": 67,
+      "cache": "private, no-store"
+    },
+    {
+      "phase": "reentry",
+      "elapsedMs": 485,
+      "quantity": 1,
+      "choices": 74,
+      "selectable": 67,
+      "cache": "private, no-store"
+    }
+  ]
+}
