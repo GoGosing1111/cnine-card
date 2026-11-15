@@ -1,0 +1,78 @@
+{
+  "status": "COMMITTED",
+  "receipt": {
+    "status": "COMPLETED",
+    "actor": "CODEX_OPERATIONS",
+    "operationKey": "ops:namsudaeng:prime-requiem-level21:20261115:v1",
+    "planHash": "c09bef1ab9e13ba42e464826c53aa40b440db926438fa59144edc19f05d7352d",
+    "account": {
+      "userId": "5950",
+      "nickname": "남수댕ㅗ",
+      "role": "USER",
+      "status": "ACTIVE"
+    },
+    "card": {
+      "code": "V-975",
+      "name": "프라임 레퀴엠",
+      "title": "적월의 광전사",
+      "rank": "SSS",
+      "edition": "LIMITED"
+    },
+    "quantity": 1,
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "previousLevel": null,
+    "after": {
+      "level": 21,
+      "experience": 0,
+      "breakthroughMask": 15,
+      "revision": 1
+    },
+    "acquisition": "ops:namsudaeng:prime-requiem-level21:20261115:v1:5950:V-975:1",
+    "coinCost": 0,
+    "materialsConsumed": 0,
+    "stockChange": 0,
+    "syncRevision": "130429",
+    "completedAt": "2026-11-15T14:24:27.472Z",
+    "auditId": "61441"
+  },
+  "rollbackVerified": true,
+  "noWriteReplay": true,
+  "protectedBeforeHash": "db7493372af6803dabb3dabe072546993ec391a71c7fca4ee43f0494567f076f",
+  "protectedAfterHash": "db7493372af6803dabb3dabe072546993ec391a71c7fca4ee43f0494567f076f",
+  "ticketBefore": 0,
+  "ticketAfter": 0,
+  "stockBefore": [
+    {
+      "code": "SSS_MIRACLE_CUBE:V-975",
+      "issued": 0,
+      "revision": 4,
+      "stock_limit": 5
+    },
+    {
+      "code": "V-975",
+      "issued": 6,
+      "revision": 7,
+      "stock_limit": 6
+    }
+  ],
+  "stockAfter": [
+    {
+      "code": "SSS_MIRACLE_CUBE:V-975",
+      "issued": 0,
+      "revision": 4,
+      "stock_limit": 5
+    },
+    {
+      "code": "V-975",
+      "issued": 6,
+      "revision": 7,
+      "stock_limit": 6
+    }
+  ],
+  "rehearsalMs": 3392,
+  "grantMs": 2682,
+  "messagesSent": 0,
+  "condition": "Windows client to production PostgreSQL; network included; live USER_LOCK and DB lease held; no game runtime or UI change.",
+  "leasesReleased": true
+}

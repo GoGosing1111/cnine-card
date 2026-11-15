@@ -1,0 +1,77 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:namsudaeng:prime-requiem-level21:20261115:v1",
+  "auditId": "61441",
+  "completedAt": "2026-11-15T14:24:27.472Z",
+  "verifiedAt": "2026-11-15T14:25:06.476Z",
+  "account": {
+    "id": 5950,
+    "nickname": "남수댕ㅗ",
+    "role": "USER",
+    "status": "ACTIVE"
+  },
+  "card": {
+    "code": "V-975",
+    "name": "프라임 레퀴엠",
+    "title": "적월의 광전사",
+    "rank": "SSS",
+    "edition": "LIMITED"
+  },
+  "quantity": 1,
+  "copiesBefore": 0,
+  "copiesAfter": 1,
+  "permanent": true,
+  "level": 21,
+  "finalBreakthrough": true,
+  "breakthroughMask": 15,
+  "experience": 0,
+  "selectable": {
+    "PVE": 21,
+    "PVP": 21
+  },
+  "rankedAvailable": true,
+  "acquisition": "ops:namsudaeng:prime-requiem-level21:20261115:v1:5950:V-975:1",
+  "acquisitionRecords": 1,
+  "auditRecords": 1,
+  "readOnly": true,
+  "noWriteReplay": true,
+  "additionalGrantsOnReplay": 0,
+  "numberedIssuesForGrant": 0,
+  "stock": [
+    {
+      "code": "SSS_MIRACLE_CUBE:V-975",
+      "stock_limit": 5,
+      "issued": 0,
+      "revision": 4
+    },
+    {
+      "code": "V-975",
+      "stock_limit": 6,
+      "issued": 6,
+      "revision": 7
+    }
+  ],
+  "ticketAtGrantBefore": 0,
+  "ticketAtGrantAfter": 0,
+  "currentTicketQuantity": 0,
+  "coinCost": 0,
+  "materialsConsumed": 0,
+  "messagesSent": 0,
+  "performance": {
+    "conditions": "Production account-state service invoked locally on Windows against production PostgreSQL in READ ONLY transaction; includes network. First and repeated service reads, not browser input-to-interactive or physical-device frame measurements. Data-only grant; no UI/runtime modification.",
+    "measurements": [
+      {
+        "phase": "first",
+        "elapsedMs": 768,
+        "copies": 1,
+        "level": 21
+      },
+      {
+        "phase": "reentry",
+        "elapsedMs": 605,
+        "copies": 1,
+        "level": 21
+      }
+    ]
+  }
+}
