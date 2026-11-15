@@ -36,7 +36,7 @@ test('5, 10, custom 7 and maximum 100 applications have matching bank, owner, CM
    const rid=crypto.randomUUID(),paid=await f.process(order,'FULFILL',rid);assert.equal(paid.status,200,JSON.stringify(paid.body));assert.equal(paid.body.order.fulfillment.packageQuantity,quantity*2);
    units+=quantity;restricted+=grant;balance+=grant;
    assert.equal((await f.one('SELECT CAST(coin AS TEXT) coin FROM users WHERE id=2')).coin,balance.toString());
-   for(const [code,count] of [['MASTER_STAR',1000000000],['ARDEN_ENERGY',50],['WEAPON_ENHANCEMENT_SCROLL',10],['ARMOR_ENHANCEMENT_SCROLL',10],['MERCENARY_SSS_LIMITED_SHARD',25]])assert.equal(Number((await f.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code=?',code)).quantity),units*count);
+   for(const [code,count] of [['MASTER_STAR',1000000000],['ARDEN_ENERGY',50],['WEAPON_ENHANCEMENT_SCROLL',10],['ARMOR_ENHANCEMENT_SCROLL',10],['MERCENARY_SSS_LIMITED_SHARD',25],['PET_SEAL_ORB',50],['PET_ESSENCE',500]])assert.equal(Number((await f.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code=?',code)).quantity),units*count);
    assert.equal((await f.process(order,'FULFILL',rid)).body.replayed,true);assert.equal((await f.process(order)).status,409);
    const accounting=await readPackageCoinAccounting(f.env,2);assert.equal(accounting.restrictedExact,restricted.toString());assert.equal(accounting.availableExact,'1234');assert.throws(()=>requirePredictionCoins(accounting,1235),{code:'PREDICTION_PACKAGE_COIN'});
   }
@@ -69,7 +69,7 @@ test('Refreshed offer has 500 trillion in 1+1 total and keeps historical product
  assert.equal(SUPPORT_PACKAGE_UNIT.coins,100000000000000);assert.equal(SUPPORT_PACKAGE_LEGACY_BOGO.coins,200000000000000);
  assert.notEqual(SUPPORT_PACKAGE.code,SUPPORT_PACKAGE_UNIT.code);assert.notEqual(SUPPORT_PACKAGE.eventCode,SUPPORT_PACKAGE_LEGACY_BOGO.eventCode);
  assert.deepEqual(SUPPORT_PACKAGE_CURRENT_UNIT.items.slice(-2).map(i=>[i.code,i.quantity]),[['WEAPON_ENHANCEMENT_SCROLL',5],['ARMOR_ENHANCEMENT_SCROLL',5]]);
- assert.deepEqual(SUPPORT_PACKAGE.items.map(i=>[i.code,i.quantity]),[['MASTER_STAR',1000000000],['ARDEN_ENERGY',50],['WEAPON_ENHANCEMENT_SCROLL',10],['ARMOR_ENHANCEMENT_SCROLL',10],['MERCENARY_SSS_LIMITED_SHARD',25]]);
+ assert.deepEqual(SUPPORT_PACKAGE.items.map(i=>[i.code,i.quantity]),[['MASTER_STAR',1000000000],['ARDEN_ENERGY',50],['WEAPON_ENHANCEMENT_SCROLL',10],['ARMOR_ENHANCEMENT_SCROLL',10],['MERCENARY_SSS_LIMITED_SHARD',25],['PET_SEAL_ORB',50],['PET_ESSENCE',500]]);
  assert.equal(SUPPORT_PACKAGE_EVENT_DEADLINE.endsAt,'2026-11-19T00:00:00+09:00');
 });
 test('ordinary desktop, Android Chrome and iPhone Safari browsers stay eligible for web checkout',()=>{

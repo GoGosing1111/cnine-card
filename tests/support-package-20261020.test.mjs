@@ -29,7 +29,7 @@ for(const postgres of [false,true]){
    assert.equal((await f.one('SELECT value FROM app_meta WHERE key=?','server_support_v1:2')).value,beforePass.value);
    assert.equal((await f.call('admin/server-support/package/alerts')).body.pending.length,0);
    assert.equal(Number((await f.one('SELECT COUNT(*) n FROM coin_logs')).n),1);
-   assert.equal(Number((await f.one('SELECT COUNT(*) n FROM inventory_logs')).n),5);
+   assert.equal(Number((await f.one('SELECT COUNT(*) n FROM inventory_logs')).n),7);
    const next=await f.apply();assert.notEqual(next.body.order.id,order.id);
    assert.equal(Number((await f.one("SELECT COUNT(*) n FROM user_messages WHERE campaign_key LIKE 'support_package_owner_alert_v1:%'")).n),2);
    const rejected=await f.process(next.body.order,'REJECT');assert.equal(rejected.status,200);assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),1500000000001234);
@@ -72,6 +72,6 @@ test('competing owner confirmations and duplicate applications cannot repeat a g
   const stale=await f.apply();assert.equal(competitor.status,200);assert.equal(stale.status,409);assert.equal(Number((await f.one("SELECT COUNT(*) n FROM user_messages WHERE campaign_key LIKE 'support_package_owner_alert_v1:%'")).n),1);
   entered=false;const order=competitor.body.order;
   f.DB.batch=async statements=>{if(!entered){entered=true;competitor=await f.process(order);}return batch(statements);};
-  const staleConfirm=await f.process(order);assert.equal(competitor.status,200);assert.equal(staleConfirm.status,409);assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),1500000000001234);assert.equal(Number((await f.one('SELECT COUNT(*) n FROM inventory_logs')).n),5);
+  const staleConfirm=await f.process(order);assert.equal(competitor.status,200);assert.equal(staleConfirm.status,409);assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),1500000000001234);assert.equal(Number((await f.one('SELECT COUNT(*) n FROM inventory_logs')).n),7);
  }finally{await f.close();}
 });

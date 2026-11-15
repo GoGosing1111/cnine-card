@@ -73,12 +73,19 @@ export const SUPPORT_PACKAGE_NOVEMBER6=Object.freeze({...SUPPORT_PACKAGE_UNIT,
   ])
 });
 // New applications use the revised materials. Existing order snapshots stay valid.
-export const SUPPORT_PACKAGE=Object.freeze({...SUPPORT_PACKAGE_NOVEMBER6,
+export const SUPPORT_PACKAGE_NOVEMBER15=Object.freeze({...SUPPORT_PACKAGE_NOVEMBER6,
   code:'SEASON_PASS_PACKAGE_20261115',eventCode:'SUPPORT_PACKAGE_BOGO_20261115',bonusPolicy:SUPPORT_PACKAGE_BONUS_CODE,items:Object.freeze([
     Object.freeze({code:'MASTER_STAR',name:'마스터의 별',quantity:1000000000,image:'assets/ui/icon-fusion-20261004/master-star.webp'}),
     Object.freeze({code:'ARDEN_ENERGY',name:'아르덴 에너지',quantity:50,image:'assets/items/arden-energy-v1.webp'}),
     ...FORGE_SCROLL_ITEMS.map(({code,name,image})=>Object.freeze({code,name,quantity:10,image})),
     Object.freeze({code:LIMITED_SHARD.code,name:LIMITED_SHARD.name,quantity:25,image:LIMITED_SHARD.image})
+  ])
+});
+export const SUPPORT_PACKAGE=Object.freeze({...SUPPORT_PACKAGE_NOVEMBER15,
+  code:'SEASON_PASS_PACKAGE_20261115_PETS',items:Object.freeze([
+    ...SUPPORT_PACKAGE_NOVEMBER15.items,
+    Object.freeze({code:'PET_SEAL_ORB',name:'펫 봉인구',quantity:50,image:'assets/items/pet-opening-v1/pet-seal-orb.webp'}),
+    Object.freeze({code:'PET_ESSENCE',name:'펫 정수',quantity:500,image:'assets/items/pet-opening-v1/pet-essence.webp'})
   ])
 });
 // Display metadata stays outside immutable order/fulfillment products.
@@ -102,7 +109,7 @@ export const SUPPORT_PACKAGE_SALES_ENDS_AT=Date.parse(SUPPORT_PACKAGE_EVENT_DEAD
 export const supportPackageSalesOpen=(now=Date.now())=>Number.isFinite(now)&&now<SUPPORT_PACKAGE_SALES_ENDS_AT;
 const sameProduct=(product,known)=>JSON.stringify(product)===JSON.stringify(known);
 const novemberProducts=[SUPPORT_PACKAGE_500T_BOGO,SUPPORT_PACKAGE_NOVEMBER_BOGO,SUPPORT_PACKAGE_SCROLLS_400_BOGO];
-const quantityProducts=[SUPPORT_PACKAGE,SUPPORT_PACKAGE_NOVEMBER6,...novemberProducts];
+const quantityProducts=[SUPPORT_PACKAGE,SUPPORT_PACKAGE_NOVEMBER15,SUPPORT_PACKAGE_NOVEMBER6,...novemberProducts];
 export const isSupportPackageProduct=product=>[SUPPORT_PACKAGE_UNIT,SUPPORT_PACKAGE_LEGACY_BOGO,...quantityProducts].some(known=>sameProduct(product,known));
 export const supportPackageFulfillment=product=>quantityProducts.find(known=>sameProduct(product,known))||([SUPPORT_PACKAGE_UNIT,SUPPORT_PACKAGE_LEGACY_BOGO].some(known=>sameProduct(product,known))?SUPPORT_PACKAGE_LEGACY_BOGO:null);
 export const SUPPORT_PACKAGE_MAX_QUANTITY=100;
@@ -113,6 +120,7 @@ export function supportPackageOrderProduct(order){
   // The 500-trillion increase also applies when an existing November application is paid.
   // Preserve the application snapshot, other items and completed/rejected historical terms.
   if(novemberProducts.includes(product)&&(!order?.status||order.status==='PENDING'))product={...product,coins:SUPPORT_PACKAGE_500T_BOGO.coins};
+  if(product===SUPPORT_PACKAGE_NOVEMBER15&&(!order?.status||order.status==='PENDING'))product=SUPPORT_PACKAGE;
   if(quantity===1)return product;
   const coins=BigInt(product.coins)*BigInt(quantity);
   return {...product,purchaseQuantity:quantity,priceWon:product.priceWon*quantity,packageQuantity:product.packageQuantity*quantity,

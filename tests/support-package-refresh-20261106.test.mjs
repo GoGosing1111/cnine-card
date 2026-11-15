@@ -4,7 +4,7 @@ import {packageFixture} from './helpers/support-package-fixture.mjs';
 import {SUPPORT_PACKAGE,SUPPORT_PACKAGE_500T_BOGO,SUPPORT_PACKAGE_SALES_ENDS_AT,supportPackageSalesOpen,supportPackageOrderProduct} from '../shared/support-package-v1.mjs';
 import {supportPackageBonus,supportPackageBonusKey} from '../shared/support-package-v1.mjs';
 import {readPackageCoinAccounting} from '../functions/_package_coin_accounting.js';
-const expectedItems={MASTER_STAR:1000000000,ARDEN_ENERGY:50,WEAPON_ENHANCEMENT_SCROLL:10,ARMOR_ENHANCEMENT_SCROLL:10,MERCENARY_SSS_LIMITED_SHARD:25};
+const expectedItems={MASTER_STAR:1000000000,ARDEN_ENERGY:50,WEAPON_ENHANCEMENT_SCROLL:10,ARMOR_ENHANCEMENT_SCROLL:10,MERCENARY_SSS_LIMITED_SHARD:25,PET_SEAL_ORB:50,PET_ESSENCE:500};
 const items=p=>Object.fromEntries(p.items.map(i=>[i.code,i.quantity]));
 const apply=(f,quantity=1)=>f.call('server-support/package/apply',{user:2,body:{requestId:crypto.randomUUID(),quantity}});
 const state=async f=>{const row=await f.one('SELECT value FROM app_meta WHERE key=?',supportPackageBonusKey(2));return row?JSON.parse(row.value):null;};

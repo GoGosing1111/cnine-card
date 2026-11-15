@@ -1,4 +1,4 @@
-import {SUPPORT_PACKAGE,supportPackageSummary,SUPPORT_PACKAGE_EVENT_DEADLINE} from '../shared/support-package-v1.mjs?v=20261115-package-refresh-v2';
+import {SUPPORT_PACKAGE,supportPackageSummary,SUPPORT_PACKAGE_EVENT_DEADLINE} from '../shared/support-package-v1.mjs?v=20261115-package-refresh-v3';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date=value=>new Date(value).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'});
 const passKey=order=>'pass2:'+order.id;
