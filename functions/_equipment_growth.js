@@ -1,4 +1,5 @@
 import {equipmentSetVisualFromRows} from '../shared/equipment-set-visual-v1.mjs';
+import {equipmentDefenseFromRows} from '../shared/equipment-defense-v1.mjs';
 import {regionEquipmentEffects,regionById} from '../shared/legion-regions-v1.mjs';
 import {equipmentEffectText} from '../shared/equipment-growth-text-v1.mjs';
 import {normalizedEquipmentEffects,POLISH_EFFECT_KEYS} from '../shared/equipment-combat-growth-v1.mjs';
@@ -28,6 +29,9 @@ export function equipmentGrowthFromRows(results,userId){
   const ascendant=ascendantEquipmentEffects(results.map(row=>row.code),'PVE');
   for(const [key,value] of Object.entries(ascendant.effects))runtime.effects[key]=(runtime.effects[key]||0)+value;
   runtime.sets.push(...ascendant.sets);
+  const defense=equipmentDefenseFromRows(results);
+  Object.assign(runtime.effects,defense.effects);
+  if(defense.sets.length)runtime.defenseSets=defense.sets;
   const visual=equipmentSetVisualFromRows(results,userId);
   if(visual)runtime.equipmentSetVisual=visual;
   runtime.polished=[];

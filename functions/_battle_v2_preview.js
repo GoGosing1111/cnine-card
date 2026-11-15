@@ -45,6 +45,7 @@ import {validateDuoDeck} from '../shared/ranked-duo-v1.mjs';
 import {sustainedEncounterPlan} from './_sustained_encounter.js';
 import {castLegionRegionAction,legionIncomingMultiplier} from './_legion_region_combat.js';
 import {applyPveEquipmentGrowth,equipmentHitMultiplier,equipmentAfterBasic} from '../shared/equipment-combat-growth-v1.mjs';
+import {equipmentGuardMultiplier} from '../shared/equipment-defense-v1.mjs';
 import {cooperativeEffects,applyCooperativeEffect} from './_cooperative_effects.js';
 import {cooperativeCombatGroupMs} from '../shared/cooperative-combat-clock-v3.mjs';
 import {createCoopTraitRuntime} from './_cooperative_traits.js';
@@ -649,7 +650,7 @@ function applyCanonicalDamage(target, incoming, options = {}) {
   incoming = mercenaryGrowthIncomingDamage(target,beforeMercenaryMitigation,incoming,options.actor);
   // A shield-only removal may not spill its additional power budget into HP.
   if(options.shieldOnly&&options.actor?.pvpPowerBalance)incoming=Math.min(incoming,Math.max(0,target.shield));
-  let remaining = Math.max(options.damageFloor || 0, Number(incoming || 0));
+  let remaining = Math.max(options.damageFloor || 0, Number(incoming || 0))*equipmentGuardMultiplier(target);
   const shieldBefore = target.shield;
   const bypass=Math.floor(remaining*clamp(Number(options.shieldPierce||0),0,1));
   const baseAbsorbed = options.ignoreShield ? 0 : Math.min(target.shield, remaining-bypass);

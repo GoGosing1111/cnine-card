@@ -1,0 +1,47 @@
+✔ Arden has four exact armor slots at +0; its complete defense is independent of the +10 cosmetic (3.0756ms)
+✔ each of ten tiers and three unique families requires five exact distinct slots, and removal drops the complete bonus (1.0405ms)
+✔ wrong slots, competing items and a reused instance cannot forge a complete set (0.4272ms)
+✔ real defense grows from the base exactly once across character and mercenary sources, with multiplicative guard (1.3276ms)
+✔ canonical regional special attacks and ordinary monster attacks both consume the guard exactly once (11.1105ms)
+✔ SQLite: actual loadout runtime applies the chosen tier and keeps PvP and ownership separate (82.6849ms)
+✔ PostgreSQL: actual loadout runtime applies the chosen tier and keeps PvP and ownership separate (2921.405ms)
+✔ the equipment preview groups unique and ascendant sets separately and shows loss of the complete defense (1.0183ms)
+✔ controlled before/after hunts preserve bare and PvP results and materially improve Arden survival (11.7219ms)
+✔ earned polish survives set caps and composes once with personal gear (1.5617ms)
+✔ stored rebased polish reaches the equipped runtime and its user summary (0.9418ms)
+✔ mercenary polish follows each mode selected gear instance (55.2717ms)
+✔ PvP, duo and ranked fights apply owned mercenary polish once and only to its wearer (43.1613ms)
+✔ PvP mercenary hit rolls use polish beyond former critical and penetration ceilings (17.3564ms)
+✔ PvE hit rolls honor polished critical and penetration beyond the old ceilings (3.8135ms)
+✔ 50 successes, capped options, restoration and policy-race rollback: SQLite (32.4959ms)
+✔ 50 successes, capped options, restoration and policy-race rollback: PostgreSQL (2235.7374ms)
+✔ all five regions expose their actual boss mechanics on the canonical 7-minute timeline (499.3723ms)
+✔ tier increase cannot turn into a burst-fire reward and weak decks fail upper tiers (250.7999ms)
+✔ 2/4 sets, unique mixing, unequip and leech budgets change only explicit PVE equipment runtime (3.5644ms)
+✔ SQLite: explicit transfer clears only the prior wearer and atomically retains one owner across modes (71.9547ms)
+✔ SQLite: approved legacy migration favors PVP, freezes before formation changes and preserves source records (43.9723ms)
+✔ SQLite: each companion in actual battle snapshots receives only its own equipment (52.1551ms)
+✔ SQLite: inventory cursor exposes every duplicate once and applies filters before pagination (65.5501ms)
+✔ PostgreSQL: explicit transfer clears only the prior wearer and atomically retains one owner across modes (2792.2214ms)
+✔ PostgreSQL: approved legacy migration favors PVP, freezes before formation changes and preserves source records (1514.7151ms)
+✔ PostgreSQL: each companion in actual battle snapshots receives only its own equipment (1544.1417ms)
+✔ PostgreSQL: inventory cursor exposes every duplicate once and applies filters before pagination (1621.881ms)
+✔ growth preserves fractional equipment speed until the existing final floor (3.3574ms)
+✔ fractional speed support retains invalid-stat, overflow and growth-policy rejection (6.6407ms)
+✔ all ten 5-piece tiers combine with levels 1/6/16/21 in PVE and PVP exactly once (53.7419ms)
+✔ 8th-tier +10 equipment with awakened Omega Lv.21 completes real PVE/PVP battle construction (35.847ms)
+✔ duo owner with the full set and growth can enter and resolve battle (8.6161ms)
+✔ ranked series resolves equipped grown mercenaries across round boundaries (14.2288ms)
+✔ no-gear and 2/4-piece integer inputs preserve the prior arithmetic (4.7059ms)
+✔ enhancing any PvE card keeps every unchanged ally stat and equipment share intact (5.7684ms)
+✔ PvE preserves the support total and zero-support stats for one to five cards (0.4544ms)
+✔ independent PvE battle suit keeps its power outside card support (0.9158ms)
+✔ PvP continues to use its existing enhanced-power proportional support (17.086ms)
+ℹ tests 39
+ℹ suites 0
+ℹ pass 39
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8477.8785

@@ -221,7 +221,7 @@
           <div><dt>칭호 보너스</dt><dd>+${formatNumber(bonuses.titlePve)}</dd></div>
           <div><dt>이동수단</dt><dd>+${formatNumber(bonuses.garagePve)}</dd></div>
         </dl>
-        ${bonuses.pveEquipmentRuntime?.summary?`<div class="clv2-active-growth"><b>PVE 장비 효과</b><p>${escapeHtml(bonuses.pveEquipmentRuntime.summary)}</p><small>${escapeHtml((bonuses.pveEquipmentRuntime.sets||[]).map(s=>s.name+' '+s.count+'부위').join(' · '))}</small></div>`:''}
+        ${bonuses.pveEquipmentRuntime?.summary?`<div class="clv2-active-growth"><b>PVE 장비 효과</b><p>${escapeHtml(bonuses.pveEquipmentRuntime.summary)}</p><small>${escapeHtml([...(bonuses.pveEquipmentRuntime.sets||[]).map(s=>s.name+' '+s.count+'부위'),...(bonuses.pveEquipmentRuntime.defenseSets||[]).map(s=>s.name+' '+s.count+'/'+s.required+' · '+(s.active?'방어 세트 완성':'완성 효과 미적용'))].join(' · '))}</small></div>`:''}
         ${runes?.optionPanel()||''}
         <div class="clv2-profile-foot"><i></i><span>LIVE LOADOUT</span><b>${SLOT_ORDER.filter((slot) => equippedInstance(slot)).length} / ${SLOT_ORDER.length}</b></div>
       </aside>`;
