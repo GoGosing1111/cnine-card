@@ -1,0 +1,54 @@
+{
+  "status": "COMMITTED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:hakbeol:mercenary-breakthrough21-two:20261116:v1",
+    "authorization": "학벌 계정에 용병 21레벨 돌파권 2장 지급",
+    "planHash": "759652dfe949934bd8141448f1b4f0e8e3af0dd8d157e8f436e837bfa742285d",
+    "userId": "4627",
+    "nickname": "학벌",
+    "code": "MERCENARY_BREAKTHROUGH_21",
+    "name": "용병 21레벨 최종 돌파권",
+    "quantity": 2,
+    "before": "0",
+    "after": "2",
+    "unseenAfter": "2",
+    "unseenBefore": "0",
+    "logId": "89813434",
+    "completedAt": "2026-11-15T22:38:34.583Z",
+    "protectedBeforeHash": "2c6f719fe79af1077d8ab91b3c9161accd477da9e3bdd6627b777100a7496d40",
+    "protectedAfterHash": "2c6f719fe79af1077d8ab91b3c9161accd477da9e3bdd6627b777100a7496d40",
+    "syncBefore": {
+      "domains": {
+        "pvp": "529156",
+        "wallet": "529178",
+        "loadout": "527868",
+        "messages": "529161",
+        "inventory": "529179",
+        "collection": "528680"
+      },
+      "revision": "529179"
+    },
+    "syncAfter": {
+      "domains": {
+        "pvp": "529156",
+        "wallet": "529178",
+        "loadout": "527868",
+        "messages": "529161",
+        "inventory": "529180",
+        "collection": "528680"
+      },
+      "revision": "529180"
+    },
+    "automaticallyUsed": false,
+    "messagesSent": 0,
+    "auditId": "61677"
+  },
+  "rollbackVerified": true,
+  "injectedPartialFailureRollback": true,
+  "noWriteReplay": true,
+  "rehearsalMs": 1574,
+  "grantMs": 1408,
+  "condition": "Windows to production PostgreSQL; network included; one account under live USER_LOCK and database leases.",
+  "leasesReleased": true
+}
