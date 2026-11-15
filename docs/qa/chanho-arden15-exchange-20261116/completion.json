@@ -1,0 +1,152 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:chanho:arden15-emperor-shoes-exchange:20261116:v1",
+  "userId": "4597",
+  "nickname": "찬호",
+  "auditId": "61510",
+  "completedAtKST": "2026-11-16 01:05:05",
+  "verifiedAtKST": "2026-11-16 01:06:01",
+  "equipment": [
+    {
+      "equipmentId": "119",
+      "code": "ARDEN_SHOES",
+      "name": "아르덴 부츠",
+      "slot": "SHOES",
+      "instanceId": "3037307565",
+      "beforeEquipmentId": "45",
+      "beforeLevel": 14,
+      "afterLevel": 15,
+      "equipped": true
+    },
+    {
+      "equipmentId": "117",
+      "code": "ARDEN_TOP",
+      "name": "아르덴 아머",
+      "slot": "TOP",
+      "instanceId": "3373751463",
+      "beforeEquipmentId": "117",
+      "beforeLevel": 10,
+      "afterLevel": 15,
+      "equipped": true
+    },
+    {
+      "equipmentId": "118",
+      "code": "ARDEN_BOTTOM",
+      "name": "아르덴 그리브",
+      "slot": "BOTTOM",
+      "instanceId": "3373751509",
+      "beforeEquipmentId": "118",
+      "beforeLevel": 10,
+      "afterLevel": 15,
+      "equipped": true
+    },
+    {
+      "equipmentId": "120",
+      "code": "ARDEN_DUAL_DISK",
+      "name": "아르덴 듀얼디스크",
+      "slot": "ACCESSORY",
+      "instanceId": "3373751510",
+      "beforeEquipmentId": "120",
+      "beforeLevel": 10,
+      "afterLevel": 15,
+      "equipped": true
+    }
+  ],
+  "emperorShoes": {
+    "before": 1,
+    "after": 0
+  },
+  "ardenShoes": {
+    "before": 0,
+    "after": 1
+  },
+  "owned": [
+    {
+      "equipment_id": "117",
+      "quantity": "1"
+    },
+    {
+      "equipment_id": "118",
+      "quantity": "1"
+    },
+    {
+      "equipment_id": "119",
+      "quantity": "1"
+    },
+    {
+      "equipment_id": "120",
+      "quantity": "1"
+    }
+  ],
+  "allFourEquipped": true,
+  "loadoutReferencesPreserved": true,
+  "polishPreserved": true,
+  "polishHash": "7c319c1efc5545a708bcbe5eabb335ff963fdd4ce66dbc5d3e63ace194afc4ba",
+  "ardenSet": {
+    "id": "ARDEN",
+    "name": "아르덴",
+    "tier": 0,
+    "required": 4,
+    "modes": [
+      "PVE"
+    ],
+    "perPiece": {
+      "defensePercent": 25,
+      "pveGuardPercent": 5
+    },
+    "complete": {
+      "defensePercent": 100,
+      "pveGuardPercent": 40
+    },
+    "count": 4,
+    "active": true,
+    "effects": {
+      "defensePercent": 200,
+      "pveGuardPercent": 60
+    }
+  },
+  "coinCost": 0,
+  "materialsConsumed": 0,
+  "messagesSent": 0,
+  "partialFailureRolledBack": true,
+  "fullRehearsalRolledBack": true,
+  "independentReadOnly": true,
+  "noWriteReplay": true,
+  "additionalChangesOnReplay": 0,
+  "additionalInstances": 0,
+  "operationLocksRemaining": 0,
+  "performance": {
+    "environment": "Windows Node.js CLI invoking the actual character/loadout equipment service against production PostgreSQL in READ ONLY transactions, network included.",
+    "before": [
+      {
+        "phase": "first",
+        "ms": 1674
+      },
+      {
+        "phase": "repeat",
+        "ms": 1548
+      }
+    ],
+    "after": [
+      {
+        "phase": "first",
+        "ms": 1779
+      },
+      {
+        "phase": "repeat",
+        "ms": 1696
+      }
+    ],
+    "applyMs": 1802,
+    "rehearsalMs": 3828,
+    "queryScope": "Four exact equipment instance IDs and per-account aggregate quantities; initial selected enhanced-instance query 78 ms. No complete equipment-inventory scan.",
+    "physicalDevice": false,
+    "browserInputToInteractive": false,
+    "frames": "Not measured: data-only operation with no runtime or screen changes.",
+    "runtimeChanges": false,
+    "redeployment": false
+  },
+  "operationFiles": "operations/chanho-arden15-exchange-20261116",
+  "exchangeMethod": "엠퍼러 +14 신발 1개의 장비 종류를 아르덴으로 교환하고 +15로 강화했다. 동일 인스턴스를 유지해 장착·획득·연마 참조를 보존했다. 기존 아르덴 3개는 새로 지급하지 않고 +10→+15로 올렸다.",
+  "scope": "찬호(ID 4597) 지정 장비 4개, 계정 동기화, 운영 감사와 완료 영수증. 게임 실행 코드·화면 변경 및 재배포 없음."
+}
