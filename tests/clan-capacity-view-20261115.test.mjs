@@ -10,9 +10,9 @@ test('clan directory shows the stored hideout capacity for each level',()=>{
  assert(!html.includes('클랜별 최대 25명'));
 });
 test('application screen disables a full level-one clan while leaving other levels selectable',()=>{
- const html=organizationJoinView({organizations,join:{canApply:true,canReview:false,applications:[]}});
+ const html=organizationJoinView({organizations,join:{enabled:true,canApply:true,canReview:false,applications:[]}});
  assert.match(html,/<option value="1" disabled>[^<]*8\/8명/);
  for(const o of organizations.slice(1))assert(html.includes(`<option value="${o.id}" >`)&&html.includes(`${o.memberCount}/${o.memberLimit}명`));
- const review=organizationJoinView({organizations,join:{canApply:false,canReview:true,applications:[]}});
+ const review=organizationJoinView({organizations,join:{enabled:true,canApply:false,canReview:true,applications:[]}});
  assert(review.includes('현재 아지트 레벨의 정원'));
 });
