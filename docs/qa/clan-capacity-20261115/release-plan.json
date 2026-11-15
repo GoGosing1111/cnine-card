@@ -1,0 +1,16 @@
+{
+  "scope": "Clan admission capacity and season hideout/treasury reset",
+  "productionBase": "c1f8e53791a52c125cae9cbc52cd0e720fb9b844",
+  "limitsIncludingElders": [8, 10, 15, 25, 25],
+  "newSeason": {"stage": 1, "points": 0, "balance": 0, "totalEarned": 0},
+  "recruitingSeason": 5,
+  "currentRecruitmentCapacity": 8,
+  "overflowPolicy": "Retain assigned elders and earliest general member registrations, joinedAt then userId; overflow may reapply immediately without a departure cooldown.",
+  "history": "Previous season progress, treasury, membership and receipts remain in the archived round.",
+  "focusedTests": {"passed": 10, "files": ["tests/clan-capacity-20261115.test.mjs", "tests/clan-hideout-season-20261110.test.mjs"], "log": "operations/clan-capacity-20261115/final-regression.log"},
+  "scopedGateTests": ["tests/clan-review-rejoin-20261114.test.mjs", "tests/organization-join-20261023.test.mjs", "tests/organization-dashboard-20261018.test.mjs"],
+  "checks": ["check:worker"],
+  "releaseClass": "Localized change; no schema, authentication, shared transaction or dependency changes",
+  "operationKey": "ops:clan-hideout-capacity:20261115:v1",
+  "evidenceRoot": "operations/clan-capacity-20261115"
+}

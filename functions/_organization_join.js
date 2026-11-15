@@ -3,6 +3,7 @@ import {organizationElderIds} from '../shared/organization-faction-v1.mjs';
 import {ORGANIZATION_FIXED_SCHEDULE} from '../shared/organization-schedule-v1.mjs';
 import {mirrorResumedClanJoin} from './_clan_resumption.js';
 import {readClanRejoin,assertClanRejoin} from './_organization_rejoin.js';
+import {organizationMemberLimit} from './_organization_capacity.js';
 const prefix=r=>'organization-join:'+r.id+':';
 const key=(r,id)=>prefix(r)+id;
 export const organizationJoinOpen=(r,now)=>ORGANIZATION_RELEASE_ENABLED&&r?.phase==='ASSIGNED'&&now>=ORGANIZATION_FIXED_SCHEDULE.effectiveAt;
@@ -67,7 +68,8 @@ export async function organizationJoinCommand(env,user,path,body,deps,now,{mutat
    orgAssert(typeof body.message==='string'&&body.message.length<=300,'INPUT','가입 인사는 300자 이내로 입력하세요.',400);
    orgAssert(before?.status!=='PENDING','PENDING','기존 신청을 취소한 뒤 다른 클랜에 신청하세요.');
    const [{n}]=await q('SELECT COUNT(*)::integer AS n FROM organization_members_v1 WHERE round_id=$1 AND organization_id=$2',[r.id,organizationId]);
-   orgAssert(n<25,'FULL','이 클랜은 정원 25명이 찼습니다. 다른 클랜을 선택하세요.');
+   const limit=await organizationMemberLimit(q,r.id,organizationId);
+   orgAssert(n<limit,'FULL',`이 클랜은 정원 ${limit}명이 찼습니다. 다른 클랜을 선택하세요.`);
    next={userId:id,organizationId,message:body.message.trim(),status:'PENDING',revision:body.revision+1,createdAt:now,updatedAt:now};
   }else{
    orgAssert(before?.status==='PENDING','STALE','심사 대기 중인 신청이 아닙니다.');
@@ -81,8 +83,10 @@ export async function organizationJoinCommand(env,user,path,body,deps,now,{mutat
      orgAssert(applicant?.status==='ACTIVE'&&(!applicant.banned_until||Date.parse(applicant.banned_until)<=now),'ACCOUNT','현재 가입할 수 없는 계정입니다.');
      orgAssert(!await membership(q,r,id),'MEMBER','신청자가 이미 클랜에 가입되어 있습니다.');
      const slots=await q('SELECT slot FROM organization_members_v1 WHERE round_id=$1 AND organization_id=$2',[r.id,before.organizationId]);
+     const limit=await organizationMemberLimit(q,r.id,before.organizationId);
+     orgAssert(slots.length<limit,'FULL',`클랜 정원 ${limit}명이 찼습니다.`);
      const slot=Array.from({length:25},(_,i)=>i+1).find(n=>!slots.some(s=>Number(s.slot)===n));
-     orgAssert(slot,'FULL','클랜 정원 25명이 찼습니다.');
+     orgAssert(slot,'FULL',`클랜 정원 ${limit}명이 찼습니다.`);
      orgAssert(rating?.userId===id&&Number.isSafeInteger(rating.power)&&rating.power>0&&rating.power<=1e12&&rating.expiresAt>now,'RATING_INVALID','신청자의 전력 평가를 다시 진행하세요.',503);
      const validate=deps.validateOrganizationRatingsLocked||(await import('./_organization_ratings.js')).validateOrganizationRatingsLocked;
      orgAssert(await validate(q,[rating],{now,requireCurrentSource:false}),'RATING_INVALID','신청자의 전력 평가가 만료되었습니다. 다시 시도하세요.');

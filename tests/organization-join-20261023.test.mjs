@@ -38,13 +38,13 @@ test('pending requests cannot move silently; cancellation/rejection can resubmit
  ok(await f.apply(5,{revision:4,organizationId:1}));
  assert.equal((await f.overview(2)).data.join.applications[0].revision,5);
 });
-test('parallel elder approvals cannot exceed 25 members; last slot belongs to one applicant',async t=>{
+test('parallel elder approvals cannot exceed hideout level one capacity; last slot belongs to one applicant',async t=>{
  const f=await fixture(t);
- for(let i=3;i<=24;i++)await f.pg.query('INSERT INTO organization_members_v1 VALUES($1,$2,1,$3,1000,$4)',[f.roundId,i+10,i,f.clock()]);
+ for(let i=3;i<=7;i++)await f.pg.query('INSERT INTO organization_members_v1 VALUES($1,$2,1,$3,1000,$4)',[f.roundId,i+10,i,f.clock()]);
  ok(await f.apply(5));ok(await f.apply(6));
  const results=await Promise.all([f.review(2,5),f.review(3,6)]);
  assert.deepEqual(results.map(r=>r.status).sort(),[200,409]);
- assert.equal((await f.pg.query('SELECT count(*)::int n FROM organization_members_v1 WHERE round_id=$1 AND organization_id=1',[f.roundId])).rows[0].n,25);
+ assert.equal((await f.pg.query('SELECT count(*)::int n FROM organization_members_v1 WHERE round_id=$1 AND organization_id=1',[f.roundId])).rows[0].n,8);
  assert.equal((await f.apply(7)).data.code,'ORG_FULL');
 });
 test('receipt failure rolls back membership/application/round revision, then exact retry succeeds',async t=>{

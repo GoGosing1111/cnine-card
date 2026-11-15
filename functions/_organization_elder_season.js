@@ -3,6 +3,7 @@ import {activeClanResumption,CLAN_RESUMPTION_STATE_KEY,resumedClanSettings,clanC
 import {newOrganizationFactionState} from './_organization_faction_model.js';
 import {shuffleDuo as shuffle} from '../shared/ranked-duo-random-v4.mjs';
 import {clanRejoinKey,clanRejoinPrefix,clanRejoinView,assertClanRejoin} from './_organization_rejoin.js';
+import {organizationMemberLimit} from './_organization_capacity.js';
 
 const day=86400000, applicationMs=2*day, seasonDays=50;
 const clubs=ORGANIZATIONS.map(o=>o.id);
@@ -48,7 +49,7 @@ async function drawElders(q,round,window,now){
 }
 function signupRoster(window, club, selected=window.selections[club]||[]) {
  const members=new Map(selected.map(p=>[p.id,{...p,elder:true}]));
- for(const [uid,m] of Object.entries(window.members||{})){
+ for(const [uid,m] of Object.entries(window.members||{}).sort(([a,x],[b,y])=>x.joinedAt-y.joinedAt||Number(a)-Number(b))){
   if(m.organizationId===club&&!members.has(Number(uid)))members.set(Number(uid),{id:Number(uid),power:m.power,elder:false});
  }
  return [...members.values()];
@@ -70,6 +71,7 @@ export async function elderSeasonView(q,r,user,now,admin=false){
   view.reviewMode=window.reviewMode||'LOTTERY';
   view.reviewStatus=window.reviews?.[user.id]?.decision||(view.applied?'PENDING':null);
   view.memberCounts=Object.fromEntries(clubs.map(id=>[id,signupRoster(window,id).length]));
+  view.capacityReapplication=window.capacityReapplications?.[user.id]||null;
  }
  if(admin){
   view.applicants=Object.entries(window.applications).map(([id,a])=>window.calendar?{id:Number(id),nickname:a.nickname,appliedAt:a.appliedAt,reviewStatus:window.reviews?.[id]?.decision||'PENDING'}:{id:Number(id),...a}).sort((a,b)=>a.appliedAt-b.appliedAt||a.id-b.id);
@@ -122,6 +124,11 @@ export async function elderSeasonCommand(env,user,path,body,deps,now,{mutation,l
     return true;
    }else if(action==='join'){
     orgAssert(window?.calendar&&window.id===body.windowId&&clanCalendarPhase(window.calendar,now)==='MEMBERS','MEMBER_PHASE','클랜원 자율 가입 기간에만 가입할 수 있습니다.');
+    const club=orgInteger(body.organizationId,1,clubs.length,'가입할 클랜');
+    orgAssert(!window.members?.[user.id]&&!Object.values(window.selections).some(s=>s.some(p=>p.id===Number(user.id))),'MEMBER','이미 이번 시즌 클랜에 가입했습니다.');
+    await assertClanRejoin(q,r,user.id,now);
+    const limit=await organizationMemberLimit(q,r.id,club,window);
+    orgAssert(signupRoster(window,club).length<limit,'FULL',`클랜 정원 ${limit}명이 찼습니다. 다른 클랜을 선택하세요.`);
     drawDue=!window.drawnAt;
    }else{
     orgAssert(seasonAdmissionEnabled(r,now)&&user.role==='OWNER','PERMISSION','운영자만 원로를 선정할 수 있습니다.',403);
@@ -172,10 +179,12 @@ export async function elderSeasonCommand(env,user,path,body,deps,now,{mutation,l
     orgAssert(window.drawnAt,'ELDER_DRAW','원로 추첨 결과를 다시 불러오세요.');
     const club=orgInteger(body.organizationId,1,clubs.length,'가입할 클랜'),uid=Number(user.id);
     orgAssert(!window.members?.[uid]&&!Object.values(window.selections).some(s=>s.some(p=>p.id===uid)),'MEMBER','이미 이번 시즌 클랜에 가입했습니다.');
-    orgAssert(signupRoster(window,club).length<25,'FULL','클랜 정원 25명이 찼습니다.');
+    const limit=await organizationMemberLimit(q,r.id,club,window);
+    orgAssert(signupRoster(window,club).length<limit,'FULL',`클랜 정원 ${limit}명이 찼습니다. 다른 클랜을 선택하세요.`);
     const validate=deps.validateOrganizationRatingsLocked||(await import('./_organization_ratings.js')).validateOrganizationRatingsLocked;
     orgAssert(ratings?.[0]?.userId===uid&&Number.isSafeInteger(ratings[0].power)&&ratings[0].power>0&&await validate(q,ratings,{now:at,requireCurrentSource:false}),'RATING_INVALID','전력 정보를 다시 확인해 주세요.');
     window.members??={};window.members[uid]={organizationId:club,power:ratings[0].power,joinedAt:at};
+    if(window.capacityReapplications)delete window.capacityReapplications[uid];
    }else if(action==='review'){
     orgAssert(body.revision===window.revision,'STALE','지원 명단이 변경되었습니다. 다시 불러오세요.');
     const before={reviewMode:window.reviewMode,reviews:window.reviews||{}};
@@ -247,8 +256,8 @@ async function startVoluntarySeason(q,round,window,now){
  await q('INSERT INTO clan_season_teams(season_id,clan_id,master_user_id,draft_position) SELECT $1,c.id,p.uid,c.id-1 FROM unnest($3::integer[]) c(id) LEFT JOIN (SELECT club,uid'+recordset+' WHERE elder AND slot=1) p ON p.club=c.id',[seasonId,people,clubs]);
  await q("INSERT INTO clan_members(season_id,clan_id,user_id,member_role,draft_pick_no) SELECT $1,club,uid,CASE WHEN elder AND slot=1 THEN 'MASTER' ELSE 'MEMBER' END,slot"+recordset,[seasonId,people]);
  await q('INSERT INTO clan_executives(season_id,clan_id,user_id,power,position,checked_ms) SELECT $1,club,uid,power,slot,$3'+recordset+' WHERE elder',[seasonId,people,startsAt]);
- await q('INSERT INTO organization_progress_v1(round_id,organization_id,points,stage) SELECT $1,organization_id,points,stage FROM organization_progress_v1 WHERE round_id=$2',[roundId,round.id]);
- await q('INSERT INTO organization_faction_treasury_v1(round_id,organization_id,balance,total_earned) SELECT $1,organization_id,balance,total_earned FROM organization_faction_treasury_v1 WHERE round_id=$2',[roundId,round.id]);
+ await q('INSERT INTO organization_progress_v1(round_id,organization_id,points,stage) SELECT $1,organization_id,0,1 FROM organization_progress_v1 WHERE round_id=$2',[roundId,round.id]);
+ await q('INSERT INTO organization_faction_treasury_v1(round_id,organization_id,balance,total_earned) SELECT $1,organization_id,0,0 FROM organization_progress_v1 WHERE round_id=$2',[roundId,round.id]);
  const next=newOrganizationFactionState(now);
  next.resumption=release;next.elders=Object.fromEntries(clubs.map(id=>[id,rows.filter(p=>p.club===id&&p.elder).map(p=>p.uid)]));
  next.commanders=Object.fromEntries(clubs.map(id=>[id,next.elders[id][0]]));

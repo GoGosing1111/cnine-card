@@ -1,3 +1,4 @@
+import {clanHideoutCapacity} from '../shared/organization-capacity-v1.mjs?v=20261115';
 import {organizationCrest} from './organization-identity-v1.mjs?v=20261025-clan-eight';
 import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261025-clan-eight';
 import {organizationDistrictById} from '../shared/organization-faction-v1.mjs?v=20261025-clan-eight&clanResume=20261025&factionEvening=20261105-v1';
@@ -36,11 +37,11 @@ export function organizationDashboardView(state){
  const {rows,total,occupied,neutral,battles,faction}=organizationStandings(state);
  const time=faction?.serverNow?new Date(faction.serverNow).toLocaleTimeString('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}):null;
  return `<section class="org-directory" aria-labelledby="org-directory-title">
-  <header class="org-directory-heading"><div><span class="org-kicker">LIVE STANDINGS</span><h2 id="org-directory-title">서울 세력 현황</h2><p>점령 거점 순 · 클랜별 최대 25명${time?' · '+time+' 기준':''}</p></div><div class="org-directory-actions"><button type="button" data-org-refresh>현황 새로고침</button><button type="button" class="org-primary" data-tab="faction">전황 새 창으로 보기 →</button></div></header>
+  <header class="org-directory-heading"><div><span class="org-kicker">LIVE STANDINGS</span><h2 id="org-directory-title">서울 세력 현황</h2><p>점령 거점 순 · 아지트 레벨별 정원 적용${time?' · '+time+' 기준':''}</p></div><div class="org-directory-actions"><button type="button" data-org-refresh>현황 새로고침</button><button type="button" class="org-primary" data-tab="faction">전황 새 창으로 보기 →</button></div></header>
   <dl class="org-directory-totals" aria-label="전체 세력 현황"><div><dt>점령 지역</dt><dd>${number(occupied)}<small> / ${number(total)}</small></dd></div><div><dt>무주지</dt><dd>${number(neutral)}<small>곳</small></dd></div><div><dt>진행 중 교전</dt><dd>${number(battles)}<small>곳</small></dd></div></dl>
   ${!faction||state.factionError?'<p class="org-directory-warning" role="status">전황 정보를 불러오지 못했습니다. 현황 새로고침을 눌러 다시 확인해 주세요.</p>':''}
   <div class="org-directory-grid">${rows.map(org=>`<article class="org-directory-card ${org.isMine?'is-mine':''}" data-org-id="${org.id}" aria-label="${esc(org.name)} 현황">
-   <header>${emblem(org.id)}<div><span class="org-kicker">CLAN ${String(org.id).padStart(2,'0')}</span><h3>${esc(org.name)}</h3><p>${org.isMine?'내 클랜':'클랜원'} · ${number(org.memberCount)} / 25명</p></div>${org.isMine?'<button type="button" class="org-directory-mine" data-tab="mine">내 클랜 보기</button>':''}</header>
+   <header>${emblem(org.id)}<div><span class="org-kicker">CLAN ${String(org.id).padStart(2,'0')}</span><h3>${esc(org.name)}</h3><p>${org.isMine?'내 클랜':'클랜원'} · ${number(org.memberCount)} / ${clanHideoutCapacity(org.stage)}명</p></div>${org.isMine?'<button type="button" class="org-directory-mine" data-tab="mine">내 클랜 보기</button>':''}</header>
    <dl class="org-directory-metrics"><div><dt>점령 거점</dt><dd>${org.territories===null?'—':org.territories.length}<small>곳</small></dd></div><div><dt>공동 자금</dt><dd>${number(org.funds)}</dd></div></dl>
    <p class="org-directory-hideout">아지트 <strong>${esc(org.hideoutName)}</strong><span>${number(org.stage??null)}단계</span></p>
    <details class="org-directory-territories"><summary>보유 지역${org.territories?.length?' '+org.territories.length+'곳':''} <span>펼쳐보기</span></summary><p>${org.territories===null?'전황 확인 후 표시됩니다.':org.territories.length?org.territories.map(d=>esc(organizationDistrictById(d.id)?.name||d.id)).join(' · '):'현재 점령한 지역이 없습니다.'}</p></details>

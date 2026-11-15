@@ -1,10 +1,11 @@
+import {clanHideoutCapacity,clanCapacityDescription} from '../shared/organization-capacity-v1.mjs?v=20261115';
 import {organizationCrest} from './organization-identity-v1.mjs?v=20261025-clan-eight';
 import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261025-clan-eight';
 import {openOrganizationFaction} from './organization-faction-window-v1.mjs?v=20261025-clan-eight';
 import {currentOrganization,organizationRosterView,organizationHideoutView} from './organization-headquarters-v1.mjs?clanSeason=20261110-v1&v=20261029-elder-kick';
 import {createOrganizationAdmission} from './organization-admission-v1.mjs?v=20261025-clan-eight';
-import {organizationDashboardHeader,organizationDashboardView} from './organization-dashboard-v1.mjs?clanSeason=20261110-v1&v=20261025-clan-eight&clanRestore=20261025&clanResume=20261025';
-import {organizationJoinView} from './organization-join-v1.mjs?v=20261114-rejoin';
+import {organizationDashboardHeader,organizationDashboardView} from './organization-dashboard-v1.mjs?clanSeason=20261115-capacity&v=20261025-clan-eight&clanRestore=20261025&clanResume=20261025';
+import {organizationJoinView} from './organization-join-v1.mjs?v=20261115-capacity';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number=value=>Number(value||0).toLocaleString('ko-KR');
 const phaseName={PREPARATION:'모집 준비',SURVEY:'희망 클랜 설문',CLOSED:'균등 배정 준비',ASSIGNED:'배정 완료'};
@@ -43,7 +44,7 @@ export async function mountOrganization({root,api,isOwner=false}){
   }
   function recruitment(){
     if(state.elderSeason?.calendar)return '<aside class="org-recruitment"><div><strong>'+ (state.elderSeason.phase==='FINISHED'?'클랜 시즌 5 종료':'클랜 시즌 5 경기 기간')+'</strong><p>클랜전 · 세력전 · 챔피언스리그</p></div><div class="org-recruitment-time">'+date(state.elderSeason.calendar.endsAt)+' 종료 (한국시간)</div></aside>';
-    if(state.join?.enabled)return '<aside class="org-recruitment is-open"><div><span class="org-kicker">JOIN OUR CLAN</span><strong>클랜 가입 신청 접수 중</strong><p>원하는 클랜에 신청하면 해당 클랜 원로가 승인합니다. 클랜별 최대 25명.</p></div><div class="org-recruitment-time">'+(state.faction?.sessions?.scheduleLocked?'<b>대회 일정 잠금</b><small>개전 일정은 추후 안내합니다.</small>':'<b>세력전 일정</b><small>'+(state.faction?.competition?.pointsIncluded?esc(state.faction?.sessions?.scheduleLabel||'화·수·금 1회 · 회차당 2시간')+' · 4개 점령 승점 +1':'매일 2회 랜덤 · 회차당 3시간')+'</small>')+'</div></aside>';
+    if(state.join?.enabled)return '<aside class="org-recruitment is-open"><div><span class="org-kicker">JOIN OUR CLAN</span><strong>클랜 가입 신청 접수 중</strong><p>원하는 클랜에 신청하면 해당 클랜 원로가 승인합니다. '+clanCapacityDescription+'.</p></div><div class="org-recruitment-time">'+(state.faction?.sessions?.scheduleLocked?'<b>대회 일정 잠금</b><small>개전 일정은 추후 안내합니다.</small>':'<b>세력전 일정</b><small>'+(state.faction?.competition?.pointsIncluded?esc(state.faction?.sessions?.scheduleLabel||'화·수·금 1회 · 회차당 2시간')+' · 4개 점령 승점 +1':'매일 2회 랜덤 · 회차당 3시간')+'</small>')+'</div></aside>';
     const r=state.round;if(!r||r.scope==='TEST')return '';
     if(r.phase==='ASSIGNED'&&r.recruitment?.kind!=='ADDITIONAL')return '';
     const open=recruitmentOpen(),additional=r.recruitment?.kind==='ADDITIONAL';
@@ -84,10 +85,10 @@ export async function mountOrganization({root,api,isOwner=false}){
     const name=id=>esc(state.organizations.find(o=>o.id===id)?.name||'');
     const result=e.selected?'<p>원로 '+(e.reviewMode==='MANUAL'?'배정':'추첨')+' 결과 · '+name(e.organizationId)+' 원로로 배정되었습니다.</p>':e.applied&&e.drawnAt?'<p>원로 선정 결과 · 이번 시즌 원로로 선정되지 않았습니다. 원하는 클랜에 가입할 수 있습니다.</p>':'';
     const memberForm=e.memberClubId?'<aside class="org-join-status" role="status"><strong>'+name(e.memberClubId)+' · '+(e.selected?'원로 선정 완료':'시즌 5 가입 완료')+'</strong></aside>':
-      state.rejoin?.blocked?rejoinNotice():'<form id="org-season-member"><label>가입할 클랜<select name="club" required><option value="">클랜 선택</option>'+state.organizations.map(o=>'<option value="'+o.id+'" '+(e.memberCounts[o.id]>=25?'disabled':'')+'>'+esc(o.name)+' · '+e.memberCounts[o.id]+'/25명</option>').join('')+'</select></label><button type="submit" class="org-primary">선택한 클랜에 가입</button></form>';
+      state.rejoin?.blocked?rejoinNotice():'<form id="org-season-member"><label>가입할 클랜<select name="club" required><option value="">클랜 선택</option>'+state.organizations.map(o=>'<option value="'+o.id+'" '+(e.memberCounts[o.id]>=(o.memberLimit??clanHideoutCapacity(o.hideout?.stage))?'disabled':'')+'>'+esc(o.name)+' · '+e.memberCounts[o.id]+'/'+(o.memberLimit??clanHideoutCapacity(o.hideout?.stage))+'명 · 아지트 '+o.hideout.stage+'레벨</option>').join('')+'</select></label><button type="submit" class="org-primary">선택한 클랜에 가입</button></form>';
     root.innerHTML='<header class="org-topbar"><div class="org-brand"><b>리버스콜</b><span>클랜 본부</span></div><span class="org-status">시즌 5</span></header>'+
       '<aside class="org-recruitment is-open"><div><h1>'+(elder?'원로 소집':'클랜원 자율 가입')+'</h1><p>'+date(deadline)+' 마감 (한국시간)</p></div><div class="org-recruitment-time"><b data-season-deadline="'+deadline+'"></b><small>마감까지</small></div></aside>'+
-      '<main class="org-content">'+(elder?elderForm():'<section class="org-join"><header class="org-section-head"><h2>클랜원 자율 가입</h2><button type="button" data-org-refresh>새로고침</button></header>'+result+(e.memberClubId?'':'<p>희망 클랜을 선택하면 바로 가입됩니다. 클랜별 정원은 원로를 포함해 25명입니다.</p>')+memberForm+'</section>'+(e.memberClubId?leaveControl():''))+
+      '<main class="org-content">'+(elder?elderForm():'<section class="org-join"><header class="org-section-head"><h2>클랜원 자율 가입</h2><button type="button" data-org-refresh>새로고침</button></header>'+result+(e.memberClubId?'':'<p>새 시즌은 아지트 1레벨, 정원 8명으로 시작합니다. 희망 클랜에 가입 순서대로 참여할 수 있습니다. '+clanCapacityDescription+'</p>'+ (e.capacityReapplication?'<p role="status">정원 조정으로 기존 가입이 해제되었습니다. 빈자리가 있는 클랜에 다시 신청해 주세요. 이번 조정에는 7일 재가입 제한이 없습니다.</p>':''))+memberForm+'</section>'+(e.memberClubId?leaveControl():''))+
       '<section class="org-join"><h2>시즌 일정</h2><p>원로 소집 · '+date(c.openedAt)+' ~ '+date(c.elderClosesAt)+'</p><p>클랜원 자율 가입 · '+date(c.elderClosesAt)+' ~ '+date(c.startsAt)+'</p><p>클랜전 · 세력전 · 챔피언스리그 · '+date(c.startsAt)+' ~ '+date(c.endsAt)+'</p></section></main>';
     root.setAttribute('aria-busy','false');bind();clearInterval(countdown);updateCountdown();countdown=setInterval(updateCountdown,1000);
   }

@@ -102,6 +102,7 @@ test('fixed season calendar admits volunteers for 24h, starts with vacant elders
  const drawn=await get(),allocations=Object.values(drawn.selections);
  assert.deepEqual(allocations.flat().sort(),[2,3,4]);assert.equal(allocations.filter(r=>r.length===1).length,3);
  const club=(await player(4)).memberClubId,other=club===1?2:1;
+ await q('UPDATE organization_progress_v1 SET stage=4 WHERE round_id=$1 AND organization_id=$2',[f.roundId,club]);
  assert.equal((await tick()).status,'MEMBERS');
  assert.deepEqual((await get()).selections,drawn.selections);
  assert.equal((await organizationLiveOperation(f.env,f.clock())).title,'클랜원 자율 가입');
@@ -114,9 +115,9 @@ test('fixed season calendar admits volunteers for 24h, starts with vacant elders
  const request='fixed-calendar-last-seat-replay';
  assert.equal((await join(31,club,request)).status,200);
  assert.equal((await join(31,club,request)).status,200);
- for(let uid=32;uid<=54;uid++)assert.equal((await join(uid,club)).status,200);
+ for(let uid=32;uid<=37;uid++)assert.equal((await join(uid,club)).status,200);
  assert.equal((await join(55,club)).data.code,'ORG_FULL');assert.equal((await join(55,other)).status,200);
- assert.equal((await get()).memberCounts[club],25);
+ assert.equal((await get()).memberCounts[club],8);
  await q("UPDATE users SET status='SUSPENDED' WHERE id IN (2,3)");
  f.advance(day-1);assert.equal((await tick()).status,'MEMBERS');f.advance(1);
  assert.equal((await join(55,2)).data.code,'ORG_MEMBER_PHASE');
@@ -128,8 +129,8 @@ test('fixed season calendar admits volunteers for 24h, starts with vacant elders
  assert.equal((await q('SELECT * FROM clan_season_teams WHERE season_id=$1',[seasonId])).length,8);
  assert.equal((await q('SELECT * FROM clan_season_teams WHERE season_id=$1 AND master_user_id IS NULL',[seasonId])).length,7);
  assert.deepEqual((await q('SELECT user_id FROM clan_executives WHERE season_id=$1',[seasonId])).map(x=>Number(x.user_id)),[4]);
- assert.equal((await q("SELECT * FROM clan_members WHERE season_id=$1 AND member_role='MEMBER'",[seasonId])).length,25);
- assert.equal((await q('SELECT * FROM organization_members_v1 WHERE round_id=$1',[roundId])).length,26);
+ assert.equal((await q("SELECT * FROM clan_members WHERE season_id=$1 AND member_role='MEMBER'",[seasonId])).length,8);
+ assert.equal((await q('SELECT * FROM organization_members_v1 WHERE round_id=$1',[roundId])).length,9);
  assert.equal((await q('SELECT * FROM organization_members_v1 WHERE round_id=$1',[f.roundId])).length,128);
  assert.equal((await f.post('organization/join/apply',{roundId,revision:0,organizationId:8,message:''},{user:55})).data.code,'ORG_JOIN_CLOSED');
  const times=clanPlayoffTimes(c);
@@ -251,7 +252,7 @@ test('48-hour election, consent-only 50-day season, archived history, repeated s
  assert.equal((await q('SELECT organization_id FROM organization_members_v1 WHERE round_id=$1',[f.roundId])).length,128);
  const wars=await q('SELECT starts_at,ends_at FROM clan_wars WHERE season_id=$1',[seasonId]);assert(wars.length>=80);
  assert(wars.every(w=>[3,6,0].includes(new Date(Date.parse(w.starts_at)+32400000).getUTCDay())&&Date.parse(w.ends_at)<=Date.parse(season.ends_at)));
- assert.equal((await clanHideout(f.env,2)).clanId,1);assert.equal((await clanHideout(f.env,2)).stage,4);assert.equal((await clanHideout(f.env,30)).stage,0);
+ assert.equal((await clanHideout(f.env,2)).clanId,1);assert.equal((await clanHideout(f.env,2)).stage,1);assert.equal((await clanHideout(f.env,30)).stage,0);
  const app=await send('organization/join/apply',{roundId,revision:0,organizationId:1,message:'참가합니다'},30);assert.equal(app.status,200);
  assert.equal((await send('organization/join/review',{roundId,revision:1,userId:30,decision:'APPROVED'},5)).status,403);
  assert.equal((await send('organization/join/review',{roundId,revision:1,userId:30,decision:'APPROVED'},2)).status,200);
