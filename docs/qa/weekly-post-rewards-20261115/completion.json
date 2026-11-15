@@ -1,0 +1,80 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:weekly-post:2026-11-09:coin500t-star300m:v1",
+  "authorization": "이번주 주간퀘스트 글쓰기 완료자 500조 + 마별 3억 메세지로 지급해",
+  "auditId": "61391",
+  "periodKST": {
+    "start": "2026-11-09",
+    "endInclusive": "2026-11-15"
+  },
+  "quest": "POST",
+  "board": "skm",
+  "minimumPosts": 300,
+  "rosterCheckedAtKST": "2026-11-15 22:26:06",
+  "completionReceiptsMatchedPostRecords": 55,
+  "recipients": 55,
+  "delivery": "GAME_INBOX",
+  "messagesPerRecipient": 2,
+  "perRecipient": {
+    "COIN": "500000000000000",
+    "MASTER_STAR": "300000000"
+  },
+  "messages": 110,
+  "attachments": 110,
+  "totals": {
+    "COIN": "27500000000000000",
+    "MASTER_STAR": "16500000000"
+  },
+  "sentAtKST": "2026-11-15 22:30:03",
+  "verifiedAtKST": "2026-11-15 22:30:15",
+  "independentReadOnlyVerification": true,
+  "claimedAttachmentsAtVerification": 0,
+  "pendingAttachmentsAtVerification": 110,
+  "missing": 0,
+  "duplicates": 0,
+  "recipientMessageSyncUpdated": 55,
+  "planSha256": "6f485516556e0fc1aa6417937b7f19f31fa52a8b24d569e871751f884eff4938",
+  "failureAfterFirst55RolledBack": true,
+  "rehearsalRolledBack": true,
+  "readOnlyReplayAdditionalWrites": 0,
+  "claimTests": {
+    "passed": 3,
+    "failed": 0,
+    "exactCoinAndStarClaim": true,
+    "largeCoinBalance": "100000000000000001",
+    "ledgerFailureRollback": true,
+    "retryDuplicatePrevention": true,
+    "wrongAccountBlocked": true,
+    "source": {
+      "deployed": "f108c339bdcd967c5f672e5998fe311b6dc86cfa",
+      "specsHash": "81d06cd853a2b0bb44860dab26a15c8966febc35e532b6812fd871f6ddb994c8",
+      "claimHash": "aa0b575798771eba7ab9ad642ba330da2b44da4c02eacb80ca00036a2710f7e9",
+      "compatAndBatchMatched": true
+    }
+  },
+  "performance": {
+    "environment": "Windows Node.js CLI, production Neon PostgreSQL; isolated PGlite for claim tests",
+    "realMobileDevice": false,
+    "gameRuntimeChanged": false,
+    "uiChanged": false,
+    "sendAndChecksMs": 2680,
+    "readOnlyVerificationMs": 1241,
+    "readOnlyReplayMs": 1490,
+    "bulkAttachmentStatements": 2,
+    "bulkAttachmentStatementTimesMs": [
+      84,
+      76
+    ],
+    "measurementsIncludeNetwork": true,
+    "frameMeasurement": "Not applicable to this data-only operation; no screen or runtime code changed."
+  },
+  "safety": {
+    "directWalletOrInventoryCredit": 0,
+    "automaticClaims": 0,
+    "questProgressChanges": 0,
+    "regularQuestRewardChanges": 0,
+    "gameDeployments": 0
+  },
+  "evidenceDirectory": "operations/weekly-post-rewards-20261115",
+  "sourceSnapshotSha256": "13bf10bebbad47105896ca09b5ffc006321907077d2e64fe51b13fee267ab7d5"
+}
