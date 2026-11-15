@@ -1,9 +1,9 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {packageFixture} from './helpers/support-package-fixture.mjs';
-import {SUPPORT_PACKAGE_500T_BOGO,supportPackageBonusKey} from '../shared/support-package-v1.mjs';
+import {SUPPORT_PACKAGE_NOVEMBER6,SUPPORT_PACKAGE_500T_BOGO,SUPPORT_PACKAGE_LEGACY_BONUS_CODE,supportPackageBonusKey} from '../shared/support-package-v1.mjs';
 import {PACKAGE_GUARANTEE_NOTICE as N,packageGuaranteeNoticeKey} from '../functions/_support_package_guarantee_notice.js';
 const noticeFixture=async options=>{const f=await packageFixture(options);await f.exec("DROP INDEX message_campaign; CREATE UNIQUE INDEX message_campaign ON user_messages(user_id,campaign_key) WHERE campaign_key IS NOT NULL AND TRIM(campaign_key)<>''");return f;};
-const apply=(f,quantity=1)=>f.call('server-support/package/apply',{user:2,body:{quantity,requestId:crypto.randomUUID()}});
+const apply=async(f,quantity=1)=>{const r=await f.call('server-support/package/apply',{user:2,body:{quantity,requestId:crypto.randomUUID()}});if(r.body.order){r.body.order.product=SUPPORT_PACKAGE_NOVEMBER6;await f.run('UPDATE app_meta SET value=? WHERE key=?',JSON.stringify(r.body.order),'support_package_order_v1:'+r.body.order.id);}return r;};
 const messages=f=>f.all('SELECT * FROM user_messages WHERE user_id=2 AND campaign_key=?',N.campaignKey);
 const state=async f=>{const r=await f.one('SELECT value FROM app_meta WHERE key=?',packageGuaranteeNoticeKey(2));return r?JSON.parse(r.value):null;};
 const pay=async(f,quantity=1)=>{const a=await apply(f,quantity);assert.equal(a.status,200,JSON.stringify(a.body));const r=await f.process(a.body.order);assert.equal(r.status,200,JSON.stringify(r.body));return r;};
@@ -51,7 +51,7 @@ test('notice insert, durable receipt, and later audit failures roll back payment
   await f.activate();const order=(await apply(f,5)).body.order;
   for(const failure of ['INSERT INTO user_messages','INSERT INTO admin_logs']){
    f.fail(failure);const failed=await f.process(order);f.fail(null);assert.equal(failed.status,503);assert.equal((await messages(f)).length,0);assert.equal(await state(f),null);
-   assert.equal((await f.one('SELECT CAST(coin AS TEXT) coin FROM users WHERE id=2')).coin,'1234');assert.equal(await f.one('SELECT value FROM app_meta WHERE key=?',supportPackageBonusKey(2)),null);
+   assert.equal((await f.one('SELECT CAST(coin AS TEXT) coin FROM users WHERE id=2')).coin,'1234');assert.equal(await f.one('SELECT value FROM app_meta WHERE key=?',supportPackageBonusKey(2,SUPPORT_PACKAGE_LEGACY_BONUS_CODE)),null);
    assert.equal(Number((await f.one('SELECT COUNT(*) n FROM cnine_user_inventory')).n),0);assert.equal(Number((await f.one('SELECT COUNT(*) n FROM coin_logs')).n),0);
    assert.equal(JSON.parse((await f.one('SELECT value FROM app_meta WHERE key=?','support_package_order_v1:'+order.id)).value).status,'PENDING');
   }

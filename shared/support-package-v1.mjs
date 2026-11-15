@@ -1,22 +1,30 @@
 import {FORGE_SCROLL_ITEMS} from './equipment-forge-advanced-v1.mjs';
-// Only the refreshed November 6 offer participates. Each paid purchase counts
-// once (the promotional 1+1 package count is not a purchase count).
-export const SUPPORT_PACKAGE_BONUS_CODE='SUPPORT_PACKAGE_PURCHASE_BONUS_20261106_V1';
-export const SUPPORT_PACKAGE_BONUS_TIERS=Object.freeze([
-  [1,200],[2,400],[3,500],[4,1000],[5,2000],[10,8000]
-].map(([purchases,trillions])=>Object.freeze({purchases,coins:String(BigInt(trillions)*1000000000000n)})));
-export const supportPackageBonusKey=userId=>'support_package_bonus_20261106_v1:'+Number(userId);
+// November 15 starts a new counter for everyone. Prior campaign records remain immutable.
+export const SUPPORT_PACKAGE_BONUS_CODE='SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1';
+export const SUPPORT_PACKAGE_LEGACY_BONUS_CODE='SUPPORT_PACKAGE_PURCHASE_BONUS_20261106_V1';
+const bonusTiers=tiers=>Object.freeze(tiers.map(([purchases,trillions])=>Object.freeze({purchases,coins:String(BigInt(trillions)*1000000000000n)})));
+const legacyBonusTiers=bonusTiers([[1,200],[2,400],[3,500],[4,1000],[5,2000],[10,8000]]);
+export const SUPPORT_PACKAGE_BONUS_TIERS=bonusTiers([[1,1000],[2,2000],[3,3000],[4,6000],[5,8000],[10,8000]]);
+export const supportPackageHasBonus=product=>[SUPPORT_PACKAGE_BONUS_CODE,SUPPORT_PACKAGE_LEGACY_BONUS_CODE].includes(product?.bonusPolicy);
+const tiersFor=policy=>{if(policy===SUPPORT_PACKAGE_BONUS_CODE)return SUPPORT_PACKAGE_BONUS_TIERS;if(policy===SUPPORT_PACKAGE_LEGACY_BONUS_CODE)return legacyBonusTiers;throw Error('Invalid package bonus policy');};
+export const supportPackageBonusKey=(userId,policy=SUPPORT_PACKAGE_BONUS_CODE)=>{tiersFor(policy);return (policy===SUPPORT_PACKAGE_BONUS_CODE?'support_package_bonus_20261115_v1:':'support_package_bonus_20261106_v1:')+Number(userId);};
 export const packageCoinValue=coins=>coins<=BigInt(Number.MAX_SAFE_INTEGER)?Number(coins):coins.toString();
-export function supportPackageBonus(paidPurchases=0,quantity=0){
+export function supportPackageBonus(paidPurchases=0,quantity=0,policyCode=SUPPORT_PACKAGE_BONUS_CODE){
   if(!Number.isSafeInteger(paidPurchases)||paidPurchases<0||!Number.isInteger(quantity)||quantity<0||quantity>100||!Number.isSafeInteger(paidPurchases+quantity))throw Error('Invalid package purchase count');
-  const after=paidPurchases+quantity,milestones=SUPPORT_PACKAGE_BONUS_TIERS.filter(t=>t.purchases>paidPurchases&&t.purchases<=after);
-  return {policyCode:SUPPORT_PACKAGE_BONUS_CODE,paidPurchasesBefore:paidPurchases,paidPurchasesAfter:after,
-    milestones,coins:milestones.reduce((sum,t)=>sum+BigInt(t.coins),0n).toString(),
-    totalEarnedCoins:SUPPORT_PACKAGE_BONUS_TIERS.filter(t=>t.purchases<=after).reduce((sum,t)=>sum+BigInt(t.coins),0n).toString()};
+  const after=paidPurchases+quantity,tiers=tiersFor(policyCode),milestones=tiers.filter(t=>t.purchases>paidPurchases&&t.purchases<=after);
+  return {policyCode,paidPurchasesBefore:paidPurchases,paidPurchasesAfter:after,milestones,
+    coins:milestones.reduce((sum,t)=>sum+BigInt(t.coins),0n).toString(),
+    totalEarnedCoins:tiers.filter(t=>t.purchases<=after).reduce((sum,t)=>sum+BigInt(t.coins),0n).toString()};
 }
-export function supportPackageWithBonus(product,paidPurchases=0){
-  if(product?.bonusPolicy!==SUPPORT_PACKAGE_BONUS_CODE)return product;
-  const purchaseBonus=supportPackageBonus(paidPurchases,product.purchaseQuantity??1);
+export function supportPackageBonusState(value=null,policyCode=SUPPORT_PACKAGE_BONUS_CODE){
+  const state=value??{version:1,policyCode,paidPurchases:0,totalBonusCoins:'0'};
+  if(state.version!==1||state.policyCode!==policyCode||!Number.isSafeInteger(state.paidPurchases)||state.paidPurchases<0||state.totalBonusCoins!==supportPackageBonus(state.paidPurchases,0,policyCode).totalEarnedCoins)throw Error('Invalid package bonus state');
+  return state;
+}
+export function supportPackageWithBonus(product,progress=0){
+  if(!supportPackageHasBonus(product))return product;
+  const paidPurchases=typeof progress==='number'?progress:supportPackageBonusState(progress,product.bonusPolicy).paidPurchases;
+  const purchaseBonus=supportPackageBonus(paidPurchases,product.purchaseQuantity??1,product.bonusPolicy);
   return {...product,baseCoins:product.coins,coins:packageCoinValue(BigInt(product.coins)+BigInt(purchaseBonus.coins)),purchaseBonus};
 }
 export const supportPackageBonusSummary=bonus=>bonus?`누적 ${bonus.paidPurchasesBefore} → ${bonus.paidPurchasesAfter}회 · 이번 구매 보너스 ${BigInt(bonus.coins)/1000000000000n}조 코인`:'';
@@ -55,13 +63,22 @@ export const SUPPORT_PACKAGE_500T_BOGO=Object.freeze({...SUPPORT_PACKAGE_CURRENT
 });
 // These are the TOTAL rewards for one 49,800-won purchase, including 1+1.
 // Define integer totals directly: five scrolls must never be doubled or halved.
-export const SUPPORT_PACKAGE=Object.freeze({...SUPPORT_PACKAGE_UNIT,
+export const SUPPORT_PACKAGE_NOVEMBER6=Object.freeze({...SUPPORT_PACKAGE_UNIT,
   code:'SEASON_PASS_PACKAGE_20261106',packageQuantity:2,eventCode:'SUPPORT_PACKAGE_BOGO_20261106',eventLabel:'1+1 이벤트',
-  coins:500000000000000,bonusPolicy:SUPPORT_PACKAGE_BONUS_CODE,items:Object.freeze([
+  coins:500000000000000,bonusPolicy:SUPPORT_PACKAGE_LEGACY_BONUS_CODE,items:Object.freeze([
     Object.freeze({code:'MASTER_STAR',name:'마스터의 별',quantity:1000000000,image:'assets/ui/icon-fusion-20261004/master-star.webp'}),
     Object.freeze({code:'SUIT_CORE_7',name:'슈트 코어 7',quantity:10,image:'assets/items/suit-core-7-20261006.png'}),
     ...FORGE_SCROLL_ITEMS.map(({code,name,image})=>Object.freeze({code,name,quantity:5,image})),
     Object.freeze({code:LIMITED_SHARD.code,name:LIMITED_SHARD.name,quantity:10,image:LIMITED_SHARD.image})
+  ])
+});
+// New applications use the revised materials. Existing order snapshots stay valid.
+export const SUPPORT_PACKAGE=Object.freeze({...SUPPORT_PACKAGE_NOVEMBER6,
+  code:'SEASON_PASS_PACKAGE_20261115',eventCode:'SUPPORT_PACKAGE_BOGO_20261115',bonusPolicy:SUPPORT_PACKAGE_BONUS_CODE,items:Object.freeze([
+    Object.freeze({code:'MASTER_STAR',name:'마스터의 별',quantity:1000000000,image:'assets/ui/icon-fusion-20261004/master-star.webp'}),
+    Object.freeze({code:'ARDEN_ENERGY',name:'아르덴 에너지',quantity:50,image:'assets/items/arden-energy-v1.webp'}),
+    ...FORGE_SCROLL_ITEMS.map(({code,name,image})=>Object.freeze({code,name,quantity:10,image})),
+    Object.freeze({code:LIMITED_SHARD.code,name:LIMITED_SHARD.name,quantity:25,image:LIMITED_SHARD.image})
   ])
 });
 // Display metadata stays outside immutable order/fulfillment products.
@@ -70,17 +87,22 @@ const NOVEMBER_LEGACY_DEADLINE=Object.freeze({
   label:'11월 4일 00:00 판매 종료',detail:'11월 3일에서 4일로 넘어가는 자정 · 한국시간',
   notice:'1+1 패키지 판매 종료: 2026년 11월 4일 00:00 (한국시간)\n11월 3일에서 4일로 넘어가는 자정'
 });
-export const SUPPORT_PACKAGE_EVENT_DEADLINE=Object.freeze({
+const NOVEMBER6_DEADLINE=Object.freeze({
   eventCode:'SUPPORT_PACKAGE_BOGO_20261106',endsAt:'2026-11-09T00:00:00+09:00',
   label:'11월 9일 00:00 판매 종료',detail:'11월 8일에서 9일로 넘어가는 자정 · 한국시간',
   notice:'1+1 패키지 판매 종료: 2026년 11월 9일 00:00 (한국시간)\n11월 8일에서 9일로 넘어가는 자정'
 });
-export const supportPackageEventDeadline=product=>[SUPPORT_PACKAGE_EVENT_DEADLINE,NOVEMBER_LEGACY_DEADLINE].find(d=>d.eventCode===product?.eventCode)||null;
+export const SUPPORT_PACKAGE_EVENT_DEADLINE=Object.freeze({
+  eventCode:'SUPPORT_PACKAGE_BOGO_20261115',endsAt:'2026-11-19T00:00:00+09:00',
+  label:'11월 18일 23:59까지 판매',detail:'한국시간 · 11월 19일 00:00부터 구매 불가',
+  notice:'1+1 패키지 판매: 2026년 11월 18일 23:59까지 (한국시간)'
+});
+export const supportPackageEventDeadline=product=>[SUPPORT_PACKAGE_EVENT_DEADLINE,NOVEMBER6_DEADLINE,NOVEMBER_LEGACY_DEADLINE].find(d=>d.eventCode===product?.eventCode)||null;
 export const SUPPORT_PACKAGE_SALES_ENDS_AT=Date.parse(SUPPORT_PACKAGE_EVENT_DEADLINE.endsAt);
 export const supportPackageSalesOpen=(now=Date.now())=>Number.isFinite(now)&&now<SUPPORT_PACKAGE_SALES_ENDS_AT;
 const sameProduct=(product,known)=>JSON.stringify(product)===JSON.stringify(known);
 const novemberProducts=[SUPPORT_PACKAGE_500T_BOGO,SUPPORT_PACKAGE_NOVEMBER_BOGO,SUPPORT_PACKAGE_SCROLLS_400_BOGO];
-const quantityProducts=[SUPPORT_PACKAGE,...novemberProducts];
+const quantityProducts=[SUPPORT_PACKAGE,SUPPORT_PACKAGE_NOVEMBER6,...novemberProducts];
 export const isSupportPackageProduct=product=>[SUPPORT_PACKAGE_UNIT,SUPPORT_PACKAGE_LEGACY_BOGO,...quantityProducts].some(known=>sameProduct(product,known));
 export const supportPackageFulfillment=product=>quantityProducts.find(known=>sameProduct(product,known))||([SUPPORT_PACKAGE_UNIT,SUPPORT_PACKAGE_LEGACY_BOGO].some(known=>sameProduct(product,known))?SUPPORT_PACKAGE_LEGACY_BOGO:null);
 export const SUPPORT_PACKAGE_MAX_QUANTITY=100;

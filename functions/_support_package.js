@@ -1,7 +1,7 @@
 import {readPackageCoinAccounting,packageCoinGuardStatements} from './_package_coin_accounting.js';
 import {planPackageGuaranteeNotice,packageGuaranteeNoticeStatements} from './_support_package_guarantee_notice.js';
 import {SUPPORT_PACKAGE,LIMITED_SHARD,isSupportPackageProduct,supportPackageFulfillment,supportPackageOrderProduct,supportPackageQuantityValid,supportPackageClientAllowed,supportPackageSummary,SUPPORT_PACKAGE_EVENT_DEADLINE,supportPackageSalesOpen} from '../shared/support-package-v1.mjs';
-import {SUPPORT_PACKAGE_BONUS_CODE,supportPackageBonusKey,supportPackageBonus,supportPackageWithBonus} from '../shared/support-package-v1.mjs';
+import {SUPPORT_PACKAGE_BONUS_CODE,supportPackageBonusKey,supportPackageBonusState,supportPackageWithBonus,supportPackageHasBonus} from '../shared/support-package-v1.mjs';
 import {supportAccountEligible,supportBenefits,canManageSupport} from '../shared/server-support-v1.mjs';
 import {passSubscription} from '../shared/supporter-season-pass-v1.mjs';
 import {readSupportRecord} from './_supporter_benefits.js';
@@ -18,15 +18,14 @@ const orderKey=id=>'support_package_order_v1:'+id,pendingKey=id=>'support_packag
 const requestId=id=>typeof id==='string'&&/^[A-Za-z0-9_-]{16,100}$/.test(id);
 const validOrder=id=>typeof id==='string'&&/^\d+_[A-Za-z0-9_-]{16,100}$/.test(id);
 async function raw(env,key){return (await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first())?.value??null;}
-async function readBonusProgress(env,userId){
- const key=supportPackageBonusKey(userId),value=await raw(env,key);
- const state=value===null?{version:1,policyCode:SUPPORT_PACKAGE_BONUS_CODE,paidPurchases:0,totalBonusCoins:'0'}:JSON.parse(value);
- if(state.version!==1||state.policyCode!==SUPPORT_PACKAGE_BONUS_CODE||!Number.isSafeInteger(state.paidPurchases)||state.paidPurchases<0||state.totalBonusCoins!==supportPackageBonus(state.paidPurchases).totalEarnedCoins)fail('BONUS_STATE','누적 구매 보너스 기록을 확인해야 합니다.',409);
+async function readBonusProgress(env,userId,policyCode=SUPPORT_PACKAGE_BONUS_CODE){
+ const key=supportPackageBonusKey(userId,policyCode),value=await raw(env,key);
+ let state;try{state=supportPackageBonusState(value===null?null:JSON.parse(value),policyCode);}catch{fail('BONUS_STATE','누적 구매 보너스 기록을 확인해야 합니다.',409);}
  return {key,raw:value,state};
 }
 async function quotePackage(env,order){
  const product=supportPackageOrderProduct(order);
- return product?.bonusPolicy===SUPPORT_PACKAGE_BONUS_CODE?supportPackageWithBonus(product,(await readBonusProgress(env,order.userId)).state.paidPurchases):product;
+ return supportPackageHasBonus(product)?supportPackageWithBonus(product,(await readBonusProgress(env,order.userId,product.bonusPolicy)).state):product;
 }
 async function receipt(env,key,payload){const value=await raw(env,key);if(!value)return null;const saved=JSON.parse(value);if(saved.payload!==payload)fail('REQUEST_CONFLICT','같은 요청 번호에 다른 내용을 사용할 수 없습니다.',409);return {...saved.result,replayed:true};}
 export async function ensureLimitedShardCatalog(env){
@@ -98,9 +97,9 @@ export async function processPackage(env,admin,body,now=Date.now()){
  // Completed receipts return above and are never granted a second time.
  if(!supportPackageOrderProduct(order))fail('PRODUCT','신청 시점의 상품 구성을 확인해야 합니다.',409);
  const baseProduct=supportPackageOrderProduct(order);
- const bonusProgress=grant&&baseProduct.bonusPolicy===SUPPORT_PACKAGE_BONUS_CODE?await readBonusProgress(env,order.userId):null;
- const product=bonusProgress?supportPackageWithBonus(baseProduct,bonusProgress.state.paidPurchases):baseProduct;
- const nextBonus=bonusProgress?{version:1,policyCode:SUPPORT_PACKAGE_BONUS_CODE,paidPurchases:product.purchaseBonus.paidPurchasesAfter,totalBonusCoins:product.purchaseBonus.totalEarnedCoins,lastOrderId:order.id,updatedAt:now}:null;
+ const bonusProgress=grant&&supportPackageHasBonus(baseProduct)?await readBonusProgress(env,order.userId,baseProduct.bonusPolicy):null;
+ const product=bonusProgress?supportPackageWithBonus(baseProduct,bonusProgress.state):baseProduct;
+ const nextBonus=bonusProgress?{...bonusProgress.state,paidPurchases:product.purchaseBonus.paidPurchasesAfter,totalBonusCoins:product.purchaseBonus.totalEarnedCoins,lastOrderId:order.id,updatedAt:now}:null;
  const target=await env.DB.prepare('SELECT id,nickname,status FROM users WHERE id=?').bind(order.userId).first();if(!target||grant&&target.status!=='ACTIVE')fail('TARGET','현재 지급할 수 없는 계정입니다.',409);
  if(grant){await ensureLimitedShardCatalog(env);if(product.items.some(item=>item.code==='EMPEROR_ENERGY'))await ensureEmperorEnergyCatalog(env);if(product.items.some(item=>item.code==='WEAPON_ENHANCEMENT_SCROLL'))await ensureForgeScrollCatalog(env);}
  await ensureJointAtomicSchema(env);
@@ -162,9 +161,13 @@ export async function handleSupportPackage({path,request,env,user,deps,now}){
   if(!supportPackageClientAllowed(request))fail('CLIENT_UNAVAILABLE','이 배포판에서는 패키지 구매를 제공하지 않습니다.',403);
   await eligibility(env,user.id,now);
   if(path==='server-support/package'&&request.method==='GET'){
-   await ensureLimitedShardCatalog(env);const pending=await pendingOrder(env,user.id);
-   const recent=await env.DB.prepare("SELECT value FROM app_meta WHERE key LIKE ? ESCAPE '!' ORDER BY updated_at DESC LIMIT 5").bind(orderKey(Number(user.id)+'!_')+'%').all();
-   return {product:pending?supportPackageFulfillment(pending.order.product):SUPPORT_PACKAGE,pending:pending?.order??null,bonusProgress:(await readBonusProgress(env,user.id)).state,recent:recent.results.map(r=>JSON.parse(r.value)),salesOpen:supportPackageSalesOpen(now),serverNow:now};
+   await ensureLimitedShardCatalog(env);
+   const [pending,recent,bonus]=await Promise.all([
+    pendingOrder(env,user.id),
+    env.DB.prepare("SELECT value FROM app_meta WHERE key LIKE ? ESCAPE '!' ORDER BY updated_at DESC LIMIT 5").bind(orderKey(Number(user.id)+'!_')+'%').all(),
+    readBonusProgress(env,user.id)
+   ]);
+   return {product:pending?supportPackageFulfillment(pending.order.product):SUPPORT_PACKAGE,pending:pending?.order??null,bonusProgress:pending&&supportPackageHasBonus(pending.order.product)&&pending.order.product.bonusPolicy!==SUPPORT_PACKAGE_BONUS_CODE?(await readBonusProgress(env,user.id,pending.order.product.bonusPolicy)).state:bonus.state,recent:recent.results.map(r=>JSON.parse(r.value)),salesOpen:supportPackageSalesOpen(now),serverNow:now};
   }
   if(path==='server-support/package/apply'&&request.method==='POST'){
    const body=await readJointBody(request,{fields:['requestId','quantity']});await deps.ensureMessages?.(env);
