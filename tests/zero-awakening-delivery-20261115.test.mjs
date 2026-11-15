@@ -11,6 +11,7 @@ test('eleven V3 consumers match their source hashes and include the accelerated 
  }
  for(const file of ['js/app.js','onestore/js/app.js','preview/project-v-v3/source/project-v-pixi-battle.src.js'])assert(read(file).includes(version),file);
  for(const file of ['index.html','onestore/index.html','service-worker.js'])assert.match(read(file),/zero-awakening(?:15|-20261115)-v1/,file);
+ assert.equal(read('service-worker.js').match(/soop-card-shell-v([^']+)/)[1],read('index.html').match(/js\/app\.js\?v=([^"'&]+)/)[1]);
 });
 test('deployed body and effect assets exactly match the user-approved image hashes',()=>{
  const approval=JSON.parse(read('docs/qa/zero-awakening-release-20261115/approval.json'));
