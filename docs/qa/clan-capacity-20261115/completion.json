@@ -1,0 +1,924 @@
+{
+  "status": "COMPLETED",
+  "checkedAt": "2026-11-15T03:59:32.269Z",
+  "appliedAtKST": "2026. 11. 15. 12시 56분 31초",
+  "receipt": {
+    "operationKey": "ops:clan-hideout-capacity:20261115:v1",
+    "status": "COMPLETED",
+    "roundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+    "windowId": "3c8d2f77-9257-434a-88f2-854f2ec41eb9",
+    "seasonNo": 5,
+    "appliedAt": "2026-11-15T03:56:31.855Z",
+    "limits": [
+      8,
+      10,
+      15,
+      25,
+      25
+    ],
+    "includesElders": true,
+    "order": "joinedAt ASC, userId ASC",
+    "cooldownsAdded": 0,
+    "clans": [
+      {
+        "id": 1,
+        "stage": 1,
+        "capacity": 8,
+        "before": 3,
+        "after": 3,
+        "retainedUserIds": [
+          4627,
+          22,
+          360
+        ],
+        "name": "DK"
+      },
+      {
+        "id": 2,
+        "stage": 1,
+        "capacity": 8,
+        "before": 3,
+        "after": 3,
+        "retainedUserIds": [
+          5877,
+          4981,
+          6132
+        ],
+        "name": "삼성"
+      },
+      {
+        "id": 3,
+        "stage": 1,
+        "capacity": 8,
+        "before": 4,
+        "after": 4,
+        "retainedUserIds": [
+          289,
+          525,
+          6198,
+          236
+        ],
+        "name": "T1"
+      },
+      {
+        "id": 4,
+        "stage": 1,
+        "capacity": 8,
+        "before": 4,
+        "after": 4,
+        "retainedUserIds": [
+          4479,
+          4705,
+          4643,
+          787
+        ],
+        "name": "한화"
+      },
+      {
+        "id": 5,
+        "stage": 1,
+        "capacity": 8,
+        "before": 4,
+        "after": 4,
+        "retainedUserIds": [
+          233,
+          4595,
+          4598,
+          4572
+        ],
+        "name": "LG"
+      },
+      {
+        "id": 6,
+        "stage": 1,
+        "capacity": 8,
+        "before": 11,
+        "after": 8,
+        "retainedUserIds": [
+          218,
+          4391,
+          88,
+          226,
+          1768,
+          3867,
+          1545,
+          4614
+        ],
+        "name": "롯데"
+      },
+      {
+        "id": 7,
+        "stage": 1,
+        "capacity": 8,
+        "before": 11,
+        "after": 8,
+        "retainedUserIds": [
+          85,
+          1195,
+          4597,
+          315,
+          4691,
+          4415,
+          4610,
+          4408
+        ],
+        "name": "FM"
+      },
+      {
+        "id": 8,
+        "stage": 1,
+        "capacity": 8,
+        "before": 14,
+        "after": 8,
+        "retainedUserIds": [
+          3,
+          16,
+          1249,
+          4828,
+          164,
+          4562,
+          2333,
+          220
+        ],
+        "name": "DC"
+      }
+    ],
+    "removed": [
+      {
+        "userId": 4199,
+        "power": 128037,
+        "joinedAt": 1794677399616,
+        "organizationId": 6,
+        "nickname": "택신"
+      },
+      {
+        "userId": 4629,
+        "power": 65049,
+        "joinedAt": 1794679096928,
+        "organizationId": 6,
+        "nickname": "Veil"
+      },
+      {
+        "userId": 45,
+        "power": 429155,
+        "joinedAt": 1794714626466,
+        "organizationId": 6,
+        "nickname": "박세라-ㅂ-"
+      },
+      {
+        "userId": 4615,
+        "power": 182784,
+        "joinedAt": 1794677529175,
+        "organizationId": 7,
+        "nickname": "랭비!"
+      },
+      {
+        "userId": 792,
+        "power": 134576,
+        "joinedAt": 1794681450724,
+        "organizationId": 7,
+        "nickname": "센텀신사"
+      },
+      {
+        "userId": 290,
+        "power": 292874,
+        "joinedAt": 1794714485970,
+        "organizationId": 7,
+        "nickname": "Mild7"
+      },
+      {
+        "userId": 92,
+        "power": 100378,
+        "joinedAt": 1794676556322,
+        "organizationId": 8,
+        "nickname": "불곰덫"
+      },
+      {
+        "userId": 4866,
+        "power": 143147,
+        "joinedAt": 1794679085505,
+        "organizationId": 8,
+        "nickname": "[C9]가시"
+      },
+      {
+        "userId": 32,
+        "power": 190202,
+        "joinedAt": 1794685244356,
+        "organizationId": 8,
+        "nickname": "쑤댕"
+      },
+      {
+        "userId": 4730,
+        "power": 83813,
+        "joinedAt": 1794703093111,
+        "organizationId": 8,
+        "nickname": "리오넬"
+      },
+      {
+        "userId": 493,
+        "power": 177466,
+        "joinedAt": 1794703742549,
+        "organizationId": 8,
+        "nickname": "치타구"
+      },
+      {
+        "userId": 681,
+        "power": 54286,
+        "joinedAt": 1794704796189,
+        "organizationId": 8,
+        "nickname": "페이트런"
+      }
+    ],
+    "auditId": "61069",
+    "seasonReset": {
+      "stage": 1,
+      "points": 0,
+      "balance": 0,
+      "totalEarned": 0
+    },
+    "resetStartsAt": "2026-11-15T15:56:36.823Z"
+  },
+  "removedByClub": [
+    {
+      "name": "롯데",
+      "removed": 3
+    },
+    {
+      "name": "FM",
+      "removed": 3
+    },
+    {
+      "name": "DC",
+      "removed": 6
+    }
+  ],
+  "reset": {
+    "stage": 1,
+    "points": 0,
+    "communalFunds": 0,
+    "totalEarned": 0,
+    "appliesAtSeasonTransition": "2026-11-15T15:56:36.823Z",
+    "previousSeasonRecordsPreserved": true,
+    "registrationAlreadyUsesLevelOne": true
+  },
+  "verification": {
+    "removed": [
+      {
+        "userId": 4199,
+        "nickname": "택신",
+        "canReapply": true,
+        "hasCooldown": false
+      },
+      {
+        "userId": 4629,
+        "nickname": "Veil",
+        "canReapply": true,
+        "hasCooldown": false
+      },
+      {
+        "userId": 45,
+        "nickname": "박세라-ㅂ-",
+        "canReapply": true,
+        "hasCooldown": false
+      },
+      {
+        "userId": 4615,
+        "nickname": "랭비!",
+        "canReapply": true,
+        "hasCooldown": false
+      },
+      {
+        "userId": 792,
+        "nickname": "센텀신사",
+        "canReapply": true,
+        "hasCooldown": false
+      },
+      {
+        "userId": 290,
+        "nickname": "Mild7",
+        "canReapply": true,
+        "hasCooldown": false
+      },
+      {
+        "userId": 92,
+        "nickname": "불곰덫",
+        "canReapply": true,
+        "hasCooldown": false
+      },
+      {
+        "userId": 4866,
+        "nickname": "[C9]가시",
+        "canReapply": true,
+        "hasCooldown": false
+      },
+      {
+        "userId": 32,
+        "nickname": "쑤댕",
+        "canReapply": true,
+        "hasCooldown": false
+      },
+      {
+        "userId": 4730,
+        "nickname": "리오넬",
+        "canReapply": true,
+        "hasCooldown": false
+      },
+      {
+        "userId": 493,
+        "nickname": "치타구",
+        "canReapply": true,
+        "hasCooldown": false
+      },
+      {
+        "userId": 681,
+        "nickname": "페이트런",
+        "canReapply": true,
+        "hasCooldown": false
+      }
+    ],
+    "clans": [
+      {
+        "id": 1,
+        "name": "DK",
+        "stage": 1,
+        "capacity": 8,
+        "members": 3
+      },
+      {
+        "id": 2,
+        "name": "삼성",
+        "stage": 1,
+        "capacity": 8,
+        "members": 3
+      },
+      {
+        "id": 3,
+        "name": "T1",
+        "stage": 1,
+        "capacity": 8,
+        "members": 4
+      },
+      {
+        "id": 4,
+        "name": "한화",
+        "stage": 1,
+        "capacity": 8,
+        "members": 4
+      },
+      {
+        "id": 5,
+        "name": "LG",
+        "stage": 1,
+        "capacity": 8,
+        "members": 4
+      },
+      {
+        "id": 6,
+        "name": "롯데",
+        "stage": 1,
+        "capacity": 8,
+        "members": 8
+      },
+      {
+        "id": 7,
+        "name": "FM",
+        "stage": 1,
+        "capacity": 8,
+        "members": 8
+      },
+      {
+        "id": 8,
+        "name": "DC",
+        "stage": 1,
+        "capacity": 8,
+        "members": 8
+      }
+    ],
+    "accountCooldownWrites": 0,
+    "gameMessagesSent": 0,
+    "noticePublished": false
+  },
+  "deployment": {
+    "checkedAt": "2026-11-15T03:58:11.098Z",
+    "pages": {
+      "at": "2026-11-15T03:58:04.777Z",
+      "id": "a372782f-d177-4f1c-99fa-58f912107293",
+      "url": "https://a372782f.cnine-card.pages.dev",
+      "status": "success",
+      "commit": "ae356be032c504d1b8b098fd6c921fb36708e7dd"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "8d8b2107-5259-4137-9aaf-c8485ad2d6b6",
+        "percentage": 100,
+        "review": true,
+        "rejoin": true,
+        "leave": true,
+        "sha256": "131ec3f3e316611fe5ef226d402d1ab6a3b3e6a5f9a08c477380d897dc1cc997"
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "01427b72-07d6-409c-9a08-e520c15662e0",
+        "percentage": 100,
+        "review": true,
+        "rejoin": true,
+        "leave": true,
+        "sha256": "8ce2f7489a1cc43b7ef5d750019dae1c918f65677565b3a608f7832c0efbb6e7"
+      }
+    ],
+    "files": [
+      {
+        "file": "organization/index.html",
+        "bytes": 1106,
+        "sha256": "193fe7be4d2b9c586324cc753bdb3c1e5e8e53f4dbe3a4ba357a870f8d586ee8"
+      },
+      {
+        "file": "js/organization-public-v1.mjs",
+        "bytes": 982,
+        "sha256": "4016f39223ba9f6eb446cf1d18692b83ec183895324f91c91a7fb6a47fbc94d2"
+      },
+      {
+        "file": "js/organization-system-v1.mjs",
+        "bytes": 36835,
+        "sha256": "005ae69b360decc48752c8b1df1bdf78e5c60683c9218d301b33388c7196a2ec"
+      },
+      {
+        "file": "js/organization-join-v1.mjs",
+        "bytes": 3869,
+        "sha256": "1352e0939dc67f44813f83e232d34040999610d9e510f82ed9965720cd48e033"
+      },
+      {
+        "file": "js/organization-dashboard-v1.mjs",
+        "bytes": 6828,
+        "sha256": "9d36e914a4d57652fe9bfc058c585dd13df8ad8352c5bcb4a180c85565416594"
+      },
+      {
+        "file": "shared/organization-capacity-v1.mjs",
+        "bytes": 369,
+        "sha256": "73d08859af475b7cbf4aa86392dfcb8888beaacd94433a0175cce3fc43abbe31"
+      }
+    ],
+    "windowsRelease": "67b1f5a7a01ac62bcc19e5651da32d5079aca70f6981e68feb965d2c1f65e7c9",
+    "windowsChanged": [
+      "/js/organization-dashboard-v1.mjs",
+      "/js/organization-join-v1.mjs",
+      "/js/organization-public-v1.mjs",
+      "/js/organization-system-v1.mjs",
+      "/organization/index.html",
+      "/shared/organization-capacity-v1.mjs"
+    ],
+    "windowsRemoved": []
+  },
+  "tests": {
+    "passed": 21,
+    "files": [
+      "tests/clan-capacity-20261115.test.mjs",
+      "tests/clan-hideout-season-20261110.test.mjs",
+      "tests/clan-review-rejoin-20261114.test.mjs",
+      "tests/organization-join-20261023.test.mjs",
+      "tests/clan-capacity-view-20261115.test.mjs"
+    ],
+    "legacyDashboardTest": "Historical 15-clan/46-district browser test excluded; current 8-clan UI validated through task scripts."
+  },
+  "performance": {
+    "conditions": "Windows; Chrome headless, WebKit iPhone emulation, Electron test client and H5 harness. Isolated PostgreSQL for browser joins. No physical iPhone/Android measurements. Baseline/candidate local resources, same routes and fixture; public resource check separate.",
+    "sqlRejection": {
+      "conditions": "PGlite isolated PostgreSQL; 10 ms artificial latency per SQL; same full 25-member roster; three sequential samples; no production accounts",
+      "reports": [
+        {
+          "name": "before",
+          "samples": [
+            {
+              "ms": 104.2,
+              "queries": 7,
+              "ratingLoads": 1
+            },
+            {
+              "ms": 106.6,
+              "queries": 7,
+              "ratingLoads": 1
+            },
+            {
+              "ms": 108,
+              "queries": 7,
+              "ratingLoads": 1
+            }
+          ]
+        },
+        {
+          "name": "after",
+          "samples": [
+            {
+              "ms": 60.3,
+              "queries": 4,
+              "ratingLoads": 0
+            },
+            {
+              "ms": 61,
+              "queries": 4,
+              "ratingLoads": 0
+            },
+            {
+              "ms": 61.4,
+              "queries": 4,
+              "ratingLoads": 0
+            }
+          ]
+        }
+      ]
+    },
+    "standalone": {
+      "before": [
+        {
+          "mode": "before",
+          "platform": "desktop",
+          "device": "Windows Chrome headless",
+          "data": "isolated PostgreSQL",
+          "entry": [
+            {
+              "entry": "first",
+              "ms": 193
+            },
+            {
+              "entry": "return",
+              "ms": 118
+            }
+          ],
+          "errors": [],
+          "calls": [
+            {
+              "endpoint": "organization/overview",
+              "ms": 11
+            },
+            {
+              "endpoint": "organization/overview",
+              "ms": 6
+            },
+            {
+              "endpoint": "organization/elder/join",
+              "ms": 17
+            },
+            {
+              "endpoint": "organization/overview",
+              "ms": 5
+            },
+            {
+              "endpoint": "organization/overview",
+              "ms": 6
+            }
+          ],
+          "options": [
+            "클랜 선택",
+            "DK · 8/25명",
+            "삼성 · 0/25명",
+            "T1 · 0/25명",
+            "한화 · 0/25명",
+            "LG · 0/25명",
+            "롯데 · 0/25명",
+            "FM · 0/25명",
+            "DC · 0/25명"
+          ],
+          "joinMs": 75,
+          "frames": {
+            "samples": 190,
+            "p95Ms": 4.3,
+            "maxMs": 24.9,
+            "over50": 0,
+            "overflow": false
+          },
+          "postExitRequests": 0
+        },
+        {
+          "mode": "before",
+          "platform": "ios",
+          "device": "Windows WebKit iPhone 13 emulation",
+          "data": "isolated PostgreSQL",
+          "entry": [
+            {
+              "entry": "first",
+              "ms": 217
+            },
+            {
+              "entry": "return",
+              "ms": 137
+            }
+          ],
+          "errors": [],
+          "calls": [
+            {
+              "endpoint": "organization/overview",
+              "ms": 17
+            },
+            {
+              "endpoint": "organization/overview",
+              "ms": 5
+            },
+            {
+              "endpoint": "organization/elder/join",
+              "ms": 19
+            },
+            {
+              "endpoint": "organization/overview",
+              "ms": 5
+            },
+            {
+              "endpoint": "organization/overview",
+              "ms": 5
+            }
+          ],
+          "options": [
+            "클랜 선택",
+            "DK · 8/25명",
+            "삼성 · 0/25명",
+            "T1 · 0/25명",
+            "한화 · 0/25명",
+            "LG · 0/25명",
+            "롯데 · 0/25명",
+            "FM · 0/25명",
+            "DC · 0/25명"
+          ],
+          "joinMs": 170,
+          "frames": {
+            "samples": 51,
+            "p95Ms": 58,
+            "maxMs": 83,
+            "over50": 3,
+            "overflow": false
+          },
+          "postExitRequests": 0
+        }
+      ],
+      "after": [
+        {
+          "mode": "candidate",
+          "platform": "desktop",
+          "device": "Windows Chrome headless",
+          "data": "isolated PostgreSQL",
+          "entry": [
+            {
+              "entry": "first",
+              "ms": 257
+            },
+            {
+              "entry": "return",
+              "ms": 90
+            }
+          ],
+          "errors": [],
+          "calls": [
+            {
+              "endpoint": "organization/overview",
+              "ms": 17
+            },
+            {
+              "endpoint": "organization/overview",
+              "ms": 6
+            },
+            {
+              "endpoint": "organization/elder/join",
+              "ms": 17
+            },
+            {
+              "endpoint": "organization/overview",
+              "ms": 7
+            },
+            {
+              "endpoint": "organization/overview",
+              "ms": 5
+            }
+          ],
+          "options": [
+            "클랜 선택",
+            "DK · 8/8명 · 아지트 1레벨",
+            "삼성 · 0/8명 · 아지트 1레벨",
+            "T1 · 0/8명 · 아지트 1레벨",
+            "한화 · 0/8명 · 아지트 1레벨",
+            "LG · 0/8명 · 아지트 1레벨",
+            "롯데 · 0/8명 · 아지트 1레벨",
+            "FM · 0/8명 · 아지트 1레벨",
+            "DC · 0/8명 · 아지트 1레벨"
+          ],
+          "joinMs": 76,
+          "frames": {
+            "samples": 187,
+            "p95Ms": 4.3,
+            "maxMs": 29.2,
+            "over50": 0,
+            "overflow": false
+          },
+          "postExitRequests": 0
+        },
+        {
+          "mode": "candidate",
+          "platform": "ios",
+          "device": "Windows WebKit iPhone 13 emulation",
+          "data": "isolated PostgreSQL",
+          "entry": [
+            {
+              "entry": "first",
+              "ms": 183
+            },
+            {
+              "entry": "return",
+              "ms": 172
+            }
+          ],
+          "errors": [],
+          "calls": [
+            {
+              "endpoint": "organization/overview",
+              "ms": 14
+            },
+            {
+              "endpoint": "organization/overview",
+              "ms": 5
+            },
+            {
+              "endpoint": "organization/elder/join",
+              "ms": 17
+            },
+            {
+              "endpoint": "organization/overview",
+              "ms": 5
+            },
+            {
+              "endpoint": "organization/overview",
+              "ms": 5
+            }
+          ],
+          "options": [
+            "클랜 선택",
+            "DK · 8/8명 · 아지트 1레벨",
+            "삼성 · 0/8명 · 아지트 1레벨",
+            "T1 · 0/8명 · 아지트 1레벨",
+            "한화 · 0/8명 · 아지트 1레벨",
+            "LG · 0/8명 · 아지트 1레벨",
+            "롯데 · 0/8명 · 아지트 1레벨",
+            "FM · 0/8명 · 아지트 1레벨",
+            "DC · 0/8명 · 아지트 1레벨"
+          ],
+          "joinMs": 220,
+          "frames": {
+            "samples": 52,
+            "p95Ms": 51,
+            "maxMs": 93,
+            "over50": 3,
+            "overflow": false
+          },
+          "postExitRequests": 0
+        }
+      ]
+    },
+    "portal": [
+      {
+        "phase": "before",
+        "platform": "desktop",
+        "coldLobbyMs": 1738,
+        "entry": [
+          {
+            "ms": 614,
+            "calls": [
+              "clan/overview",
+              "organization/overview"
+            ]
+          },
+          {
+            "ms": 130,
+            "calls": [
+              "organization/overview"
+            ]
+          }
+        ],
+        "postExit": 0,
+        "errors": []
+      },
+      {
+        "phase": "candidate",
+        "platform": "desktop",
+        "coldLobbyMs": 1400,
+        "entry": [
+          {
+            "ms": 735,
+            "calls": [
+              "clan/overview",
+              "organization/overview"
+            ]
+          },
+          {
+            "ms": 220,
+            "calls": [
+              "organization/overview"
+            ]
+          }
+        ],
+        "postExit": 0,
+        "errors": []
+      },
+      {
+        "phase": "before",
+        "platform": "ios",
+        "coldLobbyMs": 1338,
+        "entry": [
+          {
+            "ms": 968,
+            "calls": [
+              "clan/overview",
+              "organization/overview"
+            ]
+          },
+          {
+            "ms": 559,
+            "calls": [
+              "organization/overview"
+            ]
+          }
+        ],
+        "postExit": 0,
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ]
+      },
+      {
+        "phase": "candidate",
+        "platform": "ios",
+        "coldLobbyMs": 2119,
+        "entry": [
+          {
+            "ms": 1358,
+            "calls": [
+              "clan/overview",
+              "organization/overview"
+            ]
+          },
+          {
+            "ms": 661,
+            "calls": [
+              "organization/overview"
+            ]
+          }
+        ],
+        "postExit": 0,
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ]
+      },
+      {
+        "phase": "candidate",
+        "platform": "windows",
+        "coldLobbyMs": 1351,
+        "entry": [
+          {
+            "ms": 859,
+            "calls": [
+              "clan/overview",
+              "organization/overview"
+            ]
+          },
+          {
+            "ms": 315,
+            "calls": [
+              "organization/overview"
+            ]
+          }
+        ],
+        "postExit": 0,
+        "errors": []
+      },
+      {
+        "phase": "candidate",
+        "platform": "h5",
+        "coldLobbyMs": 1471,
+        "entry": [
+          {
+            "ms": 984,
+            "calls": [
+              "clan/overview",
+              "organization/overview"
+            ]
+          },
+          {
+            "ms": 285,
+            "calls": [
+              "organization/overview"
+            ]
+          }
+        ],
+        "postExit": 0,
+        "errors": []
+      }
+    ],
+    "productionReadOnly": [
+      {
+        "entry": "first",
+        "ms": 437
+      },
+      {
+        "entry": "return",
+        "ms": 425
+      }
+    ],
+    "limitation": "WebKit refresh long frames existed before the change (83 ms maximum baseline, 93 ms candidate); all tested exit paths stopped clan requests."
+  },
+  "evidenceRoot": "operations/clan-capacity-20261115"
+}
