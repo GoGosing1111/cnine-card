@@ -1,0 +1,85 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:jokjjogi:cardgu-level21:20261115:v1",
+  "auditId": "61437",
+  "completedAt": "2026-11-15T14:17:49.304Z",
+  "verifiedAt": "2026-11-15T14:18:23.767Z",
+  "account": {
+    "id": 303,
+    "nickname": "[C9]족쪽이",
+    "role": "USER",
+    "status": "ACTIVE"
+  },
+  "card": {
+    "code": "V-970",
+    "name": "카드구",
+    "title": "검은 왕관의 카드 마법사",
+    "rank": "SSS",
+    "edition": "LIMITED"
+  },
+  "quantity": 1,
+  "copiesBefore": 0,
+  "copiesAfter": 1,
+  "permanent": true,
+  "level": 21,
+  "finalBreakthrough": true,
+  "breakthroughMask": 15,
+  "experience": 0,
+  "selectable": {
+    "PVE": 21,
+    "PVP": 21
+  },
+  "rankedAvailable": true,
+  "acquisition": "ops:jokjjogi:cardgu-level21:20261115:v1:303:V-970:1",
+  "acquisitionRecords": 1,
+  "auditRecords": 1,
+  "readOnly": true,
+  "noWriteReplay": true,
+  "additionalGrantsOnReplay": 0,
+  "numberedIssuesForGrant": 0,
+  "stock": [
+    {
+      "code": "REVERSECALL_STREAMER:V-970",
+      "stock_limit": 3,
+      "issued": 0,
+      "revision": 0
+    },
+    {
+      "code": "V-970",
+      "stock_limit": 10,
+      "issued": 9,
+      "revision": 11
+    }
+  ],
+  "ticketAtGrantBefore": 0,
+  "ticketAtGrantAfter": 0,
+  "currentTicketQuantity": 0,
+  "coinCost": 0,
+  "materialsConsumed": 0,
+  "messagesSent": 0,
+  "performance": {
+    "conditions": "Production account-state service invoked locally on Windows against production PostgreSQL in READ ONLY transaction; includes network. First and repeated service reads, not browser input-to-interactive or physical-device frame measurements. Data-only grant; no UI/runtime modification.",
+    "measurements": [
+      {
+        "phase": "first",
+        "elapsedMs": 1073,
+        "copies": 1,
+        "level": 21
+      },
+      {
+        "phase": "reentry",
+        "elapsedMs": 882,
+        "copies": 1,
+        "level": 21
+      }
+    ],
+    "grantMs": 2636,
+    "rehearsalMs": 3333
+  },
+  "authorization": "[C9]족쪽이 계정에 카드구 21레벨 지급해",
+  "completedAtKst": "2026-11-15 23:17:49 KST",
+  "rollbackVerified": true,
+  "locksReleased": true,
+  "unrelatedCurrencyInventoryCardsAndLevelsPreserved": true,
+  "gameDeployment": false
+}

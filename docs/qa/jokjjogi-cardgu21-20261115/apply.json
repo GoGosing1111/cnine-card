@@ -1,0 +1,78 @@
+{
+  "status": "COMMITTED",
+  "receipt": {
+    "status": "COMPLETED",
+    "actor": "CODEX_OPERATIONS",
+    "operationKey": "ops:jokjjogi:cardgu-level21:20261115:v1",
+    "planHash": "1f3c430984cc83aa8b0f649395bbd4813508d485f669d9bd3ca59e6143d94445",
+    "account": {
+      "userId": "303",
+      "nickname": "[C9]족쪽이",
+      "role": "USER",
+      "status": "ACTIVE"
+    },
+    "card": {
+      "code": "V-970",
+      "name": "카드구",
+      "title": "검은 왕관의 카드 마법사",
+      "rank": "SSS",
+      "edition": "LIMITED"
+    },
+    "quantity": 1,
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "previousLevel": null,
+    "after": {
+      "level": 21,
+      "experience": 0,
+      "breakthroughMask": 15,
+      "revision": 1
+    },
+    "acquisition": "ops:jokjjogi:cardgu-level21:20261115:v1:303:V-970:1",
+    "coinCost": 0,
+    "materialsConsumed": 0,
+    "stockChange": 0,
+    "syncRevision": "783220",
+    "completedAt": "2026-11-15T14:17:49.304Z",
+    "auditId": "61437"
+  },
+  "rollbackVerified": true,
+  "noWriteReplay": true,
+  "protectedBeforeHash": "3d133c70f77338c602356c0707468fe61b879a934bebb59c3bd952194ff826ef",
+  "protectedAfterHash": "3d133c70f77338c602356c0707468fe61b879a934bebb59c3bd952194ff826ef",
+  "ticketBefore": 0,
+  "ticketAfter": 0,
+  "stockBefore": [
+    {
+      "code": "REVERSECALL_STREAMER:V-970",
+      "issued": 0,
+      "revision": 0,
+      "stock_limit": 3
+    },
+    {
+      "code": "V-970",
+      "issued": 9,
+      "revision": 11,
+      "stock_limit": 10
+    }
+  ],
+  "stockAfter": [
+    {
+      "code": "REVERSECALL_STREAMER:V-970",
+      "issued": 0,
+      "revision": 0,
+      "stock_limit": 3
+    },
+    {
+      "code": "V-970",
+      "issued": 9,
+      "revision": 11,
+      "stock_limit": 10
+    }
+  ],
+  "rehearsalMs": 3333,
+  "grantMs": 2636,
+  "messagesSent": 0,
+  "condition": "Windows client to production PostgreSQL; network included; live USER_LOCK and DB lease held; no game runtime or UI change.",
+  "leasesReleased": true
+}
