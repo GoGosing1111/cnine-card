@@ -1,5 +1,5 @@
 {
-  "status": "IMPLEMENTED_APPROVED_READY_FOR_SCOPED_DEPLOY",
+  "status": "LIVE_VERIFIED",
   "at": "2026-11-15T05:07:37.696Z",
   "userApproval": {
     "at": "2026-11-15T04:53:11.644Z",
@@ -521,8 +521,67 @@
           "rms": 2.0345276458167145e-34
         }
       }
+    ],
+    "releaseGateHistory": [
+      {
+        "source": "8026bc1a2",
+        "deployed": false,
+        "reason": "Delivery test incorrectly expected a global API version in the direct-constructor defense bundle; corrected while retaining hash/skill checks."
+      },
+      {
+        "source": "d38934251",
+        "deployed": false,
+        "reason": "Installed-shell cache release tag mismatch; exact app tag synchronized and regression assertion added."
+      },
+      {
+        "source": "db6dc19827bb80ca32ab48d5ff2b4ed777253835",
+        "deployed": true,
+        "checksPassed": 54
+      }
     ]
   },
   "operationalAccountWrites": 0,
-  "deployment": null
+  "deployment": {
+    "source": "db6dc19827bb80ca32ab48d5ff2b4ed777253835",
+    "pages": {
+      "id": "5af97eac-1667-4c68-ba64-aaf3cd913e2b",
+      "url": "https://5af97eac.cnine-card.pages.dev",
+      "status": "success",
+      "commit": "db6dc19827bb80ca32ab48d5ff2b4ed777253835"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deploymentId": "ead3b7b6-4520-4085-8567-c54c64629dd1",
+        "versions": [
+          {
+            "version_id": "47c6daa9-cb8d-43de-9377-b662a2c95aaf",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deploymentId": "5af564e1-84a1-4e64-9839-3f1292fcfdf6",
+        "versions": [
+          {
+            "version_id": "b5883a5d-1b45-4b6c-901f-3f59fdc13a2b",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "windows": "b2efa620cd9b6fd12c047f0af29d2b720a6d13aa3878d4bf996228ba57bbec51",
+    "publicFiles": 15,
+    "windowsFiles": 10,
+    "scopedChecks": 54,
+    "workerCompilation": true,
+    "accountWrites": 0,
+    "execution": {
+      "exitCode": 0,
+      "finishedAt": "2026-11-15T05:18:10.119Z"
+    },
+    "verification": "live-verification.json"
+  },
+  "completedAt": "2026-11-15T05:20:16.376Z"
 }

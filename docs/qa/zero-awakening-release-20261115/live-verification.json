@@ -1,0 +1,492 @@
+{
+  "at": "2026-11-15T05:18:35.747Z",
+  "releaseCommit": "db6dc19827bb80ca32ab48d5ff2b4ed777253835",
+  "pages": {
+    "id": "5af97eac-1667-4c68-ba64-aaf3cd913e2b",
+    "url": "https://5af97eac.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "db6dc19827bb80ca32ab48d5ff2b4ed777253835"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "deploymentId": "ead3b7b6-4520-4085-8567-c54c64629dd1",
+      "versions": [
+        {
+          "version_id": "47c6daa9-cb8d-43de-9377-b662a2c95aaf",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "deploymentId": "5af564e1-84a1-4e64-9839-3f1292fcfdf6",
+      "versions": [
+        {
+          "version_id": "b5883a5d-1b45-4b6c-901f-3f59fdc13a2b",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "bytes": 52644,
+      "sha256": "c02014965f15ef1e8d340b408f069301e09b1b62dcb51fde45a175c56419f300"
+    },
+    {
+      "file": "js/app.js",
+      "bytes": 832463,
+      "sha256": "37910ad74bc69c43f34e81bcb325142619f009c87bf2e4a18bd46c364e709517"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "bytes": 78686,
+      "sha256": "80ec68bf239f8a93ad3b205a5eeddce201d09d8391a80f232cf9532932815bae"
+    },
+    {
+      "file": "service-worker.js",
+      "bytes": 25757,
+      "sha256": "aeb4b6437ff0776177eeb591afab094d868db137235d03e69d9978bae0427708"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "bytes": 3735120,
+      "sha256": "dc6c512fc16ebdf4ecd7a103fbecb072b7be7988d72a1a6b55cd798b754ecc27"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "bytes": 3758805,
+      "sha256": "a11831aba62863689012afb38b6c84f2795ef98f1044880696f1fb99db6813b9"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "bytes": 826626,
+      "sha256": "7132ca67d643010fb10c9eefb63df77d83a2196c9d252af8e9fa73f0f1d7463c"
+    },
+    {
+      "file": "shared/mercenary-zero-v1.mjs",
+      "bytes": 6317,
+      "sha256": "6e60428860316c0ef8ce6487c9f8518c75ffe4b62df4420576e8d619f473b15b"
+    },
+    {
+      "file": "preview/zero-awakening-20261115/source/ZeroAwakening.js",
+      "bytes": 15784,
+      "sha256": "e83c238928893e65fd871f7da8ef93bf7e2a8279d3fa1b12e8b567ae78d89006"
+    },
+    {
+      "file": "preview/zero-awakening-20261115/runtime/body.json",
+      "bytes": 3780,
+      "sha256": "c05759c9f80d10a7615b65b43de015b0c15edd878f41219f45d33d7bb9ddba88"
+    },
+    {
+      "file": "preview/zero-awakening-20261115/runtime/zero-awakening-body.png",
+      "bytes": 1613384,
+      "sha256": "0d7cd98dedf341d46c279f5c1686f90c35d0193fab03b79b99ba7a1df68ef164"
+    },
+    {
+      "file": "preview/zero-awakening-20261115/effects-v2/runtime/fx-manifest.json",
+      "bytes": 11600,
+      "sha256": "c3b6136ee2b3117e68ccbfed739dfbf998fcae155e0b44a9d57e98a1ea4d12ac"
+    },
+    {
+      "file": "preview/zero-awakening-20261115/effects-v2/runtime/awakening-crown.png",
+      "bytes": 1963640,
+      "sha256": "4efeffa40f890e316693f03b17a1adacea5c918295076369ddee4cb66a708666"
+    },
+    {
+      "file": "preview/zero-awakening-20261115/effects-v2/runtime/awakening-storm.png",
+      "bytes": 1951744,
+      "sha256": "cf675ccbdcad8dd46c27e2cf02466fd2f64283101a2f6c5d6a98254a4904fc75"
+    },
+    {
+      "file": "preview/zero-awakening-20261115/effects-v2/runtime/awakening-verdict.png",
+      "bytes": 1288459,
+      "sha256": "4fec32ab7032ed93555af4f8b946a7ce31f7f50eb953db944217a9fed58ab07e"
+    }
+  ],
+  "windows": {
+    "releaseId": "b2efa620cd9b6fd12c047f0af29d2b720a6d13aa3878d4bf996228ba57bbec51",
+    "matched": [
+      {
+        "file": "js/app.js",
+        "bytes": 832463,
+        "sha256": "37910ad74bc69c43f34e81bcb325142619f009c87bf2e4a18bd46c364e709517"
+      },
+      {
+        "file": "js/battle-v3-live.js",
+        "bytes": 78686,
+        "sha256": "80ec68bf239f8a93ad3b205a5eeddce201d09d8391a80f232cf9532932815bae"
+      },
+      {
+        "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "bytes": 3735120,
+        "sha256": "dc6c512fc16ebdf4ecd7a103fbecb072b7be7988d72a1a6b55cd798b754ecc27"
+      },
+      {
+        "file": "preview/sustained-hunt-v2/battle.bundle.js",
+        "bytes": 3758805,
+        "sha256": "a11831aba62863689012afb38b6c84f2795ef98f1044880696f1fb99db6813b9"
+      },
+      {
+        "file": "preview/zero-awakening-20261115/runtime/body.json",
+        "bytes": 3780,
+        "sha256": "c05759c9f80d10a7615b65b43de015b0c15edd878f41219f45d33d7bb9ddba88"
+      },
+      {
+        "file": "preview/zero-awakening-20261115/runtime/zero-awakening-body.png",
+        "bytes": 1613384,
+        "sha256": "0d7cd98dedf341d46c279f5c1686f90c35d0193fab03b79b99ba7a1df68ef164"
+      },
+      {
+        "file": "preview/zero-awakening-20261115/effects-v2/runtime/fx-manifest.json",
+        "bytes": 11600,
+        "sha256": "c3b6136ee2b3117e68ccbfed739dfbf998fcae155e0b44a9d57e98a1ea4d12ac"
+      },
+      {
+        "file": "preview/zero-awakening-20261115/effects-v2/runtime/awakening-crown.png",
+        "bytes": 1963640,
+        "sha256": "4efeffa40f890e316693f03b17a1adacea5c918295076369ddee4cb66a708666"
+      },
+      {
+        "file": "preview/zero-awakening-20261115/effects-v2/runtime/awakening-storm.png",
+        "bytes": 1951744,
+        "sha256": "cf675ccbdcad8dd46c27e2cf02466fd2f64283101a2f6c5d6a98254a4904fc75"
+      },
+      {
+        "file": "preview/zero-awakening-20261115/effects-v2/runtime/awakening-verdict.png",
+        "bytes": 1288459,
+        "sha256": "4fec32ab7032ed93555af4f8b946a7ce31f7f50eb953db944217a9fed58ab07e"
+      }
+    ]
+  },
+  "zero": {
+    "code": "V-976",
+    "name": "제로",
+    "title": "백금 검익",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "role": "VANGUARD",
+    "position": "FRONT",
+    "artOnly": false,
+    "releaseStatus": "BATTLE_RELEASED",
+    "acquisition": "BLUE_GEAR_PACK",
+    "sourceArt": "assets/ui/project-v/mercenaries/zero-20261020/source-art.png",
+    "sourceArtSha256": "D9EBF2DD04DE55D7EBA230617BBE81B11C1EAF6E728D61BB32D892ECC82D0159",
+    "battleSprite": "assets/ui/project-v/mercenaries/zero-20261020/idle.png",
+    "battleSpriteSha256": "3D2A3CB1814FC75AB99FAD6E144468560EBF66D10FEAC6219B4F9CAC4DB231A9",
+    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+    "artWindow": {
+      "left": 5.957,
+      "top": 5.794,
+      "width": 88.086,
+      "height": 88.086
+    },
+    "accent": "#a8ecff",
+    "basePower": 3000000,
+    "skills": [
+      {
+        "id": "MS-972",
+        "name": "청광 횡단",
+        "visualMode": "horizon",
+        "mechanic": "ZERO_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.5,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "일반 공격이 세 동작으로 순환합니다. 여러 검격도 기존의 1.5배로 강화한 일반 공격 한 번의 피해를 적용합니다.",
+        "trigger": "일반 공격 · 청광 횡단 → 섬광 연참 → 용궤 검격",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-973",
+        "name": "섬광 연참",
+        "visualMode": "flurry",
+        "mechanic": "ZERO_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.5,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "일반 공격이 세 동작으로 순환합니다. 여러 검격도 기존의 1.5배로 강화한 일반 공격 한 번의 피해를 적용합니다.",
+        "trigger": "일반 공격 · 청광 횡단 → 섬광 연참 → 용궤 검격",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-974",
+        "name": "용궤 검격",
+        "visualMode": "meteor",
+        "mechanic": "ZERO_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.5,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "일반 공격이 세 동작으로 순환합니다. 여러 검격도 기존의 1.5배로 강화한 일반 공격 한 번의 피해를 적용합니다.",
+        "trigger": "일반 공격 · 청광 횡단 → 섬광 연참 → 용궤 검격",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-976",
+        "name": "천검 포위",
+        "visualMode": "array",
+        "mechanic": "PLATINUM_WINGS_SWORD_DOMAIN",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "version": 4,
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "생존한 적 전체에 총 3,024% 피해를 나누어 대상당 한 번 적용합니다.",
+        "trigger": "PVE · 에너지 20 · 세 광역기 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-975",
+        "name": "창천 종단",
+        "visualMode": "zenith",
+        "mechanic": "PLATINUM_WINGS_SWORD_DOMAIN",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "version": 4,
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "생존한 적 전체에 총 3,024% 피해를 나누어 대상당 한 번 적용합니다.",
+        "trigger": "PVE · 에너지 20 · 세 광역기 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-1096",
+        "name": "극광 · 백금천섬",
+        "visualMode": "awakening",
+        "playbackRate": 1.75,
+        "duration": 4.2,
+        "impact": 2.9,
+        "hitstop": 0.075,
+        "mechanic": "PLATINUM_WINGS_SWORD_DOMAIN",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "version": 4,
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "생존한 적 전체에 총 3,024% 피해를 나누어 대상당 한 번 적용합니다.",
+        "trigger": "PVE · 에너지 20 · 세 광역기 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      }
+    ],
+    "acquisitionEnabled": false,
+    "packAcquisitionEnabled": true,
+    "deploymentEnabled": true,
+    "combatLinkDescription": "기본 전투력 3,000,000. 공격·체력·방어·연계는 전투력에 비례하며 기존 속도와 행동 주기를 유지합니다. 개인 피해 80% 경감, 상태이상·반격 보호. 청광 횡단·섬광 연참·용궤 검격이 일반 공격마다 순환하며 피해가 기존의 1.5배입니다. PVE 천검 포위·창천 종단·극광 · 백금천섬은 순서대로 발동하며, 각 시전의 총 3,024% 피해를 생존한 적 전체에 나누어 적용합니다. 세 광역기는 에너지 20·재사용 3행동을 공유합니다. 백금 검익·흰 망토·흰 네온 윤곽.  PVP에서 상대 용병이 모두 제너럴 족이면 연계 공격 4배·연계 체력과 방벽 16배의 우위를 얻습니다. 상대의 성장·장비 적용 후 공격력의 최소 4배, 최대 체력·방벽의 최소 16배를 보장하며, 카드 연계 추가 행동을 포함한 상대 행동 속도의 최소 2배로 대응합니다. 이 우위는 전투 시작 시 고정됩니다. PVP 최상위 보정: 성장·장비·연계 적용 후 공격력과 기본 공격 피해 상한이 30%, 최대 체력과 방벽이 500% 증가합니다. 기존 제너럴 족 전용 우위와 중첩하지 않으며 PVE 능력치는 유지됩니다. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 4배). 고레벨 성장과 마지막 돌파도 이 배율에 반영됩니다. 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다. PVP 성장 전투는 C·B·A·S·SS·SSS·SSS 리미티드 순으로 등급 우위를 적용합니다. SS 리미티드는 기존 일반 SSS 전투 등급을 유지합니다. 상대 전원의 등급보다 높으면 같은 레벨 기준 단계당 공격·피해 상한 +100%, 체력·방벽 +500%의 추가 보정을 적용합니다. 상위 등급의 레벨이 낮으면 1레벨 차이마다 이 추가 보정과 성장 격차 보완을 10%씩 줄이며, 10레벨 이상 뒤처지면 적용하지 않습니다. 상위 등급을 향한 경감 관통·행동 대응의 등급 감쇠도 같은 비율로 줄어 10레벨 이상 높은 용병은 배운 숙련을 온전히 사용합니다. 원래 레벨 능력치·평타 성장·추가 행동 숙련은 유지합니다. 듀오는 상대 최고 등급과 가장 큰 레벨 격차를 기준으로 하며, 같은 전투 등급·PVE·기존 개별 용병 상성 정책은 유지합니다. 블루기어팩에서 3장 한정으로 획득합니다.",
+    "deploymentVersion": "20261012-helios-deployment-v1",
+    "acquisitionPackId": "mercenary-blue-gear",
+    "acquisitionPackName": "블루기어팩",
+    "acquisitionDescription": "11월 20일부터 블루기어팩에서 3장 한정으로 획득합니다.",
+    "stockPolicy": "PACK_ONLY",
+    "serverLimit": 3
+  },
+  "prime": {
+    "code": "V-975",
+    "name": "프라임 레퀴엠",
+    "title": "적월의 광전사",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "role": "VANGUARD",
+    "position": "FRONT",
+    "artOnly": false,
+    "releaseStatus": "BATTLE_RELEASED_ACQUISITION_LOCKED",
+    "acquisition": "LOCKED",
+    "sourceArt": "assets/ui/project-v/mercenaries/prime-requiem-20261021/source-art.png",
+    "sourceArtSha256": "B2D1C5DF8553370EC9FF90D72E27562C404C24DCECF33935BB74F0EDC13D2FDC",
+    "battleSprite": "assets/ui/project-v/mercenaries/prime-requiem-20261021/idle.png",
+    "battleSpriteSha256": "EA00ECB24265DCF168F139361FF09D538486048A384A3BFF872E174479116830",
+    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+    "artWindow": {
+      "left": 5.957,
+      "top": 5.794,
+      "width": 88.086,
+      "height": 88.086
+    },
+    "accent": "#ff163e",
+    "basePower": 3000000,
+    "skills": [
+      {
+        "id": "MS-960",
+        "name": "혈섬 돌진",
+        "visualMode": "blood-dash",
+        "mechanic": "PRIME_REQUIEM_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.5,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "일반 공격이 세 동작으로 순환합니다. 여러 검격도 기존의 1.5배로 강화한 일반 공격 한 번의 피해를 적용합니다.",
+        "trigger": "일반 공격 · 혈섬 돌진 → 혈영 연참 → 혈검 난무",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-961",
+        "name": "혈영 연참",
+        "visualMode": "blood-echo",
+        "mechanic": "PRIME_REQUIEM_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.5,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "일반 공격이 세 동작으로 순환합니다. 여러 검격도 기존의 1.5배로 강화한 일반 공격 한 번의 피해를 적용합니다.",
+        "trigger": "일반 공격 · 혈섬 돌진 → 혈영 연참 → 혈검 난무",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-962",
+        "name": "혈검 난무",
+        "visualMode": "blood-frenzy",
+        "mechanic": "PRIME_REQUIEM_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1.5,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "일반 공격이 세 동작으로 순환합니다. 여러 검격도 기존의 1.5배로 강화한 일반 공격 한 번의 피해를 적용합니다.",
+        "trigger": "일반 공격 · 혈섬 돌진 → 혈영 연참 → 혈검 난무",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-963",
+        "name": "혈호 강림",
+        "visualMode": "blood-tiger",
+        "mechanic": "CRIMSON_ECLIPSE_BERSERKER",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "version": 3,
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "생존한 적 전체에 총 3,024% 피해를 나누어 대상당 한 번 적용합니다.",
+        "trigger": "PVE · 에너지 20 · 네 광역기 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-964",
+        "name": "혈영섬 · 참형",
+        "visualMode": "blood-execution",
+        "mechanic": "CRIMSON_ECLIPSE_BERSERKER",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "version": 3,
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "생존한 적 전체에 총 3,024% 피해를 나누어 대상당 한 번 적용합니다.",
+        "trigger": "PVE · 에너지 20 · 네 광역기 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-965",
+        "name": "혈천개벽",
+        "visualMode": "blood-cataclysm",
+        "mechanic": "CRIMSON_ECLIPSE_BERSERKER",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "version": 3,
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "생존한 적 전체에 총 3,024% 피해를 나누어 대상당 한 번 적용합니다.",
+        "trigger": "PVE · 에너지 20 · 네 광역기 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-966",
+        "name": "적월 무간참",
+        "visualMode": "blood-moonfall",
+        "mechanic": "CRIMSON_ECLIPSE_BERSERKER",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "version": 3,
+          "damageRatio": 30.24,
+          "cooldownTurns": 3,
+          "cost": 20
+        },
+        "ready": true,
+        "effect": "생존한 적 전체에 총 3,024% 피해를 나누어 대상당 한 번 적용합니다.",
+        "trigger": "PVE · 에너지 20 · 네 광역기 공통 재사용 3행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      }
+    ],
+    "acquisitionEnabled": false,
+    "packAcquisitionEnabled": false,
+    "deploymentEnabled": true,
+    "combatLinkDescription": "기본 전투력 3,000,000. 제로와 동일한 공격·생존·속도·연계 기준. 개인 피해 80% 경감, 상태이상·반격 보호. 혈섬 돌진·혈영 연참·혈검 난무가 일반 공격마다 순환하며 피해가 기존의 1.5배입니다. PVE 광역기 네 동작은 공통 재사용 3행동·에너지 20을 사용하며, 시전당 총 3,024% 피해를 생존한 적에게 나누어 한 번씩 적용합니다. 부서진 적월·흑염·붉은 네온. 현재 획득 불가. PVP에서 상대 용병이 모두 제너럴 족이면 연계 공격 4배·연계 체력과 방벽 16배의 우위를 얻습니다. 상대의 성장·장비 적용 후 공격력의 최소 4배, 최대 체력·방벽의 최소 16배를 보장하며, 카드 연계 추가 행동을 포함한 상대 행동 속도의 최소 2배로 대응합니다. 이 우위는 전투 시작 시 고정됩니다. PVP 최상위 보정: 성장·장비·연계 적용 후 공격력과 기본 공격 피해 상한이 30%, 최대 체력과 방벽이 500% 증가합니다. 기존 제너럴 족 전용 우위와 중첩하지 않으며 PVE 능력치는 유지됩니다. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 4배). 고레벨 성장과 마지막 돌파도 이 배율에 반영됩니다. 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다. PVP 성장 전투는 C·B·A·S·SS·SSS·SSS 리미티드 순으로 등급 우위를 적용합니다. SS 리미티드는 기존 일반 SSS 전투 등급을 유지합니다. 상대 전원의 등급보다 높으면 같은 레벨 기준 단계당 공격·피해 상한 +100%, 체력·방벽 +500%의 추가 보정을 적용합니다. 상위 등급의 레벨이 낮으면 1레벨 차이마다 이 추가 보정과 성장 격차 보완을 10%씩 줄이며, 10레벨 이상 뒤처지면 적용하지 않습니다. 상위 등급을 향한 경감 관통·행동 대응의 등급 감쇠도 같은 비율로 줄어 10레벨 이상 높은 용병은 배운 숙련을 온전히 사용합니다. 원래 레벨 능력치·평타 성장·추가 행동 숙련은 유지합니다. 듀오는 상대 최고 등급과 가장 큰 레벨 격차를 기준으로 하며, 같은 전투 등급·PVE·기존 개별 용병 상성 정책은 유지합니다.",
+    "deploymentVersion": "20261012-helios-deployment-v1"
+  },
+  "operationalAccountWrites": 0
+}
