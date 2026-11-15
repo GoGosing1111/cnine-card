@@ -1,0 +1,186 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:simsimi:package4-with-bonus:20261116:v1",
+  "userId": "4933",
+  "nickname": "심심이",
+  "auditId": "61467",
+  "completedAt": "2026-11-15T15:11:25.745Z",
+  "verifiedAt": "2026-11-15T15:13:01.626Z",
+  "productCode": "SEASON_PASS_PACKAGE_20261115_PETS",
+  "quantity": 4,
+  "source": "OPERATOR_GRANT",
+  "chargedWon": 0,
+  "coins": {
+    "base": "2000000000000000",
+    "bonus": "12000000000000000",
+    "total": "14000000000000000",
+    "before": "1668969858482088",
+    "after": "15668969858482088",
+    "logId": "105268755"
+  },
+  "currentCoins": "15668970088482088",
+  "subsequentCoins": {
+    "delta": "230000000",
+    "entries": 4
+  },
+  "items": [
+    {
+      "code": "MASTER_STAR",
+      "name": "마스터의 별",
+      "granted": 4000000000,
+      "before": "29563183866",
+      "immediateAfter": "33563183866",
+      "current": "33563183866",
+      "subsequentDelta": "0",
+      "subsequentEntries": 0,
+      "logId": "89792633"
+    },
+    {
+      "code": "ARDEN_ENERGY",
+      "name": "아르덴 에너지",
+      "granted": 200,
+      "before": "4",
+      "immediateAfter": "204",
+      "current": "204",
+      "subsequentDelta": "0",
+      "subsequentEntries": 0,
+      "logId": "89792631"
+    },
+    {
+      "code": "WEAPON_ENHANCEMENT_SCROLL",
+      "name": "무기 강화주문서",
+      "granted": 40,
+      "before": "0",
+      "immediateAfter": "40",
+      "current": "40",
+      "subsequentDelta": "0",
+      "subsequentEntries": 0,
+      "logId": "89792637"
+    },
+    {
+      "code": "ARMOR_ENHANCEMENT_SCROLL",
+      "name": "방어구 강화주문서",
+      "granted": 40,
+      "before": "0",
+      "immediateAfter": "40",
+      "current": "40",
+      "subsequentDelta": "0",
+      "subsequentEntries": 0,
+      "logId": "89792632"
+    },
+    {
+      "code": "MERCENARY_SSS_LIMITED_SHARD",
+      "name": "SSS 리미티드 조각",
+      "granted": 100,
+      "before": "2",
+      "immediateAfter": "102",
+      "current": "102",
+      "subsequentDelta": "0",
+      "subsequentEntries": 0,
+      "logId": "89792634"
+    },
+    {
+      "code": "PET_SEAL_ORB",
+      "name": "펫 봉인구",
+      "granted": 200,
+      "before": "292",
+      "immediateAfter": "492",
+      "current": "492",
+      "subsequentDelta": "0",
+      "subsequentEntries": 0,
+      "logId": "89792636"
+    },
+    {
+      "code": "PET_ESSENCE",
+      "name": "펫 정수",
+      "granted": 2000,
+      "before": "5",
+      "immediateAfter": "2005",
+      "current": "2005",
+      "subsequentDelta": "0",
+      "subsequentEntries": 0,
+      "logId": "89792635"
+    }
+  ],
+  "bonus": {
+    "before": 0,
+    "after": 4,
+    "milestones": [
+      {
+        "purchases": 1,
+        "coins": "1000000000000000"
+      },
+      {
+        "purchases": 2,
+        "coins": "2000000000000000"
+      },
+      {
+        "purchases": 3,
+        "coins": "3000000000000000"
+      },
+      {
+        "purchases": 4,
+        "coins": "6000000000000000"
+      }
+    ],
+    "coins": "12000000000000000",
+    "currentPurchases": 4,
+    "nextPurchaseBonus": {
+      "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+      "paidPurchasesBefore": 4,
+      "paidPurchasesAfter": 5,
+      "milestones": [
+        {
+          "purchases": 5,
+          "coins": "8000000000000000"
+        }
+      ],
+      "coins": "8000000000000000",
+      "totalEarnedCoins": "20000000000000000"
+    }
+  },
+  "orderId": "4933_ops_simsimi_package4_bonus_20261116_v1",
+  "orderStatus": "FULFILLED",
+  "coinLedgerRecords": 1,
+  "inventoryLedgerRecords": 7,
+  "auditRecords": 1,
+  "balancesReconciled": true,
+  "packageCoinRestrictionPreserved": true,
+  "restrictedCoins": "14000000000000000",
+  "availableCoins": "1668970088482088",
+  "exactIntegerArithmetic": true,
+  "protectedStatePreserved": true,
+  "readOnly": true,
+  "noWriteReplay": true,
+  "additionalGrantsOnReplay": 0,
+  "operationLocksRemaining": 0,
+  "messagesSent": 0,
+  "performance": {
+    "conditions": "Windows CLI against production PostgreSQL, READ ONLY, network included. Real package-coin accounting service first/repeated reads. Data-only grant; no UI/runtime changes; not browser entry, device loading or FPS.",
+    "measurements": [
+      {
+        "phase": "first",
+        "elapsedMs": 153
+      },
+      {
+        "phase": "repeat",
+        "elapsedMs": 145
+      }
+    ],
+    "operationalLookup": {
+      "before": "Ordering the cast text alias required sorting the historical range and timed out after 15078ms.",
+      "after": "Order the indexed bigint column; same account and lower cursor, no schema/runtime change.",
+      "lowerCursor": 100593149,
+      "measurements": [
+        {
+          "phase": "first",
+          "elapsedMs": 80
+        },
+        {
+          "phase": "repeat",
+          "elapsedMs": 72
+        }
+      ]
+    }
+  }
+}
