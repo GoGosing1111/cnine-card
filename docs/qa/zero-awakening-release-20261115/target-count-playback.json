@@ -1,0 +1,132 @@
+{
+  "rows": [
+    {
+      "count": 1,
+      "played": true,
+      "elapsed": 2437.7999999970198,
+      "applied": 1,
+      "last": {
+        "id": "MS-1096",
+        "name": "극광 · 백금천섬",
+        "visualMode": "awakening",
+        "playbackRate": 1.75,
+        "duration": 4.2,
+        "impact": 2.9,
+        "hitstop": 0.075,
+        "phase": "USER_APPROVED",
+        "damageAuthority": "SERVER_EVENT_ONLY",
+        "speed": 1.75,
+        "effects": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "visualTargetIds": [
+          "B:0:ENCOUNTER:INITIAL",
+          "B:0:ENCOUNTER:INITIAL",
+          "B:0:ENCOUNTER:INITIAL",
+          "B:0:ENCOUNTER:INITIAL",
+          "B:0:ENCOUNTER:INITIAL",
+          "B:0:ENCOUNTER:INITIAL",
+          "B:0:ENCOUNTER:INITIAL",
+          "B:0:ENCOUNTER:INITIAL",
+          "B:0:ENCOUNTER:INITIAL",
+          "B:0:ENCOUNTER:INITIAL",
+          "B:0:ENCOUNTER:INITIAL",
+          "B:0:ENCOUNTER:INITIAL"
+        ],
+        "damageApplications": 1,
+        "cancelled": false,
+        "time": 4.2,
+        "visibleFx": 0,
+        "homeError": 0,
+        "remainingEffects": 0
+      },
+      "serverMode": "PVE"
+    },
+    {
+      "count": 5,
+      "played": true,
+      "elapsed": 2442.8000000044703,
+      "applied": 5,
+      "last": {
+        "id": "MS-1096",
+        "name": "극광 · 백금천섬",
+        "visualMode": "awakening",
+        "playbackRate": 1.75,
+        "duration": 4.2,
+        "impact": 2.9,
+        "hitstop": 0.075,
+        "phase": "USER_APPROVED",
+        "damageAuthority": "SERVER_EVENT_ONLY",
+        "speed": 1.75,
+        "effects": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "visualTargetIds": [
+          "B:0:ENCOUNTER:INITIAL",
+          "B:1:ENCOUNTER:INITIAL",
+          "B:2:ENCOUNTER:INITIAL",
+          "B:4:ENCOUNTER:INITIAL",
+          "B:3:ENCOUNTER:INITIAL",
+          "B:2:ENCOUNTER:INITIAL",
+          "B:1:ENCOUNTER:INITIAL",
+          "B:0:ENCOUNTER:INITIAL",
+          "B:3:ENCOUNTER:INITIAL",
+          "B:4:ENCOUNTER:INITIAL",
+          "B:0:ENCOUNTER:INITIAL",
+          "B:1:ENCOUNTER:INITIAL"
+        ],
+        "damageApplications": 5,
+        "cancelled": false,
+        "time": 4.2,
+        "visibleFx": 0,
+        "homeError": 0,
+        "remainingEffects": 0
+      },
+      "serverMode": "PVE"
+    }
+  ],
+  "exit": {
+    "timelines": 0,
+    "states": 0,
+    "canvases": 0,
+    "awakening": {
+      "ready": false,
+      "loading": false,
+      "active": false,
+      "bodyFrames": 0,
+      "visibleFx": 0,
+      "last": {
+        "id": "MS-1096",
+        "name": "극광 · 백금천섬",
+        "visualMode": "awakening",
+        "playbackRate": 1.75,
+        "duration": 4.2,
+        "impact": 2.9,
+        "hitstop": 0.075,
+        "phase": "USER_APPROVED",
+        "damageAuthority": "SERVER_EVENT_ONLY",
+        "speed": 1.75,
+        "effects": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "visualTargetIds": [
+          "B:0:ENCOUNTER:INITIAL",
+          "B:1:ENCOUNTER:INITIAL",
+          "B:2:ENCOUNTER:INITIAL",
+          "B:4:ENCOUNTER:INITIAL",
+          "B:3:ENCOUNTER:INITIAL",
+          "B:2:ENCOUNTER:INITIAL",
+          "B:1:ENCOUNTER:INITIAL",
+          "B:0:ENCOUNTER:INITIAL",
+          "B:3:ENCOUNTER:INITIAL",
+          "B:4:ENCOUNTER:INITIAL",
+          "B:0:ENCOUNTER:INITIAL",
+          "B:1:ENCOUNTER:INITIAL"
+        ],
+        "damageApplications": 5,
+        "cancelled": false,
+        "time": 4.2,
+        "visibleFx": 0,
+        "homeError": 0,
+        "remainingEffects": 0
+      }
+    }
+  }
+}

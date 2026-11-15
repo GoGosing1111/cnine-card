@@ -1,0 +1,528 @@
+{
+  "status": "IMPLEMENTED_APPROVED_READY_FOR_SCOPED_DEPLOY",
+  "at": "2026-11-15T05:07:37.696Z",
+  "userApproval": {
+    "at": "2026-11-15T04:53:11.644Z",
+    "userInstruction": "승인, 전투력 밸런스 프라임하고 비교해보고 잘 맞춰 그리고 궁극기 모션속도 1.75배 가속",
+    "status": "VISUAL_APPROVED_BALANCE_AND_1_75X_REQUESTED",
+    "skill": "극광 · 백금천섬",
+    "id": "MS-1096",
+    "assets": [
+      {
+        "file": "preview/zero-awakening-20261115/runtime/body.json",
+        "bytes": 3780,
+        "sha256": "c05759c9f80d10a7615b65b43de015b0c15edd878f41219f45d33d7bb9ddba88"
+      },
+      {
+        "file": "preview/zero-awakening-20261115/runtime/zero-awakening-body.png",
+        "bytes": 1613384,
+        "sha256": "0d7cd98dedf341d46c279f5c1686f90c35d0193fab03b79b99ba7a1df68ef164"
+      },
+      {
+        "file": "preview/zero-awakening-20261115/effects-v2/runtime/fx-manifest.json",
+        "bytes": 11600,
+        "sha256": "c3b6136ee2b3117e68ccbfed739dfbf998fcae155e0b44a9d57e98a1ea4d12ac"
+      },
+      {
+        "file": "preview/zero-awakening-20261115/effects-v2/runtime/awakening-crown.png",
+        "bytes": 1963640,
+        "sha256": "4efeffa40f890e316693f03b17a1adacea5c918295076369ddee4cb66a708666"
+      },
+      {
+        "file": "preview/zero-awakening-20261115/effects-v2/runtime/awakening-storm.png",
+        "bytes": 1951744,
+        "sha256": "cf675ccbdcad8dd46c27e2cf02466fd2f64283101a2f6c5d6a98254a4904fc75"
+      },
+      {
+        "file": "preview/zero-awakening-20261115/effects-v2/runtime/awakening-verdict.png",
+        "bytes": 1288459,
+        "sha256": "4fec32ab7032ed93555af4f8b946a7ce31f7f50eb953db944217a9fed58ab07e"
+      }
+    ],
+    "authoringRoot": "preview/zero-awakening-20261115",
+    "authoring": "Native Effekseer 1.70e roundtrip and 24 ImageGen-painted VFX cels preserved; no art regeneration in this release."
+  },
+  "balance": {
+    "basePower": 3000000,
+    "primeBasePower": 3000000,
+    "unchanged": "Base/growth/equipment/PVP correction, area damage ratio and cap",
+    "before": {
+      "zero": {
+        "energy": 35,
+        "cooldownActions": 5,
+        "areas": 2
+      },
+      "prime": {
+        "energy": 20,
+        "cooldownActions": 3,
+        "areas": 4
+      }
+    },
+    "after": {
+      "zero": {
+        "energy": 20,
+        "cooldownActions": 3,
+        "areas": 3,
+        "totalDamagePercent": 3024
+      },
+      "prime": {
+        "energy": 20,
+        "cooldownActions": 3,
+        "areas": 4,
+        "totalDamagePercent": 3024
+      }
+    },
+    "evidence": "balance.json",
+    "simulations": 216,
+    "scenarioCount": 72,
+    "zeroBeforeToPrimeDamage": 0.6527269433247556,
+    "zeroAfterToPrimeDamage": 1,
+    "scope": "Controlled canonical server simulation, not live player win rate"
+  },
+  "awakening": {
+    "id": "MS-1096",
+    "name": "극광 · 백금천섬",
+    "playbackRate": 1.75,
+    "authoredSeconds": 4.275,
+    "playbackSeconds": 2.442857142857143,
+    "impactSeconds": 1.657142857142857,
+    "bodyPoses": 8,
+    "paintedEffectCels": 24,
+    "visualStrikes": 12,
+    "authoritativeDamage": "One receipt per unique target, including bosses; no extra damage for visual strikes",
+    "native": "Effekseer 1.70e offline output into existing Pixi/GSAP; PNG replacement poses, no new Spine rig"
+  },
+  "arrayMotion": "Removed conducting poses 1–8; fast draw, stable sword guard and final cut. Twenty sword contacts and damage timing preserved.",
+  "resources": {
+    "priorZeroPngs": 28,
+    "priorZeroRgbaMiB": 254,
+    "existingZeroPngs": 17,
+    "existingZeroRgbaMiB": 149,
+    "newAwakeningPngs": 4,
+    "newAwakeningRgbaMiB": 44.25,
+    "resultTotalPngs": 21,
+    "resultRgbaMiB": 193.25,
+    "originalsPreserved": true
+  },
+  "performance": {
+    "conditions": "Same current source/assets/12-target server fixture; only speed 1 -> 1.75 differs. Separate fresh browser per run, loopback without network throttle; click to live HUNT ready then same-page cached reentry. Windows desktop and mobile emulation, no physical phones.",
+    "rows": [
+      {
+        "label": "desktop",
+        "speed": 1,
+        "entryMs": [
+          2388.8000000044703,
+          888.3999999985099
+        ],
+        "playbackMs": 4275.10000000149,
+        "frameP95Ms": 28.5,
+        "maxFrameMs": 46.599999994039536,
+        "over50": 0,
+        "idleP95Ms": 26.900000005960464,
+        "exit": {
+          "timelines": 0,
+          "states": 0,
+          "canvases": 0
+        }
+      },
+      {
+        "label": "desktop",
+        "speed": 1.75,
+        "entryMs": [
+          1987.3999999985099,
+          791.2000000029802
+        ],
+        "playbackMs": 2452.39999999851,
+        "frameP95Ms": 27.799999997019768,
+        "maxFrameMs": 60.70000000298023,
+        "over50": 1,
+        "idleP95Ms": 27.600000001490116,
+        "exit": {
+          "timelines": 0,
+          "states": 0,
+          "canvases": 0
+        }
+      },
+      {
+        "label": "android-emulated",
+        "speed": 1,
+        "entryMs": [
+          1593.7999999970198,
+          657.2000000029802
+        ],
+        "playbackMs": 4270.5,
+        "frameP95Ms": 27.799999997019768,
+        "maxFrameMs": 34.79999999701977,
+        "over50": 0,
+        "idleP95Ms": 27,
+        "exit": {
+          "timelines": 0,
+          "states": 0,
+          "canvases": 0
+        }
+      },
+      {
+        "label": "android-emulated",
+        "speed": 1.75,
+        "entryMs": [
+          1460.7999999970198,
+          630.3999999985099
+        ],
+        "playbackMs": 2454.7000000029802,
+        "frameP95Ms": 29,
+        "maxFrameMs": 42.5,
+        "over50": 0,
+        "idleP95Ms": 28.100000001490116,
+        "exit": {
+          "timelines": 0,
+          "states": 0,
+          "canvases": 0
+        }
+      },
+      {
+        "label": "ios-emulated",
+        "speed": 1,
+        "entryMs": [
+          7409,
+          4756
+        ],
+        "playbackMs": 4241,
+        "frameP95Ms": 234,
+        "maxFrameMs": 234,
+        "over50": 20,
+        "idleP95Ms": 225,
+        "exit": {
+          "timelines": 0,
+          "states": 0,
+          "canvases": 0
+        }
+      },
+      {
+        "label": "ios-emulated",
+        "speed": 1.75,
+        "entryMs": [
+          7642,
+          5303
+        ],
+        "playbackMs": 2461,
+        "frameP95Ms": 236,
+        "maxFrameMs": 236,
+        "over50": 11,
+        "idleP95Ms": 238,
+        "exit": {
+          "timelines": 0,
+          "states": 0,
+          "canvases": 0
+        }
+      }
+    ],
+    "assessment": "Normal and accelerated runs use identical source/assets/server targets. Speed changes playback duration; it does not change server cadence. Cold-entry variance is not a demonstrated loading optimization. WebKit on Windows remains slow even at idle (225–238ms p95), similar to skill rendering (234–236ms); the shared renderer/environment bottleneck is unresolved. No physical iPhone/Android FPS claim. Runtime resource pruning lowers estimated decoded Zero images from 254 to 193.25 MiB including the new awakening. PNG/audio decode and GPU preparation are prewarmed; all registered update work is removed on exit."
+  },
+  "validation": {
+    "serverCases": "tests/zero-awakening-20261115.test.mjs; tests/mercenary-three-skills-20261026.test.mjs; tests/prime-zero-top-tier-20261102.test.mjs",
+    "lifecycle": {
+      "rejected": false,
+      "paused": true,
+      "frozen": true,
+      "soundsWhilePaused": 0,
+      "completed": {
+        "hits": 12,
+        "unique": 12,
+        "last": {
+          "id": "MS-1096",
+          "name": "극광 · 백금천섬",
+          "visualMode": "awakening",
+          "playbackRate": 1.75,
+          "duration": 4.2,
+          "impact": 2.9,
+          "hitstop": 0.075,
+          "phase": "USER_APPROVED",
+          "damageAuthority": "SERVER_EVENT_ONLY",
+          "speed": 1.75,
+          "effects": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "visualTargetIds": [
+            "B:0:ENCOUNTER:INITIAL",
+            "B:1:ENCOUNTER:INITIAL",
+            "B:2:ENCOUNTER:INITIAL",
+            "B:5:ENCOUNTER:INITIAL",
+            "B:4:ENCOUNTER:INITIAL",
+            "B:3:ENCOUNTER:INITIAL",
+            "B:6:ENCOUNTER:INITIAL",
+            "B:7:ENCOUNTER:INITIAL",
+            "B:8:ENCOUNTER:INITIAL",
+            "B:11:ENCOUNTER:INITIAL",
+            "B:10:ENCOUNTER:INITIAL",
+            "B:9:ENCOUNTER:INITIAL"
+          ],
+          "damageApplications": 12,
+          "cancelled": false,
+          "time": 4.2,
+          "visibleFx": 0,
+          "paused": false,
+          "homeError": 0,
+          "remainingEffects": 0
+        }
+      },
+      "interruptedAfterImpact": {
+        "hits": 12,
+        "active": false,
+        "last": {
+          "id": "MS-1096",
+          "name": "극광 · 백금천섬",
+          "visualMode": "awakening",
+          "playbackRate": 1.75,
+          "duration": 4.2,
+          "impact": 2.9,
+          "hitstop": 0.075,
+          "phase": "USER_APPROVED",
+          "damageAuthority": "SERVER_EVENT_ONLY",
+          "speed": 1.75,
+          "effects": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "visualTargetIds": [
+            "B:0:ENCOUNTER:INITIAL",
+            "B:1:ENCOUNTER:INITIAL",
+            "B:2:ENCOUNTER:INITIAL",
+            "B:5:ENCOUNTER:INITIAL",
+            "B:4:ENCOUNTER:INITIAL",
+            "B:3:ENCOUNTER:INITIAL",
+            "B:6:ENCOUNTER:INITIAL",
+            "B:7:ENCOUNTER:INITIAL",
+            "B:8:ENCOUNTER:INITIAL",
+            "B:11:ENCOUNTER:INITIAL",
+            "B:10:ENCOUNTER:INITIAL",
+            "B:9:ENCOUNTER:INITIAL"
+          ],
+          "damageApplications": 12,
+          "cancelled": true,
+          "time": 3.1765,
+          "visibleFx": 13,
+          "homeError": 0,
+          "remainingEffects": 0
+        }
+      },
+      "exit": {
+        "timelines": 0,
+        "states": 0,
+        "canvases": 0,
+        "awakening": {
+          "ready": false,
+          "loading": false,
+          "active": false,
+          "bodyFrames": 0,
+          "visibleFx": 0,
+          "last": {
+            "id": "MS-1096",
+            "name": "극광 · 백금천섬",
+            "visualMode": "awakening",
+            "playbackRate": 1.75,
+            "duration": 4.2,
+            "impact": 2.9,
+            "hitstop": 0.075,
+            "phase": "USER_APPROVED",
+            "damageAuthority": "SERVER_EVENT_ONLY",
+            "speed": 1.75,
+            "effects": true,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "visualTargetIds": [
+              "B:0:ENCOUNTER:INITIAL",
+              "B:1:ENCOUNTER:INITIAL",
+              "B:2:ENCOUNTER:INITIAL",
+              "B:5:ENCOUNTER:INITIAL",
+              "B:4:ENCOUNTER:INITIAL",
+              "B:3:ENCOUNTER:INITIAL",
+              "B:6:ENCOUNTER:INITIAL",
+              "B:7:ENCOUNTER:INITIAL",
+              "B:8:ENCOUNTER:INITIAL",
+              "B:11:ENCOUNTER:INITIAL",
+              "B:10:ENCOUNTER:INITIAL",
+              "B:9:ENCOUNTER:INITIAL"
+            ],
+            "damageApplications": 12,
+            "cancelled": true,
+            "time": 3.1765,
+            "visibleFx": 13,
+            "homeError": 0,
+            "remainingEffects": 0
+          }
+        }
+      }
+    },
+    "targets": {
+      "rows": [
+        {
+          "count": 1,
+          "played": true,
+          "elapsed": 2437.7999999970198,
+          "applied": 1,
+          "last": {
+            "id": "MS-1096",
+            "name": "극광 · 백금천섬",
+            "visualMode": "awakening",
+            "playbackRate": 1.75,
+            "duration": 4.2,
+            "impact": 2.9,
+            "hitstop": 0.075,
+            "phase": "USER_APPROVED",
+            "damageAuthority": "SERVER_EVENT_ONLY",
+            "speed": 1.75,
+            "effects": true,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "visualTargetIds": [
+              "B:0:ENCOUNTER:INITIAL",
+              "B:0:ENCOUNTER:INITIAL",
+              "B:0:ENCOUNTER:INITIAL",
+              "B:0:ENCOUNTER:INITIAL",
+              "B:0:ENCOUNTER:INITIAL",
+              "B:0:ENCOUNTER:INITIAL",
+              "B:0:ENCOUNTER:INITIAL",
+              "B:0:ENCOUNTER:INITIAL",
+              "B:0:ENCOUNTER:INITIAL",
+              "B:0:ENCOUNTER:INITIAL",
+              "B:0:ENCOUNTER:INITIAL",
+              "B:0:ENCOUNTER:INITIAL"
+            ],
+            "damageApplications": 1,
+            "cancelled": false,
+            "time": 4.2,
+            "visibleFx": 0,
+            "homeError": 0,
+            "remainingEffects": 0
+          },
+          "serverMode": "PVE"
+        },
+        {
+          "count": 5,
+          "played": true,
+          "elapsed": 2442.8000000044703,
+          "applied": 5,
+          "last": {
+            "id": "MS-1096",
+            "name": "극광 · 백금천섬",
+            "visualMode": "awakening",
+            "playbackRate": 1.75,
+            "duration": 4.2,
+            "impact": 2.9,
+            "hitstop": 0.075,
+            "phase": "USER_APPROVED",
+            "damageAuthority": "SERVER_EVENT_ONLY",
+            "speed": 1.75,
+            "effects": true,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "visualTargetIds": [
+              "B:0:ENCOUNTER:INITIAL",
+              "B:1:ENCOUNTER:INITIAL",
+              "B:2:ENCOUNTER:INITIAL",
+              "B:4:ENCOUNTER:INITIAL",
+              "B:3:ENCOUNTER:INITIAL",
+              "B:2:ENCOUNTER:INITIAL",
+              "B:1:ENCOUNTER:INITIAL",
+              "B:0:ENCOUNTER:INITIAL",
+              "B:3:ENCOUNTER:INITIAL",
+              "B:4:ENCOUNTER:INITIAL",
+              "B:0:ENCOUNTER:INITIAL",
+              "B:1:ENCOUNTER:INITIAL"
+            ],
+            "damageApplications": 5,
+            "cancelled": false,
+            "time": 4.2,
+            "visibleFx": 0,
+            "homeError": 0,
+            "remainingEffects": 0
+          },
+          "serverMode": "PVE"
+        }
+      ],
+      "exit": {
+        "timelines": 0,
+        "states": 0,
+        "canvases": 0,
+        "awakening": {
+          "ready": false,
+          "loading": false,
+          "active": false,
+          "bodyFrames": 0,
+          "visibleFx": 0,
+          "last": {
+            "id": "MS-1096",
+            "name": "극광 · 백금천섬",
+            "visualMode": "awakening",
+            "playbackRate": 1.75,
+            "duration": 4.2,
+            "impact": 2.9,
+            "hitstop": 0.075,
+            "phase": "USER_APPROVED",
+            "damageAuthority": "SERVER_EVENT_ONLY",
+            "speed": 1.75,
+            "effects": true,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "visualTargetIds": [
+              "B:0:ENCOUNTER:INITIAL",
+              "B:1:ENCOUNTER:INITIAL",
+              "B:2:ENCOUNTER:INITIAL",
+              "B:4:ENCOUNTER:INITIAL",
+              "B:3:ENCOUNTER:INITIAL",
+              "B:2:ENCOUNTER:INITIAL",
+              "B:1:ENCOUNTER:INITIAL",
+              "B:0:ENCOUNTER:INITIAL",
+              "B:3:ENCOUNTER:INITIAL",
+              "B:4:ENCOUNTER:INITIAL",
+              "B:0:ENCOUNTER:INITIAL",
+              "B:1:ENCOUNTER:INITIAL"
+            ],
+            "damageApplications": 5,
+            "cancelled": false,
+            "time": 4.2,
+            "visibleFx": 0,
+            "homeError": 0,
+            "remainingEffects": 0
+          }
+        }
+      }
+    },
+    "media": [
+      {
+        "mode": "normal",
+        "duration": 2.867633,
+        "width": 1440,
+        "height": 920,
+        "frameDifference": 406291,
+        "audio": {
+          "duration": 2.34,
+          "channels": 2,
+          "peak": 0.3029477596282959,
+          "rms": 0.05557448539700604
+        }
+      },
+      {
+        "mode": "slow",
+        "duration": 5.536425,
+        "width": 1440,
+        "height": 920,
+        "frameDifference": 460478,
+        "audio": {
+          "duration": 4.5,
+          "channels": 2,
+          "peak": 0.29610180854797363,
+          "rms": 0.05594572583148616
+        }
+      },
+      {
+        "mode": "body",
+        "duration": 3.09371,
+        "width": 1440,
+        "height": 920,
+        "frameDifference": 217617,
+        "audio": {
+          "duration": 3.12,
+          "channels": 2,
+          "peak": 2.0345869483764863e-34,
+          "rms": 2.0345276458167145e-34
+        }
+      }
+    ]
+  },
+  "operationalAccountWrites": 0,
+  "deployment": null
+}

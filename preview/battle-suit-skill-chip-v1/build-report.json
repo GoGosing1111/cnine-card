@@ -259,6 +259,7 @@
     "preview/prime-requiem-blood-skills-20261021-v1/source/PrimeIdleAura.js",
     "preview/prime-requiem-blood-skills-20261021-v1/source/PrimeRequiemFX.js",
     "preview/project-v-v3/source/battle/PrimeRequiemCombatPlayback.js",
+    "preview/zero-awakening-20261115/source/ZeroAwakening.js",
     "preview/mercenary-cyan-knight-battle-20261020-v1/array-motion-v4.mjs",
     "preview/mercenary-cyan-knight-battle-20261020-v1/motion.mjs",
     "preview/mercenary-cyan-knight-battle-20261020-v1/source/SummonedSwordArray.js",
@@ -266,6 +267,7 @@
     "preview/mercenary-cyan-knight-battle-20261020-v1/source/ZeroBladeWings.js",
     "preview/mercenary-cyan-knight-battle-20261020-v1/source/ZeroGiantSwordEcho.js",
     "preview/mercenary-cyan-knight-battle-20261020-v1/source/BodyMotion.mjs",
+    "preview/mercenary-cyan-knight-battle-20261020-v1/source/KnightAssetPlan.mjs",
     "preview/mercenary-cyan-knight-battle-20261020-v1/source/KnightFX.js",
     "preview/project-v-v3/source/battle/ZeroCombatPlayback.js",
     "shared/mercenary-bathory-v1.mjs",
@@ -394,5 +396,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 3724233
+  "outputBytes": 3736465
 }

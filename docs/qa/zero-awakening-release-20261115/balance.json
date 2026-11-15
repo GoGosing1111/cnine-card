@@ -1,0 +1,2841 @@
+{
+  "scope": "Identical server simulations, not live player win rates",
+  "conditions": {
+    "levels": [
+      1,
+      11,
+      21
+    ],
+    "equipmentPower": [
+      0,
+      100000000
+    ],
+    "targets": [
+      1,
+      5,
+      12
+    ],
+    "seeds": [
+      7919,
+      8111,
+      8191,
+      8293
+    ],
+    "maxActions": 180,
+    "cards": "Identical five-card deck, no pets; targets survive to measure sustained output"
+  },
+  "scenarios": 72,
+  "simulations": 216,
+  "zeroBeforeToPrime": 0.6527269433247556,
+  "zeroToPrime": 1,
+  "rows": [
+    {
+      "level": 1,
+      "gear": 0,
+      "count": 1,
+      "seed": 7919,
+      "zeroBefore": {
+        "damage": 774907771952,
+        "areaDamage": 647664460327,
+        "casts": 106,
+        "actions": 530,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 1166736533297,
+        "areaDamage": 1059943574536,
+        "casts": 176,
+        "actions": 530,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 1166736533297,
+        "areaDamage": 1059943574536,
+        "casts": 176,
+        "actions": 530,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 0,
+      "count": 1,
+      "seed": 8111,
+      "zeroBefore": {
+        "damage": 810290188108,
+        "areaDamage": 679059304315,
+        "casts": 108,
+        "actions": 536,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 1215355811872,
+        "areaDamage": 1105266140167,
+        "casts": 179,
+        "actions": 536,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 1215355811872,
+        "areaDamage": 1105266140167,
+        "casts": 179,
+        "actions": 536,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 0,
+      "count": 1,
+      "seed": 8191,
+      "zeroBefore": {
+        "damage": 797037112440,
+        "areaDamage": 666638754093,
+        "casts": 107,
+        "actions": 533,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 1191736139928,
+        "areaDamage": 1081937939567,
+        "casts": 178,
+        "actions": 533,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 1191736139928,
+        "areaDamage": 1081937939567,
+        "casts": 178,
+        "actions": 533,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 0,
+      "count": 1,
+      "seed": 8293,
+      "zeroBefore": {
+        "damage": 784921236820,
+        "areaDamage": 657302818301,
+        "casts": 107,
+        "actions": 533,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 1203456220966,
+        "areaDamage": 1097682008276,
+        "casts": 178,
+        "actions": 533,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 1203456220966,
+        "areaDamage": 1097682008276,
+        "casts": 178,
+        "actions": 533,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 0,
+      "count": 5,
+      "seed": 7919,
+      "zeroBefore": {
+        "damage": 582646277559,
+        "areaDamage": 486155063793,
+        "casts": 79,
+        "actions": 393,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 875180448683,
+        "areaDamage": 795879644152,
+        "casts": 131,
+        "actions": 393,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 875180448683,
+        "areaDamage": 795879644152,
+        "casts": 131,
+        "actions": 393,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 0,
+      "count": 5,
+      "seed": 8111,
+      "zeroBefore": {
+        "damage": 593629780287,
+        "areaDamage": 496174709032,
+        "casts": 80,
+        "actions": 396,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 893375361779,
+        "areaDamage": 812858043953,
+        "casts": 132,
+        "actions": 396,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 893375361779,
+        "areaDamage": 812858043953,
+        "casts": 132,
+        "actions": 396,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 0,
+      "count": 5,
+      "seed": 8191,
+      "zeroBefore": {
+        "damage": 576037067989,
+        "areaDamage": 480450288707,
+        "casts": 79,
+        "actions": 393,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 875064177198,
+        "areaDamage": 795319266573,
+        "casts": 131,
+        "actions": 393,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 875064177198,
+        "areaDamage": 795319266573,
+        "casts": 131,
+        "actions": 393,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 0,
+      "count": 5,
+      "seed": 8293,
+      "zeroBefore": {
+        "damage": 578671338824,
+        "areaDamage": 483002920773,
+        "casts": 79,
+        "actions": 393,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 885378391232,
+        "areaDamage": 804485549176,
+        "casts": 132,
+        "actions": 396,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 885378391232,
+        "areaDamage": 804485549176,
+        "casts": 132,
+        "actions": 396,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 0,
+      "count": 12,
+      "seed": 7919,
+      "zeroBefore": {
+        "damage": 405084640016,
+        "areaDamage": 339345616690,
+        "casts": 55,
+        "actions": 271,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 615400766109,
+        "areaDamage": 561060980527,
+        "casts": 91,
+        "actions": 271,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 615400766109,
+        "areaDamage": 561060980527,
+        "casts": 91,
+        "actions": 271,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 0,
+      "count": 12,
+      "seed": 8111,
+      "zeroBefore": {
+        "damage": 401732796040,
+        "areaDamage": 336256327669,
+        "casts": 55,
+        "actions": 271,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 611242645855,
+        "areaDamage": 556161922279,
+        "casts": 91,
+        "actions": 271,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 611242645855,
+        "areaDamage": 556161922279,
+        "casts": 91,
+        "actions": 271,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 0,
+      "count": 12,
+      "seed": 8191,
+      "zeroBefore": {
+        "damage": 400077790411,
+        "areaDamage": 335281907246,
+        "casts": 54,
+        "actions": 268,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 611880565455,
+        "areaDamage": 557215108029,
+        "casts": 90,
+        "actions": 268,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 611880565455,
+        "areaDamage": 557215108029,
+        "casts": 90,
+        "actions": 268,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 0,
+      "count": 12,
+      "seed": 8293,
+      "zeroBefore": {
+        "damage": 403946825928,
+        "areaDamage": 338437405480,
+        "casts": 55,
+        "actions": 271,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 618391935318,
+        "areaDamage": 564425889659,
+        "casts": 91,
+        "actions": 271,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 618391935318,
+        "areaDamage": 564425889659,
+        "casts": 91,
+        "actions": 271,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "count": 1,
+      "seed": 7919,
+      "zeroBefore": {
+        "damage": 1304091228489,
+        "areaDamage": 1089912631913,
+        "casts": 144,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 1953945325164,
+        "areaDamage": 1773683956996,
+        "casts": 239,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 1953945325164,
+        "areaDamage": 1773683956996,
+        "casts": 239,
+        "actions": 720,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "count": 1,
+      "seed": 8111,
+      "zeroBefore": {
+        "damage": 1347598630297,
+        "areaDamage": 1128395980504,
+        "casts": 144,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 2017566645162,
+        "areaDamage": 1833331010730,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 2017566645162,
+        "areaDamage": 1833331010730,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "count": 1,
+      "seed": 8191,
+      "zeroBefore": {
+        "damage": 1321674472550,
+        "areaDamage": 1105436449303,
+        "casts": 144,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 1982897215179,
+        "areaDamage": 1801169773466,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 1982897215179,
+        "areaDamage": 1801169773466,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "count": 1,
+      "seed": 8293,
+      "zeroBefore": {
+        "damage": 1296084192199,
+        "areaDamage": 1080269793665,
+        "casts": 144,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 1996198122694,
+        "areaDamage": 1816924117163,
+        "casts": 239,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 1996198122694,
+        "areaDamage": 1816924117163,
+        "casts": 239,
+        "actions": 720,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "count": 5,
+      "seed": 7919,
+      "zeroBefore": {
+        "damage": 1270924408743,
+        "areaDamage": 1058186700573,
+        "casts": 139,
+        "actions": 695,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 1907894554600,
+        "areaDamage": 1735533552208,
+        "casts": 231,
+        "actions": 695,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 1907894554600,
+        "areaDamage": 1735533552208,
+        "casts": 231,
+        "actions": 695,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "count": 5,
+      "seed": 8111,
+      "zeroBefore": {
+        "damage": 1308480825247,
+        "areaDamage": 1092770472589,
+        "casts": 143,
+        "actions": 714,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 1980017546609,
+        "areaDamage": 1800867794890,
+        "casts": 238,
+        "actions": 714,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 1980017546609,
+        "areaDamage": 1800867794890,
+        "casts": 238,
+        "actions": 714,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "count": 5,
+      "seed": 8191,
+      "zeroBefore": {
+        "damage": 1267895914649,
+        "areaDamage": 1058964441410,
+        "casts": 140,
+        "actions": 696,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 1943167092622,
+        "areaDamage": 1767958829926,
+        "casts": 233,
+        "actions": 697,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 1943167092622,
+        "areaDamage": 1767958829926,
+        "casts": 233,
+        "actions": 697,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "count": 5,
+      "seed": 8293,
+      "zeroBefore": {
+        "damage": 1304313413052,
+        "areaDamage": 1088465202692,
+        "casts": 143,
+        "actions": 715,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 2000743373106,
+        "areaDamage": 1820244998405,
+        "casts": 239,
+        "actions": 715,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 2000743373106,
+        "areaDamage": 1820244998405,
+        "casts": 239,
+        "actions": 715,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "count": 12,
+      "seed": 7919,
+      "zeroBefore": {
+        "damage": 893471894435,
+        "areaDamage": 746774915300,
+        "casts": 98,
+        "actions": 490,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 1382747110190,
+        "areaDamage": 1257916667687,
+        "casts": 166,
+        "actions": 496,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 1382747110190,
+        "areaDamage": 1257916667687,
+        "casts": 166,
+        "actions": 496,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "count": 12,
+      "seed": 8111,
+      "zeroBefore": {
+        "damage": 910061189619,
+        "areaDamage": 759874451236,
+        "casts": 100,
+        "actions": 497,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 1377883878063,
+        "areaDamage": 1253533706349,
+        "casts": 166,
+        "actions": 497,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 1377883878063,
+        "areaDamage": 1253533706349,
+        "casts": 166,
+        "actions": 497,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "count": 12,
+      "seed": 8191,
+      "zeroBefore": {
+        "damage": 879407453528,
+        "areaDamage": 735225629717,
+        "casts": 96,
+        "actions": 480,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 1339660171781,
+        "areaDamage": 1218633850754,
+        "casts": 160,
+        "actions": 480,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 1339660171781,
+        "areaDamage": 1218633850754,
+        "casts": 160,
+        "actions": 480,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "gear": 100000000,
+      "count": 12,
+      "seed": 8293,
+      "zeroBefore": {
+        "damage": 917064272502,
+        "areaDamage": 767912235884,
+        "casts": 100,
+        "actions": 500,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 1399960038331,
+        "areaDamage": 1275975752517,
+        "casts": 167,
+        "actions": 500,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 1399960038331,
+        "areaDamage": 1275975752517,
+        "casts": 167,
+        "actions": 500,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 0,
+      "count": 1,
+      "seed": 7919,
+      "zeroBefore": {
+        "damage": 5038045308429,
+        "areaDamage": 4274585438154,
+        "casts": 106,
+        "actions": 530,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 7636385344876,
+        "areaDamage": 6995627591906,
+        "casts": 176,
+        "actions": 530,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 7636385344876,
+        "areaDamage": 6995627591906,
+        "casts": 176,
+        "actions": 530,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 0,
+      "count": 1,
+      "seed": 8111,
+      "zeroBefore": {
+        "damage": 5269176711721,
+        "areaDamage": 4481791408501,
+        "casts": 108,
+        "actions": 536,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 7955294555762,
+        "areaDamage": 7294756525096,
+        "casts": 179,
+        "actions": 536,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 7955294555762,
+        "areaDamage": 7294756525096,
+        "casts": 179,
+        "actions": 536,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 0,
+      "count": 1,
+      "seed": 8191,
+      "zeroBefore": {
+        "damage": 5182205927626,
+        "areaDamage": 4399815777046,
+        "casts": 107,
+        "actions": 533,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 7799579603708,
+        "areaDamage": 7140790401162,
+        "casts": 178,
+        "actions": 533,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 7799579603708,
+        "areaDamage": 7140790401162,
+        "casts": 178,
+        "actions": 533,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 0,
+      "count": 1,
+      "seed": 8293,
+      "zeroBefore": {
+        "damage": 5103909112559,
+        "areaDamage": 4338198600822,
+        "casts": 107,
+        "actions": 533,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 7879346531231,
+        "areaDamage": 7244701254583,
+        "casts": 178,
+        "actions": 533,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 7879346531231,
+        "areaDamage": 7244701254583,
+        "casts": 178,
+        "actions": 533,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 0,
+      "count": 5,
+      "seed": 7919,
+      "zeroBefore": {
+        "damage": 3787570704086,
+        "areaDamage": 3208623421052,
+        "casts": 79,
+        "actions": 393,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 5728610478909,
+        "areaDamage": 5252805651402,
+        "casts": 131,
+        "actions": 393,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 5728610478909,
+        "areaDamage": 5252805651402,
+        "casts": 131,
+        "actions": 393,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 0,
+      "count": 5,
+      "seed": 8111,
+      "zeroBefore": {
+        "damage": 3859483507568,
+        "areaDamage": 3274753079619,
+        "casts": 80,
+        "actions": 396,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 5847966997433,
+        "areaDamage": 5364863090148,
+        "casts": 132,
+        "actions": 396,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 5847966997433,
+        "areaDamage": 5364863090148,
+        "casts": 132,
+        "actions": 396,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 0,
+      "count": 5,
+      "seed": 8191,
+      "zeroBefore": {
+        "damage": 3744492581521,
+        "areaDamage": 3170971905469,
+        "casts": 79,
+        "actions": 393,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 5727576623339,
+        "areaDamage": 5249107159377,
+        "casts": 131,
+        "actions": 393,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 5727576623339,
+        "areaDamage": 5249107159377,
+        "casts": 131,
+        "actions": 393,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 0,
+      "count": 5,
+      "seed": 8293,
+      "zeroBefore": {
+        "damage": 3761829785821,
+        "areaDamage": 3187819277071,
+        "casts": 79,
+        "actions": 393,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 5794961677134,
+        "areaDamage": 5309604624539,
+        "casts": 132,
+        "actions": 396,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 5794961677134,
+        "areaDamage": 5309604624539,
+        "casts": 132,
+        "actions": 396,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 0,
+      "count": 12,
+      "seed": 7919,
+      "zeroBefore": {
+        "damage": 2634115210324,
+        "areaDamage": 2239681070147,
+        "casts": 55,
+        "actions": 271,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 4029041185254,
+        "areaDamage": 3703002471538,
+        "casts": 91,
+        "actions": 271,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 4029041185254,
+        "areaDamage": 3703002471538,
+        "casts": 91,
+        "actions": 271,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 0,
+      "count": 12,
+      "seed": 8111,
+      "zeroBefore": {
+        "damage": 2612150573229,
+        "areaDamage": 2219291762701,
+        "casts": 55,
+        "actions": 271,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 4001153028756,
+        "areaDamage": 3670668687148,
+        "casts": 91,
+        "actions": 271,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 4001153028756,
+        "areaDamage": 3670668687148,
+        "casts": 91,
+        "actions": 271,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 0,
+      "count": 12,
+      "seed": 8191,
+      "zeroBefore": {
+        "damage": 2601635887051,
+        "areaDamage": 2212860587836,
+        "casts": 54,
+        "actions": 268,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 4005612457765,
+        "areaDamage": 3677619712980,
+        "casts": 90,
+        "actions": 268,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 4005612457765,
+        "areaDamage": 3677619712980,
+        "casts": 90,
+        "actions": 268,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 0,
+      "count": 12,
+      "seed": 8293,
+      "zeroBefore": {
+        "damage": 2626743399073,
+        "areaDamage": 2233686876177,
+        "casts": 55,
+        "actions": 271,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 4049007145874,
+        "areaDamage": 3725210871746,
+        "casts": 91,
+        "actions": 271,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 4049007145874,
+        "areaDamage": 3725210871746,
+        "casts": 91,
+        "actions": 271,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 100000000,
+      "count": 1,
+      "seed": 7919,
+      "zeroBefore": {
+        "damage": 8478494950631,
+        "areaDamage": 7193423370592,
+        "casts": 144,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 12787882325641,
+        "areaDamage": 11706314116144,
+        "casts": 239,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 12787882325641,
+        "areaDamage": 11706314116144,
+        "casts": 239,
+        "actions": 720,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 100000000,
+      "count": 1,
+      "seed": 8111,
+      "zeroBefore": {
+        "damage": 8762629370775,
+        "areaDamage": 7447413471311,
+        "casts": 144,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 13205398477989,
+        "areaDamage": 12099984670829,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 13205398477989,
+        "areaDamage": 12099984670829,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 100000000,
+      "count": 1,
+      "seed": 8191,
+      "zeroBefore": {
+        "damage": 8593308705684,
+        "areaDamage": 7295880565408,
+        "casts": 144,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 12978085155852,
+        "areaDamage": 11887720504895,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 12978085155852,
+        "areaDamage": 11887720504895,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 100000000,
+      "count": 1,
+      "seed": 8293,
+      "zeroBefore": {
+        "damage": 8424667030037,
+        "areaDamage": 7129780638162,
+        "casts": 144,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 13067343206956,
+        "areaDamage": 11991699173244,
+        "casts": 239,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 13067343206956,
+        "areaDamage": 11991699173244,
+        "casts": 239,
+        "actions": 720,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 100000000,
+      "count": 5,
+      "seed": 7919,
+      "zeroBefore": {
+        "damage": 8559027515489,
+        "areaDamage": 7237156355287,
+        "casts": 144,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 12977381663555,
+        "areaDamage": 11905898089937,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 12977381663555,
+        "areaDamage": 11905898089937,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 100000000,
+      "count": 5,
+      "seed": 8111,
+      "zeroBefore": {
+        "damage": 8564939650706,
+        "areaDamage": 7261733623682,
+        "casts": 144,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 13071342234678,
+        "areaDamage": 11986257169391,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 13071342234678,
+        "areaDamage": 11986257169391,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 100000000,
+      "count": 5,
+      "seed": 8191,
+      "zeroBefore": {
+        "damage": 8498169499382,
+        "areaDamage": 7195365568162,
+        "casts": 144,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 13096466817560,
+        "areaDamage": 12008683057956,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 13096466817560,
+        "areaDamage": 12008683057956,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 100000000,
+      "count": 5,
+      "seed": 8293,
+      "zeroBefore": {
+        "damage": 8543551696205,
+        "areaDamage": 7238482145359,
+        "casts": 144,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 13154797494551,
+        "areaDamage": 12062846332901,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 13154797494551,
+        "areaDamage": 12062846332901,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 100000000,
+      "count": 12,
+      "seed": 7919,
+      "zeroBefore": {
+        "damage": 6274966558235,
+        "areaDamage": 5327404819695,
+        "casts": 106,
+        "actions": 527,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 9658882993102,
+        "areaDamage": 8859766918247,
+        "casts": 177,
+        "actions": 529,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 9658882993102,
+        "areaDamage": 8859766918247,
+        "casts": 177,
+        "actions": 529,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 100000000,
+      "count": 12,
+      "seed": 8111,
+      "zeroBefore": {
+        "damage": 6327617219426,
+        "areaDamage": 5357643101526,
+        "casts": 107,
+        "actions": 533,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 9691870666419,
+        "areaDamage": 8893189086243,
+        "casts": 178,
+        "actions": 533,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 9691870666419,
+        "areaDamage": 8893189086243,
+        "casts": 178,
+        "actions": 533,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 100000000,
+      "count": 12,
+      "seed": 8191,
+      "zeroBefore": {
+        "damage": 6189180498121,
+        "areaDamage": 5256094179764,
+        "casts": 104,
+        "actions": 518,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 9471361042889,
+        "areaDamage": 8687651170817,
+        "casts": 173,
+        "actions": 518,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 9471361042889,
+        "areaDamage": 8687651170817,
+        "casts": 173,
+        "actions": 518,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 11,
+      "gear": 100000000,
+      "count": 12,
+      "seed": 8293,
+      "zeroBefore": {
+        "damage": 6370128640090,
+        "areaDamage": 5412832451973,
+        "casts": 107,
+        "actions": 534,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 9836143860883,
+        "areaDamage": 9037085055764,
+        "casts": 179,
+        "actions": 537,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 9836143860883,
+        "areaDamage": 9037085055764,
+        "casts": 179,
+        "actions": 537,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 0,
+      "count": 1,
+      "seed": 7919,
+      "zeroBefore": {
+        "damage": 9948847305233,
+        "areaDamage": 8549170876296,
+        "casts": 106,
+        "actions": 530,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 15165977730995,
+        "areaDamage": 13991255183791,
+        "casts": 176,
+        "actions": 530,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 15165977730995,
+        "areaDamage": 13991255183791,
+        "casts": 176,
+        "actions": 530,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 0,
+      "count": 1,
+      "seed": 8111,
+      "zeroBefore": {
+        "damage": 10407122539678,
+        "areaDamage": 8963582817018,
+        "casts": 108,
+        "actions": 536,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 15800499439830,
+        "areaDamage": 14589513050208,
+        "casts": 179,
+        "actions": 536,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 15800499439830,
+        "areaDamage": 14589513050208,
+        "casts": 179,
+        "actions": 536,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 0,
+      "count": 1,
+      "seed": 8191,
+      "zeroBefore": {
+        "damage": 10234013496922,
+        "areaDamage": 8799631554093,
+        "casts": 107,
+        "actions": 533,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 15489361007070,
+        "areaDamage": 14281580802328,
+        "casts": 178,
+        "actions": 533,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 15489361007070,
+        "areaDamage": 14281580802328,
+        "casts": 178,
+        "actions": 533,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 0,
+      "count": 1,
+      "seed": 8293,
+      "zeroBefore": {
+        "damage": 10080199806563,
+        "areaDamage": 8676397201635,
+        "casts": 107,
+        "actions": 533,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 15652918849746,
+        "areaDamage": 14489402509166,
+        "casts": 178,
+        "actions": 533,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 15652918849746,
+        "areaDamage": 14489402509166,
+        "casts": 178,
+        "actions": 533,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 0,
+      "count": 5,
+      "seed": 7919,
+      "zeroBefore": {
+        "damage": 7478650194352,
+        "areaDamage": 6417246842100,
+        "casts": 79,
+        "actions": 393,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 11377920153288,
+        "areaDamage": 10505611302814,
+        "casts": 131,
+        "actions": 393,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 11377920153288,
+        "areaDamage": 10505611302814,
+        "casts": 131,
+        "actions": 393,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 0,
+      "count": 5,
+      "seed": 8111,
+      "zeroBefore": {
+        "damage": 7621511943877,
+        "areaDamage": 6549506159231,
+        "casts": 80,
+        "actions": 396,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 11615416677061,
+        "areaDamage": 10729726180343,
+        "casts": 132,
+        "actions": 396,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 11615416677061,
+        "areaDamage": 10729726180343,
+        "casts": 132,
+        "actions": 396,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 0,
+      "count": 5,
+      "seed": 8191,
+      "zeroBefore": {
+        "damage": 7393398383810,
+        "areaDamage": 6341943810954,
+        "casts": 79,
+        "actions": 393,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 11375408336068,
+        "areaDamage": 10498214318740,
+        "casts": 131,
+        "actions": 393,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 11375408336068,
+        "areaDamage": 10498214318740,
+        "casts": 131,
+        "actions": 393,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 0,
+      "count": 5,
+      "seed": 8293,
+      "zeroBefore": {
+        "damage": 7427991153631,
+        "areaDamage": 6375638554151,
+        "casts": 79,
+        "actions": 393,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 11509030512238,
+        "areaDamage": 10619209249084,
+        "casts": 132,
+        "actions": 396,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 11509030512238,
+        "areaDamage": 10619209249084,
+        "casts": 132,
+        "actions": 396,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 0,
+      "count": 12,
+      "seed": 7919,
+      "zeroBefore": {
+        "damage": 5202491397344,
+        "areaDamage": 4479362140285,
+        "casts": 55,
+        "actions": 271,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 8003742584918,
+        "areaDamage": 7406004943049,
+        "casts": 91,
+        "actions": 271,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 8003742584918,
+        "areaDamage": 7406004943049,
+        "casts": 91,
+        "actions": 271,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 0,
+      "count": 12,
+      "seed": 8111,
+      "zeroBefore": {
+        "damage": 5158824678081,
+        "areaDamage": 4438583525411,
+        "casts": 55,
+        "actions": 271,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 7947225333950,
+        "areaDamage": 7341337374282,
+        "casts": 91,
+        "actions": 271,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 7947225333950,
+        "areaDamage": 7341337374282,
+        "casts": 91,
+        "actions": 271,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 0,
+      "count": 12,
+      "seed": 8191,
+      "zeroBefore": {
+        "damage": 5138475890968,
+        "areaDamage": 4425721175675,
+        "casts": 54,
+        "actions": 268,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 7956559458105,
+        "areaDamage": 7355239425974,
+        "casts": 90,
+        "actions": 268,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 7956559458105,
+        "areaDamage": 7355239425974,
+        "casts": 90,
+        "actions": 268,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 0,
+      "count": 12,
+      "seed": 8293,
+      "zeroBefore": {
+        "damage": 5187977377712,
+        "areaDamage": 4467373752347,
+        "casts": 55,
+        "actions": 271,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 8044048246094,
+        "areaDamage": 7450421743491,
+        "casts": 91,
+        "actions": 271,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 8044048246094,
+        "areaDamage": 7450421743491,
+        "casts": 91,
+        "actions": 271,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 100000000,
+      "count": 1,
+      "seed": 7919,
+      "zeroBefore": {
+        "damage": 16742811304693,
+        "areaDamage": 14386846741185,
+        "casts": 144,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 25395503283129,
+        "areaDamage": 23412628232288,
+        "casts": 239,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 25395503283129,
+        "areaDamage": 23412628232288,
+        "casts": 239,
+        "actions": 720,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 100000000,
+      "count": 1,
+      "seed": 8111,
+      "zeroBefore": {
+        "damage": 17306056091759,
+        "areaDamage": 14894826942634,
+        "casts": 144,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 26226561321514,
+        "areaDamage": 24199969341649,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 26226561321514,
+        "areaDamage": 24199969341649,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 100000000,
+      "count": 1,
+      "seed": 8191,
+      "zeroBefore": {
+        "damage": 16970379388087,
+        "areaDamage": 14591761130834,
+        "casts": 144,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 25774442869946,
+        "areaDamage": 23775441009792,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 25774442869946,
+        "areaDamage": 23775441009792,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 100000000,
+      "count": 1,
+      "seed": 8293,
+      "zeroBefore": {
+        "damage": 16633519661591,
+        "areaDamage": 14259561276328,
+        "casts": 144,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 25955412408432,
+        "areaDamage": 23983398346489,
+        "casts": 239,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 25955412408432,
+        "areaDamage": 23983398346489,
+        "casts": 239,
+        "actions": 720,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 100000000,
+      "count": 5,
+      "seed": 7919,
+      "zeroBefore": {
+        "damage": 16897743171059,
+        "areaDamage": 14474312710578,
+        "casts": 144,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 25776182731588,
+        "areaDamage": 23811796179868,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 25776182731588,
+        "areaDamage": 23811796179868,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 100000000,
+      "count": 5,
+      "seed": 8111,
+      "zeroBefore": {
+        "damage": 16912678297029,
+        "areaDamage": 14523467247346,
+        "casts": 144,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 25961836958534,
+        "areaDamage": 23972514338748,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 25961836958534,
+        "areaDamage": 23972514338748,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 100000000,
+      "count": 5,
+      "seed": 8191,
+      "zeroBefore": {
+        "damage": 16779205010332,
+        "areaDamage": 14390731136323,
+        "casts": 144,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 26011636341947,
+        "areaDamage": 24017366115920,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 26011636341947,
+        "areaDamage": 24017366115920,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 100000000,
+      "count": 5,
+      "seed": 8293,
+      "zeroBefore": {
+        "damage": 16869591800784,
+        "areaDamage": 14476964290743,
+        "casts": 144,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 26127603128970,
+        "areaDamage": 24125692665834,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 26127603128970,
+        "areaDamage": 24125692665834,
+        "casts": 240,
+        "actions": 720,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 100000000,
+      "count": 12,
+      "seed": 7919,
+      "zeroBefore": {
+        "damage": 13207658021926,
+        "areaDamage": 11338374346356,
+        "casts": 113,
+        "actions": 565,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 20453024275245,
+        "areaDamage": 18883280348445,
+        "casts": 189,
+        "actions": 565,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 20453024275245,
+        "areaDamage": 18883280348445,
+        "casts": 189,
+        "actions": 565,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 100000000,
+      "count": 12,
+      "seed": 8111,
+      "zeroBefore": {
+        "damage": 13292288487218,
+        "areaDamage": 11401109262732,
+        "casts": 114,
+        "actions": 568,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 20551129260769,
+        "areaDamage": 18992903680584,
+        "casts": 190,
+        "actions": 568,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 20551129260769,
+        "areaDamage": 18992903680584,
+        "casts": 190,
+        "actions": 568,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 100000000,
+      "count": 12,
+      "seed": 8191,
+      "zeroBefore": {
+        "damage": 12954963711826,
+        "areaDamage": 11132717314613,
+        "casts": 110,
+        "actions": 550,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 20002383674300,
+        "areaDamage": 18479484049789,
+        "casts": 184,
+        "actions": 550,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 20002383674300,
+        "areaDamage": 18479484049789,
+        "casts": 184,
+        "actions": 550,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    },
+    {
+      "level": 21,
+      "gear": 100000000,
+      "count": 12,
+      "seed": 8293,
+      "zeroBefore": {
+        "damage": 13407372409857,
+        "areaDamage": 11536279629403,
+        "casts": 114,
+        "actions": 569,
+        "skillIds": [
+          "MS-976",
+          "MS-975"
+        ]
+      },
+      "zero": {
+        "damage": 20717791071275,
+        "areaDamage": 19164498871609,
+        "casts": 190,
+        "actions": 570,
+        "skillIds": [
+          "MS-976",
+          "MS-975",
+          "MS-1096"
+        ]
+      },
+      "prime": {
+        "damage": 20717791071275,
+        "areaDamage": 19164498871609,
+        "casts": 190,
+        "actions": 570,
+        "skillIds": [
+          "MS-963",
+          "MS-964",
+          "MS-965",
+          "MS-966"
+        ]
+      }
+    }
+  ]
+}

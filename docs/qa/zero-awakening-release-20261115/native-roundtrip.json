@@ -1,0 +1,173 @@
+[
+  {
+    "id": "awakening-storm",
+    "drawings": 8,
+    "nodes": 28,
+    "rects": [
+      {
+        "left": 0,
+        "top": 0,
+        "width": 444,
+        "height": 444
+      },
+      {
+        "left": 444,
+        "top": 0,
+        "width": 443,
+        "height": 444
+      },
+      {
+        "left": 887,
+        "top": 0,
+        "width": 444,
+        "height": 444
+      },
+      {
+        "left": 1331,
+        "top": 0,
+        "width": 443,
+        "height": 444
+      },
+      {
+        "left": 0,
+        "top": 444,
+        "width": 444,
+        "height": 443
+      },
+      {
+        "left": 444,
+        "top": 444,
+        "width": 443,
+        "height": 443
+      },
+      {
+        "left": 887,
+        "top": 444,
+        "width": 444,
+        "height": 443
+      },
+      {
+        "left": 1331,
+        "top": 444,
+        "width": 443,
+        "height": 443
+      }
+    ],
+    "roundtrip": true,
+    "sha256": "2f01d5a97abf9dfee46e93e1a7f7324386de3bd0aa24010c16bcb04dcf75c1e7"
+  },
+  {
+    "id": "awakening-crown",
+    "drawings": 8,
+    "nodes": 28,
+    "rects": [
+      {
+        "left": 0,
+        "top": 0,
+        "width": 444,
+        "height": 444
+      },
+      {
+        "left": 444,
+        "top": 0,
+        "width": 443,
+        "height": 444
+      },
+      {
+        "left": 887,
+        "top": 0,
+        "width": 444,
+        "height": 444
+      },
+      {
+        "left": 1331,
+        "top": 0,
+        "width": 443,
+        "height": 444
+      },
+      {
+        "left": 0,
+        "top": 444,
+        "width": 444,
+        "height": 443
+      },
+      {
+        "left": 444,
+        "top": 444,
+        "width": 443,
+        "height": 443
+      },
+      {
+        "left": 887,
+        "top": 444,
+        "width": 444,
+        "height": 443
+      },
+      {
+        "left": 1331,
+        "top": 444,
+        "width": 443,
+        "height": 443
+      }
+    ],
+    "roundtrip": true,
+    "sha256": "229f314981cff98aa0925d9b475dd255d04c79a10e481a5ac2f4e597c951f27c"
+  },
+  {
+    "id": "awakening-verdict",
+    "drawings": 8,
+    "nodes": 28,
+    "rects": [
+      {
+        "left": 0,
+        "top": 0,
+        "width": 444,
+        "height": 444
+      },
+      {
+        "left": 444,
+        "top": 0,
+        "width": 443,
+        "height": 444
+      },
+      {
+        "left": 887,
+        "top": 0,
+        "width": 444,
+        "height": 444
+      },
+      {
+        "left": 1331,
+        "top": 0,
+        "width": 443,
+        "height": 444
+      },
+      {
+        "left": 0,
+        "top": 444,
+        "width": 444,
+        "height": 443
+      },
+      {
+        "left": 444,
+        "top": 444,
+        "width": 443,
+        "height": 443
+      },
+      {
+        "left": 887,
+        "top": 444,
+        "width": 444,
+        "height": 443
+      },
+      {
+        "left": 1331,
+        "top": 444,
+        "width": 443,
+        "height": 443
+      }
+    ],
+    "roundtrip": true,
+    "sha256": "2457abf76b271db18643dd8a3f7bbc41c1aefaef598677b01b9c46b73fa47bee"
+  }
+]

@@ -11,7 +11,7 @@ import {resolveZeroArea} from '../functions/_mercenary_zero.js';
 import {resolvePrimeArea} from '../functions/_mercenary_prime_requiem.js';
 import {resolveGeneralJokArea} from '../functions/_mercenary_general_jok.js';
 
-const rows=[['V-976',ZERO_COMBAT,ZERO_BASIC_FORMS,ZERO_AREA_SKILLS,resolveZeroArea,zeroCodexSkills,35,5],['V-975',PRIME_COMBAT,PRIME_BASIC_FORMS,PRIME_AREA_SKILLS,resolvePrimeArea,primeCodexSkills,20,3],['V-974',GENERAL_JOK_COMBAT,GENERAL_JOK_BASIC_FORMS,GENERAL_JOK_AREA_SKILLS,resolveGeneralJokArea,generalJokCodexSkills,20,3]];
+const rows=[['V-976',ZERO_COMBAT,ZERO_BASIC_FORMS,ZERO_AREA_SKILLS,resolveZeroArea,zeroCodexSkills,20,3],['V-975',PRIME_COMBAT,PRIME_BASIC_FORMS,PRIME_AREA_SKILLS,resolvePrimeArea,primeCodexSkills,20,3],['V-974',GENERAL_JOK_COMBAT,GENERAL_JOK_BASIC_FORMS,GENERAL_JOK_AREA_SKILLS,resolveGeneralJokArea,generalJokCodexSkills,20,3]];
 const fighter=(code,mode='PVE')=>buildMercenaryFighter({...limitedDeploymentSnapshot(code),combat:fixture.combat},'A',mode,buildFighter);
 const target=mode=>({...buildFighter({id:'target',power:1e7},0,'B',null,mode),speed:1,attack:1,hp:1e8,maxHp:1e8,shield:1e10,maxShield:1e10});
 

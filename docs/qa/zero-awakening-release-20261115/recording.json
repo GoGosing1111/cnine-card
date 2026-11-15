@@ -1,0 +1,42 @@
+{
+  "source": "Actual V3 canvas + existing WebAudio mixer, native MediaRecorder; no composited mockup",
+  "report": [
+    {
+      "id": "normal",
+      "speed": 1.75,
+      "effects": true,
+      "bytes": 1773730,
+      "mime": "video/webm;codecs=vp8,opus",
+      "width": 1440,
+      "height": 920,
+      "elapsed": 2409.10000000149,
+      "hits": 12,
+      "context": "running"
+    },
+    {
+      "id": "slow",
+      "speed": 0.875,
+      "effects": true,
+      "bytes": 5362557,
+      "mime": "video/webm;codecs=vp8,opus",
+      "width": 1440,
+      "height": 920,
+      "elapsed": 4885,
+      "hits": 12,
+      "context": "running"
+    },
+    {
+      "id": "body",
+      "speed": 1.75,
+      "effects": false,
+      "bytes": 2659735,
+      "mime": "video/webm;codecs=vp8,opus",
+      "width": 1440,
+      "height": 920,
+      "elapsed": 2451,
+      "hits": 12,
+      "context": "running"
+    }
+  ],
+  "errors": []
+}

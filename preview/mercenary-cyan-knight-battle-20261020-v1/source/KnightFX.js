@@ -6,17 +6,24 @@ import {ZeroBladeWings} from './ZeroBladeWings.js';
 import {ZeroGiantSwordEcho} from './ZeroGiantSwordEcho.js';
 import {MODES,sample,bladeContact,smooth} from '../motion.mjs';
 import {sampleBody,BODY_PLAYBACK_RATE,EFFECT_PLAYBACK_RATE} from './BodyMotion.mjs';
+import {planKnightAssets} from './KnightAssetPlan.mjs';
 const ROOT='/preview/mercenary-cyan-knight-battle-20261020-v1/',HEIGHT=360,mix=(a,b,t)=>a+(b-a)*t;
-export async function loadKnightAssets(m){
- const out={motion:{},effects:{},appearance:[],summoned:[],backdropEffects:[],blade:await Assets.load(ROOT+m.weapon.url)};
- await Promise.all([
- ...Object.entries(m.motion).map(async([k,s])=>{const a=await Assets.load(ROOT+s.url);out.motion[k]=s.frames.map((f,i)=>new Texture({source:a.source,frame:new Rectangle(i%s.columns*s.frameWidth,Math.floor(i/s.columns)*s.frameHeight,s.frameWidth,s.frameHeight)}));}),
- ...Object.entries(m.effects).map(async([k,s])=>{const a=await Assets.load(ROOT+s.url);out.effects[k]=s.frames.map(f=>new Texture({source:a.source,frame:new Rectangle(f.rect.x,f.rect.y,f.rect.width,f.rect.height)}));})
- ]);
- if(m.summonedWeapons){const a=await Assets.load(ROOT+m.summonedWeapons.url);out.summoned=m.summonedWeapons.frames.map(f=>new Texture({source:a.source,frame:new Rectangle(f.rect.x,f.rect.y,f.rect.width,f.rect.height)}));}
- if(m.appearance){const a=await Assets.load(ROOT+m.appearance.url),s=m.appearance;out.appearance=Array.from({length:s.columns*s.rows},(_,i)=>new Texture({source:a.source,frame:new Rectangle(i%s.columns*s.frameWidth,Math.floor(i/s.columns)*s.frameHeight,s.frameWidth,s.frameHeight)}));}
- if(m.backdrop)out.backdrop=await Assets.load(ROOT+m.backdrop.url);
- if(m.backdrop?.effect){const s=m.backdrop.effect,a=await Assets.load(ROOT+s.url);out.backdropEffects=Array.from({length:s.columns*s.rows},(_,i)=>new Texture({source:a.source,frame:new Rectangle(i%s.columns*s.frameWidth,Math.floor(i/s.columns)*s.frameHeight,s.frameWidth,s.frameHeight)}));}
+export async function loadKnightAssets(m,{modes}={}){
+ const plan=planKnightAssets(m,modes);
+ // All images are independent. Complete their loads before creating per-actor
+ // frame textures, so a rejected request cannot orphan partially built frames.
+ const loaded=await Promise.allSettled(plan.urls.map(url=>Assets.load(ROOT+url)));
+ const failed=loaded.find(row=>row.status==='rejected');if(failed)throw failed.reason;
+ const sources=new Map(plan.urls.map((url,i)=>[url,loaded[i].value]));
+ const grid=s=>Array.from({length:s.frames?.length??s.columns*s.rows},(_,i)=>new Texture({source:sources.get(s.url).source,frame:new Rectangle(i%s.columns*s.frameWidth,Math.floor(i/s.columns)*s.frameHeight,s.frameWidth,s.frameHeight)}));
+ const packed=s=>s.frames.map(f=>new Texture({source:sources.get(s.url).source,frame:new Rectangle(f.rect.x,f.rect.y,f.rect.width,f.rect.height)}));
+ const out={motion:{},effects:{},appearance:[],summoned:[],backdropEffects:[],blade:sources.get(m.weapon.url)};
+ for(const {key,spec}of plan.motion)out.motion[key]=grid(spec);
+ for(const {key,spec}of plan.effects)out.effects[key]=packed(spec);
+ if(m.summonedWeapons)out.summoned=packed(m.summonedWeapons);
+ if(m.appearance)out.appearance=grid(m.appearance);
+ if(m.backdrop)out.backdrop=sources.get(m.backdrop.url);
+ if(m.backdrop?.effect)out.backdropEffects=grid(m.backdrop.effect);
  return out;
 }
 export class KnightFX{

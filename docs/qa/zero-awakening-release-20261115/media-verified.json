@@ -1,0 +1,41 @@
+[
+  {
+    "mode": "normal",
+    "duration": 2.867633,
+    "width": 1440,
+    "height": 920,
+    "frameDifference": 406291,
+    "audio": {
+      "duration": 2.34,
+      "channels": 2,
+      "peak": 0.3029477596282959,
+      "rms": 0.05557448539700604
+    }
+  },
+  {
+    "mode": "slow",
+    "duration": 5.536425,
+    "width": 1440,
+    "height": 920,
+    "frameDifference": 460478,
+    "audio": {
+      "duration": 4.5,
+      "channels": 2,
+      "peak": 0.29610180854797363,
+      "rms": 0.05594572583148616
+    }
+  },
+  {
+    "mode": "body",
+    "duration": 3.09371,
+    "width": 1440,
+    "height": 920,
+    "frameDifference": 217617,
+    "audio": {
+      "duration": 3.12,
+      "channels": 2,
+      "peak": 2.0345869483764863e-34,
+      "rms": 2.0345276458167145e-34
+    }
+  }
+]

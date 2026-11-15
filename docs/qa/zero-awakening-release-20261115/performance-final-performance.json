@@ -1,0 +1,595 @@
+{
+  "phase": "performance-final",
+  "at": "2026-11-15T04:56:25.320Z",
+  "conditions": {
+    "entry": "Click -> live HUNT loading/createRenderer -> deployCards -> awakening resources ready",
+    "network": "loopback, no network throttling, fresh browser per platform, same-page cached reentry",
+    "device": "Windows headless, Android and iOS browser emulation; no physical mobile test",
+    "damage": "Actual newly registered MS-1096 server event; same authoritative HP receipts"
+  },
+  "results": [
+    {
+      "label": "desktop",
+      "phase": "performance-final",
+      "screenOnly": false,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "platform": "Windows headless chromium",
+      "emulated": false,
+      "entriesMs": [
+        3517.60000000149,
+        1077.2999999970198
+      ],
+      "load": {
+        "ready": true,
+        "loading": false,
+        "active": false,
+        "loadMs": 347.8999999985099,
+        "imagesMs": 157.69999999552965,
+        "audioMs": 142.40000000596046,
+        "uploadMs": 47.599999994039536,
+        "bodyFrames": 8,
+        "visibleFx": 0
+      },
+      "plays": [
+        {
+          "result": true,
+          "elapsed": 2438.7000000029802,
+          "hits": [
+            {
+              "id": "B:0:ENCOUNTER:INITIAL",
+              "hp": 99.9999527438054
+            },
+            {
+              "id": "B:1:ENCOUNTER:INITIAL",
+              "hp": 99.9999513069499
+            },
+            {
+              "id": "B:2:ENCOUNTER:INITIAL",
+              "hp": 99.99995309788851
+            },
+            {
+              "id": "B:3:ENCOUNTER:INITIAL",
+              "hp": 99.99994933276561
+            },
+            {
+              "id": "B:4:ENCOUNTER:INITIAL",
+              "hp": 99.9999530308892
+            },
+            {
+              "id": "B:5:ENCOUNTER:INITIAL",
+              "hp": 99.9999528907761
+            },
+            {
+              "id": "B:6:ENCOUNTER:INITIAL",
+              "hp": 99.9999244302989
+            },
+            {
+              "id": "B:7:ENCOUNTER:INITIAL",
+              "hp": 99.9999274245667
+            },
+            {
+              "id": "B:8:ENCOUNTER:INITIAL",
+              "hp": 99.9999509058828
+            },
+            {
+              "id": "B:9:ENCOUNTER:INITIAL",
+              "hp": 99.9999488173255
+            },
+            {
+              "id": "B:10:ENCOUNTER:INITIAL",
+              "hp": 99.99995323670841
+            },
+            {
+              "id": "B:11:ENCOUNTER:INITIAL",
+              "hp": 99.9999530182504
+            }
+          ],
+          "diagnostics": {
+            "ready": true,
+            "loading": false,
+            "active": false,
+            "loadMs": 347.8999999985099,
+            "imagesMs": 157.69999999552965,
+            "audioMs": 142.40000000596046,
+            "uploadMs": 47.599999994039536,
+            "bodyFrames": 8,
+            "visibleFx": 0,
+            "last": {
+              "id": "MS-1096",
+              "name": "극광 · 백금천섬",
+              "visualMode": "awakening",
+              "playbackRate": 1.75,
+              "duration": 4.2,
+              "impact": 2.9,
+              "hitstop": 0.075,
+              "phase": "USER_APPROVED",
+              "damageAuthority": "SERVER_EVENT_ONLY",
+              "speed": 1.75,
+              "effects": true,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "visualTargetIds": [
+                "B:0:ENCOUNTER:INITIAL",
+                "B:1:ENCOUNTER:INITIAL",
+                "B:2:ENCOUNTER:INITIAL",
+                "B:5:ENCOUNTER:INITIAL",
+                "B:4:ENCOUNTER:INITIAL",
+                "B:3:ENCOUNTER:INITIAL",
+                "B:6:ENCOUNTER:INITIAL",
+                "B:7:ENCOUNTER:INITIAL",
+                "B:8:ENCOUNTER:INITIAL",
+                "B:11:ENCOUNTER:INITIAL",
+                "B:10:ENCOUNTER:INITIAL",
+                "B:9:ENCOUNTER:INITIAL"
+              ],
+              "damageApplications": 12,
+              "cancelled": false,
+              "time": 4.2,
+              "visibleFx": 0,
+              "homeError": 0,
+              "remainingEffects": 0
+            }
+          },
+          "mode": "normal",
+          "sampling": "Pixi application ticker after rendering (priority -100)",
+          "frameCount": 137,
+          "p50": 18.100000001490116,
+          "p95": 25.200000002980232,
+          "max": 73.60000000149012,
+          "over33": 1,
+          "over50": 1
+        }
+      ],
+      "exit": {
+        "timelines": 0,
+        "states": 0,
+        "canvases": 0,
+        "awakening": {
+          "ready": false,
+          "loading": false,
+          "active": false,
+          "bodyFrames": 0,
+          "visibleFx": 0,
+          "last": {
+            "id": "MS-1096",
+            "name": "극광 · 백금천섬",
+            "visualMode": "awakening",
+            "playbackRate": 1.75,
+            "duration": 4.2,
+            "impact": 2.9,
+            "hitstop": 0.075,
+            "phase": "USER_APPROVED",
+            "damageAuthority": "SERVER_EVENT_ONLY",
+            "speed": 1.75,
+            "effects": true,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "visualTargetIds": [
+              "B:0:ENCOUNTER:INITIAL",
+              "B:1:ENCOUNTER:INITIAL",
+              "B:2:ENCOUNTER:INITIAL",
+              "B:5:ENCOUNTER:INITIAL",
+              "B:4:ENCOUNTER:INITIAL",
+              "B:3:ENCOUNTER:INITIAL",
+              "B:6:ENCOUNTER:INITIAL",
+              "B:7:ENCOUNTER:INITIAL",
+              "B:8:ENCOUNTER:INITIAL",
+              "B:11:ENCOUNTER:INITIAL",
+              "B:10:ENCOUNTER:INITIAL",
+              "B:9:ENCOUNTER:INITIAL"
+            ],
+            "damageApplications": 12,
+            "cancelled": false,
+            "time": 4.2,
+            "visibleFx": 0,
+            "homeError": 0,
+            "remainingEffects": 0
+          }
+        }
+      },
+      "secondExit": {
+        "timelines": 0,
+        "states": 0,
+        "canvases": 0,
+        "awakening": {
+          "ready": false,
+          "loading": false,
+          "active": false,
+          "bodyFrames": 0,
+          "visibleFx": 0
+        }
+      },
+      "errors": []
+    },
+    {
+      "label": "android-emulated",
+      "phase": "performance-final",
+      "screenOnly": false,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "platform": "Windows headless chromium",
+      "emulated": true,
+      "entriesMs": [
+        2781.9000000059605,
+        918.1999999955297
+      ],
+      "load": {
+        "ready": true,
+        "loading": false,
+        "active": false,
+        "loadMs": 464.1000000014901,
+        "imagesMs": 224.60000000149012,
+        "audioMs": 198.70000000298023,
+        "uploadMs": 40.5,
+        "bodyFrames": 8,
+        "visibleFx": 0
+      },
+      "plays": [
+        {
+          "result": true,
+          "elapsed": 2433.8000000044703,
+          "hits": [
+            {
+              "id": "B:0:ENCOUNTER:INITIAL",
+              "hp": 99.9999527438054
+            },
+            {
+              "id": "B:1:ENCOUNTER:INITIAL",
+              "hp": 99.9999513069499
+            },
+            {
+              "id": "B:2:ENCOUNTER:INITIAL",
+              "hp": 99.99995309788851
+            },
+            {
+              "id": "B:3:ENCOUNTER:INITIAL",
+              "hp": 99.99994933276561
+            },
+            {
+              "id": "B:4:ENCOUNTER:INITIAL",
+              "hp": 99.9999530308892
+            },
+            {
+              "id": "B:5:ENCOUNTER:INITIAL",
+              "hp": 99.9999528907761
+            },
+            {
+              "id": "B:6:ENCOUNTER:INITIAL",
+              "hp": 99.9999244302989
+            },
+            {
+              "id": "B:7:ENCOUNTER:INITIAL",
+              "hp": 99.9999274245667
+            },
+            {
+              "id": "B:8:ENCOUNTER:INITIAL",
+              "hp": 99.9999509058828
+            },
+            {
+              "id": "B:9:ENCOUNTER:INITIAL",
+              "hp": 99.9999488173255
+            },
+            {
+              "id": "B:10:ENCOUNTER:INITIAL",
+              "hp": 99.99995323670841
+            },
+            {
+              "id": "B:11:ENCOUNTER:INITIAL",
+              "hp": 99.9999530182504
+            }
+          ],
+          "diagnostics": {
+            "ready": true,
+            "loading": false,
+            "active": false,
+            "loadMs": 464.1000000014901,
+            "imagesMs": 224.60000000149012,
+            "audioMs": 198.70000000298023,
+            "uploadMs": 40.5,
+            "bodyFrames": 8,
+            "visibleFx": 0,
+            "last": {
+              "id": "MS-1096",
+              "name": "극광 · 백금천섬",
+              "visualMode": "awakening",
+              "playbackRate": 1.75,
+              "duration": 4.2,
+              "impact": 2.9,
+              "hitstop": 0.075,
+              "phase": "USER_APPROVED",
+              "damageAuthority": "SERVER_EVENT_ONLY",
+              "speed": 1.75,
+              "effects": true,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "visualTargetIds": [
+                "B:0:ENCOUNTER:INITIAL",
+                "B:1:ENCOUNTER:INITIAL",
+                "B:2:ENCOUNTER:INITIAL",
+                "B:5:ENCOUNTER:INITIAL",
+                "B:4:ENCOUNTER:INITIAL",
+                "B:3:ENCOUNTER:INITIAL",
+                "B:6:ENCOUNTER:INITIAL",
+                "B:7:ENCOUNTER:INITIAL",
+                "B:8:ENCOUNTER:INITIAL",
+                "B:11:ENCOUNTER:INITIAL",
+                "B:10:ENCOUNTER:INITIAL",
+                "B:9:ENCOUNTER:INITIAL"
+              ],
+              "damageApplications": 12,
+              "cancelled": false,
+              "time": 4.2,
+              "visibleFx": 0,
+              "homeError": 0,
+              "remainingEffects": 0
+            }
+          },
+          "mode": "normal",
+          "sampling": "Pixi application ticker after rendering (priority -100)",
+          "frameCount": 137,
+          "p50": 17.100000001490116,
+          "p95": 27,
+          "max": 53.399999998509884,
+          "over33": 1,
+          "over50": 1
+        }
+      ],
+      "exit": {
+        "timelines": 0,
+        "states": 0,
+        "canvases": 0,
+        "awakening": {
+          "ready": false,
+          "loading": false,
+          "active": false,
+          "bodyFrames": 0,
+          "visibleFx": 0,
+          "last": {
+            "id": "MS-1096",
+            "name": "극광 · 백금천섬",
+            "visualMode": "awakening",
+            "playbackRate": 1.75,
+            "duration": 4.2,
+            "impact": 2.9,
+            "hitstop": 0.075,
+            "phase": "USER_APPROVED",
+            "damageAuthority": "SERVER_EVENT_ONLY",
+            "speed": 1.75,
+            "effects": true,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "visualTargetIds": [
+              "B:0:ENCOUNTER:INITIAL",
+              "B:1:ENCOUNTER:INITIAL",
+              "B:2:ENCOUNTER:INITIAL",
+              "B:5:ENCOUNTER:INITIAL",
+              "B:4:ENCOUNTER:INITIAL",
+              "B:3:ENCOUNTER:INITIAL",
+              "B:6:ENCOUNTER:INITIAL",
+              "B:7:ENCOUNTER:INITIAL",
+              "B:8:ENCOUNTER:INITIAL",
+              "B:11:ENCOUNTER:INITIAL",
+              "B:10:ENCOUNTER:INITIAL",
+              "B:9:ENCOUNTER:INITIAL"
+            ],
+            "damageApplications": 12,
+            "cancelled": false,
+            "time": 4.2,
+            "visibleFx": 0,
+            "homeError": 0,
+            "remainingEffects": 0
+          }
+        }
+      },
+      "secondExit": {
+        "timelines": 0,
+        "states": 0,
+        "canvases": 0,
+        "awakening": {
+          "ready": false,
+          "loading": false,
+          "active": false,
+          "bodyFrames": 0,
+          "visibleFx": 0
+        }
+      },
+      "errors": []
+    },
+    {
+      "label": "ios-emulated",
+      "phase": "performance-final",
+      "screenOnly": false,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "platform": "Windows headless webkit",
+      "emulated": true,
+      "entriesMs": [
+        10679,
+        6690
+      ],
+      "load": {
+        "ready": true,
+        "loading": false,
+        "active": false,
+        "loadMs": 1404,
+        "imagesMs": 875,
+        "audioMs": 17,
+        "uploadMs": 511,
+        "bodyFrames": 8,
+        "visibleFx": 0
+      },
+      "plays": [
+        {
+          "result": true,
+          "elapsed": 2264,
+          "hits": [
+            {
+              "id": "B:0:ENCOUNTER:INITIAL",
+              "hp": 99.9999527438054
+            },
+            {
+              "id": "B:1:ENCOUNTER:INITIAL",
+              "hp": 99.9999513069499
+            },
+            {
+              "id": "B:2:ENCOUNTER:INITIAL",
+              "hp": 99.99995309788851
+            },
+            {
+              "id": "B:3:ENCOUNTER:INITIAL",
+              "hp": 99.99994933276561
+            },
+            {
+              "id": "B:4:ENCOUNTER:INITIAL",
+              "hp": 99.9999530308892
+            },
+            {
+              "id": "B:5:ENCOUNTER:INITIAL",
+              "hp": 99.9999528907761
+            },
+            {
+              "id": "B:6:ENCOUNTER:INITIAL",
+              "hp": 99.9999244302989
+            },
+            {
+              "id": "B:7:ENCOUNTER:INITIAL",
+              "hp": 99.9999274245667
+            },
+            {
+              "id": "B:8:ENCOUNTER:INITIAL",
+              "hp": 99.9999509058828
+            },
+            {
+              "id": "B:9:ENCOUNTER:INITIAL",
+              "hp": 99.9999488173255
+            },
+            {
+              "id": "B:10:ENCOUNTER:INITIAL",
+              "hp": 99.99995323670841
+            },
+            {
+              "id": "B:11:ENCOUNTER:INITIAL",
+              "hp": 99.9999530182504
+            }
+          ],
+          "diagnostics": {
+            "ready": true,
+            "loading": false,
+            "active": false,
+            "loadMs": 1404,
+            "imagesMs": 875,
+            "audioMs": 17,
+            "uploadMs": 511,
+            "bodyFrames": 8,
+            "visibleFx": 0,
+            "last": {
+              "id": "MS-1096",
+              "name": "극광 · 백금천섬",
+              "visualMode": "awakening",
+              "playbackRate": 1.75,
+              "duration": 4.2,
+              "impact": 2.9,
+              "hitstop": 0.075,
+              "phase": "USER_APPROVED",
+              "damageAuthority": "SERVER_EVENT_ONLY",
+              "speed": 1.75,
+              "effects": true,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "visualTargetIds": [
+                "B:0:ENCOUNTER:INITIAL",
+                "B:1:ENCOUNTER:INITIAL",
+                "B:2:ENCOUNTER:INITIAL",
+                "B:5:ENCOUNTER:INITIAL",
+                "B:4:ENCOUNTER:INITIAL",
+                "B:3:ENCOUNTER:INITIAL",
+                "B:6:ENCOUNTER:INITIAL",
+                "B:7:ENCOUNTER:INITIAL",
+                "B:8:ENCOUNTER:INITIAL",
+                "B:11:ENCOUNTER:INITIAL",
+                "B:10:ENCOUNTER:INITIAL",
+                "B:9:ENCOUNTER:INITIAL"
+              ],
+              "damageApplications": 12,
+              "cancelled": false,
+              "time": 4.2,
+              "visibleFx": 0,
+              "homeError": 0,
+              "remainingEffects": 0
+            }
+          },
+          "mode": "normal",
+          "sampling": "Pixi application ticker after rendering (priority -100)",
+          "frameCount": 7,
+          "p50": 275,
+          "p95": 302,
+          "max": 302,
+          "over33": 7,
+          "over50": 7
+        }
+      ],
+      "exit": {
+        "timelines": 0,
+        "states": 0,
+        "canvases": 0,
+        "awakening": {
+          "ready": false,
+          "loading": false,
+          "active": false,
+          "bodyFrames": 0,
+          "visibleFx": 0,
+          "last": {
+            "id": "MS-1096",
+            "name": "극광 · 백금천섬",
+            "visualMode": "awakening",
+            "playbackRate": 1.75,
+            "duration": 4.2,
+            "impact": 2.9,
+            "hitstop": 0.075,
+            "phase": "USER_APPROVED",
+            "damageAuthority": "SERVER_EVENT_ONLY",
+            "speed": 1.75,
+            "effects": true,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "visualTargetIds": [
+              "B:0:ENCOUNTER:INITIAL",
+              "B:1:ENCOUNTER:INITIAL",
+              "B:2:ENCOUNTER:INITIAL",
+              "B:5:ENCOUNTER:INITIAL",
+              "B:4:ENCOUNTER:INITIAL",
+              "B:3:ENCOUNTER:INITIAL",
+              "B:6:ENCOUNTER:INITIAL",
+              "B:7:ENCOUNTER:INITIAL",
+              "B:8:ENCOUNTER:INITIAL",
+              "B:11:ENCOUNTER:INITIAL",
+              "B:10:ENCOUNTER:INITIAL",
+              "B:9:ENCOUNTER:INITIAL"
+            ],
+            "damageApplications": 12,
+            "cancelled": false,
+            "time": 4.2,
+            "visibleFx": 0,
+            "homeError": 0,
+            "remainingEffects": 0
+          }
+        }
+      },
+      "secondExit": {
+        "timelines": 0,
+        "states": 0,
+        "canvases": 0,
+        "awakening": {
+          "ready": false,
+          "loading": false,
+          "active": false,
+          "bodyFrames": 0,
+          "visibleFx": 0
+        }
+      },
+      "errors": []
+    }
+  ],
+  "missing": []
+}

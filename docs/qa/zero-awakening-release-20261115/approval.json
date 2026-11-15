@@ -1,0 +1,41 @@
+{
+  "at": "2026-11-15T04:53:11.644Z",
+  "userInstruction": "승인, 전투력 밸런스 프라임하고 비교해보고 잘 맞춰 그리고 궁극기 모션속도 1.75배 가속",
+  "status": "VISUAL_APPROVED_BALANCE_AND_1_75X_REQUESTED",
+  "skill": "극광 · 백금천섬",
+  "id": "MS-1096",
+  "assets": [
+    {
+      "file": "preview/zero-awakening-20261115/runtime/body.json",
+      "bytes": 3780,
+      "sha256": "c05759c9f80d10a7615b65b43de015b0c15edd878f41219f45d33d7bb9ddba88"
+    },
+    {
+      "file": "preview/zero-awakening-20261115/runtime/zero-awakening-body.png",
+      "bytes": 1613384,
+      "sha256": "0d7cd98dedf341d46c279f5c1686f90c35d0193fab03b79b99ba7a1df68ef164"
+    },
+    {
+      "file": "preview/zero-awakening-20261115/effects-v2/runtime/fx-manifest.json",
+      "bytes": 11600,
+      "sha256": "c3b6136ee2b3117e68ccbfed739dfbf998fcae155e0b44a9d57e98a1ea4d12ac"
+    },
+    {
+      "file": "preview/zero-awakening-20261115/effects-v2/runtime/awakening-crown.png",
+      "bytes": 1963640,
+      "sha256": "4efeffa40f890e316693f03b17a1adacea5c918295076369ddee4cb66a708666"
+    },
+    {
+      "file": "preview/zero-awakening-20261115/effects-v2/runtime/awakening-storm.png",
+      "bytes": 1951744,
+      "sha256": "cf675ccbdcad8dd46c27e2cf02466fd2f64283101a2f6c5d6a98254a4904fc75"
+    },
+    {
+      "file": "preview/zero-awakening-20261115/effects-v2/runtime/awakening-verdict.png",
+      "bytes": 1288459,
+      "sha256": "4fec32ab7032ed93555af4f8b946a7ce31f7f50eb953db944217a9fed58ab07e"
+    }
+  ],
+  "authoringRoot": "preview/zero-awakening-20261115",
+  "authoring": "Native Effekseer 1.70e roundtrip and 24 ImageGen-painted VFX cels preserved; no art regeneration in this release."
+}

@@ -9,14 +9,14 @@ const actor=p=>({id:'A:MERCENARY:'+p.code,cardId:p.code,isMercenary:true,team:'A
 const event=(p,s)=>({type:p.event,battleMode:'PVE',actorId:'A:MERCENARY:'+p.code,skillId:p.code==='V-971'?'MS-929':s.id,visualMode:s.visualMode,hits:[{targetId:'B:0',damage:50,targetHpAfter:50}]});
 function engine(){return {battleData:{mode:'HUNT',battleId:'one'},playbackEpoch:1,mercenaryEpoch:1,visible:true,effectLayer:new Container(),app:{screen:{width:1440,height:800}},combatantById:()=>({team:'ENEMY',root:{destroyed:false}}),timelineCount:0,async timeline(build,cleanup){this.timelineCount++;build({to:(clock,options)=>{clock.time=.5;options.onUpdate();}});cleanup();return true;}};}
 
-test('all 16 current area presentations resolve while basics, PVP and unrelated events do not',()=>{
- assert.equal(AREA_CUTIN_PROFILES.flatMap(p=>p.skills).length,16);
+test('all 17 current area presentations resolve while basics, PVP and unrelated events do not',()=>{
+ assert.equal(AREA_CUTIN_PROFILES.flatMap(p=>p.skills).length,17);
  for(const p of AREA_CUTIN_PROFILES){const a=actor(p);for(const s of p.skills){const e=event(p,s);assert.equal(resolveAreaCutin(e,a).skill.name,s.name);assert.equal(resolveAreaCutin({...e,battleMode:'PVP'},a),null);assert.equal(resolveAreaCutin({...e,type:'ATTACK'},a),null);assert.equal(resolveAreaCutin({...e,skillId:'unknown'},a),null);assert.equal(resolveAreaCutin({...e,hits:[]},a),null);}a.cutInTexture.destroy(true);}
 });
 test('each actor gets exactly one strip in a battle across all successive area skills',async()=>{
  const e=engine();let delegated=0;
  for(const p of AREA_CUTIN_PROFILES){const a=actor(p);const before=e.timelineCount;for(const s of [...p.skills,...p.skills]){const receipt=event(p,s),original=structuredClone(receipt);assert.equal(await withMercenaryAreaPresentation(e,receipt,a,()=>{delegated++;return true;}),true);assert.deepEqual(receipt,original);assert.equal(e.activeMercenaryAreaCutin,null);}assert.equal(e.timelineCount-before,1);assert.equal(e.effectLayer.children.length,0);a.cutInTexture.destroy(true);}
- assert.equal(delegated,32);assert.equal(e.timelineCount,5);clearMercenaryAreaPresentation(e);
+ assert.equal(delegated,34);assert.equal(e.timelineCount,5);clearMercenaryAreaPresentation(e);
 });
 test('cancellation and actor recreation retain the allowance; a new battle resets it',async()=>{
  const p=AREA_CUTIN_PROFILES[0],a=actor(p),ev=event(p,p.skills[0]),e=engine();

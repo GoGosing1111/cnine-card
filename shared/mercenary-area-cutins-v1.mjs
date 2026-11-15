@@ -12,7 +12,7 @@ const profile=(art,event,skills,theme,face,position,lines)=>Object.freeze({
 });
 export const AREA_CUTIN_PROFILES=Object.freeze([
  profile(ZERO_ART,ZERO_AREA_EVENT,ZERO_AREA_SKILLS,'sss-zero',[.475,.138],'47% 10%',[
-  '도망칠 하늘은 없다. 천검, 전개.','하늘의 끝까지, 베어내겠다.'
+  '도망칠 하늘은 없다. 천검, 전개.','하늘의 끝까지, 베어내겠다.','이 일섬으로, 모든 검로를 끝낸다.'
  ]),
  profile(PRIME_ART,PRIME_AREA_EVENT,PRIME_AREA_SKILLS,'sss-prime-requiem',[.400,.211],'38% 18%',[
   '깨어나라, 혈호. 전부 집어삼켜라.','붉은 잔영이 보였다면, 이미 늦었다.',

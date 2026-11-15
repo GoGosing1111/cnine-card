@@ -1,5 +1,6 @@
+import {prepareAwakening,playAwakening,disposeAwakening} from '../../../zero-awakening-20261115/source/ZeroAwakening.js';
 import {gsap} from 'gsap';
-import {ZERO_CODE,ZERO_ART,ZERO_AREA_EVENT,ZERO_AREA_SKILLS,ZERO_BASIC_FORMS} from '../../../../shared/mercenary-zero-v1.mjs';
+import {ZERO_CODE,ZERO_ART,ZERO_AREA_EVENT,ZERO_AREA_SKILLS,ZERO_BASIC_FORMS,ZERO_AWAKENING} from '../../../../shared/mercenary-zero-v1.mjs';
 import {KnightFX,loadKnightAssets} from '../../../mercenary-cyan-knight-battle-20261020-v1/source/KnightFX.js';
 import {MODES,sample} from '../../../mercenary-cyan-knight-battle-20261020-v1/motion.mjs';
 import {sampleBody,BODY_PLAYBACK_RATE,EFFECT_PLAYBACK_RATE} from '../../../mercenary-cyan-knight-battle-20261020-v1/source/BodyMotion.mjs';
@@ -71,15 +72,15 @@ export async function setupZeroActor(engine,actor){
  if(engine.zeroStates.has(actor))return engine.zeroStates.get(actor);
  if(engine.zeroLoads.has(actor))return engine.zeroLoads.get(actor);
  const epoch=engine.mercenaryEpoch,pending=(async()=>{
-  const m=await manifest(),assets=await loadKnightAssets(m);
+  const m=await manifest(),assets=await loadKnightAssets(m,{modes:['idle',...ZERO_BASIC_FORMS.map(s=>s.visualMode),...ZERO_AREA_SKILLS.map(s=>s.visualMode).filter(mode=>MODES[mode])]});
   if(engine.mercenaryDisposed||actor.root.destroyed||epoch!==engine.mercenaryEpoch){disposeAssets(assets);return null;}
   const target=(actor.team==='ALLY'?engine.enemies:engine.allies).find(a=>!a.root.destroyed)||actor;
-  const fx=new ZeroLiveFX(engine,actor,[target],assets,m),state={engine,actor,fx,busy:false,stopped:false,basicCount:0};engine.zeroStates.set(actor,state);startAmbient(state);return state;
+  const fx=new ZeroLiveFX(engine,actor,[target],assets,m),state={engine,actor,fx,busy:false,stopped:false,basicCount:0};engine.zeroStates.set(actor,state);startAmbient(state);if(actor.mercenaryRow?.battleMode==='PVE')prepareAwakening(engine).catch(error=>console.warn('[Zero awakening] Optional preload failed',error));return state;
  })().finally(()=>engine.zeroLoads.delete(actor));engine.zeroLoads.set(actor,pending);return pending;
 }
 export function resumeZeroPlayback(engine){for(const s of engine.zeroStates?.values()||[]){if(s.busy||s.actor.hp<=0)continue;s.stopped=false;startAmbient(s);}}
 export function cancelZeroPlayback(engine){for(const s of engine.zeroStates?.values()||[]){s.stopped=true;stopAmbient(s);s.fx.cancel();}}
-export function clearZeroActors(engine){for(const s of engine.zeroStates?.values()||[]){stopAmbient(s);s.fx.destroy();}engine.zeroStates?.clear();}
+export function clearZeroActors(engine){disposeAwakening(engine);for(const s of engine.zeroStates?.values()||[]){stopAmbient(s);s.fx.destroy();}engine.zeroStates?.clear();}
 async function playback(engine,actor,targets,mode,apply){
  const epoch=engine.mercenaryEpoch,playbackEpoch=engine.playbackEpoch;
  const valid=()=>!engine.mercenaryDisposed&&engine.visible&&epoch===engine.mercenaryEpoch&&playbackEpoch===engine.playbackEpoch&&!actor.root.destroyed&&targets.every(t=>!t.root.destroyed);
@@ -99,13 +100,23 @@ export function playZeroBasic(engine,{attacker:actor,target,damage=0,targetHp=nu
  if(!engine.isAlive(actor)||!engine.isAlive(target))return false;
  return playback(engine,actor,[target],'basic',()=>{if(targetHp!==null&&Number.isFinite(Number(targetHp)))engine.syncTargetHp(target,Number(targetHp));if(targetShield!==null&&Number.isFinite(Number(targetShield)))engine.syncTargetShield(target,Number(targetShield));onImpact(target);engine.showAccountBattleUnitDamage(target,{damage});});
 }
-export function playZeroArea(engine,event){
+export async function playZeroArea(engine,event){
  const actor=engine.combatantById(event.actorId),skill=ZERO_AREA_SKILLS.find(s=>s.id===event.skillId);
  if(actor?.cardId!==ZERO_CODE||event.type!==ZERO_AREA_EVENT||event.battleMode!=='PVE'||!skill)return true;
  const rows=[...new Map((event.hits||[]).map(hit=>[hit.targetId,hit])).values()].map(hit=>({hit,target:engine.combatantById(hit.targetId)})).filter(r=>r.target&&!r.target.root.destroyed);if(!rows.length)return true;
- return playback(engine,actor,rows.map(r=>r.target),skill.visualMode,()=>{for(const {hit,target}of rows){
+ const apply=()=>{for(const {hit,target}of rows){
   if(Number.isFinite(hit.targetHpAfter))engine.syncTargetHp(target,engine.eventHpPercent(target,hit.targetHpAfter,hit.targetMaxHp));
   if(Number.isFinite(hit.targetShieldAfter))engine.syncTargetShield(target,hit.targetShieldAfter,hit.targetMaxShield);
   if(hit.dodge)engine.queueBanner('빗나감',actor.accent,target.name);else engine.showAccountBattleUnitDamage(target,{damage:(hit.damage||0)+(hit.absorbed||0),compactArea:rows.length>1});
- }});
+ }};
+ if(skill.id===ZERO_AWAKENING.id){
+  const epoch=engine.playbackEpoch;
+  const ready=await setupZeroActor(engine,actor).catch(()=>null);
+  const assets=ready&&await prepareAwakening(engine).catch(()=>null);
+  if(epoch!==engine.playbackEpoch||engine.disposed||engine.mercenaryDisposed||actor.root.destroyed||!engine.visible)return false;
+  // Missing optional art must not drop the server HP/shield receipt.
+  if(!assets){apply();return true;}
+  return playAwakening(engine,event,{resumeIdle:resumeZeroPlayback});
+ }
+ return playback(engine,actor,rows.map(r=>r.target),skill.visualMode,apply);
 }

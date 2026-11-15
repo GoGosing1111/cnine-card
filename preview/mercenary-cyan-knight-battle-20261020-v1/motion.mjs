@@ -16,8 +16,13 @@ export const MODES={
  meteor:{label:'용궤 검격',type:'skill',duration:2.7,contacts:[.64],
   poses:sequence('horizon',[0,.15,.29,.56,.72,1.10,1.65,2.20]),
   path:[path(0,'home'),path(.2,'home'),path(.56,'hit0'),path(.86,'hit0'),path(1.25,'finish'),path(2.4,'home'),path(2.7,'home')]},
- array:{label:'천검 포위',type:'area',duration:ARRAY_DURATION,contacts:[],poses:[p(0,'dash',0),p(.12,'dash',1),p(.24,'dash',2),...sequence('array',[.35,.48,.60,.74,.90,1.30,1.70,2.10,2.60,3.05,3.50,3.93])],
-  path:[path(0,'home'),path(.35,'command'),path(3.0,'command'),path(3.30,'finish'),path(3.70,'finish'),path(4.30,'home'),path(4.55,'home')]},
+ // A short two-handed release, grounded guard, then one decisive finishing cut.
+ // The old open-palm conducting poses remain in the atlas as authoring history.
+ array:{label:'천검 포위',type:'area',duration:ARRAY_DURATION,contacts:[],poses:[
+  p(0,'idle',0),p(.12,'horizon',1),p(.24,'array',0),p(.52,'horizon',6),
+  p(3.10,'horizon',1),p(3.32,'horizon',2),p(3.55,'horizon',3),p(3.60,'horizon',4),
+  p(3.72,'horizon',5),p(3.90,'horizon',6),p(4.20,'idle',0)],
+  path:[path(0,'home'),path(.18,'home'),path(.40,'command'),path(3.18,'command'),path(3.60,'hit19'),path(3.72,'hit19'),path(4.30,'home'),path(4.55,'home')]},
  zenith:{label:'창천 종단',type:'area',duration:4.0,contacts:[.72,1.48,2.65],
   poses:[p(0,'flurry',0),p(.22,'horizon',1),p(.42,'dash',2),p(.65,'horizon',3),p(.88,'horizon',4),p(1.15,'flurry',0,-1),p(1.43,'flurry',1,-1),p(1.72,'flurry',2),p(2,'array',8),p(2.28,'horizon',2),p(2.60,'flurry',3),p(2.85,'horizon',5),p(3.25,'horizon',6),p(3.75,'idle',0)],
   path:[path(0,'home'),path(.37,'home'),path(.65,'hit0'),path(.85,'hit0'),path(1.43,'hit1'),path(1.62,'hit1'),path(2.1,'command'),path(2.60,'hit2'),path(2.9,'hit2'),path(3.8,'home'),path(4,'home')]}
