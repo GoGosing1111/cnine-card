@@ -148,5 +148,11 @@
     "portrait": "/assets/ui/pets/rework-20261114/codex-v3/pets/pet-jjanggu-heeya-portrait.webp",
     "source": "assets/ui/pets/jjanggu-heeya-20261104/pet-jjanggu-heeya-approved.png",
     "sourceSha256": "b035ee16a1db07b540510ffbef56465862d6e1c3c38106fe3125128595623773"
+  },
+  "PET-SUDAL": {
+    "thumb": "/assets/ui/pets/sudal-20261115/pet-sudal-thumb.webp",
+    "portrait": "/assets/ui/pets/sudal-20261115/pet-sudal-portrait.webp",
+    "source": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png",
+    "sourceSha256": "ba46b4584c3ffb1856fa93d17f62d563a9565da6adf3f884bae4ef9657d51c3d"
   }
 }

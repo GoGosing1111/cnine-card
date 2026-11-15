@@ -11,7 +11,7 @@ const user={id:2},code='PET-PEPEGU';
 const command=(command,revision,extra={})=>({command,expectedRevision:revision,requestId:crypto.randomUUID(),...extra});
 test('existing effects descending order determines all six species caps',()=>{
  assert.deepEqual(['PET-PEPEGU','PET-HEUKGU','PET-CRIMSON-DEMON','PET-DAENGSORYONG','PET-MALTESE-DIIM','PET-HEADSET-SHIBA'].map(code=>PET_GROWTH_CAPS[code]),['SSS','SS','S','A','B','C']);
- assert.equal(Object.keys(PET_GROWTH_CAPS).length,25);assert.equal(PET_GROWTH_CAPS['PET-BAZZI-BONGSOON'],'SSS');assert.equal(PET_GROWTH_CAPS['PET-JJANGGU-HEEYA'],'SS');
+ assert.equal(Object.keys(PET_GROWTH_CAPS).length,26);assert.equal(PET_GROWTH_CAPS['PET-BAZZI-BONGSOON'],'SSS');assert.equal(PET_GROWTH_CAPS['PET-JJANGGU-HEEYA'],'SS');
 });
 async function fixture(t){
  const f=await petLiveFixture(t);await f.pg.exec("ALTER TABLE users ADD COLUMN coin BIGINT NOT NULL DEFAULT 90000000000000007; CREATE TABLE coin_logs(user_id BIGINT,change_amount BIGINT,balance_after BIGINT,reason TEXT); INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(2,'MASTER_STAR',1000000000,1000000000)");

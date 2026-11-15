@@ -27,4 +27,5 @@ export const PET_ART_CATALOG=Object.freeze([
   ['HEUKGU','흑구','카카오 통 인형','assets/ui/pets/heukgu-20261025/pet-heukgu-large-head-v3.png','5d7e5e8b1fa4c22fb6d37d8ea78e0b7c3dfbb5d763f6f71e4c17077dc0843d0a','얼굴과 표정을 살린 카카오 99% 통에 짧은 다리가 달린 흑구.','SOURCE_ART_APPROVED'],
   ['PEPEGU','페페구','개구리 인형','assets/ui/pets/pepegu-20261101/pet-pepegu-approved.png','4793f92e1c04aa5ce5ebf013692ad30ea90edbbd9af43230b25eb98c9b53e5e4','흰 민소매를 입고 두 팔을 든 초록 개구리 몸과 사진 얼굴의 사용자 제공 페페구.','SOURCE_ART_APPROVED'],
   ['JJANGGU-HEEYA','짱구희야','짱구 의상 인형','assets/ui/pets/jjanggu-heeya-20261104/pet-jjanggu-heeya-approved.png','b035ee16a1db07b540510ffbef56465862d6e1c3c38106fe3125128595623773','짙은 눈썹과 올림머리, 빨간 상의·노란 반바지·흰 운동화를 살린 작은 짱구희야.','SOURCE_ART_APPROVED'],
+  ['SUDAL','수달','수댕이건달','assets/ui/pets/sudal-20261115/pet-sudal-approved.png','ba46b4584c3ffb1856fa93d17f62d563a9565da6adf3f884bae4ef9657d51c3d','수댕이건달. 긴 흑발과 고양이 귀, 입 주변 낙서와 회색 정장으로 건들건들한 자세를 취한 수달.','SOURCE_ART_APPROVED'],
 ].map(([slug,name,animal,file,sha256,description,artStatus='USER_REVIEW_PENDING'])=>Object.freeze({code:`PET-${slug}`,name,animal,sourceArt:file.startsWith('assets/')?file:base+file,sha256,description,artStatus})));

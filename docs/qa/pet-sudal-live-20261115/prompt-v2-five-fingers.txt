@@ -1,0 +1,6 @@
+Use case: precise-object-edit.
+Image 1 is the EDIT TARGET: the approved transparent SD game pet "수달 (수댕이건달)".
+Fix ONLY the exposed hand holding the jacket lapel. The user noticed it appears to have only three fingers.
+Redraw that one small hand with anatomically correct FIVE digits: one distinct thumb plus FOUR fingers, with the four separate fingers and their natural knuckles clearly readable where they lightly rest across/hold the lapel. Use a relaxed, slightly open lapel-holding grip so the five digits can be counted naturally; no fused fingers, no hidden missing-looking fingers, no extra digits. Match the original hand's size, skin rendering and light direction. Keep its wrist and overall arm position.
+STRICT INVARIANTS: preserve the entire face, eyes, lips, mouth doodle, expression, long black hair, bangs, cat-ear headband, gray pinstripe suit, white necktie, other hand inside the pocket, leg stance, shoes, composition, colors, dimensions and style. No face retouch, no slimming, no costume redesign, no new accessories or objects. This is a local hand anatomy correction of the existing artwork, not a new character.
+Keep a genuine transparent RGBA background and clean original cutout. Single full-body character, no text, no watermark.
