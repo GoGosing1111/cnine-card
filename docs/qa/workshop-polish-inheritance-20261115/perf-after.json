@@ -1,0 +1,106 @@
+{
+  "phase": "after",
+  "condition": "PGlite PostgreSQL, five fresh isolated accounts, fixed 10 ms delay per DB round trip, account-state first/reentry and a polished successful upgrade",
+  "results": [
+    {
+      "run": 0,
+      "first": {
+        "ms": 18.284000000000106,
+        "calls": 2,
+        "sqls": 2
+      },
+      "reentry": {
+        "ms": 13.841699999999946,
+        "calls": 2,
+        "sqls": 2
+      },
+      "craft": {
+        "ms": 214.76270000000022,
+        "calls": 12,
+        "sqls": 49,
+        "inherited": true
+      }
+    },
+    {
+      "run": 1,
+      "first": {
+        "ms": 17.51590000000033,
+        "calls": 2,
+        "sqls": 2
+      },
+      "reentry": {
+        "ms": 13.871700000000146,
+        "calls": 2,
+        "sqls": 2
+      },
+      "craft": {
+        "ms": 206.84640000000036,
+        "calls": 12,
+        "sqls": 49,
+        "inherited": true
+      }
+    },
+    {
+      "run": 2,
+      "first": {
+        "ms": 16.51130000000012,
+        "calls": 2,
+        "sqls": 2
+      },
+      "reentry": {
+        "ms": 15.569700000000012,
+        "calls": 2,
+        "sqls": 2
+      },
+      "craft": {
+        "ms": 208.95969999999943,
+        "calls": 12,
+        "sqls": 49,
+        "inherited": true
+      }
+    },
+    {
+      "run": 3,
+      "first": {
+        "ms": 16.24489999999969,
+        "calls": 2,
+        "sqls": 2
+      },
+      "reentry": {
+        "ms": 15.665399999999863,
+        "calls": 2,
+        "sqls": 2
+      },
+      "craft": {
+        "ms": 208.76940000000013,
+        "calls": 12,
+        "sqls": 49,
+        "inherited": true
+      }
+    },
+    {
+      "run": 4,
+      "first": {
+        "ms": 16.10230000000047,
+        "calls": 2,
+        "sqls": 2
+      },
+      "reentry": {
+        "ms": 15.175999999999476,
+        "calls": 2,
+        "sqls": 2
+      },
+      "craft": {
+        "ms": 205.1255999999994,
+        "calls": 12,
+        "sqls": 49,
+        "inherited": true
+      }
+    }
+  ],
+  "medians": {
+    "first": 16.51130000000012,
+    "reentry": 15.175999999999476,
+    "craft": 208.76940000000013
+  }
+}

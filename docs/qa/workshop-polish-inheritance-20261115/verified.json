@@ -1,0 +1,88 @@
+{
+  "verifiedAt": "2026-11-15T13:55:31.727Z",
+  "operationKey": "ops:workshop-polish-inheritance:20261115:v1",
+  "auditId": "61408",
+  "runtime": [
+    {
+      "nickname": "씨나인택갓",
+      "userId": "1195",
+      "instanceId": "3373751449",
+      "equipped": true,
+      "summary": "치명타 확률 +0.5%p · 치명타 피해 +3%p · 보스 피해 +2%",
+      "polish": {
+        "schemaVersion": 1,
+        "instanceId": "3373751449",
+        "userId": 1195,
+        "attempts": 3,
+        "levels": [
+          0,
+          1,
+          1,
+          1,
+          0
+        ],
+        "values": [
+          0,
+          0.5,
+          3,
+          2,
+          0
+        ],
+        "rolls": 23
+      }
+    },
+    {
+      "nickname": "찬호",
+      "userId": "4597",
+      "instanceId": "3373751463",
+      "equipped": true,
+      "summary": "공격력 +2% · 치명타 확률 +0.5%p · 치명타 피해 +3%p · 보스 피해 +2% · 방어 관통 +0.5%p",
+      "polish": {
+        "schemaVersion": 1,
+        "instanceId": "3373751463",
+        "userId": 4597,
+        "attempts": 5,
+        "levels": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "values": [
+          2,
+          0.5,
+          3,
+          2,
+          0.5
+        ],
+        "rolls": 73
+      }
+    }
+  ],
+  "equipment": [
+    {
+      "id": "3373751449",
+      "user_id": "1195",
+      "equipment_id": "117",
+      "source_type": "FORGE_RESTORE",
+      "source_id": "e526df66-4c1f-4a35-a8ef-74ae717d3527",
+      "request_id": "13393953-bc59-40b3-842f-0910ad66415c",
+      "level": 11,
+      "revision": 3,
+      "slot": "TOP"
+    },
+    {
+      "id": "3373751463",
+      "user_id": "4597",
+      "equipment_id": "117",
+      "source_type": "FORGE_RESTORE",
+      "source_id": "3e03bf4d-c60f-4529-af23-503132e59177",
+      "request_id": "47840abd-ede9-4274-97e8-dc3351f95c44",
+      "level": 10,
+      "revision": 9,
+      "slot": "TOP"
+    }
+  ],
+  "readOnly": true
+}

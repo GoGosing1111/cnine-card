@@ -1,0 +1,811 @@
+{
+  "completedAt": "2026-11-15T13:57:03.282Z",
+  "operationKey": "ops:workshop-polish-inheritance:20261115:v1",
+  "auditId": "61408",
+  "appliedAt": "2026-11-15T13:55:19.726Z",
+  "source": "7a94fb69212346ccafae5dcacd5907fae1a5a191",
+  "pages": {
+    "id": "b0b25ddc-dd8f-41a3-8033-95ca2bfc7f8b",
+    "url": "https://b0b25ddc.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "7a94fb69212346ccafae5dcacd5907fae1a5a191"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "versions": [
+        {
+          "version_id": "99b0922e-b9a8-494b-984d-976534c26527",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "versions": [
+        {
+          "version_id": "eb9b5cec-0906-4031-a040-1ef198905e16",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "behavior": "Successful workshop equipment upgrades transfer saved polish option values, successes and rolls in the same transaction as input consumption, output delivery and costs. New and durable pre-fix pending plans are covered.",
+  "retroactive": [
+    {
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "sourceId": "3065609362",
+      "craftedId": "3373751447",
+      "currentInstanceId": "3373751449",
+      "repairChain": [
+        {
+          "recordId": "355700c5-2e82-49a7-aec5-bb91fa4d959a",
+          "from": "3373751447",
+          "to": "3373751448"
+        },
+        {
+          "recordId": "e526df66-4c1f-4a35-a8ef-74ae717d3527",
+          "from": "3373751448",
+          "to": "3373751449"
+        }
+      ],
+      "craftRequestId": "WORKSHOP-MATERIAL-1794747177533-051226f4-845f-4ad2-a9a4-0eabec300328",
+      "resolution": "Sole successful craft and sole equipment family, immediate +0 enhancement, then exact destroyed/restored IDs",
+      "before": {
+        "schemaVersion": 1,
+        "instanceId": "3373751449",
+        "userId": 1195,
+        "attempts": 2,
+        "levels": [
+          0,
+          1,
+          1,
+          0,
+          0
+        ],
+        "values": [
+          0,
+          0.5,
+          3,
+          0,
+          0
+        ],
+        "rolls": 13
+      },
+      "inherited": {
+        "schemaVersion": 1,
+        "instanceId": "3065609362",
+        "userId": 1195,
+        "attempts": 1,
+        "levels": [
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "values": [
+          0,
+          0,
+          0,
+          2,
+          0
+        ],
+        "rolls": 10
+      },
+      "after": {
+        "schemaVersion": 1,
+        "instanceId": "3373751449",
+        "userId": 1195,
+        "attempts": 3,
+        "levels": [
+          0,
+          1,
+          1,
+          1,
+          0
+        ],
+        "values": [
+          0,
+          0.5,
+          3,
+          2,
+          0
+        ],
+        "rolls": 23
+      },
+      "forgeLevel": 11
+    },
+    {
+      "userId": "4597",
+      "nickname": "찬호",
+      "sourceId": "3317590058",
+      "craftedId": "3373751459",
+      "currentInstanceId": "3373751463",
+      "repairChain": [
+        {
+          "recordId": "3e03bf4d-c60f-4529-af23-503132e59177",
+          "from": "3373751459",
+          "to": "3373751463"
+        }
+      ],
+      "craftRequestId": "WORKSHOP-MATERIAL-1794749327635-b1d078a8-fdff-4305-8daf-71cef5c47607",
+      "resolution": "Sole successful craft and sole equipment family, immediate +0 enhancement, then exact destroyed/restored IDs",
+      "before": {
+        "schemaVersion": 1,
+        "instanceId": "3373751463",
+        "userId": 4597,
+        "attempts": 0,
+        "levels": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "values": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "inherited": {
+        "schemaVersion": 1,
+        "instanceId": "3317590058",
+        "userId": 4597,
+        "attempts": 5,
+        "levels": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "values": [
+          2,
+          0.5,
+          3,
+          2,
+          0.5
+        ],
+        "rolls": 73
+      },
+      "after": {
+        "schemaVersion": 1,
+        "instanceId": "3373751463",
+        "userId": 4597,
+        "attempts": 5,
+        "levels": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "values": [
+          2,
+          0.5,
+          3,
+          2,
+          0.5
+        ],
+        "rolls": 73
+      },
+      "forgeLevel": 10
+    }
+  ],
+  "restoredSuccesses": 6,
+  "balancesUnchanged": true,
+  "equipmentAndEnhancementUnchanged": true,
+  "messagesSent": 0,
+  "verification": {
+    "verifiedAt": "2026-11-15T13:55:31.727Z",
+    "operationKey": "ops:workshop-polish-inheritance:20261115:v1",
+    "auditId": "61408",
+    "runtime": [
+      {
+        "nickname": "씨나인택갓",
+        "userId": "1195",
+        "instanceId": "3373751449",
+        "equipped": true,
+        "summary": "치명타 확률 +0.5%p · 치명타 피해 +3%p · 보스 피해 +2%",
+        "polish": {
+          "schemaVersion": 1,
+          "instanceId": "3373751449",
+          "userId": 1195,
+          "attempts": 3,
+          "levels": [
+            0,
+            1,
+            1,
+            1,
+            0
+          ],
+          "values": [
+            0,
+            0.5,
+            3,
+            2,
+            0
+          ],
+          "rolls": 23
+        }
+      },
+      {
+        "nickname": "찬호",
+        "userId": "4597",
+        "instanceId": "3373751463",
+        "equipped": true,
+        "summary": "공격력 +2% · 치명타 확률 +0.5%p · 치명타 피해 +3%p · 보스 피해 +2% · 방어 관통 +0.5%p",
+        "polish": {
+          "schemaVersion": 1,
+          "instanceId": "3373751463",
+          "userId": 4597,
+          "attempts": 5,
+          "levels": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "values": [
+            2,
+            0.5,
+            3,
+            2,
+            0.5
+          ],
+          "rolls": 73
+        }
+      }
+    ],
+    "equipment": [
+      {
+        "id": "3373751449",
+        "user_id": "1195",
+        "equipment_id": "117",
+        "source_type": "FORGE_RESTORE",
+        "source_id": "e526df66-4c1f-4a35-a8ef-74ae717d3527",
+        "request_id": "13393953-bc59-40b3-842f-0910ad66415c",
+        "level": 11,
+        "revision": 3,
+        "slot": "TOP"
+      },
+      {
+        "id": "3373751463",
+        "user_id": "4597",
+        "equipment_id": "117",
+        "source_type": "FORGE_RESTORE",
+        "source_id": "3e03bf4d-c60f-4529-af23-503132e59177",
+        "request_id": "47840abd-ede9-4274-97e8-dc3351f95c44",
+        "level": 10,
+        "revision": 9,
+        "slot": "TOP"
+      }
+    ],
+    "readOnly": true
+  },
+  "replay": {
+    "at": "2026-11-15T13:55:35.384Z",
+    "operationKey": "ops:workshop-polish-inheritance:20261115:v1",
+    "alreadyApplied": true,
+    "additionalWrites": 0,
+    "auditId": "61408"
+  },
+  "coverage": {
+    "states": 90,
+    "polishedWorkshopSuccesses": 2,
+    "unresolved": 0,
+    "orphaned": 9,
+    "unexplained": 0,
+    "checkedAt": "2026-11-15T13:56:06.607Z"
+  },
+  "tests": {
+    "passed": 73,
+    "failed": 0,
+    "checks": [
+      "check:worker",
+      "git diff --check"
+    ],
+    "suites": [
+      "tests/workshop-polish-inheritance-20261115.test.mjs",
+      "tests/workshop-polish-recovery-20261115.test.mjs",
+      "tests/workshop-equipment-craft-20260928.test.mjs",
+      "tests/workshop-equipment-repair-20261004.test.mjs",
+      "tests/arden-craft-20261029.test.mjs",
+      "tests/equipment-polish-execution-20261008.test.mjs",
+      "tests/equipment-polish-buff-20261114.test.mjs"
+    ]
+  },
+  "performance": {
+    "condition": "PGlite PostgreSQL, five fresh isolated accounts, fixed 10 ms delay per DB round trip, account-state first/reentry and a polished successful upgrade",
+    "before": {
+      "first": 17.41190000000006,
+      "reentry": 14.298099999999977,
+      "craft": 220.4733000000001
+    },
+    "after": {
+      "first": 16.51130000000012,
+      "reentry": 15.175999999999476,
+      "craft": 208.76940000000013
+    },
+    "craftRoundTrips": {
+      "before": 13,
+      "after": 12
+    },
+    "platforms": [
+      {
+        "platform": "desktop",
+        "before": {
+          "phase": "before",
+          "platform": "desktop",
+          "condition": "Public actual lobby → all menu → workshop → equipment craft; isolated account and actual server handlers, physical mobile devices not used",
+          "entries": [
+            {
+              "interactiveMs": 494,
+              "frames": {
+                "p95": 4.2999999999999545,
+                "max": 4.300000000000182,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "workshopRequests": 0
+              }
+            },
+            {
+              "interactiveMs": 406,
+              "frames": {
+                "p95": 4.200000000000728,
+                "max": 4.300000000000182,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "workshopRequests": 0
+              }
+            }
+          ],
+          "errors": [],
+          "productionWrites": 0,
+          "craftFrames": {
+            "samples": 405,
+            "p95": 4.300000000000182,
+            "max": 141.60000000000036,
+            "over50": 3
+          },
+          "inherited": false
+        },
+        "after": {
+          "phase": "after",
+          "platform": "desktop",
+          "condition": "Public actual lobby → all menu → workshop → equipment craft; isolated account and actual server handlers, physical mobile devices not used",
+          "entries": [
+            {
+              "interactiveMs": 445,
+              "frames": {
+                "p95": 4.300000000000182,
+                "max": 12.5,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "workshopRequests": 0
+              }
+            },
+            {
+              "interactiveMs": 422,
+              "frames": {
+                "p95": 4.300000000000182,
+                "max": 10.199999999999818,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "workshopRequests": 0
+              }
+            }
+          ],
+          "errors": [],
+          "productionWrites": 0,
+          "craftFrames": {
+            "samples": 403,
+            "p95": 4.300000000000182,
+            "max": 150,
+            "over50": 2
+          },
+          "inherited": true
+        }
+      },
+      {
+        "platform": "android",
+        "before": {
+          "phase": "before",
+          "platform": "android",
+          "condition": "Public actual lobby → all menu → workshop → equipment craft; isolated account and actual server handlers, physical mobile devices not used",
+          "entries": [
+            {
+              "interactiveMs": 462,
+              "frames": {
+                "p95": 4.300000000000182,
+                "max": 8.300000000000182,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "workshopRequests": 0
+              }
+            },
+            {
+              "interactiveMs": 420,
+              "frames": {
+                "p95": 4.200000000000728,
+                "max": 4.300000000000182,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "workshopRequests": 0
+              }
+            }
+          ],
+          "errors": [],
+          "productionWrites": 0,
+          "craftFrames": {
+            "samples": 529,
+            "p95": 4.300000000000182,
+            "max": 133.30000000000018,
+            "over50": 2
+          },
+          "inherited": false
+        },
+        "after": {
+          "phase": "after",
+          "platform": "android",
+          "condition": "Public actual lobby → all menu → workshop → equipment craft; isolated account and actual server handlers, physical mobile devices not used",
+          "entries": [
+            {
+              "interactiveMs": 491,
+              "frames": {
+                "p95": 4.2999999999999545,
+                "max": 4.300000000000182,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "workshopRequests": 0
+              }
+            },
+            {
+              "interactiveMs": 458,
+              "frames": {
+                "p95": 4.300000000000182,
+                "max": 8.334000000000742,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "workshopRequests": 0
+              }
+            }
+          ],
+          "errors": [],
+          "productionWrites": 0,
+          "craftFrames": {
+            "samples": 523,
+            "p95": 4.300000000000182,
+            "max": 137.5,
+            "over50": 2
+          },
+          "inherited": true
+        }
+      },
+      {
+        "platform": "ios",
+        "before": {
+          "phase": "before",
+          "platform": "ios",
+          "condition": "Public actual lobby → all menu → workshop → equipment craft; isolated account and actual server handlers, physical mobile devices not used",
+          "entries": [
+            {
+              "interactiveMs": 1255,
+              "frames": {
+                "p95": 30,
+                "max": 97,
+                "over50": 1
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "workshopRequests": 0
+              }
+            },
+            {
+              "interactiveMs": 1068,
+              "frames": {
+                "p95": 30,
+                "max": 30,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "workshopRequests": 0
+              }
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "productionWrites": 0,
+          "craftFrames": {
+            "samples": 22,
+            "p95": 440,
+            "max": 446,
+            "over50": 12
+          },
+          "inherited": false
+        },
+        "after": {
+          "phase": "after",
+          "platform": "ios",
+          "condition": "Public actual lobby → all menu → workshop → equipment craft; isolated account and actual server handlers, physical mobile devices not used",
+          "entries": [
+            {
+              "interactiveMs": 1051,
+              "frames": {
+                "p95": 32,
+                "max": 114,
+                "over50": 2
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "workshopRequests": 0
+              }
+            },
+            {
+              "interactiveMs": 1102,
+              "frames": {
+                "p95": 26,
+                "max": 30,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "workshopRequests": 0
+              }
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "productionWrites": 0,
+          "craftFrames": {
+            "samples": 24,
+            "p95": 412,
+            "max": 417,
+            "over50": 12
+          },
+          "inherited": true
+        }
+      },
+      {
+        "platform": "windows",
+        "before": {
+          "phase": "before",
+          "platform": "windows",
+          "condition": "Public actual lobby → all menu → workshop → equipment craft; isolated account and actual server handlers, physical mobile devices not used",
+          "entries": [
+            {
+              "interactiveMs": 468,
+              "frames": {
+                "p95": 16.800000000000182,
+                "max": 16.800000000000182,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "workshopRequests": 0
+              }
+            },
+            {
+              "interactiveMs": 438,
+              "frames": {
+                "p95": 16.700000000000728,
+                "max": 16.799999999999272,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "workshopRequests": 0
+              }
+            }
+          ],
+          "errors": [],
+          "productionWrites": 0,
+          "craftFrames": {
+            "samples": 119,
+            "p95": 16.800000000000182,
+            "max": 99.89999999999964,
+            "over50": 2
+          },
+          "inherited": false
+        },
+        "after": {
+          "phase": "after",
+          "platform": "windows",
+          "condition": "Public actual lobby → all menu → workshop → equipment craft; isolated account and actual server handlers, physical mobile devices not used",
+          "entries": [
+            {
+              "interactiveMs": 456,
+              "frames": {
+                "p95": 16.701999999999998,
+                "max": 16.800000000000182,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "workshopRequests": 0
+              }
+            },
+            {
+              "interactiveMs": 456,
+              "frames": {
+                "p95": 16.700000000000728,
+                "max": 16.800000000000182,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "workshopRequests": 0
+              }
+            }
+          ],
+          "errors": [],
+          "productionWrites": 0,
+          "craftFrames": {
+            "samples": 118,
+            "p95": 16.800000000000182,
+            "max": 116.60000000000036,
+            "over50": 1
+          },
+          "inherited": true
+        }
+      },
+      {
+        "platform": "h5",
+        "before": {
+          "phase": "before",
+          "platform": "h5",
+          "condition": "Public actual lobby → all menu → workshop → equipment craft; isolated account and actual server handlers, physical mobile devices not used",
+          "entries": [
+            {
+              "interactiveMs": 505,
+              "frames": {
+                "p95": 4.300000000000182,
+                "max": 4.300000000000182,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "workshopRequests": 0
+              }
+            },
+            {
+              "interactiveMs": 529,
+              "frames": {
+                "p95": 4.300000000000182,
+                "max": 4.300000000000182,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "workshopRequests": 0
+              }
+            }
+          ],
+          "errors": [],
+          "productionWrites": 0,
+          "craftFrames": {
+            "samples": 412,
+            "p95": 4.300000000000182,
+            "max": 125,
+            "over50": 3
+          },
+          "inherited": false
+        },
+        "after": {
+          "phase": "after",
+          "platform": "h5",
+          "condition": "Public actual lobby → all menu → workshop → equipment craft; isolated account and actual server handlers, physical mobile devices not used",
+          "entries": [
+            {
+              "interactiveMs": 496,
+              "frames": {
+                "p95": 4.2999999999999545,
+                "max": 8.200000000000045,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "workshopRequests": 0
+              }
+            },
+            {
+              "interactiveMs": 527,
+              "frames": {
+                "p95": 4.200000000000273,
+                "max": 4.300000000000182,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "workshopRequests": 0
+              }
+            }
+          ],
+          "errors": [],
+          "productionWrites": 0,
+          "craftFrames": {
+            "samples": 426,
+            "p95": 4.300000000000182,
+            "max": 116.5,
+            "over50": 2
+          },
+          "inherited": true
+        }
+      }
+    ],
+    "limitations": [
+      "Browser UI uses isolated account API handlers over public game assets; no live account trial crafting.",
+      "Android and iPhone/WebKit are emulations; Windows is the installed Electron test renderer, not mobile physical-device FPS.",
+      "Existing reveal-animation long frames occur before and after; WebKit also retains the common ResizeObserver warning. Frontend assets are unchanged."
+    ]
+  },
+  "publicVerification": {
+    "files": [
+      {
+        "file": "shared/equipment-polish-v1.mjs",
+        "sha256": "6a50b5e0c116235d9d8a2acb472f665368b92696b62c7532d24337aca8677c07",
+        "normalizedSha256": "d7d165b7d8282cd210539278e635f0b30698eaa794215aa6ee36433d32ba4c7d"
+      },
+      {
+        "file": "js/workshop-v1881.js",
+        "sha256": "8d12c3b9db847f3a08d5b774fcaaccc31c3f2c7a5cf7bc18513855c3f192259c",
+        "normalizedSha256": "bb193d3d3dedbad308e65f6b0a0dc25b179e5e8c7d488b1aae683a8b43e0ca26"
+      },
+      {
+        "file": "js/equipment-craft-reveal-v1.js",
+        "sha256": "2e193f312ba2906c29022e767ce1458fd4df86d1104fbce15819fe7123d850ae",
+        "normalizedSha256": "2406d0c41858becd659da11a5e02e306d18018a0c2e3d38878acdab7ee490314"
+      }
+    ],
+    "windowsFiles": [
+      "shared/equipment-polish-v1.mjs",
+      "js/workshop-v1881.js",
+      "js/equipment-craft-reveal-v1.js"
+    ]
+  }
+}

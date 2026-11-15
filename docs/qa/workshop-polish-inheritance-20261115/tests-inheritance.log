@@ -1,0 +1,21 @@
+✔ SQLite: workshop inherits all polish into the exact output, inventory and equipped combat; replay does not duplicate (26.2363ms)
+✔ SQLite: failed rolls and saved fractional values survive without recalculation (11.0259ms)
+✔ SQLite: a late failure rolls back delivery and growth, and retry retains its roll but copies latest valid source (9.6938ms)
+✔ SQLite: source changing after snapshot rolls back all costs and can safely retry (9.1988ms)
+✔ SQLite: invalid source growth blocks the upgrade before spending; clean inputs create no phantom polish (8.8017ms)
+✔ SQLite: a pending pre-fix plan inherits growth and completed receipt replays the new result (9.3315ms)
+✔ PostgreSQL: workshop inherits all polish into the exact output, inventory and equipped combat; replay does not duplicate (1885.7007ms)
+✔ PostgreSQL: failed rolls and saved fractional values survive without recalculation (1329.2542ms)
+✔ PostgreSQL: a late failure rolls back delivery and growth, and retry retains its roll but copies latest valid source (1388.3603ms)
+✔ PostgreSQL: source changing after snapshot rolls back all costs and can safely retry (1422.4629ms)
+✔ PostgreSQL: invalid source growth blocks the upgrade before spending; clean inputs create no phantom polish (1405.8344ms)
+✔ PostgreSQL: a pending pre-fix plan inherits growth and completed receipt replays the new result (1331.2019ms)
+✔ PostgreSQL: suppressed growth insertion cannot commit an upgraded item or its costs (1381.1046ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10823.1961
