@@ -11,7 +11,8 @@
     "tests/mercenary-bloodmoon-bulk-20261025.test.mjs",
     "tests/ios-safari-battle-memory-20261031.test.mjs",
     "tests/iphone-combat-memory-20261114.test.mjs",
-    "tests/pve-battlefield-entry-v2117.test.mjs"
+    "tests/pve-battlefield-entry-v2117.test.mjs",
+    "tests/blue-gear-bloodmoon-room-20261113.test.mjs"
   ],
   "checks": [
     "check:worker"

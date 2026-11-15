@@ -1,5 +1,5 @@
 {
-  "status": "READY_FOR_DEPLOYMENT",
+  "status": "LIVE_VERIFIED",
   "updatedAt": "2026-11-15T06:34:44.960Z",
   "request": "전투력 125만, 블루기어팩 라자크 확률 그대로 새 용병으로 대체, 새 용병 이름 결정, 라자크 상위 밸런스",
   "identity": {
@@ -58,7 +58,141 @@
       "shop-local-ios.json"
     ],
     "finding": "WebKit emulation has long frames already during idle, with additional authored effect cost. No device FPS claim. Guarded post-destroy callback, shared single timeline, mobile WebP page retirement, and zero exit actors/loaders/timelines verified.",
-    "comparison": "Shop old/new loading samples include network and cache variance; no speedup claim."
+    "comparison": "Shop old/new loading samples include network and cache variance; no speedup claim.",
+    "publicShop": [
+      {
+        "platform": "desktop",
+        "entries": [
+          {
+            "shopMs": 711,
+            "roomMs": 310,
+            "frames": {
+              "p95": 31.900000000000546,
+              "over50": 0
+            },
+            "closed": true
+          },
+          {
+            "shopMs": 306,
+            "roomMs": 259,
+            "frames": {
+              "p95": 33.399999999999636,
+              "over50": 0
+            },
+            "closed": true
+          }
+        ],
+        "errors": []
+      },
+      {
+        "platform": "windows",
+        "runtime": {
+          "electron": "44.7.2",
+          "chrome": "152.0.7977.149",
+          "fixture": "Isolated offscreen Windows game renderer with deployed web assets"
+        },
+        "entries": [
+          {
+            "shopMs": 705,
+            "roomMs": 314,
+            "frames": {
+              "p95": 16.700000000000728,
+              "over50": 0
+            },
+            "closed": true
+          },
+          {
+            "shopMs": 263,
+            "roomMs": 265,
+            "frames": {
+              "p95": 16.700000000000728,
+              "over50": 0
+            },
+            "closed": true
+          }
+        ],
+        "errors": []
+      },
+      {
+        "platform": "h5",
+        "entries": [
+          {
+            "shopMs": 425,
+            "roomMs": 236,
+            "frames": {
+              "p95": 9.899999999999636,
+              "over50": 0
+            },
+            "closed": true
+          },
+          {
+            "shopMs": 170,
+            "roomMs": 218,
+            "frames": {
+              "p95": 8.899999999999636,
+              "over50": 0
+            },
+            "closed": true
+          }
+        ],
+        "errors": []
+      },
+      {
+        "platform": "android",
+        "entries": [
+          {
+            "shopMs": 524,
+            "roomMs": 254,
+            "frames": {
+              "p95": 11.5,
+              "over50": 0
+            },
+            "closed": true
+          },
+          {
+            "shopMs": 100,
+            "roomMs": 205,
+            "frames": {
+              "p95": 10,
+              "over50": 0
+            },
+            "closed": true
+          }
+        ],
+        "errors": []
+      },
+      {
+        "platform": "ios",
+        "entries": [
+          {
+            "shopMs": 309,
+            "roomMs": 358,
+            "frames": {
+              "p95": 30,
+              "over50": 1
+            },
+            "closed": true
+          },
+          {
+            "shopMs": 89,
+            "roomMs": 241,
+            "frames": {
+              "p95": 30,
+              "over50": 0
+            },
+            "closed": true
+          }
+        ],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ]
+      }
+    ],
+    "knownLimitations": [
+      "All mobile runs are Windows emulation, not physical devices.",
+      "Windows WebKit battle idle p95 138–150ms and skill p95 147–273ms; existing shared renderer/platform overhead is visible even without attack effects, and effect cost remains. No claim of a resolved device FPS issue.",
+      "Public WebKit shop emitted one existing ResizeObserver loop warning; first/reentry, prices, new portrait, odds and closing passed."
+    ]
   },
   "runtime": {
     "consumers": 11,
@@ -82,6 +216,115 @@
     "shop-local-desktop.json",
     "shop-local-ios.json",
     "packed-notes.json",
-    "deployment-plan.json"
-  ]
+    "deployment-plan.json",
+    "registration.json",
+    "registration-verified.json",
+    "live-verification.json",
+    "codex-public.json",
+    "shop-public-desktop.json",
+    "shop-public-windows.json",
+    "shop-public-h5.json",
+    "shop-public-android.json",
+    "shop-public-ios.json"
+  ],
+  "completedAt": "2026-11-15T06:49:17.217Z",
+  "operationKey": "ops:bluegear-astra:20261115:v1",
+  "registration": {
+    "audit": {
+      "id": "61131",
+      "created_at": "2026-11-15 06:42:06"
+    },
+    "revision": 2,
+    "ownersBefore": [
+      {
+        "mercenary_code": "V-058",
+        "accounts": 112,
+        "copies": "772"
+      }
+    ],
+    "ownersAfter": [
+      {
+        "mercenary_code": "V-058",
+        "accounts": 112,
+        "copies": "772"
+      }
+    ],
+    "stock": [
+      {
+        "code": "BLUE_GEAR:V-701",
+        "stock_limit": "10",
+        "issued": "0"
+      },
+      {
+        "code": "BLUE_GEAR:V-702",
+        "stock_limit": "10",
+        "issued": "0"
+      },
+      {
+        "code": "BLUE_GEAR:V-703",
+        "stock_limit": "10",
+        "issued": "0"
+      },
+      {
+        "code": "BLUE_GEAR:V-704",
+        "stock_limit": "10",
+        "issued": "0"
+      },
+      {
+        "code": "BLUE_GEAR:V-705",
+        "stock_limit": "10",
+        "issued": "0"
+      },
+      {
+        "code": "BLUE_GEAR:V-967",
+        "stock_limit": "3",
+        "issued": "0"
+      },
+      {
+        "code": "BLUE_GEAR:V-976",
+        "stock_limit": "3",
+        "issued": "0"
+      }
+    ],
+    "accountWrites": 0
+  },
+  "release": {
+    "source": "d5e6dc8a806b8a22cd17921920bc9a522abed87b",
+    "pages": {
+      "id": "90157d8e-dab5-401d-b815-ea0477912cc1",
+      "url": "https://90157d8e.cnine-card.pages.dev",
+      "status": "success",
+      "commit": "d5e6dc8a806b8a22cd17921920bc9a522abed87b"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deploymentId": "b711ffe1-9b7f-4e6d-b2fe-c4362cffd7ef",
+        "versions": [
+          {
+            "version_id": "0d9af7af-5760-4d7f-a01b-d536e9b14460",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deploymentId": "cf8bbd52-a87e-45b7-a55a-a9029c0a5730",
+        "versions": [
+          {
+            "version_id": "cc120924-b46e-4222-99a3-7c5322086457",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "checks": 91,
+    "workerCompilation": true,
+    "publicFiles": 32,
+    "windowsReleaseId": "36c402a7f78a485bc590bc3bf690369fb6b13344d3506e5fec10e13ec1d4fb43",
+    "windowsBundles": 11,
+    "originFallbacks": [
+      "assets/ui/project-v/mercenaries/astra-20261115/bluegear.atlas"
+    ]
+  }
 }

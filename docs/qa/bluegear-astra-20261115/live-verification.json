@@ -1,0 +1,924 @@
+{
+  "at": "2026-11-15T06:44:47.104Z",
+  "source": "d5e6dc8a806b8a22cd17921920bc9a522abed87b",
+  "pages": {
+    "id": "90157d8e-dab5-401d-b815-ea0477912cc1",
+    "url": "https://90157d8e.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "d5e6dc8a806b8a22cd17921920bc9a522abed87b"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "sha256": "0a2026218294e3966332d2ebf071401a8d858d167cff15e9d883631ca75254cf",
+      "deployment": {
+        "id": "b711ffe1-9b7f-4e6d-b2fe-c4362cffd7ef",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "0d9af7af-5760-4d7f-a01b-d536e9b14460",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-11-15T06:39:33.420782Z"
+      }
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "sha256": "68a1ca88f613cb58c5ac5fe80edb0e463d4bc370ba7c12c6057dd70257cdf0f5",
+      "deployment": {
+        "id": "cf8bbd52-a87e-45b7-a55a-a9029c0a5730",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "cc120924-b46e-4222-99a3-7c5322086457",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-11-15T06:41:52.387011Z"
+      }
+    }
+  ],
+  "astra": {
+    "code": "V-059",
+    "name": "아스트라",
+    "title": "블루기어 메카닉 지휘관",
+    "rank": "SSS",
+    "edition": "STANDARD",
+    "season": "BLUE_GEAR",
+    "position": "MIDDLE",
+    "role": "SNIPER",
+    "attackStyle": "RANGED",
+    "basicTarget": "LOW_HP_ENEMY",
+    "artOnly": false,
+    "releaseStatus": "OWNER_PACK_CONTROLLED",
+    "deploymentEnabled": true,
+    "nameStatus": "USER_DELEGATED_20261115",
+    "rankStatus": "USER_ASSIGNED_RANK",
+    "basePower": 1250000,
+    "acquisition": "BLUE_GEAR_PACK",
+    "acquisitionEnabled": false,
+    "packAcquisitionEnabled": true,
+    "acquisitionPackId": "mercenary-blue-gear",
+    "acquisitionPackName": "블루기어팩",
+    "stockPolicy": "UNLIMITED",
+    "acquisitionDescription": "11월 20일 00시부터 블루기어팩의 별도 일반 SSS 항목에서 획득합니다. 발행 한도 없음. 다른 팩·일반 추첨·합성·제작·기적의 큐브에서는 획득하지 않습니다.",
+    "sourceArt": "assets/ui/project-v/mercenaries/astra-20261115/source-art.png",
+    "displayArt": "assets/ui/project-v/mercenaries/astra-20261115/art-640.webp",
+    "thumbnailArt": "assets/ui/project-v/mercenaries/astra-20261115/art-320.webp",
+    "battleSprite": "assets/ui/project-v/mercenaries/astra-20261115/guard.webp",
+    "accent": "#59adff",
+    "skills": [
+      {
+        "id": "MS-1101",
+        "name": "쌍드론 협공",
+        "visualMode": "skill_drone",
+        "targetCount": 1,
+        "targetRule": "weakest",
+        "target": "약화된 적 하나",
+        "effect": "두 기의 메카닉 드론이 전방에 나타나 문장을 새긴 목표에 결정탄을 발사합니다. 한 시전의 총 550% 피해를 실제 대상 수에 나누어 적용합니다.",
+        "role": "SNIPER",
+        "mechanic": "ASTRA_MECHANICAL_STRIKE",
+        "ready": true,
+        "balance": {
+          "damageRatio": 5.5,
+          "cooldownTurns": 3,
+          "cost": 25
+        },
+        "trigger": "자기 행동 · 에너지 25 · 세 기술 공통 재사용 3행동",
+        "counterplay": "기절·침묵·회피·방어·방벽과 피해 경감에 대응됩니다.",
+        "bossRule": "단일 보스도 같은 총 피해 예산을 사용합니다.",
+        "procRule": "대상당 서버 피해는 한 번입니다. 소환수·탄환·폭발은 추가 피해나 독립 행동을 만들지 않습니다."
+      },
+      {
+        "id": "MS-1102",
+        "name": "기갑 포탑 집중사격",
+        "visualMode": "skill_siege",
+        "targetCount": 1,
+        "targetRule": "back",
+        "target": "후열 우선 적 하나",
+        "effect": "전방 자율 포탑이 중장갑 에너지탄을 연사해 표식이 남은 목표를 폭발시킵니다. 한 시전의 총 700% 피해를 실제 대상 수에 나누어 적용합니다.",
+        "role": "SNIPER",
+        "mechanic": "ASTRA_MECHANICAL_STRIKE",
+        "ready": true,
+        "balance": {
+          "damageRatio": 7,
+          "cooldownTurns": 3,
+          "cost": 25
+        },
+        "trigger": "자기 행동 · 에너지 25 · 세 기술 공통 재사용 3행동",
+        "counterplay": "기절·침묵·회피·방어·방벽과 피해 경감에 대응됩니다.",
+        "bossRule": "단일 보스도 같은 총 피해 예산을 사용합니다.",
+        "procRule": "대상당 서버 피해는 한 번입니다. 소환수·탄환·폭발은 추가 피해나 독립 행동을 만들지 않습니다."
+      },
+      {
+        "id": "MS-1103",
+        "name": "블루기어 포트리스",
+        "visualMode": "skill_fortress",
+        "targetCount": null,
+        "targetRule": "all",
+        "target": "적 전체 · PVE",
+        "pveOnly": true,
+        "effect": "대형 포트리스를 소환해 적 전체에 블루기어 문장을 전개하고 광역 레일 포격을 가합니다. 한 시전의 총 875% 피해를 실제 대상 수에 나누어 적용합니다.",
+        "role": "SNIPER",
+        "mechanic": "ASTRA_MECHANICAL_STRIKE",
+        "ready": true,
+        "balance": {
+          "damageRatio": 8.75,
+          "cooldownTurns": 3,
+          "cost": 25
+        },
+        "trigger": "자기 행동 · 에너지 25 · 세 기술 공통 재사용 3행동 · PVE 전용",
+        "counterplay": "기절·침묵·회피·방어·방벽과 피해 경감에 대응됩니다.",
+        "bossRule": "단일 보스도 같은 총 피해 예산을 사용합니다.",
+        "procRule": "대상당 서버 피해는 한 번입니다. 소환수·탄환·폭발은 추가 피해나 독립 행동을 만들지 않습니다."
+      }
+    ],
+    "specialty": "전방 메카닉 소환 · 장총 협동 사격 · 문장 레일 포격",
+    "weakness": "기절·침묵과 집중 공격",
+    "combatLinkDescription": "기본 전투력 1,250,000의 SSS 메카닉 지휘관. 고유·장비 능력치 환산 2.4배, 자연 행동 속도 4배, 아군 카드 행동당 추가 행동 4회와 자기 행동당 에너지 10을 적용합니다. 아군 카드 평균 공격력의 1,750%를 최소 공격력, 평균 최대 체력의 1,000%를 최소 체력으로 사용하며 시작 방벽은 500%, 받는 피해 경감은 65%입니다. 기본 공격 피해 상한 1.25배, PVP 스킬 피해 상한 3.75배. 세 스킬은 에너지 25·공통 재사용 3행동이며 포트리스는 PVE 전용입니다. 상대 용병이 모두 블루기어 외 SS 리미티드 또는 신궁 강윤이면 라자크와 같은 전투 시작 우위를 적용합니다. 기절·침묵·반격·중독 면역은 없고 성장의 피해 경감 관통을 적용합니다. 블루기어팩 전용 일반 SSS이며 발행 한도는 없습니다. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 4배). 고레벨 성장과 마지막 돌파도 이 배율에 반영됩니다. 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다. PVP 성장 전투는 C·B·A·S·SS·SSS·SSS 리미티드 순으로 등급 우위를 적용합니다. SS 리미티드는 기존 일반 SSS 전투 등급을 유지합니다. 상대 전원의 등급보다 높으면 같은 레벨 기준 단계당 공격·피해 상한 +100%, 체력·방벽 +500%의 추가 보정을 적용합니다. 상위 등급의 레벨이 낮으면 1레벨 차이마다 이 추가 보정과 성장 격차 보완을 10%씩 줄이며, 10레벨 이상 뒤처지면 적용하지 않습니다. 상위 등급을 향한 경감 관통·행동 대응의 등급 감쇠도 같은 비율로 줄어 10레벨 이상 높은 용병은 배운 숙련을 온전히 사용합니다. 원래 레벨 능력치·평타 성장·추가 행동 숙련은 유지합니다. 듀오는 상대 최고 등급과 가장 큰 레벨 격차를 기준으로 하며, 같은 전투 등급·PVE·기존 개별 용병 상성 정책은 유지합니다."
+  },
+  "razak": {
+    "code": "V-058",
+    "name": "라자크",
+    "title": "쌍곡도의 암살자",
+    "rank": "SSS",
+    "edition": "STANDARD",
+    "nameStatus": "USER_CONFIRMED_20261024",
+    "rankStatus": "USER_ASSIGNED_RANK",
+    "position": "MIDDLE",
+    "role": "ASSASSIN",
+    "attackStyle": "MELEE",
+    "basicTarget": "약화된 전열 우선",
+    "artOnly": false,
+    "releaseStatus": "OWNER_PACK_CONTROLLED",
+    "acquisition": "BLOODMOON_PACK",
+    "acquisitionEnabled": false,
+    "packAcquisitionEnabled": true,
+    "deploymentEnabled": true,
+    "acquisitionDescription": "블러드문팩의 별도 일반 SSS 항목에서 획득합니다. 발행 한도 없음. 다른 팩·합성·제작·기적의 큐브에서는 획득할 수 없습니다.",
+    "sourceArt": "assets/ui/project-v/mercenaries/razak-20261024/source-art.png",
+    "sourceArtSha256": "2B9331D3A1A753234AF7E0AC7CCAA2764451DE6E843AE7A7912BFD5A298E8A06",
+    "battleSprite": "assets/ui/project-v/mercenaries/razak-20261024/idle.png",
+    "battleSpriteSha256": "7460D2757DBAB2F3AFEDEDE1ED1815EC47A6D4A1509A3CC3699287D980A4770E",
+    "thumbnailArt": "assets/ui/project-v/mercenaries/razak-20261024/art-320.webp",
+    "displayArt": "assets/ui/project-v/mercenaries/razak-20261024/art-640.webp",
+    "accent": "#d5bf85",
+    "battleSpriteViewport": {
+      "x": 172,
+      "y": 275,
+      "width": 385,
+      "height": 391,
+      "imageWidth": 768,
+      "imageHeight": 768
+    },
+    "basePower": 1000000,
+    "skills": [
+      {
+        "id": "MS-061",
+        "name": "그림자 교차",
+        "visualMode": "cross",
+        "targetCount": 1,
+        "target": "약화된 적 하나",
+        "effect": "약화된 적에게 순간 돌진해 쌍곡도를 교차합니다. 한 시전의 총 440% 피해를 실제 대상 수에 나누어 적용합니다.",
+        "role": "ASSASSIN",
+        "mechanic": "CURVED_BLADE_ASSASSINATION",
+        "ready": true,
+        "balance": {
+          "damageRatio": 4.4,
+          "cooldownTurns": 3,
+          "cost": 25
+        },
+        "trigger": "자기 행동 · 에너지 25 · 세 기술 공통 재사용 3행동",
+        "counterplay": "회피·방어·방벽·피해 경감·기절·침묵에 대응됩니다.",
+        "bossRule": "단일 보스도 같은 총 피해 예산을 사용합니다.",
+        "procRule": "대상당 서버 피해는 한 번입니다. 검격·잔상·2배속 재생은 추가 피해나 행동을 만들지 않습니다."
+      },
+      {
+        "id": "MS-062",
+        "name": "무영 연살",
+        "visualMode": "flurry",
+        "targetCount": 1,
+        "target": "후열 우선 적 하나",
+        "effect": "후열 핵심 적을 향해 낮은 베기·올려 베기·종결 참격을 이어갑니다. 한 시전의 총 560% 피해를 실제 대상 수에 나누어 적용합니다.",
+        "role": "ASSASSIN",
+        "mechanic": "CURVED_BLADE_ASSASSINATION",
+        "ready": true,
+        "balance": {
+          "damageRatio": 5.6,
+          "cooldownTurns": 3,
+          "cost": 25
+        },
+        "trigger": "자기 행동 · 에너지 25 · 세 기술 공통 재사용 3행동",
+        "counterplay": "회피·방어·방벽·피해 경감·기절·침묵에 대응됩니다.",
+        "bossRule": "단일 보스도 같은 총 피해 예산을 사용합니다.",
+        "procRule": "대상당 서버 피해는 한 번입니다. 검격·잔상·2배속 재생은 추가 피해나 행동을 만들지 않습니다."
+      },
+      {
+        "id": "MS-063",
+        "name": "월식 난무",
+        "visualMode": "eclipse",
+        "targetCount": null,
+        "target": "적 전체 · PVE",
+        "pveOnly": true,
+        "effect": "적 진형에 진입해 거대한 원형 검격을 펼칩니다. 한 시전의 총 700% 피해를 실제 대상 수에 나누어 적용합니다.",
+        "role": "ASSASSIN",
+        "mechanic": "CURVED_BLADE_ASSASSINATION",
+        "ready": true,
+        "balance": {
+          "damageRatio": 7,
+          "cooldownTurns": 3,
+          "cost": 25
+        },
+        "trigger": "자기 행동 · 에너지 25 · 세 기술 공통 재사용 3행동 · PVE 전용",
+        "counterplay": "회피·방어·방벽·피해 경감·기절·침묵에 대응됩니다.",
+        "bossRule": "단일 보스도 같은 총 피해 예산을 사용합니다.",
+        "procRule": "대상당 서버 피해는 한 번입니다. 검격·잔상·2배속 재생은 추가 피해나 행동을 만들지 않습니다."
+      }
+    ],
+    "specialty": "쌍곡도 기습 · 이동 궤적을 따르는 잔상 · PVE 광역 참격",
+    "weakness": "집중 공격·방어·보호막·행동 제어에 취약",
+    "combatLinkDescription": "기본 전투력 1,000,000의 SSS 기습 용병. 고유·장비 능력치 환산은 2.4배이며, 아군 일반 카드 평균 공격력의 1,400%를 최소 공격력, 평균 최대 체력의 800%를 최소 체력으로 사용합니다. 시작 방벽은 평균 최대 체력의 400%, 받는 피해 경감은 60%입니다. 자연 행동 속도 4배·아군 카드 1회 행동당 추가 4회 행동하며 자기 행동마다 에너지 10을 회복합니다. 기본 공격 피해 상한은 1배, PVP 암살 스킬 피해 상한은 3배입니다. 그림자 교차·무영 연살·월식 난무는 에너지 25와 공통 재사용 3행동을 사용하며, 월식 난무는 PVE 전용입니다. PVP 상대 용병이 모두 SS 리미티드 또는 신궁 강윤이면 전투 시작 시 연계 공격·피해 상한 4배, 연계 체력·방벽 16배의 우위를 얻습니다. 다른 용병이 상대 편성에 포함되면 이 추가 우위는 적용하지 않습니다. 기절·침묵·반격·중독에 면역은 없으며 성장의 피해 경감 관통이 적용됩니다. 모션 2배속·고정 대기, 블러드문팩 전용 일반 SSS·발행 한도 없음. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 4배). 고레벨 성장과 마지막 돌파도 이 배율에 반영됩니다. 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다. PVP 성장 전투는 C·B·A·S·SS·SSS·SSS 리미티드 순으로 등급 우위를 적용합니다. SS 리미티드는 기존 일반 SSS 전투 등급을 유지합니다. 상대 전원의 등급보다 높으면 같은 레벨 기준 단계당 공격·피해 상한 +100%, 체력·방벽 +500%의 추가 보정을 적용합니다. 상위 등급의 레벨이 낮으면 1레벨 차이마다 이 추가 보정과 성장 격차 보완을 10%씩 줄이며, 10레벨 이상 뒤처지면 적용하지 않습니다. 상위 등급을 향한 경감 관통·행동 대응의 등급 감쇠도 같은 비율로 줄어 10레벨 이상 높은 용병은 배운 숙련을 온전히 사용합니다. 원래 레벨 능력치·평타 성장·추가 행동 숙련은 유지합니다. 듀오는 상대 최고 등급과 가장 큰 레벨 격차를 기준으로 하며, 같은 전투 등급·PVE·기존 개별 용병 상성 정책은 유지합니다."
+  },
+  "pack": {
+    "id": "mercenary-blue-gear",
+    "name": "블루기어팩",
+    "image": "assets/ui/packs/blue-gear-live-v1/pack-768.webp",
+    "featurePath": "mercenaries/v3/blue-gear-pack/feature",
+    "openPath": "mercenaries/v3/blue-gear-pack/open",
+    "receiptPath": "mercenaries/v3/blue-gear-pack/receipt",
+    "storageNamespace": "blue-gear-pack",
+    "maxBatch": 10,
+    "theme": "blue-gear",
+    "range": "일반 C~SSS · SS/SSS 리미티드",
+    "description": "블루기어 SS 5종 · 제로 · 하쿠야 신 · 아스트라",
+    "price": 2250000000,
+    "prices": {
+      "single": 2250000000,
+      "ten": 22500000000
+    },
+    "drawMode": "MERCENARY_BLUE_GEAR",
+    "imageUrl": "assets/ui/packs/blue-gear-live-v1/pack-768.webp",
+    "allowed": [],
+    "maxDrawCount": 10,
+    "drawEnabled": false,
+    "comingSoon": true,
+    "openingScheduled": true,
+    "openingAt": "2026-11-19T15:00:00.000Z",
+    "previewCards": [
+      {
+        "code": "V-701",
+        "name": "하이희야",
+        "rank": "SS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/hiheeya-320.webp",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-702",
+        "name": "나무늘봉순",
+        "rank": "SS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/bongsoon-320.webp",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-703",
+        "name": "디임",
+        "rank": "SS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/diim-320.webp",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-704",
+        "name": "수댕",
+        "rank": "SS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/sudaeng-320.webp",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-705",
+        "name": "조은",
+        "rank": "SS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/joeun-320.webp",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-976",
+        "name": "제로",
+        "rank": "SSS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/V-976-320.webp",
+        "limit": 3,
+        "issued": 0,
+        "remaining": 3,
+        "prepared": true
+      },
+      {
+        "code": "V-967",
+        "name": "하쿠야 신",
+        "rank": "SSS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/V-967-320.webp",
+        "limit": 3,
+        "issued": 0,
+        "remaining": 3,
+        "prepared": true
+      },
+      {
+        "code": "V-059",
+        "name": "아스트라",
+        "rank": "SSS",
+        "thumbnailArt": "assets/ui/project-v/mercenaries/astra-20261115/art-320.webp",
+        "stockPolicy": "UNLIMITED",
+        "limit": null,
+        "remaining": null
+      }
+    ]
+  },
+  "feature": {
+    "id": "mercenary-blue-gear",
+    "name": "블루기어팩",
+    "image": "assets/ui/packs/blue-gear-live-v1/pack-768.webp",
+    "featurePath": "mercenaries/v3/blue-gear-pack/feature",
+    "openPath": "mercenaries/v3/blue-gear-pack/open",
+    "receiptPath": "mercenaries/v3/blue-gear-pack/receipt",
+    "storageNamespace": "blue-gear-pack",
+    "maxBatch": 10,
+    "theme": "blue-gear",
+    "range": "일반 C~SSS · SS/SSS 리미티드",
+    "description": "블루기어 SS 5종 · 제로 · 하쿠야 신 · 아스트라",
+    "price": 2250000000,
+    "prices": {
+      "single": 2250000000,
+      "ten": 22500000000
+    },
+    "drawMode": "MERCENARY_BLUE_GEAR",
+    "imageUrl": "assets/ui/packs/blue-gear-live-v1/pack-768.webp",
+    "allowed": [],
+    "maxDrawCount": 10,
+    "drawEnabled": false,
+    "comingSoon": true,
+    "openingScheduled": true,
+    "openingAt": "2026-11-19T15:00:00.000Z",
+    "previewCards": [
+      {
+        "code": "V-701",
+        "name": "하이희야",
+        "rank": "SS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/hiheeya-320.webp",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-702",
+        "name": "나무늘봉순",
+        "rank": "SS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/bongsoon-320.webp",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-703",
+        "name": "디임",
+        "rank": "SS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/diim-320.webp",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-704",
+        "name": "수댕",
+        "rank": "SS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/sudaeng-320.webp",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-705",
+        "name": "조은",
+        "rank": "SS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/joeun-320.webp",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-976",
+        "name": "제로",
+        "rank": "SSS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/V-976-320.webp",
+        "limit": 3,
+        "issued": 0,
+        "remaining": 3,
+        "prepared": true
+      },
+      {
+        "code": "V-967",
+        "name": "하쿠야 신",
+        "rank": "SSS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/V-967-320.webp",
+        "limit": 3,
+        "issued": 0,
+        "remaining": 3,
+        "prepared": true
+      },
+      {
+        "code": "V-059",
+        "name": "아스트라",
+        "rank": "SSS",
+        "thumbnailArt": "assets/ui/project-v/mercenaries/astra-20261115/art-320.webp",
+        "stockPolicy": "UNLIMITED",
+        "limit": null,
+        "remaining": null
+      }
+    ],
+    "pack": {
+      "id": "mercenary-blue-gear",
+      "name": "블루기어팩",
+      "image": "assets/ui/packs/blue-gear-live-v1/pack-768.webp",
+      "featurePath": "mercenaries/v3/blue-gear-pack/feature",
+      "openPath": "mercenaries/v3/blue-gear-pack/open",
+      "receiptPath": "mercenaries/v3/blue-gear-pack/receipt",
+      "storageNamespace": "blue-gear-pack",
+      "maxBatch": 10
+    },
+    "settings": {
+      "prices": {
+        "single": 2250000000,
+        "ten": 22500000000
+      },
+      "missRatePpm": 800000,
+      "normalRankRatesPpm": {
+        "C": 104500,
+        "B": 30000,
+        "A": 30000,
+        "S": 30000,
+        "SS": 4700,
+        "SSS": 800
+      },
+      "cardRatesPpm": {
+        "V-701": 500,
+        "V-702": 500,
+        "V-703": 500,
+        "V-704": 500,
+        "V-705": 500,
+        "V-976": 1,
+        "V-967": 1,
+        "V-059": 400
+      },
+      "normalSssRatePpm": 997098,
+      "stockLimits": {
+        "V-701": 10,
+        "V-702": 10,
+        "V-703": 10,
+        "V-704": 10,
+        "V-705": 10,
+        "V-976": 3,
+        "V-967": 3
+      },
+      "mode": "OFF"
+    },
+    "serverNow": "2026-11-15T06:44:41.357Z",
+    "revision": 2,
+    "stock": [
+      {
+        "code": "V-701",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-702",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-703",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-704",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-705",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-976",
+        "limit": 3,
+        "issued": 0,
+        "remaining": 3,
+        "prepared": true
+      },
+      {
+        "code": "V-967",
+        "limit": 3,
+        "issued": 0,
+        "remaining": 3,
+        "prepared": true
+      }
+    ],
+    "readiness": {
+      "ready": true,
+      "blockers": []
+    },
+    "userOpeningEnabled": false,
+    "ownershipRule": {
+      "basis": "CURRENT_DISTINCT_BLUE_GEAR_SS",
+      "duplicatesAllowed": false,
+      "threshold": 2,
+      "divisors": [
+        1,
+        1,
+        2,
+        4,
+        8,
+        16
+      ],
+      "fallback": "STANDARD_SSS"
+    },
+    "ownedCodes": [],
+    "ownedDistinctCount": 0,
+    "ssProbabilityDivisor": 1,
+    "currentRates": {
+      "cardRatesPpm": {
+        "V-701": 500,
+        "V-702": 500,
+        "V-703": 500,
+        "V-704": 500,
+        "V-705": 500,
+        "V-976": 1,
+        "V-967": 1,
+        "V-059": 400
+      },
+      "normalSssRatePpm": 997098
+    },
+    "effectiveCardPercents": {
+      "V-701": "0.00004",
+      "V-702": "0.00004",
+      "V-703": "0.00004",
+      "V-704": "0.00004",
+      "V-705": "0.00004",
+      "V-976": "0.00000008",
+      "V-967": "0.00000008",
+      "V-059": "0.000032"
+    },
+    "effectiveNormalSssPercent": "0.07976784",
+    "normalCmsRevision": 61,
+    "normalDrawRevision": 31,
+    "personalOddsKnown": false
+  },
+  "publicFiles": [
+    {
+      "file": "assets/ui/project-v/mercenaries/astra-20261115/art-320.webp",
+      "bytes": 30024,
+      "sha256": "02d9f0924a140789592bb298f3e2c30772f862c7a951445927da4f20412a5598",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/astra-20261115/art-640.webp",
+      "bytes": 96498,
+      "sha256": "3d6f59cd7a07cb8458c9499ff0075f6e5558256062c45302545e3303d850bc62",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/astra-20261115/assets-v3.json",
+      "bytes": 26382,
+      "sha256": "8e85666de6a7c573eb1937b7130fd7b646ce48543a20fb74b0102274f9c1dcac",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/astra-20261115/bg3-bullet.webp",
+      "bytes": 87358,
+      "sha256": "cc4bb93732a130f6c95c5b50a66e1bf76d84f692a44eb30939ca0f078dbf9450",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/astra-20261115/bg3-cast.webp",
+      "bytes": 276798,
+      "sha256": "33b9eb8483afa8568b993159c1e753ad5ece2e0812ce011afffa152261cb390f",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/astra-20261115/bg3-fortress.webp",
+      "bytes": 265344,
+      "sha256": "95074b0cff77e2e5cd6e0e1cb7406be4ca0591e6dc5bdd8df3369f106dd9b2fa",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/astra-20261115/bg3-impact.webp",
+      "bytes": 208246,
+      "sha256": "fe8909ef35c26d4c0ca3ea8f99cc1b613564e9608b0d901555b56fd8d06425b2",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/astra-20261115/bg3-muzzle.webp",
+      "bytes": 187972,
+      "sha256": "b10afb482ec1c3eb3126117d06dff01f88f15da874fb4c336852bb3302f33ca7",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/astra-20261115/bg3-rail.webp",
+      "bytes": 166826,
+      "sha256": "4f35fe52add783c7ad7299e3e79f18ce462bb74a06142fed78e8cfab9f0711ae",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/astra-20261115/bg3-shell.webp",
+      "bytes": 99952,
+      "sha256": "45ffaeb8a1043f9972b2ba860fffce24f1522278b063612e9db6425e280378ae",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/astra-20261115/bg3-siege.webp",
+      "bytes": 208918,
+      "sha256": "7280347c680485b366c6723e22f49c02616b9c1b13447274f6a84ed4c56ba302",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/astra-20261115/bluegear-9151c6390831.webp",
+      "bytes": 978250,
+      "sha256": "162a2f28c1fdad8c930cc8466472acbb1d0f93dd857213e2950341b9667d07e6",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/astra-20261115/bluegear-9151c6390831_2.webp",
+      "bytes": 519440,
+      "sha256": "c4288db5815ce56075e50c84af66a362d488ee7a16ce2e5252065edfe67a005b",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/astra-20261115/bluegear.atlas",
+      "bytes": 1082,
+      "sha256": "87e380e2f51324e97d71a99f2e11f6550e065388dc90700fd7593a1dfd9ef25c",
+      "windows": false,
+      "originFallback": true,
+      "storeTransform": false
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/astra-20261115/bluegear.json",
+      "bytes": 10296,
+      "sha256": "2075b99866169d99f8e0523f788bcc244736652bb15e4609008cfae0524f9ed3",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/astra-20261115/crawler.webp",
+      "bytes": 230120,
+      "sha256": "fc01824d41cb2d05bdf5914e2c8ad94678d738ef8c50d78ab671c88e78f08a83",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/astra-20261115/drone.webp",
+      "bytes": 211764,
+      "sha256": "f10d46d103ae6b14616a9e3f5251650aac365e1488263fad86a0622e1a2590b5",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/astra-20261115/fortress.webp",
+      "bytes": 294924,
+      "sha256": "311069c90e184791b86986285195f740a98d0b1a35a3e0b93f5a56c4c6870494",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/astra-20261115/guard.webp",
+      "bytes": 81040,
+      "sha256": "587f7e219c193c13ddbb2594681034c9297103392adea01443295fa9d503fba0",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/astra-20261115/pose-registration.json",
+      "bytes": 11223,
+      "sha256": "9813851cccd4d6ffe4ccbdfc8a3de0edcc84a7f770d9701527352b46f54ed2a9",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/astra-20261115/source-art.png",
+      "bytes": 2551736,
+      "sha256": "b53cb2373a3890f2ce4c48172ede086a4361ad2175d29152013caf7fa17f0202",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "index.html",
+      "bytes": 52662,
+      "sha256": "4f315daf34a4d14b84645903e6b4be4061872efa5e7d4b46180f93a0c43b993b",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "onestore/index.html",
+      "bytes": 52503,
+      "sha256": "b3af72e73024aafc78bd96aee194f91cc7639020f1b7b0bc6cfa56204d939c37",
+      "windows": false,
+      "originFallback": false,
+      "storeTransform": true
+    },
+    {
+      "file": "js/app.js",
+      "bytes": 832390,
+      "sha256": "02ab54a60c58a6575db85d643aca931a4c4f700de2c6046d882c539ba4d3ee14",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "onestore/js/app.js",
+      "bytes": 826553,
+      "sha256": "e62f4d6cc71369d82fbe0d5ca688a24fa184a00860cb554092a44a7ab2e5d8fc",
+      "windows": false,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "bytes": 78704,
+      "sha256": "c0feab3cf198e23fb27a019db33b57f11fd077362885f397cce1aac43508acef",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "service-worker.js",
+      "bytes": 25775,
+      "sha256": "59541e34f5c109ffcc3e71d20f6928ac034899b4ee7ec91c75581fbd883fb97b",
+      "windows": false,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "js/mercenary-blue-gear-pack-live.bundle.mjs",
+      "bytes": 190302,
+      "sha256": "133ef6df66599583624c3f38382f20537ba9208265db3480b3cefd2b4430fc01",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "bytes": 3761165,
+      "sha256": "f4d263d00b188178d3621ffd878ca585540df2d0b8b40cfab7ce9cc02af8f185",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "bytes": 3784859,
+      "sha256": "3c426600858c881dc3e447430d2b38049a6903f2ba053b14dfd0f320eda44e08",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "shared/mercenary-astra-v1.mjs",
+      "bytes": 4690,
+      "sha256": "8aa92e6d80f446a1ef0c34119441040adad0ca3f2ce644f0c63a672a4eafe196",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "bytes": 17719,
+      "sha256": "01ad7f35d7d32b983b36b0cfbab13d0803d52eb8ccbb097e65f4d7c25b78e65d",
+      "windows": true,
+      "originFallback": false,
+      "storeTransform": false
+    }
+  ],
+  "windows": {
+    "releaseId": "36c402a7f78a485bc590bc3bf690369fb6b13344d3506e5fec10e13ec1d4fb43",
+    "clientBundles": [
+      {
+        "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "sha256": "f4d263d00b188178d3621ffd878ca585540df2d0b8b40cfab7ce9cc02af8f185"
+      },
+      {
+        "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+        "sha256": "cb45fb38c14681259d1ca1b8563a81d70329f12d9212ff774da88d1579565766"
+      },
+      {
+        "file": "preview/cow-room-v3-v1/battle.bundle.js",
+        "sha256": "aa631988c81524b81278bca914d12318db67e62d03c788cfe7b9bb8a65548845"
+      },
+      {
+        "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+        "sha256": "9b04d0c09ebaa20297e50e59f099779f8514bdea4ccb3270c9bf91cfa9a0750e"
+      },
+      {
+        "file": "pve-v3/battle.bundle.js",
+        "sha256": "4d76680ce5062f4d7a046f88e2c6dbf4bdb8dda98f6f35d650cd5aee7dce1b97"
+      },
+      {
+        "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+        "sha256": "e49efcc0e456f3eea1d71fc969ece80a19f58ed45ed466d12519e2fe1a0c1adb"
+      },
+      {
+        "file": "preview/boss-resources-v2048/lab.bundle.js",
+        "sha256": "fe796988b601a23c00de3e193358578a372be68a5f2177f97389bd0ab5b44488"
+      },
+      {
+        "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+        "sha256": "84394f49b7de86904bed124dd08b37abd8ad5c912e07c54eaa7cedfbd0cfc612"
+      },
+      {
+        "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+        "sha256": "02843bc04d7709b92c00bc180465cc7b677525746c530092b7005f5138d0d3c6"
+      },
+      {
+        "file": "preview/coop-defense-v1/defense.bundle.js",
+        "sha256": "0c5bfea2f1def8cfc4e1fe791134f2a31ce523ca81d863f930ea56923ebec98d"
+      },
+      {
+        "file": "preview/sustained-hunt-v2/battle.bundle.js",
+        "sha256": "3c426600858c881dc3e447430d2b38049a6903f2ba053b14dfd0f320eda44e08"
+      }
+    ]
+  },
+  "preservedNoteUrls": 8,
+  "operationalAccountWrites": 0
+}

@@ -1,0 +1,33 @@
+{
+  "platform": "windows",
+  "mode": "public",
+  "emulated": true,
+  "source": "https://cnine-card.pages.dev",
+  "entries": [
+    {
+      "shopMs": 705,
+      "roomMs": 314,
+      "frames": {
+        "p95": 16.700000000000728,
+        "over50": 0
+      },
+      "closed": true
+    },
+    {
+      "shopMs": 263,
+      "roomMs": 265,
+      "frames": {
+        "p95": 16.700000000000728,
+        "over50": 0
+      },
+      "closed": true
+    }
+  ],
+  "errors": [],
+  "runtime": {
+    "electron": "44.7.2",
+    "chrome": "152.0.7977.149",
+    "fixture": "Isolated offscreen Windows game renderer with deployed web assets"
+  },
+  "simulatedPurchases": 0
+}

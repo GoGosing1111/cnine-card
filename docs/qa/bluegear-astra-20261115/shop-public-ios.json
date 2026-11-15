@@ -1,0 +1,30 @@
+{
+  "platform": "ios",
+  "mode": "public",
+  "emulated": true,
+  "source": "https://cnine-card.pages.dev",
+  "entries": [
+    {
+      "shopMs": 309,
+      "roomMs": 358,
+      "frames": {
+        "p95": 30,
+        "over50": 1
+      },
+      "closed": true
+    },
+    {
+      "shopMs": 89,
+      "roomMs": 241,
+      "frames": {
+        "p95": 30,
+        "over50": 0
+      },
+      "closed": true
+    }
+  ],
+  "errors": [
+    "ResizeObserver loop completed with undelivered notifications."
+  ],
+  "simulatedPurchases": 0
+}

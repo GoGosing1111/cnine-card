@@ -1,0 +1,28 @@
+{
+  "platform": "h5",
+  "mode": "public",
+  "emulated": true,
+  "source": "https://cnine-card.pages.dev",
+  "entries": [
+    {
+      "shopMs": 425,
+      "roomMs": 236,
+      "frames": {
+        "p95": 9.899999999999636,
+        "over50": 0
+      },
+      "closed": true
+    },
+    {
+      "shopMs": 170,
+      "roomMs": 218,
+      "frames": {
+        "p95": 8.899999999999636,
+        "over50": 0
+      },
+      "closed": true
+    }
+  ],
+  "errors": [],
+  "simulatedPurchases": 0
+}
