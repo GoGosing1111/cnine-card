@@ -1,0 +1,277 @@
+{
+  "at": "2026-11-15T06:24:07.931Z",
+  "mode": "PLANNED",
+  "before": {
+    "revision": 1,
+    "openingAt": "2026-11-19T15:00:00.000Z",
+    "references": {
+      "bloodmoon": 14,
+      "blackcrown": 11
+    },
+    "settings": {
+      "prices": {
+        "single": 2250000000,
+        "ten": 22500000000
+      },
+      "missRatePpm": 800000,
+      "normalRankRatesPpm": {
+        "C": 104500,
+        "B": 30000,
+        "A": 30000,
+        "S": 30000,
+        "SS": 4700,
+        "SSS": 800
+      },
+      "cardRatesPpm": {
+        "V-701": 500,
+        "V-702": 500,
+        "V-703": 500,
+        "V-704": 500,
+        "V-705": 500,
+        "V-976": 1,
+        "V-967": 1,
+        "V-058": 400
+      },
+      "normalSssRatePpm": 997098,
+      "stockLimits": {
+        "V-701": 10,
+        "V-702": 10,
+        "V-703": 10,
+        "V-704": 10,
+        "V-705": 10,
+        "V-976": 3,
+        "V-967": 3
+      }
+    }
+  },
+  "after": {
+    "revision": 2,
+    "openingAt": "2026-11-19T15:00:00.000Z",
+    "references": {
+      "bloodmoon": 14,
+      "blackcrown": 11
+    },
+    "settings": {
+      "prices": {
+        "single": 2250000000,
+        "ten": 22500000000
+      },
+      "missRatePpm": 800000,
+      "normalRankRatesPpm": {
+        "C": 104500,
+        "B": 30000,
+        "A": 30000,
+        "S": 30000,
+        "SS": 4700,
+        "SSS": 800
+      },
+      "cardRatesPpm": {
+        "V-701": 500,
+        "V-702": 500,
+        "V-703": 500,
+        "V-704": 500,
+        "V-705": 500,
+        "V-976": 1,
+        "V-967": 1,
+        "V-059": 400
+      },
+      "normalSssRatePpm": 997098,
+      "stockLimits": {
+        "V-701": 10,
+        "V-702": 10,
+        "V-703": 10,
+        "V-704": 10,
+        "V-705": 10,
+        "V-976": 3,
+        "V-967": 3
+      }
+    }
+  },
+  "receipt": {
+    "key": "ops:bluegear-astra:20261115:v1",
+    "from": "V-058",
+    "to": "V-059",
+    "name": "아스트라",
+    "rank": "SSS",
+    "basePower": 1250000,
+    "ratePpm": 400,
+    "effectivePercent": "0.000032",
+    "before": {
+      "revision": 1,
+      "openingAt": "2026-11-19T15:00:00.000Z",
+      "references": {
+        "bloodmoon": 14,
+        "blackcrown": 11
+      },
+      "settings": {
+        "prices": {
+          "single": 2250000000,
+          "ten": 22500000000
+        },
+        "missRatePpm": 800000,
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 4700,
+          "SSS": 800
+        },
+        "cardRatesPpm": {
+          "V-701": 500,
+          "V-702": 500,
+          "V-703": 500,
+          "V-704": 500,
+          "V-705": 500,
+          "V-976": 1,
+          "V-967": 1,
+          "V-058": 400
+        },
+        "normalSssRatePpm": 997098,
+        "stockLimits": {
+          "V-701": 10,
+          "V-702": 10,
+          "V-703": 10,
+          "V-704": 10,
+          "V-705": 10,
+          "V-976": 3,
+          "V-967": 3
+        }
+      }
+    },
+    "after": {
+      "revision": 2,
+      "openingAt": "2026-11-19T15:00:00.000Z",
+      "references": {
+        "bloodmoon": 14,
+        "blackcrown": 11
+      },
+      "settings": {
+        "prices": {
+          "single": 2250000000,
+          "ten": 22500000000
+        },
+        "missRatePpm": 800000,
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 4700,
+          "SSS": 800
+        },
+        "cardRatesPpm": {
+          "V-701": 500,
+          "V-702": 500,
+          "V-703": 500,
+          "V-704": 500,
+          "V-705": 500,
+          "V-976": 1,
+          "V-967": 1,
+          "V-059": 400
+        },
+        "normalSssRatePpm": 997098,
+        "stockLimits": {
+          "V-701": 10,
+          "V-702": 10,
+          "V-703": 10,
+          "V-704": 10,
+          "V-705": 10,
+          "V-976": 3,
+          "V-967": 3
+        }
+      }
+    },
+    "beforeHash": "cffd4bf49aec9e07bbd33cf89c959f6a13008142aca97959525d6df9e3537bca",
+    "afterHash": "92aa239da44416d97d24ab9029336a0b27670ae03bdcb509553a2b015e050772",
+    "owners": [
+      {
+        "mercenary_code": "V-058",
+        "accounts": 112,
+        "copies": "772"
+      }
+    ],
+    "stock": [
+      {
+        "code": "BLUE_GEAR:V-701",
+        "stock_limit": "10",
+        "issued": "0"
+      },
+      {
+        "code": "BLUE_GEAR:V-702",
+        "stock_limit": "10",
+        "issued": "0"
+      },
+      {
+        "code": "BLUE_GEAR:V-703",
+        "stock_limit": "10",
+        "issued": "0"
+      },
+      {
+        "code": "BLUE_GEAR:V-704",
+        "stock_limit": "10",
+        "issued": "0"
+      },
+      {
+        "code": "BLUE_GEAR:V-705",
+        "stock_limit": "10",
+        "issued": "0"
+      },
+      {
+        "code": "BLUE_GEAR:V-967",
+        "stock_limit": "3",
+        "issued": "0"
+      },
+      {
+        "code": "BLUE_GEAR:V-976",
+        "stock_limit": "3",
+        "issued": "0"
+      }
+    ],
+    "accountWrites": 0
+  },
+  "owners": [
+    {
+      "mercenary_code": "V-058",
+      "accounts": 112,
+      "copies": "772"
+    }
+  ],
+  "stock": [
+    {
+      "code": "BLUE_GEAR:V-701",
+      "stock_limit": "10",
+      "issued": "0"
+    },
+    {
+      "code": "BLUE_GEAR:V-702",
+      "stock_limit": "10",
+      "issued": "0"
+    },
+    {
+      "code": "BLUE_GEAR:V-703",
+      "stock_limit": "10",
+      "issued": "0"
+    },
+    {
+      "code": "BLUE_GEAR:V-704",
+      "stock_limit": "10",
+      "issued": "0"
+    },
+    {
+      "code": "BLUE_GEAR:V-705",
+      "stock_limit": "10",
+      "issued": "0"
+    },
+    {
+      "code": "BLUE_GEAR:V-967",
+      "stock_limit": "3",
+      "issued": "0"
+    },
+    {
+      "code": "BLUE_GEAR:V-976",
+      "stock_limit": "3",
+      "issued": "0"
+    }
+  ]
+}

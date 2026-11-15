@@ -1,3 +1,4 @@
+import {ASTRA_CODE,astraDeploymentSnapshot} from './mercenary-astra-v1.mjs';
 import {BLUE_GEAR_MERCENARIES} from './mercenary-blue-gear-catalog-v1.mjs';
 import {blueGearProfile,blueGearDeploymentSnapshot} from './mercenary-blue-gear-v1.mjs';
 import {JIN_JOKRO_CODE,jinJokroDeploymentSnapshot} from './mercenary-jin-jokro-v1.mjs';
@@ -48,6 +49,7 @@ export function limitedDeploymentSnapshot(code){
    skills:structuredClone(art.skills),pendingSkillIds:[],bloodmoonPolicyVersion:BLOODMOON_COMBAT_VERSION,deploymentVersion:BLOODMOON_COMBAT_VERSION};
  }
  if(code===AWAKENED_OMEGA_CODE)return awakenedOmegaDeploymentSnapshot();
+ if(code===ASTRA_CODE)return astraDeploymentSnapshot();
  if(code===RAZAK_CODE)return razakDeploymentSnapshot();
  if(code===NAMSUDAENG_CODE)return namsudaengDeploymentSnapshot();
  if(code===JIN_JOKRO_CODE)return jinJokroDeploymentSnapshot();

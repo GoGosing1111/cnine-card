@@ -9,8 +9,8 @@ const profile={
  pack,skin:'blue-gear-skin',stockEvent:'blue-gear-pack:stock',requireAccount:true,cards:BLUE_GEAR_DRAW_POLICY.pool,
  theme:{
   brand:'BLUE GEAR',edition:'블루기어',contract:'블루기어의 계약',
-  roster:['블루기어 SS 5종 · 각 10장','SSS 리미티드 제로 · 하쿠야 신 · 각 3장','일반 SSS 라자크 · 한도 없음'],
-  rules:'SSS에 당첨되면 블루기어 SS 5종, SSS 리미티드 제로·하쿠야 신, 별도 SSS 라자크, 일반 SSS 중에서 한 번 더 추첨합니다.',
+  roster:['블루기어 SS 5종 · 각 10장','SSS 리미티드 제로 · 하쿠야 신 · 각 3장','일반 SSS 아스트라 · 한도 없음'],
+  rules:'SSS에 당첨되면 블루기어 SS 5종, SSS 리미티드 제로·하쿠야 신, 별도 SSS 아스트라, 일반 SSS 중에서 한 번 더 추첨합니다.',
   legendTitle:'SSS 리미티드 · 제로 · 하쿠야 신',legendLabel:'팩 한도 각 3장',
   ownershipScale:'0~1종 기본 · 2종 ½ · 3종 ¼ · 4종 ⅛ · 5종 보유 시 SS 획득 종료',ownershipName:'블루기어',
   saleLabel:'11월 20일 00:00 판매 시작 · 한국시간',showRankRates:true

@@ -331,7 +331,7 @@ const mercenaryReviewFile=file=>/^preview\/mercenary-[^/]+\/qa\/.*(?:report|veri
 // middleware. Packing these small notes together leaves Pages slots for live art.
 const packedNotes=new Set(JSON.parse(readFileSync(new URL('../functions/_data/blue-gear-release-note-paths.json',import.meta.url),'utf8')));
 const packedNoteFile='docs/archive/blue-gear-release-notes-v1.json';
-const blueGearBundledOnly=file=>file.startsWith('preview/project-v-v3/source/battle/blue-gear/')||
+const blueGearBundledOnly=file=>file.startsWith('preview/project-v-v3/source/battle/astra/')||file==='preview/project-v-v3/source/battle/AstraCombatPlayback.js'||file==='assets/ui/project-v/mercenaries/astra-20261115/manifest.json'||file.startsWith('preview/project-v-v3/source/battle/blue-gear/')||
  file==='preview/project-v-v3/source/battle/BlueGearCombatPlayback.js'||file==='js/mercenary-blue-gear-pack-live.mjs';
 // Avatar authoring READMEs stay in Git; only the actual review/game artwork is delivered.
 const avatarAuthoringReadme=file=>/^preview\/avatar-[^/]+\/README\.md$/.test(file);

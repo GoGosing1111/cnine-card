@@ -76,7 +76,7 @@ export function pickBlackcrownBulk(state,count,random,{firstLimitedCode=null,poo
  for(let i=0;i<count;i++){
   if(firstLimitedCode&&i===0)continue;
   const rank=first();if(rank==='NONE'){result.missCount++;continue;}
-  if(rank==='SSS'){const code=second(),unlimited=blackcrownUnlimitedDraw(code);if(unlimited){addBlackcrownNormal(result.normalDraws,unlimited);continue;}if(code!=='STANDARD_SSS'&&limited(code,i))continue;}
+  if(rank==='SSS'){const code=second(),unlimited=blackcrownUnlimitedDraw(code,pool);if(unlimited){addBlackcrownNormal(result.normalDraws,unlimited);continue;}if(code!=='STANDARD_SSS'&&limited(code,i))continue;}
   addBlackcrownNormal(result.normalDraws,normalCard(rank));
  }
  result.draws.sort((a,b)=>a.drawIndex-b.drawIndex);result.normalDraws.sort((a,b)=>a.mercenaryCode.localeCompare(b.mercenaryCode));return result;

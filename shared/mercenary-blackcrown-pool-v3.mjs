@@ -17,6 +17,6 @@ export const BLACKCROWN_LIMITED_CARDS=Object.freeze([...BLACKCROWN_MERCENARIES,.
 export const BLACKCROWN_UNLIMITED_CARDS=BLOODMOON_UNLIMITED_CARDS;
 export const BLACKCROWN_PACK_CARDS=Object.freeze([...BLACKCROWN_LIMITED_CARDS,...BLACKCROWN_UNLIMITED_CARDS]);
 export const isBlackcrownLimited=code=>BLACKCROWN_LIMITED_CARDS.some(c=>c.code===code);
-export function blackcrownUnlimitedDraw(code){const c=BLACKCROWN_UNLIMITED_CARDS.find(c=>c.code===code);return c?{outcomeId:'CARD_SSS',mercenaryCode:c.code,name:c.name,rank:'SSS',edition:'STANDARD',quantity:1,sourceArt:c.sourceArt}:null;}
+export function blackcrownUnlimitedDraw(code,pool=BLACKCROWN_UNLIMITED_CARDS){const c=pool.find(c=>c.code===code&&c.stockPolicy==='UNLIMITED');return c?{outcomeId:'CARD_SSS',mercenaryCode:c.code,name:c.name,rank:'SSS',edition:'STANDARD',quantity:1,sourceArt:c.sourceArt}:null;}
 export const blackcrownStockLimit=code=>BLACKCROWN_UNLIMITED_CARDS.some(c=>c.code===code)?null:BLACKCROWN_LIMITED_CARDS.find(c=>c.code===code)?.serverLimit??BLACKCROWN_SERVER_LIMIT;
 export const isBlackcrownStockLimit=(code,n)=>isBlackcrownLimited(code)&&Number.isSafeInteger(n)&&n>=1&&n<=STOCK_SCHEDULE_MAX_LIMIT;

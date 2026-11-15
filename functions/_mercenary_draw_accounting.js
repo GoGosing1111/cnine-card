@@ -1,7 +1,9 @@
 import {DRAW_TOTAL,validateMercenaryDraw,mercenaryGradePools,mercenaryCardChances} from '../shared/mercenary-draw-policy-v1.mjs';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
+import {ASTRA_CODE} from '../shared/mercenary-astra-v1.mjs';
 
 const catalogCodes=MERCENARY_CMS_SEED.catalog.cards.map(card=>card.code);
+const acquisitionCodes=new Set([...catalogCodes,ASTRA_CODE]);
 export const MERCENARY_ACCOUNTING_SCHEMA=[
   `CREATE TABLE IF NOT EXISTS user_mercenary_cards_v1(user_id BIGINT NOT NULL,mercenary_code TEXT NOT NULL,total_copies INTEGER NOT NULL CHECK(total_copies>=1),duplicate_count INTEGER NOT NULL CHECK(duplicate_count=total_copies-1),first_obtained_at TEXT NOT NULL,last_obtained_at TEXT NOT NULL,PRIMARY KEY(user_id,mercenary_code))`,
   `CREATE TABLE IF NOT EXISTS mercenary_card_acquisitions_v1(acquisition_id TEXT PRIMARY KEY,user_id BIGINT NOT NULL,mercenary_code TEXT NOT NULL,is_duplicate INTEGER NOT NULL CHECK(is_duplicate IN(0,1)),total_copies_after INTEGER NOT NULL,duplicate_count_after INTEGER NOT NULL CHECK(duplicate_count_after=total_copies_after-1),created_at TEXT NOT NULL)`,
@@ -34,7 +36,7 @@ export function pickMercenaryDraw({policy,mercenaries,randomInt=mercenaryRandomI
 // Compose these statements into the future opening transaction alongside pack
 // consumption and its durable receipt. Never grant separately from that transaction.
 export function mercenaryCardAcquisitionStatements(DB,{userId,mercenaryCode,acquisitionId,createdAt=new Date().toISOString()}){
-  if(!Number.isSafeInteger(userId)||userId<1||!catalogCodes.includes(mercenaryCode)||
+  if(!Number.isSafeInteger(userId)||userId<1||!acquisitionCodes.has(mercenaryCode)||
      typeof acquisitionId!=='string'||!/^[A-Za-z0-9._:-]{8,120}$/.test(acquisitionId)||
      typeof createdAt!=='string'||!Number.isFinite(Date.parse(createdAt)))throw Error('Invalid mercenary acquisition');
   const stmt=(sql,...args)=>DB.prepare(sql).bind(...args),list=[],guardId=crypto.randomUUID();

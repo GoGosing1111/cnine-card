@@ -1,0 +1,207 @@
+{
+  "platform": "desktop",
+  "emulated": true,
+  "conditions": "Headless Windows Chrome or iPhone WebKit emulation, local files and canonical production battle entry/rendering, cold first entry then same-page reentry, no CPU/network throttle.",
+  "entries": [
+    {
+      "entry": 0,
+      "side": "A",
+      "readyMs": 1602,
+      "idleFrames": {
+        "p95": 28.699999999999818,
+        "longFrames": 0
+      },
+      "companion": {
+        "visible": true,
+        "x": 470,
+        "y": 261,
+        "ownerBaseX": 380,
+        "ownerBaseY": 240,
+        "frontFacing": "ALLY",
+        "anchor": "ICON_DIIM_RESTING_FORMATION"
+      },
+      "casts": [
+        {
+          "mode": "skill_drone",
+          "contacts": 1,
+          "hp": 95,
+          "p95": 28.09999999999991,
+          "longFrames": 1,
+          "frames": 123,
+          "fxAfter": 0
+        },
+        {
+          "mode": "skill_siege",
+          "contacts": 1,
+          "hp": 95,
+          "p95": 27.300000000000182,
+          "longFrames": 0,
+          "frames": 173,
+          "fxAfter": 0
+        },
+        {
+          "mode": "skill_fortress",
+          "contacts": 1,
+          "hp": 95,
+          "p95": 17.400000000000546,
+          "longFrames": 0,
+          "frames": 296,
+          "fxAfter": 0
+        }
+      ],
+      "basic": {
+        "impacts": 1,
+        "hp": 90,
+        "hiddenClockStopped": true
+      },
+      "audit": {
+        "enabled": true,
+        "loaded": [
+          "crawler",
+          "bg3-bullet",
+          "drone",
+          "fortress",
+          "bg3-shell",
+          "bg3-cast",
+          "bg3-target",
+          "bg3-muzzle",
+          "bg3-rail",
+          "bg3-impact",
+          "bg3-siege",
+          "bg3-fortress"
+        ],
+        "decodedBytes": 15586320,
+        "companion": {
+          "visible": true,
+          "x": 470,
+          "y": 261,
+          "ownerBaseX": 380,
+          "ownerBaseY": 240,
+          "frontFacing": "ALLY",
+          "anchor": "ICON_DIIM_RESTING_FORMATION"
+        },
+        "session": null,
+        "completed": 4,
+        "artSource": "Built-in ImageGen, seven authored raster sheets; no procedural VFX artwork"
+      },
+      "cleanup": {
+        "actors": 0,
+        "loads": 0,
+        "companionDestroyed": true,
+        "clockStopped": true,
+        "simpleTimelines": 0
+      }
+    },
+    {
+      "entry": 1,
+      "side": "B",
+      "readyMs": 404.70000000298023,
+      "idleFrames": {
+        "p95": 35.79999999999927,
+        "longFrames": 1
+      },
+      "companion": {
+        "visible": true,
+        "x": 1130,
+        "y": 261,
+        "ownerBaseX": 1220,
+        "ownerBaseY": 240,
+        "frontFacing": "ENEMY",
+        "anchor": "ICON_DIIM_RESTING_FORMATION"
+      },
+      "casts": [
+        {
+          "mode": "skill_drone",
+          "contacts": 1,
+          "hp": 95,
+          "p95": 29.700000000000728,
+          "longFrames": 1,
+          "frames": 120,
+          "fxAfter": 0
+        },
+        {
+          "mode": "skill_siege",
+          "contacts": 1,
+          "hp": 95,
+          "p95": 29.299999999999272,
+          "longFrames": 0,
+          "frames": 154,
+          "fxAfter": 0
+        },
+        {
+          "mode": "skill_fortress",
+          "contacts": 1,
+          "hp": 95,
+          "p95": 28.600000000002183,
+          "longFrames": 0,
+          "frames": 238,
+          "fxAfter": 0
+        }
+      ],
+      "basic": {
+        "impacts": 1,
+        "hp": 90,
+        "hiddenClockStopped": true
+      },
+      "audit": {
+        "enabled": true,
+        "loaded": [
+          "bg3-bullet",
+          "crawler",
+          "bg3-shell",
+          "drone",
+          "fortress",
+          "bg3-muzzle",
+          "bg3-impact",
+          "bg3-cast",
+          "bg3-target",
+          "bg3-siege",
+          "bg3-rail",
+          "bg3-fortress"
+        ],
+        "decodedBytes": 15586320,
+        "companion": {
+          "visible": true,
+          "x": 1130,
+          "y": 261,
+          "ownerBaseX": 1220,
+          "ownerBaseY": 240,
+          "frontFacing": "ENEMY",
+          "anchor": "ICON_DIIM_RESTING_FORMATION"
+        },
+        "session": null,
+        "completed": 4,
+        "artSource": "Built-in ImageGen, seven authored raster sheets; no procedural VFX artwork"
+      },
+      "cleanup": {
+        "actors": 0,
+        "loads": 0,
+        "companionDestroyed": true,
+        "clockStopped": true,
+        "simpleTimelines": 0
+      }
+    }
+  ],
+  "errors": [],
+  "astraRequests": [
+    "http://127.0.0.1:18955/assets/ui/project-v/mercenaries/astra-20261115/source-art.png",
+    "http://127.0.0.1:18955/assets/ui/project-v/mercenaries/astra-20261115/guard.webp",
+    "http://127.0.0.1:18955/assets/ui/project-v/mercenaries/astra-20261115/bluegear.json",
+    "http://127.0.0.1:18955/assets/ui/project-v/mercenaries/astra-20261115/bluegear.atlas",
+    "http://127.0.0.1:18955/assets/ui/project-v/mercenaries/astra-20261115/pose-registration.json",
+    "http://127.0.0.1:18955/assets/ui/project-v/mercenaries/astra-20261115/assets-v3.json",
+    "http://127.0.0.1:18955/assets/ui/project-v/mercenaries/astra-20261115/fortress.webp?v=311069c90e18",
+    "http://127.0.0.1:18955/assets/ui/project-v/mercenaries/astra-20261115/crawler.webp?v=fc01824d41cb",
+    "http://127.0.0.1:18955/assets/ui/project-v/mercenaries/astra-20261115/bg3-shell.webp?v=45ffaeb8a104",
+    "http://127.0.0.1:18955/assets/ui/project-v/mercenaries/astra-20261115/bg3-cast.webp?v=33b9eb8483af",
+    "http://127.0.0.1:18955/assets/ui/project-v/mercenaries/astra-20261115/bluegear-9151c6390831_2.webp",
+    "http://127.0.0.1:18955/assets/ui/project-v/mercenaries/astra-20261115/bg3-bullet.webp?v=cc4bb93732a1",
+    "http://127.0.0.1:18955/assets/ui/project-v/mercenaries/astra-20261115/bluegear-9151c6390831.webp",
+    "http://127.0.0.1:18955/assets/ui/project-v/mercenaries/astra-20261115/drone.webp?v=f10d46d103ae",
+    "http://127.0.0.1:18955/assets/ui/project-v/mercenaries/astra-20261115/bg3-fortress.webp?v=95074b0cff77",
+    "http://127.0.0.1:18955/assets/ui/project-v/mercenaries/astra-20261115/bg3-rail.webp?v=4f35fe52add7",
+    "http://127.0.0.1:18955/assets/ui/project-v/mercenaries/astra-20261115/bg3-muzzle.webp?v=b10afb482ec1",
+    "http://127.0.0.1:18955/assets/ui/project-v/mercenaries/astra-20261115/bg3-impact.webp?v=fe8909ef35c2",
+    "http://127.0.0.1:18955/assets/ui/project-v/mercenaries/astra-20261115/bg3-siege.webp?v=7280347c6804"
+  ]
+}

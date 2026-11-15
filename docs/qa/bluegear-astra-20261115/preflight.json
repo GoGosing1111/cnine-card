@@ -1,0 +1,60 @@
+{
+  "at": "2026-11-15T06:02:17.840Z",
+  "meta": {
+    "mercenary_blue_gear_pack_v1": {
+      "revision": 1,
+      "openingAt": "2026-11-19T15:00:00.000Z",
+      "references": {
+        "bloodmoon": 14,
+        "blackcrown": 11
+      },
+      "settings": {
+        "prices": {
+          "single": 2250000000,
+          "ten": 22500000000
+        },
+        "missRatePpm": 800000,
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 4700,
+          "SSS": 800
+        },
+        "cardRatesPpm": {
+          "V-701": 500,
+          "V-702": 500,
+          "V-703": 500,
+          "V-704": 500,
+          "V-705": 500,
+          "V-976": 1,
+          "V-967": 1,
+          "V-058": 400
+        },
+        "normalSssRatePpm": 997098,
+        "stockLimits": {
+          "V-701": 10,
+          "V-702": 10,
+          "V-703": 10,
+          "V-704": 10,
+          "V-705": 10,
+          "V-976": 3,
+          "V-967": 3
+        }
+      }
+    }
+  },
+  "cms": {
+    "revision": 61,
+    "updatedAt": "2026-10-05T10:16:58.764Z",
+    "reserved": []
+  },
+  "owners": [
+    {
+      "mercenary_code": "V-058",
+      "accounts": 112,
+      "copies": "772"
+    }
+  ]
+}

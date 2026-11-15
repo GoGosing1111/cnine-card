@@ -1,3 +1,4 @@
+import {ASTRA_ART} from '../shared/mercenary-astra-v1.mjs';
 import {JIN_JOKRO_ART,jinJokroCodexSkills} from '../shared/mercenary-jin-jokro-v1.mjs';
 import {HELIOS_KING_ART,heliosKingCodexSkills} from '../shared/mercenary-helios-king-v1.mjs';
 import {HAKUYA_ART,hakuyaCodexSkills} from '../shared/mercenary-hakuya-v1.mjs';
@@ -69,6 +70,7 @@ export function mercenaryCodexDocument(row){
   projection.cards.push({...HAKUYA_ART,skills:hakuyaCodexSkills()});
   projection.cards.push(blackcrownSssCodexCard({...REVAN_ART,skills:revanCodexSkills()}));
   projection.cards.push({...AWAKENED_OMEGA_ART,skills:structuredClone(AWAKENED_OMEGA_ART.skills)});
+  projection.cards.push({...ASTRA_ART,skills:structuredClone(ASTRA_ART.skills)});
   projection.cards.push({...RAZAK_ART,skills:structuredClone(RAZAK_ART.skills)});
   projection.cards=projection.cards.map(blackcrownCodexCard);
   projection.blackcrownCodexVersion=BLACKCROWN_CODEX_VERSION;

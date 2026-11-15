@@ -1,0 +1,294 @@
+{
+  "at": "2026-11-15T06:17:37.749Z",
+  "conditions": "Canonical server team simulations. Equal 5-card decks, magic, mercenary levels and equipment, no pets. 32 seeds per scenario on both A/B sides. Captured CMS growth. Not live player win rates.",
+  "policy": {
+    "version": 1,
+    "basePower": 1250000,
+    "statsReferencePower": 1250000,
+    "speedReferencePower": 1250000,
+    "statScale": 2.4,
+    "speedScale": 4,
+    "actionCredit": 4,
+    "actionEnergy": 10,
+    "basicCapScale": 1.25,
+    "pvpSkillCapScale": 3.75,
+    "damageTakenScale": 0.35,
+    "link": {
+      "attackPercent": 1750,
+      "hpPercent": 1000,
+      "shieldPercent": 500
+    },
+    "pvpPriorityTierGuard": 16
+  },
+  "skills": [
+    {
+      "id": "MS-1101",
+      "name": "쌍드론 협공",
+      "visualMode": "skill_drone",
+      "targetCount": 1,
+      "targetRule": "weakest",
+      "target": "약화된 적 하나",
+      "effect": "두 기의 메카닉 드론이 전방에 나타나 문장을 새긴 목표에 결정탄을 발사합니다. 한 시전의 총 550% 피해를 실제 대상 수에 나누어 적용합니다.",
+      "role": "SNIPER",
+      "mechanic": "ASTRA_MECHANICAL_STRIKE",
+      "ready": true,
+      "balance": {
+        "damageRatio": 5.5,
+        "cooldownTurns": 3,
+        "cost": 25
+      },
+      "trigger": "자기 행동 · 에너지 25 · 세 기술 공통 재사용 3행동",
+      "counterplay": "기절·침묵·회피·방어·방벽과 피해 경감에 대응됩니다.",
+      "bossRule": "단일 보스도 같은 총 피해 예산을 사용합니다.",
+      "procRule": "대상당 서버 피해는 한 번입니다. 소환수·탄환·폭발은 추가 피해나 독립 행동을 만들지 않습니다."
+    },
+    {
+      "id": "MS-1102",
+      "name": "기갑 포탑 집중사격",
+      "visualMode": "skill_siege",
+      "targetCount": 1,
+      "targetRule": "back",
+      "target": "후열 우선 적 하나",
+      "effect": "전방 자율 포탑이 중장갑 에너지탄을 연사해 표식이 남은 목표를 폭발시킵니다. 한 시전의 총 700% 피해를 실제 대상 수에 나누어 적용합니다.",
+      "role": "SNIPER",
+      "mechanic": "ASTRA_MECHANICAL_STRIKE",
+      "ready": true,
+      "balance": {
+        "damageRatio": 7,
+        "cooldownTurns": 3,
+        "cost": 25
+      },
+      "trigger": "자기 행동 · 에너지 25 · 세 기술 공통 재사용 3행동",
+      "counterplay": "기절·침묵·회피·방어·방벽과 피해 경감에 대응됩니다.",
+      "bossRule": "단일 보스도 같은 총 피해 예산을 사용합니다.",
+      "procRule": "대상당 서버 피해는 한 번입니다. 소환수·탄환·폭발은 추가 피해나 독립 행동을 만들지 않습니다."
+    },
+    {
+      "id": "MS-1103",
+      "name": "블루기어 포트리스",
+      "visualMode": "skill_fortress",
+      "targetCount": null,
+      "targetRule": "all",
+      "target": "적 전체 · PVE",
+      "pveOnly": true,
+      "effect": "대형 포트리스를 소환해 적 전체에 블루기어 문장을 전개하고 광역 레일 포격을 가합니다. 한 시전의 총 875% 피해를 실제 대상 수에 나누어 적용합니다.",
+      "role": "SNIPER",
+      "mechanic": "ASTRA_MECHANICAL_STRIKE",
+      "ready": true,
+      "balance": {
+        "damageRatio": 8.75,
+        "cooldownTurns": 3,
+        "cost": 25
+      },
+      "trigger": "자기 행동 · 에너지 25 · 세 기술 공통 재사용 3행동 · PVE 전용",
+      "counterplay": "기절·침묵·회피·방어·방벽과 피해 경감에 대응됩니다.",
+      "bossRule": "단일 보스도 같은 총 피해 예산을 사용합니다.",
+      "procRule": "대상당 서버 피해는 한 번입니다. 소환수·탄환·폭발은 추가 피해나 독립 행동을 만들지 않습니다."
+    }
+  ],
+  "total": 832,
+  "wins": 607,
+  "rows": [
+    {
+      "id": "basic-10000-balanced",
+      "level": 1,
+      "gear": 0,
+      "total": 64,
+      "wins": 63,
+      "draws": 0,
+      "astraSkillCasts": 256,
+      "winRate": 0.984375
+    },
+    {
+      "id": "basic-20000000-balanced",
+      "level": 1,
+      "gear": 0,
+      "total": 64,
+      "wins": 33,
+      "draws": 0,
+      "astraSkillCasts": 206,
+      "winRate": 0.515625
+    },
+    {
+      "id": "basic-2000000000-balanced",
+      "level": 1,
+      "gear": 0,
+      "total": 64,
+      "wins": 32,
+      "draws": 0,
+      "astraSkillCasts": 205,
+      "winRate": 0.5
+    },
+    {
+      "id": "basic-20000000-attack",
+      "level": 1,
+      "gear": 0,
+      "total": 64,
+      "wins": 32,
+      "draws": 0,
+      "astraSkillCasts": 163,
+      "winRate": 0.5
+    },
+    {
+      "id": "basic-20000000-defense",
+      "level": 1,
+      "gear": 0,
+      "total": 64,
+      "wins": 44,
+      "draws": 0,
+      "astraSkillCasts": 235,
+      "winRate": 0.6875
+    },
+    {
+      "id": "basic-20000000-speed",
+      "level": 1,
+      "gear": 0,
+      "total": 64,
+      "wins": 36,
+      "draws": 0,
+      "astraSkillCasts": 207,
+      "winRate": 0.5625
+    },
+    {
+      "id": "growth-6",
+      "level": 6,
+      "gear": 0,
+      "total": 64,
+      "wins": 51,
+      "draws": 0,
+      "astraSkillCasts": 181,
+      "winRate": 0.796875
+    },
+    {
+      "id": "growth-11",
+      "level": 11,
+      "gear": 0,
+      "total": 64,
+      "wins": 36,
+      "draws": 0,
+      "astraSkillCasts": 170,
+      "winRate": 0.5625
+    },
+    {
+      "id": "growth-16",
+      "level": 16,
+      "gear": 0,
+      "total": 64,
+      "wins": 55,
+      "draws": 0,
+      "astraSkillCasts": 183,
+      "winRate": 0.859375
+    },
+    {
+      "id": "growth-21",
+      "level": 21,
+      "gear": 0,
+      "total": 64,
+      "wins": 36,
+      "draws": 0,
+      "astraSkillCasts": 166,
+      "winRate": 0.5625
+    },
+    {
+      "id": "equipped-1",
+      "level": 1,
+      "gear": 1000000,
+      "total": 64,
+      "wins": 63,
+      "draws": 0,
+      "astraSkillCasts": 282,
+      "winRate": 0.984375
+    },
+    {
+      "id": "equipped-11",
+      "level": 11,
+      "gear": 1000000,
+      "total": 64,
+      "wins": 64,
+      "draws": 0,
+      "astraSkillCasts": 244,
+      "winRate": 1
+    },
+    {
+      "id": "equipped-21",
+      "level": 21,
+      "gear": 1000000,
+      "total": 64,
+      "wins": 62,
+      "draws": 0,
+      "astraSkillCasts": 265,
+      "winRate": 0.96875
+    }
+  ],
+  "pve": [
+    {
+      "level": 1,
+      "values": [
+        {
+          "code": "V-058",
+          "skills": [
+            "MS-061",
+            "MS-062",
+            "MS-063"
+          ],
+          "winner": "A"
+        },
+        {
+          "code": "V-059",
+          "skills": [
+            "MS-1101",
+            "MS-1102",
+            "MS-1103"
+          ],
+          "winner": "A"
+        }
+      ]
+    },
+    {
+      "level": 11,
+      "values": [
+        {
+          "code": "V-058",
+          "skills": [
+            "MS-061",
+            "MS-062",
+            "MS-063"
+          ],
+          "winner": "A"
+        },
+        {
+          "code": "V-059",
+          "skills": [
+            "MS-1101",
+            "MS-1102",
+            "MS-1103"
+          ],
+          "winner": "A"
+        }
+      ]
+    },
+    {
+      "level": 21,
+      "values": [
+        {
+          "code": "V-058",
+          "skills": [
+            "MS-061",
+            "MS-062",
+            "MS-063"
+          ],
+          "winner": "A"
+        },
+        {
+          "code": "V-059",
+          "skills": [
+            "MS-1101",
+            "MS-1102",
+            "MS-1103"
+          ],
+          "winner": "A"
+        }
+      ]
+    }
+  ]
+}

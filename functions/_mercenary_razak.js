@@ -1,7 +1,8 @@
+import {isAstra,ASTRA_SKILLS,ASTRA_MECHANIC,ASTRA_EVENT} from '../shared/mercenary-astra-v1.mjs';
 import {isRazak,RAZAK_SKILLS,RAZAK_EVENT} from '../shared/mercenary-razak-v1.mjs';
 import {BLUE_GEAR_EVENT,BLUE_GEAR_MECHANIC,blueGearProfile,blueGearSkills,isBlueGear} from '../shared/mercenary-blue-gear-v1.mjs';
 function approvedStrike(actor,skill){
- const trusted=isRazak(actor)?RAZAK_SKILLS:isBlueGear(actor)?blueGearSkills(blueGearProfile(actor.code||actor.cardId),actor.battleMode):[];
+ const trusted=isAstra(actor)?ASTRA_SKILLS:isRazak(actor)?RAZAK_SKILLS:isBlueGear(actor)?blueGearSkills(blueGearProfile(actor.code||actor.cardId),actor.battleMode):[];
  return trusted.find(s=>s.id===skill.id&&s.mechanic===skill.mechanic&&(!s.pveOnly||actor.battleMode==='PVE'));
 }
 const living=t=>t?.alive!==false&&t?.hp>0&&!t?.untargetable&&!t?.isBattleSuit;
@@ -23,6 +24,6 @@ export function resolveRazakCast({actor,skill,targets,hit,damage,knockout,emit,d
   actor.damageDealt+=outcome.hpDamage+outcome.absorbed;
   hits.push({targetId:target.id,damage:outcome.hpDamage,absorbed:outcome.absorbed,dodge:!!result.dodge,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield||0,targetMaxShield:target.maxShield||0});
  }
- emit(approved.mechanic===BLUE_GEAR_MECHANIC?BLUE_GEAR_EVENT:RAZAK_EVENT,{actorId:actor.id,actorKind:'MERCENARY',skillId:approved.id,skillName:approved.name,mechanic:approved.mechanic,visualMode:approved.visualMode,targetId:fixed[0].id,targetIds:fixed.map(t=>t.id),battleMode:actor.battleMode,hits,label:approved.name});
+ emit(approved.mechanic===ASTRA_MECHANIC?ASTRA_EVENT:approved.mechanic===BLUE_GEAR_MECHANIC?BLUE_GEAR_EVENT:RAZAK_EVENT,{actorId:actor.id,actorKind:'MERCENARY',skillId:approved.id,skillName:approved.name,mechanic:approved.mechanic,visualMode:approved.visualMode,targetId:fixed[0].id,targetIds:fixed.map(t=>t.id),battleMode:actor.battleMode,hits,label:approved.name});
  for(const target of fixed)knockout(target);return hits;
 }

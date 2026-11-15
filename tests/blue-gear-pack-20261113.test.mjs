@@ -17,7 +17,7 @@ test('KST midnight, original odds, price and distinct ownership',()=>{
  assert.deepEqual(doc.settings.prices,{single:2250000000,ten:22500000000});
  const s=blueGearState(doc,rows,[],after);for(const code of policy.ssCodes){assert.equal(s.effectiveCardPercents[code],'0.00004');assert.equal(ALL_LIMITED_MERCENARIES.filter(c=>c.code===code).length,1);assert.equal(limitedDeploymentSnapshot(code).basePower,1000000);assert.equal(limitedDeploymentSnapshot(code).skills.length,2);}
  for(const code of ['V-976','V-967'])assert.equal(s.effectiveCardPercents[code],'0.00000008');
- assert.equal(s.effectiveCardPercents['V-058'],'0.000032');
+ assert.equal(s.effectiveCardPercents['V-059'],'0.000032');
  assert.equal(s.settings.normalSssRatePpm,997098);
  rows[4].issued=10;const other=blueGearState(doc,rows,[],after,['V-701','V-703']);assert.equal(other.effectiveCardPercents['V-701'],'0');assert.equal(other.effectiveCardPercents['V-702'],'0.00002');assert.equal(other.effectiveCardPercents['V-705'],'0');
  assert.equal(blueGearCatalog(doc,rows.slice(1),after).drawEnabled,false);
@@ -57,8 +57,10 @@ test('production transaction paths, time lock, stock, 1/10/bulk, recovery and fo
 import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
 import {MERCENARY_CMS_SEED} from '../functions/_mercenary_cms_seed.js';
 import {validateCatalog} from '../mercenary-codex/model.mjs';
-test('codex validates the full live roster and approves all seven pack identities',()=>{
+test('codex validates the full live roster and approves all eight pack identities with unique Astra skills',()=>{
  const catalog=mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1});
  const result=validateCatalog(catalog,{forDisplay:true});
- assert.equal(result.cards.filter(c=>c.acquisition==='BLUE_GEAR_PACK').length,7);
+ assert.equal(result.cards.filter(c=>c.acquisition==='BLUE_GEAR_PACK').length,8);
+ const astra=result.cards.find(c=>c.code==='V-059'),others=new Set(result.cards.filter(c=>c.code!=='V-059').flatMap(c=>c.skills.map(s=>s.id)));
+ assert(astra.skills.every(s=>!others.has(s.id)));assert.equal(result.cards.find(c=>c.code==='V-976').skills.length,6);
 });

@@ -65,8 +65,8 @@ export const battleAssetMemory=createBattleAssetMemory(Assets,BATTLE_DEVICE);
 // The Spine parser loads atlas pages through Assets.loader, outside Assets.cache.
 // Each shipped atlas owns its numbered PNGs. Include them even if parsing failed
 // halfway through, when the atlas object cannot tell us which pages finished.
-export function createBattleSpineLease(skeleton,atlas,pageCount,parsedKey,{assets=Assets,ios=BATTLE_DEVICE.ios}={}){
-  const pages=Array.from({length:pageCount},(_,i)=>atlas.replace(/\.atlas$/,i?'_'+(i+1)+'.png':'.png'));
+export function createBattleSpineLease(skeleton,atlas,pageCount,parsedKey,{assets=Assets,ios=BATTLE_DEVICE.ios,pagePaths=null}={}){
+  const pages=pagePaths||Array.from({length:pageCount},(_,i)=>atlas.replace(/\.atlas$/,i?'_'+(i+1)+'.png':'.png'));
   let owners=0,loading=null,retiring=Promise.resolve();
   async function loadPair(){
     const results=await Promise.allSettled([assets.load(skeleton),assets.load(atlas)]);

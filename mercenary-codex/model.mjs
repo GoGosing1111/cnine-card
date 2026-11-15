@@ -1,3 +1,5 @@
+import {ZERO_ART} from '../shared/mercenary-zero-v1.mjs';
+import {ASTRA_CODE,ASTRA_ART,ASTRA_SKILLS} from '../shared/mercenary-astra-v1.mjs';
 import {BLUE_GEAR} from '../shared/mercenary-blue-gear-v1.mjs';
 import {JIN_JOKRO_CODE,JIN_JOKRO_COMBAT,JIN_JOKRO_ART} from '../shared/mercenary-jin-jokro-v1.mjs';
 import {HELIOS_KING_CODE,HELIOS_KING_COMBAT,HELIOS_KING_ART} from '../shared/mercenary-helios-king-v1.mjs';
@@ -26,6 +28,7 @@ export const thumb=code=>`/assets/ui/project-v/mercenaries/codex-v1/${code.toLow
 export function validateCatalog(data,{forDisplay=false}={}){
   if(data?.version!=='mercenary-codex-2098'||!Number.isSafeInteger(data.revision)||!Array.isArray(data.cards)||!data.cards.length||new Set(data.cards.map(c=>c.code)).size!==data.cards.length)throw Error('용병 정보 형식을 확인하세요.');
   for(const c of data.cards){const titleDeferred=c.edition==='LIMITED'&&c.titleStatus==='DEFERRED_BY_USER';if(!/^V-\d{3}$/.test(c.code)||!c.name||((c.code===CRYVERN_CODE||titleDeferred)?c.title!=='':c.code===AZANT_CODE?typeof c.title!=='string':!c.title)||(!POSITIONS[c.position]&&!(c.artOnly===true&&c.position===null))||!data.roles?.[c.role]||(c.rank!==null&&!RANKS.includes(c.rank))||!Array.isArray(c.skills))throw Error('용병 설정을 확인하세요.');asset(c.sourceArt);if(c.thumbnailArt)asset(c.thumbnailArt);if(c.displayArt)asset(c.displayArt);if(c.battleSprite)asset(c.battleSprite);
+    if(c.code===ASTRA_CODE&&(c.name!==ASTRA_ART.name||c.rank!=='SSS'||c.edition!=='STANDARD'||c.basePower!==1250000||c.acquisition!=='BLUE_GEAR_PACK'||c.stockPolicy!=='UNLIMITED'||!c.deploymentEnabled||c.skills.length!==3||c.skills.some((x,i)=>x.id!==ASTRA_SKILLS[i].id)))throw Error('아스트라의 전투력·기술·블루기어팩 획득을 확인하세요.');
     if(c.code===RAZAK_CODE&&(c.name!=='라자크'||c.rank!=='SSS'||c.edition!=='STANDARD'||c.basePower!==RAZAK_COMBAT.basePower||c.acquisition!=='BLOODMOON_PACK'||c.acquisitionEnabled!==false||c.packAcquisitionEnabled!==true||c.skills.length!==3||c.skills.some((s,i)=>s.id!==RAZAK_SKILLS[i].id)))throw Error('라자크의 승인 등급·전투력·블러드문팩 전용 획득을 확인하세요.');
     if(c.edition==='LIMITED'){
       const blue=BLUE_GEAR[c.code],blueReady=Boolean(blue)&&c.season==='BLUE_GEAR'&&c.rank==='SS'&&c.basePower===blue.basePower&&c.deploymentEnabled===true&&c.acquisition==='BLUE_GEAR_PACK'&&c.serverLimit===10&&c.skills.length===2&&c.skills.every((skill,i)=>skill.id===blue.skills[i].id&&skill.visualMode===blue.skills[i].visualMode);
@@ -60,14 +63,14 @@ export function validateCatalog(data,{forDisplay=false}={}){
       if(c.code===CARDGU_CODE&&!cardguReady)throw Error('카드구의 전투력·스킬·획득 상태를 확인하세요.');
       const generalJokReady=c.code==='V-974'&&c.releaseStatus==='BATTLE_RELEASED_ACQUISITION_LOCKED'&&c.artOnly===false&&c.acquisition==='LOCKED'&&c.deploymentEnabled===true&&c.basePower===2700000&&c.packAcquisitionEnabled===false&&c.skills.length===8;
       const primeReady=c.code==='V-975'&&c.releaseStatus==='BATTLE_RELEASED_ACQUISITION_LOCKED'&&c.artOnly===false&&c.acquisition==='LOCKED'&&c.deploymentEnabled===true&&c.basePower===3000000&&c.packAcquisitionEnabled===false&&c.skills.length===7;
-      const zeroReady=c.code==='V-976'&&(blueLegend||(c.releaseStatus==='BATTLE_RELEASED_ACQUISITION_LOCKED'&&c.acquisition==='LOCKED'&&c.packAcquisitionEnabled===false))&&c.artOnly===false&&c.deploymentEnabled===true&&c.basePower===3000000&&c.skills.length===5;
+      const zeroReady=c.code==='V-976'&&(blueLegend||(c.releaseStatus==='BATTLE_RELEASED_ACQUISITION_LOCKED'&&c.acquisition==='LOCKED'&&c.packAcquisitionEnabled===false))&&c.artOnly===false&&c.deploymentEnabled===true&&c.basePower===3000000&&c.skills.length===ZERO_ART.skills.length&&c.skills.every((skill,i)=>skill.id===ZERO_ART.skills[i].id);
       if(!blueReady&&!jinJokroReady&&!heliosKingReady&&!hakuyaReady&&!heukmuReady&&!kamishiroReady&&!cardguReady&&!blackcrownReady&&!awakenedOmegaReady&&!namsudaengReady&&!revanReady&&!eunseolReady&&!generalJokReady&&!bloodmoonReady&&!jokroReady&&!primeReady&&!zeroReady&&!leonelReady&&!shiranuiReady&&(c.artOnly!==true||(!battleReady&&(c.basePower!==null||c.skills.length||c.releaseStatus!=='LIMITED_PREVIEW'))||c.acquisitionEnabled!==false||typeof c.deploymentEnabled!=='boolean'))throw Error('리미티드 획득 정보는 조회만 가능합니다.');
       if(c.acquisitionEnabled!==false&&!blueReady&&!blackcrownReady&&!shiranuiReady&&!awakenedOmegaReady)throw Error('리미티드 획득은 잠금 상태입니다.');
       asset(c.frame);if(!c.artWindow||['left','top','width','height'].some(k=>!Number.isFinite(c.artWindow[k])||c.artWindow[k]<0||c.artWindow[k]>100))throw Error('리미티드 프레임 배치를 확인하세요.');
     }else if(c.artOnly===true&&(c.basePower!==null||c.battleSprite!==null||c.skills.length||c.releaseStatus!=='ART_RELEASED'))throw Error('원화 공개 용병의 전투 정보는 아직 제공되지 않습니다.');
     const deployed=c.deployedCombat;
     if(deployed&&(!['V-996','V-999','V-988'].includes(c.code)||c.deploymentEnabled!==true||!Number.isSafeInteger(deployed.basePower)||deployed.basePower<=0||deployed.skills?.length!==1||deployed.skills[0]?.id!=='MS-'+c.code.slice(2)))throw Error('편성 전투 정보를 확인하세요.');
-    for(const s of [...c.skills,...(deployed?.skills||[])])if(!/^MS-\d{3}$/.test(s.id)||!s.name||!s.balance||typeof s.ready!=='boolean')throw Error('스킬 설정을 확인하세요.');
+    for(const s of [...c.skills,...(deployed?.skills||[])])if(!/^MS-\d{3,4}$/.test(s.id)||!s.name||!s.balance||typeof s.ready!=='boolean')throw Error('스킬 설정을 확인하세요.');
   }
   return forDisplay?{...data,cards:data.cards.map(c=>c.deployedCombat?{...c,basePower:c.deployedCombat.basePower,skills:c.deployedCombat.skills}:c)}:data;
 }

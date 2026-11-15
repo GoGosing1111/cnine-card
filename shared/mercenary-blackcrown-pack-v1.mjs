@@ -137,7 +137,7 @@ export function pickBlackcrownBatch(state,count,random,{firstLimitedCode=null,po
   if(first.id==='SSS'){
    const second=forced?{id:firstLimitedCode}:choose([...pool.map(({code})=>({id:code,rate:settings.cardRatesPpm[code]})),{id:'STANDARD_SSS',rate:settings.normalSssRatePpm}]);
    if(second.id!=='STANDARD_SSS'){
-    const unlimited=blackcrownUnlimitedDraw(second.id);
+    const unlimited=blackcrownUnlimitedDraw(second.id,pool);
     if(unlimited){draws.push(unlimited);continue;}
     const card=pool.find(c=>c.code===second.id),stock=state.stock.find(s=>s.code===card.code);
     if(!stock?.prepared)throw Object.assign(Error('리미티드 발행 수량을 확인해야 합니다.'),{code:'MERCENARY_BLACKCROWN_NOT_READY',terminal:true,status:409});

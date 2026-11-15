@@ -53,7 +53,7 @@ test('animation holds the session lock and creates no pending purchase or POST u
 test('rate/schedule operation rolls back failure and rehearsal, preserves stock, and replays with SELECT only',async t=>{
  const f=await blackcrownFixture(t);await f.pg.exec("ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'OWNER'");
  await f.setting(BLACKCROWN_PACK_KEY,{revision:5,settings:prepared().settings});await f.setting(BLOODMOON_PACK_KEY,reference.bloodmoon);
- const db={query:(sql,args)=>f.pg.query(sql,args)},before=await inspect(db),options={expectedPackHash:before.packHash,expectedReferenceHash:before.referenceHash};
+ const db={query:(sql,args)=>sql==='SELECT CURRENT_TIMESTAMP AS now'?Promise.resolve({rows:[{now:'2026-10-30T00:00:00Z'}]}):f.pg.query(sql,args)},before=await inspect(db),options={expectedPackHash:before.packHash,expectedReferenceHash:before.referenceHash};
  await assert.rejects(apply(db,{...options,failAfterWrite:true}),/INJECTED_FAILURE/);assert.deepEqual(await inspect(db),before);
  assert.equal((await apply(db,{...options,dryRun:true})).status,'DRY_RUN_PASSED');assert.deepEqual(await inspect(db),before);
  const result=await apply(db,options);assert.equal(result.after.pack.settings.mode,'OFF');assert.equal(result.after.pack.openingSchedule.opensAt,OPENS_AT);assert.equal(result.after.stockHash,before.stockHash);

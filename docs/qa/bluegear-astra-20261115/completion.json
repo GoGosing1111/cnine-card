@@ -1,0 +1,87 @@
+{
+  "status": "READY_FOR_DEPLOYMENT",
+  "updatedAt": "2026-11-15T06:34:44.960Z",
+  "request": "전투력 125만, 블루기어팩 라자크 확률 그대로 새 용병으로 대체, 새 용병 이름 결정, 라자크 상위 밸런스",
+  "identity": {
+    "code": "V-059",
+    "name": "아스트라",
+    "rank": "SSS",
+    "edition": "STANDARD",
+    "power": 1250000,
+    "stockPolicy": "UNLIMITED"
+  },
+  "pack": {
+    "replacedCode": "V-058",
+    "ratePpm": 400,
+    "effectiveSinglePercent": "0.000032",
+    "opensAt": "2026-11-19T15:00:00.000Z",
+    "prices": {
+      "single": 2250000000,
+      "ten": 22500000000
+    },
+    "existingRazakOwnershipChanged": false,
+    "otherPacksChanged": false
+  },
+  "skills": {
+    "count": 3,
+    "pve": 3,
+    "pvp": 2,
+    "ids": [
+      "MS-1101",
+      "MS-1102",
+      "MS-1103"
+    ],
+    "sharedCooldown": 3,
+    "energyCost": 25
+  },
+  "balance": {
+    "report": "balance.json",
+    "matchedTeamBattles": 832,
+    "wins": 607,
+    "winRate": 0.7295673076923077
+  },
+  "art": {
+    "manifest": "assets/ui/project-v/mercenaries/astra-20261115/manifest.json",
+    "authoring": "preview/v35-bluegear-summoner-20261115/",
+    "nativeSpine": "bluegear-9151c6390831.spine",
+    "fx": "ImageGen v3 authored raster sheets",
+    "persistentSummon": "Forward-facing crawler in front of the mercenary",
+    "priorNativeAndImagegenQaPreserved": true
+  },
+  "performance": {
+    "conditions": "Windows headless Chrome and WebKit iPhone 13 emulation; not physical mobile measurements. Local canonical renderer and real shop entry with isolated API fixtures.",
+    "files": [
+      "battle-desktop.json",
+      "battle-ios.json",
+      "shop-before-desktop.json",
+      "shop-local-desktop.json",
+      "shop-local-ios.json"
+    ],
+    "finding": "WebKit emulation has long frames already during idle, with additional authored effect cost. No device FPS claim. Guarded post-destroy callback, shared single timeline, mobile WebP page retirement, and zero exit actors/loaders/timelines verified.",
+    "comparison": "Shop old/new loading samples include network and cache variance; no speedup claim."
+  },
+  "runtime": {
+    "consumers": 11,
+    "spineAutoUpdate": false,
+    "damageApplicationsPerTarget": 1,
+    "pagesFileCount": 20000
+  },
+  "operationalAccountWrites": 0,
+  "relatedFixes": [
+    "Codex accepts the current six Zero skills including four-digit awakening IDs.",
+    "Historical opening regression uses a fixed pre-opening database clock.",
+    "Eight Markdown documents packed for delivery, retaining original URLs and all source files."
+  ],
+  "evidence": [
+    "preflight.json",
+    "registration-plan.json",
+    "balance.json",
+    "battle-desktop.json",
+    "battle-ios.json",
+    "shop-before-desktop.json",
+    "shop-local-desktop.json",
+    "shop-local-ios.json",
+    "packed-notes.json",
+    "deployment-plan.json"
+  ]
+}

@@ -14,7 +14,7 @@ import {createBlackcrownBulkRandom,blackcrownBulkAcquisitionStatements} from './
 import {blackcrownOnceCode,blackcrownOnceStatements} from './_mercenary_blackcrown_once.js';
 
 
-const ordinaryAllowed=(state,r)=>state.normalCards.some(c=>c.code===r.mercenaryCode&&c.rank===r.rank&&c.weight>0)||Boolean(blackcrownUnlimitedDraw(r.mercenaryCode)&&r.rank==='SSS'&&r.edition==='STANDARD'&&state.settings.cardRatesPpm[r.mercenaryCode]>0);
+const ordinaryAllowed=(state,r,pool)=>state.normalCards.some(c=>c.code===r.mercenaryCode&&c.rank===r.rank&&c.weight>0)||Boolean(blackcrownUnlimitedDraw(r.mercenaryCode,pool)&&r.rank==='SSS'&&r.edition==='STANDARD'&&state.settings.cardRatesPpm[r.mercenaryCode]>0);
 const terminal=(code,message)=>Object.assign(jointError('MERCENARY_BLACKCROWN_'+code,message,409),{terminal:true});
 // Only uncommitted, unavailable limited slots may change. Save their ordinary
 // SSS replacement before charging so retries (including old pending plans) keep it.
@@ -92,9 +92,9 @@ export function createBlackcrownPackService({readState,releaseEnabled=BLACKCROWN
      const code=bloodmoonDrawCode(r);
      if((r.kind==='ITEM'||r.itemCode||r.stockCode)&&!isPrimeMaterialDraw(r))throw terminal('MATERIAL','재료 카드 지급 설정을 확인하세요.');
      if(isLimited(code)){if(!grouped.has(code))grouped.set(code,[]);grouped.get(code).push(i);}
-     else if(r.mercenaryCode&&!ordinaryAllowed(state,r))throw terminal('NORMAL_POOL','일반 용병 획득 설정이 변경됐습니다.');
+     else if(r.mercenaryCode&&!ordinaryAllowed(state,r,drawPolicy.pool))throw terminal('NORMAL_POOL','일반 용병 획득 설정이 변경됐습니다.');
     });
-    for(const r of plan.normalDraws||[])if(!ordinaryAllowed(state,r))throw terminal('NORMAL_POOL','일반 용병 획득 설정이 변경됐습니다.');
+    for(const r of plan.normalDraws||[])if(!ordinaryAllowed(state,r,drawPolicy.pool))throw terminal('NORMAL_POOL','일반 용병 획득 설정이 변경됐습니다.');
     const list=[...transactionStatements(DB,user,plan),...blackcrownOnceStatements(DB,user.id,requestId,plan)];
     for(const [index,snapshot] of (plan.policySnapshots||[]).entries()){
      if(DB.dialect==='postgres')list.push(p('SELECT key FROM app_meta WHERE key=? FOR SHARE',snapshot.key));

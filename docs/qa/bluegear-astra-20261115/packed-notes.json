@@ -1,0 +1,58 @@
+[
+  {
+    "path": "docs/infinite-tower-limit-push-v2.md",
+    "sha256": "5abdc71371eca8d37cc61c5fb8dbc995914b52d385ec3980d24a55c593f8a43c",
+    "bytes": 13556,
+    "preservedInGit": true,
+    "servedAtOriginalUrl": true
+  },
+  {
+    "path": "docs/magic-card-season-2-design-draft.md",
+    "sha256": "0f843f378b14bfde620181664518de71faabd9ec9bba293433fa800e8b4ed2a2",
+    "bytes": 12457,
+    "preservedInGit": true,
+    "servedAtOriginalUrl": true
+  },
+  {
+    "path": "docs/pack-auto-dex-20260924.md",
+    "sha256": "3224e9fad0e5cee17a8fe0c282be7e0130d672895e009e3234409c129d6482e2",
+    "bytes": 8880,
+    "preservedInGit": true,
+    "servedAtOriginalUrl": true
+  },
+  {
+    "path": "docs/perf-neon-pipeline-20260920.md",
+    "sha256": "3ceb3934af7f05b607eaea49298e5b9a003778fb36a284b573fb58df30c1f97f",
+    "bytes": 16425,
+    "preservedInGit": true,
+    "servedAtOriginalUrl": true
+  },
+  {
+    "path": "docs/performance-optimization-v2045.md",
+    "sha256": "dde37c4a03147bd6d5578f06835a678c4346d74e88f8628c6f823f75dd54df43",
+    "bytes": 5841,
+    "preservedInGit": true,
+    "servedAtOriginalUrl": true
+  },
+  {
+    "path": "docs/pet-bazzi-bongsoon-live-20261016.md",
+    "sha256": "afa8b6df080ddb2eb754b78da964c0136c5d06e3fb22cb7cd93d5852fa580b7e",
+    "bytes": 4669,
+    "preservedInGit": true,
+    "servedAtOriginalUrl": true
+  },
+  {
+    "path": "docs/pet-buff-resources-20261003.md",
+    "sha256": "41a0bf22a9fd97ec36f3a6349dfe2a9bee4e60afeeb6c5c7f2630727a43aed32",
+    "bytes": 5381,
+    "preservedInGit": true,
+    "servedAtOriginalUrl": true
+  },
+  {
+    "path": "docs/pet-gusudaeng-settings-20261002.md",
+    "sha256": "4b88893a181641d027efea2a3b887ee8d8038ca0cdb3da4f8d1fd2d3efb05e75",
+    "bytes": 3560,
+    "preservedInGit": true,
+    "servedAtOriginalUrl": true
+  }
+]

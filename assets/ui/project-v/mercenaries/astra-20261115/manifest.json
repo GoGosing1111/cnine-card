@@ -1,0 +1,147 @@
+{
+  "name": "아스트라",
+  "code": "V-059",
+  "source": "preview/v35-bluegear-summoner-20261115/completion.json",
+  "native": {
+    "editor": "4.3.26 Professional",
+    "native": "bluegear-9151c6390831.spine",
+    "nativeSha256": "af58474b7c6e5212cca9ca55b8869b2e1c7c2def1bcce015a322950aee3b1051",
+    "inputSha256": "9151c6390831715458df64bca6075b514cc8a3ea0ec08567715046d854418af0",
+    "runtimeDir": "runtime-9151c6390831",
+    "atlas": "bluegear-9151c6390831.atlas",
+    "skeletonJson": "bluegear.json",
+    "skeletonCount": 1,
+    "save": true,
+    "reopen": true,
+    "export": true,
+    "animations": [
+      "attack_basic",
+      "death",
+      "hit",
+      "idle",
+      "move",
+      "skill_drone",
+      "skill_fortress",
+      "skill_siege"
+    ]
+  },
+  "sourceApproval": "User requested live replacement on 2026-11-15 after ImageGen v3 preview",
+  "bodyPixels": 500,
+  "guardSize": [
+    444,
+    666
+  ],
+  "footAnchor": {
+    "x": 0.4345703125,
+    "y": 0.9752604166666666
+  },
+  "fullBodyHeight": 399.6,
+  "fxManifest": "assets-v3.json",
+  "records": [
+    {
+      "file": "art-320.webp",
+      "bytes": 30024,
+      "sha256": "02d9f0924a140789592bb298f3e2c30772f862c7a951445927da4f20412a5598"
+    },
+    {
+      "file": "art-640.webp",
+      "bytes": 96498,
+      "sha256": "3d6f59cd7a07cb8458c9499ff0075f6e5558256062c45302545e3303d850bc62"
+    },
+    {
+      "file": "assets-v3.json",
+      "bytes": 26382,
+      "sha256": "8e85666de6a7c573eb1937b7130fd7b646ce48543a20fb74b0102274f9c1dcac"
+    },
+    {
+      "file": "bg3-bullet.webp",
+      "bytes": 87358,
+      "sha256": "cc4bb93732a130f6c95c5b50a66e1bf76d84f692a44eb30939ca0f078dbf9450"
+    },
+    {
+      "file": "bg3-cast.webp",
+      "bytes": 276798,
+      "sha256": "33b9eb8483afa8568b993159c1e753ad5ece2e0812ce011afffa152261cb390f"
+    },
+    {
+      "file": "bg3-fortress.webp",
+      "bytes": 265344,
+      "sha256": "95074b0cff77e2e5cd6e0e1cb7406be4ca0591e6dc5bdd8df3369f106dd9b2fa"
+    },
+    {
+      "file": "bg3-impact.webp",
+      "bytes": 208246,
+      "sha256": "fe8909ef35c26d4c0ca3ea8f99cc1b613564e9608b0d901555b56fd8d06425b2"
+    },
+    {
+      "file": "bg3-muzzle.webp",
+      "bytes": 187972,
+      "sha256": "b10afb482ec1c3eb3126117d06dff01f88f15da874fb4c336852bb3302f33ca7"
+    },
+    {
+      "file": "bg3-rail.webp",
+      "bytes": 166826,
+      "sha256": "4f35fe52add783c7ad7299e3e79f18ce462bb74a06142fed78e8cfab9f0711ae"
+    },
+    {
+      "file": "bg3-shell.webp",
+      "bytes": 99952,
+      "sha256": "45ffaeb8a1043f9972b2ba860fffce24f1522278b063612e9db6425e280378ae"
+    },
+    {
+      "file": "bg3-siege.webp",
+      "bytes": 208918,
+      "sha256": "7280347c680485b366c6723e22f49c02616b9c1b13447274f6a84ed4c56ba302"
+    },
+    {
+      "file": "bluegear-9151c6390831.webp",
+      "bytes": 978250,
+      "sha256": "162a2f28c1fdad8c930cc8466472acbb1d0f93dd857213e2950341b9667d07e6"
+    },
+    {
+      "file": "bluegear-9151c6390831_2.webp",
+      "bytes": 519440,
+      "sha256": "c4288db5815ce56075e50c84af66a362d488ee7a16ce2e5252065edfe67a005b"
+    },
+    {
+      "file": "bluegear.atlas",
+      "bytes": 1082,
+      "sha256": "87e380e2f51324e97d71a99f2e11f6550e065388dc90700fd7593a1dfd9ef25c"
+    },
+    {
+      "file": "bluegear.json",
+      "bytes": 10296,
+      "sha256": "2075b99866169d99f8e0523f788bcc244736652bb15e4609008cfae0524f9ed3"
+    },
+    {
+      "file": "crawler.webp",
+      "bytes": 230120,
+      "sha256": "fc01824d41cb2d05bdf5914e2c8ad94678d738ef8c50d78ab671c88e78f08a83"
+    },
+    {
+      "file": "drone.webp",
+      "bytes": 211764,
+      "sha256": "f10d46d103ae6b14616a9e3f5251650aac365e1488263fad86a0622e1a2590b5"
+    },
+    {
+      "file": "fortress.webp",
+      "bytes": 294924,
+      "sha256": "311069c90e184791b86986285195f740a98d0b1a35a3e0b93f5a56c4c6870494"
+    },
+    {
+      "file": "guard.webp",
+      "bytes": 81040,
+      "sha256": "587f7e219c193c13ddbb2594681034c9297103392adea01443295fa9d503fba0"
+    },
+    {
+      "file": "pose-registration.json",
+      "bytes": 11223,
+      "sha256": "9813851cccd4d6ffe4ccbdfc8a3de0edcc84a7f770d9701527352b46f54ed2a9"
+    },
+    {
+      "file": "source-art.png",
+      "bytes": 2551736,
+      "sha256": "b53cb2373a3890f2ce4c48172ede086a4361ad2175d29152013caf7fa17f0202"
+    }
+  ]
+}

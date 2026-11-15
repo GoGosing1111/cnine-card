@@ -1,0 +1,19 @@
+{
+  "base": "db6dc19827bb80ca32ab48d5ff2b4ed777253835",
+  "reason": "User-authorized Astra SSS 1.25m replaces only the Blue Gear Razak slot at identical odds; preserves Razak ownership and other pools. Adds approved native Spine and ImageGen resources, canonical combat, shared pack accounting, UI and cache delivery. Scoped acquisition, odds, battle, legacy pool, memory and loading checks.",
+  "tests": [
+    "tests/astra-bluegear-20261115.test.mjs",
+    "tests/blue-gear-pack-20261113.test.mjs",
+    "tests/razak-balance-20261026.test.mjs",
+    "tests/razak-priority-matchups-20261026.test.mjs",
+    "tests/blackcrown-rates-opening-20261030.test.mjs",
+    "tests/mercenary-bloodmoon-pack-20261023.test.mjs",
+    "tests/mercenary-bloodmoon-bulk-20261025.test.mjs",
+    "tests/ios-safari-battle-memory-20261031.test.mjs",
+    "tests/iphone-combat-memory-20261114.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

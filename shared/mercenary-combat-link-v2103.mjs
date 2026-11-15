@@ -1,3 +1,4 @@
+import {isAstra,ASTRA_CODE,ASTRA_COMBAT,ASTRA_DESCRIPTION} from './mercenary-astra-v1.mjs';
 import {isJinJokro,JIN_JOKRO_COMBAT,JIN_JOKRO_PVP,JIN_JOKRO_GENERAL_JOK_PRIORITY} from './mercenary-jin-jokro-v1.mjs';
 import {isHeliosKing,HELIOS_KING_COMBAT,HELIOS_KING_PVP,HELIOS_KING_GENERAL_JOK_PRIORITY} from './mercenary-helios-king-v1.mjs';
 import {isHakuya,HAKUYA_COMBAT} from './mercenary-hakuya-v1.mjs';
@@ -45,6 +46,7 @@ export const MERCENARY_COMBAT_LINK=Object.freeze({
 
 export function mercenaryCombatLinkText(rank,position,actor=null){
  if(blueGearProfile(actor?.code||actor?.cardId))return BLUE_GEAR_DESCRIPTION;
+ if((actor?.code||actor?.cardId)===ASTRA_CODE)return ASTRA_DESCRIPTION;
  if((actor?.code||actor?.cardId)===RAZAK_CODE)return RAZAK_COMBAT_DESCRIPTION;
  const row=isRazak(actor)?RAZAK_COMBAT.link:isImperialArcher(actor)?IMPERIAL_ARCHER_COMBAT.link:MERCENARY_COMBAT_LINK.ranks[rank];if(!row)return '';
  const frontText=position==='FRONT'?` 전열은 평균 최대 체력의 ${MERCENARY_COMBAT_LINK.frontRowShieldBonusPercent}% 방벽을 추가하며, PVP에서는 ${MERCENARY_COMBAT_LINK.pvpFrontRowShieldBonusByRank[rank]??MERCENARY_COMBAT_LINK.frontRowShieldBonusPercent}%를 추가합니다.`:'';
@@ -76,7 +78,7 @@ export function mercenaryPvpTierGuard(actor,teams){
  // actual attack/HP/shield/cap advantage at entry, using catalog identities.
  // A mixed opposing lineup containing any other mercenary keeps the baseline;
  // an SS companion must never unlock this guard against an SSS limited fighter.
- const razakPriority=(isRazak(actor)||isBlueGear(actor))&&opponents.every(other=>!isBlueGear(other)&&(ssLimitedProfile(other)||isImperialArcher(other)));
+ const razakPriority=(isAstra(actor)||isRazak(actor)||isBlueGear(actor))&&opponents.every(other=>!isBlueGear(other)&&(ssLimitedProfile(other)||isImperialArcher(other)));
  const primeZeroPriority=primeZeroGeneralJokOpponents(actor,teams).length>0;
  return Math.max(rankGrowthGuard,1+gap*MERCENARY_COMBAT_LINK.pvpTierGuardPerStep*retained,razakPriority?RAZAK_COMBAT.pvpPriorityTierGuard:1,primeZeroPriority?ZERO_PRIME_GENERAL_JOK_PRIORITY.tierGuard:1);
 }
@@ -96,7 +98,7 @@ export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
   const averageAttack=cards.reduce((sum,c)=>sum+c.attack,0)/cards.length,averageHp=cards.reduce((sum,c)=>sum+c.maxHp,0)/cards.length;
   if(!Number.isFinite(averageAttack)||!Number.isFinite(averageHp)||averageAttack<=0||averageHp<=0)continue;
   for(const m of team.filter(c=>c.isMercenary&&c.statMode==='RANK_FIXED')){
-   const rule=isRazak(m)?RAZAK_COMBAT.link:isImperialArcher(m)?IMPERIAL_ARCHER_COMBAT.link:isAwakenedOmega(m)?AWAKENED_OMEGA_COMBAT.link:isHakuya(m)?HAKUYA_COMBAT.link:isRevan(m)?REVAN_COMBAT.link:isEunseol(m)?EUNSEOL_COMBAT.link:isCardgu(m)?CARDGU_COMBAT.link:isKamishiro(m)?KAMISHIRO_COMBAT.link:isJinJokro(m)?JIN_JOKRO_COMBAT.link:isHeliosKing(m)?HELIOS_KING_COMBAT.link:isHeukmu(m)?HEUKMU_COMBAT.link:isGeneralJok(m)?GENERAL_JOK_COMBAT.link:isPrime(m)?PRIME_COMBAT.link:isZero(m)?ZERO_COMBAT.link:isLeonel(m)?LEONEL_COMBAT.link:isJokro(m)?JOKRO_COMBAT.link:isValter(m)?VALTER_COMBAT.link:isHelios(m)?HELIOS_COMBAT.link:isJinmu(m)?JINMU_COMBAT.link:isKairon(m)?KAIRON_COMBAT.link:isShiranui(m)?SHIRANUI_COMBAT.link:ssLimitedProfile(m)?.link||MERCENARY_COMBAT_LINK.ranks[m.rank];if(!rule||m.alive===false||m.hp<=0||m.mercenaryLink?.version===MERCENARY_COMBAT_LINK.version)continue;
+   const rule=isAstra(m)?ASTRA_COMBAT.link:isRazak(m)?RAZAK_COMBAT.link:isImperialArcher(m)?IMPERIAL_ARCHER_COMBAT.link:isAwakenedOmega(m)?AWAKENED_OMEGA_COMBAT.link:isHakuya(m)?HAKUYA_COMBAT.link:isRevan(m)?REVAN_COMBAT.link:isEunseol(m)?EUNSEOL_COMBAT.link:isCardgu(m)?CARDGU_COMBAT.link:isKamishiro(m)?KAMISHIRO_COMBAT.link:isJinJokro(m)?JIN_JOKRO_COMBAT.link:isHeliosKing(m)?HELIOS_KING_COMBAT.link:isHeukmu(m)?HEUKMU_COMBAT.link:isGeneralJok(m)?GENERAL_JOK_COMBAT.link:isPrime(m)?PRIME_COMBAT.link:isZero(m)?ZERO_COMBAT.link:isLeonel(m)?LEONEL_COMBAT.link:isJokro(m)?JOKRO_COMBAT.link:isValter(m)?VALTER_COMBAT.link:isHelios(m)?HELIOS_COMBAT.link:isJinmu(m)?JINMU_COMBAT.link:isKairon(m)?KAIRON_COMBAT.link:isShiranui(m)?SHIRANUI_COMBAT.link:ssLimitedProfile(m)?.link||MERCENARY_COMBAT_LINK.ranks[m.rank];if(!rule||m.alive===false||m.hp<=0||m.mercenaryLink?.version===MERCENARY_COMBAT_LINK.version)continue;
    const healthRatio=Math.max(0,Math.min(1,m.hp/m.maxHp)),tierGuard=mercenaryPvpTierGuard(m,teams),tierOffense=1+(tierGuard-1)/MERCENARY_COMBAT_LINK.pvpTierGuardPerStep;
    const matchupScale=ssLimitedPvpLinkScale(m,teams);
    let attackFloor=Math.round(averageAttack*rule.attackPercent/100*tierOffense*matchupScale);

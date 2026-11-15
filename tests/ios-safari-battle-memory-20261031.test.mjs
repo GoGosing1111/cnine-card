@@ -38,6 +38,11 @@ test('partial Spine loads release parser-owned pages and allow the same actor to
  f.fail(false);const retry=f.context.acquire();await retry.ready;assert(f.values.has('hero.atlas'));await retry.release();
 });
 
+test('Astra hashed WebP pages retire explicitly instead of guessing nonexistent PNG pages',async()=>{
+ const f=spineFixture();vm.runInNewContext('this.custom=createBattleSpineLease("astra.json","astra.atlas",2,"astra-parsed",{pagePaths:["astra-hash.webp","astra-hash_2.webp"]});',f.context);
+ const lease=f.context.custom();await lease.ready;await lease.release();assert.deepEqual(f.sources,['astra-hash.webp','astra-hash_2.webp']);
+});
+
 test('iPhone and desktop-mode iPad are bounded without relying on deviceMemory or viewport',()=>{
  for(const device of [{userAgent:'Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X)'},{platform:'MacIntel',maxTouchPoints:5}]){
   const p=battleDevicePolicy({...device,pixelRatio:3});assert.equal(p.ios,true);assert.equal(p.resolution,1.25);assert.equal(p.imageConcurrency,2);assert.equal(p.maxFPS,45);

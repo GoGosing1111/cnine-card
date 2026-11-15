@@ -1,10 +1,20 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import fs from 'node:fs';import vm from 'node:vm';
 import {bloodmoonCollectionMarkup,bloodmoonRoomMarkup,bloodmoonResultsMarkup} from '../js/mercenary-bloodmoon-presentation-v2.mjs';
 import {bloodmoonBatchCinematics} from '../js/mercenary-bloodmoon-pack-live.mjs';
 import {BLOODMOON_PACK} from '../shared/mercenary-bloodmoon-pack-v1.mjs';
 import {BLUE_GEAR_PACK,BLUE_GEAR_DRAW_POLICY} from '../shared/mercenary-blue-gear-pack-v1.mjs';
 import {blackcrownReceiptResults} from '../shared/mercenary-blackcrown-pack-v1.mjs';
+
+test('both shipped shop shells render Astra from the Blue Gear roster and retain Razak in Bloodmoon',()=>{
+ for(const file of ['js/app.js','onestore/js/app.js']){
+  const source=fs.readFileSync(new URL('../'+file,import.meta.url),'utf8'),start=source.indexOf('function bloodmoonPackHero(pack) {'),end=source.indexOf('\n}',start)+2,context={escapeHtml:String,loadBlueGearShopStyle(){},bloodmoonShopStockText:c=>c.stockPolicy==='UNLIMITED'?'발행 한도 없음':'한정',packResponsiveImage:()=>''};
+  vm.runInNewContext(source.slice(start,end)+';this.render=bloodmoonPackHero;',context);
+  const markup=context.render({...BLUE_GEAR_PACK,previewCards:BLUE_GEAR_DRAW_POLICY.pool});assert.match(markup,/아스트라/);assert.match(markup,/data-code="V-059"/);assert.doesNotMatch(markup,/라자크|V-058/);
+  const legacy=context.render({...BLOODMOON_PACK,previewCards:[{code:'V-058',name:'라자크',rank:'SSS',stockPolicy:'UNLIMITED',thumbnailArt:'razak.webp'}]});assert.match(legacy,/라자크/);assert.doesNotMatch(legacy,/아스트라/);
+ }
+});
 
 test('the two pack skins expose the same ordered opening, confirmation, recovery and film controls',()=>{
  const actions=html=>[...html.matchAll(/<(?:button|input|select)\b[^>]*?\b(data-bwp-[\w-]+)(?:="([^"]*)")?/g)].map(match=>[match[1],match[2]]);

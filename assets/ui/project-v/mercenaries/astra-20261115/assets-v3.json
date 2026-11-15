@@ -1,0 +1,1344 @@
+{
+  "version": 3,
+  "artSource": "Built-in ImageGen, seven authored raster sheets; no procedural VFX artwork",
+  "assets": {
+    "drone": {
+      "id": "drone",
+      "tool": "ImageGen illustration + Spine 4.3.26",
+      "version": 2,
+      "fps": 12,
+      "frameCount": 4,
+      "pivot": [
+        145.70464135021098,
+        112.75510204081633
+      ],
+      "sourceSize": [
+        512,
+        512
+      ],
+      "muzzleFrames": [
+        [
+          [
+            328.4987387635296,
+            100.35938164328232
+          ]
+        ],
+        [
+          [
+            348.7898734177215,
+            98.2555006377551
+          ]
+        ],
+        [
+          [
+            299.64231333700235,
+            100.81010841836735
+          ]
+        ],
+        [
+          [
+            348.1890295358649,
+            99.45792809311224
+          ]
+        ]
+      ],
+      "poseNames": [
+        "arrival",
+        "ready",
+        "recoil",
+        "recovery"
+      ],
+      "source": "mechs-v2/source/drone.png",
+      "native": "native/drone-a6ce5639d6e3.spine",
+      "cropAudit": [
+        {
+          "pose": "arrival",
+          "rect": {
+            "left": 0,
+            "top": 0,
+            "width": 736,
+            "height": 512
+          },
+          "scale": [
+            0.6005434782608695,
+            0.599609375
+          ],
+          "anchor": [
+            300,
+            259
+          ],
+          "left": 35,
+          "top": 101,
+          "clippedBoundaryPixels": 0
+        },
+        {
+          "pose": "ready",
+          "rect": {
+            "left": 736,
+            "top": 0,
+            "width": 800,
+            "height": 512
+          },
+          "scale": [
+            0.6,
+            0.599609375
+          ],
+          "anchor": [
+            1055,
+            260
+          ],
+          "left": 24,
+          "top": 100,
+          "clippedBoundaryPixels": 0
+        },
+        {
+          "pose": "recoil",
+          "rect": {
+            "left": 0,
+            "top": 512,
+            "width": 736,
+            "height": 512
+          },
+          "scale": [
+            0.6005434782608695,
+            0.599609375
+          ],
+          "anchor": [
+            325,
+            771
+          ],
+          "left": 20,
+          "top": 101,
+          "clippedBoundaryPixels": 0
+        },
+        {
+          "pose": "recovery",
+          "rect": {
+            "left": 736,
+            "top": 512,
+            "width": 800,
+            "height": 512
+          },
+          "scale": [
+            0.6,
+            0.599609375
+          ],
+          "anchor": [
+            1058,
+            771
+          ],
+          "left": 22,
+          "top": 101,
+          "clippedBoundaryPixels": 0
+        }
+      ],
+      "blend": "normal",
+      "atlas": "drone.webp",
+      "atlasSize": [
+        1800,
+        225
+      ],
+      "crop": {
+        "left": 21,
+        "top": 106,
+        "width": 474,
+        "height": 294
+      },
+      "rasterScale": [
+        0.7510548523206751,
+        0.7517006802721088
+      ],
+      "frames": [
+        {
+          "x": 2,
+          "y": 2,
+          "w": 356,
+          "h": 221,
+          "sourceFrame": 0
+        },
+        {
+          "x": 362,
+          "y": 2,
+          "w": 356,
+          "h": 221,
+          "sourceFrame": 1
+        },
+        {
+          "x": 722,
+          "y": 2,
+          "w": 356,
+          "h": 221,
+          "sourceFrame": 2
+        },
+        {
+          "x": 1082,
+          "y": 2,
+          "w": 356,
+          "h": 221,
+          "sourceFrame": 3
+        }
+      ],
+      "sourceStartFrame": 0,
+      "sourceStep": 1,
+      "bytes": 211764,
+      "sha256": "f10d46d103ae6b14616a9e3f5251650aac365e1488263fad86a0622e1a2590b5",
+      "kind": "mechanical"
+    },
+    "crawler": {
+      "id": "crawler",
+      "tool": "ImageGen illustration + Spine 4.3.26",
+      "version": 2,
+      "fps": 12,
+      "frameCount": 4,
+      "pivot": [
+        138.94849785407726,
+        152.73333333333332
+      ],
+      "sourceSize": [
+        512,
+        512
+      ],
+      "muzzleFrames": [
+        [
+          [
+            326.7085743608882,
+            76.36225818452381
+          ]
+        ],
+        [
+          [
+            342.78969957081546,
+            35.60877976190476
+          ]
+        ],
+        [
+          [
+            317.9895969397275,
+            42.37873883928572
+          ]
+        ],
+        [
+          [
+            336.48068669527896,
+            36.5139880952381
+          ]
+        ]
+      ],
+      "poseNames": [
+        "arrival",
+        "ready",
+        "recoil",
+        "recovery"
+      ],
+      "source": "mechs-v2/source/crawler.png",
+      "native": "native/crawler-a38bcf5e8554.spine",
+      "cropAudit": [
+        {
+          "pose": "arrival",
+          "rect": {
+            "left": 0,
+            "top": 0,
+            "width": 736,
+            "height": 512
+          },
+          "scale": [
+            0.6005434782608695,
+            0.599609375
+          ],
+          "anchor": [
+            300,
+            440
+          ],
+          "left": 20,
+          "top": 186,
+          "clippedBoundaryPixels": 0
+        },
+        {
+          "pose": "ready",
+          "rect": {
+            "left": 736,
+            "top": 0,
+            "width": 800,
+            "height": 512
+          },
+          "scale": [
+            0.6,
+            0.599609375
+          ],
+          "anchor": [
+            1057,
+            443
+          ],
+          "left": 7,
+          "top": 184,
+          "clippedBoundaryPixels": 0
+        },
+        {
+          "pose": "recoil",
+          "rect": {
+            "left": 0,
+            "top": 512,
+            "width": 736,
+            "height": 512
+          },
+          "scale": [
+            0.6005434782608695,
+            0.599609375
+          ],
+          "anchor": [
+            303,
+            945
+          ],
+          "left": 18,
+          "top": 190,
+          "clippedBoundaryPixels": 0
+        },
+        {
+          "pose": "recovery",
+          "rect": {
+            "left": 736,
+            "top": 512,
+            "width": 800,
+            "height": 512
+          },
+          "scale": [
+            0.6,
+            0.599609375
+          ],
+          "anchor": [
+            1062,
+            945
+          ],
+          "left": 4,
+          "top": 190,
+          "clippedBoundaryPixels": 0
+        }
+      ],
+      "blend": "normal",
+      "atlas": "crawler.webp",
+      "atlasSize": [
+        1770,
+        162
+      ],
+      "crop": {
+        "left": 15,
+        "top": 247,
+        "width": 466,
+        "height": 210
+      },
+      "rasterScale": [
+        0.7510729613733905,
+        0.7523809523809524
+      ],
+      "frames": [
+        {
+          "x": 2,
+          "y": 2,
+          "w": 350,
+          "h": 158,
+          "sourceFrame": 0
+        },
+        {
+          "x": 356,
+          "y": 2,
+          "w": 350,
+          "h": 158,
+          "sourceFrame": 1
+        },
+        {
+          "x": 710,
+          "y": 2,
+          "w": 350,
+          "h": 158,
+          "sourceFrame": 2
+        },
+        {
+          "x": 1064,
+          "y": 2,
+          "w": 350,
+          "h": 158,
+          "sourceFrame": 3
+        }
+      ],
+      "sourceStartFrame": 0,
+      "sourceStep": 1,
+      "bytes": 230120,
+      "sha256": "fc01824d41cb2d05bdf5914e2c8ad94678d738ef8c50d78ab671c88e78f08a83",
+      "kind": "mechanical"
+    },
+    "fortress": {
+      "id": "fortress",
+      "tool": "ImageGen illustration + Spine 4.3.26",
+      "version": 2,
+      "fps": 12,
+      "frameCount": 4,
+      "pivot": [
+        153.96995708154506,
+        186.72941176470587
+      ],
+      "sourceSize": [
+        512,
+        512
+      ],
+      "muzzleFrames": [
+        [
+          [
+            247.49690940473968,
+            83.51323529411765
+          ]
+        ],
+        [
+          [
+            334.557939914163,
+            54.05441176470588
+          ]
+        ],
+        [
+          [
+            279.94305724015675,
+            66.16323529411764
+          ]
+        ],
+        [
+          [
+            325.54506437768237,
+            56.675
+          ]
+        ]
+      ],
+      "poseNames": [
+        "arrival",
+        "ready",
+        "recoil",
+        "recovery"
+      ],
+      "source": "mechs-v2/source/fortress.png",
+      "native": "native/fortress-6971e5750d9e.spine",
+      "cropAudit": [
+        {
+          "pose": "arrival",
+          "rect": {
+            "left": 0,
+            "top": 0,
+            "width": 736,
+            "height": 512
+          },
+          "scale": [
+            0.5801630434782609,
+            0.580078125
+          ],
+          "anchor": [
+            303,
+            442
+          ],
+          "left": 44,
+          "top": 194,
+          "clippedBoundaryPixels": 0
+        },
+        {
+          "pose": "ready",
+          "rect": {
+            "left": 736,
+            "top": 0,
+            "width": 800,
+            "height": 512
+          },
+          "scale": [
+            0.58,
+            0.580078125
+          ],
+          "anchor": [
+            1090,
+            445
+          ],
+          "left": 15,
+          "top": 192,
+          "clippedBoundaryPixels": 0
+        },
+        {
+          "pose": "recoil",
+          "rect": {
+            "left": 0,
+            "top": 512,
+            "width": 736,
+            "height": 512
+          },
+          "scale": [
+            0.5801630434782609,
+            0.580078125
+          ],
+          "anchor": [
+            350,
+            955
+          ],
+          "left": 17,
+          "top": 193,
+          "clippedBoundaryPixels": 0
+        },
+        {
+          "pose": "recovery",
+          "rect": {
+            "left": 736,
+            "top": 512,
+            "width": 800,
+            "height": 512
+          },
+          "scale": [
+            0.58,
+            0.580078125
+          ],
+          "anchor": [
+            1110,
+            956
+          ],
+          "left": 3,
+          "top": 192,
+          "clippedBoundaryPixels": 0
+        }
+      ],
+      "blend": "normal",
+      "atlas": "fortress.webp",
+      "atlasSize": [
+        1770,
+        196
+      ],
+      "crop": {
+        "left": 15,
+        "top": 202,
+        "width": 466,
+        "height": 255
+      },
+      "rasterScale": [
+        0.7510729613733905,
+        0.7529411764705882
+      ],
+      "frames": [
+        {
+          "x": 2,
+          "y": 2,
+          "w": 350,
+          "h": 192,
+          "sourceFrame": 0
+        },
+        {
+          "x": 356,
+          "y": 2,
+          "w": 350,
+          "h": 192,
+          "sourceFrame": 1
+        },
+        {
+          "x": 710,
+          "y": 2,
+          "w": 350,
+          "h": 192,
+          "sourceFrame": 2
+        },
+        {
+          "x": 1064,
+          "y": 2,
+          "w": 350,
+          "h": 192,
+          "sourceFrame": 3
+        }
+      ],
+      "sourceStartFrame": 0,
+      "sourceStep": 1,
+      "bytes": 294924,
+      "sha256": "311069c90e184791b86986285195f740a98d0b1a35a3e0b93f5a56c4c6870494",
+      "kind": "mechanical"
+    },
+    "bg3-cast": {
+      "tool": "ImageGen",
+      "kind": "effect",
+      "source": "effects-imagegen-v3/source/mark.png",
+      "sourceSha256": "ea4bb3d8bcc534b4dcaebd0ba5a152d4df93e8ec6c82228c60320479c6b9f3e5",
+      "atlas": "bg3-cast.webp",
+      "atlasSize": [
+        1560,
+        260
+      ],
+      "sourceSize": [
+        512,
+        512
+      ],
+      "rasterScale": [
+        0.5,
+        0.5
+      ],
+      "pivot": [
+        128,
+        128
+      ],
+      "frames": [
+        {
+          "x": 2,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            128,
+            128
+          ],
+          "sourceFrame": 0
+        },
+        {
+          "x": 262,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            128,
+            128
+          ],
+          "sourceFrame": 1
+        },
+        {
+          "x": 522,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            128,
+            128
+          ],
+          "sourceFrame": 2
+        },
+        {
+          "x": 782,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            128,
+            128
+          ],
+          "sourceFrame": 3
+        },
+        {
+          "x": 1042,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            128,
+            128
+          ],
+          "sourceFrame": 4
+        },
+        {
+          "x": 1302,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            128,
+            128
+          ],
+          "sourceFrame": 5
+        }
+      ],
+      "fps": 10,
+      "blend": "normal",
+      "bytes": 276798,
+      "sha256": "33b9eb8483afa8568b993159c1e753ad5ece2e0812ce011afffa152261cb390f"
+    },
+    "bg3-bullet": {
+      "tool": "ImageGen",
+      "kind": "effect",
+      "source": "effects-imagegen-v3/source/projectiles.png",
+      "sourceSha256": "26100c9208c76bcd3484ea81c41409af611e7218453ebb18eba4f1e5b10abf03",
+      "atlas": "bg3-bullet.webp",
+      "atlasSize": [
+        780,
+        260
+      ],
+      "sourceSize": [
+        512,
+        512
+      ],
+      "rasterScale": [
+        0.5,
+        0.5
+      ],
+      "pivot": [
+        227,
+        127.5
+      ],
+      "frames": [
+        {
+          "x": 2,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            227,
+            127.5
+          ],
+          "sourceFrame": 0
+        },
+        {
+          "x": 262,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            231,
+            127.5
+          ],
+          "sourceFrame": 1
+        },
+        {
+          "x": 522,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            237.5,
+            127.5
+          ],
+          "sourceFrame": 2
+        }
+      ],
+      "fps": 14,
+      "blend": "normal",
+      "bytes": 87358,
+      "sha256": "cc4bb93732a130f6c95c5b50a66e1bf76d84f692a44eb30939ca0f078dbf9450"
+    },
+    "bg3-shell": {
+      "tool": "ImageGen",
+      "kind": "effect",
+      "source": "effects-imagegen-v3/source/projectiles.png",
+      "sourceSha256": "26100c9208c76bcd3484ea81c41409af611e7218453ebb18eba4f1e5b10abf03",
+      "atlas": "bg3-shell.webp",
+      "atlasSize": [
+        780,
+        260
+      ],
+      "sourceSize": [
+        512,
+        512
+      ],
+      "rasterScale": [
+        0.5,
+        0.5
+      ],
+      "pivot": [
+        237.5,
+        124.5
+      ],
+      "frames": [
+        {
+          "x": 2,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            237.5,
+            124.5
+          ],
+          "sourceFrame": 3
+        },
+        {
+          "x": 262,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            241,
+            125
+          ],
+          "sourceFrame": 4
+        },
+        {
+          "x": 522,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            237.5,
+            124.5
+          ],
+          "sourceFrame": 5
+        }
+      ],
+      "fps": 14,
+      "blend": "normal",
+      "bytes": 99952,
+      "sha256": "45ffaeb8a1043f9972b2ba860fffce24f1522278b063612e9db6425e280378ae"
+    },
+    "bg3-muzzle": {
+      "tool": "ImageGen",
+      "kind": "effect",
+      "source": "effects-imagegen-v3/source/muzzle.png",
+      "sourceSha256": "d8ad697e37ea459738d2700b754744f7d63fbdfb0172bf5683ff9ba4d680fdd0",
+      "atlas": "bg3-muzzle.webp",
+      "atlasSize": [
+        1560,
+        260
+      ],
+      "sourceSize": [
+        512,
+        512
+      ],
+      "rasterScale": [
+        0.5,
+        0.5
+      ],
+      "pivot": [
+        40.5,
+        131.5
+      ],
+      "frames": [
+        {
+          "x": 2,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            40.5,
+            131.5
+          ],
+          "sourceFrame": 0
+        },
+        {
+          "x": 262,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            34,
+            131.5
+          ],
+          "sourceFrame": 1
+        },
+        {
+          "x": 522,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            22,
+            131.5
+          ],
+          "sourceFrame": 2
+        },
+        {
+          "x": 782,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            28,
+            129.5
+          ],
+          "sourceFrame": 3
+        },
+        {
+          "x": 1042,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            34.5,
+            129
+          ],
+          "sourceFrame": 4
+        },
+        {
+          "x": 1302,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            22,
+            130
+          ],
+          "sourceFrame": 5
+        }
+      ],
+      "fps": 18,
+      "blend": "normal",
+      "bytes": 187972,
+      "sha256": "b10afb482ec1c3eb3126117d06dff01f88f15da874fb4c336852bb3302f33ca7"
+    },
+    "bg3-impact": {
+      "tool": "ImageGen",
+      "kind": "effect",
+      "source": "effects-imagegen-v3/source/impact.png",
+      "sourceSha256": "a4a39e9b04e433d99854ac341b833a968a9e76f9f82e5bc3479998ce5ce00739",
+      "atlas": "bg3-impact.webp",
+      "atlasSize": [
+        1560,
+        260
+      ],
+      "sourceSize": [
+        512,
+        512
+      ],
+      "rasterScale": [
+        0.5,
+        0.5
+      ],
+      "pivot": [
+        162.5,
+        127.5
+      ],
+      "frames": [
+        {
+          "x": 2,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            162.5,
+            127.5
+          ],
+          "sourceFrame": 0
+        },
+        {
+          "x": 262,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            157,
+            123.5
+          ],
+          "sourceFrame": 1
+        },
+        {
+          "x": 522,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            156,
+            123
+          ],
+          "sourceFrame": 2
+        },
+        {
+          "x": 782,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            164.5,
+            121
+          ],
+          "sourceFrame": 3
+        },
+        {
+          "x": 1042,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            143.5,
+            124
+          ],
+          "sourceFrame": 4
+        },
+        {
+          "x": 1302,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            157.5,
+            127.5
+          ],
+          "sourceFrame": 5
+        }
+      ],
+      "fps": 16,
+      "blend": "normal",
+      "bytes": 208246,
+      "sha256": "fe8909ef35c26d4c0ca3ea8f99cc1b613564e9608b0d901555b56fd8d06425b2"
+    },
+    "bg3-siege": {
+      "tool": "ImageGen",
+      "kind": "effect",
+      "source": "effects-imagegen-v3/source/siege.png",
+      "sourceSha256": "b3f4bdfc68d94c70ee02698cab6cdfbe6374087990ece20c9bd013e6fc5def4e",
+      "atlas": "bg3-siege.webp",
+      "atlasSize": [
+        1560,
+        260
+      ],
+      "sourceSize": [
+        512,
+        512
+      ],
+      "rasterScale": [
+        0.5,
+        0.5
+      ],
+      "pivot": [
+        133,
+        178
+      ],
+      "frames": [
+        {
+          "x": 2,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            133,
+            178
+          ],
+          "sourceFrame": 0
+        },
+        {
+          "x": 262,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            130,
+            184.5
+          ],
+          "sourceFrame": 1
+        },
+        {
+          "x": 522,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            121,
+            191
+          ],
+          "sourceFrame": 2
+        },
+        {
+          "x": 782,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            135,
+            186
+          ],
+          "sourceFrame": 3
+        },
+        {
+          "x": 1042,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            135.5,
+            177.5
+          ],
+          "sourceFrame": 4
+        },
+        {
+          "x": 1302,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            123.5,
+            173.5
+          ],
+          "sourceFrame": 5
+        }
+      ],
+      "fps": 12,
+      "blend": "normal",
+      "bytes": 208918,
+      "sha256": "7280347c680485b366c6723e22f49c02616b9c1b13447274f6a84ed4c56ba302"
+    },
+    "bg3-fortress": {
+      "tool": "ImageGen",
+      "kind": "effect",
+      "source": "effects-imagegen-v3/source/fortress.png",
+      "sourceSha256": "a28920f3848582191dc565703556b6c723e2dff46e6c1a70b4cd8192122a54e2",
+      "atlas": "bg3-fortress.webp",
+      "atlasSize": [
+        1632,
+        260
+      ],
+      "sourceSize": [
+        512,
+        512
+      ],
+      "rasterScale": [
+        0.5,
+        0.5
+      ],
+      "pivot": [
+        127.5,
+        186
+      ],
+      "frames": [
+        {
+          "x": 2,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            127.5,
+            186
+          ],
+          "sourceFrame": 0
+        },
+        {
+          "x": 274,
+          "y": 2,
+          "w": 244,
+          "h": 256,
+          "pivot": [
+            126.5,
+            199
+          ],
+          "sourceFrame": 1
+        },
+        {
+          "x": 546,
+          "y": 2,
+          "w": 268,
+          "h": 256,
+          "pivot": [
+            138.5,
+            202.5
+          ],
+          "sourceFrame": 2
+        },
+        {
+          "x": 818,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            127,
+            188
+          ],
+          "sourceFrame": 3
+        },
+        {
+          "x": 1090,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            127.5,
+            176.5
+          ],
+          "sourceFrame": 4
+        },
+        {
+          "x": 1362,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            127,
+            171.5
+          ],
+          "sourceFrame": 5
+        }
+      ],
+      "fps": 9,
+      "blend": "normal",
+      "bytes": 265344,
+      "sha256": "95074b0cff77e2e5cd6e0e1cb7406be4ca0591e6dc5bdd8df3369f106dd9b2fa"
+    },
+    "bg3-rail": {
+      "tool": "ImageGen",
+      "kind": "effect",
+      "source": "effects-imagegen-v3/source/rail.png",
+      "sourceSha256": "7e7d6dd2785c40b3cdaeac7bd63e436fc7fccee0b12f2148ad08d597c189e1e7",
+      "atlas": "bg3-rail.webp",
+      "atlasSize": [
+        1560,
+        260
+      ],
+      "sourceSize": [
+        512,
+        512
+      ],
+      "rasterScale": [
+        0.5,
+        0.5
+      ],
+      "pivot": [
+        128,
+        128
+      ],
+      "frames": [
+        {
+          "x": 2,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            128,
+            128
+          ],
+          "sourceFrame": 0
+        },
+        {
+          "x": 262,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            128,
+            128
+          ],
+          "sourceFrame": 1
+        },
+        {
+          "x": 522,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            128,
+            128
+          ],
+          "sourceFrame": 2
+        },
+        {
+          "x": 782,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            128,
+            128
+          ],
+          "sourceFrame": 3
+        },
+        {
+          "x": 1042,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            128,
+            128
+          ],
+          "sourceFrame": 4
+        },
+        {
+          "x": 1302,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            128,
+            128
+          ],
+          "sourceFrame": 5
+        }
+      ],
+      "fps": 12,
+      "blend": "normal",
+      "bytes": 166826,
+      "sha256": "4f35fe52add783c7ad7299e3e79f18ce462bb74a06142fed78e8cfab9f0711ae"
+    },
+    "bg3-target": {
+      "tool": "ImageGen",
+      "kind": "effect",
+      "source": "effects-imagegen-v3/source/mark.png",
+      "sourceSha256": "ea4bb3d8bcc534b4dcaebd0ba5a152d4df93e8ec6c82228c60320479c6b9f3e5",
+      "atlas": "bg3-cast.webp",
+      "atlasSize": [
+        1560,
+        260
+      ],
+      "sourceSize": [
+        512,
+        512
+      ],
+      "rasterScale": [
+        0.5,
+        0.5
+      ],
+      "pivot": [
+        128,
+        128
+      ],
+      "frames": [
+        {
+          "x": 2,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            128,
+            128
+          ],
+          "sourceFrame": 0
+        },
+        {
+          "x": 262,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            128,
+            128
+          ],
+          "sourceFrame": 1
+        },
+        {
+          "x": 522,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            128,
+            128
+          ],
+          "sourceFrame": 2
+        },
+        {
+          "x": 782,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            128,
+            128
+          ],
+          "sourceFrame": 3
+        },
+        {
+          "x": 1042,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            128,
+            128
+          ],
+          "sourceFrame": 4
+        },
+        {
+          "x": 1302,
+          "y": 2,
+          "w": 256,
+          "h": 256,
+          "pivot": [
+            128,
+            128
+          ],
+          "sourceFrame": 5
+        }
+      ],
+      "fps": 10,
+      "blend": "normal",
+      "bytes": 276798,
+      "sha256": "33b9eb8483afa8568b993159c1e753ad5ece2e0812ce011afffa152261cb390f",
+      "sharedAtlasOf": "bg3-cast"
+    }
+  },
+  "bytes": 2238222,
+  "decodedBytes": 15586320
+}

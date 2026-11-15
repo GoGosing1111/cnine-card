@@ -132,7 +132,14 @@
     "preview/project-v-v3/source/battle/TacticalHudLayout.js",
     "preview/project-v-v3/source/battle/IconTechniquePlayback.js",
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
+    "shared/mercenary-astra-v1.mjs",
     "preview/project-v-v3/source/battle/hakuya/vendor/spine-pixi-v8-4.3.13.mjs",
+    "preview/project-v-v3/source/battle/astra/BlueGearEffectsLegacy.mjs",
+    "preview/project-v-v3/source/battle/astra/skills.mjs",
+    "preview/project-v-v3/source/battle/astra/BlueGearEffects.mjs",
+    "preview/project-v-v3/source/battle/astra/SpineBattleAdapter.mjs",
+    "preview/project-v-v3/source/battle/astra/BlueGearBattleAdapter.mjs",
+    "preview/project-v-v3/source/battle/AstraCombatPlayback.js",
     "preview/project-v-v3/source/battle/blue-gear/manifest.mjs",
     "preview/project-v-v3/source/battle/blue-gear/SpineBattleAdapter.mjs",
     "preview/project-v-v3/source/battle/blue-gear/skills.mjs",
@@ -396,5 +403,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 3736465
+  "outputBytes": 3762517
 }
