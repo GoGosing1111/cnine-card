@@ -8,18 +8,20 @@ import { handleStreamerLounge } from '../functions/_streamer_lounge.js';
 import { portraitSourceUrl, portraitSize } from '../js/streamer-lounge-portraits-v1.js';
 import { CNINE_GROUPS } from '../js/cnine-roster-v1.js';
 
-test('the CNINE board lists Rini and Hidaeng in StarCraft and removes Yunseul', () => {
+test('the CNINE board adds Kkaerim and Dani to their departments and removes Rini', () => {
   const star = CNINE_GROUPS.find(group => group.id === 'star').members;
   const female = CNINE_GROUPS.find(group => group.id === 'female').members;
   assert.equal(star.length, 9);
-  assert.equal(female.length, 10);
+  assert.equal(female.length, 11);
   assert.deepEqual(star.slice(-2), [
-    { id: 'wooooo123', name: '리니씨' },
-    { id: 'ouo20411', name: '히댕' }
+    { id: 'ouo20411', name: '히댕' },
+    { id: 'nerve89', name: '깨림이' }
   ]);
   const ids = [...female, ...star].map(member => member.id);
   assert.equal(new Set(ids).size, ids.length);
   assert.ok(!ids.includes('dbstmf3497'));
+  assert.ok(!ids.includes('wooooo123'));
+  assert.deepEqual(female.at(-1), { id: '0929kelly', name: '이다니' });
 });
 
 const clone = () => structuredClone(DEFAULT_STREAMER_SETTINGS);

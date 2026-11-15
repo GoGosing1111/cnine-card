@@ -2,7 +2,7 @@
   "textNewlines": "LF",
   "sourceHashes": {
     "packaging/onestore/web/client-patch.json": "15a059292b140c6a2d37ae7cf4b5adc42398f2ab528134efe44fdf82316c1a59",
-    "index.html": "c2729c03a98c60af6c65309c768ef1e0ea13ddd958f96b3d8941655fea095a80",
+    "index.html": "a7513d38c4cc746de7177f4e00e76fb68cc14e5f9bf98cfa6e4cc8a82fd455a5",
     "js/app.js": "31f37c9996b0617293d0b1e2fe35e444cb6b5393a6a8ca0a850b433f76836127",
     "js/soopketmon-v21-exact-shell-adapter.js": "6b1c9d00e3b6cabfd68b8ee8b7136b1cc56e458b42c6b103ad515ff087b362bc",
     "js/soopketmon-v21-runtime-router.js": "2d15f01f50b819427ee017da9e00307aea1cd401b739cad6bbbc34ade4a725d8",
@@ -33,7 +33,7 @@
     "onestore/h5-policy.js": "8f435c8ad130f13abb48f6d59d5cc7a72bc1d1a8f4fb2b6aaa9545aa276b0eef",
     "onestore/h5-sdk.js": "c9e18131d55df5ad36ec1c8bd6bc78f9f1113be8e49cf946f2ed121d58b4ee19",
     "onestore/h5.css": "7c77779b15fef492acd7647c0d091b52a8c74b44ce511aff793ad66ac25d3d27",
-    "onestore/index.html": "7476e9c0923640c9ccea51e780d84ac30b2cf4aa4c4070a9c9c5a95653361fc2",
+    "onestore/index.html": "6b404f99861c85289efde0c5bb966d6c124a454943c36740415d17aa227d88fd",
     "shared/onestore-web-assets-v1.mjs": "75567ac49dbdae8c21a3b0466ff19a86aea71f5eeb6d13d68cc730cbd7f9880d"
   }
 }
