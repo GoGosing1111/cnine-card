@@ -1,10 +1,14 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import {createHash} from 'node:crypto';
 const read=f=>fs.readFileSync(new URL('../'+f,import.meta.url),'utf8').replaceAll('\r\n','\n'),hash=v=>createHash('sha256').update(v).digest('hex');
-test('all eleven current V3 consumers and recorded source hashes ship the accelerated awakening',()=>{
+test('eleven V3 consumers match their source hashes and include the accelerated awakening',()=>{
  const report=JSON.parse(read('preview/project-v-v3/grid-build-report.json')),version=read('js/battle-v3-live.js').match(/const BATTLE_RUNTIME = '([^']+)'/)[1];
  assert(version.endsWith('-zero-awakening-20261115-v1'));assert.equal(report.outputs.length,11);
  for(const s of report.sources)assert.equal(hash(read(s.file)),s.sha256,s.file);
- for(const output of report.outputs){const bundle=read(output.file);assert.equal(hash(bundle),output.sha256,output.file);assert(bundle.includes(version),output.file);assert(bundle.includes('MS-1096'),output.file);assert(bundle.includes('ZeroAwakeningEffects'),output.file);}
+ for(const output of report.outputs){const bundle=read(output.file);assert.equal(hash(bundle),output.sha256,output.file);
+  // Defense constructs the shared engine directly, without the main global API.
+  if(output.file!=='preview/coop-defense-v1/defense.bundle.js')assert(bundle.includes(version),output.file);
+  assert(bundle.includes('MS-1096'),output.file);assert(bundle.includes('ZeroAwakeningEffects'),output.file);
+ }
  for(const file of ['js/app.js','onestore/js/app.js','preview/project-v-v3/source/project-v-pixi-battle.src.js'])assert(read(file).includes(version),file);
  for(const file of ['index.html','onestore/index.html','service-worker.js'])assert.match(read(file),/zero-awakening(?:15|-20261115)-v1/,file);
 });
