@@ -58,7 +58,7 @@ try{
    for(const entry of ['cold','reentry']){const begin=performance.now();await page.goto(base+'/mercenary-codex/equipment/');await page.waitForSelector('html[data-ready="true"]');row['armory'+entry+'Ms']=performance.now()-begin;if(entry==='cold'){row.armoryFrames=await frameStats(page);await page.goto('about:blank');}}
    assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
    if(variant==='after'){
-    assert.match(await page.locator('#setEffects').innerText(),/유니크 1단계/);assert.match(await page.locator('#setEffects').innerText(),/피해감소 30%/);
+    assert.match(await page.locator('#setEffects').innerText(),/유니크 1단계/);assert.match(await page.locator('#setEffects').innerText(),/피해감소 65%/);
     await page.locator('[data-mode="PVP"]').click();assert(!await page.locator('.defense-total').count());await page.locator('[data-mode="PVE"]').click();
     await page.screenshot({path:path.join(out,'armory-'+profile.name+'.png'),fullPage:true});
     const weapon=await page.locator('.equip-slot[data-slot="WEAPON"]').getAttribute('aria-label');assert(weapon.includes('별가름'));

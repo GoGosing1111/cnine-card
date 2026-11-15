@@ -4,12 +4,12 @@ import {EQUIPMENT_SET_PARTS} from './equipment-set-visual-v1.mjs';
 
 // PvE only. The extra guard reaches direct/percentage boss attacks as well as
 // basic attacks, without replacing the existing PvE armor curve or PvP rules.
-export const EQUIPMENT_DEFENSE_VERSION='20261115-v1';
+export const EQUIPMENT_DEFENSE_VERSION='20261115-v2';
 const policy=(id,name,tier,required,perPiece,complete)=>Object.freeze({id,name,tier,required,modes:['PVE'],perPiece:Object.freeze(perPiece),complete:Object.freeze(complete)});
 export const EQUIPMENT_DEFENSE_SETS=Object.freeze([
- policy('ARDEN','아르덴',0,4,{defensePercent:8,pveGuardPercent:2},{defensePercent:28,pveGuardPercent:12}),
- ...ASCENDANT_EQUIPMENT_SETS.map(s=>policy(s.setId,s.name,s.tier,5,{defensePercent:2,pveGuardPercent:1},{defensePercent:10+s.tier*4,pveGuardPercent:5+s.tier})),
- ...[1,2,3].map(t=>policy('MERC_UNIQUE_'+t,UNIQUE_MERCENARY_EQUIPMENT.find(i=>i.tier===t).family,t,5,{defensePercent:6+t*2,pveGuardPercent:2+t},{defensePercent:40+t*20,pveGuardPercent:15}))
+ policy('ARDEN','아르덴',0,4,{defensePercent:25,pveGuardPercent:5},{defensePercent:100,pveGuardPercent:40}),
+ ...ASCENDANT_EQUIPMENT_SETS.map(s=>policy(s.setId,s.name,s.tier,5,{defensePercent:5,pveGuardPercent:2},{defensePercent:25+s.tier*15,pveGuardPercent:10+s.tier*4})),
+ ...[1,2,3].map(t=>policy('MERC_UNIQUE_'+t,UNIQUE_MERCENARY_EQUIPMENT.find(i=>i.tier===t).family,t,5,{defensePercent:20+t*10,pveGuardPercent:4+t},{defensePercent:[200,250,350][t-1],pveGuardPercent:[40,42,45][t-1]}))
 ]);
 const byId=new Map(EQUIPMENT_DEFENSE_SETS.map(s=>[s.id,s]));
 const byCode=new Map([
@@ -41,11 +41,11 @@ export function equipmentDefenseFromRows(rows=[],mode='PVE'){
 // Independent character and personal mercenary protection multiply; never add
 // two damage reductions into immunity. Call only once per canonical damage packet.
 export function combinePveGuard(a=0,b=0){
- const bounded=x=>Number.isFinite(Number(x))?Math.max(0,Math.min(60,Number(x))):0;
+ const bounded=x=>Number.isFinite(Number(x))?Math.max(0,Math.min(95,Number(x))):0;
  return Math.round((100-(100-bounded(a))*(100-bounded(b))/100)*10000)/10000;
 }
 export function equipmentGuardMultiplier(target){
  if(target.battleMode!=='PVE'||target.isMonster||target.isBattleSuit)return 1;
  const value=Number(target.equipmentEffects?.pveGuardPercent)||0;
- return 1-Math.max(0,Math.min(60,Number.isFinite(value)?value:0))/100;
+ return 1-Math.max(0,Math.min(95,Number.isFinite(value)?value:0))/100;
 }

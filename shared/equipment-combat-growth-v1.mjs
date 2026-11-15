@@ -4,7 +4,7 @@ export const POLISH_EFFECT_KEYS=['attackPercent','criticalChancePoints','critica
 const polishValue=value=>Number.isFinite(Number(value))?Math.max(0,Number(value)):0;
 export function normalizedEquipmentEffects(raw={},polish={}){
   const limits={hpPercent:30,attackPercent:30,speedPercent:15,shieldPercent:25,damageReductionPercent:15,criticalChancePoints:15,criticalDamagePoints:50,penetrationPoints:20,bossDamagePercent:40,shieldDamagePercent:30,leechPercent:5,criticalExtraPercent:15,echoEvery:12,echoPercent:40,uniqueEchoEvery:12,uniqueEchoPercent:40};
-  for(const [key,max] of [['defensePercent',300],['pveGuardPercent',60]])if(raw[key]>0)limits[key]=max;
+  for(const [key,max] of [['defensePercent',1000],['pveGuardPercent',95]])if(raw[key]>0)limits[key]=max;
   return Object.fromEntries(Object.entries(limits).map(([key,max])=>{
     // Earned polish is included in raw. Cap ordinary set bonuses separately.
     const growth=POLISH_EFFECT_KEYS.includes(key)?Math.min(polishValue(raw[key]),polishValue(polish?.[key])):0;

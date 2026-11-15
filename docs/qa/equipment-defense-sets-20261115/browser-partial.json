@@ -2554,39 +2554,6 @@
       }
     },
     {
-      "profile": "pc",
-      "variant": "after",
-      "condition": "Windows headless; mobile emulation; localhost actual API handlers with in-memory accounts; no live writes",
-      "armorycoldMs": 258.8179,
-      "armoryFrames": {
-        "count": 368,
-        "p95": 4.2000000000000455,
-        "max": 66.69999999999999,
-        "over50": 1
-      },
-      "armoryreentryMs": 69.56079999999974,
-      "huntcoldMs": 1545.9325,
-      "huntFramescold": {
-        "count": 523,
-        "p95": 4.299999999999727,
-        "max": 16.59999999999991,
-        "over50": 0
-      },
-      "exit": {
-        "playing": false,
-        "runCancelled": true,
-        "canvasesAfterExit": 0,
-        "engineAfterExit": false
-      },
-      "huntreentryMs": 712.2030999999988,
-      "huntFramesreentry": {
-        "count": 527,
-        "p95": 4.2999999999999545,
-        "max": 8.299999999999955,
-        "over50": 0
-      }
-    },
-    {
       "profile": "android-emulated",
       "variant": "before",
       "condition": "Windows headless; mobile emulation; localhost actual API handlers with in-memory accounts; no live writes",
@@ -2616,39 +2583,6 @@
         "count": 527,
         "p95": 4.2999999999999545,
         "max": 8.299999999999955,
-        "over50": 0
-      }
-    },
-    {
-      "profile": "android-emulated",
-      "variant": "after",
-      "condition": "Windows headless; mobile emulation; localhost actual API handlers with in-memory accounts; no live writes",
-      "armorycoldMs": 212.11589999999705,
-      "armoryFrames": {
-        "count": 384,
-        "p95": 4.2000000000000455,
-        "max": 4.300000000000011,
-        "over50": 0
-      },
-      "armoryreentryMs": 80.58669999999984,
-      "huntcoldMs": 1245.0254000000023,
-      "huntFramescold": {
-        "count": 526,
-        "p95": 4.299999999999727,
-        "max": 12.5,
-        "over50": 0
-      },
-      "exit": {
-        "playing": false,
-        "runCancelled": true,
-        "canvasesAfterExit": 0,
-        "engineAfterExit": false
-      },
-      "huntreentryMs": 747.2622999999985,
-      "huntFramesreentry": {
-        "count": 527,
-        "p95": 4.299999999999727,
-        "max": 8.400000000000091,
         "over50": 0
       }
     },
@@ -2686,22 +2620,22 @@
       }
     },
     {
-      "profile": "iphone-webkit-emulated",
+      "profile": "pc",
       "variant": "after",
       "condition": "Windows headless; mobile emulation; localhost actual API handlers with in-memory accounts; no live writes",
-      "armorycoldMs": 288.15149999999994,
+      "armorycoldMs": 262.9229,
       "armoryFrames": {
-        "count": 101,
-        "p95": 29,
-        "max": 30,
-        "over50": 0
+        "count": 366,
+        "p95": 4.2999999999999545,
+        "max": 70.80000000000001,
+        "over50": 1
       },
-      "armoryreentryMs": 184.80720000000292,
-      "huntcoldMs": 1938.9298999999955,
+      "armoryreentryMs": 78.34999999999991,
+      "huntcoldMs": 1569.7251999999999,
       "huntFramescold": {
-        "count": 118,
-        "p95": 31,
-        "max": 42,
+        "count": 522,
+        "p95": 4.299999999999727,
+        "max": 12.5,
         "over50": 0
       },
       "exit": {
@@ -2710,16 +2644,275 @@
         "canvasesAfterExit": 0,
         "engineAfterExit": false
       },
-      "huntreentryMs": 1418.648000000001,
+      "huntreentryMs": 623.5990000000002,
       "huntFramesreentry": {
-        "count": 122,
+        "count": 527,
+        "p95": 4.200000000000273,
+        "max": 8.299999999999955,
+        "over50": 0
+      }
+    },
+    {
+      "profile": "android-emulated",
+      "variant": "after",
+      "condition": "Windows headless; mobile emulation; localhost actual API handlers with in-memory accounts; no live writes",
+      "armorycoldMs": 269.3186999999998,
+      "armoryFrames": {
+        "count": 385,
+        "p95": 4.2999999999999545,
+        "max": 4.300000000000182,
+        "over50": 0
+      },
+      "armoryreentryMs": 64.48779999999897,
+      "huntcoldMs": 1360.930699999999,
+      "huntFramescold": {
+        "count": 523,
+        "p95": 4.299999999999727,
+        "max": 16.699999999999818,
+        "over50": 0
+      },
+      "exit": {
+        "playing": false,
+        "runCancelled": true,
+        "canvasesAfterExit": 0,
+        "engineAfterExit": false
+      },
+      "huntreentryMs": 590.4647000000004,
+      "huntFramesreentry": {
+        "count": 528,
+        "p95": 4.2999999999999545,
+        "max": 4.300000000000182,
+        "over50": 0
+      }
+    },
+    {
+      "profile": "iphone-webkit-emulated",
+      "variant": "after",
+      "condition": "Windows headless; mobile emulation; localhost actual API handlers with in-memory accounts; no live writes",
+      "armorycoldMs": 271.6345000000001,
+      "armoryFrames": {
+        "count": 100,
         "p95": 30,
-        "max": 46,
+        "max": 30,
+        "over50": 0
+      },
+      "armoryreentryMs": 167.85250000000087,
+      "huntcoldMs": 2387.9022000000004,
+      "huntFramescold": {
+        "count": 106,
+        "p95": 33,
+        "max": 43,
+        "over50": 0
+      },
+      "exit": {
+        "playing": false,
+        "runCancelled": true,
+        "canvasesAfterExit": 0,
+        "engineAfterExit": false
+      },
+      "huntreentryMs": 1551.484999999997,
+      "huntFramesreentry": {
+        "count": 108,
+        "p95": 31,
+        "max": 49,
         "over50": 0
       }
     }
   ],
-  "api": [],
+  "api": [
+    {
+      "variant": "after",
+      "path": "/api/mercenaries/v3/equipment",
+      "ms": 15.26870000000008,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/mercenaries/v3/state",
+      "ms": 5.722700000000032,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/mercenaries/v3/equipment",
+      "ms": 11.047700000000077,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/mercenaries/v3/state",
+      "ms": 3.8906999999999243,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/legion-hunt/start",
+      "ms": 145.41340000000037,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/legion-hunt/begin",
+      "ms": 1.8009000000001834,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/legion-hunt/finish",
+      "ms": 3.6152000000001863,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/legion-hunt/start",
+      "ms": 105.67289999999957,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/legion-hunt/begin",
+      "ms": 1.4207000000005792,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/legion-hunt/finish",
+      "ms": 1.7048999999988155,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/mercenaries/v3/equipment",
+      "ms": 13.213200000000143,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/mercenaries/v3/state",
+      "ms": 4.091500000000451,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/mercenaries/v3/equipment",
+      "ms": 10.98530000000028,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/mercenaries/v3/state",
+      "ms": 3.3937999999998283,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/legion-hunt/start",
+      "ms": 112.17840000000069,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/legion-hunt/begin",
+      "ms": 1.4493000000002212,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/legion-hunt/finish",
+      "ms": 1.674300000002404,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/legion-hunt/start",
+      "ms": 89.49079999999958,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/legion-hunt/begin",
+      "ms": 1.7345000000022992,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/legion-hunt/finish",
+      "ms": 2.026000000001659,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/mercenaries/v3/equipment",
+      "ms": 10.425500000001193,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/mercenaries/v3/state",
+      "ms": 3.4424999999973807,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/mercenaries/v3/equipment",
+      "ms": 9.95049999999901,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/mercenaries/v3/state",
+      "ms": 3.3803999999981897,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/mercenaries/v3/equipment",
+      "ms": 10.688199999996868,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/mercenaries/v3/state",
+      "ms": 3.6598999999987427,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/legion-hunt/start",
+      "ms": 103.08619999999792,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/legion-hunt/begin",
+      "ms": 1.7790999999997439,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/legion-hunt/finish",
+      "ms": 1.8326999999990221,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/legion-hunt/start",
+      "ms": 117.8757000000005,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/legion-hunt/begin",
+      "ms": 1.2758999999969092,
+      "status": 200
+    },
+    {
+      "variant": "after",
+      "path": "/api/legion-hunt/finish",
+      "ms": 1.4017000000021653,
+      "status": 200
+    }
+  ],
   "errors": [],
   "missing": []
 }
