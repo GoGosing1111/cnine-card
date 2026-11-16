@@ -1,0 +1,1503 @@
+{
+  "status": "COMPLETE",
+  "operationKey": "ops:named-sudal-streamer20:20261117:v1",
+  "completedAtKST": "2026-11-17 00:31:58",
+  "authorization": [
+    "명단 37명에게 수달 펫 + 씨나인 스트리머 박스 20개 지급",
+    "우회하세요 추가"
+  ],
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:named-sudal-streamer20:20261117:v1",
+    "planHash": "c1fc474cd941e1d8ba47cf6198d8408580a26a40474876b180b2897827740bde",
+    "completedAt": "2026-11-16T15:31:58.804Z",
+    "completedAtKST": "2026-11-17 00:31:58",
+    "recipientCount": 38,
+    "petCode": "PET-SUDAL",
+    "petName": "수달",
+    "petQuantity": 1,
+    "totalPets": 38,
+    "itemCode": "CNINE_STREAMER_BOX",
+    "itemName": "씨나인 스트리머 박스",
+    "boxQuantity": 20,
+    "totalBoxes": 760,
+    "cmsRevision": 51,
+    "messagesSent": 0,
+    "automaticallyEquipped": 0,
+    "boxesOpened": 0,
+    "grants": [
+      {
+        "userId": "1768",
+        "nickname": "핫시",
+        "requestedNickname": "핫시",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 10,
+        "petAfterRevision": 11,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_1768",
+          "adminId": 1,
+          "target": {
+            "id": 1768,
+            "nickname": "핫시"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 11,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "10bc26327588d6fe8966453f013235351304904eecd6979b3749464065bc47c1",
+        "boxLogId": "89858976",
+        "petAuditId": "62197"
+      },
+      {
+        "userId": "4651",
+        "nickname": "세라네꼬라지",
+        "requestedNickname": "세라네꼬라지",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 95,
+        "petAfterRevision": 96,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_4651",
+          "adminId": 1,
+          "target": {
+            "id": 4651,
+            "nickname": "세라네꼬라지"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 96,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "6a2b49dbbf621c147031937f55a0edc87811ecf5175f5f979c561566a1a879c1",
+        "boxLogId": "89858991",
+        "petAuditId": "62198"
+      },
+      {
+        "userId": "4572",
+        "nickname": "응맨",
+        "requestedNickname": "응맨",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 51,
+        "petAfterRevision": 52,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_4572",
+          "adminId": 1,
+          "target": {
+            "id": 4572,
+            "nickname": "응맨"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 52,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "efa76c0460b7c6a85b829b0f12fe24ff2d6be5f31e348394738f07d1cb21157f",
+        "boxLogId": "89858983",
+        "petAuditId": "62199"
+      },
+      {
+        "userId": "4610",
+        "nickname": "고라니ㅇ",
+        "requestedNickname": "고라니ㅇ",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 13,
+        "petAfterRevision": 14,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_4610",
+          "adminId": 1,
+          "target": {
+            "id": 4610,
+            "nickname": "고라니ㅇ"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 14,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "d1af1e604199f00a7e23d7114267c9d772ee821990617da7ddcf2f98d358c6be",
+        "boxLogId": "89858987",
+        "petAuditId": "62200"
+      },
+      {
+        "userId": "4391",
+        "nickname": "더듬이구",
+        "requestedNickname": "더듬이구",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 25,
+        "petAfterRevision": 26,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_4391",
+          "adminId": 1,
+          "target": {
+            "id": 4391,
+            "nickname": "더듬이구"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 26,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "53d37f35dcf5144cc52e287a2e65380dee9610e047075ccd029d1fc347ecacfb",
+        "boxLogId": "89858979",
+        "petAuditId": "62201"
+      },
+      {
+        "userId": "4705",
+        "nickname": "˚쟁이。",
+        "requestedNickname": "쟁이",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 13,
+        "petAfterRevision": 14,
+        "boxBefore": "11",
+        "boxAfter": "31",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_4705",
+          "adminId": 1,
+          "target": {
+            "id": 4705,
+            "nickname": "˚쟁이。"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 14,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "8c9accd2536cb9f8589b41bad80d013de286105efcad495bb84ac9e1c58bd23a",
+        "boxLogId": "89858992",
+        "petAuditId": "62202"
+      },
+      {
+        "userId": "4628",
+        "nickname": "망순이ෆ",
+        "requestedNickname": "망순이ෆ",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 33,
+        "petAfterRevision": 34,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_4628",
+          "adminId": 1,
+          "target": {
+            "id": 4628,
+            "nickname": "망순이ෆ"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 34,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "2a7b0dac22c4c3758b9900a46748a016e2b5621af35d33143c30fcd17501a18e",
+        "boxLogId": "89858989",
+        "petAuditId": "62203"
+      },
+      {
+        "userId": "295",
+        "nickname": "모래",
+        "requestedNickname": "모래",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 9,
+        "petAfterRevision": 10,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_295",
+          "adminId": 1,
+          "target": {
+            "id": 295,
+            "nickname": "모래"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 10,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "c2a8dbd0264c118ce57832bfb898b4fa1c98212bdaf5a9d691b9282c357d5713",
+        "boxLogId": "89858969",
+        "petAuditId": "62204"
+      },
+      {
+        "userId": "4595",
+        "nickname": "비니",
+        "requestedNickname": "비니",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 23,
+        "petAfterRevision": 24,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_4595",
+          "adminId": 1,
+          "target": {
+            "id": 4595,
+            "nickname": "비니"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 24,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "cbc4f54ebbc2ae76da97c61d1b9f65b8657b92da77395675b2be7bc7b2b5ceb0",
+        "boxLogId": "89858985",
+        "petAuditId": "62205"
+      },
+      {
+        "userId": "1195",
+        "nickname": "씨나인택갓",
+        "requestedNickname": "씨나인택갓",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 24,
+        "petAfterRevision": 25,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_1195",
+          "adminId": 1,
+          "target": {
+            "id": 1195,
+            "nickname": "씨나인택갓"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 25,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "236f537327c68287c0c25b004a654725a05e7a64f7c866ff70be566a610908bb",
+        "boxLogId": "89858974",
+        "petAuditId": "62206"
+      },
+      {
+        "userId": "65",
+        "nickname": "음순이",
+        "requestedNickname": "음순이",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 13,
+        "petAfterRevision": 14,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_65",
+          "adminId": 1,
+          "target": {
+            "id": 65,
+            "nickname": "음순이"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 14,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "3f2716880fd6c1967af98912e6ee3200e9f39202bc9a15bf72cfa49f6a80845a",
+        "boxLogId": "89858966",
+        "petAuditId": "62207"
+      },
+      {
+        "userId": "16",
+        "nickname": "오승환이다",
+        "requestedNickname": "오승환이다",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 18,
+        "petAfterRevision": 19,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_16",
+          "adminId": 1,
+          "target": {
+            "id": 16,
+            "nickname": "오승환이다"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 19,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "1b69192930f0c8d8746489f8552b9513040e6c494eccbc6ee5b52b4658b259df",
+        "boxLogId": "89858963",
+        "petAuditId": "62208"
+      },
+      {
+        "userId": "4627",
+        "nickname": "학벌",
+        "requestedNickname": "학벌",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 27,
+        "petAfterRevision": 28,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_4627",
+          "adminId": 1,
+          "target": {
+            "id": 4627,
+            "nickname": "학벌"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 28,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "89e53a260065c74131705c04f840f1b1e7a01ab05f0624381653449e403c1b37",
+        "boxLogId": "89858988",
+        "petAuditId": "62209"
+      },
+      {
+        "userId": "303",
+        "nickname": "[C9]족쪽이",
+        "requestedNickname": "[C9]족쪽이",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 16,
+        "petAfterRevision": 17,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_303",
+          "adminId": 1,
+          "target": {
+            "id": 303,
+            "nickname": "[C9]족쪽이"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 17,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "5bc0479b81181139d56dd711c65248b44aa5e504e6ece56a9e2b4dbf474cb64d",
+        "boxLogId": "89858970",
+        "petAuditId": "62210"
+      },
+      {
+        "userId": "22",
+        "nickname": "커피먹는철구",
+        "requestedNickname": "커피먹는철구",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 22,
+        "petAfterRevision": 23,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_22",
+          "adminId": 1,
+          "target": {
+            "id": 22,
+            "nickname": "커피먹는철구"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 23,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "476538fe0c4ac359e569a14ec0a5a00329c4befd62ba7d93b895fd8d8540f7c8",
+        "boxLogId": "89858964",
+        "petAuditId": "62211"
+      },
+      {
+        "userId": "4562",
+        "nickname": "찡찡ෆ",
+        "requestedNickname": "찡찡ෆ",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 22,
+        "petAfterRevision": 23,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_4562",
+          "adminId": 1,
+          "target": {
+            "id": 4562,
+            "nickname": "찡찡ෆ"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 23,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "28544834aed8a42fff37dfcbd2fdda0752696983aa6cb647197c43c14b7039c4",
+        "boxLogId": "89858981",
+        "petAuditId": "62212"
+      },
+      {
+        "userId": "525",
+        "nickname": "족구조아",
+        "requestedNickname": "족구조아",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 27,
+        "petAfterRevision": 28,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_525",
+          "adminId": 1,
+          "target": {
+            "id": 525,
+            "nickname": "족구조아"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 28,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "ab613c71271db48105771c2ea67e25dd52be8cee28513a769ab37d4eec9d364d",
+        "boxLogId": "89858973",
+        "petAuditId": "62213"
+      },
+      {
+        "userId": "5996",
+        "nickname": "관종이얌",
+        "requestedNickname": "관종이얌",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 8,
+        "petAfterRevision": 9,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_5996",
+          "adminId": 1,
+          "target": {
+            "id": 5996,
+            "nickname": "관종이얌"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 9,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "601cd9418e18eef61b0705f1c78afb1acd079df57022c9a62865491832134400",
+        "boxLogId": "89859000",
+        "petAuditId": "62214"
+      },
+      {
+        "userId": "4570",
+        "nickname": "혜정",
+        "requestedNickname": "혜정",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 22,
+        "petAfterRevision": 23,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_4570",
+          "adminId": 1,
+          "target": {
+            "id": 4570,
+            "nickname": "혜정"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 23,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "8b56456e51bb52d15b45915e0ac505af68241310bc455387601ec4c2941b370d",
+        "boxLogId": "89858982",
+        "petAuditId": "62215"
+      },
+      {
+        "userId": "5877",
+        "nickname": "깅더듬",
+        "requestedNickname": "깅더듬",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 17,
+        "petAfterRevision": 18,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_5877",
+          "adminId": 1,
+          "target": {
+            "id": 5877,
+            "nickname": "깅더듬"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 18,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "8f3fa76963d3a0f369affd4673761d62991594dd447401f47cff3929c6750f55",
+        "boxLogId": "89858998",
+        "petAuditId": "62216"
+      },
+      {
+        "userId": "289",
+        "nickname": "베베킹",
+        "requestedNickname": "베베킹",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 28,
+        "petAfterRevision": 29,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_289",
+          "adminId": 1,
+          "target": {
+            "id": 289,
+            "nickname": "베베킹"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 29,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "f7d50792d42bbf4a9f149ee944011c5bd83f540316d592172dfdca1a426aff8a",
+        "boxLogId": "89858968",
+        "petAuditId": "62217"
+      },
+      {
+        "userId": "4415",
+        "nickname": "Moo날두",
+        "requestedNickname": "MOO날두",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 36,
+        "petAfterRevision": 37,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_4415",
+          "adminId": 1,
+          "target": {
+            "id": 4415,
+            "nickname": "Moo날두"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 37,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "c2d7f950984a8d921af0b1d8db170c16f4c226b10633206ad50ba6d6fb2f4a0c",
+        "boxLogId": "89858980",
+        "petAuditId": "62218"
+      },
+      {
+        "userId": "4908",
+        "nickname": "굳건창수",
+        "requestedNickname": "굳건창수",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 20,
+        "petAfterRevision": 21,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_4908",
+          "adminId": 1,
+          "target": {
+            "id": 4908,
+            "nickname": "굳건창수"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 21,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "01eefb666b9b438674e7c979cc41e5c3ca41419b962523c776062175fea5bc23",
+        "boxLogId": "89858995",
+        "petAuditId": "62219"
+      },
+      {
+        "userId": "4754",
+        "nickname": "조은",
+        "requestedNickname": "조은",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 9,
+        "petAfterRevision": 10,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_4754",
+          "adminId": 1,
+          "target": {
+            "id": 4754,
+            "nickname": "조은"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 10,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "46c3d966e5afe55758bb2024875810316ac757d6fee3e538a73d5eb0d6ef0482",
+        "boxLogId": "89858994",
+        "petAuditId": "62220"
+      },
+      {
+        "userId": "4597",
+        "nickname": "찬호",
+        "requestedNickname": "찬호",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 37,
+        "petAfterRevision": 38,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_4597",
+          "adminId": 1,
+          "target": {
+            "id": 4597,
+            "nickname": "찬호"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 38,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "59823c34f83873475a785adc59cfba601c0e4491df1960bd5e0f8d8e9e95a228",
+        "boxLogId": "89858986",
+        "petAuditId": "62221"
+      },
+      {
+        "userId": "5958",
+        "nickname": "꺽꿀",
+        "requestedNickname": "꺽꿀",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 16,
+        "petAfterRevision": 17,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_5958",
+          "adminId": 1,
+          "target": {
+            "id": 5958,
+            "nickname": "꺽꿀"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 17,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "0258c0123ccbb028bfbe672746d39d4ea16a64115402566cfc28ba00583ce8e4",
+        "boxLogId": "89858999",
+        "petAuditId": "62222"
+      },
+      {
+        "userId": "4582",
+        "nickname": "족단",
+        "requestedNickname": "족단",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 32,
+        "petAfterRevision": 33,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_4582",
+          "adminId": 1,
+          "target": {
+            "id": 4582,
+            "nickname": "족단"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 33,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "f968865aaf56d40128f73e20942d8f81951c1ec03bd162cca10c6909c11bad18",
+        "boxLogId": "89858984",
+        "petAuditId": "62223"
+      },
+      {
+        "userId": "2505",
+        "nickname": "모아가려아가",
+        "requestedNickname": "모아가려아가",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 9,
+        "petAfterRevision": 10,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_2505",
+          "adminId": 1,
+          "target": {
+            "id": 2505,
+            "nickname": "모아가려아가"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 10,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "a4ef0fbd65d95251dd120f714121f4d879e72408914400491b8848c17ff7cd22",
+        "boxLogId": "89858977",
+        "petAuditId": "62224"
+      },
+      {
+        "userId": "5092",
+        "nickname": "늑대울프",
+        "requestedNickname": "늑대울프",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 14,
+        "petAfterRevision": 15,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_5092",
+          "adminId": 1,
+          "target": {
+            "id": 5092,
+            "nickname": "늑대울프"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 15,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "c22c45346cd0fd106a696436557678aefb1fe04fb1bb24b9779e7113c004e874",
+        "boxLogId": "89858996",
+        "petAuditId": "62225"
+      },
+      {
+        "userId": "4629",
+        "nickname": "Veil",
+        "requestedNickname": "Veil",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 14,
+        "petAfterRevision": 15,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_4629",
+          "adminId": 1,
+          "target": {
+            "id": 4629,
+            "nickname": "Veil"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 15,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "22c2056a781d5a0eb30dd71f3b899fdfd8750b49851146b3ce40d6e4e9fc9740",
+        "boxLogId": "89858990",
+        "petAuditId": "62226"
+      },
+      {
+        "userId": "218",
+        "nickname": "현하루",
+        "requestedNickname": "현하루",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 17,
+        "petAfterRevision": 18,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_218",
+          "adminId": 1,
+          "target": {
+            "id": 218,
+            "nickname": "현하루"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 18,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "e8ee5b7efce29bf7850b19e5e7cca3bc7ecb7bd7a9549916a259449db738f36a",
+        "boxLogId": "89858967",
+        "petAuditId": "62227"
+      },
+      {
+        "userId": "5429",
+        "nickname": "꼰머냥",
+        "requestedNickname": "꼰머냥",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 10,
+        "petAfterRevision": 11,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_5429",
+          "adminId": 1,
+          "target": {
+            "id": 5429,
+            "nickname": "꼰머냥"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 11,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "1cb79933c31287af3b5da302583c74c88160e9c4e8a27ad644e42ee756ce1710",
+        "boxLogId": "89858997",
+        "petAuditId": "62228"
+      },
+      {
+        "userId": "45",
+        "nickname": "박세라-ㅂ-",
+        "requestedNickname": "박세라-ㅂ-",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 14,
+        "petAfterRevision": 15,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_45",
+          "adminId": 1,
+          "target": {
+            "id": 45,
+            "nickname": "박세라-ㅂ-"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 15,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "ac4f45a72b3440fd86d7e99e913dd044ffb42052daab2850af0b400e18d1365f",
+        "boxLogId": "89858965",
+        "petAuditId": "62229"
+      },
+      {
+        "userId": "4730",
+        "nickname": "리오넬",
+        "requestedNickname": "리오넬",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 15,
+        "petAfterRevision": 16,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_4730",
+          "adminId": 1,
+          "target": {
+            "id": 4730,
+            "nickname": "리오넬"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 16,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "eef25d5983a375c3d46bcca478cd2d2314e05818db998c9ce695b1abfa641081",
+        "boxLogId": "89858993",
+        "petAuditId": "62230"
+      },
+      {
+        "userId": "360",
+        "nickname": "라피e",
+        "requestedNickname": "라피e",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 18,
+        "petAfterRevision": 19,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_360",
+          "adminId": 1,
+          "target": {
+            "id": 360,
+            "nickname": "라피e"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 19,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "87b096c95f19dcc8faaaa6e7aee43957a9d565bcb9118297d5656710036c101e",
+        "boxLogId": "89858971",
+        "petAuditId": "62231"
+      },
+      {
+        "userId": "493",
+        "nickname": "치타구",
+        "requestedNickname": "치타구",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 16,
+        "petAfterRevision": 17,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_493",
+          "adminId": 1,
+          "target": {
+            "id": 493,
+            "nickname": "치타구"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 17,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "881ac5f1bf71fd428cf0404b76dd5f5d4d186bf75a4f1ec55775037fcb581269",
+        "boxLogId": "89858972",
+        "petAuditId": "62232"
+      },
+      {
+        "userId": "1545",
+        "nickname": "좋은하루",
+        "requestedNickname": "좋은하루",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 18,
+        "petAfterRevision": 19,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_1545",
+          "adminId": 1,
+          "target": {
+            "id": 1545,
+            "nickname": "좋은하루"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 19,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "2383ed39a0baddcffcc06fef8ca43e1dd00ee1e402ab4b58346a38af85c4f213",
+        "boxLogId": "89858975",
+        "petAuditId": "62233"
+      },
+      {
+        "userId": "3974",
+        "nickname": "우회하세요",
+        "requestedNickname": "우회하세요",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 31,
+        "petAfterRevision": 32,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_named_sudal_streamer20_20261117_3974",
+          "adminId": 1,
+          "target": {
+            "id": 3974,
+            "nickname": "우회하세요"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 지정 명단 수달 펫·씨나인 스트리머 박스 지급 · ops:named-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 32,
+          "grantedAt": "2026-11-16T15:31:58.804Z",
+          "replayed": false
+        },
+        "petPayloadHash": "34aadc341e83e2dc9c8493907c4365eb7869b21e19cfc310695cb77433a969bd",
+        "boxLogId": "89858978",
+        "petAuditId": "62234"
+      }
+    ],
+    "auditId": "62235"
+  },
+  "verification": {
+    "recipients": 38,
+    "totalPets": 38,
+    "totalBoxes": 760,
+    "petAudits": 38,
+    "boxLedgerRows": 38,
+    "perAccountReceipts": 38,
+    "petReceipts": 38,
+    "missing": 0,
+    "duplicates": 0,
+    "petSelectableInPvePvp": 38,
+    "changesAfterGrant": []
+  },
+  "independentReadOnly": true,
+  "noWriteReplay": true,
+  "locksRemaining": 0,
+  "partialFailureRolledBack": true,
+  "fullRehearsalRolledBack": true,
+  "protectedStateHash": "df739ccb16a7b16d151830d9bc434496a054469dda4ea0ff916e4582b30a1ecd",
+  "syncVerified": true,
+  "otherTableWrites": 0,
+  "performance": {
+    "readOnly": true,
+    "conditions": "Windows CLI to live PostgreSQL, actual pet ownership/CMS/catalog services plus inventory query. Network included, first and repeated reads in same connection. Data grant only; no UI/runtime code changes, deployment, browser frames or physical device measurement.",
+    "current": {
+      "userId": "3974",
+      "nickname": "우회하세요",
+      "pet": {
+        "code": "PET-SUDAL",
+        "quantity": 1,
+        "permanent": true,
+        "ready": [
+          "PVE",
+          "PVP"
+        ]
+      },
+      "boxes": "20"
+    },
+    "measurements": [
+      {
+        "phase": "first",
+        "elapsedMs": 397,
+        "sqlCalls": 4
+      },
+      {
+        "phase": "repeat",
+        "elapsedMs": 310,
+        "sqlCalls": 4
+      }
+    ],
+    "grantAndVerifyMs": 4621,
+    "rehearsalMs": 3379,
+    "totalOperationMs": 21937,
+    "independentVerifyMs": 1215,
+    "batchStrategy": "38 collections in one UPDATE; 38 inventories in one UPSERT; inventory ledgers and pet audits each one INSERT; 77 durable receipt records one INSERT. No per-recipient SQL loop during the grant."
+  },
+  "runtimeChanged": false,
+  "deployed": false,
+  "sourceArtifacts": {
+    "common.mjs": "73a93d3b795ad7c1608dda2ab5f5a2e8220cd05fda32f00ebf18d847f4619f44",
+    "prepare.mjs": "59b8bab229e3c94508c8af0c4b4ab3d4d10eaa1dbf986e6c9cc671bf8a50b506",
+    "run.mjs": "a177dbe30bea0923c3b4adbd40fe7824f874558d4b159f2a12ea7b16bb12f41f",
+    "service-read.mjs": "7f7b579207fd6a2aaf24a6ede285519c2f9ff0618a39899afd5feaf476180cf4"
+  },
+  "evidenceDirectory": "operations/named-sudal-streamer20-20261117"
+}
