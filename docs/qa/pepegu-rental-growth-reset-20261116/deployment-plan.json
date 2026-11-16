@@ -1,0 +1,13 @@
+{
+  "base": "f8e16d2358144b3cf057aab4057e6b2e848451bf",
+  "reason": "User-authorized reset of Pepegu rental dice stats and traits only when an expired cumulative period is purchased again. Preserve unexpired extensions, permanent pets and other growth/pending records. Atomic rental/payment/growth rollback, replay, stale-write, combat and purchase disclosure tests plus actual entry QA. Restore existing ranked coin shop navigation in the ONEstore iframe.",
+  "tests": [
+    "tests/pepegu-rental-growth-reset-20261116.test.mjs",
+    "tests/pepegu-ranked-rental-20261101.test.mjs",
+    "tests/pet-growth-live-20261114.test.mjs",
+    "tests/onestore-web-20261026.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "phase": "before",
+  "platform": "desktop",
+  "condition": "Public actual lobby → ranked shop → renewal confirmation → pet codex; isolated real handlers. Windows offscreen 60 FPS and mobile/H5 emulation; no physical mobile device",
+  "entries": [
+    {
+      "visit": "first",
+      "interactiveMs": 610,
+      "frames": {
+        "p95": 4.2000000000000455,
+        "max": 4.300000000000068,
+        "over50": 0
+      },
+      "text": "30일 기간제\n\n페페구 (30일)\n\n공격력 +55% · 드랍률 +25% · 계정 경험치 +55% · 코인 +55%. 구매 즉시 30일 이용하며, 재구매하면 남은 기간에 30일씩 추가됩니다. 펫 도감에서 장착할 수 있습니다.\n\n획득 방식\n30일 기간제 펫\n계정 누적 구매 한도\n제한 없음\n남은 교환 횟수\n제한 없음\n이용 기간\n1개당 30일 · 재구매 시 연장\n현재 이용 종료\n2026. 11. 16. 오후 12:05:28\n\n구매 횟수는 계정에 누적됩니다.\n교환 후 펫 도감에서 장착할 수 있습니다.\n\n지급 구성 보기 (1종) ↗\n구매 수량\n−\n+\n최대\n현재 최대 8개 구매 가능\n총 필요 랭크전 코인\n1,500\n1개 교환하기\n\n교환 내용을 확인한 뒤 랭크전 코인이 차감됩니다.",
+      "afterExitRequests": 0
+    },
+    {
+      "visit": "reentry",
+      "interactiveMs": 515,
+      "frames": {
+        "p95": 4.300000000000068,
+        "max": 12.5,
+        "over50": 0
+      },
+      "text": "30일 기간제\n\n페페구 (30일)\n\n공격력 +55% · 드랍률 +25% · 계정 경험치 +55% · 코인 +55%. 구매 즉시 30일 이용하며, 재구매하면 남은 기간에 30일씩 추가됩니다. 펫 도감에서 장착할 수 있습니다.\n\n획득 방식\n30일 기간제 펫\n계정 누적 구매 한도\n제한 없음\n남은 교환 횟수\n제한 없음\n이용 기간\n1개당 30일 · 재구매 시 연장\n현재 이용 종료\n2026. 11. 16. 오후 12:05:28\n\n구매 횟수는 계정에 누적됩니다.\n교환 후 펫 도감에서 장착할 수 있습니다.\n\n지급 구성 보기 (1종) ↗\n구매 수량\n−\n+\n최대\n현재 최대 8개 구매 가능\n총 필요 랭크전 코인\n1,500\n1개 교환하기\n\n교환 내용을 확인한 뒤 랭크전 코인이 차감됩니다."
+    }
+  ],
+  "errors": [],
+  "productionWrites": 0,
+  "afterExitRequests": 0
+}

@@ -1,0 +1,17 @@
+{
+  "conditions": "Statement construction with counted read adapter; not production latency. Rental extensions perform no growth read; new expired period reads its growth once and all writes remain inside the existing purchase transaction.",
+  "rows": [
+    {
+      "case": "activeExtension",
+      "additionalReads": 0,
+      "transactionStatements": 3,
+      "constructionMs": 3.3500000000000014
+    },
+    {
+      "case": "expiredRestart",
+      "additionalReads": 1,
+      "transactionStatements": 8,
+      "constructionMs": 0.14589999999999748
+    }
+  ]
+}

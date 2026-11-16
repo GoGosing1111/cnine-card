@@ -1,0 +1,396 @@
+{
+  "status": "LIVE_VERIFIED",
+  "verifiedAt": "2026-11-16T03:19:08.532Z",
+  "request": "페페구 기간제 이용 기간이 끝난 뒤 다시 구매하면 능력치 주사위를 다시 돌리도록 변경",
+  "policy": {
+    "petCode": "PET-PEPEGU",
+    "instanceId": "PET-PEPEGU:R",
+    "trigger": "A newly purchased rental period after the entire accumulated rental period has expired",
+    "stats": {
+      "attack": "C",
+      "defense": "C",
+      "hp": "C",
+      "speed": "C"
+    },
+    "trait": {
+      "activated": false
+    },
+    "expiredPendingResultCleared": true,
+    "activeExtensionPreservesGrowth": true,
+    "permanentInstancesPreserved": true,
+    "otherPetsAndTheirPendingResultsPreserved": true,
+    "resetAndPaymentAndRentalAtomic": true,
+    "oldReceiptsCannotRestoreOldGrowth": true,
+    "existingLiveAccountRecordsMassReset": false
+  },
+  "release": {
+    "at": "2026-11-16T03:18:09.534Z",
+    "pages": {
+      "id": "90fb89b5-1a79-4731-9187-c04de50ac929",
+      "url": "https://90fb89b5.cnine-card.pages.dev",
+      "status": "success",
+      "commit": "29f2c81b89eba7dac5663477eb0d2d4c95d4c68d"
+    },
+    "releaseCommit": "29f2c81b89eba7dac5663477eb0d2d4c95d4c68d",
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "sha256": "6ff620f28dbd88eae63d83c1ad7c49361fe9251f13d17dd8b3529103041ee05d",
+        "deployment": {
+          "id": "9024e8af-dc5e-40de-9e7b-85c589be6ebb",
+          "created_on": "2026-11-16T03:15:36.296877Z",
+          "versions": [
+            {
+              "version_id": "7e7740d6-31e7-49d8-9de0-d99419ea15ab",
+              "percentage": 100
+            }
+          ]
+        }
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "sha256": "f03011fac4e86515c5663fa5b30cf369062cdbac8479829c3ea1dab30451390a",
+        "deployment": {
+          "id": "7b6e7994-3462-4b14-9e3b-d34377b04b42",
+          "created_on": "2026-11-16T03:17:03.848193Z",
+          "versions": [
+            {
+              "version_id": "9f0c2781-e788-42c0-aa90-27dfaf0f755c",
+              "percentage": 100
+            }
+          ]
+        }
+      }
+    ],
+    "publicFiles": [
+      {
+        "file": "js/ranked-shop-v1.mjs",
+        "sha256": "c8f8eaea44603787e4b41b0c11e132218cdd20a72bef2874d96ba68cb5e29907",
+        "normalizedSha256": "6f001e73969139b7a6cf69729109cf9482a91907b277e297ff672e530eb79627"
+      },
+      {
+        "file": "js/ranked-shop-presentation-v1.mjs",
+        "sha256": "2e0c07644f496d0187f96a1092f4b944d9c2f01758e0018abbe87bcee433ea36",
+        "normalizedSha256": "2e0c07644f496d0187f96a1092f4b944d9c2f01758e0018abbe87bcee433ea36"
+      },
+      {
+        "file": "js/pet-growth-extras-v2.mjs",
+        "sha256": "2fe83bace2b2b4882bfc71772e7f0d17d4e5e89ec905157179bceda77f22dd5c",
+        "normalizedSha256": "b22cf3777f170f5a67d05abfdce71581650f9fd20af00f8a066411cfa0f01c5c"
+      },
+      {
+        "file": "shared/onestore-web-v1.mjs",
+        "sha256": "0f42c255cd9e10b4c7c1f9de5ad5881a7ed05bbbe434fe6463aee7c51d380903",
+        "normalizedSha256": "fb6efe6c5b05b462753ca8c26778749be0bbe9d02b4b73e273a987044c13c12c"
+      },
+      {
+        "file": "shared/onestore-web-assets-v1.mjs",
+        "sha256": "63f891a58e9d4ccd12fb1a251bd85d9a526f08d38f0fd4f19dbca7342b293180",
+        "normalizedSha256": "63f891a58e9d4ccd12fb1a251bd85d9a526f08d38f0fd4f19dbca7342b293180"
+      },
+      {
+        "file": "onestore/h5-policy.js",
+        "sha256": "05d5e74f37fee42803cef264205f06966a398683d2def34a8eb45c33738f22a3",
+        "normalizedSha256": "05d5e74f37fee42803cef264205f06966a398683d2def34a8eb45c33738f22a3"
+      },
+      {
+        "file": "service-worker.js",
+        "sha256": "bbd96db3d5cba629055cf703596b121539ca28189698d502f89bfeb9dcc19aed",
+        "normalizedSha256": "1164dfa6728ffe39307294de7dc3c5ea65c7c4b6d2f24330455aaca484a4367c"
+      },
+      {
+        "file": "index.html",
+        "sha256": "284e296c62eee2b106f01528c6b0daba70102c43da1a8b830f95c34a6dca7a6e",
+        "normalizedSha256": "9d473a9423365c63af7e2d50355e8fb3bb91bada3b0f6ae4a4e4fd729e34757e"
+      },
+      {
+        "file": "onestore/index.html",
+        "sha256": "86f370843f1a506cbe8e6a9b51ea2015215b9e4b95ae64dbc7ba851b611b7a5c",
+        "normalizedSha256": "86f370843f1a506cbe8e6a9b51ea2015215b9e4b95ae64dbc7ba851b611b7a5c",
+        "transform": "Production htmlForStore iframe/SDK injection"
+      }
+    ],
+    "windowsFiles": [
+      "js/ranked-shop-v1.mjs",
+      "js/ranked-shop-presentation-v1.mjs",
+      "js/pet-growth-extras-v2.mjs",
+      "shared/onestore-web-v1.mjs",
+      "shared/onestore-web-assets-v1.mjs"
+    ]
+  },
+  "checks": {
+    "testCount": 32,
+    "tests": [
+      "tests/pepegu-rental-growth-reset-20261116.test.mjs",
+      "tests/pepegu-ranked-rental-20261101.test.mjs",
+      "tests/pet-growth-live-20261114.test.mjs",
+      "tests/onestore-web-20261026.test.mjs"
+    ],
+    "checks": [
+      "check:worker"
+    ],
+    "sqliteAndPostgresPipeline": true,
+    "rollbackReplayAndStaleWriteVerified": true,
+    "publicActualEntry": true,
+    "rankedShopAndPetCodexNoticesVerified": true,
+    "onestoreRankedCoinShopRouteRepaired": true,
+    "productionAccountTestPurchases": 0,
+    "directAccountWrites": 0,
+    "messagesSent": 0,
+    "onestoreDocumentComparedAfterActualServerHtmlTransform": true
+  },
+  "performance": {
+    "conditions": "Windows Chrome headless desktop, Android Pixel 7 and iPhone 13 WebKit emulation, existing Windows Electron offscreen renderer at 60 FPS, ONEstore parent/iframe emulation. Public game assets with isolated actual API handlers and no production purchases. First entry and reentry begin at the lobby menu click and end at enabled purchase controls. 75 rAF samples per entry. No physical mobile device measurements.",
+    "comparison": "Desktop before/after use the same public entry, isolated account, and viewport. Single runs include network variance; no speedup claimed. Existing shared WebKit lobby ResizeObserver warnings are recorded in the run reports. Fresh period adds one growth read; continuous extension adds none. All reset writes remain in the existing transaction.",
+    "entries": [
+      {
+        "phase": "after",
+        "platform": "android",
+        "entries": [
+          {
+            "visit": "first",
+            "interactiveMs": 654,
+            "frames": {
+              "p95": 4.2999999999999545,
+              "max": 4.300000000000068,
+              "over50": 0
+            },
+            "afterExitRequests": 0
+          },
+          {
+            "visit": "reentry",
+            "interactiveMs": 582,
+            "frames": {
+              "p95": 4.2000000000000455,
+              "max": 4.2999999999999545,
+              "over50": 0
+            }
+          }
+        ],
+        "afterExitRequests": 0,
+        "errors": []
+      },
+      {
+        "phase": "after",
+        "platform": "desktop",
+        "entries": [
+          {
+            "visit": "first",
+            "interactiveMs": 671,
+            "frames": {
+              "p95": 4.2999999999999545,
+              "max": 4.400000000000091,
+              "over50": 0
+            },
+            "afterExitRequests": 0
+          },
+          {
+            "visit": "reentry",
+            "interactiveMs": 510,
+            "frames": {
+              "p95": 4.300000000000068,
+              "max": 4.5,
+              "over50": 0
+            }
+          }
+        ],
+        "afterExitRequests": 0,
+        "errors": []
+      },
+      {
+        "phase": "after",
+        "platform": "h5",
+        "entries": [
+          {
+            "visit": "first",
+            "interactiveMs": 698,
+            "frames": {
+              "p95": 4.300000000000068,
+              "max": 4.300000000000068,
+              "over50": 0
+            },
+            "afterExitRequests": 0
+          },
+          {
+            "visit": "reentry",
+            "interactiveMs": 649,
+            "frames": {
+              "p95": 4.2999999999999545,
+              "max": 4.400000000000091,
+              "over50": 0
+            }
+          }
+        ],
+        "afterExitRequests": 0,
+        "errors": []
+      },
+      {
+        "phase": "after",
+        "platform": "ios",
+        "entries": [
+          {
+            "visit": "first",
+            "interactiveMs": 1266,
+            "frames": {
+              "p95": 17,
+              "max": 66,
+              "over50": 1
+            },
+            "afterExitRequests": 0
+          },
+          {
+            "visit": "reentry",
+            "interactiveMs": 1260,
+            "frames": {
+              "p95": 26,
+              "max": 76,
+              "over50": 1
+            }
+          }
+        ],
+        "afterExitRequests": 0,
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications.",
+          "ResizeObserver loop completed with undelivered notifications.",
+          "ResizeObserver loop completed with undelivered notifications."
+        ]
+      },
+      {
+        "phase": "after",
+        "platform": "windows",
+        "entries": [
+          {
+            "visit": "first",
+            "interactiveMs": 786,
+            "frames": {
+              "p95": 16.700000000000045,
+              "max": 16.799999999999955,
+              "over50": 0
+            },
+            "afterExitRequests": 0
+          },
+          {
+            "visit": "reentry",
+            "interactiveMs": 713,
+            "frames": {
+              "p95": 16.700000000000045,
+              "max": 16.800000000000182,
+              "over50": 0
+            }
+          }
+        ],
+        "afterExitRequests": 0,
+        "errors": []
+      },
+      {
+        "phase": "before",
+        "platform": "desktop",
+        "entries": [
+          {
+            "visit": "first",
+            "interactiveMs": 610,
+            "frames": {
+              "p95": 4.2000000000000455,
+              "max": 4.300000000000068,
+              "over50": 0
+            },
+            "afterExitRequests": 0
+          },
+          {
+            "visit": "reentry",
+            "interactiveMs": 515,
+            "frames": {
+              "p95": 4.300000000000068,
+              "max": 12.5,
+              "over50": 0
+            }
+          }
+        ],
+        "afterExitRequests": 0,
+        "errors": []
+      },
+      {
+        "phase": "live",
+        "platform": "desktop",
+        "entries": [
+          {
+            "visit": "first",
+            "interactiveMs": 1146,
+            "frames": {
+              "p95": 4.2000000000000455,
+              "max": 4.2999999999999545,
+              "over50": 0
+            },
+            "afterExitRequests": 0
+          },
+          {
+            "visit": "reentry",
+            "interactiveMs": 519,
+            "frames": {
+              "p95": 4.300000000000068,
+              "max": 16.59999999999991,
+              "over50": 0
+            }
+          }
+        ],
+        "afterExitRequests": 0,
+        "errors": []
+      },
+      {
+        "phase": "live",
+        "platform": "h5",
+        "entries": [
+          {
+            "visit": "first",
+            "interactiveMs": 621,
+            "frames": {
+              "p95": 4.2000000000000455,
+              "max": 4.300000000000068,
+              "over50": 0
+            },
+            "afterExitRequests": 0
+          },
+          {
+            "visit": "reentry",
+            "interactiveMs": 541,
+            "frames": {
+              "p95": 4.2000000000000455,
+              "max": 4.300000000000068,
+              "over50": 0
+            }
+          }
+        ],
+        "afterExitRequests": 0,
+        "errors": []
+      }
+    ],
+    "queryBudget": {
+      "conditions": "Statement construction with counted read adapter; not production latency. Rental extensions perform no growth read; new expired period reads its growth once and all writes remain inside the existing purchase transaction.",
+      "rows": [
+        {
+          "case": "activeExtension",
+          "additionalReads": 0,
+          "transactionStatements": 3,
+          "constructionMs": 3.3500000000000014
+        },
+        {
+          "case": "expiredRestart",
+          "additionalReads": 1,
+          "transactionStatements": 8,
+          "constructionMs": 0.14589999999999748
+        }
+      ]
+    },
+    "phases": {
+      "before": "Published previous client with isolated API handlers",
+      "after": "Same public entry with changed source modules overlaid; H5 uses the actual local document router and generated policy",
+      "live": "Published new client and document router without source overlays; actual handlers remain isolated to avoid real purchases"
+    }
+  },
+  "artifacts": [
+    "growth-live-desktop.png",
+    "growth-live-h5.png",
+    "growth-after-ios.png",
+    "receipt-live-desktop.png"
+  ]
+}

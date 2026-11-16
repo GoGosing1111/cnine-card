@@ -1,0 +1,95 @@
+{
+  "at": "2026-11-16T03:18:09.534Z",
+  "pages": {
+    "id": "90fb89b5-1a79-4731-9187-c04de50ac929",
+    "url": "https://90fb89b5.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "29f2c81b89eba7dac5663477eb0d2d4c95d4c68d"
+  },
+  "releaseCommit": "29f2c81b89eba7dac5663477eb0d2d4c95d4c68d",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "sha256": "6ff620f28dbd88eae63d83c1ad7c49361fe9251f13d17dd8b3529103041ee05d",
+      "deployment": {
+        "id": "9024e8af-dc5e-40de-9e7b-85c589be6ebb",
+        "created_on": "2026-11-16T03:15:36.296877Z",
+        "versions": [
+          {
+            "version_id": "7e7740d6-31e7-49d8-9de0-d99419ea15ab",
+            "percentage": 100
+          }
+        ]
+      }
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "sha256": "f03011fac4e86515c5663fa5b30cf369062cdbac8479829c3ea1dab30451390a",
+      "deployment": {
+        "id": "7b6e7994-3462-4b14-9e3b-d34377b04b42",
+        "created_on": "2026-11-16T03:17:03.848193Z",
+        "versions": [
+          {
+            "version_id": "9f0c2781-e788-42c0-aa90-27dfaf0f755c",
+            "percentage": 100
+          }
+        ]
+      }
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "js/ranked-shop-v1.mjs",
+      "sha256": "c8f8eaea44603787e4b41b0c11e132218cdd20a72bef2874d96ba68cb5e29907",
+      "normalizedSha256": "6f001e73969139b7a6cf69729109cf9482a91907b277e297ff672e530eb79627"
+    },
+    {
+      "file": "js/ranked-shop-presentation-v1.mjs",
+      "sha256": "2e0c07644f496d0187f96a1092f4b944d9c2f01758e0018abbe87bcee433ea36",
+      "normalizedSha256": "2e0c07644f496d0187f96a1092f4b944d9c2f01758e0018abbe87bcee433ea36"
+    },
+    {
+      "file": "js/pet-growth-extras-v2.mjs",
+      "sha256": "2fe83bace2b2b4882bfc71772e7f0d17d4e5e89ec905157179bceda77f22dd5c",
+      "normalizedSha256": "b22cf3777f170f5a67d05abfdce71581650f9fd20af00f8a066411cfa0f01c5c"
+    },
+    {
+      "file": "shared/onestore-web-v1.mjs",
+      "sha256": "0f42c255cd9e10b4c7c1f9de5ad5881a7ed05bbbe434fe6463aee7c51d380903",
+      "normalizedSha256": "fb6efe6c5b05b462753ca8c26778749be0bbe9d02b4b73e273a987044c13c12c"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "63f891a58e9d4ccd12fb1a251bd85d9a526f08d38f0fd4f19dbca7342b293180",
+      "normalizedSha256": "63f891a58e9d4ccd12fb1a251bd85d9a526f08d38f0fd4f19dbca7342b293180"
+    },
+    {
+      "file": "onestore/h5-policy.js",
+      "sha256": "05d5e74f37fee42803cef264205f06966a398683d2def34a8eb45c33738f22a3",
+      "normalizedSha256": "05d5e74f37fee42803cef264205f06966a398683d2def34a8eb45c33738f22a3"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "bbd96db3d5cba629055cf703596b121539ca28189698d502f89bfeb9dcc19aed",
+      "normalizedSha256": "1164dfa6728ffe39307294de7dc3c5ea65c7c4b6d2f24330455aaca484a4367c"
+    },
+    {
+      "file": "index.html",
+      "sha256": "284e296c62eee2b106f01528c6b0daba70102c43da1a8b830f95c34a6dca7a6e",
+      "normalizedSha256": "9d473a9423365c63af7e2d50355e8fb3bb91bada3b0f6ae4a4e4fd729e34757e"
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "86f370843f1a506cbe8e6a9b51ea2015215b9e4b95ae64dbc7ba851b611b7a5c",
+      "normalizedSha256": "86f370843f1a506cbe8e6a9b51ea2015215b9e4b95ae64dbc7ba851b611b7a5c",
+      "transform": "Production htmlForStore iframe/SDK injection"
+    }
+  ],
+  "windowsFiles": [
+    "js/ranked-shop-v1.mjs",
+    "js/ranked-shop-presentation-v1.mjs",
+    "js/pet-growth-extras-v2.mjs",
+    "shared/onestore-web-v1.mjs",
+    "shared/onestore-web-assets-v1.mjs"
+  ]
+}
