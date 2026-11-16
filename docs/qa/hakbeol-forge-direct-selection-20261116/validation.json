@@ -2330,6 +2330,411 @@
         "input": 1217
       },
       "actualLiveAccountWrites": 0
+    },
+    {
+      "phase": "before",
+      "platform": "windows",
+      "width": 1440,
+      "height": 900,
+      "conditions": "Windows host, isolated API snapshot, fixed 80ms API delay; no live account requests or writes; actual Windows launcher/main.mjs + game preload + ResourceStore + HTTPS protocol/API forwarding, QA profile; manifest essentials limited to index.html to avoid unrelated downloads",
+      "diagnostics": [
+        {
+          "url": "https://cnine-card.pages.dev/assets/ui/packs/prime-armory-equipment-box-v1.png?v=1987-prime-bulk",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/ui/packs/suit-core-supply-box-20261008.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-1-v2004.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-2-v2004.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-3-v2004.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-4-v2066.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/prime-hyperdrive-vehicle-pack-v1.png?v=1987-prime-bulk",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/ui/packs/prime-armory-equipment-box-v1.png?v=1987-prime-bulk",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/ui/packs/suit-core-supply-box-20261008.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-1-v2004.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-2-v2004.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-3-v2004.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-4-v2066.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/prime-hyperdrive-vehicle-pack-v1.png?v=1987-prime-bulk",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        "A bad HTTP response code (404) was received when fetching the script.",
+        "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+        {
+          "url": "https://cnine-card.pages.dev/admin/equipment-forge-advanced-v1.css?v=20261012-scrolls",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        "Cannot read properties of undefined (reading 'allowsRoute')",
+        "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+        {
+          "url": "https://cnine-card.pages.dev/admin/equipment-forge-advanced-v1.css?v=20261012-scrolls",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        "Cannot read properties of undefined (reading 'allowsRoute')",
+        {
+          "url": "https://cnine-card.pages.dev/assets/ui/packs/prime-armory-equipment-box-v1.png?v=1987-prime-bulk",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/ui/packs/suit-core-supply-box-20261008.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-1-v2004.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-2-v2004.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-3-v2004.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-4-v2066.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/prime-hyperdrive-vehicle-pack-v1.png?v=1987-prime-bulk",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/ui/packs/prime-armory-equipment-box-v1.png?v=1987-prime-bulk",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/ui/packs/suit-core-supply-box-20261008.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-1-v2004.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-2-v2004.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-3-v2004.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-4-v2066.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/prime-hyperdrive-vehicle-pack-v1.png?v=1987-prime-bulk",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        "A bad HTTP response code (404) was received when fetching the script.",
+        "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+        {
+          "url": "https://cnine-card.pages.dev/admin/equipment-forge-advanced-v1.css?v=20261012-scrolls",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        "Cannot read properties of undefined (reading 'allowsRoute')"
+      ],
+      "requests": [
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "all",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "all",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "all",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        }
+      ],
+      "blockedWrites": [],
+      "coldLaunchMs": 3149,
+      "first": {
+        "navigation": 1501,
+        "input": 1506
+      },
+      "firstResources": [
+        {
+          "url": "https://cnine-card.pages.dev/js/ui-fx-vendor-v2045.bundle.js?v=2045",
+          "durationMs": 468,
+          "startMs": 32,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/pig-coin-v1.png",
+          "durationMs": 227,
+          "startMs": 651,
+          "transferSize": 0
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap",
+          "durationMs": 209,
+          "startMs": 31,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/preview/equipment-forge-v1/assets/upgrade-lab-v2.png",
+          "durationMs": 208,
+          "startMs": 256,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/preview/equipment-polish-premium-v1/assets/polishing-stone-v1.png",
+          "durationMs": 113,
+          "startMs": 856,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/api/character/equipment/forge/quote",
+          "durationMs": 98,
+          "startMs": 1122,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/api/character/equipment/forge/state?group=all",
+          "durationMs": 86,
+          "startMs": 791,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/shared/equipment-forge-policy-v1.mjs?v=20261012-scrolls",
+          "durationMs": 67,
+          "startMs": 628,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/equipment-forge/requests.mjs?v=20261107-guarantee",
+          "durationMs": 62,
+          "startMs": 628,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/js/adventure-lobby-v2107.js?lobby=20261029-font-v5&favorites=20261013-v1&jokgakCity=20261010-city4&v=2108-shared-navigation&goldenAxe=20260918&coup=2115&loot=20260915&mercenary=2133&workshop=20260922&chuseok=20260923&menu=20260925-2&mine=20261003&petCodex=20261009&tacticalNav=20261030-shell1&growthGuide=20261030-1",
+          "durationMs": 56,
+          "startMs": 31,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/guaranteed-enhancement-scroll-v1.webp",
+          "durationMs": 56,
+          "startMs": 32,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/equipment-protection-ticket-v1.webp",
+          "durationMs": 55,
+          "startMs": 32,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/shared/equipment-forge-resources-v1.mjs?v=20261107-guarantee",
+          "durationMs": 55,
+          "startMs": 628,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/equipment-forge/app.mjs?v=20261107-guarantee",
+          "durationMs": 54,
+          "startMs": 32,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/js/adventure-navigation-standalone.js?jokgakCity=20261010-city4&v=2108-shared-navigation&goldenAxe=20260918&chuseok=20260923",
+          "durationMs": 53,
+          "startMs": 31,
+          "transferSize": 0
+        }
+      ],
+      "findTarget": {
+        "ms": 10613,
+        "stateRequests": 1
+      },
+      "directSelectionSupported": false,
+      "frames": {
+        "count": 0,
+        "limitation": "Hidden native window did not produce animation frames; foreground browser renderer frames recorded separately."
+      },
+      "afterExit": {
+        "forgeRequests": 0,
+        "forgeCanvases": 0
+      },
+      "reentry": {
+        "navigation": 1259,
+        "input": 1266
+      },
+      "actualLiveAccountWrites": 0
     }
   ],
   "limitations": [
@@ -2343,5 +2748,10 @@
     "equipmentCurrencyMessageMutations": 0,
     "diagnosticSessionCreatedAndRemoved": true,
     "productionAuthSecretsPersisted": false
+  },
+  "sourceRebase": {
+    "previous": "3b46b55067a56a227ee62237276aa008b0981fac",
+    "scopeImplementationUnchanged": true,
+    "cacheTagsMergedWithCurrentPetRelease": true
   }
 }

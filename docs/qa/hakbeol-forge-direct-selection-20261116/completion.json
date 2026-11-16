@@ -1,0 +1,453 @@
+{
+  "completedAt": "2026-11-16T11:33:30.982Z",
+  "target": {
+    "accountId": 4627,
+    "nickname": "학벌",
+    "instanceId": "3373751824",
+    "name": "마리오네트 신발",
+    "level": 0
+  },
+  "sourceCommit": "489c603d9",
+  "deployedCommit": "c1db310291f2bd096827c4d3e252d7c978de415a",
+  "previousLiveCommit": "3b46b55067a56a227ee62237276aa008b0981fac",
+  "delivery": {
+    "runtimeMercenaryFilterVerified": true,
+    "h5ForgeVerified": true,
+    "verifiedAt": "2026-11-16T11:32:42.273Z",
+    "commit": "c1db310291f2bd096827c4d3e252d7c978de415a",
+    "pages": {
+      "id": "54d3f117-b66c-4eaa-91bd-a7f02d47f3f5",
+      "url": "https://54d3f117.cnine-card.pages.dev"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "id": "5a6d08aa-5918-41bf-b198-f6fb585109b7",
+        "trafficPercent": 100
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "id": "b92d5d5d-a2e0-42b9-9b41-3bed48d9c9a1",
+        "trafficPercent": 100
+      }
+    ],
+    "files": [
+      {
+        "file": "index.html",
+        "bytes": 52540,
+        "sha256": "028a404e85517f92aeafd469a9c6785fe45e8276f924ba75746e42e5309c5a5c",
+        "windows": true
+      },
+      {
+        "file": "onestore/index.html",
+        "bytes": 52661,
+        "sha256": "4fc32f14a3eaa6a5910c36e1e52c9cdfd2b6d1a64240f323f9ef3d1fb68d7643",
+        "windows": false
+      },
+      {
+        "file": "equipment-forge/index.html",
+        "bytes": 14688,
+        "sha256": "62e95fb095ba51cce1b48fb098fb9b7eae087ac3487df6263bbb1238b823a7b9",
+        "windows": true
+      },
+      {
+        "file": "equipment-forge/app.mjs",
+        "bytes": 34784,
+        "sha256": "9175617612ec858fa13b227d293417d3e98007c29c179a3a59d82470c9fb288d",
+        "windows": true
+      },
+      {
+        "file": "mercenary-codex/equipment/index.html",
+        "bytes": 7882,
+        "sha256": "459ae5cc980fc1a93cd04e67415aa913d69ab5f74f4646d320b41ce06427b1e4",
+        "windows": true
+      },
+      {
+        "file": "mercenary-codex/equipment/app.mjs",
+        "bytes": 28721,
+        "sha256": "8dc0a76df951893000acc39e87ae655b62993bef099e53408f8df8555d854cdf",
+        "windows": true
+      },
+      {
+        "file": "service-worker.js",
+        "bytes": 26099,
+        "sha256": "0d5c2835ab58f681bc719fe1f074b309c817fb9857012b8ca6eaf891161fbe30",
+        "windows": false
+      }
+    ],
+    "windows": {
+      "releaseId": "d1a2c7677db5963cc5bc06aae241cc5d2bdc056eaa3e5b1fa21486fc13cb858f",
+      "changed": [
+        "/equipment-forge/app.mjs",
+        "/equipment-forge/index.html",
+        "/index.html",
+        "/mercenary-codex/equipment/app.mjs",
+        "/mercenary-codex/equipment/index.html"
+      ],
+      "removed": []
+    },
+    "scopedTests": 20,
+    "assetCount": 20000
+  },
+  "result": "Owned mercenary armory selection now links directly to one exact forge instance; ownership/public/active/group checks stay in the server. The forge reads group/focus on first entry, automatically selects the item, cancels replaced list loads, and clears obsolete rows when changing group.",
+  "diagnosis": {
+    "confirmed": "Canonical authenticated GET already returned all ten mercenary items including Marionette Shoes +0; the supplied photo still showed the mixed general inventory. The item exists and is not blocked by the server catalog.",
+    "unconfirmed": "The exact original button failure in the reporting player installation could not be reproduced from the photo; no claim that a particular installed version or race was conclusively its cause."
+  },
+  "verification": {
+    "scopedChecks": 22,
+    "precheckedSQLitePostgresHandlers": 2,
+    "deploymentGateChecks": 20,
+    "liveAuthenticatedGet": {
+      "at": "2026-11-16T11:31:48.490Z",
+      "purpose": "Verify the deployed ordinary filter and exact-item focus through the canonical authenticated live GET route for Hakbeol. Only a task-scoped random session is created and immediately removed; no equipment/currency/quote writes.",
+      "requests": [
+        {
+          "group": "mercenary",
+          "status": 200,
+          "ms": 357,
+          "headers": {
+            "cache-control": "no-store",
+            "cf-cache-status": null,
+            "x-cnine-api-runtime": "regional-v1",
+            "date": "Mon, 16 Nov 2026 11:31:49 GMT"
+          },
+          "accountId": "4627",
+          "items": [
+            {
+              "instanceId": "3022513739",
+              "code": "MERC_ASC_09_WEAPON",
+              "name": "천룡태황 무기",
+              "level": 13
+            },
+            {
+              "instanceId": "3144328059",
+              "code": "MERC_ASC_06_TOP",
+              "name": "성휘대천사 상의",
+              "level": 10
+            },
+            {
+              "instanceId": "3061608144",
+              "code": "MERC_ASC_03_TOP",
+              "name": "청룡천위 상의",
+              "level": 10
+            },
+            {
+              "instanceId": "3051167191",
+              "code": "MERC_ASC_01_TOP",
+              "name": "월백검성 상의",
+              "level": 10
+            },
+            {
+              "instanceId": "2997088574",
+              "code": "MERC_ASC_02_ACCESSORY",
+              "name": "성홍기사 장신구",
+              "level": 10
+            },
+            {
+              "instanceId": "3360701480",
+              "code": "HUNT_COAST_WEAPON",
+              "name": "난파왕 무기",
+              "level": 10
+            },
+            {
+              "instanceId": "3356549802",
+              "code": "HUNT_THEATRE_WEAPON",
+              "name": "마리오네트 무기",
+              "level": 10
+            },
+            {
+              "instanceId": "3050756786",
+              "code": "MERC_ASC_02_SHOES",
+              "name": "성홍기사 신발",
+              "level": 10
+            },
+            {
+              "instanceId": "3170820054",
+              "code": "MERC_ASC_01_SHOES",
+              "name": "월백검성 신발",
+              "level": 10
+            },
+            {
+              "instanceId": "3373751824",
+              "code": "HUNT_THEATRE_SHOES",
+              "name": "마리오네트 신발",
+              "level": 0
+            }
+          ],
+          "nextCursor": null
+        },
+        {
+          "group": "mercenary&focusId=3373751824",
+          "status": 200,
+          "ms": 235,
+          "headers": {
+            "cache-control": "no-store",
+            "cf-cache-status": null,
+            "x-cnine-api-runtime": "regional-v1",
+            "date": "Mon, 16 Nov 2026 11:31:49 GMT"
+          },
+          "accountId": "4627",
+          "items": [
+            {
+              "instanceId": "3373751824",
+              "code": "HUNT_THEATRE_SHOES",
+              "name": "마리오네트 신발",
+              "level": 0
+            }
+          ],
+          "nextCursor": null
+        }
+      ],
+      "temporarySessionRemoved": true
+    },
+    "readOnlyServices": {
+      "at": "2026-11-16T11:19:29.127Z",
+      "readOnly": true,
+      "queries": 45,
+      "measurements": [
+        {
+          "focus": false,
+          "ms": 1508,
+          "queries": 15,
+          "count": 10,
+          "nextCursor": null,
+          "item": {
+            "instanceId": "3373751824",
+            "name": "마리오네트 신발",
+            "level": 0,
+            "equipped": true
+          }
+        },
+        {
+          "focus": true,
+          "ms": 1182,
+          "queries": 15,
+          "count": 1,
+          "nextCursor": null,
+          "item": {
+            "instanceId": "3373751824",
+            "name": "마리오네트 신발",
+            "level": 0,
+            "equipped": true
+          }
+        },
+        {
+          "focus": true,
+          "ms": 1178,
+          "queries": 15,
+          "count": 1,
+          "nextCursor": null,
+          "item": {
+            "instanceId": "3373751824",
+            "name": "마리오네트 신발",
+            "level": 0,
+            "equipped": true
+          }
+        }
+      ]
+    },
+    "platforms": [
+      {
+        "platform": "desktop",
+        "conditions": "Windows host, isolated API snapshot, fixed 80ms API delay; no live account requests or writes",
+        "first": {
+          "navigation": 905,
+          "input": 910
+        },
+        "reentry": {
+          "navigation": 739,
+          "input": 745
+        },
+        "directSelectionMs": 979,
+        "frames": {
+          "count": 137,
+          "p95Ms": 5.9,
+          "maxMs": 12.5,
+          "over50": 0
+        },
+        "afterExit": {
+          "forgeRequests": 0,
+          "forgeCanvases": 0
+        },
+        "races": {
+          "latePreviousResponseIgnored": true,
+          "failedFilterShowsNoStaleRows": true,
+          "retryRecovered": true
+        }
+      },
+      {
+        "platform": "android",
+        "conditions": "Windows host, isolated API snapshot, fixed 80ms API delay; no live account requests or writes",
+        "first": {
+          "navigation": 1308,
+          "input": 1319
+        },
+        "reentry": {
+          "navigation": 649,
+          "input": 655
+        },
+        "directSelectionMs": 1115,
+        "frames": {
+          "count": 149,
+          "p95Ms": 5,
+          "maxMs": 6.3,
+          "over50": 0
+        },
+        "afterExit": {
+          "forgeRequests": 0,
+          "forgeCanvases": 0
+        }
+      },
+      {
+        "platform": "ios",
+        "conditions": "Windows host, isolated API snapshot, fixed 80ms API delay; no live account requests or writes",
+        "first": {
+          "navigation": 2673,
+          "input": 2692
+        },
+        "reentry": {
+          "navigation": 1580,
+          "input": 1596
+        },
+        "directSelectionMs": 1749,
+        "frames": {
+          "count": 17,
+          "p95Ms": 60,
+          "maxMs": 60,
+          "over50": 1
+        },
+        "afterExit": {
+          "forgeRequests": 0,
+          "forgeCanvases": 0
+        }
+      },
+      {
+        "platform": "h5",
+        "conditions": "Windows host, isolated API snapshot, fixed 80ms API delay; no live account requests or writes",
+        "first": {
+          "navigation": 1329,
+          "input": 1337
+        },
+        "reentry": {
+          "navigation": 748,
+          "input": 754
+        },
+        "directSelectionMs": 1174,
+        "frames": {
+          "count": 148,
+          "p95Ms": 4.6,
+          "maxMs": 5.7,
+          "over50": 0
+        },
+        "afterExit": {
+          "forgeRequests": 0,
+          "forgeCanvases": 0
+        }
+      },
+      {
+        "platform": "windows",
+        "conditions": "Windows host, isolated API snapshot, fixed 80ms API delay; no live account requests or writes; actual Windows launcher/main.mjs + game preload + ResourceStore + HTTPS protocol/API forwarding, QA profile; manifest essentials limited to index.html to avoid unrelated downloads",
+        "first": {
+          "navigation": 1520,
+          "input": 1525
+        },
+        "reentry": {
+          "navigation": 1227,
+          "input": 1231
+        },
+        "directSelectionMs": 3333,
+        "frames": {
+          "count": 0,
+          "limitation": "Hidden native window did not produce animation frames; foreground browser renderer frames recorded separately."
+        },
+        "afterExit": {
+          "forgeRequests": 0,
+          "forgeCanvases": 0
+        }
+      }
+    ],
+    "before": [
+      {
+        "platform": "desktop",
+        "conditions": "Windows host, isolated API snapshot, fixed 80ms API delay; no live account requests or writes",
+        "first": {
+          "navigation": 1088,
+          "input": 1095
+        },
+        "reentry": {
+          "navigation": 818,
+          "input": 824
+        },
+        "frames": {
+          "count": 130,
+          "p95Ms": 8.3,
+          "maxMs": 11.8,
+          "over50": 0
+        },
+        "afterExit": {
+          "forgeRequests": 0,
+          "forgeCanvases": 0
+        }
+      },
+      {
+        "platform": "ios",
+        "conditions": "Windows host, isolated API snapshot, fixed 80ms API delay; no live account requests or writes",
+        "first": {
+          "navigation": 1843,
+          "input": 1861
+        },
+        "reentry": {
+          "navigation": 1205,
+          "input": 1217
+        },
+        "frames": {
+          "count": 25,
+          "p95Ms": 48,
+          "maxMs": 66,
+          "over50": 1
+        },
+        "afterExit": {
+          "forgeRequests": 0,
+          "forgeCanvases": 0
+        }
+      },
+      {
+        "platform": "windows",
+        "conditions": "Windows host, isolated API snapshot, fixed 80ms API delay; no live account requests or writes; actual Windows launcher/main.mjs + game preload + ResourceStore + HTTPS protocol/API forwarding, QA profile; manifest essentials limited to index.html to avoid unrelated downloads",
+        "first": {
+          "navigation": 1501,
+          "input": 1506
+        },
+        "reentry": {
+          "navigation": 1259,
+          "input": 1266
+        },
+        "frames": {
+          "count": 0,
+          "limitation": "Hidden native window did not produce animation frames; foreground browser renderer frames recorded separately."
+        },
+        "afterExit": {
+          "forgeRequests": 0,
+          "forgeCanvases": 0
+        }
+      }
+    ]
+  },
+  "controls": {
+    "liveEquipmentCurrencyMessageMutations": 0,
+    "temporaryDiagnosticSessions": 2,
+    "temporarySessionsRemoved": true,
+    "noProductionEnhancementExecuted": true,
+    "authenticationSecretsPersisted": false,
+    "unrelatedWorkspaceChangesPreserved": true
+  },
+  "limitations": [
+    "UI/quote checks use an isolated snapshot and 80ms API delay. Mobile and H5 checks are emulated, not physical-phone measurements.",
+    "Windows test executes the actual ONE store Windows launcher main/preload/resource store and HTTPS forwarding. Hidden window frame samples are unavailable; browser renderer frames are recorded separately. Native candidate profile was warmed by fixture retries.",
+    "Windows store distribution allowsRoute/admin stylesheet warnings and service-worker 404 exist on the baseline as well. WebKit ResizeObserver warnings and occasional long frames also exist before and after.",
+    "Single-run performance numbers include network/assets and test-runner overhead; no universal speed-up claim."
+  ],
+  "userPath": "PC 프로그램 완전히 종료 후 재실행 → 용병 장비함 → 마리오네트 신발 선택 → 이 장비 강화",
+  "directLink": "https://cnine-card.pages.dev/equipment-forge/?group=mercenary&focusId=3373751824"
+}
