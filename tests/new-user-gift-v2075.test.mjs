@@ -281,7 +281,7 @@ test('CMS checks actual signup and verified status; request fields cannot alter 
   }finally{await f.close();}
 });
 
-test('whole box grants 300 billion, SUPERSTAR +13, Iyejun FUR +15, other FUR/ZENITH +13 and magic +9 atomically',async()=>{
+test('whole box grants 1000 trillion, eight first-tier ICONs and the existing enhanced rewards atomically',async()=>{
   const f=await fixture();try{
     await f.pg.exec("INSERT INTO user_cards VALUES(1,'F1',2,17,6,NULL),(1,'F2',1,4,3,NULL),(1,'S1',1,13,4,NULL),(1,'S2',0,13,4,NULL); INSERT INTO user_magic_cards VALUES(1,1,2,9,NULL),(1,2,0,9,NULL)");
     await f.issue();const r=await f.open();
@@ -612,8 +612,8 @@ test('route permissions block anonymous/users before schema work and reject unsu
 
 test('client/CMS integrations load versioned assets and generic inventory grant cannot bypass the dedicated route',()=>{
   const read=file=>readFileSync(new URL('../'+file,import.meta.url),'utf8');
-  assert.match(read('index.html'),/js\/new-user-gift-v2075\.js\?v=20261022-gift-v4-gbody/);
-  assert.match(read('admin/index.html'),/\.\.\/js\/new-user-gift-v2075\.js\?v=20261022-gift-v4-gbody/);
+  assert.match(read('index.html'),/js\/new-user-gift-v2075\.js\?v=20261116-gift-icons-coin1000t-v1/);
+  assert.match(read('admin/index.html'),/\.\.\/js\/new-user-gift-v2075\.js\?v=20261116-gift-icons-coin1000t-v1/);
   assert.match(read('js/app.js'),/itemCode==='NEW_USER_GIFT_BOX'.*NewUserGiftV2075.open/);
   assert.match(read('functions/api/[[path]].js'),/if\(itemCode===NEW_USER_GIFT_CODE\)return json/);
   assert.match(read('admin/new-user-gift-v2075.js'),/USER|userDialog/);
