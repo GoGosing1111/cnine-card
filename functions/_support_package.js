@@ -99,7 +99,8 @@ export async function processPackage(env,admin,body,now=Date.now()){
  const baseProduct=supportPackageOrderProduct(order);
  const bonusProgress=grant&&supportPackageHasBonus(baseProduct)?await readBonusProgress(env,order.userId,baseProduct.bonusPolicy):null;
  const product=bonusProgress?supportPackageWithBonus(baseProduct,bonusProgress.state):baseProduct;
- const nextBonus=bonusProgress?{...bonusProgress.state,paidPurchases:product.purchaseBonus.paidPurchasesAfter,totalBonusCoins:product.purchaseBonus.totalEarnedCoins,lastOrderId:order.id,updatedAt:now}:null;
+ const nextBonus=bonusProgress?{...bonusProgress.state,paidPurchases:product.purchaseBonus.paidPurchasesAfter,totalBonusCoins:product.purchaseBonus.totalEarnedCoins,
+  ...(product.purchaseBonus.cubes!==undefined?{totalBonusCubes:(bonusProgress.state.totalBonusCubes??0)+product.purchaseBonus.cubes}:{}),lastOrderId:order.id,updatedAt:now}:null;
  const target=await env.DB.prepare('SELECT id,nickname,status FROM users WHERE id=?').bind(order.userId).first();if(!target||grant&&target.status!=='ACTIVE')fail('TARGET','현재 지급할 수 없는 계정입니다.',409);
  if(grant){await ensureLimitedShardCatalog(env);if(product.items.some(item=>item.code==='EMPEROR_ENERGY'))await ensureEmperorEnergyCatalog(env);if(product.items.some(item=>item.code==='WEAPON_ENHANCEMENT_SCROLL'))await ensureForgeScrollCatalog(env);}
  await ensureJointAtomicSchema(env);

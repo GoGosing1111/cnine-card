@@ -1,8 +1,8 @@
 import {legionRechargeLabel,legionRecoveryNotice} from '../shared/legion-hunt-energy-v1.mjs';
 import {openSupportApplication} from './supporter-application-v1.mjs?v=20261108-pass-purchases';
-import {mountSupportPackage} from './support-package-v1.mjs?v=20261115-package-refresh-v3';
-import {mountPackageAlerts} from './support-package-alerts-v1.mjs?v=20261115-package-refresh-v3';
-import {SUPPORT_PACKAGE_EVENT_DEADLINE,supportPackageSalesOpen} from '../shared/support-package-v1.mjs?v=20261115-package-refresh-v3';
+import {mountSupportPackage} from './support-package-v1.mjs?v=20261116-package-cubes-v1';
+import {mountPackageAlerts} from './support-package-alerts-v1.mjs?v=20261116-package-cubes-v1';
+import {SUPPORT_PACKAGE_EVENT_DEADLINE,supportPackageSalesOpen} from '../shared/support-package-v1.mjs?v=20261116-package-cubes-v1';
 import {jointAccountRequest} from './joint-account-transport.mjs';
 import {mountSeasonPass} from './supporter-season-pass-v1.mjs?v=20261114-month2-purchase';
 import {mountSupportScreenGuard} from './supporter-screen-guard-v1.mjs?v=20261011-guard1';
@@ -27,7 +27,7 @@ export function mountServerSupportNavigation({root,getUser,signal,request=jointA
   const menu=root.getElementById('menu-dialog');if(!menu)return {dispose(){}};
   const doc=menu.ownerDocument,link=doc.createElement('link');link.rel='stylesheet';link.href='/css/server-support-v1.css?v=20261011-apply1';root.append(link);
   const passStyle=doc.createElement('link');passStyle.rel='stylesheet';passStyle.href='/css/supporter-season-pass-v1.css?v=20261107-pass-months';root.append(passStyle);
-  const packageStyle=doc.createElement('link');packageStyle.rel='stylesheet';packageStyle.href='/css/support-package-v1.css?v=20261115-package-refresh-v3';root.append(packageStyle);
+  const packageStyle=doc.createElement('link');packageStyle.rel='stylesheet';packageStyle.href='/css/support-package-v1.css?v=20261116-package-cubes-v1';root.append(packageStyle);
   const packageAlerts=mountPackageAlerts({root,request,canReceive:()=>Number(getUser()?.serverUserId||getUser()?.id)===1,onOpen:()=>window.open('/admin/?supportPackage=1','_blank','noopener'),
     onPassOpen:(id,orderId)=>window.open('/admin/?'+new URLSearchParams({supportPassMonth:'2',userId:id,supportPassOrder:orderId}),'_blank','noopener')});
   let selectedMonth=1,passView=null,passVisible=false,screenGuard=null,applicationView=null;

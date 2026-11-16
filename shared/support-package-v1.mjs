@@ -2,9 +2,10 @@ import {FORGE_SCROLL_ITEMS} from './equipment-forge-advanced-v1.mjs';
 // November 15 starts a new counter for everyone. Prior campaign records remain immutable.
 export const SUPPORT_PACKAGE_BONUS_CODE='SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1';
 export const SUPPORT_PACKAGE_LEGACY_BONUS_CODE='SUPPORT_PACKAGE_PURCHASE_BONUS_20261106_V1';
-const bonusTiers=tiers=>Object.freeze(tiers.map(([purchases,trillions])=>Object.freeze({purchases,coins:String(BigInt(trillions)*1000000000000n)})));
+const bonusTiers=tiers=>Object.freeze(tiers.map(([purchases,trillions,cubes])=>Object.freeze({purchases,coins:String(BigInt(trillions)*1000000000000n),...(cubes===undefined?{}:{cubes})})));
 const legacyBonusTiers=bonusTiers([[1,200],[2,400],[3,500],[4,1000],[5,2000],[10,8000]]);
-export const SUPPORT_PACKAGE_BONUS_TIERS=bonusTiers([[1,1000],[2,2000],[3,3000],[4,6000],[5,8000],[10,8000]]);
+export const SUPPORT_PACKAGE_BONUS_TIERS=bonusTiers([[1,1000,5],[2,2000,10],[3,3000,15],[4,6000,20],[5,8000,40],[10,8000,100]]);
+export const SUPPORT_PACKAGE_CUBE=Object.freeze({code:'SSS_MIRACLE_CUBE',name:'SSS 미라클큐브',image:'assets/ui/sss-miracle-cube-20261021/cube-768.webp'});
 export const supportPackageHasBonus=product=>[SUPPORT_PACKAGE_BONUS_CODE,SUPPORT_PACKAGE_LEGACY_BONUS_CODE].includes(product?.bonusPolicy);
 const tiersFor=policy=>{if(policy===SUPPORT_PACKAGE_BONUS_CODE)return SUPPORT_PACKAGE_BONUS_TIERS;if(policy===SUPPORT_PACKAGE_LEGACY_BONUS_CODE)return legacyBonusTiers;throw Error('Invalid package bonus policy');};
 export const supportPackageBonusKey=(userId,policy=SUPPORT_PACKAGE_BONUS_CODE)=>{tiersFor(policy);return (policy===SUPPORT_PACKAGE_BONUS_CODE?'support_package_bonus_20261115_v1:':'support_package_bonus_20261106_v1:')+Number(userId);};
@@ -14,20 +15,25 @@ export function supportPackageBonus(paidPurchases=0,quantity=0,policyCode=SUPPOR
   const after=paidPurchases+quantity,tiers=tiersFor(policyCode),milestones=tiers.filter(t=>t.purchases>paidPurchases&&t.purchases<=after);
   return {policyCode,paidPurchasesBefore:paidPurchases,paidPurchasesAfter:after,milestones,
     coins:milestones.reduce((sum,t)=>sum+BigInt(t.coins),0n).toString(),
-    totalEarnedCoins:tiers.filter(t=>t.purchases<=after).reduce((sum,t)=>sum+BigInt(t.coins),0n).toString()};
+    totalEarnedCoins:tiers.filter(t=>t.purchases<=after).reduce((sum,t)=>sum+BigInt(t.coins),0n).toString(),
+    ...(policyCode===SUPPORT_PACKAGE_BONUS_CODE?{cubes:milestones.reduce((sum,t)=>sum+t.cubes,0),totalEarnedCubes:tiers.filter(t=>t.purchases<=after).reduce((sum,t)=>sum+t.cubes,0)}:{})};
 }
 export function supportPackageBonusState(value=null,policyCode=SUPPORT_PACKAGE_BONUS_CODE){
   const state=value??{version:1,policyCode,paidPurchases:0,totalBonusCoins:'0'};
   if(state.version!==1||state.policyCode!==policyCode||!Number.isSafeInteger(state.paidPurchases)||state.paidPurchases<0||state.totalBonusCoins!==supportPackageBonus(state.paidPurchases,0,policyCode).totalEarnedCoins)throw Error('Invalid package bonus state');
+  // Absent totals mean pre-cube purchases. Track actual grants so an intervening
+  // payment cannot mark outstanding retrospective rewards as already delivered.
+  if(state.totalBonusCubes!==undefined&&(!Number.isSafeInteger(state.totalBonusCubes)||state.totalBonusCubes<0||state.totalBonusCubes>(supportPackageBonus(state.paidPurchases,0,policyCode).totalEarnedCubes??0)))throw Error('Invalid package cube bonus state');
   return state;
 }
 export function supportPackageWithBonus(product,progress=0){
   if(!supportPackageHasBonus(product))return product;
   const paidPurchases=typeof progress==='number'?progress:supportPackageBonusState(progress,product.bonusPolicy).paidPurchases;
   const purchaseBonus=supportPackageBonus(paidPurchases,product.purchaseQuantity??1,product.bonusPolicy);
-  return {...product,baseCoins:product.coins,coins:packageCoinValue(BigInt(product.coins)+BigInt(purchaseBonus.coins)),purchaseBonus};
+  return {...product,baseCoins:product.coins,coins:packageCoinValue(BigInt(product.coins)+BigInt(purchaseBonus.coins)),purchaseBonus,
+    ...(purchaseBonus.cubes?{items:[...product.items,{...SUPPORT_PACKAGE_CUBE,quantity:purchaseBonus.cubes}]}:{})};
 }
-export const supportPackageBonusSummary=bonus=>bonus?`누적 ${bonus.paidPurchasesBefore} → ${bonus.paidPurchasesAfter}회 · 이번 구매 보너스 ${BigInt(bonus.coins)/1000000000000n}조 코인`:'';
+export const supportPackageBonusSummary=bonus=>bonus?`누적 ${bonus.paidPurchasesBefore} → ${bonus.paidPurchasesAfter}회 · 이번 구매 보너스 ${BigInt(bonus.coins)/1000000000000n}조 코인${bonus.cubes?` · SSS 미라클큐브 ${bonus.cubes}개`:''}`:'';
 export const supportPackageItemQuantity=n=>n>=100000000&&n%100000000===0?`${n/100000000}억`:Number(n).toLocaleString('ko-KR');
 export const LIMITED_SHARD=Object.freeze({code:'MERCENARY_SSS_LIMITED_SHARD',name:'SSS 리미티드 조각',subtitle:'SSS LIMITED MERCENARY SHARD',description:'SSS 리미티드 용병을 위한 별도 보관용 재료입니다. 교환 방법과 필요 수량은 추후 안내됩니다.',category:'MATERIAL',rarity:'SSS',image:'assets/items/sss-limited-shard-20261020/item.webp',sortOrder:174903});
 export const SUPPORT_PACKAGE_UNIT=Object.freeze({code:'SEASON_PASS_PACKAGE_20261020',name:'리버스콜 코인 패키지',priceWon:49800,coins:100000000000000,coinImage:'assets/ui/icon-fusion-20261004/coin.webp',items:Object.freeze([
