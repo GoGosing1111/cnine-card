@@ -1,0 +1,59 @@
+{
+  "at": "2026-11-16T15:34:30.366Z",
+  "phase": "before",
+  "userId": "4391",
+  "itemCode": "RANK_EXP_POTION_3X_60M",
+  "readOnly": true,
+  "automaticallyUsed": false,
+  "conditions": "Windows CLI invoking existing production potion options handler against production PostgreSQL in READ ONLY transaction; first/repeated reads include network. Data-only grant; no UI/runtime modification or redeploy, no browser/physical-device frame measurement.",
+  "measurements": [
+    {
+      "phase": "first",
+      "elapsedMs": 327,
+      "sqlQueries": 3,
+      "quantity": 0,
+      "itemCode": "RANK_EXP_POTION_3X_60M",
+      "multiplier": 3,
+      "durationMinutes": 60,
+      "currentBuff": {
+        "version": 1,
+        "revision": 41,
+        "multiplier": 2,
+        "startedAt": "2026-11-16T14:42:00.959Z",
+        "expiresAt": "2026-11-16T15:42:00.959Z",
+        "action": "START",
+        "active": true,
+        "remainingSeconds": 452,
+        "image": "assets/items/rank-exp-potions-20261020/2x.webp",
+        "userId": 4391,
+        "serverNow": "2026-11-16T15:34:29.660Z"
+      },
+      "pendingRequestId": null,
+      "cache": "private, no-store"
+    },
+    {
+      "phase": "reentry",
+      "elapsedMs": 237,
+      "sqlQueries": 3,
+      "quantity": 0,
+      "itemCode": "RANK_EXP_POTION_3X_60M",
+      "multiplier": 3,
+      "durationMinutes": 60,
+      "currentBuff": {
+        "version": 1,
+        "revision": 41,
+        "multiplier": 2,
+        "startedAt": "2026-11-16T14:42:00.959Z",
+        "expiresAt": "2026-11-16T15:42:00.959Z",
+        "action": "START",
+        "active": true,
+        "remainingSeconds": 451,
+        "image": "assets/items/rank-exp-potions-20261020/2x.webp",
+        "userId": 4391,
+        "serverNow": "2026-11-16T15:34:29.964Z"
+      },
+      "pendingRequestId": null,
+      "cache": "private, no-store"
+    }
+  ]
+}

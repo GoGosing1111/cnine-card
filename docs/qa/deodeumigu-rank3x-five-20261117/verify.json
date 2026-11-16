@@ -1,0 +1,58 @@
+{
+  "status": "VERIFIED",
+  "readOnly": true,
+  "noWriteReplay": true,
+  "verification": {
+    "inventoryLogs": 1,
+    "auditRecords": 1,
+    "missing": 0,
+    "duplicates": 0
+  },
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:deodeumigu:rank-exp-3x-five:20261117:v1",
+    "authorization": "더듬이구 계정에 3배물약 5개 지급해",
+    "planHash": "022bc73b1cc34e76bdce804b7e817501ee701635cbba7ee39fd71f9992bf381c",
+    "userId": "4391",
+    "nickname": "더듬이구",
+    "code": "RANK_EXP_POTION_3X_60M",
+    "name": "계급 경험치 3배 물약",
+    "quantity": 5,
+    "before": "0",
+    "after": "5",
+    "unseenAfter": "5",
+    "unseenBefore": "0",
+    "logId": "89860026",
+    "completedAt": "2026-11-16T15:35:16.536Z",
+    "protectedBeforeHash": "5b5664285e3180a8db3badf4c6d3f1f39f5fa051451b7f223f99dfdc689d487b",
+    "protectedAfterHash": "5b5664285e3180a8db3badf4c6d3f1f39f5fa051451b7f223f99dfdc689d487b",
+    "syncBefore": {
+      "domains": {
+        "pvp": "1466051",
+        "wallet": "1469027",
+        "loadout": "1327854",
+        "messages": "1468941",
+        "inventory": "1469029",
+        "collection": "1468978"
+      },
+      "revision": "1469029"
+    },
+    "syncAfter": {
+      "domains": {
+        "pvp": "1466051",
+        "wallet": "1469027",
+        "loadout": "1327854",
+        "messages": "1468941",
+        "inventory": "1469030",
+        "collection": "1468978"
+      },
+      "revision": "1469030"
+    },
+    "automaticallyUsed": false,
+    "messagesSent": 0,
+    "auditId": "62237"
+  },
+  "currentQuantity": "5",
+  "subsequentChange": "0",
+  "operationLocksRemaining": 0
+}
