@@ -1,0 +1,13 @@
+{
+  "encoding": {
+    "lossless": true,
+    "effort": 6,
+    "alphaQuality": 100
+  },
+  "encodeMs": 1867,
+  "fullSizeLobbyRGBChangedChannels": 0,
+  "mobileLobbyRGBChangedChannelsComparedWithProportionalResize": 0,
+  "equipmentOpaqueRGBChangedChannelsComparedWithProportionalResize": 0,
+  "approvedPNGSHA256": "9559836f88d68bfb5f859871ae91eea22b1c06c3b4469bcffe6ce973c0ff9092",
+  "noColorCorrectionOrFaceRegeneration": true
+}

@@ -1,0 +1,9 @@
+{
+  "at": "2026-11-16T11:24:46.898Z",
+  "failureAfterImageUpdateRolledBack": true,
+  "fullRehearsalIncludingAuditAndReceiptRolledBack": true,
+  "inTransactionReplayWrites": 0,
+  "catalogVersionUnchanged": 1,
+  "persistentWrites": 0,
+  "ownershipAndEffectsUnchanged": true
+}

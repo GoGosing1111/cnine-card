@@ -1,0 +1,761 @@
+{
+  "checkedAt": "2026-11-16T11:27:11.024Z",
+  "conditions": "Windows headless Chrome/WebKit; production entry routes and production renderers; synthetic API and equipped account only. Image delivery fixed 25 ms latency + 2 MB/s. Not a physical phone or installed Windows client.",
+  "realDevices": false,
+  "realWindowsInstalledApp": false,
+  "samplesPerPlatform": 1,
+  "productionDatabaseWritesDuringBrowserQA": false,
+  "syntheticAccountOnly": true,
+  "siteReadyAssetTest": {
+    "command": "node --test --test-name-pattern='only site-ready' tests/avatar-santa-options-20261114.test.mjs",
+    "passed": 1,
+    "failed": 0
+  },
+  "comparisons": [
+    {
+      "device": "pc",
+      "coldStartToLobbyMs": {
+        "before": 1749,
+        "after": 2798
+      },
+      "equipmentFirstMs": {
+        "before": 332,
+        "after": 356
+      },
+      "equipmentReentryMs": {
+        "before": 85,
+        "after": 185
+      }
+    },
+    {
+      "device": "ios",
+      "coldStartToLobbyMs": {
+        "before": 1609,
+        "after": 1850
+      },
+      "equipmentFirstMs": {
+        "before": 644,
+        "after": 639
+      },
+      "equipmentReentryMs": {
+        "before": 396,
+        "after": 283
+      }
+    },
+    {
+      "device": "android",
+      "coldStartToLobbyMs": {
+        "before": 1222,
+        "after": 1312
+      },
+      "equipmentFirstMs": {
+        "before": 323,
+        "after": 374
+      },
+      "equipmentReentryMs": {
+        "before": 98,
+        "after": 95
+      }
+    },
+    {
+      "device": "windows",
+      "coldStartToLobbyMs": {
+        "before": 1546,
+        "after": 1969
+      },
+      "equipmentFirstMs": {
+        "before": 329,
+        "after": 394
+      },
+      "equipmentReentryMs": {
+        "before": 88,
+        "after": 125
+      }
+    },
+    {
+      "device": "h5",
+      "coldStartToLobbyMs": {
+        "before": 1417,
+        "after": 1709
+      },
+      "equipmentFirstMs": {
+        "before": 374,
+        "after": 426
+      },
+      "equipmentReentryMs": {
+        "before": 112,
+        "after": 147
+      }
+    }
+  ],
+  "imageSizes": [
+    {
+      "file": "assets/ui/avatars-v1/santa-20261114/joeun-lobby-640.webp",
+      "beforeBytes": 141362,
+      "afterBytes": 603468,
+      "deltaBytes": 462106,
+      "dimensionsUnchanged": true
+    },
+    {
+      "file": "assets/ui/avatars-v1/santa-20261114/joeun-lobby-1024.webp",
+      "beforeBytes": 372712,
+      "afterBytes": 1351752,
+      "deltaBytes": 979040,
+      "dimensionsUnchanged": true
+    },
+    {
+      "file": "assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp",
+      "beforeBytes": 67874,
+      "afterBytes": 184768,
+      "deltaBytes": 116894,
+      "dimensionsUnchanged": true
+    }
+  ],
+  "losslessOptimization": {
+    "approvedPNGBytes": 1960346,
+    "desktopWebPBytes": 1351752,
+    "desktopBytesSavedAgainstApprovedPNG": 608594,
+    "mobileWidth": 640,
+    "encode": "lossless WebP effort 6; proportional Lanczos3 resize only"
+  },
+  "views": [
+    {
+      "mode": "before",
+      "device": "pc",
+      "coldStartToLobbyMs": 1749,
+      "rounds": [
+        {
+          "round": "first",
+          "clickToDecodedMs": 332,
+          "image": {
+            "src": "https://ed9b4185.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 37,
+            "p95Ms": 62.6,
+            "maxMs": 221.4,
+            "over50": 2
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        },
+        {
+          "round": "reentry",
+          "clickToDecodedMs": 85,
+          "image": {
+            "src": "https://ed9b4185.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 112,
+            "p95Ms": 4.3,
+            "maxMs": 25,
+            "over50": 0
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "joeun-lobby-1024.webp",
+          "bytes": 372712,
+          "deliveryMs": 224
+        },
+        {
+          "file": "joeun-equipment-640.webp",
+          "bytes": 67874,
+          "deliveryMs": 61
+        }
+      ],
+      "errors": []
+    },
+    {
+      "mode": "after",
+      "device": "pc",
+      "coldStartToLobbyMs": 2798,
+      "rounds": [
+        {
+          "round": "first",
+          "clickToDecodedMs": 356,
+          "image": {
+            "src": "https://ed9b4185.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp?v=9559836f-v10",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 50,
+            "p95Ms": 41.7,
+            "maxMs": 188.6,
+            "over50": 1
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        },
+        {
+          "round": "reentry",
+          "clickToDecodedMs": 185,
+          "image": {
+            "src": "https://ed9b4185.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp?v=9559836f-v10",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 107,
+            "p95Ms": 4.2,
+            "maxMs": 58.3,
+            "over50": 1
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "joeun-lobby-1024.webp",
+          "bytes": 1351752,
+          "deliveryMs": 725
+        },
+        {
+          "file": "joeun-equipment-640.webp",
+          "bytes": 184768,
+          "deliveryMs": 124
+        },
+        {
+          "file": "joeun-equipment-640.webp",
+          "bytes": 184768,
+          "deliveryMs": 131
+        }
+      ],
+      "errors": []
+    },
+    {
+      "mode": "before",
+      "device": "ios",
+      "coldStartToLobbyMs": 1609,
+      "rounds": [
+        {
+          "round": "first",
+          "clickToDecodedMs": 644,
+          "image": {
+            "src": "https://ed9b4185.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 8,
+            "p95Ms": 124,
+            "maxMs": 124,
+            "over50": 8
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        },
+        {
+          "round": "reentry",
+          "clickToDecodedMs": 396,
+          "image": {
+            "src": "https://ed9b4185.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 7,
+            "p95Ms": 88,
+            "maxMs": 88,
+            "over50": 7
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "joeun-lobby-640.webp",
+          "bytes": 141362,
+          "deliveryMs": 159
+        },
+        {
+          "file": "joeun-equipment-640.webp",
+          "bytes": 67874,
+          "deliveryMs": 83
+        },
+        {
+          "file": "joeun-equipment-640.webp",
+          "bytes": 67874,
+          "deliveryMs": 67
+        }
+      ],
+      "errors": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ]
+    },
+    {
+      "mode": "after",
+      "device": "ios",
+      "coldStartToLobbyMs": 1850,
+      "rounds": [
+        {
+          "round": "first",
+          "clickToDecodedMs": 639,
+          "image": {
+            "src": "https://ed9b4185.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp?v=9559836f-v10",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 7,
+            "p95Ms": 136,
+            "maxMs": 136,
+            "over50": 6
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        },
+        {
+          "round": "reentry",
+          "clickToDecodedMs": 283,
+          "image": {
+            "src": "https://ed9b4185.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp?v=9559836f-v10",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 9,
+            "p95Ms": 90,
+            "maxMs": 90,
+            "over50": 8
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "joeun-lobby-640.webp",
+          "bytes": 603468,
+          "deliveryMs": 404
+        },
+        {
+          "file": "joeun-equipment-640.webp",
+          "bytes": 184768,
+          "deliveryMs": 141
+        }
+      ],
+      "errors": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ]
+    },
+    {
+      "mode": "before",
+      "device": "android",
+      "coldStartToLobbyMs": 1222,
+      "rounds": [
+        {
+          "round": "first",
+          "clickToDecodedMs": 323,
+          "image": {
+            "src": "https://ed9b4185.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 45,
+            "p95Ms": 45.9,
+            "maxMs": 230.2,
+            "over50": 1
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        },
+        {
+          "round": "reentry",
+          "clickToDecodedMs": 98,
+          "image": {
+            "src": "https://ed9b4185.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 120,
+            "p95Ms": 4.3,
+            "maxMs": 8.3,
+            "over50": 0
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "joeun-lobby-640.webp",
+          "bytes": 141362,
+          "deliveryMs": 110
+        },
+        {
+          "file": "joeun-equipment-640.webp",
+          "bytes": 67874,
+          "deliveryMs": 62
+        }
+      ],
+      "errors": []
+    },
+    {
+      "mode": "after",
+      "device": "android",
+      "coldStartToLobbyMs": 1312,
+      "rounds": [
+        {
+          "round": "first",
+          "clickToDecodedMs": 374,
+          "image": {
+            "src": "https://ed9b4185.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp?v=9559836f-v10",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 59,
+            "p95Ms": 50,
+            "maxMs": 170,
+            "over50": 1
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        },
+        {
+          "round": "reentry",
+          "clickToDecodedMs": 95,
+          "image": {
+            "src": "https://ed9b4185.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp?v=9559836f-v10",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 119,
+            "p95Ms": 4.3,
+            "maxMs": 8.4,
+            "over50": 0
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "joeun-lobby-640.webp",
+          "bytes": 603468,
+          "deliveryMs": 339
+        },
+        {
+          "file": "joeun-equipment-640.webp",
+          "bytes": 184768,
+          "deliveryMs": 136
+        }
+      ],
+      "errors": []
+    },
+    {
+      "mode": "before",
+      "device": "windows",
+      "coldStartToLobbyMs": 1546,
+      "rounds": [
+        {
+          "round": "first",
+          "clickToDecodedMs": 329,
+          "image": {
+            "src": "https://ed9b4185.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 36,
+            "p95Ms": 58.3,
+            "maxMs": 240,
+            "over50": 2
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        },
+        {
+          "round": "reentry",
+          "clickToDecodedMs": 88,
+          "image": {
+            "src": "https://ed9b4185.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 113,
+            "p95Ms": 4.3,
+            "maxMs": 12.6,
+            "over50": 0
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "joeun-lobby-1024.webp",
+          "bytes": 372712,
+          "deliveryMs": 233
+        },
+        {
+          "file": "joeun-equipment-640.webp",
+          "bytes": 67874,
+          "deliveryMs": 60
+        }
+      ],
+      "errors": []
+    },
+    {
+      "mode": "after",
+      "device": "windows",
+      "coldStartToLobbyMs": 1969,
+      "rounds": [
+        {
+          "round": "first",
+          "clickToDecodedMs": 394,
+          "image": {
+            "src": "https://ed9b4185.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp?v=9559836f-v10",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 51,
+            "p95Ms": 37.5,
+            "maxMs": 200.6,
+            "over50": 2
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        },
+        {
+          "round": "reentry",
+          "clickToDecodedMs": 125,
+          "image": {
+            "src": "https://ed9b4185.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp?v=9559836f-v10",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 86,
+            "p95Ms": 4.3,
+            "maxMs": 111.7,
+            "over50": 1
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "joeun-lobby-1024.webp",
+          "bytes": 1351752,
+          "deliveryMs": 735
+        },
+        {
+          "file": "joeun-equipment-640.webp",
+          "bytes": 184768,
+          "deliveryMs": 128
+        }
+      ],
+      "errors": []
+    },
+    {
+      "mode": "before",
+      "device": "h5",
+      "coldStartToLobbyMs": 1417,
+      "rounds": [
+        {
+          "round": "first",
+          "clickToDecodedMs": 374,
+          "image": {
+            "src": "https://ed9b4185.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 38,
+            "p95Ms": 50.1,
+            "maxMs": 238.6,
+            "over50": 2
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        },
+        {
+          "round": "reentry",
+          "clickToDecodedMs": 112,
+          "image": {
+            "src": "https://ed9b4185.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 121,
+            "p95Ms": 4.3,
+            "maxMs": 4.3,
+            "over50": 0
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "joeun-lobby-640.webp",
+          "bytes": 141362,
+          "deliveryMs": 101
+        },
+        {
+          "file": "joeun-equipment-640.webp",
+          "bytes": 67874,
+          "deliveryMs": 62
+        }
+      ],
+      "errors": []
+    },
+    {
+      "mode": "after",
+      "device": "h5",
+      "coldStartToLobbyMs": 1709,
+      "rounds": [
+        {
+          "round": "first",
+          "clickToDecodedMs": 426,
+          "image": {
+            "src": "https://ed9b4185.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp?v=9559836f-v10",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 40,
+            "p95Ms": 62.6,
+            "maxMs": 257.6,
+            "over50": 2
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        },
+        {
+          "round": "reentry",
+          "clickToDecodedMs": 147,
+          "image": {
+            "src": "https://ed9b4185.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp?v=9559836f-v10",
+            "width": 640,
+            "height": 960
+          },
+          "frames": {
+            "count": 121,
+            "p95Ms": 4.3,
+            "maxMs": 4.5,
+            "over50": 0
+          },
+          "exit": {
+            "equipmentRoots": 0,
+            "equipmentAnimations": 0,
+            "newCharacterRequests": 0
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "joeun-lobby-640.webp",
+          "bytes": 603468,
+          "deliveryMs": 345
+        },
+        {
+          "file": "joeun-equipment-640.webp",
+          "bytes": 184768,
+          "deliveryMs": 132
+        }
+      ],
+      "errors": []
+    },
+    {
+      "mode": "after",
+      "device": "cms-mobile",
+      "rounds": [],
+      "cmsFirstEntryMs": 486,
+      "images": [
+        {
+          "file": "joeun-lobby-640.webp",
+          "bytes": 603468,
+          "deliveryMs": 348
+        }
+      ],
+      "errors": [
+        "Cannot convert undefined or null to object"
+      ]
+    }
+  ],
+  "observations": [
+    "Approved 1024px lobby RGB is bit-for-bit unchanged. The transparent source uses only a segmentation alpha mask over the approved RGB. 640px derivatives are losslessly encoded after proportional resizing.",
+    "The user prioritized immutable face and skin pixels. Lossless delivery is larger than the previous lossy artwork. Encoding saves 608594 bytes against the approved PNG; the 640px mobile and equipment images avoid downloading the full desktop image. No claim that loading is faster than the superseded lossy image.",
+    "The network transfer increases for exact pixel preservation; preexisting UI main-thread paint/animation long frames remain. Timings are single controlled-route samples with other site assets fetched over the network, not a statistical benchmark.",
+    "WebKit reports the same ResizeObserver warning before and after. It has long frames in both versions; no frame or runtime logic changed.",
+    "Equipment DOM, animations and background requests are gone after exit across all five entry paths.",
+    "The incomplete synthetic CMS dashboard reports a global initialization error. The actual target avatar card, approved image, five effect values, private flag and sale-OFF state render and pass. Production API is independently read-only verified after release."
+  ]
+}

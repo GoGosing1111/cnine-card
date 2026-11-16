@@ -1,0 +1,26 @@
+[
+  {
+    "file": "assets/ui/avatars-v1/santa-20261114/joeun-lobby-640.webp",
+    "width": 640,
+    "height": 960,
+    "bytes": 603468,
+    "alpha": false,
+    "sha256": "2312b4a49db0ddaee5477a38d27a085baeb600fc8d1a32a2ddecd44c9e903e07"
+  },
+  {
+    "file": "assets/ui/avatars-v1/santa-20261114/joeun-lobby-1024.webp",
+    "width": 1024,
+    "height": 1536,
+    "bytes": 1351752,
+    "alpha": false,
+    "sha256": "5d6b8cb6cf8e5564106d93fc5bf601fd6773e38f75622161a83dfbef33e4d993"
+  },
+  {
+    "file": "assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp",
+    "width": 640,
+    "height": 960,
+    "bytes": 184768,
+    "alpha": true,
+    "sha256": "937337b43810e2dacb8c5bfc15657ceb29551bb35f0ef4aa6805ba9e6fa1b7e3"
+  }
+]

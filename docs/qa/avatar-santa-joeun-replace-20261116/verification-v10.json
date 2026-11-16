@@ -1,0 +1,76 @@
+{
+  "method": "User-authorized ordinary image editing; Pillow and NumPy; no new generation",
+  "authorization": "원본 픽셀을 보존하는 일반 편집으로 전환",
+  "sourceFace": "C:\\Users\\User\\.codex\\generated_images\\01a1e3e3-45d4-7dd2-a579-b16e6631d6f1\\exec-01ea434c-313c-4f55-9e0f-d3d477ec507f.png",
+  "poseSource": "C:\\Users\\User\\.codex\\generated_images\\01a1e3e3-45d4-7dd2-a579-b16e6631d6f1\\exec-676bdf3f-ec5d-47cd-9a25-51ce45201997.png",
+  "output": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\imagegen\\avatar-santa-joeun-face-20261116-v1\\manual-face-skin\\joeun-santa-original-face-natural-pose-v10.png",
+  "sourceFaceSHA256": "229d481c31fd60d270d89ed08c9ba00000c535380da09938ed59d4bf4883d0ec",
+  "outputSHA256": "9559836f88d68bfb5f859871ae91eea22b1c06c3b4469bcffe6ce973c0ff9092",
+  "size": [
+    1024,
+    1536
+  ],
+  "faceCorePixelCount": 23017,
+  "faceCoreChangedRGBChannelsVersusOriginal": 0,
+  "faceScaleOrWarpApplied": false,
+  "outsideSelectionChangedRGBChannelsVersusPose": 0,
+  "medianSkinRGBDelta": [
+    -4.179,
+    6.9038,
+    16.5926
+  ],
+  "facePatchMeans": {
+    "forehead": {
+      "original": [
+        228.5,
+        189.7,
+        175.36
+      ],
+      "before": [
+        232.68,
+        183.54,
+        158.77
+      ],
+      "after": [
+        228.5,
+        189.7,
+        175.36
+      ]
+    },
+    "viewer_left_cheek": {
+      "original": [
+        235.82,
+        187.08,
+        166.4
+      ],
+      "before": [
+        238.61,
+        176.42,
+        149.39
+      ],
+      "after": [
+        235.82,
+        187.08,
+        166.4
+      ]
+    },
+    "viewer_right_cheek": {
+      "original": [
+        223.78,
+        174.14,
+        160.73
+      ],
+      "before": [
+        229.81,
+        167.24,
+        145.34
+      ],
+      "after": [
+        223.78,
+        174.14,
+        160.73
+      ]
+    }
+  },
+  "productionChanged": false
+}

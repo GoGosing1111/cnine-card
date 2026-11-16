@@ -1,0 +1,125 @@
+{
+  "status": "USER_APPROVED",
+  "userInstruction": "이 사진으로 라이브반영, 기존 산타걸 조은 리소스 교체",
+  "approvedAt": "2026-11-16T11:23:26.059Z",
+  "version": "v10-original-face-natural-pose",
+  "master": {
+    "file": "approved-v10.png",
+    "width": 1024,
+    "height": 1536,
+    "bytes": 1960346,
+    "alpha": false,
+    "sha256": "9559836f88d68bfb5f859871ae91eea22b1c06c3b4469bcffe6ce973c0ff9092",
+    "sourceFile": "revisions/joeun-original-face-v10/approved-v10.png"
+  },
+  "equipment": {
+    "file": "equipment-v10.png",
+    "width": 1024,
+    "height": 1536,
+    "bytes": 3733886,
+    "alpha": true,
+    "sha256": "e2853f5a0f1bd05843960dd0f7263dc4d728c94659826909f2c248e2011a19c3",
+    "sourceFile": "revisions/joeun-original-face-v10/equipment-v10.png"
+  },
+  "alpha": {
+    "approvedSHA256": "9559836f88d68bfb5f859871ae91eea22b1c06c3b4469bcffe6ce973c0ff9092",
+    "equipmentSHA256": "e2853f5a0f1bd05843960dd0f7263dc4d728c94659826909f2c248e2011a19c3",
+    "segmentationSHA256": "e0a22dd9db90c3b0778dfb7d01d2dc928f2ad3998a3f99d510536e788302cd09",
+    "method": "Segmentation supplies alpha only; original RGB copied without alteration",
+    "approvedRGBChangedChannels": 0,
+    "transparentPct": 79.95789845784505,
+    "solidPct": 20.04210154215495,
+    "edgePixelsAbove32": 0
+  },
+  "encoding": {
+    "encoding": {
+      "lossless": true,
+      "effort": 6,
+      "alphaQuality": 100
+    },
+    "encodeMs": 1867,
+    "fullSizeLobbyRGBChangedChannels": 0,
+    "mobileLobbyRGBChangedChannelsComparedWithProportionalResize": 0,
+    "equipmentOpaqueRGBChangedChannelsComparedWithProportionalResize": 0,
+    "approvedPNGSHA256": "9559836f88d68bfb5f859871ae91eea22b1c06c3b4469bcffe6ce973c0ff9092",
+    "noColorCorrectionOrFaceRegeneration": true
+  },
+  "facePixelPreservation": {
+    "method": "User-authorized ordinary image editing; Pillow and NumPy; no new generation",
+    "authorization": "원본 픽셀을 보존하는 일반 편집으로 전환",
+    "sourceFace": "C:\\Users\\User\\.codex\\generated_images\\01a1e3e3-45d4-7dd2-a579-b16e6631d6f1\\exec-01ea434c-313c-4f55-9e0f-d3d477ec507f.png",
+    "poseSource": "C:\\Users\\User\\.codex\\generated_images\\01a1e3e3-45d4-7dd2-a579-b16e6631d6f1\\exec-676bdf3f-ec5d-47cd-9a25-51ce45201997.png",
+    "output": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\imagegen\\avatar-santa-joeun-face-20261116-v1\\manual-face-skin\\joeun-santa-original-face-natural-pose-v10.png",
+    "sourceFaceSHA256": "229d481c31fd60d270d89ed08c9ba00000c535380da09938ed59d4bf4883d0ec",
+    "outputSHA256": "9559836f88d68bfb5f859871ae91eea22b1c06c3b4469bcffe6ce973c0ff9092",
+    "size": [
+      1024,
+      1536
+    ],
+    "faceCorePixelCount": 23017,
+    "faceCoreChangedRGBChannelsVersusOriginal": 0,
+    "faceScaleOrWarpApplied": false,
+    "outsideSelectionChangedRGBChannelsVersusPose": 0,
+    "medianSkinRGBDelta": [
+      -4.179,
+      6.9038,
+      16.5926
+    ],
+    "facePatchMeans": {
+      "forehead": {
+        "original": [
+          228.5,
+          189.7,
+          175.36
+        ],
+        "before": [
+          232.68,
+          183.54,
+          158.77
+        ],
+        "after": [
+          228.5,
+          189.7,
+          175.36
+        ]
+      },
+      "viewer_left_cheek": {
+        "original": [
+          235.82,
+          187.08,
+          166.4
+        ],
+        "before": [
+          238.61,
+          176.42,
+          149.39
+        ],
+        "after": [
+          235.82,
+          187.08,
+          166.4
+        ]
+      },
+      "viewer_right_cheek": {
+        "original": [
+          223.78,
+          174.14,
+          160.73
+        ],
+        "before": [
+          229.81,
+          167.24,
+          145.34
+        ],
+        "after": [
+          223.78,
+          174.14,
+          160.73
+        ]
+      }
+    },
+    "productionChanged": false
+  },
+  "appearance": "사용자 승인 얼굴·피부색·머리·비율·자연스러운 다리 포즈 고정. 버건디 타이트 미니 드레스, 가터벨트와 망사스타킹, 케이프 없음.",
+  "method": "User-authorized ordinary image editing. Existing approved RGB remains authoritative; segmentation used only for alpha."
+}
