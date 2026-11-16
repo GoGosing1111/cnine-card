@@ -1,0 +1,136 @@
+{
+  "status": "COMPLETE",
+  "authorization": "0수표 계정에도 지급",
+  "operationKey": "ops:0supyo-sudal-streamer20:20261117:v1",
+  "parentOperationKey": "ops:named-sudal-streamer20:20261117:v1",
+  "parentReceiptHash": "29b7774c7c8e9f316f6820fd3bc694f5082843a84740bcb5cf06e4d213d05ad8",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:0supyo-sudal-streamer20:20261117:v1",
+    "planHash": "1f12d726bc944b2c28a8acfa7d4cef2391e3a6bfcf338e13a02e6777a9bbc30e",
+    "completedAt": "2026-11-16T15:45:02.463Z",
+    "completedAtKST": "2026-11-17 00:45:02",
+    "recipientCount": 1,
+    "petCode": "PET-SUDAL",
+    "petName": "수달",
+    "petQuantity": 1,
+    "totalPets": 1,
+    "itemCode": "CNINE_STREAMER_BOX",
+    "itemName": "씨나인 스트리머 박스",
+    "boxQuantity": 20,
+    "totalBoxes": 20,
+    "cmsRevision": 51,
+    "messagesSent": 0,
+    "automaticallyEquipped": 0,
+    "boxesOpened": 0,
+    "grants": [
+      {
+        "userId": "88",
+        "nickname": "0수표",
+        "requestedNickname": "0수표",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 52,
+        "petAfterRevision": 53,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_0supyo_sudal_streamer20_20261117_88",
+          "adminId": 1,
+          "target": {
+            "id": 88,
+            "nickname": "0수표"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 명단 추가 0수표 수달 펫·씨나인 스트리머 박스 지급 · ops:0supyo-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 53,
+          "grantedAt": "2026-11-16T15:45:02.463Z",
+          "replayed": false
+        },
+        "petPayloadHash": "96fb3f0582eb54bd663e60b877dadb05146f43b81cad920ee3024509ca44798e",
+        "boxLogId": "89864098",
+        "petAuditId": "62244"
+      }
+    ],
+    "auditId": "62245"
+  },
+  "independentReadOnly": true,
+  "noWriteReplay": true,
+  "locksRemaining": 0,
+  "verification": {
+    "recipients": 1,
+    "totalPets": 1,
+    "totalBoxes": 20,
+    "petAudits": 1,
+    "boxLedgerRows": 1,
+    "perAccountReceipts": 1,
+    "petReceipts": 1,
+    "missing": 0,
+    "duplicates": 0,
+    "petSelectableInPvePvp": 1,
+    "previous38Preserved": true,
+    "changesAfterGrant": []
+  },
+  "partialFailureRolledBack": true,
+  "fullRehearsalRolledBack": true,
+  "protectedStateHash": "dea80b47747bcb84a4a87b36a4017e1297baedbdeb02c6b88533c3dfaa5586fe",
+  "otherTableWrites": 0,
+  "syncVerified": true,
+  "cumulative": {
+    "accounts": 39,
+    "pets": 39,
+    "boxes": 780
+  },
+  "performance": {
+    "readOnly": true,
+    "conditions": "Windows CLI to live PostgreSQL, actual pet ownership/CMS/catalog services plus inventory query. Network included, first and repeated reads in same connection. Data grant only; no UI/runtime code changes, deployment, browser frames or physical device measurement.",
+    "current": {
+      "userId": "88",
+      "nickname": "0수표",
+      "pet": {
+        "code": "PET-SUDAL",
+        "quantity": 1,
+        "permanent": true,
+        "ready": [
+          "PVE",
+          "PVP"
+        ]
+      },
+      "boxes": "20"
+    },
+    "measurements": [
+      {
+        "phase": "first",
+        "elapsedMs": 428,
+        "sqlCalls": 4
+      },
+      {
+        "phase": "repeat",
+        "elapsedMs": 328,
+        "sqlCalls": 4
+      }
+    ],
+    "grantAndVerifyMs": 3164,
+    "independentVerifyMs": 1186,
+    "totalOperationMs": 14603
+  },
+  "runtimeChanged": false,
+  "deployed": false,
+  "sourceArtifacts": {
+    "common.mjs": "b882831ccb775cb7bcfb7a0f63faebc78ee358e470702c9843d71b69be52acab",
+    "prepare.mjs": "20a2b7baa05b20ae00b3374a12a423b5868d15e2c638998426d56e07df679cb2",
+    "run.mjs": "a1412c8fa8e02cbcead9421dcc4f2ac55262ba4f8f82f2103e7997406ec1a2e9",
+    "service-read.mjs": "f9f97f8ae62291c80c0743e176a47b40b4cd36033ee05e3d1ade18511bb53ff6"
+  },
+  "evidenceDirectory": "operations/0supyo-sudal-streamer20-20261117"
+}
