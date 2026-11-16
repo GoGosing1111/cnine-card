@@ -1,3 +1,4 @@
+import {isRetiredHyperReward,withoutHyperTickets} from '../../shared/hyper-ticket-retirement-v1.mjs';
 import {companionBattleOptions,companionReviewOptions} from '../../shared/companion-battle-snapshot-v1.mjs';
 import {randomUUID,randomInt} from 'node:crypto';
 import {buildFighter,buildMonsterFighter,buildBattleSuitFighter,buildPvePlayerTeam,publicFighter,teamSummary,simulateBattleV2Preview} from '../../functions/_battle_v2_preview.js';
@@ -73,11 +74,12 @@ export function createHuntSession({snapshot,catalog,equipment,difficulty='normal
 }
 // Compact, JSON-safe state is persisted by the account API; no isolate-local session map.
 export function restoreHuntSession(state,{now=Date.now,random=secureRandom}={}){
-  const {id,policy,timeLimit,timeline,outcome}=state,magnet=state.magnet===true;
+  const {id,timeLimit,timeline,outcome}=state,magnet=state.magnet===true;
+  const policy={...state.policy,...(state.policy.items?{items:withoutHyperTickets(state.policy.items)}:{})};
   const eventTimes=state.eventTimes||timeline.map(e=>e.combatAtMs),eventsBySeq=new Map(timeline.map(e=>[e.seq,e]));
   let {startedAt=null,lastAck=0,ended=false,receipt=null}=state;
-  const drops=new Map(state.drops||[]),claims=new Map(state.claims||[]),inventory=new Map(state.inventory||[]),positions=state.positions||[],claimTimes=state.claimTimes||[];
-  const observed=new Map((state.observed||[]).map(([seq,dropId])=>[seq,dropId?drops.get(dropId):null]));
+  const drops=new Map((state.drops||[]).filter(([,d])=>!isRetiredHyperReward(d.item))),claims=new Map((state.claims||[]).filter(([,c])=>!isRetiredHyperReward(c.item))),inventory=new Map((state.inventory||[]).filter(([,item])=>!isRetiredHyperReward(item))),positions=state.positions||[],claimTimes=state.claimTimes||[];
+  const observed=new Map((state.observed||[]).map(([seq,dropId])=>[seq,dropId?drops.get(dropId)||null:null]));
   const guaranteedBosses=new Set(state.guaranteedBosses||[]);
   const addInventory=item=>inventory.set(item.code,{...item,quantity:(inventory.get(item.code)?.quantity||0)+item.quantity});
   function guarantee(event){if(!event?.boss||guaranteedBosses.has(event.seq))return;const item=regionBossGuarantee(policy);if(item){addInventory(item);guaranteedBosses.add(event.seq);}}

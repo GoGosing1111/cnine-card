@@ -1,3 +1,4 @@
+import {isRetiredHyperReward,withoutHyperTickets} from '../shared/hyper-ticket-retirement-v1.mjs';
 import {DIFFICULTIES} from '../preview/sustained-hunt-v2/hunt-rules.mjs';
 import {jointError} from './_joint_request.js';
 export const LEGION_HUNT_MODES=Object.freeze(['OFF','TEST','ON']);
@@ -27,7 +28,7 @@ export async function legionHuntCatalog(env){
   ];
   const results=await Promise.all(definitions.map(([,sql])=>env.DB.prepare(sql).all()));
   if(results.some(r=>(r.results||[]).length>1000))throw jointError('HUNT_CATALOG_LIMIT','아이템 목록이 조회 한도를 초과했습니다. 목록 분할이 필요합니다.',503);
-  return results.flatMap((r,i)=>(r.results||[]).map(row=>({code:definitions[i][0]+':'+row.ref,type:definitions[i][0],ref:String(row.ref),name:String(row.name),image:imagePath(row.image_url),rarity:row.rarity,tier:tier(row.rarity),...(row.equipment_code?{equipmentCode:row.equipment_code}:{})})));
+  return results.flatMap((r,i)=>(r.results||[]).filter(row=>!isRetiredHyperReward(row)).map(row=>({code:definitions[i][0]+':'+row.ref,type:definitions[i][0],ref:String(row.ref),name:String(row.name),image:imagePath(row.image_url),rarity:row.rarity,tier:tier(row.rarity),...(row.equipment_code?{equipmentCode:row.equipment_code}:{})})));
 }
 export function defaultLegionHuntPolicy(){
   return {revision:0,mode:'TEST',testUserIds:[],difficulties:DIFFICULTIES.map(d=>({id:d.id,dropPercent:Math.round(d.dropChance*10000)/100,bossDropPercent:72,lifetimeSeconds:d.dropLifeMs/1000})),items:[]};
@@ -56,7 +57,7 @@ export function validateLegionHuntPolicy(value,catalog,{difficultyIds=DIFFICULTI
   if(!validTestUsers(testUserIds))fail('테스트 참여 계정은 중복 없이 최대 100명까지 지정하세요.');
   const weight=v=>Number.isFinite(v)&&(v===0||v>=.001)&&v<=1000000&&Math.abs(v*1000-Math.round(v*1000))<.000001;
   const percent=v=>Number.isFinite(v)&&v>=0&&v<=100&&Math.abs(v*100-Math.round(v*100))<.000001;
-  const ids=new Set(),byCode=new Map(catalog.map(r=>[r.code,r]));
+  const ids=new Set(),byCode=new Map(withoutHyperTickets(catalog).map(r=>[r.code,r]));
   const difficulties=value.difficulties.map(d=>{
     if(!keys(d,['id','dropPercent','bossDropPercent','lifetimeSeconds'])||!difficultyIds.includes(d.id)||ids.has(d.id)||!percent(d.dropPercent)||!percent(d.bossDropPercent)||!Number.isFinite(d.lifetimeSeconds)||d.lifetimeSeconds<3||d.lifetimeSeconds>30||!Number.isInteger(d.lifetimeSeconds*10))fail('난이도별 확률은 0~100%, 소멸 시간은 3~30초로 입력하세요.');
     ids.add(d.id);return {...d};
@@ -77,6 +78,7 @@ export async function readLegionHuntPolicy(env){
   try{
     const policy=JSON.parse(row.value);
     if(!policy||!Array.isArray(policy.items)||!Array.isArray(policy.difficulties)||policy.items.length>100||policy.difficulties.length!==4||!LEGION_HUNT_MODES.includes(policy.mode??'TEST'))throw Error('Invalid policy');
+    policy.items=withoutHyperTickets(policy.items);
     policy.mode??='TEST';
     policy.testUserIds??=[];
     if(!validTestUsers(policy.testUserIds))throw Error('Invalid test accounts');

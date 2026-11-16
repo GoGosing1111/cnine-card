@@ -364,24 +364,25 @@ test('previously issued ZENITH/FUR coupons grant public active cards and preserv
   f.sqlite.exec("UPDATE cards SET is_active=0 WHERE id='z1'");assert.equal((await f.redeem(code,21)).body.code,'LAND_POOL_EMPTY');assert.equal(f.sqlite.prepare('SELECT used_count FROM soopketland_coupons').get().used_count,1);
   const fur=issuedCoupon(f,'FUR_RANDOM_CARD');assert.equal((await f.redeem(fur)).body.card.id,'f1');
 });
-test('previously issued Hyper tickets retain server-wide 15x/60min activation and idempotency',async()=>{
+test('retired Hyper tickets retain historical roll receipts but can no longer activate',async()=>{
   const f=await fixture();f.sqlite.prepare('INSERT INTO cnine_user_inventory VALUES(?,?,1,1,NULL,NULL)').run(2,HYPER_TICKET);f.current.id=2;
   const oldId=crypto.randomUUID(),oldResult={ok:true,requestId:oldId,prize:{key:HYPER_TICKET,amount:1},code:null,delivery:'STREAMER_INVENTORY',couponUses:0};
   f.sqlite.prepare('INSERT INTO soopketland_rolls VALUES(?,?,?,?,?)').run(oldId,2,'old-lot',JSON.stringify(oldResult),'2026-09-12T12:00:00Z');
   assert.deepEqual((await f.spin(oldId)).body,{...oldResult,replayed:true});assert.equal(f.qty(HYPER_TICKET),1);
-  const body={requestId:crypto.randomUUID()},response=await f.call('hyper/activate',body);assert.equal(response.status,200);assert.equal(f.qty(HYPER_TICKET),0);
-  const settings=JSON.parse(f.sqlite.prepare("SELECT value FROM app_meta WHERE key='hyper_burning_event_settings_v1310'").get().value);
-  assert.equal(settings.battleRewardMultiplier,15);assert.equal(Date.parse(settings.endsAt)-Date.parse(settings.activatedAt),3600000);
-  assert.equal((await f.call('hyper/activate',body)).body.replayed,true);assert.equal(f.invalidations(),1);
+  const body={requestId:crypto.randomUUID()},response=await f.call('hyper/activate',body);assert.equal(response.status,410);assert.equal(response.body.code,'HYPER_TICKET_RETIRED');assert.equal(f.qty(HYPER_TICKET),1);
+  assert.equal(f.sqlite.prepare("SELECT value FROM app_meta WHERE key='hyper_burning_event_settings_v1310'").get(),undefined);
+  assert.equal((await f.call('hyper/activate',body)).status,410);assert.equal(f.invalidations(),0);
 });
 test('active burning and unauthorized accounts cannot consume or overwrite activation',async()=>{
   const f=await fixture();f.sqlite.prepare('INSERT INTO cnine_user_inventory VALUES(?,?,1,1,NULL,NULL)').run(2,HYPER_TICKET);f.current.id=2;
   for(const key of ['burning_event_settings_v1','hyper_burning_event_settings_v1310','miracle_burning_event_settings_v1']){
     f.sqlite.prepare('INSERT INTO app_meta VALUES(?,?,NULL)').run(key,JSON.stringify({enabled:true,endsAt:new Date(Date.now()+600000).toISOString()}));
-    assert.equal((await f.call('hyper/activate',{requestId:crypto.randomUUID()})).body.code,'LAND_BURNING_ACTIVE');assert.equal(f.qty(HYPER_TICKET),1);
+    const before=f.sqlite.prepare('SELECT value FROM app_meta WHERE key=?').get(key).value;
+    assert.equal((await f.call('hyper/activate',{requestId:crypto.randomUUID()})).body.code,'HYPER_TICKET_RETIRED');assert.equal(f.qty(HYPER_TICKET),1);
+    assert.equal(f.sqlite.prepare('SELECT value FROM app_meta WHERE key=?').get(key).value,before);
     f.sqlite.prepare('DELETE FROM app_meta WHERE key=?').run(key);
   }
-  f.current.id=20;assert.equal((await f.call('hyper/activate',{requestId:crypto.randomUUID()})).status,403);
+  f.current.id=20;assert.equal((await f.call('hyper/activate',{requestId:crypto.randomUUID()})).status,410);
 });
 test('prize bounds, amounts and weight validation are deterministic and server-only',()=>{
   const weights=Object.fromEntries(LAND_PRIZES.map(p=>[p.key,1]));assert.deepEqual(validateLandWeights(weights),weights);
@@ -405,7 +406,7 @@ test('all stopped, finite-edition and globally excluded random cards preserve un
 });
 test('client integration is shared, recovers pending requests, and never renders a self-redeem action for event codes',()=>{
   const read=p=>fs.readFileSync(new URL(`../${p}`,import.meta.url),'utf8'),app=read('js/app.js'),live=read('js/soopketland-v2039.src.js'),index=read('index.html'),api=read('functions/api/[[path]].js');
-  assert.match(app,/data-copy-event-coupon/);assert.match(app,/activateLandHyperTicket/);assert.match(app,/soopketland:\{/);assert.match(index,/js\/app\.js\?v=[A-Za-z0-9][A-Za-z0-9-]+/);
+  assert.match(app,/data-copy-event-coupon/);assert.doesNotMatch(app,/activateLandHyperTicket/);assert.match(app,/soopketland:\{/);assert.match(index,/js\/app\.js\?v=[A-Za-z0-9][A-Za-z0-9-]+/);
   assert.match(live,/PachinkoStage/);assert.match(live,/setTimeout\(finish,12000\)/);assert.match(live,/savePending\(requestId\)/);assert.match(live,/document.hidden/);
   assert.ok(api.indexOf('const landResponse=')<api.indexOf('const couponSchemaPath='),'land endpoints must not wait for legacy global upgrade');
   assert.match(read('preview/soopketland-v2039/index.html'),/soopketland-v2039\.bundle\.js/);
@@ -413,7 +414,7 @@ test('client integration is shared, recovers pending requests, and never renders
 test('PostgreSQL translates every captured statement with matched binds; new transactions use real row locks',async()=>{
   const f=await fixture();await f.force('COIN');await f.grant();f.current.id=2;const roll=await f.spin();await f.redeem(roll.body.code);
   for(const s of f.db.recorded){assert.ok(s.args.length<=100);const sql=__postgresCompatTest.translateDialect(s.sql);assert.equal((sql.match(/\?/g)||[]).length,s.args.length)}
-  const source=fs.readFileSync(new URL('../functions/_soopket_land.js',import.meta.url),'utf8');assert.match(source,/SELECT code FROM soopketland_coupons WHERE code=\? FOR UPDATE/);assert.match(source,/SELECT key FROM app_meta WHERE key IN/);
+  const source=fs.readFileSync(new URL('../functions/_soopket_land.js',import.meta.url),'utf8');assert.match(source,/SELECT code FROM soopketland_coupons WHERE code=\? FOR UPDATE/);assert.doesNotMatch(source,/async function activateHyper/);
 });
 
 function issuedCoupon(f,key,amount=1,uses=1,createdAt=new Date(Date.now()-3600000).toISOString()){
@@ -539,7 +540,7 @@ test('old issued one-card coupons retain their amount and amounts above new caps
 test('client formats named cards as 장, uses server coin cap, and loads the new versioned bundle',()=>{
   const live=fs.readFileSync(new URL('../js/soopketland-v2039.src.js',import.meta.url),'utf8'),app=fs.readFileSync(new URL('../js/app.js',import.meta.url),'utf8');
   assert.match(live,/endsWith\('_CARD'\)/);assert.match(live,/s\.data\.prizes\.find\(p=>p\.key==='COIN'\)\?\.max/);assert.doesNotMatch(live,/couponUses\*500000000|7종 동일 가중치/);
-  assert.match(app,/soopketland-v2039\.bundle\.js\?v=20261029-daily-cap10-coins/);
+  assert.match(app,/soopketland-v2039\.bundle\.js\?v=20261117-hyper-ticket-retired/);
 });
 
 test('legacy Hyper conversion precedes Black Miracle retirement and never redistributes twice',async()=>{

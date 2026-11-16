@@ -1,3 +1,4 @@
+import {RETIRED_HYPER_TICKET,HYPER_TICKET_RETIRED_MESSAGE} from '../../shared/hyper-ticket-retirement-v1.mjs';
 import {handleSeasonS1,seasonAwardStatements,seasonBonus,seasonEnabled,seasonTowerFloors} from '../_season_s1.js';
 import {addCoins,coinInteger,coinValue} from '../../shared/coin-integer-v1.mjs';
 import {coinChangeStatements} from '../_coin_settlement.js';
@@ -5426,7 +5427,7 @@ async function handleRequest(context){
       const rows=await env.DB.prepare(`SELECT i.code,i.name,i.subtitle,i.description,i.category,i.rarity,i.image_url AS image,COALESCE(ui.quantity,0) AS quantity,COALESCE(ui.unseen_quantity,0) AS unseenQuantity,
           CASE WHEN i.code='AUCTION_HOST_TICKET' THEN 0 WHEN i.code IN ('SIG_HUNTER_BOX','GUARANTEED_ENHANCEMENT_SCROLL') THEN 1 WHEN i.category='SKILL_CHIP' THEN 0 WHEN i.category='MATERIAL' OR i.code IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE','UNIQUE_ADVANCEMENT_PASS') THEN 0 WHEN i.code IN ('MADARA_RAID_ENTRY_TICKET','LICH_KING_ENTRY_TICKET','CORE_RAID_ENTRY_TICKET','PINGDU_WISH_TICKET','PINGDU_BAEMIN_TICKET','PINGDU_OLD_AXE','CHUSEOK_COIN') THEN 0 WHEN i.code='BLACK_MIRACLE_PACK' THEN ? ELSE 1 END AS usable
         FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.item_code=i.code AND ui.user_id=?
-        WHERE i.is_active=1 AND i.code NOT IN ('PINGDU_WISH_TICKET','CHUSEOK_COIN') AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR COALESCE(ui.quantity,0)>0)
+        WHERE i.is_active=1 AND i.code NOT IN ('PINGDU_WISH_TICKET','CHUSEOK_COIN','SOOPKETLAND_HYPER_BURNING_TICKET') AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR COALESCE(ui.quantity,0)>0)
           AND (i.code NOT IN ('MADARA_RAID_ENTRY_TICKET','SOOPKETLAND_TICKET','SOOPKETLAND_HYPER_BURNING_TICKET','NEW_USER_GIFT_BOX','CHUSEOK_COIN','PINGDU_WISH_TICKET','PINGDU_BAEMIN_TICKET','PINGDU_OLD_AXE','SUPERSTAR_UPGRADE_13_TICKET','VEHICLE_PARTS_150_CHOICE') OR COALESCE(ui.quantity,0)>0)
         ORDER BY i.sort_order,i.code`).bind(blackMiracleUseEnabled?1:0,user.id).all();
       const items=rows.results.map(x=>({...x,quantity:Number(x.quantity||0),unseenQuantity:Number(x.unseenQuantity||0),usable:Number(x.usable)!==0,useDisabledMessage:x.code==='AUCTION_HOST_TICKET'?'경매장 → 경매 개최 시 자동 사용':x.code==='SIG_HUNTER_BOX'||x.code==='GUARANTEED_ENHANCEMENT_SCROLL'?'':x.code===FORGE_REPAIR_ITEM.code?'장비 강화 센터 → 파괴 기록에서 복구할 장비를 선택하세요.':x.code===FORGE_PROTECTION_ITEM.code?'장비 강화에서 보호권 사용을 선택하세요.':x.code==='PINGDU_BAEMIN_TICKET'?'종료된 치킨집 이벤트 참가권':x.code==='PINGDU_OLD_AXE'?'종료된 금도끼 은도끼 이벤트 참가권':x.category==='SKILL_CHIP'?'장비 → 스킬칩 탭에서 장착':x.code===UNIQUE_ADVANCEMENT_PASS_CODE?'카드 상세 전직 시 자동 사용':x.category==='MATERIAL'?'재료 전용 · 사용 불가':['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'].includes(x.code)?'제작소 전용':x.code===MADARA_TICKET?'바르센 레이드 공대 생성 시 사용':x.code===LICH_TICKET?'리치왕 정벌 공대 생성 시 사용':x.code==='CORE_RAID_ENTRY_TICKET'?'붕괴 코어 공대 생성 시 사용':x.code==='BLACK_MIRACLE_PACK'&&Number(x.usable)===0?'CMS에서 사용 중지됨':''}));
@@ -5441,6 +5442,7 @@ async function handleRequest(context){
     if(path==='inventory/use'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const body=await readBody(request),itemCode=String(body.itemCode||'').trim().toUpperCase(),requestId=String(body.requestId||crypto.randomUUID()).trim().slice(0,100),rawOpenCount=body.count===undefined?1:Number(body.count),openCount=Number.isInteger(rawOpenCount)?rawOpenCount:0;
+      if(itemCode===RETIRED_HYPER_TICKET)return json({code:'HYPER_TICKET_RETIRED',error:HYPER_TICKET_RETIRED_MESSAGE},410);
       if(itemCode==='AUCTION_HOST_TICKET')return json({code:'AUCTION_TICKET_HOST_ONLY',error:'경매장 → 경매 개최에서 판매할 물품을 등록하면 자동 사용됩니다.'},409);
       // inventory/use already holds the request-level user lock. A second lock rejects the same request.
       if(itemCode===EMPEROR_BOX.code||itemCode===LEVEL_TICKET.code)return json({code:'ITEM_CHOICE_REQUIRED',error:'인벤토리에서 대상을 선택한 뒤 사용하세요.'},400);

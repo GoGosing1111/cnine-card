@@ -14,6 +14,12 @@ function model(){
 }
 const codes=items=>Array.from(items,item=>item.code);
 
+test('retired hyper tickets stay hidden and unusable even in an old cached inventory response',()=>{
+ const m=model(),item={code:'SOOPKETLAND_HYPER_BURNING_TICKET',category:'ENTRY_TICKET',quantity:5,name:'하이퍼버닝 발동권'};
+ assert.equal(m.meta(item).usable,false);assert.deepEqual(codes(m.visible([item])),[]);
+ m.state.ownedOnly=false;assert.deepEqual(codes(m.visible([item])),[]);
+});
+
 test('repair coupons display the approved item artwork and recovery destination without direct consumption',()=>{
   const m=model(),item=inventoryUiFixture().items.find(item=>item.code==='PINGDU_REPAIR_COUPON');
   assert.equal(m.group(item),'MATERIAL');assert.equal(m.meta(item).usable,false);

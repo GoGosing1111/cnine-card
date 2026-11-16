@@ -1,3 +1,4 @@
+import {withoutHyperTickets,isRetiredHyperReward} from '../shared/hyper-ticket-retirement-v1.mjs';
 import {seasonAwardStatements} from './_season_s1.js';
 import {prepareUnifiedDropGrant} from './_drop_pool.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
@@ -30,6 +31,9 @@ export async function settleLegionHuntRewards(env,user,{key,before,run,policyRaw
 }
 
 async function commitHuntRewards(env,user,{key,before,run,policyRaw,regionPolicyRaw=null,result,items,requestId}){
+  items=withoutHyperTickets(items);
+  if(Array.isArray(result.inventory))result.inventory=withoutHyperTickets(result.inventory);
+  if(isRetiredHyperReward(result.item))result.item={...result.item,quantity:0,retired:true};
   const grants=await prepareUnifiedDropGrant(env,{userId:Number(user.id),requestId,sourceType:'LEGION_HUNT',sourceId:run.state.id,
     rewards:items.map(item=>({rewardType:item.type,rewardRef:item.ref,rewardName:item.name,quantity:item.quantity}))},{writePoolLedger:false});
   Object.assign(result,{liveRewards:true,refreshAccount:true,rewards:grants.rewards});

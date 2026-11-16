@@ -1027,7 +1027,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   soopketland:{
     styles:['css/soopketland-v2039.css?v=20261020-land-coupon8h&suggestions=20261005'],
-    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/soopketland-v2039.bundle.js?v=20261029-daily-cap10-coins&suggestions=20261005&apocalypseCompletion=20261005-settlement3'],
+    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/soopketland-v2039.bundle.js?v=20261117-hyper-ticket-retired&suggestions=20261005&apocalypseCompletion=20261005-settlement3'],
     ready:()=>typeof window.soopketLandView==='function'&&typeof window.bindSoopketLandView==='function'
   },
   primeDraw:{
@@ -4705,8 +4705,8 @@ function inventoryItemGroup(item){
 }
 function inventoryItemMeta(item){
   const code=String(item.code||'').toUpperCase(),group=inventoryItemGroup(item),quantity=Math.max(0,Number(item.quantity)||0),owned=quantity>0,isMaterial=group==='MATERIAL',isWorkshopOnly=WORKSHOP_ONLY_ITEM_CODES.has(code),rarity=String(item.rarity||'NORMAL').toUpperCase();
-  const usable=item.usable!==false&&item.usable!==0&&(!isMaterial||['SIG_HUNTER_BOX','GUARANTEED_ENHANCEMENT_SCROLL'].includes(code))&&!isWorkshopOnly&&group!=='SKILL_CHIP';
-  const action=code==='EMPEROR_EQUIPMENT_CHOICE_15'?'받을 장비 선택':code==='MERCENARY_BREAKTHROUGH_21'?'돌파할 용병 선택':code==='GUARANTEED_ENHANCEMENT_SCROLL'?'확정 강화할 장비 선택':code==='SIG_HUNTER_BOX'?'상자 열기':code==='SOOPKETLAND_TICKET'?'리버스랜드 입장':code==='SOOPKETLAND_HYPER_BURNING_TICKET'?'버닝 발동':code==='SCRAPYARD_ENTRY_TICKET'?'폐차장 입장':code==='HIGH_GRADE_REROLL_TICKET'?'재뽑기 화면 열기':group==='REROLL'?'재뽑기':code==='SUIT_CORE_SUPPLY_BOX'?'슈트코어 일괄 개봉':code.startsWith('PRIME_')?'프라임 일괄 개봉':code==='VEHICLE_DRAW_TICKET'?'이동수단 뽑기':String(item.category||'').toUpperCase()==='CUBE'?'큐브 개봉':group==='PACK'?'아이템 개봉':'아이템 사용';
+  const usable=code!=='SOOPKETLAND_HYPER_BURNING_TICKET'&&item.usable!==false&&item.usable!==0&&(!isMaterial||['SIG_HUNTER_BOX','GUARANTEED_ENHANCEMENT_SCROLL'].includes(code))&&!isWorkshopOnly&&group!=='SKILL_CHIP';
+  const action=code==='EMPEROR_EQUIPMENT_CHOICE_15'?'받을 장비 선택':code==='MERCENARY_BREAKTHROUGH_21'?'돌파할 용병 선택':code==='GUARANTEED_ENHANCEMENT_SCROLL'?'확정 강화할 장비 선택':code==='SIG_HUNTER_BOX'?'상자 열기':code==='SOOPKETLAND_TICKET'?'리버스랜드 입장':code==='SCRAPYARD_ENTRY_TICKET'?'폐차장 입장':code==='HIGH_GRADE_REROLL_TICKET'?'재뽑기 화면 열기':group==='REROLL'?'재뽑기':code==='SUIT_CORE_SUPPLY_BOX'?'슈트코어 일괄 개봉':code.startsWith('PRIME_')?'프라임 일괄 개봉':code==='VEHICLE_DRAW_TICKET'?'이동수단 뽑기':String(item.category||'').toUpperCase()==='CUBE'?'큐브 개봉':group==='PACK'?'아이템 개봉':'아이템 사용';
   const reason=!owned?'보유하고 있지 않은 아이템입니다.':isWorkshopOnly?'제작소 전용':item.useDisabledMessage||(isMaterial?'제작에 사용하는 재료입니다. 인벤토리에서 직접 사용하지 않습니다.':group==='SKILL_CHIP'?'장비 → 스킬칩 탭에서 장착':'현재 사용이 중지된 아이템입니다.');
   return {code,group,quantity,owned,usable,action,reason,rarity,grade:INVENTORY_RARITIES[rarity]?.[0]||rarity,rank:INVENTORY_RARITIES[rarity]?.[1]||0,kind:rarity.toLowerCase().replace(/[^a-z0-9_-]/g,''),categoryLabel:INVENTORY_GROUPS.find(x=>x[0]===group)?.[1]||'기타'};
 }
@@ -4729,7 +4729,7 @@ function inventoryDetailMarkup(item){
 }
 function inventoryVisibleItems(items){
   const query=inventoryUiState.query.trim().toLocaleLowerCase('ko');
-  const list=items.filter(item=>(!inventoryUiState.ownedOnly||Number(item.quantity)>0)&&(!inventoryUiState.newOnly||Number(item.unseenQuantity)>0)&&(inventoryUiState.filter==='ALL'||inventoryItemGroup(item)===inventoryUiState.filter)&&(!query||`${item.name||''} ${item.subtitle||''} ${item.description||''} ${item.code||''}`.toLocaleLowerCase('ko').includes(query)));
+  const list=items.filter(item=>item.code!=='SOOPKETLAND_HYPER_BURNING_TICKET'&&(!inventoryUiState.ownedOnly||Number(item.quantity)>0)&&(!inventoryUiState.newOnly||Number(item.unseenQuantity)>0)&&(inventoryUiState.filter==='ALL'||inventoryItemGroup(item)===inventoryUiState.filter)&&(!query||`${item.name||''} ${item.subtitle||''} ${item.description||''} ${item.code||''}`.toLocaleLowerCase('ko').includes(query)));
   const name=(a,b)=>String(a.name||'').localeCompare(String(b.name||''),'ko');
   if(inventoryUiState.sort==='QUANTITY')list.sort((a,b)=>Number(b.quantity)-Number(a.quantity)||name(a,b));
   if(inventoryUiState.sort==='RARITY')list.sort((a,b)=>inventoryItemMeta(b).rank-inventoryItemMeta(a).rank||name(a,b));
@@ -4785,7 +4785,7 @@ async function loadInventory(){
   const request=++inventoryUiState.request;vault.setAttribute('aria-busy','true');bindInventoryControls(vault);vault.querySelector('#inventoryRefresh').disabled=true;
   try{
     const d=await apiRequest('inventory');if(request!==inventoryUiState.request||!vault.isConnected)return;
-    const items=Array.isArray(d.items)?d.items:[];inventoryUiState.items=items;
+    const items=Array.isArray(d.items)?d.items.filter(item=>item.code!=='SOOPKETLAND_HYPER_BURNING_TICKET'):[];inventoryUiState.items=items;
     const summary=vault.querySelector('#inventoryOwnedSummary'),owned=items.filter(x=>Number(x.quantity)>0),total=owned.reduce((sum,item)=>sum+Number(item.quantity),0);
     summary.innerHTML=`<strong>${owned.length.toLocaleString()}</strong>종 보유 <span>·</span> 총 <strong>${total.toLocaleString()}</strong>개`;
     renderInventoryItems(items);vault.setAttribute('aria-busy','false');vault.querySelector('#inventoryRefresh').disabled=false;
@@ -4812,18 +4812,6 @@ async function openGuaranteedSuperstarTicket(){
     localStorage.removeItem(key);clearApiCache('inventory');clearApiCache('cards');clearApiCache('shell/summary');
     alert(result.message);await loadInventory();
   }catch(error){alert(error.message)}finally{landSuperstarBusy=false}
-}
-let landHyperBusy=false;
-async function activateLandHyperTicket(){
-  if(landHyperBusy)return;
-  if(!confirm('하이퍼버닝 발동권 1개를 사용해 서버 전체에 ×15 버닝을 60분간 시작할까요?\n현재 버닝이 진행 중이면 사용되지 않습니다.'))return;
-  landHyperBusy=true;const key=`soopketland.hyper.v2039:${loadUser()?.serverUserId||''}`;
-  try{
-    let requestId=localStorage.getItem(key);if(!requestId){requestId=crypto.randomUUID();localStorage.setItem(key,requestId)}
-    const result=await apiRequest('soopketland/hyper/activate',{method:'POST',body:JSON.stringify({requestId})});
-    localStorage.removeItem(key);clearApiCache('inventory');clearApiCache('burning-event/status');clearApiCache('shell/summary');
-    alert(result.message);await loadInventory();
-  }catch(error){if([400,403,409].includes(Number(error.status)))localStorage.removeItem(key);alert(error.message)}finally{landHyperBusy=false}
 }
 async function openInventoryPack(itemCode,ownedQuantity=0){
   if(itemCode==='GUARANTEED_ENHANCEMENT_SCROLL'){location.assign('/equipment-forge/?guaranteed=1');return;}
@@ -4901,7 +4889,7 @@ async function openInventoryPack(itemCode,ownedQuantity=0){
   if(itemCode==='SUPERSTAR_GUARANTEED_PACK')return openGuaranteedSuperstarTicket();
   if(WORKSHOP_ONLY_ITEM_CODES.has(String(itemCode||'').toUpperCase()))return showSupplyNotice('차량 부품은 제작소에서만 사용할 수 있습니다.',true);
   if(itemCode==='SOOPKETLAND_TICKET')return renderShell('soopketland');
-  if(itemCode==='SOOPKETLAND_HYPER_BURNING_TICKET')return activateLandHyperTicket();
+  if(itemCode==='SOOPKETLAND_HYPER_BURNING_TICKET')return alert('하이퍼버닝 발동권은 삭제되어 사용할 수 없습니다.');
   if(itemCode==='SCRAPYARD_ENTRY_TICKET')return renderShell('scrapyard');
   if(itemCode==='BLACK_MIRACLE_PACK')return openBlackMiraclePack(ownedQuantity);
   if(itemCode==='MAGIC_CARD_PACK')return openMagicCardPack(ownedQuantity);

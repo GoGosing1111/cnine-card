@@ -1,3 +1,4 @@
+import {HYPER_TICKET_RETIRED_MESSAGE} from '../shared/hyper-ticket-retirement-v1.mjs';
 import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 import {ensureEmperorEnergyCatalog} from './_emperor_energy.js';
 import {ensurePingduThanksGiftCatalog,PINGDU_THANKS_GIFT} from './_pingdu_thanks_gift.js';
@@ -37,7 +38,6 @@ const REDEEM_PRIZES=[...LAND_PRIZES.map(p=>p.key===LAND_REPAIR_COUPON?p:({...p,m
  {key:'HIGH_GRADE_REROLL_TICKET',min:1,max:1,unit:1},
  {key:LAND_IYEJUN_PRIZE,min:1,max:1,unit:1}];
 const SCHEMA='soopketland_schema_v2039',SETTINGS='soopketland_settings_v2039';
-const BURNING=['burning_event_settings_v1','hyper_burning_event_settings_v1310','miracle_burning_event_settings_v1'];
 const PREVIOUS_KEYS=['COIN',SUPERSTAR_TICKET,'MASTER_STAR','BLACK_MIRACLE_PACK',HYPER_TICKET,'ZENITH_RANDOM_CARD','FUR_RANDOM_CARD','STARLIGHT_ARMOR_CORE'];
 const PREVIOUS_PRIZE_KEYS=['COIN',SUPERSTAR_TICKET,'MASTER_STAR','BLACK_MIRACLE_PACK','STARLIGHT_ARMOR_CORE'];
 const defaults=()=>({weights:{COIN:18000,[EMPEROR_ENERGY]:1500,MASTER_STAR:4200,STARLIGHT_ARMOR_CORE:3000,[LAND_THANKS_GIFT]:300,[LAND_REPAIR_COUPON]:3000}});
@@ -160,7 +160,6 @@ export async function ensureLand(db,env={DB:db}){
     stmt(db,"INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING",SETTINGS,JSON.stringify(defaults())),
     ...[
       [LAND_TICKET,'리버스랜드 이용권','STREAMER EVENT PASS','등록 스트리머에게 매일 10장 자동 발급하는 방송 이벤트 이용권. 1회에 1장을 사용하며 당첨 쿠폰은 150명이 사용할 수 있습니다.','assets/ui/soopketland/event-ticket-v1.svg'],
-      [HYPER_TICKET,'하이퍼버닝 발동권 ×15','SERVER HYPER BURNING','스트리머가 사용하면 서버 전체에 ×15 하이퍼버닝이 60분간 적용됩니다. 기존 버닝 진행 중에는 사용할 수 없습니다.','assets/ui/soopketland/hyper-ticket-v1.svg'],
       [SUPERSTAR_TICKET,'슈퍼스타팩 확정권','GUARANTEED SUPERSTAR','사용 시 활성·공개 슈퍼스타 카드 중 1장을 100% 획득합니다. 중복도 카드 1장으로 지급됩니다.','assets/ui/soopketland/superstar-guaranteed-v2065.svg']
     ].map(([code,name,subtitle,description,image])=>stmt(db,"INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES(?,?,?,?,'ENTRY_TICKET','SPECIAL',?,125,1) ON CONFLICT(code) DO NOTHING",code,name,subtitle,description,image)),
     stmt(db,"INSERT INTO app_meta(key,value,updated_at) VALUES(?,'1',CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING",SCHEMA)
@@ -275,6 +274,7 @@ export async function handleSoopketLand({path,request,env,deps}){
   if(!path.startsWith('soopketland/'))return null;
   const db=env.DB,user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);
   try{
+    if(path==='soopketland/hyper/activate')throw fail(HYPER_TICKET_RETIRED_MESSAGE,410,'HYPER_TICKET_RETIRED');
     if(path==='soopketland/superstar/open'&&request.method==='POST'){
       if(!active(user))throw fail('활성 계정만 사용할 수 있습니다.',403);
       await ensureLand(db,env);const body=await deps.readBody(request);
@@ -292,7 +292,6 @@ export async function handleSoopketLand({path,request,env,deps}){
     if(request.method!=='POST')throw fail('지원하지 않는 요청입니다.',405);
     const body=await deps.readBody(request);if(!validId(body.requestId))throw fail('요청 번호를 확인하세요.');
     if(path==='soopketland/spin')return deps.json(await spin(db,user,body));
-    if(path==='soopketland/hyper/activate')return deps.json(await activateHyper(db,user,body,deps));
     if(!access.isOwner)throw fail('OWNER만 설정하거나 이용권을 지급할 수 있습니다.',403);
     if(path==='soopketland/grant')return deps.json(await grant(db,user,body));
     if(path==='soopketland/settings'){
@@ -422,23 +421,4 @@ async function openGuaranteedSuperstar(db,user,body,deps){
   const response={ok:true,card,message:`${card.title} 슈퍼스타 카드 1장을 획득했습니다.`};
   actionReceipt(db,list,user,body.requestId,'SUPERSTAR_OPEN',plan,response);
   return await commit(db,list,()=>replayAction(db,user,body.requestId,'SUPERSTAR_OPEN',plan))||response;
-}
-
-async function activateHyper(db,user,body,deps){
-  const plan={multiplier:15,durationMinutes:60},prior=await replayAction(db,user,body.requestId,'HYPER',plan);if(prior)return prior;
-  const current=await rows(db,'SELECT key,value FROM app_meta WHERE key IN (?,?,?)',...BURNING),map=new Map(current.map(r=>[r.key,r.value]));
-  if(current.some(r=>{const c=parse(r.value);return c?.enabled&&Date.parse(c.endsAt)>Date.now()}))throw fail('현재 버닝이 진행 중입니다. 종료 후 사용하세요. 발동권은 보존됩니다.',409,'LAND_BURNING_ACTIVE');
-  const timestamp=Date.now(),base=deps.cleanBurningEventSettings(parse(map.get(BURNING[1]),{}),'HYPER');
-  const settings={...base,enabled:true,durationMinutes:60,battleRewardMultiplier:15,generation:Number(base.generation||0)+1,activatedAt:new Date(timestamp).toISOString(),endsAt:new Date(timestamp+3600000).toISOString(),updatedAt:new Date(timestamp).toISOString()};
-  const response={ok:true,message:'서버 전체 하이퍼버닝 ×15가 60분간 시작되었습니다.',endsAt:settings.endsAt,multiplier:15},list=[];
-  lockUser(db,list,user.id);guardUser(db,list,user.id);
-  // Ensure both metadata rows exist before locks, then compare exact snapshots.
-  for(const key of BURNING)list.push(stmt(db,'INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING',key,map.get(key)||'{}'));
-  if(db.dialect==='postgres')list.push(stmt(db,'SELECT key FROM app_meta WHERE key IN (?,?,?) ORDER BY key FOR UPDATE',...BURNING));
-  for(const key of BURNING)guard(db,list,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[key,map.get(key)||'{}']);
-  inventoryDebit(db,list,user.id,HYPER_TICKET,body.requestId);
-  list.push(stmt(db,'UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=?',JSON.stringify(settings),BURNING[1]));
-  actionReceipt(db,list,user,body.requestId,'HYPER',plan,response);
-  const result=await commit(db,list,()=>replayAction(db,user,body.requestId,'HYPER',plan));
-  deps.invalidateBurning();return result||response;
 }
