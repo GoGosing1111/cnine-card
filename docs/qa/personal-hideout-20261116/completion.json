@@ -563,10 +563,28 @@
     "failedLog": "logs/hideout-release-gate.log",
     "detail": "Two database variants expect old Arden defense and PvP polish values. A third missing sparse-checkout asset manifest was hydrated. No test bypass and no unrelated expectation edits retained.",
     "policy": "AGENTS.md: no unrelated test maintenance, major multi-system changes require full deploy:production gate",
-    "upstreamIntegration": "pending"
+    "upstreamIntegration": {
+      "base": "fbe214ef8",
+      "preserved": [
+        "four-month coupon",
+        "Kkukka roster removal",
+        "mercenary forge inventory filter"
+      ],
+      "resolved": [
+        "index script cache tags",
+        "service-worker cache",
+        "generated ONE store variants"
+      ],
+      "onestoreVariantCheck": "14 files, verified; 2251883 bytes",
+      "productionAssetCount": 19997
+    },
+    "postMergeSmoke": "upstream-merge-check/browser.json; actual ONE store host iframe + local SDK; six trophy slots and lost-reply retry passed",
+    "reasonNotDeployed": "Full release gate has unrelated historical equipment test expectation failures. No scoped bypass for this multi-system feature; candidate remains on its feature branch."
   },
   "limitations": [
     "Economy and UI verified on isolated fixtures, not production accounts",
     "Current four-room catalog and 120-instance cap are explicit initial limits; catalog and persisted room/instance model support expansion"
-  ]
+  ],
+  "updatedAt": "2026-11-16T19:31:11.346395+09:00",
+  "sourceCommit": "3f4f9f6d55667a44f0da191a6e1c3aca5c7c1527"
 }
