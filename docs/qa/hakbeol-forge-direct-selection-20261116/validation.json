@@ -1,0 +1,2347 @@
+{
+  "at": "2026-11-16T11:23:29.478Z",
+  "target": {
+    "accountId": 4627,
+    "nickname": "학벌",
+    "instanceId": "3373751824",
+    "name": "마리오네트 신발",
+    "level": 0
+  },
+  "changes": [
+    "Exact-item enhancement link from owned mercenary armory selection",
+    "GET state focusId ownership/public/active/group validation and automatic selection",
+    "Replacing filter GET cancels older load, clears previous rows and selection, ignores stale responses; load failure distinguished from empty inventory",
+    "Versioned forge/armory modules and native manifest resources refreshed"
+  ],
+  "scopedUnit": {
+    "passed": 2,
+    "engines": [
+      "SQLite",
+      "PostgreSQL"
+    ],
+    "includes": "Both HTTP state handlers: owned low-power item, foreign instance, general gear, hidden/inactive exclusion; no currencies or loadout changes. Other three relevant suites run by deployment gate."
+  },
+  "liveReadOnly": {
+    "at": "2026-11-16T11:19:29.127Z",
+    "readOnly": true,
+    "queries": 45,
+    "measurements": [
+      {
+        "focus": false,
+        "ms": 1508,
+        "queries": 15,
+        "count": 10,
+        "nextCursor": null,
+        "item": {
+          "instanceId": "3373751824",
+          "name": "마리오네트 신발",
+          "level": 0,
+          "equipped": true
+        }
+      },
+      {
+        "focus": true,
+        "ms": 1182,
+        "queries": 15,
+        "count": 1,
+        "nextCursor": null,
+        "item": {
+          "instanceId": "3373751824",
+          "name": "마리오네트 신발",
+          "level": 0,
+          "equipped": true
+        }
+      },
+      {
+        "focus": true,
+        "ms": 1178,
+        "queries": 15,
+        "count": 1,
+        "nextCursor": null,
+        "item": {
+          "instanceId": "3373751824",
+          "name": "마리오네트 신발",
+          "level": 0,
+          "equipped": true
+        }
+      }
+    ]
+  },
+  "originalHttpEvidence": {
+    "at": "2026-11-16T10:57:01.318Z",
+    "purpose": "Reproduce the reported forge filter through the canonical live authenticated GET route for Hakbeol. Only a task-scoped random session is created and immediately removed; no equipment/currency/quote writes.",
+    "requests": [
+      {
+        "group": "all",
+        "status": 200,
+        "ms": 380,
+        "headers": {
+          "cache-control": "no-store",
+          "cf-cache-status": null,
+          "x-cnine-api-runtime": "regional-v1",
+          "date": "Mon, 16 Nov 2026 10:57:02 GMT"
+        },
+        "accountId": "4627",
+        "items": [
+          {
+            "instanceId": "3022513739",
+            "code": "MERC_ASC_09_WEAPON",
+            "name": "천룡태황 무기",
+            "level": 13
+          },
+          {
+            "instanceId": "3373751634",
+            "code": "ARDEN_TOP",
+            "name": "아르덴 아머",
+            "level": 12
+          },
+          {
+            "instanceId": "3062442970",
+            "code": "EQ_1788486888336",
+            "name": "東方軍火商(동방무기상)",
+            "level": 15
+          },
+          {
+            "instanceId": "2567475681",
+            "code": "EQ_1788486929132",
+            "name": "東方軍火商(동방무기상)",
+            "level": 10
+          },
+          {
+            "instanceId": "3144328059",
+            "code": "MERC_ASC_06_TOP",
+            "name": "성휘대천사 상의",
+            "level": 10
+          },
+          {
+            "instanceId": "3373751625",
+            "code": "EMPEROR_BOTTOM",
+            "name": "엠퍼러 레깅스",
+            "level": 12
+          },
+          {
+            "instanceId": "3061608144",
+            "code": "MERC_ASC_03_TOP",
+            "name": "청룡천위 상의",
+            "level": 10
+          },
+          {
+            "instanceId": "2352094840",
+            "code": "EMPEROR_DUAL_DISK",
+            "name": "엠퍼러 듀얼디스크",
+            "level": 10
+          },
+          {
+            "instanceId": "2323348636",
+            "code": "EMPEROR_SHOES",
+            "name": "엠퍼러 슈즈",
+            "level": 10
+          },
+          {
+            "instanceId": "3051167191",
+            "code": "MERC_ASC_01_TOP",
+            "name": "월백검성 상의",
+            "level": 10
+          },
+          {
+            "instanceId": "2997088574",
+            "code": "MERC_ASC_02_ACCESSORY",
+            "name": "성홍기사 장신구",
+            "level": 10
+          },
+          {
+            "instanceId": "3360701480",
+            "code": "HUNT_COAST_WEAPON",
+            "name": "난파왕 무기",
+            "level": 10
+          },
+          {
+            "instanceId": "3356549802",
+            "code": "HUNT_THEATRE_WEAPON",
+            "name": "마리오네트 무기",
+            "level": 10
+          },
+          {
+            "instanceId": "3050756786",
+            "code": "MERC_ASC_02_SHOES",
+            "name": "성홍기사 신발",
+            "level": 10
+          },
+          {
+            "instanceId": "3170820054",
+            "code": "MERC_ASC_01_SHOES",
+            "name": "월백검성 신발",
+            "level": 10
+          },
+          {
+            "instanceId": "2084551638",
+            "code": "EQ_1787156718021",
+            "name": "미스틱 듀얼디스크",
+            "level": 2
+          },
+          {
+            "instanceId": "1354127570",
+            "code": "EQ_1787156640727",
+            "name": "미스틱 레깅스",
+            "level": 1
+          },
+          {
+            "instanceId": "2332566724",
+            "code": "EQ_1787156691265",
+            "name": "미스틱 슈트",
+            "level": 0
+          },
+          {
+            "instanceId": "2332291253",
+            "code": "EQ_1787156667357",
+            "name": "미스틱 슈즈",
+            "level": 0
+          },
+          {
+            "instanceId": "2332122617",
+            "code": "EQ_1787156667357",
+            "name": "미스틱 슈즈",
+            "level": 0
+          },
+          {
+            "instanceId": "2332118147",
+            "code": "EQ_1787156640727",
+            "name": "미스틱 레깅스",
+            "level": 0
+          },
+          {
+            "instanceId": "2332117993",
+            "code": "EQ_1787156667357",
+            "name": "미스틱 슈즈",
+            "level": 0
+          },
+          {
+            "instanceId": "2332080798",
+            "code": "EQ_1787156667357",
+            "name": "미스틱 슈즈",
+            "level": 0
+          },
+          {
+            "instanceId": "2332033077",
+            "code": "EQ_1787156640727",
+            "name": "미스틱 레깅스",
+            "level": 0
+          },
+          {
+            "instanceId": "2331901489",
+            "code": "EQ_1787156691265",
+            "name": "미스틱 슈트",
+            "level": 0
+          },
+          {
+            "instanceId": "2331810834",
+            "code": "EQ_1787156667357",
+            "name": "미스틱 슈즈",
+            "level": 0
+          },
+          {
+            "instanceId": "2331650204",
+            "code": "EQ_1787156667357",
+            "name": "미스틱 슈즈",
+            "level": 0
+          },
+          {
+            "instanceId": "2331605730",
+            "code": "EQ_1787156718021",
+            "name": "미스틱 듀얼디스크",
+            "level": 0
+          },
+          {
+            "instanceId": "2331564916",
+            "code": "EQ_1787156718021",
+            "name": "미스틱 듀얼디스크",
+            "level": 0
+          },
+          {
+            "instanceId": "2331473328",
+            "code": "EQ_1787156718021",
+            "name": "미스틱 듀얼디스크",
+            "level": 0
+          },
+          {
+            "instanceId": "2331445620",
+            "code": "EQ_1787156640727",
+            "name": "미스틱 레깅스",
+            "level": 0
+          },
+          {
+            "instanceId": "2331442718",
+            "code": "EQ_1787156640727",
+            "name": "미스틱 레깅스",
+            "level": 0
+          },
+          {
+            "instanceId": "2331376652",
+            "code": "EQ_1787156691265",
+            "name": "미스틱 슈트",
+            "level": 0
+          },
+          {
+            "instanceId": "2331353731",
+            "code": "EQ_1787156691265",
+            "name": "미스틱 슈트",
+            "level": 0
+          },
+          {
+            "instanceId": "2331238244",
+            "code": "EQ_1787156718021",
+            "name": "미스틱 듀얼디스크",
+            "level": 0
+          },
+          {
+            "instanceId": "2330730462",
+            "code": "EQ_1787156718021",
+            "name": "미스틱 듀얼디스크",
+            "level": 0
+          },
+          {
+            "instanceId": "2330352693",
+            "code": "EQ_1787156667357",
+            "name": "미스틱 슈즈",
+            "level": 0
+          },
+          {
+            "instanceId": "2330349244",
+            "code": "EQ_1787156718021",
+            "name": "미스틱 듀얼디스크",
+            "level": 0
+          },
+          {
+            "instanceId": "2330149158",
+            "code": "EQ_1787156718021",
+            "name": "미스틱 듀얼디스크",
+            "level": 0
+          },
+          {
+            "instanceId": "2329955583",
+            "code": "EQ_1787156718021",
+            "name": "미스틱 듀얼디스크",
+            "level": 0
+          }
+        ],
+        "nextCursor": "2329955583"
+      },
+      {
+        "group": "mercenary",
+        "status": 200,
+        "ms": 264,
+        "headers": {
+          "cache-control": "no-store",
+          "cf-cache-status": null,
+          "x-cnine-api-runtime": "regional-v1",
+          "date": "Mon, 16 Nov 2026 10:57:02 GMT"
+        },
+        "accountId": "4627",
+        "items": [
+          {
+            "instanceId": "3022513739",
+            "code": "MERC_ASC_09_WEAPON",
+            "name": "천룡태황 무기",
+            "level": 13
+          },
+          {
+            "instanceId": "3144328059",
+            "code": "MERC_ASC_06_TOP",
+            "name": "성휘대천사 상의",
+            "level": 10
+          },
+          {
+            "instanceId": "3061608144",
+            "code": "MERC_ASC_03_TOP",
+            "name": "청룡천위 상의",
+            "level": 10
+          },
+          {
+            "instanceId": "3051167191",
+            "code": "MERC_ASC_01_TOP",
+            "name": "월백검성 상의",
+            "level": 10
+          },
+          {
+            "instanceId": "2997088574",
+            "code": "MERC_ASC_02_ACCESSORY",
+            "name": "성홍기사 장신구",
+            "level": 10
+          },
+          {
+            "instanceId": "3360701480",
+            "code": "HUNT_COAST_WEAPON",
+            "name": "난파왕 무기",
+            "level": 10
+          },
+          {
+            "instanceId": "3356549802",
+            "code": "HUNT_THEATRE_WEAPON",
+            "name": "마리오네트 무기",
+            "level": 10
+          },
+          {
+            "instanceId": "3050756786",
+            "code": "MERC_ASC_02_SHOES",
+            "name": "성홍기사 신발",
+            "level": 10
+          },
+          {
+            "instanceId": "3170820054",
+            "code": "MERC_ASC_01_SHOES",
+            "name": "월백검성 신발",
+            "level": 10
+          },
+          {
+            "instanceId": "3373751824",
+            "code": "HUNT_THEATRE_SHOES",
+            "name": "마리오네트 신발",
+            "level": 0
+          }
+        ],
+        "nextCursor": null
+      },
+      {
+        "group": "weapon",
+        "status": 200,
+        "ms": 306,
+        "headers": {
+          "cache-control": "no-store",
+          "cf-cache-status": null,
+          "x-cnine-api-runtime": "regional-v1",
+          "date": "Mon, 16 Nov 2026 10:57:02 GMT"
+        },
+        "accountId": "4627",
+        "items": [
+          {
+            "instanceId": "3022513739",
+            "code": "MERC_ASC_09_WEAPON",
+            "name": "천룡태황 무기",
+            "level": 13
+          },
+          {
+            "instanceId": "3062442970",
+            "code": "EQ_1788486888336",
+            "name": "東方軍火商(동방무기상)",
+            "level": 15
+          },
+          {
+            "instanceId": "2567475681",
+            "code": "EQ_1788486929132",
+            "name": "東方軍火商(동방무기상)",
+            "level": 10
+          },
+          {
+            "instanceId": "3360701480",
+            "code": "HUNT_COAST_WEAPON",
+            "name": "난파왕 무기",
+            "level": 10
+          },
+          {
+            "instanceId": "3356549802",
+            "code": "HUNT_THEATRE_WEAPON",
+            "name": "마리오네트 무기",
+            "level": 10
+          },
+          {
+            "instanceId": "454548584",
+            "code": "EQ_1785961300455",
+            "name": "인피니티 M200",
+            "level": 1
+          },
+          {
+            "instanceId": "3373751620",
+            "code": "EQ_1785961300455",
+            "name": "인피니티 M200",
+            "level": 0
+          },
+          {
+            "instanceId": "3373751619",
+            "code": "EQ_1785961300455",
+            "name": "인피니티 M200",
+            "level": 0
+          },
+          {
+            "instanceId": "3257907813",
+            "code": "EQ_1785961300455",
+            "name": "인피니티 M200",
+            "level": 0
+          },
+          {
+            "instanceId": "3257907812",
+            "code": "EQ_1785961300455",
+            "name": "인피니티 M200",
+            "level": 0
+          },
+          {
+            "instanceId": "235131992",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 1
+          },
+          {
+            "instanceId": "2249015658",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "2249009158",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "1970482961",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "1970370979",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "1536381935",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "1536381933",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "1536381931",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "1536381927",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "1536381925",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "1536381924",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "1536381920",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "1536381919",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "1433080216",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "1432976737",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "853557290",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "853542791",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "853528267",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "853513769",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "853506267",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "853499768",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "853484765",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "454548587",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "454548585",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "235131993",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "235131989",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "234732044",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "234732043",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "171255077",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          },
+          {
+            "instanceId": "171255075",
+            "code": "EQ_1785961232958",
+            "name": "인피니티 AK",
+            "level": 0
+          }
+        ],
+        "nextCursor": "171255075"
+      }
+    ],
+    "temporarySessionRemoved": true
+  },
+  "platforms": [
+    {
+      "phase": "candidate",
+      "platform": "desktop",
+      "width": 1440,
+      "height": 900,
+      "conditions": "Windows host, isolated API snapshot, fixed 80ms API delay; no live account requests or writes",
+      "diagnostics": [
+        {
+          "url": "http://127.0.0.1:2377/api/character/equipment/forge/state?group=all",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      ],
+      "requests": [
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "all",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": "3373751824",
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "all",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "all",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        }
+      ],
+      "blockedWrites": [],
+      "coldLaunchMs": 1128,
+      "first": {
+        "navigation": 905,
+        "input": 910
+      },
+      "firstResources": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap",
+          "durationMs": 187,
+          "startMs": 36,
+          "transferSize": 139711
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Barlow+Condensed:wght@500;600;700;800&display=swap",
+          "durationMs": 140,
+          "startMs": 588,
+          "transferSize": 13000
+        },
+        {
+          "url": "http://127.0.0.1:2377/api/character/equipment/forge/state?group=all",
+          "durationMs": 129,
+          "startMs": 689,
+          "transferSize": 21511
+        },
+        {
+          "url": "http://127.0.0.1:2377/assets/items/pig-coin-v1.png",
+          "durationMs": 97,
+          "startMs": 628,
+          "transferSize": 2750372
+        },
+        {
+          "url": "http://127.0.0.1:2377/preview/equipment-forge-v1/assets/upgrade-lab-v2.png",
+          "durationMs": 94,
+          "startMs": 234,
+          "transferSize": 2016269
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css",
+          "durationMs": 94,
+          "startMs": 588,
+          "transferSize": 13090
+        },
+        {
+          "url": "http://127.0.0.1:2377/assets/items/guaranteed-enhancement-scroll-v1.webp",
+          "durationMs": 48,
+          "startMs": 36,
+          "transferSize": 93890
+        },
+        {
+          "url": "http://127.0.0.1:2377/js/adventure-navigation-standalone.js?jokgakCity=20261010-city4&v=2108-shared-navigation&goldenAxe=20260918&chuseok=20260923",
+          "durationMs": 46,
+          "startMs": 36,
+          "transferSize": 2472
+        },
+        {
+          "url": "http://127.0.0.1:2377/assets/ui/brand/reverse-call-20261016/logo-240.webp?v=20261018-transparent",
+          "durationMs": 46,
+          "startMs": 36,
+          "transferSize": 37280
+        },
+        {
+          "url": "http://127.0.0.1:2377/js/server-support-v1.mjs?v=20261116-package-cubes-v1",
+          "durationMs": 45,
+          "startMs": 598,
+          "transferSize": 22095
+        },
+        {
+          "url": "http://127.0.0.1:2377/assets/ui/tactical-20261030/panel-flat.webp",
+          "durationMs": 43,
+          "startMs": 602,
+          "transferSize": 40684
+        },
+        {
+          "url": "http://127.0.0.1:2377/js/ui-fx-vendor-v2045.bundle.js?v=2045",
+          "durationMs": 42,
+          "startMs": 37,
+          "transferSize": 661477
+        },
+        {
+          "url": "http://127.0.0.1:2377/assets/items/pingdu-repair-coupon-v1.webp",
+          "durationMs": 40,
+          "startMs": 36,
+          "transferSize": 36136
+        },
+        {
+          "url": "http://127.0.0.1:2377/js/equipment-polish-entry-v1.mjs?v=20261005",
+          "durationMs": 39,
+          "startMs": 37,
+          "transferSize": 1495
+        },
+        {
+          "url": "http://127.0.0.1:2377/js/adventure-lobby-v2107.js?lobby=20261029-font-v5&favorites=20261013-v1&jokgakCity=20261010-city4&v=2108-shared-navigation&goldenAxe=20260918&coup=2115&loot=20260915&mercenary=2133&workshop=20260922&chuseok=20260923&menu=20260925-2&mine=20261003&petCodex=20261009&tacticalNav=20261030-shell1&growthGuide=20261030-1",
+          "durationMs": 38,
+          "startMs": 36,
+          "transferSize": 1231078
+        }
+      ],
+      "findTarget": {
+        "ms": 599,
+        "stateRequests": 1
+      },
+      "directSelectionMs": 979,
+      "frames": {
+        "count": 137,
+        "p95Ms": 5.9,
+        "maxMs": 12.5,
+        "over50": 0
+      },
+      "afterExit": {
+        "forgeRequests": 0,
+        "forgeCanvases": 0
+      },
+      "reentry": {
+        "navigation": 739,
+        "input": 745
+      },
+      "races": {
+        "latePreviousResponseIgnored": true,
+        "failedFilterShowsNoStaleRows": true,
+        "retryRecovered": true
+      },
+      "actualLiveAccountWrites": 0
+    },
+    {
+      "phase": "candidate",
+      "platform": "android",
+      "width": 390,
+      "height": 844,
+      "conditions": "Windows host, isolated API snapshot, fixed 80ms API delay; no live account requests or writes",
+      "diagnostics": [],
+      "requests": [
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "all",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": "3373751824",
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "all",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        }
+      ],
+      "blockedWrites": [],
+      "coldLaunchMs": 1573,
+      "first": {
+        "navigation": 1308,
+        "input": 1319
+      },
+      "firstResources": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap",
+          "durationMs": 328,
+          "startMs": 57,
+          "transferSize": 139711
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Barlow+Condensed:wght@500;600;700;800&display=swap",
+          "durationMs": 166,
+          "startMs": 828,
+          "transferSize": 13000
+        },
+        {
+          "url": "http://127.0.0.1:6429/api/character/equipment/forge/state?group=all",
+          "durationMs": 138,
+          "startMs": 966,
+          "transferSize": 21511
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css",
+          "durationMs": 130,
+          "startMs": 828,
+          "transferSize": 13090
+        },
+        {
+          "url": "http://127.0.0.1:6429/preview/equipment-forge-v1/assets/upgrade-lab-v2.png",
+          "durationMs": 98,
+          "startMs": 404,
+          "transferSize": 2016269
+        },
+        {
+          "url": "http://127.0.0.1:6429/js/server-support-v1.mjs?v=20261116-package-cubes-v1",
+          "durationMs": 66,
+          "startMs": 842,
+          "transferSize": 22095
+        },
+        {
+          "url": "http://127.0.0.1:6429/assets/items/guaranteed-enhancement-scroll-v1.webp",
+          "durationMs": 62,
+          "startMs": 58,
+          "transferSize": 93890
+        },
+        {
+          "url": "http://127.0.0.1:6429/assets/ui/tactical-20261030/panel-flat.webp",
+          "durationMs": 59,
+          "startMs": 849,
+          "transferSize": 40684
+        },
+        {
+          "url": "http://127.0.0.1:6429/assets/items/pig-coin-v1.png",
+          "durationMs": 46,
+          "startMs": 879,
+          "transferSize": 2750372
+        },
+        {
+          "url": "http://127.0.0.1:6429/js/adventure-navigation-standalone.js?jokgakCity=20261010-city4&v=2108-shared-navigation&goldenAxe=20260918&chuseok=20260923",
+          "durationMs": 45,
+          "startMs": 58,
+          "transferSize": 2472
+        },
+        {
+          "url": "http://127.0.0.1:6429/assets/ui/brand/reverse-call-20261016/logo-240.webp?v=20261018-transparent",
+          "durationMs": 45,
+          "startMs": 58,
+          "transferSize": 37280
+        },
+        {
+          "url": "http://127.0.0.1:6429/js/adventure-lobby-v2107.js?lobby=20261029-font-v5&favorites=20261013-v1&jokgakCity=20261010-city4&v=2108-shared-navigation&goldenAxe=20260918&coup=2115&loot=20260915&mercenary=2133&workshop=20260922&chuseok=20260923&menu=20260925-2&mine=20261003&petCodex=20261009&tacticalNav=20261030-shell1&growthGuide=20261030-1",
+          "durationMs": 42,
+          "startMs": 58,
+          "transferSize": 1231078
+        },
+        {
+          "url": "http://127.0.0.1:6429/assets/ui/chief/queen-crown-v1.svg",
+          "durationMs": 40,
+          "startMs": 889,
+          "transferSize": 1513
+        },
+        {
+          "url": "http://127.0.0.1:6429/js/ui-fx-vendor-v2045.bundle.js?v=2045",
+          "durationMs": 38,
+          "startMs": 58,
+          "transferSize": 661477
+        },
+        {
+          "url": "http://127.0.0.1:6429/assets/items/pingdu-repair-coupon-v1.webp",
+          "durationMs": 33,
+          "startMs": 58,
+          "transferSize": 36136
+        }
+      ],
+      "findTarget": {
+        "ms": 826,
+        "stateRequests": 1
+      },
+      "directSelectionMs": 1115,
+      "frames": {
+        "count": 149,
+        "p95Ms": 5,
+        "maxMs": 6.3,
+        "over50": 0
+      },
+      "afterExit": {
+        "forgeRequests": 0,
+        "forgeCanvases": 0
+      },
+      "reentry": {
+        "navigation": 649,
+        "input": 655
+      },
+      "actualLiveAccountWrites": 0
+    },
+    {
+      "phase": "candidate",
+      "platform": "ios",
+      "width": 390,
+      "height": 844,
+      "conditions": "Windows host, isolated API snapshot, fixed 80ms API delay; no live account requests or writes",
+      "diagnostics": [
+        "ResizeObserver loop completed with undelivered notifications.",
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "requests": [
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "all",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": "3373751824",
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "all",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        }
+      ],
+      "blockedWrites": [],
+      "coldLaunchMs": 2218,
+      "first": {
+        "navigation": 2673,
+        "input": 2692
+      },
+      "firstResources": [
+        {
+          "url": "http://127.0.0.1:4223/api/character/equipment/forge/state?group=all",
+          "durationMs": 412,
+          "startMs": 1592,
+          "transferSize": 0
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap",
+          "durationMs": 338,
+          "startMs": 55,
+          "transferSize": 0
+        },
+        {
+          "url": "http://127.0.0.1:4223/api/sync/ticket",
+          "durationMs": 149,
+          "startMs": 2437,
+          "transferSize": 0
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Barlow+Condensed:wght@500;600;700;800&display=swap",
+          "durationMs": 92,
+          "startMs": 596,
+          "transferSize": 0
+        },
+        {
+          "url": "http://127.0.0.1:4223/api/jokgak-city/notifications",
+          "durationMs": 80,
+          "startMs": 2666,
+          "transferSize": 0
+        },
+        {
+          "url": "http://127.0.0.1:4223/api/character/equipment/polish/status",
+          "durationMs": 76,
+          "startMs": 2662,
+          "transferSize": 0
+        },
+        {
+          "url": "http://127.0.0.1:4223/api/me/menu-favorites",
+          "durationMs": 57,
+          "startMs": 594,
+          "transferSize": 0
+        },
+        {
+          "url": "http://127.0.0.1:4223/api/shell/summary",
+          "durationMs": 55,
+          "startMs": 594,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css",
+          "durationMs": 48,
+          "startMs": 596,
+          "transferSize": 0
+        },
+        {
+          "url": "http://127.0.0.1:4223/api/character/equipment/polish/status",
+          "durationMs": 47,
+          "startMs": 2605,
+          "transferSize": 0
+        },
+        {
+          "url": "http://127.0.0.1:4223/preview/equipment-forge-v1/assets/upgrade-lab-v2.png",
+          "durationMs": 23,
+          "startMs": 647,
+          "transferSize": 2016269
+        },
+        {
+          "url": "http://127.0.0.1:4223/js/adventure-lobby-v2107.js?lobby=20261029-font-v5&favorites=20261013-v1&jokgakCity=20261010-city4&v=2108-shared-navigation&goldenAxe=20260918&coup=2115&loot=20260915&mercenary=2133&workshop=20260922&chuseok=20260923&menu=20260925-2&mine=20261003&petCodex=20261009&tacticalNav=20261030-shell1&growthGuide=20261030-1",
+          "durationMs": 19,
+          "startMs": 57,
+          "transferSize": 1231078
+        },
+        {
+          "url": "http://127.0.0.1:4223/js/ui-fx-vendor-v2045.bundle.js?v=2045",
+          "durationMs": 12,
+          "startMs": 57,
+          "transferSize": 661477
+        },
+        {
+          "url": "http://127.0.0.1:4223/preview/equipment-polish-premium-v1/assets/polishing-stone-v1.png",
+          "durationMs": 11,
+          "startMs": 2654,
+          "transferSize": 1420030
+        },
+        {
+          "url": "http://127.0.0.1:4223/admin/equipment-forge-advanced-v1.css?v=20261012-scrolls",
+          "durationMs": 10,
+          "startMs": 57,
+          "transferSize": 4755
+        }
+      ],
+      "findTarget": {
+        "ms": 1388,
+        "stateRequests": 1
+      },
+      "directSelectionMs": 1749,
+      "frames": {
+        "count": 17,
+        "p95Ms": 60,
+        "maxMs": 60,
+        "over50": 1
+      },
+      "afterExit": {
+        "forgeRequests": 0,
+        "forgeCanvases": 0
+      },
+      "reentry": {
+        "navigation": 1580,
+        "input": 1596
+      },
+      "actualLiveAccountWrites": 0
+    },
+    {
+      "phase": "candidate",
+      "platform": "h5",
+      "width": 390,
+      "height": 844,
+      "conditions": "Windows host, isolated API snapshot, fixed 80ms API delay; no live account requests or writes",
+      "diagnostics": [],
+      "requests": [
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "all",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": "3373751824",
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "all",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        }
+      ],
+      "blockedWrites": [],
+      "coldLaunchMs": 1831,
+      "first": {
+        "navigation": 1329,
+        "input": 1337
+      },
+      "firstResources": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap",
+          "durationMs": 228,
+          "startMs": 57,
+          "transferSize": 139711
+        },
+        {
+          "url": "https://cnine-card.pages.dev/preview/equipment-forge-v1/assets/upgrade-lab-v2.png",
+          "durationMs": 168,
+          "startMs": 303,
+          "transferSize": 2016269
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Barlow+Condensed:wght@500;600;700;800&display=swap",
+          "durationMs": 162,
+          "startMs": 412,
+          "transferSize": 13000
+        },
+        {
+          "url": "https://cnine-card.pages.dev/api/character/equipment/forge/state?group=all",
+          "durationMs": 153,
+          "startMs": 897,
+          "transferSize": 21511
+        },
+        {
+          "url": "https://cnine-card.pages.dev/js/supporter-season-pass-v1.mjs?v=20261114-month2-purchase",
+          "durationMs": 150,
+          "startMs": 1122,
+          "transferSize": 15230
+        },
+        {
+          "url": "https://cnine-card.pages.dev/js/supporter-screen-guard-v1.mjs?v=20261011-guard1",
+          "durationMs": 150,
+          "startMs": 1122,
+          "transferSize": 4858
+        },
+        {
+          "url": "https://cnine-card.pages.dev/js/support-package-v1.mjs?v=20261116-package-cubes-v1",
+          "durationMs": 149,
+          "startMs": 1122,
+          "transferSize": 10579
+        },
+        {
+          "url": "https://cnine-card.pages.dev/js/support-package-alerts-v1.mjs?v=20261116-package-cubes-v1",
+          "durationMs": 149,
+          "startMs": 1122,
+          "transferSize": 6392
+        },
+        {
+          "url": "https://cnine-card.pages.dev/shared/support-package-v1.mjs?v=20261116-package-cubes-v1",
+          "durationMs": 149,
+          "startMs": 1122,
+          "transferSize": 14364
+        },
+        {
+          "url": "https://cnine-card.pages.dev/shared/legion-hunt-energy-v1.mjs",
+          "durationMs": 146,
+          "startMs": 1122,
+          "transferSize": 3908
+        },
+        {
+          "url": "https://cnine-card.pages.dev/js/supporter-application-v1.mjs?v=20261108-pass-purchases",
+          "durationMs": 146,
+          "startMs": 1122,
+          "transferSize": 7779
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css",
+          "durationMs": 96,
+          "startMs": 413,
+          "transferSize": 13090
+        },
+        {
+          "url": "https://cnine-card.pages.dev/js/ui-fx-vendor-v2045.bundle.js?v=2045",
+          "durationMs": 92,
+          "startMs": 57,
+          "transferSize": 661477
+        },
+        {
+          "url": "https://cnine-card.pages.dev/preview/equipment-polish-premium-v1/assets/polishing-stone-v1.png",
+          "durationMs": 91,
+          "startMs": 996,
+          "transferSize": 1420030
+        },
+        {
+          "url": "https://cnine-card.pages.dev/onestore/js/adventure-navigation-standalone.js?jokgakCity=20261010-city4&v=2108-shared-navigation&goldenAxe=20260918&chuseok=20260923",
+          "durationMs": 87,
+          "startMs": 57,
+          "transferSize": 2472
+        }
+      ],
+      "findTarget": {
+        "ms": 807,
+        "stateRequests": 1
+      },
+      "directSelectionMs": 1174,
+      "frames": {
+        "count": 148,
+        "p95Ms": 4.6,
+        "maxMs": 5.7,
+        "over50": 0
+      },
+      "afterExit": {
+        "forgeRequests": 0,
+        "forgeCanvases": 0
+      },
+      "reentry": {
+        "navigation": 748,
+        "input": 754
+      },
+      "actualLiveAccountWrites": 0
+    },
+    {
+      "phase": "candidate",
+      "platform": "windows",
+      "width": 1440,
+      "height": 900,
+      "conditions": "Windows host, isolated API snapshot, fixed 80ms API delay; no live account requests or writes; actual Windows launcher/main.mjs + game preload + ResourceStore + HTTPS protocol/API forwarding, QA profile; manifest essentials limited to index.html to avoid unrelated downloads",
+      "diagnostics": [
+        "A bad HTTP response code (404) was received when fetching the script.",
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-4-v2066.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/ui/packs/prime-armory-equipment-box-v1.png?v=1987-prime-bulk",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/ui/packs/suit-core-supply-box-20261008.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-1-v2004.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-2-v2004.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-3-v2004.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-4-v2066.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/prime-hyperdrive-vehicle-pack-v1.png?v=1987-prime-bulk",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+        {
+          "url": "https://cnine-card.pages.dev/admin/equipment-forge-advanced-v1.css?v=20261012-scrolls",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        "Cannot read properties of undefined (reading 'allowsRoute')",
+        "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+        {
+          "url": "https://cnine-card.pages.dev/admin/equipment-forge-advanced-v1.css?v=20261012-scrolls",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        "Cannot read properties of undefined (reading 'allowsRoute')",
+        {
+          "url": "https://cnine-card.pages.dev/assets/ui/packs/prime-armory-equipment-box-v1.png?v=1987-prime-bulk",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/ui/packs/suit-core-supply-box-20261008.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-1-v2004.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-2-v2004.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-3-v2004.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-4-v2066.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/prime-hyperdrive-vehicle-pack-v1.png?v=1987-prime-bulk",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        "A bad HTTP response code (404) was received when fetching the script.",
+        {
+          "url": "https://cnine-card.pages.dev/assets/ui/packs/prime-armory-equipment-box-v1.png?v=1987-prime-bulk",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/ui/packs/suit-core-supply-box-20261008.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-1-v2004.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-2-v2004.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-3-v2004.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/suit-core-4-v2066.png",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/prime-hyperdrive-vehicle-pack-v1.png?v=1987-prime-bulk",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+        {
+          "url": "https://cnine-card.pages.dev/admin/equipment-forge-advanced-v1.css?v=20261012-scrolls",
+          "error": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        "Cannot read properties of undefined (reading 'allowsRoute')"
+      ],
+      "requests": [
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "all",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": "3373751824",
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "all",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        }
+      ],
+      "blockedWrites": [],
+      "coldLaunchMs": 1903,
+      "first": {
+        "navigation": 1520,
+        "input": 1525
+      },
+      "firstResources": [
+        {
+          "url": "https://cnine-card.pages.dev/preview/equipment-forge-v1/assets/upgrade-lab-v2.png",
+          "durationMs": 323,
+          "startMs": 134,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/preview/equipment-forge-v1/source/fx.mjs",
+          "durationMs": 156,
+          "startMs": 383,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/items/pig-coin-v1.png",
+          "durationMs": 130,
+          "startMs": 387,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/api/character/equipment/forge/quote",
+          "durationMs": 95,
+          "startMs": 927,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/api/character/equipment/forge/state?group=all",
+          "durationMs": 90,
+          "startMs": 587,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/shared/equipment-forge-resources-v1.mjs?v=20261107-guarantee",
+          "durationMs": 84,
+          "startMs": 383,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/equipment-forge/requests.mjs?v=20261116-focus",
+          "durationMs": 79,
+          "startMs": 383,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/shared/equipment-forge-policy-v1.mjs?v=20261012-scrolls",
+          "durationMs": 78,
+          "startMs": 383,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.webp",
+          "durationMs": 75,
+          "startMs": 387,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/ui/chief/queen-crown-v1.svg",
+          "durationMs": 74,
+          "startMs": 387,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/api/shell/summary",
+          "durationMs": 73,
+          "startMs": 412,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/ui/brand/reverse-call-20261016/icon-192.png",
+          "durationMs": 72,
+          "startMs": 387,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/ui/icon-fusion-20261004/coin.webp",
+          "durationMs": 72,
+          "startMs": 387,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/assets/ui/icon-fusion-20261004/master-star.webp",
+          "durationMs": 72,
+          "startMs": 387,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cnine-card.pages.dev/js/joint-account-transport.mjs",
+          "durationMs": 70,
+          "startMs": 383,
+          "transferSize": 0
+        }
+      ],
+      "findTarget": {
+        "ms": 10836,
+        "stateRequests": 1
+      },
+      "directSelectionMs": 3333,
+      "frames": {
+        "count": 0,
+        "limitation": "Hidden native window did not produce animation frames; foreground browser renderer frames recorded separately."
+      },
+      "afterExit": {
+        "forgeRequests": 0,
+        "forgeCanvases": 0
+      },
+      "reentry": {
+        "navigation": 1227,
+        "input": 1231
+      },
+      "actualLiveAccountWrites": 0
+    }
+  ],
+  "before": [
+    {
+      "phase": "before",
+      "platform": "desktop",
+      "width": 1440,
+      "height": 900,
+      "conditions": "Windows host, isolated API snapshot, fixed 80ms API delay; no live account requests or writes",
+      "diagnostics": [],
+      "requests": [
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "all",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "all",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "all",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        }
+      ],
+      "blockedWrites": [],
+      "coldLaunchMs": 1862,
+      "first": {
+        "navigation": 1088,
+        "input": 1095
+      },
+      "firstResources": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap",
+          "durationMs": 240,
+          "startMs": 39,
+          "transferSize": 139711
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css",
+          "durationMs": 191,
+          "startMs": 529,
+          "transferSize": 13090
+        },
+        {
+          "url": "http://127.0.0.1:6431/assets/items/emperor-dual-disk-v1.png",
+          "durationMs": 177,
+          "startMs": 1107,
+          "transferSize": 1991388
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Barlow+Condensed:wght@500;600;700;800&display=swap",
+          "durationMs": 172,
+          "startMs": 529,
+          "transferSize": 13000
+        },
+        {
+          "url": "http://127.0.0.1:6431/api/character/equipment/forge/state?group=all",
+          "durationMs": 157,
+          "startMs": 817,
+          "transferSize": 21511
+        },
+        {
+          "url": "http://127.0.0.1:6431/preview/equipment-forge-v1/assets/upgrade-lab-v2.png",
+          "durationMs": 124,
+          "startMs": 390,
+          "transferSize": 2016269
+        },
+        {
+          "url": "http://127.0.0.1:6431/assets/items/emperor-leggings-v1.png",
+          "durationMs": 113,
+          "startMs": 1107,
+          "transferSize": 2037016
+        },
+        {
+          "url": "http://127.0.0.1:6431/assets/items/pig-coin-v1.png",
+          "durationMs": 97,
+          "startMs": 591,
+          "transferSize": 2750372
+        },
+        {
+          "url": "http://127.0.0.1:6431/js/server-support-v1.mjs?v=20261116-package-cubes-v1",
+          "durationMs": 76,
+          "startMs": 545,
+          "transferSize": 22095
+        },
+        {
+          "url": "http://127.0.0.1:6431/assets/ui/mercenary-equipment/legion-20261011/theatre-weapon.webp",
+          "durationMs": 76,
+          "startMs": 1107,
+          "transferSize": 44218
+        },
+        {
+          "url": "http://127.0.0.1:6431/assets/ui/mercenary-equipment/ascendant-20261028/01-moonblade-shoes.webp",
+          "durationMs": 72,
+          "startMs": 1107,
+          "transferSize": 86560
+        },
+        {
+          "url": "http://127.0.0.1:6431/assets/ui/tactical-20261030/panel-flat.webp",
+          "durationMs": 69,
+          "startMs": 552,
+          "transferSize": 40684
+        },
+        {
+          "url": "http://127.0.0.1:6431/assets/ui/mercenary-equipment/ascendant-20261028/02-crimson-paladin-shoes.webp",
+          "durationMs": 65,
+          "startMs": 1107,
+          "transferSize": 89372
+        },
+        {
+          "url": "http://127.0.0.1:6431/assets/items/guaranteed-enhancement-scroll-v1.webp",
+          "durationMs": 58,
+          "startMs": 40,
+          "transferSize": 93890
+        },
+        {
+          "url": "http://127.0.0.1:6431/assets/ui/brand/reverse-call-20261016/logo-240.webp?v=20261018-transparent",
+          "durationMs": 52,
+          "startMs": 40,
+          "transferSize": 37280
+        }
+      ],
+      "findTarget": {
+        "ms": 517,
+        "stateRequests": 1
+      },
+      "directSelectionSupported": false,
+      "frames": {
+        "count": 130,
+        "p95Ms": 8.3,
+        "maxMs": 11.8,
+        "over50": 0
+      },
+      "afterExit": {
+        "forgeRequests": 0,
+        "forgeCanvases": 0
+      },
+      "reentry": {
+        "navigation": 818,
+        "input": 824
+      },
+      "actualLiveAccountWrites": 0
+    },
+    {
+      "phase": "before",
+      "platform": "ios",
+      "width": 390,
+      "height": 844,
+      "conditions": "Windows host, isolated API snapshot, fixed 80ms API delay; no live account requests or writes",
+      "diagnostics": [
+        "Viewport argument key \"interactive-widget\" not recognized and ignored.",
+        "ResizeObserver loop completed with undelivered notifications.",
+        "Viewport argument key \"interactive-widget\" not recognized and ignored.",
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "requests": [
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "all",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "all",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "mercenary",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/quote",
+          "group": null,
+          "cursor": null,
+          "focusId": null,
+          "method": "POST"
+        },
+        {
+          "path": "/api/character/equipment/forge/state",
+          "group": "all",
+          "cursor": null,
+          "focusId": null,
+          "method": "GET"
+        }
+      ],
+      "blockedWrites": [],
+      "coldLaunchMs": 1455,
+      "first": {
+        "navigation": 1843,
+        "input": 1861
+      },
+      "firstResources": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap",
+          "durationMs": 315,
+          "startMs": 70,
+          "transferSize": 0
+        },
+        {
+          "url": "http://127.0.0.1:2376/api/sync/ticket",
+          "durationMs": 142,
+          "startMs": 1691,
+          "transferSize": 0
+        },
+        {
+          "url": "http://127.0.0.1:2376/api/character/equipment/forge/state?group=all",
+          "durationMs": 130,
+          "startMs": 1215,
+          "transferSize": 0
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Barlow+Condensed:wght@500;600;700;800&display=swap",
+          "durationMs": 97,
+          "startMs": 629,
+          "transferSize": 0
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css",
+          "durationMs": 61,
+          "startMs": 630,
+          "transferSize": 0
+        },
+        {
+          "url": "http://127.0.0.1:2376/js/supporter-screen-guard-v1.mjs?v=20261011-guard1",
+          "durationMs": 57,
+          "startMs": 739,
+          "transferSize": 4858
+        },
+        {
+          "url": "http://127.0.0.1:2376/api/character/equipment/polish/status",
+          "durationMs": 43,
+          "startMs": 1837,
+          "transferSize": 0
+        },
+        {
+          "url": "http://127.0.0.1:2376/api/me/menu-favorites",
+          "durationMs": 39,
+          "startMs": 627,
+          "transferSize": 0
+        },
+        {
+          "url": "http://127.0.0.1:2376/api/shell/summary",
+          "durationMs": 38,
+          "startMs": 626,
+          "transferSize": 0
+        },
+        {
+          "url": "http://127.0.0.1:2376/js/ui-fx-vendor-v2045.bundle.js?v=2045",
+          "durationMs": 20,
+          "startMs": 82,
+          "transferSize": 661477
+        },
+        {
+          "url": "http://127.0.0.1:2376/preview/equipment-forge-v1/assets/upgrade-lab-v2.png",
+          "durationMs": 16,
+          "startMs": 664,
+          "transferSize": 2016269
+        },
+        {
+          "url": "http://127.0.0.1:2376/preview/equipment-forge-v1/source/fx.mjs",
+          "durationMs": 13,
+          "startMs": 713,
+          "transferSize": 21954
+        },
+        {
+          "url": "http://127.0.0.1:2376/shared/equipment-forge-policy-v1.mjs?v=20261012-scrolls",
+          "durationMs": 13,
+          "startMs": 714,
+          "transferSize": 5884
+        },
+        {
+          "url": "http://127.0.0.1:2376/shared/equipment-forge-resources-v1.mjs?v=20261107-guarantee",
+          "durationMs": 13,
+          "startMs": 714,
+          "transferSize": 1561
+        },
+        {
+          "url": "http://127.0.0.1:2376/equipment-forge/requests.mjs?v=20261107-guarantee",
+          "durationMs": 13,
+          "startMs": 714,
+          "transferSize": 5269
+        }
+      ],
+      "findTarget": {
+        "ms": 1198,
+        "stateRequests": 1
+      },
+      "directSelectionSupported": false,
+      "frames": {
+        "count": 25,
+        "p95Ms": 48,
+        "maxMs": 66,
+        "over50": 1
+      },
+      "afterExit": {
+        "forgeRequests": 0,
+        "forgeCanvases": 0
+      },
+      "reentry": {
+        "navigation": 1205,
+        "input": 1217
+      },
+      "actualLiveAccountWrites": 0
+    }
+  ],
+  "limitations": [
+    "Account API/quote responses in UI checks are isolated snapshots with fixed 80ms delay; no real enhancement executed.",
+    "Native QA runs the actual ONE store Windows launcher main/preload/resource store/HTTPS forwarding in a private profile with essentials restricted to index plus permanent bundle. Candidate native profile had QA retries; first launch number is process startup with disk cache warm.",
+    "Hidden native windows may not provide animation frames; PC/Android/WebKit renderer frames recorded separately.",
+    "WebKit ResizeObserver warnings and long frames exist both before and after. Single-run timings are diagnostic, not user-device performance guarantees.",
+    "Earlier native harness failures were local-fixture CORS/preflight support, launcher check timing and zero-frame reporting; no production client code was changed to accommodate them."
+  ],
+  "controls": {
+    "equipmentCurrencyMessageMutations": 0,
+    "diagnosticSessionCreatedAndRemoved": true,
+    "productionAuthSecretsPersisted": false
+  }
+}
