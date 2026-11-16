@@ -10,7 +10,7 @@ export const PET_GROWTH_CAPS=Object.freeze(Object.fromEntries([
  ['A',['GILDED-DRAGON','WHITE-SPIRIT','PUMPKIN-BONGSOON','PUMPKIN-JOEUN','DAENGSORYONG']],
  ['S',['CRIMSON-DEMON']],
  ['SS',['HEUKGU','JJANGGU-HEEYA']],
- ['SSS',['BAZZI-BONGSOON','PEPEGU','SUDAL']]
+ ['SSS',['BAZZI-BONGSOON','PEPEGU','SUDAL','DDUNG-JOEUN']]
 ].flatMap(([grade,codes])=>codes.map(code=>['PET-'+code,grade]))));
 const stats={C:0,B:1,A:2,S:3,SS:4,SSS:5},traits={C:1,B:2,A:3,S:5,SS:7,SSS:10};
 export const PET_GROWTH_VALUES=Object.freeze({...Object.fromEntries(PET_STATS.map(k=>[k,stats])),...Object.fromEntries(Object.keys(PET_TRAITS).map(k=>[k,traits]))});

@@ -1,4 +1,4 @@
-import {mountPetEquipment} from '/onestore/js/pet-equipment-window-v1.mjs?v=20261115-sudal';
+import {mountPetEquipment} from '/onestore/js/pet-equipment-window-v1.mjs?v=20261116-ddung-joeun';
 import {createLivePetGrowthAdapter} from '/js/pet-growth-live-adapter-v2.mjs';
 const adapter=createLivePetGrowthAdapter();
 mountPetEquipment(document.getElementById('pet-codex'),{codex:true,growth:{layout:'unified',live:true,adapter,async createEffectPreview(host,options){const {createEffectPreview}=await import('/preview/pet-rework-20261114/fx-preview.bundle.mjs');return createEffectPreview(host,options);}}});

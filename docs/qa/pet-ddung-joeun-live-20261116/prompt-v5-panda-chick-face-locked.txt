@@ -1,0 +1,12 @@
+Precise costume edit with a LOCKED, USER-SELECTED FACE.
+Image 1 (yellow chick mascot) is the PRIMARY EDIT TARGET. The user explicitly selected THIS face as natural and correct.
+Image 2 (panda mascot) is ONLY a reference for the PANDA COSTUME, broad round body and outstretched-arm standing pose. Completely ignore Image 2's human face; it was rejected.
+
+THE FACE IN IMAGE 1 MUST BE PRESERVED:
+Keep the actual visible human face from Image 1 unchanged: same face shape, jaw and chin, eyes, brows, nose, lips, expression, skin, hair framing, size, tilt and perspective. This is not a request to redesign or improve her face. Keep the natural orientation toward screen-left (←) and the exact relaxed eye direction visible in Image 1. Do not force the face to the front or to screen-right. Do not rotate the face relative to its eyes, do not redirect the pupils, do not symmetrize, do not lengthen or shorten the chin, and do not blend with Image 2's facial features. The most important requirement is that the face looks like the same unaltered face from Image 1, with its original natural inclination and gaze. Preserve the dark hair and loose strands immediately around that face. Build the new costume around this existing face rather than redrawing the face to fit the costume.
+
+CHANGE ONLY COSTUME AND BODY:
+Convert the yellow chick hood and suit into a fluffy black-and-white PANDA mascot suit. White rounded hood, two black rounded ears, cute panda eye patches and a little black nose on the hood above the human face opening. Remove the orange beak, yellow tuft and all chick colors. The face opening must follow the existing Image 1 face naturally.
+Use Image 2's very wide, round white plush belly, black shoulders/chest/sleeves, tiny black paw mittens extending out to both sides, very short black legs and black feet planted apart. Arms extend sideways and slightly downward like Image 2, not hanging chick wings. Keep the adorable pudgy SD body and full-body standing pose.
+Match the high-quality softly painted plush character style of the provided images. One character named "뚱조은". Full body, clean transparent alpha background, no text, no nameplate, no props. Keep all ears, paws and feet in frame.
+Priority order: 1. Image 1 face unchanged and natural original leftward orientation; 2. panda costume; 3. wide round body and outstretched-arm pose.

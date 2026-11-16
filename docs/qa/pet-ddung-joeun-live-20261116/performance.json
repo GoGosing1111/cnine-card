@@ -1,0 +1,206 @@
+{
+  "conditions": "Windows host. Actual /pet-codex/ page and game API handlers with isolated PostgreSQL-compatible fixture. Chrome desktop/Android and WebKit iPhone emulation; hidden Electron renderer; iframe embedding smoke. No production account mutation or physical mobile measurements.",
+  "samples": [
+    {
+      "platform": "desktop",
+      "variant": "runtime-webp",
+      "firstInteractiveMs": 551,
+      "firstImagesMs": 1049,
+      "reentryInteractiveMs": 31,
+      "reentryImagesMs": 32,
+      "overflow": false,
+      "portrait": [
+        {
+          "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+          "width": 560,
+          "height": 560
+        }
+      ],
+      "resources": [
+        {
+          "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+          "bytes": 52330,
+          "ms": 668
+        }
+      ],
+      "errors": [],
+      "frames": {
+        "samples": 361,
+        "p95": 4.299999999999727,
+        "max": 8.299999999999727,
+        "over50ms": 0
+      },
+      "afterExit": {
+        "active": 0,
+        "updates": 79
+      },
+      "documentReentryInteractiveMs": 215,
+      "documentReentryImagesMs": 603
+    },
+    {
+      "platform": "android",
+      "variant": "source-png",
+      "firstInteractiveMs": 1566,
+      "firstImagesMs": 4301,
+      "reentryInteractiveMs": 142,
+      "reentryImagesMs": 143,
+      "overflow": false,
+      "portrait": [
+        {
+          "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-approved.png",
+          "width": 1254,
+          "height": 1254
+        }
+      ],
+      "resources": [
+        {
+          "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-approved.png",
+          "bytes": 1646432,
+          "ms": 2787
+        }
+      ],
+      "errors": [],
+      "documentReentryInteractiveMs": 1577,
+      "documentReentryImagesMs": 4148
+    },
+    {
+      "platform": "android",
+      "variant": "runtime-webp",
+      "firstInteractiveMs": 1637,
+      "firstImagesMs": 2518,
+      "reentryInteractiveMs": 98,
+      "reentryImagesMs": 99,
+      "overflow": false,
+      "portrait": [
+        {
+          "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+          "width": 560,
+          "height": 560
+        }
+      ],
+      "resources": [
+        {
+          "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+          "bytes": 52330,
+          "ms": 345
+        }
+      ],
+      "errors": [],
+      "frames": {
+        "samples": 146,
+        "p95": 16.699999999999818,
+        "max": 549.8999999999996,
+        "over50ms": 3
+      },
+      "afterExit": {
+        "active": 0,
+        "updates": 16
+      },
+      "documentReentryInteractiveMs": 1512,
+      "documentReentryImagesMs": 2404
+    },
+    {
+      "platform": "ios",
+      "variant": "runtime-webp",
+      "firstInteractiveMs": 360,
+      "firstImagesMs": 646,
+      "reentryInteractiveMs": 148,
+      "reentryImagesMs": 150,
+      "overflow": false,
+      "portrait": [
+        {
+          "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+          "width": 560,
+          "height": 560
+        }
+      ],
+      "resources": [
+        {
+          "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+          "bytes": 52330,
+          "ms": 2
+        },
+        {
+          "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-thumb.webp",
+          "bytes": 0,
+          "ms": 0
+        }
+      ],
+      "errors": [],
+      "frames": {
+        "samples": 108,
+        "p95": 17,
+        "max": 38,
+        "over50ms": 0
+      },
+      "afterExit": {
+        "active": 0,
+        "updates": 22
+      },
+      "documentReentryInteractiveMs": 434,
+      "documentReentryImagesMs": 463
+    },
+    {
+      "platform": "windows",
+      "variant": "runtime-webp",
+      "firstInteractiveMs": 352,
+      "firstImagesMs": 376,
+      "reentryInteractiveMs": 63,
+      "reentryImagesMs": 65,
+      "overflow": false,
+      "portrait": [
+        {
+          "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+          "width": 560,
+          "height": 560
+        }
+      ],
+      "resources": [
+        {
+          "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+          "bytes": 52330,
+          "ms": 8
+        },
+        {
+          "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-thumb.webp",
+          "bytes": 7894,
+          "ms": 12
+        }
+      ],
+      "errors": [],
+      "documentReentryInteractiveMs": 287,
+      "documentReentryImagesMs": 302
+    },
+    {
+      "platform": "iframe",
+      "variant": "runtime-webp",
+      "firstInteractiveMs": 443,
+      "firstImagesMs": 904,
+      "reentryInteractiveMs": 64,
+      "reentryImagesMs": 66,
+      "overflow": false,
+      "portrait": [
+        {
+          "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+          "width": 560,
+          "height": 560
+        }
+      ],
+      "resources": [
+        {
+          "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+          "bytes": 52330,
+          "ms": 5
+        },
+        {
+          "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-thumb.webp",
+          "bytes": 7894,
+          "ms": 9
+        }
+      ],
+      "errors": [],
+      "documentReentryInteractiveMs": 259,
+      "documentReentryImagesMs": 660
+    }
+  ]
+}

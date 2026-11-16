@@ -1,0 +1,11 @@
+{
+  "tests": [
+    "tests/pet-ddung-joeun-registration-20261116.test.mjs",
+    "tests/pet-ddung-joeun-live-20261116.test.mjs"
+  ],
+  "passed": 9,
+  "failed": 0,
+  "operationalDryRunRollback": true,
+  "receiptFailureRollback": true,
+  "sourceArtSha256": "588115c8b50ad377901e74c02df2b0768e0975ba6d25268879c428c09c34c7e4"
+}

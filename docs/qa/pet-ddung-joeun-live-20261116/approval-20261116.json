@@ -1,0 +1,64 @@
+{
+  "status": "SOURCE_ART_APPROVED",
+  "approvedAt": "2026-11-16T11:16:00.328Z",
+  "userApproval": "승인하고 배찌 나무늘봉순하고 동급수치로 라이브반영",
+  "liveAuthorization": "승인하고 배찌 나무늘봉순하고 동급수치로 라이브반영",
+  "selectedDraft": "v5-natural-face",
+  "name": "뚱조은",
+  "assets": [
+    {
+      "code": "PET-DDUNG-JOEUN",
+      "name": "뚱조은",
+      "approvedAsset": "assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-approved.png",
+      "battleSprite": "assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+      "thumb": "assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-thumb.webp",
+      "sha256": "588115c8b50ad377901e74c02df2b0768e0975ba6d25268879c428c09c34c7e4",
+      "bytes": 1646132,
+      "width": 1254,
+      "height": 1254
+    }
+  ],
+  "referencePet": {
+    "code": "PET-BAZZI-BONGSOON",
+    "cmsRevision": 50,
+    "checkedAt": "2026-11-16T11:14:54.079Z",
+    "options": {
+      "enabled": true,
+      "liveEnabled": true,
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "target": "ALL_ALLIES",
+      "buffs": [
+        {
+          "type": "SPEED_PERCENT",
+          "percent": 55
+        }
+      ],
+      "rewardBonuses": {
+        "dropPercent": 25,
+        "accountXpPercent": 55,
+        "coinPercent": 55
+      }
+    },
+    "growthCap": "SSS"
+  },
+  "generation": {
+    "tool": "built-in image_gen",
+    "originalGeneratedPath": "C:/Users/User/.codex/generated_images/01a1e3f0-3edb-7f03-aab6-acc7492161cc/exec-c7daadcc-a07e-4b7c-b6d6-bd346915fade.png",
+    "prompt": "prompt-v5-panda-chick-face-locked.txt",
+    "priorDraftsPreserved": "output/pets/ddung-joeun-20261116/"
+  },
+  "visualReview": {
+    "selectedImageSha256": "588115c8b50ad377901e74c02df2b0768e0975ba6d25268879c428c09c34c7e4",
+    "faceDirectionAndPandaPosePreserved": true,
+    "transparent": true
+  },
+  "scope": {
+    "liveRegistration": true,
+    "battleBuffPolicyApproved": true,
+    "acquisitionApproved": false,
+    "accountGrantsPerformed": false
+  }
+}

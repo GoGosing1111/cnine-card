@@ -154,5 +154,11 @@
     "portrait": "/assets/ui/pets/sudal-20261115/pet-sudal-portrait.webp",
     "source": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png",
     "sourceSha256": "ba46b4584c3ffb1856fa93d17f62d563a9565da6adf3f884bae4ef9657d51c3d"
+  },
+  "PET-DDUNG-JOEUN": {
+    "thumb": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-thumb.webp",
+    "portrait": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+    "source": "assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-approved.png",
+    "sourceSha256": "588115c8b50ad377901e74c02df2b0768e0975ba6d25268879c428c09c34c7e4"
   }
 }
