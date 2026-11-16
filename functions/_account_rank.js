@@ -1,4 +1,4 @@
-import {seasonAwardStatements} from './_season_s1.js';
+import {contentProgressionStatements as seasonAwardStatements} from './_content_progression.js';
 import {readCollectionBonuses} from './_collection_bonuses.js';
 import {rewardAmountWithBonus} from '../shared/collection-bonuses-v1.mjs';
 import {RANKS,rankForLevel} from '../shared/account-ranks-v1.mjs';
@@ -123,8 +123,8 @@ export async function settleRankedHunt(env,userId,source,eventId,coin,reason,sea
   const guard=`EXISTS(SELECT 1 FROM account_rank_receipts_v1 WHERE token=?)`;
   writes.push(env.DB.prepare(`UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=? AND ${guard}`).bind(coin,userId,writes.token),
     env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=? AND ${guard}`).bind(coin,reason,userId,writes.token));
-  writes.push(...await seasonAwardStatements(env,{userId,eventId,source:season.source||'HUNT',won:true,monsterId:season.monsterId},{guard,values:[writes.token]}));
-  return env.DB.batch(writes);
+  const progression=await seasonAwardStatements(env,{userId,eventId,source:season.source||'HUNT',won:true,monsterId:season.monsterId},{guard,values:[writes.token]});
+  writes.push(...progression);const result=await env.DB.batch(writes);result.hideoutReward=progression.hideoutAward||null;return result;
 }
 
 export async function accountRankIdleSettlement(){

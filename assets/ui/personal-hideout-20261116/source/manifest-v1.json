@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "tool": "built-in image_gen",
+  "status": "generated; technical review pending; not user visual approval",
+  "sourceRoot": "C:/Users/User/.codex/generated_images/01a1e369-5555-77f2-a08c-600690830d10",
+  "sources": [
+    {
+      "key": "bg",
+      "file": "exec-fc4b2d31-b10c-479d-b5dc-cc42020324d7.png",
+      "prompt": "Use case: stylized-concept. Asset type: production game hideout interior background for REVERSE CALL, a Korean sci-fi fantasy mercenary RPG. Primary request: an upgradeable personal underground mercenary hideout, a believable lived-in industrial bunker with dark navy metal, warm practical lamps and restrained cyan machinery lighting. Composition: wide landscape 3:2, orthographic elevated three-quarter room view, cutaway front wall, room fills the canvas, readable floor with six generously spaced clear furniture placement zones, empty central space, left workshop alcove, rear refrigeration utility alcove, right garage opening, rear armory alcove. These alcoves are empty; furniture will be separate interactive sprites. Steel bulkhead walls, ribbed conduits, concrete floor, functional worn industrial detailing, sophisticated painterly game illustration, realistic proportions, high quality materials. No people, no weapons lying around, no interface, no labels, no text, no badges, no logos, no watermarks, no graphic floor grid. Clear silhouette, balanced dim lighting but visible floor, designed to remain readable on a mobile screen.",
+      "sha256": "4a1c8c1ccb549f61c094475802b115088e41d17a8123453f3bd005151bdebd52",
+      "saved": "source/bg.png"
+    },
+    {
+      "key": "furniture",
+      "file": "exec-87be4c19-ecb1-4a16-95e1-032a4d652328.png",
+      "prompt": "Use case: stylized-concept. Asset type: a production transparent sprite atlas containing six placeable furniture sprites for a sci-fi mercenary underground hideout. Layout: exactly three equal columns by two equal rows, every sprite isolated fully inside its own cell, generous transparent padding, no overlap, no cast shadows outside the cell. In reading order: 1 heavy steel repair workbench with vise and tools, 2 rugged tall industrial refrigerator with coolant compressor, 3 compact garage vehicle maintenance lift with a small tactical motorbike, 4 secure steel armory cabinet with closed lower drawers and a few rifles in the open rack, 5 worn dark leather two-seat lounge sofa with a folded blanket, 6 tall industrial floor lamp with a warm protective cage bulb. Matching elevated three-quarter front camera for all six, realistic proportions, highly polished painterly game illustration, dark navy steel and worn brass accents, restrained cyan indicators, warm light, readable silhouettes. Transparent background with actual alpha; no background room, no words, no numbers, no labels, no panels, no grid lines, no logos, no watermark. Canvas 1536x1024 landscape.",
+      "sha256": "9052fb475d15563dd9d5753f22178524e616928f66cb7a5ead1b233af6157052",
+      "saved": "source/furniture.png"
+    },
+    {
+      "key": "parts",
+      "file": "exec-a4fed213-8105-4989-a1b0-13624e4da2a6.png",
+      "prompt": "Use case: stylized-concept. Asset type: production transparent inventory icon atlas for an upgradeable mercenary hideout. Exactly three equal columns by two equal rows, six separate icons with generous transparent margins and no overlaps. Reading order: 1 stacked salvaged steel plates and bolts; 2 copper wiring coil and connector; 3 sophisticated green electronic control circuit board; 4 blue coolant canister with valve; 5 heavy mechanical drive gear and compact motor; 6 advanced power core glowing warm amber in protective dark steel casing. High quality realistic painterly RPG item illustration, consistent three-quarter angle, navy gunmetal, copper and muted cyan, sharp readable silhouettes at small size, centered icons. Transparent background actual alpha. No interface frames, no text, no numbers, no logos, no watermarks, no panels, no extra icons. Canvas 1536x1024 landscape.",
+      "sha256": "0eaa002682e56ac4456311ea5d99ac0856a34bddec089cd45c409ec75227a2fc",
+      "saved": "source/parts.png"
+    },
+    {
+      "key": "panel",
+      "file": "exec-99952e9c-f257-4154-bd08-500e9222614d.png",
+      "prompt": "Use case: stylized-concept. Asset type: one production UI panel skin for the mercenary hideout and monster-hunt salvage report in REVERSE CALL. A single empty rectangular industrial field-terminal panel seen perfectly straight-on, square canvas. Dark navy gunmetal body, solid very dark opaque inset center intentionally blank and visually quiet for readable live text, sophisticated thin beveled steel perimeter with subtle worn brass corner fasteners, tiny warm amber and muted cyan edge indicators, physically built professional game UI, no screens inside, no inner dividers, no inset text boxes, no symbols, no icons, no logos, no letters, no numbers. Actual transparent background outside the outer metal silhouette. Panel occupies 90 percent of square canvas with symmetric margins, straight edges and modest clipped corners, uniformly narrow rim. Designed for nine-slice resizing in a responsive game interface; keep ALL decoration in the outer 10 percent and center totally plain.",
+      "sha256": "790e5a37a130d25ee499ae33d4d2197f54c737b6b66d0e50af01c037e4408951",
+      "saved": "source/panel.png"
+    },
+    {
+      "key": "furniture-clean",
+      "file": "exec-cd59f388-dd4c-42fe-9e09-02e3ad57f24e.png",
+      "prompt": "Edit target: this six-furniture sprite atlas. Remove ALL background between and around the six furniture sprites completely, leaving true zero-alpha transparency. Preserve all six objects, exact same 3-column 2-row layout, scale, position, paint and fine details. Make furniture opaque. No painted background, no soft gradient or broad shadow, no haze or residual semi-transparent fill. Strict background extraction only. Keep workbench, fridge, garage lift, armory, sofa, lamp unchanged and separated with clear transparent gutters.",
+      "sha256": "df2e86e5ce71f6e6500fbf1e17308f13132a58ec0a75e4f1525cc520251b0a2c",
+      "saved": "source/furniture-clean.png"
+    },
+    {
+      "key": "parts-clean",
+      "file": "exec-16c081ff-9260-41b1-ab3d-6c8a1b385e06.png",
+      "prompt": "Edit target: this six-component RPG inventory sprite atlas. Remove ALL white and gray background completely to true zero-alpha transparency, including all areas between the objects. Preserve the exact six subjects, colors, shapes, detailed painting and 3-column 2-row layout and scale. Objects must be opaque; no background gradient, no surrounding fog, no broad shadow or white matte. Strict background extraction only. Retain six clear isolated component icons.",
+      "sha256": "5d0388359e77b3b36e8983e8f4356271578c9de86b4fc134f06ce3939a3ee654",
+      "saved": "source/parts-clean.png"
+    },
+    {
+      "key": "trophy",
+      "file": "exec-f131375a-4caa-46ee-9d55-f8dac64c6c1e.png",
+      "prompt": "Use case: stylized-concept. Asset type: placeable trophy pedestal sprite for a sophisticated sci-fi mercenary bunker decoration system. One empty compact gunmetal display plinth, elevated three-quarter front view matching industrial RPG furniture. Short square freestanding cabinet with beveled navy steel sides, worn bronze edges, recessed cyan strip lighting and an empty flat velvet top illuminated by two small rear warm spotlights. Leave the entire top clear to overlay a separately owned trophy in game. No trophy, no objects on top, no letters, no labels, no numbers, no logo, no room, no background, no floor. Actual fully transparent background, clean opaque furniture cutout, all edges inside frame, square canvas, high quality realistic painterly game prop, not cartoon.",
+      "sha256": "445423996d09faaa4effc42c564590604659c140e0297b858f519230e5c14f85",
+      "saved": "source/trophy.png"
+    }
+  ],
+  "outputs": [
+    {
+      "file": "furniture-workbench.webp",
+      "bytes": 42908
+    },
+    {
+      "file": "furniture-fridge.webp",
+      "bytes": 31044
+    },
+    {
+      "file": "furniture-garage.webp",
+      "bytes": 48328
+    },
+    {
+      "file": "furniture-armory.webp",
+      "bytes": 39884
+    },
+    {
+      "file": "furniture-sofa.webp",
+      "bytes": 32800
+    },
+    {
+      "file": "furniture-lamp.webp",
+      "bytes": 22376
+    },
+    {
+      "file": "part-steel.webp",
+      "bytes": 14490
+    },
+    {
+      "file": "part-wire.webp",
+      "bytes": 13268
+    },
+    {
+      "file": "part-circuit.webp",
+      "bytes": 13418
+    },
+    {
+      "file": "part-coolant.webp",
+      "bytes": 13706
+    },
+    {
+      "file": "part-drive.webp",
+      "bytes": 14004
+    },
+    {
+      "file": "part-core.webp",
+      "bytes": 14302
+    },
+    {
+      "file": "panel.webp",
+      "bytes": 23360
+    },
+    {
+      "file": "trophy-stand.webp",
+      "bytes": 47318
+    }
+  ]
+}

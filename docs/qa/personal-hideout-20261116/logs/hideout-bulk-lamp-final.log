@@ -1,0 +1,31 @@
+✖ real bulk card opening uses the lamp bonus without expanding limited stock or replaying a payment (3604.3094ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5138.4514
+
+✖ failing tests:
+
+test at tests\personal-hideout-integration-20261116.test.mjs:54:1
+✖ real bulk card opening uses the lamp bonus without expanding limited stock or replaying a payment (3604.3094ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 3.3000000000000003
+  - 3.3
+       ^
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/tests/personal-hideout-integration-20261116.test.mjs:67:10)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 3.3000000000000003,
+    expected: 3.3,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1,3 +1,4 @@
+import {hideoutPartyEnergy} from '../shared/personal-hideout-energy-v1.mjs';
 import {jointAccountRequest} from './joint-account-transport.mjs';
 import {LEGION_PARTY_BASE_RECHARGE_MS,legionRechargeMs,legionRecoveryNotice} from '../shared/legion-hunt-energy-v1.mjs';
 import {DAMAGE_FONT_FAMILY,ensureDamageFont} from '../shared/battle-damage-font.mjs';
@@ -338,7 +339,7 @@ export function openCitadel(trigger,firstRead=null){
    '<ul class="ct-facts"><li>'+tactical('duo')+'<span>원정 인원 <b>2인 협동</b></span></li><li>'+glyph('clock')+'<span>사냥 시간 <b>7분</b></span></li><li>'+tactical('inventory')+'<span>전리품 <b>개인 획득</b></span></li></ul></div>'+
    '<div class="ct-content"><p class="ct-message" data-party-recovery-notice hidden></p><section data-region></section><p class="ct-message" role="status" aria-live="polite"></p></div></div><div data-arena hidden></div>';
  document.body.append(d);d.showModal();const $=q=>d.querySelector(q),main=$('[data-region]'),box=$('[data-arena]'),msg=$('.ct-message[role="status"]'),scope=new AbortController(),sig=scope.signal,clock=createServerClock();
- let readingEpoch=null,entryOpen=true,resolved=false,tiers=[],selectedTier='gate',nextEntryAt=null,unlimited=false,rechargeHours=6;
+ let readingEpoch=null,entryOpen=true,resolved=false,tiers=[],selectedTier='gate',nextEntryAt=null,unlimited=false,rechargeHours=6,partyEnergy=null;
  let area='public',publicOpen=false,clanOpen=false,publicRooms=[],ownRooms=[],hideout=null,heroArea='public';
  const dockSelected=()=>area===dockArea;
  const reason=()=>!hideout?.seasonOpen?'시즌 5 개막 후 입장 가능':hideout.stage<3?'소속 클랜 아지트 3단계 필요':'군단토벌 입장 일시 중지';
@@ -369,10 +370,13 @@ export function openCitadel(trigger,firstRead=null){
   rechargeHours=legionRechargeMs(LEGION_PARTY_BASE_RECHARGE_MS,clock.now())/3600000;
   const recovery=legionRecoveryNotice(clock.now()),notice=$('[data-party-recovery-notice]');notice.hidden=!recovery;txt(notice,recovery);
   const hours=$('[data-party-recharge-hours]');if(hours)txt(hours,String(rechargeHours));
-  const remaining=nextEntryAt?Math.max(0,nextEntryAt-clock.now()):0;
+  const personal=partyEnergy?hideoutPartyEnergy(partyEnergy,{at:Math.floor(clock.now()),maximum:partyEnergy.maximum}):null;
+  if(personal)nextEntryAt=personal.current>0?null:personal.nextRechargeAt;
+  const chargeAt=personal?.nextRechargeAt??nextEntryAt;
+  const remaining=chargeAt?Math.max(0,chargeAt-clock.now()):0;
   const seconds=Math.ceil(remaining/1000);
   energyHud.dataset.charge=displayTest?'test':unlimited?'unlimited':seconds?'charging':'ready';
-  txt(energyValue,displayTest?'테스트':unlimited?'무제한':seconds?'0 / 1':'1 / 1');
+  txt(energyValue,displayTest?'테스트':unlimited?'무제한':personal?personal.current+' / '+personal.maximum:seconds?'0 / 1':'1 / 1');
   txt(chargeLabel,displayTest?'테스트 입장':unlimited?'출전 조건':seconds?'다음 충전':'일반 · 클랜 공용');
   txt(chargeTime,displayTest?'소모 없음':unlimited?'2명 모두 준비':seconds?[
    Math.floor(seconds/3600),Math.floor(seconds/60)%60,seconds%60
@@ -403,6 +407,7 @@ export function openCitadel(trigger,firstRead=null){
    else if('open'in v){if(v.state?.area===dockArea)clanOpen=v.open;else publicOpen=v.open;}
    if(v.tiers)tiers=v.tiers;if('test'in v)displayTest=v.test;
    if(Number.isInteger(v.partyRechargeHours)&&v.partyRechargeHours>0)rechargeHours=v.partyRechargeHours;
+   if('partyEnergy'in v)partyEnergy=v.partyEnergy;if(v.state?.partyEnergy)partyEnergy=v.state.partyEnergy;
    if('nextEntryAt'in v){nextEntryAt=v.nextEntryAt;unlimited=v.unlimited===true;if(!v.state)clock.sample(v.serverNow,{reset:true});}
    resolved=true;apply(v.state,at,'nextEntryAt' in v);if(!loadingError)say('');}
   catch(err){if(closed||e!==epoch)return;if(err.status===404&&state){apply(null);rooms=[];}say(err.message);if(!resolved){txt($('[data-ct-status]'),'연결 확인 필요');txt(main.querySelector('[role="status"]'),'모집 정보를 불러오지 못했습니다.');}if(!main.firstChild)main.innerHTML='<button data-act="refresh">다시 불러오기</button>';}

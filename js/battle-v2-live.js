@@ -456,7 +456,7 @@
       await window.completePveSweepAfterAnimatedBattle({data,modal,msg,renderer});
     } else {
       const close=()=>{renderer.destroy();modal.onclick=null;renderShell('battle')};
-      modal.onclick=event=>{if(!event.target.closest('.v3-battle-report'))close()};
+      modal.onclick=null;
       const confirm=msg.querySelector('#pveResultConfirm');
       if(confirm){confirm.onclick=event=>{event.stopPropagation();close()};confirm.focus({preventScroll:true})}
       if(data.cowPortal)await window.CowRoomPortal?.offer([data.cowPortal],{mode:data.difficulty?.isApocalypse?'APOCALYPSE':'PVE'});

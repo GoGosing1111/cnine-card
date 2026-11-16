@@ -1,0 +1,19 @@
+sweep bounds {"bounds":{"x":360,"y":64,"width":720,"height":1000},"confirm":{"x":400,"y":974,"width":640,"height":56},"parents":[{"id":"","cls":"hunt-report is-win","top":64,"height":1000,"maxHeight":"100%","position":"static","display":"flex","overflow":"hidden"},{"id":"battleMessage","cls":"battle-message battle-v3-result is-visible","top":64,"height":1000,"maxHeight":"none","position":"absolute","display":"flex","overflow":"auto"},{"id":"","cls":"modal-panel battle-stage battle-v3-live-shell has-tactical-hud is-roster-visible is-v3-ready battle-win-v863 is-result-visible","top":0,"height":1000,"maxHeight":"none","position":"absolute","display":"block","overflow":"hidden"},{"id":"modal","cls":"modal show battle-modal battle-v3-modal pve-sweep-modal","top":0,"height":1000,"maxHeight":"none","position":"fixed","display":"flex","overflow":"auto"},{"id":"app","cls":"","top":0,"height":1000,"maxHeight":"none","position":"static","display":"flex","overflow":"visible"}]}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(bounds.y>=0&&confirm.y+confirm.height<=outer.viewportSize().height)
+
+    at file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/tests/personal-hideout-20261116.browser.mjs:117:545 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.18.0

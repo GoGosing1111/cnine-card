@@ -1,0 +1,22 @@
+✔ six cabinet slots preserve legacy display and share ownership limits across cabinets (3.5422ms)
+✔ free unlock, level-gated facilities and rooms, independent decorative copies and trophy quantities (2.1188ms)
+✔ normal pack bonus changes relative high-grade weights only; combat eligibility is explicit (0.3008ms)
+✔ SQLite combat rewards are atomic, work without season/unlock, and identical statement replay is inert (3.3133ms)
+✔ SQLite mutations enforce replay identity, costs, rollback and concurrent reward CAS (10.8306ms)
+✔ PostgreSQL combat rewards are atomic, work without season/unlock, and identical statement replay is inert (2060.5528ms)
+✔ PostgreSQL mutations enforce replay identity, costs, rollback and concurrent reward CAS (1590.8332ms)
+✔ authentication, request fields and feature gate are enforced by the real handler (27.0492ms)
+✔ party capacity preserves partial recovery, legacy deadline, event boundaries and extreme pulses (0.6636ms)
+✔ SQLite party consumes expanded personal energy once and settles parts without a season (414.3319ms)
+✔ SQLite real trophy ownership, reward bonuses and generic monster CARD pools (59.6185ms)
+✔ PostgreSQL party consumes expanded personal energy once and settles parts without a season (2468.4582ms)
+✔ PostgreSQL real trophy ownership, reward bonuses and generic monster CARD pools (1941.3281ms)
+✔ real bulk card opening uses the lamp bonus without expanding limited stock or replaying a payment (3507.542ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10386.7534

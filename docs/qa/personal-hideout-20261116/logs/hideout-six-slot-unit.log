@@ -1,0 +1,16 @@
+✔ free unlock, level-gated facilities and rooms, independent decorative copies and trophy quantities (4.2603ms)
+✔ normal pack bonus changes relative high-grade weights only; combat eligibility is explicit (0.3103ms)
+✔ SQLite combat rewards are atomic, work without season/unlock, and identical statement replay is inert (3.2299ms)
+✔ SQLite mutations enforce replay identity, costs, rollback and concurrent reward CAS (8.5559ms)
+✔ PostgreSQL combat rewards are atomic, work without season/unlock, and identical statement replay is inert (1627.9941ms)
+✔ PostgreSQL mutations enforce replay identity, costs, rollback and concurrent reward CAS (1029.8308ms)
+✔ authentication, request fields and feature gate are enforced by the real handler (21.2061ms)
+✔ party capacity preserves partial recovery, legacy deadline, event boundaries and extreme pulses (0.5323ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3075.4747

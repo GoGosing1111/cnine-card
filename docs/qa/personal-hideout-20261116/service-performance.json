@@ -1,0 +1,148 @@
+{
+  "baseline": "a6fc4b936",
+  "condition": "Windows Node 24 + isolated SQLite; 10ms artificial delay per SQL call; five sequential requests per variant; not live network latency",
+  "summary": {
+    "collection-before": {
+      "firstMs": 58.46180000000004,
+      "reentryMedianMs": 75.85580000000004,
+      "queries": 14
+    },
+    "collection-after": {
+      "firstMs": 61.72759999999994,
+      "reentryMedianMs": 99.46239999999989,
+      "queries": 14
+    },
+    "support-before": {
+      "firstMs": 15.029500000000098,
+      "reentryMedianMs": 29.877500000000055,
+      "queries": 1
+    },
+    "support-after": {
+      "firstMs": 15.89429999999993,
+      "reentryMedianMs": 26.900499999999965,
+      "queries": 1
+    }
+  },
+  "rows": [
+    {
+      "name": "collection-before",
+      "repeat": 0,
+      "ms": 58.46180000000004,
+      "queries": 14
+    },
+    {
+      "name": "collection-after",
+      "repeat": 0,
+      "ms": 61.72759999999994,
+      "queries": 14
+    },
+    {
+      "name": "support-before",
+      "repeat": 0,
+      "ms": 15.029500000000098,
+      "queries": 1
+    },
+    {
+      "name": "support-after",
+      "repeat": 0,
+      "ms": 15.89429999999993,
+      "queries": 1
+    },
+    {
+      "name": "collection-before",
+      "repeat": 1,
+      "ms": 63.253200000000106,
+      "queries": 14
+    },
+    {
+      "name": "collection-after",
+      "repeat": 1,
+      "ms": 103.41349999999989,
+      "queries": 14
+    },
+    {
+      "name": "support-before",
+      "repeat": 1,
+      "ms": 29.877500000000055,
+      "queries": 1
+    },
+    {
+      "name": "support-after",
+      "repeat": 1,
+      "ms": 20.663800000000037,
+      "queries": 1
+    },
+    {
+      "name": "collection-before",
+      "repeat": 2,
+      "ms": 61.61609999999996,
+      "queries": 14
+    },
+    {
+      "name": "collection-after",
+      "repeat": 2,
+      "ms": 61.77779999999984,
+      "queries": 14
+    },
+    {
+      "name": "support-before",
+      "repeat": 2,
+      "ms": 20.833200000000033,
+      "queries": 1
+    },
+    {
+      "name": "support-after",
+      "repeat": 2,
+      "ms": 26.900499999999965,
+      "queries": 1
+    },
+    {
+      "name": "collection-before",
+      "repeat": 3,
+      "ms": 75.85580000000004,
+      "queries": 14
+    },
+    {
+      "name": "collection-after",
+      "repeat": 3,
+      "ms": 99.46239999999989,
+      "queries": 14
+    },
+    {
+      "name": "support-before",
+      "repeat": 3,
+      "ms": 31.006099999999833,
+      "queries": 1
+    },
+    {
+      "name": "support-after",
+      "repeat": 3,
+      "ms": 34.375999999999976,
+      "queries": 1
+    },
+    {
+      "name": "collection-before",
+      "repeat": 4,
+      "ms": 81.41949999999997,
+      "queries": 14
+    },
+    {
+      "name": "collection-after",
+      "repeat": 4,
+      "ms": 97.21330000000012,
+      "queries": 14
+    },
+    {
+      "name": "support-before",
+      "repeat": 4,
+      "ms": 13.15930000000003,
+      "queries": 1
+    },
+    {
+      "name": "support-after",
+      "repeat": 4,
+      "ms": 14.867500000000064,
+      "queries": 1
+    }
+  ]
+}

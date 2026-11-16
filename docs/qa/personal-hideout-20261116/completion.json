@@ -1,0 +1,572 @@
+{
+  "status": "implemented and locally verified; not deployed; no user visual approval",
+  "branch": "codex/personal-hideout-20261116",
+  "baseline": "a6fc4b936",
+  "userCorrections": [
+    "Remove duplicate hideout title",
+    "Full front view instead of quarter view",
+    "Consistent matte metal and warm lighting",
+    "Large 3-tier six-slot trophy cabinet and mobile close-up"
+  ],
+  "implemented": [
+    "Remove normal member CARD drops from manual, automatic and sweep PVE paths and unified pools",
+    "Unified scroll-safe hunt summary for wins/losses, coins, crystals, parts and equipment",
+    "Free personal hideout unlock; level 1–5; six upgradeable facilities; four expandable rooms",
+    "Six collectible parts from eligible hunt, legion and raid settlement transactions",
+    "Free furniture arrangement, per-room layouts, storage and horizontal flip; 114 repeatable decorations plus six facilities",
+    "Six trophy slots per cabinet; server-authoritative owned quantities across all cabinets; legacy single-slot migration",
+    "Solo/party legion capacity bonuses, gear-only drop bonus, combat coin bonus and normal pack high-grade weight bonus; limited stock and pity unchanged"
+  ],
+  "transactionChecks": [
+    "SQLite and PostgreSQL",
+    "CAS revision conflict",
+    "same request replay",
+    "lost reply recovery",
+    "atomic rollback",
+    "reward guard and duplicate event receipt",
+    "owned trophy count and forged layout rejection",
+    "legacy party recovery/event boundary and one-time energy debit"
+  ],
+  "tests": [
+    {
+      "log": "logs/hideout-front-state-tests.log",
+      "passed": 14,
+      "failed": 0,
+      "scope": "core API, atomic settlement, recovery, real trophy ownership, six slots and actual pack drawing"
+    },
+    {
+      "log": "logs/hideout-final-regressions.log",
+      "passed": 47,
+      "failed": 0,
+      "scope": "earlier core/integration plus collection and sweep regressions; included tests overlap with the 14-test final suite"
+    },
+    {
+      "log": "logs/hideout-combat-regressions.log",
+      "existingRegressionPassed": 41,
+      "newTestFailureResolvedBy": "logs/hideout-bulk-lamp-passed.log",
+      "scope": "legion, season, raid and pack regressions"
+    },
+    {
+      "log": "logs/hideout-worker-check.log",
+      "result": "pass",
+      "scope": "Worker API syntax"
+    }
+  ],
+  "visualChecks": {
+    "fourProfiles": [
+      {
+        "profile": "pc",
+        "variant": "after",
+        "hideoutFirstMs": 196.1006000000002,
+        "hideoutIdleFrames": {
+          "frames": 232,
+          "p95": 4.2999999999999545,
+          "max": 20.90000000000009,
+          "over50": 0
+        },
+        "dragInput": "mouse pointer",
+        "hideoutDragFrames": {
+          "frames": 298,
+          "p95": 4.300000000000182,
+          "max": 12.5,
+          "over50": 0
+        },
+        "hideoutCabinetFrames": {
+          "frames": 310,
+          "p95": 4.299999999999272,
+          "max": 8.300000000000182,
+          "over50": 0
+        },
+        "hideoutExitRequests": 0,
+        "hideoutReentryMs": 42.46940000000177,
+        "overflow": false
+      },
+      {
+        "profile": "android-emulated",
+        "variant": "after",
+        "hideoutFirstMs": 126.44100000000071,
+        "hideoutIdleFrames": {
+          "frames": 224,
+          "p95": 4.2999999999999545,
+          "max": 41.700000000000045,
+          "over50": 0
+        },
+        "dragInput": "Chromium CDP touch",
+        "hideoutDragFrames": {
+          "frames": 302,
+          "p95": 4.300000000000182,
+          "max": 12.5,
+          "over50": 0
+        },
+        "hideoutCabinetFrames": {
+          "frames": 310,
+          "p95": 4.200000000000728,
+          "max": 12.399999999999636,
+          "over50": 0
+        },
+        "hideoutExitRequests": 0,
+        "hideoutReentryMs": 60.46480000000156,
+        "overflow": false
+      },
+      {
+        "profile": "iphone-webkit-emulated",
+        "variant": "after",
+        "hideoutFirstMs": 633.509399999999,
+        "hideoutIdleFrames": {
+          "frames": 64,
+          "p95": 16,
+          "max": 30,
+          "over50": 0
+        },
+        "dragInput": "mouse pointer",
+        "hideoutDragFrames": {
+          "frames": 80,
+          "p95": 30,
+          "max": 30,
+          "over50": 0
+        },
+        "hideoutCabinetFrames": {
+          "frames": 89,
+          "p95": 30,
+          "max": 34,
+          "over50": 0
+        },
+        "hideoutExitRequests": 0,
+        "hideoutReentryMs": 212.84979999999996,
+        "overflow": false
+      },
+      {
+        "profile": "onestore-h5-emulated",
+        "variant": "after",
+        "hideoutFirstMs": 155.92259999999806,
+        "hideoutIdleFrames": {
+          "frames": 228,
+          "p95": 4.300000000000182,
+          "max": 29.200000000000045,
+          "over50": 0
+        },
+        "dragInput": "Chromium CDP touch",
+        "hideoutDragFrames": {
+          "frames": 306,
+          "p95": 4.300000000000182,
+          "max": 9.699999999999818,
+          "over50": 0
+        },
+        "hideoutCabinetFrames": {
+          "frames": 310,
+          "p95": 4.300000000000182,
+          "max": 8.300000000000182,
+          "over50": 0
+        },
+        "hideoutExitRequests": 0,
+        "hideoutReentryMs": 89.70530000000144,
+        "overflow": false
+      }
+    ],
+    "errors": [
+      {
+        "profile": "iphone-webkit-emulated",
+        "variant": "after",
+        "error": "ResizeObserver loop completed with undelivered notifications."
+      },
+      {
+        "profile": "iphone-webkit-emulated",
+        "variant": "after",
+        "error": "ResizeObserver loop completed with undelivered notifications."
+      }
+    ],
+    "missing": [],
+    "conditions": "Windows headless Chrome/WebKit; mobile and H5 emulation; localhost assets, isolated SQLite handlers; no real device or production account writes",
+    "notes": [
+      "Mobile Chrome drag used CDP touch; WebKit used mouse pointer",
+      "All six cabinet slots fit the mobile viewport, including usable last row",
+      "Measured idle, furniture drag and trophy-slot selection frames",
+      "No claim of native Windows app or real handset testing"
+    ]
+  },
+  "performance": {
+    "hideoutFinal": [
+      {
+        "profile": "pc",
+        "variant": "after",
+        "hideoutFirstMs": 196.1006000000002,
+        "hideoutIdleFrames": {
+          "frames": 232,
+          "p95": 4.2999999999999545,
+          "max": 20.90000000000009,
+          "over50": 0
+        },
+        "dragInput": "mouse pointer",
+        "hideoutDragFrames": {
+          "frames": 298,
+          "p95": 4.300000000000182,
+          "max": 12.5,
+          "over50": 0
+        },
+        "hideoutCabinetFrames": {
+          "frames": 310,
+          "p95": 4.299999999999272,
+          "max": 8.300000000000182,
+          "over50": 0
+        },
+        "hideoutExitRequests": 0,
+        "hideoutReentryMs": 42.46940000000177,
+        "overflow": false
+      },
+      {
+        "profile": "android-emulated",
+        "variant": "after",
+        "hideoutFirstMs": 126.44100000000071,
+        "hideoutIdleFrames": {
+          "frames": 224,
+          "p95": 4.2999999999999545,
+          "max": 41.700000000000045,
+          "over50": 0
+        },
+        "dragInput": "Chromium CDP touch",
+        "hideoutDragFrames": {
+          "frames": 302,
+          "p95": 4.300000000000182,
+          "max": 12.5,
+          "over50": 0
+        },
+        "hideoutCabinetFrames": {
+          "frames": 310,
+          "p95": 4.200000000000728,
+          "max": 12.399999999999636,
+          "over50": 0
+        },
+        "hideoutExitRequests": 0,
+        "hideoutReentryMs": 60.46480000000156,
+        "overflow": false
+      },
+      {
+        "profile": "iphone-webkit-emulated",
+        "variant": "after",
+        "hideoutFirstMs": 633.509399999999,
+        "hideoutIdleFrames": {
+          "frames": 64,
+          "p95": 16,
+          "max": 30,
+          "over50": 0
+        },
+        "dragInput": "mouse pointer",
+        "hideoutDragFrames": {
+          "frames": 80,
+          "p95": 30,
+          "max": 30,
+          "over50": 0
+        },
+        "hideoutCabinetFrames": {
+          "frames": 89,
+          "p95": 30,
+          "max": 34,
+          "over50": 0
+        },
+        "hideoutExitRequests": 0,
+        "hideoutReentryMs": 212.84979999999996,
+        "overflow": false
+      },
+      {
+        "profile": "onestore-h5-emulated",
+        "variant": "after",
+        "hideoutFirstMs": 155.92259999999806,
+        "hideoutIdleFrames": {
+          "frames": 228,
+          "p95": 4.300000000000182,
+          "max": 29.200000000000045,
+          "over50": 0
+        },
+        "dragInput": "Chromium CDP touch",
+        "hideoutDragFrames": {
+          "frames": 306,
+          "p95": 4.300000000000182,
+          "max": 9.699999999999818,
+          "over50": 0
+        },
+        "hideoutCabinetFrames": {
+          "frames": 310,
+          "p95": 4.300000000000182,
+          "max": 8.300000000000182,
+          "over50": 0
+        },
+        "hideoutExitRequests": 0,
+        "hideoutReentryMs": 89.70530000000144,
+        "overflow": false
+      }
+    ],
+    "previousHuntComparison": [
+      {
+        "profile": "pc",
+        "variant": "before",
+        "huntResultFirstMs": 3690.3562999999995,
+        "resultFramesFirst": {
+          "frames": 238,
+          "p95": 4.300000000000182,
+          "max": 12.5,
+          "over50": 0
+        },
+        "huntResultReentryMs": 1888.932999999999,
+        "resultFramesReentry": {
+          "frames": 239,
+          "p95": 4.299999999999272,
+          "max": 8.399999999999636,
+          "over50": 0
+        },
+        "overflow": false
+      },
+      {
+        "profile": "pc",
+        "variant": "after",
+        "hideoutFirstMs": 388.02599999999984,
+        "hideoutIdleFrames": {
+          "frames": 241,
+          "p95": 4.300000000000182,
+          "max": 4.868000000000393,
+          "over50": 0
+        },
+        "dragInput": "mouse pointer",
+        "hideoutDragFrames": {
+          "frames": 294,
+          "p95": 4.300000000000182,
+          "max": 12.5,
+          "over50": 0
+        },
+        "hideoutExitRequests": 0,
+        "hideoutReentryMs": 73.59800000000178,
+        "huntResultFirstMs": 2771.138799999997,
+        "resultFramesFirst": {
+          "frames": 239,
+          "p95": 4.300000000000182,
+          "max": 8.399999999999636,
+          "over50": 0
+        },
+        "huntResultReentryMs": 1953.5322000000015,
+        "resultFramesReentry": {
+          "frames": 239,
+          "p95": 4.300000000001091,
+          "max": 12,
+          "over50": 0
+        },
+        "sweep": {
+          "count": 10,
+          "aggregateLootRows": 30,
+          "scrollable": true,
+          "frames": {
+            "frames": 239,
+            "p95": 4.300000000001091,
+            "max": 8.200000000000728,
+            "over50": 0
+          }
+        },
+        "overflow": false
+      },
+      {
+        "profile": "android-emulated",
+        "variant": "before",
+        "huntResultFirstMs": 2846.5081000000064,
+        "resultFramesFirst": {
+          "frames": 107,
+          "p95": 10.600000000000364,
+          "max": 13.300000000000182,
+          "over50": 0
+        },
+        "huntResultReentryMs": 2332.3034000000043,
+        "resultFramesReentry": {
+          "frames": 92,
+          "p95": 16.799999999999272,
+          "max": 18.700000000000728,
+          "over50": 0
+        },
+        "overflow": false
+      },
+      {
+        "profile": "android-emulated",
+        "variant": "after",
+        "hideoutFirstMs": 214.3359999999957,
+        "hideoutIdleFrames": {
+          "frames": 82,
+          "p95": 19.800000000000182,
+          "max": 20.699999999999818,
+          "over50": 0
+        },
+        "dragInput": "Chromium CDP touch",
+        "hideoutDragFrames": {
+          "frames": 107,
+          "p95": 18.699999999999818,
+          "max": 25.300000000000182,
+          "over50": 0
+        },
+        "hideoutExitRequests": 0,
+        "hideoutReentryMs": 76.27279999999882,
+        "huntResultFirstMs": 3599.7041000000027,
+        "resultFramesFirst": {
+          "frames": 86,
+          "p95": 15.5,
+          "max": 19.600000000000364,
+          "over50": 0
+        },
+        "huntResultReentryMs": 2369.2304000000004,
+        "resultFramesReentry": {
+          "frames": 100,
+          "p95": 10.5,
+          "max": 19.399999999999636,
+          "over50": 0
+        },
+        "sweep": {
+          "count": 10,
+          "aggregateLootRows": 30,
+          "scrollable": true,
+          "frames": {
+            "frames": 101,
+            "p95": 13.5,
+            "max": 20.30000000000109,
+            "over50": 0
+          }
+        },
+        "overflow": false
+      },
+      {
+        "profile": "iphone-webkit-emulated",
+        "variant": "before",
+        "huntResultFirstMs": 4501.568400000004,
+        "resultFramesFirst": {
+          "frames": 59,
+          "p95": 30,
+          "max": 31,
+          "over50": 0
+        },
+        "huntResultReentryMs": 2302.1046999999962,
+        "resultFramesReentry": {
+          "frames": 61,
+          "p95": 29,
+          "max": 30,
+          "over50": 0
+        },
+        "overflow": false
+      },
+      {
+        "profile": "iphone-webkit-emulated",
+        "variant": "after",
+        "hideoutFirstMs": 444.5829000000085,
+        "hideoutIdleFrames": {
+          "frames": 62,
+          "p95": 16,
+          "max": 30,
+          "over50": 0
+        },
+        "dragInput": "mouse pointer",
+        "hideoutDragFrames": {
+          "frames": 77,
+          "p95": 31,
+          "max": 31,
+          "over50": 0
+        },
+        "hideoutExitRequests": 0,
+        "hideoutReentryMs": 216.0847000000067,
+        "huntResultFirstMs": 4250.608200000002,
+        "resultFramesFirst": {
+          "frames": 58,
+          "p95": 30,
+          "max": 31,
+          "over50": 0
+        },
+        "huntResultReentryMs": 2378.2525000000023,
+        "resultFramesReentry": {
+          "frames": 59,
+          "p95": 30,
+          "max": 37,
+          "over50": 0
+        },
+        "sweep": {
+          "count": 10,
+          "aggregateLootRows": 30,
+          "scrollable": true,
+          "frames": {
+            "frames": 63,
+            "p95": 17,
+            "max": 29,
+            "over50": 0
+          }
+        },
+        "overflow": false
+      },
+      {
+        "profile": "onestore-h5-emulated",
+        "variant": "after",
+        "hideoutFirstMs": 418.93529999999737,
+        "hideoutIdleFrames": {
+          "frames": 98,
+          "p95": 15.5,
+          "max": 20.300000000000182,
+          "over50": 0
+        },
+        "dragInput": "Chromium CDP touch",
+        "hideoutDragFrames": {
+          "frames": 107,
+          "p95": 21.5,
+          "max": 37.69999999999982,
+          "over50": 0
+        },
+        "hideoutExitRequests": 0,
+        "hideoutReentryMs": 82.31520000001183,
+        "huntResultFirstMs": 3869.253600000011,
+        "resultFramesFirst": {
+          "frames": 100,
+          "p95": 10.5,
+          "max": 11.199999999999818,
+          "over50": 0
+        },
+        "huntResultReentryMs": 2299.6889000000083,
+        "resultFramesReentry": {
+          "frames": 88,
+          "p95": 17.100000000000364,
+          "max": 20.600000000000364,
+          "over50": 0
+        },
+        "sweep": {
+          "count": 10,
+          "aggregateLootRows": 30,
+          "scrollable": true,
+          "frames": {
+            "frames": 88,
+            "p95": 15.400000000001455,
+            "max": 18.100000000000364,
+            "over50": 0
+          }
+        },
+        "overflow": false
+      }
+    ],
+    "serviceBenchmark": "service-performance.json",
+    "notes": [
+      "Cold/new browser context and reentry measured separately from user click to actionable UI",
+      "Localhost assets and isolated SQLite exclude real network latency; no CPU/network throttle",
+      "Measured rAF timings on headless Windows are not device FPS",
+      "No extra collection or supporter SQL roundtrip; no read per swept reward; drag updates one element rather than rebuilding the page",
+      "The collection benchmark does not demonstrate a speedup; fixed-delay measurements vary",
+      "Exit window: 1200 ms, zero hideout requests; abort-controller/listeners released, no hideout polling"
+    ]
+  },
+  "runtimeArt": {
+    "files": 16,
+    "bytes": 337372,
+    "manifest": "../../../assets/ui/personal-hideout-20261116/manifest.json",
+    "sourcesPreserved": true,
+    "view": "orthographic front"
+  },
+  "release": {
+    "deployed": false,
+    "productionAccountWrites": 0,
+    "messagesSent": 0,
+    "gate": "blocked by pre-existing ascendant-equipment expectations",
+    "failedLog": "logs/hideout-release-gate.log",
+    "detail": "Two database variants expect old Arden defense and PvP polish values. A third missing sparse-checkout asset manifest was hydrated. No test bypass and no unrelated expectation edits retained.",
+    "policy": "AGENTS.md: no unrelated test maintenance, major multi-system changes require full deploy:production gate",
+    "upstreamIntegration": "pending"
+  },
+  "limitations": [
+    "Economy and UI verified on isolated fixtures, not production accounts",
+    "Current four-room catalog and 120-instance cap are explicit initial limits; catalog and persisted room/instance model support expansion"
+  ]
+}

@@ -1,4 +1,4 @@
-import {seasonAwardStatements} from './_season_s1.js';
+import {contentProgressionStatements as seasonAwardStatements} from './_content_progression.js';
 import {companionBattleOptions} from '../shared/companion-battle-snapshot-v1.mjs';
 import {collectionRewardCoin} from './_collection_bonuses.js';
 import {accountRankAward} from './_account_rank.js';

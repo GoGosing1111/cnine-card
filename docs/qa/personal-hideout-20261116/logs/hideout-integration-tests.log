@@ -1,0 +1,74 @@
+✔ free unlock, level-gated facilities and rooms, independent decorative copies and trophy quantities (3.6868ms)
+✔ normal pack bonus changes relative high-grade weights only; combat eligibility is explicit (0.2756ms)
+✔ SQLite combat rewards are atomic, work without season/unlock, and identical statement replay is inert (3.0415ms)
+✔ SQLite mutations enforce replay identity, costs, rollback and concurrent reward CAS (7.9049ms)
+✔ PostgreSQL combat rewards are atomic, work without season/unlock, and identical statement replay is inert (1970.1837ms)
+✔ PostgreSQL mutations enforce replay identity, costs, rollback and concurrent reward CAS (1428.6428ms)
+✔ authentication, request fields and feature gate are enforced by the real handler (25.8063ms)
+✔ party capacity preserves partial recovery, legacy deadline, event boundaries and extreme pulses (0.6612ms)
+✔ SQLite party consumes expanded personal energy once and settles parts without a season (648.2975ms)
+✖ SQLite real trophy ownership, reward bonuses and generic monster CARD pools (69.043ms)
+✔ PostgreSQL party consumes expanded personal energy once and settles parts without a season (2329.8337ms)
+✖ PostgreSQL real trophy ownership, reward bonuses and generic monster CARD pools (1566.149ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 10
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5371.4444
+
+✖ failing tests:
+
+test at tests\personal-hideout-integration-20261116.test.mjs:28:2
+✖ SQLite real trophy ownership, reward bonuses and generic monster CARD pools (69.043ms)
+  Error: no such column: updated_at
+      at JointSQLiteDB.execute (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/tests/helpers/joint-db.mjs:25:110)
+      at file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/tests/helpers/joint-db.mjs:28:85
+      at Array.map (<anonymous>)
+      at JointSQLiteDB.batch (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/tests/helpers/joint-db.mjs:28:73)
+      at file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/functions/_drop_pool.js:101:20
+      at async resolveUnifiedDrops (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/functions/_drop_pool.js:316:3)
+      at async TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/tests/personal-hideout-integration-20261116.test.mjs:46:17)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    code: 'ERR_SQLITE_ERROR',
+    errcode: 1,
+    errstr: 'SQL logic error'
+  }
+
+test at tests\personal-hideout-integration-20261116.test.mjs:28:2
+✖ PostgreSQL real trophy ownership, reward bonuses and generic monster CARD pools (1566.149ms)
+  error: column "updated_at" of relation "inventory_items" does not exist
+      at pe.Ue (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:17959)
+      at pe.tt (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:15347)
+      at pe.parse (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:14021)
+      at N.qe (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/index.js:5:1762)
+      at file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/index.js:5:1155
+      at wasm://wasm/0267bb86:wasm-function[10930]:0x5a5ccf
+      at wasm://wasm/0267bb86:wasm-function[3585]:0x27eaeb
+      at wasm://wasm/0267bb86:wasm-function[3627]:0x2869d1
+      at wasm://wasm/0267bb86:wasm-function[3637]:0x286c2d
+      at wasm://wasm/0267bb86:wasm-function[9914]:0x54fd4d {
+    length: 141,
+    severity: 'ERROR',
+    code: '42703',
+    detail: undefined,
+    hint: undefined,
+    position: '551',
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: 'analyze.c',
+    line: '2581',
+    routine: 'transformUpdateTargetList',
+    query: "INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('SCRAPYARD_ENTRY_TICKET','폐차장 출입 허가증','SALVAGE ACCESS PASS','망각의 기계 폐차장에 1회 입장할 수 있는 금속 출입 허가증입니다. 입장 시 1장이 차감됩니다.','ENTRY_TICKET','EPIC','assets/ui/scrapyard/scrapyard-entry-ticket-v1680.png',166700,1) ON CONFLICT(code) DO UPDATE SET name=excluded.name,subtitle=excluded.subtitle,description=excluded.description,category=excluded.category,rarity=excluded.rarity,image_url=excluded.image_url,sort_order=excluded.sort_order,is_active=1,updated_at=sqlite_now() RETURNING *",
+    params: [],
+    queryOptions: undefined
+  }

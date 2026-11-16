@@ -1,0 +1,19 @@
+{"profile":"pc","variant":"before","huntResultFirstMs":3748.694200000001,"resultFramesFirst":{"frames":104,"p95":10,"max":20.199999999999818,"over50":0},"huntResultReentryMs":1782.7101999999995,"resultFramesReentry":{"frames":110,"p95":12.699999999998909,"max":18.69999999999891,"over50":0},"overflow":false}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(bounds.y>=0&&confirm.y+confirm.height<=outer.viewportSize().height)
+
+    at file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/tests/personal-hideout-20261116.browser.mjs:117:106 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.18.0

@@ -1,4 +1,4 @@
-import {seasonAwardStatements} from './_season_s1.js';
+import {contentProgressionStatements as seasonAwardStatements} from './_content_progression.js';
 import {raidPigCoinRewardStatements} from './_raid_pig_rewards.js';
 import {collectionRewardCoin} from './_collection_bonuses.js';
 import {accountRankAward} from './_account_rank.js';

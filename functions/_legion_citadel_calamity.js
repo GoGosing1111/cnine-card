@@ -15,8 +15,7 @@ export function calamityPartyDrops(regions,loot,ascendant,gear,stone,soloPercent
  const entry=(item,chance,min=1,max=min)=>({item,percent:Math.min(100,chance*itemMultiplier),min,max});
  function uniform(kind,items,base){
   if(!items.length||!base)return;
-  const share=soloPercent(base)/items.length;
-  groups[kind].push(items.map(item=>entry(item,share)));
+  groups[kind].push(items.map(item=>entry(item,soloPercent(base,item)/items.length)));
  }
  for(const {tier,expectedRuns} of [...ascendant].reverse()){
   uniform(2,gear.filter(g=>g.kind==='ASCENDANT'&&g.tier===tier),100/expectedRuns);

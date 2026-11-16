@@ -1159,6 +1159,7 @@
   // A shared report for PVE and PVP. All values come from the settled response;
   // the presentation never awards currency or derives a different winner.
   function resultHtml({data = {}, mode = 'PVE', win = false, playerPower = 0, opponentPower = 0, battleSuit = null} = {}) {
+    if(mode==='PVE'&&data.monster&&root.HuntResults)return root.HuntResults.render(data,{win,playerPower,opponentPower,battleSuit});
     const n = value => Number.isFinite(Number(value)) ? Number(value) : 0;
     const fmt = value => n(value).toLocaleString('ko-KR');
     const signed = value => (n(value) > 0 ? '+' : '') + fmt(value);

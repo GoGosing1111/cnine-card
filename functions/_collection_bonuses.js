@@ -1,3 +1,5 @@
+import {HIDEOUT_KEY,hideoutBenefits} from '../shared/personal-hideout-v1.mjs';
+import {hideoutEnabled} from './_personal_hideout.js';
 import {activeVictoryBuff,victoryBuffKey,VICTORY_BONUSES} from './_territory_frontline.js';
 import {PET_CMS_KEY,validatePetCmsDocument} from '../shared/pet-cms-v1.mjs';
 import {petCollectionKey,petLoadoutKey} from '../shared/pet-potential-v1.mjs';
@@ -26,13 +28,14 @@ export async function readCollectionBonuses(env,userId,source='PVE'){
   const mode=PVP_REWARD_SOURCES.has(String(source).toUpperCase())?'PVP':'PVE';
   if(!Number.isSafeInteger(uid)||uid<1)throw Error('Invalid collection bonus owner');
   const read=async()=>{
-    const rows=await env.DB.prepare('SELECT key,value FROM app_meta WHERE key IN (?,?,?,?,?,?,?)').bind(PET_CMS_KEY,petCollectionKey(uid),petLoadoutKey(uid),TROPHY_BONUSES_KEY,petRentalKey(uid),victoryBuffKey(uid),PET_GROWTH_KEY(uid)).all();
+    const rows=await env.DB.prepare('SELECT key,value FROM app_meta WHERE key IN (?,?,?,?,?,?,?,?)').bind(PET_CMS_KEY,petCollectionKey(uid),petLoadoutKey(uid),TROPHY_BONUSES_KEY,petRentalKey(uid),victoryBuffKey(uid),PET_GROWTH_KEY(uid),HIDEOUT_KEY(uid)).all();
     const map=new Map((rows.results||[]).map(row=>[row.key,JSON.parse(row.value)]));
     const pets=map.has(PET_CMS_KEY)?validatePetCmsDocument(map.get(PET_CMS_KEY).document,{allowLegacy:true}).pets:[];
     const code=petSlotForMode(map.get(petLoadoutKey(uid)),mode).petCode,quantity=map.get(petCollectionKey(uid))?.pets?.[code];
     const rentalState=map.has(petRentalKey(uid))?validatePetRentals(map.get(petRentalKey(uid))):null;
     const permanent=Number.isSafeInteger(quantity)&&quantity>0,rental=!permanent&&activePetRental(rentalState,code);
     const pet=COMPANION_RELEASE.pets&&(permanent||rental)?pets.find(p=>p.code===code&&p.liveEnabled!==false):null;
+    const hideout=hideoutBenefits(hideoutEnabled(env)?map.get(HIDEOUT_KEY(uid)):null);
     const victoryBuff=activeVictoryBuff(map.get(victoryBuffKey(uid)));
     const petBonuses={...(pet?.rewardBonuses||ZERO_REWARD_BONUSES)};
     if(pet)petBonuses.coinPercent+=petGrowthCoinBonus(savedPetGrowth(map.get(PET_GROWTH_KEY(uid)),code,mode,{permanent,quantity:permanent?quantity:1}),mode);
@@ -42,7 +45,7 @@ export async function readCollectionBonuses(env,userId,source='PVE'){
     const newMilestoneCodes=activeCodes.filter(code=>['BLUE_EMPIRE_20','LIMITED_EDITION_80','LOYAL_SERVICE_POST_20'].includes(code));
     const honors=activeCodes.length?await readTrophyHonors(env,uid,{newMilestoneCodes,newTrophyCodes:activeCodes}):{};
     const projection=trophyBonusProjection(trophyDocument,honors);
-    return {pet:pet?{code:pet.code,name:pet.name,rewardBonuses:petBonuses,...(rental?{expiresAt:rentalState.pets[code].expiresAt}:{})}:null,trophies:projection.trophies.filter(t=>t.owned&&hasRewardBonuses(t.rewardBonuses)),petBonuses,trophyBonuses:projection.totals,victoryBuff,totals:sumRewardBonuses([petBonuses,projection.totals,victoryBuff&&VICTORY_BONUSES])};
+    return {hideout,pet:pet?{code:pet.code,name:pet.name,rewardBonuses:petBonuses,...(rental?{expiresAt:rentalState.pets[code].expiresAt}:{})}:null,trophies:projection.trophies.filter(t=>t.owned&&hasRewardBonuses(t.rewardBonuses)),petBonuses,trophyBonuses:projection.totals,victoryBuff,totals:sumRewardBonuses([petBonuses,projection.totals,victoryBuff&&VICTORY_BONUSES,{coinPercent:hideout.coinPercent}])};
   };
   const scope=env[SCOPE];if(!scope)return read();
   const cacheKey=uid+':'+mode;

@@ -1,3 +1,7 @@
+import {HIDEOUT_KEY,hideoutBenefits} from '../shared/personal-hideout-v1.mjs';
+import {HIDEOUT_PARTY_ENERGY_KEY,hideoutPartyEnergy} from '../shared/personal-hideout-energy-v1.mjs';
+import {hideoutEnabled} from './_personal_hideout.js';
+import {contentProgressionStatements as seasonAwardStatements} from './_content_progression.js';
 import {readJointBody,jointError} from './_joint_request.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {canAccessLegionHunt,readLegionHuntPolicy,LEGION_HUNT_SETTINGS_KEY} from './_legion_hunt_settings.js';
@@ -9,7 +13,7 @@ import {PLAYABLE_MERCENARIES} from './_comeback_loans.js';
 import {selectedMercenaryBattleSnapshots,mercenaryAccountState} from './_mercenary_account.js';
 import {validateCoopSelection,COOP_DUAL_RULES} from '../shared/cooperative-battleground-v1.mjs';
 import {loadPetBattleSnapshot} from './_pet_account.js';
-import {seasonAwardStatements,seasonBonus,seasonEnabled} from './_season_s1.js';
+import {seasonBonus,seasonEnabled} from './_season_s1.js';
 import {buildCitadelBattle} from './_legion_citadel_battle.js';
 import {clanHideout,requireClanHideout,clanEntryGuards} from './_clan_hideout_access.js';
 import {DOCKYARD,FIRST_TIER,tierById,citadelTierMenu} from './_legion_citadel_tiers.js';
@@ -29,13 +33,15 @@ const idOK=id=>typeof id==='string'&&/^[0-9a-f]{24}$/.test(id);
 const stmt=(db,sql,...args)=>db.prepare(sql).bind(...args);
 const raw=async(db,key)=>(await stmt(db,'SELECT value FROM app_meta WHERE key=?',key).first())?.value??null;
 // The room pointer is removed on leave and solo can replace its session. The party deadline survives both.
-async function readWithEntry(db,key,uid){
- const row=await stmt(db,'SELECT (SELECT value FROM app_meta WHERE key=?) AS value,(SELECT value FROM app_meta WHERE key=?) AS deadline,(SELECT value FROM app_meta WHERE key=?) AS pulses,(SELECT value FROM app_meta WHERE key=?) AS entryGeneration',key,entryKey(uid),EXTREME_PULSE_KEY,entryPulseKey(uid)).first();
+async function readWithEntry(db,key,uid,env=null,at=Date.now()){
+ const row=await stmt(db,'SELECT (SELECT value FROM app_meta WHERE key=?) AS value,(SELECT value FROM app_meta WHERE key=?) AS deadline,(SELECT value FROM app_meta WHERE key=?) AS pulses,(SELECT value FROM app_meta WHERE key=?) AS entryGeneration,(SELECT value FROM app_meta WHERE key=?) AS hideoutRaw,(SELECT value FROM app_meta WHERE key=?) AS partyRaw',key,entryKey(uid),EXTREME_PULSE_KEY,entryPulseKey(uid),HIDEOUT_KEY(uid),HIDEOUT_PARTY_ENERGY_KEY(uid)).first();
  const pulses=JSON.parse(row.pulses||'[]'),latest=pulses.at(-1);
  // Older admissions only have the deadline, measured from the synchronized start.
  const paidAt=row.deadline===null?null:entryDeadline(row.deadline,false)-PARTY_ENTRY_INTERVAL_MS-1200;
  const recovered=latest&&paidAt!==null&&(row.entryGeneration===null?latest.at>paidAt:latest.generation>Number(row.entryGeneration));
- return {...row,pulses,pulseRaw:row.pulses,storedDeadline:row.deadline,deadline:recovered?null:row.deadline};
+ const bonus=env&&hideoutEnabled(env)?hideoutBenefits(row.hideoutRaw?JSON.parse(row.hideoutRaw):null).partyEnergy:0;
+ const party=bonus?hideoutPartyEnergy(row.partyRaw?JSON.parse(row.partyRaw):null,{at,maximum:1+bonus,deadline:row.deadline,pulses,generation:row.entryGeneration===null?(pulses.filter(p=>paidAt!==null&&p.at<=paidAt).at(-1)?.generation||0):Number(row.entryGeneration)}):null;
+ return {...row,party,pulses,pulseRaw:row.pulses,storedDeadline:row.deadline,deadline:party?(party.current>0?null:String(party.nextRechargeAt)):recovered?null:row.deadline,personalDeadline:!!party};
 }
 const put=(db,k,v)=>stmt(db,'INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at',k,v);
 const del=(db,k)=>stmt(db,'DELETE FROM app_meta WHERE key=?',k);
@@ -65,7 +71,7 @@ const listPrefix=scope=>scope?.clanId?P+'clan:'+scope.roundId+':'+scope.clanId+'
 const listKey=r=>listPrefix(r)+String(r.expiresAt).padStart(16,'0')+':'+r.id;
 const phase=(r,at)=>r.phase==='ACTIVE'&&at>=r.startsAt+r.duration?(r.won?'VICTORY':'DEFEAT'):['LOBBY','LOADING'].includes(r.phase)&&at>=r.expiresAt?'CANCELLED':r.phase;
 function needsSeasonResult(env,r,at){
- return seasonEnabled(env)&&r.paying===true&&!r.seasonSettled&&r.phase==='ACTIVE'&&
+ return (seasonEnabled(env)||hideoutEnabled(env))&&r.paying===true&&!r.seasonSettled&&r.phase==='ACTIVE'&&
   Number.isSafeInteger(r.startsAt)&&r.duration>0&&at>=r.startsAt+r.duration&&
   r.members.length===2&&r.members.every(m=>m.ready&&m.loaded);
 }
@@ -85,19 +91,20 @@ function view(r,user,at){
 }
 const farmKey=(id,uid)=>P+'farm:'+id+':'+uid;
 const receiptKey=(id,uid)=>P+'receipt:'+id+':'+uid;
-async function present(db,r,user,at){
+async function present(env,r,user,at){
+ const db=env.DB;
  const state=view(r,user,at);if(!r.startsAt)return state;
- const entry=await readWithEntry(db,farmKey(r.id,user.id),user.id);
+ const entry=await readWithEntry(db,farmKey(r.id,user.id),user.id,env,at);
  const f=JSON.parse(entry.value);if(!f)fail('FARM','개인 전리품을 읽지 못했습니다.',503);
- if(state.nextEntryAt!==null)state.nextEntryAt=entryDeadline(entry.deadline);
+ if(entry.party){state.partyEnergy=entry.party;state.nextEntryAt=entry.party.current>0?null:entry.party.nextRechargeAt;}else if(state.nextEntryAt!==null)state.nextEntryAt=entryDeadline(entry.deadline);
  const earned=farmView(f,Math.min(r.duration,at-r.startsAt),state.status==='ACTIVE');
  return {...state,...earned,canClaim:['VICTORY','DEFEAT'].includes(state.status)&&(earned.drops.length>0||state.coins>0)&&!state.claimed};
 }
 const emptyMember=u=>({id:Number(u.id),name:String(u.nickname||'토벌대원').slice(0,64),ready:false,loaded:false});
-async function current(db,uid){
- const {value:ptr,deadline}=await readWithEntry(db,userKey(uid),uid);
+async function current(db,uid,env,at){
+ const entry=await readWithEntry(db,userKey(uid),uid,env,at),{value:ptr,deadline}=entry;
  const data=ptr&&await raw(db,roomKey(ptr));
- return {ptr,deadline,r:data?JSON.parse(data):null};
+ return {ptr,deadline,party:entry.party,personalDeadline:entry.personalDeadline,r:data?JSON.parse(data):null};
 }
 async function rooms(DB,at,scope=null){const prefix=listPrefix(scope),result=await stmt(DB,'SELECT value FROM app_meta WHERE key>=? AND key<? ORDER BY key LIMIT 31',prefix+String(at+1).padStart(16,'0'),prefix.slice(0,-1)+';').all();return result.results.map(r=>JSON.parse(r.value)).slice(0,30);}
 async function options(env,user){
@@ -139,11 +146,17 @@ async function paidEntryStatements(env,users,members,at,nextEntryAt,deps){
  const db=env.DB;
  const balances=await Promise.all(users.map(async (u,index)=>{
   const k='legion_hunt_owner_session_v1:'+u.id;
-  const {value:old,deadline,storedDeadline,pulses,pulseRaw}=await readWithEntry(db,k,u.id);
+  const entry=await readWithEntry(db,k,u.id,env,at),{value:old,deadline,storedDeadline,pulses,pulseRaw}=entry;
   const solo=old?JSON.parse(old):{};
   if(solo.state&&!solo.state.ended&&!solo.state.receipt&&!solo.interruption&&solo.expiresAt>at)fail('SOLO',u.nickname+'님의 개인 군단토벌을 종료한 뒤 출전하세요.');
   if(u.role!=='OWNER'){
-   requireEntry(deadline,at,u.nickname);
+   if(entry.party){if(entry.party.current<1)fail('COOLDOWN',u.nickname+'님의 파티 행동력이 부족합니다.');}
+   else requireEntry(deadline,at,u.nickname);
+   if(entry.party){
+    const next={...entry.party,current:entry.party.current-1};
+    members[index].nextEntryAt=next.current>0?null:next.nextRechargeAt;
+    return [...guard(db,[k,old],[entryKey(u.id),storedDeadline],[EXTREME_PULSE_KEY,pulseRaw],[HIDEOUT_KEY(u.id),entry.hideoutRaw],[HIDEOUT_PARTY_ENERGY_KEY(u.id),entry.partyRaw]),put(db,HIDEOUT_PARTY_ENERGY_KEY(u.id),JSON.stringify(next)),put(db,entryKey(u.id),String(nextEntryAt)),put(db,entryPulseKey(u.id),String(pulses.at(-1)?.generation??0))];
+   }
    members[index].nextEntryAt=nextEntryAt;
    return [...guard(db,[k,old],[entryKey(u.id),storedDeadline],[EXTREME_PULSE_KEY,pulseRaw]),put(db,entryKey(u.id),String(nextEntryAt)),put(db,entryPulseKey(u.id),String(pulses.at(-1)?.generation??0))];
   }
@@ -182,7 +195,7 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
    check.push(...clanEntryGuards(db,ids,DOCKYARD.stage,clan));
   }else requireOpen(citadel.policy);
  }
- const pointer=['join','create','leave'].includes(action)?await current(db,uid):null;
+ const pointer=['join','create','leave'].includes(action)?await current(db,uid,env,at):null;
  if(action==='create'||action==='join'){
   prior=pointer.r;
   if(prior&&prior.id!==id&&prior.members.some(m=>m.id===uid)&&phase(prior,at)!=='CANCELLED')fail('OTHER','현재 파티의 전리품을 정산하고 나간 뒤 참가하세요.');
@@ -191,8 +204,8 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
  }
  let room=r;
  if(action==='create'){
-  if(r){if((r.area||'public')!==area||r.hostId!==uid||phase(r,at)!=='LOBBY'||pointer.ptr!==id||(r.tier??FIRST_TIER)!==(b.tier??FIRST_TIER))fail('OLD','이미 사용한 개설 요청입니다. 파티를 새로 만드세요.');return present(db,r,user,at);}
-  if(policy.mode==='ON'&&user.role!=='OWNER')requireEntry(pointer.deadline,at,user.nickname);
+  if(r){if((r.area||'public')!==area||r.hostId!==uid||phase(r,at)!=='LOBBY'||pointer.ptr!==id||(r.tier??FIRST_TIER)!==(b.tier??FIRST_TIER))fail('OLD','이미 사용한 개설 요청입니다. 파티를 새로 만드세요.');return present(env,r,user,at);}
+  if(policy.mode==='ON'&&user.role!=='OWNER'){if(pointer.party){if(pointer.party.current<1)fail('COOLDOWN','파티 행동력이 부족합니다.');}else requireEntry(pointer.deadline,at,user.nickname);}
   room={id,...(clan?{area,clanId:clan.clanId,roundId:clan.roundId}:{}),hostId:uid,tier:b.tier??FIRST_TIER,phase:'LOBBY',expiresAt:at+900000,paying:policy.mode==='ON',members:[emptyMember(user)]};
  }else{
   if(!r){if(action==='claim'){const receipt=await raw(db,receiptKey(id,uid));if(receipt)return {...JSON.parse(receipt),serverNow:at};}fail('MISSING','파티가 종료되었거나 존재하지 않습니다.',404);}
@@ -201,10 +214,10 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
    if(status!=='LOBBY')fail('CLOSED','모집이 종료됐습니다.');
    if(!me){
     if(r.members.length!==1)fail('FULL','두 명이 모두 입장했습니다.');
-    if(r.paying&&user.role!=='OWNER')requireEntry(pointer.deadline,at,user.nickname);
+    if(r.paying&&user.role!=='OWNER'){if(pointer.party){if(pointer.party.current<1)fail('COOLDOWN','파티 행동력이 부족합니다.');}else requireEntry(pointer.deadline,at,user.nickname);}
     r.members.push(emptyMember(user));
    }
-   else if(pointer.ptr===id)return present(db,r,user,at);
+   else if(pointer.ptr===id)return present(env,r,user,at);
   }else{
    if(!me)fail('MEMBER','참가한 파티만 이용할 수 있습니다.',403);
    if(action==='ready'||action==='unready'){
@@ -213,10 +226,10 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
     me.ready=action==='ready';
    }else if(action==='start'){
     if(uid!==r.hostId)fail('HOST','방장만 출전할 수 있습니다.',403);
-    if(['ACTIVE','VICTORY','DEFEAT'].includes(status))return present(db,r,user,at);
+    if(['ACTIVE','VICTORY','DEFEAT'].includes(status))return present(env,r,user,at);
     if(status!=='LOBBY'&&status!=='LOADING')fail('READY','모집 시간이 종료됐습니다. 파티를 다시 만드세요.');
     requireReadyParty(r.members);
-    if(status==='LOADING')return present(db,r,user,at);
+    if(status==='LOADING')return present(env,r,user,at);
     const us=await eligibleUsers(env,r,policy);
     const tier=r.tier??FIRST_TIER,drops=citadel.policy.tierDrops[tier]??citadel.policy.drops;
     const [squads,loot]=await Promise.all([Promise.all(us.map((u,i)=>(deps.citadelSquad||loadSquad)(env,u,r.members[i].selection,deps))),(deps.citadelLoot||citadelLoot)(env,us,drops,tier,area)]);
@@ -231,10 +244,10 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
     }
     Object.assign(r,{phase:'LOADING',expiresAt:now()+120000,won:built.won,resultReason:built.reason,kills:built.kills,duration:built.duration,parts:built.chunks.length});
    }else if(action==='loaded'){
-    if(['ACTIVE','VICTORY','DEFEAT'].includes(status))return present(db,r,user,at);
+    if(['ACTIVE','VICTORY','DEFEAT'].includes(status))return present(env,r,user,at);
     if(status!=='LOADING')fail('LOADING','전장 준비 시간이 종료됐습니다. 행동력은 차감되지 않습니다.');
     requireReadyParty(r.members);
-    if(me.loaded)return present(db,r,user,at);me.loaded=true;
+    if(me.loaded)return present(env,r,user,at);me.loaded=true;
     if(r.members.every(m=>m.loaded)){
      const us=await eligibleUsers(env,r,policy);
      if(r.paying&&policy.mode!=='ON')fail('PAUSED','군단토벌 운영이 일시 중지됐습니다.',423);
@@ -247,24 +260,24 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
     if(typeof b.token!=='string'||b.token.length!==18)fail('TOKEN','내 전리품을 선택하세요.',400);
     const k=farmKey(id,uid),saved=await raw(db,k),farm=saved&&JSON.parse(saved);
     if(!farm||!farm.events.some(d=>d[4]===b.token))fail('TOKEN','내 전리품만 획득할 수 있습니다.',403);
-    if(farm.picked.includes(b.token))return present(db,r,user,at);
+    if(farm.picked.includes(b.token))return present(env,r,user,at);
     if(status!=='ACTIVE'||!collectCitadelPile(farm,b.token,at-r.startsAt))fail('EXPIRED','아직 떨어지지 않았거나 사라진 전리품입니다.');
     const result=await stmt(db,'UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?',JSON.stringify(farm),k,saved).run();
     if(Number(result.meta?.changes)!==1)fail('CONFLICT','개인 가방을 갱신 중입니다.');
-    return present(db,r,user,at);
+    return present(env,r,user,at);
    }else if(action==='season'){
-    if(!needsSeasonResult(env,r,at))return present(db,r,user,at);
+    if(!needsSeasonResult(env,r,at))return present(env,r,user,at);
    }else if(action==='claim'){
     if(!['VICTORY','DEFEAT'].includes(status))fail('EARLY','전투가 끝난 뒤 개인 전리품을 수령하세요.');
-    if(me.claimed)return present(db,r,user,at);
+    if(me.claimed)return present(env,r,user,at);
     if(r.paying&&policy.mode!=='ON')fail('PAUSED','보상 지급이 재개된 후 수령하세요. 전리품은 보관됩니다.',423);
-    const snapshot=await present(db,r,user,at);
+    const snapshot=await present(env,r,user,at);
     out.push(...await citadelGrantStatements(env,user,id,snapshot.drops,r.paying,snapshot.coins,me.calamity));me.claimed=true;
     out.push(put(db,receiptKey(id,uid),JSON.stringify({...snapshot,claimed:true,canClaim:false,ground:[]})));
    }else if(action==='leave'){
     if(pointer.ptr!==id){if(me.left)return null;fail('OTHER','현재 참가한 파티를 다시 확인하세요.');}
     if(status==='ACTIVE')fail('ACTIVE','전투가 진행 중입니다. 화면을 닫았다가 다시 입장할 수 있습니다.');
-    if(['VICTORY','DEFEAT'].includes(status)&&!me.claimed&&(await present(db,r,user,at)).canClaim)fail('CLAIM','내 전리품을 먼저 수령하세요.');
+    if(['VICTORY','DEFEAT'].includes(status)&&!me.claimed&&(await present(env,r,user,at)).canClaim)fail('CLAIM','내 전리품을 먼저 수령하세요.');
     check.push(...guard(db,[who,id]));out.push(del(db,who));
     if(status==='LOBBY'&&uid!==r.hostId)r.members.splice(idx,1);
     else if(['LOADING','LOBBY','CANCELLED'].includes(status)){r.phase='CANCELLED';me.left=true;}
@@ -303,7 +316,7 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
   if(await raw(db,key)!==old||pointer&&await raw(db,who)!==pointer.ptr)fail('CONFLICT','파티 상태가 변경됐습니다. 다시 시도하세요.');
   throw error;
  }
- return action==='leave'?null:present(db,room,user,now());
+ return action==='leave'?null:present(env,room,user,now());
 }
 export async function handleLegionCitadel({path,request,env,deps}){
  const admin=path==='admin/legion-hunt/citadel';
@@ -324,16 +337,16 @@ export async function handleLegionCitadel({path,request,env,deps}){
    for(let i=0;;i++)try{return await change({action,b,env,user,deps,policy,policyRaw,citadel});}
    catch(e){if(e.code!=='CITADEL_CONFLICT'||i>=2)throw e;}
   });
-  const resultState=r=>needsSeasonResult(env,r,at)&&r.members.some(m=>m.id===Number(user.id))?mutate('season',{id:r.id}):present(DB,r,user,at);
+  const resultState=r=>needsSeasonResult(env,r,at)&&r.members.some(m=>m.id===Number(user.id))?mutate('season',{id:r.id}):present(env,r,user,at);
   if(request.method==='GET'){
    if(action==='lobby'){
-    const [here,list,hideout]=await Promise.all([current(DB,user.id),open?rooms(DB,at):[],clanHideout(env,user.id)]);
+    const [here,list,hideout]=await Promise.all([current(DB,user.id,env,at),open?rooms(DB,at):[],clanHideout(env,user.id)]);
     const clanOpen=policy.mode==='ON'&&hideout.seasonOpen&&hideout.stage>=DOCKYARD.stage;
     const clanRooms=clanOpen?await rooms(DB,at,hideout):[];
     const state=here.r&&here.r.members.some(m=>m.id===Number(user.id))&&phase(here.r,at)!=='CANCELLED'?await resultState(here.r):null;
     const unlimited=user.role==='OWNER';
-    const nextEntryAt=!unlimited&&policy.mode==='ON'?entryDeadline(here.deadline):null;
-    return reply({ok:true,open,clanOpen,clanHideout:hideout,clanRooms,tiers:citadelTierMenu,state,rooms:list,test:policy.mode!=='ON',unlimited,serverNow:at,partyRechargeHours:legionRechargeMs(PARTY_ENTRY_INTERVAL_MS,at)/3600000,recoveryEvent:legionRecoveryNotice(at)?LEGION_RECOVERY_EVENT:null,nextEntryAt:nextEntryAt>at?nextEntryAt:null});
+    const nextEntryAt=!unlimited&&policy.mode==='ON'?(here.party?(here.party.current>0?null:here.party.nextRechargeAt):entryDeadline(here.deadline)):null;
+    return reply({ok:true,partyEnergy:here.party,open,clanOpen,clanHideout:hideout,clanRooms,tiers:citadelTierMenu,state,rooms:list,test:policy.mode!=='ON',unlimited,serverNow:at,partyRechargeHours:legionRechargeMs(PARTY_ENTRY_INTERVAL_MS,at)/3600000,recoveryEvent:legionRecoveryNotice(at)?LEGION_RECOVERY_EVENT:null,nextEntryAt:nextEntryAt>at?nextEntryAt:null});
    }
    if(action==='options'){
      if(new URL(request.url).searchParams.get('area')===DOCKYARD.id){if(policy.mode!=='ON')fail('CLOSED','군단토벌 일시 중지',403);await requireClanHideout(env,user.id,DOCKYARD.stage);}
@@ -341,7 +354,7 @@ export async function handleLegionCitadel({path,request,env,deps}){
    if(!['state','battle','chunk'].includes(action))fail('PATH','존재하지 않는 메뉴입니다.',404);
    const id=new URL(request.url).searchParams.get('id');if(!idOK(id))fail('INPUT','파티 번호를 확인하세요.',400);
    const v=await raw(DB,roomKey(id));if(!v)fail('MISSING','종료된 파티입니다.',404);
-   const r=JSON.parse(v),state=action==='state'?await resultState(r):await present(DB,r,user,at);
+   const r=JSON.parse(v),state=action==='state'?await resultState(r):await present(env,r,user,at);
    if(action!=='state'&&!['LOADING','ACTIVE'].includes(state.status))fail('EARLY','현재 재생할 전투가 없습니다.');
    if(action==='state')return reply({ok:true,open:r.area===DOCKYARD.id?policy.mode==='ON':open,state});
    if(state.status==='LOADING'){requireReadyParty(r.members);if(r.area===DOCKYARD.id)await requireClanHideout(env,user.id,DOCKYARD.stage,r);else requireOpen(citadel.policy);}

@@ -1,0 +1,4 @@
+
+> check:worker
+> node --check functions/api/[[path]].js
+

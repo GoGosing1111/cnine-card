@@ -1,0 +1,291 @@
+✖ neutral defaults, strict percentages, decimal sums, relative drop cap and exact safe-integer coin math (2.7936ms)
+✔ SQLite: only owned equipped live pet + earned distinct trophies; request scope refreshes on next request (23.3505ms)
+✖ SQLite: enabled new trophies use the same honor projection and only their selected sources (16.9515ms)
+✔ SQLite: account XP, coins and percentage drops use one combined bonus; rollback/replay and level cap survive (10.6558ms)
+✔ SQLite: OWNER CMS validates all three values, saves once, rejects stale/forged requests and reads do not grant (30.8483ms)
+✔ SQLite: portal bonus freezes rate on first roll; no retry reroll after unequip (7.4671ms)
+✔ SQLite: boosted coin drops roll back with logs, replay unchanged and stop at the daily limit (14.2928ms)
+✔ SQLite: core reward seals freeze boosted choices and minimum without repricing old offers (10.9121ms)
+✔ Postgres: only owned equipped live pet + earned distinct trophies; request scope refreshes on next request (1834.0999ms)
+✖ Postgres: enabled new trophies use the same honor projection and only their selected sources (1496.7596ms)
+✔ Postgres: account XP, coins and percentage drops use one combined bonus; rollback/replay and level cap survive (1260.9021ms)
+✔ Postgres: OWNER CMS validates all three values, saves once, rejects stale/forged requests and reads do not grant (1298.6331ms)
+✔ Postgres: portal bonus freezes rate on first roll; no retry reroll after unequip (1134.7858ms)
+✔ Postgres: boosted coin drops roll back with logs, replay unchanged and stop at the daily limit (1617.7831ms)
+✔ Postgres: core reward seals freeze boosted choices and minimum without repricing old offers (1462.9797ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/functions/_ranked_duo.js:272:33)
+✔ SQLite: duo bonus freezes on admission and survives failed settlement, unequip and retry (109.4595ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at Object.query (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/tests/helpers/ranked-duo-db.mjs:41:177)
+    at PostgresD1Database.batchPipelined (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/functions/_postgres_d1_compat.js:882:31)
+    at async file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/functions/_postgres_d1_compat.js:905:27
+✔ pipeline: duo bonus freezes on admission and survives failed settlement, unequip and retry (1660.3499ms)
+✔ weighted item odds consume only empty outcomes, preserve coin odds and one reward; quantities/daily budgets remain separate (2.4121ms)
+✔ fixed raid plan applies owned bonuses without a second roll; independent of the joint mercenary growth release (2.3744ms)
+✔ seeded fixed enemies, rank recommendations rather than restrictions, cross-owner IDs and existing raid caps (602.0147ms)
+✔ sixteen real Citadel slots refill through the boss, with two separate allied blocks (120.2938ms)
+✔ field damage uses each receipt once across area hits, combos, absorption, dodges and status effects (0.3656ms)
+✔ custom party-only pools stay disjoint even with an odd catalogue (15.0075ms)
+[legion citadel] Error storage
+✔ SQLite party flow, barriers, private grants, retries and recovery (484.5927ms)
+[legion citadel] Error storage
+✔ PostgreSQL party flow, barriers, private grants, retries and recovery (2455.1288ms)
+✔ a party recharge already underway completes at its saved deadline (5.4413ms)
+✔ even an OWNER needs a second account and both loading confirmations to enter (178.1098ms)
+✔ an incomplete or duplicate saved loading roster cannot expose the battle or spend energy (149.805ms)
+✔ empty solo energy cannot block a paid party departure or be debited by a retry (159.1151ms)
+✔ abandoned loading leaves both party charges available (178.6353ms)
+[legion citadel] Error storage
+✔ activation rechecks both deadlines, survives a lost reply and keeps the party cooldown across the solo midnight refill (161.8874ms)
+[legion citadel] Error ERR_SQLITE_ERROR
+✔ SQLite second seat write failure and overlapping loading confirmations spend exactly one entry per account (148.457ms)
+[legion citadel] error P0001
+✔ PostgreSQL second seat write failure and overlapping loading confirmations spend exactly one entry per account (1543.7784ms)
+✔ party HP follows each impact timestamp and every 30-second part can resume independently (129.2865ms)
+✔ running legacy rooms apply absolute area damage, recovery and shield hits between checkpoints (0.6033ms)
+✔ Citadel support and nurse heals reach the target HP frame on the paid skill action (172.0862ms)
+✔ November 23 is inclusive in Korea; only the two legion recovery rates change (2.7279ms)
+✔ solo retains pre-event progress, charges at 90 minutes, and restores three hours after expiry (1.0467ms)
+✔ capacity, daily refill, debit/refund anchors and Extreme Burning pulses remain consistent (0.5189ms)
+✔ party deadlines retain recovery earned before either boundary, including expiry while offline (0.2891ms)
+✔ SQLite: existing party cooldown, reopening, expiry and entry guards share the same scheduled deadline (39.3511ms)
+✔ SQLite: two loading acknowledgments debit once and publish a three-hour party deadline (396.8462ms)
+✔ PostgreSQL: existing party cooldown, reopening, expiry and entry guards share the same scheduled deadline (1757.2687ms)
+✔ PostgreSQL: two loading acknowledgments debit once and publish a three-hour party deadline (1726.7706ms)
+✔ free unlock, level-gated facilities and rooms, independent decorative copies and trophy quantities (3.9092ms)
+✔ normal pack bonus changes relative high-grade weights only; combat eligibility is explicit (0.2969ms)
+✔ SQLite combat rewards are atomic, work without season/unlock, and identical statement replay is inert (3.2042ms)
+✔ SQLite mutations enforce replay identity, costs, rollback and concurrent reward CAS (9.4661ms)
+✔ PostgreSQL combat rewards are atomic, work without season/unlock, and identical statement replay is inert (1861.2661ms)
+✔ PostgreSQL mutations enforce replay identity, costs, rollback and concurrent reward CAS (1479.3643ms)
+✔ authentication, request fields and feature gate are enforced by the real handler (24.0416ms)
+✔ party capacity preserves partial recovery, legacy deadline, event boundaries and extreme pulses (0.6722ms)
+✔ PVE와 PVP 핵심 경로는 전투 요청마다 전체 레거시 마이그레이션을 시작하지 않는다 (2.9736ms)
+✔ OWNER·점검 테스트 계정의 PVE·PVP 무제한은 실제 점검 중에만 허용한다 (0.6384ms)
+✔ 소탕은 첫 1회 V3 전투 뒤 잔여 횟수를 짧은 서버 묶음으로 이어서 처리한다 (0.7996ms)
+✔ 아포칼립스는 UI와 클라이언트 실행 경로에서 소탕이 차단된다 (0.3825ms)
+✔ 서버는 아포칼립스를 강제 거부하고 요청한 잔여 행동력까지만 처리한다 (0.3497ms)
+✔ 잔여 회차도 동일한 V3 엔진과 회차별 시드로 독립 판정한다 (0.5424ms)
+✔ 종료된 프리미엄 큐브는 수동·소탕 경로에서 재지급되지 않는다 (1.2129ms)
+✔ 소탕 결과는 주요 보상 전체를 합산하고 실패 시 현재 묶음 영수증으로 재확인한다 (0.4436ms)
+✔ 진행 중 영수증은 오류 팝업 대신 202 상태 조회와 자동 폴링으로 복구한다 (1.1937ms)
+✔ 각 묶음은 회차별 하트비트로 활성 영수증과 사용자 락을 연장한다 (0.5297ms)
+✔ 고아 소탕 락은 하트비트 기준으로 회수하고 실제 실행 중인 락은 보존한다 (36.0039ms)
+✔ 영수증 상태 판정은 실행 중·완료·실패·고아 실행을 구분한다 (6.6237ms)
+✔ 클라이언트는 RUNNING 응답을 보여주지 않고 같은 영수증의 완료 결과를 자동 조회한다 (2.2784ms)
+✔ 클라이언트는 다른 요청의 활성 락을 자동 대기한 뒤 자기 소탕을 재개한다 (1.0973ms)
+✔ 소탕 처리·결과 화면은 잔류 V3 프레임보다 앞에서 활성 결과창 하나만 표시한다 (0.3524ms)
+✖ 소탕 전용 UI와 캐시 버전이 운영 셸에 연결된다 (1.3672ms)
+✔ SQLite: actual legion start/begin/finish counts terminal combat once; retreat earns nothing; failed finish recovers (47.0286ms)
+✔ SQLite: terminal battleground and defense settlements count wins + ordinary defeats, preserve base rewards and skip practice, absent or forfeited members (15.0221ms)
+✔ PostgreSQL: actual legion start/begin/finish counts terminal combat once; retreat earns nothing; failed finish recovers (2031.8791ms)
+✔ PostgreSQL: terminal battleground and defense settlements count wins + ordinary defeats, preserve base rewards and skip practice, absent or forfeited members (1262.8578ms)
+ℹ tests 72
+ℹ suites 0
+ℹ pass 68
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 17092.5119
+
+✖ failing tests:
+
+test at tests\collection-bonuses-20261014.test.mjs:22:1
+✖ neutral defaults, strict percentages, decimal sums, relative drop cap and exact safe-integer coin math (2.7936ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   accountXpPercent: 0,
+  +   coinPercent: 0,
+  +   dropPercent: 0
+  -   accountXpPercent: 10,
+  -   coinPercent: 10,
+  -   dropPercent: 10
+    }
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/tests/collection-bonuses-20261014.test.mjs:30:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.start (node:internal/test_runner/test:1191:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { dropPercent: 0, accountXpPercent: 0, coinPercent: 0 },
+    expected: { dropPercent: 10, accountXpPercent: 10, coinPercent: 10 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\collection-bonuses-20261014.test.mjs:51:3
+✖ SQLite: enabled new trophies use the same honor projection and only their selected sources (16.9515ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   accountXpPercent: 37,
+  +   coinPercent: 53,
+  +   dropPercent: 18
+  -   accountXpPercent: 39,
+  -   coinPercent: 56,
+  -   dropPercent: 19
+    }
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/tests/collection-bonuses-20261014.test.mjs:68:12)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { dropPercent: 18, accountXpPercent: 37, coinPercent: 53 },
+    expected: { dropPercent: 19, accountXpPercent: 39, coinPercent: 56 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\collection-bonuses-20261014.test.mjs:51:3
+✖ Postgres: enabled new trophies use the same honor projection and only their selected sources (1496.7596ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   accountXpPercent: 37,
+  +   coinPercent: 53,
+  +   dropPercent: 18
+  -   accountXpPercent: 39,
+  -   coinPercent: 56,
+  -   dropPercent: 19
+    }
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/tests/collection-bonuses-20261014.test.mjs:68:12)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { dropPercent: 18, accountXpPercent: 37, coinPercent: 53 },
+    expected: { dropPercent: 19, accountXpPercent: 39, coinPercent: 56 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\pve-sweep-v1989.test.mjs:257:1
+✖ 소탕 전용 UI와 캐시 버전이 운영 셸에 연결된다 (1.3672ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /js\/app\.js\?v=[A-Za-z0-9][A-Za-z0-9-]+/. Input:
+  
+  '<!DOCTYPE html>\r\n' +
+    '<html lang="ko">\r\n' +
+    '<head>\r\n' +
+    '  <meta charset="UTF-8" />\r\n' +
+    '  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />\r\n' +
+    '  <meta name="theme-color" content="#100b1d" />\r\n' +
+    '  <meta name="application-name" content="리버스콜" />\r\n' +
+    '  <meta name="apple-mobile-web-app-title" content="리버스콜" />\r\n' +
+    '  <meta property="og:title" content="리버스콜" />\r\n' +
+    '  <meta property="og:image" content="https://cnine-card.pages.dev/assets/ui/brand/reverse-call-20261016/icon-512.png?v=20261018-transparent" />\r\n' +
+    '  <meta property="og:description" content="카드 수집 · 용병 성장 · 협동 전투" />\r\n' +
+    '  <link rel="manifest" href="/manifest.webmanifest?v=20261016-reverse-call" />\r\n' +
+    '  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-32.png?v=20261018-transparent" type="image/png" sizes="32x32" />\r\n' +
+    '  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-48.png?v=20261018-transparent" type="image/png" sizes="48x48" />\r\n' +
+    '  <link rel="apple-touch-icon" href="/assets/ui/brand/reverse-call-20261016/apple-touch-icon-180.png?v=20261018-transparent" sizes="180x180" />\r\n' +
+    '  <link rel="preload" as="image" type="image/webp" href="/assets/ui/loading/reverse-call-purple-20261024/scene-wide.webp" media="(min-width:641px)" fetchpriority="high" />\r\n' +
+    '  <link rel="preload" as="image" type="image/webp" href="/assets/ui/loading/reverse-call-purple-20261024/scene-mobile.webp" media="(max-width:640px)" fetchpriority="high" />\r\n' +
+    '  <link rel="preload" as="image" type="image/avif" fetchpriority="high" href="/assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif" imagesrcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.avif 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif 1024w" imagesizes="(max-width:820px) 100vw, 52vw" />\r\n' +
+    '  <link rel="preconnect" href="https://fonts.googleapis.com" />\r\n' +
+    '  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\r\n' +
+    '  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,800&amp;family=Noto+Sans+KR:wght@400;600;800&amp;display=swap" rel="stylesheet" />\r\n' +
+    '  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;family=Do+Hyeon&amp;family=East+Sea+Dokdo&amp;family=Gugi&amp;family=Jua&amp;family=Nanum+Gothic+Coding:wght@400;700&amp;family=Nanum+Pen+Script&amp;family=Noto+Sans+KR:wght@500;700;900&amp;family=Noto+Serif+KR:wght@600;700;900&amp;family=Song+Myung&amp;display=swap" rel="stylesheet" />\r\n' +
+    '  <title>리버스콜 카드뽑기</title>\r\n' +
+    '  <link rel="stylesheet" href="css/style.css?menuDock=20261108-v1&amp;accountPanel=20261102-v2&v=1879-player-ultimate-skip&cubeRemoval=20261003&iconPortrait=20261006" />\r\n' +
+    '  <link rel="stylesheet" href="css/chief-system-v1.css?v=20261005-general" />\r\n' +
+    '  <link rel="stylesheet" href="css/chief-prison-v1.css?v=20261006" />\r\n' +
+    '  <link rel="stylesheet" href="css/queen-coronation-v1.css?v=20261005-general" />\r\n' +
+    '  <link rel="stylesheet" href="css/card.css?v=1885-static-high-grade-frame" />\r\n' +
+    '  <link rel="stylesheet" href="css/animation.css?v=1144-stability-audit" />\r\n' +
+    '    <link rel="stylesheet" href="css/unified-drop-cinematic-v1750.css?v=1755-card-equipment-drop">\r\n' +
+    '  <link rel="stylesheet" href="css/card-unique-battle-fx-v1174.css?v=1745-taller-battle-cards">\r\n' +
+    '  <link rel="stylesheet" href="css/soopketmon-v21-auction-hunt-responsive.css?v=21.7.0">\r\n' +
+    '  <link rel="stylesheet" href="css/supply-box-v1249.css?v=1987-prime-custom-purchase-bulk-open">\r\n' +
+    '  <link rel="stylesheet" href="css/suit-core-box-v1.css?v=20261008">\r\n' +
+    '  <link rel="stylesheet" href="css/title-public-v1245.css?v=20261112-champions-ruler-plate-v2">\r\n' +
+    '  <link rel="stylesheet" href="css/title-fonts-v1814.css?v=1814-title-font-presets">\r\n' +
+    '  <link rel="stylesheet" href="css/seal-battle.css?v=1778-seal-v3-crystal&sealRework=20261021-v1&sealDragon=20261022-v1&sealOrbs=20261022-v1&sealLayout=20261022-v2&sealMercenary=20261022-v1">\r\n' +
+    '  <link rel="stylesheet" href="css/raid-overhaul-v1293.css?v=1296-slot-entry-fix">\r\n' +
+    '  <link rel="stylesheet" href="css/raid-v3-async-v1779.css?v=1930-mobile-context-recovery">\r\n' +
+    '  <link rel="stylesheet" href="css/vehicle-draw-v1388.css?v=1724-hundred-draw">\r\n' +
+    '  <link rel="stylesheet" href="css/territory-war-v1811.css?v=1914-territory-dispatch-persist&pig=2">\r\n' +
+    '  <link rel="stylesheet" href="css/territory-war-v1824.css?v=2062-my-team-emphasis&clans=20260929-roster&votes=20261008">\r\n' +
+    '  <link rel="stylesheet" href="css/territory-battlefield-v5.css?v=20261029-mobile-layout-v1">\r\n' +
+    '  <link rel="stylesheet" href="css/territory-formation-20261013.css?v=3&amp;draft=20261109-v1">\r\n' +
+    '  <link rel="stylesheet" href="css/territory-vote-alert-v1.css?v=20261013-vote-alert-compact">\r\n' +
+    '  <link rel="stylesheet" href="css/territory-network-v6.css?v=20261011-art2&amp;frontline=20261108-v1&amp;radioDepth=20261109-v1">\r\n' +
+    '  <link rel="stylesheet" href="css/ranked-match-v1671.css?v=1671-ranked-auto-season">\r\n' +
+    '  <link rel="stylesheet" href="css/ranked-v2-v1827.css?v=20261002-ranked-reform&amp;suggestions=20261005">\r\n' +
+    '  <link rel="stylesheet" href="css/pve-nightmare-v1692.css?v=1692-nightmare">\r\n' +
+    '  <link rel="stylesheet" href="css/pve-apocalypse-v1952.css?v=1952-apocalypse-pve&apocalypseOverlay=20261102-v1">\r\n' +
+    '  <link rel="stylesheet" href="css/escort-operation-v1830.css?v=1844-public-mobile-fit">\r\n' +
+    '  <link rel="stylesheet" href="css/runtime-performance-v1727.css?v=1729-virtual-card-lists">\r\n' +
+    '  <link rel="stylesheet" href="css/battle-v3-live.css?v=1901-nightmare-mark-overlap&flow=2126&backdrop=20261005&amp;statusDock=20261007-v2&tacticalHud=20261102-v1&apocalypseOverlay=20261102-v1">\r\n' +
+    '  <link rel="stylesheet" href="css/tower-abyss-ui.css?seasonS1=20261107-v3-materials1&v=20261022-clock-auto-next-v1">\r\n' +
+    '  <link rel="stylesheet" href="css/secondary-verification-v1780.css?v=1799-playdk-only">\r\n' +
+    '  <link rel="stylesheet" href="css/organization-preparation-v1.css?v=20261023-clan-identity">\r\n' +
+    '  <link rel="stylesheet" href="css/command-ui-v1.css?v=20261025-clan-restored">\r\n' +
+    '  <link rel="stylesheet" href="css/clan-v1.css?v=20261005-reform&clanRestore=20261025">\r\n' +
+    '  <link rel="stylesheet" href="css/clan-war-reform-v1.css?v=20261005-balance-v3">\r\n' +
+    '  <link rel="stylesheet" href="css/clan-command-v1.css?v=2127">\r\n' +
+    '  <link rel="stylesheet" href="css/clan-faction-v1.css?v=20261001-session-rewards">\r\n' +
+    '  <link rel="stylesheet" href="css/clan-champions-v2071.css?v=2109-champions-trophy">\r\n' +
+    '  <link id="liveOperationsV1868" rel="stylesheet" href="css/live-operations-v1868.css?v=1868-live-operations-r2&amp;popup=20261018-v1" />\r\n' +
+    '  <link data-rank-potion-style rel="stylesheet" href="css/rank-exp-potion-v1.css?v=20261020-v1" />\r\n' +
+    '  <link rel="stylesheet" href="css/prison-v1950.css?v=2045-mobile-perf" />\r\n' +
+    '\r\n' +
+    '<style id="v1871-mobile-burning-critical">\r\n' +
+    '@media (max-width:820px){\r\n' +
+    '  .burning-event-hud{visibility:visible!important;opacity:1!important}\r\n' +
+    '  .burning-command-notice{display:grid!important;visibility:visible!important;opacity:0;position:fixed!important;left:var(--burning-vv-left,0)!important;top:var(--burning-vv-top,0)!important;width:var(--burning-vv-width,100vw)!important;height:var(--burning-vv-height,100dvh)!important;z-index:2147483000!important}\r\n' +
+    '  .burning-command-notice.show{opacity:1!important}\r\n' +
+    '}\r\n' +
+    '</style>\r\n' +
+    '<link rel="stylesheet" href="css/burning-event-v1871.css?v=1902-burning-owner-timer" />\r\n' +
+    '<style id="v21-renewal-only-gate">\r\n' +
+    'html{background:#070a0f;color-scheme:dark}\r\n' +
+    'body.v21-renewal-required{margin:0;background:#070a0f;color:#eef4f6}\r\n' +
+    'body.v21-renewal-required #app{visibility:hidden}\r\n' +
+    '.v21-renewal-boot{position:fixed;inset:0;z-index:2147483600;isolation:isolate;display:grid;grid-template-rows:auto 1fr auto;overflow:hidden;box-sizing:border-box;padding:clamp(28px,4.8vw,76px);padding-bottom:max(30px,env(safe-area-inset-bottom));background:#060b12;color:#eef4f6;font-family:"Noto Sans KR",Arial,sans-serif}\r\n' +
+    '.v21-renewal-boot *{box-sizing:border-box}\r\n' +
+    '.v21-renewal-boot .boot-scene{position:absolute;inset:0;z-index:0;pointer-events:none}\r\n' +
+    '.v21-renewal-boot .boot-scene img{display:block;width:100%;height:100%;object-fit:cover;object-position:68% 48%}\r\n' +
+    '.v21-renewal-boot::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(3,8,15,.5),transparent 64%),linear-gradient(0deg,#030911 0%,rgba(3,9,17,.85) 8%,transparent 38%)}\r\n' +
+    '.v21-renewal-boot .boot-topline,.v21-renewal-boot main,.v21-renewal-boot .boot-loading{position:relative;z-index:2}\r\n' +
+    '.v21-renewal-boot .boot-topline{display:flex;align-items:center;justify-content:space-between;gap:20px;background:none;padding:0;border:0;min-height:40px}\r\n' +
+    '.v21-renewal-boot .boot-identity{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:800;letter-spacing:.14em}\r\n' +
+    '.v21-renewal-boot .boot-identity img{width:38px;height:38px;object-fit:contain}\r\n' +
+    '.v21-renewal-boot .boot-genre{color:#c4cdd3;font-size:11px;letter-spacing:.12em;text-shadow:0 2px 8px #030911}\r\n' +
+    '.v21-renewal-boot main{align-self:center;width:min(550px,55%);padding:0 0 24px;margin:0;border:0;background:none;box-shadow:none}\r\n' +
+    '.v21-renewal-boot .boot-overline{margin:0 0 22px;color:#9ecbd7;font-size:11px;font-weight:700;letter-spacing:.38em}\r\n' +
+    '.v21-renewal-boot h1{margin:0;color:#f1f5f4;font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;font-size:clamp(80px,10.2vw,154px);font-style:italic;font-weight:800;line-height:.83;letter-spacing:-.025em;text-shadow:0 6px 35px #02070c66}\r\n' +
+    '.v21-renewal-boot h1 span{display:block}\r\n' +
+    '.v21-renewal-boot h1 span+span{color:#acdfe8;margin-top:8px}\r\n' +
+    '.v21-renewal-boot .boot-tagline{margin:28px 0 0;color:#d4e0e5;font-size:clamp(16px,1.6vw,22px);font-weight:400;letter-spacing:.08em}\r\n' +
+    '.v21-renewal-boot .boot-loading{width:100%;padding:0;margin:0;background:none;border:0}\r\n' +
+    '.v21-renewal-boot .boot-statusline{display:flex;align-items:baseline;justify-content:space-between;gap:18px;margin-bottom:12px}\r\n' +
+    '.v21-renewal-boot .boot-statusline strong{font-size:14px;font-weight:600;letter-spacing:.02em}\r\n' +
+    '.v21-renewal-boot .bo'... 42422 more characters
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/tests/pve-sweep-v1989.test.mjs:262:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<!DOCTYPE html>\r\n<html lang="ko">\r\n<head>\r\n  <meta charset="UTF-8" />\r\n  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />\r\n  <meta name="theme-color" content="#100b1d" />\r\n  <meta name="application-name" content="리버스콜" />\r\n  <meta name="apple-mobile-web-app-title" content="리버스콜" />\r\n  <meta property="og:title" content="리버스콜" />\r\n  <meta property="og:image" content="https://cnine-card.pages.dev/assets/ui/brand/reverse-call-20261016/icon-512.png?v=20261018-transparent" />\r\n  <meta property="og:description" content="카드 수집 · 용병 성장 · 협동 전투" />\r\n  <link rel="manifest" href="/manifest.webmanifest?v=20261016-reverse-call" />\r\n  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-32.png?v=20261018-transparent" type="image/png" sizes="32x32" />\r\n  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-48.png?v=20261018-transparent" type="image/png" sizes="48x48" />\r\n  <link rel="apple-touch-icon" href="/assets/ui/brand/reverse-call-20261016/apple-touch-icon-180.png?v=20261018-transparent" sizes="180x180" />\r\n  <link rel="preload" as="image" type="image/webp" href="/assets/ui/loading/reverse-call-purple-20261024/scene-wide.webp" media="(min-width:641px)" fetchpriority="high" />\r\n  <link rel="preload" as="image" type="image/webp" href="/assets/ui/loading/reverse-call-purple-20261024/scene-mobile.webp" media="(max-width:640px)" fetchpriority="high" />\r\n  <link rel="preload" as="image" type="image/avif" fetchpriority="high" href="/assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif" imagesrcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.avif 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif 1024w" imagesizes="(max-width:820px) 100vw, 52vw" />\r\n  <link rel="preconnect" href="https://fonts.googleapis.com" />\r\n  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\r\n  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,800&amp;family=Noto+Sans+KR:wght@400;600;800&amp;display=swap" rel="stylesheet" />\r\n  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;family=Do+Hyeon&amp;family=East+Sea+Dokdo&amp;family=Gugi&amp;family=Jua&amp;family=Nanum+Gothic+Coding:wght@400;700&amp;family=Nanum+Pen+Script&amp;family=Noto+Sans+KR:wght@500;700;900&amp;family=Noto+Serif+KR:wght@600;700;900&amp;family=Song+Myung&amp;display=swap" rel="stylesheet" />\r\n  <title>리버스콜 카드뽑기</title>\r\n  <link rel="stylesheet" href="css/style.css?menuDock=20261108-v1&amp;accountPanel=20261102-v2&v=1879-player-ultimate-skip&cubeRemoval=20261003&iconPortrait=20261006" />\r\n  <link rel="stylesheet" href="css/chief-system-v1.css?v=20261005-general" />\r\n  <link rel="stylesheet" href="css/chief-prison-v1.css?v=20261006" />\r\n  <link rel="stylesheet" href="css/queen-coronation-v1.css?v=20261005-general" />\r\n  <link rel="stylesheet" href="css/card.css?v=1885-static-high-grade-frame" />\r\n  <link rel="stylesheet" href="css/animation.css?v=1144-stability-audit" />\r\n    <link rel="stylesheet" href="css/unified-drop-cinematic-v1750.css?v=1755-card-equipment-drop">\r\n  <link rel="stylesheet" href="css/card-unique-battle-fx-v1174.css?v=1745-taller-battle-cards">\r\n  <link rel="stylesheet" href="css/soopketmon-v21-auction-hunt-responsive.css?v=21.7.0">\r\n  <link rel="stylesheet" href="css/supply-box-v1249.css?v=1987-prime-custom-purchase-bulk-open">\r\n  <link rel="stylesheet" href="css/suit-core-box-v1.css?v=20261008">\r\n  <link rel="stylesheet" href="css/title-public-v1245.css?v=20261112-champions-ruler-plate-v2">\r\n  <link rel="stylesheet" href="css/title-fonts-v1814.css?v=1814-title-font-presets">\r\n  <link rel="stylesheet" href="css/seal-battle.css?v=1778-seal-v3-crystal&sealRework=20261021-v1&sealDragon=20261022-v1&sealOrbs=20261022-v1&sealLayout=20261022-v2&sealMercenary=20261022-v1">\r\n  <link rel="stylesheet" href="css/raid-overhaul-v1293.css?v=1296-slot-entry-fix">\r\n  <link rel="stylesheet" href="css/raid-v3-async-v1779.css?v=1930-mobile-context-recovery">\r\n  <link rel="stylesheet" href="css/vehicle-draw-v1388.css?v=1724-hundred-draw">\r\n  <link rel="stylesheet" href="css/territory-war-v1811.css?v=1914-territory-dispatch-persist&pig=2">\r\n  <link rel="stylesheet" href="css/territory-war-v1824.css?v=2062-my-team-emphasis&clans=20260929-roster&votes=20261008">\r\n  <link rel="stylesheet" href="css/territory-battlefield-v5.css?v=20261029-mobile-layout-v1">\r\n  <link rel="stylesheet" href="css/territory-formation-20261013.css?v=3&amp;draft=20261109-v1">\r\n  <link rel="stylesheet" href="css/territory-vote-alert-v1.css?v=20261013-vote-alert-compact">\r\n  <link rel="stylesheet" href="css/territory-network-v6.css?v=20261011-art2&amp;frontline=20261108-v1&amp;radioDepth=20261109-v1">\r\n  <link rel="stylesheet" href="css/ranked-match-v1671.css?v=1671-ranked-auto-season">\r\n  <link rel="stylesheet" href="css/ranked-v2-v1827.css?v=20261002-ranked-reform&amp;suggestions=20261005">\r\n  <link rel="stylesheet" href="css/pve-nightmare-v1692.css?v=1692-nightmare">\r\n  <link rel="stylesheet" href="css/pve-apocalypse-v1952.css?v=1952-apocalypse-pve&apocalypseOverlay=20261102-v1">\r\n  <link rel="stylesheet" href="css/escort-operation-v1830.css?v=1844-public-mobile-fit">\r\n  <link rel="stylesheet" href="css/runtime-performance-v1727.css?v=1729-virtual-card-lists">\r\n  <link rel="stylesheet" href="css/battle-v3-live.css?v=1901-nightmare-mark-overlap&flow=2126&backdrop=20261005&amp;statusDock=20261007-v2&tacticalHud=20261102-v1&apocalypseOverlay=20261102-v1">\r\n  <link rel="stylesheet" href="css/tower-abyss-ui.css?seasonS1=20261107-v3-materials1&v=20261022-clock-auto-next-v1">\r\n  <link rel="stylesheet" href="css/secondary-verification-v1780.css?v=1799-playdk-only">\r\n  <link rel="stylesheet" href="css/organization-preparation-v1.css?v=20261023-clan-identity">\r\n  <link rel="stylesheet" href="css/command-ui-v1.css?v=20261025-clan-restored">\r\n  <link rel="stylesheet" href="css/clan-v1.css?v=20261005-reform&clanRestore=20261025">\r\n  <link rel="stylesheet" href="css/clan-war-reform-v1.css?v=20261005-balance-v3">\r\n  <link rel="stylesheet" href="css/clan-command-v1.css?v=2127">\r\n  <link rel="stylesheet" href="css/clan-faction-v1.css?v=20261001-session-rewards">\r\n  <link rel="stylesheet" href="css/clan-champions-v2071.css?v=2109-champions-trophy">\r\n  <link id="liveOperationsV1868" rel="stylesheet" href="css/live-operations-v1868.css?v=1868-live-operations-r2&amp;popup=20261018-v1" />\r\n  <link data-rank-potion-style rel="stylesheet" href="css/rank-exp-potion-v1.css?v=20261020-v1" />\r\n  <link rel="stylesheet" href="css/prison-v1950.css?v=2045-mobile-perf" />\r\n\r\n<style id="v1871-mobile-burning-critical">\r\n@media (max-width:820px){\r\n  .burning-event-hud{visibility:visible!important;opacity:1!important}\r\n  .burning-command-notice{display:grid!important;visibility:visible!important;opacity:0;position:fixed!important;left:var(--burning-vv-left,0)!important;top:var(--burning-vv-top,0)!important;width:var(--burning-vv-width,100vw)!important;height:var(--burning-vv-height,100dvh)!important;z-index:2147483000!important}\r\n  .burning-command-notice.show{opacity:1!important}\r\n}\r\n</style>\r\n<link rel="stylesheet" href="css/burning-event-v1871.css?v=1902-burning-owner-timer" />\r\n<style id="v21-renewal-only-gate">\r\nhtml{background:#070a0f;color-scheme:dark}\r\nbody.v21-renewal-required{margin:0;background:#070a0f;color:#eef4f6}\r\nbody.v21-renewal-required #app{visibility:hidden}\r\n.v21-renewal-boot{position:fixed;inset:0;z-index:2147483600;isolation:isolate;display:grid;grid-template-rows:auto 1fr auto;overflow:hidden;box-sizing:border-box;padding:clamp(28px,4.8vw,76px);padding-bottom:max(30px,env(safe-area-inset-bottom));background:#060b12;color:#eef4f6;font-family:"Noto Sans KR",Arial,sans-serif}\r\n.v21-renewal-boot *{box-sizing:border-box}\r\n.v21-renewal-boot .boot-scene{position:absolute;inset:0;z-index:0;pointer-events:none}\r\n.v21-renewal-boot .boot-scene img{display:block;width:100%;height:100%;object-fit:cover;object-position:68% 48%}\r\n.v21-renewal-boot::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(3,8,15,.5),transparent 64%),linear-gradient(0deg,#030911 0%,rgba(3,9,17,.85) 8%,transparent 38%)}\r\n.v21-renewal-boot .boot-topline,.v21-renewal-boot main,.v21-renewal-boot .boot-loading{position:relative;z-index:2}\r\n.v21-renewal-boot .boot-topline{display:flex;align-items:center;justify-content:space-between;gap:20px;background:none;padding:0;border:0;min-height:40px}\r\n.v21-renewal-boot .boot-identity{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:800;letter-spacing:.14em}\r\n.v21-renewal-boot .boot-identity img{width:38px;height:38px;object-fit:contain}\r\n.v21-renewal-boot .boot-genre{color:#c4cdd3;font-size:11px;letter-spacing:.12em;text-shadow:0 2px 8px #030911}\r\n.v21-renewal-boot main{align-self:center;width:min(550px,55%);padding:0 0 24px;margin:0;border:0;background:none;box-shadow:none}\r\n.v21-renewal-boot .boot-overline{margin:0 0 22px;color:#9ecbd7;font-size:11px;font-weight:700;letter-spacing:.38em}\r\n.v21-renewal-boot h1{margin:0;color:#f1f5f4;font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;font-size:clamp(80px,10.2vw,154px);font-style:italic;font-weight:800;line-height:.83;letter-spacing:-.025em;text-shadow:0 6px 35px #02070c66}\r\n.v21-renewal-boot h1 span{display:block}\r\n.v21-renewal-boot h1 span+span{color:#acdfe8;margin-top:8px}\r\n.v21-renewal-boot .boot-tagline{margin:28px 0 0;color:#d4e0e5;font-size:clamp(16px,1.6vw,22px);font-weight:400;letter-spacing:.08em}\r\n.v21-renewal-boot .boot-loading{width:100%;padding:0;margin:0;background:none;border:0}\r\n.v21-renewal-boot .boot-statusline{display:flex;align-items:baseline;justify-content:space-between;gap:18px;margin-bottom:12px}\r\n.v21-renewal-boot .boot-statusline strong{font-size:14px;font-weight:600;letter-spacing:.02em}\r\n.v21-renewal-boot .bo'... 42422 more characters,
+    expected: /js\/app\.js\?v=[A-Za-z0-9][A-Za-z0-9-]+/,
+    operator: 'match',
+    diff: 'simple'
+  }

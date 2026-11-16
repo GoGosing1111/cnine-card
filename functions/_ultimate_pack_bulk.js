@@ -1,3 +1,5 @@
+import {readHideoutBenefits} from './_personal_hideout.js';
+import {hideoutCardRates} from '../shared/personal-hideout-v1.mjs';
 import {coinValue,addCoins} from '../shared/coin-integer-v1.mjs';
 import {ULTIMATE_BULK,ultimateBulkCount,ultimateBulkCost,validateUltimateBulkReceipt} from '../shared/ultimate-pack-bulk-v1.mjs';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
@@ -79,7 +81,8 @@ export function createUltimateBulkService(deps){
       const cost=ultimateBulkCost(Number(pack.price),body.count);
       if(cost!==body.expectedCost)throw fail('PRICE','가격이 변경되었습니다. 최신 가격을 확인하세요.',409);
       if(!account||Number(account.coin)<cost)throw fail('COIN','코인이 부족합니다.');
-      const [context,critical]=await Promise.all([(attempt>0&&deps.queryContext?deps.queryContext:loadContext)(env,pack),criticalSettings(env)]);
+      const [baseContext,critical,hideout]=await Promise.all([(attempt>0&&deps.queryContext?deps.queryContext:loadContext)(env,pack),criticalSettings(env),readHideoutBenefits(env,user.id)]);
+      const context={...baseContext,rateRows:hideoutCardRates(baseContext.rateRows,hideout.cardWeightPercent)};
       const plan=sampleUltimateBulk({context,pack,count:body.count,critical,stock,draw,order});
       const ids=JSON.stringify(plan.rows.map(r=>String(r.card.id))),owned=(await p('SELECT card_id,quantity,breakthrough_level FROM user_cards WHERE user_id=? AND card_id IN (SELECT value FROM json_each(?))',user.id,ids).all()).results;
       const quantities=new Map(owned.map(r=>[String(r.card_id),int(r.quantity)]));

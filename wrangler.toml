@@ -7,6 +7,7 @@ pages_build_output_dir = "."
 # Neon PostgreSQL is authoritative. Application maintenance remains controlled
 # independently by the app_meta maintenance setting.
 DB_BACKEND = "postgres"
+PERSONAL_HIDEOUT_ENABLED = "1"
 SEASON_S1_ENABLED = "1"
 SEASON_S1_SCHEDULE = "live"
 

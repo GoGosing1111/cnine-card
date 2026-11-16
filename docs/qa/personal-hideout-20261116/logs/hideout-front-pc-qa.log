@@ -1,0 +1,1 @@
+{"profile":"pc","variant":"after","hideoutFirstMs":329.4899000000005,"hideoutIdleFrames":{"frames":73,"p95":20.699999999999818,"max":53.5,"over50":1},"dragInput":"mouse pointer","hideoutDragFrames":{"frames":94,"p95":20.600000000000364,"max":27.600000000000364,"over50":0},"hideoutExitRequests":0,"hideoutReentryMs":71.4981000000007,"overflow":false}
