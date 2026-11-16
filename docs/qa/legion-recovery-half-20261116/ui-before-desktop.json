@@ -1,0 +1,100 @@
+{
+  "phase": "before",
+  "platform": "desktop",
+  "condition": "Public lobby → actual PVE menu → solo and party dialogs, isolated actual server handlers; desktop/Windows renderer/mobile/H5 emulation, no physical phone",
+  "entries": [
+    {
+      "kind": "solo",
+      "visit": "first",
+      "interactiveMs": 348,
+      "frames": {
+        "samples": 75,
+        "p95": 4.300000000000182,
+        "max": 37.5,
+        "over50": 0
+      },
+      "afterExit": {
+        "connected": false,
+        "mutations": 0,
+        "legionRequests": 0
+      },
+      "text": "리버스콜\nREVERSE CALL\n모험\n/\n군단토벌\n←\nPVE로 돌아가기\n2인 파티 원정 · 불타는 성채　→\n\nLEGION HUNT · CHAPTER 01\n\n잊혀진 섬\n\n길은 끊겼다. 돌아갈 방법은, 끝까지 돌파하는 것.\n\n7분\n연속 토벌\n1\n최종 보스\n10회\n행동력 최대\nFINAL TARGET\n태고의 수호자\n00:00 · 상륙\n군단 조우\n02:00 · 교전\n끊임없는 증원\n04:00 · 돌파\n끝까지 생존\n4:30 · 최종 보스\n태고의 수호자\nYOUR EXPEDITION\n출전 원정대\n편성 새로고침 ↻\n\n테스트 참여자 · 편성 전투력 1,420,000\n\n01\nFUR\n철와대 킴성태\n02\nFUR\n킹봉준\n03\nFUR\n이상호\n04\nSUPERSTAR\nLionel Messi\n05\nZENITH\n토마토\nSS\n용병 전용 슬롯\n저격 오리꿍\n에메랄드 대물저격\n\n장착 슈트 · X-BODY / 무기 · 東方軍火商(동방무기상) · 금룡 돌격소총\n\nSELECT DIFFICULTY\n난이도 선택\n01\n보통\n완만한 압박 · 방벽 없는 보스\n02\n어려움\n보스 방벽 · 2연속 공격\n03\n악몽\n강한 방벽 · 보스 3연속 공격\n04\n지옥\n최상위 압박 · 4연속 공격 · 전멸 위험\n토벌 진행\n보스전 포함 총 7분\n행동력 4 / 10 · 다음 충전 02:58:58 · 3시간마다 1회 · 매일 0시 최대 회복\n판당 최대 코인\n1,000,000,000 코인\n\n처치 즉시 자동 습득 · 보너스 포함 상한\n\n전리품은 직접 눌러 획득\n\n필드에 나타난 아이템을\n사라지기 전에 챙기세요.\n\n군단토벌 · 잊혀진 섬\n콘텐츠 소개 보기\n↗\n\n코인 수급 후 중단 시 행동력 사용 · 3시간마다 1회 충전\n\n토벌 입장\n코인은 사냥 중 자동 지급 · 아이템은 종료 정산"
+    },
+    {
+      "kind": "solo",
+      "visit": "reentry",
+      "interactiveMs": 109,
+      "frames": {
+        "samples": 75,
+        "p95": 4.300000000000182,
+        "max": 4.300000000000182,
+        "over50": 0
+      },
+      "afterExit": {
+        "connected": false,
+        "mutations": 0,
+        "legionRequests": 0
+      },
+      "text": "리버스콜\nREVERSE CALL\n모험\n/\n군단토벌\n←\nPVE로 돌아가기\n2인 파티 원정 · 불타는 성채　→\n\nLEGION HUNT · CHAPTER 01\n\n잊혀진 섬\n\n길은 끊겼다. 돌아갈 방법은, 끝까지 돌파하는 것.\n\n7분\n연속 토벌\n1\n최종 보스\n10회\n행동력 최대\nFINAL TARGET\n태고의 수호자\n00:00 · 상륙\n군단 조우\n02:00 · 교전\n끊임없는 증원\n04:00 · 돌파\n끝까지 생존\n4:30 · 최종 보스\n태고의 수호자\nYOUR EXPEDITION\n출전 원정대\n편성 새로고침 ↻\n\n테스트 참여자 · 편성 전투력 1,420,000\n\n01\nFUR\n철와대 킴성태\n02\nFUR\n킹봉준\n03\nFUR\n이상호\n04\nSUPERSTAR\nLionel Messi\n05\nZENITH\n토마토\nSS\n용병 전용 슬롯\n저격 오리꿍\n에메랄드 대물저격\n\n장착 슈트 · X-BODY / 무기 · 東方軍火商(동방무기상) · 금룡 돌격소총\n\nSELECT DIFFICULTY\n난이도 선택\n01\n보통\n완만한 압박 · 방벽 없는 보스\n02\n어려움\n보스 방벽 · 2연속 공격\n03\n악몽\n강한 방벽 · 보스 3연속 공격\n04\n지옥\n최상위 압박 · 4연속 공격 · 전멸 위험\n토벌 진행\n보스전 포함 총 7분\n행동력 4 / 10 · 다음 충전 02:58:56 · 3시간마다 1회 · 매일 0시 최대 회복\n판당 최대 코인\n1,000,000,000 코인\n\n처치 즉시 자동 습득 · 보너스 포함 상한\n\n전리품은 직접 눌러 획득\n\n필드에 나타난 아이템을\n사라지기 전에 챙기세요.\n\n군단토벌 · 잊혀진 섬\n콘텐츠 소개 보기\n↗\n\n코인 수급 후 중단 시 행동력 사용 · 3시간마다 1회 충전\n\n토벌 입장\n코인은 사냥 중 자동 지급 · 아이템은 종료 정산"
+    },
+    {
+      "kind": "party",
+      "visit": "first",
+      "interactiveMs": 178,
+      "frames": {
+        "samples": 75,
+        "p95": 8.399999999999636,
+        "max": 41.80000000000018,
+        "over50": 0
+      },
+      "afterExit": {
+        "connected": false,
+        "mutations": 0,
+        "legionRequests": 0
+      },
+      "text": "군단토벌 파티\n불타는 성채\n클랜 전용 사냥터\n시즌 5 개방\n파티 모집 중\n불타는 성채\n\n밀려드는 군단을 사냥하고, 잿불 성주 몰록을 처치하세요.\n\n파티 행동력\n0 / 1\n다음 충전\n02:59:54\n원정 인원\n2인 협동\n사냥 시간\n7분\n전리품\n개인 획득\n원정 난이도\n1단계\n재앙의 성문\n2단계\n멸망의 내성\n3단계\n종말의 왕좌\n\n권장\n고레벨 용병과 회복 담당 1명 이상\n\n성주 전리품\n새벽별\n그믐달\n태양왕좌\n유니크 1~3단계 · 상위 성주일수록 드랍 확률 증가\n파티 만들기\n모집 중인 파티\n0\n새로고침\n모집 중인 파티가 없습니다\n\n먼저 파티를 만들고 함께할 대원을 기다려 보세요.\n\n원정 규칙과 화면 설정"
+    },
+    {
+      "kind": "party",
+      "visit": "reentry",
+      "interactiveMs": 93,
+      "frames": {
+        "samples": 75,
+        "p95": 4.300000000001091,
+        "max": 12.5,
+        "over50": 0
+      },
+      "afterExit": {
+        "connected": false,
+        "mutations": 0,
+        "legionRequests": 0
+      },
+      "text": "군단토벌 파티\n불타는 성채\n클랜 전용 사냥터\n시즌 5 개방\n파티 모집 중\n불타는 성채\n\n밀려드는 군단을 사냥하고, 잿불 성주 몰록을 처치하세요.\n\n파티 행동력\n0 / 1\n다음 충전\n02:59:52\n원정 인원\n2인 협동\n사냥 시간\n7분\n전리품\n개인 획득\n원정 난이도\n1단계\n재앙의 성문\n2단계\n멸망의 내성\n3단계\n종말의 왕좌\n\n권장\n고레벨 용병과 회복 담당 1명 이상\n\n성주 전리품\n새벽별\n그믐달\n태양왕좌\n유니크 1~3단계 · 상위 성주일수록 드랍 확률 증가\n파티 만들기\n모집 중인 파티\n0\n새로고침\n모집 중인 파티가 없습니다\n\n먼저 파티를 만들고 함께할 대원을 기다려 보세요.\n\n원정 규칙과 화면 설정"
+    }
+  ],
+  "errors": [],
+  "productionWrites": 0,
+  "menu": "전체 메뉴\n50개 메뉴\n닫기\n×\n전체 메뉴\n즐겨찾기\n별표로 간편하게 추가\n세계관\n인벤토리\n모험 · PVE\n대전 · PVP\n카드·용병·펫\n장비 - 제작\n상점·교환\n보상\n클랜\n행정부\n/\n세계관\n1개\n분류 보기\n세계관\n돌아올 사람의 자리 · 본편 2부와 용병 이야기 7편\n인벤토리\n1개\n분류 보기\n인벤토리\n보유 아이템과 카드팩 확인\n모험 · PVE\n13개\n분류 보기\nPVE 전투\nPVE 전투 콘텐츠와 덱 편성 모아 보기\nPVE 덱 편성실\n보유 일반 카드 5장을 선택하고 출전 덱 저장\n몬스터 토벌\n몬스터를 고르고 내 덱으로 토벌\n디펜스\n2~3인 협동 디펜스 · 용병 2명 + 카드 1장\n격전지\n3인 협동 전투 · 난이도별 클리어 보상\n군단토벌\n잊혀진 섬에서 군단을 돌파하고 최종 보스에 도전\n군단토벌 파티\n불타는 성채 · 2인 파티로 7분간 군단 사냥\n월드 레이드\n다른 플레이어와 월드 레이드 참여\n호송작전\n호송작전에 참여하고 보상 확인\n봉인전\n봉인전 입장과 진행 상황 확인\n무한의탑\n한 층씩 도전하는 무한의탑\n폐차장 원정\n원정 구역과 출입증을 확인하고 출발\n마스터의 별 광산\n드릴을 선택하고 4시간 뒤 마스터의 별 수령\n대전 · PVP\n8개\n분류 보기\n랭크전\n상대 플레이어와 랭크전 대결\n클래식 멸망전\n클래식 멸망전\n족각도시\n6시간 역할 교대 · 도시 이동·검문·치료·PVP 교전\n랭크 듀오\n랭크 듀오\n시즌 랭킹\n시즌 순위와 랭크 기록 확인\n클랜전\n정규 클랜전 대진과 전투에 바로 진입\n세력전\n서울 세력전 전황과 부대 편성에 바로 진입\n영토전\n진영과 함께 영토를 두고 경쟁\n카드·용병·펫\n8개\n분류 보기\n도감\n카드 수집 현황과 보유 카드의 능력치 확인\n용병 · 편성\n보유 용병 확인·편성과 전체 용병 정보\n용병 성장\n보유 용병의 경험치 전수와 레벨 돌파\n펫 도감\n전체 펫과 보유 현황·시작 버프 확인 및 장착\n일괄 강화\n일반 카드 여러 장을 한 번에 강화\n카드 진화\n재료를 모아 카드의 다음 단계에 도전\n아이콘 합성\n아이콘 합성\n마법카드\n전투를 돕는 마법카드 확인과 편성\n장비 - 제작\n5개\n분류 보기\n용병 장비\n용병 전용 무기·방어구 장착 · PVE/PVP 무장 구성\n장비·칭호·차고\n장비·칭호·차량을 장착하고 전투력 확인\n차량 제작\n재료를 사용해 차량 제작\n제작소\n장비·차량·슈트·재료의 제작과 합성을 한곳에서\n장비 강화\n장비 강화·보호·파괴 기록 복구 확인\n상점·교환\n5개\n분류 보기\n카드 상점\n카드팩·장비·이동수단을 획득하는 상점\n고급 전리품 상점\n피그 코인으로 계정 한정 전리품 확정 교환\n랭크전 상점\n랭크전·듀오 시즌 보상 코인으로 상품 교환\n교환소\n보유 재료와 교환 항목 확인\n경매장\n다른 플레이어와 아이템 거래\n보상\n5개\n분류 보기\nS1 불멸의 왕\nS1 불멸의 왕\n접속 보상\n접속 보상과 수령 상태 확인\n일일·주간 퀘스트\n일일·주간 목표와 콘텐츠 참여 보상 확인\n컴백 유저\n복귀 보급품과 카미시로 합류 임무\n메시지함\n운영 소식과 도착한 보상 확인\n클랜\n1개\n분류 보기\n클랜\n클랜 본부·아지트 · 시즌 모집 일정\n행정부\n3개\n분류 보기\n쿠데타\n황궁 영토전 · 족장팀과 반란군 · 국민 재판\n리버스랜드\n리버스랜드 입장권과 이용 정보 확인\n감옥\n감옥 수감 상태와 관련 정보 확인",
+  "resources": [
+    {
+      "url": "https://cnine-card.pages.dev/css/legion-hunt-coins-v1.css?v=20261018-v1",
+      "duration": 114.20000000298023,
+      "transferSize": 1126
+    },
+    {
+      "url": "https://cnine-card.pages.dev/js/legion-hunt-entry-v1.mjs?brand=20261110&citadelLobby=20261111-party-v5&citadel=1&mobileMemory=20261024-v1&v=20261029-legion-ascendant-v1&mercGear=20261011&retired=20261001&clanSeason=20261110-v1",
+      "duration": 113.79999999701977,
+      "transferSize": 8912
+    },
+    {
+      "url": "https://cnine-card.pages.dev/css/legion-hunt-entry-v2.css?brand=20261110&citadelLobby=20261108-v1&citadel=1&v=20261008-regions",
+      "duration": 167.09999999403954,
+      "transferSize": 6209
+    },
+    {
+      "url": "https://cnine-card.pages.dev/shared/legion-hunt-energy-v1.mjs?v=20261021-daily-reset-v1",
+      "duration": 20.099999994039536,
+      "transferSize": 765
+    }
+  ]
+}

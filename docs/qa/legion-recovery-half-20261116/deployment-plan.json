@@ -1,0 +1,17 @@
+{
+  "base": "7a94fb69212346ccafae5dcacd5907fae1a5a191",
+  "reason": "User-authorized solo and party legion action energy cooldown minus 50 percent through 2026-11-23 23:59 KST. Scheduled arithmetic preserves stored progress, daily reset, support capacity and Extreme Burning; PostgreSQL and SQLite admission, expiry, retry, client entry and public delivery checks.",
+  "tests": [
+    "tests/legion-recovery-event-20261116.test.mjs",
+    "tests/legion-hunt-daily-energy-20261021.test.mjs",
+    "tests/legion-citadel-20261108.test.mjs",
+    "tests/legion-citadel-cms-20261108.test.mjs",
+    "tests/extreme-burning-20261113.test.mjs",
+    "tests/content-energy-20261020.test.mjs",
+    "tests/content-energy-display-20261020.test.mjs",
+    "tests/legion-hunt-entry-account-20260926.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

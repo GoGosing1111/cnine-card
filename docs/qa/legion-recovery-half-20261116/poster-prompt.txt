@@ -1,0 +1,21 @@
+Use case: ads-marketing / compositing.
+Create a polished horizontal 16:9 Korean fantasy RPG event poster by combining these existing REVERSE CALL game artworks. This is a new promotional composition edited from the supplied game assets, not a screenshot of a website. Output one finished high-resolution landscape raster image with an opaque background.
+
+Input 1: reference and compositing subject — the actual Forgotten Island stone guardian, pale broken stone, moss, brass mechanisms, turquoise crystal chest, orange hammer and broad shield. Preserve its recognizable silhouette, materials and design.
+Input 2: reference and compositing subject — the actual Burning Citadel lord, dark horned armor, burgundy cape, glowing orange furnace chest and huge ornate axe. Preserve its recognizable silhouette and design.
+Input 3: background reference and compositing scene — the actual burning fortress gate. Preserve the dark fantasy game-art character of the scene.
+
+Art direction: premium hand-painted Korean RPG campaign art, richly rendered lighting and real material detail. Compose the two actual bosses at opposite outer edges, facing inward, leaving a generous central typography area. Turquoise mystical light around the stone guardian, orange fire and sparks around the citadel lord, dark smoky fortress background joining them. Add restrained metallic framing and flowing energy accents suggesting accelerated recovery. Dramatic depth and excellent readability. The typography is the main focal point. Do not add other characters, logos, game rewards, drop bonuses or invented claims.
+
+Render the following Korean copy exactly, once each, with clear professional Hangul typography and no garbled letters:
+Small brand at top: "리버스콜"
+Large headline: "군단토벌 특별 이벤트"
+Centered label: "행동력 쿨타임"
+Largest text on the entire poster: "-50%"
+Two clean supporting lines beneath the percentage:
+"군단토벌  3시간 → 1시간 30분"
+"파티 군단토벌  6시간 → 3시간"
+Prominent bottom deadline: "11월 23일 23:59까지"
+Small deadline qualifier: "한국시간 기준"
+
+Use bold ivory and luminous warm gold for the headline, exceptionally large dimensional gold -50% with crisp contours, and simple highly legible supporting type. Keep all essential words comfortably within safe margins. The minus sign must be visible. No fake buttons, browser UI, CSS-style rounded rectangles, charts, watermarks or extra text. The final image should be ready to share directly as the game's official event poster.

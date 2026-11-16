@@ -1,0 +1,35 @@
+{
+  "createdAt": "2026-11-16T02:45:45.698Z",
+  "tool": "built-in image_gen",
+  "skill": "C:/Users/User/.codex/skills/.system/imagegen/SKILL.md",
+  "generatedOriginal": "C:/Users/User/.codex/generated_images/01a1dd4e-43e3-7941-9a4d-24fe6e9a5d6c/exec-1c0e491e-9547-4cc8-95b8-e3dca40c9eaf.png",
+  "output": "C:\\Users\\User\\Downloads\\upload\\cnine-card/output/announcements/legion-recovery-half-20261116/군단토벌_행동력_쿨타임50_가로포스터.png",
+  "sha256": "8d5c9fe0960dffabb796fc649c8ab00ae7dade51547e1358c2a1bf370420688c",
+  "width": 1672,
+  "height": 941,
+  "prompt": "C:\\Users\\User\\Downloads\\upload\\cnine-card/output/announcements/legion-recovery-half-20261116/poster-prompt.txt",
+  "review": {
+    "landscape": true,
+    "koreanTextVerified": true,
+    "percent": -50,
+    "solo": "3시간 → 1시간 30분",
+    "party": "6시간 → 3시간",
+    "deadline": "11월 23일 23:59까지 · 한국시간 기준",
+    "actualBossReferences": true,
+    "cssGraphicsUsed": false
+  },
+  "references": [
+    {
+      "name": "citadel-gate.webp",
+      "sha256": "fec01dde41ac45362244fb2fc6fac2fc45eb284fe235b7c04f8d72d7129c2f14"
+    },
+    {
+      "name": "citadel-lord.webp",
+      "sha256": "d01e9f367fd47c022c08655b708bb9a708012d2a2dde9d46aee42d56a91f1b10"
+    },
+    {
+      "name": "island-guardian.png",
+      "sha256": "722a972b422462898e476d3da9048f20ad5b9b0aa5fcca3a5d9565ccbda0d8b4"
+    }
+  ]
+}
