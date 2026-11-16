@@ -1,4 +1,4 @@
-import {HYPER_TICKET_RETIRED_MESSAGE} from '../shared/hyper-ticket-retirement-v1.mjs';
+import {HYPER_TICKET_RETIRED_MESSAGE} from './_hyper_ticket_retirement.js';
 import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 import {ensureEmperorEnergyCatalog} from './_emperor_energy.js';
 import {ensurePingduThanksGiftCatalog,PINGDU_THANKS_GIFT} from './_pingdu_thanks_gift.js';

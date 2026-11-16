@@ -1,4 +1,4 @@
-import {isRetiredHyperReward,withoutHyperTickets} from '../../shared/hyper-ticket-retirement-v1.mjs';
+import {isRetiredHyperReward,withoutHyperTickets} from '../../functions/_hyper_ticket_retirement.js';
 import {companionBattleOptions,companionReviewOptions} from '../../shared/companion-battle-snapshot-v1.mjs';
 import {randomUUID,randomInt} from 'node:crypto';
 import {buildFighter,buildMonsterFighter,buildBattleSuitFighter,buildPvePlayerTeam,publicFighter,teamSummary,simulateBattleV2Preview} from '../../functions/_battle_v2_preview.js';

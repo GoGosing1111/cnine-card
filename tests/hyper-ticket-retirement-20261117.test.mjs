@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {PGlite} from '@electric-sql/pglite';
 import {retireHyperTickets,retirementSnapshot,OP,POLICY,CONSTRAINTS} from '../scripts/ops/hyper-ticket-retirement-20261117.mjs';
-import {RETIRED_HYPER_TICKET as ITEM} from '../shared/hyper-ticket-retirement-v1.mjs';
+import {RETIRED_HYPER_TICKET as ITEM} from '../functions/_hyper_ticket_retirement.js';
 import {restoreHuntSession} from '../preview/sustained-hunt-v2/session.mjs';
 import {legionFixture} from './helpers/legion-hunt-fixture.mjs';
 import {settleLegionHuntRewards} from '../functions/_legion_hunt_rewards.js';

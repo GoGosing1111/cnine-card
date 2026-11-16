@@ -1,4 +1,4 @@
-import {RETIRED_HYPER_TICKET,HYPER_TICKET_RETIRED_MESSAGE} from '../../shared/hyper-ticket-retirement-v1.mjs';
+import {RETIRED_HYPER_TICKET,HYPER_TICKET_RETIRED_MESSAGE} from '../_hyper_ticket_retirement.js';
 import {handleSeasonS1,seasonAwardStatements,seasonBonus,seasonEnabled,seasonTowerFloors} from '../_season_s1.js';
 import {addCoins,coinInteger,coinValue} from '../../shared/coin-integer-v1.mjs';
 import {coinChangeStatements} from '../_coin_settlement.js';

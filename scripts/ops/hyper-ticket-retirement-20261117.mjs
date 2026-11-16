@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {RETIRED_HYPER_TICKET as ITEM,withoutHyperTickets} from '../../shared/hyper-ticket-retirement-v1.mjs';
+import {RETIRED_HYPER_TICKET as ITEM,withoutHyperTickets} from '../../functions/_hyper_ticket_retirement.js';
 export const OP='ops:hyper-ticket-retirement:20261117:v1';
 export const POLICY='legion_hunt_settings_v1';
 export const CONSTRAINTS=['cnine_inventory_hyper_ticket_retired_v1','inventory_catalog_hyper_ticket_retired_v1'];

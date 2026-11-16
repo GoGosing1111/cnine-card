@@ -1,4 +1,4 @@
-import {isRetiredHyperReward,withoutHyperTickets} from '../shared/hyper-ticket-retirement-v1.mjs';
+import {isRetiredHyperReward,withoutHyperTickets} from './_hyper_ticket_retirement.js';
 import {DIFFICULTIES} from '../preview/sustained-hunt-v2/hunt-rules.mjs';
 import {jointError} from './_joint_request.js';
 export const LEGION_HUNT_MODES=Object.freeze(['OFF','TEST','ON']);
