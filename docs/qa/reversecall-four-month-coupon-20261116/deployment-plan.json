@@ -1,0 +1,17 @@
+{
+  "base": "275509b880d5302e2de58c3385640f5bd9c91bad",
+  "before": {
+    "id": "12f7725d-b0c9-4d1b-a7e0-854b3564cbef",
+    "commit": "275509b880d5302e2de58c3385640f5bd9c91bad",
+    "status": "success"
+  },
+  "reason": "Add the Reverse Call four-month coupon: 500 trillion coins, 300 million stars, 100 pet essences, 10 pet seal orbs and five of each enhancement scroll. Check all-or-nothing settlement, 200-account cap, response-loss replay and unchanged CMS limits. Preserve batched inventory SQL.",
+  "tests": [
+    "tests/november-gift-coupon-20261101.test.mjs",
+    "tests/coupon-owner-limits-20261029.test.mjs",
+    "tests/coupon-reward-cap-v1997.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

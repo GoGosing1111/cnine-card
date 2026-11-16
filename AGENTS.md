@@ -1,3 +1,10 @@
+## 리버스콜 4개월 기념 지폐 쿠폰 200명 — 2026-11-16
+
+- 17:50:06 KST, 쿠폰 5687 · 운영 감사 61845. **REVERSE4M200**은 코인 500조·마스터의 별 3억 개·펫 정수 100개·펫 봉인구 10개·무기/방어구 강화주문서 각 5개다. 선착순 200명, 계정당 1회, 별도 만료일 없음.
+- 공식 보라색 R 아이콘을 참고한 가로 ImageGen 지폐 PNG/JPG와 별도 소감문. 소스 0ea50bb74 · Pages b6b75b7e · 두 Worker 100%. 관련 검사 35개, 실패·정상 예행연습 롤백과 독립 READ ONLY 재조회·재실행 추가 쓰기 0건을 확인했다. 실제 계정 시험 수령·메시지 발송 0건.
+- 같은 여섯 보상 일괄 SQL 15→15회, 고정 6ms 지연 중앙값 229.3→229.6ms. PC·Android/WebKit 에뮬레이션·Windows/H5 브라우저 진입의 첫 실행·진입·재진입·프레임·퇴장을 검수했다. 실휴대기기·네이티브 앱 검수가 아니며 기존 WebKit 경고·긴 프레임은 기록했다.
+- 완료키 `ops:reversecall-four-month-coupon:20261116:v1`. 재요청은 기존 영수증을 조회한다. [등록·보상·성능 검증](docs/qa/reversecall-four-month-coupon-20261116/completion.json) · [지폐](output/announcements/reversecall-four-month-coupon-20261116/reversecall-four-month-banknote.png)
+
 ## 씨나인 현황판 꾸까 삭제 — 2026-11-16
 
 - 여캠부에서 꾸까(wkao85guo)를 삭제해 11→10명, 스타부 9명·전체 19명이다. 기존 명단 순서와 공개 로비·방송국 이동을 확인했다. 화면·공유 명단의 꾸까 항목과 프로필 요청은 0건이다.

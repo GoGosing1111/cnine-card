@@ -1,0 +1,8 @@
+{
+  "failureRollback": true,
+  "successRollback": true,
+  "code": "REVERSE4M200",
+  "accountsCredited": 0,
+  "oldCouponUnchanged": true,
+  "checkedAt": "2026-11-16T08:42:25.517Z"
+}

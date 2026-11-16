@@ -1,0 +1,1048 @@
+{
+  "status": "ISSUED_AND_VERIFIED",
+  "operationKey": "ops:reversecall-four-month-coupon:20261116:v1",
+  "authorization": "리버스콜 4개월 기념 500조 + 마별 3억 + 펫 정수 100개 + 펫 봉인구 10개 + 무기·방어구 강화주문서 각 5개, 200명 쿠폰",
+  "title": "리버스콜 4개월 기념",
+  "couponCode": "REVERSE4M200",
+  "couponId": "5687",
+  "rewardType": "NOVEMBER_GIFT_REVERSECALL_FOUR_MONTH_20261116",
+  "coin": "500000000000000",
+  "items": [
+    {
+      "code": "MASTER_STAR",
+      "name": "마스터의 별",
+      "amount": 300000000
+    },
+    {
+      "code": "PET_ESSENCE",
+      "name": "펫 정수",
+      "amount": 100
+    },
+    {
+      "code": "PET_SEAL_ORB",
+      "name": "펫 봉인구",
+      "amount": 10
+    },
+    {
+      "code": "WEAPON_ENHANCEMENT_SCROLL",
+      "name": "무기 강화주문서",
+      "amount": 5
+    },
+    {
+      "code": "ARMOR_ENHANCEMENT_SCROLL",
+      "name": "방어구 강화주문서",
+      "amount": 5
+    }
+  ],
+  "maxUses": 200,
+  "perAccount": 1,
+  "expiresAt": null,
+  "completedAt": "2026-11-16T08:50:06.124Z",
+  "auditId": "61845",
+  "verifiedAt": "2026-11-16T08:50:10.867Z",
+  "usedAtVerification": 0,
+  "remainingAtVerification": 200,
+  "release": {
+    "checkedAt": "2026-11-16T08:49:55.844Z",
+    "sourceCommit": "0ea50bb7411bbbfd19c3f53465924f0bd939fa64",
+    "pages": {
+      "id": "b6b75b7e-7e56-4ead-880a-cbdb1ca28354",
+      "commit": "0ea50bb7411bbbfd19c3f53465924f0bd939fa64",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "ba8015c1-f166-45ed-89c8-7d26f22994aa",
+        "percentage": 100,
+        "bundleSupported": true,
+        "sourceSHA256": "355008c60bc70ee93947d43591c447c191f495f6a80d537a65f982f64c1b0153"
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "d7c87dc8-1cd4-4847-9cd2-b04c17755600",
+        "percentage": 100,
+        "bundleSupported": true,
+        "sourceSHA256": "f56cc3f0e6bb83f774fb469413131e10298d58b1662f54dc82284520ca47b941"
+      }
+    ],
+    "unauthenticatedStatus": 401,
+    "releaseTests": 35,
+    "liveAccountRedemption": false
+  },
+  "checks": {
+    "relatedTests": 35,
+    "issuanceFailureRollback": true,
+    "issuanceSuccessRollback": true,
+    "independentReadOnlyVerification": true,
+    "noWriteReplay": true,
+    "liveAccountTrialRedemptions": 0,
+    "messagesSent": 0
+  },
+  "art": {
+    "tool": "built-in image_gen.imagegen",
+    "source": "C:/Users/User/.codex/generated_images/01a1e37c-670e-7311-b44f-0da5e589dfd7/exec-fd37fd7f-76b3-4560-aadc-c12d819c815e.png",
+    "sourceSHA256": "2ba8c0f7417d28c6c1687a09215e3b48f6113dcfec83c9beea38662f5e003576",
+    "size": [
+      2172,
+      724
+    ],
+    "couponCode": "REVERSE4M200",
+    "headline": "리버스콜 4개월 기념",
+    "logo": {
+      "path": "assets/ui/packs/sports-20261105-v2/reverse-call-icon.png",
+      "sha256": "7d18d7ccd347a2cfb46deac38b49ceb540d69c910a4bc1837eeb70abaf1197c9",
+      "role": "Official violet crystalline R reference"
+    },
+    "prompt": "output/announcements/reversecall-four-month-coupon-20261116/prompt.txt",
+    "reflectionSeparate": true,
+    "files": {
+      "reversecall-four-month-banknote.png": {
+        "path": "output/announcements/reversecall-four-month-coupon-20261116/reversecall-four-month-banknote.png",
+        "bytes": 3910733,
+        "sha256": "2ba8c0f7417d28c6c1687a09215e3b48f6113dcfec83c9beea38662f5e003576"
+      },
+      "reversecall-four-month-banknote.jpg": {
+        "path": "output/announcements/reversecall-four-month-coupon-20261116/reversecall-four-month-banknote.jpg",
+        "bytes": 1179679,
+        "sha256": "6d671031fc8ec1436c9d649d4b60a08560acbc7ad118b17ff65826a4a08aee47"
+      },
+      "prompt.txt": {
+        "path": "output/announcements/reversecall-four-month-coupon-20261116/prompt.txt",
+        "bytes": 2315,
+        "sha256": "3fd8d85ef90f9f5ed503dec9b4f34f582e5b328b4a7944b439178eb967f769f0"
+      },
+      "4개월_기념_소감문.txt": {
+        "path": "output/announcements/reversecall-four-month-coupon-20261116/4개월_기념_소감문.txt",
+        "bytes": 302,
+        "sha256": "638cb50df416e20004f24fbc72c5263ac3dd56c3356bb07e3185bc959456d312"
+      }
+    },
+    "visualReview": {
+      "allSixRewardsCorrect": true,
+      "codeCorrect": true,
+      "limit200AndOncePerAccount": true,
+      "horizontalBanknote": true,
+      "reflectionNotInImage": true
+    },
+    "posting": false
+  },
+  "performance": {
+    "transaction": {
+      "setup": "Isolated PGlite, actual coupon route, fixed 6 ms transport per SQL. First run is warm-up; eight matched different accounts follow. Not production network latency. Both cases use the exact same six requested rewards; the new definition is injected only into the isolated baseline. Existing batch SQL is preserved.",
+      "roundTripMs": 6,
+      "before": {
+        "results": [
+          {
+            "ms": 228.2,
+            "queries": 15
+          },
+          {
+            "ms": 229.3,
+            "queries": 15
+          },
+          {
+            "ms": 230.9,
+            "queries": 15
+          },
+          {
+            "ms": 229.8,
+            "queries": 15
+          },
+          {
+            "ms": 229.3,
+            "queries": 15
+          },
+          {
+            "ms": 227.5,
+            "queries": 15
+          },
+          {
+            "ms": 228.9,
+            "queries": 15
+          },
+          {
+            "ms": 229.1,
+            "queries": 15
+          }
+        ],
+        "medianMs": 229.3,
+        "queries": 15
+      },
+      "after": {
+        "results": [
+          {
+            "ms": 228.2,
+            "queries": 15
+          },
+          {
+            "ms": 227.4,
+            "queries": 15
+          },
+          {
+            "ms": 229.6,
+            "queries": 15
+          },
+          {
+            "ms": 230,
+            "queries": 15
+          },
+          {
+            "ms": 231,
+            "queries": 15
+          },
+          {
+            "ms": 229.6,
+            "queries": 15
+          },
+          {
+            "ms": 227.4,
+            "queries": 15
+          },
+          {
+            "ms": 229.5,
+            "queries": 15
+          }
+        ],
+        "medianMs": 229.6,
+        "queries": 15
+      }
+    },
+    "conditions": "Windows headless Chrome and Android/WebKit iPhone emulation. Sequential matched before/after public lobby → attendance/coupon first entry, re-entry, redemption and exit. Windows-client and H5 public entry URLs opened in browsers; not native client/store apps or physical mobile devices. Synthetic account, API data and redemption database isolated in PGlite. The same six-reward definition is injected only into the isolated baseline. No runtime UI or settlement algorithm change. Existing batch SQL remains 15 queries for the six rewards.",
+    "ui": {
+      "pc": {
+        "before": {
+          "mode": "before",
+          "device": "pc",
+          "staticOrigin": "https://12f7725d.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 111,
+              "frames": {
+                "count": 155,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 8.4
+              },
+              "feedback": "쿠폰 사용 완료! 코인 500조, 마스터의 별 3억 개, 펫 정수 100개, 펫 봉인구 10개, 무기 강화주문서 5개, 방어구 강화주문서 5개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 16,
+              "frames": {
+                "count": 157,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 4.4
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 24.8,
+              "queries": 15,
+              "label": "리버스콜 4개월 기념",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 500000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 300000000
+                },
+                {
+                  "type": "PET_ESSENCE",
+                  "amount": 100
+                },
+                {
+                  "type": "PET_SEAL_ORB",
+                  "amount": 10
+                },
+                {
+                  "type": "WEAPON_ENHANCEMENT_SCROLL",
+                  "amount": 5
+                },
+                {
+                  "type": "ARMOR_ENHANCEMENT_SCROLL",
+                  "amount": 5
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 5.9,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "coldStartToLobbyMs": 1248
+        },
+        "after": {
+          "mode": "after",
+          "device": "pc",
+          "staticOrigin": "https://b6b75b7e.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 106,
+              "frames": {
+                "count": 151,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 18.1
+              },
+              "feedback": "쿠폰 사용 완료! 코인 500조, 마스터의 별 3억 개, 펫 정수 100개, 펫 봉인구 10개, 무기 강화주문서 5개, 방어구 강화주문서 5개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 16,
+              "frames": {
+                "count": 156,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 8.4
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 26.1,
+              "queries": 15,
+              "label": "리버스콜 4개월 기념",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 500000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 300000000
+                },
+                {
+                  "type": "PET_ESSENCE",
+                  "amount": 100
+                },
+                {
+                  "type": "PET_SEAL_ORB",
+                  "amount": 10
+                },
+                {
+                  "type": "WEAPON_ENHANCEMENT_SCROLL",
+                  "amount": 5
+                },
+                {
+                  "type": "ARMOR_ENHANCEMENT_SCROLL",
+                  "amount": 5
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 6,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "coldStartToLobbyMs": 1251
+        }
+      },
+      "android": {
+        "before": {
+          "mode": "before",
+          "device": "android",
+          "staticOrigin": "https://12f7725d.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 95,
+              "frames": {
+                "count": 148,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 16.8
+              },
+              "feedback": "쿠폰 사용 완료! 코인 500조, 마스터의 별 3억 개, 펫 정수 100개, 펫 봉인구 10개, 무기 강화주문서 5개, 방어구 강화주문서 5개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 17,
+              "frames": {
+                "count": 157,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 4.3
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 28.6,
+              "queries": 15,
+              "label": "리버스콜 4개월 기념",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 500000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 300000000
+                },
+                {
+                  "type": "PET_ESSENCE",
+                  "amount": 100
+                },
+                {
+                  "type": "PET_SEAL_ORB",
+                  "amount": 10
+                },
+                {
+                  "type": "WEAPON_ENHANCEMENT_SCROLL",
+                  "amount": 5
+                },
+                {
+                  "type": "ARMOR_ENHANCEMENT_SCROLL",
+                  "amount": 5
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 7.1,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "coldStartToLobbyMs": 1131
+        },
+        "after": {
+          "mode": "after",
+          "device": "android",
+          "staticOrigin": "https://b6b75b7e.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 90,
+              "frames": {
+                "count": 148,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 16.7
+              },
+              "feedback": "쿠폰 사용 완료! 코인 500조, 마스터의 별 3억 개, 펫 정수 100개, 펫 봉인구 10개, 무기 강화주문서 5개, 방어구 강화주문서 5개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 17,
+              "frames": {
+                "count": 156,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 8.3
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 24.5,
+              "queries": 15,
+              "label": "리버스콜 4개월 기념",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 500000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 300000000
+                },
+                {
+                  "type": "PET_ESSENCE",
+                  "amount": 100
+                },
+                {
+                  "type": "PET_SEAL_ORB",
+                  "amount": 10
+                },
+                {
+                  "type": "WEAPON_ENHANCEMENT_SCROLL",
+                  "amount": 5
+                },
+                {
+                  "type": "ARMOR_ENHANCEMENT_SCROLL",
+                  "amount": 5
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 6.2,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "coldStartToLobbyMs": 1107
+        }
+      },
+      "ios": {
+        "before": {
+          "mode": "before",
+          "device": "ios",
+          "staticOrigin": "https://12f7725d.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 102,
+              "frames": {
+                "count": 38,
+                "p95Ms": 39,
+                "over50": 0,
+                "maxMs": 41
+              },
+              "feedback": "쿠폰 사용 완료! 코인 500조, 마스터의 별 3억 개, 펫 정수 100개, 펫 봉인구 10개, 무기 강화주문서 5개, 방어구 강화주문서 5개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 61,
+              "frames": {
+                "count": 35,
+                "p95Ms": 44,
+                "over50": 0,
+                "maxMs": 45
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 23.2,
+              "queries": 15,
+              "label": "리버스콜 4개월 기념",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 500000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 300000000
+                },
+                {
+                  "type": "PET_ESSENCE",
+                  "amount": 100
+                },
+                {
+                  "type": "PET_SEAL_ORB",
+                  "amount": 10
+                },
+                {
+                  "type": "WEAPON_ENHANCEMENT_SCROLL",
+                  "amount": 5
+                },
+                {
+                  "type": "ARMOR_ENHANCEMENT_SCROLL",
+                  "amount": 5
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 6.3,
+              "queries": 7
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "coldStartToLobbyMs": 1191
+        },
+        "after": {
+          "mode": "after",
+          "device": "ios",
+          "staticOrigin": "https://b6b75b7e.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 137,
+              "frames": {
+                "count": 37,
+                "p95Ms": 37,
+                "over50": 0,
+                "maxMs": 40
+              },
+              "feedback": "쿠폰 사용 완료! 코인 500조, 마스터의 별 3억 개, 펫 정수 100개, 펫 봉인구 10개, 무기 강화주문서 5개, 방어구 강화주문서 5개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 72,
+              "frames": {
+                "count": 33,
+                "p95Ms": 35,
+                "over50": 0,
+                "maxMs": 45
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 23.1,
+              "queries": 15,
+              "label": "리버스콜 4개월 기념",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 500000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 300000000
+                },
+                {
+                  "type": "PET_ESSENCE",
+                  "amount": 100
+                },
+                {
+                  "type": "PET_SEAL_ORB",
+                  "amount": 10
+                },
+                {
+                  "type": "WEAPON_ENHANCEMENT_SCROLL",
+                  "amount": 5
+                },
+                {
+                  "type": "ARMOR_ENHANCEMENT_SCROLL",
+                  "amount": 5
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 6.8,
+              "queries": 7
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "coldStartToLobbyMs": 1064
+        }
+      },
+      "windows": {
+        "before": {
+          "mode": "before",
+          "device": "windows",
+          "staticOrigin": "https://12f7725d.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 109,
+              "frames": {
+                "count": 150,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 22.1
+              },
+              "feedback": "쿠폰 사용 완료! 코인 500조, 마스터의 별 3억 개, 펫 정수 100개, 펫 봉인구 10개, 무기 강화주문서 5개, 방어구 강화주문서 5개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 20,
+              "frames": {
+                "count": 157,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 4.3
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 27.4,
+              "queries": 15,
+              "label": "리버스콜 4개월 기념",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 500000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 300000000
+                },
+                {
+                  "type": "PET_ESSENCE",
+                  "amount": 100
+                },
+                {
+                  "type": "PET_SEAL_ORB",
+                  "amount": 10
+                },
+                {
+                  "type": "WEAPON_ENHANCEMENT_SCROLL",
+                  "amount": 5
+                },
+                {
+                  "type": "ARMOR_ENHANCEMENT_SCROLL",
+                  "amount": 5
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 5.8,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "coldStartToLobbyMs": 1402
+        },
+        "after": {
+          "mode": "after",
+          "device": "windows",
+          "staticOrigin": "https://b6b75b7e.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 114,
+              "frames": {
+                "count": 144,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 29.3
+              },
+              "feedback": "쿠폰 사용 완료! 코인 500조, 마스터의 별 3억 개, 펫 정수 100개, 펫 봉인구 10개, 무기 강화주문서 5개, 방어구 강화주문서 5개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 16,
+              "frames": {
+                "count": 157,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 4.3
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 30.7,
+              "queries": 15,
+              "label": "리버스콜 4개월 기념",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 500000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 300000000
+                },
+                {
+                  "type": "PET_ESSENCE",
+                  "amount": 100
+                },
+                {
+                  "type": "PET_SEAL_ORB",
+                  "amount": 10
+                },
+                {
+                  "type": "WEAPON_ENHANCEMENT_SCROLL",
+                  "amount": 5
+                },
+                {
+                  "type": "ARMOR_ENHANCEMENT_SCROLL",
+                  "amount": 5
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 5.1,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "coldStartToLobbyMs": 1330
+        }
+      },
+      "h5": {
+        "before": {
+          "mode": "before",
+          "device": "h5",
+          "staticOrigin": "https://12f7725d.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 102,
+              "frames": {
+                "count": 143,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 33.3
+              },
+              "feedback": "쿠폰 사용 완료! 코인 500조, 마스터의 별 3억 개, 펫 정수 100개, 펫 봉인구 10개, 무기 강화주문서 5개, 방어구 강화주문서 5개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 19,
+              "frames": {
+                "count": 155,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 8.4
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 27.5,
+              "queries": 15,
+              "label": "리버스콜 4개월 기념",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 500000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 300000000
+                },
+                {
+                  "type": "PET_ESSENCE",
+                  "amount": 100
+                },
+                {
+                  "type": "PET_SEAL_ORB",
+                  "amount": 10
+                },
+                {
+                  "type": "WEAPON_ENHANCEMENT_SCROLL",
+                  "amount": 5
+                },
+                {
+                  "type": "ARMOR_ENHANCEMENT_SCROLL",
+                  "amount": 5
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 6.4,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "coldStartToLobbyMs": 1539
+        },
+        "after": {
+          "mode": "after",
+          "device": "h5",
+          "staticOrigin": "https://b6b75b7e.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 101,
+              "frames": {
+                "count": 145,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 29.3
+              },
+              "feedback": "쿠폰 사용 완료! 코인 500조, 마스터의 별 3억 개, 펫 정수 100개, 펫 봉인구 10개, 무기 강화주문서 5개, 방어구 강화주문서 5개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 17,
+              "frames": {
+                "count": 155,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 8.3
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 25.3,
+              "queries": 15,
+              "label": "리버스콜 4개월 기념",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 500000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 300000000
+                },
+                {
+                  "type": "PET_ESSENCE",
+                  "amount": 100
+                },
+                {
+                  "type": "PET_SEAL_ORB",
+                  "amount": 10
+                },
+                {
+                  "type": "WEAPON_ENHANCEMENT_SCROLL",
+                  "amount": 5
+                },
+                {
+                  "type": "ARMOR_ENHANCEMENT_SCROLL",
+                  "amount": 5
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 6.2,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "coldStartToLobbyMs": 1095
+        }
+      }
+    }
+  },
+  "notes": [
+    "Existing WebKit ResizeObserver warning appears in the baseline and final run; frame measurements are retained.",
+    "The earlier parallel smoke observations are retained separately and are not used for the matched comparison.",
+    "The synthetic fixture omits the separate pig-coin balance API response; the NaN header in QA screenshots is fixture-only and no production balance was changed.",
+    "The celebration wording follows the user request; no exact official launch date is claimed.",
+    "The root workspace is an older dirty branch without the November coupon module. Guarded synchronization stopped before any write. Runtime work is committed in the reused release checkout and origin/main; unrelated root code is preserved."
+  ],
+  "sourceRoot": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout",
+  "sourceRecords": "operations/reversecall-four-month-coupon-20261116"
+}

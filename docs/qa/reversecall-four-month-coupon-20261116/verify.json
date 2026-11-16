@@ -1,0 +1,51 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:reversecall-four-month-coupon:20261116:v1",
+    "authorization": "리버스콜 4개월 기념 500조 + 마별 3억 + 펫 정수 100개 + 펫 봉인구 10개 + 무기·방어구 강화주문서 각 5개, 200명 쿠폰",
+    "title": "리버스콜 4개월 기념",
+    "couponCode": "REVERSE4M200",
+    "couponId": "5687",
+    "rewardType": "NOVEMBER_GIFT_REVERSECALL_FOUR_MONTH_20261116",
+    "coin": "500000000000000",
+    "items": [
+      {
+        "code": "MASTER_STAR",
+        "name": "마스터의 별",
+        "amount": 300000000
+      },
+      {
+        "code": "PET_ESSENCE",
+        "name": "펫 정수",
+        "amount": 100
+      },
+      {
+        "code": "PET_SEAL_ORB",
+        "name": "펫 봉인구",
+        "amount": 10
+      },
+      {
+        "code": "WEAPON_ENHANCEMENT_SCROLL",
+        "name": "무기 강화주문서",
+        "amount": 5
+      },
+      {
+        "code": "ARMOR_ENHANCEMENT_SCROLL",
+        "name": "방어구 강화주문서",
+        "amount": 5
+      }
+    ],
+    "maxUses": 200,
+    "perAccount": 1,
+    "expiresAt": null,
+    "completedAt": "2026-11-16T08:50:06.124Z",
+    "auditId": "61845"
+  },
+  "used": 0,
+  "remaining": 200,
+  "readOnly": true,
+  "noWriteReplay": true,
+  "priorReceiptUnchanged": true,
+  "checkedAt": "2026-11-16T08:50:10.867Z"
+}
