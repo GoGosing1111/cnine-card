@@ -1,0 +1,14 @@
+{
+  "base": "29f2c81b89eba7dac5663477eb0d2d4c95d4c68d",
+  "reason": "User-authorized SSS miracle cube additions to the existing six current-campaign package milestones, preserving purchase counts, coin rewards and historical order snapshots. Cover cube grants, old counters, concurrent retrospective settlement, atomic rollback, idempotent replay, UI and actual supported client entry paths.",
+  "tests": [
+    "tests/support-package-cubes-20261116.test.mjs",
+    "tests/support-package-refresh-20261115.test.mjs",
+    "tests/support-package-refresh-20261106.test.mjs",
+    "tests/support-package-20261020.test.mjs",
+    "tests/support-package-web-20261101.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

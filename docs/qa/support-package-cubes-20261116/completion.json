@@ -1,0 +1,875 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:support-package:cube-bonus-retroactive:20261116:v1",
+  "completedAtKST": "2026-11-16 12:42:27",
+  "request": {
+    "priceWon": 49800,
+    "tiers": [
+      {
+        "purchases": 1,
+        "coins": "1000000000000000",
+        "cubes": 5
+      },
+      {
+        "purchases": 2,
+        "coins": "2000000000000000",
+        "cubes": 10
+      },
+      {
+        "purchases": 3,
+        "coins": "3000000000000000",
+        "cubes": 15
+      },
+      {
+        "purchases": 4,
+        "coins": "6000000000000000",
+        "cubes": 20
+      },
+      {
+        "purchases": 5,
+        "coins": "8000000000000000",
+        "cubes": 40
+      },
+      {
+        "purchases": 10,
+        "coins": "8000000000000000",
+        "cubes": 100
+      }
+    ],
+    "interpretation": "기존 1·2·3·4·5·10회 구간별 추가 수량 5·10·15·20·40·100개. 사용자 후속 확인으로 80개 제외.",
+    "purchaseCountsReset": false,
+    "existingCoinRewardsPreserved": true,
+    "currentCampaign": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+    "cubeItemCode": "SSS_MIRACLE_CUBE"
+  },
+  "deployment": {
+    "at": "2026-11-16T03:41:48.421Z",
+    "pages": {
+      "id": "885b2782-95ea-46f1-acba-0aa126c202a7",
+      "url": "https://885b2782.cnine-card.pages.dev",
+      "status": "success",
+      "commit": "fb205dbed4e856b29e7d979fae58d029fb38a62a"
+    },
+    "releaseCommit": "fb205dbed4e856b29e7d979fae58d029fb38a62a",
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "sha256": "f7571573099699150acb20fdf6f2a6a5908866c65837de73991e2bc4e1e3492a",
+        "deployment": {
+          "id": "4bbadb5c-a372-4f97-b819-f3356baf1396",
+          "source": "wrangler",
+          "strategy": "percentage",
+          "author_email": "wlgks6344@naver.com",
+          "annotations": {
+            "workers/triggered_by": "deployment"
+          },
+          "versions": [
+            {
+              "version_id": "d0873ab6-cf54-4b69-b465-5c5bb478f885",
+              "percentage": 100
+            }
+          ],
+          "created_on": "2026-11-16T03:39:10.625067Z"
+        }
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "sha256": "5a30066191579c1ef134afdd241fff42c6387386009dfbeb7194c075005cfb99",
+        "deployment": {
+          "id": "e6360e83-1a3b-4ed0-a9c1-6108ac52a1da",
+          "source": "wrangler",
+          "strategy": "percentage",
+          "author_email": "wlgks6344@naver.com",
+          "annotations": {
+            "workers/triggered_by": "deployment"
+          },
+          "versions": [
+            {
+              "version_id": "fee38f3d-fab0-4164-a7c4-38dbecd2bc57",
+              "percentage": 100
+            }
+          ],
+          "created_on": "2026-11-16T03:40:40.661603Z"
+        }
+      }
+    ],
+    "publicFiles": [
+      {
+        "file": "css/support-package-v1.css",
+        "sha256": "62aad8411916c81d2a81151ffbf9fd51a50c9a769d14902e44827c38228bd04c",
+        "normalizedSha256": "7f66b8fd75ea889f6f4c6a800b40ea0d7e26ac708526c09da6ddc28e51fbc29a"
+      },
+      {
+        "file": "shared/support-package-v1.mjs",
+        "sha256": "0c39cb7207af02ea59b5433648fc7b99b4c56d7c95e0cfb1956a8f3cf1e5f526",
+        "normalizedSha256": "2ba98ef2f87ebf4dd988bf3d61beed091c58ac8116459f89d4183c9a70a354ae"
+      },
+      {
+        "file": "js/support-package-v1.mjs",
+        "sha256": "1db0a6f48f28fd2de9ff395983d51ddee9c20470b0aa80cd8ba27107fbb64fcf",
+        "normalizedSha256": "b4ba5a02beb9ce98be1cd9b31c805436b0e075a9ed76c154c9f38321b90ea9b0"
+      },
+      {
+        "file": "js/server-support-v1.mjs",
+        "sha256": "5448f0772d417dac41a0ea5c740ea86b618b33d4bcf794f2415087a1e39180b4",
+        "normalizedSha256": "5448f0772d417dac41a0ea5c740ea86b618b33d4bcf794f2415087a1e39180b4"
+      },
+      {
+        "file": "js/support-package-alerts-v1.mjs",
+        "sha256": "f6f9a2a7dd9d145ad753a5c7716d17ac435fa8366880143c2a40f8f53b7522d6",
+        "normalizedSha256": "a15ff8e20bc9cf97347a756bfc5ccc1ffbfcc10f659e5f2eb091e21a003724c5"
+      },
+      {
+        "file": "js/adventure-lobby-v2107.js",
+        "sha256": "4272d818ec11d2129740e16627bf141d718c37e38c2507c68b5c9383c2432db4",
+        "normalizedSha256": "4272d818ec11d2129740e16627bf141d718c37e38c2507c68b5c9383c2432db4"
+      },
+      {
+        "file": "admin/support-package-admin-v1.mjs",
+        "sha256": "857dac092cb53ca370e5d3ebc56c31c3e0544d23a5c55d5d94b8ab420e38066f",
+        "normalizedSha256": "97f15ae54cc614c715e3338c505088bf9bfd1ea2b0433d782ad0ac08d8fcca16"
+      },
+      {
+        "file": "admin/server-support-admin-v1.mjs",
+        "sha256": "706b1f75191d8ef6c7aea2238050f8aeff9ce500731abc25aab0558a5c8f9cdb",
+        "normalizedSha256": "aa68cc307ca3ba994970e74520b1e56da44f275695dac09309d06d4c994261d7"
+      },
+      {
+        "file": "admin/index.html",
+        "sha256": "db4c8b33765eeb7a3fc44c60513d8bfd290f1af09ead5e0349fe30d49d8c5c67",
+        "normalizedSha256": "3c031e211a65d0407375dc4c734cab70ca97f40a712b88e472ab26f04856a31f"
+      },
+      {
+        "file": "index.html",
+        "sha256": "094c21fe95ad2b76c380200c549c6354e5c467b421400531b548db1641a1b563",
+        "normalizedSha256": "7bfe6ef8d22dab6dae70ed0087383026b2cd1c34375991708e518f22d1a0e81b"
+      },
+      {
+        "file": "service-worker.js",
+        "sha256": "1abc188bd6d7914dc4419665a61efff900026bcc017fad6112b7cdae3d60c899",
+        "normalizedSha256": "a9e6d81bdbc052a6469ef41d35797652967345b20a33c49c8883ce7b70760ebd"
+      }
+    ],
+    "windowsFiles": [
+      "shared/support-package-v1.mjs",
+      "js/support-package-v1.mjs",
+      "js/server-support-v1.mjs",
+      "js/support-package-alerts-v1.mjs",
+      "js/adventure-lobby-v2107.js"
+    ]
+  },
+  "retroactive": {
+    "status": "VERIFIED",
+    "operationKey": "ops:support-package:cube-bonus-retroactive:20261116:v1",
+    "auditId": "61713",
+    "completedAtKST": "2026-11-16 12:42:27",
+    "verifiedAt": "2026-11-16T03:42:45.181Z",
+    "releaseCommit": "fb205dbed4e856b29e7d979fae58d029fb38a62a",
+    "recipients": [
+      {
+        "userId": "45",
+        "nickname": "박세라-ㅂ-",
+        "paidPurchases": 10,
+        "cubes": 190,
+        "entitlement": 190,
+        "balanceBefore": "0",
+        "balanceImmediatelyAfter": "190",
+        "currentBalance": "190",
+        "subsequentDelta": "0",
+        "messageId": "294325",
+        "logId": "89818936"
+      },
+      {
+        "userId": "88",
+        "nickname": "0수표",
+        "paidPurchases": 5,
+        "cubes": 90,
+        "entitlement": 90,
+        "balanceBefore": "0",
+        "balanceImmediatelyAfter": "90",
+        "currentBalance": "90",
+        "subsequentDelta": "0",
+        "messageId": "294326",
+        "logId": "89818937"
+      },
+      {
+        "userId": "148",
+        "nickname": "꾸까1",
+        "paidPurchases": 10,
+        "cubes": 190,
+        "entitlement": 190,
+        "balanceBefore": "0",
+        "balanceImmediatelyAfter": "190",
+        "currentBalance": "190",
+        "subsequentDelta": "0",
+        "messageId": "294327",
+        "logId": "89818938"
+      },
+      {
+        "userId": "164",
+        "nickname": "박사",
+        "paidPurchases": 1,
+        "cubes": 5,
+        "entitlement": 5,
+        "balanceBefore": "0",
+        "balanceImmediatelyAfter": "5",
+        "currentBalance": "5",
+        "subsequentDelta": "0",
+        "messageId": "294328",
+        "logId": "89818939"
+      },
+      {
+        "userId": "218",
+        "nickname": "현하루",
+        "paidPurchases": 2,
+        "cubes": 15,
+        "entitlement": 15,
+        "balanceBefore": "0",
+        "balanceImmediatelyAfter": "15",
+        "currentBalance": "15",
+        "subsequentDelta": "0",
+        "messageId": "294329",
+        "logId": "89818940"
+      },
+      {
+        "userId": "290",
+        "nickname": "Mild7",
+        "paidPurchases": 5,
+        "cubes": 90,
+        "entitlement": 90,
+        "balanceBefore": "0",
+        "balanceImmediatelyAfter": "90",
+        "currentBalance": "90",
+        "subsequentDelta": "0",
+        "messageId": "294330",
+        "logId": "89818941"
+      },
+      {
+        "userId": "525",
+        "nickname": "족구조아",
+        "paidPurchases": 2,
+        "cubes": 15,
+        "entitlement": 15,
+        "balanceBefore": "0",
+        "balanceImmediatelyAfter": "15",
+        "currentBalance": "15",
+        "subsequentDelta": "0",
+        "messageId": "294331",
+        "logId": "89818942"
+      },
+      {
+        "userId": "1195",
+        "nickname": "씨나인택갓",
+        "paidPurchases": 1,
+        "cubes": 5,
+        "entitlement": 5,
+        "balanceBefore": "0",
+        "balanceImmediatelyAfter": "5",
+        "currentBalance": "5",
+        "subsequentDelta": "0",
+        "messageId": "294332",
+        "logId": "89818943"
+      },
+      {
+        "userId": "4415",
+        "nickname": "Moo날두",
+        "paidPurchases": 1,
+        "cubes": 5,
+        "entitlement": 5,
+        "balanceBefore": "0",
+        "balanceImmediatelyAfter": "5",
+        "currentBalance": "5",
+        "subsequentDelta": "0",
+        "messageId": "294333",
+        "logId": "89818944"
+      },
+      {
+        "userId": "4572",
+        "nickname": "응맨",
+        "paidPurchases": 2,
+        "cubes": 15,
+        "entitlement": 15,
+        "balanceBefore": "0",
+        "balanceImmediatelyAfter": "15",
+        "currentBalance": "15",
+        "subsequentDelta": "0",
+        "messageId": "294334",
+        "logId": "89818945"
+      },
+      {
+        "userId": "4597",
+        "nickname": "찬호",
+        "paidPurchases": 20,
+        "cubes": 190,
+        "entitlement": 190,
+        "balanceBefore": "0",
+        "balanceImmediatelyAfter": "190",
+        "currentBalance": "190",
+        "subsequentDelta": "0",
+        "messageId": "294335",
+        "logId": "89818946"
+      },
+      {
+        "userId": "4610",
+        "nickname": "고라니ㅇ",
+        "paidPurchases": 2,
+        "cubes": 15,
+        "entitlement": 15,
+        "balanceBefore": "0",
+        "balanceImmediatelyAfter": "15",
+        "currentBalance": "15",
+        "subsequentDelta": "0",
+        "messageId": "294336",
+        "logId": "89818947"
+      },
+      {
+        "userId": "4627",
+        "nickname": "학벌",
+        "paidPurchases": 5,
+        "cubes": 90,
+        "entitlement": 90,
+        "balanceBefore": "0",
+        "balanceImmediatelyAfter": "90",
+        "currentBalance": "90",
+        "subsequentDelta": "0",
+        "messageId": "294337",
+        "logId": "89818948"
+      },
+      {
+        "userId": "4651",
+        "nickname": "세라네꼬라지",
+        "paidPurchases": 1,
+        "cubes": 5,
+        "entitlement": 5,
+        "balanceBefore": "0",
+        "balanceImmediatelyAfter": "5",
+        "currentBalance": "5",
+        "subsequentDelta": "0",
+        "messageId": "294338",
+        "logId": "89818949"
+      },
+      {
+        "userId": "4705",
+        "nickname": "˚쟁이。",
+        "paidPurchases": 5,
+        "cubes": 90,
+        "entitlement": 90,
+        "balanceBefore": "0",
+        "balanceImmediatelyAfter": "90",
+        "currentBalance": "90",
+        "subsequentDelta": "0",
+        "messageId": "294339",
+        "logId": "89818950"
+      },
+      {
+        "userId": "4933",
+        "nickname": "심심이",
+        "paidPurchases": 4,
+        "cubes": 50,
+        "entitlement": 50,
+        "balanceBefore": "0",
+        "balanceImmediatelyAfter": "50",
+        "currentBalance": "50",
+        "subsequentDelta": "0",
+        "messageId": "294340",
+        "logId": "89818951"
+      },
+      {
+        "userId": "5092",
+        "nickname": "늑대울프",
+        "paidPurchases": 5,
+        "cubes": 90,
+        "entitlement": 90,
+        "balanceBefore": "0",
+        "balanceImmediatelyAfter": "90",
+        "currentBalance": "90",
+        "subsequentDelta": "0",
+        "messageId": "294341",
+        "logId": "89818952"
+      },
+      {
+        "userId": "5877",
+        "nickname": "깅더듬",
+        "paidPurchases": 10,
+        "cubes": 190,
+        "entitlement": 190,
+        "balanceBefore": "0",
+        "balanceImmediatelyAfter": "190",
+        "currentBalance": "190",
+        "subsequentDelta": "0",
+        "messageId": "294342",
+        "logId": "89818953"
+      }
+    ],
+    "totalCubes": 1340,
+    "messages": 18,
+    "attachments": 0,
+    "currentPurchaseCountsPreserved": true,
+    "coinRewardsPreserved": true,
+    "automaticResets": 0,
+    "independentReadOnly": true,
+    "noWriteReplay": true,
+    "additionalGrantsOnReplay": 0,
+    "additionalMessagesOnReplay": 0,
+    "operationLocksRemaining": 0,
+    "partialFailureRolledBack": true,
+    "fullRehearsalRolledBack": true,
+    "applyMs": 3829,
+    "runtime": [
+      {
+        "phase": "first",
+        "ms": 640,
+        "userId": "4933",
+        "currentPurchases": 4,
+        "cubesRecorded": 50,
+        "nextBonus": {
+          "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+          "paidPurchasesBefore": 4,
+          "paidPurchasesAfter": 5,
+          "milestones": [
+            {
+              "purchases": 5,
+              "coins": "8000000000000000",
+              "cubes": 40
+            }
+          ],
+          "coins": "8000000000000000",
+          "totalEarnedCoins": "20000000000000000",
+          "cubes": 40,
+          "totalEarnedCubes": 90
+        }
+      },
+      {
+        "phase": "repeat",
+        "ms": 555,
+        "userId": "4933",
+        "currentPurchases": 4,
+        "cubesRecorded": 50,
+        "nextBonus": {
+          "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+          "paidPurchasesBefore": 4,
+          "paidPurchasesAfter": 5,
+          "milestones": [
+            {
+              "purchases": 5,
+              "coins": "8000000000000000",
+              "cubes": 40
+            }
+          ],
+          "coins": "8000000000000000",
+          "totalEarnedCoins": "20000000000000000",
+          "cubes": 40,
+          "totalEarnedCubes": 90
+        }
+      }
+    ],
+    "conditions": "Actual package service with production PostgreSQL in a Windows CLI READ ONLY transaction; network included. UI/browser timings are recorded separately."
+  },
+  "verification": {
+    "focusedTests": 31,
+    "pass": 31,
+    "fail": 0,
+    "atomicCounterInventoryMessageAndAudit": true,
+    "partialFailureRolledBack": true,
+    "rehearsalRolledBack": true,
+    "noWriteReplay": true,
+    "accountLeasesReleased": true
+  },
+  "performance": {
+    "ui": {
+      "before-desktop": {
+        "phase": "before",
+        "platform": "desktop",
+        "emulated": true,
+        "condition": "Actual lobby → all menu → server information → package, isolated account/API fixture; public assets with selected checkout overrides",
+        "entries": [
+          {
+            "interactiveMs": 583,
+            "imagesMs": 693,
+            "frames": {
+              "samples": 45,
+              "p95": 4.300000000000182,
+              "max": 4.300000000000182,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          },
+          {
+            "interactiveMs": 115,
+            "imagesMs": 124,
+            "frames": {
+              "samples": 45,
+              "p95": 4.200000000000728,
+              "max": 4.300000000000182,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          }
+        ],
+        "errors": [],
+        "productionWrites": 0,
+        "blockedWrites": 1
+      },
+      "before-ios": {
+        "phase": "before",
+        "platform": "ios",
+        "emulated": true,
+        "condition": "Actual lobby → all menu → server information → package, isolated account/API fixture; public assets with selected checkout overrides",
+        "entries": [
+          {
+            "interactiveMs": 2006,
+            "imagesMs": 2117,
+            "frames": {
+              "samples": 45,
+              "p95": 30,
+              "max": 213,
+              "over50": 2
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          },
+          {
+            "interactiveMs": 1259,
+            "imagesMs": 1270,
+            "frames": {
+              "samples": 45,
+              "p95": 30,
+              "max": 199,
+              "over50": 2
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          }
+        ],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "productionWrites": 0,
+        "blockedWrites": 1
+      },
+      "local-desktop": {
+        "phase": "local",
+        "platform": "desktop",
+        "emulated": true,
+        "condition": "Actual lobby → all menu → server information → package, isolated account/API fixture; public assets with selected checkout overrides",
+        "entries": [
+          {
+            "interactiveMs": 489,
+            "imagesMs": 590,
+            "frames": {
+              "samples": 45,
+              "p95": 4.299999999999727,
+              "max": 4.300000000000182,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          },
+          {
+            "interactiveMs": 102,
+            "imagesMs": 120,
+            "frames": {
+              "samples": 45,
+              "p95": 4.299999999999727,
+              "max": 4.300000000000182,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          }
+        ],
+        "errors": [],
+        "productionWrites": 0,
+        "blockedWrites": 1
+      },
+      "local-ios": {
+        "phase": "local",
+        "platform": "ios",
+        "emulated": true,
+        "condition": "Actual lobby → all menu → server information → package, isolated account/API fixture; public assets with selected checkout overrides",
+        "entries": [
+          {
+            "interactiveMs": 1861,
+            "imagesMs": 2043,
+            "frames": {
+              "samples": 45,
+              "p95": 30,
+              "max": 210,
+              "over50": 1
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          },
+          {
+            "interactiveMs": 1404,
+            "imagesMs": 1434,
+            "frames": {
+              "samples": 45,
+              "p95": 30,
+              "max": 212,
+              "over50": 1
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          }
+        ],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "productionWrites": 0,
+        "blockedWrites": 1
+      },
+      "local-android": {
+        "phase": "local",
+        "platform": "android",
+        "emulated": true,
+        "condition": "Actual lobby → all menu → server information → package, isolated account/API fixture; public assets with selected checkout overrides",
+        "entries": [
+          {
+            "interactiveMs": 296,
+            "imagesMs": 402,
+            "frames": {
+              "samples": 45,
+              "p95": 4.200000000000273,
+              "max": 4.300000000000182,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          },
+          {
+            "interactiveMs": 131,
+            "imagesMs": 150,
+            "frames": {
+              "samples": 45,
+              "p95": 4.299999999999727,
+              "max": 4.399999999999636,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          }
+        ],
+        "errors": [],
+        "productionWrites": 0,
+        "blockedWrites": 1
+      },
+      "local-windows": {
+        "phase": "local",
+        "platform": "windows",
+        "emulated": false,
+        "condition": "Actual lobby → all menu → server information → package, isolated account/API fixture; public assets with selected checkout overrides",
+        "entries": [
+          {
+            "interactiveMs": 584,
+            "imagesMs": 738,
+            "frames": {
+              "samples": 45,
+              "p95": 16.700000000000273,
+              "max": 16.799999999999727,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          },
+          {
+            "interactiveMs": 171,
+            "imagesMs": 283,
+            "frames": {
+              "samples": 45,
+              "p95": 16.800000000000182,
+              "max": 16.800000000000182,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          }
+        ],
+        "errors": [],
+        "productionWrites": 0,
+        "blockedWrites": 1
+      },
+      "public-desktop": {
+        "phase": "public",
+        "platform": "desktop",
+        "emulated": true,
+        "condition": "Actual lobby → all menu → server information → package, isolated account/API fixture; public assets with selected checkout overrides",
+        "entries": [
+          {
+            "interactiveMs": 414,
+            "imagesMs": 520,
+            "frames": {
+              "samples": 45,
+              "p95": 4.200000000000273,
+              "max": 4.300000000000182,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          },
+          {
+            "interactiveMs": 84,
+            "imagesMs": 100,
+            "frames": {
+              "samples": 45,
+              "p95": 4.299999999999727,
+              "max": 4.300000000000182,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            }
+          }
+        ],
+        "errors": [],
+        "productionWrites": 0,
+        "blockedWrites": 1
+      }
+    },
+    "serverBefore": {
+      "phase": "before",
+      "condition": "Isolated PostgreSQL-compatible fixture, fixed 10ms delay per SQL call; same Windows host, no live writes, not real network timings",
+      "times": [
+        {
+          "phase": "first",
+          "ms": 102,
+          "queries": 14
+        },
+        {
+          "phase": "reentry",
+          "ms": 81,
+          "queries": 8
+        },
+        {
+          "phase": "reentry",
+          "ms": 71,
+          "queries": 8
+        },
+        {
+          "phase": "reentry",
+          "ms": 63,
+          "queries": 8
+        },
+        {
+          "phase": "reentry",
+          "ms": 62,
+          "queries": 8
+        },
+        {
+          "phase": "reentry",
+          "ms": 63,
+          "queries": 8
+        },
+        {
+          "phase": "reentry",
+          "ms": 62,
+          "queries": 8
+        }
+      ]
+    },
+    "serverAfter": {
+      "phase": "after",
+      "condition": "Isolated PostgreSQL-compatible fixture, fixed 10ms delay per SQL call; same Windows host, no live writes, not real network timings",
+      "times": [
+        {
+          "phase": "first",
+          "ms": 108,
+          "queries": 14
+        },
+        {
+          "phase": "reentry",
+          "ms": 73,
+          "queries": 8
+        },
+        {
+          "phase": "reentry",
+          "ms": 62,
+          "queries": 8
+        },
+        {
+          "phase": "reentry",
+          "ms": 63,
+          "queries": 8
+        },
+        {
+          "phase": "reentry",
+          "ms": 62,
+          "queries": 8
+        },
+        {
+          "phase": "reentry",
+          "ms": 66,
+          "queries": 8
+        },
+        {
+          "phase": "reentry",
+          "ms": 62,
+          "queries": 8
+        }
+      ]
+    },
+    "h5": {
+      "platform": "ONE store H5 iframe, Android emulation",
+      "entries": [
+        {
+          "interactiveMs": 330,
+          "packageHidden": true
+        },
+        {
+          "interactiveMs": 88,
+          "packageHidden": true
+        }
+      ],
+      "packageHidden": true,
+      "packageApiCalls": 0,
+      "productionWrites": 0,
+      "errors": []
+    },
+    "observation": "The package service keeps the same 14 first-entry / 8 repeated-entry SQL calls; cube bonuses use the existing counter read and catalog art. UI before/after measurements are single comparisons with isolated account APIs and public assets on the same Windows host. Headless Chrome/mobile emulation and an offscreen Windows Electron renderer were used; no real phone measurements.",
+    "knownBaselineIssue": "Windows WebKit iPhone emulation reports the existing ResizeObserver warning and long frames both before and after. No detached panel updates or package requests after exit."
+  },
+  "operationsDirectory": "operations/support-package-cubes-20261116"
+}

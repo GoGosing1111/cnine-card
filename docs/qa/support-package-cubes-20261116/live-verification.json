@@ -1,0 +1,116 @@
+{
+  "at": "2026-11-16T03:41:48.421Z",
+  "pages": {
+    "id": "885b2782-95ea-46f1-acba-0aa126c202a7",
+    "url": "https://885b2782.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "fb205dbed4e856b29e7d979fae58d029fb38a62a"
+  },
+  "releaseCommit": "fb205dbed4e856b29e7d979fae58d029fb38a62a",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "sha256": "f7571573099699150acb20fdf6f2a6a5908866c65837de73991e2bc4e1e3492a",
+      "deployment": {
+        "id": "4bbadb5c-a372-4f97-b819-f3356baf1396",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "d0873ab6-cf54-4b69-b465-5c5bb478f885",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-11-16T03:39:10.625067Z"
+      }
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "sha256": "5a30066191579c1ef134afdd241fff42c6387386009dfbeb7194c075005cfb99",
+      "deployment": {
+        "id": "e6360e83-1a3b-4ed0-a9c1-6108ac52a1da",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "fee38f3d-fab0-4164-a7c4-38dbecd2bc57",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-11-16T03:40:40.661603Z"
+      }
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "css/support-package-v1.css",
+      "sha256": "62aad8411916c81d2a81151ffbf9fd51a50c9a769d14902e44827c38228bd04c",
+      "normalizedSha256": "7f66b8fd75ea889f6f4c6a800b40ea0d7e26ac708526c09da6ddc28e51fbc29a"
+    },
+    {
+      "file": "shared/support-package-v1.mjs",
+      "sha256": "0c39cb7207af02ea59b5433648fc7b99b4c56d7c95e0cfb1956a8f3cf1e5f526",
+      "normalizedSha256": "2ba98ef2f87ebf4dd988bf3d61beed091c58ac8116459f89d4183c9a70a354ae"
+    },
+    {
+      "file": "js/support-package-v1.mjs",
+      "sha256": "1db0a6f48f28fd2de9ff395983d51ddee9c20470b0aa80cd8ba27107fbb64fcf",
+      "normalizedSha256": "b4ba5a02beb9ce98be1cd9b31c805436b0e075a9ed76c154c9f38321b90ea9b0"
+    },
+    {
+      "file": "js/server-support-v1.mjs",
+      "sha256": "5448f0772d417dac41a0ea5c740ea86b618b33d4bcf794f2415087a1e39180b4",
+      "normalizedSha256": "5448f0772d417dac41a0ea5c740ea86b618b33d4bcf794f2415087a1e39180b4"
+    },
+    {
+      "file": "js/support-package-alerts-v1.mjs",
+      "sha256": "f6f9a2a7dd9d145ad753a5c7716d17ac435fa8366880143c2a40f8f53b7522d6",
+      "normalizedSha256": "a15ff8e20bc9cf97347a756bfc5ccc1ffbfcc10f659e5f2eb091e21a003724c5"
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "sha256": "4272d818ec11d2129740e16627bf141d718c37e38c2507c68b5c9383c2432db4",
+      "normalizedSha256": "4272d818ec11d2129740e16627bf141d718c37e38c2507c68b5c9383c2432db4"
+    },
+    {
+      "file": "admin/support-package-admin-v1.mjs",
+      "sha256": "857dac092cb53ca370e5d3ebc56c31c3e0544d23a5c55d5d94b8ab420e38066f",
+      "normalizedSha256": "97f15ae54cc614c715e3338c505088bf9bfd1ea2b0433d782ad0ac08d8fcca16"
+    },
+    {
+      "file": "admin/server-support-admin-v1.mjs",
+      "sha256": "706b1f75191d8ef6c7aea2238050f8aeff9ce500731abc25aab0558a5c8f9cdb",
+      "normalizedSha256": "aa68cc307ca3ba994970e74520b1e56da44f275695dac09309d06d4c994261d7"
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "db4c8b33765eeb7a3fc44c60513d8bfd290f1af09ead5e0349fe30d49d8c5c67",
+      "normalizedSha256": "3c031e211a65d0407375dc4c734cab70ca97f40a712b88e472ab26f04856a31f"
+    },
+    {
+      "file": "index.html",
+      "sha256": "094c21fe95ad2b76c380200c549c6354e5c467b421400531b548db1641a1b563",
+      "normalizedSha256": "7bfe6ef8d22dab6dae70ed0087383026b2cd1c34375991708e518f22d1a0e81b"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "1abc188bd6d7914dc4419665a61efff900026bcc017fad6112b7cdae3d60c899",
+      "normalizedSha256": "a9e6d81bdbc052a6469ef41d35797652967345b20a33c49c8883ce7b70760ebd"
+    }
+  ],
+  "windowsFiles": [
+    "shared/support-package-v1.mjs",
+    "js/support-package-v1.mjs",
+    "js/server-support-v1.mjs",
+    "js/support-package-alerts-v1.mjs",
+    "js/adventure-lobby-v2107.js"
+  ]
+}

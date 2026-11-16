@@ -1,0 +1,41 @@
+{
+  "phase": "public",
+  "platform": "desktop",
+  "emulated": true,
+  "condition": "Actual lobby → all menu → server information → package, isolated account/API fixture; public assets with selected checkout overrides",
+  "entries": [
+    {
+      "interactiveMs": 414,
+      "imagesMs": 520,
+      "frames": {
+        "samples": 45,
+        "p95": 4.200000000000273,
+        "max": 4.300000000000182,
+        "over50": 0
+      },
+      "afterExit": {
+        "connected": false,
+        "mutations": 0,
+        "packageRequests": 0
+      }
+    },
+    {
+      "interactiveMs": 84,
+      "imagesMs": 100,
+      "frames": {
+        "samples": 45,
+        "p95": 4.299999999999727,
+        "max": 4.300000000000182,
+        "over50": 0
+      },
+      "afterExit": {
+        "connected": false,
+        "mutations": 0,
+        "packageRequests": 0
+      }
+    }
+  ],
+  "errors": [],
+  "productionWrites": 0,
+  "blockedWrites": 1
+}
