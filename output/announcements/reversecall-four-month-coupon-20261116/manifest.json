@@ -1,0 +1,48 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "source": "C:/Users/User/.codex/generated_images/01a1e37c-670e-7311-b44f-0da5e589dfd7/exec-fd37fd7f-76b3-4560-aadc-c12d819c815e.png",
+  "sourceSHA256": "2ba8c0f7417d28c6c1687a09215e3b48f6113dcfec83c9beea38662f5e003576",
+  "size": [
+    2172,
+    724
+  ],
+  "couponCode": "REVERSE4M200",
+  "headline": "리버스콜 4개월 기념",
+  "logo": {
+    "path": "assets/ui/packs/sports-20261105-v2/reverse-call-icon.png",
+    "sha256": "7d18d7ccd347a2cfb46deac38b49ceb540d69c910a4bc1837eeb70abaf1197c9",
+    "role": "Official violet crystalline R reference"
+  },
+  "prompt": "output/announcements/reversecall-four-month-coupon-20261116/prompt.txt",
+  "reflectionSeparate": true,
+  "files": {
+    "reversecall-four-month-banknote.png": {
+      "path": "output/announcements/reversecall-four-month-coupon-20261116/reversecall-four-month-banknote.png",
+      "bytes": 3910733,
+      "sha256": "2ba8c0f7417d28c6c1687a09215e3b48f6113dcfec83c9beea38662f5e003576"
+    },
+    "reversecall-four-month-banknote.jpg": {
+      "path": "output/announcements/reversecall-four-month-coupon-20261116/reversecall-four-month-banknote.jpg",
+      "bytes": 1179679,
+      "sha256": "6d671031fc8ec1436c9d649d4b60a08560acbc7ad118b17ff65826a4a08aee47"
+    },
+    "prompt.txt": {
+      "path": "output/announcements/reversecall-four-month-coupon-20261116/prompt.txt",
+      "bytes": 2315,
+      "sha256": "3fd8d85ef90f9f5ed503dec9b4f34f582e5b328b4a7944b439178eb967f769f0"
+    },
+    "4개월_기념_소감문.txt": {
+      "path": "output/announcements/reversecall-four-month-coupon-20261116/4개월_기념_소감문.txt",
+      "bytes": 302,
+      "sha256": "638cb50df416e20004f24fbc72c5263ac3dd56c3356bb07e3185bc959456d312"
+    }
+  },
+  "visualReview": {
+    "allSixRewardsCorrect": true,
+    "codeCorrect": true,
+    "limit200AndOncePerAccount": true,
+    "horizontalBanknote": true,
+    "reflectionNotInImage": true
+  },
+  "posting": false
+}

@@ -1,0 +1,19 @@
+Use case: ads-marketing
+Asset type: finished Korean fantasy game commemorative banknote coupon, horizontal landscape 3:1, preferably 3000 x 1000 pixels.
+Primary request: Create an elegant, premium engraved banknote celebrating 리버스콜 4개월 기념, with the supplied official Reverse Call R icon, the six exact rewards, and the redeemable coupon code.
+Input image 1: supporting brand insert, the official existing silver-white crystalline R surrounded by a violet circular energy ring. Preserve its recognizable shape, proportions, sharp points, silver-white interior and purple ring; prominently insert it as the principal emblem on the left. Do not invent another logo.
+Style/medium: meticulously engraved fantasy commemorative currency, fine guilloche waves, intricate thin filigree border, ivory and pale lavender security paper, deep violet ink, silver foil and restrained gold details. Beautiful and substantial, crisp high-end printing. Flat straight-on banknote filling the canvas, all four edges visible with narrow margins, no perspective, no mockup table or hands.
+Composition: left third contains the large original R emblem inside an engraved circular medallion. Right two thirds contain strong readable Korean typography. Generous spacing, clear hierarchy, no clutter. Make 코인 500조 the biggest reward line. Under it, place the remaining five rewards as orderly two-column text rows. Put the large coupon code in an elegant full-width footer strip with the redemption condition directly beneath. Small decorative 4 in the corners is allowed.
+Text, verbatim, every line must be perfectly spelled and readable:
+"리버스콜"
+"4개월 기념"
+"코인 500조"
+"마스터의 별 3억 개"
+"펫 정수 100개"
+"펫 봉인구 10개"
+"무기 강화주문서 5개"
+"방어구 강화주문서 5개"
+"쿠폰 코드"
+"REVERSE4M200"
+"선착순 200명 · 계정당 1회"
+Constraints: this is a fictional in-game coupon, not real legal tender. Use exactly the specified amounts. No invented expiry date or exact launch date. Do not include a reflection, thank-you paragraph, speech, signature, QR code, real currency symbols, real bank insignia, or extra promotional claims. The reflection will be delivered separately as text. Keep the banknote horizontal and the complete reward list clearly legible.

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {forgeTicketFixture} from './helpers/admin-forge-ticket-fixture.mjs';
-import {NOVEMBER_GIFT_COUPON as gift,LUCKY_SEVEN_COUPON as lucky,CNINE_CHEER_COUPON as cheer,redeemNovemberGiftCoupon} from '../functions/_november_gift_coupon.js';
+import {NOVEMBER_GIFT_COUPON as gift,LUCKY_SEVEN_COUPON as lucky,CNINE_CHEER_COUPON as cheer,REVERSECALL_FOUR_MONTH_COUPON as fourMonth,redeemNovemberGiftCoupon} from '../functions/_november_gift_coupon.js';
 const source=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const redeemSource=source.slice(source.indexOf("    if(path==='coupon/redeem'"),source.indexOf("    if(path==='admin/daily-quests')"));
 const route=new (Object.getPrototypeOf(async()=>{}).constructor)('deps',`const {env,request,authenticate,readBody,redeemLandCoupon,json,profile,redeemNovemberGiftCoupon,isRandomDrawExcluded}=deps;const path='coupon/redeem';${redeemSource}`);
@@ -58,7 +58,62 @@ test('regular CMS limits still reject the special bundle and 3X issuance',()=>{
  const specs=source.slice(source.indexOf('const VERIFIED_MESSAGE_REWARD_TYPES='),source.indexOf('let verifiedRewardMessageV1276ReadyPromise'));
  const spec=Function(specs+';return couponRewardSpec')();
  assert.equal(spec(gift.type),null);assert.equal(spec(lucky.type),null);assert.equal(spec('RANK_EXP_POTION_3X_60M'),null);assert.equal(spec('COIN').max,1000000000000);assert.equal(spec('MASTER_STAR').max,1000000);
- assert.equal(spec(cheer.type),null);
+ assert.equal(spec(cheer.type),null);assert.equal(spec(fourMonth.type),null);
+});
+
+async function fourMonthFixture(t){
+ const f=await cheerFixture(t);
+ await f.pg.exec("INSERT INTO inventory_items(code,name,is_active) VALUES('WEAPON_ENHANCEMENT_SCROLL','무기 강화주문서',1),('ARMOR_ENHANCEMENT_SCROLL','방어구 강화주문서',1)");
+ await f.pg.query('INSERT INTO coupons(code,reward_type,reward_coin,reward_amount,max_uses) VALUES($1,$2,$3,1,200)',[fourMonth.code,fourMonth.type,String(fourMonth.coin)]);
+ return f;
+}
+
+test('four-month coupon pays all six exact rewards once and preserves large balances through lost-response replay',async t=>{
+ const f=await fourMonthFixture(t);
+ await f.pg.exec("UPDATE users SET coin=100000000000000001 WHERE id=1;INSERT INTO cnine_user_inventory VALUES(1,'MASTER_STAR',21,2,NULL,NULL),(1,'PET_ESSENCE',7,3,NULL,NULL),(1,'PET_SEAL_ORB',4,1,NULL,NULL),(1,'WEAPON_ENHANCEMENT_SCROLL',11,2,NULL,NULL),(1,'ARMOR_ENHANCEMENT_SCROLL',13,3,NULL,NULL)");
+ f.fault({ack:true});await assert.rejects(f.redeem(1,'REVERSE4M_CLAIM_1',' reverse4m200 '),/lost commit response/);
+ const r=await f.redeem(1,'REVERSE4M_CLAIM_1',fourMonth.code);assert.equal(r.status,200);const body=await r.json();
+ assert.equal(body.replayed,true);assert.equal(body.rewardLabel,'리버스콜 4개월 기념');
+ assert.deepEqual(body.rewards,[{type:'COIN',amount:500000000000000},{type:'MASTER_STAR',amount:300000000},{type:'PET_ESSENCE',amount:100},{type:'PET_SEAL_ORB',amount:10},{type:'WEAPON_ENHANCEMENT_SCROLL',amount:5},{type:'ARMOR_ENHANCEMENT_SCROLL',amount:5}]);
+ assert.equal((await f.one('SELECT coin::text FROM users WHERE id=1')).coin,'100500000000000001');
+ for(const [code,expected]of[['MASTER_STAR',300000021],['PET_ESSENCE',107],['PET_SEAL_ORB',14],['WEAPON_ENHANCEMENT_SCROLL',16],['ARMOR_ENHANCEMENT_SCROLL',18]])assert.equal(await f.quantity(code),expected);
+ assert.deepEqual((await f.pg.query('SELECT item_code,unseen_quantity::text AS unseen FROM cnine_user_inventory ORDER BY item_code')).rows,[{item_code:'ARMOR_ENHANCEMENT_SCROLL',unseen:'8'},{item_code:'MASTER_STAR',unseen:'300000002'},{item_code:'PET_ESSENCE',unseen:'103'},{item_code:'PET_SEAL_ORB',unseen:'11'},{item_code:'WEAPON_ENHANCEMENT_SCROLL',unseen:'7'}]);
+ assert.equal(await f.count('coin_logs'),1);assert.equal(await f.count('inventory_logs'),5);assert.equal(await f.count('coupon_redemptions'),1);
+ const done=await f.snapshot();assert.equal((await f.redeem(1,'REVERSE4M_DIFFERENT',fourMonth.code)).status,409);assert.deepEqual(await f.snapshot(),done);
+ for(const old of [gift,cheer])assert.equal((await f.one('SELECT used_count FROM coupons WHERE code=$1',[old.code])).used_count,0);
+});
+
+test('four-month coupon rolls back every settlement write and rejects unusable scroll rewards without partial payment',async t=>{
+ const f=await fourMonthFixture(t),before=await f.snapshot();
+ for(const pattern of ['UPDATE users SET coin','INSERT INTO coin_logs','INSERT INTO cnine_user_inventory','INSERT INTO inventory_logs','UPDATE coupons SET used_count','INSERT INTO coupon_redemptions']){
+  f.fault({pattern});await assert.rejects(f.redeem(1,'REVERSE4M_FAIL',fourMonth.code),/QA injected/);assert.deepEqual(await f.snapshot(),before);
+ }
+ for(const item of ['WEAPON_ENHANCEMENT_SCROLL','ARMOR_ENHANCEMENT_SCROLL']){
+  await f.pg.query('UPDATE inventory_items SET is_active=0 WHERE code=$1',[item]);const inactive=await f.snapshot();assert.equal((await f.redeem(1,'REVERSE4M_FAIL',fourMonth.code)).status,409);assert.deepEqual(await f.snapshot(),inactive);
+  await f.pg.query('UPDATE inventory_items SET is_active=1 WHERE code=$1',[item]);
+  for(const column of ['quantity','unseen_quantity']){
+   await f.pg.query('INSERT INTO cnine_user_inventory VALUES(1,$1,0,0,NULL,NULL)',[item]);await f.pg.exec('UPDATE cnine_user_inventory SET '+column+'=9007199254740991');const overflow=await f.snapshot();
+   assert.equal((await f.redeem(1,'REVERSE4M_FAIL',fourMonth.code)).status,409);assert.deepEqual(await f.snapshot(),overflow);await f.pg.exec('DELETE FROM cnine_user_inventory');
+  }
+ }
+});
+
+test('only one account receives the two-hundredth four-month bundle; the next gets no reward',async t=>{
+ const f=await fourMonthFixture(t);await f.pg.query('UPDATE coupons SET used_count=199 WHERE code=$1',[fourMonth.code]);
+ const pair=await Promise.all([f.redeem(1,'REVERSE4M_LAST_1',fourMonth.code),f.redeem(2,'REVERSE4M_LAST_2',fourMonth.code)]);assert.deepEqual(pair.map(r=>r.status).sort(),[200,409]);
+ const loser=pair[0].ok?2:1;for(const item of fourMonth.items)assert.equal(await f.quantity(item.code,loser),0);
+ assert.equal((await f.one('SELECT coin::text FROM users WHERE id=$1',[loser])).coin,loser===1?'1234':'200');
+ assert.equal((await f.one('SELECT used_count FROM coupons WHERE code=$1',[fourMonth.code])).used_count,200);
+ assert.equal(await f.count('coin_logs'),1);assert.equal(await f.count('inventory_logs'),5);assert.equal(await f.count('coupon_redemptions'),1);
+});
+
+test('four-month code cannot fall back to ordinary coin payout when its type, amount or limit is corrupted',async t=>{
+ const f=await fourMonthFixture(t);
+ for(const [field,value]of[['reward_type','COIN'],['reward_coin',1],['reward_amount',2],['max_uses',201]]){
+  await f.pg.query('UPDATE coupons SET '+field+'=$1 WHERE code=$2',[value,fourMonth.code]);const before=await f.snapshot();
+  assert.equal((await f.redeem(1,'REVERSE4M_BAD_CONFIG',fourMonth.code)).status,409);assert.deepEqual(await f.snapshot(),before);
+  await f.pg.query('UPDATE coupons SET reward_type=$1,reward_coin=$2,reward_amount=1,max_uses=200 WHERE code=$3',[fourMonth.type,String(fourMonth.coin),fourMonth.code]);
+ }
 });
 
 async function cheerFixture(t){

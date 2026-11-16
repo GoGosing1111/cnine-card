@@ -36,7 +36,18 @@ export const CNINE_CHEER_COUPON=Object.freeze({
   Object.freeze({code:'PET_SEAL_ORB',name:'펫 봉인구',amount:10})
  ])
 });
-const gifts=new Map([NOVEMBER_GIFT_COUPON,LUCKY_SEVEN_COUPON,SUWON_K1_COUPON,BONGSOON_ICON_COUPON,CNINE_CHEER_COUPON].map(gift=>[gift.code,gift]));
+export const REVERSECALL_FOUR_MONTH_COUPON=Object.freeze({
+ code:'REVERSE4M200',type:'NOVEMBER_GIFT_REVERSECALL_FOUR_MONTH_20261116',maxUses:200,coin:500_000_000_000_000,
+ label:'리버스콜 4개월 기념',message:'코인 500조, 마스터의 별 3억 개, 펫 정수 100개, 펫 봉인구 10개, 무기 강화주문서 5개, 방어구 강화주문서 5개를 받았습니다.',
+ items:Object.freeze([
+  Object.freeze({code:'MASTER_STAR',name:'마스터의 별',amount:300_000_000}),
+  Object.freeze({code:'PET_ESSENCE',name:'펫 정수',amount:100}),
+  Object.freeze({code:'PET_SEAL_ORB',name:'펫 봉인구',amount:10}),
+  Object.freeze({code:'WEAPON_ENHANCEMENT_SCROLL',name:'무기 강화주문서',amount:5}),
+  Object.freeze({code:'ARMOR_ENHANCEMENT_SCROLL',name:'방어구 강화주문서',amount:5})
+ ])
+});
+const gifts=new Map([NOVEMBER_GIFT_COUPON,LUCKY_SEVEN_COUPON,SUWON_K1_COUPON,BONGSOON_ICON_COUPON,CNINE_CHEER_COUPON,REVERSECALL_FOUR_MONTH_COUPON].map(gift=>[gift.code,gift]));
 class GiftCouponError extends Error{constructor(message,status=409){super(message);this.status=status;}}
 const fail=(message,status)=>{throw new GiftCouponError(message,status);};
 const changed=(rows,message)=>{if(rows.length!==1)fail(message);return rows[0];};
