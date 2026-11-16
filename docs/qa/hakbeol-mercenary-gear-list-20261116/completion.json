@@ -1,0 +1,853 @@
+{
+  "status": "COMPLETED",
+  "at": "2026-11-16T10:09:24.518Z",
+  "account": {
+    "id": 4627,
+    "nickname": "학벌"
+  },
+  "finding": {
+    "item": {
+      "instanceId": "3373751824",
+      "code": "HUNT_THEATRE_SHOES",
+      "name": "마리오네트 신발",
+      "level": 0
+    },
+    "beforePage": 5,
+    "pageSize": 40,
+    "loss": false,
+    "reason": "All gear was ordered by enhanced power; new +0 mercenary shoes appeared after four pages of higher-power general equipment."
+  },
+  "change": "Server-side mercenary catalog filter before indexed pagination, exposed as 용병 장비 in the existing forge. Power ordering and all existing type filters remain.",
+  "delivery": {
+    "runtimeMercenaryFilterVerified": true,
+    "h5ForgeVerified": true,
+    "verifiedAt": "2026-11-16T10:08:02.682Z",
+    "commit": "5cf57fc852a6c5802bba248dc21e9761669dc75c",
+    "pages": {
+      "id": "ed9b4185-c1d5-4541-8600-5fb44dc29976",
+      "url": "https://ed9b4185.cnine-card.pages.dev"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "id": "f444dfa9-4c47-453b-8b86-f68cf2ef16d5",
+        "trafficPercent": 100
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "id": "afb16173-e99f-487f-9857-39012b13ba8c",
+        "trafficPercent": 100
+      }
+    ],
+    "files": [
+      {
+        "file": "index.html",
+        "bytes": 52782,
+        "sha256": "9d5e78fc468571503130d7144b536a2e6bc9757f179f3605f032a22f3a69766f",
+        "windows": true
+      },
+      {
+        "file": "onestore/index.html",
+        "bytes": 52882,
+        "sha256": "5cbe522ba923dbdb093a8286101f0e6fba9c5a1ac7592c607644612679df6d8e",
+        "windows": false
+      },
+      {
+        "file": "equipment-forge/index.html",
+        "bytes": 14665,
+        "sha256": "90e6457557a106eb503c94fb7f39666171d4f5ff9ec4772d5ecf1c20aace2368",
+        "windows": true
+      },
+      {
+        "file": "equipment-forge/live.css",
+        "bytes": 9783,
+        "sha256": "0a3b7349c9d1aa2fd06239f970195fb280ffcd6a191a3191fa23dbbb27d995bf",
+        "windows": true
+      },
+      {
+        "file": "service-worker.js",
+        "bytes": 26319,
+        "sha256": "65a8cc41b5907fd8b1a33b60baa35e4f644c176bc240402039e216cec677d378",
+        "windows": false
+      }
+    ],
+    "windows": {
+      "releaseId": "ecccb3c7c88b55a4dfda92b74638b6bcd5027d6ff5016ad9817b6910643cb182",
+      "changed": [
+        "/equipment-forge/index.html",
+        "/equipment-forge/live.css",
+        "/index.html"
+      ],
+      "removed": []
+    },
+    "scopedTests": 22,
+    "assetCount": 20000
+  },
+  "verification": {
+    "unitChecks": 22,
+    "liveReadOnly": {
+      "at": "2026-11-16T10:07:20.438Z",
+      "owned": 10,
+      "filtered": 10,
+      "nextCursor": null,
+      "allGearSameAsBefore": true,
+      "items": [
+        {
+          "instanceId": "3022513739",
+          "code": "MERC_ASC_09_WEAPON",
+          "name": "천룡태황 무기",
+          "level": 13,
+          "equipped": true,
+          "mercenaryModes": [
+            "PVE",
+            "PVP"
+          ]
+        },
+        {
+          "instanceId": "3144328059",
+          "code": "MERC_ASC_06_TOP",
+          "name": "성휘대천사 상의",
+          "level": 10,
+          "equipped": true,
+          "mercenaryModes": [
+            "PVE",
+            "PVP"
+          ]
+        },
+        {
+          "instanceId": "3061608144",
+          "code": "MERC_ASC_03_TOP",
+          "name": "청룡천위 상의",
+          "level": 10,
+          "equipped": true,
+          "mercenaryModes": [
+            "PVE",
+            "PVP"
+          ]
+        },
+        {
+          "instanceId": "3051167191",
+          "code": "MERC_ASC_01_TOP",
+          "name": "월백검성 상의",
+          "level": 10,
+          "equipped": true,
+          "mercenaryModes": [
+            "PVE",
+            "PVP"
+          ]
+        },
+        {
+          "instanceId": "2997088574",
+          "code": "MERC_ASC_02_ACCESSORY",
+          "name": "성홍기사 장신구",
+          "level": 10,
+          "equipped": true,
+          "mercenaryModes": [
+            "PVE",
+            "PVP"
+          ]
+        },
+        {
+          "instanceId": "3360701480",
+          "code": "HUNT_COAST_WEAPON",
+          "name": "난파왕 무기",
+          "level": 10,
+          "equipped": true,
+          "mercenaryModes": [
+            "PVE",
+            "PVP"
+          ]
+        },
+        {
+          "instanceId": "3356549802",
+          "code": "HUNT_THEATRE_WEAPON",
+          "name": "마리오네트 무기",
+          "level": 10,
+          "equipped": true,
+          "mercenaryModes": [
+            "PVE",
+            "PVP"
+          ]
+        },
+        {
+          "instanceId": "3050756786",
+          "code": "MERC_ASC_02_SHOES",
+          "name": "성홍기사 신발",
+          "level": 10,
+          "equipped": true,
+          "mercenaryModes": [
+            "PVE",
+            "PVP"
+          ]
+        },
+        {
+          "instanceId": "3170820054",
+          "code": "MERC_ASC_01_SHOES",
+          "name": "월백검성 신발",
+          "level": 10,
+          "equipped": true,
+          "mercenaryModes": [
+            "PVE",
+            "PVP"
+          ]
+        },
+        {
+          "instanceId": "3373751824",
+          "code": "HUNT_THEATRE_SHOES",
+          "name": "마리오네트 신발",
+          "level": 0,
+          "equipped": true,
+          "mercenaryModes": [
+            "PVE",
+            "PVP"
+          ]
+        }
+      ]
+    },
+    "publicBrowsers": {
+      "desktop": {
+        "coldLaunchMs": 997,
+        "first": {
+          "navigation": 872,
+          "input": 879
+        },
+        "findTarget": {
+          "ms": 556,
+          "stateRequests": 1
+        },
+        "reentry": {
+          "navigation": 593,
+          "input": 597
+        },
+        "frames": {
+          "count": 184,
+          "p95Ms": 14.7,
+          "maxMs": 162,
+          "over50": 2
+        },
+        "afterExit": {
+          "forgeRequests": 0,
+          "forgeCanvases": 0
+        },
+        "diagnostics": [],
+        "firstResources": [
+          {
+            "url": "https://cnine-card.pages.dev/assets/items/pig-coin-v1.png",
+            "durationMs": 239,
+            "startMs": 449,
+            "transferSize": 2750372
+          },
+          {
+            "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap",
+            "durationMs": 227,
+            "startMs": 53,
+            "transferSize": 139711
+          },
+          {
+            "url": "https://cnine-card.pages.dev/preview/equipment-forge-v1/assets/upgrade-lab-v2.png",
+            "durationMs": 172,
+            "startMs": 354,
+            "transferSize": 2016269
+          },
+          {
+            "url": "https://cnine-card.pages.dev/api/character/equipment/forge/state?group=all",
+            "durationMs": 128,
+            "startMs": 654,
+            "transferSize": 21511
+          },
+          {
+            "url": "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css",
+            "durationMs": 119,
+            "startMs": 420,
+            "transferSize": 13090
+          },
+          {
+            "url": "https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Barlow+Condensed:wght@500;600;700;800&display=swap",
+            "durationMs": 117,
+            "startMs": 420,
+            "transferSize": 13000
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/adventure-lobby-v2107.js?lobby=20261029-font-v5&favorites=20261013-v1&jokgakCity=20261010-city4&v=2108-shared-navigation&goldenAxe=20260918&coup=2115&loot=20260915&mercenary=2133&workshop=20260922&chuseok=20260923&menu=20260925-2&mine=20261003&petCodex=20261009&tacticalNav=20261030-shell1&growthGuide=20261030-1",
+            "durationMs": 91,
+            "startMs": 54,
+            "transferSize": 853662
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/supporter-screen-guard-v1.mjs?v=20261011-guard1",
+            "durationMs": 84,
+            "startMs": 497,
+            "transferSize": 2338
+          },
+          {
+            "url": "https://cnine-card.pages.dev/assets/ui/tactical-20261030/panel-flat.webp",
+            "durationMs": 71,
+            "startMs": 431,
+            "transferSize": 40684
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/ui-fx-vendor-v2045.bundle.js?v=2045",
+            "durationMs": 69,
+            "startMs": 54,
+            "transferSize": 202314
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/server-support-v1.mjs?v=20261116-package-cubes-v1",
+            "durationMs": 65,
+            "startMs": 428,
+            "transferSize": 8287
+          },
+          {
+            "url": "https://cnine-card.pages.dev/assets/items/guaranteed-enhancement-scroll-v1.webp",
+            "durationMs": 49,
+            "startMs": 54,
+            "transferSize": 93890
+          },
+          {
+            "url": "https://cnine-card.pages.dev/admin/equipment-forge-advanced-v1.css?v=20261012-scrolls",
+            "durationMs": 48,
+            "startMs": 54,
+            "transferSize": 1689
+          },
+          {
+            "url": "https://cnine-card.pages.dev/assets/ui/brand/reverse-call-20261016/logo-240.webp?v=20261018-transparent",
+            "durationMs": 48,
+            "startMs": 54,
+            "transferSize": 37280
+          },
+          {
+            "url": "https://cnine-card.pages.dev/equipment-forge/app.mjs?v=20261107-guarantee",
+            "durationMs": 48,
+            "startMs": 54,
+            "transferSize": 11244
+          }
+        ]
+      },
+      "android": {
+        "coldLaunchMs": 1164,
+        "first": {
+          "navigation": 845,
+          "input": 850
+        },
+        "findTarget": {
+          "ms": 541,
+          "stateRequests": 1
+        },
+        "reentry": {
+          "navigation": 626,
+          "input": 632
+        },
+        "frames": {
+          "count": 213,
+          "p95Ms": 7.1,
+          "maxMs": 148.2,
+          "over50": 1
+        },
+        "afterExit": {
+          "forgeRequests": 0,
+          "forgeCanvases": 0
+        },
+        "diagnostics": [],
+        "firstResources": [
+          {
+            "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap",
+            "durationMs": 196,
+            "startMs": 57,
+            "transferSize": 139711
+          },
+          {
+            "url": "https://cnine-card.pages.dev/preview/equipment-forge-v1/assets/upgrade-lab-v2.png",
+            "durationMs": 147,
+            "startMs": 263,
+            "transferSize": 2016269
+          },
+          {
+            "url": "https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Barlow+Condensed:wght@500;600;700;800&display=swap",
+            "durationMs": 130,
+            "startMs": 522,
+            "transferSize": 13000
+          },
+          {
+            "url": "https://cnine-card.pages.dev/assets/items/pig-coin-v1.png",
+            "durationMs": 120,
+            "startMs": 554,
+            "transferSize": 2750372
+          },
+          {
+            "url": "https://cnine-card.pages.dev/api/character/equipment/forge/state?group=all",
+            "durationMs": 116,
+            "startMs": 640,
+            "transferSize": 21511
+          },
+          {
+            "url": "https://cnine-card.pages.dev/assets/ui/brand/reverse-call-20261016/logo-240.webp?v=20261018-transparent",
+            "durationMs": 68,
+            "startMs": 57,
+            "transferSize": 37280
+          },
+          {
+            "url": "https://cnine-card.pages.dev/equipment-forge/app.mjs?v=20261107-guarantee",
+            "durationMs": 67,
+            "startMs": 57,
+            "transferSize": 11178
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/adventure-lobby-v2107.js?lobby=20261029-font-v5&favorites=20261013-v1&jokgakCity=20261010-city4&v=2108-shared-navigation&goldenAxe=20260918&coup=2115&loot=20260915&mercenary=2133&workshop=20260922&chuseok=20260923&menu=20260925-2&mine=20261003&petCodex=20261009&tacticalNav=20261030-shell1&growthGuide=20261030-1",
+            "durationMs": 66,
+            "startMs": 57,
+            "transferSize": 853662
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/ui-fx-vendor-v2045.bundle.js?v=2045",
+            "durationMs": 63,
+            "startMs": 57,
+            "transferSize": 202314
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/server-support-v1.mjs?v=20261116-package-cubes-v1",
+            "durationMs": 61,
+            "startMs": 530,
+            "transferSize": 8287
+          },
+          {
+            "url": "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css",
+            "durationMs": 59,
+            "startMs": 522,
+            "transferSize": 13090
+          },
+          {
+            "url": "https://cnine-card.pages.dev/assets/ui/tactical-20261030/panel-flat.webp",
+            "durationMs": 55,
+            "startMs": 534,
+            "transferSize": 40684
+          },
+          {
+            "url": "https://cnine-card.pages.dev/preview/equipment-polish-premium-v1/assets/polishing-stone-v1.png",
+            "durationMs": 54,
+            "startMs": 789,
+            "transferSize": 1420030
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/supporter-season-pass-v1.mjs?v=20261114-month2-purchase",
+            "durationMs": 49,
+            "startMs": 593,
+            "transferSize": 5844
+          },
+          {
+            "url": "https://cnine-card.pages.dev/assets/items/guaranteed-enhancement-scroll-v1.webp",
+            "durationMs": 44,
+            "startMs": 57,
+            "transferSize": 93890
+          }
+        ]
+      },
+      "ios": {
+        "coldLaunchMs": 1130,
+        "first": {
+          "navigation": 1280,
+          "input": 1302
+        },
+        "findTarget": {
+          "ms": 989,
+          "stateRequests": 1
+        },
+        "reentry": {
+          "navigation": 876,
+          "input": 886
+        },
+        "frames": {
+          "count": 70,
+          "p95Ms": 65,
+          "maxMs": 153,
+          "over50": 4
+        },
+        "afterExit": {
+          "forgeRequests": 0,
+          "forgeCanvases": 0
+        },
+        "diagnostics": [
+          "ResizeObserver loop completed with undelivered notifications.",
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "firstResources": [
+          {
+            "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap",
+            "durationMs": 158,
+            "startMs": 55,
+            "transferSize": 0
+          },
+          {
+            "url": "https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Barlow+Condensed:wght@500;600;700;800&display=swap",
+            "durationMs": 118,
+            "startMs": 349,
+            "transferSize": 0
+          },
+          {
+            "url": "https://cnine-card.pages.dev/assets/items/pig-coin-v1.png",
+            "durationMs": 94,
+            "startMs": 383,
+            "transferSize": 2750372
+          },
+          {
+            "url": "https://cnine-card.pages.dev/api/character/equipment/forge/state?group=all",
+            "durationMs": 93,
+            "startMs": 932,
+            "transferSize": 0
+          },
+          {
+            "url": "https://cnine-card.pages.dev/api/sync/ticket",
+            "durationMs": 77,
+            "startMs": 1189,
+            "transferSize": 0
+          },
+          {
+            "url": "https://cnine-card.pages.dev/preview/equipment-forge-v1/assets/upgrade-lab-v2.png",
+            "durationMs": 71,
+            "startMs": 478,
+            "transferSize": 2016269
+          },
+          {
+            "url": "https://cnine-card.pages.dev/shared/equipment-forge-resources-v1.mjs?v=20261107-guarantee",
+            "durationMs": 68,
+            "startMs": 399,
+            "transferSize": 930
+          },
+          {
+            "url": "https://cnine-card.pages.dev/shared/equipment-forge-policy-v1.mjs?v=20261012-scrolls",
+            "durationMs": 67,
+            "startMs": 399,
+            "transferSize": 2798
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/joint-account-transport.mjs",
+            "durationMs": 66,
+            "startMs": 400,
+            "transferSize": 1736
+          },
+          {
+            "url": "https://cnine-card.pages.dev/equipment-forge/requests.mjs?v=20261107-guarantee",
+            "durationMs": 62,
+            "startMs": 399,
+            "transferSize": 2618
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/adventure-lobby-v2107.js?lobby=20261029-font-v5&favorites=20261013-v1&jokgakCity=20261010-city4&v=2108-shared-navigation&goldenAxe=20260918&coup=2115&loot=20260915&mercenary=2133&workshop=20260922&chuseok=20260923&menu=20260925-2&mine=20261003&petCodex=20261009&tacticalNav=20261030-shell1&growthGuide=20261030-1",
+            "durationMs": 58,
+            "startMs": 55,
+            "transferSize": 853662
+          },
+          {
+            "url": "https://cnine-card.pages.dev/preview/equipment-forge-v1/source/fx.mjs",
+            "durationMs": 58,
+            "startMs": 399,
+            "transferSize": 7233
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/support-package-alerts-v1.mjs?v=20261116-package-cubes-v1",
+            "durationMs": 57,
+            "startMs": 416,
+            "transferSize": 2775
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/supporter-application-v1.mjs?v=20261108-pass-purchases",
+            "durationMs": 56,
+            "startMs": 416,
+            "transferSize": 3421
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/support-package-v1.mjs?v=20261116-package-cubes-v1",
+            "durationMs": 56,
+            "startMs": 416,
+            "transferSize": 4638
+          }
+        ]
+      },
+      "windows": {
+        "coldLaunchMs": 871,
+        "first": {
+          "navigation": 665,
+          "input": 679
+        },
+        "findTarget": {
+          "ms": 502,
+          "stateRequests": 1
+        },
+        "reentry": {
+          "navigation": 357,
+          "input": 362
+        },
+        "frames": {
+          "count": 65,
+          "p95Ms": 24.1,
+          "maxMs": 44,
+          "over50": 0
+        },
+        "afterExit": {
+          "forgeRequests": 0,
+          "forgeCanvases": 0
+        },
+        "diagnostics": [],
+        "firstResources": [
+          {
+            "url": "https://cnine-card.pages.dev/preview/equipment-forge-v1/assets/upgrade-lab-v2.png",
+            "durationMs": 188,
+            "startMs": 92,
+            "transferSize": 2016269
+          },
+          {
+            "url": "https://cnine-card.pages.dev/assets/items/pig-coin-v1.png",
+            "durationMs": 146,
+            "startMs": 392,
+            "transferSize": 2750372
+          },
+          {
+            "url": "https://cnine-card.pages.dev/api/character/equipment/forge/state?group=all",
+            "durationMs": 125,
+            "startMs": 496,
+            "transferSize": 21511
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/adventure-lobby-v2107.js?lobby=20261029-font-v5&favorites=20261013-v1&jokgakCity=20261010-city4&v=2108-shared-navigation&goldenAxe=20260918&coup=2115&loot=20260915&mercenary=2133&workshop=20260922&chuseok=20260923&menu=20260925-2&mine=20261003&petCodex=20261009&tacticalNav=20261030-shell1&growthGuide=20261030-1",
+            "durationMs": 118,
+            "startMs": 43,
+            "transferSize": 853710
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/ui-fx-vendor-v2045.bundle.js?v=2045",
+            "durationMs": 100,
+            "startMs": 44,
+            "transferSize": 202402
+          },
+          {
+            "url": "https://cnine-card.pages.dev/assets/items/guaranteed-enhancement-scroll-v1.webp",
+            "durationMs": 64,
+            "startMs": 43,
+            "transferSize": 93890
+          },
+          {
+            "url": "https://cnine-card.pages.dev/preview/equipment-polish-premium-v1/assets/polishing-stone-v1.png",
+            "durationMs": 64,
+            "startMs": 546,
+            "transferSize": 1420030
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/soopketmon-v21-exact-shell-adapter.js?jokgakCity=20261010-city4&v=2108-shared-navigation&goldenAxe=20260918&coup=2115&loot=20260915&workshop=20260922&chuseok=20260923&mine=20261003&petCodex=20261009",
+            "durationMs": 61,
+            "startMs": 43,
+            "transferSize": 17516
+          },
+          {
+            "url": "https://cnine-card.pages.dev/assets/ui/brand/reverse-call-20261016/logo-240.webp?v=20261018-transparent",
+            "durationMs": 60,
+            "startMs": 43,
+            "transferSize": 37280
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/adventure-navigation-standalone.js?jokgakCity=20261010-city4&v=2108-shared-navigation&goldenAxe=20260918&chuseok=20260923",
+            "durationMs": 59,
+            "startMs": 43,
+            "transferSize": 1327
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/server-support-v1.mjs?v=20261116-package-cubes-v1",
+            "durationMs": 51,
+            "startMs": 379,
+            "transferSize": 8287
+          },
+          {
+            "url": "https://cnine-card.pages.dev/assets/ui/chief/queen-crown-v1.svg",
+            "durationMs": 51,
+            "startMs": 397,
+            "transferSize": 921
+          },
+          {
+            "url": "https://cnine-card.pages.dev/assets/ui/tactical-20261030/panel-flat.webp",
+            "durationMs": 45,
+            "startMs": 382,
+            "transferSize": 40684
+          },
+          {
+            "url": "https://cnine-card.pages.dev/assets/ui/season-s1-immortal-king/v3/lobby-entry-v1.webp",
+            "durationMs": 44,
+            "startMs": 407,
+            "transferSize": 36706
+          },
+          {
+            "url": "https://cnine-card.pages.dev/shared/equipment-mercenary-power-v1.mjs",
+            "durationMs": 43,
+            "startMs": 410,
+            "transferSize": 947
+          }
+        ]
+      },
+      "h5": {
+        "coldLaunchMs": 1138,
+        "first": {
+          "navigation": 943,
+          "input": 949
+        },
+        "findTarget": {
+          "ms": 582,
+          "stateRequests": 1
+        },
+        "reentry": {
+          "navigation": 607,
+          "input": 611
+        },
+        "frames": {
+          "count": 207,
+          "p95Ms": 7.4,
+          "maxMs": 147.4,
+          "over50": 2
+        },
+        "afterExit": {
+          "forgeRequests": 0,
+          "forgeCanvases": 0
+        },
+        "diagnostics": [],
+        "firstResources": [
+          {
+            "url": "https://cnine-card.pages.dev/preview/equipment-forge-v1/assets/upgrade-lab-v2.png",
+            "durationMs": 210,
+            "startMs": 291,
+            "transferSize": 2016269
+          },
+          {
+            "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap",
+            "durationMs": 193,
+            "startMs": 61,
+            "transferSize": 139711
+          },
+          {
+            "url": "https://cnine-card.pages.dev/assets/items/pig-coin-v1.png",
+            "durationMs": 192,
+            "startMs": 365,
+            "transferSize": 2750372
+          },
+          {
+            "url": "https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Barlow+Condensed:wght@500;600;700;800&display=swap",
+            "durationMs": 191,
+            "startMs": 270,
+            "transferSize": 13000
+          },
+          {
+            "url": "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css",
+            "durationMs": 131,
+            "startMs": 270,
+            "transferSize": 13090
+          },
+          {
+            "url": "https://cnine-card.pages.dev/api/character/equipment/forge/state?group=all",
+            "durationMs": 128,
+            "startMs": 716,
+            "transferSize": 21511
+          },
+          {
+            "url": "https://cnine-card.pages.dev/assets/ui/tactical-20261030/panel-flat.webp",
+            "durationMs": 107,
+            "startMs": 292,
+            "transferSize": 40684
+          },
+          {
+            "url": "https://cnine-card.pages.dev/onestore/js/adventure-lobby-v2107.js?lobby=20261029-font-v5&favorites=20261013-v1&jokgakCity=20261010-city4&v=2108-shared-navigation&goldenAxe=20260918&coup=2115&loot=20260915&mercenary=2133&workshop=20260922&chuseok=20260923&menu=20260925-2&mine=20261003&petCodex=20261009&tacticalNav=20261030-shell1&growthGuide=20261030-1",
+            "durationMs": 102,
+            "startMs": 61,
+            "transferSize": 853306
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/ui-fx-vendor-v2045.bundle.js?v=2045",
+            "durationMs": 83,
+            "startMs": 61,
+            "transferSize": 202371
+          },
+          {
+            "url": "https://cnine-card.pages.dev/onestore/js/adventure-navigation-standalone.js?jokgakCity=20261010-city4&v=2108-shared-navigation&goldenAxe=20260918&chuseok=20260923",
+            "durationMs": 65,
+            "startMs": 61,
+            "transferSize": 1366
+          },
+          {
+            "url": "https://cnine-card.pages.dev/onestore/js/soopketmon-v21-exact-shell-adapter.js?jokgakCity=20261010-city4&v=2108-shared-navigation&goldenAxe=20260918&coup=2115&loot=20260915&workshop=20260922&chuseok=20260923&mine=20261003&petCodex=20261009",
+            "durationMs": 64,
+            "startMs": 61,
+            "transferSize": 17618
+          },
+          {
+            "url": "https://cnine-card.pages.dev/assets/ui/brand/reverse-call-20261016/logo-240.webp?v=20261018-transparent",
+            "durationMs": 61,
+            "startMs": 61,
+            "transferSize": 37280
+          },
+          {
+            "url": "https://cnine-card.pages.dev/assets/items/guaranteed-enhancement-scroll-v1.webp",
+            "durationMs": 59,
+            "startMs": 61,
+            "transferSize": 93890
+          },
+          {
+            "url": "https://cnine-card.pages.dev/preview/equipment-polish-premium-v1/assets/polishing-stone-v1.png",
+            "durationMs": 59,
+            "startMs": 779,
+            "transferSize": 1420030
+          },
+          {
+            "url": "https://cnine-card.pages.dev/assets/ui/chief/queen-crown-v1.svg",
+            "durationMs": 50,
+            "startMs": 369,
+            "transferSize": 921
+          }
+        ]
+      }
+    },
+    "controls": {
+      "accountMutations": 0,
+      "enhancementAttempts": 0,
+      "currencySpend": 0,
+      "grants": 0,
+      "messages": 0
+    }
+  },
+  "performance": {
+    "conditions": "Windows Node CLI to live PostgreSQL, network included, single first/repeat samples. Browser: Windows host, fixed 80ms isolated API snapshot, real entry routes/assets, headless Chrome and WebKit emulation; Windows Electron test renderer and simulated ONE store iframe. No physical phones or native mobile app measurements.",
+    "firstAndRepeatLiveMercenaryState": [
+      {
+        "label": "forge mercenary first page",
+        "ms": 1113,
+        "queries": 14
+      },
+      {
+        "label": "forge mercenary repeat",
+        "ms": 1114,
+        "queries": 14
+      }
+    ],
+    "targetPages": {
+      "before": 5,
+      "filtered": 1
+    },
+    "additionalUIStateRequests": {
+      "before": 4,
+      "after": 1
+    },
+    "note": "Server filters before the bounded indexed page; no whole-account inventory sort or frontend-only filtering. Browser resource loading varies by external network and emulation; long frames and existing WebKit warnings remain recorded. These are not physical-phone or universal latency claims."
+  },
+  "releaseNotes": {
+    "firstAttempt": "Stopped before deploy because the new service worker cache tag did not match the app entry tag. Corrected both canonical and H5 app entry cache versions; second scoped gate passed.",
+    "h5Entry": {
+      "method": "One exact app release-tag replacement in the current approved H5 entry. Preserve SDK and all variants.",
+      "replacements": 1,
+      "outputSha256": "1e1fdcbc86dd41d480e74bc085f770f11dc3f8668669ccc2f09e0e110ce8ef74",
+      "sourceIndexSha256": "c0d92912099d2aaa408a5cf79d3d0cae92c8d807b02e06c65872978569317a62",
+      "existingGeneratorIssue": "Same issue recorded by cnine-roster-kkukka-remove-20261116: support navigation expects 20261115-package-refresh-v3 but the current source uses 20261116-package-cubes-v1."
+    },
+    "legacyGenerator": "The public forge generator predates the current +15/protection/guaranteed-scroll markup. Updated its filter template but preserved the reviewed live page with exact edits instead of rebuilding stale markup."
+  },
+  "evidence": {
+    "validation": "validation.json",
+    "images": [
+      "forge-desktop-live.png",
+      "forge-mobile-live.png"
+    ],
+    "localOperations": "operations/hakbeol-mercenary-gear-list-20261116"
+  }
+}
