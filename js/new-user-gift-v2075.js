@@ -1,8 +1,9 @@
 (() => {
   const escape = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+  const coinLabel=value=>Number(value)>=1000000000000&&Number(value)%1000000000000===0?Number(value/1000000000000).toLocaleString('ko-KR')+'조':Number(value/100000000).toLocaleString('ko-KR')+'억';
   function rewardsHtml(rewards) {
     if (!rewards) return '';
-    const cards = rewards.cards || [], magic = rewards.magic || [], equipment = rewards.equipment || [];
+    const cards = rewards.cards || [], icons=rewards.icons||[], magic = rewards.magic || [], equipment = rewards.equipment || [];
     const cardRows = [['SUPERSTAR', '슈퍼스타'], ['FUR', 'FUR'], ['ZENITH', '제니스']].map(([grade, label]) => {
       const group = cards.filter(c => c.grade === grade);
       const levels = [...new Set(group.map(c=>c.level ?? rewards.cardLevels?.[grade] ?? rewards.cardLevel))].sort((a,b)=>b-a);
@@ -14,7 +15,8 @@
     }).join('');
     const equipmentLabel = (rewards.version === 1 ? '프라임 방어구 4종 + M200' : '미스틱 장비 4종 + 소버린 SKS') + (equipment.some(e=>e.code==='BATTLE_SUIT_03') ? ' + G바디' : '');
     const list = (title, values) => `<details><summary>${escape(title)}</summary><div class="new-gift-list">${values.map(escape).join('<br>')}</div></details>`;
-    return `<div class="new-gift-rewards"><div><span>코인</span><b>${escape(Number(rewards.coin / 100000000).toLocaleString('ko-KR'))}억</b></div>${cardRows}<div><span>${equipmentLabel}</span><b>각 1개</b></div><div><span>마법카드 전체 ${magic.length}종</span><b>각 1장 · +${escape(rewards.magicLevel)}</b></div></div>${list('카드 목록 확인', cards.map(c => `[${c.grade}] ${c.title} +${c.level ?? rewards.cardLevel}`))}${list('장비·마법카드 목록 확인', [...equipment.map(e => e.name), ...magic.map(m => `${m.name} +${rewards.magicLevel}`)])}`;
+    const iconRow=icons.length?`<div><span>아이콘 1단계 ${icons.length}종</span><b>각 1장 · +0</b></div>`:'';
+    return `<div class="new-gift-rewards"><div><span>코인</span><b>${escape(coinLabel(rewards.coin))}</b></div>${cardRows}${iconRow}<div><span>${equipmentLabel}</span><b>각 1개</b></div><div><span>마법카드 전체 ${magic.length}종</span><b>각 1장 · +${escape(rewards.magicLevel)}</b></div></div>${list('카드 목록 확인', [...cards,...icons].map(c => `[${c.grade}] ${c.title} +${c.level ?? rewards.cardLevel}`))}${list('장비·마법카드 목록 확인', [...equipment.map(e => e.name), ...magic.map(m => `${m.name} +${rewards.magicLevel}`)])}`;
   }
   let opening = false;
   async function open(deps) {
@@ -31,7 +33,7 @@
     try {
       const status = await apiRequest('new-user-gift', {}, { ttl: 0 });
       if (!panel.isConnected) return;
-      panel.innerHTML = `<button type="button" class="icon-close" aria-label="닫기">×</button><p class="new-gift-kicker">ONCE PER VERIFIED ACCOUNT</p><h2>신규유저 기프트 박스</h2><div class="new-gift-hero"><img src="assets/ui/packs/supply-high.jpeg" alt="기프트 박스"><div><strong>${status.rewards?escape(Number(status.rewards.coin/100000000).toLocaleString('ko-KR'))+'억 코인':'보상 구성 확인'}</strong><p>성장을 위한 확정 보상</p></div></div>${rewardsHtml(status.rewards)}<small>더 높은 기존 강화는 유지합니다. 기존 덱·장착 장비는 변경하지 않습니다.<br>지급 당시 2차 인증 계정을 유지해야 개봉할 수 있습니다.</small><p class="new-gift-error" role="status">${status.canOpen ? '' : escape(status.receipt?.status === 'OPENED' ? '이미 개봉한 박스입니다.' : status.pendingMessageId ? '메시지함에서 기프트 박스를 먼저 수령해 주세요.' : '정상 지급 박스와 지급 당시의 2차 인증이 필요합니다.')}</p><button type="button" class="new-gift-primary" ${status.canOpen ? '' : 'disabled'}>박스 개봉 · 보상 전체 받기</button>`;
+      panel.innerHTML = `<button type="button" class="icon-close" aria-label="닫기">×</button><p class="new-gift-kicker">ONCE PER VERIFIED ACCOUNT</p><h2>신규유저 기프트 박스</h2><div class="new-gift-hero"><img src="assets/ui/packs/supply-high.jpeg" alt="기프트 박스"><div><strong>${status.rewards?escape(coinLabel(status.rewards.coin))+' 코인':'보상 구성 확인'}</strong><p>성장을 위한 확정 보상</p></div></div>${rewardsHtml(status.rewards)}<small>더 높은 기존 강화는 유지합니다. 기존 덱·장착 장비는 변경하지 않습니다.<br>지급 당시 2차 인증 계정을 유지해야 개봉할 수 있습니다.</small><p class="new-gift-error" role="status">${status.canOpen ? '' : escape(status.receipt?.status === 'OPENED' ? '이미 개봉한 박스입니다.' : status.pendingMessageId ? '메시지함에서 기프트 박스를 먼저 수령해 주세요.' : '정상 지급 박스와 지급 당시의 2차 인증이 필요합니다.')}</p><button type="button" class="new-gift-primary" ${status.canOpen ? '' : 'disabled'}>박스 개봉 · 보상 전체 받기</button>`;
       panel.querySelector('.icon-close').onclick = close;
       const button = panel.querySelector('.new-gift-primary'), message = panel.querySelector('.new-gift-error');
       button.onclick = async () => {
