@@ -1,0 +1,54 @@
+{
+  "status": "COMMITTED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:eumsuni:master-star5b:20261117:v1",
+    "authorization": "음순이 계정에 마별 50억 넣어줘",
+    "planHash": "47a31494d4277394a03a53ebe5368d8073fa20ee0dff96dda2452c49f0973a16",
+    "userId": "65",
+    "nickname": "음순이",
+    "code": "MASTER_STAR",
+    "name": "마스터의 별",
+    "quantity": 5000000000,
+    "before": "580141",
+    "after": "5000580141",
+    "unseenAfter": "5000580141",
+    "unseenBefore": "580141",
+    "logId": "89890714",
+    "completedAt": "2026-11-16T17:04:50.192Z",
+    "protectedBeforeHash": "00a182eebc510ba1e1f6919389290d0bcf723e119808c626c2e6bc7ec27a6234",
+    "protectedAfterHash": "00a182eebc510ba1e1f6919389290d0bcf723e119808c626c2e6bc7ec27a6234",
+    "syncBefore": {
+      "domains": {
+        "pvp": "268909",
+        "wallet": "270076",
+        "loadout": "269108",
+        "messages": "269007",
+        "inventory": "270077",
+        "collection": "269073"
+      },
+      "revision": "270077"
+    },
+    "syncAfter": {
+      "domains": {
+        "pvp": "268909",
+        "wallet": "270076",
+        "loadout": "269108",
+        "messages": "269007",
+        "inventory": "270078",
+        "collection": "269073"
+      },
+      "revision": "270078"
+    },
+    "automaticallyUsed": false,
+    "messagesSent": 0,
+    "auditId": "62366"
+  },
+  "rollbackVerified": true,
+  "injectedPartialFailureRollback": true,
+  "noWriteReplay": true,
+  "rehearsalMs": 1448,
+  "grantMs": 1282,
+  "condition": "Windows to production PostgreSQL; network included; one account under live USER_LOCK and database leases.",
+  "leasesReleased": true
+}

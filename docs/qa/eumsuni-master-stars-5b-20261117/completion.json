@@ -1,0 +1,248 @@
+{
+  "status": "COMPLETED",
+  "completedAt": "2026-11-16T17:06:30.988Z",
+  "operationKey": "ops:eumsuni:master-star5b:20261117:v1",
+  "kst": "2026. 11. 17. 2시 4분 50초",
+  "userId": "65",
+  "nickname": "음순이",
+  "code": "MASTER_STAR",
+  "name": "마스터의 별",
+  "quantity": 5000000000,
+  "before": "580141",
+  "after": "5000580141",
+  "currentQuantity": "4250580141",
+  "subsequentChange": "-750000000",
+  "logId": "89890714",
+  "auditId": "62366",
+  "validation": {
+    "exactAccount": true,
+    "identityAndUnrelatedBalancesPreserved": true,
+    "partialFailureRollback": true,
+    "fullRehearsalRollback": true,
+    "independentReadOnly": true,
+    "ledger": {
+      "inventoryLogs": 1,
+      "auditRecords": 1,
+      "missing": 0,
+      "duplicates": 0
+    },
+    "noWriteReplay": true,
+    "accountLeasesReleased": true,
+    "operationLocksRemaining": 0
+  },
+  "performance": {
+    "before": {
+      "at": "2026-11-16T17:03:54.419Z",
+      "phase": "before",
+      "readOnly": true,
+      "condition": "Windows CLI to production PostgreSQL, existing account/item index, first and repeat inventory balance query on one connection. No UI or code change, redeployment, browser/FPS or physical-device measurement.",
+      "samples": [
+        {
+          "entry": "first",
+          "ms": 75.3,
+          "queries": 1,
+          "quantity": "580141",
+          "unseen_quantity": "580141"
+        },
+        {
+          "entry": "repeat",
+          "ms": 72.58,
+          "queries": 1,
+          "quantity": "580141",
+          "unseen_quantity": "580141"
+        },
+        {
+          "entry": "repeat",
+          "ms": 73.14,
+          "queries": 1,
+          "quantity": "580141",
+          "unseen_quantity": "580141"
+        }
+      ],
+      "plan": {
+        "Plan": {
+          "Node Type": "Bitmap Heap Scan",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Relation Name": "cnine_user_inventory",
+          "Alias": "cnine_user_inventory",
+          "Startup Cost": 4.3,
+          "Total Cost": 15.7,
+          "Plan Rows": 3,
+          "Plan Width": 64,
+          "Actual Startup Time": 0.013,
+          "Actual Total Time": 0.013,
+          "Actual Rows": 1,
+          "Actual Loops": 1,
+          "Recheck Cond": "((user_id = '65'::bigint) AND (item_code = 'MASTER_STAR'::text))",
+          "Rows Removed by Index Recheck": 0,
+          "Exact Heap Blocks": 1,
+          "Lossy Heap Blocks": 0,
+          "Shared Hit Blocks": 3,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Plans": [
+            {
+              "Node Type": "Bitmap Index Scan",
+              "Parent Relationship": "Outer",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Index Name": "cnine_user_inventory_pkey",
+              "Startup Cost": 0,
+              "Total Cost": 4.3,
+              "Plan Rows": 3,
+              "Plan Width": 0,
+              "Actual Startup Time": 0.006,
+              "Actual Total Time": 0.007,
+              "Actual Rows": 1,
+              "Actual Loops": 1,
+              "Index Cond": "((user_id = '65'::bigint) AND (item_code = 'MASTER_STAR'::text))",
+              "Shared Hit Blocks": 2,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          ]
+        },
+        "Planning": {
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.037,
+        "Triggers": [],
+        "Execution Time": 0.091
+      }
+    },
+    "after": {
+      "at": "2026-11-16T17:05:57.374Z",
+      "phase": "after",
+      "readOnly": true,
+      "condition": "Windows CLI to production PostgreSQL, existing account/item index, first and repeat inventory balance query on one connection. No UI or code change, redeployment, browser/FPS or physical-device measurement.",
+      "samples": [
+        {
+          "entry": "first",
+          "ms": 80.34,
+          "queries": 1,
+          "quantity": "4250580141",
+          "unseen_quantity": "4250580141"
+        },
+        {
+          "entry": "repeat",
+          "ms": 77.99,
+          "queries": 1,
+          "quantity": "4250580141",
+          "unseen_quantity": "4250580141"
+        },
+        {
+          "entry": "repeat",
+          "ms": 77.72,
+          "queries": 1,
+          "quantity": "4250580141",
+          "unseen_quantity": "4250580141"
+        }
+      ],
+      "plan": {
+        "Plan": {
+          "Node Type": "Bitmap Heap Scan",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Relation Name": "cnine_user_inventory",
+          "Alias": "cnine_user_inventory",
+          "Startup Cost": 4.3,
+          "Total Cost": 15.7,
+          "Plan Rows": 3,
+          "Plan Width": 64,
+          "Actual Startup Time": 0.013,
+          "Actual Total Time": 0.013,
+          "Actual Rows": 1,
+          "Actual Loops": 1,
+          "Recheck Cond": "((user_id = '65'::bigint) AND (item_code = 'MASTER_STAR'::text))",
+          "Rows Removed by Index Recheck": 0,
+          "Exact Heap Blocks": 1,
+          "Lossy Heap Blocks": 0,
+          "Shared Hit Blocks": 3,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Plans": [
+            {
+              "Node Type": "Bitmap Index Scan",
+              "Parent Relationship": "Outer",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Index Name": "cnine_user_inventory_pkey",
+              "Startup Cost": 0,
+              "Total Cost": 4.3,
+              "Plan Rows": 3,
+              "Plan Width": 0,
+              "Actual Startup Time": 0.006,
+              "Actual Total Time": 0.006,
+              "Actual Rows": 2,
+              "Actual Loops": 1,
+              "Index Cond": "((user_id = '65'::bigint) AND (item_code = 'MASTER_STAR'::text))",
+              "Shared Hit Blocks": 2,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          ]
+        },
+        "Planning": {
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.048,
+        "Triggers": [],
+        "Execution Time": 0.042
+      }
+    },
+    "grantMs": 1282,
+    "sqlQueriesPerBalanceRead": 1,
+    "bottleneck": "Indexed lookup execution is under 1 ms; measured latency is dominated by the Windows-to-production network round trip. No extra runtime query or animation is introduced."
+  },
+  "applicationCodeChanged": false,
+  "redeployed": false,
+  "messagesSent": 0,
+  "automaticallyUsed": false
+}

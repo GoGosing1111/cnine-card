@@ -1,0 +1,33 @@
+{
+  "at": "2026-11-16T17:03:50.108Z",
+  "plan": {
+    "operationKey": "ops:eumsuni:master-star5b:20261117:v1",
+    "authorization": "음순이 계정에 마별 50억 넣어줘",
+    "userId": "65",
+    "nickname": "음순이",
+    "quantity": 5000000000,
+    "code": "MASTER_STAR",
+    "name": "마스터의 별",
+    "identityHash": "c7ac69825e5010b2448256d0bb8963dc5fb3847642fafdaa92beb5fd11d4e2fd",
+    "createdAt": "2026-07-10 09:00:00",
+    "role": "USER",
+    "floors": {
+      "inventory": "89890360",
+      "audit": "62356"
+    },
+    "delivery": "DIRECT_INVENTORY",
+    "automaticallyUse": false,
+    "sendMessages": false
+  },
+  "quantityBefore": "580141",
+  "unseenBefore": "580141",
+  "item": {
+    "code": "MASTER_STAR",
+    "name": "마스터의 별",
+    "is_active": 1,
+    "description": "MA 등급 카드를 중복으로 획득할 때마다 1개씩 지급되는 특별 재화입니다."
+  },
+  "priorReceipt": null,
+  "elapsedMs": 315,
+  "condition": "Production PostgreSQL READ ONLY; Windows to database network included."
+}
