@@ -1,0 +1,54 @@
+{
+  "verifiedAt": "2026-11-16T03:56:40.314Z",
+  "functions": [
+    {
+      "name": "cnine_clan_elder_title_equip_guard_v1",
+      "sha256": "43d3c2e43920f8934274a93e8f393780d7040b79f46a4208dcd836673baa55af",
+      "securityDefiner": false
+    },
+    {
+      "name": "cnine_clan_elder_title_ownership_v1",
+      "sha256": "652db57762790d1e2a95175f8acc836768b76940ac78d37b2fc7a8636a941150",
+      "securityDefiner": false
+    },
+    {
+      "name": "cnine_clan_elder_title_role_changed_v1",
+      "sha256": "a921d588b628dbbfd0c50b29a7536588e37e41b7e19e5c8780f91673c84450c6",
+      "securityDefiner": false
+    },
+    {
+      "name": "cnine_sync_clan_elder_title_v1",
+      "sha256": "602b0070b09d20d7de53f47204eef91a8156e5ef28b2d9cf4d8abd0a08958408",
+      "securityDefiner": false
+    }
+  ],
+  "plans": [
+    {
+      "scope": "all elders",
+      "planningMs": 30.061,
+      "executionMs": 5.69,
+      "rows": 15,
+      "indexes": [
+        "app_meta_pkey",
+        "organization_members_v1_pkey",
+        "organization_faction_state_v1_pkey",
+        "clan_members_season_id_clan_id_user_id_key",
+        "organization_rounds_v1_pkey"
+      ]
+    },
+    {
+      "scope": "one elder",
+      "planningMs": 11.63,
+      "executionMs": 1.241,
+      "rows": 1,
+      "indexes": [
+        "app_meta_pkey",
+        "organization_members_v1_round_id_organization_id_slot_key",
+        "clan_members_season_id_clan_id_user_id_key"
+      ]
+    }
+  ],
+  "originalSchemaPrivilegesRestored": true,
+  "grantEvents": 15,
+  "readOnly": true
+}

@@ -1,0 +1,619 @@
+{
+  "status": "LIVE_GRANTED_AND_ROLE_BOUND",
+  "verifiedAt": "2026-11-16T03:57:39.704Z",
+  "request": "클랜 원로들에게 특공사령관 지급, 원로 탈퇴 및 직급 변경 시 회수",
+  "sourceCommit": "21ac6e52b3ccc2503ca80ee7bc157027ca22455b",
+  "operationKey": "ops:clan-elder-commander:20261116:v1",
+  "auditId": "61728",
+  "completedAtKST": "2026-11-16 12:52:11",
+  "title": {
+    "id": 2862563,
+    "name": "특공사령관",
+    "pvePowerWhenEquipped": 1250000,
+    "pvpPowerWhenEquipped": 1250000
+  },
+  "recipients": [
+    {
+      "user_id": 4627,
+      "nickname": "학벌",
+      "round_id": "98a29259-a828-4004-92fb-d05f96161b2a",
+      "clan_id": 1,
+      "clan": "DK"
+    },
+    {
+      "user_id": 4981,
+      "nickname": "간장왕대게찜",
+      "round_id": "98a29259-a828-4004-92fb-d05f96161b2a",
+      "clan_id": 2,
+      "clan": "삼성"
+    },
+    {
+      "user_id": 5877,
+      "nickname": "깅더듬",
+      "round_id": "98a29259-a828-4004-92fb-d05f96161b2a",
+      "clan_id": 2,
+      "clan": "삼성"
+    },
+    {
+      "user_id": 289,
+      "nickname": "베베킹",
+      "round_id": "98a29259-a828-4004-92fb-d05f96161b2a",
+      "clan_id": 3,
+      "clan": "T1"
+    },
+    {
+      "user_id": 525,
+      "nickname": "족구조아",
+      "round_id": "98a29259-a828-4004-92fb-d05f96161b2a",
+      "clan_id": 3,
+      "clan": "T1"
+    },
+    {
+      "user_id": 4479,
+      "nickname": "대지",
+      "round_id": "98a29259-a828-4004-92fb-d05f96161b2a",
+      "clan_id": 4,
+      "clan": "한화"
+    },
+    {
+      "user_id": 4705,
+      "nickname": "˚쟁이。",
+      "round_id": "98a29259-a828-4004-92fb-d05f96161b2a",
+      "clan_id": 4,
+      "clan": "한화"
+    },
+    {
+      "user_id": 233,
+      "nickname": "ShowMaker",
+      "round_id": "98a29259-a828-4004-92fb-d05f96161b2a",
+      "clan_id": 5,
+      "clan": "LG"
+    },
+    {
+      "user_id": 4595,
+      "nickname": "비니",
+      "round_id": "98a29259-a828-4004-92fb-d05f96161b2a",
+      "clan_id": 5,
+      "clan": "LG"
+    },
+    {
+      "user_id": 218,
+      "nickname": "현하루",
+      "round_id": "98a29259-a828-4004-92fb-d05f96161b2a",
+      "clan_id": 6,
+      "clan": "롯데"
+    },
+    {
+      "user_id": 4391,
+      "nickname": "더듬이구",
+      "round_id": "98a29259-a828-4004-92fb-d05f96161b2a",
+      "clan_id": 6,
+      "clan": "롯데"
+    },
+    {
+      "user_id": 85,
+      "nickname": "카르푸",
+      "round_id": "98a29259-a828-4004-92fb-d05f96161b2a",
+      "clan_id": 7,
+      "clan": "FM"
+    },
+    {
+      "user_id": 1195,
+      "nickname": "씨나인택갓",
+      "round_id": "98a29259-a828-4004-92fb-d05f96161b2a",
+      "clan_id": 7,
+      "clan": "FM"
+    },
+    {
+      "user_id": 3,
+      "nickname": "ε연두з",
+      "round_id": "98a29259-a828-4004-92fb-d05f96161b2a",
+      "clan_id": 8,
+      "clan": "DC"
+    },
+    {
+      "user_id": 16,
+      "nickname": "오승환이다",
+      "round_id": "98a29259-a828-4004-92fb-d05f96161b2a",
+      "clan_id": 8,
+      "clan": "DC"
+    }
+  ],
+  "granted": 15,
+  "automaticEquip": false,
+  "messagesSent": 0,
+  "policy": {
+    "currentLiveClanEldersOnly": true,
+    "requiresOrganizationMembership": true,
+    "requiresCurrentSeasonMembershipAndExecutiveRole": true,
+    "newEldersGrantedAutomatically": true,
+    "leaveDemotionOrSeasonRoleLossRevokes": true,
+    "ownershipEquipmentPowerAndPublicBadgeRevokedTogether": true,
+    "continuousElderRoleSurvivesRosterRefresh": true,
+    "unrelatedTitlesPreserved": true,
+    "staleEquipCannotRestoreRevokedTitle": true,
+    "deferredToRosterTransactionCommit": true
+  },
+  "checks": {
+    "tests": 9,
+    "failed": 0,
+    "nativeProductionRollbackProbe": {
+      "userId": 4627,
+      "mode": "Production PostgreSQL runtime role, all mutations rolled back",
+      "actualHandlers": [
+        "userEquipmentBonuses",
+        "publicEquippedTitleMap"
+      ],
+      "equippedPower": {
+        "pve": 1250000,
+        "pvp": 1250000
+      },
+      "revokedPower": {
+        "pve": 0,
+        "pvp": 0
+      },
+      "titleAndLoadoutRemovedTogether": true,
+      "publicBadgeRemoved": true,
+      "staleEquipRejected": true,
+      "ownershipEquipmentExecutiveAndEventsRestored": true,
+      "committedProbeChanges": 0,
+      "revokeMs": 244
+    },
+    "grantEvents": 15,
+    "enabledTriggers": 11,
+    "readOnlyReplay": true,
+    "additionalReplayGrants": 0,
+    "originalSchemaPrivilegesRestored": true,
+    "schemaAndGrantFailureRollback": {
+      "rolledBack": true,
+      "grantsBeforeFailure": 15,
+      "ownershipCatalogAndInstallationRestored": true,
+      "at": "2026-11-16T03:50:32.378Z"
+    }
+  },
+  "performance": {
+    "conditions": "Windows CLI production PostgreSQL READ ONLY character/loadout, with network latency. Public client UI with an isolated account API populated from the verified live title catalog. Desktop Chrome, native Windows Electron offscreen renderer, Android and iPhone WebKit emulation, ONEstore iframe emulation. No physical phone measurements.",
+    "databaseBefore": [
+      {
+        "visit": "first",
+        "ms": 1153,
+        "queries": 22,
+        "equippedTitleId": 319925,
+        "bonuses": {
+          "titlePve": 475000,
+          "titlePvp": 475000
+        }
+      },
+      {
+        "visit": "repeat",
+        "ms": 685,
+        "queries": 18,
+        "equippedTitleId": 319925,
+        "bonuses": {
+          "titlePve": 475000,
+          "titlePvp": 475000
+        }
+      }
+    ],
+    "databaseAfter": [
+      {
+        "visit": "first",
+        "ms": 916,
+        "queries": 22,
+        "equippedTitleId": 319925,
+        "bonuses": {
+          "titlePve": 475000,
+          "titlePvp": 475000
+        }
+      },
+      {
+        "visit": "repeat",
+        "ms": 662,
+        "queries": 18,
+        "equippedTitleId": 319925,
+        "bonuses": {
+          "titlePve": 475000,
+          "titlePvp": 475000
+        }
+      }
+    ],
+    "unchangedQueryCounts": true,
+    "eligibilityPlans": [
+      {
+        "scope": "all elders",
+        "planningMs": 30.061,
+        "executionMs": 5.69,
+        "rows": 15,
+        "indexes": [
+          "app_meta_pkey",
+          "organization_members_v1_pkey",
+          "organization_faction_state_v1_pkey",
+          "clan_members_season_id_clan_id_user_id_key",
+          "organization_rounds_v1_pkey"
+        ]
+      },
+      {
+        "scope": "one elder",
+        "planningMs": 11.63,
+        "executionMs": 1.241,
+        "rows": 1,
+        "indexes": [
+          "app_meta_pkey",
+          "organization_members_v1_round_id_organization_id_slot_key",
+          "clan_members_season_id_clan_id_user_id_key"
+        ]
+      }
+    ],
+    "ui": [
+      {
+        "phase": "public",
+        "device": "desktop",
+        "viewport": [
+          1440,
+          900
+        ],
+        "staticOrigin": "https://cnine-card.pages.dev",
+        "accountAPI": "isolated",
+        "imageBytes": 73846,
+        "coldNavigationMs": 1392,
+        "equippedImage": {
+          "url": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+          "width": 417,
+          "height": 139,
+          "decoded": true
+        },
+        "equipMs": 112,
+        "publicBadge": {
+          "text": "특공사령관",
+          "image": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+          "width": 142
+        },
+        "callingCard": {
+          "text": "특공사령관",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/titles/special-ops-commander-red-v1.webp\")",
+          "width": 190,
+          "aboveName": true
+        },
+        "playerCardMs": 50,
+        "frames": {
+          "samples": 79,
+          "p95Ms": 16.6,
+          "maxMs": 29.2,
+          "over50ms": 0
+        },
+        "titleRequestsAfterExit": 0,
+        "reentryMs": 52,
+        "overflow": false,
+        "assetResponses": [
+          200
+        ],
+        "powerWhenEquipped": {
+          "pve": 1250000,
+          "pvp": 1250000
+        },
+        "powerAfterUnequip": 0,
+        "errors": []
+      },
+      {
+        "phase": "public",
+        "device": "ios",
+        "viewport": [
+          390,
+          844
+        ],
+        "staticOrigin": "https://cnine-card.pages.dev",
+        "accountAPI": "isolated",
+        "imageBytes": 73846,
+        "coldNavigationMs": 1467,
+        "equippedImage": {
+          "url": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+          "width": 336,
+          "height": 112,
+          "decoded": true
+        },
+        "equipMs": 245,
+        "publicBadge": {
+          "text": "특공사령관",
+          "image": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+          "width": 142
+        },
+        "callingCard": {
+          "text": "특공사령관",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/titles/special-ops-commander-red-v1.webp\")",
+          "width": 190,
+          "aboveName": true
+        },
+        "playerCardMs": 85,
+        "frames": {
+          "samples": 36,
+          "p95Ms": 48,
+          "maxMs": 60,
+          "over50ms": 1
+        },
+        "titleRequestsAfterExit": 0,
+        "reentryMs": 95,
+        "overflow": false,
+        "assetResponses": [
+          200
+        ],
+        "powerWhenEquipped": {
+          "pve": 1250000,
+          "pvp": 1250000
+        },
+        "powerAfterUnequip": 0,
+        "errors": []
+      },
+      {
+        "phase": "public",
+        "device": "android",
+        "viewport": [
+          390,
+          844
+        ],
+        "staticOrigin": "https://cnine-card.pages.dev",
+        "accountAPI": "isolated",
+        "imageBytes": 73846,
+        "coldNavigationMs": 1351,
+        "equippedImage": {
+          "url": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+          "width": 336,
+          "height": 112,
+          "decoded": true
+        },
+        "equipMs": 112,
+        "publicBadge": {
+          "text": "특공사령관",
+          "image": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+          "width": 142
+        },
+        "callingCard": {
+          "text": "특공사령관",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/titles/special-ops-commander-red-v1.webp\")",
+          "width": 190,
+          "aboveName": true
+        },
+        "playerCardMs": 62,
+        "frames": {
+          "samples": 80,
+          "p95Ms": 29.2,
+          "maxMs": 87.4,
+          "over50ms": 1
+        },
+        "titleRequestsAfterExit": 0,
+        "reentryMs": 54,
+        "overflow": false,
+        "assetResponses": [
+          200
+        ],
+        "powerWhenEquipped": {
+          "pve": 1250000,
+          "pvp": 1250000
+        },
+        "powerAfterUnequip": 0,
+        "errors": []
+      },
+      {
+        "phase": "public",
+        "device": "windows",
+        "viewport": [
+          1440,
+          900
+        ],
+        "staticOrigin": "https://cnine-card.pages.dev",
+        "accountAPI": "isolated",
+        "imageBytes": 73846,
+        "coldNavigationMs": 1712,
+        "equippedImage": {
+          "url": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+          "width": 413,
+          "height": 138,
+          "decoded": true
+        },
+        "equipMs": 176,
+        "publicBadge": {
+          "text": "특공사령관",
+          "image": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+          "width": 142
+        },
+        "callingCard": {
+          "text": "특공사령관",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/titles/special-ops-commander-red-v1.webp\")",
+          "width": 190,
+          "aboveName": true
+        },
+        "playerCardMs": 90,
+        "frames": {
+          "samples": 33,
+          "p95Ms": 66.6,
+          "maxMs": 66.8,
+          "over50ms": 3
+        },
+        "titleRequestsAfterExit": 0,
+        "reentryMs": 70,
+        "overflow": false,
+        "assetResponses": [
+          200,
+          200
+        ],
+        "powerWhenEquipped": {
+          "pve": 1250000,
+          "pvp": 1250000
+        },
+        "powerAfterUnequip": 0,
+        "errors": []
+      },
+      {
+        "phase": "public",
+        "device": "h5",
+        "viewport": [
+          390,
+          844
+        ],
+        "staticOrigin": "https://cnine-card.pages.dev",
+        "accountAPI": "isolated",
+        "imageBytes": 73846,
+        "coldNavigationMs": 1562,
+        "equippedImage": {
+          "url": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+          "width": 336,
+          "height": 112,
+          "decoded": true
+        },
+        "equipMs": 94,
+        "publicBadge": {
+          "text": "특공사령관",
+          "image": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+          "width": 142
+        },
+        "callingCard": {
+          "text": "특공사령관",
+          "image": "url(\"https://cnine-card.pages.dev/assets/ui/titles/special-ops-commander-red-v1.webp\")",
+          "width": 190,
+          "aboveName": true
+        },
+        "playerCardMs": 55,
+        "frames": {
+          "samples": 80,
+          "p95Ms": 29.1,
+          "maxMs": 70.9,
+          "over50ms": 1
+        },
+        "titleRequestsAfterExit": 0,
+        "reentryMs": 53,
+        "overflow": false,
+        "assetResponses": [
+          200
+        ],
+        "powerWhenEquipped": {
+          "pve": 1250000,
+          "pvp": 1250000
+        },
+        "powerAfterUnequip": 0,
+        "errors": []
+      }
+    ],
+    "limitations": "No client rendering code changed. Single navigation samples include network variance. WebKit, Android, Windows and H5 checks retain the measured long frames; they are not a claim of physical-device FPS improvement. The database rule adds no polling or extra loadout queries."
+  },
+  "installation": {
+    "mode": "Audited PostgreSQL schema and data transaction; no client or Worker deployment required",
+    "sqlSha256": "277daff43e9ea8dfee6f52b5f69227fd3def9a655a4aacc9915e08f727b7d8ea",
+    "functions": [
+      {
+        "name": "cnine_clan_elder_title_equip_guard_v1",
+        "sha256": "43d3c2e43920f8934274a93e8f393780d7040b79f46a4208dcd836673baa55af",
+        "securityDefiner": false
+      },
+      {
+        "name": "cnine_clan_elder_title_ownership_v1",
+        "sha256": "652db57762790d1e2a95175f8acc836768b76940ac78d37b2fc7a8636a941150",
+        "securityDefiner": false
+      },
+      {
+        "name": "cnine_clan_elder_title_role_changed_v1",
+        "sha256": "a921d588b628dbbfd0c50b29a7536588e37e41b7e19e5c8780f91673c84450c6",
+        "securityDefiner": false
+      },
+      {
+        "name": "cnine_sync_clan_elder_title_v1",
+        "sha256": "602b0070b09d20d7de53f47204eef91a8156e5ef28b2d9cf4d8abd0a08958408",
+        "securityDefiner": false
+      }
+    ],
+    "accountGrantEvents": [
+      {
+        "id": "1",
+        "user_id": 4627,
+        "action": "GRANT",
+        "source_id": "98a29259-a828-4004-92fb-d05f96161b2a:1"
+      },
+      {
+        "id": "10",
+        "user_id": 218,
+        "action": "GRANT",
+        "source_id": "98a29259-a828-4004-92fb-d05f96161b2a:6"
+      },
+      {
+        "id": "11",
+        "user_id": 4391,
+        "action": "GRANT",
+        "source_id": "98a29259-a828-4004-92fb-d05f96161b2a:6"
+      },
+      {
+        "id": "12",
+        "user_id": 85,
+        "action": "GRANT",
+        "source_id": "98a29259-a828-4004-92fb-d05f96161b2a:7"
+      },
+      {
+        "id": "13",
+        "user_id": 1195,
+        "action": "GRANT",
+        "source_id": "98a29259-a828-4004-92fb-d05f96161b2a:7"
+      },
+      {
+        "id": "14",
+        "user_id": 3,
+        "action": "GRANT",
+        "source_id": "98a29259-a828-4004-92fb-d05f96161b2a:8"
+      },
+      {
+        "id": "15",
+        "user_id": 16,
+        "action": "GRANT",
+        "source_id": "98a29259-a828-4004-92fb-d05f96161b2a:8"
+      },
+      {
+        "id": "2",
+        "user_id": 5877,
+        "action": "GRANT",
+        "source_id": "98a29259-a828-4004-92fb-d05f96161b2a:2"
+      },
+      {
+        "id": "3",
+        "user_id": 4981,
+        "action": "GRANT",
+        "source_id": "98a29259-a828-4004-92fb-d05f96161b2a:2"
+      },
+      {
+        "id": "4",
+        "user_id": 289,
+        "action": "GRANT",
+        "source_id": "98a29259-a828-4004-92fb-d05f96161b2a:3"
+      },
+      {
+        "id": "5",
+        "user_id": 525,
+        "action": "GRANT",
+        "source_id": "98a29259-a828-4004-92fb-d05f96161b2a:3"
+      },
+      {
+        "id": "6",
+        "user_id": 4479,
+        "action": "GRANT",
+        "source_id": "98a29259-a828-4004-92fb-d05f96161b2a:4"
+      },
+      {
+        "id": "7",
+        "user_id": 4705,
+        "action": "GRANT",
+        "source_id": "98a29259-a828-4004-92fb-d05f96161b2a:4"
+      },
+      {
+        "id": "8",
+        "user_id": 233,
+        "action": "GRANT",
+        "source_id": "98a29259-a828-4004-92fb-d05f96161b2a:5"
+      },
+      {
+        "id": "9",
+        "user_id": 4595,
+        "action": "GRANT",
+        "source_id": "98a29259-a828-4004-92fb-d05f96161b2a:5"
+      }
+    ]
+  },
+  "screenshots": [
+    "equipped-public-desktop.png",
+    "equipped-public-ios.png"
+  ]
+}

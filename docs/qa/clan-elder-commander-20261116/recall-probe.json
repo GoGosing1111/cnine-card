@@ -1,0 +1,22 @@
+{
+  "userId": 4627,
+  "mode": "Production PostgreSQL runtime role, all mutations rolled back",
+  "actualHandlers": [
+    "userEquipmentBonuses",
+    "publicEquippedTitleMap"
+  ],
+  "equippedPower": {
+    "pve": 1250000,
+    "pvp": 1250000
+  },
+  "revokedPower": {
+    "pve": 0,
+    "pvp": 0
+  },
+  "titleAndLoadoutRemovedTogether": true,
+  "publicBadgeRemoved": true,
+  "staleEquipRejected": true,
+  "ownershipEquipmentExecutiveAndEventsRestored": true,
+  "committedProbeChanges": 0,
+  "revokeMs": 244
+}

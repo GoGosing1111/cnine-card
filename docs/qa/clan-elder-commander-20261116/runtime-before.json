@@ -1,0 +1,73 @@
+{
+  "phase": "before",
+  "userId": 4627,
+  "accountWrites": 0,
+  "conditions": "Actual character/loadout handler against production PostgreSQL in READ ONLY transaction on Windows CLI. Includes network latency. No physical device FPS measurement.",
+  "reads": [
+    {
+      "visit": "first",
+      "ms": 1153,
+      "queries": 22,
+      "title": {
+        "id": 2862563,
+        "code": "SPECIAL_OPS_COMMANDER",
+        "name": "특공사령관",
+        "description": "특공 작전을 지휘하는 사령관의 칭호입니다.",
+        "badgeText": "특공사령관",
+        "image": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+        "pvePower": 1250000,
+        "unlockType": "MANUAL",
+        "unlockConfig": {
+          "fontPreset": "DISPLAY"
+        },
+        "stylePreset": "SPECIAL_OPS_COMMANDER",
+        "fontPreset": "DISPLAY",
+        "isActive": true,
+        "isPublic": true,
+        "sortOrder": 954,
+        "owned": false,
+        "equipped": false,
+        "unlockedAt": null,
+        "expiresAt": null
+      },
+      "equippedTitleId": 319925,
+      "bonuses": {
+        "titlePve": 475000,
+        "titlePvp": 475000
+      }
+    },
+    {
+      "visit": "repeat",
+      "ms": 685,
+      "queries": 18,
+      "title": {
+        "id": 2862563,
+        "code": "SPECIAL_OPS_COMMANDER",
+        "name": "특공사령관",
+        "description": "특공 작전을 지휘하는 사령관의 칭호입니다.",
+        "badgeText": "특공사령관",
+        "image": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+        "pvePower": 1250000,
+        "unlockType": "MANUAL",
+        "unlockConfig": {
+          "fontPreset": "DISPLAY"
+        },
+        "stylePreset": "SPECIAL_OPS_COMMANDER",
+        "fontPreset": "DISPLAY",
+        "isActive": true,
+        "isPublic": true,
+        "sortOrder": 954,
+        "owned": false,
+        "equipped": false,
+        "unlockedAt": null,
+        "expiresAt": null
+      },
+      "equippedTitleId": 319925,
+      "bonuses": {
+        "titlePve": 475000,
+        "titlePvp": 475000
+      }
+    }
+  ],
+  "factionStateBytes": 6184
+}

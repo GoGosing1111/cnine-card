@@ -1,0 +1,75 @@
+{
+  "phase": "after",
+  "userId": 4627,
+  "accountWrites": 0,
+  "conditions": "Actual character/loadout handler against production PostgreSQL in READ ONLY transaction on Windows CLI. Includes network latency. No physical device FPS measurement.",
+  "reads": [
+    {
+      "visit": "first",
+      "ms": 916,
+      "queries": 22,
+      "title": {
+        "id": 2862563,
+        "code": "SPECIAL_OPS_COMMANDER",
+        "name": "특공사령관",
+        "description": "클랜 원로 전용 칭호입니다. 원로로 재임하는 동안 사용할 수 있으며, 탈퇴하거나 원로 직급이 해제되면 자동 회수됩니다.",
+        "badgeText": "특공사령관",
+        "image": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+        "pvePower": 1250000,
+        "unlockType": "MANUAL",
+        "unlockConfig": {
+          "fontPreset": "DISPLAY",
+          "rolePolicy": "clan-elder-commander-20261116-v1"
+        },
+        "stylePreset": "SPECIAL_OPS_COMMANDER",
+        "fontPreset": "DISPLAY",
+        "isActive": true,
+        "isPublic": true,
+        "sortOrder": 954,
+        "owned": true,
+        "equipped": false,
+        "unlockedAt": "2026-11-16 03:52:06",
+        "expiresAt": null
+      },
+      "equippedTitleId": 319925,
+      "bonuses": {
+        "titlePve": 475000,
+        "titlePvp": 475000
+      }
+    },
+    {
+      "visit": "repeat",
+      "ms": 662,
+      "queries": 18,
+      "title": {
+        "id": 2862563,
+        "code": "SPECIAL_OPS_COMMANDER",
+        "name": "특공사령관",
+        "description": "클랜 원로 전용 칭호입니다. 원로로 재임하는 동안 사용할 수 있으며, 탈퇴하거나 원로 직급이 해제되면 자동 회수됩니다.",
+        "badgeText": "특공사령관",
+        "image": "/assets/ui/titles/special-ops-commander-red-v1.webp",
+        "pvePower": 1250000,
+        "unlockType": "MANUAL",
+        "unlockConfig": {
+          "fontPreset": "DISPLAY",
+          "rolePolicy": "clan-elder-commander-20261116-v1"
+        },
+        "stylePreset": "SPECIAL_OPS_COMMANDER",
+        "fontPreset": "DISPLAY",
+        "isActive": true,
+        "isPublic": true,
+        "sortOrder": 954,
+        "owned": true,
+        "equipped": false,
+        "unlockedAt": "2026-11-16 03:52:06",
+        "expiresAt": null
+      },
+      "equippedTitleId": 319925,
+      "bonuses": {
+        "titlePve": 475000,
+        "titlePvp": 475000
+      }
+    }
+  ],
+  "factionStateBytes": 6184
+}
