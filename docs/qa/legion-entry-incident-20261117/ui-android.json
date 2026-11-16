@@ -1,0 +1,110 @@
+{
+  "phase": "recovered",
+  "platform": "android",
+  "condition": "Public lobby → actual PVE menu → solo and party dialogs, isolated actual server handlers; desktop/Windows renderer/mobile/H5 emulation, no physical phone",
+  "entries": [
+    {
+      "kind": "solo",
+      "visit": "first",
+      "interactiveMs": 455,
+      "frames": {
+        "samples": 75,
+        "p95": 20.699999999999818,
+        "max": 70.69999999999982,
+        "over50": 2
+      },
+      "afterExit": {
+        "connected": false,
+        "mutations": 0,
+        "legionRequests": 0
+      },
+      "text": "리버스콜\nREVERSE CALL\n군단토벌\n←\nPVE로 돌아가기\n2인 파티 원정 · 불타는 성채　→\nREGION 01\n검은 돛의 해안\n체력 · 보호막 · 피해 경감\nREGION 02\n유리 사막\n방어 관통 · 보스 피해\nREGION 03\n끝나지 않는 대극장\n공격 속도 · 연속 타격\nREGION 04\n거수의 뱃속\n체력 회복 · 지속전 생존력\nREGION 05\n역천 제도\n치명타 · 순간 화력\nORIGINAL\n잊혀진 섬\n기존 군단토벌\n\nBLACK SAIL COAST\n\n검은 돛의 해안\n\n폭풍이 삼킨 해안, 난파선 아래에서 군단이 밀려온다.\n\n7분\n연속 토벌\n1\n최종 보스\n10회\n행동력 최대\nFINAL TARGET\n난파왕\n00:00 · 상륙\n작살게\n02:00 · 교전\n칼지느러미 어인\n04:00 · 돌파\n익사한 해적\n4:30 · 최종 보스\n난파왕\nYOUR EXPEDITION\n출전 원정대\n편성 새로고침 ↻\n\n테스트 참여자 · 편성 전투력 1,420,000\n\n01\nFUR\n철와대 킴성태\n02\nFUR\n킹봉준\n03\nFUR\n이상호\n04\nSUPERSTAR\nLionel Messi\n05\nZENITH\n토마토\nSS\n용병 전용 슬롯\n저격 오리꿍\n에메랄드 대물저격\n\n장착 슈트 · X-BODY / 무기 · 東方軍火商(동방무기상) · 금룡 돌격소총\n\nREGION EXCLUSIVE\n용병장비 · 난파왕\nPVE 전용 효과\n\n포대와 본체의 협공 · 보호막과 생존력\n\n용병 세트장비\n난파왕 무기\n기본 전투력 200,000\n용병 세트장비\n난파왕 상의\n기본 전투력 140,000\n용병 세트장비\n난파왕 하의\n기본 전투력 130,000\n용병 세트장비\n난파왕 신발\n기본 전투력 100,000\n용병 세트장비\n난파왕 장신구\n기본 전투력 120,000\n용병 고유장비\n흑조의 작살총\n보호막 대상 피해 +30% · 방어 관통 +5%p\n\n2세트 최대 체력 +8%\n\n4세트 시작 보호막 +12% · 받는 피해 감소 +5%\n\n보스 처치 시 연마석 5개 확정 · 용병 장비 드랍률이 상향되었습니다. 상위 1~10단계 장비도 보스에게서 획득할 수 있으며, 높은 단계일수록 더 희귀합니다. 용병 장비 보기\n확정 연마석은 원정 가방에 바로 보관됩니다. 용병장비는 직접 줍거나 자석 펫으로 수집하세요.\n\nSELECT DIFFICULTY\n난이도 선택\n보통\nH·S 성장 구간\n어려움\nS 완성~Z 성장 구간\n악몽\nZ 완성~X 성장 구간\n지옥\nX 완성~오버로드 구간\n재앙\n8천만 슈트·완성된 덱 기준\n토벌 진행\n보스전 포함 총 7분\n행동력 4 / 10 · 다음 충전 01:28:58 · 1시간 30분마다 1회 · 매일 0시 최대 회복 · 회복시간 50% 단축 · 11월 23일 23:59까지\n판당 최대 코인\n5,000,000,000 코인\n\n처치 즉시 자동 습득 · 보너스 포함 상한\n\n전리품은 직접 눌러 획득\n\n필드에 나타난 아이템을\n사라지기 전에 챙기세요.\n\n코인 수급 후 중단 시 행동력 사용 · 1시간 30분마다 1회 충전\n\n토벌 입장\n코인은 사냥 중 자동 지급 · 아이템은 종료 정산"
+    },
+    {
+      "kind": "solo",
+      "visit": "reentry",
+      "interactiveMs": 175,
+      "frames": {
+        "samples": 75,
+        "p95": 4.299999999999272,
+        "max": 4.300000000000182,
+        "over50": 0
+      },
+      "afterExit": {
+        "connected": false,
+        "mutations": 0,
+        "legionRequests": 0
+      },
+      "text": "리버스콜\nREVERSE CALL\n군단토벌\n←\nPVE로 돌아가기\n2인 파티 원정 · 불타는 성채　→\nREGION 01\n검은 돛의 해안\n체력 · 보호막 · 피해 경감\nREGION 02\n유리 사막\n방어 관통 · 보스 피해\nREGION 03\n끝나지 않는 대극장\n공격 속도 · 연속 타격\nREGION 04\n거수의 뱃속\n체력 회복 · 지속전 생존력\nREGION 05\n역천 제도\n치명타 · 순간 화력\nORIGINAL\n잊혀진 섬\n기존 군단토벌\n\nBLACK SAIL COAST\n\n검은 돛의 해안\n\n폭풍이 삼킨 해안, 난파선 아래에서 군단이 밀려온다.\n\n7분\n연속 토벌\n1\n최종 보스\n10회\n행동력 최대\nFINAL TARGET\n난파왕\n00:00 · 상륙\n작살게\n02:00 · 교전\n칼지느러미 어인\n04:00 · 돌파\n익사한 해적\n4:30 · 최종 보스\n난파왕\nYOUR EXPEDITION\n출전 원정대\n편성 새로고침 ↻\n\n테스트 참여자 · 편성 전투력 1,420,000\n\n01\nFUR\n철와대 킴성태\n02\nFUR\n킹봉준\n03\nFUR\n이상호\n04\nSUPERSTAR\nLionel Messi\n05\nZENITH\n토마토\nSS\n용병 전용 슬롯\n저격 오리꿍\n에메랄드 대물저격\n\n장착 슈트 · X-BODY / 무기 · 東方軍火商(동방무기상) · 금룡 돌격소총\n\nREGION EXCLUSIVE\n용병장비 · 난파왕\nPVE 전용 효과\n\n포대와 본체의 협공 · 보호막과 생존력\n\n용병 세트장비\n난파왕 무기\n기본 전투력 200,000\n용병 세트장비\n난파왕 상의\n기본 전투력 140,000\n용병 세트장비\n난파왕 하의\n기본 전투력 130,000\n용병 세트장비\n난파왕 신발\n기본 전투력 100,000\n용병 세트장비\n난파왕 장신구\n기본 전투력 120,000\n용병 고유장비\n흑조의 작살총\n보호막 대상 피해 +30% · 방어 관통 +5%p\n\n2세트 최대 체력 +8%\n\n4세트 시작 보호막 +12% · 받는 피해 감소 +5%\n\n보스 처치 시 연마석 5개 확정 · 용병 장비 드랍률이 상향되었습니다. 상위 1~10단계 장비도 보스에게서 획득할 수 있으며, 높은 단계일수록 더 희귀합니다. 용병 장비 보기\n확정 연마석은 원정 가방에 바로 보관됩니다. 용병장비는 직접 줍거나 자석 펫으로 수집하세요.\n\nSELECT DIFFICULTY\n난이도 선택\n보통\nH·S 성장 구간\n어려움\nS 완성~Z 성장 구간\n악몽\nZ 완성~X 성장 구간\n지옥\nX 완성~오버로드 구간\n재앙\n8천만 슈트·완성된 덱 기준\n토벌 진행\n보스전 포함 총 7분\n행동력 4 / 10 · 다음 충전 01:28:55 · 1시간 30분마다 1회 · 매일 0시 최대 회복 · 회복시간 50% 단축 · 11월 23일 23:59까지\n판당 최대 코인\n5,000,000,000 코인\n\n처치 즉시 자동 습득 · 보너스 포함 상한\n\n전리품은 직접 눌러 획득\n\n필드에 나타난 아이템을\n사라지기 전에 챙기세요.\n\n코인 수급 후 중단 시 행동력 사용 · 1시간 30분마다 1회 충전\n\n토벌 입장\n코인은 사냥 중 자동 지급 · 아이템은 종료 정산"
+    },
+    {
+      "kind": "party",
+      "visit": "first",
+      "interactiveMs": 159,
+      "frames": {
+        "samples": 75,
+        "p95": 4.300000000000182,
+        "max": 20.800000000000182,
+        "over50": 0
+      },
+      "afterExit": {
+        "connected": false,
+        "mutations": 0,
+        "legionRequests": 0
+      },
+      "text": "군단토벌 파티\n불타는 성채\n클랜 전용 사냥터\n시즌 5 개방\n파티 모집 중\n불타는 성채\n\n밀려드는 군단을 사냥하고, 잿불 성주 몰록을 처치하세요.\n\n파티 행동력\n0 / 1\n다음 충전\n02:59:53\n원정 인원\n2인 협동\n사냥 시간\n7분\n전리품\n개인 획득\n\n회복시간 50% 단축 · 11월 23일 23:59까지\n\n원정 난이도\n1단계\n재앙의 성문\n2단계\n멸망의 내성\n3단계\n종말의 왕좌\n\n권장\n고레벨 용병과 회복 담당 1명 이상\n\n성주 전리품\n새벽별\n그믐달\n태양왕좌\n유니크 1~3단계 · 상위 성주일수록 드랍 확률 증가\n파티 만들기\n모집 중인 파티\n0\n새로고침\n모집 중인 파티가 없습니다\n\n먼저 파티를 만들고 함께할 대원을 기다려 보세요.\n\n원정 규칙과 화면 설정"
+    },
+    {
+      "kind": "party",
+      "visit": "reentry",
+      "interactiveMs": 51,
+      "frames": {
+        "samples": 75,
+        "p95": 4.299999999999272,
+        "max": 4.300000000001091,
+        "over50": 0
+      },
+      "afterExit": {
+        "connected": false,
+        "mutations": 0,
+        "legionRequests": 0
+      },
+      "text": "군단토벌 파티\n불타는 성채\n클랜 전용 사냥터\n시즌 5 개방\n파티 모집 중\n불타는 성채\n\n밀려드는 군단을 사냥하고, 잿불 성주 몰록을 처치하세요.\n\n파티 행동력\n0 / 1\n다음 충전\n02:59:51\n원정 인원\n2인 협동\n사냥 시간\n7분\n전리품\n개인 획득\n\n회복시간 50% 단축 · 11월 23일 23:59까지\n\n원정 난이도\n1단계\n재앙의 성문\n2단계\n멸망의 내성\n3단계\n종말의 왕좌\n\n권장\n고레벨 용병과 회복 담당 1명 이상\n\n성주 전리품\n새벽별\n그믐달\n태양왕좌\n유니크 1~3단계 · 상위 성주일수록 드랍 확률 증가\n파티 만들기\n모집 중인 파티\n0\n새로고침\n모집 중인 파티가 없습니다\n\n먼저 파티를 만들고 함께할 대원을 기다려 보세요.\n\n원정 규칙과 화면 설정"
+    }
+  ],
+  "errors": [],
+  "productionWrites": 0,
+  "menu": "전체 메뉴\n50개 메뉴\n닫기\n×\n전체 메뉴\n즐겨찾기\n세계관\n인벤토리\n모험 · PVE\n대전 · PVP\n카드·용병·펫\n장비 - 제작\n상점·교환\n보상\n클랜\n행정부\n세계관\n1개\n분류 보기\n세계관\n돌아올 사람의 자리 · 본편 2부와 용병 이야기 7편\n인벤토리\n1개\n분류 보기\n인벤토리\n보유 아이템과 카드팩 확인\n모험 · PVE\n13개\n분류 보기\nPVE 전투\nPVE 전투 콘텐츠와 덱 편성 모아 보기\nPVE 덱 편성실\n보유 일반 카드 5장을 선택하고 출전 덱 저장\n몬스터 토벌\n몬스터를 고르고 내 덱으로 토벌\n디펜스\n2~3인 협동 디펜스 · 용병 2명 + 카드 1장\n격전지\n3인 협동 전투 · 난이도별 클리어 보상\n군단토벌\n잊혀진 섬에서 군단을 돌파하고 최종 보스에 도전\n군단토벌 파티\n불타는 성채 · 2인 파티로 7분간 군단 사냥\n월드 레이드\n다른 플레이어와 월드 레이드 참여\n호송작전\n호송작전에 참여하고 보상 확인\n봉인전\n봉인전 입장과 진행 상황 확인\n무한의탑\n한 층씩 도전하는 무한의탑\n폐차장 원정\n원정 구역과 출입증을 확인하고 출발\n마스터의 별 광산\n드릴을 선택하고 4시간 뒤 마스터의 별 수령\n대전 · PVP\n8개\n분류 보기\n랭크전\n상대 플레이어와 랭크전 대결\n클래식 멸망전\n클래식 멸망전\n족각도시\n6시간 역할 교대 · 도시 이동·검문·치료·PVP 교전\n랭크 듀오\n랭크 듀오\n시즌 랭킹\n시즌 순위와 랭크 기록 확인\n클랜전\n정규 클랜전 대진과 전투에 바로 진입\n세력전\n서울 세력전 전황과 부대 편성에 바로 진입\n영토전\n진영과 함께 영토를 두고 경쟁\n카드·용병·펫\n8개\n분류 보기\n도감\n카드 수집 현황과 보유 카드의 능력치 확인\n용병 · 편성\n보유 용병 확인·편성과 전체 용병 정보\n용병 성장\n보유 용병의 경험치 전수와 레벨 돌파\n펫 도감\n전체 펫과 보유 현황·시작 버프 확인 및 장착\n일괄 강화\n일반 카드 여러 장을 한 번에 강화\n카드 진화\n재료를 모아 카드의 다음 단계에 도전\n아이콘 합성\n아이콘 합성\n마법카드\n전투를 돕는 마법카드 확인과 편성\n장비 - 제작\n5개\n분류 보기\n용병 장비\n용병 전용 무기·방어구 장착 · PVE/PVP 무장 구성\n장비·칭호·차고\n장비·칭호·차량을 장착하고 전투력 확인\n차량 제작\n재료를 사용해 차량 제작\n제작소\n장비·차량·슈트·재료의 제작과 합성을 한곳에서\n장비 강화\n장비 강화·보호·파괴 기록 복구 확인\n상점·교환\n5개\n분류 보기\n카드 상점\n카드팩·장비·이동수단을 획득하는 상점\n고급 전리품 상점\n피그 코인으로 계정 한정 전리품 확정 교환\n랭크전 상점\n랭크전·듀오 시즌 보상 코인으로 상품 교환\n교환소\n보유 재료와 교환 항목 확인\n경매장\n다른 플레이어와 아이템 거래\n보상\n5개\n분류 보기\nS1 불멸의 왕\nS1 불멸의 왕\n접속 보상\n접속 보상과 수령 상태 확인\n일일·주간 퀘스트\n일일·주간 목표와 콘텐츠 참여 보상 확인\n컴백 유저\n복귀 보급품과 카미시로 합류 임무\n메시지함\n운영 소식과 도착한 보상 확인\n클랜\n1개\n분류 보기\n클랜\n클랜 본부·아지트 · 시즌 모집 일정\n행정부\n3개\n분류 보기\n쿠데타\n황궁 영토전 · 족장팀과 반란군 · 국민 재판\n리버스랜드\n리버스랜드 입장권과 이용 정보 확인\n감옥\n감옥 수감 상태와 관련 정보 확인",
+  "resources": [
+    {
+      "url": "https://cnine-card.pages.dev/css/legion-hunt-coins-v1.css?v=20261018-v1",
+      "duration": 147,
+      "transferSize": 1126
+    },
+    {
+      "url": "https://cnine-card.pages.dev/js/app.js?v=forge-focus-20261116-v1-ddung-joeun16-forge-mercenary-20261116-v1-package-cubes16-pepegu-reset16-legion-recovery16-package15pets-sudal15-defense-sets15-zero-awakening15-v1-petgrowth14-polish14-bgcontract1-bluegear14-mercAdv11-20261113-bloodmoon-sale-end-20261112-v1-inventory-choice-20261111-v1-auction-duration-20261110-v1-clan-season-20261110-v1-lobby-status-20261112-v1-territory-draft-20261109-v1-ranked-promotion-20261109-v2-territory-radio-20261109-v1-s1-duo-v1-territory-frontline-20261108-v1-s1-counts-v2-veteran30-avatar-refresh-v1-s1-entry-v2-bus-driver-shiranui-20261108-citadel1-s1-lobby-20261108-2-royal-rune-frame-fit-20261107-1-mercenary-four-1950k-20261108-guaranteed-scroll-20261107-v1-pass-months-20261107-v1-auction-bgm-exact-20261107-v1-ranked-favorites-20261106-v1-workshop-ui-20261106-v2-coin-10g-20261106-v1-auction-bgm-volume-20261106-v1-support-package-refresh-20261106-v1-x-body-craft-20261106-v1-auction-bgm-compact-drag-20261106-v1-mercenary-armory-20261105-v2-hakuya-live-20261105-v1-helios-king-live-20261106-v1-jin-jokro-live-20261106-v1-suit-drain-progress-20261106-v1-hyper-pack-hidden-20261105-v1-streamer-pack-20261105-v1-pet-modes-20261105-v1-faction-evening-20261105-v1-pet-jjanggu-heeya-20261104-v1-lich-mobile-mechanics-20261104-v1-cnine-streamer-box-20261103-v1-bloodmoon-unique-20261103-v1-auction-user-off-20261103-v2-prediction-camp-closed-20261103-v1-quest-command-20261103-v1-package-extend-20261102-v1-apocalypse-overlay-off-20261102-v1-tactical-hud-20261102-v1-account-panel-20261102-v2-prime-zero-top-20261102-v1-ranked-labels-20261102-v1-tower-coop-dual-20261102-v2-blackwing-confirm8-20261101-v1-pepegu-ranked-rental-20261101-v1-trophy-renewal-20261101-v1-blackwing-reward20t-scroll30-20261101-v1-equipment-11-15-glow-20261101-v1-equipment-plus10-glow-20261101-v1-support-package-500t-20261101-v1-battle-resource-recovery-20261101-v1-support-package-clients-20261101-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-growth-guide-20261030-v1-blackcrown-opening-20261031-unique-v1-clan-kick-off-20261030-v1-tactical-shell-20261030-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-chat-squad-20261029-v1-territory-mobile-20261029-v1-heukmu-live-20261029-v1-omega-craft-20261029-v1-lobby-restore-20261029-v1-clan-elder-kick-20261029-v1-limited-220-20261029-v1-legion-ascendant-20261029-v1-blackwing-rewards-20261029-v1-lobby-pretendard-20261029-v5-icon-diim-front-20261029-v1-damage-hp-sync-20261029-v1-war-chat-20261028-v1-raid-rewards-20261028-v1-kamishiro-live-20261028-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-soop-watch-repeat-20261028-v1-blackwing-bloodscale-20261028-v3-classic-colosseum-20261027-v2-blackcrown-shop-sss-20261027-v1-blackcrown-sss-20261027-v1-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-age-ratings-20261027-v1-revan-general-jok-20261027-v2-blackcrown-live-20261027-v1-jokro-motion-20261027-v1-blackcrown-buttons-20261027-v4-support-package-hide-20261026-v1-soop-watch-consent-20261026-v1-bloodmoon-namsudaeng-timeout-20261026-v1-isgen-input-recovery-20261026-v1-prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261116-v14-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-icons-coin1000t-20261116-v1-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1-icon-four-20261029-arden-craft-20261029-v1-pet-pepegu-20261101-v1-apocalypse-trio-20261106-apocalypse-facing-balance-20261106-v2-morgas-body-20261109-v1-coop-summon-slot-20261110-v1-clan-random-20261113-iphone-combat-20261114-v1-astra-20261115-v1-hyper-ticket-retired-20261117-v1&santaAvatars=20261114&bloodPack=20261023-v1&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&halloweenRecovery=20261021-mobile-v1&harlequin=20261017-v980&groundRunes=20261017-v1&shiranui=20261015-shiranui-live-v1&accountMedia=20261015-sync-media-v1&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&jokgakCity=20261011-jobs1&petLayout=20261009&limitedDeployment=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&soopketland=20261029-daily-cap10-coins&chiefPrison=20261006&limitedVisuals=20261004-approved&clanAvatars=20261001&lgAyoon=20261003&hanwhaDiim=20261003&coop=20261005-readable-v4&lgHeeya=20260930&goldenAxe=20260918&prime=20260917-skill-chips&cowPortal=20260913&mercenary=2100&hyper=2145-acquisition-video&projectiles=2106&operations=20260925-duo&furHigh=2114&sd=20260919-bongsoon-armed&coup=2115&pveEntry=2119&heeya=2118&assembly=2120&entry=2121&prediction=20260926-5b&accountRank=20261008&suits=2124&inventory=20261023-pumpkin-choice&rankPotions=20261020-v1&recruitmentGift=20260929&pingduThanksGift=20261002&flow=2126&clanFaction=20261001-session-rewards&coupStatus=20260920&pigMessage=2130&rewardMeta=20260929-funding-gift&omegaMessage=20260927&equipmentLoading=20260918&zSword=20260918&clanLineup=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&landRewards=20261020-fivefold&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&draw=20260922-weighted&apiFlow=2122&drawPerf=20260919&challenger=20&weeklyRaid=20261008-v2&magicPresets=20260922&workshop=20260922&scrapRecovery=20260923&chuseok=20260923&policeRestraint=20260923&enhanceGlow=20261019-original-rollback&packAuto=20260924-fast&dexPerf=20260924&packResponse=20260924&questHub=20261103-v1&hyperAuto=20260924-store-refresh&deathGame=20260928-stable&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&workshopLoading=20261021-entry-recovery&materialBatch=20260928&icon=20260930&duo=20261020-start2&auction=20261103-live-v1&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&achievementTitles=20260927&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&sBodyAssembly=20260928&zBodyAssembly=20261006&equipmentCraft=20260928&miracle=20260929&sBodyPayment=20260930&iconFusion=20260930&lichFx=20261001&retired=20261001&axeReopen=20261002&cubeRemoval=20261003&miracleCube=20261003-v1&sssMiracleCube=20261021-v1&supporterBlueBeast=20261003-title-copy-v2&busDriver=20261005&lichMessage=20261003&territoryFx=20261003-v1&iconRoles=20261005-fur15-v1&suggestions=20261005&prisonHunger=20261005&prisonLayout=20261006&drillMessage=20261006&limitedMixed=20261010-precision&superstarBatch=20261007-results&pveReform=20261008&legionRegions=20261008&loadoutModes=20261009&suitCoreBatch=20261013&originalIp=20261013-original-ip-v1&accountSync=20261015-v1&cheolguBalance=20261017-v1&hudB=20261017-v1&kaironStock=20261018&retired=20261019&ssBalance=20261019-v2&packageNotice=20261020-v1-land-coupon8h-20261020&jokroCraft=20261021&towerAbyss=20261021-v1&sigHunter=20261022&towerClock=20261022-v1&towerStatus=20261022-v1&lootShopRecovery=20261023-v1&clanIdentity=20261023-v1&iconEnhancement=20261024-v1&namsudaeng=20261024-v1&octaFlight=20261024-v1&awakenedOmega=20261024-v1&razak=20261026-priority-v5&threeSkills=20261026-v1&primeZeroPriority=20261102-top-v2&mercenaryReveal=20261025-v6&primeMaterial=20261025-v1&deployment=20261025-eunseol-bloodmoon&limitedShardCraft=20261025-v1&ardenCraft=20261029-v1&chatSquad=20261029&blackcrownOpening=20261031-unique-v1&rankedShop=20261101-v2&petPepegu=20261101-v1&tacticalHud=20261102-v1&apocalypseTrio=20261106&seasonS1=20261107-v2&s1=shared-five-v1&heir=20261107-paced-v3&comeback=20261108-veteran-v3&safariMemory=20261108-v1&pveLobby=20261109-v1&attendance=20261111-v1&championsRuler=20261112-plate-v2&specialOps=20261113-red-v1&extreme=20261113-eclipse1&iphone=iphone-combat-20261114-v1",
+      "duration": 196.09999999403954,
+      "transferSize": 228887
+    },
+    {
+      "url": "https://cnine-card.pages.dev/css/legion-hunt-entry-v2.css?brand=20261110&citadelLobby=20261108-v1&citadel=1&v=20261008-regions",
+      "duration": 155.2999999821186,
+      "transferSize": 6209
+    },
+    {
+      "url": "https://cnine-card.pages.dev/js/legion-hunt-entry-v1.mjs?brand=20261110&citadelLobby=20261111-party-v5&citadel=1&mobileMemory=20261024-v1&v=20261029-legion-ascendant-v1&mercGear=20261011&retired=20261001&clanSeason=20261110-v1",
+      "duration": 145.40000000596046,
+      "transferSize": 9077
+    },
+    {
+      "url": "https://cnine-card.pages.dev/shared/legion-hunt-energy-v1.mjs?v=20261116-recovery-event",
+      "duration": 29.799999982118607,
+      "transferSize": 1879
+    },
+    {
+      "url": "https://cnine-card.pages.dev/shared/legion-hunt-energy-v1.mjs",
+      "duration": 29.19999998807907,
+      "transferSize": 1879
+    }
+  ]
+}

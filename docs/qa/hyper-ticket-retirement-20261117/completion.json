@@ -1663,5 +1663,12 @@
       "nickname": "주르르"
     }
   ],
-  "privateBackup": "operations/hyper-ticket-retirement-20261117/locked-before.json and timestamped backup files; preserved locally"
+  "privateBackup": "operations/hyper-ticket-retirement-20261117/locked-before.json and timestamped backup files; preserved locally",
+  "incidentFollowUp": {
+    "at": "2026-11-16T16:45:42.609Z",
+    "description": "Initial validation omitted legacy per-region field drop pools and caused solo entry / party start failure; repaired under the linked incident.",
+    "auditId": "62331",
+    "operationKey": "ops:legion-region-retirement-repair:20261117:v1",
+    "record": "docs/qa/legion-entry-incident-20261117/completion.json"
+  }
 }

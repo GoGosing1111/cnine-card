@@ -1,0 +1,947 @@
+{
+  "completedAt": "2026-11-16T17:00:56.618Z",
+  "authorization": [
+    "군단토벌 지금 안됨? 문의오는데",
+    "전부 다"
+  ],
+  "operation": {
+    "operationKey": "ops:legion-region-retirement-repair:20261117:v1",
+    "at": "2026-11-16T16:45:42.609Z",
+    "kst": "2026-11-17 01:45:42",
+    "failure": {
+      "code": "HUNT_POLICY",
+      "message": "현재 사용 가능한 아이템을 다시 선택하세요: INVENTORY_ITEM:SOOPKETLAND_HYPER_BURNING_TICKET"
+    },
+    "revisionBefore": 9,
+    "revisionAfter": 10,
+    "regions": [
+      "coast",
+      "desert",
+      "theatre",
+      "viscera",
+      "sky"
+    ],
+    "removed": 5,
+    "mode": "ON",
+    "accountMutations": 0,
+    "auditId": "62331",
+    "rehearsalRolledBack": true
+  },
+  "incident": {
+    "cause": "Hyper ticket retirement removed the item from the validation catalog but omitted five persisted region.fieldDrops.items entries. The region reader validated those legacy items against the filtered catalog and threw HUNT_REGION_UNAVAILABLE.",
+    "observed": [
+      "Production solo bootstrap HTTP 503",
+      "Production party start HTTP 503 / HUNT_REGION_UNAVAILABLE"
+    ],
+    "responsibility": "Regression introduced by the preceding Hyper activation-ticket retirement task.",
+    "emergencyRepairKST": "2026-11-17 01:45:42"
+  },
+  "permanentRepair": [
+    "Filter only the retired reward before validating stored regional configuration; preserve the original raw value for compare-and-swap",
+    "Keep new configuration writes strict and all unrelated validation errors visible",
+    "Filter saved regional field pools and mixed ground bundles, preserving other loot, claim tokens and historical settled receipts"
+  ],
+  "preserved": [
+    "Mode ON, other regional loot settings and probabilities",
+    "Account energy, progression, currency and existing rewards",
+    "Ticket retirement: inactive catalog, zero holdings and database constraints remain in force"
+  ],
+  "verification": {
+    "independentReadOnly": {
+      "record": {
+        "operationKey": "ops:legion-region-retirement-repair:20261117:v1",
+        "at": "2026-11-16T16:45:42.609Z",
+        "kst": "2026-11-17 01:45:42",
+        "failure": {
+          "code": "HUNT_POLICY",
+          "message": "현재 사용 가능한 아이템을 다시 선택하세요: INVENTORY_ITEM:SOOPKETLAND_HYPER_BURNING_TICKET"
+        },
+        "revisionBefore": 9,
+        "revisionAfter": 10,
+        "regions": [
+          "coast",
+          "desert",
+          "theatre",
+          "viscera",
+          "sky"
+        ],
+        "removed": 5,
+        "mode": "ON",
+        "accountMutations": 0,
+        "auditId": "62331",
+        "rehearsalRolledBack": true
+      },
+      "liveReadMs": 233,
+      "mode": "ON",
+      "regions": 5,
+      "retiredDrops": 0,
+      "retiredHoldings": 0
+    },
+    "service": {
+      "condition": "Windows Node; same stored production regional policies, fixed 8ms per indexed SQL read, 10 samples. No game account writes.",
+      "base": "4777dc03f207807d29d6814478f59e565d353d4e",
+      "comparisons": [
+        {
+          "config": "legacy",
+          "version": "before",
+          "result": "HUNT_REGION_UNAVAILABLE",
+          "sqlPerRead": 1,
+          "medianMs": 15.224399999999946,
+          "maxMs": 15.950700000000012
+        },
+        {
+          "config": "legacy",
+          "version": "after",
+          "result": "OK",
+          "sqlPerRead": 1,
+          "medianMs": 15.76279999999997,
+          "maxMs": 16.223000000000013
+        },
+        {
+          "config": "repaired",
+          "version": "before",
+          "result": "OK",
+          "sqlPerRead": 1,
+          "medianMs": 15.647600000000011,
+          "maxMs": 16.1943
+        },
+        {
+          "config": "repaired",
+          "version": "after",
+          "result": "OK",
+          "sqlPerRead": 1,
+          "medianMs": 15.864100000000008,
+          "maxMs": 18.766900000000078
+        }
+      ],
+      "live": {
+        "at": "2026-11-16T16:57:37.998Z",
+        "mode": "ON",
+        "revision": 10,
+        "regions": 5,
+        "ticketHoldings": 0,
+        "ticketCatalogActive": "0",
+        "firstMs": 167,
+        "reentryMs": 83,
+        "sqlPerRead": 1,
+        "readOnly": true
+      }
+    },
+    "tests": 36,
+    "coverage": [
+      "Legacy five-region read with exact original CAS value and one SQL",
+      "Solo bootstrap, start, reveal, pickup, settlement, injected rollback and replay (Postgres)",
+      "Party room, readiness, start, battle, pickup, settlement, injected rollback and replay",
+      "Old mixed reward and saved claim recovery without losing remaining loot"
+    ],
+    "excludedPreexistingFailure": {
+      "file": "tests/legion-citadel-rewards-20261110.test.mjs",
+      "test": "each party form, respawn and boss uses a separate alpha WebP",
+      "reason": "Historical asset assets/ui/legion-citadel/enemies-v1/ash-hound.webp is absent in both original workspace and clean release checkout. No asset path changed in this incident repair. All other 50 selected tests passed; party entry, rewards, rollback and retry remain covered by the new regression and legion-citadel-20261108 suite.",
+      "log": "release-1efc59976-1794848114551.log"
+    },
+    "ui": [
+      {
+        "phase": "recovered",
+        "platform": "desktop",
+        "condition": "Public lobby → actual PVE menu → solo and party dialogs, isolated actual server handlers; desktop/Windows renderer/mobile/H5 emulation, no physical phone",
+        "entries": [
+          {
+            "kind": "solo",
+            "visit": "first",
+            "interactiveMs": 320,
+            "frames": {
+              "samples": 75,
+              "p95": 12.599999999999909,
+              "max": 41.59999999999991,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "legionRequests": 0
+            },
+            "text": "리버스콜\nREVERSE CALL\n모험\n/\n군단토벌\n←\nPVE로 돌아가기\n2인 파티 원정 · 불타는 성채　→\nREGION 01\n검은 돛의 해안\n체력 · 보호막 · 피해 경감\nREGION 02\n유리 사막\n방어 관통 · 보스 피해\nREGION 03\n끝나지 않는 대극장\n공격 속도 · 연속 타격\nREGION 04\n거수의 뱃속\n체력 회복 · 지속전 생존력\nREGION 05\n역천 제도\n치명타 · 순간 화력\nORIGINAL\n잊혀진 섬\n기존 군단토벌\n\nBLACK SAIL COAST\n\n검은 돛의 해안\n\n폭풍이 삼킨 해안, 난파선 아래에서 군단이 밀려온다.\n\n7분\n연속 토벌\n1\n최종 보스\n10회\n행동력 최대\nFINAL TARGET\n난파왕\n00:00 · 상륙\n작살게\n02:00 · 교전\n칼지느러미 어인\n04:00 · 돌파\n익사한 해적\n4:30 · 최종 보스\n난파왕\nYOUR EXPEDITION\n출전 원정대\n편성 새로고침 ↻\n\n테스트 참여자 · 편성 전투력 1,420,000\n\n01\nFUR\n철와대 킴성태\n02\nFUR\n킹봉준\n03\nFUR\n이상호\n04\nSUPERSTAR\nLionel Messi\n05\nZENITH\n토마토\nSS\n용병 전용 슬롯\n저격 오리꿍\n에메랄드 대물저격\n\n장착 슈트 · X-BODY / 무기 · 東方軍火商(동방무기상) · 금룡 돌격소총\n\nREGION EXCLUSIVE\n용병장비 · 난파왕\nPVE 전용 효과\n\n포대와 본체의 협공 · 보호막과 생존력\n\n용병 세트장비\n난파왕 무기\n기본 전투력 200,000\n용병 세트장비\n난파왕 상의\n기본 전투력 140,000\n용병 세트장비\n난파왕 하의\n기본 전투력 130,000\n용병 세트장비\n난파왕 신발\n기본 전투력 100,000\n용병 세트장비\n난파왕 장신구\n기본 전투력 120,000\n용병 고유장비\n흑조의 작살총\n보호막 대상 피해 +30% · 방어 관통 +5%p\n\n2세트 최대 체력 +8%\n\n4세트 시작 보호막 +12% · 받는 피해 감소 +5%\n\n보스 처치 시 연마석 5개 확정 · 용병 장비 드랍률이 상향되었습니다. 상위 1~10단계 장비도 보스에게서 획득할 수 있으며, 높은 단계일수록 더 희귀합니다. 용병 장비 보기\n확정 연마석은 원정 가방에 바로 보관됩니다. 용병장비는 직접 줍거나 자석 펫으로 수집하세요.\n\nSELECT DIFFICULTY\n난이도 선택\n01\n보통\nH·S 성장 구간\n02\n어려움\nS 완성~Z 성장 구간\n03\n악몽\nZ 완성~X 성장 구간\n04\n지옥\nX 완성~오버로드 구간\n05\n재앙\n8천만 슈트·완성된 덱 기준\n토벌 진행\n보스전 포함 총 7분\n행동력 4 / 10 · 다음 충전 01:28:58 · 1시간 30분마다 1회 · 매일 0시 최대 회복 · 회복시간 50% 단축 · 11월 23일 23:59까지\n판당 최대 코인\n5,000,000,000 코인\n\n처치 즉시 자동 습득 · 보너스 포함 상한\n\n전리품은 직접 눌러 획득\n\n필드에 나타난 아이템을\n사라지기 전에 챙기세요.\n\n코인 수급 후 중단 시 행동력 사용 · 1시간 30분마다 1회 충전\n\n토벌 입장\n코인은 사냥 중 자동 지급 · 아이템은 종료 정산"
+          },
+          {
+            "kind": "solo",
+            "visit": "reentry",
+            "interactiveMs": 108,
+            "frames": {
+              "samples": 75,
+              "p95": 4.300000000000182,
+              "max": 16.699999999999818,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "legionRequests": 0
+            },
+            "text": "리버스콜\nREVERSE CALL\n모험\n/\n군단토벌\n←\nPVE로 돌아가기\n2인 파티 원정 · 불타는 성채　→\nREGION 01\n검은 돛의 해안\n체력 · 보호막 · 피해 경감\nREGION 02\n유리 사막\n방어 관통 · 보스 피해\nREGION 03\n끝나지 않는 대극장\n공격 속도 · 연속 타격\nREGION 04\n거수의 뱃속\n체력 회복 · 지속전 생존력\nREGION 05\n역천 제도\n치명타 · 순간 화력\nORIGINAL\n잊혀진 섬\n기존 군단토벌\n\nBLACK SAIL COAST\n\n검은 돛의 해안\n\n폭풍이 삼킨 해안, 난파선 아래에서 군단이 밀려온다.\n\n7분\n연속 토벌\n1\n최종 보스\n10회\n행동력 최대\nFINAL TARGET\n난파왕\n00:00 · 상륙\n작살게\n02:00 · 교전\n칼지느러미 어인\n04:00 · 돌파\n익사한 해적\n4:30 · 최종 보스\n난파왕\nYOUR EXPEDITION\n출전 원정대\n편성 새로고침 ↻\n\n테스트 참여자 · 편성 전투력 1,420,000\n\n01\nFUR\n철와대 킴성태\n02\nFUR\n킹봉준\n03\nFUR\n이상호\n04\nSUPERSTAR\nLionel Messi\n05\nZENITH\n토마토\nSS\n용병 전용 슬롯\n저격 오리꿍\n에메랄드 대물저격\n\n장착 슈트 · X-BODY / 무기 · 東方軍火商(동방무기상) · 금룡 돌격소총\n\nREGION EXCLUSIVE\n용병장비 · 난파왕\nPVE 전용 효과\n\n포대와 본체의 협공 · 보호막과 생존력\n\n용병 세트장비\n난파왕 무기\n기본 전투력 200,000\n용병 세트장비\n난파왕 상의\n기본 전투력 140,000\n용병 세트장비\n난파왕 하의\n기본 전투력 130,000\n용병 세트장비\n난파왕 신발\n기본 전투력 100,000\n용병 세트장비\n난파왕 장신구\n기본 전투력 120,000\n용병 고유장비\n흑조의 작살총\n보호막 대상 피해 +30% · 방어 관통 +5%p\n\n2세트 최대 체력 +8%\n\n4세트 시작 보호막 +12% · 받는 피해 감소 +5%\n\n보스 처치 시 연마석 5개 확정 · 용병 장비 드랍률이 상향되었습니다. 상위 1~10단계 장비도 보스에게서 획득할 수 있으며, 높은 단계일수록 더 희귀합니다. 용병 장비 보기\n확정 연마석은 원정 가방에 바로 보관됩니다. 용병장비는 직접 줍거나 자석 펫으로 수집하세요.\n\nSELECT DIFFICULTY\n난이도 선택\n01\n보통\nH·S 성장 구간\n02\n어려움\nS 완성~Z 성장 구간\n03\n악몽\nZ 완성~X 성장 구간\n04\n지옥\nX 완성~오버로드 구간\n05\n재앙\n8천만 슈트·완성된 덱 기준\n토벌 진행\n보스전 포함 총 7분\n행동력 4 / 10 · 다음 충전 01:28:55 · 1시간 30분마다 1회 · 매일 0시 최대 회복 · 회복시간 50% 단축 · 11월 23일 23:59까지\n판당 최대 코인\n5,000,000,000 코인\n\n처치 즉시 자동 습득 · 보너스 포함 상한\n\n전리품은 직접 눌러 획득\n\n필드에 나타난 아이템을\n사라지기 전에 챙기세요.\n\n코인 수급 후 중단 시 행동력 사용 · 1시간 30분마다 1회 충전\n\n토벌 입장\n코인은 사냥 중 자동 지급 · 아이템은 종료 정산"
+          },
+          {
+            "kind": "party",
+            "visit": "first",
+            "interactiveMs": 176,
+            "frames": {
+              "samples": 75,
+              "p95": 8.299999999999272,
+              "max": 33.30000000000018,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "legionRequests": 0
+            },
+            "text": "군단토벌 파티\n불타는 성채\n클랜 전용 사냥터\n시즌 5 개방\n파티 모집 중\n불타는 성채\n\n밀려드는 군단을 사냥하고, 잿불 성주 몰록을 처치하세요.\n\n파티 행동력\n0 / 1\n다음 충전\n02:59:53\n원정 인원\n2인 협동\n사냥 시간\n7분\n전리품\n개인 획득\n\n회복시간 50% 단축 · 11월 23일 23:59까지\n\n원정 난이도\n1단계\n재앙의 성문\n2단계\n멸망의 내성\n3단계\n종말의 왕좌\n\n권장\n고레벨 용병과 회복 담당 1명 이상\n\n성주 전리품\n새벽별\n그믐달\n태양왕좌\n유니크 1~3단계 · 상위 성주일수록 드랍 확률 증가\n파티 만들기\n모집 중인 파티\n0\n새로고침\n모집 중인 파티가 없습니다\n\n먼저 파티를 만들고 함께할 대원을 기다려 보세요.\n\n원정 규칙과 화면 설정"
+          },
+          {
+            "kind": "party",
+            "visit": "reentry",
+            "interactiveMs": 80,
+            "frames": {
+              "samples": 75,
+              "p95": 4.300000000001091,
+              "max": 12.5,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "legionRequests": 0
+            },
+            "text": "군단토벌 파티\n불타는 성채\n클랜 전용 사냥터\n시즌 5 개방\n파티 모집 중\n불타는 성채\n\n밀려드는 군단을 사냥하고, 잿불 성주 몰록을 처치하세요.\n\n파티 행동력\n0 / 1\n다음 충전\n02:59:51\n원정 인원\n2인 협동\n사냥 시간\n7분\n전리품\n개인 획득\n\n회복시간 50% 단축 · 11월 23일 23:59까지\n\n원정 난이도\n1단계\n재앙의 성문\n2단계\n멸망의 내성\n3단계\n종말의 왕좌\n\n권장\n고레벨 용병과 회복 담당 1명 이상\n\n성주 전리품\n새벽별\n그믐달\n태양왕좌\n유니크 1~3단계 · 상위 성주일수록 드랍 확률 증가\n파티 만들기\n모집 중인 파티\n0\n새로고침\n모집 중인 파티가 없습니다\n\n먼저 파티를 만들고 함께할 대원을 기다려 보세요.\n\n원정 규칙과 화면 설정"
+          }
+        ],
+        "errors": [],
+        "productionWrites": 0
+      },
+      {
+        "phase": "recovered",
+        "platform": "android",
+        "condition": "Public lobby → actual PVE menu → solo and party dialogs, isolated actual server handlers; desktop/Windows renderer/mobile/H5 emulation, no physical phone",
+        "entries": [
+          {
+            "kind": "solo",
+            "visit": "first",
+            "interactiveMs": 455,
+            "frames": {
+              "samples": 75,
+              "p95": 20.699999999999818,
+              "max": 70.69999999999982,
+              "over50": 2
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "legionRequests": 0
+            },
+            "text": "리버스콜\nREVERSE CALL\n군단토벌\n←\nPVE로 돌아가기\n2인 파티 원정 · 불타는 성채　→\nREGION 01\n검은 돛의 해안\n체력 · 보호막 · 피해 경감\nREGION 02\n유리 사막\n방어 관통 · 보스 피해\nREGION 03\n끝나지 않는 대극장\n공격 속도 · 연속 타격\nREGION 04\n거수의 뱃속\n체력 회복 · 지속전 생존력\nREGION 05\n역천 제도\n치명타 · 순간 화력\nORIGINAL\n잊혀진 섬\n기존 군단토벌\n\nBLACK SAIL COAST\n\n검은 돛의 해안\n\n폭풍이 삼킨 해안, 난파선 아래에서 군단이 밀려온다.\n\n7분\n연속 토벌\n1\n최종 보스\n10회\n행동력 최대\nFINAL TARGET\n난파왕\n00:00 · 상륙\n작살게\n02:00 · 교전\n칼지느러미 어인\n04:00 · 돌파\n익사한 해적\n4:30 · 최종 보스\n난파왕\nYOUR EXPEDITION\n출전 원정대\n편성 새로고침 ↻\n\n테스트 참여자 · 편성 전투력 1,420,000\n\n01\nFUR\n철와대 킴성태\n02\nFUR\n킹봉준\n03\nFUR\n이상호\n04\nSUPERSTAR\nLionel Messi\n05\nZENITH\n토마토\nSS\n용병 전용 슬롯\n저격 오리꿍\n에메랄드 대물저격\n\n장착 슈트 · X-BODY / 무기 · 東方軍火商(동방무기상) · 금룡 돌격소총\n\nREGION EXCLUSIVE\n용병장비 · 난파왕\nPVE 전용 효과\n\n포대와 본체의 협공 · 보호막과 생존력\n\n용병 세트장비\n난파왕 무기\n기본 전투력 200,000\n용병 세트장비\n난파왕 상의\n기본 전투력 140,000\n용병 세트장비\n난파왕 하의\n기본 전투력 130,000\n용병 세트장비\n난파왕 신발\n기본 전투력 100,000\n용병 세트장비\n난파왕 장신구\n기본 전투력 120,000\n용병 고유장비\n흑조의 작살총\n보호막 대상 피해 +30% · 방어 관통 +5%p\n\n2세트 최대 체력 +8%\n\n4세트 시작 보호막 +12% · 받는 피해 감소 +5%\n\n보스 처치 시 연마석 5개 확정 · 용병 장비 드랍률이 상향되었습니다. 상위 1~10단계 장비도 보스에게서 획득할 수 있으며, 높은 단계일수록 더 희귀합니다. 용병 장비 보기\n확정 연마석은 원정 가방에 바로 보관됩니다. 용병장비는 직접 줍거나 자석 펫으로 수집하세요.\n\nSELECT DIFFICULTY\n난이도 선택\n보통\nH·S 성장 구간\n어려움\nS 완성~Z 성장 구간\n악몽\nZ 완성~X 성장 구간\n지옥\nX 완성~오버로드 구간\n재앙\n8천만 슈트·완성된 덱 기준\n토벌 진행\n보스전 포함 총 7분\n행동력 4 / 10 · 다음 충전 01:28:58 · 1시간 30분마다 1회 · 매일 0시 최대 회복 · 회복시간 50% 단축 · 11월 23일 23:59까지\n판당 최대 코인\n5,000,000,000 코인\n\n처치 즉시 자동 습득 · 보너스 포함 상한\n\n전리품은 직접 눌러 획득\n\n필드에 나타난 아이템을\n사라지기 전에 챙기세요.\n\n코인 수급 후 중단 시 행동력 사용 · 1시간 30분마다 1회 충전\n\n토벌 입장\n코인은 사냥 중 자동 지급 · 아이템은 종료 정산"
+          },
+          {
+            "kind": "solo",
+            "visit": "reentry",
+            "interactiveMs": 175,
+            "frames": {
+              "samples": 75,
+              "p95": 4.299999999999272,
+              "max": 4.300000000000182,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "legionRequests": 0
+            },
+            "text": "리버스콜\nREVERSE CALL\n군단토벌\n←\nPVE로 돌아가기\n2인 파티 원정 · 불타는 성채　→\nREGION 01\n검은 돛의 해안\n체력 · 보호막 · 피해 경감\nREGION 02\n유리 사막\n방어 관통 · 보스 피해\nREGION 03\n끝나지 않는 대극장\n공격 속도 · 연속 타격\nREGION 04\n거수의 뱃속\n체력 회복 · 지속전 생존력\nREGION 05\n역천 제도\n치명타 · 순간 화력\nORIGINAL\n잊혀진 섬\n기존 군단토벌\n\nBLACK SAIL COAST\n\n검은 돛의 해안\n\n폭풍이 삼킨 해안, 난파선 아래에서 군단이 밀려온다.\n\n7분\n연속 토벌\n1\n최종 보스\n10회\n행동력 최대\nFINAL TARGET\n난파왕\n00:00 · 상륙\n작살게\n02:00 · 교전\n칼지느러미 어인\n04:00 · 돌파\n익사한 해적\n4:30 · 최종 보스\n난파왕\nYOUR EXPEDITION\n출전 원정대\n편성 새로고침 ↻\n\n테스트 참여자 · 편성 전투력 1,420,000\n\n01\nFUR\n철와대 킴성태\n02\nFUR\n킹봉준\n03\nFUR\n이상호\n04\nSUPERSTAR\nLionel Messi\n05\nZENITH\n토마토\nSS\n용병 전용 슬롯\n저격 오리꿍\n에메랄드 대물저격\n\n장착 슈트 · X-BODY / 무기 · 東方軍火商(동방무기상) · 금룡 돌격소총\n\nREGION EXCLUSIVE\n용병장비 · 난파왕\nPVE 전용 효과\n\n포대와 본체의 협공 · 보호막과 생존력\n\n용병 세트장비\n난파왕 무기\n기본 전투력 200,000\n용병 세트장비\n난파왕 상의\n기본 전투력 140,000\n용병 세트장비\n난파왕 하의\n기본 전투력 130,000\n용병 세트장비\n난파왕 신발\n기본 전투력 100,000\n용병 세트장비\n난파왕 장신구\n기본 전투력 120,000\n용병 고유장비\n흑조의 작살총\n보호막 대상 피해 +30% · 방어 관통 +5%p\n\n2세트 최대 체력 +8%\n\n4세트 시작 보호막 +12% · 받는 피해 감소 +5%\n\n보스 처치 시 연마석 5개 확정 · 용병 장비 드랍률이 상향되었습니다. 상위 1~10단계 장비도 보스에게서 획득할 수 있으며, 높은 단계일수록 더 희귀합니다. 용병 장비 보기\n확정 연마석은 원정 가방에 바로 보관됩니다. 용병장비는 직접 줍거나 자석 펫으로 수집하세요.\n\nSELECT DIFFICULTY\n난이도 선택\n보통\nH·S 성장 구간\n어려움\nS 완성~Z 성장 구간\n악몽\nZ 완성~X 성장 구간\n지옥\nX 완성~오버로드 구간\n재앙\n8천만 슈트·완성된 덱 기준\n토벌 진행\n보스전 포함 총 7분\n행동력 4 / 10 · 다음 충전 01:28:55 · 1시간 30분마다 1회 · 매일 0시 최대 회복 · 회복시간 50% 단축 · 11월 23일 23:59까지\n판당 최대 코인\n5,000,000,000 코인\n\n처치 즉시 자동 습득 · 보너스 포함 상한\n\n전리품은 직접 눌러 획득\n\n필드에 나타난 아이템을\n사라지기 전에 챙기세요.\n\n코인 수급 후 중단 시 행동력 사용 · 1시간 30분마다 1회 충전\n\n토벌 입장\n코인은 사냥 중 자동 지급 · 아이템은 종료 정산"
+          },
+          {
+            "kind": "party",
+            "visit": "first",
+            "interactiveMs": 159,
+            "frames": {
+              "samples": 75,
+              "p95": 4.300000000000182,
+              "max": 20.800000000000182,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "legionRequests": 0
+            },
+            "text": "군단토벌 파티\n불타는 성채\n클랜 전용 사냥터\n시즌 5 개방\n파티 모집 중\n불타는 성채\n\n밀려드는 군단을 사냥하고, 잿불 성주 몰록을 처치하세요.\n\n파티 행동력\n0 / 1\n다음 충전\n02:59:53\n원정 인원\n2인 협동\n사냥 시간\n7분\n전리품\n개인 획득\n\n회복시간 50% 단축 · 11월 23일 23:59까지\n\n원정 난이도\n1단계\n재앙의 성문\n2단계\n멸망의 내성\n3단계\n종말의 왕좌\n\n권장\n고레벨 용병과 회복 담당 1명 이상\n\n성주 전리품\n새벽별\n그믐달\n태양왕좌\n유니크 1~3단계 · 상위 성주일수록 드랍 확률 증가\n파티 만들기\n모집 중인 파티\n0\n새로고침\n모집 중인 파티가 없습니다\n\n먼저 파티를 만들고 함께할 대원을 기다려 보세요.\n\n원정 규칙과 화면 설정"
+          },
+          {
+            "kind": "party",
+            "visit": "reentry",
+            "interactiveMs": 51,
+            "frames": {
+              "samples": 75,
+              "p95": 4.299999999999272,
+              "max": 4.300000000001091,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "legionRequests": 0
+            },
+            "text": "군단토벌 파티\n불타는 성채\n클랜 전용 사냥터\n시즌 5 개방\n파티 모집 중\n불타는 성채\n\n밀려드는 군단을 사냥하고, 잿불 성주 몰록을 처치하세요.\n\n파티 행동력\n0 / 1\n다음 충전\n02:59:51\n원정 인원\n2인 협동\n사냥 시간\n7분\n전리품\n개인 획득\n\n회복시간 50% 단축 · 11월 23일 23:59까지\n\n원정 난이도\n1단계\n재앙의 성문\n2단계\n멸망의 내성\n3단계\n종말의 왕좌\n\n권장\n고레벨 용병과 회복 담당 1명 이상\n\n성주 전리품\n새벽별\n그믐달\n태양왕좌\n유니크 1~3단계 · 상위 성주일수록 드랍 확률 증가\n파티 만들기\n모집 중인 파티\n0\n새로고침\n모집 중인 파티가 없습니다\n\n먼저 파티를 만들고 함께할 대원을 기다려 보세요.\n\n원정 규칙과 화면 설정"
+          }
+        ],
+        "errors": [],
+        "productionWrites": 0
+      },
+      {
+        "phase": "recovered",
+        "platform": "ios",
+        "condition": "Public lobby → actual PVE menu → solo and party dialogs, isolated actual server handlers; desktop/Windows renderer/mobile/H5 emulation, no physical phone",
+        "entries": [
+          {
+            "kind": "solo",
+            "visit": "first",
+            "interactiveMs": 709,
+            "frames": {
+              "samples": 75,
+              "p95": 225,
+              "max": 358,
+              "over50": 6
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "legionRequests": 0
+            },
+            "text": "리버스콜\nREVERSE CALL\n군단토벌\n←\nPVE로 돌아가기\n2인 파티 원정 · 불타는 성채　→\nREGION 01\n검은 돛의 해안\n체력 · 보호막 · 피해 경감\nREGION 02\n유리 사막\n방어 관통 · 보스 피해\nREGION 03\n끝나지 않는 대극장\n공격 속도 · 연속 타격\nREGION 04\n거수의 뱃속\n체력 회복 · 지속전 생존력\nREGION 05\n역천 제도\n치명타 · 순간 화력\nORIGINAL\n잊혀진 섬\n기존 군단토벌\n\nBLACK SAIL COAST\n\n검은 돛의 해안\n\n폭풍이 삼킨 해안, 난파선 아래에서 군단이 밀려온다.\n\n7분\n연속 토벌\n1\n최종 보스\n10회\n행동력 최대\nFINAL TARGET\n난파왕\n00:00 · 상륙\n작살게\n02:00 · 교전\n칼지느러미 어인\n04:00 · 돌파\n익사한 해적\n4:30 · 최종 보스\n난파왕\nYOUR EXPEDITION\n출전 원정대\n편성 새로고침 ↻\n\n테스트 참여자 · 편성 전투력 1,420,000\n\n01\nFUR\n철와대 킴성태\n02\nFUR\n킹봉준\n03\nFUR\n이상호\n04\nSUPERSTAR\nLionel Messi\n05\nZENITH\n토마토\nSS\n용병 전용 슬롯\n저격 오리꿍\n에메랄드 대물저격\n\n장착 슈트 · X-BODY / 무기 · 東方軍火商(동방무기상) · 금룡 돌격소총\n\nREGION EXCLUSIVE\n용병장비 · 난파왕\nPVE 전용 효과\n\n포대와 본체의 협공 · 보호막과 생존력\n\n\n용병 세트장비\n난파왕 무기\n기본 전투력 200,000\n\n용병 세트장비\n난파왕 상의\n기본 전투력 140,000\n\n용병 세트장비\n난파왕 하의\n기본 전투력 130,000\n\n용병 세트장비\n난파왕 신발\n기본 전투력 100,000\n\n용병 세트장비\n난파왕 장신구\n기본 전투력 120,000\n\n용병 고유장비\n흑조의 작살총\n보호막 대상 피해 +30% · 방어 관통 +5%p\n\n2세트 최대 체력 +8%\n\n4세트 시작 보호막 +12% · 받는 피해 감소 +5%\n\n보스 처치 시 연마석 5개 확정 · 용병 장비 드랍률이 상향되었습니다. 상위 1~10단계 장비도 보스에게서 획득할 수 있으며, 높은 단계일수록 더 희귀합니다. 용병 장비 보기\n확정 연마석은 원정 가방에 바로 보관됩니다. 용병장비는 직접 줍거나 자석 펫으로 수집하세요.\n\nSELECT DIFFICULTY\n난이도 선택\n보통\nH·S 성장 구간\n어려움\nS 완성~Z 성장 구간\n악몽\nZ 완성~X 성장 구간\n지옥\nX 완성~오버로드 구간\n재앙\n8천만 슈트·완성된 덱 기준\n토벌 진행\n보스전 포함 총 7분\n행동력 4 / 10 · 다음 충전 01:28:56 · 1시간 30분마다 1회 · 매일 0시 최대 회복 · 회복시간 50% 단축 · 11월 23일 23:59까지\n판당 최대 코인\n5,000,000,000 코인\n\n처치 즉시 자동 습득 · 보너스 포함 상한\n\n전리품은 직접 눌러 획득\n\n필드에 나타난 아이템을\n사라지기 전에 챙기세요.\n\n코인 수급 후 중단 시 행동력 사용 · 1시간 30분마다 1회 충전\n\n토벌 입장\n코인은 사냥 중 자동 지급 · 아이템은 종료 정산"
+          },
+          {
+            "kind": "solo",
+            "visit": "reentry",
+            "interactiveMs": 318,
+            "frames": {
+              "samples": 75,
+              "p95": 225,
+              "max": 248,
+              "over50": 8
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "legionRequests": 0
+            },
+            "text": "리버스콜\nREVERSE CALL\n군단토벌\n←\nPVE로 돌아가기\n2인 파티 원정 · 불타는 성채　→\nREGION 01\n검은 돛의 해안\n체력 · 보호막 · 피해 경감\nREGION 02\n유리 사막\n방어 관통 · 보스 피해\nREGION 03\n끝나지 않는 대극장\n공격 속도 · 연속 타격\nREGION 04\n거수의 뱃속\n체력 회복 · 지속전 생존력\nREGION 05\n역천 제도\n치명타 · 순간 화력\nORIGINAL\n잊혀진 섬\n기존 군단토벌\n\nBLACK SAIL COAST\n\n검은 돛의 해안\n\n폭풍이 삼킨 해안, 난파선 아래에서 군단이 밀려온다.\n\n7분\n연속 토벌\n1\n최종 보스\n10회\n행동력 최대\nFINAL TARGET\n난파왕\n00:00 · 상륙\n작살게\n02:00 · 교전\n칼지느러미 어인\n04:00 · 돌파\n익사한 해적\n4:30 · 최종 보스\n난파왕\nYOUR EXPEDITION\n출전 원정대\n편성 새로고침 ↻\n\n테스트 참여자 · 편성 전투력 1,420,000\n\n01\nFUR\n철와대 킴성태\n02\nFUR\n킹봉준\n03\nFUR\n이상호\n04\nSUPERSTAR\nLionel Messi\n05\nZENITH\n토마토\nSS\n용병 전용 슬롯\n저격 오리꿍\n에메랄드 대물저격\n\n장착 슈트 · X-BODY / 무기 · 東方軍火商(동방무기상) · 금룡 돌격소총\n\nREGION EXCLUSIVE\n용병장비 · 난파왕\nPVE 전용 효과\n\n포대와 본체의 협공 · 보호막과 생존력\n\n\n용병 세트장비\n난파왕 무기\n기본 전투력 200,000\n\n용병 세트장비\n난파왕 상의\n기본 전투력 140,000\n\n용병 세트장비\n난파왕 하의\n기본 전투력 130,000\n\n용병 세트장비\n난파왕 신발\n기본 전투력 100,000\n\n용병 세트장비\n난파왕 장신구\n기본 전투력 120,000\n\n용병 고유장비\n흑조의 작살총\n보호막 대상 피해 +30% · 방어 관통 +5%p\n\n2세트 최대 체력 +8%\n\n4세트 시작 보호막 +12% · 받는 피해 감소 +5%\n\n보스 처치 시 연마석 5개 확정 · 용병 장비 드랍률이 상향되었습니다. 상위 1~10단계 장비도 보스에게서 획득할 수 있으며, 높은 단계일수록 더 희귀합니다. 용병 장비 보기\n확정 연마석은 원정 가방에 바로 보관됩니다. 용병장비는 직접 줍거나 자석 펫으로 수집하세요.\n\nSELECT DIFFICULTY\n난이도 선택\n보통\nH·S 성장 구간\n어려움\nS 완성~Z 성장 구간\n악몽\nZ 완성~X 성장 구간\n지옥\nX 완성~오버로드 구간\n재앙\n8천만 슈트·완성된 덱 기준\n토벌 진행\n보스전 포함 총 7분\n행동력 4 / 10 · 다음 충전 01:28:49 · 1시간 30분마다 1회 · 매일 0시 최대 회복 · 회복시간 50% 단축 · 11월 23일 23:59까지\n판당 최대 코인\n5,000,000,000 코인\n\n처치 즉시 자동 습득 · 보너스 포함 상한\n\n전리품은 직접 눌러 획득\n\n필드에 나타난 아이템을\n사라지기 전에 챙기세요.\n\n코인 수급 후 중단 시 행동력 사용 · 1시간 30분마다 1회 충전\n\n토벌 입장\n코인은 사냥 중 자동 지급 · 아이템은 종료 정산"
+          },
+          {
+            "kind": "party",
+            "visit": "first",
+            "interactiveMs": 216,
+            "frames": {
+              "samples": 75,
+              "p95": 31,
+              "max": 232,
+              "over50": 3
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "legionRequests": 0
+            },
+            "text": "군단토벌 파티\n불타는 성채\n클랜 전용 사냥터\n시즌 5 개방\n파티 모집 중\n불타는 성채\n\n밀려드는 군단을 사냥하고, 잿불 성주 몰록을 처치하세요.\n\n파티 행동력\n0 / 1\n다음 충전\n02:59:43\n원정 인원\n2인 협동\n사냥 시간\n7분\n전리품\n개인 획득\n\n회복시간 50% 단축 · 11월 23일 23:59까지\n\n원정 난이도\n1단계\n재앙의 성문\n2단계\n멸망의 내성\n3단계\n종말의 왕좌\n\n권장\n고레벨 용병과 회복 담당 1명 이상\n\n성주 전리품\n새벽별\n그믐달\n태양왕좌\n유니크 1~3단계 · 상위 성주일수록 드랍 확률 증가\n파티 만들기\n모집 중인 파티\n0\n새로고침\n모집 중인 파티가 없습니다\n\n먼저 파티를 만들고 함께할 대원을 기다려 보세요.\n\n원정 규칙과 화면 설정"
+          },
+          {
+            "kind": "party",
+            "visit": "reentry",
+            "interactiveMs": 165,
+            "frames": {
+              "samples": 75,
+              "p95": 30,
+              "max": 238,
+              "over50": 3
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "legionRequests": 0
+            },
+            "text": "군단토벌 파티\n불타는 성채\n클랜 전용 사냥터\n시즌 5 개방\n파티 모집 중\n불타는 성채\n\n밀려드는 군단을 사냥하고, 잿불 성주 몰록을 처치하세요.\n\n파티 행동력\n0 / 1\n다음 충전\n02:59:37\n원정 인원\n2인 협동\n사냥 시간\n7분\n전리품\n개인 획득\n\n회복시간 50% 단축 · 11월 23일 23:59까지\n\n원정 난이도\n1단계\n재앙의 성문\n2단계\n멸망의 내성\n3단계\n종말의 왕좌\n\n권장\n고레벨 용병과 회복 담당 1명 이상\n\n성주 전리품\n새벽별\n그믐달\n태양왕좌\n유니크 1~3단계 · 상위 성주일수록 드랍 확률 증가\n파티 만들기\n모집 중인 파티\n0\n새로고침\n모집 중인 파티가 없습니다\n\n먼저 파티를 만들고 함께할 대원을 기다려 보세요.\n\n원정 규칙과 화면 설정"
+          }
+        ],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "productionWrites": 0
+      },
+      {
+        "phase": "recovered",
+        "platform": "windows",
+        "condition": "Public lobby → actual PVE menu → solo and party dialogs, isolated actual server handlers; desktop/Windows renderer/mobile/H5 emulation, no physical phone",
+        "entries": [
+          {
+            "kind": "solo",
+            "visit": "first",
+            "interactiveMs": 717,
+            "frames": {
+              "samples": 75,
+              "p95": 16.700000000000728,
+              "max": 50,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "legionRequests": 0
+            },
+            "text": "리버스콜\nREVERSE CALL\n모험\n/\n군단토벌\n←\nPVE로 돌아가기\n2인 파티 원정 · 불타는 성채　→\nREGION 01\n검은 돛의 해안\n체력 · 보호막 · 피해 경감\nREGION 02\n유리 사막\n방어 관통 · 보스 피해\nREGION 03\n끝나지 않는 대극장\n공격 속도 · 연속 타격\nREGION 04\n거수의 뱃속\n체력 회복 · 지속전 생존력\nREGION 05\n역천 제도\n치명타 · 순간 화력\nORIGINAL\n잊혀진 섬\n기존 군단토벌\n\nBLACK SAIL COAST\n\n검은 돛의 해안\n\n폭풍이 삼킨 해안, 난파선 아래에서 군단이 밀려온다.\n\n7분\n연속 토벌\n1\n최종 보스\n10회\n행동력 최대\nFINAL TARGET\n난파왕\n00:00 · 상륙\n작살게\n02:00 · 교전\n칼지느러미 어인\n04:00 · 돌파\n익사한 해적\n4:30 · 최종 보스\n난파왕\nYOUR EXPEDITION\n출전 원정대\n편성 새로고침 ↻\n\n테스트 참여자 · 편성 전투력 1,420,000\n\n01\nFUR\n철와대 킴성태\n02\nFUR\n킹봉준\n03\nFUR\n이상호\n04\nSUPERSTAR\nLionel Messi\n05\nZENITH\n토마토\nSS\n용병 전용 슬롯\n저격 오리꿍\n에메랄드 대물저격\n\n장착 슈트 · X-BODY / 무기 · 東方軍火商(동방무기상) · 금룡 돌격소총\n\nREGION EXCLUSIVE\n용병장비 · 난파왕\nPVE 전용 효과\n\n포대와 본체의 협공 · 보호막과 생존력\n\n용병 세트장비\n난파왕 무기\n기본 전투력 200,000\n용병 세트장비\n난파왕 상의\n기본 전투력 140,000\n용병 세트장비\n난파왕 하의\n기본 전투력 130,000\n용병 세트장비\n난파왕 신발\n기본 전투력 100,000\n용병 세트장비\n난파왕 장신구\n기본 전투력 120,000\n용병 고유장비\n흑조의 작살총\n보호막 대상 피해 +30% · 방어 관통 +5%p\n\n2세트 최대 체력 +8%\n\n4세트 시작 보호막 +12% · 받는 피해 감소 +5%\n\n보스 처치 시 연마석 5개 확정 · 용병 장비 드랍률이 상향되었습니다. 상위 1~10단계 장비도 보스에게서 획득할 수 있으며, 높은 단계일수록 더 희귀합니다. 용병 장비 보기\n확정 연마석은 원정 가방에 바로 보관됩니다. 용병장비는 직접 줍거나 자석 펫으로 수집하세요.\n\nSELECT DIFFICULTY\n난이도 선택\n01\n보통\nH·S 성장 구간\n02\n어려움\nS 완성~Z 성장 구간\n03\n악몽\nZ 완성~X 성장 구간\n04\n지옥\nX 완성~오버로드 구간\n05\n재앙\n8천만 슈트·완성된 덱 기준\n토벌 진행\n보스전 포함 총 7분\n행동력 4 / 10 · 다음 충전 01:28:57 · 1시간 30분마다 1회 · 매일 0시 최대 회복 · 회복시간 50% 단축 · 11월 23일 23:59까지\n판당 최대 코인\n5,000,000,000 코인\n\n처치 즉시 자동 습득 · 보너스 포함 상한\n\n전리품은 직접 눌러 획득\n\n필드에 나타난 아이템을\n사라지기 전에 챙기세요.\n\n코인 수급 후 중단 시 행동력 사용 · 1시간 30분마다 1회 충전\n\n토벌 입장\n코인은 사냥 중 자동 지급 · 아이템은 종료 정산"
+          },
+          {
+            "kind": "solo",
+            "visit": "reentry",
+            "interactiveMs": 460,
+            "frames": {
+              "samples": 75,
+              "p95": 16.700000000000728,
+              "max": 16.800000000000182,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "legionRequests": 0
+            },
+            "text": "리버스콜\nREVERSE CALL\n모험\n/\n군단토벌\n←\nPVE로 돌아가기\n2인 파티 원정 · 불타는 성채　→\nREGION 01\n검은 돛의 해안\n체력 · 보호막 · 피해 경감\nREGION 02\n유리 사막\n방어 관통 · 보스 피해\nREGION 03\n끝나지 않는 대극장\n공격 속도 · 연속 타격\nREGION 04\n거수의 뱃속\n체력 회복 · 지속전 생존력\nREGION 05\n역천 제도\n치명타 · 순간 화력\nORIGINAL\n잊혀진 섬\n기존 군단토벌\n\nBLACK SAIL COAST\n\n검은 돛의 해안\n\n폭풍이 삼킨 해안, 난파선 아래에서 군단이 밀려온다.\n\n7분\n연속 토벌\n1\n최종 보스\n10회\n행동력 최대\nFINAL TARGET\n난파왕\n00:00 · 상륙\n작살게\n02:00 · 교전\n칼지느러미 어인\n04:00 · 돌파\n익사한 해적\n4:30 · 최종 보스\n난파왕\nYOUR EXPEDITION\n출전 원정대\n편성 새로고침 ↻\n\n테스트 참여자 · 편성 전투력 1,420,000\n\n01\nFUR\n철와대 킴성태\n02\nFUR\n킹봉준\n03\nFUR\n이상호\n04\nSUPERSTAR\nLionel Messi\n05\nZENITH\n토마토\nSS\n용병 전용 슬롯\n저격 오리꿍\n에메랄드 대물저격\n\n장착 슈트 · X-BODY / 무기 · 東方軍火商(동방무기상) · 금룡 돌격소총\n\nREGION EXCLUSIVE\n용병장비 · 난파왕\nPVE 전용 효과\n\n포대와 본체의 협공 · 보호막과 생존력\n\n용병 세트장비\n난파왕 무기\n기본 전투력 200,000\n용병 세트장비\n난파왕 상의\n기본 전투력 140,000\n용병 세트장비\n난파왕 하의\n기본 전투력 130,000\n용병 세트장비\n난파왕 신발\n기본 전투력 100,000\n용병 세트장비\n난파왕 장신구\n기본 전투력 120,000\n용병 고유장비\n흑조의 작살총\n보호막 대상 피해 +30% · 방어 관통 +5%p\n\n2세트 최대 체력 +8%\n\n4세트 시작 보호막 +12% · 받는 피해 감소 +5%\n\n보스 처치 시 연마석 5개 확정 · 용병 장비 드랍률이 상향되었습니다. 상위 1~10단계 장비도 보스에게서 획득할 수 있으며, 높은 단계일수록 더 희귀합니다. 용병 장비 보기\n확정 연마석은 원정 가방에 바로 보관됩니다. 용병장비는 직접 줍거나 자석 펫으로 수집하세요.\n\nSELECT DIFFICULTY\n난이도 선택\n01\n보통\nH·S 성장 구간\n02\n어려움\nS 완성~Z 성장 구간\n03\n악몽\nZ 완성~X 성장 구간\n04\n지옥\nX 완성~오버로드 구간\n05\n재앙\n8천만 슈트·완성된 덱 기준\n토벌 진행\n보스전 포함 총 7분\n행동력 4 / 10 · 다음 충전 01:28:53 · 1시간 30분마다 1회 · 매일 0시 최대 회복 · 회복시간 50% 단축 · 11월 23일 23:59까지\n판당 최대 코인\n5,000,000,000 코인\n\n처치 즉시 자동 습득 · 보너스 포함 상한\n\n전리품은 직접 눌러 획득\n\n필드에 나타난 아이템을\n사라지기 전에 챙기세요.\n\n코인 수급 후 중단 시 행동력 사용 · 1시간 30분마다 1회 충전\n\n토벌 입장\n코인은 사냥 중 자동 지급 · 아이템은 종료 정산"
+          },
+          {
+            "kind": "party",
+            "visit": "first",
+            "interactiveMs": 219,
+            "frames": {
+              "samples": 75,
+              "p95": 16.799999999999272,
+              "max": 83.29999999999927,
+              "over50": 1
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "legionRequests": 0
+            },
+            "text": "군단토벌 파티\n불타는 성채\n클랜 전용 사냥터\n시즌 5 개방\n파티 모집 중\n불타는 성채\n\n밀려드는 군단을 사냥하고, 잿불 성주 몰록을 처치하세요.\n\n파티 행동력\n0 / 1\n다음 충전\n02:59:50\n원정 인원\n2인 협동\n사냥 시간\n7분\n전리품\n개인 획득\n\n회복시간 50% 단축 · 11월 23일 23:59까지\n\n원정 난이도\n1단계\n재앙의 성문\n2단계\n멸망의 내성\n3단계\n종말의 왕좌\n\n권장\n고레벨 용병과 회복 담당 1명 이상\n\n성주 전리품\n새벽별\n그믐달\n태양왕좌\n유니크 1~3단계 · 상위 성주일수록 드랍 확률 증가\n파티 만들기\n모집 중인 파티\n0\n새로고침\n모집 중인 파티가 없습니다\n\n먼저 파티를 만들고 함께할 대원을 기다려 보세요.\n\n원정 규칙과 화면 설정"
+          },
+          {
+            "kind": "party",
+            "visit": "reentry",
+            "interactiveMs": 149,
+            "frames": {
+              "samples": 75,
+              "p95": 16.799999999999272,
+              "max": 16.80000000000109,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "legionRequests": 0
+            },
+            "text": "군단토벌 파티\n불타는 성채\n클랜 전용 사냥터\n시즌 5 개방\n파티 모집 중\n불타는 성채\n\n밀려드는 군단을 사냥하고, 잿불 성주 몰록을 처치하세요.\n\n파티 행동력\n0 / 1\n다음 충전\n02:59:46\n원정 인원\n2인 협동\n사냥 시간\n7분\n전리품\n개인 획득\n\n회복시간 50% 단축 · 11월 23일 23:59까지\n\n원정 난이도\n1단계\n재앙의 성문\n2단계\n멸망의 내성\n3단계\n종말의 왕좌\n\n권장\n고레벨 용병과 회복 담당 1명 이상\n\n성주 전리품\n새벽별\n그믐달\n태양왕좌\n유니크 1~3단계 · 상위 성주일수록 드랍 확률 증가\n파티 만들기\n모집 중인 파티\n0\n새로고침\n모집 중인 파티가 없습니다\n\n먼저 파티를 만들고 함께할 대원을 기다려 보세요.\n\n원정 규칙과 화면 설정"
+          }
+        ],
+        "errors": [],
+        "productionWrites": 0
+      },
+      {
+        "phase": "recovered",
+        "platform": "h5",
+        "condition": "Public lobby → actual PVE menu → solo and party dialogs, isolated actual server handlers; desktop/Windows renderer/mobile/H5 emulation, no physical phone",
+        "entries": [
+          {
+            "kind": "solo",
+            "visit": "first",
+            "interactiveMs": 334,
+            "frames": {
+              "samples": 75,
+              "p95": 4.300000000000182,
+              "max": 16.699999999999818,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "legionRequests": 0
+            },
+            "text": "리버스콜\nREVERSE CALL\n군단토벌\n←\nPVE로 돌아가기\n2인 파티 원정 · 불타는 성채　→\nREGION 01\n검은 돛의 해안\n체력 · 보호막 · 피해 경감\nREGION 02\n유리 사막\n방어 관통 · 보스 피해\nREGION 03\n끝나지 않는 대극장\n공격 속도 · 연속 타격\nREGION 04\n거수의 뱃속\n체력 회복 · 지속전 생존력\nREGION 05\n역천 제도\n치명타 · 순간 화력\nORIGINAL\n잊혀진 섬\n기존 군단토벌\n\nBLACK SAIL COAST\n\n검은 돛의 해안\n\n폭풍이 삼킨 해안, 난파선 아래에서 군단이 밀려온다.\n\n7분\n연속 토벌\n1\n최종 보스\n10회\n행동력 최대\nFINAL TARGET\n난파왕\n00:00 · 상륙\n작살게\n02:00 · 교전\n칼지느러미 어인\n04:00 · 돌파\n익사한 해적\n4:30 · 최종 보스\n난파왕\nYOUR EXPEDITION\n출전 원정대\n편성 새로고침 ↻\n\n테스트 참여자 · 편성 전투력 1,420,000\n\n01\nFUR\n철와대 킴성태\n02\nFUR\n킹봉준\n03\nFUR\n이상호\n04\nSUPERSTAR\nLionel Messi\n05\nZENITH\n토마토\nSS\n용병 전용 슬롯\n저격 오리꿍\n에메랄드 대물저격\n\n장착 슈트 · X-BODY / 무기 · 東方軍火商(동방무기상) · 금룡 돌격소총\n\nREGION EXCLUSIVE\n용병장비 · 난파왕\nPVE 전용 효과\n\n포대와 본체의 협공 · 보호막과 생존력\n\n용병 세트장비\n난파왕 무기\n기본 전투력 200,000\n용병 세트장비\n난파왕 상의\n기본 전투력 140,000\n용병 세트장비\n난파왕 하의\n기본 전투력 130,000\n용병 세트장비\n난파왕 신발\n기본 전투력 100,000\n용병 세트장비\n난파왕 장신구\n기본 전투력 120,000\n용병 고유장비\n흑조의 작살총\n보호막 대상 피해 +30% · 방어 관통 +5%p\n\n2세트 최대 체력 +8%\n\n4세트 시작 보호막 +12% · 받는 피해 감소 +5%\n\n보스 처치 시 연마석 5개 확정 · 용병 장비 드랍률이 상향되었습니다. 상위 1~10단계 장비도 보스에게서 획득할 수 있으며, 높은 단계일수록 더 희귀합니다. 용병 장비 보기\n확정 연마석은 원정 가방에 바로 보관됩니다. 용병장비는 직접 줍거나 자석 펫으로 수집하세요.\n\nSELECT DIFFICULTY\n난이도 선택\n보통\nH·S 성장 구간\n어려움\nS 완성~Z 성장 구간\n악몽\nZ 완성~X 성장 구간\n지옥\nX 완성~오버로드 구간\n재앙\n8천만 슈트·완성된 덱 기준\n토벌 진행\n보스전 포함 총 7분\n행동력 4 / 10 · 다음 충전 01:28:58 · 1시간 30분마다 1회 · 매일 0시 최대 회복 · 회복시간 50% 단축 · 11월 23일 23:59까지\n판당 최대 코인\n5,000,000,000 코인\n\n처치 즉시 자동 습득 · 보너스 포함 상한\n\n전리품은 직접 눌러 획득\n\n필드에 나타난 아이템을\n사라지기 전에 챙기세요.\n\n코인 수급 후 중단 시 행동력 사용 · 1시간 30분마다 1회 충전\n\n토벌 입장\n코인은 사냥 중 자동 지급 · 아이템은 종료 정산"
+          },
+          {
+            "kind": "solo",
+            "visit": "reentry",
+            "interactiveMs": 148,
+            "frames": {
+              "samples": 75,
+              "p95": 4.300000000000182,
+              "max": 12.600000000000364,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "legionRequests": 0
+            },
+            "text": "리버스콜\nREVERSE CALL\n군단토벌\n←\nPVE로 돌아가기\n2인 파티 원정 · 불타는 성채　→\nREGION 01\n검은 돛의 해안\n체력 · 보호막 · 피해 경감\nREGION 02\n유리 사막\n방어 관통 · 보스 피해\nREGION 03\n끝나지 않는 대극장\n공격 속도 · 연속 타격\nREGION 04\n거수의 뱃속\n체력 회복 · 지속전 생존력\nREGION 05\n역천 제도\n치명타 · 순간 화력\nORIGINAL\n잊혀진 섬\n기존 군단토벌\n\nBLACK SAIL COAST\n\n검은 돛의 해안\n\n폭풍이 삼킨 해안, 난파선 아래에서 군단이 밀려온다.\n\n7분\n연속 토벌\n1\n최종 보스\n10회\n행동력 최대\nFINAL TARGET\n난파왕\n00:00 · 상륙\n작살게\n02:00 · 교전\n칼지느러미 어인\n04:00 · 돌파\n익사한 해적\n4:30 · 최종 보스\n난파왕\nYOUR EXPEDITION\n출전 원정대\n편성 새로고침 ↻\n\n테스트 참여자 · 편성 전투력 1,420,000\n\n01\nFUR\n철와대 킴성태\n02\nFUR\n킹봉준\n03\nFUR\n이상호\n04\nSUPERSTAR\nLionel Messi\n05\nZENITH\n토마토\nSS\n용병 전용 슬롯\n저격 오리꿍\n에메랄드 대물저격\n\n장착 슈트 · X-BODY / 무기 · 東方軍火商(동방무기상) · 금룡 돌격소총\n\nREGION EXCLUSIVE\n용병장비 · 난파왕\nPVE 전용 효과\n\n포대와 본체의 협공 · 보호막과 생존력\n\n용병 세트장비\n난파왕 무기\n기본 전투력 200,000\n용병 세트장비\n난파왕 상의\n기본 전투력 140,000\n용병 세트장비\n난파왕 하의\n기본 전투력 130,000\n용병 세트장비\n난파왕 신발\n기본 전투력 100,000\n용병 세트장비\n난파왕 장신구\n기본 전투력 120,000\n용병 고유장비\n흑조의 작살총\n보호막 대상 피해 +30% · 방어 관통 +5%p\n\n2세트 최대 체력 +8%\n\n4세트 시작 보호막 +12% · 받는 피해 감소 +5%\n\n보스 처치 시 연마석 5개 확정 · 용병 장비 드랍률이 상향되었습니다. 상위 1~10단계 장비도 보스에게서 획득할 수 있으며, 높은 단계일수록 더 희귀합니다. 용병 장비 보기\n확정 연마석은 원정 가방에 바로 보관됩니다. 용병장비는 직접 줍거나 자석 펫으로 수집하세요.\n\nSELECT DIFFICULTY\n난이도 선택\n보통\nH·S 성장 구간\n어려움\nS 완성~Z 성장 구간\n악몽\nZ 완성~X 성장 구간\n지옥\nX 완성~오버로드 구간\n재앙\n8천만 슈트·완성된 덱 기준\n토벌 진행\n보스전 포함 총 7분\n행동력 4 / 10 · 다음 충전 01:28:56 · 1시간 30분마다 1회 · 매일 0시 최대 회복 · 회복시간 50% 단축 · 11월 23일 23:59까지\n판당 최대 코인\n5,000,000,000 코인\n\n처치 즉시 자동 습득 · 보너스 포함 상한\n\n전리품은 직접 눌러 획득\n\n필드에 나타난 아이템을\n사라지기 전에 챙기세요.\n\n코인 수급 후 중단 시 행동력 사용 · 1시간 30분마다 1회 충전\n\n토벌 입장\n코인은 사냥 중 자동 지급 · 아이템은 종료 정산"
+          },
+          {
+            "kind": "party",
+            "visit": "first",
+            "interactiveMs": 205,
+            "frames": {
+              "samples": 75,
+              "p95": 4.300000000000182,
+              "max": 58.399999999999636,
+              "over50": 1
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "legionRequests": 0
+            },
+            "text": "군단토벌 파티\n불타는 성채\n클랜 전용 사냥터\n시즌 5 개방\n파티 모집 중\n불타는 성채\n\n밀려드는 군단을 사냥하고, 잿불 성주 몰록을 처치하세요.\n\n파티 행동력\n0 / 1\n다음 충전\n02:59:53\n원정 인원\n2인 협동\n사냥 시간\n7분\n전리품\n개인 획득\n\n회복시간 50% 단축 · 11월 23일 23:59까지\n\n원정 난이도\n1단계\n재앙의 성문\n2단계\n멸망의 내성\n3단계\n종말의 왕좌\n\n권장\n고레벨 용병과 회복 담당 1명 이상\n\n성주 전리품\n새벽별\n그믐달\n태양왕좌\n유니크 1~3단계 · 상위 성주일수록 드랍 확률 증가\n파티 만들기\n모집 중인 파티\n0\n새로고침\n모집 중인 파티가 없습니다\n\n먼저 파티를 만들고 함께할 대원을 기다려 보세요.\n\n원정 규칙과 화면 설정"
+          },
+          {
+            "kind": "party",
+            "visit": "reentry",
+            "interactiveMs": 71,
+            "frames": {
+              "samples": 75,
+              "p95": 4.200000000000728,
+              "max": 4.300000000001091,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "legionRequests": 0
+            },
+            "text": "군단토벌 파티\n불타는 성채\n클랜 전용 사냥터\n시즌 5 개방\n파티 모집 중\n불타는 성채\n\n밀려드는 군단을 사냥하고, 잿불 성주 몰록을 처치하세요.\n\n파티 행동력\n0 / 1\n다음 충전\n02:59:51\n원정 인원\n2인 협동\n사냥 시간\n7분\n전리품\n개인 획득\n\n회복시간 50% 단축 · 11월 23일 23:59까지\n\n원정 난이도\n1단계\n재앙의 성문\n2단계\n멸망의 내성\n3단계\n종말의 왕좌\n\n권장\n고레벨 용병과 회복 담당 1명 이상\n\n성주 전리품\n새벽별\n그믐달\n태양왕좌\n유니크 1~3단계 · 상위 성주일수록 드랍 확률 증가\n파티 만들기\n모집 중인 파티\n0\n새로고침\n모집 중인 파티가 없습니다\n\n먼저 파티를 만들고 함께할 대원을 기다려 보세요.\n\n원정 규칙과 화면 설정"
+          }
+        ],
+        "errors": [],
+        "productionWrites": 0
+      }
+    ],
+    "liveTraffic": [
+      {
+        "file": "tail-1794847434320.json",
+        "total": 0,
+        "counts": {},
+        "failure": "\u001b[31mX \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mIt looks like you've run a Workers-specific command in a Pages project.\u001b[0m\n\n  For Pages, please run `wrangler pages deployment tail` instead.\n\n\n🪵  Logs were written to \"C:\\Users\\User\\.wrangler\\logs\\wrangler-2026-11-16_16-43-52_512.log\"\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\r\n",
+        "errors": [],
+        "timings": []
+      },
+      {
+        "file": "tail-1794847509296.json",
+        "first": 1794847466687,
+        "last": 1794847507091,
+        "total": 32,
+        "counts": {
+          "/api/legion-hunt/status 200": 7,
+          "/api/legion-party/state 200": 17,
+          "/api/legion-party/start 503": 3,
+          "/api/legion-hunt/recover 200": 3,
+          "/api/legion-hunt/bootstrap 503": 1,
+          "/api/legion-party/lobby 200": 1
+        },
+        "failure": "",
+        "errors": [
+          {
+            "at": 1794847469868,
+            "path": "/api/legion-party/start",
+            "status": 503,
+            "exceptions": [],
+            "logs": [
+              {
+                "level": "error",
+                "message": [
+                  "[legion citadel]",
+                  "Error",
+                  "HUNT_REGION_UNAVAILABLE"
+                ]
+              },
+              {
+                "level": "log",
+                "message": [
+                  "{\"type\":\"api_timing\",\"method\":\"POST\",\"path\":\"/api/legion-party/start\",\"status\":503,\"durationMs\":121,\"d1Queries\":68,\"d1Batches\":1,\"d1BatchStatements\":2,\"d1Total\":70,\"d1Ms\":220,\"placement\":\"\",\"ray\":\"a5b7f5ee4fff9d6e\"}"
+                ]
+              }
+            ]
+          },
+          {
+            "at": 1794847488097,
+            "path": "/api/legion-hunt/bootstrap",
+            "status": 503,
+            "exceptions": [],
+            "logs": [
+              {
+                "level": "log",
+                "message": [
+                  "{\"type\":\"api_timing\",\"method\":\"GET\",\"path\":\"/api/legion-hunt/bootstrap\",\"status\":503,\"durationMs\":1650,\"d1Queries\":84,\"d1Batches\":1,\"d1BatchStatements\":2,\"d1Total\":86,\"d1Ms\":3430,\"placement\":\"\",\"ray\":\"a5b7f66038725b64\"}"
+                ]
+              }
+            ]
+          },
+          {
+            "at": 1794847489624,
+            "path": "/api/legion-party/start",
+            "status": 503,
+            "exceptions": [],
+            "logs": [
+              {
+                "level": "error",
+                "message": [
+                  "[legion citadel]",
+                  "Error",
+                  "HUNT_REGION_UNAVAILABLE"
+                ]
+              },
+              {
+                "level": "log",
+                "message": [
+                  "{\"type\":\"api_timing\",\"method\":\"POST\",\"path\":\"/api/legion-party/start\",\"status\":503,\"durationMs\":161,\"d1Queries\":73,\"d1Batches\":1,\"d1BatchStatements\":2,\"d1Total\":75,\"d1Ms\":555,\"placement\":\"\",\"ray\":\"a5b7f669ddfb9d6e\"}"
+                ]
+              }
+            ]
+          },
+          {
+            "at": 1794847506575,
+            "path": "/api/legion-party/start",
+            "status": 503,
+            "exceptions": [],
+            "logs": [
+              {
+                "level": "error",
+                "message": [
+                  "[legion citadel]",
+                  "Error",
+                  "HUNT_REGION_UNAVAILABLE"
+                ]
+              },
+              {
+                "level": "log",
+                "message": [
+                  "{\"type\":\"api_timing\",\"method\":\"POST\",\"path\":\"/api/legion-party/start\",\"status\":503,\"durationMs\":222,\"d1Queries\":70,\"d1Batches\":1,\"d1BatchStatements\":2,\"d1Total\":72,\"d1Ms\":323,\"placement\":\"\",\"ray\":\"a5b7f6d3be859d6e\"}"
+                ]
+              }
+            ]
+          }
+        ],
+        "timings": [
+          {
+            "path": "/api/legion-party/start",
+            "status": 503,
+            "durationMs": 121,
+            "sql": 70
+          },
+          {
+            "path": "/api/legion-hunt/bootstrap",
+            "status": 503,
+            "durationMs": 1650,
+            "sql": 86
+          },
+          {
+            "path": "/api/legion-party/start",
+            "status": 503,
+            "durationMs": 161,
+            "sql": 75
+          },
+          {
+            "path": "/api/legion-hunt/status",
+            "status": 200,
+            "durationMs": 50,
+            "sql": 10
+          },
+          {
+            "path": "/api/legion-party/start",
+            "status": 503,
+            "durationMs": 222,
+            "sql": 72
+          }
+        ]
+      },
+      {
+        "file": "tail-1794847605584.json",
+        "first": 1794847564685,
+        "last": 1794847603425,
+        "total": 39,
+        "counts": {
+          "/api/legion-party/state 200": 30,
+          "/api/legion-hunt/status 200": 6,
+          "/api/legion-party/chunk 200": 3
+        },
+        "failure": "",
+        "errors": [],
+        "timings": []
+      },
+      {
+        "file": "tail-1794848276147.json",
+        "first": 1794848233225,
+        "last": 1794848275346,
+        "total": 143,
+        "counts": {
+          "/api/legion-hunt/reveal 200": 140,
+          "/api/legion-hunt/status 200": 2,
+          "/api/legion-hunt/reveal 409": 1
+        },
+        "failure": "",
+        "errors": [],
+        "timings": [
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 272,
+            "sql": 21
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 528,
+            "sql": 27
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 390,
+            "sql": 21
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 354,
+            "sql": 27
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 638,
+            "sql": 27
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 458,
+            "sql": 27
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 516,
+            "sql": 27
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 610,
+            "sql": 27
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 357,
+            "sql": 27
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 493,
+            "sql": 27
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 435,
+            "sql": 21
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 481,
+            "sql": 27
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 425,
+            "sql": 27
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 206,
+            "sql": 18
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 242,
+            "sql": 18
+          }
+        ]
+      },
+      {
+        "file": "tail-1794848400609.json",
+        "first": 1794848357498,
+        "last": 1794848398773,
+        "total": 88,
+        "counts": {
+          "/api/legion-hunt/reveal 200": 79,
+          "/api/legion-hunt/start 200": 1,
+          "/api/legion-hunt/status 200": 3,
+          "/api/legion-hunt/recover 200": 2,
+          "/api/legion-hunt/finish 200": 1,
+          "/api/legion-hunt/bootstrap 200": 2
+        },
+        "failure": "",
+        "errors": [],
+        "timings": [
+          {
+            "path": "/api/legion-hunt/start",
+            "status": 200,
+            "durationMs": 1966,
+            "sql": 100
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 612,
+            "sql": 27
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 468,
+            "sql": 27
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 680,
+            "sql": 27
+          },
+          {
+            "path": "/api/legion-hunt/finish",
+            "status": 200,
+            "durationMs": 550,
+            "sql": 55
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 431,
+            "sql": 27
+          },
+          {
+            "path": "/api/legion-hunt/bootstrap",
+            "status": 200,
+            "durationMs": 1805,
+            "sql": 88
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 377,
+            "sql": 27
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 517,
+            "sql": 27
+          },
+          {
+            "path": "/api/legion-hunt/bootstrap",
+            "status": 200,
+            "durationMs": 2100,
+            "sql": 87
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 353,
+            "sql": 27
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 338,
+            "sql": 18
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 167,
+            "sql": 12
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 349,
+            "sql": 27
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 432,
+            "sql": 27
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 299,
+            "sql": 27
+          },
+          {
+            "path": "/api/legion-hunt/reveal",
+            "status": 200,
+            "durationMs": 344,
+            "sql": 27
+          }
+        ]
+      }
+    ]
+  },
+  "deployment": {
+    "checkedAt": "2026-11-16T17:00:56.618Z",
+    "sourceCommit": "1efc59976e43e65e1cf3027de64bc19e186572df",
+    "pages": {
+      "id": "a8e1c944-0ce2-4ec5-a7fe-b7a0e1a949fc",
+      "commit": "1efc59976e43e65e1cf3027de64bc19e186572df",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "0fe570af-8071-4c84-be6a-a4c1a8687176",
+        "percentage": 100,
+        "sourceSHA256": "01972185139b33edfffaa9359de6aaaf8b8e6396b97796fc103d03130e743493"
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "d5380ef6-f2bb-43a1-9cbe-5977f5b6ea04",
+        "percentage": 100,
+        "sourceSHA256": "5402b3b693922798e370d5b1ec9b0b7500cee9b65c3e2870389bd8442d118097"
+      }
+    ],
+    "retiredRegionalPolicyFiltered": true,
+    "mixedLootPreserved": true,
+    "releaseTests": 36
+  },
+  "performanceNotes": [
+    "Windows Node local comparison uses the same original production configuration and repaired configuration, with a fixed 8ms indexed SQL delay; 10 samples per condition. Before legacy reads failed, after succeeded. SQL count stays one. No claim of faster rendering or gameplay.",
+    "Live configuration reads include network time and use a READ ONLY transaction. The primary incident was validation failure, not a timeout or resource bottleneck.",
+    "UI uses published lobby/PVE navigation and current actual server handlers backed by isolated databases containing the exact pre-repair regional configuration. Real user accounts were not used for QA.",
+    "Desktop Chrome, Android and iPhone WebKit emulation, a Windows Electron offscreen renderer and an H5 iframe with simulated SDK. Not physical phone measurements.",
+    "WebKit common ResizeObserver warning and measured long frames are recorded; no client rendering code changed. All measured exits had zero remaining dialog mutations and Legion requests."
+  ],
+  "accountMutations": 0,
+  "messagesSent": 0,
+  "privateBackup": "operations/legion-entry-incident-20261117/region-before.json; raw live odds retained locally only"
+}
