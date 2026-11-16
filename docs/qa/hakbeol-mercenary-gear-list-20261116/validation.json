@@ -1,0 +1,443 @@
+{
+  "status": "VALIDATED_NOT_YET_DEPLOYED",
+  "at": "2026-11-16T09:59:24.372Z",
+  "request": "학벌 계정의 획득 용병 장비가 강화 목록에 보이지 않음",
+  "account": {
+    "id": 4627,
+    "nickname": "학벌"
+  },
+  "finding": {
+    "item": {
+      "instanceId": "3373751824",
+      "code": "HUNT_THEATRE_SHOES",
+      "name": "마리오네트 신발",
+      "level": 0
+    },
+    "beforePage": 5,
+    "pageSize": 40,
+    "loss": false,
+    "reason": "All gear was ordered by enhanced power; new +0 mercenary shoes appeared after four pages of higher-power general equipment."
+  },
+  "change": "Server-side mercenary catalog filter before indexed pagination, exposed as 용병 장비 in the existing forge. Power ordering and all existing type filters remain.",
+  "verification": {
+    "unitChecks": 22,
+    "databases": [
+      "SQLite in memory",
+      "PostgreSQL PGlite"
+    ],
+    "cases": [
+      "new +0 drops behind 165 general items",
+      "region / ascendant / unique mercenary catalogs",
+      "duplicate instances and exact cursor pages",
+      "foreign, hidden and inactive items excluded",
+      "focus lookup filter",
+      "equipped PvE/PvP IDs preserved",
+      "isolated new-shoe enhancement quote; no material spend"
+    ],
+    "live": {
+      "readOnly": true,
+      "held": 10,
+      "returned": 10,
+      "nextCursor": null,
+      "inventoryUnchangedDuringRead": true
+    },
+    "controls": {
+      "accountMutations": 0,
+      "enhancementAttempts": 0,
+      "currencySpend": 0,
+      "grants": 0,
+      "messages": 0
+    }
+  },
+  "performance": {
+    "conditions": "Windows Node CLI to live PostgreSQL, network included, single first/repeat samples. Browser: Windows host, fixed 80ms isolated API snapshot, real entry routes/assets, headless Chrome and WebKit emulation; Windows Electron test renderer and simulated ONE store iframe. No physical phones or native mobile app measurements.",
+    "before": [
+      {
+        "label": "actual mercenary equipment state",
+        "ms": 913,
+        "queries": 11
+      },
+      {
+        "label": "forge first page",
+        "ms": 1301,
+        "queries": 14
+      },
+      {
+        "label": "forge first page repeat",
+        "ms": 1084,
+        "queries": 14
+      },
+      {
+        "label": "forge following page 2",
+        "ms": 900,
+        "queries": 11
+      },
+      {
+        "label": "forge following page 3",
+        "ms": 898,
+        "queries": 11
+      },
+      {
+        "label": "forge following page 4",
+        "ms": 976,
+        "queries": 11
+      },
+      {
+        "label": "forge following page 5",
+        "ms": 1189,
+        "queries": 15
+      },
+      {
+        "label": "forge weapon page",
+        "ms": 1073,
+        "queries": 14
+      }
+    ],
+    "after": [
+      {
+        "label": "actual mercenary equipment state",
+        "ms": 890,
+        "queries": 11
+      },
+      {
+        "label": "forge first page",
+        "ms": 1224,
+        "queries": 14
+      },
+      {
+        "label": "forge first page repeat",
+        "ms": 1099,
+        "queries": 14
+      },
+      {
+        "label": "forge following page 2",
+        "ms": 874,
+        "queries": 11
+      },
+      {
+        "label": "forge following page 3",
+        "ms": 867,
+        "queries": 11
+      },
+      {
+        "label": "forge following page 4",
+        "ms": 868,
+        "queries": 11
+      },
+      {
+        "label": "forge following page 5",
+        "ms": 1197,
+        "queries": 15
+      },
+      {
+        "label": "forge weapon page",
+        "ms": 1095,
+        "queries": 14
+      },
+      {
+        "label": "forge mercenary first page",
+        "ms": 1122,
+        "queries": 14
+      },
+      {
+        "label": "forge mercenary repeat",
+        "ms": 1079,
+        "queries": 14
+      }
+    ],
+    "sqlRequestsToLoadTarget": {
+      "before": 62,
+      "afterFiltered": 14
+    },
+    "browser": {
+      "desktop": {
+        "before": {
+          "coldLaunchMs": 1073,
+          "first": {
+            "navigation": 777,
+            "input": 781
+          },
+          "findTarget": {
+            "ms": 1203,
+            "stateRequests": 4
+          },
+          "reentry": {
+            "navigation": 17146,
+            "input": 17151
+          },
+          "frames": {
+            "count": 260,
+            "p95Ms": 22.8,
+            "maxMs": 134.5,
+            "over50": 6
+          },
+          "afterExit": {
+            "forgeRequests": 0,
+            "forgeCanvases": 0
+          },
+          "diagnostics": []
+        },
+        "candidate": {
+          "coldLaunchMs": 1087,
+          "first": {
+            "navigation": 798,
+            "input": 802
+          },
+          "findTarget": {
+            "ms": 481,
+            "stateRequests": 1
+          },
+          "reentry": {
+            "navigation": 679,
+            "input": 684
+          },
+          "frames": {
+            "count": 200,
+            "p95Ms": 12.2,
+            "maxMs": 133.8,
+            "over50": 2
+          },
+          "afterExit": {
+            "forgeRequests": 0,
+            "forgeCanvases": 0
+          },
+          "diagnostics": []
+        }
+      },
+      "android": {
+        "before": {
+          "coldLaunchMs": 1036,
+          "first": {
+            "navigation": 876,
+            "input": 881
+          },
+          "findTarget": {
+            "ms": 1127,
+            "stateRequests": 4
+          },
+          "reentry": {
+            "navigation": 560,
+            "input": 563
+          },
+          "frames": {
+            "count": 289,
+            "p95Ms": 9.5,
+            "maxMs": 84.9,
+            "over50": 4
+          },
+          "afterExit": {
+            "forgeRequests": 0,
+            "forgeCanvases": 0
+          },
+          "diagnostics": []
+        },
+        "candidate": {
+          "coldLaunchMs": 1054,
+          "first": {
+            "navigation": 869,
+            "input": 875
+          },
+          "findTarget": {
+            "ms": 563,
+            "stateRequests": 1
+          },
+          "reentry": {
+            "navigation": 624,
+            "input": 628
+          },
+          "frames": {
+            "count": 211,
+            "p95Ms": 9.8,
+            "maxMs": 87.3,
+            "over50": 2
+          },
+          "afterExit": {
+            "forgeRequests": 0,
+            "forgeCanvases": 0
+          },
+          "diagnostics": []
+        }
+      },
+      "ios": {
+        "before": {
+          "coldLaunchMs": 9563,
+          "first": {
+            "navigation": 1450,
+            "input": 1465
+          },
+          "findTarget": {
+            "ms": 2890,
+            "stateRequests": 4
+          },
+          "reentry": {
+            "navigation": 953,
+            "input": 979
+          },
+          "frames": {
+            "count": 113,
+            "p95Ms": 107,
+            "maxMs": 247,
+            "over50": 12
+          },
+          "afterExit": {
+            "forgeRequests": 0,
+            "forgeCanvases": 0
+          },
+          "diagnostics": [
+            "ResizeObserver loop completed with undelivered notifications.",
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        },
+        "candidate": {
+          "coldLaunchMs": 1206,
+          "first": {
+            "navigation": 15413,
+            "input": 15441
+          },
+          "findTarget": {
+            "ms": 1015,
+            "stateRequests": 1
+          },
+          "reentry": {
+            "navigation": 1104,
+            "input": 1115
+          },
+          "frames": {
+            "count": 77,
+            "p95Ms": 57,
+            "maxMs": 62,
+            "over50": 5
+          },
+          "afterExit": {
+            "forgeRequests": 0,
+            "forgeCanvases": 0
+          },
+          "diagnostics": [
+            "ResizeObserver loop completed with undelivered notifications.",
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        }
+      },
+      "windows": {
+        "before": {
+          "coldLaunchMs": 898,
+          "first": {
+            "navigation": 800,
+            "input": 813
+          },
+          "findTarget": {
+            "ms": 1854,
+            "stateRequests": 4
+          },
+          "reentry": {
+            "navigation": 268,
+            "input": 272
+          },
+          "frames": {
+            "count": 128,
+            "p95Ms": 50.9,
+            "maxMs": 104.9,
+            "over50": 7
+          },
+          "afterExit": {
+            "forgeRequests": 0,
+            "forgeCanvases": 0
+          },
+          "diagnostics": []
+        },
+        "candidate": {
+          "coldLaunchMs": 903,
+          "first": {
+            "navigation": 577,
+            "input": 581
+          },
+          "findTarget": {
+            "ms": 436,
+            "stateRequests": 1
+          },
+          "reentry": {
+            "navigation": 316,
+            "input": 321
+          },
+          "frames": {
+            "count": 64,
+            "p95Ms": 17.9,
+            "maxMs": 19.7,
+            "over50": 0
+          },
+          "afterExit": {
+            "forgeRequests": 0,
+            "forgeCanvases": 0
+          },
+          "diagnostics": []
+        }
+      },
+      "h5": {
+        "before": {
+          "coldLaunchMs": 1207,
+          "first": {
+            "navigation": 837,
+            "input": 843
+          },
+          "findTarget": {
+            "ms": 1237,
+            "stateRequests": 4
+          },
+          "reentry": {
+            "navigation": 546,
+            "input": 550
+          },
+          "frames": {
+            "count": 285,
+            "p95Ms": 21.4,
+            "maxMs": 155.3,
+            "over50": 7
+          },
+          "afterExit": {
+            "forgeRequests": 0,
+            "forgeCanvases": 0
+          },
+          "diagnostics": []
+        },
+        "candidate": {
+          "coldLaunchMs": 1114,
+          "first": {
+            "navigation": 795,
+            "input": 801
+          },
+          "findTarget": {
+            "ms": 522,
+            "stateRequests": 1
+          },
+          "reentry": {
+            "navigation": 592,
+            "input": 596
+          },
+          "frames": {
+            "count": 213,
+            "p95Ms": 5.6,
+            "maxMs": 155.6,
+            "over50": 1
+          },
+          "afterExit": {
+            "forgeRequests": 0,
+            "forgeCanvases": 0
+          },
+          "diagnostics": []
+        }
+      }
+    },
+    "limitations": [
+      "Browser runs include real asset parsing, rendering and external font/network variability. No claimed universal latency reduction.",
+      "Existing WebKit ResizeObserver loop warnings and long frames are recorded on both versions.",
+      "First/reentry outliers (before desktop 17.15s, candidate WebKit 15.44s) remain in the measurements; live public delivery review records resource timing."
+    ]
+  },
+  "artifacts": {
+    "sourceOperations": "operations/hakbeol-mercenary-gear-list-20261116",
+    "screenshots": [
+      "forge-desktop.png",
+      "forge-mobile.png"
+    ]
+  }
+}

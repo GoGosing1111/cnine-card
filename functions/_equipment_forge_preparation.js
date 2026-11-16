@@ -1,5 +1,5 @@
 import {forgePower} from '../shared/equipment-forge-policy-v1.mjs';
-import {isMercenaryEquipment} from '../shared/mercenary-equipment-v1.mjs';
+import {isMercenaryEquipment,MERCENARY_EQUIPMENT_SQL_CODES} from '../shared/mercenary-equipment-v1.mjs';
 import {readMercenaryEquipmentRecords} from './_mercenary_equipment.js';
 import {readForgeAdvancedPolicy} from './_equipment_forge_advanced.js';
 import {forgePowerBonuses} from '../shared/equipment-forge-advanced-v1.mjs';
@@ -25,8 +25,11 @@ function positiveId(value) {
 export async function readForgePreparationInventory(db, authenticatedUserId, { beforeId = null, focusId = null, limit = 40, group = 'all', includeEnhancement = false, advancedPolicy } = {}) {
   const userId = positiveId(authenticatedUserId), cursor = beforeId == null ? null : positiveId(beforeId);
   if (!Number.isSafeInteger(limit) || limit < 1 || limit > 100) throw new Error('장비는 페이지당 1~100개까지 조회합니다.');
-  const groups={all:['WEAPON','TOP','BOTTOM','SHOES','ACCESSORY'],weapon:['WEAPON'],armor:['TOP','BOTTOM','SHOES'],accessory:['ACCESSORY']};
+  const groups={all:['WEAPON','TOP','BOTTOM','SHOES','ACCESSORY'],mercenary:['WEAPON','TOP','BOTTOM','SHOES','ACCESSORY'],weapon:['WEAPON'],armor:['TOP','BOTTOM','SHOES'],accessory:['ACCESSORY']};
   if(!Object.hasOwn(groups,group))throw new Error('장비 종류를 확인하세요.');
+  // Filter the catalog before pagination so new +0 mercenary gear is not buried
+  // behind pages of stronger account equipment. Codes are compile-time constants.
+  const catalogFilter=group==='mercenary'?`AND i.code IN (${MERCENARY_EQUIPMENT_SQL_CODES})`:'';
   if(includeEnhancement&&advancedPolicy===undefined)advancedPolicy=await readForgeAdvancedPolicy(db);
   const currentPowerSql=`CAST(i.total_power AS BIGINT)*(CASE s.level ${forgePowerBonuses(advancedPolicy).map((bonus,level)=>bonus===null?'':`WHEN ${level} THEN ${100+bonus}`).join(' ')} ELSE 100 END)/100`;
   const slots=groups[group],empty={accountId:userId,mode:'PREPARATION_READ_ONLY',canEnhance:false,items:[],nextCursor:null};
@@ -35,7 +38,7 @@ export async function readForgePreparationInventory(db, authenticatedUserId, { b
       CASE WHEN EXISTS(SELECT 1 FROM user_equipment_loadout l WHERE l.instance_id=x.id AND l.user_id=x.user_id AND l.slot=i.slot) THEN 1 ELSE 0 END AS equipped
       FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id
       LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id
-      WHERE x.id=? AND x.user_id=? AND i.is_active=1 AND i.is_public=1 AND i.slot IN (${slots.map(()=>'?').join(',')})`).bind(positiveId(focusId),userId,...slots).first();
+      WHERE x.id=? AND x.user_id=? AND i.is_active=1 AND i.is_public=1 AND i.slot IN (${slots.map(()=>'?').join(',')}) ${catalogFilter}`).bind(positiveId(focusId),userId,...slots).first();
     return {...empty,items:await equipmentWearers(db,userId,row?[preparationItem(row,includeEnhancement,advancedPolicy)]:[])};
   }
   let cursorPower=null;
@@ -61,7 +64,7 @@ export async function readForgePreparationInventory(db, authenticatedUserId, { b
       JOIN user_equipment_instances x ON x.id IN(SELECT b.id FROM user_equipment_instances b WHERE ${baseWhere}
         ORDER BY b.user_id DESC,b.equipment_id DESC,b.id DESC LIMIT ?)`;
   const sql=`WITH catalog AS MATERIALIZED (
-      SELECT * FROM character_equipment_items WHERE is_active=1 AND is_public=1 AND slot IN (${slots.map(()=>'?').join(',')})
+      SELECT * FROM character_equipment_items i WHERE is_active=1 AND is_public=1 AND slot IN (${slots.map(()=>'?').join(',')}) ${catalogFilter}
         ${cursor?'AND total_power<=?':''}
     ),${includeEnhancement?'growth AS MATERIALIZED (SELECT instance_id,level,revision FROM equipment_forge_states_v1 WHERE user_id=?),':''}
     normal AS MATERIALIZED (${normal}),
