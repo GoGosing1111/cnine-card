@@ -47,12 +47,12 @@ test('mode equipment persists the chosen instance without changing the other mod
  s=await f.run(command('APPLY',s.revision,{pendingId:s.pending.id}));s=await f.run(command('EQUIP',s.revision,{instanceId:code+':2',mode:'PVE'}));
  const snapshot=await loadPetBattleSnapshot(f.env,user,'PVE');assert.equal(snapshot.growth.id,code+':2');assert.deepEqual(snapshot.definition.buffs,[{type:'ATTACK_PERCENT',percent:50}]);assert.equal(await loadPetBattleSnapshot(f.env,user,'PVP'),null);
  const old=structuredClone(snapshot);s=await f.run(command('ROLL_TRAIT',s.revision,{instanceId:code+':2'}),{randomInt:n=>n-1});await f.run(command('APPLY',s.revision,{pendingId:s.pending.id}));assert.deepEqual(snapshot,old);
- const bonus=await readCollectionBonuses(f.env,2,'PVE');assert.equal(bonus.petBonuses.coinPercent,10);
+ const bonus=await readCollectionBonuses(f.env,2,'PVE');assert.equal(bonus.petBonuses.coinPercent,25);
 });
 test('battle applies extra stats and trait once, hunter only damages bosses and old pets retain balance',()=>{
  const instance=initialPetGrowth(code);instance.stats={attack:'B',defense:'A',hp:'S',speed:'SSS'};instance.trait={id:'HUNTER',grade:'SSS'};
  const actor={id:'A:1',alive:true,hp:100,maxHp:100,attack:100,defense:100,speed:100,shield:0,battleMode:'PVE'},raw={definition:{code,name:'흑구',battleSprite:'assets/a.png',enabled:true,modes:['PVE','PVP'],target:'ALL_ALLIES',notes:'',buffs:[{type:'ATTACK_PERCENT',percent:50}]},growth:instance,ownerId:2};
- const opening=applyPetOpeningBuff([actor],raw,'A','PVE');assert.equal(actor.attack,151);assert.equal(actor.defense,102);assert.equal(actor.maxHp,103);assert.equal(actor.speed,105);assert.equal(opening.petTrait.percent,10);assert.equal(equipmentHitMultiplier(actor,{isBoss:true},false),1.1);assert.equal(equipmentHitMultiplier(actor,{isBoss:false},false),1);assert.equal(applyPetOpeningBuff([actor],raw,'A','PVE'),null);
+ const opening=applyPetOpeningBuff([actor],raw,'A','PVE');assert.equal(actor.attack,155);assert.equal(actor.defense,110);assert.equal(actor.maxHp,120);assert.equal(actor.speed,125);assert.equal(opening.petTrait.percent,50);assert.equal(equipmentHitMultiplier(actor,{isBoss:true},false),1.5);assert.equal(equipmentHitMultiplier(actor,{isBoss:false},false),1);assert.equal(applyPetOpeningBuff([actor],raw,'A','PVE'),null);
  assert.equal(petGrowthCoinBonus({...instance,trait:{id:'LUCK',grade:'SSS'}},'PVP'),0);
  assert.equal(savedPetGrowth({pets:{[instance.id]:instance},loadouts:{PVE:instance.id}},code,'PVE',{permanent:false,quantity:1}),null);
 });

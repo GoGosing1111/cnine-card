@@ -12,9 +12,16 @@ export const PET_GROWTH_CAPS=Object.freeze(Object.fromEntries([
  ['SS',['HEUKGU','JJANGGU-HEEYA']],
  ['SSS',['BAZZI-BONGSOON','PEPEGU','SUDAL','DDUNG-JOEUN']]
 ].flatMap(([grade,codes])=>codes.map(code=>['PET-'+code,grade]))));
-const stats={C:0,B:1,A:2,S:3,SS:4,SSS:5},traits={C:1,B:2,A:3,S:5,SS:7,SSS:10};
-export const PET_GROWTH_VALUES=Object.freeze({...Object.fromEntries(PET_STATS.map(k=>[k,stats])),...Object.fromEntries(Object.keys(PET_TRAITS).map(k=>[k,traits]))});
-export const PET_GROWTH_POLICY=Object.freeze({enabled:true,revision:1,costs:PET_GROWTH_COSTS,weights:{C:30,B:25,A:20,S:15,SS:7,SSS:3},values:PET_GROWTH_VALUES,
+// Saved growth contains grades, so existing and pending rolls receive these
+// effects without rerolling. Species buffs, caps, odds and costs are unchanged.
+const stats=Object.freeze({C:0,B:5,A:10,S:20,SS:35,SSS:50});
+const speed=Object.freeze({C:0,B:3,A:6,S:10,SS:16,SSS:25});
+const traits=Object.freeze({C:2,B:5,A:10,S:20,SS:30,SSS:50});
+const haste=Object.freeze({C:1,B:3,A:6,S:10,SS:16,SSS:25});
+const luck=Object.freeze({C:2,B:4,A:7,S:12,SS:18,SSS:25});
+export const PET_GROWTH_VALUES=Object.freeze({attack:stats,defense:stats,hp:stats,speed,
+ ASSAULT:traits,GUARD:traits,VITALITY:traits,HASTE:haste,HUNTER:traits,LUCK:luck});
+export const PET_GROWTH_POLICY=Object.freeze({enabled:true,revision:2,costs:PET_GROWTH_COSTS,weights:{C:30,B:25,A:20,S:15,SS:7,SSS:3},values:PET_GROWTH_VALUES,
  traitPools:Object.fromEntries(Object.keys(PET_GROWTH_CAPS).map(code=>[code,Object.keys(PET_TRAITS)]))});
 export const emptyPetGrowth=()=>({version:2,revision:0,pets:{},loadouts:{PVE:null,PVP:null},pending:null});
 export function initialPetGrowth(code,index=1){
