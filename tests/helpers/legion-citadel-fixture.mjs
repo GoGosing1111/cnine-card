@@ -30,7 +30,7 @@ export async function citadelFixture({postgres=false,squads=citadelSquads(),live
   for(const c of s.cards){await exec("INSERT INTO cards_effective_v1210(id,title,rarity,image_url,member_id,is_active,card_status) VALUES(?,?,?,?,1,1,'PUBLIC') ON CONFLICT(id) DO NOTHING",c.id,c.title,c.rarity,c.image);await exec('INSERT INTO user_cards(user_id,card_id,quantity) VALUES(?,?,1)',s.ownerId,c.id);}
   for(const m of s.mercenaries)await exec('INSERT INTO user_mercenary_cards_v1 VALUES(?,?,1)',s.ownerId,m.code);
  }
- f.clock.now=Date.now();const ticks=()=>liveClock?Date.now()+f.clock.offset:f.clock.now;f.clock.offset=0;
+ f.clock.now=Date.parse('2026-11-08T12:00:00+09:00');const ticks=()=>liveClock?Date.now()+f.clock.offset:f.clock.now;f.clock.offset=0;
  const named=id=>id?({id,nickname:['','선봉','후위','관전자'][id]||'테스트',role:id===4||ownerIds.includes(id)?'OWNER':'USER'}):null;
  const opts=u=>{const s=squads.find(s=>s.ownerId===u.id);return {mercenaries:(s?.mercenaries||[]).map(m=>({id:m.code,name:m.name,rank:m.rank,level:m.mercenaryLevel.level,image:m.sourceArt})),icons:(s?.cards||[]).map(c=>({id:c.id,name:c.title,level:c.breakthrough_level||0,image:c.image}))};};
  const deps={...f.deps,authenticate:async req=>named(Number(req.headers.get('x-test-id')||0)),now:ticks,supportBenefits:async()=>null,

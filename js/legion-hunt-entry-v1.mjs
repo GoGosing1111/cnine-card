@@ -1,4 +1,6 @@
-import {legionHuntEnergyText,legionHuntEnergyView} from '../shared/legion-hunt-energy-v1.mjs?v=20261021-daily-reset-v1';
+import {legionHuntEnergyText,legionHuntEnergyView} from '../shared/legion-hunt-energy-v1.mjs?v=20261116-recovery-event';
+import {legionRechargeLabel,legionRechargeMs} from '../shared/legion-recovery-event-v1.mjs';
+import {CONTENT_ENERGY_RECHARGE_MS as LEGION_BASE} from '../shared/content-energy-v1.mjs';
 import {jointAccountRequest} from './joint-account-transport.mjs';
 import {equipmentEffectText} from '../shared/equipment-growth-text-v1.mjs';
 
@@ -76,7 +78,7 @@ export function openLegionHunt(button){
       </aside>
     </div></div><div class="legion-play" hidden></div><dialog class="legion-poster-view" aria-label="군단토벌 콘텐츠 소개"><button type="button" data-hunt-poster-close aria-label="소개 닫기">닫기 ×</button><img src="${art}posters/legion-hunt-forgotten-island-v3.png" alt="군단토벌 · 잊혀진 섬 콘텐츠 소개 포스터"></dialog>`;
   const find=s=>dialog.querySelector(s);
-  let frame=null,session=null,rewardsChanged=false,recoveryWait=Promise.resolve(),energyTimer;
+  let frame=null,session=null,rewardsChanged=false,recoveryWait=Promise.resolve(),energyTimer,displayRechargeMs;
   const clearFrame=()=>{
     if(session){recoveryWait=jointAccountRequest('legion-hunt/cancel',{method:'POST',body:{id:session}}).catch(()=>{});session=null;}
     if(frame){frame.src='about:blank';frame.remove();frame=null;}
@@ -113,7 +115,8 @@ export function openLegionHunt(button){
     find('[data-hunt-enter]').textContent=loading?'편성 불러오는 중':exhausted?'행동력 충전 대기':'토벌 입장';
     find('[data-hunt-refresh]').disabled=loading;
     const recoveryNotice=data?.recovery?.kind==='SETTLED'?'이전 원정의 전리품 정산을 완료했습니다.':data?.recovery?.refunded?'중단된 원정의 행동력 1회를 복구했습니다.':'';
-    find('.legion-entry-status').textContent=state.error||recoveryNotice||(loading?'저장된 편성을 불러오는 중입니다.':unlimited?'OWNER 계정 · 입장 횟수 제한 없음':exhausted?'3시간마다 행동력이 1회 충전됩니다.':'코인 수급 후 중단 시 행동력 사용 · 3시간마다 1회 충전');
+    const energyAt=data?.entries?.serverNow??Date.now(),recharge=legionRechargeLabel(LEGION_BASE,energyAt);displayRechargeMs=legionRechargeMs(LEGION_BASE,energyAt);
+    find('.legion-entry-status').textContent=state.error||recoveryNotice||(loading?'저장된 편성을 불러오는 중입니다.':unlimited?'OWNER 계정 · 입장 횟수 제한 없음':exhausted?recharge+'마다 행동력이 1회 충전됩니다.':'코인 수급 후 중단 시 행동력 사용 · '+recharge+'마다 1회 충전');
     find('.legion-entry-status').classList.toggle('error',!!state.error);
     find('[data-hunt-reward-mode]').textContent=data?.access?.liveRewards&&(!region||expansion.mode==='ON')?'코인은 사냥 중 자동 지급 · 아이템은 종료 정산':data?.access?.mode==='TEST'||region&&expansion.mode==='TEST'?'TEST · 지정 참여자 검수 · 계정 보상 미지급':'';
     find('.legion-account').textContent=loadout?loadout.accountNickname+' · 편성 전투력 '+power(Object.values(loadout.power).reduce((a,b)=>a+Number(b||0),0)):'';
@@ -127,7 +130,7 @@ export function openLegionHunt(button){
     const selected=choices.find(d=>d.id===state.difficulty);
     const coinCap=data?.coinCaps?.[region?'regions':'island']?.[state.difficulty];
     find('[data-hunt-coin-cap]').textContent=coinCap?power(coinCap)+' 코인':'—';
-    find('[data-hunt-coin-note]').textContent=data?.access?.liveRewards&&(!region||expansion.mode==='ON')?(data.coinEntries?.remaining===0?'코인 수급 행동력 충전 대기 · 3시간마다 1회 충전':'처치 즉시 자동 습득 · 보너스 포함 상한'):'TEST · 실제 코인은 지급되지 않습니다.';
+    find('[data-hunt-coin-note]').textContent=data?.access?.liveRewards&&(!region||expansion.mode==='ON')?(data.coinEntries?.remaining===0?'코인 수급 행동력 충전 대기 · '+recharge+'마다 1회 충전':'처치 즉시 자동 습득 · 보너스 포함 상한'):'TEST · 실제 코인은 지급되지 않습니다.';
     find('.legion-limit').textContent=selected?'보스전 포함 총 7분':'';
     if(selected)find('[data-hunt-boss-at]').textContent=Math.floor(selected.huntDurationMs/60000)+':'+String(selected.huntDurationMs/1000%60).padStart(2,'0')+' · 최종 보스';
     find('.legion-entries').textContent=unlimited?'무제한':data?.entries?legionHuntEnergyText(data.entries,data.entries.serverNow):'';
@@ -144,6 +147,7 @@ export function openLegionHunt(button){
   energyTimer=setInterval(()=>{
     const state=controller.state;if(state.phase!=='lobby'||!state.data)return;
     const energy=controller.energy();if(!energy?.maximum)return;
+    if(energy.rechargeMs!==displayRechargeMs)render({...state,data:{...state.data,entries:energy}});
     find('.legion-entries').textContent=energy.unlimited?'OWNER 무제한 · 코인 '+energy.current+' / '+energy.maximum:legionHuntEnergyText(energy,energy.serverNow);
     const exhausted=!energy.unlimited&&energy.current===0;
     find('[data-hunt-enter]').disabled=!state.data.loadout||!!state.error||exhausted;
@@ -176,7 +180,7 @@ function loadCitadelShell(priority){
   if(!document.querySelector('link[href="'+citadelSheet+'"]')){
     const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href=citadelSheet;sheet.fetchPriority=priority;document.head.append(sheet);
   }
-  if(!citadelModule)citadelModule=import('./legion-citadel-v1.mjs?v=14').catch(error=>{citadelModule=null;throw error;});
+  if(!citadelModule)citadelModule=import('./legion-citadel-v1.mjs?v=20261116-recovery').catch(error=>{citadelModule=null;throw error;});
   return citadelModule;
 }
 function prepareCitadelFinder(){

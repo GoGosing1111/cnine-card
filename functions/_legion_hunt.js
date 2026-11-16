@@ -4,8 +4,9 @@ import {loadScrapyardV3Snapshot} from './_scrapyard_v3.js';
 import {legionHuntAccess,canAccessLegionHunt,legionHuntCatalog,legionHuntTestUsers,searchLegionHuntTestUsers,readLegionHuntPolicy,saveLegionHuntPolicy} from './_legion_hunt_settings.js';
 import {claimLegionHuntReward,settleLegionHuntRewards} from './_legion_hunt_rewards.js';
 import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
-import {contentEnergy,LEGION_ENERGY_MAXIMUM} from '../shared/content-energy-v1.mjs';
-import {legionHuntEnergyView} from '../shared/legion-hunt-energy-v1.mjs';
+import {LEGION_ENERGY_MAXIMUM,CONTENT_ENERGY_RECHARGE_MS} from '../shared/content-energy-v1.mjs';
+import {legionHuntEnergyView,legionHuntEnergyBalance as contentEnergy} from '../shared/legion-hunt-energy-v1.mjs';
+import {legionRechargeLabel} from '../shared/legion-recovery-event-v1.mjs';
 import {readMiracleDropPercent} from './_miracle_burning.js';
 import {readRegionPolicy,saveRegionPolicy,regionAccess,regionBootstrap,regionRewardCatalog,publicRegionHuntPayload,ascendantBossPercent,legionDropPercent} from './_legion_regions.js';
 import {regionalDifficulty,regionById} from '../shared/legion-regions-v1.mjs';
@@ -42,7 +43,7 @@ export function legionHuntEntries(run,at,user,support=null){
   return {...energy,unlimited,limit:unlimited?null:energy.maximum,remaining:unlimited?null:energy.current,...(energy.maximum>LEGION_ENERGY_MAXIMUM?{supporterBonus:SUPPORT_PLAN.extraLegionEntries}:{})};
 }
 function requireEntry(entries){
-  if(!entries.unlimited&&entries.current<=0)throw jointError('HUNT_ENERGY_EMPTY','행동력이 부족합니다. 3시간마다 1회 충전됩니다.',409);
+  if(!entries.unlimited&&entries.current<=0)throw jointError('HUNT_ENERGY_EMPTY','행동력이 부족합니다. '+legionRechargeLabel(CONTENT_ENERGY_RECHARGE_MS,entries.serverNow)+'마다 1회 충전됩니다.',409);
 }
 function coinEntries(run,at,support,user){return legionHuntEnergy(run,at,support,user);}
 function requireAccess(policy,user){

@@ -1,4 +1,5 @@
 import {jointAccountRequest} from './joint-account-transport.mjs';
+import {LEGION_PARTY_BASE_RECHARGE_MS,legionRechargeMs,legionRecoveryNotice} from '../shared/legion-recovery-event-v1.mjs';
 import {DAMAGE_FONT_FAMILY,ensureDamageFont} from '../shared/battle-damage-font.mjs';
 import {createServerClock} from '../shared/server-clock-v1.mjs';
 import {CITADEL_BOARDS, citadelStation} from '../shared/cooperative-battleground-v1.mjs?citadel=3';
@@ -301,7 +302,7 @@ function expeditionGuide(dock,rechargeHours,showOwnerRewards) {
   const quality=[['auto','기기에 맞춤'],['detail','상세 연출'],['light','경량 연출']];
   const choices=quality.map(([v,n])=>'<option value="'+v+'" '+(readQuality()===v?'selected':'')+'>'+n+'</option>').join('');
   return '<details class="ct-details"><summary>원정 규칙과 화면 설정'+glyph('chevron')+'</summary><div class="ct-rules">'+
-    '<div><b>편성 및 입장</b><p>두 플레이어가 각각 용병 2명과 아이콘 2장을 편성하고 준비하면 방장이 출전할 수 있습니다. 일반 계정은 두 사람의 로딩이 끝나 전투가 시작될 때 파티 행동력 1을 사용합니다. 전투 시작 '+rechargeHours+'시간 후 1회 충전되며, 일반 파티와 클랜 전용 파티가 공유합니다.</p></div>'+
+    '<div><b>편성 및 입장</b><p>두 플레이어가 각각 용병 2명과 아이콘 2장을 편성하고 준비하면 방장이 출전할 수 있습니다. 일반 계정은 두 사람의 로딩이 끝나 전투가 시작될 때 파티 행동력 1을 사용합니다. <span data-party-recharge-hours>'+rechargeHours+'</span>시간마다 1회 충전되며, 일반 파티와 클랜 전용 파티가 공유합니다.</p></div>'+
     '<div><b>성주와 전리품</b><p>'+(dock?'5분에 성주가 합류하고, 처치 후에도 7분까지 사냥합니다.':'첫 포격은 15초, 이후 30초마다 토벌대 전체가 피해를 받습니다. 지원 아이콘은 매분 회복 횟수와 회복량을 충전하며, 오조은과 간호사의 회복량은 대상 체력에 맞춰집니다. 5분에 등장하는 성주를 처치하고 7분까지 생존하면 승리합니다.')+' 일반 재앙 대비 아이템·장비 드랍 확률은 '+(dock?'150%':'130%')+'입니다. 필드 전리품은 12초 안에 주우세요. 성주 처치 확정 연마석과 처치 코인은 자동 누적되며 전투 종료 후 수령합니다.</p>'+
     (showOwnerRewards?'<p><b>OWNER 처치 코인</b> · 2인 전투 시작 시 솔로 행동력이 있으면 1을 소모해 처치 코인을 적립합니다. 솔로 행동력이 0이면 처치 코인 없이 전투를 진행합니다.</p>':'')+'</div>'+
     '<label class="ct-quality">전투 화면 <select data-quality aria-label="전투 화면">'+choices+'</select></label></div></details>';
@@ -335,8 +336,8 @@ export function openCitadel(trigger,firstRead=null){
    '<div class="ct-hero-copy"><div class="ct-status" data-ct-status>모집 확인 중</div><h1 id="ct-title">불타는 성채</h1><p>밀려드는 군단을 사냥하고, 잿불 성주 몰록을 처치하세요.</p></div></div>'+
    '<div class="ct-expedition-hud"><section class="ct-energy" aria-label="파티 행동력"><div><b>파티 행동력</b><strong data-party-energy>확인 중</strong></div><div><span data-charge-label>다음 충전</span><time data-charge-time>—</time></div></section>'+
    '<ul class="ct-facts"><li>'+tactical('duo')+'<span>원정 인원 <b>2인 협동</b></span></li><li>'+glyph('clock')+'<span>사냥 시간 <b>7분</b></span></li><li>'+tactical('inventory')+'<span>전리품 <b>개인 획득</b></span></li></ul></div>'+
-   '<div class="ct-content"><section data-region></section><p class="ct-message" role="status" aria-live="polite"></p></div></div><div data-arena hidden></div>';
- document.body.append(d);d.showModal();const $=q=>d.querySelector(q),main=$('[data-region]'),box=$('[data-arena]'),msg=$('.ct-message'),scope=new AbortController(),sig=scope.signal,clock=createServerClock();
+   '<div class="ct-content"><p class="ct-message" data-party-recovery-notice hidden></p><section data-region></section><p class="ct-message" role="status" aria-live="polite"></p></div></div><div data-arena hidden></div>';
+ document.body.append(d);d.showModal();const $=q=>d.querySelector(q),main=$('[data-region]'),box=$('[data-arena]'),msg=$('.ct-message[role="status"]'),scope=new AbortController(),sig=scope.signal,clock=createServerClock();
  let readingEpoch=null,entryOpen=true,resolved=false,tiers=[],selectedTier='gate',nextEntryAt=null,unlimited=false,rechargeHours=6;
  let area='public',publicOpen=false,clanOpen=false,publicRooms=[],ownRooms=[],hideout=null,heroArea='public';
  const dockSelected=()=>area===dockArea;
@@ -365,8 +366,11 @@ export function openCitadel(trigger,firstRead=null){
  function drawEnergy(){
   clearTimeout(energyTimer);
   if(closed||document.hidden||!resolved)return;
+  rechargeHours=legionRechargeMs(LEGION_PARTY_BASE_RECHARGE_MS,clock.now())/3600000;
+  const recovery=legionRecoveryNotice(clock.now()),notice=$('[data-party-recovery-notice]');notice.hidden=!recovery;txt(notice,recovery);
+  const hours=$('[data-party-recharge-hours]');if(hours)txt(hours,String(rechargeHours));
   const remaining=nextEntryAt?Math.max(0,nextEntryAt-clock.now()):0;
-  const seconds=Math.min(rechargeHours*3600,Math.ceil(remaining/1000));
+  const seconds=Math.ceil(remaining/1000);
   energyHud.dataset.charge=displayTest?'test':unlimited?'unlimited':seconds?'charging':'ready';
   txt(energyValue,displayTest?'테스트':unlimited?'무제한':seconds?'0 / 1':'1 / 1');
   txt(chargeLabel,displayTest?'테스트 입장':unlimited?'출전 조건':seconds?'다음 충전':'일반 · 클랜 공용');

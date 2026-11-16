@@ -16,12 +16,14 @@ import {DOCKYARD,FIRST_TIER,tierById,citadelTierMenu} from './_legion_citadel_ti
 import {citadelAdmin,readCitadelPolicy,CITADEL_POLICY_KEY} from './_legion_citadel_policy.js';
 import {citadelLoot,citadelGrantStatements,personalFarm,farmView,collectCitadelPile} from './_legion_citadel_loot.js';
 import {earnedLegionCoins} from '../shared/legion-hunt-coins-v1.mjs';
+import {LEGION_PARTY_BASE_RECHARGE_MS,legionRechargeAt,legionRechargeMs,legionRecoveryNotice,LEGION_RECOVERY_EVENT} from '../shared/legion-recovery-event-v1.mjs';
 
 const P='legion_citadel_v1:',roomKey=id=>P+'room:'+id,userKey=id=>P+'user:'+id,replayKey=id=>P+'battle:'+id;
 const entryKey=id=>P+'next-entry:'+id;
 const entryPulseKey=id=>P+'entry-generation:'+id;
-const PARTY_RECHARGE_HOURS=6;
-const PARTY_ENTRY_INTERVAL_MS=PARTY_RECHARGE_HOURS*60*60*1000;
+// Persist the ordinary six-hour deadline as the stable recharge anchor.
+// Views and admission guards apply the event's actual elapsed recovery rate.
+const PARTY_ENTRY_INTERVAL_MS=LEGION_PARTY_BASE_RECHARGE_MS;
 const tag='legion-party/',fields={create:['requestId','tier','area'],join:['id'],ready:['id','cardIds','mercenaryCodes'],unready:['id'],start:['id'],loaded:['id'],pickup:['id','token'],claim:['id'],leave:['id']};
 const idOK=id=>typeof id==='string'&&/^[0-9a-f]{24}$/.test(id);
 const stmt=(db,sql,...args)=>db.prepare(sql).bind(...args);
@@ -31,18 +33,18 @@ async function readWithEntry(db,key,uid){
  const row=await stmt(db,'SELECT (SELECT value FROM app_meta WHERE key=?) AS value,(SELECT value FROM app_meta WHERE key=?) AS deadline,(SELECT value FROM app_meta WHERE key=?) AS pulses,(SELECT value FROM app_meta WHERE key=?) AS entryGeneration',key,entryKey(uid),EXTREME_PULSE_KEY,entryPulseKey(uid)).first();
  const pulses=JSON.parse(row.pulses||'[]'),latest=pulses.at(-1);
  // Older admissions only have the deadline, measured from the synchronized start.
- const paidAt=row.deadline===null?null:entryDeadline(row.deadline)-PARTY_ENTRY_INTERVAL_MS-1200;
+ const paidAt=row.deadline===null?null:entryDeadline(row.deadline,false)-PARTY_ENTRY_INTERVAL_MS-1200;
  const recovered=latest&&paidAt!==null&&(row.entryGeneration===null?latest.at>paidAt:latest.generation>Number(row.entryGeneration));
  return {...row,pulses,pulseRaw:row.pulses,storedDeadline:row.deadline,deadline:recovered?null:row.deadline};
 }
 const put=(db,k,v)=>stmt(db,'INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at',k,v);
 const del=(db,k)=>stmt(db,'DELETE FROM app_meta WHERE key=?',k);
 const fail=(kind,msg,status=409)=>{throw jointError('CITADEL_'+kind,msg,status);};
-function entryDeadline(stored){
+function entryDeadline(stored,scheduled=true){
  if(stored===null)return null;
  const next=Number(stored);
  if(!Number.isSafeInteger(next)||next<=0||String(next)!==stored)fail('ENTRY_DATA','파티 입장 시간을 확인할 수 없습니다.',503);
- return next;
+ return !scheduled||next<=LEGION_RECOVERY_EVENT.startsAt?next:legionRechargeAt(next-PARTY_ENTRY_INTERVAL_MS,PARTY_ENTRY_INTERVAL_MS);
 }
 function requireEntry(stored,at,name){
  const next=entryDeadline(stored);
@@ -77,7 +79,7 @@ function view(r,user,at){
   units+=kind===2?5:kind===1?3:1;killTime=time;
  }
  const coins=m.coins?m.coins.partyMultiplier*earnedLegionCoins(m.coins,units,killTime,m.coins.huntDurationMs):0;
- return {id:r.id,status,area:r.area||'public',tier:r.tier??FIRST_TIER,tierName:r.area===DOCKYARD.id?DOCKYARD.name:tierById(r.tier??FIRST_TIER).name,you:m.id,hostId:r.hostId,serverNow:at,expiresAt:r.expiresAt,startsAt:r.startsAt||null,nextEntryAt:m.nextEntryAt??null,duration:r.duration||0,
+ return {id:r.id,status,area:r.area||'public',tier:r.tier??FIRST_TIER,tierName:r.area===DOCKYARD.id?DOCKYARD.name:tierById(r.tier??FIRST_TIER).name,you:m.id,hostId:r.hostId,serverNow:at,expiresAt:r.expiresAt,startsAt:r.startsAt||null,nextEntryAt:m.nextEntryAt==null?null:entryDeadline(String(m.nextEntryAt)),duration:r.duration||0,
   members:r.members.map(({id,name,ready,loaded,summary})=>({id,name,ready:!!ready,loaded:!!loaded,summary:summary||null})),selection:m.selection||null,
   ...(status==='DEFEAT'&&r.resultReason?{resultReason:r.resultReason}:{}),kills,bosses,coins,drops:[],ground:[],claimed:!!m.claimed,canClaim:false,test:!r.paying};
 }
@@ -331,7 +333,7 @@ export async function handleLegionCitadel({path,request,env,deps}){
     const state=here.r&&here.r.members.some(m=>m.id===Number(user.id))&&phase(here.r,at)!=='CANCELLED'?await resultState(here.r):null;
     const unlimited=user.role==='OWNER';
     const nextEntryAt=!unlimited&&policy.mode==='ON'?entryDeadline(here.deadline):null;
-    return reply({ok:true,open,clanOpen,clanHideout:hideout,clanRooms,tiers:citadelTierMenu,state,rooms:list,test:policy.mode!=='ON',unlimited,serverNow:at,partyRechargeHours:PARTY_RECHARGE_HOURS,nextEntryAt:nextEntryAt>at?nextEntryAt:null});
+    return reply({ok:true,open,clanOpen,clanHideout:hideout,clanRooms,tiers:citadelTierMenu,state,rooms:list,test:policy.mode!=='ON',unlimited,serverNow:at,partyRechargeHours:legionRechargeMs(PARTY_ENTRY_INTERVAL_MS,at)/3600000,recoveryEvent:legionRecoveryNotice(at)?LEGION_RECOVERY_EVENT:null,nextEntryAt:nextEntryAt>at?nextEntryAt:null});
    }
    if(action==='options'){
      if(new URL(request.url).searchParams.get('area')===DOCKYARD.id){if(policy.mode!=='ON')fail('CLOSED','군단토벌 일시 중지',403);await requireClanHideout(env,user.id,DOCKYARD.stage);}
