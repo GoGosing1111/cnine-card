@@ -56,6 +56,7 @@ async function openPage(browser,profile){
  cache.clear(); // Identical server memory-cache state for fresh client contexts.
  const context=await browser.newContext({viewport:{width:profile.width,height:profile.width===1440?1000:844},isMobile:profile.width<800,hasTouch:profile.width<800,serviceWorkers:'block'}),outer=await context.newPage();outer.setDefaultTimeout(20000);
  outer.on('pageerror',e=>errors.push({profile:profile.name,variant,error:e.message}));outer.on('dialog',d=>d.accept());
+ await context.addInitScript(()=>{window.__hideoutLongTasks=[];try{new PerformanceObserver(list=>{for(const e of list.getEntries())window.__hideoutLongTasks.push({startTime:e.startTime,duration:e.duration});}).observe({type:'longtask',buffered:true});}catch{}});
  await context.addInitScript(user=>{if(location.protocol.startsWith('http')){localStorage.setItem('cnine_card_user_v10',JSON.stringify(user));localStorage.setItem('cnine_card_api_token','local-account-7');localStorage.setItem('cnine_battle_sound','OFF');localStorage.setItem('soop-lobby-bgm-muted-v1','1');}},user);
  if(profile.h5)await context.route('**/*',async r=>{
   const request=r.request(),url=new URL(request.url());
@@ -85,9 +86,31 @@ try{
    await seed();let {context,page,outer,lobby}=await openPage(browser,profile);
    const row={profile:profile.name,variant};reports.push(row);
    if(variant==='after'){
-    const enter=async()=>{const started=performance.now();await lobby.locator('.hideout-shortcut').click();await page.locator('[data-ph-action="edit"]').waitFor();await page.waitForFunction(()=>[...document.querySelectorAll('.ph-backdrop')].every(i=>i.complete&&i.naturalWidth));return performance.now()-started;};
+    const enter=async()=>{const marker=await page.evaluate(()=>{performance.setResourceTimingBufferSize(2000);performance.clearResourceTimings();return performance.now();}),started=performance.now();await lobby.locator('.hideout-shortcut').click();await page.locator('[data-ph-action="edit"]').waitFor();await page.waitForFunction(()=>[...document.querySelectorAll('.ph-backdrop')].every(i=>i.complete&&i.naturalWidth));const elapsed=performance.now()-started;(row.loadTimings??=[]).push(await page.evaluate(marker=>({resources:performance.getEntriesByType('resource').filter(r=>r.startTime>=marker&&/personal-hideout|api\/hideout/.test(r.name)).map(r=>({path:new URL(r.name).pathname,duration:r.duration,serverWait:r.responseStart-r.requestStart,transferSize:r.transferSize,decodedBodySize:r.decodedBodySize})),longTasks:window.__hideoutLongTasks.filter(t=>t.startTime>=marker)}),marker));return elapsed;};
     row.hideoutFirstMs=await enter();row.hideoutIdleFrames=await frameStats(page);
+    if(process.env.HIDEOUT_QA_TIMING_ONLY){
+     await lobby.locator('[data-home]:visible').first().click();await lobby.locator('.hideout-shortcut').waitFor();row.hideoutReentryMs=await enter();
+     await context.close();await f.close();f=null;saveReport();console.log(JSON.stringify(row));continue;
+    }
+
     assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+    const view=page.locator('[data-ph-viewport]');assert(await view.evaluate(el=>el.scrollWidth>el.clientWidth*2));
+    const workbenchBefore=await page.locator('[data-ph-prop="facility-workbench"]').boundingBox();row.workbenchWidth=workbenchBefore.width;assert(workbenchBefore.width>(profile.width<800?240:300));
+    const panTraffic=traffic.length,panSampling=frameStats(page,1300);
+    await page.locator('[data-ph-action="pan"][data-step="1"]').click();assert(await view.evaluate(el=>el.scrollLeft>0));
+    await view.focus();await view.press('ArrowRight');
+    const beforePan=await view.evaluate(el=>el.scrollLeft),panBox=await view.boundingBox();
+    if(profile.width<800&&profile.engine===chromium){
+     const cdp=await context.newCDPSession(outer),x=panBox.x+panBox.width*.75,y=panBox.y+panBox.height*.12;
+     await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y}]});
+     for(let i=1;i<=12;i++){await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:x-panBox.width*.4*i/12,y}]});await outer.waitForTimeout(20);}
+     await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await cdp.detach();
+    }else{await outer.mouse.move(panBox.x+panBox.width*.75,panBox.y+panBox.height*.12);await outer.mouse.down();await outer.mouse.move(panBox.x+panBox.width*.4,panBox.y+panBox.height*.12,{steps:12});await outer.mouse.up();}
+    assert((await view.evaluate(el=>el.scrollLeft))>beforePan);row.panFrames=await panSampling;
+    assert.equal(traffic.slice(panTraffic).filter(t=>t.path.startsWith('hideout')).length,0,'camera motion has no server writes or reads');
+    await page.locator('[data-ph-action="room"][data-room="main"]').click();assert.equal(await view.evaluate(el=>el.scrollLeft),0);
+    assert(Math.abs((await page.locator('[data-ph-prop="facility-workbench"]').boundingBox()).width-workbenchBefore.width)<1,'camera does not scale furniture');
+    await page.locator('[data-ph-piece-select]').selectOption('facility-workbench');
     const beforeLayout=(await readHideout(f.env,7)).state.placements[0];await page.locator('[data-ph-action="edit"]').click();const prop=page.locator('[data-ph-prop="facility-workbench"]');await prop.focus();await prop.press('ArrowRight');await prop.press('Shift+ArrowDown');assert(await page.locator('[data-ph-action="save"]').isEnabled());
     await page.locator('[data-ph-action="save"]').click();await page.getByText('저장했습니다.',{exact:true}).waitFor();let stored=(await readHideout(f.env,7)).state;assert.equal(stored.placements[0].x,beforeLayout.x+10);assert.equal(stored.placements[0].y,beforeLayout.y+50);
     await prop.scrollIntoViewIfNeeded();const box=await prop.boundingBox(),floor=await page.locator('[data-ph-floor]').boundingBox(),x=box.x+box.width*.5,y=box.y+box.height*.55;
@@ -110,9 +133,28 @@ try{
     for(const id of ['facility-garage','facility-armory',extra]){await page.locator('[data-ph-piece-select]').selectOption(id);await page.locator('[data-ph-room-select]').selectOption('workshop');}
     await page.locator('[data-ph-action="save"]').click();await page.getByText('저장했습니다.',{exact:true}).waitFor();await page.locator('[data-ph-action="edit"]').click();
 
-    await page.locator('.ph-toolbar').scrollIntoViewIfNeeded();await outer.screenshot({path:path.join(out,profile.name+'-hideout.png'),fullPage:true});
+    await page.locator('[data-ph-piece-select]').selectOption('facility-workbench');await page.locator('.ph-scene').scrollIntoViewIfNeeded();await outer.screenshot({path:path.join(out,profile.name+'-hideout.png'),fullPage:true});
     const home=lobby.locator('[data-home]:visible').first();await home.click();await lobby.locator('.hideout-shortcut').waitFor();const afterExit=traffic.filter(r=>r.path.startsWith('hideout')).length;await page.waitForTimeout(1200);assert.equal(traffic.filter(r=>r.path.startsWith('hideout')).length,afterExit);row.hideoutExitRequests=0;
     row.hideoutReentryMs=await enter();await page.locator('[data-ph-action="tab"][data-tab="trophies"]').click();assert(await page.locator('.ph-displayed-trophy').count());await home.click();await lobby.locator('#depart-button').waitFor();
+    // Real upgrade actions transform all four residences, retaining each placed item.
+    let house=emptyHideout();for(const c of Object.keys(house.parts))house.parts[c]=10000;
+    house=changeHideout(house,'upgrade',{revision:0,target:'room'});
+    house=changeHideout(house,'upgrade',{revision:house.revision,target:'workbench'});
+    house=changeHideout(house,'decorate',{revision:house.revision,item:'trophy',room:'main'},{newId:'progression-cabinet'});
+    await f.write(HIDEOUT_KEY(7),house);await enter();row.residences=[];
+    const kept=JSON.stringify(house.placements),stages=['shanty','apartment','luxury','penthouse'];
+    for(let tier=1;tier<=4;tier++){
+     if(tier>1){await page.locator('[data-ph-action="upgrade"][data-target="room"]').click();await page.getByText('저장했습니다.',{exact:true}).waitFor();}
+     await page.waitForFunction(()=>[...document.querySelectorAll('.ph-backdrop')].every(i=>i.complete&&i.naturalWidth));
+     const state=(await readHideout(f.env,7)).state;assert.equal(state.level,tier);assert.equal(JSON.stringify(state.placements),kept);
+     await page.locator('[data-ph-piece-select]').selectOption('facility-workbench');await page.locator('.ph-scene').scrollIntoViewIfNeeded();
+     const dimensions=await page.locator('[data-ph-viewport]').evaluate(el=>({width:el.scrollWidth,viewport:el.clientWidth}));
+     row.residences.push({tier,...dimensions,workbenchWidth:(await page.locator('[data-ph-prop="facility-workbench"]').boundingBox()).width});
+     await outer.screenshot({path:path.join(out,profile.name+'-residence-'+stages[tier-1]+'.png')});
+    }
+    assert(row.residences.every((r,i)=>!i||r.width>row.residences[i-1].width));
+    assert(row.residences.every(r=>Math.abs(r.workbenchWidth-row.residences[0].workbenchWidth)<1));
+    await home.click();await lobby.locator('#depart-button').waitFor();
     // Both revisions start combat in a fresh context: no hideout art/cache warming.
     await context.close();({context,page,outer,lobby}=await openPage(browser,profile));
    }

@@ -56,7 +56,7 @@ test('real bulk card opening uses the lamp bonus without expanding limited stock
  for(const level of [0,5]){
   const f=await ultimateFixture(t);f.env.PERSONAL_HIDEOUT_ENABLED='1';
   await f.pg.exec('CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT)');
-  const state={...unlocked(),level:5};state.facilities.lamp=level;
+  const state={...unlocked(),level:4};state.facilities.lamp=level;
   await f.p('INSERT INTO app_meta(key,value) VALUES(?,?)',HIDEOUT_KEY(1),JSON.stringify(state)).run();
   const deps=ultimateBulkDependencies(),pack=await f.p("SELECT * FROM card_packs WHERE id='ultimate'").first(),cached=await deps.queryContext(f.env,pack);let observed;
   f.service=createUltimateBulkService({...deps,loadContext:async()=>cached,criticalSettings:async()=>({enabled:false}),draw:(context,...args)=>{observed=context.rateRows;return deps.draw(context,...args);}});

@@ -342,7 +342,7 @@ const iphoneBattleAuditOnly=new Set(JSON.parse(readFileSync(new URL('./iphone-ba
 const petGrowthNodeOnly=new Set(JSON.parse(readFileSync(new URL('./pet-growth-node-only-20261114.json',import.meta.url),'utf8')));
 const petGrowthAuthoring=file=>file.startsWith('.impeccable/')||file.startsWith('preview/pet-rework-20261114/')&&file!=='preview/pet-rework-20261114/fx-preview.bundle.mjs'||file.startsWith('assets/ui/pets/rework-20261114/')&&(/-source\.png$|\.webp\.json$/.test(file)||file.endsWith('/manifest.json'));
 // Hideout runtime art is compressed WebP. Keep source art and prompt/hash manifests in Git.
-const personalHideoutAuthoringOnly=file=>file.startsWith('assets/ui/personal-hideout-20261116/')&&!/^assets\/ui\/personal-hideout-20261116\/[^/]+\.webp$/.test(file);
+const personalHideoutAuthoringOnly=file=>/^assets\/ui\/personal-hideout-20261116\/room-(?:1440|960)\.webp$/.test(file)||file.startsWith('assets/ui/personal-hideout-20261116/')&&!/^assets\/ui\/personal-hideout-20261116\/[^/]+\.webp$/.test(file);
 // These offline Node combat analysis commands have no browser consumers. Keep them
 // available for reproducibility without sending executable QA to Pages clients.
 const hideoutOfflineCommands=new Set('ablate advancement-v1937 autopsy aw2 bfinal bfix bfix2 break break3 build comp counter diag dmgcurve final harness league meta parity s0 s0verify s1FINAL tune verify why'.split(' ').map(name=>'tools/balance-harness-v1903/'+name+'.mjs'));

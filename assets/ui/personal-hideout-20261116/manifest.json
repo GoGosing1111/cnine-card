@@ -95,8 +95,24 @@
   ],
   "outputs": [
     {
+      "file": "residence-shanty.webp",
+      "bytes": 164360
+    },
+    {
+      "file": "residence-apartment.webp",
+      "bytes": 44584
+    },
+    {
+      "file": "residence-luxury.webp",
+      "bytes": 76994
+    },
+    {
+      "file": "residence-penthouse.webp",
+      "bytes": 101588
+    },
+    {
       "file": "furniture-workbench.webp",
-      "bytes": 26676
+      "bytes": 40644
     },
     {
       "file": "furniture-fridge.webp",
@@ -151,6 +167,32 @@
       "bytes": 30480
     }
   ],
-  "designRevision": 2,
-  "camera": "front elevation, orthographic, no visible side walls"
+  "designRevision": 3,
+  "camera": "front elevation, orthographic, no visible side walls",
+  "residences": [
+    {
+      "code": "shanty",
+      "name": "판자촌",
+      "saved": "source/residence-shanty.png",
+      "sha256": "fbcdee9f56034ebe6b57a46da7567940da9f542a37bff5f8bd09752b393b2e1e"
+    },
+    {
+      "code": "apartment",
+      "name": "일반 아파트",
+      "saved": "source/residence-apartment.png",
+      "sha256": "000972e1cbe354813634523a384f948bbe8270e48734ce8229ecc7f27f8f5918"
+    },
+    {
+      "code": "luxury",
+      "name": "고급 아파트",
+      "saved": "source/residence-luxury.png",
+      "sha256": "6bc76b2556a858b8a53dda1ba7dea2c764be7d87d59327e64383530824bb5cd8"
+    },
+    {
+      "code": "penthouse",
+      "name": "펜트하우스",
+      "saved": "source/residence-penthouse.png",
+      "sha256": "b907ef583cb4929b8c3c0f04c76a39e313fafe256d9f0f761a65e44784401d31"
+    }
+  ]
 }

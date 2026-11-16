@@ -586,5 +586,6 @@
     "Current four-room catalog and 120-instance cap are explicit initial limits; catalog and persisted room/instance model support expansion"
   ],
   "updatedAt": "2026-11-16T19:31:11.346395+09:00",
-  "sourceCommit": "3f4f9f6d55667a44f0da191a6e1c3aca5c7c1527"
+  "sourceCommit": "3f4f9f6d55667a44f0da191a6e1c3aca5c7c1527",
+  "supersededBy": "../personal-hideout-residence-20261116/completion.json"
 }

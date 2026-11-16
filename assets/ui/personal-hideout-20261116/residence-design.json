@@ -1,0 +1,41 @@
+{
+  "revision": 3,
+  "camera": "orthographic front; horizontal navigation; full-size furniture",
+  "tool": "built-in image_gen",
+  "status": "User requested four residence stages; implementation preview, not approved or deployed",
+  "sourceRoot": "C:/Users/User/.codex/generated_images/01a1e369-5555-77f2-a08c-600690830d10",
+  "stages": [
+    {
+      "code": "shanty",
+      "name": "판자촌",
+      "prompt": "Use case: stylized-concept. Production background for a front-view horizontally scrolling personal hideout in a mercenary RPG. Stage 1: a humble improvised shack home, patched wooden plank walls, exposed timber studs, repaired corrugated metal patches, worn gray wooden flooring, a simple small high window onto a hillside shanty neighborhood, warm practical wall light. Empty interior, no furniture or characters. Camera STRICT straight-on orthographic front elevation, flat back wall parallel to screen, NO side walls, NO corners, NO vanishing point, NO isometric or quarter-view perspective. Landscape 3:2 modular room bay. Back wall meets floor on one perfectly horizontal line at 80 percent image height; lower 20 percent shows flat floor strips. Wall ceiling and floor span both edges continuously for horizontal tiling, edges are quiet and similar. Realistic painterly game environment with readable moderately detailed surfaces matching substantial gunmetal workbench and trophy cabinet sprites, subdued brown-gray palette, natural warm indoor light. Modest but cared for, no debris pile. Leave most lower wall blank for furniture placed as separate sprites. No text, UI, labels, icons, furniture, people or watermark.",
+      "file": "exec-8de22290-5c37-4a31-954b-dc9b1fb7a8b7.png",
+      "saved": "source/residence-shanty.png",
+      "sha256": "fbcdee9f56034ebe6b57a46da7567940da9f542a37bff5f8bd09752b393b2e1e"
+    },
+    {
+      "code": "apartment",
+      "name": "일반 아파트",
+      "prompt": "Use case: stylized-concept. Production background for a front-view horizontally scrolling personal hideout in a mercenary RPG. Stage 2: a normal modest Korean apartment interior, clean light warm-gray painted walls, simple baseboards, subtle rectangular wall panel divisions, modest high rectangular window showing neighboring apartment buildings at dusk, inexpensive warm gray oak flooring, practical ceiling-edge lights. Empty interior, no furniture or characters. Camera STRICT straight-on orthographic front elevation, flat back wall parallel to screen, NO side walls, NO corners, NO vanishing point, NO isometric or quarter-view perspective. Landscape 3:2 modular room bay. Back wall meets floor on one perfectly horizontal line at 80 percent image height; lower 20 percent shows flat floor strips. Wall ceiling and floor span both edges continuously for horizontal tiling, edges are quiet and similar. Realistic painterly game environment, carefully textured surfaces matching separate gunmetal workbench and trophy cabinet sprites, restrained warm neutral lighting, mid-tone light walls not blown white. Leave most lower wall blank for furniture placed as separate sprites. No text, UI, labels, icons, furniture, people or watermark.",
+      "file": "exec-04f046c4-191c-40f1-a01e-8af79354db77.png",
+      "saved": "source/residence-apartment.png",
+      "sha256": "000972e1cbe354813634523a384f948bbe8270e48734ce8229ecc7f27f8f5918"
+    },
+    {
+      "code": "luxury",
+      "name": "고급 아파트",
+      "prompt": "Use case: stylized-concept. Production background for a front-view horizontally scrolling personal hideout in a mercenary RPG. Stage 3: an upscale Korean apartment interior, elegant warm gray stone wall panels alternating restrained walnut architectural strips, concealed warm cove lighting, one broad high architectural window showing a distant attractive city at dusk, high quality dark smoked oak flooring and slim brass skirting. Empty interior, no furniture or characters. Camera STRICT straight-on orthographic front elevation, flat back wall parallel to screen, NO side walls, NO corners, NO vanishing point, NO isometric or quarter-view perspective. Landscape 3:2 modular room bay. Back wall meets floor on one perfectly horizontal line at 80 percent image height; lower 20 percent shows flat floor strips. Wall ceiling and floor span both edges continuously for horizontal tiling, edges are quiet and similar. Realistic painterly game environment, substantial believable fine materials and understated luxury matching separate gray steel furniture sprites, consistent warm indoor lighting, no extreme reflections. Leave most lower wall blank for furniture placed as separate sprites. No text, UI, labels, icons, furniture, people or watermark.",
+      "file": "exec-f23201fd-b311-4aed-bb0c-01fcaae0abde.png",
+      "saved": "source/residence-luxury.png",
+      "sha256": "6bc76b2556a858b8a53dda1ba7dea2c764be7d87d59327e64383530824bb5cd8"
+    },
+    {
+      "code": "penthouse",
+      "name": "펜트하우스",
+      "prompt": "Use case: stylized-concept. Production background for a front-view horizontally scrolling personal hideout in a mercenary RPG. Stage 4: an expansive luxurious penthouse interior high above a city at dusk, broad nearly floor-to-ceiling windows with thin dark mullions and a distant panoramic skyline, elegant pale gray stone piers, warm concealed ceiling-edge lighting, beautiful large matte gray marble floor tiles with subtle veins and restrained walnut base trim. Empty interior, no furniture or characters. Camera STRICT straight-on orthographic front elevation, wall and windows parallel to screen, NO side walls, NO corners, NO vanishing point, NO isometric or quarter-view perspective. Landscape 3:2 modular room bay. Back wall meets floor on one perfectly horizontal line at 80 percent image height; lower 20 percent shows a flat floor strip. Wall ceiling and floor span both edges continuously for horizontal tiling, edges are quiet and similar. Realistic painterly game environment, refined believable architectural materials matching separate gunmetal workbench and trophy cabinet sprites, same warm-neutral indoor lighting as lower housing stages, readable medium contrast. No text, UI, labels, icons, furniture, people or watermark.",
+      "file": "exec-a681e6ec-7cc8-4c71-8a2e-480f9b5b71c4.png",
+      "saved": "source/residence-penthouse.png",
+      "sha256": "b907ef583cb4929b8c3c0f04c76a39e313fafe256d9f0f761a65e44784401d31"
+    }
+  ]
+}

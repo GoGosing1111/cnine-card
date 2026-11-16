@@ -52,7 +52,7 @@ export async function mutateHideout(env,uid,action,body){
   const row=await p(env,'SELECT value FROM app_meta WHERE key=?',key).first();if(!row)return null;
   const saved=JSON.parse(row.value);
   if(saved.hash!==hash)throw Object.assign(Error('같은 요청 번호로 다른 작업을 할 수 없습니다.'),{code:'HIDEOUT_REQUEST_CONFLICT',status:409});
-  return {...saved.response,replayed:true};
+  return {...saved.response,...publicHideout(saved.response.state),replayed:true};
  };
  const old=await replay();if(old)return old;
  const before=await readHideout(env,uid),token=crypto.randomUUID(),ownedTrophies=action==='trophy'?await hideoutTrophies(env,uid):[];

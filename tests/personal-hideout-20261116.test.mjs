@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {PGlite} from '@electric-sql/pglite';
 import {SeasonSQLiteDB} from './helpers/season-s1-db.mjs';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
-import {emptyHideout,HIDEOUT_KEY,changeHideout,hideoutBenefits,hideoutCardRates,hideoutAward,hideoutCost,hideoutState} from '../shared/personal-hideout-v1.mjs';
+import {emptyHideout,HIDEOUT_KEY,changeHideout,hideoutBenefits,hideoutCardRates,hideoutAward,hideoutCost,hideoutState,publicHideout} from '../shared/personal-hideout-v1.mjs';
 import {hideoutPartyEnergy} from '../shared/personal-hideout-energy-v1.mjs';
 import {LEGION_RECOVERY_EVENT} from '../shared/legion-hunt-energy-v1.mjs';
 import {hideoutAwardStatements,mutateHideout,readHideout,handlePersonalHideout} from '../functions/_personal_hideout.js';
@@ -80,6 +80,12 @@ for(const postgres of [false,true]){
  test(engine+' mutations enforce replay identity, costs, rollback and concurrent reward CAS',async t=>{
   const f=await fixture(t,postgres),unlock=body(0,{target:'room'});const opened=await mutateHideout(f.env,7,'upgrade',unlock);assert.equal(opened.state.level,1);
   assert.equal((await mutateHideout(f.env,7,'upgrade',unlock)).replayed,true);
+  const receiptKey='personal_hideout_mutation_v1:7:'+unlock.requestId;
+  const legacyReceipt=JSON.parse((await f.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(receiptKey).first()).value);
+  legacyReceipt.response.state.version=1;delete legacyReceipt.response.stages;delete legacyReceipt.response.space;
+  await f.DB.prepare('UPDATE app_meta SET value=? WHERE key=?').bind(JSON.stringify(legacyReceipt),receiptKey).run();
+  const restored=await mutateHideout(f.env,7,'upgrade',unlock);assert.equal(restored.replayed,true);assert.equal(restored.state.version,2);assert.equal(restored.stage.name,'판자촌');assert.equal(restored.space.width,2400);
+
   await assert.rejects(mutateHideout(f.env,7,'upgrade',{...unlock,target:'fridge'}),e=>e.code==='HIDEOUT_REQUEST_CONFLICT');
   await assert.rejects(mutateHideout(f.env,7,'upgrade',body(1,{target:'fridge'})),e=>e.code==='HIDEOUT_PARTS');
   const fundedState={...funded(),level:1,revision:1,rooms:['main']};await f.seed(fundedState);
@@ -108,4 +114,23 @@ test('party capacity preserves partial recovery, legacy deadline, event boundari
  assert.equal(hideoutPartyEnergy(record,{at:end+4*hour,maximum:2}).current,1);
  const pulses=[{at:at+hour,generation:1}],boost=hideoutPartyEnergy({...s,current:0},{at:at+hour,maximum:2,pulses});assert.equal(boost.current,1);assert.equal(hideoutPartyEnergy(boost,{at:at+hour,maximum:2,pulses}).current,1);
  assert.throws(()=>hideoutPartyEnergy(null,{at,maximum:100}));
+});
+
+
+test('four residences expand continuous space while preserving furniture, trophies and five facility levels',()=>{
+ let s=funded();const names=['판자촌','일반 아파트','고급 아파트','펜트하우스'];let lastWidth=0;
+ for(let i=0;i<4;i++){
+  const cost=hideoutCost(s,'room'),before=s.parts.STEEL;s=changeHideout(s,'upgrade',{revision:s.revision,target:'room'});
+  assert.equal(s.parts.STEEL,before-(cost.STEEL||0));
+  if(i===0){s=changeHideout(s,'upgrade',{revision:s.revision,target:'workbench'});s=changeHideout(s,'decorate',{revision:s.revision,item:'trophy',room:'main'},{newId:'cabinet'});}
+  const data=publicHideout(s);assert.equal(data.stage.name,names[i]);assert(data.space.width>lastWidth);lastWidth=data.space.width;
+  assert.equal(data.state.placements[0].id,'facility-workbench');assert.equal(data.state.placements[1].trophyCodes.length,6);
+ }
+ assert.equal(hideoutCost(s,'room'),null);assert.throws(()=>changeHideout(s,'upgrade',{revision:s.revision,target:'room'}),/최대/);
+ while(s.facilities.workbench<5)s=changeHideout(s,'upgrade',{revision:s.revision,target:'workbench'});
+ assert.equal(hideoutCost(s,'workbench'),null);assert.equal(hideoutBenefits(s).materialDiscountPercent,15);
+ const before=structuredClone(s.placements);s=changeHideout(s,'expand',{revision:s.revision,room:'workshop'});
+ const rooms=publicHideout(s).space.rooms;assert.equal(rooms[1].start,rooms[0].width);assert.deepEqual(s.placements,before);
+ const legacy={...structuredClone(s),version:1,level:5};assert.equal(hideoutState(legacy).level,4);assert.equal(hideoutState(legacy).version,2);assert.deepEqual(hideoutState(legacy).placements,s.placements);assert.deepEqual(hideoutState(legacy).parts,s.parts);assert.equal(hideoutState(legacy).facilities.workbench,5);
+ assert.throws(()=>hideoutState({...emptyHideout(),facilities:{workbench:1}}),/시설/);
 });
