@@ -16,7 +16,7 @@ import {DOCKYARD,FIRST_TIER,tierById,citadelTierMenu} from './_legion_citadel_ti
 import {citadelAdmin,readCitadelPolicy,CITADEL_POLICY_KEY} from './_legion_citadel_policy.js';
 import {citadelLoot,citadelGrantStatements,personalFarm,farmView,collectCitadelPile} from './_legion_citadel_loot.js';
 import {earnedLegionCoins} from '../shared/legion-hunt-coins-v1.mjs';
-import {LEGION_PARTY_BASE_RECHARGE_MS,legionRechargeAt,legionRechargeMs,legionRecoveryNotice,LEGION_RECOVERY_EVENT} from '../shared/legion-recovery-event-v1.mjs';
+import {LEGION_PARTY_BASE_RECHARGE_MS,legionRechargeAt,legionRechargeMs,legionRecoveryNotice,LEGION_RECOVERY_EVENT} from '../shared/legion-hunt-energy-v1.mjs';
 
 const P='legion_citadel_v1:',roomKey=id=>P+'room:'+id,userKey=id=>P+'user:'+id,replayKey=id=>P+'battle:'+id;
 const entryKey=id=>P+'next-entry:'+id;

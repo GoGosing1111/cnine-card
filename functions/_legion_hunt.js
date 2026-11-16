@@ -6,7 +6,7 @@ import {claimLegionHuntReward,settleLegionHuntRewards} from './_legion_hunt_rewa
 import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
 import {LEGION_ENERGY_MAXIMUM,CONTENT_ENERGY_RECHARGE_MS} from '../shared/content-energy-v1.mjs';
 import {legionHuntEnergyView,legionHuntEnergyBalance as contentEnergy} from '../shared/legion-hunt-energy-v1.mjs';
-import {legionRechargeLabel} from '../shared/legion-recovery-event-v1.mjs';
+import {legionRechargeLabel} from '../shared/legion-hunt-energy-v1.mjs';
 import {readMiracleDropPercent} from './_miracle_burning.js';
 import {readRegionPolicy,saveRegionPolicy,regionAccess,regionBootstrap,regionRewardCatalog,publicRegionHuntPayload,ascendantBossPercent,legionDropPercent} from './_legion_regions.js';
 import {regionalDifficulty,regionById} from '../shared/legion-regions-v1.mjs';

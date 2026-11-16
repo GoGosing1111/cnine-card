@@ -1,5 +1,5 @@
 import {legionHuntEnergyText,legionHuntEnergyView} from '../shared/legion-hunt-energy-v1.mjs?v=20261116-recovery-event';
-import {legionRechargeLabel,legionRechargeMs} from '../shared/legion-recovery-event-v1.mjs';
+import {legionRechargeLabel,legionRechargeMs} from '../shared/legion-hunt-energy-v1.mjs';
 import {CONTENT_ENERGY_RECHARGE_MS as LEGION_BASE} from '../shared/content-energy-v1.mjs';
 import {jointAccountRequest} from './joint-account-transport.mjs';
 import {equipmentEffectText} from '../shared/equipment-growth-text-v1.mjs';

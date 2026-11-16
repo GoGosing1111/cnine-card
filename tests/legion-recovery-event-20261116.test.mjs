@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {LEGION_RECOVERY_EVENT as EVENT,legionRechargeAt,legionRechargeWork,legionRechargeMs} from '../shared/legion-recovery-event-v1.mjs';
+import {LEGION_RECOVERY_EVENT as EVENT,legionRechargeAt,legionRechargeWork,legionRechargeMs} from '../shared/legion-hunt-energy-v1.mjs';
 import {legionHuntEnergyView,legionHuntEnergyBalance,legionHuntEnergyText} from '../shared/legion-hunt-energy-v1.mjs';
 import {contentEnergyView} from '../shared/content-energy-v1.mjs';
 import {legionHuntEnergy,restoreExtremeLegionEnergy} from '../functions/_legion_hunt.js';

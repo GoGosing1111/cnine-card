@@ -40,7 +40,7 @@ FRESH_ACCOUNT_SCRIPTS.add('/js/mercenary-deck-slot.mjs');
 FRESH_ACCOUNT_SCRIPTS.add('/mercenary-codex/equipment/app.mjs');
 for(const path of ['/mercenary-codex/equipment/ui.mjs','/shared/equipment-defense-v1.mjs','/shared/equipment-growth-text-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
 FRESH_ACCOUNT_SCRIPTS.add('/shared/legion-regions-v1.mjs');
-for(const path of ['/js/legion-citadel-v1.mjs','/shared/legion-hunt-energy-v1.mjs','/shared/legion-recovery-event-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
+for(const path of ['/js/legion-citadel-v1.mjs','/shared/legion-hunt-energy-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
 for(const path of ['/mercenary-codex/sss-reroll/app.mjs','/mercenary-codex/sss-reroll/client.mjs','/shared/mercenary-sss-reroll-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
 for(const path of ['/equipment-forge/app.mjs','/shared/equipment-forge-policy-v1.mjs','/shared/equipment-forge-resources-v1.mjs','/shared/equipment-forge-advanced-v1.mjs','/admin/equipment-forge-admin-v1.js','/admin/equipment-forge-advanced-editor-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
 FRESH_ACCOUNT_SCRIPTS.add('/js/supporter-season-pass-v1.mjs');

@@ -1,4 +1,4 @@
-import {legionRechargeLabel,legionRecoveryNotice} from '../shared/legion-recovery-event-v1.mjs';
+import {legionRechargeLabel,legionRecoveryNotice} from '../shared/legion-hunt-energy-v1.mjs';
 import {openSupportApplication} from './supporter-application-v1.mjs?v=20261108-pass-purchases';
 import {mountSupportPackage} from './support-package-v1.mjs?v=20261115-package-refresh-v3';
 import {mountPackageAlerts} from './support-package-alerts-v1.mjs?v=20261115-package-refresh-v3';

@@ -1,5 +1,5 @@
 import {jointAccountRequest} from './joint-account-transport.mjs';
-import {LEGION_PARTY_BASE_RECHARGE_MS,legionRechargeMs,legionRecoveryNotice} from '../shared/legion-recovery-event-v1.mjs';
+import {LEGION_PARTY_BASE_RECHARGE_MS,legionRechargeMs,legionRecoveryNotice} from '../shared/legion-hunt-energy-v1.mjs';
 import {DAMAGE_FONT_FAMILY,ensureDamageFont} from '../shared/battle-damage-font.mjs';
 import {createServerClock} from '../shared/server-clock-v1.mjs';
 import {CITADEL_BOARDS, citadelStation} from '../shared/cooperative-battleground-v1.mjs?citadel=3';
