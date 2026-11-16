@@ -1,0 +1,77 @@
+{
+  "conditions": "Isolated PGlite actual handlers, same synthetic V4 unopened account and fixed 6ms delay per SQL call; first/repeated status and opening; Windows, not production latency.",
+  "results": [
+    {
+      "mode": "before",
+      "phase": "first-status",
+      "ms": 164,
+      "queries": 11,
+      "dbAndDelayMs": 163,
+      "coin": 300000000000,
+      "icons": 0
+    },
+    {
+      "mode": "before",
+      "phase": "repeat-status",
+      "ms": 169,
+      "queries": 11,
+      "dbAndDelayMs": 169,
+      "coin": 300000000000,
+      "icons": 0
+    },
+    {
+      "mode": "before",
+      "phase": "open",
+      "ms": 385,
+      "queries": 25,
+      "dbAndDelayMs": 382,
+      "coin": 300000000000,
+      "icons": 0
+    },
+    {
+      "mode": "before",
+      "phase": "replay",
+      "ms": 109,
+      "queries": 7,
+      "dbAndDelayMs": 108,
+      "coin": 300000000000,
+      "icons": 0
+    },
+    {
+      "mode": "after",
+      "phase": "first-status",
+      "ms": 232,
+      "queries": 15,
+      "dbAndDelayMs": 230,
+      "coin": 1000000000000000,
+      "icons": 8
+    },
+    {
+      "mode": "after",
+      "phase": "repeat-status",
+      "ms": 170,
+      "queries": 11,
+      "dbAndDelayMs": 169,
+      "coin": 1000000000000000,
+      "icons": 8
+    },
+    {
+      "mode": "after",
+      "phase": "open",
+      "ms": 385,
+      "queries": 25,
+      "dbAndDelayMs": 382,
+      "coin": 1000000000000000,
+      "icons": 8
+    },
+    {
+      "mode": "after",
+      "phase": "replay",
+      "ms": 108,
+      "queries": 7,
+      "dbAndDelayMs": 108,
+      "coin": 1000000000000000,
+      "icons": 8
+    }
+  ]
+}

@@ -1,0 +1,1242 @@
+{
+  "status": "VERIFIED",
+  "readOnly": true,
+  "noWriteReplay": true,
+  "locksRemaining": 0,
+  "check": {
+    "accounts": 8,
+    "cards": 64,
+    "messages": 8,
+    "attachments": 0,
+    "coinLogs": 8,
+    "unchangedOpenedReceipts": true
+  },
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:new-user-gift-icons-coin1000t:20261116:since20261101:v1",
+    "planHash": "b17032ca231797309db37a4d334462d93bfdcc1edcd64c9fa1251f2dc8943c1f",
+    "cutoff": "2026-11-01T00:00:00+09:00",
+    "through": 1794832988804,
+    "completedAt": "2026-11-16T12:43:50.028Z",
+    "upgraded": [
+      {
+        "userId": "521",
+        "nickname": "대저동토마토",
+        "manifestHash": "39845560ddc2d1aa9477fb50a2bdf18d9886ddc060e0bf82eb7accd785440efe",
+        "afterHash": "29a695166db538d1dd3f0a92d0611a0abf5a3710a1730006fce6c6a25a5d53ed",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "4627",
+        "nickname": "학벌",
+        "manifestHash": "39845560ddc2d1aa9477fb50a2bdf18d9886ddc060e0bf82eb7accd785440efe",
+        "afterHash": "29a695166db538d1dd3f0a92d0611a0abf5a3710a1730006fce6c6a25a5d53ed",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "5614",
+        "nickname": "UKKZ",
+        "manifestHash": "1dfc417576c0b63e19edc51c94d54f4d9541eb470a534dc3116bce5bd97160f6",
+        "afterHash": "ef0c8722c404b54a35c9e8f99e9aba6d9fea29259a9288944ac455464c303aed",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "5621",
+        "nickname": "스노우볼",
+        "manifestHash": "1dfc417576c0b63e19edc51c94d54f4d9541eb470a534dc3116bce5bd97160f6",
+        "afterHash": "ef0c8722c404b54a35c9e8f99e9aba6d9fea29259a9288944ac455464c303aed",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "5624",
+        "nickname": "해피엔딩",
+        "manifestHash": "1dfc417576c0b63e19edc51c94d54f4d9541eb470a534dc3116bce5bd97160f6",
+        "afterHash": "ef0c8722c404b54a35c9e8f99e9aba6d9fea29259a9288944ac455464c303aed",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "5771",
+        "nickname": "유일무이",
+        "manifestHash": "d53e9c863eadf890c2ab64c94f45effe32b79e0b4260aab3d5af63631feb07a7",
+        "afterHash": "2b8d0dabb88ba5c5adebfec235555fd8f7907c38409c42a88f7737cc3cacc601",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "5823",
+        "nickname": "닉네임미정",
+        "manifestHash": "d7bafc3996dab976f0046af58035f15e656e02ac82f6bcc345b35ebec2993fd9",
+        "afterHash": "90c4f5fc6bfd5178de1e0552468ad685a642f303b731d0180698a72e30d7ec9c",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "5828",
+        "nickname": "Final",
+        "manifestHash": "f3145146febef2928ac7ccbb7fd8a2574337b18f1980d95118d0c4a9ac81fb2b",
+        "afterHash": "844170c0b1c966bb5b49cf898d0d107a53a13ebc4a89141b1ad035cf66f6fa20",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "5834",
+        "nickname": "사이오닉폭풍",
+        "manifestHash": "ca0d3cad84ae68e38e6b63357cb6b634c9dba65148cbb480b2afc2802d3194b7",
+        "afterHash": "d4ee38b8a94445b1c69afecf496ee5f506be531691ca5b427c7b87959eba7d06",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "5841",
+        "nickname": "camyns",
+        "manifestHash": "bb29baf330ca8fdf26b37edba4298307f60bbd02a6b31614806f849d531fd4eb",
+        "afterHash": "161006fc2d9fec40b002bd02655ff9822fcd9018c569da9799de6db9cbc7c8b5",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "5842",
+        "nickname": "머여ㅇ",
+        "manifestHash": "9502dc45afb18cf83fd9562347d72071c5c8debddc86ad138ba0980c02f3be1e",
+        "afterHash": "c2563f8eeb56d5bc5a43e1d884ebe94a72f3d6359f3b275fbb18937b5ddccd83",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "5861",
+        "nickname": "아마치",
+        "manifestHash": "a3806ff1a6c8c77a123c1da38ffb401a5af72136eba99a7fadffc7fc10054b48",
+        "afterHash": "a44957fbf75c717988ed7072a52c2c175574278d4738327c144a0586fe163463",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "5882",
+        "nickname": "s7",
+        "manifestHash": "84c0b48e924b6422e76eb1c75f4f3986d0feccd5d67c6f166b3214801c94cc15",
+        "afterHash": "e0d79f588bdc24e5e1a62ee7c2f60769c7a4602d4ba63efb4b4861d5c29bf8e3",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "5901",
+        "nickname": "pastmemory",
+        "manifestHash": "990c4e853da06c73a6c3f230e587fdfc775ceb4899fee59657b5591e0b13f931",
+        "afterHash": "7c82022033bcda772aca252c193b8bcae93ab91e82987c39c7cdacf2d4e8575e",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "5914",
+        "nickname": "곰장어",
+        "manifestHash": "c506ae72511266ee1c57a0d17aa419072597008544a93536f1bb46f78c2ee277",
+        "afterHash": "c070eddb804c051f28a25db669c0d6f02fded9eef5b81139f13e914d57ffe751",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "5918",
+        "nickname": "숲켓몬슈퍼스타손흥민",
+        "manifestHash": "46f1ee577422f870090e602b7910c649841ae526e577a11d8b6e2de3cf21dc01",
+        "afterHash": "68f70e5e084649bedc5cc09f85c29cea0808772a661c67203fbeca067aae8b03",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "5930",
+        "nickname": "졈니는해린",
+        "manifestHash": "3dcf8c250d379164f46cbf75c6005787dc83a5cc8d0e577c3c113dc25b6f6ff5",
+        "afterHash": "3100b9d124419cf7a2ea5d2585cacb7c0f2a9081b3490f970fb6c4ab5c12e088",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "5942",
+        "nickname": "오타니쇼헤이",
+        "manifestHash": "cd7b64aebe074aea01b943b36f5984bf661030b712571a9b4e09b079ad806890",
+        "afterHash": "f3d3f6665d4293baf84e0c65f0196c4ec4f64e00983657a7379b132dde1c12c3",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "5944",
+        "nickname": "아이언스톰",
+        "manifestHash": "a8205d23d6af3959041c4ca0af06437e3446f78a15f730dc5bf3f75bfc528479",
+        "afterHash": "602298ea4c3ab307861e4ef122bd7e3679a78fb1217155bbcc62ca41a80f0ab5",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "5971",
+        "nickname": "돈손",
+        "manifestHash": "d04a64a618f953c3e1acbfc378c55211603ca978a9d77e4504018d925ebceb54",
+        "afterHash": "6ec55d08ed7553b2be96085662c8e9f482bc90638ad49ce3addabfdbd65a89cc",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "5988",
+        "nickname": "리버스콜",
+        "manifestHash": "3cfaf257a65b9c93bbe54acc02bd3e6ac71d413af08bf2f54d0c10bdfd76f105",
+        "afterHash": "5f55e3ae7bf6a534a1423a4e77f850ed85ea3bcc798bad705a3445fe64dd08f3",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "6011",
+        "nickname": "데스페라도",
+        "manifestHash": "e099ee1e41f02344652dd521986edb45a7bf2d56ec3ae51f4ae730506a021b5c",
+        "afterHash": "053e3c6de0db83b4d15d2bc2727eac73148815362a522a2faa573f67e38cd047",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "6015",
+        "nickname": "XXX",
+        "manifestHash": "2651dde6234c4e44510ec461da9e1559bdf70f2c728d53c19e5d15e7fb34afc4",
+        "afterHash": "c97aa7fca0867cfca52776d7d7b8ece126c61ed90faad3cf84c6f8bc934aa610",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "6041",
+        "nickname": "리턴",
+        "manifestHash": "c850d95668af50cf681931fba7dd8da1012f0319b52bc9ee391452fe5a009991",
+        "afterHash": "706fc05103273b3e525e9473092ecfd7b97c9fef01bcf7f4d865dc0d0f0df68e",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "6182",
+        "nickname": "amonhybrid",
+        "manifestHash": "e52275924843b338adc4c64e70ef47f7d84204f82d9cb0a2625f82d4c539cbed",
+        "afterHash": "190634957eae821403b19597899367ee7637e40c83e87cab0a0618357ad60d70",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "6204",
+        "nickname": "귀찮아서눕기장인",
+        "manifestHash": "649ced972818f7b2e04f5715a62a3cc4d367f615a950d59f29a497a72fd82c68",
+        "afterHash": "9d55828c86feb27b250cd2fe67d945ba1b575165363b5234a96df76861ccd05e",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      },
+      {
+        "userId": "6211",
+        "nickname": "배낭위스키",
+        "manifestHash": "aac13fc9d53f777c6423d30f6a92862919ee7bebdabaec680ae4c3b04f43fc97",
+        "afterHash": "7e68c34b761370804fa66a32bfaa04400fcddf636348ba84f76b8e0ba96cb426",
+        "icons": [
+          "CN-1C000001",
+          "CN-1C000002",
+          "CN-1C000003",
+          "CN-1C000004",
+          "CN-1C000005",
+          "CN-1C000006",
+          "CN-1C000007",
+          "CN-1C000009"
+        ],
+        "coinBefore": 300000000000,
+        "coinAfter": 1000000000000000
+      }
+    ],
+    "accounts": [
+      {
+        "operationKey": "ops:new-user-gift-icons-coin1000t:20261116:since20261101:v1",
+        "userId": "6132",
+        "nickname": "주르르",
+        "source": "NEW_USER_GIFT_ICON_BACKFILL",
+        "openedAt": "2026-11-05 13:43:46",
+        "cards": [
+          {
+            "cardId": "CN-1C000001",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000002",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000003",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000004",
+            "before": "1",
+            "after": "2",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000005",
+            "before": "1",
+            "after": "2",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000006",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000007",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000009",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          }
+        ],
+        "originalGiftCoin": "300000000000",
+        "coinAdded": "999700000000000",
+        "walletBefore": "5069649766791",
+        "walletAfter": "1004769649766791",
+        "completedAt": "2026-11-16T12:43:50.028Z",
+        "messagesSent": 1,
+        "coinLogId": "105598906",
+        "messageId": "294371",
+        "auditId": "62030"
+      },
+      {
+        "operationKey": "ops:new-user-gift-icons-coin1000t:20261116:since20261101:v1",
+        "userId": "6138",
+        "nickname": "보여드릴게요",
+        "source": "NEW_USER_GIFT_ICON_BACKFILL",
+        "openedAt": "2026-11-04 12:02:12",
+        "cards": [
+          {
+            "cardId": "CN-1C000001",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000002",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000003",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000004",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000005",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000006",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000007",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000009",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          }
+        ],
+        "originalGiftCoin": "300000000000",
+        "coinAdded": "999700000000000",
+        "walletBefore": "232768233598032",
+        "walletAfter": "1232468233598032",
+        "completedAt": "2026-11-16T12:43:50.028Z",
+        "messagesSent": 1,
+        "coinLogId": "105598911",
+        "messageId": "294372",
+        "auditId": "62031"
+      },
+      {
+        "operationKey": "ops:new-user-gift-icons-coin1000t:20261116:since20261101:v1",
+        "userId": "6162",
+        "nickname": "blue2636",
+        "source": "NEW_USER_GIFT_ICON_BACKFILL",
+        "openedAt": "2026-11-03 19:43:04",
+        "cards": [
+          {
+            "cardId": "CN-1C000001",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000002",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000003",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000004",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000005",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000006",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000007",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000009",
+            "before": "1",
+            "after": "2",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          }
+        ],
+        "originalGiftCoin": "300000000000",
+        "coinAdded": "999700000000000",
+        "walletBefore": "202205062862494",
+        "walletAfter": "1201905062862494",
+        "completedAt": "2026-11-16T12:43:50.028Z",
+        "messagesSent": 1,
+        "coinLogId": "105598917",
+        "messageId": "294373",
+        "auditId": "62032"
+      },
+      {
+        "operationKey": "ops:new-user-gift-icons-coin1000t:20261116:since20261101:v1",
+        "userId": "6183",
+        "nickname": "펭도리",
+        "source": "NEW_USER_GIFT_ICON_BACKFILL",
+        "openedAt": "2026-11-03 05:23:08",
+        "cards": [
+          {
+            "cardId": "CN-1C000001",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000002",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000003",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000004",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000005",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000006",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000007",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000009",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          }
+        ],
+        "originalGiftCoin": "300000000000",
+        "coinAdded": "999700000000000",
+        "walletBefore": "300004579180",
+        "walletAfter": "1000000004579180",
+        "completedAt": "2026-11-16T12:43:50.028Z",
+        "messagesSent": 1,
+        "coinLogId": "105598921",
+        "messageId": "294374",
+        "auditId": "62033"
+      },
+      {
+        "operationKey": "ops:new-user-gift-icons-coin1000t:20261116:since20261101:v1",
+        "userId": "6186",
+        "nickname": "멋쨍이이째리",
+        "source": "NEW_USER_GIFT_ICON_BACKFILL",
+        "openedAt": "2026-11-03 14:58:10",
+        "cards": [
+          {
+            "cardId": "CN-1C000001",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000002",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000003",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000004",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000005",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000006",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000007",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000009",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          }
+        ],
+        "originalGiftCoin": "300000000000",
+        "coinAdded": "999700000000000",
+        "walletBefore": "300005000000",
+        "walletAfter": "1000000005000000",
+        "completedAt": "2026-11-16T12:43:50.028Z",
+        "messagesSent": 1,
+        "coinLogId": "105598924",
+        "messageId": "294375",
+        "auditId": "62034"
+      },
+      {
+        "operationKey": "ops:new-user-gift-icons-coin1000t:20261116:since20261101:v1",
+        "userId": "6197",
+        "nickname": "족족족족족",
+        "source": "NEW_USER_GIFT_ICON_BACKFILL",
+        "openedAt": "2026-11-06 08:47:41",
+        "cards": [
+          {
+            "cardId": "CN-1C000001",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000002",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000003",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000004",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000005",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000006",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000007",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000009",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          }
+        ],
+        "originalGiftCoin": "300000000000",
+        "coinAdded": "999700000000000",
+        "walletBefore": "300005000000",
+        "walletAfter": "1000000005000000",
+        "completedAt": "2026-11-16T12:43:50.028Z",
+        "messagesSent": 1,
+        "coinLogId": "105598926",
+        "messageId": "294376",
+        "auditId": "62035"
+      },
+      {
+        "operationKey": "ops:new-user-gift-icons-coin1000t:20261116:since20261101:v1",
+        "userId": "6198",
+        "nickname": "중꼬철구",
+        "source": "NEW_USER_GIFT_ICON_BACKFILL",
+        "openedAt": "2026-11-06 16:17:57",
+        "cards": [
+          {
+            "cardId": "CN-1C000001",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000002",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000003",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000004",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000005",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000006",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000007",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000009",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          }
+        ],
+        "originalGiftCoin": "300000000000",
+        "coinAdded": "999700000000000",
+        "walletBefore": "856264195009553",
+        "walletAfter": "1855964195009553",
+        "completedAt": "2026-11-16T12:43:50.028Z",
+        "messagesSent": 1,
+        "coinLogId": "105598932",
+        "messageId": "294377",
+        "auditId": "62036"
+      },
+      {
+        "operationKey": "ops:new-user-gift-icons-coin1000t:20261116:since20261101:v1",
+        "userId": "6203",
+        "nickname": "하루몽",
+        "source": "NEW_USER_GIFT_ICON_BACKFILL",
+        "openedAt": "2026-11-09 10:26:39",
+        "cards": [
+          {
+            "cardId": "CN-1C000001",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000002",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000003",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000004",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000005",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000006",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000007",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          },
+          {
+            "cardId": "CN-1C000009",
+            "before": "0",
+            "after": "1",
+            "levelBefore": 0,
+            "levelAfter": 0,
+            "failCountBefore": 0,
+            "failCountAfter": 0
+          }
+        ],
+        "originalGiftCoin": "300000000000",
+        "coinAdded": "999700000000000",
+        "walletBefore": "286505000000",
+        "walletAfter": "999986505000000",
+        "completedAt": "2026-11-16T12:43:50.028Z",
+        "messagesSent": 1,
+        "coinLogId": "105598937",
+        "messageId": "294378",
+        "auditId": "62037"
+      }
+    ],
+    "recipientCount": 8,
+    "cardCount": 64,
+    "coinTotal": "7997600000000000",
+    "skipped": [],
+    "itemActivePreserved": 1,
+    "messagesSent": 8,
+    "boxesIssued": 0,
+    "boxesOpened": 0,
+    "auditId": "62038"
+  },
+  "elapsedMs": 8181
+}

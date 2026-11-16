@@ -1,0 +1,65 @@
+{
+  "mode": "live",
+  "device": "android",
+  "conditions": "Actual deployed lobby and deployed gift JS, isolated PGlite current server handlers and synthetic account, fixed 6ms SQL delay. Android Chrome emulation; no live account opening or test rewards.",
+  "rounds": [
+    {
+      "phase": "first",
+      "clickToReadyMs": 239,
+      "frames": {
+        "count": 169,
+        "p95Ms": 4.2,
+        "maxMs": 4.4,
+        "over50": 0
+      },
+      "exit": {
+        "panels": 0,
+        "animations": 0,
+        "newGiftRequests": 0
+      }
+    },
+    {
+      "phase": "reentry",
+      "clickToReadyMs": 189,
+      "frames": {
+        "count": 166,
+        "p95Ms": 4.3,
+        "maxMs": 8.3,
+        "over50": 0
+      },
+      "exit": {
+        "panels": 0,
+        "animations": 0,
+        "newGiftRequests": 0
+      }
+    }
+  ],
+  "api": [
+    {
+      "path": "new-user-gift",
+      "ms": 219,
+      "queries": 15,
+      "dbAndDelayMs": 217,
+      "coin": 1000000000000000,
+      "icons": 8
+    },
+    {
+      "path": "new-user-gift",
+      "ms": 175,
+      "queries": 11,
+      "dbAndDelayMs": 174,
+      "coin": 1000000000000000,
+      "icons": 8
+    },
+    {
+      "path": "new-user-gift/open",
+      "ms": 383,
+      "queries": 25,
+      "dbAndDelayMs": 381,
+      "coin": 1000000000000000,
+      "icons": 8
+    }
+  ],
+  "errors": [],
+  "coldLobbyMs": 1041
+}

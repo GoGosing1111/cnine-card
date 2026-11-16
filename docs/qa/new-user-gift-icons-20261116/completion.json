@@ -1,0 +1,1032 @@
+{
+  "status": "COMPLETE",
+  "operationKey": "ops:new-user-gift-icons-coin1000t:20261116:since20261101:v1",
+  "completedKST": "2026-11-16 21:43:50 KST",
+  "authorization": [
+    "아이콘 1단계 전체 추가 및 최근 수령자 보완 지급",
+    "11월 1일 이후 수령자",
+    "메세지로도 지급했다고 알려줘",
+    "코인 1000조로 변경"
+  ],
+  "sourceCommit": "71986f3bb34d928580f2b36e8edc2ffa8fd90b7e",
+  "release": {
+    "checkedAt": "2026-11-16T12:39:31.905Z",
+    "sourceCommit": "71986f3bb34d928580f2b36e8edc2ffa8fd90b7e",
+    "pages": {
+      "id": "3b561977-12ac-4475-9092-e0ebeec9052c",
+      "commit": "71986f3bb34d928580f2b36e8edc2ffa8fd90b7e",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "7548e0c6-d74f-418c-82d9-0baacc60bdd3",
+        "percentage": 100,
+        "giftBundleSupported": true,
+        "sourceSHA256": "3f405d111ea62f80e890634bf756f2d6c0068b373ecfaddc234bbc7db639748b"
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "5ca39eaf-21d1-4b0a-8493-1965a5d97062",
+        "percentage": 100,
+        "giftBundleSupported": false,
+        "sourceSHA256": "80392497d86ed110192b27f5d045d334cc876c4ffa0b270ce958bce4cb0c54d9"
+      }
+    ],
+    "unauthenticatedStatus": 401,
+    "releaseTests": 42,
+    "liveAccountTestOpening": false
+  },
+  "configuration": {
+    "coin": "1000000000000000",
+    "label": "1,000조",
+    "iconTier": 1,
+    "iconCards": [
+      {
+        "id": "CN-1C000001",
+        "code": "ICON-DIIM",
+        "name": "디임",
+        "level": 0
+      },
+      {
+        "id": "CN-1C000002",
+        "code": "ICON-HI-HEEYA",
+        "name": "하이희야",
+        "level": 0
+      },
+      {
+        "id": "CN-1C000003",
+        "code": "ICON-NAMUNEUL-BONGSOON",
+        "name": "나무늘봉순",
+        "level": 0
+      },
+      {
+        "id": "CN-1C000004",
+        "code": "ICON-OH-JOEUN",
+        "name": "오조은",
+        "level": 0
+      },
+      {
+        "id": "CN-1C000005",
+        "code": "ICON-ORIKKUNG",
+        "name": "오리꿍",
+        "level": 0
+      },
+      {
+        "id": "CN-1C000006",
+        "code": "ICON-KANGGUYEOL",
+        "name": "강구열",
+        "level": 0
+      },
+      {
+        "id": "CN-1C000007",
+        "code": "ICON-AYOON",
+        "name": "아윤",
+        "level": 0
+      },
+      {
+        "id": "CN-1C000009",
+        "code": "ICON-GUSUDAENG",
+        "name": "구수댕",
+        "level": 0
+      }
+    ],
+    "iconLevel": 0,
+    "ordinaryCardsMagicEquipmentPreserved": true,
+    "unopenedUpgraded": 27
+  },
+  "backfill": {
+    "cutoff": "2026-11-01T00:00:00+09:00",
+    "through": "2026-11-16T12:43:08.804Z",
+    "recipientCount": 8,
+    "cardCount": 64,
+    "coinPerRecipient": "999700000000000",
+    "coinTotal": "7997600000000000",
+    "messagesSent": 8,
+    "attachments": 0,
+    "boxesOpened": 0,
+    "boxesIssued": 0,
+    "auditId": "62038",
+    "accounts": [
+      {
+        "userId": "6132",
+        "nickname": "주르르",
+        "cards": 8,
+        "coinAdded": "999700000000000",
+        "coinLogId": "105598906",
+        "messageId": "294371",
+        "auditId": "62030"
+      },
+      {
+        "userId": "6138",
+        "nickname": "보여드릴게요",
+        "cards": 8,
+        "coinAdded": "999700000000000",
+        "coinLogId": "105598911",
+        "messageId": "294372",
+        "auditId": "62031"
+      },
+      {
+        "userId": "6162",
+        "nickname": "blue2636",
+        "cards": 8,
+        "coinAdded": "999700000000000",
+        "coinLogId": "105598917",
+        "messageId": "294373",
+        "auditId": "62032"
+      },
+      {
+        "userId": "6183",
+        "nickname": "펭도리",
+        "cards": 8,
+        "coinAdded": "999700000000000",
+        "coinLogId": "105598921",
+        "messageId": "294374",
+        "auditId": "62033"
+      },
+      {
+        "userId": "6186",
+        "nickname": "멋쨍이이째리",
+        "cards": 8,
+        "coinAdded": "999700000000000",
+        "coinLogId": "105598924",
+        "messageId": "294375",
+        "auditId": "62034"
+      },
+      {
+        "userId": "6197",
+        "nickname": "족족족족족",
+        "cards": 8,
+        "coinAdded": "999700000000000",
+        "coinLogId": "105598926",
+        "messageId": "294376",
+        "auditId": "62035"
+      },
+      {
+        "userId": "6198",
+        "nickname": "중꼬철구",
+        "cards": 8,
+        "coinAdded": "999700000000000",
+        "coinLogId": "105598932",
+        "messageId": "294377",
+        "auditId": "62036"
+      },
+      {
+        "userId": "6203",
+        "nickname": "하루몽",
+        "cards": 8,
+        "coinAdded": "999700000000000",
+        "coinLogId": "105598937",
+        "messageId": "294378",
+        "auditId": "62037"
+      }
+    ]
+  },
+  "verification": {
+    "partialFailureRolledBack": true,
+    "fullRehearsalRolledBack": true,
+    "protectedStateHash": "a9aa55e345174e75a8ac35b9c24a4a7f6dd990f6549e3eb31bb83f0e94aec19a",
+    "syncVerified": true,
+    "equipmentWrites": 0,
+    "independentReadOnly": true,
+    "noWriteReplay": true,
+    "locksRemaining": 0,
+    "check": {
+      "accounts": 8,
+      "cards": 64,
+      "messages": 8,
+      "attachments": 0,
+      "coinLogs": 8,
+      "unchangedOpenedReceipts": true
+    }
+  },
+  "performance": {
+    "service": {
+      "conditions": "Isolated PGlite actual handlers, same synthetic V4 unopened account and fixed 6ms delay per SQL call; first/repeated status and opening; Windows, not production latency.",
+      "results": [
+        {
+          "mode": "before",
+          "phase": "first-status",
+          "ms": 164,
+          "queries": 11,
+          "dbAndDelayMs": 163,
+          "coin": 300000000000,
+          "icons": 0
+        },
+        {
+          "mode": "before",
+          "phase": "repeat-status",
+          "ms": 169,
+          "queries": 11,
+          "dbAndDelayMs": 169,
+          "coin": 300000000000,
+          "icons": 0
+        },
+        {
+          "mode": "before",
+          "phase": "open",
+          "ms": 385,
+          "queries": 25,
+          "dbAndDelayMs": 382,
+          "coin": 300000000000,
+          "icons": 0
+        },
+        {
+          "mode": "before",
+          "phase": "replay",
+          "ms": 109,
+          "queries": 7,
+          "dbAndDelayMs": 108,
+          "coin": 300000000000,
+          "icons": 0
+        },
+        {
+          "mode": "after",
+          "phase": "first-status",
+          "ms": 232,
+          "queries": 15,
+          "dbAndDelayMs": 230,
+          "coin": 1000000000000000,
+          "icons": 8
+        },
+        {
+          "mode": "after",
+          "phase": "repeat-status",
+          "ms": 170,
+          "queries": 11,
+          "dbAndDelayMs": 169,
+          "coin": 1000000000000000,
+          "icons": 8
+        },
+        {
+          "mode": "after",
+          "phase": "open",
+          "ms": 385,
+          "queries": 25,
+          "dbAndDelayMs": 382,
+          "coin": 1000000000000000,
+          "icons": 8
+        },
+        {
+          "mode": "after",
+          "phase": "replay",
+          "ms": 108,
+          "queries": 7,
+          "dbAndDelayMs": 108,
+          "coin": 1000000000000000,
+          "icons": 8
+        }
+      ]
+    },
+    "entryComparison": {
+      "pc": {
+        "before": {
+          "mode": "before",
+          "device": "pc",
+          "conditions": "Actual published lobby -> inventory -> gift UI with local current/baseline gift script and isolated PGlite backend; fixed 6ms SQL delay. Windows headless; Android/iOS emulation, Windows launcher URL and real H5 iframe. No live account writes.",
+          "rounds": [
+            {
+              "phase": "first",
+              "clickToReadyMs": 167,
+              "frames": {
+                "count": 169,
+                "p95Ms": 4.3,
+                "maxMs": 4.3,
+                "over50": 0
+              },
+              "exit": {
+                "panels": 0,
+                "animations": 0,
+                "newGiftRequests": 0
+              }
+            },
+            {
+              "phase": "reentry",
+              "clickToReadyMs": 174,
+              "frames": {
+                "count": 162,
+                "p95Ms": 4.3,
+                "maxMs": 8.4,
+                "over50": 0
+              },
+              "exit": {
+                "panels": 0,
+                "animations": 0,
+                "newGiftRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "path": "new-user-gift",
+              "ms": 154,
+              "queries": 11,
+              "dbAndDelayMs": 153,
+              "coin": 300000000000,
+              "icons": 0
+            },
+            {
+              "path": "new-user-gift",
+              "ms": 165,
+              "queries": 11,
+              "dbAndDelayMs": 165,
+              "coin": 300000000000,
+              "icons": 0
+            },
+            {
+              "path": "new-user-gift/open",
+              "ms": 388,
+              "queries": 25,
+              "dbAndDelayMs": 386,
+              "coin": 300000000000,
+              "icons": 0
+            }
+          ],
+          "errors": [],
+          "coldLobbyMs": 1149
+        },
+        "after": {
+          "mode": "after",
+          "device": "pc",
+          "conditions": "Actual published lobby -> inventory -> gift UI with local current/baseline gift script and isolated PGlite backend; fixed 6ms SQL delay. Windows headless; Android/iOS emulation, Windows launcher URL and real H5 iframe. No live account writes.",
+          "rounds": [
+            {
+              "phase": "first",
+              "clickToReadyMs": 242,
+              "frames": {
+                "count": 169,
+                "p95Ms": 4.2,
+                "maxMs": 4.3,
+                "over50": 0
+              },
+              "exit": {
+                "panels": 0,
+                "animations": 0,
+                "newGiftRequests": 0
+              }
+            },
+            {
+              "phase": "reentry",
+              "clickToReadyMs": 174,
+              "frames": {
+                "count": 164,
+                "p95Ms": 4.3,
+                "maxMs": 8.4,
+                "over50": 0
+              },
+              "exit": {
+                "panels": 0,
+                "animations": 0,
+                "newGiftRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "path": "new-user-gift",
+              "ms": 233,
+              "queries": 15,
+              "dbAndDelayMs": 231,
+              "coin": 1000000000000000,
+              "icons": 8
+            },
+            {
+              "path": "new-user-gift",
+              "ms": 164,
+              "queries": 11,
+              "dbAndDelayMs": 163,
+              "coin": 1000000000000000,
+              "icons": 8
+            },
+            {
+              "path": "new-user-gift/open",
+              "ms": 380,
+              "queries": 25,
+              "dbAndDelayMs": 377,
+              "coin": 1000000000000000,
+              "icons": 8
+            }
+          ],
+          "errors": [],
+          "coldLobbyMs": 1078
+        }
+      },
+      "android": {
+        "before": {
+          "mode": "before",
+          "device": "android",
+          "conditions": "Actual published lobby -> inventory -> gift UI with local current/baseline gift script and isolated PGlite backend; fixed 6ms SQL delay. Windows headless; Android/iOS emulation, Windows launcher URL and real H5 iframe. No live account writes.",
+          "rounds": [
+            {
+              "phase": "first",
+              "clickToReadyMs": 183,
+              "frames": {
+                "count": 169,
+                "p95Ms": 4.3,
+                "maxMs": 4.4,
+                "over50": 0
+              },
+              "exit": {
+                "panels": 0,
+                "animations": 0,
+                "newGiftRequests": 0
+              }
+            },
+            {
+              "phase": "reentry",
+              "clickToReadyMs": 179,
+              "frames": {
+                "count": 162,
+                "p95Ms": 4.3,
+                "maxMs": 8.4,
+                "over50": 0
+              },
+              "exit": {
+                "panels": 0,
+                "animations": 0,
+                "newGiftRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "path": "new-user-gift",
+              "ms": 168,
+              "queries": 11,
+              "dbAndDelayMs": 167,
+              "coin": 300000000000,
+              "icons": 0
+            },
+            {
+              "path": "new-user-gift",
+              "ms": 165,
+              "queries": 11,
+              "dbAndDelayMs": 164,
+              "coin": 300000000000,
+              "icons": 0
+            },
+            {
+              "path": "new-user-gift/open",
+              "ms": 386,
+              "queries": 25,
+              "dbAndDelayMs": 384,
+              "coin": 300000000000,
+              "icons": 0
+            }
+          ],
+          "errors": [],
+          "coldLobbyMs": 1043
+        },
+        "after": {
+          "mode": "after",
+          "device": "android",
+          "conditions": "Actual published lobby -> inventory -> gift UI with local current/baseline gift script and isolated PGlite backend; fixed 6ms SQL delay. Windows headless; Android/iOS emulation, Windows launcher URL and real H5 iframe. No live account writes.",
+          "rounds": [
+            {
+              "phase": "first",
+              "clickToReadyMs": 251,
+              "frames": {
+                "count": 169,
+                "p95Ms": 4.2,
+                "maxMs": 4.3,
+                "over50": 0
+              },
+              "exit": {
+                "panels": 0,
+                "animations": 0,
+                "newGiftRequests": 0
+              }
+            },
+            {
+              "phase": "reentry",
+              "clickToReadyMs": 187,
+              "frames": {
+                "count": 161,
+                "p95Ms": 4.4,
+                "maxMs": 8.3,
+                "over50": 0
+              },
+              "exit": {
+                "panels": 0,
+                "animations": 0,
+                "newGiftRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "path": "new-user-gift",
+              "ms": 232,
+              "queries": 15,
+              "dbAndDelayMs": 230,
+              "coin": 1000000000000000,
+              "icons": 8
+            },
+            {
+              "path": "new-user-gift",
+              "ms": 169,
+              "queries": 11,
+              "dbAndDelayMs": 168,
+              "coin": 1000000000000000,
+              "icons": 8
+            },
+            {
+              "path": "new-user-gift/open",
+              "ms": 389,
+              "queries": 25,
+              "dbAndDelayMs": 385,
+              "coin": 1000000000000000,
+              "icons": 8
+            }
+          ],
+          "errors": [],
+          "coldLobbyMs": 1201
+        }
+      },
+      "ios": {
+        "before": {
+          "mode": "before",
+          "device": "ios",
+          "conditions": "Actual published lobby -> inventory -> gift UI with local current/baseline gift script and isolated PGlite backend; fixed 6ms SQL delay. Windows headless; Android/iOS emulation, Windows launcher URL and real H5 iframe. No live account writes.",
+          "rounds": [
+            {
+              "phase": "first",
+              "clickToReadyMs": 200,
+              "frames": {
+                "count": 37,
+                "p95Ms": 31,
+                "maxMs": 31,
+                "over50": 0
+              },
+              "exit": {
+                "panels": 0,
+                "animations": 0,
+                "newGiftRequests": 0
+              }
+            },
+            {
+              "phase": "reentry",
+              "clickToReadyMs": 177,
+              "frames": {
+                "count": 37,
+                "p95Ms": 31,
+                "maxMs": 31,
+                "over50": 0
+              },
+              "exit": {
+                "panels": 0,
+                "animations": 0,
+                "newGiftRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "path": "new-user-gift",
+              "ms": 151,
+              "queries": 11,
+              "dbAndDelayMs": 149,
+              "coin": 300000000000,
+              "icons": 0
+            },
+            {
+              "path": "new-user-gift",
+              "ms": 140,
+              "queries": 11,
+              "dbAndDelayMs": 140,
+              "coin": 300000000000,
+              "icons": 0
+            },
+            {
+              "path": "new-user-gift/open",
+              "ms": 405,
+              "queries": 25,
+              "dbAndDelayMs": 402,
+              "coin": 300000000000,
+              "icons": 0
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "coldLobbyMs": 2184
+        },
+        "after": {
+          "mode": "after",
+          "device": "ios",
+          "conditions": "Actual published lobby -> inventory -> gift UI with local current/baseline gift script and isolated PGlite backend; fixed 6ms SQL delay. Windows headless; Android/iOS emulation, Windows launcher URL and real H5 iframe. No live account writes.",
+          "rounds": [
+            {
+              "phase": "first",
+              "clickToReadyMs": 259,
+              "frames": {
+                "count": 35,
+                "p95Ms": 31,
+                "maxMs": 31,
+                "over50": 0
+              },
+              "exit": {
+                "panels": 0,
+                "animations": 0,
+                "newGiftRequests": 0
+              }
+            },
+            {
+              "phase": "reentry",
+              "clickToReadyMs": 206,
+              "frames": {
+                "count": 38,
+                "p95Ms": 31,
+                "maxMs": 31,
+                "over50": 0
+              },
+              "exit": {
+                "panels": 0,
+                "animations": 0,
+                "newGiftRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "path": "new-user-gift",
+              "ms": 219,
+              "queries": 15,
+              "dbAndDelayMs": 217,
+              "coin": 1000000000000000,
+              "icons": 8
+            },
+            {
+              "path": "new-user-gift",
+              "ms": 171,
+              "queries": 11,
+              "dbAndDelayMs": 170,
+              "coin": 1000000000000000,
+              "icons": 8
+            },
+            {
+              "path": "new-user-gift/open",
+              "ms": 374,
+              "queries": 25,
+              "dbAndDelayMs": 371,
+              "coin": 1000000000000000,
+              "icons": 8
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "coldLobbyMs": 1396
+        }
+      },
+      "windows": {
+        "before": {
+          "mode": "before",
+          "device": "windows",
+          "conditions": "Actual published lobby -> inventory -> gift UI with local current/baseline gift script and isolated PGlite backend; fixed 6ms SQL delay. Windows headless; Android/iOS emulation, Windows launcher URL and real H5 iframe. No live account writes.",
+          "rounds": [
+            {
+              "phase": "first",
+              "clickToReadyMs": 175,
+              "frames": {
+                "count": 169,
+                "p95Ms": 4.3,
+                "maxMs": 5.2,
+                "over50": 0
+              },
+              "exit": {
+                "panels": 0,
+                "animations": 0,
+                "newGiftRequests": 0
+              }
+            },
+            {
+              "phase": "reentry",
+              "clickToReadyMs": 183,
+              "frames": {
+                "count": 165,
+                "p95Ms": 4.3,
+                "maxMs": 8.3,
+                "over50": 0
+              },
+              "exit": {
+                "panels": 0,
+                "animations": 0,
+                "newGiftRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "path": "new-user-gift",
+              "ms": 162,
+              "queries": 11,
+              "dbAndDelayMs": 161,
+              "coin": 300000000000,
+              "icons": 0
+            },
+            {
+              "path": "new-user-gift",
+              "ms": 171,
+              "queries": 11,
+              "dbAndDelayMs": 171,
+              "coin": 300000000000,
+              "icons": 0
+            },
+            {
+              "path": "new-user-gift/open",
+              "ms": 388,
+              "queries": 25,
+              "dbAndDelayMs": 385,
+              "coin": 300000000000,
+              "icons": 0
+            }
+          ],
+          "errors": [],
+          "coldLobbyMs": 1292
+        },
+        "after": {
+          "mode": "after",
+          "device": "windows",
+          "conditions": "Actual published lobby -> inventory -> gift UI with local current/baseline gift script and isolated PGlite backend; fixed 6ms SQL delay. Windows headless; Android/iOS emulation, Windows launcher URL and real H5 iframe. No live account writes.",
+          "rounds": [
+            {
+              "phase": "first",
+              "clickToReadyMs": 241,
+              "frames": {
+                "count": 167,
+                "p95Ms": 4.3,
+                "maxMs": 8.3,
+                "over50": 0
+              },
+              "exit": {
+                "panels": 0,
+                "animations": 0,
+                "newGiftRequests": 0
+              }
+            },
+            {
+              "phase": "reentry",
+              "clickToReadyMs": 171,
+              "frames": {
+                "count": 163,
+                "p95Ms": 4.3,
+                "maxMs": 8.3,
+                "over50": 0
+              },
+              "exit": {
+                "panels": 0,
+                "animations": 0,
+                "newGiftRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "path": "new-user-gift",
+              "ms": 232,
+              "queries": 15,
+              "dbAndDelayMs": 229,
+              "coin": 1000000000000000,
+              "icons": 8
+            },
+            {
+              "path": "new-user-gift",
+              "ms": 163,
+              "queries": 11,
+              "dbAndDelayMs": 162,
+              "coin": 1000000000000000,
+              "icons": 8
+            },
+            {
+              "path": "new-user-gift/open",
+              "ms": 376,
+              "queries": 25,
+              "dbAndDelayMs": 373,
+              "coin": 1000000000000000,
+              "icons": 8
+            }
+          ],
+          "errors": [],
+          "coldLobbyMs": 1234
+        }
+      },
+      "h5": {
+        "before": {
+          "mode": "before",
+          "device": "h5",
+          "conditions": "Actual published lobby -> inventory -> gift UI with local current/baseline gift script and isolated PGlite backend; fixed 6ms SQL delay. Windows headless; Android/iOS emulation, Windows launcher URL and real H5 iframe. No live account writes.",
+          "rounds": [
+            {
+              "phase": "first",
+              "clickToReadyMs": 184,
+              "frames": {
+                "count": 169,
+                "p95Ms": 4.3,
+                "maxMs": 4.4,
+                "over50": 0
+              },
+              "exit": {
+                "panels": 0,
+                "animations": 0,
+                "newGiftRequests": 0
+              }
+            },
+            {
+              "phase": "reentry",
+              "clickToReadyMs": 192,
+              "frames": {
+                "count": 161,
+                "p95Ms": 4.4,
+                "maxMs": 9.5,
+                "over50": 0
+              },
+              "exit": {
+                "panels": 0,
+                "animations": 0,
+                "newGiftRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "path": "new-user-gift",
+              "ms": 169,
+              "queries": 11,
+              "dbAndDelayMs": 167,
+              "coin": 300000000000,
+              "icons": 0
+            },
+            {
+              "path": "new-user-gift",
+              "ms": 176,
+              "queries": 11,
+              "dbAndDelayMs": 176,
+              "coin": 300000000000,
+              "icons": 0
+            },
+            {
+              "path": "new-user-gift/open",
+              "ms": 378,
+              "queries": 25,
+              "dbAndDelayMs": 375,
+              "coin": 300000000000,
+              "icons": 0
+            }
+          ],
+          "errors": [],
+          "coldLobbyMs": 986,
+          "sdk": "Simulated host SDK initialization for isolated iframe validation; no live ONE store account or purchase."
+        },
+        "after": {
+          "mode": "after",
+          "device": "h5",
+          "conditions": "Actual published lobby -> inventory -> gift UI with local current/baseline gift script and isolated PGlite backend; fixed 6ms SQL delay. Windows headless; Android/iOS emulation, Windows launcher URL and real H5 iframe. No live account writes.",
+          "rounds": [
+            {
+              "phase": "first",
+              "clickToReadyMs": 232,
+              "frames": {
+                "count": 168,
+                "p95Ms": 4.2,
+                "maxMs": 8.4,
+                "over50": 0
+              },
+              "exit": {
+                "panels": 0,
+                "animations": 0,
+                "newGiftRequests": 0
+              }
+            },
+            {
+              "phase": "reentry",
+              "clickToReadyMs": 179,
+              "frames": {
+                "count": 165,
+                "p95Ms": 4.3,
+                "maxMs": 8.4,
+                "over50": 0
+              },
+              "exit": {
+                "panels": 0,
+                "animations": 0,
+                "newGiftRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "path": "new-user-gift",
+              "ms": 212,
+              "queries": 15,
+              "dbAndDelayMs": 210,
+              "coin": 1000000000000000,
+              "icons": 8
+            },
+            {
+              "path": "new-user-gift",
+              "ms": 164,
+              "queries": 11,
+              "dbAndDelayMs": 164,
+              "coin": 1000000000000000,
+              "icons": 8
+            },
+            {
+              "path": "new-user-gift/open",
+              "ms": 362,
+              "queries": 25,
+              "dbAndDelayMs": 357,
+              "coin": 1000000000000000,
+              "icons": 8
+            }
+          ],
+          "errors": [],
+          "coldLobbyMs": 1055,
+          "sdk": "Simulated host SDK initialization for isolated iframe validation; no live ONE store account or purchase."
+        }
+      }
+    },
+    "postDeployment": {
+      "mode": "live",
+      "device": "android",
+      "conditions": "Actual deployed lobby and deployed gift JS, isolated PGlite current server handlers and synthetic account, fixed 6ms SQL delay. Android Chrome emulation; no live account opening or test rewards.",
+      "rounds": [
+        {
+          "phase": "first",
+          "clickToReadyMs": 239,
+          "frames": {
+            "count": 169,
+            "p95Ms": 4.2,
+            "maxMs": 4.4,
+            "over50": 0
+          },
+          "exit": {
+            "panels": 0,
+            "animations": 0,
+            "newGiftRequests": 0
+          }
+        },
+        {
+          "phase": "reentry",
+          "clickToReadyMs": 189,
+          "frames": {
+            "count": 166,
+            "p95Ms": 4.3,
+            "maxMs": 8.3,
+            "over50": 0
+          },
+          "exit": {
+            "panels": 0,
+            "animations": 0,
+            "newGiftRequests": 0
+          }
+        }
+      ],
+      "api": [
+        {
+          "path": "new-user-gift",
+          "ms": 219,
+          "queries": 15,
+          "dbAndDelayMs": 217,
+          "coin": 1000000000000000,
+          "icons": 8
+        },
+        {
+          "path": "new-user-gift",
+          "ms": 175,
+          "queries": 11,
+          "dbAndDelayMs": 174,
+          "coin": 1000000000000000,
+          "icons": 8
+        },
+        {
+          "path": "new-user-gift/open",
+          "ms": 383,
+          "queries": 25,
+          "dbAndDelayMs": 381,
+          "coin": 1000000000000000,
+          "icons": 8
+        }
+      ],
+      "errors": [],
+      "coldLobbyMs": 1041
+    },
+    "snapshotMs": 310,
+    "coinLogFloorMs": 82,
+    "grantAndVerificationMs": 15267,
+    "operationIncludingLocksAndRehearsalsMs": 45104,
+    "independentVerificationMs": 8181,
+    "conditions": "Windows CLI and headless browser. Same synthetic V4 box in isolated PGlite, 6 ms delay per SQL call. Published lobby -> inventory -> gift. Android/iOS emulation; Windows launcher URL, not installed native renderer. H5 iframe uses simulated host SDK initialization. No physical mobile measurement or live account test opening.",
+    "finding": "DB round trips dominate. ICON catalog rows join the existing query and cards use the existing batched grant. Repeat status remains 11 SQL and opening 25 SQL. Old V4 one-time upgrade adds 4 SQL; the operational transaction upgrades all existing unopened boxes proactively.",
+    "limitations": [
+      "Single comparison, not a production latency benchmark.",
+      "Existing WebKit ResizeObserver warning occurs before and after.",
+      "No physical iPhone/Android, native Windows renderer, or real ONE store account test."
+    ]
+  },
+  "releaseGateCorrections": [
+    "Historical client cache assertion updated; failed gate performed no deployment.",
+    "Web/H5 app release tag aligned with service-worker tag; failed gate performed no deployment."
+  ],
+  "evidenceDirectory": "operations/new-user-gift-icons-20261116"
+}
