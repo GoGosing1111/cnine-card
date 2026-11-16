@@ -1,0 +1,63 @@
+{
+  "status": "VERIFIED",
+  "checkedAt": "2026-11-16T11:27:51.219Z",
+  "readOnly": true,
+  "cmsRevision": 51,
+  "card": {
+    "code": "PET-DDUNG-JOEUN",
+    "growthCap": "SSS",
+    "name": "뚱조은",
+    "sourceArt": "assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-approved.png",
+    "battleSprite": "assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+    "animal": "팬더 인형탈",
+    "description": "자연스러운 얼굴 각도와 시선을 살리고 양팔을 벌린 통통한 팬더 인형탈의 뚱조은.",
+    "artStatus": "SOURCE_ART_APPROVED",
+    "configured": true,
+    "rewardBonuses": {
+      "dropPercent": 25,
+      "accountXpPercent": 55,
+      "coinPercent": 55
+    },
+    "rewardBonusesActive": true,
+    "target": "ALL_ALLIES",
+    "modes": [
+      "PVE",
+      "PVP"
+    ],
+    "buffs": [
+      {
+        "type": "SPEED_PERCENT",
+        "percent": 55
+      }
+    ],
+    "ready": [
+      "PVE",
+      "PVP"
+    ],
+    "owned": false,
+    "reviewOwned": false,
+    "quantity": 0,
+    "potential": null,
+    "attempts": 0
+  },
+  "equalTo": "PET-BAZZI-BONGSOON",
+  "growthCap": "SSS",
+  "selectableModes": [
+    "PVE",
+    "PVP"
+  ],
+  "accountWrites": 0,
+  "performance": {
+    "condition": "Windows to live PostgreSQL read and current game catalog/battle definition assembly; network included; not HTTP or device-frame measurement.",
+    "measurements": [
+      {
+        "phase": "first",
+        "elapsedMs": 161
+      },
+      {
+        "phase": "reentry",
+        "elapsedMs": 78
+      }
+    ]
+  }
+}

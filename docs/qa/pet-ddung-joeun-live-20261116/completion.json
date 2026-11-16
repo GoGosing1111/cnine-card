@@ -1,0 +1,432 @@
+{
+  "status": "LIVE_AND_INDEPENDENTLY_VERIFIED",
+  "name": "뚱조은",
+  "code": "PET-DDUNG-JOEUN",
+  "selectedDraft": "v5-natural-face",
+  "operationKey": "ops:pet-ddung-joeun-live:20261116:v1",
+  "completedAt": "2026-11-16T11:27:36.488Z",
+  "completedAtKst": "2026-11-16 20:27:36 KST",
+  "auditId": "61939",
+  "finalArt": {
+    "code": "PET-DDUNG-JOEUN",
+    "name": "뚱조은",
+    "approvedAsset": "assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-approved.png",
+    "battleSprite": "assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+    "thumb": "assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-thumb.webp",
+    "sha256": "588115c8b50ad377901e74c02df2b0768e0975ba6d25268879c428c09c34c7e4",
+    "bytes": 1646132,
+    "width": 1254,
+    "height": 1254
+  },
+  "userApproval": "승인하고 배찌 나무늘봉순하고 동급수치로 라이브반영",
+  "referencePet": "PET-BAZZI-BONGSOON",
+  "effects": {
+    "enabled": true,
+    "liveEnabled": true,
+    "modes": [
+      "PVE",
+      "PVP"
+    ],
+    "target": "ALL_ALLIES",
+    "buffs": [
+      {
+        "type": "SPEED_PERCENT",
+        "percent": 55
+      }
+    ],
+    "rewardBonuses": {
+      "dropPercent": 25,
+      "accountXpPercent": 55,
+      "coinPercent": 55
+    }
+  },
+  "growthCap": "SSS",
+  "sameTraitPool": true,
+  "cms": {
+    "previousRevision": 50,
+    "revision": 51,
+    "petCount": 28,
+    "preservedPets": 27
+  },
+  "source": "3b46b55067a56a227ee62237276aa008b0981fac",
+  "pages": {
+    "id": "1d8a8588-87e9-4863-9898-b9288d2e5b42",
+    "url": "https://1d8a8588.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "3b46b55067a56a227ee62237276aa008b0981fac"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "deployment": {
+        "id": "17884f21-7d7e-435b-a9a2-b98c1c9af0a1",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "b19cb41c-ca17-45e3-aea1-6dc9937e4fb6",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-11-16T11:24:55.430883Z"
+      }
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "deployment": {
+        "id": "06136d4b-ba56-4b98-b7cf-691ebbd0b9d2",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "97ea15c1-c212-4b80-bd89-d14f07cae60d",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-11-16T11:26:38.750216Z"
+      }
+    }
+  ],
+  "publicFiles": 14,
+  "windowsAssetsVerified": 3,
+  "tests": {
+    "uniqueRelatedPassed": 25,
+    "registrationAndBattlePassed": 9,
+    "growthAndStorePassed": 16,
+    "failureRollback": true,
+    "normalDryRunRollback": true,
+    "selectOnlyReplay": true,
+    "independentReadOnlyVerification": true,
+    "existingPetsAndAcquisitionSettingsPreserved": true,
+    "accountGrants": 0,
+    "messagesSent": 0
+  },
+  "performance": {
+    "conditions": "Windows host. Actual /pet-codex/ page and game API handlers with isolated PostgreSQL-compatible fixture. Chrome desktop/Android and WebKit iPhone emulation; hidden Electron renderer; iframe embedding smoke. No production account mutation or physical mobile measurements.",
+    "samples": [
+      {
+        "platform": "desktop",
+        "variant": "runtime-webp",
+        "firstInteractiveMs": 551,
+        "firstImagesMs": 1049,
+        "reentryInteractiveMs": 31,
+        "reentryImagesMs": 32,
+        "overflow": false,
+        "portrait": [
+          {
+            "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+            "width": 560,
+            "height": 560
+          }
+        ],
+        "resources": [
+          {
+            "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+            "bytes": 52330,
+            "ms": 668
+          }
+        ],
+        "errors": [],
+        "frames": {
+          "samples": 361,
+          "p95": 4.299999999999727,
+          "max": 8.299999999999727,
+          "over50ms": 0
+        },
+        "afterExit": {
+          "active": 0,
+          "updates": 79
+        },
+        "documentReentryInteractiveMs": 215,
+        "documentReentryImagesMs": 603
+      },
+      {
+        "platform": "android",
+        "variant": "source-png",
+        "firstInteractiveMs": 1566,
+        "firstImagesMs": 4301,
+        "reentryInteractiveMs": 142,
+        "reentryImagesMs": 143,
+        "overflow": false,
+        "portrait": [
+          {
+            "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-approved.png",
+            "width": 1254,
+            "height": 1254
+          }
+        ],
+        "resources": [
+          {
+            "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-approved.png",
+            "bytes": 1646432,
+            "ms": 2787
+          }
+        ],
+        "errors": [],
+        "documentReentryInteractiveMs": 1577,
+        "documentReentryImagesMs": 4148
+      },
+      {
+        "platform": "android",
+        "variant": "runtime-webp",
+        "firstInteractiveMs": 1637,
+        "firstImagesMs": 2518,
+        "reentryInteractiveMs": 98,
+        "reentryImagesMs": 99,
+        "overflow": false,
+        "portrait": [
+          {
+            "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+            "width": 560,
+            "height": 560
+          }
+        ],
+        "resources": [
+          {
+            "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+            "bytes": 52330,
+            "ms": 345
+          }
+        ],
+        "errors": [],
+        "frames": {
+          "samples": 146,
+          "p95": 16.699999999999818,
+          "max": 549.8999999999996,
+          "over50ms": 3
+        },
+        "afterExit": {
+          "active": 0,
+          "updates": 16
+        },
+        "documentReentryInteractiveMs": 1512,
+        "documentReentryImagesMs": 2404
+      },
+      {
+        "platform": "ios",
+        "variant": "runtime-webp",
+        "firstInteractiveMs": 360,
+        "firstImagesMs": 646,
+        "reentryInteractiveMs": 148,
+        "reentryImagesMs": 150,
+        "overflow": false,
+        "portrait": [
+          {
+            "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+            "width": 560,
+            "height": 560
+          }
+        ],
+        "resources": [
+          {
+            "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+            "bytes": 52330,
+            "ms": 2
+          },
+          {
+            "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-thumb.webp",
+            "bytes": 0,
+            "ms": 0
+          }
+        ],
+        "errors": [],
+        "frames": {
+          "samples": 108,
+          "p95": 17,
+          "max": 38,
+          "over50ms": 0
+        },
+        "afterExit": {
+          "active": 0,
+          "updates": 22
+        },
+        "documentReentryInteractiveMs": 434,
+        "documentReentryImagesMs": 463
+      },
+      {
+        "platform": "windows",
+        "variant": "runtime-webp",
+        "firstInteractiveMs": 352,
+        "firstImagesMs": 376,
+        "reentryInteractiveMs": 63,
+        "reentryImagesMs": 65,
+        "overflow": false,
+        "portrait": [
+          {
+            "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+            "width": 560,
+            "height": 560
+          }
+        ],
+        "resources": [
+          {
+            "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+            "bytes": 52330,
+            "ms": 8
+          },
+          {
+            "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-thumb.webp",
+            "bytes": 7894,
+            "ms": 12
+          }
+        ],
+        "errors": [],
+        "documentReentryInteractiveMs": 287,
+        "documentReentryImagesMs": 302
+      },
+      {
+        "platform": "iframe",
+        "variant": "runtime-webp",
+        "firstInteractiveMs": 443,
+        "firstImagesMs": 904,
+        "reentryInteractiveMs": 64,
+        "reentryImagesMs": 66,
+        "overflow": false,
+        "portrait": [
+          {
+            "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+            "width": 560,
+            "height": 560
+          }
+        ],
+        "resources": [
+          {
+            "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+            "bytes": 52330,
+            "ms": 5
+          },
+          {
+            "path": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-thumb.webp",
+            "bytes": 7894,
+            "ms": 9
+          }
+        ],
+        "errors": [],
+        "documentReentryInteractiveMs": 259,
+        "documentReentryImagesMs": 660
+      }
+    ]
+  },
+  "androidFrameComparison": {
+    "conditions": "Windows Chrome Android emulation, 390x844, CPU 4x, RTT 80ms, 1.5MB/s; same isolated API, same new-pet source PNG versus optimized WebP; growth roll after all initial network transfers settled plus 250ms; two alternating samples per variant",
+    "samples": [
+      {
+        "variant": "source-png",
+        "frames": {
+          "samples": 439,
+          "p95": 4.300000000001091,
+          "max": 87.5,
+          "over50ms": 2
+        }
+      },
+      {
+        "variant": "runtime-webp",
+        "frames": {
+          "samples": 358,
+          "p95": 8.299999999999272,
+          "max": 237.5,
+          "over50ms": 2
+        }
+      },
+      {
+        "variant": "source-png",
+        "frames": {
+          "samples": 450,
+          "p95": 4.300000000000182,
+          "max": 66.79999999999927,
+          "over50ms": 2
+        }
+      },
+      {
+        "variant": "runtime-webp",
+        "frames": {
+          "samples": 454,
+          "p95": 4.300000000000182,
+          "max": 62.5,
+          "over50ms": 1
+        }
+      }
+    ]
+  },
+  "performanceNotes": "Same Android CPU-4x/80ms/1.5MBps single-sample cold image display 4301→2518ms; interactive readiness 1566→1637ms (no improvement claimed). Initial runtime-WebP growth animation included 3 frames over 50ms, max 549.9ms. Additional settled-loading alternating comparisons also observed long frames in both PNG and WebP; max PNG 87.5/66.8ms, WebP 237.5/62.5ms. These samples do not establish an overall frame-time improvement. No residual effect updates after close. Physical-phone and real ONE store app measurements were not performed.",
+  "liveRead": {
+    "condition": "Windows to live PostgreSQL read and current game catalog/battle definition assembly; network included; not HTTP or device-frame measurement.",
+    "measurements": [
+      {
+        "phase": "first",
+        "elapsedMs": 161
+      },
+      {
+        "phase": "reentry",
+        "elapsedMs": 78
+      }
+    ]
+  },
+  "publishedUi": {
+    "conditions": "Published production documents, modules, images and H5 iframe entry; API GET responses use isolated local game-handler fixture. Windows Chrome desktop/Android emulation. No production login, account mutation or physical mobile/ONE store app SDK test.",
+    "samples": [
+      {
+        "platform": "desktop",
+        "interactiveMs": 524,
+        "imagesMs": 629,
+        "name": "뚱조은",
+        "growthCap": "SSS",
+        "image": {
+          "src": "https://cnine-card.pages.dev/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+          "width": 560,
+          "height": 560
+        },
+        "effects": "기본 효과 · 자석\n\n기본 효과는 성장 결과와 함께 적용됩니다.\n\n속도 +55%\n드랍률 +25%\n계정 경험치 +55%\n코인 +55%\n자석 잠재력\n\n군단토벌 드랍 아이템을 자동 수집합니다.\n같은 종류의 중복 펫은 자석을 공유합니다.\n\n잠재력 물약 5개 · 성공률 10%\n\n물약 1개로 도전\n성공·실패와 관계없이 물약 1개를 소모합니다.\n시즌패스 자석\n\n다른 펫으로 자석 효과를 옮길 수 있습니다.\n\n이 펫에 적용 · 무료",
+        "errors": [],
+        "blockedWrites": []
+      },
+      {
+        "platform": "android",
+        "interactiveMs": 525,
+        "imagesMs": 567,
+        "name": "뚱조은",
+        "growthCap": "SSS",
+        "image": {
+          "src": "https://cnine-card.pages.dev/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+          "width": 560,
+          "height": 560
+        },
+        "effects": "기본 효과 · 자석\n\n기본 효과는 성장 결과와 함께 적용됩니다.\n\n속도 +55%\n드랍률 +25%\n계정 경험치 +55%\n코인 +55%\n자석 잠재력\n\n군단토벌 드랍 아이템을 자동 수집합니다.\n같은 종류의 중복 펫은 자석을 공유합니다.\n\n잠재력 물약 5개 · 성공률 10%\n\n물약 1개로 도전\n성공·실패와 관계없이 물약 1개를 소모합니다.\n시즌패스 자석\n\n다른 펫으로 자석 효과를 옮길 수 있습니다.\n\n이 펫에 적용 · 무료",
+        "errors": [],
+        "blockedWrites": []
+      },
+      {
+        "platform": "h5-iframe",
+        "interactiveMs": 592,
+        "imagesMs": 637,
+        "name": "뚱조은",
+        "growthCap": "SSS",
+        "image": {
+          "src": "https://cnine-card.pages.dev/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+          "width": 560,
+          "height": 560
+        },
+        "effects": "기본 효과 · 자석\n\n기본 효과는 성장 결과와 함께 적용됩니다.\n\n속도 +55%\n드랍률 +25%\n계정 경험치 +55%\n코인 +55%\n자석 잠재력\n\n군단토벌 드랍 아이템을 자동 수집합니다.\n같은 종류의 중복 펫은 자석을 공유합니다.\n\n잠재력 물약 5개 · 성공률 10%\n\n물약 1개로 도전\n성공·실패와 관계없이 물약 1개를 소모합니다.\n시즌패스 자석\n\n이용 중인 시즌패스의 자석 혜택을 확인합니다.\n\n시즌패스 정보를 불러오지 못했습니다. 새로고침해 주세요.",
+        "errors": [],
+        "blockedWrites": []
+      }
+    ],
+    "productionAccountWrites": 0,
+    "status": "VERIFIED",
+    "checkedAt": "2026-11-16T11:29:56.922Z"
+  },
+  "archivedDocumentsPreserved": [
+    "docs/pet-opening-blank-popup-20261003.md",
+    "docs/pet-opening-essence-20261003.md",
+    "docs/pet-support-effects-20261012.md"
+  ],
+  "limitations": "Windows Chrome/Electron and mobile/WebKit emulation; public UI uses isolated read-only account API fixture. Live CMS/service definition parity separately verified against production DB. No physical mobile or native ONE store app SDK verification."
+}

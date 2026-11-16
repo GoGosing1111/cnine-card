@@ -1,0 +1,41 @@
+{
+  "conditions": "Windows Chrome Android emulation, 390x844, CPU 4x, RTT 80ms, 1.5MB/s; same isolated API, same new-pet source PNG versus optimized WebP; growth roll after all initial network transfers settled plus 250ms; two alternating samples per variant",
+  "samples": [
+    {
+      "variant": "source-png",
+      "frames": {
+        "samples": 439,
+        "p95": 4.300000000001091,
+        "max": 87.5,
+        "over50ms": 2
+      }
+    },
+    {
+      "variant": "runtime-webp",
+      "frames": {
+        "samples": 358,
+        "p95": 8.299999999999272,
+        "max": 237.5,
+        "over50ms": 2
+      }
+    },
+    {
+      "variant": "source-png",
+      "frames": {
+        "samples": 450,
+        "p95": 4.300000000000182,
+        "max": 66.79999999999927,
+        "over50ms": 2
+      }
+    },
+    {
+      "variant": "runtime-webp",
+      "frames": {
+        "samples": 454,
+        "p95": 4.300000000000182,
+        "max": 62.5,
+        "over50ms": 1
+      }
+    }
+  ]
+}

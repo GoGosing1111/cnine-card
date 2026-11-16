@@ -1,0 +1,86 @@
+{
+  "replayed": false,
+  "committed": true,
+  "receipt": {
+    "operationKey": "ops:pet-ddung-joeun-live:20261116:v1",
+    "previousRevision": 50,
+    "revision": 51,
+    "addedPets": [
+      {
+        "code": "PET-DDUNG-JOEUN",
+        "name": "뚱조은",
+        "sourceArt": "assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-approved.png",
+        "battleSprite": "assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+        "enabled": true,
+        "liveEnabled": true,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "SPEED_PERCENT",
+            "percent": 55
+          }
+        ],
+        "rewardBonuses": {
+          "dropPercent": 25,
+          "accountXpPercent": 55,
+          "coinPercent": 55
+        },
+        "notes": "2026-11-16 사용자 승인 팬더 V5 뚱조은. 배찌 나무늘봉순 동급: 속도 55%, 드랍 25%, 계정 경험치 55%, 코인 55%. PvE/PvP 전체 아군, SSS 성장 상한과 동일 특성 풀."
+      }
+    ],
+    "preservedRows": 27,
+    "preservedPetsHash": "d0260191ef91877baf5f336e6067f766727ed5389cea317761221d08d75af3f0",
+    "beforeRawHash": "277e713bf3f92d6e5945cfd9bc59582281e6face71a8af22e20581c7d9fd527e",
+    "afterDocumentHash": "e5b5557e40abe5414fea3d7f40f315638eb22188159dd56a19680c77d99c34da",
+    "settingsHash": "ef944b3165a6dcd024e198313943bbfd8bcd63ed86c0ea30124799fd5c6d612d",
+    "completedAt": "2026-11-16T11:27:36.488Z",
+    "accountGrants": 0,
+    "openingPoolChanged": false,
+    "potentialSettingsChanged": false,
+    "rankedShopChanged": false,
+    "liveEffectsEnabled": true,
+    "referencePet": {
+      "code": "PET-BAZZI-BONGSOON",
+      "cmsRevision": 50,
+      "checkedAt": "2026-11-16T11:14:54.079Z",
+      "options": {
+        "enabled": true,
+        "liveEnabled": true,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "SPEED_PERCENT",
+            "percent": 55
+          }
+        ],
+        "rewardBonuses": {
+          "dropPercent": 25,
+          "accountXpPercent": 55,
+          "coinPercent": 55
+        }
+      },
+      "growthCap": "SSS"
+    },
+    "auditId": "61939"
+  },
+  "verification": {
+    "verified": true,
+    "revision": 51,
+    "petCount": 28,
+    "registeredCodes": [
+      "PET-DDUNG-JOEUN"
+    ],
+    "auditId": "61939"
+  },
+  "sourceHash": "f0889e7e9c920ff8fa7b1b6609cc685c1cb93b849ccbfa49ab9d893f6b48f3cd",
+  "selectOnlyReplay": true,
+  "checkedAt": "2026-11-16T11:27:37.374Z"
+}

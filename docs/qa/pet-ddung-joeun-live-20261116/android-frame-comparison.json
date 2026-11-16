@@ -1,0 +1,23 @@
+{
+  "conditions": "Windows Chrome Android emulation, 390x844, CPU 4x, RTT 80ms, 1.5MB/s; same isolated API, same new-pet source PNG versus optimized WebP; growth roll after visible images decoded; one sample per variant",
+  "samples": [
+    {
+      "variant": "source-png",
+      "frames": {
+        "samples": 408,
+        "p95": 4.300000000000182,
+        "max": 87.5,
+        "over50ms": 2
+      }
+    },
+    {
+      "variant": "runtime-webp",
+      "frames": {
+        "samples": 248,
+        "p95": 8.400000000000091,
+        "max": 558.2999999999997,
+        "over50ms": 4
+      }
+    }
+  ]
+}

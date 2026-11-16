@@ -1,0 +1,53 @@
+{
+  "conditions": "Published production documents, modules, images and H5 iframe entry; API GET responses use isolated local game-handler fixture. Windows Chrome desktop/Android emulation. No production login, account mutation or physical mobile/ONE store app SDK test.",
+  "samples": [
+    {
+      "platform": "desktop",
+      "interactiveMs": 524,
+      "imagesMs": 629,
+      "name": "뚱조은",
+      "growthCap": "SSS",
+      "image": {
+        "src": "https://cnine-card.pages.dev/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+        "width": 560,
+        "height": 560
+      },
+      "effects": "기본 효과 · 자석\n\n기본 효과는 성장 결과와 함께 적용됩니다.\n\n속도 +55%\n드랍률 +25%\n계정 경험치 +55%\n코인 +55%\n자석 잠재력\n\n군단토벌 드랍 아이템을 자동 수집합니다.\n같은 종류의 중복 펫은 자석을 공유합니다.\n\n잠재력 물약 5개 · 성공률 10%\n\n물약 1개로 도전\n성공·실패와 관계없이 물약 1개를 소모합니다.\n시즌패스 자석\n\n다른 펫으로 자석 효과를 옮길 수 있습니다.\n\n이 펫에 적용 · 무료",
+      "errors": [],
+      "blockedWrites": []
+    },
+    {
+      "platform": "android",
+      "interactiveMs": 525,
+      "imagesMs": 567,
+      "name": "뚱조은",
+      "growthCap": "SSS",
+      "image": {
+        "src": "https://cnine-card.pages.dev/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+        "width": 560,
+        "height": 560
+      },
+      "effects": "기본 효과 · 자석\n\n기본 효과는 성장 결과와 함께 적용됩니다.\n\n속도 +55%\n드랍률 +25%\n계정 경험치 +55%\n코인 +55%\n자석 잠재력\n\n군단토벌 드랍 아이템을 자동 수집합니다.\n같은 종류의 중복 펫은 자석을 공유합니다.\n\n잠재력 물약 5개 · 성공률 10%\n\n물약 1개로 도전\n성공·실패와 관계없이 물약 1개를 소모합니다.\n시즌패스 자석\n\n다른 펫으로 자석 효과를 옮길 수 있습니다.\n\n이 펫에 적용 · 무료",
+      "errors": [],
+      "blockedWrites": []
+    },
+    {
+      "platform": "h5-iframe",
+      "interactiveMs": 592,
+      "imagesMs": 637,
+      "name": "뚱조은",
+      "growthCap": "SSS",
+      "image": {
+        "src": "https://cnine-card.pages.dev/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+        "width": 560,
+        "height": 560
+      },
+      "effects": "기본 효과 · 자석\n\n기본 효과는 성장 결과와 함께 적용됩니다.\n\n속도 +55%\n드랍률 +25%\n계정 경험치 +55%\n코인 +55%\n자석 잠재력\n\n군단토벌 드랍 아이템을 자동 수집합니다.\n같은 종류의 중복 펫은 자석을 공유합니다.\n\n잠재력 물약 5개 · 성공률 10%\n\n물약 1개로 도전\n성공·실패와 관계없이 물약 1개를 소모합니다.\n시즌패스 자석\n\n이용 중인 시즌패스의 자석 혜택을 확인합니다.\n\n시즌패스 정보를 불러오지 못했습니다. 새로고침해 주세요.",
+      "errors": [],
+      "blockedWrites": []
+    }
+  ],
+  "productionAccountWrites": 0,
+  "status": "VERIFIED",
+  "checkedAt": "2026-11-16T11:29:56.922Z"
+}

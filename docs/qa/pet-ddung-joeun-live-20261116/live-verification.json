@@ -1,0 +1,132 @@
+{
+  "at": "2026-11-16T11:27:15.270Z",
+  "pages": {
+    "id": "1d8a8588-87e9-4863-9898-b9288d2e5b42",
+    "url": "https://1d8a8588.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "3b46b55067a56a227ee62237276aa008b0981fac"
+  },
+  "releaseCommit": "3b46b55067a56a227ee62237276aa008b0981fac",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "ddungJoeunConnected": true,
+      "sha256": "56ec8705377d7394ee45db743f1783a69a53cf3451317ae56e9b24ab210ee3a1",
+      "latestDeployment": {
+        "id": "17884f21-7d7e-435b-a9a2-b98c1c9af0a1",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "b19cb41c-ca17-45e3-aea1-6dc9937e4fb6",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-11-16T11:24:55.430883Z"
+      }
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "ddungJoeunConnected": true,
+      "sha256": "9dcca8b678026a6710342b20f085172ad5c99159cf9164a836da405a591690e8",
+      "latestDeployment": {
+        "id": "06136d4b-ba56-4b98-b7cf-691ebbd0b9d2",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "97ea15c1-c212-4b80-bd89-d14f07cae60d",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-11-16T11:26:38.750216Z"
+      }
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-approved.png",
+      "bytes": 1646132,
+      "sha256": "588115c8b50ad377901e74c02df2b0768e0975ba6d25268879c428c09c34c7e4"
+    },
+    {
+      "file": "assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
+      "bytes": 52030,
+      "sha256": "8d6a53a5347c3b2805e233f0efe14a54527d7ab8f0830897eeecc3a4d5acf0b9"
+    },
+    {
+      "file": "assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-thumb.webp",
+      "bytes": 7594,
+      "sha256": "98965170035f8de2dcf383355d960a74a116ef2f00ee9489a6824ae88f2f9e2c"
+    },
+    {
+      "file": "shared/pet-art-catalog-v1.mjs",
+      "bytes": 7787,
+      "sha256": "36b7b6aba35ce142ee8617b62cfa6150291d557c03a9b71fca8c9181ce975e81"
+    },
+    {
+      "file": "shared/pet-growth-live-v2.mjs",
+      "bytes": 3533,
+      "sha256": "72011f27891bb71393f2cac4c2dd8eece098ab0c61e630aa09735173cb93a097"
+    },
+    {
+      "file": "assets/ui/pets/rework-20261114/codex-v3/pets.json",
+      "bytes": 10168,
+      "sha256": "33136ec7c8f552e68992b47f063237fbf76812792bf7eff1089f1b3fed6bd7f1"
+    },
+    {
+      "file": "pet-codex/index.html",
+      "bytes": 908,
+      "sha256": "fd1ad2403e484abc6e7d49ac5fd278befd0313c6e46a0335dbaa80280feebd67"
+    },
+    {
+      "file": "pet-codex/app.mjs",
+      "bytes": 1075,
+      "sha256": "e80b6f03024eda1b3e9ba1fe313d862aad1abffc4c649c07ab93dddffd9c178a"
+    },
+    {
+      "file": "js/pet-equipment-window-v1.mjs",
+      "bytes": 35778,
+      "sha256": "20688bf501c243c9ff30e0478f3cd79ab3c536271d0bf87e2aac741545b3646d"
+    },
+    {
+      "file": "js/pet-codex-growth-v3.mjs",
+      "bytes": 5427,
+      "sha256": "9fd3a3dca0af6244a8e3312db6dfa2b55375dd65889ba70a02d26145d3d0ac2f"
+    },
+    {
+      "file": "service-worker.js",
+      "bytes": 26333,
+      "sha256": "5feb2367a3743433dc0c8a843c51cddb02689df071fd5f83ec2ecad7a2a321d7"
+    },
+    {
+      "file": "onestore/pet-codex/app.mjs",
+      "bytes": 1102,
+      "sha256": "c7c026b2149dcee0ff35b8a01b2255292678b1b40a363a70dd422df511520e51"
+    },
+    {
+      "file": "onestore/js/pet-equipment-window-v1.mjs",
+      "bytes": 35563,
+      "sha256": "c1fe77e283767a0834e2d245a1a0f4bbdd22f3f5d10b16e4bc0bf060c788c76d"
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "bytes": 985,
+      "sha256": "67a40b2dd4ab12ec9e33996f3f5d090436d02a4631eb03a564fa637d91df802f"
+    }
+  ],
+  "archivedDocumentsPreserved": [
+    "docs/pet-opening-blank-popup-20261003.md",
+    "docs/pet-opening-essence-20261003.md",
+    "docs/pet-support-effects-20261012.md"
+  ],
+  "windowsAssetsVerified": 3
+}
