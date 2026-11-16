@@ -1,0 +1,142 @@
+{
+  "status": "COMPLETE",
+  "authorization": "ShowMaker 계정에도 지급",
+  "operationKey": "ops:showmaker-sudal-streamer20:20261117:v1",
+  "parentOperationKey": "ops:named-sudal-streamer20:20261117:v1",
+  "parentReceiptHash": "29b7774c7c8e9f316f6820fd3bc694f5082843a84740bcb5cf06e4d213d05ad8",
+  "additionalPriorReceipts": [
+    {
+      "key": "ops:0supyo-sudal-streamer20:20261117:v1",
+      "hash": "c408838a1c505b075852125e5cbfc490f5a59d9581cfa2854cc81342da4e3618"
+    }
+  ],
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:showmaker-sudal-streamer20:20261117:v1",
+    "planHash": "3eae15d6cc1da01aae86a3bf54543ae3545c3f44868e227f95197e7dd6033b67",
+    "completedAt": "2026-11-16T15:58:35.219Z",
+    "completedAtKST": "2026-11-17 00:58:35",
+    "recipientCount": 1,
+    "petCode": "PET-SUDAL",
+    "petName": "수달",
+    "petQuantity": 1,
+    "totalPets": 1,
+    "itemCode": "CNINE_STREAMER_BOX",
+    "itemName": "씨나인 스트리머 박스",
+    "boxQuantity": 20,
+    "totalBoxes": 20,
+    "cmsRevision": 51,
+    "messagesSent": 0,
+    "automaticallyEquipped": 0,
+    "boxesOpened": 0,
+    "grants": [
+      {
+        "userId": "233",
+        "nickname": "ShowMaker",
+        "requestedNickname": "ShowMaker",
+        "petBefore": 0,
+        "petAfter": 1,
+        "petBeforeRevision": 13,
+        "petAfterRevision": 14,
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "petResult": {
+          "ok": true,
+          "requestId": "ops_showmaker_sudal_streamer20_20261117_233",
+          "adminId": 1,
+          "target": {
+            "id": 233,
+            "nickname": "ShowMaker"
+          },
+          "pet": {
+            "code": "PET-SUDAL",
+            "name": "수달",
+            "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+          },
+          "quantity": 1,
+          "reason": "11월 17일 명단 추가 ShowMaker 수달 펫·씨나인 스트리머 박스 지급 · ops:showmaker-sudal-streamer20:20261117:v1",
+          "before": 0,
+          "after": 1,
+          "collectionRevision": 14,
+          "grantedAt": "2026-11-16T15:58:35.219Z",
+          "replayed": false
+        },
+        "petPayloadHash": "736c91573ab372bba03b8da8f8503bd268d88bf63e953bda116e0e4e14af9eee",
+        "boxLogId": "89869859",
+        "petAuditId": "62253"
+      }
+    ],
+    "auditId": "62254"
+  },
+  "independentReadOnly": true,
+  "noWriteReplay": true,
+  "locksRemaining": 0,
+  "verification": {
+    "recipients": 1,
+    "totalPets": 1,
+    "totalBoxes": 20,
+    "petAudits": 1,
+    "boxLedgerRows": 1,
+    "perAccountReceipts": 1,
+    "petReceipts": 1,
+    "missing": 0,
+    "duplicates": 0,
+    "petSelectableInPvePvp": 1,
+    "previous39Preserved": true,
+    "changesAfterGrant": []
+  },
+  "partialFailureRolledBack": true,
+  "fullRehearsalRolledBack": true,
+  "protectedStateHash": "2d6cb3d46fa2a146b5797c7d968d6840f4754d71e037e7c8656b76bfeb2dbd3d",
+  "otherTableWrites": 0,
+  "syncVerified": true,
+  "cumulative": {
+    "accounts": 40,
+    "pets": 40,
+    "boxes": 800
+  },
+  "performance": {
+    "readOnly": true,
+    "conditions": "Windows CLI to live PostgreSQL, actual pet ownership/CMS/catalog services plus inventory query. Network included, first and repeated reads in same connection. Data grant only; no UI/runtime code changes, deployment, browser frames or physical device measurement.",
+    "current": {
+      "userId": "233",
+      "nickname": "ShowMaker",
+      "pet": {
+        "code": "PET-SUDAL",
+        "quantity": 1,
+        "permanent": true,
+        "ready": [
+          "PVE",
+          "PVP"
+        ]
+      },
+      "boxes": "20"
+    },
+    "measurements": [
+      {
+        "phase": "first",
+        "elapsedMs": 396,
+        "sqlCalls": 4
+      },
+      {
+        "phase": "repeat",
+        "elapsedMs": 311,
+        "sqlCalls": 4
+      }
+    ],
+    "grantAndVerifyMs": 3119,
+    "independentVerifyMs": 1166,
+    "totalOperationMs": 13566
+  },
+  "runtimeChanged": false,
+  "deployed": false,
+  "sourceArtifacts": {
+    "common.mjs": "9e1c73db8291fd86bfa918bb2889e0ec567425efcd56c5b44ce8eda1c99c27e0",
+    "prepare.mjs": "5094a9cb1a27cdf709e4cc5fd1bf6ec3fa216f8fb5b06905e18ec4c20e94a9cf",
+    "run.mjs": "5f4f29e3388d04ff49baedd343b75e385767fb138a0922697a099116098a608b",
+    "service-read.mjs": "ba9f47fefce3daf884eb83f9697aeed56df753392df4919fc27261feb89466fd"
+  },
+  "evidenceDirectory": "operations/showmaker-sudal-streamer20-20261117"
+}
