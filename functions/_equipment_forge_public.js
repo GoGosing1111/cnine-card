@@ -89,7 +89,7 @@ export async function handleEquipmentForgePublic({path,request,env,deps}){
   }
   if(request.method!=='GET')return json({error:'지원하지 않는 요청입니다.'},405);
   const url=new URL(request.url);let inventory;
-  try{inventory=await readForgePreparationInventory(env.DB,user.id,{beforeId:url.searchParams.get('beforeId'),limit:url.searchParams.has('limit')?Number(url.searchParams.get('limit')):40,group:url.searchParams.get('group')||'all'});}catch(error){if(/ID|페이지당|종류/.test(error.message))return json({error:error.message},400);throw error;}
+  try{inventory=await readForgePreparationInventory(env.DB,user.id,{beforeId:url.searchParams.get('beforeId'),focusId:url.searchParams.get('focusId'),limit:url.searchParams.has('limit')?Number(url.searchParams.get('limit')):40,group:url.searchParams.get('group')||'all'});}catch(error){if(/ID|페이지당|종류/.test(error.message))return json({error:error.message},400);throw error;}
   const wallet=await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first();
   return json({...release,...inventory,canEnhance:false,canRestore:false,wallet:{coins:String(wallet?.coin??0),protection:null,restoration:null},records:[],history:[]});
 }

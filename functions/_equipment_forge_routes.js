@@ -25,7 +25,7 @@ export async function handleForgeRuntimeReady({path,request,env,deps}){
   if(request.method==='GET'){
    if(advancedAdmin)return json(await forgeAdvancedAdminState(env));
    if(admin)return json(await forgeAdminState(env,await readForgeRuntime(env,{draft:true})));
-   if(action==='state')return json(await forgeAccountState(env,user,{group:url.searchParams.get('group')||'all',beforeId:url.searchParams.get('beforeId'),limit:40}));
+   if(action==='state')return json(await forgeAccountState(env,user,{group:url.searchParams.get('group')||'all',beforeId:url.searchParams.get('beforeId'),focusId:url.searchParams.get('focusId'),limit:40}));
    if(action==='receipt')return json(await forgeReceipt(env,user,url.searchParams.get('requestId'),url.searchParams.get('kind')));
   }
   if(request.method!==(admin?'PATCH':'POST'))throw jointError('FORGE_METHOD','지원하지 않는 요청입니다.',405);

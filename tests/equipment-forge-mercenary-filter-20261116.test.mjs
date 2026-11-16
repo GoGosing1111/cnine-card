@@ -6,6 +6,8 @@ import {forgeQuote} from '../functions/_equipment_forge_transactions.js';
 import {MERCENARY_EQUIPMENT_CATALOG} from '../shared/mercenary-equipment-v1.mjs';
 import {ensureMercenaryRuntimeSchema} from '../functions/_mercenary_account.js';
 import {equipmentSlots} from '../functions/_mercenary_equipment_model.js';
+import {handleForgeRuntimeReady} from '../functions/_equipment_forge_routes.js';
+import {handleEquipmentForgePublic} from '../functions/_equipment_forge_public.js';
 
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: mercenary filter finds new +0 drops before pagination and preserves exact owned instances`,async t=>{
  const f=await forgeFixture(t,{postgres});
@@ -54,6 +56,13 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: merc
  assert.deepEqual((await read({group:'mercenary',focusId:'101'})).items,[]);
  assert.deepEqual((await read({group:'mercenary',focusId:'102'})).items,[]);
  await f.setting('equipment_forge_public_settings_v1',{schemaVersion:1,revision:2,publicVisible:true,executionMode:'ON',notice:'ISOLATED QA'});
+ // Exercise both HTTP handlers, not just the inventory helper: direct selection
+ // must reach the lower-power owned item without paging or exposing another owner.
+ for(const handler of [handleForgeRuntimeReady,handleEquipmentForgePublic]){
+  const route=focusId=>handler({path:'character/equipment/forge/state',request:new Request('https://qa.test/api/character/equipment/forge/state?group=mercenary&focusId='+focusId),env:f.env,deps:{authenticate:async()=>({...f.user,role:'USER'}),json:(body,status=200)=>({body,status})}});
+  const focused=await route('100');assert.equal(focused.status,200);assert.deepEqual(focused.body.items.map(i=>i.instanceId),['100']);assert.equal(focused.body.nextCursor,null);
+  for(const id of [f.instanceId,'105','101','102'])assert.deepEqual((await route(id)).body.items,[]);
+ }
  const quote=await forgeQuote(f.env,{...f.user,role:'USER'},{kind:'ENHANCE',instanceId:'100',requestId:crypto.randomUUID()});
  assert.equal(quote.item.instanceId,'100');assert.equal(quote.item.code,'HUNT_THEATRE_SHOES');
  assert.equal(await f.coin(),10000000);assert.equal(await f.qty('MASTER_STAR'),100);

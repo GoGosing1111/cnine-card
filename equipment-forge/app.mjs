@@ -1,16 +1,17 @@
 import {ForgeFX} from '/preview/equipment-forge-v1/source/fx.mjs';
 import {forgePower} from '/shared/equipment-forge-policy-v1.mjs?v=20261012-scrolls';
 import {forgeQuoteShortages} from '/shared/equipment-forge-resources-v1.mjs?v=20261107-guarantee';
-import {createForgeTransport,createForgeQuoteQueue,readForgePending,terminalForgeErrors} from './requests.mjs?v=20261107-guarantee';
+import {createForgeTransport,createForgeQuoteQueue,readForgePending,terminalForgeErrors} from './requests.mjs?v=20261116-focus';
 const $=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const guarantee=$('guarantee-toggle'),guaranteeCode='GUARANTEED_ENHANCEMENT_SCROLL';
-guarantee.checked=new URLSearchParams(location.search).get('guaranteed')==='1';
+const entryParams=new URLSearchParams(location.search),groupNames={all:'보유 장비',mercenary:'용병 장비',weapon:'무기',armor:'방어구',accessory:'장신구'};
+guarantee.checked=entryParams.get('guaranteed')==='1';
 const slots={WEAPON:'무기',TOP:'상의',BOTTOM:'하의',SHOES:'신발',ACCESSORY:'장신구'};
 const token=()=>localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 function imageUrl(raw){try{const u=new URL(raw,location.origin+'/');return ((u.origin===location.origin&&u.pathname.startsWith('/assets/'))||u.protocol==='https:')&&!u.username&&!u.password?u.href:'';}catch{return '';}}
 const number=v=>{try{return BigInt(v).toLocaleString('ko-KR');}catch{return '—';}};
 const coin=v=>{try{const n=BigInt(v);if(n<100000000n)return number(n);const fraction=(n%100000000n).toString().padStart(8,'0').replace(/0+$/,'');return `${number(n/100000000n)}${fraction?'.'+fraction:''}억`;}catch{return '—';}};
-let data=null,items=[],cursor=null,group='all',mode='enhance',selected=null,loading=false,generation=0,controller=null,fx=null,activeToken=token(),lastLoad=0,quote=null,quoteGeneration=0,executing=false;
+let data=null,items=[],cursor=null,group=Object.hasOwn(groupNames,entryParams.get('group'))?entryParams.get('group'):'all',focusId=/^[1-9]\d{0,18}$/.test(entryParams.get('focusId')||'')?entryParams.get('focusId'):null,loadError='',mode='enhance',selected=null,loading=false,generation=0,controller=null,fx=null,activeToken=token(),lastLoad=0,quote=null,quoteGeneration=0,executing=false;
 let lifetime=new AbortController(),recovering=false,quoteRetry=null,checkedPending='',fxGeneration=0,pendingSubmit=false;
 const request=createForgeTransport();
 const quoteQueue=createForgeQuoteQueue((body,options)=>request('quote',{...options,body,retries:2}));
@@ -77,15 +78,17 @@ function protectionHint(item,{pending=false}={}){
 }
 function renderList(){
   const list=$('inventory-list'),viewport=$('inventory-scroll'),scrollTop=viewport.scrollTop;
-  document.querySelectorAll('[data-filter],[data-mode]').forEach(b=>b.disabled=loading||executing||recovering);refresh.disabled=loading||executing||recovering;
+  document.querySelectorAll('[data-filter]').forEach(b=>{b.disabled=executing||recovering;b.setAttribute('aria-pressed',String(b.dataset.filter===group));});
+  document.querySelectorAll('[data-mode]').forEach(b=>b.disabled=loading||executing||recovering);refresh.disabled=loading||executing||recovering;
+  $('inventory-heading').textContent=mode==='restore'?'파괴 기록':groupNames[group];
   const focusedId=list.contains(document.activeElement)?document.activeElement.closest('[data-id]')?.dataset.id:null;
   $('inventory-count').textContent=String(visibleItems().length).padStart(2,'0')+(mode==='enhance'&&cursor?'+':'');
   $('inventory-more').hidden=!cursor||mode==='restore';$('inventory-more').disabled=loading||executing||recovering;
   list.innerHTML=visibleItems().map(item=>{
     const equipped=mode==='enhance'&&item.equipped===true;
     const power=item.enhancement?.power?.total??(mode==='restore'?forgePower(item.basePower.total,item.level,data?.policy?.advanced).total:item.basePower?.total);
-    return `<button class="equipment-row" data-id="${esc(item.selectionId)}" data-grade="${esc(item.grade)}" data-equipped="${equipped}" aria-pressed="${item.selectionId===selected}" aria-label="${esc(item.name)}, ${slots[item.slot]}, 전투력 ${number(power)}, ${mode==='restore'?recordLabel(item):equipped?'장착 중':'보유 장비'}, #${esc(item.instanceId)}" ${executing||recovering?'disabled':''}><span class="equipment-thumb"><img src="${esc(imageUrl(item.image))}" alt="" loading="lazy">${equipped?'<span class="equipment-equipped-badge"><svg aria-hidden="true"><use href="#i-shield"/></svg>장착 중</span>':''}</span><span class="equipment-copy"><small>${esc(item.grade)} · ${slots[item.slot]}</small><b>${esc(item.name)}</b><em>전투력 ${number(power)}</em><em>${mode==='restore'?recordLabel(item):equipped?'장착 중':'보유 장비'} · #${esc(item.instanceId)}</em></span><span class="equipment-level">${item.enhancement?`+${item.enhancement.level}`:mode==='restore'?`+${item.level}`:'—'}</span></button>`;
-  }).join('')||`<div class="empty-inventory">${loading?'장비를 불러오는 중…':!activeToken?'로그인하면 보유한 무기와 방어구를 확인할 수 있습니다.':data?.publicVisible===false?'강화 센터를 준비하고 있습니다.':mode==='restore'?'복구할 파괴 기록이 없습니다.':'이 종류의 보유 장비가 없습니다.'}${!activeToken?'<a class="public-login" href="/">게임 로그인 ↗</a>':''}</div>`;
+    return `<button class="equipment-row" data-id="${esc(item.selectionId)}" data-grade="${esc(item.grade)}" data-equipped="${equipped}" aria-pressed="${item.selectionId===selected}" aria-label="${esc(item.name)}, ${slots[item.slot]}, 전투력 ${number(power)}, ${mode==='restore'?recordLabel(item):equipped?'장착 중':'보유 장비'}, #${esc(item.instanceId)}" ${loading||executing||recovering?'disabled':''}><span class="equipment-thumb"><img src="${esc(imageUrl(item.image))}" alt="" loading="lazy">${equipped?'<span class="equipment-equipped-badge"><svg aria-hidden="true"><use href="#i-shield"/></svg>장착 중</span>':''}</span><span class="equipment-copy"><small>${esc(item.grade)} · ${slots[item.slot]}</small><b>${esc(item.name)}</b><em>전투력 ${number(power)}</em><em>${mode==='restore'?recordLabel(item):equipped?'장착 중':'보유 장비'} · #${esc(item.instanceId)}</em></span><span class="equipment-level">${item.enhancement?`+${item.enhancement.level}`:mode==='restore'?`+${item.level}`:'—'}</span></button>`;
+  }).join('')||`<div class="empty-inventory">${loading?'장비를 불러오는 중…':loadError?'목록을 불러오지 못했습니다. 다시 불러오기를 눌러 주세요.':!activeToken?'로그인하면 보유한 무기와 방어구를 확인할 수 있습니다.':data?.publicVisible===false?'강화 센터를 준비하고 있습니다.':mode==='restore'?'복구할 파괴 기록이 없습니다.':focusId?'선택한 장비를 찾을 수 없습니다. 분류를 눌러 보유 목록을 확인하세요.':'이 종류의 보유 장비가 없습니다.'}${!activeToken?'<a class="public-login" href="/">게임 로그인 ↗</a>':''}</div>`;
   list.querySelectorAll('img').forEach(img=>img.onerror=()=>{img.hidden=true;});
   viewport.scrollTop=scrollTop;
   if(focusedId)Array.from(list.querySelectorAll('[data-id]')).find(row=>row.dataset.id===focusedId)?.focus({preventScroll:true});
@@ -100,16 +103,16 @@ async function select(id){
   if(fx){try{await fx.setItem({...item,image});if(stamp!==generation||selected!==id)return;fx.weapon.visible=true;$('weapon-fallback').hidden=true;return;}catch{}}
   if(stamp===generation&&selected===id)$('weapon-fallback').hidden=!image;
 }
-async function load(more=false){
-  if(executing||recovering||loading&&activeToken===token())return;controller?.abort();const loadController=new AbortController();controller=loadController;const current=++generation,nextToken=token();
+async function load(more=false,{replace=false}={}){
+  if(executing||recovering||loading&&!replace&&activeToken===token())return;controller?.abort();const loadController=new AbortController();controller=loadController;const current=++generation,nextToken=token();
   if(activeToken!==nextToken){lifetime.abort();lifetime=new AbortController();data=null;items=[];selected=null;checkedPending='';pendingSubmit=false;}
-  activeToken=nextToken;loading=true;quoteGeneration++;quoteQueue.invalidate();quote=null;quoteRetry=null;for(const id of ['enhance-button','restore-button'])$(id).disabled=true;
-  if(!more){cursor=null;$('inventory-scroll').scrollTop=0;}renderList();
+  activeToken=nextToken;loading=true;loadError='';quoteGeneration++;quoteQueue.invalidate();quote=null;quoteRetry=null;for(const id of ['enhance-button','restore-button'])$(id).disabled=true;
+  if(!more){cursor=null;$('inventory-scroll').scrollTop=0;}if(replace){items=[];selected=null;void select(null);}$('inventory-note').textContent='장비를 불러오는 중…';renderList();
   try{
     if(!activeToken){data=await api('status',loadController.signal);if(current!==generation)return;items=[];selected=null;$('wallet-coins').textContent='—';$('opening-notice').textContent=data.notice;$('opening-title').textContent=data.canEnhance?'장비 강화 센터':'강화 센터 준비 중';document.querySelector('.forge-opening > strong').textContent=data.canEnhance?'강화 OPEN':'강화 OFF';void select(null);return;}
-    const result=await api('state?group='+group+(more&&cursor?'&beforeId='+encodeURIComponent(cursor):''),loadController.signal);
+    const result=await api('state?group='+group+(focusId?'&focusId='+encodeURIComponent(focusId):'')+(more&&cursor?'&beforeId='+encodeURIComponent(cursor):''),loadController.signal);
     if(current!==generation||activeToken!==token())return;data=result;items=more?[...items,...result.items]:result.items;cursor=result.nextCursor;
-    $('wallet-coins').textContent=number(result.wallet.coins);$('inventory-note').textContent='강화 전투력 높은 순 · 같은 장비도 개별 선택';
+    $('wallet-coins').textContent=number(result.wallet.coins);$('inventory-note').textContent=focusId?'선택한 장비 · 분류를 누르면 전체 목록':'강화 전투력 높은 순 · 같은 장비도 개별 선택';connectionNotice();
     $('opening-title').textContent=result.canEnhance?'장비 강화 센터':result.publicVisible?'강화 오픈 준비 중':'강화 센터 준비 중';$('opening-notice').textContent=result.notice;document.querySelector('.forge-opening > strong').textContent=result.canEnhance?(result.executionMode==='TEST'?'검수 모드':'강화 OPEN'):'강화 OFF';
     $('record-count').textContent=String((result.records||[]).filter(r=>!r.restoredInstanceId).length);
     $('stage-status').textContent=result.canEnhance?'확률·비용 확인':'현재 이용 불가';
@@ -119,12 +122,16 @@ async function load(more=false){
     document.querySelector('.protection-card small').textContent=result.wallet.protection===null?'출시 예정':`보유 ${number(result.wallet.protection)}장`;
     reconcileCompletedPending();const rows=visibleItems(),candidates=guarantee.checked?items.filter(r=>r.enhancement?.level<(data.policy.maxLevel||15)):items;void select(rows.some(r=>r.selectionId===selected)?selected:mode==='enhance'?candidates.find(r=>r.equipped)?.instanceId||candidates[0]?.instanceId||items[0]?.instanceId||null:rows[0]?.selectionId||null);lastLoad=Date.now();
     const pending=safePending();recover.hidden=!pending;if(pending&&!pending.invalid&&checkedPending!==pending.requestId){checkedPending=pending.requestId;void recoverPending(false);}
-  }catch(e){if(current!==generation)return;if(e.status===401){data=null;items=[];activeToken='';$('wallet-coins').textContent='—';void select(null);}if(e.name!=='AbortError'){$('inventory-note').textContent=e.message;connectionNotice(e.message,()=>void load(),'목록 다시 불러오기');toast(e.message);}}
+  }catch(e){if(current!==generation)return;if(e.status===401){data=null;items=[];activeToken='';$('wallet-coins').textContent='—';void select(null);}if(e.name!=='AbortError'){loadError=e.message;$('inventory-note').textContent=e.message;connectionNotice(e.message,()=>void load(),'목록 다시 불러오기');toast(e.message);}}
   finally{if(current===generation){loading=false;renderList();}}
 }
 async function switchMode(next,recordId=null){if(executing||recovering)return;mode=next;$('inventory-scroll').scrollTop=0;for(const b of document.querySelectorAll('[data-mode]')){const active=b.dataset.mode===mode;b.setAttribute('aria-selected',String(active));b.tabIndex=active?0:-1;}$('workspace').setAttribute('aria-labelledby','tab-'+mode);$('inventory-heading').textContent=mode==='enhance'?'보유 장비':'파괴 기록';$('inventory-filters').hidden=mode==='restore';$('enhance-options').hidden=mode==='restore';$('restore-options').hidden=mode==='enhance';renderList();const rows=visibleItems();await select(recordId?(rows.some(r=>r.selectionId===recordId)?recordId:null):rows[0]?.selectionId||null);if(recordId&&!selected)connectionNotice('해당 복구 기록이 없거나 이미 복구되었습니다. 목록에서 확인하세요.');}
 $('inventory-list').addEventListener('click',e=>{const row=e.target.closest('[data-id]');if(row)void select(row.dataset.id);});
-document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{group=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));void load();});
+document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{
+ if(executing||recovering)return;group=b.dataset.filter;focusId=null;
+ const url=new URL(location.href);url.searchParams.set('group',group);url.searchParams.delete('focusId');history.replaceState(history.state,'',url);
+ void load(false,{replace:true});
+});
 document.querySelectorAll('[data-mode]').forEach(b=>{b.onclick=()=>void switchMode(b.dataset.mode);b.onkeydown=e=>{if(['ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();const next=mode==='enhance'?'restore':'enhance';void switchMode(next);$('tab-'+next).focus();}};});
 $('inventory-more').onclick=()=>void load(true);$('archive-button').onclick=()=>void switchMode('restore');
 $('rules-button').onclick=()=>$('rules-dialog').showModal();document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>$('rules-dialog').close());
