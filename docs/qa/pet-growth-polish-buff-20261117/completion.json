@@ -1,0 +1,1956 @@
+{
+  "status": "COMPLETED",
+  "completedAt": "2026-11-16T16:52:46.723Z",
+  "operationKey": "ops:pet-growth-polish:effects-buff:20261117:v1",
+  "appliedAt": "2026-11-16T16:51:13.272Z",
+  "kst": "2026. 11. 17. 1시 51분 13초",
+  "sourceCommit": "4777dc03f207807d29d6814478f59e565d353d4e",
+  "pages": {
+    "id": "4894faa3-7a86-416d-8d1e-f5321fbc4e4d",
+    "commit": "4777dc03f207807d29d6814478f59e565d353d4e",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "fae8e57a-5b56-4198-b822-3a184ae89dc6",
+      "percentage": 100,
+      "newPetValues": true,
+      "sha256": "9bd86b0f6f896b83a6b6f96b34c9057e9f1cf33b23227e07049d4038c4ebb5e1"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "ae79785a-ad9e-4b94-85ba-f978615daf45",
+      "percentage": 100,
+      "newPetValues": true,
+      "sha256": "77f6e15800d48a722616138d1b3b60784ca563a58d7f4462b901cb5cbb845414"
+    }
+  ],
+  "policyAuditId": "62336",
+  "rebaseAuditId": "62337",
+  "polish": {
+    "revision": 3,
+    "increments": [
+      6,
+      1.5,
+      9,
+      6,
+      1.5
+    ],
+    "successRate": 10,
+    "perItemSuccessCap": 50,
+    "optionCap": 20,
+    "allRecords": 162,
+    "updatedRecords": 131,
+    "successes": 772,
+    "usersWithRecords": 61,
+    "updatedUsers": 54
+  },
+  "petPolicy": {
+    "enabled": true,
+    "revision": 2,
+    "costs": {
+      "stats": {
+        "coin": "5000000000000",
+        "masterStars": 10000000
+      },
+      "trait": {
+        "coin": "30000000000000",
+        "masterStars": 50000000
+      }
+    },
+    "weights": {
+      "C": 30,
+      "B": 25,
+      "A": 20,
+      "S": 15,
+      "SS": 7,
+      "SSS": 3
+    },
+    "values": {
+      "attack": {
+        "C": 0,
+        "B": 5,
+        "A": 10,
+        "S": 20,
+        "SS": 35,
+        "SSS": 50
+      },
+      "defense": {
+        "C": 0,
+        "B": 5,
+        "A": 10,
+        "S": 20,
+        "SS": 35,
+        "SSS": 50
+      },
+      "hp": {
+        "C": 0,
+        "B": 5,
+        "A": 10,
+        "S": 20,
+        "SS": 35,
+        "SSS": 50
+      },
+      "speed": {
+        "C": 0,
+        "B": 3,
+        "A": 6,
+        "S": 10,
+        "SS": 16,
+        "SSS": 25
+      },
+      "ASSAULT": {
+        "C": 2,
+        "B": 5,
+        "A": 10,
+        "S": 20,
+        "SS": 30,
+        "SSS": 50
+      },
+      "GUARD": {
+        "C": 2,
+        "B": 5,
+        "A": 10,
+        "S": 20,
+        "SS": 30,
+        "SSS": 50
+      },
+      "VITALITY": {
+        "C": 2,
+        "B": 5,
+        "A": 10,
+        "S": 20,
+        "SS": 30,
+        "SSS": 50
+      },
+      "HASTE": {
+        "C": 1,
+        "B": 3,
+        "A": 6,
+        "S": 10,
+        "SS": 16,
+        "SSS": 25
+      },
+      "HUNTER": {
+        "C": 2,
+        "B": 5,
+        "A": 10,
+        "S": 20,
+        "SS": 30,
+        "SSS": 50
+      },
+      "LUCK": {
+        "C": 2,
+        "B": 4,
+        "A": 7,
+        "S": 12,
+        "SS": 18,
+        "SSS": 25
+      }
+    },
+    "traitPools": {
+      "PET-HEADSET-SHIBA": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-BEANIE-CAT": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-MOON-FOX": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-FROST-WOLF": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-SOLAR-PHOENIX": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-VERDANT-STAG": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-ASTRAL-PANTHER": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-BULLDOG": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-BONGSOON": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-JOEUN": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-HEEYA": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-DIIM": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-GUSUDAENG": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-NAMUNEUL-BONGSOON": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-MALTESE-DIIM": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-GILDED-DRAGON": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-WHITE-SPIRIT": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-PUMPKIN-BONGSOON": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-PUMPKIN-JOEUN": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-DAENGSORYONG": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-CRIMSON-DEMON": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-HEUKGU": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-JJANGGU-HEEYA": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-BAZZI-BONGSOON": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-PEPEGU": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-SUDAL": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ],
+      "PET-DDUNG-JOEUN": [
+        "ASSAULT",
+        "GUARD",
+        "VITALITY",
+        "HASTE",
+        "HUNTER",
+        "LUCK"
+      ]
+    }
+  },
+  "preserved": {
+    "gradesAndPending": true,
+    "walletsAndMaterials": true,
+    "polishLevelsAndRolls": true,
+    "basePetSpeciesEffects": true,
+    "costsAndProbabilities": true,
+    "ownership": true
+  },
+  "validation": {
+    "tests": 74,
+    "failureRollback": true,
+    "completeRollback": true,
+    "independentReadOnly": true,
+    "replayAdditionalWrites": 0,
+    "petInstancesVerified": 174,
+    "pvpSelectedMercenaryGearChecks": 319,
+    "oldQuotesAndResponseLoss": true,
+    "restorationAndWorkshopInheritance": true
+  },
+  "combat": {
+    "condition": "Actual canonical server battle simulator, current production PEPEGU species definition, fixed identical actors, SSS GUARD pet, one gear with 10 successes per option (50 total), 40 paired seeds per scenario, alternated execution order, no live account battles. PvE synthetic unlocked-stat boss bypasses the unrelated legacy %HP damage floor; normal boss floors and hit caps are unchanged. One mercenary for PvP personal polish. Survival field is death time or fight end if alive. No physical device FPS.",
+    "simulations": 320,
+    "summaries": [
+      {
+        "scenario": "pet",
+        "before": {
+          "after": false,
+          "stats": {
+            "attack": 38400,
+            "defense": 3150,
+            "hp": 315000,
+            "speed": 105,
+            "shield": 31500
+          },
+          "damage": 919756.7,
+          "meanHit": 28995.42535112694,
+          "hits": 31.7,
+          "survival": 31.146749999999997,
+          "remaining": 0,
+          "simMedianMs": 0.8528999999999769,
+          "simP95Ms": 2.128399999999999,
+          "events": 69.45
+        },
+        "after": {
+          "after": true,
+          "stats": {
+            "attack": 49200,
+            "defense": 4500,
+            "hp": 450000,
+            "speed": 125,
+            "shield": 225000
+          },
+          "damage": 1834005.1,
+          "meanHit": 37195.10081553046,
+          "hits": 49.3,
+          "survival": 39.964999999999996,
+          "remaining": 226710.25,
+          "simMedianMs": 1.3070000000000164,
+          "simP95Ms": 2.581600000000037,
+          "events": 95
+        },
+        "damageRatio": 1.9940111335965263
+      },
+      {
+        "scenario": "polish",
+        "before": {
+          "after": false,
+          "stats": {
+            "attack": 38400,
+            "defense": 3150,
+            "hp": 315000,
+            "speed": 105,
+            "shield": 31500
+          },
+          "damage": 919756.7,
+          "meanHit": 28995.42535112694,
+          "hits": 31.7,
+          "survival": 31.146749999999997,
+          "remaining": 0,
+          "simMedianMs": 1.1326999999999998,
+          "simP95Ms": 1.9490000000000691,
+          "events": 69.45
+        },
+        "after": {
+          "after": true,
+          "stats": {
+            "attack": 51200,
+            "defense": 3150,
+            "hp": 315000,
+            "speed": 105,
+            "shield": 31500
+          },
+          "damage": 2285180.2,
+          "meanHit": 71997.07926567589,
+          "hits": 31.7,
+          "survival": 31.146749999999997,
+          "remaining": 0,
+          "simMedianMs": 1.082899999999995,
+          "simP95Ms": 3.613800000000083,
+          "events": 69.45
+        },
+        "damageRatio": 2.4845485768138467
+      },
+      {
+        "scenario": "both",
+        "before": {
+          "after": false,
+          "stats": {
+            "attack": 38400,
+            "defense": 3150,
+            "hp": 315000,
+            "speed": 105,
+            "shield": 31500
+          },
+          "damage": 919756.7,
+          "meanHit": 28995.42535112694,
+          "hits": 31.7,
+          "survival": 31.146749999999997,
+          "remaining": 0,
+          "simMedianMs": 1.0253000000000156,
+          "simP95Ms": 2.4255999999999176,
+          "events": 69.45
+        },
+        "after": {
+          "after": true,
+          "stats": {
+            "attack": 65600,
+            "defense": 4500,
+            "hp": 450000,
+            "speed": 125,
+            "shield": 225000
+          },
+          "damage": 4858900.5,
+          "meanHit": 100621.91656073394,
+          "hits": 48.35,
+          "survival": 39.18470000000001,
+          "remaining": 237191.975,
+          "simMedianMs": 1.3478000000000065,
+          "simP95Ms": 5.3618000000000166,
+          "events": 94.1
+        },
+        "damageRatio": 5.282810660688854
+      },
+      {
+        "scenario": "pvp",
+        "before": {
+          "after": false,
+          "stats": {
+            "attack": 38400,
+            "defense": 3150,
+            "hp": 315000,
+            "speed": 105,
+            "shield": 31500
+          },
+          "damage": 2800013.325,
+          "meanHit": 139277.11091033433,
+          "hits": 20.15,
+          "survival": 13.482899999999997,
+          "remaining": 357236.525,
+          "simMedianMs": 2.283999999999992,
+          "simP95Ms": 5.694900000000075,
+          "events": 65.75
+        },
+        "after": {
+          "after": true,
+          "stats": {
+            "attack": 65600,
+            "defense": 4500,
+            "hp": 450000,
+            "speed": 125,
+            "shield": 225000
+          },
+          "damage": 2808684.6,
+          "meanHit": 302812.8616549423,
+          "hits": 9.35,
+          "survival": 6.065824999999998,
+          "remaining": 900000,
+          "simMedianMs": 1.393000000000029,
+          "simP95Ms": 2.829800000000091,
+          "events": 33.3
+        },
+        "damageRatio": 1.0030968691907922
+      }
+    ]
+  },
+  "performance": {
+    "serverBefore": {
+      "at": "2026-11-16T16:30:48.895Z",
+      "phase": "before",
+      "readOnly": true,
+      "condition": "Windows CLI, real production DB and exact server handlers, fixed owner inventory 40-row page; unchanged SQL path, no edge/browser latency. Warm connection first/repeat queries. No physical-device FPS.",
+      "connectionMs": 471.7712999999999,
+      "records": [
+        {
+          "kind": "pet",
+          "entry": "first",
+          "ms": 229.52,
+          "queries": [
+            {
+              "ms": 149.13,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3,$4,$5)"
+            },
+            {
+              "ms": 73.76,
+              "sql": "SELECT CAST(coin AS TEXT) AS coin,COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=users.id AND item_code='MASTER_STAR'),0) AS stars FROM users WHERE id=$1"
+            }
+          ],
+          "rows": 9
+        },
+        {
+          "kind": "pet",
+          "entry": "repeat",
+          "ms": 148.31,
+          "queries": [
+            {
+              "ms": 73.17,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3,$4,$5)"
+            },
+            {
+              "ms": 73.71,
+              "sql": "SELECT CAST(coin AS TEXT) AS coin,COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=users.id AND item_code='MASTER_STAR'),0) AS stars FROM users WHERE id=$1"
+            }
+          ],
+          "rows": 9
+        },
+        {
+          "kind": "pet",
+          "entry": "repeat",
+          "ms": 147,
+          "queries": [
+            {
+              "ms": 73.06,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3,$4,$5)"
+            },
+            {
+              "ms": 72.37,
+              "sql": "SELECT CAST(coin AS TEXT) AS coin,COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=users.id AND item_code='MASTER_STAR'),0) AS stars FROM users WHERE id=$1"
+            }
+          ],
+          "rows": 9
+        },
+        {
+          "kind": "polish",
+          "entry": "first",
+          "ms": 836.16,
+          "queries": [
+            {
+              "ms": 75.04,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 72.29,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 150.13,
+              "sql": "WITH catalog AS MATERIALIZED (\n      SELECT * FROM character_equipment_items i WHERE is_active=1 AND is_public=1 AND slot IN ($1,$2,$3,$4,$5) \n        \n    ),growth AS MATERIALIZED (SELECT instance_id,level,revision FROM equipment_forge_states_v1 WHERE user_id=$6),\n    normal AS MATERIALIZED (SELECT b.id AS instance_id,i.total_power AS current_power FROM catalog i\n    CROSS JOIN LATERAL (SELECT b.id FROM user_equipment_instances b WHERE b.user_id=$7 AND b.equipment_id=i.id\n    AND NOT EXISTS(SELECT 1 FROM growth s WHERE s.instance_id=b.id AND s.level>0)\n    \n      ORDER BY b.user_id DESC,b.equipment_id DESC,b.id DESC LIMIT $8) b),\n    candidates AS (\n      SELECT instance_id,current_power FROM normal\n      UNION ALL SELECT x.id AS instance_id,CAST(i.total_power AS BIGINT)*(CASE s.level WHEN 0 THEN 100 WHEN 1 THEN 106 WHEN 2 THEN 112 WHEN 3 THEN 118 WHEN 4 THEN 124 WHEN 5 THEN 130 WHEN 6 THEN 136 WHEN 7 THEN 142 WHEN 8 THEN 148 WHEN 9 THEN 180 WHEN 10 THEN 220 WHEN 11 THEN 280 WHEN 12 THEN 340 WHEN 13 THEN 400 WHEN 14 THEN 460 WHEN 15 THEN 550 ELSE 100 END)/100 AS current_power\n        FROM growth s JOIN user_equipment_instances x ON x.id=s.instance_id AND x.user_id=$9\n        JOIN catalog i ON i.id=x.equipment_id WHERE s.level>0\n        \n    ),page AS MATERIALIZED (SELECT * FROM candidates ORDER BY current_power DESC,instance_id DESC LIMIT $10)\n    SELECT x.id AS instance_id,x.equipment_id,x.acquired_at,\n      i.code,i.name,i.slot,i.subtype,i.rarity,i.image_url,i.total_power,i.pve_power,i.pvp_power,\n      COALESCE(s.level,0) AS level,COALESCE(s.revision,0) AS revision,\n      CASE WHEN EXISTS(SELECT 1 FROM user_equipment_loadout l WHERE l.instance_id=x.id AND l.user_id=x.user_id AND l.slot=i.slot) THEN 1 ELSE 0 END AS equipped\n    FROM page p JOIN user_equipment_instances x ON x.id=p.instance_id JOIN catalog i ON i.id=x.equipment_id\n    LEFT JOIN growth s ON s.instance_id=x.id\n    ORDER BY p.current_power DESC,p.instance_id DESC"
+            },
+            {
+              "ms": 73.76,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3)"
+            },
+            {
+              "ms": 73.13,
+              "sql": "SELECT * FROM user_mercenary_loadout_v1 WHERE user_id IN ($1)"
+            },
+            {
+              "ms": 72.44,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+            },
+            {
+              "ms": 73.67,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+            },
+            {
+              "ms": 72.31,
+              "sql": "SELECT coin FROM users WHERE id=$1"
+            },
+            {
+              "ms": 72.82,
+              "sql": "SELECT item_code,quantity FROM cnine_user_inventory WHERE user_id=$1 AND item_code IN ($2,$3)"
+            },
+            {
+              "ms": 72.85,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40)"
+            }
+          ],
+          "rows": 40
+        },
+        {
+          "kind": "polish",
+          "entry": "repeat",
+          "ms": 732.8,
+          "queries": [
+            {
+              "ms": 72.72,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 72.15,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 78.24,
+              "sql": "WITH catalog AS MATERIALIZED (\n      SELECT * FROM character_equipment_items i WHERE is_active=1 AND is_public=1 AND slot IN ($1,$2,$3,$4,$5) \n        \n    ),growth AS MATERIALIZED (SELECT instance_id,level,revision FROM equipment_forge_states_v1 WHERE user_id=$6),\n    normal AS MATERIALIZED (SELECT b.id AS instance_id,i.total_power AS current_power FROM catalog i\n    CROSS JOIN LATERAL (SELECT b.id FROM user_equipment_instances b WHERE b.user_id=$7 AND b.equipment_id=i.id\n    AND NOT EXISTS(SELECT 1 FROM growth s WHERE s.instance_id=b.id AND s.level>0)\n    \n      ORDER BY b.user_id DESC,b.equipment_id DESC,b.id DESC LIMIT $8) b),\n    candidates AS (\n      SELECT instance_id,current_power FROM normal\n      UNION ALL SELECT x.id AS instance_id,CAST(i.total_power AS BIGINT)*(CASE s.level WHEN 0 THEN 100 WHEN 1 THEN 106 WHEN 2 THEN 112 WHEN 3 THEN 118 WHEN 4 THEN 124 WHEN 5 THEN 130 WHEN 6 THEN 136 WHEN 7 THEN 142 WHEN 8 THEN 148 WHEN 9 THEN 180 WHEN 10 THEN 220 WHEN 11 THEN 280 WHEN 12 THEN 340 WHEN 13 THEN 400 WHEN 14 THEN 460 WHEN 15 THEN 550 ELSE 100 END)/100 AS current_power\n        FROM growth s JOIN user_equipment_instances x ON x.id=s.instance_id AND x.user_id=$9\n        JOIN catalog i ON i.id=x.equipment_id WHERE s.level>0\n        \n    ),page AS MATERIALIZED (SELECT * FROM candidates ORDER BY current_power DESC,instance_id DESC LIMIT $10)\n    SELECT x.id AS instance_id,x.equipment_id,x.acquired_at,\n      i.code,i.name,i.slot,i.subtype,i.rarity,i.image_url,i.total_power,i.pve_power,i.pvp_power,\n      COALESCE(s.level,0) AS level,COALESCE(s.revision,0) AS revision,\n      CASE WHEN EXISTS(SELECT 1 FROM user_equipment_loadout l WHERE l.instance_id=x.id AND l.user_id=x.user_id AND l.slot=i.slot) THEN 1 ELSE 0 END AS equipped\n    FROM page p JOIN user_equipment_instances x ON x.id=p.instance_id JOIN catalog i ON i.id=x.equipment_id\n    LEFT JOIN growth s ON s.instance_id=x.id\n    ORDER BY p.current_power DESC,p.instance_id DESC"
+            },
+            {
+              "ms": 72.17,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3)"
+            },
+            {
+              "ms": 72.48,
+              "sql": "SELECT * FROM user_mercenary_loadout_v1 WHERE user_id IN ($1)"
+            },
+            {
+              "ms": 72.1,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+            },
+            {
+              "ms": 72.28,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+            },
+            {
+              "ms": 72.11,
+              "sql": "SELECT coin FROM users WHERE id=$1"
+            },
+            {
+              "ms": 72.11,
+              "sql": "SELECT item_code,quantity FROM cnine_user_inventory WHERE user_id=$1 AND item_code IN ($2,$3)"
+            },
+            {
+              "ms": 72.52,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40)"
+            }
+          ],
+          "rows": 40
+        },
+        {
+          "kind": "polish",
+          "entry": "repeat",
+          "ms": 750.31,
+          "queries": [
+            {
+              "ms": 72.17,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 72.06,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 96.31,
+              "sql": "WITH catalog AS MATERIALIZED (\n      SELECT * FROM character_equipment_items i WHERE is_active=1 AND is_public=1 AND slot IN ($1,$2,$3,$4,$5) \n        \n    ),growth AS MATERIALIZED (SELECT instance_id,level,revision FROM equipment_forge_states_v1 WHERE user_id=$6),\n    normal AS MATERIALIZED (SELECT b.id AS instance_id,i.total_power AS current_power FROM catalog i\n    CROSS JOIN LATERAL (SELECT b.id FROM user_equipment_instances b WHERE b.user_id=$7 AND b.equipment_id=i.id\n    AND NOT EXISTS(SELECT 1 FROM growth s WHERE s.instance_id=b.id AND s.level>0)\n    \n      ORDER BY b.user_id DESC,b.equipment_id DESC,b.id DESC LIMIT $8) b),\n    candidates AS (\n      SELECT instance_id,current_power FROM normal\n      UNION ALL SELECT x.id AS instance_id,CAST(i.total_power AS BIGINT)*(CASE s.level WHEN 0 THEN 100 WHEN 1 THEN 106 WHEN 2 THEN 112 WHEN 3 THEN 118 WHEN 4 THEN 124 WHEN 5 THEN 130 WHEN 6 THEN 136 WHEN 7 THEN 142 WHEN 8 THEN 148 WHEN 9 THEN 180 WHEN 10 THEN 220 WHEN 11 THEN 280 WHEN 12 THEN 340 WHEN 13 THEN 400 WHEN 14 THEN 460 WHEN 15 THEN 550 ELSE 100 END)/100 AS current_power\n        FROM growth s JOIN user_equipment_instances x ON x.id=s.instance_id AND x.user_id=$9\n        JOIN catalog i ON i.id=x.equipment_id WHERE s.level>0\n        \n    ),page AS MATERIALIZED (SELECT * FROM candidates ORDER BY current_power DESC,instance_id DESC LIMIT $10)\n    SELECT x.id AS instance_id,x.equipment_id,x.acquired_at,\n      i.code,i.name,i.slot,i.subtype,i.rarity,i.image_url,i.total_power,i.pve_power,i.pvp_power,\n      COALESCE(s.level,0) AS level,COALESCE(s.revision,0) AS revision,\n      CASE WHEN EXISTS(SELECT 1 FROM user_equipment_loadout l WHERE l.instance_id=x.id AND l.user_id=x.user_id AND l.slot=i.slot) THEN 1 ELSE 0 END AS equipped\n    FROM page p JOIN user_equipment_instances x ON x.id=p.instance_id JOIN catalog i ON i.id=x.equipment_id\n    LEFT JOIN growth s ON s.instance_id=x.id\n    ORDER BY p.current_power DESC,p.instance_id DESC"
+            },
+            {
+              "ms": 72.34,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3)"
+            },
+            {
+              "ms": 72.47,
+              "sql": "SELECT * FROM user_mercenary_loadout_v1 WHERE user_id IN ($1)"
+            },
+            {
+              "ms": 72.41,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+            },
+            {
+              "ms": 72.21,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+            },
+            {
+              "ms": 72.16,
+              "sql": "SELECT coin FROM users WHERE id=$1"
+            },
+            {
+              "ms": 72.23,
+              "sql": "SELECT item_code,quantity FROM cnine_user_inventory WHERE user_id=$1 AND item_code IN ($2,$3)"
+            },
+            {
+              "ms": 72.54,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40)"
+            }
+          ],
+          "rows": 40
+        }
+      ],
+      "plan": [
+        {
+          "QUERY PLAN": [
+            {
+              "Plan": {
+                "Node Type": "Index Scan",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Scan Direction": "Forward",
+                "Index Name": "app_meta_pkey",
+                "Relation Name": "app_meta",
+                "Alias": "app_meta",
+                "Startup Cost": 0.42,
+                "Total Cost": 41.87,
+                "Plan Rows": 5,
+                "Plan Width": 211,
+                "Actual Startup Time": 0.011,
+                "Actual Total Time": 0.026,
+                "Actual Rows": 4,
+                "Actual Loops": 1,
+                "Index Cond": "(key = ANY ('{pet_growth_v2:1,pet_collection_v1:1,pet_rental_v1:1,pet_loadout_v1:1,pet_cms_preparation_v1}'::text[]))",
+                "Rows Removed by Index Recheck": 0,
+                "Shared Hit Blocks": 13,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0
+              },
+              "Planning": {
+                "Shared Hit Blocks": 0,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0
+              },
+              "Planning Time": 0.03,
+              "Triggers": [],
+              "Execution Time": 0.036
+            }
+          ]
+        }
+      ]
+    },
+    "serverAfter": {
+      "at": "2026-11-16T16:51:50.001Z",
+      "phase": "after",
+      "readOnly": true,
+      "condition": "Windows CLI, real production DB and exact server handlers, fixed owner inventory 40-row page; unchanged SQL path, no edge/browser latency. Warm connection first/repeat queries. No physical-device FPS.",
+      "connectionMs": 500.1893,
+      "records": [
+        {
+          "kind": "pet",
+          "entry": "first",
+          "ms": 242.48,
+          "queries": [
+            {
+              "ms": 158.19,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3,$4,$5)"
+            },
+            {
+              "ms": 78.61,
+              "sql": "SELECT CAST(coin AS TEXT) AS coin,COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=users.id AND item_code='MASTER_STAR'),0) AS stars FROM users WHERE id=$1"
+            }
+          ],
+          "rows": 9
+        },
+        {
+          "kind": "pet",
+          "entry": "repeat",
+          "ms": 159.32,
+          "queries": [
+            {
+              "ms": 80.47,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3,$4,$5)"
+            },
+            {
+              "ms": 77.37,
+              "sql": "SELECT CAST(coin AS TEXT) AS coin,COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=users.id AND item_code='MASTER_STAR'),0) AS stars FROM users WHERE id=$1"
+            }
+          ],
+          "rows": 9
+        },
+        {
+          "kind": "pet",
+          "entry": "repeat",
+          "ms": 157.05,
+          "queries": [
+            {
+              "ms": 78.21,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3,$4,$5)"
+            },
+            {
+              "ms": 77.35,
+              "sql": "SELECT CAST(coin AS TEXT) AS coin,COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=users.id AND item_code='MASTER_STAR'),0) AS stars FROM users WHERE id=$1"
+            }
+          ],
+          "rows": 9
+        },
+        {
+          "kind": "polish",
+          "entry": "first",
+          "ms": 827.14,
+          "queries": [
+            {
+              "ms": 77.45,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 77.35,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 106.46,
+              "sql": "WITH catalog AS MATERIALIZED (\n      SELECT * FROM character_equipment_items i WHERE is_active=1 AND is_public=1 AND slot IN ($1,$2,$3,$4,$5) \n        \n    ),growth AS MATERIALIZED (SELECT instance_id,level,revision FROM equipment_forge_states_v1 WHERE user_id=$6),\n    normal AS MATERIALIZED (SELECT b.id AS instance_id,i.total_power AS current_power FROM catalog i\n    CROSS JOIN LATERAL (SELECT b.id FROM user_equipment_instances b WHERE b.user_id=$7 AND b.equipment_id=i.id\n    AND NOT EXISTS(SELECT 1 FROM growth s WHERE s.instance_id=b.id AND s.level>0)\n    \n      ORDER BY b.user_id DESC,b.equipment_id DESC,b.id DESC LIMIT $8) b),\n    candidates AS (\n      SELECT instance_id,current_power FROM normal\n      UNION ALL SELECT x.id AS instance_id,CAST(i.total_power AS BIGINT)*(CASE s.level WHEN 0 THEN 100 WHEN 1 THEN 106 WHEN 2 THEN 112 WHEN 3 THEN 118 WHEN 4 THEN 124 WHEN 5 THEN 130 WHEN 6 THEN 136 WHEN 7 THEN 142 WHEN 8 THEN 148 WHEN 9 THEN 180 WHEN 10 THEN 220 WHEN 11 THEN 280 WHEN 12 THEN 340 WHEN 13 THEN 400 WHEN 14 THEN 460 WHEN 15 THEN 550 ELSE 100 END)/100 AS current_power\n        FROM growth s JOIN user_equipment_instances x ON x.id=s.instance_id AND x.user_id=$9\n        JOIN catalog i ON i.id=x.equipment_id WHERE s.level>0\n        \n    ),page AS MATERIALIZED (SELECT * FROM candidates ORDER BY current_power DESC,instance_id DESC LIMIT $10)\n    SELECT x.id AS instance_id,x.equipment_id,x.acquired_at,\n      i.code,i.name,i.slot,i.subtype,i.rarity,i.image_url,i.total_power,i.pve_power,i.pvp_power,\n      COALESCE(s.level,0) AS level,COALESCE(s.revision,0) AS revision,\n      CASE WHEN EXISTS(SELECT 1 FROM user_equipment_loadout l WHERE l.instance_id=x.id AND l.user_id=x.user_id AND l.slot=i.slot) THEN 1 ELSE 0 END AS equipped\n    FROM page p JOIN user_equipment_instances x ON x.id=p.instance_id JOIN catalog i ON i.id=x.equipment_id\n    LEFT JOIN growth s ON s.instance_id=x.id\n    ORDER BY p.current_power DESC,p.instance_id DESC"
+            },
+            {
+              "ms": 77.46,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3)"
+            },
+            {
+              "ms": 77.41,
+              "sql": "SELECT * FROM user_mercenary_loadout_v1 WHERE user_id IN ($1)"
+            },
+            {
+              "ms": 77.22,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+            },
+            {
+              "ms": 77.15,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+            },
+            {
+              "ms": 77.13,
+              "sql": "SELECT coin FROM users WHERE id=$1"
+            },
+            {
+              "ms": 77.26,
+              "sql": "SELECT item_code,quantity FROM cnine_user_inventory WHERE user_id=$1 AND item_code IN ($2,$3)"
+            },
+            {
+              "ms": 78.08,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40)"
+            }
+          ],
+          "rows": 40
+        },
+        {
+          "kind": "polish",
+          "entry": "repeat",
+          "ms": 784.58,
+          "queries": [
+            {
+              "ms": 78.59,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 77.46,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 83.49,
+              "sql": "WITH catalog AS MATERIALIZED (\n      SELECT * FROM character_equipment_items i WHERE is_active=1 AND is_public=1 AND slot IN ($1,$2,$3,$4,$5) \n        \n    ),growth AS MATERIALIZED (SELECT instance_id,level,revision FROM equipment_forge_states_v1 WHERE user_id=$6),\n    normal AS MATERIALIZED (SELECT b.id AS instance_id,i.total_power AS current_power FROM catalog i\n    CROSS JOIN LATERAL (SELECT b.id FROM user_equipment_instances b WHERE b.user_id=$7 AND b.equipment_id=i.id\n    AND NOT EXISTS(SELECT 1 FROM growth s WHERE s.instance_id=b.id AND s.level>0)\n    \n      ORDER BY b.user_id DESC,b.equipment_id DESC,b.id DESC LIMIT $8) b),\n    candidates AS (\n      SELECT instance_id,current_power FROM normal\n      UNION ALL SELECT x.id AS instance_id,CAST(i.total_power AS BIGINT)*(CASE s.level WHEN 0 THEN 100 WHEN 1 THEN 106 WHEN 2 THEN 112 WHEN 3 THEN 118 WHEN 4 THEN 124 WHEN 5 THEN 130 WHEN 6 THEN 136 WHEN 7 THEN 142 WHEN 8 THEN 148 WHEN 9 THEN 180 WHEN 10 THEN 220 WHEN 11 THEN 280 WHEN 12 THEN 340 WHEN 13 THEN 400 WHEN 14 THEN 460 WHEN 15 THEN 550 ELSE 100 END)/100 AS current_power\n        FROM growth s JOIN user_equipment_instances x ON x.id=s.instance_id AND x.user_id=$9\n        JOIN catalog i ON i.id=x.equipment_id WHERE s.level>0\n        \n    ),page AS MATERIALIZED (SELECT * FROM candidates ORDER BY current_power DESC,instance_id DESC LIMIT $10)\n    SELECT x.id AS instance_id,x.equipment_id,x.acquired_at,\n      i.code,i.name,i.slot,i.subtype,i.rarity,i.image_url,i.total_power,i.pve_power,i.pvp_power,\n      COALESCE(s.level,0) AS level,COALESCE(s.revision,0) AS revision,\n      CASE WHEN EXISTS(SELECT 1 FROM user_equipment_loadout l WHERE l.instance_id=x.id AND l.user_id=x.user_id AND l.slot=i.slot) THEN 1 ELSE 0 END AS equipped\n    FROM page p JOIN user_equipment_instances x ON x.id=p.instance_id JOIN catalog i ON i.id=x.equipment_id\n    LEFT JOIN growth s ON s.instance_id=x.id\n    ORDER BY p.current_power DESC,p.instance_id DESC"
+            },
+            {
+              "ms": 77.18,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3)"
+            },
+            {
+              "ms": 77.13,
+              "sql": "SELECT * FROM user_mercenary_loadout_v1 WHERE user_id IN ($1)"
+            },
+            {
+              "ms": 77.29,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+            },
+            {
+              "ms": 77.65,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+            },
+            {
+              "ms": 77.26,
+              "sql": "SELECT coin FROM users WHERE id=$1"
+            },
+            {
+              "ms": 77.28,
+              "sql": "SELECT item_code,quantity FROM cnine_user_inventory WHERE user_id=$1 AND item_code IN ($2,$3)"
+            },
+            {
+              "ms": 77.52,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40)"
+            }
+          ],
+          "rows": 40
+        },
+        {
+          "kind": "polish",
+          "entry": "repeat",
+          "ms": 789.02,
+          "queries": [
+            {
+              "ms": 77.29,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 77.17,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 88.33,
+              "sql": "WITH catalog AS MATERIALIZED (\n      SELECT * FROM character_equipment_items i WHERE is_active=1 AND is_public=1 AND slot IN ($1,$2,$3,$4,$5) \n        \n    ),growth AS MATERIALIZED (SELECT instance_id,level,revision FROM equipment_forge_states_v1 WHERE user_id=$6),\n    normal AS MATERIALIZED (SELECT b.id AS instance_id,i.total_power AS current_power FROM catalog i\n    CROSS JOIN LATERAL (SELECT b.id FROM user_equipment_instances b WHERE b.user_id=$7 AND b.equipment_id=i.id\n    AND NOT EXISTS(SELECT 1 FROM growth s WHERE s.instance_id=b.id AND s.level>0)\n    \n      ORDER BY b.user_id DESC,b.equipment_id DESC,b.id DESC LIMIT $8) b),\n    candidates AS (\n      SELECT instance_id,current_power FROM normal\n      UNION ALL SELECT x.id AS instance_id,CAST(i.total_power AS BIGINT)*(CASE s.level WHEN 0 THEN 100 WHEN 1 THEN 106 WHEN 2 THEN 112 WHEN 3 THEN 118 WHEN 4 THEN 124 WHEN 5 THEN 130 WHEN 6 THEN 136 WHEN 7 THEN 142 WHEN 8 THEN 148 WHEN 9 THEN 180 WHEN 10 THEN 220 WHEN 11 THEN 280 WHEN 12 THEN 340 WHEN 13 THEN 400 WHEN 14 THEN 460 WHEN 15 THEN 550 ELSE 100 END)/100 AS current_power\n        FROM growth s JOIN user_equipment_instances x ON x.id=s.instance_id AND x.user_id=$9\n        JOIN catalog i ON i.id=x.equipment_id WHERE s.level>0\n        \n    ),page AS MATERIALIZED (SELECT * FROM candidates ORDER BY current_power DESC,instance_id DESC LIMIT $10)\n    SELECT x.id AS instance_id,x.equipment_id,x.acquired_at,\n      i.code,i.name,i.slot,i.subtype,i.rarity,i.image_url,i.total_power,i.pve_power,i.pvp_power,\n      COALESCE(s.level,0) AS level,COALESCE(s.revision,0) AS revision,\n      CASE WHEN EXISTS(SELECT 1 FROM user_equipment_loadout l WHERE l.instance_id=x.id AND l.user_id=x.user_id AND l.slot=i.slot) THEN 1 ELSE 0 END AS equipped\n    FROM page p JOIN user_equipment_instances x ON x.id=p.instance_id JOIN catalog i ON i.id=x.equipment_id\n    LEFT JOIN growth s ON s.instance_id=x.id\n    ORDER BY p.current_power DESC,p.instance_id DESC"
+            },
+            {
+              "ms": 79.66,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3)"
+            },
+            {
+              "ms": 77.3,
+              "sql": "SELECT * FROM user_mercenary_loadout_v1 WHERE user_id IN ($1)"
+            },
+            {
+              "ms": 76.98,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+            },
+            {
+              "ms": 77.2,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+            },
+            {
+              "ms": 77.27,
+              "sql": "SELECT coin FROM users WHERE id=$1"
+            },
+            {
+              "ms": 77.26,
+              "sql": "SELECT item_code,quantity FROM cnine_user_inventory WHERE user_id=$1 AND item_code IN ($2,$3)"
+            },
+            {
+              "ms": 77.53,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40)"
+            }
+          ],
+          "rows": 40
+        }
+      ],
+      "plan": [
+        {
+          "QUERY PLAN": [
+            {
+              "Plan": {
+                "Node Type": "Index Scan",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Scan Direction": "Forward",
+                "Index Name": "app_meta_pkey",
+                "Relation Name": "app_meta",
+                "Alias": "app_meta",
+                "Startup Cost": 0.42,
+                "Total Cost": 41.87,
+                "Plan Rows": 5,
+                "Plan Width": 211,
+                "Actual Startup Time": 0.009,
+                "Actual Total Time": 0.024,
+                "Actual Rows": 4,
+                "Actual Loops": 1,
+                "Index Cond": "(key = ANY ('{pet_growth_v2:1,pet_collection_v1:1,pet_rental_v1:1,pet_loadout_v1:1,pet_cms_preparation_v1}'::text[]))",
+                "Rows Removed by Index Recheck": 0,
+                "Shared Hit Blocks": 13,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0
+              },
+              "Planning": {
+                "Shared Hit Blocks": 0,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0
+              },
+              "Planning Time": 0.034,
+              "Triggers": [],
+              "Execution Time": 0.038
+            }
+          ]
+        }
+      ]
+    },
+    "clientSummary": [
+      {
+        "device": "pc",
+        "phase": "before",
+        "condition": "Windows headless installed Chrome/WebKit, actual application entry routes and server handlers with isolated fixture accounts; mobile viewport/touch emulation, Windows launcher URL, H5 iframe with host SDK mock. Unthrottled local HTTP. Not physical devices or an installed native renderer.",
+        "errors": [],
+        "rounds": [
+          {
+            "feature": "pet",
+            "entry": "first",
+            "lobbyMs": 1199.0999999940395,
+            "clickToReadyMs": 427,
+            "frames": {
+              "count": 147,
+              "p95Ms": 4.300000000000068,
+              "maxMs": 25,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "pet",
+            "entry": "repeat",
+            "lobbyMs": 774.5,
+            "clickToReadyMs": 311,
+            "frames": {
+              "count": 138,
+              "p95Ms": 4.300000000000068,
+              "maxMs": 33.30000000000001,
+              "over50": 0
+            },
+            "action": {
+              "ms": 1384,
+              "frames": {
+                "count": 330,
+                "p95Ms": 4.2999999999999545,
+                "maxMs": 12.5,
+                "over50": 0
+              }
+            },
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "polish",
+            "entry": "first",
+            "lobbyMs": 1050.0999999940395,
+            "clickToReadyMs": 407,
+            "frames": {
+              "count": 157,
+              "p95Ms": 4.300000000000011,
+              "maxMs": 4.5,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "polish",
+            "entry": "repeat",
+            "lobbyMs": 753.2000000178814,
+            "clickToReadyMs": 345,
+            "frames": {
+              "count": 158,
+              "p95Ms": 4.300000000000011,
+              "maxMs": 4.300000000000068,
+              "over50": 0
+            },
+            "action": {
+              "ms": 5150,
+              "result": "공격력 상승",
+              "frames": {
+                "count": 1237,
+                "p95Ms": 4.299999999999727,
+                "maxMs": 4.400000000000091,
+                "over50": 0
+              }
+            },
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          }
+        ]
+      },
+      {
+        "device": "pc",
+        "phase": "after",
+        "condition": "Windows headless installed Chrome/WebKit, actual application entry routes and server handlers with isolated fixture accounts; mobile viewport/touch emulation, Windows launcher URL, H5 iframe with host SDK mock. Unthrottled local HTTP. Not physical devices or an installed native renderer.",
+        "errors": [],
+        "rounds": [
+          {
+            "feature": "pet",
+            "entry": "first",
+            "lobbyMs": 916.0999999940395,
+            "clickToReadyMs": 312,
+            "frames": {
+              "count": 144,
+              "p95Ms": 4.300000000000011,
+              "maxMs": 32.80000000000001,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "pet",
+            "entry": "repeat",
+            "lobbyMs": 687.8000000119209,
+            "clickToReadyMs": 332,
+            "frames": {
+              "count": 155,
+              "p95Ms": 4.300000000000068,
+              "maxMs": 8.399999999999977,
+              "over50": 0
+            },
+            "action": {
+              "ms": 1358,
+              "frames": {
+                "count": 325,
+                "p95Ms": 4.299999999999727,
+                "maxMs": 8.399999999999636,
+                "over50": 0
+              }
+            },
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "polish",
+            "entry": "first",
+            "lobbyMs": 754.4000000059605,
+            "clickToReadyMs": 539,
+            "frames": {
+              "count": 158,
+              "p95Ms": 4.299999999999983,
+              "maxMs": 4.300000000000068,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "polish",
+            "entry": "repeat",
+            "lobbyMs": 878.6999999880791,
+            "clickToReadyMs": 315,
+            "frames": {
+              "count": 158,
+              "p95Ms": 4.299999999999983,
+              "maxMs": 4.300000000000011,
+              "over50": 0
+            },
+            "action": {
+              "ms": 5148,
+              "result": "공격력 상승",
+              "frames": {
+                "count": 1235,
+                "p95Ms": 4.299999999999727,
+                "maxMs": 8.299999999999955,
+                "over50": 0
+              }
+            },
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          }
+        ]
+      },
+      {
+        "device": "android",
+        "phase": "before",
+        "condition": "Windows headless installed Chrome/WebKit, actual application entry routes and server handlers with isolated fixture accounts; mobile viewport/touch emulation, Windows launcher URL, H5 iframe with host SDK mock. Unthrottled local HTTP. Not physical devices or an installed native renderer.",
+        "errors": [],
+        "rounds": [
+          {
+            "feature": "pet",
+            "entry": "first",
+            "lobbyMs": 998.8999999761581,
+            "clickToReadyMs": 342,
+            "frames": {
+              "count": 152,
+              "p95Ms": 4.2999999999999545,
+              "maxMs": 20.899999999999977,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "pet",
+            "entry": "repeat",
+            "lobbyMs": 703.8999999761581,
+            "clickToReadyMs": 382,
+            "frames": {
+              "count": 148,
+              "p95Ms": 4.300000000000068,
+              "maxMs": 20.899999999999977,
+              "over50": 0
+            },
+            "action": {
+              "ms": 1372,
+              "frames": {
+                "count": 328,
+                "p95Ms": 4.2999999999999545,
+                "maxMs": 8.400000000000091,
+                "over50": 0
+              }
+            },
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "polish",
+            "entry": "first",
+            "lobbyMs": 727.3000000119209,
+            "clickToReadyMs": 395,
+            "frames": {
+              "count": 156,
+              "p95Ms": 4.300000000000011,
+              "maxMs": 12.5,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "polish",
+            "entry": "repeat",
+            "lobbyMs": 649,
+            "clickToReadyMs": 299,
+            "frames": {
+              "count": 157,
+              "p95Ms": 4.2000000000000455,
+              "maxMs": 4.300000000000068,
+              "over50": 0
+            },
+            "action": {
+              "ms": 5062,
+              "result": "공격력 상승",
+              "frames": {
+                "count": 1216,
+                "p95Ms": 4.299999999999272,
+                "maxMs": 4.5,
+                "over50": 0
+              }
+            },
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          }
+        ]
+      },
+      {
+        "device": "android",
+        "phase": "after",
+        "condition": "Windows headless installed Chrome/WebKit, actual application entry routes and server handlers with isolated fixture accounts; mobile viewport/touch emulation, Windows launcher URL, H5 iframe with host SDK mock. Unthrottled local HTTP. Not physical devices or an installed native renderer.",
+        "errors": [],
+        "rounds": [
+          {
+            "feature": "pet",
+            "entry": "first",
+            "lobbyMs": 1391.5,
+            "clickToReadyMs": 404,
+            "frames": {
+              "count": 153,
+              "p95Ms": 4.300000000000068,
+              "maxMs": 20.80000000000001,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "pet",
+            "entry": "repeat",
+            "lobbyMs": 761.7999999821186,
+            "clickToReadyMs": 342,
+            "frames": {
+              "count": 142,
+              "p95Ms": 4.2999999999999545,
+              "maxMs": 62.39999999999998,
+              "over50": 1
+            },
+            "action": {
+              "ms": 1359,
+              "frames": {
+                "count": 325,
+                "p95Ms": 4.2999999999999545,
+                "maxMs": 8.400000000000091,
+                "over50": 0
+              }
+            },
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "polish",
+            "entry": "first",
+            "lobbyMs": 719,
+            "clickToReadyMs": 404,
+            "frames": {
+              "count": 157,
+              "p95Ms": 4.300000000000011,
+              "maxMs": 8.299999999999997,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "polish",
+            "entry": "repeat",
+            "lobbyMs": 1229.2000000178814,
+            "clickToReadyMs": 343,
+            "frames": {
+              "count": 158,
+              "p95Ms": 4.300000000000011,
+              "maxMs": 4.300000000000068,
+              "over50": 0
+            },
+            "action": {
+              "ms": 5076,
+              "result": "공격력 상승",
+              "frames": {
+                "count": 1218,
+                "p95Ms": 4.299999999999727,
+                "maxMs": 8.300000000000068,
+                "over50": 0
+              }
+            },
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          }
+        ]
+      },
+      {
+        "device": "ios",
+        "phase": "before",
+        "condition": "Windows headless installed Chrome/WebKit, actual application entry routes and server handlers with isolated fixture accounts; mobile viewport/touch emulation, Windows launcher URL, H5 iframe with host SDK mock. Unthrottled local HTTP. Not physical devices or an installed native renderer.",
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "rounds": [
+          {
+            "feature": "pet",
+            "entry": "first",
+            "lobbyMs": 1296,
+            "clickToReadyMs": 692,
+            "frames": {
+              "count": 31,
+              "p95Ms": 100,
+              "maxMs": 118,
+              "over50": 2
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "pet",
+            "entry": "repeat",
+            "lobbyMs": 1506,
+            "clickToReadyMs": 637,
+            "frames": {
+              "count": 26,
+              "p95Ms": 57,
+              "maxMs": 114,
+              "over50": 2
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "polish",
+            "entry": "first",
+            "lobbyMs": 1200,
+            "clickToReadyMs": 729,
+            "frames": {
+              "count": 41,
+              "p95Ms": 20,
+              "maxMs": 30,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "polish",
+            "entry": "repeat",
+            "lobbyMs": 1206,
+            "clickToReadyMs": 643,
+            "frames": {
+              "count": 40,
+              "p95Ms": 29,
+              "maxMs": 31,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          }
+        ]
+      },
+      {
+        "device": "ios",
+        "phase": "after",
+        "condition": "Windows headless installed Chrome/WebKit, actual application entry routes and server handlers with isolated fixture accounts; mobile viewport/touch emulation, Windows launcher URL, H5 iframe with host SDK mock. Unthrottled local HTTP. Not physical devices or an installed native renderer.",
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "rounds": [
+          {
+            "feature": "pet",
+            "entry": "first",
+            "lobbyMs": 1396,
+            "clickToReadyMs": 1114,
+            "frames": {
+              "count": 31,
+              "p95Ms": 81,
+              "maxMs": 126,
+              "over50": 2
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "pet",
+            "entry": "repeat",
+            "lobbyMs": 1593,
+            "clickToReadyMs": 663,
+            "frames": {
+              "count": 31,
+              "p95Ms": 90,
+              "maxMs": 100,
+              "over50": 2
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "polish",
+            "entry": "first",
+            "lobbyMs": 1393,
+            "clickToReadyMs": 656,
+            "frames": {
+              "count": 42,
+              "p95Ms": 21,
+              "maxMs": 25,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "polish",
+            "entry": "repeat",
+            "lobbyMs": 1233,
+            "clickToReadyMs": 556,
+            "frames": {
+              "count": 42,
+              "p95Ms": 20,
+              "maxMs": 25,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          }
+        ]
+      },
+      {
+        "device": "windows",
+        "phase": "before",
+        "condition": "Windows headless installed Chrome/WebKit, actual application entry routes and server handlers with isolated fixture accounts; mobile viewport/touch emulation, Windows launcher URL, H5 iframe with host SDK mock. Unthrottled local HTTP. Not physical devices or an installed native renderer.",
+        "errors": [],
+        "rounds": [
+          {
+            "feature": "pet",
+            "entry": "first",
+            "lobbyMs": 999.5999999940395,
+            "clickToReadyMs": 272,
+            "frames": {
+              "count": 143,
+              "p95Ms": 4.300000000000068,
+              "maxMs": 22.400000005960464,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "pet",
+            "entry": "repeat",
+            "lobbyMs": 756.4000000059605,
+            "clickToReadyMs": 354,
+            "frames": {
+              "count": 158,
+              "p95Ms": 4.2999999999999545,
+              "maxMs": 4.300000000000068,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "polish",
+            "entry": "first",
+            "lobbyMs": 727.5999999940395,
+            "clickToReadyMs": 412,
+            "frames": {
+              "count": 158,
+              "p95Ms": 4.2000000000000455,
+              "maxMs": 4.300000000000011,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "polish",
+            "entry": "repeat",
+            "lobbyMs": 687.7000000178814,
+            "clickToReadyMs": 314,
+            "frames": {
+              "count": 158,
+              "p95Ms": 4.2000000000000455,
+              "maxMs": 4.300000000000068,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          }
+        ]
+      },
+      {
+        "device": "windows",
+        "phase": "after",
+        "condition": "Windows headless installed Chrome/WebKit, actual application entry routes and server handlers with isolated fixture accounts; mobile viewport/touch emulation, Windows launcher URL, H5 iframe with host SDK mock. Unthrottled local HTTP. Not physical devices or an installed native renderer.",
+        "errors": [],
+        "rounds": [
+          {
+            "feature": "pet",
+            "entry": "first",
+            "lobbyMs": 1111.9000000059605,
+            "clickToReadyMs": 300,
+            "frames": {
+              "count": 144,
+              "p95Ms": 4.300000000000068,
+              "maxMs": 16.80000000596044,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "pet",
+            "entry": "repeat",
+            "lobbyMs": 659.4000000059605,
+            "clickToReadyMs": 237,
+            "frames": {
+              "count": 151,
+              "p95Ms": 4.300000000000011,
+              "maxMs": 25,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "polish",
+            "entry": "first",
+            "lobbyMs": 679.6999999880791,
+            "clickToReadyMs": 510,
+            "frames": {
+              "count": 158,
+              "p95Ms": 4.2000000000000455,
+              "maxMs": 4.300000000000068,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "polish",
+            "entry": "repeat",
+            "lobbyMs": 729.9000000059605,
+            "clickToReadyMs": 336,
+            "frames": {
+              "count": 158,
+              "p95Ms": 4.300000000000011,
+              "maxMs": 4.400000000000034,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          }
+        ]
+      },
+      {
+        "device": "h5",
+        "phase": "before",
+        "condition": "Windows headless installed Chrome/WebKit, actual application entry routes and server handlers with isolated fixture accounts; mobile viewport/touch emulation, Windows launcher URL, H5 iframe with host SDK mock. Unthrottled local HTTP. Not physical devices or an installed native renderer.",
+        "errors": [],
+        "rounds": [
+          {
+            "feature": "pet",
+            "entry": "first",
+            "lobbyMs": 1156.9000000059605,
+            "clickToReadyMs": 334,
+            "frames": {
+              "count": 157,
+              "p95Ms": 4.300000000000011,
+              "maxMs": 4.300000000000068,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "pet",
+            "entry": "repeat",
+            "lobbyMs": 980.4000000059605,
+            "clickToReadyMs": 357,
+            "frames": {
+              "count": 158,
+              "p95Ms": 4.2999999999999545,
+              "maxMs": 4.300000000000068,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "polish",
+            "entry": "first",
+            "lobbyMs": 927.5999999940395,
+            "clickToReadyMs": 437,
+            "frames": {
+              "count": 157,
+              "p95Ms": 4.299999999999983,
+              "maxMs": 9.433999999999997,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "polish",
+            "entry": "repeat",
+            "lobbyMs": 911.6000000238419,
+            "clickToReadyMs": 310,
+            "frames": {
+              "count": 156,
+              "p95Ms": 4.2999999999999545,
+              "maxMs": 4.327999988079057,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          }
+        ]
+      },
+      {
+        "device": "h5",
+        "phase": "after",
+        "condition": "Windows headless installed Chrome/WebKit, actual application entry routes and server handlers with isolated fixture accounts; mobile viewport/touch emulation, Windows launcher URL, H5 iframe with host SDK mock. Unthrottled local HTTP. Not physical devices or an installed native renderer.",
+        "errors": [],
+        "rounds": [
+          {
+            "feature": "pet",
+            "entry": "first",
+            "lobbyMs": 927.1999999880791,
+            "clickToReadyMs": 268,
+            "frames": {
+              "count": 157,
+              "p95Ms": 4.2999999999999545,
+              "maxMs": 4.300000000000068,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "pet",
+            "entry": "repeat",
+            "lobbyMs": 1094.199999988079,
+            "clickToReadyMs": 364,
+            "frames": {
+              "count": 158,
+              "p95Ms": 4.2999999999999545,
+              "maxMs": 4.300000000000068,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "polish",
+            "entry": "first",
+            "lobbyMs": 926.5999999940395,
+            "clickToReadyMs": 417,
+            "frames": {
+              "count": 157,
+              "p95Ms": 4.300000000000011,
+              "maxMs": 4.300000000000068,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          },
+          {
+            "feature": "polish",
+            "entry": "repeat",
+            "lobbyMs": 1011.3999999761581,
+            "clickToReadyMs": 438,
+            "frames": {
+              "count": 158,
+              "p95Ms": 4.300000000000011,
+              "maxMs": 4.300000000000068,
+              "over50": 0
+            },
+            "action": null,
+            "exit": {
+              "petNodes": 0,
+              "polishNodes": 0,
+              "petEffects": 0
+            }
+          }
+        ]
+      }
+    ],
+    "bottleneck": "Pet reads remain 2 SQL and polish reads 10 SQL. Indexed pet metadata execution was 0.036 ms before; network round trips dominate the production handler. The new value table adds no query, network request, animation or polling. Local UI timings are single-run observations with shared-host scheduling variance.",
+    "limits": "Headless Windows Chrome and WebKit; mobile viewport/touch emulation and Windows launcher URL, H5 iframe with host SDK mock. Not physical phones or the installed Windows renderer. WebKit ResizeObserver warnings and long pet frames occurred before and after; Android after reentry recorded one 62.4 ms idle frame. Pet dice and polish animations had no >50 ms frame in the measured PC/Android samples.",
+    "polishMigration": {
+      "rowUpdatesBefore": 131,
+      "bulkUpdateQueries": 1,
+      "rows": 131,
+      "stateUpdateMs": 154.95890000000054,
+      "workMs": 1816.3517000000002,
+      "optimization": "A conditional bulk update replaces per-row network round trips while retaining the policy lock and exact prior-value checks. Partial and full rollback repeated using the bulk statement."
+    }
+  },
+  "announcement": {
+    "path": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\announcements\\pet-growth-polish-buff-20261117\\유저공지.txt",
+    "sha256": "5388ecc3caadc919dc6e35b8a40014cd44e011e38397c78a5ac7731fdaeed173",
+    "written": true,
+    "published": false
+  },
+  "accountGrants": 0,
+  "messagesSent": 0
+}
