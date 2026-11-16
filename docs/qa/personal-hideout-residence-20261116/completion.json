@@ -64,35 +64,49 @@
       {
         "profile": "pc",
         "variant": "after",
-        "hideoutFirstMs": 258.41640000000007,
+        "loadTimings": [
+          {
+            "resources": [],
+            "longTasks": []
+          },
+          {
+            "resources": [],
+            "longTasks": []
+          },
+          {
+            "resources": [],
+            "longTasks": []
+          }
+        ],
+        "hideoutFirstMs": 186.70420000000013,
         "hideoutIdleFrames": {
-          "frames": 233,
-          "p95": 4.300000000000182,
-          "max": 33.40000000000009,
+          "frames": 238,
+          "p95": 4.2999999999999545,
+          "max": 12.5,
           "over50": 0
         },
         "workbenchWidth": 358.5,
         "panFrames": {
-          "frames": 248,
-          "p95": 20.700000000000273,
-          "max": 29.200000000000273,
+          "frames": 273,
+          "p95": 12.400000000000091,
+          "max": 16.700000000000273,
           "over50": 0
         },
         "dragInput": "mouse pointer",
         "hideoutDragFrames": {
           "frames": 287,
-          "p95": 4.400000000000546,
-          "max": 12.599999999999454,
+          "p95": 4.399999999999636,
+          "max": 12.600000000000364,
           "over50": 0
         },
         "hideoutCabinetFrames": {
-          "frames": 303,
+          "frames": 308,
           "p95": 4.300000000000182,
-          "max": 12.899999999999636,
+          "max": 8.400000000000546,
           "over50": 0
         },
         "hideoutExitRequests": 0,
-        "hideoutReentryMs": 79.38630000000012,
+        "hideoutReentryMs": 63.95789999999943,
         "residences": [
           {
             "tier": 1,
@@ -467,7 +481,143 @@
       },
       "limits": "Single-run Windows headless WebKit comparison with the same 390x844 fixture, no CPU/network throttle; not real iPhone FPS"
     },
-    "loading": "Cold image decode/loading remains higher than the smaller previous bunker art in some profiles. Only the current residence texture loads; duplicated wall bays share one URL, and camera movement performs no network/DB requests. No general loading speedup claimed."
+    "loading": "The focused sample measured 130.5 ms first entry and 74.6 ms reentry. The hideout API took about 9 ms, individual resource requests at most 17.4 ms, and no main-thread long task exceeded 50 ms. Reentry requested only the hideout API; no repeated art request. Only the current residence texture loads. Measurements vary between runs; no general loading speedup claimed.",
+    "loadingProfile": {
+      "source": "loading-profile/browser.json",
+      "condition": "Windows headless Chrome, 1440x1000, actual lobby click, local isolated API, fresh browser context; resource timing buffer enlarged before sampling",
+      "firstMs": 130.45409999999993,
+      "reentryMs": 74.55010000000038,
+      "coldResources": {
+        "resources": [
+          {
+            "path": "/css/personal-hideout-v1.css",
+            "duration": 7.699999988079071,
+            "serverWait": 1.2999999821186066,
+            "transferSize": 13509,
+            "decodedBodySize": 13209
+          },
+          {
+            "path": "/js/personal-hideout-v1.js",
+            "duration": 8.5,
+            "serverWait": 2,
+            "transferSize": 26976,
+            "decodedBodySize": 26676
+          },
+          {
+            "path": "/api/hideout",
+            "duration": 9.300000011920929,
+            "serverWait": 7.200000017881393,
+            "transferSize": 9239,
+            "decodedBodySize": 8939
+          },
+          {
+            "path": "/assets/ui/personal-hideout-20261116/residence-luxury.webp",
+            "duration": 6.5,
+            "serverWait": 1.9000000059604645,
+            "transferSize": 77294,
+            "decodedBodySize": 76994
+          },
+          {
+            "path": "/assets/ui/personal-hideout-20261116/furniture-fridge.webp",
+            "duration": 7.300000011920929,
+            "serverWait": 2.9000000059604645,
+            "transferSize": 15978,
+            "decodedBodySize": 15678
+          },
+          {
+            "path": "/assets/ui/personal-hideout-20261116/furniture-armory.webp",
+            "duration": 8.700000017881393,
+            "serverWait": 3.199999988079071,
+            "transferSize": 32032,
+            "decodedBodySize": 31732
+          },
+          {
+            "path": "/assets/ui/personal-hideout-20261116/furniture-lamp.webp",
+            "duration": 9.5,
+            "serverWait": 4.0999999940395355,
+            "transferSize": 10542,
+            "decodedBodySize": 10242
+          },
+          {
+            "path": "/assets/ui/personal-hideout-20261116/trophy-stand.webp",
+            "duration": 10.600000023841858,
+            "serverWait": 4.9000000059604645,
+            "transferSize": 30780,
+            "decodedBodySize": 30480
+          },
+          {
+            "path": "/assets/ui/personal-hideout-20261116/furniture-garage.webp",
+            "duration": 11.399999976158142,
+            "serverWait": 5.5999999940395355,
+            "transferSize": 44518,
+            "decodedBodySize": 44218
+          },
+          {
+            "path": "/assets/ui/personal-hideout-20261116/furniture-sofa.webp",
+            "duration": 17.399999976158142,
+            "serverWait": 4.4000000059604645,
+            "transferSize": 17814,
+            "decodedBodySize": 17514
+          },
+          {
+            "path": "/assets/ui/personal-hideout-20261116/part-steel.webp",
+            "duration": 11.799999982118607,
+            "serverWait": 5.800000011920929,
+            "transferSize": 17334,
+            "decodedBodySize": 17034
+          },
+          {
+            "path": "/assets/ui/personal-hideout-20261116/part-wire.webp",
+            "duration": 12.799999982118607,
+            "serverWait": 5.9000000059604645,
+            "transferSize": 16482,
+            "decodedBodySize": 16182
+          },
+          {
+            "path": "/assets/ui/personal-hideout-20261116/part-circuit.webp",
+            "duration": 13.5,
+            "serverWait": 5.199999988079071,
+            "transferSize": 15102,
+            "decodedBodySize": 14802
+          },
+          {
+            "path": "/assets/ui/personal-hideout-20261116/part-coolant.webp",
+            "duration": 14.099999994039536,
+            "serverWait": 5.199999988079071,
+            "transferSize": 15710,
+            "decodedBodySize": 15410
+          },
+          {
+            "path": "/assets/ui/personal-hideout-20261116/part-drive.webp",
+            "duration": 14.900000005960464,
+            "serverWait": 5,
+            "transferSize": 15754,
+            "decodedBodySize": 15454
+          },
+          {
+            "path": "/assets/ui/personal-hideout-20261116/part-core.webp",
+            "duration": 15.800000011920929,
+            "serverWait": 4.9000000059604645,
+            "transferSize": 18152,
+            "decodedBodySize": 17852
+          }
+        ],
+        "longTasks": []
+      },
+      "reentryResources": {
+        "resources": [
+          {
+            "path": "/api/hideout",
+            "duration": 9.200000017881393,
+            "serverWait": 2.5,
+            "transferSize": 9239,
+            "decodedBodySize": 8939
+          }
+        ],
+        "longTasks": []
+      }
+    },
+    "finalPcRun": "pc-final/browser.json; canonical server furniture dimensions, no background blur"
   },
   "knownWarnings": {
     "baseline": "Existing WebKit lobby ResizeObserver warning is also recorded in the earlier front-view report",
@@ -495,13 +645,14 @@
     "note": "Two unused bunker background WebPs are preserved in Git/disk and excluded from runtime delivery; four residence WebPs replace them"
   },
   "screenshots": {
-    "pc": "delivery/pc-residence-penthouse.png",
+    "pc": "pc-final/pc-residence-penthouse.png",
     "mobile": "webkit-without-blur/iphone-webkit-emulated-residence-penthouse.png",
     "allFourPc": [
-      "delivery/pc-residence-shanty.png",
-      "delivery/pc-residence-apartment.png",
-      "delivery/pc-residence-luxury.png",
-      "delivery/pc-residence-penthouse.png"
+      "pc-final/pc-residence-shanty.png",
+      "pc-final/pc-residence-apartment.png",
+      "pc-final/pc-residence-luxury.png",
+      "pc-final/pc-residence-penthouse.png"
     ]
-  }
+  },
+  "sourceCommit": "2c5fa322fc53bbb11258ac0e299ea21fd0a37999"
 }
