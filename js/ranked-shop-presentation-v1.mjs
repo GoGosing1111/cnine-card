@@ -9,7 +9,7 @@ export const descriptions={PET_RENTAL:'구매 즉시 이용 기간이 시작됩�
 const pack='assets/ui/packs/reverse-call-20261016/';
 const categoryArt={SUPERSTAR_CHOICE:pack+'superstar-768.webp',FUR_CHOICE:pack+'limited-768.webp',CARD_CHOICE:pack+'limited-768.webp',F_BODY:'assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v1.png',MYSTIC_EQUIPMENT:'assets/ui/packs/prime-armory-equipment-box-v1.png',EQUIPMENT_DIRECT:'assets/ui/packs/prime-armory-equipment-box-v1.png',MERCENARY_PACK:pack+'hyper-768.webp',MERCENARY_SS_PACK:pack+'hyper-768.webp',MERCENARY_CUSTOM_PACK:pack+'hyper-768.webp',ITEM_BUNDLE:'assets/ui/packs/prime-armory-equipment-box-v1.png'};
 export const productArt=p=>lootShopAsset(p.image)||lootShopAsset(categoryArt[p.type]);
-export const productDescription=p=>p.description||descriptions[p.type]||'';
+export const productDescription=p=>(p.description||descriptions[p.type]||'')+(p.type==='PET_RENTAL'&&p.petCode==='PET-PEPEGU'?' 만료 전 연장은 주사위 결과를 유지합니다. 누적 이용 기간이 모두 끝난 뒤 재구매하면 주사위 능력치와 고유 특성이 초기화됩니다.':'');
 export const kstDate=v=>v?new Date(v).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:false}):'';
 export function mercenaryOdds(product){
  if(product.type==='MERCENARY_SS_PACK')return 'SS등급 100%';
@@ -23,7 +23,7 @@ export function lootProductOptionsMarkup(p){
  return `<h2>${esc(p.name)} 구성</h2><p class="loot-dialog-copy">${note}</p><div class="loot-choice-grid ${gear||bundle?'loot-equipment-pool':''}">${(p.options||[]).map(c=>`<div class="loot-choice">${lootShopAsset(c.image)?`<img src="${esc(lootShopAsset(c.image))}" alt="" loading="lazy">`:''}<span>${esc(c.name)}<br><b>${esc(mystic?c.rarity+' · '+c.chancePercent+'%':bundle?'× '+fmt(c.quantity):c.rank||c.grade||c.rarity||'장비')}</b></span></div>`).join('')}</div>`;
 }
 export function lootRewardMarkup(reward){
- if(reward.kind==='PET_RENTAL')return '<h2>'+esc(reward.name)+' '+(reward.action==='EXTEND'?'기간 연장':'이용 시작')+'</h2><img class="loot-result" src="'+esc(lootShopAsset(reward.image))+'" alt=""><p class="loot-dialog-copy">'+fmt(reward.durationDays)+'일이 추가되었습니다.<br>이용 종료: '+esc(new Date(reward.expiresAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'}))+'</p><a class="loot-action" href="/pet-codex/">펫 장착하러 가기 ↗</a>';
+ if(reward.kind==='PET_RENTAL')return '<h2>'+esc(reward.name)+' '+(reward.action==='EXTEND'?'기간 연장':'이용 시작')+'</h2><img class="loot-result" src="'+esc(lootShopAsset(reward.image))+'" alt=""><p class="loot-dialog-copy">'+fmt(reward.durationDays)+'일이 추가되었습니다.<br>이용 종료: '+esc(new Date(reward.expiresAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'}))+(reward.growthReset?'<br>이전 이용 기간의 주사위 능력치·고유 특성이 초기화되었습니다.':'')+'</p><a class="loot-action" href="/pet-codex/">펫 장착하러 가기 ↗</a>';
  if(['BUNDLE','EQUIPMENT_BATCH'].includes(reward.kind))return `<h2>획득 완료</h2><p class="loot-dialog-copy">${esc(reward.name)} · ${reward.kind==='EQUIPMENT_BATCH'?'장비 보관함':'인벤토리'}에 지급되었습니다.</p><ul class="loot-result-items">${reward.items.map(i=>`<li>${lootShopAsset(i.image)?`<img src="${esc(lootShopAsset(i.image))}" alt="">`:''}<span>${esc(i.name)}</span><b>× ${fmt(i.quantity)}</b></li>`).join('')}</ul>`;
  const image=lootShopAsset(reward.image),equipment=reward.kind==='EQUIPMENT';return `<h2>획득 완료</h2>${image?`<img class="loot-result" src="${esc(image)}" alt="">`:''}<p class="loot-dialog-copy"><strong>${esc(reward.name)}</strong><br>${equipment?'장비 1개를 획득했습니다.<br>장비 보관함에서 확인할 수 있습니다.':esc(reward.rank||reward.grade)+' 카드 1장을 획득했습니다.'}</p>`;
 }

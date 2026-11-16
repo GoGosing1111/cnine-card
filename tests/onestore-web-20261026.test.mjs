@@ -50,6 +50,24 @@ test('root compatibility redirect preserves ordinary web and native Android edit
   }
   assert.equal(isStoreEntry(new Request('https://cnine-card.pages.dev/',{headers:{referer:'https://onestore.net.evil.example/'}})),false);
 });
+
+test('ranked coin shop opens inside the store edition with the same purchase client',async()=>{
+  assert.equal(storeDocumentUrl('/ranked-shop/'),'https://cnine-card.pages.dev/onestore/ranked-shop/');
+  const calls=[];
+  const response=await serveStore({request:new Request(storeDocumentUrl('/ranked-shop/')),env:{ASSETS:{fetch:async request=>{
+    calls.push(request.url);
+    return new Response(await readFile(new URL('../ranked-shop/index.html',import.meta.url),'utf8'),{headers:{'content-type':'text/html','x-frame-options':'DENY'}});
+  }}}});
+  assert.equal(response.status,200);
+  assert.deepEqual(calls,['https://cnine-card.pages.dev/ranked-shop/']);
+  assert.equal(response.headers.has('x-frame-options'),false);
+  assert.match(response.headers.get('content-security-policy'),/https:\/\/\*\.onestore.net/);
+  const html=await response.text();
+  assert.match(html,/<base href="\/ranked-shop\/">/);
+  assert.match(html,/\/onestore\/h5-policy.js/);
+  assert.match(html,/\/onestore\/h5-sdk.js/);
+  assert.match(html,/ranked-shop-v1\.mjs/);
+});
 test('H5 public runtime is shipped while source packaging remains outside Pages assets',()=>{
   for(const file of ['onestore/index.html','onestore/h5-sdk.js','onestore/js/app.js','shared/onestore-web-v1.mjs'])assert.equal(isProductionFile(file),true);
   for(const file of ['packaging/onestore/web/h5-sdk.mjs','scripts/onestore/prepare-web.mjs','packaging/android-direct/native/GameActivity.java'])assert.equal(isProductionFile(file),false);

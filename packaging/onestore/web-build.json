@@ -2,7 +2,7 @@
   "textNewlines": "LF",
   "sourceHashes": {
     "packaging/onestore/web/client-patch.json": "15a059292b140c6a2d37ae7cf4b5adc42398f2ab528134efe44fdf82316c1a59",
-    "index.html": "fc1a9c59a4aad35a7ebf5f3bed5d919d63a592e198e5f61d95fc7f4aafb602f1",
+    "index.html": "9d473a9423365c63af7e2d50355e8fb3bb91bada3b0f6ae4a4e4fd729e34757e",
     "js/app.js": "7607f5ad677c83e495b6f5c06e45cc513f84910499c1d173f2e63f1d2376b2ef",
     "js/soopketmon-v21-exact-shell-adapter.js": "6b1c9d00e3b6cabfd68b8ee8b7136b1cc56e458b42c6b103ad515ff087b362bc",
     "js/soopketmon-v21-runtime-router.js": "2d15f01f50b819427ee017da9e00307aea1cd401b739cad6bbbc34ade4a725d8",
@@ -14,7 +14,7 @@
     "js/pet-opening-v1.mjs": "9ec4a0eaf1d233daa545108963d1715f0ec5534927629db320ea8fb234c3bcf0",
     "packaging/onestore/web/policy.mjs": "0b1b0d16f7ba26a0c9bd3a95518121626551927497bb091b36af0688b1be7453",
     "packaging/onestore/web/bootstrap.mjs": "d31a19f5b194d12977bcea0f5a59404c35dc6481997ca73805e8af4694012e7a",
-    "shared/onestore-web-v1.mjs": "ae3fd7104a8a38bf171d279636180e5857d7c373a76543f365eecec6c34b7987",
+    "shared/onestore-web-v1.mjs": "fb6efe6c5b05b462753ca8c26778749be0bbe9d02b4b73e273a987044c13c12c",
     "packaging/onestore/web/h5-policy.mjs": "2059e9a966a9e8c0fc23f39cf84848aec21c6a2d38d249917d0c5048d043d57b",
     "packaging/onestore/web/h5-back.mjs": "48e4cee3ddb990a65b9e6613689dbe9fc51217dba9fde5cd7a830bc8d1eed9d8",
     "packaging/onestore/web/h5-sdk.mjs": "122123814f065b3be3f7dd81a556a29a30e85d5f6f92f635c67aa922f730f1eb",
@@ -30,10 +30,10 @@
     "onestore/pet-codex/app.mjs": "896659ef5a7f6e2df09ba5519f1a9a2004c6cc733b88c09c24efa819e0ffd389",
     "onestore/js/pet-deck-slot-v1.mjs": "69a388e5805183d5938ed5666e78ca06b7c17bda819d1191d949b15b938e5f3a",
     "onestore/js/pet-opening-v1.mjs": "bf0b65734090d912cfbff1174fd297e40d6cd18a9aa00856e32aafda756d4c8d",
-    "onestore/h5-policy.js": "8f435c8ad130f13abb48f6d59d5cc7a72bc1d1a8f4fb2b6aaa9545aa276b0eef",
+    "onestore/h5-policy.js": "05d5e74f37fee42803cef264205f06966a398683d2def34a8eb45c33738f22a3",
     "onestore/h5-sdk.js": "c9e18131d55df5ad36ec1c8bd6bc78f9f1113be8e49cf946f2ed121d58b4ee19",
     "onestore/h5.css": "7c77779b15fef492acd7647c0d091b52a8c74b44ce511aff793ad66ac25d3d27",
-    "onestore/index.html": "07c325d5ab1ac0de19c64771d29ea8fd7dff3edeb445b091dbf7b1e908327ceb",
-    "shared/onestore-web-assets-v1.mjs": "924b63d66fb640d7cc1cef301ceefeb27ac822749fad5ec0c3a7e39c094c047c"
+    "onestore/index.html": "889e646f3299d68992a53e494ab3b7e5bb545774ed442326a873aea048d41a48",
+    "shared/onestore-web-assets-v1.mjs": "63f891a58e9d4ccd12fb1a251bd85d9a526f08d38f0fd4f19dbca7342b293180"
   }
 }

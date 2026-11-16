@@ -1,5 +1,6 @@
 import {isPetCode} from '../shared/companion-loadout-v2.mjs';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
+import {PET_GROWTH_KEY} from '../shared/pet-growth-live-v2.mjs';
 
 export const PET_RENTAL_DAY_MS=86400000;
 export const petRentalKey=userId=>`pet_rental_v1:${Number(userId)}`;
@@ -42,7 +43,27 @@ export function nextPetRental(state,code,days,requestId,now=Date.now()){
  const entry={startedAt:active?prior.startedAt:new Date(now).toISOString(),expiresAt,updatedAt:new Date(now).toISOString(),lastRequestId:requestId};
  return {state:{...state,revision:state.revision+1,pets:{...state.pets,[code]:entry}},entry,action:active?'EXTEND':'START'};
 }
-export function petRentalWriteStatements(DB,record,next){
+export async function petRentalWriteStatements(DB,record,next){
  const token=crypto.randomUUID(),[sql,args]=petRecordPredicate(record),raw=JSON.stringify(next);
- return [jointGuard(DB,token,sql,args),DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at').bind(record.key,raw),jointGuardEnd(DB,token)];
+ const statements=[jointGuard(DB,token,sql,args),DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at').bind(record.key,raw)];
+ // A continuous extension keeps its startedAt. A new paid period must not
+ // resurrect the previous period's rolls or a result awaiting confirmation.
+ const code='PET-PEPEGU',rental=next.pets[code],id=code+':R';
+ if(rental&&rental.startedAt!==record.state.pets[code]?.startedAt){
+  const uid=/^pet_rental_v1:([1-9]\d*)$/.exec(record.key)?.[1];if(!uid)throw Error('Invalid pet rental owner');
+  const key=PET_GROWTH_KEY(uid),row=await DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first();
+  if(row){
+   const growth=JSON.parse(row.value);
+   if(growth.version!==2||!Number.isSafeInteger(growth.revision)||growth.revision<0||growth.revision>=Number.MAX_SAFE_INTEGER||!growth.pets||!growth.loadouts)throw Error('Invalid pet growth record');
+   if(growth.pets[id]||growth.pending?.instanceId===id||Object.values(growth.loadouts).includes(id)){
+    const cleared={...growth,revision:growth.revision+1,pets:{...growth.pets},loadouts:{...growth.loadouts},pending:growth.pending?.instanceId===id?null:growth.pending};
+    delete cleared.pets[id];for(const mode of ['PVE','PVP'])if(cleared.loadouts[mode]===id)cleared.loadouts[mode]=null;
+    const saved=JSON.stringify(cleared),growthToken=token+'g';
+    statements.push(jointGuard(DB,growthToken,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[key,row.value]),
+     DB.prepare('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?').bind(saved,key,row.value),
+     jointGuard(DB,growthToken+'s','EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[key,saved]),jointGuardEnd(DB,growthToken),jointGuardEnd(DB,growthToken+'s'));
+   }
+  }
+ }
+ return [...statements,jointGuardEnd(DB,token)];
 }

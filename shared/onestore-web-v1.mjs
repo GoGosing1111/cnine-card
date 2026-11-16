@@ -2,7 +2,7 @@
 export const PREFIX='/onestore';
 export const DOCUMENTS=Object.freeze([
   '/', '/world/', '/organization/', '/organization/faction/', '/master-star-mine/',
-  '/equipment-forge/', '/equipment-polish/', '/loot-shop/', '/miracle-cube/',
+  '/equipment-forge/', '/equipment-polish/', '/loot-shop/', '/ranked-shop/', '/miracle-cube/',
   '/sss-miracle-cube/', '/mercenary-hangar/', '/mercenary-codex/',
   '/mercenary-codex/equipment/', '/mercenary-codex/leveling/',
   '/mercenary-codex/leveling/transfer.html', '/mercenary-codex/sss-reroll/',

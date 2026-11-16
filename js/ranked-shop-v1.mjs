@@ -1,8 +1,8 @@
 import {RANKED_TIER_IDS,RANKED_TIER_NAMES,rankedTierReward,RANKED_CATEGORIES as LOOT_CATEGORIES,rankedIsDirect as lootIsDirect,rankedPurchaseMaximum as lootPurchaseMaximum} from '../shared/ranked-shop-policy-v1.mjs?v=20261101-pepegu-rental-v1';
 import {jointAccountRequest as request} from './joint-account-transport.mjs';
 
-import {esc,fmt,lootShopAsset as asset,productArt,productDescription,mercenaryOdds,lootProductOptionsMarkup,lootRewardMarkup,productMarkup,inspectionMarkup,filterLootProducts} from './ranked-shop-presentation-v1.mjs?v=20261101-pepegu-rental-v1';
-export {lootShopAsset,lootProductOptionsMarkup,lootRewardMarkup,productMarkup,inspectionMarkup} from './ranked-shop-presentation-v1.mjs?v=20261101-pepegu-rental-v1';
+import {esc,fmt,lootShopAsset as asset,productArt,productDescription,mercenaryOdds,lootProductOptionsMarkup,lootRewardMarkup,productMarkup,inspectionMarkup,filterLootProducts} from './ranked-shop-presentation-v1.mjs?v=20261116-rental-growth-reset';
+export {lootShopAsset,lootProductOptionsMarkup,lootRewardMarkup,productMarkup,inspectionMarkup} from './ranked-shop-presentation-v1.mjs?v=20261116-rental-growth-reset';
 export async function mountRankedShop({api=request,root=document}={}){
  const byId=id=>root.getElementById(id),dialog=byId('lootDialog'),status=byId('lootStatus');let state=null,busy=false,selected=null,pending=null,category='ALL',purchaseQuantity=1;
  const filtered=()=>filterLootProducts(state?.products||[],{category,search:byId('lootSearch')?.value||'',sort:byId('lootSort')?.value||'recommended',available:byId('lootAvailable')?.checked||false});

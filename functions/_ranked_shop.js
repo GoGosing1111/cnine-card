@@ -147,8 +147,8 @@ export async function purchaseLootProduct(env,user,body,{randomInt=mercenaryRand
    const [owned,cms]=await Promise.all([readPetOwnership(env,user.id),readPetCms(env)]),pet=await rentalPet(env,product,cms);
    if(owned.collection.state.pets[product.petCode]>0)throw Object.assign(fail('이미 영구 보유한 펫입니다. 기간제 구매가 필요하지 않습니다.'),{terminal:true});
    const grant=nextPetRental(owned.rentals.state,product.petCode,product.durationDays*amount,requestId),[predicate,args]=petRecordPredicate(owned.collection);
-   const rentalReward={...pet,durationDays:product.durationDays*amount,startedAt:grant.entry.startedAt,expiresAt:grant.entry.expiresAt,action:grant.action};
-   rentalWrites=[...(DB.dialect==='postgres'?[p('SELECT key FROM app_meta WHERE key=? FOR SHARE','pet_cms_preparation_v1')]:[]),...guarded(DB,predicate+' AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[...args,'pet_cms_preparation_v1',cms.raw],[]),...petRentalWriteStatements(DB,owned.rentals,grant.state),p("UPDATE joint_operations_v1 SET plan_json=? WHERE request_id=? AND user_id=? AND status='PENDING'",JSON.stringify({...plan,rentalReward}),requestId,user.id)];
+   const rentalReward={...pet,durationDays:product.durationDays*amount,startedAt:grant.entry.startedAt,expiresAt:grant.entry.expiresAt,action:grant.action,...(product.petCode==='PET-PEPEGU'&&grant.action==='START'&&owned.rentals.state.pets[product.petCode]?{growthReset:true}:{})};
+   rentalWrites=[...(DB.dialect==='postgres'?[p('SELECT key FROM app_meta WHERE key=? FOR SHARE','pet_cms_preparation_v1')]:[]),...guarded(DB,predicate+' AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[...args,'pet_cms_preparation_v1',cms.raw],[]),...await petRentalWriteStatements(DB,owned.rentals,grant.state),p("UPDATE joint_operations_v1 SET plan_json=? WHERE request_id=? AND user_id=? AND status='PENDING'",JSON.stringify({...plan,rentalReward}),requestId,user.id)];
   }
   // One row per unit preserves lifetime/period counts and independent pack opening.
   // ':' cannot occur in client request IDs, preventing collisions with unit IDs.
