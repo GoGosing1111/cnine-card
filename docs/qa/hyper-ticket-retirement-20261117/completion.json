@@ -1,0 +1,1667 @@
+{
+  "completedAt": "2026-11-16T16:30:57.632Z",
+  "authorization": "하이퍼버닝 발동권 삭제(드랍삭제) 및 전체유저 회수",
+  "operationKey": "ops:hyper-ticket-retirement:20261117:v1",
+  "itemCode": "SOOPKETLAND_HYPER_BURNING_TICKET",
+  "at": "2026-11-16T16:30:27.435Z",
+  "kst": "2026-11-17 01:30:27",
+  "auditId": "62305",
+  "accounts": 116,
+  "quantity": "352",
+  "inventoryRows": 118,
+  "remainingQuantity": "0",
+  "dropEntriesRemoved": 1,
+  "legionPolicyRevision": {
+    "before": 29,
+    "after": 30
+  },
+  "preserved": [
+    "Other currencies and inventory items",
+    "Existing burning, hyper burning and miracle burning settings",
+    "Historical rolls and acquisition receipts",
+    "Other Legion loot, combat, energy and progression"
+  ],
+  "runtime": {
+    "activation": "HTTP 410 HYPER_TICKET_RETIRED after authentication; no ticket/burning queries",
+    "inventory": "Hidden in server listing and stale client responses; generic use blocked",
+    "legacyHunt": "Remove retired ground/policy/bag items on restore; filter pending settlement while paying other loot"
+  },
+  "guards": {
+    "at": "2026-11-16T16:31:07.747Z",
+    "role": "cnine_migrator",
+    "checks": [
+      {
+        "name": "staleGrant",
+        "sqlstate": "23514",
+        "blocked": true
+      },
+      {
+        "name": "catalogReactivation",
+        "sqlstate": "23514",
+        "blocked": true
+      }
+    ],
+    "committedMutations": 0,
+    "allRolledBack": true
+  },
+  "checks": {
+    "partialFailureRollback": true,
+    "fullRehearsalRollback": true,
+    "independentReadOnly": true,
+    "replayAdditionalWrites": 0,
+    "verification": {
+      "inventoryRows": 118,
+      "remainingQuantity": "0",
+      "remainingUnseen": "0",
+      "ledgerRows": 116,
+      "constraints": [
+        {
+          "conname": "cnine_inventory_hyper_ticket_retired_v1",
+          "convalidated": true
+        },
+        {
+          "conname": "inventory_catalog_hyper_ticket_retired_v1",
+          "convalidated": true
+        }
+      ],
+      "accountsSynchronized": 116,
+      "pendingSources": {
+        "messages": 0,
+        "coupons": 0,
+        "land": 0,
+        "drops": 0,
+        "prime": 0,
+        "alchemy": 0,
+        "recipes": 0,
+        "auctions": 0
+      },
+      "ms": 1180
+    },
+    "accountLeasesReleased": true,
+    "tests": 100
+  },
+  "deployment": {
+    "checkedAt": "2026-11-16T16:30:00.572Z",
+    "sourceCommit": "4e7a01f973122d3945d8d446b93f6810ad9d6f4a",
+    "pages": {
+      "id": "ae8834e4-0750-49ea-bcef-498d649cbd6d",
+      "commit": "4e7a01f973122d3945d8d446b93f6810ad9d6f4a",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "7da2456c-95df-409c-861f-c8b6de072335",
+        "percentage": 100,
+        "sourceSHA256": "ce574673c50f501d8f1e1bf759142e2af2be9f9903d1381cc7e34dfafb7e99c4"
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "70330872-9031-4a80-a395-1583f9dea8d4",
+        "percentage": 100,
+        "sourceSHA256": "a11149fa029d4bb158ac60d3130a0544e7a7f7da15bfe339374675b5b0397bb8"
+      }
+    ],
+    "files": [
+      {
+        "name": "index.html",
+        "sha256": "cb701773c81a25e614069c366643e77ce09a72259f301e7dbfc44e7318180404"
+      },
+      {
+        "name": "js/app.js",
+        "sha256": "c06af629a02aefafc94a0aadb29d5d1352c302f0e5f187846b2584be7aa261ee"
+      },
+      {
+        "name": "js/soopketland-v2039.bundle.js",
+        "sha256": "a19020763c21238f0b334e1ac277a14c340cc66edf9557717de8d6946e58185e"
+      },
+      {
+        "name": "onestore/js/app.js",
+        "sha256": "c05b5ff0152872cd5ff764cc828151791c3c724c6b2546235ed4b0dc82b3c44e"
+      },
+      {
+        "name": "service-worker.js",
+        "sha256": "6fdf8779e9688b07301686c7a6c2af24206b2da38ea8563a0ea5fd6ca4ec82a5"
+      }
+    ],
+    "ticketRetired": true,
+    "unauthenticatedStatus": 401,
+    "releaseTests": 100
+  },
+  "performance": {
+    "applyAndValidationMs": 4591,
+    "before": {
+      "mode": "before",
+      "at": "2026-11-16T16:24:32.216Z",
+      "conditions": "Read-only production DB through Windows CLI. Actual inventory listing SQL and Legion policy reader; network included, single first/repeated samples. No browser/server-request latency claim.",
+      "results": [
+        {
+          "name": "inventory",
+          "phase": "first",
+          "ms": 151,
+          "queries": 1,
+          "itemCount": 80,
+          "ticketPresent": true
+        },
+        {
+          "name": "inventory",
+          "phase": "repeat",
+          "ms": 77,
+          "queries": 1,
+          "itemCount": 80,
+          "ticketPresent": true
+        },
+        {
+          "name": "legionPolicy",
+          "phase": "first",
+          "ms": 76,
+          "queries": 1,
+          "itemCount": 12,
+          "ticketPresent": true
+        },
+        {
+          "name": "legionPolicy",
+          "phase": "repeat",
+          "ms": 82,
+          "queries": 1,
+          "itemCount": 12,
+          "ticketPresent": true
+        }
+      ]
+    },
+    "after": {
+      "mode": "after",
+      "at": "2026-11-16T16:31:11.193Z",
+      "conditions": "Read-only production DB through Windows CLI. Actual inventory listing SQL and Legion policy reader; network included, single first/repeated samples. No browser/server-request latency claim.",
+      "results": [
+        {
+          "name": "inventory",
+          "phase": "first",
+          "ms": 179,
+          "queries": 1,
+          "itemCount": 79,
+          "ticketPresent": false
+        },
+        {
+          "name": "inventory",
+          "phase": "repeat",
+          "ms": 84,
+          "queries": 1,
+          "itemCount": 79,
+          "ticketPresent": false
+        },
+        {
+          "name": "legionPolicy",
+          "phase": "first",
+          "ms": 83,
+          "queries": 1,
+          "itemCount": 11,
+          "ticketPresent": false
+        },
+        {
+          "name": "legionPolicy",
+          "phase": "repeat",
+          "ms": 82,
+          "queries": 1,
+          "itemCount": 11,
+          "ticketPresent": false
+        }
+      ]
+    },
+    "ui": [
+      {
+        "mode": "after",
+        "device": "android",
+        "conditions": "Windows headless Chrome / WebKit emulation; actual published lobby and entry modules; synthetic APIs with fixed 6ms delay. Before/after local app and land bundles. No live account writes, no real phone or installed Windows client.",
+        "entries": [
+          {
+            "screen": "inventory",
+            "phase": "first",
+            "inputToReadyMs": 262,
+            "frames": {
+              "count": 119,
+              "p95Ms": 4.3,
+              "maxMs": 62.5,
+              "over50": 1
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": null,
+              "requests": 0
+            }
+          },
+          {
+            "screen": "inventory",
+            "phase": "reentry",
+            "inputToReadyMs": 64,
+            "frames": {
+              "count": 133,
+              "p95Ms": 4.3,
+              "maxMs": 4.7,
+              "over50": 0
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": null,
+              "requests": 0
+            }
+          },
+          {
+            "screen": "soopketland",
+            "phase": "first",
+            "inputToReadyMs": 340,
+            "frames": {
+              "count": 110,
+              "p95Ms": 4.3,
+              "maxMs": 95.9,
+              "over50": 1
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": {
+                "active": false,
+                "webgl": false,
+                "balls": 0,
+                "particles": 0,
+                "busy": false
+              },
+              "requests": 0
+            }
+          },
+          {
+            "screen": "soopketland",
+            "phase": "reentry",
+            "inputToReadyMs": 130,
+            "frames": {
+              "count": 133,
+              "p95Ms": 4.3,
+              "maxMs": 4.3,
+              "over50": 0
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": {
+                "active": false,
+                "webgl": false,
+                "balls": 0,
+                "particles": 0,
+                "busy": false
+              },
+              "requests": 0
+            }
+          }
+        ],
+        "errors": [],
+        "coldLobbyMs": 1270
+      },
+      {
+        "mode": "after",
+        "device": "h5",
+        "conditions": "Windows headless Chrome / WebKit emulation; actual published lobby and entry modules; synthetic APIs with fixed 6ms delay. Before/after local app and land bundles. No live account writes, no real phone or installed Windows client.",
+        "entries": [
+          {
+            "screen": "inventory",
+            "phase": "first",
+            "inputToReadyMs": 329,
+            "frames": {
+              "count": 123,
+              "p95Ms": 4.3,
+              "maxMs": 45.9,
+              "over50": 0
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": null,
+              "requests": 0
+            }
+          },
+          {
+            "screen": "inventory",
+            "phase": "reentry",
+            "inputToReadyMs": 71,
+            "frames": {
+              "count": 133,
+              "p95Ms": 4.3,
+              "maxMs": 4.4,
+              "over50": 0
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": null,
+              "requests": 0
+            }
+          },
+          {
+            "screen": "soopketland",
+            "phase": "first",
+            "inputToReadyMs": 364,
+            "frames": {
+              "count": 104,
+              "p95Ms": 4.3,
+              "maxMs": 116.6,
+              "over50": 1
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": {
+                "active": false,
+                "webgl": false,
+                "balls": 0,
+                "particles": 0,
+                "busy": false
+              },
+              "requests": 0
+            }
+          },
+          {
+            "screen": "soopketland",
+            "phase": "reentry",
+            "inputToReadyMs": 215,
+            "frames": {
+              "count": 133,
+              "p95Ms": 4.3,
+              "maxMs": 4.3,
+              "over50": 0
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": {
+                "active": false,
+                "webgl": false,
+                "balls": 0,
+                "particles": 0,
+                "busy": false
+              },
+              "requests": 0
+            }
+          }
+        ],
+        "errors": [],
+        "coldLobbyMs": 1115,
+        "sdk": "Simulated SDK host inside real iframe; no real ONE store account."
+      },
+      {
+        "mode": "after",
+        "device": "ios",
+        "conditions": "Windows headless Chrome / WebKit emulation; actual published lobby and entry modules; synthetic APIs with fixed 6ms delay. Before/after local app and land bundles. No live account writes, no real phone or installed Windows client.",
+        "entries": [
+          {
+            "screen": "inventory",
+            "phase": "first",
+            "inputToReadyMs": 300,
+            "frames": {
+              "count": 33,
+              "p95Ms": 30,
+              "maxMs": 31,
+              "over50": 0
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": null,
+              "requests": 0
+            }
+          },
+          {
+            "screen": "inventory",
+            "phase": "reentry",
+            "inputToReadyMs": 203,
+            "frames": {
+              "count": 33,
+              "p95Ms": 31,
+              "maxMs": 33,
+              "over50": 0
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": null,
+              "requests": 0
+            }
+          },
+          {
+            "screen": "soopketland",
+            "phase": "first",
+            "inputToReadyMs": 802,
+            "frames": {
+              "count": 27,
+              "p95Ms": 26,
+              "maxMs": 161,
+              "over50": 1
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": {
+                "active": false,
+                "webgl": false,
+                "balls": 0,
+                "particles": 0,
+                "busy": false
+              },
+              "requests": 0
+            }
+          },
+          {
+            "screen": "soopketland",
+            "phase": "reentry",
+            "inputToReadyMs": 326,
+            "frames": {
+              "count": 30,
+              "p95Ms": 31,
+              "maxMs": 31,
+              "over50": 0
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": {
+                "active": false,
+                "webgl": false,
+                "balls": 0,
+                "particles": 0,
+                "busy": false
+              },
+              "requests": 0
+            }
+          }
+        ],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "coldLobbyMs": 1632
+      },
+      {
+        "mode": "after",
+        "device": "pc",
+        "conditions": "Windows headless Chrome / WebKit emulation; actual published lobby and entry modules; synthetic APIs with fixed 6ms delay. Before/after local app and land bundles. No live account writes, no real phone or installed Windows client.",
+        "entries": [
+          {
+            "screen": "inventory",
+            "phase": "first",
+            "inputToReadyMs": 434,
+            "frames": {
+              "count": 133,
+              "p95Ms": 4.3,
+              "maxMs": 4.4,
+              "over50": 0
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": null,
+              "requests": 0
+            }
+          },
+          {
+            "screen": "inventory",
+            "phase": "reentry",
+            "inputToReadyMs": 81,
+            "frames": {
+              "count": 133,
+              "p95Ms": 4.3,
+              "maxMs": 4.3,
+              "over50": 0
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": null,
+              "requests": 0
+            }
+          },
+          {
+            "screen": "soopketland",
+            "phase": "first",
+            "inputToReadyMs": 323,
+            "frames": {
+              "count": 108,
+              "p95Ms": 4.3,
+              "maxMs": 100.1,
+              "over50": 1
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": {
+                "active": false,
+                "webgl": false,
+                "balls": 0,
+                "particles": 0,
+                "busy": false
+              },
+              "requests": 0
+            }
+          },
+          {
+            "screen": "soopketland",
+            "phase": "reentry",
+            "inputToReadyMs": 113,
+            "frames": {
+              "count": 133,
+              "p95Ms": 4.3,
+              "maxMs": 4.3,
+              "over50": 0
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": {
+                "active": false,
+                "webgl": false,
+                "balls": 0,
+                "particles": 0,
+                "busy": false
+              },
+              "requests": 0
+            }
+          }
+        ],
+        "errors": [],
+        "coldLobbyMs": 1186
+      },
+      {
+        "mode": "after",
+        "device": "windows",
+        "conditions": "Windows headless Chrome / WebKit emulation; actual published lobby and entry modules; synthetic APIs with fixed 6ms delay. Before/after local app and land bundles. No live account writes, no real phone or installed Windows client.",
+        "entries": [
+          {
+            "screen": "inventory",
+            "phase": "first",
+            "inputToReadyMs": 296,
+            "frames": {
+              "count": 133,
+              "p95Ms": 4.3,
+              "maxMs": 4.3,
+              "over50": 0
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": null,
+              "requests": 0
+            }
+          },
+          {
+            "screen": "inventory",
+            "phase": "reentry",
+            "inputToReadyMs": 71,
+            "frames": {
+              "count": 133,
+              "p95Ms": 4.3,
+              "maxMs": 4.3,
+              "over50": 0
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": null,
+              "requests": 0
+            }
+          },
+          {
+            "screen": "soopketland",
+            "phase": "first",
+            "inputToReadyMs": 342,
+            "frames": {
+              "count": 105,
+              "p95Ms": 4.3,
+              "maxMs": 100.1,
+              "over50": 1
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": {
+                "active": false,
+                "webgl": false,
+                "balls": 0,
+                "particles": 0,
+                "busy": false
+              },
+              "requests": 0
+            }
+          },
+          {
+            "screen": "soopketland",
+            "phase": "reentry",
+            "inputToReadyMs": 113,
+            "frames": {
+              "count": 133,
+              "p95Ms": 4.3,
+              "maxMs": 4.5,
+              "over50": 0
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": {
+                "active": false,
+                "webgl": false,
+                "balls": 0,
+                "particles": 0,
+                "busy": false
+              },
+              "requests": 0
+            }
+          }
+        ],
+        "errors": [],
+        "coldLobbyMs": 1065
+      },
+      {
+        "mode": "before",
+        "device": "android",
+        "conditions": "Windows headless Chrome / WebKit emulation; actual published lobby and entry modules; synthetic APIs with fixed 6ms delay. Before/after local app and land bundles. No live account writes, no real phone or installed Windows client.",
+        "entries": [
+          {
+            "screen": "inventory",
+            "phase": "first",
+            "inputToReadyMs": 239,
+            "frames": {
+              "count": 119,
+              "p95Ms": 4.3,
+              "maxMs": 62.4,
+              "over50": 1
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": null,
+              "requests": 0
+            }
+          },
+          {
+            "screen": "inventory",
+            "phase": "reentry",
+            "inputToReadyMs": 54,
+            "frames": {
+              "count": 133,
+              "p95Ms": 4.3,
+              "maxMs": 4.3,
+              "over50": 0
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": null,
+              "requests": 0
+            }
+          },
+          {
+            "screen": "soopketland",
+            "phase": "first",
+            "inputToReadyMs": 332,
+            "frames": {
+              "count": 107,
+              "p95Ms": 4.3,
+              "maxMs": 108.4,
+              "over50": 1
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": {
+                "active": false,
+                "webgl": false,
+                "balls": 0,
+                "particles": 0,
+                "busy": false
+              },
+              "requests": 0
+            }
+          },
+          {
+            "screen": "soopketland",
+            "phase": "reentry",
+            "inputToReadyMs": 136,
+            "frames": {
+              "count": 133,
+              "p95Ms": 4.3,
+              "maxMs": 4.3,
+              "over50": 0
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": {
+                "active": false,
+                "webgl": false,
+                "balls": 0,
+                "particles": 0,
+                "busy": false
+              },
+              "requests": 0
+            }
+          }
+        ],
+        "errors": [],
+        "coldLobbyMs": 1016
+      },
+      {
+        "mode": "before",
+        "device": "pc",
+        "conditions": "Windows headless Chrome / WebKit emulation; actual published lobby and entry modules; synthetic APIs with fixed 6ms delay. Before/after local app and land bundles. No live account writes, no real phone or installed Windows client.",
+        "entries": [
+          {
+            "screen": "inventory",
+            "phase": "first",
+            "inputToReadyMs": 254,
+            "frames": {
+              "count": 133,
+              "p95Ms": 4.3,
+              "maxMs": 4.3,
+              "over50": 0
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": null,
+              "requests": 0
+            }
+          },
+          {
+            "screen": "inventory",
+            "phase": "reentry",
+            "inputToReadyMs": 65,
+            "frames": {
+              "count": 133,
+              "p95Ms": 4.3,
+              "maxMs": 4.3,
+              "over50": 0
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": null,
+              "requests": 0
+            }
+          },
+          {
+            "screen": "soopketland",
+            "phase": "first",
+            "inputToReadyMs": 306,
+            "frames": {
+              "count": 106,
+              "p95Ms": 4.3,
+              "maxMs": 100,
+              "over50": 1
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": {
+                "active": false,
+                "webgl": false,
+                "balls": 0,
+                "particles": 0,
+                "busy": false
+              },
+              "requests": 0
+            }
+          },
+          {
+            "screen": "soopketland",
+            "phase": "reentry",
+            "inputToReadyMs": 113,
+            "frames": {
+              "count": 133,
+              "p95Ms": 4.3,
+              "maxMs": 4.3,
+              "over50": 0
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": {
+                "active": false,
+                "webgl": false,
+                "balls": 0,
+                "particles": 0,
+                "busy": false
+              },
+              "requests": 0
+            }
+          }
+        ],
+        "errors": [],
+        "coldLobbyMs": 929
+      },
+      {
+        "mode": "live",
+        "device": "android",
+        "conditions": "Windows headless Chrome / WebKit emulation; actual published lobby and entry modules; synthetic APIs with fixed 6ms delay. Before/after local app and land bundles. No live account writes, no real phone or installed Windows client.",
+        "entries": [
+          {
+            "screen": "inventory",
+            "phase": "first",
+            "inputToReadyMs": 235,
+            "frames": {
+              "count": 125,
+              "p95Ms": 4.2,
+              "maxMs": 37.6,
+              "over50": 0
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": null,
+              "requests": 0
+            }
+          },
+          {
+            "screen": "inventory",
+            "phase": "reentry",
+            "inputToReadyMs": 82,
+            "frames": {
+              "count": 133,
+              "p95Ms": 4.2,
+              "maxMs": 4.3,
+              "over50": 0
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": null,
+              "requests": 0
+            }
+          },
+          {
+            "screen": "soopketland",
+            "phase": "first",
+            "inputToReadyMs": 324,
+            "frames": {
+              "count": 109,
+              "p95Ms": 4.3,
+              "maxMs": 100,
+              "over50": 1
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": {
+                "active": false,
+                "webgl": false,
+                "balls": 0,
+                "particles": 0,
+                "busy": false
+              },
+              "requests": 0
+            }
+          },
+          {
+            "screen": "soopketland",
+            "phase": "reentry",
+            "inputToReadyMs": 103,
+            "frames": {
+              "count": 133,
+              "p95Ms": 4.2,
+              "maxMs": 4.3,
+              "over50": 0
+            },
+            "exit": {
+              "land": 0,
+              "inventory": 0,
+              "landAnimations": 0,
+              "stage": {
+                "active": false,
+                "webgl": false,
+                "balls": 0,
+                "particles": 0,
+                "busy": false
+              },
+              "requests": 0
+            }
+          }
+        ],
+        "errors": [],
+        "coldLobbyMs": 1358
+      }
+    ],
+    "notes": [
+      "UI samples use actual published entry paths with synthetic API responses, fixed 6ms delay, local before/after or final deployed JS. Single samples, network variation; no claimed UI speedup.",
+      "Windows headless, Chrome Android and WebKit iOS emulation, Windows launcher URL and H5 iframe with simulated SDK; no physical mobile or installed native Windows measurements.",
+      "Existing first-entry land long frames and common WebKit ResizeObserver warning remain recorded. All measured exits had zero new inventory/land requests, active stages and animations.",
+      "Production CLI inventory and policy reads retain one SQL per read. Configuration discovery was narrowed from an unbounded metadata scan timing out at 15s to 313 exact indexed keys in 83ms; no runtime-wide scan added."
+    ]
+  },
+  "messagesSent": 0,
+  "users": [
+    {
+      "userId": "1",
+      "before": "1",
+      "after": "0",
+      "nickname": "핑크빛유두"
+    },
+    {
+      "userId": "3",
+      "before": "3",
+      "after": "0",
+      "nickname": "ε연두з"
+    },
+    {
+      "userId": "5",
+      "before": "2",
+      "after": "0",
+      "nickname": "싸이타마"
+    },
+    {
+      "userId": "13",
+      "before": "2",
+      "after": "0",
+      "nickname": "불법사행산업신고센터"
+    },
+    {
+      "userId": "16",
+      "before": "2",
+      "after": "0",
+      "nickname": "오승환이다"
+    },
+    {
+      "userId": "19",
+      "before": "4",
+      "after": "0",
+      "nickname": "토닭토닭"
+    },
+    {
+      "userId": "22",
+      "before": "4",
+      "after": "0",
+      "nickname": "커피먹는철구"
+    },
+    {
+      "userId": "29",
+      "before": "2",
+      "after": "0",
+      "nickname": "엑셀괴물"
+    },
+    {
+      "userId": "34",
+      "before": "1",
+      "after": "0",
+      "nickname": "씨나인짱"
+    },
+    {
+      "userId": "45",
+      "before": "3",
+      "after": "0",
+      "nickname": "박세라-ㅂ-"
+    },
+    {
+      "userId": "52",
+      "before": "4",
+      "after": "0",
+      "nickname": "폭군#"
+    },
+    {
+      "userId": "62",
+      "before": "1",
+      "after": "0",
+      "nickname": "숭구릭"
+    },
+    {
+      "userId": "65",
+      "before": "1",
+      "after": "0",
+      "nickname": "음순이"
+    },
+    {
+      "userId": "73",
+      "before": "1",
+      "after": "0",
+      "nickname": "란x2"
+    },
+    {
+      "userId": "81",
+      "before": "3",
+      "after": "0",
+      "nickname": "비쥬얼깡패"
+    },
+    {
+      "userId": "88",
+      "before": "3",
+      "after": "0",
+      "nickname": "0수표"
+    },
+    {
+      "userId": "92",
+      "before": "1",
+      "after": "0",
+      "nickname": "불곰덫"
+    },
+    {
+      "userId": "115",
+      "before": "2",
+      "after": "0",
+      "nickname": "쁠리의무사시"
+    },
+    {
+      "userId": "162",
+      "before": "1",
+      "after": "0",
+      "nickname": "차단하다"
+    },
+    {
+      "userId": "164",
+      "before": "5",
+      "after": "0",
+      "nickname": "박사"
+    },
+    {
+      "userId": "197",
+      "before": "1",
+      "after": "0",
+      "nickname": "무버지"
+    },
+    {
+      "userId": "216",
+      "before": "3",
+      "after": "0",
+      "nickname": "x수댕"
+    },
+    {
+      "userId": "218",
+      "before": "3",
+      "after": "0",
+      "nickname": "현하루"
+    },
+    {
+      "userId": "220",
+      "before": "1",
+      "after": "0",
+      "nickname": "족알못"
+    },
+    {
+      "userId": "226",
+      "before": "2",
+      "after": "0",
+      "nickname": "햬카세"
+    },
+    {
+      "userId": "233",
+      "before": "2",
+      "after": "0",
+      "nickname": "ShowMaker"
+    },
+    {
+      "userId": "289",
+      "before": "11",
+      "after": "0",
+      "nickname": "베베킹"
+    },
+    {
+      "userId": "290",
+      "before": "2",
+      "after": "0",
+      "nickname": "Mild7"
+    },
+    {
+      "userId": "295",
+      "before": "7",
+      "after": "0",
+      "nickname": "모래"
+    },
+    {
+      "userId": "303",
+      "before": "6",
+      "after": "0",
+      "nickname": "[C9]족쪽이"
+    },
+    {
+      "userId": "360",
+      "before": "2",
+      "after": "0",
+      "nickname": "라피e"
+    },
+    {
+      "userId": "490",
+      "before": "1",
+      "after": "0",
+      "nickname": "경화수월팬"
+    },
+    {
+      "userId": "493",
+      "before": "3",
+      "after": "0",
+      "nickname": "치타구"
+    },
+    {
+      "userId": "521",
+      "before": "1",
+      "after": "0",
+      "nickname": "대저동토마토"
+    },
+    {
+      "userId": "525",
+      "before": "3",
+      "after": "0",
+      "nickname": "족구조아"
+    },
+    {
+      "userId": "681",
+      "before": "3",
+      "after": "0",
+      "nickname": "페이트런"
+    },
+    {
+      "userId": "787",
+      "before": "3",
+      "after": "0",
+      "nickname": "뚱초환"
+    },
+    {
+      "userId": "792",
+      "before": "2",
+      "after": "0",
+      "nickname": "센텀신사"
+    },
+    {
+      "userId": "1195",
+      "before": "5",
+      "after": "0",
+      "nickname": "씨나인택갓"
+    },
+    {
+      "userId": "1255",
+      "before": "6",
+      "after": "0",
+      "nickname": "전게씹선미아웃"
+    },
+    {
+      "userId": "1421",
+      "before": "2",
+      "after": "0",
+      "nickname": "다시생각"
+    },
+    {
+      "userId": "1545",
+      "before": "2",
+      "after": "0",
+      "nickname": "좋은하루"
+    },
+    {
+      "userId": "1768",
+      "before": "1",
+      "after": "0",
+      "nickname": "핫시"
+    },
+    {
+      "userId": "2246",
+      "before": "1",
+      "after": "0",
+      "nickname": "옹가망함1"
+    },
+    {
+      "userId": "2333",
+      "before": "3",
+      "after": "0",
+      "nickname": "구와함"
+    },
+    {
+      "userId": "2420",
+      "before": "7",
+      "after": "0",
+      "nickname": "블랙캐슬"
+    },
+    {
+      "userId": "2505",
+      "before": "1",
+      "after": "0",
+      "nickname": "모아가려아가"
+    },
+    {
+      "userId": "3011",
+      "before": "4",
+      "after": "0",
+      "nickname": "오일바른가지"
+    },
+    {
+      "userId": "3480",
+      "before": "1",
+      "after": "0",
+      "nickname": "족짜미♡"
+    },
+    {
+      "userId": "3674",
+      "before": "1",
+      "after": "0",
+      "nickname": "연보라"
+    },
+    {
+      "userId": "3867",
+      "before": "4",
+      "after": "0",
+      "nickname": "레드클라우드"
+    },
+    {
+      "userId": "3884",
+      "before": "3",
+      "after": "0",
+      "nickname": "zkzk9999"
+    },
+    {
+      "userId": "3974",
+      "before": "6",
+      "after": "0",
+      "nickname": "우회하세요"
+    },
+    {
+      "userId": "4084",
+      "before": "2",
+      "after": "0",
+      "nickname": "게임닉네임"
+    },
+    {
+      "userId": "4111",
+      "before": "2",
+      "after": "0",
+      "nickname": "족게이다"
+    },
+    {
+      "userId": "4199",
+      "before": "7",
+      "after": "0",
+      "nickname": "택신"
+    },
+    {
+      "userId": "4209",
+      "before": "1",
+      "after": "0",
+      "nickname": "#유나랜드"
+    },
+    {
+      "userId": "4235",
+      "before": "3",
+      "after": "0",
+      "nickname": "도댕"
+    },
+    {
+      "userId": "4389",
+      "before": "1",
+      "after": "0",
+      "nickname": "다르"
+    },
+    {
+      "userId": "4391",
+      "before": "6",
+      "after": "0",
+      "nickname": "더듬이구"
+    },
+    {
+      "userId": "4408",
+      "before": "2",
+      "after": "0",
+      "nickname": "레가파"
+    },
+    {
+      "userId": "4415",
+      "before": "6",
+      "after": "0",
+      "nickname": "Moo날두"
+    },
+    {
+      "userId": "4479",
+      "before": "5",
+      "after": "0",
+      "nickname": "대지"
+    },
+    {
+      "userId": "4501",
+      "before": "1",
+      "after": "0",
+      "nickname": "장씨아저씨"
+    },
+    {
+      "userId": "4540",
+      "before": "2",
+      "after": "0",
+      "nickname": "지아영"
+    },
+    {
+      "userId": "4562",
+      "before": "3",
+      "after": "0",
+      "nickname": "찡찡ෆ"
+    },
+    {
+      "userId": "4570",
+      "before": "7",
+      "after": "0",
+      "nickname": "혜정"
+    },
+    {
+      "userId": "4572",
+      "before": "6",
+      "after": "0",
+      "nickname": "응맨"
+    },
+    {
+      "userId": "4580",
+      "before": "1",
+      "after": "0",
+      "nickname": "CHO22"
+    },
+    {
+      "userId": "4582",
+      "before": "6",
+      "after": "0",
+      "nickname": "족단"
+    },
+    {
+      "userId": "4595",
+      "before": "5",
+      "after": "0",
+      "nickname": "비니"
+    },
+    {
+      "userId": "4597",
+      "before": "3",
+      "after": "0",
+      "nickname": "찬호"
+    },
+    {
+      "userId": "4598",
+      "before": "2",
+      "after": "0",
+      "nickname": "암살자.."
+    },
+    {
+      "userId": "4608",
+      "before": "1",
+      "after": "0",
+      "nickname": "하트!"
+    },
+    {
+      "userId": "4609",
+      "before": "4",
+      "after": "0",
+      "nickname": "오랜만에"
+    },
+    {
+      "userId": "4610",
+      "before": "2",
+      "after": "0",
+      "nickname": "고라니ㅇ"
+    },
+    {
+      "userId": "4614",
+      "before": "4",
+      "after": "0",
+      "nickname": "공단"
+    },
+    {
+      "userId": "4615",
+      "before": "6",
+      "after": "0",
+      "nickname": "랭비!"
+    },
+    {
+      "userId": "4621",
+      "before": "3",
+      "after": "0",
+      "nickname": "리이렐"
+    },
+    {
+      "userId": "4625",
+      "before": "1",
+      "after": "0",
+      "nickname": "제롬"
+    },
+    {
+      "userId": "4627",
+      "before": "6",
+      "after": "0",
+      "nickname": "학벌"
+    },
+    {
+      "userId": "4628",
+      "before": "3",
+      "after": "0",
+      "nickname": "망순이ෆ"
+    },
+    {
+      "userId": "4629",
+      "before": "4",
+      "after": "0",
+      "nickname": "Veil"
+    },
+    {
+      "userId": "4641",
+      "before": "3",
+      "after": "0",
+      "nickname": "의지"
+    },
+    {
+      "userId": "4644",
+      "before": "2",
+      "after": "0",
+      "nickname": "김폭군"
+    },
+    {
+      "userId": "4651",
+      "before": "3",
+      "after": "0",
+      "nickname": "세라네꼬라지"
+    },
+    {
+      "userId": "4668",
+      "before": "3",
+      "after": "0",
+      "nickname": "화성가뿌자"
+    },
+    {
+      "userId": "4675",
+      "before": "3",
+      "after": "0",
+      "nickname": "옴마니반메훔"
+    },
+    {
+      "userId": "4693",
+      "before": "2",
+      "after": "0",
+      "nickname": "시소둥이"
+    },
+    {
+      "userId": "4705",
+      "before": "1",
+      "after": "0",
+      "nickname": "˚쟁이。"
+    },
+    {
+      "userId": "4754",
+      "before": "1",
+      "after": "0",
+      "nickname": "조은"
+    },
+    {
+      "userId": "4757",
+      "before": "2",
+      "after": "0",
+      "nickname": "음주플레이어"
+    },
+    {
+      "userId": "4760",
+      "before": "2",
+      "after": "0",
+      "nickname": "추종"
+    },
+    {
+      "userId": "4772",
+      "before": "6",
+      "after": "0",
+      "nickname": "펜타"
+    },
+    {
+      "userId": "4773",
+      "before": "1",
+      "after": "0",
+      "nickname": "진짜디임"
+    },
+    {
+      "userId": "4774",
+      "before": "1",
+      "after": "0",
+      "nickname": "딤럼프"
+    },
+    {
+      "userId": "4828",
+      "before": "1",
+      "after": "0",
+      "nickname": "조은홧팅"
+    },
+    {
+      "userId": "4836",
+      "before": "3",
+      "after": "0",
+      "nickname": "딤키우기"
+    },
+    {
+      "userId": "4866",
+      "before": "4",
+      "after": "0",
+      "nickname": "[C9]가시"
+    },
+    {
+      "userId": "4908",
+      "before": "6",
+      "after": "0",
+      "nickname": "굳건창수"
+    },
+    {
+      "userId": "4910",
+      "before": "4",
+      "after": "0",
+      "nickname": "스루형2↑"
+    },
+    {
+      "userId": "4913",
+      "before": "3",
+      "after": "0",
+      "nickname": "오리꿍"
+    },
+    {
+      "userId": "4933",
+      "before": "5",
+      "after": "0",
+      "nickname": "심심이"
+    },
+    {
+      "userId": "4965",
+      "before": "1",
+      "after": "0",
+      "nickname": "쁴로리"
+    },
+    {
+      "userId": "4977",
+      "before": "1",
+      "after": "0",
+      "nickname": "하이희야♡"
+    },
+    {
+      "userId": "4981",
+      "before": "6",
+      "after": "0",
+      "nickname": "간장왕대게찜"
+    },
+    {
+      "userId": "5008",
+      "before": "6",
+      "after": "0",
+      "nickname": "단정한밤"
+    },
+    {
+      "userId": "5092",
+      "before": "1",
+      "after": "0",
+      "nickname": "늑대울프"
+    },
+    {
+      "userId": "5147",
+      "before": "2",
+      "after": "0",
+      "nickname": "T-Money™"
+    },
+    {
+      "userId": "5148",
+      "before": "1",
+      "after": "0",
+      "nickname": "타몽"
+    },
+    {
+      "userId": "5362",
+      "before": "7",
+      "after": "0",
+      "nickname": "점빡이"
+    },
+    {
+      "userId": "5426",
+      "before": "3",
+      "after": "0",
+      "nickname": "나무늘봉순"
+    },
+    {
+      "userId": "5429",
+      "before": "3",
+      "after": "0",
+      "nickname": "꼰머냥"
+    },
+    {
+      "userId": "5877",
+      "before": "5",
+      "after": "0",
+      "nickname": "깅더듬"
+    },
+    {
+      "userId": "5996",
+      "before": "4",
+      "after": "0",
+      "nickname": "관종이얌"
+    },
+    {
+      "userId": "6132",
+      "before": "2",
+      "after": "0",
+      "nickname": "주르르"
+    }
+  ],
+  "privateBackup": "operations/hyper-ticket-retirement-20261117/locked-before.json and timestamped backup files; preserved locally"
+}
