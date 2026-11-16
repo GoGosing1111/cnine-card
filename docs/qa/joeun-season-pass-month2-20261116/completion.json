@@ -1,0 +1,194 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:joeun:season-pass-month2:20261116:v1",
+  "authorization": "조은계정에 2개월차 패스 연결해줘",
+  "userId": "4754",
+  "nickname": "조은",
+  "month": 2,
+  "durationDays": 30,
+  "completedAt": "2026-11-16T11:28:41.630Z",
+  "startsAtKst": "2026-11-16 20:28:41 KST",
+  "expiresAtKst": "2026-12-16 20:28:41 KST",
+  "auditId": "61941",
+  "requestId": "ops_joeun_month2_20261116_v1",
+  "actualChargeWon": 0,
+  "active": true,
+  "claimedCount": 0,
+  "claimableCount": 9,
+  "claimableFrom": "2026-11-08",
+  "claimableTo": "2026-11-16",
+  "calendarStart": "2026-11-08",
+  "calendarEnd": "2026-12-07",
+  "firstMonthPreserved": true,
+  "existingClaimRecordsPreserved": 63,
+  "firstMonthActive": false,
+  "firstMonthExpiryPreserved": true,
+  "otherCurrencyInventoryAndPetsPreserved": true,
+  "protectedBeforeHash": "fd7b8e26ee9b38de512cbdd29efe69867648a32a00ec61dda92b0995f3ab4cc6",
+  "protectedAfterHash": "fd7b8e26ee9b38de512cbdd29efe69867648a32a00ec61dda92b0995f3ab4cc6",
+  "normalApplicationSalesRemainClosed": true,
+  "activationPetsGranted": 0,
+  "messagesSent": 0,
+  "automaticallyClaimedRewards": 0,
+  "partialFailureRollback": true,
+  "fullRehearsalRollback": true,
+  "independentReadOnlyVerification": true,
+  "noWriteReplay": true,
+  "additionalGrantsOnReplay": 0,
+  "locksReleased": true,
+  "operationLocksRemaining": 0,
+  "verification": {
+    "audits": 1,
+    "standardReceipts": 1,
+    "operationReceipts": 1,
+    "duplicates": 0,
+    "firstMonthPreserved": true
+  },
+  "tests": {
+    "command": "node --test tests/supporter-pass-months-20261107.test.mjs",
+    "passed": 8,
+    "failed": 0
+  },
+  "runtimeCodeChanged": false,
+  "gameDeployment": false,
+  "sourceSha256": {
+    "state.mjs": "649fd5f4debe853875cb06d73468d7955e523da8da03062630a1db7140f3d679",
+    "inspect.mjs": "0ec63dfa00af16a02ea0ac3852a9efe6d0b3c864ddbefc0f4a418cf43738a64c",
+    "plan.mjs": "4bbf001a4b44f7e0bb30bf0a66e2fb56506c2ec05cf6469048f05bb9d42de213",
+    "plan.json": "247e3e6f488de9013a0355de037fd621c7d177f6e2213aad8525290c02e7e58a",
+    "run.mjs": "4c8ec1db1a8f78d9b893585128b9800b1f8de989b610eecb337180079792c8b4",
+    "performance.mjs": "f045bfa539b68ecab9c1dbebeb16eff8d3a2d1e371c5c84f4e27246c91b3051a"
+  },
+  "performance": {
+    "before": [
+      {
+        "phase": "first",
+        "elapsedMs": 85,
+        "purchased": false,
+        "active": false,
+        "claimableCount": 0
+      },
+      {
+        "phase": "repeat",
+        "elapsedMs": 83,
+        "purchased": false,
+        "active": false,
+        "claimableCount": 0
+      }
+    ],
+    "after": [
+      {
+        "phase": "first",
+        "elapsedMs": 147
+      },
+      {
+        "phase": "repeat",
+        "elapsedMs": 145
+      }
+    ],
+    "grantMs": 1678,
+    "rehearsalMs": 2367,
+    "readOnly": true,
+    "measurements": [
+      {
+        "state": "prior-state-reconstruction",
+        "phase": "first",
+        "elapsedMs": 80,
+        "purchased": false,
+        "active": false,
+        "queryCount": 1,
+        "queries": [
+          {
+            "sql": "SELECT value FROM app_meta WHERE key=$1",
+            "elapsedMs": 73,
+            "rows": 1
+          }
+        ]
+      },
+      {
+        "state": "prior-state-reconstruction",
+        "phase": "repeat",
+        "elapsedMs": 74,
+        "purchased": false,
+        "active": false,
+        "queryCount": 1,
+        "queries": [
+          {
+            "sql": "SELECT value FROM app_meta WHERE key=$1",
+            "elapsedMs": 73,
+            "rows": 1
+          }
+        ]
+      },
+      {
+        "state": "current-active",
+        "phase": "first",
+        "elapsedMs": 151,
+        "purchased": true,
+        "active": true,
+        "queryCount": 2,
+        "queries": [
+          {
+            "sql": "SELECT value FROM app_meta WHERE key=$1",
+            "elapsedMs": 72,
+            "rows": 1
+          },
+          {
+            "sql": "SELECT key,value FROM app_meta WHERE key>=$1 AND key<$2 ORDER BY key",
+            "elapsedMs": 77,
+            "rows": 0
+          }
+        ]
+      },
+      {
+        "state": "current-active",
+        "phase": "repeat",
+        "elapsedMs": 146,
+        "purchased": true,
+        "active": true,
+        "queryCount": 2,
+        "queries": [
+          {
+            "sql": "SELECT value FROM app_meta WHERE key=$1",
+            "elapsedMs": 73,
+            "rows": 1
+          },
+          {
+            "sql": "SELECT key,value FROM app_meta WHERE key>=$1 AND key<$2 ORDER BY key",
+            "elapsedMs": 73,
+            "rows": 0
+          }
+        ]
+      }
+    ],
+    "claimLedgerQueryPlan": [
+      {
+        "Plan": {
+          "Node Type": "Index Scan",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Scan Direction": "Forward",
+          "Index Name": "app_meta_pkey",
+          "Relation Name": "app_meta",
+          "Alias": "app_meta",
+          "Startup Cost": 0.42,
+          "Total Cost": 8.44,
+          "Plan Rows": 1,
+          "Plan Width": 205,
+          "Actual Startup Time": 0.01,
+          "Actual Total Time": 0.01,
+          "Actual Rows": 0,
+          "Actual Loops": 1,
+          "Index Cond": "((key >= 'supporter_pass_claim_month2_v1:4754:'::text) AND (key < 'supporter_pass_claim_month2_v1:4754:~'::text))",
+          "Rows Removed by Index Recheck": 0
+        },
+        "Planning Time": 0.068,
+        "Triggers": [],
+        "Execution Time": 0.021
+      }
+    ],
+    "finding": "Activation adds one required claim-ledger lookup (1 to 2 SQL round trips). Prefix-range query uses the existing primary-key index. Most measured latency is database/network waiting. No runtime code changes for this single-account entitlement operation.",
+    "condition": "Windows CLI calling deployed source with production PostgreSQL; previous state reconstructed only for paired timing; original before/after observations are separately retained; no browser or device FPS measurement."
+  },
+  "evidenceDirectory": "operations/joeun-season-pass-month2-20261116"
+}
