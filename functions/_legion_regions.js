@@ -6,6 +6,7 @@ import {legionHuntCatalog,validateLegionHuntPolicy} from './_legion_hunt_setting
 import {ASCENDANT_EQUIPMENT} from '../shared/mercenary-ascendant-equipment-v1.mjs';
 import {applyMiracleDropChance} from './_miracle_burning.js';
 import {rewardDropWithBonus} from '../shared/collection-bonuses-v1.mjs';
+import {withoutHyperTickets} from './_hyper_ticket_retirement.js';
 export const legionDropPercent=(base,miraclePercent,collectionPercent)=>
   rewardDropWithBonus(applyMiracleDropChance(base,miraclePercent),collectionPercent);
 export const ascendantBossPercent=(expectedRuns,miraclePercent,collectionPercent)=>
@@ -40,7 +41,13 @@ export function validateRegionPolicy(raw,catalog){
 export async function readRegionPolicy(env){
   const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(LEGION_REGIONS_KEY).first();
   if(!row)return {raw:null,policy:legionRegionDefaults()};
-  try{return {raw:row.value,policy:validateRegionPolicy(JSON.parse(row.value))};}
+  try{
+    const legacy=JSON.parse(row.value);
+    // Old region pools predate retirement. Keep the original raw value for CAS,
+    // and keep writes strict so a retired reward cannot be configured again.
+    for(const region of legacy.regions||[])if(Array.isArray(region.fieldDrops?.items))region.fieldDrops.items=withoutHyperTickets(region.fieldDrops.items);
+    return {raw:row.value,policy:validateRegionPolicy(legacy)};
+  }
   catch{throw jointError('HUNT_REGION_UNAVAILABLE','지역 설정을 읽을 수 없습니다.',503);}
 }
 export async function regionRewardCatalog(env,{live=false,ascendant=false}={}){

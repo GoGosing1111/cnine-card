@@ -75,10 +75,20 @@ export function createHuntSession({snapshot,catalog,equipment,difficulty='normal
 // Compact, JSON-safe state is persisted by the account API; no isolate-local session map.
 export function restoreHuntSession(state,{now=Date.now,random=secureRandom}={}){
   const {id,timeLimit,timeline,outcome}=state,magnet=state.magnet===true;
-  const policy={...state.policy,...(state.policy.items?{items:withoutHyperTickets(state.policy.items)}:{})};
+  const policy={...state.policy,...(state.policy.items?{items:withoutHyperTickets(state.policy.items)}:{}),
+    ...(state.policy.fieldDrops?.items?{fieldDrops:{...state.policy.fieldDrops,items:withoutHyperTickets(state.policy.fieldDrops.items)}}:{})};
   const eventTimes=state.eventTimes||timeline.map(e=>e.combatAtMs),eventsBySeq=new Map(timeline.map(e=>[e.seq,e]));
   let {startedAt=null,lastAck=0,ended=false,receipt=null}=state;
-  const drops=new Map((state.drops||[]).filter(([,d])=>!isRetiredHyperReward(d.item))),claims=new Map((state.claims||[]).filter(([,c])=>!isRetiredHyperReward(c.item))),inventory=new Map((state.inventory||[]).filter(([,item])=>!isRetiredHyperReward(item))),positions=state.positions||[],claimTimes=state.claimTimes||[];
+  const drops=new Map((state.drops||[]).flatMap(([key,drop])=>{
+    if(!Array.isArray(drop.rewards))return isRetiredHyperReward(drop.item)?[]:[[key,{...drop}]];
+    const rewards=withoutHyperTickets(drop.rewards);if(!rewards.length)return [];
+    const item=rewards.length===drop.rewards.length?drop.item:{...rewards[0],...(rewards.length>1?{name:rewards[0].name+' 외 '+(rewards.length-1)+'종',bundle:true}:{})};
+    return [[key,{...drop,item,rewards}]];
+  }));
+  const claims=new Map((state.claims||[]).flatMap(([key,claim])=>{
+    const item=drops.get(key)?.item||claim.item;if(isRetiredHyperReward(item))return [];
+    return [[key,{...claim,item,...(claim.inventory?{inventory:withoutHyperTickets(claim.inventory)}:{})}]];
+  })),inventory=new Map((state.inventory||[]).filter(([,item])=>!isRetiredHyperReward(item))),positions=state.positions||[],claimTimes=state.claimTimes||[];
   const observed=new Map((state.observed||[]).map(([seq,dropId])=>[seq,dropId?drops.get(dropId)||null:null]));
   const guaranteedBosses=new Set(state.guaranteedBosses||[]);
   const addInventory=item=>inventory.set(item.code,{...item,quantity:(inventory.get(item.code)?.quantity||0)+item.quantity});
